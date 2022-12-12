@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+	<Alpha1 AltName="Edge Color Alpha" />
+	<R1 AltName="Edge Color R" />
+	<G1 AltName="Edge Color G" />
+	<B1 AltName="Edge Color B" />
+	<Alpha2 AltName="Front Color Alpha" />
+	<R2 AltName="Front Color R" />
+	<G2 AltName="Front Color G" />
+	<B2 AltName="Front Color B" />
+	<Alpha3 AltName="Diffuse Multiplier Alpha" />
+	<R3 AltName="Diffuse Multiplier R" />
+	<G3 AltName="Diffuse Multiplier G" />
+	<B3 AltName="Diffuse Multiplier B" />
+	<Alpha4 AltName="Specular Multiplier Alpha" />
+	<R4 AltName="Specular Multiplier R" />
+	<G4 AltName="Specular Multiplier G" />
+	<B4 AltName="Specular Multiplier B" />
+	<Alpha5 AltName="Light Color Alpha" />
+	<R5 AltName="Light Color R" />
+	<G5 AltName="Light Color G" />
+	<B5 AltName="Light Color B" />
+	<GhostAlpha1 AltName="Opacity/Emissive" Wiki="Values below 1 lower opacity, values above 1 increase emissive." />
+  </Field>
+  <Self />
+</PARAMMETA>

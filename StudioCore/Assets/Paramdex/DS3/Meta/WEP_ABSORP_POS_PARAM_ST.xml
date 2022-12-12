@@ -1,15 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
   <Enums>
-	  <Enum Name="TAE e712 Override Type">
-		<Option Value="0" Name="Do Not Override" />
-		<Option Value="1" Name="Force Hide" />
-    <Option Value="2" Name="Force Visible" />
-		<Option Value="3" Name="Force Visible" />
-	  </Enum>
+    <Enum Name="TAE e712 Override Type">
+      <Option Value="0" Name="Do Not Override" />
+      <Option Value="1" Name="Force Hide" />
+      <Option Value="2" Name="Force Visible" />
+      <Option Value="3" Name="Force Visible" />
+    </Enum>
+	<Enum Name="SheathType">
+      <Option Value="0" Name="Across Chest to Hip" />
+      <Option Value="1" Name="Behind Back to Back" />
+      <Option Value="2" Name="Over Shoulder to Back" />
+      <Option Value="3" Name="Behind Back - Spear" />
+    </Enum>
   </Enums>
   <Field>
-    <ShealthTime AltName="Hold ID for Swap Animations" />
+    <ShealthTime AltName="Hold ID for Swap Animations" Enum="SheathType" />
     <OneHandDamipolyId0 AltName="Model 1: R 1H Pos" />
     <OneHandDamipolyId1 AltName="Model 1: L 1H Pos" />
     <BothHandDamipolyId0 AltName="Model 1: R 2H Pos" />
@@ -63,4 +69,5 @@
     <Unk52 AltName="[TAE e710] Model 4: R Sheathed Override" Enum="TAE e712 Override Type" />
     <Unk53 AltName="[TAE e710] Model 4: L Sheathed Override" Enum="TAE e712 Override Type" />
   </Field>
+  <Self />
 </PARAMMETA>

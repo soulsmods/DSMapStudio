@@ -1,17 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
   <Enums>
-	<Enum Name="EquipType">
+    <Enum Name="EquipType">
       <Option Value="0" Name="Weapon" />
-	  <Option Value="1" Name="Armor" />
-	  <Option Value="2" Name="Accessory" />
+      <Option Value="1" Name="Armor" />
+      <Option Value="2" Name="Accessory" />
       <Option Value="3" Name="Good" />
     </Enum>
   </Enums>
   <Field>
     <EquipId Refs="EquipParamAccessory,EquipParamGoods,EquipParamProtector,EquipParamWeapon" />
-    <mtrlId AltName="Material ID" Refs="EquipMtrlSetParam"/>
+	<value AltName="Overwrite Price" />
+    <mtrlId AltName="Material ID" Refs="EquipMtrlSetParam" />
+	<EventFlag AltName="Quantity Event Flag" Wiki="Event flag for handling quantity." />
+	<qwcID AltName="Appearance Event Flag" Wiki="Event flag for handling appearing in the shop." />
     <sellQuantity AltName="Quantity" />
     <equipType Enum="EquipType" />
+	<PriceRate AltName="Price Multiplier" Wiki="Does not work with Overwrite Price set." />
   </Field>
+  <Self />
 </PARAMMETA>

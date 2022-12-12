@@ -1,82 +1,70 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
   <Enums>
-	  <Enum Name="SpEffectCategory">
-		<Option Value="0" Name="Default" />
-		<Option Value="5" Name="Weapon" />
-	  </Enum>
-	  <Enum Name="ReferenceType">
-		<Option Value="0" Name="Behavior / None" />
-		<Option Value="1" Name="Bullet" />
-		<Option Value="2" Name="SpEffect" />
-	  </Enum>
-	  <Enum Name="AccessoryType">
-		<Option Value="0" Name="Ring" />
-		<Option Value="1" Name="Covenant" />
-	  </Enum>
-	  <Enum Name="EquipModelCategory">
-	    <Option Value="0" Name="Accessory" />
-		<Option Value="1" Name="Arm" />
-		<Option Value="2" Name="Body" />
-		<Option Value="3" Name="Face" />
-		<Option Value="4" Name="Hair" />
-		<Option Value="5" Name="Head" />
-		<Option Value="6" Name="Leg" />
-		<Option Value="7" Name="Weapon" />
-	  </Enum>
-	  <Enum Name="EquipModelGender">
-	    <Option Value="0" Name="All" />
-		<Option Value="1" Name="Male/Female (1)" />
-		<Option Value="2" Name="Male/Female (2)" />
-		<Option Value="3" Name="Male/Female (3)" />
-		<Option Value="4" Name="Male" />
-	  </Enum>
+    <Enum Name="SpEffectCategory">
+      <Option Value="0" Name="Default" />
+	  <Option Value="3" Name="Sorcery" />
+	  <Option Value="4" Name="Miracle" />
+      <Option Value="5" Name="Basic" />
+	  <Option Value="9" Name="Kick" />
+	  <Option Value="10" Name="Pyromancy" />
+    </Enum>
+    <Enum Name="ReferenceType">
+      <Option Value="0" Name="Behavior / None" />
+      <Option Value="1" Name="Bullet" />
+      <Option Value="2" Name="SpEffect" />
+    </Enum>
+    <Enum Name="AccessoryType">
+      <Option Value="0" Name="Ring" />
+      <Option Value="1" Name="Covenant" />
+    </Enum>
+    <Enum Name="EquipModelCategory">
+      <Option Value="0" Name="Accessory" />
+      <Option Value="1" Name="Arm" />
+      <Option Value="2" Name="Body" />
+      <Option Value="3" Name="Face" />
+      <Option Value="4" Name="Hair" />
+      <Option Value="5" Name="Head" />
+      <Option Value="6" Name="Leg" />
+      <Option Value="7" Name="Weapon" />
+    </Enum>
+    <Enum Name="EquipModelGender">
+      <Option Value="0" Name="All" />
+      <Option Value="1" Name="Male/Female (1)" />
+      <Option Value="2" Name="Male/Female (2)" />
+      <Option Value="3" Name="Male/Female (3)" />
+      <Option Value="4" Name="Male" />
+    </Enum>
   </Enums>
-  <Self AlternativeOrder="
- sortId,
- iconId,
- sellValue50, Costvalue, basicPrice,
- -,
- accessoryCategory,
- RingCompatibilityId,
- weight,
- -,
- refCategory,
- refId0, refId1, refId2, refId3, refId4
- -,
- qwcId,
- shopLv,
- equipModelId,
- equipModelCategory, equipModelGender,
- sfxVariationId,
- spEffectCategory,
- vagrantItemLotId, vagrantBonusEneDropItemLotId, vagrantItemEneDropItemLotId,
- IsBool, IsDeposit, IsDiscard, disableMultiDropShare,
- IsEquipOutBrake,
- VowId,
- trophySeqId, trophySGradeId, AchievementID3,
- behaviorId" />
+  <Self AlternativeOrder="sortId,iconId,sellValue,sellValue50,Costvalue,basicPrice,-,
+accessoryCategory,RingCompatibilityId,VowId,weight,-,
+refCategory,refId0,refId1,refId2,refId3,refId4,behaviorId,spEffectCategory,AchievementID,-,
+IsBool,IsDiscard,IsDeposit,disableMultiDropShare,IsEquipOutBrake,-,
+qwcId,shopLv,equipModelId,equipModelCategory,equipModelGender,sfxVariationId,vagrantItemLotId,vagrantBonusEneDropItemLotId,vagrantItemEneDropItemLotId,trophySeqId,trophySGradeId,-" />
   <Field>
-	<refId0 Refs="SpEffectParam,Bullet,BehaviorParam,BehaviorParam_PC" />
-	<sfxVariationId AltName="VFX Variation Id" />
-	<shopLv AltName="Shop Level" />
-	<equipModelCategory Enum="EquipModelCategory" />
-	<equipModelGender Enum="EquipModelGender" />
-	<accessoryCategory Enum="AccessoryType" />
-	<refCategory Enum="ReferenceType" />
-	<spEffectCategory Enum="SpEffectCategory" />
-	<vagrantBonusEneDropItemLotId AltName="Vagrant Bonus Item Lot ID" Wiki="" />
-	<vagrantItemEneDropItemLotId AltName="Vagrant Enemy Item Lot ID" Wiki="" />
-	<IsDeposit IsBool="" />
-	<IsEquipOutBrake AltName="Is Break on Unequip" IsBool="" />
-	<disableMultiDropShare IsBool="" />
-	<IsDiscard IsBool="" />
-	<IsBool AltName="Is Drop" IsBool="" />
-	<Costvalue AltName="Shop Price" />
-	<RingCompatibilityId VRef="ringCompatibility" />
-	<refId1 Refs="SpEffectParam,Bullet,BehaviorParam,BehaviorParam_PC" />
-	<refId2 Refs="SpEffectParam,Bullet,BehaviorParam,BehaviorParam_PC" />
-	<refId3 Refs="SpEffectParam,Bullet,BehaviorParam,BehaviorParam_PC" />
-	<refId4 Refs="SpEffectParam,Bullet,BehaviorParam,BehaviorParam_PC" />
+    <refId0 Refs="SpEffectParam,Bullet,BehaviorParam_PC" />
+    <sfxVariationId AltName="VFX Variation ID" />
+    <shopLv AltName="Shop Level" />
+    <equipModelCategory Enum="EquipModelCategory" />
+    <equipModelGender Enum="EquipModelGender" />
+    <accessoryCategory Enum="AccessoryType" />
+    <refCategory Enum="ReferenceType" />
+    <spEffectCategory Enum="SpEffectCategory" />
+    <vagrantBonusEneDropItemLotId AltName="Vagrant Bonus Item Lot ID" />
+    <vagrantItemEneDropItemLotId AltName="Vagrant Enemy Item Lot ID" />
+    <IsDeposit AltName="Can Deposit" IsBool="" />
+    <IsEquipOutBrake AltName="Break on Unequip" IsBool="" />
+    <disableMultiDropShare AltName="Disable Multiplayer Sharing" Wiki="Prevents item from appearing to other players when dropped." IsBool="" />
+    <IsDiscard AltName="Can Discard" IsBool="" />
+    <IsBool AltName="Can Drop" IsBool="" />
+	<_0x3C AltName="Is Notice Log" />
+	<_0x3C AltName="Is Notice Dialog" />
+	<_0x3C AltName="pad3" />
+    <Costvalue AltName="Shop Price" />
+    <RingCompatibilityId VRef="ringCompatibility" Vref="ringCompatibility" />
+    <refId1 Refs="SpEffectParam,Bullet,BehaviorParam,BehaviorParam_PC" />
+    <refId2 Refs="SpEffectParam,Bullet,BehaviorParam,BehaviorParam_PC" />
+    <refId3 Refs="SpEffectParam,Bullet,BehaviorParam,BehaviorParam_PC" />
+    <refId4 Refs="SpEffectParam,Bullet,BehaviorParam,BehaviorParam_PC" />
   </Field>
 </PARAMMETA>

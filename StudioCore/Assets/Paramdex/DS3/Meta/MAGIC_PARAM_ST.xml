@@ -1,139 +1,167 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
   <Enums>
-	  <Enum Name="MagicSchoolType">
-		<Option Value="0" Name="Sorcery" />
-		<Option Value="1" Name="Miracle" />
-		<Option Value="2" Name="Pyromancy" />
-	  </Enum>
-	  <Enum Name="MagicSchool">
-		<Option Value="3" Name="Sorcery" />
-		<Option Value="4" Name="Miracle" />
-		<Option Value="10" Name="Pyromancy" />
-	  </Enum>
-	  <Enum Name="CastAnimation">
-		<Option Value="0" Name="Quick Soul Arrow [0.5] (1.0)" />
-		<Option Value="1" Name="Magic Weapon [1.0]" />
-		<Option Value="2" Name="Hidden Body [1.0]" />
-		<Option Value="3" Name="Unused" />
-		<Option Value="4" Name="Unused" />
-		<Option Value="5" Name="Fireball [1.0]" />
-		<Option Value="6" Name="Iron Flesh [1.5]" />
-		<Option Value="7" Name="Unused" />
-		<Option Value="8" Name="Great Combustion [0.5]" />
-		<Option Value="9" Name="Poison Mist [1.33]" />
-		<Option Value="10" Name="Firestorm [1.67]" />
-		<Option Value="11" Name="Rapport [1.33]" />
-		<Option Value="12" Name="Force [0.33]" />
-		<Option Value="13" Name="Chameleon [1.0]" />
-		<Option Value="14" Name="Unused" />
-		<Option Value="15" Name="Unused" />
-		<Option Value="16" Name="Unused" />
-		<Option Value="17" Name="Magic Shield [1.17]" />
-		<Option Value="18" Name="Emit Force [1.33]" />
-		<Option Value="19" Name="Lightning Spear [0.43] (1.72)" />
-		<Option Value="20" Name="Cast Light [1.33]" />
-		<Option Value="21" Name="Unused" />
-		<Option Value="22" Name="Very Slow Soul Arrow [1.67] (3.34)" />
-		<Option Value="23" Name="Fire Surge [0.67]" />
-		<Option Value="24" Name="Fire Whip [0.67]" />
-		<Option Value="25" Name="Soul Greatsword [0.67]" />
-		<Option Value="26" Name="Heal [1.83] (3.66)" />
-		<Option Value="27" Name="Heal Aid [0.73]" />
-		<Option Value="28" Name="Sacred Oath [1.83]" />
-		<Option Value="29" Name="Farron Dart [0.4]" />
-		<Option Value="30" Name="Farron Flashsword [0.67]" />
-		<Option Value="31" Name="Soul Stream [2.83]" />
-		<Option Value="32" Name="Profaned Flame [1.0]" />
-		<Option Value="33" Name="Sacred Flame [1.83]" />
-		<Option Value="34" Name="Lightning Stake [1.0]" />
-		<Option Value="35" Name="Gnaw [1.67]" />
-		<Option Value="36" Name="Lightning Storm [1.67]" />
-		<Option Value="37" Name="Dark Edge [0.67]" />
-		<Option Value="38" Name="Warmth [1.33]" />
-		<Option Value="39" Name="Wrath of the Gods [1.63]" />
-		<Option Value="40" Name="Farron Hail [1.57]" />
-		<Option Value="41" Name="Slow Soul Arrow [1.67]" />
-		<Option Value="42" Name="Black Serpent [1.0]" />
-		<Option Value="43" Name="Chaos Bed Vestiges [0.97]" />
-		<Option Value="44" Name="Lifehunt Scythe [1.17]" />
-		<Option Value="45" Name="Divine Pillars of Light [1.67]" />
-		<Option Value="46" Name="Old Moonlight [0.67]" />
-		<Option Value="47" Name="Floating Chaos [1.33]" />
-		<Option Value="48" Name="Way of White Corona [0.43]" />
-		<Option Value="49" Name="Lightning Arrow [1.83]"/>
-		<Option Value="50" Name="Flame Fan [0.5]" />
-	  </Enum>
-	  <Enum Name="ReferenceType">
-		<Option Value="0" Name="Behavior" />
-		<Option Value="1" Name="Bullet" />
-		<Option Value="2" Name="SpEffect" />
-	  </Enum>
-	  <Enum Name="AttributeType">
-		<Option Value="0" Name="Strength" />
-		<Option Value="1" Name="Dexterity" />
-		<Option Value="2" Name="Faith" />
-		<Option Value="3" Name="Intelligence" />
-	  </Enum>
+    <Enum Name="MagicSchoolType">
+      <Option Value="0" Name="Sorcery" />
+      <Option Value="1" Name="Miracle" />
+      <Option Value="2" Name="Pyromancy" />
+	  <Option Value="3" Name="Vow Magic (Magic 4)" />
+    </Enum>
+    <Enum Name="MagicSchool">
+      <Option Value="3" Name="Sorcery" />
+      <Option Value="4" Name="Miracle" />
+	  <Option Value="5" Name="Basic" />
+	  <Option Value="9" Name="Kick" />
+      <Option Value="10" Name="Pyromancy" />
+    </Enum>
+    <Enum Name="CastAnimation">
+      <Option Value="0" Name="Quick Soul Arrow [0.5] (1.0)" />
+      <Option Value="1" Name="Magic Weapon [1.0]" />
+      <Option Value="2" Name="Hidden Body [1.0]" />
+      <Option Value="3" Name="Unused" />
+      <Option Value="4" Name="Unused" />
+      <Option Value="5" Name="Fireball [1.0]" />
+      <Option Value="6" Name="Iron Flesh [1.5]" />
+      <Option Value="7" Name="Unused" />
+      <Option Value="8" Name="Great Combustion [0.5]" />
+      <Option Value="9" Name="Poison Mist [1.33]" />
+      <Option Value="10" Name="Firestorm [1.67]" />
+      <Option Value="11" Name="Rapport [1.33]" />
+      <Option Value="12" Name="Force [0.33]" />
+      <Option Value="13" Name="Chameleon [1.0]" />
+      <Option Value="14" Name="Unused" />
+      <Option Value="15" Name="Unused" />
+      <Option Value="16" Name="Unused" />
+      <Option Value="17" Name="Magic Shield [1.17]" />
+      <Option Value="18" Name="Emit Force [1.33]" />
+      <Option Value="19" Name="Lightning Spear [0.43] (1.72)" />
+      <Option Value="20" Name="Cast Light [1.33]" />
+      <Option Value="21" Name="Unused" />
+      <Option Value="22" Name="Very Slow Soul Arrow [1.67] (3.34)" />
+      <Option Value="23" Name="Fire Surge [0.67]" />
+      <Option Value="24" Name="Fire Whip [0.67]" />
+      <Option Value="25" Name="Soul Greatsword [0.67]" />
+      <Option Value="26" Name="Heal [1.83] (3.66)" />
+      <Option Value="27" Name="Heal Aid [0.73]" />
+      <Option Value="28" Name="Sacred Oath [1.83]" />
+      <Option Value="29" Name="Farron Dart [0.4]" />
+      <Option Value="30" Name="Farron Flashsword [0.67]" />
+      <Option Value="31" Name="Soul Stream [2.83]" />
+      <Option Value="32" Name="Profaned Flame [1.0]" />
+      <Option Value="33" Name="Sacred Flame [1.83]" />
+      <Option Value="34" Name="Lightning Stake [1.0]" />
+      <Option Value="35" Name="Gnaw [1.67]" />
+      <Option Value="36" Name="Lightning Storm [1.67]" />
+      <Option Value="37" Name="Dark Edge [0.67]" />
+      <Option Value="38" Name="Warmth [1.33]" />
+      <Option Value="39" Name="Wrath of the Gods [1.63]" />
+      <Option Value="40" Name="Farron Hail [1.57]" />
+      <Option Value="41" Name="Slow Soul Arrow [1.67]" />
+      <Option Value="42" Name="Black Serpent [1.0]" />
+      <Option Value="43" Name="Chaos Bed Vestiges [0.97]" />
+      <Option Value="44" Name="Lifehunt Scythe [1.17]" />
+      <Option Value="45" Name="Divine Pillars of Light [1.67]" />
+      <Option Value="46" Name="Old Moonlight [0.67]" />
+      <Option Value="47" Name="Floating Chaos [1.33]" />
+      <Option Value="48" Name="Way of White Corona [0.43]" />
+      <Option Value="49" Name="Lightning Arrow [1.83]" />
+      <Option Value="50" Name="Flame Fan [0.5]" />
+    </Enum>
+    <Enum Name="ReferenceType">
+      <Option Value="0" Name="Behavior" />
+      <Option Value="1" Name="Bullet" />
+      <Option Value="2" Name="SpEffect" />
+    </Enum>
+    <Enum Name="AttributeType">
+      <Option Value="0" Name="Strength" />
+      <Option Value="1" Name="Dexterity" />
+      <Option Value="2" Name="Faith" />
+      <Option Value="3" Name="Intelligence" />
+    </Enum>
   </Enums>
+  <Self Row0Dummy="" AlternativeOrder="sortId,iconId,requirementIntellect,requirementFaith,slotLength,analogDexterityMin,analogDexterityMax,ezStateBehaviorType,spEffectCategory,refType,menuType,yesNoDialogMessageId,hasSpEffectType,replaceMagicId,maxQuantity,-,
+  refId1,refCategory1,refIdFpCost1,refIdSpCost1,refId2,refCategory2,refIdFpCost2,refIdSpCost2,refId3,refCategory3,refIdFpCost3,refIdSpCost3,refId4,refCategory4,refIdFpCost4,refIdSpCost4,-,
+  CastSfx1,CastSfx2,CastSfx3,sfxVariationId,AttributeType,AttributeVal0,AttributeVal1,AttributeVal2,AttributeVal3,magicId0,magicId1,magicId2,magicId3,Unk9,Unk10,Unk7,-,
+  VowType1,VowType2,VowType8,VowType9,VowType10,VowType11,VowType12,VowType13,VowType14,VowType15,-,
+  disable_offline,castResonanceMagic,Unk1,Unk2,Unk3,Unk4,Unk5,Unk6,Unk8,-"/>
   <Field>
-	<yesNoDialogMessageId AltName="Message ID" />
-	<refId Refs="Bullet,SpEffectParam" />
-	<refIdFpCost1 AltName="Ref 1 FP Cost" />
-	<refIdSpCost1 AltName="Ref 1 Stamina Cost" />
-	<maxQuantity AltName="Number of Uses" />
-	<slotLength AltName="Slot Usage" />
-	<analogDexterityMin AltName="DEX Casting Speed Min" />
-	<analogDexterityMax AltName="DEX Casting Speed Max" />
-	<ezStateBehaviorType Enum="MagicSchoolType" AltName="Magic School Type" />
-	<refCategory1 Enum="ReferenceType" AltName="Ref 1 Category" />
-	<spEffectCategory Enum="MagicSchool" />
-	<refType Enum="CastAnimation" AltName="Animation Category" />
-	<refCategory4 Enum="ReferenceType" AltName="Ref 4 Category" />
-	<VowType0 IsBool="" />
-	<VowType1 IsBool="" />
-	<VowType2 IsBool="" />
-	<VowType3 IsBool="" />
-	<VowType4 IsBool="" />
-	<VowType5 IsBool="" />
-	<VowType6 IsBool="" />
-	<VowType7 IsBool="" />
-	<enableMulti AltName="Enable Multiplayer" IsBool="" />
-	<enableMultOnly AltName="Enable Multiplayer Only" IsBool="" />
-	<isEnchant IsBool="" />
-	<isShieldEnchant IsBool="" />
-	<enable_live IsBool="" />
-	<enable_gray IsBool="" />
-	<enable_white IsBool="" />
-	<enable_black IsBool="" />
-	<disable_offline IsBool="" />
-	<castResonanceMagic IsBool="" />
-	<Unk1 IsBool="" />
-	<Unk2 IsBool="" />
-	<Unk3 IsBool="" />
-	<Unk4 IsBool="" />
-	<Unk5 IsBool="" />
-	<Unk6 IsBool="" />
-	<VowType8 IsBool="" />
-	<VowType9 IsBool="" />
-	<VowType10 IsBool="" />
-	<VowType11 IsBool="" />
-	<VowType12 IsBool="" />
-	<VowType13 IsBool="" />
-	<VowType14 IsBool="" />
-	<VowType15 IsBool="" />
-	<AttributeType Enum="AttributeType" />
-	<refCategory2 Enum="ReferenceType" AltName="Ref 2 Category" />
-	<refIdSpCost4 AltName="Ref 4 Stamina Cost" />
-	<refIdFpCost2 AltName="Ref 2 FP Cost" />
-	<refIdSpCost2 AltName="Ref 2 Stamina Cost" />
-	<refCategory3 Enum="ReferenceType" AltName="Ref 3 Category" />
-	<refIdFpCost4 AltName="Ref 4 FP Cost" />
-	<refIdFpCost3 AltName="Ref 3 FP Cost" />
-	<refIdSpCost3 AltName="Ref 3 Stamina Cost" />
-	<refId1 Refs="Bullet,SpEffectParam" />
-	<refId2 Refs="Bullet,SpEffectParam" />
-	<refId3 Refs="Bullet,SpEffectParam" />
-	<refId4 Refs="Bullet,SpEffectParam" />
+    <yesNoDialogMessageId AltName="Message ID" Wiki="Message to display with menu."/>
+    <refId Refs="Bullet,SpEffectParam" />
+    <refIdFpCost1 AltName="Ref 1 FP Cost" />
+    <refIdSpCost1 AltName="Ref 1 Stamina Cost" />
+	<replaceMagicId Wiki="Greys out icon when set to 1 and Disabled by State Info has a value. Needs further testing." />
+    <maxQuantity AltName="Number of Uses" />
+    <slotLength AltName="Slot Usage" />
+	<requirementIntellect AltName="Required Intelligence" />
+	<requirementFaith AltName="Required Faith" />
+    <analogDexterityMin AltName="DEX Casting Speed Min" />
+    <analogDexterityMax AltName="DEX Casting Speed Max" />
+    <ezStateBehaviorType Enum="MagicSchoolType" AltName="Magic School Type" />
+    <refCategory1 Enum="ReferenceType" AltName="Ref 1 Category" />
+    <spEffectCategory Enum="MagicSchool" />
+    <refType Enum="CastAnimation" AltName="Animation Category" />
+    <refCategory4 Enum="ReferenceType" AltName="Ref 4 Category" />
+	<hasSpEffectType AltName="Disabled by State Info" Wiki="Prevents casting when State Info is active. Set replaceMagicId to 1 to make icon grey out." />
+    <VowType0 AltName="Unk1" IsBool="" />
+    <VowType1 AltName="Affected by Spell Change Flag 1" IsBool="" Wiki="Allows spell to use +6 ID version when using catalyst like Filianore's Chime.\nBoth flags must be True."/>
+    <VowType2 AltName="Affected by Spell Change Flag 2" IsBool="" Wiki="Allows spell to use +6 ID version when using catalyst like Filianore's Chime.\nBoth flags must be True."/>
+    <VowType3 AltName="Unk2" IsBool="" />
+    <VowType4 AltName="Unk3" IsBool="" />
+    <VowType5 AltName="Unk4" IsBool="" />
+    <VowType6 AltName="Unk5" IsBool="" />
+    <VowType7 AltName="Unk6" IsBool="" />
+    <enableMulti AltName="Unk7" IsBool="" />
+    <enableMultOnly AltName="Unk8" IsBool="" />
+    <isEnchant AltName="Unk9" IsBool="" />
+    <isShieldEnchant AltName="Unk10" IsBool="" />
+    <enable_live AltName="Unk11" IsBool="" />
+    <enable_gray AltName="Unk12" IsBool="" />
+    <enable_white AltName="Unk13" IsBool="" />
+    <enable_black AltName="Unk14" IsBool="" />
+    <disable_offline AltName="Vow Type 0" Wiki="No Covenant" IsBool="" />
+    <castResonanceMagic AltName="Vow Type 1" Wiki="Blade of the Darkmoon" IsBool="" />
+    <Unk1 AltName="Vow Type 2" Wiki="Warrior of Sunlight" IsBool="" />
+    <Unk2 AltName="Vow Type 3" Wiki="Mound-makers" IsBool="" />
+    <Unk3 AltName="Vow Type 4" Wiki="Spears of the Church" IsBool="" />
+    <Unk4 AltName="Vow Type 5" Wiki="Rosaria's Fingers" IsBool="" />
+    <Unk5 AltName="Vow Type 6" Wiki="Watchdogs of Farron" IsBool="" />
+    <Unk6 AltName="Vow Type 7" Wiki="Aldrich Faithful" IsBool="" />
+    <VowType8 AltName="Enabled in Multiplayer" IsBool="" />
+    <VowType9 AltName="Only Allowed in Multiplayer" Wiki="Needs testing." IsBool="" />
+    <VowType10 AltName="Is Weapon Buff" IsBool="" />
+    <VowType11 AltName="Is Shield Buff" IsBool="" />
+    <VowType12 AltName="Usable by Human" IsBool="" />
+    <VowType13 AltName="Usable by Hollow" IsBool="" />
+    <VowType14 AltName="Usable by Phantom" IsBool="" />
+    <VowType15 AltName="Usable by Dark Spirit" IsBool="" />
+	<Unk7 AltName="Unk15" Wiki="Needs testing. 8 for Homeward.\nPossibily a combo of castResonanceMagic,isValidTough_ProtSADmg, and isWarpMagic." />
+	<Unk8 AltName="Vow Type Extra" Wiki="254 - Vow 8 (Way of Blue) Disabled\n253 - Vow 9 (Blue Sentinels) Disabled\n252 - Vow 8 and 9 Disabled\n251 and beyond - The other vows and permutations" />
+	<CastSfx1 AltName="VFX ID - Casting" />
+	<CastSfx2 AltName="VFX ID - On Cast" />
+	<CastSfx3 AltName="VFX ID - After Cast" />
+	<Unk9 AltName="Toughness Correct Rate" Wiki="Needs testing"/>
+    <AttributeType Enum="AttributeType" Wiki="Attribute to change spell version used.\nSee the tiered attribute levels and magic IDs."/>
+	<AttributeVal0 AltName="Attribute Level - Tier 1" />
+	<AttributeVal1 AltName="Attribute Level - Tier 2" />
+	<AttributeVal2 AltName="Attribute Level - Tier 3" />
+	<AttributeVal3 AltName="Attribute Level - Tier 4" />
+    <refCategory2 Enum="ReferenceType" AltName="Ref 2 Category" />
+    <refIdSpCost4 AltName="Ref 4 Stamina Cost" />
+	<magicId0 Refs="Magic" AltName="Magic ID - Tier 1" />
+	<magicId1 Refs="Magic" AltName="Magic ID - Tier 2" />
+	<magicId2 Refs="Magic" AltName="Magic ID - Tier 3" />
+	<magicId3 Refs="Magic" AltName="Magic ID - Tier 4" />
+    <refIdFpCost2 AltName="Ref 2 FP Cost" />
+    <refIdSpCost2 AltName="Ref 2 Stamina Cost" />
+	<Unk10 AltName="Create Limit Group ID" Wiki="Needs testing"/>
+    <refCategory3 Enum="ReferenceType" AltName="Ref 3 Category" />
+    <refIdFpCost4 AltName="Ref 4 FP Cost" />
+    <refIdFpCost3 AltName="Ref 3 FP Cost" />
+    <refIdSpCost3 AltName="Ref 3 Stamina Cost" />
+    <refId1 AltName="Ref 1 ID" Refs="Bullet,SpEffectParam,BehaviorParam_PC" />
+    <refId2 AltName="Ref 2 ID" Refs="Bullet,SpEffectParam,BehaviorParam_PC" />
+    <refId3 AltName="Ref 3 ID" Refs="Bullet,SpEffectParam,BehaviorParam_PC" />
+    <refId4 AltName="Ref 4 ID" Refs="Bullet,SpEffectParam,BehaviorParam_PC" />
   </Field>
+  <Self />
 </PARAMMETA>

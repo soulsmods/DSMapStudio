@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+	<recoveryCount0 AltName="Host" />
+	<recoveryCount1 AltName="Orb Invader" />
+	<recoveryCount2 AltName="Orb Invader (Warrior of Sunlight)" />
+	<recoveryCount3 AltName="Orb Invader (Mound-makers)" />
+	<recoveryCount4 AltName="Orb Invader (Sinners)" />
+	<recoveryCount5 AltName="Sign Invader" />
+	<recoveryCount6 AltName="Sign Invader (Warrior of Sunlight)" />
+	<recoveryCount7 AltName="Sign Invader (Mound-makers)" />
+	<recoveryCount8 AltName="Sign Invader (Sinners)" />
+	<recoveryCount9 AltName="Covenant Invader (Sinners)" />
+	<recoveryCount10 AltName="Covenant Invader (Rosaria)" />
+	<recoveryCount11 AltName="Covenant Invader (Watchdogs of Farron)" />
+	<recoveryCount12 AltName="Sign Phantom" />
+	<recoveryCount13 AltName="Sign Phantom (Warriors of Sunlight)" />
+	<recoveryCount14 AltName="Sign Phantom (Mound-makers)" />
+	<recoveryCount15 AltName="Sign Phantom (Sinners)" />
+	<recoveryCount16 AltName="Covenant Phantom (Blue Spirit)" />
+	<recoveryCount17 AltName="Covenant Invader (Aldrich Faithful)" />
+  </Field>
+  <Self />
+</PARAMMETA>
