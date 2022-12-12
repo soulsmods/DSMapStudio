@@ -415,7 +415,7 @@ namespace StudioCore.ParamEditor
                 return;
             if (RefTypes != null)
                 ParamMetaData.SetStringListXmlProperty("Refs", RefTypes.Select((x) => x.getStringForm()).ToList(), null, _parent._xml, "PARAMMETA", "Field", field);
-            ParamMetaData.SetStringXmlProperty("Vref", VirtualRef, false, _parent._xml, "PARAMMETA", "Field", field);
+            ParamMetaData.SetStringXmlProperty("VRef", VirtualRef, false, _parent._xml, "PARAMMETA", "Field", field);
             ParamMetaData.SetStringXmlProperty("FmgRef", FmgRef, false, _parent._xml, "PARAMMETA", "Field", field);
             ParamMetaData.SetEnumXmlProperty("Enum", EnumType, _parent._xml, "PARAMMETA", "Field", field);
             ParamMetaData.SetStringXmlProperty("AltName", AltName, false, _parent._xml, "PARAMMETA", "Field", field);
