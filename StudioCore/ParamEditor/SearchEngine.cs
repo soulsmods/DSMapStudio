@@ -304,15 +304,23 @@ namespace StudioCore.Editor
         }
     }
 
-    class CellSearchEngine : SearchEngine<Param.Row, Param.Column>
+    class CellSearchEngine : SearchEngine<Param.Row, (PseudoColumn, Param.Column)>
     {
         public static CellSearchEngine cse = new CellSearchEngine();
         internal override void Setup()
         {
-            unpacker = (row)=>new List<Param.Column>(row.Cells);
+            unpacker = (row) => {
+                var list = new List<(PseudoColumn, Param.Column)>();
+                list.Add((PseudoColumn.ID, null));
+                list.Add((PseudoColumn.Name, null));
+                list.AddRange(row.Cells.Select((cell, i) => (PseudoColumn.None, cell)));
+                return list;
+            };
             defaultFilter = (1, (args, lenient) => {
+                bool matchID = args[0] == "ID";
+                bool matchName = args[0] == "Name";
                 Regex rx = lenient ? new Regex(args[0], RegexOptions.IgnoreCase) : new Regex($@"^{args[0]}$");
-                return noContext((cell)=>rx.Match(cell.Def.InternalName).Success);
+                return noContext((cell) => (matchID && cell.Item1 == PseudoColumn.ID) || (matchName && cell.Item1 == PseudoColumn.Name) || (cell.Item2 != null && rx.Match(cell.Item2.Def.InternalName).Success));
             });
         }
     }

@@ -31,15 +31,23 @@ namespace StudioCore.ParamEditor
     
     public class MassParamEdit
     {
-        internal static object PerformOperation(ParamBank bank, Param.Row row, Param.Column column, string op, string opparam)
+        internal static object PerformOperation(ParamBank bank, Param.Row row, (PseudoColumn, Param.Column) column, string op, string opparam)
         {
             try
             {
-                if (op.Equals("ref"))
+                Type type;
+                if (column.Item1 == PseudoColumn.ID)
+                    type = typeof(int);
+                else if (column.Item1 == PseudoColumn.Name)
+                    type = typeof(string);
+                else
+                    type = column.Item2.ValueType;
+
+                if (op.Equals("ref") && column.Item2 != null)
                 {
-                    if (column.ValueType == typeof(int))
+                    if (type == typeof(int))
                     {
-                        foreach (ParamRef pRef in FieldMetaData.Get(column.Def).RefTypes)
+                        foreach (ParamRef pRef in FieldMetaData.Get(column.Item2.Def).RefTypes)
                         {
                             string reftype = pRef.param;
                             var p = bank.Params[reftype];
@@ -55,55 +63,48 @@ namespace StudioCore.ParamEditor
                         }
                     }
                 }
-                if (op.Equals("="))
-                {
-                    if (column.ValueType == typeof(bool))
-                        return bool.Parse(opparam);
-                    else if (column.ValueType == typeof(string))
-                        return opparam;
-                    else if (column.ValueType == typeof(byte[]))
-                        return ParamUtils.Dummy8Read(opparam, ((byte[])column.GetValue(row)).Length);
-                }
-                
-                if (column.ValueType == typeof(long))
-                    return PerformBasicOperation<long>(row, column, op, double.Parse(opparam));
-                if (column.ValueType == typeof(ulong))
-                    return PerformBasicOperation<ulong>(row, column, op, double.Parse(opparam));
-                else if (column.ValueType == typeof(int))
-                    return PerformBasicOperation<int>(row, column, op, double.Parse(opparam));
-                else if (column.ValueType == typeof(uint))
-                    return PerformBasicOperation<uint>(row, column, op, double.Parse(opparam));
-                else if (column.ValueType == typeof(short))
-                    return PerformBasicOperation<short>(row, column, op, double.Parse(opparam));
-                else if (column.ValueType == typeof(ushort))
-                    return PerformBasicOperation<ushort>(row, column, op, double.Parse(opparam));
-                else if (column.ValueType == typeof(sbyte))
-                    return PerformBasicOperation<sbyte>(row, column, op, double.Parse(opparam));
-                else if (column.ValueType == typeof(byte))
-                    return PerformBasicOperation<byte>(row, column, op, double.Parse(opparam));
-                else if (column.ValueType == typeof(float))
-                    return PerformBasicOperation<float>(row, column, op, double.Parse(opparam));
-                else if (column.ValueType == typeof(double))
-                    return PerformBasicOperation<double>(row,column, op, double.Parse(opparam));
+                if (type == typeof(bool) && op.Equals("="))
+                    return bool.Parse(opparam);
+                else if (type == typeof(string))
+                    return PerformStringOperation(row, column, op, opparam);
+                else if (type == typeof(byte[]) && column.Item2 != null && op.Equals("="))
+                    return ParamUtils.Dummy8Read(opparam, ((byte[])column.Item2.GetValue(row)).Length);
+                else if (type == typeof(long))
+                    return PerformNumericOperation<long>(row, column, op, opparam);
+                else if (type == typeof(ulong))
+                    return PerformNumericOperation<ulong>(row, column, op, opparam);
+                else if (type == typeof(int))
+                    return PerformNumericOperation<int>(row, column, op, opparam);
+                else if (type == typeof(uint))
+                    return PerformNumericOperation<uint>(row, column, op, opparam);
+                else if (type == typeof(short))
+                    return PerformNumericOperation<short>(row, column, op, opparam);
+                else if (type == typeof(ushort))
+                    return PerformNumericOperation<ushort>(row, column, op, opparam);
+                else if (type == typeof(sbyte))
+                    return PerformNumericOperation<sbyte>(row, column, op, opparam);
+                else if (type == typeof(byte))
+                    return PerformNumericOperation<byte>(row, column, op, opparam);
+                else if (type == typeof(float))
+                    return PerformNumericOperation<float>(row, column, op, opparam);
+                else if (type == typeof(double))
+                    return PerformNumericOperation<double>(row, column, op, opparam);
             }
             catch
             {
             }
             return null;
         }
-        internal static string PerformNameOperation(string name, string op, string opparam)
+        internal static string PerformStringOperation(Param.Row row, (PseudoColumn, Param.Column) c, string op, string opparam)
         {
             try
             {
+                string name = c.Item1 == PseudoColumn.ID ? row.ID.ToString() : c.Item1 == PseudoColumn.Name ? row.Name : c.Item2.GetValue(row).ToString();
                 if (op.Equals("="))
-                {
                     return opparam;
-                }
-                if (op.Equals("+"))
-                {
+                else if (op.Equals("+"))
                     return name + opparam;
-                }
-                if (op.Equals("replace"))
+                else if (op.Equals("replace"))
                 {
                     string[] split = opparam.Split(":");
                     if (split.Length!=2)
@@ -117,12 +118,12 @@ namespace StudioCore.ParamEditor
             return null;
         }
 
-        public static T PerformBasicOperation<T>(Param.Row row, Param.Column c, string op, double opparam) where T : struct, IFormattable
+        private static T PerformNumericOperation<T>(Param.Row row, (PseudoColumn, Param.Column) c, string op, string opparam) where T : struct, IFormattable
         {
             try
             {
-                dynamic val = c.GetValue(row);
-                dynamic opp = opparam;
+                dynamic val = c.Item1 == PseudoColumn.ID ? row.ID : c.Item1 == PseudoColumn.Name ? row.Name : c.Item2.GetValue(row);
+                dynamic opp = double.Parse(opparam);
                 if (op.Equals("="))
                     return (T) (opp);
                 else if (op.Equals("+"))
@@ -141,12 +142,26 @@ namespace StudioCore.ParamEditor
             return default(T);
         }
 
-        internal static void addAction(Param.Cell handle, object newval, List<EditorAction> actions)
+        internal static void addAction(Param.Row row, (PseudoColumn, Param.Column) col, object newval, List<EditorAction> actions)
         {
-            if (!(handle.Value.Equals(newval) 
-            || (handle.Value.GetType()==typeof(byte[]) 
-            && ParamUtils.ByteArrayEquals((byte[])handle.Value, (byte[])newval))))
-                actions.Add(new PropertiesChangedAction(handle.GetType().GetProperty("Value"), -1, handle, newval));
+            if (col.Item1 == PseudoColumn.ID)
+            {
+                if (!row.ID.Equals(newval))
+                    actions.Add(new PropertiesChangedAction(row.GetType().GetProperty("ID"), -1, row, newval));
+            }
+            else if (col.Item1 == PseudoColumn.Name)
+            {
+                if (!row.Name.Equals(newval))
+                    actions.Add(new PropertiesChangedAction(row.GetType().GetProperty("Name"), -1, row, newval));
+            }
+            else
+            {
+                Param.Cell handle = row[col.Item2];
+                if (!(handle.Value.Equals(newval) 
+                || (handle.Value.GetType()==typeof(byte[]) 
+                && ParamUtils.ByteArrayEquals((byte[])handle.Value, (byte[])newval))))
+                    actions.Add(new PropertiesChangedAction(handle.GetType().GetProperty("Value"), -1, handle, newval));
+            }
         }
     }
 
@@ -214,8 +229,7 @@ namespace StudioCore.ParamEditor
             }
             else
             {
-                PseudoColumn pseudoCol = cellSelector.Equals("Name") ? PseudoColumn.Name : PseudoColumn.None;
-                return PerformMassEditCommandCellOpStep(bank, isParamRowSelector, paramSelector, rowSelector, cellSelector, pseudoCol, cellstage[1], context);
+                return PerformMassEditCommandCellOpStep(bank, isParamRowSelector, paramSelector, rowSelector, cellSelector, cellstage[1], context);
             }
         }
         private static (MassEditResult, List<EditorAction>) PerformMassEditCommandRowOpStep(ParamBank bank, bool isParamRowSelector, string paramSelector, string rowSelector, string restOfStages, ParamEditorSelectionState context)
@@ -224,20 +238,20 @@ namespace StudioCore.ParamEditor
             string operation = operationstage[0].Trim();
             if (operationstage.Length == 1)
                 return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find operation arguments."), null);
-            return PerformMassEditCommand(bank, isParamRowSelector, paramSelector, rowSelector, null, PseudoColumn.None, operation, operationstage[1], context);
+            return PerformMassEditCommand(bank, isParamRowSelector, paramSelector, rowSelector, null, operation, operationstage[1], context);
         }
-        private static (MassEditResult, List<EditorAction>) PerformMassEditCommandCellOpStep(ParamBank bank, bool isParamRowSelector, string paramSelector, string rowSelector, string cellSelector, PseudoColumn pseudoCol, string restOfStages, ParamEditorSelectionState context)
+        private static (MassEditResult, List<EditorAction>) PerformMassEditCommandCellOpStep(ParamBank bank, bool isParamRowSelector, string paramSelector, string rowSelector, string cellSelector, string restOfStages, ParamEditorSelectionState context)
         {
             string[] operationstage =  restOfStages.TrimStart().Split(" ", 2);                
             string operation = operationstage[0].Trim();
 
-            if (operation.Equals("") || (pseudoCol == PseudoColumn.Name && !MEPseudoCellOperation.pseudoCellOps.operations.ContainsKey(operation)) || (pseudoCol != PseudoColumn.Name && !MECellOperation.cellOps.operations.ContainsKey(operation)))
+            if (operation.Equals("") || !MECellOperation.cellOps.operations.ContainsKey(operation))
                 return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find operation to perform. Add : and one of + - * / replace"), null);
             if (operationstage.Length == 1)
                 return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find operation arguments. Add a value, or 'field' followed by the name of a field to take the value from"), null);
-            return PerformMassEditCommand(bank, isParamRowSelector, paramSelector, rowSelector, cellSelector, pseudoCol, operation, operationstage[1], context);
+            return PerformMassEditCommand(bank, isParamRowSelector, paramSelector, rowSelector, cellSelector, operation, operationstage[1], context);
         }
-        private static (MassEditResult, List<EditorAction>) PerformMassEditCommand(ParamBank bank, bool isParamRowSelector, string paramSelector, string rowSelector, string cellSelector, PseudoColumn pseudoCol, string operation, string opargs, ParamEditorSelectionState context)
+        private static (MassEditResult, List<EditorAction>) PerformMassEditCommand(ParamBank bank, bool isParamRowSelector, string paramSelector, string rowSelector, string cellSelector, string operation, string opargs, ParamEditorSelectionState context)
         {
             List<EditorAction> partialActions = new List<EditorAction>();
             try {
@@ -245,18 +259,12 @@ namespace StudioCore.ParamEditor
                 int argc;
                 Func<(ParamBank, Param, Param.Row), string[], (Param, Param.Row[])> rowFunc = null;
                 Func<Param.Row, string[], object> pseudoCellFunc = null;
-                Func<(Param.Row, Param.Column), string[], object> cellFunc = null; 
+                Func<(Param.Row, (PseudoColumn, Param.Column)), string[], object> cellFunc = null; 
                 if (cellSelector == null)
                 {
                     if (!MERowOperation.rowOps.operations.ContainsKey(operation))
                             return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Unknown operation "+operation), null);
                     (argc, rowFunc) = MERowOperation.rowOps.operations[operation];
-                }
-                else if (pseudoCol == PseudoColumn.Name)
-                {
-                    if (!MEPseudoCellOperation.pseudoCellOps.operations.ContainsKey(operation))
-                            return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Unknown operation "+operation), null);
-                    (argc, pseudoCellFunc) = MEPseudoCellOperation.pseudoCellOps.operations[operation];
                 }
                 else
                 {
@@ -277,29 +285,21 @@ namespace StudioCore.ParamEditor
                         var rowArgFunc = paramArgFunc.Select((rowFunc, i) => rowFunc(row)).ToArray();
                         if (cellSelector == null)
                         {
-                            var rowArgValues = rowArgFunc.Select((argV, i) => argV(PseudoColumn.None, null)).ToArray();
+                            var rowArgValues = rowArgFunc.Select((argV, i) => argV((PseudoColumn.None, null))).ToArray();
                             var (p, rs) = rowFunc((bank, activeParam, row), rowArgValues);
                             if (p == null || rs == null)
                                 return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {operation} {String.Join(' ', rowArgValues)} on row"), null);
                             partialActions.Add(new AddParamsAction(p, "FromMassEdit", rs.ToList(), false, true));
                         }
-                        else if (pseudoCol == PseudoColumn.Name)
-                        {
-                            var cellArgValues = rowArgFunc.Select((argV, i) => argV(PseudoColumn.Name, null)).ToArray();
-                            var res = pseudoCellFunc(row, cellArgValues);
-                            if (res == null)
-                                return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {operation} {String.Join(' ', cellArgValues)} on Name"), null);
-                            partialActions.Add(new PropertiesChangedAction(row.GetType().GetProperty("Name"), -1, row, res));
-                        }
                         else
                         {
-                            foreach (Param.Column col in CellSearchEngine.cse.Search(row, cellSelector, false, false))
+                            foreach ((PseudoColumn, Param.Column) col in CellSearchEngine.cse.Search(row, cellSelector, false, false))
                             {
-                                var cellArgValues = rowArgFunc.Select((argV, i) => argV(PseudoColumn.None, col)).ToArray();
+                                var cellArgValues = rowArgFunc.Select((argV, i) => argV(col)).ToArray();
                                 var res = cellFunc((row, col), cellArgValues);
                                 if (res == null)
-                                    return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {operation} {String.Join(' ', cellArgValues)} on field {col.Def.InternalName}"), null);
-                                addAction(row[col], res, partialActions);
+                                    return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {operation} {String.Join(' ', cellArgValues)} on field {col.Item2.Def.InternalName}"), null);
+                                addAction(row, col, res, partialActions);
                             }
                         }
                     }
@@ -316,29 +316,25 @@ namespace StudioCore.ParamEditor
                             var rowArgFunc = paramArgFunc.Select((rowFunc, i) => rowFunc(row)).ToArray();
                             if (cellSelector == null)
                             {
-                                var rowArgValues = rowArgFunc.Select((argV, i) => argV(PseudoColumn.None, null)).ToArray();
+                                var rowArgValues = rowArgFunc.Select((argV, i) => argV((PseudoColumn.None, null))).ToArray();
                                 var (p2, rs) = rowFunc((b, p, row), rowArgValues);
                                 if (p2 == null || rs == null)
                                     return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {operation} {String.Join(' ', rowArgValues)} on row"), null);
                                 partialActions.Add(new AddParamsAction(p2, "FromMassEdit", rs.ToList(), false, true));
-                                }
-                            else if (pseudoCol == PseudoColumn.Name)
-                            {
-                                var cellArgValues = rowArgFunc.Select((argV, i) => argV(PseudoColumn.Name, null)).ToArray();
-                                var res = pseudoCellFunc(row, cellArgValues);
-                                if (res == null)
-                                    return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {operation} {String.Join(' ', cellArgValues)} on Name"), null);
-                                partialActions.Add(new PropertiesChangedAction(row.GetType().GetProperty("Name"), -1, row, res));
                             }
                             else
                             {
-                                foreach (Param.Column col in CellSearchEngine.cse.Search(row, cellSelector, false, false))
+                                foreach ((PseudoColumn, Param.Column) col in CellSearchEngine.cse.Search(row, cellSelector, false, false))
                                 {
-                                    var cellArgValues = rowArgFunc.Select((argV, i) => argV(PseudoColumn.None, col)).ToArray();
+                                    var cellArgValues = rowArgFunc.Select((argV, i) => argV(col)).ToArray();
                                     var res = cellFunc((row, col), cellArgValues);
-                                    if (res == null)
-                                        return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {operation} {String.Join(' ', cellArgValues)} on field {col.Def.InternalName}"), null);
-                                    addAction(row[col], res, partialActions);
+                                    if (res == null && col.Item1 == PseudoColumn.ID)
+                                        return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {operation} {String.Join(' ', cellArgValues)} on ID"), null);
+                                    else if (res == null && col.Item1 == PseudoColumn.Name)
+                                        return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {operation} {String.Join(' ', cellArgValues)} on Name"), null);
+                                    else if (res == null)
+                                        return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {operation} {String.Join(' ', cellArgValues)} on field {col.Item2.Def.InternalName}"), null);
+                                    addAction(row, col, res, partialActions);
                                 }
                             }
                         }
@@ -447,11 +443,10 @@ namespace StudioCore.ParamEditor
                     {
                         string v = csvs[index];
                         index++;
-                        object newval = PerformOperation(bank, row, col, "=", v);
+                        object newval = PerformOperation(bank, row, (PseudoColumn.None, col), "=", v);
                         if (newval == null)
                             return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not assign {v} to field {col.Def.InternalName}");
-                        var handle = row[col];
-                        addAction(handle, newval, actions);
+                        addAction(row, (PseudoColumn.None, col), newval, actions);
                     }
                 }
                 changeCount = actions.Count;
@@ -516,11 +511,10 @@ namespace StudioCore.ParamEditor
                         {
                             return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not locate field {field}"), null);
                         }
-                        object newval = PerformOperation(bank, row, col, "=", value);
+                        object newval = PerformOperation(bank, row, (PseudoColumn.None, col), "=", value);
                         if (newval == null)
                             return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not assign {value} to field {col.Def.InternalName}"), null);
-                        var handle = row[col];
-                        addAction(handle, newval, actions);
+                        addAction(row, (PseudoColumn.None, col), newval, actions);
                     }
                 }
                 changeCount = actions.Count;
@@ -581,7 +575,7 @@ namespace StudioCore.ParamEditor
             }));            
         }
     }
-    internal class MECellOperation : MEOperation<(Param.Row, Param.Column), object>
+    internal class MECellOperation : MEOperation<(Param.Row, (PseudoColumn, Param.Column)), object>
     {
         internal static MECellOperation cellOps = new MECellOperation();
         internal override void Setup()
@@ -592,23 +586,18 @@ namespace StudioCore.ParamEditor
             operations.Add("*", (1, (ctx, args) => MassParamEdit.PerformOperation(ParamBank.PrimaryBank, ctx.Item1, ctx.Item2, "*", args[0])));
             operations.Add("/", (1, (ctx, args) => MassParamEdit.PerformOperation(ParamBank.PrimaryBank, ctx.Item1, ctx.Item2, "/", args[0])));
             operations.Add("%", (1, (ctx, args) => MassParamEdit.PerformOperation(ParamBank.PrimaryBank, ctx.Item1, ctx.Item2, "%", args[0])));
-        }
-    }
-    internal class MEPseudoCellOperation : MEOperation<Param.Row, object>
-    {
-        internal static MEPseudoCellOperation pseudoCellOps = new MEPseudoCellOperation();
-        internal override void Setup()
-        {
-            operations.Add("=", (1, (row, args) => MassParamEdit.PerformNameOperation(row.Name, "=", args[0])));
-            operations.Add("+", (1, (row, args) => MassParamEdit.PerformNameOperation(row.Name, "+", args[0])));
-            operations.Add("replace", (2, (row, args) => MassParamEdit.PerformNameOperation(row.Name, "replace", args[0]+":"+args[1])));
+            operations.Add("replace", (2, (ctx, args) => {
+                if (ctx.Item2.Item1 != PseudoColumn.Name)
+                    throw new Exception("replace operation is only valid for Name");
+                return MassParamEdit.PerformOperation(ParamBank.PrimaryBank, ctx.Item1, ctx.Item2, "replace", args[0]);
+            }));
         }
     }
     internal class MEOperationArgument
     {
         static internal MEOperationArgument arg = new MEOperationArgument();
-        Dictionary<string, (int, Func<string[], Func<Param, Func<Param.Row, Func<PseudoColumn, Param.Column, string>>>>)> argumentGetters = new Dictionary<string, (int, Func<string[], Func<Param, Func<Param.Row, Func<PseudoColumn, Param.Column, string>>>>)>();
-        (int, Func<string, Func<Param, Func<Param.Row, Func<PseudoColumn, Param.Column, string>>>>) defaultGetter;
+        Dictionary<string, (int, Func<string[], Func<Param, Func<Param.Row, Func<(PseudoColumn, Param.Column), string>>>>)> argumentGetters = new Dictionary<string, (int, Func<string[], Func<Param, Func<Param.Row, Func<(PseudoColumn, Param.Column), string>>>>)>();
+        (int, Func<string, Func<Param, Func<Param.Row, Func<(PseudoColumn, Param.Column), string>>>>) defaultGetter;
 
         private MEOperationArgument()
         {
@@ -616,17 +605,22 @@ namespace StudioCore.ParamEditor
         }
         private void Setup()
         {
-            defaultGetter = (0, (value) => (param) => (row) => (pc, col) => value);
-            argumentGetters.Add("self", (0, (empty) => (param) => (row) => (pc, col) => {
-                if (col != null)
+            defaultGetter = (0, (value) => (param) => (row) => (col) => value);
+            argumentGetters.Add("self", (0, (empty) => (param) => (row) => (col) => {
+                if (col.Item2 != null)
                 {
-                    object val = row[col].Value;
+                    object val = row[col.Item2].Value;
                     return val.GetType() == typeof(byte[]) ? ParamUtils.Dummy8Write((byte[])val) : val.ToString();
                 }
-                else
+                else if (col.Item1 == PseudoColumn.ID)
+                {
+                    return row.ID.ToString();
+                }
+                else if (col.Item1 == PseudoColumn.Name)
                 {
                     return row.Name;
                 }
+                throw new Exception($@"Could not locate given field or property");
             }));
             argumentGetters.Add("field", (1, (field) => (param) => {
                 Param.Column? col = param[field[0]];
@@ -637,7 +631,7 @@ namespace StudioCore.ParamEditor
                 return (row) => {
                     object val = row[col].Value;
                     string v = val.GetType() == typeof(byte[]) ? ParamUtils.Dummy8Write((byte[])val) : val.ToString();
-                    return (pc,c) => v;
+                    return (c) => v;
                 };
             }));
             argumentGetters.Add("vanilla", (0, (empty) => {
@@ -651,16 +645,21 @@ namespace StudioCore.ParamEditor
                         Param.Row vRow = vParam?[row.ID];
                         if (vRow == null)
                             throw new Exception($@"Could not locate vanilla row {row.ID}");
-                        return (pc, col) => {
-                            if (col != null)
+                        return (col) => {
+                            if (col.Item2 != null)
                             {
-                                object val = vRow[col].Value;
+                                object val = vRow[col.Item2].Value;
                                 return val.GetType() == typeof(byte[]) ? ParamUtils.Dummy8Write((byte[])val) : val.ToString();
                             }
-                            else
+                            else if (col.Item1 == PseudoColumn.ID)
                             {
-                                return vRow.Name;
+                                return row.ID.ToString();
                             }
+                            else if (col.Item1 == PseudoColumn.Name)
+                            {
+                                return row.Name;
+                            }
+                            throw new Exception($@"Could not locate given field or property");
                         };
                     };
                 };
@@ -679,7 +678,7 @@ namespace StudioCore.ParamEditor
                         throw new Exception($@"Could not locate vanilla row {row.ID}");
                     object val = vRow[col].Value;
                     string v = val.GetType() == typeof(byte[]) ? ParamUtils.Dummy8Write((byte[])val) : val.ToString();
-                    return (pc,c) => v;
+                    return (c) => v;
                 };
             }));
             argumentGetters.Add("aux", (1, (bankName) => {
@@ -695,16 +694,21 @@ namespace StudioCore.ParamEditor
                         Param.Row vRow = vParam?[row.ID];
                         if (vRow == null)
                             throw new Exception($@"Could not locate aux row {row.ID}");
-                        return (pc, col) => {
-                            if (col != null)
+                        return (col) => {
+                            if (col.Item2 != null)
                             {
-                                object val = vRow[col].Value;
+                                object val = vRow[col.Item2].Value;
                                 return val.GetType() == typeof(byte[]) ? ParamUtils.Dummy8Write((byte[])val) : val.ToString();
                             }
-                            else
+                            else if (col.Item1 == PseudoColumn.ID)
+                            {
+                                return vRow.ID.ToString();
+                            }
+                            else if (col.Item1 == PseudoColumn.Name)
                             {
                                 return vRow.Name;
                             }
+                            throw new Exception($@"Could not locate given field or property");
                         };
                     };
                 };
@@ -727,16 +731,16 @@ namespace StudioCore.ParamEditor
                             throw new Exception($@"Could not locate aux row {row.ID}");
                         object val = vRow[col].Value;
                         string v = val.GetType() == typeof(byte[]) ? ParamUtils.Dummy8Write((byte[])val) : val.ToString();
-                        return (pc, col) => v;
+                        return (c) => v;
                     };
                 };
             }));
         }
 
-        internal Func<Param, Func<Param.Row, Func<PseudoColumn, Param.Column, string>>>[] getContextualArguments(int argumentCount, string opData)
+        internal Func<Param, Func<Param.Row, Func<(PseudoColumn, Param.Column), string>>>[] getContextualArguments(int argumentCount, string opData)
         {
             string[] opArgs = opData.Split(':', argumentCount);
-            Func<Param, Func<Param.Row, Func<PseudoColumn, Param.Column, string>>>[] contextualArgs = new Func<Param, Func<Param.Row, Func<PseudoColumn, Param.Column, string>>>[opArgs.Length];
+            Func<Param, Func<Param.Row, Func<(PseudoColumn, Param.Column), string>>>[] contextualArgs = new Func<Param, Func<Param.Row, Func<(PseudoColumn, Param.Column), string>>>[opArgs.Length];
             for (int i=0; i<opArgs.Length; i++)
             {
                 string[] arg = opArgs[i].Split(" ", 2);
@@ -760,7 +764,7 @@ namespace StudioCore.ParamEditor
     internal enum PseudoColumn
     {
         None,
-        // ID,
+        ID,
         Name
     }
 }
