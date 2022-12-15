@@ -269,17 +269,18 @@
     </Enum>
 	<Enum Name="DamageLevel">
       <Option Value="0" Name="No Change" />
-      <Option Value="1" Name="Small" />
-      <Option Value="2" Name="Middle" />
-      <Option Value="3" Name="Large" />
-      <Option Value="4" Name="Knock Back" />
-      <Option Value="5" Name="Push" />
-      <Option Value="6" Name="Faceplant" />
-      <Option Value="7" Name="Knock Back - Short" />
-      <Option Value="8" Name="Minimum" />
+	  <Option Value="1" Name="None" />
+	  <Option Value="2" Name="Minimum" />
+      <Option Value="3" Name="Small" />
+      <Option Value="4" Name="Middle" />
+      <Option Value="5" Name="Large" />
+      <Option Value="6" Name="Knock Back - Short" />
+      <Option Value="7" Name="Knock Back" />
+      <Option Value="8" Name="Faceplant" />
       <Option Value="9" Name="Upper" />
-      <Option Value="10" Name="Knock Back - Blast" />
-      <Option Value="11" Name="Breath" />
+      <Option Value="10" Name="Push" />
+      <Option Value="11" Name="Knock Back - Blast" />
+      <Option Value="12" Name="Breath" />
     </Enum>
     <Enum Name="ThrowTrigger">
       <Option Value="0" Name="None" />

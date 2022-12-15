@@ -63,20 +63,19 @@
       <Option Value="11" Name="Is Also Guard (req. speffect 100690)" />
     </Enum>
     <Enum Name="C0000DamageLevel">
-      <Option Value="0" Name="Adaptive" />
-      <Option Value="1" Name="Lack of" />
-      <Option Value="2" Name="Lack of" />
-      <Option Value="3" Name="Dagger" />
-      <Option Value="4" Name="StraightSword" />
-      <Option Value="5" Name="Ultra" />
-      <Option Value="6" Name="Throw" />
-      <Option Value="7" Name="Far Throw" />
-      <Option Value="8" Name="Pancake" />
-      <Option Value="9" Name="Flip" />
-      <Option Value="10" Name="Kick" />
-      <Option Value="11" Name="Far Throw" />
-      <Option Value="12" Name="Trip Backwards" />
-      <Option Value="13" Name="None" />
+      <Option Value="0" Name="No Change" />
+	  <Option Value="1" Name="None" />
+	  <Option Value="2" Name="Minimum" />
+      <Option Value="3" Name="Small" />
+      <Option Value="4" Name="Middle" />
+      <Option Value="5" Name="Large" />
+      <Option Value="6" Name="Knock Back - Short" />
+      <Option Value="7" Name="Knock Back" />
+      <Option Value="8" Name="Faceplant" />
+      <Option Value="9" Name="Upper" />
+      <Option Value="10" Name="Push" />
+      <Option Value="11" Name="Knock Back - Blast" />
+      <Option Value="12" Name="Breath" />
     </Enum>
 	<Enum Name="ThrowFlag">
       <Option Value="0" Name="None" />
@@ -232,6 +231,6 @@ Hit0_Radius,Hit0_DmyPoly1,Hit0_DmyPoly2,Hit0_hitType,Hit0_VfxId,Hit0_DummyPolyId
 	<_0x195 AltName="Is Backstab" IsBool="" Wiki="Flags attack to be affected by Dragonscale Ring" />
     <atkElementCorrectId Refs="AttackElementCorrectParam" Wiki="Override for stat scaling behaviour.\nIf -1, equipped weapon determines AttackElementCorrectParam instead." />
     <pad1 AltName="HKS BehaviorID" Enum="HKSBehaviorID" Wiki="Corresponds to env(334) in HKS"/>
-    <_0x18B AltName="C0000 DamageLevel" Enum="C0000DamageLevel" />
+    <_0x18B AltName="c0000 DamageLevel" Enum="C0000DamageLevel" Wiki="Used instead of damageLevel for c0000/players."/>
   </Field>
 </PARAMMETA>
