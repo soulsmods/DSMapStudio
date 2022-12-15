@@ -284,7 +284,7 @@ namespace StudioCore.ParamEditor
                         return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Invalid number of arguments for operation {operation}"), null);
                     foreach ((MassEditRowSource source, Param.Row row) in ParamAndRowSearchEngine.parse.Search(context, paramSelector, false, false))
                     {
-                        var rowArgFunc = paramArgFunc.Select((rowFunc, i) => rowFunc(row)).ToArray();
+                        var rowArgFunc = paramArgFunc.Select((rowFunc, i) => rowFunc(row, i)).ToArray();
                         if (cellSelector == null)
                         {
                             var rowArgValues = rowArgFunc.Select((argV, i) => argV((PseudoColumn.None, null))).ToArray();
@@ -316,7 +316,7 @@ namespace StudioCore.ParamEditor
                             return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Invalid number of arguments for operation {operation}"), null);
                         foreach (Param.Row row in RowSearchEngine.rse.Search((b, p), rowSelector, false, false))
                         {
-                            var rowArgFunc = paramArgFunc.Select((rowFunc, i) => rowFunc(row)).ToArray();
+                            var rowArgFunc = paramArgFunc.Select((rowFunc, i) => rowFunc(row, i)).ToArray();
                             if (cellSelector == null)
                             {
                                 var rowArgValues = rowArgFunc.Select((argV, i) => argV((PseudoColumn.None, null))).ToArray();
@@ -632,8 +632,8 @@ namespace StudioCore.ParamEditor
     internal class MEOperationArgument
     {
         static internal MEOperationArgument arg = new MEOperationArgument();
-        Dictionary<string, (int, Func<string[], Func<Param, Func<Param.Row, Func<(PseudoColumn, Param.Column), string>>>>)> argumentGetters = new Dictionary<string, (int, Func<string[], Func<Param, Func<Param.Row, Func<(PseudoColumn, Param.Column), string>>>>)>();
-        (int, Func<string, Func<Param, Func<Param.Row, Func<(PseudoColumn, Param.Column), string>>>>) defaultGetter;
+        Dictionary<string, (int, Func<string[], Func<Param, Func<Param.Row, int, Func<(PseudoColumn, Param.Column), string>>>>)> argumentGetters = new Dictionary<string, (int, Func<string[], Func<Param, Func<Param.Row, int, Func<(PseudoColumn, Param.Column), string>>>>)>();
+        (int, Func<string, Func<Param, Func<Param.Row, int, Func<(PseudoColumn, Param.Column), string>>>>) defaultGetter;
 
         private MEOperationArgument()
         {
@@ -641,31 +641,18 @@ namespace StudioCore.ParamEditor
         }
         private void Setup()
         {
-            defaultGetter = (0, (value) => (param) => (row) => (col) => value);
-            argumentGetters.Add("self", (0, (empty) => (param) => (row) => (col) => {
-                if (col.Item2 != null)
-                {
-                    object val = row[col.Item2].Value;
-                    return val.GetType() == typeof(byte[]) ? ParamUtils.Dummy8Write((byte[])val) : val.ToString();
-                }
-                else if (col.Item1 == PseudoColumn.ID)
-                {
-                    return row.ID.ToString();
-                }
-                else if (col.Item1 == PseudoColumn.Name)
-                {
-                    return row.Name;
-                }
-                throw new Exception($@"Could not locate given field or property");
+            defaultGetter = (0, (value) => (param) => (row, i) => (col) => value);
+            argumentGetters.Add("self", (0, (empty) => (param) => (row, i) => (col) => {
+                object val = col.Item1 == PseudoColumn.ID ? row.ID : col.Item1 == PseudoColumn.Name ? row.Name : row[col.Item2].Value;
+                return val.GetType() == typeof(byte[]) ? ParamUtils.Dummy8Write((byte[])val) : val.ToString();
             }));
             argumentGetters.Add("field", (1, (field) => (param) => {
-                Param.Column? col = param[field[0]];
-                if (col == null)
-                {
-                    throw new Exception($@"Could not locate field {field[0]}");
-                }
-                return (row) => {
-                    object val = row[col].Value;
+                PseudoColumn pc = field[1].Equals("ID") ? PseudoColumn.ID : field[1].Equals("Name") ? PseudoColumn.Name : PseudoColumn.None;
+                Param.Column? col = param?[field[1]];
+                if (pc == PseudoColumn.None && col == null)
+                    throw new Exception($@"Could not locate field {field[1]}");
+                return (row, i) => {
+                    object val = pc == PseudoColumn.ID ? row.ID : pc == PseudoColumn.Name ? row.Name : row[col].Value;
                     string v = val.GetType() == typeof(byte[]) ? ParamUtils.Dummy8Write((byte[])val) : val.ToString();
                     return (c) => v;
                 };
@@ -677,25 +664,15 @@ namespace StudioCore.ParamEditor
                     if (!bank.Params.ContainsKey(paramName))
                         throw new Exception($@"Could not locate vanilla param for {param.ParamType}");
                     Param vParam = bank.Params[paramName];
-                    return (row) => {
+                    return (row, i) => {
                         Param.Row vRow = vParam?[row.ID];
                         if (vRow == null)
                             throw new Exception($@"Could not locate vanilla row {row.ID}");
                         return (col) => {
-                            if (col.Item2 != null)
-                            {
-                                object val = vRow[col.Item2].Value;
-                                return val.GetType() == typeof(byte[]) ? ParamUtils.Dummy8Write((byte[])val) : val.ToString();
-                            }
-                            else if (col.Item1 == PseudoColumn.ID)
-                            {
-                                return row.ID.ToString();
-                            }
-                            else if (col.Item1 == PseudoColumn.Name)
-                            {
-                                return row.Name;
-                            }
-                            throw new Exception($@"Could not locate given field or property");
+                            if (col.Item1 == PseudoColumn.None && col.Item2 == null)
+                                throw new Exception($@"Could not locate given field or property");
+                            object val = col.Item1 == PseudoColumn.ID ? vRow.ID : col.Item1 == PseudoColumn.Name ? vRow.Name : vRow[col.Item2].Value;
+                            return val.GetType() == typeof(byte[]) ? ParamUtils.Dummy8Write((byte[])val) : val.ToString();
                         };
                     };
                 };
@@ -705,14 +682,15 @@ namespace StudioCore.ParamEditor
                 var vParam = ParamBank.VanillaBank.GetParamFromName(paramName);
                 if (vParam == null)
                     throw new Exception($@"Could not locate vanilla param for {param.ParamType}");
-                Param.Column? col = vParam?[field[0]];
-                if (col == null)
-                    throw new Exception($@"Could not locate field {field[0]}");
-                return (row) => {
+                PseudoColumn pc = field[1].Equals("ID") ? PseudoColumn.ID : field[1].Equals("Name") ? PseudoColumn.Name : PseudoColumn.None;
+                Param.Column? col = vParam?[field[1]];
+                if (pc == PseudoColumn.None && col == null)
+                    throw new Exception($@"Could not locate field {field[1]}");
+                return (row, i) => {
                     Param.Row vRow = vParam?[row.ID];
                     if (vRow == null)
                         throw new Exception($@"Could not locate vanilla row {row.ID}");
-                    object val = vRow[col].Value;
+                    object val = pc == PseudoColumn.ID ? vRow.ID : pc == PseudoColumn.Name ? vRow.Name : vRow[col].Value;
                     string v = val.GetType() == typeof(byte[]) ? ParamUtils.Dummy8Write((byte[])val) : val.ToString();
                     return (c) => v;
                 };
@@ -726,25 +704,15 @@ namespace StudioCore.ParamEditor
                     if (!bank.Params.ContainsKey(paramName))
                         throw new Exception($@"Could not locate aux param for {param.ParamType}");
                     Param vParam = bank.Params[paramName];
-                    return (row) => {
+                    return (row, i) => {
                         Param.Row vRow = vParam?[row.ID];
                         if (vRow == null)
                             throw new Exception($@"Could not locate aux row {row.ID}");
                         return (col) => {
-                            if (col.Item2 != null)
-                            {
-                                object val = vRow[col.Item2].Value;
-                                return val.GetType() == typeof(byte[]) ? ParamUtils.Dummy8Write((byte[])val) : val.ToString();
-                            }
-                            else if (col.Item1 == PseudoColumn.ID)
-                            {
-                                return vRow.ID.ToString();
-                            }
-                            else if (col.Item1 == PseudoColumn.Name)
-                            {
-                                return vRow.Name;
-                            }
-                            throw new Exception($@"Could not locate given field or property");
+                            if (col.Item1 == PseudoColumn.None && col.Item2 == null)
+                                throw new Exception($@"Could not locate given field or property");
+                            object val = col.Item1 == PseudoColumn.ID ? vRow.ID : col.Item1 == PseudoColumn.Name ? vRow.Name : vRow[col.Item2].Value;
+                            return val.GetType() == typeof(byte[]) ? ParamUtils.Dummy8Write((byte[])val) : val.ToString();
                         };
                     };
                 };
@@ -758,25 +726,27 @@ namespace StudioCore.ParamEditor
                     if (!bank.Params.ContainsKey(paramName))
                         throw new Exception($@"Could not locate aux param for {param.ParamType}");
                     Param vParam = bank.Params[paramName];
+                    PseudoColumn pc = bankAndField[1].Equals("ID") ? PseudoColumn.ID : bankAndField[1].Equals("Name") ? PseudoColumn.Name : PseudoColumn.None;
                     Param.Column? col = vParam?[bankAndField[1]];
-                    if (col == null)
+                    if (pc == PseudoColumn.None && col == null)
                         throw new Exception($@"Could not locate field {bankAndField[1]}");
-                    return (row) => {
+                    return (row, i) => {
                         Param.Row vRow = vParam?[row.ID];
                         if (vRow == null)
                             throw new Exception($@"Could not locate aux row {row.ID}");
-                        object val = vRow[col].Value;
+                        object val = pc == PseudoColumn.ID ? vRow.ID : pc == PseudoColumn.Name ? vRow.Name : vRow[col].Value;
                         string v = val.GetType() == typeof(byte[]) ? ParamUtils.Dummy8Write((byte[])val) : val.ToString();
                         return (c) => v;
                     };
                 };
             }));
+            argumentGetters.Add("rowEditIndex", (0, (args) => (param) => (row, i) => (col) => i.ToString()));
         }
 
-        internal Func<Param, Func<Param.Row, Func<(PseudoColumn, Param.Column), string>>>[] getContextualArguments(int argumentCount, string opData)
+        internal Func<Param, Func<Param.Row, int, Func<(PseudoColumn, Param.Column), string>>>[] getContextualArguments(int argumentCount, string opData)
         {
             string[] opArgs = opData == null ? new string[0] : opData.Split(':', argumentCount);
-            Func<Param, Func<Param.Row, Func<(PseudoColumn, Param.Column), string>>>[] contextualArgs = new Func<Param, Func<Param.Row, Func<(PseudoColumn, Param.Column), string>>>[opArgs.Length];
+            Func<Param, Func<Param.Row, int, Func<(PseudoColumn, Param.Column), string>>>[] contextualArgs = new Func<Param, Func<Param.Row, int, Func<(PseudoColumn, Param.Column), string>>>[opArgs.Length];
             for (int i=0; i<opArgs.Length; i++)
             {
                 string[] arg = opArgs[i].Split(" ", 2);
