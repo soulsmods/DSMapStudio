@@ -192,6 +192,13 @@ namespace StudioCore.ParamEditor
         }
         private static (MassEditResult, List<EditorAction>) PerformMassEditCommandParamStep(ParamBank bank, string restOfStages, ParamEditorSelectionState context)
         {
+            if (MEGlobalOperation.globalOps.HandlesCommand(restOfStages.Split(" ", 2)[0]))
+            {
+                (int c, var func) = MEGlobalOperation.globalOps.operations[restOfStages.Split(" ", 2)[0]];
+                bool result = func(context, c == 0 ? new string[0] : restOfStages.Split(" ", 2)[1].Split(":", c));
+                return (new MassEditResult(result ? MassEditResultType.SUCCESS : MassEditResultType.OPERATIONERROR, "performing global operation "+restOfStages.Split(" ", 2)[0]), new List<EditorAction>());
+            }
+
             string[] paramstage = restOfStages.Split(":", 2);
             string paramSelector = paramstage[0].Trim();
             if (paramSelector.Equals(""))
@@ -233,9 +240,9 @@ namespace StudioCore.ParamEditor
         {
             string[] operationstage =  restOfStages.TrimStart().Split(" ", 2);                
             string operation = operationstage[0].Trim();
-            if (operationstage.Length == 1)
-                return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find operation arguments."), null);
-            return PerformMassEditCommand(bank, isParamRowSelector, paramSelector, rowSelector, null, operation, operationstage[1], context);
+            //if (operationstage.Length == 1)
+            //    return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find operation arguments."), null);
+            return PerformMassEditCommand(bank, isParamRowSelector, paramSelector, rowSelector, null, operation, operationstage.Length > 1 ? operationstage[1] : null, context);
         }
         private static (MassEditResult, List<EditorAction>) PerformMassEditCommandCellOpStep(ParamBank bank, bool isParamRowSelector, string paramSelector, string rowSelector, string cellSelector, string restOfStages, ParamEditorSelectionState context)
         {
@@ -244,9 +251,9 @@ namespace StudioCore.ParamEditor
 
             if (operation.Equals("") || !MECellOperation.cellOps.operations.ContainsKey(operation))
                 return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find operation to perform. Add : and one of + - * / replace"), null);
-            if (operationstage.Length == 1)
-                return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find operation arguments. Add a value, or 'field' followed by the name of a field to take the value from"), null);
-            return PerformMassEditCommand(bank, isParamRowSelector, paramSelector, rowSelector, cellSelector, operation, operationstage[1], context);
+            //if (operationstage.Length == 1)
+            //    return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find operation arguments. Add a value, or 'field' followed by the name of a field to take the value from"), null);
+            return PerformMassEditCommand(bank, isParamRowSelector, paramSelector, rowSelector, cellSelector, operation, operationstage.Length > 1 ? operationstage[1] : null, context);
         }
         private static (MassEditResult, List<EditorAction>) PerformMassEditCommand(ParamBank bank, bool isParamRowSelector, string paramSelector, string rowSelector, string cellSelector, string operation, string opargs, ParamEditorSelectionState context)
         {
@@ -254,8 +261,7 @@ namespace StudioCore.ParamEditor
             try {
 
                 int argc;
-                Func<(ParamBank, Param, Param.Row), string[], (Param, Param.Row[])> rowFunc = null;
-                Func<Param.Row, string[], object> pseudoCellFunc = null;
+                Func<(string, Param.Row), string[], (Param, Param.Row)> rowFunc = null;
                 Func<(Param.Row, (PseudoColumn, Param.Column)), string[], object> cellFunc = null; 
                 if (cellSelector == null)
                 {
@@ -269,7 +275,6 @@ namespace StudioCore.ParamEditor
                             return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Unknown operation "+operation), null);
                     (argc, cellFunc) = MECellOperation.cellOps.operations[operation];
                 }
-                string[] args = opargs.Split(":", argc);
                 var argFuncs = MEOperationArgument.arg.getContextualArguments(argc, opargs);
                 if (isParamRowSelector)
                 {
@@ -277,16 +282,17 @@ namespace StudioCore.ParamEditor
                     var paramArgFunc = argFuncs.Select((func, i) => func(activeParam));
                     if (argc != argFuncs.Length)
                         return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Invalid number of arguments for operation {operation}"), null);
-                    foreach (Param.Row row in ParamAndRowSearchEngine.parse.Search(context, paramSelector, false, false))
+                    foreach ((MassEditRowSource source, Param.Row row) in ParamAndRowSearchEngine.parse.Search(context, paramSelector, false, false))
                     {
                         var rowArgFunc = paramArgFunc.Select((rowFunc, i) => rowFunc(row)).ToArray();
                         if (cellSelector == null)
                         {
                             var rowArgValues = rowArgFunc.Select((argV, i) => argV((PseudoColumn.None, null))).ToArray();
-                            var (p, rs) = rowFunc((bank, activeParam, row), rowArgValues);
-                            if (p == null || rs == null)
+                            var (p, rs) = rowFunc((source == MassEditRowSource.Selection ? context.getActiveParam() : ParamBank.ClipboardParam, row), rowArgValues);
+                            if (p == null)
                                 return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {operation} {String.Join(' ', rowArgValues)} on row"), null);
-                            partialActions.Add(new AddParamsAction(p, "FromMassEdit", rs.ToList(), false, true));
+                            if (rs != null)
+                                partialActions.Add(new AddParamsAction(p, "FromMassEdit", new List<Param.Row>{rs}, false, true));
                         }
                         else
                         {
@@ -314,10 +320,10 @@ namespace StudioCore.ParamEditor
                             if (cellSelector == null)
                             {
                                 var rowArgValues = rowArgFunc.Select((argV, i) => argV((PseudoColumn.None, null))).ToArray();
-                                var (p2, rs) = rowFunc((b, p, row), rowArgValues);
+                                var (p2, rs) = rowFunc((b.GetKeyForParam(p), row), rowArgValues);
                                 if (p2 == null || rs == null)
                                     return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {operation} {String.Join(' ', rowArgValues)} on row"), null);
-                                partialActions.Add(new AddParamsAction(p2, "FromMassEdit", rs.ToList(), false, true));
+                                partialActions.Add(new AddParamsAction(p2, "FromMassEdit", new List<Param.Row>{rs}, false, true));
                             }
                             else
                             {
@@ -551,24 +557,61 @@ namespace StudioCore.ParamEditor
         }
 
     }
-    internal class MERowOperation : MEOperation<(ParamBank, Param, Param.Row), (Param, Param.Row[])>
+    internal class MEGlobalOperation : MEOperation<ParamEditorSelectionState, bool>
+    {
+        internal static MEGlobalOperation globalOps = new MEGlobalOperation();
+        internal override void Setup()
+        {
+            operations.Add("clear", (0, (selectionState, args) => {
+                ParamBank.ClipboardParam = null;
+                ParamBank.ClipboardRows.Clear();
+                return true;
+            }));
+        }
+    }
+    internal class MERowOperation : MEOperation<(string, Param.Row), (Param, Param.Row)>
     {
         internal static MERowOperation rowOps = new MERowOperation();
         internal override void Setup()
         {
-            operations.Add("migrate", (1, (paramBankAndRow, target) => {
-                if (!target[0].Trim().ToLower().Equals("primary"))
-                    throw new Exception($@"Only migrating to primary is supported");
-                ParamBank bank = paramBankAndRow.Item1;
-                Param param = paramBankAndRow.Item2;
-                Param.Row row = paramBankAndRow.Item3;
-                string paramKey = bank.GetKeyForParam(param);
+            operations.Add("copy", (0, (paramAndRow, args) => {
+                string paramKey = paramAndRow.Item1;
+                Param.Row row = paramAndRow.Item2;
                 if (paramKey == null)
                     throw new Exception($@"Could not locate param");
                 if (!ParamBank.PrimaryBank.Params.ContainsKey(paramKey))
                     throw new Exception($@"Could not locate param {paramKey}");
                 Param p = ParamBank.PrimaryBank.Params[paramKey];
-                return (p, new Param.Row[]{new Param.Row(row, p)});
+                // Only supporting single param in clipboard
+                if (ParamBank.ClipboardParam != paramKey)
+                {
+                    ParamBank.ClipboardParam = paramKey;
+                    ParamBank.ClipboardRows.Clear();
+                }
+                ParamBank.ClipboardRows.Add(new Param.Row(row, p));
+                return (p, null);
+            }));
+            operations.Add("paste", (0, (paramAndRow, args) => {
+                string paramKey = paramAndRow.Item1;
+                Param.Row row = paramAndRow.Item2;
+                if (paramKey == null)
+                    throw new Exception($@"Could not locate param");
+                if (!ParamBank.PrimaryBank.Params.ContainsKey(paramKey))
+                    throw new Exception($@"Could not locate param {paramKey}");
+                Param p = ParamBank.PrimaryBank.Params[paramKey];
+                return (p, new Param.Row(row, p));
+            }));  
+            operations.Add("migrate", (1, (paramAndRow, target) => {
+                if (!target[0].Trim().ToLower().Equals("primary"))
+                    throw new Exception($@"Only migrating to primary is supported");
+                string paramKey = paramAndRow.Item1;
+                Param.Row row = paramAndRow.Item2;
+                if (paramKey == null)
+                    throw new Exception($@"Could not locate param");
+                if (!ParamBank.PrimaryBank.Params.ContainsKey(paramKey))
+                    throw new Exception($@"Could not locate param {paramKey}");
+                Param p = ParamBank.PrimaryBank.Params[paramKey];
+                return (p, new Param.Row(row, p));
             }));            
         }
     }
@@ -732,7 +775,7 @@ namespace StudioCore.ParamEditor
 
         internal Func<Param, Func<Param.Row, Func<(PseudoColumn, Param.Column), string>>>[] getContextualArguments(int argumentCount, string opData)
         {
-            string[] opArgs = opData.Split(':', argumentCount);
+            string[] opArgs = opData == null ? new string[0] : opData.Split(':', argumentCount);
             Func<Param, Func<Param.Row, Func<(PseudoColumn, Param.Column), string>>>[] contextualArgs = new Func<Param, Func<Param.Row, Func<(PseudoColumn, Param.Column), string>>>[opArgs.Length];
             for (int i=0; i<opArgs.Length; i++)
             {

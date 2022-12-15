@@ -104,14 +104,25 @@ namespace StudioCore.Editor
         }
     }
     
-    class ParamAndRowSearchEngine : SearchEngine<ParamEditorSelectionState, Param.Row>
+    class ParamAndRowSearchEngine : SearchEngine<ParamEditorSelectionState, (MassEditRowSource, Param.Row)>
     {
         public static ParamAndRowSearchEngine parse = new ParamAndRowSearchEngine();
         internal override void Setup()
         {
-            unpacker = (selection)=>selection.getSelectedRows();
-            filterList.Add("selection", (0, noArgs(noContext((row)=>true))));
+            unpacker = (selection)=>{
+                List<(MassEditRowSource, Param.Row)> list = new List<(MassEditRowSource, Param.Row)>();
+                list.AddRange(selection.getSelectedRows().Select((x, i) => (MassEditRowSource.Selection, x)));
+                list.AddRange(ParamBank.ClipboardRows.Select((x, i) => (MassEditRowSource.Clipboard, x)));
+                return list;
+            };
+            filterList.Add("selection", (0, noArgs(noContext((row)=>row.Item1 == MassEditRowSource.Selection))));
+            filterList.Add("clipboard", (0, noArgs(noContext((row)=>row.Item1 == MassEditRowSource.Clipboard))));
         }
+    }
+    enum MassEditRowSource
+    {
+        Selection,
+        Clipboard
     }
     class ParamSearchEngine : SearchEngine<bool, (ParamBank, Param)>
     {

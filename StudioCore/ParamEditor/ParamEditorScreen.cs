@@ -106,8 +106,6 @@ namespace StudioCore.ParamEditor
         internal ParamEditorView _activeView;
 
         // Clipboard vars
-        private string _clipboardParam = null;
-        private List<Param.Row> _clipboardRows = new List<Param.Row>();
         private long _clipboardBaseRow = 0;
         private string _currentCtrlVValue = "0";
         private string _currentCtrlVOffset = "0";
@@ -291,7 +289,7 @@ namespace StudioCore.ParamEditor
                 {
                     CopySelectionToClipboard();
                 }
-                if (ImGui.MenuItem("Paste", KeyBindings.Current.Param_Paste.HintText, false, _clipboardRows.Any()))
+                if (ImGui.MenuItem("Paste", KeyBindings.Current.Param_Paste.HintText, false, ParamBank.ClipboardRows.Any()))
                 {
                     EditorCommandQueue.AddCommand($@"param/menu/ctrlVPopup");
                 }
@@ -672,13 +670,13 @@ namespace StudioCore.ParamEditor
 
         public void CopySelectionToClipboard()
         {
-            _clipboardParam = _activeView._selection.getActiveParam();
-            _clipboardRows.Clear();
+            ParamBank.ClipboardParam = _activeView._selection.getActiveParam();
+            ParamBank.ClipboardRows.Clear();
             long baseValue = long.MaxValue;
             _activeView._selection.sortSelection();
             foreach (Param.Row r in _activeView._selection.getSelectedRows())
             {
-                _clipboardRows.Add(new Param.Row(r));// make a clone
+                ParamBank.ClipboardRows.Add(new Param.Row(r));// make a clone
                 if (r.ID < baseValue)
                     baseValue = r.ID;
             }
@@ -748,6 +746,7 @@ namespace StudioCore.ParamEditor
                 }
                 ImGui.Text(_mEditRegexResult);
                 ImGui.InputTextMultiline("##MEditRegexOutput", ref _lastMEditRegexInput, 65536, new Vector2(1024, ImGui.GetTextLineHeightWithSpacing() * 4) * scale, ImGuiInputTextFlags.ReadOnly);
+                ImGui.TextUnformatted("Remember to handle clipboard state between edits with the 'clear' command");
                 ImGui.EndPopup();
             }
             else if (ImGui.BeginPopup("massEditMenuCSVExport"))
@@ -819,7 +818,7 @@ namespace StudioCore.ParamEditor
                 }
                 if (!ImGui.IsAnyItemActive() && _activeView._selection.paramSelectionExists() && InputTracker.GetKeyDown(KeyBindings.Current.Param_SelectAll))
                 {
-                    _clipboardParam = _activeView._selection.getActiveParam();
+                    ParamBank.ClipboardParam = _activeView._selection.getActiveParam();
                     foreach (Param.Row row in CacheBank.GetCached(this, (_activeView._viewIndex, _activeView._selection.getActiveParam()), () =>RowSearchEngine.rse.Search((ParamBank.PrimaryBank, ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()]), _activeView._selection.getCurrentRowSearchString(), true, true)))
 
                         _activeView._selection.addRowToSelection(row);
@@ -828,7 +827,7 @@ namespace StudioCore.ParamEditor
                 {
                     CopySelectionToClipboard();
                 }
-                if (_clipboardRows.Count > 00 && _clipboardParam == _activeView._selection.getActiveParam() && !ImGui.IsAnyItemActive() && InputTracker.GetKeyDown(KeyBindings.Current.Param_Paste))
+                if (ParamBank.ClipboardRows.Count > 00 && ParamBank.ClipboardParam == _activeView._selection.getActiveParam() && !ImGui.IsAnyItemActive() && InputTracker.GetKeyDown(KeyBindings.Current.Param_Paste))
                 {
                     ImGui.OpenPopup("ctrlVPopup");
                 }
@@ -1036,7 +1035,7 @@ namespace StudioCore.ParamEditor
                         List<Param.Row> rowsToInsert = new List<Param.Row>();
                         if (!CFG.Current.Param_PasteAfterSelection)
                         {
-                            foreach (Param.Row r in _clipboardRows)
+                            foreach (Param.Row r in ParamBank.ClipboardRows)
                             {
                                 Param.Row newrow = new Param.Row(r);// more cloning
                                 newrow.ID = (int)(r.ID + offset);
@@ -1048,7 +1047,7 @@ namespace StudioCore.ParamEditor
                             List<Param.Row> rows = _activeView._selection.getSelectedRows();
                             Param param = ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()];
                             insertIndex = param.IndexOfRow(rows.Last()) + 1;
-                            foreach (Param.Row r in _clipboardRows)
+                            foreach (Param.Row r in ParamBank.ClipboardRows)
                             {
                                 // Determine new ID based on paste target. Increment ID until a free ID is found.
                                 Param.Row newrow = new Param.Row(r);
@@ -1063,7 +1062,7 @@ namespace StudioCore.ParamEditor
                             // Do a clever thing by reversing order, making ID order incremental and resulting in row insertion being in the correct order because of the static index.
                             rowsToInsert.Reverse();
                         }
-                        EditorActionManager.ExecuteAction(new AddParamsAction(ParamBank.PrimaryBank.Params[_clipboardParam], "legacystring", rowsToInsert, false, false, insertIndex));
+                        EditorActionManager.ExecuteAction(new AddParamsAction(ParamBank.PrimaryBank.Params[ParamBank.ClipboardParam], "legacystring", rowsToInsert, false, false, insertIndex));
                         ImGui.CloseCurrentPopup();
                     }
                 }
@@ -1114,6 +1113,11 @@ namespace StudioCore.ParamEditor
         public int CountViews()
         {
             return _views.Where(e => e != null).Count();
+        }
+
+        public (string, List<Param.Row>) GetActiveSelection()
+        {
+            return (_activeView?._selection?.getActiveParam(), _activeView?._selection?.getSelectedRows());
         }
 
         public override void OnProjectChanged(ProjectSettings newSettings)

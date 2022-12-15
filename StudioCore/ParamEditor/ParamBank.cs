@@ -24,6 +24,10 @@ namespace StudioCore.ParamEditor
         public static ParamBank VanillaBank = new ParamBank();
         public static Dictionary<string, ParamBank> AuxBanks = new Dictionary<string, ParamBank>();
 
+        
+        public static string ClipboardParam = null;
+        public static List<Param.Row> ClipboardRows = new List<Param.Row>();
+
         private static Dictionary<string, PARAMDEF> _paramdefs = null;
         private static Dictionary<string, Dictionary<ulong, PARAMDEF>> _patchParamdefs = null;
 
