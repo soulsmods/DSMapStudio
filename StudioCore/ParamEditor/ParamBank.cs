@@ -1614,9 +1614,9 @@ namespace StudioCore.ParamEditor
                     (10701000l, "1.07 - (AssetEnvironmentGeometryParam) Set Reserve_2 to Vanilla v1.07 values", "param AssetEnvironmentGeometryParam: modified: Reserve_2: = vanillafield Reserve_2;"),
                     (10701000l, "1.07 - (AssetEnvironmentGeometryParam) Set Reserve_3 to Vanilla v1.07 values", "param AssetEnvironmentGeometryParam: modified: Reserve_3: = vanillafield Reserve_3;"),
                     (10701000l, "1.07 - (AssetEnvironmentGeometryParam) Set Reserve_4 to Vanilla v1.07 values", "param AssetEnvironmentGeometryParam: modified: Reserve_4: = vanillafield Reserve_4;"),
-                    (10801000l, "1.08 - (BuddyParam) Set Unk1 to default value", "param BuddyParam: added: Unk1: = 1410;"),
-                    (10801000l, "1.08 - (BuddyParam) Set Unk2 to default value", "param BuddyParam: added: Unk2: = 1420;"),
-                    (10801000l, "1.08 - (BuddyParam) Set Unk11 to default value", "param BuddyParam: added: Unk11: = 1400;"),
+                    (10801000l, "1.08 - (BuddyParam) Set Unk1 to default value", "param BuddyParam: modified: Unk1: = 1410;"),
+                    (10801000l, "1.08 - (BuddyParam) Set Unk2 to default value", "param BuddyParam: modified: Unk2: = 1420;"),
+                    (10801000l, "1.08 - (BuddyParam) Set Unk11 to default value", "param BuddyParam: modified: Unk11: = 1400;"),
                 };
             }
 
