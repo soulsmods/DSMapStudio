@@ -31,7 +31,7 @@ namespace StudioCore.ParamEditor
     
     public class MassParamEdit
     {
-        internal static object PerformOperation(ParamBank bank, Param.Row row, (PseudoColumn, Param.Column) column, string op, string opparam)
+        internal static object PerformOperation(ParamBank bank, Param.Row row, (PseudoColumn, Param.Column) column, string op, params string[] opparam)
         {
             try
             {
@@ -64,11 +64,11 @@ namespace StudioCore.ParamEditor
                     }
                 }
                 if (type == typeof(bool) && op.Equals("="))
-                    return bool.Parse(opparam);
+                    return bool.Parse(opparam[0]);
+                else if (type == typeof(byte[]) && column.Item2 != null && op.Equals("="))
+                    return ParamUtils.Dummy8Read(opparam[0], ((byte[])column.Item2.GetValue(row)).Length);
                 else if (type == typeof(string))
                     return PerformStringOperation(row, column, op, opparam);
-                else if (type == typeof(byte[]) && column.Item2 != null && op.Equals("="))
-                    return ParamUtils.Dummy8Read(opparam, ((byte[])column.Item2.GetValue(row)).Length);
                 else if (type == typeof(long))
                     return PerformNumericOperation<long>(row, column, op, opparam);
                 else if (type == typeof(ulong))
@@ -95,21 +95,18 @@ namespace StudioCore.ParamEditor
             }
             return null;
         }
-        internal static string PerformStringOperation(Param.Row row, (PseudoColumn, Param.Column) c, string op, string opparam)
+        internal static string PerformStringOperation(Param.Row row, (PseudoColumn, Param.Column) c, string op, string[] opparam)
         {
             try
             {
                 string name = c.Item1 == PseudoColumn.ID ? row.ID.ToString() : c.Item1 == PseudoColumn.Name ? row.Name : c.Item2.GetValue(row).ToString();
                 if (op.Equals("="))
-                    return opparam;
+                    return opparam[0];
                 else if (op.Equals("+"))
-                    return name + opparam;
+                    return name + opparam[0];
                 else if (op.Equals("replace"))
                 {
-                    string[] split = opparam.Split(":");
-                    if (split.Length!=2)
-                        return null;
-                    return name.Replace(split[0], split[1]);
+                    return name.Replace(opparam[0], opparam[1]);
                 }
             }
             catch
@@ -118,12 +115,12 @@ namespace StudioCore.ParamEditor
             return null;
         }
 
-        private static T PerformNumericOperation<T>(Param.Row row, (PseudoColumn, Param.Column) c, string op, string opparam) where T : struct, IFormattable
+        private static T PerformNumericOperation<T>(Param.Row row, (PseudoColumn, Param.Column) c, string op, string[] opparam) where T : struct, IFormattable
         {
             try
             {
                 dynamic val = c.Item1 == PseudoColumn.ID ? row.ID : c.Item1 == PseudoColumn.Name ? row.Name : c.Item2.GetValue(row);
-                dynamic opp = double.Parse(opparam);
+                dynamic opp = double.Parse(opparam[0]);
                 if (op.Equals("="))
                     return (T) (opp);
                 else if (op.Equals("+"))
@@ -580,17 +577,13 @@ namespace StudioCore.ParamEditor
         internal static MECellOperation cellOps = new MECellOperation();
         internal override void Setup()
         {
-            operations.Add("=", (1, (ctx, args) => MassParamEdit.PerformOperation(ParamBank.PrimaryBank, ctx.Item1, ctx.Item2, "=", args[0])));
-            operations.Add("+", (1, (ctx, args) => MassParamEdit.PerformOperation(ParamBank.PrimaryBank, ctx.Item1, ctx.Item2, "+", args[0])));
-            operations.Add("-", (1, (ctx, args) => MassParamEdit.PerformOperation(ParamBank.PrimaryBank, ctx.Item1, ctx.Item2, "-", args[0])));
-            operations.Add("*", (1, (ctx, args) => MassParamEdit.PerformOperation(ParamBank.PrimaryBank, ctx.Item1, ctx.Item2, "*", args[0])));
-            operations.Add("/", (1, (ctx, args) => MassParamEdit.PerformOperation(ParamBank.PrimaryBank, ctx.Item1, ctx.Item2, "/", args[0])));
-            operations.Add("%", (1, (ctx, args) => MassParamEdit.PerformOperation(ParamBank.PrimaryBank, ctx.Item1, ctx.Item2, "%", args[0])));
-            operations.Add("replace", (2, (ctx, args) => {
-                if (ctx.Item2.Item1 != PseudoColumn.Name)
-                    throw new Exception("replace operation is only valid for Name");
-                return MassParamEdit.PerformOperation(ParamBank.PrimaryBank, ctx.Item1, ctx.Item2, "replace", args[0]);
-            }));
+            operations.Add("=", (1, (ctx, args) => MassParamEdit.PerformOperation(ParamBank.PrimaryBank, ctx.Item1, ctx.Item2, "=", args)));
+            operations.Add("+", (1, (ctx, args) => MassParamEdit.PerformOperation(ParamBank.PrimaryBank, ctx.Item1, ctx.Item2, "+", args)));
+            operations.Add("-", (1, (ctx, args) => MassParamEdit.PerformOperation(ParamBank.PrimaryBank, ctx.Item1, ctx.Item2, "-", args)));
+            operations.Add("*", (1, (ctx, args) => MassParamEdit.PerformOperation(ParamBank.PrimaryBank, ctx.Item1, ctx.Item2, "*", args)));
+            operations.Add("/", (1, (ctx, args) => MassParamEdit.PerformOperation(ParamBank.PrimaryBank, ctx.Item1, ctx.Item2, "/", args)));
+            operations.Add("%", (1, (ctx, args) => MassParamEdit.PerformOperation(ParamBank.PrimaryBank, ctx.Item1, ctx.Item2, "%", args)));
+            operations.Add("replace", (2, (ctx, args) => MassParamEdit.PerformOperation(ParamBank.PrimaryBank, ctx.Item1, ctx.Item2, "replace", args)));
         }
     }
     internal class MEOperationArgument
