@@ -33,7 +33,7 @@
     <Field Def="s32 Player Damage ID: Backstab Large" />
     <Field Def="s32 Player Damage ID: Guard Break Stab Small" />
     <Field Def="s32 Player Damage ID: Guard Break Stab Medium" />
-    <Field Def="s32 Player Damage ID:  Guard Break Stab Large" />
+    <Field Def="s32 Player Damage ID: Guard Break Stab Large" />
     <Field Def="s32 Player Damage ID: Riposte Small" />
     <Field Def="s32 Player Damage ID: Riposte Medium" />
     <Field Def="s32 Player Damage ID: Riposte Large" />
@@ -41,8 +41,8 @@
     <Field Def="s32 Unk78 = -1" />
     <Field Def="s32 Unk7C = -1" />
     <Field Def="f32 Damage Multiplier" />
+    <Field Def="f32 Stamina Damage Multiplier" />
     <Field Def="f32 Equipment Damage Multiplier" />
-    <Field Def="f32 Guard Break Related" />
     <Field Def="f32 Guard Break Related" />
     <Field Def="f32 Status Effect Amount" />
     <Field Def="f32 Posture Damage Multiplier" />
@@ -50,12 +50,12 @@
     <Field Def="f32 Hitbox Length" />
     <Field Def="f32 Hitback Radius" />
     <Field Def="f32 Hitback Length" />
-    <Field Def="s16 Damage Type" />
-    <Field Def="s16 Poise Damage" />
-    <Field Def="s16 Counter Damage" />
-    <Field Def="s16 Casting Speed" />
-    <Field Def="f32 UnkB0" />
-    <Field Def="f32 Poise Damage (Float / 10)" />
+    <Field Def="s16 Damage Type Menu" />
+    <Field Def="s16 Poise Damage Menu" />
+    <Field Def="s16 Counter Damage Menu" />
+    <Field Def="s16 Casting Speed Menu" />
+    <Field Def="f32 Poise Damage PvP" />
+    <Field Def="f32 Poise Damage PvE" />
     <Field Def="f32 UnkB8" />
   </Fields>
 </PARAMDEF>

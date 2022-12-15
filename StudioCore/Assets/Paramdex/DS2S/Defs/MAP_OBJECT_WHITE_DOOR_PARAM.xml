@@ -7,7 +7,7 @@
   <Version>201</Version>
   <Fields>
     <Field Def="s32 Unk00" />
-    <Field Def="f32 Waiting time" />
+    <Field Def="f32 Entry Delay" />
     <Field Def="s32 Unk08" />
     <Field Def="s32 Unk0C" />
     <Field Def="s32 Object Instance ID" />
