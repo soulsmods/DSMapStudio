@@ -753,7 +753,7 @@ namespace StudioCore.ParamEditor
                 if (argumentGetters.ContainsKey(arg[0].Trim()))
                 {
                     var getter = argumentGetters[arg[0]];
-                    string[] opArgArgs = arg[1].Split(" ", getter.Item1);
+                    string[] opArgArgs = arg.Length > 1 ? arg[1].Split(" ", getter.Item1) : new string[0];
                     if (opArgArgs.Length != getter.Item1)
                         throw new Exception(@$"Contextual value {arg[0]} has wrong number of arguments. Expected {opArgArgs.Length}");
                     contextualArgs[i] = getter.Item2(opArgArgs);
