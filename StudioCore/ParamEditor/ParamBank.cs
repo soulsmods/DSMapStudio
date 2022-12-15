@@ -777,7 +777,7 @@ namespace StudioCore.ParamEditor
                 }
             });
         }
-        public static void LoadAuxBank(string path)
+        public static void LoadAuxBank(string path, string looseDir, string enemyPath)
         {
             // Steal assetlocator
             AssetLocator locator = PrimaryBank.AssetLocator;
@@ -800,6 +800,10 @@ namespace StudioCore.ParamEditor
             else if (locator.Type == GameType.Bloodborne)
             {
                 newBank.LoadParamsBBSekiroFromFile(path);
+            }
+            else if (locator.Type == GameType.DarkSoulsIISOTFS)
+            {
+                newBank.LoadParamsDS2FromFile(new List<string>{looseDir}, path, enemyPath);
             }
             else if (locator.Type == GameType.DarkSoulsRemastered)
             {

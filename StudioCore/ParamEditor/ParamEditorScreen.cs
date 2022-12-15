@@ -545,21 +545,58 @@ namespace StudioCore.ParamEditor
                 }
                 ImGui.Separator();
                 // Only support ER for now
-                if (ImGui.MenuItem("Load Params for comparison...", null, false, _projectSettings.GameType != GameType.DarkSoulsIISOTFS))
+                if (ImGui.MenuItem("Load Params for comparison...", null, false))
                 {
                     try
                     {
-                        var rbrowseDlg = new System.Windows.Forms.OpenFileDialog()
+                        if (_projectSettings.GameType != GameType.DarkSoulsIISOTFS)
                         {
-                            Filter = AssetLocator.ParamFilter,
-                            ValidateNames = true,
-                            CheckFileExists = true,
-                            CheckPathExists = true,
-                            //ShowReadOnly = true,
-                        };
-                        if (rbrowseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                            var rbrowseDlg = new System.Windows.Forms.OpenFileDialog()
+                            {
+                                Title = "Select file containing params",
+                                Filter = AssetLocator.ParamFilter,
+                                ValidateNames = true,
+                                CheckFileExists = true,
+                                CheckPathExists = true,
+                                //ShowReadOnly = true,
+                            };
+                            if (rbrowseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                            {
+                                ParamBank.LoadAuxBank(rbrowseDlg.FileName, null, null);
+                            }
+                        }
+                        else
                         {
-                            ParamBank.LoadAuxBank(rbrowseDlg.FileName);
+                            var rbrowseDlgFolder = new System.Windows.Forms.FolderBrowserDialog()
+                            {
+                                Description = "Select folder for looseparams",
+                                UseDescriptionForTitle = true,
+                            };
+                            if (rbrowseDlgFolder.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                            {
+                                var rbrowseDlgBnd = new System.Windows.Forms.OpenFileDialog()
+                                {
+                                    Title = "Select file containing remaining, non-loose params",
+                                    Filter = AssetLocator.ParamFilter,
+                                    ValidateNames = true,
+                                    CheckFileExists = true,
+                                    CheckPathExists = true,
+                                };
+                                if (rbrowseDlgBnd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                                    {var rbrowseDlgEnemy = new System.Windows.Forms.OpenFileDialog()
+                                    {
+                                        Title = "Select file containing enemyparam",
+                                        Filter = AssetLocator.LooseParamFilter,
+                                        ValidateNames = true,
+                                        CheckFileExists = true,
+                                        CheckPathExists = true,
+                                    };
+                                    if (rbrowseDlgEnemy.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                                    {
+                                        ParamBank.LoadAuxBank(rbrowseDlgBnd.FileName, rbrowseDlgFolder.SelectedPath, rbrowseDlgEnemy.FileName);
+                                    }
+                                }
+                            }
                         }
                     }
                     catch (Exception e)
