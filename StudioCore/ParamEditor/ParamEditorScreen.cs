@@ -545,21 +545,58 @@ namespace StudioCore.ParamEditor
                 }
                 ImGui.Separator();
                 // Only support ER for now
-                if (ImGui.MenuItem("Load Params for comparison...", null, false, _projectSettings.GameType != GameType.DarkSoulsIISOTFS))
+                if (ImGui.MenuItem("Load Params for comparison...", null, false))
                 {
                     try
                     {
-                        var rbrowseDlg = new System.Windows.Forms.OpenFileDialog()
+                        if (_projectSettings.GameType != GameType.DarkSoulsIISOTFS)
                         {
-                            Filter = AssetLocator.ParamFilter,
-                            ValidateNames = true,
-                            CheckFileExists = true,
-                            CheckPathExists = true,
-                            //ShowReadOnly = true,
-                        };
-                        if (rbrowseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                            var rbrowseDlg = new System.Windows.Forms.OpenFileDialog()
+                            {
+                                Title = "Select file containing params",
+                                Filter = AssetLocator.ParamFilter,
+                                ValidateNames = true,
+                                CheckFileExists = true,
+                                CheckPathExists = true,
+                                //ShowReadOnly = true,
+                            };
+                            if (rbrowseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                            {
+                                ParamBank.LoadAuxBank(rbrowseDlg.FileName, null, null);
+                            }
+                        }
+                        else
                         {
-                            ParamBank.LoadAuxBank(rbrowseDlg.FileName);
+                            var rbrowseDlgFolder = new System.Windows.Forms.FolderBrowserDialog()
+                            {
+                                Description = "Select folder for looseparams",
+                                UseDescriptionForTitle = true,
+                            };
+                            if (rbrowseDlgFolder.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                            {
+                                var rbrowseDlgBnd = new System.Windows.Forms.OpenFileDialog()
+                                {
+                                    Title = "Select file containing remaining, non-loose params",
+                                    Filter = AssetLocator.ParamFilter,
+                                    ValidateNames = true,
+                                    CheckFileExists = true,
+                                    CheckPathExists = true,
+                                };
+                                if (rbrowseDlgBnd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                                    {var rbrowseDlgEnemy = new System.Windows.Forms.OpenFileDialog()
+                                    {
+                                        Title = "Select file containing enemyparam",
+                                        Filter = AssetLocator.LooseParamFilter,
+                                        ValidateNames = true,
+                                        CheckFileExists = true,
+                                        CheckPathExists = true,
+                                    };
+                                    if (rbrowseDlgEnemy.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                                    {
+                                        ParamBank.LoadAuxBank(rbrowseDlgBnd.FileName, rbrowseDlgFolder.SelectedPath, rbrowseDlgEnemy.FileName);
+                                    }
+                                }
+                            }
                         }
                     }
                     catch (Exception e)
@@ -840,9 +877,13 @@ namespace StudioCore.ParamEditor
                 {
                     if (_activeView._selection.rowSelectionExists())
                     {
-                        var act = new DeleteParamsAction(ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()], _activeView._selection.getSelectedRows());
+                        List<Param.Row> toRemove = new List<Param.Row>(_activeView._selection.getSelectedRows());
+                        var act = new DeleteParamsAction(ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()], toRemove);
                         EditorActionManager.ExecuteAction(act);
-                        _activeView._selection.SetActiveRow(null, true);
+                        _views.ForEach((view) => {
+                            if (view != null)
+                                toRemove.ForEach((row) => view._selection.removeRowFromAllSelections(row));
+                        });
                     }
                 }
             }
@@ -1035,7 +1076,12 @@ namespace StudioCore.ParamEditor
                         offset = long.Parse(_currentCtrlVValue);
                         offset = long.Parse(_currentCtrlVOffset);
                     }
-                    if (ImGui.Button("Submit"))
+                    bool disableSubmit = CFG.Current.Param_PasteAfterSelection && !_activeView._selection.rowSelectionExists();
+                    if (disableSubmit)
+                    {
+                        ImGui.TextUnformatted("No selection exists");
+                    }
+                    else if (ImGui.Button("Submit"))
                     {
                         List<Param.Row> rowsToInsert = new List<Param.Row>();
                         if (!CFG.Current.Param_PasteAfterSelection)
@@ -1261,6 +1307,15 @@ namespace StudioCore.ParamEditor
         {
             if (_activeParam != null)
                 _paramStates[_activeParam].selectionRows.Remove(row);
+        }
+        public void removeRowFromAllSelections(Param.Row row)
+        {
+            foreach (ParamEditorParamSelectionState state in _paramStates.Values)
+            {
+                state.selectionRows.Remove(row);
+                if (state.activeRow == row)
+                    state.activeRow = null;
+            }
         }
         public List<Param.Row> getSelectedRows()
         {

@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <isCamHit AltName="isSaveBreakState" IsBool="" />
+	<isBreakByPlayerCollide IsBool="" />
+	<isAnimBreak IsBool="" />
+	<isPenetrationBulletHit IsBool="" />
+	<isChrHit IsBool="" />
+	<isAttackBacklash IsBool="" Wiki="Causes weapon to bounce" />
+	<isDisableBreakForFirstAppear IsBool="" />
+	<isLadder IsBool="" />
+	<isAnimPauseOnRemoPlay IsBool="" />
+	<isDamageNoHit IsBool="" />
+	<isMoveObj IsBool="" Wiki="Moving object" />
+	<UnkBool1 AltName="IsRopeBridge" IsBool="" />
+	<UnkBool2 AltName="IsAddRigidImpulse ByDamage" IsBool="" />
+	<UnkBool3 AltName="IsBreak ByChrRide" IsBool="" />
+	<mapRelated AltName="IsBurn" IsBool="" />
+	<IsBreakByCollide2 AltName="IsBreakByEnemyCollide" IsBool="" />
+	<defaultLodParamId Refs="LodParam" />
+	<behParamId0 AltName="BreakSFXDummyId" />
+	<behParamId1 AltName="BreakBulletBehaviorId" Refs="BehaviorParam" />
+	<behParamId2 AltName="BreakBulletDummyId" />
+	<Unk2 AltName="BreakFallHeight"/>
+	<HavokSystem_Wind AltName="WindEffectType" Wiki="0 to 2" />
+	<HavokSystem_BreakObj AltName="WindEffectTypeBroken" Wiki="0 to 2" />
+	<Unk5 AltName="CamAvoidType" Wiki="0 to 2" />
+	<Unk7 AltName="WindEffectRateBroken" />
+	<breakObjRate AltName="BreakStopTime" />
+	<breakUpdate AltName="BurnBreakRate" />
+	<burnBehaviorId0 Refs="BehaviorParam" />
+	<burnBehaviorId1 Refs="BehaviorParam" />
+	<burnBehaviorId2 Refs="BehaviorParam" />
+	<burnBehaviorId3 Refs="BehaviorParam" />
+	<burnInterval AltName="BurnBulletInterval" />
+	<Unk20 AltName="NavmeshFlag" />
+	<Unk22 AltName="CollisionType" />
+	<BurnBehaviorTime AltName="BurnBulletDelayTime" />
+	<BurnTimeBegin0 AltName="BurnSFXDelayTimeMin 0" />
+	<BurnTimeBegin1 AltName="BurnSFXDelayTimeMin 1" />
+	<BurnTimeBegin2 AltName="BurnSFXDelayTimeMin 2" />
+	<BurnTimeBegin3 AltName="BurnSFXDelayTimeMin 3" />
+	<BurnTimeEnd0 AltName="BurnSFXDelayTimeMax 0" />
+	<BurnTimeEnd1 AltName="BurnSFXDelayTimeMax 1" />
+	<BurnTimeEnd2 AltName="BurnSFXDelayTimeMax 2" />
+	<BurnTimeEnd3 AltName="BurnSFXDelayTimeMax 3" />
+	<aiSoundParamId Refs="AiSoundParam" />
+	<Unk32 AltName="Fragment Invisible Wait Time" />
+	<Unk33 AltName="Fragment Invisible Time" />
+	<Unk38 AltName="Rigid Penetration Scale - Soft" />
+	<Unk39 AltName="Rigid Penetration Scale - Normal" />
+	<Unk40 AltName="Rigid Penetration Scale - Hard" />
+	<Unk41 AltName="Land Touch SFX ID" />
+	<Unk42 Wiki="May be one of these:\nisDamageCover or isUserPhysicForChrCollide" />
+	<SpawnParam AltName="Paint Decal Texture Size" />
+	<Unk44 AltName="Cloth Update Distance" />
+	<SoundId AltName="Contact Sound ID" />
+	<ObjectMaterialSfxIndex AltName="Break Landing SFX ID" />
+  </Field>
+  <Self />
+</PARAMMETA>

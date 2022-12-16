@@ -8,12 +8,12 @@
   <Fields>
     <Field Def="f32 Unk00" />
     <Field Def="f32 Unk04" />
-    <Field Def="f32 Unk08" />
-    <Field Def="f32 Unk0C" />
-    <Field Def="f32 OutOfStamina State Duration" />
+    <Field Def="f32 Rolling Input Wait Time" />
+    <Field Def="f32 Latent Sprint Stamina Drain Duration" />
+    <Field Def="f32 OutOfStaminaState Duration" />
     <Field Def="f32 Unk14" />
     <Field Def="f32 Unk18" />
-    <Field Def="f32 Unk1C" />
+    <Field Def="f32 Required Speed for Jumping" />
     <Field Def="f32 Unk20" />
     <Field Def="f32 Unk24" />
     <Field Def="f32 Unk28" />
@@ -91,10 +91,10 @@
     <Field Def="f32 Unk148" />
     <Field Def="f32 Unk14C" />
     <Field Def="f32 Unk150" />
-    <Field Def="f32 Unk154" />
-    <Field Def="f32 Unk158" />
-    <Field Def="f32 Unk15C" />
-    <Field Def="f32 Unk160" />
+    <Field Def="f32 Character Hit Durability Consumption" />
+    <Field Def="f32 Map Hit Durability Consumption" />
+    <Field Def="f32 Spell Use Durability Consumption" />
+    <Field Def="f32 Move Bullet Durability Consumption" />
     <Field Def="f32 Unk164" />
     <Field Def="f32 Unk168" />
     <Field Def="f32 Unk16C" />
@@ -102,9 +102,9 @@
     <Field Def="f32 Unk174" />
     <Field Def="f32 Unk178" />
     <Field Def="s32 Unk17C" />
-    <Field Def="f32 Unk180" />
-    <Field Def="f32 Unk184" />
-    <Field Def="f32 Unk188" />
+    <Field Def="f32 PvP Backstab Damage Rate" />
+    <Field Def="f32 PvP Riposte Damage Rate" />
+    <Field Def="f32 PvP Guard Break Stab Damage Rate" />
     <Field Def="f32 Unk18C" />
     <Field Def="f32 Unk190" />
     <Field Def="f32 Unk194" />

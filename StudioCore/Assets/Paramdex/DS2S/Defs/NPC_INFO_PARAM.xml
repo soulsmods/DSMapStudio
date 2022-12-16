@@ -6,7 +6,7 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="s32 Tombstone Spawn Delay (seconds)" />
+    <Field Def="s32 Tombstone Spawn Delay Time" />
     <Field Def="s32 Unk04" />
     <Field Def="s32 NPC Death Event Flag ID" />
     <Field Def="s32 Revival Cost" />

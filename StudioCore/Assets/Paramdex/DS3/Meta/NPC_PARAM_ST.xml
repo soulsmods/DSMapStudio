@@ -1,44 +1,73 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
   <Enums>
-	<Enum Name="TeamType">
-		<Option Value="0" Name="None" />
-		<Option Value="1" Name="Live" />
-		<Option Value="2" Name="White Ghost" />
-		<Option Value="3" Name="Black Ghost" />
-		<Option Value="4" Name="Grey Ghost" />
-		<Option Value="5" Name="Wandering Ghost" />
-		<Option Value="6" Name="Enemy" />
-		<Option Value="7" Name="Boss" />
-		<Option Value="8" Name="Ally" />
-		<Option Value="9" Name="Hostile Ally" />
-		<Option Value="10" Name="Decoy" />
-		<Option Value="11" Name="Decoy-like" />
-		<Option Value="12" Name="Battle Ally" />
-		<Option Value="13" Name="Invader" />
-		<Option Value="14" Name="Neutral" />
-		<Option Value="15" Name="Charmed" />
-		<Option Value="16" Name="Invader" />
-		<Option Value="17" Name="Invader" />
-		<Option Value="18" Name="Invader" />
-		<Option Value="19" Name="Host" />
-		<Option Value="20" Name="Co-op" />
-		<Option Value="21" Name="Hostile" />
-		<Option Value="22" Name="Wandering Phantom" />
-		<Option Value="23" Name="Enemy 1" />
-		<Option Value="24" Name="Enemy 2 " />
-		<Option Value="25" Name="Strong Enemy" />
-		<Option Value="26" Name="Friendly NPC" />
-		<Option Value="27" Name="Hostile NPC" />
-		<Option Value="28" Name="Co-op NPC" />
-		<Option Value="29" Name="Indiscriminate" />
-		<Option Value="30" Name="Object" />
-		<Option Value="31" Name="Co-op Mad Phantom" />
-		<Option Value="32" Name="Invader Mad Phantom" />
-		<Option Value="33" Name="Arch Enemy Team" />  
-	</Enum>
+    <Enum Name="TeamType">
+      <Option Value="0" Name="None" />
+      <Option Value="1" Name="Live" />
+      <Option Value="2" Name="White Ghost" />
+      <Option Value="3" Name="Black Ghost" />
+      <Option Value="4" Name="Grey Ghost" />
+      <Option Value="5" Name="Wandering Ghost" />
+      <Option Value="6" Name="Enemy" />
+      <Option Value="7" Name="Boss" />
+      <Option Value="8" Name="Ally" />
+      <Option Value="9" Name="Hostile Ally" />
+      <Option Value="10" Name="Decoy" />
+      <Option Value="11" Name="Decoy-like" />
+      <Option Value="12" Name="Battle Ally" />
+      <Option Value="13" Name="Invader" />
+      <Option Value="14" Name="Neutral" />
+      <Option Value="15" Name="Charmed" />
+      <Option Value="16" Name="Invader" />
+      <Option Value="17" Name="Watchdogs of Farron" />
+      <Option Value="18" Name="Aldrich Faithful" />
+      <Option Value="19" Name="Invader - Giant Seed" />
+      <Option Value="20" Name="Invader Mad Phantom - Giant Seed" />
+      <Option Value="21" Name="Watchdogs of Farron - Giant Seed" />
+      <Option Value="22" Name="Aldrich Faithful - Giant Seed" />
+      <Option Value="23" Name="Enemy" />
+      <Option Value="24" Name="Enemy 2 " />
+      <Option Value="25" Name="Strong Enemy" />
+      <Option Value="26" Name="Friendly NPC" />
+      <Option Value="27" Name="Hostile NPC" />
+      <Option Value="28" Name="Co-op NPC" />
+      <Option Value="29" Name="Indiscriminate" />
+      <Option Value="30" Name="Object" />
+      <Option Value="31" Name="Co-op Mad Phantom" />
+      <Option Value="32" Name="Invader Mad Phantom" />
+      <Option Value="33" Name="Arch Enemy Team" />
+    </Enum>
+	<Enum Name="DropType">
+      <Option Value="0" Name="Attached to Corpse" />
+      <Option Value="1" Name="Dropped in Place" />
+    </Enum>
+	<Enum Name="DrawType">
+      <Option Value="0" Name="Default" />
+      <Option Value="1" Name="White Sign Hodrick" />
+	  <Option Value="2" Name="Invader Hodrick/Dunnel" />
+    </Enum>
+	<Enum Name="NPCType">
+      <Option Value="0" Name="Default" />
+      <Option Value="1" Name="Boss" />
+	  <Option Value="2" Name="NPC" />
+    </Enum>
+	<Enum Name="MoveType">
+	  <Option Value="0" Name="Immobile" />
+	  <Option Value="1" Name="Mound" />
+	  <Option Value="2" Name="Crawling" />
+	  <Option Value="3" Name="Humanoid" />
+	  <Option Value="4" Name="Bestial" />
+	  <Option Value="10" Name="Large Crawling" />
+	  <Option Value="11" Name="Slug with Arms" />
+	  <Option Value="12" Name="Large Quadruped" />
+    </Enum>
+	<Enum Name="WeightType">
+      <Option Value="1" Name="Medium" />
+	  <Option Value="2" Name="Heavy" />
+    </Enum>
   </Enums>
   <Field>
+	<NameId AltName="Name ID" Wiki="Used by NPCs when speaking to them and when targeting them.\nDoes not appear to display when targeting non-c0000." />
     <Hp AltName="NPC - HP" />
     <Mp AltName="NPC - FP" />
     <getSoul AltName="NPC - Dropped Souls" />
@@ -58,11 +87,13 @@
     <spEffectId6 Refs="SpEffectParam" />
     <spEffectId7 Refs="SpEffectParam" />
     <GameClearSpEffectID Refs="SpEffectParam" />
-    <physGuardCutRate AltName="Guard Defence: Physical" />
-    <magGuardCutRate AltName="Guard Defence: Magic" />
-    <fireGuardCutRate AltName="Guard Defence: Fire" />
-    <thunGuardCutRate AltName="Guard Defence: Lightning" />
-    <networkWarpDisp AltName="Network Warp Display" />
+    <physGuardCutRate AltName="Guard Absorption: Physical" />
+    <magGuardCutRate AltName="Guard Absorption: Magic" />
+    <fireGuardCutRate AltName="Guard Absorption: Fire" />
+    <thunGuardCutRate AltName="Guard Absorption: Lightning" />
+	<animidOffset AltName="Anim ID Offset" />
+    <networkWarpDisp AltName="Network Warp Distance" />
+	<animIdOffset AltName="Anim ID Offset 2" />
     <partsDamageRate1 AltName="Damage %: Parts 1" />
     <partsDamageRate2 AltName="Damage %: Parts 2" />
     <partsDamageRate3 AltName="Damage %: Parts 3" />
@@ -73,7 +104,7 @@
     <partsDamageRate8 AltName="Damage %: Parts 8" />
     <weakPartsDamageRate AltName="Damage %: Weak Parts" />
     <SuperArmorRecoverCorrection AltName="Poise Recovery Correction" />
-    <SuperArmorBrakeKnockbackDist AltName="Poise Knockback Distance" />
+    <SuperArmorBrakeKnockbackDist AltName="Poise Break Knockback Distance" />
     <staminaRecoverBaseVal AltName="Stamina Recovery" />
     <defPhys AltName="Defence: Physical" />
     <defSlash AltName="Defence: Slash" />
@@ -83,12 +114,16 @@
     <defFire AltName="Defence: Fire" />
     <defThunder AltName="Defence: Lightning" />
     <defFlickPower AltName="Flick Power" />
-    <slashGuardCutRate AltName="Guard Defence: Slash" />
-    <blowGuardCutRate AltName="Guard Defence: Strike" />
-    <thrustGuardCutRate AltName="Guard Defence: Thrust" />
+    <slashGuardCutRate AltName="Guard Absorption: Slash" />
+    <blowGuardCutRate AltName="Guard Absorption: Strike" />
+    <thrustGuardCutRate AltName="Guard Absorption: Thrust" />
     <superArmorDurability AltName="Poise" />
     <normalChangeTexChrId AltName="Normal Change Texture Chr ID" />
-    <staminaGuardDef AltName="Guard Stamina" />
+	<dropType Enum="DropType" />
+	<knockbackRate AltName="Knockback Dampen" />
+	<knockbackParamId Refs="KnockBackParam" />
+	<fallDamageDamp AltName="Fall Damage Dampen" />
+    <staminaGuardDef AltName="Guard Stability" />
     <pcAttrB AltName="PC Attribute B" />
     <pcAttrW AltName="PC Attribute W" />
     <pcAttrL AltName="PC Attribute L" />
@@ -99,17 +134,37 @@
     <areaAttrR AltName="Area Attribute R" />
     <mpRecoverBaseVal AltName="FP Recovery" />
     <flickDamageCutRate AltName="Flick Absorption" />
-    <teamType Enum="TeamType" />
-    <ladderEndChkOffsetTop AltName="Ladder End Check Offset Top" />
+	<defaultLodParamId Refs="LodParam" />
+	<drawType AltName="Draw Type" Enum="DrawType" />
+	<npcType AltName="NPC Type" Enum="NPCType" />
+    <teamType AltName="Team Type" Enum="TeamType" Wiki="Determines enemy\ally\aggro\damage status in relation to other teams." />
+	<moveType AltName="Move Type" Enum="MoveType" />
+	<lockDist AltName="Lock On Range Offset" />
+	<material AltName="Material SE - Weak Spot" />
+	<materialSfx AltName="Material SFX - Weak Spot" />
+	<partsDamageType AltName="Parts Damage Type" />
+	<maxUndurationAng AltName="Max Undulation Angle" />
+	<guardLevel AltName="Guard Level" Wiki="Determines guard hit anim used depending on incoming damageLevel." />
+	<burnsfxType AltName="Burn SFX Type" />
+	<poisonGuardResist AltName="Guard Resist - Poison" />
+	<toxicGuardResist AltName="Guard Resist - Toxic" />
+	<bloodGuardResist AltName="Guard Resist - Bleed" />
+	<curseGuardResist AltName="Guard Resist - Curse" />
+	<parryAttack AltName="Parry Attack" Wiki="If this is greater than defender's Parry Defense, the attack cannot be parried." />
+	<parryDefense AltName="Parry Defense" Wiki="If this is equal to or greater than attacker's Parry Attack, the attack can be parried." />
+    <sfxSize AltName="SFX Size" Wiki="Determines which version of a SpEffect's VFX to use (i.e. bigger poison clouds on bigger enemies)." />
+	<pushOutCamRegionRadius AltName="Camera Push Out Region Radius" />
+	<hitStopType AltName="Hit Stop Type" />
+	<ladderEndChkOffsetTop AltName="Ladder End Check Offset Top" />
     <ladderEndChkOffsetLow AltName="Ladder End Check Offset Bottom" />
     <UseRagdollCamHit IsBool="" />
     <disableClothRigidHit IsBool="" />
     <UseRagdoll IsBool="" />
-    <isDemon IsBool="" />
-    <isGhost IsBool="" />
-    <isNoDamageMotion IsBool="" />
-    <isUnduration IsBool="" />
-    <isChangeWanderGhost IsBool="" />
+    <isDemon AltName="Enemy Type: Demon" Wiki="Flags NPC as being affected by Demon damage modifiers." IsBool="" />
+    <isGhost AltName="Is Ghost" Wiki="Flags NPC as only taking damage/stagger from weapons/attacks/characters that can hit ghosts." IsBool="" />
+    <isNoDamageMotion AltName="No Damage Motion" Wiki="If incoming hit deals no damage, play no motions." IsBool="" />
+    <isUnduration AltName="Is Undulating" IsBool="" />
+    <isChangeWanderGhost AltName="Is Wandering Ghost" IsBool="" />
     <ModelDispMask0 IsBool="" />
     <ModelDispMask1 IsBool="" />
     <ModelDispMask2 IsBool="" />
@@ -126,22 +181,22 @@
     <ModelDispMask13 IsBool="" />
     <ModelDispMask14 IsBool="" />
     <ModelDispMask15 IsBool="" />
-    <isEnableNeckTurn IsBool="" />
-    <disableRespawn IsBool="" />
-    <isMoveAnimWait IsBool="" />
-    <isCrowd AltName="Is Crowd" IsBool="" />
-    <isWeakSaint AltName="Is Undead" IsBool="" />
-    <isWeakA AltName="Is Hollow" IsBool="" />
-    <isWeakB AltName="Is Abyssal" IsBool="" />
+    <isEnableNeckTurn AltName="Can Neck Turn" IsBool="" />
+    <disableRespawn AltName="Disable Respawn" IsBool="" Wiki="NPC does not reset to starting position when resting at bonfire." />
+	<isMoveAnimWait AltName="Play Movement Anim until Over" IsBool="" />
+    <isCrowd AltName="Is Crowd Enemy" IsBool="" />
+    <isWeakSaint AltName="Enemy Type: Undead" Wiki="Flags NPC as being affected by Undead damage modifiers." IsBool="" />
+    <isWeakA AltName="Enemy Type: Hollow" Wiki="Flags NPC as being affected by Hollow damage modifiers." IsBool="" />
+    <isWeakB AltName="Enemy Type: Abyss" Wiki="Flags NPC as being affected by Abyss damage modifiers." IsBool="" />
     <isEnableDropSoulCapture IsBool="" />
-    <VowType0 IsBool="" />
-    <VowType1 IsBool="" />
-    <VowType2 IsBool="" />
-    <disableIntiliazeDead IsBool="" />
-    <isSoulGetByBoss IsBool="" />
-    <isMultilingual IsBool="" />
-    <Unk1 IsBool="" />
-    <Unk2 IsBool="" />
+    <VowType0 AltName="Vow Flag A" IsBool="" Wiki="Determines Vow ID depending on permutation of flags.\nABC\n000 - Vow 0\n100 - Vow 1\n010 - Vow 2\n110 - Vow 3\n001 - Vow 4\n101 - Vow 5\n011 - Vow 6\n111 - Vow 7" />
+    <VowType1 AltName="Vow Flag B" IsBool="" Wiki="Determines Vow ID depending on permutation of flags.\nABC\n000 - Vow 0\n100 - Vow 1\n010 - Vow 2\n110 - Vow 3\n001 - Vow 4\n101 - Vow 5\n011 - Vow 6\n111 - Vow 7" />
+    <VowType2 AltName="Vow Flag C" IsBool="" Wiki="Determines Vow ID depending on permutation of flags.\nABC\n000 - Vow 0\n100 - Vow 1\n010 - Vow 2\n110 - Vow 3\n001 - Vow 4\n101 - Vow 5\n011 - Vow 6\n111 - Vow 7" />
+    <disableIntiliazeDead AltName="Disable Initialize Dead" IsBool="" />
+    <isSoulGetByBoss AltName="Is Hit Rumble" Wiki="Needs testing. Possibly about vibrating on hit." IsBool="" />
+    <isMultilingual AltName="Is Smooth Turning" Wiki="Needs testing. Possibly about blending while turning during movement." IsBool="" />
+    <Unk1 AltName="Enemy Type: WeakE" Wiki="Flags NPC as being affected by WeakE damage modifiers." IsBool="" />
+    <Unk2 AltName="Enemy Type: WeakF" Wiki="Flags NPC as being affected by WeakF damage modifiers." IsBool="" />
     <ModelDispMask16 IsBool="" />
     <ModelDispMask17 IsBool="" />
     <ModelDispMask18 IsBool="" />
@@ -158,14 +213,16 @@
     <ModelDispMask29 IsBool="" />
     <ModelDispMask30 IsBool="" />
     <ModelDispMask31 IsBool="" />
+	<itemSearchRadius AltName="Item Pickup Radius Multiplier" />
     <isMultModeBoss AltName="Is Multiplayer Boss" IsBool="" />
-    <Unk3 IsBool="" />
-    <behMemSize AltName="Behaviour Memory Size" IsBool="" />
-    <Unk4 IsBool="" />
+    <Unk3 AltName="Is Bullet Owner - By Object" IsBool="" Wiki="Needs testing." />
+    <behMemSize AltName="Use FootIK Filter for Low Hit" IsBool="" Wiki="Needs testing." />
+    <Unk4 AltName="Use PvP Damage Modifiers" IsBool="" Wiki="Needs testing." />
     <isUseFeetData IsBool="" />
-    <Unk5 IsBool="" />
-    <Unk6 IsBool="" />
-    <Unk7 IsBool="" />
+    <Unk5 AltName="Is Synced with Host World" IsBool="" Wiki="Needs testing." />
+    <Unk6 AltName="Is Enable UI" IsBool="" Wiki="Needs testing."/>
+    <Unk7 AltName="Is Create Corpse Target"	IsBool="" Wiki="Needs testing." />
+	<defDark AltName="Defence: Dark" />
     <spEffectId8 Refs="SpEffectParam" />
     <spEffectId9 Refs="SpEffectParam" />
     <spEffectId10 Refs="SpEffectParam" />
@@ -174,6 +231,8 @@
     <spEffectId13 Refs="SpEffectParam" />
     <spEffectId14 Refs="SpEffectParam" />
     <spEffectId15 Refs="SpEffectParam" />
+	<basicToughnessValue AltName="Toughness" />
+	<gameSystemParamCorrection AltName="Toughness Correction" />
     <regainRate_PhysNeutral AltName="Absorption: Standard" />
     <regainRate_PhysSlash AltName="Absorption: Slash" />
     <regainRate_PhysBlow AltName="Absorption: Strike" />
@@ -182,9 +241,15 @@
     <regainRate_Fire AltName="Absorption: Fire" />
     <regainRate_Thunder AltName="Absorption: Lightning" />
     <regainRate_Dark AltName="Absorption: Dark" />
-    <staminaGuardDefVal AltName="Guard Defence: Stamina Value" />
+	<maxAnkleAngle AltName="Guard Absorption: Dark" />
+	<spNpcTypeON_OFF AltName="NPC Player Weight Type" Enum="WeightType"/>
+    <staminaGuardDefVal AltName="Paint Target Render Size" />
+	<CultSettingId Refs="CultSettingParam" />
+	<PhantomParamId Refs="PhantomParam" />
     <MultiPlayCorrectionId Refs="MultiPlayCorrectionParam" />
-    <subTeamType Enum="TeamType" />
+	<subNpcType AltName="Guard Resist: Frost" />
+    <subTeamType AltName="Giant Seed TeamType" Enum="TeamType" />
+	<lockCamParamId Refs="LockCamParam" />
     <spEffectId16 Refs="SpEffectParam" />
     <spEffectId17 Refs="SpEffectParam" />
     <spEffectId18 Refs="SpEffectParam" />
@@ -201,12 +266,15 @@
     <spEffectId29 Refs="SpEffectParam" />
     <spEffectId30 Refs="SpEffectParam" />
     <spEffectId31 Refs="SpEffectParam" />
-    <EstusFlaskParamId Refs="MPEstusFlaskRecoveryParam" />
-    <HPampMP_RestoreId0 AltName="HP/FP Restore ID 0" />
-    <HP_RestoreId0 AltName="HP Restore ID 0" />
-    <MP_RestoreId0 AltName="FP Restore ID 0" />
-    <HPampMP_RestoreId1 AltName="HP/FP Restore ID 1" />
-    <HP_RestoreId1 AltName="HP Restore ID 1" />
-    <MP_RestoreId1 AltName="FP Restore ID 1" />
+    <EstusFlaskParamId Refs="HPEstusFlaskRecoveryParam,MPEstusFlaskRecoveryParam" />
+	<TextId AltName="Role Name ID" Wiki="Text ID of NPC's role (i.e. Mound-makers, Rosaria's Finger)" />
+    <HPMP_RestoreId0 AltName="HP+FP Recovery Chance" Wiki="Roll on (Value / 10000) for chance to get Flasks." />
+    <HP_RestoreId0 AltName="HP Recovery Chance" Wiki="Roll on (Value / 10000) for chance to get Flasks." />
+    <MP_RestoreId0 AltName="FP Recovery Chance" Wiki="Roll on (Value / 10000) for chance to get Flasks." />
+    <HPMP_RestoreId1 AltName="HP+FP Recovery Bonus Chance" Wiki="Add value to future Flask recovery rolls.\nNeeds testing on if it's just the next roll or all rolls until a successful drop." />
+    <HP_RestoreId1 AltName="HP Recovery Bonus Chance" Wiki="Add value to future Flask recovery rolls.\nNeeds testing on if it's just the next roll or all rolls until a successful drop." />
+    <MP_RestoreId1 AltName="FP Recovery Bonus Chance" Wiki="Add value to future Flask recovery rolls.\nNeeds testing on if it's just the next roll or all rolls until a successful drop." />
+	<subPhantomParamId AltName="Guest Phantom ID" Refs="PhantomParam" Wiki="Phantom ID used by NPCs for guests" />
   </Field>
+  <Self />
 </PARAMMETA>

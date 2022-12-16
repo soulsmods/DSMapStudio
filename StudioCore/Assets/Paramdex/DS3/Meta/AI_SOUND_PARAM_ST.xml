@@ -1,15 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
   <Enums>
-	  <Enum Name="SoundType">
-		<Option Value="0" Name="None" />
-		<Option Value="1" Name="Default" />
-		<Option Value="2" Name="CollisionBased" />
-	  </Enum>
+    <Enum Name="SoundType">
+      <Option Value="0" Name="None" />
+      <Option Value="1" Name="Default" />
+      <Option Value="2" Name="CollisionBased" />
+    </Enum>
+	<Enum Name="TargetType">
+      <Option Value="0" Name="None" />
+      <Option Value="1" Name="Enemy" />
+      <Option Value="2" Name="Ally" />
+	  <Option Value="3" Name="Self" />
+    </Enum>
   </Enums>
   <Field>
-    <bSpEffectEnableON_OFF AltName="Is SpEffect Enabled" />
+    <bSpEffectEnableON_OFF AltName="Is SpEffect Enabled" IsBool="" />
     <TypeAI_SOUND_RATE_TYPE Enum="SoundType" AltName="Rate Type" />
-    <UseHitDamageTeamON_OFF AltName="Is Hit Damage Team" />
+	<fakeTargetTypeAI_SOUND_FAKE_TARGET_TYPE AltName="Target Type" Enum="TargetType" />
+    <UseHitDamageTeamON_OFF AltName="Is Hit Damage Team" IsBool="" />
   </Field>
+  <Self />
 </PARAMMETA>

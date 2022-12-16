@@ -3,7 +3,8 @@
   <Field>
     <Toughness AltName="Poise Health %" Wiki="Amount of poise health to use upon invoking this Toughness." />
     <DamageLvlThreshold AltName="Restored Poise Health" Wiki="Amount of poise health restored upon invoking this Toughness." />
-    <IsToughnessEffective />
+	<IsToughnessEffective IsBool="" />
     <SpEffectId Refs="SpEffectParam" AltName="Damage Level Replacement SpEffect ID" />
   </Field>
+  <Self />
 </PARAMMETA>

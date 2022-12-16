@@ -31,10 +31,10 @@
       <Option Value="41" Name="Left Center Back" />
       <Option Value="42" Name="Perpendicular Right Back" />
       <Option Value="43" Name="Perpendicular Left Back" />
-      <Option Value="44" Name="Trasversal Up Angle Right Back" />
-      <Option Value="45" Name="Trasversal Down Angle Right Back" />
-      <Option Value="46" Name="Trasversal Down Angle Left Back" />
-      <Option Value="47" Name="Trasversal Up Angle Left Back" />
+      <Option Value="44" Name="Transversal Up Angle Right Back" />
+      <Option Value="45" Name="Transversal Down Angle Right Back" />
+      <Option Value="46" Name="Transversal Down Angle Left Back" />
+      <Option Value="47" Name="Transversal Up Angle Left Back" />
       <Option Value="49" Name="Hip Back Center" />
       <Option Value="50" Name="Far Back, Left" />
       <Option Value="51" Name="Far Back, Right" />
@@ -42,8 +42,8 @@
       <Option Value="53" Name="Hip Back Center, Inside" />
       <Option Value="54" Name="Right Back, Upper" />
       <Option Value="55" Name="Left Back, Upper" />
-      <Option Value="56" Name="Trasversal Up Angle Right Back, Lower" />
-      <Option Value="57" Name="Trasversal Down Angle Right Back, Lower" />
+      <Option Value="56" Name="Transversal Up Angle Right Back, Lower" />
+      <Option Value="57" Name="Transversal Down Angle Right Back, Lower" />
       <Option Value="58" Name="Right Hip, Rotated" />
       <Option Value="59" Name="Left Hip, Rotated" />
     </Enum>

@@ -1,283 +1,260 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
   <Enums>
-	  <Enum Name="EquipModelCategory">
-		<Option Value="1" Name="Hands" />
-		<Option Value="2" Name="Body" />
-		<Option Value="5" Name="Head" />
-		<Option Value="6" Name="Legs" />
-	  </Enum>
-	  <Enum Name="EquipModelGender">
-		<Option Value="0" Name="None" />
-		<Option Value="1" Name="None" />
-		<Option Value="3" Name="Split by Gender" />
-		<Option Value="4" Name="Shared" />
-	  </Enum>
-	  <Enum Name="ArmorCategory">
-		<Option Value="0" Name="Head" />
-		<Option Value="1" Name="Body" />
-		<Option Value="2" Name="Hands" />
-		<Option Value="3" Name="Legs" />
-	  </Enum>
+    <Enum Name="EquipModelCategory">
+      <Option Value="1" Name="Hands" />
+      <Option Value="2" Name="Body" />
+      <Option Value="5" Name="Head" />
+      <Option Value="6" Name="Legs" />
+    </Enum>
+    <Enum Name="EquipModelGender">
+      <Option Value="0" Name="None" />
+      <Option Value="1" Name="None" />
+      <Option Value="3" Name="Split by Gender" />
+      <Option Value="4" Name="Shared" />
+    </Enum>
+    <Enum Name="ArmorCategory">
+      <Option Value="0" Name="Head" />
+      <Option Value="1" Name="Body" />
+      <Option Value="2" Name="Hands" />
+      <Option Value="3" Name="Legs" />
+    </Enum>
+	<Enum Name="Mask">
+	  <Option Value="0" Name="Show Male / Show Female" />
+      <Option Value="1" Name="Hide Male / Hide Female" />
+      <Option Value="2" Name="Hide Male / Show Female" />
+      <Option Value="3" Name="Show Male / Hide Female" />
+	</Enum>
   </Enums>
-  <Self AlternativeOrder="
- sortId,
- iconIdM, iconIdF,
- sellValue, Unk9, fixPrice,
- -,
- protectorCategory,
- protectorCategoryId,
- wanderingEquipId,
- weight,
- durability, durabilityMax,
- materialSetId,
- reinforceTypeId,
- basicPrice,
- -,
- PhysDamageCutRate, SlashDamageCutRate, StrikeDamageCutRate, ThrustDamageCutRate, MagicDamageCutRate, FireDamageCutRate, ThunderDamageCutRate, DarkDamageCutRate,
- defensePhys, defenseMagic, defenseFire, defenseThunder, defenseDark, defenseSlash, defenseBlow, defenseThrust,
- resistPoison, resistToxic, resistBlood, resistCurse, resistFrost,
- Poise,
- defFlickPower,
- FlickDamageCutRate,
- -,
- residentSpEffectId1,
- residentSpEffectId2,
- residentSpEffectId3,
- -,
- originEquipPro1, originEquipPro2, originEquipPro3, originEquipPro4, originEquipPro5, originEquipPro6, originEquipPro7, originEquipPro8, originEquipPro9, originEquipPro10, originEquipPro11, originEquipPro12, originEquipPro13, originEquipPro14, originEquipPro15, originEquipPro16,
- -,
- headEquip, bodyEquip, armEquip, legEquip,
- partsDamageRate,
- correctSARecover,
- qwcId,
- Knockback, KnockbackBounceRate,
- knockbackParamId,
- shopLv,
- partsDmgType,
- isDeposit,
- disableMultiDropShare,
- isGuestDrop0, isGuestDrop1,
- vagrantItemLotId, vagrantBonuseneDropItemLotId, vagrantItemEneDropItemLotId,
- -,
- equipModelID, equipModelCategory, equipModelGender,
- simpleModelForDlc1, simpleModelForDlc2,
- -,
- defenseMaterial, defenseMaterialSfx,
- defenseMaterial_Weak, defenseMaterialSfx_Weak,
- MaterialId0, MaterialId1, MaterialId2, MaterialId3, MaterialId4, MaterialId5, MaterialId6, MaterialId7,
- -,
- useFaceScale,
- faceScaleM_ScaleX, faceScaleM_ScaleZ, faceScaleM_MaxX, faceScaleM_MaxZ, faceScaleF_ScaleX, faceScaleF_ScaleZ, faceScaleF_MaxX, faceScaleF_MaxX,
- -,
- compTrophySedId,
- UpperArmId,
- saDurability
-" />
+  <Self AlternativeOrder="sortId,iconIdM,iconIdF,sellValue,Unk9,fixPrice,-,
+protectorCategory,protectorCategoryId,wanderingEquipId,weight,durability,durabilityMax,materialSetId,reinforceTypeId,basicPrice,equipModelID,equipModelCategory,equipModelGender,simpleModelForDlc1,simpleModelForDlc2,headEquip,bodyEquip,armEquip,legEquip,-,
+PhysDamageCutRate,SlashDamageCutRate,StrikeDamageCutRate,ThrustDamageCutRate,MagicDamageCutRate,FireDamageCutRate,ThunderDamageCutRate,DarkDamageCutRate,resistPoison,resistToxic,resistBlood,resistCurse,resistFrost,Poise,defFlickPower,FlickDamageCutRate,saDurability,defensePhys,defenseMagic,defenseFire,defenseThunder,defenseDark,defenseSlash,defenseBlow,defenseThrust,-,
+residentSpEffectId1,residentSpEffectId2,residentSpEffectId3,-,
+originEquipPro1,originEquipPro2,originEquipPro3,originEquipPro4,originEquipPro5,originEquipPro6,originEquipPro7,originEquipPro8,originEquipPro9,originEquipPro10,originEquipPro11,originEquipPro12,originEquipPro13,originEquipPro14,originEquipPro15,originEquipPro16,-,
+partsDamageRate,correctSARecover,qwcId,Knockback,KnockbackBounceRate,knockbackParamId,shopLv,partsDmgType,isDeposit,disableMultiDropShare,isGuestDrop0,isGuestDrop1,vagrantItemLotId,vagrantBonuseneDropItemLotId,vagrantItemEneDropItemLotId,UpperArmId,compTrophySedId,-,
+defenseMaterial,defenseMaterialSfx,defenseMaterial_Weak,defenseMaterialSfx_Weak,MaterialId0,MaterialId1,MaterialId2,MaterialId3,MaterialId4,MaterialId5,MaterialId6,MaterialId7,-,
+useFaceScale,faceScaleM_ScaleX,faceScaleM_ScaleZ,faceScaleM_MaxX,faceScaleM_MaxZ,faceScaleF_ScaleX,faceScaleF_ScaleZ,faceScaleF_MaxX,faceScaleF_MaxX,-" />
   <Field>
-	<vagrantBonuseneDropItemLotId AltName="Vagrant Bonus Drop Itemlot ID" />
-	<vagrantItemEneDropItemLotId AltName="Vagrant Enemy Drop Itemlot ID" />
-	<fixPrice AltName="Repair Price" />
-	<residentSpEffectId1 Refs="SpEffectParam" />
-	<residentSpEffectId2 Refs="SpEffectParam" />
-	<residentSpEffectId3 Refs="SpEffectParam" />
-	<materialSetId AltName="Upgrade Material ID" Refs="EquipMtrlSetParam"/>
-	<partsDamageRate AltName="Weak Parts Damage %" />
-	<correctSARecover AltName="Poise Recovery Correction" Wiki="Value added to poise recovery time (so negative values are better)." />
-	<faceScaleM_ScaleX AltName="Facescale Male X" />
-	<faceScaleM_ScaleZ AltName="Facescale Male Z" />
-	<faceScaleM_MaxX AltName="Facescale Male Max X" />
-	<faceScaleM_MaxZ AltName="Facescale Male Max Z" />
-	<faceScaleF_ScaleX AltName="Facescale Female X" />
-	<faceScaleF_ScaleZ AltName="Facescale Female Z" />
-	<faceScaleF_MaxX AltName="Facescale Female Max X" />
-	<faceScaleF_MaxX AltName="Facescale Female Max Z" />
-	<iconIdM AltName="Icon ID Male" />
-	<iconIdF AltName="Icon ID Female" />
-	<saDurability AltName="Poise Durability" />
-	<defFlickPower AltName="Defence Flick Power" />
-    <reinforceTypeId Refs="ReinforceParamProtector" />
-	<compTrophySedId AltName="Achievement ID" />
-	<shopLv AltName="Shop Level" />
-	<FlickDamageCutRate AltName="Flick Damage %" />
-	<equipModelCategory Enum="EquipModelCategory" />
-	<equipModelGender Enum="EquipModelGender" />
-	<protectorCategory Enum="ArmorCategory" />
-	<defenseMaterial AltName="Hit Sound FX" Wiki="Type of sound effect generated when this armor is hit." />
-	<defenseMaterialSfx AltName="Hit Visual FX" Wiki="Type of visual effect generated when this armor is hit." />
-	<defenseMaterial_Weak AltName="Weak Spot Hit Sound FX" />
-	<defenseMaterialSfx_Weak AltName="Weak Spot Hit Visual FX" />
-	<isDeposit AltName="Can Deposit" IsBool="" />
-	<headEquip AltName="Is Head Equipment" IsBool="" />
-	<bodyEquip AltName="Is Body Equipment" IsBool="" />
-	<armEquip AltName="Is Arm Equipment" IsBool="" />
-	<legEquip AltName="Is Leg Equipment" IsBool="" />
-	<useFaceScale IsBool="" />
-	<InvisibleFlag00 IsBool="" />
-	<InvisibleFlag01 IsBool="" />
-	<InvisibleFlag02 IsBool="" />
-	<InvisibleFlag03 IsBool="" />
-	<InvisibleFlag04 IsBool="" />
-	<InvisibleFlag05 IsBool="" />
-	<InvisibleFlag06 IsBool="" />
-	<InvisibleFlag07 IsBool="" />
-	<InvisibleFlag08 IsBool="" />
-	<InvisibleFlag09 IsBool="" />
-	<InvisibleFlag10 IsBool="" />
-	<InvisibleFlag11 IsBool="" />
-	<InvisibleFlag12 IsBool="" />
-	<InvisibleFlag13 IsBool="" />
-	<InvisibleFlag14 IsBool="" />
-	<InvisibleFlag15 IsBool="" />
-	<InvisibleFlag16 IsBool="" />
-	<InvisibleFlag17 IsBool="" />
-	<InvisibleFlag18 IsBool="" />
-	<InvisibleFlag19 IsBool="" />
-	<InvisibleFlag20 IsBool="" />
-	<InvisibleFlag21 IsBool="" />
-	<InvisibleFlag22 IsBool="" />
-	<InvisibleFlag23 IsBool="" />
-	<InvisibleFlag24 IsBool="" />
-	<InvisibleFlag25 IsBool="" />
-	<InvisibleFlag26 IsBool="" />
-	<InvisibleFlag27 IsBool="" />
-	<InvisibleFlag28 IsBool="" />
-	<InvisibleFlag29 IsBool="" />
-	<InvisibleFlag30 IsBool="" />
-	<InvisibleFlag31 IsBool="" />
-	<InvisibleFlag32 IsBool="" />
-	<InvisibleFlag33 IsBool="" />
-	<InvisibleFlag34 IsBool="" />
-	<InvisibleFlag35 IsBool="" />
-	<InvisibleFlag36 IsBool="" />
-	<InvisibleFlag37 IsBool="" />
-	<InvisibleFlag38 IsBool="" />
-	<InvisibleFlag39 IsBool="" />
-	<InvisibleFlag40 IsBool="" />
-	<InvisibleFlag41 IsBool="" />
-	<InvisibleFlag42 IsBool="" />
-	<InvisibleFlag43 IsBool="" />
-	<InvisibleFlag44 IsBool="" />
-	<InvisibleFlag45 IsBool="" />
-	<InvisibleFlag46 IsBool="" />
-	<InvisibleFlag47 IsBool="" />
-	<disableMultiDropShare AltName="Disable Drop in Multiplayer" IsBool="" />
-	<simpleModelForDlc1 IsBool="" />
-	<isGuestDrop0 AltName="Can Drop as Guest 0" IsBool="" />
-	<isGuestDrop1 AltName="Can Drop as Guest 1" IsBool="" />
-	<simpleModelForDlc2 IsBool="" />
-	<Unk1 IsBool="" />
-	<Unk2 IsBool="" />
-	<Unk3 IsBool="" />
-	<Unk4 IsBool="" />
-	<Unk5 IsBool="" />
-	<PhysDamageCutRate AltName="Absorption - Physical" />
-	<SlashDamageCutRate AltName="Absorption - Slash" />
-	<StrikeDamageCutRate AltName="Absorption - Strike" />
-	<ThrustDamageCutRate AltName="Absorption - Thrust" />
-	<MagicDamageCutRate AltName="Absorption - Magic" />
-	<FireDamageCutRate AltName="Absorption - Fire" />
-	<ThunderDamageCutRate AltName="Absorption - Lightning" />
-	<protectorCategoryId VRef="protectorCategory" />
-	<DarkDamageCutRate AltName="Absorption - Dark" />
-	<Unk9 AltName="Shop Price" />
-	<Mask00 AltName="Mask 00 - Hide upper front face" />
-	<Mask01 AltName="Mask 01 - Hide lower front face" />
-	<Mask02 AltName="Mask 02 - Hide upper back skull" />
-	<Mask03 AltName="Mask 03 - Hide lower back skull" />
-	<Mask04 AltName="Mask 04 - Hide upper neck" />
-	<Mask05 AltName="Mask 05 - Hide lower neck" />
-	<Mask06 AltName="Mask 06 - Hide torso" />
-	<Mask07 AltName="Mask 07 - Hide chest strap" />
-	<Mask08 AltName="Mask 08 - Hide shoulders" />
-	<Mask09 AltName="Mask 09 - Hide elbows" />
-	<Mask10 AltName="Mask 10 - Hide wrists" />
-	<Mask11 AltName="Mask 11 - Hide hands" />
-	<Mask12 AltName="Mask 12" />
-	<Mask13 AltName="Mask 13 - Hide waist" />
-	<Mask14 AltName="Mask 14 - Hide calves" />
-	<Mask15 AltName="Mask 15 - Hide shins" />
-	<Mask16 AltName="Mask 16 - Hide feet" />
-	<Mask17 AltName="Mask 17 - Hide bra" />
-	<Mask18 AltName="Mask 18 - Hide knot on trousers" />
-	<Mask19 AltName="Mask 19 - Hide belt" />
-	<Mask20 AltName="Mask 20" />
-	<Mask21 AltName="Mask 21" />
-	<Mask22 AltName="Mask 22" />
-	<Mask23 AltName="Mask 23 - Hide upper sleeves" />
-	<Mask24 AltName="Mask 24" />
-	<Mask25 AltName="Mask 25 - Hide sleeves" />
-	<Mask26 AltName="Mask 26" />
-	<Mask27 AltName="Mask 27" />
-	<Mask28 AltName="Mask 28" />
-	<Mask29 AltName="Mask 29" />
-	<Mask30 AltName="Mask 30" />
-	<Mask31 AltName="Mask 31" />
-	<Mask32 AltName="Mask 32" />
-	<Mask33 AltName="Mask 33" />
-	<Mask34 AltName="Mask 34" />
-	<Mask35 AltName="Mask 35" />
-	<Mask36 AltName="Mask 36" />
-	<Mask37 AltName="Mask 37" />
-	<Mask38 AltName="Mask 38" />
-	<Mask39 AltName="Mask 39" />
-	<Mask40 AltName="Mask 40 - Unk State 1" />
-	<Mask41 AltName="Mask 41 - Unk State 2" />
-	<Mask42 AltName="Mask 42 - Head State 1" />
-	<Mask43 AltName="Mask 43 - Head State 2" />
-	<Mask44 AltName="Mask 44 - Head State 3" />
-	<Mask45 AltName="Mask 45" />
-	<Mask46 AltName="Mask 46" />
-	<Mask47 AltName="Mask 47" />
-	<Mask48 AltName="Mask 48" />
-	<Mask49 AltName="Mask 49" />
-	<Mask50 AltName="Mask 50" />
-	<Mask51 AltName="Mask 51" />
-	<Mask52 AltName="Mask 52" />
-	<Mask53 AltName="Mask 53" />
-	<Mask54 AltName="Mask 54" />
-	<Mask55 AltName="Mask 55" />
-	<Mask56 AltName="Mask 56" />
-	<Mask57 AltName="Mask 57 - Hide skirt" />
-	<Mask58 AltName="Mask 58" />
-	<Mask59 AltName="Mask 59" />
-	<Mask60 AltName="Mask 60 - Hide hair scalp" />
-	<Mask61 AltName="Mask 61 - Hide hair low" />
-	<Mask62 AltName="Mask 62" />
-	<Mask63 AltName="Mask 63 - Hide hair top in" />
-	<Mask64 AltName="Mask 64 - Hide hair top out" />
-	<Mask65 AltName="Mask 65 - Hide hair front in" />
-	<Mask66 AltName="Mask 66 - Hide hair front out" />
-	<Mask67 AltName="Mask 67 - Hide hair sides" />
-	<Mask68 AltName="Mask 68 - Hide hair back" />
-	<Mask69 AltName="Mask 69" />
-	<Mask70 AltName="Mask 70" />
-	<Mask71 AltName="Mask 71" />
-	<Mask72 AltName="Mask 72" />
-	<Mask73 AltName="Mask 73" />
-	<Mask74 AltName="Mask 74" />
-	<Mask75 AltName="Mask 75" />
-	<Mask76 AltName="Mask 76" />
-	<Mask77 AltName="Mask 77" />
-	<Mask78 AltName="Mask 78" />
-	<Mask79 AltName="Mask 79" />
-	<Mask80 AltName="Mask 80" />
-	<Mask81 AltName="Mask 81" />
-	<Mask82 AltName="Mask 82" />
-	<Mask83 AltName="Mask 83" />
-	<Mask84 AltName="Mask 84" />
-	<Mask85 AltName="Mask 85" />
-	<Mask86 AltName="Mask 86" />
-	<Mask87 AltName="Mask 87" />
-	<Mask88 AltName="Mask 88" />
-	<Mask89 AltName="Mask 89" />
-	<Mask90 AltName="Mask 90" />
-	<Mask91 AltName="Mask 91" />
-	<Mask92 AltName="Mask 92" />
-	<Mask93 AltName="Mask 93" />
-	<Mask94 AltName="Mask 94" />
-	<Mask95 AltName="Mask 95" />
-	<Mask96 AltName="Mask 96" />
-	<Mask97 AltName="Mask 97" />
+    <wanderingEquipId Refs="EquipParamProtector" Wiki="Armor ID used by wandering ghosts online" />
+    <vagrantBonuseneDropItemLotId AltName="Vagrant Bonus Drop Itemlot ID" />
+    <vagrantItemEneDropItemLotId AltName="Vagrant Enemy Drop Itemlot ID" />
+    <fixPrice AltName="Repair Price" />
+    <residentSpEffectId1 Refs="SpEffectParam" />
+    <residentSpEffectId2 Refs="SpEffectParam" />
+    <residentSpEffectId3 Refs="SpEffectParam" />
+    <materialSetId AltName="Upgrade Material ID" Refs="EquipMtrlSetParam" />
+    <partsDamageRate AltName="Weak Parts Damage %" />
+    <correctSARecover AltName="Poise Recovery Correction" Wiki="Value added to poise recovery time (so negative values are better)." />
+    <faceScaleM_ScaleX AltName="Facescale Male X" />
+    <faceScaleM_ScaleZ AltName="Facescale Male Z" />
+    <faceScaleM_MaxX AltName="Facescale Male Max X" />
+    <faceScaleM_MaxZ AltName="Facescale Male Max Z" />
+    <faceScaleF_ScaleX AltName="Facescale Female X" />
+    <faceScaleF_ScaleZ AltName="Facescale Female Z" />
+    <faceScaleF_MaxX AltName="Facescale Female Max Z" />
+    <faceScaleF_MaxX AltName="Facescale Female Max Z" />
+    <iconIdM AltName="Icon ID Male" />
+    <iconIdF AltName="Icon ID Female" />
+	<Knockback Wiki="Reduced knockback received" />
+	<knockbackParamId Refs="KnockBackParam" />
+    <saDurability AltName="DS1 Poise" Wiki="Requires SpEffect with state info 120 such as 6300.\nCan be displayed."/>
+    <defFlickPower AltName="Defence Flick Power" Wiki="Determines capability to passively deflect incoming attacks similar to guarding.\nValue given is modified depending on slot.\nHead: Value / 3.65\nBody: Value / 2.7\nArms: Value / 3.35\nLegs: Value / 3.35" />
+    <defensePhys AltName="Defense - Physical" Wiki="Affects all 4 physical types." />
+	<defenseMagic AltName="Defense - Magic" />
+	<defenseFire AltName="Defense - Fire" />
+	<defenseThunder AltName="Defense - Lightning" />
+	<defenseSlash AltName="Defense - Slash" Wiki="Does nothing, but value can be displayed." />
+	<defenseBlow AltName="Defense - Strike" Wiki="Does nothing, but value can be displayed." />
+	<defenseThrust AltName="Defense - Thrust" Wiki="Does nothing, but value can be displayed." />
+	<resistPoison AltName="Resist - Poison" />
+	<resistToxic AltName="Resist - Toxic" Wiki="Not displayed. Assumed to be same as poison resistance." />
+	<resistBlood AltName="Resist - Bleed" />
+	<resistCurse AltName="Resist - Curse" />
+	<reinforceTypeId Refs="ReinforceParamProtector" />
+    <compTrophySedId AltName="Achievement ID" />
+    <shopLv AltName="Shop Level" />
+    <FlickDamageCutRate AltName="Flick Damage %"  Wiki="Determines percentage of damage reduced when an attack is deflected by flick.\nValue given is modified depending on slot.\nHead: Value / 3.65\nBody: Value / 2.7\nArms: Value / 3.35\nLegs: Value / 3.35" />
+    <equipModelCategory Enum="EquipModelCategory" />
+    <equipModelGender Enum="EquipModelGender" />
+    <protectorCategory Enum="ArmorCategory" />
+    <defenseMaterial AltName="Hit Sound FX" Wiki="Type of sound effect generated when this armor is hit." />
+    <defenseMaterialSfx AltName="Hit Visual FX" Wiki="Type of visual effect generated when this armor is hit." />
+    <defenseMaterial_Weak AltName="Weak Spot Hit Sound FX" />
+    <defenseMaterialSfx_Weak AltName="Weak Spot Hit Visual FX" />
+    <isDeposit AltName="Can Deposit" IsBool="" />
+    <headEquip AltName="Is Head Equipment" IsBool="" />
+    <bodyEquip AltName="Is Body Equipment" IsBool="" />
+    <armEquip AltName="Is Arm Equipment" IsBool="" />
+    <legEquip AltName="Is Leg Equipment" IsBool="" />
+    <useFaceScale IsBool="" />
+    <InvisibleFlag00 IsBool="" />
+    <InvisibleFlag01 IsBool="" />
+    <InvisibleFlag02 IsBool="" />
+    <InvisibleFlag03 IsBool="" />
+    <InvisibleFlag04 IsBool="" />
+    <InvisibleFlag05 IsBool="" />
+    <InvisibleFlag06 IsBool="" />
+    <InvisibleFlag07 IsBool="" />
+    <InvisibleFlag08 IsBool="" />
+    <InvisibleFlag09 IsBool="" />
+    <InvisibleFlag10 IsBool="" />
+    <InvisibleFlag11 IsBool="" />
+    <InvisibleFlag12 IsBool="" />
+    <InvisibleFlag13 IsBool="" />
+    <InvisibleFlag14 IsBool="" />
+    <InvisibleFlag15 IsBool="" />
+    <InvisibleFlag16 IsBool="" />
+    <InvisibleFlag17 IsBool="" />
+    <InvisibleFlag18 IsBool="" />
+    <InvisibleFlag19 IsBool="" />
+    <InvisibleFlag20 IsBool="" />
+    <InvisibleFlag21 IsBool="" />
+    <InvisibleFlag22 IsBool="" />
+    <InvisibleFlag23 IsBool="" />
+    <InvisibleFlag24 IsBool="" />
+    <InvisibleFlag25 IsBool="" />
+    <InvisibleFlag26 IsBool="" />
+    <InvisibleFlag27 IsBool="" />
+    <InvisibleFlag28 IsBool="" />
+    <InvisibleFlag29 IsBool="" />
+    <InvisibleFlag30 IsBool="" />
+    <InvisibleFlag31 IsBool="" />
+    <InvisibleFlag32 IsBool="" />
+    <InvisibleFlag33 IsBool="" />
+    <InvisibleFlag34 IsBool="" />
+    <InvisibleFlag35 IsBool="" />
+    <InvisibleFlag36 IsBool="" />
+    <InvisibleFlag37 IsBool="" />
+    <InvisibleFlag38 IsBool="" />
+    <InvisibleFlag39 IsBool="" />
+    <InvisibleFlag40 IsBool="" />
+    <InvisibleFlag41 IsBool="" />
+    <InvisibleFlag42 IsBool="" />
+    <InvisibleFlag43 IsBool="" />
+    <InvisibleFlag44 IsBool="" />
+    <InvisibleFlag45 IsBool="" />
+    <InvisibleFlag46 IsBool="" />
+    <InvisibleFlag47 IsBool="" />
+    <disableMultiDropShare AltName="Disable Multiplayer Sharing" Wiki="Prevents item from appearing to other players when dropped." IsBool="" />
+    <simpleModelForDlc1 IsBool="" />
+    <isGuestDrop0 AltName="Can Discard" IsBool="" />
+    <isGuestDrop1 AltName="Can Drop" IsBool="" />
+    <simpleModelForDlc2 AltName="Is Notice Log" IsBool="" />
+    <Unk1 AltName="Is Notice Dialog" IsBool="" />
+    <Unk2 IsBool="" />
+    <Unk3 IsBool="" />
+    <Unk4 IsBool="" />
+    <Unk5 IsBool="" />
+    <PhysDamageCutRate AltName="Absorption - Physical" />
+    <SlashDamageCutRate AltName="Absorption - Slash" />
+    <StrikeDamageCutRate AltName="Absorption - Strike" />
+    <ThrustDamageCutRate AltName="Absorption - Thrust" />
+    <MagicDamageCutRate AltName="Absorption - Magic" />
+    <FireDamageCutRate AltName="Absorption - Fire" />
+    <ThunderDamageCutRate AltName="Absorption - Lightning" />
+    <protectorCategoryId Wiki="Mostly for leg pieces it seems. Needs testing." VRef="protectorCategory" Vref="protectorCategory" />
+    <DarkDamageCutRate AltName="Absorption - Dark" />
+	<defenseDark AltName="Defense - Dark" />
+	<UpperArmId Refs="UpperArmParam" />
+    <Unk9 AltName="Shop Price" />
+	<resistFrost AltName="Resist - Frost" />
+    <Mask00 Enum="Mask" AltName="Mask 00 - Upper Face" />
+    <Mask01 Enum="Mask" AltName="Mask 01 - Lower Face" />
+    <Mask02 Enum="Mask" AltName="Mask 02 - Jaw/Beard" />
+    <Mask03 Enum="Mask" AltName="Mask 03 - Head/Back of head" />
+    <Mask04 Enum="Mask" AltName="Mask 04 - Upper Neck" />
+    <Mask05 Enum="Mask" AltName="Mask 05 - Lower Neck" />
+    <Mask06 Enum="Mask" AltName="Mask 06 - Chest" />
+    <Mask07 Enum="Mask" AltName="Mask 07 - Chest Strap" />
+    <Mask08 Enum="Mask" AltName="Mask 08 - Shoulders" />
+    <Mask09 Enum="Mask" AltName="Mask 09 - Elbows" />
+    <Mask10 Enum="Mask" AltName="Mask 10 - Wrists" />
+    <Mask11 Enum="Mask" AltName="Mask 11 - Hands" />
+    <Mask12 Enum="Mask" AltName="Mask 12 - Waist" />
+    <Mask13 Enum="Mask" AltName="Mask 13 - Pants" />
+    <Mask14 Enum="Mask" AltName="Mask 14 - Calves" />
+    <Mask15 Enum="Mask" AltName="Mask 15 - Shins" />
+    <Mask16 Enum="Mask" AltName="Mask 16 - Feet" />
+    <Mask17 Enum="Mask" AltName="Mask 17 - Bra" />
+    <Mask18 Enum="Mask" AltName="Mask 18 - Pants Knot" />
+    <Mask19 Enum="Mask" AltName="Mask 19 - Pants Belt" />
+    <Mask20 Enum="Mask" AltName="Mask 20 - Gauntlet Short" />
+    <Mask21 Enum="Mask" AltName="Mask 21 - Gauntlet Long" />
+    <Mask22 Enum="Mask" AltName="Mask 22" />
+    <Mask23 Enum="Mask" AltName="Mask 23" />
+    <Mask24 Enum="Mask" AltName="Mask 24" />
+    <Mask25 Enum="Mask" AltName="Mask 25 - Gauntlet Sleeve Short" />
+    <Mask26 Enum="Mask" AltName="Mask 26 - Gauntlet Sleeve Long" />
+    <Mask27 Enum="Mask" AltName="Mask 27 - Armor Sleeve Short" />
+    <Mask28 Enum="Mask" AltName="Mask 28 - Armor Sleeve Long" />
+    <Mask29 Enum="Mask" AltName="Mask 29" />
+    <Mask30 Enum="Mask" AltName="Mask 30 - Armor Neck Compressed" />
+    <Mask31 Enum="Mask" AltName="Mask 31 - Armor Neck Normal" />
+    <Mask32 Enum="Mask" AltName="Mask 32 - Armor Scarf Small" />
+    <Mask33 Enum="Mask" AltName="Mask 33 - Armor Scarf Normal" />
+    <Mask34 Enum="Mask" AltName="Mask 34 - Armor Lowered Hood" />
+    <Mask35 Enum="Mask" AltName="Mask 35 - Armor Raised Hood" />
+    <Mask36 Enum="Mask" AltName="Mask 36" />
+    <Mask37 Enum="Mask" AltName="Mask 37" />
+    <Mask38 Enum="Mask" AltName="Mask 38" />
+    <Mask39 Enum="Mask" AltName="Mask 39" />
+    <Mask40 Enum="Mask" AltName="Mask 40" />
+    <Mask41 Enum="Mask" AltName="Mask 41 - Head Cowl Tucked In" />
+    <Mask42 Enum="Mask" AltName="Mask 42 - Cowl while Naked" />
+    <Mask43 Enum="Mask" AltName="Mask 43 - Cowl with Armor" />
+    <Mask44 Enum="Mask" AltName="Mask 44" />
+    <Mask45 Enum="Mask" AltName="Mask 45" />
+    <Mask46 Enum="Mask" AltName="Mask 46" />
+    <Mask47 Enum="Mask" AltName="Mask 47" />
+    <Mask48 Enum="Mask" AltName="Mask 48" />
+    <Mask49 Enum="Mask" AltName="Mask 49" />
+    <Mask50 Enum="Mask" AltName="Mask 50" />
+    <Mask51 Enum="Mask" AltName="Mask 51 - Small Legs" />
+    <Mask52 Enum="Mask" AltName="Mask 52 - Normal Legs" />
+    <Mask53 Enum="Mask" AltName="Mask 53" />
+    <Mask54 Enum="Mask" AltName="Mask 54 - Skirt Top Small" />
+    <Mask55 Enum="Mask" AltName="Mask 55 - Skirt Top Normal" />
+    <Mask56 Enum="Mask" AltName="Mask 56 - Leg Armor" />
+    <Mask57 Enum="Mask" AltName="Mask 57 - Small Skirt" />
+    <Mask58 Enum="Mask" AltName="Mask 58 - Normal Skirt" />
+    <Mask59 Enum="Mask" AltName="Mask 59" />
+    <Mask60 Enum="Mask" AltName="Mask 60 - Hair Scalp" />
+    <Mask61 Enum="Mask" AltName="Mask 61 - Hair Back (In)" />
+    <Mask62 Enum="Mask" AltName="Mask 62 - Hair Back (Out)" />
+    <Mask63 Enum="Mask" AltName="Mask 63 - Hair Top (In)" />
+    <Mask64 Enum="Mask" AltName="Mask 64 - Hair Top (Out)" />
+    <Mask65 Enum="Mask" AltName="Mask 65 - Hair Front (In)" />
+    <Mask66 Enum="Mask" AltName="Mask 66 - Hair Front (Out)" />
+    <Mask67 Enum="Mask" AltName="Mask 67 - Hair Sides" />
+    <Mask68 Enum="Mask" AltName="Mask 68 - Hair Back" />
+    <Mask69 Enum="Mask" AltName="Mask 69 - Hair Ponytail" />
+    <Mask70 Enum="Mask" AltName="Mask 70" />
+    <Mask71 Enum="Mask" AltName="Mask 71" />
+    <Mask72 Enum="Mask" AltName="Mask 72" />
+    <Mask73 Enum="Mask" AltName="Mask 73" />
+    <Mask74 Enum="Mask" AltName="Mask 74" />
+    <Mask75 Enum="Mask" AltName="Mask 75" />
+    <Mask76 Enum="Mask" AltName="Mask 76" />
+    <Mask77 Enum="Mask" AltName="Mask 77" />
+    <Mask78 Enum="Mask" AltName="Mask 78 - Back of Torso" />
+    <Mask79 Enum="Mask" AltName="Mask 79 - Push Up Breasts" />
+    <Mask80 Enum="Mask" AltName="Mask 80" />
+    <Mask81 Enum="Mask" AltName="Mask 81" />
+    <Mask82 Enum="Mask" AltName="Mask 82" />
+    <Mask83 Enum="Mask" AltName="Mask 83" />
+    <Mask84 Enum="Mask" AltName="Mask 84" />
+    <Mask85 Enum="Mask" AltName="Mask 85" />
+    <Mask86 Enum="Mask" AltName="Mask 86" />
+    <Mask87 Enum="Mask" AltName="Mask 87" />
+    <Mask88 Enum="Mask" AltName="Mask 88" />
+    <Mask89 Enum="Mask" AltName="Mask 89" />
+    <Mask90 Enum="Mask" AltName="Mask 90" />
+    <Mask91 Enum="Mask" AltName="Mask 91" />
+    <Mask92 Enum="Mask" AltName="Mask 92" />
+    <Mask93 Enum="Mask" AltName="Mask 93" />
+    <Mask94 Enum="Mask" AltName="Mask 94" />
+    <Mask95 Enum="Mask" AltName="Mask 95" />
+    <Mask96 Enum="Mask" AltName="Mask 96" />
+    <Mask97 Enum="Mask" AltName="Mask 97" />
   </Field>
 </PARAMMETA>

@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+	<subBonusSoul_single AltName="Invasion Points - Min" Wiki="Needs testing." />
+	<subbonusSoul_multi AltName="Invasion Points - Max" Wiki="Needs testing." />
+  </Field>
+  <Self />
+</PARAMMETA>

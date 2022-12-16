@@ -1,108 +1,128 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
   <Enums>
-	 <Enum Name="AttackAttribute">
-		<Option Value="0" Name="None" />
-		<Option Value="1" Name="Slash" />
-		<Option Value="2" Name="Strike" />
-		<Option Value="3" Name="Thrust" />
-		<Option Value="4" Name="Standard" />
-     </Enum>
-	 <Enum Name="EffectAttribute">
-		<Option Value="0" Name="None" />
-		<Option Value="1" Name="Physical" />
-		<Option Value="2" Name="Fire" />
-		<Option Value="3" Name="Magic" />
-		<Option Value="4" Name="Poison/Bleed" />
-		<Option Value="6" Name="Lightning" />
-		<Option Value="7" Name="Petrify" />
-		<Option Value="8" Name="Crystallize" />
-		<Option Value="9" Name="Dark" />
-		<Option Value="255" Name="None255" />
-	 </Enum>
+    <Enum Name="AttackAttribute">
+      <Option Value="0" Name="None" />
+      <Option Value="1" Name="Slash" />
+      <Option Value="2" Name="Strike" />
+      <Option Value="3" Name="Thrust" />
+      <Option Value="4" Name="Standard" />
+    </Enum>
+    <Enum Name="EffectAttribute">
+      <Option Value="-1" Name="None" />
+	  <Option Value="0" Name="None" />
+      <Option Value="1" Name="Physical" />
+      <Option Value="2" Name="Fire" />
+      <Option Value="3" Name="Magic" />
+      <Option Value="4" Name="Poison/Bleed" />
+      <Option Value="6" Name="Lightning" />
+      <Option Value="7" Name="Petrify" />
+      <Option Value="8" Name="Crystallize" />
+      <Option Value="9" Name="Dark" />
+	  <Option Value="10" Name="Blue Lightning" />
+      <Option Value="255" Name="None255" />
+    </Enum>
   </Enums>
   <Self Row0Dummy="" />
   <Field>
-    <atkBullet_Id Refs="AtkParam_Pc" AltName="AtkParam ID" Wiki="Attack parameters for bullet impact." />
-	<sfxIdBullet AltName="Projectile FX ID" Wiki="Visual effect ID for bullet projectile." />
-	<sfxIdHit AltName="Impact FX ID" Wiki="Visual effect ID for bullet impact." />
-	<sfxIdFlick AltName="Flick FX ID" Wiki="Visual effect ID for bullet flick. Normally triggered by guarding." />
-	<life AltName="Duration" Wiki="Maximum time before bullet will disappear on its own. -1 means it will last indefinitely." />
-	<dist AltName="Attenuation Range" Wiki="Distance at which attenuation of the projectile begins." />
-	<shootInterval Wiki="Time between emitted bullets. Does nothing for bullets that only shoot once." />
-	<gravityInRange Wiki="Downward acceleration of bullet." />
-	<gravityOutRange Wiki="Downward acceleration of bullet after it passes the attenuation distance." />
-	<homingStopRange Wiki="Bullet will stop homing if it is within this distance of its homing target." />
-	<initVellocity Wiki="Initial speed of bullet." />
-	<accelInRange Wiki="Forward acceleration acting on bullet before it reaches the attenuation distance. Negative values will slow the bullet down." />
-	<accelOutRange Wiki="Forward acceleration acting on bullet after it passes the attenuation distance. Negative values will slow the bullet down." />
-	<maxVellocity Wiki="Maximum speed of bullet, regardless of acceleration." />
-	<minVellocity Wiki="Minimum speed of bullet, regardless of acceleration." />
-	<accelTime AltName="Acceleration Duration" Wiki="Time that acceleration is active after bullet creation." />
-	<homingBeginDist Wiki="Distance from owner at which the bullet starts homing in on targets." />
-	<hitRadius AltName="Initial Hit Radius" Wiki="Initial hit radius of bullet projectile." />
-	<hitRadiusMax AltName="Final Hit Radius" Wiki="Final hit radius of bullet projectile. Set to -1 if radius does not change, which is always coupled with a value of 0 for RadiusIncreaseDuration." />
-	<spreadTime AltName="Radius Spread Time" Wiki="Time taken by bullet to transition from initial to final hit radius. Value of 0 are always coupled with values of -1 for RadiusIncreaseDuration." />
-	<expDelay AltName="Explosion Delay" Wiki="Delay between impact and 'explosion'." />
-	<homingOffsetRange Wiki="Offset homing position by this amount." />
-	<dmgHitRecordLifeTime AltName="Hitbox Duration" Wiki="Duration of bullet impact hitbox. A value of zero means it is disabled immediately after first impact." />
-	<spEffectIdForShooter Refs="SpEffectParam" AltName="Owner Effect ID" Wiki="Special effect applied to owner when bullet is created." />
-	<autoSearchNpcThinkId AltName="Bullet AI" Wiki="AI parameter ID for triggered floating bullets." />
-	<hitBulletId Refs="Bullet" Wiki="Bullet emitted on impact of this bullet." />
-	<spEffectId0 Refs="SpEffectParam" AltName="Target SpEffect ID 0" Wiki="Special effect applied to target hit by bullet." />
-	<spEffectId1 Refs="SpEffectParam" AltName="Target SpEffect ID 1" Wiki="Special effect applied to target hit by bullet." />
-	<spEffectId2 Refs="SpEffectParam" AltName="Target SpEffect ID 2" Wiki="Special effect applied to target hit by bullet." />
-	<spEffectId3 Refs="SpEffectParam" AltName="Target SpEffect ID 3" Wiki="Special effect applied to target hit by bullet." />
-	<spEffectId4 Refs="SpEffectParam" AltName="Target SpEffect ID 4" Wiki="Special effect applied to target hit by bullet." />
-	<numShoot AltName="Fired Bullet Count" Wiki="Number of bullets emitted at once." />
-	<homingAngle Wiki="Turning angle of homing bullet per second." />
-	<shootAngle AltName="Horizontal Shoot Angle" Wiki="Angle of first bullet in degrees around the vertical axis, relative to the forward direction." />
-	<shootAngleInterval AltName="Shoot Angle - Horizontal Interval" Wiki="Angle from one bullet to the next around the vertical axis, beginning at the azimuth angle start." />
-	<shootAngleXInterval AltName="Shoot Angle - Vertical Interval" Wiki="Angle between bullets in elevation." />
-	<damageDamp AltName="Damage Falloff: Physical" Wiki="Percentage reduction in physical damage per second." />
-	<magicDamageDamp AltName="Damage Falloff: Magic" Wiki="Percentage reduction in magic damage per second." />
-	<fireDamageDamp AltName="Damage Falloff: Fire" Wiki="Percentage reduction in fire damage per second." />
-	<thunderDamageDamp AltName="Damage Falloff: Lightning" Wiki="Percentage reduction in lightning damage per second." />
-	<staminaDamp AltName="Damage Falloff: Stamina" Wiki="Percentage reduction in stamina damage per second." />
-	<knockbackDamp AltName="Damage Falloff: Knockback" Wiki="Percentage reduction in knockback power per second." />
-	<shootAngleXZ AltName="Vertical Shoot Angle" Wiki="Angle of elevation of first bullet. Positive values will angle the bullets up and negative values will angle the bullets down." />
-	<isPenetrate Wiki="Bullet will go through objects, players, and NPCs." />
-	<prevVellocityDirRate Wiki="Ratio of adding the previous moving direction to the current direction when a sliding bullet hits the wall." />
-	<atkAttribute Enum="AttackAttribute" AltName="Physical Damage Type Attribute" />
-	<spAttribute Enum="EffectAttribute" AltName="Elemental Damage Attribute" />
-	<Material_AttackType Wiki="Determines visual effects of bullet hit." />
-	<Material_AttackMaterial Wiki="Sound and visual effects on hit." />
-	<Material_Size Wiki="'Size' of attack." />
-	<launchConditionType AltName="Hit/Expire Condition Type" Wiki="Condition for determing if a new bullet will be generated when this bullet lands or expires." />
-	<FollowType0 AltName="Follow Type: Soulmass" IsBool="" />
-	<FollowType1 AltName="Follow Type: Catalyst" IsBool="" />
-	<FollowType2 AltName="Follow Type: Follow Floor" IsBool="" />
-	<EmittePosType0 AltName="Emitter Type: Player Feet" IsBool="" />
-	<EmittePosType1 AltName="Emitter Type: Parent Bullet" IsBool="" />
-	<EmittePosType2 AltName="Emitter Type: Nearest Enemy Feet" IsBool="" />
-	<IsAttackSfx AltName="Persistent Attack FX" Wiki="Set whether bullets stay stuck upon impact." IsBool="" />
-	<IsEndlessHit AltName="Continuous Hitbox" Wiki="Bullet hitbox is continuous." IsBool="" />
-	<IsPenetrateMap Wiki="Bullet will pierce the map." IsBool="" />
-	<IsHitBothTeam Wiki="Bullet can hit any character." IsBool="" />
-	<IsUseShardHitList Wiki="Repeating bullets share the amount of times they have hit a target." IsBool="" />
-	<IsUseMultiDmyPolyIfPlace AltName="Use Multiple Model Points" Wiki="Set to True if the same model point ('damipoly') is used multiple times when spawning the bullet." IsBool="" />
-	<attachEffectType0 IsBool="" />
-	<attachEffectType1 IsBool="" />
-	<IsHitForceMagic AltName="Can be Deflected by Magic" Wiki="If true, this bullet will impact appropriate Force-type magic (e.g. arrows, bolts, knives)." IsBool="" />
-	<IsIgnoreSfxIfHitWater AltName="Ignore FX On Water Hit" Wiki="If true, hit FX are not produced if the bullet impacts water." IsBool="" />
-	<IsIgnoreMoveStateIfHitWater AltName="Ignore State Transition On Water Hit" Wiki="Unclear effect, but True for knives/arrows/bolts and False otherwise." IsBool="" />
-	<IsHitDarkForceMagic AltName="Can Be Deflected By Bullet Deflection" Wiki="If True, this bullet will be deflected by AtkParam deflection effect." IsBool="" />
-	<IsInheritEffectToChild AltName="Transfer Effect to Child Bullet" IsBool="" />
-	<IsInheritSpeedToChild AltName="Transfer Speed to Child Bullet" IsBool="" />
-	<IsLockModule IsBool="" />
-	<IsSearchForTarget IsBool="" />
-	<IsEmittedBullet IsBool="" />
-	<IsInheritLifeToChild AltName="Transfer Duration to Child Bullet" IsBool="" />
-	<darkDamageDamp AltName="Damage Falloff: Dark Damage" />
-	<rand_ShootAngleXZ AltName="Emitted Bullet - Random Angle XZ" />
-	<rand_ShootANgleY AltName="Emitted Bullet - Random Angle Y" />
-	<bulletEmitter_bulletId Refs="Bullet" />
-	<IsPenetrateTarget AltName="Is Prevent Collision With Target" IsBool="" />
-	<EmittePosRadius AltName="Emitter Position Radius" />
+    <atkBullet_Id Refs="AtkParam_Pc,AtkParam_Npc" AltName="AtkParam ID" Wiki="Attack parameters for bullet impact." />
+    <sfxIdBullet AltName="Projectile FX ID" Wiki="Visual effect ID for bullet projectile." />
+    <sfxIdHit AltName="Impact FX ID" Wiki="Visual effect ID for bullet impact." />
+    <sfxIdFlick AltName="Flick FX ID" Wiki="Visual effect ID for bullet flick. Normally triggered by guarding." />
+    <life AltName="Duration" Wiki="Maximum time before bullet will disappear on its own. -1 means it will last indefinitely." />
+    <dist AltName="Attenuation Range" Wiki="Distance at which attenuation of the projectile begins." />
+    <shootInterval Wiki="Time between emitted bullets. Does nothing for bullets that only shoot once." />
+    <gravityInRange Wiki="Downward acceleration of bullet." />
+    <gravityOutRange Wiki="Downward acceleration of bullet after it passes the attenuation distance." />
+    <homingStopRange Wiki="Bullet will stop homing if it is within this distance of its homing target." />
+    <initVellocity Wiki="Initial speed of bullet." />
+    <accelInRange Wiki="Forward acceleration acting on bullet before it reaches the attenuation distance. Negative values will slow the bullet down." />
+    <accelOutRange Wiki="Forward acceleration acting on bullet after it passes the attenuation distance. Negative values will slow the bullet down." />
+    <maxVellocity Wiki="Maximum speed of bullet, regardless of acceleration." />
+    <minVellocity Wiki="Minimum speed of bullet, regardless of acceleration." />
+    <accelTime AltName="Acceleration Duration" Wiki="Time that acceleration is active after bullet creation." />
+    <homingBeginDist Wiki="Distance from owner at which the bullet starts homing in on targets." />
+    <hitRadius AltName="Initial Hit Radius" Wiki="Initial hit radius of bullet projectile." />
+    <hitRadiusMax AltName="Final Hit Radius" Wiki="Final hit radius of bullet projectile. Set to -1 if radius does not change, which is always coupled with a value of 0 for RadiusIncreaseDuration." />
+    <spreadTime AltName="Radius Spread Time" Wiki="Time taken by bullet to transition from initial to final hit radius. Value of 0 are always coupled with values of -1 for RadiusIncreaseDuration." />
+    <expDelay AltName="Explosion Delay" Wiki="Delay between impact and 'explosion'." />
+    <homingOffsetRange Wiki="Offset homing position by this amount." />
+    <dmgHitRecordLifeTime AltName="Hitbox Duration" Wiki="Duration of bullet impact hitbox. A value of zero means it is disabled immediately after first impact." />
+    <spEffectIdForShooter Refs="SpEffectParam" AltName="Owner Effect ID" Wiki="Special effect applied to owner when bullet is created." />
+    <autoSearchNpcThinkId AltName="Bullet AI" Wiki="AI parameter ID for triggered floating bullets." />
+    <hitBulletId Refs="Bullet" Wiki="Bullet emitted on impact of this bullet." />
+    <spEffectId0 Refs="SpEffectParam" AltName="Target SpEffect ID 0" Wiki="Special effect applied to target hit by bullet." />
+    <spEffectId1 Refs="SpEffectParam" AltName="Target SpEffect ID 1" Wiki="Special effect applied to target hit by bullet." />
+    <spEffectId2 Refs="SpEffectParam" AltName="Target SpEffect ID 2" Wiki="Special effect applied to target hit by bullet." />
+    <spEffectId3 Refs="SpEffectParam" AltName="Target SpEffect ID 3" Wiki="Special effect applied to target hit by bullet." />
+    <spEffectId4 Refs="SpEffectParam" AltName="Target SpEffect ID 4" Wiki="Special effect applied to target hit by bullet." />
+    <numShoot AltName="Fired Bullet Count" Wiki="Number of bullets emitted at once." />
+    <homingAngle Wiki="Turning angle of homing bullet per second." />
+    <shootAngle AltName="Horizontal Shoot Angle" Wiki="Angle of first bullet in degrees around the vertical axis, relative to the forward direction." />
+    <shootAngleInterval AltName="Shoot Angle - Horizontal Interval" Wiki="Angle from one bullet to the next around the vertical axis, beginning at the azimuth angle start." />
+    <shootAngleXInterval AltName="Shoot Angle - Vertical Interval" Wiki="Angle between bullets in elevation." />
+    <damageDamp AltName="Damage Falloff: Physical" Wiki="Percentage reduction in physical damage per second." />
+    <magicDamageDamp AltName="Damage Falloff: Magic" Wiki="Percentage reduction in magic damage per second." />
+    <fireDamageDamp AltName="Damage Falloff: Fire" Wiki="Percentage reduction in fire damage per second." />
+    <thunderDamageDamp AltName="Damage Falloff: Lightning" Wiki="Percentage reduction in lightning damage per second." />
+    <staminaDamp AltName="Damage Falloff: Stamina" Wiki="Percentage reduction in stamina damage per second." />
+    <knockbackDamp AltName="Damage Falloff: Knockback" Wiki="Percentage reduction in knockback power per second." />
+    <shootAngleXZ AltName="Vertical Shoot Angle" Wiki="Angle of elevation of first bullet. Positive values will angle the bullets up and negative values will angle the bullets down." />
+    <isPenetrate IsBool="" Wiki="Bullet will go through objects, players, and NPCs." />
+    <prevVellocityDirRate Wiki="Ratio of adding the previous moving direction to the current direction when a sliding bullet hits the wall." />
+    <atkAttribute Enum="AttackAttribute" AltName="Physical Damage Type Attribute" />
+    <spAttribute Enum="EffectAttribute" AltName="Elemental Damage Attribute" />
+    <Material_AttackType Wiki="Determines visual effects of bullet hit." />
+    <Material_AttackMaterial Wiki="Sound and visual effects on hit." />
+    <Material_Size Wiki="'Size' of attack." />
+    <launchConditionType AltName="Hit/Expire Condition Type" Wiki="Condition for determining if a new bullet will be generated when this bullet lands or expires." />
+    <FollowType0 AltName="Follow Type: Soulmass" IsBool="" />
+    <FollowType1 AltName="Follow Type: Catalyst" IsBool="" />
+    <FollowType2 AltName="Follow Type: Follow Floor" IsBool="" />
+    <EmittePosType0 AltName="Emitter Type: Player Feet" IsBool="" />
+    <EmittePosType1 AltName="Emitter Type: Parent Bullet" IsBool="" />
+    <EmittePosType2 AltName="Emitter Type: Nearest Enemy Feet" IsBool="" />
+    <IsAttackSfx AltName="Persistent Attack FX" Wiki="Set whether bullets stay stuck upon impact." IsBool="" />
+    <IsEndlessHit AltName="Continuous Hitbox" Wiki="Bullet hitbox is continuous." IsBool="" />
+    <IsPenetrateMap Wiki="Bullet will pierce the map." IsBool="" />
+    <IsHitBothTeam Wiki="Bullet can hit any character." IsBool="" />
+    <IsUseShardHitList AltName="Use Shared Hit List" Wiki="Repeating bullets share the amount of times they have hit a target." IsBool="" />
+    <IsUseMultiDmyPolyIfPlace AltName="Use Multiple Model Points" Wiki="Set to True if the same model point ('damipoly') is used multiple times when spawning the bullet." IsBool="" />
+    <attachEffectType0 AltName="Attach Effect Type 0" Wiki="If either Type 0 or Type 1 are true, this bullet can deflect physical projectiles.\nIf both are true, this bullet can deflect spell projectiles." IsBool="" />
+    <attachEffectType1 AltName="Attach Effect Type 1" Wiki="If either Type 0 or Type 1 are true, this bullet can deflect physical projectiles.\nIf both are true, this bullet can deflect spell projectiles." IsBool="" />
+    <IsHitForceMagic AltName="Deflecable Physical Projectile" Wiki="If true, this bullet will be deflected by bullets like Force." IsBool="" />
+    <IsIgnoreSfxIfHitWater AltName="Ignore FX On Water Hit" Wiki="If true, hit FX are not produced if the bullet impacts water." IsBool="" />
+    <IsIgnoreMoveStateIfHitWater AltName="Ignore State Transition On Water Hit" Wiki="Unclear effect, but True for knives/arrows/bolts and False otherwise." IsBool="" />
+    <IsHitDarkForceMagic AltName="Deflectable Spell Projectile" Wiki="If true, this bullet will be deflected by bullets like Spell Parry." IsBool="" />
+    <IsInheritEffectToChild AltName="Transfer Effect to Child Bullet" IsBool="" />
+    <IsInheritSpeedToChild AltName="Transfer Speed to Child Bullet" IsBool="" />
+    <IsLockModule IsBool="" />
+    <IsSearchForTarget IsBool="" />
+    <IsEmittedBullet IsBool="" />
+    <IsInheritLifeToChild AltName="Transfer Duration to Child Bullet" IsBool="" />
+    <darkDamageDamp AltName="Damage Falloff: Dark Damage" />
+	<bulletHitType0 AltName="SFX Delete Type - By Hit" />
+	<bulletHitType1 AltName="SFX Delete Type - By Life Dead" />
+	<spHomingYAngle AltName="Target Y Offset Range" />
+    <rand_ShootAngleXZ AltName="Emitted Bullet - Random Angle XZ" />
+    <rand_ShootANgleY AltName="Emitted Bullet - Random Angle Y" />
+    <bulletEmitter_bulletId AltName="Bullet Emitter - Emitted Bullet" Refs="Bullet" />
+	<bulletEmitter_ShootInterval0 AltName="Bullet Emitter - Min Interval" />
+	<bulletEmitter_InitInterval AltName="Bullet Emitter - Max Interval" />
+	<SpHomingYAngleForEnemy AltName="Prediction Shoot Observe Time" />
+	<bulletEmitter_ShootInterval1 AltName="Bullet Emitter - Wait Time" />
+	<LimitBulletParamId Refs="BulletCreateLimitParam" />
+	<IsPosHitBullet IsBool="" />
+	<IsAttachAttackSfx IsBool="" />
+	<IsSpCorrection0 IsBool="" />
+	<IsSpCorrection1 IsBool="" />
+    <IsPenetrateTarget AltName="Is Prevent Collision With Target" IsBool="" />
+	<IsSpCorrection2 IsBool="" />
+	<IsDisableIntScale IsBool="" />
+    <EmittePosRadius AltName="Emitter Position Radius" />
+	<hitObjectId AltName="Hit Object ID" Refs="ObjectParam" Wiki="Spawns an object when bullet is considered hit."/>
+	<subLife />
+	<subHomingAngle />
+	<lockShootCorrectionAng />
   </Field>
 </PARAMMETA>

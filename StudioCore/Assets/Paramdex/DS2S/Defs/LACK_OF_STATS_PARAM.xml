@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMDEF XmlVersion="0">
   <ParamType>LACK_OF_STATS_PARAM</ParamType>
   <Unk06>0</Unk06>
@@ -6,9 +6,9 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="f32 Unk00" />
-    <Field Def="f32 Unk04" />
-    <Field Def="f32 Unk08" />
-    <Field Def="f32 Unk0C" />
+    <Field Def="f32 Lacking Stats Min Penalty %" />
+    <Field Def="f32 Lacking Stats Max Penalty %" />
+    <Field Def="f32 Lacking Stamina Min Penalty %" />
+    <Field Def="f32 Lacking Stamina Max Penalty %" />
   </Fields>
 </PARAMDEF>

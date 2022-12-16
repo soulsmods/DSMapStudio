@@ -87,8 +87,8 @@
     <Field Def="f32 Unk138" />
     <Field Def="f32 Unk13C" />
     <Field Def="f32 Unk140" />
-    <Field Def="f32 Unk144" />
-    <Field Def="f32 Unk148" />
+    <Field Def="f32 Company of Champions Player Damage Multiplier" />
+    <Field Def="f32 Company of Champions Enemy Damage Multiplier" />
     <Field Def="f32 PvE Physical Damage Cut Rate" />
     <Field Def="f32 Unk150" />
     <Field Def="f32 Unk154" />

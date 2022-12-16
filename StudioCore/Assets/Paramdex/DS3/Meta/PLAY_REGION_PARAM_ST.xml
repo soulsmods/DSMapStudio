@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+	<EventFlagId0 AltName="Multiplayer Start Event Flag ID" />
+	<LimitationTime AltName="Invasion Point Distance" />
+	<EventFlagId1 AltName="Player Position Save Limit Event Flag ID" Wiki="Prevents player from saving position until this flag is set" />
+	<EventFlagId2 AltName="Boss Flag ID" />
+	<DisolvedEventFlag AltName="Cult NPC Phantom Entity ID - By Free" />
+	<LoadOfCinderON_OFF AltName="Covenant Invader Region" IsBool="" />
+	<IsEnableEvent AltName="Spear of the Church Region" IsBool="" />
+	<Unk1 AltName="Multiplayer Start Event Flag Status [ON_OFF]" IsBool="" />
+	<Unk2 AltName="Invasion 1 Event Flag Status [ON_OFF]" IsBool="" Wiki="Needs testing." />
+	<Unk3 AltName="White Sign 1 Event Flag Status [ON_OFF]" IsBool="" Wiki="Needs testing." />
+	<Unk4 AltName="Red Sign 1 Event Flag Status [ON_OFF]" IsBool="" Wiki="Needs testing." />
+	<Unk5 AltName="Invasion 2 Event Flag Status [ON_OFF]" IsBool="" Wiki="Needs testing." />
+	<Unk6 AltName="Invasion 3 Event Flag Status [ON_OFF]" IsBool="" Wiki="Needs testing." />
+	<Unk7 AltName="White Sign 2 Event Flag Status [ON_OFF]" IsBool="" Wiki="Needs testing." />
+	<BonfireEventId0 AltName="Bonfire Warp Allowed Event ID 1" />
+	<BonfireEventId1 AltName="Bonfire Warp Allowed Event ID 2" />
+	<BonfireEventId2 AltName="Bonfire Warp Allowed Event ID 3" />
+	<BonfireEventId3 AltName="Bonfire Warp Allowed Event ID 4" />
+	<BonfireEventId4 AltName="Bonfire Warp Allowed Event ID 5" />
+	<BonfireEventId5 AltName="Bonfire Warp Prohibited Event ID 1" />
+	<BonfireEventId6 AltName="Bonfire Warp Prohibited Event ID 2" />
+	<BonfireEventId7 AltName="Bonfire Warp Prohibited Event ID 3" />
+	<BonfireEventId8 AltName="Bonfire Warp Prohibited Event ID 4" />
+	<BonfireEventId9 AltName="Bonfire Warp Prohibited Event ID 5" />
+	<Unk8 AltName="Enable Bloodstains" IsBool="" />
+	<Unk9 AltName="Enable Messages" IsBool="" />
+	<Unk10 AltName="Enable Wandering Ghosts" IsBool="" />
+	<Unk11 AltName="Display In List" IsBool="" Wiki="Needs testing." />
+	<Unk12 AltName="White Sign 2 Event Flag Status [ON_OFF]" IsBool="" Wiki="Needs testing." />
+	<Unk13 AltName="Red Sign 2 Event Flag Status [ON_OFF]" IsBool="" Wiki="Needs testing." />
+	<Unk14 AltName="Red Sign 3 Event Flag Status [ON_OFF]" IsBool="" Wiki="Needs testing." />
+	<Unk15 AltName="Use Auto Invasion Points" IsBool="" Wiki="Needs testing." />
+  </Field>
+  <Self />
+</PARAMMETA>

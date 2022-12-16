@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Self AlternativeOrder="physicDefRate,magicDefRate,fireDefRate,thunderDefRate,darkDefRate,slashDefRate,blowDefRate,thrustDefRate,-,
+  resistPoisonRate,resistToxicRate,resistBloodRate,resistFrost,resistCurseRate,-,
+  ResidentSpEffectId1,ResidentSpEffectId2,ResidentSpEffectId3,materialSetId" />
+  <Field>
+	<physicDefRate AltName="Defense Multiplier - Physical" />
+	<magicDefRate AltName="Defense Multiplier - Magic" />
+	<fireDefRate AltName="Defense Multiplier - Fire" />
+	<thunderDefRate AltName="Defense Multiplier - Lightning" />
+	<slashDefRate AltName="Defense Multiplier - Slash" />
+	<blowDefRate AltName="Defense Multiplier - Strike" />
+	<thrustDefRate AltName="Defense Multiplier - Thrust" />
+	<resistPoisonRate AltName="Resist Multiplier - Poison" />
+	<resistToxicRate AltName="Resist Multiplier - Toxic" />
+	<resistBloodRate AltName="Resist Multiplier - Bleed" />
+	<resistCurseRate AltName="Resist Multiplier - Curse" />
+	<ResidentSpEffectId1 AltName="Passive SpEffect ID 1 Offset" />
+    <ResidentSpEffectId2 AltName="Passive SpEffect ID 2 Offset" />
+    <ResidentSpEffectId3 AltName="Passive SpEffect ID 3 Offset" />
+	<materialSetId AltName="Material ID Offset" />
+	<darkDefRate AltName="Defense Multiplier - Dark" />
+	<resistFrost AltName="Resist Multiplier - Frost" />
+  </Field>
+  <Self />
+</PARAMMETA>

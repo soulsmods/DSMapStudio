@@ -1,30 +1,35 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
+   <Self AlternativeOrder="spEffectId2,spEffectId0,spEffectId1,spEffectId3,spEffectId10,spEffectId4,spEffectId11,spEffectId5,spEffectId12,spEffectId6,spEffectId13,spEffectId7,spEffectId14,spEffectId8,spEffectId15,spEffectId9,spEffectId16,-" />
   <Field>
-    <spEffectId0 Refs="SpEffectParam" />
-    <spEffectId1 Refs="SpEffectParam" />
+    <spEffectId0 AltName="SpEffect 1 - NG+0" Refs="SpEffectParam" />
+    <spEffectId1 AltName="SpEffect 2 - NG+0" Refs="SpEffectParam" />
     <FootEffectHeightType0 IsBool="" />
     <FootEffectHeightType1 IsBool="" />
     <footEffectDirType0 IsBool="" />
     <footEffectDirType1 IsBool="" />
-    <newSpType0 IsBool="" />
-    <newSpType1 IsBool="" />
-    <unkb1 IsBool="" />
-    <unkb2 IsBool="" />
-    <spEffectId2 Refs="SpEffectParam" />
-    <spEffectId3 Refs="SpEffectParam" />
-    <spEffectId4 Refs="SpEffectParam" />
-    <spEffectId5 Refs="SpEffectParam" />
-    <spEffectId6 Refs="SpEffectParam" />
-    <spEffectId7 Refs="SpEffectParam" />
-    <spEffectId8 Refs="SpEffectParam" />
-    <spEffectId9 Refs="SpEffectParam" />
-    <spEffectId10 Refs="SpEffectParam" />
-    <spEffectId11 Refs="SpEffectParam" />
-    <spEffectId12 Refs="SpEffectParam" />
-    <spEffectId13 Refs="SpEffectParam" />
-    <spEffectId14 Refs="SpEffectParam" />
-    <spEffectId15 Refs="SpEffectParam" />
-    <spEffectId16 Refs="SpEffectParam" />
+    <newSpType0 AltName="floorHeightType0" IsBool="" />
+    <newSpType1 AltName="floorHeightType1" IsBool="" />
+    <unkb1 AltName="Disable Fall Damage" IsBool="" />
+    <unkb2 AltName="pad1" IsBool="" />
+	<HitMtrlType0 AltName="HardnessType" />
+	<HitMtrlType1 AltName="WetTiming" />
+	<HitMtrlType2 AltName="pad2" />
+    <spEffectId2 AltName="SpEffect - Wet" Refs="SpEffectParam" />
+    <spEffectId3 AltName="SpEffect 1 - NG+1" Refs="SpEffectParam" />
+    <spEffectId4 AltName="SpEffect 1 - NG+2" Refs="SpEffectParam" />
+    <spEffectId5 AltName="SpEffect 1 - NG+3" Refs="SpEffectParam" />
+    <spEffectId6 AltName="SpEffect 1 - NG+4" Refs="SpEffectParam" />
+    <spEffectId7 AltName="SpEffect 1 - NG+5" Refs="SpEffectParam" />
+    <spEffectId8 AltName="SpEffect 1 - NG+6" Refs="SpEffectParam" />
+    <spEffectId9 AltName="SpEffect 1 - NG+7" Refs="SpEffectParam" />
+    <spEffectId10 AltName="SpEffect 2 - NG+1" Refs="SpEffectParam" />
+    <spEffectId11 AltName="SpEffect 2 - NG+2" Refs="SpEffectParam" />
+    <spEffectId12 AltName="SpEffect 2 - NG+3" Refs="SpEffectParam" />
+    <spEffectId13 AltName="SpEffect 2 - NG+4" Refs="SpEffectParam" />
+    <spEffectId14 AltName="SpEffect 2 - NG+5" Refs="SpEffectParam" />
+    <spEffectId15 AltName="SpEffect 2 - NG+6" Refs="SpEffectParam" />
+    <spEffectId16 AltName="SpEffect 2 - NG+7" Refs="SpEffectParam" />
   </Field>
+  <Self />
 </PARAMMETA>
