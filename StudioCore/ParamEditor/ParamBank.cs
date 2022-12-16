@@ -441,14 +441,18 @@ namespace StudioCore.ParamEditor
         }
 
         /// <summary>
-        /// Map related params that should not be in the param editor
+        /// Map related params.
         /// </summary>
-        private static List<string> _ds2ParamBlacklist = new List<string>()
+        public readonly static List<string> DS2MapParamlist = new List<string>()
         {
             "demopointlight",
             "demospotlight",
             "eventlocation",
             "eventparam",
+            "GeneralLocationEventParam",
+            "generatorparam",
+            "generatorregistparam",
+            "generatorlocation",
             "generatordbglocation",
             "hitgroupparam",
             "intrudepointparam",
@@ -519,28 +523,22 @@ namespace StudioCore.ParamEditor
                 var paramfiles = Directory.GetFileSystemEntries(d, @"*.param");
                 foreach (var p in paramfiles)
                 {
-                    bool blacklisted = false;
                     var name = Path.GetFileNameWithoutExtension(p);
-                    foreach (var bl in _ds2ParamBlacklist)
-                    {
-                        if (name.StartsWith(bl))
-                        {
-                            blacklisted = true;
-                            break;
-                        }
-                    }
-                    if (blacklisted)
-                    {
-                        continue;
-                    }
-
                     var lp = Param.Read(p);
                     var fname = lp.ParamType;
-                    PARAMDEF def = AssetLocator.GetParamdefForParam(fname);
-                    lp.ApplyParamdef(def);
-                    if (!_params.ContainsKey(name))
+
+                    try
                     {
-                        _params.Add(name, lp);
+                        PARAMDEF def = AssetLocator.GetParamdefForParam(fname);
+                        lp.ApplyParamdef(def);
+                        if (!_params.ContainsKey(name))
+                        {
+                            _params.Add(name, lp);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        TaskManager.warningList.TryAdd($"{fname} DefFail", $"Could not apply ParamDef for {fname}");
                     }
                 }
             }
@@ -569,7 +567,14 @@ namespace StudioCore.ParamEditor
             if (EnemyParam != null)
             {
                 PARAMDEF def = AssetLocator.GetParamdefForParam(EnemyParam.ParamType);
-                EnemyParam.ApplyParamdef(def);
+                try
+                {
+                    EnemyParam.ApplyParamdef(def);
+                }
+                catch (Exception e)
+                {
+                    TaskManager.warningList.TryAdd($"{EnemyParam.ParamType} DefFail", $"Could not apply ParamDef for {EnemyParam.ParamType}");
+                }
             }
             LoadParamFromBinder(paramBnd, ref _params, out _paramVersion);
         }
