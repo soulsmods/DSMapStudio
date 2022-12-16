@@ -90,12 +90,16 @@ namespace StudioCore
             ERRegulationFilter + "|" +
             "Data file (Data0.bdt) |DATA0.BDT|" +
             "ParamBndDcx (gameparam.parambnd.dcx) |GAMEPARAM.PARAMBND.DCX|" +
-            "ParamBnd (gameparam.parambnd) |GAMEPARAM.PARAMBND";
+            "ParamBnd (gameparam.parambnd) |GAMEPARAM.PARAMBND|" +
+            "Enc_RegBndDcx (enc_regulation.bnd.dcx) |ENC_REGULATION.BND.DCX|" +
+            "All Files|*.*";
 
         public static readonly string ERParamUpgradeFilter =
             ERRegulationFilter + "|" +
             "All Files|*.*";
-            
+         public static readonly string LooseParamFilter =
+            "Loose Param file (*.Param) |*.Param*|" +
+            "All Files|*.*";   
         
         public GameType Type { get; private set; } = GameType.Undefined;
 
