@@ -467,7 +467,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public byte UnkT14 { get; set; }
+                public byte HitFilterID { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -537,8 +537,9 @@ namespace SoulsFormats
                 public short UnkT36 { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// Shared identifier. Checked by ESD HitGroup commands.
                 /// </summary>
+                [MSBParamReference(ParamName = "HitGroupParam")]
                 public int HitGroupID { get; set; }
 
                 /// <summary>
@@ -568,7 +569,7 @@ namespace SoulsFormats
                     UnkT11 = br.ReadByte();
                     UnkT12 = br.ReadByte();
                     FilterParamID = br.ReadByte();
-                    UnkT14 = br.ReadByte();
+                    HitFilterID = br.ReadByte();
                     UnkT15 = br.ReadByte();
                     br.AssertByte(0);
                     UnkT17 = br.ReadByte();
@@ -606,7 +607,7 @@ namespace SoulsFormats
                     bw.WriteByte(UnkT11);
                     bw.WriteByte(UnkT12);
                     bw.WriteByte(FilterParamID);
-                    bw.WriteByte(UnkT14);
+                    bw.WriteByte(HitFilterID);
                     bw.WriteByte(UnkT15);
                     bw.WriteByte(0);
                     bw.WriteByte(UnkT17);
