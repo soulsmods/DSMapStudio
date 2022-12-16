@@ -23,7 +23,7 @@
     <Field Def="u16 STR Requirement" />
     <Field Def="u16 DEX Requirement" />
     <Field Def="u16 INT Requirement" />
-    <Field Def="u16 FAI Requirement" />
+    <Field Def="u16 FTH Requirement" />
     <Field Def="f32 Weight" />
     <Field Def="f32 Durability" />
     <Field Def="u32 Repair Cost" />

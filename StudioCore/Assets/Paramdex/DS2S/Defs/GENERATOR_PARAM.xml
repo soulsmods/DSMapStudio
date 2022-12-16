@@ -6,9 +6,9 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="u8 Unk00" />
     <Field Def="u8 SpawnLimit" />
     <Field Def="u8 SpawnLimitGameClear" />
+    <Field Def="u8 Unk02" />
     <Field Def="u8 AggroGroup" />
     <Field Def="u32 DeathEventID" >
       <Description>Used in ESD. Determines if Death state is active.</Description>
@@ -40,7 +40,7 @@
     <Field Def="u32 Unk44" />
     <Field Def="u16 Unk48" />
     <Field Def="u16 Map Object Bonfire ID" />
-    <Field Def="f32 Unk4C" />
+    <Field Def="f32 Leash Distance" />
     <Field Def="u32 LocationEventID" />
     <Field Def="u32 LocationEventID" />
     <Field Def="u32 AIThinkID" >

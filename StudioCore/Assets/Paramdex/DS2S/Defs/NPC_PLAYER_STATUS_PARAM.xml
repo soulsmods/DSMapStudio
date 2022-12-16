@@ -6,7 +6,8 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="u16 Body Type" />
+    <Field Def="u8 NPC Gender" />
+    <Field Def="u8 Hollowing State" />
     <Field Def="u16 Physique" />
     <Field Def="s32 Name ID" />
     <Field Def="u8 Soul Level" />
@@ -21,12 +22,9 @@
     <Field Def="u8 Faith" />
     <Field Def="u8 Adaptability" />
     <Field Def="u8 Unk10" />
-    <Field Def="f32 Unk14" />
-    <Field Def="f32 Unk18" />
-    <Field Def="u8 Unk1C" />
-    <Field Def="u8 Unk1C" />
-    <Field Def="u8 Unk1C" />
-    <Field Def="u8 Unk1C" />
+    <Field Def="f32 Equip Load % Movement" />
+    <Field Def="f32 Invincibility Duration" />
+    <Field Def="u32 Recovery Item ID" />
     <Field Def="s32 Item 1 ID" />
     <Field Def="s32 Item 2 ID" />
     <Field Def="s32 Item 3 ID" />
@@ -56,10 +54,10 @@
     <Field Def="s32 Chest Armor ID" />
     <Field Def="s32 Hands Armor ID" />
     <Field Def="s32 Legs Armor ID" />
-    <Field Def="s32 Unk94" />
-    <Field Def="s32 Unk98" />
-    <Field Def="s32 Unk9C" />
-    <Field Def="s32 UnkA0" />
+    <Field Def="s32 Ring 1 ID" />
+    <Field Def="s32 Ring 2 ID" />
+    <Field Def="s32 Ring 3 ID" />
+    <Field Def="s32 Ring 4 ID" />
     <Field Def="s32 Arrow ID 1" />
     <Field Def="s32 Arrow ID 2" />
     <Field Def="s32 Bolt ID 1" />

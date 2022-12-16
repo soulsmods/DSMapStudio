@@ -6,8 +6,8 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="f32 Unk00" />
-    <Field Def="f32 Unk04" />
+    <Field Def="f32 Interact Animation Speed 1" />
+    <Field Def="f32 Interact Animation Speed 2" />
     <Field Def="f32 Unk08" />
     <Field Def="s32 Unk0C" />
     <Field Def="s32 Unk10" />
