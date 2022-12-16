@@ -374,7 +374,7 @@ namespace StudioCore.ParamEditor
                     row,
                     row[matches[i]],
                     vmatches?.Count > i ? vrow?[vmatches[i]] : null,
-                    auxRows.Select((r, j) => auxmatches[j].Count > i ? r.Item2?[auxmatches[j][i]] : null).ToList(),
+                    auxRows.Select((r, j) => auxmatches[j]?.Count > i ? r.Item2?[auxmatches[j][i]] : null).ToList(),
                     cmatches != null && cmatches.Count > i ? crow?[cmatches[i]] : null,
                     showParamCompare, showRowCompare, ref id, propSearchRx, activeParam, false);
             }
