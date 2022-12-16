@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+	<State0 AltName="disableDark" IsBool="" />
+	<State1 AltName="caravanRole" />
+	<disablePathMove IsBool="" />
+	<skipArrivalVisibleCheck IsBool="" />
+	<thinkAttrDoAdmirer IsBool="" />
+	<enableNaviFlg_Edge IsBool="" />
+	<enableNaviFlg_LargeSpace IsBool="" />
+	<enableNaviFlg_Ladder IsBool="" />
+	<enableNaviFlg_Hole IsBool="" />
+	<enableNaviFlg_Door IsBool="" />
+	<enableNaviFlg_InSideWall IsBool="" />
+	<enableNaviFlg_EdgeOrdinary IsBool="" />
+	<enableNaviFlg_reserve0 IsBool="" />
+	<disableLocalSteering IsBool="" />
+  </Field>
+  <Self />
+</PARAMMETA>

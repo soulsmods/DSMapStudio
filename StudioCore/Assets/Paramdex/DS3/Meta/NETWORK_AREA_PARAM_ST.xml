@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+	<isEnable00 AltName="Enable Bloodstains" IsBool="" />
+	<isEnable01 AltName="Enable Messages" IsBool="" />
+	<isEnable02 AltName="Enable Wandering Ghosts" IsBool="" />
+	<unkb1 AltName="Enable Multiplayer" IsBool="" />
+	<unkb2 AltName="Enable Covenant Search" IsBool="" />
+	<unkb3 AltName="Enable Orb Search" IsBool="" />
+  </Field>
+  <Self />
+</PARAMMETA>

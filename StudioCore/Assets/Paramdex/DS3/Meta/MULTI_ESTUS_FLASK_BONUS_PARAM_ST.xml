@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+	<estusFlaskRestoreCount0 AltName="Host" />
+	<estusFlaskRestoreCount1 AltName="Sign Phantom" />
+	<estusFlaskRestoreCount2 AltName="Sign Phantom (Warriors of Sunlight)" />
+	<estusFlaskRestoreCount3 AltName="Sign Phantom (Mound-makers)" />
+	<estusFlaskRestoreCount4 AltName="Sign Invader" />
+	<estusFlaskRestoreCount5 AltName="Sign Invader (Warriors of Sunlight)" />
+	<estusFlaskRestoreCount6 AltName="Sign Invader (Mound-makers)" />
+	<estusFlaskRestoreCount7 AltName="Orb Invader" />
+	<estusFlaskRestoreCount8 AltName="Orb Invader (Warriors of Sunlight)" />
+	<estusFlaskRestoreCount9 AltName="Orb Invader (Mound-makers)" />
+	<estusFlaskRestoreCount10 AltName="Blade of the Darkmoon" />
+	<estusFlaskRestoreCount11 AltName="Blue Sentinels" />
+	<estusFlaskRestoreCount12 AltName="Watchdogs of Farron" />
+	<estusFlaskRestoreCount13 AltName="Aldrich Faithful" />
+	<estusFlaskRestoreCount14 AltName="Arena" />
+	<estusFlaskRestoreCount15 AltName="Spears of the Church" />
+  </Field>
+  <Self />
+</PARAMMETA>

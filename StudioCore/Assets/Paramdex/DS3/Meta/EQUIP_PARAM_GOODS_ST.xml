@@ -1,217 +1,172 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
   <Enums>
-	  <Enum Name="GoodsUseAnim">
-		<Option Value="0" Name="Consumable" />
-		<Option Value="1" Name="Apply to Weapon" />
-		<Option Value="2" Name="Quick Throw" />
-		<Option Value="3" Name="Slow Throw" />
-		<Option Value="4" Name="Binoculars" />
-		<Option Value="5" Name="Scatter" />
-		<Option Value="6" Name="Tool Kneel" />
-		<Option Value="7" Name="Prism Stone" />
-		<Option Value="8" Name="Apply to Ground" />
-		<Option Value="9" Name="Crush Consumable" />
-		<Option Value="10" Name="Estus Flask" />
-		<Option Value="11" Name="Dragon Head Stone" />
-		<Option Value="12" Name="Dragon Torso Stone" />
-		<Option Value="13" Name="Pray" />
-		<Option Value="14" Name="Cross Arms and Apply" />
-		<Option Value="16" Name="Quick Apply to Weapon" />
-		<Option Value="17" Name="Throwing Knife" />
-		<Option Value="18" Name="Quick Throw Bottle" />
-		<Option Value="19" Name="Ashen Estus Flask" />
-		<Option Value="20" Name="Throw Backwards" />
-		<Option Value="21" Name="Siegbräu" />
-		<Option Value="22" Name="Transform" />
-		<Option Value="23" Name="Twinkling Dragon Head Stone" />
-		<Option Value="24" Name="Twinkling Dragon Torso Stone" />
-		<Option Value="25" Name="Spear Fragment" />
-		<Option Value="26" Name="Church Guardian Shiv" />
-	  </Enum>
-	  <Enum Name="OpenMenuType">
-		<Option Value="0" Name="None" />
-		<Option Value="1" Name="Yes / No" />
-		<Option Value="4" Name="Yes / No (Session)" />
-		<Option Value="5" Name="Unknown" />
-		<Option Value="6" Name="Create Blood Message" />
-		<Option Value="7" Name="Roster Of Knights" />
-		<Option Value="8" Name="Unknown" />
-		<Option Value="9" Name="Ok / Cancel" />
-		<Option Value="10" Name="Invasion" />
-		<Option Value="11" Name="Coiled Sword Fragment" />
-		<Option Value="12" Name="Darksign" />
-	  </Enum>
-	  <Enum Name="SpEffectCategory">
-		<Option Value="0" Name="Default" />
-		<Option Value="5" Name="Weapon" />
-	  </Enum>
-	  <Enum Name="ReferenceType">
-		<Option Value="0" Name="Behavior / None" />
-		<Option Value="1" Name="Bullet" />
-		<Option Value="2" Name="SpEffect" />
-	  </Enum>
-	  <Enum Name="GoodsType">
-		<Option Value="0" Name="Consumable" />
-		<Option Value="1" Name="Key Option" />
-		<Option Value="2" Name="Material" />
-	  </Enum>
+    <Enum Name="GoodsUseAnim">
+      <Option Value="0" Name="Consumable" />
+      <Option Value="1" Name="Apply to Weapon" />
+      <Option Value="2" Name="Quick Throw" />
+      <Option Value="3" Name="Slow Throw" />
+      <Option Value="4" Name="Binoculars" />
+      <Option Value="5" Name="Scatter" />
+      <Option Value="6" Name="Tool Kneel" />
+      <Option Value="7" Name="Prism Stone" />
+      <Option Value="8" Name="Apply to Ground" />
+      <Option Value="9" Name="Crush Consumable" />
+      <Option Value="10" Name="Estus Flask" />
+      <Option Value="11" Name="Dragon Head Stone" />
+      <Option Value="12" Name="Dragon Torso Stone" />
+      <Option Value="13" Name="Pray" />
+      <Option Value="14" Name="Cross Arms and Apply" />
+      <Option Value="16" Name="Quick Apply to Weapon" />
+      <Option Value="17" Name="Throwing Knife" />
+      <Option Value="18" Name="Quick Throw Bottle" />
+      <Option Value="19" Name="Ashen Estus Flask" />
+      <Option Value="20" Name="Throw Backwards" />
+      <Option Value="21" Name="Siegbräu" />
+      <Option Value="22" Name="Transform" />
+      <Option Value="23" Name="Twinkling Dragon Head Stone" />
+      <Option Value="24" Name="Twinkling Dragon Torso Stone" />
+      <Option Value="25" Name="Spear Fragment" />
+      <Option Value="26" Name="Church Guardian Shiv" />
+    </Enum>
+    <Enum Name="OpenMenuType">
+      <Option Value="0" Name="None" />
+      <Option Value="1" Name="Yes / No" />
+      <Option Value="4" Name="Yes / No (Session)" />
+      <Option Value="5" Name="Unknown" />
+      <Option Value="6" Name="Create Blood Message" />
+      <Option Value="7" Name="Roster Of Knights" />
+      <Option Value="8" Name="Unknown" />
+      <Option Value="9" Name="Ok / Cancel" />
+      <Option Value="10" Name="Invasion" />
+      <Option Value="11" Name="Coiled Sword Fragment" />
+      <Option Value="12" Name="Darksign" />
+    </Enum>
+    <Enum Name="SpEffectCategory">
+      <Option Value="0" Name="Default" />
+	  <Option Value="3" Name="Sorcery" />
+	  <Option Value="4" Name="Miracle" />
+      <Option Value="5" Name="Basic" />
+	  <Option Value="9" Name="Kick" />
+	  <Option Value="10" Name="Pyromancy" />
+    </Enum>
+    <Enum Name="ReferenceType">
+      <Option Value="0" Name="Behavior / None" />
+      <Option Value="1" Name="Bullet" />
+      <Option Value="2" Name="SpEffect" />
+    </Enum>
+    <Enum Name="GoodsType">
+      <Option Value="0" Name="Consumable" />
+      <Option Value="1" Name="Key Item" />
+      <Option Value="2" Name="Material" />
+	  <Option Value="5" Name="Spell" />
+    </Enum>
+	<Enum Name="UseLimitCategory">
+      <Option Value="0" Name="Default" />
+      <Option Value="3" Name="Dragon Head Stones" />
+    </Enum>
+	<Enum Name="ReplaceCategory">
+      <Option Value="0" Name="Default" />
+      <Option Value="5" Name="Dragon Head/Body Stones" />
+    </Enum>
+	<Enum Name="SuppleItemType">
+      <Option Value="0" Name="Default" />
+      <Option Value="1" Name="Estus Flask" />
+	  <Option Value="2" Name="Ashen Estus Flask" />
+    </Enum>
   </Enums>
-  <Self AlternativeOrder="
- sortId,
- iconId,
- sellValue,
- maxNum,
- -,
- goodsType,
- weight,
- -,
- refId1,
- sfxVariationId,
- fragmentNum,
- replaceItemId,
- behaviorId,
- qwcId,
- magicId,
- modelId,
- shopLv,
- consumeHeroPoint,
- overDexterity,
- refCategory,
- spEffectCategory,
- goodsCategory,
- goodsUseAnim,
- opmeMenuType,
- yesNoDialogMessageId,
- useLimitCategory,
- replaceCategory,
- -,
- vowType0, vowType1, vowType2, vowType3, vowType4, vowType5, vowType6, vowType7, vowType8, vowType9, vowType10, vowType11, vowType12, vowType13, vowType14, vowType15,
- -,
- enable_live, enable_gray, enable_white, enable_black, enable_multi,
- disable_offline,
- disableUseAtColiseum, disableUseAtOutofColiseum,
- -,
- isEquip,
- isConsume,
- isAutoEquip,
- isEstablishment,
- isOnlyOne,
- isDrop, isDeposit, isDisableHand, disableMutliDropShare, 
- isTravelItem,
- isSuppleItem,
- isFullSuppleItem,
- isEnhance, isFixItem,
- useBulletMaxNum,
- useHpCureMaxNum,
- isAutoReplenish,
- canMultiUse,
- isGuestDrop,
- isEnchantLeftHand,
- isApplySpecialEffect,
- Unk1,
- Unk2,
- Unk3,
- refId2,
- reinforceParamWeapon,
- VagrantItemLotId, VagrantBonusEneDropItemLotId, vagrantItemeneDropItemLotId,
- refVirtualWepId,
- replaceItemId_BySpEffect,
- replaceTriggerSpEffectId,
- isLoadOfCinder,
- isPlayRegion1,
- isLadder,
- isMultiPlay,
- useSelected,
- Unk4,
- isPlayRegion2,
- isNetPenalized,
- SuppleItemType,
- menuAdhocType,
- drop [ON_OFF],
- maxRepNum,
- invadeType,
- shopId,
- fpConsume,
- useLimitCategory2
- compTrophySedId, trophySeqId," />
+  <Self AlternativeOrder="sortId,iconId,shopId,sellValue,maxNum,maxRepNum,-,
+goodsType,weight,fpConsume,useLimitCategory2,-,
+refId1,refId2,reinforceParamWeapon,sfxVariationId,fragmentNum,replaceItemId,behaviorId,qwcId,magicId,modelId,shopLv,consumeHeroPoint,overDexterity,refCategory,spEffectCategory,goodsCategory,goodsUseAnim,opmeMenuType,yesNoDialogMessageId,useLimitCategory,replaceCategory,VagrantItemLotId,VagrantBonusEneDropItemLotId,vagrantItemeneDropItemLotId,refVirtualWepId,replaceItemId_BySpEffect,replaceTriggerSpEffectId,menuAdhocType,invadeType,-,
+isEquip,isConsume,isAutoEquip,isEstablishment,isOnlyOne,isDrop,isDeposit,isDisableHand,isTravelItem,isSuppleItem,isFullSuppleItem,SuppleItemType,isEnhance,Unk4,isFixItem,useBulletMaxNum,useHpCureMaxNum,isLoadOfCinder,isPlayRegion1,isLadder,isMultiPlay,useSelected,isPlayRegion2,isNetPenalized,drop [ON_OFF],isAutoReplenish,canMultiUse,-,
+vowType0,vowType1,vowType2,vowType3,vowType4,vowType5,vowType6,vowType7,vowType8,vowType9,vowType10,vowType11,vowType12,vowType13,vowType14,vowType15,-,
+enable_live,enable_gray,enable_white,enable_black,enable_multi,disable_offline,disableUseAtColiseum,disableUseAtOutofColiseum,disableMutliDropShare,-" />
   <Field>
-	<refId1 Refs="SpEffectParam" AltName="Ref ID 1" />
-	<sfxVariationId AltName="VFX Variation ID" />
-	<fragmentNum AltName="Base Price" />
-	<yesNoDialogMessageId AltName="Dialog Message ID" />
-	<shopLv AltName="Shop Level" />
-	<maxNum AltName="Max Amount" />
-	<goodsType Enum="GoodsType" />
-	<refCategory Enum="ReferenceType" />
-	<spEffectCategory Enum="SpEffectCategory" />
-	<goodsUseAnim Enum="GoodsUseAnim" />
-	<opmeMenuType Enum="OpenMenuType" />
-	<vowType0 IsBool="" />
-	<vowType1 IsBool="" />
-	<vowType2 IsBool="" />
-	<vowType3 IsBool="" />
-	<vowType4 IsBool="" />
-	<vowType5 IsBool="" />
-	<vowType6 IsBool="" />
-	<vowType7 IsBool="" />
-	<vowType8 IsBool="" />
-	<vowType9 IsBool="" />
-	<vowType10 IsBool="" />
-	<vowType11 IsBool="" />
-	<vowType12 IsBool="" />
-	<vowType13 IsBool="" />
-	<vowType14 IsBool="" />
-	<vowType15 IsBool="" />
-	<enable_live IsBool="" />
-	<enable_gray IsBool="" />
-	<enable_white IsBool="" />
-	<enable_black IsBool="" />
-	<enable_multi AltName="Enable Multiplayer" IsBool="" />
-	<disable_offline AltName="Enable Offline" IsBool="" />
-	<isEquip IsBool="" />
-	<isConsume IsBool="" />
-	<isAutoEquip IsBool="" />
-	<isEstablishment IsBool="" />
-	<isOnlyOne IsBool="" />
-	<isDrop IsBool="" />
-	<isDeposit IsBool="" />
-	<isDisableHand IsBool="" />
-	<isTravelItem IsBool="" />
-	<isSuppleItem IsBool="" />
-	<isFullSuppleItem IsBool="" />
-	<isEnhance IsBool="" />
-	<isFixItem IsBool="" />
-	<disableMutliDropShare AltName="Is Disable Multi Drop Share" IsBool="" />
-	<disableUseAtColiseum AltName="Is Disable Use in Undead Arena" IsBool="" />
-	<disableUseAtOutofColiseum AltName="Is Disable Use outside of Undead Arena" IsBool="" />
-	<useBulletMaxNum IsBool="" />
-	<useHpCureMaxNum IsBool="" />
-	<isAutoReplenish IsBool="" />
-	<canMultiUse IsBool="" />
-	<isGuestDrop IsBool="" />
-	<isEnchantLeftHand IsBool="" />
-	<isApplySpecialEffect IsBool="" />
-	<Unk1 IsBool="" />
-	<Unk2 IsBool="" />
-	<Unk3 IsBool="" />
-	<refId2 AltName="Ref ID - Offhand" />
-	<reinforceParamWeapon Refs="EquipParamWeapon" AltName="Virtual Weapon ID - For damage scaling" />
-	<VagrantItemLotId AltName="Vagrant Item Lot ID" />
-	<VagrantBonusEneDropItemLotId AltName="Vagrant (Enemy) Item Lot ID" />
-	<vagrantItemeneDropItemLotId AltName="Vagrant (Enemy) Item Lot ID" />
-	<refVirtualWepId AltName="FFX ID During Item Use Animation" />
-	<isLoadOfCinder AltName="Is Ember Stays Active" IsBool="" />
-	<isPlayRegion1 AltName="Is Get Play Region Info" IsBool="" />
-	<isLadder AltName="Is Using Ladder" IsBool="" />
-	<isMultiPlay AltName="Is Enable On Session Creation" IsBool="" />
-	<useSelected AltName="Is Use Selected" IsBool="" />
-	<Unk4 AltName="Is Enchant Left" IsBool="" />
-	<isPlayRegion2 AltName="Is Always Valid" IsBool="" />
-	<isNetPenalized IsBool="" />
-	<menuAdhocType AltName="Is Enable Scaleform" />
-	<dropON_OFF AltName="Can Drop" />
-	<shopId AltName="Shop Price" />
-	<fpConsume AltName="FP Cost" />
+    <refId1 Refs="SpEffectParam,Bullet,BehaviorParam_PC" AltName="Ref ID" />
+    <sfxVariationId AltName="VFX Variation ID" />
+    <fragmentNum AltName="Base Price" />
+	<replaceItemId AltName="Behavior ID" />
+	<behaviorId Refs="EquipParamGoods" AltName="Replace Item ID" Wiki="ID of item to replace when certain conditions are met.\nIf item is FullSuppleItem, replace when this item is fully consumed.\nIf item is SuppleItem, replace when resting at bonfire."/>
+    <yesNoDialogMessageId AltName="Dialog Message ID" />
+    <shopLv AltName="Shop Level" />
+    <maxNum AltName="Max Amount" />
+	<consumeHeroPoint AltName="Humanity Cost" />
+    <goodsType Enum="GoodsType" />
+    <refCategory Enum="ReferenceType" />
+    <spEffectCategory Enum="SpEffectCategory" />
+    <goodsUseAnim Enum="GoodsUseAnim" />
+    <opmeMenuType AltName="Open Menu Type" Enum="OpenMenuType" />
+	<useLimitCategory Enum="UseLimitCategory" />
+	<replaceCategory Enum="ReplaceCategory" />
+    <vowType0 AltName="Usable in Vow 0" Wiki="No Covenant" IsBool="" />
+    <vowType1 AltName="Usable in Vow 1" Wiki="Blade of the Darkmoon" IsBool="" />
+    <vowType2 AltName="Usable in Vow 2" Wiki="Warrior of Sunlight" IsBool="" />
+    <vowType3 AltName="Usable in Vow 3" Wiki="Mound-makers" IsBool="" />
+    <vowType4 AltName="Usable in Vow 4" Wiki="Spears of the Church" IsBool="" />
+    <vowType5 AltName="Usable in Vow 5" Wiki="Rosaria's Fingers" IsBool="" />
+    <vowType6 AltName="Usable in Vow 6" Wiki="Watchdogs of Farron" IsBool="" />
+    <vowType7 AltName="Usable in Vow 7" Wiki="Aldrich Faithful" IsBool="" />
+    <vowType8 AltName="Usable in Vow 8" Wiki="Way of Blue" IsBool="" />
+    <vowType9 AltName="Usable in Vow 9" Wiki="Blue Sentinels" IsBool="" />
+    <vowType10 AltName="Usable in Vow 10" IsBool="" />
+    <vowType11 AltName="Usable in Vow 11" IsBool="" />
+    <vowType12 AltName="Usable in Vow 12" IsBool="" />
+    <vowType13 AltName="Usable in Vow 13" IsBool="" />
+    <vowType14 AltName="Usable in Vow 14" IsBool="" />
+    <vowType15 AltName="Usable in Vow 15" IsBool="" />
+    <enable_live AltName="Usable by Human" IsBool="" />
+    <enable_gray AltName="Usable by Hollow" IsBool="" />
+    <enable_white AltName="Usable by Phantom" IsBool="" />
+    <enable_black AltName="Usable by Dark Spirit" IsBool="" />
+    <enable_multi AltName="Enabled in Multiplayer" IsBool="" />
+    <disable_offline AltName="Disable Offline" IsBool="" />
+    <isEquip AltName="Can Equip" Wiki="Can equip in item slots or pouch." IsBool="" />
+    <isConsume AltName="Consumed on Use" IsBool="" />
+    <isAutoEquip AltName="Automatically Equipped" Wiki="Automatically enters an open item slot when picked up." IsBool="" />
+    <isEstablishment IsBool="" />
+    <isOnlyOne IsBool="" />
+    <isDrop AltName="Can Discard" IsBool="" />
+    <isDeposit AltName="Can Deposit" IsBool="" />
+    <isDisableHand AltName="Disable if Right Hand Empty" IsBool="" />
+    <isTravelItem IsBool="" />
+    <isSuppleItem AltName="Supple Item" Wiki="Works with Replace Item ID." IsBool="" />
+    <isFullSuppleItem AltName="Full Supple Item" Wiki="Works with Replace Item ID.\nIf true, fully stocks max when resting at bonfire." IsBool="" />
+    <isEnhance AltName="Enchant Item" IsBool="" />
+    <isFixItem AltName="Repair Item" IsBool="" />
+    <disableMutliDropShare AltName="Disable Multiplayer Sharing" Wiki="Prevents item from appearing to other players when dropped." IsBool="" />
+    <disableUseAtColiseum AltName="Disable Use in Undead Arena" IsBool="" />
+    <disableUseAtOutofColiseum AltName="Disable Use outside of Undead Arena" IsBool="" />
+    <useBulletMaxNum AltName="Quick Use Item" Wiki="Uses Jumptable 107 instead of Jumptable 33 in TAE" IsBool="" />
+    <useHpCureMaxNum AltName="Apply SpEffect Modifiers" Wiki="spCategory needs to not be 5" IsBool="" />
+    <isAutoReplenish AltName="Is Estus Flask" IsBool="" />
+    <canMultiUse AltName="Is Ashen Estus Flask" IsBool="" />
+    <isGuestDrop AltName="Unk1" IsBool="" />
+    <isEnchantLeftHand AltName="Unk2" IsBool="" />
+    <isApplySpecialEffect AltName="Unk3" IsBool="" />
+    <Unk1 AltName="Unk4" IsBool="" />
+    <Unk2 AltName="Unk5" IsBool="" />
+    <Unk3 AltName="Unk6" IsBool="" />
+    <refId2 Refs="SpEffectParam,Bullet,BehaviorParam_PC" AltName="Ref ID - Offhand" Wiki="SpEffect to use for weapon buffs when 2H the left weapon.\nMust have Is Enchant Left flagged to function." />
+    <reinforceParamWeapon Refs="EquipParamWeapon" AltName="Virtual Weapon ID" Wiki="For damage and effect scaling." />
+    <VagrantItemLotId AltName="Vagrant Item Lot ID" />
+    <VagrantBonusEneDropItemLotId AltName="Vagrant (Enemy) Item Lot ID" />
+    <vagrantItemeneDropItemLotId AltName="Vagrant (Enemy) Item Lot ID" />
+    <refVirtualWepId AltName="VFX ID - Applying" />
+	<replaceItemId_BySpEffect AltName="VFX ID - On Apply" />
+	<replaceTriggerSpEffectId AltName="VFX ID - After Apply" />
+    <isLoadOfCinder AltName="Usable while Embered" IsBool="" />
+    <isPlayRegion1 AltName="Is Get Play Region Info" IsBool="" />
+    <isLadder AltName="Usable on Ladder" IsBool="" />
+    <isMultiPlay AltName="Enable On Session Creation" IsBool="" />
+    <useSelected AltName="Multi Use" Wiki="Grants Use Selected option in inventory." IsBool="" />
+    <Unk4 AltName="Enchant Left" Wiki="Must be used with isEnhance to use Ref ID - Offhand." IsBool="" />
+    <isPlayRegion2 AltName="Always Valid" IsBool="" />
+    <isNetPenalized AltName="Usable when Multiplayer Penalized" IsBool="" />
+	<SuppleItemType Enum="SuppleItemType" />
+    <menuAdhocType AltName="Auto Replenish Type" />
+    <dropON_OFF AltName="Can Drop" IsBool="" />
+    <shopId AltName="Shop Price" />
+    <fpConsume AltName="FP Cost" />
+	<useLimitCategory2 AltName="Disabled by State Info" />
   </Field>
 </PARAMMETA>

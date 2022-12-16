@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+	<GparamIDUp AltName="GParam ID Offset" />
+	<GparamIDLow AltName="GParam Override ID" />
+	<IsReload IsBool="" />
+	<IsDisableOnline AltName="PlayRegion Offset" Wiki="Offsets PlayRegion IDs by given x 100\nEx: 400000 -> 400100 for value of 1." />
+  </Field>
+  <Self />
+</PARAMMETA>
