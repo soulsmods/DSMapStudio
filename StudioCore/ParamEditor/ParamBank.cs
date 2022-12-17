@@ -1076,11 +1076,17 @@ namespace StudioCore.ParamEditor
             // If params aren't loose, replace params with edited ones
             if (!loose)
             {
-                foreach (var p in paramBnd.Files)
+                // Replace params in paramBND, write remaining params loosely
+                foreach (var p in _params)
                 {
-                    if (_params.ContainsKey(Path.GetFileNameWithoutExtension(p.Name)))
+                    var bnd = paramBnd.Files.Find(e => Path.GetFileNameWithoutExtension(e.Name) == p.Key);
+                    if (bnd != null)
                     {
-                        p.Bytes = _params[Path.GetFileNameWithoutExtension(p.Name)].Write();
+                        bnd.Bytes = p.Value.Write();
+                    }
+                    else
+                    {
+                        Utils.WriteWithBackup(dir, mod, $@"Param\{p.Key}.param", p.Value);
                     }
                 }
             }
