@@ -405,27 +405,27 @@ namespace StudioCore.ParamEditor
                     for (int i=0; i<values.Length; i++)
                     {
                         float baseVal = i + stageMaxVal0;
-                        if (baseVal <= stageMaxVal1)
+                        if (baseVal < stageMaxVal1)
                         {
-                            float adjValRate = (baseVal - stageMaxVal0) / (stageMaxVal1 - stageMaxVal0);
+                            float adjValRate = stageMaxVal0 == stageMaxVal1 ? 0 : (baseVal - stageMaxVal0) / (stageMaxVal1 - stageMaxVal0);
                             float adjGrowValRate = adjPoint_maxGrowVal0 >= 0 ? (float)Math.Pow(adjValRate, adjPoint_maxGrowVal0) : 1 - (float)Math.Pow(1 - adjValRate, -adjPoint_maxGrowVal0);
                             values[i] = adjGrowValRate * (stageMaxGrowVal1 - stageMaxGrowVal0) + stageMaxGrowVal0;
                         }
-                        else if (baseVal <= stageMaxVal2)
+                        else if (baseVal < stageMaxVal2)
                         {
-                            float adjValRate = (baseVal - stageMaxVal1) / (stageMaxVal2 - stageMaxVal1);
+                            float adjValRate = stageMaxVal1 == stageMaxVal2 ? 0 : (baseVal - stageMaxVal1) / (stageMaxVal2 - stageMaxVal1);
                             float adjGrowValRate = adjPoint_maxGrowVal1 >= 0 ? (float)Math.Pow(adjValRate, adjPoint_maxGrowVal1) : 1 - (float)Math.Pow(1 - adjValRate, -adjPoint_maxGrowVal1);
                             values[i] = adjGrowValRate * (stageMaxGrowVal2 - stageMaxGrowVal1) + stageMaxGrowVal1;
                         }
-                        else if (baseVal <= stageMaxVal3)
+                        else if (baseVal < stageMaxVal3)
                         {
-                            float adjValRate = (baseVal - stageMaxVal2) / (stageMaxVal3 - stageMaxVal2);
+                            float adjValRate = stageMaxVal2 == stageMaxVal3 ? 0 : (baseVal - stageMaxVal2) / (stageMaxVal3 - stageMaxVal2);
                             float adjGrowValRate = adjPoint_maxGrowVal2 >= 0 ? (float)Math.Pow(adjValRate, adjPoint_maxGrowVal2) : 1 - (float)Math.Pow(1 - adjValRate, -adjPoint_maxGrowVal2);
                             values[i] = adjGrowValRate * (stageMaxGrowVal3 - stageMaxGrowVal2) + stageMaxGrowVal2;
                         }
                         else
                         {
-                            float adjValRate = (baseVal - stageMaxVal3) / (stageMaxVal4 - stageMaxVal3);
+                            float adjValRate = stageMaxVal3 == stageMaxVal4 ? 0 : (baseVal - stageMaxVal3) / (stageMaxVal4 - stageMaxVal3);
                             float adjGrowValRate = adjPoint_maxGrowVal3 >= 0 ? (float)Math.Pow(adjValRate, adjPoint_maxGrowVal3) : 1 - (float)Math.Pow(1 - adjValRate, -adjPoint_maxGrowVal3);
                             values[i] = adjGrowValRate * (stageMaxGrowVal4 - stageMaxGrowVal3) + stageMaxGrowVal3;
                         }
