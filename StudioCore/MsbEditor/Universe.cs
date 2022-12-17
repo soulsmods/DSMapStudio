@@ -380,7 +380,7 @@ namespace StudioCore.MsbEditor
             Dictionary<long, Param.Row> eventLocationParams = new Dictionary<long, Param.Row>();
             Dictionary<long, Param.Row> objectInstanceParams = new Dictionary<long, Param.Row>();
 
-            var regparam = ParamEditor.ParamBank.PrimaryBank.Params.GetValueOrDefault($"generatorregistparam_{mapid}");
+            var regparam = ParamEditor.ParamBank.PrimaryBank.Params[$"generatorregistparam_{mapid}"];
             foreach (var row in regparam.Rows)
             {
                 if (string.IsNullOrEmpty(row.Name))
@@ -393,7 +393,7 @@ namespace StudioCore.MsbEditor
                 map.AddObject(obj);
             }
 
-            var locparam = ParamEditor.ParamBank.PrimaryBank.Params.GetValueOrDefault($"generatorlocation_{mapid}");
+            var locparam = ParamEditor.ParamBank.PrimaryBank.Params[$"generatorlocation_{mapid}"];
             foreach (var row in locparam.Rows)
             {
                 if (string.IsNullOrEmpty(row.Name))
@@ -419,7 +419,7 @@ namespace StudioCore.MsbEditor
             }
 
             var chrsToLoad = new HashSet<AssetDescription>();
-            var genparam = ParamEditor.ParamBank.PrimaryBank.Params.GetValueOrDefault($"generatorparam_{mapid}");
+            var genparam = ParamEditor.ParamBank.PrimaryBank.Params[$"generatorparam_{mapid}"];
             foreach (var row in genparam.Rows)
             {
                 if (row.Name == null || row.Name == "")
@@ -460,7 +460,7 @@ namespace StudioCore.MsbEditor
                 }
             }
 
-            var evtparam = ParamEditor.ParamBank.PrimaryBank.Params.GetValueOrDefault($"eventparam_{mapid}");
+            var evtparam = ParamEditor.ParamBank.PrimaryBank.Params[$"eventparam_{mapid}"];
             foreach (var row in evtparam.Rows)
             {
                 if (string.IsNullOrEmpty(row.Name))
@@ -473,7 +473,7 @@ namespace StudioCore.MsbEditor
                 map.AddObject(obj);
             }
 
-            var evtlparam = ParamEditor.ParamBank.PrimaryBank.Params.GetValueOrDefault($"eventlocation_{mapid}");
+            var evtlparam = ParamEditor.ParamBank.PrimaryBank.Params[$"eventlocation_{mapid}"];
             foreach (var row in evtlparam.Rows)
             {
                 if (string.IsNullOrEmpty(row.Name))
@@ -500,7 +500,7 @@ namespace StudioCore.MsbEditor
                 mesh.SetSelectable(obj);
             }
 
-            var objparam = ParamEditor.ParamBank.PrimaryBank.Params.GetValueOrDefault($"mapobjectinstanceparam_{mapid}");
+            var objparam = ParamEditor.ParamBank.PrimaryBank.Params[$"mapobjectinstanceparam_{mapid}"];
             foreach (var row in objparam.Rows)
             {
                 if (string.IsNullOrEmpty(row.Name))
@@ -539,6 +539,14 @@ namespace StudioCore.MsbEditor
 
         public bool LoadMap(string mapid, bool selectOnLoad = false)
         {
+            if (_assetLocator.Type == GameType.DarkSoulsIISOTFS
+                && ParamEditor.ParamBank.VanillaBank.Params == null)
+            {
+                // ParamBank must be loaded for DS2 maps
+                TaskManager.warningList.TryAdd("ds2-mapload-noparams", "DS2 maps cannot be loaded until params are loaded.");
+                return false;
+            }
+
             var ad = _assetLocator.GetMapMSB(mapid);
             if (ad.AssetPath == null)
             {
