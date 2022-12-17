@@ -379,6 +379,64 @@ namespace StudioCore.ParamEditor
                     showParamCompare, showRowCompare, ref id, propSearchRx, activeParam, false);
             }
             ImGui.Columns(1);
+            if (activeParam == "CalcCorrectGraph") //move to meta
+            {
+                try
+                {
+                    ImGui.Separator();
+                    ImGui.NewLine();
+                    float stageMaxVal0 = (float)row["stageMaxVal0"].Value.Value;
+                    float stageMaxVal1 = (float)row["stageMaxVal1"].Value.Value;
+                    float stageMaxVal2 = (float)row["stageMaxVal2"].Value.Value;
+                    float stageMaxVal3 = (float)row["stageMaxVal3"].Value.Value;
+                    float stageMaxVal4 = (float)row["stageMaxVal4"].Value.Value;
+                    float stageMaxGrowVal0 = (float)row["stageMaxGrowVal0"].Value.Value;
+                    float stageMaxGrowVal1 = (float)row["stageMaxGrowVal1"].Value.Value;
+                    float stageMaxGrowVal2 = (float)row["stageMaxGrowVal2"].Value.Value;
+                    float stageMaxGrowVal3 = (float)row["stageMaxGrowVal3"].Value.Value;
+                    float stageMaxGrowVal4 = (float)row["stageMaxGrowVal4"].Value.Value;
+                    float adjPoint_maxGrowVal0 = (float)row["adjPt_maxGrowVal0"].Value.Value;
+                    float adjPoint_maxGrowVal1 = (float)row["adjPt_maxGrowVal1"].Value.Value;
+                    float adjPoint_maxGrowVal2 = (float)row["adjPt_maxGrowVal2"].Value.Value;
+                    float adjPoint_maxGrowVal3 = (float)row["adjPt_maxGrowVal3"].Value.Value;
+
+                    int length = (int)(stageMaxVal4 - stageMaxVal0 + 2);
+                    float[] values = new float[length];
+                    for (int i=0; i<values.Length; i++)
+                    {
+                        float baseVal = i + stageMaxVal0;
+                        if (baseVal <= stageMaxVal1)
+                        {
+                            float adjValRate = (baseVal - stageMaxVal0) / (stageMaxVal1 - stageMaxVal0);
+                            float adjGrowValRate = adjPoint_maxGrowVal0 >= 0 ? (float)Math.Pow(adjValRate, adjPoint_maxGrowVal0) : 1 - (float)Math.Pow(1 - adjValRate, -adjPoint_maxGrowVal0);
+                            values[i] = adjGrowValRate * (stageMaxGrowVal1 - stageMaxGrowVal0) + stageMaxGrowVal0;
+                        }
+                        else if (baseVal <= stageMaxVal2)
+                        {
+                            float adjValRate = (baseVal - stageMaxVal1) / (stageMaxVal2 - stageMaxVal1);
+                            float adjGrowValRate = adjPoint_maxGrowVal1 >= 0 ? (float)Math.Pow(adjValRate, adjPoint_maxGrowVal1) : 1 - (float)Math.Pow(1 - adjValRate, -adjPoint_maxGrowVal1);
+                            values[i] = adjGrowValRate * (stageMaxGrowVal2 - stageMaxGrowVal1) + stageMaxGrowVal1;
+                        }
+                        else if (baseVal <= stageMaxVal3)
+                        {
+                            float adjValRate = (baseVal - stageMaxVal2) / (stageMaxVal3 - stageMaxVal2);
+                            float adjGrowValRate = adjPoint_maxGrowVal2 >= 0 ? (float)Math.Pow(adjValRate, adjPoint_maxGrowVal2) : 1 - (float)Math.Pow(1 - adjValRate, -adjPoint_maxGrowVal2);
+                            values[i] = adjGrowValRate * (stageMaxGrowVal3 - stageMaxGrowVal2) + stageMaxGrowVal2;
+                        }
+                        else
+                        {
+                            float adjValRate = (baseVal - stageMaxVal3) / (stageMaxVal4 - stageMaxVal3);
+                            float adjGrowValRate = adjPoint_maxGrowVal3 >= 0 ? (float)Math.Pow(adjValRate, adjPoint_maxGrowVal3) : 1 - (float)Math.Pow(1 - adjValRate, -adjPoint_maxGrowVal3);
+                            values[i] = adjGrowValRate * (stageMaxGrowVal4 - stageMaxGrowVal3) + stageMaxGrowVal3;
+                        }
+                    }
+                    ImGui.PlotLines("##graph", ref values[0], values.Length, -1, "", stageMaxGrowVal0, stageMaxGrowVal4, new Vector2(ImGui.GetColumnWidth(-1), ImGui.GetColumnWidth(-1)*0.5625f));
+                }
+                catch (Exception e)
+                {
+                    ImGui.TextUnformatted("Unable to draw graph");
+                }
+            }
             ImGui.EndChild();
         }
 
