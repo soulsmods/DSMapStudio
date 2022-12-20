@@ -12,7 +12,7 @@
 103 Grace - Remove Poison
 104 Grace - Remove Scarlet Rot
 105 Grace - Remove Frostbite
-106 Grace -
+106 Grace - Reload
 107 Grace - Remove Madness
 108 Grace - Remove Sleep
 109 Grace - Remove Blight
