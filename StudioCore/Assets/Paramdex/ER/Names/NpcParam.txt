@@ -258,64 +258,64 @@
 25009000 Crucible Knight (Unscaled)
 25009038 Tanith's Knight
 25009138 Tanith's Knight
-30000000 Castle Exile
-30000006 Castle Exile
-30000014 Castle Exile (Stormveil Castle)
-30000034 Castle Exile (Leyndell- Royal Capital)
-30000100 Castle Exile
-30000106 Castle Exile
-30000114 Castle Exile (Stormveil Castle)
-30000134 Castle Exile (Leyndell- Royal Capital)
-30000200 Castle Exile
-30000214 Castle Exile (Stormveil Castle)
-30000300 Castle Exile
-30000600 Castle Exile
-30000614 Castle Exile (Stormveil Castle)
-30000700 Castle Exile
-30000714 Castle Exile (Stormveil Castle)
-30000800 Castle Exile
-30000814 Castle Exile (Stormveil Castle)
-30000834 Castle Exile (Leyndell- Royal Capital)
-30001000 Castle Exile
-30001010 Castle Exile
-30001014 Castle Exile (Stormveil Castle)
-30001034 Castle Exile (Leyndell- Royal Capital)
-30001100 Castle Exile
-30001114 Castle Exile (Stormveil Castle)
-30001200 Castle Exile
-30001214 Castle Exile (Stormveil Castle)
-30001300 Castle Exile
-30001314 Castle Exile (Stormveil Castle)
-30002000 Castle Exile
-30002014 Castle Exile (Stormveil Castle)
-30002034 Castle Exile (Leyndell- Royal Capital)
-30003000 Castle Exile
-30003014 Castle Exile (Stormveil Castle)
-30003034 Castle Exile (Leyndell- Royal Capital)
-30003200 Castle Exile
-30003214 Castle Exile (Stormveil Castle)
-30003500 Castle Exile
-30003514 Castle Exile (Stormveil Castle)
-30003914 Castle Exile
-30004000 Mausoleum Castle Exile
-30004007 Mausoleum Castle Exile
-30004051 Mausoleum Castle Exile
-30004100 Mausoleum Castle Exile
-30004107 Mausoleum Castle Exile
-30004151 Mausoleum Castle Exile
-30004200 Mausoleum Castle Exile
-30004251 Mausoleum Castle Exile
-30004300 Mausoleum Castle Exile
-30004351 Mausoleum Castle Exile
-30005000 Mausoleum Castle Exile
-30005007 Mausoleum Castle Exile
-30005051 Mausoleum Castle Exile
-30006000 Mausoleum Castle Exile
-30006051 Mausoleum Castle Exile
-30007000 Mausoleum Castle Exile
-30007051 Mausoleum Castle Exile
-30008000 Castle Exile
-30008040 Castle Exile (Boss)
+30000000 Exile Soldier
+30000006 Exile Soldier
+30000014 Exile Soldier (Stormveil Castle)
+30000034 Exile Soldier (Leyndell- Royal Capital)
+30000100 Exile Soldier
+30000106 Exile Soldier
+30000114 Exile Soldier (Stormveil Castle)
+30000134 Exile Soldier (Leyndell- Royal Capital)
+30000200 Exile Soldier
+30000214 Exile Soldier (Stormveil Castle)
+30000300 Exile Soldier
+30000600 Exile Soldier
+30000614 Exile Soldier (Stormveil Castle)
+30000700 Exile Soldier
+30000714 Exile Soldier (Stormveil Castle)
+30000800 Exile Soldier
+30000814 Exile Soldier (Stormveil Castle)
+30000834 Exile Soldier (Leyndell- Royal Capital)
+30001000 Exile Soldier
+30001010 Exile Soldier
+30001014 Exile Soldier (Stormveil Castle)
+30001034 Exile Soldier (Leyndell- Royal Capital)
+30001100 Exile Soldier
+30001114 Exile Soldier (Stormveil Castle)
+30001200 Exile Soldier
+30001214 Exile Soldier (Stormveil Castle)
+30001300 Exile Soldier
+30001314 Exile Soldier (Stormveil Castle)
+30002000 Exile Soldier
+30002014 Exile Soldier (Stormveil Castle)
+30002034 Exile Soldier (Leyndell- Royal Capital)
+30003000 Exile Soldier
+30003014 Exile Soldier (Stormveil Castle)
+30003034 Exile Soldier (Leyndell- Royal Capital)
+30003200 Exile Soldier
+30003214 Exile Soldier (Stormveil Castle)
+30003500 Exile Soldier
+30003514 Exile Soldier (Stormveil Castle)
+30003914 Exile Soldier
+30004000 Mausoleum Exile Soldier
+30004007 Mausoleum Exile Soldier
+30004051 Mausoleum Exile Soldier
+30004100 Mausoleum Exile Soldier
+30004107 Mausoleum Exile Soldier
+30004151 Mausoleum Exile Soldier
+30004200 Mausoleum Exile Soldier
+30004251 Mausoleum Exile Soldier
+30004300 Mausoleum Exile Soldier
+30004351 Mausoleum Exile Soldier
+30005000 Mausoleum Exile Soldier
+30005007 Mausoleum Exile Soldier
+30005051 Mausoleum Exile Soldier
+30006000 Mausoleum Exile Soldier
+30006051 Mausoleum Exile Soldier
+30007000 Mausoleum Exile Soldier
+30007051 Mausoleum Exile Soldier
+30008000 Exile Soldier
+30008040 Exile Soldier (Boss)
 30100000 Banished Knight
 30100014 Banished Knight (Stormveil Castle)
 30100034 Banished Knight (Leyndell- Royal Capital)
@@ -367,28 +367,28 @@
 30107000 Banished Knight
 30107051 Banished Knight (Niall Boss)
 30108000 Banished Knight
-30200000 Large Castle Exile
-30200014 Large Castle Exile
-30200034 Large Castle Exile (Leyndell- Royal Capital)
-30200100 Mausoleum Large Castle Exile
-30200151 Mausoleum Large Castle Exile
-30208000 Large Castle Exile
-30208040 Large Castle Exile (Boss)
+30200000 Large Exile Soldier
+30200014 Large Exile Soldier
+30200034 Large Exile Soldier (Leyndell- Royal Capital)
+30200100 Mausoleum Large Exile Soldier
+30200151 Mausoleum Large Exile Soldier
+30208000 Large Exile Soldier
+30208040 Large Exile Soldier (Boss)
 30500000 Commander
 30500051 Commander Niall
 30500100 Commander
 30500140 Commander O'Neil
 30509999 Commander
-30600000 Undead Mariner
-30600020 Grave Skeleton
-30600030 Grave Skeleton
-30600040 Grave Skeleton
-30600050 Undead Mariner
-30601000 Undead Mariner
-30601020 Grave Skeleton
-30601030 Grave Skeleton
-30601040 Grave Skeleton
-30601050 Grave Skeleton
+30600000 Giant Skeleton
+30600020 Giant Skeleton
+30600030 Giant Skeleton
+30600040 Giant Skeleton
+30600050 Giant Skeleton
+30601000 Giant Skeleton
+30601020 Giant Skeleton
+30601030 Giant Skeleton
+30601040 Giant Skeleton
+30601050 Giant Skeleton
 30610000 Undead Azula Beastman
 30610072 Undead Azula Beastman
 30611000 Undead Azula Beastman
@@ -521,98 +521,98 @@
 31811024 Red Wolf of Radagon Sword (Archives)
 31811032 Red Wolf of the Champion
 31811052 Red Wolf of Radagon Sword (Snowfields)
-32000000 Nomad Trader - Merchant Kalé
-32000010 Nomad Trader - Merchant Kalé
-32000012 Nomad Trader - Merchant Kalé
-32000020 Nomad Trader - Merchant Kalé
-32000030 Nomad Trader - Merchant Kalé
-32000032 Nomad Trader - Merchant Kalé
-32000034 Nomad Trader - Merchant Kalé (Leyndell- Royal Capital)
-32000035 Nomad Trader - Merchant Kalé
-32000110 Nomad Trader - Merchant Kalé
-32000120 Nomad Trader - Merchant Kalé
-32000134 Nomad Trader - Merchant Kalé (Leyndell- Royal Capital)
-32000135 Nomad Trader - Merchant Kalé
-32000210 Nomad Trader - Merchant Kalé
-32000220 Nomad Trader - Merchant Kalé
-32000234 Nomad Trader - Merchant Kalé (Leyndell- Royal Capital)
-32001010 Nomad Trader - Merchant Kalé
-32001110 Nomad Trader - Nomadic Merchant
-32001210 Nomad Trader - Nomadic Merchant
-32001310 Nomad Trader - Nomadic Merchant
-32001412 Nomad Trader - Nomadic Merchant
-32001520 Nomad Trader - Nomadic Merchant
-32001612 Nomad Trader - Isolated Merchant
-32001720 Nomad Trader - Isolated Merchant
-32001820 Nomad Trader - Nomadic Merchant
-32001933 Nomad Trader - Hermit Merchant
-32002030 Nomad Trader - Nomadic Merchant
-32002132 Nomad Trader - Nomadic Merchant
-32002240 Nomad Trader - Nomadic Merchant
-32002340 Nomad Trader - Nomadic Merchant
-32002542 Nomad Trader - Isolated Merchant
-32002650 Nomad Trader - Hermit Merchant
-32002764 Nomad Trader - Abandoned Merchant (Siofra River)
-32002860 Nomad Trader - Hermit Merchant (Ainsel River)
-32002968 Nomad Trader - Imprisoned Merchant
-32003010 Nomad Trader - Nomadic Merchant
-32008010 Nomad Trader
-32008900 Nomad Trader
+32000000 Nomadic Merchant - Merchant Kalé
+32000010 Nomadic Merchant - Merchant Kalé
+32000012 Nomadic Merchant - Merchant Kalé
+32000020 Nomadic Merchant - Merchant Kalé
+32000030 Nomadic Merchant - Merchant Kalé
+32000032 Nomadic Merchant - Merchant Kalé
+32000034 Nomadic Merchant - Merchant Kalé (Leyndell- Royal Capital)
+32000035 Nomadic Merchant - Merchant Kalé
+32000110 Nomadic Merchant - Merchant Kalé
+32000120 Nomadic Merchant - Merchant Kalé
+32000134 Nomadic Merchant - Merchant Kalé (Leyndell- Royal Capital)
+32000135 Nomadic Merchant - Merchant Kalé
+32000210 Nomadic Merchant - Merchant Kalé
+32000220 Nomadic Merchant - Merchant Kalé
+32000234 Nomadic Merchant - Merchant Kalé (Leyndell- Royal Capital)
+32001010 Nomadic Merchant - Merchant Kalé
+32001110 Nomadic Merchant - Nomadic Merchant
+32001210 Nomadic Merchant - Nomadic Merchant
+32001310 Nomadic Merchant - Nomadic Merchant
+32001412 Nomadic Merchant - Nomadic Merchant
+32001520 Nomadic Merchant - Nomadic Merchant
+32001612 Nomadic Merchant - Isolated Merchant
+32001720 Nomadic Merchant - Isolated Merchant
+32001820 Nomadic Merchant - Nomadic Merchant
+32001933 Nomadic Merchant - Hermit Merchant
+32002030 Nomadic Merchant - Nomadic Merchant
+32002132 Nomadic Merchant - Nomadic Merchant
+32002240 Nomadic Merchant - Nomadic Merchant
+32002340 Nomadic Merchant - Nomadic Merchant
+32002542 Nomadic Merchant - Isolated Merchant
+32002650 Nomadic Merchant - Hermit Merchant
+32002764 Nomadic Merchant - Abandoned Merchant (Siofra River)
+32002860 Nomadic Merchant - Hermit Merchant (Ainsel River)
+32002968 Nomadic Merchant - Imprisoned Merchant
+32003010 Nomadic Merchant - Nomadic Merchant
+32008010 Nomadic Merchant
+32008900 Nomadic Merchant
 32009000 Merchant
-32009100 Nomad Trader
-32009200 Nomad Trader
-32009210 Nomad Trader
-32009300 Nomad Trader
-32009400 Nomad Trader
-32009500 Nomad Trader
-32009600 Nomad Trader
-32009700 Nomad Trader
-32009800 Nomad Trader
-32009900 Nomad Trader
-32009910 Nomad Trader
-32010000 Nomad Trader
+32009100 Nomadic Merchant
+32009200 Nomadic Merchant
+32009210 Nomadic Merchant
+32009300 Nomadic Merchant
+32009400 Nomadic Merchant
+32009500 Nomadic Merchant
+32009600 Nomadic Merchant
+32009700 Nomadic Merchant
+32009800 Nomadic Merchant
+32009900 Nomadic Merchant
+32009910 Nomadic Merchant
+32010000 Nomadic Merchant
 32010035 Frenzied Nomad
-32020000 Nomad Trader
-32020035 Nomad Trader
-32100000 Nomad Mule
-32100010 Nomad Mule
-32100012 Nomad Mule
-32100030 Nomad Mule
-32100032 Nomad Mule
-32100210 Nomad Mule
-32101010 Nomad Mule
-32101110 Nomad Mule
-32101210 Nomad Mule
-32101310 Nomad Mule
-32101412 Nomad Mule
-32101520 Nomad Mule
-32101612 Nomad Mule
-32101720 Nomad Mule
-32101820 Nomad Mule
-32101933 Nomad Mule
-32102030 Nomad Mule
-32102132 Nomad Mule
-32102240 Nomad Mule
-32102340 Nomad Mule
-32102542 Nomad Mule
-32102650 Nomad Mule
-32102764 Nomad Mule (Siofra River)
-32102860 Nomad Mule (Ainsel River)
-32102968 Nomad Mule
-32103010 Nomad Mule
-32108900 Nomad Mule
-32109000 Nomad Mule
-32109010 Nomad Mule
-32109100 Nomad Mule
-32109200 Nomad Mule
-32109300 Nomad Mule
-32109400 Nomad Mule
-32109500 Nomad Mule
-32109600 Nomad Mule
-32109700 Nomad Mule
-32109800 Nomad Mule
-32109810 Nomad Mule
-32109900 Nomad Mule
+32020000 Nomadic Merchant
+32020035 Nomadic Merchant
+32100000 Nomadic Merchant Mule
+32100010 Nomadic Merchant Mule
+32100012 Nomadic Merchant Mule
+32100030 Nomadic Merchant Mule
+32100032 Nomadic Merchant Mule
+32100210 Nomadic Merchant Mule
+32101010 Nomadic Merchant Mule
+32101110 Nomadic Merchant Mule
+32101210 Nomadic Merchant Mule
+32101310 Nomadic Merchant Mule
+32101412 Nomadic Merchant Mule
+32101520 Nomadic Merchant Mule
+32101612 Nomadic Merchant Mule
+32101720 Nomadic Merchant Mule
+32101820 Nomadic Merchant Mule
+32101933 Nomadic Merchant Mule
+32102030 Nomadic Merchant Mule
+32102132 Nomadic Merchant Mule
+32102240 Nomadic Merchant Mule
+32102340 Nomadic Merchant Mule
+32102542 Nomadic Merchant Mule
+32102650 Nomadic Merchant Mule
+32102764 Nomadic Merchant Mule (Siofra River)
+32102860 Nomadic Merchant Mule (Ainsel River)
+32102968 Nomadic Merchant Mule
+32103010 Nomadic Merchant Mule
+32108900 Nomadic Merchant Mule
+32109000 Nomadic Merchant Mule
+32109010 Nomadic Merchant Mule
+32109100 Nomadic Merchant Mule
+32109200 Nomadic Merchant Mule
+32109300 Nomadic Merchant Mule
+32109400 Nomadic Merchant Mule
+32109500 Nomadic Merchant Mule
+32109600 Nomadic Merchant Mule
+32109700 Nomadic Merchant Mule
+32109800 Nomadic Merchant Mule
+32109810 Nomadic Merchant Mule
+32109900 Nomadic Merchant Mule
 32500000 Draconic Tree Sentinel (Unscaled)
 32500033 Draconic Tree Sentinel (Capital Outskirts)
 32500070 Draconic Tree Sentinel
@@ -667,22 +667,22 @@
 33202262 Silver Tear
 33209000 Silver Tear (Unscaled)
 33209010 Silver Tear
-33300000 Silver Tear Orb (Unscaled)
-33300040 Silver Tear Orb S
-33300042 Silver Tear Orb S
-33300061 Giant Ball
-33300062 Silver Tear Orb
-33300065 Silver Tear Orb
-33300100 Silver Tear Orb (Unscaled)
-33300162 Silver Tear Orb
-33300262 Silver Tear Orb
-33300600 Silver Tear Orb (Unscaled)
-33300662 Silver Tear Orb
-33300665 Silver Tear Orb
-33300700 Silver Tear Orb (Unscaled)
-33300762 Silver Tear Orb
-33300800 Silver Tear Orb (Unscaled)
-33300862 Silver Tear Orb
+33300000 Giant Silver Tear (Unscaled)
+33300040 Giant Silver Tear
+33300042 Giant Silver Tear
+33300061 Giant Silver Tear
+33300062 Giant Silver Tear
+33300065 Giant Silver Tear
+33300100 Giant Silver Tear (Unscaled)
+33300162 Giant Silver Tear
+33300262 Giant Silver Tear
+33300600 Giant Silver Tear (Unscaled)
+33300662 Giant Silver Tear
+33300665 Giant Silver Tear
+33300700 Giant Silver Tear (Unscaled)
+33300762 Giant Silver Tear
+33300800 Giant Silver Tear (Unscaled)
+33300862 Giant Silver Tear
 33500000 Crystalian
 33500022 Crystalian
 33500054 Crystalian
@@ -1367,11 +1367,11 @@
 37031024 Noble's Page (Raya Lucaria)
 37031034 Noble's Page (Leyndell- Royal Capital)
 37040000 Battlemage
-37040020 Battle Mage
-37040040 Battle Mage
-37040054 Battle Mage
+37040020 Battlemage
+37040040 Battlemage
+37040054 Battlemage
 37040800 Battlemage
-37040830 Battle Mage
+37040830 Battlemage
 37040940 Battlemage Hugues (Boss)
 37100000 Primeval Sorcerer Azur
 37100024 Primeval Sorcerer Azur - NPC
@@ -1596,31 +1596,31 @@
 40200030 Royal Revenant
 40200031 Royal Revenant (Shaded Castle)
 40200035 Royal Revenant
-40200040 Revenant
+40200040 Royal Revenant
 40200056 Royal Revenant
 40200100 Royal Revenant
 40200130 Royal Revenant
 40200920 Royal Revenant (Boss)
 40208000 Royal Revenant
-40208020 Revenant
-40208022 Revenant
-40208030 Revenant
+40208020 Royal Revenant
+40208022 Royal Revenant
+40208030 Royal Revenant
 40208031 Royal Revenant (Shaded Castle)
-40208035 Revenant
-40208040 Revenant
-40208056 Revenant
+40208035 Royal Revenant
+40208040 Royal Revenant
+40208056 Royal Revenant
 40208100 Royal Revenant
-40208122 Revenant
-40208130 Revenant
+40208122 Royal Revenant
+40208130 Royal Revenant
 40208131 Royal Revenant (Shaded Castle)
-40208156 Revenant
+40208156 Royal Revenant
 40208200 Royal Revenant
-40208230 Revenant
-40208256 Revenant
+40208230 Royal Revenant
+40208256 Royal Revenant
 40208300 Royal Revenant
-40208356 Revenant
+40208356 Royal Revenant
 40208400 Royal Revenant
-40208456 Revenant
+40208456 Royal Revenant
 40400000 Slug
 40400030 Slug
 40400031 Slug (Shaded Castle)

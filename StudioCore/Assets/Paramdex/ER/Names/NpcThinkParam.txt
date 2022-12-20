@@ -46,21 +46,21 @@
 25001000 Crucible Knight
 25001100 Crucible Knight
 25009000 Crucible Knight
-30000000 Castle Exile
-30000006 Castle Exile
-30000100 Castle Exile
-30000200 Castle Exile
-30000300 Castle Exile
-30000600 Castle Exile
-30000700 Castle Exile
-30000800 Castle Exile
-30001000 Castle Exile
-30001100 Castle Exile
-30001200 Castle Exile
-30001300 Castle Exile
-30002000 Castle Exile
-30003000 Castle Exile
-30003200 Castle Exile
+30000000 Exile Soldier
+30000006 Exile Soldier
+30000100 Exile Soldier
+30000200 Exile Soldier
+30000300 Exile Soldier
+30000600 Exile Soldier
+30000700 Exile Soldier
+30000800 Exile Soldier
+30001000 Exile Soldier
+30001100 Exile Soldier
+30001200 Exile Soldier
+30001300 Exile Soldier
+30002000 Exile Soldier
+30003000 Exile Soldier
+30003200 Exile Soldier
 30100000 Banished Knight
 30100100 Banished Knight
 30100200 Banished Knight
@@ -70,10 +70,10 @@
 30102000 Banished Knight
 30102100 Banished Knight
 30102200 Banished Knight
-30200000 Large Castle Exile
+30200000 Large Exile Soldier
 30500000 Commander
-30600000 Undead Mariner
-30601000 Undead Mariner
+30600000 Giant Skeleton
+30601000 Giant Skeleton
 30610000 Undead Azula Beastman
 30611000 Undead Azula Beastman
 30700000 Dominula Celebrant
@@ -104,10 +104,10 @@
 31800020 Dog
 31810000 Red Wolf of Radagon
 31810052 Red Wolf of Radagon
-32000000 Nomad Trader - Merchant Kalé
-32009000 Nomad Trader
-32010000 Nomad Trader
-32100000 Nomad Mule
+32000000 Nomadic Merchant - Merchant Kalé
+32009000 Nomadic Merchant
+32010000 Nomadic Merchant
+32100000 Nomadic Merchant Mule
 32500000 Draconic Tree Sentinel
 32510000 Tree Sentinel
 32511000 Tree Sentinel
@@ -120,8 +120,8 @@
 33200100 Silver Tear
 33200200 Silver Tear
 33209000 Silver Tear
-33300000 Silver Tear Orb
-33300062 Silver Tear Orb
+33300000 Giant Silver Tear
+33300062 Giant Silver Tear
 33500000 Crystalian
 33501000 Crystalian
 33501500 Crystalian

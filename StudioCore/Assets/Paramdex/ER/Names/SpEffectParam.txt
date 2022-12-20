@@ -429,7 +429,7 @@
 7660 NG+ Scaling -
 7670 NG+ Scaling -
 7680 NG+ Scaling -
-10000 Castle Exile - Bullet
+10000 Exile Soldier - Bullet
 10001 Dog - Bullet
 10002 Demi-human - Bullet
 10003 Wandering Noble - Bullet
