@@ -434,12 +434,12 @@
 10002 Demi-human - Bullet
 10003 Wandering Noble - Bullet
 10005 Castle Foot Soldier - Bullet
-10006 Fallen Hawk Soldier - Bullet
+10006 Fallen Hawks Soldier - Bullet
 10008 Man-Serpent - Bullet
 10010 Dominula Celebrant - Bullet
 10165 Dragon-faced Flamethrower - Bullet
-10317 Fallen Hawk Soldier - Bullet
-10318 Fallen Hawk Soldier - Bullet [Chain]
+10317 Fallen Hawks Soldier - Bullet
+10318 Fallen Hawks Soldier - Bullet [Chain]
 10690 Mohg - Bullet
 10691 Mohg - Bullet [Cycle]
 10945 Warhawk - Bullet

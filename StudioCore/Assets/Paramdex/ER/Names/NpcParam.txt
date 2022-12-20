@@ -4194,53 +4194,53 @@
 60501042 Boar
 60501050 Boar
 60501052 Boar
-60600000 Wild Mouflon
-60600010 Wild Mouflon
-60600012 Wild Mouflon
-60600020 Wild Mouflon
-60600030 Wild Mouflon
-60600032 Wild Mouflon
-60600033 Wild Mouflon
-60600040 Wild Mouflon
-60600042 Wild Mouflon
-60600050 Wild Mouflon
-60600052 Wild Mouflon
-60600064 Wild Mouflon
-60600065 Wild Mouflon
+60600000 Goat
+60600010 Goat
+60600012 Goat
+60600020 Goat
+60600030 Goat
+60600032 Goat
+60600033 Goat
+60600040 Goat
+60600042 Goat
+60600050 Goat
+60600052 Goat
+60600064 Goat
+60600065 Goat
 60600900 Goat
-60600964 Wild Mouflon
-60600965 Wild Mouflon
+60600964 Goat
+60600965 Goat
 60601000 Goat
-60601010 Wild Mouflon
+60601010 Goat
 60601012 Goat
 60601030 Goat
 60601032 Goat
-60601040 Wild Mouflon
-60601042 Wild Mouflon
+60601040 Goat
+60601042 Goat
 60601050 Goat
 60601052 Goat
 60602000 Goat
-60602010 Wild Mouflon
+60602010 Goat
 60602012 Goat
 60602030 Goat
 60602032 Goat
-60602042 Wild Mouflon
+60602042 Goat
 60602050 Goat
-60602052 Wild Mouflon
-60603000 Wild Mouflon
-60603030 Wild Mouflon
+60602052 Goat
+60603000 Goat
+60603030 Goat
 60604000 Goat
-60604030 Wild Mouflon
+60604030 Goat
 60605000 Goat
-60605030 Wild Mouflon
+60605030 Goat
 60700000 Gull
-60700010 Guillemot
-60700012 Guillemot
-60700020 Guillemot
-60700022 Guillemot
+60700010 Gull
+60700012 Gull
+60700020 Gull
+60700022 Gull
 60700032 Gull
-60700040 Guillemot
-60700042 Guillemot
+60700040 Gull
+60700042 Gull
 60700050 Gull
 60700052 Gull
 60720000 Gull
@@ -4310,15 +4310,15 @@
 61000900 Springhare
 61000964 Springhare
 61000965 Springhare
-70000000 Fallen Hawk Soldier
+70000000 Fallen Hawks Soldier
 70000065 Fallen Hawks Soldier
-70000100 Fallen Hawk Soldier
-70001000 Fallen Hawk Soldier
+70000100 Fallen Hawks Soldier
+70001000 Fallen Hawks Soldier
 70001065 Fallen Hawks Soldier
-70002000 Fallen Hawk Soldier
+70002000 Fallen Hawks Soldier
 70002065 Fallen Hawks Soldier
-70003000 Fallen Hawk Soldier
-70003100 Fallen Hawk Soldier
+70003000 Fallen Hawks Soldier
+70003100 Fallen Hawks Soldier
 70003165 Fallen Hawks Soldier
 70005000 Fallen Hawks Soldier
 70005065 Fallen Hawks Soldier
@@ -4440,8 +4440,8 @@
 144810000 [Spirit Summon] Miranda Sprout
 144910200 [Spirit Summon] Soldjars of Fortune
 148200000 [Spirit Summon] Omenkiller
-170001000 [Spirit Summon] Fallen Hawk Greatshield Soldier
-170002000 [Spirit Summon] Fallen Hawk Archer
+170001000 [Spirit Summon] Fallen Hawks Greatshield Soldier
+170002000 [Spirit Summon] Fallen Hawks Archer
 500000010 Stormhill Colosseum Silent Spirit
 500000020 Caria Manor Silent Spirit
 500000032 Stormhill Colosseum Silent Spirit

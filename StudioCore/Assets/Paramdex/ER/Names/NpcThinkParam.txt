@@ -669,12 +669,12 @@
 60910000 Turtle Pope
 61000000 Springhare
 61000010 Springhare
-70000000 Fallen Hawk Soldier
-70000100 Fallen Hawk Soldier
-70001000 Fallen Hawk Soldier
-70002000 Fallen Hawk Soldier
-70003000 Fallen Hawk Soldier
-70003100 Fallen Hawk Soldier
+70000000 Fallen Hawks Soldier
+70000100 Fallen Hawks Soldier
+70001000 Fallen Hawks Soldier
+70002000 Fallen Hawks Soldier
+70003000 Fallen Hawks Soldier
+70003100 Fallen Hawks Soldier
 71000000 Ancient Hero
 71000050 Ancient Hero
 80000000 Torrent

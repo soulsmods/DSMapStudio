@@ -7348,38 +7348,38 @@
 6080000 [Dragonfly 1]
 6081000 [Dragonfly 2]
 6082000 [Dragonfly 3]
-7000000 [Fallen Hawk Soldier]
-7000001 [Fallen Hawk Soldier]
-7000010 [Fallen Hawk Soldier]
-7000020 [Fallen Hawk Soldier]
-7000030 [Fallen Hawk Soldier]
-7000040 [Fallen Hawk Soldier]
-7000050 [Fallen Hawk Soldier]
-7000060 [Fallen Hawk Soldier]
-7000070 [Fallen Hawk Soldier]
-7000071 [Fallen Hawk Soldier]
-7000080 [Fallen Hawk Soldier]
-7000081 [Fallen Hawk Soldier]
-7000082 [Fallen Hawk Soldier]
-7000090 [Fallen Hawk Soldier]
-7000091 [Fallen Hawk Soldier]
-7000092 [Fallen Hawk Soldier]
-7000093 [Fallen Hawk Soldier]
-7000094 [Fallen Hawk Soldier]
-7000100 [Fallen Hawk Soldier]
-7000110 [Fallen Hawk Soldier]
-7000120 [Fallen Hawk Soldier]
-7000190 [Fallen Hawk Soldier] Guard
-7000200 [Fallen Hawk Soldier] Bullet
-7000210 [Fallen Hawk Soldier] Bullet
-7000220 [Fallen Hawk Soldier] Bullet
-7000230 [Fallen Hawk Soldier] Bullet
-7000240 [Fallen Hawk Soldier]
-7000400 [Fallen Hawk Soldier] Bullet
-7000410 [Fallen Hawk Soldier] Bullet
-7000420 [Fallen Hawk Soldier] Bullet
-7000510 [Fallen Hawk Soldier]
-7000590 [Fallen Hawk Soldier] Guard
+7000000 [Fallen Hawks Soldier]
+7000001 [Fallen Hawks Soldier]
+7000010 [Fallen Hawks Soldier]
+7000020 [Fallen Hawks Soldier]
+7000030 [Fallen Hawks Soldier]
+7000040 [Fallen Hawks Soldier]
+7000050 [Fallen Hawks Soldier]
+7000060 [Fallen Hawks Soldier]
+7000070 [Fallen Hawks Soldier]
+7000071 [Fallen Hawks Soldier]
+7000080 [Fallen Hawks Soldier]
+7000081 [Fallen Hawks Soldier]
+7000082 [Fallen Hawks Soldier]
+7000090 [Fallen Hawks Soldier]
+7000091 [Fallen Hawks Soldier]
+7000092 [Fallen Hawks Soldier]
+7000093 [Fallen Hawks Soldier]
+7000094 [Fallen Hawks Soldier]
+7000100 [Fallen Hawks Soldier]
+7000110 [Fallen Hawks Soldier]
+7000120 [Fallen Hawks Soldier]
+7000190 [Fallen Hawks Soldier] Guard
+7000200 [Fallen Hawks Soldier] Bullet
+7000210 [Fallen Hawks Soldier] Bullet
+7000220 [Fallen Hawks Soldier] Bullet
+7000230 [Fallen Hawks Soldier] Bullet
+7000240 [Fallen Hawks Soldier]
+7000400 [Fallen Hawks Soldier] Bullet
+7000410 [Fallen Hawks Soldier] Bullet
+7000420 [Fallen Hawks Soldier] Bullet
+7000510 [Fallen Hawks Soldier]
+7000590 [Fallen Hawks Soldier] Guard
 7100100 [Ancient Hero]
 7100101 [Ancient Hero]
 7100110 [Ancient Hero]

@@ -256,7 +256,7 @@
 6090 Turtle
 6091 Turtle Pope
 6100 Springhare
-7000 Fallen Hawk Soldier
+7000 Fallen Hawks Soldier
 7100 Ancient Hero
 8000 Torrent
 8100 Ballista
