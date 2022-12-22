@@ -1364,11 +1364,18 @@ namespace StudioCore
                     {
                         ImGui.Indent();
 
-                        float fixed_rotate_angle = CFG.Current.Map_Fixed_Rotate_Angle;
-                        if (ImGui.SliderFloat("Fixed Rotate Angle", ref fixed_rotate_angle, 1.0f, 180.0f))
+                        float arbitrary_rotation_x = CFG.Current.Map_ArbitraryRotation_X_Shift;
+                        float arbitrary_rotation_y = CFG.Current.Map_ArbitraryRotation_Y_Shift;
+
+                        if (ImGui.SliderFloat("Arbitrary Rotation: X", ref arbitrary_rotation_x, 1.0f, 180.0f))
                         {
-                            CFG.Current.Map_Fixed_Rotate_Angle = fixed_rotate_angle;
+                            CFG.Current.Map_ArbitraryRotation_X_Shift = arbitrary_rotation_x;
                         }
+                        if (ImGui.SliderFloat("Arbitrary Rotation: Y", ref arbitrary_rotation_y, 1.0f, 180.0f))
+                        {
+                            CFG.Current.Map_ArbitraryRotation_Y_Shift = arbitrary_rotation_y;
+                        }
+
                         ImGui.Unindent();
                     }
 
