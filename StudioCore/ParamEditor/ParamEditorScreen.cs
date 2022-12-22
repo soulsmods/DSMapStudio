@@ -539,6 +539,11 @@ namespace StudioCore.ParamEditor
             }
             if (ImGui.BeginMenu("Compare"))
             {
+                if (ImGui.MenuItem("Show Vanilla Params", null, CFG.Current.Param_ShowVanillaParams))
+                {
+                    CFG.Current.Param_ShowVanillaParams = !CFG.Current.Param_ShowVanillaParams;
+                }
+                ImGui.Separator();
                 if (ImGui.MenuItem("Clear current row comparison", null, false, _activeView != null && _activeView._selection.getCompareRow() != null))
                 {
                     _activeView._selection.SetCompareRow(null);
