@@ -408,6 +408,8 @@ namespace StudioCore.ParamEditor
             float[] adjPoint_maxGrowVal = ccd.adjPoint_maxGrowVal.Select((x, i) => (float)row[x].Value.Value).ToArray();
 
             int length = (int)(stageMaxVal[stageMaxVal.Length-1] - stageMaxVal[0] + 1);
+            if (length <= 0 || length > 1000)
+                return (new float[0], 0, 0, 0);
             float[] values = new float[length];
             for (int i=0; i<values.Length; i++)
             {
