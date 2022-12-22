@@ -170,6 +170,33 @@ namespace StudioCore.MsbEditor
         }
 
         /// <summary>
+        /// Rotate the selected objects by a fixed amount
+        /// </summary>
+        private void FixedRotateSelection()
+        {
+            var actlist = new List<Action>();
+
+            var selected = _selection.GetFilteredSelection<Entity>();
+            foreach (var s in selected)
+            {
+
+                var pos = s.GetLocalTransform().Position;
+                var rot_x = s.GetLocalTransform().EulerRotation.X;
+
+                float rad = ((float)Math.PI / 180) * CFG.Current.Map_Fixed_Rotate_Angle;
+
+                var rot_y = s.GetLocalTransform().EulerRotation.Y + rad;
+                var rot_z = s.GetLocalTransform().EulerRotation.Z;
+
+                Transform newRot = new Transform(pos, new Vector3(rot_x, rot_y, rot_z));
+
+                actlist.Add(s.GetUpdateTransformAction(newRot));
+                var action = new CompoundAction(actlist);
+                EditorActionManager.ExecuteAction(action);
+            }
+        }
+
+        /// <summary>
         /// Hides all the selected objects, unless all of them are hidden in which
         /// they will be unhidden
         /// </summary>
@@ -398,6 +425,10 @@ namespace StudioCore.MsbEditor
                 if (ImGui.MenuItem("Goto in Object List", KeyBindings.Current.Map_GotoSelectionInObjectList.HintText, false, _selection.IsSelection()))
                 {
                     GotoSelection();
+                }
+                if (ImGui.MenuItem("Fixed Rotate", KeyBindings.Current.Map_FixedRotateSelection.HintText, false, _selection.IsSelection()))
+                {
+                    FixedRotateSelection();
                 }
 
                 ImGui.EndMenu();
@@ -736,6 +767,10 @@ namespace StudioCore.MsbEditor
                 if (InputTracker.GetKeyDown(KeyBindings.Current.Map_GotoSelectionInObjectList))
                 {
                     GotoSelection();
+                }
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Map_FixedRotateSelection))
+                {
+                    FixedRotateSelection();
                 }
                 if (InputTracker.GetKeyDown(KeyBindings.Current.Map_Dummify) && _selection.IsSelection())
                 {
