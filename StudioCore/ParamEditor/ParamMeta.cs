@@ -60,6 +60,11 @@ namespace StudioCore.ParamEditor
         /// </summary>
         public List<string> AlternateOrder {get; set;}
 
+        /// <summary>
+        /// Provides a set of fields the define a CalcCorrectGraph
+        /// </summary>
+        public CalcCorrectDefinition CalcCorrectDef {get; set;}
+
         public static ParamMetaData Get(PARAMDEF def)
         {
             if (!ParamBank.IsMetaLoaded)
@@ -156,6 +161,11 @@ namespace StudioCore.ParamEditor
                     AlternateOrder = new List<string>(AltOrd.InnerText.Replace("\n", "").Split(',', StringSplitOptions.RemoveEmptyEntries));
                     for (int i = 0; i < AlternateOrder.Count; i++)
                         AlternateOrder[i] = AlternateOrder[i].Trim();
+                }
+                XmlAttribute CCD = self.Attributes["CalcCorrectDef"];
+                if (CCD != null)
+                {
+                    CalcCorrectDef = new CalcCorrectDefinition(CCD.InnerText);
                 }
             }
 
@@ -262,6 +272,7 @@ namespace StudioCore.ParamEditor
             SetIntXmlProperty("FixedOffset", FixedOffset, _xml, "PARAMMETA", "Self");
             SetBoolXmlProperty("Row0Dummy", Row0Dummy, _xml, "PARAMMETA", "Self");
             SetStringListXmlProperty("AlternativeOrder", AlternateOrder, "-,", _xml, "PARAMMETA", "Self");
+            SetStringXmlProperty("CalcCorrectDef", CalcCorrectDef.getStringForm(), false, _xml, "PARAMMETA", "Self");
         }
 
         public void Save()
@@ -296,15 +307,15 @@ namespace StudioCore.ParamEditor
                 return new ParamMetaData(def, path);
             }
             var mxml = new XmlDocument();
-            try
-            {
+            //try
+            //{
                 mxml.Load(path);
                 return new ParamMetaData(mxml, path, def);
-            }
-            catch
-            {
-                return new ParamMetaData(def, path);
-            }
+            //}
+            //catch
+            //{
+            //    return new ParamMetaData(def, path);
+            //}
         }
 
         internal static string FixName(string internalName)
@@ -468,6 +479,29 @@ namespace StudioCore.ParamEditor
         internal string getStringForm()
         {
             return param+'('+conditionField+'='+conditionValue+')';
+        }
+    }
+
+    public class CalcCorrectDefinition
+    {
+        public string[] stageMaxVal;
+        public string[] stageMaxGrowVal;
+        public string[] adjPoint_maxGrowVal;
+
+        internal CalcCorrectDefinition(string ccd)
+        {
+            string[] parts = ccd.Split(',');
+            int cclength = (parts.Length+1)/3;
+            stageMaxVal = new string[cclength];
+            stageMaxGrowVal = new string[cclength];
+            adjPoint_maxGrowVal = new string[cclength-1];
+            Array.Copy(parts, 0, stageMaxVal, 0, cclength);
+            Array.Copy(parts, cclength, stageMaxGrowVal, 0, cclength);
+            Array.Copy(parts, cclength*2, adjPoint_maxGrowVal, 0, cclength-1);
+        }
+        internal string getStringForm()
+        {
+            return string.Join(',', stageMaxVal) + ',' + string.Join(',', stageMaxGrowVal) + ',' + string.Join(',', adjPoint_maxGrowVal);
         }
     }
 }
