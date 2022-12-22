@@ -197,6 +197,7 @@ namespace StudioCore
 
         // Map Editor settings
         public bool Map_AlwaysListLoadedMaps = true;
+        public float Map_MoveSelectionToCamera_Radius = 3.0f;
 
         // Font settings
         public bool FontChinese = false;

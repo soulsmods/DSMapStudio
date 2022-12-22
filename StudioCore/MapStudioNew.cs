@@ -1404,6 +1404,22 @@ namespace StudioCore
 
                     ImGui.Separator();
 
+                    if (ImGui.CollapsingHeader("Selection"))
+                    {
+                        ImGui.Indent();
+
+                        float camera_radius_offset = CFG.Current.Map_MoveSelectionToCamera_Radius;
+
+                        if (ImGui.SliderFloat("Move Selection to Camera: Offset Distance", ref camera_radius_offset, 0.0f, 50.0f))
+                        {
+                            CFG.Current.Map_MoveSelectionToCamera_Radius = camera_radius_offset;
+                        }
+
+                        ImGui.Unindent();
+                    }
+
+                    ImGui.Separator();
+
                     if (ImGui.CollapsingHeader("Map Object Display Presets"))
                     {
                         ImGui.Indent();
@@ -1432,6 +1448,8 @@ namespace StudioCore
 
                         ImGui.Unindent();
                     }
+
+
 
                     ImGui.Unindent();
                     ImGui.EndTabItem();
