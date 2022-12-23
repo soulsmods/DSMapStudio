@@ -179,6 +179,7 @@ namespace StudioCore.MsbEditor
             var selected = _selection.GetFilteredSelection<Entity>();
             foreach (var s in selected)
             {
+
                 var pos = s.GetLocalTransform().Position;
                 var rot_x = 0;
                 var rot_y = 0;
@@ -187,10 +188,9 @@ namespace StudioCore.MsbEditor
                 Transform newRot = new Transform(pos, new Vector3(rot_x, rot_y, rot_z));
 
                 actlist.Add(s.GetUpdateTransformAction(newRot));
+                var action = new CompoundAction(actlist);
+                EditorActionManager.ExecuteAction(action);
             }
-
-            var action = new CompoundAction(actlist);
-            EditorActionManager.ExecuteAction(action);
         }
 
         /// <summary>
@@ -224,10 +224,9 @@ namespace StudioCore.MsbEditor
                 Transform newRot = new Transform(pos, new Vector3(rot_x, rot_y, rot_z));
 
                 actlist.Add(s.GetUpdateTransformAction(newRot));
+                var action = new CompoundAction(actlist);
+                EditorActionManager.ExecuteAction(action);
             }
-
-            var action = new CompoundAction(actlist);
-            EditorActionManager.ExecuteAction(action);
         }
 
         /// <summary>
