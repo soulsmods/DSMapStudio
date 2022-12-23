@@ -101,9 +101,7 @@ namespace StudioCore
             public KeyBind Map_HideToggle = new(Key.H, true);
             public KeyBind Map_UnhideAll = new(Key.H, false, true);
             public KeyBind Map_GotoSelectionInObjectList = new(Key.G);
-            public KeyBind Map_ResetRotation = new(Key.L);
-            public KeyBind Map_ArbitraryRotationX = new(Key.J);
-            public KeyBind Map_ArbitraryRotationY = new(Key.K);
+            public KeyBind Map_FixedRotateSelection = new(Key.J);
             public KeyBind Map_Dummify = new(Key.Comma, false, false, true);
             public KeyBind Map_UnDummify = new(Key.Period, false, false, true);
 
