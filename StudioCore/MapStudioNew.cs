@@ -672,7 +672,6 @@ namespace StudioCore
             ctx = Tracy.TracyCZoneN(1, "Menu");
             bool newProject = false;
             ImGui.PushStyleVar(ImGuiStyleVar.FrameBorderSize, 0.0f);
-
             if (ImGui.BeginMainMenuBar())
             {
                 if (ImGui.BeginMenu("File"))
@@ -1355,20 +1354,6 @@ namespace StudioCore
                         ImGui.Indent();
                         ImGui.Checkbox("Enable Texturing (alpha)", ref CFG.Current.EnableTexturing);
                         ImGui.Checkbox("Exclude loaded maps from search filter", ref CFG.Current.Map_AlwaysListLoadedMaps);
-                        ImGui.Unindent();
-                    }
-
-                    ImGui.Separator();
-
-                    if (ImGui.CollapsingHeader("Selection"))
-                    {
-                        ImGui.Indent();
-
-                        float fixed_rotate_angle = CFG.Current.Map_Fixed_Rotate_Angle;
-                        if (ImGui.SliderFloat("Fixed Rotate Angle", ref fixed_rotate_angle, 1.0f, 180.0f))
-                        {
-                            CFG.Current.Map_Fixed_Rotate_Angle = fixed_rotate_angle;
-                        }
                         ImGui.Unindent();
                     }
 

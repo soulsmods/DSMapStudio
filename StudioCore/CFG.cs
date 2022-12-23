@@ -183,8 +183,6 @@ namespace StudioCore
 
         public bool EnableTexturing = false;
 
-        public float Map_Fixed_Rotate_Angle { get; set; } = 90.0f;
-
         public int GFX_Display_Width { get; set; } = 1920;
         public int GFX_Display_Height { get; set; } = 1057;
 
