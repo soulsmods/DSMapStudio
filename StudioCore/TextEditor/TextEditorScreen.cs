@@ -486,7 +486,7 @@ namespace StudioCore.TextEditor
                     {
                         searchId = intId;
                     }
-                    // Enum.TryParse allows arbitrary ints (thanks C1), so checking definition is required
+                    // Enum.TryParse allows arbitrary ints (thanks C#), so checking definition is required
                     else if (Enum.TryParse(initcmd[1], out FMGBank.FmgEntryCategory cat)
                         && Enum.IsDefined(typeof(FMGBank.FmgEntryCategory), cat))
                     {
