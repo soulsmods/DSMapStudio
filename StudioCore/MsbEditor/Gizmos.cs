@@ -114,39 +114,51 @@ namespace StudioCore.MsbEditor
             TranslateSquareGizmoZ = new DebugPrimitives.DbgPrimGizmoTranslateSquare(Axis.PosZ);
 
             TranslateGizmoXProxy = new DebugPrimitiveRenderableProxy(renderlist, TranslateGizmoX);
-            TranslateGizmoXProxy.BaseColor = Color.FromArgb(0xF3, 0x36, 0x53);
-            TranslateGizmoXProxy.HighlightedColor = Color.FromArgb(0xFF, 0x66, 0x83);
+            TranslateGizmoXProxy.BaseColor = GetGizmoColor(CFG.Current.GFX_Gizmo_X_BaseColor);
+            TranslateGizmoXProxy.HighlightedColor = GetGizmoColor(CFG.Current.GFX_Gizmo_X_HighlightColor);
+
             TranslateGizmoYProxy = new DebugPrimitiveRenderableProxy(renderlist, TranslateGizmoY);
-            TranslateGizmoYProxy.BaseColor = Color.FromArgb(0x86, 0xC8, 0x15);
-            TranslateGizmoYProxy.HighlightedColor = Color.FromArgb(0xB6, 0xF8, 0x45);
+            TranslateGizmoYProxy.BaseColor = GetGizmoColor(CFG.Current.GFX_Gizmo_Y_BaseColor);
+            TranslateGizmoYProxy.HighlightedColor = GetGizmoColor(CFG.Current.GFX_Gizmo_Y_HighlightColor);
+
             TranslateGizmoZProxy = new DebugPrimitiveRenderableProxy(renderlist, TranslateGizmoZ);
-            TranslateGizmoZProxy.BaseColor = Color.FromArgb(0x38, 0x90, 0xED);
-            TranslateGizmoZProxy.HighlightedColor = Color.FromArgb(0x68, 0xB0, 0xFF);
+            TranslateGizmoZProxy.BaseColor = GetGizmoColor(CFG.Current.GFX_Gizmo_Z_BaseColor);
+            TranslateGizmoZProxy.HighlightedColor = GetGizmoColor(CFG.Current.GFX_Gizmo_Z_HighlightColor);
+
             TranslateSquareGizmoXProxy = new DebugPrimitiveRenderableProxy(renderlist, TranslateSquareGizmoX);
-            TranslateSquareGizmoXProxy.BaseColor = Color.FromArgb(0xF3, 0x36, 0x53);
-            TranslateSquareGizmoXProxy.HighlightedColor = Color.FromArgb(0xFF, 0x66, 0x83);
+            TranslateSquareGizmoXProxy.BaseColor = GetGizmoColor(CFG.Current.GFX_Gizmo_X_BaseColor);
+            TranslateSquareGizmoXProxy.HighlightedColor = GetGizmoColor(CFG.Current.GFX_Gizmo_X_HighlightColor);
+
             TranslateSquareGizmoYProxy = new DebugPrimitiveRenderableProxy(renderlist, TranslateSquareGizmoY);
-            TranslateSquareGizmoYProxy.BaseColor = Color.FromArgb(0x86, 0xC8, 0x15);
-            TranslateSquareGizmoYProxy.HighlightedColor = Color.FromArgb(0xB6, 0xF8, 0x45);
+            TranslateSquareGizmoYProxy.BaseColor = GetGizmoColor(CFG.Current.GFX_Gizmo_Y_BaseColor);
+            TranslateSquareGizmoYProxy.HighlightedColor = GetGizmoColor(CFG.Current.GFX_Gizmo_Y_HighlightColor);
+
             TranslateSquareGizmoZProxy = new DebugPrimitiveRenderableProxy(renderlist, TranslateSquareGizmoZ);
-            TranslateSquareGizmoZProxy.BaseColor = Color.FromArgb(0x38, 0x90, 0xED);
-            TranslateSquareGizmoZProxy.HighlightedColor = Color.FromArgb(0x68, 0xB0, 0xFF);
+            TranslateSquareGizmoZProxy.BaseColor = GetGizmoColor(CFG.Current.GFX_Gizmo_Z_BaseColor);
+            TranslateSquareGizmoZProxy.HighlightedColor = GetGizmoColor(CFG.Current.GFX_Gizmo_Z_HighlightColor);
 
             RotateGizmoX = new DebugPrimitives.DbgPrimGizmoRotateRing(Axis.PosX);
             RotateGizmoY = new DebugPrimitives.DbgPrimGizmoRotateRing(Axis.PosY);
             RotateGizmoZ = new DebugPrimitives.DbgPrimGizmoRotateRing(Axis.PosZ);
 
             RotateGizmoXProxy = new DebugPrimitiveRenderableProxy(renderlist, RotateGizmoX);
-            RotateGizmoXProxy.BaseColor = Color.FromArgb(0xF3, 0x36, 0x53);
-            RotateGizmoXProxy.HighlightedColor = Color.FromArgb(0xFF, 0x66, 0x83);
+            RotateGizmoXProxy.BaseColor = GetGizmoColor(CFG.Current.GFX_Gizmo_X_BaseColor);
+            RotateGizmoXProxy.HighlightedColor = GetGizmoColor(CFG.Current.GFX_Gizmo_X_HighlightColor);
+
             RotateGizmoYProxy = new DebugPrimitiveRenderableProxy(renderlist, RotateGizmoY);
-            RotateGizmoYProxy.BaseColor = Color.FromArgb(0x86, 0xC8, 0x15);
-            RotateGizmoYProxy.HighlightedColor = Color.FromArgb(0xB6, 0xF8, 0x45);
+            RotateGizmoYProxy.BaseColor = GetGizmoColor(CFG.Current.GFX_Gizmo_Y_BaseColor);
+            RotateGizmoYProxy.HighlightedColor = GetGizmoColor(CFG.Current.GFX_Gizmo_Y_HighlightColor);
+
             RotateGizmoZProxy = new DebugPrimitiveRenderableProxy(renderlist, RotateGizmoZ);
-            RotateGizmoZProxy.BaseColor = Color.FromArgb(0x38, 0x90, 0xED);
-            RotateGizmoZProxy.HighlightedColor = Color.FromArgb(0x68, 0xB0, 0xFF);
+            RotateGizmoZProxy.BaseColor = GetGizmoColor(CFG.Current.GFX_Gizmo_Z_BaseColor);
+            RotateGizmoZProxy.HighlightedColor = GetGizmoColor(CFG.Current.GFX_Gizmo_Z_HighlightColor);
 
             _selection = selection;
+        }
+
+        Color GetGizmoColor(Vector3 color)
+        {
+            return Color.FromArgb((int)(color.X * 255), (int)(color.Y * 255), (int)(color.Z * 255));
         }
 
         // Code referenced from
@@ -258,6 +270,27 @@ namespace StudioCore.MsbEditor
         public void Update(Ray ray, bool canCaptureMouse)
         {
             bool canTransform = true;
+
+            // Update gizmo color
+            TranslateGizmoXProxy.BaseColor = GetGizmoColor(CFG.Current.GFX_Gizmo_X_BaseColor);
+            TranslateGizmoXProxy.HighlightedColor = GetGizmoColor(CFG.Current.GFX_Gizmo_X_HighlightColor);
+            TranslateGizmoYProxy.BaseColor = GetGizmoColor(CFG.Current.GFX_Gizmo_Y_BaseColor);
+            TranslateGizmoYProxy.HighlightedColor = GetGizmoColor(CFG.Current.GFX_Gizmo_Y_HighlightColor);
+            TranslateGizmoZProxy.BaseColor = GetGizmoColor(CFG.Current.GFX_Gizmo_Z_BaseColor);
+            TranslateGizmoZProxy.HighlightedColor = GetGizmoColor(CFG.Current.GFX_Gizmo_Z_HighlightColor);
+            TranslateSquareGizmoXProxy.BaseColor = GetGizmoColor(CFG.Current.GFX_Gizmo_X_BaseColor);
+            TranslateSquareGizmoXProxy.HighlightedColor = GetGizmoColor(CFG.Current.GFX_Gizmo_X_HighlightColor);
+            TranslateSquareGizmoYProxy.BaseColor = GetGizmoColor(CFG.Current.GFX_Gizmo_Y_BaseColor);
+            TranslateSquareGizmoYProxy.HighlightedColor = GetGizmoColor(CFG.Current.GFX_Gizmo_Y_HighlightColor);
+            TranslateSquareGizmoZProxy.BaseColor = GetGizmoColor(CFG.Current.GFX_Gizmo_Z_BaseColor);
+            TranslateSquareGizmoZProxy.HighlightedColor = GetGizmoColor(CFG.Current.GFX_Gizmo_Z_HighlightColor);
+            RotateGizmoXProxy.BaseColor = GetGizmoColor(CFG.Current.GFX_Gizmo_X_BaseColor);
+            RotateGizmoXProxy.HighlightedColor = GetGizmoColor(CFG.Current.GFX_Gizmo_X_HighlightColor);
+            RotateGizmoYProxy.BaseColor = GetGizmoColor(CFG.Current.GFX_Gizmo_Y_BaseColor);
+            RotateGizmoYProxy.HighlightedColor = GetGizmoColor(CFG.Current.GFX_Gizmo_Y_HighlightColor);
+            RotateGizmoZProxy.BaseColor = GetGizmoColor(CFG.Current.GFX_Gizmo_Z_BaseColor);
+            RotateGizmoZProxy.HighlightedColor = GetGizmoColor(CFG.Current.GFX_Gizmo_Z_HighlightColor);
+
             if (IsTransforming)
             {
                 if (!InputTracker.GetMouseButton(MouseButton.Left))
