@@ -1452,7 +1452,6 @@ namespace StudioCore
                         CacheBank.ClearCaches();
                     }
                     ImGui.Checkbox("Disable row grouping", ref CFG.Current.Param_DisableRowGrouping);
-                    ImGui.Checkbox("Show Vanilla Params", ref CFG.Current.Param_ShowVanillaParams);
 
                     ImGui.Unindent();
                     ImGui.EndTabItem();
