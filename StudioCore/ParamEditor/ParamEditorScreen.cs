@@ -539,6 +539,11 @@ namespace StudioCore.ParamEditor
             }
             if (ImGui.BeginMenu("Compare"))
             {
+                if (ImGui.MenuItem("Show Vanilla Params", null, CFG.Current.Param_ShowVanillaParams))
+                {
+                    CFG.Current.Param_ShowVanillaParams = !CFG.Current.Param_ShowVanillaParams;
+                }
+                ImGui.Separator();
                 if (ImGui.MenuItem("Clear current row comparison", null, false, _activeView != null && _activeView._selection.getCompareRow() != null))
                 {
                     _activeView._selection.SetCompareRow(null);
@@ -1371,7 +1376,7 @@ namespace StudioCore.ParamEditor
         private int _gotoParamRow = -1;
         private bool _arrowKeyPressed = false;
         private bool _focusRows = false;
-        private bool _drawParamView = false;
+        private bool _mapParamView = false;
 
         internal ParamEditorSelectionState _selection = new ParamEditorSelectionState();
 
@@ -1406,7 +1411,14 @@ namespace StudioCore.ParamEditor
                 or GameType.DarkSoulsRemastered)
             {
                 // This game has DrawParams, add UI element to toggle viewing DrawParam and GameParams.
-                if (ImGui.Checkbox("Edit Drawparams", ref _drawParamView))
+                if (ImGui.Checkbox("Edit Drawparams", ref _mapParamView))
+                    CacheBank.ClearCaches();
+                ImGui.Separator();
+            }
+            else if (ParamBank.PrimaryBank.AssetLocator.Type is GameType.DarkSoulsIISOTFS)
+            {
+                // DS2 has map params, add UI element to toggle viewing map params and GameParams.
+                if (ImGui.Checkbox("Edit Map Params", ref _mapParamView))
                     CacheBank.ClearCaches();
                 ImGui.Separator();
             }
@@ -1445,10 +1457,17 @@ namespace StudioCore.ParamEditor
                     or GameType.DarkSoulsPTDE
                     or GameType.DarkSoulsRemastered)
                 {
-                    if (_drawParamView)
+                    if (_mapParamView)
                         keyList = keyList.FindAll(p => p.EndsWith("Bank"));
                     else
                         keyList = keyList.FindAll(p => !p.EndsWith("Bank"));
+                }
+                else if (ParamBank.PrimaryBank.AssetLocator.Type is GameType.DarkSoulsIISOTFS)
+                {
+                    if (_mapParamView)
+                        keyList = keyList.FindAll(p => ParamBank.DS2MapParamlist.Contains(p.Split('_')[0]));
+                    else
+                        keyList = keyList.FindAll(p => !ParamBank.DS2MapParamlist.Contains(p.Split('_')[0]));
                 }
 
                 if (CFG.Current.Param_AlphabeticalParams)

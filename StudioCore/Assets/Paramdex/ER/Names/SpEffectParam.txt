@@ -12,7 +12,7 @@
 103 Grace - Remove Poison
 104 Grace - Remove Scarlet Rot
 105 Grace - Remove Frostbite
-106 Grace -
+106 Grace - Reload
 107 Grace - Remove Madness
 108 Grace - Remove Sleep
 109 Grace - Remove Blight
@@ -429,17 +429,17 @@
 7660 NG+ Scaling -
 7670 NG+ Scaling -
 7680 NG+ Scaling -
-10000 Castle Exile - Bullet
+10000 Exile Soldier - Bullet
 10001 Dog - Bullet
 10002 Demi-human - Bullet
 10003 Wandering Noble - Bullet
 10005 Castle Foot Soldier - Bullet
-10006 Fallen Hawk Soldier - Bullet
+10006 Fallen Hawks Soldier - Bullet
 10008 Man-Serpent - Bullet
 10010 Dominula Celebrant - Bullet
 10165 Dragon-faced Flamethrower - Bullet
-10317 Fallen Hawk Soldier - Bullet
-10318 Fallen Hawk Soldier - Bullet [Chain]
+10317 Fallen Hawks Soldier - Bullet
+10318 Fallen Hawks Soldier - Bullet [Chain]
 10690 Mohg - Bullet
 10691 Mohg - Bullet [Cycle]
 10945 Warhawk - Bullet

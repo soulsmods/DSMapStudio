@@ -18,6 +18,8 @@ using Veldrid;
 using Veldrid.Sdl2;
 using Veldrid.StartupUtilities;
 using System.Windows.Forms;
+using StudioCore.MsbEditor;
+using System.Drawing;
 
 namespace StudioCore
 {
@@ -478,6 +480,22 @@ namespace StudioCore
             }
         }
 
+        private bool GameNotUnpackedWarning(GameType gameType)
+        {
+            if (gameType is GameType.DarkSoulsPTDE or GameType.DarkSoulsIISOTFS)
+            {
+                MessageBox.Show($@"The files for {gameType} do not appear to be unpacked. Please use UDSFM for DS1:PTDE and UXM for DS2 to unpack the files.", "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.None);
+                return false;
+            }
+            else
+            {
+                TaskManager.warningList.TryAdd($"GameNotUnpacked{gameType}", $"The files for {gameType} do not appear to be fully unpacked. Functionality will be limited.\nPlease use UXM to unpack the files.");
+                return true;
+            }
+        }
+
         private bool AttemptLoadProject(Editor.ProjectSettings settings, string filename, bool updateRecents = true, NewProjectOptions options = null)
         {
             bool success = true;
@@ -534,10 +552,8 @@ namespace StudioCore
             {
                 if (!_assetLocator.CheckFilesExpanded(settings.GameRoot, settings.GameType))
                 {
-                    System.Windows.Forms.MessageBox.Show($@"The files for {settings.GameType} do not appear to be unpacked. Please use UDSFM for DS1:PTDE and UXM for the rest of the games to unpack the files.", "Error",
-                        System.Windows.Forms.MessageBoxButtons.OK,
-                        System.Windows.Forms.MessageBoxIcon.None);
-                    return false;
+                    if (!GameNotUnpackedWarning(settings.GameType))
+                        return false;
                 }
                 if ((settings.GameType == GameType.Sekiro || settings.GameType == GameType.EldenRing) && !File.Exists(Path.Join(Path.GetFullPath("."), "oo2core_6_win64.dll")))
                 {
@@ -672,6 +688,7 @@ namespace StudioCore
             ctx = Tracy.TracyCZoneN(1, "Menu");
             bool newProject = false;
             ImGui.PushStyleVar(ImGuiStyleVar.FrameBorderSize, 0.0f);
+
             if (ImGui.BeginMainMenuBar())
             {
                 if (ImGui.BeginMenu("File"))
@@ -899,7 +916,8 @@ namespace StudioCore
                 }
                 if (TaskManager.GetLiveThreads().Count > 0 && ImGui.BeginMenu("Tasks"))
                 {
-                    foreach (String task in TaskManager.GetLiveThreads()) {
+                    foreach (String task in TaskManager.GetLiveThreads())
+                    {
                         ImGui.Text(task);
                     }
                     ImGui.EndMenu();
@@ -1116,10 +1134,8 @@ namespace StudioCore
                     }
                     if (!_assetLocator.CheckFilesExpanded(gameroot, _newProjectOptions.settings.GameType))
                     {
-                        System.Windows.Forms.MessageBox.Show($@"The files for {_newProjectOptions.settings.GameType} do not appear to be unpacked. Please use UDSFM for DS1:PTDE and UXM for the rest of the games to unpack the files.", "Error",
-                            System.Windows.Forms.MessageBoxButtons.OK,
-                            System.Windows.Forms.MessageBoxIcon.None);
-                        validated = false;
+                        if (!GameNotUnpackedWarning(_newProjectOptions.settings.GameType))
+                            validated = false;
                     }
 
                     if (validated)
@@ -1359,6 +1375,27 @@ namespace StudioCore
 
                     ImGui.Separator();
 
+                    if (ImGui.CollapsingHeader("Selection"))
+                    {
+                        ImGui.Indent();
+
+                        float arbitrary_rotation_x = CFG.Current.Map_ArbitraryRotation_X_Shift;
+                        float arbitrary_rotation_y = CFG.Current.Map_ArbitraryRotation_Y_Shift;
+
+                        if (ImGui.SliderFloat("Arbitrary Rotation: X", ref arbitrary_rotation_x, 1.0f, 180.0f))
+                        {
+                            CFG.Current.Map_ArbitraryRotation_X_Shift = arbitrary_rotation_x;
+                        }
+                        if (ImGui.SliderFloat("Arbitrary Rotation: Y", ref arbitrary_rotation_y, 1.0f, 180.0f))
+                        {
+                            CFG.Current.Map_ArbitraryRotation_Y_Shift = arbitrary_rotation_y;
+                        }
+
+                        ImGui.Unindent();
+                    }
+
+                    ImGui.Separator();
+
                     if (ImGui.CollapsingHeader("Map/Model Viewport Camera"))
                     {
                         ImGui.Indent();
@@ -1399,6 +1436,36 @@ namespace StudioCore
                             _msbEditor.Viewport._worldView.CameraMoveSpeed_Fast = CFG.Default.GFX_Camera_MoveSpeed_Fast;
                             CFG.Current.GFX_Camera_MoveSpeed_Fast = _msbEditor.Viewport._worldView.CameraMoveSpeed_Fast;
                         }
+                        ImGui.Unindent();
+                    }
+
+                    ImGui.Separator();
+
+                    if (ImGui.CollapsingHeader("Gizmos"))
+                    {
+                        ImGui.Indent();
+
+                        ImGui.ColorEdit3("X Axis - Base Color", ref CFG.Current.GFX_Gizmo_X_BaseColor);
+                        ImGui.ColorEdit3("X Axis - Highlight Color", ref CFG.Current.GFX_Gizmo_X_HighlightColor);
+
+                        ImGui.ColorEdit3("Y Axis - Base Color", ref CFG.Current.GFX_Gizmo_Y_BaseColor);
+                        ImGui.ColorEdit3("Y Axis - Highlight Color", ref CFG.Current.GFX_Gizmo_Y_HighlightColor);
+
+                        ImGui.ColorEdit3("Z Axis - Base Color", ref CFG.Current.GFX_Gizmo_Z_BaseColor);
+                        ImGui.ColorEdit3("Z Axis - Highlight Color", ref CFG.Current.GFX_Gizmo_Z_HighlightColor);
+
+                        if (ImGui.Button("Reset Colors to Default"))
+                        {
+                            CFG.Current.GFX_Gizmo_X_BaseColor = new Vector3(0.952f, 0.211f, 0.325f);
+                            CFG.Current.GFX_Gizmo_X_HighlightColor = new Vector3(1.0f, 0.4f, 0.513f);
+
+                            CFG.Current.GFX_Gizmo_Y_BaseColor = new Vector3(0.525f, 0.784f, 0.082f);
+                            CFG.Current.GFX_Gizmo_Y_HighlightColor = new Vector3(0.713f, 0.972f, 0.270f);
+
+                            CFG.Current.GFX_Gizmo_Z_BaseColor = new Vector3(0.219f, 0.564f, 0.929f);
+                            CFG.Current.GFX_Gizmo_Z_HighlightColor = new Vector3(0.407f, 0.690f, 1.0f);
+                        }
+
                         ImGui.Unindent();
                     }
 
@@ -1452,7 +1519,6 @@ namespace StudioCore
                         CacheBank.ClearCaches();
                     }
                     ImGui.Checkbox("Disable row grouping", ref CFG.Current.Param_DisableRowGrouping);
-                    ImGui.Checkbox("Show Vanilla Params", ref CFG.Current.Param_ShowVanillaParams);
 
                     ImGui.Unindent();
                     ImGui.EndTabItem();

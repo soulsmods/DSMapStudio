@@ -176,7 +176,18 @@ namespace StudioCore
 
         public bool CheckFilesExpanded(string gamepath, GameType game)
         {
-            if (game == GameType.DarkSoulsPTDE || game == GameType.DarkSoulsIII || game == GameType.Sekiro)
+            if (game == GameType.EldenRing)
+            {
+                if (!Directory.Exists($@"{gamepath}\map"))
+                {
+                    return false;
+                }
+                if (!Directory.Exists($@"{gamepath}\asset"))
+                {
+                    return false;
+                }
+            }
+            if (game is GameType.DarkSoulsPTDE or GameType.DarkSoulsIII or GameType.Sekiro)
             {
                 if (!Directory.Exists($@"{gamepath}\map"))
                 {
