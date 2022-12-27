@@ -686,6 +686,7 @@ namespace StudioCore
             ctx = Tracy.TracyCZoneN(1, "Menu");
             bool newProject = false;
             ImGui.PushStyleVar(ImGuiStyleVar.FrameBorderSize, 0.0f);
+
             if (ImGui.BeginMainMenuBar())
             {
                 if (ImGui.BeginMenu("File"))
@@ -913,7 +914,8 @@ namespace StudioCore
                 }
                 if (TaskManager.GetLiveThreads().Count > 0 && ImGui.BeginMenu("Tasks"))
                 {
-                    foreach (String task in TaskManager.GetLiveThreads()) {
+                    foreach (String task in TaskManager.GetLiveThreads())
+                    {
                         ImGui.Text(task);
                     }
                     ImGui.EndMenu();
@@ -1366,6 +1368,27 @@ namespace StudioCore
                         ImGui.Indent();
                         ImGui.Checkbox("Enable Texturing (alpha)", ref CFG.Current.EnableTexturing);
                         ImGui.Checkbox("Exclude loaded maps from search filter", ref CFG.Current.Map_AlwaysListLoadedMaps);
+                        ImGui.Unindent();
+                    }
+
+                    ImGui.Separator();
+
+                    if (ImGui.CollapsingHeader("Selection"))
+                    {
+                        ImGui.Indent();
+
+                        float arbitrary_rotation_x = CFG.Current.Map_ArbitraryRotation_X_Shift;
+                        float arbitrary_rotation_y = CFG.Current.Map_ArbitraryRotation_Y_Shift;
+
+                        if (ImGui.SliderFloat("Arbitrary Rotation: X", ref arbitrary_rotation_x, 1.0f, 180.0f))
+                        {
+                            CFG.Current.Map_ArbitraryRotation_X_Shift = arbitrary_rotation_x;
+                        }
+                        if (ImGui.SliderFloat("Arbitrary Rotation: Y", ref arbitrary_rotation_y, 1.0f, 180.0f))
+                        {
+                            CFG.Current.Map_ArbitraryRotation_Y_Shift = arbitrary_rotation_y;
+                        }
+
                         ImGui.Unindent();
                     }
 

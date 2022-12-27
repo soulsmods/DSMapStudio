@@ -197,6 +197,9 @@ namespace StudioCore
 
         // Map Editor settings
         public bool Map_AlwaysListLoadedMaps = true;
+        public float Map_ArbitraryRotation_X_Shift { get; set; } = 90.0f;
+        public float Map_ArbitraryRotation_Y_Shift { get; set; } = 90.0f;
+
 
         // Font settings
         public bool FontChinese = false;
