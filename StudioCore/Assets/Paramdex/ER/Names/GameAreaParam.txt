@@ -1,30 +1,30 @@
 10000800 [Stormveil Castle] Godrick the Grafted
-10000850 [Stormveil Castle] Margit, the Fell Omen
+10000850 [Stormveil Castle] Margit the Fell Omen
 10010800 [Chapel of Anticipation] Grafted Scion
 11000800 [Leyndell, Royal Capital] Morgott, the Omen King
 11000850 [Leyndell, Royal Capital] Godfrey, First Elden Lord
-11050800 [Leyndell, Ashen Capital] Hoarah Loux
-11050850 [Leyndell, Ashen Capital] Sir Gideon Ofnir
+11050800 [Leyndell Ashen Capital] Hoarah Loux
+11050850 [Leyndell Ashen Capital] Sir Gideon Ofnir
 12010800 [Ainsel River] Dragonkin Soldier of Nokstella
 12010850 [Ainsel River] Dragonkin Soldier (Lake of Rot)
 12020800 [Siofra River] Valiant Gargoyles
-12020830 [Siofra River] Dragonkin Soldier
+12020830 [Siofra River] Dragonkin Soldier of Nokron
 12020850 [Siofra River] Mimic Tear
 12030390 [Deeproot Depths] Crucible Knight
 12030800 [Deeproot Depths] Fia's Champion
 12030850 [Deeproot Depths] Lichdragon Fortissax
-12040800 [Ainsel River] Astel, Naturalborn of the Void
-12050800 [Mohgwyn Palace] Mohg, Lord of Blood
+12040800 [Ainsel River] Astel Naturalborn of the Void
+12050800 [Mohgwyn Palace] Mohg Lord of Blood
 12080800 [Siofra River] Ancestor Spirit
-12090800 [Nokron, Eternal City] Regal Ancestor Spirit
+12090800 [Nokron Eternal City] Regal Ancestor Spirit
 13000800 [Crumbling Farum Azula] Maliketh, the Black Blade
 13000830 [Crumbling Farum Azula] Dragonlord Placidusax
 13000850 [Crumbling Farum Azula] Godskin Duo
-14000800 [Academy of Raya Lucaria] Rennala, Queen of the Full Moon
+14000800 [Academy of Raya Lucaria] Rennala Queen of the Full Moon
 14000850 [Academy of Raya Lucaria] Red Wolf of Radagon
-15000800 [Miquella's Haligtree] Malenia, Blade of Miquella
-15000850 [Miquella's Haligtree] Loretta, Knight of the Haligtree
-16000800 [Volcano Manor] Rykard, Lord of Blasphemy
+15000800 [Miquella's Haligtree] Malenia Blade of Miquella
+15000850 [Miquella's Haligtree] Loretta Knight of the Haligtree
+16000800 [Volcano Manor] Rykard Lord of Blasphemy
 16000850 [Volcano Manor] Godskin Noble
 16000860 [Volcano Manor] Abductor Virgins
 18000800 [Stranded Graveyard] Crucible Illusion
@@ -85,11 +85,11 @@
 34120800 [Divine Tower of West Altus] Onyx Lord
 34130800 [Divine Tower of Caelid] Godskin Apostle
 34140850 [Divine Tower of East Altus] Fell Twins
-35000800 [Subterranean Shunning-Grounds] Mohg, The Omen
-35000850 [Subterranean Shunning-Grounds] Esgar, Priest of Blood
+35000800 [Subterranean Shunning-Grounds] Mohg The Omen
+35000850 [Subterranean Shunning-Grounds] Esgar Priest of Blood
 39200800 [Ruin-Strewn Precipice] Magma Wyrm Makar
-1033420800 Alecto, Black Knife Ringleader - Moonlight Altar (Liurnia)
+1033420800 Alecto Black Knife Ringleader - Moonlight Altar (Liurnia)
 1033430800 Erdtree Avatar - Revenger's Shack (Liurnia)
-1033450800 Bols, Carian Knight - Cuckoo's Evergaol (Liurnia)
+1033450800 Bols Carian Knight - Cuckoo's Evergaol (Liurnia)
 1034420800 Glintstone Dragon Adula - Moonfolk Ruins (Liurnia)
 1034450800 Glintstone Dragon Smarag - Meeting Place (Liurnia)

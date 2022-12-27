@@ -4,18 +4,18 @@
 40010 Great Glintstone Shard
 40070 Glintstone Arc
 40100 Swift Glintstone Shard
-40200 Glintstone Cometshard
-40201 Glintstone Cometshard [Charged]
+40200 Comet
+40201 Glintstone Cometshard
 40210 Comet
-40211 Comet [Charged]
+40211 Comet
 40212 Comet [Hit]
-40300 Shard Spiral
-40301 Shard Spiral [Charged]
+40300 Shard Spiral - Emitted
+40301 Shard Spiral
 40400 Glintstone Stars
 40401 Glintstone Stars
 40402 Glintstone Stars
-40405 Glintstone Stars [Charged]
-40406 Glintstone Stars
+40405 Glintstone Stars
+40406 Glintstone Stars [Charged]
 40407 Glintstone Stars
 40500 Star Shower
 40501 Star Shower
@@ -23,8 +23,8 @@
 40503 Star Shower
 40504 Star Shower
 40505 Star Shower
-40510 Star Shower [Charged]
-40511 Star Shower
+40510 Star Shower
+40511 Star Shower [Charged]
 40512 Star Shower
 40513 Star Shower
 40514 Star Shower
@@ -34,9 +34,9 @@
 40800 Cannon of Haima
 40801 Cannon of Haima
 40805 Cannon of Haima
-40806 Cannon of Haima
+40806 Cannon of Haima [Charged]
 40900 Crystal Burst
-40905 Crystal Burst [Charged]
+40905 Crystal Burst
 41000 Shatter Earth
 41001 Shatter Earth
 41002 Shatter Earth
@@ -52,12 +52,12 @@
 41206 Gavel of Haima
 41300 Terra Magicus
 42000 Comet Azur
-42001 Comet Azur
-42002 Comet Azur
-42003 Comet Azur
-42004 Comet Azur
+42001 Comet Azur - Constant Close Attack
+42002 Comet Azur - Infrequent Stagger Bullet
+42003 Comet Azur - Constant Projectile
+42004 Comet Azur - Release Final Bullet
 42100 Founding Rain of Stars
-42105 Founding Rain of Stars [Charged]
+42105 Founding Rain of Stars
 42200 Stars of Ruin
 42201 Stars of Ruin
 42202 Stars of Ruin
@@ -66,8 +66,8 @@
 42205 Stars of Ruin
 42206 Stars of Ruin
 42207 Stars of Ruin
-42210 Stars of Ruin [Charged]
-42211 Stars of Ruin
+42210 Stars of Ruin
+42211 Stars of Ruin [Charged]
 42212 Stars of Ruin
 42213 Stars of Ruin
 42214 Stars of Ruin
@@ -90,27 +90,27 @@
 43703 Magic Downpour
 43704 Magic Downpour
 43705 Magic Downpour
-43706 Magic Downpour [Charged]
+43706 Magic Downpour
 43707 Magic Downpour
 43708 Magic Downpour
 43709 Magic Downpour
 43710 Magic Downpour
-43711 Magic Downpour
+43711 Magic Downpour [Charged]
 43800 Loretta's Greatbow
 43801 Loretta's Greatbow
-43805 Loretta's Greatbow [Charged]
-43806 Loretta's Greatbow
-43810 Loretta's Mastery
+43805 Loretta's Greatbow
+43806 Loretta's Greatbow [Charged]
+43810 Loretta's Greatbow
 43811 Loretta's Mastery
-43815 Loretta's Mastery [Charged]
-43816 Loretta's Mastery
+43815 Loretta's Mastery
+43816 Loretta's Mastery [Charged]
 43900 Magic Glintblade
-43905 Magic Glintblade [Charged]
+43905 Magic Glintblade
 44000 Glintstone Icecrag
 44100 Zamor Ice Storm
 44101 Zamor Ice Storm
-44105 Zamor Ice Storm [Charged]
-44106 Zamor Ice Storm
+44105 Zamor Ice Storm
+44106 Zamor Ice Storm [Charged]
 44200 Freezing Mist
 44205 Freezing Mist [Charged]
 44300 Carian Greatsword
@@ -150,7 +150,7 @@
 46000 Ambush Shard
 46100 Night Shard
 46200 Night Comet
-46201 Night Comet [Charged]
+46201 Night Comet
 46202 Night Comet
 46400 Carian Retaliation
 46401 Carian Retaliation
@@ -165,16 +165,16 @@
 47011 Meteorite of Astel
 47100 Rock Sling
 47200 Gravity Well
-47205 Gravity Well [Charged]
+47205 Gravity Well
 47210 Collapsing Stars
 47211 Collapsing Stars
-47215 Collapsing Stars [Charged]
-47216 Collapsing Stars
+47215 Collapsing Stars
+47216 Collapsing Stars [Charged]
 48000 Magma Shot
 48001 Magma Shot
 48003 Magma Shot
-48005 Magma Shot [Charged]
-48006 Magma Shot
+48005 Magma Shot
+48006 Magma Shot [Charged]
 48007 Magma Shot
 48100 Gelmir's Fury
 48107 Gelmir's Fury
@@ -199,11 +199,11 @@
 49100 Briars of Punishment
 49101 Briars of Punishment
 50000 Rancorcall
-50005 Rancorcall [Charged]
+50005 Rancorcall
 50010 Ancient Death Rancor
 50011 Ancient Death Rancor
-50015 Ancient Death Rancor [Charged]
-50016 Ancient Death Rancor
+50015 Ancient Death Rancor
+50016 Ancient Death Rancor [Charged]
 50100 Explosive Ghostflame
 50101 Explosive Ghostflame
 50200 Fia's Mist
@@ -216,29 +216,29 @@
 50406 Death Lightning
 50407 Death Lightning
 51000 Oracle Bubbles
-51005 Oracle Bubbles [Charged]
+51005 Oracle Bubbles
 51010 Great Oracular Bubble
-51015 Great Oracular Bubble [Charged]
+51015 Great Oracular Bubble
 60000 Catch Flame
 60001 Catch Flame
-60010 O, Flame!
-60011 O, Flame!
-60015 O, Flame! [Charged]
-60016 O, Flame!
+60010 Catch Flame
+60011 O Flame!
+60015 Catch Flame
+60016 O Flame! [Charged]
 60100 Flame Sling
 60101 Flame Sling
-60102 Flame Sling [Charged]
+60102 Flame Sling
 60103 Flame Sling
 61000 Giantsflame Take Thee
-61005 Giantsflame Take Thee [Charged]
+61005 Giantsflame Take Thee
 61100 Flame of the Fell God
 61101 Flame of the Fell God
 62100 Black Flame
 62101 Black Flame
-62105 Black Flame [Charged]
-62106 Black Flame
+62105 Black Flame
+62106 Black Flame [Charged]
 62300 Scouring Black Flame
-62305 Scouring Black Flame [Charged]
+62305 Scouring Black Flame
 62400 Noble Presence
 62401 Noble Presence
 62405 Noble Presence [Charged]
@@ -259,9 +259,9 @@
 63400 Protection of the Erdtree
 63401 Protection of the Erdtree
 64000 Rejection
-64005 Rejection [Charged]
+64005 Rejection
 64100 Wrath of Gold
-64105 Wrath of Gold [Charged]
+64105 Wrath of Gold
 64200 Urgent Heal
 64201 Urgent Heal
 64210 Heal
@@ -301,7 +301,7 @@
 67013 Triple Rings of Light
 67014 Triple Rings of Light
 67100 Radagon's Rings of Light
-67105 Radagon's Rings of Light [Charged]
+67105 Radagon's Rings of Light
 67200 Elden Stars
 67201 Elden Stars
 67202 Elden Stars
@@ -316,14 +316,14 @@
 68101 Stone of Gurranq
 68200 Beast Claw
 68201 Beast Claw
-68205 Beast Claw [Charged]
-68206 Beast Claw
+68205 Beast Claw
+68206 Beast Claw [Charged]
 68300 Gurranq's Beast Claw
 68600 Bestial Constitution
 69000 Lightning Spear
 69001 Lightning Spear
-69005 Lightning Spear [Charged]
-69006 Lightning Spear
+69005 Lightning Spear
+69006 Lightning Spear [Charged]
 69100 Ancient Dragons' Lightning Strike
 69101 Ancient Dragons' Lightning Strike
 69105 Ancient Dragons' Lightning Strike [Charged]
@@ -394,7 +394,7 @@
 73111 Unendurable Frenzy
 73112 Unendurable Frenzy
 73200 Frenzied Burst
-73205 Frenzied Burst [Charged]
+73205 Frenzied Burst
 73300 Howl of Shabriri
 73301 Howl of Shabriri
 75000 Aspects of the Crucible: Tail
@@ -640,7 +640,7 @@
 200560 Default - Straight Sword-(Crit)
 200561 Default - Straight Sword-(Crit)
 200590 Default - Straight Sword
-200591 Default - Straight Sword
+200591 Parry - Straight Sword
 200600 Default - Straight Sword
 200605 Default - Straight Sword
 200610 Default - Straight Sword
@@ -2397,7 +2397,7 @@
 1400560 Default - Axe-(Crit)
 1400561 Default - Axe-(Crit)
 1400590 Default - Axe
-1400591 Default - Axe
+1400591 Parry - Axe
 1400600 Default - Axe
 1400605 Default - Axe
 1400610 Default - Axe
@@ -4947,16 +4947,16 @@
 300107912 Glintstone Kris
 300116900 Blade of Calling
 300116905 Blade of Calling
-300200950 Default - Straight Sword
-300200951 Default - Straight Sword
-300200952 Default - Straight Sword
-300200953 Default - Straight Sword
-300200954 Default - Straight Sword
-300200955 Default - Straight Sword
-300200956 Default - Straight Sword
-300200957 Default - Straight Sword
-300200958 Default - Straight Sword
-300200959 Default - Straight Sword
+300200950 Warcry Charged 1-1 - Straight Sword
+300200951 Warcry Charged 1-2 - Straight Sword
+300200952 Warcry Charged 1-3 - Straight Sword
+300200953 Warcry Uncharged 1-1 - Straight Sword
+300200954 Warcry Uncharged 1-2 - Straight Sword
+300200955 Warcry Uncharged 1-3 - Straight Sword
+300200956 Warcry Charged 2-1 - Straight Sword
+300200957 Warcry Charged 2-2 - Straight Sword
+300200958 Warcry Uncharged 2-1 - Straight Sword
+300200959 Warcry Uncharged 2-2 - Straight Sword
 300200960 Default - Straight Sword
 300200961 Default - Straight Sword
 300200962 Default - Straight Sword

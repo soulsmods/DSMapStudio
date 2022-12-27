@@ -1,19 +1,19 @@
 80000 Player <> Torrent
-300081001 Castle Exile <> Ballista
-300081011 Castle Exile <> Giant Ballista
-300081101 Castle Exile <> Dragon-faced Flamethrower
-300090090 Castle Exile <>
-300090091 Castle Exile <>
-300090092 Castle Exile <>
-300090093 Castle Exile <>
+300081001 Exile Soldier <> Ballista
+300081011 Exile Soldier <> Giant Ballista
+300081101 Exile Soldier <> Dragon-faced Flamethrower
+300090090 Exile Soldier <>
+300090091 Exile Soldier <>
+300090092 Exile Soldier <>
+300090093 Exile Soldier <>
 315031600 Night's Cavalry <> Night's Cavalry Horse
 315031601 Night's Cavalry <> Night's Cavalry Horse
 315031602 Night's Cavalry <> Night's Cavalry Horse
 315031603 Night's Cavalry <> Night's Cavalry Horse
 317031802 Albinauric Archer <> Dog
 317031803 Albinauric Archer <> Dog
-320032102 Nomad Trader <> Mule
-320032103 Nomad Trader <> Mule
+320032102 Nomadic Merchant <> Mule
+320032103 Nomadic Merchant <> Mule
 330042800 Nox Swordstress <> Giant Ant
 330042801 Nox Swordstress <> Giant Ant
 330042802 Nox Swordstress <> Giant Ant
