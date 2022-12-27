@@ -478,6 +478,22 @@ namespace StudioCore
             }
         }
 
+        private bool GameNotUnpackedWarning(GameType gameType)
+        {
+            if (gameType is GameType.DarkSoulsPTDE or GameType.DarkSoulsIISOTFS)
+            {
+                MessageBox.Show($@"The files for {gameType} do not appear to be unpacked. Please use UDSFM for DS1:PTDE and UXM for DS2 to unpack the files.", "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.None);
+                return false;
+            }
+            else
+            {
+                TaskManager.warningList.TryAdd($"GameNotUnpacked{gameType}", $"The files for {gameType} do not appear to be fully unpacked. Functionality will be limited.\nPlease use UXM to unpack the files.");
+                return true;
+            }
+        }
+
         private bool AttemptLoadProject(Editor.ProjectSettings settings, string filename, bool updateRecents = true, NewProjectOptions options = null)
         {
             bool success = true;
@@ -534,10 +550,8 @@ namespace StudioCore
             {
                 if (!_assetLocator.CheckFilesExpanded(settings.GameRoot, settings.GameType))
                 {
-                    System.Windows.Forms.MessageBox.Show($@"The files for {settings.GameType} do not appear to be unpacked. Please use UDSFM for DS1:PTDE and UXM for the rest of the games to unpack the files.", "Error",
-                        System.Windows.Forms.MessageBoxButtons.OK,
-                        System.Windows.Forms.MessageBoxIcon.None);
-                    return false;
+                    if (!GameNotUnpackedWarning(settings.GameType))
+                        return false;
                 }
                 if ((settings.GameType == GameType.Sekiro || settings.GameType == GameType.EldenRing) && !File.Exists(Path.Join(Path.GetFullPath("."), "oo2core_6_win64.dll")))
                 {
@@ -1116,10 +1130,8 @@ namespace StudioCore
                     }
                     if (!_assetLocator.CheckFilesExpanded(gameroot, _newProjectOptions.settings.GameType))
                     {
-                        System.Windows.Forms.MessageBox.Show($@"The files for {_newProjectOptions.settings.GameType} do not appear to be unpacked. Please use UDSFM for DS1:PTDE and UXM for the rest of the games to unpack the files.", "Error",
-                            System.Windows.Forms.MessageBoxButtons.OK,
-                            System.Windows.Forms.MessageBoxIcon.None);
-                        validated = false;
+                        if (!GameNotUnpackedWarning(_newProjectOptions.settings.GameType))
+                            validated = false;
                     }
 
                     if (validated)
