@@ -379,7 +379,54 @@ namespace StudioCore.ParamEditor
                     showParamCompare, showRowCompare, ref id, propSearchRx, activeParam, false);
             }
             ImGui.Columns(1);
+            if (meta.CalcCorrectDef != null)
+            {
+                DrawCalcCorrectGraph(meta, row);
+            }
             ImGui.EndChild();
+        }
+
+        private void DrawCalcCorrectGraph(ParamMetaData meta, Param.Row row)
+        {
+            try
+            {
+                ImGui.Separator();
+                ImGui.NewLine();
+                var ccd = meta.CalcCorrectDef;
+                (float[] values, int xOffset, float minY, float maxY) = CacheBank.GetCached(_paramEditor, row, () => getCalcCorrectedData(ccd, row));
+                ImGui.PlotLines("##graph", ref values[0], values.Length, 0, xOffset == 0 ? "" : $@"Note: add {xOffset} to x coordinate", minY, maxY, new Vector2(ImGui.GetColumnWidth(-1), ImGui.GetColumnWidth(-1)*0.5625f));
+            }
+            catch (Exception e)
+            {
+                ImGui.TextUnformatted("Unable to draw graph");
+            }
+        }
+        private (float[], int, float, float) getCalcCorrectedData(CalcCorrectDefinition ccd, Param.Row row)
+        {
+            float[] stageMaxVal = ccd.stageMaxVal.Select((x, i) => (float)row[x].Value.Value).ToArray();
+            float[] stageMaxGrowVal = ccd.stageMaxGrowVal.Select((x, i) => (float)row[x].Value.Value).ToArray();
+            float[] adjPoint_maxGrowVal = ccd.adjPoint_maxGrowVal.Select((x, i) => (float)row[x].Value.Value).ToArray();
+
+            int length = (int)(stageMaxVal[stageMaxVal.Length-1] - stageMaxVal[0] + 1);
+            if (length <= 0 || length > 1000)
+                return (new float[0], 0, 0, 0);
+            float[] values = new float[length];
+            for (int i=0; i<values.Length; i++)
+            {
+                float baseVal = i + stageMaxVal[0];
+                int band = 0;
+                while (band + 1 < stageMaxVal.Length && stageMaxVal[band + 1] < baseVal)
+                    band++;
+                if (band + 1 >= stageMaxVal.Length)
+                    values[i] = stageMaxGrowVal[stageMaxGrowVal.Length-1];
+                else
+                {
+                    float adjValRate = stageMaxVal[band] == stageMaxVal[band+1] ? 0 : (baseVal - stageMaxVal[band]) / (stageMaxVal[band+1] - stageMaxVal[band]);
+                    float adjGrowValRate = adjPoint_maxGrowVal[band] >= 0 ? (float)Math.Pow(adjValRate, adjPoint_maxGrowVal[band]) : 1 - (float)Math.Pow(1 - adjValRate, -adjPoint_maxGrowVal[band]);
+                    values[i] = adjGrowValRate * (stageMaxGrowVal[band+1] - stageMaxGrowVal[band]) + stageMaxGrowVal[band];
+                }
+            }
+            return (values, (int)stageMaxVal[0], stageMaxGrowVal[0], stageMaxGrowVal[stageMaxGrowVal.Length-1]);
         }
 
         // Many parameter options, which may be simplified.
