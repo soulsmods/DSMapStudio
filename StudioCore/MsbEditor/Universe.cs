@@ -380,10 +380,7 @@ namespace StudioCore.MsbEditor
             Dictionary<long, Param.Row> eventLocationParams = new Dictionary<long, Param.Row>();
             Dictionary<long, Param.Row> objectInstanceParams = new Dictionary<long, Param.Row>();
 
-            var regparamad = _assetLocator.GetDS2GeneratorRegistParam(mapid);
-            var regparam = Param.Read(regparamad.AssetPath);
-            var reglayout = _assetLocator.GetParamdefForParam(regparam.ParamType);
-            regparam.ApplyParamdef(reglayout);
+            var regparam = ParamEditor.ParamBank.PrimaryBank.Params[$"generatorregistparam_{mapid}"];
             foreach (var row in regparam.Rows)
             {
                 if (string.IsNullOrEmpty(row.Name))
@@ -396,10 +393,7 @@ namespace StudioCore.MsbEditor
                 map.AddObject(obj);
             }
 
-            var locparamad = _assetLocator.GetDS2GeneratorLocationParam(mapid);
-            var locparam = Param.Read(locparamad.AssetPath);
-            var loclayout = _assetLocator.GetParamdefForParam(locparam.ParamType);
-            locparam.ApplyParamdef(loclayout);
+            var locparam = ParamEditor.ParamBank.PrimaryBank.Params[$"generatorlocation_{mapid}"];
             foreach (var row in locparam.Rows)
             {
                 if (string.IsNullOrEmpty(row.Name))
@@ -425,10 +419,7 @@ namespace StudioCore.MsbEditor
             }
 
             var chrsToLoad = new HashSet<AssetDescription>();
-            var genparamad = _assetLocator.GetDS2GeneratorParam(mapid);
-            var genparam = Param.Read(genparamad.AssetPath);
-            var genlayout = _assetLocator.GetParamdefForParam(genparam.ParamType);
-            genparam.ApplyParamdef(genlayout);
+            var genparam = ParamEditor.ParamBank.PrimaryBank.Params[$"generatorparam_{mapid}"];
             foreach (var row in genparam.Rows)
             {
                 if (row.Name == null || row.Name == "")
@@ -469,10 +460,7 @@ namespace StudioCore.MsbEditor
                 }
             }
 
-            var evtparamad = _assetLocator.GetDS2EventParam(mapid);
-            var evtparam = Param.Read(evtparamad.AssetPath);
-            var evtlayout = _assetLocator.GetParamdefForParam(evtparam.ParamType);
-            evtparam.ApplyParamdef(evtlayout);
+            var evtparam = ParamEditor.ParamBank.PrimaryBank.Params[$"eventparam_{mapid}"];
             foreach (var row in evtparam.Rows)
             {
                 if (string.IsNullOrEmpty(row.Name))
@@ -485,10 +473,7 @@ namespace StudioCore.MsbEditor
                 map.AddObject(obj);
             }
 
-            var evtlparamad = _assetLocator.GetDS2EventLocationParam(mapid);
-            var evtlparam = Param.Read(evtlparamad.AssetPath);
-            var evtllayout = _assetLocator.GetParamdefForParam(evtlparam.ParamType);
-            evtlparam.ApplyParamdef(evtllayout);
+            var evtlparam = ParamEditor.ParamBank.PrimaryBank.Params[$"eventlocation_{mapid}"];
             foreach (var row in evtlparam.Rows)
             {
                 if (string.IsNullOrEmpty(row.Name))
@@ -515,10 +500,7 @@ namespace StudioCore.MsbEditor
                 mesh.SetSelectable(obj);
             }
 
-            var objparamad = _assetLocator.GetDS2ObjInstanceParam(mapid);
-            var objparam = Param.Read(objparamad.AssetPath);
-            var objlayout = _assetLocator.GetParamdefForParam(objparam.ParamType);
-            objparam.ApplyParamdef(objlayout);
+            var objparam = ParamEditor.ParamBank.PrimaryBank.Params[$"mapobjectinstanceparam_{mapid}"];
             foreach (var row in objparam.Rows)
             {
                 if (string.IsNullOrEmpty(row.Name))
@@ -557,6 +539,14 @@ namespace StudioCore.MsbEditor
 
         public bool LoadMap(string mapid, bool selectOnLoad = false)
         {
+            if (_assetLocator.Type == GameType.DarkSoulsIISOTFS
+                && ParamEditor.ParamBank.VanillaBank.Params == null)
+            {
+                // ParamBank must be loaded for DS2 maps
+                TaskManager.warningList.TryAdd("ds2-mapload-noparams", "DS2 maps cannot be loaded until params are loaded.");
+                return false;
+            }
+
             var ad = _assetLocator.GetMapMSB(mapid);
             if (ad.AssetPath == null)
             {
@@ -921,8 +911,12 @@ namespace StudioCore.MsbEditor
             catch(Exception e)
             {
                 // Store async exception so it can be caught by crash handler.
+#if DEBUG
+                throw;
+#else
                 LoadMapExceptions = e;
                 return;
+#endif
             }
         }
 
