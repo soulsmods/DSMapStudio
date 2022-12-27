@@ -251,10 +251,10 @@
 3000 Onyx Lord's Greatsword
 3001 Onyx Lord's Greatsword
 3002 Onyx Lord's Greatsword
-3006 Onyx Lord's Greatsword
-3007 Onyx Lord's Greatsword
-3008 Onyx Lord's Greatsword
-3009 Onyx Lord's Greatsword
+3006 Ruins Greatsword
+3007 Ruins Greatsword
+3008 Ruins Greatsword
+3009 Ruins Greatsword
 3010 Ruins Greatsword
 3011 Ruins Greatsword
 3012 Ruins Greatsword
@@ -409,7 +409,7 @@
 2040156 [Rennala Student]
 2040157 [Rennala Student]
 2040180 [Rennala Student]
-2041140 [Rennala Student - Bug Form] Pest Threads
+2041140 [Kindred of Rot Larva] Pest Threads
 2100250 [Black Knife Assassin]
 2100260 [Black Knife Assassin]
 2100261 [Black Knife Assassin]
@@ -531,18 +531,18 @@
 2130596 [Morgott] Dagger Split
 2130771 [Morgott] Hammer Jump
 2130991 [Morgott]
-2140290 [Omen Monstrosity]
-2140291 [Omen Monstrosity]
-2140510 [Omen Monstrosity]
-2140511 [Omen Monstrosity]
-2140512 [Omen Monstrosity]
-2140513 [Omen Monstrosity]
-2140514 [Omen Monstrosity]
-2140520 [Omen Monstrosity]
-2140521 [Omen Monstrosity]
-2140522 [Omen Monstrosity]
-2140523 [Omen Monstrosity]
-2140530 [Omen Monstrosity] Breath
+2140290 [Omen]
+2140291 [Omen]
+2140510 [Omen]
+2140511 [Omen]
+2140512 [Omen]
+2140513 [Omen]
+2140514 [Omen]
+2140520 [Omen]
+2140521 [Omen]
+2140522 [Omen]
+2140523 [Omen]
+2140530 [Omen] Breath
 2180100 [Melina]
 2180101 [Melina]
 2180102 [Melina]
@@ -734,10 +734,10 @@
 2500180 [Crucible Knight]
 2500181 [Crucible Knight]
 2500182 [Crucible Knight]
-2500210 [Crucible Knight]
-2500220 [Crucible Knight]
-2500221 [Crucible Knight]
-2500222 [Crucible Knight]
+2500210 [Crucible Knight] Fire Breath
+2500220 [Crucible Knight] Fire Breath Back
+2500221 [Crucible Knight] Fire Breath Back
+2500222 [Crucible Knight] Fire Breath Back
 2500240 [Crucible Knight]
 2500250 [Crucible Knight]
 2500251 [Crucible Knight]
@@ -753,21 +753,21 @@
 2500591 [Crucible Knight]
 2500592 [Crucible Knight]
 2500610 [Crucible Knight]
-3000120 [Castle Exile]
-3000121 [Castle Exile]
-3000130 [Castle Exile]
-3000131 [Castle Exile]
-3000140 [Castle Exile]
-3000150 [Castle Exile]
-3000200 [Castle Exile]
-3000210 [Castle Exile]
-3000220 [Castle Exile]
-3000230 [Castle Exile]
-3000240 [Castle Exile]
-3000425 [Castle Exile]
-3000440 [Castle Exile]
-3000441 [Castle Exile]
-3000501 [Castle Exile]
+3000120 [Exile Soldier]
+3000121 [Exile Soldier]
+3000130 [Exile Soldier]
+3000131 [Exile Soldier]
+3000140 [Exile Soldier]
+3000150 [Exile Soldier]
+3000200 [Exile Soldier]
+3000210 [Exile Soldier]
+3000220 [Exile Soldier]
+3000230 [Exile Soldier]
+3000240 [Exile Soldier]
+3000425 [Exile Soldier]
+3000440 [Exile Soldier]
+3000441 [Exile Soldier]
+3000501 [Exile Soldier]
 3010135 [Banished Knight] Shield AoE
 3010136 [Banished Knight] Shield AoE
 3010185 [Banished Knight] Shield AoE
@@ -886,22 +886,22 @@
 3181510 [Red Wolf of Radagon] Comet
 3181520 [Red Wolf of Radagon] Howl
 3181800 [Red Wolf of Radagon]
-3200000 [Nomad Trader]
-3200001 [Nomad Trader]
-3200002 [Nomad Trader]
-3200003 [Nomad Trader]
-3200010 [Nomad Trader]
-3200011 [Nomad Trader]
-3200012 [Nomad Trader]
-3200013 [Nomad Trader]
-3200400 [Nomad Trader]
-3200401 [Nomad Trader]
-3200402 [Nomad Trader]
-3200403 [Nomad Trader]
-3200410 [Nomad Trader]
-3200411 [Nomad Trader]
-3200412 [Nomad Trader]
-3200413 [Nomad Trader]
+3200000 [Nomadic Merchant]
+3200001 [Nomadic Merchant]
+3200002 [Nomadic Merchant]
+3200003 [Nomadic Merchant]
+3200010 [Nomadic Merchant]
+3200011 [Nomadic Merchant]
+3200012 [Nomadic Merchant]
+3200013 [Nomadic Merchant]
+3200400 [Nomadic Merchant]
+3200401 [Nomadic Merchant]
+3200402 [Nomadic Merchant]
+3200403 [Nomadic Merchant]
+3200410 [Nomadic Merchant]
+3200411 [Nomadic Merchant]
+3200412 [Nomadic Merchant]
+3200413 [Nomadic Merchant]
 3250141 [Draconic Tree Sentinel] Slam AoE
 3250161 [Draconic Tree Sentinel] Slam AoE
 3250181 [Draconic Tree Sentinel] Slam AoE
@@ -1084,7 +1084,7 @@
 3470202 [Albinauric]
 3470203 [Albinauric]
 3500100 [Skeleton (Curved Sword)] Bolt
-3500101 [Skeleton (Curved Sword)]
+3500101 [Skeleton (Curved Sword)] Magic Bolt
 3500340 [Skeleton (Curved Sword)] Ghostflame Skull
 3500341 [Skeleton (Curved Sword)] Ghostflame Skull
 3500350 [Skeleton (Curved Sword)]
@@ -1136,21 +1136,21 @@
 3570410 [Godskin Noble] Roar
 3570420 [Godskin Noble] Belly Quick Fire
 3570421 [Godskin Noble] Belly Quick Fire
-3600200 [Alabaster Lord]
-3600201 [Alabaster Lord]
-3600202 [Alabaster Lord]
-3600203 [Alabaster Lord]
-3600204 [Alabaster Lord]
+3600200 [Alabaster Lord] Pull VFX Bullet
+3600201 [Alabaster Lord] Pull X1
+3600202 [Alabaster Lord] Pull X2
+3600203 [Alabaster Lord] Pull X3
+3600204 [Alabaster Lord] Pull Real
 3600220 [Alabaster Lord] Gravity Orb Pull
 3600371 [Alabaster Lord]
 3600372 [Alabaster Lord]
 3600373 [Alabaster Lord] Meteors
 3600374 [Alabaster Lord] Meteors
-3600400 [Alabaster Lord]
-3600401 [Alabaster Lord]
-3600402 [Alabaster Lord]
-3600403 [Alabaster Lord]
-3600420 [Alabaster Lord]
+3600400 [Alabaster Lord] Push VFX Bullet
+3600401 [Alabaster Lord] Push X1
+3600402 [Alabaster Lord] Push X2
+3600403 [Alabaster Lord] Push Real
+3600420 [Alabaster Lord] Gravity Orb Melee Push
 3600440 [Alabaster Lord] Gravity Orb Push
 3600800 [Alabaster Lord]
 3600801 [Alabaster Lord]
@@ -1341,24 +1341,24 @@
 3704210 [Battlemage]
 3704220 [Battlemage]
 3704221 [Battlemage]
-3710100 [Master Azur]
-3710110 [Master Azur]
-3710111 [Master Azur]
-3710112 [Master Azur]
-3710120 [Master Azur]
-3710121 [Master Azur]
-3710122 [Master Azur]
-3710123 [Master Azur]
-3710124 [Master Azur]
-3710125 [Master Azur]
-3710126 [Master Azur]
-3710127 [Master Azur]
-3730100 [Orb of Many Faces]
-3730101 [Orb of Many Faces]
-3730102 [Orb of Many Faces]
-3730110 [Orb of Many Faces] Magic Geyser
-3730111 [Orb of Many Faces] Magic Geyser
-3730112 [Orb of Many Faces] Magic Geyser
+3710100 [Primeval Sorcerer Azur]
+3710110 [Primeval Sorcerer Azur]
+3710111 [Primeval Sorcerer Azur]
+3710112 [Primeval Sorcerer Azur]
+3710120 [Primeval Sorcerer Azur]
+3710121 [Primeval Sorcerer Azur]
+3710122 [Primeval Sorcerer Azur]
+3710123 [Primeval Sorcerer Azur]
+3710124 [Primeval Sorcerer Azur]
+3710125 [Primeval Sorcerer Azur]
+3710126 [Primeval Sorcerer Azur]
+3710127 [Primeval Sorcerer Azur]
+3730100 [Graven School]
+3730101 [Graven School]
+3730102 [Graven School]
+3730110 [Graven School] Magic Geyser
+3730111 [Graven School] Magic Geyser
+3730112 [Graven School] Magic Geyser
 3750240 [Clayman]
 3750241 [Clayman]
 3750320 [Clayman]
@@ -1372,11 +1372,11 @@
 3800195 [Cleanrot Knight]
 3800240 [Cleanrot Knight] Buff
 3800241 [Cleanrot Knight] Buff
-3800280 [Cleanrot Knight]
-3800281 [Cleanrot Knight]
-3800282 [Cleanrot Knight]
-3800283 [Cleanrot Knight]
-3800284 [Cleanrot Knight]
+3800280 [Cleanrot Knight] Phalanx Line
+3800281 [Cleanrot Knight] Phalanx Guard
+3800282 [Cleanrot Knight] Phalanx Drop
+3800283 [Cleanrot Knight] Phalanx Alert
+3800284 [Cleanrot Knight] Phalanx Damage
 3800290 [Cleanrot Knight] Spit
 3800291 [Cleanrot Knight] Spit Cloud
 3800300 [Cleanrot Knight]
@@ -1497,8 +1497,8 @@
 3950241 [Man-Serpent] Magma Ball
 3950243 [Man-Serpent] Magma Ball
 3950245 [Man-Serpent] Magma Pool
-3950500 [Man-Serpent]
-3950520 [Man-Serpent]
+3950500 [Man-Serpent] Magic
+3950520 [Man-Serpent] Magic
 3950600 [Man-Serpent]
 3950610 [Man-Serpent]
 3950700 [Man-Serpent]
@@ -1532,10 +1532,10 @@
 3970803 [Azula Beastman]
 3970804 [Azula Beastman]
 3970805 [Azula Beastman]
-4000320 [Royal Rider]
-4000600 [Royal Rider]
-4000760 [Royal Rider]
-4000860 [Royal Rider]
+4000320 [Revenant Follower]
+4000600 [Revenant Follower]
+4000760 [Revenant Follower]
+4000860 [Revenant Follower]
 4020140 [Royal Revenant]
 4020141 [Royal Revenant]
 4020142 [Royal Revenant]
@@ -1565,7 +1565,7 @@
 4100900 [Demi-Human]
 4101900 [Large Demi-Human]
 4110900 [Demi-Human Shaman]
-4120900 [Demi-Human Beastman]
+4120900 [Demi-Human Chief]
 4130102 [Demi-Human Queen]
 4130136 [Demi-Human Queen]
 4130140 [Demi-Human Queen]
@@ -1675,40 +1675,40 @@
 4192421 [Scarab 3]
 4200260 [Giant Bat]
 4200320 [Giant Bat]
-4201111 [Bat Harpy]
-4201130 [Bat Harpy]
-4201131 [Bat Harpy]
-4201132 [Bat Harpy]
-4201133 [Bat Harpy]
-4201140 [Bat Harpy]
-4201141 [Bat Harpy]
-4201142 [Bat Harpy]
-4201143 [Bat Harpy]
-4201144 [Bat Harpy]
-4201145 [Bat Harpy]
-4201146 [Bat Harpy]
-4201200 [Bat Harpy]
-4201201 [Bat Harpy]
-4201202 [Bat Harpy]
-4201203 [Bat Harpy]
-4201210 [Bat Harpy]
-4201211 [Bat Harpy]
-4201212 [Bat Harpy]
-4201213 [Bat Harpy]
-4201214 [Bat Harpy]
-4201215 [Bat Harpy]
-4201216 [Bat Harpy]
-4201231 [Bat Harpy]
-4201280 [Bat Harpy]
-4201281 [Bat Harpy]
-4201282 [Bat Harpy]
-4201283 [Bat Harpy]
-4201284 [Bat Harpy]
-4201285 [Bat Harpy]
-4201286 [Bat Harpy]
-4201287 [Bat Harpy]
-4201288 [Bat Harpy]
-4201990 [Bat Harpy]
+4201111 [Old Woman Bat]
+4201130 [Old Woman Bat]
+4201131 [Old Woman Bat]
+4201132 [Old Woman Bat]
+4201133 [Old Woman Bat]
+4201140 [Old Woman Bat]
+4201141 [Old Woman Bat]
+4201142 [Old Woman Bat]
+4201143 [Old Woman Bat]
+4201144 [Old Woman Bat]
+4201145 [Old Woman Bat]
+4201146 [Old Woman Bat]
+4201200 [Old Woman Bat]
+4201201 [Old Woman Bat]
+4201202 [Old Woman Bat]
+4201203 [Old Woman Bat]
+4201210 [Old Woman Bat]
+4201211 [Old Woman Bat]
+4201212 [Old Woman Bat]
+4201213 [Old Woman Bat]
+4201214 [Old Woman Bat]
+4201215 [Old Woman Bat]
+4201216 [Old Woman Bat]
+4201231 [Old Woman Bat]
+4201280 [Old Woman Bat]
+4201281 [Old Woman Bat]
+4201282 [Old Woman Bat]
+4201283 [Old Woman Bat]
+4201284 [Old Woman Bat]
+4201285 [Old Woman Bat]
+4201286 [Old Woman Bat]
+4201287 [Old Woman Bat]
+4201288 [Old Woman Bat]
+4201990 [Old Woman Bat]
 4210200 [Warhawk]
 4210201 [Warhawk]
 4210220 [Warhawk]
@@ -1777,7 +1777,7 @@
 4300418 [Wandering Noble]
 4300419 [Wandering Noble]
 4300600 [Wandering Noble]
-4300700 [Wandering Noble]
+4300700 [Wandering Noble] Explosion
 4310160 [Castle Soldier]
 4310161 [Castle Soldier]
 4310162 [Castle Soldier]
@@ -1883,19 +1883,19 @@
 4350571 [Castle Knight]
 4350572 [Castle Knight]
 4350573 [Castle Knight]
-4350590 [Castle Knight]
-4350610 [Castle Knight]
+4350590 [Castle Knight] Warcry
+4350610 [Castle Knight] Spear Toss
 4350650 [Castle Knight]
 4350655 [Castle Knight]
 4350660 [Castle Knight]
-4350670 [Castle Knight]
-4350671 [Castle Knight]
-4350680 [Castle Knight]
-4350681 [Castle Knight]
-4350682 [Castle Knight]
-4350683 [Castle Knight]
-4350684 [Castle Knight]
-4350685 [Castle Knight]
+4350670 [Castle Knight] Radahn's Spear
+4350671 [Castle Knight] Radahn's Spear Crit
+4350680 [Castle Knight] Rain of Arrows
+4350681 [Castle Knight] Rain of Arrows
+4350682 [Castle Knight] Rain of Arrows
+4350683 [Castle Knight] Rain of Arrows
+4350684 [Castle Knight] Rain of Arrows
+4350685 [Castle Knight] Rain of Arrows
 4350780 [Castle Knight]
 4350790 [Castle Knight]
 4350791 [Castle Knight]
@@ -2061,39 +2061,39 @@
 4450416 [Walking Mausoleum]
 4450417 [Walking Mausoleum]
 4450419 [Walking Mausoleum]
-4460000 [Flamethrower Tank]
-4460010 [Flamethrower Tank]
-4460011 [Flamethrower Tank]
-4460020 [Flamethrower Tank]
+4460000 [Flamethrower Tank] Fire Spit
+4460010 [Flamethrower Tank] Fire Ball
+4460011 [Flamethrower Tank] Fire Ball
+4460020 [Flamethrower Tank] Fire Spit
 4460980 [Flamethrower Tank]
 4460981 [Flamethrower Tank]
 4460982 [Flamethrower Tank]
 4460983 [Flamethrower Tank]
 4460984 [Flamethrower Tank]
-4480130 [Giant Miranda Sprout]
-4480131 [Giant Miranda Sprout]
-4480132 [Giant Miranda Sprout]
-4480133 [Giant Miranda Sprout]
-4480134 [Giant Miranda Sprout]
-4480135 [Giant Miranda Sprout]
-4480190 [Giant Miranda Sprout]
-4480191 [Giant Miranda Sprout]
-4480400 [Giant Miranda Sprout]
-4480401 [Giant Miranda Sprout]
-4480410 [Giant Miranda Sprout]
-4480411 [Giant Miranda Sprout]
-4480420 [Giant Miranda Sprout]
-4480421 [Giant Miranda Sprout]
-4480430 [Giant Miranda Sprout]
-4480431 [Giant Miranda Sprout]
-4480500 [Giant Miranda Sprout]
-4480501 [Giant Miranda Sprout]
-4480510 [Giant Miranda Sprout]
-4480511 [Giant Miranda Sprout]
-4480520 [Giant Miranda Sprout]
-4480521 [Giant Miranda Sprout]
-4480530 [Giant Miranda Sprout]
-4480531 [Giant Miranda Sprout]
+4480130 [Giant Miranda Flower]
+4480131 [Giant Miranda Flower]
+4480132 [Giant Miranda Flower]
+4480133 [Giant Miranda Flower]
+4480134 [Giant Miranda Flower]
+4480135 [Giant Miranda Flower]
+4480190 [Giant Miranda Flower]
+4480191 [Giant Miranda Flower]
+4480400 [Giant Miranda Flower]
+4480401 [Giant Miranda Flower]
+4480410 [Giant Miranda Flower]
+4480411 [Giant Miranda Flower]
+4480420 [Giant Miranda Flower]
+4480421 [Giant Miranda Flower]
+4480430 [Giant Miranda Flower]
+4480431 [Giant Miranda Flower]
+4480500 [Giant Miranda Flower]
+4480501 [Giant Miranda Flower]
+4480510 [Giant Miranda Flower]
+4480511 [Giant Miranda Flower]
+4480520 [Giant Miranda Flower]
+4480521 [Giant Miranda Flower]
+4480530 [Giant Miranda Flower]
+4480531 [Giant Miranda Flower]
 4481400 [Miranda Sprout]
 4481401 [Miranda Sprout]
 4481410 [Miranda Sprout]
@@ -2124,11 +2124,11 @@
 4481921 [Miranda Sprout]
 4481930 [Miranda Sprout]
 4481931 [Miranda Sprout]
-4490171 [Living Pot - Large]
-4490181 [Living Pot - Large]
-4490182 [Living Pot - Large]
-4490183 [Living Pot - Large]
-4491300 [Living Pot - Small]
+4490171 [Living Jar - Large]
+4490181 [Living Jar - Large]
+4490182 [Living Jar - Large]
+4490183 [Living Jar - Large]
+4491300 [Living Jar - Small]
 4500100 [Dragon Fire] Fire Sideways
 4500101 [Dragon Fire] Fire Sideways
 4500110 [Dragon] Fire Forwards
@@ -2710,11 +2710,11 @@
 4650182 [Dragonkin Soldier]
 4650194 [Dragonkin Soldier]
 4650201 [Dragonkin Soldier]
-4650210 [Dragonkin Soldier]
+4650210 [Dragonkin Soldier] Roar
 4650211 [Dragonkin Soldier]
 4650221 [Dragonkin Soldier]
 4650231 [Dragonkin Soldier]
-4650240 [Dragonkin Soldier]
+4650240 [Dragonkin Soldier] Phase Shift
 4650254 [Dragonkin Soldier]
 4650255 [Dragonkin Soldier]
 4650256 [Dragonkin Soldier] Uplift
@@ -2797,7 +2797,7 @@
 4650617 [Dragonkin Soldier]
 4650618 [Dragonkin Soldier]
 4650661 [Dragonkin Soldier]
-4650670 [Dragonkin Soldier]
+4650670 [Dragonkin Soldier] Roar
 4650671 [Dragonkin Soldier]
 4650681 [Dragonkin Soldier]
 4650694 [Dragonkin Soldier]
@@ -2806,7 +2806,7 @@
 4650704 [Dragonkin Soldier]
 4650705 [Dragonkin Soldier]
 4650706 [Dragonkin Soldier] Uplift
-4650711 [Dragonkin Soldier]
+4650711 [Dragonkin Soldier] Ice Lightning Stake
 4650712 [Dragonkin Soldier]
 4650720 [Dragonkin Soldier]
 4650721 [Dragonkin Soldier]
@@ -2848,7 +2848,7 @@
 4650825 [Dragonkin Soldier]
 4650826 [Dragonkin Soldier]
 4650827 [Dragonkin Soldier]
-4650910 [Dragonkin Soldier]
+4650910 [Dragonkin Soldier] Land
 4660121 [Golem]
 4660126 [Golem]
 4660310 [Golem]
@@ -2857,14 +2857,14 @@
 4660321 [Golem]
 4660330 [Golem]
 4660331 [Golem]
-4660500 [Golem]
+4660500 [Golem] Arrow
 4660502 [Golem]
-4660503 [Golem]
-4660504 [Golem]
-4660505 [Golem]
+4660503 [Golem] Arrow
+4660504 [Golem] Arrow
+4660505 [Golem] Magic Arrow
 4660506 [Golem]
-4660507 [Golem]
-4660508 [Golem]
+4660507 [Golem] Magic Arrow
+4660508 [Golem] Arrow
 4660510 [Golem]
 4660514 [Golem]
 4660515 [Golem]
@@ -2936,7 +2936,7 @@
 4680450 [Fallingstar Beast] Ground Pullup Large
 4680455 [Fallingstar Beast] Ground Pullup Large
 4680456 [Fallingstar Beast] Ground Pullup Large
-4690150 [Grafted Scion]
+4690150 [Grafted Scion] Deflect
 4690200 [Grafted Scion]
 4710311 [Writhing Mass] Sword Pullup
 4710500 [Writhing Mass]
@@ -3010,7 +3010,7 @@
 4710822 [Writhing Mass]
 4710823 [Writhing Mass]
 4710824 [Writhing Mass]
-4710825 [Writhing Mass]
+4710825 [Writhing Mass] Skull Small
 4710830 [Writhing Mass]
 4710831 [Writhing Mass]
 4710832 [Writhing Mass]
@@ -3228,7 +3228,7 @@
 4760340 [Fire Giant]
 4760341 [Fire Giant]
 4760342 [Fire Giant]
-4770161 [Gargoyle]
+4770161 [Gargoyle] Roar
 4770162 [Gargoyle]
 4770163 [Gargoyle]
 4770164 [Gargoyle]
@@ -3252,7 +3252,7 @@
 4770393 [Gargoyle]
 4770394 [Gargoyle]
 4770395 [Gargoyle]
-4770431 [Gargoyle]
+4770431 [Gargoyle] Roar
 4770432 [Gargoyle]
 4770433 [Gargoyle]
 4770434 [Gargoyle]
@@ -3508,14 +3508,14 @@
 4980943 [Death Rite Bird]
 4980950 [Death Rite Bird]
 6030900 [Bear]
-7000200 [Fallen Hawk Soldier]
-7000210 [Fallen Hawk Soldier]
-7000220 [Fallen Hawk Soldier]
-7000230 [Fallen Hawk Soldier]
-7000400 [Fallen Hawk Soldier]
-7000410 [Fallen Hawk Soldier]
-7000420 [Fallen Hawk Soldier]
-7000421 [Fallen Hawk Soldier]
+7000200 [Fallen Hawks Soldier]
+7000210 [Fallen Hawks Soldier]
+7000220 [Fallen Hawks Soldier]
+7000230 [Fallen Hawks Soldier]
+7000400 [Fallen Hawks Soldier]
+7000410 [Fallen Hawks Soldier]
+7000420 [Fallen Hawks Soldier]
+7000421 [Fallen Hawks Soldier]
 7100181 [Ancient Hero] Pullup Ice
 7100190 [Ancient Hero] Floor Ice
 7100191 [Ancient Hero]
@@ -3896,11 +3896,11 @@
 10413001 Terra Magicus
 10413002 Terra Magicus
 10413003 Terra Magicus
-10420000 Comet Azur
-10420001 Comet Azur
-10420002 Comet Azur
-10420003 Comet Azur
-10420004 Comet Azur
+10420000 Comet Azur - Constant Close Attack
+10420001 Comet Azur - Infrequent Stagger Bullet
+10420002 Comet Azur - Constant Projectile
+10420003 Comet Azur - Release Final Bullet
+10420004 Comet Azur - Intial Cast Close Knockback
 10421000 Founding Rain of Stars
 10421001 Founding Rain of Stars
 10421002 Founding Rain of Stars
@@ -4161,7 +4161,7 @@
 10471010 Rock Sling
 10471011 Rock Sling
 10471012 Rock Sling
-10471050 Rock Sling [Charged]
+10471050 Rock Sling [Hand]
 10471051 Rock Sling
 10471052 Rock Sling
 10471053 Rock Sling
@@ -4314,22 +4314,22 @@
 10600101 O Flame!
 10600105 O Flame!
 10600106 O Flame!
-10600150 O, Flame! [Charged]
+10600150 O Flame! [Charged]
 10600151 O Flame!
 10600155 O Flame!
 10600156 O Flame!
 10601000 Flame Sling
 10601001 Flame Sling
-10601050 Flame Sling
+10601050 Flame Sling [Charged]
 10601051 Flame Sling
 10602000 Flame Fall Upon Them
 10602001 Flame Fall Upon Them
 10602002 Flame Fall Upon Them
-10602050 Flame, Fall Upon Them [Charged]
+10602050 Flame Fall Upon Them [Charged]
 10602051 Flame Fall Upon Them
 10602052 Flame Fall Upon Them
 10603000 Whirl O Flame!
-10603050 Whirl, O Flame! [Charged]
+10603050 Whirl O Flame! [Charged]
 10603099 Whirl O Flame!
 10604000 Flame Cleanse Me
 10604001 Flame Cleanse Me
@@ -4354,7 +4354,7 @@
 10612003 Burn O Flame!
 10612004 Burn O Flame!
 10612005 Burn O Flame!
-10612050 Burn, O Flame! [Charged]
+10612050 Burn O Flame! [Charged]
 10612051 Burn O Flame!
 10612052 Burn O Flame!
 10612053 Burn O Flame!
