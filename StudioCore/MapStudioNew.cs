@@ -791,6 +791,12 @@ namespace StudioCore
                         _paramEditor.SaveAll();
                         _textEditor.SaveAll();
                     }
+                    
+                    if (ImGui.MenuItem("Editor Settings"))
+                    {
+                        settingsMenuOpen = true;
+                    }
+                    
                     if (Resource.FlverResource.CaptureMaterialLayouts && ImGui.MenuItem("Dump Flver Layouts (Debug)", ""))
                     {
                         DumpFlverLayouts();
@@ -814,11 +820,6 @@ namespace StudioCore
                     _textEditor.DrawEditorMenu();
                 }
 
-                if (ImGui.MenuItem("Settings"))
-                {
-                    settingsMenuOpen = true;
-                }
-
                 if (ImGui.BeginMenu("Help"))
                 {
                     if (ImGui.BeginMenu("About"))
@@ -833,11 +834,11 @@ namespace StudioCore
                                    "Thefifthmatt\n" +
                                    "Shadowth117\n" +
                                    "Nordgaren\n" +
-                                   "ivi\n\n" +
+                                   "ivi\n" +
+                                   "Vawser\n\n" +
                                    "Special Thanks:\n" +
                                    "TKGP\n" +
                                    "Meowmaritus\n" +
-                                   "Vawser\n" +
                                    "Radai\n" +
                                    "Moonlight Ruin\n" +
                                    "Evan (HalfGrownHollow)");
@@ -1383,15 +1384,15 @@ namespace StudioCore
                         float arbitrary_rotation_y = CFG.Current.Map_ArbitraryRotation_Y_Shift;
                         float camera_radius_offset = CFG.Current.Map_MoveSelectionToCamera_Radius;
 
-                        if (ImGui.SliderFloat("Arbitrary Rotation: X", ref arbitrary_rotation_x, 1.0f, 180.0f))
+                        if (ImGui.InputFloat("Rotation Increment Degrees: X", ref arbitrary_rotation_x))
                         {
-                            CFG.Current.Map_ArbitraryRotation_X_Shift = arbitrary_rotation_x;
+                            CFG.Current.Map_ArbitraryRotation_X_Shift = Math.Clamp(arbitrary_rotation_x, -180.0f, 180.0f);
                         }
-                        if (ImGui.SliderFloat("Arbitrary Rotation: Y", ref arbitrary_rotation_y, 1.0f, 180.0f))
+                        if (ImGui.InputFloat("Rotation Increment Degrees: Y", ref arbitrary_rotation_y))
                         {
-                            CFG.Current.Map_ArbitraryRotation_Y_Shift = arbitrary_rotation_y;
+                            CFG.Current.Map_ArbitraryRotation_Y_Shift = Math.Clamp(arbitrary_rotation_y, -180.0f, 180.0f);;
                         }
-                        if (ImGui.SliderFloat("Move Selection to Camera: Offset Distance", ref camera_radius_offset, 0.0f, 50.0f))
+                        if (ImGui.InputFloat("Move Selection to Camera: Offset Distance", ref camera_radius_offset))
                         {
                             CFG.Current.Map_MoveSelectionToCamera_Radius = camera_radius_offset;
                         }
