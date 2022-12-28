@@ -231,6 +231,31 @@ namespace StudioCore.MsbEditor
         }
 
         /// <summary>
+        /// Move current selection to the current camera position
+        /// </summary>
+        private void MoveSelectionToCamera()
+        {
+            var camdir = Vector3.Transform(Vector3.UnitZ, Viewport._worldView.CameraTransform.RotationMatrix);
+            var cam_pos = Viewport._worldView.CameraTransform.Position;
+            var new_pos = cam_pos + (camdir * CFG.Current.Map_MoveSelectionToCamera_Radius);
+
+            var actlist = new List<Action>();
+
+            var selected = _selection.GetFilteredSelection<Entity>();
+            foreach (var s in selected)
+            {
+                var rot = s.GetLocalTransform().EulerRotation;
+
+                Transform newPos = new Transform(new_pos, rot);
+
+                actlist.Add(s.GetUpdateTransformAction(newPos));
+            }
+
+            var action = new CompoundAction(actlist);
+            EditorActionManager.ExecuteAction(action);
+        }
+        
+        /// <summary>
         /// Hides all the selected objects, unless all of them are hidden in which
         /// they will be unhidden
         /// </summary>
@@ -474,6 +499,10 @@ namespace StudioCore.MsbEditor
                 if (ImGui.MenuItem("Arbitrary Rotation: Y", KeyBindings.Current.Map_ArbitraryRotationY.HintText, false, _selection.IsSelection()))
                 {
                     ArbitraryRotation_Selection(1);
+                }
+                if (ImGui.MenuItem("Move Selection to Camera", KeyBindings.Current.Map_MoveSelectionToCamera.HintText, false, _selection.IsSelection()))
+                {
+                    MoveSelectionToCamera();
                 }
 
                 ImGui.EndMenu();
@@ -828,6 +857,10 @@ namespace StudioCore.MsbEditor
                 if (InputTracker.GetKeyDown(KeyBindings.Current.Map_UnDummify) && _selection.IsSelection())
                 {
                     DummySelection();
+                }
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Map_MoveSelectionToCamera) && _selection.IsSelection())
+                {
+                    MoveSelectionToCamera();
                 }
 
                 // Render settings

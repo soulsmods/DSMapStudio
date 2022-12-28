@@ -106,6 +106,7 @@ namespace StudioCore
             public KeyBind Map_ArbitraryRotationY = new(Key.K);
             public KeyBind Map_Dummify = new(Key.Comma, false, false, true);
             public KeyBind Map_UnDummify = new(Key.Period, false, false, true);
+            public KeyBind Map_MoveSelectionToCamera = new(Key.X);
 
             // Parameters
             public KeyBind Param_SelectAll = new(Key.A, true);

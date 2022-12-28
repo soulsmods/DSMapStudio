@@ -1381,6 +1381,7 @@ namespace StudioCore
 
                         float arbitrary_rotation_x = CFG.Current.Map_ArbitraryRotation_X_Shift;
                         float arbitrary_rotation_y = CFG.Current.Map_ArbitraryRotation_Y_Shift;
+                        float camera_radius_offset = CFG.Current.Map_MoveSelectionToCamera_Radius;
 
                         if (ImGui.SliderFloat("Arbitrary Rotation: X", ref arbitrary_rotation_x, 1.0f, 180.0f))
                         {
@@ -1389,6 +1390,10 @@ namespace StudioCore
                         if (ImGui.SliderFloat("Arbitrary Rotation: Y", ref arbitrary_rotation_y, 1.0f, 180.0f))
                         {
                             CFG.Current.Map_ArbitraryRotation_Y_Shift = arbitrary_rotation_y;
+                        }
+                        if (ImGui.SliderFloat("Move Selection to Camera: Offset Distance", ref camera_radius_offset, 0.0f, 50.0f))
+                        {
+                            CFG.Current.Map_MoveSelectionToCamera_Radius = camera_radius_offset;
                         }
 
                         ImGui.Unindent();
@@ -1499,6 +1504,8 @@ namespace StudioCore
 
                         ImGui.Unindent();
                     }
+
+
 
                     ImGui.Unindent();
                     ImGui.EndTabItem();
