@@ -98,7 +98,7 @@
 334000 Throne Watcher
 337000 Captive Undead
 500000 Covetous Demon
-501000 Mytha, the Baneful Queen
+501000 Mytha- the Baneful Queen
 502000 Manscorpion Tark
 503000 Scorpioness Najka
 504000 Looking Glass Knight
@@ -147,17 +147,17 @@
 675000 Fume Knight
 677000 Retainer Sorcerer
 678000 Ice Golem
-679000 Aava, the King's Pet
+679000 Aava- the King's Pet
 680000 Sir Alonne
-681000 Sinh, the Slumbering Dragon
-681001 Sinh, the Slumbering Dragon
-682000 Elana, Squalid Queen
+681000 Sinh- the Slumbering Dragon
+681001 Sinh- the Slumbering Dragon
+682000 Elana- Squalid Queen
 683000 Imperfect
 684000 Vendrick
 688000 Loyce Knight
 689000 Charred Loyce Knight
 690000 Burnt Ivory King
-692000 Aldia, Scholar of the First Sin
+692000 Aldia- Scholar of the First Sin
 700000 Emerald Herald
 701000 UNKNOWN
 704500 Laddersmith Gilligan

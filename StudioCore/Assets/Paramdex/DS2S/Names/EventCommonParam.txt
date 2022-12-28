@@ -4,8 +4,8 @@
 3 Gas: Recovery Trap Activation Rate Max -- ガス：回復 罠発動率 最大
 4 Generet: Enemy Trap Activation Rate Minimum -- ジェネレート：エネミー 罠発動率 最小
 5 Generet: Enemy Trap Activation Rate Max -- ジェネレート：エネミー 罠発動率 最大
-6 Explosion, trap activation rate, minimum. -- 爆発 罠発動率 最小
-7 Explosion, trap activation rate, maximum. -- 爆発 罠発動率 最大
+6 Explosion- trap activation rate- minimum. -- 爆発 罠発動率 最小
+7 Explosion- trap activation rate- maximum. -- 爆発 罠発動率 最大
 8 Continuous arrow trap activation rate Minimum -- 連続矢 罠発動率 最小
 9 Continuous arrow trap activation rate Max -- 連続矢罠発動率 最大
 10 Charges for acquittal -- 免罪基準費用

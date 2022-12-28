@@ -11,7 +11,7 @@
 597 [GEN:597] Lone Hunter Schmidt
 598 [GEN:598] Bashful Ray
 851 [GEN:851] The Rotten
-914 [GEN:914] Aldia, Scholar of the First Sin
+914 [GEN:914] Aldia- Scholar of the First Sin
 947 [GEN:947] Forlorn
 1000 [GEN:1000] Captive Undead
 1100 [GEN:1100] Captive Undead

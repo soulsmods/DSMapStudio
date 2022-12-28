@@ -496,7 +496,7 @@
 337023 Captive Undead
 500000 Covetous Demon - Boss
 500100 Covetous Demon (snow)
-501000 Mytha, the Baneful Queen - Boss
+501000 Mytha- the Baneful Queen - Boss
 502000 Manscorpion Tark
 502001 Manscorpion Tark
 502009 Manscorpion Tark
@@ -641,14 +641,14 @@
 678010 Ice Golem
 678011 Ice Golem
 678099 Ice Golem
-679000 Aava, the King's Pet - Boss
-679001 Aava, the King's Pet - Boss
-679002 Aava, the King's Pet - Boss
-679100 Lud, the King's Pet - Boss
-679101 Zallen, the King's Pet - Boss
+679000 Aava- the King's Pet - Boss
+679001 Aava- the King's Pet - Boss
+679002 Aava- the King's Pet - Boss
+679100 Lud- the King's Pet - Boss
+679101 Zallen- the King's Pet - Boss
 680000 Sir Alonne - Boss
-681000 Sinh, the Slumbering Dragon - Boss
-682000 Elana, Squalid Queen - Boss
+681000 Sinh- the Slumbering Dragon - Boss
+682000 Elana- Squalid Queen - Boss
 683000 Imperfect
 684000 Vendrick
 685000 Skeleton (Elana)
@@ -664,8 +664,8 @@
 689030 Charred Loyce Knight
 690000 Burnt Ivory King - Boss
 690001 Burnt Ivory King
-692000 Aldia, Scholar of the First Sin - Boss
-693000 Aldia, Scholar of the First Sin - Encounter
+692000 Aldia- Scholar of the First Sin - Boss
+693000 Aldia- Scholar of the First Sin - Encounter
 694000 Forlorn (Greatsword) - Forest of Fallen Giants
 694001 Forlorn (Greatsword) - No Man's Wharf
 694002 Forlorn (Greatsword) - Lost Bastille

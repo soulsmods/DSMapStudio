@@ -48,7 +48,7 @@
 140 Item_Cannot be destroyed -- アイテム_破壊不可
 150 【Do not use】Iron ladder_cannot be destroyed -- 【使用しない】鉄製梯子_破壊不可
 160 Rope_ Unbreakable -- ロープ_破壊不可
-170 Lever, valve, strap_non-destructive -- レバー・バルブ・つり革_破壊不可
+170 Lever- valve- strap_non-destructive -- レバー・バルブ・つり革_破壊不可
 180 【Unavailable】Wall lever_cannot be destroyed -- 【使用不可】壁レバー_破壊不可
 190 Switch_Non-destructive -- スイッチ_破壊不可
 195 Ladder_Unbreakable -- 梯子_破壊不可

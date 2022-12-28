@@ -41,7 +41,7 @@
 32400010 [REG:32400010] Belfry Gargoyle
 32500000 [REG:32500000] Ruin Sentinel [Boss]
 62600000 [REG:62600000] Lost Sinner [Boss]
-69300000 [REG:69300000] Aldia, Scholar of the First Sin
+69300000 [REG:69300000] Aldia- Scholar of the First Sin
 69600000 [REG:69600000] Invisible Hollow
 73200000 [REG:73200000] Lost Sinner Pyromancer Phantom
 73300010 [REG:73200010] Lost Sinner Pyromancer Phantom

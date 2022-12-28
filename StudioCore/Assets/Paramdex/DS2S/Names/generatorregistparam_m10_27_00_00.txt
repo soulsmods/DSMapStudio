@@ -16,7 +16,7 @@
 33100030 [REG:33100030] Drakekeeper
 33100040 [REG:33100040] Drakekeeper
 60000000 [REG:60000000] Ancient Dragon
-69300000 [REG:69300000] Aldia, Scholar of the First Sin
+69300000 [REG:69300000] Aldia- Scholar of the First Sin
 69600000 [REG:69600000] Invisible Hollow
 70150000 [REG:70150000] Emerald Herald
 77100000 [REG:77100000] Royal Sorcerer Navlaan

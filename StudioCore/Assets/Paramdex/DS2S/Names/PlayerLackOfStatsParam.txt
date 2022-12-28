@@ -12,7 +12,7 @@
 11 Attack Consumption Stamina Increased [%] -- 攻撃消費スタミナ 増加割合 [%]
 12 Weapon endurance wear and tear Increase [%] -- 武器耐久値消耗 増加割合 [%]
 13 Attack Trajectory Blur Blend Rate [%] -- 攻撃軌跡ブレ ブレンド率 [%]
-14 After the attack, the blend rate [%] -- 攻撃後よれ ブレンド率 [%]
+14 After the attack- the blend rate [%] -- 攻撃後よれ ブレンド率 [%]
 15 Defense decrease [%] -- 防御力 減少割合 [%]
 16 Resistance Reduction Rate [%] -- 抵抗力 減少割合 [%]
 17 Resistance value decrease [%] -- 耐性値 減少割合 [%]

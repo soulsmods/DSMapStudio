@@ -19,7 +19,7 @@
 846 [GEN:846] Ruin Sentinel
 847 [GEN:847] Ruin Sentinel
 848 [GEN:848] Lost Sinner
-912 [GEN:912] Aldia, Scholar of the First Sin
+912 [GEN:912] Aldia- Scholar of the First Sin
 932 [GEN:932] Forlorn
 1000 [GEN:1000] Varangian Sailor
 1001 [GEN:1001] Varangian Sailor
