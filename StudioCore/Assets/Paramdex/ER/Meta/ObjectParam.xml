@@ -66,7 +66,7 @@
     <burnSfxDelayTimeMax_1 AltName="Burn - Bullet Generation Delay Time [1] (Maximum)" Wiki="SFX generation delay time during combustion Randomly determined between start and end times" />
     <burnSfxDelayTimeMax_2 AltName="Burn - Bullet Generation Delay Time [2] (Maximum)" Wiki="SFX generation delay time during combustion Randomly determined between start and end times" />
     <burnSfxDelayTimeMax_3 AltName="Burn - Bullet Generation Delay Time [3] (Maximum)" Wiki="SFX generation delay time during combustion Randomly determined between start and end times" />
-    <BreakAiSoundID AltName="Destruction AI Sound ID" Wiki="AI sound ID generated at the time of destruction" />
+    <BreakAiSoundID AltName="Destruction AI Sound ID" Wiki="AI sound ID generated at the time of destruction" Refs="AiSoundParam" />
     <FragmentInvisibleWaitTime AltName="Hidden Debris - Wait Time" Wiki="Material ID of debris (-1 Do not hide)" />
     <FragmentInvisibleTime AltName="Hidden Debris - Invisibility Time" Wiki="Time to hide debris (seconds)" />
     <pad_3 AltName=""/>
