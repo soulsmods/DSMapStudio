@@ -25,7 +25,7 @@ namespace StudioCore
 {
     public class MapStudioNew
     {
-        private static string _version = "1.06";
+        private static string _version = "1.07";
         private static string _programTitle = $"Dark Souls Map Studio version {_version}";
 
         private Sdl2Window _window;
@@ -81,6 +81,12 @@ namespace StudioCore
         public static bool FirstFrame = true;
 
         private bool _needsRebuildFont = false;
+        
+        // ImGui Debug windows
+        private bool _showImGuiDemoWindow = false;
+        private bool _showImGuiMetricsWindow = false;
+        private bool _showImGuiDebugLogWindow = false;
+        private bool _showImGuiStackToolWindow = false;
 
         public MapStudioNew()
         {
@@ -791,6 +797,12 @@ namespace StudioCore
                         _paramEditor.SaveAll();
                         _textEditor.SaveAll();
                     }
+                    
+                    if (ImGui.MenuItem("Editor Settings"))
+                    {
+                        settingsMenuOpen = true;
+                    }
+                    
                     if (Resource.FlverResource.CaptureMaterialLayouts && ImGui.MenuItem("Dump Flver Layouts (Debug)", ""))
                     {
                         DumpFlverLayouts();
@@ -814,11 +826,6 @@ namespace StudioCore
                     _textEditor.DrawEditorMenu();
                 }
 
-                if (ImGui.MenuItem("Settings"))
-                {
-                    settingsMenuOpen = true;
-                }
-
                 if (ImGui.BeginMenu("Help"))
                 {
                     if (ImGui.BeginMenu("About"))
@@ -833,11 +840,11 @@ namespace StudioCore
                                    "Thefifthmatt\n" +
                                    "Shadowth117\n" +
                                    "Nordgaren\n" +
-                                   "ivi\n\n" +
+                                   "ivi\n" +
+                                   "Vawser\n\n" +
                                    "Special Thanks:\n" +
                                    "TKGP\n" +
                                    "Meowmaritus\n" +
-                                   "Vawser\n" +
                                    "Radai\n" +
                                    "Moonlight Ruin\n" +
                                    "Evan (HalfGrownHollow)");
@@ -913,6 +920,26 @@ namespace StudioCore
                         ImGui.EndMenu();
                     }
 
+                    if (ImGui.BeginMenu("ImGui Debug"))
+                    {
+                        if (ImGui.MenuItem("Demo"))
+                        {
+                            _showImGuiDemoWindow = true;
+                        }
+                        if (ImGui.MenuItem("Metrics"))
+                        {
+                            _showImGuiMetricsWindow = true;
+                        }
+                        if (ImGui.MenuItem("Debug Log"))
+                        {
+                            _showImGuiDebugLogWindow = true;
+                        }
+                        if (ImGui.MenuItem("Stack Tool"))
+                        {
+                            _showImGuiStackToolWindow = true;
+                        }
+                        ImGui.EndMenu();
+                    }
                 }
                 if (TaskManager.GetLiveThreads().Count > 0 && ImGui.BeginMenu("Tasks"))
                 {
@@ -957,6 +984,16 @@ namespace StudioCore
             ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 7.0f);
             ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 1.0f);
             ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(14.0f, 8.0f) * scale);
+
+            // ImGui Debug windows
+            if (_showImGuiDemoWindow)
+                ImGui.ShowDemoWindow(ref _showImGuiDemoWindow);
+            if (_showImGuiMetricsWindow)
+                ImGui.ShowMetricsWindow(ref _showImGuiMetricsWindow);
+            if (_showImGuiDebugLogWindow)
+                ImGui.ShowDebugLogWindow(ref _showImGuiDebugLogWindow);
+            if (_showImGuiStackToolWindow)
+                ImGui.ShowStackToolWindow(ref _showImGuiStackToolWindow);
 
             // New project modal
             if (newProject)
@@ -1381,14 +1418,19 @@ namespace StudioCore
 
                         float arbitrary_rotation_x = CFG.Current.Map_ArbitraryRotation_X_Shift;
                         float arbitrary_rotation_y = CFG.Current.Map_ArbitraryRotation_Y_Shift;
+                        float camera_radius_offset = CFG.Current.Map_MoveSelectionToCamera_Radius;
 
-                        if (ImGui.SliderFloat("Arbitrary Rotation: X", ref arbitrary_rotation_x, 1.0f, 180.0f))
+                        if (ImGui.InputFloat("Rotation Increment Degrees: X", ref arbitrary_rotation_x))
                         {
-                            CFG.Current.Map_ArbitraryRotation_X_Shift = arbitrary_rotation_x;
+                            CFG.Current.Map_ArbitraryRotation_X_Shift = Math.Clamp(arbitrary_rotation_x, -180.0f, 180.0f);
                         }
-                        if (ImGui.SliderFloat("Arbitrary Rotation: Y", ref arbitrary_rotation_y, 1.0f, 180.0f))
+                        if (ImGui.InputFloat("Rotation Increment Degrees: Y", ref arbitrary_rotation_y))
                         {
-                            CFG.Current.Map_ArbitraryRotation_Y_Shift = arbitrary_rotation_y;
+                            CFG.Current.Map_ArbitraryRotation_Y_Shift = Math.Clamp(arbitrary_rotation_y, -180.0f, 180.0f);;
+                        }
+                        if (ImGui.InputFloat("Move Selection to Camera: Offset Distance", ref camera_radius_offset))
+                        {
+                            CFG.Current.Map_MoveSelectionToCamera_Radius = camera_radius_offset;
                         }
 
                         ImGui.Unindent();
@@ -1499,6 +1541,8 @@ namespace StudioCore
 
                         ImGui.Unindent();
                     }
+
+
 
                     ImGui.Unindent();
                     ImGui.EndTabItem();

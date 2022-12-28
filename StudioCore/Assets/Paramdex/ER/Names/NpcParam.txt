@@ -26,7 +26,7 @@
 20109010 Blaidd the Half-Wolf
 20109020 Blaidd the Half-Wolf
 20109040 Blaidd the Half-Wolf
-20109064 Blaidd the Half-Wolf (Siofra River)
+20109064 Blaidd the Half-Wolf
 20109110 Blaidd the Half-Wolf
 20109120 Blaidd the Half-Wolf
 20109140 Blaidd the Half-Wolf
@@ -34,14 +34,14 @@
 20109240 Blaidd the Half-Wolf
 20109310 Blaidd the Half-Wolf
 20109410 Blaidd the Half-Wolf
-20300000 Rennala- Queen of the Full Moon
-20300024 Rennala- Queen of the Full Moon
-20300100 Rennala- Queen of the Full Moon
-20300124 Rennala- Queen of the Full Moon
-20310000 Rennala- Queen of the Full Moon
-20310024 Rennala- Queen of the Full Moon
-20310100 Rennala- Queen of the Full Moon
-20310124 Rennala- Queen of the Full Moon
+20300000 Rennala, Queen of the Full Moon
+20300024 Rennala, Queen of the Full Moon
+20300100 Rennala, Queen of the Full Moon
+20300124 Rennala, Queen of the Full Moon
+20310000 Rennala, Queen of the Full Moon
+20310024 Rennala, Queen of the Full Moon
+20310100 Rennala, Queen of the Full Moon
+20310124 Rennala, Queen of the Full Moon
 20400000 Rennala Student
 20400024 Rennala Student
 20401000 Rennala Student
@@ -90,8 +90,8 @@
 21101000 Maliketh
 21101072 Maliketh (Farum Azula)
 21102000 Beast Clergyman
-21109000 Gurranq- Beast Clergyman
-21109042 Gurranq- Beast Clergyman
+21109000 Gurranq, Beast Clergyman
+21109042 Gurranq, Beast Clergyman
 21200000 Malenia- Blade of Miquella
 21200056 Malenia, Goddess of Rot
 21201000 Malenia- Blade of Miquella
@@ -166,12 +166,12 @@
 21601040 Finger Reader Crone
 21601050 Keeper of Forbidden Lands
 21601066 Godwyn's Wet Nurse
-21700000 Finger Reader Crone (No Chair)
+21700000 Finger Reader Enia
 21700079 Finger Reader Enia
-21701000 Finger Reader Crone (No Chair)
+21701000 Finger Reader Enia
 21800000 Melina
 21801000 Melina
-21801034 Melina (Leyndell- Royal Capital)
+21801034 Melina
 21803000 Melina
 21809000 Melina
 21900000 Radagon (Unscaled)
@@ -255,7 +255,7 @@
 25007020 Crucible Knight (Boss)
 25007100 Crucible Knight (Unscaled)
 25007120 Crucible Knight (Boss)
-25009000 Crucible Knight (Unscaled)
+25009000 Tanith's Knight
 25009038 Tanith's Knight
 25009138 Tanith's Knight
 30000000 Exile Soldier
@@ -521,41 +521,41 @@
 31811024 Red Wolf of Radagon Sword (Archives)
 31811032 Red Wolf of the Champion
 31811052 Red Wolf of Radagon Sword (Snowfields)
-32000000 Nomadic Merchant - Merchant Kalé
-32000010 Nomadic Merchant - Merchant Kalé
-32000012 Nomadic Merchant - Merchant Kalé
-32000020 Nomadic Merchant - Merchant Kalé
-32000030 Nomadic Merchant - Merchant Kalé
-32000032 Nomadic Merchant - Merchant Kalé
-32000034 Nomadic Merchant - Merchant Kalé (Leyndell- Royal Capital)
-32000035 Nomadic Merchant - Merchant Kalé
-32000110 Nomadic Merchant - Merchant Kalé
-32000120 Nomadic Merchant - Merchant Kalé
-32000134 Nomadic Merchant - Merchant Kalé (Leyndell- Royal Capital)
-32000135 Nomadic Merchant - Merchant Kalé
-32000210 Nomadic Merchant - Merchant Kalé
-32000220 Nomadic Merchant - Merchant Kalé
-32000234 Nomadic Merchant - Merchant Kalé (Leyndell- Royal Capital)
-32001010 Nomadic Merchant - Merchant Kalé
-32001110 Nomadic Merchant - Nomadic Merchant
-32001210 Nomadic Merchant - Nomadic Merchant
-32001310 Nomadic Merchant - Nomadic Merchant
-32001412 Nomadic Merchant - Nomadic Merchant
-32001520 Nomadic Merchant - Nomadic Merchant
-32001612 Nomadic Merchant - Isolated Merchant
-32001720 Nomadic Merchant - Isolated Merchant
-32001820 Nomadic Merchant - Nomadic Merchant
-32001933 Nomadic Merchant - Hermit Merchant
-32002030 Nomadic Merchant - Nomadic Merchant
-32002132 Nomadic Merchant - Nomadic Merchant
-32002240 Nomadic Merchant - Nomadic Merchant
-32002340 Nomadic Merchant - Nomadic Merchant
-32002542 Nomadic Merchant - Isolated Merchant
-32002650 Nomadic Merchant - Hermit Merchant
-32002764 Nomadic Merchant - Abandoned Merchant (Siofra River)
-32002860 Nomadic Merchant - Hermit Merchant (Ainsel River)
-32002968 Nomadic Merchant - Imprisoned Merchant
-32003010 Nomadic Merchant - Nomadic Merchant
+32000000 Merchant Kalé
+32000010 Merchant Kalé
+32000012 Merchant Kalé
+32000020 Merchant Kalé
+32000030 Merchant Kalé
+32000032 Merchant Kalé
+32000034 Merchant Kalé
+32000035 Merchant Kalé
+32000110 Merchant Kalé
+32000120 Merchant Kalé
+32000134 Merchant Kalé
+32000135 Merchant Kalé
+32000210 Merchant Kalé
+32000220 Merchant Kalé
+32000234 Merchant Kalé
+32001010 Merchant Kalé
+32001110 Nomadic Merchant
+32001210 Nomadic Merchant
+32001310 Nomadic Merchant
+32001412 Nomadic Merchant
+32001520 Nomadic Merchant
+32001612 Isolated Merchant
+32001720 Isolated Merchant
+32001820 Nomadic Merchant
+32001933 Hermit Merchant
+32002030 Nomadic Merchant
+32002132 Nomadic Merchant
+32002240 Nomadic Merchant
+32002340 Nomadic Merchant
+32002542 Isolated Merchant
+32002650 Hermit Merchant
+32002764 Abandoned Merchant
+32002860 Hermit Merchant
+32002968 Imprisoned Merchant
+32003010 Nomadic Merchant
 32008010 Nomadic Merchant
 32008900 Nomadic Merchant
 32009000 Merchant
@@ -572,8 +572,8 @@
 32009910 Nomadic Merchant
 32010000 Nomadic Merchant
 32010035 Frenzied Nomad
-32020000 Nomadic Merchant
-32020035 Nomadic Merchant
+32020000 Merchant Kalé
+32020035 Merchant Kalé
 32100000 Nomadic Merchant Mule
 32100010 Nomadic Merchant Mule
 32100012 Nomadic Merchant Mule
@@ -665,8 +665,8 @@
 33202200 Silver Tear
 33202261 Silver Tear
 33202262 Silver Tear
-33209000 Silver Tear (Unscaled)
-33209010 Silver Tear
+33209000 Asimi, Silver Tear
+33209010 Asimi, Silver Tear
 33300000 Giant Silver Tear (Unscaled)
 33300040 Giant Silver Tear
 33300042 Giant Silver Tear
@@ -1259,7 +1259,7 @@
 36640035 Cemetery Shade
 36640040 Cemetery Shade (Boss)
 36640920 Cemetery Shade (Boss)
-36650000 Devious Commoner Gostoc
+36650000 Gatekeeper Gostoc
 36650014 Gatekeeper Gostoc
 36650114 Gatekeeper Gostoc
 36650214 Gatekeeper Gostoc
@@ -1267,10 +1267,10 @@
 36650414 Gatekeeper Gostoc
 36650514 Gatekeeper Gostoc
 36650614 Gatekeeper Gostoc
-36651000 Devious Commoner
+36651000 Gatekeeper Gostoc
 36660000 The Noble Goldmask
 36660030 The Noble Goldmask
-36660034 The Noble Goldmask (Leyndell- Royal Capital)
+36660034 The Noble Goldmask
 36660050 The Noble Goldmask
 36660070 The Noble Goldmask
 36700000 Albinauric Lookout
@@ -1286,7 +1286,7 @@
 36701120 Albinauric Lookout
 36701121 Albinauric Lookout
 36701138 Albinauric Lookout
-36701200 Albinauric Lookout
+36701200 Pidia, Carian Servant
 36702000 Albinauric Lookout
 36702038 Albinauric Lookout
 36702039 Albinauric Lookout
@@ -1303,12 +1303,12 @@
 36703051 Albinauric Lookout
 36704000 Albinauric Lookout
 36704020 Albinauric Lookout
-36708000 Albinauric Lookout
+36708000 Old Albus
 36708020 Old Albus
-36709000 Albinauric Lookout
+36709000 Pidia, Carian Servant
 36709020 Pidia, Carian Servant
 36709100 Albinauric Lookout
-36709120 Albinauric Lookout
+36709120 Pidia, Carian Servant
 36709920 Pidia, Carian Servant
 37000000 Depraved Perfumer
 37000010 Depraved Perfumer
@@ -1374,10 +1374,10 @@
 37040830 Battlemage
 37040940 Battlemage Hugues (Boss)
 37100000 Primeval Sorcerer Azur
-37100024 Primeval Sorcerer Azur - NPC
-37100032 Primeval Sorcerer Azur - NPC
+37100024 Primeval Sorcerer Azur
+37100032 Primeval Sorcerer Azur
 37200000 Primeval Sorcerer Lusat
-37200040 Primeval Sorcerer Lusat - NPC
+37200040 Primeval Sorcerer Lusat
 37200042 Primeval Sorcerer Lusat
 37300000 Graven School
 37300020 Graven School
@@ -1388,7 +1388,7 @@
 37300112 Graven School
 37300120 Graven School
 37300152 Graven School
-37301000 Graven School
+37301000 Sorceress Sellen
 37301024 Sorceress Sellen
 37500000 Clayman - Spear
 37500060 Clayman (Ainsel River)
@@ -1536,7 +1536,7 @@
 39503200 Man-Serpent
 39504000 Man-Serpent - Egghead
 39504038 Man-Serpent
-39509000 Man-Serpent
+39509000 Zorayas the Scout
 39509038 Zorayas the Scout
 39509138 Zorayas the Scout
 39700000 Azula Beastman
@@ -1796,16 +1796,16 @@
 41100032 Demi-Human Shaman
 41100036 Demi-Human Shaman
 41100050 Demi-Human Shaman
-41109000 Demi-Human Shaman
-41109010 Boc the Seamster
+41109000 Demi-Human Boc
+41109010 Demi-Human Boc
 41109020 Boc the Seamster
 41109024 Boc the Seamster
 41109030 Boc the Seamster
-41109034 Boc the Seamster (Leyndell- Royal Capital)
+41109034 Boc the Seamster
 41109100 Boc the Seamster
-41109110 Boc the Seamster
+41109110 Demi-Human Boc
 41109120 Boc the Seamster
-41109134 Boc the Seamster (Leyndell- Royal Capital)
+41109134 Boc the Seamster
 41109170 Boc the Seamster
 41200000 Demi-Human Chief
 41200009 Demi-Human Chief
@@ -3694,10 +3694,11 @@
 44908320 Living Jar
 44908400 Living Jar - Large
 44908420 Living Jar
-44909000 Living Jar - Large
+44909000 Alexander, Warrior Jar
 44909040 Alexander, Warrior Jar
-44909100 Living Jar - Large
-44909200 Living Jar - Large
+44909100 Alexander, Warrior Jar
+44909132 Alexander, Warrior Jar
+44909200 Alexander, Warrior Jar
 44909310 Alexander, Warrior Jar
 44909410 Alexander, Warrior Jar
 44909540 Alexander, Warrior Jar
@@ -3735,7 +3736,7 @@
 44910600 Living Jar - Small
 44910720 Living Jar - Small
 44910933 Living Jar - Small
-44919000 Living Jar - Small
+44919000 Jar-Bairn
 44919020 Jar-Bairn
 44919120 Jar-Bairn
 44919220 Jar-Bairn
@@ -3877,7 +3878,7 @@
 46030000 Stonedigger Troll (Club)
 46030910 Stonedigger Troll (Club) (Boss)
 46030930 Stonedigger Troll (Club) (Boss)
-46040000 Troll Iji
+46040000 Smithing Master Iji
 46040020 Smithing Master Iji
 46040120 War Counselor Iji
 46040220 War Counselor Iji
@@ -4287,7 +4288,7 @@
 60900050 Turtle
 60900052 Turtle
 60900064 Turtle
-60910000 Turtle Pope
+60910000 Miriel, Pastor of Vows
 60910020 Miriel, Pastor of Vows
 60911000 Turtle Large
 60911022 Turtle Large
@@ -4473,21 +4474,24 @@
 502280050 Latenna
 502280052 Latenna
 503180010 Yura
+503260034 Smithing Table
 503260038 Sword of Bernahl
 503300020 Basin of Atonement
+503390079 Smithing Table
+503490054 Smithing Table
 506010010 Church of Dragon Communion
 506010040 Cathedral of Dragon Communion
-506030012 Walking Mausoleum Corpse
-506030020 Walking Mausoleum Corpse
-506030050 Walking Mausoleum Corpse
-506030052 Walking Mausoleum Corpse
+506030012 Wandering Mausoleum Corpse
+506030020 Wandering Mausoleum Corpse
+506030050 Wandering Mausoleum Corpse
+506030052 Wandering Mausoleum Corpse
 506030066 Wandering Mausoleum Corpse
 506070078 Talk Dummy
 506080079 Clouded Mirror Stand
 520000000 Human
-523000000 Tanith- Volcano Manor Proprietress
-523000038 Tanith- Volcano Manor Proprietress
-523000138 Tanith- Volcano Manor Proprietress
+523000000 Tanith, Volcano Manor Proprietress
+523000038 Tanith, Volcano Manor Proprietress
+523000138 Tanith, Volcano Manor Proprietress
 523010000 White Mask Varré
 523010010 White Mask Varré
 523010020 White Mask Varré
@@ -4557,40 +4561,40 @@
 523160020 Sorceress Sellen
 523160024 Sorceress Sellen
 523160124 Sorceress Sellen
-523180000 Yura- Hunter of Bloody Fingers
-523180010 Yura- Hunter of Bloody Fingers
-523180020 Yura- Hunter of Bloody Fingers
-523180030 Yura- Hunter of Bloody Fingers
-523180050 Yura- Hunter of Bloody Fingers
-523180079 Yura- Hunter of Bloody Fingers
-523180110 Yura- Hunter of Bloody Fingers
-523180130 Yura- Hunter of Bloody Fingers
-523180210 Yura- Hunter of Bloody Fingers
-523180230 Yura- Hunter of Bloody Fingers
-523180330 Yura- Hunter of Bloody Fingers
-523190000 D- Hunter of the Dead
-523190010 D- Hunter of the Dead
+523180000 Yura, Hunter of Bloody Fingers
+523180010 Yura, Hunter of Bloody Fingers
+523180020 Yura, Hunter of Bloody Fingers
+523180030 Yura, Hunter of Bloody Fingers
+523180050 Shabriri
+523180079 Yura, Hunter of Bloody Fingers
+523180110 Yura, Hunter of Bloody Fingers
+523180130 Yura, Hunter of Bloody Fingers
+523180210 Yura, Hunter of Bloody Fingers
+523180230 Yura, Hunter of Bloody Fingers
+523180330 Yura, Hunter of Bloody Fingers
+523190000 D, Hunter of the Dead
+523190010 D, Hunter of the Dead
 523190065 D, Beholder of Death
 523190066 D, Beholder of Death
-523190079 D- Hunter of the Dead
-523190110 D- Hunter of the Dead
-523190179 D- Hunter of the Dead
+523190079 D, Hunter of the Dead
+523190110 D, Hunter of the Dead
+523190179 D, Hunter of the Dead
 523200000 Heartbroken Maiden
 523200010 Heartbroken Maiden
 523200079 Roderika
-523200179 Roderika- Spirit Tuner
-523200279 Roderika- Spirit Tuner
-523210000 Kenneth Haight- Limgrave Heir
-523210010 Kenneth Haight- Limgrave Heir
-523210014 Kenneth Haight- Limgrave Heir
-523210110 Kenneth Haight- Limgrave Heir
-523220000 Fia- Deathbed Companion
-523220066 Fia- Deathbed Companion
-523220079 Fia- Deathbed Companion
-523220166 Fia- Deathbed Companion
-523220179 Fia- Deathbed Companion
-523220266 Fia- Deathbed Companion
-523220366 Fia- Deathbed Companion
+523200179 Roderika, Spirit Tuner
+523200279 Roderika, Spirit Tuner
+523210000 Kenneth Haight, Limgrave Heir
+523210010 Kenneth Haight, Limgrave Heir
+523210014 Kenneth Haight, Limgrave Heir
+523210110 Kenneth Haight, Limgrave Heir
+523220000 Fia, Deathbed Companion
+523220066 Fia, Deathbed Companion
+523220079 Fia, Deathbed Companion
+523220166 Fia, Deathbed Companion
+523220179 Fia, Deathbed Companion
+523220266 Fia, Deathbed Companion
+523220366 Fia, Deathbed Companion
 523230000 Dung Eater
 523230020 Dung Eater
 523230033 Dung Eater
@@ -4599,10 +4603,10 @@
 523230135 Dung Eater
 523230179 Dung Eater
 523230279 Dung Eater
-523240000 Sir Gideon Ofnir- the All-Knowing
-523240070 Sir Gideon Ofnir- the All-Knowing (Boss)
-523240079 Sir Gideon Ofnir- the All-Knowing
-523240179 Sir Gideon Ofnir- the All-Knowing
+523240000 Sir Gideon Ofnir, the All-Knowing
+523240070 Sir Gideon Ofnir, the All-Knowing
+523240079 Sir Gideon Ofnir, the All-Knowing
+523240179 Sir Gideon Ofnir, the All-Knowing
 523250000 Sorcerer Rogier
 523250014 Sorcerer Rogier
 523250050 Sorcerer Rogier
@@ -4615,9 +4619,9 @@
 523260010 Knight Bernahl
 523260038 Recusant Bernahl
 523260070 Recusant Bernahl
-523270000 Eleonora- Violet Bloody Finger
-523270030 Eleonora- Violet Bloody Finger
-523270130 Eleonora- Violet Bloody Finger
+523270000 Eleonora, Violet Bloody Finger
+523270030 Eleonora, Violet Bloody Finger
+523270130 Eleonora, Violet Bloody Finger
 523290040 Human
 523290066 Lionel the Lionhearted
 523310000 Blackguard
@@ -4628,14 +4632,14 @@
 523330000 Sorcerer Thops
 523330020 Sorcerer Thops
 523330024 Sorcerer Thops
-523340000 Nepheli Loux- Warrior
-523340014 Nepheli Loux- Warrior
-523340020 Nepheli Loux- Warrior
-523340079 Nepheli Loux- Warrior
-523340114 Nepheli Loux- Warrior
-523340120 Nepheli Loux- Warrior
-523340179 Nepheli Loux- Warrior
-523340214 Nepheli Loux- Warrior
+523340000 Nepheli Loux, Warrior
+523340014 Nepheli Loux, Warrior
+523340020 Nepheli Loux, Warrior
+523340079 Nepheli Loux, Warrior
+523340114 Nepheli Loux, Warrior
+523340120 Nepheli Loux, Warrior
+523340179 Nepheli Loux, Warrior
+523340214 Nepheli Loux, Warrior
 523350000 Reeling Rico
 523350010 Reeling Rico
 523350052 Reeling Rico
@@ -4649,7 +4653,7 @@
 523390079 Ensha of the Royal Remains
 523400000 Bloody Finger Ravenmount Assassin
 523400020 Bloody Finger Ravenmount Assassin
-523420000 Sanguine Noble
+523420000 Boc the Seamster
 523420024 Boc the Seamster
 523430000 Bloody Finger Nerijus
 523440000 Great Horned Tragoth
@@ -4659,8 +4663,8 @@
 523450010 Old Knight Istvan
 523460000 Rileigh the Idle
 523460030 Rileigh the Idle
-523470000 Juno Hoslow- Knight of Blood
-523470050 Juno Hoslow- Knight of Blood
+523470000 Juno Hoslow, Knight of Blood
+523470050 Juno Hoslow, Knight of Blood
 523480000 Millicent
 523480030 Millicent
 523480040 Millicent
@@ -4691,17 +4695,17 @@
 523520028 Preceptor Miriam
 523521000 Preceptor Miriam
 523521028 Preceptor Miriam
-523530000 Anastasia- Tarnished-Eater
-523530032 Anastasia- Tarnished-Eater
-523530040 Anastasia- Tarnished-Eater
-523530052 Anastasia- Tarnished-Eater
+523530000 Anastasia, Tarnished-Eater
+523530032 Anastasia, Tarnished-Eater
+523530040 Anastasia, Tarnished-Eater
+523530052 Anastasia, Tarnished-Eater
 523550000 Okina
 523550040 Okina
 523550050 Bloody Finger Okina
-523560000 Adan- Thief of Fire
+523560000 Adan, Thief of Fire
 523560020 Adan, Thief of Fire
-523590000 Moongrum- Carian Knight
-523590024 Moongrum- Carian Knight
+523590000 Moongrum, Carian Knight
+523590024 Moongrum, Carian Knight
 523600000 Vargram the Raging Wolf
 523600034 Vargram the Raging Wolf
 523610000 Fia's Champion
@@ -4713,16 +4717,16 @@
 523640020 Dolores the Sleeping Arrow
 523650000 Jarwight
 523650020 Jarwight
-523670000 Inaba- Disciple of Okina
-523670050 Inaba- Disciple of Okina
+523670000 Inaba, Disciple of Okina
+523670050 Inaba, Disciple of Okina
 523680000 Silver Tear
 523680062 Silver Tear
 523680065 Silver Tear
 523690000 Recusant Henricus
 523700000 Fia's Champion
 523710000 Fia's Champion
-523720000 Maleigh Marais- Shaded Castle Castellan
-523720030 Maleigh Marais- Shaded Castle Castellan
+523720000 Maleigh Marais, Shaded Castle Castellan
+523720030 Maleigh Marais, Shaded Castle Castellan
 523730000 Knight of the Great Jar
 523730040 Knight of the Great Jar
 523740000 Knight of the Great Jar
@@ -4743,15 +4747,16 @@
 523840038 Inquisitor Ghiza
 523850000 Mad Tongue Alberich
 523860000 Esgar, Priest of Blood
-523870000 Mary- Eldest Sister
-523870056 Mary- Eldest Sister
-523880000 Maureen- Second Sister
-523880056 Maureen- Second Sister
-523890000 Amy- Third Sister
-523890056 Amy- Third Sister
-523900000 Polyanna- Youngest Sister
-523900056 Polyanna- Youngest Sister
-523910030 Magnus- the Beast Claw
+523870000 Mary, Eldest Sister
+523870056 Mary, Eldest Sister
+523880000 Maureen, Second Sister
+523880056 Maureen, Second Sister
+523890000 Amy, Third Sister
+523890056 Amy, Third Sister
+523900000 Polyanna, Youngest Sister
+523900056 Polyanna, Youngest Sister
+523910000 Magnus the Beast Claw
+523910030 Magnus the Beast Claw
 526100052 Stray Mimic Tear
 526100065 Human
 526100965 Mimic Tear
@@ -4769,17 +4774,18 @@
 533160000 Sorceress Sellen
 533160024 Sorceress Sellen
 533160124 Sorceress Sellen
-533180000 Yura- Hunter of Bloody Fingers
-533180030 Yura- Hunter of Bloody Fingers
-533181000 Yura- Hunter of Bloody Fingers
-533181010 Yura- Hunter of Bloody Fingers
-533181020 Yura- Hunter of Bloody Fingers
+533180000 Yura, Hunter of Bloody Fingers
+533180030 Yura, Hunter of Bloody Fingers
+533181000 Yura, Hunter of Bloody Fingers
+533181010 Yura, Hunter of Bloody Fingers
+533181020 Yura, Hunter of Bloody Fingers
 533181070 Shabriri
-533181110 Yura- Hunter of Bloody Fingers
-533190000 D- Hunter of the Dead
-533190020 D- Hunter of the Dead
+533181110 Yura, Hunter of Bloody Fingers
+533190000 D, Hunter of the Dead
+533190020 D, Hunter of the Dead
 533190065 D, Beholder of Death
-533190120 D- Hunter of the Dead
+533190120 D, Hunter of the Dead
+533230000 Dung Eater
 533230034 Dung Eater
 533230035 Dung Eater
 533250000 Sorcerer Rogier
@@ -4791,9 +4797,9 @@
 533290040 Human
 533310000 Blackguard
 533310026 Blackguard
-533340000 Nepheli Loux- Warrior
-533340014 Nepheli Loux- Warrior
-533340020 Nepheli Loux- Warrior
+533340000 Nepheli Loux, Warrior
+533340014 Nepheli Loux, Warrior
+533340020 Nepheli Loux, Warrior
 533340070 Nepheli Loux, Warrior
 533350000 Reeling Rico
 533350068 Reeling Rico
@@ -4814,22 +4820,22 @@
 533550040 Okina
 533630000 Finger Maiden Therolina
 533630040 Finger Maiden Therolina
-533870000 Mary- Eldest Sister
-533870056 Mary- Eldest Sister
-533880000 Maureen- Second Sister
-533880056 Maureen- Second Sister
-533890000 Amy- Third Sister
-533890056 Amy- Third Sister
-533900000 Polyanna- Youngest Sister
+533870000 Mary, Eldest Sister
+533870056 Mary, Eldest Sister
+533880000 Maureen, Second Sister
+533880056 Maureen, Second Sister
+533890000 Amy, Third Sister
+533890056 Amy, Third Sister
+533900000 Polyanna, Youngest Sister
 533900040 Polyanna, Adopted Daughter
-533900056 Polyanna- Youngest Sister
+533900056 Polyanna, Youngest Sister
 543110000 Edgar the Revenger
 543110020 Edgar the Revenger
 543260000 Knight Bernahl
 543260072 Recusant Bernahl
-543270000 Eleonora- Violet Bloody Finger
-543270030 Eleonora- Violet Bloody Finger
-543270130 Eleonora- Violet Bloody Finger
+543270000 Eleonora, Violet Bloody Finger
+543270030 Eleonora, Violet Bloody Finger
+543270130 Eleonora, Violet Bloody Finger
 543390000 Ensha of the Royal Remains
 543390079 Ensha of the Royal Remains
 543430000 Bloody Finger Nerijus
@@ -4837,7 +4843,7 @@
 543430052 Sanguine Noble
 543480000 Millicent
 543480040 Millicent
-543690000 Sage Gowry
+543690000 Recusant Henricus
 543690010 Recusant Henricus
 543850000 Mad Tongue Alberich
 543850079 Mad Tongue Alberich

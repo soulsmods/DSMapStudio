@@ -19,8 +19,8 @@
 3008 Class - Prisoner
 3009 Class - Wretch
 20000 Human
-23000 Tanith
-23010 White Mask Varre
+23000 Tanith, Volcano Manor Proprietress
+23010 White Mask Varré
 23040 Roundtable Knight Vyke
 23041 Festering Fingerprint Vyke
 23070 Preceptor Seluvis
@@ -28,9 +28,9 @@
 23091 Patches
 23092 Patches
 23100 Irina of Morne
-23101 Hyetta
+23101 Finger Maiden Hyetta
 23102 Irina of Morne
-23110 Edgar
+23110 Edgar the Revenger
 23120 Witch-Hunter Jerren
 23121 Castellan Jerren
 23122 Witch-Hunter Jerren
@@ -45,31 +45,31 @@
 23181 Yura, Hunter of Bloody Fingers
 23182 Shabriri
 23183 Yura, Hunter of Bloody Fingers
-23184 Yura, Hunter of Bloody Fingers
+23184 Shabriri
 23190 D, Hunter of the Dead
 23191 D, Hunter of the Dead
-23192 D, Hunter of the Dead
-23193 D, Hunter of the Dead
+23192 D, Beholder of Death
+23193 D, Beholder of Death
 23194 D, Hunter of the Dead
-23195 D, Hunter of the Dead
+23195 D, Beholder of Death
 23200 Roderika
 23201 Roderika, Spirit Tuner
-23210 Kenneth Haight
+23210 Kenneth Haight, Limgrave Heir
 23221 Fia, Deathbed Companion
 23222 Fia, Deathbed Companion
 23230 Dung Eater
 23231 Dung Eater
 23232 Dung Eater Puppet
-23240 Sir Gideon Ofnir
-23241 Sir Gideon Ofnir
-23242 Sir Gideon Ofnir
-23243 Sir Gideon Ofnir
-23244 Sir Gideon Ofnir
-23245 Sir Gideon Ofnir
-23246 Sir Gideon Ofnir
-23247 Sir Gideon Ofnir
-23248 Sir Gideon Ofnir
-23249 Sir Gideon Ofnir
+23240 Sir Gideon Ofnir, the All-Knowing
+23241 Sir Gideon Ofnir, the All-Knowing
+23242 Sir Gideon Ofnir, the All-Knowing
+23243 Sir Gideon Ofnir, the All-Knowing
+23244 Sir Gideon Ofnir, the All-Knowing
+23245 Sir Gideon Ofnir, the All-Knowing
+23246 Sir Gideon Ofnir, the All-Knowing
+23247 Sir Gideon Ofnir, the All-Knowing
+23248 Sir Gideon Ofnir, the All-Knowing
+23249 Sir Gideon Ofnir, the All-Knowing
 23250 Sorcerer Rogier
 23251 Sorcerer Rogier
 23252 Sorcerer Rogier
@@ -86,20 +86,20 @@
 23320 Rykard-Hating Ghost
 23330 Sorcerer Thops
 23331 Sorcerer Thops
-23340 Nepheli Loux
-23341 Nepheli Loux
+23340 Nepheli Loux, Warrior
+23341 Nepheli Loux, Warrior
 23342 Nepheli Loux Puppet
 23360 Vyke's Finger Maiden
 23380 Finger Maiden
 23390 Ensha of the Royal Remains
 23400 Bloody Finger Ravenmount Assassin
 23420 Boc the Seamster
-23430 Sanguine Noble
+23430 Bloody Finger Nerijus
 23440 Great Horned Tragoth
 23441 Great Horned Tragoth
 23450 Old Knight Istvan
 23460 Rileigh the Idle
-23470 Juno Hoslow
+23470 Juno Hoslow, Knight of Blood
 23480 Millicent
 23481 Millicent
 23482 Millicent
@@ -110,7 +110,7 @@
 23487 Millicent
 23488 Millicent
 23490 Sage Gowry
-23510 Brother Corhyn
+23510 Scribe Corhyn
 23520 Preceptor Miriam
 23521 Preceptor Miriam
 23530 Anastasia, Tarnished-Eater
@@ -122,8 +122,8 @@
 23590 Moongrum, Carian Knight
 23600 Vargram the Raging Wolf
 23610 Fia's Champion 1
-23611 Fia's Champion
-23612 Human
+23611 Fia's Champion 1
+23612 Fia's Champion 1
 23613 Fia's Champion 1
 23614 Fia's Champion 1
 23615 Fia's Champion 1
@@ -134,7 +134,7 @@
 23631 Finger Maiden Therolina Puppet
 23632 Finger Maiden Therolina
 23640 Dolores the Sleeping Arrow
-23650 Jarwight Puppet
+23650 Jarwight
 23670 Inaba, Disciple of Okina
 23680 Silver Tear
 23681 Silver Tear
@@ -142,7 +142,7 @@
 23683 Silver Tear
 23690 Recusant Henricus
 23700 Fia's Champion 2
-23701 Fia's Champion
+23701 Fia's Champion 1
 23702 Fia's Champion 2
 23703 Fia's Champion 2
 23704 Fia's Champion 2
@@ -151,7 +151,7 @@
 23707 Fia's Champion 2
 23708 Fia's Champion 2
 23710 Fia's Champion 2
-23711 Fia's Champion
+23711 Fia's Champion 1
 23712 Fia's Champion 3
 23713 Fia's Champion 3
 23714 Fia's Champion 3
@@ -159,7 +159,7 @@
 23716 Fia's Champion 3
 23717 Fia's Champion 3
 23718 Fia's Champion 3
-23720 Maleigh Marais
+23720 Maleigh Marais, Shaded Castle Castellan
 23730 Knight of the Great Jar
 23731 Knight of the Great Jar 1
 23732 Knight of the Great Jar 1
@@ -199,7 +199,8 @@
 23880 Maureen, Second Sister
 23890 Amy, Third Sister
 23900 Polyanna, Youngest Sister
-23901 Polyanna, Youngest Sister
+23901 Polyanna, Adopted Daughter
+23910 Magnus the Beast Claw
 24010 Stray Mimic Tear
 24020 Mimic Tear
 26050 Mimic Tear
@@ -208,3 +209,4 @@
 27002 Dragonbarrow Silent Spirit
 27900 Human
 28500 Human
+29000 Human
