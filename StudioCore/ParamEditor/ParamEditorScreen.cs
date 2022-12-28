@@ -196,7 +196,7 @@ namespace StudioCore.ParamEditor
                 using StreamWriter logWriter = new StreamWriter(logPath);
                 logWriter.WriteLine("The following rows have conflicts (i.e. both you and the game update added these rows).");
                 logWriter.WriteLine("The conflicting rows have been overwritten with your modded version, but it is recommended");
-                logWriter.WriteLine("that you review these rows and potentially move them to new IDs and try merging again");
+                logWriter.WriteLine("that you review these rows and move them to new IDs and try merging again");
                 logWriter.WriteLine("instead of saving your upgraded regulation right away.");
                 logWriter.WriteLine();
                 foreach (var c in conflicts)
@@ -211,12 +211,12 @@ namespace StudioCore.ParamEditor
                 logWriter.Flush();
                 
                 var msgRes = System.Windows.Forms.MessageBox.Show(
-                    $@"Conflicts were found while upgrading params. This is usually caused by a game updating adding " +
-                    "a new row that has the same ID as the one that you added in your mod. It is recommended that you " +
+                    $@"Conflicts were found while upgrading params. This is usually caused by a game update adding " +
+                    "a new row that has the same ID as the one that you added in your mod. It is highly recommended that you " +
                     "review these conflicts and handle them before saving. You can revert to your original params by " +
-                    "reloading your project by saving and move the conflicting rows to new IDs, or you can chance it by " +
-                    "trying to fix the current post-merge result. Currently your mod added rows will have overwritten" +
-                    "the added rows in the vanilla regulation.\n\nThe list of conflicts can be found in regulationUpgradeLog.txt" +
+                    "reloading your project without saving. Then you can move the conflicting rows to new IDs. " +
+                    "Currently the added rows from your mod will have overwritten " +
+                    "the added rows in the vanilla regulation.\n\nThe list of conflicts can be found in regulationUpgradeLog.txt " +
                     "in your mod project directory. Would you like to open them now?",
                     "Row conflicts found",
                     System.Windows.Forms.MessageBoxButtons.YesNo,
@@ -684,8 +684,9 @@ namespace StudioCore.ParamEditor
                             "overwriting exiting rows if needed.\n\nIf both you and the game update added a row with the same ID, the merge " +
                             "will fail and there will be a log saying what rows you will need to manually change the ID of before trying " +
                             "to merge again.\n\nIn order to perform this operation, you must specify the original regulation on the version " +
-                            $"that your current mod is based on (version {ParamBank.PrimaryBank.ParamVersion}).\n\nOnce done, the upgraded params will appear" +
-                            "in the param editor where you can view and save them, but this operation is not undoable. " +
+                            $"that your current mod is based on (version {ParamBank.PrimaryBank.ParamVersion}).\n\nOnce done, the upgraded params will appear " +
+                            "in the param editor where you can view and save them. This operation is not undoable, but you can reload the project without " +
+                            "saving to revert to the un-upgraded params.\n\n" +
                             "Would you like to continue?", "Regulation upgrade",
                             System.Windows.Forms.MessageBoxButtons.OKCancel,
                             System.Windows.Forms.MessageBoxIcon.Question);

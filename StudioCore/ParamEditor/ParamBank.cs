@@ -1549,6 +1549,10 @@ namespace StudioCore.ParamEditor
             // Take care of any more pending adds
             for (; currPendingAdd < pendingAdds.Length; currPendingAdd++)
             {
+                // If the pending add doesn't exist in the added rows list, it was a conflicting row
+                if (!addedRows.ContainsKey(pendingAdds[currPendingAdd]))
+                    continue;
+                
                 foreach (var arow in addedRows[pendingAdds[currPendingAdd]])
                 {
                     dest.AddRow(new Param.Row(arow, dest));
