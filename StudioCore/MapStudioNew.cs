@@ -81,6 +81,12 @@ namespace StudioCore
         public static bool FirstFrame = true;
 
         private bool _needsRebuildFont = false;
+        
+        // ImGui Debug windows
+        private bool _showImGuiDemoWindow = false;
+        private bool _showImGuiMetricsWindow = false;
+        private bool _showImGuiDebugLogWindow = false;
+        private bool _showImGuiStackToolWindow = false;
 
         public MapStudioNew()
         {
@@ -914,6 +920,26 @@ namespace StudioCore
                         ImGui.EndMenu();
                     }
 
+                    if (ImGui.BeginMenu("ImGui Debug"))
+                    {
+                        if (ImGui.MenuItem("Demo"))
+                        {
+                            _showImGuiDemoWindow = true;
+                        }
+                        if (ImGui.MenuItem("Metrics"))
+                        {
+                            _showImGuiMetricsWindow = true;
+                        }
+                        if (ImGui.MenuItem("Debug Log"))
+                        {
+                            _showImGuiDebugLogWindow = true;
+                        }
+                        if (ImGui.MenuItem("Stack Tool"))
+                        {
+                            _showImGuiStackToolWindow = true;
+                        }
+                        ImGui.EndMenu();
+                    }
                 }
                 if (TaskManager.GetLiveThreads().Count > 0 && ImGui.BeginMenu("Tasks"))
                 {
@@ -958,6 +984,16 @@ namespace StudioCore
             ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 7.0f);
             ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 1.0f);
             ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(14.0f, 8.0f) * scale);
+
+            // ImGui Debug windows
+            if (_showImGuiDemoWindow)
+                ImGui.ShowDemoWindow(ref _showImGuiDemoWindow);
+            if (_showImGuiMetricsWindow)
+                ImGui.ShowMetricsWindow(ref _showImGuiMetricsWindow);
+            if (_showImGuiDebugLogWindow)
+                ImGui.ShowDebugLogWindow(ref _showImGuiDebugLogWindow);
+            if (_showImGuiStackToolWindow)
+                ImGui.ShowStackToolWindow(ref _showImGuiStackToolWindow);
 
             // New project modal
             if (newProject)
