@@ -55,8 +55,8 @@
 67200040 [REG:67200040] Corrosive Ant
 67200041 [REG:67200041] Corrosive Ant
 67400000 [REG:67400000] Pagan Tree
-68100000 [REG:68100000] Sinh, the Slumbering Dragon [Boss]
-68200000 [REG:68200000] Elana, Squalid Queen [Boss]
+68100000 [REG:68100000] Sinh- the Slumbering Dragon [Boss]
+68200000 [REG:68200000] Elana- Squalid Queen [Boss]
 68300000 [REG:68300000] Imperfect
 68500000 [REG:68500000] Skeleton (Elana)
 68600000 [REG:68600000] Small Undead Boar (Elana)

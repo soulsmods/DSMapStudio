@@ -1,5 +1,5 @@
 0 Event Camera -- イベントカメラ
-1 Only from the back, keep tilt, flip left and right -- 後ろからのみ、傾き維持、左右は反転
+1 Only from the back- keep tilt- flip left and right -- 後ろからのみ、傾き維持、左右は反転
 2 fixed from everywhere always the same angle -- どこから見ても固定　常に同じ角度
 100000010 Shop Camera-1 -- ショップカメラ-１
 100000020 Shop Camera-2 -- ショップカメラ-２

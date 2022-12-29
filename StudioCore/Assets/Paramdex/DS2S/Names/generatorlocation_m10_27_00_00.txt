@@ -9,7 +9,7 @@
 608 [GEN:608] Transcendent Edde
 609 [GEN:609] Fencer Sharron
 800 [GEN:800] Ancient Dragon
-916 [GEN:916] Aldia, Scholar of the First Sin
+916 [GEN:916] Aldia- Scholar of the First Sin
 950 [GEN:950] Invisible Hollow
 1100 [GEN:1100] Guardian Dragon
 1101 [GEN:1101] Guardian Dragon

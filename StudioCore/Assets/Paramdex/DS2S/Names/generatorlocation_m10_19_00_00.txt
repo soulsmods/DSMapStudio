@@ -11,7 +11,7 @@
 578 [GEN:578] Drifter Swordsman Aidel
 806 [GEN:806] Smelter Demon
 807 [GEN:807] Old Iron King
-913 [GEN:913] Aldia, Scholar of the First Sin
+913 [GEN:913] Aldia- Scholar of the First Sin
 941 [GEN:941] Forlorn
 2020 [GEN:2020] Alonne Knight
 2040 [GEN:2040] Alonne Captain

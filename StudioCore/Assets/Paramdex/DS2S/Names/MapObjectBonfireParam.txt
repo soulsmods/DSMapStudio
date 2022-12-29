@@ -58,13 +58,13 @@
 33660 Doors of Pharros - Ordeal's End
 34650 Grave of Saints - Grave Entrance
 34655 Grave of Saints - Harvel's Resting Place
-35650 Shulva, Sanctum City - Sanctum Walk
-35655 Shulva, Sanctum City - Priestess's Chamber
+35650 Shulva- Sanctum City - Sanctum Walk
+35655 Shulva- Sanctum City - Priestess's Chamber
 35665 Dragon's Rest - Sanctum Nadir
 35670 Dragon's Sanctum - Hidden Sanctum Chamber
 35675 Dragon's Sanctum - Lair of the Imperfect
 35680 Dragon's Sanctum - Sanctum Interior
-35685 Shulva, Sanctum City - Tower of Prayer
+35685 Shulva- Sanctum City - Tower of Prayer
 36650 Brume Tower - ?
 36655 Brume Tower - Foyer
 36660 Brume Tower - Upper Floor

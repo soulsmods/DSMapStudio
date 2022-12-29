@@ -99,21 +99,21 @@
 200018010 Generic - Map Trap - Curse Jar - Weak -- 汎用-マップトラップ-呪い壷-弱
 200018020 General -Map Trap-Curse Daint-Medium -- 汎用-マップトラップ-呪い壷-中
 200018030 Generic - Map Trap - Curse Font - Strong -- 汎用-マップトラップ-呪い壷-強
-210030010 The dragon's home, i'm amazed at the flies that flock to the corpse. -- 龍の住処　死体に群がるハエに驚く
-210100010 The Decaying Giant Forest, the cave's salamander blows flames- continuous damage -- 朽ちた巨人の森　洞窟のサラマンダーが吹く炎-連続ダメージ
-210100011 The Forest of Decayed Giants, the salamander of the cave, blows the flames, and dies instantly. -- 朽ちた巨人の森　洞窟のサラマンダーが吹く炎-即死
+210030010 The dragon's home- i'm amazed at the flies that flock to the corpse. -- 龍の住処　死体に群がるハエに驚く
+210100010 The Decaying Giant Forest- the cave's salamander blows flames- continuous damage -- 朽ちた巨人の森　洞窟のサラマンダーが吹く炎-連続ダメージ
+210100011 The Forest of Decayed Giants- the salamander of the cave- blows the flames- and dies instantly. -- 朽ちた巨人の森　洞窟のサラマンダーが吹く炎-即死
 210100014 The Forest of Decayed Giants: The Flame blowing by the Salamander in the Cave - Continuous Damage: Child Barrett -- 朽ちた巨人の森　洞窟のサラマンダーが吹く炎-連続ダメージ：子バレット
 210100015 The Forest of Decayed Giants: The Flame blowing by the Salamander in the Cave - Continuous Damage: Child Barrett (Without SFX) -- 朽ちた巨人の森　洞窟のサラマンダーが吹く炎-連続ダメージ：子バレット（SFXなし）
 210100020 The Forest of Decayed Giants: The Flames Blowing By Salamander in the Underground Passage - Parents -- 朽ちた巨人の森　地下通路のサラマンダーが吹く炎-親
 210100024 The Forest of Decayed Giants: The Flame of The Salamander In the Underground Passage - Child Barrett -- 朽ちた巨人の森　地下通路のサラマンダーが吹く炎-子バレット
 210100025 The Forest of Decayed Giants: The Flame of Salamander Blowing in the Underground Passage - Child Barrett (Without SFX) -- 朽ちた巨人の森　地下通路のサラマンダーが吹く炎-子バレット（SFXなし）
 210100030 The Forest of The Decayed Giant -- 朽ちた巨人の森-ごろごろ鉄球
-210100100 The forest of decaying giants, the flames that erupt from the ground (parent) -- 朽ちた巨人の森　地面から噴出す炎（親）
-210100110 The forest of decaying giants, the flames that erupt from the ground. -- 朽ちた巨人の森　地面から噴出す炎１
-210100120 The forest of decaying giants, the flames erupting from the ground. -- 朽ちた巨人の森　地面から噴出す炎２
-210100130 The forest of decaying giants, the flames erupting from the ground. -- 朽ちた巨人の森　地面から噴出す炎３
-210100140 The forest of decaying giants, the flames erupting from the ground. -- 朽ちた巨人の森　地面から噴出す炎４
-210100150 The forest of decaying giants, the flames erupting from the ground. -- 朽ちた巨人の森　地面から噴出す炎５
+210100100 The forest of decaying giants- the flames that erupt from the ground (parent) -- 朽ちた巨人の森　地面から噴出す炎（親）
+210100110 The forest of decaying giants- the flames that erupt from the ground. -- 朽ちた巨人の森　地面から噴出す炎１
+210100120 The forest of decaying giants- the flames erupting from the ground. -- 朽ちた巨人の森　地面から噴出す炎２
+210100130 The forest of decaying giants- the flames erupting from the ground. -- 朽ちた巨人の森　地面から噴出す炎３
+210100140 The forest of decaying giants- the flames erupting from the ground. -- 朽ちた巨人の森　地面から噴出す炎４
+210100150 The forest of decaying giants- the flames erupting from the ground. -- 朽ちた巨人の森　地面から噴出す炎５
 210140010 Kiseki-gai Gerdra Gun Sand - For Generation -- 輝石街ジェルドラ　鉄砲砂-生成用
 210140011 Kiseki-gai Gerdra gun sand - entrance stagnation -- 輝石街ジェルドラ　鉄砲砂-入口停滞
 210140012 Kiseki Street Gerdra Gun Sand - Children -- 輝石街ジェルドラ　鉄砲砂-子供
@@ -163,12 +163,12 @@
 210330320 Faros Door Way - Togetge Wall 2 (Parent) -- ファロスの扉道-トゲトゲ壁2（親）
 210330321 Faros Door Way - Togetge Wall 2A -- ファロスの扉道-トゲトゲ壁2A
 210330322 Faros Door Way - Togetge Wall 2B -- ファロスの扉道-トゲトゲ壁2B
-220100000 The memory of the giant, the head of the stone statue is rolling. -- 巨人の記憶　石像の頭が転がってくる
+220100000 The memory of the giant- the head of the stone statue is rolling. -- 巨人の記憶　石像の頭が転がってくる
 220100001 Giant's Memory The Head of the Stone Statue Rolls Over For The New Giant Senior Soldier -- 巨人の記憶　石像の頭が転がってくる-新・巨人上級兵士（生者）用
-220100060 Memories of giants, fireball landings_mid-view -- 巨人の記憶　火球着弾_中景
-220100070 Memory of giants, fireball landings, mid-view, explosion. -- 巨人の記憶　火球着弾_中景_爆発
+220100060 Memories of giants- fireball landings_mid-view -- 巨人の記憶　火球着弾_中景
+220100070 Memory of giants- fireball landings- mid-view- explosion. -- 巨人の記憶　火球着弾_中景_爆発
 220100400 Giant Memory Stone throwing machine fireball -- 巨人の記憶　投石機の火の玉
-220100410 Memory of giants, the fireball explosion of the stone thrower -- 巨人の記憶　投石機の火の玉_爆発
+220100410 Memory of giants- the fireball explosion of the stone thrower -- 巨人の記憶　投石機の火の玉_爆発
 220100500 Giant Memory Falling Giant Damage -- 巨人の記憶　落下巨人ダメージ
 220100600 Giant's Memory Fire Damage -- 巨人の記憶　炎上ダメージ
 220100700 Giant's memory fireball on the front -- 巨人の記憶　前線に降り注ぐ火球

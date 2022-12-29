@@ -41,8 +41,8 @@
 61150000 [REG:61150000] Twin Dragonrider [Boss]
 61911000 [REG:61911000] Executioner's Chariot
 62700000 [REG:62700000] Nashandra [Boss]
-69200000 [REG:69200000] Aldia, Scholar of the First Sin [Boss]
-69300000 [REG:69300000] Aldia, Scholar of the First Sin
+69200000 [REG:69200000] Aldia- Scholar of the First Sin [Boss]
+69300000 [REG:69300000] Aldia- Scholar of the First Sin
 69500100 [REG:69500100] Forlorn
 69600000 [REG:69600000] Invisible Hollow
 70050200 [REG:70050200] Emerald Herald

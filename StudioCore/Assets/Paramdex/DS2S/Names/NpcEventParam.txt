@@ -29,9 +29,9 @@
 74300001 Benhart of Jugo
 75400000 Merchant Hag Melentia
 75600000 The Rat King
-75700000 Nadalia, Bride of Ash
-75800000 Alsanna, Silent Oracle
-75900000 Elana, Queen of Ruin
+75700000 Nadalia- Bride of Ash
+75800000 Alsanna- Silent Oracle
+75900000 Elana- Queen of Ruin
 76100000 Maughlin the Armourer
 76100001 Maughlin the Armourer
 76100002 Maughlin the Armourer

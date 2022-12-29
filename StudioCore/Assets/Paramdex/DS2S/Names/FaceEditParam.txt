@@ -2,7 +2,7 @@
 1 Gender -- 性別
 2 Shape exaggeration -- 形状誇張
 3 Color exaggeration -- 色誇張
-4 Ratio of eyebrows, nose and jaw -- 眉、鼻、顎の比率
+4 Ratio of eyebrows- nose and jaw -- 眉、鼻、顎の比率
 5 Ratio near the amount -- 額付近の比率
 6 Face width -- 顔幅
 7 Facial Rounding -- 顔の丸み
@@ -20,8 +20,8 @@
 19 Depth between eyebrows -- 眉間の深さ
 20 Position between eyebrows -- 眉間の位置
 21 Height between eyebrows -- 眉間の高さ
-22 Nasal muscles, upper irregularities -- 鼻筋、上部の凹凸
-23 Nasal muscles, upper irregularities -- 鼻筋、上部の凹凸
+22 Nasal muscles- upper irregularities -- 鼻筋、上部の凹凸
+23 Nasal muscles- upper irregularities -- 鼻筋、上部の凹凸
 24 Width between eyebrows -- 眉間の幅
 25 Eyebrow height -- 眉の高さ
 26 the inner end of the eyebrow -- 眉の内端
@@ -37,7 +37,7 @@
 36 Color Pupil Blue -- 色 瞳色 青
 37 Color Pupil Green -- 色 瞳色 緑
 38 Color The Color of the Orbit -- 色 眼窩の色 アザ 明
-39 Color The color of the orbit, the dark light -- 色 眼窩の色 暗 明
+39 Color The color of the orbit- the dark light -- 色 眼窩の色 暗 明
 40 Color Eyelid Light Dark -- 色 まぶた 明 暗
 41 Color Eyelid Blue Red -- 色 まぶた 青 赤
 42 Color Eyeliner Light And Dark -- 色 アイライナー 明 暗
@@ -60,7 +60,7 @@
 59 Cheek -- 頬
 60 Cheek wrinkle line -- 頬のしわライン
 61 The shape of the lips -- 唇の形
-62 Facial expressions at the mouth, joy_ sadness -- 口元の表情、喜_悲
+62 Facial expressions at the mouth- joy_ sadness -- 口元の表情、喜_悲
 63 Bulge of the lips -- 唇の膨らみ
 64 The size of the lips -- 唇の大きさ
 65 The shape of the lips -- 唇の形
