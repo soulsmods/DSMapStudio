@@ -7,20 +7,20 @@
 20310000 Rennala Queen of the Full Moon
 20310100 Rennala Queen of the Full Moon
 20400000 Rennala Student
-20410000 Rennala Student - Bug Form
+20410000 Kindred of Rot Larva
 20500000 Ranni the Witch
 20600000 The Two Fingers
 21000000 Black Knife Assassin
 21000052 Black Knife Assassin
 21100000 Beast Clergyman
-21101000 Maliketh, the Black Blade
-21102000 Beast Clergyman
+21101000 Maliketh the Black Blade
+21102000 Beast Clergyman (Sanctum)
 21300000 Morgott
 21300500 Morgott
-21400000 Omen Monstrosity
-21400900 Omen Monstrosity
-21401000 Omen Monstrosity
-21401900 Omen Monstrosity
+21400000 Omen
+21400900 Omen
+21401000 Omen
+21401900 Omen
 21600000 Palm Reader
 21700000 Palm Reader
 21800000 Melina
@@ -41,26 +41,26 @@
 22770000 Crab
 25000000 Crucible Knight
 25000010 Crucible Knight
-25000030 Crucible Knight (Auriza Boss)
+25000030 Crucible Knight Ordovis
 25000100 Crucible Knight
 25001000 Crucible Knight
 25001100 Crucible Knight
 25009000 Crucible Knight
-30000000 Castle Exile
-30000006 Castle Exile
-30000100 Castle Exile
-30000200 Castle Exile
-30000300 Castle Exile
-30000600 Castle Exile
-30000700 Castle Exile
-30000800 Castle Exile
-30001000 Castle Exile
-30001100 Castle Exile
-30001200 Castle Exile
-30001300 Castle Exile
-30002000 Castle Exile
-30003000 Castle Exile
-30003200 Castle Exile
+30000000 Exile Soldier
+30000006 Exile Soldier
+30000100 Exile Soldier
+30000200 Exile Soldier
+30000300 Exile Soldier
+30000600 Exile Soldier
+30000700 Exile Soldier
+30000800 Exile Soldier
+30001000 Exile Soldier
+30001100 Exile Soldier
+30001200 Exile Soldier
+30001300 Exile Soldier
+30002000 Exile Soldier
+30003000 Exile Soldier
+30003200 Exile Soldier
 30100000 Banished Knight
 30100100 Banished Knight
 30100200 Banished Knight
@@ -70,10 +70,10 @@
 30102000 Banished Knight
 30102100 Banished Knight
 30102200 Banished Knight
-30200000 Large Castle Exile
+30200000 Large Exile Soldier
 30500000 Commander
-30600000 Undead Mariner
-30601000 Undead Mariner
+30600000 Giant Skeleton
+30601000 Giant Skeleton
 30610000 Undead Azula Beastman
 30611000 Undead Azula Beastman
 30700000 Dominula Celebrant
@@ -104,10 +104,10 @@
 31800020 Dog
 31810000 Red Wolf of Radagon
 31810052 Red Wolf of Radagon
-32000000 Nomad Trader - Merchant Kalé
-32009000 Nomad Trader
-32010000 Nomad Trader
-32100000 Nomad Mule
+32000000 Nomadic Merchant - Merchant Kalé
+32009000 Nomadic Merchant
+32010000 Nomadic Merchant
+32100000 Nomadic Merchant Mule
 32500000 Draconic Tree Sentinel
 32510000 Tree Sentinel
 32511000 Tree Sentinel
@@ -120,8 +120,8 @@
 33200100 Silver Tear
 33200200 Silver Tear
 33209000 Silver Tear
-33300000 Silver Tear Orb
-33300062 Silver Tear Orb
+33300000 Giant Silver Tear
+33300062 Giant Silver Tear
 33500000 Crystalian
 33501000 Crystalian
 33501500 Crystalian
@@ -189,7 +189,7 @@
 35700100 Godskin Noble
 36000000 Alabaster Lord
 36000062 Alabaster Lord
-36001000 Alabaster Lord
+36001000 Onyx Lord
 36100000 Oracle Envoy
 36200000 Oracle Envoy
 36300000 Oracle Envoy
@@ -217,7 +217,7 @@
 36625000 Putrid Corpse
 36640000 Cemetery Shade
 36650000 Devious Commoner
-36660000 Sunflower Commoner
+36660000 The Noble Goldmask
 36700000 Albinauric Lookout
 36700100 Albinauric Lookout
 36701000 Albinauric Lookout
@@ -239,9 +239,9 @@
 37030000 Noble's Page
 37040000 Battlemage
 37040020 Battlemage
-37100000 Master Azur
-37200000 Master Lusat
-37300000 Orb of Many Faces
+37100000 Primeval Sorcerer Azur
+37200000 Primeval Sorcerer Lusat
+37300000 Graven School
 37500000 Clayman
 37501000 Clayman
 37502000 Clayman
@@ -278,9 +278,9 @@
 39702100 Azula Beastman
 39703000 Azula Beastman
 39703100 Azula Beastman
-40000000 Royal Rider
-40000100 Royal Rider
-40001000 Royal Rider
+40000000 Revenant Follower
+40000100 Revenant Follower
+40001000 Revenant Follower
 40200000 Royal Revenant
 40200100 Royal Revenant
 40400000 Slug
@@ -307,8 +307,8 @@
 41010050 Large Demi-Human
 41100000 Demi-Human Shaman
 41109000 Demi-Human Shaman
-41200000 Demi-Human Beastman
-41200100 Demi-Human Beastman
+41200000 Demi-Human Chief
+41200100 Demi-Human Chief
 41300000 Demi-Human Queen
 41301000 Demi-Human Queen
 41400000 Snail
@@ -339,8 +339,8 @@
 42000000 Giant Bat
 42000100 Giant Bat
 42000200 Giant Bat
-42010000 Bat Harpy
-42011000 Bat Harpy
+42010000 Old Woman Bat
+42011000 Old Woman Bat
 42100000 Warhawk
 42100100 Warhawk
 42100200 Warhawk
@@ -528,14 +528,14 @@
 44410000 Giant Fungal Pod
 44500000 Walking Mausoleum
 44600000 Flamethrower Tank
-44700000 Ghiza Torturer
-44701000 Ghiza Torturer
-44702000 Ghiza Torturer
-44800000 Giant Miranda Sprout
-44800100 Giant Miranda Sprout
-44800200 Giant Miranda Sprout
-44800300 Giant Miranda Sprout
-44800400 Giant Miranda Sprout
+44700000 Abductor Virgin
+44701000 Abductor Virgin
+44702000 Abductor Virgin
+44800000 Giant Miranda Flower
+44800100 Giant Miranda Flower
+44800200 Giant Miranda Flower
+44800300 Giant Miranda Flower
+44800400 Giant Miranda Flower
 44810000 Miranda Sprout
 44810100 Miranda Sprout
 44810200 Miranda Sprout
@@ -547,17 +547,17 @@
 44811200 Miranda Sprout
 44811300 Miranda Sprout
 44811400 Miranda Sprout
-44820000 Giant Miranda Sprout
+44820000 Giant Miranda Flower
 44830000 Miranda Sprout
 44831000 Miranda Sprout
-44900000 Living Pot - Large
-44900100 Living Pot - Large
-44900200 Living Pot - Large
-44910000 Living Pot - Small
-44910100 Living Pot - Small
-44910200 Living Pot - Small
-44919000 Living Pot - Small
-44920000 Living Pot - Huge
+44900000 Living Jar - Large
+44900100 Living Jar - Large
+44900200 Living Jar - Large
+44910000 Living Jar - Small
+44910100 Living Jar - Small
+44910200 Living Jar - Small
+44919000 Living Jar - Small
+44920000 Living Jar - Huge
 45000000 Dragon
 45008000 Dragon
 45010000 Dragon Rot
@@ -667,14 +667,14 @@
 60820000 Dragonfly
 60900000 Turtle
 60910000 Turtle Pope
-61000000 Rabbitgaroo
-61000010 Rabbitgaroo
-70000000 Fallen Hawk Soldier
-70000100 Fallen Hawk Soldier
-70001000 Fallen Hawk Soldier
-70002000 Fallen Hawk Soldier
-70003000 Fallen Hawk Soldier
-70003100 Fallen Hawk Soldier
+61000000 Springhare
+61000010 Springhare
+70000000 Fallen Hawks Soldier
+70000100 Fallen Hawks Soldier
+70001000 Fallen Hawks Soldier
+70002000 Fallen Hawks Soldier
+70003000 Fallen Hawks Soldier
+70003100 Fallen Hawks Soldier
 71000000 Ancient Hero
 71000050 Ancient Hero
 80000000 Torrent

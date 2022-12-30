@@ -2510,33 +2510,33 @@
 715401010 Skeleton aristocratic dark art bullet in -- スケルトン貴族　闇術弾　中
 715401020 Skeleton Aristocracy Dark Art Nagi-paying flame -- スケルトン貴族　闇術　なぎ払う炎
 715401030 Skeleton Aristocracy Dark Art Explosion -- スケルトン貴族　闇術　爆発
-721200000 Wyvern, weak. -- ワイバーン　弱払い
+721200000 Wyvern- weak. -- ワイバーン　弱払い
 721200010 Wyvern Strong Pay -- ワイバーン　強払い
-721200020 Wyvern, you're weak. -- ワイバーン　弱叩きつけ
-721200030 Wyvern, strong. -- ワイバーン　強叩きつけ
-721201000 Wyburn, weak blast. -- ワイバーン　弱爆風
+721200020 Wyvern- you're weak. -- ワイバーン　弱叩きつけ
+721200030 Wyvern- strong. -- ワイバーン　強叩きつけ
+721201000 Wyburn- weak blast. -- ワイバーン　弱爆風
 721201010 Wyburn Strong Blast -- ワイバーン　強爆風
 721201020 Wyburn Breath -- ワイバーン　ブレス
-721201030 Wyburn, Great Fireball Explosion -- ワイバーン　大火球爆発
-722350000 Giant rat, weak. -- 巨大ネズミ　弱払い
-722350010 Giant rat, strong-paying. -- 巨大ネズミ　強払い
-722350020 Giant rat, weak crushing. -- 巨大ネズミ　弱叩き潰し
+721201030 Wyburn- Great Fireball Explosion -- ワイバーン　大火球爆発
+722350000 Giant rat- weak. -- 巨大ネズミ　弱払い
+722350010 Giant rat- strong-paying. -- 巨大ネズミ　強払い
+722350020 Giant rat- weak crushing. -- 巨大ネズミ　弱叩き潰し
 722350030 Giant rat crushing crushing -- 巨大ネズミ　強叩き潰し
 722351000 Giant Rat Blast -- 巨大ネズミ　爆風
-722351010 Giant rat, Blood Guerro. -- 巨大ネズミ　血ゲロ
-730330000 Double-sided warrior, curved sword, weak slashing -- 両面戦士　曲剣　弱斬り
+722351010 Giant rat- Blood Guerro. -- 巨大ネズミ　血ゲロ
+730330000 Double-sided warrior- curved sword- weak slashing -- 両面戦士　曲剣　弱斬り
 730330010 Double-sided warrior song sword strong slashing -- 両面戦士　曲剣　強斬り
 730330020 Double-sided warrior curved sword butt -- 両面戦士　曲剣　突き
-730330030 Double-sided warrior, curved sword, toss, grab. -- 両面戦士　曲剣　投げ掴み
-730330040 Double-sided warrior, iron bar, weak punch. -- 両面戦士　鉄棒　弱殴り
-730330050 Double-sided warrior, iron bar, strong strike. -- 両面戦士　鉄棒　強殴り
-730330060 Double-sided warrior, iron bar, butt. -- 両面戦士　鉄棒　突き
+730330030 Double-sided warrior- curved sword- toss- grab. -- 両面戦士　曲剣　投げ掴み
+730330040 Double-sided warrior- iron bar- weak punch. -- 両面戦士　鉄棒　弱殴り
+730330050 Double-sided warrior- iron bar- strong strike. -- 両面戦士　鉄棒　強殴り
+730330060 Double-sided warrior- iron bar- butt. -- 両面戦士　鉄棒　突き
 730330070 Double-sided warrior iron bar crushing -- 両面戦士　鉄棒　叩き潰し
 730330080 Double-sided warrior spinning kicking -- 両面戦士　回し蹴り
 730500000 Daemon Knight Weak Payment -- デーモンナイト　弱払い
 730500010 Daemon Knight Strong Payment -- デーモンナイト　強払い
-730500020 Damon Knight, shake down. -- デーモンナイト　振り下ろし
-730500030 Demon Knight, swing down. -- デーモンナイト　強振り下ろし
+730500020 Damon Knight- shake down. -- デーモンナイト　振り下ろし
+730500030 Demon Knight- swing down. -- デーモンナイト　強振り下ろし
 730500040 Damon Knight Weak Butt -- デーモンナイト　弱突き
 730500050 Demon Knight Strong -- デーモンナイト　強突き
 730500060 Demon Knight Stabbing -- デーモンナイト　突き刺し
@@ -2554,44 +2554,44 @@
 730960080 Giant King Sword Swing -- 巨人王　剣振り下ろし
 730961000 Giant King Weak Blast -- 巨人王　弱爆風
 730961010 Giant King Strong Blast -- 巨人王　強爆風
-731800000 Bay Grant, weak butt. -- ベイグラント　弱突き
-731800010 Bay Grant, strong thrust. -- ベイグラント　強突き
+731800000 Bay Grant- weak butt. -- ベイグラント　弱突き
+731800010 Bay Grant- strong thrust. -- ベイグラント　強突き
 731800020 Bay Grant Strong Butt -- ベイグラント　強突き（投げ掴み）
 731800030 Bay Grant Vertical Butt -- ベイグラント　垂直突き
-731800040 Bay Grant, weak payment. -- ベイグラント　弱払い
+731800040 Bay Grant- weak payment. -- ベイグラント　弱払い
 731800050 Bay Grant Strong Payment -- ベイグラント　強払い
-731800060 Bay Grant, slap it. -- ベイグラント　叩きつけ
-731800070 Bay Grant, shield punching. -- ベイグラント　盾殴り
+731800060 Bay Grant- slap it. -- ベイグラント　叩きつけ
+731800070 Bay Grant- shield punching. -- ベイグラント　盾殴り
 731800080 Bay Grant Scooping Up -- ベイグラント　すくい上げ
 731801000 Bay Grant Blast -- ベイグラント　爆風
 731801010 Bay Grant Shock Wave -- ベイグラント　衝撃波
-731801020 Bay Grant, the bullet of the curse. -- ベイグラント　呪いの弾
+731801020 Bay Grant- the bullet of the curse. -- ベイグラント　呪いの弾
 732400000 Gargoyle Weak Butt -- ガーゴイル　弱突き
-732400010 Gargoil, strong thrust. -- ガーゴイル　強突き
-732400020 Gargoil, weak. -- ガーゴイル　弱払い
+732400010 Gargoil- strong thrust. -- ガーゴイル　強突き
+732400020 Gargoil- weak. -- ガーゴイル　弱払い
 732400030 Gargoil Strong Payment -- ガーゴイル　強払い
-732400040 Gargoil, shake it down. -- ガーゴイル　振り下ろし
+732400040 Gargoil- shake it down. -- ガーゴイル　振り下ろし
 732400050 Gargoil per body -- ガーゴイル　体当たり
 732400060 Gargoyle scooping up -- ガーゴイル　すくい上げ
 732400070 Gargoyle Tail-paying -- ガーゴイル　尻尾払い
-732400075 Gargoil, strong tail. -- ガーゴイル　強尻尾払い
+732400075 Gargoil- strong tail. -- ガーゴイル　強尻尾払い
 732400080 Gargoil tail swingdown -- ガーゴイル　尻尾振り下ろし
 732401000 Gargoil Breath -- ガーゴイル　ブレス
 732401010 Gargoil Lightning -- ガーゴイル　落雷
 732500000 Warrior in the mirror weak -- 鏡の中の戦士　弱払い
 732500010 Warrior in the mirror. -- 鏡の中の戦士　強払い
-732500020 Warrior in the mirror, weakly shaken down -- 鏡の中の戦士　弱振り下ろし
-732500030 Warrior in the mirror, swinging down. -- 鏡の中の戦士　強振り下ろし
+732500020 Warrior in the mirror- weakly shaken down -- 鏡の中の戦士　弱振り下ろし
+732500030 Warrior in the mirror- swinging down. -- 鏡の中の戦士　強振り下ろし
 732500040 Warrior in the Mirror -- 鏡の中の戦士　突き
-732501000 Warrior in the mirror, shield throwing -- 鏡の中の戦士　盾投げ
-732600000 Butcher, arm, weak, slap, arm, arms, arms, arms, arms -- ブッチャー　腕　弱叩きつけ
-732600010 Butcher, arm, strong, strong, strong, strong, strong, -- ブッチャー　腕　強叩きつけ
+732501000 Warrior in the mirror- shield throwing -- 鏡の中の戦士　盾投げ
+732600000 Butcher- arm- weak- slap- arm- arms- arms- arms- arms -- ブッチャー　腕　弱叩きつけ
+732600010 Butcher- arm- strong- strong- strong- strong- strong- -- ブッチャー　腕　強叩きつけ
 732600020 Butcher Arms Pay -- ブッチャー　腕　払い
-732600030 Butcher, kitchen knife, weak, slap, -- ブッチャー　包丁　弱叩きつけ
-732600040 Butcher, kitchen knife, strong slap. -- ブッチャー　包丁　強叩きつけ
+732600030 Butcher- kitchen knife- weak- slap- -- ブッチャー　包丁　弱叩きつけ
+732600040 Butcher- kitchen knife- strong slap. -- ブッチャー　包丁　強叩きつけ
 732600050 Butcher Kitchen Knife Payment -- ブッチャー　包丁　払い
-732600060 Butcher, grab the throw. -- ブッチャー　投げ掴み
-732601000 Butcher, Air -- ブッチャー　瘴気
+732600060 Butcher- grab the throw. -- ブッチャー　投げ掴み
+732601000 Butcher- Air -- ブッチャー　瘴気
 732601010 Butcher Tar Vomit -- ブッチャー　タール吐き
 732601020 Butcher Bleeding Drops -- ブッチャー　出血雫
 733200000 Queen Knight A Weak -- 王妃の騎士Ａ　弱払い
@@ -2601,7 +2601,7 @@
 733200025 Queen Knight A -- 王妃の騎士Ａ　中突き
 733200030 Queen Knight A Strong Thrust -- 王妃の騎士Ａ　強突き
 733200040 Queen Knight A Scoop -- 王妃の騎士Ａ　すくい上げ
-733200050 Queen Knight A, weak lying down. -- 王妃の騎士Ａ　弱振り下ろし
+733200050 Queen Knight A- weak lying down. -- 王妃の騎士Ａ　弱振り下ろし
 733200060 Queen Knight A. Strong Shake Down -- 王妃の騎士Ａ　強振り下ろし
 733200070 Queen Knight A Shield Beating -- 王妃の騎士Ａ　盾殴り
 733200080 Queen's Knight A Toss -- 王妃の騎士Ａ　投げ掴み
@@ -2628,30 +2628,30 @@
 733401000 Queen Knight C Magic Bullet -- 王妃の騎士Ｃ　魔法弾
 733401010 Queen Knight C Resuscitation Recovery -- 王妃の騎士Ｃ　蘇生回復
 733401020 Queen Knight C Self-Centered Explosion -- 王妃の騎士Ｃ　自己中心爆発
-750000000 Jabazahat, weak. -- ジャバザハット　弱払い
+750000000 Jabazahat- weak. -- ジャバザハット　弱払い
 750000010 Jabazahat Strong Payment -- ジャバザハット　強払い
 750000020 Jabazahat Crushing -- ジャバザハット　押し潰し
-750000030 Jabazahat, slap it. -- ジャバザハット　叩きつけ
-750000040 Jabazahat, i'm gonna throw it. -- ジャバザハット　投げ掴み
+750000030 Jabazahat- slap it. -- ジャバザハット　叩きつけ
+750000040 Jabazahat- i'm gonna throw it. -- ジャバザハット　投げ掴み
 750001000 Jabazahat Weak Blast -- ジャバザハット　弱爆風
 750001010 Jabazahat Strong Blast -- ジャバザハット　強爆風
 750001020 Javazahat Human Bones Garbage -- ジャバザハット　人骨ゴミ
 750100000 Naga Weak Payments -- ナーガ　弱払い
 750100010 Naga Weak Butt -- ナーガ　弱突き
 750100020 Naga Strong Thrust -- ナーガ　強突き
-750100030 Naga, shake it down. -- ナーガ　振り下ろし
-750100040 Naga, i'm gonna grab a throw. -- ナーガ　投げ掴み
-750100050 Narga, pay for it on the tail. -- ナーガ　尾で払い
+750100030 Naga- shake it down. -- ナーガ　振り下ろし
+750100040 Naga- i'm gonna grab a throw. -- ナーガ　投げ掴み
+750100050 Narga- pay for it on the tail. -- ナーガ　尾で払い
 750101000 Narga Lightning Strike -- ナーガ　雷撃
 750101010 Naga Face Explosion -- ナーガ　顔爆発
 750200000 Scorpion Man Nail Payment -- スコーピオン男　爪払い
-750200010 Scorpion man, nail-biting. -- スコーピオン男　爪叩きつけ
-750200020 Scorpion man, nail-biting. -- スコーピオン男　爪かち上げ
-750200030 Scorpion man, nail-biting. -- スコーピオン男　爪投げ掴み
-750200040 Scorpion man, axe spear. -- スコーピオン男　斧槍突き
-750200050 Scorpion man, axe spear. -- スコーピオン男　斧槍払い
+750200010 Scorpion man- nail-biting. -- スコーピオン男　爪叩きつけ
+750200020 Scorpion man- nail-biting. -- スコーピオン男　爪かち上げ
+750200030 Scorpion man- nail-biting. -- スコーピオン男　爪投げ掴み
+750200040 Scorpion man- axe spear. -- スコーピオン男　斧槍突き
+750200050 Scorpion man- axe spear. -- スコーピオン男　斧槍払い
 750200060 Scorpion man crushed -- スコーピオン男　押し潰し
-750201000 Scorpion man, self-centered explosion. -- スコーピオン男　自己中心爆発
+750201000 Scorpion man- self-centered explosion. -- スコーピオン男　自己中心爆発
 750300000 Scorpion Woman Nail Payment -- スコーピオン女　爪払い
 750300010 Scorpion Woman Cane Payment -- スコーピオン女　杖払い
 750300020 Scorpion Woman Cane Butt -- スコーピオン女　杖突き
@@ -2659,7 +2659,7 @@
 750300040 Scorpion Woman Slaps Her Tail -- スコーピオン女　尻尾叩きつけ
 750300050 Scorpion Woman' Tail-throwing Gripping -- スコーピオン女　尻尾投げ掴み
 750300060 Scorpion Woman Tail butt -- スコーピオン女　尻尾突き
-750300070 Scorpion woman, push ing from the ground. -- スコーピオン女　地面からの突き上げ
+750300070 Scorpion woman- push ing from the ground. -- スコーピオン女　地面からの突き上げ
 750301000 Scorpion Woman Weak Lightning Bullet -- スコーピオン女　弱雷弾
 750301010 Scorpion Woman Strong Lightning Bullet -- スコーピオン女　強雷弾
 750301020 Scorpion Woman Blast -- スコーピオン女　爆風
@@ -2672,7 +2672,7 @@
 750400050 Mirror Knight Weak Shield Punch -- ミラーナイト　弱盾殴り
 750400060 Mirror Knight Strong Shield Strike -- ミラーナイト　強盾殴り
 750401000 Mirror Night Thunder Break -- ミラーナイト　サンダーブレイク
-750401010 Mirror Knight, I'm Involved. -- ミラーナイト　下僕巻き込み
+750401010 Mirror Knight- I'm Involved. -- ミラーナイト　下僕巻き込み
 750401020 Mirror Night Blast -- ミラーナイト　爆風
 750610000 Aga Stand Magic Sword -- アガスタンド　魔法剣払い
 750610010 Aga Stand Magic Sword Butt -- アガスタンド　魔法剣突き
@@ -2682,11 +2682,11 @@
 750611020 Aga Stand Beam -- アガスタンド　ビーム
 750611030 Aga Stand Weak Magic Spear -- アガスタンド　弱魔法の槍
 750611040 Aga Stand Strong Magic Spear -- アガスタンド　強魔法の槍
-751460000 Old king, weak. -- 年老いた王　弱払い
-751460010 Old king, strong payment. -- 年老いた王　強払い
-751460020 Old king, swing down. -- 年老いた王　振り下ろし
-751460030 The old king, swinging down. -- 年老いた王　強振り下ろし
-751461000 The Old King, The Cursed Bullet -- 年老いた王　呪い弾
+751460000 Old king- weak. -- 年老いた王　弱払い
+751460010 Old king- strong payment. -- 年老いた王　強払い
+751460020 Old king- swing down. -- 年老いた王　振り下ろし
+751460030 The old king- swinging down. -- 年老いた王　強振り下ろし
+751461000 The Old King- The Cursed Bullet -- 年老いた王　呪い弾
 760000000 Old Dragon Trampling -- 古の龍　踏みつけ
 760000010 Old Dragon With Bite -- 古の龍　噛み付き
 760001000 Old Dragon Breath -- 古の龍　ブレス
@@ -2701,9 +2701,9 @@
 760200070 Beautiful Voice Frog Toss -- 美声カエル　投げ掴み
 760201000 Beautiful Voice Frog Water Gun -- 美声カエル　水鉄砲
 760300000 Spider Queen Weak Blow -- 蜘蛛の女王　弱打撃
-760300010 Spider Queen, Strong Blow -- 蜘蛛の女王　強打撃
-760300020 Spider Queen, Weak Slashing -- 蜘蛛の女王　弱斬撃
-760300030 Spider Queen, Strong Slashing -- 蜘蛛の女王　強斬撃
+760300010 Spider Queen- Strong Blow -- 蜘蛛の女王　強打撃
+760300020 Spider Queen- Weak Slashing -- 蜘蛛の女王　弱斬撃
+760300030 Spider Queen- Strong Slashing -- 蜘蛛の女王　強斬撃
 760300040 Spider Queen Stabbing Direct Hit -- 蜘蛛の女王　突き刺し直撃
 760300050 Spider Queen Slams Direct Hit -- 蜘蛛の女王　叩きつけ直撃
 760300060 Spider Queen Crushed Direct Hit -- 蜘蛛の女王　押しつぶし直撃
@@ -2727,7 +2727,7 @@
 761100000 Heavy cavalry weak -- 重騎馬兵　弱払い
 761100010 Heavy Cavalry Strong Pay -- 重騎馬兵　強払い
 761100020 Heavy Cavalry Butt -- 重騎馬兵　突き
-761100030 Heavy cavalry, swinging down -- 重騎馬兵　振り下ろし
+761100030 Heavy cavalry- swinging down -- 重騎馬兵　振り下ろし
 761100040 Heavy Cavalry Shield Beating -- 重騎馬兵　盾殴り
 761101000 Heavy Cavalry Archery -- 重騎馬兵　弓矢
 761910000 Silver Chariot Rush -- シルバーチャリオット　突進
@@ -2737,33 +2737,33 @@
 761910040 Silver Chariot trampled -- シルバーチャリオット　踏みつけ
 761910050 Silver Chariot Blast -- シルバーチャリオット　爆風
 761919000 Silver Chariot - Test -- シルバーチャリオット-テスト
-762500000 Ornstein, weak butt. -- オーンスタイン　弱突き
-762500010 Ornstein, strong thrust. -- オーンスタイン　強突き
-762500020 Ornstein, weak payments. -- オーンスタイン　弱払い
+762500000 Ornstein- weak butt. -- オーンスタイン　弱突き
+762500010 Ornstein- strong thrust. -- オーンスタイン　強突き
+762500020 Ornstein- weak payments. -- オーンスタイン　弱払い
 762500030 Ornstein Strong Pay -- オーンスタイン　強払い
-762500040 Ornstein, you're weak. -- オーンスタイン　弱振り下ろし
-762500050 Ornstein, swing down. -- オーンスタイン　強振り下ろし
-762500060 Ornstein, push up. -- オーンスタイン　突き上げ
+762500040 Ornstein- you're weak. -- オーンスタイン　弱振り下ろし
+762500050 Ornstein- swing down. -- オーンスタイン　強振り下ろし
+762500060 Ornstein- push up. -- オーンスタイン　突き上げ
 762500070 Ornstein Trampling -- オーンスタイン　踏み潰し
 762500080 Ornstein butt -- オーンスタイン　突き（投げ掴み）
 762500090 Ornstein Rush OBJ Destruction -- オーンスタイン　突進OBJ破壊
-762501000 Ornstein, the Bullet of Darkness. -- オーンスタイン　闇の弾
-762501010 Ornstein, the blast of darkness. -- オーンスタイン　闇の爆風
+762501000 Ornstein- the Bullet of Darkness. -- オーンスタイン　闇の弾
+762501010 Ornstein- the blast of darkness. -- オーンスタイン　闇の爆風
 762600000 sinners weak -- 罪人　弱払い
 762600010 Sinners Strong -- 罪人　強払い
-762600020 Sinner, weak butt. -- 罪人　弱突き
-762600030 Sinner, strong thrust. -- 罪人　強突き
-762600040 Sinner, swing down. -- 罪人　弱振り下ろし
-762600050 Sinner, swing down. -- 罪人　強振り下ろし
+762600020 Sinner- weak butt. -- 罪人　弱突き
+762600030 Sinner- strong thrust. -- 罪人　強突き
+762600040 Sinner- swing down. -- 罪人　弱振り下ろし
+762600050 Sinner- swing down. -- 罪人　強振り下ろし
 762600060 Sinner scooping up -- 罪人　すくい上げ
 762600070 Sinner Parisa -- 罪人　パリィスタ
-762700000 Queen's armor form, weak. -- 王妃の鎧形態　弱払い
-762700010 Queen's armor form, strong payment. -- 王妃の鎧形態　強払い
-762700020 The queen's armor, swinging down. -- 王妃の鎧形態　振り下ろし
+762700000 Queen's armor form- weak. -- 王妃の鎧形態　弱払い
+762700010 Queen's armor form- strong payment. -- 王妃の鎧形態　強払い
+762700020 The queen's armor- swinging down. -- 王妃の鎧形態　振り下ろし
 762701000 Queen's armor form self-centered explosion -- 王妃の鎧形態　自己中心爆発
 762701010 Queen's armor form weak beam -- 王妃の鎧形態　弱ビーム
-762701020 Queen's armor form, strong beam. -- 王妃の鎧形態　強ビーム
-762701030 Queen's armor, curse. -- 王妃の鎧形態　呪い
+762701020 Queen's armor form- strong beam. -- 王妃の鎧形態　強ビーム
+762701030 Queen's armor- curse. -- 王妃の鎧形態　呪い
 848104101 Medium Size - Miracle - Bullet - Physics - One Hand - Weak -- 中サイズ-奇蹟-弾-物理-片手-弱
 848104102 Medium Size - Miracle - Bullet - Physics - One Hand - Medium -- 中サイズ-奇蹟-弾-物理-片手-中
 848104103 Medium Size - Miracle - Bullet - Physics - One Hand - Strong -- 中サイズ-奇蹟-弾-物理-片手-強

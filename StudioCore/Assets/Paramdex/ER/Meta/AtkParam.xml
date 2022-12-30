@@ -361,10 +361,10 @@
     <atkBehaviorId AltName="Attack Behavior ID" Wiki="Behavior identification value: Extra large damage transition" Enum="ATKPARAM_BEHAVIOR_ID" />
     <atkPow_forSe AltName="Attack Power - SE Effect" Wiki="Attack strength [SE]" Enum="ATKPARAM_SE_ATK_POW" />
     <atkSuperArmor AltName="Damage: Poise" Wiki="NPCs only. Value used for SA break calculation formula" />
-    <decalId1 AltName="Decal ID [1]" Wiki="Decal ID 1 (directly specified)" />
-    <decalId2 AltName="Decal ID [2]" Wiki="Decal ID 2 (directly specified)" />
-    <AppearAiSoundId AltName="Appear AI Sound ID" Wiki="ID of AI sound generated when an attack occurs" />
-    <HitAiSoundId AltName="Hit AI Sound ID" Wiki="ID of AI sound generated at the time of hit" />
+    <decalId1 AltName="Decal ID [1]" Wiki="Decal ID 1 (directly specified)" Refs="DecalParam" />
+    <decalId2 AltName="Decal ID [2]" Wiki="Decal ID 2 (directly specified)" Refs="DecalParam" />
+    <AppearAiSoundId AltName="Appear AI Sound ID" Wiki="ID of AI sound generated when an attack occurs" Refs="AiSoundParam" />
+    <HitAiSoundId AltName="Hit AI Sound ID" Wiki="ID of AI sound generated at the time of hit" Refs="AiSoundParam" />
     <HitRumbleId AltName="Hit Rumble ID - Default" Wiki="Vibration ID at the time of hit (-1 invalid). It is a vibration ID when none of the following three applies" />
     <HitRumbleIdByNormal AltName="Hit Rumble ID - Normal" Wiki="Vibration ID at the time of hit when hitting the tip (-1 invalid)" />
     <HitRumbleIdByMiddle AltName="Hit Rumble ID - Middle" Wiki="Vibration ID at the time of hit when hit in the middle (-1 invalid)" />

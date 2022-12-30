@@ -14,5 +14,5 @@
 24 Woman Body Type 5 Super Fat -- 女　体型5 超デブ
 25 Female Body Type 6 Upper Body Fat -- 女　体型6 上半身デブ
 26 Female Body Type 7 Lower Body Fat -- 女　体型7 下半身デブ
-27 Woman, eight, big. -- 女　体型8 頭でかい
+27 Woman- eight- big. -- 女　体型8 頭でかい
 30 Woman Constitution Muscular -- 女　体質 筋肉質

@@ -2,8 +2,10 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -195,8 +197,20 @@ namespace StudioCore
         public float GFX_Camera_MoveSpeed_Fast { get; set; } = 200.0f;
         public float GFX_RenderDistance_Max { get; set; } = 50000.0f;
 
+        public Vector3 GFX_Gizmo_X_BaseColor = new Vector3(0.952f, 0.211f, 0.325f);
+        public Vector3 GFX_Gizmo_X_HighlightColor = new Vector3(1.0f, 0.4f, 0.513f);
+
+        public Vector3 GFX_Gizmo_Y_BaseColor = new Vector3(0.525f, 0.784f, 0.082f);
+        public Vector3 GFX_Gizmo_Y_HighlightColor = new Vector3(0.713f, 0.972f, 0.270f);
+
+        public Vector3 GFX_Gizmo_Z_BaseColor = new Vector3(0.219f, 0.564f, 0.929f);
+        public Vector3 GFX_Gizmo_Z_HighlightColor = new Vector3(0.407f, 0.690f, 1.0f);
+
         // Map Editor settings
         public bool Map_AlwaysListLoadedMaps = true;
+        public float Map_ArbitraryRotation_X_Shift { get; set; } = 90.0f;
+        public float Map_ArbitraryRotation_Y_Shift { get; set; } = 90.0f;
+        public float Map_MoveSelectionToCamera_Radius = 3.0f;
 
         // Font settings
         public bool FontChinese = false;

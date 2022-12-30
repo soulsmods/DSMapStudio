@@ -445,14 +445,18 @@ namespace StudioCore.ParamEditor
         }
 
         /// <summary>
-        /// Map related params that should not be in the param editor
+        /// Map related params.
         /// </summary>
-        private static List<string> _ds2ParamBlacklist = new List<string>()
+        public readonly static List<string> DS2MapParamlist = new List<string>()
         {
             "demopointlight",
             "demospotlight",
             "eventlocation",
             "eventparam",
+            "GeneralLocationEventParam",
+            "generatorparam",
+            "generatorregistparam",
+            "generatorlocation",
             "generatordbglocation",
             "hitgroupparam",
             "intrudepointparam",
@@ -523,28 +527,22 @@ namespace StudioCore.ParamEditor
                 var paramfiles = Directory.GetFileSystemEntries(d, @"*.param");
                 foreach (var p in paramfiles)
                 {
-                    bool blacklisted = false;
                     var name = Path.GetFileNameWithoutExtension(p);
-                    foreach (var bl in _ds2ParamBlacklist)
-                    {
-                        if (name.StartsWith(bl))
-                        {
-                            blacklisted = true;
-                            break;
-                        }
-                    }
-                    if (blacklisted)
-                    {
-                        continue;
-                    }
-
                     var lp = Param.Read(p);
                     var fname = lp.ParamType;
-                    PARAMDEF def = AssetLocator.GetParamdefForParam(fname);
-                    lp.ApplyParamdef(def);
-                    if (!_params.ContainsKey(name))
+
+                    try
                     {
-                        _params.Add(name, lp);
+                        PARAMDEF def = AssetLocator.GetParamdefForParam(fname);
+                        lp.ApplyParamdef(def);
+                        if (!_params.ContainsKey(name))
+                        {
+                            _params.Add(name, lp);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        TaskManager.warningList.TryAdd($"{fname} DefFail", $"Could not apply ParamDef for {fname}");
                     }
                 }
             }
@@ -573,7 +571,14 @@ namespace StudioCore.ParamEditor
             if (EnemyParam != null)
             {
                 PARAMDEF def = AssetLocator.GetParamdefForParam(EnemyParam.ParamType);
-                EnemyParam.ApplyParamdef(def);
+                try
+                {
+                    EnemyParam.ApplyParamdef(def);
+                }
+                catch (Exception e)
+                {
+                    TaskManager.warningList.TryAdd($"{EnemyParam.ParamType} DefFail", $"Could not apply ParamDef for {EnemyParam.ParamType}");
+                }
             }
             LoadParamFromBinder(paramBnd, ref _params, out _paramVersion);
         }
@@ -781,7 +786,7 @@ namespace StudioCore.ParamEditor
                 }
             });
         }
-        public static void LoadAuxBank(string path)
+        public static void LoadAuxBank(string path, string looseDir, string enemyPath)
         {
             // Steal assetlocator
             AssetLocator locator = PrimaryBank.AssetLocator;
@@ -804,6 +809,10 @@ namespace StudioCore.ParamEditor
             else if (locator.Type == GameType.Bloodborne)
             {
                 newBank.LoadParamsBBSekiroFromFile(path);
+            }
+            else if (locator.Type == GameType.DarkSoulsIISOTFS)
+            {
+                newBank.LoadParamsDS2FromFile(new List<string>{looseDir}, path, enemyPath);
             }
             else if (locator.Type == GameType.DarkSoulsRemastered)
             {
@@ -976,7 +985,7 @@ namespace StudioCore.ParamEditor
                             p.Bytes = _params[Path.GetFileNameWithoutExtension(p.Name)].Write();
                         }
                     }
-                    Utils.WriteWithBackup(dir, mod, @$"param\DrawParam\{Path.GetFileNameWithoutExtension(bnd)}", paramBnd);
+                    Utils.WriteWithBackup(dir, mod, @$"param\DrawParam\{Path.GetFileName(bnd)}", paramBnd);
                 }
             }
         }
@@ -1021,7 +1030,7 @@ namespace StudioCore.ParamEditor
                             p.Bytes = _params[Path.GetFileNameWithoutExtension(p.Name)].Write();
                         }
                     }
-                    Utils.WriteWithBackup(dir, mod, @$"param\DrawParam\{Path.GetFileNameWithoutExtension(bnd)}.dcx", paramBnd);
+                    Utils.WriteWithBackup(dir, mod, @$"param\DrawParam\{Path.GetFileName(bnd)}", paramBnd);
                 }
             }
         }
@@ -1071,11 +1080,17 @@ namespace StudioCore.ParamEditor
             // If params aren't loose, replace params with edited ones
             if (!loose)
             {
-                foreach (var p in paramBnd.Files)
+                // Replace params in paramBND, write remaining params loosely
+                foreach (var p in _params)
                 {
-                    if (_params.ContainsKey(Path.GetFileNameWithoutExtension(p.Name)))
+                    var bnd = paramBnd.Files.Find(e => Path.GetFileNameWithoutExtension(e.Name) == p.Key);
+                    if (bnd != null)
                     {
-                        p.Bytes = _params[Path.GetFileNameWithoutExtension(p.Name)].Write();
+                        bnd.Bytes = p.Value.Write();
+                    }
+                    else
+                    {
+                        Utils.WriteWithBackup(dir, mod, $@"Param\{p.Key}.param", p.Value);
                     }
                 }
             }
@@ -1245,7 +1260,7 @@ namespace StudioCore.ParamEditor
                             p.Bytes = _params[Path.GetFileNameWithoutExtension(p.Name)].Write();
                         }
                     }
-                    Utils.WriteWithBackup(dir, mod, @$"param\DrawParam\{Path.GetFileNameWithoutExtension(bnd)}.dcx", paramBnd);
+                    Utils.WriteWithBackup(dir, mod, @$"param\DrawParam\{Path.GetFileName(bnd)}", paramBnd);
                 }
             }
         }
@@ -1538,6 +1553,10 @@ namespace StudioCore.ParamEditor
             // Take care of any more pending adds
             for (; currPendingAdd < pendingAdds.Length; currPendingAdd++)
             {
+                // If the pending add doesn't exist in the added rows list, it was a conflicting row
+                if (!addedRows.ContainsKey(pendingAdds[currPendingAdd]))
+                    continue;
+                
                 foreach (var arow in addedRows[pendingAdds[currPendingAdd]])
                 {
                     dest.AddRow(new Param.Row(arow, dest));
@@ -1618,6 +1637,9 @@ namespace StudioCore.ParamEditor
                     (10701000l, "1.07 - (AssetEnvironmentGeometryParam) Set Reserve_2 to Vanilla v1.07 values", "param AssetEnvironmentGeometryParam: modified: Reserve_2: = vanillafield Reserve_2;"),
                     (10701000l, "1.07 - (AssetEnvironmentGeometryParam) Set Reserve_3 to Vanilla v1.07 values", "param AssetEnvironmentGeometryParam: modified: Reserve_3: = vanillafield Reserve_3;"),
                     (10701000l, "1.07 - (AssetEnvironmentGeometryParam) Set Reserve_4 to Vanilla v1.07 values", "param AssetEnvironmentGeometryParam: modified: Reserve_4: = vanillafield Reserve_4;"),
+                    (10801000l, "1.08 - (BuddyParam) Set Unk1 to default value", "param BuddyParam: modified: Unk1: = 1410;"),
+                    (10801000l, "1.08 - (BuddyParam) Set Unk2 to default value", "param BuddyParam: modified: Unk2: = 1420;"),
+                    (10801000l, "1.08 - (BuddyParam) Set Unk11 to default value", "param BuddyParam: modified: Unk11: = 1400;"),
                 };
             }
 

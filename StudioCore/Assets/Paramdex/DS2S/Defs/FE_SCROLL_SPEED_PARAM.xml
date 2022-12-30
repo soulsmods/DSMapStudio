@@ -6,6 +6,6 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="f32 Unk00" />
+    <Field Def="f32 Duration" />
   </Fields>
 </PARAMDEF>

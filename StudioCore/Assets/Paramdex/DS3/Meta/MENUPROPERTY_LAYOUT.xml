@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+	<PropertyIdMENU_PROPERTY_ID AltName="Property ID" Refs="MenuPropertySpecParam" />
+  </Field>
+  <Self />
+</PARAMMETA>

@@ -56,18 +56,19 @@ namespace StudioCore.ParamEditor
         }
         private static GameOffsets GetCorrectPTDEOffsets(GameOffsets offsets, SoulsMemoryHandler memoryHandler)
         {
-            int version = 0;
-            memoryHandler.ReadProcessMemory(memoryHandler.GetBaseAddress() + 0x3C, ref version);
-            if (version == 0x120)
+            // Byte checked is extremely arbitrary
+            byte byteMarker = 0;
+            memoryHandler.ReadProcessMemory(memoryHandler.GetBaseAddress() + 0x128, ref byteMarker);
+            if (byteMarker == 0x82)
             {
+                // Debug EXE
                 offsets.paramBase = int.Parse(offsets.coreOffsets["paramBaseDebug"].Substring(2), System.Globalization.NumberStyles.HexNumber);
                 offsets.throwParamBase = int.Parse(offsets.coreOffsets["throwParamBaseDebug"].Substring(2), System.Globalization.NumberStyles.HexNumber);
                 return offsets;
             }
-            
+            // Non-debug EXE
             offsets.paramBase = int.Parse(offsets.coreOffsets["paramBase"].Substring(2), System.Globalization.NumberStyles.HexNumber);
             offsets.throwParamBase = int.Parse(offsets.coreOffsets["throwParamBase"].Substring(2), System.Globalization.NumberStyles.HexNumber);
-
             return offsets;
         }
         private static void ReloadMemoryParamsThreads(ParamBank bank, GameOffsets offsets, string[] paramNames, SoulsMemoryHandler handler)

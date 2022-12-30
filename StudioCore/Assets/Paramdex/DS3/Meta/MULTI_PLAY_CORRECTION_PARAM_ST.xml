@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+	<CorrectionVal0 AltName="SpEffect ID - 1 Coop" Refs="SpEffectParam" />
+	<CorrectionVal1 AltName="SpEffect ID - 2 Coop" Refs="SpEffectParam" />
+	<CorrectionVal2 AltName="SpEffect ID - 3 Coop" Refs="SpEffectParam" />
+	<CorrectionVal3 AltName="Change SpEffect when Coop Count Changes" Wiki="Determines if the SpEffect being used will change when the number of cooperators changes." IsBool="" />
+  </Field>
+  <Self />
+</PARAMMETA>

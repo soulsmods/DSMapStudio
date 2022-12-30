@@ -467,7 +467,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public byte UnkT14 { get; set; }
+                public byte HitFilterID { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -482,12 +482,13 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int UnkT18 { get; set; }
+                public int CameraSfxID { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int UnkT1C { get; set; }
+                [MSBParamReference(ParamName = "PlayerLight")]
+                public int PlayerLightParamID { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -522,7 +523,8 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int UnkT30 { get; set; }
+                [MSBParamReference(ParamName = "CameraExFollowParam")]
+                public int CameraExFollowParamID { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -535,9 +537,10 @@ namespace SoulsFormats
                 public short UnkT36 { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// Shared identifier. Checked by ESD HitGroup commands.
                 /// </summary>
-                public int UnkT3C { get; set; }
+                [MSBParamReference(ParamName = "HitGroupParam")]
+                public int HitGroupID { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -566,12 +569,12 @@ namespace SoulsFormats
                     UnkT11 = br.ReadByte();
                     UnkT12 = br.ReadByte();
                     FilterParamID = br.ReadByte();
-                    UnkT14 = br.ReadByte();
+                    HitFilterID = br.ReadByte();
                     UnkT15 = br.ReadByte();
                     br.AssertByte(0);
                     UnkT17 = br.ReadByte();
-                    UnkT18 = br.ReadInt32();
-                    UnkT1C = br.ReadInt32();
+                    CameraSfxID = br.ReadInt32();
+                    PlayerLightParamID = br.ReadInt32();
                     UnkT20 = br.ReadInt32();
                     br.AssertInt16(0);
                     UnkT26 = br.ReadByte();
@@ -580,12 +583,12 @@ namespace SoulsFormats
                     UnkT2C = br.ReadByte();
                     br.AssertByte(0);
                     UnkT2E = br.ReadInt16();
-                    UnkT30 = br.ReadInt32();
+                    CameraExFollowParamID = br.ReadInt32();
                     br.AssertByte(0);
                     UnkT35 = br.ReadByte();
                     UnkT36 = br.ReadInt16();
                     br.AssertInt32(0);
-                    UnkT3C = br.ReadInt32();
+                    HitGroupID = br.ReadInt32();
                     UnkT40 = br.ReadByte();
                     br.AssertByte(0);
                     br.AssertByte(0);
@@ -604,12 +607,12 @@ namespace SoulsFormats
                     bw.WriteByte(UnkT11);
                     bw.WriteByte(UnkT12);
                     bw.WriteByte(FilterParamID);
-                    bw.WriteByte(UnkT14);
+                    bw.WriteByte(HitFilterID);
                     bw.WriteByte(UnkT15);
                     bw.WriteByte(0);
                     bw.WriteByte(UnkT17);
-                    bw.WriteInt32(UnkT18);
-                    bw.WriteInt32(UnkT1C);
+                    bw.WriteInt32(CameraSfxID);
+                    bw.WriteInt32(PlayerLightParamID);
                     bw.WriteInt32(UnkT20);
                     bw.WriteInt16(0);
                     bw.WriteByte(UnkT26);
@@ -618,12 +621,12 @@ namespace SoulsFormats
                     bw.WriteByte(UnkT2C);
                     bw.WriteByte(0);
                     bw.WriteInt16(UnkT2E);
-                    bw.WriteInt32(UnkT30);
+                    bw.WriteInt32(CameraExFollowParamID);
                     bw.WriteByte(0);
                     bw.WriteByte(UnkT35);
                     bw.WriteInt16(UnkT36);
                     bw.WriteInt32(0);
-                    bw.WriteInt32(UnkT3C);
+                    bw.WriteInt32(HitGroupID);
                     bw.WriteByte(UnkT40);
                     bw.WriteByte(0);
                     bw.WriteByte(0);

@@ -24,10 +24,10 @@
 795 [GEN:795] Loyce Knight
 796 [GEN:796] Loyce Knight
 797 [GEN:797] Loyce Knight
-907 [GEN:907] Lud, the King's Pet
+907 [GEN:907] Lud- the King's Pet
 908 [GEN:908] Burnt Ivory King
-909 [GEN:909] Aava, the King's Pet
-910 [GEN:910] Aava, the King's Pet
+909 [GEN:909] Aava- the King's Pet
+910 [GEN:910] Aava- the King's Pet
 980 [GEN:980] Forlorn (Scythe)
 1000 [GEN:1000] Spellsword
 1001 [GEN:1001] Spellsword

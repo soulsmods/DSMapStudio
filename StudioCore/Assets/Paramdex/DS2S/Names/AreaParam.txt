@@ -30,7 +30,7 @@
 20620000 E3 Fort of resistance (modern) -- E3抵抗の砦（現代）
 20630000 E3 Iwamine Castle (past) -- E3岩峰城（過去）
 40030000 Dark Chasm of Old
-50350000 Shulva, Sanctum City/Dragon's Sanctum/Dragon's Rest/Cave of the Dead
+50350000 Shulva- Sanctum City/Dragon's Sanctum/Dragon's Rest/Cave of the Dead
 50360000 Brume Tower/Iron Passage/Memory of the Old Iron King
 50370000 Frozen Eleum Loyce/Grand Cathedral/The Old Chaos/Frigid Outskirts
 50380000 Memory of the King

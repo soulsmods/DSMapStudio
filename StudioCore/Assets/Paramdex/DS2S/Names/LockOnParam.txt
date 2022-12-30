@@ -36,14 +36,14 @@
 332000 m20_21 Queen Knight A -- m20_21　王妃の騎士A
 333000 m20_24 Queen Knight B -- m20_24　王妃の騎士B
 500000 m10_17 Javazahat -- m10_17　ジャバザハット
-501000 m10_17, N. Sa. -- m10_17　ナーガ
+501000 m10_17- N. Sa. -- m10_17　ナーガ
 503000 m10_32 Manscorpion ♀ -- m10_32　マンスコーピオン♀
 504000 m20_21 Mirror Night -- m20_21　ミラーナイト
 506100 m40_03 Agaduran Stand -- m40_03　アガドゥランのスタンド
 514600 m20_24 The Old King -- m20_24　年老いた王
 600000 m10_27 The Old Dragon -- m10_27　古の龍
 602000 m20_11 Beautiful Frog -- m20_11　美声カエル
-603000 m10_14 The Spider Queen, the same for the first half. -- m10_14　蜘蛛の女王　前半戦も同じ
+603000 m10_14 The Spider Queen- the same for the first half. -- m10_14　蜘蛛の女王　前半戦も同じ
 607000 m10_19 Iron Daemon -- m10_19　熔鉄デーモン
 611000 m10_31 Heavy Cavalry: Soldiers Only -- m10_31　重騎馬兵：兵士のみ
 619100 m10_23 Silver Chariot -- m10_23　シルバーチャリオット

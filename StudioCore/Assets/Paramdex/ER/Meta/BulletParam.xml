@@ -111,9 +111,9 @@
     <hormingOffsetRange AltName="Homing Offset Range" Wiki="It is accurate if it is 0. At the time of shooting, each component of XYZ should be aimed by shifting this amount." />
     <dmgHitRecordLifeTime AltName="Damage Hit Duration" Wiki="Damage hit history survival time [sec] ( 0.0f: indefinite)" />
     <externalForce AltName="External Force in Bullet Direction" Wiki="External force applied in the direction of shooting. (Y-axis is removed)" />
-    <spEffectIDForShooter AltName="Shooter SpEffect ID" Wiki="Special effects on the person who shot" />
-    <autoSearchNPCThinkID AltName="Bullet AI" Wiki="Parameters used by the funnel to search for the target" />
-    <HitBulletID AltName="Hit Bullet ID" Wiki="Specify the ID when generating a new bullet parameter from the bullet parameter" />
+    <spEffectIDForShooter AltName="Shooter SpEffect ID" Wiki="Special effects on the person who shot" Refs="SpEffectParam" />
+    <autoSearchNPCThinkID AltName="Bullet AI" Wiki="Parameters used by the funnel to search for the target" Refs="NpcThinkParam" />
+    <HitBulletID AltName="Hit Bullet ID" Wiki="Specify the ID when generating a new bullet parameter from the bullet parameter" Refs="Bullet" />
     <spEffectId0 AltName="Target SpEffect ID [0]" Wiki="Register each special effect parameter ID.  General special effects." Refs="SpEffectParam" />
     <spEffectId1 AltName="Target SpEffect ID [1]" Wiki="Register each special effect parameter ID.  General special effects." Refs="SpEffectParam" />
     <spEffectId2 AltName="Target SpEffect ID [2]" Wiki="Register each special effect parameter ID.  General special effects." Refs="SpEffectParam" />

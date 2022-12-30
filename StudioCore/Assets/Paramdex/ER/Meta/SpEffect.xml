@@ -816,7 +816,7 @@ Requires State Info 267" />
     <changeTeamType AltName="Team Type" Wiki="Overwrites the specified team type
 Requires State Info 132" Enum="SP_EFFECT_CHANGE_TEAM_TYPE" />
     <dmypolyId AltName="Bullet Behavior ID - DmyPoly ID" Wiki="Damipoli ID. Damipoli ID range is 0 to 999.1000, 10000 is the category number." />
-    <vfxId AltName="Effect VFX [0]" Wiki="Special effect VfxId (-1 disabled)" />
+    <vfxId AltName="Effect VFX [0]" Wiki="Special effect VfxId (-1 disabled)" Refs="SpEffectVfxParam" />
     <accumuOverFireId AltName="Accumulator - Over Value - SpEffect ID" Wiki="Special effect Id activated at the upper limit of the spirit ball" />
     <accumuOverVal AltName="Accumulator - Over Value" Wiki="Genkitama upper limit" />
     <accumuUnderFireId AltName="Accumulator - Under Value - SpEffect ID" Wiki="Special effect Id activated at the lower limit of the spirit ball" />
@@ -834,7 +834,7 @@ Requires State Info 132" Enum="SP_EFFECT_CHANGE_TEAM_TYPE" />
     <vfxId7 AltName="Effect VFX [7]" Wiki="Special effect VfxId7 (-1 invalid)" Refs="SpEffectVfxParam"/>
     <freezeAttackPower AltName="Aux Inflict +: Frostbite" Wiki="Numerical value to be added to the target [Cold air resistance value] when hit
 Requires State Info 260" />
-    <AppearAiSoundId AltName="Generated AI Sound ID" Wiki="Generates AI sound parameters with set values" />
+    <AppearAiSoundId AltName="Generated AI Sound ID" Wiki="Generates AI sound parameters with set values" Refs="AiSoundParam" />
     <addFootEffectSfxId AltName="Automatic Foot Effect - SFX ID Offset" Wiki="The identifier of the foot effect that is additionally generated during special effects. XYYZZZ ZZZ" Refs="FootSfxParam"/>
     <dexterityCancelSystemOnlyAddDexterity AltName="Cast Speed +" Wiki="Add this value when calculating the end timing of the TAE flag of Skill Cancel." />
     <teamOffenseEffectivity AltName="Team Attack Effectivity" Wiki="Overwrite and change the target [Team Attack Influence] value. Do not change the default value (-1)." />

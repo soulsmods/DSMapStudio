@@ -170,6 +170,92 @@ namespace StudioCore.MsbEditor
         }
 
         /// <summary>
+        /// Reset the rotation of the selected object to 0, 0, 0
+        /// </summary>
+        private void ResetRotationSelection()
+        {
+            var actlist = new List<Action>();
+
+            var selected = _selection.GetFilteredSelection<Entity>();
+            foreach (var s in selected)
+            {
+                var pos = s.GetLocalTransform().Position;
+                var rot_x = 0;
+                var rot_y = 0;
+                var rot_z = 0;
+
+                Transform newRot = new Transform(pos, new Vector3(rot_x, rot_y, rot_z));
+
+                actlist.Add(s.GetUpdateTransformAction(newRot));
+            }
+
+            var action = new CompoundAction(actlist);
+            EditorActionManager.ExecuteAction(action);
+        }
+
+        /// <summary>
+        /// Rotate the selected objects by a fixed amount on the specified axis
+        /// </summary>
+        private void ArbitraryRotation_Selection(int axis_type)
+        {
+            var actlist = new List<Action>();
+
+            var selected = _selection.GetFilteredSelection<Entity>();
+            foreach (var s in selected)
+            {
+
+                var pos = s.GetLocalTransform().Position;
+
+                var rot_x = s.GetLocalTransform().EulerRotation.X;
+                var rot_y = s.GetLocalTransform().EulerRotation.Y;
+                var rot_z = s.GetLocalTransform().EulerRotation.Z;
+
+                if (axis_type == 0)
+                {
+                    float rad = ((float)Math.PI / 180) * CFG.Current.Map_ArbitraryRotation_X_Shift;
+                    rot_x = s.GetLocalTransform().EulerRotation.X + rad;
+                }
+                if (axis_type == 1)
+                {
+                    float rad = ((float)Math.PI / 180) * CFG.Current.Map_ArbitraryRotation_Y_Shift;
+                    rot_y = s.GetLocalTransform().EulerRotation.Y + rad;
+                }
+
+                Transform newRot = new Transform(pos, new Vector3(rot_x, rot_y, rot_z));
+
+                actlist.Add(s.GetUpdateTransformAction(newRot));
+            }
+
+            var action = new CompoundAction(actlist);
+            EditorActionManager.ExecuteAction(action);
+        }
+
+        /// <summary>
+        /// Move current selection to the current camera position
+        /// </summary>
+        private void MoveSelectionToCamera()
+        {
+            var camdir = Vector3.Transform(Vector3.UnitZ, Viewport._worldView.CameraTransform.RotationMatrix);
+            var cam_pos = Viewport._worldView.CameraTransform.Position;
+            var new_pos = cam_pos + (camdir * CFG.Current.Map_MoveSelectionToCamera_Radius);
+
+            var actlist = new List<Action>();
+
+            var selected = _selection.GetFilteredSelection<Entity>();
+            foreach (var s in selected)
+            {
+                var rot = s.GetLocalTransform().EulerRotation;
+
+                Transform newPos = new Transform(new_pos, rot);
+
+                actlist.Add(s.GetUpdateTransformAction(newPos));
+            }
+
+            var action = new CompoundAction(actlist);
+            EditorActionManager.ExecuteAction(action);
+        }
+        
+        /// <summary>
         /// Hides all the selected objects, unless all of them are hidden in which
         /// they will be unhidden
         /// </summary>
@@ -398,6 +484,25 @@ namespace StudioCore.MsbEditor
                 if (ImGui.MenuItem("Goto in Object List", KeyBindings.Current.Map_GotoSelectionInObjectList.HintText, false, _selection.IsSelection()))
                 {
                     GotoSelection();
+                }
+
+                ImGui.Separator(); // Selection options goes below here
+
+                if (ImGui.MenuItem("Reset Rotation", KeyBindings.Current.Map_ResetRotation.HintText, false, _selection.IsSelection()))
+                {
+                    ResetRotationSelection();
+                }
+                if (ImGui.MenuItem("Arbitrary Rotation: X", KeyBindings.Current.Map_ArbitraryRotationX.HintText, false, _selection.IsSelection()))
+                {
+                    ArbitraryRotation_Selection(0);
+                }
+                if (ImGui.MenuItem("Arbitrary Rotation: Y", KeyBindings.Current.Map_ArbitraryRotationY.HintText, false, _selection.IsSelection()))
+                {
+                    ArbitraryRotation_Selection(1);
+                }
+                if (ImGui.MenuItem("Move Selection to Camera", KeyBindings.Current.Map_MoveSelectionToCamera.HintText, false, _selection.IsSelection()))
+                {
+                    MoveSelectionToCamera();
                 }
 
                 ImGui.EndMenu();
@@ -737,6 +842,14 @@ namespace StudioCore.MsbEditor
                 {
                     GotoSelection();
                 }
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Map_ArbitraryRotationX))
+                {
+                    ArbitraryRotation_Selection(0);
+                }
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Map_ArbitraryRotationY))
+                {
+                    ArbitraryRotation_Selection(1);
+                }
                 if (InputTracker.GetKeyDown(KeyBindings.Current.Map_Dummify) && _selection.IsSelection())
                 {
                     UnDummySelection();
@@ -744,6 +857,10 @@ namespace StudioCore.MsbEditor
                 if (InputTracker.GetKeyDown(KeyBindings.Current.Map_UnDummify) && _selection.IsSelection())
                 {
                     DummySelection();
+                }
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Map_MoveSelectionToCamera) && _selection.IsSelection())
+                {
+                    MoveSelectionToCamera();
                 }
 
                 // Render settings

@@ -13,7 +13,7 @@
 600 [GEN:600] Devotee Scarlett
 605 [GEN:605] Bashful Ray
 800 [GEN:800] Covetous Demon
-801 [GEN:801] Mytha, the Baneful Queen
+801 [GEN:801] Mytha- the Baneful Queen
 935 [GEN:935] Forlorn
 1000 [GEN:1000] Undead Supplicant
 1001 [GEN:1001] Undead Supplicant

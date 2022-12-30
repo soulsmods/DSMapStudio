@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
   <Field>
-    <Value VRef="menuValue"/>
+    <Value VRef="menuValue" Vref="menuValue" />
   </Field>
+  <Self />
 </PARAMMETA>

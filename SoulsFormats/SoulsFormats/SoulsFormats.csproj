@@ -1,6 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net6.0-windows</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Copyright>Copyright © Joseph Anderson 2019</Copyright>
     <Description>A .NET library for reading and writing FromSoftware file formats.</Description>
@@ -8,6 +7,8 @@
     <Authors>Joseph Anderson</Authors>
     <PackageProjectUrl>https://github.com/JKAnderson/SoulsFormats</PackageProjectUrl>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <TargetFramework>net7.0-windows</TargetFramework>
+    <LangVersion>11</LangVersion>
   </PropertyGroup>
 
   <ItemGroup Condition="$(TargetFramework.StartsWith('netstandard'))">
