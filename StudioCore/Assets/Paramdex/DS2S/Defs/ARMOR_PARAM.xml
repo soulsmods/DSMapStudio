@@ -13,8 +13,8 @@
     <Field Def="u8 Unk07" />
     <Field Def="u32 Model ID" />
     <Field Def="u8 Is Gendered Armor" />
-	<Field Def="u8 UnkC1" />
-	<Field Def="s16 UnkC2" />
+    <Field Def="u8 UnkC1" />
+    <Field Def="s16 UnkC2" />
     <Field Def="u32 Equip Interfere ID" />
     <Field Def="s32 Unk14" />
     <Field Def="u32 Armor Reinforce ID" />
