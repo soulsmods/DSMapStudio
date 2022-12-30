@@ -1400,19 +1400,23 @@ namespace StudioCore.MsbEditor
             }
         }
 
-        public void UnloadMap(Map map)
+        public void UnloadContainer(ObjectContainer container, bool clearFromList = false)
         {
-            if (LoadedObjectContainers.ContainsKey(map.Name))
+            if (LoadedObjectContainers.ContainsKey(container.Name))
             {
-                foreach (var obj in map.Objects)
+                foreach (var obj in container.Objects)
                 {
                     if (obj != null)
                     {
                         obj.Dispose();
                     }
                 }
-                map.Clear();
-                LoadedObjectContainers[map.Name] = null;
+                container.Clear();
+                LoadedObjectContainers[container.Name] = null;
+                if (clearFromList)
+                {
+                    LoadedObjectContainers.Remove(container.Name);
+                }
             }
         }
 
@@ -1430,8 +1434,24 @@ namespace StudioCore.MsbEditor
             {
                 if (un is Map ma)
                 {
-                    UnloadMap(ma);
+                    UnloadContainer(ma);
                 }
+            }
+        }
+
+        public void UnloadAll(bool clearFromList = false)
+        {
+            List<ObjectContainer> toUnload = new List<ObjectContainer>();
+            foreach (var key in LoadedObjectContainers.Keys)
+            {
+                if (LoadedObjectContainers[key] != null)
+                {
+                    toUnload.Add(LoadedObjectContainers[key]);
+                }
+            }
+            foreach (var un in toUnload)
+            {
+                UnloadContainer(un, clearFromList);
             }
         }
 

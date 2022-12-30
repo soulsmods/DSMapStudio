@@ -957,7 +957,7 @@ namespace StudioCore.MsbEditor
                                     {
                                         if (ImGui.Selectable("Unload Map"))
                                         {
-                                            firstEnt.Universe.UnloadMap(map);
+                                            firstEnt.Universe.UnloadContainer(map);
                                         }
                                     }
                                     ImGui.EndPopup();

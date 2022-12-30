@@ -314,6 +314,7 @@ namespace StudioCore.MsbEditor
                 var r = _flverhandle.Get();
                 if (r.Flver != null)
                 {
+                    _universe.UnloadAll(true);
                     _universe.LoadFlver(r.Flver, _renderMesh, _currentModel);
                 }
             }
