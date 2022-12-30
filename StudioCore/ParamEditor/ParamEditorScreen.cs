@@ -106,8 +106,6 @@ namespace StudioCore.ParamEditor
         internal ParamEditorView _activeView;
 
         // Clipboard vars
-        private string _clipboardParam = null;
-        private List<Param.Row> _clipboardRows = new List<Param.Row>();
         private long _clipboardBaseRow = 0;
         private string _currentCtrlVValue = "0";
         private string _currentCtrlVOffset = "0";
@@ -291,7 +289,7 @@ namespace StudioCore.ParamEditor
                 {
                     CopySelectionToClipboard();
                 }
-                if (ImGui.MenuItem("Paste", KeyBindings.Current.Param_Paste.HintText, false, _clipboardRows.Any()))
+                if (ImGui.MenuItem("Paste", KeyBindings.Current.Param_Paste.HintText, false, ParamBank.ClipboardRows.Any()))
                 {
                     EditorCommandQueue.AddCommand($@"param/menu/ctrlVPopup");
                 }
@@ -715,13 +713,13 @@ namespace StudioCore.ParamEditor
 
         public void CopySelectionToClipboard()
         {
-            _clipboardParam = _activeView._selection.getActiveParam();
-            _clipboardRows.Clear();
+            ParamBank.ClipboardParam = _activeView._selection.getActiveParam();
+            ParamBank.ClipboardRows.Clear();
             long baseValue = long.MaxValue;
             _activeView._selection.sortSelection();
             foreach (Param.Row r in _activeView._selection.getSelectedRows())
             {
-                _clipboardRows.Add(new Param.Row(r));// make a clone
+                ParamBank.ClipboardRows.Add(new Param.Row(r));// make a clone
                 if (r.ID < baseValue)
                     baseValue = r.ID;
             }
@@ -791,6 +789,7 @@ namespace StudioCore.ParamEditor
                 }
                 ImGui.Text(_mEditRegexResult);
                 ImGui.InputTextMultiline("##MEditRegexOutput", ref _lastMEditRegexInput, 65536, new Vector2(1024, ImGui.GetTextLineHeightWithSpacing() * 4) * scale, ImGuiInputTextFlags.ReadOnly);
+                ImGui.TextUnformatted("Remember to handle clipboard state between edits with the 'clear' command");
                 ImGui.EndPopup();
             }
             else if (ImGui.BeginPopup("massEditMenuCSVExport"))
@@ -862,8 +861,8 @@ namespace StudioCore.ParamEditor
                 }
                 if (!ImGui.IsAnyItemActive() && _activeView._selection.paramSelectionExists() && InputTracker.GetKeyDown(KeyBindings.Current.Param_SelectAll))
                 {
-                    _clipboardParam = _activeView._selection.getActiveParam();
-                    foreach (Param.Row row in CacheBank.GetCached(this, (_activeView._viewIndex, _activeView._selection.getActiveParam()), () =>RowSearchEngine.rse.Search(ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()], _activeView._selection.getCurrentRowSearchString(), true, true)))
+                    ParamBank.ClipboardParam = _activeView._selection.getActiveParam();
+                    foreach (Param.Row row in CacheBank.GetCached(this, (_activeView._viewIndex, _activeView._selection.getActiveParam()), () =>RowSearchEngine.rse.Search((ParamBank.PrimaryBank, ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()]), _activeView._selection.getCurrentRowSearchString(), true, true)))
 
                         _activeView._selection.addRowToSelection(row);
                 }
@@ -871,7 +870,7 @@ namespace StudioCore.ParamEditor
                 {
                     CopySelectionToClipboard();
                 }
-                if (_clipboardRows.Count > 00 && _clipboardParam == _activeView._selection.getActiveParam() && !ImGui.IsAnyItemActive() && InputTracker.GetKeyDown(KeyBindings.Current.Param_Paste))
+                if (ParamBank.ClipboardRows.Count > 00 && ParamBank.ClipboardParam == _activeView._selection.getActiveParam() && !ImGui.IsAnyItemActive() && InputTracker.GetKeyDown(KeyBindings.Current.Param_Paste))
                 {
                     ImGui.OpenPopup("ctrlVPopup");
                 }
@@ -930,9 +929,7 @@ namespace StudioCore.ParamEditor
                     {
                         doFocus = initcmd[0] == "select";
                         if (_activeView._selection.getActiveRow() != null && !ParamBank.VanillaBank.IsLoadingParams)
-                            ParamBank.RefreshParamRowDiffCache(_activeView._selection.getActiveRow(),
-                                ParamBank.VanillaBank.Params.GetValueOrDefault(_activeView._selection.getActiveParam()),
-                                ParamBank.PrimaryBank.VanillaDiffCache.GetValueOrDefault(_activeView._selection.getActiveParam()));
+                            ParamBank.PrimaryBank.RefreshParamRowVanillaDiff(_activeView._selection.getActiveRow(), _activeView._selection.getActiveParam());
 
                         ParamEditorView viewToMofidy = _activeView;
                         if (initcmd[1].Equals("new"))
@@ -962,9 +959,7 @@ namespace StudioCore.ParamEditor
                             }
                         }
                         if (_activeView._selection.getActiveRow() != null && !ParamBank.VanillaBank.IsLoadingParams)
-                            ParamBank.RefreshParamRowDiffCache(_activeView._selection.getActiveRow(),
-                                ParamBank.VanillaBank.Params.GetValueOrDefault(_activeView._selection.getActiveParam()),
-                                ParamBank.PrimaryBank.VanillaDiffCache.GetValueOrDefault(_activeView._selection.getActiveParam()));
+                            ParamBank.PrimaryBank.RefreshParamRowVanillaDiff(_activeView._selection.getActiveRow(), _activeView._selection.getActiveParam());
 
                     }
                 }
@@ -1092,7 +1087,7 @@ namespace StudioCore.ParamEditor
                         List<Param.Row> rowsToInsert = new List<Param.Row>();
                         if (!CFG.Current.Param_PasteAfterSelection)
                         {
-                            foreach (Param.Row r in _clipboardRows)
+                            foreach (Param.Row r in ParamBank.ClipboardRows)
                             {
                                 Param.Row newrow = new Param.Row(r);// more cloning
                                 newrow.ID = (int)(r.ID + offset);
@@ -1104,7 +1099,7 @@ namespace StudioCore.ParamEditor
                             List<Param.Row> rows = _activeView._selection.getSelectedRows();
                             Param param = ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()];
                             insertIndex = param.IndexOfRow(rows.Last()) + 1;
-                            foreach (Param.Row r in _clipboardRows)
+                            foreach (Param.Row r in ParamBank.ClipboardRows)
                             {
                                 // Determine new ID based on paste target. Increment ID until a free ID is found.
                                 Param.Row newrow = new Param.Row(r);
@@ -1119,7 +1114,7 @@ namespace StudioCore.ParamEditor
                             // Do a clever thing by reversing order, making ID order incremental and resulting in row insertion being in the correct order because of the static index.
                             rowsToInsert.Reverse();
                         }
-                        EditorActionManager.ExecuteAction(new AddParamsAction(ParamBank.PrimaryBank.Params[_clipboardParam], "legacystring", rowsToInsert, false, false, insertIndex));
+                        EditorActionManager.ExecuteAction(new AddParamsAction(ParamBank.PrimaryBank.Params[ParamBank.ClipboardParam], "legacystring", rowsToInsert, false, false, insertIndex));
                         ImGui.CloseCurrentPopup();
                     }
                 }
@@ -1170,6 +1165,11 @@ namespace StudioCore.ParamEditor
         public int CountViews()
         {
             return _views.Where(e => e != null).Count();
+        }
+
+        public (string, List<Param.Row>) GetActiveSelection()
+        {
+            return (_activeView?._selection?.getActiveParam(), _activeView?._selection?.getSelectedRows());
         }
 
         public override void OnProjectChanged(ProjectSettings newSettings)
@@ -1452,7 +1452,7 @@ namespace StudioCore.ParamEditor
 
             List<string> paramKeyList = CacheBank.GetCached(this._paramEditor, _viewIndex, () => {
                 var list = ParamSearchEngine.pse.Search(true, _selection.currentParamSearchString, true, true);
-                var keyList = list.Select((param) => ParamBank.PrimaryBank.GetKeyForParam(param)).ToList();
+                var keyList = list.Where((param) => param.Item1 == ParamBank.PrimaryBank).Select((param) => ParamBank.PrimaryBank.GetKeyForParam(param.Item2)).ToList();
 
                 if (ParamBank.PrimaryBank.AssetLocator.Type is GameType.DemonsSouls
                     or GameType.DarkSoulsPTDE
@@ -1532,8 +1532,8 @@ namespace StudioCore.ParamEditor
             else
             {
                 Param para = ParamBank.PrimaryBank.Params[activeParam];
-                HashSet<int> vanillaDiffCache = ParamBank.PrimaryBank.VanillaDiffCache[activeParam];
-                List<(HashSet<int>, HashSet<int>)> auxDiffCaches = ParamBank.AuxBanks.Select((bank, i) => (bank.Value.VanillaDiffCache[activeParam], bank.Value.PrimaryDiffCache[activeParam])).ToList();
+                HashSet<int> vanillaDiffCache = ParamBank.PrimaryBank.GetVanillaDiffRows(activeParam);
+                List<(HashSet<int>, HashSet<int>)> auxDiffCaches = ParamBank.AuxBanks.Select((bank, i) => (bank.Value.GetVanillaDiffRows(activeParam), bank.Value.GetPrimaryDiffRows(activeParam))).ToList();
                 IParamDecorator decorator = null;
                 if (_paramEditor._decorators.ContainsKey(activeParam))
                 {
@@ -1613,7 +1613,7 @@ namespace StudioCore.ParamEditor
                 }
 
                 ImGui.BeginChild("rows" + activeParam);
-                List<Param.Row> rows = CacheBank.GetCached(this._paramEditor, (_viewIndex, activeParam), () => RowSearchEngine.rse.Search(para, _selection.getCurrentRowSearchString(), true, true));
+                List<Param.Row> rows = CacheBank.GetCached(this._paramEditor, (_viewIndex, activeParam), () => RowSearchEngine.rse.Search((ParamBank.PrimaryBank, para), _selection.getCurrentRowSearchString(), true, true));
 
                 bool enableGrouping = !CFG.Current.Param_DisableRowGrouping && ParamMetaData.Get(ParamBank.PrimaryBank.Params[activeParam].AppliedParamdef).ConsecutiveIDs;
 
@@ -1656,7 +1656,7 @@ namespace StudioCore.ParamEditor
                     ParamBank.PrimaryBank,
                     activeRow,
                     vanillaParam?[activeRow.ID],
-                    ParamBank.AuxBanks.Select((bank, i) => (bank.Key, bank.Value.Params?[activeParam][activeRow.ID])).ToList(),
+                    ParamBank.AuxBanks.Select((bank, i) => (bank.Key, bank.Value.Params?.GetValueOrDefault(activeParam)?[activeRow.ID])).ToList(),
                     _selection.getCompareRow(),
                     ref _selection.getCurrentPropSearchString(),
                     activeParam,
@@ -1667,7 +1667,7 @@ namespace StudioCore.ParamEditor
 
         private void RowColumnEntry(string activeParam, List<Param.Row> p, Param.Row r, HashSet<int> vanillaDiffCache, List<(HashSet<int>, HashSet<int>)> auxDiffCaches, IParamDecorator decorator, ref float scrollTo, bool doFocus, bool isPinned)
         {
-            bool diffVanilla = vanillaDiffCache != null && vanillaDiffCache.Contains(r.ID);
+            bool diffVanilla = vanillaDiffCache.Contains(r.ID);
             bool auxDiffVanilla = auxDiffCaches.Where((cache) => cache.Item1.Contains(r.ID)).Count() > 0;
             if (diffVanilla)
             {

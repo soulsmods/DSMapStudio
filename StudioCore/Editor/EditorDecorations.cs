@@ -308,7 +308,7 @@ namespace StudioCore.Editor
                         continue;
                     ParamMetaData meta = ParamMetaData.Get(bank.Params[rt].AppliedParamdef);
                     int maxResultsPerRefType = 15 / reftypes.Count;
-                    List<Param.Row> rows = RowSearchEngine.rse.Search(bank.Params[rt], _refContextCurrentAutoComplete, true, true);
+                    List<Param.Row> rows = RowSearchEngine.rse.Search((bank, bank.Params[rt]), _refContextCurrentAutoComplete, true, true);
                     foreach (Param.Row r in rows)
                     {
                         if (maxResultsPerRefType <= 0)
