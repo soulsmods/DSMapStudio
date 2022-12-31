@@ -512,6 +512,7 @@ namespace StudioCore.ParamEditor
                     }
                     if (field.Equals("Name"))
                     {
+                        // 'onlyAffectEmptyNames' argument check is exclusively relevant for "Import Row Names" function at the moment.
                         if (!value.Equals(row.Name) && (onlyAffectEmptyNames == false || string.IsNullOrEmpty(row.Name)))
                             actions.Add(new PropertiesChangedAction(row.GetType().GetProperty("Name"), -1, row, value));
                     }
