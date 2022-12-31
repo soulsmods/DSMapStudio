@@ -24,7 +24,7 @@ namespace StudioCore.ParamEditor
         public static ParamBank VanillaBank = new ParamBank();
         public static Dictionary<string, ParamBank> AuxBanks = new Dictionary<string, ParamBank>();
 
-        
+
         public static string ClipboardParam = null;
         public static List<Param.Row> ClipboardRows = new List<Param.Row>();
 
@@ -40,7 +40,7 @@ namespace StudioCore.ParamEditor
         private Dictionary<string, HashSet<int>> _primaryDiffCache = null; //If param != primaryparam
 
         private bool _pendingUpgrade = false;
-        
+
         public static bool IsDefsLoaded { get; private set; } = false;
         public static bool IsMetaLoaded { get; private set; } = false;
         public bool IsLoadingParams { get; private set; } = false;
@@ -62,7 +62,7 @@ namespace StudioCore.ParamEditor
         {
             get => _paramVersion;
         }
-        
+
         public IReadOnlyDictionary<string, HashSet<int>> VanillaDiffCache
         {
             get
@@ -72,8 +72,8 @@ namespace StudioCore.ParamEditor
                     return null;
                 }
                 {
-                if (VanillaBank == this)
-                    return null;
+                    if (VanillaBank == this)
+                        return null;
                 }
                 return _vanillaDiffCache;
             }
@@ -87,8 +87,8 @@ namespace StudioCore.ParamEditor
                     return null;
                 }
                 {
-                if (PrimaryBank == this)
-                    return null;
+                    if (PrimaryBank == this)
+                        return null;
                 }
                 return _primaryDiffCache;
             }
@@ -107,7 +107,7 @@ namespace StudioCore.ParamEditor
                 _paramdefs.Add(pdef.ParamType, pdef);
                 defPairs.Add((f, pdef));
             }
-            
+
             // Load patch paramdefs
             var patches = assetLocator.GetParamdefPatches();
             foreach (var patch in patches)
@@ -125,7 +125,7 @@ namespace StudioCore.ParamEditor
                     _patchParamdefs[pdef.ParamType].Add(patch, pdef);
                 }
             }
-            
+
             return defPairs;
         }
 
@@ -139,18 +139,21 @@ namespace StudioCore.ParamEditor
             }
         }
 
-        public CompoundAction LoadParamDefaultNames()
+        public CompoundAction LoadParamDefaultNames(string param = null, bool onlyAffectEmptyNames = false)
         {
-            var dir = AssetLocator.GetParamNamesDir();
-            var files = Directory.GetFiles(dir, "*.txt");
-            List<EditorAction> actions = new List<EditorAction>();
-            foreach (var f in files)
+            string dir = AssetLocator.GetParamNamesDir();
+            string[] files = param == null ? Directory.GetFiles(dir, "*.txt") : new[]
+            {
+                Path.Combine(dir, $"{param}.txt"),
+            };
+            var actions = new List<EditorAction>();
+            foreach (string f in files)
             {
                 string fName = Path.GetFileNameWithoutExtension(f);
                 if (!_params.ContainsKey(fName))
                     continue;
                 string names = File.ReadAllText(f);
-                (MassEditResult r, CompoundAction a) = MassParamEditCSV.PerformSingleMassEdit(this, names, fName, "Name", ' ', true);
+                (MassEditResult r, CompoundAction a) = MassParamEditCSV.PerformSingleMassEdit(this, names, fName, "Name", ' ', true, onlyAffectEmptyNames);
                 if (r.Type != MassEditResultType.SUCCESS)
                     continue;
                 actions.Add(a);
@@ -172,7 +175,7 @@ namespace StudioCore.ParamEditor
             {
                 throw new Exception($@"Failed to get regulation version. Params might be corrupt.");
             }
-            
+
             // Load every param in the regulation
             // _params = new Dictionary<string, PARAM>();
             foreach (var f in parambnd.Files)
@@ -194,7 +197,7 @@ namespace StudioCore.ParamEditor
                 {
                     continue;
                 }
-                
+
                 // Try to fixup Elden Ring ChrModelParam for ER 1.06 because many have been saving botched params and
                 // it's an easy fixup
                 if (AssetLocator.Type == GameType.EldenRing &&
@@ -228,10 +231,10 @@ namespace StudioCore.ParamEditor
                     p.ApplyParamdef(def);
                     paramBank.Add(Path.GetFileNameWithoutExtension(f.Name), p);
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     var name = f.Name.Split("\\").Last();
-                    TaskManager.warningList.TryAdd($"{name} DefFail",$"Could not apply ParamDef for {name}");
+                    TaskManager.warningList.TryAdd($"{name} DefFail", $"Could not apply ParamDef for {name}");
                 }
             }
         }
@@ -540,7 +543,7 @@ namespace StudioCore.ParamEditor
             // Load loose params
             List<string> scandir = new List<string>();
             scandir.Add($@"{AssetLocator.GameRootDirectory}\Param");
-            
+
             LoadParamsDS2FromFile(scandir, $@"{AssetLocator.GameRootDirectory}\enc_regulation.bnd.dcx", $@"{AssetLocator.GameRootDirectory}\Param\EnemyParam.param");
         }
         private void LoadParamsDS2FromFile(List<string> loosedir, string path, string enemypath)
@@ -709,12 +712,12 @@ namespace StudioCore.ParamEditor
 
             _paramdefs = new Dictionary<string, PARAMDEF>();
             IsDefsLoaded = false;
-            
+
             AuxBanks = new Dictionary<string, ParamBank>();
-            
+
             PrimaryBank._params = new Dictionary<string, Param>();
             PrimaryBank.IsLoadingParams = true;
-            
+
             CacheBank.ClearCaches();
 
             TaskManager.Run("PB:LoadParams", true, false, false, () =>
@@ -798,7 +801,7 @@ namespace StudioCore.ParamEditor
 
                     TaskManager.Run("PB:RefreshDirtyCache", true, false, false, () => PrimaryBank.RefreshParamDiffCaches());
                 });
-                
+
                 if (options != null)
                 {
                     if (options.loadDefaultNames)
@@ -835,7 +838,10 @@ namespace StudioCore.ParamEditor
             }
             else if (locator.Type == GameType.DarkSoulsIISOTFS)
             {
-                newBank.LoadParamsDS2FromFile(new List<string>{looseDir}, path, enemyPath);
+                newBank.LoadParamsDS2FromFile(new List<string>
+                {
+                    looseDir
+                }, path, enemyPath);
             }
             else if (locator.Type == GameType.DarkSoulsRemastered)
             {
@@ -885,13 +891,13 @@ namespace StudioCore.ParamEditor
                 Param p = _params[param];
                 if (!otherBank._params.ContainsKey(param))
                 {
-                    Console.WriteLine("Missing vanilla param "+param);
+                    Console.WriteLine("Missing vanilla param " + param);
                     continue;
                 }
 
                 var rows = _params[param].Rows.OrderBy(r => r.ID).ToArray();
                 var vrows = otherBank._params[param].Rows.OrderBy(r => r.ID).ToArray();
-                
+
                 var vanillaIndex = 0;
                 int lastID = -1;
                 ReadOnlySpan<Param.Row> lastVanillaRows = default;
@@ -945,7 +951,7 @@ namespace StudioCore.ParamEditor
             else
                 VanillaDiffCache[param].Remove(row.ID);
         }
-        
+
         private static bool IsChanged(Param.Row row, ReadOnlySpan<Param.Row> vanillaRows)
         {
             //List<Param.Row> vanils = vanilla.Rows.Where(cell => cell.ID == row.ID).ToList();
@@ -956,7 +962,7 @@ namespace StudioCore.ParamEditor
             foreach (Param.Row vrow in vanillaRows)
             {
                 if (ParamUtils.RowMatches(row, vrow))
-                    return false;//if we find a matching vanilla row
+                    return false; //if we find a matching vanilla row
             }
             return true;
         }
@@ -1300,7 +1306,7 @@ namespace StudioCore.ParamEditor
                 Utils.WriteWithBackup(dir, mod, naParamPath, paramBnd);
             }
             Utils.WriteWithBackup(dir, mod, $@"param\gameparam\gameparam.parambnd.dcx", paramBnd);
-            
+
             // Decompressed
             paramBnd.Compression = DCX.Type.None;
             naParamPath = $@"param\gameparam\gameparamna.parambnd";
@@ -1365,7 +1371,7 @@ namespace StudioCore.ParamEditor
                     List<Param.Row> changed = new List<Param.Row>();
                     if (partial)
                     {
-                        TaskManager.WaitAll();//wait on dirtycache update
+                        TaskManager.WaitAll(); //wait on dirtycache update
                         HashSet<int> dirtyCache = _vanillaDiffCache[Path.GetFileNameWithoutExtension(p.Name)];
                         foreach (Param.Row row in paramFile.Rows)
                         {
@@ -1434,13 +1440,13 @@ namespace StudioCore.ParamEditor
             NameChange,
             Match,
         }
-        
+
         private static Param UpgradeParam(Param source, Param oldVanilla, Param newVanilla, HashSet<int> rowConflicts)
         {
             // Presorting this would make it easier, but we're trying to preserve order as much as possible
             // Unfortunately given that rows aren't guaranteed to be sorted and there can be duplicate IDs,
             // we try to respect the existing order and IDs as much as possible.
-            
+
             // In order to assemble the final param, the param needs to know where to sort rows from given the
             // following rules:
             // 1. If a row with a given ID is unchanged from source to oldVanilla, we source from newVanilla
@@ -1460,7 +1466,7 @@ namespace StudioCore.ParamEditor
 
             // List of rows that only had the name changed
             Dictionary<int, List<Param.Row>> renamedRows = new Dictionary<int, List<Param.Row>>(source.Rows.Count);
-            
+
             // List of ordered edit operations for each ID
             Dictionary<int, List<EditOperation>> editOperations = new Dictionary<int, List<EditOperation>>(source.Rows.Count);
 
@@ -1471,7 +1477,7 @@ namespace StudioCore.ParamEditor
                     addedRows.Add(row.ID, new List<Param.Row>());
                 addedRows[row.ID].Add(row);
             }
-            
+
             // Next we go through oldVanilla to determine if a row is added, deleted, modified, or unmodified
             foreach (var row in oldVanilla.Rows)
             {
@@ -1486,10 +1492,10 @@ namespace StudioCore.ParamEditor
                     editOperations[row.ID].Add(EditOperation.Delete);
                     continue;
                 }
-                
+
                 // Otherwise the row exists in source. Time to classify it.
                 var list = addedRows[row.ID];
-                
+
                 // First we see if we match the first target row. If so we can remove it.
                 if (row.DataEquals(list[0]))
                 {
@@ -1499,7 +1505,7 @@ namespace StudioCore.ParamEditor
                         addedRows.Remove(row.ID);
                     if (!editOperations.ContainsKey(row.ID))
                         editOperations.Add(row.ID, new List<EditOperation>());
-                    
+
                     // See if the name was not updated
                     if ((modrow.Name == null && row.Name == null) ||
                         (modrow.Name != null && row.Name != null && modrow.Name == row.Name))
@@ -1507,16 +1513,16 @@ namespace StudioCore.ParamEditor
                         editOperations[row.ID].Add(EditOperation.Match);
                         continue;
                     }
-                    
+
                     // Name was updated
                     editOperations[row.ID].Add(EditOperation.NameChange);
                     if (!renamedRows.ContainsKey(row.ID))
                         renamedRows.Add(row.ID, new List<Param.Row>());
                     renamedRows[row.ID].Add(modrow);
-                    
+
                     continue;
                 }
-                
+
                 // Otherwise it is modified
                 if (!modifiedRows.ContainsKey(row.ID))
                     modifiedRows.Add(row.ID, new List<Param.Row>());
@@ -1528,7 +1534,7 @@ namespace StudioCore.ParamEditor
                     editOperations.Add(row.ID, new List<EditOperation>());
                 editOperations[row.ID].Add(EditOperation.Modify);
             }
-            
+
             // Mark all remaining rows as added
             foreach (var entry in addedRows)
             {
@@ -1539,7 +1545,7 @@ namespace StudioCore.ParamEditor
             }
 
             Param dest = new Param(newVanilla);
-            
+
             // Now try to build the destination from the new regulation with the edit operations in mind
             var pendingAdds = addedRows.Keys.OrderBy(e => e).ToArray();
             int currPendingAdd = 0;
@@ -1547,9 +1553,9 @@ namespace StudioCore.ParamEditor
             foreach (var row in newVanilla.Rows)
             {
                 // See if we have any pending adds we can slot in
-                while (currPendingAdd < pendingAdds.Length && 
-                       pendingAdds[currPendingAdd] >= lastID && 
-                       pendingAdds[currPendingAdd] < row.ID)
+                while (currPendingAdd < pendingAdds.Length &&
+                    pendingAdds[currPendingAdd] >= lastID &&
+                    pendingAdds[currPendingAdd] < row.ID)
                 {
                     if (!addedRows.ContainsKey(pendingAdds[currPendingAdd]))
                     {
@@ -1567,7 +1573,7 @@ namespace StudioCore.ParamEditor
                 }
 
                 lastID = row.ID;
-                
+
                 if (!editOperations.ContainsKey(row.ID))
                 {
                     // No edit operations for this ID, so just add it (likely a new row in the update)
@@ -1622,14 +1628,14 @@ namespace StudioCore.ParamEditor
                         renamedRows.Remove(row.ID);
                 }
             }
-            
+
             // Take care of any more pending adds
             for (; currPendingAdd < pendingAdds.Length; currPendingAdd++)
             {
                 // If the pending add doesn't exist in the added rows list, it was a conflicting row
                 if (!addedRows.ContainsKey(pendingAdds[currPendingAdd]))
                     continue;
-                
+
                 foreach (var arow in addedRows[pendingAdds[currPendingAdd]])
                 {
                     dest.AddRow(new Param.Row(arow, dest));
@@ -1643,7 +1649,7 @@ namespace StudioCore.ParamEditor
         }
 
         // Param upgrade. Currently for Elden Ring only.
-        public ParamUpgradeResult UpgradeRegulation(ParamBank vanillaBank, string oldVanillaParamPath, 
+        public ParamUpgradeResult UpgradeRegulation(ParamBank vanillaBank, string oldVanillaParamPath,
             Dictionary<string, HashSet<int>> conflictingParams)
         {
             // First we need to load the old regulation
@@ -1668,23 +1674,23 @@ namespace StudioCore.ParamEditor
                     updatedParams.Add(k, vanillaBank.Params[k]);
                     continue;
                 }
-                
+
                 // Otherwise try to upgrade
                 var conflicts = new HashSet<int>();
                 var res = UpgradeParam(Params[k], oldVanillaParams[k], vanillaBank.Params[k], conflicts);
                 updatedParams.Add(k, res);
-                
+
                 if (conflicts.Count > 0)
                     conflictingParams.Add(k, conflicts);
             }
-            
+
             ulong oldVersion = _paramVersion;
 
             // Set new params
             _params = updatedParams;
             _paramVersion = VanillaBank.ParamVersion;
             _pendingUpgrade = true;
-            
+
             // Refresh dirty cache
             CacheBank.ClearCaches();
             RefreshParamDiffCaches();
@@ -1699,14 +1705,12 @@ namespace StudioCore.ParamEditor
             if (AssetLocator.Type == GameType.EldenRing)
             {
                 // Note these all use modified as any unmodified row already matches the target. This only fails if a mod pre-empts fromsoft's exact change.
-                paramUpgradeTasks = new (ulong, string, string)[]{
-                    (10701000l, "1.07 - (SwordArtsParam) Move swordArtsType to swordArtsTypeNew", "param SwordArtsParam: modified: swordArtsTypeNew: = field swordArtsType;"),
-                    (10701000l, "1.07 - (SwordArtsParam) Set swordArtsType to 0", "param SwordArtsParam: modified && notadded: swordArtsType: = 0;"),
-                    (10701000l, "1.07 - (AtkParam PC/NPC) Set added finalAttackDamageRate refs to -1", "param AtkParam_(Pc|Npc): modified && added: finalDamageRateId: = -1;"),
-                    (10701000l, "1.07 - (AtkParam PC/NPC) Set notadded finalAttackDamageRate refs to vanilla", "param AtkParam_(Pc|Npc): modified && notadded: finalDamageRateId: = vanillafield finalDamageRateId;"),
+                paramUpgradeTasks = new (ulong, string, string)[]
+                {
+                    (10701000l, "1.07 - (SwordArtsParam) Move swordArtsType to swordArtsTypeNew", "param SwordArtsParam: modified: swordArtsTypeNew: = field swordArtsType;"), (10701000l, "1.07 - (SwordArtsParam) Set swordArtsType to 0", "param SwordArtsParam: modified && notadded: swordArtsType: = 0;"),
+                    (10701000l, "1.07 - (AtkParam PC/NPC) Set added finalAttackDamageRate refs to -1", "param AtkParam_(Pc|Npc): modified && added: finalDamageRateId: = -1;"), (10701000l, "1.07 - (AtkParam PC/NPC) Set notadded finalAttackDamageRate refs to vanilla", "param AtkParam_(Pc|Npc): modified && notadded: finalDamageRateId: = vanillafield finalDamageRateId;"),
                     (10701000l, "1.07 - (AssetEnvironmentGeometryParam) Set reserved_124 to Vanilla v1.07 values", "param GameSystemCommonParam: modified && notadded: reserved_124: = vanillafield reserved_124;"),
-                    (10701000l, "1.07 - (AssetEnvironmentGeometryParam) Set reserved41 to Vanilla v1.07 values", "param PlayerCommonParam: modified: reserved41: = vanillafield reserved41;"),
-                    (10701000l, "1.07 - (AssetEnvironmentGeometryParam) Set Reserve_1 to Vanilla v1.07 values", "param AssetEnvironmentGeometryParam: modified: Reserve_1: = vanillafield Reserve_1;"),
+                    (10701000l, "1.07 - (AssetEnvironmentGeometryParam) Set reserved41 to Vanilla v1.07 values", "param PlayerCommonParam: modified: reserved41: = vanillafield reserved41;"), (10701000l, "1.07 - (AssetEnvironmentGeometryParam) Set Reserve_1 to Vanilla v1.07 values", "param AssetEnvironmentGeometryParam: modified: Reserve_1: = vanillafield Reserve_1;"),
                     (10701000l, "1.07 - (AssetEnvironmentGeometryParam) Set Reserve_2 to Vanilla v1.07 values", "param AssetEnvironmentGeometryParam: modified: Reserve_2: = vanillafield Reserve_2;"),
                     (10701000l, "1.07 - (AssetEnvironmentGeometryParam) Set Reserve_3 to Vanilla v1.07 values", "param AssetEnvironmentGeometryParam: modified: Reserve_3: = vanillafield Reserve_3;"),
                     (10701000l, "1.07 - (AssetEnvironmentGeometryParam) Set Reserve_4 to Vanilla v1.07 values", "param AssetEnvironmentGeometryParam: modified: Reserve_4: = vanillafield Reserve_4;"),
@@ -1726,10 +1730,11 @@ namespace StudioCore.ParamEditor
                 // Don't bother updating modified cache between edits
                 if (version <= startVersion || version > endVersion)
                     continue;
-                
+
                 if (!hasFailed)
                 {
-                    try {
+                    try
+                    {
                         var (result, actions) = MassParamEditRegex.PerformMassEdit(this, command, null);
                         if (result.Type != MassEditResultType.SUCCESS)
                             hasFailed = true;
