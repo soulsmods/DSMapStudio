@@ -478,11 +478,11 @@ namespace StudioCore.ParamEditor
                 }
                 if (ImGui.BeginMenu("Import Row Names"))
                 {
-                    void ImportRowNames(bool currentParamOnly)
+                    void ImportRowNames(bool currentParamOnly, string title)
                     {
                         const string importRowQuestion = $"Would you like to replace row names with default names defined within DSMapStudio?\n\nSelect \"Yes\" to replace all names, \"No\" to only replace empty names, \"Cancel\" to abort.";
                         string currentParam = currentParamOnly ? _activeView._selection.getActiveParam() : null;
-                        DialogResult question = MessageBox.Show(importRowQuestion, "Replace all rows?", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                        DialogResult question = MessageBox.Show(importRowQuestion, title, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
                         switch (question)
                         {
                             case DialogResult.Yes:
@@ -497,14 +497,14 @@ namespace StudioCore.ParamEditor
                     if (ImGui.MenuItem("All", "", false, ParamBank.PrimaryBank.Params != null))
                     {
                         try {
-                            ImportRowNames(false);
+                            ImportRowNames(false, "Replace all row names?");
                         } catch {
                         }
                     }
                     if (ImGui.MenuItem("Current Param", "", false, ParamBank.PrimaryBank.Params != null && _activeView._selection.activeParamExists()))
                     {
                         try {
-                            ImportRowNames(true);
+                            ImportRowNames(true, $"Replace all row names in {_activeView._selection.getActiveParam()}?");
                         } catch {
                         }
                     }
