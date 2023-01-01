@@ -667,6 +667,26 @@ namespace StudioCore.ParamEditor
                 double avg = vals.Average((val) => Convert.ToDouble(val));
                 return (row) => (c) => avg.ToString();
             }));
+            argumentGetters.Add("median", (2, (field) => (param) => {
+                PseudoColumn pc = field[0].Equals("ID") ? PseudoColumn.ID : field[0].Equals("Name") ? PseudoColumn.Name : PseudoColumn.None;
+                Param.Column? col = param?[field[0]];
+                if (pc == PseudoColumn.None && col == null)
+                    throw new Exception($@"Could not locate field {field[0]}");
+                var rows = RowSearchEngine.rse.Search((ParamBank.PrimaryBank, param), field[1], false, false);
+                var vals = rows.Select((row, i) => pc == PseudoColumn.ID ? row.ID : pc == PseudoColumn.Name ? row.Name : row[col].Value);
+                var avg = vals.OrderBy((val) => Convert.ToDouble(val)).ElementAt(vals.Count()/2);
+                return (row) => (c) => Convert.ToString(avg);
+            }));
+            argumentGetters.Add("mode", (2, (field) => (param) => {
+                PseudoColumn pc = field[0].Equals("ID") ? PseudoColumn.ID : field[0].Equals("Name") ? PseudoColumn.Name : PseudoColumn.None;
+                Param.Column? col = param?[field[0]];
+                if (pc == PseudoColumn.None && col == null)
+                    throw new Exception($@"Could not locate field {field[0]}");
+                var rows = RowSearchEngine.rse.Search((ParamBank.PrimaryBank, param), field[1], false, false);
+                var vals = rows.Select((row, i) => pc == PseudoColumn.ID ? row.ID : pc == PseudoColumn.Name ? row.Name : row[col].Value);
+                var avg = vals.GroupBy((val) => val).OrderByDescending((g) => g.Count()).Select((g) => g.Key).First();
+                return (row) => (c) => Convert.ToString(avg);
+            }));
             argumentGetters.Add("vanilla", (0, (empty) => {
                 ParamBank bank = ParamBank.VanillaBank;
                 return (param) => {
