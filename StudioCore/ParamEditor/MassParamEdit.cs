@@ -647,10 +647,10 @@ namespace StudioCore.ParamEditor
                 return val.GetType() == typeof(byte[]) ? ParamUtils.Dummy8Write((byte[])val) : val.ToString();
             }));
             argumentGetters.Add("field", (1, (field) => (param) => {
-                PseudoColumn pc = field[1].Equals("ID") ? PseudoColumn.ID : field[1].Equals("Name") ? PseudoColumn.Name : PseudoColumn.None;
-                Param.Column? col = param?[field[1]];
+                PseudoColumn pc = field[0].Equals("ID") ? PseudoColumn.ID : field[0].Equals("Name") ? PseudoColumn.Name : PseudoColumn.None;
+                Param.Column? col = param?[field[0]];
                 if (pc == PseudoColumn.None && col == null)
-                    throw new Exception($@"Could not locate field {field[1]}");
+                    throw new Exception($@"Could not locate field {field[0]}");
                 return (row) => {
                     object val = pc == PseudoColumn.ID ? row.ID : pc == PseudoColumn.Name ? row.Name : row[col].Value;
                     string v = val.GetType() == typeof(byte[]) ? ParamUtils.Dummy8Write((byte[])val) : val.ToString();
@@ -682,10 +682,10 @@ namespace StudioCore.ParamEditor
                 var vParam = ParamBank.VanillaBank.GetParamFromName(paramName);
                 if (vParam == null)
                     throw new Exception($@"Could not locate vanilla param for {param.ParamType}");
-                PseudoColumn pc = field[1].Equals("ID") ? PseudoColumn.ID : field[1].Equals("Name") ? PseudoColumn.Name : PseudoColumn.None;
-                Param.Column? col = vParam?[field[1]];
+                PseudoColumn pc = field[0].Equals("ID") ? PseudoColumn.ID : field[0].Equals("Name") ? PseudoColumn.Name : PseudoColumn.None;
+                Param.Column? col = vParam?[field[0]];
                 if (pc == PseudoColumn.None && col == null)
-                    throw new Exception($@"Could not locate field {field[1]}");
+                    throw new Exception($@"Could not locate field {field[0]}");
                 return (row) => {
                     Param.Row vRow = vParam?[row.ID];
                     if (vRow == null)
