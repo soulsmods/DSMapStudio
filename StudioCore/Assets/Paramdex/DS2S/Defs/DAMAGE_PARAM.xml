@@ -50,11 +50,9 @@
       </Description>
     </Field>
     <Field Def="f32 Damage Multiplier" />
-    <Field Def="f32 Unk20" />
-    <Field Def="u8 Unk24" />
-    <Field Def="u8 Unk25" />
-    <Field Def="u8 Unk26" />
-    <Field Def="u8 Unk27" />
+    <Field Def="f32 Counter Damage Multiplier" />
+    <Field Def="u16 Stamina Damage" />
+    <Field Def="u16 Durability Damage" />
     <Field Def="f32 Knockback Amount" />
     <Field Def="f32 Knockback Speed" />
     <Field Def="u8 isSpawnOnWeapon" />

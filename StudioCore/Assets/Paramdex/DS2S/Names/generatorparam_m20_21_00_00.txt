@@ -24,8 +24,8 @@
 862 [GEN:862] Throne Watcher
 863 [GEN:863] Twin Dragonrider
 864 [GEN:864] Twin Dragonrider
-910 [GEN:910] Aldia, Scholar of the First Sin (boss)
-917 [GEN:917] Aldia, Scholar of the First Sin
+910 [GEN:910] Aldia- Scholar of the First Sin (boss)
+917 [GEN:917] Aldia- Scholar of the First Sin
 968 [GEN:968] Forlorn
 1000 [GEN:1000] Primal Knight
 1010 [GEN:1010] Primal Knight

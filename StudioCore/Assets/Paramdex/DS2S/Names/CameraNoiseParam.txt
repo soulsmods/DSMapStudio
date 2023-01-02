@@ -1,7 +1,7 @@
-10102000 Base - Top, Top, Left, Left and Right - Small - Universal -- ベース-上下左右-小-普-汎用
-10202000 Base - Top, Top, Left, Left and Right - Medium - Universal -- ベース-上下左右-中-普-汎用
-10302000 Base - Top, Bottom, Left, Left and Right - Large - Universal -- ベース-上下左右-大-普-汎用
-10402000 Base - Top, Top, Left and Right - Oversized - Universal -- ベース-上下左右-特大-普-汎用
+10102000 Base - Top- Top- Left- Left and Right - Small - Universal -- ベース-上下左右-小-普-汎用
+10202000 Base - Top- Top- Left- Left and Right - Medium - Universal -- ベース-上下左右-中-普-汎用
+10302000 Base - Top- Bottom- Left- Left and Right - Large - Universal -- ベース-上下左右-大-普-汎用
+10402000 Base - Top- Top- Left and Right - Oversized - Universal -- ベース-上下左右-特大-普-汎用
 20000010 Dragon Shi Matsuri No -- 龍のシ祭場-吊橋ゆれ
 20000110 Ryunoshi Festival - Suspension Bridge - Wyburn Landing -- 龍のシ祭場-吊橋-ワイバーン着地
 20000111 Ryunoshi Festival - Suspension Bridge - Wyburn Landing (Yoro) -- 龍のシ祭場-吊橋-ワイバーン着地（よろけ）
@@ -15,14 +15,14 @@
 20002110 Dragon's Research Center - Prison - Auger Door Banging - Koyu -- 龍の研究場-牢屋-オーガ扉叩き-小ゆれ
 20002111 Dragon's Research Center - Prison - Auger Door Banging - Nakayu -- 龍の研究場-牢屋-オーガ扉叩き-中ゆれ
 20002112 Dragon's Research Center - Prison - Auger Door Banging - Large Shake -- 龍の研究場-牢屋-オーガ扉叩き-大ゆれ
-20102000 Base - Top, Top, Left, Left and Right - Small - Universal -- ベース-上下左右-小-普-汎用
-20202000 Base - Top, Top, Left, Left and Right - Medium - Universal -- ベース-上下左右-中-普-汎用
-20302000 Base - Top, Bottom, Left, Left and Right - Large - Universal -- ベース-上下左右-大-普-汎用
-20402000 Base - Top, Top, Left and Right - Oversized - Universal -- ベース-上下左右-特大-普-汎用
-20502000 Base - Top, Bottom, Left and Right - Extra Large - Universal -- ベース-上下左右-特特大-普-汎用
-31101000 PC- Up, down, left, left, right, small, short- general purpose -- ＰＣ-上下左右-小-短-汎用
-31201000 PC- Up, down, left, right, medium- short- general purpose -- ＰＣ-上下左右-中-短-汎用
-31301000 PC- Up, down, left, left, right, large, short- general purpose -- ＰＣ-上下左右-大-短-汎用
+20102000 Base - Top- Top- Left- Left and Right - Small - Universal -- ベース-上下左右-小-普-汎用
+20202000 Base - Top- Top- Left- Left and Right - Medium - Universal -- ベース-上下左右-中-普-汎用
+20302000 Base - Top- Bottom- Left- Left and Right - Large - Universal -- ベース-上下左右-大-普-汎用
+20402000 Base - Top- Top- Left and Right - Oversized - Universal -- ベース-上下左右-特大-普-汎用
+20502000 Base - Top- Bottom- Left and Right - Extra Large - Universal -- ベース-上下左右-特特大-普-汎用
+31101000 PC- Up- down- left- left- right- small- short- general purpose -- ＰＣ-上下左右-小-短-汎用
+31201000 PC- Up- down- left- right- medium- short- general purpose -- ＰＣ-上下左右-中-短-汎用
+31301000 PC- Up- down- left- left- right- large- short- general purpose -- ＰＣ-上下左右-大-短-汎用
 32101000 PC-Vertical Shaking-Small-Short-General-Purpose -- ＰＣ-縦揺れ-小-短-汎用
 32201000 PC-Vertical Shaking-Medium-Short-General-Purpose -- ＰＣ-縦揺れ-中-短-汎用
 32301000 PC-Vertical Shaking-Large-Short-General-Purpose -- ＰＣ-縦揺れ-大-短-汎用

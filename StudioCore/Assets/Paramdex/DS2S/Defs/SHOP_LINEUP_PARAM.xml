@@ -7,7 +7,7 @@
   <Version>201</Version>
   <Fields>
     <Field Def="s32 Equip ID" />
-    <Field Def="s32 Unk04 = 10" />
+    <Field Def="s32 Unk04" />
     <Field Def="s32 Enable Flag" />
     <Field Def="s32 Disable Flag" />
     <Field Def="s32 Material ID" />

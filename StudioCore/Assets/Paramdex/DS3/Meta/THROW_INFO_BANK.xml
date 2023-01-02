@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Enums>
+	<Enum Name="ThrowType">
+	  <Option Value="0" Name="Grab" />
+	  <Option Value="1" Name="Backstab" />
+      <Option Value="8" Name="Parry/Riposte" />
+	  <Option Value="10" Name="Plunge Attack" />
+	  <Option Value="11" Name="Hornet Ring Backstab/Grab" />
+	  <Option Value="12" Name="Hornet Ring Parry/Riposte" />
+      <Option Value="13" Name="Dark Hand" />
+	  <Option Value="15" Name="Hornet Ring Plunge Attack" />
+	  <Option Value="16" Name="Hornet Ring Dark Hand" />
+	</Enum>
+  </Enums>
+  <Field>
+	<AtkChrId AltName="Attacker Chr ID" Wiki="Chr ID of the chr performing the Throw." />
+	<DefChrId AltName="Defender Chr ID" Wiki="Chr ID of the chr receiving the Throw." />
+	<Dist AltName="Required Distance" />
+	<DiffAngMin AltName="Minimum Angle Difference" />
+	<DiffAngMax AltName="Maximum Angle Difference" />
+	<UpperYrange AltName="Above Y Axis Allowance" />
+	<LowerYrange AltName="Below Y Axis Allowance" />
+	<DiffAngMyToDef AltName="Attacker Angle Allowance" />
+	<throwTypeId AltName="Throw Type ID" Wiki="Set in AtkParam" />
+	<atkAnimid AltName="Attacker Anim ID" />
+	<defAnimId AltName="Defender Anim ID" />
+	<escHp AltName="Throw Escape HP" Wiki="Amount of HP the Throw has before you can escape." />
+	<selfEscCycleTime AltName="Throw Escape Cycle Time" Wiki="Value is in milliseconds." />
+	<SphereCastRadiusRateTop AltName="Sphere Cast Radius Top" />
+	<SphereCastRadiusRateLow AltName="Sphere Cast Radius Bottom" />
+	<AtkSorbDmyId AltName="Attacker's Attach Dummy ID" Wiki="Defender attaches to this dummypoly when the throw starts." />
+	<DefSorbDmyId AltName="Defender's Attach Dummy ID" Wiki="Attacker attaches to this dummypoly when the throw starts." />
+	<ThrowType Enum="ThrowType" />
+	<SelfEscCycleInt AltName="Cycles to Escape Throw" />
+	<DmyHasChrDirType AltName="Attacker Dummypoly Direction Type" />
+	<isTurnAtker AltName="Attacker Turns" IsBool="" />
+	<isSkipWepCate AltName="Ignore Weapon Type" IsBool="" Wiki="Allows the throw to occur regardless of if the weapon can throw or not (i.e. whips and shields)" />
+	<isSkipSphereCast AltName="Ignore Sphere Cast" IsBool="" />
+	<Unk1 IsBool="" AltName="Enable Position Correction" Wiki="Appears to cause the attacker's attach dummy to act as though it were on flat ground." />
+	<Unk2 IsBool="" AltName="Enable Throw Following Feedback" Wiki="Appears to prevent defender from being pushed into walls or off edges during the throw."/>
+	<subAtkSorbDmyId AltName="Attacker's Attach Dummy ID 2" />
+	<subDefSorbDmyId AltName="Defender's Attach Dummy ID 2" />
+	<Dist2 AltName="Required Distance - Backstab" />
+	<DiffAngMin2 AltName="Minimum Angle Difference - Backstab" />
+	<DiffAngMax2 AltName="Maximum Angle Difference - Backstab" />
+	<UpperYrange2 AltName="Above Y Axis Allowance - Backstab" />
+	<LowerYrange2 AltName="Below Y Axis Allowance - Backstab" />
+	<DiffAngMyToDef2 AltName="Attacker Angle Allowance - Backstab" />
+	<performDmyId0 AltName="Attacker Dummypoly ID - Proxy" Wiki="This dummypoly acts as the attacker's position for determining throw range." />
+	<performDmyId1 AltName="Defender Dummypoly ID - Proxy" Wiki="This dummypoly acts as the defender's position for determining throw range." />
+  </Field>
+  <Self />
+</PARAMMETA>

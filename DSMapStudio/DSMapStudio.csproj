@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net7.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
     <Authors>Katalash</Authors>
     <Version>1.03.0</Version>
@@ -10,6 +10,7 @@
     <PackageVersion>1.03.1</PackageVersion>
     <AssemblyVersion>1.03.1</AssemblyVersion>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+    <LangVersion>11</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

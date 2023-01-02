@@ -15,7 +15,7 @@
 528 [GEN:528] Manhunter O'Harrah
 529 [GEN:529] Bashful Ray
 803 [GEN:803] The Duke's Dear Freja
-911 [GEN:911] Aldia, Scholar of the First Sin
+911 [GEN:911] Aldia- Scholar of the First Sin
 926 [GEN:926] Forlorn
 1000 [GEN:1000] The Duke's Dear Freja
 1110 [GEN:1110] Hollow Falconer

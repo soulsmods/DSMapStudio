@@ -4,6 +4,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.IO;
+using Newtonsoft.Json.Linq;
 
 namespace StudioCore.Editor
 {
@@ -16,6 +17,13 @@ namespace StudioCore.Editor
         public string GameRoot { get; set; } = "";
         public GameType GameType { get; set; } = GameType.Undefined;
 
+        // JsonExtensionData stores info in config file not present in class in order to retain settings between versions.
+#pragma warning disable IDE0051
+        [JsonExtensionData]
+        private IDictionary<string, JToken> _additionalData;
+#pragma warning restore IDE0051
+
+        // Params
         public List<string> PinnedParams { get; set; } = new List<string>();
         public Dictionary<string, List<int>> PinnedRows { get; set; } = new Dictionary<string, List<int>>();
         public Dictionary<string, List<string>> PinnedFields { get; set; } = new Dictionary<string, List<string>>();
@@ -27,6 +35,9 @@ namespace StudioCore.Editor
         /// </summary>
         public bool UseLooseParams { get; set; } = false;
         public bool PartialParams { get; set; } = false;
+
+        // FMG editor
+        public string LastFmgLanguageUsed { get; set; } = "";
 
         public void Serialize(string path)
         {

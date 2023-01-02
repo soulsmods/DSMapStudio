@@ -93,7 +93,7 @@
 11060 Oversized Guard Break -- 特大 ガードブレイク
 11070 Super Oversized Guard Break -- 超特大 ガードブレイク
 11080 Super Super Oversized Guard Break -- 超超特大 ガードブレイク
-12010 No, no, no, no, -- 無 気絶
+12010 No- no- no- no- -- 無 気絶
 12020 Very fainted -- 極小 気絶
 12030 Small fainting -- 小 気絶
 12040 Medium Faint -- 中 気絶
@@ -109,10 +109,10 @@
 13060 Oversized bleeding -- 特大 出血
 13070 Super oversized bleeding -- 超特大 出血
 13080 Super extra large bleeding -- 超超特大 出血
-14010 No, no, no, no, no, no -- 無 掴み
+14010 No- no- no- no- no- no -- 無 掴み
 14020 Tiny Gripping -- 極小 掴み
 14030 Small grab -- 小 掴み
-14040 Inside, grab it. -- 中 掴み
+14040 Inside- grab it. -- 中 掴み
 14050 Big Grab -- 大 掴み
 14060 Oversized Gripping -- 特大 掴み
 14070 Super Oversized Gripping -- 超特大 掴み

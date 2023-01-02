@@ -47,7 +47,7 @@
 60800000 [REG:60800000] Corrosive Ant Queen
 67100000 [REG:67100000] Poison Statue Cluster
 67200000 [REG:67200000] Corrosive Ant
-69300000 [REG:69300000] Aldia, Scholar of the First Sin
+69300000 [REG:69300000] Aldia- Scholar of the First Sin
 69500000 [REG:69500000] Forlorn
 69600000 [REG:69600000] Invisible Hollow
 72500100 [REG:72500100] Darkdiver Grandahl

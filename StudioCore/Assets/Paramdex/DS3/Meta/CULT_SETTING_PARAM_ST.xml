@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+	<Coefficient.1000 AltName="Cult Dead - Probability" />
+	<CultState1 AltName="Cult Dead Type - First" />
+	<CultState2 AltName="Cult Dead Type - Probability" />
+  </Field>
+  <Self />
+</PARAMMETA>

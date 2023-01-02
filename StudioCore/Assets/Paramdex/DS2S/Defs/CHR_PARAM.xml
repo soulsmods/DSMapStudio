@@ -17,15 +17,12 @@
     <Field Def="s32 Unk1C" />
     <Field Def="s32 ChrPhantomParam ID" />
     <Field Def="u8 Unk24" />
-    <Field Def="u8 Unk25" />
+    <Field Def="u8 Spawn Limit" />
     <Field Def="u8 Unk26" />
     <Field Def="u8 Unk27" />
-    <Field Def="s32 Base HP (NG)" />
-    <Field Def="u8 Unk2C" />
-    <Field Def="u8 Unk2C" />
-    <Field Def="u8 Unk2C" />
-    <Field Def="u8 Unk2C" />
-    <Field Def="f32 Base Stamina Regeneration (*10)" />
+    <Field Def="s32 HP" />
+    <Field Def="f32 MaxStamina" />
+    <Field Def="f32 StaminaRegeneration" />
     <Field Def="u8 Unk34" />
     <Field Def="u8 Unk35" />
     <Field Def="u8 Unk36" />
@@ -46,19 +43,19 @@
     <Field Def="s32 Equip Weapon ID" />
     <Field Def="s32 Unk64" />
     <Field Def="s8 Unk68" />
-    <Field Def="s8 Unk69" />
-    <Field Def="s8 Unk6A" />
+    <Field Def="s8 ChrRoundDamageParam ID" />
+    <Field Def="s8 Shield - Block Level" />
     <Field Def="s8 Unk6B" />
     <Field Def="s32 Unk6C" />
     <Field Def="s32 Unk70" />
-    <Field Def="s32 Unk74" />
-    <Field Def="s32 Unk78" />
-    <Field Def="s32 Unk7C" />
-    <Field Def="s32 Unk80" />
-    <Field Def="s32 Unk84" />
-    <Field Def="s32 Unk88" />
-    <Field Def="s32 Unk8C" />
-    <Field Def="s32 Unk90" />
+    <Field Def="s32 Shield - Stability" />
+    <Field Def="s32 Shield - Physical Absorption" />
+    <Field Def="s32 Shield - Magic Absorption" />
+    <Field Def="s32 Shield - Lightning Absorption" />
+    <Field Def="s32 Shield - Fire Absorption" />
+    <Field Def="s32 Shield - Dark Absorption" />
+    <Field Def="s32 Shield - Poison Absorption" />
+    <Field Def="s32 Shield - Bleed Absorption" />
     <Field Def="s32 Unk94" />
     <Field Def="s32 Unk98" />
     <Field Def="s32 Physical Defence" >
@@ -94,8 +91,8 @@
     <Field Def="s32 UnkCC" />
     <Field Def="s32 Souls" />
     <Field Def="s32 UnkD4" />
-    <Field Def="f32 Damage / Aux Multiplier" />
-    <Field Def="f32 UnkDC" />
+    <Field Def="f32 Damage Aux Multiplier" />
+    <Field Def="f32 Final Damage Multiplier" />
     <Field Def="f32 UnkE0" />
     <Field Def="f32 UnkE4" />
     <Field Def="f32 UnkE8" />
@@ -104,7 +101,7 @@
     <Field Def="s32 UnkF4" />
     <Field Def="s32 UnkF8" />
     <Field Def="f32 Posture" />
-    <Field Def="f32 Posture Recovery (/s)" />
+    <Field Def="f32 PostureRegeneration" />
     <Field Def="f32 Unk104" />
     <Field Def="f32 Unk108" />
     <Field Def="f32 Unk10C" />
@@ -113,15 +110,15 @@
     </Field>
     <Field Def="f32 Unk114" />
     <Field Def="f32 Poise" />
-    <Field Def="f32 Poise Regen (per second)" />
+    <Field Def="f32 PoiseRegeneration" />
     <Field Def="s32 Unk120" />
     <Field Def="s32 Unk124" />
     <Field Def="f32 Unk128" />
     <Field Def="f32 Unk12C" />
     <Field Def="u8 Unk130" />
-    <Field Def="u8 Unk131" />
+    <Field Def="u8 IsHollow" />
     <Field Def="u8 Unk132" />
-    <Field Def="u8 Unk133" />
+    <Field Def="u8 ChrRoundDropSoulParam ID" />
     <Field Def="s32 Itemlot ID" />
     <Field Def="s32 Itemlot ID - Overkilled" />
     <Field Def="f32 Unk13C" />
@@ -133,7 +130,7 @@
     <Field Def="s32 NG+6 HP" />
     <Field Def="s32 NG+7 HP" />
     <Field Def="s32 Name Text ID" />
-    <Field Def="s32 DropAwestone?" />
+    <Field Def="s32 DropAwestone" />
     <Field Def="s32 Unk164" />
   </Fields>
 </PARAMDEF>

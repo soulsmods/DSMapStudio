@@ -64,7 +64,7 @@
 32100000 [REG:32100000] Mimic
 60300000 [REG:60300000] The Duke's Dear Freja
 60301000 [REG:60301000] The Duke's Dear Freja
-69300000 [REG:69300000] Aldia, Scholar of the First Sin
+69300000 [REG:69300000] Aldia- Scholar of the First Sin
 69400000 [REG:69400000] Forlorn
 74200000 [REG:74200000] Creighton the Wanderer
 74200001 [REG:74200001] Creighton the Wanderer

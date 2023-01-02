@@ -15,10 +15,10 @@
 325010 Ruin Sentinel
 326000 The Rotten
 332000 UNKNOWN
-333000 Velstadt, The Royal Aegis
+333000 Velstadt- The Royal Aegis
 334000 Throne Defender
 500000 Covetous Demon
-501000 Mytha, the Baneful Queen
+501000 Mytha- the Baneful Queen
 502000 Manscorpion Tark
 502001 Manscorpion Tark
 502009 Manscorpion Tark
@@ -45,8 +45,8 @@
 675010 Fume Knight
 679000 Aava
 679002 Aava
-681000 Sinh, the Slumbering Dragon
-682000 Elana, Squalid Queen
+681000 Sinh- the Slumbering Dragon
+682000 Elana- Squalid Queen
 683000 Imperfect
 689000 Charred Loyce Knight
 689010 Charred Loyce Knight

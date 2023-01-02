@@ -2,7 +2,7 @@
 2030 Rennala
 2031 Rennala
 2040 Rennala Student
-2041 Rennala Student (Bug)
+2041 Kindred of Rot Larva
 2050 Snow Witch Ranni
 2051 Snow Witch Ranni
 2060 The Two Fingers
@@ -11,7 +11,7 @@
 2110 Beast Clergyman
 2130 Morgott
 2131 Morgott (Dead)
-2140 Omen Monstrosity
+2140 Omen
 2150 Empty
 2160 Palm Reader
 2170 Palm Reader
@@ -28,11 +28,11 @@
 2276 Crab (Very Dirty)
 2277 Crab (Dirty)
 2500 Crucible Knight
-3000 Castle Exile
+3000 Exile Soldier
 3010 Banished Knight
-3020 Castle Exile (Large)
+3020 Exile Soldier (Large)
 3050 Commander
-3060 Undead Mariner
+3060 Giant Skeleton
 3061 Undead Azula Beastman
 3070 Dominula Celebrant
 3080 Imp
@@ -43,16 +43,16 @@
 3171 Albinauric Archer (No quiver)
 3180 Dog
 3181 Red Wolf of Radagon
-3200 Nomad Trader
-3201 Nomad Trader
-3202 Nomad Trader
-3210 Nomad Mule
+3200 Nomadic Merchant
+3201 Nomadic Merchant
+3202 Nomadic Merchant
+3210 Nomadic Merchant Mule
 3250 Draconic Tree Sentinel
 3251 Tree Sentinel
 3252 Tree Sentinel (Fallen)
 3300 Nox Swordstress
 3320 Silver Tear
-3330 Silver Tear Orb
+3330 Giant Silver Tear
 3350 Crystalian
 3360 Ancestral Follower
 3361 Ancestral Follower
@@ -79,14 +79,14 @@
 3662 Putrid Corpse
 3664 Cemetery Shade
 3665 Devious Commoner
-3666 Sunflower Commoner
+3666 The Noble Goldmask
 3670 Albinauric Lookout
 3700 Depraved Perfumer
 3701 Depraved Perfumer
 3702 Raya Lucaria Scholar
 3703 Noble's Page
 3704 Battlemage
-3710 Master Azur
+3710 Primeval Sorcerer Azur
 3720 Sorcerer with Orbhead
 3730 Stone Wizard Orb
 3750 Clayman
@@ -99,7 +99,7 @@
 3910 Fire Prelate
 3950 Man-Serpent
 3970 Azula Beastman
-4000 Royal Rider
+4000 Revenant Follower
 4020 Royal Revenant
 4040 Slug
 4050 Kaiden Sellsword
@@ -111,7 +111,7 @@
 4100 Demi-Human
 4101 Demi-Human (Large)
 4110 Demi-Human Shaman
-4120 Demi-Human Beastman
+4120 Demi-Human Chief
 4130 Demi-Human Queen
 4140 Snail
 4150 Basilisk
@@ -130,7 +130,7 @@
 4191 Scarab (Plain)
 4192 Scarab
 4200 Giant Bat
-4201 Bat Harpy
+4201 Old Woman Bat
 4210 Warhawk
 4220 Land Octopus (Large)
 4230 Land Octopus (Small)
@@ -188,14 +188,14 @@
 4442 Giant Rotten Pod
 4450 Walking Mausoleum
 4460 Flamethrower Tank
-4470 Ghiza Torturer
-4480 Giant Miranda Sprout
+4470 Abductor Virgin
+4480 Giant Miranda Flower
 4481 Miranda Sprout
-4482 Giant Miranda Sprout
+4482 Giant Miranda Flower
 4483 Miranda Sprout
-4490 Living Pot - Large
-4491 Living Pot - Small
-4492 Living Pot - Huge
+4490 Living Jar - Large
+4491 Living Jar - Small
+4492 Living Jar - Huge
 4500 Dragon
 4501 Dragon
 4502 Dragon (Blade in Mouth)
@@ -255,8 +255,8 @@
 6082 Dragonfly
 6090 Turtle
 6091 Turtle Pope
-6100 Rabbitgaroo
-7000 Fallen Hawk Soldier
+6100 Springhare
+7000 Fallen Hawks Soldier
 7100 Ancient Hero
 8000 Torrent
 8100 Ballista

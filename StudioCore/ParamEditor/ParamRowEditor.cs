@@ -328,8 +328,8 @@ namespace StudioCore.ParamEditor
             ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.8f, 0.8f, 1.0f, 1.0f));
             var nameProp = row.GetType().GetProperty("Name");
             var idProp = row.GetType().GetProperty("ID");
-            PropEditorPropInfoRow(bank, row, vrow, auxRows, crow, showParamCompare, showRowCompare, nameProp, "Name", ref id);
-            PropEditorPropInfoRow(bank, row, vrow, auxRows, crow, showParamCompare, showRowCompare, idProp, "ID", ref id);
+            PropEditorPropInfoRow(bank, row, vrow, auxRows, crow, nameProp, "Name", ref id);
+            PropEditorPropInfoRow(bank, row, vrow, auxRows, crow, idProp, "ID", ref id);
             ImGui.PopStyleColor();
             ImGui.Spacing();
             ImGui.Separator();
@@ -344,7 +344,7 @@ namespace StudioCore.ParamEditor
                     List<List<Param.Column>> auxmatches = auxRows.Select((r, i) => r.Item2?.Cells.Where(cell => cell.Def.InternalName == field).ToList()).ToList();
                     List<Param.Column> cmatches = crow?.Cells.Where(cell => cell.Def.InternalName == field).ToList();
                     for (int i = 0; i < matches.Count; i++)
-                        PropEditorPropCellRow(bank, row, row[matches[i]], vrow?[vmatches[i]], auxRows.Select((r, j) => r.Item2?[auxmatches[j][i]]).ToList(), crow?[cmatches[i]], showParamCompare, showRowCompare, ref id, propSearchRx, activeParam, true);
+                        PropEditorPropCellRow(bank, row, row[matches[i]], vrow?[vmatches[i]], auxRows.Select((r, j) => r.Item2?[auxmatches[j][i]]).ToList(), crow?[cmatches[i]], ref id, propSearchRx, activeParam, true);
                 }
                 ImGui.Separator();
             }
@@ -373,17 +373,64 @@ namespace StudioCore.ParamEditor
                     lastRowExists |= PropEditorPropCellRow(bank,
                     row,
                     row[matches[i]],
-                    vmatches?.Count > i ? vrow?[vmatches[i]] : null,
-                    auxRows.Select((r, j) => auxmatches[j].Count > i ? r.Item2?[auxmatches[j][i]] : null).ToList(),
-                    cmatches != null && cmatches.Count > i ? crow?[cmatches[i]] : null,
-                    showParamCompare, showRowCompare, ref id, propSearchRx, activeParam, false);
+                    vmatches?.Count > i ? vrow[vmatches[i]] : null,
+                    auxRows.Select((r, j) => auxmatches[j]?.Count > i ? r.Item2?[auxmatches[j][i]] : null).ToList(),
+                    cmatches?.Count > i ? crow?[cmatches[i]] : null,
+                    ref id, propSearchRx, activeParam, false);
             }
             ImGui.Columns(1);
+            if (meta.CalcCorrectDef != null)
+            {
+                DrawCalcCorrectGraph(meta, row);
+            }
             ImGui.EndChild();
         }
 
+        private void DrawCalcCorrectGraph(ParamMetaData meta, Param.Row row)
+        {
+            try
+            {
+                ImGui.Separator();
+                ImGui.NewLine();
+                var ccd = meta.CalcCorrectDef;
+                (float[] values, int xOffset, float minY, float maxY) = CacheBank.GetCached(_paramEditor, row, () => getCalcCorrectedData(ccd, row));
+                ImGui.PlotLines("##graph", ref values[0], values.Length, 0, xOffset == 0 ? "" : $@"Note: add {xOffset} to x coordinate", minY, maxY, new Vector2(ImGui.GetColumnWidth(-1), ImGui.GetColumnWidth(-1)*0.5625f));
+            }
+            catch (Exception e)
+            {
+                ImGui.TextUnformatted("Unable to draw graph");
+            }
+        }
+        private (float[], int, float, float) getCalcCorrectedData(CalcCorrectDefinition ccd, Param.Row row)
+        {
+            float[] stageMaxVal = ccd.stageMaxVal.Select((x, i) => (float)row[x].Value.Value).ToArray();
+            float[] stageMaxGrowVal = ccd.stageMaxGrowVal.Select((x, i) => (float)row[x].Value.Value).ToArray();
+            float[] adjPoint_maxGrowVal = ccd.adjPoint_maxGrowVal.Select((x, i) => (float)row[x].Value.Value).ToArray();
+
+            int length = (int)(stageMaxVal[stageMaxVal.Length-1] - stageMaxVal[0] + 1);
+            if (length <= 0 || length > 1000)
+                return (new float[0], 0, 0, 0);
+            float[] values = new float[length];
+            for (int i=0; i<values.Length; i++)
+            {
+                float baseVal = i + stageMaxVal[0];
+                int band = 0;
+                while (band + 1 < stageMaxVal.Length && stageMaxVal[band + 1] < baseVal)
+                    band++;
+                if (band + 1 >= stageMaxVal.Length)
+                    values[i] = stageMaxGrowVal[stageMaxGrowVal.Length-1];
+                else
+                {
+                    float adjValRate = stageMaxVal[band] == stageMaxVal[band+1] ? 0 : (baseVal - stageMaxVal[band]) / (stageMaxVal[band+1] - stageMaxVal[band]);
+                    float adjGrowValRate = adjPoint_maxGrowVal[band] >= 0 ? (float)Math.Pow(adjValRate, adjPoint_maxGrowVal[band]) : 1 - (float)Math.Pow(1 - adjValRate, -adjPoint_maxGrowVal[band]);
+                    values[i] = adjGrowValRate * (stageMaxGrowVal[band+1] - stageMaxGrowVal[band]) + stageMaxGrowVal[band];
+                }
+            }
+            return (values, (int)stageMaxVal[0], stageMaxGrowVal[0], stageMaxGrowVal[stageMaxGrowVal.Length-1]);
+        }
+
         // Many parameter options, which may be simplified.
-        private void PropEditorPropInfoRow(ParamBank bank, Param.Row row, Param.Row vrow, List<(string, Param.Row)> auxRows, Param.Row crow, bool showParamCompare, bool showRowCompare, PropertyInfo prop, string visualName, ref int id)
+        private void PropEditorPropInfoRow(ParamBank bank, Param.Row row, Param.Row vrow, List<(string, Param.Row)> auxRows, Param.Row crow, PropertyInfo prop, string visualName, ref int id)
         {
             PropEditorPropRow(
                 bank,
@@ -391,8 +438,6 @@ namespace StudioCore.ParamEditor
                 vrow != null ? prop.GetValue(vrow) : null,
                 auxRows.Select((r, i) => r.Item2 != null ? prop.GetValue(r.Item2) : null).ToList(),
                 crow != null ? prop.GetValue(crow) : null,
-                showParamCompare,
-                showRowCompare,
                 ref id,
                 visualName,
                 null,
@@ -404,7 +449,7 @@ namespace StudioCore.ParamEditor
                 null,
                 false);
         }
-        private bool PropEditorPropCellRow(ParamBank bank, Param.Row row, Param.Cell cell, Param.Cell? vcell, List<Param.Cell?> auxCells, Param.Cell? ccell, bool showParamCompare, bool showRowCompare, ref int id, Regex propSearchRx, string activeParam, bool isPinned)
+        private bool PropEditorPropCellRow(ParamBank bank,Param.Row row, Param.Cell cell, Param.Cell? vcell, List<Param.Cell?> auxCells, Param.Cell? ccell, ref int id, Regex propSearchRx, string activeParam, bool isPinned)
         {
             return PropEditorPropRow(
                 bank,
@@ -412,10 +457,7 @@ namespace StudioCore.ParamEditor
                 vcell?.Value,
                 auxCells.Select((c, i) => c?.Value).ToList(),
                 ccell?.Value,
-                showParamCompare,
-                showRowCompare,
-                ref id,
-                cell.Def.InternalName,
+                ref id, cell.Def.InternalName,
                 FieldMetaData.Get(cell.Def),
                 cell.Value.GetType(),
                 cell.GetType().GetProperty("Value"),
@@ -425,10 +467,11 @@ namespace StudioCore.ParamEditor
                 activeParam,
                 isPinned);
         }
-        private bool PropEditorPropRow(ParamBank bank, object oldval, object vanillaval, List<object> auxVals, object compareval, bool showParamCompare, bool showRowCompare, ref int id, string internalName, FieldMetaData cellMeta, Type propType, PropertyInfo proprow, Param.Cell? nullableCell, Param.Row? row, Regex propSearchRx, string activeParam, bool isPinned)
+        private bool PropEditorPropRow(ParamBank bank, object oldval, object vanillaval, List<object> auxVals, object compareval, ref int id, string internalName, FieldMetaData cellMeta, Type propType, PropertyInfo proprow, Param.Cell? nullableCell, Param.Row? row, Regex propSearchRx, string activeParam, bool isPinned)
         {
             List<ParamRef> RefTypes = cellMeta?.RefTypes;
             string VirtualRef = cellMeta?.VirtualRef;
+            string FmgRef = cellMeta?.FmgRef;
             ParamEnum Enum = cellMeta?.EnumType;
             string Wiki = cellMeta?.Wiki;
             bool IsBool = cellMeta?.IsBool ?? false;
@@ -454,6 +497,7 @@ namespace StudioCore.ParamEditor
             }
 
             EditorDecorations.ParamRefText(RefTypes, row);
+            EditorDecorations.FmgRefText(FmgRef);
             EditorDecorations.EnumNameText(Enum == null ? null : Enum.name);
 
             //PropertyRowMetaDefContextMenu();
@@ -469,7 +513,7 @@ namespace StudioCore.ParamEditor
             bool conflict = diffVanilla && diffAuxPrimaryAndVanilla.Contains(true);
 
             bool matchDefault = nullableCell?.Def.Default != null && nullableCell.Value.Def.Default.Equals(oldval);
-            bool isRef = (CFG.Current.Param_HideReferenceRows == false && RefTypes != null) || (CFG.Current.Param_HideEnums == false && Enum != null) || VirtualRef != null;
+            bool isRef = (CFG.Current.Param_HideReferenceRows == false && (RefTypes != null || FmgRef != null)) || (CFG.Current.Param_HideEnums == false && Enum != null) || VirtualRef != null;
             if (conflict)
                 ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.25f, 0.2f, 0.2f, 1.0f));
             else if (diffVanilla)
@@ -487,12 +531,15 @@ namespace StudioCore.ParamEditor
 
             if (CFG.Current.Param_HideReferenceRows == false && RefTypes != null)
                 EditorDecorations.ParamRefsSelectables(bank, RefTypes, row, oldval);
+            if (CFG.Current.Param_HideReferenceRows == false && FmgRef != null)
+                EditorDecorations.FmgRefSelectable(FmgRef, oldval);
             if (CFG.Current.Param_HideEnums == false && Enum != null)
                 EditorDecorations.EnumValueText(Enum.values, oldval.ToString());
 
             if (CFG.Current.Param_HideReferenceRows == false || CFG.Current.Param_HideEnums == false)
             {
-                if (EditorDecorations.ParamRefEnumContextMenu(bank, oldval, ref newval, RefTypes, row, Enum))
+                var fmgInfo = TextEditor.FMGBank.FmgInfoBank.Find((x) => x.Name == FmgRef);
+                if (EditorDecorations.ParamRefEnumContextMenu(bank, oldval, ref newval, RefTypes, row, fmgInfo, Enum))
                 {
                     changed = true;
                     committed = true;
@@ -508,28 +555,28 @@ namespace StudioCore.ParamEditor
             if (CFG.Current.Param_ShowVanillaParams)
             {
                 ImGui.NextColumn();
-                AdditionalColumnValue(vanillaval, propType, bank, RefTypes, row, Enum, "vanilla");
+                AdditionalColumnValue(vanillaval, propType, bank, RefTypes, FmgRef, row, Enum, "vanilla");
             }
-            if (showParamCompare)
+            if (auxVals.Count > 0)
             {
                 for (int i=0; i<auxVals.Count; i++)
                 {
                     if (!conflict && diffAuxVanilla[i])
                         ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.2f, 0.2f, 0.236f, 1.0f));
                     ImGui.NextColumn();
-                    AdditionalColumnValue(auxVals[i], propType, bank, RefTypes, row, Enum, i.ToString());
+                    AdditionalColumnValue(auxVals[i], propType, bank, RefTypes, FmgRef, row, Enum, i.ToString());
                     if (!conflict && diffAuxVanilla[i])
                         ImGui.PopStyleColor();
                 }
                 if (conflict)
                     ImGui.PopStyleColor();
             }
-            if (showRowCompare)
+            if (compareval != null)
             {
                 if(diffCompare)
                     ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.2f, 0.2f, 0.236f, 1.0f));
                 ImGui.NextColumn();
-                AdditionalColumnValue(compareval, propType, bank, RefTypes, row, Enum, "compRow");
+                AdditionalColumnValue(compareval, propType, bank, RefTypes, FmgRef, row, Enum, "compRow");
                 if (diffCompare)
                     ImGui.PopStyleColor();
             }
@@ -553,13 +600,13 @@ namespace StudioCore.ParamEditor
             return true;
         }
 
-        private static void AdditionalColumnValue(object colVal, Type propType, ParamBank bank, List<ParamRef> RefTypes, Param.Row context, ParamEnum Enum, string imguiSuffix)
+        private static void AdditionalColumnValue(object colVal, Type propType, ParamBank bank, List<ParamRef> RefTypes, string FmgRef, Param.Row context, ParamEnum Enum, string imguiSuffix)
         {
             if (colVal == null)
                 ImGui.TextUnformatted("");
             else
             {
-                string value = "";
+                string value;
                 if (propType == typeof(byte[]))
                     value = ParamUtils.Dummy8Write((byte[])colVal);
                 else
@@ -567,17 +614,19 @@ namespace StudioCore.ParamEditor
                 ImGui.InputText("##colval"+imguiSuffix, ref value, 256, ImGuiInputTextFlags.ReadOnly);
                 if (CFG.Current.Param_HideReferenceRows == false && RefTypes != null)
                     EditorDecorations.ParamRefsSelectables(bank, RefTypes, context, colVal);
+                if (CFG.Current.Param_HideReferenceRows == false && FmgRef != null)
+                    EditorDecorations.FmgRefSelectable(FmgRef, colVal);
                 if (CFG.Current.Param_HideEnums == false && Enum != null)
                     EditorDecorations.EnumValueText(Enum.values, colVal.ToString());
             }
         }
 
-        private void PropertyRowName(ref string internalName, FieldMetaData cellMeta)
+        private static void PropertyRowName(ref string internalName, FieldMetaData cellMeta)
         {
-            string AltName = cellMeta == null ? null : cellMeta.AltName;
+            string AltName = cellMeta?.AltName;
             if (cellMeta != null && ParamEditorScreen.EditorMode)
             {
-                string EditName = AltName == null ? internalName : AltName;
+                string EditName = AltName ?? internalName;
                 ImGui.InputText("##editName", ref EditName, 128);
                 if (EditName.Equals(internalName) || EditName.Equals(""))
                     cellMeta.AltName = null;
@@ -657,7 +706,7 @@ namespace StudioCore.ParamEditor
             }
             ImGui.PopStyleVar();
         }
-        private void PropertyRowValueContextMenu(ParamBank bank, string internalName, string VirtualRef, dynamic oldval)
+        private static void PropertyRowValueContextMenu(ParamBank bank, string internalName, string VirtualRef, dynamic oldval)
         {
             if (ImGui.BeginPopupContextItem("quickMEdit"))
             {

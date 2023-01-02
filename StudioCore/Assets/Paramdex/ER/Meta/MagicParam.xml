@@ -669,17 +669,17 @@
     <refCategory8 AltName="Reference Category [8]" Wiki="Call ID category [Attack, Projectile, Special Effects]" Enum="BEHAVIOR_REF_TYPE" />
     <refCategory9 AltName="Reference Category [9]" Wiki="Call ID category [Attack, Projectile, Special Effects]" Enum="BEHAVIOR_REF_TYPE" />
     <refCategory10 AltName="Reference Category [10]" Wiki="Call ID category [Attack, Projectile, Special Effects]" Enum="BEHAVIOR_REF_TYPE" />
-    <refId1 AltName="Reference ID [1]" Wiki="ID called from magic" Refs="AtkParam_Pc,BehaviorParam_PC,Bullet,SpEffectParam"/>
-    <refId2 AltName="Reference ID [2]" Wiki="ID called from magic" Refs="AtkParam_Pc,BehaviorParam_PC,Bullet,SpEffectParam"/>
-    <refId3 AltName="Reference ID [3]" Wiki="ID called from magic" Refs="AtkParam_Pc,BehaviorParam_PC,Bullet,SpEffectParam"/>
+    <refId1 AltName="Reference ID [1]" Wiki="ID called from magic" Refs="AtkParam_Pc(refCategory1=0),Bullet(refCategory1=1),SpEffectParam(refCategory1=2)"/>
+    <refId2 AltName="Reference ID [2]" Wiki="ID called from magic" Refs="AtkParam_Pc(refCategory2=0),Bullet(refCategory2=1),SpEffectParam(refCategory2=2)"/>
+    <refId3 AltName="Reference ID [3]" Wiki="ID called from magic" Refs="AtkParam_Pc(refCategory3=0),Bullet(refCategory3=1),SpEffectParam(refCategory3=2)"/>
     <aiUseJudgeId AltName="AI Usage Judgment ID" Wiki="AI usage judgment ID" />
-    <refId4 AltName="Reference ID [4]" Wiki="ID called from magic" Refs="AtkParam_Pc,BehaviorParam_PC,Bullet,SpEffectParam"/>
-    <refId5 AltName="Reference ID [5]" Wiki="ID called from magic" Refs="AtkParam_Pc,BehaviorParam_PC,Bullet,SpEffectParam"/>
-    <refId6 AltName="Reference ID [6]" Wiki="ID called from magic" Refs="AtkParam_Pc,BehaviorParam_PC,Bullet,SpEffectParam"/>
-    <refId7 AltName="Reference ID [7]" Wiki="ID called from magic" Refs="AtkParam_Pc,BehaviorParam_PC,Bullet,SpEffectParam"/>
-    <refId8 AltName="Reference ID [8]" Wiki="ID called from magic" Refs="AtkParam_Pc,BehaviorParam_PC,Bullet,SpEffectParam"/>
-    <refId9 AltName="Reference ID [9]" Wiki="ID called from magic" Refs="AtkParam_Pc,BehaviorParam_PC,Bullet,SpEffectParam"/>
-    <refId10 AltName="Reference ID [10]" Wiki="ID called from magic" Refs="AtkParam_Pc,BehaviorParam_PC,Bullet,SpEffectParam"/>
+    <refId4 AltName="Reference ID [4]" Wiki="ID called from magic" Refs="AtkParam_Pc(refCategory4=0),Bullet(refCategory4=1),SpEffectParam(refCategory4=2)"/>
+    <refId5 AltName="Reference ID [5]" Wiki="ID called from magic" Refs="AtkParam_Pc(refCategory5=0),Bullet(refCategory5=1),SpEffectParam(refCategory5=2)"/>
+    <refId6 AltName="Reference ID [6]" Wiki="ID called from magic" Refs="AtkParam_Pc(refCategory6=0),Bullet(refCategory6=1),SpEffectParam(refCategory6=2)"/>
+    <refId7 AltName="Reference ID [7]" Wiki="ID called from magic" Refs="AtkParam_Pc(refCategory7=0),Bullet(refCategory7=1),SpEffectParam(refCategory7=2)"/>
+    <refId8 AltName="Reference ID [8]" Wiki="ID called from magic" Refs="AtkParam_Pc(refCategory8=0),Bullet(refCategory8=1),SpEffectParam(refCategory8=2)"/>
+    <refId9 AltName="Reference ID [9]" Wiki="ID called from magic" Refs="AtkParam_Pc(refCategory9=0),Bullet(refCategory9=1),SpEffectParam(refCategory9=2)"/>
+    <refId10 AltName="Reference ID [10]" Wiki="ID called from magic" Refs="AtkParam_Pc(refCategory10=0),Bullet(refCategory10=1),SpEffectParam(refCategory10=2)"/>
     <consumeType1 AltName="Consumption Type [1]" Wiki="Consumption type" Enum="MAGIC_CONSUME_TYPE" />
     <consumeType2 AltName="Consumption Type [2]" Wiki="Consumption type" Enum="MAGIC_CONSUME_TYPE" />
     <consumeType3 AltName="Consumption Type [3]" Wiki="Consumption type" Enum="MAGIC_CONSUME_TYPE" />
@@ -693,5 +693,30 @@
     <consumeLoopMP_forMenu AltName="FP Consumption Loop - For Menu Display" Wiki="MP consumption for menu supplement display" />
     <pad AltName=""/>
   </Field>
-  <Self />
+  <Self Wiki="Defines behaviour data of spells. Do not confuse with version in EquipParamGoods." AlternativeOrder="yesNoDialogMessageId,opmeMenuType,-,
+sortId,iconId,-,
+aiNotifyType,aiUseJudgeId,-,
+mp,stamina,mp_charge,stamina_charge,consumeSA,-,
+behaviorId,mtrlItemId,overDexterity,ezStateBehaviorType,limitCancelSpEffectId,useLimitCategory,createLimitGroupId,-,
+maxQuantity,slotLength,-,
+requirementIntellect,requirementFaith,requirementLuck,-,
+analogDexterityMin,analogDexterityMax,-,
+spEffectCategory,-,
+refType,-,
+refId1,refId2,refId3,refId4,refId5,refId6,refId7,refId8,refId9,refId10,-,
+refCategory1,refCategory2,refCategory3,refCategory4,refCategory5,refCategory6,refCategory7,refCategory8,refCategory9,refCategory10,-,
+vowType0,vowType1,vowType2,vowType3,vowType4,vowType5,vowType6,vowType7,vowType8,vowType9,vowType10,vowType11:,vowType12,vowType13,vowType14,vowType15,-,
+enable_multi,enable_multi_only,enable_live,enable_gray,enable_white,enable_black,disableOffline,-,
+isEnchant,isShieldEnchant,-,
+castResonanceMagic,isValidTough_ProtSADmg,isWarpMagic,-,
+enableRiding,disableRiding,-,
+isUseNoAttackRegion,-,
+castSfxId,fireSfxId,effectSfxId,-,
+toughnessCorrectRate,-,
+ReplacementStatusType,ReplacementStatus1,ReplacementStatus2,ReplacementStatus3,ReplacementStatus4,-,
+ReplacementMagic1,ReplacementMagic2,ReplacementMagic3,ReplacementMagic4,-,
+replaceMagicId,hasSpEffectType,replaceCategory,-,
+subCategory1,subCategory2,-,
+consumeType1,consumeType2,consumeType3,consumeType4,consumeType5,consumeType6,consumeType7,consumeType8,consumeType9,consumeType10,-,
+consumeLoopMP_forMenu,-,"/>
 </PARAMMETA>

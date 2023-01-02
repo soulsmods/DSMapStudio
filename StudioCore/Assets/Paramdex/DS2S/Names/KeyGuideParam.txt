@@ -25,7 +25,7 @@
 901 【General purpose】Bonfire menu -- 【汎用】篝火メニュー
 1000 【General purpose】Lever pulling -- 【汎用】レバー引く
 1001 【General purpose】Lever continues to pull -- 【汎用】レバー引き続ける
-1010 【General purpose】Lever (wall hole, strap) -- 【汎用】レバー（壁穴、つり革）
+1010 【General purpose】Lever (wall hole- strap) -- 【汎用】レバー（壁穴、つり革）
 1020 【General purpose】Valve -- 【汎用】バルブ
 1100 【General purpose】Torch -- 【汎用】松明
 1101 【General purpose】Torch (wall-to-wall) -- 【汎用】松明（壁際）
@@ -70,7 +70,7 @@
 10109010 For the decaying giant forest_ giant tree warp -- 朽ちた巨人の森_巨人の木ワープ用
 10109020 Decayed Giant Forest_ Giant Tree (Practical Use of Wood) -- 朽ちた巨人の森_巨人の木（木の実用）
 10140400 The boss of The Wedding Town Gerdra_Church (entrance) -- 輝石街ジェルドラ_教会のボス（入口）
-10140401 The Boss Under the Web Zone of The Gelderla, Kiseki Street (Entrance) -- 輝石街ジェルドラ_蜘蛛の巣ゾーン下ボス（入口）
+10140401 The Boss Under the Web Zone of The Gelderla- Kiseki Street (Entrance) -- 輝石街ジェルドラ_蜘蛛の巣ゾーン下ボス（入口）
 10149010 The Memory Invasion of The Kiishi-gai Gerdra_Fururyu -- 輝石街ジェルドラ_古竜の記憶侵入
 10149020 For the acquisition of The Red Soul -- 輝石街ジェルドラ_赤いソウル取得用
 10150400 Anne Deal's House_Boss -- アン・ディールの館_ボス前

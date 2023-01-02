@@ -6,7 +6,7 @@
 30960001 The Last Giant
 32600001 The Rotten
 32600002 The Rotten
-50100001 Mytha, the Baneful Queen
+50100001 Mytha- the Baneful Queen
 50300001 Scorpioness Najka
 50300002 Scorpioness Najka
 60100001 Flame Lizard
@@ -14,4 +14,4 @@
 60300001 The Duke's Dear Freja
 60300002 The Duke's Dear Freja
 61911001 Executioner's Chariot
-68100001 Sinh, the Slumbering Dragon
+68100001 Sinh- the Slumbering Dragon

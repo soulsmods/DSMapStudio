@@ -51,7 +51,7 @@
 300105000 Lv.25:: Decaying Giant Forest: WaterIng Around -- Lv.25：：朽ちた巨人の森：水回り
 300106000 Lv.25:: Heide Great Fire Tower -- Lv.25：：ハイデ大火塔
 300107000 Lv.30:: Hidden Port -- Lv.30：：隠れ港
-300108000 Lv.32:: The Shadow of the Hollow Forest: The Road to the Forest, Madeula Connection , To the Branch Tower -- Lv.32：：虚ろの影の森：森への道マデューラ接続～分岐の塔まで
+300108000 Lv.32:: The Shadow of the Hollow Forest: The Road to the Forest- Madeula Connection - To the Branch Tower -- Lv.32：：虚ろの影の森：森への道マデューラ接続～分岐の塔まで
 300109000 Lv.33:: Hunting Forest -- Lv.33：：狩猟の森
 300110000 Lv.34:: Heide Great Fire Tower: The Blue Cathedral -- Lv.34：：ハイデ大火塔：青聖堂
 300111000 Lv.35:: Decaying Giant Forest: Bay Grant -- Lv.35：：朽ちた巨人の森：ベイグラント

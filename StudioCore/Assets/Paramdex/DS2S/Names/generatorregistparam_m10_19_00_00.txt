@@ -16,7 +16,7 @@
 40000000 [REG:40000000] Iron Warrior
 40200000 [REG:40200000] Possessed Armor
 60700000 [REG:60700000] Old Iron King [Boss]
-69300000 [REG:69300000] Aldia, Scholar of the First Sin
+69300000 [REG:69300000] Aldia- Scholar of the First Sin
 69400000 [REG:69400000] Forlorn
 75200010 [REG:75200010] Lucatiel of Mirrah
 75300000 [REG:75300000] Bell Keeper

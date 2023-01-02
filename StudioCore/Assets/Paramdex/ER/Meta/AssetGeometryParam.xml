@@ -120,7 +120,7 @@
     <breakBulletCpId AltName="Destruction Bullet Dummy Poly ID" Wiki="Location of [bullet] at the time of destruction Damipoli ID (-1: placement position)" />
     <FragmentInvisibleWaitTime AltName="Hidden Debris - Wait Time" Wiki="Hidden debris Waiting time (seconds)" />
     <FragmentInvisibleTime AltName="Hidden Debris - Time to Hide" Wiki="Time to hide debris (seconds)" />
-    <BreakAiSoundID AltName="Destruction AI Sound ID" Wiki="AI sound ID generated at the time of destruction" />
+    <BreakAiSoundID AltName="Destruction AI Sound ID" Wiki="AI sound ID generated at the time of destruction" Refs="AiSoundParam" />
     <breakItemLotType AltName="Destruction Item Lot Type" Wiki="A type that decides how to obtain items drawn at the time of destruction" Enum="ASSET_BREAK_ITEM_LOT_TYPE_ENUM" />
     <animBreakIdMax AltName="Anim Break ID Max" Wiki="What is the animation destruction ID from 0 to what?" />
     <breakBulletAttributeDamageType AltName="Destruction Bullet Attribute Damage Type" Wiki="Generates a bullet if the last damage received when destroying an asset meets the conditions of this setting." Enum="ASSET_BREAK_ATTRIBUTE_DAMAGE_TYPE" />

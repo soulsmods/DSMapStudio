@@ -27,6 +27,24 @@
       <Option Value="22" Name="White" />
       <Option Value="23" Name="White Outline" />
     </Enum>
+	<Enum Name="EffectType">
+      <Option Value="0" Name="Body" />
+      <Option Value="1" Name="Right Weapon" />
+      <Option Value="2" Name="Left Weapon" />
+    </Enum>
+	<Enum Name="BodyProtectorType">
+      <Option Value="0" Name="No Change" />
+      <Option Value="1" Name="Forced Human" />
+      <Option Value="2" Name="Forced Hollow" />
+    </Enum>
+	<Enum Name="ChameleonType">
+      <Option Value="0" Name="No Change" />
+      <Option Value="2" Name="On" />
+    </Enum>
+	<Enum Name="PhantomType">
+      <Option Value="0" Name="No Change" />
+      <Option Value="2" Name="On" />
+    </Enum>
   </Enums>
   <Field>
     <midstSfxId AltName="Ongoing Visual FX ID" />
@@ -37,44 +55,62 @@
     <finishSeId AltName="Finish Sound FX ID" />
     <camouflageBeginDist AltName="Hide Start Distance" Wiki="Closest distance at which effect is disabled." />
     <camouflageEndDist AltName="Hide End Distance" Wiki="Furthest distance at which effect is disabled." />
-    <transformProtectorId AltName="Transform - Protector ID" />
+    <transformProtectorId AltName="Transform - Protector ID" Refs="EquipParamProtector" Wiki="Default behavior is to cosmetically equip a head piece.\nIf Full Body Protector ID is true, then the body/arms/legs corresponding to the ID are cosmetically equipped."/>
     <midstDmyId AltName="Ongoing Model Point ID" />
     <initDmyId AltName="Initial Model Point ID" />
     <finishDmyId AltName="Finish Model Point ID" />
-    <soulParamIdForWepEnchant1 AltName="Weapon Enchant ID 1" />
+	<effectType Enum="EffectType" />
+    <soulParamIdForWepEnchant1 AltName="Weapon Soul Param Shader" Enum="SoulParamID" />
     <playCategory Wiki="Only one effect in each category can be active at once (determined by PlaybackPriority)." />
     <playPriority Wiki="Only the lowest-numbered-priority effect in each PlaybackCategory will be active at once." />
-    <existEffectForLarge AltName="Large Effect Exists" Wiki="Indicates if a large version of the effect exists." IsBool="" />
+    <existEffectForLarge AltName="Large Effect Exists" Wiki="Indicates if a large version of the effect exists.\nUsed for body effects on large enemies." IsBool="" />
     <existEffectForSoul AltName="Soul Effect Exists" Wiki="Indicates if a 'soul' version of the effect exists." IsBool="" />
     <existInvisibleAtCamouflage AltName="Invisible Whilst Hidden" IsBool="" />
     <useCamouflage AltName="Enable Hide Fields" Wiki="Enables the disable distance fields for the effect." IsBool="" />
     <invisibleAtFriendCamouflage AltName="Invisible in Camouflage for Friend" IsBool="" />
     <addMapAreaBlockOffset AltName="Add Map Area Block Offset" Wiki="Ads map ID digits to effect ID." IsBool="" />
     <halfCamouflage AltName="Enable Half Hidden" Wiki="If enabled, effects are made semi-transparent rather than fully hidden." IsBool="" />
-    <isFullBodyProtectorId AltName="Is Full Body Protector ID" IsBool="" />
+    <isFullBodyProtectorId AltName="Is Full Body Protector ID" IsBool="" Wiki="Causes Transform - Protector ID to cosmetically equip the corresponding body/arms/legs instead of head." />
     <isInvisibleWeapon IsBool="" />
     <isSilence AltName="Is Silent" IsBool="" />
-    <isGauntletProtectorId AltName="Is Hand Protector ID" IsBool="" />
-    <soulParamIdForWepEnchant2 AltName="Weapon Enchant ID 2" />
-    <SpEffectSp0 AltName="SpEffect VFX Type 0" />
-    <SpEffectSp1 Enum="SoulParamID" AltName="SpEffect VFX Type 1" />
-    <SpSfxId0 AltName="Effect VFX - Dummy ID 0" />
-    <SpSfxId1 AltName="Effect VFX - Dummy ID 1" />
-    <SpSfxId2 AltName="Effect VFX - Dummy ID 2" />
-    <SpSfxId3 AltName="Effect VFX - Dummy ID 3" />
-    <SpSfxId4 AltName="Effect VFX - Dummy ID 4" />
-    <SpSfxId5 AltName="Effect VFX - Dummy ID 5" />
-    <SpSfxId6 AltName="Effect VFX - Dummy ID 6" />
-    <SpSfxId7 AltName="Effect VFX - Dummy ID 7" />
-    <SpSfxId8 AltName="Effect VFX - Dummy ID 8" />
-    <SpSfxId9 AltName="Effect VFX - Dummy ID 9" />
-    <SpSfxId10 AltName="Effect VFX - Dummy ID 10" />
-    <SpSfxId11 AltName="Effect VFX - Dummy ID 11" />
-    <SpSfxId12 AltName="Effect VFX - Dummy ID 12" />
-    <SpSfxId13 AltName="Effect VFX - Dummy ID 13" />
-    <SpSfxId14 AltName="Effect VFX - Dummy ID 14" />
-    <SpSfxId15 AltName="Effect VFX - Dummy ID 15" />
+    <isGauntletProtectorId AltName="Ongoing VFX ID - Full Body" IsBool="" />
+	<Unk1 AltName="Initial VFX ID - Full Body" IsBool="" />
+	<Unk2 AltName="Finish VFX ID - Full Body" IsBool="" />
+	<Unk3 AltName="Is Visible on Dead Chr" IsBool="" />
+	<Unk4 AltName="Offset VFX ID by Weapon VFX Size" IsBool="" />
+	<Unk5 AltName="pad" />
+	<DecalId0 AltName="Decal ID 0" Refs="DecalParam" />
+	<DecalId1 AltName="Decal ID 1" Refs="DecalParam" />
+    <soulParamIdForWepEnchant2 AltName="Foot Effect Priority" />
+    <SpEffectSp0 AltName="Foot Effect Offset" />
+    <SpEffectSp1 Enum="SoulParamID" AltName="Trail Color" />
+	<bodyProtectorType AltName="Set Human or Hollow" Enum="BodyProtectorType" />
+    <SpSfxId0 AltName="Enchant VFX - Dummy ID Start 0" />
+    <SpSfxId1 AltName="Enchant VFX - Dummy ID End 0" />
+    <SpSfxId2 AltName="Enchant VFX - Dummy ID Start 1" />
+    <SpSfxId3 AltName="Enchant VFX - Dummy ID End 1" />
+    <SpSfxId4 AltName="Enchant VFX - Dummy ID Start 2" />
+    <SpSfxId5 AltName="Enchant VFX - Dummy ID End 2" />
+    <SpSfxId6 AltName="Enchant VFX - Dummy ID Start 3" />
+    <SpSfxId7 AltName="Enchant VFX - Dummy ID End 3" />
+    <SpSfxId8 AltName="Enchant VFX - Dummy ID Start 4" />
+    <SpSfxId9 AltName="Enchant VFX - Dummy ID End 4" />
+    <SpSfxId10 AltName="Enchant VFX - Dummy ID Start 5" />
+    <SpSfxId11 AltName="Enchant VFX - Dummy ID End 5" />
+    <SpSfxId12 AltName="Enchant VFX - Dummy ID Start 6" />
+    <SpSfxId13 AltName="Enchant VFX - Dummy ID End 6" />
+    <SpSfxId14 AltName="Enchant VFX - Dummy ID Start 7" />
+    <SpSfxId15 AltName="Enchant VFX - Dummy ID End 7" />
+	<Unk10 AltName="Chameleon Type" Enum="ChameleonType" />
+	<PhantomType AltName="Phantom Type" Enum="PhantomType" />
+	<CamouflageGhost AltName="Camouflage - Min Alpha" Wiki="Needs testing" />
+	<Unk12 AltName="Wet Aspect Type" Wiki="Needs testing" />
+	<PhantomParamId Refs="PhantomParam" />
     <EmissiveIntensityScaleArmorGlow AltName="Emissive Intensity Scale" />
+	<Unk13 AltName="Emissive Intensity Fade Time" />
+	<bodyProtectorVal AltName="Foot Decal Mtrl Offset Overwrite ID" Wiki="Related to Water/Mud/Poison Swamp/Bleed"/>
+	<Unk14 AltName="pad" />
     <CinderIntensityScaleEmberEffectGlow AltName="Ember Intensity Scale" />
   </Field>
+  <Self />
 </PARAMMETA>

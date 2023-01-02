@@ -23,5 +23,5 @@
     <resistSleepRate AltName="Aux Resist %: Sleep" Wiki="Correction value for sleep tolerance" />
     <resistMadnessRate AltName="Aux Resist %: Madness" Wiki="Madness resistance correction value" />
   </Field>
-  <Self />
+  <Self ConsecutiveIDs="" Wiki="Defines upgrades of Armor. Unused in Elden Ring.\nTailoring is handled by a shop and functions as total item replacement, not variation." />
 </PARAMMETA>

@@ -412,4 +412,5 @@
     <invisibleFlag_SexVer95 IsBool="" AltName="Mask 95 - Alter Armor Part" Wiki="" />
     <pad404 AltName=""/>
   </Field>
+  <Self Wiki="Defines all types of equippable Armor, including no armor. Responsible for model masks." />
 </PARAMMETA>

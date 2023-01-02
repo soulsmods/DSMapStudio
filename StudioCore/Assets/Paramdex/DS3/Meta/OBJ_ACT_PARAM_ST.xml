@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Enums>
+    <Enum Name="spQualifiedType">
+      <Option Value="0" Name="None" />
+      <Option Value="1" Name="Goods" />
+	  <Option Value="2" Name="4150" />
+    </Enum>
+  </Enums>
+  <Field>
+	<spQualifiedPassEventFlag AltName="Required Event Flag" />
+	<spQualifiedId AltName="Required Item 1 ID" Refs="EquipParamGoods" Wiki="Must have either item to use" />
+	<spQualifiedId2 AltName="Required Item 2 ID" Refs="EquipParamGoods" Wiki="Must have either item to use" />
+	<spQualifiedType AltName="Required Item 1 Type" Enum="spQualifiedType" Wiki="Values of 2 have the corresponding ID be 4150" />
+	<spQualifiedType2 AltName="Required Item 2 Type" Enum="spQualifiedType" Wiki="Values of 2 have the corresponding ID be 4150" />
+	<actionButtonParamId Refs="ActionButtonParam" />
+	<pad1 AltName="isEventKickSync" IsBool="" />
+  </Field>
+  <Self />
+</PARAMMETA>

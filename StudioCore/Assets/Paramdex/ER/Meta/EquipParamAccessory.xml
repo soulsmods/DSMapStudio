@@ -54,7 +54,7 @@
     <disableParam_NT AltName="Disable Param - Network Test" Wiki="Parameters marked with  are excluded in the NT version package." IsBool="" />
     <disableParamReserve1 AltName=""/>
     <disableParamReserve2 AltName=""/>
-    <refId AltName="Reference ID" Wiki="ID called from decorations" Refs="SpEffectParam,Bullet,AtkParam_Pc" />
+    <refId AltName="Reference ID" Wiki="ID called from decorations" Refs="SpEffectParam(refCategory=2),Bullet(refCategory=1),BehaviorParam_Pc(refCategory=0)" />
     <sfxVariationId AltName="SFX Variation ID" Wiki="Specify SFX variation (used to identify SFX in combination with TimeActEditor ID)" />
     <weight AltName="Weight" Wiki="Weight [kg]" />
     <behaviorId AltName="Behavior ID" Wiki="Action ID (= Skill)" />
@@ -95,5 +95,5 @@
     <residentSpEffectId4 AltName="SpEffect ID [4]" Wiki="Resident special effect ID4" Refs="SpEffectParam" />
     <pad1 AltName=""/>
   </Field>
-  <Self />
+  <Self Wiki="Defines Talismans." />
 </PARAMMETA>

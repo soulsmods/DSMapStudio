@@ -1,10 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
   <Field>
-    <MaterialId01 Refs="EquipParamGoods" />
-    <MaterialId02 Refs="EquipParamGoods" />
-    <MaterialId03 Refs="EquipParamGoods" />
-    <MaterialId04 Refs="EquipParamGoods" />
-    <MaterialId05 Refs="EquipParamGoods" />
+    <MaterialId01 Refs="EquipParamGoods,EquipParamWeapon,EquipParamProtector,EquipParamAccessory" />
+    <MaterialId02 Refs="EquipParamGoods,EquipParamWeapon,EquipParamProtector,EquipParamAccessory" />
+    <MaterialId03 Refs="EquipParamGoods,EquipParamWeapon,EquipParamProtector,EquipParamAccessory" />
+    <MaterialId04 Refs="EquipParamGoods,EquipParamWeapon,EquipParamProtector,EquipParamAccessory" />
+    <MaterialId05 Refs="EquipParamGoods,EquipParamWeapon,EquipParamProtector,EquipParamAccessory" />
+	<isDisableDispNum01 AltName="Item Type Flag 1" Wiki="These flags determine what item type the material is.\n00000/00001: Weapon\n10000/10001: Armor\n01000/01001: Accessory\n00100/00101: Goods\n00010/00011: Gem (Unused)\n11110: Ignore Requirement" />
+	<isDisableDispNum02 AltName="Item Type Flag 2" Wiki="These flags determine what item type the material is.\n00000/00001: Weapon\n10000/10001: Armor\n01000/01001: Accessory\n00100/00101: Goods\n00010/00011: Gem (Unused)\n11110: Ignore Requirement" />
+	<isDisableDispNum03 AltName="Item Type Flag 3" Wiki="These flags determine what item type the material is.\n00000/00001: Weapon\n10000/10001: Armor\n01000/01001: Accessory\n00100/00101: Goods\n00010/00011: Gem (Unused)\n11110: Ignore Requirement" />
+	<isDisableDispNum04 AltName="Item Type Flag 4" Wiki="These flags determine what item type the material is.\n00000/00001: Weapon\n10000/10001: Armor\n01000/01001: Accessory\n00100/00101: Goods\n00010/00011: Gem (Unused)\n11110: Ignore Requirement" />
+	<isDisableDispNum05 AltName="Item Type Flag 5" Wiki="These flags determine what item type the material is.\n00000/00001: Weapon\n10000/10001: Armor\n01000/01001: Accessory\n00100/00101: Goods\n00010/00011: Gem (Unused)\n11110: Ignore Requirement" />
+	<pad1 Wiki="First 4 bytes are also Item Type flags. Values are as follows:\n0/16: Weapon\n1/17: Armor\n2/18: Accessory\n4/20: Goods\n8/24: Gem (Unused)\n15: Ignore Requirement" />
   </Field>
+  <Self />
 </PARAMMETA>

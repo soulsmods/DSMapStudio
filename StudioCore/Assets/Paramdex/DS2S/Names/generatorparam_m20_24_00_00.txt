@@ -6,7 +6,7 @@
 686 [GEN:686] Grave Warden Agdayne
 690 [GEN:690] Devotee Scarlett
 800 [GEN:800] Velstadt
-915 [GEN:915] Aldia, Scholar of the First Sin
+915 [GEN:915] Aldia- Scholar of the First Sin
 971 [GEN:971] Forlorn (Scythe)
 1000 [GEN:1000] Captive Undead
 1011 [GEN:1011] Leydia Witch

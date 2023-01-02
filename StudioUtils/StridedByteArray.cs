@@ -63,7 +63,7 @@ public class StridedByteArray
         if (Count <= Capacity) return;
         
         while (Capacity < Count)
-            Capacity += Capacity / 2;
+            Capacity += (Capacity + 1) / 2;
         
         Array.Resize(ref _backing, (int)Capacity * (int)Stride);
     }

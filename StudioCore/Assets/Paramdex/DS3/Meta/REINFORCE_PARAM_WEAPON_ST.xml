@@ -1,26 +1,43 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
-  <Self AlternativeOrder="
-    physicsAtkRate, magicAtkRate, fireAtkRate, thunderAtkRate, darkAtkRate,
-    staminaAtkRate, StabilityAtkRate, saWeaponAtkRate,
-    -,
-    physicsGuardCutRate, magicGuardCutRate, fireGuardCutRate, thunderGuardCutRate, darkCutRate,
-    staminaGuardResistRate, StabilityCutRate, saDurabilityRate,
-    -,
-    poisonGuardResistRate, toxicGuardResistRate, bleedGuardResistRate, curseGuardResistRate, frostGuardResistRate,
-    -,
-    correctStrengthRate, correctAgilityRate, correctMagicRate, correctFaithRate,
-    -,
-    spEffectId1, spEffectId2, spEffectId3,
-    ResidentSpEffectId1, ResidentSpEffectId2, ResidentSpEffectId3,
-    materialSetId" />
+  <Self AlternativeOrder="physicsAtkRate,magicAtkRate,fireAtkRate,thunderAtkRate,darkAtkRate,staminaAtkRate,saWeaponAtkRate,saDurabilityRate,-,
+physicsGuardCutRate,magicGuardCutRate,fireGuardCutRate,thunderGuardCutRate,darkCutRate,staminaGuardResistRate,-,
+poisonGuardResistRate,toxicGuardResistRate,bleedGuardResistRate,curseGuardResistRate,StabilityCutRate,-,
+correctStrengthRate,correctAgilityRate,correctMagicRate,correctFaithRate,StabilityAtkRate,-" />
   <Field>
-    <spEffectId1 AltName="spEffectId1 Offset" />
-    <spEffectId2 AltName="spEffectId2 Offset" />
-    <spEffectId3 AltName="spEffectId3 Offset" />
-    <ResidentSpEffectId1 AltName="ResidentSpEffectId1 Offset" />
-    <ResidentSpEffectId2 AltName="ResidentSpEffectId2 Offset" />
-    <ResidentSpEffectId3 AltName="ResidentSpEffectId3 Offset" />
-    <materialSetId AltName="materialSetId Offset" />
+    <physicsAtkRate AltName="Physical Base Attack Multiplier" />
+	<magicAtkRate AltName="Magic Base Attack Multiplier" />
+	<fireAtkRate AltName="Fire Base Attack Multiplier" />
+	<thunderAtkRate AltName="Lightning Base Attack Multiplier" />
+	<staminaAtkRate AltName="Stamina Damage Multiplier" />
+	<saWeaponAtkRate AltName="Poise Damage Multiplier" />
+	<saDurabilityRate AltName="Weapon Poise Multiplier" Wiki="Not sure what this is, but EquipParamWeapon has saDurability" />
+	<correctStrengthRate AltName="STR Scaling Multiplier" />
+	<correctAgilityRate AltName="DEX Scaling Multiplier" />
+	<correctMagicRate AltName="INT Scaling Multiplier" />
+	<correctFaithRate AltName="FTH Scaling Multiplier" />
+	<physicsGuardCutRate AltName="Physical Guard Defense Multiplier" />
+	<magicGuardCutRate AltName="Magic Guard Defense Multiplier" />
+	<fireGuardCutRate AltName="Fire Guard Defense Multiplier" />
+	<thunderGuardCutRate AltName="Lightning Guard Defense Multiplier" />
+	<poisonGuardResistRate AltName="Poison Guard Resist Multiplier" />
+	<toxicGuardResistRate AltName="Toxic Guard Resist Multiplier" />
+	<bleedGuardResistRate AltName="Bleed Guard Resist Multiplier" />
+	<curseGuardResistRate AltName="Curse Guard Resist Multiplier" />
+	<staminaGuardResistRate AltName="Stability Multiplier" />
+	<spEffectId1 AltName="Attack SpEffect ID 1 Offset" />
+    <spEffectId2 AltName="Attack SpEffect ID 2 Offset" />
+    <spEffectId3 AltName="Attack SpEffect ID 3 Offset" />
+    <ResidentSpEffectId1 AltName="Passive SpEffect ID 1 Offset" />
+    <ResidentSpEffectId2 AltName="Passive SpEffect ID 2 Offset" />
+    <ResidentSpEffectId3 AltName="Passive SpEffect ID 3 Offset" />
+    <materialSetId AltName="Material ID Offset" />
+	<pad1 AltName="Multiplayer Weapon Level" />
+	<darkAtkRate AltName="Dark Base Attack Multiplier" />
+	<darkCutRate AltName="Dark Guard Defense Multiplier" />
+	<StabilityAtkRate AltName="LCK Scaling Multiplier" />
+	<StabilityCutRate AltName="Frost Guard Resist Multiplier" />
+	<frostGuardResistRate AltName="Reinforcement Price Multiplier" />
+	<unk1 AltName="Infusion Price Multiplier" />
   </Field>
 </PARAMMETA>
