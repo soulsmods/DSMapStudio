@@ -6,558 +6,110 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="u8 isCastSorceries" />
-    <Field Def="u8 isCastMiracles" />
-    <Field Def="u8 isCastPyromancies" />
-    <Field Def="u8 isCastStavesHex" />
-    <Field Def="s32 Unk04" />
-    <Field Def="s32 Unk08" />
-    <Field Def="s32 Right 2h Grip Style" />
-    <Field Def="s32 Left 2h Grip Style" />
-    <Field Def="s32 Right 1h Grip Style" />
-    <Field Def="s32 Left 1h Grip Style" />
-    <Field Def="s32 Right Powerstance Grip Style" />
-    <Field Def="s32 Left Powerstance Grip Style" />
-    <Field Def="u8 Stance Swap Type" >
-      <Description>
-10:From Back
-20:From Right Hip
-30:Frop Left Hip
-      </Description>
-    </Field>
-    <Field Def="u8 Right 1h Position" >
-      <Description>
-1:Perpendicular to Right Hand
-2:Perpendicular to Left Hand
-3:Disappear
-5:Right Feet
-6:Left Feet
-7:Disappears
-8:Body
-10:Top of Head
-20:Right Hand
-21:Left Hand
-22:Left Backhand
-26:Right Backhand
-30:Left Hip
-31:Right Hip
-32:Right Back
-33:Left Back
-34:Upside Down Right Back
-35:Upside Down Left Back
-38:Reversed Left Hip
-39:Reversed Right Hip
-40:Right Center Back
-41:Left Center Back
-42:Perpendicular Right Back
-43:Perpendicular Left Back
-44:Transversal Up Angle Right Back
-45:Transversal Down Angle Right Back
-46:Transversal Down Angle Left Back
-47:Transversal Up Angle Left Back
-49:Hip Back Center
-50:Far Back, Left
-51:Far Back, Right
-52:Reversed Hip, Upward
-53:Hip Back Center, Inside
-54:Right Back, Upper
-55:Left Back, Upper
-56:Transversal Up Angle Right Back, Lower
-57:Transversal Down Angle Right Back, Lower
-58:Right Hip, Rotated
-59:Left Hip, Rotated
-      </Description>
-    </Field>
-    <Field Def="u8 Right 1h Relative Position" >
-      <Description>
-1:Normal
-2:Translated
-3:Rotated
-      </Description>
-    </Field>
-    <Field Def="u8 Left 1h Position" >
-      <Description>
-1:Perpendicular to Right Hand
-2:Perpendicular to Left Hand
-3:Disappear
-5:Right Feet
-6:Left Feet
-7:Disappears
-8:Body
-10:Top of Head
-20:Right Hand
-21:Left Hand
-22:Left Backhand
-26:Right Backhand
-30:Left Hip
-31:Right Hip
-32:Right Back
-33:Left Back
-34:Upside Down Right Back
-35:Upside Down Left Back
-38:Reversed Left Hip
-39:Reversed Right Hip
-40:Right Center Back
-41:Left Center Back
-42:Perpendicular Right Back
-43:Perpendicular Left Back
-44:Transversal Up Angle Right Back
-45:Transversal Down Angle Right Back
-46:Transversal Down Angle Left Back
-47:Transversal Up Angle Left Back
-49:Hip Back Center
-50:Far Back, Left
-51:Far Back, Right
-52:Reversed Hip, Upward
-53:Hip Back Center, Inside
-54:Right Back, Upper
-55:Left Back, Upper
-56:Transversal Up Angle Right Back, Lower
-57:Transversal Down Angle Right Back, Lower
-58:Right Hip, Rotated
-59:Left Hip, Rotated
-      </Description>
-    </Field>
-    <Field Def="u8 Left 1h Relative Position" >
-      <Description>
-1:Normal
-2:Translated
-3:Rotated
-      </Description>
-    </Field>
-    <Field Def="u8 Right 2h Position" >
-      <Description>
-1:Perpendicular to Right Hand
-2:Perpendicular to Left Hand
-3:Disappear
-5:Right Feet
-6:Left Feet
-7:Disappears
-8:Body
-10:Top of Head
-20:Right Hand
-21:Left Hand
-22:Left Backhand
-26:Right Backhand
-30:Left Hip
-31:Right Hip
-32:Right Back
-33:Left Back
-34:Upside Down Right Back
-35:Upside Down Left Back
-38:Reversed Left Hip
-39:Reversed Right Hip
-40:Right Center Back
-41:Left Center Back
-42:Perpendicular Right Back
-43:Perpendicular Left Back
-44:Transversal Up Angle Right Back
-45:Transversal Down Angle Right Back
-46:Transversal Down Angle Left Back
-47:Transversal Up Angle Left Back
-49:Hip Back Center
-50:Far Back, Left
-51:Far Back, Right
-52:Reversed Hip, Upward
-53:Hip Back Center, Inside
-54:Right Back, Upper
-55:Left Back, Upper
-56:Transversal Up Angle Right Back, Lower
-57:Transversal Down Angle Right Back, Lower
-58:Right Hip, Rotated
-59:Left Hip, Rotated
-      </Description>
-    </Field>
-    <Field Def="u8 Right 2h Relative Position" >
-      <Description>
-1:Normal
-2:Translated
-3:Rotated
-      </Description>
-    </Field>
-    <Field Def="u8 Unk2B" >
-      <Description>
-1:Perpendicular to Right Hand
-2:Perpendicular to Left Hand
-3:Disappear
-5:Right Feet
-6:Left Feet
-7:Disappears
-8:Body
-10:Top of Head
-20:Right Hand
-21:Left Hand
-22:Left Backhand
-26:Right Backhand
-30:Left Hip
-31:Right Hip
-32:Right Back
-33:Left Back
-34:Upside Down Right Back
-35:Upside Down Left Back
-38:Reversed Left Hip
-39:Reversed Right Hip
-40:Right Center Back
-41:Left Center Back
-42:Perpendicular Right Back
-43:Perpendicular Left Back
-44:Transversal Up Angle Right Back
-45:Transversal Down Angle Right Back
-46:Transversal Down Angle Left Back
-47:Transversal Up Angle Left Back
-49:Hip Back Center
-50:Far Back, Left
-51:Far Back, Right
-52:Reversed Hip, Upward
-53:Hip Back Center, Inside
-54:Right Back, Upper
-55:Left Back, Upper
-56:Transversal Up Angle Right Back, Lower
-57:Transversal Down Angle Right Back, Lower
-58:Right Hip, Rotated
-59:Left Hip, Rotated
-      </Description>
-    </Field>
-    <Field Def="u8 Unk2C" >
-      <Description>
-1:Normal
-2:Translated
-3:Rotated
-      </Description>
-    </Field>
-    <Field Def="u8 Left 2h Position" >
-      <Description>
-1:Perpendicular to Right Hand
-2:Perpendicular to Left Hand
-3:Disappear
-5:Right Feet
-6:Left Feet
-7:Disappears
-8:Body
-10:Top of Head
-20:Right Hand
-21:Left Hand
-22:Left Backhand
-26:Right Backhand
-30:Left Hip
-31:Right Hip
-32:Right Back
-33:Left Back
-34:Upside Down Right Back
-35:Upside Down Left Back
-38:Reversed Left Hip
-39:Reversed Right Hip
-40:Right Center Back
-41:Left Center Back
-42:Perpendicular Right Back
-43:Perpendicular Left Back
-44:Transversal Up Angle Right Back
-45:Transversal Down Angle Right Back
-46:Transversal Down Angle Left Back
-47:Transversal Up Angle Left Back
-49:Hip Back Center
-50:Far Back, Left
-51:Far Back, Right
-52:Reversed Hip, Upward
-53:Hip Back Center, Inside
-54:Right Back, Upper
-55:Left Back, Upper
-56:Transversal Up Angle Right Back, Lower
-57:Transversal Down Angle Right Back, Lower
-58:Right Hip, Rotated
-59:Left Hip, Rotated
-      </Description>
-    </Field>
-    <Field Def="u8 Left 2h Relative Position" >
-      <Description>
-1:Normal
-2:Translated
-3:Rotated
-      </Description>
-    </Field>
-    <Field Def="u8 Unk2F" >
-      <Description>
-1:Perpendicular to Right Hand
-2:Perpendicular to Left Hand
-3:Disappear
-5:Right Feet
-6:Left Feet
-7:Disappears
-8:Body
-10:Top of Head
-20:Right Hand
-21:Left Hand
-22:Left Backhand
-26:Right Backhand
-30:Left Hip
-31:Right Hip
-32:Right Back
-33:Left Back
-34:Upside Down Right Back
-35:Upside Down Left Back
-38:Reversed Left Hip
-39:Reversed Right Hip
-40:Right Center Back
-41:Left Center Back
-42:Perpendicular Right Back
-43:Perpendicular Left Back
-44:Transversal Up Angle Right Back
-45:Transversal Down Angle Right Back
-46:Transversal Down Angle Left Back
-47:Transversal Up Angle Left Back
-49:Hip Back Center
-50:Far Back, Left
-51:Far Back, Right
-52:Reversed Hip, Upward
-53:Hip Back Center, Inside
-54:Right Back, Upper
-55:Left Back, Upper
-56:Transversal Up Angle Right Back, Lower
-57:Transversal Down Angle Right Back, Lower
-58:Right Hip, Rotated
-59:Left Hip, Rotated
-      </Description>
-    </Field>
-    <Field Def="u8 Unk30" >
-      <Description>
-1:Normal
-2:Translated
-3:Rotated
-      </Description>
-    </Field>
-    <Field Def="u8 Right Holstered Position" >
-      <Description>
-1:Perpendicular to Right Hand
-2:Perpendicular to Left Hand
-3:Disappear
-5:Right Feet
-6:Left Feet
-7:Disappears
-8:Body
-10:Top of Head
-20:Right Hand
-21:Left Hand
-22:Left Backhand
-26:Right Backhand
-30:Left Hip
-31:Right Hip
-32:Right Back
-33:Left Back
-34:Upside Down Right Back
-35:Upside Down Left Back
-38:Reversed Left Hip
-39:Reversed Right Hip
-40:Right Center Back
-41:Left Center Back
-42:Perpendicular Right Back
-43:Perpendicular Left Back
-44:Transversal Up Angle Right Back
-45:Transversal Down Angle Right Back
-46:Transversal Down Angle Left Back
-47:Transversal Up Angle Left Back
-49:Hip Back Center
-50:Far Back, Left
-51:Far Back, Right
-52:Reversed Hip, Upward
-53:Hip Back Center, Inside
-54:Right Back, Upper
-55:Left Back, Upper
-56:Transversal Up Angle Right Back, Lower
-57:Transversal Down Angle Right Back, Lower
-58:Right Hip, Rotated
-59:Left Hip, Rotated
-      </Description>
-    </Field>
-    <Field Def="u8 Right Holstered Relative Position" >
-      <Description>
-1:Normal
-2:Translated
-3:Rotated
-      </Description>
-    </Field>
-    <Field Def="u8 Left Holstered Position" >
-      <Description>
-1:Perpendicular to Right Hand
-2:Perpendicular to Left Hand
-3:Disappear
-5:Right Feet
-6:Left Feet
-7:Disappears
-8:Body
-10:Top of Head
-20:Right Hand
-21:Left Hand
-22:Left Backhand
-26:Right Backhand
-30:Left Hip
-31:Right Hip
-32:Right Back
-33:Left Back
-34:Upside Down Right Back
-35:Upside Down Left Back
-38:Reversed Left Hip
-39:Reversed Right Hip
-40:Right Center Back
-41:Left Center Back
-42:Perpendicular Right Back
-43:Perpendicular Left Back
-44:Transversal Up Angle Right Back
-45:Transversal Down Angle Right Back
-46:Transversal Down Angle Left Back
-47:Transversal Up Angle Left Back
-49:Hip Back Center
-50:Far Back, Left
-51:Far Back, Right
-52:Reversed Hip, Upward
-53:Hip Back Center, Inside
-54:Right Back, Upper
-55:Left Back, Upper
-56:Transversal Up Angle Right Back, Lower
-57:Transversal Down Angle Right Back, Lower
-58:Right Hip, Rotated
-59:Left Hip, Rotated
-      </Description>
-    </Field>
-    <Field Def="u8 Left Holstered Relative Position" >
-      <Description>
-1:Normal
-2:Translated
-3:Rotated
-      </Description>
-    </Field>
-    <Field Def="u8 Cast Type" >
-      <Description>
-0: None
-1: Arrows
-2: Great Arrows
-3: Bolts
-6: Sorceries/Miracles/Pyromancies
-      </Description>
-    </Field>
-    <Field Def="u8 Weapon Category Name" >
-      <Description>
-0:None
-1:Claw
-2:Fists
-3:Dagger
-4:Thrusting Sword
-5:Whip
-6:Twinblade
-7:Spear
-8:Lance
-9:Curved Sword
-10:Katana
-11:Straight Sword
-12:Reaper
-13:Greatsword
-14:Ultra Greatsword
-15:Curved Greatsword
-16:Hammer
-17:Great Hammer
-18:Axe
-19:Greataxe
-20:Halberd
-21:Staff
-22:Sacred Chime
-23:Bow
-24:Greatbow
-25:Crossbow
-26:Small Shield
-27:Shield
-28:Greatshield
-29:Torch
-30:Binoculars
-31:Pyromancy Flame
-      </Description>
-    </Field>
-    <Field Def="u8 Swing Sound" >
-      <Description>
-0: Twinblade/Scimitars/Katanas/Greatswords
-1: Ultra Greatswords/Curved Greatswords
-2: Dagger
-3: Fists/Shields
-4: Reapers/Axes
-5: Hammers/Halberds/Great Hammers/Binoculars
-6: Spears
-7: Whip
-8: Bows/Great Bows
-9: Crossbows
-10: Staves
-11: Chimes
-      </Description>
-    </Field>
-    <Field Def="s32 Unk38" />
-    <Field Def="f32 Unk3C" />
+    <Field Def="u8 is_cast_sorceries" />
+    <Field Def="u8 is_cast_miracles" />
+    <Field Def="u8 is_cast_pyromancies" />
+    <Field Def="u8 is_cast_hexes_staves" />
+    <Field Def="s32 Unk00" />
+    <Field Def="s32 Unk01" />
+    <Field Def="s32 grip_style_2h_right" />
+    <Field Def="s32 grip_style_2h_left" />
+    <Field Def="s32 grip_style_1h_right" />
+    <Field Def="s32 grip_style_1h_left" />
+    <Field Def="s32 grip_style_powerstance_right" />
+    <Field Def="s32 grip_style_powerstance_left" />
+    <Field Def="u8 powerstance_swap_type" />
+    <Field Def="u8 position_1h_right" />
+    <Field Def="u8 relative_position_1h_right" />
+    <Field Def="u8 position_1h_left" />
+    <Field Def="u8 relative_position_1h_left" />
+    <Field Def="u8 position_2h_right" />
+    <Field Def="u8 relative_position_2h_right" />
+    <Field Def="u8 position_unknown1" />
+    <Field Def="u8 relative_position_unknown1" />
+    <Field Def="u8 position_2h_left" />
+    <Field Def="u8 relative_position_2h_left" />
+    <Field Def="u8 position_unknown2" />
+    <Field Def="u8 relative_position_unknown2" />
+    <Field Def="u8 holsterPosition_right" />
+    <Field Def="u8 holsterrelative_position_right" />
+    <Field Def="u8 holsterPosition_left" />
+    <Field Def="u8 holsterrelative_position_left" />
+    <Field Def="u8 cast_type" />
+    <Field Def="u8 weapon_category_name" />
+    <Field Def="u8 swing_sound" />
+    <Field Def="s32 Unk02" />
+    <Field Def="f32 Unk03" />
+    <Field Def="f32 Unk04" />
+    <Field Def="f32 Unk05" />
+    <Field Def="f32 Unk06" />
+    <Field Def="f32 Unk07" />
+    <Field Def="u8 Unk08" />
+    <Field Def="u8 Unk09" />
+    <Field Def="u8 Unk10" />
+    <Field Def="u8 is_cast_hexes_chime" />
+    <Field Def="f32 left_hand_damage_mult" />
+    <Field Def="f32 Unk11" />
+    <Field Def="f32 Unk12" />
+    <Field Def="f32 right_hand_damage_mult" />
+    <Field Def="f32 Unk13" />
+    <Field Def="f32 Unk14" />
+    <Field Def="f32 counter_damage" />
+    <Field Def="f32 Unk15" />
+    <Field Def="f32 Unk16" />
+    <Field Def="f32 Unk17" />
+    <Field Def="f32 Unk18" />
+    <Field Def="f32 Unk19" />
+    <Field Def="f32 Unk20" />
+    <Field Def="f32 Unk21" />
+    <Field Def="f32 Unk22" />
+    <Field Def="f32 Unk23" />
+    <Field Def="f32 Unk24" />
+    <Field Def="f32 Unk25" />
+    <Field Def="f32 Unk26" />
+    <Field Def="u8 Unk27" />
+    <Field Def="u8 Unk28" />
+    <Field Def="u16 bow_distance" />
+    <Field Def="s32 backstab_check_anim" />
+    <Field Def="s32 guardbreak_check_anim" />
+    <Field Def="f32 Unk29" />
+    <Field Def="f32 Unk30" />
+    <Field Def="f32 Unk31" />
+    <Field Def="f32 Unk32" />
+    <Field Def="f32 Unk33" />
+    <Field Def="f32 Unk34" />
+    <Field Def="f32 Unk35" />
+    <Field Def="f32 Unk36" />
+    <Field Def="f32 guard_stamina_regen" />
+    <Field Def="f32 Unk37" />
+    <Field Def="f32 Unk38" />
+    <Field Def="f32 Unk39" />
     <Field Def="f32 Unk40" />
+    <Field Def="f32 Unk41" />
+    <Field Def="f32 Unk42" />
+    <Field Def="f32 Unk43" />
     <Field Def="f32 Unk44" />
+    <Field Def="f32 Unk45" />
+    <Field Def="f32 Unk46" />
+    <Field Def="f32 Unk47" />
     <Field Def="f32 Unk48" />
-    <Field Def="f32 Unk4C" />
-    <Field Def="u8 Unk50" />
-    <Field Def="u8 Unk51" />
-    <Field Def="u8 Unk52" />
-    <Field Def="u8 isCastChimeHex" />
-    <Field Def="f32 Left Handed Damage Multiplier" />
+    <Field Def="s32 Unk49" />
+    <Field Def="f32 Unk50" />
+    <Field Def="f32 Unk51" />
+    <Field Def="f32 cast_speed" />
+    <Field Def="f32 Unk52" />
+    <Field Def="f32 Unk53" />
+    <Field Def="f32 Unk54" />
+    <Field Def="f32 Unk55" />
+    <Field Def="f32 Unk56" />
+    <Field Def="f32 Unk57" />
     <Field Def="f32 Unk58" />
-    <Field Def="f32 Unk5C" />
-    <Field Def="f32 Right Handed Damage Multiplier" />
-    <Field Def="f32 Unk64" />
-    <Field Def="f32 Unk68" />
-    <Field Def="f32 Counter Damage" />
-    <Field Def="f32 Unk70" />
-    <Field Def="f32 Unk74" />
-    <Field Def="f32 Unk78" />
-    <Field Def="f32 Unk7C" />
-    <Field Def="f32 Unk80" />
-    <Field Def="f32 Unk84" />
-    <Field Def="f32 Unk88" />
-    <Field Def="f32 Unk8C" />
-    <Field Def="f32 Unk90" />
-    <Field Def="f32 Unk94" />
-    <Field Def="f32 Unk98" />
-    <Field Def="f32 Unk9C" />
-    <Field Def="u8 UnkA0" />
-    <Field Def="u8 UnkA1" />
-    <Field Def="u16 Bow Range" />
-    <Field Def="s32 Backstab Check Animation ID" />
-    <Field Def="s32 Guard Break Check Animation ID" />
-    <Field Def="f32 UnkAC" />
-    <Field Def="f32 UnkB0" />
-    <Field Def="f32 UnkB4" />
-    <Field Def="f32 UnkB8" />
-    <Field Def="f32 UnkBC" />
-    <Field Def="f32 UnkC0" />
-    <Field Def="f32 UnkC4" />
-    <Field Def="f32 UnkC8" />
-    <Field Def="f32 Guarding Stamina Regen Multiplier" />
-    <Field Def="f32 UnkD0" />
-    <Field Def="f32 UnkD4" />
-    <Field Def="f32 UnkD8" />
-    <Field Def="f32 UnkDC" />
-    <Field Def="f32 UnkE0" />
-    <Field Def="f32 UnkE4" />
-    <Field Def="f32 UnkE8" />
-    <Field Def="f32 UnkEC" />
-    <Field Def="f32 UnkF0" />
-    <Field Def="f32 UnkF4" />
-    <Field Def="f32 UnkF8" />
-    <Field Def="f32 UnkFC" />
-    <Field Def="s32 Unk100" />
-    <Field Def="f32 Unk104" />
-    <Field Def="f32 Unk108" />
-    <Field Def="f32 Cast Speed" />
-    <Field Def="f32 Unk110" />
-    <Field Def="f32 Unk114" />
-    <Field Def="f32 Unk118" />
-    <Field Def="f32 Unk11C" />
-    <Field Def="f32 Unk120" />
-    <Field Def="f32 Unk124" />
-    <Field Def="f32 Unk128" />
-    <Field Def="f32 Unk12C" />
-    <Field Def="s32 Unk130" />
-    <Field Def="s32 Unk134" />
-    <Field Def="u8 Unk138" />
-    <Field Def="u8 Unk139" />
-    <Field Def="u8 Mundane Scaling %" />
-    <Field Def="u8 Unk13B" />
+    <Field Def="f32 Unk59" />
+    <Field Def="s32 Unk60" />
+    <Field Def="s32 Unk61" />
+    <Field Def="u8 Unk62" />
+    <Field Def="u8 Unk63" />
+    <Field Def="u8 mundane_scaling_mult" />
+    <Field Def="u8 Unk64" />
   </Fields>
 </PARAMDEF>

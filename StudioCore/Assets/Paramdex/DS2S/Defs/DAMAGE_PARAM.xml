@@ -6,101 +6,61 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="s32 Damage Control ID" />
-    <Field Def="s32 Damage ID - Follow-up" />
-    <Field Def="s32 Damage ID - Origin " />
-    <Field Def="s32 Damage[0]" />
-    <Field Def="s32 Damage[1]" />
-    <Field Def="s32 Damage[2]" />
+    <Field Def="s32 damage_ctrl_id" />
+    <Field Def="s32 damage_id_followup" />
+    <Field Def="s32 damage_id_origin " />
+    <Field Def="s32 damage_0" />
+    <Field Def="s32 damage_1" />
+    <Field Def="s32 damage_2" />
+    <Field Def="u8 Unk00" />
+    <Field Def="u8 damage_type_0" />
+    <Field Def="u8 damage_type_1" />
+    <Field Def="u8 damage_type_2" />
+    <Field Def="f32 damage_mult" />
+    <Field Def="f32 counter_damage_mult" />
+    <Field Def="u16 stamina_damage_mult" />
+    <Field Def="u16 durability_damage_mult" />
+    <Field Def="f32 knockback_amount" />
+    <Field Def="f32 knockback_speed" />
+    <Field Def="u8 is_spawn_on_weapon" />
+    <Field Def="u8 hitbox_origin_dummy_poly_id" />
+    <Field Def="s8 guardbreak_type" />
+    <Field Def="u8 hitbox_shape" />
+    <Field Def="f32 hitbox_radius_mult" />
+    <Field Def="f32 hitbox_length_mult" />
+    <Field Def="f32 cycle_period" />
+    <Field Def="u8 target" />
+    <Field Def="u8 Unk01" />
+    <Field Def="u8 Unk02" />
+    <Field Def="u8 Unk03" />
+    <Field Def="u8 Unk04" />
+    <Field Def="u8 Unk05" />
+    <Field Def="u8 Unk06" />
+    <Field Def="u8 Unk07" />
+    <Field Def="s32 speffect_id" />
+    <Field Def="u8 apply_speffect" />
+    <Field Def="u8 speffect_type" />
+    <Field Def="u8 speffect_apply_mode" />
+    <Field Def="u8 Unk08" />
+    <Field Def="s32 Unk09" />
+    <Field Def="s32 Unk10" />
+    <Field Def="s32 Unk11" />
+    <Field Def="u8 Unk12" />
+    <Field Def="u8 Unk13" />
+    <Field Def="u8 Unk14" />
+    <Field Def="u8 Unk15" />
+    <Field Def="u8 Unk16" />
+    <Field Def="u8 Unk17" />
     <Field Def="u8 Unk18" />
-    <Field Def="u8 Damage Type[0]" >
-      <Description>
-0 - Default
-1 - Magic
-2 - Lightning
-3 - Fire
-4 - Dark
-5 - Flat Damage
-6 - Poison
-8 - Durability
-      </Description>
-    </Field>
-    <Field Def="u8 Damage Type[1]" >
-      <Description>
-0 - Default
-1 - Magic
-2 - Lightning
-3 - Fire
-4 - Dark
-5 - Flat Damage
-6 - Poison
-8 - Durability
-      </Description>
-    </Field>
-    <Field Def="u8 Damage Type[2]" >
-      <Description>
-0 - Default
-1 - Magic
-2 - Lightning
-3 - Fire
-4 - Dark
-5 - Flat Damage
-6 - Poison
-8 - Durability
-      </Description>
-    </Field>
-    <Field Def="f32 Damage Multiplier" />
-    <Field Def="f32 Counter Damage Multiplier" />
-    <Field Def="u16 Stamina Damage" />
-    <Field Def="u16 Durability Damage" />
-    <Field Def="f32 Knockback Amount" />
-    <Field Def="f32 Knockback Speed" />
-    <Field Def="u8 isSpawnOnWeapon" />
-    <Field Def="u8 Hitbox Origin DmyPoly ID" />
-    <Field Def="s8 Guard Break Related" >
-      <Description>-1 default, 2 for guard break</Description>
-    </Field>
-    <Field Def="u8 Hitbox Shape" >
-      <Description>
-0 - Sphere
-1 - Capsule
-      </Description>
-    </Field>
-    <Field Def="f32 Hitbox Radius Multiplier" />
-    <Field Def="f32 Hitbox Length Multiplier" />
-    <Field Def="f32 Cycle Period" />
-    <Field Def="u8 Target" />
-    <Field Def="u8 Unk41" />
-    <Field Def="u8 Unk42" />
-    <Field Def="u8 Unk43" />
-    <Field Def="u8 Unk44" />
-    <Field Def="u8 Unk45" />
-    <Field Def="u8 Unk46" />
-    <Field Def="u8 Unk47" />
-    <Field Def="s32 SpEffect ID" />
-    <Field Def="u8 isApplySpEffect" />
-    <Field Def="u8 SpEffect Type" />
-    <Field Def="u8 Apply Mode" />
-    <Field Def="u8 Unk4F" />
-    <Field Def="s32 Unk50" />
-    <Field Def="s32 Unk54" />
-    <Field Def="s32 Unk58" />
-    <Field Def="u8 Unk5C" />
-    <Field Def="u8 Unk5D" />
-    <Field Def="u8 Unk5E" />
-    <Field Def="u8 Unk5F" />
-    <Field Def="u8 Unk60" />
-    <Field Def="u8 Unk61" />
-    <Field Def="u8 Unk62" />
-    <Field Def="u8 Hitback Hitbox Origin DummyPoly ID" />
-    <Field Def="u8 Hitback Hitbox Shape" />
-    <Field Def="u8 Unk65" />
-    <Field Def="u8 Unk66" />
-    <Field Def="u8 Unk67" />
-    <Field Def="f32 Hitback Hitbox Radius Multiplier" />
-    <Field Def="f32 Hitback Hitbox Length Multiplier" />
-    <Field Def="s32 Grab Param ID" />
-    <Field Def="f32 Hitbox Max Size" />
-    <Field Def="f32 Hitbox Expansion Speed" />
+    <Field Def="u8 hitback_hitbox_origin_dummy_poly_id" />
+    <Field Def="u8 hitback_hitbox_shape" />
+    <Field Def="u8 Unk19" />
+    <Field Def="u8 Unk20" />
+    <Field Def="u8 Unk21" />
+    <Field Def="f32 hitback_hitbox_radius_mult" />
+    <Field Def="f32 hitback_hitbox_length_mult" />
+    <Field Def="s32 grab_param_id" />
+    <Field Def="f32 hitbox_max_size" />
+    <Field Def="f32 hitbox_expand_speed" />
   </Fields>
 </PARAMDEF>

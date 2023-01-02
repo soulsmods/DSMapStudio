@@ -2,5 +2,56 @@
 <PARAMMETA XmlVersion="0">
   <Self Row0Dummy="" />
   <Field>
+    <chr_size AltName="Chr Size"/>
+    <stamina_exhaustion_time AltName="Empty Stamina State Duration"/>
+    <stamina_consumption_sprint AltName="Stamina Consumption %: Sprint"/>
+    <stamina_consumption_sprint_lockon AltName="Stamina Consumption %: Sprint (Lock-on)"/>
+    <stamina_consumption_sprint_ladder AltName="Stamina Consumption %: Ladder Quick Climb"/>
+    <stamina_consumption_base_action AltName="Stamina Consumption %: Base Action" Wiki="Value is times 10 in-game"/>
+    <stamina_consumption_backstep AltName="Stamina Consumption %: Backstep"/>
+    <stamina_consumption_roll AltName="Stamina Consumption %: Roll"/>
+    <stamina_consumption_jump AltName="Stamina Consumption %: Jump"/>
+    <stamina_consumption_sequential_roll AltName="Stamina Consumption %: Chained Roll"/>
+    <stamina_consumption_queued_roll AltName="Stamina Consumption %: Queued Roll"/>
+    <poise_break_handling AltName="Poise Break Handling"/>
+    <low_hp_state_threshold_max AltName="Low HP Threshold: Max"/>
+    <low_hp_state_threshold_min AltName="Low HP Threshold: Min"/>
+    <hit_capsule_height AltName="Hit Capsule Height"/>
+    <hit_capsule_radius AltName="Hit Capsule Radius"/>
+    <block_angle AltName="Blocking Angle" Wiki="On the XY axis"/>
+    <parry_angle AltName="Parrying Angle" Wiki="On the XY axis"/>
+    <lockon_camera_offset_id AltName="Lock-on Camera Offset ID"/>
+    <backstab_hitbox_angle_xy AltName="Backstab Hitbox Angle: XY"/>
+    <backstab_hitbox_angle_z AltName="Backstab Hitbox Angle: Z"/>
+    <backstab_hitbox_height AltName="Backstab Hitbox Height"/>
+    <backstab_hitbox_radius AltName="Backstab Hitbox Radius"/>
+    <riposte_hitbox_angle_xy AltName="Riposte Hitbox Angle: XY"/>
+    <riposte_hitbox_angle_z AltName="Riposte Hitbox Angle: Z"/>
+    <riposte_hitbox_height AltName="Riposte Hitbox Height"/>
+    <riposte_hitbox_radius AltName="Riposte Hitbox Radius"/>
+    <guardbreak_hitbox_angle_xy AltName="Guard Break Hitbox Angle: XY"/>
+    <guardbreak_hitbox_angle_z AltName="Guard Break Hitbox Angle: Z"/>
+    <guardbreak_hitbox_height AltName="Guard Break Hitbox Height"/>
+    <guardbreak_hitbox_radius AltName="Guard Break Hitbox Radius"/>
+    <unknown_rotate_speed AltName="Unknown Rotate Speed"/>
+    <poise_break_rotate_speed AltName="Poise Break Rotate Speed"/>
+    <stance_break_anim_speed AltName="Stance Break Animation Speed"/>
+    <stance_break_anim_wait_speed AltName="Stance Break Animation Wait Speed"/>
+    <Unk116 Wiki="Related to Boss Status"/>
+    <headshot_damage_mult Wiki="Headshot Damage Adjustment"/>
+    <crit_damage_mult Wiki="Critical Damage Adjustment"/>
+    <absorption_slash Wiki="Absorption: Slash"/>
+    <absorption_thrust Wiki="Absorption: Thrust"/>
+    <absorption_strike Wiki="Absorption: Strike"/>
+    <equip_weapon_id Wiki="Equip Weapon ID"/>
+    <critical_absorption_slash Wiki="Critical Absorption: Slash"/>
+    <critical_absorption_thrust Wiki="Critical Absorption: Thrust"/>
+    <critical_absorption_strike Wiki="Critical Absorption: Strike"/>
+    <critical_absorption_standard Wiki="Critical Absorption: Standard"/>
+    <bullet_absorption_physical Wiki="Bullet Absorption: Physical"/>
+    <bullet_absorption_magic Wiki="Bullet Absorption: Magic"/>
+    <bullet_absorption_lightning Wiki="Bullet Absorption: Lightning"/>
+    <bullet_absorption_fire Wiki="Bullet Absorption: Fire"/>
+    <bullet_absorption_dark Wiki="Bullet Absorption: Dark"/>
   </Field>
 </PARAMMETA>

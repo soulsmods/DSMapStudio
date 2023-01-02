@@ -7,7 +7,7 @@
   <Version>201</Version>
   <Fields>
     <Field Def="f32 Unk00" />
-    <Field Def="f32 Unk04" />
-    <Field Def="f32 Unk08" />
+    <Field Def="f32 Unk01" />
+    <Field Def="f32 Unk02" />
   </Fields>
 </PARAMDEF>

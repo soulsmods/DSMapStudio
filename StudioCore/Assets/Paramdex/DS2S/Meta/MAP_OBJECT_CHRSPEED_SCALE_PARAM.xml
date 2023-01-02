@@ -2,5 +2,6 @@
 <PARAMMETA XmlVersion="0">
   <Self Row0Dummy="" />
   <Field>
+    <object_chr_speed_scale AltName="Character Speed Scale" />
   </Field>
 </PARAMMETA>

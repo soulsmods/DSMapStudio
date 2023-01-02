@@ -6,9 +6,9 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="u8 Minimum" />
-    <Field Def="u8 Maximum" />
+    <Field Def="u8 estus_reinforcement_min" />
+    <Field Def="u8 estus_reinforcement_max" />
     <Field Def="u8 Unk00" />
-    <Field Def="u8 Unk00" />
+    <Field Def="u8 Unk01" />
   </Fields>
 </PARAMDEF>

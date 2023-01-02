@@ -6,10 +6,10 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="u8 Unk00" />
-    <Field Def="u8 Unk00" />
-    <Field Def="u8 Unk00" />
-    <Field Def="u8 Unk00" />
-    <Field Def="s32 Unk04" />
+    <Field Def="u8 category_index" />
+    <Field Def="u8 Unk01" />
+    <Field Def="u8 Unk02" />
+    <Field Def="u8 shop_category_index" />
+    <Field Def="s32 icon_id" />
   </Fields>
 </PARAMDEF>

@@ -2,10 +2,24 @@
 <PARAMMETA XmlVersion="0">
   <Self Row0Dummy="" />
   <Field>
-    <DamageID Refs="DamageCtrlParam" />
-    <Swing1BulletonSwingEnd Refs="BulletParam,SpellParam" />
-    <Swing1BulletonSwingEnd Refs="BulletParam,SpellParam" />
-    <Swing2BulletonSwingEnd Refs="BulletParam,SpellParam" />
-    <Swing2BulletonSwingEnd Refs="BulletParam,SpellParam" />
+    <animation_id AltName="Animation ID" />
+    <attack_type AltName="Attack Type" />
+    <startup_speed AltName="Startup Speed" />
+    <recovery_speed AltName="Recovery Speed" />
+    <tracking_start AltName="Tracking Start" />
+    <tracking_middle AltName="Tracking Middle" />
+    <tracking_end AltName="Tracking End" />
+    <weapon_y_orientation AltName="Weapon Y Orientation" />
+    <self_pushback_1 AltName="Self Pushback 1" />
+    <self_pushback_2 AltName="Self Pushback 2" />
+    <damage_ctrl_id_1 AltName="Damage Ctrl ID 1" Refs="DamageCtrlParam" />
+    <damage_ctrl_id_2 AltName="Damage Ctrl ID 2" Refs="DamageCtrlParam" />
+    <damage_ctrl_id_3 AltName="Damage Ctrl ID 3" Refs="DamageCtrlParam" />
+    <bullet_on_swing_end_1_1 AltName="Swing 1 - Bullet on Swing End [1]" Refs="BulletParam,EnemyBulletParam,SpellParam" />
+    <bullet_on_swing_end_1_2 AltName="Swing 1 - Bullet on Swing End [2]" Refs="BulletParam,EnemyBulletParam,SpellParam" />
+    <bullet_on_swing_end_2_1 AltName="Swing 2 - Bullet on Swing End [1]" Refs="BulletParam,EnemyBulletParam,SpellParam" />
+    <bullet_on_swing_end_2_2 AltName="Swing 2 - Bullet on Swing End [2]" Refs="BulletParam,EnemyBulletParam,SpellParam" />
+    <bullet_on_swing_end_3_1 AltName="Swing 3 - Bullet on Swing End [1]" Refs="BulletParam,EnemyBulletParam,SpellParam" />
+    <bullet_on_swing_end_3_2 AltName="Swing 3 - Bullet on Swing End [2]" Refs="BulletParam,EnemyBulletParam,SpellParam" />
   </Field>
 </PARAMMETA>

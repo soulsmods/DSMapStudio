@@ -2,5 +2,8 @@
 <PARAMMETA XmlVersion="0">
   <Self Row0Dummy="" />
   <Field>
+    <rank_1_requirement AltName="Rank 1 Requirement" />
+    <rank_2_requirement AltName="Rank 2 Requirement" />
+    <rank_3_requirement AltName="Rank 3 Requirement" />
   </Field>
 </PARAMMETA>

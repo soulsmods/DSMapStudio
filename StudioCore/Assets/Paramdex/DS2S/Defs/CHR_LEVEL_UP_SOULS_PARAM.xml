@@ -6,8 +6,8 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="s32 Level" />
-    <Field Def="u32 Unk04" />
-    <Field Def="s32 Level Up Cost" />
+    <Field Def="s32 soul_level" />
+    <Field Def="u32 Unk00" />
+    <Field Def="s32 soul_level_cost" />
   </Fields>
 </PARAMDEF>

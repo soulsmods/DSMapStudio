@@ -2,5 +2,7 @@
 <PARAMMETA XmlVersion="0">
   <Self Row0Dummy="" />
   <Field>
+    <estus_reinforcement_min AltName="Estus Reinforcement - Minimum"/>
+    <estus_reinforcement_max AltName="Estus Reinforcement - Maximum"/>
   </Field>
 </PARAMMETA>

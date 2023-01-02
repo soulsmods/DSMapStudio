@@ -2,5 +2,65 @@
 <PARAMMETA XmlVersion="0">
   <Self Row0Dummy="" />
   <Field>
+    <amount_lot_0 AltName="[0] Amount"/>
+    <amount_lot_1 AltName="[1] Amount"/>
+    <amount_lot_2 AltName="[2] Amount"/>
+    <amount_lot_3 AltName="[3] Amount"/>
+    <amount_lot_4 AltName="[4] Amount"/>
+    <amount_lot_5 AltName="[5] Amount"/>
+    <amount_lot_6 AltName="[6] Amount"/>
+    <amount_lot_7 AltName="[7] Amount"/>
+    <amount_lot_8 AltName="[8] Amount"/>
+    <amount_lot_9 AltName="[9] Amount"/>
+    <reinforcement_lot_0 AltName="[0] Reinforcement Level" Wiki="The reinforcement level to apply to the lot item"/>
+    <reinforcement_lot_1 AltName="[1] Reinforcement Level" Wiki="The reinforcement level to apply to the lot item"/>
+    <reinforcement_lot_2 AltName="[2] Reinforcement Level" Wiki="The reinforcement level to apply to the lot item"/>
+    <reinforcement_lot_3 AltName="[3] Reinforcement Level" Wiki="The reinforcement level to apply to the lot item"/>
+    <reinforcement_lot_4 AltName="[4] Reinforcement Level" Wiki="The reinforcement level to apply to the lot item"/>
+    <reinforcement_lot_5 AltName="[5] Reinforcement Level" Wiki="The reinforcement level to apply to the lot item"/>
+    <reinforcement_lot_6 AltName="[6] Reinforcement Level" Wiki="The reinforcement level to apply to the lot item"/>
+    <reinforcement_lot_7 AltName="[7] Reinforcement Level" Wiki="The reinforcement level to apply to the lot item"/>
+    <reinforcement_lot_8 AltName="[8] Reinforcement Level" Wiki="The reinforcement level to apply to the lot item"/>
+    <reinforcement_lot_9 AltName="[9] Reinforcement Level" Wiki="The reinforcement level to apply to the lot item"/>
+    <infusion_lot_0 AltName="[0] Infusion" Wiki="The infusion to apply to the lot item"/>
+    <infusion_lot_1 AltName="[1] Infusion" Wiki="The infusion to apply to the lot item"/>
+    <infusion_lot_2 AltName="[2] Infusion" Wiki="The infusion to apply to the lot item"/>
+    <infusion_lot_3 AltName="[3] Infusion" Wiki="The infusion to apply to the lot item"/>
+    <infusion_lot_4 AltName="[4] Infusion" Wiki="The infusion to apply to the lot item"/>
+    <infusion_lot_5 AltName="[5] Infusion" Wiki="The infusion to apply to the lot item"/>
+    <infusion_lot_6 AltName="[6] Infusion" Wiki="The infusion to apply to the lot item"/>
+    <infusion_lot_7 AltName="[7] Infusion" Wiki="The infusion to apply to the lot item"/>
+    <infusion_lot_8 AltName="[8] Infusion" Wiki="The infusion to apply to the lot item"/>
+    <infusion_lot_9 AltName="[9] Infusion" Wiki="The infusion to apply to the lot item"/>
+    <unk_lot_0 AltName="[0] Unknown"/>
+    <unk_lot_1 AltName="[1] Unknown"/>
+    <unk_lot_2 AltName="[2] Unknown"/>
+    <unk_lot_3 AltName="[3] Unknown"/>
+    <unk_lot_4 AltName="[4] Unknown"/>
+    <unk_lot_5 AltName="[5] Unknown"/>
+    <unk_lot_6 AltName="[6] Unknown"/>
+    <unk_lot_7 AltName="[7] Unknown"/>
+    <unk_lot_8 AltName="[8] Unknown"/>
+    <unk_lot_9 AltName="[9] Unknown"/>
+    <item_lot_0 AltName="[0] Item ID" Refs="ItemParam"/>
+    <item_lot_1 AltName="[1] Item ID" Refs="ItemParam"/>
+    <item_lot_2 AltName="[2] Item ID" Refs="ItemParam"/>
+    <item_lot_3 AltName="[3] Item ID" Refs="ItemParam"/>
+    <item_lot_4 AltName="[4] Item ID" Refs="ItemParam"/>
+    <item_lot_5 AltName="[5] Item ID" Refs="ItemParam"/>
+    <item_lot_6 AltName="[6] Item ID" Refs="ItemParam"/>
+    <item_lot_7 AltName="[7] Item ID" Refs="ItemParam"/>
+    <item_lot_8 AltName="[8] Item ID" Refs="ItemParam"/>
+    <item_lot_9 AltName="[9] Item ID" Refs="ItemParam"/>
+    <chance_lot_0 AltName="[0] Chance" Wiki="The chance to give this lot item"/>
+    <chance_lot_1 AltName="[1] Chance" Wiki="The chance to give this lot item"/>
+    <chance_lot_2 AltName="[2] Chance" Wiki="The chance to give this lot item"/>
+    <chance_lot_3 AltName="[3] Chance" Wiki="The chance to give this lot item"/>
+    <chance_lot_4 AltName="[4] Chance" Wiki="The chance to give this lot item"/>
+    <chance_lot_5 AltName="[5] Chance" Wiki="The chance to give this lot item"/>
+    <chance_lot_6 AltName="[6] Chance" Wiki="The chance to give this lot item"/>
+    <chance_lot_7 AltName="[7] Chance" Wiki="The chance to give this lot item"/>
+    <chance_lot_8 AltName="[8] Chance" Wiki="The chance to give this lot item"/>
+    <chance_lot_9 AltName="[9] Chance" Wiki="The chance to give this lot item"/>
   </Field>
 </PARAMMETA>

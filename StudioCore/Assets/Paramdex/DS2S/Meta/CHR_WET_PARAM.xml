@@ -2,5 +2,6 @@
 <PARAMMETA XmlVersion="0">
   <Self Row0Dummy="" />
   <Field>
+    <wet_aspect_id AltName="Wet Aspect ID"/>
   </Field>
 </PARAMMETA>

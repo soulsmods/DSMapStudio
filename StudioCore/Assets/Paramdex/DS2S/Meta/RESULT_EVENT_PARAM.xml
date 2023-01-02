@@ -2,5 +2,7 @@
 <PARAMMETA XmlVersion="0">
   <Self Row0Dummy="" />
   <Field>
+    <itemlot_id_1 AltName="[1] Itemlot Id" Refs="ItemLotParam2_Chr,ItemLotParam2_Other,ItemLotParam2_SvrEvent" />
+    <itemlot_id_2 AltName="[2] Itemlot Id" Refs="ItemLotParam2_Chr,ItemLotParam2_Other,ItemLotParam2_SvrEvent" />
   </Field>
 </PARAMMETA>

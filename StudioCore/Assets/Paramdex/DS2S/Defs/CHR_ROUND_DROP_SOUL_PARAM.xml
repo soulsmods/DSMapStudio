@@ -6,13 +6,13 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="u16 NG+0 % Souls" />
-    <Field Def="u16 NG+1 % Souls" />
-    <Field Def="u16 NG+2 % Souls" />
-    <Field Def="u16 NG+3 % Souls" />
-    <Field Def="u16 NG+4 % Souls" />
-    <Field Def="u16 NG+5 % Souls" />
-    <Field Def="u16 NG+6 % Souls" />
-    <Field Def="u16 NG+7 % Souls" />
+    <Field Def="u16 souls_percent_ng0" />
+    <Field Def="u16 souls_percent_ng1" />
+    <Field Def="u16 souls_percent_ng2" />
+    <Field Def="u16 souls_percent_ng3" />
+    <Field Def="u16 souls_percent_ng4" />
+    <Field Def="u16 souls_percent_ng5" />
+    <Field Def="u16 souls_percent_ng6" />
+    <Field Def="u16 souls_percent_ng7" />
   </Fields>
 </PARAMDEF>

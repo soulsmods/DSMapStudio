@@ -6,24 +6,24 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="s32 Chr ID" />
-    <Field Def="s32 Unk04" />
-    <Field Def="f32 Unk08" />
-    <Field Def="s32 Unk0C" />
+    <Field Def="s32 chr_id" />
+    <Field Def="s32 Unk00" />
+    <Field Def="f32 Unk01" />
+    <Field Def="s32 Unk02" />
+    <Field Def="s32 Unk03" />
+    <Field Def="f32 Unk04" />
+    <Field Def="f32 Unk05" />
+    <Field Def="s32 Unk06" />
+    <Field Def="s32 Unk07" />
+    <Field Def="s32 Unk08" />
+    <Field Def="s32 Unk09" />
     <Field Def="s32 Unk10" />
-    <Field Def="f32 Unk14" />
-    <Field Def="f32 Unk18" />
-    <Field Def="s32 Unk1C" />
-    <Field Def="s32 Unk20" />
-    <Field Def="s32 Weapon Visual Effect Related" />
-    <Field Def="s32 Body Visual Effect Related" />
-    <Field Def="s32 Unk2C" />
-    <Field Def="s32 Unk30" />
-    <Field Def="s32 Unk34" />
-    <Field Def="s32 Unk38" />
-    <Field Def="s32 Unk3C" />
-    <Field Def="s32 Unk40" />
-    <Field Def="s32 Unk44" />
-    <Field Def="s32 Unk48" />
+    <Field Def="s32 Unk11" />
+    <Field Def="s32 Unk12" />
+    <Field Def="s32 Unk13" />
+    <Field Def="s32 Unk14" />
+    <Field Def="s32 Unk15" />
+    <Field Def="s32 Unk16" />
+    <Field Def="s32 Unk17" />
   </Fields>
 </PARAMDEF>

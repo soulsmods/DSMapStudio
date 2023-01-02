@@ -6,6 +6,6 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="s32 Flag" />
+    <Field Def="s32 flag_id" />
   </Fields>
 </PARAMDEF>

@@ -6,32 +6,34 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="u32 Armor ID" />
-    <Field Def="u8 Unknown Category" />
-    <Field Def="u8 Slot Category" />
+    <Field Def="u32 armor_set_id" />
+    <Field Def="u8 Unk00" />
+    <Field Def="u8 slot_category" />
     <Field Def="u8 Unk06" />
     <Field Def="u8 Unk07" />
-    <Field Def="u32 Model ID" />
-    <Field Def="s32 Unk0C" />
-    <Field Def="u32 Equip Interfere ID" />
-    <Field Def="s32 Unk14" />
-    <Field Def="u32 Armor Reinforce ID" />
-    <Field Def="f32 Scaling: Phys DEF" />
-    <Field Def="f32 Unk20" />
-    <Field Def="f32 Unk24" />
-    <Field Def="f32 Unk28" />
-    <Field Def="u16 STR Requirement" />
-    <Field Def="u16 DEX Requirement" />
-    <Field Def="u16 INT Requirement" />
-    <Field Def="u16 FTH Requirement" />
-    <Field Def="f32 Weight" />
-    <Field Def="f32 Durability" />
-    <Field Def="u32 Repair Cost" />
-    <Field Def="f32 Poise" />
-    <Field Def="s16 Unk44" />
-    <Field Def="s16 Item Discovery" />
-    <Field Def="s32 Unk48" />
-    <Field Def="s32 Unk4C" />
-    <Field Def="s32 Unk50" />
+    <Field Def="u32 model_id" />
+    <Field Def="u8 has_gendered_armor" />
+    <Field Def="u8 Unk08" />
+    <Field Def="s16 Unk09" />
+    <Field Def="u32 equip_interfere_id" />
+    <Field Def="s32 Unk10" />
+    <Field Def="u32 armor_reinforce_id" />
+    <Field Def="f32 physical_defence_scaling" />
+    <Field Def="f32 Unk11" />
+    <Field Def="f32 Unk12" />
+    <Field Def="f32 Unk13" />
+    <Field Def="u16 strength_requirement" />
+    <Field Def="u16 dexteroty_requirement" />
+    <Field Def="u16 intelligence_requirement" />
+    <Field Def="u16 faith_requirement" />
+    <Field Def="f32 weight" />
+    <Field Def="f32 durability" />
+    <Field Def="u32 repair_cost" />
+    <Field Def="f32 poise" />
+    <Field Def="s16 Unk14" />
+    <Field Def="s16 item_discovery" />
+    <Field Def="s32 Unk15" />
+    <Field Def="s32 Unk16" />
+    <Field Def="s32 Unk17" />
   </Fields>
 </PARAMDEF>

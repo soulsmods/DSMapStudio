@@ -6,14 +6,14 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="s32 Equip ID" />
-    <Field Def="s32 Unk04" />
-    <Field Def="s32 Enable Flag" />
-    <Field Def="s32 Disable Flag" />
-    <Field Def="s32 Material ID" />
-    <Field Def="s32 Duplicate Item ID" />
-    <Field Def="s32 Unk18" />
-    <Field Def="f32 Price Rate" />
-    <Field Def="s32 Quantity" />
+    <Field Def="s32 equip_id" />
+    <Field Def="s32 Unk00" />
+    <Field Def="s32 enable_flag" />
+    <Field Def="s32 disable_flag" />
+    <Field Def="s32 material_id" />
+    <Field Def="s32 duplicate_item_id" />
+    <Field Def="s32 Unk01" />
+    <Field Def="f32 price_rate" />
+    <Field Def="s32 quantity" />
   </Fields>
 </PARAMDEF>
