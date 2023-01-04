@@ -315,7 +315,7 @@ namespace StudioCore.Editor
         }
     }
 
-    class CellSearchEngine : SearchEngine<Param.Row, (PseudoColumn, Param.Column)>
+    class CellSearchEngine : SearchEngine<(string, Param.Row), (PseudoColumn, Param.Column)>
     {
         public static CellSearchEngine cse = new CellSearchEngine();
         internal override void Setup()
@@ -324,7 +324,7 @@ namespace StudioCore.Editor
                 var list = new List<(PseudoColumn, Param.Column)>();
                 list.Add((PseudoColumn.ID, null));
                 list.Add((PseudoColumn.Name, null));
-                list.AddRange(row.Cells.Select((cell, i) => (PseudoColumn.None, cell)));
+                list.AddRange(row.Item2.Cells.Select((cell, i) => (PseudoColumn.None, cell)));
                 return list;
             };
             defaultFilter = (1, (args, lenient) => {
@@ -333,6 +333,22 @@ namespace StudioCore.Editor
                 Regex rx = lenient ? new Regex(args[0], RegexOptions.IgnoreCase) : new Regex($@"^{args[0]}$");
                 return noContext((cell) => (matchID && cell.Item1 == PseudoColumn.ID) || (matchName && cell.Item1 == PseudoColumn.Name) || (cell.Item2 != null && rx.Match(cell.Item2.Def.InternalName).Success));
             });
+            filterList.Add("modified", (0, (args, lenient) => (row) => {
+                if (row.Item1 == null)
+                    throw new Exception("Can't check if cell is modified - not part of a param");
+                Param vParam = ParamBank.VanillaBank.Params?[row.Item1];
+                if (vParam == null)
+                    throw new Exception("Can't check if cell is modified - no vanilla param");
+                Param.Row r = vParam[row.Item2.ID];
+                if (r == null)
+                    return (col) => true;
+                else
+                    return (col) => {
+                        object valA = col.Item1 == PseudoColumn.ID ? row.Item2.ID : col.Item1 == PseudoColumn.Name ? row.Item2.Name : row.Item2[col.Item2.Def.InternalName].Value.Value;
+                        object valB = col.Item1 == PseudoColumn.ID ? r.ID : col.Item1 == PseudoColumn.Name ? r.Name : r[col.Item2.Def.InternalName].Value.Value;
+                        return ParamUtils.IsValueDiff(ref valA, ref valB, valA?.GetType());
+                    };
+            }));
         }
     }
 }
