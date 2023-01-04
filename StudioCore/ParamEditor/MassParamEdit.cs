@@ -321,9 +321,10 @@ namespace StudioCore.ParamEditor
                             {
                                 var rowArgValues = rowArgFunc.Select((argV, i) => argV((PseudoColumn.None, null))).ToArray();
                                 var (p2, rs) = rowFunc((b.GetKeyForParam(p), row), rowArgValues);
-                                if (p2 == null || rs == null)
+                                if (p2 == null)
                                     return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {operation} {String.Join(' ', rowArgValues)} on row"), null);
-                                partialActions.Add(new AddParamsAction(p2, "FromMassEdit", new List<Param.Row>{rs}, false, true));
+                                if (rs != null)
+                                    partialActions.Add(new AddParamsAction(p2, "FromMassEdit", new List<Param.Row>{rs}, false, true));
                             }
                             else
                             {

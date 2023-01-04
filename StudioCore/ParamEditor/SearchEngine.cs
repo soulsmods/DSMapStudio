@@ -176,13 +176,13 @@ namespace StudioCore.Editor
             unpacker = (param) => new List<Param.Row>(param.Item2.Rows);
             filterList.Add("modified", (0, noArgs((context)=>{
                     string paramName = context.Item1.GetKeyForParam(context.Item2);
-                    HashSet<int> cache = bank.GetVanillaDiffRows(paramName);
+                    HashSet<int> cache = context.Item1.GetVanillaDiffRows(paramName);
                     return (row) => cache.Contains(row.ID);
                 }
             )));
             filterList.Add("original", (0, noArgs((context)=>{
                     string paramName = context.Item1.GetKeyForParam(context.Item2);
-                    HashSet<int> cache = bank.GetVanillaDiffRows(paramName);
+                    HashSet<int> cache = context.Item1.GetVanillaDiffRows(paramName);
                     return (row) => !cache.Contains(row.ID);
                 }
             )));
