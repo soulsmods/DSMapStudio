@@ -2,5 +2,7 @@
 <PARAMMETA XmlVersion="0">
   <Self Row0Dummy="" />
   <Field>
+    <camera_horizontal_fov AltName="Camera Horizontal FOV"/>
+    <camera_horizontal_offset AltName="Camera Horizontal Offset"/>
   </Field>
 </PARAMMETA>

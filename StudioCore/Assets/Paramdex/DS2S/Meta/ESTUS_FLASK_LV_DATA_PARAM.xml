@@ -2,5 +2,7 @@
 <PARAMMETA XmlVersion="0">
   <Self Row0Dummy="" />
   <Field>
+    <estus_item_id AltName="Estus Item ID" Refs="ItemParam"/>
+    <estus_held_count AltName="Estus Held Count"/>
   </Field>
 </PARAMMETA>

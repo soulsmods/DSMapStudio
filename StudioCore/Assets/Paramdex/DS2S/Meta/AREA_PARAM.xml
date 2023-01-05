@@ -2,5 +2,9 @@
 <PARAMMETA XmlVersion="0">
   <Self Row0Dummy="" />
   <Field>
+    <area_flag_id AltName="Area Flag ID"/>
+    <lock_on_1 AltName="Lock-on [1]" Refs="LockOnParam"/>
+    <lock_on_2 AltName="Lock-on [2]" Refs="LockOnParam"/>
+    <lock_on_3 AltName="Lock-on [3]" Refs="LockOnParam"/>
   </Field>
 </PARAMMETA>

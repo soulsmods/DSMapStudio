@@ -6,7 +6,7 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="f32 Unk00" />
-    <Field Def="f32 Unk04" />
+    <Field Def="f32 value_0" />
+    <Field Def="f32 value_1" />
   </Fields>
 </PARAMDEF>

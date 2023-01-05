@@ -6,13 +6,13 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
+    <Field Def="f32 distance_0" />
+    <Field Def="f32 distance_1" />
+    <Field Def="f32 distance_2" />
+    <Field Def="f32 fov_0" />
+    <Field Def="f32 fov_1" />
     <Field Def="f32 Unk00" />
-    <Field Def="f32 Unk04" />
-    <Field Def="f32 Unk08" />
-    <Field Def="f32 Unk0C" />
-    <Field Def="f32 Unk10" />
-    <Field Def="f32 Unk14" />
-    <Field Def="f32 Unk18" />
-    <Field Def="f32 Unk1C" />
+    <Field Def="f32 Unk01" />
+    <Field Def="f32 Unk02" />
   </Fields>
 </PARAMDEF>

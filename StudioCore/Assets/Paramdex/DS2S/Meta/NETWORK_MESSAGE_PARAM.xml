@@ -2,5 +2,27 @@
 <PARAMMETA XmlVersion="0">
   <Self Row0Dummy="" />
   <Field>
+    <message_type AltName="Message Type"/>
+    <message_id_0 AltName="Message ID [0]"/>
+    <message_id_1 AltName="Message ID [1]"/>
+    <message_id_2 AltName="Message ID [2]"/>
+    <message_id_3 AltName="Message ID [3]"/>
+    <message_id_4 AltName="Message ID [4]"/>
+    <message_id_5 AltName="Message ID [5]"/>
+    <message_id_6 AltName="Message ID [6]"/>
+    <message_id_7 AltName="Message ID [7]"/>
+    <message_id_8 AltName="Message ID [8]"/>
+    <message_id_9 AltName="Message ID [9]"/>
+    <message_id_10 AltName="Message ID [10]"/>
+    <message_id_11 AltName="Message ID [11]"/>
+    <message_id_12 AltName="Message ID [12]"/>
+    <message_id_13 AltName="Message ID [13]"/>
+    <message_id_14 AltName="Message ID [14]"/>
+    <message_id_15 AltName="Message ID [15]"/>
+    <message_id_16 AltName="Message ID [16]"/>
+    <message_id_17 AltName="Message ID [17]"/>
+    <message_id_18 AltName="Message ID [18]"/>
+    <message_id_19 AltName="Message ID [19]"/>
+    <message_id_20 AltName="Message ID [20]"/>
   </Field>
 </PARAMMETA>

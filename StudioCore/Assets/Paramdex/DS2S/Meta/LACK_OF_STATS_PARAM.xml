@@ -2,5 +2,9 @@
 <PARAMMETA XmlVersion="0">
   <Self Row0Dummy="" />
   <Field>
+    <lack_stats_min_penalty AltName="Insufficient Stats Penalty - Minimum %"/>
+    <lack_stats_max_penalty AltName="Insufficient Stats Penalty - Maximum %"/>
+    <lack_stamina_min_penalty AltName="Insufficient Stamina Penalty - Minimum %"/>
+    <lack_stamina_max_enalty AltName="Insufficient Stamina Penalty - Maximum %"/>
   </Field>
 </PARAMMETA>

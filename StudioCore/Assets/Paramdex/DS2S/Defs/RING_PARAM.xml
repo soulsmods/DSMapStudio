@@ -6,9 +6,9 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="f32 Weight" />
-    <Field Def="f32 Durability" />
-    <Field Def="s32 Repair Cost" />
-    <Field Def="s32 Item Discovery" />
+    <Field Def="f32 weight" />
+    <Field Def="f32 durability" />
+    <Field Def="s32 repair_cost" />
+    <Field Def="s32 item_discovery" />
   </Fields>
 </PARAMDEF>

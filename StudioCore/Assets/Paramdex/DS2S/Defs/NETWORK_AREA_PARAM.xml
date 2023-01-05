@@ -6,9 +6,9 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="f32 Limitation Time 1" />
-    <Field Def="f32 Limitation Time 2" />
-    <Field Def="f32 Limitation Time 3" />
+    <Field Def="f32 limitation_time_1" />
+    <Field Def="f32 limitation_time_2" />
+    <Field Def="f32 limitation_time_3" />
     <Field Def="f32 Unk0C" />
     <Field Def="f32 Unk10" />
     <Field Def="f32 Unk14" />

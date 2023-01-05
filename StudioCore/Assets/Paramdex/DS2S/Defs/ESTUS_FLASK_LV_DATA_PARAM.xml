@@ -6,7 +6,7 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="s32 Estus ID" />
-    <Field Def="s32 Number of Uses" />
+    <Field Def="s32 estus_item_id" />
+    <Field Def="s32 estus_held_count" />
   </Fields>
 </PARAMDEF>

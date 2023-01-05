@@ -2,5 +2,7 @@
 <PARAMMETA XmlVersion="0">
   <Self Row0Dummy="" />
   <Field>
+    <soul_level AltName="Soul Level"/>
+    <soul_level_cost AltName="Soul Level Cost"/>
   </Field>
 </PARAMMETA>

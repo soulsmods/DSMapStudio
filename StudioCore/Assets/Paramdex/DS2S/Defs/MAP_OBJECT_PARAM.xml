@@ -6,13 +6,13 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="f32 Interact Animation Speed 1" />
-    <Field Def="f32 Interact Animation Speed 2" />
-    <Field Def="f32 Unk08" />
-    <Field Def="s32 Unk0C" />
-    <Field Def="s32 Unk10" />
-    <Field Def="s32 Unk14" />
-    <Field Def="s32 Unk18" />
-    <Field Def="f32 Unk1C" />
+    <Field Def="f32 interact_speed_start" />
+    <Field Def="f32 interact_speed_end" />
+    <Field Def="f32 Unk00" />
+    <Field Def="s32 Unk01" />
+    <Field Def="s32 Unk02" />
+    <Field Def="s32 Unk03" />
+    <Field Def="s32 Unk04" />
+    <Field Def="f32 Unk05" />
   </Fields>
 </PARAMDEF>

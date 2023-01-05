@@ -1,5 +1,5 @@
-10 UNKNOWN
-100 UNKNOWN
+10 Empty
+100 Empty
 1000000 Dagger
 1010000 Bandit's Knife
 1040000 Mytha's Bent Blade

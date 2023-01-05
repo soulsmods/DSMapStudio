@@ -2,5 +2,9 @@
 <PARAMMETA XmlVersion="0">
   <Self Row0Dummy="" />
   <Field>
+    <weight AltName="Weight" />
+    <durability AltName="Durability" />
+    <repair_cost AltName="Repair Cost" />
+    <item_discovery AltName="Item Discovery" />
   </Field>
 </PARAMMETA>

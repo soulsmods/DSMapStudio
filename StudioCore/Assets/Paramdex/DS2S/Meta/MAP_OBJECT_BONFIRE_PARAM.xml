@@ -2,5 +2,8 @@
 <PARAMMETA XmlVersion="0">
   <Self Row0Dummy="" />
   <Field>
+    <area_id AltName="Area ID" Refs="AreaParam" />
+    <fog_door_id AltName="Fog Door ID" Refs="MapObjectWhiteDoorParam" />
+    <bonfire_lit_flag AltName="Bonfire Lit ID" />
   </Field>
 </PARAMMETA>

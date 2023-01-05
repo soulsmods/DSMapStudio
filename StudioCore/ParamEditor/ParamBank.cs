@@ -1676,7 +1676,7 @@ namespace StudioCore.ParamEditor
         public string GetChrIDForEnemy(long enemyID)
         {
             var enemy = EnemyParam?[(int)enemyID];
-            return enemy != null ? $@"{enemy.GetCellHandleOrThrow("Chr ID").Value:D4}" : null;
+            return enemy != null ? $@"{enemy.GetCellHandleOrThrow("chr_id").Value:D4}" : null;
         }
 
         public string GetKeyForParam(Param param)

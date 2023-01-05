@@ -1,6 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
   <Self Row0Dummy="" />
-  <Field>
+  <Field>   
+    <distance_0 AltName="Distance [0]"/>
+    <distance_1 AltName="Distance [1]"/>
+    <distance_2 AltName="Distance [2]"/>
+    <fov_0 AltName="FOV [0]"/>
+    <fov_1 AltName="FOV [1]"/>
   </Field>
 </PARAMMETA>

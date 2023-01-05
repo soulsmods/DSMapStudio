@@ -6,9 +6,9 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="u16 Rank 1 Requirement" />
-    <Field Def="u16 Rank 2 Requirement" />
-    <Field Def="u16 Rank 3 Requirement" />
-    <Field Def="u16 Unk06" />
+    <Field Def="u16 rank_1_requirement" />
+    <Field Def="u16 rank_2_requirement" />
+    <Field Def="u16 rank_3_requirement" />
+    <Field Def="u16 Unk00" />
   </Fields>
 </PARAMDEF>

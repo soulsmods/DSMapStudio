@@ -11,8 +11,8 @@
     <Field Def="u8 Unk02" />
     <Field Def="u8 Unk03" />
     <Field Def="f32 Unk04" />
-    <Field Def="f32 Unk08" />
-    <Field Def="f32 Unk0C" />
-    <Field Def="f32 Unk10" />
+    <Field Def="f32 Unk05" />
+    <Field Def="f32 Unk06" />
+    <Field Def="f32 Unk07" />
   </Fields>
 </PARAMDEF>

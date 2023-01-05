@@ -2,5 +2,8 @@
 <PARAMMETA XmlVersion="0">
   <Self Row0Dummy="" />
   <Field>
+    <category_index AltName="Category Index"/>
+    <shop_category_index AltName="Shop Category Index"/>
+    <icon_id AltName="Icon ID"/>
   </Field>
 </PARAMMETA>
