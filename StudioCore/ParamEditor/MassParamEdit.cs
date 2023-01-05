@@ -296,7 +296,7 @@ namespace StudioCore.ParamEditor
                         }
                         else
                         {
-                            foreach ((PseudoColumn, Param.Column) col in CellSearchEngine.cse.Search(row, cellSelector, false, false))
+                            foreach ((PseudoColumn, Param.Column) col in CellSearchEngine.cse.Search((source == MassEditRowSource.Selection ? context.getActiveParam() : null, row), cellSelector, false, false))
                             {
                                 var cellArgValues = rowArgFunc.Select((argV, i) => argV(col)).ToArray();
                                 var res = cellFunc((row, col), cellArgValues);
@@ -314,20 +314,21 @@ namespace StudioCore.ParamEditor
                         var paramArgFunc = argFuncs.Select((func, i) => func(p));
                         if (argc != argFuncs.Length)
                             return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Invalid number of arguments for operation {operation}"), null);
+                        string paramname = b.GetKeyForParam(p);
                         foreach (Param.Row row in RowSearchEngine.rse.Search((b, p), rowSelector, false, false))
                         {
                             var rowArgFunc = paramArgFunc.Select((rowFunc, i) => rowFunc(row)).ToArray();
                             if (cellSelector == null)
                             {
                                 var rowArgValues = rowArgFunc.Select((argV, i) => argV((PseudoColumn.None, null))).ToArray();
-                                var (p2, rs) = rowFunc((b.GetKeyForParam(p), row), rowArgValues);
+                                var (p2, rs) = rowFunc((paramname, row), rowArgValues);
                                 if (p2 == null || rs == null)
                                     return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {operation} {String.Join(' ', rowArgValues)} on row"), null);
                                 partialActions.Add(new AddParamsAction(p2, "FromMassEdit", new List<Param.Row>{rs}, false, true));
                             }
                             else
                             {
-                                foreach ((PseudoColumn, Param.Column) col in CellSearchEngine.cse.Search(row, cellSelector, false, false))
+                                foreach ((PseudoColumn, Param.Column) col in CellSearchEngine.cse.Search((paramname, row), cellSelector, false, false))
                                 {
                                     var cellArgValues = rowArgFunc.Select((argV, i) => argV(col)).ToArray();
                                     var res = cellFunc((row, col), cellArgValues);
