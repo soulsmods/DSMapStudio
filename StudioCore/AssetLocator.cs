@@ -522,11 +522,13 @@ namespace StudioCore
                 List<string> files = new();
                 try
                 {
-                    files = Directory.GetFiles($@"{GameRootDirectory}\{path}", "*.btl*").Where(f => !f.EndsWith(".bak")).ToList();
+                    files.AddRange(Directory.GetFiles($@"{GameRootDirectory}\{path}", "*.btl").ToList());
+                    files.AddRange(Directory.GetFiles($@"{GameRootDirectory}\{path}", "*.btl.dcx").ToList());
                     if (Directory.Exists($"{GameModDirectory}\\{path}"))
                     {
                         // Check for additional BTLs the user has created.
-                        files.AddRange(Directory.GetFiles($@"{GameModDirectory}\{path}", "*.btl*").Where(f => !f.EndsWith(".bak")).ToList());
+                        files.AddRange(Directory.GetFiles($@"{GameModDirectory}\{path}", "*.btl").ToList());
+                        files.AddRange(Directory.GetFiles($@"{GameModDirectory}\{path}", "*.btl.dcx").ToList());
                         files = files.DistinctBy(f => f.Split("\\").Last()).ToList();
                     }
                 }
