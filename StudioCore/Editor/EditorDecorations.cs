@@ -243,13 +243,20 @@ namespace StudioCore.Editor
                 return false;
             if (ImGui.IsItemClicked(ImGuiMouseButton.Left) && (InputTracker.GetKey(Veldrid.Key.ControlLeft) || InputTracker.GetKey(Veldrid.Key.ControlRight)))
             {
-                var primaryRef = resolveRefs(bank, RefTypes, context, oldval)?.First();
-                if (primaryRef != null)
+                if (RefTypes != null)
                 {
-                    if (InputTracker.GetKey(Veldrid.Key.ShiftLeft) || InputTracker.GetKey(Veldrid.Key.ShiftRight))
-                        EditorCommandQueue.AddCommand($@"param/select/new/{primaryRef?.Item1}/{primaryRef?.Item2.ID}");
-                    else
-                        EditorCommandQueue.AddCommand($@"param/select/-1/{primaryRef?.Item1}/{primaryRef?.Item2.ID}");
+                    var primaryRef = resolveRefs(bank, RefTypes, context, oldval)?.First();
+                    if (primaryRef != null)
+                    {
+                        if (InputTracker.GetKey(Veldrid.Key.ShiftLeft) || InputTracker.GetKey(Veldrid.Key.ShiftRight))
+                            EditorCommandQueue.AddCommand($@"param/select/new/{primaryRef?.Item1}/{primaryRef?.Item2.ID}");
+                        else
+                            EditorCommandQueue.AddCommand($@"param/select/-1/{primaryRef?.Item1}/{primaryRef?.Item2.ID}");
+                    }
+                }
+                if (fmgInfo != null)
+                {
+                    EditorCommandQueue.AddCommand($@"text/select/{fmgInfo.Name}/{(int)oldval}");
                 }
             }
             bool result = false;
