@@ -33,17 +33,17 @@ namespace DSMapStudio
             Directory.SetCurrentDirectory(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location));
 
             var mapStudio = new MapStudioNew();
-#if !DEBUG
+#if DEBUG
             try
             {
+                File.Copy("sdsad", "sdasd");
                 mapStudio.Run();
             }
-            catch (Exception e)
+            catch
             {
-                List<string> log = LogExceptions(e);
-                ExportCrashLog(log);
                 mapStudio.AttemptSaveOnCrash();
                 mapStudio.CrashShutdown();
+                // Throw to trigger CrashHandler
                 throw;
             }
 #else
