@@ -549,7 +549,10 @@ namespace StudioCore
                     {
                         if (!File.Exists(Path.Join(settings.GameRoot, "oo2core_6_win64.dll")))
                         {
-                            throw new FileNotFoundException($"Could not find file \"oo2core_6_win64.dll\" in \"{settings.GameRoot}\" folder, which should be included by default. Try reinstalling the game.");
+                            MessageBox.Show($"Could not find file \"oo2core_6_win64.dll\" in \"{settings.GameRoot}\", which should be included by default.\n\nTry reinstalling the game.", "Error",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.None);
+                            return false;
                         }
                         File.Copy(Path.Join(settings.GameRoot, "oo2core_6_win64.dll"), Path.Join(Path.GetFullPath("."), "oo2core_6_win64.dll"));
                     }

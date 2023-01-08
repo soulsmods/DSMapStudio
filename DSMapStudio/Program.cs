@@ -36,7 +36,6 @@ namespace DSMapStudio
 #if DEBUG
             try
             {
-                File.Copy("sdsad", "sdasd");
                 mapStudio.Run();
             }
             catch
