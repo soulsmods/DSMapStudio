@@ -9,7 +9,7 @@
 80 Two-handed sword -- 二刀流 両手剣
 90 Two-sword sword one-handed axe -- 二刀流 片手斧
 100 Two-handed hand-to-hand mallet -- 二刀流 両手槌
-110 Two-handed sword, two-handed sword -- 二刀流 両手特大剣
+110 Two-handed sword- two-handed sword -- 二刀流 両手特大剣
 120 Two-handed two-handed axe -- 二刀流 両手斧
 130 Two-sword style two-handed sickle -- 二刀流 両手鎌
 140 Two-sword style two-handed long-handed axe -- 二刀流 両手長斧

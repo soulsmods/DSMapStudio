@@ -299,7 +299,7 @@
 33702000 Captive Undead
 33702001 Captive Undead
 50000000 Covetous Demon
-50100000 Mytha, the Baneful Queen
+50100000 Mytha- the Baneful Queen
 50200000 Manscorpion Tark
 50300000 Scorpioness Najka
 50400000 Looking Glass Knight
@@ -406,12 +406,12 @@
 67700010 Retainer Sorcerer
 67800000 Ice Golem
 67800001 Ice Golem
-67900000 Aava, the King's Pet
-67900100 Aava, the King's Pet
-67900101 Aava, the King's Pet
+67900000 Aava- the King's Pet
+67900100 Aava- the King's Pet
+67900101 Aava- the King's Pet
 68000000 Sir Alonne
-68100000 Sinh, the Slumbering Dragon
-68200000 Elana, Squalid Queen
+68100000 Sinh- the Slumbering Dragon
+68200000 Elana- Squalid Queen
 68300000 Imperfect
 68800000 Loyce Knight
 68801000 Loyce Knight
@@ -424,10 +424,10 @@
 68903000 Charred Loyce Knight
 69000000 Burnt Ivory King
 69001000 Burnt Ivory King
-69200000 Aldia, Scholar of the First Sin
-69201000 Aldia, Scholar of the First Sin
-69202000 Aldia, Scholar of the First Sin
-69203000 Aldia, Scholar of the First Sin
+69200000 Aldia- Scholar of the First Sin
+69201000 Aldia- Scholar of the First Sin
+69202000 Aldia- Scholar of the First Sin
+69203000 Aldia- Scholar of the First Sin
 70000000 UNKNOWN
 70050000 Emerald Herald
 70051000 Emerald Herald

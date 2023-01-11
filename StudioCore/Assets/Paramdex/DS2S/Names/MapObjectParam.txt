@@ -31,7 +31,7 @@
 260 【General purpose】Treasure corpse cow bone (skull) -- 【汎用】宝死体　牛骨(頭蓋骨)
 290 【General purpose】Petrified corpse -- 【汎用】石化死体
 300 【General purpose】Wooden one door light -- 【汎用】木の片扉　軽
-301 【General purpose】Wooden one door light (castle, fort door) -- 【汎用】木の片扉　軽（城、砦の扉）
+301 【General purpose】Wooden one door light (castle- fort door) -- 【汎用】木の片扉　軽（城、砦の扉）
 302 【General purpose】Wooden one door Light (village door) -- 【汎用】木の片扉　軽（村の扉）
 303 【General purpose】Wooden one door light (old door) -- 【汎用】木の片扉　軽（古びた扉）
 304 【General purpose】One door of the tree light cannot be destroyed (door of the castle and the fort) -- 【汎用】木の片扉　軽　破壊不可（城、砦の扉）
@@ -48,7 +48,7 @@
 317 【General purpose】Key door of Mr. A's house -- 【汎用】Ａさん宅の鍵扉
 318 The door of the king's ring -- 【汎用】王の指輪の扉
 320 【General purpose】Wooden one door light -- 【汎用】木の片扉　軽
-321 【General purpose】Wooden one door light (castle, fort door) -- 【汎用】木の片扉　軽（城、砦の扉）
+321 【General purpose】Wooden one door light (castle- fort door) -- 【汎用】木の片扉　軽（城、砦の扉）
 322 【General purpose】Wooden one door Light (village door) -- 【汎用】木の片扉　軽（村の扉）
 323 【General purpose】Wooden one door light (old door) -- 【汎用】木の片扉　軽（古びた扉）
 324 【General purpose】One door of the tree light cannot be destroyed (door of the castle and the fort) -- 【汎用】木の片扉　軽　破壊不可（城、砦の扉）
@@ -61,15 +61,15 @@
 370 【General purpose】One door of the tree heavy -- 【汎用】木の片扉　重
 371 【General purpose】One door of iron heavy -- 【汎用】鉄の片扉　重
 372 【General purpose】One door of the stone heavy -- 【汎用】石の片扉　重
-373 【General purpose】One iron door heavy (castle, fort door) -- 【汎用】鉄の片扉　重（城、砦の扉）
+373 【General purpose】One iron door heavy (castle- fort door) -- 【汎用】鉄の片扉　重（城、砦の扉）
 374 【General purpose】Prison door (with key) -- 【汎用】牢の扉(鍵付き)
 375 【General purpose】Iron single door 2 double -- 【汎用】鉄の片扉2　重
 400 【General purpose】Both doors of wood light -- 【汎用】木の両扉　軽
 470 【General purpose】Both doors of wood heavy -- 【汎用】木の両扉　重
 471 【General purpose】Both doors of iron heavy -- 【汎用】鉄の両扉　重
 472 [General purpose] both doors of stone heavy -- 【汎用】石の両扉　重
-473 【General purpose】Both iron doors heavy (castle, fort door) -- 【汎用】鉄の両扉　重（城、砦の扉）
-474 【General purpose】Both stone doors heavy (castle, fort door) -- 【汎用】石の両扉　重（城、砦の扉）
+473 【General purpose】Both iron doors heavy (castle- fort door) -- 【汎用】鉄の両扉　重（城、砦の扉）
+474 【General purpose】Both stone doors heavy (castle- fort door) -- 【汎用】石の両扉　重（城、砦の扉）
 475 【General purpose】Both doors of stone heavy (old door) -- 【汎用】石の両扉　重（古びた扉）
 476 【General purpose】King's Door -- 【汎用】王の扉
 500 [General purpose] white door size small -- 【汎用】白扉 サイズ小
@@ -330,7 +330,7 @@
 9116 【General purpose】Temporary handle -- 【汎用】仮ハンドル
 9118 【General purpose】Bells that cause enemies from the grave -- 【汎用】墓からの敵起こす鐘
 9119 【General purpose】Lid of pitfalls -- 【汎用】落とし穴の蓋
-9123 【General purpose】Floor tar, scorching -- 【汎用】床タール・焦げ
+9123 【General purpose】Floor tar- scorching -- 【汎用】床タール・焦げ
 9150 【General purpose】Cathedral (for distant views) -- 【汎用】聖堂（遠景用）
 9200 【General purpose】Trap: Launch port of the tread arrow -- 【汎用】トラップ：踏み矢の発射口
 9250 [General purpose] scattered tar -- 【汎用】飛び散ったタール
@@ -512,7 +512,7 @@
 100928 【Memory of giants】Wooden ladder 01 -- 【巨人の記憶】木の梯子01
 101000 [Fort of resistance] the door that soldiers are holding -- 【抵抗の砦】兵士が抑えている扉
 101001 【Fort of resistance】Iron bar -- 【抵抗の砦】鉄格子
-101005 【Fort of resistance】Hidden Door 1 (insect keys, lighting, SFX) -- 【抵抗の砦】隠し扉1（虫鍵・照明・SFX）
+101005 【Fort of resistance】Hidden Door 1 (insect keys- lighting- SFX) -- 【抵抗の砦】隠し扉1（虫鍵・照明・SFX）
 101010 Barista -- 【抵抗の砦】バリスタ
 101011 【Fort of resistance】Barista (continuous shooting type) -- 【抵抗の砦】バリスタ（連射型）
 101012 【Fort of resistance】Barista (Fire Arrow type) -- 【抵抗の砦】バリスタ（火矢型）
@@ -649,7 +649,7 @@
 110420 【Fairy's Side】Ancient Doors -- 【妖精のほとり】古代からある扉
 110640 【Fairy's Side】Floor Lever: Automatic Return -- 【妖精のほとり】床レバー：自動で戻る
 111000 【Fairy's Side】Altar -- 【妖精のほとり】祭壇
-111005 【Altar of Amana】Hidden Door 1 (Insect Keys, Lighting, SFX) -- 【アマナの祭壇】隠し扉1（虫鍵・照明・SFX）
+111005 【Altar of Amana】Hidden Door 1 (Insect Keys- Lighting- SFX) -- 【アマナの祭壇】隠し扉1（虫鍵・照明・SFX）
 111010 【Fairy's Side】Herbal Remedies -- 【妖精のほとり】薬草
 111020 [Fairy's Side] Hidden Door 2 (Key Guide) -- 【妖精のほとり】隠し扉2（キーガイド）
 111030 The Altar of the Saint -- 【妖精のほとり】聖者の祭壇
@@ -710,8 +710,8 @@
 141081 Spider's Cocoon (Enemies in Spider' -- 【蜘蛛の街】蜘蛛の繭（中に敵）
 141082 Spider's Cocoon (Items in the Spider) -- 【蜘蛛の街】蜘蛛の繭（中にアイテム）
 141090 【Spider's City】Unshakable Hanging Spider Cocoon (3m) -- 【蜘蛛の街】揺れない吊り下げ蜘蛛の繭(3m）
-141091 [Spider's City] unwavering hanging spider cocoon (3m, enemy in) -- 【蜘蛛の街】揺れない吊り下げ蜘蛛の繭(3m、中に敵）
-141092 [Spider's City] hanging spider cocoon that does not shake (3m, items in) -- 【蜘蛛の街】揺れない吊り下げ蜘蛛の繭(3m、中にアイテム）
+141091 [Spider's City] unwavering hanging spider cocoon (3m- enemy in) -- 【蜘蛛の街】揺れない吊り下げ蜘蛛の繭(3m、中に敵）
+141092 [Spider's City] hanging spider cocoon that does not shake (3m- items in) -- 【蜘蛛の街】揺れない吊り下げ蜘蛛の繭(3m、中にアイテム）
 141100 【Spider's City】Swaying Spider Cocoon (5m) -- 【蜘蛛の街】揺れない吊り下げ蜘蛛の繭(5m）
 141110 【Spider's City】Unwavering Hanging Spider Cocoon (7m) -- 【蜘蛛の街】揺れない吊り下げ蜘蛛の繭(7m）
 141120 [Spider City] Bridge that breaks when you ride -- 【蜘蛛の街】乗ると壊れる橋
@@ -781,11 +781,11 @@
 150476 King's Door -- 王の扉
 150620 Vertical lever -- 縦置きレバー
 150640 Floor Lever: Auto Back -- 床レバー：自動で戻る
-151000 Durahan's raw neck, correct. -- デュラハンの生首　正解
-151001 Durahan's raw neck, mistake. -- デュラハンの生首　間違い
-151002 Durahan's raw neck, mistake. -- デュラハンの生首　間違い
-151003 Durahan's raw neck, mistake. -- デュラハンの生首　間違い
-151004 Durahan's raw neck, mistake. -- デュラハンの生首　間違い
+151000 Durahan's raw neck- correct. -- デュラハンの生首　正解
+151001 Durahan's raw neck- mistake. -- デュラハンの生首　間違い
+151002 Durahan's raw neck- mistake. -- デュラハンの生首　間違い
+151003 Durahan's raw neck- mistake. -- デュラハンの生首　間違い
+151004 Durahan's raw neck- mistake. -- デュラハンの生首　間違い
 151010 Swaying lighting -- 揺れる照明
 151020 Lighting that shakes and falls -- 揺れて落ちる照明
 151030 Hidden Door 2 (Key Guide) -- 隠し扉2（キーガイド）
@@ -820,7 +820,7 @@
 159021 a cage coming down from above -- 上から降りてくる檻
 159022 Huge cage at the entrance -- エントランスの巨大檻
 159030 Entrance 2F Curtain -- エントランス2Fのカーテン
-159040 Cage wagon, change -- 檻馬車・改
+159040 Cage wagon- change -- 檻馬車・改
 159050 Mirror Night Mirror Shield -- ミラーナイト鏡盾
 159060 Elevator -- 昇降機
 159070 Only dummy for thorns on the fence -- 柵のトゲ用ダミーのみ
@@ -853,9 +853,9 @@
 161012 [Prison of oblivion] a block for sitting blacksmith -- 【忘却の牢城】鍛冶屋座る用のブロック
 161020 【Prison of Oblivion】Hidden Door 2 (Key Guide) -- 【忘却の牢城】隠し扉2（キーガイド）
 161030 [Prison of oblivion] hidden door type 3 -- 【忘却の牢城】隠し扉タイプ3
-161040 【Prison of Oblivion】Hidden Door 1 (Buchi and Door Integrated) (Insect Keys, Lighting, SFX) -- 【忘却の牢城】隠し扉1(淵と扉一体型)（虫鍵・照明・SFX）
+161040 【Prison of Oblivion】Hidden Door 1 (Buchi and Door Integrated) (Insect Keys- Lighting- SFX) -- 【忘却の牢城】隠し扉1(淵と扉一体型)（虫鍵・照明・SFX）
 161050 [Prison of Oblivion] Hidden Door 2 (Key Guide: Both Sides) -- 【忘却の牢城】隠し扉2（キーガイド：両面）
-161051 【Reservoir Valley】Hidden Door 1 (Part that disappears) (insect key, lighting, SFX) -- 【溜まりの谷】隠し扉1（消える部分)（虫鍵・照明・SFX）
+161051 【Reservoir Valley】Hidden Door 1 (Part that disappears) (insect key- lighting- SFX) -- 【溜まりの谷】隠し扉1（消える部分)（虫鍵・照明・SFX）
 161060 【Prison of Oblivion】Hidden Door 2 (Key Guide) -- 【忘却の牢城】隠し扉2（キーガイド）
 161070 【Prison of Oblivion】Hidden Door 2 (Key Guide) -- 【忘却の牢城】隠し扉2（キーガイド）
 161080 【Prison of Oblivion】Hidden Door 2 (Key Guide) -- 【忘却の牢城】隠し扉2（キーガイド）
@@ -863,12 +863,12 @@
 161100 【Prison of Oblivion】Hidden Door 2 (Key Guide) -- 【忘却の牢城】隠し扉2（キーガイド）
 161110 【Prison of Oblivion】Hidden Door 2 (Key Guide) -- 【忘却の牢城】隠し扉2（キーガイド）
 161120 【Prison of Oblivion】Hidden Door 2 (Key Guide) -- 【忘却の牢城】隠し扉2（キーガイド）
-161130 【Prison of Oblivion】Hidden Door 1 (Buchi and Door Integrated) (Insect Keys, Lighting, SFX) -- 【忘却の牢城】隠し扉1(淵と扉一体型)（虫鍵・照明・SFX）
+161130 【Prison of Oblivion】Hidden Door 1 (Buchi and Door Integrated) (Insect Keys- Lighting- SFX) -- 【忘却の牢城】隠し扉1(淵と扉一体型)（虫鍵・照明・SFX）
 161140 The Prison of Oblivion: A cage pulled from the well -- 【忘却の牢城】井戸から引き上がる檻
 161141 【Prison of Oblivion】Heavy Stone -- 【忘却の牢城】重石
 161150 [Prison of oblivion] iron bars next to the boss room -- 【忘却の牢城】ボス部屋の横の鉄格子
-161170 【Prison of Oblivion】Hidden Door 1 (Buchi and Door Integrated) (Insect Keys, Lighting, SFX) -- 【忘却の牢城】隠し扉1(淵と扉一体型)（虫鍵・照明・SFX）
-161180 【Prison of Oblivion】Hidden Door 1 (Buchi and Door Integrated) (Insect Keys, Lighting, SFX) -- 【忘却の牢城】隠し扉1(淵と扉一体型)（虫鍵・照明・SFX）
+161170 【Prison of Oblivion】Hidden Door 1 (Buchi and Door Integrated) (Insect Keys- Lighting- SFX) -- 【忘却の牢城】隠し扉1(淵と扉一体型)（虫鍵・照明・SFX）
+161180 【Prison of Oblivion】Hidden Door 1 (Buchi and Door Integrated) (Insect Keys- Lighting- SFX) -- 【忘却の牢城】隠し扉1(淵と扉一体型)（虫鍵・照明・SFX）
 161185 [Prison of Oblivion] hidden door (key guide: double-sided opening) -- 【忘却の牢城】隠し扉(キーガイド：両面開き）
 161190 【Prison of Oblivion】Key person (door + key person + key person) -- 【忘却の牢城】鍵人（扉+鍵人+鍵）
 161200 【Prison of Oblivion】Bell -- 【忘却の牢城】鐘
@@ -929,14 +929,14 @@
 171020 【Reservoir Valley】Hidden Door (No Key Guide) -- 【溜まりの谷】隠し扉（キーガイドなし）
 171030 【Reservoir Valley】Hidden Door (No Key Guide) -- 【溜まりの谷】隠し扉（キーガイドなし）
 171040 【Reservoir Valley】Hidden Door (No Key Guide) -- 【溜まりの谷】隠し扉（キーガイドなし）
-171050 【Reservoir Valley】Hidden Door 1 (Buchi) (Insect Keys, Lighting, SFX) -- 【溜まりの谷】隠し扉1（淵)（虫鍵・照明・SFX）
-171051 【Reservoir Valley】Hidden Door 1 (Part that disappears) (insect key, lighting, SFX) -- 【溜まりの谷】隠し扉1（消える部分)（虫鍵・照明・SFX）
+171050 【Reservoir Valley】Hidden Door 1 (Buchi) (Insect Keys- Lighting- SFX) -- 【溜まりの谷】隠し扉1（淵)（虫鍵・照明・SFX）
+171051 【Reservoir Valley】Hidden Door 1 (Part that disappears) (insect key- lighting- SFX) -- 【溜まりの谷】隠し扉1（消える部分)（虫鍵・照明・SFX）
 171060 【Coal mine village】Venom in boss room -- 【炭鉱の村】ボス部屋の毒液
 171061 【Valley of the reservoir】Venom of the passage -- 【溜まりの谷】通路の毒液
 171062 【Valley of the reservoir】Venom in front of the boss room -- 【溜まりの谷】ボス部屋前の毒液
 171063 【Valley of the reservoir】Venom at the starting point -- 【溜まりの谷】スタート地点の毒液
 171080 【Valley of the reservoir】The foundation of the fountain of the insect key recovery -- 【溜りの谷】虫鍵回復の泉の土台
-171090 【Reservoir Valley】Hidden Door 1 (Buchi and Door Integrated) (Insect Keys, Lighting, SFX) -- 【溜まりの谷】隠し扉1(淵と扉一体型)（虫鍵・照明・SFX）
+171090 【Reservoir Valley】Hidden Door 1 (Buchi and Door Integrated) (Insect Keys- Lighting- SFX) -- 【溜まりの谷】隠し扉1(淵と扉一体型)（虫鍵・照明・SFX）
 171100 【Valley of the reservoir】The surface of the water that falls with the lever (poison) -- 【溜まりの谷】レバーで下がる水面（毒）
 171250 [Valley of the reservoir] transparent OBJ for attacking the enemy -- 【溜まりの谷】敵に攻撃当てさせる用透明OBJ
 171300 【Valley of The Reservoir】The Spring Surface of The Recovery (Poison) -- 【溜まりの谷】回復の泉水面(毒)
@@ -1058,8 +1058,8 @@
 191111 [Volcano steel mill] fuselage of the statue of the cowhead [for destruction _ poly play] -- 【火山の製鉄所】牛頭の像の胴体【破壊_ポリ劇用】
 191120 [Volcano steel works] hidden door 2 (double-sided type) (key guide) -- 【火山の製鉄所】隠し扉2(両面タイプ）（キーガイド）
 191130 [Volcano steel works] hidden door 2 (double-sided type) (key guide) -- 【火山の製鉄所】隠し扉2(両面タイプ）（キーガイド）
-191140 [Volcano steel mill] hidden door 1 (front and door integrated) (insect key, lighting, SFX) -- 【火山の製鉄所】隠し扉1(淵と扉一体型)（虫鍵・照明・SFX）
-191141 【Volcano steel works】Hidden doors 1 (disappearing part) (insect keys, lighting, SFX) -- 【火山の製鉄所】隠し扉1（消える部分)（虫鍵・照明・SFX）
+191140 [Volcano steel mill] hidden door 1 (front and door integrated) (insect key- lighting- SFX) -- 【火山の製鉄所】隠し扉1(淵と扉一体型)（虫鍵・照明・SFX）
+191141 【Volcano steel works】Hidden doors 1 (disappearing part) (insect keys- lighting- SFX) -- 【火山の製鉄所】隠し扉1（消える部分)（虫鍵・照明・SFX）
 191142 [Volcano steel works] open door when the bell is ringing -- 【火山の製鉄所】鐘を鳴らしたら開く扉
 191150 【Molten Castle】Bell -- 【熔鉄城】鐘
 191151 【Molten Castle】Bell (Model without Damipori for Sound) -- 【熔鉄城】鐘（サウンド用ダミポリなしモデル）
@@ -1227,7 +1227,7 @@
 241100 【Mausoleum】Shortcut Drawbridge -- 【霊廟】ショートカット跳ね橋
 241110 【Mausoleum】Bell -- 【霊廟】鐘
 241120 【Mausoleum】Hidden Door 2 (Key Guide) -- 【霊廟】隠し扉2（キーガイド）
-241130 【Mausoleum】Hidden Door 1 (Buchi and door integrated) (insect key, lighting, SFX) -- 【霊廟】隠し扉1(淵と扉一体型)（虫鍵・照明・SFX）
+241130 【Mausoleum】Hidden Door 1 (Buchi and door integrated) (insect key- lighting- SFX) -- 【霊廟】隠し扉1(淵と扉一体型)（虫鍵・照明・SFX）
 241140 【Mausoleum】Hidden Door 2 (Key Guide) -- 【霊廟】隠し扉2（キーガイド）
 241500 【Submerged Castle】Coffin of the Immortal family -- 【水没城】不死族の棺桶
 241800 【Mausoleum】Insect Key 1 -- 【霊廟】虫鍵1
@@ -1267,7 +1267,7 @@
 251030 The Altar of the Broken Saint -- 【クズ底】壊れた聖者の祭壇
 251031 【Kuzbottom】Altar Pillar of The Saint -- 【クズ底】壊聖者の祭壇柱
 251900 【Kuzbottom】Kokeshi Light Stand -- 【クズ底】こけし灯火台
-251901 【Kuzbottom】Kokeshi Lamp Stand, No Debris -- 【クズ底】こけし灯火台・破片無し
+251901 【Kuzbottom】Kokeshi Lamp Stand- No Debris -- 【クズ底】こけし灯火台・破片無し
 251920 【Scum bottom】Terminating bonfire -- 【クズ底】終端篝火
 252000 【D-Suke-mura】Daladara-n-jar -- 【Dすけ村】ダラダラ壷
 252001 [Scum bottom] the plate of the wood that was hammered -- 【クズ底】打ち付けられた木の板
@@ -1376,7 +1376,7 @@
 331060 【Door road of Faros】The wall -- 【ファロスの扉道】通せんぼ壁
 331063 [Door road of Faros] Togetge switch -- 【ファロスの扉道】トゲトゲスイッチ
 331065 【Door road of Faros】Insect key door 1 (elephant man) -- 【ファロスの扉道】虫鍵扉・1(象人)
-331066 【Door road of Faros】Insect key door, 2 (elephant man) -- 【ファロスの扉道】虫鍵扉・2(象人)
+331066 【Door road of Faros】Insect key door- 2 (elephant man) -- 【ファロスの扉道】虫鍵扉・2(象人)
 331067 【Door road of Faros】Insect key door 3 (elephant man) -- 【ファロスの扉道】虫鍵扉・3(象人)
 331070 【Door road of Faros】Ladder -- 【ファロスの扉道】梯子
 331800 【Door way of Faros】Insect key -- 【ファロスの扉道】虫鍵

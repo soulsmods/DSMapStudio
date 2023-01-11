@@ -850,7 +850,7 @@ namespace StudioCore.MsbEditor
 
                 if (pendingUnload != null)
                 {
-                    _universe.UnloadMap(pendingUnload);
+                    _universe.UnloadContainer(pendingUnload);
                     GC.Collect();
                     GC.WaitForPendingFinalizers();
                     GC.Collect();

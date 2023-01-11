@@ -6,21 +6,11 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="s32 Chest Type" >
-      <Description>0 for normal, 1 for trapped</Description>
-    </Field>
-    <Field Def="s32 Bullet ID 0" >
-      <Description>Bullet to fire at random.</Description>
-    </Field>
-    <Field Def="s32 Bullet ID 1" >
-      <Description>Bullet to fire at random.</Description>
-    </Field>
-    <Field Def="s32 Bullet ID 2" >
-      <Description>Bullet to fire at random.</Description>
-    </Field>
-    <Field Def="s32 Bullet ID 3" >
-      <Description>Bullet to fire at random.</Description>
-    </Field>
-    <Field Def="s32 Unk14" />
+    <Field Def="s32 chest_type" />
+    <Field Def="s32 bullet_id_1" />
+    <Field Def="s32 bullet_id_2" />
+    <Field Def="s32 bullet_id_3" />
+    <Field Def="s32 bullet_id_4" />
+    <Field Def="s32 Unk00" />
   </Fields>
 </PARAMDEF>

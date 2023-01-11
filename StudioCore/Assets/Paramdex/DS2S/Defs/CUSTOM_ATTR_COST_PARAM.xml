@@ -6,35 +6,35 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="s32 Infusion 1 Cost" />
-    <Field Def="s32 Infusion 2 Cost" />
-    <Field Def="s32 Infusion 3 Cost" />
-    <Field Def="s32 Infusion 4 Cost" />
-    <Field Def="s32 Infusion 5 Cost" />
-    <Field Def="s32 Infusion 6 Cost" />
-    <Field Def="s32 Infusion 7 Cost" />
-    <Field Def="s32 Infusion 8 Cost" />
-    <Field Def="s32 Infusion 9 Cost" />
-    <Field Def="s32 Infusion 10 Cost" />
-    <Field Def="s32 Infusion 1 Item" />
-    <Field Def="s32 Infusion 2 Item" />
-    <Field Def="s32 Infusion 3 Item" />
-    <Field Def="s32 Infusion 4 Item" />
-    <Field Def="s32 Infusion 5 Item" />
-    <Field Def="s32 Infusion 6 Item" />
-    <Field Def="s32 Infusion 7 Item" />
-    <Field Def="s32 Infusion 8 Item" />
-    <Field Def="s32 Infusion 9 Item" />
-    <Field Def="s32 Infusion 10 Item" />
-    <Field Def="u16 Infusion 1 Amount" />
-    <Field Def="u16 Infusion 2 Amount" />
-    <Field Def="u16 Infusion 3 Amount" />
-    <Field Def="u16 Infusion 4 Amount" />
-    <Field Def="u16 Infusion 5 Amount" />
-    <Field Def="u16 Infusion 6 Amount" />
-    <Field Def="u16 Infusion 7 Amount" />
-    <Field Def="u16 Infusion 8 Amount" />
-    <Field Def="u16 Infusion 9 Amount" />
-    <Field Def="u16 Infusion 10 Amount" />
+    <Field Def="s32 infusion_1_cost" />
+    <Field Def="s32 infusion_2_cost" />
+    <Field Def="s32 infusion_3_cost" />
+    <Field Def="s32 infusion_4_cost" />
+    <Field Def="s32 infusion_5_cost" />
+    <Field Def="s32 infusion_6_cost" />
+    <Field Def="s32 infusion_7_cost" />
+    <Field Def="s32 infusion_8_cost" />
+    <Field Def="s32 infusion_9_cost" />
+    <Field Def="s32 infusion_10_cost" />
+    <Field Def="s32 infusion_1_item" />
+    <Field Def="s32 infusion_2_item" />
+    <Field Def="s32 infusion_3_item" />
+    <Field Def="s32 infusion_4_item" />
+    <Field Def="s32 infusion_5_item" />
+    <Field Def="s32 infusion_6_item" />
+    <Field Def="s32 infusion_7_item" />
+    <Field Def="s32 infusion_8_item" />
+    <Field Def="s32 infusion_9_item" />
+    <Field Def="s32 infusion_10_item" />
+    <Field Def="u16 infusion_1_item_amount" />
+    <Field Def="u16 infusion_2_item_amount" />
+    <Field Def="u16 infusion_3_item_amount" />
+    <Field Def="u16 infusion_4_item_amount" />
+    <Field Def="u16 infusion_5_item_amount" />
+    <Field Def="u16 infusion_6_item_amount" />
+    <Field Def="u16 infusion_7_item_amount" />
+    <Field Def="u16 infusion_8_item_amount" />
+    <Field Def="u16 infusion_9_item_amount" />
+    <Field Def="u16 infusion_10_item_amount" />
   </Fields>
 </PARAMDEF>

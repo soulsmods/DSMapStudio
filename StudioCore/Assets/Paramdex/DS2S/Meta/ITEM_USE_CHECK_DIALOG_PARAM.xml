@@ -2,5 +2,8 @@
 <PARAMMETA XmlVersion="0">
   <Self Row0Dummy="" />
   <Field>
+    <flag_id AltName="Flag ID"/>
+    <text_id_on_use AltName="Text ID - On Use" FMGRef="common"/>
+    <text_id_on_invalid_use AltName="Text ID - On Invalid Use" FMGRef="common"/>
   </Field>
 </PARAMMETA>

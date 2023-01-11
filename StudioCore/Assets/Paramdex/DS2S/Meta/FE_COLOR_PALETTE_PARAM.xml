@@ -2,5 +2,8 @@
 <PARAMMETA XmlVersion="0">
   <Self Row0Dummy="" />
   <Field>
+    <palette_R AltName="Palette: R"/>
+    <palette_G AltName="Palette: G"/>
+    <palette_B AltName="Palette: B"/>
   </Field>
 </PARAMMETA>

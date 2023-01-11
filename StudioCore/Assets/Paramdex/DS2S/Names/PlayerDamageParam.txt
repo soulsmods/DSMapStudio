@@ -33,7 +33,7 @@
 941 General Purpose - Vibration - Vertical Shaking - Medium (Assault Spear) -- 汎用-振動-縦揺れ-中（突撃槍）
 950 General-purpose -Vibration-Vertical Shaking-Large -- 汎用-振動-縦揺れ-大
 951 General Purpose - Vibration - Vertical Shaking - Large (Assault Spear) -- 汎用-振動-縦揺れ-大（突撃槍）
-960 General-purpose -Vibration- Up, Bottom, Left, Right - Large -- 汎用-振動-上下左右-大
+960 General-purpose -Vibration- Up- Bottom- Left- Right - Large -- 汎用-振動-上下左右-大
 1000 General-purpose-guard break -- 汎用-ガードブレイク
 1400 General-purpose - Tossing - Guard Break Stub - Minimal - Hit on target -- 汎用-投げつかみ-ガードブレイクスタブ-極小-対象にＨＩＴ
 1420 General-purpose - Tossing - Guard Break Stub - Medium - Hit on target -- 汎用-投げつかみ-ガードブレイクスタブ-中-対象にＨＩＴ

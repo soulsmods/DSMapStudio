@@ -220,14 +220,14 @@
 76100256 [Maughlin the Armourer - Thorne Defenders] Throne Watcher Armor
 76100257 [Maughlin the Armourer - Thorne Defenders] Throne Watcher Gauntlets
 76100258 [Maughlin the Armourer - Thorne Defenders] Throne Watcher Leggings
-76100259 [Maughlin the Armourer - 15000 Souls, NG+3] Moon Butterfly Hat
-76100260 [Maughlin the Armourer - 15000 Souls, NG+2] Moon Butterfly Wings
-76100261 [Maughlin the Armourer - 15000 Souls, NG+2] Moon Butterfly Cuffs
-76100262 [Maughlin the Armourer - 15000 Souls, NG+2] Moon Butterfly Skirt
-76100263 [Maughlin the Armourer - Burnt Ivory King, 50 Loyce Souls] Ivory King Helm
-76100264 [Maughlin the Armourer - Burnt Ivory King, 50 Loyce Souls] Ivory King Armor
-76100265 [Maughlin the Armourer - Burnt Ivory King, 50 Loyce Souls] Ivory King Gauntlets
-76100266 [Maughlin the Armourer - Burnt Ivory King, 50 Loyce Souls] Ivory King Leggings
+76100259 [Maughlin the Armourer - 15000 Souls- NG+3] Moon Butterfly Hat
+76100260 [Maughlin the Armourer - 15000 Souls- NG+2] Moon Butterfly Wings
+76100261 [Maughlin the Armourer - 15000 Souls- NG+2] Moon Butterfly Cuffs
+76100262 [Maughlin the Armourer - 15000 Souls- NG+2] Moon Butterfly Skirt
+76100263 [Maughlin the Armourer - Burnt Ivory King- 50 Loyce Souls] Ivory King Helm
+76100264 [Maughlin the Armourer - Burnt Ivory King- 50 Loyce Souls] Ivory King Armor
+76100265 [Maughlin the Armourer - Burnt Ivory King- 50 Loyce Souls] Ivory King Gauntlets
+76100266 [Maughlin the Armourer - Burnt Ivory King- 50 Loyce Souls] Ivory King Leggings
 76200300 [Stone Trader Chloanne] Soul Appease
 76200301 [Stone Trader Chloanne] Dead Again
 76200600 [Stone Trader Chloanne] Bonfire Ascetic
@@ -357,7 +357,7 @@
 76801011 [Straid of Olaphis - Executioner's Chariot Soul] Shield Crossbow
 76801012 [Straid of Olaphis - Skeleton Lord's Soul] Roaring Halberd
 76801013 [Straid of Olaphis - Skeleton Lord's Soul] Bone Scythe
-76801014 [Straid of Olaphis - Mytha, the Baneful Queen Soul] Mytha's Bent Blade
+76801014 [Straid of Olaphis - Mytha- the Baneful Queen Soul] Mytha's Bent Blade
 76801015 [Straid of Olaphis - Smelter Demon Soul] Smelter Sword
 76801016 [Straid of Olaphis - Demon of Song Soul] Spotted Whip
 76801017 [Straid of Olaphis - Belfry Gargoyle Soul] Gargoyle Bident
@@ -372,7 +372,7 @@
 76801108 [Straid of Olaphis - Old King Soul] Blinding Bolt
 76801109 [Straid of Olaphis - Old Dead One Soul] Numbness
 76801110 [Straid of Olaphis - Old Paledrake Soul] Crystal Soul Spear
-76801111 [Straid of Olaphis - Soul of Nadalia, Bride of Ash] Outcry
+76801111 [Straid of Olaphis - Soul of Nadalia- Bride of Ash] Outcry
 76801200 [Straid of Olaphis - Soul of the Pursuer] Pursuer's Ultra Greatsword
 76801201 [Straid of Olaphis - Soul of the Pursuer] Pursuer's Greatshield
 76801202 [Straid of Olaphis - Soul of the Last Giant] Giant Stone Axe
@@ -387,7 +387,7 @@
 76801211 [Straid of Olaphis - Executioner's Chariot Soul] Shield Crossbow
 76801212 [Straid of Olaphis - Skeleton Lord's Soul] Roaring Halberd
 76801213 [Straid of Olaphis - Skeleton Lord's Soul] Bone Scythe
-76801214 [Straid of Olaphis - Mytha, the Baneful Queen Soul] Mytha's Bent Blade
+76801214 [Straid of Olaphis - Mytha- the Baneful Queen Soul] Mytha's Bent Blade
 76801215 [Straid of Olaphis - Smelter Demon Soul] Smelter Sword
 76801216 [Straid of Olaphis - Demon of Song Soul] Spotted Whip
 76801217 [Straid of Olaphis - Belfry Gargoyle Soul] Gargoyle Bident
@@ -530,18 +530,18 @@
 77601023 [Weaponsmith Ornifex - Old Dead One Soul] Crypt Blacksword
 77601024 [Weaponsmith Ornifex - Old Witch Soul] Chaos Blade
 77601025 [Weaponsmith Ornifex - Old King Soul] Dragonslayer Greatbow
-77601026 [Weaponsmith Ornifex - Soul of Sinh, the Slumbering Dragon] Yorgh's Spear
-77601027 [Weaponsmith Ornifex - Soul of Elana, Squalid Queen] Wrathful Axe
-77601028 [Weaponsmith Ornifex - Soul of Nadalia, Bride of Ash] Chime of Screams
+77601026 [Weaponsmith Ornifex - Soul of Sinh- the Slumbering Dragon] Yorgh's Spear
+77601027 [Weaponsmith Ornifex - Soul of Elana- Squalid Queen] Wrathful Axe
+77601028 [Weaponsmith Ornifex - Soul of Nadalia- Bride of Ash] Chime of Screams
 77601029 [Weaponsmith Ornifex - Soul of the Fume Knight] Fume Sword
 77601030 [Weaponsmith Ornifex - Soul of the Fume Knight] Fume Ultra Greatsword
 77601031 [Weaponsmith Ornifex - Soul of Sir Alonne] Bewitched Alonne Sword
 77601032 [Weaponsmith Ornifex - Smelter Demon Soul] Aged Smelter Sword
-77601033 [Weaponsmith Ornifex - Soul of Aava, the King's Pet] Ivory Straight Sword
-77601034 [Weaponsmith Ornifex - Soul of Zallen, the King's Pet] Loyce Shield
-77601035 [Weaponsmith Ornifex - Soul of Lud, the King's Pet] Loyce Greatsword
+77601033 [Weaponsmith Ornifex - Soul of Aava- the King's Pet] Ivory Straight Sword
+77601034 [Weaponsmith Ornifex - Soul of Zallen- the King's Pet] Loyce Shield
+77601035 [Weaponsmith Ornifex - Soul of Lud- the King's Pet] Loyce Greatsword
 77601036 [Weaponsmith Ornifex - Soul of the Ivory King] Ivory King Ultra Greatsword
-77601037 [Weaponsmith Ornifex - Soul of Alsanna, Silent Oracle] Eleum Loyce
+77601037 [Weaponsmith Ornifex - Soul of Alsanna- Silent Oracle] Eleum Loyce
 77601100 [Weaponsmith Ornifex - Old Dragonslayer Soul] Dragonslayer Spear
 77601101 [Weaponsmith Ornifex - Soul of the Lost Sinner] Lost Sinner's Sword
 77601102 [Weaponsmith Ornifex - Old Iron King Soul] Iron King Hammer
@@ -590,18 +590,18 @@
 77602023 [Weaponsmith Ornifex - Old Dead One Soul] Crypt Blacksword
 77602024 [Weaponsmith Ornifex - Old Witch Soul] Chaos Blade
 77602025 [Weaponsmith Ornifex - Old King Soul] Dragonslayer Greatbow
-77602026 [Weaponsmith Ornifex - Soul of Sinh, the Slumbering Dragon] Yorgh's Spear
-77602027 [Weaponsmith Ornifex - Soul of Sinh, the Slumbering Dragon] Yorgh's Spear
-77602028 [Weaponsmith Ornifex - Soul of Nadalia, Bride of Ash] Chime of Screams
+77602026 [Weaponsmith Ornifex - Soul of Sinh- the Slumbering Dragon] Yorgh's Spear
+77602027 [Weaponsmith Ornifex - Soul of Sinh- the Slumbering Dragon] Yorgh's Spear
+77602028 [Weaponsmith Ornifex - Soul of Nadalia- Bride of Ash] Chime of Screams
 77602029 [Weaponsmith Ornifex - Soul of the Fume Knight] Fume Sword
 77602030 [Weaponsmith Ornifex - Soul of the Fume Knight] Fume Ultra Greatsword
 77602031 [Weaponsmith Ornifex - Soul of Sir Alonne] Bewitched Alonne Sword
 77602032 [Weaponsmith Ornifex - Smelter Demon Soul] Aged Smelter Sword
-77602033 [Weaponsmith Ornifex - Soul of Aava, the King's Pet] Ivory Straight Sword
-77602034 [Weaponsmith Ornifex - Soul of Zallen, the King's Pet] Loyce Shield
-77602035 [Weaponsmith Ornifex - Soul of Lud, the King's Pet] Loyce Greatsword
+77602033 [Weaponsmith Ornifex - Soul of Aava- the King's Pet] Ivory Straight Sword
+77602034 [Weaponsmith Ornifex - Soul of Zallen- the King's Pet] Loyce Shield
+77602035 [Weaponsmith Ornifex - Soul of Lud- the King's Pet] Loyce Greatsword
 77602036 [Weaponsmith Ornifex - Soul of the Ivory King] Ivory King Ultra Greatsword
-77602037 [Weaponsmith Ornifex - Soul of Alsanna, Silent Oracle] Eleum Loyce
+77602037 [Weaponsmith Ornifex - Soul of Alsanna- Silent Oracle] Eleum Loyce
 77602100 [Weaponsmith Ornifex - Old Dragonslayer Soul] Dragonslayer Spear
 77602101 [Weaponsmith Ornifex - Soul of the Lost Sinner] Lost Sinner's Sword
 77602102 [Weaponsmith Ornifex - Old Iron King Soul] Iron King Hammer

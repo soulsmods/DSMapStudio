@@ -6,34 +6,34 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="f32 Slash Defence" />
-    <Field Def="f32 Thrust Defence" />
-    <Field Def="f32 Strike Defence" />
-    <Field Def="f32 Standard Defence" />
-    <Field Def="f32 Magic Absorption" />
-    <Field Def="f32 Lightning Absorption" />
-    <Field Def="f32 Fire Absorption" />
-    <Field Def="f32 Dark Absorption" />
-    <Field Def="f32 Poison Resist" />
-    <Field Def="f32 Bleed Resist" />
-    <Field Def="f32 Petrify Resist" />
-    <Field Def="f32 Curse Resist" />
-    <Field Def="f32 Max Slash Defence" />
-    <Field Def="f32 Max Thrust Defence" />
-    <Field Def="f32 Make Strike Defence" />
-    <Field Def="f32 Max Standard Defence" />
-    <Field Def="f32 Max Magic Absorption" />
-    <Field Def="f32 Max Lightning Absorption" />
-    <Field Def="f32 Max Fire Absorption" />
-    <Field Def="f32 Max Dark Absorption" />
-    <Field Def="f32 Max Poison Resist" />
-    <Field Def="f32 Max Bleed Resist" />
-    <Field Def="f32 Max Petrify Resist" />
-    <Field Def="f32 Max Curse Resist" />
-    <Field Def="u32 Max Reinforce Level" />
+    <Field Def="f32 defence_slash" />
+    <Field Def="f32 defence_thrust" />
+    <Field Def="f32 defence_strike" />
+    <Field Def="f32 defence_standard" />
+    <Field Def="f32 absorption_magic" />
+    <Field Def="f32 absorption_lightning" />
+    <Field Def="f32 absorption_fire" />
+    <Field Def="f32 absorption_dark" />
+    <Field Def="f32 absorption_poison" />
+    <Field Def="f32 absorption_bleed" />
+    <Field Def="f32 absorption_petrify" />
+    <Field Def="f32 absorption_curse" />
+    <Field Def="f32 max_defence_slash" />
+    <Field Def="f32 max_defence_thrust" />
+    <Field Def="f32 max_defence_strike" />
+    <Field Def="f32 max_defence_standard" />
+    <Field Def="f32 max_absorption_magic" />
+    <Field Def="f32 max_absorption_lightning" />
+    <Field Def="f32 max_absorption_fire" />
+    <Field Def="f32 max_absorption_dark" />
+    <Field Def="f32 max_absorption_poison" />
+    <Field Def="f32 max_absorption_bleed" />
+    <Field Def="f32 max_absorption_petrify" />
+    <Field Def="f32 max_absorption_curse" />
+    <Field Def="u32 max_reinforcement_level" />
     <Field Def="f32 Unk64" />
-    <Field Def="u32 Upgrade Material" />
+    <Field Def="u32 reinforce_material" />
     <Field Def="s32 Unk6C" />
-    <Field Def="u32 Reinforce Cost ID" />
+    <Field Def="u32 reinforce_cost_id" />
   </Fields>
 </PARAMDEF>

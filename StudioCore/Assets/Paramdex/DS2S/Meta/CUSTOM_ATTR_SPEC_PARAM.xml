@@ -2,7 +2,7 @@
 <PARAMMETA XmlVersion="0">
   <Self Row0Dummy="" />
   <Field>
-	  <AllowedInfusions Wiki="This is a bitset of 10 bits. 
+	  <bitset_allowed_infusions AltName="Allowed Infuions" Wiki="This is a bitset of 10 bits. 
 They are, in order from the least significant: 
 Base, Fire, Magic, Lightning, Dark, Poison, Bleed, Raw, Enchanted, Mundane."/>
   </Field>

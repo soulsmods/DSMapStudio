@@ -24,7 +24,7 @@
 51200003 [REG:51200003] Leydia Pyromancer
 51460000 [REG:51460000] Vendrick [Boss]
 61150000 [REG:61150000] Dragonrider
-69300000 [REG:69300000] Aldia, Scholar of the First Sin
+69300000 [REG:69300000] Aldia- Scholar of the First Sin
 69400000 [REG:69400000] Forlorn (Scythe)
 69600000 [REG:69600000] Invisible Hollow
 69600100 [REG:69600100] Invisible Hollow

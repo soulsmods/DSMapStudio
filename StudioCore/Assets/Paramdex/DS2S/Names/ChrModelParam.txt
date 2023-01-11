@@ -3,7 +3,7 @@
 2120 Wyvern -- ワイバーン
 3096 New Giant Senior Soldier (Deceased) -- 新・巨人上級兵士（亡者）
 3150 Elephant (Born) -- 象人（生者）
-3180 Bay Grant, Seoul -- ベイグラント（ソウル）
+3180 Bay Grant- Seoul -- ベイグラント（ソウル）
 3250 Warrior in the Mirror -- 鏡の中の戦士
 3260 Butcher -- ブッチャー
 3270 Bone Dragon -- 骨ドラゴン

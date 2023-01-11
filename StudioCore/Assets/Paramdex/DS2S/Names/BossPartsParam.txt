@@ -69,7 +69,7 @@
 50000003 Covetous Demon
 50000004 Covetous Demon
 50000005 Covetous Demon
-50100001 Mytha, the Baneful Queen
+50100001 Mytha- the Baneful Queen
 50200001 Manscorpion Tark
 50200002 Manscorpion Tark
 50200003 Manscorpion Tark
@@ -163,20 +163,20 @@
 62700006 Nashandra
 62700007 Nashandra
 62700008 Nashandra
-68100001 Sinh, the Slumbering Dragon
-68100002 Sinh, the Slumbering Dragon
-68100003 Sinh, the Slumbering Dragon
-68100004 Sinh, the Slumbering Dragon
-68100005 Sinh, the Slumbering Dragon
-68100006 Sinh, the Slumbering Dragon
-68100007 Sinh, the Slumbering Dragon
-68100008 Sinh, the Slumbering Dragon
-68100009 Sinh, the Slumbering Dragon
-68200001 Elana, Squalid Queen
-68200002 Elana, Squalid Queen
-68200003 Elana, Squalid Queen
-68200004 Elana, Squalid Queen
-68200005 Elana, Squalid Queen
+68100001 Sinh- the Slumbering Dragon
+68100002 Sinh- the Slumbering Dragon
+68100003 Sinh- the Slumbering Dragon
+68100004 Sinh- the Slumbering Dragon
+68100005 Sinh- the Slumbering Dragon
+68100006 Sinh- the Slumbering Dragon
+68100007 Sinh- the Slumbering Dragon
+68100008 Sinh- the Slumbering Dragon
+68100009 Sinh- the Slumbering Dragon
+68200001 Elana- Squalid Queen
+68200002 Elana- Squalid Queen
+68200003 Elana- Squalid Queen
+68200004 Elana- Squalid Queen
+68200005 Elana- Squalid Queen
 68300001 Imperfect
 68300002 Imperfect
 68300003 Imperfect

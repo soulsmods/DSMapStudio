@@ -6,79 +6,34 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="s32 Icon ID" />
-    <Field Def="s32 Effect ID" />
-    <Field Def="s32 Unk08" />
-    <Field Def="s32 Unk0C" />
-    <Field Def="s32 Unk10" />
-    <Field Def="s32 Weapon ID" />
-    <Field Def="s32 Armor ID" />
-    <Field Def="s32 Ammunition ID" />
-    <Field Def="s32 Ring ID" />
-    <Field Def="s32 Spell ID" />
-    <Field Def="s32 Gesture ID" />
-    <Field Def="s32 Sort ID" />
-    <Field Def="s32 Base Buy Price" />
-    <Field Def="s32 Sell Price" />
-    <Field Def="f32 Animation Speed" />
-    <Field Def="s32 Unk3C" />
-    <Field Def="s32 ItemType ID" />
-    <Field Def="s32 Item Usage ID" />
-    <Field Def="u8 Unk48" />
-    <Field Def="u8 Unk49" />
-    <Field Def="u16 Max Held" />
-    <Field Def="u8 SpEffect Type" />
-    <Field Def="u8 Item Type" >
-      <Description>Used in items.
-0 - None
-1 - Consumable
-2 - Non-Consumable (except Human Effigy)
-3 - System (Darksign)
-      </Description>
-    </Field>
-    <Field Def="u8 Unk4E" />
-    <Field Def="u8 Item Type 2" >
-      <Description>Used in items.
-0 - Weapon
-1 - Shield
-2 - Head Armor
-3 - Chest Armor
-4 - Hands Armor
-5 - Legs Armor
-6 - Ammunition
-7 - Ring
-8 - Good
-9 - Spell
-10 - Gesture
-      </Description>
-    </Field>
-    <Field Def="u8 Buff Flags" >
-      <Description>Used in items.
-0 - Unbuffable
-2 - Spells Only
-3 - Buffable
-      </Description>
-    </Field>
-    <Field Def="u8 Spell School" >
-      <Description>Controls the spell school for the spell.
-0 - None
-2 - Sorcery
-3 - Miracles
-4 - Pyromancy
-5 - Hexes</Description>
-    </Field>
-    <Field Def="u8 New Game Plus Behavior" >
-      <Description>Controls the NG+ handling for the item.
-4 - Dragon Stone
-8 - Limited Item
-9 - Remove Ring
-10 - Ladder Miniature
-11 - Remove Good
-12 - No Change
-13 - Estus Flask / Aged Feather / Darksign
-15 - Champion's Tablet
-      </Description>
-    </Field>
-    <Field Def="u8 Unk53" />
+    <Field Def="s32 icon_id" />
+    <Field Def="s32 speffect_id" />
+    <Field Def="s32 Unk00" />
+    <Field Def="s32 Unk01" />
+    <Field Def="s32 Unk02" />
+    <Field Def="s32 weapon_id" />
+    <Field Def="s32 armor_id" />
+    <Field Def="s32 ammo_id" />
+    <Field Def="s32 ring_id" />
+    <Field Def="s32 spell_id" />
+    <Field Def="s32 gesture_id" />
+    <Field Def="s32 sort_id" />
+    <Field Def="s32 base_price" />
+    <Field Def="s32 sell_price" />
+    <Field Def="f32 animation_speed" />
+    <Field Def="s32 Unk03" />
+    <Field Def="s32 item_type_id" />
+    <Field Def="s32 item_usage_id" />
+    <Field Def="u8 Unk04" />
+    <Field Def="u8 Unk05" />
+    <Field Def="u16 max_held_count" />
+    <Field Def="u8 speffect_type" />
+    <Field Def="u8 item_type_1" />
+    <Field Def="u8 Unk06" />
+    <Field Def="u8 item_type_2" />
+    <Field Def="u8 buff_flags" />
+    <Field Def="u8 item_type_3" />
+    <Field Def="u8 ng_behavior_type" />
+    <Field Def="u8 Unk07" />
   </Fields>
 </PARAMDEF>

@@ -37,7 +37,7 @@
 31600000 [REG:31600000] Desert Sorceress
 32100000 [REG:32100000] Mimic
 50000000 [REG:50000000] Covetous Demon [Boss]
-50100000 [REG:50100000] Mytha, the Baneful Queen [Boss]
+50100000 [REG:50100000] Mytha- the Baneful Queen [Boss]
 69400000 [REG:69400000] Forlorn
 70400000 [REG:70400000] Laddersmith Gilligan
 70400001 [REG:70400001] Laddersmith Gilligan

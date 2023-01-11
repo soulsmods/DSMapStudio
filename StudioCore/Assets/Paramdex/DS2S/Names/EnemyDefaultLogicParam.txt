@@ -240,14 +240,14 @@
 132013 Skeleton: One-handed sword: Maduro * Dead -- スケルトン：片手曲剣：マデューラ　※死亡する
 132020 Skeleton: One-handed stabbing: Hunting Forest *Immortality -- スケルトン：片手刺突：狩猟の森　※不死
 132021 Skeleton: One-handed stabbing: Hunting Forest * Dead -- スケルトン：片手刺突：狩猟の森　※死亡する
-132022 Skeleton: One-handed stabbing: Hunting forest ※ dead, skeleton aristocratic war version -- スケルトン：片手刺突：狩猟の森　※死亡する・スケルトン貴族戦版
+132022 Skeleton: One-handed stabbing: Hunting forest ※ dead- skeleton aristocratic war version -- スケルトン：片手刺突：狩猟の森　※死亡する・スケルトン貴族戦版
 132023 Skeleton: One-handed stabbing: Immortal Temple of Immortality -- スケルトン：片手刺突：不死廟　※不死
 132030 Skeleton: Bow: Hunting Forest *Immortality -- スケルトン：弓：狩猟の森　※不死
 132031 Skeleton: Bow: Hunting Forest * Death -- スケルトン：弓：狩猟の森　※死亡する
 132032 Skeleton: Bow: Mausoleum of Immortality *Immortal -- スケルトン：弓：不死霊廟　※不死
 132090 Skeleton: For cut scenes -- スケルトン：カットシーン用
 133000 Wheel Skeleton: Bare Hands: Hunting Forest -- 車輪スケルトン：素手：狩猟の森
-133001 Wheel skeleton: bare hands: hunting forest, skeleton aristocratic war version -- 車輪スケルトン：素手：狩猟の森・スケルトン貴族戦版
+133001 Wheel skeleton: bare hands: hunting forest- skeleton aristocratic war version -- 車輪スケルトン：素手：狩猟の森・スケルトン貴族戦版
 133010 Wheel Skeleton: Song Sword: Hunting Forest -- 車輪スケルトン：曲剣：狩猟の森
 133020 Wheel Skeleton: The Great Sword: Hunting Forest -- 車輪スケルトン：大曲剣：狩猟の森
 134000 Dwarf -- ドワーフ
@@ -399,7 +399,7 @@
 201010 Slave Beasts: Volcanic Steel Works: No Melted Iron Vase -- 奴隷獣：火山の製鉄所：溶鉄壺無し
 201100 Slave Beast: Piglet Madura (also used in The Kiseki Town Gerdra) -- 奴隷獣：子豚マデューラ（輝石街ジェルドラ兼用）
 202000 Slave Beast (Wild) -- 奴隷獣（野生）
-202100 Slave Beast (Wild): For The Gerdra, A Ieishi Street -- 奴隷獣（野生）：輝石街ジェルドラ兼用
+202100 Slave Beast (Wild): For The Gerdra- A Ieishi Street -- 奴隷獣（野生）：輝石街ジェルドラ兼用
 203000 Parasite Spider: Kiseki Street Gerdra -- パラサイトスパイダー：輝石街ジェルドラ
 203001 Parasite Spider: Poison: Kiseki Street Gerdra -- パラサイトスパイダー：毒：輝石街ジェルドラ
 203002 Parasite Spider: Boss For War: Kiseki Street Gerdra -- パラサイトスパイダー：ボス戦用：輝石街ジェルドラ
@@ -783,7 +783,7 @@
 771005 Enclosed Man: Dark Spirit: Scum Bottom -- 封じられた人：闇霊：クズ底
 771006 Enclosed Man: Dark Spirit: The Forest of Shadows of The Shadows -- 封じられた人：闇霊：虚ろの影の森
 771007 The Enclosed Man: The Dark Spirit: The House of Anne Deal -- 封じられた人：闇霊：アン・ディールの館
-771009 Enclosed Man: Dark Spirit: Jedra, Kiseki Street -- 封じられた人：闇霊：輝石街ジェルドラ
+771009 Enclosed Man: Dark Spirit: Jedra- Kiseki Street -- 封じられた人：闇霊：輝石街ジェルドラ
 772000 Risa: Ming-iron castle -- 珍品屋：熔鉄城
 772001 Curiosity: Ghosts: General -- 珍品屋：幽霊：汎用
 776000 Top Weapon: Bird Goal: Kiseki Street Gerdra -- 上位武器屋：バードゴール：輝石街ジェルドラ
@@ -795,7 +795,7 @@
 783000 Black Phantom Shop -- 黒ファントム屋
 783001 Black Phantom Shop: Ghost -- 黒ファントム屋：幽霊
 783100 Blue Phantom Shop -- 青ファントム屋
-784000 The Teacher of The Sin: Gerdra, Kiishi Street -- 免罪の教戒師：輝石街ジェルドラ
+784000 The Teacher of The Sin: Gerdra- Kiishi Street -- 免罪の教戒師：輝石街ジェルドラ
 784001 The Sin-Sin Teacher: Ghosts: General -- 免罪の教戒師：幽霊：汎用
 785000 Guardian Knight: Two-Handed Ax & Medium Shield -- 守護の騎士：両手長斧＆中盾
 785001 Guardian Knight: Ghosts: Generic -- 守護の騎士：幽霊：汎用

@@ -9,8 +9,8 @@
 721 [GEN:721] Rhoy the Explorer
 722 [GEN:722] Stewart the Explorer
 723 [GEN:723] Courh the Explorer
-900 [GEN:900] Elana, Squalid Queen
-901 [GEN:901] Sinh, the Slumbering Dragon
+900 [GEN:900] Elana- Squalid Queen
+901 [GEN:901] Sinh- the Slumbering Dragon
 974 [GEN:974] Forlorn (Scythe)
 1010 [GEN:1010] Sanctum Soldier
 1050 [GEN:1050] Sanctum Soldier
@@ -142,4 +142,4 @@
 8506 [GEN:8506] Velstadt (Elana)
 8507 [GEN:8507] Skeleton (Elana)
 8508 [GEN:8508] Skeleton (Elana)
-9000 [GEN:9000] Sinh, the Slumbering Dragon
+9000 [GEN:9000] Sinh- the Slumbering Dragon

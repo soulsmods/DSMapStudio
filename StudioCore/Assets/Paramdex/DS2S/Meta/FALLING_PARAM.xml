@@ -2,5 +2,9 @@
 <PARAMMETA XmlVersion="0">
   <Self Row0Dummy="" />
   <Field>
+    <breakpoint_1_damage_mult AltName="breakpoint_ [1] - Damage %"/>
+    <breakpoint_2_damage_mult AltName="breakpoint_ [2] - Damage %"/>
+    <breakpoint_3_damage_mult AltName="breakpoint_ [3] - Damage %"/>
+    <breakpoint_4_damage_mult AltName="breakpoint_ [4] - Damage %"/>
   </Field>
 </PARAMMETA>
