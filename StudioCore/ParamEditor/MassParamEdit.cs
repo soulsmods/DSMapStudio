@@ -429,16 +429,24 @@ namespace StudioCore.ParamEditor
                 List<string[]> csvLines = new();
                 while (!parser.EndOfData)
                 {
-                    string[]? line = parser.ReadFields();
-                    if (line[0] == "ID" && line[1] == "Name")
+                    try
                     {
-                        // skip column label row;
-                        continue;
+                        string[]? line = parser.ReadFields();
+                        if (line[0] == "ID" && line[1] == "Name")
+                        {
+                            // skip column label row;
+                            continue;
+                        }
+                        if (line != null)
+                        {
+                            csvLines.Add(line);
+                        }
                     }
-                    if (line != null)
+                    catch (MalformedLineException e)
                     {
-                        csvLines.Add(line);
+                        return new MassEditResult(MassEditResultType.PARSEERROR, $"CSV contains malformed line {csvLines.Count}, {e.Message}");
                     }
+
                 }
                 parser.Close();
                 int changeCount = 0;
