@@ -2,13 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
-using System.Numerics;
 using FSParam;
-using ImGuiNET;
-using SoulsFormats;
+using Microsoft.VisualBasic.FileIO;
 using StudioCore.Editor;
-using StudioCore.ParamEditor;
+using System.IO;
 
 namespace StudioCore.ParamEditor
 {
@@ -423,18 +420,33 @@ namespace StudioCore.ParamEditor
                 if (p == null)
                     return new MassEditResult(MassEditResultType.PARSEERROR, "No Param selected");
                 int csvLength = p.AppliedParamdef.Fields.Count + 2;// Include ID and name
-                string[] csvLines = csvString.Split("\n");
-                if (csvLines[0].Contains($@"ID{separator}Name"))
-                    csvLines[0] = ""; //skip column label row
+
+                TextFieldParser parser = new TextFieldParser(new StringReader(csvString));
+
+                parser.HasFieldsEnclosedInQuotes = true;
+                parser.SetDelimiters(separator.ToString());
+
+                List<string[]> csvLines = new();
+                while (!parser.EndOfData)
+                {
+                    string[]? line = parser.ReadFields();
+                    if (line[0] == "ID" && line[1] == "Name")
+                    {
+                        // skip column label row;
+                        continue;
+                    }
+                    if (line != null)
+                    {
+                        csvLines.Add(line);
+                    }
+                }
+                parser.Close();
                 int changeCount = 0;
                 int addedCount = 0;
                 List<EditorAction> actions = new List<EditorAction>();
                 List<Param.Row> addedParams = new List<Param.Row>();
-                foreach (string csvLine in csvLines)
+                foreach (string[] csvs in csvLines)
                 {
-                    if (csvLine.Trim().Equals(""))
-                        continue;
-                    string[] csvs = csvLine.Trim().Split(separator);
                     if (csvs.Length != csvLength && !(csvs.Length==csvLength+1 && csvs[csvLength].Trim().Equals("")))
                     {
                         return new MassEditResult(MassEditResultType.PARSEERROR, "CSV has wrong number of values");
@@ -468,9 +480,9 @@ namespace StudioCore.ParamEditor
                 return new MassEditResult(MassEditResultType.SUCCESS, $@"{changeCount} cells affected, {addedCount} rows added");
             #if !DEBUG
             }
-            catch
+            catch (Exception e)
             {
-                return new MassEditResult(MassEditResultType.PARSEERROR, "Unable to parse CSV into correct data types");
+                return new MassEditResult(MassEditResultType.PARSEERROR, $"Unable to parse CSV into correct data types, {e.Message}");
             }
             #else
                 return new MassEditResult(MassEditResultType.PARSEERROR, "Unable to parse CSV into correct data types");
