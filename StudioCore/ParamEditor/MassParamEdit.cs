@@ -432,13 +432,14 @@ namespace StudioCore.ParamEditor
                     try
                     {
                         string[]? line = parser.ReadFields();
-                        // Skip empty or header row
 
+                        // Sanity check for amount of fields
                         if (line.Length != csvLength && !(line.Length==csvLength+1 && line[csvLength].Trim().Equals("")))
                         {
                             return new MassEditResult(MassEditResultType.PARSEERROR, $"CSV line {csvLines.Count} has wrong number of values (is {line.Length}, should be {csvLength}");
                         }
 
+                        // Skip empty or header row
                         if (line == null || (line[0] == "ID" && line[1] == "Name"))
                         {
                             continue;
