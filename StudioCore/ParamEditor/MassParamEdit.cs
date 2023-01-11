@@ -432,15 +432,13 @@ namespace StudioCore.ParamEditor
                     try
                     {
                         string[]? line = parser.ReadFields();
-                        if (line[0] == "ID" && line[1] == "Name")
+                        // Skip empty or header row
+                        if (line == null || line.Length == 0 || (line[0] == "ID" && (line.Length == 1 || line[1] == "Name")))
                         {
-                            // skip column label row;
                             continue;
                         }
-                        if (line != null)
-                        {
-                            csvLines.Add(line);
-                        }
+
+                        csvLines.Add(line);
                     }
                     catch (MalformedLineException e)
                     {
