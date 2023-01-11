@@ -433,7 +433,7 @@ namespace StudioCore.ParamEditor
                     {
                         string[]? line = parser.ReadFields();
                         // Skip empty or header row
-                        if (line == null || line.Length == 0 || (line[0] == "ID" && (line.Length == 1 || line[1] == "Name")))
+                        if (line == null || line.Length < 2 || (line[0] == "ID" && line[1] == "Name"))
                         {
                             continue;
                         }
