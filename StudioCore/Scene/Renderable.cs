@@ -63,7 +63,7 @@ namespace StudioCore.Scene
                     return i;
                 }
             }
-            throw new Exception("Renderable system full");
+            throw new Exception("Renderable system full. Try increasing renderables limit in settings.");
         }
 
         protected int AllocateValidAndVisibleRenderable()
