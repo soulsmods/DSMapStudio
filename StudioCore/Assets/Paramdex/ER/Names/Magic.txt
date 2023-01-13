@@ -108,9 +108,9 @@
 6460 [Inc] Magic Fortification
 6470 [Inc] Lightning Fortification
 6480 [Inc] Divine Fortification
-6490 [Inc] Lord Divine Fortification
+6490 [Inc] Lord's Divine Fortification
 6500 [Inc] Night Maiden's Mist
-6510 [Inc] Assassin Approach
+6510 [Inc] Assassin's Approach
 6520 [Inc] Shadow Bait
 6530 [Inc] Darkness
 6600 [Inc] Golden Vow
