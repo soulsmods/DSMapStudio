@@ -41,7 +41,7 @@ namespace StudioCore.Scene
     /// </summary>
     public class Renderables
     {
-        protected const int SYSTEM_SIZE = 50000;
+        protected static readonly int SYSTEM_SIZE = CFG.Current.GFX_Limit_Renderables;
 
         private int _topIndex = 0;
 

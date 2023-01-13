@@ -744,5 +744,18 @@ namespace StudioCore
                 ImGui.EndPopup();
             }
         }
+
+        public static void ImGui_InputUint(string text, ref uint val)
+        {
+            string strval = $@"{val}";
+            if (ImGui.InputText(text, ref strval, 16))
+            {
+                var res = uint.TryParse(strval, out uint refval);
+                if (res)
+                {
+                    val = refval;
+                }
+            }
+        }
     }
 }
