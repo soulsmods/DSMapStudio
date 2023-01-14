@@ -337,6 +337,8 @@ namespace StudioCore.MsbEditor
             bool clonesCached = Clones.Count() > 0;
 
             var objectnames = new Dictionary<string, HashSet<string>>();
+            Dictionary<Map, HashSet<MapEntity>> mapPartEntities = new();
+
             for (int i = 0; i < Clonables.Count(); i++)
             {
                 if (Clonables[i].MapID == null)
@@ -375,11 +377,12 @@ namespace StudioCore.MsbEditor
 
                     // Use pattern matching to attempt renames based on appended ID
                     Match idmatch = TrailIDRegex.Match(Clonables[i].Name);
+                    string newid;
                     if (idmatch.Success)
                     {
                         var idstring = idmatch.Result("${id}");
                         int id = int.Parse(idstring);
-                        string newid = idstring;
+                        newid = idstring;
                         while (objectnames[Clonables[i].MapID].Contains(Clonables[i].Name.Substring(0, Clonables[i].Name.Length - idstring.Length) + newid))
                         {
                             id++;
@@ -392,7 +395,7 @@ namespace StudioCore.MsbEditor
                     {
                         var idstring = "0001";
                         int id = int.Parse(idstring);
-                        string newid = idstring;
+                        newid = idstring;
                         while (objectnames[Clonables[i].MapID].Contains(Clonables[i].Name + "_" + newid))
                         {
                             id++;
@@ -400,6 +403,30 @@ namespace StudioCore.MsbEditor
                         }
                         newobj.Name = Clonables[i].Name + "_" + newid;
                         objectnames[Clonables[i].MapID].Add(newobj.Name);
+                    }
+
+                    // Get a unique Instance ID for MSBE parts
+                    if (newobj.WrappedObject is MSBE.Part msbePart)
+                    {
+                        if (mapPartEntities.TryAdd(m, new HashSet<MapEntity>()))
+                        {
+                            foreach (var ent in m.Objects)
+                            {
+                                if (ent.WrappedObject != null && ent.WrappedObject is MSBE.Part)
+                                {
+                                    mapPartEntities[m].Add((MapEntity)ent);
+                                }
+                            }
+                        }
+                        int newInstanceID = msbePart.InstanceID;
+                        do
+                        {
+                            newInstanceID++;
+                        }
+                        while (mapPartEntities[m].FirstOrDefault(e => ((MSBE.Part)e.WrappedObject).ModelName == msbePart.ModelName
+                            && ((MSBE.Part)e.WrappedObject).InstanceID == newInstanceID) != null);
+
+                        msbePart.InstanceID = newInstanceID;
                     }
 
                     m.Objects.Insert(m.Objects.IndexOf(Clonables[i]) + 1, newobj);
