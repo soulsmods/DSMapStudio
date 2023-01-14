@@ -171,8 +171,7 @@ namespace SoulsFormats
             private int ModelIndex;
 
             /// <summary>
-            /// Something to do with serialization.
-            /// Needs to be unique for parts with the same model.
+            /// Involved with serialization.
             /// </summary>
             public int InstanceID { get; set; }
 
