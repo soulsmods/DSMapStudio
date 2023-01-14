@@ -377,12 +377,11 @@ namespace StudioCore.MsbEditor
 
                     // Use pattern matching to attempt renames based on appended ID
                     Match idmatch = TrailIDRegex.Match(Clonables[i].Name);
-                    string newid;
                     if (idmatch.Success)
                     {
                         var idstring = idmatch.Result("${id}");
                         int id = int.Parse(idstring);
-                        newid = idstring;
+                        string newid = idstring;
                         while (objectnames[Clonables[i].MapID].Contains(Clonables[i].Name.Substring(0, Clonables[i].Name.Length - idstring.Length) + newid))
                         {
                             id++;
@@ -395,7 +394,7 @@ namespace StudioCore.MsbEditor
                     {
                         var idstring = "0001";
                         int id = int.Parse(idstring);
-                        newid = idstring;
+                        string newid = idstring;
                         while (objectnames[Clonables[i].MapID].Contains(Clonables[i].Name + "_" + newid))
                         {
                             id++;
