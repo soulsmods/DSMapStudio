@@ -378,7 +378,7 @@
         <Option Value="311" Name="Conditional 9" />
         <Option Value="312" Name="Unknown" />
         <Option Value="313" Name="Seek Guidance" />
-        <Option Value="314" Name="Add Value to Accumulator" />
+        <Option Value="314" Name="Add Guard Stability" />
         <Option Value="315" Name="Scale Attack Power with Equip Load" />
         <Option Value="316" Name="CalcCorrectGraph_33" />
         <Option Value="317" Name="Revoke Online Penalty" />
