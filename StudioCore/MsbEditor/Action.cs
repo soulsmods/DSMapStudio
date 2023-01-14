@@ -426,6 +426,7 @@ namespace StudioCore.MsbEditor
                             && ((MSBE.Part)e.WrappedObject).InstanceID == newInstanceID) != null);
 
                         msbePart.InstanceID = newInstanceID;
+                        mapPartEntities[m].Add(newobj);
                     }
 
                     m.Objects.Insert(m.Objects.IndexOf(Clonables[i]) + 1, newobj);
