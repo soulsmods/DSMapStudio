@@ -247,8 +247,24 @@ namespace StudioCore.Gui
                 if (_viewPipeline.PickingResultsReady)
                 {
                     var sel = _viewPipeline.GetSelection();
-                    if (InputTracker.GetKey(Key.ShiftLeft) || InputTracker.GetKey(Key.ShiftRight) || InputTracker.GetKey(Key.ControlLeft) || InputTracker.GetKey(Key.ControlRight))
+                    if (InputTracker.GetKey(Key.ControlLeft) || InputTracker.GetKey(Key.ControlRight))
                     {
+                        // Toggle selection
+                        if (sel != null)
+                        {
+                            if (_selection.GetSelection().Contains(sel))
+                            {
+                                _selection.RemoveSelection(sel);
+                            }
+                            else
+                            {
+                                _selection.AddSelection(sel);
+                            }
+                        }
+                    }
+                    else if (InputTracker.GetKey(Key.ShiftLeft) || InputTracker.GetKey(Key.ShiftRight))
+                    {
+                        // Add to selection
                         if (sel != null)
                         {
                             _selection.AddSelection(sel);
@@ -256,6 +272,7 @@ namespace StudioCore.Gui
                     }
                     else
                     {
+                        // Exclusive selection
                         _selection.ClearSelection();
                         if (sel != null)
                         {
