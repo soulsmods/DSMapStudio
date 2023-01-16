@@ -1080,11 +1080,10 @@ namespace StudioCore.ParamEditor
             if (!loose)
             {
                 // Replace params in paramBND, write remaining params loosely
-
                 if (paramBnd.Files.Find(e => e.Name.EndsWith(".param")) == null)
                 {
-                    if (MessageBox.Show("It appears that you are trying to save params non-loosely over a enc_regulation.bnd that has previously been saved loosely" +
-                        "\nWould you like to reinsert params into the bnd that were previously stripped out?", "DS2 De-loose param saving",
+                    if (MessageBox.Show("It appears that you are trying to save params non-loosely with an \"enc_regulation.bnd\" that has previously been saved loosely." +
+                        "\n\nWould you like to reinsert params into the bnd that were previously stripped out?", "DS2 de-loose param",
                         MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
                         param = $@"{dir}\enc_regulation.bnd.dcx";
@@ -1099,6 +1098,10 @@ namespace StudioCore.ParamEditor
                                 File.Copy(param, $@"{param}.bak", true);
                                 paramBnd.Write(param);
                             }
+                        }
+                        else
+                        {
+                            paramBnd = BND4.Read(param);
                         }
                     }
                 }
