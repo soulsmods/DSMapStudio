@@ -56,21 +56,22 @@ namespace StudioCore
 
         public static bool GetKey(KeyBind key)
         {
-            if (key.Ctrl_Pressed && !GetKey(Key.LControl) && !GetKey(Key.RControl))
+            if (key.Ctrl_Pressed != (GetKey(Key.LControl) || GetKey(Key.RControl)))
                 return false;
-            if (key.Alt_Pressed && !GetKey(Key.AltLeft) && !GetKey(Key.AltRight))
+            if (key.Alt_Pressed != (GetKey(Key.AltLeft) || GetKey(Key.AltRight)))
                 return false;
-            if (key.Shift_Pressed && !GetKey(Key.ShiftLeft) && !GetKey(Key.ShiftRight))
+            if (key.Shift_Pressed != (GetKey(Key.ShiftLeft) || GetKey(Key.ShiftRight)))
                 return false;
             return _currentlyPressedKeys.Contains(key.PrimaryKey);
         }
+
         public static bool GetKeyDown(KeyBind key)
         {
-            if (key.Ctrl_Pressed && !GetKey(Key.LControl) && !GetKey(Key.RControl))
+            if (key.Ctrl_Pressed != (GetKey(Key.LControl) || GetKey(Key.RControl)))
                 return false;
-            if (key.Alt_Pressed && !GetKey(Key.AltLeft) && !GetKey(Key.AltRight))
+            if (key.Alt_Pressed != (GetKey(Key.AltLeft) || GetKey(Key.AltRight)))
                 return false;
-            if (key.Shift_Pressed && !GetKey(Key.ShiftLeft) && !GetKey(Key.ShiftRight))
+            if (key.Shift_Pressed != (GetKey(Key.ShiftLeft) ||GetKey(Key.ShiftRight)))
                 return false;
             return _newKeysThisFrame.Contains(key.PrimaryKey);
         }
