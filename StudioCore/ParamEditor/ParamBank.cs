@@ -1063,7 +1063,6 @@ namespace StudioCore.ParamEditor
                         File.Copy(param, $@"{param}.bak", true);
                         paramBnd.Write(param);
                     }
-
                 }
                 // No need to decrypt
                 else
@@ -1081,6 +1080,29 @@ namespace StudioCore.ParamEditor
             if (!loose)
             {
                 // Replace params in paramBND, write remaining params loosely
+
+                if (paramBnd.Files.Find(e => e.Name.EndsWith(".param")) == null)
+                {
+                    if (MessageBox.Show("It appears that you are trying to save params non-loosely over a enc_regulation.bnd that has previously been saved loosely" +
+                        "\nWould you like to reinsert params into the bnd that were previously stripped out?", "DS2 De-loose param saving",
+                        MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        param = $@"{dir}\enc_regulation.bnd.dcx";
+                        if (!BND4.Is($@"{dir}\enc_regulation.bnd.dcx"))
+                        {
+                            // Decrypt the file
+                            paramBnd = SFUtil.DecryptDS2Regulation(param);
+
+                            // Since the file is encrypted, check for a backup. If it has none, then make one and write a decrypted one.
+                            if (!File.Exists($@"{param}.bak"))
+                            {
+                                File.Copy(param, $@"{param}.bak", true);
+                                paramBnd.Write(param);
+                            }
+                        }
+                    }
+                }
+
                 foreach (var p in _params)
                 {
                     var bnd = paramBnd.Files.Find(e => Path.GetFileNameWithoutExtension(e.Name) == p.Key);
