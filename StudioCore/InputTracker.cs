@@ -56,24 +56,28 @@ namespace StudioCore
 
         public static bool GetKey(KeyBind key)
         {
+            if (!GetKey(key.PrimaryKey))
+                return false;
             if (key.Ctrl_Pressed != (GetKey(Key.LControl) || GetKey(Key.RControl)))
                 return false;
             if (key.Alt_Pressed != (GetKey(Key.AltLeft) || GetKey(Key.AltRight)))
                 return false;
             if (key.Shift_Pressed != (GetKey(Key.ShiftLeft) || GetKey(Key.ShiftRight)))
                 return false;
-            return _currentlyPressedKeys.Contains(key.PrimaryKey);
+            return true;
         }
 
         public static bool GetKeyDown(KeyBind key)
         {
+            if (!GetKeyDown(key.PrimaryKey))
+                return false;
             if (key.Ctrl_Pressed != (GetKey(Key.LControl) || GetKey(Key.RControl)))
                 return false;
             if (key.Alt_Pressed != (GetKey(Key.AltLeft) || GetKey(Key.AltRight)))
                 return false;
             if (key.Shift_Pressed != (GetKey(Key.ShiftLeft) ||GetKey(Key.ShiftRight)))
                 return false;
-            return _newKeysThisFrame.Contains(key.PrimaryKey);
+            return true;
         }
 
         public static bool GetControlShortcut(Key key)
