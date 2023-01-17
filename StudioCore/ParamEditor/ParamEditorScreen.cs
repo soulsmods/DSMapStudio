@@ -885,10 +885,10 @@ namespace StudioCore.ParamEditor
                 });
                 ImGui.Separator();
                 ImGui.TextUnformatted("Select params...");
-                string result2 = MassEditAutoFillForSearchEngine(ParamSearchEngine.pse, ref _autoFillArgsPse, true, () =>
+                string result2 = MassEditAutoFillForSearchEngine(ParamSearchEngine.pse, ref _autoFillArgsPse, false, () =>
                 {
                     ImGui.TextUnformatted("Select rows...");
-                    return MassEditAutoFillForSearchEngine(RowSearchEngine.rse, ref _autoFillArgsRse, true, () => 
+                    return MassEditAutoFillForSearchEngine(RowSearchEngine.rse, ref _autoFillArgsRse, false, () => 
                     {
                         ImGui.TextUnformatted("Select fields...");
                         string res1 = MassEditAutoFillForSearchEngine(CellSearchEngine.cse, ref _autoFillArgsCse, true, () => 
@@ -912,11 +912,11 @@ namespace StudioCore.ParamEditor
             return null;
         }
 
-        private string MassEditAutoFillForSearchEngine<A, B> (SearchEngine<A, B> se, ref string[] staticArgs, bool hasDefault, Func<string> subMenu)
+        private string MassEditAutoFillForSearchEngine<A, B> (SearchEngine<A, B> se, ref string[] staticArgs, bool enableDefault, Func<string> subMenu)
         {
             int currentArgIndex = 0;
             string result = null;
-            foreach (var cmd in hasDefault ? se.AvailableCommands().Append((null, se.defaultFilter.Item1)).ToList() : se.AvailableCommands())
+            foreach (var cmd in enableDefault ? se.AvailableCommands().Append((null, se.defaultFilter.Item1)).ToList() : se.AvailableCommands())
             {
                 int[] argIndices = new int[cmd.Item2];
                 bool valid = true;
