@@ -264,7 +264,6 @@ namespace StudioCore
             GitHubClient gitHubClient = new GitHubClient(new ProductHeaderValue("DSMapStudio"));
             try
             {
-                //throw new Exception();
                 Release release = await gitHubClient.Repository.Release.GetLatest("soulsmods", "DSMapStudio");
                 bool isVer = false;
                 string verstring = "";
@@ -289,7 +288,9 @@ namespace StudioCore
             }
             catch(Exception e)
             {
-                MessageBox.Show($"Failed to check for program updates\n\n{e.Message}", "Error");
+#if DEBUG
+                TaskManager.warningList.TryAdd("ProgramUpdateCheckFail", $"Failed to check for program updates ({e.Message})");
+#endif
             }
         }
 
