@@ -318,7 +318,10 @@ namespace StudioCore
                 SoapstoneServer.RunAsync(KnownServer.DSMapStudio, _soapstoneService);
             }
 
-            CheckProgramUpdate();
+            if (CFG.Current.EnableCheckProgramUpdate)
+            {
+                CheckProgramUpdate();
+            }
 
             /*Task.Run(() =>
             {
@@ -1764,6 +1767,10 @@ namespace StudioCore
 
                         ImGui.Unindent();
                     }
+
+                    ImGui.Separator();
+
+                    ImGui.Checkbox("Check for new versions of DSMapStudio during startup", ref CFG.Current.EnableCheckProgramUpdate);
 
                     ImGui.Unindent();
                     ImGui.EndTabItem();
