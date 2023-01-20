@@ -759,10 +759,10 @@ namespace StudioCore.ParamEditor
                     throw new Exception($@"Random max must be greater than min");
                 return (param) => (row) => (c) => Random.Shared.NextInt64(min, max + 1).ToString();
             }));
-            argumentGetters.Add("randFrom", (3, (paramRowsAndField) => {
-                Param srcParam = ParamBank.PrimaryBank.Params[paramRowsAndField[0]];
-                List<Param.Row> srcRows = RowSearchEngine.rse.Search((ParamBank.PrimaryBank, srcParam), paramRowsAndField[1], false, false);
-                object[] values = srcRows.Select((r, i) => r[paramRowsAndField[2]].Value.Value).ToArray();
+            argumentGetters.Add("randFrom", (3, (paramFieldRowSelector) => {
+                Param srcParam = ParamBank.PrimaryBank.Params[paramFieldRowSelector[0]];
+                List<Param.Row> srcRows = RowSearchEngine.rse.Search((ParamBank.PrimaryBank, srcParam), paramFieldRowSelector[2], false, false);
+                object[] values = srcRows.Select((r, i) => r[paramFieldRowSelector[1]].Value.Value).ToArray();
                 return (param) => (row) => (c) => values[Random.Shared.NextInt64(values.Length)].ToString();
             }));
         }
