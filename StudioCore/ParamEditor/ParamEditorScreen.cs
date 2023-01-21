@@ -1706,24 +1706,21 @@ namespace StudioCore.ParamEditor
                 {
                     _selection.toggleRowInSelection(r);
                 }
+                else if (p != null && InputTracker.GetKey(Key.LShift) && _selection.getActiveRow() != null)
+                {
+                    _selection.cleanSelectedRows();
+                    int start = p.IndexOf(_selection.getActiveRow());
+                    int end = p.IndexOf(r);
+                    if (start != end && start != -1 && end != -1)
+                    {
+                        foreach (var r2 in p.GetRange(start < end ? start : end, Math.Abs(end - start)))
+                            _selection.addRowToSelection(r2);
+                    }
+                    _selection.addRowToSelection(r);
+                }
                 else
                 {
-                    if (p != null && InputTracker.GetKey(Key.LShift) && _selection.getActiveRow() != null)
-                    {
-                        _selection.cleanSelectedRows();
-                        int start = p.IndexOf(_selection.getActiveRow());
-                        int end = p.IndexOf(r);
-                        if (start != end)
-                        {
-                            foreach (var r2 in p.GetRange(start < end ? start : end, Math.Abs(end - start)))
-                                _selection.addRowToSelection(r2);
-                        }
-                        _selection.addRowToSelection(r);
-                    }
-                    else
-                    {
-                        _selection.SetActiveRow(r, true);
-                    }
+                    _selection.SetActiveRow(r, true);
                 }
             }
             if (_arrowKeyPressed && ImGui.IsItemFocused()
