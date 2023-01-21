@@ -928,9 +928,6 @@ namespace StudioCore.ParamEditor
                     if (initcmd.Length > 2 && ParamBank.PrimaryBank.Params.ContainsKey(initcmd[2]))
                     {
                         doFocus = initcmd[0] == "select";
-                        if (_activeView._selection.getActiveRow() != null && !ParamBank.VanillaBank.IsLoadingParams)
-                            ParamBank.PrimaryBank.RefreshParamRowVanillaDiff(_activeView._selection.getActiveRow(), _activeView._selection.getActiveParam());
-
                         ParamEditorView viewToMofidy = _activeView;
                         if (initcmd[1].Equals("new"))
                             viewToMofidy = AddView();
@@ -958,9 +955,6 @@ namespace StudioCore.ParamEditor
                                 }
                             }
                         }
-                        if (_activeView._selection.getActiveRow() != null && !ParamBank.VanillaBank.IsLoadingParams)
-                            ParamBank.PrimaryBank.RefreshParamRowVanillaDiff(_activeView._selection.getActiveRow(), _activeView._selection.getActiveParam());
-
                     }
                 }
                 else if (initcmd[0] == "search")
@@ -1276,9 +1270,13 @@ namespace StudioCore.ParamEditor
             if (_activeParam != null)
             {
                 ParamEditorParamSelectionState s = _paramStates[_activeParam];
+                if (s.activeRow != null && !ParamBank.VanillaBank.IsLoadingParams)
+                    ParamBank.PrimaryBank.RefreshParamRowVanillaDiff(s.activeRow, _activeParam);
                 s.activeRow = row;
                 s.selectionRows.Clear();
                 s.selectionRows.Add(row);
+                if (s.activeRow != null && !ParamBank.VanillaBank.IsLoadingParams)
+                    ParamBank.PrimaryBank.RefreshParamRowVanillaDiff(s.activeRow, _activeParam);
             }
         }
         public void SetCompareRow(Param.Row row)
@@ -1299,6 +1297,7 @@ namespace StudioCore.ParamEditor
                 else
                     s.selectionRows.Add(row);
             }
+            //Do not perform vanilla diff here, will be very slow when making large selections
         }
         public void addRowToSelection(Param.Row row)
         {
@@ -1308,6 +1307,7 @@ namespace StudioCore.ParamEditor
                 if (!s.selectionRows.Contains(row))
                     s.selectionRows.Add(row);
             }
+            //Do not perform vanilla diff here, will be very slow when making large selections
         }
         public void removeRowFromSelection(Param.Row row)
         {
