@@ -43,7 +43,7 @@ namespace SoulsFormats
             NavmeshCutting = 50,
             MapNameOverride = 51,
             MountJumpFall = 52,
-            HorseProhibition = 53,
+            HorseRideOverride = 53,
             Other = 0xFFFFFFFF,
         }
 
@@ -226,7 +226,7 @@ namespace SoulsFormats
             /// <summary>
             /// Unknown.
             /// </summary>
-            public List<Region.HorseProhibition> HorseProhibitions { get; set; }
+            public List<Region.HorseRideOverride> HorseRideOverrides { get; set; }
 
             /// <summary>
             /// Most likely a dumping ground for unused regions.
@@ -272,7 +272,7 @@ namespace SoulsFormats
                 NavmeshCuttings = new List<Region.NavmeshCutting>();
                 MapNameOverrides = new List<Region.MapNameOverride>();
                 MountJumpFalls = new List<Region.MountJumpFall>();
-                HorseProhibitions = new List<Region.HorseProhibition>();
+                HorseRideOverrides = new List<Region.HorseRideOverride>();
                 Others = new List<Region.Other>();
             }
 
@@ -317,7 +317,7 @@ namespace SoulsFormats
                     case Region.NavmeshCutting r: NavmeshCuttings.Add(r); break;
                     case Region.MapNameOverride r: MapNameOverrides.Add(r); break;
                     case Region.MountJumpFall r: MountJumpFalls.Add(r); break;
-                    case Region.HorseProhibition r: HorseProhibitions.Add(r); break;
+                    case Region.HorseRideOverride r: HorseRideOverrides.Add(r); break;
                     case Region.Other r: Others.Add(r); break;
 
                     default:
@@ -341,7 +341,7 @@ namespace SoulsFormats
                     MapPointDiscoveryOverrides, MapPointParticipationOverrides, Hitsets,
                     FastTravelRestriction, WeatherCreateAssetPoints, PlayAreas, EnvironmentMapOutputs,
                     MountJumps, Dummies, FallPreventionRemovals, NavmeshCuttings, MapNameOverrides,
-                    MountJumpFalls, HorseProhibitions, Others);
+                    MountJumpFalls, HorseRideOverrides, Others);
             }
             IReadOnlyList<IMsbRegion> IMsbParam<IMsbRegion>.GetEntries() => GetEntries();
 
@@ -452,8 +452,8 @@ namespace SoulsFormats
                     case RegionType.MountJumpFall:
                         return MountJumpFalls.EchoAdd(new Region.MountJumpFall(br));
 
-                    case RegionType.HorseProhibition:
-                        return HorseProhibitions.EchoAdd(new Region.HorseProhibition(br));
+                    case RegionType.HorseRideOverride:
+                        return HorseRideOverrides.EchoAdd(new Region.HorseRideOverride(br));
 
                     case RegionType.Other:
                         return Others.EchoAdd(new Region.Other(br));
@@ -2389,32 +2389,32 @@ namespace SoulsFormats
             /// <summary>
             /// Unknown.
             /// </summary>
-            public class HorseProhibition : Region
+            public class HorseRideOverride : Region
             {
-                private protected override RegionType Type => RegionType.HorseProhibition;
+                private protected override RegionType Type => RegionType.HorseRideOverride;
                 private protected override bool HasTypeData => true;
 
                 /// <summary>
-                /// Unknown.
+                /// 0 = ?, 1 = Forbid riding torrent, 2 = Permit riding torrent
                 /// </summary>
-                public int UnkT00 { get; set; }
+                public int OverrideType { get; set; }
 
                 /// <summary>
                 /// Creates a MapNameOverride with default values.
                 /// </summary>
-                public HorseProhibition() : base($"{nameof(Region)}: {nameof(HorseProhibition)}") { }
+                public HorseRideOverride() : base($"{nameof(Region)}: {nameof(HorseRideOverride)}") { }
 
-                internal HorseProhibition(BinaryReaderEx br) : base(br) { }
+                internal HorseRideOverride(BinaryReaderEx br) : base(br) { }
 
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
-                    UnkT00 = br.ReadInt32();
+                    OverrideType = br.ReadInt32();
                     br.AssertInt32(0);
                 }
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    bw.WriteInt32(UnkT00);
+                    bw.WriteInt32(OverrideType);
                     bw.WriteInt32(0);
                 }
             }
