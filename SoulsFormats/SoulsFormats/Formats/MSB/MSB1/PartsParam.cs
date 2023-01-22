@@ -820,6 +820,9 @@ namespace SoulsFormats
                 /// If set, disables a bonfire when any enemy is on the collision.
                 /// </summary>
                 public int DisableBonfireEntityID { get; set; }
+                public int TestMapUnk00 { get; set; }
+                public int TestMapUnk04 { get; set; }
+                public int TestMapUnk08 { get; set; }
 
                 /// <summary>
                 /// An ID used for multiplayer eligibility.
@@ -873,9 +876,9 @@ namespace SoulsFormats
                     DisableStart = br.ReadBoolean();
                     UnkT27 = br.ReadByte();
                     DisableBonfireEntityID = br.ReadInt32();
-                    br.AssertInt32(-1);
-                    br.AssertInt32(-1);
-                    br.AssertInt32(-1);
+                    TestMapUnk00 = br.ReadInt32();
+                    TestMapUnk04 = br.ReadInt32();
+                    TestMapUnk08 = br.ReadInt32();
                     PlayRegionID = br.ReadInt32();
                     LockCamParamID1 = br.ReadInt16();
                     LockCamParamID2 = br.ReadInt16();

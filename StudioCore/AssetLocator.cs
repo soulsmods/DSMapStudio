@@ -949,12 +949,14 @@ namespace StudioCore
         /// <returns>The map ID for the purpose of asset storage</returns>
         public string GetAssetMapID(string mapid)
         {
-            var amapid = mapid.Substring(0, 6) + "_00_00";
-            if (Type == GameType.EldenRing)
+            if (Type is GameType.DarkSoulsRemastered or GameType.EldenRing)
             {
-                // Elden Ring all maps have their own assets
-                amapid = mapid;
+                // Maps contain their own assets
+                return mapid;
             }
+
+            var amapid = mapid.Substring(0, 6) + "_00_00";
+
             // Special case for chalice dungeon assets
             if (mapid.StartsWith("m29"))
             {
