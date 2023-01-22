@@ -949,7 +949,12 @@ namespace StudioCore
         /// <returns>The map ID for the purpose of asset storage</returns>
         public string GetAssetMapID(string mapid)
         {
-            if (Type is GameType.DarkSoulsRemastered or GameType.EldenRing)
+            if (Type is GameType.EldenRing)
+            {
+                // Maps contain their own assets
+                return mapid;
+            }
+            if (Type is GameType.DarkSoulsRemastered && mapid.StartsWith("m99"))
             {
                 // Maps contain their own assets
                 return mapid;
