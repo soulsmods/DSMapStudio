@@ -2387,7 +2387,7 @@ namespace SoulsFormats
             }
 
             /// <summary>
-            /// Unknown.
+            /// Affects where torrent can be summoned.
             /// </summary>
             public class HorseRideOverride : Region
             {
@@ -2395,12 +2395,12 @@ namespace SoulsFormats
                 private protected override bool HasTypeData => true;
 
                 /// <summary>
-                /// 0 = ?, 1 = Forbid riding torrent, 2 = Permit riding torrent
+                /// 1 = Forbid riding torrent, 2 = Permit riding torrent
                 /// </summary>
                 public int OverrideType { get; set; }
 
                 /// <summary>
-                /// Creates a MapNameOverride with default values.
+                /// Creates a HorseRideOverride with default values.
                 /// </summary>
                 public HorseRideOverride() : base($"{nameof(Region)}: {nameof(HorseRideOverride)}") { }
 
