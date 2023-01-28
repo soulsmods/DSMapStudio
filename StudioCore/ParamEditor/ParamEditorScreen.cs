@@ -860,6 +860,20 @@ namespace StudioCore.ParamEditor
             }
         }
 
+        internal string RowSearchBarAutoFill()
+        {
+            ImGui.SameLine();
+            ImGui.Button($@"{ForkAwesome.CaretDown}");
+            if (ImGui.BeginPopupContextItem("##rsbautoinputoapopup", ImGuiPopupFlags.MouseButtonLeft))
+            {
+                ImGui.TextUnformatted("Select rows...");
+                var result = MassEditAutoFillForSearchEngine(RowSearchEngine.rse, ref _autoFillArgsRse, false, "", null);
+                ImGui.EndPopup();
+                return result;
+            }
+            return null;
+        }
+
         private string MassEditAutoFill()
         {
             ImGui.TextUnformatted("Add command...");
@@ -868,37 +882,37 @@ namespace StudioCore.ParamEditor
             if (ImGui.BeginPopupContextItem("##meautoinputoapopup", ImGuiPopupFlags.MouseButtonLeft))
             {
                 ImGui.TextUnformatted("Select param and rows...");
-                string result1 = MassEditAutoFillForSearchEngine(ParamAndRowSearchEngine.parse, ref _autoFillArgsParse, false, () => 
+                string result1 = MassEditAutoFillForSearchEngine(ParamAndRowSearchEngine.parse, ref _autoFillArgsParse, false, ": ", () => 
                 {
                     ImGui.TextUnformatted("Select fields...");
-                    string res1 = MassEditAutoFillForSearchEngine(CellSearchEngine.cse, ref _autoFillArgsCse, true, () => 
+                    string res1 = MassEditAutoFillForSearchEngine(CellSearchEngine.cse, ref _autoFillArgsCse, true, ": ", () => 
                     {
                         ImGui.TextUnformatted("Select field operation...");
-                        return MassEditAutoFillForOperation(MECellOperation.cellOps, ref _autoFillArgsCop, () => ImGui.Selectable(";", false, ImGuiSelectableFlags.DontClosePopups) ? ";" : null);
+                        return MassEditAutoFillForOperation(MECellOperation.cellOps, ref _autoFillArgsCop, ";", null);
                     });
                     ImGui.Separator();
                     ImGui.TextUnformatted("Select row operation...");
-                    string res2 = MassEditAutoFillForOperation(MERowOperation.rowOps, ref _autoFillArgsRop, () => ImGui.Selectable(";", false, ImGuiSelectableFlags.DontClosePopups) ? ";" : null);
+                    string res2 = MassEditAutoFillForOperation(MERowOperation.rowOps, ref _autoFillArgsRop, ";", null);
                     if (res1 != null)
                         return res1;
                     return res2;
                 });
                 ImGui.Separator();
                 ImGui.TextUnformatted("Select params...");
-                string result2 = MassEditAutoFillForSearchEngine(ParamSearchEngine.pse, ref _autoFillArgsPse, false, () =>
+                string result2 = MassEditAutoFillForSearchEngine(ParamSearchEngine.pse, ref _autoFillArgsPse, false, ": ", () =>
                 {
                     ImGui.TextUnformatted("Select rows...");
-                    return MassEditAutoFillForSearchEngine(RowSearchEngine.rse, ref _autoFillArgsRse, false, () => 
+                    return MassEditAutoFillForSearchEngine(RowSearchEngine.rse, ref _autoFillArgsRse, false, ": ", () => 
                     {
                         ImGui.TextUnformatted("Select fields...");
-                        string res1 = MassEditAutoFillForSearchEngine(CellSearchEngine.cse, ref _autoFillArgsCse, true, () => 
+                        string res1 = MassEditAutoFillForSearchEngine(CellSearchEngine.cse, ref _autoFillArgsCse, true, ": ", () => 
                         {
                             ImGui.TextUnformatted("Select field operation...");
-                            return MassEditAutoFillForOperation(MECellOperation.cellOps, ref _autoFillArgsCop, () => ImGui.Selectable(";", false, ImGuiSelectableFlags.DontClosePopups) ? ";" : null);
+                            return MassEditAutoFillForOperation(MECellOperation.cellOps, ref _autoFillArgsCop, ";", null);
                         });
                         ImGui.Separator();
                         ImGui.TextUnformatted("Select row operation...");
-                        string res2 = MassEditAutoFillForOperation(MERowOperation.rowOps, ref _autoFillArgsRop, () => ImGui.Selectable(";", false, ImGuiSelectableFlags.DontClosePopups) ? ";" : null);
+                        string res2 = MassEditAutoFillForOperation(MERowOperation.rowOps, ref _autoFillArgsRop, ";", null);
                         if (res1 != null)
                             return res1;
                         return res2;
@@ -912,7 +926,7 @@ namespace StudioCore.ParamEditor
             return null;
         }
 
-        private string MassEditAutoFillForSearchEngine<A, B> (SearchEngine<A, B> se, ref string[] staticArgs, bool enableDefault, Func<string> subMenu)
+        private string MassEditAutoFillForSearchEngine<A, B> (SearchEngine<A, B> se, ref string[] staticArgs, bool enableDefault, string suffix, Func<string> subMenu)
         {
             int currentArgIndex = 0;
             string result = null;
@@ -927,10 +941,17 @@ namespace StudioCore.ParamEditor
                     if (string.IsNullOrEmpty(staticArgs[argIndices[i]]))
                         valid = false;
                 }
-                if (ImGui.BeginMenu(cmd.Item1 == null ? "Default filter..." : cmd.Item1, valid))
+                if (subMenu != null)
                 {
-                    result = subMenu();
-                    ImGui.EndMenu();
+                    if (ImGui.BeginMenu(cmd.Item1 == null ? "Default filter..." : cmd.Item1, valid))
+                    {
+                        result = subMenu();
+                        ImGui.EndMenu();
+                    }
+                }
+                else
+                {
+                    result = ImGui.Selectable(cmd.Item1 == null ? "Default filter..." : cmd.Item1, false, valid ? ImGuiSelectableFlags.None : ImGuiSelectableFlags.Disabled) ? suffix : null;
                 }
                 ImGui.Indent();
                 for (int i = 0; i < argIndices.Length; i++)
@@ -947,21 +968,21 @@ namespace StudioCore.ParamEditor
                         string cmdText = cmd.Item1;
                         for (int i = 0; i < argIndices.Length; i++)
                             cmdText += " " + staticArgs[argIndices[i]];
-                        result = cmdText +": " + result;
+                        result = cmdText + suffix + result;
                     }
                     else if (argIndices.Length > 0)
                     {
                         string argText = staticArgs[argIndices[0]];
                         for (int i = 1; i < argIndices.Length; i++)
                             argText += " " + staticArgs[argIndices[i]];
-                        result = argText +": " + result;
+                        result = argText + suffix + result;
                     }
                     return result;
                 }
             }
             return result;
         }
-        private string MassEditAutoFillForOperation<A, B> (MEOperation<A, B> ops, ref string[] staticArgs, Func<string> subMenu)
+        private string MassEditAutoFillForOperation<A, B> (MEOperation<A, B> ops, ref string[] staticArgs, string suffix, Func<string> subMenu)
         {
             int currentArgIndex = 0;
             string result = null;
@@ -976,10 +997,17 @@ namespace StudioCore.ParamEditor
                     if (string.IsNullOrEmpty(staticArgs[argIndices[i]]))
                         valid = false;
                 }
-                if (ImGui.BeginMenu(cmd.Item1, valid))
+                if (subMenu != null)
                 {
-                    result = subMenu();
-                    ImGui.EndMenu();
+                    if (ImGui.BeginMenu(cmd.Item1, valid))
+                    {
+                        result = subMenu();
+                        ImGui.EndMenu();
+                    }
+                }
+                else
+                {
+                    result = ImGui.Selectable(cmd.Item1, false, valid ? ImGuiSelectableFlags.None : ImGuiSelectableFlags.Disabled) ? suffix : null;
                 }
                 ImGui.Indent();
                 for (int i = 0; i < argIndices.Length; i++)
@@ -1458,6 +1486,18 @@ namespace StudioCore.ParamEditor
                 return ref _globalPropSearchString;
             return ref _paramStates[_activeParam].currentPropSearchString;
         }
+        public void setCurrentRowSearchString(string s)
+        {
+            if (_activeParam == null)
+                return;
+            _paramStates[_activeParam].currentRowSearchString = s;
+        }
+        public void setCurrentPropSearchString(string s)
+        {
+            if (_activeParam == null)
+                return;
+            _paramStates[_activeParam].currentPropSearchString = s;
+        }
         public bool rowSelectionExists()
         {
             return _activeParam != null && _paramStates[_activeParam].activeRow != null;
@@ -1767,6 +1807,10 @@ namespace StudioCore.ParamEditor
                     ImGui.SetKeyboardFocusHere();
 
                 ImGui.InputText($"Search <{KeyBindings.Current.Param_SearchRow.HintText}>", ref _selection.getCurrentRowSearchString(), 256);
+                ImGui.SameLine();
+                string resAuto = _paramEditor.RowSearchBarAutoFill();
+                if (resAuto != null)
+                    _selection.setCurrentRowSearchString(resAuto);
                 if (!lastRowSearch.ContainsKey(_selection.getActiveParam()) || !lastRowSearch[_selection.getActiveParam()].Equals(_selection.getCurrentRowSearchString()))
                 {
                     CacheBank.ClearCaches();
