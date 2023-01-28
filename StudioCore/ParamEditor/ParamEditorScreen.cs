@@ -859,6 +859,20 @@ namespace StudioCore.ParamEditor
                 _currentMEditCSVOutput = "";
             }
         }
+        
+        internal string ParamSearchBarAutoFill()
+        {
+            ImGui.SameLine();
+            ImGui.Button($@"{ForkAwesome.CaretDown}");
+            if (ImGui.BeginPopupContextItem("##rsbautoinputoapopup", ImGuiPopupFlags.MouseButtonLeft))
+            {
+                ImGui.TextUnformatted("Select params...");
+                var result = MassEditAutoFillForSearchEngine(ParamSearchEngine.pse, ref _autoFillArgsRse, false, "", null);
+                ImGui.EndPopup();
+                return result;
+            }
+            return null;
+        }
 
         internal string RowSearchBarAutoFill()
         {
@@ -1644,6 +1658,10 @@ namespace StudioCore.ParamEditor
             if (isActiveView && InputTracker.GetKeyDown(KeyBindings.Current.Param_SearchParam))
                 ImGui.SetKeyboardFocusHere();
             ImGui.InputText($"Search <{KeyBindings.Current.Param_SearchParam.HintText}>", ref _selection.currentParamSearchString, 256);
+            ImGui.SameLine();
+            string resAutoParam = _paramEditor.ParamSearchBarAutoFill();
+            if (resAutoParam != null)
+                _selection.setCurrentRowSearchString(resAutoParam);
             if (!_selection.currentParamSearchString.Equals(lastParamSearch))
             {
                 CacheBank.ClearCaches();
@@ -1808,9 +1826,9 @@ namespace StudioCore.ParamEditor
 
                 ImGui.InputText($"Search <{KeyBindings.Current.Param_SearchRow.HintText}>", ref _selection.getCurrentRowSearchString(), 256);
                 ImGui.SameLine();
-                string resAuto = _paramEditor.RowSearchBarAutoFill();
-                if (resAuto != null)
-                    _selection.setCurrentRowSearchString(resAuto);
+                string resAutoRow = _paramEditor.RowSearchBarAutoFill();
+                if (resAutoRow != null)
+                    _selection.setCurrentRowSearchString(resAutoRow);
                 if (!lastRowSearch.ContainsKey(_selection.getActiveParam()) || !lastRowSearch[_selection.getActiveParam()].Equals(_selection.getCurrentRowSearchString()))
                 {
                     CacheBank.ClearCaches();
