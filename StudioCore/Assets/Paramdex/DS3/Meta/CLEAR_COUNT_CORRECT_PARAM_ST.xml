@@ -29,5 +29,5 @@
     <subMpRecover AltName="Enemy - Damage Taken Multiplier: Poise" />
 	<subHpRecover AltName="Enemy - Damage Taken Multiplier: Frost" />
   </Field>
-  <Self />
+  <Self Wiki="New Game Plus corrections"/>
 </PARAMMETA>

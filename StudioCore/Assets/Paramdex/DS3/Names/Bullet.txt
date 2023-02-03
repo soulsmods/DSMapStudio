@@ -16,51 +16,51 @@
 78 Also licked fire body (for black Jar) -- チロチロ延焼本体（黒壷用）
 100 Throwing Knives -- 投げナイフ
 101 Poison-throwing knives -- 毒投げナイフ
-110 Fire bottle [Parent] -- 火炎瓶【親】
-111 Fire bottle [child] -- 火炎瓶【子】
-112 [For debugging] flame bottle [Parent] -- [デバッグ用]火炎瓶【親】
-113 [For debugging] fire bottle [child] -- [デバッグ用]火炎瓶【子】
-115 Black Flame bottle [parent] -- 黒火炎瓶【親】
-116 Black Flame bottle [child] -- 黒火炎瓶【子】
-120 Each time a [parent] -- またたびＡ【親】
+110 Fire bottle (Parent) -- 火炎瓶【親】
+111 Fire bottle (child) -- 火炎瓶【子】
+112 (For debugging) flame bottle (Parent) -- (デバッグ用)火炎瓶【親】
+113 (For debugging) fire bottle (child) -- (デバッグ用)火炎瓶【子】
+115 Black Flame bottle (parent) -- 黒火炎瓶【親】
+116 Black Flame bottle (child) -- 黒火炎瓶【子】
+120 Each time a (parent) -- またたびＡ【親】
 121 Each time a child -- またたびＡ【子】
-122 Each time b [parent] -- またたびＢ【親】
+122 Each time b (parent) -- またたびＢ【親】
 123 The Child B -- またたびＢ【子】
-130 Convenient stone [parent] -- 便利石【親】
-131 Convenient stone [child] -- 便利石【子】
-132 Convenient stone [grandchild] -- 便利石【孫】
+130 Convenient stone (parent) -- 便利石【親】
+131 Convenient stone (child) -- 便利石【子】
+132 Convenient stone (grandchild) -- 便利石【孫】
 150 The parent of a dung dumpling -- 糞団子【親】
 151 Son of a dumpling -- 糞団子【子】
-160 EST not available [parent] -- エスト使用不可【親】
-161 EST not available [child] -- エスト使用不可【子】
-170 bleeding treatment [State recovery] -- 出血治療【状態回復】
-171 bleeding treatment [resistance recovery] -- 出血治療【耐性回復】
-180 Poison treatment [State recovery] -- 毒治療【状態回復】
-181 Poison treatment [Resilient recovery] -- 毒治療【耐性回復】
-190 Toxic treatment [State recovery] -- 猛毒治療【状態回復】
-191 Toxic treatment [Resilient recovery] -- 猛毒治療【耐性回復】
-220 Elixir [State Recovery] -- エリクサー【状態回復】
-221 Elixir [Recovery of bleeding immunity] -- エリクサー【出血耐性回復】
-222 Elixir [Poison tolerance recovery] -- エリクサー【毒耐性回復】
-223 Elixir [Deadly poison resistant recovery] -- エリクサー【猛毒耐性回復】
-226 Elixir [HP Recovery] -- エリクサー【HP回復】
+160 EST not available (parent) -- エスト使用不可【親】
+161 EST not available (child) -- エスト使用不可【子】
+170 bleeding treatment (State recovery) -- 出血治療【状態回復】
+171 bleeding treatment (resistance recovery) -- 出血治療【耐性回復】
+180 Poison treatment (State recovery) -- 毒治療【状態回復】
+181 Poison treatment (Resilient recovery) -- 毒治療【耐性回復】
+190 Toxic treatment (State recovery) -- 猛毒治療【状態回復】
+191 Toxic treatment (Resilient recovery) -- 猛毒治療【耐性回復】
+220 Elixir (State Recovery) -- エリクサー【状態回復】
+221 Elixir (Recovery of bleeding immunity) -- エリクサー【出血耐性回復】
+222 Elixir (Poison tolerance recovery) -- エリクサー【毒耐性回復】
+223 Elixir (Deadly poison resistant recovery) -- エリクサー【猛毒耐性回復】
+226 Elixir (HP Recovery) -- エリクサー【HP回復】
 300 Quick Knives -- クイックナイフ
 301 Quick Poison Knife -- クイック毒ナイフ
 302 Quick Bleeding knife -- クイック出血ナイフ
-310 Quick Flame Bottle [parent] Search Bullets -- クイック火炎瓶【親】検索弾
-315 Quick Black Flame jar [parent] Search Bullets -- クイック黒火炎瓶【親】検索弾
+310 Quick Flame Bottle (parent) Search Bullets -- クイック火炎瓶【親】検索弾
+315 Quick Black Flame jar (parent) Search Bullets -- クイック黒火炎瓶【親】検索弾
 340 Caries State _ attracting -- 蝕状態_引き寄せ
 341 Caries status _ attracting _ recovery -- 蝕状態_引き寄せ_回復
-400 [DLC] Talking stone a [fly] -- 【DLC】しゃべる石A【飛ぶ】
-401 [DLC] Talking stone a [talking] -- 【DLC】しゃべる石A【しゃべる】
-405 [DLC] talking stone b [Fly] -- 【DLC】しゃべる石B【飛ぶ】
-406 [DLC] talking stone b [talking] -- 【DLC】しゃべる石B【しゃべる】
-410 [DLC] Talking stone c [fly] -- 【DLC】しゃべる石C【飛ぶ】
-411 [DLC] Talking stone c [talking] -- 【DLC】しゃべる石C【しゃべる】
-415 [DLC] talking stone d [fly] -- 【DLC】しゃべる石D【飛ぶ】
-416 [DLC] Talking stone D [speaking] -- 【DLC】しゃべる石D【しゃべる】
-420 [DLC] Talking stone e [fly] -- 【DLC】しゃべる石E【飛ぶ】
-421 [DLC] Talking stone e [talking] -- 【DLC】しゃべる石E【しゃべる】
+400 (DLC) Talking stone a (fly) -- 【DLC】しゃべる石A【飛ぶ】
+401 (DLC) Talking stone a (talking) -- 【DLC】しゃべる石A【しゃべる】
+405 (DLC) talking stone b (Fly) -- 【DLC】しゃべる石B【飛ぶ】
+406 (DLC) talking stone b (talking) -- 【DLC】しゃべる石B【しゃべる】
+410 (DLC) Talking stone c (fly) -- 【DLC】しゃべる石C【飛ぶ】
+411 (DLC) Talking stone c (talking) -- 【DLC】しゃべる石C【しゃべる】
+415 (DLC) talking stone d (fly) -- 【DLC】しゃべる石D【飛ぶ】
+416 (DLC) Talking stone D (speaking) -- 【DLC】しゃべる石D【しゃべる】
+420 (DLC) Talking stone e (fly) -- 【DLC】しゃべる石E【飛ぶ】
+421 (DLC) Talking stone e (talking) -- 【DLC】しゃべる石E【しゃべる】
 500 Ordinary arrows -- 普通の矢
 501 Big arrows -- 大きな矢
 502 Feather Arrow -- 羽根矢
@@ -98,7 +98,7 @@
 9114 Bomb ritual: Target Search Bullets _ host lv.600 or less -- ボム儀式：ターゲット検索弾_ホストLv.600 以下
 9115 Bomb ritual: Target Search Bullets _ host lv.700 or less -- ボム儀式：ターゲット検索弾_ホストLv.700 以下
 9116 Bomb ritual: Target Search Bullets _ host lv.800 or less -- ボム儀式：ターゲット検索弾_ホストLv.800 以下
-9920 Oil area ablaze [system] -- 油領域炎上【システム】
+9920 Oil area ablaze (system) -- 油領域炎上【システム】
 100000 Map gimmick general-purpose explosive barrels -- マップギミック汎用  爆発樽
 100010 Map gimmick general-purpose combustion -- マップギミック汎用  燃焼
 130000 Protomap Exploding Barrels -- プロトマップ　爆発する樽
@@ -106,23 +106,23 @@
 138001 Dungeon Arrows (Speed early) -- ダンジョン 火矢（速度早い）
 139000 Dungeon Objects _ Magic -- 地下牢 器オブジェ_魔法
 139001 Dungeon Object _ Magic (explosion) -- 地下牢 器オブジェ_魔法（爆発）
-149000 FDP proto-oil jar [toss] -- FDPプロト　油壷【投げ】
-149001 FDP proto-oil jar [impact] -- FDPプロト　油壷【着弾】
+149000 FDP proto-oil jar (toss) -- FDPプロト　油壷【投げ】
+149001 FDP proto-oil jar (impact) -- FDPプロト　油壷【着弾】
 149010 FDP proto-oil jar (obj destruction) -- FDPプロト　油壷（Obj破壊）
-149011 FDP proto-oil jar (obj destruction) [Impact] -- FDPプロト　油壷（Obj破壊）【着弾】
-149020 FDP proto Flame bottle [throw] -- FDPプロト　火炎瓶【投げ】
-149021 FDP proto flame bottle [impact] -- FDPプロト　火炎瓶【着弾】
+149011 FDP proto-oil jar (obj destruction) (Impact) -- FDPプロト　油壷（Obj破壊）【着弾】
+149020 FDP proto Flame bottle (throw) -- FDPプロト　火炎瓶【投げ】
+149021 FDP proto flame bottle (impact) -- FDPプロト　火炎瓶【着弾】
 1070090 c1070_ New Skeleton _ a flame vase -- c1070_新スケルトン_火炎壺
-1070091 c1070_ New Skeleton _ Flame vase [Impact] -- c1070_新スケルトン_火炎壺【着弾】
+1070091 c1070_ New Skeleton _ Flame vase (Impact) -- c1070_新スケルトン_火炎壺【着弾】
 1070230 c1070_ New Skeleton _ Bow -- c1070_新スケルトン_弓
 1100800 Dead Soldier Crossbow -- 亡者兵士　クロスボウ
 1100801 Dead Soldier Flame Crossbow -- 亡者兵士　炎クロスボウ
 1100810 Dead soldier Oil Pot -- 亡者兵士　油壺
-1100811 Dead soldier oil pot [impact] -- 亡者兵士　油壺【着弾】
+1100811 Dead soldier oil pot (impact) -- 亡者兵士　油壺【着弾】
 1100820 Dead Soldier Flame Bottle -- 亡者兵士　火炎瓶
-1100821 Dead Soldier Flame bottle [Impact] -- 亡者兵士　火炎瓶【着弾】
-1100822 Dead Soldier Flame Bottle [impact thereafter] -- 亡者兵士　火炎瓶【着弾その後】
-1100823 Dead Soldier Flame Bottle [impact thereafter] -- 亡者兵士　火炎瓶【着弾その後のその後】
+1100821 Dead Soldier Flame bottle (Impact) -- 亡者兵士　火炎瓶【着弾】
+1100822 Dead Soldier Flame Bottle (impact thereafter) -- 亡者兵士　火炎瓶【着弾その後】
+1100823 Dead Soldier Flame Bottle (impact thereafter) -- 亡者兵士　火炎瓶【着弾その後のその後】
 1130700 Caries slug: caries vomiting -- 蝕ナメクジ：蝕吐き
 1130710 Caries Slug: Vomit (short) -- 蝕ナメクジ：蝕吐き(短)
 1130800 Caries slugs: Ground search bullets -- 蝕ナメクジ：地面検索弾
@@ -146,10 +146,10 @@
 1220030 Uzi hit effect Search bullets -- ウジヒットエフェクト検索弾
 1220031 Uzi hit effect -- ウジヒットエフェクト
 1230740 Projection Magic -- 投射魔法
-1240700 c1240 Poor dead _ a flame vase [throwing] -- c1240貧民亡者_火炎壺【投げ】
-1240701 c1240 Poor dead _ flame pots [Impact] -- c1240貧民亡者_火炎壺【着弾】
+1240700 c1240 Poor dead _ a flame vase (throwing) -- c1240貧民亡者_火炎壺【投げ】
+1240701 c1240 Poor dead _ flame pots (Impact) -- c1240貧民亡者_火炎壺【着弾】
 1240710 c1240 Poor dead _ oil pot -- c1240貧民亡者_油壺
-1240711 c1240 Poor dead _ oil pot [Impact] -- c1240貧民亡者_油壺【着弾】
+1240711 c1240 Poor dead _ oil pot (Impact) -- c1240貧民亡者_油壺【着弾】
 1250700 C1250_ Poor Dead Elite _ fire-blowing -- c1250_貧民亡者エリート_火吹き
 1260700 C1260 Poor dead servant _ throwing mortar -- c1260貧民亡者下男_臼投げ
 1260701 C1260 the poor dead servant _ a mortar throw (poised) -- c1260貧民亡者下男_臼投げ（構え）
@@ -407,12 +407,12 @@
 5240230 c5240_ Moonlight Witch: Spread bullets -- c5240_月光の魔女：拡散弾
 5240240 c5240_ Moonlight Witch: Nagi Flame -- c5240_月光の魔女：なぎ払う炎
 5270140 c5270_ Tracker _3014 explosion -- c5270_追跡者_3014蝕爆発
-5270151 c5270_ Tracker _3015 left (90 degrees turning) pillar [parents] -- c5270_追跡者_3015左旋回攻撃（90度旋回）　火柱【親】
+5270151 c5270_ Tracker _3015 left (90 degrees turning) pillar (parents) -- c5270_追跡者_3015左旋回攻撃（90度旋回）　火柱【親】
 5270152 C5270_ Tracker _3015 left attack (90 degrees turning) pillar 【 child 】 -- c5270_追跡者_3015左旋回攻撃（90度旋回）　火柱【子】
-5270520 c5270_ tracker _100_3002 [HU] Eclipse explosion two-stage warning -- c5270_追跡者_100_3002[HU]蝕爆発二段 予兆爆発
-5270521 c5270_ tracker _100_3002 [HU] Eclipse explosion stage explosion -- c5270_追跡者_100_3002[HU]蝕爆発二段 爆発
-5270721 c5270_ tracker _100_3022 [HU] right attack (90 degree swivel) caries pillar [parent] -- c5270_追跡者_100_3022[HU]右旋回攻撃(90度旋回) 蝕柱【親】
-5270722 c5270_ tracker _100_3022 [HU] right attack (90 degree swivel) (child) -- c5270_追跡者_100_3022[HU]右旋回攻撃(90度旋回) 蝕柱【子】
-5270731 c5270_ tracker _100_3023 [HU] left attack (90 degree turning) flame pillar [Parent] -- c5270_追跡者_100_3023[HU]左旋回攻撃（90度旋回） 炎柱【親】
-5270732 c5270_ tracker _100_3023 [HU] left attack (90 degree turning) flame pillar [child] -- c5270_追跡者_100_3023[HU]左旋回攻撃（90度旋回） 炎柱【子】
+5270520 c5270_ tracker _100_3002 (HU) Eclipse explosion two-stage warning -- c5270_追跡者_100_3002(HU)蝕爆発二段 予兆爆発
+5270521 c5270_ tracker _100_3002 (HU) Eclipse explosion stage explosion -- c5270_追跡者_100_3002(HU)蝕爆発二段 爆発
+5270721 c5270_ tracker _100_3022 (HU) right attack (90 degree swivel) caries pillar (parent) -- c5270_追跡者_100_3022(HU)右旋回攻撃(90度旋回) 蝕柱【親】
+5270722 c5270_ tracker _100_3022 (HU) right attack (90 degree swivel) (child) -- c5270_追跡者_100_3022(HU)右旋回攻撃(90度旋回) 蝕柱【子】
+5270731 c5270_ tracker _100_3023 (HU) left attack (90 degree turning) flame pillar (Parent) -- c5270_追跡者_100_3023(HU)左旋回攻撃（90度旋回） 炎柱【親】
+5270732 c5270_ tracker _100_3023 (HU) left attack (90 degree turning) flame pillar (child) -- c5270_追跡者_100_3023(HU)左旋回攻撃（90度旋回） 炎柱【子】
 9990730 Vanguards of c9990_: the Arrow of Seoul -- c9990_蝕の尖兵：ソウルの矢

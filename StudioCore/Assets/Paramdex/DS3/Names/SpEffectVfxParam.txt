@@ -7,10 +7,10 @@
 6 Bleeding -- 出血
 8 Hidden -- 姿隠し
 9 Gravity user -- グラビティ使用者
-10 State abnormal recovery [poison] -- 状態異常回復【毒】
-11 State abnormal recovery [plague] -- 状態異常回復【疫病】
-12 State abnormal recovery [bleeding] -- 状態異常回復【出血】
-13 State abnormal recovery [Universal] -- 状態異常回復【万能】
+10 State abnormal recovery (poison) -- 状態異常回復【毒】
+11 State abnormal recovery (plague) -- 状態異常回復【疫病】
+12 State abnormal recovery (bleeding) -- 状態異常回復【出血】
+13 State abnormal recovery (Universal) -- 状態異常回復【万能】
 14 Soul Steele -- ソウルスティール
 15 Zoom -- ズーム
 16 Warp -- ワープ
@@ -31,7 +31,7 @@
 31 【 system 】 Ghost Rum Change -- 【システム】ゴーストパラム変化
 32 Incubus -- 金縛り
 33 Flies bummed -- 蠅たかり
-34 [FDP proto] slime freezing -- 【FDPプロト】スライム凍結
+34 (FDP proto) slime freezing -- 【FDPプロト】スライム凍結
 35 Flame Phantom _ Second phase -- 炎怪人_第２段階
 36 Flame Phantom _ Third stage -- 炎怪人_第３段階
 37 Flame Phantom _ Fourth stage -- 炎怪人_第４段階
@@ -57,10 +57,10 @@
 57 Yellow Robe -- 黄衣
 58 Point Light -- 点光源
 59 Blood character evaluation -- 血文字評価
-60 Weapon reinforcement [medium] -- 武器強化【中】
-61 Weapon reinforcement [large] -- 武器強化【大】
+60 Weapon reinforcement (medium) -- 武器強化【中】
+61 Weapon reinforcement (large) -- 武器強化【大】
 62 Flame Enhancement -- 炎強化
-63 flame enhancement [Large] -- 炎強化【大】
+63 flame enhancement (Large) -- 炎強化【大】
 64 Magic Reinforcement -- 魔法強化
 65 Chimera Reinforcement -- キメラ強化
 66 Item Drop correction -- アイテムドロップ補正
@@ -83,7 +83,7 @@
 93 King's Shield 3 stage right foot -- 王の盾3段階右足
 94 Referee's belly bleeding -- 審判者腹出血
 95 Mimicry -- 擬態
-96 [SP] Makeover -- 【SP】変身
+96 (SP) Makeover -- 【SP】変身
 97 Extension -- ガスマン
 98 Detection -- 探知
 99 Waiting for cooperation -- 協力待ち
@@ -91,7 +91,7 @@
 101 Send cooperation -- 協力送信
 102 Gravity -- グラビティ
 103 Evil Eye -- 邪眼
-104 State lifting [waiting for cooperation] -- 状態解除【協力待ち】
+104 State lifting (waiting for cooperation) -- 状態解除【協力待ち】
 105 Effect LV1 -- エフェクトLv1
 106 Effect LV2 -- エフェクトLv2
 107 Effect Lv3 -- エフェクトLv3
@@ -191,34 +191,34 @@
 201 For magic ban effect -- 魔法禁止エフェクト用
 202 Dragon Roar -- 竜咆哮
 203 Magic usage Down -- 魔法使用回数ダウン
-204 Strengthen guard [large] -- ガード強化【大】
-205 [DLC] Dark reinforcement -- 【DLC】闇強化
-206 Arena 1 vs. 1 [small] in territory -- 闘技場1対1【小】テリトリ内
-207 Arena 2 vs. 2 [small] territory -- 闘技場2対2【小】テリトリ内
-208 Arena Battle Royal [small] territory -- 闘技場バトルロイヤル【小】テリトリ内
-209 Arena 1 vs. 1 [small] summon hope a -- 闘技場1対1【小】召喚希望A
-210 Arena 1 vs. 1 [small] Summon Hope B -- 闘技場1対1【小】召喚希望B
-211 Arena 2 vs. 2 [small] summon hope A1 -- 闘技場2対2【小】召喚希望A1
-212 Arena 2 vs. 2 [small] summon hope A2 -- 闘技場2対2【小】召喚希望A2
-213 Arena 2 vs. 2 [small] Summon Hope B1 -- 闘技場2対2【小】召喚希望B1
-214 Arena 2 vs. 2 [small] Summon hope B2 -- 闘技場2対2【小】召喚希望B2
-215 Arena Battle Royal [small] summon hope a -- 闘技場バトルロイヤル【小】召喚希望A
-216 Arena Battle Royal [small] summon Hope B -- 闘技場バトルロイヤル【小】召喚希望B
-217 Arena Battle Royal [small] Summon hope C -- 闘技場バトルロイヤル【小】召喚希望C
-218 Arena Battle Royal [small] summon hope D -- 闘技場バトルロイヤル【小】召喚希望D
-219 Arena 1 to 1 [large] in territory -- 闘技場1対1【大】テリトリ内
-220 Arena 2 vs. 2 [large] territory -- 闘技場2対2【大】テリトリ内
+204 Strengthen guard (large) -- ガード強化【大】
+205 (DLC) Dark reinforcement -- 【DLC】闇強化
+206 Arena 1 vs. 1 (small) in territory -- 闘技場1対1【小】テリトリ内
+207 Arena 2 vs. 2 (small) territory -- 闘技場2対2【小】テリトリ内
+208 Arena Battle Royal (small) territory -- 闘技場バトルロイヤル【小】テリトリ内
+209 Arena 1 vs. 1 (small) summon hope a -- 闘技場1対1【小】召喚希望A
+210 Arena 1 vs. 1 (small) Summon Hope B -- 闘技場1対1【小】召喚希望B
+211 Arena 2 vs. 2 (small) summon hope A1 -- 闘技場2対2【小】召喚希望A1
+212 Arena 2 vs. 2 (small) summon hope A2 -- 闘技場2対2【小】召喚希望A2
+213 Arena 2 vs. 2 (small) Summon Hope B1 -- 闘技場2対2【小】召喚希望B1
+214 Arena 2 vs. 2 (small) Summon hope B2 -- 闘技場2対2【小】召喚希望B2
+215 Arena Battle Royal (small) summon hope a -- 闘技場バトルロイヤル【小】召喚希望A
+216 Arena Battle Royal (small) summon Hope B -- 闘技場バトルロイヤル【小】召喚希望B
+217 Arena Battle Royal (small) Summon hope C -- 闘技場バトルロイヤル【小】召喚希望C
+218 Arena Battle Royal (small) summon hope D -- 闘技場バトルロイヤル【小】召喚希望D
+219 Arena 1 to 1 (large) in territory -- 闘技場1対1【大】テリトリ内
+220 Arena 2 vs. 2 (large) territory -- 闘技場2対2【大】テリトリ内
 221 Arena Battle Royal 【 Dai 】 Territory -- 闘技場バトルロイヤル【大】テリトリ内
-222 Arena 1 to 1 [large] Summon hope a -- 闘技場1対1【大】召喚希望A
-223 Arena 1 to 1 [large] Summon hope B -- 闘技場1対1【大】召喚希望B
-224 Arena 2 vs. 2 [large] summon request A1 -- 闘技場2対2【大】召喚希望A1
-225 Arena 2 vs. 2 [large] summon hope A2 -- 闘技場2対2【大】召喚希望A2
-226 Arena 2 vs. 2 [large] Summon hope B1 -- 闘技場2対2【大】召喚希望B1
-227 Arena 2 vs. 2 [large] Summon hope B2 -- 闘技場2対2【大】召喚希望B2
-228 Arena Battle Royal [large] summon hope a -- 闘技場バトルロイヤル【大】召喚希望A
-229 Arena Battle Royal [large] Summon hope B -- 闘技場バトルロイヤル【大】召喚希望B
-230 Arena Battle Royal [large] Summon hope C -- 闘技場バトルロイヤル【大】召喚希望C
-231 Arena Battle Royal [large] summon hope D -- 闘技場バトルロイヤル【大】召喚希望D
+222 Arena 1 to 1 (large) Summon hope a -- 闘技場1対1【大】召喚希望A
+223 Arena 1 to 1 (large) Summon hope B -- 闘技場1対1【大】召喚希望B
+224 Arena 2 vs. 2 (large) summon request A1 -- 闘技場2対2【大】召喚希望A1
+225 Arena 2 vs. 2 (large) summon hope A2 -- 闘技場2対2【大】召喚希望A2
+226 Arena 2 vs. 2 (large) Summon hope B1 -- 闘技場2対2【大】召喚希望B1
+227 Arena 2 vs. 2 (large) Summon hope B2 -- 闘技場2対2【大】召喚希望B2
+228 Arena Battle Royal (large) summon hope a -- 闘技場バトルロイヤル【大】召喚希望A
+229 Arena Battle Royal (large) Summon hope B -- 闘技場バトルロイヤル【大】召喚希望B
+230 Arena Battle Royal (large) Summon hope C -- 闘技場バトルロイヤル【大】召喚希望C
+231 Arena Battle Royal (large) summon hope D -- 闘技場バトルロイヤル【大】召喚希望D
 232 Prohibition of use prohibited items in the arena -- 闘技場使用禁止アイテム使用禁止
 233 Arena dead -- 闘技場死亡
 234 Provisional first place in the arena -- 闘技場暫定１位
@@ -249,7 +249,7 @@
 259 Target Down -- ターゲットダウン中
 260 Caries -- 蝕
 261 Maggots -- 蛆
-262 State abnormal recovery [maggots] -- 状態異常回復【蛆】
+262 State abnormal recovery (maggots) -- 状態異常回復【蛆】
 263 Bleeding state -- 出血状態
 265 Quick Match Request -- クイックマッチリクエスト
 266 Dead disabled during fall -- 落下中死亡無効

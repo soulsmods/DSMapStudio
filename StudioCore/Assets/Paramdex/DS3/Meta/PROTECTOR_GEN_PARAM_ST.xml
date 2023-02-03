@@ -8,5 +8,5 @@
 	<gemGenId_3 Refs="GemGenParam" />
 	<gemGenId_4 Refs="GemGenParam" />
   </Field>
-  <Self />
+  <Self Wiki="Unused"/>
 </PARAMMETA>

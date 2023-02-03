@@ -6,7 +6,7 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="u8 RumbleState[ON_OFF] = 1" />
+    <Field Def="u8 isUseOption:1" />
     <Field Def="dummy8 pad1[15]" />
   </Fields>
 </PARAMDEF>

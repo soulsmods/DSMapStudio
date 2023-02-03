@@ -1,6 +1,6 @@
-0 [System] Dummy bullets -- 【システム】ダミー弾
-1 [System] Dummy bullets (do not hit the characters) -- 【システム】ダミー弾（キャラにヒットしない）
-4 【 system 】 Disabled attack [common] -- 【システム】無効攻撃【共通】
+0 (System) Dummy bullets -- 【システム】ダミー弾
+1 (System) Dummy bullets (do not hit the characters) -- 【システム】ダミー弾（キャラにヒットしない）
+4 【 system 】 Disabled attack (common) -- 【システム】無効攻撃【共通】
 5 Dummy attack to keep out bullets -- 弾を出し続ける　ダミー攻撃
 10 Ten pre LV1 small damage -- テンプレ　LV１　小ダメージ
 11 Ten Pre LV2 damage -- テンプレ　LV２　中ダメージ
@@ -30,34 +30,34 @@
 201 吹tsu飛bimasu (weak) Radius 1m -- 吹っ飛び（弱）　半径1ｍ
 202 吹tsu飛bimasu (strong) Radius 1m -- 吹っ飛び（強）　半径1ｍ
 2000 Tomb King Demon Space attack -- 墓王　魔空間攻撃
-3000 Common attack [feet, large damage, human type] -- 共通攻撃【足元・大ダメージ・人型】
-3001 Common attack [center, large damage, human type] -- 共通攻撃【中心・大ダメージ・人型】
-3002 Common attack [feet, small damage, human type] -- 共通攻撃【足元・小ダメージ・人型】
-3003 Common attack [Center, small damage, human type] -- 共通攻撃【中心・小ダメージ・人型】
-3010 Common attack [Center, no damage, human type] -- 共通攻撃【中心・ダメージなし・人型】
-3011 Common attack [back, no damage, human type] -- 共通攻撃【背中・ダメージなし・人型】
-3012 Common attack [belly, no damage, human type] -- 共通攻撃【お腹・ダメージなし・人型】
-3013 Common attack [step, no damage, human type] -- 共通攻撃【足元・ダメージなし・人型】
-3020 Common attack [right hand, ladder damage, human type] -- 共通攻撃【右手・梯子ダメージ・人型】
-3021 Common attack [left hand, ladder damage, human type] -- 共通攻撃【左手・梯子ダメージ・人型】
-3022 Common attack [right foot, ladder damage, human type] -- 共通攻撃【右足・梯子ダメージ・人型】
-3023 Common attack [left leg, ladder damage, human type] -- 共通攻撃【左足・梯子ダメージ・人型】
-3100 Common attack [feet, large damage, large] -- 共通攻撃【足元・大ダメージ・大型】
-3101 Common attack [center, large damage, large] -- 共通攻撃【中心・大ダメージ・大型】
-3102 Common attack [feet, small damage, large] -- 共通攻撃【足元・小ダメージ・大型】
-3103 Common attack [Center, small damage, large] -- 共通攻撃【中心・小ダメージ・大型】
-3110 Common attack [Center, no damage, large] -- 共通攻撃【中心・ダメージなし・大型】
-3111 Common attack [back, no damage, large] -- 共通攻撃【背中・ダメージなし・大型】
-3112 Common attack [belly, no damage, large] -- 共通攻撃【お腹・ダメージなし・大型】
-3113 Common attack [foot, no damage, large] -- 共通攻撃【足元・ダメージなし・大型】
-3120 Common attack [right hand, no damage, obj no big, large] -- 共通攻撃【右手・ダメージなし・OBJダメ大・大型】
-3121 Common attack [left, no damage, obj no big, large] -- 共通攻撃【左手・ダメージなし・OBJダメ大・大型】
-3122 Common attack [right leg, no damage, obj no big, large] -- 共通攻撃【右足・ダメージなし・OBJダメ大・大型】
-3123 Common attack [left foot, no damage, obj no big, large] -- 共通攻撃【左足・ダメージなし・OBJダメ大・大型】
-3130 Common attack [right, no damage, obj, no small, large] -- 共通攻撃【右手・ダメージなし・OBJダメ小・大型】
-3131 Common attack [left, no damage, obj no small, large] -- 共通攻撃【左手・ダメージなし・OBJダメ小・大型】
-3132 Common attack [right leg, no damage, obj no small, large] -- 共通攻撃【右足・ダメージなし・OBJダメ小・大型】
-3133 Common attack [left foot, no damage, obj no small, large] -- 共通攻撃【左足・ダメージなし・OBJダメ小・大型】
+3000 Common attack (feet, large damage, human type) -- 共通攻撃【足元・大ダメージ・人型】
+3001 Common attack (center, large damage, human type) -- 共通攻撃【中心・大ダメージ・人型】
+3002 Common attack (feet, small damage, human type) -- 共通攻撃【足元・小ダメージ・人型】
+3003 Common attack (Center, small damage, human type) -- 共通攻撃【中心・小ダメージ・人型】
+3010 Common attack (Center, no damage, human type) -- 共通攻撃【中心・ダメージなし・人型】
+3011 Common attack (back, no damage, human type) -- 共通攻撃【背中・ダメージなし・人型】
+3012 Common attack (belly, no damage, human type) -- 共通攻撃【お腹・ダメージなし・人型】
+3013 Common attack (step, no damage, human type) -- 共通攻撃【足元・ダメージなし・人型】
+3020 Common attack (right hand, ladder damage, human type) -- 共通攻撃【右手・梯子ダメージ・人型】
+3021 Common attack (left hand, ladder damage, human type) -- 共通攻撃【左手・梯子ダメージ・人型】
+3022 Common attack (right foot, ladder damage, human type) -- 共通攻撃【右足・梯子ダメージ・人型】
+3023 Common attack (left leg, ladder damage, human type) -- 共通攻撃【左足・梯子ダメージ・人型】
+3100 Common attack (feet, large damage, large) -- 共通攻撃【足元・大ダメージ・大型】
+3101 Common attack (center, large damage, large) -- 共通攻撃【中心・大ダメージ・大型】
+3102 Common attack (feet, small damage, large) -- 共通攻撃【足元・小ダメージ・大型】
+3103 Common attack (Center, small damage, large) -- 共通攻撃【中心・小ダメージ・大型】
+3110 Common attack (Center, no damage, large) -- 共通攻撃【中心・ダメージなし・大型】
+3111 Common attack (back, no damage, large) -- 共通攻撃【背中・ダメージなし・大型】
+3112 Common attack (belly, no damage, large) -- 共通攻撃【お腹・ダメージなし・大型】
+3113 Common attack (foot, no damage, large) -- 共通攻撃【足元・ダメージなし・大型】
+3120 Common attack (right hand, no damage, obj no big, large) -- 共通攻撃【右手・ダメージなし・OBJダメ大・大型】
+3121 Common attack (left, no damage, obj no big, large) -- 共通攻撃【左手・ダメージなし・OBJダメ大・大型】
+3122 Common attack (right leg, no damage, obj no big, large) -- 共通攻撃【右足・ダメージなし・OBJダメ大・大型】
+3123 Common attack (left foot, no damage, obj no big, large) -- 共通攻撃【左足・ダメージなし・OBJダメ大・大型】
+3130 Common attack (right, no damage, obj, no small, large) -- 共通攻撃【右手・ダメージなし・OBJダメ小・大型】
+3131 Common attack (left, no damage, obj no small, large) -- 共通攻撃【左手・ダメージなし・OBJダメ小・大型】
+3132 Common attack (right leg, no damage, obj no small, large) -- 共通攻撃【右足・ダメージなし・OBJダメ小・大型】
+3133 Common attack (left foot, no damage, obj no small, large) -- 共通攻撃【左足・ダメージなし・OBJダメ小・大型】
 5100 Ojo 1 Ball of caries -- 蝕の王城１　大玉
 5110 Ojo 1 Bonfires of caries -- 蝕の王城１　焚火
 5120 Ojo 1 Carpet burning of caries -- 蝕の王城１　絨毯燃焼
@@ -75,9 +75,9 @@
 11901 C1190_ dead Monk Knight (Gray Tome + Large shield) _ Crossbow -- c1190_亡者僧騎士（グレートメイス＋大盾）_クロスボウ
 31200 Sacred Beast of c3120_ Forest: Common Attack _ underfoot -- c3120_森の霊獣：共通攻撃_足元
 51100 c5120_ Segunda _ heat-up caries breath -- ｃ5120_グンダ_ヒートアップ蝕ブレス
-51800 Common attack [Butt dragged/c5180 cursed Colossus] -- 共通攻撃【尻引きずり・c5180呪われた巨像】
-52700 Common attack [Movement (right leg)/c5270 tracker] -- 共通攻撃【移動（右脚）・c5270追跡者】
-52701 Common attack [movement (left leg)/c5270 tracker] -- 共通攻撃【移動（左脚）・c5270追跡者】
+51800 Common attack (Butt dragged/c5180 cursed Colossus) -- 共通攻撃【尻引きずり・c5180呪われた巨像】
+52700 Common attack (Movement (right leg)/c5270 tracker) -- 共通攻撃【移動（右脚）・c5270追跡者】
+52701 Common attack (movement (left leg)/c5270 tracker) -- 共通攻撃【移動（左脚）・c5270追跡者】
 111000 c1110_ Dark Knight (Straight Sword) _ Slashing 1 -- c1110_ダークナイト（直剣）_斬撃1
 111001 c1110_ Dark Knight (straight Blade) _ Slashing 2 -- c1110_ダークナイト（直剣）_斬撃2
 111002 c1110_ Dark Knight (Straight Sword) _ slashing 3 -- c1110_ダークナイト（直剣）_斬撃3
@@ -804,11 +804,11 @@
 1391010 Assassin of the C1391_ (Kusarigama): A continuous attack 1-1 -- c1391_蛇人の暗殺者（鎖鎌）：連続攻撃１-１
 1391020 Assassin of the C1391_ (Kusarigama): A continuous attack 1-2 -- c1391_蛇人の暗殺者（鎖鎌）：連続攻撃１-２
 1391030 C1391_ (Kusarigama): Kusarigama Swing (Medium range) -- c1391_蛇人の暗殺者（鎖鎌）：鎖鎌振り下ろし（中距離）
-1391031 C1391_ (Kusarigama): Kusarigama Swing (medium range) [Chara Atari No] -- c1391_蛇人の暗殺者（鎖鎌）：鎖鎌振り下ろし（中距離）【キャラアタリ無】
-1391032 The assassin of the C1391_ (Kusarigama): Kusarigama Swing (medium range) [Return sickle] -- c1391_蛇人の暗殺者（鎖鎌）：鎖鎌振り下ろし（中距離）【戻り鎌】
+1391031 C1391_ (Kusarigama): Kusarigama Swing (medium range) (Chara Atari No) -- c1391_蛇人の暗殺者（鎖鎌）：鎖鎌振り下ろし（中距離）【キャラアタリ無】
+1391032 The assassin of the C1391_ (Kusarigama): Kusarigama Swing (medium range) (Return sickle) -- c1391_蛇人の暗殺者（鎖鎌）：鎖鎌振り下ろし（中距離）【戻り鎌】
 1391040 C1391_ (Kusarigama): Kusarigama Swing (long distance) -- c1391_蛇人の暗殺者（鎖鎌）：鎖鎌振り下ろし（遠距離）
-1391041 Assassins of C1391_ (Kusarigama): Kusarigama (long distance) [Chara Atari No] -- c1391_蛇人の暗殺者（鎖鎌）：鎖鎌振り下ろし（遠距離）【キャラアタリ無】
-1391042 The assassin of the C1391_ (Kusarigama): Kusarigama (long distance) [return sickle] -- c1391_蛇人の暗殺者（鎖鎌）：鎖鎌振り下ろし（遠距離）【戻り鎌】
+1391041 Assassins of C1391_ (Kusarigama): Kusarigama (long distance) (Chara Atari No) -- c1391_蛇人の暗殺者（鎖鎌）：鎖鎌振り下ろし（遠距離）【キャラアタリ無】
+1391042 The assassin of the C1391_ (Kusarigama): Kusarigama (long distance) (return sickle) -- c1391_蛇人の暗殺者（鎖鎌）：鎖鎌振り下ろし（遠距離）【戻り鎌】
 1391050 C1391_ Snake man Assassin (Kusarigama): Kusarigama -- c1391_蛇人の暗殺者（鎖鎌）：鎖鎌払い
 1391051 Assassins of C1391_ (Kusarigama): Kusarigama (Chain part) -- c1391_蛇人の暗殺者（鎖鎌）：鎖鎌払い【鎖部分】
 1391052 C1391_ Serpent Assassin (Kusarigama): Kusarigama (through sickle) -- c1391_蛇人の暗殺者（鎖鎌）：鎖鎌払い【貫通鎌】
@@ -816,18 +816,18 @@
 1391070 C1391_ (Kusarigama): A reverse payment (wait) -- c1391_蛇人の暗殺者（鎖鎌）：逆払い（待機）
 1391080 Assassins of C1391_ (Kusarigama): Swing Down (reverse posture) -- c1391_蛇人の暗殺者（鎖鎌）：振り下ろし（逆払い姿勢）
 1391090 C1391_ Serpent Assassin (Kusarigama): Kusarigama (a3004 attitude) -- c1391_蛇人の暗殺者（鎖鎌）：鎖鎌払い（a3004姿勢）
-1391091 C1391_ (Kusarigama): Kusarigama (a3004 posture) [Chain part] -- c1391_蛇人の暗殺者（鎖鎌）：鎖鎌払い（a3004姿勢）【鎖部分】
-1391092 Assassins of C1391_ (Kusarigama): Kusarigama (a3004 posture) [through sickle] -- c1391_蛇人の暗殺者（鎖鎌）：鎖鎌払い（a3004姿勢）【貫通鎌】
+1391091 C1391_ (Kusarigama): Kusarigama (a3004 posture) (Chain part) -- c1391_蛇人の暗殺者（鎖鎌）：鎖鎌払い（a3004姿勢）【鎖部分】
+1391092 Assassins of C1391_ (Kusarigama): Kusarigama (a3004 posture) (through sickle) -- c1391_蛇人の暗殺者（鎖鎌）：鎖鎌払い（a3004姿勢）【貫通鎌】
 1391100 C1391_ Snake man Assassin (Kusarigama): Right side reverse payment -- c1391_蛇人の暗殺者（鎖鎌）：右側面逆払い
 1391110 C1391_ Snake Assassin (kusarigama): Left side payment -- c1391_蛇人の暗殺者（鎖鎌）：左側面払い
 1391120 C1391_ Snake man Assassin (Kusarigama): Front bit -- c1391_蛇人の暗殺者（鎖鎌）：正面噛み付き
 1391130 C1391_ (Kusarigama): Kusarigama Swing down and strong (medium distance) -- c1391_蛇人の暗殺者（鎖鎌）：鎖鎌振り下ろし・強（中距離）
-1391131 Assassins of C1391_ (Kusarigama): Kusarigama, strong (medium range) [Chara Atari No] -- c1391_蛇人の暗殺者（鎖鎌）：鎖鎌振り下ろし・強（中距離）【キャラアタリ無】
-1391132 The assassin of the C1391_ (Kusarigama): Kusarigama Swing down and strong (medium range) [Return sickle] -- c1391_蛇人の暗殺者（鎖鎌）：鎖鎌振り下ろし・強（中距離）【戻り鎌】
-1391140 The assassin of the C1391_ (Kusarigama): Kusarigama Swing (medium distance) [Return sickle] -- c1391_蛇人の暗殺者（鎖鎌）：鎖鎌振り下ろし（中遠距離）【戻り鎌】
-1391141 The assassin of the C1391_ (Kusarigama): Kusarigama (long distance) [return sickle] -- c1391_蛇人の暗殺者（鎖鎌）：鎖鎌振り下ろし（遠距離）【戻り鎌】
-1391150 The assassin of the C1391_ (Kusarigama): Kusarigama Swing down and strong (medium distance) [Return sickle] -- c1391_蛇人の暗殺者（鎖鎌）：鎖鎌振り下ろし・強（中遠距離）【戻り鎌】
-1391151 The assassin of the C1391_ (Kusarigama): Kusarigama and strong (long distance) [return sickle] -- c1391_蛇人の暗殺者（鎖鎌）：鎖鎌振り下ろし・強（遠距離）【戻り鎌】
+1391131 Assassins of C1391_ (Kusarigama): Kusarigama, strong (medium range) (Chara Atari No) -- c1391_蛇人の暗殺者（鎖鎌）：鎖鎌振り下ろし・強（中距離）【キャラアタリ無】
+1391132 The assassin of the C1391_ (Kusarigama): Kusarigama Swing down and strong (medium range) (Return sickle) -- c1391_蛇人の暗殺者（鎖鎌）：鎖鎌振り下ろし・強（中距離）【戻り鎌】
+1391140 The assassin of the C1391_ (Kusarigama): Kusarigama Swing (medium distance) (Return sickle) -- c1391_蛇人の暗殺者（鎖鎌）：鎖鎌振り下ろし（中遠距離）【戻り鎌】
+1391141 The assassin of the C1391_ (Kusarigama): Kusarigama (long distance) (return sickle) -- c1391_蛇人の暗殺者（鎖鎌）：鎖鎌振り下ろし（遠距離）【戻り鎌】
+1391150 The assassin of the C1391_ (Kusarigama): Kusarigama Swing down and strong (medium distance) (Return sickle) -- c1391_蛇人の暗殺者（鎖鎌）：鎖鎌振り下ろし・強（中遠距離）【戻り鎌】
+1391151 The assassin of the C1391_ (Kusarigama): Kusarigama and strong (long distance) (return sickle) -- c1391_蛇人の暗殺者（鎖鎌）：鎖鎌振り下ろし・強（遠距離）【戻り鎌】
 1391200 C1391_ Snake man Assassin (Kusarigama): Throwing -- c1391_蛇人の暗殺者（鎖鎌）：投げ
 1391201 C1391_ Snake man Assassin (Kusarigama): Throwing damage -- c1391_蛇人の暗殺者（鎖鎌）：投げダメージ
 1410100 c1410: Silver Knight: Slashing 1 (sword) -- c1410：銀騎士：斬撃１（剣）
@@ -957,7 +957,7 @@
 2030430 c2030_ Salivan Reaper: Extrusion attack: Blade -- c2030_サリヴァーンの死神：押し出し攻撃：刃
 2030431 c2030_ Salivan Reaper: Extruded attack: Hilt -- c2030_サリヴァーンの死神：押し出し攻撃：柄
 2030440 C2030_ Salivan's Reaper: Distance packed strong attack: Blade -- c2030_サリヴァーンの死神：距離詰め強攻撃：刃
-2030450 C2030_ Salivan's death: [Miracle] dark Moon Light Sword -- c2030_サリヴァーンの死神：【奇跡】暗月の光の剣
+2030450 C2030_ Salivan's death: (Miracle) dark Moon Light Sword -- c2030_サリヴァーンの死神：【奇跡】暗月の光の剣
 2030900 C2030_ Salivan's Reaper: (spear) Shield -- c2030_サリヴァーンの死神：（槍）盾
 2040100 Right hand slams -- 右手叩きつけ
 2040110 Left hand slams -- 左手叩きつけ
@@ -1125,44 +1125,44 @@
 2180050 C2180_ Maggots: high-speed Shaktori scratching (Shidara) -- c2180_蛆人：高速シャクトリ引っかき（四段目）
 2180110 C2180_ Maggots: Magic -- c2180_蛆人：魔法
 2180200 C2180_ Maggots: Fire spreading -- c2180_蛆人：延焼
-2190100 C2190_ Gargoyle (Light): Saigi [Weapon] -- c2190_ガーゴイル（灯火）：薙ぎ払い【武器】
-2190110 C2190_ Gargoyle (Light): slams [weapon] -- c2190_ガーゴイル（灯火）：叩きつけ【武器】
-2190120 C2190_ Gargoyle (Light): Guard posture: slams [weapon] -- c2190_ガーゴイル（灯火）：ガード体勢：叩きつけ【武器】
-2190130 C2190_ Gargoyle (Light): Guard Posture: Large ignition [weapon] -- c2190_ガーゴイル（灯火）：ガード体勢：大発火【武器】
-2190140 C2190_ Gargoyle (Light): Slams from the sky [weapon] -- c2190_ガーゴイル（灯火）：上空から叩きつけ【武器】
-2190141 C2190_ Gargoyle (Light): Slams from the sky [body] -- c2190_ガーゴイル（灯火）：上空から叩きつけ【体】
-2190150 C2190_ Gargoyle (Light): Fire attack from above [weapon] -- c2190_ガーゴイル（灯火）：上空から発火攻撃【武器】
-2190151 C2190_ Gargoyle (Light): Fire attack from the sky [body] -- c2190_ガーゴイル（灯火）：上空から発火攻撃【体】
-2190160 C2190_ Gargoyle (Light): Inverted from the sky [weapon] -- c2190_ガーゴイル（灯火）：上空から反転して叩きつけ【武器】
-2190161 C2190_ Gargoyle (Light): Inverted from the sky [body] -- c2190_ガーゴイル（灯火）：上空から反転して叩きつけ【体】
-2190170 C2190_ Gargoyle (Light): Additional Saigi [weapon] -- c2190_ガーゴイル（灯火）：追加薙ぎ払い【武器】
-2190180 C2190_ Gargoyle (Light): previous step slapping [weapon] -- c2190_ガーゴイル（灯火）：前ステップ叩き【武器】
-2190181 C2190_ Gargoyle (Light): Front step slapping [body] -- c2190_ガーゴイル（灯火）：前ステップ叩き【体】
-2190190 C2190_ Gargoyle (Light): Whack falling [weapon] -- c2190_ガーゴイル（灯火）：薙ぎ下がり【武器】
-2190191 C2190_ Gargoyle (Light): Whack falling [body] -- c2190_ガーゴイル（灯火）：薙ぎ下がり【体】
-2190300 C2190_ Gargoyle (Spear): Thrust 1-1 [Weapon] -- c2190_ガーゴイル（槍）：突き１-１【武器】
-2190301 C2190_ Gargoyle (Spear): Thrust 1-2: Strong thrust [Weapon] -- c2190_ガーゴイル（槍）：突き１-２：強突き【武器】
-2190302 C2190_ Gargoyle (Spear): Butt 1-3: Poke slams [weapon: thrust] -- c2190_ガーゴイル（槍）：突き１-３：突き飛行叩きつけ【武器：突き】
-2190303 C2190_ Gargoyle (Spear): Butt 1-3: Poke slams [weapon: slapping] -- c2190_ガーゴイル（槍）：突き１-３：突き飛行叩きつけ【武器：叩き】
-2190304 C2190_ Gargoyle (Spear): Butt 1-3: Poke slams [body] -- c2190_ガーゴイル（槍）：突き１-３：突き飛行叩きつけ【体】
-2190310 C2190_ Gargoyle (Spear): rush [Weapon] -- c2190_ガーゴイル（槍）：突進【武器】
-2190311 C2190_ Gargoyle (Spear): Rush [body] -- c2190_ガーゴイル（槍）：突進【体】
-2190320 C2190_ Gargoyle (Spear): Guard Posture: Shield tock [Weapon] -- c2190_ガーゴイル（槍）：ガード体勢：盾チク【武器】
-2190321 C2190_ Gargoyle (Spear): Guard Posture: Shield tock [pre-piercing swing attack] -- c2190_ガーゴイル（槍）：ガード体勢：盾チク【突き刺し前振り回し攻撃】
-2190330 C2190_ Gargoyle (Spear): Guard Posture: rush [weapon] -- c2190_ガーゴイル（槍）：ガード体勢：突進【武器】
-2190331 C2190_ Gargoyle (Spear): Guard Posture: rush [body] -- c2190_ガーゴイル（槍）：ガード体勢：突進【体】
-2190340 C2190_ Gargoyle (Spear): Swinging from the sky [weapon] -- c2190_ガーゴイル（槍）：上空から振り上げ【武器】
-2190341 C2190_ Gargoyle (Spear): Swinging from the sky [body] -- c2190_ガーゴイル（槍）：上空から振り上げ【体】
-2190350 C2190_ Gargoyle (Spear): Dive attack [weapon] aiming from the sky -- c2190_ガーゴイル（槍）：上空から狙って急降下攻撃【武器】
-2190351 C2190_ Gargoyle (Spear): Dive attack [body] aiming from the sky -- c2190_ガーゴイル（槍）：上空から狙って急降下攻撃【体】
-2190360 C2190_ Gargoyle (Spear): continuous thrust from the Sky 1 [weapon] -- c2190_ガーゴイル（槍）：上空から連続突き1【武器】
-2190361 C2190_ Gargoyle (Spear): continuous thrust from the Sky 2 [weapon] -- c2190_ガーゴイル（槍）：上空から連続突き2【武器】
-2190362 C2190_ Gargoyle (Spear): continuous thrust from the Sky 3 [weapon] -- c2190_ガーゴイル（槍）：上空から連続突き3【武器】
-2190363 C2190_ Gargoyle (Spear): continuous thrust from the sky [body] -- c2190_ガーゴイル（槍）：上空から連続突き【体】
-2190370 C2190_ Gargoyle (Spear): Additional whack [weapon] -- c2190_ガーゴイル（槍）：追加薙ぎ【武器】
-2190380 C2190_ Gargoyle (Spear): gliding thrust [weapon] -- c2190_ガーゴイル（槍）：滑空突き【武器】
-2190381 C2190_ Gargoyle (Spear): gliding thrusting [flying body] -- c2190_ガーゴイル（槍）：滑空突き【飛行中体】
-2190382 C2190_ Gargoyle (Spear): gliding thrust [body] -- c2190_ガーゴイル（槍）：滑空突き【体】
+2190100 C2190_ Gargoyle (Light): Saigi (Weapon) -- c2190_ガーゴイル（灯火）：薙ぎ払い【武器】
+2190110 C2190_ Gargoyle (Light): slams (weapon) -- c2190_ガーゴイル（灯火）：叩きつけ【武器】
+2190120 C2190_ Gargoyle (Light): Guard posture: slams (weapon) -- c2190_ガーゴイル（灯火）：ガード体勢：叩きつけ【武器】
+2190130 C2190_ Gargoyle (Light): Guard Posture: Large ignition (weapon) -- c2190_ガーゴイル（灯火）：ガード体勢：大発火【武器】
+2190140 C2190_ Gargoyle (Light): Slams from the sky (weapon) -- c2190_ガーゴイル（灯火）：上空から叩きつけ【武器】
+2190141 C2190_ Gargoyle (Light): Slams from the sky (body) -- c2190_ガーゴイル（灯火）：上空から叩きつけ【体】
+2190150 C2190_ Gargoyle (Light): Fire attack from above (weapon) -- c2190_ガーゴイル（灯火）：上空から発火攻撃【武器】
+2190151 C2190_ Gargoyle (Light): Fire attack from the sky (body) -- c2190_ガーゴイル（灯火）：上空から発火攻撃【体】
+2190160 C2190_ Gargoyle (Light): Inverted from the sky (weapon) -- c2190_ガーゴイル（灯火）：上空から反転して叩きつけ【武器】
+2190161 C2190_ Gargoyle (Light): Inverted from the sky (body) -- c2190_ガーゴイル（灯火）：上空から反転して叩きつけ【体】
+2190170 C2190_ Gargoyle (Light): Additional Saigi (weapon) -- c2190_ガーゴイル（灯火）：追加薙ぎ払い【武器】
+2190180 C2190_ Gargoyle (Light): previous step slapping (weapon) -- c2190_ガーゴイル（灯火）：前ステップ叩き【武器】
+2190181 C2190_ Gargoyle (Light): Front step slapping (body) -- c2190_ガーゴイル（灯火）：前ステップ叩き【体】
+2190190 C2190_ Gargoyle (Light): Whack falling (weapon) -- c2190_ガーゴイル（灯火）：薙ぎ下がり【武器】
+2190191 C2190_ Gargoyle (Light): Whack falling (body) -- c2190_ガーゴイル（灯火）：薙ぎ下がり【体】
+2190300 C2190_ Gargoyle (Spear): Thrust 1-1 (Weapon) -- c2190_ガーゴイル（槍）：突き１-１【武器】
+2190301 C2190_ Gargoyle (Spear): Thrust 1-2: Strong thrust (Weapon) -- c2190_ガーゴイル（槍）：突き１-２：強突き【武器】
+2190302 C2190_ Gargoyle (Spear): Butt 1-3: Poke slams (weapon: thrust) -- c2190_ガーゴイル（槍）：突き１-３：突き飛行叩きつけ【武器：突き】
+2190303 C2190_ Gargoyle (Spear): Butt 1-3: Poke slams (weapon: slapping) -- c2190_ガーゴイル（槍）：突き１-３：突き飛行叩きつけ【武器：叩き】
+2190304 C2190_ Gargoyle (Spear): Butt 1-3: Poke slams (body) -- c2190_ガーゴイル（槍）：突き１-３：突き飛行叩きつけ【体】
+2190310 C2190_ Gargoyle (Spear): rush (Weapon) -- c2190_ガーゴイル（槍）：突進【武器】
+2190311 C2190_ Gargoyle (Spear): Rush (body) -- c2190_ガーゴイル（槍）：突進【体】
+2190320 C2190_ Gargoyle (Spear): Guard Posture: Shield tock (Weapon) -- c2190_ガーゴイル（槍）：ガード体勢：盾チク【武器】
+2190321 C2190_ Gargoyle (Spear): Guard Posture: Shield tock (pre-piercing swing attack) -- c2190_ガーゴイル（槍）：ガード体勢：盾チク【突き刺し前振り回し攻撃】
+2190330 C2190_ Gargoyle (Spear): Guard Posture: rush (weapon) -- c2190_ガーゴイル（槍）：ガード体勢：突進【武器】
+2190331 C2190_ Gargoyle (Spear): Guard Posture: rush (body) -- c2190_ガーゴイル（槍）：ガード体勢：突進【体】
+2190340 C2190_ Gargoyle (Spear): Swinging from the sky (weapon) -- c2190_ガーゴイル（槍）：上空から振り上げ【武器】
+2190341 C2190_ Gargoyle (Spear): Swinging from the sky (body) -- c2190_ガーゴイル（槍）：上空から振り上げ【体】
+2190350 C2190_ Gargoyle (Spear): Dive attack (weapon) aiming from the sky -- c2190_ガーゴイル（槍）：上空から狙って急降下攻撃【武器】
+2190351 C2190_ Gargoyle (Spear): Dive attack (body) aiming from the sky -- c2190_ガーゴイル（槍）：上空から狙って急降下攻撃【体】
+2190360 C2190_ Gargoyle (Spear): continuous thrust from the Sky 1 (weapon) -- c2190_ガーゴイル（槍）：上空から連続突き1【武器】
+2190361 C2190_ Gargoyle (Spear): continuous thrust from the Sky 2 (weapon) -- c2190_ガーゴイル（槍）：上空から連続突き2【武器】
+2190362 C2190_ Gargoyle (Spear): continuous thrust from the Sky 3 (weapon) -- c2190_ガーゴイル（槍）：上空から連続突き3【武器】
+2190363 C2190_ Gargoyle (Spear): continuous thrust from the sky (body) -- c2190_ガーゴイル（槍）：上空から連続突き【体】
+2190370 C2190_ Gargoyle (Spear): Additional whack (weapon) -- c2190_ガーゴイル（槍）：追加薙ぎ【武器】
+2190380 C2190_ Gargoyle (Spear): gliding thrust (weapon) -- c2190_ガーゴイル（槍）：滑空突き【武器】
+2190381 C2190_ Gargoyle (Spear): gliding thrusting (flying body) -- c2190_ガーゴイル（槍）：滑空突き【飛行中体】
+2190382 C2190_ Gargoyle (Spear): gliding thrust (body) -- c2190_ガーゴイル（槍）：滑空突き【体】
 2190600 c2190_ Gargoyle (Common): Wings -- c2190_ガーゴイル（共通）：翼
 2190700 C2190_ Gargoyle (Light): Saigi: Fire Bullets -- c2190_ガーゴイル（灯火）：薙ぎ払い：炎弾
 2190701 C2190_ Gargoyle (Light): Saigi: Flames then (fire splashes) -- c2190_ガーゴイル（灯火）：薙ぎ払い：炎弾その後（火飛沫）
@@ -1563,7 +1563,7 @@
 3110093 Spider of c3110_: rampage: Four Legs -- c3110_蝕の蜘蛛：暴れまわる：前四本足
 3110700 Spider of c3110_: Exhale: Ground -- c3110_蝕の蜘蛛：蝕を吐く：地面
 3110710 c3110_: Smoke Screen -- c3110_蝕の蜘蛛：煙幕
-3110800 c3110_ common attack [obj good small, large] -- c3110_共通攻撃【OBJダメ小・大型】
+3110800 c3110_ common attack (obj good small, large) -- c3110_共通攻撃【OBJダメ小・大型】
 3120010 c3120_ Mori no sacred beast: Beat with a cane -- c3120_森の霊獣：杖で殴る
 3120020 c3120_ Mori no sacred beast: Hit with a cane: depression -- c3120_森の霊獣：杖で殴る：踏み込み大
 3120030 C3120_ Forest Sacred Beast: Beat with a cane: left and right side -- c3120_森の霊獣：杖で殴る：左右側面
@@ -1673,13 +1673,13 @@
 3160031 C3160_ Dragon's Guardian Knight: Axe Swing -- c3160_竜の守護騎士：斧振り降ろし
 3160040 C3160_ Dragon's Guardian Knight: Axe turned attack -- c3160_竜の守護騎士：斧振り向き攻撃
 3160050 C3160_ Dragon's Guardian Knight: Shield turned attack -- c3160_竜の守護騎士：盾振り向き攻撃
-3160200 C3160_ Dragon's Guardian Knight: [HU] Jump Shield knocked back against -- c3160_竜の守護騎士：[HU]ジャンプ盾叩き付け
-3160210 C3160_ Dragon's Guardian Knight: [HU] Derived Sword -- c3160_竜の守護騎士：[HU]派生斬り
-3160220 C3160_ Dragon's Guardian Knight: [HU] Shield knocked back against -- c3160_竜の守護騎士：[HU]盾叩き付け
-3160230 C3160_ Dragon's Guardian Knight: [HU] Shield Bash added -- c3160_竜の守護騎士：[HU]シールドバッシュ追加
-3160240 C3160_ Dragon's Guardian Knight: [HU] Shield Combo 1 -- c3160_竜の守護騎士：[HU]盾コンボ1
-3160250 C3160_ Dragon's Guardian Knight: [HU] Shield guillotine -- c3160_竜の守護騎士：[HU]盾ギロチン
-3160260 C3160_ Dragon's Guardian Knight: [HU] Gurdcancell Bash -- c3160_竜の守護騎士：[HU]ガードキャンセルバッシュ
+3160200 C3160_ Dragon's Guardian Knight: (HU) Jump Shield knocked back against -- c3160_竜の守護騎士：(HU)ジャンプ盾叩き付け
+3160210 C3160_ Dragon's Guardian Knight: (HU) Derived Sword -- c3160_竜の守護騎士：(HU)派生斬り
+3160220 C3160_ Dragon's Guardian Knight: (HU) Shield knocked back against -- c3160_竜の守護騎士：(HU)盾叩き付け
+3160230 C3160_ Dragon's Guardian Knight: (HU) Shield Bash added -- c3160_竜の守護騎士：(HU)シールドバッシュ追加
+3160240 C3160_ Dragon's Guardian Knight: (HU) Shield Combo 1 -- c3160_竜の守護騎士：(HU)盾コンボ1
+3160250 C3160_ Dragon's Guardian Knight: (HU) Shield guillotine -- c3160_竜の守護騎士：(HU)盾ギロチン
+3160260 C3160_ Dragon's Guardian Knight: (HU) Gurdcancell Bash -- c3160_竜の守護騎士：(HU)ガードキャンセルバッシュ
 3160270 C3160_ Dragon's Guardian Knight: Arts _ Rush Dragon Hunt: Assault -- c3160_竜の守護騎士：アーツ_突進竜狩り：突撃
 3160280 C3160_ Dragon's patron Knight: arts _ extensive whack -- c3160_竜の守護騎士：アーツ_広範囲薙ぎ
 3160290 C3160_ Dragon's Guardian Knight: the Arts _ Shockwave: Axe -- c3160_竜の守護騎士：アーツ_衝撃波:斧
@@ -2126,62 +2126,62 @@
 5270320 C5270_ Tracker _3032 Attack _ Finish -- c5270_追跡者_3032突進攻撃_フィニッシュ
 5270330 c5270_ Tracker _3033 Foot Sword -- c5270_追跡者_3033足元斬り
 5270410 _4100 Attack by c5270_ Tracker -- c5270_追跡者_4100投げ攻撃
-5270500 c5270_ tracker _100_3000 [HU] fall-down thrust sword -- c5270_追跡者_100_3000[HU]倒れ込み突き二段 炎剣
-5270501 c5270_ tracker _100_3000 [HU] fall into a two-stage caries sword -- c5270_追跡者_100_3000[HU]倒れ込み突き二段 蝕剣
-5270510 c5270_ tracker _100_3001 [HU] behind the attack two-stage caries sword -- c5270_追跡者_100_3001[HU]背後叩きつけ攻撃二段 蝕剣
-5270511 c5270_ tracker _100_3001 [HU] slams attack two-tiered fire sword -- c5270_追跡者_100_3001[HU]背後叩きつけ攻撃二段 炎剣
-5270520 c5270_ tracker _100_3002 [HU] Eclipse explosion two-stage warning -- c5270_追跡者_100_3002[HU]蝕爆発二段 予兆爆発
-5270521 c5270_ tracker _100_3002 [HU] Eclipse explosion stage explosion -- c5270_追跡者_100_3002[HU]蝕爆発二段 爆発
-5270522 c5270_ tracker _100_3002 [HU] caries explosion two-stage caries sword -- c5270_追跡者_100_3002[HU]蝕爆発二段 蝕剣
-5270530 c5270_ tracker _100_3003 [HU] Right Saigi -- c5270_追跡者_100_3003[HU]右薙ぎ払い
-5270540 c5270_ tracker _100_3004 [HU] left Saigi -- c5270_追跡者_100_3004[HU]左薙ぎ払い
-5270550 c5270_ tracker _100_3005 [HU] Saigi 1 second firing -- c5270_追跡者_100_3005[HU]二連薙ぎ払い 1撃目
-5270551 c5270_ tracker _100_3005 [HU] double Saigi second firing -- c5270_追跡者_100_3005[HU]二連薙ぎ払い 2撃目
-5270560 c5270_ tracker _100_3006 [HU] Saigi -- c5270_追跡者_100_3006[HU]薙ぎ払い
-5270570 c5270_ tracker _100_3007 [HU] throwing start and caries sword two simultaneous -- c5270_追跡者_100_3007[HU]投げ始動技 蝕剣 2本同時
-5270571 c5270_ tracker _100_3007 [HU] throwing starter fire Sword two simultaneously -- c5270_追跡者_100_3007[HU]投げ始動技 炎剣 2本同時
-5270580 c5270_ tracker _100_3008 [HU] Rise of the Shook sword -- c5270_追跡者_100_3008[HU]立ち上がり二連振り払い 蝕剣
-5270581 c5270_ tracker _100_3008 [HU] Rise of the Shook sword -- c5270_追跡者_100_3008[HU]立ち上がり二連振り払い 炎剣
-5270590 c5270_ tracker _100_3009 [HU] frontal slams 2 simultaneous attack of caries sword -- c5270_追跡者_100_3009[HU]正面叩きつけ攻撃 蝕剣 2本同時
-5270591 c5270_ tracker _100_3009 [HU] frontal slams attack fire sword two simultaneous -- c5270_追跡者_100_3009[HU]正面叩きつけ攻撃 炎剣 2本同時
-5270600 c5270_ tracker _100_3010 [HU] The left-wing raw attack from a slams -- c5270_追跡者_100_3010[HU]叩きつけからの左派生攻撃 1撃目
-5270601 c5270_ tracker _100_3010 [HU] second-wing attack from the slams -- c5270_追跡者_100_3010[HU]叩きつけからの左派生攻撃 2撃目
-5270610 Front-derived attack from c5270_ tracker _100_3011 [HU] slams -- c5270_追跡者_100_3011[HU]叩きつけからの正面派生攻撃
-5270620 Right-derived attack from c5270_ tracker _100_3012 [HU] slams -- c5270_追跡者_100_3012[HU]叩きつけからの右派生攻撃
-5270630 c5270_ tracker _100_3013 [HU] both the rise and -- c5270_追跡者_100_3013[HU]立ち上がり両手振りおろし攻撃 蝕剣 2本同時
-5270631 c5270_ tracker _100_3013 [HU] both hand-in-hand hand-attack Fire Sword two simultaneous -- c5270_追跡者_100_3013[HU]立ち上がり両手振りおろし攻撃 炎剣 2本同時
-5270640 c5270_ tracker _100_3014 [HU] left step rotation sword -- c5270_追跡者_100_3014[HU]左ステップ回転斬り 蝕剣
-5270641 c5270_ tracker _100_3014 [HU] left step rotation Sword of Flame -- c5270_追跡者_100_3014[HU]左ステップ回転斬り 炎剣
-5270650 c5270_ tracker _100_3015 [HU] Right step sword of Flame -- c5270_追跡者_100_3015[HU]右ステップ斬り 炎剣
-5270651 c5270_ tracker _100_3015 [HU] Right step sword of caries -- c5270_追跡者_100_3015[HU]右ステップ斬り 蝕剣
-5270660 c5270_ tracker _100_3016 [HU] rush attack 1 caries -- c5270_追跡者_100_3016[HU]ラッシュ攻撃 1蝕
-5270661 c5270_ tracker _100_3016 [HU] Rush Attack 2 Flames -- c5270_追跡者_100_3016[HU]ラッシュ攻撃 2炎
-5270662 c5270_ tracker _100_3016 [HU] rush Attack 3 caries -- c5270_追跡者_100_3016[HU]ラッシュ攻撃 3蝕
-5270663 c5270_ tracker _100_3016 [HU] Rush Attack 4 Flames -- c5270_追跡者_100_3016[HU]ラッシュ攻撃 4炎
-5270664 c5270_ tracker _100_3016 [HU] Rush Attack 5 Flames -- c5270_追跡者_100_3016[HU]ラッシュ攻撃 5炎
-5270665 c5270_ tracker _100_3016 [HU] lash attack 6 caries -- c5270_追跡者_100_3016[HU]ラッシュ攻撃 6蝕
-5270666 c5270_ tracker _100_3016 [HU] Rush Attack 7 Flames -- c5270_追跡者_100_3016[HU]ラッシュ攻撃 7炎
-5270667 c5270_ tracker _100_3016 [HU] rush attack 8 caries -- c5270_追跡者_100_3016[HU]ラッシュ攻撃 8蝕
-5270668 c5270_ tracker _100_3016 [HU] Rush Attack 9 Flames -- c5270_追跡者_100_3016[HU]ラッシュ攻撃 9炎
-5270670 c5270_ tracker _100_3017 [HU] Triple combo 1 Eclipse 2 simultaneous -- c5270_追跡者_100_3017[HU]三連コンボ 1蝕 2本同時
-5270671 c5270_ tracker _100_3017 [HU] Triple combo 1 Flame 2 simultaneous -- c5270_追跡者_100_3017[HU]三連コンボ 1炎 2本同時
-5270672 c5270_ tracker _100_3017 [HU] Triple combo 2 Flames two at a time -- c5270_追跡者_100_3017[HU]三連コンボ 2炎 2本同時
-5270673 c5270_ tracker _100_3017 [HU] Triple combo 2 caries 2 simultaneous -- c5270_追跡者_100_3017[HU]三連コンボ 2蝕 2本同時
-5270674 c5270_ tracker _100_3017 [HU] Triple combo 3 caries 2 simultaneous -- c5270_追跡者_100_3017[HU]三連コンボ 3蝕 2本同時
-5270675 c5270_ tracker _100_3017 [HU] Triple combo 3 Flames two at a time -- c5270_追跡者_100_3017[HU]三連コンボ 3炎 2本同時
-5270680 c5270_ tracker _100_3018 [HU] Rotation attack _ Starting Flame Sword -- c5270_追跡者_100_3018[HU]回転攻撃_始動 炎剣
-5270681 c5270_ tracker _100_3018 [HU] Rotation attack _ Starting caries Sword -- c5270_追跡者_100_3018[HU]回転攻撃_始動 蝕剣
-5270690 c5270_ tracker _100_3019 [HU] rotation attack loop caries Sword two simultaneous -- c5270_追跡者_100_3019[HU]回転攻撃ループ 蝕剣 2本同時
-5270691 c5270_ tracker _100_3019 [HU] rotation attack loop Flame Sword two simultaneous -- c5270_追跡者_100_3019[HU]回転攻撃ループ 炎剣 2本同時
-5270700 c5270_ tracker _100_3020 [HU] Revolving attack _ Finish caries Sword -- c5270_追跡者_100_3020[HU]回転攻撃_フィニッシュ 蝕剣
-5270701 c5270_ tracker _100_3020 [HU] Rotation attack _ Finish Flame Sword -- c5270_追跡者_100_3020[HU]回転攻撃_フィニッシュ 炎剣
-5270710 c5270_ tracker _100_3021 [HU] jump attack Flame Stab -- c5270_追跡者_100_3021[HU]ジャンプ攻撃 炎刺し
-5270711 c5270_ tracker _100_3021 [HU] Jump attack caries -- c5270_追跡者_100_3021[HU]ジャンプ攻撃 蝕払い
-5270720 c5270_ tracker _100_3022 [HU] right attack (90 degree swivel) caries Sword -- c5270_追跡者_100_3022[HU]右旋回攻撃(90度旋回) 蝕剣
-5270721 c5270_ tracker _100_3022 [HU] right attack (90 degree turning) caries column -- c5270_追跡者_100_3022[HU]右旋回攻撃(90度旋回) 蝕柱
-5270730 c5270_ tracker _100_3023 [HU] left attack (90 degree swivel) Flame Sword -- c5270_追跡者_100_3023[HU]左旋回攻撃（90度旋回） 炎剣
-5270731 c5270_ tracker _100_3023 [HU] left attack (90 degree turning) Flame pillar -- c5270_追跡者_100_3023[HU]左旋回攻撃（90度旋回） 炎柱
-5270740 c5270_ tracker _100_3024 [HU] frontal thrust attack caries Sword -- c5270_追跡者_100_3024[HU]正面突き攻撃 蝕剣
-5270750 c5270_ tracker _100_3025 [HU] turned Saigi 1 two simultaneous caries -- c5270_追跡者_100_3025[HU]振り向き薙ぎ払い 1蝕 2本同時
-5270751 c5270_ tracker _100_3025 [HU] turned Saigi 1 Flames 2 simultaneous -- c5270_追跡者_100_3025[HU]振り向き薙ぎ払い 1炎 2本同時
+5270500 c5270_ tracker _100_3000 (HU) fall-down thrust sword -- c5270_追跡者_100_3000(HU)倒れ込み突き二段 炎剣
+5270501 c5270_ tracker _100_3000 (HU) fall into a two-stage caries sword -- c5270_追跡者_100_3000(HU)倒れ込み突き二段 蝕剣
+5270510 c5270_ tracker _100_3001 (HU) behind the attack two-stage caries sword -- c5270_追跡者_100_3001(HU)背後叩きつけ攻撃二段 蝕剣
+5270511 c5270_ tracker _100_3001 (HU) slams attack two-tiered fire sword -- c5270_追跡者_100_3001(HU)背後叩きつけ攻撃二段 炎剣
+5270520 c5270_ tracker _100_3002 (HU) Eclipse explosion two-stage warning -- c5270_追跡者_100_3002(HU)蝕爆発二段 予兆爆発
+5270521 c5270_ tracker _100_3002 (HU) Eclipse explosion stage explosion -- c5270_追跡者_100_3002(HU)蝕爆発二段 爆発
+5270522 c5270_ tracker _100_3002 (HU) caries explosion two-stage caries sword -- c5270_追跡者_100_3002(HU)蝕爆発二段 蝕剣
+5270530 c5270_ tracker _100_3003 (HU) Right Saigi -- c5270_追跡者_100_3003(HU)右薙ぎ払い
+5270540 c5270_ tracker _100_3004 (HU) left Saigi -- c5270_追跡者_100_3004(HU)左薙ぎ払い
+5270550 c5270_ tracker _100_3005 (HU) Saigi 1 second firing -- c5270_追跡者_100_3005(HU)二連薙ぎ払い 1撃目
+5270551 c5270_ tracker _100_3005 (HU) double Saigi second firing -- c5270_追跡者_100_3005(HU)二連薙ぎ払い 2撃目
+5270560 c5270_ tracker _100_3006 (HU) Saigi -- c5270_追跡者_100_3006(HU)薙ぎ払い
+5270570 c5270_ tracker _100_3007 (HU) throwing start and caries sword two simultaneous -- c5270_追跡者_100_3007(HU)投げ始動技 蝕剣 2本同時
+5270571 c5270_ tracker _100_3007 (HU) throwing starter fire Sword two simultaneously -- c5270_追跡者_100_3007(HU)投げ始動技 炎剣 2本同時
+5270580 c5270_ tracker _100_3008 (HU) Rise of the Shook sword -- c5270_追跡者_100_3008(HU)立ち上がり二連振り払い 蝕剣
+5270581 c5270_ tracker _100_3008 (HU) Rise of the Shook sword -- c5270_追跡者_100_3008(HU)立ち上がり二連振り払い 炎剣
+5270590 c5270_ tracker _100_3009 (HU) frontal slams 2 simultaneous attack of caries sword -- c5270_追跡者_100_3009(HU)正面叩きつけ攻撃 蝕剣 2本同時
+5270591 c5270_ tracker _100_3009 (HU) frontal slams attack fire sword two simultaneous -- c5270_追跡者_100_3009(HU)正面叩きつけ攻撃 炎剣 2本同時
+5270600 c5270_ tracker _100_3010 (HU) The left-wing raw attack from a slams -- c5270_追跡者_100_3010(HU)叩きつけからの左派生攻撃 1撃目
+5270601 c5270_ tracker _100_3010 (HU) second-wing attack from the slams -- c5270_追跡者_100_3010(HU)叩きつけからの左派生攻撃 2撃目
+5270610 Front-derived attack from c5270_ tracker _100_3011 (HU) slams -- c5270_追跡者_100_3011(HU)叩きつけからの正面派生攻撃
+5270620 Right-derived attack from c5270_ tracker _100_3012 (HU) slams -- c5270_追跡者_100_3012(HU)叩きつけからの右派生攻撃
+5270630 c5270_ tracker _100_3013 (HU) both the rise and -- c5270_追跡者_100_3013(HU)立ち上がり両手振りおろし攻撃 蝕剣 2本同時
+5270631 c5270_ tracker _100_3013 (HU) both hand-in-hand hand-attack Fire Sword two simultaneous -- c5270_追跡者_100_3013(HU)立ち上がり両手振りおろし攻撃 炎剣 2本同時
+5270640 c5270_ tracker _100_3014 (HU) left step rotation sword -- c5270_追跡者_100_3014(HU)左ステップ回転斬り 蝕剣
+5270641 c5270_ tracker _100_3014 (HU) left step rotation Sword of Flame -- c5270_追跡者_100_3014(HU)左ステップ回転斬り 炎剣
+5270650 c5270_ tracker _100_3015 (HU) Right step sword of Flame -- c5270_追跡者_100_3015(HU)右ステップ斬り 炎剣
+5270651 c5270_ tracker _100_3015 (HU) Right step sword of caries -- c5270_追跡者_100_3015(HU)右ステップ斬り 蝕剣
+5270660 c5270_ tracker _100_3016 (HU) rush attack 1 caries -- c5270_追跡者_100_3016(HU)ラッシュ攻撃 1蝕
+5270661 c5270_ tracker _100_3016 (HU) Rush Attack 2 Flames -- c5270_追跡者_100_3016(HU)ラッシュ攻撃 2炎
+5270662 c5270_ tracker _100_3016 (HU) rush Attack 3 caries -- c5270_追跡者_100_3016(HU)ラッシュ攻撃 3蝕
+5270663 c5270_ tracker _100_3016 (HU) Rush Attack 4 Flames -- c5270_追跡者_100_3016(HU)ラッシュ攻撃 4炎
+5270664 c5270_ tracker _100_3016 (HU) Rush Attack 5 Flames -- c5270_追跡者_100_3016(HU)ラッシュ攻撃 5炎
+5270665 c5270_ tracker _100_3016 (HU) lash attack 6 caries -- c5270_追跡者_100_3016(HU)ラッシュ攻撃 6蝕
+5270666 c5270_ tracker _100_3016 (HU) Rush Attack 7 Flames -- c5270_追跡者_100_3016(HU)ラッシュ攻撃 7炎
+5270667 c5270_ tracker _100_3016 (HU) rush attack 8 caries -- c5270_追跡者_100_3016(HU)ラッシュ攻撃 8蝕
+5270668 c5270_ tracker _100_3016 (HU) Rush Attack 9 Flames -- c5270_追跡者_100_3016(HU)ラッシュ攻撃 9炎
+5270670 c5270_ tracker _100_3017 (HU) Triple combo 1 Eclipse 2 simultaneous -- c5270_追跡者_100_3017(HU)三連コンボ 1蝕 2本同時
+5270671 c5270_ tracker _100_3017 (HU) Triple combo 1 Flame 2 simultaneous -- c5270_追跡者_100_3017(HU)三連コンボ 1炎 2本同時
+5270672 c5270_ tracker _100_3017 (HU) Triple combo 2 Flames two at a time -- c5270_追跡者_100_3017(HU)三連コンボ 2炎 2本同時
+5270673 c5270_ tracker _100_3017 (HU) Triple combo 2 caries 2 simultaneous -- c5270_追跡者_100_3017(HU)三連コンボ 2蝕 2本同時
+5270674 c5270_ tracker _100_3017 (HU) Triple combo 3 caries 2 simultaneous -- c5270_追跡者_100_3017(HU)三連コンボ 3蝕 2本同時
+5270675 c5270_ tracker _100_3017 (HU) Triple combo 3 Flames two at a time -- c5270_追跡者_100_3017(HU)三連コンボ 3炎 2本同時
+5270680 c5270_ tracker _100_3018 (HU) Rotation attack _ Starting Flame Sword -- c5270_追跡者_100_3018(HU)回転攻撃_始動 炎剣
+5270681 c5270_ tracker _100_3018 (HU) Rotation attack _ Starting caries Sword -- c5270_追跡者_100_3018(HU)回転攻撃_始動 蝕剣
+5270690 c5270_ tracker _100_3019 (HU) rotation attack loop caries Sword two simultaneous -- c5270_追跡者_100_3019(HU)回転攻撃ループ 蝕剣 2本同時
+5270691 c5270_ tracker _100_3019 (HU) rotation attack loop Flame Sword two simultaneous -- c5270_追跡者_100_3019(HU)回転攻撃ループ 炎剣 2本同時
+5270700 c5270_ tracker _100_3020 (HU) Revolving attack _ Finish caries Sword -- c5270_追跡者_100_3020(HU)回転攻撃_フィニッシュ 蝕剣
+5270701 c5270_ tracker _100_3020 (HU) Rotation attack _ Finish Flame Sword -- c5270_追跡者_100_3020(HU)回転攻撃_フィニッシュ 炎剣
+5270710 c5270_ tracker _100_3021 (HU) jump attack Flame Stab -- c5270_追跡者_100_3021(HU)ジャンプ攻撃 炎刺し
+5270711 c5270_ tracker _100_3021 (HU) Jump attack caries -- c5270_追跡者_100_3021(HU)ジャンプ攻撃 蝕払い
+5270720 c5270_ tracker _100_3022 (HU) right attack (90 degree swivel) caries Sword -- c5270_追跡者_100_3022(HU)右旋回攻撃(90度旋回) 蝕剣
+5270721 c5270_ tracker _100_3022 (HU) right attack (90 degree turning) caries column -- c5270_追跡者_100_3022(HU)右旋回攻撃(90度旋回) 蝕柱
+5270730 c5270_ tracker _100_3023 (HU) left attack (90 degree swivel) Flame Sword -- c5270_追跡者_100_3023(HU)左旋回攻撃（90度旋回） 炎剣
+5270731 c5270_ tracker _100_3023 (HU) left attack (90 degree turning) Flame pillar -- c5270_追跡者_100_3023(HU)左旋回攻撃（90度旋回） 炎柱
+5270740 c5270_ tracker _100_3024 (HU) frontal thrust attack caries Sword -- c5270_追跡者_100_3024(HU)正面突き攻撃 蝕剣
+5270750 c5270_ tracker _100_3025 (HU) turned Saigi 1 two simultaneous caries -- c5270_追跡者_100_3025(HU)振り向き薙ぎ払い 1蝕 2本同時
+5270751 c5270_ tracker _100_3025 (HU) turned Saigi 1 Flames 2 simultaneous -- c5270_追跡者_100_3025(HU)振り向き薙ぎ払い 1炎 2本同時
 5270900 c5270_ Tracker _1500 Heat-up transition caries Vortex -- c5270_追跡者_1500ヒートアップ遷移 蝕の渦

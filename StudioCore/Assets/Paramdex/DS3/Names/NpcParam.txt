@@ -17,14 +17,14 @@
 10298 City Map intrusion NPC test -- 街マップ侵入NPCテスト
 10299 City map cooperation NPC Logic test -- 街マップ協力NPCロジックテスト
 20000 NPC Behavior Test 1 -- NPC挙動テスト1
-21000 21,000: [Multi NPC] Berserker: ■ Darkness 1 -- 21000：【マルチNPC】バーサーカー：街■闇霊1
-21100 21100: [multi-NPC] Sniper NPC: Sniper NPC: Super Distance -- 21100：【マルチNPC】スナイパーNPC：スナイパーNPC：超距離
-21200 21200: [Multi-NPC] Dragon Hunting Warrior: Bridge ★ White Spirits 1 -- 21200：【マルチNPC】竜狩りの戦士：橋★白霊1
-21300 21300: [Multi-NPC] Warrior fell in mid-★: Bridge White Spirit 2 -- 21300：【マルチNPC】志半ばで倒れた戦士：橋★白霊2
-21400 21400: [multi-NPC] blunt with healing: Forest ★ White Spirits 1_ -- 21400：【マルチNPC】鈍器持ち治癒使い：森★白霊1_道中
-21500 21500: [multi-NPC] Hit man: Mori ★ White Spirits 2_vs Elders -- 21500：【マルチNPC】一撃にかける男：森★白霊2_VS古老
-21800 21800: [multi-NPC] King's SS chief: Ojo 3 ■ Dark Spirits 1 -- 21800：【マルチNPC】王の親衛隊長：王城3■闇霊1
-22000 22,000: [Multi NPC] Paris love: The temple ★ White Spirits 2_ -- 22000：【マルチNPC】パリィ大好き：聖堂★白霊2_道中
+21000 21,000: (Multi NPC) Berserker: ■ Darkness 1 -- 21000：【マルチNPC】バーサーカー：街■闇霊1
+21100 21100: (multi-NPC) Sniper NPC: Sniper NPC: Super Distance -- 21100：【マルチNPC】スナイパーNPC：スナイパーNPC：超距離
+21200 21200: (Multi-NPC) Dragon Hunting Warrior: Bridge ★ White Spirits 1 -- 21200：【マルチNPC】竜狩りの戦士：橋★白霊1
+21300 21300: (Multi-NPC) Warrior fell in mid-★: Bridge White Spirit 2 -- 21300：【マルチNPC】志半ばで倒れた戦士：橋★白霊2
+21400 21400: (multi-NPC) blunt with healing: Forest ★ White Spirits 1_ -- 21400：【マルチNPC】鈍器持ち治癒使い：森★白霊1_道中
+21500 21500: (multi-NPC) Hit man: Mori ★ White Spirits 2_vs Elders -- 21500：【マルチNPC】一撃にかける男：森★白霊2_VS古老
+21800 21800: (multi-NPC) King's SS chief: Ojo 3 ■ Dark Spirits 1 -- 21800：【マルチNPC】王の親衛隊長：王城3■闇霊1
+22000 22,000: (Multi NPC) Paris love: The temple ★ White Spirits 2_ -- 22000：【マルチNPC】パリィ大好き：聖堂★白霊2_道中
 29000 Enemy NPC Warrior Ojo 1 Mausoleum side -- 敵NPC　戦士　王城1霊廟側
 29100 Enemy NPC Wizard Ojo 1 Mausoleum side -- 敵NPC　魔法使い　王城1霊廟側
 29200 Enemy NPC Hunter Ojo 1 Mausoleum side -- 敵NPC　狩人　王城1霊廟側

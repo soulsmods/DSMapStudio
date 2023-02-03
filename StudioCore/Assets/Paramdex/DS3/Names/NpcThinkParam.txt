@@ -44,10 +44,10 @@
 110054 Dead soldier (for a broken straight makeover. Only closer) -- 亡者兵士 （折れ直 変身用。近づくだけ）
 110060 Dead Soldier (Dagger) -- 亡者兵士 （短剣）
 110070 Dead Soldier (Common) special standby ※ When you become a combat state, change to another thought ID on the event side -- 亡者兵士 （共通）特殊待機時　※戦闘状態になったら、イベント側で別の思考IDに変更する
-110090 [Monster House] dead soldier (Straight sword) -- 【モンスターハウス】亡者兵士 （直剣）
-110091 [Monster House] dead soldier (Spear + large shield) -- 【モンスターハウス】亡者兵士 （槍＋大盾）
-110093 [Monster House] dead soldier (lantern) -- 【モンスターハウス】亡者兵士 （ランタン）
-110094 [For City Test] dead Sniper -- 【街テスト用】亡者スナイパー
+110090 (Monster House) dead soldier (Straight sword) -- 【モンスターハウス】亡者兵士 （直剣）
+110091 (Monster House) dead soldier (Spear + large shield) -- 【モンスターハウス】亡者兵士 （槍＋大盾）
+110093 (Monster House) dead soldier (lantern) -- 【モンスターハウス】亡者兵士 （ランタン）
+110094 (For City Test) dead Sniper -- 【街テスト用】亡者スナイパー
 110098 Dead soldier Test: Straight Sword + Shield -- 亡者兵士テスト用：直剣+盾
 110500 Dead Soldier (Large) _ Axe -- 亡者兵士（大）_斧
 110501 Dead Soldier (Large) _ Axe visibility Low Ojo 1 -- 亡者兵士（大）_斧 視界低い　王城1
@@ -287,7 +287,7 @@
 901302 Move sub-goal Test 3: Retreat Step -- 移動サブゴールテスト3:後退・ステップ
 901400 Masut Test -- masutテスト
 902000 Yoshihi damage Check -- yoshihiダメージチェック用
-999305 [FDP] Proto-wolf (weakening) -- 【FDP】プロト_ウルフ（弱化）
-999410 [FDP] Dead _ for covert confirmation -- 【FDP】亡者_隠密確認用
+999305 (FDP) Proto-wolf (weakening) -- 【FDP】プロト_ウルフ（弱化）
+999410 (FDP) Dead _ for covert confirmation -- 【FDP】亡者_隠密確認用
 999901 Team AI Reader test -- チームAIリーダーテスト
 999910 For sound Confirmation -- 音確認用

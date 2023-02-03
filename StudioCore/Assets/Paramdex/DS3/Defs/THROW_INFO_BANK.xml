@@ -11,41 +11,40 @@
     <Field Def="f32 Dist" />
     <Field Def="f32 DiffAngMin" />
     <Field Def="f32 DiffAngMax" />
-    <Field Def="f32 UpperYrange" />
-    <Field Def="f32 LowerYrange" />
-    <Field Def="f32 DiffAngMyToDef" />
+    <Field Def="f32 upperYRange" />
+    <Field Def="f32 lowerYRange" />
+    <Field Def="f32 diffAngMyToDef" />
     <Field Def="s32 throwTypeId" />
-    <Field Def="s32 atkAnimid = 40633" />
-    <Field Def="s32 defAnimId = 11010" />
+    <Field Def="s32 atkAnimId" />
+    <Field Def="s32 defAnimId" />
     <Field Def="s16 escHp" />
     <Field Def="s16 selfEscCycleTime" />
-    <Field Def="s16 SphereCastRadiusRateTop = 70" />
-    <Field Def="s16 SphereCastRadiusRateLow = 70" />
+    <Field Def="s16 sphereCastRadiusRateTop" />
+    <Field Def="s16 sphereCastRadiusRateLow" />
     <Field Def="u8 PadType = 1" />
     <Field Def="u8 AtkEnableState" />
-    <Field Def="u8 AtkSorbDmyId = 246" />
-    <Field Def="u8 DefSorbDmyId" />
-    <Field Def="u8 ThrowType" />
-    <Field Def="u8 SelfEscCycleInt" />
-    <Field Def="u8 DmyHasChrDirType" />
+    <Field Def="u8 throwFollowingType" />
+    <Field Def="dummy8 pad2[1]" />
+    <Field Def="u8 throwType" />
+    <Field Def="u8 selfEscCycleCnt" />
+    <Field Def="u8 dmyHasChrDirType" />
     <Field Def="u8 isTurnAtker:1 = 1" />
     <Field Def="u8 isSkipWepCate:1" />
     <Field Def="u8 isSkipSphereCast:1" />
-    <Field Def="u8 Unk1:1" />
-    <Field Def="u8 Unk2:1" />
-    <Field Def="u8 Unk3:1" />
-    <Field Def="u8 Unk4:1" />
-    <Field Def="u8 Unk5:1" />
-    <Field Def="s16 subAtkSorbDmyId = 246" />
-    <Field Def="s16 subDefSorbDmyId" />
-    <Field Def="f32 Dist2" />
-    <Field Def="f32 DiffAngMin2" />
-    <Field Def="f32 DiffAngMax2" />
-    <Field Def="f32 UpperYrange2" />
-    <Field Def="f32 LowerYrange2" />
-    <Field Def="f32 DiffAngMyToDef2" />
-    <Field Def="s32 performDmyId0 = -1" />
-    <Field Def="s32 performDmyId1 = -1" />
+    <Field Def="u8 isEnableCorrectPos_forThrowAdjust:1" />
+    <Field Def="u8 isEnableThrowFollowingFallAssist:1" />
+    <Field Def="u8 isEnableThrowFollowingFeedback:1" />
+    <Field Def="dummy8 pad0:2" />
+    <Field Def="s16 atkSorbDmyId" />
+    <Field Def="s16 defSorbDmyId" />
+    <Field Def="f32 Dist_start" />
+    <Field Def="f32 DiffAngMin_start" />
+    <Field Def="f32 DiffAngMax_start" />
+    <Field Def="f32 upperYRange_start" />
+    <Field Def="f32 lowerYRange_start" />
+    <Field Def="f32 diffAngMyToDef_start" />
+    <Field Def="s32 judgeRangeBasePosDmyId1 = -1" />
+    <Field Def="s32 judgeRangeBasePosDmyId2 = -1" />
     <Field Def="dummy8 pad1[32]" />
   </Fields>
 </PARAMDEF>

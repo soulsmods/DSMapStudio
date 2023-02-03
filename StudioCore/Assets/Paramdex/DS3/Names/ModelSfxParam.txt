@@ -1,7 +1,7 @@
 0 For testing -- テスト用
 80000 Message tombstone (before lighting) -- メッセージ墓石（点灯前）
 80010 Message tombstone (after lighting) -- メッセージ墓石（点灯後）
-1030000 [Ritual] Princess alternative obj -- 【儀式】皇女代替OBJ
+1030000 (Ritual) Princess alternative obj -- 【儀式】皇女代替OBJ
 1230000 Ojo Candlestick (Low) -- 王城燭台（低）
 1240000 Candle ver00 -- 蝋燭ver00
 1240001 Candle Ver01 -- 蝋燭ver01

@@ -1,9 +1,9 @@
 0 Barista -- バリスタ
 100 Bonfire -- 篝火
 350 M93_01 Candle Room Door -- m93_01 蝋燭部屋扉
-360 [Concept version] start door -- 【コンセプト版】スタート扉
-370 [Concept version] boss entrance -- 【コンセプト版】ボス入口
-371 [Concept version] boss exit -- 【コンセプト版】ボス出口
+360 (Concept version) start door -- 【コンセプト版】スタート扉
+370 (Concept version) boss entrance -- 【コンセプト版】ボス入口
+371 (Concept version) boss exit -- 【コンセプト版】ボス出口
 400 Small white Door -- 白扉（小）
 401 White Door (Medium) -- 白扉（中）
 402 Large White Door -- 白扉（大）
@@ -50,20 +50,20 @@
 2132 Candle Room: Pillar candle 1 (top) -- 【ロウソク部屋】柱ロウソク1(上)
 2133 Candle Room: Pillar Candle 2 (top) -- 【ロウソク部屋】柱ロウソク2(上)
 2134 Candle Room: Pillar Candle 3 (top) -- 【ロウソク部屋】柱ロウソク3(上)
-2135 [Candle room] pillar candle 4 (top) -- 【ロウソク部屋】柱ロウソク4(上)
-2136 [Candle Room] pillar candle 5 (top) -- 【ロウソク部屋】柱ロウソク5(上)
+2135 (Candle room) pillar candle 4 (top) -- 【ロウソク部屋】柱ロウソク4(上)
+2136 (Candle Room) pillar candle 5 (top) -- 【ロウソク部屋】柱ロウソク5(上)
 2137 Candle Room: Pillar Candle 6 (top) -- 【ロウソク部屋】柱ロウソク6(上)
-2138 [Candle Room] pillar candle 7 (top) -- 【ロウソク部屋】柱ロウソク7(上)
-2139 [Candle Room] pillar candle 8 (top) -- 【ロウソク部屋】柱ロウソク8(上)
+2138 (Candle Room) pillar candle 7 (top) -- 【ロウソク部屋】柱ロウソク7(上)
+2139 (Candle Room) pillar candle 8 (top) -- 【ロウソク部屋】柱ロウソク8(上)
 2140 Hung Incense Burner -- 吊るされた香炉
 2142 Candle Room: Pillar candle 1 (bottom) -- 【ロウソク部屋】柱ロウソク1(下)
-2143 [Candle Room] pillar candle 2 (bottom) -- 【ロウソク部屋】柱ロウソク2(下)
-2144 [Candle Room] pillar candle 3 (bottom) -- 【ロウソク部屋】柱ロウソク3(下)
-2145 [Candle room] pillar candle 4 (bottom) -- 【ロウソク部屋】柱ロウソク4(下)
-2146 [Candle Room] pillar candle 5 (bottom) -- 【ロウソク部屋】柱ロウソク5(下)
-2147 [Candle Room] pillar candle 6 (bottom) -- 【ロウソク部屋】柱ロウソク6(下)
-2148 [Candle Room] pillar candle 7 (bottom) -- 【ロウソク部屋】柱ロウソク7(下)
-2149 [Candle Room] pillar candle 8 (bottom) -- 【ロウソク部屋】柱ロウソク8(下)
+2143 (Candle Room) pillar candle 2 (bottom) -- 【ロウソク部屋】柱ロウソク2(下)
+2144 (Candle Room) pillar candle 3 (bottom) -- 【ロウソク部屋】柱ロウソク3(下)
+2145 (Candle room) pillar candle 4 (bottom) -- 【ロウソク部屋】柱ロウソク4(下)
+2146 (Candle Room) pillar candle 5 (bottom) -- 【ロウソク部屋】柱ロウソク5(下)
+2147 (Candle Room) pillar candle 6 (bottom) -- 【ロウソク部屋】柱ロウソク6(下)
+2148 (Candle Room) pillar candle 7 (bottom) -- 【ロウソク部屋】柱ロウソク7(下)
+2149 (Candle Room) pillar candle 8 (bottom) -- 【ロウソク部屋】柱ロウソク8(下)
 2150 Candlestick -- 燭台
 2160 Oil jar -- 油壷
 2170 Column -- 柱

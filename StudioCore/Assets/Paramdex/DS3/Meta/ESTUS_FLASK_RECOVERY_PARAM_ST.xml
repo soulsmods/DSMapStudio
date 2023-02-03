@@ -1,24 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
   <Field>
-	<recoveryCount0 AltName="Host" />
-	<recoveryCount1 AltName="Orb Invader" />
-	<recoveryCount2 AltName="Orb Invader (Warrior of Sunlight)" />
-	<recoveryCount3 AltName="Orb Invader (Mound-makers)" />
-	<recoveryCount4 AltName="Orb Invader (Sinners)" />
-	<recoveryCount5 AltName="Sign Invader" />
-	<recoveryCount6 AltName="Sign Invader (Warrior of Sunlight)" />
-	<recoveryCount7 AltName="Sign Invader (Mound-makers)" />
-	<recoveryCount8 AltName="Sign Invader (Sinners)" />
-	<recoveryCount9 AltName="Covenant Invader (Sinners)" />
-	<recoveryCount10 AltName="Covenant Invader (Rosaria)" />
-	<recoveryCount11 AltName="Covenant Invader (Watchdogs of Farron)" />
-	<recoveryCount12 AltName="Sign Phantom" />
-	<recoveryCount13 AltName="Sign Phantom (Warriors of Sunlight)" />
-	<recoveryCount14 AltName="Sign Phantom (Mound-makers)" />
-	<recoveryCount15 AltName="Sign Phantom (Sinners)" />
-	<recoveryCount16 AltName="Covenant Phantom (Blue Spirit)" />
-	<recoveryCount17 AltName="Covenant Invader (Aldrich Faithful)" />
+    <host AltName="Host" Wiki="Number of host est recovery" />
+    <invadeOrb_None AltName="Red Eye Orb - None" Wiki="The number of est recovery of the power of the orb whose invasion route is" />
+    <invadeOrb_Umbasa AltName="Red Eye Orb - Warriors of Sunlight" Wiki="The number of est recovery of the power of the orb whose invasion route is" />
+    <invadeOrb_Berserker AltName="Red Eye Orb - Mound-makers" Wiki="The number of est recovery of the power of the orb whose invasion route is" />
+    <invadeOrb_Sinners AltName="Red Eye Orb - Sinner" Wiki="The number of est recovery of the power of the orb whose invasion route is" />
+    <invadeSign_None AltName="Red Soapstone - None" Wiki="The number of est recovery of the power whose invasion route is a sign" />
+    <invadeSign_Umbasa AltName="Red Soapstone - Warriors of Sunlight" Wiki="The number of est recovery of the power whose invasion route is a sign" />
+    <invadeSign_Berserker AltName="Red Soapstone - Mound-makers" Wiki="The number of est recovery of the power whose invasion route is a sign" />
+    <invadeSign_Sinners AltName="Red Soapstone - Sinner" Wiki="The number of est recovery of the power whose invasion route is a sign" />
+    <invadeRing_Sinners AltName="Covenant Invasion - Sinner" Wiki="The number of est recovery of the power of the ring whose invasion route is" />
+    <invadeRing_Rosalia AltName="Covenant Invasion - Rosaria's Fingers" Wiki="The number of est recovery of the power of the ring whose invasion route is" />
+    <invadeRing_Forest AltName="Covenant Invasion - Watchdogs of Farron" Wiki="The number of est recovery of the power of the ring whose invasion route is" />
+    <coopSign_None AltName="White Soapstone - None" Wiki="The number of est recovery of the power whose cooperation route is a sign" />
+    <coopSign_Umbasa AltName="White Soapstone - Warriors of Sunlight" Wiki="The number of est recovery of the power whose cooperation route is a sign" />
+    <coopSign_Berserker AltName="White Soapstone - Mound-makers" Wiki="The number of est recovery of the power whose cooperation route is a sign" />
+    <coopSign_Sinners AltName="White Soapstone - Sinner" Wiki="The number of est recovery of the power whose cooperation route is a sign" />
+    <coopRing_RedHunter AltName="White Soapstone - Red Hunter" Wiki="Cooperation route is the number of est recovery of the power of the ring" />
+    <invadeRing_Anor AltName="Covenant Invasion - Darkmoon Blade" Wiki="The number of est recovery of the power of the ring whose invasion route is" />
+    <paramReplaceRate AltName="Replacement Rate" Wiki="Recovery number Parameter replacement rate" />
+    <paramReplaceId AltName="Replace ID" Wiki="Recovery number Parameter replacement destination ID" />
   </Field>
-  <Self />
+  <Self Wiki="Retrieve Charges For Estus Flask by killing enemies"/>
 </PARAMMETA>

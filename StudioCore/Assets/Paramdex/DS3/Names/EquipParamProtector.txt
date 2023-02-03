@@ -61,21 +61,21 @@
 402000 Dingy Gloves
 403000 Blood-Stained Skirt
 600000 Mask of the Mother
-601000 [Yamagishi] King of firewood test 1_ torso -- 【山岸】薪の王テスト１_胴
-602000 [Yamagishi] King of firewood test 1_ arm -- 【山岸】薪の王テスト１_腕
-603000 [Yamagishi] King of firewood test 1_ leg -- 【山岸】薪の王テスト１_脚
+601000 (Yamagishi) King of firewood test 1_ torso -- 【山岸】薪の王テスト１_胴
+602000 (Yamagishi) King of firewood test 1_ arm -- 【山岸】薪の王テスト１_腕
+603000 (Yamagishi) King of firewood test 1_ leg -- 【山岸】薪の王テスト１_脚
 610000 Mask of the Child
-611000 [Yamagishi] King of firewood test 2_ torso -- 【山岸】薪の王テスト２_胴
-612000 [Yamagishi] King of firewood test 2_ arm -- 【山岸】薪の王テスト２_腕
-613000 [Yamagishi] King of firewood test 2_ leg -- 【山岸】薪の王テスト２_脚
+611000 (Yamagishi) King of firewood test 2_ torso -- 【山岸】薪の王テスト２_胴
+612000 (Yamagishi) King of firewood test 2_ arm -- 【山岸】薪の王テスト２_腕
+613000 (Yamagishi) King of firewood test 2_ leg -- 【山岸】薪の王テスト２_脚
 620000 Fang Boar Helm
-621000 [Load check] memory check 1_ Torso -- 【負荷チェック】メモリチェック１_胴
-622000 [Load check] memory check 1_ arm -- 【負荷チェック】メモリチェック１_腕
-623000 [Load check] memory check 1_ leg -- 【負荷チェック】メモリチェック１_脚
+621000 (Load check) memory check 1_ Torso -- 【負荷チェック】メモリチェック１_胴
+622000 (Load check) memory check 1_ arm -- 【負荷チェック】メモリチェック１_腕
+623000 (Load check) memory check 1_ leg -- 【負荷チェック】メモリチェック１_脚
 630000 Gargoyle Helm
-631000 [Load check] memory check 2_ Torso -- 【負荷チェック】メモリチェック２_胴
-632000 [Load check] memory check 2_ arm -- 【負荷チェック】メモリチェック２_腕
-633000 [Load check] memory check 2_ leg -- 【負荷チェック】メモリチェック２_脚
+631000 (Load check) memory check 2_ Torso -- 【負荷チェック】メモリチェック２_胴
+632000 (Load check) memory check 2_ arm -- 【負荷チェック】メモリチェック２_腕
+633000 (Load check) memory check 2_ leg -- 【負荷チェック】メモリチェック２_脚
 640000 Black Sorcerer Hat
 641000 Black Sorcerer Cloak
 642000 Black Sorcerer Gauntlets
@@ -84,34 +84,34 @@
 651000 Elite Cleric Armor
 652000 Elite Cleric Gauntlets
 653000 Elite Cleric Leggings
-660000 [Load check] memory check 5_ head -- 【負荷チェック】メモリチェック５_頭
-661000 [Load check] memory check 5_ Torso -- 【負荷チェック】メモリチェック５_胴
-662000 [Load check] memory check 5_ arm -- 【負荷チェック】メモリチェック５_腕
-663000 [Load check] memory check 5_ leg -- 【負荷チェック】メモリチェック５_脚
-670000 [Load check] memory check 6_ head -- 【負荷チェック】メモリチェック６_頭
-671000 [Load check] memory check 6_ Torso -- 【負荷チェック】メモリチェック６_胴
-672000 [Load check] memory check 6_ arm -- 【負荷チェック】メモリチェック６_腕
-673000 [Load check] memory check 6_ leg -- 【負荷チェック】メモリチェック６_脚
-730000 [Proto] Gold Armor _ Head -- 【プロト】錬金鎧_頭
-731000 [Proto] Smelting gold armor _ torso -- 【プロト】錬金鎧_胴
-732000 [Proto] Wrought gold armor _ arms -- 【プロト】錬金鎧_腕
-733000 [Proto] Wrought gold armor _ legs -- 【プロト】錬金鎧_脚
-740000 [Proto] Hunter _ head -- 【プロト】ハンター_頭
-741000 [Proto] Hunter _ Torso -- 【プロト】ハンター_胴
-742000 [Proto] Hunter _ Arms -- 【プロト】ハンター_腕
-743000 [Proto] Hunter _ leg -- 【プロト】ハンター_脚
-750000 [Proto] Soldier _ head -- 【プロト】兵士_頭
-751000 [Proto] Soldier _ Torso -- 【プロト】兵士_胴
-752000 [Proto] Soldiers _ arms -- 【プロト】兵士_腕
-753000 [Proto] Soldier _ leg -- 【プロト】兵士_脚
-760000 [Proto] Covert _ head -- 【プロト】隠密_頭
-761000 [Proto] Covert _ Torso -- 【プロト】隠密_胴
-762000 [Proto] Covert _ Arms -- 【プロト】隠密_腕
-763000 [Proto] Covert _ leg -- 【プロト】隠密_脚
-770000 [Proto] Covert _ head -- 【プロト】隠密_頭
-771000 [Proto] Covert _ Torso -- 【プロト】隠密_胴
-772000 [Proto] Covert _ Arms -- 【プロト】隠密_腕
-773000 [Proto] Covert _ leg -- 【プロト】隠密_脚
+660000 (Load check) memory check 5_ head -- 【負荷チェック】メモリチェック５_頭
+661000 (Load check) memory check 5_ Torso -- 【負荷チェック】メモリチェック５_胴
+662000 (Load check) memory check 5_ arm -- 【負荷チェック】メモリチェック５_腕
+663000 (Load check) memory check 5_ leg -- 【負荷チェック】メモリチェック５_脚
+670000 (Load check) memory check 6_ head -- 【負荷チェック】メモリチェック６_頭
+671000 (Load check) memory check 6_ Torso -- 【負荷チェック】メモリチェック６_胴
+672000 (Load check) memory check 6_ arm -- 【負荷チェック】メモリチェック６_腕
+673000 (Load check) memory check 6_ leg -- 【負荷チェック】メモリチェック６_脚
+730000 (Proto) Gold Armor _ Head -- 【プロト】錬金鎧_頭
+731000 (Proto) Smelting gold armor _ torso -- 【プロト】錬金鎧_胴
+732000 (Proto) Wrought gold armor _ arms -- 【プロト】錬金鎧_腕
+733000 (Proto) Wrought gold armor _ legs -- 【プロト】錬金鎧_脚
+740000 (Proto) Hunter _ head -- 【プロト】ハンター_頭
+741000 (Proto) Hunter _ Torso -- 【プロト】ハンター_胴
+742000 (Proto) Hunter _ Arms -- 【プロト】ハンター_腕
+743000 (Proto) Hunter _ leg -- 【プロト】ハンター_脚
+750000 (Proto) Soldier _ head -- 【プロト】兵士_頭
+751000 (Proto) Soldier _ Torso -- 【プロト】兵士_胴
+752000 (Proto) Soldiers _ arms -- 【プロト】兵士_腕
+753000 (Proto) Soldier _ leg -- 【プロト】兵士_脚
+760000 (Proto) Covert _ head -- 【プロト】隠密_頭
+761000 (Proto) Covert _ Torso -- 【プロト】隠密_胴
+762000 (Proto) Covert _ Arms -- 【プロト】隠密_腕
+763000 (Proto) Covert _ leg -- 【プロト】隠密_脚
+770000 (Proto) Covert _ head -- 【プロト】隠密_頭
+771000 (Proto) Covert _ Torso -- 【プロト】隠密_胴
+772000 (Proto) Covert _ Arms -- 【プロト】隠密_腕
+773000 (Proto) Covert _ leg -- 【プロト】隠密_脚
 780000 Fugitive Head -- 逃亡者 頭
 781000 Fugitive Torso -- 逃亡者 胴
 782000 Fugitive arm -- 逃亡者 腕

@@ -6,30 +6,32 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="f32 Alpha1" />
-    <Field Def="f32 Alpha2" />
-    <Field Def="f32 Alpha3" />
-    <Field Def="f32 Alpha4" />
-    <Field Def="f32 Alpha5" />
-    <Field Def="u8 R1 = 255" />
-    <Field Def="u8 G1 = 255" />
-    <Field Def="u8 B1 = 255" />
-    <Field Def="u8 R2" />
-    <Field Def="u8 G2" />
-    <Field Def="u8 B2" />
-    <Field Def="u8 R3 = 255" />
-    <Field Def="u8 G3 = 255" />
-    <Field Def="u8 B3 = 255" />
-    <Field Def="u8 R4 = 255" />
-    <Field Def="u8 G4 = 255" />
-    <Field Def="u8 B4 = 255" />
-    <Field Def="u8 R5 = 255" />
-    <Field Def="u8 G5" />
-    <Field Def="u8 B5" />
-    <Field Def="u8 Unk1" />
-    <Field Def="f32 GhostAlpha1" />
-    <Field Def="f32 GhostAlpha2" />
-    <Field Def="u8 GhostType" />
-    <Field Def="dummy8 pad1[3]" />
+    <Field Def="f32 edgeColorA" />
+    <Field Def="f32 frontColorA" />
+    <Field Def="f32 diffMulColorA" />
+    <Field Def="f32 specMulColorA" />
+    <Field Def="f32 lightColorA" />
+    <Field Def="u8 edgeColorR = 255" />
+    <Field Def="u8 edgeColorG = 255" />
+    <Field Def="u8 edgeColorB = 255" />
+    <Field Def="u8 frontColorR" />
+    <Field Def="u8 frontColorG" />
+    <Field Def="u8 frontColorB" />
+    <Field Def="u8 diffMulColorR = 255" />
+    <Field Def="u8 diffMulColorG = 255" />
+    <Field Def="u8 diffMulColorB = 255" />
+    <Field Def="u8 specMulColorR = 255" />
+    <Field Def="u8 specMulColorG = 255" />
+    <Field Def="u8 specMulColorB = 255" />
+    <Field Def="u8 lightColorR = 255" />
+    <Field Def="u8 lightColorG" />
+    <Field Def="u8 lightColorB" />
+    <Field Def="dummy8 pad1[1]" />
+    <Field Def="f32 alpha" />
+    <Field Def="f32 blendRate" />
+    <Field Def="u8 blendType" />
+    <Field Def="u8 isEdgeSubtract" />
+    <Field Def="u8 isFrontSubtract" />
+    <Field Def="u8 isNo2Pass" />
   </Fields>
 </PARAMDEF>

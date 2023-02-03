@@ -24,8 +24,8 @@
 65 【 SP 】 Guard Vigilance _ medium volume -- 【SP】ガード警戒_中量
 66 【 SP 】 Guard Vigilance _ Medium Amount + -- 【SP】ガード警戒_中量＋
 70 【 SP 】 Guard Vigilance _ Weight -- 【SP】ガード警戒_重量
-75 [SP] Guard vigilance _ over weight -- 【SP】ガード警戒_重量オーバー
-76 [SP] Guard Vigilance _ ultra-light -- 【SP】ガード警戒_超軽量
+75 (SP) Guard vigilance _ over weight -- 【SP】ガード警戒_重量オーバー
+76 (SP) Guard Vigilance _ ultra-light -- 【SP】ガード警戒_超軽量
 100 Enemy Base Combat -- 敵基本　戦闘時
 101 Bird Standard -- 鳥標準
 102 Guard -- ガード
@@ -47,6 +47,6 @@
 118 Shadow woman _ for disappearing -- 影女＿消える用
 119 Blood mites only -- 血ダニ専用
 120 Paris AIM -- パリィ狙い
-121 [DLC] Enemy Basic combat (running/swirling anime without version) -- 【DLC】敵基本　戦闘時（走行／旋回アニメなしバージョン）
+121 (DLC) Enemy Basic combat (running/swirling anime without version) -- 【DLC】敵基本　戦闘時（走行／旋回アニメなしバージョン）
 900 Four-legged type for PG -- PG用4足タイプ
-910 [FDP] Test _ First time -- 【FDP】テスト_はじめてのろじっく
+910 (FDP) Test _ First time -- 【FDP】テスト_はじめてのろじっく

@@ -11,22 +11,22 @@
 10 Item: Red Sign Soapstone
 11 Item: Cracked Red Eye Orb
 12 【 system 】 Bloodsign -- 【システム】bloodSign
-13 [System] Soul steel [multi] -- 【システム】ソウルスティール【マルチ】
-14 [System] Blue sign Visualization -- 【システム】青サイン可視化
+13 (System) Soul steel (multi) -- 【システム】ソウルスティール【マルチ】
+14 (System) Blue sign Visualization -- 【システム】青サイン可視化
 15 Item: Black Eye Orb
 16 【 system 】 NITs intrusion sign barreling -- 【システム】ニト侵入サインばらまき
 17 【 system 】 L Arena exit -- 【システム】l闘技場 退出
 20 【 System 】 Evaluation effect -- 【システム】評価効果
-21 [System] Point light source equipment -- 【システム】点光源装備
+21 (System) Point light source equipment -- 【システム】点光源装備
 22 Test_change_wep0 -- test_change_wep0
 23 Test_change_wep1 -- test_change_wep1
 24 【 system 】 Request for rescue -- 【システム】救援要請
-25 [System] effect for revival production -- 【システム】復活演出用効果
+25 (System) effect for revival production -- 【システム】復活演出用効果
 26 【 system 】 Invasion of the prize neck -- 【システム】賞金首に侵入
-27 [System] to scatter the scales of dragons -- 【システム】竜のうろこをばらまく
+27 (System) to scatter the scales of dragons -- 【システム】竜のうろこをばらまく
 28 Item: Dried Finger
 30 Paris State (throwing conditions) -- パリィ崩され状態（投げ条件）
-31 Counter damage [puncture] -- カウンターダメージ【刺突】
+31 Counter damage (puncture) -- カウンターダメージ【刺突】
 32 Player is falling (throwing condition) -- プレイヤが落下中（投げ条件）
 33 Petrified -- 石化
 34 Crystallization -- 結晶化
@@ -58,7 +58,7 @@
 72 Curse effect _lv2 -- 呪い効果_LV2
 73 Curse effect _lv3 -- 呪い効果_LV3
 74 Curse effect _lv4 -- 呪い効果_LV4
-80 Curse effect [Strengthening of spirits] -- 呪い効果【対霊強化】
+80 Curse effect (Strengthening of spirits) -- 呪い効果【対霊強化】
 90 Down -- ダウン中
 91 Not guarded: scheduled to be deleted -- ガード不可：削除予定
 92 Guard possible -- ガード可能
@@ -92,33 +92,33 @@
 206 【 QWC 】 Area _npc_-1 -- 【ＱＷＣ】エリア_ＮＰＣ_－1
 207 【 QWC 】 Area _NPC_-2 -- 【ＱＷＣ】エリア_ＮＰＣ_－2
 208 【 QWC 】 Area _NPC_-3 -- 【ＱＷＣ】エリア_ＮＰＣ_－3
-211 [QWC] Area _ black _ + 1 -- 【ＱＷＣ】エリア_ブラック_＋1
-212 [QWC] Area _ black _ + 2 -- 【ＱＷＣ】エリア_ブラック_＋2
-221 [QWC] Area _ white _ + 1 -- 【ＱＷＣ】エリア_ホワイト_＋1
-222 [QWC] Area _ white _ + 2 -- 【ＱＷＣ】エリア_ホワイト_＋2
-231 [QWC] Area _ gray _ + 1 -- 【ＱＷＣ】エリア_グレイ_＋1
-232 [QWC] Area _ gray _ + 2 -- 【ＱＷＣ】エリア_グレイ_＋2
-236 [QWC] Area _ gray _-1 -- 【ＱＷＣ】エリア_グレイ_－1
-237 [QWC] Area _ gray _-2 -- 【ＱＷＣ】エリア_グレイ_－2
-311 [QWC] Player _ black _ + 1 -- 【ＱＷＣ】プレイヤー_ブラック_＋1
-312 [QWC] Player _ black _ + 2 -- 【ＱＷＣ】プレイヤー_ブラック_＋2
-321 [QWC] Player _ white _ + 1 -- 【ＱＷＣ】プレイヤー_ホワイト_＋1
-322 [QWC] Player _ white _ + 2 -- 【ＱＷＣ】プレイヤー_ホワイト_＋2
-331 [QWC] Player _ gray _ + 1 -- 【ＱＷＣ】プレイヤー_グレイ_＋1
-332 [QWC] Player _ gray _ + 2 -- 【ＱＷＣ】プレイヤー_グレイ_＋2
-336 [QWC] Player _ gray _-1 -- 【ＱＷＣ】プレイヤー_グレイ_－1
-337 [QWC] Player _ gray _-2 -- 【ＱＷＣ】プレイヤー_グレイ_－2
+211 (QWC) Area _ black _ + 1 -- 【ＱＷＣ】エリア_ブラック_＋1
+212 (QWC) Area _ black _ + 2 -- 【ＱＷＣ】エリア_ブラック_＋2
+221 (QWC) Area _ white _ + 1 -- 【ＱＷＣ】エリア_ホワイト_＋1
+222 (QWC) Area _ white _ + 2 -- 【ＱＷＣ】エリア_ホワイト_＋2
+231 (QWC) Area _ gray _ + 1 -- 【ＱＷＣ】エリア_グレイ_＋1
+232 (QWC) Area _ gray _ + 2 -- 【ＱＷＣ】エリア_グレイ_＋2
+236 (QWC) Area _ gray _-1 -- 【ＱＷＣ】エリア_グレイ_－1
+237 (QWC) Area _ gray _-2 -- 【ＱＷＣ】エリア_グレイ_－2
+311 (QWC) Player _ black _ + 1 -- 【ＱＷＣ】プレイヤー_ブラック_＋1
+312 (QWC) Player _ black _ + 2 -- 【ＱＷＣ】プレイヤー_ブラック_＋2
+321 (QWC) Player _ white _ + 1 -- 【ＱＷＣ】プレイヤー_ホワイト_＋1
+322 (QWC) Player _ white _ + 2 -- 【ＱＷＣ】プレイヤー_ホワイト_＋2
+331 (QWC) Player _ gray _ + 1 -- 【ＱＷＣ】プレイヤー_グレイ_＋1
+332 (QWC) Player _ gray _ + 2 -- 【ＱＷＣ】プレイヤー_グレイ_＋2
+336 (QWC) Player _ gray _-1 -- 【ＱＷＣ】プレイヤー_グレイ_－1
+337 (QWC) Player _ gray _-2 -- 【ＱＷＣ】プレイヤー_グレイ_－2
 403 Torches (for enemy sensing) -- 松明（敵感知用）
-404 [SP] Torches _ for flame effect -- 【SP】松明_炎エフェクト用
-407 [SP] Torch _ for Light ID offset -- 【SP】松明_ライトIDオフセット用
-412 [FDP] Torch _ for Flame effect (raised) -- 【FDP】松明_炎エフェクト用（掲げ時）
-420 [SP] covered with oil -- 【SP】油まみれ
+404 (SP) Torches _ for flame effect -- 【SP】松明_炎エフェクト用
+407 (SP) Torch _ for Light ID offset -- 【SP】松明_ライトIDオフセット用
+412 (FDP) Torch _ for Flame effect (raised) -- 【FDP】松明_炎エフェクト用（掲げ時）
+420 (SP) covered with oil -- 【SP】油まみれ
 421 【 SP 】 Fire Daruma -- 【SP】火だるま
 425 【 SP 】 Fire Spread damage -- 【SP】延焼ダメージ
-430 [FDP] Damage in the fire Daruma -- 【FDP】火だるま中のダメージ
-490 [FDP] King of firewood added effect -- 【FDP】薪の王付加効果
-491 [FDP] Added SFX when attacking king of firewood -- 【FDP】薪の王　攻撃時追加SFX
-499 [FDP] King of firewood added effect _ client -- 【FDP】薪の王付加効果_クライアント
+430 (FDP) Damage in the fire Daruma -- 【FDP】火だるま中のダメージ
+490 (FDP) King of firewood added effect -- 【FDP】薪の王付加効果
+491 (FDP) Added SFX when attacking king of firewood -- 【FDP】薪の王　攻撃時追加SFX
+499 (FDP) King of firewood added effect _ client -- 【FDP】薪の王付加効果_クライアント
 500 Gravity -- グラビティ
 510 Gravity (for the use of) -- グラビティ（使用者用）
 520 Sound Feed -- 音送り
@@ -129,11 +129,11 @@
 560 Resurrection when dead -- 死んだとき復活
 561 Resurrection when dead (for determination of cord) -- 死んだとき復活（索状判定用）
 570 Regenerate -- リジェネレイト
-580 return [standby] -- 帰還【発動待機】
+580 return (standby) -- 帰還【発動待機】
 581 Return of movement -- 帰還【発動】
 600 Anti Magic -- アンチマジック
 610 Anti-Magic (for the use) 【 effect 】 -- アンチマジック（使用者用）【効果】
-611 Anti-Magic (for the use of) [effect] -- アンチマジック（使用者用）【エフェクト】
+611 Anti-Magic (for the use of) (effect) -- アンチマジック（使用者用）【エフェクト】
 620 Light -- ライト
 630 Attracted -- 魅了
 640 Falling control -- フォーリングコントロール
@@ -153,21 +153,21 @@
 1090 The Power of Madness -- 狂気の力
 1100 Fire Weapon Reinforcement 1 -- 炎武器強化1
 1120 Veil of water -- 水のヴェール
-1130 Body of iron [damage reduction effect] -- 鉄の身体【はじきダメージ減少効果】
-1140 Body of iron [moving slow effect] -- 鉄の身体【移動鈍足効果】
-1150 Body of iron [damage animation change effect] -- 鉄の身体【ダメージアニメ変化効果】
+1130 Body of iron (damage reduction effect) -- 鉄の身体【はじきダメージ減少効果】
+1140 Body of iron (moving slow effect) -- 鉄の身体【移動鈍足効果】
+1150 Body of iron (damage animation change effect) -- 鉄の身体【ダメージアニメ変化効果】
 1160 Magic Protection 1 -- 魔法防護1
 1170 Magic Protection 2 -- 魔法防護2
 1200 Poison for Poisoncloud -- ポイズンクラウド用の毒
 1210 Deadly poison for the desk loud -- デスクラウド用の猛毒
 1220 Corrosion for corrosion Cloud -- 腐食クラウド用の腐食
 1230 A deadly poison for the Mist of Darkness -- 闇の霧用の猛毒
-1300 Universal treatment [State Recovery] -- 万能治療【状態回復】
-1301 Universal treatment [recovery of bleeding immunity] -- 万能治療【出血耐性回復】
-1302 Universal cure [Poison tolerance recovery] -- 万能治療【毒耐性回復】
-1303 Universal cure [deadly poison resistant recovery] -- 万能治療【猛毒耐性回復】
-1320 Poison treatment [State recovery] -- 毒治療【状態回復】
-1321 Poison treatment [Resilient recovery] -- 毒治療【耐性回復】
+1300 Universal treatment (State Recovery) -- 万能治療【状態回復】
+1301 Universal treatment (recovery of bleeding immunity) -- 万能治療【出血耐性回復】
+1302 Universal cure (Poison tolerance recovery) -- 万能治療【毒耐性回復】
+1303 Universal cure (deadly poison resistant recovery) -- 万能治療【猛毒耐性回復】
+1320 Poison treatment (State recovery) -- 毒治療【状態回復】
+1321 Poison treatment (Resilient recovery) -- 毒治療【耐性回復】
 1330 Weapon Armor Repair -- 武器防具修復
 1340 A curse -- 解呪
 1350 Worm Recovery -- うじ回復
@@ -178,25 +178,25 @@
 1430 HP Recovery 4 -- HP回復4
 1431 HP Recovery 4_ Resonance LV1 -- HP回復4_共鳴LV1
 1500 Mimicry -- 擬態
-1510 Mimicry [moving slow effect] -- 擬態【移動鈍足効果】
+1510 Mimicry (moving slow effect) -- 擬態【移動鈍足効果】
 1520 Dragon Change 1 -- 竜変化1
 1530 Dragon Change 2 -- 竜変化2
-1600 Soul Drain 1 [AI] -- ソウルドレイン1【ＡＩ】
+1600 Soul Drain 1 (AI) -- ソウルドレイン1【ＡＩ】
 1610 Soul Drain 1 【 PC 】 -- ソウルドレイン1【ＰＣ】
-1620 Soul Drain 2 [AI] -- ソウルドレイン2【ＡＩ】
-1630 Soul Drain 2 [PC] -- ソウルドレイン2【ＰＣ】
+1620 Soul Drain 2 (AI) -- ソウルドレイン2【ＡＩ】
+1630 Soul Drain 2 (PC) -- ソウルドレイン2【ＰＣ】
 1700 White Relief Magic -- 白救援探知魔法
 1710 Black Relief Magic -- 黒救援探知魔法
 1720 Item Detection Magic -- アイテム探知魔法
 1800 Causal retribution _ for counting -- 因果応報_カウント用
 1810 Causal retribution _ for explosive generation -- 因果応報_爆発発生用
-1900 [FDP] Tread SA -- 【FDP】踏込SA
+1900 (FDP) Tread SA -- 【FDP】踏込SA
 1901 FDP ID override test -- 【FDP】ID上書きテスト
-1902 [FDP] covered with Uzi test -- 【FDP】ウジまみれテスト
-1903 [FDP] Tread guard -- 【FDP】踏込ガード
-1904 [FDP] Rotation movement gap -- 【FDP】回転移動隙
-1905 [FDP] Holding guard compensation for continuous firing -- 【FDP】構え連撃用ガード補正
-1906 [FDP] Double chanting -- 【FDP】二重詠唱
+1902 (FDP) covered with Uzi test -- 【FDP】ウジまみれテスト
+1903 (FDP) Tread guard -- 【FDP】踏込ガード
+1904 (FDP) Rotation movement gap -- 【FDP】回転移動隙
+1905 (FDP) Holding guard compensation for continuous firing -- 【FDP】構え連撃用ガード補正
+1906 (FDP) Double chanting -- 【FDP】二重詠唱
 1907 FDP SA chanting -- 【FDP】SA詠唱
 2000 Item: Estus Flask
 2001 Item: Estus Flask+1
@@ -237,28 +237,28 @@
 2350 Black Dragon Ring -- 黒竜の指輪
 3000 HP Recovery Grass -- HP回復草
 3040 Item: Green Blossom
-3041 [DLC] Fragment of mushroom -- 【DLC】エリンギの欠片
+3041 (DLC) Fragment of mushroom -- 【DLC】エリンギの欠片
 3042 Item: Budding Green Blossom
-3050 bleeding treatment [State recovery] -- 出血治療【状態回復】
-3051 bleeding treatment [resistance recovery] -- 出血治療【耐性回復】
-3060 Poison treatment [State recovery] -- 毒治療【状態回復】
-3061 Poison treatment [Resilient recovery] -- 毒治療【耐性回復】
-3070 Toxic treatment [State recovery] -- 猛毒治療【状態回復】
-3071 Toxic treatment [Resilient recovery] -- 猛毒治療【耐性回復】
-3080 Universal treatment [State Recovery] -- 万能治療【状態回復】
+3050 bleeding treatment (State recovery) -- 出血治療【状態回復】
+3051 bleeding treatment (resistance recovery) -- 出血治療【耐性回復】
+3060 Poison treatment (State recovery) -- 毒治療【状態回復】
+3061 Poison treatment (Resilient recovery) -- 毒治療【耐性回復】
+3070 Toxic treatment (State recovery) -- 猛毒治療【状態回復】
+3071 Toxic treatment (Resilient recovery) -- 猛毒治療【耐性回復】
+3080 Universal treatment (State Recovery) -- 万能治療【状態回復】
 3090 Curse treatment -- 呪治療
 3091 Egg treatment -- 卵治療
 3092 Caries treatment -- 蝕治療
 3093 Item: Purging Stone
 3100 Item: Repair Powder
-3110 Poison-throwing knife [poison effect] -- 毒投げナイフ【毒効果】
+3110 Poison-throwing knife (poison effect) -- 毒投げナイフ【毒効果】
 3120 To make the opponent a poisonous poison -- 糞団子【相手を猛毒にする】
 3121 I take damage -- 糞団子【自分もダメージを受ける】
 3130 Each time a -- またたびA
 3140 And every time B -- またたびB
-3150 EST not available [for mimic sleep determination] -- エスト使用不可【ミミック睡眠判定用】
-3151 EST not available [EST] -- エスト使用不可【エスト使用不可】
-3152 EST not available [for mimic sleep judgment] -- エスト使用不可【ミミック睡眠判定消し用】
+3150 EST not available (for mimic sleep determination) -- エスト使用不可【ミミック睡眠判定用】
+3151 EST not available (EST) -- エスト使用不可【エスト使用不可】
+3152 EST not available (for mimic sleep judgment) -- エスト使用不可【ミミック睡眠判定消し用】
 3160 Weapon Flame Enhancement -- 武器炎強化
 3161 Weapon Flame Enhancement (quick) -- 武器炎強化（クイック）
 3170 Weapon Lightning Reinforcement -- 武器雷強化
@@ -272,7 +272,7 @@
 3224 return Stone D -- 帰還石D
 3225 Return Stone E -- 帰還石E
 3226 Item: Darksign
-3230 Resurrection Stone [Resurrection effect] -- 復活石【復活効果】
+3230 Resurrection Stone (Resurrection effect) -- 復活石【復活効果】
 3231 Human Nature Recovery -- 人間性回復
 3240 Item: Binoculars
 3250 Pledge discarded -- 誓約破棄
@@ -316,9 +316,9 @@
 3405 Item: Soul of the Old Demon King
 3406 Item: Soul of Dragonslayer Armour
 3407 Item: Soul of the Nameless King
-3408 [Boss Soul] Crimson bat Soul -- 【ボスソウル】クリムゾンバットのソウル
+3408 (Boss Soul) Crimson bat Soul -- 【ボスソウル】クリムゾンバットのソウル
 3409 Item: Soul of Champion Gundyr
-3410 [Boss Soul] soul of evil spirits -- 【ボスソウル】邪霊のソウル
+3410 (Boss Soul) soul of evil spirits -- 【ボスソウル】邪霊のソウル
 3411 Item: Soul of Pontiff Sulyvahn
 3412 Item: Soul of Aldrich
 3413 Item: Soul of High Lord Wolnir
@@ -350,13 +350,13 @@
 3920 Item: Red Bug Pellet
 3930 Item: Yellow Bug Pellet
 3940 Item: Black Bug Pellet
-4000 Sustained damage floor [slow for poison] -- 持続ダメージ床【毒用鈍足】
-4001 Sustained damage floor [Poison _ Interval Adjustment _ Poison swamp Forest (deep)] -- 持続ダメージ床【毒_間隔調整_毒沼の森（深）】
-4002 Sustained damage floor [poison _ Effect Body _ Poison swamp Forest (deep)] -- 持続ダメージ床【毒_効果本体_毒沼の森（深）】
-4003 Sustained damage floor [Poison _ Interval Adjustment _ Poison swamp forest (shallow)] -- 持続ダメージ床【毒_間隔調整_毒沼の森（浅）】
-4004 Sustained damage floor [poison _ Effect Body _ Poison swamp forest (shallow)] -- 持続ダメージ床【毒_効果本体_毒沼の森（浅）】
-4050 Forced fall death disabled [used in God's Tomb map] -- 強制落下死亡無効【神墓マップで使用】
-4060 Drop damage disabled [used in stronghold map] -- 落下ダメージ無効【拠点マップで使用】
+4000 Sustained damage floor (slow for poison) -- 持続ダメージ床【毒用鈍足】
+4001 Sustained damage floor (Poison _ Interval Adjustment _ Poison swamp Forest (deep)) -- 持続ダメージ床【毒_間隔調整_毒沼の森（深）】
+4002 Sustained damage floor (poison _ Effect Body _ Poison swamp Forest (deep)) -- 持続ダメージ床【毒_効果本体_毒沼の森（深）】
+4003 Sustained damage floor (Poison _ Interval Adjustment _ Poison swamp forest (shallow)) -- 持続ダメージ床【毒_間隔調整_毒沼の森（浅）】
+4004 Sustained damage floor (poison _ Effect Body _ Poison swamp forest (shallow)) -- 持続ダメージ床【毒_効果本体_毒沼の森（浅）】
+4050 Forced fall death disabled (used in God's Tomb map) -- 強制落下死亡無効【神墓マップで使用】
+4060 Drop damage disabled (used in stronghold map) -- 落下ダメージ無効【拠点マップで使用】
 4100 Slow effect (weak) -- 鈍足効果（弱）
 4101 Slow effect (strong) -- 鈍足効果（強）
 4150 Inside Key of Universal door -- 汎用扉の内鍵
@@ -391,49 +391,49 @@
 5100 Maggots covered -- うじまみれ
 5101 Blood damage so that the maggots smeared -- うじまみれよう出血ダメージ
 5247 Cold air Damage Release -- 冷気ダメージ解除
-5300 Normal damage anime changes [all disabled] -- 通常時ダメージアニメ変化【全て無効】
-5301 Normal damage anime changes [minimal, small, medium, large, beating, launch, pushing disabled] -- 通常時ダメージアニメ変化【極小・小・中・大・叩き・打上・押し　無効】
-5302 Normal damage anime changes [minimum, small, medium, large, push disabled] -- 通常時ダメージアニメ変化【極小・小・中・大・押し　無効】
-5303 Normal damage anime change [Minimal, small, medium, press disabled] -- 通常時ダメージアニメ変化【極小・小・中・押し　無効】
-5304 Normal damage anime change [minimal, small, push disabled] -- 通常時ダメージアニメ変化【極小・小・押し　無効】
-5305 Normal damage anime change [minimal, push disabled] -- 通常時ダメージアニメ変化【極小・押し　無効】
-5306 Normal time damage anime change [press → Small] -- 通常時ダメージアニメ変化【押し→小】
-5307 Normal damage anime change [minimum → small] -- 通常時ダメージアニメ変化【極小→小】
+5300 Normal damage anime changes (all disabled) -- 通常時ダメージアニメ変化【全て無効】
+5301 Normal damage anime changes (minimal, small, medium, large, beating, launch, pushing disabled) -- 通常時ダメージアニメ変化【極小・小・中・大・叩き・打上・押し　無効】
+5302 Normal damage anime changes (minimum, small, medium, large, push disabled) -- 通常時ダメージアニメ変化【極小・小・中・大・押し　無効】
+5303 Normal damage anime change (Minimal, small, medium, press disabled) -- 通常時ダメージアニメ変化【極小・小・中・押し　無効】
+5304 Normal damage anime change (minimal, small, push disabled) -- 通常時ダメージアニメ変化【極小・小・押し　無効】
+5305 Normal damage anime change (minimal, push disabled) -- 通常時ダメージアニメ変化【極小・押し　無効】
+5306 Normal time damage anime change (press → Small) -- 通常時ダメージアニメ変化【押し→小】
+5307 Normal damage anime change (minimum → small) -- 通常時ダメージアニメ変化【極小→小】
 5308 Normal Time damage Anime change -- 通常時ダメージアニメ変化【中以上】
 5309 Normal damage Anime change -- 通常時ダメージアニメ変化【中以上、押しあり】
-5310 Normal damage anime changes [lv1 down] -- 通常時ダメージアニメ変化【Lv1ダウン】
-5311 Normal damage anime changes [small, 吹tsu飛bimasu, launch only] -- 通常時ダメージアニメ変化【小・吹っ飛び・打ち上げ　のみ】
-5320 Normal damage anime change [large only] -- 通常時ダメージアニメ変化【大　のみ】
-5321 Normal damage anime change [Medium, large, only slams] -- 通常時ダメージアニメ変化【中・大・叩きつけ　のみ】
-5322 Normal damage anime changes [吹tsu飛bimasu] -- 通常時ダメージアニメ変化【吹っ飛びがない】
-5323 Normal damage anime changes [no 吹tsu飛bimasu/slams] -- 通常時ダメージアニメ変化【吹っ飛び・叩きつけ　がない】
-5324 Normal damage anime change [Minimal, small, medium, large only] -- 通常時ダメージアニメ変化【極小・小・中・大のみ】
-5325 Normal damage anime changes [吹tsu飛bimasu/push] -- 通常時ダメージアニメ変化【吹っ飛び・押し　がない】
-5326 Normal damage anime changes [small and medium only] -- 通常時ダメージアニメ変化【小・中のみ】
-5327 Normal damage anime change [small, medium, large only] -- 通常時ダメージアニメ変化【小・中・大のみ】
-5328 Normal damage anime change [small, medium, large, only slapping] -- 通常時ダメージアニメ変化【小・中・大・叩きのみ】
-5329 Normal damage anime change [small only] -- 通常時ダメージアニメ変化【小のみ】
-5330 Normal damage anime change [small, large, 吹tsu飛bimasu only] -- 通常時ダメージアニメ変化【小・大・吹っ飛びのみ】
-5331 Normal damage anime change [for crystal lizards] -- 通常時ダメージアニメ変化【結晶トカゲ用】
-5332 Normal damage anime changes [under the big deal] -- 通常時ダメージアニメ変化【中以下は大扱い】
-5333 Normal damage anime changes [during only] -- 通常時ダメージアニメ変化【中のみ】
-5334 Normal damage anime change [medium/吹tsu飛bimasu only] -- 通常時ダメージアニメ変化【中・吹っ飛びのみ】
-5335 Normal damage anime change [reaction large] -- 通常時ダメージアニメ変化【リアクション大】
-5350 Normal damage anime change [all disabled] (instant) -- 通常時ダメージアニメ変化【全て無効】（瞬間）
-5351 Normal damage anime changes [minimal, small, medium, large, beating, launch, pushing disabled] (instant) -- 通常時ダメージアニメ変化【極小・小・中・大・叩き・打上・押し　無効】（瞬間）
-5352 Normal damage anime change [minimum, small, medium, large, push disabled] (instant) -- 通常時ダメージアニメ変化【極小・小・中・大・押し　無効】（瞬間）
-5353 Normal damage anime change [Minimal, small, medium, press disabled] (instant) -- 通常時ダメージアニメ変化【極小・小・中・押し　無効】（瞬間）
-5354 Normal damage anime change [minimal, small, push disabled] (instant) -- 通常時ダメージアニメ変化【極小・小・押し　無効】（瞬間）
-5360 SA Time damage Anime change [all anime No] -- SA時ダメージアニメ変化【全てアニメなし】
-5361 SA Time damage Anime change [small only] -- SA時ダメージアニメ変化【小のみ】
+5310 Normal damage anime changes (lv1 down) -- 通常時ダメージアニメ変化【Lv1ダウン】
+5311 Normal damage anime changes (small, 吹tsu飛bimasu, launch only) -- 通常時ダメージアニメ変化【小・吹っ飛び・打ち上げ　のみ】
+5320 Normal damage anime change (large only) -- 通常時ダメージアニメ変化【大　のみ】
+5321 Normal damage anime change (Medium, large, only slams) -- 通常時ダメージアニメ変化【中・大・叩きつけ　のみ】
+5322 Normal damage anime changes (吹tsu飛bimasu) -- 通常時ダメージアニメ変化【吹っ飛びがない】
+5323 Normal damage anime changes (no 吹tsu飛bimasu/slams) -- 通常時ダメージアニメ変化【吹っ飛び・叩きつけ　がない】
+5324 Normal damage anime change (Minimal, small, medium, large only) -- 通常時ダメージアニメ変化【極小・小・中・大のみ】
+5325 Normal damage anime changes (吹tsu飛bimasu/push) -- 通常時ダメージアニメ変化【吹っ飛び・押し　がない】
+5326 Normal damage anime changes (small and medium only) -- 通常時ダメージアニメ変化【小・中のみ】
+5327 Normal damage anime change (small, medium, large only) -- 通常時ダメージアニメ変化【小・中・大のみ】
+5328 Normal damage anime change (small, medium, large, only slapping) -- 通常時ダメージアニメ変化【小・中・大・叩きのみ】
+5329 Normal damage anime change (small only) -- 通常時ダメージアニメ変化【小のみ】
+5330 Normal damage anime change (small, large, 吹tsu飛bimasu only) -- 通常時ダメージアニメ変化【小・大・吹っ飛びのみ】
+5331 Normal damage anime change (for crystal lizards) -- 通常時ダメージアニメ変化【結晶トカゲ用】
+5332 Normal damage anime changes (under the big deal) -- 通常時ダメージアニメ変化【中以下は大扱い】
+5333 Normal damage anime changes (during only) -- 通常時ダメージアニメ変化【中のみ】
+5334 Normal damage anime change (medium/吹tsu飛bimasu only) -- 通常時ダメージアニメ変化【中・吹っ飛びのみ】
+5335 Normal damage anime change (reaction large) -- 通常時ダメージアニメ変化【リアクション大】
+5350 Normal damage anime change (all disabled) (instant) -- 通常時ダメージアニメ変化【全て無効】（瞬間）
+5351 Normal damage anime changes (minimal, small, medium, large, beating, launch, pushing disabled) (instant) -- 通常時ダメージアニメ変化【極小・小・中・大・叩き・打上・押し　無効】（瞬間）
+5352 Normal damage anime change (minimum, small, medium, large, push disabled) (instant) -- 通常時ダメージアニメ変化【極小・小・中・大・押し　無効】（瞬間）
+5353 Normal damage anime change (Minimal, small, medium, press disabled) (instant) -- 通常時ダメージアニメ変化【極小・小・中・押し　無効】（瞬間）
+5354 Normal damage anime change (minimal, small, push disabled) (instant) -- 通常時ダメージアニメ変化【極小・小・押し　無効】（瞬間）
+5360 SA Time damage Anime change (all anime No) -- SA時ダメージアニメ変化【全てアニメなし】
+5361 SA Time damage Anime change (small only) -- SA時ダメージアニメ変化【小のみ】
 5362 SA Time damage Anime changes -- SA時ダメージアニメ変化【中のみ】
-5363 SA when damage anime changes [small and medium] -- SA時ダメージアニメ変化【小と中】
-5364 SA Time damage Anime change [small only/large void] -- SA時ダメージアニメ変化【小のみ・大無効】
-5370 SA Time damage Anime change [all disabled] (instant) -- SA時ダメージアニメ変化【全て無効】（瞬間）
-5371 SA Time damage Anime change [small only] (instant) -- SA時ダメージアニメ変化【小のみ】（瞬間）
-5372 SA Time damage Anime change [medium only] (instant) -- SA時ダメージアニメ変化【中のみ】（瞬間）
-5373 SA when damage anime changes [small and medium] (instant) -- SA時ダメージアニメ変化【小と中】（瞬間）
-5374 SA Time damage Anime change [small only/large void] (instant) -- SA時ダメージアニメ変化【小のみ・大無効】（瞬間）
+5363 SA when damage anime changes (small and medium) -- SA時ダメージアニメ変化【小と中】
+5364 SA Time damage Anime change (small only/large void) -- SA時ダメージアニメ変化【小のみ・大無効】
+5370 SA Time damage Anime change (all disabled) (instant) -- SA時ダメージアニメ変化【全て無効】（瞬間）
+5371 SA Time damage Anime change (small only) (instant) -- SA時ダメージアニメ変化【小のみ】（瞬間）
+5372 SA Time damage Anime change (medium only) (instant) -- SA時ダメージアニメ変化【中のみ】（瞬間）
+5373 SA when damage anime changes (small and medium) (instant) -- SA時ダメージアニメ変化【小と中】（瞬間）
+5374 SA Time damage Anime change (small only/large void) (instant) -- SA時ダメージアニメ変化【小のみ・大無効】（瞬間）
 5400 Weapon change Anime ID offset 0 -- 武器チェンジ　アニメIDオフセット0
 5404 Anime ID offset 1,000,000 -- アニメIDオフセット1000000
 5405 Anime ID offset 2,000,000 -- アニメIDオフセット2000000
@@ -441,8 +441,8 @@
 5407 Anime ID offset 4 million -- アニメIDオフセット4000000
 5408 Anime ID Offset 5,000,000 -- アニメIDオフセット5000000
 5450 An enemy special waiting: for event processing -- エネミー特殊待機中：イベント処理用
-5460 Enemy character est [HP] -- 敵キャラ　エスト【HP】
-5461 Enemy character est [HP] -- 敵キャラ　エスト【HP】
+5460 Enemy character est (HP) -- 敵キャラ　エスト【HP】
+5461 Enemy character est (HP) -- 敵キャラ　エスト【HP】
 5540 Maggots flame condition (for Panish Flag) -- 蛆人　炎状態（パニッシュフラグ用）
 5600 Salivan Enchant -- サリヴァーンエンチャント
 5700 _c2180 maggots for special damage assessment -- 特殊ダメージ判定用＿c2180蛆人
@@ -461,14 +461,14 @@
 5750 For special Damage Determination _ Continuous Regeneration Prevention: duration of flag pulling -- 特殊ダメージ判定用＿連続再生防止　：フラグ引いている期間
 5751 For special Damage Determination _ Continuous regeneration Prevention: cool time 3 seconds -- 特殊ダメージ判定用＿連続再生防止　：クールタイム3秒
 5752 For special Damage Determination _ Continuous regeneration Prevention: cool time 5 seconds -- 特殊ダメージ判定用＿連続再生防止　：クールタイム5秒
-5800 [Behavior] Do not cut the movement amount of damage anime -- 【Behavior】 ダメージアニメの移動量カットをしない
-5820 [Behavior] Stance: Valid only for the duration of the flag pulling -- 【Behavior】 構え中　：フラグ引いている期間のみ有効
+5800 (Behavior) Do not cut the movement amount of damage anime -- 【Behavior】 ダメージアニメの移動量カットをしない
+5820 (Behavior) Stance: Valid only for the duration of the flag pulling -- 【Behavior】 構え中　：フラグ引いている期間のみ有効
 5830 The VFX will light your eyes and revive you once and for all -- VFXで目が光り、一度きりの復活をかける
 5831 If the 5830 is at stake, let the dead anime transition -- 5830がかかっている場合、死んだふりアニメに遷移させる
-6000 [Behavior] touchable in rolling -- 【Behavior】 ローリングで押せる
-6001 [Behavior] is flipped when the damage judgment is hit the map anime reproduction -- 【Behavior】 ダメージ判定がマップに命中すると弾かれアニメ再生
-6002 [Behavior] Wait offset instantaneous switching -- 【Behavior】 待機オフセット瞬時切り替え
-6003 [Behavior] Count any number of seconds -- 【Behavior】 任意の秒数を数える
+6000 (Behavior) touchable in rolling -- 【Behavior】 ローリングで押せる
+6001 (Behavior) is flipped when the damage judgment is hit the map anime reproduction -- 【Behavior】 ダメージ判定がマップに命中すると弾かれアニメ再生
+6002 (Behavior) Wait offset instantaneous switching -- 【Behavior】 待機オフセット瞬時切り替え
+6003 (Behavior) Count any number of seconds -- 【Behavior】 任意の秒数を数える
 6050 Golem keeps crumbling state -- ゴーレム崩れ状態維持
 6200 Stamina Recovery Down _ head _ Level 1 -- スタミナ回復ダウン_頭_レベル1
 6201 Stamina Recovery Down _ head _ Level 2 -- スタミナ回復ダウン_頭_レベル2
@@ -755,18 +755,18 @@
 99014 Suspension dead for determining waiting condition -- 吊り橋亡者待機状態判定用
 99020 Special effects for Slime -- スライム用特殊効果
 99050 The swamp of caries -- 蝕の沼
-99100 [FDP] Test _ No damage against flames -- 【FDP】テスト_炎に対してノーダメージ
-99101 [FDP] Test _ wolf-throwing damage -- 【FDP】テスト_ウルフ投げ時のダメージ
-99102 [FDP] Test _ Firefly Item Use event acquisition -- 【FDP】テスト_蛍アイテム使用イベント取得
-99200 [FDP] Proto-giant slime freezing -- 【FDP】プロト_巨大スライム凍結
-99201 [FDP] Proto _ giant slime freezing SFX -- 【FDP】プロト_巨大スライム凍結SFX
+99100 (FDP) Test _ No damage against flames -- 【FDP】テスト_炎に対してノーダメージ
+99101 (FDP) Test _ wolf-throwing damage -- 【FDP】テスト_ウルフ投げ時のダメージ
+99102 (FDP) Test _ Firefly Item Use event acquisition -- 【FDP】テスト_蛍アイテム使用イベント取得
+99200 (FDP) Proto-giant slime freezing -- 【FDP】プロト_巨大スライム凍結
+99201 (FDP) Proto _ giant slime freezing SFX -- 【FDP】プロト_巨大スライム凍結SFX
 99300 Dragon Bleeding -- 龍出血
 99310 Dragon Bleeding 1 -- ドラゴン出血1
 99311 Dragon Bleeding 2 -- ドラゴン出血2
 99312 Dragon Bleeding 3 -- ドラゴン出血3
 99313 Dragon Bleeding 4 -- ドラゴン出血4
 99314 Dragon Bleeding 5 -- ドラゴン出血5
-99400 [Test] Curse of the Evil King -- 【テスト】死霊の王 呪い
+99400 (Test) Curse of the Evil King -- 【テスト】死霊の王 呪い
 99401 C1210 Blue estrus Permit test -- c1210ブルー発情許可テスト
 99402 c1210 Blue estrus Anime ID offset 3,000,000 -- c1210ブルー発情中　アニメIDオフセット3000000
 99410 Touchable in c1240 poor dead rolling -- c1240貧民亡者　ローリングで押せるテスト
@@ -774,8 +774,8 @@
 99430 12 End edition avatar for pseudo-death state -- 12末版アバター　擬死状態用
 99440 Ash Daemon hot air damage large -- 灰のデーモン熱風ダメージ大
 99441 Ash Daemon hot air damage small -- 灰のデーモン熱風ダメージ小
-99450 Resident damage Anime change [for provisional Black Knight] -- 常駐ダメージアニメ変化【仮黒騎士用】
-99451 Resident damage Anime change [for temporary crucifixion dead a] -- 常駐ダメージアニメ変化【仮磔亡者A用】
+99450 Resident damage Anime change (for provisional Black Knight) -- 常駐ダメージアニメ変化【仮黒騎士用】
+99451 Resident damage Anime change (for temporary crucifixion dead a) -- 常駐ダメージアニメ変化【仮磔亡者A用】
 99500 Test for the Cathedral Golem -- 聖堂ゴーレム用テスト
 99600 Test for time measurement until the pseudo-death resurrection -- 擬似死亡復活までの時間計測用テスト
 99700 Team Type Change test -- チームタイプ変更テスト
