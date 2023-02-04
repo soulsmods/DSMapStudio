@@ -25,7 +25,7 @@ namespace StudioCore
 {
     public class MapStudioNew
     {
-        private static string _version = "1.07";
+        private static string _version = Application.ProductVersion;
         private static string _programTitle = $"Dark Souls Map Studio version {_version}";
 
         private Sdl2Window _window;
@@ -372,23 +372,6 @@ namespace StudioCore
             System.Windows.Forms.Application.Exit();
         }
 
-        private string CrashLogPath = $"{Directory.GetCurrentDirectory()}\\Crash Logs";
-        public void ExportCrashLog(List<string> exceptionInfo)
-        {
-            var time = $"{DateTime.Now:yyyy-M-dd--HH-mm-ss}";
-            exceptionInfo.Insert(0, $"DSMapStudio Version {_version}");
-            Directory.CreateDirectory($"{CrashLogPath}");
-            var crashLogPath = $"{CrashLogPath}\\Log {time}.txt";
-            File.WriteAllLines(crashLogPath, exceptionInfo);
-
-            if (exceptionInfo.Count > 10)
-                MessageBox.Show($"DSMapStudio has run into an issue.\nCrash log has been generated at \"{crashLogPath}\".",
-                    $"DSMapStudio Unhandled Error - {_version}", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            else
-                MessageBox.Show($"DSMapStudio has run into an issue.\nCrash log has been generated at \"{crashLogPath}\".\n\nCrash Log:\n{string.Join("\n", exceptionInfo)}",
-                    $"DSMapStudio Unhandled Error - {_version}", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-
         private void ChangeProjectSettings(Editor.ProjectSettings newsettings, string moddir, NewProjectOptions options)
         {
             _projectSettings = newsettings;
@@ -505,84 +488,99 @@ namespace StudioCore
         private bool AttemptLoadProject(Editor.ProjectSettings settings, string filename, bool updateRecents = true, NewProjectOptions options = null)
         {
             bool success = true;
-
-            // Check if game exe exists
-            if (!Directory.Exists(settings.GameRoot))
+            try
             {
-                success = false;
-                System.Windows.Forms.MessageBox.Show($@"Could not find game data directory for {settings.GameType}. Please select the game executable.", "Error",
-                    System.Windows.Forms.MessageBoxButtons.OK,
-                    System.Windows.Forms.MessageBoxIcon.None);
-
-                var rbrowseDlg = new System.Windows.Forms.OpenFileDialog()
+                // Check if game exe exists
+                if (!Directory.Exists(settings.GameRoot))
                 {
-                    Filter = AssetLocator.GameExecutatbleFilter,
-                    ValidateNames = true,
-                    CheckFileExists = true,
-                    CheckPathExists = true,
-                    //ShowReadOnly = true,
-                };
+                    success = false;
+                    System.Windows.Forms.MessageBox.Show($@"Could not find game data directory for {settings.GameType}. Please select the game executable.", "Error",
+                        System.Windows.Forms.MessageBoxButtons.OK,
+                        System.Windows.Forms.MessageBoxIcon.None);
 
-                var gametype = GameType.Undefined;
-                while (gametype != settings.GameType)
-                {
-                    if (rbrowseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                    var rbrowseDlg = new System.Windows.Forms.OpenFileDialog()
                     {
-                        settings.GameRoot = rbrowseDlg.FileName;
-                        gametype = _assetLocator.GetGameTypeForExePath(settings.GameRoot);
-                        if (gametype != settings.GameType)
+                        Filter = AssetLocator.GameExecutatbleFilter,
+                        ValidateNames = true,
+                        CheckFileExists = true,
+                        CheckPathExists = true,
+                        //ShowReadOnly = true,
+                    };
+
+                    var gametype = GameType.Undefined;
+                    while (gametype != settings.GameType)
+                    {
+                        if (rbrowseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                         {
-                            System.Windows.Forms.MessageBox.Show($@"Selected executable was not for {settings.GameType}. Please select the correct game executable.", "Error",
-                                System.Windows.Forms.MessageBoxButtons.OK,
-                                System.Windows.Forms.MessageBoxIcon.None);
+                            settings.GameRoot = rbrowseDlg.FileName;
+                            gametype = _assetLocator.GetGameTypeForExePath(settings.GameRoot);
+                            if (gametype != settings.GameType)
+                            {
+                                System.Windows.Forms.MessageBox.Show($@"Selected executable was not for {settings.GameType}. Please select the correct game executable.", "Error",
+                                    System.Windows.Forms.MessageBoxButtons.OK,
+                                    System.Windows.Forms.MessageBoxIcon.None);
+                            }
+                            else
+                            {
+                                success = true;
+                                settings.GameRoot = Path.GetDirectoryName(settings.GameRoot);
+                                if (settings.GameType == GameType.Bloodborne)
+                                {
+                                    settings.GameRoot = settings.GameRoot + @"\dvdroot_ps4";
+                                }
+                                settings.Serialize(filename);
+                            }
                         }
                         else
                         {
-                            success = true;
-                            settings.GameRoot = Path.GetDirectoryName(settings.GameRoot);
-                            if (settings.GameType == GameType.Bloodborne)
-                            {
-                                settings.GameRoot = settings.GameRoot + @"\dvdroot_ps4";
-                            }
-                            settings.Serialize(filename);
+                            break;
                         }
                     }
-                    else
+                }
+
+                if (success)
+                {
+                    if (!_assetLocator.CheckFilesExpanded(settings.GameRoot, settings.GameType))
                     {
-                        break;
+                        if (!GameNotUnpackedWarning(settings.GameType))
+                            return false;
+                    }
+                    if ((settings.GameType == GameType.Sekiro || settings.GameType == GameType.EldenRing) && !File.Exists(Path.Join(Path.GetFullPath("."), "oo2core_6_win64.dll")))
+                    {
+                        if (!File.Exists(Path.Join(settings.GameRoot, "oo2core_6_win64.dll")))
+                        {
+                            MessageBox.Show($"Could not find file \"oo2core_6_win64.dll\" in \"{settings.GameRoot}\", which should be included by default.\n\nTry reinstalling the game.", "Error",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.None);
+                            return false;
+                        }
+                        File.Copy(Path.Join(settings.GameRoot, "oo2core_6_win64.dll"), Path.Join(Path.GetFullPath("."), "oo2core_6_win64.dll"));
+                    }
+                    _projectSettings = settings;
+                    ChangeProjectSettings(_projectSettings, Path.GetDirectoryName(filename), options);
+                    CFG.Current.LastProjectFile = filename;
+                    _window.Title = $"{_programTitle}  -  {_projectSettings.ProjectName}";
+
+                    if (updateRecents)
+                    {
+                        var recent = new CFG.RecentProject();
+                        recent.Name = _projectSettings.ProjectName;
+                        recent.GameType = _projectSettings.GameType;
+                        recent.ProjectFile = filename;
+                        CFG.Current.RecentProjects.Insert(0, recent);
+                        if (CFG.Current.RecentProjects.Count > CFG.MAX_RECENT_PROJECTS)
+                        {
+                            CFG.Current.RecentProjects.RemoveAt(CFG.Current.RecentProjects.Count - 1);
+                        }
                     }
                 }
             }
-
-            if (success)
+            catch
             {
-                if (!_assetLocator.CheckFilesExpanded(settings.GameRoot, settings.GameType))
-                {
-                    if (!GameNotUnpackedWarning(settings.GameType))
-                        return false;
-                }
-                if ((settings.GameType == GameType.Sekiro || settings.GameType == GameType.EldenRing) && !File.Exists(Path.Join(Path.GetFullPath("."), "oo2core_6_win64.dll")))
-                {
-                    //Technically we're not checking it exists, but the same can be said for many things we assume from CheckFilesExpanded
-                    File.Copy(Path.Join(settings.GameRoot, "oo2core_6_win64.dll"), Path.Join(Path.GetFullPath("."), "oo2core_6_win64.dll"));
-                }
-                _projectSettings = settings;
-                ChangeProjectSettings(_projectSettings, Path.GetDirectoryName(filename), options);
-                CFG.Current.LastProjectFile = filename;
-                _window.Title = $"{_programTitle}  -  {_projectSettings.ProjectName}";
-
-                if (updateRecents)
-                {
-                    var recent = new CFG.RecentProject();
-                    recent.Name = _projectSettings.ProjectName;
-                    recent.GameType = _projectSettings.GameType;
-                    recent.ProjectFile = filename;
-                    CFG.Current.RecentProjects.Insert(0, recent);
-                    if (CFG.Current.RecentProjects.Count > CFG.MAX_RECENT_PROJECTS)
-                    {
-                        CFG.Current.RecentProjects.RemoveAt(CFG.Current.RecentProjects.Count - 1);
-                    }
-                }
+                // Error loading project, clear recent project to let the user launch the program next time without issue.
+                CFG.Current.LastProjectFile = "";
+                CFG.Save();
+                throw;
             }
             return success;
         }
