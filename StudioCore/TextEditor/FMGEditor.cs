@@ -226,7 +226,7 @@ namespace StudioCore.TextEditor
         }
 
         private string _textCache = "";
-        private FMG.Entry _entryCache;
+        private FMG.Entry _entryCache = null;
 
         public void PropEditorFMG(FMG.Entry entry, string name, float boxsize)
         {
@@ -260,7 +260,7 @@ namespace StudioCore.TextEditor
             }
 
             bool committed = ImGui.IsItemDeactivatedAfterEdit();
-            if (committed)
+            if (committed && _entryCache != null)
             {
                 if (_textCache != _entryCache.Text)
                     UpdateProperty(_entryCache.GetType().GetProperty("Text"), _entryCache, _textCache);
