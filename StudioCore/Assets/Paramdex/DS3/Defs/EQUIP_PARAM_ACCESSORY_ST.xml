@@ -46,5 +46,4 @@
     <Field Def="s32 residentSpEffectId4" />
     <Field Def="dummy8 pad3[8]" />
   </Fields>
-  <Self Wiki="Defines Talismans." />
 </PARAMDEF>

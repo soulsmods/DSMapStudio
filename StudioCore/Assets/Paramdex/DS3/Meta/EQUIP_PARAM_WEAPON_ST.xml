@@ -392,7 +392,7 @@ trophySGradeId,trophySeqId,-,"/>
     <correctType_Poison AltName="Correction Type: Poison" Refs="CalcCorrectGraph" Wiki="Determines the stat graph used for Poison buildup (i.e. how effective a stat is)." />
 	<swordArt_ActId AltName="Weapon Art Anim ID" Wiki="Set to 99 for Torch to make it have No Skill. 0 otherwise." />
     <correctType_Bleed AltName="Correction Type: Bleed" Wiki="Determine the type of bleeding attack power correction graph with primary parameters" Refs="CalcCorrectGraph" />
-	<properLuck AltName="Requirement: ARC" Wiki="Equipment appropriate value." />
+	<properLuck AltName="Requirement: LCK" Wiki="Equipment appropriate value." />
     <freezeGuardResist AltName="Guard Resist: Frostbite" Wiki="How much to cut the attack power (set to the special effect parameter) to cool down" />
     <autoReplenishType AltName="Auto Replenish Type" Wiki="Controls whether or not to automatically replenish and default settings" />
 	<swordArtsParamId AltName="Sword Arts Param ID" Wiki="Arts parameter ID" Refs="SwordArtsParam" />
