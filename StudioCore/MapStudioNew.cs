@@ -1339,10 +1339,11 @@ namespace StudioCore
             if (!settingsMenuOpen)
                 return;
 
-            ImGui.SetNextWindowSize(new Vector2(900f, 800f), ImGuiCond.FirstUseEver);
-            ImGui.PushStyleColor(ImGuiCol.WindowBg, new Vector4(0f, 0f, 0f, .98f));
-            ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(10f, 10f));
-            ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(20f, 10f));
+            ImGui.SetNextWindowSize(new Vector2(900.0f, 800.0f), ImGuiCond.FirstUseEver);
+            ImGui.PushStyleColor(ImGuiCol.WindowBg, new Vector4(0f, 0f, 0f, 0.98f));
+            ImGui.PushStyleColor(ImGuiCol.TitleBgActive, new Vector4(0.25f, 0.25f, 0.25f, 1.0f));
+            ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(10.0f, 10.0f));
+            ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(20.0f, 10.0f));
             ImGui.PushStyleVar(ImGuiStyleVar.IndentSpacing, 20.0f);
 
             if (ImGui.Begin("Settings Menu##Popup", ref settingsMenuOpen, ImGuiWindowFlags.NoDocking))
@@ -1436,7 +1437,7 @@ namespace StudioCore
 
                     ImGui.Separator();
 
-                    if (ImGui.CollapsingHeader("Map/Model Viewport Camera"))
+                    if (ImGui.CollapsingHeader("Camera"))
                     {
                         ImGui.Indent();
                         float cam_fov = CFG.Current.GFX_Camera_FOV;
@@ -1540,7 +1541,29 @@ namespace StudioCore
                         ImGui.Unindent();
                     }
 
+                    ImGui.Separator();
 
+                    if (ImGui.CollapsingHeader("Limits"))
+                    {
+                        ImGui.Indent();
+
+                        ImGui.Text("Please restart the program for changes to take effect");
+                        if (ImGui.InputInt("Renderables", ref CFG.Current.GFX_Limit_Renderables, 0, 0))
+                        {
+                            if (CFG.Current.GFX_Limit_Renderables < CFG.Default.GFX_Limit_Renderables)
+                                CFG.Current.GFX_Limit_Renderables = CFG.Default.GFX_Limit_Renderables;
+                        }
+
+                        Utils.ImGui_InputUint("FLVER Bone Buffer", ref CFG.Current.GFX_Limit_Buffer_Flver_Bone);
+
+                        if (ImGui.Button("Reset##MapLimits"))
+                        {
+                            CFG.Current.GFX_Limit_Renderables = CFG.Default.GFX_Limit_Renderables;
+                            CFG.Current.GFX_Limit_Buffer_Flver_Bone = CFG.Default.GFX_Limit_Buffer_Flver_Bone;
+                        }
+
+                        ImGui.Unindent();
+                    }
 
                     ImGui.Unindent();
                     ImGui.EndTabItem();
@@ -1716,7 +1739,7 @@ namespace StudioCore
             ImGui.End();
 
             ImGui.PopStyleVar(3);
-            ImGui.PopStyleColor();
+            ImGui.PopStyleColor(2);
         }
 
         private void RecreateWindowFramebuffers(CommandList cl)

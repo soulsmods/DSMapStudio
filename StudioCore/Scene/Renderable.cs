@@ -41,7 +41,7 @@ namespace StudioCore.Scene
     /// </summary>
     public class Renderables
     {
-        protected const int SYSTEM_SIZE = 50000;
+        protected static readonly int SYSTEM_SIZE = CFG.Current.GFX_Limit_Renderables;
 
         private int _topIndex = 0;
 
@@ -63,7 +63,7 @@ namespace StudioCore.Scene
                     return i;
                 }
             }
-            throw new Exception("Renderable system full");
+            throw new Exception("Renderable system full. Try increasing renderables limit in settings.");
         }
 
         protected int AllocateValidAndVisibleRenderable()
