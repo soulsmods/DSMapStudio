@@ -2,11 +2,11 @@
 4 Automatic Cyclic object destruction
 5 Dummy attack to keep bullets out
 10 Pc_ Common _ Egg attack
-40 Common attack Ladder _ right Punch]
-41 Common attack ladder _ Right Kick]
-42 Common attack Ladder _ left Punch]
-43 Common attack Ladder _ left Kick]
-44 Common attack Ladder _ Slide down]
+40 Common attack Ladder _ right Punch
+41 Common attack ladder _ Right Kick
+42 Common attack Ladder _ left Punch
+43 Common attack Ladder _ left Kick
+44 Common attack Ladder _ Slide down
 101 System: Attack magnification for menu display
 200 Common attack falling - _ Attack Armor
 201 Common attack Landing - _ Attack Armor
@@ -22,20 +22,20 @@
 220 Common attack throwing - _ Attack armor
 221 Common attack Strong throw - _ Attack Armor
 222 Common attack Paris slams - _ Attack armor
-300 Common attack falling]
-301 Common attack landing]
-302 Common attack Thud landing]
+300 Common attack falling
+301 Common attack landing
+302 Common attack Thud landing
 303 Common attack (Fall Landing)
 304 Rolling
-305 Common attack Summon]
-306 Common attack falling on back]
-310 Common attack before push]
-311 Common attack later blows]
-312 Common attack 吹tsu飛bimasu]
+305 Common attack Summon
+306 Common attack falling on back
+310 Common attack before push
+311 Common attack later blows
+312 Common attack 吹tsu飛bimasu
 313 Common attack after push
-320 Common attack throwing]
-321 Common attack strong throw]
-322 Common attack Paris slams]
+320 Common attack throwing
+321 Common attack strong throw
+322 Common attack Paris slams
 1010 Throwing Knife - Normal
 1011 Throwing Knife - Magic
 1012 Throwing Knife - Fire
@@ -285,7 +285,7 @@
 6300 Throwing Frying Pan
 7000 Wrathful Arrow
 7010 Darkmoon Volley
-7011 Darkmoon Volley HitBullet]
+7011 Darkmoon Volley HitBullet
 10000 Soul Arrow
 10001 Seoul Arrow Double Chanting
 10010 Strong Soul Arrow
@@ -316,7 +316,7 @@
 13012 Fireball Double Chanting Derivation
 13020 A strong fireball
 13030 Chaos _ Fireball
-13040 Chaos _ Fire Ball lava]
+13040 Chaos _ Fire Ball lava
 14000 Fire
 14001 Firing double Chanting
 14010 Proximity Flames 2
@@ -325,26 +325,26 @@
 15001 Firestorm 1 Double Chant
 15010 Firestorm 2
 15020 Chaos _ Firestorm
-15030 Chaos _ Firestorm lava]
-16000 Lightning 1 Parent]
-16001 Thunder 1 Child]
-16002 Thunder 1 grandchild]
-16003 Thunder 1 grandson]
-16004 Thunder 1 Genn]
-16005 Thunder 1 grandchild coming]
-16010 Lightning 1 Close range]
-16100 Lightning 2 Parent]
-16110 Thunder 2 Child]
-16120 Thunder 2 grandchild]
-16130 Thunder 2 grandson]
-16140 Thunder 2 Genn]
-16150 Thunder 2 grandson coming]
-16200 Thunder 3 Parent]
-16210 Thunder 3 Child]
-16220 Thunder 3 grandchild]
-16230 Thunder 3 grandson]
-16240 Thunder 3 Genn]
-16250 Thunder 3 grandson coming]
+15030 Chaos _ Firestorm lava
+16000 Lightning 1 Parent
+16001 Thunder 1 Child
+16002 Thunder 1 grandchild
+16003 Thunder 1 grandson
+16004 Thunder 1 Genn
+16005 Thunder 1 grandchild coming
+16010 Lightning 1 Close range
+16100 Lightning 2 Parent
+16110 Thunder 2 Child
+16120 Thunder 2 grandchild
+16130 Thunder 2 grandson
+16140 Thunder 2 Genn
+16150 Thunder 2 grandson coming
+16200 Thunder 3 Parent
+16210 Thunder 3 Child
+16220 Thunder 3 grandchild
+16230 Thunder 3 grandson
+16240 Thunder 3 Genn
+16250 Thunder 3 grandson coming
 17000 Causal retribution
 19000 Force One
 19001 Force 1 Double Chant
@@ -360,7 +360,7 @@
 19024 Force 3_ Resonance Lv4
 22000 Fire Whip
 23000 Chaos _ The Whip of flames
-23010 Chaos _ A whip of flames lava]
+23010 Chaos _ A whip of flames lava
 24000 Crystal Beam
 25000 DLC - Dark Ball
 26000 DLC - Splash of Darkness
@@ -373,30 +373,30 @@
 30004 Machine gun
 30005 Through beam
 30006 Fire Bolt
-30007 Thunder 1_ resonance Lv2 parent]
+30007 Thunder 1_ resonance Lv2 parent
 30008 Thunder 1_ Resonance Lv2 【 child 】
-30009 Thunder 1_ resonance Lv2 grandchild]
-30010 Thunder 1_ resonance Lv2 grandson]
-30011 Thunder 1_ resonance Lv2 Genn]
-30012 Thunder 1_ resonance Lv2 coming grandchild]
-30013 Thunder 1_ resonance Lv3 parent]
+30009 Thunder 1_ resonance Lv2 grandchild
+30010 Thunder 1_ resonance Lv2 grandson
+30011 Thunder 1_ resonance Lv2 Genn
+30012 Thunder 1_ resonance Lv2 coming grandchild
+30013 Thunder 1_ resonance Lv3 parent
 30014 Thunder 1_ Resonance Lv3 【 child 】
-30015 Thunder 1_ resonance Lv3 grandchild]
-30016 Thunder 1_ resonance Lv3 grandson]
-30017 Thunder 1_ resonance Lv3 Genn]
-30018 Thunder 1_ resonance Lv3 coming grandchild]
-30019 Thunder 1_ resonance lv4 parent]
+30015 Thunder 1_ resonance Lv3 grandchild
+30016 Thunder 1_ resonance Lv3 grandson
+30017 Thunder 1_ resonance Lv3 Genn
+30018 Thunder 1_ resonance Lv3 coming grandchild
+30019 Thunder 1_ resonance lv4 parent
 30020 Thunder 1_ Resonance lv4 【 child 】
-30021 Thunder 1_ resonance lv4 grandchild]
-30022 Thunder 1_ resonance lv4 grandson]
-30023 Thunder 1_ resonance lv4 Genn]
-30024 Thunder 1_ resonance lv4 coming grandchild]
-30025 Thunder 1_ resonance lv5 parent]
+30021 Thunder 1_ resonance lv4 grandchild
+30022 Thunder 1_ resonance lv4 grandson
+30023 Thunder 1_ resonance lv4 Genn
+30024 Thunder 1_ resonance lv4 coming grandchild
+30025 Thunder 1_ resonance lv5 parent
 30026 Thunder 1_ Resonance lv5 【 child 】
-30027 Thunder 1_ resonance lv5 grandchild]
-30028 Thunder 1_ resonance lv5 grandson]
-30029 Thunder 1_ resonance lv5 Genn]
-30030 Thunder 1_ resonance lv5 coming grandchild]
+30027 Thunder 1_ resonance lv5 grandchild
+30028 Thunder 1_ resonance lv5 grandson
+30029 Thunder 1_ resonance lv5 Genn
+30030 Thunder 1_ resonance lv5 coming grandchild
 30900 Recovery: Recover Yourself
 30901 Recovery: Ambient Recovery
 31100 A firm vow
@@ -720,9 +720,9 @@
 2308720 Silver Knight Straight Sword - Evade & Slam
 2308735 Silver Knight Straight Sword - Tackle
 2310730 Lothric's Holy Sword
-2310735 Lothric's Holy Sword Bullet]
-2320700 Sunlight Straight Sword Bullet]
-2320710 Sunlight Straight Sword Bullet]
+2310735 Lothric's Holy Sword Bullet
+2320700 Sunlight Straight Sword Bullet
+2320710 Sunlight Straight Sword Bullet
 2330700 Ringed Knight Straight Sword
 2330701 Ringed Knight Straight Sword
 2330705 Ringed Knight Straight Sword
@@ -934,12 +934,12 @@
 2510715 Greatsword of Judgment - Weapon Art Bullet - - Wave
 2510720 Greatsword of Judgment - Weapon Art Bullet - - Beam
 2511700 Twin Princes' Greatsword
-2511705 Twin Princes' Greatsword Bullet]
+2511705 Twin Princes' Greatsword Bullet
 2511710 Twin Princes' Greatsword
-2511715 Twin Princes' Greatsword Bullet]
-2511716 Twin Princes' Greatsword Bullet]
+2511715 Twin Princes' Greatsword Bullet
+2511716 Twin Princes' Greatsword Bullet
 2512700 Wolnir's Holy Sword
-2512705 Wolnir's Holy Sword Bullet]
+2512705 Wolnir's Holy Sword Bullet
 2513100 Moonlight Greatsword - 1H Heavy #1
 2513101 Moonlight Greatsword - 1H Heavy #1 - Vertical Wave
 2513102 Moonlight Greatsword - 1H Heavy #1 - Vertical Wave (Fire)
@@ -995,11 +995,11 @@
 2513716 Moonlight Greatsword - 2H Heavy #2 - Vertical Wave (Rainbow)
 2513717 Moonlight Greatsword - 2H Heavy #2 (Charged) - Vertical Wave (Rainbow)
 2514700 Firelink Greatsword - Ember
-2514705 Firelink Greatsword - Ember Bullet]
-2515730 Storm Ruler Bullet]
-2515731 Storm Ruler Bullet]
-2515732 Storm Ruler Bullet]
-2515740 Storm Ruler Bullet]
+2514705 Firelink Greatsword - Ember Bullet
+2515730 Storm Ruler Bullet
+2515731 Storm Ruler Bullet
+2515732 Storm Ruler Bullet
+2515740 Storm Ruler Bullet
 2516000 Executioner's Greatsword
 2516001 Executioner's Greatsword
 2516010 Executioner's Greatsword
@@ -1060,7 +1060,7 @@
 2518315 Onyx Blade - 2H Heavy #2 Max
 2518580 Onyx Blade
 2518700 Onyx Blade - Weapon Art
-2518701 Onyx Blade Bullet]
+2518701 Onyx Blade Bullet
 2519000 Gael's Greatsword
 2519010 Gael's Greatsword
 2519020 Gael's Greatsword
@@ -1242,8 +1242,8 @@
 2604300 Lorian's Greatsword - 2H Heavy #1
 2604305 Lorian's Greatsword - 2H Heavy #1 Max
 2604720 Lorian's Greatsword
-2604725 Lorian's Greatsword Bullet]
-2604726 Lorian's Greatsword Bullet]
+2604725 Lorian's Greatsword Bullet
+2604726 Lorian's Greatsword Bullet
 2605100 Zweihander - 1H Heavy #1
 2605105 Zweihander - 1H Heavy #1 Max
 2605110 Zweihander - 1H Heavy #2
@@ -1283,8 +1283,8 @@
 2608300 Dark Lorian's Greatsword - 2H Heavy #1
 2608305 Dark Lorian's Greatsword - 2H Heavy #1 Max
 2608720 Dark Lorian's Greatsword
-2608725 Dark Lorian's Greatsword Bullet]
-2608726 Dark Lorian's Greatsword Bullet]
+2608725 Dark Lorian's Greatsword Bullet
+2608726 Dark Lorian's Greatsword Bullet
 2609000 Meat Cleaver - 1H Light #1
 2609001 Meat Cleaver - 1H Light #1 Range
 2609010 Meat Cleaver - 1H Light #2
@@ -1511,13 +1511,13 @@
 2624300 Smelter Sword - 2H Heavy #1
 2624305 Smelter Sword - 2H Heavy #1 Max
 2624720 Smelter Sword - Smelter's Fury
-2624725 Smelter Sword - Smelter's Fury Bullet]
-2624726 Smelter Sword - Smelter's Fury Bullet]
+2624725 Smelter Sword - Smelter's Fury Bullet
+2624726 Smelter Sword - Smelter's Fury Bullet
 2625300 Magic Smelter Sword - 2H Heavy #1
 2625305 Magic Smelter Sword - 2H Heavy #1 Max
 2625720 Magic Smelter Sword - Smelter's Fury
-2625725 Magic Smelter Sword - Smelter's Fury Bullet]
-2625726 Magic Smelter Sword - Smelter's Fury Bullet]
+2625725 Magic Smelter Sword - Smelter's Fury Bullet
+2625726 Magic Smelter Sword - Smelter's Fury Bullet
 2700000 Rapier - 1H Light #1
 2700010 Rapier - 1H Light #2
 2700020 Rapier - 1H Light #3
@@ -1760,19 +1760,19 @@
 2810540 Crescent Moon Sword
 2810580 Crescent Moon Sword
 2810700 Crescent Moon Sword
-2810705 Crescent Moon Sword Bullet]
+2810705 Crescent Moon Sword Bullet
 2811700 Storm Curved Sword
-2811705 Storm Curved Sword Bullet]
+2811705 Storm Curved Sword Bullet
 2811710 Storm Curved Sword
-2811715 Storm Curved Sword Bullet]
+2811715 Storm Curved Sword Bullet
 2811720 Storm Curved Sword
-2811725 Storm Curved Sword Bullet]
+2811725 Storm Curved Sword Bullet
 2812700 Follower Sabre
 2812701 Follower Sabre
 2812710 Follower Sabre
 2813700 Frayed Blade
-2813710 Frayed Blade Bullet]
-2813711 Frayed Blade Bullet]
+2813710 Frayed Blade Bullet
+2813711 Frayed Blade Bullet
 2813720 Frayed Blade
 2813730 Frayed Blade
 2813740 Frayed Blade
@@ -2582,7 +2582,7 @@
 3216540 Crypt Blacksword - 1H Roll
 3216580 Crypt Blacksword - 2H Roll
 3216700 Crypt Blacksword - Undead Wrath
-3216710 Crypt Blacksword - Undead Wrath HitBullet]
+3216710 Crypt Blacksword - Undead Wrath HitBullet
 3217000 King's Ultra Greatsword - 1H Light #1
 3217001 King's Ultra Greatsword - 1H Light #1
 3217010 King's Ultra Greatsword - 1H Light #2
@@ -4006,7 +4006,7 @@
 4119700 Manus Catalyst - Affinity
 4119701 Manus Catalyst - Affinity - Hit
 4119710 Manus Catalyst - Cascading Deep
-4119711 Manus Catalyst - Cascading Deep Emitter]
+4119711 Manus Catalyst - Cascading Deep Emitter
 4119712 Manus Catalyst - Cascading Deep - Hit
 4119720 Manus Catalyst - Dark Bead
 4119730 Manus Catalyst - Climax
@@ -4646,7 +4646,7 @@
 4803580 Pierce Shield - 2H Roll
 4803600 Pierce Shield - Parry
 4806700 Dragonhead Shield
-4806701 Dragonhead Shield Bullet]
+4806701 Dragonhead Shield Bullet
 4900000 Torch
 4900010 Torch
 4900020 Torch
@@ -4985,7 +4985,7 @@
 5040313 Scythe of Want
 5040317 Scythe of Want
 5040318 Scythe of Want
-5040950 Scythe of Want - Curse Mine Emitter]
+5040950 Scythe of Want - Curse Mine Emitter
 5040951 Scythe of Want - Curse Mine Explosion
 5100000 Carthus Curved Greatsword - 1H Light #1
 5100001 Carthus Curved Greatsword - 1H Light #1 Range
@@ -5237,7 +5237,7 @@
 11210050 Sorcery - Repeating Soul Orb
 11300000 Sorcery - Soul Arrow
 11300100 Sorcery - Explosive Soul Arrow
-11300110 Sorcery - Explosive Soul Arrow HitBullet]
+11300110 Sorcery - Explosive Soul Arrow HitBullet
 11301000 Sorcery - Scattering Crystal Orb
 11301010 Sorcery - Scattering Crystal Orb
 11301020 Sorcery - Scattering Crystal Orb
@@ -5248,29 +5248,29 @@
 11303000 Sorcery - Soul Geyser
 11303010 Sorcery - Crystal Soul Geyser
 11304000 Sorcery - Homing Soulmass
-11304100 Sorcery - Homing Soulmass HitBullet]
+11304100 Sorcery - Homing Soulmass HitBullet
 11304200 Sorcery - Surging Soulmass
-11304300 Sorcery - Surging Soulmass HitBullet]
+11304300 Sorcery - Surging Soulmass HitBullet
 11305000 Sorcery - Homing Crystal Soulmass
-11305100 Sorcery - Homing Crystal Soulmass HitBullet]
+11305100 Sorcery - Homing Crystal Soulmass HitBullet
 11306000 Sorcery - Soul Spear
 11307000 Sorcery - Crystal Soul Spear
 11308000 Sorcery - Deep Soul
 11309000 Sorcery - Great Deep Soul
 11356000 Sorcery - Aural Decoy
-11356010 Sorcery - Aural Decoy HitBullet]
+11356010 Sorcery - Aural Decoy HitBullet
 11370000 Sorcery - White Dragon Breath
 11370010 Sorcery - White Dragon Breath
-11370020 Sorcery - White Dragon Breath HitBullet]
+11370020 Sorcery - White Dragon Breath HitBullet
 11370030 Sorcery - White Dragon Breath
 11372000 Sorcery - Farron Hail
 11372100 Sorcery - Farron Hail
 11373000 Sorcery - Crystal Hail
-11373100 Sorcery - Crystal Hail HitBullet]
-11373200 Sorcery - Crystal Hail BulletEmitter]
+11373100 Sorcery - Crystal Hail HitBullet
+11373200 Sorcery - Crystal Hail BulletEmitter
 11373300 Sorcery - Crystal Hail
-11373400 Sorcery - Crystal Hail BulletEmitter]
-11373500 Sorcery - Crystal Hail BulletEmitter HitBullet]
+11373400 Sorcery - Crystal Hail BulletEmitter
+11373500 Sorcery - Crystal Hail BulletEmitter HitBullet
 11374000 Sorcery - Soul Greatsword - Right
 11374100 Sorcery - Soul Greatsword - Left
 11374200 Sorcery - Heavy Soul Greatsword - Right
@@ -5280,15 +5280,15 @@
 11375200 Sorcery - Bloodthirsty Flashsword - Right
 11375210 Sorcery - Bloodthirsty Flashsword - Left
 11376000 Sorcery - Old Moonlight
-11376001 Sorcery - Old Moonlight HitBullet]
+11376001 Sorcery - Old Moonlight HitBullet
 11376010 Sorcery - Old Moonlight - Sword - Right
 11376020 Sorcery - Old Moonlight - Sword - Left
 11376100 Sorcery - Old Moonlight - Charged
-11376101 Sorcery - Old Moonlight - Charged HitBullet]
+11376101 Sorcery - Old Moonlight - Charged HitBullet
 11376110 Sorcery - Heavy Old Moonlight - Sword - Right
 11376120 Sorcery - Heavy Old Moonlight - Sword - Left
 11603000 Sorcery - Affinity
-11603100 Sorcery - Affinity HitBullet]
+11603100 Sorcery - Affinity HitBullet
 11603200 Sorcery - Pursuers
 11604000 Sorcery - Great Soul Dregs
 11613000 Sorcery - Abyssal Edge - Right
@@ -5296,82 +5296,82 @@
 11613200 Sorcery - Heavy Abyssal Edge - Right
 11613210 Sorcery - Heavy Abyssal Edge - Left
 11620000 Sorcery - Soul Stream
-11620100 Sorcery - Soul Stream BulletEmitter]
+11620100 Sorcery - Soul Stream BulletEmitter
 11620200 Sorcery - Soul Stream
 11620300 Sorcery - Soul Stream
 11651000 Sorcery - Twisted Wall of Light
 11651100 Sorcery - Twisted Wall of Light
 11740000 Sorcery - Pestilent Mist
-11740100 Sorcery - Pestilent Mist HitBullet]
+11740100 Sorcery - Pestilent Mist HitBullet
 11740200 Sorcery - Snap Freeze
 12400000 Pyromancy - Fireball
 12400100 Pyromancy - Fireball - Hit
 12402000 Pyromancy - Fire Orb
 12402100 Pyromancy - Fire Orb - Hit
 12403000 Pyromancy - Firestorm
-12403100 Pyromancy - Firestorm HitBullet]
-12403200 Pyromancy - Firestorm HitBullet]
-12403300 Pyromancy - Firestorm HitBullet]
+12403100 Pyromancy - Firestorm HitBullet
+12403200 Pyromancy - Firestorm HitBullet
+12403300 Pyromancy - Firestorm HitBullet
 12403400 Pyromancy - Firestorm
 12403500 Pyromancy - Firestorm
-12403600 Pyromancy - Firestorm HitBullet]
+12403600 Pyromancy - Firestorm HitBullet
 12404000 Pyromancy - Outcry
-12404100 Pyromancy - Outcry HitBullet]
-12404200 Pyromancy - Outcry HitBullet]
-12404300 Pyromancy - Outcry HitBullet]
+12404100 Pyromancy - Outcry HitBullet
+12404200 Pyromancy - Outcry HitBullet
+12404300 Pyromancy - Outcry HitBullet
 12404400 Pyromancy - Outcry
 12404500 Pyromancy - Outcry
-12404600 Pyromancy - Outcry HitBullet]
+12404600 Pyromancy - Outcry HitBullet
 12405000 Pyromancy - Fire Surge
 12407000 Pyromancy - Black Serpent
-12407010 Pyromancy - Black Serpent EmittedBullet]
-12407100 Pyromancy - Black Serpent HitBullet]
+12407010 Pyromancy - Black Serpent EmittedBullet
+12407100 Pyromancy - Black Serpent HitBullet
 12411000 Pyromancy - Great Combustion
-12411100 Pyromancy - Great Combustion HitBullet]
-12411200 Pyromancy - Great Combustion HitBullet]
+12411100 Pyromancy - Great Combustion HitBullet
+12411200 Pyromancy - Great Combustion HitBullet
 12420000 Pyromancy - Poison Mist
 12421000 Pyromancy - Toxic Mist
 12422000 Pyromancy - Acid Surge
 12430000 Pyromancy - Iron Flesh
 12436000 Pyromancy - Rapport
 12450000 Pyromancy - Great Chaos Fire Orb
-12450100 Pyromancy - Great Chaos Fire Orb HitBullet]
-12450200 Pyromancy - Great Chaos Fire Orb HitBullet]
-12450300 Pyromancy - Great Chaos Fire Orb HitBullet]
+12450100 Pyromancy - Great Chaos Fire Orb HitBullet
+12450200 Pyromancy - Great Chaos Fire Orb HitBullet
+12450300 Pyromancy - Great Chaos Fire Orb HitBullet
 12451000 Pyromancy - Chaos Storm
-12451100 Pyromancy - Chaos Storm HitBullet]
-12451200 Pyromancy - Chaos Storm HitBullet]
-12451300 Pyromancy - Chaos Storm HitBullet]
+12451100 Pyromancy - Chaos Storm HitBullet
+12451200 Pyromancy - Chaos Storm HitBullet
+12451300 Pyromancy - Chaos Storm HitBullet
 12451400 Pyromancy - Chaos Storm
 12451500 Pyromancy - Chaos Storm
-12451600 Pyromancy - Chaos Storm HitBullet]
-12451700 Pyromancy - Chaos Storm HitBullet]
+12451600 Pyromancy - Chaos Storm HitBullet
+12451700 Pyromancy - Chaos Storm HitBullet
 12452000 Pyromancy - Fire Whip
 12452100 Pyromancy - Chaos Fire Whip - Hit
 12452220 Pyromancy - Chaos Fire Whip - Hit
 12453000 Pyromancy - Black Flame
-12453100 Pyromancy - Black Flame HitBullet]
-12453200 Pyromancy - Black Flame HitBullet]
+12453100 Pyromancy - Black Flame HitBullet
+12453200 Pyromancy - Black Flame HitBullet
 12453300 Pyromancy - Scorching Black Flame
-12453310 Pyromancy - Scorching Black Flame HitBullet]
-12453320 Pyromancy - Scorching Black Flame HitBullet]
-12453330 Pyromancy - Scorching Black Flame HitBullet]
-12453340 Pyromancy - Scorching Black Flame HitBullet]
+12453310 Pyromancy - Scorching Black Flame HitBullet
+12453320 Pyromancy - Scorching Black Flame HitBullet
+12453330 Pyromancy - Scorching Black Flame HitBullet
+12453340 Pyromancy - Scorching Black Flame HitBullet
 12455000 Pyromancy - Profaned Flame
-12455100 Pyromancy - Profaned Flame HitBullet]
-12455200 Pyromancy - Profaned Flame HitBullet]
+12455100 Pyromancy - Profaned Flame HitBullet
+12455200 Pyromancy - Profaned Flame HitBullet
 12456000 Pyromancy - Chaos Bed Vestiges
 12456100 Pyromancy - Chaos Bed Vestiges
-12456200 Pyromancy - Chaos Bed Vestiges unlinked]
-12456210 Pyromancy - Chaos Bed Vestiges BulletEmitter]
+12456200 Pyromancy - Chaos Bed Vestiges unlinked
+12456210 Pyromancy - Chaos Bed Vestiges BulletEmitter
 12456212 Pyromancy - Chaos Bed Vestiges - Lava
 12456300 Pyromancy - Chaos Vortex
-12456400 Pyromancy - Chaos Vortex BulletEmitter]
+12456400 Pyromancy - Chaos Vortex BulletEmitter
 12457000 Pyromancy - Floating Chaos
-12457010 Pyromancy - Floating Chaos unlinked]
-12457100 Pyromancy - Floating Chaos BulletEmitter]
-12457110 Pyromancy - Floating Chaos EmittedBullet]
-12457410 Pyromancy - Lingering Floating Chaos EmittedBullet]
+12457010 Pyromancy - Floating Chaos unlinked
+12457100 Pyromancy - Floating Chaos BulletEmitter
+12457110 Pyromancy - Floating Chaos EmittedBullet
+12457410 Pyromancy - Lingering Floating Chaos EmittedBullet
 12458000 Pyromancy - Flame Fan
 12458100 Pyromancy - Flame Fan
 12458200 Pyromancy - Flame Fan
@@ -5382,94 +5382,94 @@
 12458330 Pyromancy - Flame Fan - Ascended
 12470000 Pyromancy - Warmth
 12470001 Pyromancy - Fond Warmth
-12600000 Pyromancy - Dark Orb unused]
-12600100 Pyromancy - Dark Orb unused - HitBullet]
+12600000 Pyromancy - Dark Orb unused
+12600100 Pyromancy - Dark Orb unused - HitBullet
 12610000 Pyromancy - Black Fire Orb
-12610100 Pyromancy - Black Fire Orb HitBullet]
+12610100 Pyromancy - Black Fire Orb HitBullet
 12620000 Pyromancy - Bursting Fireball
-12620100 Pyromancy - Bursting Fireball HitBullet]
-12620200 Pyromancy - Bursting Fireball HitBullet]
+12620100 Pyromancy - Bursting Fireball HitBullet
+12620200 Pyromancy - Bursting Fireball HitBullet
 12630000 Pyromancy - Boulder Heave
-12630100 Pyromancy - Boulder Heave HitBullet]
+12630100 Pyromancy - Boulder Heave HitBullet
 12630200 Pyromancy - Boulder Heave - Ascended
 12630201 Pyromancy - Boulder Heave HitBullet - - Ascended
 12660000 Pyromancy - Seething Chaos
-12660010 Pyromancy - Seething Chaos HitBullet]
-12660020 Pyromancy - Seething Chaos HitBullet]
-12660030 Pyromancy - Seething Chaos HitBullet]
+12660010 Pyromancy - Seething Chaos HitBullet
+12660020 Pyromancy - Seething Chaos HitBullet
+12660030 Pyromancy - Seething Chaos HitBullet
 12660100 Pyromancy - Great Seething Chaos
-12660110 Pyromancy - Great Seething Chaos HitBullet]
-12660120 Pyromancy - Great Seething Chaos HitBullet]
-12660130 Pyromancy - Great Seething Chaos HitBullet]
+12660110 Pyromancy - Great Seething Chaos HitBullet
+12660120 Pyromancy - Great Seething Chaos HitBullet
+12660130 Pyromancy - Great Seething Chaos HitBullet
 12661000 Pyromancy - Chaos Beam
 12661100 Pyromancy - Chaos Beam - Hit
 13490000 Miracle - Heal Aid
 13490100 Miracle - Heal Aid - Hit
 13500000 Miracle - Heal
-13500100 Miracle - Heal HitBullet]
+13500100 Miracle - Heal HitBullet
 13501000 Miracle - Med Heal
-13501100 Miracle - Med Heal HitBullet]
+13501100 Miracle - Med Heal HitBullet
 13502000 Miracle - Great Heal
-13502100 Miracle - Great Heal HitBullet]
+13502100 Miracle - Great Heal HitBullet
 13503000 Miracle - Soothing Sunlight
-13503100 Miracle - Soothing Sunlight HitBullet]
+13503100 Miracle - Soothing Sunlight HitBullet
 13505000 Miracle - Bountiful Sunlight
-13505100 Miracle - Bountiful Sunlight HitBullet]
+13505100 Miracle - Bountiful Sunlight HitBullet
 13508000 Miracle - Caressing Tears
 13509000 Miracle - Lightning Arrow
-13513000 Miracle - Morbid Temptation unused]
+13513000 Miracle - Morbid Temptation unused
 13530000 Miracle - Force
 13531000 Miracle - Wrath of the Gods
 13532000 Miracle - Emit Force
-13532100 Miracle - Emit Force HitBullet]
-13550000 Miracle - Lightning Spear Ranged]
+13532100 Miracle - Emit Force HitBullet
+13550000 Miracle - Lightning Spear Ranged
 13550010 Miracle - Lightning Spear
-13550100 Miracle - Lightning Spear Proximity]
+13550100 Miracle - Lightning Spear Proximity
 13550200 Miracle - Lightning Surge
-13551000 Miracle - Great Lightning Spear Ranged]
+13551000 Miracle - Great Lightning Spear Ranged
 13551010 Miracle - Great Lightning Spear
-13551100 Miracle - Great Lightning Spear Proximity]
+13551100 Miracle - Great Lightning Spear Proximity
 13551110 Miracle - Storm Spear
-13551120 Miracle - Storm Spear HitBullet]
-13551130 Miracle - Storm Spear HitBullet]
-13551140 Miracle - Storm Spear HitBullet]
+13551120 Miracle - Storm Spear HitBullet
+13551130 Miracle - Storm Spear HitBullet
+13551140 Miracle - Storm Spear HitBullet
 13551150 Miracle - Storm Spear
-13551160 Miracle - Storm Spear HitBullet]
-13551170 Miracle - Storm Spear HitBullet]
-13551180 Miracle - Storm Spear HitBullet]
-13552000 Miracle - Sunlight Spear Ranged]
+13551160 Miracle - Storm Spear HitBullet
+13551170 Miracle - Storm Spear HitBullet
+13551180 Miracle - Storm Spear HitBullet
+13552000 Miracle - Sunlight Spear Ranged
 13552010 Miracle - Sunlight Spear
-13552100 Miracle - Sunlight Spear Proximity]
-13552500 Miracle - Fulgurant Sunlight Spear Ranged]
+13552100 Miracle - Sunlight Spear Proximity
+13552500 Miracle - Fulgurant Sunlight Spear Ranged
 13552510 Miracle - Fulgurant Sunlight Spear
-13552600 Miracle - Fulgurant Sunlight Spear Proximity]
-13552700 Miracle - Fulgurant Sunlight Spear AoE]
+13552600 Miracle - Fulgurant Sunlight Spear Proximity
+13552700 Miracle - Fulgurant Sunlight Spear AoE
 13553000 Miracle - Lightning Storm
 13553100 Miracle - Lightning Storm
-13553200 Miracle - Lightning Storm HitBullet]
-13553300 Miracle - Lightning Storm HitBullet]
-13553400 Miracle - Lightning Storm HitBullet]
+13553200 Miracle - Lightning Storm HitBullet
+13553300 Miracle - Lightning Storm HitBullet
+13553400 Miracle - Lightning Storm HitBullet
 13553500 Miracle - Lightning Storm
-13553600 Miracle - Lightning Storm HitBullet]
-13553700 Miracle - Lightning Storm HitBullet]
-13553800 Miracle - Lightning Storm HitBullet]
+13553600 Miracle - Lightning Storm HitBullet
+13553700 Miracle - Lightning Storm HitBullet
+13553800 Miracle - Lightning Storm HitBullet
 13554000 Miracle - Gnaw
 13555000 Miracle - Dorhys' Gnawing
 13556000 Miracle - Way of White Corona
-13556010 Miracle - Way of White Corona HitBullet]
-13556020 Miracle - Way of White Corona HitBullet]
-13556021 Miracle - Way of White Corona HitBullet]
+13556010 Miracle - Way of White Corona HitBullet
+13556020 Miracle - Way of White Corona HitBullet
+13556021 Miracle - Way of White Corona HitBullet
 13557000 Miracle - Projected Heal
-13557010 Miracle - Projected Heal HitBullet]
+13557010 Miracle - Projected Heal HitBullet
 13581000 Miracle - Vow of Silence
 13582000 Miracle - Sunlight Storm
-13582010 Miracle - Sunlight Storm HitBullet]
-13582020 Miracle - Sunlight Storm HitBullet]
-13582030 Miracle - Sunlight Storm HitBullet]
+13582010 Miracle - Sunlight Storm HitBullet
+13582020 Miracle - Sunlight Storm HitBullet
+13582030 Miracle - Sunlight Storm HitBullet
 13582040 Miracle - Sunlight Storm
-13582050 Miracle - Sunlight Storm HitBullet]
-13582060 Miracle - Sunlight Storm HitBullet]
-13582070 Miracle - Sunlight Storm HitBullet]
+13582050 Miracle - Sunlight Storm HitBullet
+13582060 Miracle - Sunlight Storm HitBullet
+13582070 Miracle - Sunlight Storm HitBullet
 13700200 Dead Again - Tier 1
 13700210 Dead Again - Tier 2
 13700220 Dead Again - Tier 3
@@ -5480,17 +5480,17 @@
 13700270 Dead Again - Tier 8
 13700280 Dead Again - Tier 9
 13710000 Miracle - Lightning Stake
-13710001 Miracle - Lightning Stake HitBullet]
-13710002 Miracle - Lightning Stake HitBullet]
+13710001 Miracle - Lightning Stake HitBullet
+13710002 Miracle - Lightning Stake HitBullet
 13710100 Miracle - Sunlight Stake
-13710101 Miracle - Sunlight Stake HitBullet]
-13710102 Miracle - SunlightStake HitBullet]
-13710310 Miracle - Lightning Stake HitBullet]
-13710320 Miracle - Lightning Stake HitBullet]
+13710101 Miracle - Sunlight Stake HitBullet
+13710102 Miracle - SunlightStake HitBullet
+13710310 Miracle - Lightning Stake HitBullet
+13710320 Miracle - Lightning Stake HitBullet
 13720000 Miracle - Divine Pillars of Light
-13720100 Miracle - Divine Pillars of Light HitBullet]
-13720200 Miracle - Divine Pillars of Light HitBullet]
-13720300 Miracle - Divine Pillars of Light HitBullet]
+13720100 Miracle - Divine Pillars of Light HitBullet
+13720200 Miracle - Divine Pillars of Light HitBullet
+13720300 Miracle - Divine Pillars of Light HitBullet
 13720400 Miracle - Divine Pillars of Light
 13720500 Miracle - Divine Pillars of Light
 13730000 Miracle - Lifehunt Scythe

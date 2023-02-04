@@ -30,34 +30,34 @@
 201 吹tsu飛bimasu (weak) Radius 1m
 202 吹tsu飛bimasu (strong) Radius 1m
 2000 Tomb King Demon Space attack
-3000 Common attack feet, large damage, human type -
-3001 Common attack center, large damage, human type -
-3002 Common attack feet, small damage, human type -
-3003 Common attack Center, small damage, human type -
-3010 Common attack Center, no damage, human type -
-3011 Common attack back, no damage, human type -
-3012 Common attack belly, no damage, human type -
-3013 Common attack step, no damage, human type -
-3020 Common attack right hand, ladder damage, human type -
-3021 Common attack left hand, ladder damage, human type -
-3022 Common attack right foot, ladder damage, human type -
-3023 Common attack left leg, ladder damage, human type -
-3100 Common attack feet, large damage, large -
-3101 Common attack center, large damage, large -
-3102 Common attack feet, small damage, large -
-3103 Common attack Center, small damage, large -
-3110 Common attack Center, no damage, large -
-3111 Common attack back, no damage, large -
-3112 Common attack belly, no damage, large -
-3113 Common attack foot, no damage, large -
-3120 Common attack right hand, no damage, obj no big, large -
-3121 Common attack left, no damage, obj no big, large -
-3122 Common attack right leg, no damage, obj no big, large -
-3123 Common attack left foot, no damage, obj no big, large -
-3130 Common attack right, no damage, obj, no small, large -
-3131 Common attack left, no damage, obj no small, large -
-3132 Common attack right leg, no damage, obj no small, large -
-3133 Common attack left foot, no damage, obj no small, large -
+3000 Common attack feet, large damage, human type
+3001 Common attack center, large damage, human type
+3002 Common attack feet, small damage, human type
+3003 Common attack Center, small damage, human type
+3010 Common attack Center, no damage, human type
+3011 Common attack back, no damage, human type
+3012 Common attack belly, no damage, human type
+3013 Common attack step, no damage, human type
+3020 Common attack right hand, ladder damage, human type
+3021 Common attack left hand, ladder damage, human type
+3022 Common attack right foot, ladder damage, human type
+3023 Common attack left leg, ladder damage, human type
+3100 Common attack feet, large damage, large
+3101 Common attack center, large damage, large
+3102 Common attack feet, small damage, large
+3103 Common attack Center, small damage, large
+3110 Common attack Center, no damage, large
+3111 Common attack back, no damage, large
+3112 Common attack belly, no damage, large
+3113 Common attack foot, no damage, large
+3120 Common attack right hand, no damage, obj no big, large
+3121 Common attack left, no damage, obj no big, large
+3122 Common attack right leg, no damage, obj no big, large
+3123 Common attack left foot, no damage, obj no big, large
+3130 Common attack right, no damage, obj, no small, large
+3131 Common attack left, no damage, obj no small, large
+3132 Common attack right leg, no damage, obj no small, large
+3133 Common attack left foot, no damage, obj no small, large
 5100 Ojo 1 Ball of caries
 5110 Ojo 1 Bonfires of caries
 5120 Ojo 1 Carpet burning of caries

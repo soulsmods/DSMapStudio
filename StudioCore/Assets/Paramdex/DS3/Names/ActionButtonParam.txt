@@ -55,31 +55,31 @@
 9401 Messenger Tombstone (already ignited) * Text difference
 9410 Messenger Tombstone (not ignited)
 9411 Messenger Tombstone (already ignited) * Text difference
-10000 [Interaction] Traverse the fog
-3001800 [Fogwall] Vordt of the Boreal Valley
-3001830 [Fogwall] Oceiros
-3001890 [Fogwall] Dancer of the Boreal Valley
-3011800 [Fogwall] Dragonslayer Armour
-3101800 [Fogwall] Curse-rotted Greatwood
-3201800 [Fogwall] Ancient Wyvern
-3201850 [Fogwall] Nameless King
-3301800 [Fogwall] Abyss Watchers
-3301850 [Fogwall] Crystal Sage
-3411830 [Fogwall] Twin Princes
-3501800 [Fogwall] Deacons of the Deep
-3501860 [Fogwall] Rosaria's Chamber
-3701800 [Fogwall] Aldrich
-3701850 [Fogwall] Pontiff Sulyvahn
-3701870 [Fogwall] Lordran Remnants
-3801800 [Fogwall] High Lord Wolnir
-3801830 [Fogwall] Old Demon King
-3901800 [Fogwall] Yhorm the Giant
-4001800 [Fogwall] Iudex Gundyr
-4001830 [Fogwall] Champion Gundyr
-4101800 [Fogwall] Soul of Cinder
-4501800 [Fogwall] Sister Friede
-5001800 [Fogwall] Demon Prince
-5101800 [Fogwall] Halflight
-5101850 [Fogwall] Darkeater Midir
-5111800 [Fogwall] Slave Knight Gael
-5111850 [Fogwall] Shira Encounter
+10000 Interaction - Traverse the fog
+3001800 Fogwall - Vordt of the Boreal Valley
+3001830 Fogwall - Oceiros
+3001890 Fogwall - Dancer of the Boreal Valley
+3011800 Fogwall - Dragonslayer Armour
+3101800 Fogwall - Curse-rotted Greatwood
+3201800 Fogwall - Ancient Wyvern
+3201850 Fogwall - Nameless King
+3301800 Fogwall - Abyss Watchers
+3301850 Fogwall - Crystal Sage
+3411830 Fogwall - Twin Princes
+3501800 Fogwall - Deacons of the Deep
+3501860 Fogwall - Rosaria's Chamber
+3701800 Fogwall - Aldrich
+3701850 Fogwall - Pontiff Sulyvahn
+3701870 Fogwall - Lordran Remnants
+3801800 Fogwall - High Lord Wolnir
+3801830 Fogwall - Old Demon King
+3901800 Fogwall - Yhorm the Giant
+4001800 Fogwall - Iudex Gundyr
+4001830 Fogwall - Champion Gundyr
+4101800 Fogwall - Soul of Cinder
+4501800 Fogwall - Sister Friede
+5001800 Fogwall - Demon Prince
+5101800 Fogwall - Halflight
+5101850 Fogwall - Darkeater Midir
+5111800 Fogwall - Slave Knight Gael
+5111850 Fogwall - Shira Encounter

@@ -15,44 +15,44 @@
 76 Firebomb Hit Hit Hit
 77 Black Firebomb Hit Hit
 78 Black Firebomb Hit Hit Hit
-100 Throwing Knives -- 投げナイフ
-101 Poison-throwing knives -- 毒投げナイフ
-110 Fire bottle (Parent) -- 火炎瓶【親】
-111 Fire bottle (child) -- 火炎瓶【子】
-112 (For debugging) flame bottle (Parent) -- (デバッグ用)火炎瓶【親】
-113 (For debugging) fire bottle (child) -- (デバッグ用)火炎瓶【子】
-115 Black Flame bottle (parent) -- 黒火炎瓶【親】
-116 Black Flame bottle (child) -- 黒火炎瓶【子】
-120 Each time a (parent) -- またたびＡ【親】
-121 Each time a child -- またたびＡ【子】
-122 Each time b (parent) -- またたびＢ【親】
-123 The Child B -- またたびＢ【子】
-130 Convenient stone (parent) -- 便利石【親】
-131 Convenient stone (child) -- 便利石【子】
-132 Convenient stone (grandchild) -- 便利石【孫】
-150 The parent of a dung dumpling -- 糞団子【親】
-151 Son of a dumpling -- 糞団子【子】
-160 EST not available (parent) -- エスト使用不可【親】
-161 EST not available (child) -- エスト使用不可【子】
-170 bleeding treatment (State recovery) -- 出血治療【状態回復】
-171 bleeding treatment (resistance recovery) -- 出血治療【耐性回復】
-180 Poison treatment (State recovery) -- 毒治療【状態回復】
-181 Poison treatment (Resilient recovery) -- 毒治療【耐性回復】
-190 Toxic treatment (State recovery) -- 猛毒治療【状態回復】
-191 Toxic treatment (Resilient recovery) -- 猛毒治療【耐性回復】
-220 Elixir (State Recovery) -- エリクサー【状態回復】
-221 Elixir (Recovery of bleeding immunity) -- エリクサー【出血耐性回復】
-222 Elixir (Poison tolerance recovery) -- エリクサー【毒耐性回復】
-223 Elixir (Deadly poison resistant recovery) -- エリクサー【猛毒耐性回復】
-226 Elixir (HP Recovery) -- エリクサー【HP回復】
+100 Throwing Knives 
+101 Poison-throwing knives 
+110 Fire bottle (Parent) 
+111 Fire bottle (child) 
+112 (For debugging) flame bottle (Parent) 
+113 (For debugging) fire bottle (child) 
+115 Black Flame bottle (parent) 
+116 Black Flame bottle (child) 
+120 Each time a (parent) 
+121 Each time a child 
+122 Each time b (parent) 
+123 The Child B 
+130 Convenient stone (parent) 
+131 Convenient stone (child) 
+132 Convenient stone (grandchild) 
+150 The parent of a dung dumpling 
+151 Son of a dumpling 
+160 EST not available (parent) 
+161 EST not available (child) 
+170 bleeding treatment (State recovery) 
+171 bleeding treatment (resistance recovery) 
+180 Poison treatment (State recovery) 
+181 Poison treatment (Resilient recovery) 
+190 Toxic treatment (State recovery) 
+191 Toxic treatment (Resilient recovery) 
+220 Elixir (State Recovery) 
+221 Elixir (Recovery of bleeding immunity) 
+222 Elixir (Poison tolerance recovery) 
+223 Elixir (Deadly poison resistant recovery) 
+226 Elixir (HP Recovery) 
 236 Twinkling Dragon Head Stone - Head Hit
-300 Quick Knives -- クイックナイフ
-301 Quick Poison Knife -- クイック毒ナイフ
+300 Quick Knives 
+301 Quick Poison Knife 
 302 Lacerating Knife 
 310 Quick Flame Bottle parent - Search Bullets
 315 Quick Black Flame jar parent - Search Bullets
-340 Caries State _ attracting -- 蝕状態_引き寄せ
-341 Caries status _ attracting _ recovery -- 蝕状態_引き寄せ_回復
+340 Caries State _ attracting 
+341 Caries status _ attracting _ recovery 
 380 Judicator - Ledo
 381 Judicator - Ledo
 382 Judicator - Ledo
@@ -61,16 +61,16 @@
 385 Judicator - Ledo
 386 Judicator - Ledo
 387 Judicator - Ledo
-400 (DLC) Talking stone a (fly) -- 【DLC】しゃべる石A【飛ぶ】
-401 (DLC) Talking stone a (talking) -- 【DLC】しゃべる石A【しゃべる】
-405 (DLC) talking stone b (Fly) -- 【DLC】しゃべる石B【飛ぶ】
-406 (DLC) talking stone b (talking) -- 【DLC】しゃべる石B【しゃべる】
-410 (DLC) Talking stone c (fly) -- 【DLC】しゃべる石C【飛ぶ】
-411 (DLC) Talking stone c (talking) -- 【DLC】しゃべる石C【しゃべる】
-415 (DLC) talking stone d (fly) -- 【DLC】しゃべる石D【飛ぶ】
-416 (DLC) Talking stone D (speaking) -- 【DLC】しゃべる石D【しゃべる】
-420 (DLC) Talking stone e (fly) -- 【DLC】しゃべる石E【飛ぶ】
-421 (DLC) Talking stone e (talking) -- 【DLC】しゃべる石E【しゃべる】
+400 (DLC) Talking stone a (fly) 
+401 (DLC) Talking stone a (talking) 
+405 (DLC) talking stone b (Fly) 
+406 (DLC) talking stone b (talking) 
+410 (DLC) Talking stone c (fly) 
+411 (DLC) Talking stone c (talking) 
+415 (DLC) talking stone d (fly) 
+416 (DLC) Talking stone D (speaking) 
+420 (DLC) Talking stone e (fly) 
+421 (DLC) Talking stone e (talking) 
 500 Standard Arrow
 501 Standard Arrow
 502 Standard Arrow - Pharis Triple-shot
@@ -787,7 +787,7 @@
 56184 Spear of the Church - Divine Spears
 100000 Map gimmick general-purpose explosive barrels
 100010 Map gimmick general-purpose combustion
-130000 Protomap Exploding Barrels -- プロトマップ　爆発する樽
+130000 Protomap Exploding Barrels 
 135000 Map Trigger - Poison
 135001 Map Trigger - Poison
 135002 Map Trigger - Poison
@@ -854,8 +854,8 @@
 149001 Purple Summon Sign Hit
 149010 Purple Summon Sign
 149011 Purple Summon Sign Hit
-149020 FDP proto Flame bottle (throw) -- FDPプロト　火炎瓶【投げ】
-149021 FDP proto flame bottle (impact) -- FDPプロト　火炎瓶【着弾】
+149020 FDP proto Flame bottle (throw) 
+149021 FDP proto flame bottle (impact) 
 1070090 Skeleton - Firebomb
 1070091 Skeleton - Firebomb Hit
 1070230 Skeleton - Bow Arrow

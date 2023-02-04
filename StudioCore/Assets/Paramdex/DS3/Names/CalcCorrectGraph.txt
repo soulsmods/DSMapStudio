@@ -27,7 +27,7 @@
 134 END - Lightning Defence
 135 FTH - Dark Defence
 140 LCK - Item Discovery
-150 Estus at Bonfire [Obsolete]
+150 Estus at Bonfire - Obsolete
 160 DEX - Shield Absorption % (Physical Damage Guard)
 161 DEX - Shield Attribute % (All Elemental Damage Guard)
 162 DEX - Shield Status % (All Aux Build-up Guard)

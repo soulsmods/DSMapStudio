@@ -11,7 +11,7 @@
 406 Thorns - Falling on Back
 410 Thorns - Push
 411 Thorns - Later Blows
-412 Thorns]
+412 Thorns
 413 Thorns - After Push
 420 Thorns - Throwing
 421 Thorns - Strong Throw
