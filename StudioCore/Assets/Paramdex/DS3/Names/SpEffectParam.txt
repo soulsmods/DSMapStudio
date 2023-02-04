@@ -505,7 +505,7 @@
 6326 Blindfold Mask
 6330 Crown of Dusk
 6331 Crown of Dusk
-6340 [Weapon Art] Stomp
+6340 Weapon Art - Stomp
 6350 Toughness - 0 to 30
 6351 Toughness - 30 to 50
 6352 Toughness - 50 to 70

@@ -1,5 +1,5 @@
 0 Default
-100 Item common name]
+100 Item common name
 101 Item Common - Description
 102 Item common - Unchiku
 103 Weight

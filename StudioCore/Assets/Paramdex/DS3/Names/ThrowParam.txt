@@ -8,9 +8,9 @@
 111020 Backstab - PC → Hollow Soldier
 111050 Backstab - PC → Large Hollow Soldier
 111060 Backstab - PC → Large Hollow Soldier
-111100 Backstab - PC → [Dark Knight]
-111200 Backstab - PC → [Dead Knight]
-111500 Backstab - PC → [Dead Shi]
+111100 Backstab - PC → Dark Knight
+111200 Backstab - PC → Dead Knight
+111500 Backstab - PC → Dead Shi
 111700 Backstab - PC → Carthus Swordsman
 111800 Backstab - PC → Carthus Swordsman
 111900 Backstab - PC → Cathedral Knight
@@ -70,9 +70,9 @@
 211020 Parry - PC → Hollow soldier
 211050 Parry - PC → Large Hollow Soldier
 211060 Parry - PC → Large Hollow Soldier
-211100 Parry - PC → [Dark Knight]
-211200 Parry - PC → [Dead Knight]
-211500 Parry - PC → [Dead Shi]
+211100 Parry - PC → Dark Knight
+211200 Parry - PC → Dead Knight
+211500 Parry - PC → Dead Shi
 211700 Parry - PC → Carthus Swordsman
 211800 Parry - PC → Carthus Swordsman
 211900 Parry - PC → Cathedral Knight
@@ -131,7 +131,7 @@
 452800 Parry - Soul of Cinder → PC
 505000 Throw - Wolf → PC
 505110 Throw - Iudex Gundyr → PC
-505111 Throw - Iudex Gundyr [Pus of Man] → PC
+505111 Throw - Iudex Gundyr - Pus of Man → PC
 510900 Throw - Pus of Man → PC
 511000 Throw - Hollow Soldier → PC
 511010 Throw - Hollow Soldier → PC
@@ -149,22 +149,22 @@
 512400 Throw - Peasant Hollow → PC
 512410 Throw - Peasant Hollow → PC
 513200 Throw - Crystal Sage → PC
-513210 Throw - Crystal Sage [Grand Archives] → PC
+513210 Throw - Crystal Sage - Grand Archives → PC
 513500 Throw - Irithyllian Slave → PC
 513600 Throw - Lycanthrope → PC
 513601 Throw - Lycanthrope → PC
-513910 Throw - Serpent-man [Hatchet] → PC
+513910 Throw - Serpent-man - Hatchet → PC
 514300 Throw - Undead Cleric → PC
 514400 Throw - Devout of the Deep → PC
 514410 Throw - Sage Prentice → PC
 520400 Throw - Monstrosity of Sin → PC
 520600 Throw - Infested Corpse → PC
-520800 Throw - Undead Dog [Maggots] → PC
-521200 Throw - Mimic [Hug] → PC
-521201 Throw - Mimic [Jump] → PC
-521202 Throw - Mimic [Back Bite] → PC
-521203 Throw - Mimic [Mimicry] → PC
-521204 Throw - Mimic [Mimicry] → PC
+520800 Throw - Undead Dog - Maggots → PC
+521200 Throw - Mimic - Hug → PC
+521201 Throw - Mimic - Jump → PC
+521202 Throw - Mimic - Back Bite → PC
+521203 Throw - Mimic - Mimicry → PC
+521204 Throw - Mimic - Mimicry → PC
 521300 Throw - Writhing Rotten Flesh → PC
 521301 Throw - Writhing Rotten Flesh → PC
 521310 Throw - Writhing Rotten Flesh → PC
@@ -172,13 +172,13 @@
 521320 Throw - Smouldering Rotten Flesh → PC
 522000 Throw - Carthus Sandworm → PC
 522010 Throw - Carthus Sandworm → PC
-522300 Throw - Jailer [Front] → PC
-522301 Throw - Jailer [Back] → PC
+522300 Throw - Jailer - Front → PC
+522301 Throw - Jailer - Back → PC
 522302 Throw - Jailer → PC
 522500 Throw - Sulyvahn's Beast → PC
 522700 Throw - Giant Crab → PC
-530201 Throw - Giant Slave [Small] → PC
-530210 Throw - Giant Slave [Big] → PC
+530201 Throw - Giant Slave - Small → PC
+530210 Throw - Giant Slave - Big → PC
 530400 Throw - Abyss Watcher → PC
 531700 Throw - Darkwraith → PC
 550100 Throw - Nameless King → PC
@@ -190,7 +190,7 @@
 552000 Throw - Stray Demon → PC
 552400 Throw - Irithyll Fire Witch → PC
 552700 Throw - Dancer of the Boreal Valley → PC
-552701 Throw - Dancer of the Boreal Valley [Heatup] → PC
+552701 Throw - Dancer of the Boreal Valley - Heatup - → PC
 552800 Throw - Soul of Cinder → PC
 552801 Throw - Soul of Cinder → PC
 560200 Throw - Sister Friede → PC
@@ -206,7 +206,7 @@
 562700 Throw - Lothric Thief → PC
 563300 Throw - Big Locust → PC
 613200 Throw - PC → Crystal Sage
-613210 Throw - PC → Crystal Sage [Grand Archives]
+613210 Throw - PC → Crystal Sage - Grand Archives
 620400 Throw - PC → Monstrosity of Sin
 620900 Throw - PC → Oceiros, the Consumed King
 621900 Throw - PC → Oceiros, the Consumed King
@@ -223,7 +223,7 @@
 650200 Throw - PC → Demon Prince
 650300 Throw - PC → King of the Storm
 651100 Throw - PC → Iudex Gundyr
-651200 Throw - PC → Iudex Gundyr [Pus of Man]
+651200 Throw - PC → Iudex Gundyr - Pus of Man
 651400 Throw - PC → Pontiff Sulyvahn
 652000 Throw - PC → Stray Demon
 652500 Throw - PC → Lorian
@@ -232,9 +232,9 @@
 652800 Throw - PC → Soul of Cinder
 660100 Throw - PC → Father Ariandel
 660300 Throw - PC → Gravetender Greatwolf
-661300 Throw - PC → Giant Crab [Ariandel]
-662100 Throw - PC → Darkeater Midir [Bridge]
-662101 Throw - PC → Darkeater Midir [Bridge]
+661300 Throw - PC → Giant Crab - Ariandel
+662100 Throw - PC → Darkeater Midir - Bridge
+662101 Throw - PC → Darkeater Midir - Bridge
 662110 Throw - Darkeater Midir → PC
 662111 Throw - PC → Darkeater Midir
 663200 Throw - PC → Harald Knight

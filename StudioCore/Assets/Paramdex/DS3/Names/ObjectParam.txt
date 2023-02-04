@@ -3,9 +3,9 @@
 200 Chest
 201 Breakable Chest
 350 M93_01 Candle Room Door
-360 [Concept version] start door
-370 [Concept version] boss entrance
-371 [Concept version] boss exit
+360 Concept version - start door
+370 Concept version - boss entrance
+371 Concept version - boss exit
 400 Small white Door
 401 White Door (Medium)
 402 Large White Door
@@ -15,11 +15,11 @@
 707 Ladder test
 1010 Wooden Desk Small
 1020 Wooden Desk
-1030 【 ritual 】 Princess Alternative obj00
-1031 【 ritual 】 Princess Alternative obj01
-1032 【 ritual 】 Princess Alternative obj02
-1033 【 ritual 】 Princess Alternative obj03
-1034 【 ritual 】 Princess Alternative obj04
+1030 Ritual - Princess Alternative obj00
+1031 Ritual - Princess Alternative obj01
+1032 Ritual - Princess Alternative obj02
+1033 Ritual - Princess Alternative obj03
+1034 Ritual - Princess Alternative obj04
 1050 Wooden Chair
 1060 Wooden Stand
 1080 Crates
@@ -52,20 +52,20 @@
 2132 Candle Room: Pillar candle 1 (top)
 2133 Candle Room: Pillar Candle 2 (top)
 2134 Candle Room: Pillar Candle 3 (top)
-2135 [Candle room] pillar candle 4 (top)
-2136 [Candle Room] pillar candle 5 (top)
+2135 Candle Room - pillar candle 4 (top)
+2136 Candle Room - pillar candle 5 (top)
 2137 Candle Room: Pillar Candle 6 (top)
-2138 [Candle Room] pillar candle 7 (top)
-2139 [Candle Room] pillar candle 8 (top)
+2138 Candle Room - pillar candle 7 (top)
+2139 Candle Room - pillar candle 8 (top)
 2140 Hung Incense Burner
 2142 Candle Room: Pillar candle 1 (bottom)
-2143 [Candle Room] pillar candle 2 (bottom)
-2144 [Candle Room] pillar candle 3 (bottom)
-2145 [Candle room] pillar candle 4 (bottom)
-2146 [Candle Room] pillar candle 5 (bottom)
-2147 [Candle Room] pillar candle 6 (bottom)
-2148 [Candle Room] pillar candle 7 (bottom)
-2149 [Candle Room] pillar candle 8 (bottom)
+2143 Candle Room - pillar candle 2 (bottom)
+2144 Candle Room - pillar candle 3 (bottom)
+2145 Candle Room - pillar candle 4 (bottom)
+2146 Candle Room - pillar candle 5 (bottom)
+2147 Candle Room - pillar candle 6 (bottom)
+2148 Candle Room - pillar candle 7 (bottom)
+2149 Candle Room - pillar candle 8 (bottom)
 2150 Candlestick
 2160 Oil jar
 2170 Column

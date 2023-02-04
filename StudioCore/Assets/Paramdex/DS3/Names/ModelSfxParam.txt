@@ -1,7 +1,7 @@
 0 For testing
 80000 Message tombstone (before lighting)
 80010 Message tombstone (after lighting)
-1030000 [Ritual] Princess alternative obj
+1030000 Ritual - Princess alternative obj
 1230000 Ojo Candlestick (Low)
 1240000 Candle ver00
 1240001 Candle Ver01
