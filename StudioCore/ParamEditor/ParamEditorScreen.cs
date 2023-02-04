@@ -1311,7 +1311,7 @@ namespace StudioCore.ParamEditor
         }
         public bool rowSelectionExists()
         {
-            return _activeParam != null && _paramStates[_activeParam].activeRow != null;
+            return _activeParam != null && _paramStates[_activeParam].selectionRows.Count > 0;
         }
         public Param.Row getActiveRow()
         {
