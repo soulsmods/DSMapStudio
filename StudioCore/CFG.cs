@@ -256,5 +256,6 @@ namespace StudioCore
 
         public bool EnableEldenRingAutoMapOffset = true;
         public bool EnableSoapstone = true;
+        public bool EnableCheckProgramUpdate = true;
     }
 }

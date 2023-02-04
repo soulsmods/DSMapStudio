@@ -1,4 +1,5 @@
 ﻿using ImGuiNET;
+using Octokit;
 using StudioCore.Editor;
 using StudioCore.Scene;
 using System;
@@ -256,6 +257,43 @@ namespace StudioCore
             Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
         }
 
+        private bool programUpdateAvailable = false;
+        private string releaseUrl = "";
+        private async Task CheckProgramUpdate()
+        {
+            GitHubClient gitHubClient = new GitHubClient(new ProductHeaderValue("DSMapStudio"));
+            try
+            {
+                Release release = await gitHubClient.Repository.Release.GetLatest("soulsmods", "DSMapStudio");
+                bool isVer = false;
+                string verstring = "";
+                foreach (char c in release.TagName)
+                {
+                    if (char.IsDigit(c) || (isVer && c == '.'))
+                    {
+                        verstring += c;
+                        isVer = true;
+                    }
+                    else
+                    {
+                        isVer = false;
+                    }
+                }
+                if (Version.Parse(verstring) > Version.Parse(_version))
+                {
+                    // Update available
+                    programUpdateAvailable = true;
+                    releaseUrl = release.HtmlUrl;
+                }
+            }
+            catch(Exception e)
+            {
+#if DEBUG
+                TaskManager.warningList.TryAdd("ProgramUpdateCheckFail", $"Failed to check for program updates ({e.Message})");
+#endif
+            }
+        }
+
         public void ManageImGuiConfigBackups()
         {
             if (!File.Exists("imgui.ini"))
@@ -279,6 +317,12 @@ namespace StudioCore
             {
                 SoapstoneServer.RunAsync(KnownServer.DSMapStudio, _soapstoneService);
             }
+
+            if (CFG.Current.EnableCheckProgramUpdate)
+            {
+                CheckProgramUpdate();
+            }
+
             /*Task.Run(() =>
             {
                 while (true)
@@ -807,6 +851,7 @@ namespace StudioCore
                     }
                     ImGui.EndMenu();
                 }
+
                 if (_msbEditorFocused)
                 {
                     _msbEditor.DrawEditorMenu();
@@ -939,6 +984,20 @@ namespace StudioCore
                         ImGui.EndMenu();
                     }
                 }
+
+                if (programUpdateAvailable)
+                {
+                    ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.0f, 1.0f, 0.0f, 1.0f));
+                    if (ImGui.Button("Update Available"))
+                    {
+                        Process myProcess = new();
+                        myProcess.StartInfo.UseShellExecute = true;
+                        myProcess.StartInfo.FileName = releaseUrl;
+                        myProcess.Start();
+                    }
+                    ImGui.PopStyleColor();
+                }
+
                 if (TaskManager.GetLiveThreads().Count > 0 && ImGui.BeginMenu("Tasks"))
                 {
                     foreach (String task in TaskManager.GetLiveThreads())
@@ -947,6 +1006,7 @@ namespace StudioCore
                     }
                     ImGui.EndMenu();
                 }
+
                 if (TaskManager.warningList.Count > 0)
                 {
                     ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 0f, 0f, 1.0f));
@@ -970,6 +1030,7 @@ namespace StudioCore
                     }
                     ImGui.PopStyleColor();
                 }
+
                 ImGui.EndMainMenuBar();
             }
 
@@ -1727,6 +1788,10 @@ namespace StudioCore
 
                         ImGui.Unindent();
                     }
+
+                    ImGui.Separator();
+
+                    ImGui.Checkbox("Check for new versions of DSMapStudio during startup", ref CFG.Current.EnableCheckProgramUpdate);
 
                     ImGui.Unindent();
                     ImGui.EndTabItem();
