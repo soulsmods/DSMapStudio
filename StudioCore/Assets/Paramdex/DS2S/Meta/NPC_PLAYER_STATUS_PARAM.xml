@@ -15,7 +15,7 @@
     <npc_gender AltName="Gender" Enum="GenderType"/>
     <hollowing_level AltName="Hollowing Level" Enum="HollowingType"/>
     <physique AltName="Physique"/>
-    <npc_name_id AltName="Name ID" FMGRef="npcmenu"/>
+    <npc_name_id AltName="Name ID" FmgRef="npcmenu"/>
     <soul_level AltName="Soul Level"/>
     <vigor AltName="Vigor"/>
     <unk00 AltName="Unknown"/>
