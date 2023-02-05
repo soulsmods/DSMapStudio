@@ -197,6 +197,9 @@ namespace StudioCore
         public float GFX_Camera_MoveSpeed_Fast { get; set; } = 200.0f;
         public float GFX_RenderDistance_Max { get; set; } = 50000.0f;
 
+        public int GFX_Limit_Renderables = 50000;
+        public uint GFX_Limit_Buffer_Flver_Bone = 65536;
+
         public Vector3 GFX_Gizmo_X_BaseColor = new Vector3(0.952f, 0.211f, 0.325f);
         public Vector3 GFX_Gizmo_X_HighlightColor = new Vector3(1.0f, 0.4f, 0.513f);
 
@@ -234,7 +237,7 @@ namespace StudioCore
         public bool Param_AlphabeticalParams = true;
         public bool Param_ShowVanillaParams = true;
         public bool Param_PasteAfterSelection = false;
-        public bool Param_DisableRowGrouping = false;
+        public bool Param_DisableRowGrouping = false; 
 
         //private string _Param_Export_Array_Delimiter = "|";
         private string _Param_Export_Delimiter = ",";
@@ -253,5 +256,6 @@ namespace StudioCore
 
         public bool EnableEldenRingAutoMapOffset = true;
         public bool EnableSoapstone = true;
+        public bool EnableCheckProgramUpdate = true;
     }
 }

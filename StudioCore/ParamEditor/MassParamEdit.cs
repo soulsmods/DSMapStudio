@@ -202,7 +202,7 @@ namespace StudioCore.ParamEditor
             string[] paramstage = restOfStages.Split(":", 2);
             string paramSelector = paramstage[0].Trim();
             if (paramSelector.Equals(""))
-                return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find param filter. Add : and one of "+String.Join(", ", ParamSearchEngine.pse.AvailableCommands())+" or "+String.Join(", ", ParamAndRowSearchEngine.parse.AvailableCommands())), null);
+                return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find param filter. Add : and one of "+String.Join(", ", ParamSearchEngine.pse.AvailableCommandsForHelpText())+" or "+String.Join(", ", ParamAndRowSearchEngine.parse.AvailableCommandsForHelpText())), null);
             if (!ParamAndRowSearchEngine.parse.HandlesCommand(paramSelector))
             {
                 return PerformMassEditCommandRowStep(bank, paramSelector, paramstage[1], context);
@@ -217,7 +217,7 @@ namespace StudioCore.ParamEditor
             string[] rowstage = restOfStages.Split(":", 2);
             string rowSelector = rowstage[0].Trim();
             if (rowSelector.Equals(""))
-                return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find row filter. Add : and one of "+String.Join(", ", RowSearchEngine.rse.AvailableCommands())), null);
+                return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find row filter. Add : and one of "+String.Join(", ", RowSearchEngine.rse.AvailableCommandsForHelpText())), null);
             return PerformMassEditCommandCellStep(bank, false, paramStage, rowSelector, rowstage[1], context);
         }
         private static (MassEditResult, List<EditorAction>) PerformMassEditCommandCellStep(ParamBank bank, bool isParamRowSelector, string paramSelector, string rowSelector, string restOfStages, ParamEditorSelectionState context)
@@ -225,7 +225,7 @@ namespace StudioCore.ParamEditor
             string[] cellstage = restOfStages.Split(":", 2);
             string cellSelector = cellstage[0].Trim();
             if (cellSelector.Equals(""))
-                return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find cell/property filter. Add : and one of "+String.Join(", ", CellSearchEngine.cse.AvailableCommands())+" or Name (0 args)"), null);
+                return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find cell/property filter. Add : and one of "+String.Join(", ", CellSearchEngine.cse.AvailableCommandsForHelpText())+" or Name (0 args)"), null);
             
             if (MERowOperation.rowOps.HandlesCommand(cellSelector.Split(" ", 2)[0]))
             {
@@ -542,7 +542,7 @@ namespace StudioCore.ParamEditor
         }
     }
 
-    internal class MEOperation<T, O>
+    public class MEOperation<T, O>
     {
         internal Dictionary<string, (int, Func<T, string[], O>)> operations = new Dictionary<string, (int, Func<T, string[], O>)>();
         internal MEOperation()
@@ -556,11 +556,20 @@ namespace StudioCore.ParamEditor
         {
             return operations.ContainsKey(command);
         }
+        public List<(string, int)> AvailableCommands()
+        {
+            List<(string, int)> options = new List<(string, int)>();
+            foreach (string op in operations.Keys)
+            {
+                options.Add((op, operations[op].Item1));
+            }
+            return options;
+        }
 
     }
-    internal class MEGlobalOperation : MEOperation<ParamEditorSelectionState, bool>
+    public class MEGlobalOperation : MEOperation<ParamEditorSelectionState, bool>
     {
-        internal static MEGlobalOperation globalOps = new MEGlobalOperation();
+        public static MEGlobalOperation globalOps = new MEGlobalOperation();
         internal override void Setup()
         {
             operations.Add("clear", (0, (selectionState, args) => {
@@ -570,9 +579,9 @@ namespace StudioCore.ParamEditor
             }));
         }
     }
-    internal class MERowOperation : MEOperation<(string, Param.Row), (Param, Param.Row)>
+    public class MERowOperation : MEOperation<(string, Param.Row), (Param, Param.Row)>
     {
-        internal static MERowOperation rowOps = new MERowOperation();
+        public static MERowOperation rowOps = new MERowOperation();
         internal override void Setup()
         {
             operations.Add("copy", (0, (paramAndRow, args) => {
@@ -616,9 +625,9 @@ namespace StudioCore.ParamEditor
             }));            
         }
     }
-    internal class MECellOperation : MEOperation<(Param.Row, (PseudoColumn, Param.Column)), object>
+    public class MECellOperation : MEOperation<(Param.Row, (PseudoColumn, Param.Column)), object>
     {
-        internal static MECellOperation cellOps = new MECellOperation();
+        public static MECellOperation cellOps = new MECellOperation();
         internal override void Setup()
         {
             operations.Add("=", (1, (ctx, args) => MassParamEdit.PerformOperation(ParamBank.PrimaryBank, ctx.Item1, ctx.Item2, "=", args)));
@@ -630,9 +639,9 @@ namespace StudioCore.ParamEditor
             operations.Add("replace", (2, (ctx, args) => MassParamEdit.PerformOperation(ParamBank.PrimaryBank, ctx.Item1, ctx.Item2, "replace", args)));
         }
     }
-    internal class MEOperationArgument
+    public class MEOperationArgument
     {
-        static internal MEOperationArgument arg = new MEOperationArgument();
+        public static MEOperationArgument arg = new MEOperationArgument();
         Dictionary<string, (int, Func<string[], Func<Param, Func<Param.Row, Func<(PseudoColumn, Param.Column), string>>>>)> argumentGetters = new Dictionary<string, (int, Func<string[], Func<Param, Func<Param.Row, Func<(PseudoColumn, Param.Column), string>>>>)>();
         (int, Func<string, Func<Param, Func<Param.Row, Func<(PseudoColumn, Param.Column), string>>>>) defaultGetter;
 
@@ -741,8 +750,42 @@ namespace StudioCore.ParamEditor
                     };
                 };
             }));
+            argumentGetters.Add("random", (2, (minAndMax) => {
+                double min;
+                double max;
+                if (!double.TryParse(minAndMax[0], out min) || !double.TryParse(minAndMax[1], out max))
+                    throw new Exception($@"Could not parse min and max random values");
+                if (max <= min)
+                    throw new Exception($@"Random max must be greater than min");
+                double range = max - min;
+                return (param) => (row) => (c) => (Random.Shared.NextDouble() * range + min).ToString();
+            }));
+            argumentGetters.Add("randint", (2, (minAndMax) => {
+                int min;
+                int max;
+                if (!int.TryParse(minAndMax[0], out min) || !int.TryParse(minAndMax[1], out max))
+                    throw new Exception($@"Could not parse min and max randint values");
+                if (max <= min)
+                    throw new Exception($@"Random max must be greater than min");
+                return (param) => (row) => (c) => Random.Shared.NextInt64(min, max + 1).ToString();
+            }));
+            argumentGetters.Add("randFrom", (3, (paramFieldRowSelector) => {
+                Param srcParam = ParamBank.PrimaryBank.Params[paramFieldRowSelector[0]];
+                List<Param.Row> srcRows = RowSearchEngine.rse.Search((ParamBank.PrimaryBank, srcParam), paramFieldRowSelector[2], false, false);
+                object[] values = srcRows.Select((r, i) => r[paramFieldRowSelector[1]].Value.Value).ToArray();
+                return (param) => (row) => (c) => values[Random.Shared.NextInt64(values.Length)].ToString();
+            }));
         }
 
+        public List<(string, int)> AvailableArguments()
+        {
+            List<(string, int)> options = new List<(string, int)>();
+            foreach (string op in argumentGetters.Keys)
+            {
+                options.Add((op, argumentGetters[op].Item1));
+            }
+            return options;
+        }
         internal Func<Param, Func<Param.Row, Func<(PseudoColumn, Param.Column), string>>>[] getContextualArguments(int argumentCount, string opData)
         {
             string[] opArgs = opData == null ? new string[0] : opData.Split(':', argumentCount);
@@ -767,7 +810,7 @@ namespace StudioCore.ParamEditor
         }
     }
 
-    internal enum PseudoColumn
+    public enum PseudoColumn
     {
         None,
         ID,

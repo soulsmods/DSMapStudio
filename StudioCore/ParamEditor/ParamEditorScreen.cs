@@ -121,6 +121,14 @@ namespace StudioCore.ParamEditor
         private bool _mEditCSVAppendOnly = false;
         private bool _mEditCSVReplaceRows = false;
 
+        private string[] _autoFillArgsParse = Enumerable.Repeat("", ParamAndRowSearchEngine.parse.AvailableCommands().Sum((x) => x.Item2) + ParamAndRowSearchEngine.parse.defaultFilter.Item1).ToArray();
+        private string[] _autoFillArgsPse = Enumerable.Repeat("", ParamSearchEngine.pse.AvailableCommands().Sum((x) => x.Item2) + ParamSearchEngine.pse.defaultFilter.Item1).ToArray();
+        private string[] _autoFillArgsRse = Enumerable.Repeat("", RowSearchEngine.rse.AvailableCommands().Sum((x) => x.Item2) + RowSearchEngine.rse.defaultFilter.Item1).ToArray();
+        private string[] _autoFillArgsCse = Enumerable.Repeat("", CellSearchEngine.cse.AvailableCommands().Sum((x) => x.Item2) + CellSearchEngine.cse.defaultFilter.Item1).ToArray();
+        private string[] _autoFillArgsRop = Enumerable.Repeat("", MERowOperation.rowOps.AvailableCommands().Sum((x) => x.Item2)).ToArray();
+        private string[] _autoFillArgsCop = Enumerable.Repeat("", MECellOperation.cellOps.AvailableCommands().Sum((x) => x.Item2)).ToArray();
+        private string[] _autoFillArgsOa = Enumerable.Repeat("", MEOperationArgument.arg.AvailableArguments().Sum((x) => x.Item2)).ToArray();
+
         public static bool EditorMode = false;
 
         internal bool _isSearchBarActive = false;
@@ -331,7 +339,7 @@ namespace StudioCore.ParamEditor
                                 CheckPathExists = true
                             };
                             if (rbrowseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                                File.WriteAllText(rbrowseDlg.FileName, MassParamEditCSV.GenerateCSV(_activeView._selection.getSelectedRows(), ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()], CFG.Current.Param_Export_Delimiter[0]));
+                                TryWriteFile(rbrowseDlg.FileName, MassParamEditCSV.GenerateCSV(_activeView._selection.getSelectedRows(), ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()], CFG.Current.Param_Export_Delimiter[0]));
                         }
                         if (ImGui.MenuItem("Name"))
                         {
@@ -343,7 +351,7 @@ namespace StudioCore.ParamEditor
                                 CheckPathExists = true
                             };
                             if (rbrowseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                                File.WriteAllText(rbrowseDlg.FileName, MassParamEditCSV.GenerateSingleCSV(_activeView._selection.getSelectedRows(), ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()], "Name", CFG.Current.Param_Export_Delimiter[0]));
+                                TryWriteFile(rbrowseDlg.FileName, MassParamEditCSV.GenerateSingleCSV(_activeView._selection.getSelectedRows(), ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()], "Name", CFG.Current.Param_Export_Delimiter[0]));
                         }
                         if (ImGui.BeginMenu("Field"))
                         {
@@ -359,7 +367,7 @@ namespace StudioCore.ParamEditor
                                         CheckPathExists = true
                                     };
                                     if (rbrowseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                                        File.WriteAllText(rbrowseDlg.FileName, MassParamEditCSV.GenerateSingleCSV(_activeView._selection.getSelectedRows(), ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()], field.InternalName, CFG.Current.Param_Export_Delimiter[0]));
+                                        TryWriteFile(rbrowseDlg.FileName, MassParamEditCSV.GenerateSingleCSV(_activeView._selection.getSelectedRows(), ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()], field.InternalName, CFG.Current.Param_Export_Delimiter[0]));
                                 }
                             }
                             ImGui.EndMenu();
@@ -396,11 +404,15 @@ namespace StudioCore.ParamEditor
                             };
                             if (rbrowseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                             {
-                                MassEditResult r = MassParamEditCSV.PerformMassEdit(ParamBank.PrimaryBank, File.ReadAllText(rbrowseDlg.FileName), EditorActionManager, _activeView._selection.getActiveParam(), false, false, CFG.Current.Param_Export_Delimiter[0]);
-                                if (r.Type == MassEditResultType.SUCCESS)
-                                    TaskManager.Run("PB:RefreshDirtyCache", false, true, true, () => ParamBank.PrimaryBank.RefreshParamDiffCaches());
-                                else
-                                    System.Windows.Forms.MessageBox.Show(r.Information, "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.None);
+                                string csv = TryReadFile(rbrowseDlg.FileName);
+                                if (csv != null)
+                                {
+                                    MassEditResult r = MassParamEditCSV.PerformMassEdit(ParamBank.PrimaryBank, csv, EditorActionManager, _activeView._selection.getActiveParam(), false, false, CFG.Current.Param_Export_Delimiter[0]);
+                                    if (r.Type == MassEditResultType.SUCCESS)
+                                        TaskManager.Run("PB:RefreshDirtyCache", false, true, true, () => ParamBank.PrimaryBank.RefreshParamDiffCaches());
+                                    else
+                                        System.Windows.Forms.MessageBox.Show(r.Information, "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.None);
+                                }
                             }
                         }
                         if (ImGui.MenuItem("Name"))
@@ -413,12 +425,16 @@ namespace StudioCore.ParamEditor
                             };
                             if (rbrowseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                             {
-                                (MassEditResult r, CompoundAction a) = MassParamEditCSV.PerformSingleMassEdit(ParamBank.PrimaryBank, File.ReadAllText(rbrowseDlg.FileName), _activeView._selection.getActiveParam(), "Name", CFG.Current.Param_Export_Delimiter[0], false);
-                                if (r.Type == MassEditResultType.SUCCESS && a != null)
-                                    EditorActionManager.ExecuteAction(a);
-                                else
-                                    System.Windows.Forms.MessageBox.Show(r.Information, "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.None);
-                                TaskManager.Run("PB:RefreshDirtyCache", false, true, true, () => ParamBank.PrimaryBank.RefreshParamDiffCaches());
+                                string csv = TryReadFile(rbrowseDlg.FileName);
+                                if (csv != null)
+                                {
+                                    (MassEditResult r, CompoundAction a) = MassParamEditCSV.PerformSingleMassEdit(ParamBank.PrimaryBank, csv, _activeView._selection.getActiveParam(), "Name", CFG.Current.Param_Export_Delimiter[0], false);
+                                    if (r.Type == MassEditResultType.SUCCESS && a != null)
+                                        EditorActionManager.ExecuteAction(a);
+                                    else
+                                        System.Windows.Forms.MessageBox.Show(r.Information, "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.None);
+                                    TaskManager.Run("PB:RefreshDirtyCache", false, true, true, () => ParamBank.PrimaryBank.RefreshParamDiffCaches());
+                                }
                             }
                         }
                         if (ImGui.BeginMenu("Field"))
@@ -435,12 +451,16 @@ namespace StudioCore.ParamEditor
                                     };
                                     if (rbrowseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                                     {
-                                        (MassEditResult r, CompoundAction a) = MassParamEditCSV.PerformSingleMassEdit(ParamBank.PrimaryBank, File.ReadAllText(rbrowseDlg.FileName), _activeView._selection.getActiveParam(), field.InternalName, CFG.Current.Param_Export_Delimiter[0], false);
-                                        if (r.Type == MassEditResultType.SUCCESS && a != null)
-                                            EditorActionManager.ExecuteAction(a);
-                                        else
-                                            System.Windows.Forms.MessageBox.Show(r.Information, "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.None);
-                                        TaskManager.Run("PB:RefreshDirtyCache", false, true, true, () => ParamBank.PrimaryBank.RefreshParamDiffCaches());
+                                        string csv = TryReadFile(rbrowseDlg.FileName);
+                                        if (csv != null)
+                                        {
+                                            (MassEditResult r, CompoundAction a) = MassParamEditCSV.PerformSingleMassEdit(ParamBank.PrimaryBank, csv, _activeView._selection.getActiveParam(), field.InternalName, CFG.Current.Param_Export_Delimiter[0], false);
+                                            if (r.Type == MassEditResultType.SUCCESS && a != null)
+                                                EditorActionManager.ExecuteAction(a);
+                                            else
+                                                System.Windows.Forms.MessageBox.Show(r.Information, "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.None);
+                                            TaskManager.Run("PB:RefreshDirtyCache", false, true, true, () => ParamBank.PrimaryBank.RefreshParamDiffCaches());
+                                        }
                                     }
                                 }
                             }
@@ -479,6 +499,11 @@ namespace StudioCore.ParamEditor
                 if (ImGui.MenuItem("Close View", null, false, CountViews() > 1))
                 {
                     RemoveView(_activeView);
+                }
+                ImGui.Separator();
+                if (ImGui.MenuItem("Go back...", KeyBindings.Current.Param_GotoBack.HintText, false, _activeView._selection.hasHistory()))
+                {
+                    EditorCommandQueue.AddCommand($@"param/back");
                 }
                 ImGui.Separator();
                 if (ImGui.MenuItem("Check all params for edits", null, false, !ParamBank.PrimaryBank.IsLoadingParams && !ParamBank.VanillaBank.IsLoadingParams))
@@ -790,6 +815,14 @@ namespace StudioCore.ParamEditor
                 ImGui.Text(_mEditRegexResult);
                 ImGui.InputTextMultiline("##MEditRegexOutput", ref _lastMEditRegexInput, 65536, new Vector2(1024, ImGui.GetTextLineHeightWithSpacing() * 4) * scale, ImGuiInputTextFlags.ReadOnly);
                 ImGui.TextUnformatted("Remember to handle clipboard state between edits with the 'clear' command");
+                string result = MassEditAutoFill();
+                if (result != null)
+                {
+                    if (string.IsNullOrWhiteSpace(_currentMEditRegexInput))
+                        _currentMEditRegexInput = result;
+                    else
+                        _currentMEditRegexInput += "\n" + result;
+                }
                 ImGui.EndPopup();
             }
             else if (ImGui.BeginPopup("massEditMenuCSVExport"))
@@ -843,6 +876,235 @@ namespace StudioCore.ParamEditor
                 _currentMEditCSVOutput = "";
             }
         }
+        
+        internal string ParamSearchBarAutoFill()
+        {
+            ImGui.SameLine();
+            ImGui.Button($@"{ForkAwesome.CaretDown}");
+            if (ImGui.BeginPopupContextItem("##rsbautoinputoapopup", ImGuiPopupFlags.MouseButtonLeft))
+            {
+                ImGui.TextUnformatted("Select params...");
+                var result = MassEditAutoFillForSearchEngine(ParamSearchEngine.pse, ref _autoFillArgsRse, false, "", null);
+                ImGui.EndPopup();
+                return result;
+            }
+            return null;
+        }
+
+        internal string RowSearchBarAutoFill()
+        {
+            ImGui.SameLine();
+            ImGui.Button($@"{ForkAwesome.CaretDown}");
+            if (ImGui.BeginPopupContextItem("##rsbautoinputoapopup", ImGuiPopupFlags.MouseButtonLeft))
+            {
+                ImGui.TextUnformatted("Select rows...");
+                var result = MassEditAutoFillForSearchEngine(RowSearchEngine.rse, ref _autoFillArgsRse, false, "", null);
+                ImGui.EndPopup();
+                return result;
+            }
+            return null;
+        }
+
+        private string MassEditAutoFill()
+        {
+            ImGui.TextUnformatted("Add command...");
+            ImGui.SameLine();
+            ImGui.Button($@"{ForkAwesome.CaretDown}");
+            if (ImGui.BeginPopupContextItem("##meautoinputoapopup", ImGuiPopupFlags.MouseButtonLeft))
+            {
+                ImGui.TextUnformatted("Select param and rows...");
+                string result1 = MassEditAutoFillForSearchEngine(ParamAndRowSearchEngine.parse, ref _autoFillArgsParse, false, ": ", () => 
+                {
+                    ImGui.TextUnformatted("Select fields...");
+                    string res1 = MassEditAutoFillForSearchEngine(CellSearchEngine.cse, ref _autoFillArgsCse, true, ": ", () => 
+                    {
+                        ImGui.TextUnformatted("Select field operation...");
+                        return MassEditAutoFillForOperation(MECellOperation.cellOps, ref _autoFillArgsCop, ";", null);
+                    });
+                    ImGui.Separator();
+                    ImGui.TextUnformatted("Select row operation...");
+                    string res2 = MassEditAutoFillForOperation(MERowOperation.rowOps, ref _autoFillArgsRop, ";", null);
+                    if (res1 != null)
+                        return res1;
+                    return res2;
+                });
+                ImGui.Separator();
+                ImGui.TextUnformatted("Select params...");
+                string result2 = MassEditAutoFillForSearchEngine(ParamSearchEngine.pse, ref _autoFillArgsPse, false, ": ", () =>
+                {
+                    ImGui.TextUnformatted("Select rows...");
+                    return MassEditAutoFillForSearchEngine(RowSearchEngine.rse, ref _autoFillArgsRse, false, ": ", () => 
+                    {
+                        ImGui.TextUnformatted("Select fields...");
+                        string res1 = MassEditAutoFillForSearchEngine(CellSearchEngine.cse, ref _autoFillArgsCse, true, ": ", () => 
+                        {
+                            ImGui.TextUnformatted("Select field operation...");
+                            return MassEditAutoFillForOperation(MECellOperation.cellOps, ref _autoFillArgsCop, ";", null);
+                        });
+                        ImGui.Separator();
+                        ImGui.TextUnformatted("Select row operation...");
+                        string res2 = MassEditAutoFillForOperation(MERowOperation.rowOps, ref _autoFillArgsRop, ";", null);
+                        if (res1 != null)
+                            return res1;
+                        return res2;
+                    });
+                });
+                ImGui.EndPopup();
+                if (result1 != null)
+                    return result1;
+                return result2;
+            }
+            return null;
+        }
+
+        private string MassEditAutoFillForSearchEngine<A, B> (SearchEngine<A, B> se, ref string[] staticArgs, bool enableDefault, string suffix, Func<string> subMenu)
+        {
+            int currentArgIndex = 0;
+            string result = null;
+            foreach (var cmd in enableDefault ? se.AvailableCommands().Append((null, se.defaultFilter.Item1)).ToList() : se.AvailableCommands())
+            {
+                int[] argIndices = new int[cmd.Item2];
+                bool valid = true;
+                for (int i = 0; i < argIndices.Length; i++)
+                {
+                    argIndices[i] = currentArgIndex;
+                    currentArgIndex++;
+                    if (string.IsNullOrEmpty(staticArgs[argIndices[i]]))
+                        valid = false;
+                }
+                if (subMenu != null)
+                {
+                    if (ImGui.BeginMenu(cmd.Item1 == null ? "Default filter..." : cmd.Item1, valid))
+                    {
+                        result = subMenu();
+                        ImGui.EndMenu();
+                    }
+                }
+                else
+                {
+                    result = ImGui.Selectable(cmd.Item1 == null ? "Default filter..." : cmd.Item1, false, valid ? ImGuiSelectableFlags.None : ImGuiSelectableFlags.Disabled) ? suffix : null;
+                }
+                ImGui.Indent();
+                for (int i = 0; i < argIndices.Length; i++)
+                {
+                    if (i != 0)
+                        ImGui.SameLine();
+                    ImGui.InputText("##meautoinput"+argIndices[i], ref staticArgs[argIndices[i]], 256);
+                }
+                ImGui.Unindent();
+                if (result != null && valid)
+                {
+                    if (cmd.Item1 != null)
+                    {
+                        string cmdText = cmd.Item1;
+                        for (int i = 0; i < argIndices.Length; i++)
+                            cmdText += " " + staticArgs[argIndices[i]];
+                        result = cmdText + suffix + result;
+                    }
+                    else if (argIndices.Length > 0)
+                    {
+                        string argText = staticArgs[argIndices[0]];
+                        for (int i = 1; i < argIndices.Length; i++)
+                            argText += " " + staticArgs[argIndices[i]];
+                        result = argText + suffix + result;
+                    }
+                    return result;
+                }
+            }
+            return result;
+        }
+        private string MassEditAutoFillForOperation<A, B> (MEOperation<A, B> ops, ref string[] staticArgs, string suffix, Func<string> subMenu)
+        {
+            int currentArgIndex = 0;
+            string result = null;
+            foreach (var cmd in ops.AvailableCommands())
+            {
+                int[] argIndices = new int[cmd.Item2];
+                bool valid = true;
+                for (int i = 0; i < argIndices.Length; i++)
+                {
+                    argIndices[i] = currentArgIndex;
+                    currentArgIndex++;
+                    if (string.IsNullOrEmpty(staticArgs[argIndices[i]]))
+                        valid = false;
+                }
+                if (subMenu != null)
+                {
+                    if (ImGui.BeginMenu(cmd.Item1, valid))
+                    {
+                        result = subMenu();
+                        ImGui.EndMenu();
+                    }
+                }
+                else
+                {
+                    result = ImGui.Selectable(cmd.Item1, false, valid ? ImGuiSelectableFlags.None : ImGuiSelectableFlags.Disabled) ? suffix : null;
+                }
+                ImGui.Indent();
+                for (int i = 0; i < argIndices.Length; i++)
+                {
+                    if (i != 0)
+                        ImGui.SameLine();
+                    ImGui.InputText("##meautoinputop"+argIndices[i], ref staticArgs[argIndices[i]], 256);
+                    ImGui.SameLine();
+                    ImGui.Button($@"{ForkAwesome.CaretDown}");
+                    if (ImGui.BeginPopupContextItem("##meautoinputoapopup"+argIndices[i], ImGuiPopupFlags.MouseButtonLeft))
+                    {
+                        string opargResult = MassEditAutoFillForArguments(MEOperationArgument.arg, ref _autoFillArgsOa);
+                        if (opargResult != null)
+                            staticArgs[argIndices[i]] = opargResult;
+                        ImGui.EndPopup();
+                    }
+
+                }
+                ImGui.Unindent();
+                if (result != null && valid)
+                {
+                    string argText = argIndices.Length > 0 ? staticArgs[argIndices[0]] : null;
+                    for (int i = 1; i < argIndices.Length; i++)
+                        argText += ":" + staticArgs[argIndices[i]];
+                    result = cmd.Item1 + (argText != null ? (" " + argText + result) : result);
+                    return result;
+                }
+            }
+            return result;
+        }
+
+        private string MassEditAutoFillForArguments(MEOperationArgument oa, ref string[] staticArgs)
+        {
+            int currentArgIndex = 0;
+            string result = null;
+            foreach (var arg in oa.AvailableArguments())
+            {
+                int[] argIndices = new int[arg.Item2];
+                bool valid = true;
+                for (int i = 0; i < argIndices.Length; i++)
+                {
+                    argIndices[i] = currentArgIndex;
+                    currentArgIndex++;
+                    if (string.IsNullOrEmpty(staticArgs[argIndices[i]]))
+                        valid = false;
+                }
+                bool selected = false;
+                if (ImGui.Selectable(arg.Item1, selected, valid ? ImGuiSelectableFlags.None : ImGuiSelectableFlags.Disabled))
+                {
+                    result = arg.Item1;
+                    string argText = "";
+                    for (int i = 0; i < argIndices.Length; i++)
+                        argText += " " + staticArgs[argIndices[i]];
+                    return arg.Item1 + argText;
+                }
+                ImGui.Indent();
+                for (int i = 0; i < argIndices.Length; i++)
+                {
+                    if (i != 0)
+                        ImGui.SameLine();
+                    ImGui.InputText("##meautoinputoa"+argIndices[i], ref staticArgs[argIndices[i]], 256);
+                }
+                ImGui.Unindent();
+            }
+            return result;
+        }
 
         public void OnGUI(string[] initcmd)
         {
@@ -858,6 +1120,10 @@ namespace StudioCore.ParamEditor
                 if (EditorActionManager.CanRedo() && InputTracker.GetKeyDown(KeyBindings.Current.Core_Redo))
                 {
                     ParamRedo();
+                }
+                if (_activeView._selection.hasHistory() && InputTracker.GetKeyDown(KeyBindings.Current.Param_GotoBack))
+                {
+                    EditorCommandQueue.AddCommand($@"param/back");
                 }
                 if (!ImGui.IsAnyItemActive() && _activeView._selection.paramSelectionExists() && InputTracker.GetKeyDown(KeyBindings.Current.Param_SelectAll))
                 {
@@ -962,6 +1228,10 @@ namespace StudioCore.ParamEditor
                             ParamBank.PrimaryBank.RefreshParamRowVanillaDiff(_activeView._selection.getActiveRow(), _activeView._selection.getActiveParam());
 
                     }
+                }
+                else if (initcmd[0] == "back")
+                {
+                    _activeView._selection.popHistory();
                 }
                 else if (initcmd[0] == "search")
                 {
@@ -1219,6 +1489,30 @@ namespace StudioCore.ParamEditor
                     System.Windows.Forms.MessageBoxIcon.None);
             }
         }
+
+        private static void TryWriteFile(string path, string text)
+        {
+            try
+            {
+                File.WriteAllText(path, text);                          
+            }
+            catch (Exception e)
+            {
+                System.Windows.Forms.MessageBox.Show("Unable to write to "+path, "Write Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private static string TryReadFile(string path)
+        {
+            try
+            {
+                return File.ReadAllText(path);                          
+            }
+            catch (Exception e)
+            {
+                System.Windows.Forms.MessageBox.Show("Unable to read from "+path, "Read Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+        }
     }
 
     public class ParamEditorSelectionState
@@ -1227,7 +1521,46 @@ namespace StudioCore.ParamEditor
         private static string _globalRowSearchString = "";
         private static string _globalPropSearchString = "";
         private string _activeParam = null;
+
+        List<(string, Param.Row)> pastStack = new List<(string, Param.Row)>();
         private Dictionary<string, ParamEditorParamSelectionState> _paramStates = new Dictionary<string, ParamEditorParamSelectionState>();
+
+
+        private void pushHistory(string newParam, Param.Row newRow)
+        {
+            if (pastStack.Count > 0)
+            {
+                var prev = pastStack[pastStack.Count - 1];
+                if (prev.Item1 == newParam && prev.Item2 == null)
+                    pastStack[pastStack.Count - 1] = (prev.Item1, newRow);
+                prev = pastStack[pastStack.Count - 1];
+                if (prev.Item1 == newParam && prev.Item2 == newRow)
+                    return;
+            }
+            if (_activeParam != null)
+                pastStack.Add((_activeParam, _paramStates[_activeParam].activeRow));
+            if (pastStack.Count >= 6)
+                pastStack.RemoveAt(0);
+        }
+        public void popHistory()
+        {
+            if (pastStack.Count > 0)
+            {
+                var past = pastStack[pastStack.Count - 1];
+                pastStack.RemoveAt(pastStack.Count - 1);
+                if (past.Item2 == null && pastStack.Count > 0)
+                {
+                    past = pastStack[pastStack.Count - 1];
+                    pastStack.RemoveAt(pastStack.Count - 1);
+                }
+                setActiveParam(past.Item1, true);
+                SetActiveRow(past.Item2, true, true);
+            }
+        }
+        public bool hasHistory()
+        {
+            return pastStack.Count > 0;
+        }
 
         public bool paramSelectionExists()
         {
@@ -1237,8 +1570,10 @@ namespace StudioCore.ParamEditor
         {
             return _activeParam;
         }
-        public void setActiveParam(string param)
+        public void setActiveParam(string param, bool isHistory = false)
         {
+            if (!isHistory)
+                pushHistory(param, null);
             _activeParam = param;
             if (!_paramStates.ContainsKey(_activeParam))
                 _paramStates.Add(_activeParam, new ParamEditorParamSelectionState());
@@ -1255,9 +1590,21 @@ namespace StudioCore.ParamEditor
                 return ref _globalPropSearchString;
             return ref _paramStates[_activeParam].currentPropSearchString;
         }
+        public void setCurrentRowSearchString(string s)
+        {
+            if (_activeParam == null)
+                return;
+            _paramStates[_activeParam].currentRowSearchString = s;
+        }
+        public void setCurrentPropSearchString(string s)
+        {
+            if (_activeParam == null)
+                return;
+            _paramStates[_activeParam].currentPropSearchString = s;
+        }
         public bool rowSelectionExists()
         {
-            return _activeParam != null && _paramStates[_activeParam].activeRow != null;
+            return _activeParam != null && _paramStates[_activeParam].selectionRows.Count > 0;
         }
         public Param.Row getActiveRow()
         {
@@ -1271,11 +1618,13 @@ namespace StudioCore.ParamEditor
                 return null;
             return _paramStates[_activeParam].compareRow;
         }
-        public void SetActiveRow(Param.Row row, bool clearSelection)
+        public void SetActiveRow(Param.Row row, bool clearSelection, bool isHistory = false)
         {
             if (_activeParam != null)
             {
                 ParamEditorParamSelectionState s = _paramStates[_activeParam];
+                if (!isHistory)
+                    pushHistory(_activeParam, s.activeRow);
                 s.activeRow = row;
                 s.selectionRows.Clear();
                 s.selectionRows.Add(row);
@@ -1401,6 +1750,10 @@ namespace StudioCore.ParamEditor
             if (isActiveView && InputTracker.GetKeyDown(KeyBindings.Current.Param_SearchParam))
                 ImGui.SetKeyboardFocusHere();
             ImGui.InputText($"Search <{KeyBindings.Current.Param_SearchParam.HintText}>", ref _selection.currentParamSearchString, 256);
+            ImGui.SameLine();
+            string resAutoParam = _paramEditor.ParamSearchBarAutoFill();
+            if (resAutoParam != null)
+                _selection.setCurrentRowSearchString(resAutoParam);
             if (!_selection.currentParamSearchString.Equals(lastParamSearch))
             {
                 CacheBank.ClearCaches();
@@ -1564,6 +1917,10 @@ namespace StudioCore.ParamEditor
                     ImGui.SetKeyboardFocusHere();
 
                 ImGui.InputText($"Search <{KeyBindings.Current.Param_SearchRow.HintText}>", ref _selection.getCurrentRowSearchString(), 256);
+                ImGui.SameLine();
+                string resAutoRow = _paramEditor.RowSearchBarAutoFill();
+                if (resAutoRow != null)
+                    _selection.setCurrentRowSearchString(resAutoRow);
                 if (!lastRowSearch.ContainsKey(_selection.getActiveParam()) || !lastRowSearch[_selection.getActiveParam()].Equals(_selection.getCurrentRowSearchString()))
                 {
                     CacheBank.ClearCaches();
@@ -1706,24 +2063,21 @@ namespace StudioCore.ParamEditor
                 {
                     _selection.toggleRowInSelection(r);
                 }
+                else if (p != null && InputTracker.GetKey(Key.LShift) && _selection.getActiveRow() != null)
+                {
+                    _selection.cleanSelectedRows();
+                    int start = p.IndexOf(_selection.getActiveRow());
+                    int end = p.IndexOf(r);
+                    if (start != end && start != -1 && end != -1)
+                    {
+                        foreach (var r2 in p.GetRange(start < end ? start : end, Math.Abs(end - start)))
+                            _selection.addRowToSelection(r2);
+                    }
+                    _selection.addRowToSelection(r);
+                }
                 else
                 {
-                    if (p != null && InputTracker.GetKey(Key.LShift) && _selection.getActiveRow() != null)
-                    {
-                        _selection.cleanSelectedRows();
-                        int start = p.IndexOf(_selection.getActiveRow());
-                        int end = p.IndexOf(r);
-                        if (start != end)
-                        {
-                            foreach (var r2 in p.GetRange(start < end ? start : end, Math.Abs(end - start)))
-                                _selection.addRowToSelection(r2);
-                        }
-                        _selection.addRowToSelection(r);
-                    }
-                    else
-                    {
-                        _selection.SetActiveRow(r, true);
-                    }
+                    _selection.SetActiveRow(r, true);
                 }
             }
             if (_arrowKeyPressed && ImGui.IsItemFocused()

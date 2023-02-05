@@ -43,7 +43,7 @@ namespace StudioCore.Editor
         {
             return filterList.ContainsKey(command.Split(" ")[0]);
         }
-        public List<string> AvailableCommands()
+        public List<string> AvailableCommandsForHelpText()
         {
             List<string> options = new List<string>();
             foreach (string op in filterList.Keys)
@@ -52,6 +52,15 @@ namespace StudioCore.Editor
             }
             if (defaultFilter!=(0, null))
                 options.Add("or omit specifying and use default ("+defaultFilter.Item1+"args)");
+            return options;
+        }
+        public List<(string, int)> AvailableCommands()
+        {
+            List<(string, int)> options = new List<(string, int)>();
+            foreach (string op in filterList.Keys)
+            {
+                options.Add((op, filterList[op].Item1));
+            }
             return options;
         }
 

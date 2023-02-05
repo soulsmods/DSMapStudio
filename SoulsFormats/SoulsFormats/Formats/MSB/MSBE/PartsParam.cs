@@ -203,7 +203,7 @@ namespace SoulsFormats
             /// <summary>
             /// Very speculative
             /// </summary>
-            public int MapStudioLayer { get; set; }
+            public uint MapStudioLayer { get; set; }
 
             /// <summary>
             /// Identifies the part in event scripts.
@@ -351,7 +351,7 @@ namespace SoulsFormats
                 Rotation = br.ReadVector3();
                 Scale = br.ReadVector3();
                 Unk44 = br.ReadInt32();
-                MapStudioLayer = br.ReadInt32();
+                MapStudioLayer = br.ReadUInt32();
                 br.AssertInt32(0);
                 long unkOffset1 = br.ReadInt64();
                 long unkOffset2 = br.ReadInt64();
@@ -534,7 +534,7 @@ namespace SoulsFormats
                 bw.WriteVector3(Rotation);
                 bw.WriteVector3(Scale);
                 bw.WriteInt32(Unk44);
-                bw.WriteInt32(MapStudioLayer);
+                bw.WriteUInt32(MapStudioLayer);
                 bw.WriteInt32(0);
                 bw.ReserveInt64("UnkOffset1");
                 bw.ReserveInt64("UnkOffset2");
