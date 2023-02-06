@@ -13,9 +13,9 @@
     <disableParam_NT AltName="Disable Param - Network Test" Wiki="Parameters marked with  are excluded in the NT version package." IsBool="" />
     <disableParamReserve1 AltName=""/>
     <disableParamReserve2 AltName=""/>
-    <swordArtsType AltName="Sword Arts Type" Wiki="Offset for TAE animation. 0 is a600. To pass to the behavior script to determine which swashbuckler" />
+    <swordArtsType AltName="Sword Arts Type (Obsolete)" Wiki="Offset for TAE animation. 0 is a600. To pass to the behavior script to determine which swashbuckler" />
     <artsSpeedType AltName="Arts Speed Type" Wiki="Which cancellation timing do you see? 0: Normal (left hand attack) / 1: Early / 2: Slow" />
-    <refStatus AltName="Reference Status Type" Wiki="Which system of arts points to refer to" Enum="SWORD_ARTS_REF_STATUS_TYPE" />
+    <refStatus AltName="Reference Status Type" Wiki="Which system of arts points to refer to" />
     <isRefRightArts AltName="Is Right-hand Arts Reference" Wiki="When set to the arts of the left-handed weapon, the arts of the right-handed weapon are displayed in FE. Assumed to be used for weapon maneuvers etc." IsBool="" />
     <isGrayoutLeftHand AltName="Is Greyout Left-hand" Wiki="Whether to gray out when displaying the arts name of the left hand (one-handed)" IsBool="" />
     <isGrayoutRightHand AltName="Is Greyout Right-hand" Wiki="Whether to gray out when displaying the arts name of the right hand (one-handed)" IsBool="" />
@@ -34,6 +34,13 @@
     <pad AltName=""/>
     <iconId AltName="Icon ID" Wiki="ID of the icon displayed in FE etc." />
     <aiUsageId AltName="AI Usage Judgment ID" Wiki="AI usage judgment ID" />
+    <swordArtsTypeNew AltName="Sword Arts Type" Wiki="Offset for TAE animation. 0 is a600. To pass to the behavior script to determine which swashbuckler" />
   </Field>
-  <Self Wiki="Defines Ashes of War, including unique AoW. Determines AoW animation.\nBehaviour data remains in BehaviourParam. Unique AoW data is with the weapon and not with other AoW data." />
+  <Self Wiki="Defines Ashes of War, including unique AoW. Determines AoW animation.\nBehaviour data remains in BehaviourParam. Unique AoW data is with the weapon and not with other AoW data." AlternativeOrder="textId,iconId,shieldIconType,-,
+swordArtsTypeNew,artsSpeedType,refStatus,aiUsageId,-,
+useMagicPoint_L1,useMagicPoint_L2,useMagicPoint_R1,useMagicPoint_R2,-,
+usePoint_L1,usePoint_L2,usePoint_R1,usePoint_R2,-,
+isRefRightArts,isGrayoutLeftHand,isGrayoutRightHand,isGrayoutBothHand,-,
+disableParam_NT,swordArtsType,-,
+disableParamReserve1,disableParamReserve2,reserve2,pad,-," />
 </PARAMMETA>

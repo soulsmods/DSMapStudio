@@ -51,10 +51,10 @@
     <targetAILockDmyPoly AltName="Aim for AI Target Lock Dummy Poly ID" Wiki="Do you aim for Rock Damipoli (for enemies)?" IsBool="" />
     <pad8 AltName=""/>
     <spEffectId_RangedAttack AltName="Ranged Attack - SpEffect ID" Wiki="Special effects ID for ranged attacks" Refs="SpEffectParam" />
-    <searchTargetLv1ForgetTime AltName="Search Target - Forget Time [1]" Wiki="Search enemy Lv1 Target Time to forget." />
-    <searchTargetLv2ForgetTime AltName="Search Target - Forget Time [2]" Wiki="Search enemy Lv2 time to forget the target." />
+    <searchTargetLv1ForgetTime AltName="Search Forget Time - Level 1" Wiki="Search enemy Lv1 Target Time to forget." />
+    <searchTargetLv2ForgetTime AltName="Search Forget Time - Level 2" Wiki="Search enemy Lv2 time to forget the target." />
     <BackHomeLife_OnHitEneWal AltName="Back Home Time on Touching Enemy Wall" Wiki="The life of the BackToHome goal when it touches an enemy wall that blocks the block" />
-    <SightTargetForgetTime AltName="Search Target - Visual Forget Time" Wiki="Time to forget the visual target." />
+    <SightTargetForgetTime AltName="Vision - Search Forget Time" Wiki="Time to forget the visual target." />
     <idAttackCannotMove AltName="Blocked Movement - Anim ID" Wiki="An action that automatically takes place when a destructible object stops it." />
     <ear_dist AltName="Listen - Distance" Wiki="Hearing search range ..." />
     <callHelp_ActionAnimId AltName="Call Help - Action Animation ID" Wiki="Animation ID (EzStateAnimID) when responding" />
@@ -70,7 +70,7 @@
     <nonBattleActLife AltName="Non-Battle Act Duration when in Combat" Wiki="COMMON_SetBattleActLogic argument" />
     <BackHome_LookTargetTime AltName="Retreat Home - Look for Target Time" Wiki="When returning home: Time to look at the target [sec]" />
     <BackHome_LookTargetDist AltName="Retreat Home - Look for Target Distance" Wiki="When returning home: Distance to see the target [m]" />
-    <SoundTargetForgetTime AltName="Sound Target - Forget Time" Wiki="Time to forget the sound target." />
+    <SoundTargetForgetTime AltName="Listen - Search Forget Time" Wiki="Time to forget the sound target." />
     <BattleStartDist AltName="Battle - Start Distance" Wiki="" />
     <callHelp_MyPeerId AltName="Call Help - My Peer ID" Wiki="My fellow group ID" />
     <callHelp_CallPeerId AltName="Call Help - Call Peer ID" Wiki="Companion group ID to call a companion" />
@@ -104,7 +104,7 @@
     <searchThreshold_Lv1toLv2 AltName="Search Threshold - Level 1 to Level 2" Wiki="Search enemy Lv1  Lv2 threshold" />
     <platoonReplyTime AltName="Platoon - Reply Time" Wiki="Platoon reaction delay time [sec]" />
     <platoonReplyAddRandomTime AltName="Platoon - Reply Add Random Time" Wiki="Platoon reaction additional random time [sec]" />
-    <searchEye_angX AltName="Search Vision - Height Angle" Wiki="Searching enemy vision_angle (height) [deg]" />
+    <searchEye_angX AltName="Vision - Search Height Angle" Wiki="Searching enemy vision_angle (height) [deg]" />
     <isUpdateBattleSight AltName="Update Battle Vision" Wiki="Do you want to overwrite the battle view?" IsBool="" />
     <battleEye_updateDist AltName="Battle Vision - Overwrite Distance" Wiki="Battle Vision_Overwrite Distance [m]" />
     <battleEye_updateAngX AltName="Battle Vision - Overwrite Height Angle" Wiki="Battle Vision_Overwrite Angle (Height) [deg]" />
@@ -144,5 +144,36 @@
     <weaponOnAnimId AltName="Weapon Switch In - Animation ID" Wiki="Sword animation ID" />
     <surpriseAnimId AltName="Stealth Attack - Animation ID" Wiki="Amazing anime ID" />
   </Field>
-  <Self />
+  <Self AlternativeOrder="logicId,battleGoalID,TeamAttackEffectivity,-,
+  
+BattleStartDist,nonBattleActLife,-,
+
+nose_dist,MemoryTargetForgetTime,searchTargetLv1ForgetTime,searchTargetLv2ForgetTime,-,
+
+eye_dist,eye_angX,eye_angY,searchEye_dist,searchEye_angY,SightTargetForgetTime,searchEye_angX,eye_BeginDist,eye_BackOffsetDist,-,
+
+ear_dist,ear_soundcut_dist,SoundTargetForgetTime,ear_listenLevel,-,
+
+idAttackCannotMove,targetSys_DmgEffectRate,actTypeOnFailedPath,actTypeOnNonBtlFailedPath,-,
+spEffectId_RangedAttack,shiftAnimeId_RangedAttack,rangedAttackId,-,
+
+disablePathMove,skipArrivalVisibleCheck,thinkAttr_doAdmirer,disableDark,isGuard_Act,disableLocalSteering,isNoAvoidHugeEnemy,targetAILockDmyPoly,-,
+enableNaviFlg_Edge,enableNaviFlg_LargeSpace,enableNaviFlg_Ladder,enableNaviFlg_Hole,enableNaviFlg_Door,enableNaviFlg_InSideWall,enableNaviFlg_EdgeOrdinary,enableNaviFlg_Lava,enableNaviFlg_Edge_Ordinary,-,
+
+maxBackhomeDist,backhomeDist,backhomeBattleDist,BackHome_LookTargetTime,BackHome_LookTargetDist,BackHomeLife_OnHitEneWal,backToHomeStuckAct,-,
+
+isUpdateBattleSight,battleEye_updateDist,battleEye_updateAngX,battleEye_updateAngY,-,
+
+goalAction_ToCaution,goalAction_ToCautionImportant,goalAction_ToDisappear,goalAction_ToSearchLv1,goalAction_ToSearchLv2,searchThreshold_Lv0toLv1,searchThreshold_Lv1toLv2,changeStateAction_ToNormal,-,
+
+platoonReplyTime,platoonReplyAddRandomTime,caravanRole,callHelp_ActionAnimId,callHelp_CallActionId,callHelp_MyPeerId,callHelp_CallPeerId,callHelp_CallValidMinDistTarget,callHelp_CallValidRange,callHelp_ForgetTimeByArrival,callHelp_MinWaitTime,callHelp_MaxWaitTime,callHelp_ReplyBehaviorType,-,
+
+isBuddyAI,enableJumpMove,useFall_onNormalCaution,useFall_onSearchBattle,enableJumpMove_onBattle,-,
+
+enableWeaponOnOff,weaponOffSpecialEffectId,weaponOffAnimId,weaponOnSpecialEffectId,weaponOnAnimId,surpriseAnimId,-,
+
+soundBehaviorId01,soundBehaviorId02,soundBehaviorId03,soundBehaviorId04,soundBehaviorId05,soundBehaviorId06,soundBehaviorId07,soundBehaviorId08,-,
+
+pad1,pad2,pad3,pad4,enableNaviFlagReserve,-,
+" />
 </PARAMMETA>
