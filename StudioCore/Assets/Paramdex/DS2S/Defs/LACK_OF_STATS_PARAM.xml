@@ -6,9 +6,9 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="f32 Lacking Stats Min Penalty %" />
-    <Field Def="f32 Lacking Stats Max Penalty %" />
-    <Field Def="f32 Lacking Stamina Min Penalty %" />
-    <Field Def="f32 Lacking Stamina Max Penalty %" />
+    <Field Def="f32 lack_stats_min_penalty" />
+    <Field Def="f32 lack_stats_max_penalty" />
+    <Field Def="f32 lack_stamina_min_penalty" />
+    <Field Def="f32 lack_stamina_max_enalty" />
   </Fields>
 </PARAMDEF>

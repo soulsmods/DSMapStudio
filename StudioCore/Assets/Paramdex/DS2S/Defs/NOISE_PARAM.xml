@@ -7,14 +7,14 @@
   <Version>201</Version>
   <Fields>
     <Field Def="f32 Unk00" />
+    <Field Def="f32 Unk01" />
+    <Field Def="f32 Unk02" />
+    <Field Def="f32 Unk03" />
     <Field Def="f32 Unk04" />
+    <Field Def="f32 Unk05" />
+    <Field Def="f32 Unk06" />
+    <Field Def="s32 Unk07" />
     <Field Def="f32 Unk08" />
-    <Field Def="f32 Unk0C" />
-    <Field Def="f32 Unk10" />
-    <Field Def="f32 Unk14" />
-    <Field Def="f32 Unk18" />
-    <Field Def="s32 Unk1C" />
-    <Field Def="f32 Unk20" />
-    <Field Def="f32 Unk24" />
+    <Field Def="f32 Unk09" />
   </Fields>
 </PARAMDEF>

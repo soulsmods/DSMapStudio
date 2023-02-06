@@ -2,5 +2,10 @@
 <PARAMMETA XmlVersion="0">
   <Self Row0Dummy="" />
   <Field>
+    <edit_head AltName="Head"/>
+    <edit_torso AltName="Torso"/>
+    <edit_waist AltName="Waist"/>
+    <edit_arms AltName="Arms"/>
+    <edit_legs AltName="Legs"/>
   </Field>
 </PARAMMETA>

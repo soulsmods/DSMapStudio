@@ -6,28 +6,28 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="s32 AnimationID" />
-    <Field Def="s32 Attack Type" />
-    <Field Def="f32 Startup Speed" />
-    <Field Def="f32 Recovery Speed" />
-    <Field Def="f32 Tracking Start" />
-    <Field Def="f32 Tracking Mid" />
-    <Field Def="f32 Tracking End" />
-    <Field Def="f32 Weapon Orientation - Y" />
-    <Field Def="s32 Unk20" />
-    <Field Def="s32 Unk24" />
-    <Field Def="u8 Unk28" />
-    <Field Def="u8 Unk28" />
-    <Field Def="u8 Self Pushback 1" />
-    <Field Def="u8 Self Pushback 2" />
-    <Field Def="s32 Damage ID 1" />
-    <Field Def="s32 Damage ID 2" />
-    <Field Def="s32 Damage ID 3" />
-    <Field Def="s32 Swing 1 - Bullet on Swing End 1" />
-    <Field Def="s32 Swing 1 - Bullet on Swing End 2" />
-    <Field Def="s32 Swing 2 - Bullet on Swing End 1" />
-    <Field Def="s32 Swing 2 - Bullet on Swing End 2" />
-    <Field Def="s32 Swing 3 - Bullet on Swing End 1" />
-    <Field Def="s32 Swing 3 - Bullet on Swing End 2" />
+    <Field Def="s32 animation_id" />
+    <Field Def="s32 attack_type" />
+    <Field Def="f32 startup_speed" />
+    <Field Def="f32 recovery_speed" />
+    <Field Def="f32 tracking_start" />
+    <Field Def="f32 tracking_middle" />
+    <Field Def="f32 tracking_end" />
+    <Field Def="f32 weapon_y_orientation" />
+    <Field Def="s32 Unk00" />
+    <Field Def="s32 Unk01" />
+    <Field Def="u8 Unk02" />
+    <Field Def="u8 Unk03" />
+    <Field Def="u8 self_pushback_1" />
+    <Field Def="u8 self_pushback_2" />
+    <Field Def="s32 damage_ctrl_id_1" />
+    <Field Def="s32 damage_ctrl_id_2" />
+    <Field Def="s32 damage_ctrl_id_3" />
+    <Field Def="s32 bullet_on_swing_end_1_1" />
+    <Field Def="s32 bullet_on_swing_end_1_2" />
+    <Field Def="s32 bullet_on_swing_end_2_1" />
+    <Field Def="s32 bullet_on_swing_end_2_2" />
+    <Field Def="s32 bullet_on_swing_end_3_1" />
+    <Field Def="s32 bullet_on_swing_end_3_2" />
   </Fields>
 </PARAMDEF>

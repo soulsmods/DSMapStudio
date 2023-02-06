@@ -2,5 +2,6 @@
 <PARAMMETA XmlVersion="0">
   <Self Row0Dummy="" />
   <Field>
+    <time_duration AltName="Duration"/>
   </Field>
 </PARAMMETA>

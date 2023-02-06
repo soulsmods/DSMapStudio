@@ -2,5 +2,7 @@
 <PARAMMETA XmlVersion="0">
   <Self Row0Dummy="" />
   <Field>
+    <obj_act_id AltName="Object Act ID"/>
+    <activation_radius AltName="Activation Radius"/>
   </Field>
 </PARAMMETA>

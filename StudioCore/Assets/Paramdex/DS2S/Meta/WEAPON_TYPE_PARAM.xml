@@ -110,25 +110,45 @@
   </Enums>
   <Self Row0Dummy="" />
   <Field>
-    <StanceSwapType Enum="StanceSwapType" />
-    <Right1hPosition Enum="PositionType" />
-    <Right1hRelativePosition Enum="RelativePositionType" />
-    <Left1hPosition Enum="PositionType" />
-    <Left1hRelativePosition Enum="RelativePositionType" />
-    <Right2hPosition Enum="PositionType" />
-    <Right2hRelativePosition Enum="RelativePositionType" />
-    <Unk2B Enum="PositionType" />
-    <Unk2C Enum="RelativePositionType" />
-    <Left2hPosition Enum="PositionType" />
-    <Left2hRelativePosition Enum="RelativePositionType" />
-    <Unk2F Enum="PositionType" />
-    <Unk30 Enum="RelativePositionType" />
-    <RightHolsteredPosition Enum="PositionType" />
-    <RightHolsteredRelativePosition Enum="RelativePositionType" />
-    <LeftHolsteredPosition Enum="PositionType" />
-    <LeftHolsteredRelativePosition Enum="RelativePositionType" />
-    <CastType Enum="CastType" />
-    <WeaponCategoryName Enum="WeaponCategoryNameType" />
-    <SwingSound Enum="SwingSoundEnum" />
+    <is_cast_sorceries AltName="Cast Sorceries" IsBool="" />
+    <is_cast_miracles AltName="Cast Miracles" IsBool="" />
+    <is_cast_pyromancies AltName="Cast Pyromancies" IsBool="" />
+    <is_cast_hexes_staves AltName="Cast Hexes (Staff)" IsBool="" />
+    <grip_style_2h_right AltName="Grip Style: 2H Right" />
+    <grip_style_2h_left AltName="Grip Style: 2H Left" />
+    <grip_style_1h_right AltName="Grip Style: 1H Right" />
+    <grip_style_1h_left AltName="Grip Style: 1H Left" />
+    <grip_style_powerstance_right AltName="Grip Style: Powerstance Right" />
+    <grip_style_powerstance_left AltName="Grip Style: Powerstance Left" />
+    <powerstance_swap_type AltName="Powerstance Swap Type" Enum="StanceSwapType" />
+    <position_1h_right AltName="Position: 1H Right" Enum="PositionType" />
+    <relative_position_1h_right AltName="Relative Position: 1H Right" Enum="RelativePositionType" />
+    <position_1h_left AltName="Position: 1H Left" Enum="PositionType" />
+    <relative_position_1h_left AltName="Relative Position: 1H Left" Enum="RelativePositionType" />
+    <position_2h_right AltName="Position: 2H Right" Enum="PositionType" />
+    <relative_position_2h_right AltName="Relative Position: 2H Right" Enum="RelativePositionType" />
+    <position_unknown1  AltName="Position: Unknown 1" Enum="PositionType" />
+    <relative_position_unknown1 AltName="Relative Position: Unknown 1" Enum="RelativePositionType" />
+    <position_2h_left AltName="Position: 2H Left" Enum="PositionType" />
+    <relative_position_2h_left AltName="Relative Position: 2H Left" Enum="RelativePositionType" />
+    <position_unknown2  AltName="Position: Unknown 2" Enum="PositionType" />
+    <relative_position_unknown2 AltName="Relative Position: Unknown 2" Enum="RelativePositionType" />
+    <holsterPosition_right AltName="Holster Position: Right" Enum="PositionType" />
+    <holsterrelative_position_right AltName="Holster Relative Position: Right" Enum="RelativePositionType" />
+    <holsterPosition_left AltName="Holster Position: Left" Enum="PositionType" />
+    <holsterrelative_position_left AltName="Holster Relative Position: Left" Enum="RelativePositionType" />
+    <cast_type AltName="Cast Type" Enum="CastType" />
+    <weapon_category_name AltName="Weapon Category Name" Enum="WeaponCategoryNameType" />
+    <swing_sound AltName="Swing Sound" Enum="SwingSoundEnum" />
+    <is_cast_hexes_chime AltName="Cast Hexes (Chime)" IsBool="" />
+    <left_hand_damage_mult AltName="Left Hand Damage %" />
+    <right_hand_damage_mult AltName="Right Hand Damage %" />
+    <counter_damage AltName="Counter Damage" />
+    <bow_distance AltName="Bow Range" />
+    <backstab_check_anim AltName="Backstab - Check Animation ID" />
+    <guardbreak_check_anim AltName="Guard Break - Check Animation ID" />
+    <guard_stamina_regen AltName="Guard Stamina Regeneration %" />
+    <cast_speed AltName="Cast Speed" />
+    <mundane_scaling_mult AltName="Mundane Scaling %" />
   </Field>
 </PARAMMETA>

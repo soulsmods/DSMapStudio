@@ -2,5 +2,13 @@
 <PARAMMETA XmlVersion="0">
   <Self Row0Dummy="" />
   <Field>
+    <PositionX AltName="Position: X" />
+    <PositionY AltName="Position: Y" />
+    <PositionZ AltName="Position: Z" />
+    <RotationX AltName="Rotation: X" />
+    <RotationY AltName="Rotation: Y" />
+    <RotationZ AltName="Rotation: Z" />
+    <LocUnk18 AltName="Unknown" />
+    <LocUnk1C AltName="Unknown" />
   </Field>
 </PARAMMETA>

@@ -7,8 +7,8 @@
   <Version>201</Version>
   <Fields>
     <Field Def="s32 Unk00" />
-    <Field Def="s32 LogicComParamID" />
-    <Field Def="s32 EnemyParamID" />
-    <Field Def="s32 Unk0C" />
+    <Field Def="s32 logic_com_param_id" />
+    <Field Def="s32 enemy_param_id" />
+    <Field Def="s32 Unk01" />
   </Fields>
 </PARAMDEF>

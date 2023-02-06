@@ -2,5 +2,7 @@
 <PARAMMETA XmlVersion="0">
   <Self Row0Dummy="" />
   <Field>
+    <interact_speed_start AltName="Interact Speed - Start" />
+    <interact_speed_end AltName="Interact Speed - End" />
   </Field>
 </PARAMMETA>

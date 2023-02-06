@@ -6,7 +6,7 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="s32 Armor ID" />
+    <Field Def="s32 armor_id" />
     <Field Def="u8 Unk04" />
     <Field Def="u8 Unk05" />
     <Field Def="u8 Unk06" />
@@ -16,13 +16,13 @@
     <Field Def="u8 Unk0A" />
     <Field Def="u8 Unk0B" />
     <Field Def="u8 Unk0C" />
-    <Field Def="u8 Ralated to masks 1-Male" />
-    <Field Def="u8 Head Piece mask 1-Male" />
-    <Field Def="u8 Head Piece mask 1-Male" />
-    <Field Def="u8 Ralated to masks 2-Male" />
+    <Field Def="u8 male_mask_1" />
+    <Field Def="u8 male_mask_2" />
+    <Field Def="u8 male_mask_3" />
+    <Field Def="u8 male_mask_4" />
     <Field Def="u8 Unk11" />
-    <Field Def="u8 Head Piece mask 2-Male" />
-    <Field Def="u8 Head Piece mask 2-Male" />
+    <Field Def="u8 male_mask_5" />
+    <Field Def="u8 male_mask_6" />
     <Field Def="u8 Unk14" />
     <Field Def="u8 Unk15" />
     <Field Def="u8 Unk16" />
@@ -88,13 +88,13 @@
     <Field Def="u8 Unk52" />
     <Field Def="u8 Unk53" />
     <Field Def="u8 Unk54" />
-    <Field Def="u8 Ralated to masks 1 -Female" />
-    <Field Def="u8 Head Piece mask 1-Female" />
-    <Field Def="u8 Head Piece mask 1-Female" />
-    <Field Def="u8 Ralated to masks 2 - Female" />
+    <Field Def="u8 female_mask_1" />
+    <Field Def="u8 female_mask_2" />
+    <Field Def="u8 female_mask_3" />
+    <Field Def="u8 female_mask_4" />
     <Field Def="u8 Unk59" />
-    <Field Def="u8 Head Piece mask 2-Female" />
-    <Field Def="u8 Head Piece mask 2-Female" />
+    <Field Def="u8 female_mask_5" />
+    <Field Def="u8 female_mask_6" />
     <Field Def="u8 Unk5C" />
     <Field Def="u8 Unk5D" />
     <Field Def="u8 Unk5E" />

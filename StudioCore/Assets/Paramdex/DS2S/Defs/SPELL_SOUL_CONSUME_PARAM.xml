@@ -6,17 +6,17 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="s32 Drain All Souls" />
-    <Field Def="s32 Max Damage Scale (Souls)" />
-    <Field Def="s32 Bullet ID" />
-    <Field Def="s32 Bullet ID" />
-    <Field Def="s32 Bullet ID" />
-    <Field Def="s32 Bullet ID" />
-    <Field Def="s32 Bullet ID" />
-    <Field Def="s32 Bullet ID" />
-    <Field Def="s32 Bullet ID" />
-    <Field Def="s32 Bullet ID" />
-    <Field Def="s32 Bullet ID" />
-    <Field Def="s32 Bullet ID" />
+    <Field Def="s32 drain_all_souls" />
+    <Field Def="s32 maw_damage_scale_from_souls" />
+    <Field Def="s32 bullet_id_1" />
+    <Field Def="s32 bullet_id_2" />
+    <Field Def="s32 bullet_id_3" />
+    <Field Def="s32 bullet_id_4" />
+    <Field Def="s32 bullet_id_5" />
+    <Field Def="s32 bullet_id_6" />
+    <Field Def="s32 bullet_id_7" />
+    <Field Def="s32 bullet_id_8" />
+    <Field Def="s32 bullet_id_9" />
+    <Field Def="s32 bullet_id_10" />
   </Fields>
 </PARAMDEF>

@@ -6,8 +6,8 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="s32 Unk00" />
-    <Field Def="s32 Unk04" />
-    <Field Def="s32 Unk08" />
+    <Field Def="s32 palette_R" />
+    <Field Def="s32 palette_G" />
+    <Field Def="s32 palette_B" />
   </Fields>
 </PARAMDEF>

@@ -9,9 +9,9 @@
     <Field Def="f32 Unk00" />
     <Field Def="f32 Unk04" />
     <Field Def="f32 Unk08" />
-    <Field Def="f32 Unk0C" />
+    <Field Def="f32 camera_vertical_distance" />
     <Field Def="f32 Unk10" />
-    <Field Def="f32 Unk14" />
+    <Field Def="f32 camera_horizontal_distance" />
     <Field Def="f32 Unk18" />
     <Field Def="f32 Unk1C" />
     <Field Def="f32 Unk20" />
@@ -22,6 +22,6 @@
     <Field Def="f32 Unk34" />
     <Field Def="f32 Unk38" />
     <Field Def="f32 Unk3C" />
-    <Field Def="f32 Unk40" />
+    <Field Def="f32 camera_tilt" />
   </Fields>
 </PARAMDEF>

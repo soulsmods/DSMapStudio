@@ -6,10 +6,10 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="f32 Head" />
-    <Field Def="f32 Torso" />
-    <Field Def="f32 Waist" />
-    <Field Def="f32 Arms" />
-    <Field Def="f32 Legs" />
+    <Field Def="f32 edit_head" />
+    <Field Def="f32 edit_torso" />
+    <Field Def="f32 edit_waist" />
+    <Field Def="f32 edit_arms" />
+    <Field Def="f32 edit_legs" />
   </Fields>
 </PARAMDEF>

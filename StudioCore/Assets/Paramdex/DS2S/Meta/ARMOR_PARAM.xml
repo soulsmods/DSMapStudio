@@ -11,9 +11,25 @@
   </Enums>
   <Self Row0Dummy="" />
   <Field>
-    <SlotCategory Enum="Slot" />
-    <ArmorSetID Wiki="The ID for this armor set. Do not forget this when creating custom armor." />
-    <EquipInterfereID Refs="EquipInterfereParam" />
-    <ArmorReinforceID Refs="ArmorReinforceParam" />
+    <armor_set_id AltName="Armor ID" Wiki="The ID for this armor set. Do not forget this when creating custom armor." />
+    <slot_category AltName="Slot Category" Enum="Slot" />
+    <model_id AltName="Model ID" />
+    <has_gendered_armor AltName="Has Gendered Armor" />
+    <equip_interfere_id AltName="Equip Interfere ID" Refs="EquipInterfereParam" />
+    <armor_reinforce_id AltName="Armor Reinforce ID" Refs="ArmorReinforceParam" />
+    <physical_defence_scaling AltName="Scaling: Physical Defence" />
+    <strength_requirement AltName="Requirement: STR" />
+    <dexteroty_requirement AltName="Requirement: DEX" />
+    <intelligence_requirement AltName="Requirement: INT" />
+    <faith_requirement AltName="Requirement: FTH" />
+    <weight AltName="Weight" />
+    <durability AltName="Durability" />
+    <repair_cost AltName="Repair Cost" />
+    <poise AltName="Poise" />
+    <item_discovery AltName="Additional Item Discovery" />
+    
+    <Unk15 AltName="Damage Effect SE or Material" Refs="DamageEffectMaterialParam,DamageEffectSeParam"/>
+    <Unk17 AltName="Damage Effect SFX" Refs="DamageEffectSfxParam" />
+    
   </Field>
 </PARAMMETA>

@@ -2,6 +2,12 @@
 <PARAMMETA XmlVersion="0">
   <Self Row0Dummy="" />
   <Field>
-    <EquipID1 Refs="ItemParam" />
+    <equip_id AltName="Equip ID" Refs="ItemParam" />
+    <enable_flag AltName="Enable Flag" />
+    <disable_flag AltName="Disable Flag" />
+    <material_id AltName="Material ID" Refs="ItemParam"/>
+    <duplicate_item_id AltName="Duplicate Item ID" />
+    <price_rate AltName="Price Rate" />
+    <quantity AltName="Quantity" />
   </Field>
 </PARAMMETA>
