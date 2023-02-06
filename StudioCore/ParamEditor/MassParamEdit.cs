@@ -655,34 +655,34 @@ namespace StudioCore.ParamEditor
                 };
             }));
             argumentGetters.Add("average", (2, (field) => (param) => {
-                PseudoColumn pc = field[0].Equals("ID") ? PseudoColumn.ID : field[0].Equals("Name") ? PseudoColumn.Name : PseudoColumn.None;
-                Param.Column? col = param?[field[0]];
-                if (pc == PseudoColumn.None && col == null)
+                var col = param.GetCol(field[0]);
+                if (!col.IsColumnValid())
                     throw new Exception($@"Could not locate field {field[0]}");
+                Type colType = col.GetColumnType();
+                if (colType == typeof(string) || colType == typeof(byte[]))
+                    throw new Exception($@"Cannot average field {field[0]}");
                 var rows = RowSearchEngine.rse.Search((ParamBank.PrimaryBank, param), field[1], false, false);
-                var vals = rows.Select((row, i) => pc == PseudoColumn.ID ? row.ID : pc == PseudoColumn.Name ? row.Name : row[col].Value);
+                var vals = rows.Select((row, i) =>row.Get(col));
                 double avg = vals.Average((val) => Convert.ToDouble(val));
                 return (row) => (c) => avg.ToString();
             }));
             argumentGetters.Add("median", (2, (field) => (param) => {
-                PseudoColumn pc = field[0].Equals("ID") ? PseudoColumn.ID : field[0].Equals("Name") ? PseudoColumn.Name : PseudoColumn.None;
-                Param.Column? col = param?[field[0]];
-                if (pc == PseudoColumn.None && col == null)
+                var col = param.GetCol(field[0]);
+                if (!col.IsColumnValid())
                     throw new Exception($@"Could not locate field {field[0]}");
                 var rows = RowSearchEngine.rse.Search((ParamBank.PrimaryBank, param), field[1], false, false);
-                var vals = rows.Select((row, i) => pc == PseudoColumn.ID ? row.ID : pc == PseudoColumn.Name ? row.Name : row[col].Value);
+                var vals = rows.Select((row, i) => row.Get(col));
                 var avg = vals.OrderBy((val) => Convert.ToDouble(val)).ElementAt(vals.Count()/2);
-                return (row) => (c) => Convert.ToString(avg);
+                return (row) => (c) => avg.ToParamEditorString();
             }));
             argumentGetters.Add("mode", (2, (field) => (param) => {
-                PseudoColumn pc = field[0].Equals("ID") ? PseudoColumn.ID : field[0].Equals("Name") ? PseudoColumn.Name : PseudoColumn.None;
-                Param.Column? col = param?[field[0]];
-                if (pc == PseudoColumn.None && col == null)
+                var col = param.GetCol(field[0]);
+                if (!col.IsColumnValid())
                     throw new Exception($@"Could not locate field {field[0]}");
                 var rows = RowSearchEngine.rse.Search((ParamBank.PrimaryBank, param), field[1], false, false);
-                var vals = rows.Select((row, i) => pc == PseudoColumn.ID ? row.ID : pc == PseudoColumn.Name ? row.Name : row[col].Value);
+                var vals = rows.Select((row, i) => row.Get(col));
                 var avg = vals.GroupBy((val) => val).OrderByDescending((g) => g.Count()).Select((g) => g.Key).First();
-                return (row) => (c) => Convert.ToString(avg);
+                return (row) => (c) => avg.ToParamEditorString();
             }));
             argumentGetters.Add("vanilla", (0, (empty) => {
                 ParamBank bank = ParamBank.VanillaBank;
