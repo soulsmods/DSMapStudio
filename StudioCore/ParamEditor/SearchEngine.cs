@@ -242,9 +242,7 @@ namespace StudioCore.Editor
                         Param.Cell? cq = row[field];
                         if (cq == null) throw new Exception();
                         Param.Cell c = cq.Value;
-                        string term = c.Value.ToString();
-                        if (c.Value.GetType() == typeof(byte[]))
-                            term = ParamUtils.Dummy8Write((byte[])c.Value);
+                        string term = c.Value.ToParamEditorString();
                         return rx.Match(term).Success;
                 });
             }));
@@ -353,8 +351,8 @@ namespace StudioCore.Editor
                     return (col) => true;
                 else
                     return (col) => {
-                        object valA = col.Item1 == PseudoColumn.ID ? row.Item2.ID : col.Item1 == PseudoColumn.Name ? row.Item2.Name : row.Item2[col.Item2.Def.InternalName].Value.Value;
-                        object valB = col.Item1 == PseudoColumn.ID ? r.ID : col.Item1 == PseudoColumn.Name ? r.Name : r[col.Item2.Def.InternalName].Value.Value;
+                        object valA = row.Item2.Get(col);
+                        object valB = r.Get(col);
                         return ParamUtils.IsValueDiff(ref valA, ref valB, valA?.GetType());
                     };
             }));
