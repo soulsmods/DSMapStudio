@@ -656,6 +656,83 @@ namespace StudioCore.ParamEditor
                     return (c) => v;
                 };
             }));
+            argumentGetters.Add("vanilla", (new string[0], (empty) => {
+                ParamBank bank = ParamBank.VanillaBank;
+                return (param) => {
+                    string paramName = ParamBank.PrimaryBank.GetKeyForParam(param);
+                    if (!bank.Params.ContainsKey(paramName))
+                        throw new Exception($@"Could not locate vanilla param for {param.ParamType}");
+                    Param vParam = bank.Params[paramName];
+                    return (row) => {
+                        Param.Row vRow = vParam?[row.ID];
+                        if (vRow == null)
+                            throw new Exception($@"Could not locate vanilla row {row.ID}");
+                        return (col) => {
+                            if (col.Item1 == PseudoColumn.None && col.Item2 == null)
+                                throw new Exception($@"Could not locate given field or property");
+                            return vRow.Get(col).ToParamEditorString();
+                        };
+                    };
+                };
+            }));
+            argumentGetters.Add("aux", (new string[]{"parambank name"}, (bankName) => {
+                if (!ParamBank.AuxBanks.ContainsKey(bankName[0]))
+                    throw new Exception($@"Could not locate paramBank {bankName[0]}");
+                ParamBank bank = ParamBank.AuxBanks[bankName[0]];
+                return (param) => {
+                    string paramName = ParamBank.PrimaryBank.GetKeyForParam(param);
+                    if (!bank.Params.ContainsKey(paramName))
+                        throw new Exception($@"Could not locate aux param for {param.ParamType}");
+                    Param vParam = bank.Params[paramName];
+                    return (row) => {
+                        Param.Row vRow = vParam?[row.ID];
+                        if (vRow == null)
+                            throw new Exception($@"Could not locate aux row {row.ID}");
+                        return (col) => {
+                            if (!col.IsColumnValid())
+                                throw new Exception($@"Could not locate given field or property");
+                            return vRow.Get(col).ToParamEditorString();
+                        };
+                    };
+                };
+            }));
+            argumentGetters.Add("vanillafield", (new string[]{"field internalName"}, (field) => (param) => {
+                var paramName = ParamBank.PrimaryBank.GetKeyForParam(param);
+                var vParam = ParamBank.VanillaBank.GetParamFromName(paramName);
+                if (vParam == null)
+                    throw new Exception($@"Could not locate vanilla param for {param.ParamType}");
+                var col = vParam.GetCol(field[0]);
+                if (!col.IsColumnValid())
+                    throw new Exception($@"Could not locate field {field[0]}");
+                return (row) => {
+                    Param.Row vRow = vParam?[row.ID];
+                    if (vRow == null)
+                        throw new Exception($@"Could not locate vanilla row {row.ID}");
+                    string v = vRow.Get(col).ToParamEditorString();
+                    return (c) => v;
+                };
+            }));
+            argumentGetters.Add("auxfield", (new string[]{"parambank name", "field internalName"}, (bankAndField) => {
+                if (!ParamBank.AuxBanks.ContainsKey(bankAndField[0]))
+                    throw new Exception($@"Could not locate paramBank {bankAndField[0]}");
+                ParamBank bank = ParamBank.AuxBanks[bankAndField[0]];
+                return (param) => {
+                    string paramName = ParamBank.PrimaryBank.GetKeyForParam(param);
+                    if (!bank.Params.ContainsKey(paramName))
+                        throw new Exception($@"Could not locate aux param for {param.ParamType}");
+                    Param vParam = bank.Params[paramName];
+                    var col = vParam.GetCol(bankAndField[1]);
+                    if (!col.IsColumnValid())
+                        throw new Exception($@"Could not locate field {bankAndField[1]}");
+                    return (row) => {
+                        Param.Row vRow = vParam?[row.ID];
+                        if (vRow == null)
+                            throw new Exception($@"Could not locate aux row {row.ID}");
+                        string v = vRow.Get(col).ToParamEditorString();
+                        return (c) => v;
+                    };
+                };
+            }));
             argumentGetters.Add("average", (new string[]{"field internalName", "row selector"}, (field) => (param) => {
                 var col = param.GetCol(field[0]);
                 if (!col.IsColumnValid())
@@ -685,83 +762,6 @@ namespace StudioCore.ParamEditor
                 var vals = rows.Select((row, i) => row.Get(col));
                 var avg = vals.GroupBy((val) => val).OrderByDescending((g) => g.Count()).Select((g) => g.Key).First();
                 return (row) => (c) => avg.ToParamEditorString();
-            }));
-            argumentGetters.Add("vanilla", (new string[0], (empty) => {
-                ParamBank bank = ParamBank.VanillaBank;
-                return (param) => {
-                    string paramName = ParamBank.PrimaryBank.GetKeyForParam(param);
-                    if (!bank.Params.ContainsKey(paramName))
-                        throw new Exception($@"Could not locate vanilla param for {param.ParamType}");
-                    Param vParam = bank.Params[paramName];
-                    return (row) => {
-                        Param.Row vRow = vParam?[row.ID];
-                        if (vRow == null)
-                            throw new Exception($@"Could not locate vanilla row {row.ID}");
-                        return (col) => {
-                            if (col.Item1 == PseudoColumn.None && col.Item2 == null)
-                                throw new Exception($@"Could not locate given field or property");
-                            return vRow.Get(col).ToParamEditorString();
-                        };
-                    };
-                };
-            }));
-            argumentGetters.Add("vanillafield", (new string[]{"field internalName"}, (field) => (param) => {
-                var paramName = ParamBank.PrimaryBank.GetKeyForParam(param);
-                var vParam = ParamBank.VanillaBank.GetParamFromName(paramName);
-                if (vParam == null)
-                    throw new Exception($@"Could not locate vanilla param for {param.ParamType}");
-                var col = vParam.GetCol(field[0]);
-                if (!col.IsColumnValid())
-                    throw new Exception($@"Could not locate field {field[0]}");
-                return (row) => {
-                    Param.Row vRow = vParam?[row.ID];
-                    if (vRow == null)
-                        throw new Exception($@"Could not locate vanilla row {row.ID}");
-                    string v = vRow.Get(col).ToParamEditorString();
-                    return (c) => v;
-                };
-            }));
-            argumentGetters.Add("aux", (new string[]{"parambank name"}, (bankName) => {
-                if (!ParamBank.AuxBanks.ContainsKey(bankName[0]))
-                    throw new Exception($@"Could not locate paramBank {bankName[0]}");
-                ParamBank bank = ParamBank.AuxBanks[bankName[0]];
-                return (param) => {
-                    string paramName = ParamBank.PrimaryBank.GetKeyForParam(param);
-                    if (!bank.Params.ContainsKey(paramName))
-                        throw new Exception($@"Could not locate aux param for {param.ParamType}");
-                    Param vParam = bank.Params[paramName];
-                    return (row) => {
-                        Param.Row vRow = vParam?[row.ID];
-                        if (vRow == null)
-                            throw new Exception($@"Could not locate aux row {row.ID}");
-                        return (col) => {
-                            if (!col.IsColumnValid())
-                                throw new Exception($@"Could not locate given field or property");
-                            return vRow.Get(col).ToParamEditorString();
-                        };
-                    };
-                };
-            }));
-            argumentGetters.Add("auxfield", (new string[]{"parambank name", "field internalName"}, (bankAndField) => {
-                if (!ParamBank.AuxBanks.ContainsKey(bankAndField[0]))
-                    throw new Exception($@"Could not locate paramBank {bankAndField[0]}");
-                ParamBank bank = ParamBank.AuxBanks[bankAndField[0]];
-                return (param) => {
-                    string paramName = ParamBank.PrimaryBank.GetKeyForParam(param);
-                    if (!bank.Params.ContainsKey(paramName))
-                        throw new Exception($@"Could not locate aux param for {param.ParamType}");
-                    Param vParam = bank.Params[paramName];
-                    var col = vParam.GetCol(bankAndField[1]);
-                    if (!col.IsColumnValid())
-                        throw new Exception($@"Could not locate field {bankAndField[1]}");
-                    return (row) => {
-                        Param.Row vRow = vParam?[row.ID];
-                        if (vRow == null)
-                            throw new Exception($@"Could not locate aux row {row.ID}");
-                        string v = vRow.Get(col).ToParamEditorString();
-                        return (c) => v;
-                    };
-                };
             }));
             argumentGetters.Add("random", (new string[]{"minimum number (inclusive)", "maximum number (exclusive)"}, (minAndMax) => {
                 double min;

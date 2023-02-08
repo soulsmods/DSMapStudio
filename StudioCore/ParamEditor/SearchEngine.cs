@@ -234,6 +234,11 @@ namespace StudioCore.Editor
                 Regex rx = lenient ? new Regex(args[0].ToLower()) : new Regex($@"^{args[0]}$");
                 return noContext((row)=>rx.Match(row.ID.ToString()).Success);
             }));
+            filterList.Add("idrange", (new string[]{"row id minimum (inclusive)", "row id maximum (inclusive)"}, (args, lenient)=>{
+                double floor = double.Parse(args[0]);
+                double ceil = double.Parse(args[1]);
+                return noContext((row)=>row.ID >= floor && row.ID <= ceil);
+            }));
             filterList.Add("name", (new string[]{"row name (regex)"}, (args, lenient)=>{
                 Regex rx = lenient ? new Regex(args[0], RegexOptions.IgnoreCase) : new Regex($@"^{args[0]}$");
                 return noContext((row)=>rx.Match(row.Name == null ? "" : row.Name).Success);
@@ -248,11 +253,6 @@ namespace StudioCore.Editor
                         string term = c.Value.ToParamEditorString();
                         return rx.Match(term).Success;
                 });
-            }));
-            filterList.Add("idrange", (new string[]{"row id minimum (inclusive)", "row id maximum (inclusive)"}, (args, lenient)=>{
-                double floor = double.Parse(args[0]);
-                double ceil = double.Parse(args[1]);
-                return noContext((row)=>row.ID >= floor && row.ID <= ceil);
             }));
             filterList.Add("proprange", (new string[]{"field internalName", "field value minimum (inclusive)", "field value maximum (inclusive)"}, (args, lenient)=>{
                 string field = args[0].Replace(@"\s", " ");
