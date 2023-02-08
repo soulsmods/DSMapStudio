@@ -121,13 +121,13 @@ namespace StudioCore.ParamEditor
         private bool _mEditCSVAppendOnly = false;
         private bool _mEditCSVReplaceRows = false;
 
-        private string[] _autoFillArgsParse = Enumerable.Repeat("", ParamAndRowSearchEngine.parse.AvailableCommands().Sum((x) => x.Item2) + ParamAndRowSearchEngine.parse.defaultFilter.Item1).ToArray();
-        private string[] _autoFillArgsPse = Enumerable.Repeat("", ParamSearchEngine.pse.AvailableCommands().Sum((x) => x.Item2) + ParamSearchEngine.pse.defaultFilter.Item1).ToArray();
-        private string[] _autoFillArgsRse = Enumerable.Repeat("", RowSearchEngine.rse.AvailableCommands().Sum((x) => x.Item2) + RowSearchEngine.rse.defaultFilter.Item1).ToArray();
-        private string[] _autoFillArgsCse = Enumerable.Repeat("", CellSearchEngine.cse.AvailableCommands().Sum((x) => x.Item2) + CellSearchEngine.cse.defaultFilter.Item1).ToArray();
-        private string[] _autoFillArgsRop = Enumerable.Repeat("", MERowOperation.rowOps.AvailableCommands().Sum((x) => x.Item2)).ToArray();
-        private string[] _autoFillArgsCop = Enumerable.Repeat("", MECellOperation.cellOps.AvailableCommands().Sum((x) => x.Item2)).ToArray();
-        private string[] _autoFillArgsOa = Enumerable.Repeat("", MEOperationArgument.arg.AvailableArguments().Sum((x) => x.Item2)).ToArray();
+        private string[] _autoFillArgsParse = Enumerable.Repeat("", ParamAndRowSearchEngine.parse.AvailableCommands().Sum((x) => x.Item2.Length) + ParamAndRowSearchEngine.parse.defaultFilter.Item1.Length).ToArray();
+        private string[] _autoFillArgsPse = Enumerable.Repeat("", ParamSearchEngine.pse.AvailableCommands().Sum((x) => x.Item2.Length) + ParamSearchEngine.pse.defaultFilter.Item1.Length).ToArray();
+        private string[] _autoFillArgsRse = Enumerable.Repeat("", RowSearchEngine.rse.AvailableCommands().Sum((x) => x.Item2.Length) + RowSearchEngine.rse.defaultFilter.Item1.Length).ToArray();
+        private string[] _autoFillArgsCse = Enumerable.Repeat("", CellSearchEngine.cse.AvailableCommands().Sum((x) => x.Item2.Length) + CellSearchEngine.cse.defaultFilter.Item1.Length).ToArray();
+        private string[] _autoFillArgsRop = Enumerable.Repeat("", MERowOperation.rowOps.AvailableCommands().Sum((x) => x.Item2.Length)).ToArray();
+        private string[] _autoFillArgsCop = Enumerable.Repeat("", MECellOperation.cellOps.AvailableCommands().Sum((x) => x.Item2.Length)).ToArray();
+        private string[] _autoFillArgsOa = Enumerable.Repeat("", MEOperationArgument.arg.AvailableArguments().Sum((x) => x.Item2.Length)).ToArray();
 
         public static bool EditorMode = false;
 
@@ -963,7 +963,7 @@ namespace StudioCore.ParamEditor
             string result = null;
             foreach (var cmd in enableDefault ? se.AvailableCommands().Append((null, se.defaultFilter.Item1)).ToList() : se.AvailableCommands())
             {
-                int[] argIndices = new int[cmd.Item2];
+                int[] argIndices = new int[cmd.Item2.Length];
                 bool valid = true;
                 for (int i = 0; i < argIndices.Length; i++)
                 {
@@ -989,7 +989,7 @@ namespace StudioCore.ParamEditor
                 {
                     if (i != 0)
                         ImGui.SameLine();
-                    ImGui.InputText("##meautoinput"+argIndices[i], ref staticArgs[argIndices[i]], 256);
+                    ImGui.InputTextWithHint("##meautoinput"+argIndices[i], cmd.Item2[i], ref staticArgs[argIndices[i]], 256);
                 }
                 ImGui.Unindent();
                 if (result != null && valid)
@@ -1019,7 +1019,7 @@ namespace StudioCore.ParamEditor
             string result = null;
             foreach (var cmd in ops.AvailableCommands())
             {
-                int[] argIndices = new int[cmd.Item2];
+                int[] argIndices = new int[cmd.Item2.Length];
                 bool valid = true;
                 for (int i = 0; i < argIndices.Length; i++)
                 {
@@ -1045,7 +1045,7 @@ namespace StudioCore.ParamEditor
                 {
                     if (i != 0)
                         ImGui.SameLine();
-                    ImGui.InputText("##meautoinputop"+argIndices[i], ref staticArgs[argIndices[i]], 256);
+                    ImGui.InputTextWithHint("##meautoinputop"+argIndices[i], cmd.Item2[i], ref staticArgs[argIndices[i]], 256);
                     ImGui.SameLine();
                     ImGui.Button($@"{ForkAwesome.CaretDown}");
                     if (ImGui.BeginPopupContextItem("##meautoinputoapopup"+argIndices[i], ImGuiPopupFlags.MouseButtonLeft))
@@ -1076,7 +1076,7 @@ namespace StudioCore.ParamEditor
             string result = null;
             foreach (var arg in oa.AvailableArguments())
             {
-                int[] argIndices = new int[arg.Item2];
+                int[] argIndices = new int[arg.Item2.Length];
                 bool valid = true;
                 for (int i = 0; i < argIndices.Length; i++)
                 {
@@ -1099,7 +1099,7 @@ namespace StudioCore.ParamEditor
                 {
                     if (i != 0)
                         ImGui.SameLine();
-                    ImGui.InputText("##meautoinputoa"+argIndices[i], ref staticArgs[argIndices[i]], 256);
+                    ImGui.InputTextWithHint("##meautoinputoa"+argIndices[i], arg.Item2[i], ref staticArgs[argIndices[i]], 256);
                 }
                 ImGui.Unindent();
             }
