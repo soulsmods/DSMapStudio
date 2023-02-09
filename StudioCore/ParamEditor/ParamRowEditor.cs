@@ -714,6 +714,10 @@ namespace StudioCore.ParamEditor
                 {
                     EditorCommandQueue.AddCommand($@"param/menu/massEditRegex/selection: {Regex.Escape(internalName)}: ");
                 }
+                if (ImGui.Selectable("Reset all selected..."))
+                {
+                    EditorCommandQueue.AddCommand($@"param/menu/massEditRegex/selection: {Regex.Escape(internalName)}: = vanilla;");
+                }
                 if (VirtualRef != null)
                     EditorDecorations.VirtualParamRefSelectables(bank, VirtualRef, oldval);
                 if (ParamEditorScreen.EditorMode && ImGui.BeginMenu("Find rows with this value..."))
