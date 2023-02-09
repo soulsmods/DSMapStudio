@@ -285,7 +285,6 @@ namespace StudioCore.Editor
                     };
                 };
             }));
-
             filterList.Add("fmg", (new string[]{"fmg title (regex)"}, (args, lenient)=>{
                 Regex rx = lenient ? new Regex(args[0], RegexOptions.IgnoreCase) : new Regex($@"^{args[0]}$");
                 string field = args[0].Replace(@"\s", " ");
@@ -313,6 +312,76 @@ namespace StudioCore.Editor
                             return false;
                         FMG.Entry e = _cache[row.ID];
                         return e != null && rx.Match(e.Text ?? "").Success;
+                    };
+                };
+            }));
+            filterList.Add("vanillaprop", (new string[]{"field internalName", "field value (regex)"}, (args, lenient)=>{
+                Regex rx = lenient ? new Regex(args[1], RegexOptions.IgnoreCase) : new Regex($@"^{args[1]}$");
+                string field = args[0].Replace(@"\s", " ");
+                return (param) => {
+                    Param vparam = ParamBank.VanillaBank.GetParamFromName(param.Item1.GetKeyForParam(param.Item2));
+                    return (row)=>{
+                        Param.Row vrow = vparam[row.ID];
+                        if (vrow == null)
+                            return false;
+                        Param.Cell? cq = vrow[field];
+                        if (cq == null) throw new Exception();
+                        Param.Cell c = cq.Value;
+                        string term = c.Value.ToParamEditorString();
+                        return rx.Match(term).Success;
+                    };
+                };
+            }));
+            filterList.Add("vanillaproprange", (new string[]{"field internalName", "field value minimum (inclusive)", "field value maximum (inclusive)"}, (args, lenient)=>{
+                string field = args[0].Replace(@"\s", " ");
+                double floor = double.Parse(args[1]);
+                double ceil = double.Parse(args[2]);
+                return (param) => {
+                    Param vparam = ParamBank.VanillaBank.GetParamFromName(param.Item1.GetKeyForParam(param.Item2));
+                    return (row)=>{
+                        Param.Row vrow = vparam[row.ID];
+                        if (vrow == null)
+                            return false;
+                        Param.Cell? c = vrow[field];
+                        if (c == null) throw new Exception();
+                        return (Convert.ToDouble(c.Value.Value)) >= floor && (Convert.ToDouble(c.Value.Value)) <= ceil;
+                    };
+                };
+            }));
+            filterList.Add("auxprop", (new string[]{"parambank name", "field internalName", "field value (regex)"}, (args, lenient)=>{
+                Regex rx = lenient ? new Regex(args[2], RegexOptions.IgnoreCase) : new Regex($@"^{args[2]}$");
+                string field = args[1].Replace(@"\s", " ");
+                ParamBank bank;
+                if (!ParamBank.AuxBanks.TryGetValue(args[0], out bank))
+                    throw new Exception("Unable to find auxbank "+args[0]);
+                return (param) => {
+                    Param vparam = bank.GetParamFromName(param.Item1.GetKeyForParam(param.Item2));
+                    return (row)=>{
+                        Param.Row vrow = vparam[row.ID];
+                        if (vrow == null)
+                            return false;
+                        Param.Cell? cq = vrow[field];
+                        if (cq == null) throw new Exception();
+                        Param.Cell c = cq.Value;
+                        string term = c.Value.ToParamEditorString();
+                        return rx.Match(term).Success;
+                    };
+                };
+            }));
+            filterList.Add("auxproprange", (new string[]{"parambank name", "field internalName", "field value minimum (inclusive)", "field value maximum (inclusive)"}, (args, lenient)=>{
+                string field = args[0].Replace(@"\s", " ");
+                double floor = double.Parse(args[1]);
+                double ceil = double.Parse(args[2]);
+                ParamBank bank;
+                if (!ParamBank.AuxBanks.TryGetValue(args[0], out bank))
+                    throw new Exception("Unable to find auxbank "+args[0]);
+                return (param) => {
+                    Param vparam = bank.GetParamFromName(param.Item1.GetKeyForParam(param.Item2));
+                    return (row)=>{
+                        Param.Row vrow = vparam[row.ID];
+                        Param.Cell? c = vrow[field];
+                        if (c == null) throw new Exception();
+                        return (Convert.ToDouble(c.Value.Value)) >= floor && (Convert.ToDouble(c.Value.Value)) <= ceil;
                     };
                 };
             }));
