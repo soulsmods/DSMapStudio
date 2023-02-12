@@ -391,7 +391,7 @@ namespace StudioCore.ParamEditor
                 }
                 else
                 {
-                    rowgen = $@"{row.ID}{separator}{row[field].Value.Value}";
+                    rowgen = $@"{row.ID}{separator}{row[field].Value.ToParamEditorString()}";
                 }
                 gen += rowgen + "\n";
             }
