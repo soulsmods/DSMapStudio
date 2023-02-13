@@ -41,6 +41,8 @@ namespace StudioCore.Editor
 
         public bool HandlesCommand(string command)
         {
+            if (command.Length > 0 && command.StartsWith('!'))
+                command = command.Substring(1);
             return filterList.ContainsKey(command.Split(" ")[0]);
         }
         public List<string> AvailableCommandsForHelpText()
@@ -85,6 +87,12 @@ namespace StudioCore.Editor
                     int argC;
                     Func<string[], bool, Func<A, Func<B, bool>>> method;
                     string[] args;
+                    bool not = false;
+                    if (cmd[0].Length > 0 && cmd[0].StartsWith('!'))
+                    {
+                        cmd[0] = cmd[0].Substring(1);
+                        not = true;
+                    }
                     if (filterList.ContainsKey(cmd[0]))
                     {
                         (argNames, method) = filterList[cmd[0]];
@@ -102,7 +110,7 @@ namespace StudioCore.Editor
                     List<B> newRows = new List<B>();
                     foreach (B row in liveRows)
                     {
-                        if (criteria(row))
+                        if (not ^ criteria(row))
                             newRows.Add(row);
                     }
                     liveRows = newRows;
