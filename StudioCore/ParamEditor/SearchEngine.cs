@@ -162,12 +162,6 @@ namespace StudioCore.Editor
                 HashSet<int> cache = bank.GetVanillaDiffRows(bank.GetKeyForParam(param.Item2));
                 return cache.Count > 0;
             }))));
-            filterList.Add("original", (new string[0], noArgs(noContext((param)=>{
-                if (param.Item1 != bank)
-                    return false;
-                HashSet<int> cache = bank.GetVanillaDiffRows(bank.GetKeyForParam(param.Item2));
-                return cache.Count == 0;
-            }))));
             filterList.Add("param", (new string[]{"param name (regex)"}, (args, lenient)=>{
                 Regex rx = lenient ? new Regex(args[0], RegexOptions.IgnoreCase) : new Regex($@"^{args[0]}$");
                 return noContext((param)=>param.Item1 != bank ? false : rx.Match(bank.GetKeyForParam(param.Item2) == null ? "" : bank.GetKeyForParam(param.Item2)).Success);
@@ -200,26 +194,12 @@ namespace StudioCore.Editor
                     return (row) => cache.Contains(row.ID);
                 }
             )));
-            filterList.Add("original", (new string[0], noArgs((context)=>{
-                    string paramName = context.Item1.GetKeyForParam(context.Item2);
-                    HashSet<int> cache = context.Item1.GetVanillaDiffRows(paramName);
-                    return (row) => !cache.Contains(row.ID);
-                }
-            )));
             filterList.Add("added", (new string[0], noArgs((context)=>{
                     string paramName = context.Item1.GetKeyForParam(context.Item2);
                     if (!ParamBank.VanillaBank.Params.ContainsKey(paramName))
                         return (row) => true;
                     Param vanilParam = ParamBank.VanillaBank.Params[paramName];
                     return (row) => vanilParam[row.ID] == null;
-                }
-            )));
-            filterList.Add("notadded", (new string[0], noArgs((context)=>{
-                    string paramName = context.Item1.GetKeyForParam(context.Item2);
-                    if (!ParamBank.VanillaBank.Params.ContainsKey(paramName))
-                        return (row) => false;
-                    Param vanilParam = ParamBank.VanillaBank.Params[paramName];
-                    return (row) => vanilParam[row.ID] != null;
                 }
             )));
             filterList.Add("mergeable", (new string[0], noArgs((context)=>{
