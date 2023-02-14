@@ -406,7 +406,7 @@ namespace StudioCore.Editor
                     if (cell.Item2 != null)
                     {
                         var meta = lenient ? FieldMetaData.Get(cell.Item2.Def) : null;
-                        if (lenient && meta != null && rx.Match(meta?.AltName).Success)
+                        if (lenient && meta?.AltName != null && rx.Match(meta?.AltName).Success)
                             return true;
                         if (rx.Match(cell.Item2.Def.InternalName).Success)
                             return true;
@@ -425,9 +425,10 @@ namespace StudioCore.Editor
                     return (col) => true;
                 else
                     return (col) => {
+                        (PseudoColumn, Param.Column) vcol = col.GetAs(vParam);
                         object valA = row.Item2.Get(col);
-                        object valB = r.Get(col);
-                        return ParamUtils.IsValueDiff(ref valA, ref valB, valA?.GetType());
+                        object valB = r.Get(vcol);
+                        return ParamUtils.IsValueDiff(ref valA, ref valB, col.GetColumnType());
                     };
             }));
         }

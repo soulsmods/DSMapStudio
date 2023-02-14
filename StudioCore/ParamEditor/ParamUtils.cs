@@ -5,6 +5,7 @@ using System.Numerics;
 using FSParam;
 using ImGuiNET;
 using SoulsFormats;
+using System.Linq;
 
 namespace StudioCore.ParamEditor
 {
@@ -82,6 +83,10 @@ namespace StudioCore.ParamEditor
             return (pc, col);
         }
 
+        public static (PseudoColumn, Param.Column) GetAs(this (PseudoColumn, Param.Column) col, Param newParam)
+        {
+            return (col.Item1, col.Item2 == null? null : newParam.Cells.FirstOrDefault((x) => x.Def.InternalName == col.Item2.Def.InternalName));
+        }
         public static bool IsColumnValid(this (PseudoColumn, Param.Column) col)
         {
             return col.Item1 != PseudoColumn.None || col.Item2 != null;
