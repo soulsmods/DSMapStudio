@@ -126,6 +126,11 @@ namespace StudioCore.ParamEditor
                     return (T) (val * opp);
                 else if (op.Equals("/"))
                     return (T) (val / opp);
+                else if (op.Equals("scale"))
+                {
+                    dynamic opp2 = double.Parse(opparam[1]);
+                    return (T) ((val - opp2) * opp + opp2);
+                }
             }
             catch
             {
@@ -638,6 +643,7 @@ namespace StudioCore.ParamEditor
             operations.Add("*", (new string[]{"number"}, (ctx, args) => MassParamEdit.PerformOperation(ParamBank.PrimaryBank, ctx.Item1, ctx.Item2, "*", args)));
             operations.Add("/", (new string[]{"number"}, (ctx, args) => MassParamEdit.PerformOperation(ParamBank.PrimaryBank, ctx.Item1, ctx.Item2, "/", args)));
             operations.Add("%", (new string[]{"number"}, (ctx, args) => MassParamEdit.PerformOperation(ParamBank.PrimaryBank, ctx.Item1, ctx.Item2, "%", args)));
+            operations.Add("scale", (new string[]{"factor number", "center number"}, (ctx, args) => MassParamEdit.PerformOperation(ParamBank.PrimaryBank, ctx.Item1, ctx.Item2, "scale", args)));
             operations.Add("replace", (new string[]{"text to replace", "new text"}, (ctx, args) => MassParamEdit.PerformOperation(ParamBank.PrimaryBank, ctx.Item1, ctx.Item2, "replace", args)));
         }
     }
