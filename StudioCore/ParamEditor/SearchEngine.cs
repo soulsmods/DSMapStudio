@@ -398,7 +398,21 @@ namespace StudioCore.Editor
                 bool matchID = args[0] == "ID";
                 bool matchName = args[0] == "Name";
                 Regex rx = lenient ? new Regex(args[0], RegexOptions.IgnoreCase) : new Regex($@"^{args[0]}$");
-                return noContext((cell) => (matchID && cell.Item1 == PseudoColumn.ID) || (matchName && cell.Item1 == PseudoColumn.Name) || (cell.Item2 != null && rx.Match(cell.Item2.Def.InternalName).Success));
+                return noContext((cell) => {
+                    if (matchID && cell.Item1 == PseudoColumn.ID)
+                        return true;
+                    if (matchName && cell.Item1 == PseudoColumn.Name)
+                        return true;
+                    if (cell.Item2 != null)
+                    {
+                        var meta = lenient ? FieldMetaData.Get(cell.Item2.Def) : null;
+                        if (lenient && meta != null && rx.Match(meta?.AltName).Success)
+                            return true;
+                        if (rx.Match(cell.Item2.Def.InternalName).Success)
+                            return true;
+                    }
+                    return false;
+                });
             });
             filterList.Add("modified", (new string[0], (args, lenient) => (row) => {
                 if (row.Item1 == null)
