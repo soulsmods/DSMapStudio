@@ -28,10 +28,15 @@ namespace StudioCore.ParamEditor
 {
     public class AutoFill
     {
+
         private static string[] _autoFillArgsParse = Enumerable.Repeat("", ParamAndRowSearchEngine.parse.AvailableCommands().Sum((x) => x.Item2.Length) + ParamAndRowSearchEngine.parse.defaultFilter.Item1.Length).ToArray();
+        private static bool _autoFillNotToggleParse = false;
         private static string[] _autoFillArgsPse = Enumerable.Repeat("", ParamSearchEngine.pse.AvailableCommands().Sum((x) => x.Item2.Length) + ParamSearchEngine.pse.defaultFilter.Item1.Length).ToArray();
+        private static bool _autoFillNotTogglePse = false;
         private static string[] _autoFillArgsRse = Enumerable.Repeat("", RowSearchEngine.rse.AvailableCommands().Sum((x) => x.Item2.Length) + RowSearchEngine.rse.defaultFilter.Item1.Length).ToArray();
+        private static bool _autoFillNotToggleRse = false;
         private static string[] _autoFillArgsCse = Enumerable.Repeat("", CellSearchEngine.cse.AvailableCommands().Sum((x) => x.Item2.Length) + CellSearchEngine.cse.defaultFilter.Item1.Length).ToArray();
+        private static bool _autoFillNotToggleCse = false;
         private static string[] _autoFillArgsRop = Enumerable.Repeat("", MERowOperation.rowOps.AvailableCommands().Sum((x) => x.Item2.Length)).ToArray();
         private static string[] _autoFillArgsCop = Enumerable.Repeat("", MECellOperation.cellOps.AvailableCommands().Sum((x) => x.Item2.Length)).ToArray();
         private static string[] _autoFillArgsOa = Enumerable.Repeat("", MEOperationArgument.arg.AvailableArguments().Sum((x) => x.Item2.Length)).ToArray();
@@ -43,7 +48,7 @@ namespace StudioCore.ParamEditor
             if (ImGui.BeginPopupContextItem("##rsbautoinputoapopup", ImGuiPopupFlags.MouseButtonLeft))
             {
                 ImGui.TextUnformatted("Select params...");
-                var result = MassEditAutoFillForSearchEngine(ParamSearchEngine.pse, ref _autoFillArgsRse, false, "", null);
+                var result = MassEditAutoFillForSearchEngine(ParamSearchEngine.pse, ref _autoFillArgsPse, ref _autoFillNotTogglePse, false, "", null);
                 ImGui.EndPopup();
                 return result;
             }
@@ -57,7 +62,7 @@ namespace StudioCore.ParamEditor
             if (ImGui.BeginPopupContextItem("##rsbautoinputoapopup", ImGuiPopupFlags.MouseButtonLeft))
             {
                 ImGui.TextUnformatted("Select rows...");
-                var result = MassEditAutoFillForSearchEngine(RowSearchEngine.rse, ref _autoFillArgsRse, false, "", null);
+                var result = MassEditAutoFillForSearchEngine(RowSearchEngine.rse, ref _autoFillArgsRse, ref _autoFillNotToggleRse, false, "", null);
                 ImGui.EndPopup();
                 return result;
             }
@@ -72,10 +77,10 @@ namespace StudioCore.ParamEditor
             if (ImGui.BeginPopupContextItem("##meautoinputoapopup", ImGuiPopupFlags.MouseButtonLeft))
             {
                 ImGui.TextUnformatted("Select param and rows...");
-                string result1 = MassEditAutoFillForSearchEngine(ParamAndRowSearchEngine.parse, ref _autoFillArgsParse, false, ": ", () => 
+                string result1 = MassEditAutoFillForSearchEngine(ParamAndRowSearchEngine.parse, ref _autoFillArgsParse, ref _autoFillNotToggleParse, false, ": ", () => 
                 {
                     ImGui.TextUnformatted("Select fields...");
-                    string res1 = MassEditAutoFillForSearchEngine(CellSearchEngine.cse, ref _autoFillArgsCse, true, ": ", () => 
+                    string res1 = MassEditAutoFillForSearchEngine(CellSearchEngine.cse, ref _autoFillArgsCse, ref _autoFillNotToggleCse, true, ": ", () => 
                     {
                         ImGui.TextUnformatted("Select field operation...");
                         return MassEditAutoFillForOperation(MECellOperation.cellOps, ref _autoFillArgsCop, ";", null);
@@ -89,13 +94,13 @@ namespace StudioCore.ParamEditor
                 });
                 ImGui.Separator();
                 ImGui.TextUnformatted("Select params...");
-                string result2 = MassEditAutoFillForSearchEngine(ParamSearchEngine.pse, ref _autoFillArgsPse, false, ": ", () =>
+                string result2 = MassEditAutoFillForSearchEngine(ParamSearchEngine.pse, ref _autoFillArgsPse, ref _autoFillNotTogglePse, false, ": ", () =>
                 {
                     ImGui.TextUnformatted("Select rows...");
-                    return MassEditAutoFillForSearchEngine(RowSearchEngine.rse, ref _autoFillArgsRse, false, ": ", () => 
+                    return MassEditAutoFillForSearchEngine(RowSearchEngine.rse, ref _autoFillArgsRse, ref _autoFillNotToggleRse, false, ": ", () => 
                     {
                         ImGui.TextUnformatted("Select fields...");
-                        string res1 = MassEditAutoFillForSearchEngine(CellSearchEngine.cse, ref _autoFillArgsCse, true, ": ", () => 
+                        string res1 = MassEditAutoFillForSearchEngine(CellSearchEngine.cse, ref _autoFillArgsCse, ref _autoFillNotToggleCse, true, ": ", () => 
                         {
                             ImGui.TextUnformatted("Select field operation...");
                             return MassEditAutoFillForOperation(MECellOperation.cellOps, ref _autoFillArgsCop, ";", null);
@@ -116,10 +121,11 @@ namespace StudioCore.ParamEditor
             return null;
         }
 
-        private static string MassEditAutoFillForSearchEngine<A, B> (SearchEngine<A, B> se, ref string[] staticArgs, bool enableDefault, string suffix, Func<string> subMenu)
+        private static string MassEditAutoFillForSearchEngine<A, B> (SearchEngine<A, B> se, ref string[] staticArgs, ref bool notToggle, bool enableDefault, string suffix, Func<string> subMenu)
         {
             int currentArgIndex = 0;
             string result = null;
+            ImGui.Checkbox("Invert selection?##meautoinputnottoggle", ref notToggle);
             foreach (var cmd in enableDefault ? se.AvailableCommands().Append((null, se.defaultFilter.Item1)).ToList() : se.AvailableCommands())
             {
                 int[] argIndices = new int[cmd.Item2.Length];
@@ -143,19 +149,19 @@ namespace StudioCore.ParamEditor
                 {
                     result = ImGui.Selectable(cmd.Item1 == null ? "Default filter..." : cmd.Item1, false, valid ? ImGuiSelectableFlags.None : ImGuiSelectableFlags.Disabled) ? suffix : null;
                 }
-                ImGui.Indent();
+                //ImGui.Indent();
                 for (int i = 0; i < argIndices.Length; i++)
                 {
                     if (i != 0)
                         ImGui.SameLine();
                     ImGui.InputTextWithHint("##meautoinput"+argIndices[i], cmd.Item2[i], ref staticArgs[argIndices[i]], 256);
                 }
-                ImGui.Unindent();
+                //ImGui.Unindent();
                 if (result != null && valid)
                 {
                     if (cmd.Item1 != null)
                     {
-                        string cmdText = cmd.Item1;
+                        string cmdText = notToggle ? '!' + cmd.Item1 : cmd.Item1;
                         for (int i = 0; i < argIndices.Length; i++)
                             cmdText += " " + staticArgs[argIndices[i]];
                         result = cmdText + suffix + result;
