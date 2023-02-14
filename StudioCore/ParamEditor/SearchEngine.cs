@@ -11,7 +11,7 @@ using StudioCore.TextEditor;
 
 namespace StudioCore.Editor
 {
-    /* Restricted characters: colon, space, forward slash
+    /* Restricted characters: colon, space, forward slash, ampersand, exclamation mark
      *
      */
     class SearchEngine<A,B>
