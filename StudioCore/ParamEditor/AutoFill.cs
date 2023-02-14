@@ -1,28 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Numerics;
-using System.Threading.Tasks;
-using System.IO;
 using System.Linq;
-using System.Windows.Forms;
 using FSParam;
-using Veldrid;
-using Veldrid.Sdl2;
-using Veldrid.Utilities;
 using ImGuiNET;
-using SoulsFormats;
-using StudioCore;
-using StudioCore.TextEditor;
 using StudioCore.Editor;
-using StudioCore.MsbEditor;
-using ActionManager = StudioCore.Editor.ActionManager;
-using AddParamsAction = StudioCore.Editor.AddParamsAction;
-using CompoundAction = StudioCore.Editor.CompoundAction;
-using DeleteParamsAction = StudioCore.Editor.DeleteParamsAction;
-using EditorScreen = StudioCore.Editor.EditorScreen;
 
 namespace StudioCore.ParamEditor
 {
