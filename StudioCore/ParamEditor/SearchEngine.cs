@@ -126,7 +126,7 @@ namespace StudioCore.Editor
     
     class ParamAndRowSearchEngine : SearchEngine<ParamEditorSelectionState, (MassEditRowSource, Param.Row)>
     {
-        public static ParamAndRowSearchEngine parse = new ParamAndRowSearchEngine();
+        public static SearchEngine<ParamEditorSelectionState, (MassEditRowSource, Param.Row)> parse = new ParamAndRowSearchEngine();
         internal override void Setup()
         {
             unpacker = (selection)=>{

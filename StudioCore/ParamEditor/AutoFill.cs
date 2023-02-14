@@ -26,107 +26,23 @@ using EditorScreen = StudioCore.Editor.EditorScreen;
 
 namespace StudioCore.ParamEditor
 {
-    public class AutoFill
+    class AutoFillSearchEngine<A, B>
     {
-
-        private static string[] _autoFillArgsParse = Enumerable.Repeat("", ParamAndRowSearchEngine.parse.AvailableCommands().Sum((x) => x.Item2.Length) + ParamAndRowSearchEngine.parse.defaultFilter.Item1.Length).ToArray();
-        private static bool _autoFillNotToggleParse = false;
-        private static string[] _autoFillArgsPse = Enumerable.Repeat("", ParamSearchEngine.pse.AvailableCommands().Sum((x) => x.Item2.Length) + ParamSearchEngine.pse.defaultFilter.Item1.Length).ToArray();
-        private static bool _autoFillNotTogglePse = false;
-        private static string[] _autoFillArgsRse = Enumerable.Repeat("", RowSearchEngine.rse.AvailableCommands().Sum((x) => x.Item2.Length) + RowSearchEngine.rse.defaultFilter.Item1.Length).ToArray();
-        private static bool _autoFillNotToggleRse = false;
-        private static string[] _autoFillArgsCse = Enumerable.Repeat("", CellSearchEngine.cse.AvailableCommands().Sum((x) => x.Item2.Length) + CellSearchEngine.cse.defaultFilter.Item1.Length).ToArray();
-        private static bool _autoFillNotToggleCse = false;
-        private static string[] _autoFillArgsRop = Enumerable.Repeat("", MERowOperation.rowOps.AvailableCommands().Sum((x) => x.Item2.Length)).ToArray();
-        private static string[] _autoFillArgsCop = Enumerable.Repeat("", MECellOperation.cellOps.AvailableCommands().Sum((x) => x.Item2.Length)).ToArray();
-        private static string[] _autoFillArgsOa = Enumerable.Repeat("", MEOperationArgument.arg.AvailableArguments().Sum((x) => x.Item2.Length)).ToArray();
-        
-        public static string ParamSearchBarAutoFill()
+        SearchEngine<A, B> engine;
+        private string[] _autoFillArgs;
+        private static bool _autoFillNotToggle;
+        internal AutoFillSearchEngine(SearchEngine<A, B> searchEngine)
         {
-            ImGui.SameLine();
-            ImGui.Button($@"{ForkAwesome.CaretDown}");
-            if (ImGui.BeginPopupContextItem("##rsbautoinputoapopup", ImGuiPopupFlags.MouseButtonLeft))
-            {
-                ImGui.TextUnformatted("Select params...");
-                var result = MassEditAutoFillForSearchEngine(ParamSearchEngine.pse, ref _autoFillArgsPse, ref _autoFillNotTogglePse, false, "", null);
-                ImGui.EndPopup();
-                return result;
-            }
-            return null;
+            engine = searchEngine;
+            _autoFillArgs = Enumerable.Repeat("", engine.AvailableCommands().Sum((x) => x.Item2.Length) + engine.defaultFilter.Item1.Length).ToArray();
+            _autoFillNotToggle = false;
         }
-
-        public static string RowSearchBarAutoFill()
-        {
-            ImGui.SameLine();
-            ImGui.Button($@"{ForkAwesome.CaretDown}");
-            if (ImGui.BeginPopupContextItem("##rsbautoinputoapopup", ImGuiPopupFlags.MouseButtonLeft))
-            {
-                ImGui.TextUnformatted("Select rows...");
-                var result = MassEditAutoFillForSearchEngine(RowSearchEngine.rse, ref _autoFillArgsRse, ref _autoFillNotToggleRse, false, "", null);
-                ImGui.EndPopup();
-                return result;
-            }
-            return null;
-        }
-
-        public static string MassEditAutoFill()
-        {
-            ImGui.TextUnformatted("Add command...");
-            ImGui.SameLine();
-            ImGui.Button($@"{ForkAwesome.CaretDown}");
-            if (ImGui.BeginPopupContextItem("##meautoinputoapopup", ImGuiPopupFlags.MouseButtonLeft))
-            {
-                ImGui.TextUnformatted("Select param and rows...");
-                string result1 = MassEditAutoFillForSearchEngine(ParamAndRowSearchEngine.parse, ref _autoFillArgsParse, ref _autoFillNotToggleParse, false, ": ", () => 
-                {
-                    ImGui.TextUnformatted("Select fields...");
-                    string res1 = MassEditAutoFillForSearchEngine(CellSearchEngine.cse, ref _autoFillArgsCse, ref _autoFillNotToggleCse, true, ": ", () => 
-                    {
-                        ImGui.TextUnformatted("Select field operation...");
-                        return MassEditAutoFillForOperation(MECellOperation.cellOps, ref _autoFillArgsCop, ";", null);
-                    });
-                    ImGui.Separator();
-                    ImGui.TextUnformatted("Select row operation...");
-                    string res2 = MassEditAutoFillForOperation(MERowOperation.rowOps, ref _autoFillArgsRop, ";", null);
-                    if (res1 != null)
-                        return res1;
-                    return res2;
-                });
-                ImGui.Separator();
-                ImGui.TextUnformatted("Select params...");
-                string result2 = MassEditAutoFillForSearchEngine(ParamSearchEngine.pse, ref _autoFillArgsPse, ref _autoFillNotTogglePse, false, ": ", () =>
-                {
-                    ImGui.TextUnformatted("Select rows...");
-                    return MassEditAutoFillForSearchEngine(RowSearchEngine.rse, ref _autoFillArgsRse, ref _autoFillNotToggleRse, false, ": ", () => 
-                    {
-                        ImGui.TextUnformatted("Select fields...");
-                        string res1 = MassEditAutoFillForSearchEngine(CellSearchEngine.cse, ref _autoFillArgsCse, ref _autoFillNotToggleCse, true, ": ", () => 
-                        {
-                            ImGui.TextUnformatted("Select field operation...");
-                            return MassEditAutoFillForOperation(MECellOperation.cellOps, ref _autoFillArgsCop, ";", null);
-                        });
-                        ImGui.Separator();
-                        ImGui.TextUnformatted("Select row operation...");
-                        string res2 = MassEditAutoFillForOperation(MERowOperation.rowOps, ref _autoFillArgsRop, ";", null);
-                        if (res1 != null)
-                            return res1;
-                        return res2;
-                    });
-                });
-                ImGui.EndPopup();
-                if (result1 != null)
-                    return result1;
-                return result2;
-            }
-            return null;
-        }
-
-        private static string MassEditAutoFillForSearchEngine<A, B> (SearchEngine<A, B> se, ref string[] staticArgs, ref bool notToggle, bool enableDefault, string suffix, Func<string> subMenu)
+        internal string MassEditAutoFillForSearchEngine(bool enableDefault, string suffix, Func<string> subMenu)
         {
             int currentArgIndex = 0;
             string result = null;
-            ImGui.Checkbox("Invert selection?##meautoinputnottoggle", ref notToggle);
-            foreach (var cmd in enableDefault ? se.AvailableCommands().Append((null, se.defaultFilter.Item1)).ToList() : se.AvailableCommands())
+            ImGui.Checkbox("Invert selection?##meautoinputnottoggle", ref _autoFillNotToggle);
+            foreach (var cmd in enableDefault ? engine.AvailableCommands().Append((null, engine.defaultFilter.Item1)).ToList() : engine.AvailableCommands())
             {
                 int[] argIndices = new int[cmd.Item2.Length];
                 bool valid = true;
@@ -134,7 +50,7 @@ namespace StudioCore.ParamEditor
                 {
                     argIndices[i] = currentArgIndex;
                     currentArgIndex++;
-                    if (string.IsNullOrEmpty(staticArgs[argIndices[i]]))
+                    if (string.IsNullOrEmpty(_autoFillArgs[argIndices[i]]))
                         valid = false;
                 }
                 if (subMenu != null)
@@ -154,29 +70,121 @@ namespace StudioCore.ParamEditor
                 {
                     if (i != 0)
                         ImGui.SameLine();
-                    ImGui.InputTextWithHint("##meautoinput"+argIndices[i], cmd.Item2[i], ref staticArgs[argIndices[i]], 256);
+                    ImGui.InputTextWithHint("##meautoinput"+argIndices[i], cmd.Item2[i], ref _autoFillArgs[argIndices[i]], 256);
                 }
                 //ImGui.Unindent();
                 if (result != null && valid)
                 {
                     if (cmd.Item1 != null)
                     {
-                        string cmdText = notToggle ? '!' + cmd.Item1 : cmd.Item1;
+                        string cmdText = _autoFillNotToggle ? '!' + cmd.Item1 : cmd.Item1;
                         for (int i = 0; i < argIndices.Length; i++)
-                            cmdText += " " + staticArgs[argIndices[i]];
+                            cmdText += " " + _autoFillArgs[argIndices[i]];
                         result = cmdText + suffix + result;
                     }
                     else if (argIndices.Length > 0)
                     {
-                        string argText = staticArgs[argIndices[0]];
+                        string argText = _autoFillArgs[argIndices[0]];
                         for (int i = 1; i < argIndices.Length; i++)
-                            argText += " " + staticArgs[argIndices[i]];
+                            argText += " " + _autoFillArgs[argIndices[i]];
                         result = argText + suffix + result;
                     }
                     return result;
                 }
             }
             return result;
+        }
+    }
+
+    class AutoFill
+    {
+        // Type hell. Can't omit the type.
+        static AutoFillSearchEngine<ParamEditorSelectionState, (MassEditRowSource, Param.Row)> autoFillParse = new (ParamAndRowSearchEngine.parse);
+        static AutoFillSearchEngine<bool, (ParamBank, Param)> autoFillPse = new (ParamSearchEngine.pse);
+        static AutoFillSearchEngine<(ParamBank, Param), Param.Row> autoFillRse = new (RowSearchEngine.rse);
+        static AutoFillSearchEngine<(string, Param.Row), (PseudoColumn, Param.Column)> autoFillCse = new (CellSearchEngine.cse);
+        private static string[] _autoFillArgsRop = Enumerable.Repeat("", MERowOperation.rowOps.AvailableCommands().Sum((x) => x.Item2.Length)).ToArray();
+        private static string[] _autoFillArgsCop = Enumerable.Repeat("", MECellOperation.cellOps.AvailableCommands().Sum((x) => x.Item2.Length)).ToArray();
+        private static string[] _autoFillArgsOa = Enumerable.Repeat("", MEOperationArgument.arg.AvailableArguments().Sum((x) => x.Item2.Length)).ToArray();
+        
+        public static string ParamSearchBarAutoFill()
+        {
+            ImGui.SameLine();
+            ImGui.Button($@"{ForkAwesome.CaretDown}");
+            if (ImGui.BeginPopupContextItem("##rsbautoinputoapopup", ImGuiPopupFlags.MouseButtonLeft))
+            {
+                ImGui.TextUnformatted("Select params...");
+                var result = autoFillPse.MassEditAutoFillForSearchEngine(false, "", null);
+                ImGui.EndPopup();
+                return result;
+            }
+            return null;
+        }
+
+        public static string RowSearchBarAutoFill()
+        {
+            ImGui.SameLine();
+            ImGui.Button($@"{ForkAwesome.CaretDown}");
+            if (ImGui.BeginPopupContextItem("##rsbautoinputoapopup", ImGuiPopupFlags.MouseButtonLeft))
+            {
+                ImGui.TextUnformatted("Select rows...");
+                var result = autoFillRse.MassEditAutoFillForSearchEngine(false, "", null);
+                ImGui.EndPopup();
+                return result;
+            }
+            return null;
+        }
+
+        public static string MassEditAutoFill()
+        {
+            ImGui.TextUnformatted("Add command...");
+            ImGui.SameLine();
+            ImGui.Button($@"{ForkAwesome.CaretDown}");
+            if (ImGui.BeginPopupContextItem("##meautoinputoapopup", ImGuiPopupFlags.MouseButtonLeft))
+            {
+                ImGui.TextUnformatted("Select param and rows...");
+                string result1 = autoFillParse.MassEditAutoFillForSearchEngine(false, ": ", () => 
+                {
+                    ImGui.TextUnformatted("Select fields...");
+                    string res1 = autoFillCse.MassEditAutoFillForSearchEngine(true, ": ", () => 
+                    {
+                        ImGui.TextUnformatted("Select field operation...");
+                        return MassEditAutoFillForOperation(MECellOperation.cellOps, ref _autoFillArgsCop, ";", null);
+                    });
+                    ImGui.Separator();
+                    ImGui.TextUnformatted("Select row operation...");
+                    string res2 = MassEditAutoFillForOperation(MERowOperation.rowOps, ref _autoFillArgsRop, ";", null);
+                    if (res1 != null)
+                        return res1;
+                    return res2;
+                });
+                ImGui.Separator();
+                ImGui.TextUnformatted("Select params...");
+                string result2 = autoFillPse.MassEditAutoFillForSearchEngine(false, ": ", () =>
+                {
+                    ImGui.TextUnformatted("Select rows...");
+                    return autoFillRse.MassEditAutoFillForSearchEngine(false, ": ", () => 
+                    {
+                        ImGui.TextUnformatted("Select fields...");
+                        string res1 = autoFillCse.MassEditAutoFillForSearchEngine(true, ": ", () => 
+                        {
+                            ImGui.TextUnformatted("Select field operation...");
+                            return MassEditAutoFillForOperation(MECellOperation.cellOps, ref _autoFillArgsCop, ";", null);
+                        });
+                        ImGui.Separator();
+                        ImGui.TextUnformatted("Select row operation...");
+                        string res2 = MassEditAutoFillForOperation(MERowOperation.rowOps, ref _autoFillArgsRop, ";", null);
+                        if (res1 != null)
+                            return res1;
+                        return res2;
+                    });
+                });
+                ImGui.EndPopup();
+                if (result1 != null)
+                    return result1;
+                return result2;
+            }
+            return null;
         }
         private static string MassEditAutoFillForOperation<A, B> (MEOperation<A, B> ops, ref string[] staticArgs, string suffix, Func<string> subMenu)
         {
