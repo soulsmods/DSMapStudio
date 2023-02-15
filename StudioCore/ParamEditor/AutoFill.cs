@@ -117,7 +117,6 @@ namespace StudioCore.ParamEditor
             }
             return null;
         }
-
         public static string RowSearchBarAutoFill()
         {
             ImGui.SameLine();
@@ -126,6 +125,19 @@ namespace StudioCore.ParamEditor
             {
                 ImGui.TextUnformatted("Select rows...");
                 var result = autoFillRse.Menu(false, "", null);
+                ImGui.EndPopup();
+                return result;
+            }
+            return null;
+        }
+        public static string ColumnSearchBarAutoFill()
+        {
+            ImGui.SameLine();
+            ImGui.Button($@"{ForkAwesome.CaretDown}");
+            if (ImGui.BeginPopupContextItem("##csbautoinputoapopup", ImGuiPopupFlags.MouseButtonLeft))
+            {
+                ImGui.TextUnformatted("Select fields...");
+                var result = autoFillCse.Menu(false, "", null);
                 ImGui.EndPopup();
                 return result;
             }

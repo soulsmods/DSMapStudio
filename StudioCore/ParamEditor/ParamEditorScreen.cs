@@ -1520,7 +1520,6 @@ namespace StudioCore.ParamEditor
             if (isActiveView && InputTracker.GetKeyDown(KeyBindings.Current.Param_SearchParam))
                 ImGui.SetKeyboardFocusHere();
             ImGui.InputText($"Search <{KeyBindings.Current.Param_SearchParam.HintText}>", ref _selection.currentParamSearchString, 256);
-            ImGui.SameLine();
             string resAutoParam = AutoFill.ParamSearchBarAutoFill();
             if (resAutoParam != null)
                 _selection.setCurrentRowSearchString(resAutoParam);
@@ -1687,7 +1686,6 @@ namespace StudioCore.ParamEditor
                     ImGui.SetKeyboardFocusHere();
 
                 ImGui.InputText($"Search <{KeyBindings.Current.Param_SearchRow.HintText}>", ref _selection.getCurrentRowSearchString(), 256);
-                ImGui.SameLine();
                 string resAutoRow = AutoFill.RowSearchBarAutoFill();
                 if (resAutoRow != null)
                     _selection.setCurrentRowSearchString(resAutoRow);

@@ -286,6 +286,12 @@ namespace StudioCore.ParamEditor
                 ImGui.InputText($"Search <{KeyBindings.Current.Param_SearchField.HintText}>", ref propSearchString, 255);
                 if (ImGui.IsItemEdited())
                     CacheBank.ClearCaches();
+                string resAutoCol = AutoFill.ColumnSearchBarAutoFill();
+                if (resAutoCol != null)
+                {
+                    propSearchString = resAutoCol;
+                    CacheBank.ClearCaches();
+                }
                 ImGui.Spacing();
                 ImGui.Separator();
                 ImGui.Spacing();
