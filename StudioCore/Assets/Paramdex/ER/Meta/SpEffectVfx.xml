@@ -119,7 +119,7 @@
     <phantomParamOverwriteType AltName="Phantom Param Overwrite Type" Wiki="Forced overwrite type of phantom parameters" Enum="SP_EFFECT_OVERWRITE_PHANTOM_PARAM_TYPE" Refs="PhantomParam"/>
     <camouflageMinAlpha AltName="Camouflage - Min Alpha" Wiki="Minimum  value when hiding [%]" />
     <wetAspectType AltName="Wet Aspect Type" Wiki="Generate a wet expression by referring to the wet parameter" Enum="SP_EFFECT_VFX_WET_ASPECT_TYPE" />
-    <phantomParamOverwriteId AltName="Phantom Param Overwrite ID" Wiki="Forced Id of phantom parameter" />
+    <phantomParamOverwriteId AltName="Phantom Param Overwrite ID" Wiki="Forced Id of phantom parameter" Refs="PhantomParam"/>
     <materialParamId AltName="Material Param ID" Wiki="ID0-99 are GS reservation IDs. If ID100 or later is specified, the material extension parameter is referenced (-1: invalid value)." Refs="MaterialExParam"/>
     <materialParamInitValue AltName="Material Param - Start Fade" Wiki="The value at the start of the fade of the material parameter. The target is specified by the material parameter ID. If the material parameter ID is -1, do nothing" />
     <materialParamTargetValue AltName="Material Param - End Fade" Wiki="The value at the end of the fade of the material parameter. The target is specified by the material parameter ID. If the material parameter ID is -1, do nothing" />
