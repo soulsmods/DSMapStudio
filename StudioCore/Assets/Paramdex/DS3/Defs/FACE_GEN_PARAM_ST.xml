@@ -105,6 +105,7 @@
     <Field Def="u8 FaceTexData47" />
     <Field Def="u8 FaceTexData48" />
     <Field Def="u8 FaceTexData49" />
+    <Field Def="u8 FaceTexData50" />
     <Field Def="u8 facePartsId" />
     <Field Def="u8 skinColor_R" />
     <Field Def="u8 skinColor_G" />
@@ -113,7 +114,6 @@
     <Field Def="u8 hairColor_R" />
     <Field Def="u8 hairColor_G" />
     <Field Def="u8 hairColor_B" />
-    <Field Def="u8 hairColor_G" />
     <Field Def="u8 eyeLPartsId" />
     <Field Def="u8 eyeLColor_R" />
     <Field Def="u8 eyeLColor_G" />

@@ -10,8 +10,9 @@
     </Enum>
   </Enums>
   <Field>
-    <LoadscreenCategoryId Enum="ItemCategory" />
-	<KnowledgeId Refs="EquipParamAccessory,EquipParamGoods,EquipParamProtector,EquipParamWeapon" />
+    <LoadscreenCategoryId AltName="Loadscreen Category ID" Enum="ItemCategory" />
+	<KnowledgeId AltName="Knowledge ID" Refs="EquipParamAccessory,EquipParamGoods,EquipParamProtector,EquipParamWeapon" />
+    <pad1 AltName="" />
   </Field>
-  <Self />
+  <Self Wiki="Items to display during the loadscreen"/>
 </PARAMMETA>

@@ -10,7 +10,7 @@
       <Option Value="4" Name="Hollow" />
     </Enum>
   </Enums>
-  <Self Row0Dummy="" AlternativeOrder="equip_Wep_Right,equip_Subwep_Right,equip_Wep_Body_GenId,equip_Wep_Left,equip_Subwep_Left,SecondaryItem_01,-,
+  <Self Wiki="Player NPC data" Row0Dummy="" AlternativeOrder="equip_Wep_Right,equip_Subwep_Right,equip_Wep_Body_GenId,equip_Wep_Left,equip_Subwep_Left,SecondaryItem_01,-,
   equip_Arrow,equip_SubArrow,equip_Bolt,equip_SubBolt,arrowNum,subArrowNum,boltNum,subBoltNum,-,
   equip_Helm,equip_Armor,equip_Gaunt,equip_Leg,-,
   soulLvl,baseVit,baseWil,baseEnd,baseDurability,baseStr,baseDex,baseMag,baseFai,baseLuc,baseHeroPoint,soul,secondaryItemNum_07,secondaryItemNum_08,-,
@@ -101,9 +101,12 @@
 	<gestureid4 AltName="Gesture ID 4" />
 	<gestureid5 AltName="Gesture ID 5" />
 	<gestureid6 AltName="Gesture ID 6" />
-	<npcPlayerDrawType Enum="DrawType" />
+    <npcPlayerThinkId AltName="NPC Player - Think ID" />
+    <npcPlayerType AltName="NPC Player - Type" />
+	<npcPlayerDrawType AltName="NPC Player - Draw Type" Enum="DrawType" />
 	<NpcPlayerSex AltName="NPC Gender" Enum="Gender" />
     <vowType AltName="Covenant Type" />
+    <VoiceType AltName="Voice Type" />
     <equip_Wep_Right_GenId Refs="WeaponGenParam" AltName="Right Weapon 1 Gen ID" />
     <equip_Subwep_Right_GenId Refs="WeaponGenParam" AltName="Right Weapon 2 Gen ID" />
     <equip_Wep_Left_GenId Refs="WeaponGenParam" AltName="Left Weapon 1 Gen ID" />
@@ -129,6 +132,15 @@
     <secondaryItemNum_07 AltName="Starting Estus Flasks" />
     <secondaryItemNum_08 AltName="Starting Ashen Estus Flasks" />
     <equip_Wep_Body_GenId Refs="EquipParamWeapon" AltName="Right Weapon 3" />
+    <Equip_Skill_01 AltName="Equipped Skill 1" />
+    <Equip_Skill_02 AltName="Equipped Skill 2" />
+    <Equip_Skill_03 AltName="Equipped Skill 3" />
+    <QWC_sb AltName="QWC SB" />
+    <QWC_mw AltName="QWC MW" />
+    <QWC_cd AltName="QWC CD" />
+    <pad1 AltName="" />
+    <pad2 AltName="" />
+    
   </Field>
   <Self />
 </PARAMMETA>

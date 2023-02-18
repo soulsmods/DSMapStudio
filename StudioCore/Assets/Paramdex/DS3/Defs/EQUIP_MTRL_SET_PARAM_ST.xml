@@ -6,16 +6,16 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="s32 MaterialId01 = 1000" />
-    <Field Def="s32 MaterialId02 = -1" />
-    <Field Def="s32 MaterialId03 = -1" />
-    <Field Def="s32 MaterialId04 = -1" />
-    <Field Def="s32 MaterialId05 = -1" />
-    <Field Def="s8 ItemNum01 = 1" />
-    <Field Def="s8 ItemNum02 = -1" />
-    <Field Def="s8 ItemNum03 = -1" />
-    <Field Def="s8 ItemNum04 = -1" />
-    <Field Def="s8 ItemNum05 = -1" />
+    <Field Def="s32 materialId01 = -1" />
+    <Field Def="s32 materialId02 = -1" />
+    <Field Def="s32 materialId03 = -1" />
+    <Field Def="s32 materialId04 = -1" />
+    <Field Def="s32 materialId05 = -1" />
+    <Field Def="s8 itemNum01 = -1" />
+    <Field Def="s8 itemNum02 = -1" />
+    <Field Def="s8 itemNum03 = -1" />
+    <Field Def="s8 itemNum04 = -1" />
+    <Field Def="s8 itemNum05 = -1" />
     <Field Def="u8 isDisableDispNum01:1" />
     <Field Def="u8 isDisableDispNum02:1" />
     <Field Def="u8 isDisableDispNum03:1 = 1" />

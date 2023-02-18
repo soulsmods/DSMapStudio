@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
   <Field>
-	<CorrectionVal0 AltName="SpEffect ID - 1 Coop" Refs="SpEffectParam" />
-	<CorrectionVal1 AltName="SpEffect ID - 2 Coop" Refs="SpEffectParam" />
-	<CorrectionVal2 AltName="SpEffect ID - 3 Coop" Refs="SpEffectParam" />
-	<CorrectionVal3 AltName="Change SpEffect when Coop Count Changes" Wiki="Determines if the SpEffect being used will change when the number of cooperators changes." IsBool="" />
+	<client1SpEffectId AltName="Friendly Client [1] - SpEffect ID" Wiki="1 cooperating client Special effect ID" />
+    <client2SpEffectId AltName="Friendly Client [2] - SpEffect ID" Wiki="2 cooperating clients Special effect ID" />
+    <client3SpEffectId AltName="Friendly Client [3] - SpEffect ID" Wiki="3 cooperating clients Special effect ID" />
+	<bOverrideSpEffect AltName="Change SpEffect when Coop Count Changes" Wiki="Determines if the SpEffect being used will change when the number of cooperators changes." IsBool="" />
   </Field>
-  <Self />
+  <Self Wiki="Friendly Phantom boss correction"/>
 </PARAMMETA>
