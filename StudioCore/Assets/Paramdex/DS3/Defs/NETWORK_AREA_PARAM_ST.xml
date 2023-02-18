@@ -10,12 +10,12 @@
     <Field Def="f32 LimitationTime1" />
     <Field Def="f32 LimitationTime2" />
     <Field Def="dummy8 pad1[12]" />
-    <Field Def="u8 isEnable00:1 = 1" />
-    <Field Def="u8 isEnable01:1 = 1" />
-    <Field Def="u8 isEnable02:1 = 1" />
-    <Field Def="u8 unkb1:1 = 1" />
-    <Field Def="u8 unkb2:1 = 1" />
-    <Field Def="u8 unkb3:1 = 1" />
+    <Field Def="u8 enableBloodstain:1 = 1" />
+    <Field Def="u8 enableBloodMessage:1 = 1" />
+    <Field Def="u8 enableGhost:1 = 1" />
+    <Field Def="u8 enableMultiPlay:1 = 1" />
+    <Field Def="u8 enableRingSearch:1 = 1" />
+    <Field Def="u8 enableBreakInSearch:1 = 1" />
     <Field Def="u8 unkb4:1 = 1" />
     <Field Def="u8 unkb5:1 = 1" />
     <Field Def="dummy8 pad2[3]" />

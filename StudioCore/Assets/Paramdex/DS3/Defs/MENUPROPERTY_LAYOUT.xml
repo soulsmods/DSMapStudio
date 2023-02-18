@@ -7,9 +7,9 @@
   <Version>201</Version>
   <Fields>
     <Field Def="fixstr LayoutPath[16]" />
-    <Field Def="s32 PropertyId [MENU_PROPERTY_ID]" />
-    <Field Def="s32 captionTextId" />
-    <Field Def="s32 HelpTextId" />
+    <Field Def="s32 PropertyID" />
+    <Field Def="s32 CaptionTextID" />
+    <Field Def="s32 HelpTextID" />
     <Field Def="dummy8 pad1[4]" />
   </Fields>
 </PARAMDEF>

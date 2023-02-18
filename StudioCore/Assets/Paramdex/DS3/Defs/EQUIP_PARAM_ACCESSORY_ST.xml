@@ -6,7 +6,7 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="s32 refId0 = -1" />
+    <Field Def="s32 refId = -1" />
     <Field Def="s32 sfxVariationId = -1" />
     <Field Def="f32 weight" />
     <Field Def="s32 behaviorId" />
@@ -32,19 +32,18 @@
     <Field Def="u8 IsEquipOutBrake:1" />
     <Field Def="u8 disableMultiDropShare:1" />
     <Field Def="u8 IsDiscard:1 = 1" />
-    <Field Def="u8 IsBool:1 = 1" />
-    <Field Def="u8 0x3C:1" />
-    <Field Def="u8 0x3C:1" />
-    <Field Def="u8 0x3C:1" />
+    <Field Def="u8 isDrop:1 = 1" />
+    <Field Def="u8 showLogCondType:1" />
+    <Field Def="u8 showDialogCondType:2" />
     <Field Def="dummy8 pad2[3]" />
-    <Field Def="s32 Costvalue = -1" />
-    <Field Def="s16 RingCompatibilityId = -1" />
-    <Field Def="u8 VowId" />
-    <Field Def="u8 AchievementID = 13" />
-    <Field Def="s32 refId1" />
-    <Field Def="s32 refId2" />
-    <Field Def="s32 refId3" />
-    <Field Def="s32 refId4" />
+    <Field Def="s32 saleValue = -1" />
+    <Field Def="s16 accessoryGroup = -1" />
+    <Field Def="u8 vowId" />
+    <Field Def="u8 compTrophySedId = 13" />
+    <Field Def="s32 residentSpEffectId1" />
+    <Field Def="s32 residentSpEffectId2" />
+    <Field Def="s32 residentSpEffectId3" />
+    <Field Def="s32 residentSpEffectId4" />
     <Field Def="dummy8 pad3[8]" />
   </Fields>
 </PARAMDEF>

@@ -644,5 +644,37 @@
     <itemGetTutorialFlagId AltName="Item Get Tutorial Flag ID" Wiki="Event flag ID for the tutorial when you first get the item. Flag ON when item is obtained." />
     <reserve3 AltName=""/>
   </Field>
-  <Self Wiki="Defines an item, both consumable and key items.\nNote that many key items are placebo and the item's effect is granted through scripting. Passive effects from ownership are not defined here." />
+  <Self Wiki="Defines an item, both consumable and key items.\nNote that many key items are placebo and the item's effect is granted through scripting. Passive effects from ownership are not defined here." 
+  AlternativeOrder="sortId,sortGroupId,iconId,-,
+rarity,sellValue,basicPrice,saleValue,-,
+maxNum,maxRepositoryNum,potGroupId,-,
+weight,consumeMP,consumeHP,consumeHeroPoint,-,
+
+castSfxId,fireSfxId,effectSfxId,sfxVariationId,-,
+
+refCategory,refId_default,refId_1,refVirtualWepId,aiUseJudgeId,-,
+reinforceGoodsId,reinforceMaterialId,reinforcePrice,useLimitSummonBuddy,-,
+
+goodsUseAnim,goodsType,spEffectCategory,opmeMenuType,useLimitCategory,replaceCategory,suppleType,autoReplenishType,useEnableSpEffectType,useLimitSpEffectType,behaviorId,syncNumVaryId,yesNoDialogMessageId,replaceItemId,appearanceReplaceItemId,-,
+
+isEquip,isDrop,isDiscard,isDeposit,isFixItem,-,
+
+isConsume,isAutoEquip,isEstablishment,isOnlyOne,isSuppleItem,isFullSuppleItem,isAshenEstusFlask,isEnhance,isEnableFastUseItem,isBonfireWarpItem,isShieldEnchant,isWarpProhibited,enable_ActiveEmber,enable_Ladder,isUseMultiPlayPreparation,canMultiUse,isUseMultiPenaltyOnly,enable_ActiveBigRune,isSleepCol,isUseNoAttackRegion,-,
+
+isSummonHorse,enableRiding,disableRiding,-,
+
+isDisableHand,isRemoveItem_forGameClear,isApplySpecialEffect,-,
+
+enable_live,enable_gray,enable_white,enable_black,enable_multi,disable_offline,disableUseAtColiseum,disableUseAtOutOfColiseum,disableMultiDropShare,-,
+
+itemGetTutorialFlagId,-,
+compTrophySedId,trophySeqId,-,
+showLogCondType,showDialogCondType,-,
+
+overDexterity,magicId,modelId,shopLv,vagrantItemLotId,vagrantBonusEneDropItemLotId,vagrantItemEneDropItemLotId,isSleepCollectionItem,-,
+
+useLevel,useLevel_vowType0,useLevel_vowType1,useLevel_vowType2,useLevel_vowType3,useLevel_vowType4,useLevel_vowType5,useLevel_vowType6,useLevel_vowType7,useLevel_vowType8,useLevel_vowType9,useLevel_vowType10,useLevel_vowType11,useLevel_vowType12,useLevel_vowType13,useLevel_vowType14,useLevel_vowType15,-,
+
+disableParam_NT,pad,pad1,pad2,pad3,disableParamReserve1,-,
+disableParamReserve2,reserve4,reserve5,reserve3,-"/>
 </PARAMMETA>

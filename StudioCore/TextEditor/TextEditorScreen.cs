@@ -265,7 +265,7 @@ namespace StudioCore.TextEditor
             ImGui.DockSpace(dsid, new Vector2(0, 0), ImGuiDockNodeFlags.None);
 
             ImGui.Begin("Text Categories");
-            foreach (var v in FMGBank.ActiveUITypes)
+            foreach (var v in FMGBank.ActiveUITypes.ToArray())
             {
                 if (v.Value)
                 {

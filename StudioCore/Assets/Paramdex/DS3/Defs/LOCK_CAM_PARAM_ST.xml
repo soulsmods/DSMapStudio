@@ -6,24 +6,24 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="f32 CamDistTarget" />
+    <Field Def="f32 camDistTarget" />
     <Field Def="f32 rotRangeMinX" />
     <Field Def="f32 lockRotXShiftRatio" />
-    <Field Def="f32 chrOrgOffsetZ" />
+    <Field Def="f32 chrOrgOffset_Y" />
     <Field Def="f32 chrLockRangeMaxRadius" />
-    <Field Def="f32 FovYChange" />
-    <Field Def="f32 ChrLockRangeMaxRadius_forDark" />
-    <Field Def="f32 ChrLockRangeMaxRadius_forPitchDark" />
-    <Field Def="f32 MeleeAttackCaptureUpperLimitHeight" />
-    <Field Def="f32 AttackCaptureLowerLimitHeight" />
-    <Field Def="f32 AttackAutoAcquisitionAngleRangeLeft" />
-    <Field Def="f32 MeleeAttackAutoAcquisitionCharacterRangeMaximumRadius" />
-    <Field Def="f32 MeleeAttackAutoAcquisitionDarkCharacterRangeMaximumRadius" />
-    <Field Def="f32 ProximityAttackAutoAcquisitionCharacterRangeForPureDarknessMaximumRadius" />
-    <Field Def="f32 BulletAutoCaptureCharacterRangeMaximumRadius" />
-    <Field Def="f32 BulletAutoCaptureDarkCharacterRangeMaximumRadius" />
-    <Field Def="f32 BulletAutomaticCaptureCharacterRangeRorPureDarknessMaximumRadius" />
-    <Field Def="f32 BulletAutoCapturingAngleRangeLeftAndRight" />
+    <Field Def="f32 camFovY" />
+    <Field Def="f32 chrLockRangeMaxRadius_forD" />
+    <Field Def="f32 chrLockRangeMaxRadius_forPD" />
+    <Field Def="f32 closeMaxHeight" />
+    <Field Def="f32 closeMinHeight" />
+    <Field Def="f32 closeAngRange" />
+    <Field Def="f32 closeMaxRadius" />
+    <Field Def="f32 closeMaxRadius_forD" />
+    <Field Def="f32 closeMaxRadius_forPD" />
+    <Field Def="f32 bulletMaxRadius" />
+    <Field Def="f32 bulletMaxRadius_forD" />
+    <Field Def="f32 bulletMaxRadius_forPD" />
+    <Field Def="f32 bulletAngRange" />
     <Field Def="dummy8 pad1[28]" />
   </Fields>
 </PARAMDEF>
