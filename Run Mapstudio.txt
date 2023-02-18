@@ -1,4 +1,0 @@
-Hi,
-It looks like you downloaded source code for Mapstudio, not a release.
-Please return to the github and look on the right hand side for the releases page.
-Thank you.
