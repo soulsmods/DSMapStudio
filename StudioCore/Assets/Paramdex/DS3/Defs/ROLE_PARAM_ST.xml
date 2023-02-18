@@ -19,14 +19,14 @@
     <Field Def="s32 SpEffectId7 = -1" />
     <Field Def="s32 SpEffectId8 = -1" />
     <Field Def="s32 SpEffectId9 = -1" />
-    <Field Def="s32 SfxId0" />
-    <Field Def="s32 SfxId1" />
-    <Field Def="s32 StayAnimId = 63010" />
-    <Field Def="s32 ItemLotId = -1" />
-    <Field Def="u8 spEffectCondition" />
-    <Field Def="u8 IsDisplayTeamName [ON_OFF] = 2" />
+    <Field Def="s32 sosSignSfxId" />
+    <Field Def="s32 mySosSignSfxId" />
+    <Field Def="s32 summonStartAnimId = 63010" />
+    <Field Def="s32 itemlotParamId = -1" />
+    <Field Def="u8 voiceChatGroup" />
+    <Field Def="u8 roleNameColor = 2" />
     <Field Def="dummy8 pad2[2]" />
-    <Field Def="s32 TextId" />
+    <Field Def="s32 roleNameId" />
     <Field Def="s32 subTeamType = 16" />
     <Field Def="s32 PhantomParamId1 = -1" />
     <Field Def="s32 PhantomParamId2 = -1" />
@@ -35,7 +35,8 @@
     <Field Def="s32 spEffect11 = -1" />
     <Field Def="s32 spEffect12 = -1" />
     <Field Def="s32 spEffect13 = -1" />
-    <Field Def="s32 PhantomParamIdForDebug = -1" />
-    <Field Def="dummy8 pad3[20]" />
+    <Field Def="s32 signPhantomId = -1" />
+    <Field Def="s32 nonPlayerSummonStartAnimId" />
+    <Field Def="dummy8 pad3[16]" />
   </Fields>
 </PARAMDEF>

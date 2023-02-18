@@ -725,6 +725,20 @@ namespace StudioCore
                     if (retObj != null)
                         return retObj;
                 }
+                else if (p.PropertyType.IsArray)
+                {
+                    var pType = p.PropertyType.GetElementType();
+                    if (pType.IsNested)
+                    {
+                        Array array = (Array)p.GetValue(obj);
+                        foreach (var i in array)
+                        {
+                            var retObj = FindPropertyObject(prop, i);
+                            if (retObj != null)
+                                return retObj;
+                        }
+                    }
+                }
             }
             return null;
         }
@@ -742,6 +756,19 @@ namespace StudioCore
             {
                 ImGui.Text(displayText);
                 ImGui.EndPopup();
+            }
+        }
+
+        public static void ImGui_InputUint(string text, ref uint val)
+        {
+            string strval = $@"{val}";
+            if (ImGui.InputText(text, ref strval, 16))
+            {
+                var res = uint.TryParse(strval, out uint refval);
+                if (res)
+                {
+                    val = refval;
+                }
             }
         }
     }

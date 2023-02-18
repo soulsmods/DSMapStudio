@@ -7,14 +7,14 @@
   <Version>201</Version>
   <Fields>
     <Field Def="s32 Unk00" />
-    <Field Def="f32 Movement Correction Amount" />
-    <Field Def="f32 Movement Correction Delay" />
-    <Field Def="f32 Unk0C" />
-    <Field Def="s32 Animation Index" />
-    <Field Def="s32 Unk14" />
-    <Field Def="u8 Unk18" />
-    <Field Def="u8 Unk19" />
-    <Field Def="u8 Unk20" />
-    <Field Def="u8 Unk21" />
+    <Field Def="f32 movement_correction_amount" />
+    <Field Def="f32 movement_correction_delay" />
+    <Field Def="f32 Unk01" />
+    <Field Def="s32 animation_index" />
+    <Field Def="s32 Unk02" />
+    <Field Def="u8 Unk03" />
+    <Field Def="u8 Unk04" />
+    <Field Def="u8 Unk05" />
+    <Field Def="u8 Unk06" />
   </Fields>
 </PARAMDEF>

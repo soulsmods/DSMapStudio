@@ -6,8 +6,8 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="s32 Text ID - Male" />
-    <Field Def="s32 Text ID - Female" />
+    <Field Def="s32 text_id_male" />
+    <Field Def="s32 text_id_female" />
     <Field Def="s32 Unk08" />
     <Field Def="s32 Unk0C" />
     <Field Def="s32 Unk10" />

@@ -2,13 +2,64 @@
 <PARAMMETA XmlVersion="0">
   <Self Row0Dummy="" />
   <Field>
-    <EffectID Wiki="The SFX Id of this particular bullet. Sometimes unlisted here and sometimes provided by the EMEVD." />
-    <SpawnLocation Wiki="Where the effect/bullet will spawn in relation to the parent." />
-    <ChildBullet1ID1 Refs="BulletParam" />
-    <ChildBullet1ID2 Refs="BulletParam" />
-    <ChildBullet2ID1 Refs="BulletParam" />
-    <ChildBullet2ID2 Refs="BulletParam" />
-    <ChildBullet3ID1 Refs="BulletParam" />
-    <ChildBullet3ID2 Refs="BulletParam" />
+    <sfx_id AltName="SFX ID" Wiki="The SFX ID of this particular bullet. Sometimes unlisted here and sometimes provided by the EMEVD."/>
+    <spawn_location AltName="Spawn Location" Wiki="Where the effect/bullet will spawn in relation to the parent."/>
+    <spawn_flag_0 AltName="Spawn Flag 0"/>
+    <online_visibility AltName="Is Visible Online" IsBool=""/>
+    <spawn_flag_1 AltName="Spawn Flag 1"/>
+    <vertical_spawn_distance AltName="Vertical Spawn Distance"/>
+    <unknown_spawn_distance AltName="Unknown Spawn Distance"/>
+    <horizontal_spawn_distance AltName="Horizontal Spawn Distance"/>
+    <shooter_horizontal_angle AltName="Shooter Horizontal Angle"/>
+    <shooter_unknown_angle_0 AltName="Shooter Unknown Angle 0"/>
+    <shooter_vertical_angle AltName="Shooter Vertical Angle"/>
+    <shooter_unknown_angle_1 AltName="Shooter Unknown Angle 1"/>
+    <vertical_angle_randomizer AltName="Vertical Angle Randomizer"/>
+    <horizontal_angle_randomizer AltName="Horizontal Angle Randomizer"/>
+    <shoot_count AltName="Instant Shoot Count"/>
+    <shoot_sequential_count AltName="Sequential Shoot Count"/>
+    <shoot_interval AltName="Shoot Interval"/>
+    <vertical_spread AltName="Vertical Spread"/>
+    <horizontal_spread AltName="Horizontal Spread"/>
+    <max_life AltName="Max Duration"/>
+    <initial_horizontal_velocity AltName="Horizontal: Initial Velocity"/>
+    <horizontal_acceleration_start_delay AltName="Horizontal: Acceleration Start Delay"/>
+    <horizontal_target_velocity AltName="Horizontal: Target Velocity"/>
+    <horizontal_max_velocity AltName="Horizontal: Max Velocity"/>
+    <initial_vertical_velocity AltName="Vertical: Initial Velocity"/>
+    <vertical_acceleration_start_delay AltName="Vertical: Acceleration Start Delay"/>
+    <vertical_target_velocity AltName="Vertical: Target Velocity"/>
+    <vertical_max_velocity AltName="Vertical: Max Velocity"/>
+    <initial_tan_vertical_velocity AltName="Tangential Vertical: Initial Velocity"/>
+    <tan_vertical_acceleration_start_delay AltName="Tangential Vertical: Acceleration Start Delay"/>
+    <tan_vertical_target_velocity AltName="Tangential Vertical: Target Velocity"/>
+    <tan_vertical_max_velocity AltName="Tangential Vertical: Max Velocity"/>
+    <initial_tan_horizontal_velocity AltName="Tangential Horizontal: Initial Velocity"/>
+    <tan_horizontal_acceleration_start_delay AltName="Tangential Horizontal: Acceleration Start Delay"/>
+    <tan_horizontal_target_velocity AltName="Tangential Horizontal: Target Velocity"/>
+    <tan_horizontal_max_velocity AltName="Tangential Horizontal: Max Velocity"/>
+    <max_angle_change AltName="Max Angle Adjustment"/>
+    <max_tracking_angle_change AltName="Max Tracking Angle Adjustment"/>
+    <max_tracking_time AltName="Max Tracking Duration"/>
+    <hit_character AltName="Collides with Character" IsBool=""/>
+    <hit_wall AltName="Collides with Wall" IsBool=""/>
+    <hit_floor AltName="Collides with Floor/Ceiling" IsBool=""/>
+    <hit_water AltName="Collides with Water" IsBool=""/>
+    <speffect_on_shoot AltName="SpEffect on Shoot"/>
+    <hit_sfx_id AltName="SFX on Hit"/>
+    <expire_sfx_id AltName="SFX on Expiration"/>
+    <sfx_duration_on_expiration AltName="SFX Duration after Expiration"/>
+    <bullet_attach_param_id AltName="Bullet Attach ID" Refs="BulletAttachParam"/>
+    <child_bullet_1_bullet_id AltName="Child Bullet [1] - Bullet ID" Refs="BulletParam,EnemyBulletParam" />
+    <child_bullet_1_damage_id AltName="Child Bullet [1] - Damage ID" Refs="EnemyDamageParam,PlayerDamageParam,SystemDamageParam" />
+    <child_bullet_2_bullet_id AltName="Child Bullet [2] - Bullet ID" Refs="BulletParam,EnemyBulletParam" />
+    <child_bullet_2_damage_id AltName="Child Bullet [2] - Damage ID" Refs="EnemyDamageParam,PlayerDamageParam,SystemDamageParam" />
+    <child_bullet_3_bullet_id AltName="Child Bullet [3] - Bullet ID" Refs="BulletParam,EnemyBulletParam" />
+    <child_bullet_3_damage_id AltName="Child Bullet [3] - Damage ID" Refs="EnemyDamageParam,PlayerDamageParam,SystemDamageParam" />
+    <spawn_child_bullet_on_hit AltName="Spawn Child Bullet on Hit" IsBool=""/>
+    <spawn_child_bullet_on_expire AltName="Spawn Child Bullet on Expire" IsBool=""/>
+    <spawn_child_bullet_on_unknown AltName="Spawn Child Bullet on Unknown" IsBool=""/>
+    <spawn_child_bullet_on_alive AltName="Spawn Child Bullet during Life" IsBool=""/>
+    <child_bullet_spawn_delay AltName="Child Bullet Spawn Delay" />
   </Field>
 </PARAMMETA>

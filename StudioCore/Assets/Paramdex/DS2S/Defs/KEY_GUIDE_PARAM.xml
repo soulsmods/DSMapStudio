@@ -6,15 +6,15 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="s32 Unk00" />
-    <Field Def="f32 Unk04" />
-    <Field Def="f32 Unk08" />
-    <Field Def="f32 Unk0C" />
-    <Field Def="f32 Unk10" />
-    <Field Def="s16 Unk14" />
-    <Field Def="s16 Unk14" />
-    <Field Def="s16 Unk18" />
-    <Field Def="u8 Unk18" />
-    <Field Def="u8 Unk18" />
+    <Field Def="s32 obj_act_id" />
+    <Field Def="f32 activation_radius" />
+    <Field Def="f32 Unk00" />
+    <Field Def="f32 Unk01" />
+    <Field Def="f32 Unk02" />
+    <Field Def="s16 Unk03" />
+    <Field Def="s16 Unk04" />
+    <Field Def="s16 Unk05" />
+    <Field Def="u8 Unk06" />
+    <Field Def="u8 Unk07" />
   </Fields>
 </PARAMDEF>

@@ -1,31 +1,31 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
   <Field>
-    <_0x00 AltName="Physical Scaling: STR" IsBool="" />
-    <_0x00 AltName="Physical Scaling: DEX" IsBool="" />
-    <_0x00 AltName="Physical Scaling: INT" IsBool="" />
-    <_0x00 AltName="Physical Scaling: FTH" IsBool="" />
-    <_0x00 AltName="Physical Scaling: LCK" IsBool="" />
-	<_0x00 AltName="Magic Scaling: STR" IsBool="" />
-    <_0x00 AltName="Magic Scaling: DEX" IsBool="" />
-    <_0x00 AltName="Magic Scaling: INT" IsBool="" />
-    <_0x00 AltName="Magic Scaling: FTH" IsBool="" />
-    <_0x00 AltName="Magic Scaling: LCK" IsBool="" />
-    <_0x00 AltName="Fire Scaling: STR" IsBool="" />
-    <_0x00 AltName="Fire Scaling: DEX" IsBool="" />
-    <_0x00 AltName="Fire Scaling: INT" IsBool="" />
-    <_0x00 AltName="Fire Scaling: FTH" IsBool="" />
-    <_0x00 AltName="Fire Scaling: LCK" IsBool="" />
-    <_0x00 AltName="Lightning Scaling: STR" IsBool="" />
-    <_0x00 AltName="Lightning Scaling: DEX" IsBool="" />
-    <_0x00 AltName="Lightning Scaling: INT" IsBool="" />
-    <_0x00 AltName="Lightning Scaling: FTH" IsBool="" />
-    <_0x00 AltName="Lightning Scaling: LCK" IsBool="" />
-    <_0x00 AltName="Dark Scaling: STR" IsBool="" />
-    <_0x00 AltName="Dark Scaling: DEX" IsBool="" />
-    <_0x00 AltName="Dark Scaling: INT" IsBool="" />
-    <_0x00 AltName="Dark Scaling: FTH" IsBool="" />
-    <_0x00 AltName="Dark Scaling: LCK" IsBool="" />
+    <_0x00 AltName="Physical Correction: STR" IsBool="" />
+    <_0x00 AltName="Physical Correction: DEX" IsBool="" />
+    <_0x00 AltName="Physical Correction: INT" IsBool="" />
+    <_0x00 AltName="Physical Correction: FTH" IsBool="" />
+    <_0x00 AltName="Physical Correction: LCK" IsBool="" />
+	<_0x00 AltName="Magic Correction: STR" IsBool="" />
+    <_0x00 AltName="Magic Correction: DEX" IsBool="" />
+    <_0x00 AltName="Magic Correction: INT" IsBool="" />
+    <_0x00 AltName="Magic Correction: FTH" IsBool="" />
+    <_0x00 AltName="Magic Correction: LCK" IsBool="" />
+    <_0x00 AltName="Fire Correction: STR" IsBool="" />
+    <_0x00 AltName="Fire Correction: DEX" IsBool="" />
+    <_0x00 AltName="Fire Correction: INT" IsBool="" />
+    <_0x00 AltName="Fire Correction: FTH" IsBool="" />
+    <_0x00 AltName="Fire Correction: LCK" IsBool="" />
+    <_0x00 AltName="Lightning Correction: STR" IsBool="" />
+    <_0x00 AltName="Lightning Correction: DEX" IsBool="" />
+    <_0x00 AltName="Lightning Correction: INT" IsBool="" />
+    <_0x00 AltName="Lightning Correction: FTH" IsBool="" />
+    <_0x00 AltName="Lightning Correction: LCK" IsBool="" />
+    <_0x00 AltName="Dark Correction: STR" IsBool="" />
+    <_0x00 AltName="Dark Correction: DEX" IsBool="" />
+    <_0x00 AltName="Dark Correction: INT" IsBool="" />
+    <_0x00 AltName="Dark Correction: FTH" IsBool="" />
+    <_0x00 AltName="Dark Correction: LCK" IsBool="" />
 	<_0x00 AltName="Unk1" />
 	<_0x00 AltName="Unk2" />
 	<_0x00 AltName="Unk3" />
@@ -33,56 +33,65 @@
 	<_0x00 AltName="Unk5" />
 	<_0x00 AltName="Unk6" />
 	<_0x00 AltName="Unk7" />
-	<addRate0 AltName="Physical AddRate: STR" />
-    <addRate1 AltName="Physical AddRate: DEX" />
-    <addRate2 AltName="Physical AddRate: INT" />
-    <addRate3 AltName="Physical AddRate: FTH" />
-    <addRate4 AltName="Physical AddRate: LCK" />
-    <addRate5 AltName="Magic AddRate: STR" />
-    <addRate6 AltName="Magic AddRate: DEX" />
-    <addRate7 AltName="Magic AddRate: INT" />
-    <addRate8 AltName="Magic AddRate: FTH" />
-    <addRate9 AltName="Magic AddRate: LCK" />
-    <addRate10 AltName="Fire AddRate: STR" />
-    <addRate11 AltName="Fire AddRate: DEX" />
-    <addRate12 AltName="Fire AddRate: INT" />
-    <addRate13 AltName="Fire AddRate: FTH" />
-    <addRate14 AltName="Fire AddRate: LCK" />
-    <addRate15 AltName="Lightning AddRate: STR" />
-    <addRate16 AltName="Lightning AddRate: DEX" />
-    <addRate17 AltName="Lightning AddRate: INT" />
-    <addRate18 AltName="Lightning AddRate: FTH" />
-    <addRate19 AltName="Lightning AddRate: LCK" />
-    <addRate20 AltName="Dark AddRate: STR" />
-    <addRate21 AltName="Dark AddRate: DEX" />
-    <addRate22 AltName="Dark AddRate: INT" />
-    <addRate23 AltName="Dark AddRate: FTH" />
-    <addRate24 AltName="Dark AddRate: LCK" />
-    <corrRate0 AltName="Physical Correction: STR" />
-    <corrRate1 AltName="Physical Correction: DEX" />
-    <corrRate2 AltName="Physical Correction: INT" />
-    <corrRate3 AltName="Physical Correction: FTH" />
-    <corrRate4 AltName="Physical Correction: LCK" />
-    <corrRate5 AltName="Magic Correction: STR" />
-    <corrRate6 AltName="Magic Correction: DEX" />
-    <corrRate7 AltName="Magic Correction: INT" />
-    <corrRate8 AltName="Magic Correction: FTH" />
-    <corrRate9 AltName="Magic Correction: LCK" />
-    <corrRate10 AltName="Fire Correction: STR" />
-    <corrRate11 AltName="Fire Correction: DEX" />
-    <corrRate12 AltName="Fire Correction: INT" />
-    <corrRate13 AltName="Fire Correction: FTH" />
-    <corrRate14 AltName="Fire Correction: LCK" />
-    <corrRate15 AltName="Lightning Correction: STR" />
-    <corrRate16 AltName="Lightning Correction: DEX" />
-    <corrRate17 AltName="Lightning Correction: INT" />
-    <corrRate18 AltName="Lightning Correction: FTH" />
-    <corrRate19 AltName="Lightning Correction: LCK" />
-    <corrRate20 AltName="Dark Correction: STR" />
-    <corrRate21 AltName="Dark Correction: DEX" />
-    <corrRate22 AltName="Dark Correction: INT" />
-    <corrRate23 AltName="Dark Correction: FTH" />
-    <corrRate24 AltName="Dark Correction: LCK" />
+	<addRate0 AltName="Physical Replacement Correction: STR" />
+    <addRate1 AltName="Physical Replacement Correction: DEX" />
+    <addRate2 AltName="Physical Replacement Correction: INT" />
+    <addRate3 AltName="Physical Replacement Correction: FTH" />
+    <addRate4 AltName="Physical Replacement Correction: LCK" />
+    <addRate5 AltName="Magic Replacement Correction: STR" />
+    <addRate6 AltName="Magic Replacement Correction: DEX" />
+    <addRate7 AltName="Magic Replacement Correction: INT" />
+    <addRate8 AltName="Magic Replacement Correction: FTH" />
+    <addRate9 AltName="Magic Replacement Correction: LCK" />
+    <addRate10 AltName="Fire Replacement Correction: STR" />
+    <addRate11 AltName="Fire Replacement Correction: DEX" />
+    <addRate12 AltName="Fire Replacement Correction: INT" />
+    <addRate13 AltName="Fire Replacement Correction: FTH" />
+    <addRate14 AltName="Fire Replacement Correction: LCK" />
+    <addRate15 AltName="Lightning Replacement Correction: STR" />
+    <addRate16 AltName="Lightning Replacement Correction: DEX" />
+    <addRate17 AltName="Lightning Replacement Correction: INT" />
+    <addRate18 AltName="Lightning Replacement Correction: FTH" />
+    <addRate19 AltName="Lightning Replacement Correction: LCK" />
+    <addRate20 AltName="Dark Replacement Correction: STR" />
+    <addRate21 AltName="Dark Replacement Correction: DEX" />
+    <addRate22 AltName="Dark Replacement Correction: INT" />
+    <addRate23 AltName="Dark Replacement Correction: FTH" />
+    <addRate24 AltName="Dark Replacement Correction: LCK" />
+    <corrRate0 AltName="Physical Correction Ratio: STR" />
+    <corrRate1 AltName="Physical Correction Ratio: DEX" />
+    <corrRate2 AltName="Physical Correction Ratio: INT" />
+    <corrRate3 AltName="Physical Correction Ratio: FTH" />
+    <corrRate4 AltName="Physical Correction Ratio: LCK" />
+    <corrRate5 AltName="Magic Correction Ratio: STR" />
+    <corrRate6 AltName="Magic Correction Ratio: DEX" />
+    <corrRate7 AltName="Magic Correction Ratio: INT" />
+    <corrRate8 AltName="Magic Correction Ratio: FTH" />
+    <corrRate9 AltName="Magic Correction Ratio: LCK" />
+    <corrRate10 AltName="Fire Correction Ratio: STR" />
+    <corrRate11 AltName="Fire Correction Ratio: DEX" />
+    <corrRate12 AltName="Fire Correction Ratio: INT" />
+    <corrRate13 AltName="Fire Correction Ratio: FTH" />
+    <corrRate14 AltName="Fire Correction Ratio: LCK" />
+    <corrRate15 AltName="Lightning Correction Ratio: STR" />
+    <corrRate16 AltName="Lightning Correction Ratio: DEX" />
+    <corrRate17 AltName="Lightning Correction Ratio: INT" />
+    <corrRate18 AltName="Lightning Correction Ratio: FTH" />
+    <corrRate19 AltName="Lightning Correction Ratio: LCK" />
+    <corrRate20 AltName="Dark Correction Ratio: STR" />
+    <corrRate21 AltName="Dark Correction Ratio: DEX" />
+    <corrRate22 AltName="Dark Correction Ratio: INT" />
+    <corrRate23 AltName="Dark Correction Ratio: FTH" />
+    <corrRate24 AltName="Dark Correction Ratio: LCK" />
+    
+    <pad1 AltName=""/>
+    <Unk1 AltName=""/>
+    <Unk2 AltName=""/>
+    <Unk3 AltName=""/>
+    <Unk4 AltName=""/>
+    <Unk5 AltName=""/>
+    <Unk6 AltName=""/>
+    <Unk7 AltName=""/>
   </Field>
-  <Self />
+  <Self Wiki="Damage correction configuration for damage types"/>
 </PARAMMETA>

@@ -7,20 +7,20 @@
   <Version>201</Version>
   <Fields>
     <Field Def="s32 Unk00" />
+    <Field Def="s32 Unk01" />
+    <Field Def="f32 move_speed_mult" />
+    <Field Def="f32 turn_speed_mult" />
+    <Field Def="s32 Unk02" />
+    <Field Def="s32 Unk03" />
+    <Field Def="s32 damage_id" />
     <Field Def="s32 Unk04" />
-    <Field Def="f32 Movement Speed Multiplier" />
-    <Field Def="f32 Turning Speed Multiplier" />
+    <Field Def="f32 Unk05" />
+    <Field Def="f32 Unk06" />
+    <Field Def="f32 Unk07" />
+    <Field Def="f32 Unk08" />
+    <Field Def="s32 Unk09" />
     <Field Def="s32 Unk10" />
-    <Field Def="s32 Unk14" />
-    <Field Def="s32 Damage ID" />
-    <Field Def="s32 Unk1C" />
-    <Field Def="f32 Unk20" />
-    <Field Def="f32 Unk24" />
-    <Field Def="f32 Unk28" />
-    <Field Def="f32 Unk2C" />
-    <Field Def="s32 Unk30" />
-    <Field Def="s32 Unk34" />
-    <Field Def="s32 Unk38" />
-    <Field Def="f32 Unk3C" />
+    <Field Def="s32 Unk11" />
+    <Field Def="f32 Unk12" />
   </Fields>
 </PARAMDEF>

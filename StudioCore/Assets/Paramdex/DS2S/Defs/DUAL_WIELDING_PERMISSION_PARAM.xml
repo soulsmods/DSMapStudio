@@ -16,12 +16,6 @@
     <Field Def="u8 Unk07" />
     <Field Def="u8 Unk08" />
     <Field Def="u8 Unk09" />
-    <Field Def="u8 Unk0A" />
-    <Field Def="u8 Unk0B" />
-    <Field Def="u8 Unk0C" />
-    <Field Def="u8 Unk0D" />
-    <Field Def="u8 Unk0E" />
-    <Field Def="u8 Unk0F" />
     <Field Def="u8 Unk10" />
     <Field Def="u8 Unk11" />
     <Field Def="u8 Unk12" />
@@ -32,6 +26,12 @@
     <Field Def="u8 Unk17" />
     <Field Def="u8 Unk18" />
     <Field Def="u8 Unk19" />
-    <Field Def="u8 Unk1A" />
+    <Field Def="u8 Unk20" />
+    <Field Def="u8 Unk21" />
+    <Field Def="u8 Unk22" />
+    <Field Def="u8 Unk23" />
+    <Field Def="u8 Unk24" />
+    <Field Def="u8 Unk25" />
+    <Field Def="u8 Unk26" />
   </Fields>
 </PARAMDEF>

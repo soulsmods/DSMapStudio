@@ -6,10 +6,10 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="f32 Scaling Display: S" />
-    <Field Def="f32 Scaling Display: A" />
-    <Field Def="f32 Scaling Display: B" />
-    <Field Def="f32 Scaling Display: C" />
-    <Field Def="f32 Scaling Display: D" />
+    <Field Def="f32 scaling_display_S" />
+    <Field Def="f32 scaling_display_A" />
+    <Field Def="f32 scaling_display_B" />
+    <Field Def="f32 scaling_display_C" />
+    <Field Def="f32 scaling_display_D" />
   </Fields>
 </PARAMDEF>

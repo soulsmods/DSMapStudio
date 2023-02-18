@@ -2,8 +2,9 @@
 <PARAMMETA XmlVersion="0">
   <Self Row0Dummy="" />
   <Field>
-    <ItemID Refs="ItemParam" />
-    <ItemlotID VRef="ItemLotParam2" />
-    <NPCInfoID Refs="NpcInfoParam,NpcNameSwapParam,NpcPlayerSkinParam,NpcPlayerStatusParam" />
+    <conversation_id AltName="Conversation ID"/>
+    <conversation_exit_id AltName="Conversation Exit ID"/>
+    <item_id AltName="Item ID" Refs="ItemParam" />
+    <npc_info_id AltName="Info ID" Refs="NpcInfoParam" />
   </Field>
 </PARAMMETA>

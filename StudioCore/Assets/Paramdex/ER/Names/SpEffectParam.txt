@@ -254,6 +254,8 @@
 3970 Silver-Pickled Fowl Foot
 3971 Gold-Pickled Fowl Foot
 4101 Sanguine Noble
+4201 Golden Leaves Weather (Bonus Runes)
+5250 Enemy: Golden Eyes (Bonus Runes)
 5300 No Stag
 5301 NPC: Damage Level Override
 5302 NPC: Damage Level Override

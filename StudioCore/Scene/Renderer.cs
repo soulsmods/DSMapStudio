@@ -524,7 +524,7 @@ namespace StudioCore.Scene
             UniformBufferAllocator = new GPUBufferAllocator(5 * 1024 * 1024, BufferUsage.StructuredBufferReadWrite, (uint)sizeof(InstanceData));
 
             MaterialBufferAllocator = new GPUBufferAllocator("materials", 5 * 1024 * 1024, BufferUsage.StructuredBufferReadWrite, (uint)sizeof(Material), ShaderStages.Fragment);
-            BoneBufferAllocator = new GPUBufferAllocator("bones", 65536 * 64, BufferUsage.StructuredBufferReadWrite, 64, ShaderStages.Vertex);
+            BoneBufferAllocator = new GPUBufferAllocator("bones", CFG.Current.GFX_Limit_Buffer_Flver_Bone * 64, BufferUsage.StructuredBufferReadWrite, 64, ShaderStages.Vertex);
             GlobalTexturePool = new TexturePool(device, "globalTextures", 6000);
             GlobalCubeTexturePool = new TexturePool(device, "globalCubeTextures", 500);
 

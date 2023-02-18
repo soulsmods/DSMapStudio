@@ -6,17 +6,17 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="s32 PcGenderFemale1 = 9E+07" />
-    <Field Def="s32 PcGenderMale1 = 3E+07" />
-    <Field Def="s32 SpEffectId0 = -1" />
-    <Field Def="s32 AnimationId0 = -1" />
-    <Field Def="s32 SpEffectId1 = -1" />
-    <Field Def="s32 AnimationId1 = -1" />
-    <Field Def="s32 SpEffectId2" />
-    <Field Def="s32 AnimationId2 = -1" />
-    <Field Def="s32 EventFlagId = -1" />
-    <Field Def="s32 EventID_Female = 9E+07" />
-    <Field Def="s32 EventID_Male = 3E+07" />
-    <Field Def="f32 TalkTime[0.0 - 1.0]" />
+    <Field Def="s32 msgId = -1" />
+    <Field Def="s32 voiceId = -1" />
+    <Field Def="s32 spEffectId0 = -1" />
+    <Field Def="s32 motionId0 = -1" />
+    <Field Def="s32 spEffectId1 = -1" />
+    <Field Def="s32 motionId1 = -1" />
+    <Field Def="s32 returnPos = -1" />
+    <Field Def="s32 reactionId = -1" />
+    <Field Def="s32 eventId = -1" />
+    <Field Def="s32 msgId_female = -1" />
+    <Field Def="s32 voiceId_female = -1" />
+    <Field Def="f32 talkDuration" />
   </Fields>
 </PARAMDEF>

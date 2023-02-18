@@ -7,13 +7,14 @@ using System.Numerics;
 using ImGuiNET;
 using SoulsFormats;
 using System.Xml;
+using System.Collections.Concurrent;
 
 namespace StudioCore.ParamEditor
 {
     public class ParamMetaData
     {
         private static Dictionary<PARAMDEF, ParamMetaData> _ParamMetas = new Dictionary<PARAMDEF, ParamMetaData>();
-        
+
         internal Dictionary<string, ParamEnum> enums = new Dictionary<string, ParamEnum>();
 
         private const int XML_VERSION = 0;
@@ -329,7 +330,7 @@ namespace StudioCore.ParamEditor
 
     public class FieldMetaData
     {
-        internal static Dictionary<PARAMDEF.Field, FieldMetaData> _FieldMetas = new Dictionary<PARAMDEF.Field, FieldMetaData>();
+        internal static ConcurrentDictionary<PARAMDEF.Field, FieldMetaData> _FieldMetas = new ConcurrentDictionary<PARAMDEF.Field, FieldMetaData>();
 
         private ParamMetaData _parent;
 
@@ -383,7 +384,7 @@ namespace StudioCore.ParamEditor
 
         private static void Add(PARAMDEF.Field key, FieldMetaData meta)
         {
-            _FieldMetas.Add(key, meta);
+            _FieldMetas[key] = meta;
         }
 
         public FieldMetaData(ParamMetaData parent, PARAMDEF.Field field)

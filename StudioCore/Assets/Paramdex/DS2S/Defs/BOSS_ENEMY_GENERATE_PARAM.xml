@@ -6,8 +6,8 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="s32 Enemy Generator ID 1" />
-    <Field Def="s32 Enemy Generator ID 2" />
+    <Field Def="s32 generator_id_0" />
+    <Field Def="s32 generator_id_1" />
     <Field Def="u16 Unk08" />
     <Field Def="u16 Unk08" />
     <Field Def="s32 Unk0C" />

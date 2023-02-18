@@ -6,29 +6,25 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="u8 recoveryCount0" />
-    <Field Def="u8 recoveryCount1" />
-    <Field Def="u8 recoveryCount2" />
-    <Field Def="u8 recoveryCount3" />
-    <Field Def="u8 recoveryCount4" />
-    <Field Def="u8 recoveryCount5" />
-    <Field Def="u8 recoveryCount6" />
-    <Field Def="u8 recoveryCount7" />
-    <Field Def="u8 recoveryCount8" />
-    <Field Def="u8 recoveryCount9" />
-    <Field Def="u8 recoveryCount10" />
-    <Field Def="u8 recoveryCount11" />
-    <Field Def="u8 recoveryCount12" />
-    <Field Def="u8 recoveryCount13" />
-    <Field Def="u8 recoveryCount14" />
-    <Field Def="u8 recoveryCount15" />
-    <Field Def="u8 recoveryCount16" />
-    <Field Def="u8 recoveryCount17" />
-    <Field Def="u8 recoveryCount18" />
-    <Field Def="u8 recoveryCount19" />
-    <Field Def="u8 recoveryCount20" />
-    <Field Def="u8 recoveryCount21" />
-    <Field Def="u8 recoveryCount22" />
-    <Field Def="u8 recoveryCount23" />
+    <Field Def="u8 host" />
+    <Field Def="u8 invadeOrb_None" />
+    <Field Def="u8 invadeOrb_Umbasa" />
+    <Field Def="u8 invadeOrb_Berserker" />
+    <Field Def="u8 invadeOrb_Sinners" />
+    <Field Def="u8 invadeSign_None" />
+    <Field Def="u8 invadeSign_Umbasa" />
+    <Field Def="u8 invadeSign_Berserker" />
+    <Field Def="u8 invadeSign_Sinners" />
+    <Field Def="u8 invadeRing_Sinners" />
+    <Field Def="u8 invadeRing_Rosalia" />
+    <Field Def="u8 invadeRing_Forest" />
+    <Field Def="u8 coopSign_None" />
+    <Field Def="u8 coopSign_Umbasa" />
+    <Field Def="u8 coopSign_Berserker" />
+    <Field Def="u8 coopSign_Sinners" />
+    <Field Def="u8 coopRing_RedHunter" />
+    <Field Def="u8 invadeRing_Anor" />
+    <Field Def="u16 paramReplaceRate" />
+    <Field Def="s32 paramReplaceId" />
   </Fields>
 </PARAMDEF>

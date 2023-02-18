@@ -16,12 +16,46 @@
       <Option Value="0" Name="Sphere" />
       <Option Value="1" Name="Capsule" />
     </Enum>
+    <Enum Name="GuardBreakType">
+      <Option Value="-1" Name="Default" />
+      <Option Value="2" Name="Guard Break" />
+    </Enum>
   </Enums>
   <Self Row0Dummy="" />
   <Field>
-    <DamageType0 Enum="DamageTypeCategory" />
-    <DamageType1 Enum="DamageTypeCategory" />
-    <DamageType2 Enum="DamageTypeCategory" />
-    <HitboxShape Enum="HitboxType" />
+    <damage_ctrl_id AltName="Damage Control ID" Refs="DamageCtrlParam"/>
+    <damage_id_followup AltName="Damage ID - Follow-up" Refs="EnemyDamageParam,PlayerDamageParam,SystemDamageParam"/>
+    <damage_id_origin AltName="Damage ID - Origin" Refs="EnemyDamageParam,PlayerDamageParam,SystemDamageParam"/>
+    <damage_0 AltName="Damage [0]"/>
+    <damage_1 AltName="Damage [1]"/>
+    <damage_2 AltName="Damage [2]"/>
+    <damage_type_0 AltName="Damage Type [0]" Enum="DamageTypeCategory" />
+    <damage_type_1 AltName="Damage Type [1]" Enum="DamageTypeCategory" />
+    <damage_type_2 AltName="Damage Type [2]" Enum="DamageTypeCategory" />
+    <damage_mult AltName="Damage %: All"/>
+    <counter_damage_mult AltName="Damage %: Counter"/>
+    <stamina_damage_mult AltName="Stamina Damage"/>
+    <durability_damage_mult AltName="Durability Damage"/>
+    <knockback_amount AltName="Knockback Amount"/>
+    <knockback_speed AltName="Knockback Speed"/>
+    <is_spawn_on_weapon AltName="Is Spawn on Weapon" IsBool=""/>
+    <hitbox_origin_dummy_poly_id AltName="Hitbox Origin Dummy Poly ID"/>
+    <guardbreak_type AltName="Guard Break Type" Enum="GuardBreakType"/>
+    <hitbox_shape AltName="Hitbox Shape" Enum="HitboxType" />
+    <hitbox_radius_mult AltName="Hitbox Radius %"/>
+    <hitbox_length_mult AltName="Hitbox Length %"/>
+    <cycle_period AltName="Cycle Period"/>
+    <target AltName="Target"/>
+    <speffect_id AltName="SpEffect ID"/>
+    <apply_speffect AltName="Apply SpEffect" IsBool=""/>
+    <speffect_type AltName="SpEffect Type"/>
+    <speffect_apply_mode AltName="SpEffect Apply Mode"/>
+    <hitback_hitbox_origin_dummy_poly_id AltName="Hitback - Hitbox Origin DmyPoly ID"/>
+    <hitback_hitbox_shape AltName="Hitback - Hitbox Shape" Enum="HitboxType" />
+    <hitback_hitbox_radius_mult AltName="Hitback - Hitbox Radius %"/>
+    <hitback_hitbox_length_mult AltName="Hitback - Hitbox Length %"/>
+    <grab_param_id AltName="Grab ID"/>
+    <hitbox_max_size AltName="Hitbox Max Size"/>
+    <hitbox_expand_speed AltName="Hitbox Expansion Speed"/>
   </Field>
 </PARAMMETA>

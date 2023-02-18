@@ -2,5 +2,8 @@
 <PARAMMETA XmlVersion="0">
   <Self Row0Dummy="" />
   <Field>
+    <chr_id AltName="Chr ID"/>
+    <Unk08 Wiki="Weapon Visual Effect Related"/>
+    <Unk09 Wiki="Body Visual Effect Related"/>
   </Field>
 </PARAMMETA>

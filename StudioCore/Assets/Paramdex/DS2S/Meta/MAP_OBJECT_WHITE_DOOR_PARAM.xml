@@ -2,5 +2,7 @@
 <PARAMMETA XmlVersion="0">
   <Self Row0Dummy="" />
   <Field>
+    <entry_delay AltName="Entry Delay"/>
+    <obj_instance_id AltName="Object Instance ID"/>
   </Field>
 </PARAMMETA>

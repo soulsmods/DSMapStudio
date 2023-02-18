@@ -2,5 +2,7 @@
 <PARAMMETA XmlVersion="0">
   <Self Row0Dummy="" />
   <Field>
+    <logic_com_param_id AltName="Logic Com ID" Refs="LogicComParam"/>
+    <enemy_param_id AltName="Enemy ID" Refs="EnemyParam"/>
   </Field>
 </PARAMMETA>

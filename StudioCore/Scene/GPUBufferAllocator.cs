@@ -79,7 +79,7 @@ namespace StudioCore.Scene
                 uint addr;
                 if (!_allocator.AlignedAlloc(size, (uint)alignment, out addr))
                 {
-                    throw new Exception("Download more RAM 4head");
+                    throw new Exception($"GPU allocation failed. Try increasing buffer sizes in settings. Otherwise, Download more RAM 4head");
                 }
                 handle = new GPUBufferHandle(this, addr, size);
                 _allocations.Add(handle);

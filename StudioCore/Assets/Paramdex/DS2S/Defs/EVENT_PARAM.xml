@@ -6,8 +6,8 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="s32 Event ID" />
-    <Field Def="s32 Event Flag ID" />
+    <Field Def="s32 event_id" />
+    <Field Def="s32 flag_id" />
     <Field Def="u8 Unk08" />
     <Field Def="u8 Unk09" />
     <Field Def="u8 Unk0A" />

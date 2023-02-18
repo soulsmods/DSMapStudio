@@ -6,12 +6,7 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="u32 Allowed Infusions" >
-      <Description>
-This is a bitset of 10 bits. 
-They are, in order from the least significant: 
-Base, Fire, Magic, Lightning, Dark, Poison, Bleed, Raw, Enchanted, Mundane.
-      </Description>
+    <Field Def="u32 bitset_allowed_infusions" >
     </Field>
   </Fields>
 </PARAMDEF>

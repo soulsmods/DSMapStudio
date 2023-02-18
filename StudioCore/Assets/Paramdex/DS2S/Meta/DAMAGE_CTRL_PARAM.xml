@@ -40,8 +40,25 @@
   </Enums>
   <Self Row0Dummy="" />
   <Field>
-    <DamageType Enum="DamageTypeCategory" />
-    <StaggerMode Enum="StaggerModeCategory" />
-    <StaggerType Enum="StaggerTypeCategory" />
+    <damage_type AltName="Damage Type" Enum="DamageTypeCategory" />
+    <stagger_mode AltName="Stagger Mode" Enum="StaggerModeCategory" />
+    <disable_parry AltName="Disable Parry" IsBool="" />
+    <stagger_type AltName="Stagger Type" Enum="StaggerTypeCategory" />
+    <is_instant_kill AltName="Is Instant Kill" IsBool="" />
+    <posture_damage AltName="Posture Damage" />
+    <knockdown_time_mult AltName="Knockdown Time %" />
+    <vertical_throw_distance AltName="Vertical Throw Distance" />
+    <block_interaction AltName="Block Interaction" />
+    <camera_noise_param_id AltName="Camera Noise ID" />
+    <pad_rumble_param_id AltName="Pad Rumble ID" />
+    <pad_rumble_time AltName="Pad Rumble Duration" />
+    <damage_window_category_id AltName="Damage Window Category ID" />
+    <instability_time AltName="Instability Duration" />
+    <poise_damage AltName="Poise Damage" />
+    <tip_hit_min_distance AltName="Tip Hit - Minimum Distance" />
+    <tip_hit_max_distance AltName="Tip Hit - Maximum Distance" />
+    <tip_hit_damage_mult AltName="Tip Hit - Damage Reduction" />
+    <tip_hit_posture_damage_mult AltName="Tip Hit - Posture Damage Reduction" />
+    <tip_hit_poise_damage_mult AltName="Tip Hit - Poise Damage Reduction" />
   </Field>
 </PARAMMETA>

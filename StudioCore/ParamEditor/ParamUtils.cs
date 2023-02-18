@@ -5,10 +5,11 @@ using System.Numerics;
 using FSParam;
 using ImGuiNET;
 using SoulsFormats;
+using System.Linq;
 
 namespace StudioCore.ParamEditor
 {
-    public class ParamUtils
+    public static class ParamUtils
     {
         public static string Dummy8Write(Byte[] dummy8)
         {
@@ -43,7 +44,7 @@ namespace StudioCore.ParamEditor
             }
             return nval;
         }
-        public static bool RowMatches(Param.Row row, Param.Row vrow)
+        public static bool RowMatches(this Param.Row row, Param.Row vrow)
         {
             if (row.Def.ParamType != vrow.Def.ParamType || row.Def.DataVersion != vrow.Def.DataVersion)
                 return false;
@@ -64,5 +65,47 @@ namespace StudioCore.ParamEditor
         {
             return value != null && valueBase != null && !(value.Equals(valueBase) || (t == typeof(byte[]) && ParamUtils.ByteArrayEquals((byte[])value, (byte[])valueBase)));
         }
+        
+        public static string ToParamEditorString(this object val)
+        {
+            return val.GetType() == typeof(byte[]) ? ParamUtils.Dummy8Write((byte[])val) : val.ToString();
+        }
+
+        public static object Get(this Param.Row row, (PseudoColumn, Param.Column) col)
+        {
+            return col.Item1 == PseudoColumn.ID ? row.ID : col.Item1 == PseudoColumn.Name ? row.Name : row[col.Item2].Value;
+        }
+
+        public static (PseudoColumn, Param.Column) GetCol(this Param param, string field)
+        {
+            PseudoColumn pc = field.Equals("ID") ? PseudoColumn.ID : field.Equals("Name") ? PseudoColumn.Name : PseudoColumn.None;
+            Param.Column col = param?[field];
+            return (pc, col);
+        }
+
+        public static (PseudoColumn, Param.Column) GetAs(this (PseudoColumn, Param.Column) col, Param newParam)
+        {
+            return (col.Item1, col.Item2 == null? null : newParam.Cells.FirstOrDefault((x) => x.Def.InternalName == col.Item2.Def.InternalName));
+        }
+        public static bool IsColumnValid(this (PseudoColumn, Param.Column) col)
+        {
+            return col.Item1 != PseudoColumn.None || col.Item2 != null;
+        }
+        public static Type GetColumnType(this (PseudoColumn, Param.Column) col)
+        {
+            if (col.Item1 == PseudoColumn.ID)
+                return typeof(int);
+            else if (col.Item1 == PseudoColumn.Name)
+                return typeof(string);
+            else
+                return col.Item2.ValueType;
+        }
+    }
+
+    public enum PseudoColumn
+    {
+        None,
+        ID,
+        Name
     }
 }
