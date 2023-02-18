@@ -8,6 +8,7 @@ using FSParam;
 using ImGuiNET;
 using SoulsFormats;
 using StudioCore.Editor;
+using StudioCore.ParamEditor;
 
 namespace StudioCore.ParamEditor
 {
@@ -35,13 +36,7 @@ namespace StudioCore.ParamEditor
         {
             try
             {
-                Type type;
-                if (column.Item1 == PseudoColumn.ID)
-                    type = typeof(int);
-                else if (column.Item1 == PseudoColumn.Name)
-                    type = typeof(string);
-                else
-                    type = column.Item2.ValueType;
+                Type type = column.GetColumnType();
 
                 if (op.Equals("ref") && column.Item2 != null)
                 {
@@ -99,7 +94,7 @@ namespace StudioCore.ParamEditor
         {
             try
             {
-                string name = c.Item1 == PseudoColumn.ID ? row.ID.ToString() : c.Item1 == PseudoColumn.Name ? row.Name : c.Item2.GetValue(row).ToString();
+                string name = row.Get(c).ToString();
                 if (op.Equals("="))
                     return opparam[0];
                 else if (op.Equals("+"))
@@ -119,7 +114,7 @@ namespace StudioCore.ParamEditor
         {
             try
             {
-                dynamic val = c.Item1 == PseudoColumn.ID ? row.ID : c.Item1 == PseudoColumn.Name ? row.Name : c.Item2.GetValue(row);
+                dynamic val = row.Get(c);
                 dynamic opp = double.Parse(opparam[0]);
                 if (op.Equals("="))
                     return (T) (opp);
@@ -376,12 +371,7 @@ namespace StudioCore.ParamEditor
                 string name = row.Name==null ? "null" : row.Name.Replace(separator, '-');
                 string rowgen = $@"{row.ID}{separator}{name}";
                 foreach (Param.Column cell in row.Cells)
-                {
-                    if (row[cell].Value.GetType() == typeof(byte[]))
-                        rowgen += $@"{separator}{ParamUtils.Dummy8Write((byte[])row[cell].Value)}";
-                    else
-                        rowgen += $@"{separator}{row[cell].Value}";
-                }
+                    rowgen += $@"{separator}{row[cell].ToParamEditorString()}";
                 gen += rowgen + "\n";
             }
             return gen;
@@ -653,19 +643,46 @@ namespace StudioCore.ParamEditor
         {
             defaultGetter = (0, (value) => (param) => (row) => (col) => value);
             argumentGetters.Add("self", (0, (empty) => (param) => (row) => (col) => {
-                object val = col.Item1 == PseudoColumn.ID ? row.ID : col.Item1 == PseudoColumn.Name ? row.Name : row[col.Item2].Value;
-                return val.GetType() == typeof(byte[]) ? ParamUtils.Dummy8Write((byte[])val) : val.ToString();
+                return row.Get(col).ToParamEditorString();
             }));
             argumentGetters.Add("field", (1, (field) => (param) => {
-                PseudoColumn pc = field[0].Equals("ID") ? PseudoColumn.ID : field[0].Equals("Name") ? PseudoColumn.Name : PseudoColumn.None;
-                Param.Column? col = param?[field[0]];
-                if (pc == PseudoColumn.None && col == null)
+                var col = param.GetCol(field[0]);
+                if (!col.IsColumnValid())
                     throw new Exception($@"Could not locate field {field[0]}");
                 return (row) => {
-                    object val = pc == PseudoColumn.ID ? row.ID : pc == PseudoColumn.Name ? row.Name : row[col].Value;
-                    string v = val.GetType() == typeof(byte[]) ? ParamUtils.Dummy8Write((byte[])val) : val.ToString();
+                    string v = row.Get(col).ToParamEditorString();
                     return (c) => v;
                 };
+            }));
+            argumentGetters.Add("average", (2, (field) => (param) => {
+                var col = param.GetCol(field[0]);
+                if (!col.IsColumnValid())
+                    throw new Exception($@"Could not locate field {field[0]}");
+                Type colType = col.GetColumnType();
+                if (colType == typeof(string) || colType == typeof(byte[]))
+                    throw new Exception($@"Cannot average field {field[0]}");
+                var rows = RowSearchEngine.rse.Search((ParamBank.PrimaryBank, param), field[1], false, false);
+                var vals = rows.Select((row, i) =>row.Get(col));
+                double avg = vals.Average((val) => Convert.ToDouble(val));
+                return (row) => (c) => avg.ToString();
+            }));
+            argumentGetters.Add("median", (2, (field) => (param) => {
+                var col = param.GetCol(field[0]);
+                if (!col.IsColumnValid())
+                    throw new Exception($@"Could not locate field {field[0]}");
+                var rows = RowSearchEngine.rse.Search((ParamBank.PrimaryBank, param), field[1], false, false);
+                var vals = rows.Select((row, i) => row.Get(col));
+                var avg = vals.OrderBy((val) => Convert.ToDouble(val)).ElementAt(vals.Count()/2);
+                return (row) => (c) => avg.ToParamEditorString();
+            }));
+            argumentGetters.Add("mode", (2, (field) => (param) => {
+                var col = param.GetCol(field[0]);
+                if (!col.IsColumnValid())
+                    throw new Exception($@"Could not locate field {field[0]}");
+                var rows = RowSearchEngine.rse.Search((ParamBank.PrimaryBank, param), field[1], false, false);
+                var vals = rows.Select((row, i) => row.Get(col));
+                var avg = vals.GroupBy((val) => val).OrderByDescending((g) => g.Count()).Select((g) => g.Key).First();
+                return (row) => (c) => avg.ToParamEditorString();
             }));
             argumentGetters.Add("vanilla", (0, (empty) => {
                 ParamBank bank = ParamBank.VanillaBank;
@@ -681,8 +698,7 @@ namespace StudioCore.ParamEditor
                         return (col) => {
                             if (col.Item1 == PseudoColumn.None && col.Item2 == null)
                                 throw new Exception($@"Could not locate given field or property");
-                            object val = col.Item1 == PseudoColumn.ID ? vRow.ID : col.Item1 == PseudoColumn.Name ? vRow.Name : vRow[col.Item2].Value;
-                            return val.GetType() == typeof(byte[]) ? ParamUtils.Dummy8Write((byte[])val) : val.ToString();
+                            return vRow.Get(col).ToParamEditorString();
                         };
                     };
                 };
@@ -692,16 +708,14 @@ namespace StudioCore.ParamEditor
                 var vParam = ParamBank.VanillaBank.GetParamFromName(paramName);
                 if (vParam == null)
                     throw new Exception($@"Could not locate vanilla param for {param.ParamType}");
-                PseudoColumn pc = field[0].Equals("ID") ? PseudoColumn.ID : field[0].Equals("Name") ? PseudoColumn.Name : PseudoColumn.None;
-                Param.Column? col = vParam?[field[0]];
-                if (pc == PseudoColumn.None && col == null)
+                var col = vParam.GetCol(field[0]);
+                if (!col.IsColumnValid())
                     throw new Exception($@"Could not locate field {field[0]}");
                 return (row) => {
                     Param.Row vRow = vParam?[row.ID];
                     if (vRow == null)
                         throw new Exception($@"Could not locate vanilla row {row.ID}");
-                    object val = pc == PseudoColumn.ID ? vRow.ID : pc == PseudoColumn.Name ? vRow.Name : vRow[col].Value;
-                    string v = val.GetType() == typeof(byte[]) ? ParamUtils.Dummy8Write((byte[])val) : val.ToString();
+                    string v = vRow.Get(col).ToParamEditorString();
                     return (c) => v;
                 };
             }));
@@ -719,10 +733,9 @@ namespace StudioCore.ParamEditor
                         if (vRow == null)
                             throw new Exception($@"Could not locate aux row {row.ID}");
                         return (col) => {
-                            if (col.Item1 == PseudoColumn.None && col.Item2 == null)
+                            if (!col.IsColumnValid())
                                 throw new Exception($@"Could not locate given field or property");
-                            object val = col.Item1 == PseudoColumn.ID ? vRow.ID : col.Item1 == PseudoColumn.Name ? vRow.Name : vRow[col.Item2].Value;
-                            return val.GetType() == typeof(byte[]) ? ParamUtils.Dummy8Write((byte[])val) : val.ToString();
+                            return vRow.Get(col).ToParamEditorString();
                         };
                     };
                 };
@@ -736,16 +749,14 @@ namespace StudioCore.ParamEditor
                     if (!bank.Params.ContainsKey(paramName))
                         throw new Exception($@"Could not locate aux param for {param.ParamType}");
                     Param vParam = bank.Params[paramName];
-                    PseudoColumn pc = bankAndField[1].Equals("ID") ? PseudoColumn.ID : bankAndField[1].Equals("Name") ? PseudoColumn.Name : PseudoColumn.None;
-                    Param.Column? col = vParam?[bankAndField[1]];
-                    if (pc == PseudoColumn.None && col == null)
+                    var col = vParam.GetCol(bankAndField[1]);
+                    if (!col.IsColumnValid())
                         throw new Exception($@"Could not locate field {bankAndField[1]}");
                     return (row) => {
                         Param.Row vRow = vParam?[row.ID];
                         if (vRow == null)
                             throw new Exception($@"Could not locate aux row {row.ID}");
-                        object val = pc == PseudoColumn.ID ? vRow.ID : pc == PseudoColumn.Name ? vRow.Name : vRow[col].Value;
-                        string v = val.GetType() == typeof(byte[]) ? ParamUtils.Dummy8Write((byte[])val) : val.ToString();
+                        string v = vRow.Get(col).ToParamEditorString();
                         return (c) => v;
                     };
                 };
@@ -808,12 +819,5 @@ namespace StudioCore.ParamEditor
             }
             return contextualArgs;
         }
-    }
-
-    public enum PseudoColumn
-    {
-        None,
-        ID,
-        Name
     }
 }
