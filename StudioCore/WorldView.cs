@@ -429,17 +429,17 @@ namespace StudioCore
                 float y = 0;
                 float z = 0;
 
-                if (InputTracker.GetKey(KeyBindings.Current.Viewport_Cam_Right))
+                if (InputTracker.GetKey_IgnoreModifier(KeyBindings.Current.Viewport_Cam_Right))
                     x += 1;
-                if (InputTracker.GetKey(KeyBindings.Current.Viewport_Cam_Left))
+                if (InputTracker.GetKey_IgnoreModifier(KeyBindings.Current.Viewport_Cam_Left))
                     x -= 1;
-                if (InputTracker.GetKey(KeyBindings.Current.Viewport_Cam_Up))
+                if (InputTracker.GetKey_IgnoreModifier(KeyBindings.Current.Viewport_Cam_Up))
                     y += 1;
-                if (InputTracker.GetKey(KeyBindings.Current.Viewport_Cam_Down))
+                if (InputTracker.GetKey_IgnoreModifier(KeyBindings.Current.Viewport_Cam_Down))
                     y -= 1;
-                if (InputTracker.GetKey(KeyBindings.Current.Viewport_Cam_Forward))
+                if (InputTracker.GetKey_IgnoreModifier(KeyBindings.Current.Viewport_Cam_Forward))
                     z += 1;
-                if (InputTracker.GetKey(KeyBindings.Current.Viewport_Cam_Back))
+                if (InputTracker.GetKey_IgnoreModifier(KeyBindings.Current.Viewport_Cam_Back))
                     z -= 1;
 
                 MoveCamera(x, y, z, moveMult);
