@@ -1,3 +1,6 @@
+## Downloads:
+You can find downloads at (https://github.com/soulsmods/DSMapStudio/releases)
+
 ## About DS Map Studio:
 DS Map Studio is a standalone integrated modding tool for modern FromSoft games, which include Demon's Souls (PS3), the Dark Souls series, Bloodborne, Sekiro, and Elden Ring. It currently includes a map editor, a game param editor, and a text editor for editing in game text.
 
