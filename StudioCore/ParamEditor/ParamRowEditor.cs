@@ -284,18 +284,19 @@ namespace StudioCore.ParamEditor
                 if (isActiveView && InputTracker.GetKeyDown(KeyBindings.Current.Param_SearchField))
                     ImGui.SetKeyboardFocusHere();
                 ImGui.InputText($"Search <{KeyBindings.Current.Param_SearchField.HintText}>", ref propSearchString, 255);
+                if (ImGui.IsItemEdited())
+                    CacheBank.ClearCaches();
+                string resAutoCol = AutoFill.ColumnSearchBarAutoFill();
+                if (resAutoCol != null)
+                {
+                    propSearchString = resAutoCol;
+                    CacheBank.ClearCaches();
+                }
                 ImGui.Spacing();
                 ImGui.Separator();
                 ImGui.Spacing();
             }
-            Regex propSearchRx = null;
-            try
-            {
-                propSearchRx = new Regex(propSearchString.ToLower());
-            }
-            catch
-            {
-            }
+
             ImGui.BeginChild("Param Fields");
             int columnCount = 2;
             if (CFG.Current.Param_ShowVanillaParams)
@@ -334,17 +335,32 @@ namespace StudioCore.ParamEditor
             ImGui.Spacing();
             ImGui.Separator();
 
+            string search = propSearchString;
+            List<(PseudoColumn, Param.Column)> cols = CacheBank.GetCached(_paramEditor, row, () => CellSearchEngine.cse.Search((activeParam, row), search, true, true));
+            List<(PseudoColumn, Param.Column)> vcols = CacheBank.GetCached(_paramEditor, vrow, () => cols.Select((x, i) => x.GetAs(ParamBank.VanillaBank.GetParamFromName(activeParam))).ToList());
+            List<List<(PseudoColumn, Param.Column)>> auxCols = CacheBank.GetCached(_paramEditor, auxRows, () => auxRows.Select((r, i) => cols.Select((c, j) => c.GetAs(ParamBank.AuxBanks[r.Item1].GetParamFromName(activeParam))).ToList()).ToList());
+
             List<string> pinnedFields = new List<string>(_paramEditor._projectSettings.PinnedFields.GetValueOrDefault(activeParam, new List<string>()));
             if (pinnedFields.Count > 0)
             {
                 foreach (var field in pinnedFields)
                 {
-                    List<Param.Column> matches = row.Cells.Where(cell => cell.Def.InternalName == field).ToList();
-                    List<Param.Column> vmatches = vrow?.Cells.Where(cell => cell.Def.InternalName == field).ToList();
-                    List<List<Param.Column>> auxmatches = auxRows.Select((r, i) => r.Item2?.Cells.Where(cell => cell.Def.InternalName == field).ToList()).ToList();
-                    List<Param.Column> cmatches = crow?.Cells.Where(cell => cell.Def.InternalName == field).ToList();
+                    List<(PseudoColumn, Param.Column)> matches = cols.Where((x, i) => x.Item2 != null && x.Item2.Def.InternalName == field).ToList();
+                    List<(PseudoColumn, Param.Column)> vmatches = vcols.Where((x, i) => x.Item2 != null && x.Item2.Def.InternalName == field).ToList();
+                    List<List<(PseudoColumn, Param.Column)>> auxMatches = auxCols.Select((aux, i) => aux.Where((x, i) => x.Item2 != null && x.Item2.Def.InternalName == field).ToList()).ToList();
                     for (int i = 0; i < matches.Count; i++)
-                        PropEditorPropCellRow(bank, row, row[matches[i]], vrow?[vmatches[i]], auxRows.Select((r, j) => r.Item2?[auxmatches[j][i]]).ToList(), crow?[cmatches[i]], ref id, propSearchRx, activeParam, true);
+                    {
+                        PropEditorPropCellRow(bank,
+                        row,
+                        crow,
+                        matches[i],
+                        vrow,
+                        vmatches[i],
+                        auxRows,
+                        auxMatches.Select((x, j) => x.Count > i ? x[i] : (PseudoColumn.None, null)).ToList(),
+                        matches[i].Item2.GetByteOffset().ToString("x"),
+                        ref id, activeParam, true);
+                    }
                 }
                 ImGui.Separator();
             }
@@ -365,18 +381,22 @@ namespace StudioCore.ParamEditor
                 }
                 if (row[field] == null)
                     continue;
-                List<Param.Column> matches = row.Cells.Where(cell => cell.Def.InternalName == field).ToList();
-                List<Param.Column> vmatches = vrow?.Cells.Where(cell => cell.Def.InternalName == field).ToList();
-                List<List<Param.Column>> auxmatches = auxRows.Select((r, i) => r.Item2?.Cells.Where(cell => cell.Def.InternalName == field).ToList()).ToList();
-                List<Param.Column> cmatches = crow?.Cells.Where(cell => cell.Def.InternalName == field).ToList();
+                List<(PseudoColumn, Param.Column)> matches = cols.Where((x, i) => x.Item2 != null && x.Item2.Def.InternalName == field).ToList();
+                List<(PseudoColumn, Param.Column)> vmatches = vcols.Where((x, i) => x.Item2 != null && x.Item2.Def.InternalName == field).ToList();
+                List<List<(PseudoColumn, Param.Column)>> auxMatches = auxCols.Select((aux, i) => aux.Where((x, i) => x.Item2 != null && x.Item2.Def.InternalName == field).ToList()).ToList();
                 for (int i = 0; i < matches.Count; i++)
+                {
                     lastRowExists |= PropEditorPropCellRow(bank,
                     row,
-                    row[matches[i]],
-                    vmatches?.Count > i ? vrow[vmatches[i]] : null,
-                    auxRows.Select((r, j) => auxmatches[j]?.Count > i ? r.Item2?[auxmatches[j][i]] : null).ToList(),
-                    cmatches?.Count > i ? crow?[cmatches[i]] : null,
-                    ref id, propSearchRx, activeParam, false);
+                    crow,
+                    matches[i],
+                    vrow,
+                    vmatches.Count > i ? vmatches[i] : (PseudoColumn.None, null),
+                    auxRows,
+                    auxMatches.Select((x, j) => x.Count > i ? x[i] : (PseudoColumn.None, null)).ToList(),
+                    matches[i].Item2?.GetByteOffset().ToString("x"),
+                    ref id, activeParam, false);
+                }
             }
             ImGui.Columns(1);
             if (meta.CalcCorrectDef != null)
@@ -435,10 +455,11 @@ namespace StudioCore.ParamEditor
             PropEditorPropRow(
                 bank,
                 prop.GetValue(row),
+                crow != null ? prop.GetValue(crow) : null,
                 vrow != null ? prop.GetValue(vrow) : null,
                 auxRows.Select((r, i) => r.Item2 != null ? prop.GetValue(r.Item2) : null).ToList(),
-                crow != null ? prop.GetValue(crow) : null,
                 ref id,
+                "header",
                 visualName,
                 null,
                 prop.PropertyType,
@@ -446,28 +467,27 @@ namespace StudioCore.ParamEditor
                 null,
                 row,
                 null,
-                null,
                 false);
         }
-        private bool PropEditorPropCellRow(ParamBank bank,Param.Row row, Param.Cell cell, Param.Cell? vcell, List<Param.Cell?> auxCells, Param.Cell? ccell, ref int id, Regex propSearchRx, string activeParam, bool isPinned)
+        private bool PropEditorPropCellRow(ParamBank bank, Param.Row row, Param.Row crow, (PseudoColumn, Param.Column) col, Param.Row vrow, (PseudoColumn, Param.Column) vcol, List<(string, Param.Row)> auxRows, List<(PseudoColumn, Param.Column)> auxCols, string fieldOffset, ref int id, string activeParam, bool isPinned)
         {
             return PropEditorPropRow(
                 bank,
-                cell.Value,
-                vcell?.Value,
-                auxCells.Select((c, i) => c?.Value).ToList(),
-                ccell?.Value,
-                ref id, cell.Def.InternalName,
-                FieldMetaData.Get(cell.Def),
-                cell.Value.GetType(),
-                cell.GetType().GetProperty("Value"),
-                cell,
+                row.Get(col),
+                crow?.Get(col),
+                vcol.IsColumnValid() ? vrow?.Get(vcol) : null,
+                auxRows.Select((r, i) => auxCols[i].IsColumnValid() ? r.Item2?.Get(auxCols[i]) : null).ToList(),
+                ref id,
+                fieldOffset != null ? "0x" + fieldOffset : null, col.Item2.Def.InternalName,
+                FieldMetaData.Get(col.Item2.Def),
+                col.GetColumnType(),
+                typeof(Param.Cell).GetProperty("Value"),
+                row[col.Item2],
                 row,
-                propSearchRx,
                 activeParam,
                 isPinned);
         }
-        private bool PropEditorPropRow(ParamBank bank, object oldval, object vanillaval, List<object> auxVals, object compareval, ref int id, string internalName, FieldMetaData cellMeta, Type propType, PropertyInfo proprow, Param.Cell? nullableCell, Param.Row? row, Regex propSearchRx, string activeParam, bool isPinned)
+        private bool PropEditorPropRow(ParamBank bank, object oldval, object compareval, object vanillaval, List<object> auxVals, ref int id, string fieldOffset, string internalName, FieldMetaData cellMeta, Type propType, PropertyInfo proprow, Param.Cell? nullableCell, Param.Row row, string activeParam, bool isPinned)
         {
             List<ParamRef> RefTypes = cellMeta?.RefTypes;
             string VirtualRef = cellMeta?.VirtualRef;
@@ -477,18 +497,10 @@ namespace StudioCore.ParamEditor
             bool IsBool = cellMeta?.IsBool ?? false;
             string AltName = cellMeta?.AltName;
 
-            if (propSearchRx != null)
-            {
-                if (!propSearchRx.IsMatch(internalName.ToLower()) && !(AltName != null && propSearchRx.IsMatch(AltName.ToLower())))
-                {
-                    return false;
-                }
-            }
-
             object newval = null;
             ImGui.PushID(id);
             ImGui.AlignTextToFramePadding();
-            PropertyRowName(ref internalName, cellMeta);
+            PropertyRowName(fieldOffset, ref internalName, cellMeta);
             PropertyRowNameContextMenu(bank, internalName, cellMeta, activeParam, activeParam != null, isPinned);
             if (Wiki != null)
             {
@@ -621,7 +633,7 @@ namespace StudioCore.ParamEditor
             }
         }
 
-        private static void PropertyRowName(ref string internalName, FieldMetaData cellMeta)
+        private static void PropertyRowName(string fieldOffset, ref string internalName, FieldMetaData cellMeta)
         {
             string AltName = cellMeta?.AltName;
             if (cellMeta != null && ParamEditorScreen.EditorMode)
@@ -636,7 +648,7 @@ namespace StudioCore.ParamEditor
             else
             {
                 string printedName = (AltName != null && CFG.Current.Param_ShowAltNames) ? (CFG.Current.Param_AlwaysShowOriginalName ? $"{internalName} ({AltName})" : AltName) : internalName;
-                ImGui.TextUnformatted(printedName);
+                ImGui.TextUnformatted(fieldOffset != null && CFG.Current.Param_ShowFieldOffsets ? fieldOffset + " " + printedName : printedName);
             }
         }
 
@@ -713,6 +725,10 @@ namespace StudioCore.ParamEditor
                 if (ImGui.Selectable("Edit all selected..."))
                 {
                     EditorCommandQueue.AddCommand($@"param/menu/massEditRegex/selection: {Regex.Escape(internalName)}: ");
+                }
+                if (ImGui.Selectable("Reset all selected..."))
+                {
+                    EditorCommandQueue.AddCommand($@"param/menu/massEditRegex/selection: {Regex.Escape(internalName)}: = vanilla;");
                 }
                 if (VirtualRef != null)
                     EditorDecorations.VirtualParamRefSelectables(bank, VirtualRef, oldval);
