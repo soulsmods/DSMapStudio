@@ -2391,30 +2391,43 @@ namespace SoulsFormats
             /// </summary>
             public class HorseRideOverride : Region
             {
+                /// <summary>
+                /// OverrideType
+                /// </summary>
+                public enum HorseRideOverrideType : int
+                {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+                    PreventRiding = 1,
+                    AllowRiding = 2,
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
+                }
                 private protected override RegionType Type => RegionType.HorseRideOverride;
                 private protected override bool HasTypeData => true;
 
                 /// <summary>
                 /// 1 = Forbid riding torrent, 2 = Permit riding torrent
                 /// </summary>
-                public int OverrideType { get; set; }
+                public HorseRideOverrideType OverrideType { get; set; }
 
                 /// <summary>
                 /// Creates a HorseRideOverride with default values.
                 /// </summary>
-                public HorseRideOverride() : base($"{nameof(Region)}: {nameof(HorseRideOverride)}") { }
+                public HorseRideOverride() : base($"{nameof(Region)}: {nameof(HorseRideOverride)}") 
+                {
+                    OverrideType = HorseRideOverrideType.PreventRiding;
+                }
 
                 internal HorseRideOverride(BinaryReaderEx br) : base(br) { }
 
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
-                    OverrideType = br.ReadInt32();
+                    OverrideType = br.ReadEnum32<HorseRideOverrideType>();
                     br.AssertInt32(0);
                 }
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    bw.WriteInt32(OverrideType);
+                    bw.WriteInt32((int)OverrideType);
                     bw.WriteInt32(0);
                 }
             }
