@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
   <Enums>
-    <Enum Name="ReferenceType">
+    <Enum Name="BEHAVIOR_REF_TYPE">
       <Option Value="0" Name="Attack" />
       <Option Value="1" Name="Bullet" />
       <Option Value="2" Name="SpEffect" />
@@ -131,7 +131,7 @@
       <Option Value="920" Name="Unknown A" />
       <Option Value="921" Name="Unknown B" />
     </Enum>
-    <Enum Name="BehaviorCategory">
+    <Enum Name="BEHAVIOR_CATEGORY">
       <Option Value="0" Name="No Category" />
       <Option Value="1" Name="PC - Right-Hand" />
       <Option Value="2" Name="PC - Left-hand" />
@@ -145,18 +145,32 @@
       <Option Value="11" Name="PC - Both-hand" />
       <Option Value="12" Name="PC - Right-hand" />
     </Enum>
+    <Enum Name="STATE_BEHAVIOR_TYPE" type="u8">
+      <Option Value="0" Name="None" />
+      <Option Value="1" Name="Player" />
+      <Option Value="2" Name="NPC" />
+      <Option Value="3" Name="NPC" />
+    </Enum>
   </Enums>
-  <Self Row0Dummy="" />
+  <Self Wiki="Behavior data for character attacks" Row0Dummy="" />
   <Field>
     <variationId AltName="Behavior Variation ID" VRef="behaviourVariation" />
-    <behaviorJudgeId Enum="AttackType" />
-    <ezStateBehaviorType_old AltName="State Behavior Type" />
-    <refType Enum="ReferenceType" />
-    <refId Refs="AtkParam_Pc,AtkParam_Npc,Bullet,SpEffectParam" />
+    <behaviorJudgeId AltName="Behavior Judge ID" Enum="AttackType" />
+    <ezStateBehaviorType_old AltName="State Behavior Type" Enum="STATE_BEHAVIOR_TYPE" />
+    <refType AltName="Reference Type" Enum="BEHAVIOR_REF_TYPE" />
+    <refId AltName="Reference ID" Refs="AtkParam_Pc(refType=0),AtkParam_Npc(refType=0),Bullet(refType=1),SpEffectParam(refType=2)" />
     <sfxVariationId AltName="SFX Variation ID" />
     <stamina AltName="Stamina Cost" />
     <mp AltName="Durability Cost" />
-    <category Enum="BehaviorCategory" />
+    <category AltName="Category" Enum="BEHAVIOR_CATEGORY" />
     <heroPoint AltName="Humanity Cost" />
+    <pad1 AltName=""/>
+    <pad2 AltName=""/>
   </Field>
+  <Self Row0Dummy="" AlternativeOrder="variationId,behaviorJudgeId,-,
+category,ezStateBehaviorType_old,-,
+refId,refType,-,
+stamina,mp,heroPoint,-,
+sfxVariationId,-,
+pad1,pad2"/>
 </PARAMMETA>

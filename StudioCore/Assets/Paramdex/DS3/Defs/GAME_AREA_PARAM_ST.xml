@@ -6,8 +6,8 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="s32 BonusSoul_single = 60000" />
-    <Field Def="s32 BonusSoul_multi = 60000" />
+    <Field Def="s32 bonusSoul_single = 60000" />
+    <Field Def="s32 bonusSoul_multi = 60000" />
     <Field Def="s32 humanityPointCountFlagIdTop = -1" />
     <Field Def="s16 humanityDropPoint1 = -1" />
     <Field Def="s16 humanityDropPoint2 = -1" />
@@ -19,8 +19,8 @@
     <Field Def="s16 humanityDropPoint8 = -1" />
     <Field Def="s16 humanityDropPoint9 = -1" />
     <Field Def="s16 humanityDropPoint10 = -1" />
-    <Field Def="s32 subBonusSoul_single" />
-    <Field Def="s32 subbonusSoul_multi = 10000" />
+    <Field Def="s32 soloBreakInPoint_Min" />
+    <Field Def="s32 soloBreakInPoint_Max = 10000" />
     <Field Def="dummy8 pad1[8]" />
   </Fields>
 </PARAMDEF>

@@ -4,5 +4,5 @@
 	<spEffectId Refs="SpEffectParam" />
 	<spEffectId_forAtk Refs="SpEffectParam" />
   </Field>
-  <Self />
+  <Self Wiki="Unused" />
 </PARAMMETA>

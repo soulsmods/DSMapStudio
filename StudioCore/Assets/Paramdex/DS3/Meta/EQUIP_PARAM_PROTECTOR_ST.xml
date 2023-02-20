@@ -1,19 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
   <Enums>
-    <Enum Name="EquipModelCategory">
+    <Enum Name="EQUIP_MODEL_CATEGORY">
       <Option Value="1" Name="Hands" />
       <Option Value="2" Name="Body" />
       <Option Value="5" Name="Head" />
       <Option Value="6" Name="Legs" />
     </Enum>
-    <Enum Name="EquipModelGender">
+    <Enum Name="EQUIP_MODEL_GENDER">
       <Option Value="0" Name="None" />
       <Option Value="1" Name="None" />
       <Option Value="3" Name="Split by Gender" />
       <Option Value="4" Name="Shared" />
     </Enum>
-    <Enum Name="ArmorCategory">
+    <Enum Name="PROTECTOR_CATEGORY">
       <Option Value="0" Name="Head" />
       <Option Value="1" Name="Body" />
       <Option Value="2" Name="Hands" />
@@ -25,39 +25,78 @@
       <Option Value="2" Name="Hide Male / Show Female" />
       <Option Value="3" Name="Show Male / Hide Female" />
 	</Enum>
+    <Enum Name="ATK_PARAM_PARTSDMGTYPE">
+      <Option Value="0" Name="Type 0" />
+    </Enum>
   </Enums>
-  <Self AlternativeOrder="sortId,iconIdM,iconIdF,sellValue,Unk9,fixPrice,-,
-protectorCategory,protectorCategoryId,wanderingEquipId,weight,durability,durabilityMax,materialSetId,reinforceTypeId,basicPrice,equipModelID,equipModelCategory,equipModelGender,simpleModelForDlc1,simpleModelForDlc2,headEquip,bodyEquip,armEquip,legEquip,-,
-PhysDamageCutRate,SlashDamageCutRate,StrikeDamageCutRate,ThrustDamageCutRate,MagicDamageCutRate,FireDamageCutRate,ThunderDamageCutRate,DarkDamageCutRate,resistPoison,resistToxic,resistBlood,resistCurse,resistFrost,Poise,defFlickPower,FlickDamageCutRate,saDurability,defensePhys,defenseMagic,defenseFire,defenseThunder,defenseDark,defenseSlash,defenseBlow,defenseThrust,-,
-residentSpEffectId1,residentSpEffectId2,residentSpEffectId3,-,
+  <Self Wiki="Armor" AlternativeOrder="sortId,iconIdM,iconIdF,sellValue,saleValue,basicPrice,fixPrice,-,
+weight,durability,durabilityMax,-,
+materialSetId,reinforceTypeId,-,
+toughnessDamageCutRate,saDurability,partsDamageRate,correctSARecover,defFlickPower,FlickDamageCutRate,-,
+PhysDamageCutRate,SlashDamageCutRate,StrikeDamageCutRate,ThrustDamageCutRate,MagicDamageCutRate,FireDamageCutRate,ThunderDamageCutRate,DarkDamageCutRate,-,
+defensePhys,defenseMagic,defenseFire,defenseThunder,defenseDark,defenseSlash,defenseBlow,defenseThrust,-,
+resistPoison,resistToxic,resistBlood,resistCurse,resistFrost,Poise,-,
+residentSpEffectId,residentSpEffectId2,residentSpEffectId3,-,
+equipModelId,postureControlId,protectorCategory,protectorCategoryId,wanderingEquipId,equipModelCategory,equipModelGender,simpleModelForDlc1,simpleModelForDlc2,headEquip,bodyEquip,armEquip,legEquip,-,
+isDeposit,disableMultiDropShare,isGuestDrop0,isGuestDrop1,-,
+qwcId,Knockback,KnockbackBounceRate,knockbackParamId,shopLv,partsDmgType,-,
+defenseMaterial,defenseMaterialSfx,defenseMaterial_Weak,defenseMaterialSfx_Weak,defenseMaterialSfx1,defenseMaterialSfx_Weak1,defenseMaterial1,defenseMaterial_Weak1,defenseMaterialSfx2,defenseMaterialSfx_Weak2,footMaterialSe,defenseMaterial_Weak2,autoFootEffectDecalBaseId1,-,
+compTrophySedId,-,
 originEquipPro1,originEquipPro2,originEquipPro3,originEquipPro4,originEquipPro5,originEquipPro6,originEquipPro7,originEquipPro8,originEquipPro9,originEquipPro10,originEquipPro11,originEquipPro12,originEquipPro13,originEquipPro14,originEquipPro15,originEquipPro16,-,
-partsDamageRate,correctSARecover,qwcId,Knockback,KnockbackBounceRate,knockbackParamId,shopLv,partsDmgType,isDeposit,disableMultiDropShare,isGuestDrop0,isGuestDrop1,vagrantItemLotId,vagrantBonuseneDropItemLotId,vagrantItemEneDropItemLotId,UpperArmId,compTrophySedId,-,
-defenseMaterial,defenseMaterialSfx,defenseMaterial_Weak,defenseMaterialSfx_Weak,MaterialId0,MaterialId1,MaterialId2,MaterialId3,MaterialId4,MaterialId5,MaterialId6,MaterialId7,-,
-useFaceScale,faceScaleM_ScaleX,faceScaleM_ScaleZ,faceScaleM_MaxX,faceScaleM_MaxZ,faceScaleF_ScaleX,faceScaleF_ScaleZ,faceScaleF_MaxX,faceScaleF_MaxX,-" />
+useFaceScale,faceScaleM_ScaleX,faceScaleM_ScaleZ,faceScaleM_MaxX,faceScaleM_MaxZ,faceScaleF_ScaleX,faceScaleF_ScaleZ,faceScaleF_MaxX,faceScaleF_MaxZ,-,
+vagrantItemLotId,vagrantBonuseneDropItemLotId,vagrantItemEneDropItemLotId,-,
+showLogCondType,showDialogCondType,-,
+Mask00,Mask01,Mask02,Mask03,Mask04,Mask05,Mask06,Mask07,Mask08,Mask09,Mask10,Mask11,Mask12,Mask13,Mask14,Mask15,Mask16,Mask17,Mask18,Mask19,Mask20,Mask21,Mask22,Mask23,Mask24,Mask25,Mask26,Mask27,Mask28,Mask29,Mask30,Mask31,Mask32,Mask33,Mask34,Mask35,Mask36,Mask37,Mask38,Mask39,Mask40,Mask41,Mask42,Mask43,Mask44,Mask45,Mask46,Mask47,Mask48,Mask49,Mask50,Mask51,Mask52,Mask53,Mask54,Mask55,Mask56,Mask57,Mask58,Mask59,Mask60,Mask61,Mask62,Mask63,Mask64,Mask65,Mask66,Mask67,Mask68,Mask69,Mask70,Mask71,Mask72,Mask73,Mask74,Mask75,Mask76,Mask77,Mask78,Mask79,Mask80,Mask81,Mask82,Mask83,Mask84,Mask85,Mask86,Mask87,Mask88,Mask89,Mask90,Mask91,Mask92,Mask93,Mask94,Mask95,Mask96,Mask97,-,
+InvisibleFlag00,InvisibleFlag01,InvisibleFlag02,InvisibleFlag03,InvisibleFlag04,InvisibleFlag05,InvisibleFlag06,InvisibleFlag07,InvisibleFlag08,InvisibleFlag09,InvisibleFlag10,InvisibleFlag11,InvisibleFlag12,InvisibleFlag13,InvisibleFlag14,InvisibleFlag15,InvisibleFlag16,InvisibleFlag17,InvisibleFlag18,InvisibleFlag19,InvisibleFlag20,InvisibleFlag21,InvisibleFlag22,InvisibleFlag23,InvisibleFlag24,InvisibleFlag25,InvisibleFlag26,InvisibleFlag27,InvisibleFlag28,InvisibleFlag29,InvisibleFlag30,InvisibleFlag31,InvisibleFlag32,InvisibleFlag33,InvisibleFlag34,InvisibleFlag35,InvisibleFlag36,InvisibleFlag37,InvisibleFlag38,InvisibleFlag39,InvisibleFlag40,InvisibleFlag41,InvisibleFlag42,InvisibleFlag43,InvisibleFlag44,InvisibleFlag45,InvisibleFlag46,InvisibleFlag47" />
   <Field>
-    <wanderingEquipId Refs="EquipParamProtector" Wiki="Armor ID used by wandering ghosts online" />
+    <sortId AltName="Sort ID" Wiki="Sort ID (7 digits is the limit for s32 because the enhancement level is added in the program)" />
+    <wanderingEquipId AltName="Wandering Equip ID" Wiki="Replacement equipment ID for wandering ghosts." Refs="EquipParamProtector" />
+    <vagrantItemLotId AltName="Vagrant Itemlot ID" />
     <vagrantBonuseneDropItemLotId AltName="Vagrant Bonus Drop Itemlot ID" />
     <vagrantItemEneDropItemLotId AltName="Vagrant Enemy Drop Itemlot ID" />
-    <fixPrice AltName="Repair Price" />
-    <residentSpEffectId1 Refs="SpEffectParam" />
-    <residentSpEffectId2 Refs="SpEffectParam" />
-    <residentSpEffectId3 Refs="SpEffectParam" />
-    <materialSetId AltName="Upgrade Material ID" Refs="EquipMtrlSetParam" />
-    <partsDamageRate AltName="Weak Parts Damage %" />
+    <fixPrice AltName="Repair Price" Wiki="Basic repair price" />
+    <basicPrice AltName="Basic Price" Wiki="Basic price" />
+    <sellValue AltName="Sell Value" Wiki="Selling price" />
+    <weight AltName="Weight" Wiki="Weight [kg]." />
+    <residentSpEffectId AltName="Resident SpEffect ID 1" Wiki="Resident special effect ID1" Refs="SpEffectParam" />
+    <residentSpEffectId2 AltName="Resident SpEffect ID 2" Wiki="Resident special effect ID2" Refs="SpEffectParam" />
+    <residentSpEffectId3 AltName="Resident SpEffect ID 3" Wiki="Resident special effect ID3" Refs="SpEffectParam" />
+    <materialSetId AltName="Upgrade Material ID" Wiki="Material parameter ID required for weapon enhancement" Refs="EquipMtrlSetParam" />
+    <partsDamageRate AltName="Weak Parts Damage %" Wiki="Part damage rate" />
     <correctSARecover AltName="Poise Recovery Correction" Wiki="Value added to poise recovery time (so negative values are better)." />
-    <faceScaleM_ScaleX AltName="Facescale Male X" />
-    <faceScaleM_ScaleZ AltName="Facescale Male Z" />
-    <faceScaleM_MaxX AltName="Facescale Male Max X" />
-    <faceScaleM_MaxZ AltName="Facescale Male Max Z" />
-    <faceScaleF_ScaleX AltName="Facescale Female X" />
-    <faceScaleF_ScaleZ AltName="Facescale Female Z" />
-    <faceScaleF_MaxX AltName="Facescale Female Max Z" />
-    <faceScaleF_MaxX AltName="Facescale Female Max Z" />
-    <iconIdM AltName="Icon ID Male" />
-    <iconIdF AltName="Icon ID Female" />
-	<Knockback Wiki="Reduced knockback received" />
-	<knockbackParamId Refs="KnockBackParam" />
-    <saDurability AltName="DS1 Poise" Wiki="Requires SpEffect with state info 120 such as 6300.\nCan be displayed."/>
+    <originEquipPro1 AltName="Origin Armor +0" Wiki="Strengthening of this armor Original armor ID" Refs="EquipParamProtector" />
+    <originEquipPro2 AltName="Origin Armor +1" Wiki="Strengthening this armor Original armor ID1" Refs="EquipParamProtector" />
+    <originEquipPro3 AltName="Origin Armor +2" Wiki="Strengthening this armor Original armor ID2" Refs="EquipParamProtector"/>
+    <originEquipPro4 AltName="Origin Armor +3" Wiki="Strengthening this armor Original armor ID3" Refs="EquipParamProtector"/>
+    <originEquipPro5 AltName="Origin Armor +4" Wiki="Strengthening this armor Original armor ID4" Refs="EquipParamProtector"/>
+    <originEquipPro6 AltName="Origin Armor +5" Wiki="Strengthening this armor Original armor ID5" Refs="EquipParamProtector"/>
+    <originEquipPro7 AltName="Origin Armor +6" Wiki="Strengthening this armor Original armor ID6" Refs="EquipParamProtector"/>
+    <originEquipPro8 AltName="Origin Armor +7" Wiki="Strengthening this armor Original armor ID7" Refs="EquipParamProtector"/>
+    <originEquipPro9 AltName="Origin Armor +8" Wiki="Strengthening this armor Original armor ID8" Refs="EquipParamProtector"/>
+    <originEquipPro10 AltName="Origin Armor +9" Wiki="Strengthening this armor Original armor ID9" Refs="EquipParamProtector"/>
+    <originEquipPro11 AltName="Origin Armor +10" Wiki="Strengthening this armor Original armor ID10" Refs="EquipParamProtector"/>
+    <originEquipPro12 AltName="Origin Armor +11" Wiki="Strengthening this armor Original armor ID11" Refs="EquipParamProtector"/>
+    <originEquipPro13 AltName="Origin Armor +12" Wiki="Strengthening this armor Original armor ID12" Refs="EquipParamProtector"/>
+    <originEquipPro14 AltName="Origin Armor +13" Wiki="Strengthening this armor Original armor ID13" Refs="EquipParamProtector"/>
+    <originEquipPro15 AltName="Origin Armor +14" Wiki="Strengthening this armor Original armor ID14" Refs="EquipParamProtector"/>
+    <originEquipPro16 AltName="Origin Armor +15" Wiki="Strengthening this armor Original armor ID15" Refs="EquipParamProtector"/>
+    <faceScaleM_ScaleX AltName="Facescale - Male - Scale X" Wiki="" />
+    <faceScaleM_ScaleZ AltName="Facescale - Male - Scale Z" Wiki="" />
+    <faceScaleM_MaxX AltName="Facescale - Male - Max X" Wiki="" />
+    <faceScaleM_MaxZ AltName="Facescale - Male - Max Z" Wiki="" />
+    <faceScaleF_ScaleX AltName="Facescale - Female - Scale X" Wiki="" />
+    <faceScaleF_ScaleZ AltName="Facescale - Female - Scale Z" Wiki="" />
+    <faceScaleF_MaxX AltName="Facescale - Female - Max X" Wiki="" />
+    <faceScaleF_MaxZ AltName="Facescale - Female - Max Z" Wiki="" />
+    <qwcId AltName="QWC ID" Wiki="QWC parameter ID" />
+    <equipModelId AltName="Equip Model ID" Wiki="Equipment model number." />
+    <iconIdM AltName="Icon ID - Male" Wiki="Men's menu icon ID." />
+    <iconIdF AltName="Icon ID - Female" Wiki="Women's menu icon ID." />
+	<knockBack AltName="Knockback" Wiki="Knockback reduction value." />
+    <knockbackBounceRate AltName="Knockback Bounce Rate" Wiki="Knockback repulsion rate." Refs="KnockBackParam" />
+    <durability AltName="Durability" Wiki="Initial durability." />
+    <durabilityMax AltName="Max Durability" Wiki="New durability." />
+    <saDurability AltName="Poise Durability" Wiki="DS1 Poise. Requires SpEffect with state info 120 such as 6300.\nCan be displayed."/>
     <defFlickPower AltName="Defence Flick Power" Wiki="Determines capability to passively deflect incoming attacks similar to guarding.\nValue given is modified depending on slot.\nHead: Value / 3.65\nBody: Value / 2.7\nArms: Value / 3.35\nLegs: Value / 3.35" />
     <defensePhys AltName="Defense - Physical" Wiki="Affects all 4 physical types." />
 	<defenseMagic AltName="Defense - Magic" />
@@ -70,77 +109,79 @@ useFaceScale,faceScaleM_ScaleX,faceScaleM_ScaleZ,faceScaleM_MaxX,faceScaleM_MaxZ
 	<resistToxic AltName="Resist - Toxic" Wiki="Not displayed. Assumed to be same as poison resistance." />
 	<resistBlood AltName="Resist - Bleed" />
 	<resistCurse AltName="Resist - Curse" />
-	<reinforceTypeId Refs="ReinforceParamProtector" />
+	<reinforceTypeId AltName="Reinforce Type ID" Wiki="Enhanced type ID" Refs="ReinforceParamProtector"/>
     <compTrophySedId AltName="Achievement ID" />
     <shopLv AltName="Shop Level" />
+    <knockbackParamId AltName="Knockback Param ID" Wiki="ID of the parameter used for knockback" />
     <FlickDamageCutRate AltName="Flick Damage %"  Wiki="Determines percentage of damage reduced when an attack is deflected by flick.\nValue given is modified depending on slot.\nHead: Value / 3.65\nBody: Value / 2.7\nArms: Value / 3.35\nLegs: Value / 3.35" />
-    <equipModelCategory Enum="EquipModelCategory" />
-    <equipModelGender Enum="EquipModelGender" />
-    <protectorCategory Enum="ArmorCategory" />
+    <equipModelCategory AltName="Equip Model Category" Wiki="Equipment model type." Enum="EQUIP_MODEL_CATEGORY" />
+    <equipModelGender AltName="Equip Model Gender" Wiki="Gender of equipment model." Enum="EQUIP_MODEL_GENDER" />
+    <protectorCategory AltName="Armor Category" Wiki="Armor category." Enum="PROTECTOR_CATEGORY" />
     <defenseMaterial AltName="Hit Sound FX" Wiki="Type of sound effect generated when this armor is hit." />
     <defenseMaterialSfx AltName="Hit Visual FX" Wiki="Type of visual effect generated when this armor is hit." />
+    <partsDmgType AltName="Parts Damage Type" Wiki="Set the attack type to judge the part damage" Enum="ATK_PARAM_PARTSDMGTYPE" />
     <defenseMaterial_Weak AltName="Weak Spot Hit Sound FX" />
     <defenseMaterialSfx_Weak AltName="Weak Spot Hit Visual FX" />
-    <isDeposit AltName="Can Deposit" IsBool="" />
-    <headEquip AltName="Is Head Equipment" IsBool="" />
-    <bodyEquip AltName="Is Body Equipment" IsBool="" />
-    <armEquip AltName="Is Arm Equipment" IsBool="" />
-    <legEquip AltName="Is Leg Equipment" IsBool="" />
-    <useFaceScale IsBool="" />
-    <InvisibleFlag00 IsBool="" />
-    <InvisibleFlag01 IsBool="" />
-    <InvisibleFlag02 IsBool="" />
-    <InvisibleFlag03 IsBool="" />
-    <InvisibleFlag04 IsBool="" />
-    <InvisibleFlag05 IsBool="" />
-    <InvisibleFlag06 IsBool="" />
-    <InvisibleFlag07 IsBool="" />
-    <InvisibleFlag08 IsBool="" />
-    <InvisibleFlag09 IsBool="" />
-    <InvisibleFlag10 IsBool="" />
-    <InvisibleFlag11 IsBool="" />
-    <InvisibleFlag12 IsBool="" />
-    <InvisibleFlag13 IsBool="" />
-    <InvisibleFlag14 IsBool="" />
-    <InvisibleFlag15 IsBool="" />
-    <InvisibleFlag16 IsBool="" />
-    <InvisibleFlag17 IsBool="" />
-    <InvisibleFlag18 IsBool="" />
-    <InvisibleFlag19 IsBool="" />
-    <InvisibleFlag20 IsBool="" />
-    <InvisibleFlag21 IsBool="" />
-    <InvisibleFlag22 IsBool="" />
-    <InvisibleFlag23 IsBool="" />
-    <InvisibleFlag24 IsBool="" />
-    <InvisibleFlag25 IsBool="" />
-    <InvisibleFlag26 IsBool="" />
-    <InvisibleFlag27 IsBool="" />
-    <InvisibleFlag28 IsBool="" />
-    <InvisibleFlag29 IsBool="" />
-    <InvisibleFlag30 IsBool="" />
-    <InvisibleFlag31 IsBool="" />
-    <InvisibleFlag32 IsBool="" />
-    <InvisibleFlag33 IsBool="" />
-    <InvisibleFlag34 IsBool="" />
-    <InvisibleFlag35 IsBool="" />
-    <InvisibleFlag36 IsBool="" />
-    <InvisibleFlag37 IsBool="" />
-    <InvisibleFlag38 IsBool="" />
-    <InvisibleFlag39 IsBool="" />
-    <InvisibleFlag40 IsBool="" />
-    <InvisibleFlag41 IsBool="" />
-    <InvisibleFlag42 IsBool="" />
-    <InvisibleFlag43 IsBool="" />
-    <InvisibleFlag44 IsBool="" />
-    <InvisibleFlag45 IsBool="" />
-    <InvisibleFlag46 IsBool="" />
-    <InvisibleFlag47 IsBool="" />
+    <isDeposit AltName="Can Deposit" Wiki="Can you leave it in the warehouse?" IsBool="" />
+    <headEquip AltName="Is Head Equipment" Wiki="Is it head equipment?" IsBool="" />
+    <bodyEquip AltName="Is Body Equipment" Wiki="Is it torso equipment?" IsBool="" />
+    <armEquip AltName="Is Arm Equipment" Wiki="Is it arm equipment?" IsBool="" />
+    <legEquip AltName="Is Leg Equipment" Wiki="Is it leg equipment?" IsBool="" />
+    <useFaceScale AltName="Use Facescale" Wiki="Whether to use a face scale" IsBool="" />
+    <InvisibleFlag00 IsBool="" AltName=""/>
+    <InvisibleFlag01 IsBool="" AltName=""/>
+    <InvisibleFlag02 IsBool="" AltName=""/>
+    <InvisibleFlag03 IsBool="" AltName=""/>
+    <InvisibleFlag04 IsBool="" AltName=""/>
+    <InvisibleFlag05 IsBool="" AltName=""/>
+    <InvisibleFlag06 IsBool="" AltName=""/>
+    <InvisibleFlag07 IsBool="" AltName=""/>
+    <InvisibleFlag08 IsBool="" AltName=""/>
+    <InvisibleFlag09 IsBool="" AltName=""/>
+    <InvisibleFlag10 IsBool="" AltName=""/>
+    <InvisibleFlag11 IsBool="" AltName=""/>
+    <InvisibleFlag12 IsBool="" AltName=""/>
+    <InvisibleFlag13 IsBool="" AltName=""/>
+    <InvisibleFlag14 IsBool="" AltName=""/>
+    <InvisibleFlag15 IsBool="" AltName=""/>
+    <InvisibleFlag16 IsBool="" AltName=""/>
+    <InvisibleFlag17 IsBool="" AltName=""/>
+    <InvisibleFlag18 IsBool="" AltName=""/>
+    <InvisibleFlag19 IsBool="" AltName=""/>
+    <InvisibleFlag20 IsBool="" AltName=""/>
+    <InvisibleFlag21 IsBool="" AltName=""/>
+    <InvisibleFlag22 IsBool="" AltName=""/>
+    <InvisibleFlag23 IsBool="" AltName=""/>
+    <InvisibleFlag24 IsBool="" AltName=""/>
+    <InvisibleFlag25 IsBool="" AltName=""/>
+    <InvisibleFlag26 IsBool="" AltName=""/>
+    <InvisibleFlag27 IsBool="" AltName=""/>
+    <InvisibleFlag28 IsBool="" AltName=""/>
+    <InvisibleFlag29 IsBool="" AltName=""/>
+    <InvisibleFlag30 IsBool="" AltName=""/>
+    <InvisibleFlag31 IsBool="" AltName=""/>
+    <InvisibleFlag32 IsBool="" AltName=""/>
+    <InvisibleFlag33 IsBool="" AltName=""/>
+    <InvisibleFlag34 IsBool="" AltName=""/>
+    <InvisibleFlag35 IsBool="" AltName=""/>
+    <InvisibleFlag36 IsBool="" AltName=""/>
+    <InvisibleFlag37 IsBool="" AltName=""/>
+    <InvisibleFlag38 IsBool="" AltName=""/>
+    <InvisibleFlag39 IsBool="" AltName=""/>
+    <InvisibleFlag40 IsBool="" AltName=""/>
+    <InvisibleFlag41 IsBool="" AltName=""/>
+    <InvisibleFlag42 IsBool="" AltName=""/>
+    <InvisibleFlag43 IsBool="" AltName=""/>
+    <InvisibleFlag44 IsBool="" AltName=""/>
+    <InvisibleFlag45 IsBool="" AltName=""/>
+    <InvisibleFlag46 IsBool="" AltName=""/>
+    <InvisibleFlag47 IsBool="" AltName=""/>
     <disableMultiDropShare AltName="Disable Multiplayer Sharing" Wiki="Prevents item from appearing to other players when dropped." IsBool="" />
-    <simpleModelForDlc1 IsBool="" />
+    <simpleModelForDlc1 AltName="Simple Model for DLC1" Wiki="Is there a simple model for DLC?" IsBool="" />
     <isGuestDrop0 AltName="Can Discard" IsBool="" />
     <isGuestDrop1 AltName="Can Drop" IsBool="" />
-    <simpleModelForDlc2 AltName="Is Notice Log" IsBool="" />
-    <Unk1 AltName="Is Notice Dialog" IsBool="" />
+    <showLogCondType AltName="Item Acquisition Log Condition Type" Wiki="Whether to display in the item acquisition log when acquiring the item (not entered: )" IsBool="" />
+    <showDialogCondType AltName="Item Acquisition Dialog Condition Type " Wiki="Whether to display it in the item acquisition dialog when acquiring an item (not entered: new only)" />
     <Unk2 IsBool="" />
     <Unk3 IsBool="" />
     <Unk4 IsBool="" />
@@ -152,11 +193,23 @@ useFaceScale,faceScaleM_ScaleX,faceScaleM_ScaleZ,faceScaleM_MaxX,faceScaleM_MaxZ
     <MagicDamageCutRate AltName="Absorption - Magic" />
     <FireDamageCutRate AltName="Absorption - Fire" />
     <ThunderDamageCutRate AltName="Absorption - Lightning" />
-    <protectorCategoryId Wiki="Mostly for leg pieces it seems. Needs testing." VRef="protectorCategory" Vref="protectorCategory" />
+    <defenseMaterialSfx1 AltName="Defence Material SFX 1" Wiki="For SFX when moving / defending. 1" />
+    <defenseMaterialSfx_Weak1 AltName="Defence Material SFX - Weakness 1" Wiki="For SFX when weak points are damaged 1" />
+    <defenseMaterial1 AltName="Defence Material - SE 1" Wiki="For SE when moving / defending. 1" Enum="WEP_MATERIAL_DEF" />
+    <defenseMaterial_Weak1 AltName="Defence Material SE - Weakness 1" Wiki="For SE when weak points are damaged 1" />
+    <defenseMaterialSfx2 AltName="Defence Material SFX 2" Wiki="For SFX when moving / defending. 2" />
+    <defenseMaterialSfx_Weak2 AltName="Defence Material SFX - Weakness 2" Wiki="2 for SFX when weak points are damaged" />
+    <footMaterialSe AltName="Foot Material SE" Wiki="Material for foot equipment SE. Only foot equipment is referenced. ([GR] SEQ10061) In the case of 139: None, the defense material 1 [SE] is referred to." />
+    <defenseMaterial_Weak2 AltName="Defence Material SE - Weakness 2" Wiki="2 for SE when weak points are damaged" />
+    <autoFootEffectDecalBaseId1 AltName="Auto Foot Effect Decal Base ID" Wiki="Decal ID for automatic foot effects. Floor material is also considered. Only used when the armor category is legs." />
+    <toughnessDamageCutRate AltName="Toughness Absorption" Wiki="Toughness version cut rate" />
     <DarkDamageCutRate AltName="Absorption - Dark" />
 	<defenseDark AltName="Defense - Dark" />
-	<UpperArmId Refs="UpperArmParam" />
-    <Unk9 AltName="Shop Price" />
+    <Unk6 AltName="Unknown" />
+    <Unk7 AltName="Unknown" />
+    <Unk8 AltName="Unknown" />
+	<postureControlId AltName="Posture Control ID" Wiki="Attitude control ID (torso)" Refs="UpperArmParam" />
+    <saleValue AltName="Shop Price" />
 	<resistFrost AltName="Resist - Frost" />
     <Mask00 Enum="Mask" AltName="Mask 00 - Upper Face" />
     <Mask01 Enum="Mask" AltName="Mask 01 - Lower Face" />

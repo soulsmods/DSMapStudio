@@ -15,11 +15,15 @@
     </Enum>
   </Enums>
   <Field>
-	<FaceParamID AltName="Caption ID" />
+    <CommandID AltName="Command ID" />
+	<FaceParamID AltName="Caption ID" FmgRef="Modern_MenuText" />
 	<TableID AltName="Face Param ID" />
 	<ViewCondition AltName="Slider Caption/Parts Group ID" Wiki="Slider Caption ID if a slider\nParts Group ID from CharMakeMenuListItemParam if something like hair"/>
 	<PreviewMode AltName="View Condition" Enum="ViewCondition" />
 	<MenuType AltName="Preview Mode" Enum="PreviewMode" />
+    <pad1 AltName="" />
+    <pad2 AltName="" />
+    
   </Field>
-  <Self />
+  <Self Wiki="Layout Data for the Character Make Menu"/>
 </PARAMMETA>

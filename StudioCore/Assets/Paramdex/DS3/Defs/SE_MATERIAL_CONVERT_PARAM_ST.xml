@@ -6,6 +6,7 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="s32 Material_Id = 80" />
+    <Field Def="u8 seMaterialId" />
+    <Field Def="dummy8 pad[3]" />
   </Fields>
 </PARAMDEF>

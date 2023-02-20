@@ -1,6 +1,6 @@
-1000 Weapon without correction -- 補正なし武器
-1100 Throwing Knives -- 投げナイフ
-1200 Fire bottle -- 火炎瓶
+1000 Weapon without correction 
+1100 Throwing Knives 
+1200 Fire bottle 
 1300 TestData1
 1400 TestData2
 1500 TestData3
@@ -10,30 +10,30 @@
 1900 TestData7
 2000 TestData8
 2100 TestData9
-91000 [Load Check] memory Check 1 -- 【負荷チェック】メモリチェック１
-91100 [Load Check] memory Check 1 -- 【負荷チェック】メモリチェック１
-92000 [Load check] memory Check 2 -- 【負荷チェック】メモリチェック２
-92100 [Load check] memory Check 2 -- 【負荷チェック】メモリチェック２
-93000 [Load Check] memory Check 3 -- 【負荷チェック】メモリチェック３
-93100 [Load Check] memory Check 3 -- 【負荷チェック】メモリチェック３
-94000 [Load Check] memory check 4 -- 【負荷チェック】メモリチェック４
-94100 [Load Check] memory check 4 -- 【負荷チェック】メモリチェック４
-95000 [Load Check] memory Check 5 -- 【負荷チェック】メモリチェック５
-95100 [Load Check] memory Check 5 -- 【負荷チェック】メモリチェック５
-96000 [Load Check] memory Check 6 -- 【負荷チェック】メモリチェック６
-96100 [Load Check] memory Check 6 -- 【負荷チェック】メモリチェック６
-98000 [Load Check] Quiver 1 -- 【負荷チェック】矢筒１
-98100 [Load Check] Quiver 2 -- 【負荷チェック】矢筒２
-98200 [Load Check] Quiver 3 -- 【負荷チェック】矢筒３
-98300 [Load Check] Quiver 4 -- 【負荷チェック】矢筒４
-98400 [Load Check] Quiver 5 -- 【負荷チェック】矢筒５
-98500 [Load Check] Quiver 6 -- 【負荷チェック】矢筒６
-98600 [Load check] bolt cylinder 1 -- 【負荷チェック】ボルト筒１
-98700 [Load check] bolt cylinder 2 -- 【負荷チェック】ボルト筒２
-98800 [Load check] bolt cylinder 3 -- 【負荷チェック】ボルト筒３
-98900 [Load check] bolt cylinder 4 -- 【負荷チェック】ボルト筒４
-99000 [Load check] bolt cylinder 5 -- 【負荷チェック】ボルト筒５
-99100 [Load check] bolt cylinder 6 -- 【負荷チェック】ボルト筒６
+91000 (Load Check) memory Check 1 
+91100 (Load Check) memory Check 1 
+92000 (Load check) memory Check 2 
+92100 (Load check) memory Check 2 
+93000 (Load Check) memory Check 3 
+93100 (Load Check) memory Check 3 
+94000 (Load Check) memory check 4 
+94100 (Load Check) memory check 4 
+95000 (Load Check) memory Check 5 
+95100 (Load Check) memory Check 5 
+96000 (Load Check) memory Check 6 
+96100 (Load Check) memory Check 6 
+98000 (Load Check) Quiver 1 
+98100 (Load Check) Quiver 2 
+98200 (Load Check) Quiver 3 
+98300 (Load Check) Quiver 4 
+98400 (Load Check) Quiver 5 
+98500 (Load Check) Quiver 6 
+98600 (Load check) bolt cylinder 1 
+98700 (Load check) bolt cylinder 2 
+98800 (Load check) bolt cylinder 3 
+98900 (Load check) bolt cylinder 4 
+99000 (Load check) bolt cylinder 5 
+99100 (Load check) bolt cylinder 6 
 110000 Fists
 400000 Standard Arrow
 400100 Fire Arrow
@@ -2508,8 +2508,8 @@
 22141500 Hollow Stone Greatshield
 23000000 Torch
 23010000 Follower Torch
-63990000 [Debug] Arrow
-67000000 [Debug] Bolt
-90040000 [Debug] Daggers
-90050000 [Debug] Twinswords
-90060000 [Debug] Shield
+63990000 (Debug) Arrow
+67000000 (Debug) Bolt
+90040000 (Debug) Daggers
+90050000 (Debug) Twinswords
+90060000 (Debug) Shield

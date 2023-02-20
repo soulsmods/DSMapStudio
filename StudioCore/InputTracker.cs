@@ -54,6 +54,13 @@ namespace StudioCore
             return _newKeysThisFrame.Contains(key);
         }
 
+        public static bool GetKey_IgnoreModifier(KeyBind key)
+        {
+            if (!GetKey(key.PrimaryKey))
+                return false;
+            return true;
+        }
+
         public static bool GetKey(KeyBind key)
         {
             if (!GetKey(key.PrimaryKey))
@@ -63,6 +70,13 @@ namespace StudioCore
             if (key.Alt_Pressed != (GetKey(Key.AltLeft) || GetKey(Key.AltRight)))
                 return false;
             if (key.Shift_Pressed != (GetKey(Key.ShiftLeft) || GetKey(Key.ShiftRight)))
+                return false;
+            return true;
+        }
+
+        public static bool GetKeyDown_IgnoreModifier(KeyBind key)
+        {
+            if (!GetKeyDown(key.PrimaryKey))
                 return false;
             return true;
         }
