@@ -781,24 +781,30 @@ namespace SoulsFormats
                 public int ActivateGoodsID { get; set; }
 
                 /// <summary>
-                /// Unknown; possibly a sound ID.
+                /// Ceremony Param ID to use.
                 /// </summary>
-                public int UnkT0C { get; set; }
+                [MSBParamReference(ParamName = "Ceremony")]
+                public int CeremonyParamID { get; set; }
 
                 /// <summary>
-                /// Unknown; possibly a map event ID.
+                /// Region player will spawn at in pseudo world.
                 /// </summary>
-                public int UnkT10 { get; set; }
-
-                /// <summary>
-                /// Unknown; possibly flags.
-                /// </summary>
-                public int UnkT14 { get; set; }
+                public int SpawnRegionEntityID { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int UnkT18 { get; set; }
+                public byte UnkT14 { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public byte UnkT15 { get; set; }
+
+                /// <summary>
+                /// ID of FMG entry to display when joining pseudo world.
+                /// </summary>
+                public int ActivatedTextID { get; set; }
 
                 /// <summary>
                 /// Creates a new PseudoMultiplayer with the given name.
@@ -808,8 +814,8 @@ namespace SoulsFormats
                     HostEntityID = -1;
                     EventFlagID = -1;
                     ActivateGoodsID = -1;
-                    UnkT0C = -1;
-                    UnkT10 = -1;
+                    CeremonyParamID = -1;
+                    SpawnRegionEntityID = -1;
                 }
 
                 internal PseudoMultiplayer(BinaryReaderEx br) : base(br) { }
@@ -819,10 +825,13 @@ namespace SoulsFormats
                     HostEntityID = br.ReadInt32();
                     EventFlagID = br.ReadInt32();
                     ActivateGoodsID = br.ReadInt32();
-                    UnkT0C = br.ReadInt32();
-                    UnkT10 = br.ReadInt32();
-                    UnkT14 = br.ReadInt32();
-                    UnkT18 = br.ReadInt32();
+                    CeremonyParamID = br.ReadInt32();
+                    SpawnRegionEntityID = br.ReadInt32();
+                    UnkT14 = br.ReadByte();
+                    UnkT15 = br.ReadByte();
+                    br.ReadByte(); // Not an assert to prevent making old modded maps inaccessible.
+                    br.ReadByte(); // Not an assert to prevent making old modded maps inaccessible.
+                    ActivatedTextID = br.ReadInt32();
                     br.AssertInt32(0);
                 }
 
@@ -831,10 +840,13 @@ namespace SoulsFormats
                     bw.WriteInt32(HostEntityID);
                     bw.WriteInt32(EventFlagID);
                     bw.WriteInt32(ActivateGoodsID);
-                    bw.WriteInt32(UnkT0C);
-                    bw.WriteInt32(UnkT10);
-                    bw.WriteInt32(UnkT14);
-                    bw.WriteInt32(UnkT18);
+                    bw.WriteInt32(CeremonyParamID);
+                    bw.WriteInt32(SpawnRegionEntityID);
+                    bw.WriteByte(UnkT14);
+                    bw.WriteByte(UnkT15);
+                    bw.WriteByte(0);
+                    bw.WriteByte(0);
+                    bw.WriteInt32(ActivatedTextID);
                     bw.WriteInt32(0);
                 }
             }
