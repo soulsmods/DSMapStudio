@@ -925,7 +925,7 @@ namespace StudioCore.ParamEditor
                 {
                     EditorCommandQueue.AddCommand($@"param/back");
                 }
-                if (!ImGui.IsAnyItemActive() && _activeView._selection.paramSelectionExists() && InputTracker.GetKeyDown(KeyBindings.Current.Param_SelectAll))
+                if (!ImGui.IsAnyItemActive() && _activeView._selection.activeParamExists() && InputTracker.GetKeyDown(KeyBindings.Current.Param_SelectAll))
                 {
                     ParamBank.ClipboardParam = _activeView._selection.getActiveParam();
                     foreach (Param.Row row in CacheBank.GetCached(this, (_activeView._viewIndex, _activeView._selection.getActiveParam()), () =>RowSearchEngine.rse.Search((ParamBank.PrimaryBank, ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()]), _activeView._selection.getCurrentRowSearchString(), true, true)))
