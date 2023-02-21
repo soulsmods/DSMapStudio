@@ -763,7 +763,7 @@ namespace SoulsFormats
             public class PseudoMultiplayer : Event
             {
                 /// <summary>
-                /// What character type the player will use in the pseudo world.
+                /// Determines character type (and possibly success conditions) the player will use in pseudo world.
                 /// </summary>
                 public enum PlayerPseudoChrType : byte
                 {
@@ -772,7 +772,6 @@ namespace SoulsFormats
                     RedPhantom = 1
                     #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
                 }
-
 
                 private protected override EventType Type => EventType.PseudoMultiplayer;
 
@@ -809,7 +808,7 @@ namespace SoulsFormats
                 public PlayerPseudoChrType PlayerChrType { get; set; }
 
                 /// <summary>
-                /// Determines which set of FMG entry 
+                /// Determines which set of FMG entries to use in pseudo world.
                 /// </summary>
                 public byte MessageSetType { get; set; }
 
