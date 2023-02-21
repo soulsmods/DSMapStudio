@@ -765,11 +765,24 @@ namespace SoulsFormats
                 /// <summary>
                 /// Determines character type (which determines victory conditions) the player will use in pseudo world.
                 /// </summary>
-                public enum PlayerPseudoChrType : byte
+                public enum PseudoPlayerChrType : byte
                 {
                     #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
                     WhitePhantom = 0,
                     RedPhantom = 1
+                    #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
+                }
+                /// <summary>
+                /// Determines which set of FMG entries to use in pseudo world for arrival/failure/success messages.
+                /// </summary>
+                public enum PseudoMessageSetType : byte
+                {
+                    #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+                    Default = 0,
+                    Sirris_Creighton = 1,
+                    Sirris_Hodrick = 2,
+                    Leonhard = 3,
+                    Anri = 4
                     #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
                 }
 
@@ -805,12 +818,12 @@ namespace SoulsFormats
                 /// <summary>
                 /// Player type to use while in pseudo world. 
                 /// </summary>
-                public PlayerPseudoChrType PlayerChrType { get; set; }
+                public PseudoPlayerChrType PlayerChrType { get; set; }
 
                 /// <summary>
                 /// Determines which set of FMG entries to use in pseudo world.
                 /// </summary>
-                public byte MessageSetType { get; set; }
+                public PseudoMessageSetType MessageSetType { get; set; }
 
                 /// <summary>
                 /// ID of FMG entry to display when trying to join pseudo world.
@@ -838,8 +851,8 @@ namespace SoulsFormats
                     ActivateGoodsID = br.ReadInt32();
                     CeremonyParamID = br.ReadInt32();
                     SpawnRegionEntityID = br.ReadInt32();
-                    PlayerChrType = br.ReadEnum8<PlayerPseudoChrType>();
-                    MessageSetType = br.ReadByte();
+                    PlayerChrType = br.ReadEnum8<PseudoPlayerChrType>();
+                    MessageSetType = br.ReadEnum8<PseudoMessageSetType>();
                     br.ReadByte(); // Not an assert to prevent making old modded maps inaccessible.
                     br.ReadByte(); // Not an assert to prevent making old modded maps inaccessible.
                     JoinMessageTextID = br.ReadInt32();
@@ -854,7 +867,7 @@ namespace SoulsFormats
                     bw.WriteInt32(CeremonyParamID);
                     bw.WriteInt32(SpawnRegionEntityID);
                     bw.WriteByte((byte)PlayerChrType);
-                    bw.WriteByte(MessageSetType);
+                    bw.WriteByte((byte)MessageSetType);
                     bw.WriteByte(0);
                     bw.WriteByte(0);
                     bw.WriteInt32(JoinMessageTextID);
