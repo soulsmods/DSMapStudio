@@ -763,7 +763,7 @@ namespace SoulsFormats
             public class PseudoMultiplayer : Event
             {
                 /// <summary>
-                /// Determines character type (and possibly success conditions) the player will use in pseudo world.
+                /// Determines character type (which determines victory conditions) the player will use in pseudo world.
                 /// </summary>
                 public enum PlayerPseudoChrType : byte
                 {
