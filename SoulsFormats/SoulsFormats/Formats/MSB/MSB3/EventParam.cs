@@ -762,6 +762,18 @@ namespace SoulsFormats
             /// </summary>
             public class PseudoMultiplayer : Event
             {
+                /// <summary>
+                /// What character type the player will use in the pseudo world.
+                /// </summary>
+                public enum PlayerPseudoChrType : byte
+                {
+                    #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+                    WhitePhantom = 0,
+                    RedPhantom = 1
+                    #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
+                }
+
+
                 private protected override EventType Type => EventType.PseudoMultiplayer;
 
                 /// <summary>
@@ -771,7 +783,7 @@ namespace SoulsFormats
                 public int HostEntityID { get; set; }
 
                 /// <summary>
-                /// Set when inside the event's region, unset when outside it.
+                /// Event flag set while the player is within a pseudo world. Unset when the player leaves.
                 /// </summary>
                 public int EventFlagID { get; set; }
 
@@ -792,19 +804,19 @@ namespace SoulsFormats
                 public int SpawnRegionEntityID { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// Player type to use while in pseudo world. 
                 /// </summary>
-                public byte UnkT14 { get; set; }
+                public PlayerPseudoChrType PlayerChrType { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// Determines which set of FMG entry 
                 /// </summary>
-                public byte UnkT15 { get; set; }
+                public byte MessageSetType { get; set; }
 
                 /// <summary>
-                /// ID of FMG entry to display when joining pseudo world.
+                /// ID of FMG entry to display when trying to join pseudo world.
                 /// </summary>
-                public int ActivatedTextID { get; set; }
+                public int JoinMessageTextID { get; set; }
 
                 /// <summary>
                 /// Creates a new PseudoMultiplayer with the given name.
@@ -827,11 +839,11 @@ namespace SoulsFormats
                     ActivateGoodsID = br.ReadInt32();
                     CeremonyParamID = br.ReadInt32();
                     SpawnRegionEntityID = br.ReadInt32();
-                    UnkT14 = br.ReadByte();
-                    UnkT15 = br.ReadByte();
+                    PlayerChrType = br.ReadEnum8<PlayerPseudoChrType>();
+                    MessageSetType = br.ReadByte();
                     br.ReadByte(); // Not an assert to prevent making old modded maps inaccessible.
                     br.ReadByte(); // Not an assert to prevent making old modded maps inaccessible.
-                    ActivatedTextID = br.ReadInt32();
+                    JoinMessageTextID = br.ReadInt32();
                     br.AssertInt32(0);
                 }
 
@@ -842,11 +854,11 @@ namespace SoulsFormats
                     bw.WriteInt32(ActivateGoodsID);
                     bw.WriteInt32(CeremonyParamID);
                     bw.WriteInt32(SpawnRegionEntityID);
-                    bw.WriteByte(UnkT14);
-                    bw.WriteByte(UnkT15);
+                    bw.WriteByte((byte)PlayerChrType);
+                    bw.WriteByte(MessageSetType);
                     bw.WriteByte(0);
                     bw.WriteByte(0);
-                    bw.WriteInt32(ActivatedTextID);
+                    bw.WriteInt32(JoinMessageTextID);
                     bw.WriteInt32(0);
                 }
             }
