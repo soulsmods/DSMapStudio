@@ -246,6 +246,10 @@ namespace StudioCore.MsbEditor
             {
                 var rot = s.GetRootTransform().EulerRotation;
 
+                // Offset the new position by the map's offset from the origin.
+                TransformNode node = (TransformNode) s.Container.RootObject.WrappedObject;
+                new_pos -= node.Position;
+
                 Transform newPos = new Transform(new_pos, rot);
 
                 actlist.Add(s.GetUpdateTransformAction(newPos));
