@@ -68,7 +68,11 @@ namespace StudioCore.ParamEditor
         
         public static string ToParamEditorString(this object val)
         {
-            return val.GetType() == typeof(byte[]) ? ParamUtils.Dummy8Write((byte[])val) : val.ToString();
+            if (val.GetType() == typeof(byte[]))
+                return Dummy8Write((byte[])val);
+            if (val.GetType() == typeof(Param.Cell))
+                return ((Param.Cell)val).Value.ToString();
+            return val.ToString();
         }
 
         public static object Get(this Param.Row row, (PseudoColumn, Param.Column) col)
