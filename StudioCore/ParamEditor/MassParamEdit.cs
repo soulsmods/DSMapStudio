@@ -32,6 +32,8 @@ namespace StudioCore.ParamEditor
     
     public class MassParamEdit
     {
+        public static Dictionary<string, string> massEditVars = new Dictionary<string, string>();
+
         internal static object PerformOperation(ParamBank bank, Param.Row row, (PseudoColumn, Param.Column) column, string op, params string[] opparam)
         {
             try
@@ -584,6 +586,10 @@ namespace StudioCore.ParamEditor
                 ParamBank.ClipboardRows.Clear();
                 return true;
             }));
+            operations.Add("set", (new string[]{"variable", "value"}, (selectionState, args) => {
+                MassParamEdit.massEditVars[args[0]] = args[1];
+                return true;
+            }));
         }
     }
     public class MERowOperation : MEOperation<(string, Param.Row), (Param, Param.Row)>
@@ -606,6 +612,25 @@ namespace StudioCore.ParamEditor
                     ParamBank.ClipboardRows.Clear();
                 }
                 ParamBank.ClipboardRows.Add(new Param.Row(row, p));
+                return (p, null);
+            }));
+            operations.Add("copyN", (new string[]{"count"}, (paramAndRow, args) => {
+                string paramKey = paramAndRow.Item1;
+                Param.Row row = paramAndRow.Item2;
+                if (paramKey == null)
+                    throw new Exception($@"Could not locate param");
+                if (!ParamBank.PrimaryBank.Params.ContainsKey(paramKey))
+                    throw new Exception($@"Could not locate param {paramKey}");
+                uint count = uint.Parse(args[0]);
+                Param p = ParamBank.PrimaryBank.Params[paramKey];
+                // Only supporting single param in clipboard
+                if (ParamBank.ClipboardParam != paramKey)
+                {
+                    ParamBank.ClipboardParam = paramKey;
+                    ParamBank.ClipboardRows.Clear();
+                }
+                for (int i=0; i<count; i++)
+                    ParamBank.ClipboardRows.Add(new Param.Row(row, p));
                 return (p, null);
             }));
             operations.Add("paste", (new string[0], (paramAndRow, args) => {
@@ -813,6 +838,10 @@ namespace StudioCore.ParamEditor
             argumentGetters.Add("fieldIndex", (new string[0], (empty) => (i, param) => (j, row) => (k, col) => {
                 return k.ToParamEditorString();
             }));
+            /*argumentGetters.Add("variable", (new string[]{"variableName"}, (name) => {
+                string val = MassParamEdit.massEditVars[name[0]];
+                return (i, param) => (j, row) => (k, cell) => val;
+            }));*/
         }
 
         public List<(string, string[])> AvailableArguments()
@@ -830,6 +859,8 @@ namespace StudioCore.ParamEditor
             Func<int, Param, Func<int, Param.Row, Func<int, (PseudoColumn, Param.Column), string>>>[] contextualArgs = new Func<int, Param, Func<int, Param.Row, Func<int, (PseudoColumn, Param.Column), string>>>[opArgs.Length];
             for (int i=0; i<opArgs.Length; i++)
             {
+                if (opArgs[i].StartsWith('$'))
+                    opArgs[i] = MassParamEdit.massEditVars[opArgs[i].Substring(1)];
                 string[] arg = opArgs[i].Split(" ", 2);
                 if (argumentGetters.ContainsKey(arg[0].Trim()))
                 {

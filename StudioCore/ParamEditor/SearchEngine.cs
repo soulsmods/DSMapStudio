@@ -105,6 +105,12 @@ namespace StudioCore.Editor
                         argC = argNames.Length;
                         args = condition.Split(" ", argC, StringSplitOptions.TrimEntries);
                     }
+                    for (int i=0; i<argC; i++)
+                    {
+                        if (args[i].StartsWith('$'))
+                            args[i] = MassParamEdit.massEditVars[args[i].Substring(1)];
+                    }
+
                     var filter = method(args, lenient);
                     Func<B, bool> criteria = filter(param);
                     List<B> newRows = new List<B>();
