@@ -17,9 +17,9 @@ namespace StudioCore.ParamEditor
             foreach (Byte b in dummy8)
             {
                 if (val == null)
-                    val = "["+b;
+                    val = "[" + b;
                 else
-                    val += "|"+b;
+                    val += "|" + b;
             }
             if (val == null)
                 val = "[]";
@@ -32,12 +32,12 @@ namespace StudioCore.ParamEditor
             Byte[] nval = new Byte[expectedLength];
             if (!(dummy8.StartsWith('[') && dummy8.EndsWith(']')))
                 return null;
-            string[] spl = dummy8.Substring(1, dummy8.Length-2).Split('|');
+            string[] spl = dummy8.Substring(1, dummy8.Length - 2).Split('|');
             if (nval.Length != spl.Length)
             {
                 return null;
             }
-            for (int i=0; i<nval.Length; i++)
+            for (int i = 0; i < nval.Length; i++)
             {
                 if (!byte.TryParse(spl[i], out nval[i]))
                     return null;
@@ -48,15 +48,16 @@ namespace StudioCore.ParamEditor
         {
             if (row.Def.ParamType != vrow.Def.ParamType || row.Def.DataVersion != vrow.Def.DataVersion)
                 return false;
-            
+
             return row.DataEquals(vrow);
         }
-        public static bool ByteArrayEquals(byte[] v1, byte[] v2) {
-            if (v1.Length!=v2.Length)
+        public static bool ByteArrayEquals(byte[] v1, byte[] v2)
+        {
+            if (v1.Length != v2.Length)
                 return false;
-            for (int i=0; i<v1.Length; i++)
+            for (int i = 0; i < v1.Length; i++)
             {
-                if (v1[i]!=v2[i])
+                if (v1[i] != v2[i])
                     return false;
             }
             return true;
@@ -65,14 +66,13 @@ namespace StudioCore.ParamEditor
         {
             return value != null && valueBase != null && !(value.Equals(valueBase) || (t == typeof(byte[]) && ParamUtils.ByteArrayEquals((byte[])value, (byte[])valueBase)));
         }
-        
+
         public static string ToParamEditorString(this object val)
         {
-            if (val.GetType() == typeof(byte[]))
-                return Dummy8Write((byte[])val);
-            if (val.GetType() == typeof(Param.Cell))
-                return ((Param.Cell)val).Value.ToString();
-            return val.ToString();
+            if (val.GetType() != typeof(Param.Cell))
+                return val.GetType() == typeof(byte[]) ? Dummy8Write((byte[])val) : val.ToString();
+            object cellValue = ((Param.Cell)val).Value;
+            return cellValue.GetType() == typeof(byte[]) ? Dummy8Write((byte[])cellValue) : cellValue.ToString();
         }
 
         public static object Get(this Param.Row row, (PseudoColumn, Param.Column) col)
@@ -89,7 +89,7 @@ namespace StudioCore.ParamEditor
 
         public static (PseudoColumn, Param.Column) GetAs(this (PseudoColumn, Param.Column) col, Param newParam)
         {
-            return (col.Item1, col.Item2 == null? null : newParam.Cells.FirstOrDefault((x) => x.Def.InternalName == col.Item2.Def.InternalName));
+            return (col.Item1, col.Item2 == null ? null : newParam.Cells.FirstOrDefault((x) => x.Def.InternalName == col.Item2.Def.InternalName));
         }
         public static bool IsColumnValid(this (PseudoColumn, Param.Column) col)
         {
