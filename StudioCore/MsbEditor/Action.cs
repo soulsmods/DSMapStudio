@@ -418,12 +418,11 @@ namespace StudioCore.MsbEditor
                             }
                         }
                         int newInstanceID = msbePart.InstanceID;
-                        do
+                        while (mapPartEntities[m].FirstOrDefault(e => ((MSBE.Part)e.WrappedObject).ModelName == msbePart.ModelName
+                            && ((MSBE.Part)e.WrappedObject).InstanceID == newInstanceID) != null)
                         {
                             newInstanceID++;
                         }
-                        while (mapPartEntities[m].FirstOrDefault(e => ((MSBE.Part)e.WrappedObject).ModelName == msbePart.ModelName
-                            && ((MSBE.Part)e.WrappedObject).InstanceID == newInstanceID) != null);
 
                         msbePart.InstanceID = newInstanceID;
                         mapPartEntities[m].Add(newobj);
