@@ -174,7 +174,7 @@ namespace StudioCore.Editor
             }));
             filterList.Add("auxparam", (new string[]{"parambank name", "param name (regex)"}, (args, lenient)=>{
                 ParamBank auxBank = ParamBank.AuxBanks[args[0]];
-                Regex rx = lenient ? new Regex(args[0], RegexOptions.IgnoreCase) : new Regex($@"^{args[1]}$");
+                Regex rx = lenient ? new Regex(args[1], RegexOptions.IgnoreCase) : new Regex($@"^{args[1]}$");
                 return noContext((param)=>param.Item1 != auxBank ? false : rx.Match(auxBank.GetKeyForParam(param.Item2) == null ? "" : auxBank.GetKeyForParam(param.Item2)).Success);
             }));
             defaultFilter = (new string[]{"param name (regex)"}, (args, lenient)=>{
