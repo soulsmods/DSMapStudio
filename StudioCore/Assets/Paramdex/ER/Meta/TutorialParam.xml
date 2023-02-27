@@ -2,9 +2,9 @@
 <PARAMMETA XmlVersion="0">
   <Enums>
     <Enum Name="TUTORIAL_MENU_TYPE" type="u8">
-        <Option Value="0" Name="Type 0" />
-        <Option Value="1" Name="Type 1" />
-        <Option Value="100" Name="Type 100" />
+        <Option Value="0" Name="Subtle (one-line)" />
+        <Option Value="1" Name="Subtle (multi-line)" />
+        <Option Value="100" Name="Intrusive (large)" />
     </Enum>
     <Enum Name="TUTORIAL_TRIGGER_TYPE" type="u8">
         <Option Value="0" Name="Type 0" />
