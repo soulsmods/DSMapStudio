@@ -34,111 +34,21 @@ namespace StudioCore.ParamEditor
     {
         public static Dictionary<string, string> massEditVars = new Dictionary<string, string>();
 
-        internal static object PerformOperation(ParamBank bank, Param.Row row, (PseudoColumn, Param.Column) column, string op, params string[] opparam)
+        internal static object WithDynamicOf(Param.Row row, (PseudoColumn, Param.Column) column, Func<dynamic, object> dynamicFunc)
         {
+            object instance = row.Get(column);
             try
             {
-                Type type = column.GetColumnType();
-
-                if (op.Equals("ref") && column.Item2 != null)
-                {
-                    if (type == typeof(int))
-                    {
-                        foreach (ParamRef pRef in FieldMetaData.Get(column.Item2.Def).RefTypes)
-                        {
-                            string reftype = pRef.param;
-                            var p = bank.Params[reftype];
-                            if (p == null)
-                                continue;
-                            foreach (var r in p.Rows)
-                            {
-                                if (r.Name == null)
-                                    continue;
-                                if (r.Name.Equals(opparam))
-                                    return r.ID;
-                            }
-                        }
-                    }
-                }
-                if (type == typeof(bool) && op.Equals("="))
-                    return bool.Parse(opparam[0]);
-                else if (type == typeof(byte[]) && column.Item2 != null && op.Equals("="))
-                    return ParamUtils.Dummy8Read(opparam[0], ((byte[])column.Item2.GetValue(row)).Length);
-                else if (type == typeof(string))
-                    return PerformStringOperation(row, column, op, opparam);
-                else if (type == typeof(long))
-                    return PerformNumericOperation<long>(row, column, op, opparam);
-                else if (type == typeof(ulong))
-                    return PerformNumericOperation<ulong>(row, column, op, opparam);
-                else if (type == typeof(int))
-                    return PerformNumericOperation<int>(row, column, op, opparam);
-                else if (type == typeof(uint))
-                    return PerformNumericOperation<uint>(row, column, op, opparam);
-                else if (type == typeof(short))
-                    return PerformNumericOperation<short>(row, column, op, opparam);
-                else if (type == typeof(ushort))
-                    return PerformNumericOperation<ushort>(row, column, op, opparam);
-                else if (type == typeof(sbyte))
-                    return PerformNumericOperation<sbyte>(row, column, op, opparam);
-                else if (type == typeof(byte))
-                    return PerformNumericOperation<byte>(row, column, op, opparam);
-                else if (type == typeof(float))
-                    return PerformNumericOperation<float>(row, column, op, opparam);
-                else if (type == typeof(double))
-                    return PerformNumericOperation<double>(row, column, op, opparam);
+                return Convert.ChangeType(dynamicFunc(instance), instance.GetType());
             }
             catch
             {
+                // Second try, handle byte[], and casts from numerical values to string which need parsing.
+                object ret = dynamicFunc(instance.ToParamEditorString());
+                if (instance.GetType() == typeof(byte[]))
+                    ret = ParamUtils.Dummy8Read((string)ret, ((byte[])instance).Length);
+                return Convert.ChangeType(ret, instance.GetType());
             }
-            return null;
-        }
-        internal static string PerformStringOperation(Param.Row row, (PseudoColumn, Param.Column) c, string op, string[] opparam)
-        {
-            try
-            {
-                string name = row.Get(c).ToString();
-                if (op.Equals("="))
-                    return opparam[0];
-                else if (op.Equals("+"))
-                    return name + opparam[0];
-                else if (op.Equals("replace"))
-                {
-                    return name.Replace(opparam[0], opparam[1]);
-                }
-            }
-            catch
-            {
-            }
-            return null;
-        }
-
-        private static T PerformNumericOperation<T>(Param.Row row, (PseudoColumn, Param.Column) c, string op, string[] opparam) where T : struct, IFormattable
-        {
-            try
-            {
-                dynamic val = row.Get(c);
-                dynamic opp = double.Parse(opparam[0]);
-                if (op.Equals("="))
-                    return (T) (opp);
-                else if (op.Equals("+"))
-                    return (T) (val + opp);
-                else if (op.Equals("-"))
-                    return (T) (val - opp);
-                else if (op.Equals("*"))
-                    return (T) (val * opp);
-                else if (op.Equals("/"))
-                    return (T) (val / opp);
-                else if (op.Equals("scale"))
-                {
-                    dynamic opp2 = double.Parse(opparam[1]);
-                    return (T) ((val - opp2) * opp + opp2);
-                }
-            }
-            catch
-            {
-                // Operation error
-            }
-            return default(T);
         }
 
         internal static void addAction(Param.Row row, (PseudoColumn, Param.Column) col, object newval, List<EditorAction> actions)
@@ -456,7 +366,7 @@ namespace StudioCore.ParamEditor
                     {
                         string v = csvs[index];
                         index++;
-                        object newval = PerformOperation(bank, row, (PseudoColumn.None, col), "=", v);
+                        object newval = WithDynamicOf(row, (PseudoColumn.None, col), (v) => v);
                         if (newval == null)
                             return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not assign {v} to field {col.Def.InternalName}");
                         addAction(row, (PseudoColumn.None, col), newval, actions);
@@ -524,7 +434,7 @@ namespace StudioCore.ParamEditor
                         {
                             return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not locate field {field}"), null);
                         }
-                        object newval = PerformOperation(bank, row, (PseudoColumn.None, col), "=", value);
+                        object newval = WithDynamicOf(row, (PseudoColumn.None, col), (v) => v);
                         if (newval == null)
                             return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not assign {value} to field {col.Def.InternalName}"), null);
                         addAction(row, (PseudoColumn.None, col), newval, actions);
@@ -662,14 +572,22 @@ namespace StudioCore.ParamEditor
         public static MECellOperation cellOps = new MECellOperation();
         internal override void Setup()
         {
-            operations.Add("=", (new string[]{"number or text"}, (ctx, args) => MassParamEdit.PerformOperation(ParamBank.PrimaryBank, ctx.Item1, ctx.Item2, "=", args)));
-            operations.Add("+", (new string[]{"number or text"}, (ctx, args) => MassParamEdit.PerformOperation(ParamBank.PrimaryBank, ctx.Item1, ctx.Item2, "+", args)));
-            operations.Add("-", (new string[]{"number"}, (ctx, args) => MassParamEdit.PerformOperation(ParamBank.PrimaryBank, ctx.Item1, ctx.Item2, "-", args)));
-            operations.Add("*", (new string[]{"number"}, (ctx, args) => MassParamEdit.PerformOperation(ParamBank.PrimaryBank, ctx.Item1, ctx.Item2, "*", args)));
-            operations.Add("/", (new string[]{"number"}, (ctx, args) => MassParamEdit.PerformOperation(ParamBank.PrimaryBank, ctx.Item1, ctx.Item2, "/", args)));
-            operations.Add("%", (new string[]{"number"}, (ctx, args) => MassParamEdit.PerformOperation(ParamBank.PrimaryBank, ctx.Item1, ctx.Item2, "%", args)));
-            operations.Add("scale", (new string[]{"factor number", "center number"}, (ctx, args) => MassParamEdit.PerformOperation(ParamBank.PrimaryBank, ctx.Item1, ctx.Item2, "scale", args)));
-            operations.Add("replace", (new string[]{"text to replace", "new text"}, (ctx, args) => MassParamEdit.PerformOperation(ParamBank.PrimaryBank, ctx.Item1, ctx.Item2, "replace", args)));
+            operations.Add("=", (new string[]{"number or text"}, (ctx, args) => MassParamEdit.WithDynamicOf(ctx.Item1, ctx.Item2, (v) => args[0])));
+            operations.Add("+", (new string[]{"number or text"}, (ctx, args) => MassParamEdit.WithDynamicOf(ctx.Item1, ctx.Item2, (v) => {
+                double val;
+                if (double.TryParse(args[0], out val))
+                    return v + val;
+                return v + args[0];
+                })));
+            operations.Add("-", (new string[]{"number"}, (ctx, args) => MassParamEdit.WithDynamicOf(ctx.Item1, ctx.Item2, (v) => v - double.Parse(args[0]))));
+            operations.Add("*", (new string[]{"number"}, (ctx, args) => MassParamEdit.WithDynamicOf(ctx.Item1, ctx.Item2, (v) => v * double.Parse(args[0]))));
+            operations.Add("/", (new string[]{"number"}, (ctx, args) => MassParamEdit.WithDynamicOf(ctx.Item1, ctx.Item2, (v) => v / double.Parse(args[0]))));
+            operations.Add("%", (new string[]{"number"}, (ctx, args) => MassParamEdit.WithDynamicOf(ctx.Item1, ctx.Item2, (v) => v % double.Parse(args[0]))));
+            operations.Add("scale", (new string[]{"factor number", "center number"}, (ctx, args) =>  MassParamEdit.WithDynamicOf(ctx.Item1, ctx.Item2, (v) => {
+                double opp2 = double.Parse(args[1]);
+                return (v - opp2) * double.Parse(args[0]) + opp2;
+            })));
+            operations.Add("replace", (new string[]{"text to replace", "new text"}, (ctx, args) => MassParamEdit.WithDynamicOf(ctx.Item1, ctx.Item2, (v) => v.Replace(args[0], args[1]))));
         }
     }
     public class MEOperationArgument
