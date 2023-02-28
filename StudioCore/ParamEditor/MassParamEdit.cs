@@ -798,6 +798,8 @@ namespace StudioCore.ParamEditor
         }
         internal Func<int, Param, Func<int, Param.Row, Func<int, (PseudoColumn, Param.Column), string>>> getContextualArgument(string opArg)
         {
+            if (opArg.StartsWith('"') && opArg.EndsWith('"'))
+                return (i, p) => (j, r) => (k, c) => opArg.Substring(1, opArg.Length-2);
             if (opArg.StartsWith('$'))
                 opArg = MassParamEdit.massEditVars[opArg.Substring(1)];
             string[] arg = opArg.Split(" ", 2);
