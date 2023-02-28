@@ -106,9 +106,9 @@ namespace StudioCore.ParamEditor
         {
             if (MEGlobalOperation.globalOps.HandlesCommand(restOfStages.Split(" ", 2)[0]))
             {
-                (string[] c, var func) = MEGlobalOperation.globalOps.operations[restOfStages.Split(" ", 2)[0]];
-                bool result = func(context, c.Length == 0 ? new string[0] : restOfStages.Split(" ", 2)[1].Split(":", c.Length));
-                return (new MassEditResult(result ? MassEditResultType.SUCCESS : MassEditResultType.OPERATIONERROR, "performing global operation "+restOfStages.Split(" ", 2)[0]), new List<EditorAction>());
+                string[] opStage = restOfStages.Split(" ", 2);
+                string op = opStage[0].Trim();
+                return PerformMassEditCommand(bank, false, null, null, null, op, opStage.Length > 1 ? opStage[1] : null, context);
             }
 
             string[] paramstage = restOfStages.Split(":", 2);
@@ -173,22 +173,37 @@ namespace StudioCore.ParamEditor
             try {
                 string[] argNames;
                 int argc;
+                Func<ParamEditorSelectionState, string[], bool> globalFunc = null;
                 Func<(string, Param.Row), string[], (Param, Param.Row)> rowFunc = null;
                 Func<(Param.Row, (PseudoColumn, Param.Column)), string[], object> cellFunc = null; 
-                if (cellSelector == null)
+
+                if (paramSelector == null)
+                {
+                    if (!MEGlobalOperation.globalOps.operations.ContainsKey(operation))
+                            return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Unknown global operation "+operation), null);
+                    (argNames, globalFunc) = MEGlobalOperation.globalOps.operations[operation];
+                }
+                else if (cellSelector == null)
                 {
                     if (!MERowOperation.rowOps.operations.ContainsKey(operation))
-                            return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Unknown operation "+operation), null);
+                            return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Unknown row operation "+operation), null);
                     (argNames, rowFunc) = MERowOperation.rowOps.operations[operation];
                 }
                 else
                 {
                     if (!MECellOperation.cellOps.operations.ContainsKey(operation))
-                            return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Unknown operation "+operation), null);
+                            return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Unknown cell operation "+operation), null);
                     (argNames, cellFunc) = MECellOperation.cellOps.operations[operation];
                 }
                 argc = argNames.Length;
                 var argFuncs = MEOperationArgument.arg.getContextualArguments(argc, opargs);
+
+                if (paramSelector == null)
+                {
+                    string[] globalArgValues = argFuncs.Select((f) => f(-1, null)(-1, null)(-1, (PseudoColumn.None, null))).ToArray();
+                    bool result = globalFunc(context, globalArgValues);
+                    return (new MassEditResult(result ? MassEditResultType.SUCCESS : MassEditResultType.OPERATIONERROR, "performing global operation "+operation), new List<EditorAction>());
+                }
                 if (isParamRowSelector)
                 {
                     Param activeParam = bank.Params[context.getActiveParam()];
@@ -777,23 +792,27 @@ namespace StudioCore.ParamEditor
             Func<int, Param, Func<int, Param.Row, Func<int, (PseudoColumn, Param.Column), string>>>[] contextualArgs = new Func<int, Param, Func<int, Param.Row, Func<int, (PseudoColumn, Param.Column), string>>>[opArgs.Length];
             for (int i=0; i<opArgs.Length; i++)
             {
-                if (opArgs[i].StartsWith('$'))
-                    opArgs[i] = MassParamEdit.massEditVars[opArgs[i].Substring(1)];
-                string[] arg = opArgs[i].Split(" ", 2);
-                if (argumentGetters.ContainsKey(arg[0].Trim()))
-                {
-                    var getter = argumentGetters[arg[0]];
-                    string[] opArgArgs = arg.Length > 1 ? arg[1].Split(" ", getter.Item1.Length) : new string[0];
-                    if (opArgArgs.Length != getter.Item1.Length)
-                        throw new Exception(@$"Contextual value {arg[0]} has wrong number of arguments. Expected {opArgArgs.Length}");
-                    contextualArgs[i] = getter.Item2(opArgArgs);
-                }
-                else
-                {
-                    contextualArgs[i] = defaultGetter.Item2(opArgs[i]);
-                }
+                contextualArgs[i] = getContextualArgument(opArgs[i]);
             }
             return contextualArgs;
+        }
+        internal Func<int, Param, Func<int, Param.Row, Func<int, (PseudoColumn, Param.Column), string>>> getContextualArgument(string opArg)
+        {
+            if (opArg.StartsWith('$'))
+                opArg = MassParamEdit.massEditVars[opArg.Substring(1)];
+            string[] arg = opArg.Split(" ", 2);
+            if (argumentGetters.ContainsKey(arg[0].Trim()))
+            {
+                var getter = argumentGetters[arg[0]];
+                string[] opArgArgs = arg.Length > 1 ? arg[1].Split(" ", getter.Item1.Length) : new string[0];
+                if (opArgArgs.Length != getter.Item1.Length)
+                    throw new Exception(@$"Contextual value {arg[0]} has wrong number of arguments. Expected {opArgArgs.Length}");
+                return getter.Item2(opArgArgs);
+            }
+            else
+            {
+                return defaultGetter.Item2(opArg);
+            }
         }
     }
 }
