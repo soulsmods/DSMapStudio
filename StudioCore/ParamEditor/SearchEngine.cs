@@ -66,14 +66,18 @@ namespace StudioCore.Editor
             return options;
         }
 
+        
+
         public List<B> Search(A param, string command, bool lenient, bool failureAllOrNone)
+        {
+            return Search(param, unpacker(param), command, lenient, failureAllOrNone);
+        }
+
+        public List<B> Search(A context, List<B> sourceSet, string command, bool lenient, bool failureAllOrNone)
         {
             //assumes unpacking doesn't fail
             string[] conditions = command.Split("&&", StringSplitOptions.TrimEntries);
-
-            List<B> liveRows = new List<B>();
-            liveRows = unpacker(param);
-            List<B> originalRows = liveRows;
+            List<B> liveSet = sourceSet;
 
             try {
                 foreach (string condition in conditions)
@@ -112,21 +116,21 @@ namespace StudioCore.Editor
                     }
 
                     var filter = method(args, lenient);
-                    Func<B, bool> criteria = filter(param);
+                    Func<B, bool> criteria = filter(context);
                     List<B> newRows = new List<B>();
-                    foreach (B row in liveRows)
+                    foreach (B row in liveSet)
                     {
                         if (not ^ criteria(row))
                             newRows.Add(row);
                     }
-                    liveRows = newRows;
+                    liveSet = newRows;
                 }
             }
             catch (Exception e)
             {
-                liveRows = failureAllOrNone ? originalRows : new List<B>();
+                liveSet = failureAllOrNone ? sourceSet : new List<B>();
             }
-            return liveRows;
+            return liveSet;
         }
     }
     
