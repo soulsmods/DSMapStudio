@@ -1,6 +1,6 @@
 m21_00_00_00 --Base
 m30_00_00_00 High Wall of Lothric / Garden
-m30_01_00_00 --Eclipsed Royal Castle 2
+m30_01_00_00 Lothric Castle
 m30_02_00_00 --Eclipsed Royal Castle 2
 m31_00_00_00 Undead Settlement
 m31_02_00_00 --Spire Town (For Bake Test)
