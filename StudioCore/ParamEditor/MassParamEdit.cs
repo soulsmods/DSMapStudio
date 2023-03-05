@@ -34,9 +34,8 @@ namespace StudioCore.ParamEditor
     {
         public static Dictionary<string, string> massEditVars = new Dictionary<string, string>();
 
-        internal static object WithDynamicOf(Param.Row row, (PseudoColumn, Param.Column) column, Func<dynamic, object> dynamicFunc)
+        internal static object WithDynamicOf(object instance, Func<dynamic, object> dynamicFunc)
         {
-            object instance = row.Get(column);
             try
             {
                 return Convert.ChangeType(dynamicFunc(instance), instance.GetType());
@@ -161,7 +160,7 @@ namespace StudioCore.ParamEditor
             string[] operationstage =  restOfStages.TrimStart().Split(" ", 2);                
             string operation = operationstage[0].Trim();
 
-            if (operation.Equals("") || !MECellOperation.cellOps.operations.ContainsKey(operation))
+            if (operation.Equals("") || !MEValueOperation.valueOps.operations.ContainsKey(operation))
                 return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find operation to perform. Add : and one of + - * / replace"), null);
             //if (operationstage.Length == 1)
             //    return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find operation arguments. Add a value, or 'field' followed by the name of a field to take the value from"), null);
@@ -175,7 +174,7 @@ namespace StudioCore.ParamEditor
                 int argc;
                 Func<ParamEditorSelectionState, string[], bool> globalFunc = null;
                 Func<(string, Param.Row), string[], (Param, Param.Row)> rowFunc = null;
-                Func<(Param.Row, (PseudoColumn, Param.Column)), string[], object> cellFunc = null; 
+                Func<object, string[], object> cellFunc = null; 
 
                 if (paramSelector == null)
                 {
@@ -191,9 +190,9 @@ namespace StudioCore.ParamEditor
                 }
                 else
                 {
-                    if (!MECellOperation.cellOps.operations.ContainsKey(operation))
+                    if (!MEValueOperation.valueOps.operations.ContainsKey(operation))
                             return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Unknown cell operation "+operation), null);
-                    (argNames, cellFunc) = MECellOperation.cellOps.operations[operation];
+                    (argNames, cellFunc) = MEValueOperation.valueOps.operations[operation];
                 }
                 argc = argNames.Length;
                 var argFuncs = MEOperationArgument.arg.getContextualArguments(argc, opargs);
@@ -231,7 +230,7 @@ namespace StudioCore.ParamEditor
                             {
                                 cellEditCount++;
                                 var cellArgValues = rowArgFunc.Select((argV, i) => argV(cellEditCount, col)).ToArray();
-                                var res = cellFunc((row, col), cellArgValues);
+                                var res = cellFunc(row.Get(col), cellArgValues);
                                 if (res == null)
                                     return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {operation} {String.Join(' ', cellArgValues)} on field {col.Item2.Def.InternalName}"), null);
                                 addAction(row, col, res, partialActions);
@@ -270,7 +269,7 @@ namespace StudioCore.ParamEditor
                                 {
                                     cellEditCount++;
                                     var cellArgValues = rowArgFunc.Select((argV, i) => argV(cellEditCount, col)).ToArray();
-                                    var res = cellFunc((row, col), cellArgValues);
+                                    var res = cellFunc(row.Get(col), cellArgValues);
                                     if (res == null && col.Item1 == PseudoColumn.ID)
                                         return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {operation} {String.Join(' ', cellArgValues)} on ID"), null);
                                     else if (res == null && col.Item1 == PseudoColumn.Name)
@@ -381,7 +380,7 @@ namespace StudioCore.ParamEditor
                     {
                         string v = csvs[index];
                         index++;
-                        object newval = WithDynamicOf(row, (PseudoColumn.None, col), (v) => v);
+                        object newval = WithDynamicOf(row.Get((PseudoColumn.None, col)), (v) => v);
                         if (newval == null)
                             return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not assign {v} to field {col.Def.InternalName}");
                         addAction(row, (PseudoColumn.None, col), newval, actions);
@@ -449,7 +448,7 @@ namespace StudioCore.ParamEditor
                         {
                             return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not locate field {field}"), null);
                         }
-                        object newval = WithDynamicOf(row, (PseudoColumn.None, col), (v) => v);
+                        object newval = WithDynamicOf(row.Get((PseudoColumn.None, col)), (v) => v);
                         if (newval == null)
                             return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not assign {value} to field {col.Def.InternalName}"), null);
                         addAction(row, (PseudoColumn.None, col), newval, actions);
@@ -582,27 +581,27 @@ namespace StudioCore.ParamEditor
             }));            
         }
     }
-    public class MECellOperation : MEOperation<(Param.Row, (PseudoColumn, Param.Column)), object>
+    public class MEValueOperation : MEOperation<object, object>
     {
-        public static MECellOperation cellOps = new MECellOperation();
+        public static MEValueOperation valueOps = new MEValueOperation();
         internal override void Setup()
         {
-            operations.Add("=", (new string[]{"number or text"}, (ctx, args) => MassParamEdit.WithDynamicOf(ctx.Item1, ctx.Item2, (v) => args[0])));
-            operations.Add("+", (new string[]{"number or text"}, (ctx, args) => MassParamEdit.WithDynamicOf(ctx.Item1, ctx.Item2, (v) => {
+            operations.Add("=", (new string[]{"number or text"}, (ctx, args) => MassParamEdit.WithDynamicOf(ctx, (v) => args[0])));
+            operations.Add("+", (new string[]{"number or text"}, (ctx, args) => MassParamEdit.WithDynamicOf(ctx, (v) => {
                 double val;
                 if (double.TryParse(args[0], out val))
                     return v + val;
                 return v + args[0];
                 })));
-            operations.Add("-", (new string[]{"number"}, (ctx, args) => MassParamEdit.WithDynamicOf(ctx.Item1, ctx.Item2, (v) => v - double.Parse(args[0]))));
-            operations.Add("*", (new string[]{"number"}, (ctx, args) => MassParamEdit.WithDynamicOf(ctx.Item1, ctx.Item2, (v) => v * double.Parse(args[0]))));
-            operations.Add("/", (new string[]{"number"}, (ctx, args) => MassParamEdit.WithDynamicOf(ctx.Item1, ctx.Item2, (v) => v / double.Parse(args[0]))));
-            operations.Add("%", (new string[]{"number"}, (ctx, args) => MassParamEdit.WithDynamicOf(ctx.Item1, ctx.Item2, (v) => v % double.Parse(args[0]))));
-            operations.Add("scale", (new string[]{"factor number", "center number"}, (ctx, args) =>  MassParamEdit.WithDynamicOf(ctx.Item1, ctx.Item2, (v) => {
+            operations.Add("-", (new string[]{"number"}, (ctx, args) => MassParamEdit.WithDynamicOf(ctx, (v) => v - double.Parse(args[0]))));
+            operations.Add("*", (new string[]{"number"}, (ctx, args) => MassParamEdit.WithDynamicOf(ctx, (v) => v * double.Parse(args[0]))));
+            operations.Add("/", (new string[]{"number"}, (ctx, args) => MassParamEdit.WithDynamicOf(ctx, (v) => v / double.Parse(args[0]))));
+            operations.Add("%", (new string[]{"number"}, (ctx, args) => MassParamEdit.WithDynamicOf(ctx, (v) => v % double.Parse(args[0]))));
+            operations.Add("scale", (new string[]{"factor number", "center number"}, (ctx, args) =>  MassParamEdit.WithDynamicOf(ctx, (v) => {
                 double opp2 = double.Parse(args[1]);
                 return (v - opp2) * double.Parse(args[0]) + opp2;
             })));
-            operations.Add("replace", (new string[]{"text to replace", "new text"}, (ctx, args) => MassParamEdit.WithDynamicOf(ctx.Item1, ctx.Item2, (v) => v.Replace(args[0], args[1]))));
+            operations.Add("replace", (new string[]{"text to replace", "new text"}, (ctx, args) => MassParamEdit.WithDynamicOf(ctx, (v) => v.Replace(args[0], args[1]))));
         }
     }
     public class MEOperationArgument

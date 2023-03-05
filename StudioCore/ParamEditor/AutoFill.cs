@@ -101,7 +101,7 @@ namespace StudioCore.ParamEditor
         static AutoFillSearchEngine<(ParamBank, Param), Param.Row> autoFillRse = new ("rse", RowSearchEngine.rse);
         static AutoFillSearchEngine<(string, Param.Row), (PseudoColumn, Param.Column)> autoFillCse = new ("cse", CellSearchEngine.cse);
         private static string[] _autoFillArgsRop = Enumerable.Repeat("", MERowOperation.rowOps.AvailableCommands().Sum((x) => x.Item2.Length)).ToArray();
-        private static string[] _autoFillArgsCop = Enumerable.Repeat("", MECellOperation.cellOps.AvailableCommands().Sum((x) => x.Item2.Length)).ToArray();
+        private static string[] _autoFillArgsCop = Enumerable.Repeat("", MEValueOperation.valueOps.AvailableCommands().Sum((x) => x.Item2.Length)).ToArray();
         private static string[] _autoFillArgsOa = Enumerable.Repeat("", MEOperationArgument.arg.AvailableArguments().Sum((x) => x.Item2.Length)).ToArray();
         
         public static string ParamSearchBarAutoFill()
@@ -158,7 +158,7 @@ namespace StudioCore.ParamEditor
                     string res1 = autoFillCse.Menu(true, ": ", () => 
                     {
                         ImGui.TextUnformatted("Select field operation...");
-                        return MassEditAutoFillForOperation(MECellOperation.cellOps, ref _autoFillArgsCop, ";", null);
+                        return MassEditAutoFillForOperation(MEValueOperation.valueOps, ref _autoFillArgsCop, ";", null);
                     });
                     ImGui.Separator();
                     ImGui.TextUnformatted("Select row operation...");
@@ -178,7 +178,7 @@ namespace StudioCore.ParamEditor
                         string res1 = autoFillCse.Menu(true, ": ", () => 
                         {
                             ImGui.TextUnformatted("Select field operation...");
-                            return MassEditAutoFillForOperation(MECellOperation.cellOps, ref _autoFillArgsCop, ";", null);
+                            return MassEditAutoFillForOperation(MEValueOperation.valueOps, ref _autoFillArgsCop, ";", null);
                         });
                         ImGui.Separator();
                         ImGui.TextUnformatted("Select row operation...");
