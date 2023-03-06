@@ -87,8 +87,15 @@ namespace StudioCore.ParamEditor
                     string command = cmd;
                     if (command.EndsWith(';'))
                         command = command.Substring(0, command.Length-1);
-
-                    (var result, var actions) = PerformMassEditCommandParamStep(bank, command, context);
+                    (MassEditResult result, List<EditorAction> actions) = (null, null);
+                    if (MEGlobalOperation.globalOps.HandlesCommand(command.Split(" ", 2)[0]))
+                    {
+                        string[] opStage = command.Split(" ", 2);
+                        string op = opStage[0].Trim();
+                        (result, actions) = PerformMassEditCommand(bank, false, null, null, null, op, opStage.Length > 1 ? opStage[1] : null, context);
+                    }
+                    else 
+                        (result, actions) = PerformMassEditCommandParamStep(bank, command, context);
                     if (result.Type != MassEditResultType.SUCCESS)
                         return (result, null);
                     changeCount += actions.Count;
@@ -103,13 +110,6 @@ namespace StudioCore.ParamEditor
         }
         private static (MassEditResult, List<EditorAction>) PerformMassEditCommandParamStep(ParamBank bank, string restOfStages, ParamEditorSelectionState context)
         {
-            if (MEGlobalOperation.globalOps.HandlesCommand(restOfStages.Split(" ", 2)[0]))
-            {
-                string[] opStage = restOfStages.Split(" ", 2);
-                string op = opStage[0].Trim();
-                return PerformMassEditCommand(bank, false, null, null, null, op, opStage.Length > 1 ? opStage[1] : null, context);
-            }
-
             string[] paramstage = restOfStages.Split(":", 2);
             string paramSelector = paramstage[0].Trim();
             if (paramSelector.Equals(""))
