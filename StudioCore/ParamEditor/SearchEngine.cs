@@ -443,4 +443,24 @@ namespace StudioCore.Editor
             }));
         }
     }
+
+    
+
+    class VarSearchEngine : SearchEngine<bool, string>
+    {
+        public static VarSearchEngine cse = new VarSearchEngine();
+        internal override void Setup()
+        {
+            unpacker = (dummy) => {
+                return MassParamEdit.massEditVars.Keys.ToList();
+            };
+            filterList.Add("vars", (new string[]{"variable names (regex)"}, (args, lenient) => {
+                if (args[0].StartsWith('$'))
+                    args[0] = args[0].Substring(1);
+                Regex rx = lenient ? new Regex(args[0], RegexOptions.IgnoreCase) : new Regex($@"^{args[0]}$");
+                return noContext((name) => rx.IsMatch(name));
+            }));
+            
+        }
+    }
 }
