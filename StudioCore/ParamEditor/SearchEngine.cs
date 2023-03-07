@@ -448,7 +448,7 @@ namespace StudioCore.Editor
 
     class VarSearchEngine : SearchEngine<bool, string>
     {
-        public static VarSearchEngine cse = new VarSearchEngine();
+        public static VarSearchEngine vse = new VarSearchEngine();
         internal override void Setup()
         {
             unpacker = (dummy) => {
