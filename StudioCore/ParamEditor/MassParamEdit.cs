@@ -223,9 +223,7 @@ namespace StudioCore.ParamEditor
 
                 if (paramSelector == null)
                 {
-                    string[] globalArgValues = argFuncs.Select((f) => f(-1, null)(-1, null)(-1, (PseudoColumn.None, null))).ToArray();
-                    bool result = globalFunc(context, globalArgValues);
-                    return (new MassEditResult(result ? MassEditResultType.SUCCESS : MassEditResultType.OPERATIONERROR, "performing global operation "+operation), new List<EditorAction>());
+                    return (ExecGlobalOp(argFuncs, globalFunc, context, operation), new List<EditorAction>());
                 }
                 if (isParamRowSelector)
                 {
@@ -241,6 +239,14 @@ namespace StudioCore.ParamEditor
                 return (new MassEditResult(MassEditResultType.OPERATIONERROR, e.ToString()), null);
             }
             return (new MassEditResult(MassEditResultType.SUCCESS, $@"{partialActions.Count} cells affected"), partialActions);
+        }
+        private static MassEditResult ExecGlobalOp(Func<int, Param, Func<int, Param.Row, Func<int, (PseudoColumn, Param.Column), string>>>[] argFuncs, Func<ParamEditorSelectionState, string[], bool> globalFunc, ParamEditorSelectionState context, string operation)
+        {
+            string[] globalArgValues = argFuncs.Select((f) => f(-1, null)(-1, null)(-1, (PseudoColumn.None, null))).ToArray();
+            bool result = globalFunc(context, globalArgValues);
+            if (!result)
+                return new MassEditResult(MassEditResultType.OPERATIONERROR, "performing global operation "+operation);
+            return new MassEditResult(MassEditResultType.SUCCESS, "");
         }
         private static MassEditResult ExecParamRowStage(Func<int, Param, Func<int, Param.Row, Func<int, (PseudoColumn, Param.Column), string>>>[] argFuncs, Func<(string, Param.Row), string[], (Param, Param.Row)> rowFunc, Func<object, string[], object> cellFunc, int argc, ParamBank bank, ParamEditorSelectionState context, string paramSelector, string cellSelector, string operation, List<EditorAction> partialActions)
         {
