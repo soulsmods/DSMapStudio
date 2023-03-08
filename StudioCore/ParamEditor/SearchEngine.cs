@@ -441,6 +441,10 @@ namespace StudioCore.Editor
                         return ParamUtils.IsValueDiff(ref valA, ref valB, col.GetColumnType());
                     };
             }));
+            filterList.Add("sftype", (new string[]{"paramdef type"}, (args, lenient) => {
+                Regex r = new Regex('^'+args[0]+'$', lenient ? RegexOptions.IgnoreCase : RegexOptions.None); //Leniency rules break from the norm
+                return (row) => (col) => r.IsMatch(col.GetColumnSfType());
+            }));
         }
     }
 

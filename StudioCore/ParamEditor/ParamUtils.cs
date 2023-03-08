@@ -100,6 +100,15 @@ namespace StudioCore.ParamEditor
             else
                 return col.Item2.ValueType;
         }
+        public static string GetColumnSfType(this (PseudoColumn, Param.Column) col)
+        {
+            if (col.Item1 == PseudoColumn.ID)
+                return "_int";
+            else if (col.Item1 == PseudoColumn.Name)
+                return "_string";
+            else
+                return col.Item2.Def.InternalType;
+        }
     }
 
     public enum PseudoColumn
