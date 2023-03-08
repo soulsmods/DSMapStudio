@@ -256,6 +256,16 @@
 4101 Sanguine Noble
 4201 Golden Leaves Weather (Bonus Runes)
 5250 Enemy: Golden Eyes (Bonus Runes)
+5255 Enemy: Golden Eyes Failed (No Reroll)
+5269 Enemy: Golden Eyes Chance (Guaranteed)
+5268 Enemy: Golden Eyes Chance (50%)
+5267 Enemy: Golden Eyes Chance (30%)
+5266 Enemy: Golden Eyes Chance (10%)
+5265 Enemy: Golden Eyes Chance (5%)
+5264 Enemy: Golden Eyes Chance (3%)
+5263 Enemy: Golden Eyes Chance (2%)
+5262 Enemy: Golden Eyes Chance (1%)
+5261 Enemy: Golden Eyes Chance (0.5%)
 5300 No Stag
 5301 NPC: Damage Level Override
 5302 NPC: Damage Level Override
@@ -308,6 +318,8 @@
 5601 NPC: Faster Stamina Recovery
 5836 Undead Enemy
 5837 Undead Enemy
+6000 Enemy - Pushed by Rolls
+6020 Enemy - Ignores Roll Push
 6350 Toughness 1 (Small/Min)
 6351 Toughness 2 (Medium/Push)
 6352 Toughness 3 (Large)
@@ -372,7 +384,14 @@
 6805 Blight - Type 1 - Special 6
 6845 Black Knife - Bullet
 6850 Destined Death - (DoT Main)
-6930 Crystal Dart
+6910 Enemy - Crystal Dart Confusion
+6915 Enemy - Crystal Dart Confusion - Visual
+6920 Enemy - Crystal Dart Confusion - Border A
+6921 Enemy - Crystal Dart Confusion - Border B
+6922 Enemy - Crystal Dart Confusion - Border C
+6930 Enemy - Crystal Dart Confusion - Point A
+6931 Enemy - Crystal Dart Confusion - Point B
+6932 Enemy - Crystal Dart Confusion - Point C
 7000 Area Scaling - Tier 1 (Tutorial Tunnel)
 7010 Area Scaling - Tier 2 (Limgrave Exploration)
 7020 Area Scaling - Tier 3 (South Limgrave Exploration)

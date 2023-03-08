@@ -7,7 +7,7 @@
     </Enum>
   </Enums>
   <Field>
-    <AssetId AltName="Asset ID" Wiki="Specify the asset ID to generate. AEG999_999-> 999999" />
+    <AssetId AltName="Asset ID" Wiki="Specify the asset ID to generate. AEG999_999-> 999999" Refs="AssetEnvironmentGeometryParam" />
     <SlotNo AltName="Slot Number" Wiki="This is the number for generation control. Only one asset can be generated in the same slot. You can control whether you want to generate duplicates or not." />
     <CreateConditionType AltName="Create Condition Type" Wiki="The type of condition of occurrence" Enum="WEATHER_ASSET_CREATE_CONDITION_TYPE" />
     <padding0 AltName=""/>
