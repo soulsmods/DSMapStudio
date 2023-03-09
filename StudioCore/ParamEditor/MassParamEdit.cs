@@ -99,6 +99,10 @@ namespace StudioCore.ParamEditor
                     {
                         (result, actions) = currentEditData.ParseVarStep(bank, command, context);
                     }
+                    else if (ParamAndRowSearchEngine.parse.HandlesCommand(command.Split(" ", 2)[0]))
+                    {
+                        (result, actions) = currentEditData.ParseParamRowStep(bank, command, context);
+                    }
                     else
                     {
                         (result, actions) = currentEditData.ParseParamStep(bank, command, context);
@@ -153,13 +157,20 @@ namespace StudioCore.ParamEditor
             // TODO: add var selector to big command, implement usage
             return PerformMassEditCommand(bank, false, varOperation, operationstage.Length > 1 ? operationstage[1] : null, context);
         }
+        private (MassEditResult, List<EditorAction>) ParseParamRowStep(ParamBank bank, string restOfStages, ParamEditorSelectionState context)
+        {
+            string[] paramrowstage = restOfStages.Split(":", 2);
+            paramRowSelector = paramrowstage[0].Trim();
+            if (paramRowSelector.Equals(""))
+                return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find paramrow filter. Add : and one of "+String.Join(", ", ParamAndRowSearchEngine.parse.AvailableCommandsForHelpText())), null);
+            return ParseCellStep(bank, true, paramrowstage[1], context);
+        }
         private (MassEditResult, List<EditorAction>) ParseParamStep(ParamBank bank, string restOfStages, ParamEditorSelectionState context)
         {
-            // TODO: split into distinct paramstep and paramrowstep
             string[] paramstage = restOfStages.Split(":", 2);
             paramSelector = paramstage[0].Trim();
             if (paramSelector.Equals(""))
-                return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find param filter. Add : and one of "+String.Join(", ", ParamSearchEngine.pse.AvailableCommandsForHelpText())+" or "+String.Join(", ", ParamAndRowSearchEngine.parse.AvailableCommandsForHelpText())), null);
+                return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find param filter. Add : and one of "+String.Join(", ", ParamSearchEngine.pse.AvailableCommandsForHelpText())), null);
             if (!ParamAndRowSearchEngine.parse.HandlesCommand(paramSelector))
             {
                 return ParseRowStep(bank, paramstage[1], context);
@@ -249,7 +260,7 @@ namespace StudioCore.ParamEditor
                 }
                 if (isParamRowSelector)
                 {
-                    return (ExecParamRowStage(argFuncs, rowFunc, cellFunc, argc, bank, context, paramSelector, cellSelector, operation, partialActions), partialActions);
+                    return (ExecParamRowStage(argFuncs, rowFunc, cellFunc, argc, bank, context, paramRowSelector, cellSelector, operation, partialActions), partialActions);
                 }
                 else
                 {
