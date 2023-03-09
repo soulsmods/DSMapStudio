@@ -780,8 +780,14 @@ namespace StudioCore.ParamEditor
                 {
                     if (options.loadDefaultNames)
                     {
-                        new Editor.ActionManager().ExecuteAction(PrimaryBank.LoadParamDefaultNames());
-                        PrimaryBank.SaveParams(settings.UseLooseParams);
+                        try
+                        {
+                            new Editor.ActionManager().ExecuteAction(PrimaryBank.LoadParamDefaultNames());
+                            PrimaryBank.SaveParams(settings.UseLooseParams);
+                        }
+                        catch
+                        {
+                        }
                     }
                 }
             });
