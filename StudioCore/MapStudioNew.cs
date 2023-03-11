@@ -768,9 +768,10 @@ namespace StudioCore
                     if (ImGui.BeginMenu("Recent Projects", Editor.TaskManager.GetLiveThreads().Count == 0 && CFG.Current.RecentProjects.Count > 0))
                     {
                         CFG.RecentProject recent = null;
-                        foreach (var p in CFG.Current.RecentProjects)
+                        int id = 0;
+                        foreach (var p in CFG.Current.RecentProjects.ToArray())
                         {
-                            if (ImGui.MenuItem($@"{p.GameType.ToString()}:{p.Name}"))
+                            if (ImGui.MenuItem($@"{p.GameType}: {p.Name}##{id}"))
                             {
                                 if (File.Exists(p.ProjectFile))
                                 {
@@ -781,6 +782,16 @@ namespace StudioCore
                                     }
                                 }
                             }
+                            if (ImGui.BeginPopupContextItem())
+                            {
+                                if (ImGui.Selectable("Remove from list"))
+                                {
+                                    CFG.Current.RecentProjects.Remove(p);
+                                    CFG.Save();
+                                }
+                                ImGui.EndPopup();
+                            }
+                            id++;
                         }
                         if (recent != null)
                         {
