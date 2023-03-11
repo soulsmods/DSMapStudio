@@ -90,22 +90,24 @@ namespace StudioCore.ParamEditor
                     (MassEditResult result, List<EditorAction> actions) = (null, null);
 
                     MassParamEditRegex currentEditData = new MassParamEditRegex();
+                    currentEditData.bank = bank;
+                    currentEditData.context = context;
 
                     if (MEGlobalOperation.globalOps.HandlesCommand(command.Split(" ", 2)[0]))
                     {
-                        (result, actions) = currentEditData.ParseGlobalOpStep(bank, command, context);
+                        (result, actions) = currentEditData.ParseGlobalOpStep(command);
                     }
                     else if (VarSearchEngine.vse.HandlesCommand(command.Split(" ", 2)[0]))
                     {
-                        (result, actions) = currentEditData.ParseVarStep(bank, command, context);
+                        (result, actions) = currentEditData.ParseVarStep(command);
                     }
                     else if (ParamAndRowSearchEngine.parse.HandlesCommand(command.Split(" ", 2)[0]))
                     {
-                        (result, actions) = currentEditData.ParseParamRowStep(bank, command, context);
+                        (result, actions) = currentEditData.ParseParamRowStep(command);
                     }
                     else
                     {
-                        (result, actions) = currentEditData.ParseParamStep(bank, command, context);
+                        (result, actions) = currentEditData.ParseParamStep(command);
                     }
                     if (result.Type != MassEditResultType.SUCCESS)
                         return (result, null);
@@ -120,6 +122,11 @@ namespace StudioCore.ParamEditor
             }
         }
 
+        // Do we want these variables? shouldn't they be contained?
+        ParamBank bank;
+        ParamEditorSelectionState context;
+
+        // Parsing data
         string varSelector = null;
 
         string paramSelector = null;
@@ -132,22 +139,31 @@ namespace StudioCore.ParamEditor
         string cellOperation = null;
         string varOperation = null;
 
-        private (MassEditResult, List<EditorAction>) ParseGlobalOpStep(ParamBank bank, string restOfStages, ParamEditorSelectionState context)
+        // Run data        
+        string[] argNames;
+        int argc;
+        Func<int, Param, Func<int, Param.Row, Func<int, (PseudoColumn, Param.Column), string>>>[] paramArgFuncs;
+        
+        Func<ParamEditorSelectionState, string[], bool> globalFunc = null;
+        Func<(string, Param.Row), string[], (Param, Param.Row)> rowFunc = null;
+        Func<object, string[], object> cellFunc = null; 
+
+        private (MassEditResult, List<EditorAction>) ParseGlobalOpStep(string restOfStages)
         {
             string[] opStage = restOfStages.Split(" ", 2);
             globalOperation = opStage[0].Trim();
-            return PerformMassEditCommand(bank, false, globalOperation, opStage.Length > 1 ? opStage[1] : null, context);
+            return PerformMassEditCommand(opStage.Length > 1 ? opStage[1] : null);
         }
 
-        private (MassEditResult, List<EditorAction>) ParseVarStep(ParamBank bank, string restOfStages, ParamEditorSelectionState context)
+        private (MassEditResult, List<EditorAction>) ParseVarStep(string restOfStages)
         {
             string[] varstage = restOfStages.Split(":", 2);
             varSelector = varstage[0].Trim();
             if (varSelector.Equals(""))
                 return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find variable filter. Add : and one of "+String.Join(", ", VarSearchEngine.vse.AvailableCommandsForHelpText())), null);
-            return ParseVarOpStep(bank, varstage[1], context);
+            return ParseVarOpStep(varstage[1]);
         }
-        private (MassEditResult, List<EditorAction>) ParseVarOpStep(ParamBank bank, string restOfStages, ParamEditorSelectionState context)
+        private (MassEditResult, List<EditorAction>) ParseVarOpStep(string restOfStages)
         {
             string[] operationstage =  restOfStages.TrimStart().Split(" ", 2);                
             varOperation = operationstage[0].Trim();
@@ -155,17 +171,17 @@ namespace StudioCore.ParamEditor
             if (varOperation.Equals("") || !MEValueOperation.valueOps.operations.ContainsKey(varOperation))
                 return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find operation to perform. Add : and one of + - * / replace"), null);
             // TODO: add var selector to big command, implement usage
-            return PerformMassEditCommand(bank, false, varOperation, operationstage.Length > 1 ? operationstage[1] : null, context);
+            return PerformMassEditCommand(operationstage.Length > 1 ? operationstage[1] : null);
         }
-        private (MassEditResult, List<EditorAction>) ParseParamRowStep(ParamBank bank, string restOfStages, ParamEditorSelectionState context)
+        private (MassEditResult, List<EditorAction>) ParseParamRowStep(string restOfStages)
         {
             string[] paramrowstage = restOfStages.Split(":", 2);
             paramRowSelector = paramrowstage[0].Trim();
             if (paramRowSelector.Equals(""))
                 return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find paramrow filter. Add : and one of "+String.Join(", ", ParamAndRowSearchEngine.parse.AvailableCommandsForHelpText())), null);
-            return ParseCellStep(bank, true, paramrowstage[1], context);
+            return ParseCellStep(paramrowstage[1]);
         }
-        private (MassEditResult, List<EditorAction>) ParseParamStep(ParamBank bank, string restOfStages, ParamEditorSelectionState context)
+        private (MassEditResult, List<EditorAction>) ParseParamStep(string restOfStages)
         {
             string[] paramstage = restOfStages.Split(":", 2);
             paramSelector = paramstage[0].Trim();
@@ -173,22 +189,22 @@ namespace StudioCore.ParamEditor
                 return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find param filter. Add : and one of "+String.Join(", ", ParamSearchEngine.pse.AvailableCommandsForHelpText())), null);
             if (!ParamAndRowSearchEngine.parse.HandlesCommand(paramSelector))
             {
-                return ParseRowStep(bank, paramstage[1], context);
+                return ParseRowStep(paramstage[1]);
             }
             else
             {
-                return ParseCellStep(bank, true, paramstage[1], context);
+                return ParseCellStep(paramstage[1]);
             }
         }
-        private (MassEditResult, List<EditorAction>) ParseRowStep(ParamBank bank, string restOfStages, ParamEditorSelectionState context)
+        private (MassEditResult, List<EditorAction>) ParseRowStep(string restOfStages)
         {
             string[] rowstage = restOfStages.Split(":", 2);
             rowSelector = rowstage[0].Trim();
             if (rowSelector.Equals(""))
                 return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find row filter. Add : and one of "+String.Join(", ", RowSearchEngine.rse.AvailableCommandsForHelpText())), null);
-            return ParseCellStep(bank, false, rowstage[1], context);
+            return ParseCellStep(rowstage[1]);
         }
-        private (MassEditResult, List<EditorAction>) ParseCellStep(ParamBank bank, bool isParamRowSelector, string restOfStages, ParamEditorSelectionState context)
+        private (MassEditResult, List<EditorAction>) ParseCellStep(string restOfStages)
         {
             string[] cellstage = restOfStages.Split(":", 2);
             cellSelector = cellstage[0].Trim();
@@ -197,22 +213,22 @@ namespace StudioCore.ParamEditor
             
             if (MERowOperation.rowOps.HandlesCommand(cellSelector.Split(" ", 2)[0]))
             {
-                return ParseRowOpStep(bank, isParamRowSelector, restOfStages, context);
+                return ParseRowOpStep(restOfStages);
             }
             else
             {
-                return ParseCellOpStep(bank, isParamRowSelector, cellstage[1], context);
+                return ParseCellOpStep(cellstage[1]);
             }
         }
-        private (MassEditResult, List<EditorAction>) ParseRowOpStep(ParamBank bank, bool isParamRowSelector, string restOfStages, ParamEditorSelectionState context)
+        private (MassEditResult, List<EditorAction>) ParseRowOpStep(string restOfStages)
         {
             string[] operationstage =  restOfStages.TrimStart().Split(" ", 2);                
             rowOperation = operationstage[0].Trim();
             //if (operationstage.Length == 1)
             //    return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find operation arguments."), null);
-            return PerformMassEditCommand(bank, isParamRowSelector, rowOperation, operationstage.Length > 1 ? operationstage[1] : null, context);
+            return PerformMassEditCommand(operationstage.Length > 1 ? operationstage[1] : null);
         }
-        private (MassEditResult, List<EditorAction>) ParseCellOpStep(ParamBank bank, bool isParamRowSelector, string restOfStages, ParamEditorSelectionState context)
+        private (MassEditResult, List<EditorAction>) ParseCellOpStep(string restOfStages)
         {
             string[] operationstage =  restOfStages.TrimStart().Split(" ", 2);                
             cellOperation = operationstage[0].Trim();
@@ -221,50 +237,45 @@ namespace StudioCore.ParamEditor
                 return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find operation to perform. Add : and one of + - * / replace"), null);
             //if (operationstage.Length == 1)
             //    return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find operation arguments. Add a value, or 'field' followed by the name of a field to take the value from"), null);
-            return PerformMassEditCommand(bank, isParamRowSelector, cellOperation, operationstage.Length > 1 ? operationstage[1] : null, context);
+            return PerformMassEditCommand(operationstage.Length > 1 ? operationstage[1] : null);
         }
-        private (MassEditResult, List<EditorAction>) PerformMassEditCommand(ParamBank bank, bool isParamRowSelector, string operation, string opargs, ParamEditorSelectionState context)
+        private (MassEditResult, List<EditorAction>) PerformMassEditCommand(string opargs)
         {
             List<EditorAction> partialActions = new List<EditorAction>();
             try {
-                string[] argNames;
-                int argc;
-                Func<ParamEditorSelectionState, string[], bool> globalFunc = null;
-                Func<(string, Param.Row), string[], (Param, Param.Row)> rowFunc = null;
-                Func<object, string[], object> cellFunc = null; 
 
                 if (paramSelector == null)
                 {
-                    if (!MEGlobalOperation.globalOps.operations.ContainsKey(operation))
-                            return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Unknown global operation "+operation), null);
-                    (argNames, globalFunc) = MEGlobalOperation.globalOps.operations[operation];
+                    if (!MEGlobalOperation.globalOps.operations.ContainsKey(globalOperation))
+                            return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Unknown global operation "+globalOperation), null);
+                    (argNames, globalFunc) = MEGlobalOperation.globalOps.operations[globalOperation];
                 }
                 else if (cellSelector == null)
                 {
-                    if (!MERowOperation.rowOps.operations.ContainsKey(operation))
-                            return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Unknown row operation "+operation), null);
-                    (argNames, rowFunc) = MERowOperation.rowOps.operations[operation];
+                    if (!MERowOperation.rowOps.operations.ContainsKey(rowOperation))
+                            return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Unknown row operation "+rowOperation), null);
+                    (argNames, rowFunc) = MERowOperation.rowOps.operations[rowOperation];
                 }
                 else
                 {
-                    if (!MEValueOperation.valueOps.operations.ContainsKey(operation))
-                            return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Unknown cell operation "+operation), null);
-                    (argNames, cellFunc) = MEValueOperation.valueOps.operations[operation];
+                    if (!MEValueOperation.valueOps.operations.ContainsKey(cellOperation))
+                            return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Unknown cell operation "+cellOperation), null);
+                    (argNames, cellFunc) = MEValueOperation.valueOps.operations[cellOperation];
                 }
                 argc = argNames.Length;
-                var argFuncs = MEOperationArgument.arg.getContextualArguments(argc, opargs);
+                paramArgFuncs = MEOperationArgument.arg.getContextualArguments(argc, opargs);
 
-                if (paramSelector == null)
+                if (globalOperation != null)
                 {
-                    return (ExecGlobalOp(argFuncs, globalFunc, context, operation), new List<EditorAction>());
+                    return (ExecGlobalOp(), new List<EditorAction>());
                 }
-                if (isParamRowSelector)
+                else if (paramRowSelector != null)
                 {
-                    return (ExecParamRowStage(argFuncs, rowFunc, cellFunc, argc, bank, context, paramRowSelector, cellSelector, operation, partialActions), partialActions);
+                    return (ExecParamRowStage(partialActions), partialActions);
                 }
-                else
+                else // Param case
                 {
-                    return (ExecParamStage(argFuncs, rowFunc, cellFunc, argc, paramSelector, rowSelector, cellSelector, operation, partialActions), partialActions);
+                    return (ExecParamStage(partialActions), partialActions);
                 }
             }
             catch (Exception e)
@@ -273,20 +284,21 @@ namespace StudioCore.ParamEditor
             }
             return (new MassEditResult(MassEditResultType.SUCCESS, $@"{partialActions.Count} cells affected"), partialActions);
         }
-        private static MassEditResult ExecGlobalOp(Func<int, Param, Func<int, Param.Row, Func<int, (PseudoColumn, Param.Column), string>>>[] argFuncs, Func<ParamEditorSelectionState, string[], bool> globalFunc, ParamEditorSelectionState context, string operation)
+        private MassEditResult ExecGlobalOp()
         {
-            string[] globalArgValues = argFuncs.Select((f) => f(-1, null)(-1, null)(-1, (PseudoColumn.None, null))).ToArray();
+            string[] globalArgValues = paramArgFuncs.Select((f) => f(-1, null)(-1, null)(-1, (PseudoColumn.None, null))).ToArray();
             bool result = globalFunc(context, globalArgValues);
             if (!result)
-                return new MassEditResult(MassEditResultType.OPERATIONERROR, "performing global operation "+operation);
+                return new MassEditResult(MassEditResultType.OPERATIONERROR, "performing global operation "+globalOperation);
             return new MassEditResult(MassEditResultType.SUCCESS, "");
         }
-        private static MassEditResult ExecParamRowStage(Func<int, Param, Func<int, Param.Row, Func<int, (PseudoColumn, Param.Column), string>>>[] argFuncs, Func<(string, Param.Row), string[], (Param, Param.Row)> rowFunc, Func<object, string[], object> cellFunc, int argc, ParamBank bank, ParamEditorSelectionState context, string paramSelector, string cellSelector, string operation, List<EditorAction> partialActions)
+        private MassEditResult ExecParamRowStage(List<EditorAction> partialActions)
         {
             Param activeParam = bank.Params[context.getActiveParam()];
-            var paramArgFunc = argFuncs.Select((func, i) => func(0, activeParam)); // technically invalid for clipboard
-            if (argc != argFuncs.Length)
-                return new MassEditResult(MassEditResultType.PARSEERROR, $@"Invalid number of arguments for operation {operation}");
+            var paramArgFunc = paramArgFuncs.Select((func, i) => func(0, activeParam)); // technically invalid for clipboard
+            string operationForPrint = rowOperation != null ? rowOperation : cellOperation;
+            if (argc != paramArgFuncs.Length)
+                return new MassEditResult(MassEditResultType.PARSEERROR, $@"Invalid number of arguments for operation {operationForPrint}");
             int rowEditCount = -1;
             foreach ((MassEditRowSource source, Param.Row row) in ParamAndRowSearchEngine.parse.Search(context, paramSelector, false, false))
             {
@@ -295,36 +307,37 @@ namespace StudioCore.ParamEditor
                 string paramname = source == MassEditRowSource.Selection ? context.getActiveParam() : ParamBank.ClipboardParam;
                 if (cellSelector == null)
                 {
-                    var res = ExecRowOp(rowArgFunc, rowFunc, paramname, row, operation, partialActions);
+                    var res = ExecRowOp(rowArgFunc, paramname, row, partialActions);
                     if (res.Type != MassEditResultType.SUCCESS)
                         return res;
                 }
                 else
                 {
-                    var res = ExecCellStage(rowArgFunc, cellFunc, paramname, row, cellSelector, operation, partialActions);
+                    var res = ExecCellStage(rowArgFunc, paramname, row, partialActions);
                     if (res.Type != MassEditResultType.SUCCESS)
                         return res;
                 }
             }
             return new MassEditResult(MassEditResultType.SUCCESS, "");
         }
-        private static MassEditResult ExecParamStage(Func<int, Param, Func<int, Param.Row, Func<int, (PseudoColumn, Param.Column), string>>>[] argFuncs, Func<(string, Param.Row), string[], (Param, Param.Row)> rowFunc, Func<object, string[], object> cellFunc, int argc, string paramSelector, string rowSelector, string cellSelector, string operation, List<EditorAction> partialActions)
+        private MassEditResult ExecParamStage(List<EditorAction> partialActions)
         {
             int paramEditCount = -1;
+            string operationForPrint = rowOperation != null ? rowOperation : cellOperation;
             foreach ((ParamBank b, Param p) in ParamSearchEngine.pse.Search(false, paramSelector, false, false))
             {
                 paramEditCount++;
-                var paramArgFunc = argFuncs.Select((func, i) => func(paramEditCount, p));
-                if (argc != argFuncs.Length)
-                    return new MassEditResult(MassEditResultType.PARSEERROR, $@"Invalid number of arguments for operation {operation}");
+                var paramArgFunc = paramArgFuncs.Select((func, i) => func(paramEditCount, p));
+                if (argc != paramArgFuncs.Length)
+                    return new MassEditResult(MassEditResultType.PARSEERROR, $@"Invalid number of arguments for operation {operationForPrint}");
                 string paramname = b.GetKeyForParam(p);
-                var res = ExecRowStage(paramArgFunc, rowFunc, cellFunc, paramname, b, p, rowSelector, cellSelector, operation, partialActions);
+                var res = ExecRowStage(paramArgFunc, paramname, b, p, partialActions);
                 if (res.Type != MassEditResultType.SUCCESS)
                     return res;
             }
             return new MassEditResult(MassEditResultType.SUCCESS, "");
         }
-        private static MassEditResult ExecRowStage(IEnumerable<Func<int, Param.Row, Func<int, (PseudoColumn, Param.Column), string>>> paramArgFunc, Func<(string, Param.Row), string[], (Param, Param.Row)> rowFunc, Func<object, string[], object> cellFunc, string paramname, ParamBank b, Param p, string rowSelector, string cellSelector, string operation, List<EditorAction> partialActions)
+        private MassEditResult ExecRowStage(IEnumerable<Func<int, Param.Row, Func<int, (PseudoColumn, Param.Column), string>>> paramArgFunc, string paramname, ParamBank b, Param p, List<EditorAction> partialActions)
         {
             int rowEditCount = -1;
             foreach (Param.Row row in RowSearchEngine.rse.Search((b, p), rowSelector, false, false))
@@ -333,51 +346,51 @@ namespace StudioCore.ParamEditor
                 var rowArgFunc = paramArgFunc.Select((rowFunc, i) => rowFunc(rowEditCount, row)).ToArray();
                 if (cellSelector == null)
                 {
-                    var res = ExecRowOp(rowArgFunc, rowFunc, paramname, row, operation, partialActions);
+                    var res = ExecRowOp(rowArgFunc, paramname, row, partialActions);
                     if (res.Type != MassEditResultType.SUCCESS)
                         return res;
                 }
                 else
                 {
-                    var res = ExecCellStage(rowArgFunc, cellFunc, paramname, row, cellSelector, operation, partialActions);
+                    var res = ExecCellStage(rowArgFunc, paramname, row, partialActions);
                     if (res.Type != MassEditResultType.SUCCESS)
                         return res;
                 }
             }
             return new MassEditResult(MassEditResultType.SUCCESS, "");
         }
-        private static MassEditResult ExecRowOp(Func<int, (PseudoColumn, Param.Column), string>[] rowArgFunc, Func<(string, Param.Row), string[], (Param, Param.Row)> rowFunc, string paramname, Param.Row row, string operation, List<EditorAction> partialActions)
+        private MassEditResult ExecRowOp(Func<int, (PseudoColumn, Param.Column), string>[] rowArgFunc, string paramname, Param.Row row, List<EditorAction> partialActions)
         {
             var rowArgValues = rowArgFunc.Select((argV, i) => argV(-1, (PseudoColumn.None, null))).ToArray();
             var (p2, rs) = rowFunc((paramname, row), rowArgValues);
             if (p2 == null)
-                return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {operation} {String.Join(' ', rowArgValues)} on row");
+                return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {rowOperation} {String.Join(' ', rowArgValues)} on row");
             if (rs != null)
                 partialActions.Add(new AddParamsAction(p2, "FromMassEdit", new List<Param.Row>{rs}, false, true));
             return new MassEditResult(MassEditResultType.SUCCESS, "");
         }
-        private static MassEditResult ExecCellStage(Func<int, (PseudoColumn, Param.Column), string>[] rowArgFunc, Func<object, string[], object> cellFunc, string paramname, Param.Row row, string cellSelector, string operation, List<EditorAction> partialActions)
+        private MassEditResult ExecCellStage(Func<int, (PseudoColumn, Param.Column), string>[] rowArgFunc, string paramname, Param.Row row, List<EditorAction> partialActions)
         {
             int cellEditCount = -1;
             foreach ((PseudoColumn, Param.Column) col in CellSearchEngine.cse.Search((paramname, row), cellSelector, false, false))
             {
                 cellEditCount++;
                 var cellArgValues = rowArgFunc.Select((argV, i) => argV(cellEditCount, col)).ToArray();
-                var res = ExecCellOp(cellFunc, cellArgValues, paramname, row, col, operation, partialActions);
+                var res = ExecCellOp(cellArgValues, paramname, row, col, partialActions);
                 if (res.Type != MassEditResultType.SUCCESS)
                     return res;
             }
             return new MassEditResult(MassEditResultType.SUCCESS, "");
         }
-        private static MassEditResult ExecCellOp(Func<object, string[], object> cellFunc, string[] cellArgValues, string paramname, Param.Row row, (PseudoColumn, Param.Column) col, string operation, List<EditorAction> partialActions)
+        private MassEditResult ExecCellOp(string[] cellArgValues, string paramname, Param.Row row, (PseudoColumn, Param.Column) col, List<EditorAction> partialActions)
         {
             var res = cellFunc(row.Get(col), cellArgValues);
             if (res == null && col.Item1 == PseudoColumn.ID)
-                return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {operation} {String.Join(' ', cellArgValues)} on ID");
+                return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {cellOperation} {String.Join(' ', cellArgValues)} on ID");
             else if (res == null && col.Item1 == PseudoColumn.Name)
-                return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {operation} {String.Join(' ', cellArgValues)} on Name");
+                return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {cellOperation} {String.Join(' ', cellArgValues)} on Name");
             else if (res == null)
-                return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {operation} {String.Join(' ', cellArgValues)} on field {col.Item2.Def.InternalName}");
+                return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {cellOperation} {String.Join(' ', cellArgValues)} on field {col.Item2.Def.InternalName}");
             addAction(row, col, res, partialActions);
             return new MassEditResult(MassEditResultType.SUCCESS, "");
         }
