@@ -244,13 +244,13 @@ namespace StudioCore.ParamEditor
             List<EditorAction> partialActions = new List<EditorAction>();
             try {
 
-                if (paramSelector == null)
+                if (globalOperation != null)
                 {
                     if (!MEGlobalOperation.globalOps.operations.ContainsKey(globalOperation))
                             return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Unknown global operation "+globalOperation), null);
                     (argNames, globalFunc) = MEGlobalOperation.globalOps.operations[globalOperation];
                 }
-                else if (cellSelector == null)
+                else if (rowOperation != null)
                 {
                     if (!MERowOperation.rowOps.operations.ContainsKey(rowOperation))
                             return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Unknown row operation "+rowOperation), null);
