@@ -152,7 +152,11 @@ namespace StudioCore.ParamEditor
         {
             string[] opStage = restOfStages.Split(" ", 2);
             globalOperation = opStage[0].Trim();
-            return PerformMassEditCommand(opStage.Length > 1 ? opStage[1] : null);
+            if (!MEGlobalOperation.globalOps.operations.ContainsKey(globalOperation))
+                    return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Unknown global operation "+globalOperation), null);
+            (argNames, globalFunc) = MEGlobalOperation.globalOps.operations[globalOperation];
+            ExecOperationArguments(opStage.Length > 1 ? opStage[1] : null);
+            return PerformMassEditCommand();
         }
 
         private (MassEditResult, List<EditorAction>) ParseVarStep(string restOfStages)
@@ -171,7 +175,8 @@ namespace StudioCore.ParamEditor
             if (varOperation.Equals("") || !MEValueOperation.valueOps.operations.ContainsKey(varOperation))
                 return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find operation to perform. Add : and one of + - * / replace"), null);
             // TODO: add var selector to big command, implement usage
-            return PerformMassEditCommand(operationstage.Length > 1 ? operationstage[1] : null);
+            ExecOperationArguments(operationstage.Length > 1 ? operationstage[1] : null);
+            return PerformMassEditCommand();
         }
         private (MassEditResult, List<EditorAction>) ParseParamRowStep(string restOfStages)
         {
@@ -224,9 +229,13 @@ namespace StudioCore.ParamEditor
         {
             string[] operationstage =  restOfStages.TrimStart().Split(" ", 2);                
             rowOperation = operationstage[0].Trim();
+            if (!MERowOperation.rowOps.operations.ContainsKey(rowOperation))
+                    return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Unknown row operation "+rowOperation), null);
+            (argNames, rowFunc) = MERowOperation.rowOps.operations[rowOperation];
             //if (operationstage.Length == 1)
             //    return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find operation arguments."), null);
-            return PerformMassEditCommand(operationstage.Length > 1 ? operationstage[1] : null);
+            ExecOperationArguments(operationstage.Length > 1 ? operationstage[1] : null);
+            return PerformMassEditCommand();
         }
         private (MassEditResult, List<EditorAction>) ParseCellOpStep(string restOfStages)
         {
@@ -235,35 +244,23 @@ namespace StudioCore.ParamEditor
 
             if (cellOperation.Equals("") || !MEValueOperation.valueOps.operations.ContainsKey(cellOperation))
                 return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find operation to perform. Add : and one of + - * / replace"), null);
+            if (!MEValueOperation.valueOps.operations.ContainsKey(cellOperation))
+                    return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Unknown cell operation "+cellOperation), null);
+            (argNames, cellFunc) = MEValueOperation.valueOps.operations[cellOperation];
             //if (operationstage.Length == 1)
             //    return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find operation arguments. Add a value, or 'field' followed by the name of a field to take the value from"), null);
-            return PerformMassEditCommand(operationstage.Length > 1 ? operationstage[1] : null);
+            ExecOperationArguments(operationstage.Length > 1 ? operationstage[1] : null);
+            return PerformMassEditCommand();
         }
-        private (MassEditResult, List<EditorAction>) PerformMassEditCommand(string opargs)
+        private void ExecOperationArguments(string opargs)
+        {
+            argc = argNames.Length;
+            paramArgFuncs = MEOperationArgument.arg.getContextualArguments(argc, opargs);
+        }
+        private (MassEditResult, List<EditorAction>) PerformMassEditCommand()
         {
             List<EditorAction> partialActions = new List<EditorAction>();
             try {
-
-                if (globalOperation != null)
-                {
-                    if (!MEGlobalOperation.globalOps.operations.ContainsKey(globalOperation))
-                            return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Unknown global operation "+globalOperation), null);
-                    (argNames, globalFunc) = MEGlobalOperation.globalOps.operations[globalOperation];
-                }
-                else if (rowOperation != null)
-                {
-                    if (!MERowOperation.rowOps.operations.ContainsKey(rowOperation))
-                            return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Unknown row operation "+rowOperation), null);
-                    (argNames, rowFunc) = MERowOperation.rowOps.operations[rowOperation];
-                }
-                else
-                {
-                    if (!MEValueOperation.valueOps.operations.ContainsKey(cellOperation))
-                            return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Unknown cell operation "+cellOperation), null);
-                    (argNames, cellFunc) = MEValueOperation.valueOps.operations[cellOperation];
-                }
-                argc = argNames.Length;
-                paramArgFuncs = MEOperationArgument.arg.getContextualArguments(argc, opargs);
 
                 if (globalOperation != null)
                 {
