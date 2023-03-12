@@ -152,7 +152,10 @@ namespace StudioCore.ParamEditor
                 string names = File.ReadAllText(f);
                 (MassEditResult r, CompoundAction a) = MassParamEditCSV.PerformSingleMassEdit(this, names, fName, "Name", ' ', true);
                 if (r.Type != MassEditResultType.SUCCESS)
+                {
+                    TaskManager.warningList.TryAdd($"ParamNameImportFail {fName}", $"Could not apply name files for {fName}");
                     continue;
+                }
                 actions.Add(a);
             }
             return new CompoundAction(actions);
@@ -787,6 +790,7 @@ namespace StudioCore.ParamEditor
                         }
                         catch
                         {
+                            TaskManager.warningList.TryAdd($"ParamNameImportFail", $"Could not locate or apply name files for this game.");
                         }
                     }
                 }
