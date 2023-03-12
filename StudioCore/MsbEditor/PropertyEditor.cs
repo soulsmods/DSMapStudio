@@ -385,12 +385,17 @@ namespace StudioCore.MsbEditor
         }
 
 
+        /// <summary>
+        /// Handles changing a property's value for any number of entities.
+        /// </summary>
+        /// <param name="arrayindex">Index of the targeted value in an array of values.</param>
+        /// <param name="classIndex">Index of the targeted class in an array of classes.</param>
         private void UpdateProperty(object prop, HashSet<Entity> selection, object newval,
-            bool changed, bool committed, int arrayindex = -1)
+            bool changed, bool committed, int arrayindex, int classIndex)
         {
             if (changed)
             {
-                ChangePropertyMultiple(prop, selection, newval, ref committed, arrayindex);
+                ChangePropertyMultiple(prop, selection, newval, ref committed, arrayindex, classIndex);
             }
             if (committed)
             {
@@ -408,7 +413,13 @@ namespace StudioCore.MsbEditor
                 }
             }
         }
-        private void ChangePropertyMultiple(object prop, HashSet<Entity> ents, object newval, ref bool committed, int arrayindex = -1)
+
+        /// <summary>
+        /// Change a property's value for any number of entities.
+        /// </summary>
+        /// <param name="arrayindex">Index of the targeted value in an array of values.</param>
+        /// <param name="classIndex">Index of the targeted class in an array of classes.</param>
+        private void ChangePropertyMultiple(object prop, HashSet<Entity> ents, object newval, ref bool committed, int arrayindex = -1, int classIndex = -1)
         {
             if (prop == _changingPropery && _lastUncommittedAction != null && ContextActionManager.PeekUndoAction() == _lastUncommittedAction)
             {
@@ -428,7 +439,7 @@ namespace StudioCore.MsbEditor
                 }
 
             }
-            action = new MultipleEntityPropertyChangeAction((PropertyInfo)prop, ents, newval, arrayindex);
+            action = new MultipleEntityPropertyChangeAction((PropertyInfo)prop, ents, newval, arrayindex, classIndex);
             ContextActionManager.ExecuteAction(action);
 
             _lastUncommittedAction = action;
@@ -585,7 +596,7 @@ namespace StudioCore.MsbEditor
             "Point",
         };
 
-        private void PropEditorGeneric(Selection selection, HashSet<Entity> entSelection, object target = null, bool decorate = true)
+        private void PropEditorGeneric(Selection selection, HashSet<Entity> entSelection, object target = null, bool decorate = true, int classIndex = -1)
         {
             float scale = ImGuiRenderer.GetUIScale();
             var firstEnt = entSelection.First();
@@ -654,7 +665,7 @@ namespace StudioCore.MsbEditor
                                 ImGui.NextColumn();
                                 if (open)
                                 {
-                                    PropEditorGeneric(selection, entSelection, o, false);
+                                    PropEditorGeneric(selection, entSelection, o, false, i);
                                     ImGui.TreePop();
                                 }
                                 ImGui.PopID();
@@ -680,7 +691,7 @@ namespace StudioCore.MsbEditor
                                     changed = true;
                                     committed = true;
                                 }
-                                UpdateProperty(prop, entSelection, newval, changed, committed, i);
+                                UpdateProperty(prop, entSelection, newval, changed, committed, i, classIndex);
 
                                 ImGui.NextColumn();
                                 ImGui.PopID();
@@ -734,7 +745,7 @@ namespace StudioCore.MsbEditor
                                     changed = true;
                                     committed = true;
                                 }
-                                UpdateProperty(prop, entSelection, newval, changed, committed, i);
+                                UpdateProperty(prop, entSelection, newval, changed, committed, i, classIndex);
 
                                 ImGui.NextColumn();
                                 ImGui.PopID();
@@ -890,7 +901,7 @@ namespace StudioCore.MsbEditor
                             changed = true;
                             committed = true;
                         }
-                        UpdateProperty(prop, entSelection, newval, changed, committed);
+                        UpdateProperty(prop, entSelection, newval, changed, committed, -1, classIndex);
 
                         ImGui.NextColumn();
                         ImGui.PopID();
