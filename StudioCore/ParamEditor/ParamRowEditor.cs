@@ -720,15 +720,31 @@ namespace StudioCore.ParamEditor
         }
         private static void PropertyRowValueContextMenu(ParamBank bank, string internalName, string VirtualRef, dynamic oldval)
         {
+            bool onlyEditOptions = (VirtualRef == null && !ParamEditorScreen.EditorMode);
             if (ImGui.BeginPopupContextItem("quickMEdit"))
             {
-                if (ImGui.Selectable("Edit all selected..."))
+                if (onlyEditOptions || ImGui.BeginMenu("Edit all selected..."))
                 {
-                    EditorCommandQueue.AddCommand($@"param/menu/massEditRegex/selection: {Regex.Escape(internalName)}: ");
-                }
-                if (ImGui.Selectable("Reset all selected..."))
-                {
-                    EditorCommandQueue.AddCommand($@"param/menu/massEditRegex/selection: {Regex.Escape(internalName)}: = vanilla;");
+                    if (onlyEditOptions)
+                        ImGui.TextUnformatted("Mass Edit selected...");
+                    ImGui.Separator();
+                    if (ImGui.Selectable("Manually..."))
+                    {
+                        EditorCommandQueue.AddCommand($@"param/menu/massEditRegex/selection: {Regex.Escape(internalName)}: ");
+                    }
+                    if (ImGui.Selectable("Reset to vanilla..."))
+                    {
+                        EditorCommandQueue.AddCommand($@"param/menu/massEditRegex/selection: {Regex.Escape(internalName)}: = vanilla;");
+                    }
+                    ImGui.Separator();
+                    string res = AutoFill.MassEditOpAutoFill();
+                    if (res != null)
+                    {
+                        Console.WriteLine(res);
+                        EditorCommandQueue.AddCommand($@"param/menu/massEditRegex/selection: {Regex.Escape(internalName)}: "+res);
+                    }
+                    if (!onlyEditOptions)
+                        ImGui.EndMenu();
                 }
                 if (VirtualRef != null)
                     EditorDecorations.VirtualParamRefSelectables(bank, VirtualRef, oldval);
