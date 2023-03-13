@@ -156,7 +156,7 @@ namespace StudioCore.ParamEditor
                     return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Unknown global operation "+globalOperation), null);
             (argNames, globalFunc) = MEGlobalOperation.globalOps.operations[globalOperation];
             ExecOperationArguments(opStage.Length > 1 ? opStage[1] : null);
-            return PerformMassEditCommand();
+            return SandboxMassEditExecution((partials) => ExecGlobalOp());
         }
 
         private (MassEditResult, List<EditorAction>) ParseVarStep(string restOfStages)
@@ -176,7 +176,7 @@ namespace StudioCore.ParamEditor
                 return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find operation to perform. Add : and one of + - * / replace"), null);
             // TODO: add var selector to big command, implement usage
             ExecOperationArguments(operationstage.Length > 1 ? operationstage[1] : null);
-            return PerformMassEditCommand();
+            return SandboxMassEditExecution((partials) => ExecGlobalOp());
         }
         private (MassEditResult, List<EditorAction>) ParseParamRowStep(string restOfStages)
         {
@@ -235,7 +235,7 @@ namespace StudioCore.ParamEditor
             //if (operationstage.Length == 1)
             //    return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find operation arguments."), null);
             ExecOperationArguments(operationstage.Length > 1 ? operationstage[1] : null);
-            return PerformMassEditCommand();
+            return SandboxMassEditExecution((partials) => paramRowSelector != null ? ExecParamRowStage(partials) : ExecParamStage(partials));
         }
         private (MassEditResult, List<EditorAction>) ParseCellOpStep(string restOfStages)
         {
@@ -250,30 +250,19 @@ namespace StudioCore.ParamEditor
             //if (operationstage.Length == 1)
             //    return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find operation arguments. Add a value, or 'field' followed by the name of a field to take the value from"), null);
             ExecOperationArguments(operationstage.Length > 1 ? operationstage[1] : null);
-            return PerformMassEditCommand();
+            return SandboxMassEditExecution((partials) => paramRowSelector != null ? ExecParamRowStage(partials) : ExecParamStage(partials));
         }
         private void ExecOperationArguments(string opargs)
         {
             argc = argNames.Length;
             paramArgFuncs = MEOperationArgument.arg.getContextualArguments(argc, opargs);
         }
-        private (MassEditResult, List<EditorAction>) PerformMassEditCommand()
+        private (MassEditResult, List<EditorAction>) SandboxMassEditExecution(Func<List<EditorAction>, MassEditResult> innerFunc)
         {
             List<EditorAction> partialActions = new List<EditorAction>();
-            try {
-
-                if (globalOperation != null)
-                {
-                    return (ExecGlobalOp(), new List<EditorAction>());
-                }
-                else if (paramRowSelector != null)
-                {
-                    return (ExecParamRowStage(partialActions), partialActions);
-                }
-                else // Param case
-                {
-                    return (ExecParamStage(partialActions), partialActions);
-                }
+            try
+            {
+                return (innerFunc(partialActions), partialActions);
             }
             catch (Exception e)
             {
