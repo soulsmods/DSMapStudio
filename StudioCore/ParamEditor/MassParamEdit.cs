@@ -921,7 +921,7 @@ namespace StudioCore.ParamEditor
             if (opArg.StartsWith('"') && opArg.EndsWith('"'))
                 return (i, p) => (j, r) => (k, c) => opArg.Substring(1, opArg.Length-2);
             if (opArg.StartsWith('$'))
-                opArg = MassParamEdit.massEditVars[opArg.Substring(1)];
+                opArg = MassParamEdit.massEditVars[opArg.Substring(1)].ToString();
             string[] arg = opArg.Split(" ", 2);
             if (argumentGetters.ContainsKey(arg[0].Trim()))
             {
