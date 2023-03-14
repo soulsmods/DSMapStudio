@@ -624,7 +624,7 @@ namespace StudioCore.ParamEditor
                 ParamBank.ClipboardRows.Clear();
                 return true;
             }));
-            operations.Add("newvar", (new string[]{"variable", "value"}, (selectionState, args) => {
+            operations.Add("newvar", (new string[]{"variable name", "value"}, (selectionState, args) => {
                 int asInt;
                 double asDouble;
                 if (int.TryParse(args[1], out asInt))

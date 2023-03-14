@@ -66,7 +66,7 @@ namespace StudioCore.ParamEditor
                     if (i != 0)
                         ImGui.SameLine();
                     ImGui.InputTextWithHint("##meautoinput"+argIndices[i], cmd.Item2[i], ref _autoFillArgs[argIndices[i]], 256);
-                    string var = AutoFill.MassEditAutoFillForVars();
+                    string var = AutoFill.MassEditAutoFillForVars(argIndices[i]);
                     if (var != null)
                         _autoFillArgs[argIndices[i]] = var;
                 }
@@ -103,6 +103,7 @@ namespace StudioCore.ParamEditor
         static AutoFillSearchEngine<bool, (ParamBank, Param)> autoFillPse = new ("pse", ParamSearchEngine.pse);
         static AutoFillSearchEngine<(ParamBank, Param), Param.Row> autoFillRse = new ("rse", RowSearchEngine.rse);
         static AutoFillSearchEngine<(string, Param.Row), (PseudoColumn, Param.Column)> autoFillCse = new ("cse", CellSearchEngine.cse);
+        private static string[] _autoFillArgsGop = Enumerable.Repeat("", MEGlobalOperation.globalOps.AvailableCommands().Sum((x) => x.Item2.Length)).ToArray();
         private static string[] _autoFillArgsRop = Enumerable.Repeat("", MERowOperation.rowOps.AvailableCommands().Sum((x) => x.Item2.Length)).ToArray();
         private static string[] _autoFillArgsCop = Enumerable.Repeat("", MEValueOperation.valueOps.AvailableCommands().Sum((x) => x.Item2.Length)).ToArray();
         private static string[] _autoFillArgsOa = Enumerable.Repeat("", MEOperationArgument.arg.AvailableArguments().Sum((x) => x.Item2.Length)).ToArray();
@@ -191,10 +192,15 @@ namespace StudioCore.ParamEditor
                         return res2;
                     });
                 });
+                ImGui.Separator();
+                ImGui.TextUnformatted("Select global operation...");
+                string result3 = MassEditAutoFillForOperation(MEGlobalOperation.globalOps, ref _autoFillArgsGop, ";", null);
                 ImGui.EndPopup();
                 if (result1 != null)
                     return result1;
-                return result2;
+                if (result2 != null)
+                    return result2;
+                return result3;
             }
             return null;
         }
@@ -285,7 +291,7 @@ namespace StudioCore.ParamEditor
                     if (i != 0)
                         ImGui.SameLine();
                     ImGui.InputTextWithHint("##meautoinputoa"+argIndices[i], arg.Item2[i], ref staticArgs[argIndices[i]], 256);
-                    string var = AutoFill.MassEditAutoFillForVars();
+                    string var = AutoFill.MassEditAutoFillForVars(argIndices[i]);
                     if (var != null)
                         staticArgs[argIndices[i]] = var;
                 }
@@ -293,11 +299,11 @@ namespace StudioCore.ParamEditor
             }
             return result;
         }
-        internal static string MassEditAutoFillForVars()
+        internal static string MassEditAutoFillForVars(int id)
         {
             ImGui.SameLine();
             ImGui.Button($@"{ForkAwesome.CaretDown}");
-            if (ImGui.BeginPopupContextItem("##meautoinputvarpopup", ImGuiPopupFlags.MouseButtonLeft))
+            if (ImGui.BeginPopupContextItem("##meautoinputvarpopup"+id, ImGuiPopupFlags.MouseButtonLeft))
             {
                 ImGui.TextUnformatted("Defined variables...");
                 ImGui.Separator();
