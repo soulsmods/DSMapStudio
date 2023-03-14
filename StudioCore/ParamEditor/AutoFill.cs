@@ -108,6 +108,7 @@ namespace StudioCore.ParamEditor
         private static string[] _autoFillArgsRop = Enumerable.Repeat("", MERowOperation.rowOps.AvailableCommands().Sum((x) => x.Item2.Length)).ToArray();
         private static string[] _autoFillArgsCop = Enumerable.Repeat("", MEValueOperation.valueOps.AvailableCommands().Sum((x) => x.Item2.Length)).ToArray();
         private static string[] _autoFillArgsOa = Enumerable.Repeat("", MEOperationArgument.arg.AvailableArguments().Sum((x) => x.Item2.Length)).ToArray();
+        private static string _literalArg = "";
         
         public static string ParamSearchBarAutoFill()
         {
@@ -321,6 +322,10 @@ namespace StudioCore.ParamEditor
                 if (ImGui.Selectable(pair.Key + "("+pair.Value+")"))
                     return '$'+pair.Key;
             }
+            ImGui.Separator();
+            if (ImGui.Selectable("Exactly..."))
+                result = '"'+_literalArg+'"';
+            ImGui.InputTextWithHint("##meautoinputoaExact", "literal value...", ref _literalArg, 256);
             return result;
         }
         internal static string MassEditAutoFillForVars(int id)
