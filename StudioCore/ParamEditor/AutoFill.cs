@@ -66,6 +66,9 @@ namespace StudioCore.ParamEditor
                     if (i != 0)
                         ImGui.SameLine();
                     ImGui.InputTextWithHint("##meautoinput"+argIndices[i], cmd.Item2[i], ref _autoFillArgs[argIndices[i]], 256);
+                    string var = AutoFill.MassEditAutoFillForVars();
+                    if (var != null)
+                        _autoFillArgs[argIndices[i]] = var;
                 }
                 //ImGui.Unindent();
                 string suffixToUse = _additionalCondition != null ? " && " : suffix;
@@ -282,10 +285,33 @@ namespace StudioCore.ParamEditor
                     if (i != 0)
                         ImGui.SameLine();
                     ImGui.InputTextWithHint("##meautoinputoa"+argIndices[i], arg.Item2[i], ref staticArgs[argIndices[i]], 256);
+                    string var = AutoFill.MassEditAutoFillForVars();
+                    if (var != null)
+                        staticArgs[argIndices[i]] = var;
                 }
                 ImGui.Unindent();
             }
             return result;
+        }
+        internal static string MassEditAutoFillForVars()
+        {
+            ImGui.SameLine();
+            ImGui.Button($@"{ForkAwesome.CaretDown}");
+            if (ImGui.BeginPopupContextItem("##meautoinputvarpopup", ImGuiPopupFlags.MouseButtonLeft))
+            {
+                ImGui.TextUnformatted("Defined variables...");
+                ImGui.Separator();
+                foreach (var pair in MassParamEdit.massEditVars)
+                {
+                    if (ImGui.Selectable(pair.Key + "("+pair.Value+")"))
+                    {
+                        ImGui.EndPopup();
+                        return '$'+pair.Key;
+                    }
+                }
+                ImGui.EndPopup();
+            }
+            return null;
         }
     }
 }
