@@ -688,19 +688,7 @@ namespace StudioCore.ParamEditor
                     throw new Exception($@"Could not locate param {paramKey}");
                 Param p = ParamBank.PrimaryBank.Params[paramKey];
                 return (p, new Param.Row(row, p));
-            }));  
-            operations.Add("migrate", (new string[]{"parambank name (only primary supported)"}, (paramAndRow, target) => {
-                if (!target[0].Trim().ToLower().Equals("primary"))
-                    throw new Exception($@"Only migrating to primary is supported");
-                string paramKey = paramAndRow.Item1;
-                Param.Row row = paramAndRow.Item2;
-                if (paramKey == null)
-                    throw new Exception($@"Could not locate param");
-                if (!ParamBank.PrimaryBank.Params.ContainsKey(paramKey))
-                    throw new Exception($@"Could not locate param {paramKey}");
-                Param p = ParamBank.PrimaryBank.Params[paramKey];
-                return (p, new Param.Row(row, p));
-            }));            
+            }));         
         }
     }
     public class MEValueOperation : MEOperation<object, object>
@@ -930,6 +918,11 @@ namespace StudioCore.ParamEditor
                 string[] opArgArgs = arg.Length > 1 ? arg[1].Split(" ", getter.Item1.Length) : new string[0];
                 if (opArgArgs.Length != getter.Item1.Length)
                     throw new Exception(@$"Contextual value {arg[0]} has wrong number of arguments. Expected {opArgArgs.Length}");
+                for (int i=0; i<opArgArgs.Length; i++)
+                {
+                    if (opArgArgs[i].StartsWith('$'))
+                        opArgArgs[i] = MassParamEdit.massEditVars[opArgArgs[i].Substring(1)].ToString();
+                }
                 return getter.Item2(opArgArgs);
             }
             else
