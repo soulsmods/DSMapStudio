@@ -93,15 +93,17 @@ namespace StudioCore.ParamEditor
                     currentEditData.bank = bank;
                     currentEditData.context = context;
 
-                    if (MEGlobalOperation.globalOps.HandlesCommand(command.Split(" ", 2)[0]))
+                    string primaryFilter = command.Split(':', 2)[0];
+
+                    if (MEGlobalOperation.globalOps.HandlesCommand(primaryFilter.Split(" ", 2)[0]))
                     {
                         (result, actions) = currentEditData.ParseGlobalOpStep(command);
                     }
-                    else if (VarSearchEngine.vse.HandlesCommand(command.Split(" ", 2)[0]))
+                    else if (VarSearchEngine.vse.HandlesCommand(primaryFilter.Split(" ", 2)[0]))
                     {
                         (result, actions) = currentEditData.ParseVarStep(command);
                     }
-                    else if (ParamAndRowSearchEngine.parse.HandlesCommand(command.Split(" ", 2)[0]))
+                    else if (ParamAndRowSearchEngine.parse.HandlesCommand(primaryFilter.Split(" ", 2)[0]))
                     {
                         (result, actions) = currentEditData.ParseParamRowStep(command);
                     }
@@ -302,7 +304,7 @@ namespace StudioCore.ParamEditor
             Param activeParam = bank.Params[context.getActiveParam()];
             var paramArgFunc = paramArgFuncs.Select((func, i) => func(0, activeParam)); // technically invalid for clipboard
             int rowEditCount = -1;
-            foreach ((MassEditRowSource source, Param.Row row) in ParamAndRowSearchEngine.parse.Search(context, paramSelector, false, false))
+            foreach ((MassEditRowSource source, Param.Row row) in ParamAndRowSearchEngine.parse.Search(context, paramRowSelector, false, false))
             {
                 rowEditCount++;
                 var rowArgFunc = paramArgFunc.Select((rowFunc, i) => rowFunc(rowEditCount, row)).ToArray();
