@@ -314,6 +314,13 @@ namespace StudioCore.ParamEditor
                 }
                 ImGui.Unindent();
             }
+            ImGui.Separator();
+            ImGui.TextUnformatted("Defined variables...");
+            foreach (var pair in MassParamEdit.massEditVars)
+            {
+                if (ImGui.Selectable(pair.Key + "("+pair.Value+")"))
+                    return '$'+pair.Key;
+            }
             return result;
         }
         internal static string MassEditAutoFillForVars(int id)
