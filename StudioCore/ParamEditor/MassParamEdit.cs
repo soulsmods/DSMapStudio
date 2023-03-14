@@ -880,10 +880,6 @@ namespace StudioCore.ParamEditor
             argumentGetters.Add("fieldIndex", (new string[0], (empty) => (i, param) => (j, row) => (k, col) => {
                 return k.ToParamEditorString();
             }));
-            /*argumentGetters.Add("variable", (new string[]{"variableName"}, (name) => {
-                string val = MassParamEdit.massEditVars[name[0]];
-                return (i, param) => (j, row) => (k, cell) => val;
-            }));*/
         }
 
         public List<(string, string[])> AvailableArguments()
