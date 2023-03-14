@@ -203,14 +203,18 @@ namespace StudioCore.ParamEditor
                 ImGui.TextUnformatted("Select global operation...");
                 string result3 = MassEditAutoFillForOperation(MEGlobalOperation.globalOps, ref _autoFillArgsGop, ";", null);
                 ImGui.PopID();
-                ImGui.Separator();
-                ImGui.PushID("var");
-                ImGui.TextUnformatted("Select variables...");
-                string result4 = autoFillVse.Menu(false, ": ", () => 
+                string result4 = null;
+                if (MassParamEdit.massEditVars.Count != 0)
                 {
-                    ImGui.TextUnformatted("Select value operation...");
-                    return MassEditAutoFillForOperation(MEValueOperation.valueOps, ref _autoFillArgsCop, ";", null);
-                });
+                    ImGui.Separator();
+                    ImGui.PushID("var");
+                    ImGui.TextUnformatted("Select variables...");
+                    result4 = autoFillVse.Menu(false, ": ", () => 
+                    {
+                        ImGui.TextUnformatted("Select value operation...");
+                        return MassEditAutoFillForOperation(MEValueOperation.valueOps, ref _autoFillArgsCop, ";", null);
+                    });
+                }
                 ImGui.EndPopup();
                 if (result1 != null)
                     return result1;
@@ -315,12 +319,15 @@ namespace StudioCore.ParamEditor
                 }
                 ImGui.Unindent();
             }
-            ImGui.Separator();
-            ImGui.TextUnformatted("Defined variables...");
-            foreach (var pair in MassParamEdit.massEditVars)
+            if (MassParamEdit.massEditVars.Count != 0)
             {
-                if (ImGui.Selectable(pair.Key + "("+pair.Value+")"))
-                    return '$'+pair.Key;
+                ImGui.Separator();
+                ImGui.TextUnformatted("Defined variables...");
+                foreach (var pair in MassParamEdit.massEditVars)
+                {
+                    if (ImGui.Selectable(pair.Key + "("+pair.Value+")"))
+                        return '$'+pair.Key;
+                }
             }
             ImGui.Separator();
             if (ImGui.Selectable("Exactly..."))
@@ -330,6 +337,8 @@ namespace StudioCore.ParamEditor
         }
         internal static string MassEditAutoFillForVars(int id)
         {
+            if (MassParamEdit.massEditVars.Count == 0)
+                return null;
             ImGui.SameLine();
             ImGui.Button($@"{ForkAwesome.CaretDown}");
             if (ImGui.BeginPopupContextItem("##meautoinputvarpopup"+id, ImGuiPopupFlags.MouseButtonLeft))
