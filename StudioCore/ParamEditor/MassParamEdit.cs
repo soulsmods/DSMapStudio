@@ -32,7 +32,7 @@ namespace StudioCore.ParamEditor
     
     public class MassParamEdit
     {
-        public static Dictionary<string, string> massEditVars = new Dictionary<string, string>();
+        public static Dictionary<string, object> massEditVars = new Dictionary<string, object>();
 
         internal static object WithDynamicOf(object instance, Func<dynamic, object> dynamicFunc)
         {
@@ -293,7 +293,7 @@ namespace StudioCore.ParamEditor
         }
         private MassEditResult ExecVarOpStage(string var, string[] args)
         {
-            MassParamEdit.massEditVars[var] = genericFunc(MassParamEdit.massEditVars[var], args).ToString();
+            MassParamEdit.massEditVars[var] = genericFunc(MassParamEdit.massEditVars[var], args);
             bool result = true; // Anything that practicably can go wrong 
             if (!result)
                 return new MassEditResult(MassEditResultType.OPERATIONERROR, "performing var operation "+varOperation);
@@ -624,8 +624,15 @@ namespace StudioCore.ParamEditor
                 ParamBank.ClipboardRows.Clear();
                 return true;
             }));
-            operations.Add("set", (new string[]{"variable", "value"}, (selectionState, args) => {
-                MassParamEdit.massEditVars[args[0]] = args[1];
+            operations.Add("newvar", (new string[]{"variable", "value"}, (selectionState, args) => {
+                int asInt;
+                double asDouble;
+                if (int.TryParse(args[1], out asInt))
+                    MassParamEdit.massEditVars[args[0]] = asInt;
+                else if (double.TryParse(args[1], out asDouble))
+                    MassParamEdit.massEditVars[args[0]] = asDouble;
+                else
+                    MassParamEdit.massEditVars[args[0]] = args[1];
                 return true;
             }));
         }
