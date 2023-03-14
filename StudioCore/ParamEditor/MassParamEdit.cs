@@ -172,6 +172,8 @@ namespace StudioCore.ParamEditor
             varSelector = varstage[0].Trim();
             if (varSelector.Equals(""))
                 return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find variable filter. Add : and one of "+String.Join(", ", VarSearchEngine.vse.AvailableCommandsForHelpText())), null);
+            if (varstage.Length < 2)
+                return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find var operation. Check your colon placement."), null);
             return ParseVarOpStep(varstage[1]);
         }
         private (MassEditResult, List<EditorAction>) ParseVarOpStep(string restOfStages)
@@ -192,6 +194,8 @@ namespace StudioCore.ParamEditor
             paramRowSelector = paramrowstage[0].Trim();
             if (paramRowSelector.Equals(""))
                 return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find paramrow filter. Add : and one of "+String.Join(", ", ParamAndRowSearchEngine.parse.AvailableCommandsForHelpText())), null);
+            if (paramrowstage.Length < 2)
+                return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find cell filter or row operation. Check your colon placement."), null);
             return ParseCellStep(paramrowstage[1]);
         }
         private (MassEditResult, List<EditorAction>) ParseParamStep(string restOfStages)
@@ -200,6 +204,8 @@ namespace StudioCore.ParamEditor
             paramSelector = paramstage[0].Trim();
             if (paramSelector.Equals(""))
                 return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find param filter. Add : and one of "+String.Join(", ", ParamSearchEngine.pse.AvailableCommandsForHelpText())), null);
+            if (paramstage.Length < 2)
+                return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find row filter. Check your colon placement."), null);
             return ParseRowStep(paramstage[1]);
         }
         private (MassEditResult, List<EditorAction>) ParseRowStep(string restOfStages)
@@ -208,7 +214,17 @@ namespace StudioCore.ParamEditor
             rowSelector = rowstage[0].Trim();
             if (rowSelector.Equals(""))
                 return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find row filter. Add : and one of "+String.Join(", ", RowSearchEngine.rse.AvailableCommandsForHelpText())), null);
-            return ParseCellStep(rowstage[1]);
+            if (rowstage.Length < 2)
+                return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find cell filter or row operation to perform. Check your colon placement."), null);
+            if (MERowOperation.rowOps.HandlesCommand(cellSelector.Split(" ", 2)[0]))
+            {
+                rowOpOrCellStageFunc = ExecRowOp;
+                return ParseRowOpStep(rowstage[1]);
+            }
+            else
+            {
+                return ParseCellStep(rowstage[1]);
+            }
         }
         private (MassEditResult, List<EditorAction>) ParseCellStep(string restOfStages)
         {
@@ -216,17 +232,10 @@ namespace StudioCore.ParamEditor
             cellSelector = cellstage[0].Trim();
             if (cellSelector.Equals(""))
                 return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find cell/property filter. Add : and one of "+String.Join(", ", CellSearchEngine.cse.AvailableCommandsForHelpText())+" or Name (0 args)"), null);
-            
-            if (MERowOperation.rowOps.HandlesCommand(cellSelector.Split(" ", 2)[0]))
-            {
-                rowOpOrCellStageFunc = ExecRowOp;
-                return ParseRowOpStep(restOfStages);
-            }
-            else
-            {
-                rowOpOrCellStageFunc = ExecCellStage;
-                return ParseCellOpStep(cellstage[1]);
-            }
+            if (cellstage.Length < 2)
+                return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find operation to perform. Check your colon placement."), null);
+            rowOpOrCellStageFunc = ExecCellStage;
+            return ParseCellOpStep(cellstage[1]);
         }
         private (MassEditResult, List<EditorAction>) ParseRowOpStep(string restOfStages)
         {
@@ -395,13 +404,30 @@ namespace StudioCore.ParamEditor
         }
         private MassEditResult ExecCellOp(string[] cellArgValues, string paramname, Param.Row row, (PseudoColumn, Param.Column) col, List<EditorAction> partialActions)
         {
-            var res = genericFunc(row.Get(col), cellArgValues);
+            object res = null;
+            string errHelper = null;
+            try
+            {
+                res = genericFunc(row.Get(col), cellArgValues);
+            }
+            catch (FormatException e)
+            {
+                errHelper = "Type is not correct";
+            }
+            catch (InvalidCastException e)
+            {
+                errHelper = "Cannot cast to correct type";
+            }
+            catch (Exception e)
+            {
+                errHelper = "Unknown error";
+            }
             if (res == null && col.Item1 == PseudoColumn.ID)
-                return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {cellOperation} {String.Join(' ', cellArgValues)} on ID");
+                return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {cellOperation} {String.Join(' ', cellArgValues)} on ID ({errHelper})");
             else if (res == null && col.Item1 == PseudoColumn.Name)
-                return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {cellOperation} {String.Join(' ', cellArgValues)} on Name");
+                return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {cellOperation} {String.Join(' ', cellArgValues)} on Name ({errHelper})");
             else if (res == null)
-                return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {cellOperation} {String.Join(' ', cellArgValues)} on field {col.Item2.Def.InternalName}");
+                return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {cellOperation} {String.Join(' ', cellArgValues)} on field {col.Item2.Def.InternalName} ({errHelper})");
             addAction(row, col, res, partialActions);
             return new MassEditResult(MassEditResultType.SUCCESS, "");
         }
