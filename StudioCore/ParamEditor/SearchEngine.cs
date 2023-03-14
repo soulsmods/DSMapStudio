@@ -112,7 +112,7 @@ namespace StudioCore.Editor
                     for (int i=0; i<argC; i++)
                     {
                         if (args[i].StartsWith('$'))
-                            args[i] = MassParamEdit.massEditVars[args[i].Substring(1)];
+                            args[i] = MassParamEdit.massEditVars[args[i].Substring(1)].ToString();
                     }
 
                     var filter = method(args, lenient);
