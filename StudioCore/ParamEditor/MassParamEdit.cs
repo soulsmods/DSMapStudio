@@ -636,6 +636,10 @@ namespace StudioCore.ParamEditor
                     MassParamEdit.massEditVars[args[0]] = args[1];
                 return true;
             }));
+            operations.Add("clearvars", (new string[0], (selectionState, args) => {
+                MassParamEdit.massEditVars.Clear();
+                return true;
+            }));
         }
     }
     public class MERowOperation : MEOperation<(string, Param.Row), (Param, Param.Row)>

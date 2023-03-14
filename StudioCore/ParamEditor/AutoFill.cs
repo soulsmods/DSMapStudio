@@ -340,7 +340,7 @@ namespace StudioCore.ParamEditor
             if (MassParamEdit.massEditVars.Count == 0)
                 return null;
             ImGui.SameLine();
-            ImGui.Button($@"{ForkAwesome.CaretDown}");
+            ImGui.Button("$");
             if (ImGui.BeginPopupContextItem("##meautoinputvarpopup"+id, ImGuiPopupFlags.MouseButtonLeft))
             {
                 ImGui.TextUnformatted("Defined variables...");
