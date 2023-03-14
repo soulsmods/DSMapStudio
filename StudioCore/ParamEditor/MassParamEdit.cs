@@ -180,6 +180,7 @@ namespace StudioCore.ParamEditor
             varOperation = operationstage[0].Trim();
             if (varOperation.Equals("") || !MEValueOperation.valueOps.operations.ContainsKey(varOperation))
                 return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find operation to perform. Add : and one of + - * / replace"), null);
+            (argNames, genericFunc) = MEValueOperation.valueOps.operations[varOperation];
             ExecParamOperationArguments(operationstage.Length > 1 ? operationstage[1] : null);
             if (argc != paramArgFuncs.Length)
                 return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Invalid number of arguments for operation {varOperation}"), null);

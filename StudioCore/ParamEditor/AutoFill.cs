@@ -100,6 +100,7 @@ namespace StudioCore.ParamEditor
     {
         // Type hell. Can't omit the type.
         static AutoFillSearchEngine<ParamEditorSelectionState, (MassEditRowSource, Param.Row)> autoFillParse = new ("parse", ParamAndRowSearchEngine.parse);
+        static AutoFillSearchEngine<bool, string> autoFillVse = new ("vse", VarSearchEngine.vse);
         static AutoFillSearchEngine<bool, (ParamBank, Param)> autoFillPse = new ("pse", ParamSearchEngine.pse);
         static AutoFillSearchEngine<(ParamBank, Param), Param.Row> autoFillRse = new ("rse", RowSearchEngine.rse);
         static AutoFillSearchEngine<(string, Param.Row), (PseudoColumn, Param.Column)> autoFillCse = new ("cse", CellSearchEngine.cse);
@@ -155,6 +156,7 @@ namespace StudioCore.ParamEditor
             ImGui.Button($@"{ForkAwesome.CaretDown}");
             if (ImGui.BeginPopupContextItem("##meautoinputoapopup", ImGuiPopupFlags.MouseButtonLeft))
             {
+                ImGui.PushID("paramrow");
                 ImGui.TextUnformatted("Select param and rows...");
                 string result1 = autoFillParse.Menu(false, ": ", () => 
                 {
@@ -171,7 +173,9 @@ namespace StudioCore.ParamEditor
                         return res1;
                     return res2;
                 });
+                ImGui.PopID();
                 ImGui.Separator();
+                ImGui.PushID("param");
                 ImGui.TextUnformatted("Select params...");
                 string result2 = autoFillPse.Menu(false, ": ", () =>
                 {
@@ -192,15 +196,28 @@ namespace StudioCore.ParamEditor
                         return res2;
                     });
                 });
+                ImGui.PopID();
                 ImGui.Separator();
+                ImGui.PushID("globalop");
                 ImGui.TextUnformatted("Select global operation...");
                 string result3 = MassEditAutoFillForOperation(MEGlobalOperation.globalOps, ref _autoFillArgsGop, ";", null);
+                ImGui.PopID();
+                ImGui.Separator();
+                ImGui.PushID("var");
+                ImGui.TextUnformatted("Select variables...");
+                string result4 = autoFillVse.Menu(false, ": ", () => 
+                {
+                    ImGui.TextUnformatted("Select value operation...");
+                    return MassEditAutoFillForOperation(MEValueOperation.valueOps, ref _autoFillArgsCop, ";", null);
+                });
                 ImGui.EndPopup();
                 if (result1 != null)
                     return result1;
                 if (result2 != null)
                     return result2;
-                return result3;
+                if (result3 != null)
+                    return result3;
+                return result4;
             }
             return null;
         }
