@@ -196,7 +196,10 @@ namespace StudioCore.ParamEditor
                 return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find paramrow filter. Add : and one of "+String.Join(", ", ParamAndRowSearchEngine.parse.AvailableCommandsForHelpText())), null);
             if (paramrowstage.Length < 2)
                 return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find cell filter or row operation. Check your colon placement."), null);
-            return ParseCellStep(paramrowstage[1]);
+            if (MERowOperation.rowOps.HandlesCommand(rowSelector.Split(" ", 2)[0]))
+                return ParseRowOpStep(paramrowstage[1]);
+            else
+                return ParseCellStep(paramrowstage[1]);
         }
         private (MassEditResult, List<EditorAction>) ParseParamStep(string restOfStages)
         {
@@ -216,15 +219,10 @@ namespace StudioCore.ParamEditor
                 return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find row filter. Add : and one of "+String.Join(", ", RowSearchEngine.rse.AvailableCommandsForHelpText())), null);
             if (rowstage.Length < 2)
                 return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find cell filter or row operation to perform. Check your colon placement."), null);
-            if (MERowOperation.rowOps.HandlesCommand(cellSelector.Split(" ", 2)[0]))
-            {
-                rowOpOrCellStageFunc = ExecRowOp;
+            if (MERowOperation.rowOps.HandlesCommand(rowSelector.Split(" ", 2)[0]))
                 return ParseRowOpStep(rowstage[1]);
-            }
             else
-            {
                 return ParseCellStep(rowstage[1]);
-            }
         }
         private (MassEditResult, List<EditorAction>) ParseCellStep(string restOfStages)
         {
@@ -247,6 +245,7 @@ namespace StudioCore.ParamEditor
             ExecParamOperationArguments(operationstage.Length > 1 ? operationstage[1] : null);
             if (argc != paramArgFuncs.Length)
                 return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Invalid number of arguments for operation {rowOperation}"), null);
+            rowOpOrCellStageFunc = ExecRowOp;
             return SandboxMassEditExecution((partials) => paramRowSelector != null ? ExecParamRowStage(partials) : ExecParamStage(partials));
         }
         private (MassEditResult, List<EditorAction>) ParseCellOpStep(string restOfStages)
