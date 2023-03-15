@@ -196,7 +196,7 @@ namespace StudioCore.ParamEditor
                 return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find paramrow filter. Add : and one of "+String.Join(", ", ParamAndRowSearchEngine.parse.AvailableCommandsForHelpText())), null);
             if (paramrowstage.Length < 2)
                 return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find cell filter or row operation. Check your colon placement."), null);
-            if (MERowOperation.rowOps.HandlesCommand(rowSelector.Split(" ", 2)[0]))
+            if (MERowOperation.rowOps.HandlesCommand(paramrowstage[1].Split(" ", 2)[0]))
                 return ParseRowOpStep(paramrowstage[1]);
             else
                 return ParseCellStep(paramrowstage[1]);
@@ -219,7 +219,7 @@ namespace StudioCore.ParamEditor
                 return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find row filter. Add : and one of "+String.Join(", ", RowSearchEngine.rse.AvailableCommandsForHelpText())), null);
             if (rowstage.Length < 2)
                 return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find cell filter or row operation to perform. Check your colon placement."), null);
-            if (MERowOperation.rowOps.HandlesCommand(rowSelector.Split(" ", 2)[0]))
+            if (MERowOperation.rowOps.HandlesCommand(rowstage[1].Split(" ", 2)[0]))
                 return ParseRowOpStep(rowstage[1]);
             else
                 return ParseCellStep(rowstage[1]);
