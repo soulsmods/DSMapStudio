@@ -244,7 +244,7 @@ namespace StudioCore.MsbEditor
             var selected = _selection.GetFilteredSelection<Entity>();
             foreach (var s in selected)
             {
-                var rot = s.GetLocalTransform().EulerRotation;
+                var rot = s.GetRootTransform().EulerRotation;
 
                 Transform newPos = new Transform(new_pos, rot);
 
