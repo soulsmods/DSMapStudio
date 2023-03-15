@@ -364,6 +364,15 @@ namespace StudioCore.Scene
             {
                 ScheduleRenderableConstruction();
             }
+
+            // George addition (remove if bad).
+            // Create default placeholder renderable. Will be used if proper mesh cannot (unlocatable/unloadable). This is diposed otherwise.
+            _placeholderProxy =
+                DebugPrimitiveRenderableProxy.GetModelMarkerProxy(_renderablesSet, _placeholderType);
+            _placeholderProxy.World = World;
+            _placeholderProxy.Visible = Visible;
+            _placeholderProxy.DrawFilter = _drawfilter;
+            _placeholderProxy.DrawGroups = _drawgroups;
         }
 
         public MeshRenderableProxy(MeshRenderableProxy clone) :
@@ -778,6 +787,15 @@ namespace StudioCore.Scene
                 if (_registered)
                 {
                     _placeholderProxy.Register();
+                }
+            }
+            else
+            {
+                // George addition (remove if bad).
+                if (_placeholderProxy != null)
+                {
+                    _placeholderProxy.Dispose();
+                    _placeholderProxy = null;
                 }
             }
         }
