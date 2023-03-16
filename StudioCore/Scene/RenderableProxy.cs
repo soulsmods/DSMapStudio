@@ -374,7 +374,7 @@ namespace StudioCore.Scene
                 ScheduleRenderableConstruction();
             }
 
-            // George addition
+            // Default placeholderProxy
             if (_placeholderType != ModelMarkerType.None)
             {
                 _placeholderProxy =
@@ -397,8 +397,6 @@ namespace StudioCore.Scene
                     _placeholderProxy.Register();
                 }
             }
-            //
-
         }
 
         public MeshRenderableProxy(MeshRenderableProxy clone) :
