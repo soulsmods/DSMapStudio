@@ -25,5 +25,7 @@ namespace StudioCore
 #endif
 
         public static bool EnablePartialParam = false;
+
+        public static bool GiveAllRenderablesModelMarkers = true;
     }
 }
