@@ -376,7 +376,7 @@ namespace StudioCore.Scene
             _placeholderProxy =
                 DebugPrimitiveRenderableProxy.GetModelMarkerProxy(_renderablesSet, _placeholderType);
             _placeholderProxy.World = World;
-            //_placeholderProxy.Visible = false;
+            _placeholderProxy.Visible = _visible;
             _placeholderProxy.DrawFilter = _drawfilter;
             _placeholderProxy.DrawGroups = _drawgroups;
             if (_selectable != null)
@@ -392,6 +392,7 @@ namespace StudioCore.Scene
             {
                 _placeholderProxy.Register();
             }
+            //
 
         }
 
@@ -444,7 +445,6 @@ namespace StudioCore.Scene
             if (_placeholderProxy != null)
             {
                 _placeholderProxy.UnregisterAndRelease();
-                _placeholderProxy.Dispose();
                 _placeholderProxy = null;
             }
 
