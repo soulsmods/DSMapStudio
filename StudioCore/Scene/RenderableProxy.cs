@@ -164,6 +164,7 @@ namespace StudioCore.Scene
 
         private ModelMarkerType _placeholderType;
         private RenderableProxy? _placeholderProxy = null;
+        private bool _showPlaceholderProxy;
 
         private int _renderable = -1;
         private int _selectionOutlineRenderable = -1;
@@ -246,8 +247,8 @@ namespace StudioCore.Scene
 
                 if (_placeholderProxy != null)
                 {
-                    if (VisibleModelMarker ||
-                        FeatureFlags.GiveAllRenderablesModelMarkers && true)
+                    if (_showPlaceholderProxy ||
+                        (CFG.Current.Map_ShowModelMarkersForEverything && FeatureFlags.GiveAllRenderablesModelMarkers))
                     {
                         _placeholderProxy.Visible = _visible;
                     }
@@ -355,8 +356,6 @@ namespace StudioCore.Scene
             return b;
         }
 
-        public bool VisibleModelMarker;
-
         public MeshRenderableProxy(
             MeshRenderables renderables,
             MeshProvider provider,
@@ -368,7 +367,7 @@ namespace StudioCore.Scene
             _renderablesSet = renderables;
             _meshProvider = provider;
             _placeholderType = placeholderType;
-            VisibleModelMarker = _placeholderType != ModelMarkerType.None;
+            _showPlaceholderProxy = _placeholderType != ModelMarkerType.None;
             _meshProvider.AddEventListener(this);
             _meshProvider.Acquire();
             if (autoregister)
@@ -764,7 +763,7 @@ namespace StudioCore.Scene
 
         public void OnProviderAvailable()
         {
-            VisibleModelMarker = _placeholderType != ModelMarkerType.None;
+            _showPlaceholderProxy = _placeholderType != ModelMarkerType.None;
             for (int i = 0; i < _meshProvider.ChildCount; i++)
             {
                 var child = new MeshRenderableProxy(_renderablesSet, _meshProvider.GetChildProvider(i),
@@ -786,7 +785,7 @@ namespace StudioCore.Scene
 
                 if (child._meshProvider != null && child._meshProvider.IsAvailable() && child._meshProvider.IndexCount > 0)
                 {
-                    VisibleModelMarker = false;
+                    _showPlaceholderProxy = false;
                 }
             }
 
@@ -795,11 +794,11 @@ namespace StudioCore.Scene
                 ScheduleRenderableConstruction();
                 if (_meshProvider != null && _meshProvider.IndexCount > 0)
                 {
-                    VisibleModelMarker = false;
+                    _showPlaceholderProxy = false;
                 }
             }
 
-            if (!VisibleModelMarker && _placeholderProxy != null)
+            if (!_showPlaceholderProxy && _placeholderProxy != null)
             {
                 _placeholderProxy.Visible = false;
             }

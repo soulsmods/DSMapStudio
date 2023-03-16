@@ -107,6 +107,7 @@ namespace StudioCore
             public KeyBind Map_Dummify = new(Key.Comma, false, false, true);
             public KeyBind Map_UnDummify = new(Key.Period, false, false, true);
             public KeyBind Map_MoveSelectionToCamera = new(Key.X);
+            public KeyBind Map_ShowModelMarkersForEverything = new(Key.M, true);
 
             // Parameters
             public KeyBind Param_SelectAll = new(Key.A, true);
