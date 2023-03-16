@@ -893,17 +893,23 @@ namespace StudioCore.ParamEditor
                 ImGui.Text("Occurances in "+_statisticPopupParameter);
                 ImGui.Text("Count".PadLeft(9)+" Value");
                 ImGui.SameLine();
-                ImGui.SameLine();
-                if (ImGui.Button("Sort by count"))
+                try
                 {
-                    _distributionOutput = _distributionOutput.OrderByDescending((g) => g.Item2);
-                    _statisticPopupOutput = String.Join('\n', _distributionOutput.Select((e) => e.Item2.ToString().PadLeft(9) + " " + e.Item1.ToParamEditorString()));
+                    if (ImGui.Button("Sort by count"))
+                    {
+                        _distributionOutput = _distributionOutput.OrderByDescending((g) => g.Item2);
+                        _statisticPopupOutput = String.Join('\n', _distributionOutput.Select((e) => e.Item2.ToString().PadLeft(9) + " " + e.Item1.ToParamEditorString()));
+                    }
+                    ImGui.SameLine();
+                    if (ImGui.Button("Sort by value"))
+                    {
+                        _distributionOutput = _distributionOutput.OrderBy((g) => g.Item1);
+                        _statisticPopupOutput = String.Join('\n', _distributionOutput.Select((e) => e.Item2.ToString().PadLeft(9) + " " + e.Item1.ToParamEditorString()));
+                    }
                 }
-                ImGui.SameLine();
-                if (ImGui.Button("Sort by value"))
+                catch (Exception e)
                 {
-                    _distributionOutput = _distributionOutput.OrderBy((g) => g.Item1);
-                    _statisticPopupOutput = String.Join('\n', _distributionOutput.Select((e) => e.Item2.ToString().PadLeft(9) + " " + e.Item1.ToParamEditorString()));
+                    // Happily ignore exceptions. This is non-mutating code with no critical use.
                 }
                 ImGui.Separator();
                 ImGui.Text(_statisticPopupOutput);
