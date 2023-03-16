@@ -720,6 +720,10 @@ namespace StudioCore.MsbEditor
                     Viewport.SceneParamsGui();
                     ImGui.EndMenu();
                 }
+                if (ImGui.MenuItem("Show model markers for everything", KeyBindings.Current.Map_ShowModelMarkersForEverything.HintText, CFG.Current.Map_ShowModelMarkersForEverything))
+                {
+                    ToggleShowModelMarkersForEverything();
+                }
                 CFG.Current.LastSceneFilter = RenderScene.DrawFilter;
                 ImGui.EndMenu();
             }
@@ -760,10 +764,6 @@ namespace StudioCore.MsbEditor
                         Gizmos.Origin = Gizmos.GizmosOrigin.BoundingBox;
                     }
                     ImGui.EndMenu();
-                }
-                if (ImGui.MenuItem("Show model markers for everything", KeyBindings.Current.Map_ShowModelMarkersForEverything.HintText, CFG.Current.Map_ShowModelMarkersForEverything))
-                {
-                    ToggleShowModelMarkersForEverything();
                 }
                 ImGui.EndMenu();
             }
