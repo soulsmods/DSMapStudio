@@ -718,7 +718,7 @@ namespace StudioCore.ParamEditor
             }
             ImGui.PopStyleVar();
         }
-        private static void PropertyRowValueContextMenu(ParamBank bank, string internalName, string VirtualRef, dynamic oldval)
+        private void PropertyRowValueContextMenu(ParamBank bank, string internalName, string VirtualRef, dynamic oldval)
         {
             if (ImGui.BeginPopupContextItem("quickMEdit"))
             {
@@ -729,6 +729,10 @@ namespace StudioCore.ParamEditor
                 if (ImGui.Selectable("Reset all selected..."))
                 {
                     EditorCommandQueue.AddCommand($@"param/menu/massEditRegex/selection: {Regex.Escape(internalName)}: = vanilla;");
+                }
+                if (ImGui.Selectable("View distribution..."))
+                {
+                    EditorCommandQueue.AddCommand($@"param/menu/distributionPopup/{internalName}");
                 }
                 if (VirtualRef != null)
                     EditorDecorations.VirtualParamRefSelectables(bank, VirtualRef, oldval);
