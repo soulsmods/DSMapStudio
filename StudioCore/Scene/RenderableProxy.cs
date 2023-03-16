@@ -247,8 +247,7 @@ namespace StudioCore.Scene
 
                 if (_placeholderProxy != null)
                 {
-                    if (_showPlaceholderProxy ||
-                        (CFG.Current.Map_ShowModelMarkersForEverything && FeatureFlags.GiveAllRenderablesModelMarkers))
+                    if (_showPlaceholderProxy || CFG.Current.Map_ShowModelMarkersForEverything)
                     {
                         _placeholderProxy.Visible = _visible;
                     }
