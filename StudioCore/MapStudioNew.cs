@@ -544,7 +544,7 @@ namespace StudioCore
 
                     var rbrowseDlg = new System.Windows.Forms.OpenFileDialog()
                     {
-                        Filter = AssetLocator.GameExecutatbleFilter,
+                        Filter = AssetLocator.GameExecutableFilter,
                         ValidateNames = true,
                         CheckFileExists = true,
                         CheckPathExists = true,
@@ -1097,7 +1097,7 @@ namespace StudioCore
                 ImGui.Text("Game Executable:   ");
                 ImGui.SameLine();
                 Utils.ImGuiGenericHelpPopup("?", "##Help_GameExecutable",
-                    "The location of the game's .EXE file.\nThe folder with the .EXE will be used to obtain unpacked game data.");
+                    "The location of the game's .EXE or EBOOT.BIN file.\nThe folder with the executable will be used to obtain unpacked game data.");
                 ImGui.SameLine();
                 var gname = _newProjectOptions.settings.GameRoot;
                 if (ImGui.InputText("##gdir", ref gname, 255))
@@ -1111,7 +1111,7 @@ namespace StudioCore
                 {
                     var browseDlg = new System.Windows.Forms.OpenFileDialog()
                     {
-                        Filter = AssetLocator.GameExecutatbleFilter,
+                        Filter = AssetLocator.GameExecutableFilter,
                         ValidateNames = true,
                         CheckFileExists = true,
                         CheckPathExists = true,
