@@ -520,7 +520,7 @@ namespace StudioCore.ParamEditor
                     {
                         string v = csvs[index];
                         index++;
-                        object newval = WithDynamicOf(row.Get((PseudoColumn.None, col)), (v) => v);
+                        object newval = WithDynamicOf(row.Get((PseudoColumn.None, col)), (oldv) => v);
                         if (newval == null)
                             return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not assign {v} to field {col.Def.InternalName}");
                         addAction(row, (PseudoColumn.None, col), newval, actions);
@@ -588,7 +588,7 @@ namespace StudioCore.ParamEditor
                         {
                             return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not locate field {field}"), null);
                         }
-                        object newval = WithDynamicOf(row.Get((PseudoColumn.None, col)), (v) => v);
+                        object newval = WithDynamicOf(row.Get((PseudoColumn.None, col)), (v) => value);
                         if (newval == null)
                             return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not assign {value} to field {col.Def.InternalName}"), null);
                         addAction(row, (PseudoColumn.None, col), newval, actions);
