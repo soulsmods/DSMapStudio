@@ -214,7 +214,7 @@ namespace StudioCore
         public float Map_ArbitraryRotation_X_Shift { get; set; } = 90.0f;
         public float Map_ArbitraryRotation_Y_Shift { get; set; } = 90.0f;
         public float Map_MoveSelectionToCamera_Radius = 3.0f;
-        public bool Map_ShowModelMarkersForEverything = true;
+        public bool Map_ShowModelMarkersForEverything = false;
 
         // Font settings
         public bool FontChinese = false;
