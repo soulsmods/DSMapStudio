@@ -1371,7 +1371,7 @@ namespace SoulsFormats
             }
 
             /// <summary>
-            /// Connects map tiles or something?
+            /// Used to align different maps.
             /// </summary>
             public class Connection : Region
             {
@@ -1379,20 +1379,29 @@ namespace SoulsFormats
                 private protected override bool HasTypeData => true;
 
                 /// <summary>
-                /// Unknown.
+                /// Map ID this connection targets.
                 /// </summary>
-                public uint MapID2 { get; set; }
+                public sbyte[] TargetMapID { get; private set; }
 
                 /// <summary>
                 /// Creates a Connection with default values.
                 /// </summary>
-                public Connection() : base($"{nameof(Region)}: {nameof(Connection)}") { }
+                public Connection() : base($"{nameof(Region)}: {nameof(Connection)}") 
+                {
+                    TargetMapID = new sbyte[4];
+                }
+
+                private protected override void DeepCopyTo(Region region)
+                {
+                    var connect = (Connection)region;
+                    connect.TargetMapID = (sbyte[])TargetMapID.Clone();
+                }
 
                 internal Connection(BinaryReaderEx br) : base(br) { }
 
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
-                    MapID2 = br.ReadUInt32();
+                    TargetMapID = br.ReadSBytes(4);
                     br.AssertInt32(0);
                     br.AssertInt32(0);
                     br.AssertInt32(0);
@@ -1400,7 +1409,7 @@ namespace SoulsFormats
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    bw.WriteUInt32(MapID2);
+                    bw.WriteSBytes(TargetMapID);
                     bw.WriteUInt32(0);
                     bw.WriteUInt32(0);
                     bw.WriteUInt32(0);

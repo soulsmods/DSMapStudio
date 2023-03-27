@@ -2761,9 +2761,9 @@ namespace SoulsFormats
                     public float Unk10 { get; set; }
 
                     /// <summary>
-                    /// Unknown.
+                    /// Disables the asset when the specified map is loaded.
                     /// </summary>
-                    public int Unk14 { get; set; }
+                    public sbyte[] DisableWhenMapLoadedMapID { get; private set; }
 
                     /// <summary>
                     /// Unknown.
@@ -2793,14 +2793,19 @@ namespace SoulsFormats
                     /// <summary>
                     /// Creates an AssetUnkStruct3 with default values.
                     /// </summary>
-                    public AssetUnkStruct3() { }
+                    public AssetUnkStruct3()
+                    {
+                        DisableWhenMapLoadedMapID = new sbyte[4];
+                    }
 
                     /// <summary>
                     /// Creates a deep copy of the struct.
                     /// </summary>
                     public AssetUnkStruct3 DeepCopy()
                     {
-                        return (AssetUnkStruct3)MemberwiseClone();
+                        var unks3 = (AssetUnkStruct3)MemberwiseClone();
+                        unks3.DisableWhenMapLoadedMapID = (sbyte[])DisableWhenMapLoadedMapID.Clone();
+                        return unks3;
                     }
 
                     internal AssetUnkStruct3(BinaryReaderEx br)
@@ -2814,7 +2819,7 @@ namespace SoulsFormats
                         Unk0C = br.ReadInt16();
                         Unk0E = br.ReadInt16();
                         Unk10 = br.ReadSingle();
-                        Unk14 = br.ReadInt32();
+                        DisableWhenMapLoadedMapID = br.ReadSBytes(4);
                         Unk18 = br.ReadInt32();
                         Unk1C = br.ReadInt32();
                         Unk20 = br.ReadInt32();
@@ -2841,7 +2846,7 @@ namespace SoulsFormats
                         bw.WriteInt16(Unk0C);
                         bw.WriteInt16(Unk0E);
                         bw.WriteSingle(Unk10);
-                        bw.WriteInt32(Unk14);
+                        bw.WriteSBytes(DisableWhenMapLoadedMapID);
                         bw.WriteInt32(Unk18);
                         bw.WriteInt32(Unk1C);
                         bw.WriteInt32(Unk20);
