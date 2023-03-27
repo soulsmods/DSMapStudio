@@ -815,7 +815,7 @@ namespace StudioCore.ParamEditor
                 ImGui.Text(_mEditRegexResult);
                 ImGui.InputTextMultiline("##MEditRegexOutput", ref _lastMEditRegexInput, 65536, new Vector2(1024, ImGui.GetTextLineHeightWithSpacing() * 4) * scale, ImGuiInputTextFlags.ReadOnly);
                 ImGui.TextUnformatted("Remember to handle clipboard state between edits with the 'clear' command");
-                string result = AutoFill.MassEditAutoFill();
+                string result = AutoFill.MassEditCompleteAutoFill();
                 if (result != null)
                 {
                     if (string.IsNullOrWhiteSpace(_currentMEditRegexInput))
