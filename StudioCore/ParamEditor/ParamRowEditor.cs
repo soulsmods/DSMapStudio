@@ -355,10 +355,10 @@ namespace StudioCore.ParamEditor
                         crow,
                         matches[i],
                         vrow,
-                        vmatches[i],
+                        vmatches.Count > i ? vmatches[i] : (PseudoColumn.None, null),
                         auxRows,
                         auxMatches.Select((x, j) => x.Count > i ? x[i] : (PseudoColumn.None, null)).ToList(),
-                        matches[i].Item2.GetByteOffset().ToString("x"),
+                        matches[i].Item2?.GetByteOffset().ToString("x"),
                         ref id, activeParam, true);
                     }
                 }
