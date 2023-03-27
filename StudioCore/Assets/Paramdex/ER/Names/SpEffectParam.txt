@@ -320,6 +320,9 @@
 5837 Undead Enemy
 6000 Enemy - Pushed by Rolls
 6020 Enemy - Ignores Roll Push
+6030 Enemy - Parry Resistance +1 (2 parries before riposte)
+6031 Enemy - Parry Resistance +2 (3 parries before riposte)
+6032 Enemy - Parry Resistance +3 (4 parries before riposte)
 6350 Toughness 1 (Small/Min)
 6351 Toughness 2 (Medium/Push)
 6352 Toughness 3 (Large)
