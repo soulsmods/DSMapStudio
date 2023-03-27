@@ -236,11 +236,7 @@ namespace StudioCore.MsbEditor
             bool loadnav = false;
             bool loadflver = false;
             Scene.RenderFilter filt = Scene.RenderFilter.All;
-            var amapid = map.Name.Substring(0, 6) + "_00_00";
-            if (_assetLocator.Type == GameType.EldenRing)
-            {
-                amapid = map.Name;
-            }
+            var amapid = _assetLocator.GetAssetMapID(map.Name);
             // Special case for chalice dungeon assets
             if (map.Name.StartsWith("m29"))
             {

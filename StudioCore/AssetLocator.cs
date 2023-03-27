@@ -956,6 +956,10 @@ namespace StudioCore
                 // Elden Ring all maps have their own assets
                 amapid = mapid;
             }
+            else if (Type == GameType.DemonsSouls)
+            {
+                amapid = mapid;
+            }
             // Special case for chalice dungeon assets
             if (mapid.StartsWith("m29"))
             {
