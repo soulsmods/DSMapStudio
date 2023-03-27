@@ -990,7 +990,7 @@ Requires State Info 66" />
     <overwrite_backhomeBattleDist AltName="Override - Back Home Battle Distance" Wiki="Distance to give up and fight to return to the nest [m] _ overwrite" />
     <overwrite_BackHome_LookTargetDist AltName="Override - Look Target Distance" Wiki="When returning home: Distance to see the target [m] _ Overwrite" />
     <goodsConsumptionRate AltName="Item FP Consumption %" Wiki="Item consumption MP multiplier" />
-    <pad3 AltName=""/>
+    <guardStaminaMult AltName="Guard Stamina Multiplier" Wiki="Multiplies stamina lost when blocking an attack"/>
   </Field>
   <Self Wiki="Defines various effects that can be applied to the player and to enemies.\nCan define passive, activated, single-use and repeated or continuous application effects with indefinite duration.\nSuccessful application may depend on spCategory or invocationConditions." Row0Dummy="" AlternativeOrder="iconId,-,
   
