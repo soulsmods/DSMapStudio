@@ -2,9 +2,9 @@
 <PARAMMETA XmlVersion="0">
   <Enums>
     <Enum Name="TUTORIAL_MENU_TYPE" type="u8">
-        <Option Value="0" Name="Type 0" />
-        <Option Value="1" Name="Type 1" />
-        <Option Value="100" Name="Type 100" />
+        <Option Value="0" Name="Subtle (one-line)" />
+        <Option Value="1" Name="Subtle (multi-line)" />
+        <Option Value="100" Name="Intrusive (large)" />
     </Enum>
     <Enum Name="TUTORIAL_TRIGGER_TYPE" type="u8">
         <Option Value="0" Name="Type 0" />
@@ -30,8 +30,8 @@
         <Option Value="70" Name="Type 70" />
     </Enum>
     <Enum Name="TUTORIAL_REPEAT_TYPE" type="u8">
-        <Option Value="0" Name="Type 0" />
-        <Option Value="1" Name="Type 1" />
+        <Option Value="0" Name="Can only display once" />
+        <Option Value="1" Name="Can display more than once" />
     </Enum>
   </Enums>
   <Field>
@@ -40,7 +40,7 @@
     <disableParamReserve2 AltName=""/>
     <menuType AltName="Menu Type" Wiki="Specifies the type of tutorial menu to display" Enum="TUTORIAL_MENU_TYPE" />
     <triggerType AltName="Trigger Type" Wiki="Display timing (default: 0: -). You will see this tutorial when you open this menu. Specify 0: - if you do not want to display it when you open the menu." Enum="TUTORIAL_TRIGGER_TYPE" />
-    <repeatType AltName="Repeat Type" Wiki="Number of times to display (default: 0: once in the game)" Enum="TUTORIAL_REPEAT_TYPE" />
+    <repeatType AltName="Repeat Type" Wiki="Number of times a tutorial can be displayed" Enum="TUTORIAL_REPEAT_TYPE" />
     <pad1 AltName=""/>
     <imageId AltName="Image ID" Wiki="Specifies the tutorial image ID to display (default: 0). Specify 0 if you do not want to display the image" />
     <pad2 AltName=""/>
