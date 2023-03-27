@@ -521,12 +521,10 @@
         <Option Value="2" Name="Type 2" />
     </Enum>
     <Enum Name="MAGIC_STATUS_TYPE" type="u8">
-      <Option Value="0" Name="None" />
-      <Option Value="1" Name="Strength" />
-      <Option Value="2" Name="Dexterity" />
+      <Option Value="0" Name="Strength" />
+      <Option Value="1" Name="Dexterity" />
+      <Option Value="2" Name="Faith" />
       <Option Value="3" Name="Intelligence" />
-      <Option Value="4" Name="Faith" />
-      <Option Value="5" Name="Arcane" />
     </Enum>
     <Enum Name="ATK_SUB_CATEGORY" type="u8">
       <Option Value="0" Name="None" />
