@@ -2513,7 +2513,7 @@
 296122 Spirit Summon - Damage/Absorption Setup
 296156 Spirit Summon - Damage/Absorption Setup
 296159 Spirit Summon - Damage/Absorption Setup
-297000 Spirit Summon -
+297000 Spirit Summon - Follow & Warp to Player
 297100 Spirit Summon -
 297101 Spirit Summon -
 297102 Spirit Summon -
