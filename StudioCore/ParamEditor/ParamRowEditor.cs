@@ -329,8 +329,8 @@ namespace StudioCore.ParamEditor
             ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.8f, 0.8f, 1.0f, 1.0f));
             var nameProp = row.GetType().GetProperty("Name");
             var idProp = row.GetType().GetProperty("ID");
-            PropEditorPropInfoRow(bank, row, vrow, auxRows, crow, nameProp, "Name", ref id);
-            PropEditorPropInfoRow(bank, row, vrow, auxRows, crow, idProp, "ID", ref id);
+            PropEditorPropInfoRow(bank, row, vrow, auxRows, crow, nameProp, "Name", ref id, activeParam);
+            PropEditorPropInfoRow(bank, row, vrow, auxRows, crow, idProp, "ID", ref id, activeParam);
             ImGui.PopStyleColor();
             ImGui.Spacing();
             ImGui.Separator();
@@ -450,7 +450,7 @@ namespace StudioCore.ParamEditor
         }
 
         // Many parameter options, which may be simplified.
-        private void PropEditorPropInfoRow(ParamBank bank, Param.Row row, Param.Row vrow, List<(string, Param.Row)> auxRows, Param.Row crow, PropertyInfo prop, string visualName, ref int id)
+        private void PropEditorPropInfoRow(ParamBank bank, Param.Row row, Param.Row vrow, List<(string, Param.Row)> auxRows, Param.Row crow, PropertyInfo prop, string visualName, ref int id, string activeParam)
         {
             PropEditorPropRow(
                 bank,
@@ -606,6 +606,9 @@ namespace StudioCore.ParamEditor
             }
 
             UpdateProperty(_editedTypeCache, _editedObjCache, _editedPropCache, changed, committed);
+            if (changed && committed && !ParamBank.VanillaBank.IsLoadingParams)
+                ParamBank.PrimaryBank.RefreshParamRowVanillaDiff(row, activeParam);
+
             ImGui.NextColumn();
             ImGui.PopID();
             id++;
