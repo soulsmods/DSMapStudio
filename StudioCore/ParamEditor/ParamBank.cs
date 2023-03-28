@@ -241,17 +241,23 @@ namespace StudioCore.ParamEditor
         /// </summary>
         private string GetDesGameparamName(string rootDirectory)
         {
-            string name = "gameparamna.parambnd.dcx";
-            if (File.Exists($@"{rootDirectory}\param\gameparam\{name}"))
+            string name = "";
+
+            // This BLUS check is legacy code and doesn't make sense, but it's being kept for load order consistency with older versions of DSMS.
+            if (Directory.GetParent(AssetLocator.GameRootDirectory).Parent.FullName.Contains("BLUS"))
             {
-                return name;
+                name = "gameparamna.parambnd.dcx";
+                if (File.Exists($@"{rootDirectory}\param\gameparam\{name}"))
+                {
+                    return name;
+                }
+                name = "gameparamna.parambnd";
+                if (File.Exists($@"{rootDirectory}\param\gameparam\{name}"))
+                {
+                    return name;
+                }
             }
             name = "gameparam.parambnd.dcx";
-            if (File.Exists($@"{rootDirectory}\param\gameparam\{name}"))
-            {
-                return name;
-            }
-            name = "gameparamna.parambnd";
             if (File.Exists($@"{rootDirectory}\param\gameparam\{name}"))
             {
                 return name;
