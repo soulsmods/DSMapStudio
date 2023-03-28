@@ -544,7 +544,7 @@ namespace StudioCore
 
                     var rbrowseDlg = new System.Windows.Forms.OpenFileDialog()
                     {
-                        Filter = AssetLocator.GameExecutatbleFilter,
+                        Filter = AssetLocator.GameExecutableFilter,
                         ValidateNames = true,
                         CheckFileExists = true,
                         CheckPathExists = true,
@@ -768,9 +768,10 @@ namespace StudioCore
                     if (ImGui.BeginMenu("Recent Projects", Editor.TaskManager.GetLiveThreads().Count == 0 && CFG.Current.RecentProjects.Count > 0))
                     {
                         CFG.RecentProject recent = null;
-                        foreach (var p in CFG.Current.RecentProjects)
+                        int id = 0;
+                        foreach (var p in CFG.Current.RecentProjects.ToArray())
                         {
-                            if (ImGui.MenuItem($@"{p.GameType.ToString()}:{p.Name}"))
+                            if (ImGui.MenuItem($@"{p.GameType}: {p.Name}##{id}"))
                             {
                                 if (File.Exists(p.ProjectFile))
                                 {
@@ -781,6 +782,16 @@ namespace StudioCore
                                     }
                                 }
                             }
+                            if (ImGui.BeginPopupContextItem())
+                            {
+                                if (ImGui.Selectable("Remove from list"))
+                                {
+                                    CFG.Current.RecentProjects.Remove(p);
+                                    CFG.Save();
+                                }
+                                ImGui.EndPopup();
+                            }
+                            id++;
                         }
                         if (recent != null)
                         {
@@ -1097,7 +1108,7 @@ namespace StudioCore
                 ImGui.Text("Game Executable:   ");
                 ImGui.SameLine();
                 Utils.ImGuiGenericHelpPopup("?", "##Help_GameExecutable",
-                    "The location of the game's .EXE file.\nThe folder with the .EXE will be used to obtain unpacked game data.");
+                    "The location of the game's .EXE or EBOOT.BIN file.\nThe folder with the executable will be used to obtain unpacked game data.");
                 ImGui.SameLine();
                 var gname = _newProjectOptions.settings.GameRoot;
                 if (ImGui.InputText("##gdir", ref gname, 255))
@@ -1111,7 +1122,7 @@ namespace StudioCore
                 {
                     var browseDlg = new System.Windows.Forms.OpenFileDialog()
                     {
-                        Filter = AssetLocator.GameExecutatbleFilter,
+                        Filter = AssetLocator.GameExecutableFilter,
                         ValidateNames = true,
                         CheckFileExists = true,
                         CheckPathExists = true,
@@ -1171,6 +1182,13 @@ namespace StudioCore
                     "Default: ON\nImports and applies row names from lists stored in Assets folder.\nRow names can be imported at any time in the param editor's Edit menu.");
                 ImGui.SameLine();
                 ImGui.Checkbox("##loadDefaultNames", ref _newProjectOptions.loadDefaultNames);
+                if (_newProjectOptions.settings.UseLooseParams == false
+                    && _newProjectOptions.loadDefaultNames == true 
+                    && _newProjectOptions.settings.GameType == GameType.DarkSoulsIISOTFS)
+                {
+                    ImGui.NewLine();
+                    ImGui.TextColored(new Vector4(1.0f, 0.4f, 0.4f, 1.0f), "Warning: Saving row names onto non-loose params will crash the game. It is highly recommended you use loose params with Dark Souls 2.");
+                }
                 ImGui.NewLine();
 
                 if (ImGui.Button("Create", new Vector2(120, 0) * scale))

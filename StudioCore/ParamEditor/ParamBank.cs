@@ -1665,6 +1665,7 @@ namespace StudioCore.ParamEditor
                     (10801000l, "1.08 - (BuddyParam) Set Unk1 to default value", "param BuddyParam: modified: Unk1: = 1410;"),
                     (10801000l, "1.08 - (BuddyParam) Set Unk2 to default value", "param BuddyParam: modified: Unk2: = 1420;"),
                     (10801000l, "1.08 - (BuddyParam) Set Unk11 to default value", "param BuddyParam: modified: Unk11: = 1400;"),
+                    (10900000l, "1.09 - (GameSystemCommonParam) Set reserved_124 to Vanilla v1.09 values", "param GameSystemCommonParam: id 0: reserved_124: = vanillafield reserved_124;")
                 };
             }
 

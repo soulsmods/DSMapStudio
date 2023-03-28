@@ -712,7 +712,7 @@ namespace StudioCore
         /// Search an object's properties and return whichever object has the targeted property.
         /// </summary>
         /// <returns>Object that has the property, otherwise null.</returns>
-        public static object FindPropertyObject(PropertyInfo prop, object obj)
+        public static object FindPropertyObject(PropertyInfo prop, object obj, int classIndex = -1)
         {
             foreach (var p in obj.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
             {
@@ -731,11 +731,20 @@ namespace StudioCore
                     if (pType.IsNested)
                     {
                         Array array = (Array)p.GetValue(obj);
-                        foreach (var i in array)
+                        if (classIndex != -1)
                         {
-                            var retObj = FindPropertyObject(prop, i);
+                            var retObj = FindPropertyObject(prop, array.GetValue(classIndex));
                             if (retObj != null)
                                 return retObj;
+                        }
+                        else
+                        {
+                            foreach (var arrayObj in array)
+                            {
+                                var retObj = FindPropertyObject(prop, arrayObj);
+                                if (retObj != null)
+                                    return retObj;
+                            }
                         }
                     }
                 }

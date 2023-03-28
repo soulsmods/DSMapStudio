@@ -231,18 +231,18 @@ namespace StudioCore.MsbEditor
         private List<PropertyChange> Changes = new();
         private HashSet<Entity> ChangedEnts = new();
 
-        public MultipleEntityPropertyChangeAction(PropertyInfo prop, HashSet<Entity> changedEnts, object newval, int index = -1)
+        public MultipleEntityPropertyChangeAction(PropertyInfo prop, HashSet<Entity> changedEnts, object newval, int index = -1, int classIndex = -1)
         {
             ChangedEnts = changedEnts;
             foreach (var o in changedEnts)
             {
-                var propObj = Utils.FindPropertyObject(prop, o.WrappedObject);
+                var propObj = Utils.FindPropertyObject(prop, o.WrappedObject, classIndex);
                 var change = new PropertyChange
                 {
                     ChangedObj = propObj,
                     Property = prop,
                     NewValue = newval,
-                    ArrayIndex = index
+                    ArrayIndex = index,
                 };
                 if (index != -1 && prop.PropertyType.IsArray)
                 {

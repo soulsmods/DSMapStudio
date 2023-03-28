@@ -162,7 +162,7 @@ namespace StudioCore.ParamEditor
         /// Any version numbers <= this will be allowed to upgrade.
         /// Used to restrict upgrading before DSMS properly supports it.
         /// </summary>
-        public readonly ulong ParamUpgradeER_TargetWhitelist_Threshold = 10899999L;
+        public readonly ulong ParamUpgradeER_TargetWhitelist_Threshold = 10999999L;
 
         public void UpgradeRegulation(ParamBank bank, ParamBank vanillaBank, string oldRegulation)
         {
@@ -274,10 +274,12 @@ namespace StudioCore.ParamEditor
         private void ParamUndo()
         {
             EditorActionManager.UndoAction();
+            TaskManager.Run("PB:RefreshDirtyCache", false, true, true, () => ParamBank.PrimaryBank.RefreshParamDiffCaches());
         }
         private void ParamRedo()
         {
             EditorActionManager.RedoAction();
+            TaskManager.Run("PB:RefreshDirtyCache", false, true, true, () => ParamBank.PrimaryBank.RefreshParamDiffCaches());
         }
 
         public override void DrawEditorMenu()
@@ -815,7 +817,7 @@ namespace StudioCore.ParamEditor
                 ImGui.Text(_mEditRegexResult);
                 ImGui.InputTextMultiline("##MEditRegexOutput", ref _lastMEditRegexInput, 65536, new Vector2(1024, ImGui.GetTextLineHeightWithSpacing() * 4) * scale, ImGuiInputTextFlags.ReadOnly);
                 ImGui.TextUnformatted("Remember to handle clipboard state between edits with the 'clear' command");
-                string result = AutoFill.MassEditAutoFill();
+                string result = AutoFill.MassEditCompleteAutoFill();
                 if (result != null)
                 {
                     if (string.IsNullOrWhiteSpace(_currentMEditRegexInput))
@@ -964,9 +966,6 @@ namespace StudioCore.ParamEditor
                     if (initcmd.Length > 2 && ParamBank.PrimaryBank.Params.ContainsKey(initcmd[2]))
                     {
                         doFocus = initcmd[0] == "select";
-                        if (_activeView._selection.getActiveRow() != null && !ParamBank.VanillaBank.IsLoadingParams)
-                            ParamBank.PrimaryBank.RefreshParamRowVanillaDiff(_activeView._selection.getActiveRow(), _activeView._selection.getActiveParam());
-
                         ParamEditorView viewToMofidy = _activeView;
                         if (initcmd[1].Equals("new"))
                             viewToMofidy = AddView();
@@ -994,9 +993,6 @@ namespace StudioCore.ParamEditor
                                 }
                             }
                         }
-                        if (_activeView._selection.getActiveRow() != null && !ParamBank.VanillaBank.IsLoadingParams)
-                            ParamBank.PrimaryBank.RefreshParamRowVanillaDiff(_activeView._selection.getActiveRow(), _activeView._selection.getActiveParam());
-
                     }
                 }
                 else if (initcmd[0] == "back")
@@ -1393,11 +1389,15 @@ namespace StudioCore.ParamEditor
             if (_activeParam != null)
             {
                 ParamEditorParamSelectionState s = _paramStates[_activeParam];
+                if (s.activeRow != null && !ParamBank.VanillaBank.IsLoadingParams)
+                    ParamBank.PrimaryBank.RefreshParamRowVanillaDiff(s.activeRow, _activeParam);
                 if (!isHistory)
                     pushHistory(_activeParam, s.activeRow);
                 s.activeRow = row;
                 s.selectionRows.Clear();
                 s.selectionRows.Add(row);
+                if (s.activeRow != null && !ParamBank.VanillaBank.IsLoadingParams)
+                    ParamBank.PrimaryBank.RefreshParamRowVanillaDiff(s.activeRow, _activeParam);
             }
         }
         public void SetCompareRow(Param.Row row)
@@ -1418,6 +1418,7 @@ namespace StudioCore.ParamEditor
                 else
                     s.selectionRows.Add(row);
             }
+            //Do not perform vanilla diff here, will be very slow when making large selections
         }
         public void addRowToSelection(Param.Row row)
         {
@@ -1427,6 +1428,7 @@ namespace StudioCore.ParamEditor
                 if (!s.selectionRows.Contains(row))
                     s.selectionRows.Add(row);
             }
+            //Do not perform vanilla diff here, will be very slow when making large selections
         }
         public void removeRowFromSelection(Param.Row row)
         {
