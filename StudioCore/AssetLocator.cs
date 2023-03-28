@@ -75,7 +75,8 @@ namespace StudioCore
     public class AssetLocator
     {
 
-        public static readonly string GameExecutatbleFilter =
+        public static readonly string GameExecutableFilter =
+            "Game Executable (.EXE, EBOOT.BIN) |*.EXE*;*EBOOT.BIN*|" +
             "Windows executable (*.EXE) |*.EXE*|" +
             "Playstation executable (*.BIN) |*.BIN*|" +
             "All Files|*.*";
@@ -953,6 +954,10 @@ namespace StudioCore
             if (Type == GameType.EldenRing)
             {
                 // Elden Ring all maps have their own assets
+                amapid = mapid;
+            }
+            else if (Type == GameType.DemonsSouls)
+            {
                 amapid = mapid;
             }
             // Special case for chalice dungeon assets
