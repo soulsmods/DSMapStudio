@@ -762,6 +762,30 @@ namespace SoulsFormats
             /// </summary>
             public class PseudoMultiplayer : Event
             {
+                /// <summary>
+                /// Determines character type (which determines victory conditions) the player will use in pseudo world.
+                /// </summary>
+                public enum PseudoPlayerChrType : byte
+                {
+                    #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+                    WhitePhantom = 0,
+                    RedPhantom = 1
+                    #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
+                }
+                /// <summary>
+                /// Determines which set of FMG entries to use in pseudo world for arrival/failure/success messages.
+                /// </summary>
+                public enum PseudoMessageSetType : byte
+                {
+                    #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+                    Default = 0,
+                    Sirris_Creighton = 1,
+                    Sirris_Hodrick = 2,
+                    Leonhard = 3,
+                    Anri = 4
+                    #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
+                }
+
                 private protected override EventType Type => EventType.PseudoMultiplayer;
 
                 /// <summary>
@@ -771,7 +795,7 @@ namespace SoulsFormats
                 public int HostEntityID { get; set; }
 
                 /// <summary>
-                /// Set when inside the event's region, unset when outside it.
+                /// Event flag set while the player is within a pseudo world. Unset when the player leaves.
                 /// </summary>
                 public int EventFlagID { get; set; }
 
@@ -781,24 +805,30 @@ namespace SoulsFormats
                 public int ActivateGoodsID { get; set; }
 
                 /// <summary>
-                /// Unknown; possibly a sound ID.
+                /// Ceremony Param ID to use.
                 /// </summary>
-                public int UnkT0C { get; set; }
+                [MSBParamReference(ParamName = "Ceremony")]
+                public int CeremonyParamID { get; set; }
 
                 /// <summary>
-                /// Unknown; possibly a map event ID.
+                /// Region player will spawn at in pseudo world.
                 /// </summary>
-                public int UnkT10 { get; set; }
+                public int SpawnRegionEntityID { get; set; }
 
                 /// <summary>
-                /// Unknown; possibly flags.
+                /// Player type to use while in pseudo world. 
                 /// </summary>
-                public int UnkT14 { get; set; }
+                public PseudoPlayerChrType PlayerChrType { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// Determines which set of FMG entries to use in pseudo world.
                 /// </summary>
-                public int UnkT18 { get; set; }
+                public PseudoMessageSetType MessageSetType { get; set; }
+
+                /// <summary>
+                /// ID of FMG entry to display when trying to join pseudo world.
+                /// </summary>
+                public int JoinMessageTextID { get; set; }
 
                 /// <summary>
                 /// Creates a new PseudoMultiplayer with the given name.
@@ -808,8 +838,8 @@ namespace SoulsFormats
                     HostEntityID = -1;
                     EventFlagID = -1;
                     ActivateGoodsID = -1;
-                    UnkT0C = -1;
-                    UnkT10 = -1;
+                    CeremonyParamID = -1;
+                    SpawnRegionEntityID = -1;
                 }
 
                 internal PseudoMultiplayer(BinaryReaderEx br) : base(br) { }
@@ -819,10 +849,13 @@ namespace SoulsFormats
                     HostEntityID = br.ReadInt32();
                     EventFlagID = br.ReadInt32();
                     ActivateGoodsID = br.ReadInt32();
-                    UnkT0C = br.ReadInt32();
-                    UnkT10 = br.ReadInt32();
-                    UnkT14 = br.ReadInt32();
-                    UnkT18 = br.ReadInt32();
+                    CeremonyParamID = br.ReadInt32();
+                    SpawnRegionEntityID = br.ReadInt32();
+                    PlayerChrType = br.ReadEnum8<PseudoPlayerChrType>();
+                    MessageSetType = br.ReadEnum8<PseudoMessageSetType>();
+                    br.ReadByte(); // Not an assert to prevent making old modded maps inaccessible.
+                    br.ReadByte(); // Not an assert to prevent making old modded maps inaccessible.
+                    JoinMessageTextID = br.ReadInt32();
                     br.AssertInt32(0);
                 }
 
@@ -831,10 +864,13 @@ namespace SoulsFormats
                     bw.WriteInt32(HostEntityID);
                     bw.WriteInt32(EventFlagID);
                     bw.WriteInt32(ActivateGoodsID);
-                    bw.WriteInt32(UnkT0C);
-                    bw.WriteInt32(UnkT10);
-                    bw.WriteInt32(UnkT14);
-                    bw.WriteInt32(UnkT18);
+                    bw.WriteInt32(CeremonyParamID);
+                    bw.WriteInt32(SpawnRegionEntityID);
+                    bw.WriteByte((byte)PlayerChrType);
+                    bw.WriteByte((byte)MessageSetType);
+                    bw.WriteByte(0);
+                    bw.WriteByte(0);
+                    bw.WriteInt32(JoinMessageTextID);
                     bw.WriteInt32(0);
                 }
             }

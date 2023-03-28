@@ -329,16 +329,16 @@ namespace StudioCore.ParamEditor
             ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.8f, 0.8f, 1.0f, 1.0f));
             var nameProp = row.GetType().GetProperty("Name");
             var idProp = row.GetType().GetProperty("ID");
-            PropEditorPropInfoRow(bank, row, vrow, auxRows, crow, nameProp, "Name", ref id);
-            PropEditorPropInfoRow(bank, row, vrow, auxRows, crow, idProp, "ID", ref id);
+            PropEditorPropInfoRow(bank, row, vrow, auxRows, crow, nameProp, "Name", ref id, activeParam);
+            PropEditorPropInfoRow(bank, row, vrow, auxRows, crow, idProp, "ID", ref id, activeParam);
             ImGui.PopStyleColor();
             ImGui.Spacing();
             ImGui.Separator();
 
             string search = propSearchString;
-            List<(PseudoColumn, Param.Column)> cols = CacheBank.GetCached(_paramEditor, row, () => CellSearchEngine.cse.Search((activeParam, row), search, true, true));
-            List<(PseudoColumn, Param.Column)> vcols = CacheBank.GetCached(_paramEditor, vrow, () => cols.Select((x, i) => x.GetAs(ParamBank.VanillaBank.GetParamFromName(activeParam))).ToList());
-            List<List<(PseudoColumn, Param.Column)>> auxCols = CacheBank.GetCached(_paramEditor, auxRows, () => auxRows.Select((r, i) => cols.Select((c, j) => c.GetAs(ParamBank.AuxBanks[r.Item1].GetParamFromName(activeParam))).ToList()).ToList());
+            List<(PseudoColumn, Param.Column)> cols = CacheBank.GetCached(_paramEditor, row, "fieldFilter", () => CellSearchEngine.cse.Search((activeParam, row), search, true, true));
+            List<(PseudoColumn, Param.Column)> vcols = CacheBank.GetCached(_paramEditor, vrow, "vFieldFilter", () => cols.Select((x, i) => x.GetAs(ParamBank.VanillaBank.GetParamFromName(activeParam))).ToList());
+            List<List<(PseudoColumn, Param.Column)>> auxCols = CacheBank.GetCached(_paramEditor, auxRows, "auxFieldFilter", () => auxRows.Select((r, i) => cols.Select((c, j) => c.GetAs(ParamBank.AuxBanks[r.Item1].GetParamFromName(activeParam))).ToList()).ToList());
 
             List<string> pinnedFields = new List<string>(_paramEditor._projectSettings.PinnedFields.GetValueOrDefault(activeParam, new List<string>()));
             if (pinnedFields.Count > 0)
@@ -355,10 +355,10 @@ namespace StudioCore.ParamEditor
                         crow,
                         matches[i],
                         vrow,
-                        vmatches[i],
+                        vmatches.Count > i ? vmatches[i] : (PseudoColumn.None, null),
                         auxRows,
                         auxMatches.Select((x, j) => x.Count > i ? x[i] : (PseudoColumn.None, null)).ToList(),
-                        matches[i].Item2.GetByteOffset().ToString("x"),
+                        matches[i].Item2?.GetByteOffset().ToString("x"),
                         ref id, activeParam, true);
                     }
                 }
@@ -413,7 +413,7 @@ namespace StudioCore.ParamEditor
                 ImGui.Separator();
                 ImGui.NewLine();
                 var ccd = meta.CalcCorrectDef;
-                (float[] values, int xOffset, float minY, float maxY) = CacheBank.GetCached(_paramEditor, row, () => getCalcCorrectedData(ccd, row));
+                (float[] values, int xOffset, float minY, float maxY) = CacheBank.GetCached(_paramEditor, row, "calcCorrectData", () => getCalcCorrectedData(ccd, row));
                 ImGui.PlotLines("##graph", ref values[0], values.Length, 0, xOffset == 0 ? "" : $@"Note: add {xOffset} to x coordinate", minY, maxY, new Vector2(ImGui.GetColumnWidth(-1), ImGui.GetColumnWidth(-1)*0.5625f));
             }
             catch (Exception e)
@@ -450,7 +450,7 @@ namespace StudioCore.ParamEditor
         }
 
         // Many parameter options, which may be simplified.
-        private void PropEditorPropInfoRow(ParamBank bank, Param.Row row, Param.Row vrow, List<(string, Param.Row)> auxRows, Param.Row crow, PropertyInfo prop, string visualName, ref int id)
+        private void PropEditorPropInfoRow(ParamBank bank, Param.Row row, Param.Row vrow, List<(string, Param.Row)> auxRows, Param.Row crow, PropertyInfo prop, string visualName, ref int id, string activeParam)
         {
             PropEditorPropRow(
                 bank,
@@ -606,6 +606,9 @@ namespace StudioCore.ParamEditor
             }
 
             UpdateProperty(_editedTypeCache, _editedObjCache, _editedPropCache, changed, committed);
+            if (changed && committed && !ParamBank.VanillaBank.IsLoadingParams)
+                ParamBank.PrimaryBank.RefreshParamRowVanillaDiff(row, activeParam);
+
             ImGui.NextColumn();
             ImGui.PopID();
             id++;
@@ -720,15 +723,31 @@ namespace StudioCore.ParamEditor
         }
         private static void PropertyRowValueContextMenu(ParamBank bank, string internalName, string VirtualRef, dynamic oldval)
         {
+            bool onlyEditOptions = (VirtualRef == null && !ParamEditorScreen.EditorMode);
             if (ImGui.BeginPopupContextItem("quickMEdit"))
             {
-                if (ImGui.Selectable("Edit all selected..."))
+                if (onlyEditOptions || ImGui.BeginMenu("Edit all selected..."))
                 {
-                    EditorCommandQueue.AddCommand($@"param/menu/massEditRegex/selection: {Regex.Escape(internalName)}: ");
-                }
-                if (ImGui.Selectable("Reset all selected..."))
-                {
-                    EditorCommandQueue.AddCommand($@"param/menu/massEditRegex/selection: {Regex.Escape(internalName)}: = vanilla;");
+                    if (onlyEditOptions)
+                        ImGui.TextUnformatted("Mass Edit selected...");
+                    ImGui.Separator();
+                    if (ImGui.Selectable("Manually..."))
+                    {
+                        EditorCommandQueue.AddCommand($@"param/menu/massEditRegex/selection: {Regex.Escape(internalName)}: ");
+                    }
+                    if (ImGui.Selectable("Reset to vanilla..."))
+                    {
+                        EditorCommandQueue.AddCommand($@"param/menu/massEditRegex/selection: {Regex.Escape(internalName)}: = vanilla;");
+                    }
+                    ImGui.Separator();
+                    string res = AutoFill.MassEditOpAutoFill();
+                    if (res != null)
+                    {
+                        Console.WriteLine(res);
+                        EditorCommandQueue.AddCommand($@"param/menu/massEditRegex/selection: {Regex.Escape(internalName)}: "+res);
+                    }
+                    if (!onlyEditOptions)
+                        ImGui.EndMenu();
                 }
                 if (VirtualRef != null)
                     EditorDecorations.VirtualParamRefSelectables(bank, VirtualRef, oldval);

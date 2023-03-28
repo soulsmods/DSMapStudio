@@ -85,7 +85,7 @@ namespace StudioCore.ParamEditor
 
         public static (PseudoColumn, Param.Column) GetAs(this (PseudoColumn, Param.Column) col, Param newParam)
         {
-            return (col.Item1, col.Item2 == null? null : newParam.Cells.FirstOrDefault((x) => x.Def.InternalName == col.Item2.Def.InternalName));
+            return (col.Item1, col.Item2 == null || newParam == null ? null : newParam.Cells.FirstOrDefault((x) => x.Def.InternalName == col.Item2.Def.InternalName));
         }
         public static bool IsColumnValid(this (PseudoColumn, Param.Column) col)
         {
