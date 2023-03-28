@@ -144,7 +144,7 @@ namespace StudioCore.ParamEditor
             return null;
         }
 
-        public static string MassEditAutoFill()
+        public static string MassEditCompleteAutoFill()
         {
             ImGui.TextUnformatted("Add command...");
             ImGui.SameLine();
@@ -194,6 +194,10 @@ namespace StudioCore.ParamEditor
                 return result2;
             }
             return null;
+        }
+        public static string MassEditOpAutoFill()
+        {
+            return MassEditAutoFillForOperation(MECellOperation.cellOps, ref _autoFillArgsCop, ";", null);
         }
         private static string MassEditAutoFillForOperation<A, B> (MEOperation<A, B> ops, ref string[] staticArgs, string suffix, Func<string> subMenu)
         {

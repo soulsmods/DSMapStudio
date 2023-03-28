@@ -1,12 +1,12 @@
 m21_00_00_00 --Base
 m30_00_00_00 High Wall of Lothric / Garden
-m30_01_00_00 --Eclipsed Royal Castle 2
+m30_01_00_00 Lothric Castle
 m30_02_00_00 --Eclipsed Royal Castle 2
 m31_00_00_00 Undead Settlement
 m31_02_00_00 --Spire Town (For Bake Test)
 m32_00_00_00 Archdragon Peak
 m32_90_00_00 --Bridge For Bake Test
-m33_00_00_00 Road of sacrifices / Farron Keep
+m33_00_00_00 Road of Sacrifices / Farron Keep
 m34_00_00_00 --Eclipsed Royal Castle 2
 m34_01_00_00 Grand Archives
 m35_00_00_00 Cathedral of the Deep
@@ -17,12 +17,12 @@ m38_00_00_00 Catacombs Carthus / Smouldering Lake
 m39_00_00_00 Dungeon / Profaned Capital
 m40_00_00_00 Cemetary / Firelink / Untended
 m41_00_00_00 Kiln of Flame / Flameless Shrine
-m45_00_00_00 Painted world of Ariandel
+m45_00_00_00 Painted World of Ariandel
 m46_00_00_00 Arena - Grand Roof
 m47_00_00_00 Arena - Kiln of Flame
 m50_00_00_00 Dreg Heap
 m51_00_00_00 Ringed City
-m51_01_00_00 Filianore's rest
+m51_01_00_00 Filianore's Rest
 m53_00_00_00 Arena - Dragon Ruins
 m54_00_00_00 Arena - Round Plaza
 m90_00_00_00 --テスト地形

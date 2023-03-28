@@ -308,6 +308,9 @@
 5601 NPC: Faster Stamina Recovery
 5836 Undead Enemy
 5837 Undead Enemy
+6030 Parry Resistance +1 (2 parries before riposte)
+6031 Parry Resistance +2 (3 parries before riposte)
+6032 Parry Resistance +3 (4 parries before riposte)
 6350 Toughness 1 (Small/Min)
 6351 Toughness 2 (Medium/Push)
 6352 Toughness 3 (Large)
@@ -2491,7 +2494,7 @@
 296122 Spirit Summon - Damage/Absorption Setup
 296156 Spirit Summon - Damage/Absorption Setup
 296159 Spirit Summon - Damage/Absorption Setup
-297000 Spirit Summon -
+297000 Spirit Summon - Follow & Warp to Player
 297100 Spirit Summon -
 297101 Spirit Summon -
 297102 Spirit Summon -

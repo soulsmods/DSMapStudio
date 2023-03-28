@@ -388,7 +388,7 @@ namespace StudioCore.ParamEditor
                 string name = row.Name==null ? "null" : row.Name.Replace(separator, '-');
                 string rowgen = $@"{row.ID}{separator}{name}";
                 foreach (Param.Column cell in row.Cells)
-                    rowgen += $@"{separator}{row[cell].ToParamEditorString()}";
+                    rowgen += $@"{separator}{row[cell].Value.ToParamEditorString()}";
                 gen += rowgen + "\n";
             }
             return gen;
@@ -406,7 +406,7 @@ namespace StudioCore.ParamEditor
                 }
                 else
                 {
-                    rowgen = $@"{row.ID}{separator}{row[field].Value.ToParamEditorString()}";
+                    rowgen = $@"{row.ID}{separator}{row[field].Value.Value.ToParamEditorString()}";
                 }
                 gen += rowgen + "\n";
             }

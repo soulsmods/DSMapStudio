@@ -30,7 +30,7 @@ namespace StudioCore
         private IDictionary<string, JToken> _additionalData;
 #pragma warning restore IDE0051
 
-        public const int MAX_RECENT_PROJECTS = 10;
+        public const int MAX_RECENT_PROJECTS = 20;
 
         public static string GetConfigFilePath()
         {

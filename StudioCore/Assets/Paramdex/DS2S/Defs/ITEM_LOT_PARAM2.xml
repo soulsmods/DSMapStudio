@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PARAMDEF XmlVersion="0">
-  <ParamType>ITEM_lot__PARAM2</ParamType>
+  <ParamType>ITEM_LOT_PARAM2</ParamType>
   <Unk06>0</Unk06>
   <BigEndian>False</BigEndian>
   <Unicode>True</Unicode>
