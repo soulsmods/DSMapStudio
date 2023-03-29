@@ -242,20 +242,15 @@ namespace StudioCore.ParamEditor
         private string GetDesGameparamName(string rootDirectory)
         {
             string name = "";
-
-            // This BLUS check is legacy code and doesn't make sense, but it's being kept for load order consistency with older versions of DSMS.
-            if (Directory.GetParent(AssetLocator.GameRootDirectory).Parent.FullName.Contains("BLUS"))
+            name = "gameparamna.parambnd.dcx";
+            if (File.Exists($@"{rootDirectory}\param\gameparam\{name}"))
             {
-                name = "gameparamna.parambnd.dcx";
-                if (File.Exists($@"{rootDirectory}\param\gameparam\{name}"))
-                {
-                    return name;
-                }
-                name = "gameparamna.parambnd";
-                if (File.Exists($@"{rootDirectory}\param\gameparam\{name}"))
-                {
-                    return name;
-                }
+                return name;
+            }
+            name = "gameparamna.parambnd";
+            if (File.Exists($@"{rootDirectory}\param\gameparam\{name}"))
+            {
+                return name;
             }
             name = "gameparam.parambnd.dcx";
             if (File.Exists($@"{rootDirectory}\param\gameparam\{name}"))
@@ -1297,13 +1292,22 @@ namespace StudioCore.ParamEditor
             }
 
             // Write all gameparam variations since we don't know which one the the game will use.
-            if (paramBnd.Compression != DCX.Type.None)
+            // Compressed
+            paramBnd.Compression = DCX.Type.DCX_EDGE;
+            string naParamPath = $@"param\gameparam\gameparamna.parambnd.dcx";
+            if (File.Exists($@"{dir}\{naParamPath}"))
             {
-                Utils.WriteWithBackup(dir, mod, $@"param\gameparam\gameparamna.parambnd.dcx", paramBnd);
-                Utils.WriteWithBackup(dir, mod, $@"param\gameparam\gameparam.parambnd.dcx", paramBnd);
-                paramBnd.Compression = DCX.Type.None;
+                Utils.WriteWithBackup(dir, mod, naParamPath, paramBnd);
             }
-            Utils.WriteWithBackup(dir, mod, $@"param\gameparam\gameparamna.parambnd", paramBnd);
+            Utils.WriteWithBackup(dir, mod, $@"param\gameparam\gameparam.parambnd.dcx", paramBnd);
+            
+            // Decompressed
+            paramBnd.Compression = DCX.Type.None;
+            naParamPath = $@"param\gameparam\gameparamna.parambnd";
+            if (File.Exists($@"{dir}\{naParamPath}"))
+            {
+                Utils.WriteWithBackup(dir, mod, naParamPath, paramBnd);
+            }
             Utils.WriteWithBackup(dir, mod, $@"param\gameparam\gameparam.parambnd", paramBnd);
 
             // Drawparam
