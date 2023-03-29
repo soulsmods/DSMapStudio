@@ -48,7 +48,8 @@ The valid operations (OP) are:
     + adds the given value and is invalid for names or arrays
     - subtracts the given value and is invalid for names or arrays
     ref !NAME! searches for a row with a given name in a field supporting references and assigns it to that field
-    replace !OLD!:NEW works for names only, and replaces parts of the name matching OLD with NEW
+    replace OLD:NEW replaces parts of the text matching OLD with NEW
+    replacex !OLD!:NEW replaces parts of the text matching the given regex OLD with NEW, where new may contain regex groups
 
 A complete command may look like the following examples:
 selection: throwAtkRate: = 30; (This selects from the current selection, the field throwAtkRate and makes its value 30)

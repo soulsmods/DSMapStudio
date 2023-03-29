@@ -736,11 +736,18 @@ namespace StudioCore.ParamEditor
             operations.Add("*", (new string[]{"number"}, (ctx, args) => MassParamEdit.WithDynamicOf(ctx, (v) => v * double.Parse(args[0]))));
             operations.Add("/", (new string[]{"number"}, (ctx, args) => MassParamEdit.WithDynamicOf(ctx, (v) => v / double.Parse(args[0]))));
             operations.Add("%", (new string[]{"number"}, (ctx, args) => MassParamEdit.WithDynamicOf(ctx, (v) => v % double.Parse(args[0]))));
-            operations.Add("scale", (new string[]{"factor number", "center number"}, (ctx, args) =>  MassParamEdit.WithDynamicOf(ctx, (v) => {
+            operations.Add("scale", (new string[]{"factor number", "center number"}, (ctx, args) => {
+                double opp1 = double.Parse(args[0]);
                 double opp2 = double.Parse(args[1]);
-                return (v - opp2) * double.Parse(args[0]) + opp2;
-            })));
+                return MassParamEdit.WithDynamicOf(ctx, (v) => {
+                    return (v - opp2) * opp1 + opp2;
+                });
+            }));
             operations.Add("replace", (new string[]{"text to replace", "new text"}, (ctx, args) => MassParamEdit.WithDynamicOf(ctx, (v) => v.Replace(args[0], args[1]))));
+            operations.Add("replacex", (new string[]{"text to replace (regex)", "new text (w/ groups)"}, (ctx, args) => {
+                Regex rx = new Regex(args[0]);
+                return MassParamEdit.WithDynamicOf(ctx, (v) => rx.Replace(v, args[1]));
+            }));
         }
     }
     public class MEOperationArgument
