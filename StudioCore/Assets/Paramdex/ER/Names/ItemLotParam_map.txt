@@ -24,7 +24,6 @@
 5451 Furlcalling Finger Remedy
 5500 Furlcalling Finger Remedy
 5510 Furlcalling Finger Remedy
-5510 Furlcalling Finger Remedy
 5530 Furlcalling Finger Remedy
 5540 Furlcalling Finger Remedy
 5550 Furlcalling Finger Remedy
@@ -2456,7 +2455,6 @@
 39200501 [Ruin-Strewn Precipice] Bull-Goat Armor
 39200502 [Ruin-Strewn Precipice] Bull-Goat Gauntlets
 39200503 [Ruin-Strewn Precipice] Bull-Goat Greaves
-99010000 Golden Rune [1]
 99010000 Golden Rune [1]
 99010010 Golden Rune [1]
 900003000 Golden Rune [1]
