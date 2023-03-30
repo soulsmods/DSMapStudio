@@ -6,15 +6,21 @@ DS Map Studio is a standalone integrated modding tool for modern FromSoft games,
 ## Basic usage instructions
 ### Game instructions
 * **Dark Souls Prepare to die Edition**: Game must be unpacked with UDSFM before usage with Map Studio (https://www.nexusmods.com/darksouls/mods/1304).
-* **Dark Souls Remastered**: Not officially supported yet, but it's possible to work with if you copy the map files to an unpacked PTDE installation, load from there, do the modifications, and then copy back to the remastered installation.
+* **Dark Souls Remastered**: Game is unpacked by default and requires no other tools.
 * **Dark Souls 2 SOTFS**: Use UXM (https://www.nexusmods.com/sekiro/mods/26) to unpack the game. Vanilla Dark Souls 2 is not supported.
 * **Dark Souls 3 and Sekiro**: Use UXM to extract the game files.
-* **Demon's Souls**: I test against the US version, but any valid full game dump of Demon's Souls will probably work out of the box. Make sure to disable the RPCS3 file cache to test changes if using the emulator.
+* **Demon's Souls**: Make sure to disable the RPCS3 file cache to test changes if using an emulator.
 * **Bloodborne**: Any valid full game dump should work out of the box. Note that some dumps will have the base game (1.0) and the patch as separate, so the patch should be merged on top of the base game before use with map studio. You're on your own for installing mods to console at the moment.
+* **Sekiro**: Use UXM to extract game files.
 * **Elden Ring**: Use UXM Selective Unpack (https://github.com/Nordgaren/UXM-Selective-Unpack) to extract the game files. It's recommended to unpack everything, but at least the `map`, `asset`, `chr`, and `msg` directories are needed for basic editor usage.
 
 ### Mod projects
 Map studio operates on top of something I call mod projects. These are typically stored in a separate directory from the base game, and all modifies files will be saved there instead of overwriting the base game files. The intended workflow is to install mod engine for your respective game and set the modoverridedirectory in modengine.ini to your mod project directory. This way you don't have to modify base game files (and work on multiple mod projects at a time) and you can easily distribute a mod by zipping up the project directory and uploading it.
+
+## Game Limitations
+* **Dark Souls Remastered**: Cannot render map collision in the viewport at this time.
+* **Sekiro**: Cannot render map collision and navmesh in the viewport at this time.
+* **Elden Ring**: Cannot render map collision and navmesh in the viewport at this time.
 
 ## FAQ
 ### Q: Why did you abandon DSTools?
@@ -41,7 +47,7 @@ A: Likely not. Rendering the entirety of the maps for DS3, Bloodborne, and Sekir
 ## Credits:
 * Katalash - primary author
 * philiquaz - major contributor to integrated param editor
-* george - contributor to integrated text editor and other features
+* george - stable boy
 
 ## Special Thanks
 * TKGP - Made Soulsformats
