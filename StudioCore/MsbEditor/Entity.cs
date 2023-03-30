@@ -163,6 +163,13 @@ namespace StudioCore.MsbEditor
                 Parent.Children.Remove(child);
             }
             child.Parent = this;
+
+            // Update the containing map for map entities.
+            if (Container.GetType() == typeof(Map) && child.Container.GetType() == typeof(Map))
+            {
+                child.Container = Container;
+            }
+
             Children.Add(child);
             child.UpdateRenderModel();
         }
