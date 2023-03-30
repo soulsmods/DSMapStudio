@@ -236,23 +236,44 @@ namespace StudioCore.ParamEditor
             }
         }
 
+        /// <summary>
+        /// Checks for DeS paramBNDs and returns the name of the parambnd with the highest priority.
+        /// </summary>
+        private string GetDesGameparamName(string rootDirectory)
+        {
+            string name = "";
+            name = "gameparamna.parambnd.dcx";
+            if (File.Exists($@"{rootDirectory}\param\gameparam\{name}"))
+            {
+                return name;
+            }
+            name = "gameparamna.parambnd";
+            if (File.Exists($@"{rootDirectory}\param\gameparam\{name}"))
+            {
+                return name;
+            }
+            name = "gameparam.parambnd.dcx";
+            if (File.Exists($@"{rootDirectory}\param\gameparam\{name}"))
+            {
+                return name;
+            }
+            name = "gameparam.parambnd";
+            if (File.Exists($@"{rootDirectory}\param\gameparam\{name}"))
+            {
+                return name;
+            }
+            return "";
+        }
+
         private void LoadParamsDES()
         {
             var dir = AssetLocator.GameRootDirectory;
             var mod = AssetLocator.GameModDirectory;
 
-            string paramBinderName = "gameparam.parambnd.dcx";
-
-            if (Directory.GetParent(dir).Parent.FullName.Contains("BLUS"))
+            string paramBinderName = GetDesGameparamName(mod);
+            if (paramBinderName == "")
             {
-                paramBinderName = "gameparamna.parambnd.dcx";
-            }
-
-            if (!File.Exists($@"{dir}\\param\gameparam\{paramBinderName}"))
-            {
-                //MessageBox.Show("Could not find DES regulation file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                //return null;
-                throw new FileNotFoundException("Could not find DES regulation file. Functionality will be limited.");
+                paramBinderName = GetDesGameparamName(dir);
             }
 
             // Load params
@@ -261,20 +282,25 @@ namespace StudioCore.ParamEditor
             {
                 param = $@"{dir}\param\gameparam\{paramBinderName}";
             }
+
+            if (!File.Exists(param))
+            {
+                throw new FileNotFoundException("Could not find DES parambnds. Functionality will be limited.");
+            }
             LoadParamsDESFromFile(param);
 
             //DrawParam
             Dictionary<string, string> drawparams = new();
-            if (Directory.Exists($@"{dir}\param\DrawParam"))
+            if (Directory.Exists($@"{dir}\param\drawparam"))
             {
-                foreach (var p in Directory.GetFiles($@"{dir}\param\DrawParam", "*.parambnd.dcx"))
+                foreach (var p in Directory.GetFiles($@"{dir}\param\drawparam", "*.parambnd.dcx"))
                 {
                     drawparams[Path.GetFileNameWithoutExtension(p)] = p;
                 }
             }
-            if (Directory.Exists($@"{mod}\param\DrawParam"))
+            if (Directory.Exists($@"{mod}\param\drawparam"))
             {
-                foreach (var p in Directory.GetFiles($@"{mod}\param\DrawParam", "*.parambnd.dcx"))
+                foreach (var p in Directory.GetFiles($@"{mod}\param\drawparam", "*.parambnd.dcx"))
                 {
                     drawparams[Path.GetFileNameWithoutExtension(p)] = p;
                 }
@@ -286,15 +312,12 @@ namespace StudioCore.ParamEditor
         }
         private void LoadVParamsDES()
         {
-            string paramBinderName = "gameparam.parambnd.dcx";
-            if (Directory.GetParent(AssetLocator.GameRootDirectory).Parent.FullName.Contains("BLUS"))
-            {
-                paramBinderName = "gameparamna.parambnd.dcx";
-            }
+            string paramBinderName = GetDesGameparamName(AssetLocator.GameRootDirectory);
+
             LoadParamsDESFromFile($@"{AssetLocator.GameRootDirectory}\param\gameparam\{paramBinderName}");
-            if (Directory.Exists($@"{AssetLocator.GameRootDirectory}\param\DrawParam"))
+            if (Directory.Exists($@"{AssetLocator.GameRootDirectory}\param\drawparam"))
             {
-                foreach (var p in Directory.GetFiles($@"{AssetLocator.GameRootDirectory}\param\DrawParam", "*.parambnd.dcx"))
+                foreach (var p in Directory.GetFiles($@"{AssetLocator.GameRootDirectory}\param\drawparam", "*.parambnd.dcx"))
                 {
                     LoadParamsDS1FromFile(p);
                 }
@@ -313,7 +336,7 @@ namespace StudioCore.ParamEditor
             {
                 //MessageBox.Show("Could not find DS1 regulation file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 //return null;
-                throw new FileNotFoundException("Could not find DS1 regulation file. Functionality will be limited.");
+                throw new FileNotFoundException("Could not find DS1 parambnd. Functionality will be limited.");
             }
             // Load params
             var param = $@"{mod}\param\GameParam\GameParam.parambnd";
@@ -368,7 +391,7 @@ namespace StudioCore.ParamEditor
             {
                 //MessageBox.Show("Could not find DS1 regulation file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 //return null;
-                throw new FileNotFoundException("Could not find DS1 regulation file. Functionality will be limited.");
+                throw new FileNotFoundException("Could not find DS1 parambnd. Functionality will be limited.");
             }
 
             // Load params
@@ -1239,19 +1262,10 @@ namespace StudioCore.ParamEditor
             var dir = AssetLocator.GameRootDirectory;
             var mod = AssetLocator.GameModDirectory;
 
-            string paramBinderName = "gameparam.parambnd.dcx";
-
-            if (Directory.GetParent(dir).Parent.FullName.Contains("BLUS"))
+            string paramBinderName = GetDesGameparamName(mod);
+            if (paramBinderName == "")
             {
-                paramBinderName = "gameparamna.parambnd.dcx";
-            }
-
-            Debug.WriteLine(paramBinderName);
-
-            if (!File.Exists($@"{dir}\\param\gameparam\{paramBinderName}"))
-            {
-                MessageBox.Show("Could not find param file. Cannot save.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                paramBinderName = GetDesGameparamName(dir);
             }
 
             // Load params
@@ -1259,6 +1273,12 @@ namespace StudioCore.ParamEditor
             if (!File.Exists(param))
             {
                 param = $@"{dir}\param\gameparam\{paramBinderName}";
+            }
+
+            if (!File.Exists(param))
+            {
+                MessageBox.Show("Could not find param file. Cannot save.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
             BND3 paramBnd = BND3.Read(param);
 
@@ -1270,12 +1290,40 @@ namespace StudioCore.ParamEditor
                     p.Bytes = _params[Path.GetFileNameWithoutExtension(p.Name)].Write();
                 }
             }
-            Utils.WriteWithBackup(dir, mod, $@"param\gameparam\{paramBinderName}", paramBnd);
+
+            // Write all gameparam variations since we don't know which one the the game will use.
+            // Compressed
+            paramBnd.Compression = DCX.Type.DCX_EDGE;
+            string naParamPath = $@"param\gameparam\gameparamna.parambnd.dcx";
+            if (File.Exists($@"{dir}\{naParamPath}"))
+            {
+                Utils.WriteWithBackup(dir, mod, naParamPath, paramBnd);
+            }
+            Utils.WriteWithBackup(dir, mod, $@"param\gameparam\gameparam.parambnd.dcx", paramBnd);
+            
+            // Decompressed
+            paramBnd.Compression = DCX.Type.None;
+            naParamPath = $@"param\gameparam\gameparamna.parambnd";
+            if (File.Exists($@"{dir}\{naParamPath}"))
+            {
+                Utils.WriteWithBackup(dir, mod, naParamPath, paramBnd);
+            }
+            Utils.WriteWithBackup(dir, mod, $@"param\gameparam\gameparam.parambnd", paramBnd);
 
             // Drawparam
-            if (Directory.Exists($@"{AssetLocator.GameRootDirectory}\param\DrawParam"))
+            List<string> drawParambndPaths = new();
+            if (Directory.Exists($@"{AssetLocator.GameRootDirectory}\param\drawparam"))
             {
-                foreach (var bnd in Directory.GetFiles($@"{AssetLocator.GameRootDirectory}\param\DrawParam", "*.parambnd.dcx"))
+                foreach (var bnd in Directory.GetFiles($@"{AssetLocator.GameRootDirectory}\param\drawparam", "*.parambnd.dcx"))
+                {
+                    drawParambndPaths.Add(bnd);
+                }
+                // Also save decompressed parambnds because DeS debug uses them.
+                foreach (var bnd in Directory.GetFiles($@"{AssetLocator.GameRootDirectory}\param\drawparam", "*.parambnd"))
+                {
+                    drawParambndPaths.Add(bnd);
+                }
+                foreach (var bnd in drawParambndPaths)
                 {
                     paramBnd = BND3.Read(bnd);
                     foreach (var p in paramBnd.Files)
@@ -1285,7 +1333,7 @@ namespace StudioCore.ParamEditor
                             p.Bytes = _params[Path.GetFileNameWithoutExtension(p.Name)].Write();
                         }
                     }
-                    Utils.WriteWithBackup(dir, mod, @$"param\DrawParam\{Path.GetFileName(bnd)}", paramBnd);
+                    Utils.WriteWithBackup(dir, mod, @$"param\drawparam\{Path.GetFileName(bnd)}", paramBnd);
                 }
             }
         }
