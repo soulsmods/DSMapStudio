@@ -688,10 +688,10 @@ namespace StudioCore
 
             float scale = ImGuiRenderer.GetUIScale();
 
-            if (_settingsMenu.NeedsRebuildFont)
+            if (_settingsMenu.FontRebuildRequest)
             {
                 ImguiRenderer.Update(deltaseconds, InputTracker.FrameSnapshot, SetupFonts);
-                _settingsMenu.NeedsRebuildFont = false;
+                _settingsMenu.FontRebuildRequest = false;
             }
             else
             {

@@ -14,7 +14,7 @@ namespace StudioCore
     public class SettingsMenu
 	{
         public bool MenuOpenState = false;
-        public bool NeedsRebuildFont = false;
+        public bool FontRebuildRequest = false;
         public float UiScale = 1.0f;
 
         private KeyBind _currentKeyBind;
@@ -422,7 +422,7 @@ namespace StudioCore
                             float newScale = (float)Math.Round(UiScale * 20) / 20;
                             UiScale = newScale;
                             CFG.Current.UIScale = newScale;
-                            NeedsRebuildFont = true;
+                            FontRebuildRequest = true;
                         }
 
                         ImGui.Unindent();
@@ -437,23 +437,23 @@ namespace StudioCore
                         ImGui.Text("Additional fonts take more VRAM and increase startup time.");
                         if (ImGui.Checkbox("Chinese", ref CFG.Current.FontChinese))
                         {
-                            NeedsRebuildFont = true;
+                            FontRebuildRequest = true;
                         }
                         if (ImGui.Checkbox("Korean", ref CFG.Current.FontKorean))
                         {
-                            NeedsRebuildFont = true;
+                            FontRebuildRequest = true;
                         }
                         if (ImGui.Checkbox("Thai", ref CFG.Current.FontThai))
                         {
-                            NeedsRebuildFont = true;
+                            FontRebuildRequest = true;
                         }
                         if (ImGui.Checkbox("Vietnamese", ref CFG.Current.FontVietnamese))
                         {
-                            NeedsRebuildFont = true;
+                            FontRebuildRequest = true;
                         }
                         if (ImGui.Checkbox("Cyrillic", ref CFG.Current.FontCyrillic))
                         {
-                            NeedsRebuildFont = true;
+                            FontRebuildRequest = true;
                         }
 
                         ImGui.Unindent();
