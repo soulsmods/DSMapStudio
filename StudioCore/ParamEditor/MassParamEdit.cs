@@ -427,16 +427,18 @@ namespace StudioCore.ParamEditor
                 parser.SetDelimiters(separator.ToString());
 
                 List<string[]> csvLines = new();
+                int lineBeingParsed = 0;
                 while (!parser.EndOfData)
                 {
                     try
                     {
+                        lineBeingParsed++;
                         string[]? line = parser.ReadFields();
 
                         // Sanity check for amount of fields
                         if (line.Length != csvLength && !(line.Length==csvLength+1 && line[csvLength].Trim().Equals("")))
                         {
-                            return new MassEditResult(MassEditResultType.PARSEERROR, $"CSV line {csvLines.Count} has wrong number of values (is {line.Length}, should be {csvLength}");
+                            return new MassEditResult(MassEditResultType.PARSEERROR, $"CSV line {lineBeingParsed} has wrong number of values (is {line.Length}, should be {csvLength}");
                         }
 
                         // Skip empty or header row
@@ -449,7 +451,7 @@ namespace StudioCore.ParamEditor
                     }
                     catch (MalformedLineException e)
                     {
-                        return new MassEditResult(MassEditResultType.PARSEERROR, $"CSV line {csvLines.Count} is malformed, {e.Message}");
+                        return new MassEditResult(MassEditResultType.PARSEERROR, $"CSV line {lineBeingParsed} is malformed, {e.Message}");
                     }
 
                 }
