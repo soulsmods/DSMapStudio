@@ -247,12 +247,31 @@ namespace StudioCore
             get
             {
                 if (_Param_Export_Delimiter.Length == 0)
-                    _Param_Export_Delimiter = CFG.Default.Param_Export_Delimiter;
-                else if (_Param_Export_Delimiter == "|")
-                    _Param_Export_Delimiter = CFG.Default.Param_Export_Delimiter; // Temporary measure to prevent conflicts with byte array delimiters. Will be removed later.
+                    _Param_Export_Delimiter = Default.Param_Export_Delimiter;
+                else if (!_Param_Export_Escape && _Param_Export_Delimiter == "|")
+                {
+                    // If not using escape characters, | in byte array values will interfere and cannot be a valid delimiter.
+                    System.Windows.Forms.MessageBox.Show("| as a delimiter would clash with byte array export values, returning to default delimiter.", "Warning", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.None);
+                    _Param_Export_Delimiter = Default.Param_Export_Delimiter;
+                }
                 return _Param_Export_Delimiter;
             }
-            set { _Param_Export_Delimiter = value; }
+            set => _Param_Export_Delimiter = value;
+        }
+        private bool _Param_Export_Escape = true;
+        public bool Param_Export_Escape
+        {
+            get => _Param_Export_Escape;
+            set
+            {
+                if (value == false && _Param_Export_Delimiter == "|")
+                {
+                    // If not using escape characters, | in byte array values will interfere and cannot be a valid delimiter.
+                    System.Windows.Forms.MessageBox.Show("| as a delimiter would clash with byte array export values, returning to default delimiter.", "Warning", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.None);
+                    _Param_Export_Delimiter = Default.Param_Export_Delimiter;
+                }
+                _Param_Export_Escape = value;
+            }
         }
 
         public bool EnableEldenRingAutoMapOffset = true;

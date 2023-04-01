@@ -1,11 +1,16 @@
 #nullable enable
+using CsvHelper;
+using CsvHelper.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using FSParam;
 using Microsoft.VisualBasic.FileIO;
+using SoulsFormats;
 using StudioCore.Editor;
+using System.Globalization;
 using System.IO;
+using System.Text;
 
 namespace StudioCore.ParamEditor
 {
@@ -26,7 +31,7 @@ namespace StudioCore.ParamEditor
             Information = info;
         }
     }
-    
+
     public class MassParamEdit
     {
         internal static object PerformOperation(ParamBank bank, Param.Row row, (PseudoColumn, Param.Column) column, string op, params string[] opparam)
@@ -151,8 +156,8 @@ namespace StudioCore.ParamEditor
             else
             {
                 Param.Cell handle = row[col.Item2];
-                if (!(handle.Value.Equals(newval) 
-                || (handle.Value.GetType()==typeof(byte[]) 
+                if (!(handle.Value.Equals(newval)
+                || (handle.Value.GetType()==typeof(byte[])
                 && ParamUtils.ByteArrayEquals((byte[])handle.Value, (byte[])newval))))
                     actions.Add(new PropertiesChangedAction(handle.GetType().GetProperty("Value"), -1, handle, newval));
             }
@@ -223,7 +228,7 @@ namespace StudioCore.ParamEditor
             string cellSelector = cellstage[0].Trim();
             if (cellSelector.Equals(""))
                 return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find cell/property filter. Add : and one of "+String.Join(", ", CellSearchEngine.cse.AvailableCommandsForHelpText())+" or Name (0 args)"), null);
-            
+
             if (MERowOperation.rowOps.HandlesCommand(cellSelector.Split(" ", 2)[0]))
             {
                 return PerformMassEditCommandRowOpStep(bank, isParamRowSelector, paramSelector, rowSelector, restOfStages, context);
@@ -235,7 +240,7 @@ namespace StudioCore.ParamEditor
         }
         private static (MassEditResult, List<EditorAction>) PerformMassEditCommandRowOpStep(ParamBank bank, bool isParamRowSelector, string paramSelector, string rowSelector, string restOfStages, ParamEditorSelectionState context)
         {
-            string[] operationstage =  restOfStages.TrimStart().Split(" ", 2);                
+            string[] operationstage =  restOfStages.TrimStart().Split(" ", 2);
             string operation = operationstage[0].Trim();
             //if (operationstage.Length == 1)
             //    return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find operation arguments."), null);
@@ -243,7 +248,7 @@ namespace StudioCore.ParamEditor
         }
         private static (MassEditResult, List<EditorAction>) PerformMassEditCommandCellOpStep(ParamBank bank, bool isParamRowSelector, string paramSelector, string rowSelector, string cellSelector, string restOfStages, ParamEditorSelectionState context)
         {
-            string[] operationstage =  restOfStages.TrimStart().Split(" ", 2);                
+            string[] operationstage =  restOfStages.TrimStart().Split(" ", 2);
             string operation = operationstage[0].Trim();
 
             if (operation.Equals("") || !MECellOperation.cellOps.operations.ContainsKey(operation))
@@ -259,7 +264,7 @@ namespace StudioCore.ParamEditor
                 string[] argNames;
                 int argc;
                 Func<(string, Param.Row), string[], (Param, Param.Row)> rowFunc = null;
-                Func<(Param.Row, (PseudoColumn, Param.Column)), string[], object> cellFunc = null; 
+                Func<(Param.Row, (PseudoColumn, Param.Column)), string[], object> cellFunc = null;
                 if (cellSelector == null)
                 {
                     if (!MERowOperation.rowOps.operations.ContainsKey(operation))
@@ -351,7 +356,6 @@ namespace StudioCore.ParamEditor
                                 }
                             }
                         }
-
                     }
                 }
             }
@@ -364,53 +368,105 @@ namespace StudioCore.ParamEditor
     }
     public class MassParamEditCSV : MassParamEdit
     {
-        public static string GenerateColumnLabels(Param param, char separator)
+        public static string[] GenerateHeaders(Param param)
         {
-            string str = "";
-            str += $@"ID{separator}Name{separator}";
-            foreach (var f in param.AppliedParamdef.Fields)
-            {
-                 str += $@"{f.InternalName}{separator}";
-            }
-            return str+"\n";
+            string[] fixedNames = {
+                "ID", "Name",
+            };
+
+            string[] fieldNames = param.AppliedParamdef.Fields.Select(field => field.InternalName).ToArray();
+
+            return fixedNames.Union(fieldNames).ToArray();
         }
-        
-        public static string GenerateCSV(List<Param.Row> rows, Param param, char separator)
+
+        public static string[] GenerateRow(Param param, Param.Row row)
         {
-            string gen = "";
-            gen += GenerateColumnLabels(param, separator);
+            var line = new string[param.AppliedParamdef.Fields.Count + 2];
+            line[0] = row.ID.ToParamEditorString();
+            line[1] = row.Name.ToParamEditorString();
+
+            for (int i = 0; i < param.AppliedParamdef.Fields.Count; i++)
+            {
+                PARAMDEF.Field field = param.AppliedParamdef.Fields[i];
+                Param.Cell? cell = row[field.InternalName];
+                int lineIndex = i + 2; // ID and Name
+                line[lineIndex] = cell.Value.Value.ToParamEditorString();
+            }
+
+            return line;
+        }
+
+        public static string GenerateCSV(List<Param.Row> rows, Param param, char delimiter, bool messageBox = false)
+        {
+            var sb = new StringBuilder();
+            var sw = new StringWriter(sb);
+
+            using StringWriter streamWriter = sw;
+            var csvConfig = new CsvConfiguration(CultureInfo.InvariantCulture)
+            {
+                Delimiter = delimiter.ToString(),
+                HasHeaderRecord = false,
+                Mode = CFG.Current.Param_Export_Escape ? CsvMode.RFC4180 : CsvMode.NoEscape,
+            };
+            var csvWriter = new CsvWriter(streamWriter, csvConfig);
+
+            string[] header = GenerateHeaders(param);
+
+            header.ToList().ForEach(csvWriter.WriteField);
+            csvWriter.NextRecord();
+
+            foreach (string[] line in rows.Select(row => GenerateRow(param, row)))
+            {
+                line.ToList().ForEach(csvWriter.WriteField);
+                csvWriter.NextRecord();
+            }
+
+            streamWriter.Flush();
+
+            if (messageBox)
+                System.Windows.Forms.MessageBox.Show($"Generated CSV for {rows.Count} rows, {2 + param.AppliedParamdef.Fields.Count()} cells per row.", "Success", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.None);
+
+            return sb.ToString();
+        }
+        public static string GenerateSingleFieldCSV(List<Param.Row> rows, Param param, string fieldName, char delimiter, bool messageBox = false)
+        {
+
+            var sb = new StringBuilder();
+            var sw = new StringWriter(sb);
+
+            using StringWriter streamWriter = sw;
+            var csvConfig = new CsvConfiguration(CultureInfo.InvariantCulture)
+            {
+                Delimiter = delimiter.ToString(),
+                HasHeaderRecord = false,
+                Mode = CFG.Current.Param_Export_Escape ? CsvMode.RFC4180 : CsvMode.NoEscape,
+            };
+            var csvWriter = new CsvWriter(streamWriter, csvConfig);
+
+            string[] header = {
+                "ID", fieldName,
+            };
+
+            header.ToList().ForEach(csvWriter.WriteField);
+            csvWriter.NextRecord();
 
             foreach (Param.Row row in rows)
             {
-                string name = row.Name==null ? "null" : row.Name.Replace(separator, '-');
-                string rowgen = $@"{row.ID}{separator}{name}";
-                foreach (Param.Column cell in row.Cells)
-                    rowgen += $@"{separator}{row[cell].Value.ToParamEditorString()}";
-                gen += rowgen + "\n";
+                csvWriter.WriteField(row.ID.ToParamEditorString());
+                csvWriter.WriteField(fieldName.ToLower() is "name" ? row.Name.ToParamEditorString() : row[fieldName].Value.Value.ToParamEditorString());
+
+                csvWriter.NextRecord();
             }
-            return gen;
+
+            streamWriter.Flush();
+
+            if (messageBox)
+                System.Windows.Forms.MessageBox.Show($"Generated CSV for {rows.Count} rows, 2 cells per row.", "Success", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.None);
+
+            return sb.ToString();
         }
-        public static string GenerateSingleCSV(List<Param.Row> rows, Param param, string field, char separator)
-        {
-            string gen = $@"ID{separator}{field}"+"\n";
-            foreach (Param.Row row in rows)
-            {
-                string rowgen;
-                if (field.Equals("Name"))
-                {
-                    string name = row.Name==null ? "null" : row.Name.Replace(separator, '-');
-                    rowgen = $@"{row.ID}{separator}{name}";
-                }
-                else
-                {
-                    rowgen = $@"{row.ID}{separator}{row[field].Value.Value.ToParamEditorString()}";
-                }
-                gen += rowgen + "\n";
-            }
-            return gen;
-        }
-        
-        public static MassEditResult PerformMassEdit(ParamBank bank, string csvString, ActionManager actionManager, string param, bool appendOnly, bool replaceParams, char separator)
+
+        public static MassEditResult PerformMassEdit(ParamBank bank, string csvString, ActionManager actionManager, string param, bool appendOnly, bool replaceParams, char delimiter)
         {
             #if !DEBUG
             try
@@ -421,33 +477,87 @@ namespace StudioCore.ParamEditor
                     return new MassEditResult(MassEditResultType.PARSEERROR, "No Param selected");
                 int csvLength = p.AppliedParamdef.Fields.Count + 2;// Include ID and name
 
-                TextFieldParser parser = new TextFieldParser(new StringReader(csvString));
+                // Clean up trailing delimiters and whitespaces
+                var csvStringByLine = csvString.Split(
+                    new string[]
+                    {
+                        "\r\n", "\r", "\n",
+                    },
+                    StringSplitOptions.None);
 
-                parser.HasFieldsEnclosedInQuotes = true;
-                parser.SetDelimiters(separator.ToString());
+                csvString = string.Join(Environment.NewLine, csvStringByLine.Select(line =>
+                {
+                    return line.Trim().EndsWith(delimiter) ? line.Substring(0, line.Length - 1).Trim() : line.Trim();
+                }));
 
-                List<string[]> csvLines = new();
-                int lineBeingParsed = 0;
-                while (!parser.EndOfData)
+                var csvConfig = new CsvConfiguration(CultureInfo.InvariantCulture)
+                {
+                    HasHeaderRecord = true,
+                    Mode = CFG.Current.Param_Export_Escape ? CsvMode.RFC4180 : CsvMode.NoEscape,
+                    Delimiter = delimiter.ToString(),
+                };
+
+                using var csvReader = new CsvReader(new StringReader(csvString), csvConfig);
+                csvReader.Read();
+                if (!csvReader.ReadHeader())
+                {
+                    return new MassEditResult(MassEditResultType.PARSEERROR, $"CSV has no header");
+                }
+
+                var csvLines = new List<string[]>();
+
+                var headerNames = new Dictionary<int, string>();
+                var headers = csvReader.HeaderRecord!.ToList();
+
+                foreach (string header in headers)
+                {
+                    headerNames[headers.IndexOf(header)] = header.ToLower();
+                }
+                var headerIndices = headerNames.ToDictionary(x => x.Value, x => x.Key);
+
+                // Ensure headers are correct.
+                if (headerNames.Count != csvLength)
+                {
+                    return new MassEditResult(MassEditResultType.PARSEERROR, $"CSV has wrong number of headers (is {headerNames.Count}, should be {csvLength})");
+                }
+
+                var fieldNames = p.AppliedParamdef.Fields.Select(field => field.InternalName.ToLower()).ToList();
+                fieldNames.Add("id");
+                fieldNames.Add("name");
+
+                if (!headerNames.Values.ToList().All(fieldNames.Contains))
+                {
+                    return new MassEditResult(MassEditResultType.PARSEERROR, $"CSV headers do not match param fields, are you importing to the correct param?");
+                }
+
+                int lineBeingParsed = 1; // Count the header
+                while (csvReader.Read())
                 {
                     try
                     {
                         lineBeingParsed++;
-                        string[]? line = parser.ReadFields();
 
-                        // Sanity check for amount of fields
-                        if (line.Length != csvLength && !(line.Length==csvLength+1 && line[csvLength].Trim().Equals("")))
+                        string[] csvLine = new string[csvLength];
+
+                        for (int i = 0; i < csvLength; i++)
                         {
-                            return new MassEditResult(MassEditResultType.PARSEERROR, $"CSV line {lineBeingParsed} has wrong number of values (is {line.Length}, should be {csvLength}");
+                            string? field;
+                            try
+                            {
+                                field = csvReader.GetField(i);
+                            }
+                            catch (BadDataException e)
+                            {
+                                return new MassEditResult(MassEditResultType.PARSEERROR, $"Malformed CSV: Bad data at field index {i} ({headerNames[i]}) at line {lineBeingParsed}. Try importing without Escape Characters?");
+                            }
+                            if (field == null)
+                            {
+                                return new MassEditResult(MassEditResultType.PARSEERROR, $"Malformed CSV: Empty data at field index {i} at line {lineBeingParsed} (should be \"{headerNames[i]}\")");
+                            }
+                            csvLine[i] = field;
                         }
 
-                        // Skip empty or header row
-                        if (line == null || (line[0] == "ID" && line[1] == "Name"))
-                        {
-                            continue;
-                        }
-
-                        csvLines.Add(line);
+                        csvLines.Add(csvLine);
                     }
                     catch (MalformedLineException e)
                     {
@@ -455,15 +565,15 @@ namespace StudioCore.ParamEditor
                     }
 
                 }
-                parser.Close();
+
                 int changeCount = 0;
                 int addedCount = 0;
                 List<EditorAction> actions = new List<EditorAction>();
                 List<Param.Row> addedParams = new List<Param.Row>();
                 foreach (string[] csvs in csvLines)
                 {
-                    int id = int.Parse(csvs[0]);
-                    string name = csvs[1];
+                    int id = int.Parse(csvs[headerIndices["id"]]);
+                    string name = csvs[headerIndices["name"]];
                     var row = p[id];
                     if (row == null || replaceParams)
                     {
@@ -472,11 +582,9 @@ namespace StudioCore.ParamEditor
                     }
                     if (!name.Equals(row.Name))
                         actions.Add(new PropertiesChangedAction(row.GetType().GetProperty("Name"), -1, row, name));
-                    int index = 2;
                     foreach (Param.Column col in row.Cells)
                     {
-                        string v = csvs[index];
-                        index++;
+                        string v = csvs[headerIndices[col.Def.InternalName.ToLower()]];
                         object newval = PerformOperation(bank, row, (PseudoColumn.None, col), "=", v);
                         if (newval == null)
                             return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not assign {v} to field {col.Def.InternalName}");
@@ -499,7 +607,7 @@ namespace StudioCore.ParamEditor
                 return new MassEditResult(MassEditResultType.PARSEERROR, "Unable to parse CSV into correct data types");
             #endif
         }
-        public static (MassEditResult, CompoundAction) PerformSingleMassEdit(ParamBank bank, string csvString, string param, string field, char separator, bool ignoreMissingRows)
+        public static (MassEditResult, CompoundAction) PerformSingleMassEdit(ParamBank bank, string csvString, string param, string field, char delimiter, bool ignoreMissingRows)
         {
             try
             {
@@ -507,9 +615,9 @@ namespace StudioCore.ParamEditor
                 if (p == null)
                     return (new MassEditResult(MassEditResultType.PARSEERROR, "No Param selected"), null);
                 string[] csvLines = csvString.Split("\n");
-                if (csvLines[0].Contains($@"ID{separator}"))
+                if (csvLines[0].Contains($@"ID{delimiter}"))
                 {
-                    if (!csvLines[0].Contains($@"ID{separator}{field}"))
+                    if (!csvLines[0].Contains($@"ID{delimiter}{field}"))
                     {
                         return (new MassEditResult(MassEditResultType.PARSEERROR, "CSV has wrong field name"), null);
                     }
@@ -521,7 +629,7 @@ namespace StudioCore.ParamEditor
                 {
                     if (csvLine.Trim().Equals(""))
                         continue;
-                    string[] csvs = csvLine.Trim().Split(separator, 2);
+                    string[] csvs = csvLine.Trim().Split(delimiter, 2);
                     if (csvs.Length != 2 && !(csvs.Length==3 && csvs[2].Trim().Equals("")))
                         return (new MassEditResult(MassEditResultType.PARSEERROR, "CSV has wrong number of values"), null);
                     int id = int.Parse(csvs[0]);
@@ -640,7 +748,7 @@ namespace StudioCore.ParamEditor
                     throw new Exception($@"Could not locate param {paramKey}");
                 Param p = ParamBank.PrimaryBank.Params[paramKey];
                 return (p, new Param.Row(row, p));
-            }));  
+            }));
             operations.Add("migrate", (new string[]{"parambank name (only primary supported)"}, (paramAndRow, target) => {
                 if (!target[0].Trim().ToLower().Equals("primary"))
                     throw new Exception($@"Only migrating to primary is supported");
@@ -652,7 +760,7 @@ namespace StudioCore.ParamEditor
                     throw new Exception($@"Could not locate param {paramKey}");
                 Param p = ParamBank.PrimaryBank.Params[paramKey];
                 return (p, new Param.Row(row, p));
-            }));            
+            }));
         }
     }
     public class MECellOperation : MEOperation<(Param.Row, (PseudoColumn, Param.Column)), object>
