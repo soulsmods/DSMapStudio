@@ -72,8 +72,8 @@ namespace StudioCore.ParamEditor
                     return null;
                 }
                 {
-                    if (VanillaBank == this)
-                        return null;
+                if (VanillaBank == this)
+                    return null;
                 }
                 return _vanillaDiffCache;
             }
@@ -87,8 +87,8 @@ namespace StudioCore.ParamEditor
                     return null;
                 }
                 {
-                    if (PrimaryBank == this)
-                        return null;
+                if (PrimaryBank == this)
+                    return null;
                 }
                 return _primaryDiffCache;
             }
@@ -231,10 +231,10 @@ namespace StudioCore.ParamEditor
                     p.ApplyParamdef(def);
                     paramBank.Add(Path.GetFileNameWithoutExtension(f.Name), p);
                 }
-                catch (Exception e)
+                catch(Exception e)
                 {
                     var name = f.Name.Split("\\").Last();
-                    TaskManager.warningList.TryAdd($"{name} DefFail", $"Could not apply ParamDef for {name}");
+                    TaskManager.warningList.TryAdd($"{name} DefFail",$"Could not apply ParamDef for {name}");
                 }
             }
         }
@@ -838,10 +838,7 @@ namespace StudioCore.ParamEditor
             }
             else if (locator.Type == GameType.DarkSoulsIISOTFS)
             {
-                newBank.LoadParamsDS2FromFile(new List<string>
-                {
-                    looseDir
-                }, path, enemyPath);
+                newBank.LoadParamsDS2FromFile(new List<string>{looseDir}, path, enemyPath);
             }
             else if (locator.Type == GameType.DarkSoulsRemastered)
             {
@@ -891,7 +888,7 @@ namespace StudioCore.ParamEditor
                 Param p = _params[param];
                 if (!otherBank._params.ContainsKey(param))
                 {
-                    Console.WriteLine("Missing vanilla param " + param);
+                    Console.WriteLine("Missing vanilla param "+param);
                     continue;
                 }
 
@@ -962,7 +959,7 @@ namespace StudioCore.ParamEditor
             foreach (Param.Row vrow in vanillaRows)
             {
                 if (ParamUtils.RowMatches(row, vrow))
-                    return false; //if we find a matching vanilla row
+                    return false;//if we find a matching vanilla row
             }
             return true;
         }
@@ -1371,7 +1368,7 @@ namespace StudioCore.ParamEditor
                     List<Param.Row> changed = new List<Param.Row>();
                     if (partial)
                     {
-                        TaskManager.WaitAll(); //wait on dirtycache update
+                        TaskManager.WaitAll();//wait on dirtycache update
                         HashSet<int> dirtyCache = _vanillaDiffCache[Path.GetFileNameWithoutExtension(p.Name)];
                         foreach (Param.Row row in paramFile.Rows)
                         {
@@ -1554,8 +1551,8 @@ namespace StudioCore.ParamEditor
             {
                 // See if we have any pending adds we can slot in
                 while (currPendingAdd < pendingAdds.Length &&
-                    pendingAdds[currPendingAdd] >= lastID &&
-                    pendingAdds[currPendingAdd] < row.ID)
+                       pendingAdds[currPendingAdd] >= lastID &&
+                       pendingAdds[currPendingAdd] < row.ID)
                 {
                     if (!addedRows.ContainsKey(pendingAdds[currPendingAdd]))
                     {
@@ -1705,12 +1702,14 @@ namespace StudioCore.ParamEditor
             if (AssetLocator.Type == GameType.EldenRing)
             {
                 // Note these all use modified as any unmodified row already matches the target. This only fails if a mod pre-empts fromsoft's exact change.
-                paramUpgradeTasks = new (ulong, string, string)[]
-                {
-                    (10701000l, "1.07 - (SwordArtsParam) Move swordArtsType to swordArtsTypeNew", "param SwordArtsParam: modified: swordArtsTypeNew: = field swordArtsType;"), (10701000l, "1.07 - (SwordArtsParam) Set swordArtsType to 0", "param SwordArtsParam: modified && notadded: swordArtsType: = 0;"),
-                    (10701000l, "1.07 - (AtkParam PC/NPC) Set added finalAttackDamageRate refs to -1", "param AtkParam_(Pc|Npc): modified && added: finalDamageRateId: = -1;"), (10701000l, "1.07 - (AtkParam PC/NPC) Set notadded finalAttackDamageRate refs to vanilla", "param AtkParam_(Pc|Npc): modified && notadded: finalDamageRateId: = vanillafield finalDamageRateId;"),
+                paramUpgradeTasks = new (ulong, string, string)[]{
+                    (10701000l, "1.07 - (SwordArtsParam) Move swordArtsType to swordArtsTypeNew", "param SwordArtsParam: modified: swordArtsTypeNew: = field swordArtsType;"),
+                    (10701000l, "1.07 - (SwordArtsParam) Set swordArtsType to 0", "param SwordArtsParam: modified && notadded: swordArtsType: = 0;"),
+                    (10701000l, "1.07 - (AtkParam PC/NPC) Set added finalAttackDamageRate refs to -1", "param AtkParam_(Pc|Npc): modified && added: finalDamageRateId: = -1;"),
+                    (10701000l, "1.07 - (AtkParam PC/NPC) Set notadded finalAttackDamageRate refs to vanilla", "param AtkParam_(Pc|Npc): modified && notadded: finalDamageRateId: = vanillafield finalDamageRateId;"),
                     (10701000l, "1.07 - (AssetEnvironmentGeometryParam) Set reserved_124 to Vanilla v1.07 values", "param GameSystemCommonParam: modified && notadded: reserved_124: = vanillafield reserved_124;"),
-                    (10701000l, "1.07 - (AssetEnvironmentGeometryParam) Set reserved41 to Vanilla v1.07 values", "param PlayerCommonParam: modified: reserved41: = vanillafield reserved41;"), (10701000l, "1.07 - (AssetEnvironmentGeometryParam) Set Reserve_1 to Vanilla v1.07 values", "param AssetEnvironmentGeometryParam: modified: Reserve_1: = vanillafield Reserve_1;"),
+                    (10701000l, "1.07 - (AssetEnvironmentGeometryParam) Set reserved41 to Vanilla v1.07 values", "param PlayerCommonParam: modified: reserved41: = vanillafield reserved41;"),
+                    (10701000l, "1.07 - (AssetEnvironmentGeometryParam) Set Reserve_1 to Vanilla v1.07 values", "param AssetEnvironmentGeometryParam: modified: Reserve_1: = vanillafield Reserve_1;"),
                     (10701000l, "1.07 - (AssetEnvironmentGeometryParam) Set Reserve_2 to Vanilla v1.07 values", "param AssetEnvironmentGeometryParam: modified: Reserve_2: = vanillafield Reserve_2;"),
                     (10701000l, "1.07 - (AssetEnvironmentGeometryParam) Set Reserve_3 to Vanilla v1.07 values", "param AssetEnvironmentGeometryParam: modified: Reserve_3: = vanillafield Reserve_3;"),
                     (10701000l, "1.07 - (AssetEnvironmentGeometryParam) Set Reserve_4 to Vanilla v1.07 values", "param AssetEnvironmentGeometryParam: modified: Reserve_4: = vanillafield Reserve_4;"),
@@ -1733,8 +1732,7 @@ namespace StudioCore.ParamEditor
 
                 if (!hasFailed)
                 {
-                    try
-                    {
+                    try {
                         var (result, actions) = MassParamEditRegex.PerformMassEdit(this, command, null);
                         if (result.Type != MassEditResultType.SUCCESS)
                             hasFailed = true;
