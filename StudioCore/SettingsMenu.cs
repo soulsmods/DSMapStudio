@@ -18,7 +18,7 @@ namespace StudioCore
         public float UiScale = 1.0f;
 
         private KeyBind _currentKeyBind;
-        public Editor.ProjectSettings? ProjectSettings = null;
+        public Editor.ProjectSettings? ProjSettings = null;
         public MsbEditor.MsbEditorScreen MsbEditor;
         public MsbEditor.ModelEditorScreen ModelEditor;
         public ParamEditor.ParamEditorScreen ParamEditor;
@@ -85,7 +85,7 @@ namespace StudioCore
                 {
                     ImGui.Indent();
 
-                    if (ProjectSettings == null || ProjectSettings.ProjectName == null)
+                    if (ProjSettings == null || ProjSettings.ProjectName == null)
                     {
                         ImGui.Text("No project loaded");
                     }
@@ -97,25 +97,25 @@ namespace StudioCore
                         }
                         else
                         {
-                            ImGui.Text($@"Project: {ProjectSettings.ProjectName}");
+                            ImGui.Text($@"Project: {ProjSettings.ProjectName}");
                             if (ImGui.Button("Open Project Settings File"))
                             {
                                 string projectPath = CFG.Current.LastProjectFile;
                                 Process.Start("explorer.exe", projectPath);
                             }
 
-                            bool useLoose = ProjectSettings.UseLooseParams;
-                            if ((ProjectSettings.GameType is GameType.DarkSoulsIISOTFS or GameType.DarkSoulsIII)
+                            bool useLoose = ProjSettings.UseLooseParams;
+                            if ((ProjSettings.GameType is GameType.DarkSoulsIISOTFS or GameType.DarkSoulsIII)
                                 && ImGui.Checkbox("Use Loose Params", ref useLoose))
                             {
-                                ProjectSettings.UseLooseParams = useLoose;
+                                ProjSettings.UseLooseParams = useLoose;
                             }
 
-                            bool usepartial = ProjectSettings.PartialParams;
+                            bool usepartial = ProjSettings.PartialParams;
                             if ((FeatureFlags.EnablePartialParam || usepartial) &&
-                                ProjectSettings.GameType == GameType.EldenRing && ImGui.Checkbox("Partial Params", ref usepartial))
+                                ProjSettings.GameType == GameType.EldenRing && ImGui.Checkbox("Partial Params", ref usepartial))
                             {
-                                ProjectSettings.PartialParams = usepartial;
+                                ProjSettings.PartialParams = usepartial;
                             }
                         }
                     }
@@ -385,9 +385,9 @@ namespace StudioCore
 
                     ImGui.Checkbox("Show Original FMG Names", ref CFG.Current.FMG_ShowOriginalNames);
                     if (ImGui.Checkbox("Separate Related FMGs and Entries", ref CFG.Current.FMG_NoGroupedFmgEntries))
-                        TextEditor.OnProjectChanged(ProjectSettings);
+                        TextEditor.OnProjectChanged(ProjSettings);
                     if (ImGui.Checkbox("Separate Patch FMGs", ref CFG.Current.FMG_NoFmgPatching))
-                        TextEditor.OnProjectChanged(ProjectSettings);
+                        TextEditor.OnProjectChanged(ProjSettings);
 
                     ImGui.Unindent();
                     ImGui.EndTabItem();

@@ -422,7 +422,7 @@ namespace StudioCore
         {
             _projectSettings = newsettings;
             _assetLocator.SetFromProjectSettings(newsettings, moddir);
-            _settingsMenu.ProjectSettings = _projectSettings;
+            _settingsMenu.ProjSettings = _projectSettings;
 
             Editor.AliasBank.ReloadAliases();
             ParamEditor.ParamBank.ReloadParams(newsettings, options);
