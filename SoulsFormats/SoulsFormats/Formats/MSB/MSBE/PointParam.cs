@@ -2436,7 +2436,7 @@ namespace SoulsFormats
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    bw.WriteInt32((int)OverrideType);
+                    bw.WriteUInt32((uint)OverrideType);
                     bw.WriteInt32(0);
                 }
             }
