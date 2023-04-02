@@ -1201,7 +1201,6 @@ namespace StudioCore.Resource
                         var boneTfm = BoneTransforms[boneTransformationIndex];
 
                         vert.Position = Vector3.Transform(vert.Position, boneTfm);
-                        //vert.Position /= FlverDeS.Bones[boneTransformationIndex].Scale;
                         vert.Normal = Vector3.TransformNormal(vert.Normal, boneTfm);
                         mesh.Vertices[v] = vert;
                     }
@@ -1338,7 +1337,6 @@ namespace StudioCore.Resource
 
             dest.Material = GPUMaterials[mesh.MaterialIndex];
 
-            //var MeshVertices = VerticesPool.Rent(mesh.VertexCount);
             var vSize = dest.Material.VertexSize;
             var meshVertices = Marshal.AllocHGlobal(mesh.VertexCount * (int)vSize);
             dest.PickingVertices = Marshal.AllocHGlobal(mesh.VertexCount * sizeof(Vector3));
