@@ -851,7 +851,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int[] DispGroups { get; private set; }
+                public uint[] DispGroups { get; private set; }
 
                 /// <summary>
                 /// Unknown.
@@ -868,7 +868,7 @@ namespace SoulsFormats
                 /// </summary>
                 public UnkStruct2()
                 {
-                    DispGroups = new int[8];
+                    DispGroups = new uint[8];
                 }
 
                 /// <summary>
@@ -877,14 +877,14 @@ namespace SoulsFormats
                 public UnkStruct2 DeepCopy()
                 {
                     var unk2 = (UnkStruct2)MemberwiseClone();
-                    unk2.DispGroups = (int[])DispGroups.Clone();
+                    unk2.DispGroups = (uint[])DispGroups.Clone();
                     return unk2;
                 }
 
                 internal UnkStruct2(BinaryReaderEx br)
                 {
                     Condition = br.ReadInt32();
-                    DispGroups = br.ReadInt32s(8);
+                    DispGroups = br.ReadUInt32s(8);
                     Unk24 = br.ReadInt16();
                     Unk26 = br.ReadInt16();
                     br.AssertPattern(0x20, 0x00);
@@ -893,7 +893,7 @@ namespace SoulsFormats
                 internal void Write(BinaryWriterEx bw)
                 {
                     bw.WriteInt32(Condition);
-                    bw.WriteInt32s(DispGroups);
+                    bw.WriteUInt32s(DispGroups);
                     bw.WriteInt16(Unk24);
                     bw.WriteInt16(Unk26);
                     bw.WritePattern(0x20, 0x00);
@@ -2260,7 +2260,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// The map to load when on this collision.
                 /// </summary>
-                public byte[] MapID { get; private set; }
+                public sbyte[] MapID { get; private set; }
 
                 /// <summary>
                 /// Unknown.
@@ -2289,7 +2289,7 @@ namespace SoulsFormats
                 {
                     Unk1 = new UnkStruct1();
                     Unk2 = new UnkStruct2();
-                    MapID = new byte[4];
+                    MapID = new sbyte[4];
                     Unk8 = new UnkStruct8();
                     Unk10 = new UnkStruct10();
                     Unk11 = new UnkStruct11();
@@ -2300,7 +2300,7 @@ namespace SoulsFormats
                     var connect = (ConnectCollision)part;
                     connect.Unk1 = Unk1.DeepCopy();
                     connect.Unk2 = Unk2.DeepCopy();
-                    connect.MapID = (byte[])MapID.Clone();
+                    connect.MapID = (sbyte[])MapID.Clone();
                     connect.Unk8 = Unk8.DeepCopy();
                     connect.Unk10 = Unk10.DeepCopy();
                     connect.Unk11 = Unk11.DeepCopy();
@@ -2311,7 +2311,7 @@ namespace SoulsFormats
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
                     CollisionIndex = br.ReadInt32();
-                    MapID = br.ReadBytes(4);
+                    MapID = br.ReadSBytes(4);
                     UnkT08 = br.ReadByte();
                     UnkT09 = br.ReadBoolean();
                     UnkT0A = br.ReadByte();
@@ -2328,7 +2328,7 @@ namespace SoulsFormats
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
                     bw.WriteInt32(CollisionIndex);
-                    bw.WriteBytes(MapID);
+                    bw.WriteSBytes(MapID);
                     bw.WriteByte(UnkT08);
                     bw.WriteBoolean(UnkT09);
                     bw.WriteByte(UnkT0A);
