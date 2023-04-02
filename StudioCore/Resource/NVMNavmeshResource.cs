@@ -65,18 +65,36 @@ namespace StudioCore.Resource
                 MeshVertices[i+2].Normal[1] = (sbyte)(n.Y * 127.0f);
                 MeshVertices[i+2].Normal[2] = (sbyte)(n.Z * 127.0f);
 
-                MeshVertices[i].Color[0] = (byte)(157);
-                MeshVertices[i].Color[1] = (byte)(53);
-                MeshVertices[i].Color[2] = (byte)(255);
-                MeshVertices[i].Color[3] = (byte)(255);
-                MeshVertices[i+1].Color[0] = (byte)(157);
-                MeshVertices[i+1].Color[1] = (byte)(53);
-                MeshVertices[i+1].Color[2] = (byte)(255);
-                MeshVertices[i+1].Color[3] = (byte)(255);
-                MeshVertices[i+2].Color[0] = (byte)(157);
-                MeshVertices[i+2].Color[1] = (byte)(53);
-                MeshVertices[i+2].Color[2] = (byte)(255);
-                MeshVertices[i+2].Color[3] = (byte)(255);
+                if ((mesh.Triangles[id].Flags & NVM.TriangleFlags.GATE) > 0)
+                {
+                    MeshVertices[i].Color[0] = (byte)(50);
+                    MeshVertices[i].Color[1] = (byte)(220);
+                    MeshVertices[i].Color[2] = (byte)(0);
+                    MeshVertices[i].Color[3] = (byte)(255);
+                    MeshVertices[i + 1].Color[0] = (byte)(50);
+                    MeshVertices[i + 1].Color[1] = (byte)(220);
+                    MeshVertices[i + 1].Color[2] = (byte)(0);
+                    MeshVertices[i + 1].Color[3] = (byte)(255);
+                    MeshVertices[i + 2].Color[0] = (byte)(50);
+                    MeshVertices[i + 2].Color[1] = (byte)(220);
+                    MeshVertices[i + 2].Color[2] = (byte)(0);
+                    MeshVertices[i + 2].Color[3] = (byte)(255);
+                }
+                else
+                {
+                    MeshVertices[i].Color[0] = (byte)(157);
+                    MeshVertices[i].Color[1] = (byte)(53);
+                    MeshVertices[i].Color[2] = (byte)(255);
+                    MeshVertices[i].Color[3] = (byte)(255);
+                    MeshVertices[i + 1].Color[0] = (byte)(157);
+                    MeshVertices[i + 1].Color[1] = (byte)(53);
+                    MeshVertices[i + 1].Color[2] = (byte)(255);
+                    MeshVertices[i + 1].Color[3] = (byte)(255);
+                    MeshVertices[i + 2].Color[0] = (byte)(157);
+                    MeshVertices[i + 2].Color[1] = (byte)(53);
+                    MeshVertices[i + 2].Color[2] = (byte)(255);
+                    MeshVertices[i + 2].Color[3] = (byte)(255);
+                }
 
                 MeshVertices[i].Barycentric[0] = (byte)(0);
                 MeshVertices[i].Barycentric[1] = (byte)(0);
