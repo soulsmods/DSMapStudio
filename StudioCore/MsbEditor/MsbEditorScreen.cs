@@ -383,7 +383,7 @@ namespace StudioCore.MsbEditor
 
         private void DuplicateToTargetMapUI()
         {
-            ImGui.Text("Duplicate selection to specific map");
+            ImGui.TextColored(new Vector4(1.0f, 1.0f, 1.0f, 1.0f), "Duplicate selection to specific map");
             ImGui.SameLine();
             ImGui.TextColored(new Vector4(1.0f, 1.0f, 1.0f, 0.5f), $" <{KeyBindings.Current.Map_DuplicateToMap.HintText}>");
 
@@ -479,7 +479,7 @@ namespace StudioCore.MsbEditor
 
                 if (dialog.FileName != "")
                 {
-                    prefab.PrefabName = System.IO.Path.GetFileNameWithoutExtension(dialog.FileName);
+                    prefab.PrefabName = System.IO.Path.GetFileNameWithoutExtension(dialog.FileName); // Todo: improve this.
                     prefab.Write(dialog.FileName);
                 }
             }
@@ -663,15 +663,15 @@ namespace StudioCore.MsbEditor
                     {
                         if (ImGui.BeginMenu("Asset Prefabs"))
                         {
-                            ImGui.Text("Import/Export multiple assets at once");
+                            ImGui.TextColored(new Vector4(1.0f, 1.0f, 0.8f, 1.0f), "Import/Export multiple assets at once");
+                            ImGui.Separator();
                             if (ImGui.MenuItem("Export Selection", KeyBindings.Current.Map_AssetPrefabExport.HintText, false, _selection.IsSelection()))
                             {
                                 ExportAssetPrefab();
                             }
-                            if (ImGui.BeginMenu("Import"))
+                            if (ImGui.MenuItem("Import"))
                             {
                                 ImportAssetPrefab(map);
-                                ImGui.EndMenu();
                             }
                             ImGui.EndMenu();
                         }
@@ -997,20 +997,20 @@ namespace StudioCore.MsbEditor
 
             if (ImGui.BeginPopup("##ImportAssetPrefabPopup"))
             {
-                ImGui.Text("Import Asset Prefab");
+                ImGui.TextColored(new Vector4(1.0f, 1.0f, 1.0f, 0.8f), "Import Asset Prefab");
                 ImGui.SameLine();
                 ImGui.TextColored(new Vector4(1.0f, 1.0f, 1.0f, 0.5f), $" <{KeyBindings.Current.Map_AssetPrefabImport.HintText}>");
 
                 ComboTargetMapUI();
-                if (_comboTargetMap.Item2 == null)
-                    return;
-
-                Map targetMap = (Map)_comboTargetMap.Item2;
-
-                if (ImGui.Button("Import"))
+                if (_comboTargetMap.Item2 != null)
                 {
-                    ImportAssetPrefab(targetMap);
-                    ImGui.CloseCurrentPopup();
+                    Map targetMap = (Map)_comboTargetMap.Item2;
+
+                    if (ImGui.Button("Browse"))
+                    {
+                        ImportAssetPrefab(targetMap);
+                        ImGui.CloseCurrentPopup();
+                    }
                 }
                 ImGui.EndPopup();
             }

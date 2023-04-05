@@ -25,14 +25,16 @@ namespace StudioCore.MsbEditor
         public string PrefabName = "";
         public GameType GameType = GameType.EldenRing;
 
-        [JsonIgnore]
+        /// <summary>
         /// List of AssetInfo derived from AssetContainer.
+        /// </summary>
+        [JsonIgnore]
         public List<AssetInfo> Assets = new();
 
         /// <summary>
-        /// MSB bytes that contains assets.
+        /// MSB bytes that stores asset bytes.
         /// </summary>
-        protected byte[] AssetContainerBytes { get; set; }
+        public byte[] AssetContainerBytes { get; set; }
 
         // JsonExtensionData stores fields json that are not present in class in order to retain data between versions.
         [JsonExtensionData]
@@ -69,30 +71,30 @@ namespace StudioCore.MsbEditor
             private IDictionary<string, JToken> _additionalData;
 
             public MSBE.Part.Asset MSBE_Asset;
+            //public int ID;
 
             public AssetInfo(MSBE.Part.Asset asset)
             {
-                MSBE_Asset = asset;
+                MSBE_Asset = (MSBE.Part.Asset)asset.DeepCopy();
+                MSBE_Asset_ClearIndexReferences(MSBE_Asset);
             }
-        }
 
-        public void AddNamePrefixToAssets()
-        {
-            foreach (var obj in MSBE_Assets)
+            public void MSBE_Asset_ClearIndexReferences(MSBE.Part.Asset asset)
             {
-                AddNamePrefixToAsset(obj);
+                Array.Clear(asset.UnkPartNames);
             }
-        }
-        public void AddNamePrefixToAsset(MSBE.Part.Asset obj)
-        {
-            var prop = obj.GetType().GetProperty("Name");
-            if (prop == null)
+
+            public void AddNamePrefixToAsset(string prefix)
             {
-                throw new InvalidDataException($"AssetPrefab operation failed, {obj.GetType()} does not contain Name property.");
+                var prop = MSBE_Asset.GetType().GetProperty("Name");
+                if (prop == null)
+                {
+                    throw new InvalidDataException($"AssetPrefab operation failed, {MSBE_Asset.GetType()} does not contain Name property.");
+                }
+                var name = prop.GetValue(MSBE_Asset);
+                name = $"{prefix}_{name}";
+                prop.SetValue(MSBE_Asset, name);
             }
-            var name = prop.GetValue(obj);
-            name = $"{PrefabName}_{name}";
-            prop.SetValue(obj, name);
         }
 
         /// <summary>
@@ -107,6 +109,11 @@ namespace StudioCore.MsbEditor
                 foreach (var asset in Assets)
                 {
                     map.Parts.Assets.Add(asset.MSBE_Asset);
+
+                    // Needs a model in place to write MSBE freely.
+                    MSBE.Model.Asset model = new();
+                    model.Name = asset.MSBE_Asset.ModelName;
+                    map.Models.Assets.Add(model);
                 }
                 AssetContainerBytes = map.Write();
                 
@@ -144,7 +151,8 @@ namespace StudioCore.MsbEditor
                 MSBE pseudoMap = MSBE.Read(prefab.AssetContainerBytes);
                 foreach (var asset in pseudoMap.Parts.Assets)
                 {
-                    prefab.Assets.Add(new AssetInfo(asset));
+                    AssetInfo info = new(asset);
+                    prefab.Assets.Add(asset);
                 }
                 return prefab;
             }
