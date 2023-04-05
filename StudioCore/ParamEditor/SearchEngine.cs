@@ -441,6 +441,35 @@ namespace StudioCore.Editor
                         return ParamUtils.IsValueDiff(ref valA, ref valB, col.GetColumnType());
                     };
             }));
+            filterList.Add("auxmodified", (new string[]{"parambank name"}, (args, lenient) => {
+                if (!ParamBank.AuxBanks.ContainsKey(args[0]))
+                    throw new Exception("Can't check if cell is modified - parambank not found");
+                ParamBank bank = ParamBank.AuxBanks[args[0]];
+                return (row) => {
+                    if (row.Item1 == null)
+                        throw new Exception("Can't check if cell is modified - not part of a param");
+                    Param auxParam = bank.Params?[row.Item1];
+                    if (auxParam == null)
+                        throw new Exception("Can't check if cell is modified - no aux param");
+                    Param vParam = ParamBank.VanillaBank.Params?[row.Item1];
+                    if (vParam == null)
+                        throw new Exception("Can't check if cell is modified - no vanilla param");
+                    Param.Row r = auxParam[row.Item2.ID];
+                    Param.Row r2 = vParam[row.Item2.ID];
+                    if (r == null)
+                        return (col) => false;
+                    else if (r2 == null)
+                        return (col) => true;
+                    else
+                        return (col) => {
+                            (PseudoColumn, Param.Column) auxcol = col.GetAs(auxParam);
+                            (PseudoColumn, Param.Column) vcol = col.GetAs(vParam);
+                            object valA = r.Get(auxcol);
+                            object valB = r2.Get(vcol);
+                            return ParamUtils.IsValueDiff(ref valA, ref valB, col.GetColumnType());
+                        };
+                };
+            }));
             filterList.Add("sftype", (new string[]{"paramdef type"}, (args, lenient) => {
                 Regex r = new Regex('^'+args[0]+'$', lenient ? RegexOptions.IgnoreCase : RegexOptions.None); //Leniency rules break from the norm
                 return (row) => (col) => r.IsMatch(col.GetColumnSfType());
