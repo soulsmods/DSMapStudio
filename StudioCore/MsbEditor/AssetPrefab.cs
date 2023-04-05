@@ -70,18 +70,21 @@ namespace StudioCore.MsbEditor
             [JsonExtensionData]
             private IDictionary<string, JToken> _additionalData;
 
-            public MSBE.Part.Asset MSBE_Asset;
+            public MSBE.Part.Asset? MSBE_Asset = null;
             //public int ID;
 
             public AssetInfo(MSBE.Part.Asset asset)
             {
                 MSBE_Asset = (MSBE.Part.Asset)asset.DeepCopy();
-                MSBE_Asset_ClearIndexReferences(MSBE_Asset);
+                ClearIndexReferences();
             }
 
-            public void MSBE_Asset_ClearIndexReferences(MSBE.Part.Asset asset)
+            public void ClearIndexReferences()
             {
-                Array.Clear(asset.UnkPartNames);
+                if (MSBE_Asset != null)
+                {
+                    Array.Clear(MSBE_Asset.UnkPartNames);
+                }
             }
 
             public void AddNamePrefixToAsset(string prefix)
