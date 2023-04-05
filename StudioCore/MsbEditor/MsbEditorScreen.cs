@@ -45,7 +45,7 @@ namespace StudioCore.MsbEditor
         public bool AltHeld;
 
         private int _createEntityMapIndex = 0;
-        private (string, ObjectContainer) _dupeSelectionTargetedMap = ("None", null);
+        private (string, ObjectContainer) _comboTargetMap = ("None", null);
         private (string, Entity) _dupeSelectionTargetedParent = ("None", null);
 
         private AssetPrefab _selectedAssetPrefab = null;
@@ -362,13 +362,9 @@ namespace StudioCore.MsbEditor
             EditorActionManager.ExecuteAction(action);
         }
 
-        private void DuplicateToTargetMapUI()
+        private void ComboTargetMapUI()
         {
-            ImGui.Text("Duplicate selection to specific map");
-            ImGui.SameLine();
-            ImGui.TextColored(new Vector4(1.0f, 1.0f, 1.0f, 0.5f), $" <{KeyBindings.Current.Map_DuplicateToMap.HintText}>");
-
-            if (ImGui.BeginCombo("Targeted Map", _dupeSelectionTargetedMap.Item1))
+            if (ImGui.BeginCombo("Targeted Map", _comboTargetMap.Item1))
             {
                 foreach (var obj in Universe.LoadedObjectContainers)
                 {
@@ -376,17 +372,26 @@ namespace StudioCore.MsbEditor
                     {
                         if (ImGui.Selectable(obj.Key))
                         {
-                            _dupeSelectionTargetedMap = (obj.Key, obj.Value);
+                            _comboTargetMap = (obj.Key, obj.Value);
                             break;
                         }
                     }
                 }
                 ImGui.EndCombo();
             }
-            if (_dupeSelectionTargetedMap.Item2 == null)
+        }
+
+        private void DuplicateToTargetMapUI()
+        {
+            ImGui.Text("Duplicate selection to specific map");
+            ImGui.SameLine();
+            ImGui.TextColored(new Vector4(1.0f, 1.0f, 1.0f, 0.5f), $" <{KeyBindings.Current.Map_DuplicateToMap.HintText}>");
+
+            ComboTargetMapUI();
+            if (_comboTargetMap.Item2 == null)
                 return;
 
-            Map targetMap = (Map)_dupeSelectionTargetedMap.Item2;
+            Map targetMap = (Map)_comboTargetMap.Item2;
 
             var sel = _selection.GetFilteredSelection<MapEntity>().ToList();
 
@@ -415,10 +420,68 @@ namespace StudioCore.MsbEditor
 
                 var action = new CloneMapObjectsAction(Universe, RenderScene, sel, true, targetMap, targetParent);
                 EditorActionManager.ExecuteAction(action);
-                _dupeSelectionTargetedMap = ("None", null);
+                _comboTargetMap = ("None", null);
                 _dupeSelectionTargetedParent = ("None", null);
                 // Closes popup/menu bar
                 ImGui.CloseCurrentPopup();
+            }
+        }
+
+        private void ImportAssetPrefab(Map targetMap)
+        {
+            OpenFileDialog dialog = new();
+            dialog.Title = "Open Prefab Json";
+            dialog.Filter = "json|*.json";
+            dialog.ShowDialog();
+
+            if (dialog.FileName != "")
+            {
+                _selectedAssetPrefab = AssetPrefab.ImportJson(dialog.FileName);
+            }
+            if (_selectedAssetPrefab != null)
+            {
+                var parent = targetMap.RootObject;
+                List<MapEntity> ents = new();
+                foreach (var asset in _selectedAssetPrefab.MSBE_Assets)
+                {
+                    ents.Add(new MapEntity(targetMap, asset));
+                }
+                var act = new AddMapObjectsAction(Universe, targetMap, RenderScene, ents, true, parent);
+                EditorActionManager.ExecuteAction(act);
+                _comboTargetMap = ("None", null);
+                _selectedAssetPrefab = null;
+            }
+        }
+
+        private void ExportAssetPrefab()
+        {
+            AssetPrefab prefab = new();
+            int count = 0;
+            foreach (var sel in _selection.GetFilteredSelection<MapEntity>())
+            {
+                if (sel.WrappedObject is MSBE.Part.Asset asset)
+                {
+                    prefab.Assets.Add(new AssetPrefab.AssetInfo(asset));
+                    count++;
+                }
+            }
+            if (count == 0)
+            {
+                MessageBox.Show("Export failed, nothing in selection could be exported.", "Asset Prefab Error", MessageBoxButtons.OK);
+            }
+            else
+            {
+                SaveFileDialog dialog = new();
+                dialog.Title = "Save Asset Prefab";
+                dialog.Filter = "json|*.json";
+                dialog.DefaultExt = ".json";
+                dialog.ShowDialog();
+
+                if (dialog.FileName != "")
+                {
+                    prefab.PrefabName = System.IO.Path.GetFileNameWithoutExtension(dialog.FileName);
+                    prefab.Write(dialog.FileName);
+                }
             }
         }
 
@@ -598,66 +661,17 @@ namespace StudioCore.MsbEditor
                     }
                     if (AssetLocator.Type is GameType.EldenRing)
                     {
-                        MSBE.Part.Asset a = new();
                         if (ImGui.BeginMenu("Asset Prefabs"))
                         {
-                            if (ImGui.MenuItem("Export Selection", _selection.IsSelection()))
+                            ImGui.Text("Import/Export multiple assets at once");
+                            if (ImGui.MenuItem("Export Selection", KeyBindings.Current.Map_AssetPrefabExport.HintText, false, _selection.IsSelection()))
                             {
-                                AssetPrefab prefab = new();
-                                int count = 0;
-                                foreach (var sel in _selection.GetFilteredSelection<MapEntity>())
-                                {
-                                    if (sel.WrappedObject is MSBE.Part.Asset asset)
-                                    {
-                                        prefab.Assets.Add(new AssetPrefab.AssetInfo(asset));
-                                        count++;
-                                    }
-                                }
-                                if (count == 0)
-                                {
-                                    MessageBox.Show("Export failed, nothing in selection could be exported.", "Error", MessageBoxButtons.OK);
-                                }
-                                else
-                                {
-                                    SaveFileDialog dialog = new();
-                                    dialog.Title = "Save Asset Prefab";
-                                    dialog.Filter = "json|*.json";
-                                    dialog.DefaultExt = ".json";
-                                    dialog.ShowDialog();
-
-                                    if (dialog.FileName != "")
-                                    {
-                                        prefab.Write(dialog.FileName);
-                                    }
-                                }
+                                ExportAssetPrefab();
                             }
-                            if (ImGui.MenuItem("Import Json"))
+                            if (ImGui.BeginMenu("Import"))
                             {
-                                OpenFileDialog dialog = new();
-                                dialog.Title = "Open Prefab Json";
-                                dialog.Filter = "json|*.json";
-                                dialog.ShowDialog();
-
-                                if (dialog.FileName != "")
-                                {
-                                    _selectedAssetPrefab = AssetPrefab.ImportJson(dialog.FileName);
-                                }
-                                if (_selectedAssetPrefab != null)
-                                {
-                                    var parent = map.RootObject;
-                                    List<MapEntity> ents = new();
-                                    foreach (var asset in _selectedAssetPrefab.MSBE_Assets)
-                                    {
-                                        ents.Add(new MapEntity(map, asset));
-                                    }
-                                    var act = new AddMapObjectsAction(Universe, map, RenderScene, ents, true, parent);
-                                    EditorActionManager.ExecuteAction(act);
-                                    _selectedAssetPrefab = null;
-                                    foreach (var e in ents)
-                                    {
-                                        e.UpdateRenderModel();
-                                    }
-                                }
+                                ImportAssetPrefab(map);
+                                ImGui.EndMenu();
                             }
                             ImGui.EndMenu();
                         }
@@ -934,13 +948,17 @@ namespace StudioCore.MsbEditor
                 {
                     MoveSelectionToCamera();
                 }
-                if (InputTracker.GetKeyDown(KeyBindings.Current.Map_AssetPrefabExport) && _selection.IsSelection())
+
+                if (AssetLocator.Type is GameType.EldenRing)
                 {
-                    //
-                }
-                if (InputTracker.GetKeyDown(KeyBindings.Current.Map_AssetPrefabImport))
-                {
-                    //
+                    if (InputTracker.GetKeyDown(KeyBindings.Current.Map_AssetPrefabExport))
+                    {
+                        ExportAssetPrefab();
+                    }
+                    if (InputTracker.GetKeyDown(KeyBindings.Current.Map_AssetPrefabImport))
+                    {
+                        ImGui.OpenPopup("##ImportAssetPrefabPopup");
+                    }
                 }
 
                 // Render settings
@@ -974,6 +992,26 @@ namespace StudioCore.MsbEditor
             if (ImGui.BeginPopup("##DupeToTargetMapPopup"))
             {
                 DuplicateToTargetMapUI();
+                ImGui.EndPopup();
+            }
+
+            if (ImGui.BeginPopup("##ImportAssetPrefabPopup"))
+            {
+                ImGui.Text("Import Asset Prefab");
+                ImGui.SameLine();
+                ImGui.TextColored(new Vector4(1.0f, 1.0f, 1.0f, 0.5f), $" <{KeyBindings.Current.Map_AssetPrefabImport.HintText}>");
+
+                ComboTargetMapUI();
+                if (_comboTargetMap.Item2 == null)
+                    return;
+
+                Map targetMap = (Map)_comboTargetMap.Item2;
+
+                if (ImGui.Button("Import"))
+                {
+                    ImportAssetPrefab(targetMap);
+                    ImGui.CloseCurrentPopup();
+                }
                 ImGui.EndPopup();
             }
 

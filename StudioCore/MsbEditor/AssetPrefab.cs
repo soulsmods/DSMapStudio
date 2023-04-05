@@ -19,9 +19,6 @@ using System.Runtime.Serialization;
 
 namespace StudioCore.MsbEditor
 {
-    public static class AssetPrefabConverter
-    {
-    }
 
     public class AssetPrefab
     {
@@ -63,8 +60,7 @@ namespace StudioCore.MsbEditor
         }
 
         public AssetPrefab()
-        {
-        }
+        { }
 
         public class AssetInfo
         {
@@ -107,8 +103,6 @@ namespace StudioCore.MsbEditor
         {
             try
             {
-                PrefabName = Path.GetFileNameWithoutExtension(path);
-
                 MSBE map = new();
                 foreach (var asset in Assets)
                 {
