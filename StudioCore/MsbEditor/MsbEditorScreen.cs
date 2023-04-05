@@ -48,6 +48,8 @@ namespace StudioCore.MsbEditor
         private (string, ObjectContainer) _dupeSelectionTargetedMap = ("None", null);
         private (string, Entity) _dupeSelectionTargetedParent = ("None", null);
 
+        private AssetPrefab _selectedAssetPrefab = null;
+
         private static object _lock_PauseUpdate = new object();
         private bool _PauseUpdate;
         private bool PauseUpdate
@@ -594,6 +596,72 @@ namespace StudioCore.MsbEditor
                         }
                         ImGui.EndMenu();
                     }
+                    if (AssetLocator.Type is GameType.EldenRing)
+                    {
+                        MSBE.Part.Asset a = new();
+                        if (ImGui.BeginMenu("Asset Prefabs"))
+                        {
+                            if (ImGui.MenuItem("Export Selection", _selection.IsSelection()))
+                            {
+                                AssetPrefab prefab = new();
+                                int count = 0;
+                                foreach (var sel in _selection.GetFilteredSelection<MapEntity>())
+                                {
+                                    if (sel.WrappedObject is MSBE.Part.Asset asset)
+                                    {
+                                        prefab.Assets.Add(new AssetPrefab.AssetInfo(asset));
+                                        count++;
+                                    }
+                                }
+                                if (count == 0)
+                                {
+                                    MessageBox.Show("Export failed, nothing in selection could be exported.", "Error", MessageBoxButtons.OK);
+                                }
+                                else
+                                {
+                                    SaveFileDialog dialog = new();
+                                    dialog.Title = "Save Asset Prefab";
+                                    dialog.Filter = "json|*.json";
+                                    dialog.DefaultExt = ".json";
+                                    dialog.ShowDialog();
+
+                                    if (dialog.FileName != "")
+                                    {
+                                        prefab.Write(dialog.FileName);
+                                    }
+                                }
+                            }
+                            if (ImGui.MenuItem("Import Json"))
+                            {
+                                OpenFileDialog dialog = new();
+                                dialog.Title = "Open Prefab Json";
+                                dialog.Filter = "json|*.json";
+                                dialog.ShowDialog();
+
+                                if (dialog.FileName != "")
+                                {
+                                    _selectedAssetPrefab = AssetPrefab.ImportJson(dialog.FileName);
+                                }
+                                if (_selectedAssetPrefab != null)
+                                {
+                                    var parent = map.RootObject;
+                                    List<MapEntity> ents = new();
+                                    foreach (var asset in _selectedAssetPrefab.MSBE_Assets)
+                                    {
+                                        ents.Add(new MapEntity(map, asset));
+                                    }
+                                    var act = new AddMapObjectsAction(Universe, map, RenderScene, ents, true, parent);
+                                    EditorActionManager.ExecuteAction(act);
+                                    _selectedAssetPrefab = null;
+                                    foreach (var e in ents)
+                                    {
+                                        e.UpdateRenderModel();
+                                    }
+                                }
+                            }
+                            ImGui.EndMenu();
+                        }
+                    }
                 }
                 ImGui.EndMenu();
             }
@@ -865,6 +933,14 @@ namespace StudioCore.MsbEditor
                 if (InputTracker.GetKeyDown(KeyBindings.Current.Map_MoveSelectionToCamera) && _selection.IsSelection())
                 {
                     MoveSelectionToCamera();
+                }
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Map_AssetPrefabExport) && _selection.IsSelection())
+                {
+                    //
+                }
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Map_AssetPrefabImport))
+                {
+                    //
                 }
 
                 // Render settings
