@@ -155,6 +155,7 @@ namespace StudioCore.MsbEditor
                 foreach (var asset in pseudoMap.Parts.Assets)
                 {
                     AssetInfo info = new(asset);
+                    info.AddNamePrefixToAsset(prefab.PrefabName);
                     prefab.Assets.Add(info);
                 }
                 return prefab;
