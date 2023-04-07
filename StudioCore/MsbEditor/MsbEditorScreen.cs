@@ -453,7 +453,7 @@ namespace StudioCore.MsbEditor
         private void ExportAssetPrefab()
         {
             AssetPrefab prefab = new(_selection.GetFilteredSelection<MapEntity>());
-            if (!prefab.Assets.Any())
+            if (!prefab.AssetInfoChildren.Any())
             {
                 MessageBox.Show("Export failed, nothing in selection could be exported.", "Asset Prefab Error", MessageBoxButtons.OK);
             }

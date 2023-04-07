@@ -27,17 +27,21 @@ namespace StudioCore.MsbEditor
         public GameType GameType = GameType.EldenRing;
 
         /// <summary>
-        /// List of AssetInfo derived from AssetContainer.
-        /// </summary>
-        [JsonIgnore]
-        public List<AssetInfo> Assets = new();
-        [JsonIgnore]
-        public List<MapEntity> ChildEntities = new();
-
-        /// <summary>
         /// MSB bytes that stores asset bytes.
         /// </summary>
         public byte[] AssetContainerBytes { get; set; }
+
+        /// <summary>
+        /// List of AssetInfo derived from AssetContainer.
+        /// </summary>
+        [JsonIgnore]
+        public List<AssetInfo> AssetInfoChildren = new();
+        /// <summary>
+        /// List of Map Entities derived from AssetInfoChildren.
+        /// </summary>
+        [JsonIgnore]
+        public List<MapEntity> MapEntityChildren = new();
+
 
         // JsonExtensionData stores fields json that are not present in class in order to retain data between versions.
         [JsonExtensionData]
@@ -52,11 +56,11 @@ namespace StudioCore.MsbEditor
             {
                 if (ent.WrappedObject is MSBE.Part.Asset asset)
                 {
-                    Assets.Add(new AssetInfo(this, asset));
+                    AssetInfoChildren.Add(new AssetInfo(this, asset));
                 }
                 else if (ent.WrappedObject is MSBE.Region.Other region)
                 {
-                    Assets.Add(new AssetInfo(this, region));
+                    AssetInfoChildren.Add(new AssetInfo(this, region));
                 }
             }
         }
@@ -79,8 +83,8 @@ namespace StudioCore.MsbEditor
             public enum AssetInfoDataType
             { 
                 None = -1,
-                Part = 0,
-                Region = 1,
+                Part = 1000,
+                Region = 2000,
             }
 
             public object InnerObject = null;
@@ -141,7 +145,7 @@ namespace StudioCore.MsbEditor
         public List<MapEntity> GenerateMapEntities(Map targetMap)
         {
             List<MapEntity> ents = new();
-            foreach (var assetInfo in Assets)
+            foreach (var assetInfo in AssetInfoChildren)
             {
                 // TODO: For prefab scene tree support:
                 // * Make a map entity of the prefab
@@ -163,7 +167,7 @@ namespace StudioCore.MsbEditor
                 }
                 ents.Add(ent);
 
-                ChildEntities.Add(ent);
+                MapEntityChildren.Add(ent);
             }
             return ents;
         }
@@ -177,7 +181,7 @@ namespace StudioCore.MsbEditor
             try
             {
                 MSBE map = new();
-                foreach (var assetInfo in Assets)
+                foreach (var assetInfo in AssetInfoChildren)
                 {
                     assetInfo.StripNamePrefix();
                     if (assetInfo.InnerObject is MSBE.Part.Asset asset)
@@ -226,13 +230,13 @@ namespace StudioCore.MsbEditor
                 {
                     AssetInfo info = new(prefab, asset);
                     info.AddNamePrefix(prefab.PrefabName);
-                    prefab.Assets.Add(info);
+                    prefab.AssetInfoChildren.Add(info);
                 }
                 foreach (var region in pseudoMap.Regions.Others)
                 {
                     AssetInfo info = new(prefab, region);
                     info.AddNamePrefix(prefab.PrefabName);
-                    prefab.Assets.Add(info);
+                    prefab.AssetInfoChildren.Add(info);
                 }
 
                 return prefab;
