@@ -27,15 +27,16 @@ namespace StudioCore.MsbEditor
         public GameType GameType = GameType.EldenRing;
 
         /// <summary>
-        /// MSB bytes that stores asset bytes.
+        /// Bytes of the MSB that stores prefab data.
         /// </summary>
         public byte[] AssetContainerBytes { get; set; }
 
         /// <summary>
-        /// List of AssetInfo derived from AssetContainer.
+        /// List of AssetInfo derived from MSB AssetContainerBytes.
         /// </summary>
         [JsonIgnore]
         public List<AssetInfo> AssetInfoChildren = new();
+
         /// <summary>
         /// List of Map Entities derived from AssetInfoChildren.
         /// </summary>
@@ -66,12 +67,14 @@ namespace StudioCore.MsbEditor
         }
 
         /*
-        // In progress. System to organize meta information in the name of the msb entity.
-        public class AssetPresetTags
+        // In progress. System to store meta information in the name of the msb entity.
+        public class AssetPrefabTags
         {
-            public const string RefTagStart = "[";
-            public const string RefTagEnd = "]";
-            public const string IndexReferenceTag = "IREF&";
+            public const string TagStart = "[";
+            public const string TagEnd = "]";
+            public const string TagDelimiter = "|";
+            public const string ValueDelimiter = "&";
+            public const string IndexReferenceTag = "IREF";
         }
         */
 

@@ -467,7 +467,7 @@ namespace StudioCore.MsbEditor
 
                 if (dialog.FileName != "")
                 {
-                    prefab.PrefabName = System.IO.Path.GetFileNameWithoutExtension(dialog.FileName); // Todo: improve this.
+                    prefab.PrefabName = System.IO.Path.GetFileNameWithoutExtension(dialog.FileName);
                     prefab.Write(dialog.FileName);
                 }
             }
@@ -651,7 +651,7 @@ namespace StudioCore.MsbEditor
                     {
                         if (ImGui.BeginMenu("Asset Prefabs"))
                         {
-                            ImGui.TextColored(new Vector4(1.0f, 1.0f, 0.8f, 1.0f), "Import/Export multiple assets at once\nExport supports Assets and (Other) Regions");
+                            ImGui.TextColored(new Vector4(1.0f, 1.0f, 0.8f, 1.0f), "Import/Export multiple assets at once\nSupports Assets and Regions (Other)");
                             ImGui.Separator();
                             if (ImGui.MenuItem("Export Selection", KeyBindings.Current.Map_AssetPrefabExport.HintText, false, _selection.IsSelection()))
                             {
