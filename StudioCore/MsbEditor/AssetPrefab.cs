@@ -23,6 +23,7 @@ namespace StudioCore.MsbEditor
     public class AssetPrefab
     {
         public string PrefabName = "";
+        public string Separator = "[]";
         public GameType GameType = GameType.EldenRing;
 
         /// <summary>
@@ -30,6 +31,8 @@ namespace StudioCore.MsbEditor
         /// </summary>
         [JsonIgnore]
         public List<AssetInfo> Assets = new();
+        [JsonIgnore]
+        public List<MapEntity> ChildEntities = new();
 
         /// <summary>
         /// MSB bytes that stores asset bytes.
@@ -40,64 +43,129 @@ namespace StudioCore.MsbEditor
         [JsonExtensionData]
         private IDictionary<string, JToken> _additionalData;
 
-        [JsonIgnore]
-        public List<MSBE.Part.Asset> MSBE_Assets
-        {
-            get
-            {
-                if (GameType is GameType.EldenRing)
-                {
-                    List<MSBE.Part.Asset> objs = new();
-                    foreach (var asset in Assets)
-                    {
-                        if (asset.MSBE_Asset != null)
-                        {
-                            objs.Add(asset.MSBE_Asset);
-                        }
-                    }
-                    return objs;
-                }
-                throw new NotSupportedException();
-            }
-        }
-
         public AssetPrefab()
         { }
 
+        public AssetPrefab(HashSet<MapEntity> entities)
+        {
+            foreach (var ent in entities)
+            {
+                if (ent.WrappedObject is MSBE.Part.Asset asset)
+                {
+                    Assets.Add(new AssetInfo(this, asset));
+                }
+                else if (ent.WrappedObject is MSBE.Region.Other region)
+                {
+                    Assets.Add(new AssetInfo(this, region));
+                }
+            }
+        }
+
+        /*
+        // In progress. System to organize meta information in the name of the msb entity.
+        public class AssetPresetTags
+        {
+            public const string RefTagStart = "[";
+            public const string RefTagEnd = "]";
+            public const string IndexReferenceTag = "IREF&";
+        }
+        */
+
         public class AssetInfo
         {
-            // JsonExtensionData stores fields json that are not present in class in order to retain data between versions.
-            [JsonExtensionData]
-            private IDictionary<string, JToken> _additionalData;
+            public AssetPrefab Parent;
 
-            public MSBE.Part.Asset? MSBE_Asset = null;
-            //public int ID;
+            public AssetInfoDataType DataType = AssetInfoDataType.None;
+            public enum AssetInfoDataType
+            { 
+                None = -1,
+                Part = 0,
+                Region = 1,
+            }
 
-            public AssetInfo(MSBE.Part.Asset asset)
+            public object InnerObject = null;
+
+            public AssetInfo(AssetPrefab parent, MSBE.Part.Asset asset)
             {
-                MSBE_Asset = (MSBE.Part.Asset)asset.DeepCopy();
+                InnerObject = asset.DeepCopy();
+                DataType = AssetInfoDataType.Part;
+                Parent = parent;
+                ClearIndexReferences();
+            }
+            public AssetInfo(AssetPrefab parent, MSBE.Region.Other region)
+            {
+                InnerObject = region.DeepCopy();
+                DataType = AssetInfoDataType.Region;
+                Parent = parent;
                 ClearIndexReferences();
             }
 
             public void ClearIndexReferences()
             {
-                if (MSBE_Asset != null)
+                if (InnerObject is MSBE.Part.Asset asset)
                 {
-                    Array.Clear(MSBE_Asset.UnkPartNames);
+                    Array.Clear(asset.UnkPartNames);
                 }
             }
 
-            public void AddNamePrefixToAsset(string prefix)
+            public void AddNamePrefix(string prefix)
             {
-                var prop = MSBE_Asset.GetType().GetProperty("Name");
+                var prop = InnerObject.GetType().GetProperty("Name");
                 if (prop == null)
                 {
-                    throw new InvalidDataException($"AssetPrefab operation failed, {MSBE_Asset.GetType()} does not contain Name property.");
+                    throw new InvalidDataException($"AssetPrefab operation failed, {InnerObject.GetType()} does not contain Name property.");
                 }
-                var name = prop.GetValue(MSBE_Asset);
-                name = $"{prefix}_{name}";
-                prop.SetValue(MSBE_Asset, name);
+                var name = prop.GetValue(InnerObject);
+                name = $"{prefix}{Parent.Separator}{name}";
+                prop.SetValue(InnerObject, name);
             }
+
+            public void StripNamePrefix()
+            {
+                var prop = InnerObject.GetType().GetProperty("Name");
+                if (prop == null)
+                {
+                    throw new InvalidDataException($"AssetPrefab operation failed, {InnerObject.GetType()} does not contain Name property.");
+                }
+                string name = (string)prop.GetValue(InnerObject);
+                try
+                {
+                    name = name.Split(Parent.Separator)[1];
+                }
+                catch
+                { }
+                prop.SetValue(InnerObject, name);
+            }
+        }
+
+        public List<MapEntity> GenerateMapEntities(Map targetMap)
+        {
+            List<MapEntity> ents = new();
+            foreach (var assetInfo in Assets)
+            {
+                // TODO: For prefab scene tree support:
+                // * Make a map entity of the prefab
+                // * Add that to ents list
+                // * Make the asset objects children of that
+                // * Modify scenetree to handle AssetPrefabs.
+
+                MapEntity ent = new(targetMap, assetInfo.InnerObject);
+                switch (assetInfo.DataType)
+                {
+                    case AssetInfo.AssetInfoDataType.Part:
+                        ent.Type = MapEntity.MapEntityType.Part;
+                        break;
+                    case AssetInfo.AssetInfoDataType.Region:
+                        ent.Type = MapEntity.MapEntityType.Region;
+                        break;
+                    default:
+                        throw new NotSupportedException($"Unsupported AssetInfoDataType {assetInfo.DataType}");
+                }
+                ents.Add(ent);
+
+                ChildEntities.Add(ent);
+            }
+            return ents;
         }
 
         /// <summary>
@@ -109,32 +177,34 @@ namespace StudioCore.MsbEditor
             try
             {
                 MSBE map = new();
-                foreach (var asset in Assets)
+                foreach (var assetInfo in Assets)
                 {
-                    map.Parts.Assets.Add(asset.MSBE_Asset);
-
-                    // Needs a model in place to write MSBE freely.
-                    MSBE.Model.Asset model = new();
-                    model.Name = asset.MSBE_Asset.ModelName;
-                    map.Models.Assets.Add(model);
+                    assetInfo.StripNamePrefix();
+                    if (assetInfo.InnerObject is MSBE.Part.Asset asset)
+                    {
+                        map.Parts.Assets.Add(asset);
+                        // Needs a model in place to write MSBE freely.
+                        MSBE.Model.Asset model = new();
+                        model.Name = asset.ModelName;
+                        map.Models.Assets.Add(model);
+                    }
+                    else if (assetInfo.InnerObject is MSBE.Region.Other region)
+                    {
+                        map.Regions.Others.Add(region);
+                    }
                 }
+
                 AssetContainerBytes = map.Write();
                 
                 string json = JsonConvert.SerializeObject(this, Formatting.Indented);
                 File.WriteAllText(path, json);
-                /*
-                System.Windows.Forms.MessageBox.Show(
-                    "Saved successfully.",
-                    "Asset prefab export",
-                    System.Windows.Forms.MessageBoxButtons.OK);
-                */
                 return true;
             }
             catch (Exception e)
             {
                 System.Windows.Forms.MessageBox.Show(
-                    $"Unable to export AssetPrefab due to the following error:\n\n{e.Message}\n{e.StackTrace}",
-                    "AssetPrefab export error",
+                    $"Unable to export Asset Prefab due to the following error:\n\n{e.Message}\n{e.StackTrace}",
+                    "Asset Prefab export error",
                     System.Windows.Forms.MessageBoxButtons.OK);
                 return false;
             }
@@ -154,10 +224,17 @@ namespace StudioCore.MsbEditor
                 MSBE pseudoMap = MSBE.Read(prefab.AssetContainerBytes);
                 foreach (var asset in pseudoMap.Parts.Assets)
                 {
-                    AssetInfo info = new(asset);
-                    info.AddNamePrefixToAsset(prefab.PrefabName);
+                    AssetInfo info = new(prefab, asset);
+                    info.AddNamePrefix(prefab.PrefabName);
                     prefab.Assets.Add(info);
                 }
+                foreach (var region in pseudoMap.Regions.Others)
+                {
+                    AssetInfo info = new(prefab, region);
+                    info.AddNamePrefix(prefab.PrefabName);
+                    prefab.Assets.Add(info);
+                }
+
                 return prefab;
             }
             catch (Exception e)

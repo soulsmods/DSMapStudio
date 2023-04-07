@@ -441,12 +441,9 @@ namespace StudioCore.MsbEditor
             if (_selectedAssetPrefab != null)
             {
                 var parent = targetMap.RootObject;
-                List<MapEntity> ents = new();
-                foreach (var asset in _selectedAssetPrefab.MSBE_Assets)
-                {
-                    ents.Add(new MapEntity(targetMap, asset));
-                }
-                var act = new AddMapObjectsAction(Universe, targetMap, RenderScene, ents, true, parent);
+                List<MapEntity> ents = _selectedAssetPrefab.GenerateMapEntities(targetMap);
+
+                AddMapObjectsAction act = new(Universe, targetMap, RenderScene, ents, true, parent);
                 EditorActionManager.ExecuteAction(act);
                 _comboTargetMap = ("None", null);
                 _selectedAssetPrefab = null;
@@ -455,17 +452,8 @@ namespace StudioCore.MsbEditor
 
         private void ExportAssetPrefab()
         {
-            AssetPrefab prefab = new();
-            int count = 0;
-            foreach (var sel in _selection.GetFilteredSelection<MapEntity>())
-            {
-                if (sel.WrappedObject is MSBE.Part.Asset asset)
-                {
-                    prefab.Assets.Add(new AssetPrefab.AssetInfo(asset));
-                    count++;
-                }
-            }
-            if (count == 0)
+            AssetPrefab prefab = new(_selection.GetFilteredSelection<MapEntity>());
+            if (!prefab.Assets.Any())
             {
                 MessageBox.Show("Export failed, nothing in selection could be exported.", "Asset Prefab Error", MessageBoxButtons.OK);
             }
@@ -663,7 +651,7 @@ namespace StudioCore.MsbEditor
                     {
                         if (ImGui.BeginMenu("Asset Prefabs"))
                         {
-                            ImGui.TextColored(new Vector4(1.0f, 1.0f, 0.8f, 1.0f), "Import/Export multiple assets at once");
+                            ImGui.TextColored(new Vector4(1.0f, 1.0f, 0.8f, 1.0f), "Import/Export multiple assets at once\nExport supports Assets and (Other) Regions");
                             ImGui.Separator();
                             if (ImGui.MenuItem("Export Selection", KeyBindings.Current.Map_AssetPrefabExport.HintText, false, _selection.IsSelection()))
                             {
