@@ -495,7 +495,6 @@ namespace StudioCore.ParamEditor
             ParamEnum Enum = cellMeta?.EnumType;
             string Wiki = cellMeta?.Wiki;
             bool IsBool = cellMeta?.IsBool ?? false;
-            string AltName = cellMeta?.AltName;
 
             object newval = null;
 
@@ -504,7 +503,10 @@ namespace StudioCore.ParamEditor
             if (Wiki != null)
             {
                 if (EditorDecorations.HelpIcon(internalName, ref Wiki, true))
+                {
                     cellMeta.Wiki = Wiki;
+                }
+                ImGui.SameLine();
             }
             else
             {
@@ -644,29 +646,29 @@ namespace StudioCore.ParamEditor
 
         private static void PropertyRowName(string fieldOffset, ref string internalName, FieldMetaData cellMeta)
         {
-            string AltName = cellMeta?.AltName;
+            string altName = cellMeta?.AltName;
             if (cellMeta != null && ParamEditorScreen.EditorMode)
             {
-                string EditName = AltName ?? internalName;
-                ImGui.InputText("##editName", ref EditName, 128);
-                if (EditName.Equals(internalName) || EditName.Equals(""))
+                string editName = !string.IsNullOrWhiteSpace(altName) ? altName : internalName;
+                ImGui.InputText("##editName", ref editName, 128);
+                if (editName.Equals(internalName) || editName.Equals(""))
                     cellMeta.AltName = null;
                 else
-                    cellMeta.AltName = EditName;
+                    cellMeta.AltName = editName;
             }
             else
             {
                 string printedName = internalName;
-                if (AltName != null)
+                if (!string.IsNullOrWhiteSpace(altName))
                 {
                     if (CFG.Current.Param_ShowAltNames)
                     {
-                        printedName = AltName;
+                        printedName = altName;
                         if (CFG.Current.Param_SecondaryNameInBrackets)
                             printedName = $"{printedName} ({internalName})";
                     }
                     else if (CFG.Current.Param_SecondaryNameInBrackets) {
-                            printedName = $"{printedName} ({AltName})";
+                            printedName = $"{printedName} ({altName})";
                     }
                 }
                 if (fieldOffset != null && CFG.Current.Param_ShowFieldOffsets)
@@ -685,7 +687,7 @@ namespace StudioCore.ParamEditor
             ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(0f, 10f) * scale);
             if (ImGui.BeginPopupContextItem("rowName"))
             {
-                if (altName != null)
+                if (!string.IsNullOrWhiteSpace(altName))
                 {
                     if (CFG.Current.Param_ShowAltNames)
                     {
