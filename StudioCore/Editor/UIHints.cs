@@ -163,6 +163,7 @@ Some common tools for mapstudio include:
             }
             else
             {
+                ImGui.SameLine();
                 ImGui.SameLine(0, 20f);
                 if (ImGui.Button("Help"))
                 {

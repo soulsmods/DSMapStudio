@@ -1625,7 +1625,19 @@ namespace StudioCore.ParamEditor
                     ImGui.PushStyleColor(ImGuiCol.Text, PRIMARYCHANGEDCOLOUR);
                 else
                     ImGui.PushStyleColor(ImGuiCol.Text, ALLVANILLACOLOUR);
-                if (ImGui.Selectable(paramKey, paramKey == _selection.getActiveParam()))
+                Param p = ParamBank.PrimaryBank.Params[paramKey];
+                if (p != null)
+                {
+                    ParamMetaData meta = ParamMetaData.Get(p.AppliedParamdef);
+                    string Wiki = meta?.Wiki;
+                    if (Wiki != null)
+                    {
+                        if (EditorDecorations.HelpIcon(paramKey + "wiki", ref Wiki, true))
+                            meta.Wiki = Wiki;
+                    }
+                }
+                ImGui.Indent(15.0f);
+                if (ImGui.Selectable($"{paramKey}", paramKey == _selection.getActiveParam()))
                 {
                     //_selection.setActiveParam(param.Key);
                     EditorCommandQueue.AddCommand($@"param/view/{_viewIndex}/{paramKey}");
@@ -1633,7 +1645,6 @@ namespace StudioCore.ParamEditor
                 ImGui.PopStyleColor();
                 if (doFocus && paramKey == _selection.getActiveParam())
                     scrollTo = ImGui.GetCursorPosY();
-                Param p = ParamBank.PrimaryBank.Params[paramKey];
                 if (ImGui.BeginPopupContextItem())
                 {
                     if (ImGui.Selectable("Pin "+paramKey) && !_paramEditor._projectSettings.PinnedParams.Contains(paramKey))
@@ -1648,16 +1659,7 @@ namespace StudioCore.ParamEditor
                     }
                     ImGui.EndPopup();
                 }
-                if (p != null)
-                {
-                    ParamMetaData meta = ParamMetaData.Get(p.AppliedParamdef);
-                    string Wiki = meta?.Wiki;
-                    if (Wiki != null)
-                    {
-                        if (EditorDecorations.HelpIcon(paramKey+"wiki", ref Wiki, true))
-                            meta.Wiki = Wiki;
-                    }
-                }
+                ImGui.Unindent(15.0f);
             }
 
             if (doFocus)
