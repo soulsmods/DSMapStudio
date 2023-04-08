@@ -230,7 +230,7 @@ namespace StudioCore
 
         // Param settings
         public bool Param_ShowAltNames = true;
-        public bool Param_AlwaysShowOriginalName = true;
+        public bool Param_SecondaryNameInBrackets = false;
         public bool Param_ShowFieldOffsets = false; 
         public bool Param_HideReferenceRows = false;
         public bool Param_HideEnums = false;
