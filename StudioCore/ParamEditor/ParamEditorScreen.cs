@@ -1636,7 +1636,7 @@ namespace StudioCore.ParamEditor
                             meta.Wiki = Wiki;
                     }
                 }
-                ImGui.Indent(15.0f);
+                ImGui.Indent(15.0f * CFG.Current.UIScale);
                 if (ImGui.Selectable($"{paramKey}", paramKey == _selection.getActiveParam()))
                 {
                     //_selection.setActiveParam(param.Key);
@@ -1659,7 +1659,7 @@ namespace StudioCore.ParamEditor
                     }
                     ImGui.EndPopup();
                 }
-                ImGui.Unindent(15.0f);
+                ImGui.Unindent(15.0f * CFG.Current.UIScale);
             }
 
             if (doFocus)
