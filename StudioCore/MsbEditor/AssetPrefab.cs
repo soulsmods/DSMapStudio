@@ -23,7 +23,7 @@ namespace StudioCore.MsbEditor
     public class AssetPrefab
     {
         public string PrefabName = "";
-        public string Separator = "[]";
+        public string PrefixSeparator = "[]";
         public GameType GameType = GameType.EldenRing;
 
         /// <summary>
@@ -67,14 +67,21 @@ namespace StudioCore.MsbEditor
         }
 
         /*
-        // In progress. System to store meta information in the name of the msb entity.
-        public class AssetPrefabTags
+        // Not implemented, still in progress.
+        // MetaTags are added and applied in order of MSB entities.
+        //public List<MetaTag> Tags = new();
+
+        /// <summary>
+        /// Store meta information for each member of a prefab.
+        /// MetaTags are added and applied in order of MSB entities.
+        /// </summary>
+        public class MetaTag
         {
-            public const string TagStart = "[";
-            public const string TagEnd = "]";
-            public const string TagDelimiter = "|";
-            public const string ValueDelimiter = "&";
-            public const string IndexReferenceTag = "IREF";
+            // JsonExtensionData stores fields json that are not present in class in order to retain data between versions.
+            [JsonExtensionData]
+            private IDictionary<string, JToken> _additionalData;
+
+            public object RefTarget = null;
         }
         */
 
@@ -83,6 +90,9 @@ namespace StudioCore.MsbEditor
             public AssetPrefab Parent;
 
             public AssetInfoDataType DataType = AssetInfoDataType.None;
+
+            //public MetaTag Tag;
+
             public enum AssetInfoDataType
             { 
                 None = -1,
@@ -123,7 +133,7 @@ namespace StudioCore.MsbEditor
                     throw new InvalidDataException($"AssetPrefab operation failed, {InnerObject.GetType()} does not contain Name property.");
                 }
                 var name = prop.GetValue(InnerObject);
-                name = $"{prefix}{Parent.Separator}{name}";
+                name = $"{prefix}{Parent.PrefixSeparator}{name}";
                 prop.SetValue(InnerObject, name);
             }
 
@@ -137,7 +147,7 @@ namespace StudioCore.MsbEditor
                 string name = (string)prop.GetValue(InnerObject);
                 try
                 {
-                    name = name.Split(Parent.Separator)[1];
+                    name = name.Split(Parent.PrefixSeparator)[1];
                 }
                 catch
                 { }
@@ -150,7 +160,8 @@ namespace StudioCore.MsbEditor
             List<MapEntity> ents = new();
             foreach (var assetInfo in AssetInfoChildren)
             {
-                // TODO: For prefab scene tree support:
+                // Notes for grouped prefabs/scene tree support:
+                // * Problem: to retain this information in MSB upon saving/loading, something will need to be saved somewhere. Maybe a meta file?
                 // * Make a map entity of the prefab
                 // * Add that to ents list
                 // * Make the asset objects children of that
