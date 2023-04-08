@@ -498,15 +498,21 @@ namespace StudioCore.ParamEditor
             string AltName = cellMeta?.AltName;
 
             object newval = null;
+
             ImGui.PushID(id);
             ImGui.AlignTextToFramePadding();
-            PropertyRowName(fieldOffset, ref internalName, cellMeta);
-            PropertyRowNameContextMenu(bank, internalName, cellMeta, activeParam, activeParam != null, isPinned);
             if (Wiki != null)
             {
                 if (EditorDecorations.HelpIcon(internalName, ref Wiki, true))
                     cellMeta.Wiki = Wiki;
             }
+            else
+            {
+                ImGui.Text(" ");
+                ImGui.SameLine();
+            }
+            PropertyRowName(fieldOffset, ref internalName, cellMeta);
+            PropertyRowNameContextMenu(bank, internalName, cellMeta, activeParam, activeParam != null, isPinned);
 
             EditorDecorations.ParamRefText(RefTypes, row);
             EditorDecorations.FmgRefText(FmgRef);
@@ -726,41 +732,47 @@ namespace StudioCore.ParamEditor
             bool onlyEditOptions = (VirtualRef == null && !ParamEditorScreen.EditorMode);
             if (ImGui.BeginPopupContextItem("quickMEdit"))
             {
-                if (onlyEditOptions || ImGui.BeginMenu("Edit all selected..."))
+                ImGui.TextColored(new Vector4(1.0f, 0.7f, 0.8f, 1.0f), "Param Field Context Menu");
+                ImGui.SameLine(600);
+                ImGui.Text("");
+                if (ImGui.CollapsingHeader("Mass Edit", ImGuiTreeNodeFlags.SpanFullWidth))
                 {
-                    if (onlyEditOptions)
-                        ImGui.TextUnformatted("Mass Edit selected...");
-                    ImGui.Separator();
-                    if (ImGui.Selectable("Manually..."))
+                    if (onlyEditOptions || ImGui.BeginMenu("Edit all selected..."))
                     {
-                        EditorCommandQueue.AddCommand($@"param/menu/massEditRegex/selection: {Regex.Escape(internalName)}: ");
+                        if (onlyEditOptions)
+                            ImGui.TextUnformatted("Mass Edit selected...");
+                        ImGui.Separator();
+                        if (ImGui.Selectable("Manually..."))
+                        {
+                            EditorCommandQueue.AddCommand($@"param/menu/massEditRegex/selection: {Regex.Escape(internalName)}: ");
+                        }
+                        if (ImGui.Selectable("Reset to vanilla..."))
+                        {
+                            EditorCommandQueue.AddCommand($@"param/menu/massEditRegex/selection: {Regex.Escape(internalName)}: = vanilla;");
+                        }
+                        ImGui.Separator();
+                        string res = AutoFill.MassEditOpAutoFill();
+                        if (res != null)
+                        {
+                            Console.WriteLine(res);
+                            EditorCommandQueue.AddCommand($@"param/menu/massEditRegex/selection: {Regex.Escape(internalName)}: " + res);
+                        }
+                        if (!onlyEditOptions)
+                            ImGui.EndMenu();
                     }
-                    if (ImGui.Selectable("Reset to vanilla..."))
+                    if (VirtualRef != null)
+                        EditorDecorations.VirtualParamRefSelectables(bank, VirtualRef, oldval);
+                    if (ParamEditorScreen.EditorMode && ImGui.BeginMenu("Find rows with this value..."))
                     {
-                        EditorCommandQueue.AddCommand($@"param/menu/massEditRegex/selection: {Regex.Escape(internalName)}: = vanilla;");
-                    }
-                    ImGui.Separator();
-                    string res = AutoFill.MassEditOpAutoFill();
-                    if (res != null)
-                    {
-                        Console.WriteLine(res);
-                        EditorCommandQueue.AddCommand($@"param/menu/massEditRegex/selection: {Regex.Escape(internalName)}: "+res);
-                    }
-                    if (!onlyEditOptions)
+                        foreach (KeyValuePair<string, Param> p in bank.Params)
+                        {
+                            int v = (int)oldval;
+                            Param.Row r = p.Value[v];
+                            if (r != null && ImGui.Selectable($@"{p.Key}: {Utils.ImGuiEscape(r.Name, "null")}"))
+                                EditorCommandQueue.AddCommand($@"param/select/-1/{p.Key}/{v}");
+                        }
                         ImGui.EndMenu();
-                }
-                if (VirtualRef != null)
-                    EditorDecorations.VirtualParamRefSelectables(bank, VirtualRef, oldval);
-                if (ParamEditorScreen.EditorMode && ImGui.BeginMenu("Find rows with this value..."))
-                {
-                    foreach (KeyValuePair<string, Param> p in bank.Params)
-                    {
-                        int v = (int)oldval;
-                        Param.Row r = p.Value[v];
-                        if (r != null && ImGui.Selectable($@"{p.Key}: {Utils.ImGuiEscape(r.Name, "null")}"))
-                            EditorCommandQueue.AddCommand($@"param/select/-1/{p.Key}/{v}");
                     }
-                    ImGui.EndMenu();
                 }
                 ImGui.EndPopup();
             }

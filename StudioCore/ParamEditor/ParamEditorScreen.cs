@@ -1047,6 +1047,16 @@ namespace StudioCore.ParamEditor
             ShortcutPopups();
             MassEditPopups();
 
+            if (false) // CFG.Current.UI_CompactParams
+            {
+                ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, new Vector2(1.0f, 1.0f) * scale);
+                ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(5.0f, 1.0f) * scale);
+            }
+            else
+            {
+                var style = ImGui.GetStyle();
+                ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, (style.ItemSpacing - new Vector2(3.5f, 0f)) * scale);
+            }
             if (CountViews() == 1)
             {
                 _activeView.ParamView(doFocus, true);
@@ -1078,6 +1088,14 @@ namespace StudioCore.ParamEditor
                     view.ParamView(doFocus && view == _activeView, view == _activeView);
                     ImGui.End();
                 }
+            }
+            if (false) // CFG.Current.UI_CompactParams)
+            {
+                ImGui.PopStyleVar(2);
+            }
+            else
+            {
+                ImGui.PopStyleVar();
             }
         }
 
