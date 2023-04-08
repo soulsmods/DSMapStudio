@@ -1013,7 +1013,7 @@ namespace StudioCore.MsbEditor
                 {
                     if (firstEnt.WrappedObject is Param.Row prow || firstEnt.WrappedObject is MergedParamRow)
                     {
-                        ImGui.Text("Cannot edit multiples of this object at once.");
+                        ImGui.TextColored(new Vector4(1.0f, 1.0f, 0.0f, 1.0f), " Cannot edit multiples of this map object.");
                         ImGui.EndChild();
                         ImGui.End();
                         ImGui.PopStyleColor();
@@ -1021,7 +1021,7 @@ namespace StudioCore.MsbEditor
                     }
                     else
                     {
-                        ImGui.TextColored(new Vector4(0.5f, 1.0f, 0.0f, 1.0f), " Editing Multiple Objects.\n Changes will be applied to all selected objects.");
+                        ImGui.TextColored(new Vector4(0.5f, 1.0f, 0.0f, 1.0f), " Editing Multiple Map Objects.\n Changes will be applied to all selected objects.");
                         ImGui.Separator();
                         ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.0f, 0.5f, 0.0f, 0.1f));
                         ImGui.BeginChild("MSB_EditingMultipleObjsChild");
@@ -1032,7 +1032,7 @@ namespace StudioCore.MsbEditor
                 }
                 else
                 {
-                    ImGui.Text("Not all selected objects are the same type.");
+                    ImGui.TextColored(new Vector4(1.0f, 1.0f, 0.0f, 1.0f), " Cannot Edit Selection.\n All selected objects must be the same type.");
                     ImGui.EndChild();
                     ImGui.End();
                     ImGui.PopStyleColor();
