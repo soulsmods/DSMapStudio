@@ -1055,7 +1055,7 @@ namespace StudioCore.ParamEditor
             else
             {
                 var style = ImGui.GetStyle();
-                ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, style.ItemSpacing - (new Vector2(3.5f, 0f)) * scale);
+                ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, style.ItemSpacing - (new Vector2(3.5f, 0f) * scale));
             }
             if (CountViews() == 1)
             {
