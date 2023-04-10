@@ -269,6 +269,7 @@ namespace StudioCore
                             CFG.Current.GFX_Limit_Renderables = CFG.Default.GFX_Limit_Renderables;
                     }
 
+                    Utils.ImGui_InputUint("Indirect Draw Buffer", ref CFG.Current.GFX_Limit_Buffer_Indirect_Draw);
                     Utils.ImGui_InputUint("FLVER Bone Buffer", ref CFG.Current.GFX_Limit_Buffer_Flver_Bone);
 
                     if (ImGui.Button("Reset##MapLimits"))
