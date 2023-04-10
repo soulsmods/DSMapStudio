@@ -347,8 +347,7 @@ namespace StudioCore.Scene
                 // Create per frame in flight resources
                 for (int i = 0; i < _bufferCount; i++)
                 {
-                    uint initialDrawCount = (uint)CFG.Current.GFX_Limit_Renderables; // George addition, replace at will.
-                    _drawEncoders.Add(new IndirectDrawEncoder(initialDrawCount));
+                    _drawEncoders.Add(new IndirectDrawEncoder(CFG.Current.GFX_Limit_Buffer_Indirect_Draw));
                     _resourcesUpdatedFence.Add(device.ResourceFactory.CreateFence(i != 0));
                 }
                 Name = name;
