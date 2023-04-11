@@ -1846,7 +1846,7 @@ namespace SoulsFormats
                 {
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
                     Standard = 8,
-                    Unk9 = 9,
+                    CameraOnly = 9,
                     EnemyOnly = 11,
                     FallDeathCam = 13,
                     Kill = 15,
