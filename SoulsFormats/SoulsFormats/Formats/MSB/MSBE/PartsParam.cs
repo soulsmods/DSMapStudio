@@ -1839,6 +1839,28 @@ namespace SoulsFormats
             /// </summary>
             public class Collision : Part
             {
+                /// <summary>
+                /// HitFilterType
+                /// </summary>
+                public enum HitFilterType : byte
+                {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+                    Standard = 8,
+                    Unk9 = 9,
+                    EnemyOnly = 11,
+                    FallDeathCam = 13,
+                    Kill = 15,
+                    Unk16 = 16,
+                    Unk17 = 17,
+                    Unk19 = 19,
+                    Unk20 = 20,
+                    Unk22 = 22,
+                    Unk23 = 23,
+                    Unk24 = 24,
+                    Unk29 = 29,
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
+                }
+
                 private protected override PartType Type => PartType.Collision;
                 private protected override bool HasUnk1 => true;
                 private protected override bool HasUnk2 => true;
@@ -1886,9 +1908,9 @@ namespace SoulsFormats
                 public UnkStruct11 Unk11 { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// Sets collision behavior. Fall collision, death collision, enemy-only collision, etc.
                 /// </summary>
-                public byte UnkT00 { get; set; }
+                public HitFilterType HitFilterID { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -2020,7 +2042,7 @@ namespace SoulsFormats
 
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
-                    UnkT00 = br.ReadByte(); // Pav says Type, did it change?
+                    HitFilterID = br.ReadEnum8<HitFilterType>();
                     UnkT01 = br.ReadByte();
                     UnkT02 = br.ReadByte();
                     UnkT03 = br.ReadBoolean();
@@ -2061,7 +2083,7 @@ namespace SoulsFormats
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    bw.WriteByte(UnkT00);
+                    bw.WriteByte((byte)HitFilterID);
                     bw.WriteByte(UnkT01);
                     bw.WriteByte(UnkT02);
                     bw.WriteBoolean(UnkT03);
