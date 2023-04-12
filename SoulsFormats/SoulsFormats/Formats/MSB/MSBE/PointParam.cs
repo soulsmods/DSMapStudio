@@ -1832,9 +1832,10 @@ namespace SoulsFormats
                 private protected override bool HasTypeData => true;
 
                 /// <summary>
-                /// Unknown.
+                /// Determines which WeatherLotParam ID to use.
                 /// </summary>
-                public int UnkT00 { get; set; }
+                [MSBParamReference(ParamName = "WeatherLotParam")]
+                public int WeatherLotParamID { get; set; }
 
                 /// <summary>
                 /// Creates a WeatherOverride with default values.
@@ -1845,7 +1846,7 @@ namespace SoulsFormats
 
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
-                    UnkT00 = br.ReadInt32();
+                    WeatherLotParamID = br.ReadInt32();
                     br.AssertInt32(-1);
                     br.AssertInt32(0);
                     br.AssertInt32(0);
@@ -1857,7 +1858,7 @@ namespace SoulsFormats
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    bw.WriteInt32(UnkT00);
+                    bw.WriteInt32(WeatherLotParamID);
                     bw.WriteInt32(-1);
                     bw.WriteInt32(0);
                     bw.WriteInt32(0);
@@ -2403,7 +2404,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// OverrideType
                 /// </summary>
-                public enum HorseRideOverrideType : int
+                public enum HorseRideOverrideType : uint
                 {
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
                     PreventRiding = 1,
@@ -2436,7 +2437,7 @@ namespace SoulsFormats
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    bw.WriteInt32((int)OverrideType);
+                    bw.WriteUInt32((uint)OverrideType);
                     bw.WriteInt32(0);
                 }
             }

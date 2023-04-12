@@ -851,7 +851,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int[] DispGroups { get; private set; }
+                public uint[] DispGroups { get; private set; }
 
                 /// <summary>
                 /// Unknown.
@@ -868,7 +868,7 @@ namespace SoulsFormats
                 /// </summary>
                 public UnkStruct2()
                 {
-                    DispGroups = new int[8];
+                    DispGroups = new uint[8];
                 }
 
                 /// <summary>
@@ -877,14 +877,14 @@ namespace SoulsFormats
                 public UnkStruct2 DeepCopy()
                 {
                     var unk2 = (UnkStruct2)MemberwiseClone();
-                    unk2.DispGroups = (int[])DispGroups.Clone();
+                    unk2.DispGroups = (uint[])DispGroups.Clone();
                     return unk2;
                 }
 
                 internal UnkStruct2(BinaryReaderEx br)
                 {
                     Condition = br.ReadInt32();
-                    DispGroups = br.ReadInt32s(8);
+                    DispGroups = br.ReadUInt32s(8);
                     Unk24 = br.ReadInt16();
                     Unk26 = br.ReadInt16();
                     br.AssertPattern(0x20, 0x00);
@@ -893,7 +893,7 @@ namespace SoulsFormats
                 internal void Write(BinaryWriterEx bw)
                 {
                     bw.WriteInt32(Condition);
-                    bw.WriteInt32s(DispGroups);
+                    bw.WriteUInt32s(DispGroups);
                     bw.WriteInt16(Unk24);
                     bw.WriteInt16(Unk26);
                     bw.WritePattern(0x20, 0x00);
@@ -1839,6 +1839,28 @@ namespace SoulsFormats
             /// </summary>
             public class Collision : Part
             {
+                /// <summary>
+                /// HitFilterType
+                /// </summary>
+                public enum HitFilterType : byte
+                {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+                    Standard = 8,
+                    CameraOnly = 9,
+                    EnemyOnly = 11,
+                    FallDeathCam = 13,
+                    Kill = 15,
+                    Unk16 = 16,
+                    Unk17 = 17,
+                    Unk19 = 19,
+                    Unk20 = 20,
+                    Unk22 = 22,
+                    Unk23 = 23,
+                    Unk24 = 24,
+                    Unk29 = 29,
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
+                }
+
                 private protected override PartType Type => PartType.Collision;
                 private protected override bool HasUnk1 => true;
                 private protected override bool HasUnk2 => true;
@@ -1886,9 +1908,9 @@ namespace SoulsFormats
                 public UnkStruct11 Unk11 { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// Sets collision behavior. Fall collision, death collision, enemy-only collision, etc.
                 /// </summary>
-                public byte UnkT00 { get; set; }
+                public HitFilterType HitFilterID { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -1928,6 +1950,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Used to determine invasion eligibility.
                 /// </summary>
+                [MSBParamReference(ParamName = "PlayRegionParam")]
                 public int PlayRegionID { get; set; }
 
                 /// <summary>
@@ -2020,7 +2043,7 @@ namespace SoulsFormats
 
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
-                    UnkT00 = br.ReadByte(); // Pav says Type, did it change?
+                    HitFilterID = br.ReadEnum8<HitFilterType>();
                     UnkT01 = br.ReadByte();
                     UnkT02 = br.ReadByte();
                     UnkT03 = br.ReadBoolean();
@@ -2061,7 +2084,7 @@ namespace SoulsFormats
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    bw.WriteByte(UnkT00);
+                    bw.WriteByte((byte)HitFilterID);
                     bw.WriteByte(UnkT01);
                     bw.WriteByte(UnkT02);
                     bw.WriteBoolean(UnkT03);
@@ -2260,7 +2283,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// The map to load when on this collision.
                 /// </summary>
-                public byte[] MapID { get; private set; }
+                public sbyte[] MapID { get; private set; }
 
                 /// <summary>
                 /// Unknown.
@@ -2289,7 +2312,7 @@ namespace SoulsFormats
                 {
                     Unk1 = new UnkStruct1();
                     Unk2 = new UnkStruct2();
-                    MapID = new byte[4];
+                    MapID = new sbyte[4];
                     Unk8 = new UnkStruct8();
                     Unk10 = new UnkStruct10();
                     Unk11 = new UnkStruct11();
@@ -2300,7 +2323,7 @@ namespace SoulsFormats
                     var connect = (ConnectCollision)part;
                     connect.Unk1 = Unk1.DeepCopy();
                     connect.Unk2 = Unk2.DeepCopy();
-                    connect.MapID = (byte[])MapID.Clone();
+                    connect.MapID = (sbyte[])MapID.Clone();
                     connect.Unk8 = Unk8.DeepCopy();
                     connect.Unk10 = Unk10.DeepCopy();
                     connect.Unk11 = Unk11.DeepCopy();
@@ -2311,7 +2334,7 @@ namespace SoulsFormats
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
                     CollisionIndex = br.ReadInt32();
-                    MapID = br.ReadBytes(4);
+                    MapID = br.ReadSBytes(4);
                     UnkT08 = br.ReadByte();
                     UnkT09 = br.ReadBoolean();
                     UnkT0A = br.ReadByte();
@@ -2328,7 +2351,7 @@ namespace SoulsFormats
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
                     bw.WriteInt32(CollisionIndex);
-                    bw.WriteBytes(MapID);
+                    bw.WriteSBytes(MapID);
                     bw.WriteByte(UnkT08);
                     bw.WriteBoolean(UnkT09);
                     bw.WriteByte(UnkT0A);
