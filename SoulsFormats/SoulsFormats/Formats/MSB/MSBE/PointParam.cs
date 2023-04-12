@@ -2404,7 +2404,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// OverrideType
                 /// </summary>
-                public enum HorseRideOverrideType : int
+                public enum HorseRideOverrideType : uint
                 {
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
                     PreventRiding = 1,
@@ -2437,7 +2437,7 @@ namespace SoulsFormats
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    bw.WriteInt32((int)OverrideType);
+                    bw.WriteUInt32((uint)OverrideType);
                     bw.WriteInt32(0);
                 }
             }
