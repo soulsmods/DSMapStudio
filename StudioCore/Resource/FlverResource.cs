@@ -310,7 +310,7 @@ namespace StudioCore.Resource
             return texpath;
         }
 
-        private void LookupTexture(FlverMaterial.TextureType textureType, FlverMaterial dest, string type, string mpath, string mtd)
+        public static string FindTexturePath(string type, string mpath, string mtd)
         {
             var path = mpath;
             if (mpath == "")
@@ -323,7 +323,7 @@ namespace StudioCore.Resource
                         var tex = MtdBank.Matbins[mtdstring].Samplers.Find(x => (x.Type == type));
                         if (tex == null || tex.Path == "")
                         {
-                            return;
+                            return "";
                         }
                         path = tex.Path;
                     }
@@ -335,12 +335,18 @@ namespace StudioCore.Resource
                         var tex = MtdBank.Mtds[mtdstring].Textures.Find(x => (x.Type == type));
                         if (tex == null || !tex.Extended || tex.Path == "")
                         {
-                            return;
+                            return "";
                         }
                         path = tex.Path;
                     }
                 }
             }
+            return path;
+        }
+
+        private void LookupTexture(FlverMaterial.TextureType textureType, FlverMaterial dest, string type, string mpath, string mtd)
+        {
+            var path = FindTexturePath(type, mpath, mtd);
 
             if (!dest.TextureResourceFilled[(int)textureType])
             {
@@ -350,15 +356,8 @@ namespace StudioCore.Resource
             }
         }
 
-        private void ProcessMaterialTexture(FlverMaterial dest, string type, string mpath, string mtd,
-            out bool blend, out bool hasNormal2, out bool hasSpec2, out bool hasShininess2, out bool blendMask)
+        public static FlverMaterial.TextureType GetTextureType(string type)
         {
-            blend = false;
-            blendMask = false;
-            hasNormal2 = false;
-            hasSpec2 = false;
-            hasShininess2 = false;
-
             string paramNameCheck;
             if (type == null)
             {
@@ -370,48 +369,78 @@ namespace StudioCore.Resource
             }
             if (paramNameCheck == "G_DIFFUSETEXTURE2" || paramNameCheck == "G_DIFFUSE2" || paramNameCheck.Contains("ALBEDO_2"))
             {
-                LookupTexture(FlverMaterial.TextureType.AlbedoTextureResource2, dest, type, mpath, mtd);
-                blend = true;
+                return FlverMaterial.TextureType.AlbedoTextureResource2;
             }
             else if (paramNameCheck == "G_DIFFUSETEXTURE" || paramNameCheck == "G_DIFFUSE" || paramNameCheck.Contains("ALBEDO"))
             {
-                LookupTexture(FlverMaterial.TextureType.AlbedoTextureResource, dest, type, mpath, mtd);
+                return FlverMaterial.TextureType.AlbedoTextureResource;
             }
             else if (paramNameCheck == "G_BUMPMAPTEXTURE2" || paramNameCheck == "G_BUMPMAP2" || paramNameCheck.Contains("NORMAL_2"))
             {
-                LookupTexture(FlverMaterial.TextureType.NormalTextureResource2, dest, type, mpath, mtd);
-                blend = true;
-                hasNormal2 = true;
+                return FlverMaterial.TextureType.NormalTextureResource2;
             }
             else if (paramNameCheck == "G_BUMPMAPTEXTURE" || paramNameCheck == "G_BUMPMAP" || paramNameCheck.Contains("NORMAL"))
             {
-                LookupTexture(FlverMaterial.TextureType.NormalTextureResource, dest, type, mpath, mtd);
+                return FlverMaterial.TextureType.NormalTextureResource;
             }
             else if (paramNameCheck == "G_SPECULARTEXTURE2" || paramNameCheck == "G_SPECULAR2" || paramNameCheck.Contains("SPECULAR_2"))
             {
-                LookupTexture(FlverMaterial.TextureType.SpecularTextureResource2, dest, type, mpath, mtd);
-                blend = true;
-                hasSpec2 = true;
+                return FlverMaterial.TextureType.SpecularTextureResource2;
             }
             else if (paramNameCheck == "G_SPECULARTEXTURE" || paramNameCheck == "G_SPECULAR" || paramNameCheck.Contains("SPECULAR"))
             {
-                LookupTexture(FlverMaterial.TextureType.SpecularTextureResource, dest, type, mpath, mtd);
+                return FlverMaterial.TextureType.SpecularTextureResource;
             }
             else if (paramNameCheck == "G_SHININESSTEXTURE2" || paramNameCheck == "G_SHININESS2" || paramNameCheck.Contains("SHININESS2"))
             {
-                LookupTexture(FlverMaterial.TextureType.ShininessTextureResource2, dest, type, mpath, mtd);
-                blend = true;
-                hasShininess2 = true;
+                return FlverMaterial.TextureType.ShininessTextureResource2;
             }
             else if (paramNameCheck == "G_SHININESSTEXTURE" || paramNameCheck == "G_SHININESS" || paramNameCheck.Contains("SHININESS"))
             {
-                LookupTexture(FlverMaterial.TextureType.ShininessTextureResource, dest, type, mpath, mtd);
+                return FlverMaterial.TextureType.ShininessTextureResource;
             }
             else if (paramNameCheck.Contains("BLENDMASK"))
             {
-                LookupTexture(FlverMaterial.TextureType.BlendmaskTextureResource, dest, type, mpath, mtd);
-                blendMask = true;
+                return FlverMaterial.TextureType.BlendmaskTextureResource;
             }
+            return FlverMaterial.TextureType.AlbedoTextureResource;
+        }
+
+        private void ProcessMaterialTexture(FlverMaterial dest, string typename, string mpath, string mtd,
+            out bool blend, out bool hasNormal2, out bool hasSpec2, out bool hasShininess2, out bool blendMask)
+        {
+            blend = false;
+            blendMask = false;
+            hasNormal2 = false;
+            hasSpec2 = false;
+            hasShininess2 = false;
+
+            var type = GetTextureType(typename);
+
+            switch(type)
+            {
+                case FlverMaterial.TextureType.AlbedoTextureResource2:
+                    blend = true;
+                    break;
+                case FlverMaterial.TextureType.NormalTextureResource2:
+                    blend = true;
+                    hasNormal2 = true;
+                    break;
+                case FlverMaterial.TextureType.SpecularTextureResource2:
+                    blend = true;
+                    hasSpec2 = true;
+                    break;
+                case FlverMaterial.TextureType.ShininessTextureResource2:
+                    blend = true;
+                    hasShininess2 = true;
+                    break;
+                case FlverMaterial.TextureType.BlendmaskTextureResource:
+                    blendMask = true;
+                    break;
+                default:
+                    break;
+            }
+            LookupTexture(type, dest, typename, mpath, mtd);
         }
 
         unsafe private void ProcessMaterial(IFlverMaterial mat, FlverMaterial dest, GameType type)

@@ -18,6 +18,7 @@ using SoulsFormats.KF4;
 using System.Windows.Forms.Design;
 using static SoulsFormats.MCP;
 using System.ComponentModel;
+using StudioCore.Resource;
 
 namespace StudioCore.MsbEditor
 {
@@ -135,6 +136,10 @@ namespace StudioCore.MsbEditor
             for (int i = 0; i < flver.Materials.Count; i++)
             {
                 var matnode = new Entity(this, flver.Materials[i]);
+                foreach (var tex in flver.Materials[i].Textures)
+                {
+                    tex.Path = FlverResource.FindTexturePath(tex.Type, "", flver.Materials[i].MTD);
+                }
                 Objects.Add(matnode);
                 materialsNode.AddChild(matnode);
             }
