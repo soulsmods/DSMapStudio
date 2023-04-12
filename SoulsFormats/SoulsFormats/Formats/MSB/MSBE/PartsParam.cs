@@ -1950,6 +1950,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Used to determine invasion eligibility.
                 /// </summary>
+                [MSBParamReference(ParamName = "PlayRegionParam")]
                 public int PlayRegionID { get; set; }
 
                 /// <summary>
