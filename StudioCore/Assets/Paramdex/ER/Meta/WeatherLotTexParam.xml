@@ -10,7 +10,7 @@
     <srcG AltName="Pre-conversion - Map Color: G" Wiki="Color information (G) of the map image before conversion. Pixels with matching RGB values are associated with this parameter" />
     <srcB AltName="Pre-conversion - Map Color: B" Wiki="Color information (B) of the map image before conversion. Pixels with matching RGB values are associated with this parameter" />
     <pad1 AltName=""/>
-    <weatherLogId AltName="Weather Lottery ID" Wiki="Weather lottery ID (-1: No setting (default value))" />
+    <weatherLogId AltName="Weather Lottery ID" Wiki="Weather lottery ID (-1: No setting (default value))" Refs="WeatherLotParam" />
     <pad2 AltName=""/>
   </Field>
   <Self />
