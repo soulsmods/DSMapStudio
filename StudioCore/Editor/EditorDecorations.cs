@@ -322,11 +322,20 @@ namespace StudioCore.Editor
         {
             try
             {
-                foreach (KeyValuePair<string, string> option in en.values)
+                IEnumerable<KeyValuePair<string, string>> list = en.values;
+                ImGui.InputText("##value", ref _refContextCurrentAutoComplete, 128);
+                // This should be replaced by a proper search box with a scroll and everything
+                if (_refContextCurrentAutoComplete != "")
+                {
+                    string searchTerm = _refContextCurrentAutoComplete.ToLower();
+                    list = list.Where((x) => x.Key.ToLower().Contains(searchTerm) || x.Value.ToLower().Contains(searchTerm));
+                }
+                foreach (KeyValuePair<string, string> option in list)
                 {
                     if (ImGui.Selectable($"{option.Key}: {option.Value}"))
                     {
                         newval = Convert.ChangeType(option.Key, oldval.GetType());
+                        _refContextCurrentAutoComplete = "";
                         return true;
                     }
                 }
