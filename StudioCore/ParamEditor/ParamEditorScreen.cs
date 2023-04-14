@@ -1953,6 +1953,8 @@ namespace StudioCore.ParamEditor
                                         EditorCommandQueue.AddCommand($@"param/select/-1/{paramitems.Key}/{row.ID}");
                                     }
                                 }
+                                if (rows.Count == 0)
+                                    ImGui.TextUnformatted("No rows found");
                                 ImGui.EndMenu();
                             }
 
