@@ -1962,6 +1962,8 @@ namespace StudioCore.ParamEditor
                         ImGui.EndMenu();
                     }
                 }
+                if (items.Count == 0)
+                    ImGui.TextUnformatted("This param is not referenced");
                 ImGui.EndMenu();
             }
         }
