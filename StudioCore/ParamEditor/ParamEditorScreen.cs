@@ -1885,12 +1885,83 @@ namespace StudioCore.ParamEditor
                 {
                     _selection.SetCompareRow(r);
                 }
+                ParamRefReverseLookupSelectables(ParamBank.PrimaryBank, activeParam, r.ID);
                 ImGui.EndPopup();
             }
             if (decorator != null)
                 decorator.DecorateParam(r);
             if (doFocus && _selection.getActiveRow() == r)
                 scrollTo = ImGui.GetCursorPosY();
+        }
+
+        private static void ParamRefReverseLookupSelectables(ParamBank bank, string currentParam, object currentID)
+        {
+            if (ImGui.BeginMenu("Search for references... (laggy)"))
+            {
+                Dictionary<string, List<(string, ParamRef)>> items = new Dictionary<string, List<(string, ParamRef)>>();
+                foreach (var param in bank.Params)
+                {
+                    List<(string, ParamRef)> paramitems = new List<(string, ParamRef)>();
+                    //get field
+                    foreach (PARAMDEF.Field f in param.Value.AppliedParamdef.Fields)
+                    {
+                        var meta = FieldMetaData.Get(f); 
+                        if (meta.RefTypes == null)
+                            continue;
+                        // get hilariously deep in loops
+                        foreach (ParamRef pref in meta.RefTypes)
+                        {
+                            if (!pref.param.Equals(currentParam))
+                                continue;
+                            paramitems.Add((f.InternalName, pref));
+                        }
+                    }
+                    if (paramitems.Count > 0)
+                        items[param.Key] = paramitems;
+                }
+                foreach (KeyValuePair<string, List<(string, ParamRef)>> paramitems in items)
+                {
+                    if (ImGui.BeginMenu($@"in {paramitems.Key}..."))
+                    {
+                        foreach ((string fieldName, ParamRef pref) in paramitems.Value)
+                        {
+                            /*
+                            if (ImGui.Selectable($@"in {fieldName}"))
+                            {
+                                if (pref.conditionField != null)
+                                {
+                                    EditorCommandQueue.AddCommand($@"param/select/-1/{paramitems.Key}");
+                                    EditorCommandQueue.AddCommand($@"param/search/prop {fieldName} ^{currentID}$ && prop {pref.conditionField} ^{pref.conditionValue}$");
+                                }
+                                else
+                                {
+                                    EditorCommandQueue.AddCommand($@"param/select/-1/{paramitems.Key}");
+                                    EditorCommandQueue.AddCommand($@"param/search/prop {fieldName} ^{currentID}$");
+                                }
+                            }*/
+
+                            if (ImGui.BeginMenu($@"in {fieldName}"))
+                            {
+                                // supergigacursed
+                                string searchTerm = pref.conditionField != null ? $@"prop {fieldName} ^{currentID}$ && prop {pref.conditionField} ^{pref.conditionValue}$" : $@"prop {fieldName} ^{currentID}$";
+                                List<Param.Row> rows = RowSearchEngine.rse.Search((bank, bank.Params[paramitems.Key]), searchTerm, false, false);
+                                foreach (Param.Row row in rows)
+                                {
+                                    string nameToPrint = string.IsNullOrEmpty(row.Name) ? "Unnamed Row" : row.Name;
+                                    if (ImGui.Selectable($@"{row.ID} {nameToPrint}"))
+                                    {
+                                        EditorCommandQueue.AddCommand($@"param/select/-1/{paramitems.Key}/{row.ID}");
+                                    }
+                                }
+                                ImGui.EndMenu();
+                            }
+
+                        }
+                        ImGui.EndMenu();
+                    }
+                }
+                ImGui.EndMenu();
+            }
         }
     }
 }
