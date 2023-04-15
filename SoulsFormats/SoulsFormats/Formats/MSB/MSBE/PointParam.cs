@@ -1957,7 +1957,9 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int UnkT54 { get; set; }
+                [MSBParamReference(ParamName = "MPEstusFlaskRecoveryParam")]
+                [MSBParamReference(ParamName = "HPEstusFlaskRecoveryParam")]
+                public int EstusFlaskRecoveryID { get; set; }
 
                 /// <summary>
                 /// Creates a GroupDefeatReward with default values.
@@ -1992,7 +1994,7 @@ namespace SoulsFormats
                     br.AssertInt32(-1);
                     br.AssertInt32(-1);
                     br.AssertInt32(-1);
-                    UnkT54 = br.ReadInt32();
+                    EstusFlaskRecoveryID = br.ReadInt32();
                     br.AssertInt32(0);
                     br.AssertInt32(0);
                 }
@@ -2014,7 +2016,7 @@ namespace SoulsFormats
                     bw.WriteInt32(-1);
                     bw.WriteInt32(-1);
                     bw.WriteInt32(-1);
-                    bw.WriteInt32(UnkT54);
+                    bw.WriteInt32(EstusFlaskRecoveryID);
                     bw.WriteInt32(0);
                     bw.WriteInt32(0);
                 }
