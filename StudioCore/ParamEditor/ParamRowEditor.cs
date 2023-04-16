@@ -735,7 +735,7 @@ namespace StudioCore.ParamEditor
                 ImGui.TextColored(new Vector4(1.0f, 0.7f, 0.8f, 1.0f), "Param Field Context Menu");
                 ImGui.SameLine(600);
                 ImGui.Text("");
-                if (ImGui.CollapsingHeader("Mass all selected...", ImGuiTreeNodeFlags.SpanFullWidth))
+                if (ImGui.CollapsingHeader("Mass edit", ImGuiTreeNodeFlags.SpanFullWidth))
                 {
                     ImGui.Separator();
                     if (ImGui.Selectable("Manually..."))
