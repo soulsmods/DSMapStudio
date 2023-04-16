@@ -262,7 +262,9 @@ namespace StudioCore
                     ImGui.Indent();
 
                     ImGui.Text("Please restart the program for changes to take effect.");
+                    
                     ImGui.TextColored(new Vector4(1.0f, 0.0f, 0.0f, 1.0f), @"Try smaller increments (+25%%) at first, as high values will cause issues.");
+                    
                     if (ImGui.InputInt("Renderables", ref CFG.Current.GFX_Limit_Renderables, 0, 0))
                     {
                         if (CFG.Current.GFX_Limit_Renderables < CFG.Default.GFX_Limit_Renderables)
