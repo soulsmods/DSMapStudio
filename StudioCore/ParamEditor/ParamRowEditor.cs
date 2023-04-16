@@ -735,30 +735,23 @@ namespace StudioCore.ParamEditor
                 ImGui.TextColored(new Vector4(1.0f, 0.7f, 0.8f, 1.0f), "Param Field Context Menu");
                 ImGui.SameLine(600);
                 ImGui.Text("");
-                if (ImGui.CollapsingHeader("Mass Edit", ImGuiTreeNodeFlags.SpanFullWidth))
+                if (ImGui.CollapsingHeader("Mass all selected...", ImGuiTreeNodeFlags.SpanFullWidth))
                 {
-                    if (onlyEditOptions || ImGui.BeginMenu("Edit all selected..."))
+                    ImGui.Separator();
+                    if (ImGui.Selectable("Manually..."))
                     {
-                        if (onlyEditOptions)
-                            ImGui.TextUnformatted("Mass Edit selected...");
-                        ImGui.Separator();
-                        if (ImGui.Selectable("Manually..."))
-                        {
-                            EditorCommandQueue.AddCommand($@"param/menu/massEditRegex/selection: {Regex.Escape(internalName)}: ");
-                        }
-                        if (ImGui.Selectable("Reset to vanilla..."))
-                        {
-                            EditorCommandQueue.AddCommand($@"param/menu/massEditRegex/selection: {Regex.Escape(internalName)}: = vanilla;");
-                        }
-                        ImGui.Separator();
-                        string res = AutoFill.MassEditOpAutoFill();
-                        if (res != null)
-                        {
-                            Console.WriteLine(res);
-                            EditorCommandQueue.AddCommand($@"param/menu/massEditRegex/selection: {Regex.Escape(internalName)}: " + res);
-                        }
-                        if (!onlyEditOptions)
-                            ImGui.EndMenu();
+                        EditorCommandQueue.AddCommand($@"param/menu/massEditRegex/selection: {Regex.Escape(internalName)}: ");
+                    }
+                    if (ImGui.Selectable("Reset to vanilla..."))
+                    {
+                        EditorCommandQueue.AddCommand($@"param/menu/massEditRegex/selection: {Regex.Escape(internalName)}: = vanilla;");
+                    }
+                    ImGui.Separator();
+                    string res = AutoFill.MassEditOpAutoFill();
+                    if (res != null)
+                    {
+                        Console.WriteLine(res);
+                        EditorCommandQueue.AddCommand($@"param/menu/massEditRegex/selection: {Regex.Escape(internalName)}: " + res);
                     }
                     if (VirtualRef != null)
                         EditorDecorations.VirtualParamRefSelectables(bank, VirtualRef, oldval);
