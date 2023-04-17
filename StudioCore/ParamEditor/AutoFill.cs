@@ -26,8 +26,6 @@ namespace StudioCore.ParamEditor
         }
         internal string Menu(bool enableDefault, string suffix, string inheritedCommand, Func<string, string> subMenu)
         {
-            if (inheritedCommand != null)
-                ImGui.TextColored(AutoFill.PREVIEWCOLOUR, inheritedCommand);
             int currentArgIndex = 0;
             ImGui.Checkbox("Invert selection?##meautoinputnottoggle"+id, ref _autoFillNotToggle);
             ImGui.SameLine();
@@ -172,17 +170,19 @@ namespace StudioCore.ParamEditor
                 ImGui.TextColored(HINTCOLOUR, "Select param and rows...");
                 string result1 = autoFillParse.Menu(false, ": ", null, (inheritedCommand) => 
                 {
+                    if (inheritedCommand != null)
+                        ImGui.TextColored(AutoFill.PREVIEWCOLOUR, inheritedCommand);
                     ImGui.TextColored(HINTCOLOUR, "Select fields...");
                     string res1 = autoFillCse.Menu(true, ": ", inheritedCommand, (inheritedCommand2) => 
                     {
                         if (inheritedCommand2 != null)
                             ImGui.TextColored(PREVIEWCOLOUR, inheritedCommand2);
                         ImGui.TextColored(HINTCOLOUR, "Select field operation...");
-                        return MassEditAutoFillForOperation(MEValueOperation.valueOps, ref _autoFillArgsCop, ";", inheritedCommand2, null);
+                        return MassEditAutoFillForOperation(MEValueOperation.valueOps, ref _autoFillArgsCop, ";", null);
                     });
                     ImGui.Separator();
                     ImGui.TextColored(HINTCOLOUR, "Select row operation...");
-                    string res2 = MassEditAutoFillForOperation(MERowOperation.rowOps, ref _autoFillArgsRop, ";", null, null);
+                    string res2 = MassEditAutoFillForOperation(MERowOperation.rowOps, ref _autoFillArgsRop, ";", null);
                     if (res1 != null)
                         return res1;
                     return res2;
@@ -193,18 +193,24 @@ namespace StudioCore.ParamEditor
                 ImGui.TextColored(HINTCOLOUR, "Select params...");
                 string result2 = autoFillPse.Menu(false, ": ", null, (inheritedCommand) =>
                 {
+                    if (inheritedCommand != null)
+                        ImGui.TextColored(AutoFill.PREVIEWCOLOUR, inheritedCommand);
                     ImGui.TextColored(HINTCOLOUR, "Select rows...");
                     return autoFillRse.Menu(false, ": ", inheritedCommand, (inheritedCommand2) => 
                     {
+                        if (inheritedCommand2 != null)
+                            ImGui.TextColored(AutoFill.PREVIEWCOLOUR, inheritedCommand2);
                         ImGui.TextColored(HINTCOLOUR, "Select fields...");
                         string res1 = autoFillCse.Menu(true, ": ", inheritedCommand2, (inheritedCommand3) => 
                         {
+                            if (inheritedCommand3 != null)
+                                ImGui.TextColored(AutoFill.PREVIEWCOLOUR, inheritedCommand3);
                             ImGui.TextColored(HINTCOLOUR, "Select field operation...");
-                            return MassEditAutoFillForOperation(MEValueOperation.valueOps, ref _autoFillArgsCop, ";", inheritedCommand3, null);
+                            return MassEditAutoFillForOperation(MEValueOperation.valueOps, ref _autoFillArgsCop, ";", null);
                         });
                         ImGui.Separator();
                         ImGui.TextColored(HINTCOLOUR, "Select row operation...");
-                        string res2 = MassEditAutoFillForOperation(MERowOperation.rowOps, ref _autoFillArgsRop, ";", null, null);
+                        string res2 = MassEditAutoFillForOperation(MERowOperation.rowOps, ref _autoFillArgsRop, ";", null);
                         if (res1 != null)
                             return res1;
                         return res2;
@@ -214,7 +220,7 @@ namespace StudioCore.ParamEditor
                 ImGui.Separator();
                 ImGui.PushID("globalop");
                 ImGui.TextColored(HINTCOLOUR, "Select global operation...");
-                string result3 = MassEditAutoFillForOperation(MEGlobalOperation.globalOps, ref _autoFillArgsGop, ";", null, null);
+                string result3 = MassEditAutoFillForOperation(MEGlobalOperation.globalOps, ref _autoFillArgsGop, ";", null);
                 ImGui.PopID();
                 string result4 = null;
                 if (MassParamEdit.massEditVars.Count != 0)
@@ -224,8 +230,10 @@ namespace StudioCore.ParamEditor
                     ImGui.TextColored(HINTCOLOUR, "Select variables...");
                     result4 = autoFillVse.Menu(false, ": ", null, (inheritedCommand) => 
                     {
+                        if (inheritedCommand != null)
+                            ImGui.TextColored(AutoFill.PREVIEWCOLOUR, inheritedCommand);
                         ImGui.TextColored(HINTCOLOUR, "Select value operation...");
-                        return MassEditAutoFillForOperation(MEValueOperation.valueOps, ref _autoFillArgsCop, ";", inheritedCommand, null);
+                        return MassEditAutoFillForOperation(MEValueOperation.valueOps, ref _autoFillArgsCop, ";", null);
                     });
                 }
                 ImGui.EndPopup();
@@ -241,12 +249,10 @@ namespace StudioCore.ParamEditor
         }
         public static string MassEditOpAutoFill()
         {
-            return MassEditAutoFillForOperation(MEValueOperation.valueOps, ref _autoFillArgsCop, ";", null, null);
+            return MassEditAutoFillForOperation(MEValueOperation.valueOps, ref _autoFillArgsCop, ";", null);
         }
-        private static string MassEditAutoFillForOperation<A, B> (MEOperation<A, B> ops, ref string[] staticArgs, string suffix, string inheritedCommand, Func<string> subMenu)
+        private static string MassEditAutoFillForOperation<A, B> (MEOperation<A, B> ops, ref string[] staticArgs, string suffix, Func<string> subMenu)
         {
-            if (inheritedCommand != null)
-                ImGui.TextColored(PREVIEWCOLOUR, inheritedCommand);
             int currentArgIndex = 0;
             string result = null;
             foreach (var cmd in ops.AvailableCommands())
