@@ -753,20 +753,24 @@ namespace StudioCore.ParamEditor
     public class MEOperationArgument
     {
         public static MEOperationArgument arg = new MEOperationArgument();
-        Dictionary<string, (string[], Func<string[], Func<int, Param, Func<int, Param.Row, Func<int, (PseudoColumn, Param.Column), string>>>>)> argumentGetters = new Dictionary<string, (string[], Func<string[], Func<int, Param, Func<int, Param.Row, Func<int, (PseudoColumn, Param.Column), string>>>>)>();
-        (string[], Func<string, Func<int, Param, Func<int, Param.Row, Func<int, (PseudoColumn, Param.Column), string>>>>) defaultGetter;
+        Dictionary<string, OperationArgumentGetter> argumentGetters = new Dictionary<string, OperationArgumentGetter>();
+        OperationArgumentGetter defaultGetter;
 
         private MEOperationArgument()
         {
             Setup();
         }
+        private OperationArgumentGetter newGetter(string[] args, Func<string[], Func<int, Param, Func<int, Param.Row, Func<int, (PseudoColumn, Param.Column), string>>>> func, Func<bool> shouldShow = null)
+        {
+            return new OperationArgumentGetter(args, func, shouldShow);
+        }
         private void Setup()
         {
-            defaultGetter = (new string[0], (value) => (i, param) => (j, row) => (k, col) => value);
-            argumentGetters.Add("self", (new string[0], (empty) => (i, param) => (j, row) => (k, col) => {
+            defaultGetter = newGetter(new string[0], (value) => (i, param) => (j, row) => (k, col) => value[0]);
+            argumentGetters.Add("self", newGetter(new string[0], (empty) => (i, param) => (j, row) => (k, col) => {
                 return row.Get(col).ToParamEditorString();
             }));
-            argumentGetters.Add("field", (new string[]{"field internalName"}, (field) => (i, param) => {
+            argumentGetters.Add("field", newGetter(new string[]{"field internalName"}, (field) => (i, param) => {
                 var col = param.GetCol(field[0]);
                 if (!col.IsColumnValid())
                     throw new Exception($@"Could not locate field {field[0]}");
@@ -775,7 +779,7 @@ namespace StudioCore.ParamEditor
                     return (k, c) => v;
                 };
             }));
-            argumentGetters.Add("vanilla", (new string[0], (empty) => {
+            argumentGetters.Add("vanilla", newGetter(new string[0], (empty) => {
                 ParamBank bank = ParamBank.VanillaBank;
                 return (i, param) => {
                     string paramName = ParamBank.PrimaryBank.GetKeyForParam(param);
@@ -794,7 +798,7 @@ namespace StudioCore.ParamEditor
                     };
                 };
             }));
-            argumentGetters.Add("aux", (new string[]{"parambank name"}, (bankName) => {
+            argumentGetters.Add("aux", newGetter(new string[]{"parambank name"}, (bankName) => {
                 if (!ParamBank.AuxBanks.ContainsKey(bankName[0]))
                     throw new Exception($@"Could not locate paramBank {bankName[0]}");
                 ParamBank bank = ParamBank.AuxBanks[bankName[0]];
@@ -814,8 +818,8 @@ namespace StudioCore.ParamEditor
                         };
                     };
                 };
-            }));
-            argumentGetters.Add("vanillafield", (new string[]{"field internalName"}, (field) => (i, param) => {
+            }, ()=>ParamBank.AuxBanks.Count > 0));
+            argumentGetters.Add("vanillafield", newGetter(new string[]{"field internalName"}, (field) => (i, param) => {
                 var paramName = ParamBank.PrimaryBank.GetKeyForParam(param);
                 var vParam = ParamBank.VanillaBank.GetParamFromName(paramName);
                 if (vParam == null)
@@ -831,7 +835,7 @@ namespace StudioCore.ParamEditor
                     return (k, c) => v;
                 };
             }));
-            argumentGetters.Add("auxfield", (new string[]{"parambank name", "field internalName"}, (bankAndField) => {
+            argumentGetters.Add("auxfield", newGetter(new string[]{"parambank name", "field internalName"}, (bankAndField) => {
                 if (!ParamBank.AuxBanks.ContainsKey(bankAndField[0]))
                     throw new Exception($@"Could not locate paramBank {bankAndField[0]}");
                 ParamBank bank = ParamBank.AuxBanks[bankAndField[0]];
@@ -851,8 +855,8 @@ namespace StudioCore.ParamEditor
                         return (k, c) => v;
                     };
                 };
-            }));
-            argumentGetters.Add("average", (new string[]{"field internalName", "row selector"}, (field) => (i, param) => {
+            }, ()=>ParamBank.AuxBanks.Count > 0));
+            argumentGetters.Add("average", newGetter(new string[]{"field internalName", "row selector"}, (field) => (i, param) => {
                 var col = param.GetCol(field[0]);
                 if (!col.IsColumnValid())
                     throw new Exception($@"Could not locate field {field[0]}");
@@ -863,8 +867,8 @@ namespace StudioCore.ParamEditor
                 var vals = rows.Select((row, i) =>row.Get(col));
                 double avg = vals.Average((val) => Convert.ToDouble(val));
                 return (j, row) => (k, c) => avg.ToString();
-            }));
-            argumentGetters.Add("median", (new string[]{"field internalName", "row selector"}, (field) => (i, param) => {
+            }, ()=>CFG.Current.Param_AdvancedMassedit));
+            argumentGetters.Add("median", newGetter(new string[]{"field internalName", "row selector"}, (field) => (i, param) => {
                 var col = param.GetCol(field[0]);
                 if (!col.IsColumnValid())
                     throw new Exception($@"Could not locate field {field[0]}");
@@ -872,8 +876,8 @@ namespace StudioCore.ParamEditor
                 var vals = rows.Select((row, i) => row.Get(col));
                 var avg = vals.OrderBy((val) => Convert.ToDouble(val)).ElementAt(vals.Count()/2);
                 return (j, row) => (k, c) => avg.ToParamEditorString();
-            }));
-            argumentGetters.Add("mode", (new string[]{"field internalName", "row selector"}, (field) => (i, param) => {
+            }, ()=>CFG.Current.Param_AdvancedMassedit));
+            argumentGetters.Add("mode", newGetter(new string[]{"field internalName", "row selector"}, (field) => (i, param) => {
                 var col = param.GetCol(field[0]);
                 if (!col.IsColumnValid())
                     throw new Exception($@"Could not locate field {field[0]}");
@@ -881,8 +885,8 @@ namespace StudioCore.ParamEditor
                 var vals = rows.Select((row, i) => row.Get(col));
                 var avg = vals.GroupBy((val) => val).OrderByDescending((g) => g.Count()).Select((g) => g.Key).First();
                 return (j, row) => (k, c) => avg.ToParamEditorString();
-            }));
-            argumentGetters.Add("random", (new string[]{"minimum number (inclusive)", "maximum number (exclusive)"}, (minAndMax) => {
+            }, ()=>CFG.Current.Param_AdvancedMassedit));
+            argumentGetters.Add("random", newGetter(new string[]{"minimum number (inclusive)", "maximum number (exclusive)"}, (minAndMax) => {
                 double min;
                 double max;
                 if (!double.TryParse(minAndMax[0], out min) || !double.TryParse(minAndMax[1], out max))
@@ -891,8 +895,8 @@ namespace StudioCore.ParamEditor
                     throw new Exception($@"Random max must be greater than min");
                 double range = max - min;
                 return (i, param) => (j, row) => (k, c) => (Random.Shared.NextDouble() * range + min).ToString();
-            }));
-            argumentGetters.Add("randint", (new string[]{"minimum integer (inclusive)", "maximum integer (inclusive)"}, (minAndMax) => {
+            }, ()=>CFG.Current.Param_AdvancedMassedit));
+            argumentGetters.Add("randint", newGetter(new string[]{"minimum integer (inclusive)", "maximum integer (inclusive)"}, (minAndMax) => {
                 int min;
                 int max;
                 if (!int.TryParse(minAndMax[0], out min) || !int.TryParse(minAndMax[1], out max))
@@ -900,30 +904,41 @@ namespace StudioCore.ParamEditor
                 if (max <= min)
                     throw new Exception($@"Random max must be greater than min");
                 return (i, param) => (j, row) => (k, c) => Random.Shared.NextInt64(min, max + 1).ToString();
-            }));
-            argumentGetters.Add("randFrom", (new string[]{"param name", "field internalName", "row selector"}, (paramFieldRowSelector) => {
+            }, ()=>CFG.Current.Param_AdvancedMassedit));
+            argumentGetters.Add("randFrom", newGetter(new string[]{"param name", "field internalName", "row selector"}, (paramFieldRowSelector) => {
                 Param srcParam = ParamBank.PrimaryBank.Params[paramFieldRowSelector[0]];
                 List<Param.Row> srcRows = RowSearchEngine.rse.Search((ParamBank.PrimaryBank, srcParam), paramFieldRowSelector[2], false, false);
                 object[] values = srcRows.Select((r, i) => r[paramFieldRowSelector[1]].Value.Value).ToArray();
                 return (i, param) => (j, row) => (k, c) => values[Random.Shared.NextInt64(values.Length)].ToString();
-            }));
-            argumentGetters.Add("paramIndex", (new string[0], (empty) => (i, param) => (j, row) => (k, col) => {
+            }, ()=>CFG.Current.Param_AdvancedMassedit));
+            argumentGetters.Add("paramIndex", newGetter(new string[0], (empty) => (i, param) => (j, row) => (k, col) => {
                 return i.ToParamEditorString();
-            }));
-            argumentGetters.Add("rowIndex", (new string[0], (empty) => (i, param) => (j, row) => (k, col) => {
+            }, ()=>CFG.Current.Param_AdvancedMassedit));
+            argumentGetters.Add("rowIndex", newGetter(new string[0], (empty) => (i, param) => (j, row) => (k, col) => {
                 return j.ToParamEditorString();
-            }));
-            argumentGetters.Add("fieldIndex", (new string[0], (empty) => (i, param) => (j, row) => (k, col) => {
+            }, ()=>CFG.Current.Param_AdvancedMassedit));
+            argumentGetters.Add("fieldIndex", newGetter(new string[0], (empty) => (i, param) => (j, row) => (k, col) => {
                 return k.ToParamEditorString();
-            }));
+            }, ()=>CFG.Current.Param_AdvancedMassedit));
         }
 
-        public List<(string, string[])> AvailableArguments()
+        public List<(string, string[])> AllArguments()
         {
             List<(string, string[])> options = new List<(string, string[])>();
             foreach (string op in argumentGetters.Keys)
             {
-                options.Add((op, argumentGetters[op].Item1));
+                options.Add((op, argumentGetters[op].args));
+            }
+            return options;
+        }
+        public List<(string, string[])> VisibleArguments()
+        {
+            List<(string, string[])> options = new List<(string, string[])>();
+            foreach (string op in argumentGetters.Keys)
+            {
+                OperationArgumentGetter oag = argumentGetters[op];
+                if (oag.shouldShow == null || oag.shouldShow())
+                    options.Add((op, argumentGetters[op].args));
             }
             return options;
         }
@@ -947,20 +962,32 @@ namespace StudioCore.ParamEditor
             if (argumentGetters.ContainsKey(arg[0].Trim()))
             {
                 var getter = argumentGetters[arg[0]];
-                string[] opArgArgs = arg.Length > 1 ? arg[1].Split(" ", getter.Item1.Length) : new string[0];
-                if (opArgArgs.Length != getter.Item1.Length)
+                string[] opArgArgs = arg.Length > 1 ? arg[1].Split(" ", getter.args.Length) : new string[0];
+                if (opArgArgs.Length != getter.args.Length)
                     throw new Exception(@$"Contextual value {arg[0]} has wrong number of arguments. Expected {opArgArgs.Length}");
                 for (int i=0; i<opArgArgs.Length; i++)
                 {
                     if (opArgArgs[i].StartsWith('$'))
                         opArgArgs[i] = MassParamEdit.massEditVars[opArgArgs[i].Substring(1)].ToString();
                 }
-                return getter.Item2(opArgArgs);
+                return getter.func(opArgArgs);
             }
             else
             {
-                return defaultGetter.Item2(opArg);
+                return defaultGetter.func(new string[]{opArg});
             }
+        }
+    }
+    class OperationArgumentGetter
+    {
+        public string[] args;
+        internal Func<string[], Func<int, Param, Func<int, Param.Row, Func<int, (PseudoColumn, Param.Column), string>>>> func;
+        internal Func<bool> shouldShow;
+        internal OperationArgumentGetter(string[] args, Func<string[], Func<int, Param, Func<int, Param.Row, Func<int, (PseudoColumn, Param.Column), string>>>> func, Func<bool> shouldShow)
+        {
+            this.args = args;
+            this.func = func;
+            this.shouldShow = shouldShow;
         }
     }
 }

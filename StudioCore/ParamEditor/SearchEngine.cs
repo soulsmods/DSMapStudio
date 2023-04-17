@@ -210,7 +210,7 @@ namespace StudioCore.Editor
                 ParamBank auxBank = ParamBank.AuxBanks[args[0]];
                 Regex rx = lenient ? new Regex(args[1], RegexOptions.IgnoreCase) : new Regex($@"^{args[1]}$");
                 return noContext((param)=>param.Item1 != auxBank ? false : rx.Match(auxBank.GetKeyForParam(param.Item2) == null ? "" : auxBank.GetKeyForParam(param.Item2)).Success);
-            }, ()=>ParamBank.AuxBanks.Count > 0));
+            }, ()=>ParamBank.AuxBanks.Count > 0 && CFG.Current.Param_AdvancedMassedit));
             defaultFilter = newCmd(new string[]{"param name (regex)"}, (args, lenient)=>{
                 Regex rx = lenient ? new Regex(args[0], RegexOptions.IgnoreCase) : new Regex($@"^{args[0]}$");
                 return noContext((param)=>param.Item1 != bank ? false : rx.Match(bank.GetKeyForParam(param.Item2) == null ? "" : bank.GetKeyForParam(param.Item2)).Success);
@@ -312,7 +312,7 @@ namespace StudioCore.Editor
                         return false;
                     };
                 };
-            }));
+            }, ()=>CFG.Current.Param_AdvancedMassedit));
             filterList.Add("fmg", newCmd(new string[]{"fmg title (regex)"}, (args, lenient)=>{
                 Regex rx = lenient ? new Regex(args[0], RegexOptions.IgnoreCase) : new Regex($@"^{args[0]}$");
                 string field = args[0].Replace(@"\s", " ");
@@ -342,7 +342,7 @@ namespace StudioCore.Editor
                         return e != null && rx.Match(e.Text ?? "").Success;
                     };
                 };
-            }));
+            }, ()=>CFG.Current.Param_AdvancedMassedit));
             filterList.Add("vanillaprop", newCmd(new string[]{"field internalName", "field value (regex)"}, (args, lenient)=>{
                 Regex rx = lenient ? new Regex(args[1], RegexOptions.IgnoreCase) : new Regex($@"^{args[1]}$");
                 string field = args[0].Replace(@"\s", " ");
@@ -359,7 +359,7 @@ namespace StudioCore.Editor
                         return rx.Match(term).Success;
                     };
                 };
-            }));
+            }, ()=>CFG.Current.Param_AdvancedMassedit));
             filterList.Add("vanillaproprange", newCmd(new string[]{"field internalName", "field value minimum (inclusive)", "field value maximum (inclusive)"}, (args, lenient)=>{
                 string field = args[0].Replace(@"\s", " ");
                 double floor = double.Parse(args[1]);
@@ -375,7 +375,7 @@ namespace StudioCore.Editor
                         return (Convert.ToDouble(c.Value.Value)) >= floor && (Convert.ToDouble(c.Value.Value)) <= ceil;
                     };
                 };
-            }));
+            }, ()=>CFG.Current.Param_AdvancedMassedit));
             filterList.Add("auxprop", newCmd(new string[]{"parambank name", "field internalName", "field value (regex)"}, (args, lenient)=>{
                 Regex rx = lenient ? new Regex(args[2], RegexOptions.IgnoreCase) : new Regex($@"^{args[2]}$");
                 string field = args[1].Replace(@"\s", " ");
@@ -395,7 +395,7 @@ namespace StudioCore.Editor
                         return rx.Match(term).Success;
                     };
                 };
-            }, ()=>ParamBank.AuxBanks.Count > 0));
+            }, ()=>ParamBank.AuxBanks.Count > 0 && CFG.Current.Param_AdvancedMassedit));
             filterList.Add("auxproprange", newCmd(new string[]{"parambank name", "field internalName", "field value minimum (inclusive)", "field value maximum (inclusive)"}, (args, lenient)=>{
                 string field = args[0].Replace(@"\s", " ");
                 double floor = double.Parse(args[1]);
@@ -412,7 +412,7 @@ namespace StudioCore.Editor
                         return (Convert.ToDouble(c.Value.Value)) >= floor && (Convert.ToDouble(c.Value.Value)) <= ceil;
                     };
                 };
-            }, ()=>ParamBank.AuxBanks.Count > 0));
+            }, ()=>ParamBank.AuxBanks.Count > 0 && CFG.Current.Param_AdvancedMassedit));
             defaultFilter = newCmd(new string[]{"row ID or Name (regex)"}, (args, lenient)=>{
                 if (!lenient)
                     return noContext((row)=>false);
@@ -503,7 +503,7 @@ namespace StudioCore.Editor
             filterList.Add("sftype", newCmd(new string[]{"paramdef type"}, (args, lenient) => {
                 Regex r = new Regex('^'+args[0]+'$', lenient ? RegexOptions.IgnoreCase : RegexOptions.None); //Leniency rules break from the norm
                 return (row) => (col) => r.IsMatch(col.GetColumnSfType());
-            }));
+            }, ()=>CFG.Current.Param_AdvancedMassedit));
         }
     }
 

@@ -116,7 +116,7 @@ namespace StudioCore.ParamEditor
         private static string[] _autoFillArgsGop = Enumerable.Repeat("", MEGlobalOperation.globalOps.AvailableCommands().Sum((x) => x.Item2.Length)).ToArray();
         private static string[] _autoFillArgsRop = Enumerable.Repeat("", MERowOperation.rowOps.AvailableCommands().Sum((x) => x.Item2.Length)).ToArray();
         private static string[] _autoFillArgsCop = Enumerable.Repeat("", MEValueOperation.valueOps.AvailableCommands().Sum((x) => x.Item2.Length)).ToArray();
-        private static string[] _autoFillArgsOa = Enumerable.Repeat("", MEOperationArgument.arg.AvailableArguments().Sum((x) => x.Item2.Length)).ToArray();
+        private static string[] _autoFillArgsOa = Enumerable.Repeat("", MEOperationArgument.arg.AllArguments().Sum((x) => x.Item2.Length)).ToArray();
         private static string _literalArg = "";
 
         internal static Vector4 HINTCOLOUR = new Vector4(0.3f, 0.5f, 1.0f, 1.0f);
@@ -315,7 +315,7 @@ namespace StudioCore.ParamEditor
         {
             int currentArgIndex = 0;
             string result = null;
-            foreach (var arg in oa.AvailableArguments())
+            foreach (var arg in oa.VisibleArguments())
             {
                 int[] argIndices = new int[arg.Item2.Length];
                 bool valid = true;
