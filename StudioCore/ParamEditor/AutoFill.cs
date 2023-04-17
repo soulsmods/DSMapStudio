@@ -24,12 +24,15 @@ namespace StudioCore.ParamEditor
             _useAdditionalCondition = false;
             _additionalCondition = null;
         }
-        internal string Menu(bool enableDefault, string suffix, string inheritedCommand, Func<string, string> subMenu)
+        internal string Menu(bool enableComplexToggles, bool enableDefault, string suffix, string inheritedCommand, Func<string, string> subMenu)
         {
             int currentArgIndex = 0;
-            ImGui.Checkbox("Invert selection?##meautoinputnottoggle"+id, ref _autoFillNotToggle);
-            ImGui.SameLine();
-            ImGui.Checkbox("Add another condition?##meautoinputadditionalcondition"+id, ref _useAdditionalCondition);
+            if (enableComplexToggles)
+            {
+                ImGui.Checkbox("Invert selection?##meautoinputnottoggle"+id, ref _autoFillNotToggle);
+                ImGui.SameLine();
+                ImGui.Checkbox("Add another condition?##meautoinputadditionalcondition"+id, ref _useAdditionalCondition);
+            }
             if (_useAdditionalCondition && _additionalCondition == null)
                 _additionalCondition = new AutoFillSearchEngine<A, B>(id+"0", engine);
             else if (!_useAdditionalCondition)
@@ -52,7 +55,7 @@ namespace StudioCore.ParamEditor
                     {
                         string curResult = inheritedCommand + getCurrentStepText(valid, cmd.Item1, argIndices, _additionalCondition != null ? " && " : suffix);
                         if (_additionalCondition != null)
-                            subResult = _additionalCondition.Menu(enableDefault, suffix, curResult, subMenu);
+                            subResult = _additionalCondition.Menu(enableComplexToggles, enableDefault, suffix, curResult, subMenu);
                         else
                             subResult = subMenu(curResult);
                         ImGui.EndMenu();
@@ -126,7 +129,7 @@ namespace StudioCore.ParamEditor
             if (ImGui.BeginPopupContextItem("##rsbautoinputoapopup", ImGuiPopupFlags.MouseButtonLeft))
             {
                 ImGui.TextColored(HINTCOLOUR, "Select params...");
-                var result = autoFillPse.Menu(false, "", null, null);
+                var result = autoFillPse.Menu(true, false, "", null, null);
                 ImGui.EndPopup();
                 return result;
             }
@@ -139,7 +142,7 @@ namespace StudioCore.ParamEditor
             if (ImGui.BeginPopupContextItem("##rsbautoinputoapopup", ImGuiPopupFlags.MouseButtonLeft))
             {
                 ImGui.TextColored(HINTCOLOUR, "Select rows...");
-                var result = autoFillRse.Menu(false, "", null, null);
+                var result = autoFillRse.Menu(true, false, "", null, null);
                 ImGui.EndPopup();
                 return result;
             }
@@ -152,7 +155,7 @@ namespace StudioCore.ParamEditor
             if (ImGui.BeginPopupContextItem("##csbautoinputoapopup", ImGuiPopupFlags.MouseButtonLeft))
             {
                 ImGui.TextColored(HINTCOLOUR, "Select fields...");
-                var result = autoFillCse.Menu(false, "", null, null);
+                var result = autoFillCse.Menu(true, false, "", null, null);
                 ImGui.EndPopup();
                 return result;
             }
@@ -168,12 +171,12 @@ namespace StudioCore.ParamEditor
             {
                 ImGui.PushID("paramrow");
                 ImGui.TextColored(HINTCOLOUR, "Select param and rows...");
-                string result1 = autoFillParse.Menu(false, ": ", null, (inheritedCommand) => 
+                string result1 = autoFillParse.Menu(false, false, ": ", null, (inheritedCommand) => 
                 {
                     if (inheritedCommand != null)
                         ImGui.TextColored(AutoFill.PREVIEWCOLOUR, inheritedCommand);
                     ImGui.TextColored(HINTCOLOUR, "Select fields...");
-                    string res1 = autoFillCse.Menu(true, ": ", inheritedCommand, (inheritedCommand2) => 
+                    string res1 = autoFillCse.Menu(true, true, ": ", inheritedCommand, (inheritedCommand2) => 
                     {
                         if (inheritedCommand2 != null)
                             ImGui.TextColored(PREVIEWCOLOUR, inheritedCommand2);
@@ -191,17 +194,17 @@ namespace StudioCore.ParamEditor
                 ImGui.Separator();
                 ImGui.PushID("param");
                 ImGui.TextColored(HINTCOLOUR, "Select params...");
-                string result2 = autoFillPse.Menu(false, ": ", null, (inheritedCommand) =>
+                string result2 = autoFillPse.Menu(true, false, ": ", null, (inheritedCommand) =>
                 {
                     if (inheritedCommand != null)
                         ImGui.TextColored(AutoFill.PREVIEWCOLOUR, inheritedCommand);
                     ImGui.TextColored(HINTCOLOUR, "Select rows...");
-                    return autoFillRse.Menu(false, ": ", inheritedCommand, (inheritedCommand2) => 
+                    return autoFillRse.Menu(true, false, ": ", inheritedCommand, (inheritedCommand2) => 
                     {
                         if (inheritedCommand2 != null)
                             ImGui.TextColored(AutoFill.PREVIEWCOLOUR, inheritedCommand2);
                         ImGui.TextColored(HINTCOLOUR, "Select fields...");
-                        string res1 = autoFillCse.Menu(true, ": ", inheritedCommand2, (inheritedCommand3) => 
+                        string res1 = autoFillCse.Menu(true, true, ": ", inheritedCommand2, (inheritedCommand3) => 
                         {
                             if (inheritedCommand3 != null)
                                 ImGui.TextColored(AutoFill.PREVIEWCOLOUR, inheritedCommand3);
@@ -228,7 +231,7 @@ namespace StudioCore.ParamEditor
                     ImGui.Separator();
                     ImGui.PushID("var");
                     ImGui.TextColored(HINTCOLOUR, "Select variables...");
-                    result4 = autoFillVse.Menu(false, ": ", null, (inheritedCommand) => 
+                    result4 = autoFillVse.Menu(false, false, ": ", null, (inheritedCommand) => 
                     {
                         if (inheritedCommand != null)
                             ImGui.TextColored(AutoFill.PREVIEWCOLOUR, inheritedCommand);
