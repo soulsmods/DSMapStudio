@@ -19,7 +19,7 @@ namespace StudioCore.ParamEditor
         {
             this.id = id;
             engine = searchEngine;
-            _autoFillArgs = Enumerable.Repeat("", engine.AvailableCommands().Sum((x) => x.Item2.Length) + engine.defaultFilter.Item1.Length).ToArray();
+            _autoFillArgs = Enumerable.Repeat("", engine.AllCommands().Sum((x) => x.Item2.Length)).ToArray();
             _autoFillNotToggle = false;
             _useAdditionalCondition = false;
             _additionalCondition = null;
@@ -36,7 +36,7 @@ namespace StudioCore.ParamEditor
                 _additionalCondition = new AutoFillSearchEngine<A, B>(id+"0", engine);
             else if (!_useAdditionalCondition)
                 _additionalCondition = null;
-            foreach (var cmd in enableDefault ? engine.AvailableCommands().Append((null, engine.defaultFilter.Item1)).ToList() : engine.AvailableCommands())
+            foreach (var cmd in enableDefault ? engine.VisibleCommands().Append((null, engine.defaultFilter.args)).ToList() : engine.VisibleCommands())
             {
                 int[] argIndices = new int[cmd.Item2.Length];
                 bool valid = true;
