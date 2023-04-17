@@ -3,9 +3,15 @@
 10 Duelist's Furled Finger - Create Invasion Sign
 11 Bloody Finger - Attempt Invasion
 16 Festering/Recusant Finger - Attempt Invasion
-31 [Behavior] Counter Frames
+26 Stake of Marika
+30 HKS - Unk Throw Def Invalid
+32 HKS - Unk Jump Throw Def Invalid
+31 Behavior - Counter Frames
+45 TAE - Counter Frames
 70 Blight Effect
 81 Spectral Steed Whistle
+89 HKS - Unk Toughness Increase
+98 HKS - Unk Is Jump Attacking
 100 Grace - Restore HP
 101 Grace - Remove All Status
 102 Grace - Remove Hemorrhage
@@ -18,6 +24,31 @@
 109 Grace - Remove Blight
 125 Torrent
 126 Torrent
+131 HKS - Torrent - Unk Ride Attack Move Cancel
+132 HKS - Recovery Window - Heavy Attack
+133 HKS - Switch Heavy to Heavy Sub
+134 HKS - Switch Heavy Sub to Heavy
+135 HKS - Light Sub Start Type 0
+136 HKS - Light Sub Start Type 1
+137 HKS - Light Sub Start Type 2
+138 HKS - Light Sub Start Type 3
+140 HKS - Is Jumping
+141 HKS - Unk Jump Fall Default
+142 HKS - Unk Jump
+143 HKS - Unk Jump
+144 HKS - Unk Jump
+145 HKS - Is Falling
+146 HKS - Swing Window
+170 HKS - Unk Unable To Cancel Guard
+171 HKS - Unk Guard Toughness Increase
+172 HKS - Guard Start Type
+173 HKS - Guard Counter - End
+174 HKS - Guard Counter - Window
+175 HKS - Unk Guard Break & Block Animation Resist
+176 HKS - Unk Guard Block Animation Resist
+183 Spiritspring - In Range
+185 Spiritspring - Fall Immune
+186 Spiritspring - Is Jumping
 415 Torch Effect
 416 Sentry's Torch - Effect
 420 Oil Pot
@@ -52,6 +83,22 @@
 1545 Winged Greathorn - Bullet
 1576 Royal Greatsword - Bullet
 1625 Mohgwyn's Sacred Spear - Bullet
+1650 Endure - Toughness
+1681 Regal Roar - Heavy Special
+1683 Regal Roar - Heavy Special - Left
+1686 Regal Roar - Heavy Special (No FP)
+1688 Regal Roar - Heavy Special - Left (No FP)
+1716 Golden Tempering - Heavy Special
+1718 Golden Tempering - Heavy Special - Left
+1721 Moonlight Greatsword - Heavy Special
+1723 Moonlight Greatsword - Heavy Special - Left
+1811 War Cry - Heavy Special
+1813 War Cry - Heavy Special - Left
+1816 War Cry - Heavy Special (No FP)
+1818 War Cry - Heavy Special - Left (No FP)
+1851 Unk - Toughness
+1861 Unk - Heavy Special
+1863 Unk - Heavy Special
 1768 Commander's Standard - Bullet
 1769 Commander's Standard - Bullet - Allies
 1770 Commander's Standard - Effect
@@ -253,9 +300,26 @@
 3963 Dappled Cured Meat
 3970 Silver-Pickled Fowl Foot
 3971 Gold-Pickled Fowl Foot
-4101 Sanguine Noble
+4100 Sanguine Noble - Bullet - Slow
+4101 Sanguine Noble - Bullet - Slow
 4201 Golden Leaves Weather (Bonus Runes)
+4270 Disable Grace Warp
+4271 Disable Grace Warp
+4272 Disable Grace Warp
+4282 Disable Grace Warp
+4286 Disable Grace Warp (Trap)
+4288 Disable Grace Warp
 5250 Enemy: Golden Eyes (Bonus Runes)
+5255 Enemy: Golden Eyes Failed (No Reroll)
+5269 Enemy: Golden Eyes Chance (Guaranteed)
+5268 Enemy: Golden Eyes Chance (50%)
+5267 Enemy: Golden Eyes Chance (30%)
+5266 Enemy: Golden Eyes Chance (10%)
+5265 Enemy: Golden Eyes Chance (5%)
+5264 Enemy: Golden Eyes Chance (3%)
+5263 Enemy: Golden Eyes Chance (2%)
+5262 Enemy: Golden Eyes Chance (1%)
+5261 Enemy: Golden Eyes Chance (0.5%)
 5300 No Stag
 5301 NPC: Damage Level Override
 5302 NPC: Damage Level Override
@@ -305,12 +369,16 @@
 5373 Med Stag 4 XL Hits + Light 4 Large [Armor]
 5374 Light Stag 4 XL Hits [Armor]
 5600 NPC: Infinite FP
+5635 Sword Arts Dodge Unk
 5601 NPC: Faster Stamina Recovery
 5836 Undead Enemy
 5837 Undead Enemy
-6030 Parry Resistance +1 (2 parries before riposte)
-6031 Parry Resistance +2 (3 parries before riposte)
-6032 Parry Resistance +3 (4 parries before riposte)
+6000 Enemy - Pushed by Rolls
+6020 Enemy - Ignores Roll Push
+6030 Enemy - Parry Resistance +1 (2 parries before riposte)
+6031 Enemy - Parry Resistance +2 (3 parries before riposte)
+6032 Enemy - Parry Resistance +3 (4 parries before riposte)
+6340 Toughness Unk - Damage Level Small
 6350 Toughness 1 (Small/Min)
 6351 Toughness 2 (Medium/Push)
 6352 Toughness 3 (Large)
@@ -375,7 +443,14 @@
 6805 Blight - Type 1 - Special 6
 6845 Black Knife - Bullet
 6850 Destined Death - (DoT Main)
-6930 Crystal Dart
+6910 Enemy - Crystal Dart Confusion
+6915 Enemy - Crystal Dart Confusion - Visual
+6920 Enemy - Crystal Dart Confusion - Border A
+6921 Enemy - Crystal Dart Confusion - Border B
+6922 Enemy - Crystal Dart Confusion - Border C
+6930 Enemy - Crystal Dart Confusion - Point A
+6931 Enemy - Crystal Dart Confusion - Point B
+6932 Enemy - Crystal Dart Confusion - Point C
 7000 Area Scaling - Tier 1 (Tutorial Tunnel)
 7010 Area Scaling - Tier 2 (Limgrave Exploration)
 7020 Area Scaling - Tier 3 (South Limgrave Exploration)
@@ -434,6 +509,7 @@
 7660 NG+ Scaling -
 7670 NG+ Scaling -
 7680 NG+ Scaling -
+8001 HKS - Is Stealth
 10000 Exile Soldier - Bullet
 10001 Dog - Bullet
 10002 Demi-human - Bullet
@@ -445,6 +521,7 @@
 10165 Dragon-faced Flamethrower - Bullet
 10317 Fallen Hawks Soldier - Bullet
 10318 Fallen Hawks Soldier - Bullet [Chain]
+10665 HKS - Unk Event 6001 Event Action Not Possible
 10690 Mohg - Bullet
 10691 Mohg - Bullet [Cycle]
 10945 Warhawk - Bullet
@@ -784,8 +861,52 @@
 90161 NPC: Ignore Fake Targets - Animal
 90162 NPC: Ignore Fake Targets - Undead and Animal
 90200 NPC: Enable Charm
-100620 Hand Style - Right Hand
-100621 Hand Style - Left Hand
+100002 HKS - Sword Arts - Dashing
+100020 HKS - Out of Stamina
+100050 HKS - Sword Arts - One Shot Combo End
+100051 HKS - Sword Arts - One Shot Combo End
+100052 HKS - Sword Arts - Combo Window 1
+100053 HKS - Sword Arts - Combo Window 2
+100054 HKS - Sword Arts - One Shot Combo End
+100055 HKS - Sword Arts - One Shot Combo End 2
+100130 HKS - Stance - SetMoveType 1
+100140 HKS - Stance - SetMoveType 2
+100150 HKS - Stance - SetMoveType 0
+100160 HKS - Stance - SetMoveType 3
+100170 HKS - Unk Lock On Angle
+100200 HKS - Gesture Animation
+100220 HKS - Unk Dash
+100250 HKS - Draw Stance Heavy Combo
+100280 HKS - Is Charging Heavy Attack
+100285 HKS - Sword Arts - Unk Shield Charge
+100286 HKS - Sword Arts - Unk Shield Charge Cancel
+100290 HKS - Unk Attack Right Special
+100301 HKS - Unk Dash
+100390 HKS - Unk Rolling
+100410 HKS - Guard On
+100500 HKS - Sword Arts - Raptor Dodge
+100530 HKS - Sword Arts - Unk Charge or Right 90 Attack
+100540 HKS - Sword Arts - 180 Attack
+100550 HKS - Sword Arts - Left 90 Attack
+100600 HKS - Magic - Right Combo Window 1
+100601 HKS - Magic - Right Combo Window 2
+100605 HKS - Magic - Left Combo Window 1
+100606 HKS - Magic - Left Combo Window 2
+100610 HKS - Magic - Is Firing
+100620 HKS - Hand Style - Right Hand
+100621 HKS - Hand Style - Left Hand
+100630 HKS - Throw Unk
+100640 HKS - Unk Toughness Increase
+100660 HKS - Sword Arts - Loop
+100670 HKS - Sword Arts - Loop
+100700 HKS - Sword Arts - Half Loop
+100710 HKS - Sword Arts Rolling Self Trans
+100720 HKS - Rolling Damage Count Unk
+100730 HKS - Cannot Weapon Change
+100800 HKS - Item Combo Window
+100901 HKS - Torrent - Unk Can Dash
+100902 HKS - Torrent - Is Jumping
+100903 HKS - Torrent - Is Galloping
 105000 Hemorrhage - Low - Addition +0
 105001 Hemorrhage - Low - Addition +1
 105002 Hemorrhage - Low - Addition +2
@@ -2757,13 +2878,13 @@
 502161 Pureblood Knight's Medal
 502190 Miquella's Needle
 503040 Mimic's Veil
-503311 Frenzyflame Stone
-503312 Frenzyflame Stone
-503313 Frenzyflame Stone
-503314 Frenzyflame Stone
-503315 Frenzyflame Stone
+503311 Frenzyflame Stone - Bullet - Heal
+503312 Frenzyflame Stone - Heal
+503313 Frenzyflame Stone - Madness Targeting
+503314 Frenzyflame Stone - Madness
+503315 Frenzyflame Stone - Heal Condition
 503316 Frenzyflame Stone
-503317 Frenzyflame Stone
+503317 Frenzyflame Stone - Bullet
 503320 Scriptstone
 503321 Scriptstone [Cycle]
 503350 Bewitching Branch

@@ -528,31 +528,31 @@
     </Enum>
     <Enum Name="ATK_SUB_CATEGORY" type="u8">
       <Option Value="0" Name="None" />
-      <Option Value="1" Name="Full Moon Spell" />
-      <Option Value="2" Name="Carian Sword Spell" />
-      <Option Value="3" Name="Glintblade Spell" />
-      <Option Value="4" Name="Stonedigger Spell" />
-      <Option Value="5" Name="Crystalian Spell" />
-      <Option Value="6" Name="Karolos Spell" />
-      <Option Value="7" Name="Olivinus Spell" />
-      <Option Value="8" Name="Lava Spell" />
-      <Option Value="9" Name="Thorn Spell" />
-      <Option Value="10" Name="Death Spell" />
-      <Option Value="11" Name="Gravity Spell" />
-      <Option Value="12" Name="Night Spell" />
-      <Option Value="13" Name="Ranni Spell" />
-      <Option Value="14" Name="Azur Spell" />
-      <Option Value="15" Name="Lusat Spell" />
-      <Option Value="20" Name="Black Flame Spell" />
-      <Option Value="21" Name="Flame Spell" />
-      <Option Value="22" Name="Dragon Cult Spell" />
-      <Option Value="23" Name="Bestial Spell" />
-      <Option Value="24" Name="Golden Order Spell" />
-      <Option Value="25" Name="Dragon Communion Spell" />
-      <Option Value="26" Name="Frenzied Flame Spell" />
-      <Option Value="27" Name="Godslayer Spell" />
-      <Option Value="28" Name="Primordial Crucible Spell" />
-      <Option Value="100" Name="Charge Attack" />
+      <Option Value="1" Name="Full Moon Sorcery" />
+      <Option Value="2" Name="Carian Sword Sorcery" />
+      <Option Value="3" Name="Glintblade Sorcery" />
+      <Option Value="4" Name="Stonedigger Sorcery" />
+      <Option Value="5" Name="Crystalian Sorcery" />
+      <Option Value="6" Name="Azur Academy Sorcery" />
+      <Option Value="7" Name="Lusat Academy Sorcery" />
+      <Option Value="8" Name="Magma Sorcery" />
+      <Option Value="9" Name="Thorn Sorcery" />
+      <Option Value="10" Name="Death Sorcery" />
+      <Option Value="11" Name="Gravity Sorcery" />
+      <Option Value="12" Name="Night Sorcery" />
+      <Option Value="13" Name="Cold Sorcery" />
+      <Option Value="14" Name="Azur Primeval Sorcery" />
+      <Option Value="15" Name="Lusat Primeval Sorcery" />
+      <Option Value="20" Name="Blackflame Incantation" />
+      <Option Value="21" Name="Giantsflame Incantation" />
+      <Option Value="22" Name="Dragon Cult Incantation" />
+      <Option Value="23" Name="Bestial Incantation" />
+      <Option Value="24" Name="Golden Order Incantation" />
+      <Option Value="25" Name="Dragon Communion Incantation" />
+      <Option Value="26" Name="Frenzied Flame Incantation" />
+      <Option Value="27" Name="Godslayer Incantation" />
+      <Option Value="28" Name="Aspect of the Crucible Incantation" />
+      <Option Value="100" Name="Charged Heavy Attack" />
       <Option Value="101" Name="Horseback Attack" />
       <Option Value="102" Name="Jump Attack" />
       <Option Value="103" Name="Guard Counter Attack" />
@@ -562,19 +562,19 @@
       <Option Value="107" Name="Breath Attack" />
       <Option Value="108" Name="Pot Item Attack" />
       <Option Value="109" Name="Perfume Item Attack" />
-      <Option Value="110" Name="Charged Attack" />
+      <Option Value="110" Name="Charged Spell Attack" />
       <Option Value="111" Name="Charged Skill Attack" />
       <Option Value="112" Name="Skill Attack" />
       <Option Value="113" Name="Ranged Skill Attack" />
       <Option Value="114" Name="Vapor Attack" />
       <Option Value="116" Name="Unknown Attack" />
       <Option Value="117" Name="Wraith Attack" />
-      <Option Value="118" Name="Ammunition OnHit Attack" />
+      <Option Value="118" Name="Ammunition On-Hit Attack" />
     </Enum>
     <Enum Name="MAGIC_CONSUME_TYPE" type="u8">
-        <Option Value="0" Name="Type 0" />
-        <Option Value="1" Name="Type 1" />
-        <Option Value="2" Name="Type 2" />
+        <Option Value="0" Name="Default" />
+        <Option Value="1" Name="Charged" />
+        <Option Value="2" Name="None" />
     </Enum>
   </Enums>
   <Field>
@@ -678,32 +678,40 @@
     <refId8 AltName="Reference ID [8]" Wiki="ID called from magic" Refs="AtkParam_Pc(refCategory8=0),Bullet(refCategory8=1),SpEffectParam(refCategory8=2)"/>
     <refId9 AltName="Reference ID [9]" Wiki="ID called from magic" Refs="AtkParam_Pc(refCategory9=0),Bullet(refCategory9=1),SpEffectParam(refCategory9=2)"/>
     <refId10 AltName="Reference ID [10]" Wiki="ID called from magic" Refs="AtkParam_Pc(refCategory10=0),Bullet(refCategory10=1),SpEffectParam(refCategory10=2)"/>
-    <consumeType1 AltName="Consumption Type [1]" Wiki="Consumption type" Enum="MAGIC_CONSUME_TYPE" />
-    <consumeType2 AltName="Consumption Type [2]" Wiki="Consumption type" Enum="MAGIC_CONSUME_TYPE" />
-    <consumeType3 AltName="Consumption Type [3]" Wiki="Consumption type" Enum="MAGIC_CONSUME_TYPE" />
-    <consumeType4 AltName="Consumption Type [4]" Wiki="Consumption type" Enum="MAGIC_CONSUME_TYPE" />
-    <consumeType5 AltName="Consumption Type [5]" Wiki="Consumption type" Enum="MAGIC_CONSUME_TYPE" />
-    <consumeType6 AltName="Consumption Type [6]" Wiki="Consumption type" Enum="MAGIC_CONSUME_TYPE" />
-    <consumeType7 AltName="Consumption Type [7]" Wiki="Consumption type" Enum="MAGIC_CONSUME_TYPE" />
-    <consumeType8 AltName="Consumption Type [8]" Wiki="Consumption type" Enum="MAGIC_CONSUME_TYPE" />
-    <consumeType9 AltName="Consumption Type [9]" Wiki="Consumption type" Enum="MAGIC_CONSUME_TYPE" />
-    <consumeType10 AltName="Consumption Type [10]" Wiki="Consumption type" Enum="MAGIC_CONSUME_TYPE" />
+    <consumeType1 AltName="Consumption Type [1]" Wiki="When Reference ID [1] is called, consume FP/Stamina according to the configured cost." Enum="MAGIC_CONSUME_TYPE" />
+    <consumeType2 AltName="Consumption Type [2]" Wiki="When Reference ID [2] is called, consume FP/Stamina according to the configured cost." Enum="MAGIC_CONSUME_TYPE" />
+    <consumeType3 AltName="Consumption Type [3]" Wiki="When Reference ID [3] is called, consume FP/Stamina according to the configured cost." Enum="MAGIC_CONSUME_TYPE" />
+    <consumeType4 AltName="Consumption Type [4]" Wiki="When Reference ID [4] is called, consume FP/Stamina according to the configured cost." Enum="MAGIC_CONSUME_TYPE" />
+    <consumeType5 AltName="Consumption Type [5]" Wiki="When Reference ID [5] is called, consume FP/Stamina according to the configured cost." Enum="MAGIC_CONSUME_TYPE" />
+    <consumeType6 AltName="Consumption Type [6]" Wiki="When Reference ID [6] is called, consume FP/Stamina according to the configured cost." Enum="MAGIC_CONSUME_TYPE" />
+    <consumeType7 AltName="Consumption Type [7]" Wiki="When Reference ID [7] is called, consume FP/Stamina according to the configured cost." Enum="MAGIC_CONSUME_TYPE" />
+    <consumeType8 AltName="Consumption Type [8]" Wiki="When Reference ID [8] is called, consume FP/Stamina according to the configured cost." Enum="MAGIC_CONSUME_TYPE" />
+    <consumeType9 AltName="Consumption Type [9]" Wiki="When Reference ID [9] is called, consume FP/Stamina according to the configured cost." Enum="MAGIC_CONSUME_TYPE" />
+    <consumeType10 AltName="Consumption Type [10]" Wiki="When Reference ID [10] is called, consume FP/Stamina according to the configured cost." Enum="MAGIC_CONSUME_TYPE" />
     <consumeLoopMP_forMenu AltName="FP Consumption Loop - For Menu Display" Wiki="MP consumption for menu supplement display" />
     <pad AltName=""/>
   </Field>
   <Self Wiki="Defines behaviour data of spells. Do not confuse with version in EquipParamGoods." AlternativeOrder="yesNoDialogMessageId,opmeMenuType,-,
 sortId,iconId,-,
 aiNotifyType,aiUseJudgeId,-,
-mp,stamina,mp_charge,stamina_charge,consumeSA,-,
+mp,stamina,mp_charge,stamina_charge,consumeSA,consumeLoopMP_forMenu,-,
 behaviorId,mtrlItemId,overDexterity,ezStateBehaviorType,limitCancelSpEffectId,useLimitCategory,createLimitGroupId,-,
 maxQuantity,slotLength,-,
 requirementIntellect,requirementFaith,requirementLuck,-,
 analogDexterityMin,analogDexterityMax,-,
 spEffectCategory,-,
 refType,-,
-refId1,refId2,refId3,refId4,refId5,refId6,refId7,refId8,refId9,refId10,-,
-refCategory1,refCategory2,refCategory3,refCategory4,refCategory5,refCategory6,refCategory7,refCategory8,refCategory9,refCategory10,-,
-vowType0,vowType1,vowType2,vowType3,vowType4,vowType5,vowType6,vowType7,vowType8,vowType9,vowType10,vowType11:,vowType12,vowType13,vowType14,vowType15,-,
+refId1,refCategory1,consumeType1,-,
+refId2,refCategory2,consumeType2,-,
+refId3,refCategory3,consumeType3,-,
+refId4,refCategory4,consumeType4,-,
+refId5,refCategory5,consumeType5,-,
+refId6,refCategory6,consumeType6,-,
+refId7,refCategory7,consumeType7,-,
+refId8,refCategory8,consumeType8,-,
+refId9,refCategory9,consumeType9,-,
+refId10,refCategory10,consumeType10,-,
+vowType0,vowType1,vowType2,vowType3,vowType4,vowType5,vowType6,vowType7,vowType8,vowType9,vowType10,vowType11,vowType12,vowType13,vowType14,vowType15,-,
 enable_multi,enable_multi_only,enable_live,enable_gray,enable_white,enable_black,disableOffline,-,
 isEnchant,isShieldEnchant,-,
 castResonanceMagic,isValidTough_ProtSADmg,isWarpMagic,-,
@@ -714,7 +722,5 @@ toughnessCorrectRate,-,
 ReplacementStatusType,ReplacementStatus1,ReplacementStatus2,ReplacementStatus3,ReplacementStatus4,-,
 ReplacementMagic1,ReplacementMagic2,ReplacementMagic3,ReplacementMagic4,-,
 replaceMagicId,hasSpEffectType,replaceCategory,-,
-subCategory1,subCategory2,-,
-consumeType1,consumeType2,consumeType3,consumeType4,consumeType5,consumeType6,consumeType7,consumeType8,consumeType9,consumeType10,-,
-consumeLoopMP_forMenu,-,"/>
+subCategory1,subCategory2,-,"/>
 </PARAMMETA>
