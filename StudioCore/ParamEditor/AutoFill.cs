@@ -211,33 +211,41 @@ namespace StudioCore.ParamEditor
                             ImGui.TextColored(HINTCOLOUR, "Select field operation...");
                             return MassEditAutoFillForOperation(MEValueOperation.valueOps, ref _autoFillArgsCop, ";", null);
                         });
-                        ImGui.Separator();
-                        ImGui.TextColored(HINTCOLOUR, "Select row operation...");
-                        string res2 = MassEditAutoFillForOperation(MERowOperation.rowOps, ref _autoFillArgsRop, ";", null);
+                        string res2 = null;
+                        if (CFG.Current.Param_AdvancedMassedit)
+                        {
+                            ImGui.Separator();
+                            ImGui.TextColored(HINTCOLOUR, "Select row operation...");
+                            res2 = MassEditAutoFillForOperation(MERowOperation.rowOps, ref _autoFillArgsRop, ";", null);
+                        }
                         if (res1 != null)
                             return res1;
                         return res2;
                     });
                 });
                 ImGui.PopID();
-                ImGui.Separator();
-                ImGui.PushID("globalop");
-                ImGui.TextColored(HINTCOLOUR, "Select global operation...");
-                string result3 = MassEditAutoFillForOperation(MEGlobalOperation.globalOps, ref _autoFillArgsGop, ";", null);
-                ImGui.PopID();
+                string result3 = null;
                 string result4 = null;
-                if (MassParamEdit.massEditVars.Count != 0)
+                if (CFG.Current.Param_AdvancedMassedit)
                 {
                     ImGui.Separator();
-                    ImGui.PushID("var");
-                    ImGui.TextColored(HINTCOLOUR, "Select variables...");
-                    result4 = autoFillVse.Menu(false, false, ": ", null, (inheritedCommand) => 
+                    ImGui.PushID("globalop");
+                    ImGui.TextColored(HINTCOLOUR, "Select global operation...");
+                    result3 = MassEditAutoFillForOperation(MEGlobalOperation.globalOps, ref _autoFillArgsGop, ";", null);
+                    ImGui.PopID();
+                    if (MassParamEdit.massEditVars.Count != 0)
                     {
-                        if (inheritedCommand != null)
-                            ImGui.TextColored(AutoFill.PREVIEWCOLOUR, inheritedCommand);
-                        ImGui.TextColored(HINTCOLOUR, "Select value operation...");
-                        return MassEditAutoFillForOperation(MEValueOperation.valueOps, ref _autoFillArgsCop, ";", null);
-                    });
+                        ImGui.Separator();
+                        ImGui.PushID("var");
+                        ImGui.TextColored(HINTCOLOUR, "Select variables...");
+                        result4 = autoFillVse.Menu(false, false, ": ", null, (inheritedCommand) => 
+                        {
+                            if (inheritedCommand != null)
+                                ImGui.TextColored(AutoFill.PREVIEWCOLOUR, inheritedCommand);
+                            ImGui.TextColored(HINTCOLOUR, "Select value operation...");
+                            return MassEditAutoFillForOperation(MEValueOperation.valueOps, ref _autoFillArgsCop, ";", null);
+                        });
+                    }
                 }
                 ImGui.EndPopup();
                 if (result1 != null)
