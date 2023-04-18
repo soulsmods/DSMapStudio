@@ -855,6 +855,18 @@ namespace StudioCore.Resource
             ImGui.End();
         }
 
+        public static string GetModelPath(string modelName)
+        {
+            foreach (var item in ResourceDatabase)
+            {
+                if(item.Key.ToUpper().IndexOf(modelName.ToUpper()) >= 0)
+                {
+                    return item.Key;
+                }
+            }
+            return "";
+        }
+
         public static void Shutdown()
         {
             JobScheduler.Dispose();

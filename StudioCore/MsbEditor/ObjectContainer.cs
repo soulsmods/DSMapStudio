@@ -19,6 +19,7 @@ using System.Windows.Forms.Design;
 using static SoulsFormats.MCP;
 using System.ComponentModel;
 using StudioCore.Resource;
+using Google.Protobuf.WellKnownTypes;
 
 namespace StudioCore.MsbEditor
 {
@@ -929,14 +930,60 @@ namespace StudioCore.MsbEditor
             return true;
         }
 
-        public MapSerializationEntity SerializeHierarchy()
+        public MapInfo SerializeHierarchy()
         {
+            MapInfo mapinfo = new MapInfo();
             Dictionary<Entity, int> idmap = new Dictionary<Entity, int>();
             for (int i = 0; i < Objects.Count; i++)
             {
                 idmap.Add(Objects[i], i);
             }
-            return ((MapEntity)RootObject).Serialize(idmap);
+            mapinfo.Name = Name;
+            mapinfo.LoadedModels = new Dictionary<string, ModelInfoExport>();
+            foreach (var lm in LoadedModels)
+            {
+                if(lm.Value.GetType().IsSubclassOf(typeof(MSBE.Model)))
+                {
+                    // handle ER model
+                    ModelInfoExport modelinfo = new ModelInfoExport();
+                    modelinfo.Name = lm.Key;
+                    string typeandname = ((MSBE.Model)lm.Value).ToString();
+                    modelinfo.Type = typeandname.Substring(0, typeandname.IndexOf(" "));
+                    modelinfo.SibPath = ((MSBE.Model)lm.Value).SibPath;
+                    if(modelinfo.Type == "MapPiece")
+                    {
+                        modelinfo.RealPath = ResourceManager.GetModelPath(Name+"_"+ modelinfo.Name.Substring(1));
+                    }
+                    else
+                    {
+                        modelinfo.RealPath = ResourceManager.GetModelPath(modelinfo.Name);
+                    }
+
+                    if(modelinfo.Type == "MapPiece")
+                    {
+                        string mapid_head = Name.Substring(0, 3);
+                        modelinfo.DCXPath = $@"map\{mapid_head}\{Name}\{Name}_{modelinfo.Name.Substring(1)}.mapbnd.dcx";
+                    }
+                    else if(modelinfo.Type == "Asset")
+                    {
+                        string asset_head = modelinfo.Name.Substring(0, modelinfo.Name.IndexOf('_'));
+                        modelinfo.DCXPath = $@"asset\aeg\{asset_head.ToLower()}\{modelinfo.Name.ToLower()}.geombnd.dcx";
+                    }
+                    else if (modelinfo.Type == "Enemy" || modelinfo.Type == "Player")
+                    {
+                        modelinfo.DCXPath = $@"chr\{modelinfo.Name.ToLower()}.chrbnd.dcx";
+                    }
+                    else
+                    {
+                        modelinfo.DCXPath = "";
+                    }
+                    
+
+                    mapinfo.LoadedModels.Add(lm.Key, modelinfo);
+                }
+            }
+            mapinfo.SerializationEntity = ((MapEntity)RootObject).Serialize(idmap);
+            return mapinfo;
         }
     }
 }

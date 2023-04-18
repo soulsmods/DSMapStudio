@@ -13,6 +13,8 @@ using SoulsFormats;
 using Newtonsoft.Json;
 using StudioCore.Scene;
 using StudioCore.Editor;
+using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json.Linq;
 
 namespace StudioCore.MsbEditor
 {
@@ -663,11 +665,13 @@ namespace StudioCore.MsbEditor
                 foreach (var model in msb.Models.GetEntries())
                 {
                     AssetDescription asset;
+                    // map piece
                     if (model.Name.StartsWith("m"))
                     {
                         asset = _assetLocator.GetMapModel(amapid, _assetLocator.MapModelNameToAssetName(amapid, model.Name));
                         mappiecesToLoad.Add(asset);
                     }
+                    // character
                     else if (model.Name.StartsWith("c"))
                     {
                         asset = _assetLocator.GetChrModel(model.Name);
@@ -678,16 +682,19 @@ namespace StudioCore.MsbEditor
                             chrsToLoad.Add(tasset);
                         }
                     }
+                    // object model
                     else if (model.Name.StartsWith("o") || model.Name.StartsWith("AEG"))
                     {
                         asset = _assetLocator.GetObjModel(model.Name);
                         objsToLoad.Add(asset);
                     }
+                    // collision
                     else if (model.Name.StartsWith("h"))
                     {
                         asset = _assetLocator.GetMapCollisionModel(amapid, _assetLocator.MapModelNameToAssetName(amapid, model.Name), false);
                         colsToLoad.Add(asset);
                     }
+                    // navigation
                     else if (model.Name.StartsWith("n") && _assetLocator.Type != GameType.DarkSoulsIISOTFS && _assetLocator.Type != GameType.Bloodborne)
                     {
                         asset = _assetLocator.GetMapNVMModel(amapid, _assetLocator.MapModelNameToAssetName(amapid, model.Name));
@@ -1475,6 +1482,27 @@ namespace StudioCore.MsbEditor
                 }
             }
             return null;
+        }
+
+        public void ExportMap(Map map)
+        {
+
+            var browseDlg = new System.Windows.Forms.SaveFileDialog()
+            {
+                Title = "Export Map To Json",
+                FileName = map.Name + ".json",
+                Filter = "Json file (*.json) |*.JSON",
+                ValidateNames = true,
+            };
+
+            if (browseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                using (var file = new StreamWriter(browseDlg.FileName))
+                {
+                    var json = JsonConvert.SerializeObject(map.SerializeHierarchy());
+                    file.Write(json);
+                }
+            }
         }
     }
 }

@@ -737,6 +737,19 @@ namespace StudioCore.MsbEditor
                                 _editorActionManager.Clear();
                                 pendingUnload = m;
                             }
+                            if (ImGui.Selectable("Export Map"))
+                            {
+                                try
+                                {
+                                    _universe.ExportMap(m);
+                                }
+                                catch (SavingFailedException e)
+                                {
+                                    System.Windows.Forms.MessageBox.Show(e.Wrapped.Message, e.Message,
+                                         System.Windows.Forms.MessageBoxButtons.OK,
+                                         System.Windows.Forms.MessageBoxIcon.None);
+                                }
+                            }
                         }
                         ImGui.EndPopup();
                     }
