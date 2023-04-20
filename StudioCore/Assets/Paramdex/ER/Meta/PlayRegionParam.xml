@@ -10,7 +10,7 @@
     <multiPlayStartLimitEventFlagId AltName="Multiplayer Start Limit - Event Flag ID" Wiki="Multiplayer start limit event flag ID" />
     <otherDisableDistance AltName="Disable Intrusion if Other Ghost In Range" Wiki="Other distances that cannot be invaded by spirits. The intrusion position is searched for the intrusion points within the other ghost invasion impossible distance to the other ghost invasion range upper limit from the host position." />
     <pcPositionSaveLimitEventFlagId AltName="Player Position Save Limit - Event Flag ID" Wiki="PC position save restriction event flag ID (flag ON - PC position save valid flag OFF - PC position save invalid 0 - PC position save always valid)" />
-    <bossAreaId AltName="Boss Area ID" Wiki="Areas with the same ID are treated as the same boss area." />
+    <bossAreaId AltName="Boss Area ID" Wiki="Areas with the same ID are treated as the same boss area." Refs="GameAreaParam" />
     <cultNpcWhiteGhostEntityId_byFree AltName="White Phantom Entity ID - Free Frame" Wiki="NPC White Spirit Summon Ritual Summon The beginning of the free frame ID used as the NPC's entity ID" />
     <bMapGuradianRegion AltName="Is Map Guardian Region" Wiki="Whether to increase or decrease the frame of the map protection area" IsBool="" />
     <bYellowCostumeRegion AltName="Is Yellow Monk Region" Wiki="Is it the old man sign area of yellow robe?" IsBool="" />
