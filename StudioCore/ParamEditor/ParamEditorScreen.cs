@@ -892,7 +892,7 @@ namespace StudioCore.ParamEditor
         {
             if (ImGui.BeginPopup("distributionPopup"))
             {
-                ImGui.Text("Occurances in "+_statisticPopupParameter);
+                ImGui.Text("Occurences in "+_statisticPopupParameter);
                 ImGui.Text("Count".PadLeft(9)+" Value");
                 ImGui.SameLine();
                 try
