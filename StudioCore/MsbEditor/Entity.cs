@@ -1070,6 +1070,7 @@ namespace StudioCore.MsbEditor
         public string Name { get; set; }
         public MapSerializationEntity SerializationEntity { get; set; } = null;
         public Dictionary<string, ModelInfoExport> LoadedModels { get; set; } = null;
+        public Vector3 MapTransform { get; set; }
     }
 
     public class MapSerializationEntity

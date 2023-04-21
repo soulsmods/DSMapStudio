@@ -982,6 +982,9 @@ namespace StudioCore.MsbEditor
                     mapinfo.LoadedModels.Add(lm.Key, modelinfo);
                 }
             }
+
+            mapinfo.MapTransform = SpecialMapConnections.GetEldenMapGlobalTransform(Name);
+
             mapinfo.SerializationEntity = ((MapEntity)RootObject).Serialize(idmap);
             return mapinfo;
         }
