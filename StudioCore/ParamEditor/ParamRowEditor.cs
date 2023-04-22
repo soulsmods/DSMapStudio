@@ -495,7 +495,6 @@ namespace StudioCore.ParamEditor
             ParamEnum Enum = cellMeta?.EnumType;
             string Wiki = cellMeta?.Wiki;
             bool IsBool = cellMeta?.IsBool ?? false;
-            string AltName = cellMeta?.AltName;
 
             object newval = null;
 
@@ -504,7 +503,10 @@ namespace StudioCore.ParamEditor
             if (Wiki != null)
             {
                 if (EditorDecorations.HelpIcon(internalName, ref Wiki, true))
+                {
                     cellMeta.Wiki = Wiki;
+                }
+                ImGui.SameLine();
             }
             else
             {
@@ -644,48 +646,71 @@ namespace StudioCore.ParamEditor
 
         private static void PropertyRowName(string fieldOffset, ref string internalName, FieldMetaData cellMeta)
         {
-            string AltName = cellMeta?.AltName;
+            string altName = cellMeta?.AltName;
             if (cellMeta != null && ParamEditorScreen.EditorMode)
             {
-                string EditName = AltName ?? internalName;
-                ImGui.InputText("##editName", ref EditName, 128);
-                if (EditName.Equals(internalName) || EditName.Equals(""))
+                string editName = !string.IsNullOrWhiteSpace(altName) ? altName : internalName;
+                ImGui.InputText("##editName", ref editName, 128);
+                if (editName.Equals(internalName) || editName.Equals(""))
                     cellMeta.AltName = null;
                 else
-                    cellMeta.AltName = EditName;
+                    cellMeta.AltName = editName;
             }
             else
             {
-                string printedName = (AltName != null && CFG.Current.Param_ShowAltNames) ? (CFG.Current.Param_AlwaysShowOriginalName ? $"{internalName} ({AltName})" : AltName) : internalName;
-                ImGui.TextUnformatted(fieldOffset != null && CFG.Current.Param_ShowFieldOffsets ? fieldOffset + " " + printedName : printedName);
+                string printedName = internalName;
+                if (!string.IsNullOrWhiteSpace(altName))
+                {
+                    if (CFG.Current.Param_ShowAltNames)
+                    {
+                        printedName = altName;
+                        if (CFG.Current.Param_SecondaryNameInBrackets)
+                            printedName = $"{printedName} ({internalName})";
+                    }
+                    else if (CFG.Current.Param_SecondaryNameInBrackets) {
+                            printedName = $"{printedName} ({altName})";
+                    }
+                }
+                if (fieldOffset != null && CFG.Current.Param_ShowFieldOffsets)
+                    printedName = $"{fieldOffset} {printedName}";
+
+                ImGui.TextUnformatted(printedName);
             }
         }
 
-        private void PropertyRowNameContextMenu(ParamBank bank, string originalName, FieldMetaData cellMeta, string activeParam, bool showPinOptions, bool isPinned)
+        private void PropertyRowNameContextMenu(ParamBank bank, string internalName, FieldMetaData cellMeta, string activeParam, bool showPinOptions, bool isPinned)
         {
             float scale = ImGuiRenderer.GetUIScale();
+            string altName = cellMeta?.AltName;
+            string shownName = internalName;
 
             ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(0f, 10f) * scale);
             if (ImGui.BeginPopupContextItem("rowName"))
             {
-                if (CFG.Current.Param_ShowAltNames == true && CFG.Current.Param_AlwaysShowOriginalName == false)
+                if (!string.IsNullOrWhiteSpace(altName))
                 {
-                    ImGui.TextColored(new Vector4(1f, .7f, .4f, 1f), originalName);
+                    if (CFG.Current.Param_ShowAltNames)
+                    {
+                        shownName = altName;
+                        ImGui.TextColored(new Vector4(1f, .7f, .4f, 1f), internalName);
+                    }
+                    else
+                        ImGui.TextColored(new Vector4(1f, .7f, .4f, 1f), altName);
                     ImGui.Separator();
                 }
                 if (ImGui.MenuItem("Add to Searchbar"))
                 {
-                    EditorCommandQueue.AddCommand($@"param/search/prop {originalName.Replace(" ", "\\s")} ");
+                    EditorCommandQueue.AddCommand($@"param/search/prop {internalName.Replace(" ", "\\s")} ");
                 }
-                if (showPinOptions && ImGui.MenuItem((isPinned ? "Unpin " : "Pin " + originalName)))
+                if (showPinOptions && ImGui.MenuItem((isPinned ? "Unpin " : "Pin " + shownName)))
                 {
                     if (!_paramEditor._projectSettings.PinnedFields.ContainsKey(activeParam))
                         _paramEditor._projectSettings.PinnedFields.Add(activeParam, new List<string>());
                     List<string> pinned = _paramEditor._projectSettings.PinnedFields[activeParam];
                     if (isPinned)
-                        pinned.Remove(originalName);
-                    else if (!pinned.Contains(originalName))
-                        pinned.Add(originalName);
+                        pinned.Remove(internalName);
+                    else if (!pinned.Contains(internalName))
+                        pinned.Add(internalName);
                 }
                 if (ParamEditorScreen.EditorMode && cellMeta != null)
                 {

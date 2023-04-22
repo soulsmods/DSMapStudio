@@ -355,8 +355,8 @@ namespace StudioCore
             {
                 ImGui.Indent();
 
-                ImGui.Checkbox("Show alternate field names", ref CFG.Current.Param_ShowAltNames);
-                ImGui.Checkbox("Always show original field names", ref CFG.Current.Param_AlwaysShowOriginalName);
+                ImGui.Checkbox("Show community-sourced field names", ref CFG.Current.Param_ShowAltNames);
+                ImGui.Checkbox("Show secondary field names in brackets", ref CFG.Current.Param_SecondaryNameInBrackets);
                 ImGui.Checkbox("Show field data offsets", ref CFG.Current.Param_ShowFieldOffsets);
                 ImGui.Checkbox("Hide field references", ref CFG.Current.Param_HideReferenceRows);
                 ImGui.Checkbox("Hide field enums", ref CFG.Current.Param_HideEnums);
