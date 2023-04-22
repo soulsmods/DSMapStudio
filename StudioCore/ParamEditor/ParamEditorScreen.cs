@@ -1047,6 +1047,16 @@ namespace StudioCore.ParamEditor
             ShortcutPopups();
             MassEditPopups();
 
+            if (false) // CFG.Current.UI_CompactParams
+            {
+                ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, new Vector2(1.0f, 1.0f) * scale);
+                ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(5.0f, 1.0f) * scale);
+            }
+            else
+            {
+                var style = ImGui.GetStyle();
+                ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, style.ItemSpacing - (new Vector2(3.5f, 0f) * scale));
+            }
             if (CountViews() == 1)
             {
                 _activeView.ParamView(doFocus, true);
@@ -1078,6 +1088,14 @@ namespace StudioCore.ParamEditor
                     view.ParamView(doFocus && view == _activeView, view == _activeView);
                     ImGui.End();
                 }
+            }
+            if (false) // CFG.Current.UI_CompactParams)
+            {
+                ImGui.PopStyleVar(2);
+            }
+            else
+            {
+                ImGui.PopStyleVar();
             }
         }
 
@@ -1603,19 +1621,32 @@ namespace StudioCore.ParamEditor
             foreach (var paramKey in paramKeyList)
             {
                 var primary = ParamBank.PrimaryBank.VanillaDiffCache.GetValueOrDefault(paramKey, null);
+                Param p = ParamBank.PrimaryBank.Params[paramKey];
+                if (p != null)
+                {
+                    ParamMetaData meta = ParamMetaData.Get(p.AppliedParamdef);
+                    string Wiki = meta?.Wiki;
+                    if (Wiki != null)
+                    {
+                        if (EditorDecorations.HelpIcon(paramKey + "wiki", ref Wiki, true))
+                            meta.Wiki = Wiki;
+                    }
+                }
+
+                ImGui.Indent(15.0f * CFG.Current.UIScale);
                 if (primary != null ? primary.Any() : false)
                     ImGui.PushStyleColor(ImGuiCol.Text, PRIMARYCHANGEDCOLOUR);
                 else
                     ImGui.PushStyleColor(ImGuiCol.Text, ALLVANILLACOLOUR);
-                if (ImGui.Selectable(paramKey, paramKey == _selection.getActiveParam()))
+                if (ImGui.Selectable($"{paramKey}", paramKey == _selection.getActiveParam()))
                 {
                     //_selection.setActiveParam(param.Key);
                     EditorCommandQueue.AddCommand($@"param/view/{_viewIndex}/{paramKey}");
                 }
                 ImGui.PopStyleColor();
+
                 if (doFocus && paramKey == _selection.getActiveParam())
                     scrollTo = ImGui.GetCursorPosY();
-                Param p = ParamBank.PrimaryBank.Params[paramKey];
                 if (ImGui.BeginPopupContextItem())
                 {
                     if (ImGui.Selectable("Pin "+paramKey) && !_paramEditor._projectSettings.PinnedParams.Contains(paramKey))
@@ -1630,16 +1661,7 @@ namespace StudioCore.ParamEditor
                     }
                     ImGui.EndPopup();
                 }
-                if (p != null)
-                {
-                    ParamMetaData meta = ParamMetaData.Get(p.AppliedParamdef);
-                    string Wiki = meta?.Wiki;
-                    if (Wiki != null)
-                    {
-                        if (EditorDecorations.HelpIcon(paramKey+"wiki", ref Wiki, true))
-                            meta.Wiki = Wiki;
-                    }
-                }
+                ImGui.Unindent(15.0f * CFG.Current.UIScale);
             }
 
             if (doFocus)
