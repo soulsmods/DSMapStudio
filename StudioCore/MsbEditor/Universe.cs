@@ -23,7 +23,7 @@ namespace StudioCore.MsbEditor
     public class Universe
     {
 
-        public Exception LoadMapExceptions = null;
+        public System.Runtime.ExceptionServices.ExceptionDispatchInfo LoadMapExceptions = null;
         public Dictionary<string, ObjectContainer> LoadedObjectContainers { get; private set; } = new Dictionary<string, ObjectContainer>();
         private AssetLocator _assetLocator;
         private Scene.RenderScene _renderScene;
@@ -906,11 +906,11 @@ namespace StudioCore.MsbEditor
             }
             catch(Exception e)
             {
-                // Store async exception so it can be caught by crash handler.
 #if DEBUG
                 throw;
 #else
-                LoadMapExceptions = e;
+                // Store async exception so it can be caught by crash handler.
+                LoadMapExceptions = System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(e);
                 return;
 #endif
             }
