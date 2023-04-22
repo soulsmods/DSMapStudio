@@ -35,9 +35,9 @@ namespace StudioCore.Editor
                 return;
             if (CFG.Current.Param_HideReferenceRows == false) //Move preference
             {
-                ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(0, 0));
+                ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(0, ImGui.GetStyle().ItemSpacing.Y));
                 ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 1.0f, 0.0f, 1.0f));
-                ImGui.TextUnformatted($@"   <");
+                ImGui.TextUnformatted($@"  <");
                 List<string> inactiveRefs = new List<string>();
                 bool first = true;
                 foreach (ParamRef r in paramRefs)
@@ -50,11 +50,15 @@ namespace StudioCore.Editor
                     }
                     else
                     {
-                        ImGui.SameLine();
                         if (first)
+                        {
+                            ImGui.SameLine();
                             ImGui.TextUnformatted(r.param);
+                        }
                         else
-                            ImGui.TextUnformatted(","+r.param);
+                        {
+                            ImGui.TextUnformatted("   " + r.param);
+                        }
                         first = false;
                     }
                 }
@@ -64,9 +68,13 @@ namespace StudioCore.Editor
                 {
                     ImGui.SameLine();
                     if (first)
-                        ImGui.TextUnformatted(inactive);
+                    {
+                        ImGui.TextUnformatted("!" + inactive);
+                    }
                     else
-                        ImGui.TextUnformatted(","+inactive);
+                    {
+                        ImGui.TextUnformatted("!"+ inactive);
+                    }
                     first = false;
                 }
                 ImGui.PopStyleColor();
