@@ -2283,7 +2283,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// The map to load when on this collision.
                 /// </summary>
-                public sbyte[] MapID { get; private set; }
+                public byte[] MapID { get; private set; }
 
                 /// <summary>
                 /// Unknown.
@@ -2312,7 +2312,7 @@ namespace SoulsFormats
                 {
                     Unk1 = new UnkStruct1();
                     Unk2 = new UnkStruct2();
-                    MapID = new sbyte[4];
+                    MapID = new byte[4];
                     Unk8 = new UnkStruct8();
                     Unk10 = new UnkStruct10();
                     Unk11 = new UnkStruct11();
@@ -2323,7 +2323,7 @@ namespace SoulsFormats
                     var connect = (ConnectCollision)part;
                     connect.Unk1 = Unk1.DeepCopy();
                     connect.Unk2 = Unk2.DeepCopy();
-                    connect.MapID = (sbyte[])MapID.Clone();
+                    connect.MapID = (byte[])MapID.Clone();
                     connect.Unk8 = Unk8.DeepCopy();
                     connect.Unk10 = Unk10.DeepCopy();
                     connect.Unk11 = Unk11.DeepCopy();
@@ -2334,7 +2334,7 @@ namespace SoulsFormats
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
                     CollisionIndex = br.ReadInt32();
-                    MapID = br.ReadSBytes(4);
+                    MapID = br.ReadBytes(4);
                     UnkT08 = br.ReadByte();
                     UnkT09 = br.ReadBoolean();
                     UnkT0A = br.ReadByte();
@@ -2351,7 +2351,7 @@ namespace SoulsFormats
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
                     bw.WriteInt32(CollisionIndex);
-                    bw.WriteSBytes(MapID);
+                    bw.WriteBytes(MapID);
                     bw.WriteByte(UnkT08);
                     bw.WriteBoolean(UnkT09);
                     bw.WriteByte(UnkT0A);
