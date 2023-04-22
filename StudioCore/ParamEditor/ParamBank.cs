@@ -155,7 +155,10 @@ namespace StudioCore.ParamEditor
                 string names = File.ReadAllText(f);
                 (MassEditResult r, CompoundAction a) = MassParamEditCSV.PerformSingleMassEdit(this, names, fName, "Name", ' ', true, onlyAffectEmptyNames);
                 if (r.Type != MassEditResultType.SUCCESS)
+                {
+                    TaskManager.warningList.TryAdd($"ParamNameImportFail {fName}", $"Could not apply name files for {fName}");
                     continue;
+                }
                 actions.Add(a);
             }
             return new CompoundAction(actions);
@@ -806,8 +809,15 @@ namespace StudioCore.ParamEditor
                 {
                     if (options.loadDefaultNames)
                     {
-                        new Editor.ActionManager().ExecuteAction(PrimaryBank.LoadParamDefaultNames());
-                        PrimaryBank.SaveParams(settings.UseLooseParams);
+                        try
+                        {
+                            new Editor.ActionManager().ExecuteAction(PrimaryBank.LoadParamDefaultNames());
+                            PrimaryBank.SaveParams(settings.UseLooseParams);
+                        }
+                        catch
+                        {
+                            TaskManager.warningList.TryAdd($"ParamNameImportFail", $"Could not locate or apply name files for this game.");
+                        }
                     }
                 }
             });
