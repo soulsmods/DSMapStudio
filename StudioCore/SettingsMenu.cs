@@ -61,19 +61,6 @@ namespace StudioCore
             ImGui.PopID();
         }
 
-        /*
-        private void SettingsTemplate()
-        {
-            if (ImGui.BeginTabItem("TEMPLATE Settings"))
-            {
-                ImGui.Indent();
-
-                ImGui.Unindent();
-                ImGui.EndTabItem();
-            }
-        }
-        */
-
         private void DisplayUISettings()
         {
             if (ImGui.BeginTabItem("UI Settings"))
@@ -95,6 +82,37 @@ namespace StudioCore
                 }
 
                 ImGui.Checkbox("Compact param editor", ref CFG.Current.UI_CompactParams);
+
+                ImGui.Separator();
+
+                if (ImGui.CollapsingHeader("Additional Language Fonts"))
+                {
+                    ImGui.Indent();
+
+                    ImGui.Text("Additional fonts take more VRAM and increase startup time.");
+                    if (ImGui.Checkbox("Chinese", ref CFG.Current.FontChinese))
+                    {
+                        FontRebuildRequest = true;
+                    }
+                    if (ImGui.Checkbox("Korean", ref CFG.Current.FontKorean))
+                    {
+                        FontRebuildRequest = true;
+                    }
+                    if (ImGui.Checkbox("Thai", ref CFG.Current.FontThai))
+                    {
+                        FontRebuildRequest = true;
+                    }
+                    if (ImGui.Checkbox("Vietnamese", ref CFG.Current.FontVietnamese))
+                    {
+                        FontRebuildRequest = true;
+                    }
+                    if (ImGui.Checkbox("Cyrillic", ref CFG.Current.FontCyrillic))
+                    {
+                        FontRebuildRequest = true;
+                    }
+
+                    ImGui.Unindent();
+                }
 
                 ImGui.Unindent();
                 ImGui.EndTabItem();
@@ -441,37 +459,6 @@ namespace StudioCore
                     string running = SoapstoneServer.GetRunningPort() is int port ? $"running on port {port}" : "not running";
                     ImGui.Text($"The server is {running}.\nIt is not accessible over the network, only to other programs on this computer.\nPlease restart the program for changes to take effect.");
                     ImGui.Checkbox("Enable cross-editor features", ref CFG.Current.EnableSoapstone);
-
-                    ImGui.Unindent();
-                }
-
-                ImGui.Separator();
-
-                if (ImGui.CollapsingHeader("Additional Language Fonts"))
-                {
-                    ImGui.Indent();
-
-                    ImGui.Text("Additional fonts take more VRAM and increase startup time.");
-                    if (ImGui.Checkbox("Chinese", ref CFG.Current.FontChinese))
-                    {
-                        FontRebuildRequest = true;
-                    }
-                    if (ImGui.Checkbox("Korean", ref CFG.Current.FontKorean))
-                    {
-                        FontRebuildRequest = true;
-                    }
-                    if (ImGui.Checkbox("Thai", ref CFG.Current.FontThai))
-                    {
-                        FontRebuildRequest = true;
-                    }
-                    if (ImGui.Checkbox("Vietnamese", ref CFG.Current.FontVietnamese))
-                    {
-                        FontRebuildRequest = true;
-                    }
-                    if (ImGui.Checkbox("Cyrillic", ref CFG.Current.FontCyrillic))
-                    {
-                        FontRebuildRequest = true;
-                    }
 
                     ImGui.Unindent();
                 }
