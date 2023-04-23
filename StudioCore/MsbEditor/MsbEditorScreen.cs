@@ -112,7 +112,9 @@ namespace StudioCore.MsbEditor
 
             // Throw any exceptions that ocurred during async map loading.
             if (Universe.LoadMapExceptions != null)
-                throw Universe.LoadMapExceptions;
+            {
+                Universe.LoadMapExceptions.Throw();
+            }
         }
 
         public void EditorResized(Sdl2Window window, GraphicsDevice device)
