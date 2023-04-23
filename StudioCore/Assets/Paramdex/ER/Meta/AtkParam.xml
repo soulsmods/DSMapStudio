@@ -3,31 +3,31 @@
   <Enums>
     <Enum Name="ATK_SUB_CATEGORY" type="u8">
       <Option Value="0" Name="None" />
-      <Option Value="1" Name="Full Moon Spell" />
-      <Option Value="2" Name="Carian Sword Spell" />
-      <Option Value="3" Name="Glintblade Spell" />
-      <Option Value="4" Name="Stonedigger Spell" />
-      <Option Value="5" Name="Crystalian Spell" />
-      <Option Value="6" Name="Karolos Spell" />
-      <Option Value="7" Name="Olivinus Spell" />
-      <Option Value="8" Name="Lava Spell" />
-      <Option Value="9" Name="Thorn Spell" />
-      <Option Value="10" Name="Death Spell" />
-      <Option Value="11" Name="Gravity Spell" />
-      <Option Value="12" Name="Night Spell" />
-      <Option Value="13" Name="Ranni Spell" />
-      <Option Value="14" Name="Azur Spell" />
-      <Option Value="15" Name="Lusat Spell" />
-      <Option Value="20" Name="Black Flame Spell" />
-      <Option Value="21" Name="Flame Spell" />
-      <Option Value="22" Name="Dragon Cult Spell" />
-      <Option Value="23" Name="Bestial Spell" />
-      <Option Value="24" Name="Golden Order Spell" />
-      <Option Value="25" Name="Dragon Communion Spell" />
-      <Option Value="26" Name="Frenzied Flame Spell" />
-      <Option Value="27" Name="Godslayer Spell" />
-      <Option Value="28" Name="Primordial Crucible Spell" />
-      <Option Value="100" Name="Charge Attack" />
+      <Option Value="1" Name="Full Moon Sorcery" />
+      <Option Value="2" Name="Carian Sword Sorcery" />
+      <Option Value="3" Name="Glintblade Sorcery" />
+      <Option Value="4" Name="Stonedigger Sorcery" />
+      <Option Value="5" Name="Crystalian Sorcery" />
+      <Option Value="6" Name="Azur Academy Sorcery" />
+      <Option Value="7" Name="Lusat Academy Sorcery" />
+      <Option Value="8" Name="Magma Sorcery" />
+      <Option Value="9" Name="Thorn Sorcery" />
+      <Option Value="10" Name="Death Sorcery" />
+      <Option Value="11" Name="Gravity Sorcery" />
+      <Option Value="12" Name="Night Sorcery" />
+      <Option Value="13" Name="Cold Sorcery" />
+      <Option Value="14" Name="Azur Primeval Sorcery" />
+      <Option Value="15" Name="Lusat Primeval Sorcery" />
+      <Option Value="20" Name="Blackflame Incantation" />
+      <Option Value="21" Name="Giantsflame Incantation" />
+      <Option Value="22" Name="Dragon Cult Incantation" />
+      <Option Value="23" Name="Bestial Incantation" />
+      <Option Value="24" Name="Golden Order Incantation" />
+      <Option Value="25" Name="Dragon Communion Incantation" />
+      <Option Value="26" Name="Frenzied Flame Incantation" />
+      <Option Value="27" Name="Godslayer Incantation" />
+      <Option Value="28" Name="Aspect of the Crucible Incantation" />
+      <Option Value="100" Name="Charged Heavy Attack" />
       <Option Value="101" Name="Horseback Attack" />
       <Option Value="102" Name="Jump Attack" />
       <Option Value="103" Name="Guard Counter Attack" />
@@ -37,14 +37,14 @@
       <Option Value="107" Name="Breath Attack" />
       <Option Value="108" Name="Pot Item Attack" />
       <Option Value="109" Name="Perfume Item Attack" />
-      <Option Value="110" Name="Charged Attack" />
+      <Option Value="110" Name="Charged Spell Attack" />
       <Option Value="111" Name="Charged Skill Attack" />
       <Option Value="112" Name="Skill Attack" />
       <Option Value="113" Name="Ranged Skill Attack" />
       <Option Value="114" Name="Vapor Attack" />
       <Option Value="116" Name="Unknown Attack" />
       <Option Value="117" Name="Wraith Attack" />
-      <Option Value="118" Name="Ammunition OnHit Attack" />
+      <Option Value="118" Name="Ammunition On-Hit Attack" />
     </Enum>
     <Enum Name="ATK_PARAM_HIT_TYPE" type="u8">
         <Option Value="0" Name="Ignore Collision" />

@@ -296,7 +296,7 @@
         <Option Value="275" Name="Player Behavior ID Change" />
         <Option Value="276" Name="Cure Frostbite" />
         <Option Value="277" Name="Trigger Ember" />
-        <Option Value="278" Name="DisableSpellEffect" />
+        <Option Value="278" Name="Disable Bonfire Warp" />
         <Option Value="280" Name="WatchdogTriggerForHost" />
         <Option Value="281" Name="WetSystemTrigger" />
         <Option Value="282" Name="NPC Correction for Coop" />
@@ -353,6 +353,7 @@
         <Option Value="333" Name="Spell Enhance (+6 to ID)" />
         <Option Value="334" Name="Bullet Behavior ID Change" />
         <Option Value="335" Name="Trigger during Critical Hit" />
+        <Option Value="465" Name="Memory of Grace" />
         <Option Value="1000" Name="SkipSpCategoryCheck1" />
         <Option Value="1001" Name="SkipSpCategoryCheck2" />
     </Enum>
