@@ -484,7 +484,7 @@ namespace StudioCore.ParamEditor
                 if (p == null)
                     return (new MassEditResult(MassEditResultType.PARSEERROR, "No Param selected"), null);
                 string[] csvLines = csvString.Split("\n");
-                if (csvLines[0].Contains($@"ID{separator}"))
+                if (csvLines[0].Trim().StartsWith($@"ID{separator}"))
                 {
                     if (!csvLines[0].Contains($@"ID{separator}{field}"))
                     {
