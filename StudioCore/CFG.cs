@@ -222,7 +222,10 @@ namespace StudioCore
         public bool FontThai = false;
         public bool FontVietnamese = false;
         public bool FontCyrillic = false;
+
+        // UI settings
         public float UIScale = 1.0f;
+        public bool UI_CompactParams = false;
 
         // FMG Editor settings
         public bool FMG_ShowOriginalNames = false;
@@ -230,8 +233,8 @@ namespace StudioCore
         public bool FMG_NoFmgPatching = false;
 
         // Param settings
-        public bool Param_ShowAltNames = true;
-        public bool Param_SecondaryNameInBrackets = false;
+        public bool Param_MakeMetaNamesPrimary = true;
+        public bool Param_ShowSecondaryNames = true;
         public bool Param_ShowFieldOffsets = false; 
         public bool Param_HideReferenceRows = false;
         public bool Param_HideEnums = false;
@@ -239,7 +242,7 @@ namespace StudioCore
         public bool Param_AlphabeticalParams = true;
         public bool Param_ShowVanillaParams = true;
         public bool Param_PasteAfterSelection = false;
-        public bool Param_DisableRowGrouping = false; 
+        public bool Param_DisableRowGrouping = false;
 
         //private string _Param_Export_Array_Delimiter = "|";
         private string _Param_Export_Delimiter = ",";

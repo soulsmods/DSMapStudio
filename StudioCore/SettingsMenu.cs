@@ -355,8 +355,8 @@ namespace StudioCore
             {
                 ImGui.Indent();
 
-                ImGui.Checkbox("Show community-sourced field names", ref CFG.Current.Param_ShowAltNames);
-                ImGui.Checkbox("Show secondary field names in brackets", ref CFG.Current.Param_SecondaryNameInBrackets);
+                ImGui.Checkbox("Show community field names first", ref CFG.Current.Param_MakeMetaNamesPrimary);
+                ImGui.Checkbox("Show secondary field names in brackets", ref CFG.Current.Param_ShowSecondaryNames);
                 ImGui.Checkbox("Show field data offsets", ref CFG.Current.Param_ShowFieldOffsets);
                 ImGui.Checkbox("Hide field references", ref CFG.Current.Param_HideReferenceRows);
                 ImGui.Checkbox("Hide field enums", ref CFG.Current.Param_HideEnums);
@@ -366,6 +366,8 @@ namespace StudioCore
                     CacheBank.ClearCaches();
                 }
                 ImGui.Checkbox("Disable row grouping", ref CFG.Current.Param_DisableRowGrouping);
+
+                ImGui.Checkbox("Compact params in UI", ref CFG.Current.UI_CompactParams);
 
                 ImGui.Unindent();
                 ImGui.EndTabItem();

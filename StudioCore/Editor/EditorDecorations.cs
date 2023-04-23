@@ -37,7 +37,7 @@ namespace StudioCore.Editor
             {
                 ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(0, ImGui.GetStyle().ItemSpacing.Y));
                 ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 1.0f, 0.0f, 1.0f));
-                ImGui.TextUnformatted($@"  <");
+                ImGui.TextUnformatted($@"   <");
                 List<string> inactiveRefs = new List<string>();
                 bool first = true;
                 foreach (ParamRef r in paramRefs)
@@ -57,7 +57,7 @@ namespace StudioCore.Editor
                         }
                         else
                         {
-                            ImGui.TextUnformatted("   " + r.param);
+                            ImGui.TextUnformatted("    " + r.param);
                         }
                         first = false;
                     }
