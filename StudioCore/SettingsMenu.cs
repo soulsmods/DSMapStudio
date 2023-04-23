@@ -355,19 +355,19 @@ namespace StudioCore
             {
                 ImGui.Indent();
 
-                ImGui.Checkbox("Show community field names first", ref CFG.Current.Param_MakeMetaNamesPrimary);
-                ImGui.Checkbox("Show secondary field names in brackets", ref CFG.Current.Param_ShowSecondaryNames);
-                ImGui.Checkbox("Show field data offsets", ref CFG.Current.Param_ShowFieldOffsets);
-                ImGui.Checkbox("Hide field references", ref CFG.Current.Param_HideReferenceRows);
-                ImGui.Checkbox("Hide field enums", ref CFG.Current.Param_HideEnums);
-                ImGui.Checkbox("Allow field reordering", ref CFG.Current.Param_AllowFieldReorder);
+                ImGui.Checkbox("Show Community Field Names First", ref CFG.Current.Param_MakeMetaNamesPrimary);
+                ImGui.Checkbox("Show Secondary Field Names in Brackets", ref CFG.Current.Param_ShowSecondaryNames);
+                ImGui.Checkbox("Show Field Data Offsets", ref CFG.Current.Param_ShowFieldOffsets);
+                ImGui.Checkbox("Hide Field References", ref CFG.Current.Param_HideReferenceRows);
+                ImGui.Checkbox("Hide Field Enums", ref CFG.Current.Param_HideEnums);
+                ImGui.Checkbox("Allow Field Reordering", ref CFG.Current.Param_AllowFieldReorder);
                 if (ImGui.Checkbox("Sort Params Alphabetically", ref CFG.Current.Param_AlphabeticalParams))
                 {
                     CacheBank.ClearCaches();
                 }
-                ImGui.Checkbox("Disable row grouping", ref CFG.Current.Param_DisableRowGrouping);
+                ImGui.Checkbox("Disable Row Grouping", ref CFG.Current.Param_DisableRowGrouping);
 
-                ImGui.Checkbox("Compact params in UI", ref CFG.Current.UI_CompactParams);
+                ImGui.Checkbox("Compact Param UI", ref CFG.Current.UI_CompactParams);
 
                 ImGui.Unindent();
                 ImGui.EndTabItem();
