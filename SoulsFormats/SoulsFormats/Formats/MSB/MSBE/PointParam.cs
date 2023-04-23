@@ -840,7 +840,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int MapID2 { get; set; }
+                public byte[] UnkMapID { get; private set; }
 
                 /// <summary>
                 /// Unknown.
@@ -870,9 +870,18 @@ namespace SoulsFormats
                 /// <summary>
                 /// Creates an EnvironmentMapPoint with default values.
                 /// </summary>
-                public EnvironmentMapPoint() : base($"{nameof(Region)}: {nameof(EnvironmentMapPoint)}") { }
+                public EnvironmentMapPoint() : base($"{nameof(Region)}: {nameof(EnvironmentMapPoint)}")
+                {
+                    UnkMapID = new byte[4];
+                }
 
                 internal EnvironmentMapPoint(BinaryReaderEx br) : base(br) { }
+
+                private protected override void DeepCopyTo(Region region)
+                {
+                    var point = (EnvironmentMapPoint)region;
+                    point.UnkMapID = (byte[])UnkMapID.Clone();
+                }
 
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
@@ -885,7 +894,7 @@ namespace SoulsFormats
                     UnkT0F = br.ReadBoolean();
                     UnkT10 = br.ReadSingle();
                     UnkT14 = br.ReadSingle();
-                    MapID2 = br.ReadInt32();
+                    UnkMapID = br.ReadBytes(4);
                     br.AssertInt32(0);
                     UnkT20 = br.ReadInt32();
                     UnkT24 = br.ReadInt32();
@@ -906,7 +915,7 @@ namespace SoulsFormats
                     bw.WriteBoolean(UnkT0F);
                     bw.WriteSingle(UnkT10);
                     bw.WriteSingle(UnkT14);
-                    bw.WriteInt32(MapID2);
+                    bw.WriteBytes(UnkMapID);
                     bw.WriteInt32(0);
                     bw.WriteInt32(UnkT20);
                     bw.WriteInt32(UnkT24);
@@ -1260,14 +1269,14 @@ namespace SoulsFormats
                 public short UnkT0A { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// Strength of specular light in region.
                 /// </summary>
-                public float UnkT24 { get; set; }
+                public float SpecularLightMult { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// Strength of direct light emitting from EnvironmentMapPoint.
                 /// </summary>
-                public float UnkT28 { get; set; }
+                public float PointLightMult { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -1275,9 +1284,9 @@ namespace SoulsFormats
                 public short UnkT2C { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// Affects lighting with other fields when true. Possibly normalizes light when false.
                 /// </summary>
-                public bool UnkT2E { get; set; }
+                public bool IsModifyLight { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -1319,10 +1328,10 @@ namespace SoulsFormats
                     UnkT09 = br.ReadByte();
                     UnkT0A = br.ReadInt16();
                     br.AssertPattern(0x18, 0x00);
-                    UnkT24 = br.ReadSingle();
-                    UnkT28 = br.ReadSingle();
+                    SpecularLightMult = br.ReadSingle();
+                    PointLightMult = br.ReadSingle();
                     UnkT2C = br.ReadInt16();
-                    UnkT2E = br.ReadBoolean();
+                    IsModifyLight = br.ReadBoolean();
                     UnkT2F = br.ReadBoolean();
                     UnkT30 = br.ReadInt16();
                     br.AssertByte(0);
@@ -1340,10 +1349,10 @@ namespace SoulsFormats
                     bw.WriteByte(UnkT09);
                     bw.WriteInt16(UnkT0A);
                     bw.WritePattern(0x18, 0x00);
-                    bw.WriteSingle(UnkT24);
-                    bw.WriteSingle(UnkT28);
+                    bw.WriteSingle(SpecularLightMult);
+                    bw.WriteSingle(PointLightMult);
                     bw.WriteInt16(UnkT2C);
-                    bw.WriteBoolean(UnkT2E);
+                    bw.WriteBoolean(IsModifyLight);
                     bw.WriteBoolean(UnkT2F);
                     bw.WriteInt16(UnkT30);
                     bw.WriteByte(0);
@@ -1832,9 +1841,10 @@ namespace SoulsFormats
                 private protected override bool HasTypeData => true;
 
                 /// <summary>
-                /// Unknown.
+                /// Determines which WeatherLotParam ID to use.
                 /// </summary>
-                public int UnkT00 { get; set; }
+                [MSBParamReference(ParamName = "WeatherLotParam")]
+                public int WeatherLotParamID { get; set; }
 
                 /// <summary>
                 /// Creates a WeatherOverride with default values.
@@ -1845,7 +1855,7 @@ namespace SoulsFormats
 
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
-                    UnkT00 = br.ReadInt32();
+                    WeatherLotParamID = br.ReadInt32();
                     br.AssertInt32(-1);
                     br.AssertInt32(0);
                     br.AssertInt32(0);
@@ -1857,7 +1867,7 @@ namespace SoulsFormats
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    bw.WriteInt32(UnkT00);
+                    bw.WriteInt32(WeatherLotParamID);
                     bw.WriteInt32(-1);
                     bw.WriteInt32(0);
                     bw.WriteInt32(0);
@@ -1956,7 +1966,9 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int UnkT54 { get; set; }
+                [MSBParamReference(ParamName = "MPEstusFlaskRecoveryParam")]
+                [MSBParamReference(ParamName = "HPEstusFlaskRecoveryParam")]
+                public int EstusFlaskRecoveryID { get; set; }
 
                 /// <summary>
                 /// Creates a GroupDefeatReward with default values.
@@ -1991,7 +2003,7 @@ namespace SoulsFormats
                     br.AssertInt32(-1);
                     br.AssertInt32(-1);
                     br.AssertInt32(-1);
-                    UnkT54 = br.ReadInt32();
+                    EstusFlaskRecoveryID = br.ReadInt32();
                     br.AssertInt32(0);
                     br.AssertInt32(0);
                 }
@@ -2013,7 +2025,7 @@ namespace SoulsFormats
                     bw.WriteInt32(-1);
                     bw.WriteInt32(-1);
                     bw.WriteInt32(-1);
-                    bw.WriteInt32(UnkT54);
+                    bw.WriteInt32(EstusFlaskRecoveryID);
                     bw.WriteInt32(0);
                     bw.WriteInt32(0);
                 }
@@ -2403,7 +2415,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// OverrideType
                 /// </summary>
-                public enum HorseRideOverrideType : int
+                public enum HorseRideOverrideType : uint
                 {
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
                     PreventRiding = 1,
@@ -2436,7 +2448,7 @@ namespace SoulsFormats
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    bw.WriteInt32((int)OverrideType);
+                    bw.WriteUInt32((uint)OverrideType);
                     bw.WriteInt32(0);
                 }
             }

@@ -153,8 +153,6 @@
 300014405 [Castle Exile] Smoldering Butterfly
 300014406 [Castle Exile] Mushroom
 300014407 [Castle Exile] Smithing Stone [1]
-300014407 [Castle Exile] Smithing Stone [1]
-300014408 [Castle Exile] Smithing Stone [2]
 300014408 [Castle Exile] Smithing Stone [2]
 300014500 [Castle Exile] Exile Hood
 300014501 [Castle Exile] Exile Armor
@@ -1470,8 +1468,6 @@
 430030511 [Wandering Noble] Herba
 430030512 [Wandering Noble] Erdleaf Flower
 430030520 [Wandering Noble] Rowa Fruit
-430030520 [Wandering Noble] Rowa Fruit
-430030520 [Wandering Noble] Rowa Fruit
 430030600 [Wandering Noble] Aristocrat Garb (Altered)
 430030601 [Wandering Noble] Rowa Fruit
 430030602 [Wandering Noble] Herba
@@ -2288,7 +2284,6 @@
 431656039 [Haligtree Soldier] Smithing Stone [6]
 431656040 [Haligtree Soldier] Smithing Stone [7]
 431656041 [Haligtree Soldier] Smithing Stone [8]
-431656045 [Haligtree Soldier] Lordsworn's Straight Sword
 431656045 [Haligtree Soldier] Lordsworn's Straight Sword
 431656046 [Haligtree Soldier] Brass Shield
 431656047 [Haligtree Soldier] Heavy Crossbow
@@ -3170,7 +3165,6 @@
 466000040 [Golem] Golem's Halberd
 466000041 [Golem] Smithing Stone [5]
 466000050 [Golem] Golem's Halberd
-466000051 [Golem] Smithing Stone [6]
 466000051 [Golem] Smithing Stone [6]
 466000100 [Golem] Golem Greatbow
 466000101 [Golem] Great Arrow

@@ -16,8 +16,8 @@
     </Enum>
   </Enums>
   <Field>
-    <actionEnableMsgId AltName="Action Enabled - Message ID" Wiki="The MsgID of the menu displayed when the action is enabled." />
-    <actionFailedMsgId AltName="Action Failed - Message ID" Wiki="The MsgID of the menu to display when the action fails." />
+    <actionEnableMsgId AltName="Action Enabled - Message ID" Wiki="The MsgID of the menu displayed when the action is enabled." FmgRef="ActionButtonText" />
+    <actionFailedMsgId AltName="Action Failed - Message ID" Wiki="The MsgID of the menu to display when the action fails." FmgRef="ActionButtonText" />
     <spQualifiedPassEventFlag AltName="Unconditional Qualified Event Flag ID" Wiki="Event flags for unconditionally passing special conditions." />
     <playerAnimId AltName="Player Animation ID" Wiki="This is the animation ID for the action of the player character." />
     <chrAnimId AltName="Character Animation ID" Wiki="Anime ID at the time of action such as enemy" />
@@ -34,7 +34,7 @@
     <chrSorbType AltName="Character Absorb Type" Wiki="It is a method of adsorbing characters during object action." Enum="OBJACT_CHR_SORB_TYPE" />
     <eventKickTiming AltName="Event Execution Timing" Wiki="Event execution timing" Enum="OBJACT_EVENT_KICK_TIMING" />
     <pad1 AltName=""/>
-    <actionButtonParamId AltName="Action Button Param ID" Wiki="Action button parameter ID" />
+    <actionButtonParamId AltName="Action Button Param ID" Wiki="Action button parameter ID" Refs="ActionButtonParam" />
     <enableTreasureDelaySec AltName="Treasure Enable Delay" Wiki="The number of seconds from the execution of the object action to the activation of the treasure. A setting exclusively for the object type treasure box of the object act." />
     <preActionSfxDmypolyId AltName="Pre-action SFX Dummy Poly ID" Wiki="Issue SFX from this Damipoli ID before executing the object. If it is -1, start from the origin." />
     <preActionSfxId AltName="Pre-action SFX ID" Wiki="SFX issued before executing the object. If it is -1, it will not be issued." />
