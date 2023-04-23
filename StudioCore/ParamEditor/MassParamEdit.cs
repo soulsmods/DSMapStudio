@@ -776,8 +776,7 @@ namespace StudioCore.ParamEditor
                 if (!col.IsColumnValid())
                     throw new Exception($@"Could not locate field {field[0]}");
                 var rows = RowSearchEngine.rse.Search((ParamBank.PrimaryBank, param), field[1], false, false);
-                var vals = rows.Select((row, i) => row.Get(col));
-                var avg = vals.GroupBy((val) => val).OrderByDescending((g) => g.Count()).Select((g) => g.Key).First();
+                var avg = ParamUtils.GetParamValueDistribution(rows, col).OrderByDescending((g) => g.Item2).First().Item1;
                 return (j, row) => (k, c) => avg.ToParamEditorString();
             }));
             argumentGetters.Add("random", (new string[]{"minimum number (inclusive)", "maximum number (exclusive)"}, (minAndMax) => {

@@ -752,7 +752,7 @@ namespace StudioCore.ParamEditor
             }
             ImGui.PopStyleVar();
         }
-        private static void PropertyRowValueContextMenu(ParamBank bank, string internalName, string VirtualRef, dynamic oldval)
+        private void PropertyRowValueContextMenu(ParamBank bank, string internalName, string VirtualRef, dynamic oldval)
         {
             bool onlyEditOptions = (VirtualRef == null && !ParamEditorScreen.EditorMode);
             if (ImGui.BeginPopupContextItem("quickMEdit"))
@@ -780,6 +780,10 @@ namespace StudioCore.ParamEditor
                     }
                     if (VirtualRef != null)
                         EditorDecorations.VirtualParamRefSelectables(bank, VirtualRef, oldval);
+                    if (ImGui.Selectable("View distribution..."))
+                    {
+                        EditorCommandQueue.AddCommand($@"param/menu/distributionPopup/{internalName}");
+                    }
                     if (ParamEditorScreen.EditorMode && ImGui.BeginMenu("Find rows with this value..."))
                     {
                         foreach (KeyValuePair<string, Param> p in bank.Params)
