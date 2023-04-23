@@ -154,7 +154,6 @@ namespace StudioCore
             MsbEditor.MtdBank.LoadMtds(_assetLocator);
 
             ImGui.GetIO().ConfigFlags |= ImGuiConfigFlags.NavEnableKeyboard;
-            _settingsMenu.UiScale = CFG.Current.UIScale;
             SetupFonts();
             ImguiRenderer.OnSetupDone();
 

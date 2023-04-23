@@ -15,7 +15,6 @@ namespace StudioCore
     {
         public bool MenuOpenState = false;
         public bool FontRebuildRequest = false;
-        public float UiScale = 1.0f;
 
         private KeyBind _currentKeyBind;
         public Editor.ProjectSettings? ProjSettings = null;
@@ -62,6 +61,46 @@ namespace StudioCore
             ImGui.PopID();
         }
 
+        /*
+        private void SettingsTemplate()
+        {
+            if (ImGui.BeginTabItem("TEMPLATE Settings"))
+            {
+                ImGui.Indent();
+
+                ImGui.Unindent();
+                ImGui.EndTabItem();
+            }
+        }
+        */
+
+        private void DisplayUISettings()
+        {
+            if (ImGui.BeginTabItem("UI Settings"))
+            {
+                ImGui.Indent();
+
+                ImGui.SliderFloat("UI scale", ref CFG.Current.UIScale, 0.5f, 4.0f);
+                if (ImGui.IsItemDeactivatedAfterEdit())
+                {
+                    // Round to 0.05
+                    CFG.Current.UIScale = (float)Math.Round(CFG.Current.UIScale * 20) / 20;
+                    FontRebuildRequest = true;
+                }
+                ImGui.SameLine();
+                if (ImGui.Button("Reset"))
+                {
+                    CFG.Current.UIScale = CFG.Default.UIScale;
+                    FontRebuildRequest = true;
+                }
+
+                ImGui.Checkbox("Compact param editor", ref CFG.Current.UI_CompactParams);
+
+                ImGui.Unindent();
+                ImGui.EndTabItem();
+            }
+        }
+
         private void DisplayProjectSettings()
         {
             if (ImGui.BeginTabItem("Project Settings"))
@@ -81,7 +120,7 @@ namespace StudioCore
                     else
                     {
                         ImGui.Text($@"Project: {ProjSettings.ProjectName}");
-                        if (ImGui.Button("Open Project Settings File"))
+                        if (ImGui.Button("Open project settings file"))
                         {
                             string projectPath = CFG.Current.LastProjectFile;
                             Process.Start("explorer.exe", projectPath);
@@ -89,14 +128,14 @@ namespace StudioCore
 
                         bool useLoose = ProjSettings.UseLooseParams;
                         if ((ProjSettings.GameType is GameType.DarkSoulsIISOTFS or GameType.DarkSoulsIII)
-                            && ImGui.Checkbox("Use Loose Params", ref useLoose))
+                            && ImGui.Checkbox("Use loose params", ref useLoose))
                         {
                             ProjSettings.UseLooseParams = useLoose;
                         }
 
                         bool usepartial = ProjSettings.PartialParams;
                         if ((FeatureFlags.EnablePartialParam || usepartial) &&
-                            ProjSettings.GameType == GameType.EldenRing && ImGui.Checkbox("Partial Params", ref usepartial))
+                            ProjSettings.GameType == GameType.EldenRing && ImGui.Checkbox("Partial params", ref usepartial))
                         {
                             ProjSettings.PartialParams = usepartial;
                         }
@@ -117,7 +156,7 @@ namespace StudioCore
                 if (ImGui.CollapsingHeader("Map Editor"))
                 {
                     ImGui.Indent();
-                    ImGui.Checkbox("Enable Texturing (alpha)", ref CFG.Current.EnableTexturing);
+                    ImGui.Checkbox("Enable texturing (alpha)", ref CFG.Current.EnableTexturing);
                     ImGui.Checkbox("Exclude loaded maps from search filter", ref CFG.Current.Map_AlwaysListLoadedMaps);
                     ImGui.Checkbox("Enable Elden Ring auto map offset", ref CFG.Current.EnableEldenRingAutoMapOffset);
                     ImGui.Unindent();
@@ -133,15 +172,15 @@ namespace StudioCore
                     float arbitrary_rotation_y = CFG.Current.Map_ArbitraryRotation_Y_Shift;
                     float camera_radius_offset = CFG.Current.Map_MoveSelectionToCamera_Radius;
 
-                    if (ImGui.InputFloat("Rotation Increment Degrees: X", ref arbitrary_rotation_x))
+                    if (ImGui.InputFloat("Rotation increment degrees: X", ref arbitrary_rotation_x))
                     {
                         CFG.Current.Map_ArbitraryRotation_X_Shift = Math.Clamp(arbitrary_rotation_x, -180.0f, 180.0f);
                     }
-                    if (ImGui.InputFloat("Rotation Increment Degrees: Y", ref arbitrary_rotation_y))
+                    if (ImGui.InputFloat("Rotation increment degrees: Y", ref arbitrary_rotation_y))
                     {
                         CFG.Current.Map_ArbitraryRotation_Y_Shift = Math.Clamp(arbitrary_rotation_y, -180.0f, 180.0f); ;
                     }
-                    if (ImGui.InputFloat("Move Selection to Camera: Offset Distance", ref camera_radius_offset))
+                    if (ImGui.InputFloat("Move selection to camera (offset distance)", ref camera_radius_offset))
                     {
                         CFG.Current.Map_MoveSelectionToCamera_Radius = camera_radius_offset;
                     }
@@ -159,19 +198,19 @@ namespace StudioCore
                     {
                         CFG.Current.GFX_Camera_FOV = cam_fov;
                     }
-                    if (ImGui.SliderFloat("Map Max Render Distance", ref MsbEditor.Viewport.FarClip, 10.0f, 500000.0f))
+                    if (ImGui.SliderFloat("Map max render distance", ref MsbEditor.Viewport.FarClip, 10.0f, 500000.0f))
                     {
                         CFG.Current.GFX_RenderDistance_Max = MsbEditor.Viewport.FarClip;
                     }
-                    if (ImGui.SliderFloat("Map Camera Speed (Slow)", ref MsbEditor.Viewport._worldView.CameraMoveSpeed_Slow, 0.1f, 999.0f))
+                    if (ImGui.SliderFloat("Map camera speed (slow)", ref MsbEditor.Viewport._worldView.CameraMoveSpeed_Slow, 0.1f, 999.0f))
                     {
                         CFG.Current.GFX_Camera_MoveSpeed_Slow = MsbEditor.Viewport._worldView.CameraMoveSpeed_Slow;
                     }
-                    if (ImGui.SliderFloat("Map Camera Speed (Normal)", ref MsbEditor.Viewport._worldView.CameraMoveSpeed_Normal, 0.1f, 999.0f))
+                    if (ImGui.SliderFloat("Map camera speed (normal)", ref MsbEditor.Viewport._worldView.CameraMoveSpeed_Normal, 0.1f, 999.0f))
                     {
                         CFG.Current.GFX_Camera_MoveSpeed_Normal = MsbEditor.Viewport._worldView.CameraMoveSpeed_Normal;
                     }
-                    if (ImGui.SliderFloat("Map Camera Speed (Fast)", ref MsbEditor.Viewport._worldView.CameraMoveSpeed_Fast, 0.1f, 999.0f))
+                    if (ImGui.SliderFloat("Map camera speed (fast)", ref MsbEditor.Viewport._worldView.CameraMoveSpeed_Fast, 0.1f, 999.0f))
                     {
                         CFG.Current.GFX_Camera_MoveSpeed_Fast = MsbEditor.Viewport._worldView.CameraMoveSpeed_Fast;
                     }
@@ -200,16 +239,16 @@ namespace StudioCore
                 {
                     ImGui.Indent();
 
-                    ImGui.ColorEdit3("X Axis - Base Color", ref CFG.Current.GFX_Gizmo_X_BaseColor);
-                    ImGui.ColorEdit3("X Axis - Highlight Color", ref CFG.Current.GFX_Gizmo_X_HighlightColor);
+                    ImGui.ColorEdit3("X Axis - base color", ref CFG.Current.GFX_Gizmo_X_BaseColor);
+                    ImGui.ColorEdit3("X Axis - highlight color", ref CFG.Current.GFX_Gizmo_X_HighlightColor);
 
-                    ImGui.ColorEdit3("Y Axis - Base Color", ref CFG.Current.GFX_Gizmo_Y_BaseColor);
-                    ImGui.ColorEdit3("Y Axis - Highlight Color", ref CFG.Current.GFX_Gizmo_Y_HighlightColor);
+                    ImGui.ColorEdit3("Y Axis - base color", ref CFG.Current.GFX_Gizmo_Y_BaseColor);
+                    ImGui.ColorEdit3("Y Axis - highlight color", ref CFG.Current.GFX_Gizmo_Y_HighlightColor);
 
-                    ImGui.ColorEdit3("Z Axis - Base Color", ref CFG.Current.GFX_Gizmo_Z_BaseColor);
-                    ImGui.ColorEdit3("Z Axis - Highlight Color", ref CFG.Current.GFX_Gizmo_Z_HighlightColor);
+                    ImGui.ColorEdit3("Z Axis - base color", ref CFG.Current.GFX_Gizmo_Z_BaseColor);
+                    ImGui.ColorEdit3("Z Axis - highlight color", ref CFG.Current.GFX_Gizmo_Z_HighlightColor);
 
-                    if (ImGui.Button("Reset Colors to Default"))
+                    if (ImGui.Button("Reset colors to default"))
                     {
                         CFG.Current.GFX_Gizmo_X_BaseColor = new Vector3(0.952f, 0.211f, 0.325f);
                         CFG.Current.GFX_Gizmo_X_HighlightColor = new Vector3(1.0f, 0.4f, 0.513f);
@@ -271,8 +310,8 @@ namespace StudioCore
                             CFG.Current.GFX_Limit_Renderables = CFG.Default.GFX_Limit_Renderables;
                     }
 
-                    Utils.ImGui_InputUint("Indirect Draw Buffer", ref CFG.Current.GFX_Limit_Buffer_Indirect_Draw);
-                    Utils.ImGui_InputUint("FLVER Bone Buffer", ref CFG.Current.GFX_Limit_Buffer_Flver_Bone);
+                    Utils.ImGui_InputUint("Indirect Draw buffer", ref CFG.Current.GFX_Limit_Buffer_Indirect_Draw);
+                    Utils.ImGui_InputUint("FLVER Bone buffer", ref CFG.Current.GFX_Limit_Buffer_Flver_Bone);
 
                     if (ImGui.Button("Reset##MapLimits"))
                     {
@@ -339,7 +378,7 @@ namespace StudioCore
 
                 ImGui.Separator();
 
-                if (ImGui.Button("Restore Defaults"))
+                if (ImGui.Button("Restore defaults"))
                 {
                     KeyBindings.ResetKeyBinds();
                 }
@@ -355,19 +394,17 @@ namespace StudioCore
             {
                 ImGui.Indent();
 
-                ImGui.Checkbox("Show Community Field Names First", ref CFG.Current.Param_MakeMetaNamesPrimary);
-                ImGui.Checkbox("Show Secondary Field Names in Brackets", ref CFG.Current.Param_ShowSecondaryNames);
-                ImGui.Checkbox("Show Field Data Offsets", ref CFG.Current.Param_ShowFieldOffsets);
-                ImGui.Checkbox("Hide Field References", ref CFG.Current.Param_HideReferenceRows);
-                ImGui.Checkbox("Hide Field Enums", ref CFG.Current.Param_HideEnums);
-                ImGui.Checkbox("Allow Field Reordering", ref CFG.Current.Param_AllowFieldReorder);
-                if (ImGui.Checkbox("Sort Params Alphabetically", ref CFG.Current.Param_AlphabeticalParams))
+                ImGui.Checkbox("Show community field names first", ref CFG.Current.Param_MakeMetaNamesPrimary);
+                ImGui.Checkbox("Show secondary field names", ref CFG.Current.Param_ShowSecondaryNames);
+                ImGui.Checkbox("Show field data offsets", ref CFG.Current.Param_ShowFieldOffsets);
+                ImGui.Checkbox("Hide field references", ref CFG.Current.Param_HideReferenceRows);
+                ImGui.Checkbox("Hide field enums", ref CFG.Current.Param_HideEnums);
+                ImGui.Checkbox("Allow field reordering", ref CFG.Current.Param_AllowFieldReorder);
+                if (ImGui.Checkbox("Sort params alphabetically", ref CFG.Current.Param_AlphabeticalParams))
                 {
                     CacheBank.ClearCaches();
                 }
-                ImGui.Checkbox("Disable Row Grouping", ref CFG.Current.Param_DisableRowGrouping);
-
-                ImGui.Checkbox("Compact Param UI", ref CFG.Current.UI_CompactParams);
+                ImGui.Checkbox("Disable row grouping", ref CFG.Current.Param_DisableRowGrouping);
 
                 ImGui.Unindent();
                 ImGui.EndTabItem();
@@ -380,10 +417,10 @@ namespace StudioCore
             {
                 ImGui.Indent();
 
-                ImGui.Checkbox("Show Original FMG Names", ref CFG.Current.FMG_ShowOriginalNames);
-                if (ImGui.Checkbox("Separate Related FMGs and Entries", ref CFG.Current.FMG_NoGroupedFmgEntries))
+                ImGui.Checkbox("Show original FMG names", ref CFG.Current.FMG_ShowOriginalNames);
+                if (ImGui.Checkbox("Separate related FMGs and entries", ref CFG.Current.FMG_NoGroupedFmgEntries))
                     TextEditor.OnProjectChanged(ProjSettings);
-                if (ImGui.Checkbox("Separate Patch FMGs", ref CFG.Current.FMG_NoFmgPatching))
+                if (ImGui.Checkbox("Separate patch FMGs", ref CFG.Current.FMG_NoFmgPatching))
                     TextEditor.OnProjectChanged(ProjSettings);
 
                 ImGui.Unindent();
@@ -403,26 +440,7 @@ namespace StudioCore
 
                     string running = SoapstoneServer.GetRunningPort() is int port ? $"running on port {port}" : "not running";
                     ImGui.Text($"The server is {running}.\nIt is not accessible over the network, only to other programs on this computer.\nPlease restart the program for changes to take effect.");
-                    ImGui.Checkbox("Enable Cross-Editor Features", ref CFG.Current.EnableSoapstone);
-
-                    ImGui.Unindent();
-                }
-
-                ImGui.Separator();
-
-                if (ImGui.CollapsingHeader("UI"))
-                {
-                    ImGui.Indent();
-
-                    ImGui.SliderFloat("UI Scale", ref UiScale, 0.5f, 4.0f);
-                    if (ImGui.IsItemDeactivatedAfterEdit())
-                    {
-                        // Round to 0.05
-                        float newScale = (float)Math.Round(UiScale * 20) / 20;
-                        UiScale = newScale;
-                        CFG.Current.UIScale = newScale;
-                        FontRebuildRequest = true;
-                    }
+                    ImGui.Checkbox("Enable cross-editor features", ref CFG.Current.EnableSoapstone);
 
                     ImGui.Unindent();
                 }
@@ -485,6 +503,8 @@ namespace StudioCore
                 ImGui.PushStyleColor(ImGuiCol.Header, new Vector4(0.3f, 0.3f, 0.6f, 0.4f));
                 ImGui.PushItemWidth(300f);
 
+                //
+                DisplayUISettings();
                 //
                 DisplayProjectSettings();
                 //
