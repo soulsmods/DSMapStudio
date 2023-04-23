@@ -383,7 +383,7 @@ namespace StudioCore.ParamEditor
                     }
                     ImGui.EndMenu();
                 }
-                if (ImGui.BeginMenu("Import CSV", _activeView._selection.paramSelectionExists()))
+                if (ImGui.BeginMenu("Import CSV", _activeView._selection.activeParamExists()))
                 {
                     DelimiterInputText();
                     if (ImGui.MenuItem("All", KeyBindings.Current.Param_ImportCSV.HintText))
@@ -399,7 +399,7 @@ namespace StudioCore.ParamEditor
                         }
                         ImGui.EndMenu();
                     }
-                    if (ImGui.BeginMenu("From file...", _activeView._selection.paramSelectionExists()))
+                    if (ImGui.BeginMenu("From file...", _activeView._selection.activeParamExists()))
                     {
                         if (ImGui.MenuItem("All"))
                         {
@@ -477,17 +477,45 @@ namespace StudioCore.ParamEditor
                     }
                     ImGui.EndMenu();
                 }
-                if (ImGui.MenuItem("Sort rows by ID", _activeView._selection.paramSelectionExists()))
+                if (ImGui.MenuItem("Sort rows by ID", _activeView._selection.activeParamExists()))
                 {
                     EditorActionManager.ExecuteAction(MassParamEditOther.SortRows(ParamBank.PrimaryBank, _activeView._selection.getActiveParam()));
                 }
-                if (ImGui.MenuItem("Import Row Names", "", false, ParamBank.PrimaryBank.Params != null))
+                if (ImGui.BeginMenu("Import Row Names"))
                 {
-                    try {
-                        EditorActionManager.ExecuteAction(ParamBank.PrimaryBank.LoadParamDefaultNames());
-                    } catch {
+                    void ImportRowNames(bool currentParamOnly, string title)
+                    {
+                        const string importRowQuestion = $"Would you like to replace row names with default names defined within DSMapStudio?\n\nSelect \"Yes\" to replace all names, \"No\" to only replace empty names, \"Cancel\" to abort.";
+                        string currentParam = currentParamOnly ? _activeView._selection.getActiveParam() : null;
+                        DialogResult question = MessageBox.Show(importRowQuestion, title, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                        switch (question)
+                        {
+                            case DialogResult.Yes:
+                                EditorActionManager.ExecuteAction(ParamBank.PrimaryBank.LoadParamDefaultNames(currentParam));
+                                break;
+                            case DialogResult.No:
+                                EditorActionManager.ExecuteAction(ParamBank.PrimaryBank.LoadParamDefaultNames(currentParam, true));
+                                break;
+                        }
                     }
+
+                    if (ImGui.MenuItem("All", "", false, ParamBank.PrimaryBank.Params != null))
+                    {
+                        try {
+                            ImportRowNames(false, "Replace all row names?");
+                        } catch {
+                        }
+                    }
+                    if (ImGui.MenuItem("Current Param", "", false, ParamBank.PrimaryBank.Params != null && _activeView._selection.activeParamExists()))
+                    {
+                        try {
+                            ImportRowNames(true, $"Replace all row names in {_activeView._selection.getActiveParam()}?");
+                        } catch {
+                        }
+                    }
+                    ImGui.EndMenu();
                 }
+
                 if (ImGui.MenuItem("Trim hidden newlines in names", "", false, ParamBank.PrimaryBank.Params != null))
                 {
                     try {
@@ -945,7 +973,7 @@ namespace StudioCore.ParamEditor
                 {
                     EditorCommandQueue.AddCommand($@"param/back");
                 }
-                if (!ImGui.IsAnyItemActive() && _activeView._selection.paramSelectionExists() && InputTracker.GetKeyDown(KeyBindings.Current.Param_SelectAll))
+                if (!ImGui.IsAnyItemActive() && _activeView._selection.activeParamExists() && InputTracker.GetKeyDown(KeyBindings.Current.Param_SelectAll))
                 {
                     ParamBank.ClipboardParam = _activeView._selection.getActiveParam();
                     foreach (Param.Row row in CacheBank.GetCached(this, (_activeView._viewIndex, _activeView._selection.getActiveParam()), () =>RowSearchEngine.rse.Search((ParamBank.PrimaryBank, ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()]), _activeView._selection.getCurrentRowSearchString(), true, true)))
@@ -1105,6 +1133,16 @@ namespace StudioCore.ParamEditor
             MassEditPopups();
             StatisticPopups();
 
+            if (false) // CFG.Current.UI_CompactParams
+            {
+                ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, new Vector2(1.0f, 1.0f) * scale);
+                ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(5.0f, 1.0f) * scale);
+            }
+            else
+            {
+                var style = ImGui.GetStyle();
+                ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, style.ItemSpacing - (new Vector2(3.5f, 0f) * scale));
+            }
             if (CountViews() == 1)
             {
                 _activeView.ParamView(doFocus, true);
@@ -1136,6 +1174,14 @@ namespace StudioCore.ParamEditor
                     view.ParamView(doFocus && view == _activeView, view == _activeView);
                     ImGui.End();
                 }
+            }
+            if (false) // CFG.Current.UI_CompactParams)
+            {
+                ImGui.PopStyleVar(2);
+            }
+            else
+            {
+                ImGui.PopStyleVar();
             }
         }
 
@@ -1318,7 +1364,7 @@ namespace StudioCore.ParamEditor
         {
             try
             {
-                File.WriteAllText(path, text);                          
+                File.WriteAllText(path, text);
             }
             catch (Exception e)
             {
@@ -1329,7 +1375,7 @@ namespace StudioCore.ParamEditor
         {
             try
             {
-                return File.ReadAllText(path);                          
+                return File.ReadAllText(path);
             }
             catch (Exception e)
             {
@@ -1386,7 +1432,7 @@ namespace StudioCore.ParamEditor
             return pastStack.Count > 0;
         }
 
-        public bool paramSelectionExists()
+        public bool activeParamExists()
         {
             return _activeParam != null;
         }
@@ -1661,19 +1707,32 @@ namespace StudioCore.ParamEditor
             foreach (var paramKey in paramKeyList)
             {
                 var primary = ParamBank.PrimaryBank.VanillaDiffCache.GetValueOrDefault(paramKey, null);
+                Param p = ParamBank.PrimaryBank.Params[paramKey];
+                if (p != null)
+                {
+                    ParamMetaData meta = ParamMetaData.Get(p.AppliedParamdef);
+                    string Wiki = meta?.Wiki;
+                    if (Wiki != null)
+                    {
+                        if (EditorDecorations.HelpIcon(paramKey + "wiki", ref Wiki, true))
+                            meta.Wiki = Wiki;
+                    }
+                }
+
+                ImGui.Indent(15.0f * CFG.Current.UIScale);
                 if (primary != null ? primary.Any() : false)
                     ImGui.PushStyleColor(ImGuiCol.Text, PRIMARYCHANGEDCOLOUR);
                 else
                     ImGui.PushStyleColor(ImGuiCol.Text, ALLVANILLACOLOUR);
-                if (ImGui.Selectable(paramKey, paramKey == _selection.getActiveParam()))
+                if (ImGui.Selectable($"{paramKey}", paramKey == _selection.getActiveParam()))
                 {
                     //_selection.setActiveParam(param.Key);
                     EditorCommandQueue.AddCommand($@"param/view/{_viewIndex}/{paramKey}");
                 }
                 ImGui.PopStyleColor();
+
                 if (doFocus && paramKey == _selection.getActiveParam())
                     scrollTo = ImGui.GetCursorPosY();
-                Param p = ParamBank.PrimaryBank.Params[paramKey];
                 if (ImGui.BeginPopupContextItem())
                 {
                     if (ImGui.Selectable("Pin "+paramKey) && !_paramEditor._projectSettings.PinnedParams.Contains(paramKey))
@@ -1688,16 +1747,7 @@ namespace StudioCore.ParamEditor
                     }
                     ImGui.EndPopup();
                 }
-                if (p != null)
-                {
-                    ParamMetaData meta = ParamMetaData.Get(p.AppliedParamdef);
-                    string Wiki = meta?.Wiki;
-                    if (Wiki != null)
-                    {
-                        if (EditorDecorations.HelpIcon(paramKey+"wiki", ref Wiki, true))
-                            meta.Wiki = Wiki;
-                    }
-                }
+                ImGui.Unindent(15.0f * CFG.Current.UIScale);
             }
 
             if (doFocus)
@@ -1706,7 +1756,7 @@ namespace StudioCore.ParamEditor
             ImGui.EndChild();
             ImGui.NextColumn();
             string activeParam = _selection.getActiveParam();
-            if (!_selection.paramSelectionExists())
+            if (!_selection.activeParamExists())
             {
                 ImGui.BeginChild("rowsNONE");
                 ImGui.Text("Select a param to see rows");

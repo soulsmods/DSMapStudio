@@ -498,15 +498,21 @@ namespace StudioCore.ParamEditor
             string AltName = cellMeta?.AltName;
 
             object newval = null;
+
             ImGui.PushID(id);
             ImGui.AlignTextToFramePadding();
-            PropertyRowName(fieldOffset, ref internalName, cellMeta);
-            PropertyRowNameContextMenu(bank, internalName, cellMeta, activeParam, activeParam != null, isPinned);
             if (Wiki != null)
             {
                 if (EditorDecorations.HelpIcon(internalName, ref Wiki, true))
                     cellMeta.Wiki = Wiki;
             }
+            else
+            {
+                ImGui.Text(" ");
+                ImGui.SameLine();
+            }
+            PropertyRowName(fieldOffset, ref internalName, cellMeta);
+            PropertyRowNameContextMenu(bank, internalName, cellMeta, activeParam, activeParam != null, isPinned);
 
             EditorDecorations.ParamRefText(RefTypes, row);
             EditorDecorations.FmgRefText(FmgRef);
@@ -726,10 +732,11 @@ namespace StudioCore.ParamEditor
             bool onlyEditOptions = (VirtualRef == null && !ParamEditorScreen.EditorMode);
             if (ImGui.BeginPopupContextItem("quickMEdit"))
             {
-                if (onlyEditOptions || ImGui.BeginMenu("Edit all selected..."))
+                ImGui.TextColored(new Vector4(1.0f, 0.7f, 0.8f, 1.0f), "Param Field Context Menu");
+                ImGui.SameLine(600);
+                ImGui.Text("");
+                if (ImGui.CollapsingHeader("Mass edit", ImGuiTreeNodeFlags.SpanFullWidth))
                 {
-                    if (onlyEditOptions)
-                        ImGui.TextUnformatted("Mass Edit selected...");
                     ImGui.Separator();
                     if (ImGui.Selectable("Manually..."))
                     {
@@ -744,27 +751,25 @@ namespace StudioCore.ParamEditor
                     if (res != null)
                     {
                         Console.WriteLine(res);
-                        EditorCommandQueue.AddCommand($@"param/menu/massEditRegex/selection: {Regex.Escape(internalName)}: "+res);
+                        EditorCommandQueue.AddCommand($@"param/menu/massEditRegex/selection: {Regex.Escape(internalName)}: " + res);
                     }
-                    if (!onlyEditOptions)
-                        ImGui.EndMenu();
-                }
-                if (ImGui.Selectable("View distribution..."))
-                {
-                    EditorCommandQueue.AddCommand($@"param/menu/distributionPopup/{internalName}");
-                }
-                if (VirtualRef != null)
-                    EditorDecorations.VirtualParamRefSelectables(bank, VirtualRef, oldval);
-                if (ParamEditorScreen.EditorMode && ImGui.BeginMenu("Find rows with this value..."))
-                {
-                    foreach (KeyValuePair<string, Param> p in bank.Params)
+                    if (VirtualRef != null)
+                        EditorDecorations.VirtualParamRefSelectables(bank, VirtualRef, oldval);
+                    if (ImGui.Selectable("View distribution..."))
                     {
-                        int v = (int)oldval;
-                        Param.Row r = p.Value[v];
-                        if (r != null && ImGui.Selectable($@"{p.Key}: {Utils.ImGuiEscape(r.Name, "null")}"))
-                            EditorCommandQueue.AddCommand($@"param/select/-1/{p.Key}/{v}");
+                        EditorCommandQueue.AddCommand($@"param/menu/distributionPopup/{internalName}");
                     }
-                    ImGui.EndMenu();
+                    if (ParamEditorScreen.EditorMode && ImGui.BeginMenu("Find rows with this value..."))
+                    {
+                        foreach (KeyValuePair<string, Param> p in bank.Params)
+                        {
+                            int v = (int)oldval;
+                            Param.Row r = p.Value[v];
+                            if (r != null && ImGui.Selectable($@"{p.Key}: {Utils.ImGuiEscape(r.Name, "null")}"))
+                                EditorCommandQueue.AddCommand($@"param/select/-1/{p.Key}/{v}");
+                        }
+                        ImGui.EndMenu();
+                    }
                 }
                 ImGui.EndPopup();
             }

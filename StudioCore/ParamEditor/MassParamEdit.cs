@@ -476,7 +476,7 @@ namespace StudioCore.ParamEditor
                 return new MassEditResult(MassEditResultType.PARSEERROR, "Unable to parse CSV into correct data types");
             #endif
         }
-        public static (MassEditResult, CompoundAction) PerformSingleMassEdit(ParamBank bank, string csvString, string param, string field, char separator, bool ignoreMissingRows)
+        public static (MassEditResult, CompoundAction) PerformSingleMassEdit(ParamBank bank, string csvString, string param, string field, char separator, bool ignoreMissingRows, bool onlyAffectEmptyNames = false)
         {
             try
             {
@@ -512,7 +512,8 @@ namespace StudioCore.ParamEditor
                     }
                     if (field.Equals("Name"))
                     {
-                        if (!value.Equals(row.Name))
+                        // 'onlyAffectEmptyNames' argument check is exclusively relevant for "Import Row Names" function at the moment.
+                        if (!value.Equals(row.Name) && (onlyAffectEmptyNames == false || string.IsNullOrEmpty(row.Name)))
                             actions.Add(new PropertiesChangedAction(row.GetType().GetProperty("Name"), -1, row, value));
                     }
                     else
