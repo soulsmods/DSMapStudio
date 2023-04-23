@@ -2101,7 +2101,6 @@
 22305503 But these are precious, are you certain that it's for me?
 22305504 Oh...
 22305505 Master, how did you know?
-22305505 Master, how did you know?
 22305600 Master, it shouldn't take me long.
 22305601 I'm off to see Rennala of Raya Lucaria.
 22305602 I'll be reborn, fresh and new.
@@ -3984,7 +3983,6 @@
 31301600 Give me your hand.
 31301601 I will pray. That you follow the same path as Lady Tanith.
 31302100 Brave Tarnished, what is your business here?
-31302100 Brave Tarnished, what is your business here?
 31302101 I'm afraid this is not a guest room.
 31302102 What's that peculiar look upon your face?
 31302103 <gasp>
@@ -5523,7 +5521,6 @@
 32405104 She knows the location of the medallion's counterpart, I am sure.
 32405200 Find the Albinauric woman.
 32405201 She hides in a cave to the west of the Laskyar Ruins which jut from the mist-shrouded lake of Liurnia,
-32405202 She knows the location of the medallion's counterpart, I am sure.
 32405202 She knows the location of the medallion's counterpart, I am sure.
 32405300 Ah, yes, by way of apology,
 32405301 allow me to tender some advice, in regard to the half of the secret medallion you possess.

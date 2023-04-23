@@ -112,7 +112,9 @@ namespace StudioCore.MsbEditor
 
             // Throw any exceptions that ocurred during async map loading.
             if (Universe.LoadMapExceptions != null)
-                throw Universe.LoadMapExceptions;
+            {
+                Universe.LoadMapExceptions.Throw();
+            }
         }
 
         public void EditorResized(Sdl2Window window, GraphicsDevice device)
@@ -245,6 +247,10 @@ namespace StudioCore.MsbEditor
             foreach (var s in selected)
             {
                 var rot = s.GetRootTransform().EulerRotation;
+
+                // Offset the new position by the map's offset from the origin.
+                TransformNode node = (TransformNode) s.Container.RootObject.WrappedObject;
+                new_pos -= node.Position;
 
                 Transform newPos = new Transform(new_pos, rot);
 

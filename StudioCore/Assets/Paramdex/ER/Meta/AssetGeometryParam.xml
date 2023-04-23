@@ -175,7 +175,7 @@
     <navimeshFlag_after AltName="Post-destruction Navmesh Flag" Wiki="Navimesh flag set from the destroyed asset" Enum="ASSET_NAVIMESH_FLAG" />
     <camNearBehaviorType AltName="Near Camera Behavior Type" Wiki="Drawing settings when approaching the camera. [GR] SEQ07529" Enum="ASSET_CAM_NEAR_BEHAVIOR_TYPE" />
     <breakItemLotParamId AltName="Destroyed Item Lot Param ID" Wiki="Item to be drawn at the time of destruction Lottery ID_for map-1: No lottery" Refs="ItemLotParam_map" />
-    <pickUpActionButtonParamId AltName="Pickup Action Button Param ID" Wiki="Action button ID issued for collection-1: Collection function is disabled" />
+    <pickUpActionButtonParamId AltName="Pickup Action Button Param ID" Wiki="Action button ID issued for collection-1: Collection function is disabled" Refs="ActionButtonParam" />
     <pickUpItemLotParamId AltName="Pickup Item Lot Param ID" Wiki="Item to be drawn at the time of collection For lottery ID_map-1: Collection function is invalid" Refs="ItemLotParam_map" />
     <autoDrawGroupBackFaceCheck AltName="Auto Draw Group: Backface Check" Wiki="Automatic drawing group_Back side check" Enum="ASSET_AUTO_DRAW_GROUP_BACKFACE_CHECK_TYPE" />
     <autoDrawGroupDepthWrite AltName="Auto Draw Group: Depth Write" Wiki="Auto drawing group_shield" Enum="ASSET_AUTO_DRAW_GROUP_DEPTH_WRITE_TYPE" />

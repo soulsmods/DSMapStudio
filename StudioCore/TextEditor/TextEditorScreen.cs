@@ -78,6 +78,9 @@ namespace StudioCore.TextEditor
             EditorActionManager.ExecuteAction(action);
             _activeEntryGroup = null;
             _activeIDCache = -1;
+
+            // Lazy method to refresh search filter
+            _searchFilterCached = "";
         }
 
         public override void DrawEditorMenu()

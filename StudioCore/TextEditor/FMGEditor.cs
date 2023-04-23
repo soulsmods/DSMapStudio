@@ -263,7 +263,10 @@ namespace StudioCore.TextEditor
             if (committed && _entryCache != null)
             {
                 if (_textCache != _entryCache.Text)
+                {
                     UpdateProperty(_entryCache.GetType().GetProperty("Text"), _entryCache, _textCache);
+                    _entryCache = null;
+                }
             }
 
             ImGui.NextColumn();
@@ -271,7 +274,7 @@ namespace StudioCore.TextEditor
             _fmgID++;
         }
 
-        private int _idCache = 0;
+        private int _idCache = -1;
         private FMGBank.EntryGroup _eGroupCache;
         public void PropIDFMG(FMGBank.EntryGroup eGroup, List<FMG.Entry> entryCache)
         {
@@ -283,7 +286,7 @@ namespace StudioCore.TextEditor
                 _eGroupCache = eGroup;
             }
             bool committed = ImGui.IsItemDeactivatedAfterEdit();
-            if (committed)
+            if (committed && _eGroupCache != null)
             {
                 if (_idCache != oldID)
                 {
@@ -291,6 +294,7 @@ namespace StudioCore.TextEditor
                     if (entryCache.Find(e => e.ID == _idCache) == null)
                     {
                         UpdateProperty(_eGroupCache.GetType().GetProperty("ID"), _eGroupCache, _idCache);
+                        _eGroupCache = null;
                     }
                 }
             }
