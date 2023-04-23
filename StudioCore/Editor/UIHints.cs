@@ -127,7 +127,6 @@ Some common tools for mapstudio include:
         {
             float scale = ImGuiRenderer.GetUIScale();
             bool ret = false;
-            ImGui.SameLine();
             /*
             ImGui.TextColored(new Vector4(0.6f, 0.6f, 1.0f, 1.0f), "Help");
             if (ImGui.BeginPopupContextItem(id))
@@ -160,6 +159,7 @@ Some common tools for mapstudio include:
                         ImGui.Text(hint);
                     ImGui.EndPopup();
                 }
+                ImGui.SameLine();
             }
             else
             {

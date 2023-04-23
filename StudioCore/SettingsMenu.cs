@@ -262,18 +262,22 @@ namespace StudioCore
                     ImGui.Indent();
 
                     ImGui.Text("Please restart the program for changes to take effect.");
-                    ImGui.Text("Try smaller increments (+25%) at first, as high values will cause issues.");
+                    
+                    ImGui.TextColored(new Vector4(1.0f, 0.0f, 0.0f, 1.0f), @"Try smaller increments (+25%%) at first, as high values will cause issues.");
+                    
                     if (ImGui.InputInt("Renderables", ref CFG.Current.GFX_Limit_Renderables, 0, 0))
                     {
                         if (CFG.Current.GFX_Limit_Renderables < CFG.Default.GFX_Limit_Renderables)
                             CFG.Current.GFX_Limit_Renderables = CFG.Default.GFX_Limit_Renderables;
                     }
 
+                    Utils.ImGui_InputUint("Indirect Draw Buffer", ref CFG.Current.GFX_Limit_Buffer_Indirect_Draw);
                     Utils.ImGui_InputUint("FLVER Bone Buffer", ref CFG.Current.GFX_Limit_Buffer_Flver_Bone);
 
                     if (ImGui.Button("Reset##MapLimits"))
                     {
                         CFG.Current.GFX_Limit_Renderables = CFG.Default.GFX_Limit_Renderables;
+                        CFG.Current.GFX_Limit_Buffer_Indirect_Draw = CFG.Default.GFX_Limit_Buffer_Indirect_Draw;
                         CFG.Current.GFX_Limit_Buffer_Flver_Bone = CFG.Default.GFX_Limit_Buffer_Flver_Bone;
                     }
 
@@ -351,8 +355,8 @@ namespace StudioCore
             {
                 ImGui.Indent();
 
-                ImGui.Checkbox("Show alternate field names", ref CFG.Current.Param_ShowAltNames);
-                ImGui.Checkbox("Always show original field names", ref CFG.Current.Param_AlwaysShowOriginalName);
+                ImGui.Checkbox("Show community-sourced field names", ref CFG.Current.Param_ShowAltNames);
+                ImGui.Checkbox("Show secondary field names in brackets", ref CFG.Current.Param_SecondaryNameInBrackets);
                 ImGui.Checkbox("Show field data offsets", ref CFG.Current.Param_ShowFieldOffsets);
                 ImGui.Checkbox("Hide field references", ref CFG.Current.Param_HideReferenceRows);
                 ImGui.Checkbox("Hide field enums", ref CFG.Current.Param_HideEnums);

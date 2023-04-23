@@ -109,7 +109,7 @@ namespace StudioCore.Scene
                 // Encode the draw
                 if (_indirectDrawCount[_stagingSet] >= _indirectStagingBuffer.Length)
                 {
-                    throw new Exception("Indirect buffer not large enough for draw");
+                    throw new Exception("Indirect buffer not large enough for draw\n\nTry increasing indirect draw buffer in settings.\n");
                 }
                 if (p == null)
                 {
@@ -347,7 +347,7 @@ namespace StudioCore.Scene
                 // Create per frame in flight resources
                 for (int i = 0; i < _bufferCount; i++)
                 {
-                    _drawEncoders.Add(new IndirectDrawEncoder(50000));
+                    _drawEncoders.Add(new IndirectDrawEncoder(CFG.Current.GFX_Limit_Buffer_Indirect_Draw));
                     _resourcesUpdatedFence.Add(device.ResourceFactory.CreateFence(i != 0));
                 }
                 Name = name;

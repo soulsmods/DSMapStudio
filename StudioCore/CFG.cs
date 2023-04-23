@@ -198,6 +198,7 @@ namespace StudioCore
         public float GFX_RenderDistance_Max { get; set; } = 50000.0f;
 
         public int GFX_Limit_Renderables = 50000;
+        public uint GFX_Limit_Buffer_Indirect_Draw = 50000;
         public uint GFX_Limit_Buffer_Flver_Bone = 65536;
 
         public Vector3 GFX_Gizmo_X_BaseColor = new Vector3(0.952f, 0.211f, 0.325f);
@@ -230,7 +231,7 @@ namespace StudioCore
 
         // Param settings
         public bool Param_ShowAltNames = true;
-        public bool Param_AlwaysShowOriginalName = true;
+        public bool Param_SecondaryNameInBrackets = false;
         public bool Param_ShowFieldOffsets = false; 
         public bool Param_HideReferenceRows = false;
         public bool Param_HideEnums = false;

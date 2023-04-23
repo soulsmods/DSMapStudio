@@ -536,19 +536,23 @@ namespace StudioCore.MsbEditor
                 ImGui.EndPopup();
             }
         }
-        private bool ParamRefRow(PropertyInfo propinfo, object oldval, ref object newObj)
+        private bool ParamRefRow(PropertyInfo propinfo, object val, ref object newObj)
         {
-            var att = propinfo.GetCustomAttribute<MSBParamReference>();
-            if (att != null)
+            List<MSBParamReference> attributes = propinfo.GetCustomAttributes<MSBParamReference>().ToList();
+            if (attributes.Any())
             {
-                ImGui.NextColumn();
                 List<ParamEditor.ParamRef> refs = new List<ParamEditor.ParamRef>();
-                refs.Add(new ParamEditor.ParamRef(att.ParamName));
+                foreach (var att in attributes)
+                {
+                    refs.Add(new ParamEditor.ParamRef(att.ParamName));
+                }
+                ImGui.NextColumn();
+                    
                 Editor.EditorDecorations.ParamRefText(refs, null);
                 ImGui.NextColumn();
-                var id = oldval; //oldval cannot always be casted to int
-                Editor.EditorDecorations.ParamRefsSelectables(ParamEditor.ParamBank.PrimaryBank, refs, null, id);
-                return Editor.EditorDecorations.ParamRefEnumContextMenu(ParamEditor.ParamBank.PrimaryBank, id, ref newObj, refs, null, null, null);
+                Editor.EditorDecorations.ParamRefsSelectables(ParamEditor.ParamBank.PrimaryBank, refs, null, val);
+                var opened = Editor.EditorDecorations.ParamRefEnumContextMenu(ParamEditor.ParamBank.PrimaryBank, val, ref newObj, refs, null, null, null);
+                return opened;
             }
             return false;
         }

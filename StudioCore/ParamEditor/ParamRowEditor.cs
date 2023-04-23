@@ -495,18 +495,26 @@ namespace StudioCore.ParamEditor
             ParamEnum Enum = cellMeta?.EnumType;
             string Wiki = cellMeta?.Wiki;
             bool IsBool = cellMeta?.IsBool ?? false;
-            string AltName = cellMeta?.AltName;
 
             object newval = null;
+
             ImGui.PushID(id);
             ImGui.AlignTextToFramePadding();
-            PropertyRowName(fieldOffset, ref internalName, cellMeta);
-            PropertyRowNameContextMenu(bank, internalName, cellMeta, activeParam, activeParam != null, isPinned);
             if (Wiki != null)
             {
                 if (EditorDecorations.HelpIcon(internalName, ref Wiki, true))
+                {
                     cellMeta.Wiki = Wiki;
+                }
+                ImGui.SameLine();
             }
+            else
+            {
+                ImGui.Text(" ");
+                ImGui.SameLine();
+            }
+            PropertyRowName(fieldOffset, ref internalName, cellMeta);
+            PropertyRowNameContextMenu(bank, internalName, cellMeta, activeParam, activeParam != null, isPinned);
 
             EditorDecorations.ParamRefText(RefTypes, row);
             EditorDecorations.FmgRefText(FmgRef);
@@ -638,48 +646,71 @@ namespace StudioCore.ParamEditor
 
         private static void PropertyRowName(string fieldOffset, ref string internalName, FieldMetaData cellMeta)
         {
-            string AltName = cellMeta?.AltName;
+            string altName = cellMeta?.AltName;
             if (cellMeta != null && ParamEditorScreen.EditorMode)
             {
-                string EditName = AltName ?? internalName;
-                ImGui.InputText("##editName", ref EditName, 128);
-                if (EditName.Equals(internalName) || EditName.Equals(""))
+                string editName = !string.IsNullOrWhiteSpace(altName) ? altName : internalName;
+                ImGui.InputText("##editName", ref editName, 128);
+                if (editName.Equals(internalName) || editName.Equals(""))
                     cellMeta.AltName = null;
                 else
-                    cellMeta.AltName = EditName;
+                    cellMeta.AltName = editName;
             }
             else
             {
-                string printedName = (AltName != null && CFG.Current.Param_ShowAltNames) ? (CFG.Current.Param_AlwaysShowOriginalName ? $"{internalName} ({AltName})" : AltName) : internalName;
-                ImGui.TextUnformatted(fieldOffset != null && CFG.Current.Param_ShowFieldOffsets ? fieldOffset + " " + printedName : printedName);
+                string printedName = internalName;
+                if (!string.IsNullOrWhiteSpace(altName))
+                {
+                    if (CFG.Current.Param_ShowAltNames)
+                    {
+                        printedName = altName;
+                        if (CFG.Current.Param_SecondaryNameInBrackets)
+                            printedName = $"{printedName} ({internalName})";
+                    }
+                    else if (CFG.Current.Param_SecondaryNameInBrackets) {
+                            printedName = $"{printedName} ({altName})";
+                    }
+                }
+                if (fieldOffset != null && CFG.Current.Param_ShowFieldOffsets)
+                    printedName = $"{fieldOffset} {printedName}";
+
+                ImGui.TextUnformatted(printedName);
             }
         }
 
-        private void PropertyRowNameContextMenu(ParamBank bank, string originalName, FieldMetaData cellMeta, string activeParam, bool showPinOptions, bool isPinned)
+        private void PropertyRowNameContextMenu(ParamBank bank, string internalName, FieldMetaData cellMeta, string activeParam, bool showPinOptions, bool isPinned)
         {
             float scale = ImGuiRenderer.GetUIScale();
+            string altName = cellMeta?.AltName;
+            string shownName = internalName;
 
             ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(0f, 10f) * scale);
             if (ImGui.BeginPopupContextItem("rowName"))
             {
-                if (CFG.Current.Param_ShowAltNames == true && CFG.Current.Param_AlwaysShowOriginalName == false)
+                if (!string.IsNullOrWhiteSpace(altName))
                 {
-                    ImGui.TextColored(new Vector4(1f, .7f, .4f, 1f), originalName);
+                    if (CFG.Current.Param_ShowAltNames)
+                    {
+                        shownName = altName;
+                        ImGui.TextColored(new Vector4(1f, .7f, .4f, 1f), internalName);
+                    }
+                    else
+                        ImGui.TextColored(new Vector4(1f, .7f, .4f, 1f), altName);
                     ImGui.Separator();
                 }
                 if (ImGui.MenuItem("Add to Searchbar"))
                 {
-                    EditorCommandQueue.AddCommand($@"param/search/prop {originalName.Replace(" ", "\\s")} ");
+                    EditorCommandQueue.AddCommand($@"param/search/prop {internalName.Replace(" ", "\\s")} ");
                 }
-                if (showPinOptions && ImGui.MenuItem((isPinned ? "Unpin " : "Pin " + originalName)))
+                if (showPinOptions && ImGui.MenuItem((isPinned ? "Unpin " : "Pin " + shownName)))
                 {
                     if (!_paramEditor._projectSettings.PinnedFields.ContainsKey(activeParam))
                         _paramEditor._projectSettings.PinnedFields.Add(activeParam, new List<string>());
                     List<string> pinned = _paramEditor._projectSettings.PinnedFields[activeParam];
                     if (isPinned)
-                        pinned.Remove(originalName);
-                    else if (!pinned.Contains(originalName))
-                        pinned.Add(originalName);
+                        pinned.Remove(internalName);
+                    else if (!pinned.Contains(internalName))
+                        pinned.Add(internalName);
                 }
                 if (ParamEditorScreen.EditorMode && cellMeta != null)
                 {
@@ -726,10 +757,11 @@ namespace StudioCore.ParamEditor
             bool onlyEditOptions = (VirtualRef == null && !ParamEditorScreen.EditorMode);
             if (ImGui.BeginPopupContextItem("quickMEdit"))
             {
-                if (onlyEditOptions || ImGui.BeginMenu("Edit all selected..."))
+                ImGui.TextColored(new Vector4(1.0f, 0.7f, 0.8f, 1.0f), "Param Field Context Menu");
+                ImGui.SameLine(600);
+                ImGui.Text("");
+                if (ImGui.CollapsingHeader("Mass edit", ImGuiTreeNodeFlags.SpanFullWidth))
                 {
-                    if (onlyEditOptions)
-                        ImGui.TextUnformatted("Mass Edit selected...");
                     ImGui.Separator();
                     if (ImGui.Selectable("Manually..."))
                     {
@@ -744,23 +776,21 @@ namespace StudioCore.ParamEditor
                     if (res != null)
                     {
                         Console.WriteLine(res);
-                        EditorCommandQueue.AddCommand($@"param/menu/massEditRegex/selection: {Regex.Escape(internalName)}: "+res);
+                        EditorCommandQueue.AddCommand($@"param/menu/massEditRegex/selection: {Regex.Escape(internalName)}: " + res);
                     }
-                    if (!onlyEditOptions)
-                        ImGui.EndMenu();
-                }
-                if (VirtualRef != null)
-                    EditorDecorations.VirtualParamRefSelectables(bank, VirtualRef, oldval);
-                if (ParamEditorScreen.EditorMode && ImGui.BeginMenu("Find rows with this value..."))
-                {
-                    foreach (KeyValuePair<string, Param> p in bank.Params)
+                    if (VirtualRef != null)
+                        EditorDecorations.VirtualParamRefSelectables(bank, VirtualRef, oldval);
+                    if (ParamEditorScreen.EditorMode && ImGui.BeginMenu("Find rows with this value..."))
                     {
-                        int v = (int)oldval;
-                        Param.Row r = p.Value[v];
-                        if (r != null && ImGui.Selectable($@"{p.Key}: {Utils.ImGuiEscape(r.Name, "null")}"))
-                            EditorCommandQueue.AddCommand($@"param/select/-1/{p.Key}/{v}");
+                        foreach (KeyValuePair<string, Param> p in bank.Params)
+                        {
+                            int v = (int)oldval;
+                            Param.Row r = p.Value[v];
+                            if (r != null && ImGui.Selectable($@"{p.Key}: {Utils.ImGuiEscape(r.Name, "null")}"))
+                                EditorCommandQueue.AddCommand($@"param/select/-1/{p.Key}/{v}");
+                        }
+                        ImGui.EndMenu();
                     }
-                    ImGui.EndMenu();
                 }
                 ImGui.EndPopup();
             }

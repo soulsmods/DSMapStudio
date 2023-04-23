@@ -10,7 +10,7 @@ namespace SoulsFormats
         public Type ReferenceType;
     }
 
-    [System.AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
+    [System.AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
     public class MSBParamReference : Attribute
     {
         public string ParamName;
