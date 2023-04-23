@@ -1079,7 +1079,7 @@ namespace StudioCore.ParamEditor
                 {
                     if (initcmd.Length > 1)
                     {
-                        _activeView._selection.getCurrentRowSearchString() = initcmd[1];
+                        _activeView._selection.setCurrentRowSearchString(initcmd[1]);
                     }
                 }
                 else if (initcmd[0] == "menu" && initcmd.Length > 1)
