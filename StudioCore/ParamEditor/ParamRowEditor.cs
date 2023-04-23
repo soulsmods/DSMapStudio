@@ -661,13 +661,13 @@ namespace StudioCore.ParamEditor
                 string printedName = internalName;
                 if (!string.IsNullOrWhiteSpace(altName))
                 {
-                    if (CFG.Current.Param_ShowAltNames)
+                    if (CFG.Current.Param_MakeMetaNamesPrimary)
                     {
                         printedName = altName;
-                        if (CFG.Current.Param_SecondaryNameInBrackets)
+                        if (CFG.Current.Param_ShowSecondaryNames)
                             printedName = $"{printedName} ({internalName})";
                     }
-                    else if (CFG.Current.Param_SecondaryNameInBrackets) {
+                    else if (CFG.Current.Param_ShowSecondaryNames) {
                             printedName = $"{printedName} ({altName})";
                     }
                 }
@@ -689,7 +689,7 @@ namespace StudioCore.ParamEditor
             {
                 if (!string.IsNullOrWhiteSpace(altName))
                 {
-                    if (CFG.Current.Param_ShowAltNames)
+                    if (CFG.Current.Param_MakeMetaNamesPrimary)
                     {
                         shownName = altName;
                         ImGui.TextColored(new Vector4(1f, .7f, .4f, 1f), internalName);
