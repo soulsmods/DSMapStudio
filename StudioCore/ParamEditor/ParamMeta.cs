@@ -8,6 +8,7 @@ using ImGuiNET;
 using SoulsFormats;
 using System.Xml;
 using System.Collections.Concurrent;
+using StudioCore.Editor;
 
 namespace StudioCore.ParamEditor
 {
@@ -273,19 +274,26 @@ namespace StudioCore.ParamEditor
             SetIntXmlProperty("FixedOffset", FixedOffset, _xml, "PARAMMETA", "Self");
             SetBoolXmlProperty("Row0Dummy", Row0Dummy, _xml, "PARAMMETA", "Self");
             SetStringListXmlProperty("AlternativeOrder", AlternateOrder, "-,", _xml, "PARAMMETA", "Self");
-            SetStringXmlProperty("CalcCorrectDef", CalcCorrectDef.getStringForm(), false, _xml, "PARAMMETA", "Self");
+            SetStringXmlProperty("CalcCorrectDef", CalcCorrectDef?.getStringForm(), false, _xml, "PARAMMETA", "Self");
         }
 
         public void Save()
         {
             if(_xml == null)
                 return;
-            XmlWriterSettings writeSettings = new XmlWriterSettings();
-            writeSettings.Indent = true;
-            writeSettings.NewLineHandling = NewLineHandling.None;
-            if (!File.Exists(_path))
-                File.WriteAllBytes(_path, new byte[0]);
-            _xml.Save(XmlWriter.Create(_path, writeSettings));
+            try
+            {
+                XmlWriterSettings writeSettings = new XmlWriterSettings();
+                writeSettings.Indent = true;
+                writeSettings.NewLineHandling = NewLineHandling.None;
+                if (!File.Exists(_path))
+                    File.WriteAllBytes(_path, new byte[0]);
+                _xml.Save(XmlWriter.Create(_path, writeSettings));
+            }
+            catch (Exception e)
+            {
+                TaskManager.warningList.TryAdd("EditorModeSave", "Unable to save editor mode changes to file");
+            }
         }
 
         public static void SaveAll()
