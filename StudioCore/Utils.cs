@@ -780,5 +780,19 @@ namespace StudioCore
                 }
             }
         }
+
+        public static string ParseRegulationVersion(ulong version)
+        {
+            string verStr = version.ToString();
+            if (verStr.Length != 8)
+            {
+                return "Unknown Version";
+            }
+            string major = verStr[0].ToString();
+            string minor = verStr[1..3];
+            string patch = verStr[4..5];
+
+            return $"{major}.{minor}.{patch}";
+        }
     }
 }
