@@ -267,7 +267,7 @@ namespace StudioCore.ParamEditor
 
 
                 var msgRes = System.Windows.Forms.MessageBox.Show(
-                    "Upgrade successful.\n\nPlease review your params, then save after confirming changes are fine.",
+                    "Upgrade successful.\n\nPlease review your params, then save.",
                     "Success",
                     System.Windows.Forms.MessageBoxButtons.OK,
                     System.Windows.Forms.MessageBoxIcon.Information);
