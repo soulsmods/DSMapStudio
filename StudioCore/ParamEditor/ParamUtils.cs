@@ -109,6 +109,11 @@ namespace StudioCore.ParamEditor
             else
                 return col.Item2.Def.InternalType;
         }
+        public static IEnumerable<(object, int)> GetParamValueDistribution(IEnumerable<Param.Row> rows, (PseudoColumn, Param.Column) col)
+        {
+            var vals = rows.Select((row, i) => row.Get(col));
+            return vals.GroupBy((val) => val).Select((g) => (g.Key, g.Count()));
+        }
     }
 
     public enum PseudoColumn

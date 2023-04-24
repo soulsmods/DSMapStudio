@@ -550,7 +550,7 @@ namespace StudioCore.ParamEditor
                 if (p == null)
                     return (new MassEditResult(MassEditResultType.PARSEERROR, "No Param selected"), null);
                 string[] csvLines = csvString.Split("\n");
-                if (csvLines[0].Contains($@"ID{separator}"))
+                if (csvLines[0].Trim().StartsWith($@"ID{separator}"))
                 {
                     if (!csvLines[0].Contains($@"ID{separator}{field}"))
                     {
@@ -883,8 +883,7 @@ namespace StudioCore.ParamEditor
                 if (!col.IsColumnValid())
                     throw new Exception($@"Could not locate field {field[0]}");
                 var rows = RowSearchEngine.rse.Search((ParamBank.PrimaryBank, param), field[1], false, false);
-                var vals = rows.Select((row, i) => row.Get(col));
-                var avg = vals.GroupBy((val) => val).OrderByDescending((g) => g.Count()).Select((g) => g.Key).First();
+                var avg = ParamUtils.GetParamValueDistribution(rows, col).OrderByDescending((g) => g.Item2).First().Item1;
                 return (j, row) => (k, c) => avg.ToParamEditorString();
             }, ()=>CFG.Current.Param_AdvancedMassedit));
             argumentGetters.Add("random", newGetter(new string[]{"minimum number (inclusive)", "maximum number (exclusive)"}, (minAndMax) => {
