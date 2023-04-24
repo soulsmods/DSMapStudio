@@ -91,52 +91,41 @@ namespace StudioCore.ParamEditor
             return null;
         }
         internal static string PerformStringOperation(Param.Row row, (PseudoColumn, Param.Column) c, string op, string[] opparam)
-        {
-            try
+    {
+            string name = row.Get(c).ToString();
+            if (op.Equals("="))
+                return opparam[0];
+            else if (op.Equals("+"))
+                return name + opparam[0];
+            else if (op.Equals("replace"))
             {
-                string name = row.Get(c).ToString();
-                if (op.Equals("="))
-                    return opparam[0];
-                else if (op.Equals("+"))
-                    return name + opparam[0];
-                else if (op.Equals("replace"))
-                {
-                    return name.Replace(opparam[0], opparam[1]);
-                }
+                return name.Replace(opparam[0], opparam[1]);
             }
-            catch
-            {
-            }
-            return null;
+            else
+                throw new Exception("Unknown operation for this type: "+op);
         }
 
         private static T PerformNumericOperation<T>(Param.Row row, (PseudoColumn, Param.Column) c, string op, string[] opparam) where T : struct, IFormattable
         {
-            try
+            dynamic val = row.Get(c);
+            dynamic opp = double.Parse(opparam[0]);
+            if (op.Equals("="))
+                return (T) (opp);
+            else if (op.Equals("+"))
+                return (T) (val + opp);
+            else if (op.Equals("-"))
+                return (T) (val - opp);
+            else if (op.Equals("*"))
+                return (T) (val * opp);
+            else if (op.Equals("/"))
+                return (T) (val / opp);
+            else if (op.Equals("scale"))
             {
-                dynamic val = row.Get(c);
-                dynamic opp = double.Parse(opparam[0]);
-                if (op.Equals("="))
-                    return (T) (opp);
-                else if (op.Equals("+"))
-                    return (T) (val + opp);
-                else if (op.Equals("-"))
-                    return (T) (val - opp);
-                else if (op.Equals("*"))
-                    return (T) (val * opp);
-                else if (op.Equals("/"))
-                    return (T) (val / opp);
-                else if (op.Equals("scale"))
-                {
-                    dynamic opp2 = double.Parse(opparam[1]);
-                    return (T) ((val - opp2) * opp + opp2);
-                }
+                dynamic opp2 = double.Parse(opparam[1]);
+                return (T) ((val - opp2) * opp + opp2);
             }
-            catch
-            {
-                // Operation error
-            }
-            return default(T);
+            else
+                throw new Exception("Unknown operation for this type: "+op);
         }
 
         internal static void addAction(Param.Row row, (PseudoColumn, Param.Column) col, object newval, List<EditorAction> actions)
