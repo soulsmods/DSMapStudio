@@ -50,6 +50,19 @@ namespace StudioCore.MsbEditor
             return null;
         }
 
+        public int GetLoadedMapCount()
+        {
+            int i = 0;
+            foreach (var map in LoadedObjectContainers)
+            {
+                if (map.Value != null)
+                {
+                    i++;  
+                }
+            }
+            return i;
+        }
+
         public GameType GameType => _assetLocator.Type;
 
         public bool postLoad = false;
@@ -533,6 +546,16 @@ namespace StudioCore.MsbEditor
             }
         }
 
+        public void LoadRelatedMaps(string mapid, Dictionary<string, ObjectContainer> maps)
+        {
+            var relatedMaps = SpecialMapConnections.GetRelatedMaps(GameType.EldenRing, mapid, maps.Keys);
+            foreach (var map in relatedMaps)
+            {
+                LoadMap(map.Key);
+            }
+            return;
+        }
+
         public bool LoadMap(string mapid, bool selectOnLoad = false)
         {
             if (_assetLocator.Type == GameType.DarkSoulsIISOTFS
@@ -550,7 +573,6 @@ namespace StudioCore.MsbEditor
             }
             LoadMapAsync(mapid, selectOnLoad);
             return true;
-
         }
 
         public BTL ReturnBTL(AssetDescription ad)
@@ -901,19 +923,20 @@ namespace StudioCore.MsbEditor
                 }
                 // Check for duplicate EntityIDs
                 CheckDupeEntityIDs(map);
-
-                return;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
 #if DEBUG
                 throw;
 #else
                 // Store async exception so it can be caught by crash handler.
                 LoadMapExceptions = System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(e);
-                return;
 #endif
             }
+
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            GC.Collect();
         }
 
         public static void CheckDupeEntityIDs(Map map)
@@ -1396,7 +1419,7 @@ namespace StudioCore.MsbEditor
             }
         }
 
-        public void UnloadContainer(ObjectContainer container, bool clearFromList = false)
+        public void UnloadContainer(ObjectContainer container, bool clearFromList = false, bool collectGarbage = true)
         {
             if (LoadedObjectContainers.ContainsKey(container.Name))
             {
@@ -1413,26 +1436,35 @@ namespace StudioCore.MsbEditor
                 {
                     LoadedObjectContainers.Remove(container.Name);
                 }
+                if (collectGarbage)
+                {
+                    GC.Collect();
+                }
             }
         }
 
         public void UnloadAllMaps()
         {
-            List<ObjectContainer> toUnload = new List<ObjectContainer>();
-            foreach (var key in LoadedObjectContainers.Keys)
             {
-                if (LoadedObjectContainers[key] != null)
+                List<ObjectContainer> toUnload = new List<ObjectContainer>();
+                foreach (var key in LoadedObjectContainers.Keys)
                 {
-                    toUnload.Add(LoadedObjectContainers[key]);
+                    if (LoadedObjectContainers[key] != null)
+                    {
+                        toUnload.Add(LoadedObjectContainers[key]);
+                    }
+                }
+                foreach (var un in toUnload)
+                {
+                    if (un is Map ma)
+                    {
+                        UnloadContainer(ma, false, false);
+                    }
                 }
             }
-            foreach (var un in toUnload)
-            {
-                if (un is Map ma)
-                {
-                    UnloadContainer(ma);
-                }
-            }
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            GC.Collect();
         }
 
         public void UnloadAll(bool clearFromList = false)
