@@ -933,10 +933,6 @@ namespace StudioCore.MsbEditor
                 LoadMapExceptions = System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(e);
 #endif
             }
-
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-            GC.Collect();
         }
 
         public static void CheckDupeEntityIDs(Map map)
@@ -1419,7 +1415,7 @@ namespace StudioCore.MsbEditor
             }
         }
 
-        public void UnloadContainer(ObjectContainer container, bool clearFromList = false, bool collectGarbage = true)
+        public void UnloadContainer(ObjectContainer container, bool clearFromList = false)
         {
             if (LoadedObjectContainers.ContainsKey(container.Name))
             {
@@ -1436,35 +1432,26 @@ namespace StudioCore.MsbEditor
                 {
                     LoadedObjectContainers.Remove(container.Name);
                 }
-                if (collectGarbage)
-                {
-                    GC.Collect();
-                }
             }
         }
 
         public void UnloadAllMaps()
         {
+            List<ObjectContainer> toUnload = new List<ObjectContainer>();
+            foreach (var key in LoadedObjectContainers.Keys)
             {
-                List<ObjectContainer> toUnload = new List<ObjectContainer>();
-                foreach (var key in LoadedObjectContainers.Keys)
+                if (LoadedObjectContainers[key] != null)
                 {
-                    if (LoadedObjectContainers[key] != null)
-                    {
-                        toUnload.Add(LoadedObjectContainers[key]);
-                    }
-                }
-                foreach (var un in toUnload)
-                {
-                    if (un is Map ma)
-                    {
-                        UnloadContainer(ma, false, false);
-                    }
+                    toUnload.Add(LoadedObjectContainers[key]);
                 }
             }
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-            GC.Collect();
+            foreach (var un in toUnload)
+            {
+                if (un is Map ma)
+                {
+                    UnloadContainer(ma, false);
+                }
+            }
         }
 
         public void UnloadAll(bool clearFromList = false)

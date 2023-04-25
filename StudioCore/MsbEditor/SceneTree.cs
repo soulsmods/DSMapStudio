@@ -749,6 +749,9 @@ namespace StudioCore.MsbEditor
                                 _selection.ClearSelection();
                                 _editorActionManager.Clear();
                                 _universe.UnloadContainer(m);
+                                GC.Collect();
+                                GC.WaitForPendingFinalizers();
+                                GC.Collect();
                             }
                         }
                         if (_universe.GetLoadedMapCount() > 1)
@@ -761,6 +764,9 @@ namespace StudioCore.MsbEditor
                                     _selection.ClearSelection();
                                     _editorActionManager.Clear();
                                     _universe.UnloadAllMaps();
+                                    GC.Collect();
+                                    GC.WaitForPendingFinalizers();
+                                    GC.Collect();
                                 }
                             }
                         }
