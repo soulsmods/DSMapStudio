@@ -1449,7 +1449,7 @@ namespace StudioCore.MsbEditor
             {
                 if (un is Map ma)
                 {
-                    UnloadContainer(ma, false);
+                    UnloadContainer(ma);
                 }
             }
         }

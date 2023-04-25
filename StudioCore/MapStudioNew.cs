@@ -88,17 +88,6 @@ namespace StudioCore
 
         public MapStudioNew()
         {
-            {
-                List<string> str = new();
-                for (var i = 0; i < 59999999; i++)
-                {
-                    str.Add(i.ToString());
-                }
-                str = null;
-            }
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-            GC.Collect();
             CFG.AttemptLoadOrDefault();
 
             if (UseRenderdoc)
