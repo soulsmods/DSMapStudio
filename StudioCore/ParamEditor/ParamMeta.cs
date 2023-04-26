@@ -67,6 +67,11 @@ namespace StudioCore.ParamEditor
         /// </summary>
         public CalcCorrectDefinition CalcCorrectDef {get; set;}
 
+        /// <summary>
+        /// Provides a set of fields the define a CalcCorrectGraph for soul cost
+        /// </summary>
+        public SoulCostDefinition SoulCostDef {get; set;}
+
         public static ParamMetaData Get(PARAMDEF def)
         {
             if (!ParamBank.IsMetaLoaded)
@@ -168,6 +173,11 @@ namespace StudioCore.ParamEditor
                 if (CCD != null)
                 {
                     CalcCorrectDef = new CalcCorrectDefinition(CCD.InnerText);
+                }
+                XmlAttribute SCD = self.Attributes["SoulCostDef"];
+                if (SCD != null)
+                {
+                    SoulCostDef = new SoulCostDefinition(SCD.InnerText);
                 }
             }
 
@@ -275,6 +285,7 @@ namespace StudioCore.ParamEditor
             SetBoolXmlProperty("Row0Dummy", Row0Dummy, _xml, "PARAMMETA", "Self");
             SetStringListXmlProperty("AlternativeOrder", AlternateOrder, "-,", _xml, "PARAMMETA", "Self");
             SetStringXmlProperty("CalcCorrectDef", CalcCorrectDef?.getStringForm(), false, _xml, "PARAMMETA", "Self");
+            SetStringXmlProperty("SoulCostDef", SoulCostDef?.getStringForm(), false, _xml, "PARAMMETA", "Self");
         }
 
         public void Save()
@@ -511,6 +522,30 @@ namespace StudioCore.ParamEditor
         internal string getStringForm()
         {
             return string.Join(',', stageMaxVal) + ',' + string.Join(',', stageMaxGrowVal) + ',' + string.Join(',', adjPoint_maxGrowVal);
+        }
+    }
+
+    public class SoulCostDefinition
+    {
+        public string init_inclination_soul;
+        public string adjustment_value;
+        public string boundry_inclination_soul;
+        public string boundry_value;
+        public int cost_row;
+        public int max_level_for_game;
+        internal SoulCostDefinition(string ccd)
+        {
+            string[] parts = ccd.Split(',');
+            init_inclination_soul = parts[0];
+            adjustment_value = parts[1];
+            boundry_inclination_soul = parts[2];
+            boundry_value = parts[3];
+            cost_row = int.Parse(parts[4]);
+            max_level_for_game = int.Parse(parts[5]);
+        }
+        internal string getStringForm()
+        {
+            return $@"{init_inclination_soul},{adjustment_value},{boundry_inclination_soul},{boundry_value},{cost_row},{max_level_for_game}";
         }
     }
 }
