@@ -377,6 +377,11 @@ namespace StudioCore.ParamEditor
         /// </summary>
         public bool IsBool {get; set;}
 
+        /// <summary>
+        /// Path (and subpath) filters for files linked by this field.
+        /// </summary>
+        public List<ExtRef> ExtRefs {get; set;}
+
         public static FieldMetaData Get(PARAMDEF.Field def)
         {
             if (!ParamBank.IsMetaLoaded)
@@ -427,6 +432,9 @@ namespace StudioCore.ParamEditor
             XmlAttribute IsBoolean = fieldMeta.Attributes["IsBool"];
             if (IsBoolean != null)
                 IsBool = true;
+            XmlAttribute ExRef = fieldMeta.Attributes["ExtRefs"];
+            if (ExRef != null)
+                ExtRefs = ExRef.InnerText.Split(';').Select((x) => new ExtRef(x)).ToList();
         }
 
         public void Commit(string field)
@@ -441,6 +449,8 @@ namespace StudioCore.ParamEditor
             ParamMetaData.SetStringXmlProperty("AltName", AltName, false, _parent._xml, "PARAMMETA", "Field", field);
             ParamMetaData.SetStringXmlProperty("Wiki", Wiki, true, _parent._xml, "PARAMMETA", "Field", field);
             ParamMetaData.SetBoolXmlProperty("IsBool", IsBool, _parent._xml, "PARAMMETA", "Field", field);
+            if (ExtRefs != null)
+                ParamMetaData.SetStringListXmlProperty("ExtRefs", ExtRefs.Select((x) => x.getStringForm()).ToList(), null, _parent._xml, "PARAMMETA", "Field", field);
             
             XmlNode thisNode = ParamMetaData.GetXmlNode(_parent._xml, "PARAMMETA", "Field", field);
             if (thisNode.Attributes.Count == 0 && thisNode.ChildNodes.Count == 0)
@@ -488,6 +498,24 @@ namespace StudioCore.ParamEditor
         internal string getStringForm()
         {
             return param+'('+conditionField+'='+conditionValue+')';
+        }
+    }
+
+    public class ExtRef
+    {
+        public string name;
+        public List<string> paths;
+
+        internal ExtRef(string refString)
+        {
+            string[] parts = refString.Split(",");
+            name = parts[0];
+            paths = parts.Skip(1).ToList();
+        }
+
+        internal string getStringForm()
+        {
+            return name + ',' + string.Join(',', paths);
         }
     }
 
