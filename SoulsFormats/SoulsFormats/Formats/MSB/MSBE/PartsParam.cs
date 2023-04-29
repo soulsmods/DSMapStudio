@@ -976,24 +976,24 @@ namespace SoulsFormats
                 public float TransitionTime { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// Value of the hundredths place of a Gparam to override use.
                 /// </summary>
-                public sbyte Unk18 { get; set; }
+                public sbyte GparamSubID_Base { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// Value of the hundredths place of a Gparam to override Base with.
                 /// </summary>
-                public sbyte Unk19 { get; set; }
+                public sbyte GparamSubID_Override1 { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// Value of the hundredths place of a Gparam to override Base and Override 1 with.
                 /// </summary>
-                public sbyte Unk1A { get; set; }
+                public sbyte GparamSubID_Override2 { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// Value of the hundredths place of a Gparam to override Base and Override 1 and Override 2 with.
                 /// </summary>
-                public sbyte Unk1B { get; set; }
+                public sbyte GparamSubID_Override3 { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -1021,10 +1021,10 @@ namespace SoulsFormats
                 public SceneGparamConfig()
                 {
                     TransitionTime = 0.0f;
-                    Unk18 = -1;
-                    Unk19 = -1;
-                    Unk1A = -1;
-                    Unk1B = -1;
+                    GparamSubID_Base = -1;
+                    GparamSubID_Override1 = -1;
+                    GparamSubID_Override2 = -1;
+                    GparamSubID_Override3 = -1;
                     Unk1C = -1;
                     Unk1D = -1;
                     Unk20 = -1;
@@ -1045,10 +1045,10 @@ namespace SoulsFormats
                     br.AssertPattern(16, 0x00);
                     TransitionTime = br.ReadSingle();
                     br.AssertInt32(0);
-                    Unk18 = br.ReadSByte();
-                    Unk19 = br.ReadSByte();
-                    Unk1A = br.ReadSByte();
-                    Unk1B = br.ReadSByte();
+                    GparamSubID_Base = br.ReadSByte();
+                    GparamSubID_Override1 = br.ReadSByte();
+                    GparamSubID_Override2 = br.ReadSByte();
+                    GparamSubID_Override3 = br.ReadSByte();
                     Unk1C = br.ReadSByte();
                     Unk1D = br.ReadSByte();
                     br.AssertSByte(0);
@@ -1065,10 +1065,10 @@ namespace SoulsFormats
                     bw.WritePattern(16, 0x00);
                     bw.WriteSingle(TransitionTime);
                     bw.WriteInt32(0);
-                    bw.WriteSByte(Unk18);
-                    bw.WriteSByte(Unk19);
-                    bw.WriteSByte(Unk1A);
-                    bw.WriteSByte(Unk1B);
+                    bw.WriteSByte(GparamSubID_Base);
+                    bw.WriteSByte(GparamSubID_Override1);
+                    bw.WriteSByte(GparamSubID_Override2);
+                    bw.WriteSByte(GparamSubID_Override3);
                     bw.WriteSByte(Unk1C);
                     bw.WriteSByte(Unk1D);
                     bw.WriteSByte(0);
