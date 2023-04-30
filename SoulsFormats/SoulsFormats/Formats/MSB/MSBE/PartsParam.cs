@@ -1263,7 +1263,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int MapID { get; set; }
+                public byte[] MapID { get; private set; }
 
                 /// <summary>
                 /// Unknown.
@@ -1288,19 +1288,24 @@ namespace SoulsFormats
                 /// <summary>
                 /// Creates an UnkStruct7 with default values.
                 /// </summary>
-                public UnkStruct10() { }
+                public UnkStruct10()
+                {
+                    MapID = new byte[4];
+                }
 
                 /// <summary>
                 /// Creates a deep copy of the struct.
                 /// </summary>
                 public UnkStruct10 DeepCopy()
                 {
-                    return (UnkStruct10)MemberwiseClone();
+                    var unks10 = (UnkStruct10)MemberwiseClone();
+                    unks10.MapID = (byte[])MapID.Clone();
+                    return unks10;
                 }
 
                 internal UnkStruct10(BinaryReaderEx br)
                 {
-                    MapID = br.ReadInt32();
+                    MapID = br.ReadBytes(4);
                     Unk04 = br.ReadInt32();
                     br.AssertInt32(0);
                     Unk0C = br.ReadInt32();
@@ -1312,7 +1317,7 @@ namespace SoulsFormats
 
                 internal void Write(BinaryWriterEx bw)
                 {
-                    bw.WriteInt32(MapID);
+                    bw.WriteBytes(MapID);
                     bw.WriteInt32(Unk04);
                     bw.WriteInt32(0);
                     bw.WriteInt32(Unk0C);
@@ -2514,7 +2519,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int UnkT58 { get; set; }
+                public int UnkModelMaskAndAnimID { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -3062,7 +3067,7 @@ namespace SoulsFormats
                     br.AssertByte(0);
                     UnkT53 = br.ReadByte();
                     UnkT54 = br.ReadInt32();
-                    UnkT58 = br.ReadInt32();
+                    UnkModelMaskAndAnimID = br.ReadInt32();
                     UnkT5C = br.ReadInt32();
                     UnkT60 = br.ReadInt32();
                     UnkT64 = br.ReadInt32();
@@ -3115,7 +3120,7 @@ namespace SoulsFormats
                     bw.WriteByte(0);
                     bw.WriteByte(UnkT53);
                     bw.WriteInt32(UnkT54);
-                    bw.WriteInt32(UnkT58);
+                    bw.WriteInt32(UnkModelMaskAndAnimID);
                     bw.WriteInt32(UnkT5C);
                     bw.WriteInt32(UnkT60);
                     bw.WriteInt32(UnkT64);
