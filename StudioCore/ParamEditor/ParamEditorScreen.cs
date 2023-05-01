@@ -2002,57 +2002,20 @@ namespace StudioCore.ParamEditor
                 scrollTo = ImGui.GetCursorPosY();
         }
 
-        private static void ParamRefReverseLookupSelectables(ParamBank bank, string currentParam, object currentID)
+        private void ParamRefReverseLookupSelectables(ParamBank bank, string currentParam, int currentID)
         {
-            if (ImGui.BeginMenu("Search for references... (laggy)"))
+            if (ImGui.BeginMenu("Search for references..."))
             {
-                Dictionary<string, List<(string, ParamRef)>> items = new Dictionary<string, List<(string, ParamRef)>>();
-                foreach (var param in bank.Params)
-                {
-                    List<(string, ParamRef)> paramitems = new List<(string, ParamRef)>();
-                    //get field
-                    foreach (PARAMDEF.Field f in param.Value.AppliedParamdef.Fields)
-                    {
-                        var meta = FieldMetaData.Get(f); 
-                        if (meta.RefTypes == null)
-                            continue;
-                        // get hilariously deep in loops
-                        foreach (ParamRef pref in meta.RefTypes)
-                        {
-                            if (!pref.param.Equals(currentParam))
-                                continue;
-                            paramitems.Add((f.InternalName, pref));
-                        }
-                    }
-                    if (paramitems.Count > 0)
-                        items[param.Key] = paramitems;
-                }
+                Dictionary<string, List<(string, ParamRef)>> items = CacheBank.GetCached(_paramEditor, (bank, currentParam), () => ParamRefReverseLookupFieldItems(bank, currentParam));
                 foreach (KeyValuePair<string, List<(string, ParamRef)>> paramitems in items)
                 {
                     if (ImGui.BeginMenu($@"in {paramitems.Key}..."))
                     {
                         foreach ((string fieldName, ParamRef pref) in paramitems.Value)
                         {
-                            /*
-                            if (ImGui.Selectable($@"in {fieldName}"))
-                            {
-                                if (pref.conditionField != null)
-                                {
-                                    EditorCommandQueue.AddCommand($@"param/select/-1/{paramitems.Key}");
-                                    EditorCommandQueue.AddCommand($@"param/search/prop {fieldName} ^{currentID}$ && prop {pref.conditionField} ^{pref.conditionValue}$");
-                                }
-                                else
-                                {
-                                    EditorCommandQueue.AddCommand($@"param/select/-1/{paramitems.Key}");
-                                    EditorCommandQueue.AddCommand($@"param/search/prop {fieldName} ^{currentID}$");
-                                }
-                            }*/
-
                             if (ImGui.BeginMenu($@"in {fieldName}"))
                             {
-                                // supergigacursed
-                                string searchTerm = pref.conditionField != null ? $@"prop {fieldName} ^{currentID}$ && prop {pref.conditionField} ^{pref.conditionValue}$" : $@"prop {fieldName} ^{currentID}$";
-                                List<Param.Row> rows = RowSearchEngine.rse.Search((bank, bank.Params[paramitems.Key]), searchTerm, false, false);
+                                List<Param.Row> rows = CacheBank.GetCached(_paramEditor, (bank, currentParam, currentID, pref), () => ParamRefReverseLookupRowItems(bank, paramitems.Key, fieldName, currentID, pref));
                                 foreach (Param.Row row in rows)
                                 {
                                     string nameToPrint = string.IsNullOrEmpty(row.Name) ? "Unnamed Row" : row.Name;
@@ -2074,6 +2037,38 @@ namespace StudioCore.ParamEditor
                     ImGui.TextUnformatted("This param is not referenced");
                 ImGui.EndMenu();
             }
+        }
+
+        private static Dictionary<string, List<(string, ParamRef)>> ParamRefReverseLookupFieldItems(ParamBank bank, string currentParam)
+        {
+            Dictionary<string, List<(string, ParamRef)>> items = new Dictionary<string, List<(string, ParamRef)>>();
+            foreach (var param in bank.Params)
+            {
+                List<(string, ParamRef)> paramitems = new List<(string, ParamRef)>();
+                //get field
+                foreach (PARAMDEF.Field f in param.Value.AppliedParamdef.Fields)
+                {
+                    var meta = FieldMetaData.Get(f); 
+                    if (meta.RefTypes == null)
+                        continue;
+                    // get hilariously deep in loops
+                    foreach (ParamRef pref in meta.RefTypes)
+                    {
+                        if (!pref.param.Equals(currentParam))
+                            continue;
+                        paramitems.Add((f.InternalName, pref));
+                    }
+                }
+                if (paramitems.Count > 0)
+                    items[param.Key] = paramitems;
+            }
+            return items;
+        }
+
+        private static List<Param.Row> ParamRefReverseLookupRowItems(ParamBank bank, string paramName, string fieldName, int currentID, ParamRef pref)
+        {
+            string searchTerm = pref.conditionField != null ? $@"prop {fieldName} ^{currentID}$ && prop {pref.conditionField} ^{pref.conditionValue}$" : $@"prop {fieldName} ^{currentID}$";
+            return RowSearchEngine.rse.Search((bank, bank.Params[paramName]), searchTerm, false, false);
         }
     }
 }
