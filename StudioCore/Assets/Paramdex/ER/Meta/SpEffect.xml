@@ -506,9 +506,9 @@
         <Option Value="449" Name="Malenia's Great Rune" />
         <Option Value="450" Name="Reduce Headshot Impact" />
         <Option Value="452" Name="Unknown" />
-        <Option Value="453" Name="Unknown" />
-        <Option Value="454" Name="Unknown" />
-        <Option Value="455" Name="Unknown" />
+        <Option Value="453" Name="Fade after death - Normal" />
+        <Option Value="454" Name="Fade after death - Blue" />
+        <Option Value="455" Name="Fade after death - Boss" />
         <Option Value="456" Name="Unknown" />
         <Option Value="457" Name="Unknown" />
         <Option Value="458" Name="Attempt Invasion" />

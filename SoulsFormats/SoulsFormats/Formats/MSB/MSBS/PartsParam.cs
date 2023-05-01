@@ -1247,9 +1247,9 @@ namespace SoulsFormats
                 public short PatrolIndex { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// Enum that refers to an animation ID to use.
                 /// </summary>
-                public short UnkT22 { get; set; }
+                public short InitAnimIDType { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -1327,7 +1327,7 @@ namespace SoulsFormats
                     CharaInitID = br.ReadInt32();
                     CollisionPartIndex = br.ReadInt32();
                     PatrolIndex = br.ReadInt16();
-                    UnkT22 = br.ReadInt16();
+                    InitAnimIDType = br.ReadInt16();
                     UnkT24 = br.ReadInt32();
                     br.AssertPattern(0x10, 0xFF);
                     BackupEventAnimID = br.ReadInt32();
@@ -1368,7 +1368,7 @@ namespace SoulsFormats
                     bw.WriteInt32(CharaInitID);
                     bw.WriteInt32(CollisionPartIndex);
                     bw.WriteInt16(PatrolIndex);
-                    bw.WriteInt16(UnkT22);
+                    bw.WriteInt16(InitAnimIDType);
                     bw.WriteInt32(UnkT24);
                     bw.WritePattern(0x10, 0xFF);
                     bw.WriteInt32(BackupEventAnimID);

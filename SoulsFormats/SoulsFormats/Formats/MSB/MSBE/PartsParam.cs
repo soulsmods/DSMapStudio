@@ -171,9 +171,9 @@ namespace SoulsFormats
             private int ModelIndex;
 
             /// <summary>
-            /// Unknown
+            /// Involved with serialization.
             /// </summary>
-            public int Unk08 { get; set; }
+            public int InstanceID { get; set; }
 
             /// <summary>
             /// A path to a .sib file, presumably some kind of editor placeholder.
@@ -342,7 +342,7 @@ namespace SoulsFormats
             {
                 long start = br.Position;
                 long nameOffset = br.ReadInt64();
-                Unk08 = br.ReadInt32();
+                InstanceID = br.ReadInt32();
                 br.AssertUInt32((uint)Type);
                 br.ReadInt32(); // ID
                 ModelIndex = br.ReadInt32();
@@ -525,7 +525,7 @@ namespace SoulsFormats
             {
                 long start = bw.Position;
                 bw.ReserveInt64("NameOffset");
-                bw.WriteInt32(Unk08);
+                bw.WriteInt32(InstanceID);
                 bw.WriteUInt32((uint)Type);
                 bw.WriteInt32(id);
                 bw.WriteInt32(ModelIndex);

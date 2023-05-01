@@ -121,6 +121,10 @@ namespace StudioCore.ParamEditor
         private bool _mEditCSVAppendOnly = false;
         private bool _mEditCSVReplaceRows = false;
 
+        private IEnumerable<(object, int)> _distributionOutput = null;
+        private string _statisticPopupOutput = "";
+        private string _statisticPopupParameter = "";
+
         private string[] _autoFillArgsParse = Enumerable.Repeat("", ParamAndRowSearchEngine.parse.AvailableCommands().Sum((x) => x.Item2.Length) + ParamAndRowSearchEngine.parse.defaultFilter.Item1.Length).ToArray();
         private string[] _autoFillArgsPse = Enumerable.Repeat("", ParamSearchEngine.pse.AvailableCommands().Sum((x) => x.Item2.Length) + ParamSearchEngine.pse.defaultFilter.Item1.Length).ToArray();
         private string[] _autoFillArgsRse = Enumerable.Repeat("", RowSearchEngine.rse.AvailableCommands().Sum((x) => x.Item2.Length) + RowSearchEngine.rse.defaultFilter.Item1.Length).ToArray();
@@ -132,8 +136,9 @@ namespace StudioCore.ParamEditor
         public static bool EditorMode = false;
 
         internal bool _isSearchBarActive = false;
-        private bool _isMEditPopupOpen = false;
         private bool _isShortcutPopupOpen = false;
+        private bool _isMEditPopupOpen = false;
+        private bool _isStatisticPopupOpen = false;
 
         internal Dictionary<string, IParamDecorator> _decorators = new Dictionary<string, IParamDecorator>();
 
@@ -816,6 +821,11 @@ namespace StudioCore.ParamEditor
             ImGui.OpenPopup(popup);
             _isMEditPopupOpen = true;
         }
+        public void OpenStatisticPopup(string popup)
+        {
+            ImGui.OpenPopup(popup);
+            _isStatisticPopupOpen = true;
+        }
 
         public void MassEditPopups()
         {
@@ -906,11 +916,49 @@ namespace StudioCore.ParamEditor
                 _currentMEditCSVOutput = "";
             }
         }
+        public void StatisticPopups()
+        {
+            if (ImGui.BeginPopup("distributionPopup"))
+            {
+                ImGui.Text("Occurences in "+_statisticPopupParameter);
+                ImGui.Text("Count".PadLeft(9)+" Value");
+                ImGui.SameLine();
+                try
+                {
+                    if (ImGui.Button("Sort by count"))
+                    {
+                        _distributionOutput = _distributionOutput.OrderByDescending((g) => g.Item2);
+                        _statisticPopupOutput = String.Join('\n', _distributionOutput.Select((e) => e.Item2.ToString().PadLeft(9) + " " + e.Item1.ToParamEditorString()));
+                    }
+                    ImGui.SameLine();
+                    if (ImGui.Button("Sort by value"))
+                    {
+                        _distributionOutput = _distributionOutput.OrderBy((g) => g.Item1);
+                        _statisticPopupOutput = String.Join('\n', _distributionOutput.Select((e) => e.Item2.ToString().PadLeft(9) + " " + e.Item1.ToParamEditorString()));
+                    }
+                }
+                catch (Exception e)
+                {
+                    // Happily ignore exceptions. This is non-mutating code with no critical use.
+                }
+                ImGui.Separator();
+                ImGui.Text(_statisticPopupOutput);
+                ImGui.EndPopup();
+            }
+            else
+            {
+                _isStatisticPopupOpen = false;
+                _statisticPopupOutput = "";
+                _statisticPopupParameter = "";
+                _distributionOutput = null;
+            }
+        }
+
         public void OnGUI(string[] initcmd)
         {
             float scale = ImGuiRenderer.GetUIScale();
 
-            if (!_isMEditPopupOpen && !_isShortcutPopupOpen && !_isSearchBarActive)// Are shortcuts active? Presently just checks for massEdit popup.
+            if (!_isShortcutPopupOpen && !_isMEditPopupOpen && !_isStatisticPopupOpen && !_isSearchBarActive)
             {
                 // Keyboard shortcuts
                 if (EditorActionManager.CanUndo() && InputTracker.GetKeyDown(KeyBindings.Current.Core_Undo))
@@ -1031,7 +1079,7 @@ namespace StudioCore.ParamEditor
                 {
                     if (initcmd.Length > 1)
                     {
-                        _activeView._selection.getCurrentRowSearchString() = initcmd[1];
+                        _activeView._selection.setCurrentRowSearchString(initcmd[1]);
                     }
                 }
                 else if (initcmd[0] == "menu" && initcmd.Length > 1)
@@ -1069,13 +1117,23 @@ namespace StudioCore.ParamEditor
                         _currentMEditSingleCSVField = initcmd[2];
                         OpenMassEditPopup("massEditMenuSingleCSVImport");
                     }
+                    else if (initcmd[1] == "distributionPopup" && initcmd.Length > 2)
+                    {
+                        Param p = ParamBank.PrimaryBank.GetParamFromName(_activeView._selection.getActiveParam());
+                        var col = ParamUtils.GetCol(p, initcmd[2]);
+                        _distributionOutput = ParamUtils.GetParamValueDistribution(_activeView._selection.getSelectedRows(), col);
+                        _statisticPopupOutput = String.Join('\n', _distributionOutput.Select((e) => e.Item2.ToString().PadLeft(9) + " " + e.Item1.ToParamEditorString()));
+                        _statisticPopupParameter = initcmd[2];
+                        OpenStatisticPopup("distributionPopup");
+                    }
                 }
             }
 
             ShortcutPopups();
             MassEditPopups();
+            StatisticPopups();
 
-            if (false) // CFG.Current.UI_CompactParams
+            if (CFG.Current.UI_CompactParams)
             {
                 ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, new Vector2(1.0f, 1.0f) * scale);
                 ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(5.0f, 1.0f) * scale);
@@ -1117,7 +1175,7 @@ namespace StudioCore.ParamEditor
                     ImGui.End();
                 }
             }
-            if (false) // CFG.Current.UI_CompactParams)
+            if (CFG.Current.UI_CompactParams)
             {
                 ImGui.PopStyleVar(2);
             }

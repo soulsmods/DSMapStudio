@@ -91,52 +91,41 @@ namespace StudioCore.ParamEditor
             return null;
         }
         internal static string PerformStringOperation(Param.Row row, (PseudoColumn, Param.Column) c, string op, string[] opparam)
-        {
-            try
+    {
+            string name = row.Get(c).ToString();
+            if (op.Equals("="))
+                return opparam[0];
+            else if (op.Equals("+"))
+                return name + opparam[0];
+            else if (op.Equals("replace"))
             {
-                string name = row.Get(c).ToString();
-                if (op.Equals("="))
-                    return opparam[0];
-                else if (op.Equals("+"))
-                    return name + opparam[0];
-                else if (op.Equals("replace"))
-                {
-                    return name.Replace(opparam[0], opparam[1]);
-                }
+                return name.Replace(opparam[0], opparam[1]);
             }
-            catch
-            {
-            }
-            return null;
+            else
+                throw new Exception("Unknown operation for this type: "+op);
         }
 
         private static T PerformNumericOperation<T>(Param.Row row, (PseudoColumn, Param.Column) c, string op, string[] opparam) where T : struct, IFormattable
         {
-            try
+            dynamic val = row.Get(c);
+            dynamic opp = double.Parse(opparam[0]);
+            if (op.Equals("="))
+                return (T) (opp);
+            else if (op.Equals("+"))
+                return (T) (val + opp);
+            else if (op.Equals("-"))
+                return (T) (val - opp);
+            else if (op.Equals("*"))
+                return (T) (val * opp);
+            else if (op.Equals("/"))
+                return (T) (val / opp);
+            else if (op.Equals("scale"))
             {
-                dynamic val = row.Get(c);
-                dynamic opp = double.Parse(opparam[0]);
-                if (op.Equals("="))
-                    return (T) (opp);
-                else if (op.Equals("+"))
-                    return (T) (val + opp);
-                else if (op.Equals("-"))
-                    return (T) (val - opp);
-                else if (op.Equals("*"))
-                    return (T) (val * opp);
-                else if (op.Equals("/"))
-                    return (T) (val / opp);
-                else if (op.Equals("scale"))
-                {
-                    dynamic opp2 = double.Parse(opparam[1]);
-                    return (T) ((val - opp2) * opp + opp2);
-                }
+                dynamic opp2 = double.Parse(opparam[1]);
+                return (T) ((val - opp2) * opp + opp2);
             }
-            catch
-            {
-                // Operation error
-            }
-            return default(T);
+            else
+                throw new Exception("Unknown operation for this type: "+op);
         }
 
         internal static void addAction(Param.Row row, (PseudoColumn, Param.Column) col, object newval, List<EditorAction> actions)
@@ -484,7 +473,7 @@ namespace StudioCore.ParamEditor
                 if (p == null)
                     return (new MassEditResult(MassEditResultType.PARSEERROR, "No Param selected"), null);
                 string[] csvLines = csvString.Split("\n");
-                if (csvLines[0].Contains($@"ID{separator}"))
+                if (csvLines[0].Trim().StartsWith($@"ID{separator}"))
                 {
                     if (!csvLines[0].Contains($@"ID{separator}{field}"))
                     {
@@ -776,8 +765,7 @@ namespace StudioCore.ParamEditor
                 if (!col.IsColumnValid())
                     throw new Exception($@"Could not locate field {field[0]}");
                 var rows = RowSearchEngine.rse.Search((ParamBank.PrimaryBank, param), field[1], false, false);
-                var vals = rows.Select((row, i) => row.Get(col));
-                var avg = vals.GroupBy((val) => val).OrderByDescending((g) => g.Count()).Select((g) => g.Key).First();
+                var avg = ParamUtils.GetParamValueDistribution(rows, col).OrderByDescending((g) => g.Item2).First().Item1;
                 return (j, row) => (k, c) => avg.ToParamEditorString();
             }));
             argumentGetters.Add("random", (new string[]{"minimum number (inclusive)", "maximum number (exclusive)"}, (minAndMax) => {
