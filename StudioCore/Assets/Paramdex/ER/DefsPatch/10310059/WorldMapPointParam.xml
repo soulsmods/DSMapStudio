@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMDEF XmlVersion="2">
-  <ParamType>BONFIRE_WARP_PARAM_ST</ParamType>
+  <ParamType>WORLD_MAP_POINT_PARAM_ST</ParamType>
   <DataVersion>6</DataVersion>
   <BigEndian>False</BigEndian>
   <Unicode>True</Unicode>
@@ -17,65 +17,92 @@
       <DisplayName>パッケージ出力用リザーブ1</DisplayName>
       <Description>パッケージ出力用リザーブ1</Description>
       <DisplayFormat>%d</DisplayFormat>
-      <SortID>1704</SortID>
+      <SortID>2901</SortID>
     </Field>
     <Field Def="dummy8 disableParamReserve2[3]">
       <DisplayName>パッケージ出力用リザーブ2</DisplayName>
       <Description>パッケージ出力用リザーブ2</Description>
       <DisplayFormat>%d</DisplayFormat>
-      <SortID>1705</SortID>
+      <SortID>2902</SortID>
     </Field>
-    <Field Def="u32 eventflagId">
-      <DisplayName>イベントフラグID</DisplayName>
-      <Description>解除条件イベントフラグID</Description>
+    <Field Def="u32 eventFlagId">
+      <DisplayName>開放イベントフラグID</DisplayName>
+      <Description>開放条件のイベントフラグID</Description>
       <DisplayFormat>%u</DisplayFormat>
       <Maximum>-294967297</Maximum>
       <SortID>100</SortID>
     </Field>
-    <Field Def="u32 bonfireEntityId">
-      <DisplayName>篝火エンティティID</DisplayName>
-      <Description>篝火エンティティID</Description>
+    <Field Def="u32 distViewEventFlagId">
+      <DisplayName>遠見台発見イベントフラグID</DisplayName>
+      <Description>遠見台で発見した際に立てるイベントフラグID</Description>
       <DisplayFormat>%u</DisplayFormat>
       <Maximum>-294967297</Maximum>
-      <SortID>200</SortID>
+      <SortID>2100</SortID>
+      <UnkC8>遠見台</UnkC8>
     </Field>
-    <Field Def="dummy8 pad4[2]">
-      <DisplayName>パッド</DisplayName>
-      <Description>パディング。削除した旧作由来データが定義されてた場所</Description>
-      <SortID>1706</SortID>
-    </Field>
-    <Field Def="u16 bonfireSubCategorySortId">
-      <DisplayName>ソートID</DisplayName>
-      <Description>篝火ワープサブカテゴリソートID。同じサブカテゴリ内の並び順（昇順）を指定する</Description>
+    <Field Def="u16 iconId">
+      <DisplayName>アイコンID</DisplayName>
+      <Description>アイコンID</Description>
       <DisplayFormat>%u</DisplayFormat>
-      <SortID>340</SortID>
-      <UnkC8>篝火ワープサブカテゴリ</UnkC8>
+      <SortID>300</SortID>
     </Field>
-    <Field Def="u16 forbiddenIconId">
-      <DisplayName>ワープ禁止アイコンID</DisplayName>
-      <Description>ワープ禁止時のアイコンID</Description>
+    <Field Def="s16 bgmPlaceType">
+      <DisplayName>BGM用場所情報（入場領域内）</DisplayName>
+      <Enum>SOUND_BGM_MAP_PLACE_TYPE</Enum>
+      <Description>Bgm場所タイプ</Description>
+      <Minimum>0</Minimum>
+      <Maximum>99999999</Maximum>
+      <SortID>1000</SortID>
+    </Field>
+    <Field Def="u8 isAreaIcon:1">
+      <DisplayName>範囲アイコンか</DisplayName>
+      <Enum>BOOL_CIRCLECROSS_TYPE</Enum>
+      <Description>範囲を表すアイコンか。地図に対して等倍になる</Description>
+      <Maximum>1</Maximum>
+      <SortID>700</SortID>
+    </Field>
+    <Field Def="u8 isOverrideDistViewMarkPos:1">
+      <DisplayName>遠見台目印_座標上書きするか</DisplayName>
+      <Enum>BOOL_CIRCLECROSS_TYPE</Enum>
+      <Description>遠見台目印として使うときに座標を上書きするか</Description>
+      <Maximum>1</Maximum>
+      <SortID>2300</SortID>
+      <UnkC8>遠見台</UnkC8>
+    </Field>
+    <Field Def="u8 isEnableNoText:1">
+      <DisplayName>テキストが無いときに表示するか</DisplayName>
+      <Enum>BOOL_CIRCLECROSS_TYPE</Enum>
+      <Description>テキストが無いときにも表示するか。基本的にはテキストがなければポイントは表示しない。このフラグが有効なときにはテキストがなくても表示する</Description>
+      <Maximum>1</Maximum>
+      <SortID>710</SortID>
+    </Field>
+    <Field Def="dummy8 pad3:5">
+      <DisplayName>パッド3</DisplayName>
+      <SortID>2903</SortID>
+    </Field>
+    <Field Def="u8 areaNo_forDistViewMark">
+      <DisplayName>遠見台目印上書き_エリア番号</DisplayName>
+      <Description>mAA_BB_CC_DD の AA 部分</Description>
       <DisplayFormat>%u</DisplayFormat>
-      <SortID>320</SortID>
+      <Maximum>99</Maximum>
+      <SortID>2400</SortID>
+      <UnkC8>遠見台</UnkC8>
     </Field>
-    <Field Def="u8 dispMinZoomStep">
-      <DisplayName>表示ズームステップ</DisplayName>
-      <Description>篝火を表示するズームステップ（一番ズームアウトした状態が0、ズームするごとに+1）。「《表示ズームステップ》≦ 現在のズームステップ 」のときに表示される。デフォルトは 0（常に表示）</Description>
-      <Maximum>128</Maximum>
-      <SortID>900</SortID>
+    <Field Def="u8 gridXNo_forDistViewMark">
+      <DisplayName>遠見台目印上書き_グリッドX番号</DisplayName>
+      <Description>mAA_BB_CC_DD の BB 部分</Description>
+      <DisplayFormat>%u</DisplayFormat>
+      <Maximum>99</Maximum>
+      <SortID>2500</SortID>
+      <UnkC8>遠見台</UnkC8>
     </Field>
-    <Field Def="u8 selectMinZoomStep">
-      <DisplayName>選択可能ズームステップ</DisplayName>
-      <Description>篝火を選択及びスナップ可能なズームステップ（一番ズームアウトした状態が0、ズームするごとに+1）。「《選択可能ズームステップ》≦ 現在の拡大段階 」のときに選択及びスナップ可能。デフォルトは 0（常に選択・スナップ可能）</Description>
-      <Maximum>128</Maximum>
-      <SortID>910</SortID>
-    </Field>
-    <Field Def="s32 bonfireSubCategoryId = -1">
-      <DisplayName>サブカテゴリID</DisplayName>
-      <Description>篝火ワープサブカテゴリパラメータID(-1:無効)。どのサブカテゴリに属するかを設定する。無効なら篝火一覧に表示されない</Description>
-      <Minimum>-1</Minimum>
-      <Maximum>65535</Maximum>
-      <SortID>330</SortID>
-      <UnkC8>篝火ワープサブカテゴリ</UnkC8>
+    <Field Def="u8 gridZNo_forDistViewMark">
+      <DisplayName>遠見台目印上書き_グリッドZ番号</DisplayName>
+      <Description>mAA_BB_CC_DD の CC 部分</Description>
+      <DisplayFormat>%u</DisplayFormat>
+      <Maximum>99</Maximum>
+      <SortID>2600</SortID>
+      <UnkC8>遠見台</UnkC8>
     </Field>
     <Field Def="u32 clearedEventFlagId">
       <DisplayName>クリア済イベントフラグID</DisplayName>
@@ -83,12 +110,6 @@
       <DisplayFormat>%u</DisplayFormat>
       <Maximum>-294967297</Maximum>
       <SortID>110</SortID>
-    </Field>
-    <Field Def="u16 iconId">
-      <DisplayName>アイコンID</DisplayName>
-      <Description>アイコンID</Description>
-      <DisplayFormat>%u</DisplayFormat>
-      <SortID>310</SortID>
     </Field>
     <Field Def="u8 dispMask00:1">
       <DisplayName>表示設定M00</DisplayName>
@@ -104,15 +125,31 @@
       <Maximum>1</Maximum>
       <SortID>810</SortID>
     </Field>
-    <Field Def="dummy8 pad1:6">
+    <Field Def="dummy8 pad2_0:6">
       <DisplayName>パッド</DisplayName>
-      <Description>pad1:6</Description>
-      <SortID>1707</SortID>
+      <Description>pad2_0</Description>
+      <SortID>2904</SortID>
     </Field>
     <Field Def="dummy8 pad2[1]">
       <DisplayName>パッド</DisplayName>
       <Description>pad2</Description>
-      <SortID>1708</SortID>
+      <SortID>2905</SortID>
+    </Field>
+    <Field Def="u16 distViewIconId">
+      <DisplayName>遠見台発見時アイコンID</DisplayName>
+      <Description>遠見台発見時アイコンID</Description>
+      <DisplayFormat>%u</DisplayFormat>
+      <SortID>2200</SortID>
+      <UnkC8>遠見台</UnkC8>
+    </Field>
+    <Field Def="f32 angle">
+      <DisplayName>アイコン角度[deg]</DisplayName>
+      <Description>表示アイコンの回転角度[deg]</Description>
+      <DisplayFormat>%.1f</DisplayFormat>
+      <Minimum>-360</Minimum>
+      <Maximum>360</Maximum>
+      <Increment>0.1</Increment>
+      <SortID>1700</SortID>
     </Field>
     <Field Def="u8 areaNo">
       <DisplayName>エリア番号</DisplayName>
@@ -135,10 +172,10 @@
       <Maximum>99</Maximum>
       <SortID>1300</SortID>
     </Field>
-    <Field Def="dummy8 pad3[1]">
+    <Field Def="dummy8 pad[1]">
       <DisplayName>パディング</DisplayName>
-      <Description>pad3</Description>
-      <SortID>1709</SortID>
+      <Description>パディング</Description>
+      <SortID>2906</SortID>
     </Field>
     <Field Def="f32 posX">
       <DisplayName>X座標</DisplayName>
@@ -417,33 +454,103 @@
       <SortID>281</SortID>
       <UnkC8>テキストID08</UnkC8>
     </Field>
-    <Field Def="s32 noIgnitionSfxDmypolyId_0 = -1">
-      <DisplayName>点火前SFXダミポリID0</DisplayName>
-      <Description>篝火点火前にSFXを出すダミポリID</Description>
+    <Field Def="s32 distViewId = -1">
+      <DisplayName>遠見台ID0</DisplayName>
+      <Description>遠見台ID</Description>
       <Minimum>-1</Minimum>
       <Maximum>99999999</Maximum>
-      <SortID>1700</SortID>
+      <SortID>2000</SortID>
+      <UnkC8>遠見台</UnkC8>
     </Field>
-    <Field Def="s32 noIgnitionSfxId_0 = -1">
-      <DisplayName>点火前SFXID0</DisplayName>
-      <Description>篝火点火前に出すSFXID。点火したら消える。-1の場合はSFXを出さない。</Description>
-      <Minimum>-1</Minimum>
-      <Maximum>999999999</Maximum>
-      <SortID>1701</SortID>
+    <Field Def="f32 posX_forDistViewMark">
+      <DisplayName>遠見台目印上書き_X座標</DisplayName>
+      <Description>X座標</Description>
+      <Minimum>-20000</Minimum>
+      <Maximum>20000</Maximum>
+      <SortID>2700</SortID>
+      <UnkC8>遠見台</UnkC8>
     </Field>
-    <Field Def="s32 noIgnitionSfxDmypolyId_1 = -1">
-      <DisplayName>点火前SFXダミポリID1</DisplayName>
-      <Description>篝火点火前にSFXを出すダミポリID</Description>
+    <Field Def="f32 posY_forDistViewMark">
+      <DisplayName>遠見台目印上書きY座標</DisplayName>
+      <Description>Y座標</Description>
+      <Minimum>-20000</Minimum>
+      <Maximum>20000</Maximum>
+      <SortID>2800</SortID>
+      <UnkC8>遠見台</UnkC8>
+    </Field>
+    <Field Def="f32 posZ_forDistViewMark">
+      <DisplayName>遠見台目印上書きZ座標</DisplayName>
+      <Description>Z座標</Description>
+      <Minimum>-20000</Minimum>
+      <Maximum>20000</Maximum>
+      <SortID>2900</SortID>
+      <UnkC8>遠見台</UnkC8>
+    </Field>
+    <Field Def="s32 distViewId1 = -1">
+      <DisplayName>遠見台ID1</DisplayName>
+      <Description>遠見台ID</Description>
       <Minimum>-1</Minimum>
       <Maximum>99999999</Maximum>
-      <SortID>1702</SortID>
+      <SortID>2010</SortID>
+      <UnkC8>遠見台</UnkC8>
     </Field>
-    <Field Def="s32 noIgnitionSfxId_1 = -1">
-      <DisplayName>点火前SFXID1</DisplayName>
-      <Description>篝火点火前に出すSFXID。点火したら消える。-1の場合はSFXを出さない。</Description>
+    <Field Def="s32 distViewId2 = -1">
+      <DisplayName>遠見台ID2</DisplayName>
+      <Description>遠見台ID</Description>
       <Minimum>-1</Minimum>
-      <Maximum>999999999</Maximum>
-      <SortID>1703</SortID>
+      <Maximum>99999999</Maximum>
+      <SortID>2020</SortID>
+      <UnkC8>遠見台</UnkC8>
     </Field>
+    <Field Def="s32 distViewId3 = -1">
+      <DisplayName>遠見台ID3</DisplayName>
+      <Description>遠見台ID</Description>
+      <Minimum>-1</Minimum>
+      <Maximum>99999999</Maximum>
+      <SortID>2030</SortID>
+      <UnkC8>遠見台</UnkC8>
+    </Field>
+    <Field Def="u8 dispMinZoomStep">
+      <DisplayName>表示ズームステップ</DisplayName>
+      <Description>地図ポイントを表示するズームステップ（一番ズームアウトした状態が0、ズームするごとに+1）。「《表示ズームステップ》≦ 現在のズームステップ 」のときに表示される。デフォルトは 0（常に表示）</Description>
+      <Maximum>128</Maximum>
+      <SortID>900</SortID>
+    </Field>
+    <Field Def="u8 selectMinZoomStep">
+      <DisplayName>選択可能ズームステップ</DisplayName>
+      <Description>地図ポイントを選択可能なズームステップ（一番ズームアウトした状態が0、ズームするごとに+1）。「《選択可能ズームステップ》≦ 現在の拡大段階 」のときに選択可能。デフォルトは 0（常に選択可能）</Description>
+      <Maximum>128</Maximum>
+      <SortID>910</SortID>
+    </Field>
+    <Field Def="u8 entryFEType">
+      <DisplayName>入場表示形式</DisplayName>
+      <Enum>WORLD_MAP_ENTRY_FE_TYPE</Enum>
+      <Description>入場表示形式。入場時に表示する地図ポイント入場FEの種類</Description>
+      <DisplayFormat>%u</DisplayFormat>
+      <Maximum>1</Maximum>
+      <SortID>1900</SortID>
+      <UnkC8>FE</UnkC8>
+    </Field>
+    <Field Def="dummy8 pad4[9]">
+      <DisplayName>パッド</DisplayName>
+      <Description>pad3</Description>
+      <SortID>2907</SortID>
+    </Field>
+    <Field Def="s32 unkC0" />
+    <Field Def="s32 unkC4" />
+    <Field Def="s32 unkC8" />
+    <Field Def="s32 unkCC" />
+    <Field Def="s32 unkD0" />
+    <Field Def="s32 unkD4" />
+    <Field Def="s32 unkD8" />
+    <Field Def="s32 unkDC" />
+    <Field Def="s32 unkE0" />
+    <Field Def="s32 unkE4" />
+    <Field Def="s32 unkE8" />
+    <Field Def="s32 unkEC" />
+    <Field Def="s32 unkF0" />
+    <Field Def="s32 unkF4" />
+    <Field Def="s32 unkF8" />
+    <Field Def="s32 unkFC" />
   </Fields>
 </PARAMDEF>
