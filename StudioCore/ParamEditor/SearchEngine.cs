@@ -246,16 +246,16 @@ namespace StudioCore.Editor
                 string paramName = context.Item1.GetKeyForParam(context.Item2);
                 if (paramName == null)
                     return (row) => true;
-                HashSet<int> cache = context.Item1.GetVanillaDiffRows(paramName);
+                HashSet<int> pCache = ParamBank.PrimaryBank.GetVanillaDiffRows(paramName);
                 var auxCaches = ParamBank.AuxBanks.Select(x=>(x.Value.GetPrimaryDiffRows(paramName), x.Value.GetVanillaDiffRows(paramName))).ToList();
-                return (row) => !cache.Contains(row.ID) && auxCaches.Where((x) => x.Item2.Contains(row.ID) && x.Item1.Contains(row.ID)).Count() > 0;
+                return (row) => !pCache.Contains(row.ID) && auxCaches.Where((x) => x.Item2.Contains(row.ID) && x.Item1.Contains(row.ID)).Count() == 1;
                 }
             ), ()=>ParamBank.AuxBanks.Count > 0));
             filterList.Add("conflicts", newCmd(new string[0], noArgs((context)=>{
                 string paramName = context.Item1.GetKeyForParam(context.Item2);
-                HashSet<int> cache = context.Item1.GetVanillaDiffRows(paramName);
+                HashSet<int> pCache = ParamBank.PrimaryBank.GetVanillaDiffRows(paramName);
                 var auxCaches = ParamBank.AuxBanks.Select(x=>(x.Value.GetPrimaryDiffRows(paramName), x.Value.GetVanillaDiffRows(paramName))).ToList();
-                return (row)=>cache.Contains(row.ID) && auxCaches.Where((x) => x.Item2.Contains(row.ID) && x.Item1.Contains(row.ID)).Count() > 0;
+                return (row) => (pCache.Contains(row.ID)?1:0) + auxCaches.Where((x) => x.Item2.Contains(row.ID) && x.Item1.Contains(row.ID)).Count() > 1;
                 }
             ), ()=>ParamBank.AuxBanks.Count > 0));
             filterList.Add("id", newCmd(new string[]{"row id (regex)"}, (args, lenient)=>{
