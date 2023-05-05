@@ -681,6 +681,21 @@ namespace StudioCore
             }
         }
 
+        private void NewProjectNameUI()
+        {
+            ImGui.AlignTextToFramePadding();
+            ImGui.Text("Project Name:      ");
+            ImGui.SameLine();
+            Utils.ImGuiGenericHelpPopup("?", "##Help_ProjectName",
+                "Project's display name. Only affects visuals within DSMS.");
+            ImGui.SameLine();
+            var pname = _newProjectOptions.settings.ProjectName;
+            if (ImGui.InputText("##pname", ref pname, 255))
+            {
+                _newProjectOptions.settings.ProjectName = pname;
+            }
+        }
+
         private void Update(float deltaseconds)
         {
             var ctx = Tracy.TracyCZoneN(1, "Imgui");
@@ -1075,75 +1090,109 @@ namespace StudioCore
             }
             if (ImGui.BeginPopupModal("New Project", ref open, ImGuiWindowFlags.AlwaysAutoResize))
             {
-                ImGui.AlignTextToFramePadding();
-                ImGui.Text("Project Name:      ");
-                ImGui.SameLine();
-                Utils.ImGuiGenericHelpPopup("?", "##Help_ProjectName",
-                    "Project's display name. Only affects visuals within DSMS.");
-                ImGui.SameLine();
-                var pname = _newProjectOptions.settings.ProjectName;
-                if (ImGui.InputText("##pname", ref pname, 255))
+                //
+                ImGui.BeginTabBar("NewProjectTabBar");
+                if (ImGui.BeginTabItem("Standard"))
                 {
-                    _newProjectOptions.settings.ProjectName = pname;
-                }
+                    if (_newProjectOptions.settings.GameRoot == "")
+                        _newProjectOptions.settings.GameType = GameType.Undefined;
 
-                ImGui.AlignTextToFramePadding();
-                ImGui.Text("Project Directory: ");
-                ImGui.SameLine();
-                Utils.ImGuiGenericHelpPopup("?", "##Help_ProjectDirectory",
-                    "The location mod files will be saved.\nTypically, this should be Mod Engine's Mod folder.");
-                ImGui.SameLine();
-                ImGui.InputText("##pdir", ref _newProjectOptions.directory, 255);
-                ImGui.SameLine();
-                if (ImGui.Button($@"{ForkAwesome.FileO}"))
-                {
-                    var browseDlg = new System.Windows.Forms.FolderBrowserDialog();
-
-                    if (browseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                    NewProjectNameUI();
+                    ImGui.AlignTextToFramePadding();
+                    ImGui.Text("Project Directory: ");
+                    ImGui.SameLine();
+                    Utils.ImGuiGenericHelpPopup("?", "##Help_ProjectDirectory",
+                        "The location mod files will be saved.\nTypically, this should be Mod Engine's Mod folder.");
+                    ImGui.SameLine();
+                    ImGui.InputText("##pdir", ref _newProjectOptions.directory, 255);
+                    ImGui.SameLine();
+                    if (ImGui.Button($@"{ForkAwesome.FileO}"))
                     {
-                        _newProjectOptions.directory = browseDlg.SelectedPath;
+                        var browseDlg = new System.Windows.Forms.FolderBrowserDialog();
+
+                        if (browseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                        {
+                            _newProjectOptions.directory = browseDlg.SelectedPath;
+                        }
                     }
-                }
 
-                ImGui.AlignTextToFramePadding();
-                ImGui.Text("Game Executable:   ");
-                ImGui.SameLine();
-                Utils.ImGuiGenericHelpPopup("?", "##Help_GameExecutable",
-                    "The location of the game's .EXE or EBOOT.BIN file.\nThe folder with the executable will be used to obtain unpacked game data.");
-                ImGui.SameLine();
-                var gname = _newProjectOptions.settings.GameRoot;
-                if (ImGui.InputText("##gdir", ref gname, 255))
-                {
-                    _newProjectOptions.settings.GameRoot = gname;
-                    _newProjectOptions.settings.GameType = _assetLocator.GetGameTypeForExePath(_newProjectOptions.settings.GameRoot);
-                }
-                ImGui.SameLine();
-                ImGui.PushID("fd2");
-                if (ImGui.Button($@"{ForkAwesome.FileO}"))
-                {
-                    var browseDlg = new System.Windows.Forms.OpenFileDialog()
+                    ImGui.AlignTextToFramePadding();
+                    ImGui.Text("Game Executable:   ");
+                    ImGui.SameLine();
+                    Utils.ImGuiGenericHelpPopup("?", "##Help_GameExecutable",
+                        "The location of the game's .EXE or EBOOT.BIN file.\nThe folder with the executable will be used to obtain unpacked game data.");
+                    ImGui.SameLine();
+                    var gname = _newProjectOptions.settings.GameRoot;
+                    if (ImGui.InputText("##gdir", ref gname, 255))
                     {
-                        Filter = AssetLocator.GameExecutableFilter,
-                        ValidateNames = true,
-                        CheckFileExists = true,
-                        CheckPathExists = true,
-                        //ShowReadOnly = true,
-                    };
-
-                    if (browseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                    {
-                        _newProjectOptions.settings.GameRoot = browseDlg.FileName;
+                        _newProjectOptions.settings.GameRoot = gname;
                         _newProjectOptions.settings.GameType = _assetLocator.GetGameTypeForExePath(_newProjectOptions.settings.GameRoot);
                     }
-                }
-                ImGui.PopID();
-                ImGui.Text($@"Detected Game:      {_newProjectOptions.settings.GameType.ToString()}");
+                    ImGui.SameLine();
+                    ImGui.PushID("fd2");
+                    if (ImGui.Button($@"{ForkAwesome.FileO}"))
+                    {
+                        var browseDlg = new System.Windows.Forms.OpenFileDialog()
+                        {
+                            Filter = AssetLocator.GameExecutableFilter,
+                            ValidateNames = true,
+                            CheckFileExists = true,
+                            CheckPathExists = true,
+                            //ShowReadOnly = true,
+                        };
 
-                ImGui.NewLine();
+                        if (browseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                        {
+                            _newProjectOptions.settings.GameRoot = browseDlg.FileName;
+                            _newProjectOptions.settings.GameType = _assetLocator.GetGameTypeForExePath(_newProjectOptions.settings.GameRoot);
+                        }
+                    }
+                    ImGui.PopID();
+                    ImGui.Text($@"Detected Game:      {_newProjectOptions.settings.GameType.ToString()}");
+
+                    ImGui.EndTabItem();
+                }
+
+                if (ImGui.BeginTabItem("Standalone"))
+                {
+                    NewProjectNameUI();
+                    ImGui.AlignTextToFramePadding();
+                    ImGui.Text("Project Directory: ");
+                    ImGui.SameLine();
+                    Utils.ImGuiGenericHelpPopup("?", "##Help_ProjectDirectory",
+                        "The location mod files will be saved.\nTypically, this should be Mod Engine's Mod folder.");
+                    ImGui.SameLine();
+                    ImGui.InputText("##pdir", ref _newProjectOptions.directory, 255);
+                    ImGui.SameLine();
+                    if (ImGui.Button($@"{ForkAwesome.FileO}"))
+                    {
+                        var browseDlg = new System.Windows.Forms.FolderBrowserDialog();
+
+                        if (browseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                        {
+                            _newProjectOptions.settings.GameRoot = browseDlg.SelectedPath;
+                            _newProjectOptions.directory = browseDlg.SelectedPath;
+                        }
+                    }
+
+                    ImGui.AlignTextToFramePadding();
+                    ImGui.Text($@"Game Type:         ");
+                    ImGui.SameLine();
+                    string[] games = Enum.GetNames(typeof(GameType));
+                    int gameIndex = Array.IndexOf(games, _newProjectOptions.settings.GameType.ToString());
+                    if (ImGui.Combo("##GameTypeCombo", ref gameIndex, games, games.Length))
+                    {
+                        _newProjectOptions.settings.GameType = Enum.Parse<GameType>(games[gameIndex]);
+                    }
+                    ImGui.EndTabItem();
+                }
+                ImGui.EndTabBar();
+                //
+
                 ImGui.Separator();
-                ImGui.NewLine();
                 if (_newProjectOptions.settings.GameType is GameType.DarkSoulsIISOTFS or GameType.DarkSoulsIII)
                 {
+                    ImGui.NewLine();
                     ImGui.AlignTextToFramePadding();
                     ImGui.Text($@"Loose Params:      ");
                     ImGui.SameLine();
@@ -1157,10 +1206,10 @@ namespace StudioCore
                     {
                         _newProjectOptions.settings.UseLooseParams = looseparams;
                     }
-                    ImGui.NewLine();
                 }
                 else if (FeatureFlags.EnablePartialParam && _newProjectOptions.settings.GameType == GameType.EldenRing)
                 {
+                    ImGui.NewLine();
                     ImGui.AlignTextToFramePadding();
                     ImGui.Text($@"Save partial regulation:  ");
                     ImGui.SameLine();
@@ -1174,8 +1223,9 @@ namespace StudioCore
                     }
                     ImGui.SameLine();
                     ImGui.TextUnformatted("Warning: partial params require merging before use in game.\nRow names on unchanged rows will be forgotten between saves");
-                    ImGui.NewLine();
                 }
+                ImGui.NewLine();
+
                 ImGui.AlignTextToFramePadding();
                 ImGui.Text($@"Import row names:  ");
                 ImGui.SameLine();
@@ -1184,14 +1234,15 @@ namespace StudioCore
                 ImGui.SameLine();
                 ImGui.Checkbox("##loadDefaultNames", ref _newProjectOptions.loadDefaultNames);
                 if (_newProjectOptions.settings.UseLooseParams == false
-                    && _newProjectOptions.loadDefaultNames == true 
+                    && _newProjectOptions.loadDefaultNames == true
                     && _newProjectOptions.settings.GameType == GameType.DarkSoulsIISOTFS)
                 {
-                    ImGui.NewLine();
                     ImGui.TextColored(new Vector4(1.0f, 0.4f, 0.4f, 1.0f), "Warning: Saving row names onto non-loose params will crash the game. It is highly recommended you use loose params with Dark Souls 2.");
                 }
                 ImGui.NewLine();
 
+                if (_newProjectOptions.settings.GameType == GameType.Undefined)
+                    ImGui.BeginDisabled();
                 if (ImGui.Button("Create", new Vector2(120, 0) * scale))
                 {
                     bool validated = true;
@@ -1262,11 +1313,25 @@ namespace StudioCore
                         ImGui.CloseCurrentPopup();
                     }
                 }
+                if (_newProjectOptions.settings.GameType == GameType.Undefined)
+                    ImGui.EndDisabled();
+
                 ImGui.SameLine();
                 if (ImGui.Button("Cancel", new Vector2(120, 0) * scale))
                 {
                     ImGui.CloseCurrentPopup();
                 }
+                ImGui.SameLine();
+                Utils.ImGuiGenericHelpPopup("Help", "##Help_NewProject",
+                    "Projects determine where DSMapStudio will obtain game data, and where modified data will be saved.\n" +
+                    "  There are two types of projects:\n\n" +
+                    "Standard projects (recommended)\n" +
+                    "  Obtains data from the game folder when needed or for reference. Saves modified data to the project folder.\n" +
+                    "  Using this with Mod Engine is recommended, or with two copies of the game: one vanilla, one modified.\n\n" +
+                    "Standalone projects\n" +
+                    "  Obtains and modify files within the project folder."
+                    );
+
                 ImGui.EndPopup();
             }
             ImGui.PopStyleVar(3);
