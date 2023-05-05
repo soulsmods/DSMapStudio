@@ -46,7 +46,7 @@
     <Field Def="f32 stability_8" />
     <Field Def="f32 stability_9" />
     <Field Def="f32 stability_10" />
-    <Field Def="f32 stability_10" />
+    <Field Def="f32 damage_mult_physical" />
     <Field Def="f32 damage_mult_magic" />
     <Field Def="f32 damage_mult_lightning" />
     <Field Def="f32 damage_mult_fire" />
