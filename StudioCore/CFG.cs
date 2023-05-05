@@ -228,7 +228,8 @@ namespace StudioCore
         public bool Param_AlphabeticalParams = true;
         public bool Param_ShowVanillaParams = true;
         public bool Param_PasteAfterSelection = false;
-        public bool Param_DisableRowGrouping = false;
+        public bool Param_DisableRowGrouping = false; 
+        public bool Param_AdvancedMassedit = false; 
 
         //private string _Param_Export_Array_Delimiter = "|";
         private string _Param_Export_Delimiter = ",";

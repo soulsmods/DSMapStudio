@@ -423,6 +423,7 @@ namespace StudioCore
                     CacheBank.ClearCaches();
                 }
                 ImGui.Checkbox("Disable row grouping", ref CFG.Current.Param_DisableRowGrouping);
+                ImGui.Checkbox("Show advanced massedit options", ref CFG.Current.Param_AdvancedMassedit);
 
                 ImGui.Unindent();
                 ImGui.EndTabItem();
