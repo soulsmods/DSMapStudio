@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
+using System.Diagnostics;
 using System.Reflection;
 using System.Numerics;
 using SoulsFormats;
@@ -482,6 +484,7 @@ namespace StudioCore.ParamEditor
             ParamEnum Enum = cellMeta?.EnumType;
             string Wiki = cellMeta?.Wiki;
             bool IsBool = cellMeta?.IsBool ?? false;
+            List<ExtRef> ExtRefs = cellMeta?.ExtRefs;
 
             object newval = null;
 
@@ -520,7 +523,7 @@ namespace StudioCore.ParamEditor
             bool conflict = diffVanilla && diffAuxPrimaryAndVanilla.Contains(true);
 
             bool matchDefault = nullableCell?.Def.Default != null && nullableCell.Value.Def.Default.Equals(oldval);
-            bool isRef = (CFG.Current.Param_HideReferenceRows == false && (RefTypes != null || FmgRef != null)) || (CFG.Current.Param_HideEnums == false && Enum != null) || VirtualRef != null;
+            bool isRef = (CFG.Current.Param_HideReferenceRows == false && (RefTypes != null || FmgRef != null)) || (CFG.Current.Param_HideEnums == false && Enum != null) || VirtualRef != null || ExtRefs != null;
             if (conflict)
                 ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.25f, 0.2f, 0.2f, 1.0f));
             else if (diffVanilla)
@@ -534,7 +537,7 @@ namespace StudioCore.ParamEditor
             if (isRef || matchDefault) //if diffVanilla, remove styling later
                 ImGui.PopStyleColor();
 
-            PropertyRowValueContextMenu(bank, internalName, VirtualRef, oldval);
+            PropertyRowValueContextMenu(bank, row, internalName, VirtualRef, ExtRefs, oldval);
 
             if (CFG.Current.Param_HideReferenceRows == false && RefTypes != null)
                 EditorDecorations.ParamRefsSelectables(bank, RefTypes, row, oldval);
@@ -739,9 +742,8 @@ namespace StudioCore.ParamEditor
             }
             ImGui.PopStyleVar();
         }
-        private void PropertyRowValueContextMenu(ParamBank bank, string internalName, string VirtualRef, dynamic oldval)
+        private void PropertyRowValueContextMenu(ParamBank bank, Param.Row row, string internalName, string VirtualRef, List<ExtRef> ExtRefs, dynamic oldval)
         {
-            bool onlyEditOptions = (VirtualRef == null && !ParamEditorScreen.EditorMode);
             if (ImGui.BeginPopupContextItem("quickMEdit"))
             {
                 ImGui.TextColored(new Vector4(1.0f, 0.7f, 0.8f, 1.0f), "Param Field Context Menu");
@@ -767,6 +769,16 @@ namespace StudioCore.ParamEditor
                 }
                 if (VirtualRef != null)
                     EditorDecorations.VirtualParamRefSelectables(bank, VirtualRef, oldval);
+                if (ExtRefs != null)
+                {
+                    foreach (ExtRef currentRef in ExtRefs)
+                    {
+                        List<string> matchedExtRefPath = currentRef.paths.Select((x) => (string)(string.Format(x, oldval))).ToList();
+                        AssetLocator al = ParamBank.PrimaryBank.AssetLocator;
+                        ExtRefItem(row, internalName, $"modded {currentRef.name}", matchedExtRefPath, al.GameModDirectory);
+                        ExtRefItem(row, internalName, $"vanilla {currentRef.name}", matchedExtRefPath, al.GameRootDirectory);
+                    }
+                }
                 if (ImGui.Selectable("View distribution..."))
                 {
                     EditorCommandQueue.AddCommand($@"param/menu/distributionPopup/{internalName}");
@@ -784,6 +796,41 @@ namespace StudioCore.ParamEditor
                 }
                 ImGui.EndPopup();
             }
-        }        
+        }
+        private void ExtRefItem(Param.Row keyRow, string fieldKey, string menuText, List<string> matchedExtRefPath, string dir)
+        {
+            bool exist = CacheBank.GetCached(_paramEditor, keyRow, $"extRef{menuText}{fieldKey}", () => Path.Exists(Path.Join(dir, matchedExtRefPath[0])));
+            if (exist && ImGui.Selectable($"Go to {menuText} file..."))
+            {
+                string path = ResolveExtRefPath(matchedExtRefPath, dir);
+                if (File.Exists(path))
+                    Process.Start("explorer.exe", $"/select,\"{path}\"");
+                else
+                {
+                    TaskManager.warningList.TryAdd("GotoExtRef", "File no longer exists.");
+                    CacheBank.ClearCaches();
+                }
+            }
+        }
+        private string ResolveExtRefPath(List<string> matchedExtRefPath, string baseDir)
+        {
+            string currentPath = baseDir;
+            foreach (string nextStage in matchedExtRefPath)
+            {
+                string thisPathF = Path.Join(currentPath, nextStage);
+                string thisPathD = Path.Join(currentPath, nextStage.Replace('.', '-'));
+                if (Directory.Exists(thisPathD))
+                {
+                    currentPath = thisPathD;
+                    continue;
+                }
+                if (File.Exists(thisPathF))
+                    currentPath = thisPathF;
+                break;
+            }
+            if (currentPath == baseDir)
+                return null;
+            return currentPath;
+        }
     }
 }
