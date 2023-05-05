@@ -117,8 +117,21 @@ namespace StudioCore.Resource
             
             private bool disposedValue;
 
+            private bool _setHasIndexNoWeightTransform = false;
+            public bool GetHasIndexNoWeightTransform() => _setHasIndexNoWeightTransform;
+
+            public void SetHasIndexNoWeightTransform()
+            {
+                if(!_setHasIndexNoWeightTransform)
+                {
+                    _setHasIndexNoWeightTransform = true;
+                }
+            }
+
             private bool _setNormalWBoneTransform = false;
             
+            public bool GetNormalWBoneTransform() => _setNormalWBoneTransform;
+
             public void SetNormalWBoneTransform()
             {
                 if (!_setNormalWBoneTransform)
@@ -269,6 +282,7 @@ namespace StudioCore.Resource
 
         public List<FLVER.Bone> Bones { get; private set; } = null;
         private List<FlverBone> FBones { get; set; } = null;
+        private List<Matrix4x4> BoneTransforms { get; set; } = null;
 
         public Scene.GPUBufferAllocator.GPUBufferHandle StaticBoneBuffer { get; private set; } = null;
 
@@ -419,6 +433,42 @@ namespace StudioCore.Resource
             dest.MaterialName = Path.GetFileNameWithoutExtension(mat.MTD);
             dest.MaterialBuffer = Scene.Renderer.MaterialBufferAllocator.Allocate((uint)sizeof(Scene.Material), sizeof(Scene.Material));
             dest.MaterialData = new Scene.Material();
+            
+            //FLVER0 stores layouts directly in the material
+            if(type == GameType.DemonsSouls)
+            {
+                var desMat = (FLVER0.Material)mat;
+                bool foundBoneIndices = false;
+                bool foundBoneWeights = false;
+
+                if(desMat.Layouts?.Count > 0)
+                {
+                    foreach(var layoutType in desMat.Layouts[0])
+                    {
+                        switch(layoutType.Semantic)
+                        {
+                            case FLVER.LayoutSemantic.Normal:
+                                if (layoutType.Type == FLVER.LayoutType.Byte4B || layoutType.Type == FLVER.LayoutType.Byte4E)
+                                {
+                                    dest.SetNormalWBoneTransform();
+                                }
+                                break;
+                            case FLVER.LayoutSemantic.BoneIndices:
+                                foundBoneIndices = true;
+                                break;
+                            case FLVER.LayoutSemantic.BoneWeights: 
+                                foundBoneWeights = true; 
+                                break;
+                        }
+                    }
+                }
+
+                //Transformation condition for DeS models
+                if(foundBoneIndices && !foundBoneWeights)
+                {
+                    dest.SetHasIndexNoWeightTransform();
+                }
+            }
 
             if (!CFG.Current.EnableTexturing)
             {
@@ -1139,6 +1189,24 @@ namespace StudioCore.Resource
 
             dest.Material = GPUMaterials[mesh.MaterialIndex];
 
+            if (dest.Material.GetHasIndexNoWeightTransform())
+            {
+                //Transform based on root
+                for (int v = 0; v < mesh.Vertices.Count; v++)
+                {
+                    var vert = mesh.Vertices[v];
+                    var boneTransformationIndex = mesh.BoneIndices[vert.BoneIndices[0]];
+                    if(boneTransformationIndex > -1 && BoneTransforms.Count > boneTransformationIndex)
+                    {
+                        var boneTfm = BoneTransforms[boneTransformationIndex];
+
+                        vert.Position = Vector3.Transform(vert.Position, boneTfm);
+                        vert.Normal = Vector3.TransformNormal(vert.Normal, boneTfm);
+                        mesh.Vertices[v] = vert;
+                    }
+                }
+            }
+
             //var MeshVertices = VerticesPool.Rent(mesh.VertexCount);
             var vSize = dest.Material.VertexSize;
             var meshVertices = Marshal.AllocHGlobal(mesh.Vertices.Count * (int)vSize);
@@ -1269,7 +1337,6 @@ namespace StudioCore.Resource
 
             dest.Material = GPUMaterials[mesh.MaterialIndex];
 
-            //var MeshVertices = VerticesPool.Rent(mesh.VertexCount);
             var vSize = dest.Material.VertexSize;
             var meshVertices = Marshal.AllocHGlobal(mesh.VertexCount * (int)vSize);
             dest.PickingVertices = Marshal.AllocHGlobal(mesh.VertexCount * sizeof(Vector3));
@@ -1656,6 +1723,12 @@ namespace StudioCore.Resource
                 GPUMaterials = new FlverMaterial[FlverDeS.Materials.Count()];
                 Bounds = new BoundingBox();
                 Bones = FlverDeS.Bones;
+                BoneTransforms = new List<Matrix4x4>();
+                for (int i = 0; i < Bones.Count; i++)
+                {
+                    //BoneTransforms.Add(FlverDeS.ComputeBoneWorldMatrix(i));
+                    BoneTransforms.Add(Bones[i].ComputeLocalTransform());
+                }
 
                 for (int i = 0; i < FlverDeS.Materials.Count(); i++)
                 {
@@ -1666,17 +1739,8 @@ namespace StudioCore.Resource
                 for (int i = 0; i < FlverDeS.Meshes.Count(); i++)
                 {
                     GPUMeshes[i] = new FlverSubmesh();
-                    var flverMesh = FlverDeS.Meshes[i];
-                    var defaultBoneMatrix = FlverDeS.ComputeBoneWorldMatrix(flverMesh.DefaultBoneIndex);
 
-                    //Transform based on root
-                    for (int v = 0; v < flverMesh.Vertices.Count; v++)
-                    {
-                        var vert = flverMesh.Vertices[v];
-                        vert.Position = Vector3.Transform(vert.Position, defaultBoneMatrix);
-                        vert.Normal = Vector3.TransformNormal(vert.Normal, defaultBoneMatrix);
-                        flverMesh.Vertices[v] = vert;
-                    }
+                    var flverMesh = FlverDeS.Meshes[i];
                     ProcessMesh(flverMesh, GPUMeshes[i]);
                     if (i == 0)
                     {
@@ -1687,6 +1751,8 @@ namespace StudioCore.Resource
                         Bounds = BoundingBox.Combine(Bounds, GPUMeshes[i].Bounds);
                     }
                 }
+
+                BoneTransforms.Clear();
             }
 
             if (al == AccessLevel.AccessGPUOptimizedOnly)
