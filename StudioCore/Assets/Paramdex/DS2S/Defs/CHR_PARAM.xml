@@ -14,7 +14,7 @@
     <Field Def="u16 Unk00" />
     <Field Def="u16 Unk01" />
     <Field Def="s32 Unk02" />
-    <Field Def="s32 Unk03" />
+    <Field Def="s32 body_hit_sfx1" />
     <Field Def="s32 chr_phantom_param_id" />
     <Field Def="u8 Unk04" />
     <Field Def="u8 spawn_limit" />
@@ -47,7 +47,7 @@
     <Field Def="s8 shield_block_level" />
     <Field Def="s8 Unk19" />
     <Field Def="s32 Unk20" />
-    <Field Def="s32 Unk21" />
+    <Field Def="s32 shield_hit_sfx" />
     <Field Def="s32 shield_stability" />
     <Field Def="s32 shield_absorption_physical" />
     <Field Def="s32 shield_absorption_magic" />
@@ -67,7 +67,7 @@
     <Field Def="s32 defence_bleed" />
     <Field Def="s32 defence_curse" />
     <Field Def="s32 defence_petrify" />
-    <Field Def="s32 Unk24" />
+    <Field Def="s32 body_hit_sfx2" />
     <Field Def="s32 Unk25" />
     <Field Def="s32 Unk26" />
     <Field Def="s32 Unk27" />

@@ -976,24 +976,24 @@ namespace SoulsFormats
                 public float TransitionTime { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// Value of the hundredths place of a Gparam to override use.
                 /// </summary>
-                public sbyte Unk18 { get; set; }
+                public sbyte GparamSubID_Base { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// Value of the hundredths place of a Gparam to override Base with.
                 /// </summary>
-                public sbyte Unk19 { get; set; }
+                public sbyte GparamSubID_Override1 { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// Value of the hundredths place of a Gparam to override Base and Override 1 with.
                 /// </summary>
-                public sbyte Unk1A { get; set; }
+                public sbyte GparamSubID_Override2 { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// Value of the hundredths place of a Gparam to override Base and Override 1 and Override 2 with.
                 /// </summary>
-                public sbyte Unk1B { get; set; }
+                public sbyte GparamSubID_Override3 { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -1021,10 +1021,10 @@ namespace SoulsFormats
                 public SceneGparamConfig()
                 {
                     TransitionTime = 0.0f;
-                    Unk18 = -1;
-                    Unk19 = -1;
-                    Unk1A = -1;
-                    Unk1B = -1;
+                    GparamSubID_Base = -1;
+                    GparamSubID_Override1 = -1;
+                    GparamSubID_Override2 = -1;
+                    GparamSubID_Override3 = -1;
                     Unk1C = -1;
                     Unk1D = -1;
                     Unk20 = -1;
@@ -1045,10 +1045,10 @@ namespace SoulsFormats
                     br.AssertPattern(16, 0x00);
                     TransitionTime = br.ReadSingle();
                     br.AssertInt32(0);
-                    Unk18 = br.ReadSByte();
-                    Unk19 = br.ReadSByte();
-                    Unk1A = br.ReadSByte();
-                    Unk1B = br.ReadSByte();
+                    GparamSubID_Base = br.ReadSByte();
+                    GparamSubID_Override1 = br.ReadSByte();
+                    GparamSubID_Override2 = br.ReadSByte();
+                    GparamSubID_Override3 = br.ReadSByte();
                     Unk1C = br.ReadSByte();
                     Unk1D = br.ReadSByte();
                     br.AssertSByte(0);
@@ -1065,10 +1065,10 @@ namespace SoulsFormats
                     bw.WritePattern(16, 0x00);
                     bw.WriteSingle(TransitionTime);
                     bw.WriteInt32(0);
-                    bw.WriteSByte(Unk18);
-                    bw.WriteSByte(Unk19);
-                    bw.WriteSByte(Unk1A);
-                    bw.WriteSByte(Unk1B);
+                    bw.WriteSByte(GparamSubID_Base);
+                    bw.WriteSByte(GparamSubID_Override1);
+                    bw.WriteSByte(GparamSubID_Override2);
+                    bw.WriteSByte(GparamSubID_Override3);
                     bw.WriteSByte(Unk1C);
                     bw.WriteSByte(Unk1D);
                     bw.WriteSByte(0);
@@ -1263,7 +1263,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int MapID { get; set; }
+                public byte[] MapID { get; private set; }
 
                 /// <summary>
                 /// Unknown.
@@ -1288,19 +1288,24 @@ namespace SoulsFormats
                 /// <summary>
                 /// Creates an UnkStruct7 with default values.
                 /// </summary>
-                public UnkStruct10() { }
+                public UnkStruct10()
+                {
+                    MapID = new byte[4];
+                }
 
                 /// <summary>
                 /// Creates a deep copy of the struct.
                 /// </summary>
                 public UnkStruct10 DeepCopy()
                 {
-                    return (UnkStruct10)MemberwiseClone();
+                    var unks10 = (UnkStruct10)MemberwiseClone();
+                    unks10.MapID = (byte[])MapID.Clone();
+                    return unks10;
                 }
 
                 internal UnkStruct10(BinaryReaderEx br)
                 {
-                    MapID = br.ReadInt32();
+                    MapID = br.ReadBytes(4);
                     Unk04 = br.ReadInt32();
                     br.AssertInt32(0);
                     Unk0C = br.ReadInt32();
@@ -1312,7 +1317,7 @@ namespace SoulsFormats
 
                 internal void Write(BinaryWriterEx bw)
                 {
-                    bw.WriteInt32(MapID);
+                    bw.WriteBytes(MapID);
                     bw.WriteInt32(Unk04);
                     bw.WriteInt32(0);
                     bw.WriteInt32(Unk0C);
@@ -2514,7 +2519,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int UnkT58 { get; set; }
+                public int UnkModelMaskAndAnimID { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -3062,7 +3067,7 @@ namespace SoulsFormats
                     br.AssertByte(0);
                     UnkT53 = br.ReadByte();
                     UnkT54 = br.ReadInt32();
-                    UnkT58 = br.ReadInt32();
+                    UnkModelMaskAndAnimID = br.ReadInt32();
                     UnkT5C = br.ReadInt32();
                     UnkT60 = br.ReadInt32();
                     UnkT64 = br.ReadInt32();
@@ -3115,7 +3120,7 @@ namespace SoulsFormats
                     bw.WriteByte(0);
                     bw.WriteByte(UnkT53);
                     bw.WriteInt32(UnkT54);
-                    bw.WriteInt32(UnkT58);
+                    bw.WriteInt32(UnkModelMaskAndAnimID);
                     bw.WriteInt32(UnkT5C);
                     bw.WriteInt32(UnkT60);
                     bw.WriteInt32(UnkT64);
