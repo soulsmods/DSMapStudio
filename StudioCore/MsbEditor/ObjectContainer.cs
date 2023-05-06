@@ -803,14 +803,15 @@ namespace StudioCore.MsbEditor
                     var loc = mp.GetRow("generator-loc");
                     if (loc != null)
                     {
-                        // Adjust the location to be relative to the mapoffset
+                        
+                        // Set param positions
                         var newloc = new Param.Row(loc, locations);
                         newloc.GetCellHandleOrThrow("PositionX").SetValue(
-                            (float)loc.GetCellHandleOrThrow("PositionX").Value - MapOffset.Position.X);
+                            (float)loc.GetCellHandleOrThrow("PositionX").Value);
                         newloc.GetCellHandleOrThrow("PositionY").SetValue( 
-                            (float)loc.GetCellHandleOrThrow("PositionY").Value - MapOffset.Position.Y);
+                            (float)loc.GetCellHandleOrThrow("PositionY").Value);
                         newloc.GetCellHandleOrThrow("PositionZ").SetValue( 
-                            (float)loc.GetCellHandleOrThrow("PositionZ").Value - MapOffset.Position.Z);
+                            (float)loc.GetCellHandleOrThrow("PositionZ").Value);
                         locations.AddRow(newloc);
                     }
                     var gen = mp.GetRow("generator");
@@ -885,15 +886,15 @@ namespace StudioCore.MsbEditor
                         MessageBox.Show($@"{mp.Name} has an ID that's already used. Please change it to something unique and save again.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return false;
                     }
-
-                    // Adjust the location to be relative to the mapoffset
+                    
+                    // Set param location positions
                     var newloc = new Param.Row(mp, locs);
                     newloc.GetCellHandleOrThrow("PositionX").SetValue(
-                        (float)mp.GetCellHandleOrThrow("PositionX").Value - MapOffset.Position.X);
+                        (float)mp.GetCellHandleOrThrow("PositionX").Value);
                     newloc.GetCellHandleOrThrow("PositionY").SetValue( 
-                        (float)mp.GetCellHandleOrThrow("PositionY").Value - MapOffset.Position.Y);
+                        (float)mp.GetCellHandleOrThrow("PositionY").Value);
                     newloc.GetCellHandleOrThrow("PositionZ").SetValue( 
-                        (float)mp.GetCellHandleOrThrow("PositionZ").Value - MapOffset.Position.Z);
+                        (float)mp.GetCellHandleOrThrow("PositionZ").Value);
                     locs.AddRow(newloc);
                 }
             }

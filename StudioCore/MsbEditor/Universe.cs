@@ -397,13 +397,6 @@ namespace StudioCore.MsbEditor
                     row.Name = "generator_" + row.ID.ToString();
                 }
 
-                // Offset the generators by the map offset
-                row.GetCellHandleOrThrow("PositionX").SetValue(
-                    (float)row.GetCellHandleOrThrow("PositionX").Value + map.MapOffset.Position.X);
-                row.GetCellHandleOrThrow("PositionY").SetValue(
-                    (float)row.GetCellHandleOrThrow("PositionY").Value + map.MapOffset.Position.Y);
-                row.GetCellHandleOrThrow("PositionZ").SetValue(
-                    (float)row.GetCellHandleOrThrow("PositionZ").Value + map.MapOffset.Position.Z);
                 
                 var mergedRow = new MergedParamRow();
                 mergedRow.AddRow("generator-loc", row);
@@ -412,6 +405,7 @@ namespace StudioCore.MsbEditor
                 var obj = new MapEntity(map, mergedRow, MapEntity.MapEntityType.DS2Generator);
                 generatorObjs.Add(row.ID, obj);
                 map.AddObject(obj);
+                map.MapOffsetNode.AddChild(obj);
             }
 
             var chrsToLoad = new HashSet<AssetDescription>();
@@ -477,17 +471,10 @@ namespace StudioCore.MsbEditor
                     row.Name = "eventloc_" + row.ID.ToString();
                 }
                 eventLocationParams.Add(row.ID, row);
-
-                // Offset the generators by the map offset
-                row.GetCellHandleOrThrow("PositionX").SetValue(
-                    (float)row.GetCellHandleOrThrow("PositionX").Value + map.MapOffset.Position.X);
-                row.GetCellHandleOrThrow("PositionY").SetValue(
-                    (float)row.GetCellHandleOrThrow("PositionY").Value + map.MapOffset.Position.Y);
-                row.GetCellHandleOrThrow("PositionZ").SetValue(
-                    (float)row.GetCellHandleOrThrow("PositionZ").Value + map.MapOffset.Position.Z);
-
+                
                 var obj = new MapEntity(map, row, MapEntity.MapEntityType.DS2EventLocation);
                 map.AddObject(obj);
+                map.MapOffsetNode.AddChild(obj);
 
                 // Try rendering as a box for now
                 var mesh = DebugPrimitiveRenderableProxy.GetBoxRegionProxy(_renderScene);

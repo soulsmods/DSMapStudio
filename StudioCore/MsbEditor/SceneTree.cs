@@ -612,6 +612,19 @@ namespace StudioCore.MsbEditor
                 ImGui.PopStyleVar();
                 if (_configuration == Configuration.MapEditor)
                 {
+
+                    if (_assetLocator.Type is GameType.DarkSoulsIISOTFS)
+                    {
+                        if (ParamEditor.ParamBank.PrimaryBank.IsLoadingParams)
+                        {
+                            ImGui.NewLine();
+                            ImGui.Text("  Please wait for params to finish loading.");
+                            ImGui.End();
+                            ImGui.PopStyleColor();
+                            return;
+                        }
+                    }
+
                     ImGui.Spacing();
                     ImGui.Indent(30 * scale);
                     ImGui.AlignTextToFramePadding();
