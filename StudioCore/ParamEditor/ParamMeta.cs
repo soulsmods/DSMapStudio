@@ -479,7 +479,7 @@ namespace StudioCore.ParamEditor
             name = enumNode.Attributes["Name"].InnerText;
             foreach (XmlNode option in enumNode.SelectNodes("Option"))
             {
-                values.Add(option.Attributes["Value"].InnerText, option.Attributes["Name"].InnerText);
+                values[option.Attributes["Value"].InnerText] = option.Attributes["Name"].InnerText;
             }
         }
     }
