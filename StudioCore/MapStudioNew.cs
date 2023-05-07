@@ -718,6 +718,19 @@ namespace StudioCore
             }
         }
 
+        private void NewProject_GameTypeComboGUI()
+        {
+            ImGui.AlignTextToFramePadding();
+            ImGui.Text($@"Game Type:         ");
+            ImGui.SameLine();
+            string[] games = Enum.GetNames(typeof(GameType));
+            int gameIndex = Array.IndexOf(games, _newProjectOptions.settings.GameType.ToString());
+            if (ImGui.Combo("##GameTypeCombo", ref gameIndex, games, games.Length))
+            {
+                _newProjectOptions.settings.GameType = Enum.Parse<GameType>(games[gameIndex]);
+            }
+        }
+
         private void Update(float deltaseconds)
         {
             var ctx = Tracy.TracyCZoneN(1, "Imgui");
@@ -1196,15 +1209,7 @@ namespace StudioCore
                         }
                     }
 
-                    ImGui.AlignTextToFramePadding();
-                    ImGui.Text($@"Game Type:         ");
-                    ImGui.SameLine();
-                    string[] games = Enum.GetNames(typeof(GameType));
-                    int gameIndex = Array.IndexOf(games, _newProjectOptions.settings.GameType.ToString());
-                    if (ImGui.Combo("##GameTypeCombo", ref gameIndex, games, games.Length))
-                    {
-                        _newProjectOptions.settings.GameType = Enum.Parse<GameType>(games[gameIndex]);
-                    }
+                    NewProject_GameTypeComboGUI();
                     ImGui.EndTabItem();
                 }
 
@@ -1234,16 +1239,7 @@ namespace StudioCore
                             _newProjectOptions.settings.GameRoot = browseDlg.SelectedPath;
                         }
                     }
-
-                    ImGui.AlignTextToFramePadding();
-                    ImGui.Text($@"Game Type:         ");
-                    ImGui.SameLine();
-                    string[] games = Enum.GetNames(typeof(GameType));
-                    int gameIndex = Array.IndexOf(games, _newProjectOptions.settings.GameType.ToString());
-                    if (ImGui.Combo("##GameTypeCombo", ref gameIndex, games, games.Length))
-                    {
-                        _newProjectOptions.settings.GameType = Enum.Parse<GameType>(games[gameIndex]);
-                    }
+                    NewProject_GameTypeComboGUI();
                     ImGui.EndTabItem();
                 }
                 ImGui.EndTabBar();
@@ -1332,9 +1328,7 @@ namespace StudioCore
                         var message = System.Windows.Forms.MessageBox.Show("Your selected project directory already contains a project.json. Would you like to replace it?", "Error",
                                          System.Windows.Forms.MessageBoxButtons.YesNo,
                                          System.Windows.Forms.MessageBoxIcon.None);
-                        if (message == DialogResult.Yes)
-                            File.Delete($@"{_newProjectOptions.directory}\project.json");
-                        else
+                        if (message == DialogResult.No)
                             validated = false;
                     }
                     if (validated && (Path.GetDirectoryName(_newProjectOptions.settings.GameRoot)).Equals(_newProjectOptions.directory))
