@@ -1186,7 +1186,7 @@ namespace StudioCore
                 {
                     _standardProjectUIOpened = false;
                 }
-
+                
                 if (ImGui.BeginTabItem("Standalone"))
                 {
                     NewProject_NameGUI();
@@ -1212,7 +1212,7 @@ namespace StudioCore
                     NewProject_GameTypeComboGUI();
                     ImGui.EndTabItem();
                 }
-
+                
                 if (ImGui.BeginTabItem("Advanced"))
                 {
                     NewProject_NameGUI();
@@ -1331,7 +1331,7 @@ namespace StudioCore
                         if (message == DialogResult.No)
                             validated = false;
                     }
-                    if (validated && (Path.GetDirectoryName(_newProjectOptions.settings.GameRoot)).Equals(_newProjectOptions.directory))
+                    if (validated && _newProjectOptions.settings.GameRoot == _newProjectOptions.directory)
                     {
                         var message = System.Windows.Forms.MessageBox.Show(
                             "Project Directory is the same as Game Directory, which allows game files to be overwritten directly.\n\n" +
@@ -1377,12 +1377,12 @@ namespace StudioCore
                 ImGui.SameLine();
                 Utils.ImGuiGenericHelpPopup("Help", "##Help_NewProject",
                     "Projects determine where DSMapStudio will obtain game data, and where modified data will be saved.\n" +
-                    "  There are two types of projects:\n\n" +
+                    "  There are two basic project configurations:\n\n" +
                     "Standard projects (recommended)\n" +
-                    "  Obtains data from the game folder for modding & vanilla reference. Saves modified data to the project folder.\n" +
+                    "  Obtains unpacked game files from the game folder, and saves modified files to the project folder.\n" +
                     "  Using this with Mod Engine is recommended, or with two copies of the game: one vanilla, one modified.\n\n" +
                     "Standalone projects\n" +
-                    "  Obtains and modify files within the project folder, directly overwriting game files with modded files."
+                    "  Obtains and modify files within a single project folder, directly overwriting files."
                     );
 
                 ImGui.EndPopup();
