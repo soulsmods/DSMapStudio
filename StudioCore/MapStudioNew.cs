@@ -1187,32 +1187,6 @@ namespace StudioCore
                     _standardProjectUIOpened = false;
                 }
                 
-                if (ImGui.BeginTabItem("Standalone"))
-                {
-                    NewProject_NameGUI();
-                    ImGui.AlignTextToFramePadding();
-                    ImGui.Text("Shared Directory:  ");
-                    ImGui.SameLine();
-                    Utils.ImGuiGenericHelpPopup("?", "##Help_ProjectDirectory",
-                        "The location game files will be read and mod files will be saved.");
-                    ImGui.SameLine();
-                    ImGui.InputText("##pdir", ref _newProjectOptions.directory, 255);
-                    ImGui.SameLine();
-                    if (ImGui.Button($@"{ForkAwesome.FileO}"))
-                    {
-                        var browseDlg = new System.Windows.Forms.FolderBrowserDialog();
-
-                        if (browseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                        {
-                            _newProjectOptions.directory = browseDlg.SelectedPath;
-                            _newProjectOptions.settings.GameRoot = browseDlg.SelectedPath;
-                        }
-                    }
-
-                    NewProject_GameTypeComboGUI();
-                    ImGui.EndTabItem();
-                }
-                
                 if (ImGui.BeginTabItem("Advanced"))
                 {
                     NewProject_NameGUI();
@@ -1374,16 +1348,6 @@ namespace StudioCore
                 {
                     ImGui.CloseCurrentPopup();
                 }
-                ImGui.SameLine();
-                Utils.ImGuiGenericHelpPopup("Help", "##Help_NewProject",
-                    "Projects determine where DSMapStudio will obtain game data, and where modified data will be saved.\n" +
-                    "  There are two basic project configurations:\n\n" +
-                    "Standard projects (recommended)\n" +
-                    "  Obtains unpacked game files from the game folder, and saves modified files to the project folder.\n" +
-                    "  Using this with Mod Engine is recommended, or with two copies of the game: one vanilla, one modified.\n\n" +
-                    "Standalone projects\n" +
-                    "  Obtains and modify files within a single project folder, directly overwriting files."
-                    );
 
                 ImGui.EndPopup();
             }
