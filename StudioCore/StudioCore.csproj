@@ -418,6 +418,7 @@
   <ItemGroup>
     <None Update="Assets\Paramdex\**" CopyToOutputDirectory="PreserveNewest" />
     <None Update="Assets\Aliases\**" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="Assets\MassEditScripts\**" CopyToOutputDirectory="PreserveNewest" />
     <None Update="Assets\GameOffsets\**" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 

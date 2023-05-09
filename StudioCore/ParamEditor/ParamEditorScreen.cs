@@ -316,6 +316,60 @@ namespace StudioCore.ParamEditor
                 {
                     EditorCommandQueue.AddCommand($@"param/menu/massEditRegex");
                 }
+                if (ImGui.BeginMenu($"Mass Edit Script"))
+                {
+                    IEnumerable<(string, string)> scriptList = CacheBank.GetCached(this, ParamBank.PrimaryBank, "MassEditScriptList", () => Directory.GetFiles(ParamBank.PrimaryBank.AssetLocator.GetScriptAssetsDir()).Select((x) => (x, Path.GetFileNameWithoutExtension(x))));
+                    foreach ((string path, string name) in scriptList)
+                    {
+                        if (ImGui.BeginMenu(name))
+                        {
+                            (string[] text, List<string[]> args) = CacheBank.GetCached(this, ParamBank.PrimaryBank, "MassEditScript"+path, () =>
+                            {
+                                try
+                                {
+                                    string[] text = File.ReadAllLines(path);
+                                    List<string[]> args = new List<string[]>();
+                                    foreach (string line in text)
+                                    {
+                                        if(line.StartsWith("newvar "))
+                                        {
+                                            string[] arg = line.Substring(7).Split(':', 2);
+                                            if (arg[1].EndsWith(';'))
+                                            {
+                                                arg[1] = arg[1].Substring(0, arg[1].Length-1);
+                                            }
+                                            args.Add(arg);
+                                        }
+                                        else
+                                            break;
+                                    }
+                                    return (text, args);
+                                }
+                                catch (Exception e)
+                                {
+                                    TaskManager.warningList["MassEditScriptLoad"] = "Error loading mass edit script "+name;
+                                    return (null, null);
+                                }
+                            });
+                            if (text != null)
+                            {
+                                foreach (string[] arg in args)
+                                {
+                                    ImGui.InputText(arg[0], ref arg[1], 128);
+                                }
+                                if (ImGui.Selectable("Load"))
+                                {
+                                    string preAmble = "clear;\nclearvars;\n";
+                                    string newText = preAmble + string.Join('\n', args.Select((x) => $@"newvar {x[0]}:{x[1]};")) + '\n' + string.Join('\n', text.Skip(args.Count));
+                                    _currentMEditRegexInput = newText;
+                                    EditorCommandQueue.AddCommand($@"param/menu/massEditRegex");
+                                }
+                            }
+                            ImGui.EndMenu();
+                        }
+                    }
+                    ImGui.EndMenu();
+                }
                 if (ImGui.BeginMenu("Export CSV", _activeView._selection.rowSelectionExists()))
                 {
                     DelimiterInputText();

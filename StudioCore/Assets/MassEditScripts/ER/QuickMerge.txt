@@ -1,0 +1,2 @@
+newvar regulationFolderName:mod;
+auxparam $regulationFolderName .*: modified: paste;
