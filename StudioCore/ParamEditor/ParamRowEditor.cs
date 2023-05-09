@@ -807,7 +807,7 @@ namespace StudioCore.ParamEditor
                     Process.Start("explorer.exe", $"/select,\"{path}\"");
                 else
                 {
-                    TaskManager.warningList.TryAdd("GotoExtRef", "File no longer exists.");
+                    TaskManager.warningList.TryAdd("GotoExtRef", "File could not be found. It may be map or chr specific.");
                     CacheBank.ClearCaches();
                 }
             }

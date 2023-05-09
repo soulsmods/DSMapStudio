@@ -88,9 +88,9 @@
   </Enums>
   <Field>
     <atkId_Bullet AltName="AtkParam ID" Wiki="Register each attack parameter ID.  Attack type / Attack material / Physical attack power / Magic attack power / Stamina attack power / Knockback distance." Refs="AtkParam_Pc,AtkParam_Npc" />
-    <sfxId_Bullet AltName="Projectile SFX ID" Wiki="Enter the SFX ID for [Bullet]. -1 does not occur." />
-    <sfxId_Hit AltName="Impact SFX ID" Wiki="[Impact] Enter the SFX ID. -1 does not occur." />
-    <sfxId_Flick AltName="Repel SFX ID" Wiki="[At the time of repelling] Enter the SFX ID. -1 does not occur." />
+    <sfxId_Bullet AltName="Projectile SFX ID" Wiki="Enter the SFX ID for [Bullet]. -1 does not occur." ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
+    <sfxId_Hit AltName="Impact SFX ID" Wiki="[Impact] Enter the SFX ID. -1 does not occur." ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
+    <sfxId_Flick AltName="Repel SFX ID" Wiki="[At the time of repelling] Enter the SFX ID. -1 does not occur." ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
     <life AltName="Duration" Wiki="Time for missiles to continue to exist (-1 is infinite)." />
     <dist AltName="Attenuation Range" Wiki="Distance at which attenuation begins (not actual flight distance)." />
     <shootInterval AltName="Shoot Interval" Wiki="Specify how many seconds the missile will be fired." />
@@ -198,7 +198,7 @@
     <howitzerShootAngleXMax AltName="Howitzer - Launch Elevation Limit - Max" Wiki="[Sky firing] The upper limit [deg] based on the firing elevation angle (0deg) before applying the bending firing calculation." />
     <howitzerInitMinVelocity AltName="Howitzer - Initial Min Velocity" Wiki="[Song firing] The minimum speed limit for song firing calculation [m / s]." />
     <howitzerInitMaxVelocity AltName="Howitzer - Initial Max Velocity" Wiki="[Song firing] Maximum speed limit for song firing calculation [m / s]." />
-    <sfxId_ForceErase AltName="SFX ID - Force Erase" Wiki="SFX ID at the time of forced erasure. -1 does not occur." />
+    <sfxId_ForceErase AltName="SFX ID - Force Erase" Wiki="SFX ID at the time of forced erasure. -1 does not occur." ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
     <bulletSfxDeleteType_byForceErase AltName="Bullet SFX Delete Type - By Force Erase" Wiki="Bullet SFX extinction type at the time of forced erasure" Enum="BULLET_SFX_DELETE_TYPE" />
     <pad3 AltName=""/>
     <followDmypoly_forSfxPose AltName="Follow Bullet - Dummy Poly for SFX Pose" Wiki="SFX direction specification when following Damipoli" />
