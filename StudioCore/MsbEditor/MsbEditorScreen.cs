@@ -1069,6 +1069,8 @@ namespace StudioCore.MsbEditor
         {
             Universe.UnloadAllMaps();
             GC.Collect();
+            GC.WaitForPendingFinalizers();
+            GC.Collect();
             Universe.PopulateMapList();
 
             if (AssetLocator.Type != GameType.Undefined)
