@@ -1,0 +1,3 @@
+newvar regulationFolderName:mod;
+auxparam $regulationFolderName .*: !conflicts && added: paste;
+param .*: conflicts: !modified && auxmodified $regulationFolderName: = aux $regulationFolderName;
