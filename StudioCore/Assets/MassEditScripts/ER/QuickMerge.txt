@@ -1,2 +1,2 @@
-newvar regulationFolderName:mod;
+newvar regulationFolderName:useTheCompareMenuFirst;
 auxparam $regulationFolderName .*: modified: paste;
