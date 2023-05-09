@@ -588,7 +588,7 @@
     <aiNotifyType AltName="AI Interrupt Type" Wiki="AI interrupt occurs in act (AI notification when magic is activated)" Enum="MAGIC_AI_NOTIFY_TYPE" />
     <mp AltName="FP Consumption - Default" Wiki="MP consumption" />
     <stamina AltName="Stamina Consumption - Default" Wiki="Consumption stamina" />
-    <iconId AltName="Icon ID" Wiki="Specify icon> For menu" />
+    <iconId AltName="Icon ID" Wiki="Specify icon> For menu" ExtRefs="hi,menu\hi\00_solo.tpfbhd,00_Solo\MENU_Knowledge_{0:D5}.tpf.dcx,MENU_Knowledge_{0:D5}.dds;low,menu\low\00_solo.tpfbhd,00_Solo\MENU_Knowledge_{0:D5}.tpf.dcx,MENU_Knowledge_{0:D5}.dds" />
     <behaviorId AltName="Behavior ID" Wiki="Set the action ID" />
     <mtrlItemId AltName="Material Item ID" Wiki="Item ID required for purchase" />
     <replaceMagicId AltName="Replace Magic ID" Wiki="ID to be replaced when the state change matches (-1: invalid)" />
