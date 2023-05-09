@@ -77,37 +77,250 @@
 534 Small Golden Effigy - Send Summon Sign to Summoning Pool
 535 Small Red Effigy - Send Invasion Sign to Summoning Pool
 536 Phantom Bloody/Recusant Finger - Attempt Invasion
-860 Gargoyle's Blackblade - Bullet
+800 Barricade Shield
+801 Barricade Shield (Medium Shields) - Hardness Buff
+802 Barricade Shield
+803 Barricade Shield (Medium Shields) - Hardness Buff
+804 Barricade Shield
+805 Barricade Shield
+806 Barricade Shield (Small Shields) - Hardness Buff
+807 Barricade Shield
+808 Barricade Shield
+809 Barricade Shield (Small Shields) - Hardness Buff
+810 Barricade Shield
+811 Barricade Shield (Greatshields) - Hardness Buff
+812 Barricade Shield
+813 Barricade Shield
+814 Barricade Shield (Greatshields) - Hardness Buff
+820 Sacred Blade
+821 Sacred Blade - Anti-Undead/Holy Buff
+822 Sacred Blade
+823 Sacred Blade - Anti-Undead/Holy Buff
+825 Chilling Mist
+826 Chilling Mist - Frost Buff
+827 Chilling Mist
+828 Chilling Mist - Frost Buff
+829 Chilling Mist - Frost
+830 Poisonous Mist
+831 Poisonous Mist - Poison Buff
+832 Poisonous Mist
+833 Poisonous Mist - Poison Buff
+834 Poisonous Mist - Poison
+835 Black Flame Tornado - HP Burn
+840 Roar
+841 Roar - Damage Buff
+842 Roar
+843 Roar - Damage Buff
+845 Roar - No FP
+846 Roar - Damage Buff - No FP
+847 Roar - No FP
+848 Roar - Damage Buff - No FP
+855 Godslayer's Greatsword - HP Burn
+860 Gargoyle's Blackblade - HP Burn
 870 Reduvia - Bullet
+875 Dragon Halberd - Frost
+1510 Stormhawk Axe
+1511 Stormhawk Axe - Lightning Buff
+1512 Stormhawk Axe
+1513 Stormhawk Axe - Lightning Buff
+1515 Carian Retaliation
 1525 Erdtree Greatshield - Bullet
+1530 Ice Spear - Bullet - Frost
+1540 Raptor of the Mists - Protection
 1545 Winged Greathorn - Bullet
+1555 Winged Scythe - No Flask
+1565 Blasphemous Blade - HP Absorb
+1575 Royal Greatsword
 1576 Royal Greatsword - Bullet
+1585 Jellyfish Shield
+1586 Jellyfish Shield - Damage Buff
+1587 Jellyfish Shield
+1588 Jellyfish Shield - Damage Buff
+1595 Tongues of Fire - FP Cost
+1605 Sea of Magma - FP Cost
+1606 Cursed-Blood Slice
+1607 Cursed-Blood Slice - VFX
+1608 Cursed-Blood Slice
+1609 Cursed-Blood Slice - VFX
+1611 Ash of War: Lifesteal Fist - Self Heal 1
+1612 Ash of War: Lifesteal Fist - Self Heal 2
+1617 Poison Moth Flight - VFX
+1618 Poison Moth Flight - VFX
+1619 Poison Moth Flight - VFX
+1620 Poison Moth Flight
+1621 Poison Moth Flight
+1622 Poison Moth Flight
+1623 Poison Moth Flight
+1624 Poison Moth Flight - VFX
 1625 Mohgwyn's Sacred Spear - Bullet
-1650 Endure - Toughness
-1681 Regal Roar - Heavy Special
-1683 Regal Roar - Heavy Special - Left
-1686 Regal Roar - Heavy Special (No FP)
-1688 Regal Roar - Heavy Special - Left (No FP)
-1716 Golden Tempering - Heavy Special
-1718 Golden Tempering - Heavy Special - Left
-1721 Moonlight Greatsword - Heavy Special
-1723 Moonlight Greatsword - Heavy Special - Left
-1811 War Cry - Heavy Special
-1813 War Cry - Heavy Special - Left
-1816 War Cry - Heavy Special (No FP)
-1818 War Cry - Heavy Special - Left (No FP)
-1851 Unk - Toughness
-1861 Unk - Heavy Special
-1863 Unk - Heavy Special
+1626 Mohgwyn's Sacred Spear
+1627 Mohgwyn's Sacred Spear - Fire Buff
+1628 Mohgwyn's Sacred Spear
+1629 Mohgwyn's Sacred Spear - Fire Buff
+1630 Prayerful Strike
+1631 Prayerful Strike
+1632 Prayerful Strike
+1635 Prayerful Strike
+1636 Prayerful Strike
+1640 Holy Ground - Defence
+1641 Holy Ground - HP Regen
+1645 Loretta's Slash - VFX
+1646 Loretta's Slash - VFX
+1647 Loretta's Slash - VFX
+1648 Loretta's Slash - VFX
+1650 Endure - Poise Buff
+1651 Endure - Poise Buff - No FP
+1655 Endure - Poise Buff
+1656 Endure - Poise Buff - No FP
+1670 Thunderbolt - VFX
+1671 Thunderbolt - VFX
+1675 Lightning Slash
+1676 Lightning Slash - Lightning Buff
+1677 Lightning Slash
+1678 Lightning Slash - Lightning Buff
+1680 Barbaric/Milos Roar
+1681 Barbaric/Milos Roar - Damage Buff
+1682 Barbaric/Milos Roar
+1683 Barbaric/Milos Roar - Damage Buff
+1685 Barbaric/Milos Roar - No FP
+1686 Barbaric/Milos Roar - Damage Buff - No FP
+1687 Barbaric/Milos Roar - No FP
+1688 Barbaric/Milos Roar - Damage Buff - No FP
+1690 Determination
+1691 Determination - Damage Buff
+1692 Determination
+1693 Determination - Damage Buff
+1694 Determination - Critical Damage Debuff
+1695 Determination - No FP
+1696 Determination - Damage Buff - No FP
+1697 Determination - No FP
+1698 Determination - Damage Buff - No FP
+1699 Determination - No FP - Critical Damage Debuff
+1700 Royal Knight's Resolve
+1701 Royal Knight's Resolve - Damage Buff
+1702 Royal Knight's Resolve
+1703 Royal Knight's Resolve - Damage Buff
+1704 Royal Knight's Resolve - Critical Damage Debuff
+1705 Royal Knight's Resolve - No FP
+1706 Royal Knight's Resolve - Damage Buff - No FP
+1707 Royal Knight's Resolve - No FP
+1708 Royal Knight's Resolve - Damage Buff - No FP
+1709 Royal Knight's Resolve - No FP - Critical Damage Debuff
+1715 Golden Tempering
+1716 Golden Tempering - Anti-Undead/Holy Buff
+1717 Golden Tempering
+1718 Golden Tempering - Anti-Undead/Holy Buff
+1720 DMGS
+1721 DMGS - Frost/Magic Buff
+1722 DMGS
+1723 DMGS - Frost/Magic Buff
+1724 DMGS - Frost
+1725 Zamor Ice Storm - VFX
+1726 Zamor Ice Storm - VFX
+1727 Zamor Ice Storm - VFX
+1728 Zamor Ice Storm - VFX
+1730 Golden Vow - Damage/Defence Buff
+1731 Golden Vow - Icon
+1732 Golden Great Arrow - Damage/Defence Buff
+1733 Golden Great Arrow - Icon
+1753 Seppuku - Self Bleed
+1754 Seppuku
+1755 Seppuku - Damage/Bleed Buff
+1756 Seppuku - Bleed
+1757 Seppuku
+1758 Seppuku - Damage/Bleed Buff
+1759 Seppuku - Bleed
+1760 Blood Blade - Self Bleed
+1761 Blood Blade - Bleed
+1763 Bloody Slash - Self Bleed
+1765 Assassin's Gambit
+1766 Assassin's Gambit
+1767 Assassin's Gambit
 1768 Commander's Standard - Bullet
-1769 Commander's Standard - Bullet - Allies
-1770 Commander's Standard - Effect
-1789 Ash of War - Death Flare
+1769 Commander's Standard - Icon
+1770 Commander's Standard - Icon
+1771 Blood Blade - VFX
+1772 Blood Blade - VFX
+1773 Blood Blade - VFX
+1774 Blood Blade - VFX
+1775 Flaming Strike
+1776 Flaming Strike - Fire Buff
+1777 Flaming Strike
+1778 Flaming Strike - Fire Buff
+1782 Vyke's Spear - Self Madness
+1785 Viper Bite - Poison
+1789 Eclipse Shotel - Bullet - Blight
+1790 Eclipse Shotel
+1791 Eclipse Shotel - Holy/Blight Buff
+1792 Eclipse Shotel
+1793 Eclipse Shotel - Holy/Blight Buff
+1794 Eclipse Shotel - Blight
+1800 Hoarfrost Stomp - Frost 
+1801 Hoarfrost Stomp - Frost 
+1805 Ruinous Ghostflame
+1806 Ruinous Ghostflame - Frost/Magic Buff
+1807 Ruinous Ghostflame
+1808 Ruinous Ghostflame - Frost/Magic Buff
+1809 Ruinous Ghostflame - Frost
+1810 War Cry
+1811 War Cry - Damage Buff
+1812 War Cry
+1813 War Cry - Damage Buff
+1815 War Cry - No FP
+1816 War Cry - Damage Buff - No FP
+1817 War Cry - No FP
+1818 War Cry - Damage Buff - No FP
+1820 Cragblade
+1821 Cragblade - Damage/Stagger Buff
+1822 Cragblade
+1823 Cragblade - Damage/Stagger Buff
+1825 Cragblade - No FP
+1826 Cragblade - Damage/Stagger Buff - No FP
+1827 Cragblade - No FP
+1828 Cragblade - Damage/Stagger Buff - No FP
+1830 Blood Tax - HP Absorb
+1831 Blood Tax - HP Absorb
+1835 Last Rites - Anti-Undead/Damage Buff - Self
+1836 Last Rites - Anti-Undead/Damage Buff - Allies
+1840 Sacred Order
+1841 Sacred Order - Anti-Undead/Damage Buff
+1842 Sacred Order
+1843 Sacred Order - Anti-Undead/Damage Buff
+1845 Sacred Order - No FP
+1846 Sacred Order - Anti-Undead/Damage Buff - No FP
+1847 Sacred Order - No FP
+1848 Sacred Order - Anti-Undead/Damage Buff - No FP
+1850 Oath of Vengeance - Stat Buff
+1851 Oath of Vengeance - Poise
+1852 Oath of Vengeance - Poise - No FP
 1855 Sword of Milos - Bullet
 1856 Sword of Milos - Bullet
-1885 Sword of St. Trina - Bullet
+1859 Starscourge Greatsword - Poise
+1860 Braggart's Roar
+1861 Braggart's Roar - Damage/Defence/Stamina Buff
+1862 Braggart's Roar
+1863 Braggart's Roar - Damage/Defence/Stamina Buff
+1864 Braggart's Roar - Icon
+1865 Braggart's Roar - No FP
+1866 Braggart's Roar - Damage/Defence/Stamina Buff - No FP
+1867 Braggart's Roar - No FP
+1868 Braggart's Roar - Damage/Defence/Stamina Buff - No FP
+1869 Braggart's Roar - Icon - No FP
+1870 Shared Order - Anti-Undead/Damage Buff - Self
+1871 Shared Order - Anti-Undead/Damage Buff
+1880 Sword of St. Trina
+1881 Sword of St. Trina - Sleep Buff
+1882 Sword of St. Trina
+1883 Sword of St. Trina - Sleep Buff
+1884 Sword of St. Trina - Sleep
+1885 Sword of St. Trina - Bullet - Sleep
+1890 Ice Lightning Sword
+1891 Ice Lightning Sword - Frost/Lightning Buff
+1892 Ice Lightning Sword
+1893 Ice Lightning Sword - Frost/Lightning Buff
+1894 Ice Lightning Sword - Frost
 1896 Devourer's Scepter - Bullet
-1897 Scepter of the All-Knowing - Bullet Knowledge Above All
+1897 Scepter of the All-Knowing - Bullet
 1910 Carian Regal Scepter - Boost Damage
 1911 Carian Glintstone Staff - Boost Damage
 1912 Carian Glintblade Staff - Boost Damage
@@ -130,33 +343,42 @@
 1937 Lion Greatbow
 1938 Serpent Bow
 1939 Serpent Bow [Attack]
-1940 Bow
+1940 Holy Arrow Anti-Undead
+3000 Full Heal
 3050 Stanching Boluses
-3051 Stanching Boluses [Chain]
+3051 Stanching Boluses - Remove Hemorrhage [Chain]
 3055 Stimulating Boluses
-3056 Stimulating Boluses [Chain]
+3056 Stimulating Boluses - Remove Sleep [Chain]
 3060 Neutralizing Boluses
-3061 Neutralizing Boluses [Chain]
+3061 Neutralizing Boluses - Remove Poison [Chain]
 3065 Clarifying Boluses
-3066 Clarifying Boluses [Chain]
+3066 Clarifying Boluses - Remove Madness [Chain]
 3070 Preserving Boluses
-3071 Preserving Boluses [Chain]
-3090 Rejuvenating Boluses
+3071 Preserving Boluses - Remove Scarlet Rot [Chain]
+3090 Rejuvenating Boluses - Remove Blight
 3091 Rejuvenating Boluses [Chain]
 3092 Thawfrost Boluses
-3093 Thawfrost Boluses [Chain]
+3093 Thawfrost Boluses - Remove Frostbite [Chain]
 3115 Kukri
 3120 Fetid Pot
 3125 Swarm of Flies - Hemorrhage [Cycle]
-3126 Swarm of Flies  - Hemorrhage
-3140 Freezing Grease
-3141 Freezing Grease [Attack]
-3142 Drawstring Freezing Grease
-3143 Drawstring Freezing Grease [Attack]
-3150 Soporific Grease
-3151 Soporific Grease [Attack]
-3152 Drawstring Soporific Grease
-3153 Drawstring Soporific Grease [Attack]
+3126 Swarm of Flies - Hemorrhage
+3140 Freezing Grease - Right
+3141 Freezing Grease - Right [Attack]
+3142 Drawstring Freezing Grease - Right
+3143 Drawstring Freezing Grease - Right [Attack]
+3144 Freezing Grease - Left
+3145 Freezing Grease - Left [Attack]
+3146 Drawstring Freezing Grease - Left
+3147 Drawstring Freezing Grease - Left [Attack]
+3150 Soporific Grease - Right
+3151 Soporific Grease - Right [Attack]
+3152 Drawstring Soporific Grease - Right
+3153 Drawstring Soporific Grease - Right [Attack]
+3154 Soporific Grease - Left
+3155 Soporific Grease - Left [Attack]
+3156 Drawstring Soporific Grease - Left
+3157 Drawstring Soporific Grease - Left [Attack]
 3160 Fire Grease - Right
 3161 Drawstring Fire Grease - Right
 3162 Fire Grease - Left
@@ -236,6 +458,7 @@
 3505 Crimson Crystal Tear
 3506 Cerulean Crystal Tear
 3507 Opaline Bubbletear
+3508 Opaline Bubbletear
 3512 Crimson Bubbletear
 3513 Crimson Bubbletear [Chain]
 3515 Strength-knot Crystal Tear
@@ -251,6 +474,10 @@
 3555 Thorny Cracked Tear [Chain]
 3556 Thorny Cracked Tear [Chain]
 3557 Thorny Cracked Tear [Chain]
+3558 Thorny Cracked Tear [Triggered]
+3559 Thorny Cracked Tear [Triggered]
+3560 Thorny Cracked Tear [Triggered]
+3561 Thorny Cracked Tear [Triggered]
 3580 Crimsonwhorl Bubbletear
 3581 Crimsonwhorl Bubbletear [Chain]
 3582 Crimsonwhorl Bubbletear [Chain]
@@ -266,13 +493,13 @@
 3609 Speckled Hardtear [Chain]
 3610 Speckled Hardtear [Chain]
 3611 Speckled Hardtear [Chain]
-3612 Speckled Hardtear [Cycle]
-3613 Speckled Hardtear [Cycle]
-3614 Speckled Hardtear [Cycle]
-3615 Speckled Hardtear [Cycle]
-3616 Speckled Hardtear [Cycle]
-3617 Speckled Hardtear [Cycle]
-3618 Speckled Hardtear [Cycle]
+3612 Speckled Hardtear - Remove Hemorrhage [Cycle]
+3613 Speckled Hardtear - Remove Sleep [Cycle]
+3614 Speckled Hardtear - Remove Poison [Cycle]
+3615 Speckled Hardtear - Remove Madness [Cycle]
+3616 Speckled Hardtear - Remove Scarlet Rot [Cycle]
+3617 Speckled Hardtear - Remove Frostbite [Cycle]
+3618 Speckled Hardtear - Remove Blight [Cycle]
 3720 Remembrance of the Grafted
 3721 Remembrance of the Starscourge
 3722 Remembrance of the Omen King
@@ -300,6 +527,18 @@
 3963 Dappled Cured Meat
 3970 Silver-Pickled Fowl Foot
 3971 Gold-Pickled Fowl Foot
+4001 Poison Swamp
+4002 Poison Swamp
+4003 Poison Swamp
+4004 Poison Swamp
+4010 Wetting Debuff
+4040 Lava
+4050 Scarlet Rot Swamp
+4051 Scarlet Rot Swamp
+4052 Scarlet Rot Swamp
+4053 Scarlet Rot Swamp
+4054 Lake of Rot
+4055 Lake of Rot
 4100 Sanguine Noble - Bullet - Slow
 4101 Sanguine Noble - Bullet - Slow
 4201 Golden Leaves Weather (Bonus Runes)
@@ -309,6 +548,9 @@
 4282 Disable Grace Warp
 4286 Disable Grace Warp (Trap)
 4288 Disable Grace Warp
+4301 Enemy: Fade after death
+4301 Enemy: Fade after death (boss)
+4302 Enemy: Fade after death (blue)
 5250 Enemy: Golden Eyes (Bonus Runes)
 5255 Enemy: Golden Eyes Failed (No Reroll)
 5269 Enemy: Golden Eyes Chance (Guaranteed)
@@ -371,6 +613,7 @@
 5600 NPC: Infinite FP
 5635 Sword Arts Dodge Unk
 5601 NPC: Faster Stamina Recovery
+5740 Damaged by Healing Incantations
 5836 Undead Enemy
 5837 Undead Enemy
 6000 Enemy - Pushed by Rolls

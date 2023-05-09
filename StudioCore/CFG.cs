@@ -53,23 +53,16 @@ namespace StudioCore
             }
             else
             {
-                do
+                try
                 {
-                    try
-                    {
-                        Current = JsonConvert.DeserializeObject<CFG>(
-                        File.ReadAllText(GetConfigFilePath()));
-                    }
-                    catch (JsonException e)
-                    {
-                        if (MessageBox.Show($"{e.Message}\n\nReset config settings?", $"{Config_FileName} Load Error",
-                            MessageBoxButtons.OKCancel) == DialogResult.OK)
-                        {
-                            Current = new CFG();
-                        }
-                    }
+                    Current = JsonConvert.DeserializeObject<CFG>(
+                    File.ReadAllText(GetConfigFilePath()));
                 }
-                while (Current == null);
+                catch (Exception e)
+                {
+                    MessageBox.Show($"{e.Message}\n\nConfig could not be loaded, and will be reset.", $"{Config_FileName} Load Error");
+                    Current = new CFG();
+                }
             }
         }
 
@@ -82,23 +75,16 @@ namespace StudioCore
             }
             else
             {
-                do
+                try
                 {
-                    try
-                    {
-                        KeyBindings.Current = JsonConvert.DeserializeObject<KeyBindings.Bindings>(
-                        File.ReadAllText(GetBindingsFilePath()));
-                    }
-                    catch (JsonException e)
-                    {
-                        if (MessageBox.Show($"{e.Message}\n\nReset keybinds?", $"{Keybinds_FileName} Load Error",
-                            MessageBoxButtons.OKCancel) == DialogResult.OK)
-                        {
-                            KeyBindings.Current = new KeyBindings.Bindings();
-                        }
-                    }
+                    KeyBindings.Current = JsonConvert.DeserializeObject<KeyBindings.Bindings>(
+                    File.ReadAllText(GetBindingsFilePath()));
                 }
-                while (KeyBindings.Current == null);
+                catch (Exception e)
+                {
+                    MessageBox.Show($"{e.Message}\n\nKeybinds could not be loaded, and will be reset.", $"{Keybinds_FileName} Load Error", MessageBoxButtons.OK);
+                    KeyBindings.Current = new KeyBindings.Bindings();
+                }
             }
         }
 
@@ -222,7 +208,10 @@ namespace StudioCore
         public bool FontThai = false;
         public bool FontVietnamese = false;
         public bool FontCyrillic = false;
+
+        // UI settings
         public float UIScale = 1.0f;
+        public bool UI_CompactParams = false;
 
         // FMG Editor settings
         public bool FMG_ShowOriginalNames = false;
@@ -230,8 +219,8 @@ namespace StudioCore
         public bool FMG_NoFmgPatching = false;
 
         // Param settings
-        public bool Param_ShowAltNames = true;
-        public bool Param_SecondaryNameInBrackets = false;
+        public bool Param_MakeMetaNamesPrimary = true;
+        public bool Param_ShowSecondaryNames = true;
         public bool Param_ShowFieldOffsets = false; 
         public bool Param_HideReferenceRows = false;
         public bool Param_HideEnums = false;
@@ -240,6 +229,7 @@ namespace StudioCore
         public bool Param_ShowVanillaParams = true;
         public bool Param_PasteAfterSelection = false;
         public bool Param_DisableRowGrouping = false; 
+        public bool Param_AdvancedMassedit = false; 
 
         //private string _Param_Export_Array_Delimiter = "|";
         private string _Param_Export_Delimiter = ",";

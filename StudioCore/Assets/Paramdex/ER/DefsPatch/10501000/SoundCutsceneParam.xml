@@ -77,7 +77,7 @@
       <Increment>0.1</Increment>
       <SortID>14</SortID>
     </Field>
-    <Field Def="dummy8 reserved[8]">
+    <Field Def="dummy8 reserved[12]">
       <DisplayName>リザーブ</DisplayName>
       <Description>リザーブ</Description>
       <SortID>10002</SortID>
