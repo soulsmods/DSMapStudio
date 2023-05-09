@@ -323,15 +323,18 @@ namespace StudioCore.ParamEditor
                     {
                         if (ImGui.BeginMenu(name))
                         {
-                            (string[] text, List<string[]> args) = CacheBank.GetCached(this, ParamBank.PrimaryBank, "MassEditScript"+path, () =>
+                            (List<string> preamble, string[] text, List<string[]> args) = CacheBank.GetCached(this, ParamBank.PrimaryBank, "MassEditScript"+path, () =>
                             {
                                 try
                                 {
+                                    List<string> preamble = new List<string>();
                                     string[] text = File.ReadAllLines(path);
                                     List<string[]> args = new List<string[]>();
                                     foreach (string line in text)
                                     {
-                                        if(line.StartsWith("newvar "))
+                                        if(line.StartsWith("##") && args.Count == 0)
+                                            preamble.Add(line);
+                                        else if(line.StartsWith("newvar "))
                                         {
                                             string[] arg = line.Substring(7).Split(':', 2);
                                             if (arg[1].EndsWith(';'))
@@ -343,12 +346,12 @@ namespace StudioCore.ParamEditor
                                         else
                                             break;
                                     }
-                                    return (text, args);
+                                    return (preamble, text, args);
                                 }
                                 catch (Exception e)
                                 {
                                     TaskManager.warningList["MassEditScriptLoad"] = "Error loading mass edit script "+name;
-                                    return (null, null);
+                                    return (null, null, null);
                                 }
                             });
                             if (text != null)
@@ -359,8 +362,8 @@ namespace StudioCore.ParamEditor
                                 }
                                 if (ImGui.Selectable("Load"))
                                 {
-                                    string preAmble = "clear;\nclearvars;\n";
-                                    string newText = preAmble + string.Join('\n', args.Select((x) => $@"newvar {x[0]}:{x[1]};")) + '\n' + string.Join('\n', text.Skip(args.Count));
+                                    string addedCommands = preamble.Count == 0 ? "" : "\n" + "clear;\nclearvars;\n";
+                                    string newText = string.Join('\n', preamble) + addedCommands + string.Join('\n', args.Select((x) => $@"newvar {x[0]}:{x[1]};")) + '\n' + string.Join('\n', text.Skip(args.Count + preamble.Count));
                                     _currentMEditRegexInput = newText;
                                     EditorCommandQueue.AddCommand($@"param/menu/massEditRegex");
                                 }
