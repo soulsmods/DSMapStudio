@@ -681,6 +681,56 @@ namespace StudioCore
             }
         }
 
+        private bool _standardProjectUIOpened = true;
+        private void NewProject_NameGUI()
+        {
+            ImGui.AlignTextToFramePadding();
+            ImGui.Text("Project Name:      ");
+            ImGui.SameLine();
+            Utils.ImGuiGenericHelpPopup("?", "##Help_ProjectName",
+                "Project's display name. Only affects visuals within DSMS.");
+            ImGui.SameLine();
+            var pname = _newProjectOptions.settings.ProjectName;
+            if (ImGui.InputText("##pname", ref pname, 255))
+            {
+                _newProjectOptions.settings.ProjectName = pname;
+            }
+        }
+
+        private void NewProject_ProjectDirectoryGUI()
+        {
+            ImGui.AlignTextToFramePadding();
+            ImGui.Text("Project Directory: ");
+            ImGui.SameLine();
+            Utils.ImGuiGenericHelpPopup("?", "##Help_ProjectDirectory",
+                "The location mod files will be saved.\nTypically, this should be Mod Engine's Mod folder.");
+            ImGui.SameLine();
+            ImGui.InputText("##pdir", ref _newProjectOptions.directory, 255);
+            ImGui.SameLine();
+            if (ImGui.Button($@"{ForkAwesome.FileO}"))
+            {
+                var browseDlg = new System.Windows.Forms.FolderBrowserDialog();
+
+                if (browseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    _newProjectOptions.directory = browseDlg.SelectedPath;
+                }
+            }
+        }
+
+        private void NewProject_GameTypeComboGUI()
+        {
+            ImGui.AlignTextToFramePadding();
+            ImGui.Text($@"Game Type:         ");
+            ImGui.SameLine();
+            string[] games = Enum.GetNames(typeof(GameType));
+            int gameIndex = Array.IndexOf(games, _newProjectOptions.settings.GameType.ToString());
+            if (ImGui.Combo("##GameTypeCombo", ref gameIndex, games, games.Length))
+            {
+                _newProjectOptions.settings.GameType = Enum.Parse<GameType>(games[gameIndex]);
+            }
+        }
+
         private void Update(float deltaseconds)
         {
             var ctx = Tracy.TracyCZoneN(1, "Imgui");
@@ -1075,75 +1125,104 @@ namespace StudioCore
             }
             if (ImGui.BeginPopupModal("New Project", ref open, ImGuiWindowFlags.AlwaysAutoResize))
             {
-                ImGui.AlignTextToFramePadding();
-                ImGui.Text("Project Name:      ");
-                ImGui.SameLine();
-                Utils.ImGuiGenericHelpPopup("?", "##Help_ProjectName",
-                    "Project's display name. Only affects visuals within DSMS.");
-                ImGui.SameLine();
-                var pname = _newProjectOptions.settings.ProjectName;
-                if (ImGui.InputText("##pname", ref pname, 255))
+                //
+                ImGui.BeginTabBar("NewProjectTabBar");
+                if (ImGui.BeginTabItem("Standard"))
                 {
-                    _newProjectOptions.settings.ProjectName = pname;
-                }
+                    if (!_standardProjectUIOpened)
+                        _newProjectOptions.settings.GameType = GameType.Undefined;
+                    _standardProjectUIOpened = true;
 
-                ImGui.AlignTextToFramePadding();
-                ImGui.Text("Project Directory: ");
-                ImGui.SameLine();
-                Utils.ImGuiGenericHelpPopup("?", "##Help_ProjectDirectory",
-                    "The location mod files will be saved.\nTypically, this should be Mod Engine's Mod folder.");
-                ImGui.SameLine();
-                ImGui.InputText("##pdir", ref _newProjectOptions.directory, 255);
-                ImGui.SameLine();
-                if (ImGui.Button($@"{ForkAwesome.FileO}"))
-                {
-                    var browseDlg = new System.Windows.Forms.FolderBrowserDialog();
+                    NewProject_NameGUI();
+                    NewProject_ProjectDirectoryGUI();
 
-                    if (browseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                    ImGui.AlignTextToFramePadding();
+                    ImGui.Text("Game Executable:   ");
+                    ImGui.SameLine();
+                    Utils.ImGuiGenericHelpPopup("?", "##Help_GameExecutable",
+                        "The location of the game's .EXE or EBOOT.BIN file.\nThe folder with the executable will be used to obtain unpacked game data.");
+                    ImGui.SameLine();
+                    var gname = _newProjectOptions.settings.GameRoot;
+                    if (ImGui.InputText("##gdir", ref gname, 255))
                     {
-                        _newProjectOptions.directory = browseDlg.SelectedPath;
+                        if (File.Exists(gname))
+                            _newProjectOptions.settings.GameRoot = Path.GetDirectoryName(gname);
+                        else
+                            _newProjectOptions.settings.GameRoot = gname;
+                        _newProjectOptions.settings.GameType = _assetLocator.GetGameTypeForExePath(gname);
+
+                        if (_newProjectOptions.settings.GameType == GameType.Bloodborne)
+                        {
+                            _newProjectOptions.settings.GameRoot = _newProjectOptions.settings.GameRoot + @"\dvdroot_ps4";
+                        }
                     }
-                }
-
-                ImGui.AlignTextToFramePadding();
-                ImGui.Text("Game Executable:   ");
-                ImGui.SameLine();
-                Utils.ImGuiGenericHelpPopup("?", "##Help_GameExecutable",
-                    "The location of the game's .EXE or EBOOT.BIN file.\nThe folder with the executable will be used to obtain unpacked game data.");
-                ImGui.SameLine();
-                var gname = _newProjectOptions.settings.GameRoot;
-                if (ImGui.InputText("##gdir", ref gname, 255))
-                {
-                    _newProjectOptions.settings.GameRoot = gname;
-                    _newProjectOptions.settings.GameType = _assetLocator.GetGameTypeForExePath(_newProjectOptions.settings.GameRoot);
-                }
-                ImGui.SameLine();
-                ImGui.PushID("fd2");
-                if (ImGui.Button($@"{ForkAwesome.FileO}"))
-                {
-                    var browseDlg = new System.Windows.Forms.OpenFileDialog()
+                    ImGui.SameLine();
+                    if (ImGui.Button($@"{ForkAwesome.FileO}##fd2"))
                     {
-                        Filter = AssetLocator.GameExecutableFilter,
-                        ValidateNames = true,
-                        CheckFileExists = true,
-                        CheckPathExists = true,
-                        //ShowReadOnly = true,
-                    };
+                        var browseDlg = new System.Windows.Forms.OpenFileDialog()
+                        {
+                            Filter = AssetLocator.GameExecutableFilter,
+                            ValidateNames = true,
+                            CheckFileExists = true,
+                            CheckPathExists = true,
+                        };
 
-                    if (browseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                    {
-                        _newProjectOptions.settings.GameRoot = browseDlg.FileName;
-                        _newProjectOptions.settings.GameType = _assetLocator.GetGameTypeForExePath(_newProjectOptions.settings.GameRoot);
+                        if (browseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                        {
+                            _newProjectOptions.settings.GameRoot = Path.GetDirectoryName(browseDlg.FileName);
+                            _newProjectOptions.settings.GameType = _assetLocator.GetGameTypeForExePath(browseDlg.FileName);
+
+                            if (_newProjectOptions.settings.GameType == GameType.Bloodborne)
+                            {
+                                _newProjectOptions.settings.GameRoot = _newProjectOptions.settings.GameRoot + @"\dvdroot_ps4";
+                            }
+                        }
                     }
-                }
-                ImGui.PopID();
-                ImGui.Text($@"Detected Game:      {_newProjectOptions.settings.GameType.ToString()}");
+                    ImGui.Text($@"Detected Game:      {_newProjectOptions.settings.GameType}");
 
-                ImGui.NewLine();
+                    ImGui.EndTabItem();
+                }
+                else
+                {
+                    _standardProjectUIOpened = false;
+                }
+                
+                if (ImGui.BeginTabItem("Advanced"))
+                {
+                    NewProject_NameGUI();
+                    NewProject_ProjectDirectoryGUI();
+
+                    ImGui.AlignTextToFramePadding();
+                    ImGui.Text("Game Directory:    ");
+                    ImGui.SameLine();
+                    Utils.ImGuiGenericHelpPopup("?", "##Help_GameDirectory",
+                        "The location of game files.\nTypically, this should be the location of the game executable.");
+                    ImGui.SameLine();
+                    var gname = _newProjectOptions.settings.GameRoot;
+                    if (ImGui.InputText("##gdir", ref gname, 255))
+                    {
+                        _newProjectOptions.settings.GameRoot = gname;
+                    }
+                    ImGui.SameLine();
+                    if (ImGui.Button($@"{ForkAwesome.FileO}##fd2"))
+                    {
+                        var browseDlg = new System.Windows.Forms.FolderBrowserDialog();
+
+                        if (browseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                        {
+                            _newProjectOptions.settings.GameRoot = browseDlg.SelectedPath;
+                        }
+                    }
+                    NewProject_GameTypeComboGUI();
+                    ImGui.EndTabItem();
+                }
+                ImGui.EndTabBar();
+                //
+
                 ImGui.Separator();
-                ImGui.NewLine();
                 if (_newProjectOptions.settings.GameType is GameType.DarkSoulsIISOTFS or GameType.DarkSoulsIII)
                 {
+                    ImGui.NewLine();
                     ImGui.AlignTextToFramePadding();
                     ImGui.Text($@"Loose Params:      ");
                     ImGui.SameLine();
@@ -1157,10 +1236,10 @@ namespace StudioCore
                     {
                         _newProjectOptions.settings.UseLooseParams = looseparams;
                     }
-                    ImGui.NewLine();
                 }
                 else if (FeatureFlags.EnablePartialParam && _newProjectOptions.settings.GameType == GameType.EldenRing)
                 {
+                    ImGui.NewLine();
                     ImGui.AlignTextToFramePadding();
                     ImGui.Text($@"Save partial regulation:  ");
                     ImGui.SameLine();
@@ -1174,8 +1253,9 @@ namespace StudioCore
                     }
                     ImGui.SameLine();
                     ImGui.TextUnformatted("Warning: partial params require merging before use in game.\nRow names on unchanged rows will be forgotten between saves");
-                    ImGui.NewLine();
                 }
+                ImGui.NewLine();
+
                 ImGui.AlignTextToFramePadding();
                 ImGui.Text($@"Import row names:  ");
                 ImGui.SameLine();
@@ -1184,18 +1264,19 @@ namespace StudioCore
                 ImGui.SameLine();
                 ImGui.Checkbox("##loadDefaultNames", ref _newProjectOptions.loadDefaultNames);
                 if (_newProjectOptions.settings.UseLooseParams == false
-                    && _newProjectOptions.loadDefaultNames == true 
+                    && _newProjectOptions.loadDefaultNames == true
                     && _newProjectOptions.settings.GameType == GameType.DarkSoulsIISOTFS)
                 {
-                    ImGui.NewLine();
                     ImGui.TextColored(new Vector4(1.0f, 0.4f, 0.4f, 1.0f), "Warning: Saving row names onto non-loose params will crash the game. It is highly recommended you use loose params with Dark Souls 2.");
                 }
                 ImGui.NewLine();
 
+                if (_newProjectOptions.settings.GameType == GameType.Undefined)
+                    ImGui.BeginDisabled();
                 if (ImGui.Button("Create", new Vector2(120, 0) * scale))
                 {
                     bool validated = true;
-                    if (_newProjectOptions.settings.GameRoot == null || !File.Exists(_newProjectOptions.settings.GameRoot))
+                    if (_newProjectOptions.settings.GameRoot == null || !Directory.Exists(_newProjectOptions.settings.GameRoot))
                     {
                         System.Windows.Forms.MessageBox.Show("Your game executable path does not exist. Please select a valid executable.", "Error",
                             System.Windows.Forms.MessageBoxButtons.OK,
@@ -1218,12 +1299,13 @@ namespace StudioCore
                     }
                     if (validated && File.Exists($@"{_newProjectOptions.directory}\project.json"))
                     {
-                        System.Windows.Forms.MessageBox.Show("Your selected project directory is already a project.", "Error",
-                                         System.Windows.Forms.MessageBoxButtons.OK,
+                        var message = System.Windows.Forms.MessageBox.Show("Your selected project directory already contains a project.json. Would you like to replace it?", "Error",
+                                         System.Windows.Forms.MessageBoxButtons.YesNo,
                                          System.Windows.Forms.MessageBoxIcon.None);
-                        validated = false;
+                        if (message == DialogResult.No)
+                            validated = false;
                     }
-                    if (validated && (Path.GetDirectoryName(_newProjectOptions.settings.GameRoot)).Equals(_newProjectOptions.directory))
+                    if (validated && _newProjectOptions.settings.GameRoot == _newProjectOptions.directory)
                     {
                         var message = System.Windows.Forms.MessageBox.Show(
                             "Project Directory is the same as Game Directory, which allows game files to be overwritten directly.\n\n" +
@@ -1242,11 +1324,7 @@ namespace StudioCore
                         validated = false;
                     }
 
-                    string gameroot = Path.GetDirectoryName(_newProjectOptions.settings.GameRoot);
-                    if (_newProjectOptions.settings.GameType == GameType.Bloodborne)
-                    {
-                        gameroot = gameroot + @"\dvdroot_ps4";
-                    }
+                    var gameroot = _newProjectOptions.settings.GameRoot;
                     if (!_assetLocator.CheckFilesExpanded(gameroot, _newProjectOptions.settings.GameType))
                     {
                         if (!GameNotUnpackedWarning(_newProjectOptions.settings.GameType))
@@ -1262,11 +1340,15 @@ namespace StudioCore
                         ImGui.CloseCurrentPopup();
                     }
                 }
+                if (_newProjectOptions.settings.GameType == GameType.Undefined)
+                    ImGui.EndDisabled();
+
                 ImGui.SameLine();
                 if (ImGui.Button("Cancel", new Vector2(120, 0) * scale))
                 {
                     ImGui.CloseCurrentPopup();
                 }
+
                 ImGui.EndPopup();
             }
             ImGui.PopStyleVar(3);
