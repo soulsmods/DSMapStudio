@@ -26,11 +26,19 @@ namespace StudioCore.ParamEditor
         }
         internal string Menu(bool enableComplexToggles, bool enableDefault, string suffix, string inheritedCommand, Func<string, string> subMenu)
         {
+            return Menu<object, object>(enableComplexToggles, null, enableDefault, suffix, inheritedCommand, subMenu);
+        }
+        internal string Menu<C, D>(bool enableComplexToggles, AutoFillSearchEngine<C, D> multiStageSE, bool enableDefault, string suffix, string inheritedCommand, Func<string, string> subMenu)
+        {
             int currentArgIndex = 0;
             if (enableComplexToggles)
             {
                 ImGui.Checkbox("Invert selection?##meautoinputnottoggle"+id, ref _autoFillNotToggle);
                 ImGui.SameLine();
+                ImGui.Checkbox("Add another condition?##meautoinputadditionalcondition"+id, ref _useAdditionalCondition);
+            }
+            else if (multiStageSE != null)
+            {
                 ImGui.Checkbox("Add another condition?##meautoinputadditionalcondition"+id, ref _useAdditionalCondition);
             }
             if (_useAdditionalCondition && _additionalCondition == null)
@@ -54,7 +62,9 @@ namespace StudioCore.ParamEditor
                     if (ImGui.BeginMenu(cmd.Item1 == null ? "Default filter..." : cmd.Item1, valid))
                     {
                         string curResult = inheritedCommand + getCurrentStepText(valid, cmd.Item1, argIndices, _additionalCondition != null ? " && " : suffix);
-                        if (_additionalCondition != null)
+                        if (_useAdditionalCondition && multiStageSE != null)
+                            subResult = multiStageSE.Menu(enableComplexToggles, enableDefault, suffix, curResult, subMenu);
+                        else if (_additionalCondition != null)
                             subResult = _additionalCondition.Menu(enableComplexToggles, enableDefault, suffix, curResult, subMenu);
                         else
                             subResult = subMenu(curResult);
@@ -171,7 +181,7 @@ namespace StudioCore.ParamEditor
             {
                 ImGui.PushID("paramrow");
                 ImGui.TextColored(HINTCOLOUR, "Select param and rows...");
-                string result1 = autoFillParse.Menu(false, false, ": ", null, (inheritedCommand) => 
+                string result1 = autoFillParse.Menu(false, autoFillRse, false, ": ", null, (inheritedCommand) => 
                 {
                     if (inheritedCommand != null)
                         ImGui.TextColored(AutoFill.PREVIEWCOLOUR, inheritedCommand);
