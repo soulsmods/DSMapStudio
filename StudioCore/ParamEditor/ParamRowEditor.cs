@@ -758,7 +758,7 @@ namespace StudioCore.ParamEditor
                     }
                     if (ImGui.Selectable("Reset to vanilla..."))
                     {
-                        EditorCommandQueue.AddCommand($@"param/menu/massEditRegex/selection: {Regex.Escape(internalName)}: = vanilla;");
+                        EditorCommandQueue.AddCommand($@"param/menu/massEditRegex/selection && !added: {Regex.Escape(internalName)}: = vanilla;");
                     }
                     ImGui.Separator();
                     string res = AutoFill.MassEditOpAutoFill();
