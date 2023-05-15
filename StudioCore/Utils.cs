@@ -788,12 +788,12 @@ namespace StudioCore
             {
                 return "Unknown Version";
             }
-            string major = verStr[0].ToString();
+            char major = verStr[0];
             string minor = verStr[1..3];
-            string patch = verStr[3].ToString();
+            char patch = verStr[3];
             string rev = verStr[4..];
 
-            return $"{major}.{minor}.{patch} r{rev}";
+            return $"{major}.{minor}.{patch}.{rev}";
         }
     }
 }
