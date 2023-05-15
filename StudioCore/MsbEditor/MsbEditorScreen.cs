@@ -202,34 +202,50 @@ namespace StudioCore.MsbEditor
         /// <summary>
         /// Rotate the selected objects by a fixed amount on the specified axis
         /// </summary>
-        private void ArbitraryRotation_Selection(int axis_type)
+        private void ArbitraryRotation_Selection(Vector3 axis, bool pivot)
         {
             var actlist = new List<Action>();
+            var sels = _selection.GetFilteredSelection<Entity>((o) => o.HasTransform);
 
-            var selected = _selection.GetFilteredSelection<Entity>();
-            foreach (var s in selected)
+            // Get the center position of the selections
+            Vector3 accumPos = Vector3.Zero;
+            foreach (var sel in sels)
             {
+                accumPos += sel.GetLocalTransform().Position;
+            }
 
-                var pos = s.GetLocalTransform().Position;
+            Transform centerT = new(accumPos / (float)sels.Count, Vector3.Zero);// sels.First().GetRootLocalTransform().EulerRotation);
 
-                var rot_x = s.GetLocalTransform().EulerRotation.X;
-                var rot_y = s.GetLocalTransform().EulerRotation.Y;
-                var rot_z = s.GetLocalTransform().EulerRotation.Z;
+            foreach (var s in sels)
+            {
+                var objT = s.GetLocalTransform();
 
-                if (axis_type == 0)
+                float radianRotateAmount = 0.0f;
+                var rot_x = objT.EulerRotation.X;
+                var rot_y = objT.EulerRotation.Y;
+                var rot_z = objT.EulerRotation.Z;
+
+                Transform newPos = Transform.Default;
+
+                if (axis.X != 0)
                 {
-                    float rad = ((float)Math.PI / 180) * CFG.Current.Map_ArbitraryRotation_X_Shift;
-                    rot_x = s.GetLocalTransform().EulerRotation.X + rad;
+                    radianRotateAmount = ((float)Math.PI / 180) * CFG.Current.Map_ArbitraryRotation_X_Shift;
+                    rot_x = objT.EulerRotation.X + radianRotateAmount;
                 }
-                if (axis_type == 1)
+                if (axis.Y != 0)
                 {
-                    float rad = ((float)Math.PI / 180) * CFG.Current.Map_ArbitraryRotation_Y_Shift;
-                    rot_y = s.GetLocalTransform().EulerRotation.Y + rad;
+                    radianRotateAmount = ((float)Math.PI / 180) * CFG.Current.Map_ArbitraryRotation_Y_Shift;
+                    rot_y = objT.EulerRotation.Y + radianRotateAmount;
                 }
 
-                Transform newRot = new Transform(pos, new Vector3(rot_x, rot_y, rot_z));
+                if (pivot)
+                    newPos = Utils.RotateVectorAboutPoint(objT.Position, centerT.Position, axis, radianRotateAmount);
+                else
+                    newPos.Position = objT.Position;
 
-                actlist.Add(s.GetUpdateTransformAction(newRot));
+                newPos.EulerRotation = new Vector3(rot_x, rot_y, rot_z);
+
+            actlist.Add(s.GetUpdateTransformAction(newPos));
             }
 
             var action = new CompoundAction(actlist);
@@ -496,23 +512,31 @@ namespace StudioCore.MsbEditor
                     GotoSelection();
                 }
 
-                ImGui.Separator(); // Selection options goes below here
+                ImGui.Separator();
 
-                if (ImGui.MenuItem("Reset Rotation", KeyBindings.Current.Map_ResetRotation.HintText, false, _selection.IsSelection()))
+                if (ImGui.BeginMenu("Manipulate Selection"))
                 {
-                    ResetRotationSelection();
-                }
-                if (ImGui.MenuItem("Arbitrary Rotation: X", KeyBindings.Current.Map_ArbitraryRotationX.HintText, false, _selection.IsSelection()))
-                {
-                    ArbitraryRotation_Selection(0);
-                }
-                if (ImGui.MenuItem("Arbitrary Rotation: Y", KeyBindings.Current.Map_ArbitraryRotationY.HintText, false, _selection.IsSelection()))
-                {
-                    ArbitraryRotation_Selection(1);
-                }
-                if (ImGui.MenuItem("Move Selection to Camera", KeyBindings.Current.Map_MoveSelectionToCamera.HintText, false, _selection.IsSelection()))
-                {
-                    MoveSelectionToCamera();
+                    if (ImGui.MenuItem("Reset Rotation", KeyBindings.Current.Map_ResetRotation.HintText, false, _selection.IsSelection()))
+                    {
+                        ResetRotationSelection();
+                    }
+                    if (ImGui.MenuItem("Arbitrary Rotation: Vertical", KeyBindings.Current.Map_ArbitraryRotation_Roll.HintText, false, _selection.IsSelection()))
+                    {
+                        ArbitraryRotation_Selection(new Vector3(1, 0, 0), false);
+                    }
+                    if (ImGui.MenuItem("Arbitrary Rotation: Horizontal", KeyBindings.Current.Map_ArbitraryRotation_Yaw.HintText, false, _selection.IsSelection()))
+                    {
+                        ArbitraryRotation_Selection(new Vector3(0, 1, 0), false);
+                    }
+                    if (ImGui.MenuItem("Arbitrary Rotation: Horizontal Pivot", KeyBindings.Current.Map_ArbitraryRotation_Yaw_Pivot.HintText, false, _selection.IsSelection()))
+                    {
+                        ArbitraryRotation_Selection(new Vector3(0, 1, 0), true);
+                    }
+                    if (ImGui.MenuItem("Move Selection to Camera", KeyBindings.Current.Map_MoveSelectionToCamera.HintText, false, _selection.IsSelection()))
+                    {
+                        MoveSelectionToCamera();
+                    }
+                    ImGui.EndMenu();
                 }
 
                 ImGui.EndMenu();
@@ -852,13 +876,17 @@ namespace StudioCore.MsbEditor
                 {
                     GotoSelection();
                 }
-                if (InputTracker.GetKeyDown(KeyBindings.Current.Map_ArbitraryRotationX))
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Map_ArbitraryRotation_Roll))
                 {
-                    ArbitraryRotation_Selection(0);
+                    ArbitraryRotation_Selection(new Vector3(1, 0, 0), false);
                 }
-                if (InputTracker.GetKeyDown(KeyBindings.Current.Map_ArbitraryRotationY))
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Map_ArbitraryRotation_Yaw))
                 {
-                    ArbitraryRotation_Selection(1);
+                    ArbitraryRotation_Selection(new Vector3(0, 1, 0), false);
+                }
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Map_ArbitraryRotation_Yaw_Pivot))
+                {
+                    ArbitraryRotation_Selection(new Vector3(0, 1, 0), true);
                 }
                 if (InputTracker.GetKeyDown(KeyBindings.Current.Map_Dummify) && _selection.IsSelection())
                 {
