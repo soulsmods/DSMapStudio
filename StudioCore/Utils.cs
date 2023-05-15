@@ -790,9 +790,10 @@ namespace StudioCore
             }
             string major = verStr[0].ToString();
             string minor = verStr[1..3];
-            string patch = verStr[4..5];
+            string patch = verStr[3].ToString();
+            string rev = verStr[4..];
 
-            return $"{major}.{minor}.{patch}";
+            return $"{major}.{minor}.{patch} r{rev}";
         }
     }
 }
