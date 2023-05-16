@@ -1953,7 +1953,7 @@ namespace StudioCore.ParamEditor
                     ImGui.PushStyleColor(ImGuiCol.Text, ALLVANILLACOLOUR);
             }
 
-            var selected = selectionCache != null ? selectionCache[selectionCacheIndex] : false;
+            var selected = selectionCache != null && selectionCacheIndex < selectionCache.Length ? selectionCache[selectionCacheIndex] : false;
             if (_gotoParamRow != -1 && !isPinned)
             {
                 // Goto row was activated. As soon as a corresponding ID is found, change selection to it.
