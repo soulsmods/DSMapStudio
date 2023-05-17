@@ -134,6 +134,7 @@ namespace StudioCore.ParamEditor
 
         public static bool EditorMode = false;
 
+        public bool GotoSelectedRow = false;
         internal bool _isSearchBarActive = false;
         private bool _isShortcutPopupOpen = false;
         private bool _isMEditPopupOpen = false;
@@ -310,6 +311,10 @@ namespace StudioCore.ParamEditor
                 if (ImGui.MenuItem("Duplicate", KeyBindings.Current.Core_Duplicate.HintText, false, _activeView._selection.rowSelectionExists()))
                 {
                     DuplicateSelection();
+                }
+                if (ImGui.MenuItem("Goto selected row", KeyBindings.Current.Param_GotoSelectedRow.HintText, false, _activeView._selection.rowSelectionExists()))
+                {
+                    GotoSelectedRow = true;
                 }
                 ImGui.Separator();
                 if (ImGui.MenuItem($"Mass Edit", KeyBindings.Current.Param_MassEdit.HintText))
@@ -1003,6 +1008,10 @@ namespace StudioCore.ParamEditor
                                 toRemove.ForEach((row) => view._selection.removeRowFromAllSelections(row));
                         });
                     }
+                }
+                if (!ImGui.IsAnyItemActive() && _activeView._selection.rowSelectionExists() && InputTracker.GetKeyDown(KeyBindings.Current.Param_GotoSelectedRow))
+                {
+                    GotoSelectedRow = true;
                 }
             }
 
@@ -1773,7 +1782,7 @@ namespace StudioCore.ParamEditor
                 scrollTo = 0;
 
                 //Goto ID
-                if (ImGui.Button($"Goto ID <{KeyBindings.Current.Param_GotoRow.HintText}>") || (isActiveView && InputTracker.GetKeyDown(KeyBindings.Current.Param_GotoRow)))
+                if (ImGui.Button($"Goto ID <{KeyBindings.Current.Param_GotoRowID.HintText}>") || (isActiveView && InputTracker.GetKeyDown(KeyBindings.Current.Param_GotoRowID)))
                 {
                     ImGui.OpenPopup("gotoParamRow");
                 }
@@ -1930,6 +1939,14 @@ namespace StudioCore.ParamEditor
                     _selection.SetActiveRow(r, true);
                     _gotoParamRow = -1;
                     ImGui.SetScrollHereY();
+                }
+            }
+            if (_paramEditor.GotoSelectedRow && !isPinned)
+            {
+                if (_selection.getActiveRow().ID == r.ID)
+                {
+                    ImGui.SetScrollHereY();
+                    _paramEditor.GotoSelectedRow = false;
                 }
             }
 
