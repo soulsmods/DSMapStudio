@@ -49,14 +49,14 @@ namespace StudioCore
             if (!File.Exists(GetConfigFilePath()))
             {
                 Current = new CFG();
-                SaveConfig();
             }
             else
             {
                 try
                 {
-                    Current = JsonConvert.DeserializeObject<CFG>(
-                    File.ReadAllText(GetConfigFilePath()));
+                    Current = JsonConvert.DeserializeObject<CFG>(File.ReadAllText(GetConfigFilePath()));
+                    if (Current == null)
+                        throw new Exception("JsonConvert returned null");
                 }
                 catch (Exception e)
                 {
@@ -71,14 +71,14 @@ namespace StudioCore
             if (!File.Exists(GetBindingsFilePath()))
             {
                 KeyBindings.Current = new KeyBindings.Bindings();
-                SaveKeybinds();
             }
             else
             {
                 try
                 {
-                    KeyBindings.Current = JsonConvert.DeserializeObject<KeyBindings.Bindings>(
-                    File.ReadAllText(GetBindingsFilePath()));
+                    KeyBindings.Current = JsonConvert.DeserializeObject<KeyBindings.Bindings>(File.ReadAllText(GetBindingsFilePath()));
+                    if (KeyBindings.Current == null)
+                        throw new Exception("JsonConvert returned null");
                 }
                 catch (Exception e)
                 {
