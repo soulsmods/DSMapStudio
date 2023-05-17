@@ -112,7 +112,8 @@ namespace StudioCore
             public KeyBind Param_SelectAll = new(Key.A, true);
             public KeyBind Param_Copy = new(Key.C, true);
             public KeyBind Param_Paste = new(Key.V, true);
-            public KeyBind Param_GotoRow = new(Key.G, true);
+            public KeyBind Param_GotoRowID = new(Key.G, true);
+            public KeyBind Param_GotoSelectedRow = new(Key.G);
             public KeyBind Param_GotoBack = new(Key.Escape, false);
             public KeyBind Param_SearchParam = new(Key.P, true);
             public KeyBind Param_SearchRow = new(Key.F, true);
