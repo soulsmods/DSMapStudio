@@ -533,6 +533,7 @@ namespace StudioCore.MsbEditor
             ImGui.SetNextItemWidth(-1);
 
             object newval;
+            // Property Editor UI
             (bool, bool) propEditResults = PropertyRow(propType, oldval, out newval, proprow);
             bool changed = propEditResults.Item1;
             bool committed = propEditResults.Item2;
@@ -700,7 +701,7 @@ namespace StudioCore.MsbEditor
                                 var oldval = a.GetValue(i);
                                 object newval = null;
 
-                                // Property Edtior UI
+                                // Property Editor UI
                                 (bool, bool) propEditResults = PropertyRow(typ.GetElementType(), oldval, out newval, prop);
                                 bool changed = propEditResults.Item1;
                                 bool committed = propEditResults.Item2;
@@ -755,7 +756,7 @@ namespace StudioCore.MsbEditor
                                 var oldval = itemprop.GetValue(l, new object[] { i });
                                 object newval = null;
 
-                                // Property Edtior UI
+                                // Property Editor UI
                                 (bool, bool) propEditResults = PropertyRow(arrtyp, oldval, out newval, prop);
                                 bool changed = propEditResults.Item1;
                                 bool committed = propEditResults.Item2;
@@ -910,7 +911,7 @@ namespace StudioCore.MsbEditor
                         var oldval = prop.GetValue(obj);
                         object newval = null;
 
-                        // Property Edtior UI
+                        // Property Editor UI
                         (bool, bool) propEditResults = PropertyRow(typ, oldval, out newval, prop);
                         bool changed = propEditResults.Item1;
                         bool committed = propEditResults.Item2;
