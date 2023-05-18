@@ -2009,6 +2009,10 @@ namespace StudioCore.ParamEditor
                 {
                     _selection.SetCompareRow(r);
                 }
+                if (ImGui.Selectable("Copy ID to clipboard"))
+                {
+                    Clipboard.SetText($"{r.ID}");
+                }
                 ImGui.EndPopup();
             }
             if (decorator != null)
