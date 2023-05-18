@@ -74,20 +74,26 @@ namespace Veldrid.Vk
 
             if (!isStaging)
             {
-                VkImageCreateInfo imageCI = new VkImageCreateInfo();
-                imageCI.mipLevels = MipLevels;
-                imageCI.arrayLayers = _actualImageArrayLayers;
-                imageCI.imageType = VkFormats.VdToVkTextureType(Type);
-                imageCI.extent.width = Width;
-                imageCI.extent.height = Height;
-                imageCI.extent.depth = Depth;
-                imageCI.initialLayout = VkImageLayout.Preinitialized;
-                imageCI.usage = VkFormats.VdToVkTextureUsage(Usage);
-                imageCI.tiling = isStaging ? VkImageTiling.Linear : VkImageTiling.Optimal;
-                imageCI.format = VkFormat;
-                imageCI.flags = VkImageCreateFlags.MutableFormat;
+                var imageCI = new VkImageCreateInfo
+                {
+                    sType = VkStructureType.ImageCreateInfo,
+                    mipLevels = MipLevels,
+                    arrayLayers = _actualImageArrayLayers,
+                    imageType = VkFormats.VdToVkTextureType(Type),
+                    extent = new VkExtent3D
+                    {
+                        width = Width,
+                        height = Height,
+                        depth = Depth
+                    },
+                    initialLayout = VkImageLayout.Preinitialized,
+                    usage = VkFormats.VdToVkTextureUsage(Usage),
+                    tiling = isStaging ? VkImageTiling.Linear : VkImageTiling.Optimal,
+                    format = VkFormat,
+                    flags = VkImageCreateFlags.MutableFormat,
+                    samples = VkSampleCount
+                };
 
-                imageCI.samples = VkSampleCount;
                 if (isCubemap)
                 {
                     imageCI.flags |= VkImageCreateFlags.CubeCompatible;
@@ -101,11 +107,20 @@ namespace Veldrid.Vk
                 bool prefersDedicatedAllocation;
                 if (_gd.GetImageMemoryRequirements2 != null)
                 {
-                    VkImageMemoryRequirementsInfo2 memReqsInfo2 = new VkImageMemoryRequirementsInfo2();
-                    memReqsInfo2.image = _optimalImage;
-                    VkMemoryRequirements2 memReqs2 = new VkMemoryRequirements2();
-                    VkMemoryDedicatedRequirements dedicatedReqs = new VkMemoryDedicatedRequirements();
-                    memReqs2.pNext = &dedicatedReqs;
+                    var memReqsInfo2 = new VkImageMemoryRequirementsInfo2
+                    {
+                        sType = VkStructureType.ImageMemoryRequirementsInfo2,
+                        image = _optimalImage
+                    };
+                    var dedicatedReqs = new VkMemoryDedicatedRequirements
+                    {
+                        sType = VkStructureType.MemoryDedicatedRequirements
+                    };
+                    var memReqs2 = new VkMemoryRequirements2
+                    {
+                        sType = VkStructureType.MemoryRequirements2,
+                        pNext = &dedicatedReqs
+                    };
                     _gd.GetImageMemoryRequirements2(_gd.Device, &memReqsInfo2, &memReqs2);
                     memoryRequirements = memReqs2.memoryRequirements;
                     prefersDedicatedAllocation = dedicatedReqs.prefersDedicatedAllocation || dedicatedReqs.requiresDedicatedAllocation;
@@ -156,9 +171,12 @@ namespace Veldrid.Vk
                 }
                 stagingSize *= ArrayLayers;
 
-                VkBufferCreateInfo bufferCI = new VkBufferCreateInfo();
-                bufferCI.usage = VkBufferUsageFlags.TransferSrc | VkBufferUsageFlags.TransferDst;
-                bufferCI.size = stagingSize;
+                var bufferCI = new VkBufferCreateInfo
+                {
+                    sType = VkStructureType.BufferCreateInfo,
+                    usage = VkBufferUsageFlags.TransferSrc | VkBufferUsageFlags.TransferDst,
+                    size = stagingSize
+                };
                 VkResult result = vkCreateBuffer(_gd.Device, &bufferCI, null, out _stagingBuffer);
                 CheckResult(result);
 
@@ -166,11 +184,20 @@ namespace Veldrid.Vk
                 bool prefersDedicatedAllocation;
                 if (_gd.GetBufferMemoryRequirements2 != null)
                 {
-                    VkBufferMemoryRequirementsInfo2 memReqInfo2 = new VkBufferMemoryRequirementsInfo2();
-                    memReqInfo2.buffer = _stagingBuffer;
-                    VkMemoryRequirements2 memReqs2 = new VkMemoryRequirements2();
-                    VkMemoryDedicatedRequirements dedicatedReqs = new VkMemoryDedicatedRequirements();
-                    memReqs2.pNext = &dedicatedReqs;
+                    var memReqInfo2 = new VkBufferMemoryRequirementsInfo2
+                    {
+                        sType = VkStructureType.BufferMemoryRequirementsInfo2,
+                        buffer = _stagingBuffer
+                    };
+                    var dedicatedReqs = new VkMemoryDedicatedRequirements
+                    {
+                        sType = VkStructureType.MemoryDedicatedRequirements
+                    };
+                    var memReqs2 = new VkMemoryRequirements2
+                    {
+                        sType = VkStructureType.MemoryRequirements2,
+                        pNext = &dedicatedReqs
+                    };
                     _gd.GetBufferMemoryRequirements2(_gd.Device, &memReqInfo2, &memReqs2);
                     bufferMemReqs = memReqs2.memoryRequirements;
                     prefersDedicatedAllocation = dedicatedReqs.prefersDedicatedAllocation || dedicatedReqs.requiresDedicatedAllocation;

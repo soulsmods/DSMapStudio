@@ -73,8 +73,11 @@ namespace Veldrid.Vk
 
             CreateSwapchain(description.Width, description.Height);
 
-            VkFenceCreateInfo fenceCI = new VkFenceCreateInfo();
-            fenceCI.flags = VkFenceCreateFlags.None;
+            var fenceCI = new VkFenceCreateInfo
+            {
+                sType = VkStructureType.FenceCreateInfo,
+                flags = VkFenceCreateFlags.None
+            };
             vkCreateFence(_gd.Device, &fenceCI, null, out _imageAvailableFence);
 
             AcquireNextImage(_gd.Device, VkSemaphore.Null, _imageAvailableFence);
@@ -168,8 +171,8 @@ namespace Veldrid.Vk
             CheckResult(result);
 
             VkFormat desiredFormat = _colorSrgb
-                ? VkFormat.B8G8R8A8SRgb
-                : VkFormat.B8G8R8A8UNorm;
+                ? VkFormat.B8G8R8A8Srgb
+                : VkFormat.B8G8R8A8Unorm;
 
             VkSurfaceFormatKHR surfaceFormat = new VkSurfaceFormatKHR();
             if (formats.Length == 1 && formats[0].format == VkFormat.Undefined)
@@ -188,7 +191,7 @@ namespace Veldrid.Vk
                 }
                 if (surfaceFormat.format == VkFormat.Undefined)
                 {
-                    if (_colorSrgb && surfaceFormat.format != VkFormat.R8G8B8A8SRgb)
+                    if (_colorSrgb && surfaceFormat.format != VkFormat.R8G8B8A8Srgb)
                     {
                         throw new VeldridException($"Unable to create an sRGB Swapchain for this surface.");
                     }
@@ -230,6 +233,7 @@ namespace Veldrid.Vk
             uint imageCount = Math.Min(maxImageCount, surfaceCapabilities.minImageCount + 1);
 
             VkSwapchainCreateInfoKHR swapchainCI = new VkSwapchainCreateInfoKHR();
+            swapchainCI.sType = VkStructureType.SwapchainCreateInfoKHR;
             swapchainCI.surface = _surface;
             swapchainCI.presentMode = presentMode;
             swapchainCI.imageFormat = surfaceFormat.format;
