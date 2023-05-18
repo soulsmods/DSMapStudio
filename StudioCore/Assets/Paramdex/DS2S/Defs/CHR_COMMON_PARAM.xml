@@ -48,7 +48,7 @@
     <Field Def="f32 Unk23" />
     <Field Def="f32 block_angle" />
     <Field Def="f32 parry_angle" />
-    <Field Def="f32 Unk24" />
+    <Field Def="f32 movement_speed_limit" />
     <Field Def="f32 Unk25" />
     <Field Def="f32 Unk26" />
     <Field Def="f32 Unk27" />
