@@ -52,20 +52,29 @@ namespace Veldrid.Vk
                 vkUsage |= VkBufferUsageFlags.IndirectBuffer;
             }
 
-            VkBufferCreateInfo bufferCI = new VkBufferCreateInfo();
-            bufferCI.size = sizeInBytes;
-            bufferCI.usage = vkUsage;
+            var bufferCI = new VkBufferCreateInfo
+            {
+                sType = VkStructureType.BufferCreateInfo,
+                size = sizeInBytes,
+                usage = vkUsage
+            };
             VkResult result = vkCreateBuffer(gd.Device, &bufferCI, null, out _deviceBuffer);
             CheckResult(result);
 
             bool prefersDedicatedAllocation;
             if (_gd.GetBufferMemoryRequirements2 != null)
             {
-                VkBufferMemoryRequirementsInfo2 memReqInfo2 = new VkBufferMemoryRequirementsInfo2();
-                memReqInfo2.buffer = _deviceBuffer;
-                VkMemoryRequirements2 memReqs2 = new VkMemoryRequirements2();
-                VkMemoryDedicatedRequirements dedicatedReqs = new VkMemoryDedicatedRequirements();
-                memReqs2.pNext = &dedicatedReqs;
+                var memReqInfo2 = new VkBufferMemoryRequirementsInfo2
+                {
+                    sType = VkStructureType.BufferMemoryRequirementsInfo2,
+                    buffer = _deviceBuffer
+                };
+                var dedicatedReqs = VkMemoryDedicatedRequirements.New();
+                var memReqs2 = new VkMemoryRequirements2
+                {
+                    sType = VkStructureType.MemoryRequirements2,
+                    pNext = &dedicatedReqs
+                };
                 _gd.GetBufferMemoryRequirements2(_gd.Device, &memReqInfo2, &memReqs2);
                 _bufferMemoryRequirements = memReqs2.memoryRequirements;
                 prefersDedicatedAllocation = dedicatedReqs.prefersDedicatedAllocation || dedicatedReqs.requiresDedicatedAllocation;

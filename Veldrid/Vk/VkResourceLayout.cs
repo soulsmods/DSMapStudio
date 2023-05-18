@@ -21,7 +21,6 @@ namespace Veldrid.Vk
             : base(ref description)
         {
             _gd = gd;
-            VkDescriptorSetLayoutCreateInfo dslCI = new VkDescriptorSetLayoutCreateInfo();
             ResourceLayoutElementDescription[] elements = description.Elements;
             _descriptorTypes = new VkDescriptorType[elements.Length];
             VkDescriptorSetLayoutBinding* bindings = stackalloc VkDescriptorSetLayoutBinding[elements.Length];
@@ -34,11 +33,14 @@ namespace Veldrid.Vk
 
             for (uint i = 0; i < elements.Length; i++)
             {
-                bindings[i].binding = i;
-                bindings[i].descriptorCount = elements[i].DescriptorCount;
                 VkDescriptorType descriptorType = VkFormats.VdToVkDescriptorType(elements[i].Kind, elements[i].Options);
-                bindings[i].descriptorType = descriptorType;
-                bindings[i].stageFlags = VkFormats.VdToVkShaderStages(elements[i].Stages);
+                bindings[i] = new VkDescriptorSetLayoutBinding
+                {
+                    binding = i,
+                    descriptorCount = elements[i].DescriptorCount,
+                    descriptorType = descriptorType,
+                    stageFlags = VkFormats.VdToVkShaderStages(elements[i].Stages)
+                };
                 if ((elements[i].Options & ResourceLayoutElementOptions.DynamicBinding) != 0)
                 {
                     DynamicBufferCount += 1;
@@ -73,9 +75,12 @@ namespace Veldrid.Vk
                 storageBufferCount,
                 storageImageCount);
 
-            dslCI.bindingCount = (uint)elements.Length;
-            dslCI.pBindings = bindings;
-
+            var dslCI = new VkDescriptorSetLayoutCreateInfo
+            {
+                sType = VkStructureType.DescriptorSetLayoutCreateInfo,
+                bindingCount = (uint)elements.Length,
+                pBindings = bindings
+            };
             VkResult result = vkCreateDescriptorSetLayout(_gd.Device, &dslCI, null, out _dsl);
             CheckResult(result);
         }

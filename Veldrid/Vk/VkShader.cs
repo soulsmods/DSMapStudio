@@ -18,12 +18,15 @@ namespace Veldrid.Vk
             : base(description.Stage, description.EntryPoint)
         {
             _gd = gd;
-
-            VkShaderModuleCreateInfo shaderModuleCI = new VkShaderModuleCreateInfo();
+            
             fixed (byte* codePtr = description.ShaderBytes)
             {
-                shaderModuleCI.codeSize = (UIntPtr)description.ShaderBytes.Length;
-                shaderModuleCI.pCode = (uint*)codePtr;
+                var shaderModuleCI = new VkShaderModuleCreateInfo
+                {
+                    sType = VkStructureType.ShaderModuleCreateInfo,
+                    codeSize = (UIntPtr)description.ShaderBytes.Length,
+                    pCode = (uint*)codePtr
+                };
                 VkResult result = vkCreateShaderModule(gd.Device, &shaderModuleCI, null, out _shaderModule);
                 CheckResult(result);
             }

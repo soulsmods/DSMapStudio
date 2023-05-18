@@ -10,7 +10,8 @@ namespace Veldrid.Vk
         private GCHandle _handle;
         private uint _numBytes;
 
-        public byte* StringPtr => (byte*)_handle.AddrOfPinnedObject().ToPointer();
+        public sbyte* StringPtr => (sbyte*)_handle.AddrOfPinnedObject().ToPointer();
+        public ReadOnlySpan<sbyte> Span => new ReadOnlySpan<sbyte>(StringPtr, (int)_numBytes);
 
         public FixedUtf8String(string s)
         {
@@ -29,7 +30,7 @@ namespace Veldrid.Vk
 
         private string GetString()
         {
-            return Encoding.UTF8.GetString(StringPtr, (int)_numBytes);
+            return Encoding.UTF8.GetString((byte*)StringPtr, (int)_numBytes);
         }
 
         public void Dispose()
@@ -39,7 +40,7 @@ namespace Veldrid.Vk
 
         public override string ToString() => GetString();
 
-        public static implicit operator byte* (FixedUtf8String utf8String) => utf8String.StringPtr;
+        public static implicit operator sbyte* (FixedUtf8String utf8String) => utf8String.StringPtr;
         public static implicit operator IntPtr(FixedUtf8String utf8String) => new IntPtr(utf8String.StringPtr);
         public static implicit operator FixedUtf8String(string s) => new FixedUtf8String(s);
         public static implicit operator string(FixedUtf8String utf8String) => utf8String.GetString();

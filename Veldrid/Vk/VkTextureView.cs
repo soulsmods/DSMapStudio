@@ -21,10 +21,7 @@ namespace Veldrid.Vk
             : base(ref description)
         {
             _gd = gd;
-            VkImageViewCreateInfo imageViewCI = new VkImageViewCreateInfo();
             VkTexture tex = Util.AssertSubtype<Texture, VkTexture>(description.Target);
-            imageViewCI.image = tex.OptimalDeviceImage;
-            imageViewCI.format = VkFormats.VdToVkPixelFormat(Format, (Target.Usage & TextureUsage.DepthStencil) != 0);
 
             VkImageAspectFlags aspectFlags;
             if ((description.Target.Usage & TextureUsage.DepthStencil) == TextureUsage.DepthStencil)
@@ -36,12 +33,18 @@ namespace Veldrid.Vk
                 aspectFlags = VkImageAspectFlags.Color;
             }
 
-            imageViewCI.subresourceRange = new VkImageSubresourceRange(
-                aspectFlags,
-                description.BaseMipLevel,
-                description.MipLevels,
-                description.BaseArrayLayer,
-                description.ArrayLayers);
+            var imageViewCI = new VkImageViewCreateInfo
+            {
+                sType = VkStructureType.ImageViewCreateInfo,
+                image = tex.OptimalDeviceImage,
+                format = VkFormats.VdToVkPixelFormat(Format, (Target.Usage & TextureUsage.DepthStencil) != 0),
+                subresourceRange = new VkImageSubresourceRange(
+                    aspectFlags,
+                    description.BaseMipLevel,
+                    description.MipLevels,
+                    description.BaseArrayLayer,
+                    description.ArrayLayers)
+            };
 
             if ((tex.Usage & TextureUsage.Cubemap) == TextureUsage.Cubemap)
             {

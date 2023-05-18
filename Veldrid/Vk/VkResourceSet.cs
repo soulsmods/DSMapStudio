@@ -52,20 +52,26 @@ namespace Veldrid.Vk
             for (int i = 0; i < descriptorWriteCount; i++)
             {
                 VkDescriptorType type = vkLayout.DescriptorTypes[i];
-                descriptorWrites[i].sType = VkStructureType.WriteDescriptorSet;
-                descriptorWrites[i].descriptorCount = 1;
-                descriptorWrites[i].descriptorType = type;
-                descriptorWrites[i].dstBinding = (uint)i;
-                descriptorWrites[i].dstSet = _descriptorAllocationToken.Set;
+                descriptorWrites[i] = new VkWriteDescriptorSet
+                {
+                    sType = VkStructureType.WriteDescriptorSet,
+                    descriptorCount = 1,
+                    descriptorType = type,
+                    dstBinding = (uint)i,
+                    dstSet = _descriptorAllocationToken.Set
+                };
 
                 if (type == VkDescriptorType.UniformBuffer || type == VkDescriptorType.UniformBufferDynamic
-                    || type == VkDescriptorType.StorageBuffer || type == VkDescriptorType.StorageBufferDynamic)
+                                                           || type == VkDescriptorType.StorageBuffer || type == VkDescriptorType.StorageBufferDynamic)
                 {
                     DeviceBufferRange range = Util.GetBufferRange(boundResources[boundr], 0);
                     VkBuffer rangedVkBuffer = Util.AssertSubtype<DeviceBuffer, VkBuffer>(range.Buffer);
-                    bufferInfos[i].buffer = rangedVkBuffer.DeviceBuffer;
-                    bufferInfos[i].offset = range.Offset;
-                    bufferInfos[i].range = range.SizeInBytes;
+                    bufferInfos[i] = new VkDescriptorBufferInfo
+                    {
+                        buffer = rangedVkBuffer.DeviceBuffer,
+                        offset = range.Offset,
+                        range = range.SizeInBytes
+                    };
                     descriptorWrites[i].pBufferInfo = &bufferInfos[i];
                     _refCounts.Add(rangedVkBuffer.RefCount);
                 }
