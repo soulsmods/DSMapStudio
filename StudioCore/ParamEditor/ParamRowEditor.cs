@@ -39,9 +39,6 @@ namespace StudioCore.ParamEditor
         private unsafe (bool, bool) PropertyRow(Type typ, object oldval, ref object newval, bool isBool)
         {
             ImGui.SetNextItemWidth(-1);
-            ImGui.SetNextItemWidth(ImGui.CalcItemWidth() - 28f * CFG.Current.UIScale);
-
-            string valueTypeStr = "";
             bool isChanged = false;
             bool isDeactivatedAfterEdit = false;
             try
@@ -59,7 +56,6 @@ namespace StudioCore.ParamEditor
                     isDeactivatedAfterEdit = ImGui.IsItemDeactivatedAfterEdit();
                     ImGui.SameLine();
                     ImGui.SetNextItemWidth(-1);
-                    ImGui.SetNextItemWidth(ImGui.CalcItemWidth() - 28f * CFG.Current.UIScale);
                 }
             }
             catch
@@ -81,7 +77,6 @@ namespace StudioCore.ParamEditor
                         isChanged = true;
                     }
                 }
-                valueTypeStr = "s64";
             }
             else if (typ == typeof(int))
             {
@@ -92,7 +87,6 @@ namespace StudioCore.ParamEditor
                     _editedPropCache = newval;
                     isChanged = true;
                 }
-                valueTypeStr = "s32";
             }
             else if (typ == typeof(uint))
             {
@@ -108,7 +102,6 @@ namespace StudioCore.ParamEditor
                         isChanged = true;
                     }
                 }
-                valueTypeStr = "u64";
             }
             else if (typ == typeof(short))
             {
@@ -119,7 +112,6 @@ namespace StudioCore.ParamEditor
                     _editedPropCache = newval;
                     isChanged = true;
                 }
-                valueTypeStr = "s16";
             }
             else if (typ == typeof(ushort))
             {
@@ -135,7 +127,6 @@ namespace StudioCore.ParamEditor
                         isChanged = true;
                     }
                 }
-                valueTypeStr = "u16";
             }
             else if (typ == typeof(sbyte))
             {
@@ -146,7 +137,6 @@ namespace StudioCore.ParamEditor
                     _editedPropCache = newval;
                     isChanged = true;
                 }
-                valueTypeStr = "s8";
             }
             else if (typ == typeof(byte))
             {
@@ -162,7 +152,6 @@ namespace StudioCore.ParamEditor
                         isChanged = true;
                     }
                 }
-                valueTypeStr = "u8";
             }
             else if (typ == typeof(bool))
             {
@@ -173,7 +162,6 @@ namespace StudioCore.ParamEditor
                     _editedPropCache = newval;
                     isChanged = true;
                 }
-                valueTypeStr = "u8";
             }
             else if (typ == typeof(float))
             {
@@ -184,7 +172,6 @@ namespace StudioCore.ParamEditor
                     _editedPropCache = newval;
                     isChanged = true;
                 }
-                valueTypeStr = "f32";
             }
             else if (typ == typeof(double))
             {
@@ -195,7 +182,6 @@ namespace StudioCore.ParamEditor
                     _editedPropCache = newval;
                     isChanged = true;
                 }
-                valueTypeStr = "f64";
             }
             else if (typ == typeof(string))
             {
@@ -210,7 +196,6 @@ namespace StudioCore.ParamEditor
                     _editedPropCache = newval;
                     isChanged = true;
                 }
-                valueTypeStr = "str";
             }
             else if (typ == typeof(Vector2))
             {
@@ -246,7 +231,6 @@ namespace StudioCore.ParamEditor
                         isChanged = true;
                     }
                 }
-                valueTypeStr = "u8";
             }
             else
             {
@@ -255,9 +239,6 @@ namespace StudioCore.ParamEditor
                 ImGui.InputText(null, ref implMe, 256, ImGuiInputTextFlags.ReadOnly);
             }
             isDeactivatedAfterEdit |= ImGui.IsItemDeactivatedAfterEdit();
-
-            ImGui.SameLine();
-            ImGui.TextUnformatted(valueTypeStr);
 
             return (isChanged, isDeactivatedAfterEdit);
         }
@@ -552,10 +533,32 @@ namespace StudioCore.ParamEditor
                 ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 0.5f, 1.0f, 1.0f));
             else if (matchDefault)
                 ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.75f, 0.75f, 0.75f, 1.0f));
+            
+            // Property Editor UI
             (changed, committed) = PropertyRow(propType, oldval, ref newval, IsBool);
 
             if (isRef || matchDefault) //if diffVanilla, remove styling later
                 ImGui.PopStyleColor();
+
+            // Tooltip
+            if (ImGui.IsItemHovered(ImGuiHoveredFlags.DelayNormal | ImGuiHoveredFlags.NoSharedDelay))
+            {
+                string str = $"Value Type: {propType.Name}";
+                if (propType.IsValueType)
+                {
+                    var min = propType.GetField("MinValue")?.GetValue(propType);
+                    var max = propType.GetField("MaxValue")?.GetValue(propType);
+                    if (min != null & max != null)
+                    {
+                        str += $" (Min {min}, Max {max})";
+                    }
+                }
+                if (Wiki != null)
+                {
+                    str += $"\n\n{Wiki}";
+                }
+                ImGui.SetTooltip(str);
+            }
 
             PropertyRowValueContextMenu(bank, row, internalName, VirtualRef, ExtRefs, oldval);
 

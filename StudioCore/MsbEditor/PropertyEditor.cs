@@ -32,11 +32,10 @@ namespace StudioCore.MsbEditor
 
         private (bool, bool) PropertyRow(Type typ, object oldval, out object newval, PropertyInfo prop)
         {
-            ImGui.SetNextItemWidth(ImGui.CalcItemWidth() - 28f * CFG.Current.UIScale);
+            ImGui.SetNextItemWidth(-1);
 
             newval = null;
             bool isChanged = false;
-            string valueTypeStr = "";
             if (typ == typeof(long))
             {
                 long val = (long)oldval;
@@ -50,7 +49,6 @@ namespace StudioCore.MsbEditor
                         isChanged = true;
                     }
                 }
-                valueTypeStr = "s64";
             }
             else if (typ == typeof(int))
             {
@@ -60,7 +58,6 @@ namespace StudioCore.MsbEditor
                     newval = val;
                     isChanged = true;
                 }
-                valueTypeStr = "s32";
             }
             else if (typ == typeof(uint))
             {
@@ -75,7 +72,6 @@ namespace StudioCore.MsbEditor
                         isChanged = true;
                     }
                 }
-                valueTypeStr = "u64";
             }
             else if (typ == typeof(short))
             {
@@ -85,7 +81,6 @@ namespace StudioCore.MsbEditor
                     newval = (short)val;
                     isChanged = true;
                 }
-                valueTypeStr = "s16";
             }
             else if (typ == typeof(ushort))
             {
@@ -100,7 +95,6 @@ namespace StudioCore.MsbEditor
                         isChanged = true;
                     }
                 }
-                valueTypeStr = "u16";
             }
             else if (typ == typeof(sbyte))
             {
@@ -110,7 +104,6 @@ namespace StudioCore.MsbEditor
                     newval = (sbyte)val;
                     isChanged = true;
                 }
-                valueTypeStr = "s8 ";
             }
             else if (typ == typeof(byte))
             {
@@ -125,7 +118,6 @@ namespace StudioCore.MsbEditor
                         isChanged = true;
                     }
                 }
-                valueTypeStr = "u8 ";
                 /*
                 // TODO: Set Next Unique Value
                 // (needs prop search to scan through structs)
@@ -150,7 +142,6 @@ namespace StudioCore.MsbEditor
                     newval = val;
                     isChanged = true;
                 }
-                valueTypeStr = "u8 ";
             }
             else if (typ == typeof(float))
             {
@@ -160,7 +151,6 @@ namespace StudioCore.MsbEditor
                     newval = val;
                     isChanged = true;
                 }
-                valueTypeStr = "f32";
             }
             else if (typ == typeof(string))
             {
@@ -174,7 +164,6 @@ namespace StudioCore.MsbEditor
                     newval = val;
                     isChanged = true;
                 }
-                valueTypeStr = "str";
             }
             else if (typ == typeof(Vector2))
             {
@@ -288,8 +277,21 @@ namespace StudioCore.MsbEditor
             }
             bool isDeactivatedAfterEdit = ImGui.IsItemDeactivatedAfterEdit() || !ImGui.IsAnyItemActive();
 
-            ImGui.SameLine();
-            ImGui.TextUnformatted(valueTypeStr);
+            // Tooltip
+            if (ImGui.IsItemHovered(ImGuiHoveredFlags.DelayNormal | ImGuiHoveredFlags.NoSharedDelay))
+            {
+                string str = $"Value Type: {typ.Name}";
+                if (typ.IsValueType)
+                {
+                    var min = typ.GetField("MinValue")?.GetValue(typ);
+                    var max = typ.GetField("MaxValue")?.GetValue(typ);
+                    if (min != null & max != null)
+                    {
+                        str += $" (Min {min}, Max {max})";
+                    }
+                }
+                ImGui.SetTooltip(str);
+            }
 
             return (isChanged, isDeactivatedAfterEdit);
         }
