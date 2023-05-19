@@ -492,9 +492,9 @@ namespace StudioCore.MsbEditor
 
                 // Try rendering as a box for now
                 var mesh = DebugPrimitiveRenderableProxy.GetBoxRegionProxy(_renderScene);
-                mesh.DrawFilter = RenderFilter.Region;
                 mesh.World = obj.GetLocalTransform().WorldMatrix;
                 obj.RenderSceneMesh = mesh;
+                mesh.DrawFilter = RenderFilter.Region;
                 mesh.SetSelectable(obj);
             }
 
