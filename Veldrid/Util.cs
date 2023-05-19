@@ -56,6 +56,11 @@ namespace Veldrid
 
             return Encoding.UTF8.GetString(stringStart, characters);
         }
+        
+        internal static unsafe string GetString(sbyte* stringStart)
+        {
+            return GetString((byte*)stringStart);
+        }
 
         internal static bool NullableEquals<T>(T? left, T? right) where T : struct, IEquatable<T>
         {

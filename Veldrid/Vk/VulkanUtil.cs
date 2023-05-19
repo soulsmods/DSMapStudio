@@ -50,7 +50,7 @@ namespace Veldrid.Vk
             string[] ret = new string[propCount];
             for (int i = 0; i < propCount; i++)
             {
-                fixed (byte* layerNamePtr = props[i].layerName)
+                fixed (sbyte* layerNamePtr = props[i].layerName)
                 {
                     ret[i] = Util.GetString(layerNamePtr);
                 }
@@ -69,7 +69,7 @@ namespace Veldrid.Vk
             }
 
             int propCount = 0;
-            VkResult result = vkEnumerateInstanceExtensionProperties((byte*)null, &propCount, null);
+            VkResult result = vkEnumerateInstanceExtensionProperties(null, &propCount, null);
             if (result != VkResult.Success)
             {
                 return Array.Empty<string>();
@@ -83,12 +83,12 @@ namespace Veldrid.Vk
             VkExtensionProperties[] props = new VkExtensionProperties[propCount];
 
             fixed (VkExtensionProperties* ptr = props)
-                vkEnumerateInstanceExtensionProperties((byte*)null, &propCount, ptr);
+                vkEnumerateInstanceExtensionProperties(null, &propCount, ptr);
 
             string[] ret = new string[propCount];
             for (int i = 0; i < propCount; i++)
             {
-                fixed (byte* extensionNamePtr = props[i].extensionName)
+                fixed (sbyte* extensionNamePtr = props[i].extensionName)
                 {
                     ret[i] = Util.GetString(extensionNamePtr);
                 }
@@ -103,7 +103,7 @@ namespace Veldrid.Vk
             try
             {
                 int propCount;
-                vkEnumerateInstanceExtensionProperties((byte*)null, &propCount, null);
+                vkEnumerateInstanceExtensionProperties(null, &propCount, null);
                 return true;
             }
             catch { return false; }
@@ -123,6 +123,7 @@ namespace Veldrid.Vk
             Debug.Assert(oldLayout != newLayout);
             VkImageMemoryBarrier barrier = new VkImageMemoryBarrier
             {
+                sType = VkStructureType.ImageMemoryBarrier,
                 oldLayout = oldLayout,
                 newLayout = newLayout,
                 srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED,
@@ -292,7 +293,7 @@ namespace Veldrid.Vk
     {
         public static VkMemoryType GetMemoryType(this VkPhysicalDeviceMemoryProperties memoryProperties, uint index)
         {
-            return (&memoryProperties.memoryTypes_0)[index];
+            return (&memoryProperties.memoryTypes.e0)[index];
         }
     }
 }

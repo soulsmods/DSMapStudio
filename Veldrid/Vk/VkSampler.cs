@@ -39,7 +39,6 @@ namespace Veldrid.Vk
                 mipLodBias = description.LodBias,
                 borderColor = VkFormats.VdToVkSamplerBorderColor(description.BorderColor)
             };
-
             vkCreateSampler(_gd.Device, &samplerCI, null, out _sampler);
             RefCount = new ResourceRefCount(DisposeCore);
         }

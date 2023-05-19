@@ -82,16 +82,22 @@ namespace Veldrid.Vk
 
                 if (dedicated || size >= minDedicatedAllocationSize)
                 {
-                    VkMemoryAllocateInfo allocateInfo = new VkMemoryAllocateInfo();
-                    allocateInfo.allocationSize = originalSize;
-                    allocateInfo.memoryTypeIndex = memoryTypeIndex;
+                    var allocateInfo = new VkMemoryAllocateInfo
+                    {
+                        sType = VkStructureType.MemoryAllocateInfo,
+                        allocationSize = originalSize,
+                        memoryTypeIndex = memoryTypeIndex
+                    };
 
                     VkMemoryDedicatedAllocateInfo dedicatedAI;
                     if (dedicated)
                     {
-                        dedicatedAI = new VkMemoryDedicatedAllocateInfo();
-                        dedicatedAI.buffer = dedicatedBuffer;
-                        dedicatedAI.image = dedicatedImage;
+                        dedicatedAI = new VkMemoryDedicatedAllocateInfo
+                        {
+                            sType = VkStructureType.MemoryDedicatedAllocateInfo,
+                            buffer = dedicatedBuffer,
+                            image = dedicatedImage
+                        };
                         allocateInfo.pNext = &dedicatedAI;
                     }
 
@@ -238,9 +244,12 @@ namespace Veldrid.Vk
                 _persistentMapped = persistentMapped;
                 _totalMemorySize = persistentMapped ? PersistentMappedChunkSize : UnmappedChunkSize;
 
-                VkMemoryAllocateInfo memoryAI = new VkMemoryAllocateInfo();
-                memoryAI.allocationSize = _totalMemorySize;
-                memoryAI.memoryTypeIndex = _memoryTypeIndex;
+                var memoryAI = new VkMemoryAllocateInfo
+                {
+                    sType = VkStructureType.MemoryAllocateInfo,
+                    allocationSize = _totalMemorySize,
+                    memoryTypeIndex = _memoryTypeIndex
+                };
                 VkResult result = vkAllocateMemory(_device, &memoryAI, null, out _memory);
                 CheckResult(result);
 

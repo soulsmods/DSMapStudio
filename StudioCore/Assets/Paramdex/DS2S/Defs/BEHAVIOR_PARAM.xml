@@ -29,8 +29,8 @@
     <Field Def="f32 group_1_unk11" />
     <Field Def="f32 group_1_unk12" />
     <Field Def="s32 group_1_unk13" />
-    <Field Def="f32 group_1_unk14" />
-    <Field Def="f32 group_1_unk15" />
+    <Field Def="f32 group_1_atk_cooldown_min" />
+    <Field Def="f32 group_1_atk_cooldown_max" />
     <Field Def="s32 group_2_enemy_damage_id_0" />
     <Field Def="s32 group_2_enemy_damage_id_1" />
     <Field Def="s32 group_2_enemy_damage_id_2" />
@@ -54,8 +54,8 @@
     <Field Def="f32 group_2_unk11" />
     <Field Def="f32 group_2_unk12" />
     <Field Def="s32 group_2_unk13" />
-    <Field Def="f32 group_2_unk14" />
-    <Field Def="f32 group_2_unk15" />
+    <Field Def="f32 group_2_atk_cooldown_min" />
+    <Field Def="f32 group_2_atk_cooldown_max" />
     <Field Def="s32 group_3_enemy_damage_id_0" />
     <Field Def="s32 group_3_enemy_damage_id_1" />
     <Field Def="s32 group_3_enemy_damage_id_2" />
@@ -79,8 +79,8 @@
     <Field Def="f32 group_3_unk11" />
     <Field Def="f32 group_3_unk12" />
     <Field Def="s32 group_3_unk13" />
-    <Field Def="f32 group_3_unk14" />
-    <Field Def="f32 group_3_unk15" />
+    <Field Def="f32 group_3_atk_cooldown_min" />
+    <Field Def="f32 group_3_atk_cooldown_max" />
     <Field Def="s32 group_4_enemy_damage_id_0" />
     <Field Def="s32 group_4_enemy_damage_id_1" />
     <Field Def="s32 group_4_enemy_damage_id_2" />
@@ -104,8 +104,8 @@
     <Field Def="f32 group_4_unk11" />
     <Field Def="f32 group_4_unk12" />
     <Field Def="s32 group_4_unk13" />
-    <Field Def="f32 group_4_unk14" />
-    <Field Def="f32 group_4_unk15" />
+    <Field Def="f32 group_4_atk_cooldown_min" />
+    <Field Def="f32 group_4_atk_cooldown_max" />
     <Field Def="s32 group_5_enemy_damage_id_0" />
     <Field Def="s32 group_5_enemy_damage_id_1" />
     <Field Def="s32 group_5_enemy_damage_id_2" />
@@ -129,8 +129,8 @@
     <Field Def="f32 group_5_unk11" />
     <Field Def="f32 group_5_unk12" />
     <Field Def="s32 group_5_unk13" />
-    <Field Def="f32 group_5_unk14" />
-    <Field Def="f32 group_5_unk15" />
+    <Field Def="f32 group_5_atk_cooldown_min" />
+    <Field Def="f32 group_5_atk_cooldown_max" />
     <Field Def="s32 group_6_enemy_damage_id_0" />
     <Field Def="s32 group_6_enemy_damage_id_1" />
     <Field Def="s32 group_6_enemy_damage_id_2" />
@@ -154,8 +154,8 @@
     <Field Def="f32 group_6_unk11" />
     <Field Def="f32 group_6_unk12" />
     <Field Def="s32 group_6_unk13" />
-    <Field Def="f32 group_6_unk14" />
-    <Field Def="f32 group_6_unk15" />
+    <Field Def="f32 group_6_atk_cooldown_min" />
+    <Field Def="f32 group_6_atk_cooldown_max" />
     <Field Def="s32 group_7_enemy_damage_id_0" />
     <Field Def="s32 group_7_enemy_damage_id_1" />
     <Field Def="s32 group_7_enemy_damage_id_2" />
@@ -179,8 +179,8 @@
     <Field Def="f32 group_7_unk11" />
     <Field Def="f32 group_7_unk12" />
     <Field Def="s32 group_7_unk13" />
-    <Field Def="f32 group_7_unk14" />
-    <Field Def="f32 group_7_unk15" />
+    <Field Def="f32 group_7_atk_cooldown_min" />
+    <Field Def="f32 group_7_atk_cooldown_max" />
     <Field Def="s32 group_8_enemy_damage_id_0" />
     <Field Def="s32 group_8_enemy_damage_id_1" />
     <Field Def="s32 group_8_enemy_damage_id_2" />
@@ -204,8 +204,8 @@
     <Field Def="f32 group_8_unk11" />
     <Field Def="f32 group_8_unk12" />
     <Field Def="s32 group_8_unk13" />
-    <Field Def="f32 group_8_unk14" />
-    <Field Def="f32 group_8_unk15" />
+    <Field Def="f32 group_8_atk_cooldown_min" />
+    <Field Def="f32 group_8_atk_cooldown_max" />
     <Field Def="s32 group_9_enemy_damage_id_0" />
     <Field Def="s32 group_9_enemy_damage_id_1" />
     <Field Def="s32 group_9_enemy_damage_id_2" />
@@ -229,8 +229,8 @@
     <Field Def="f32 group_9_unk11" />
     <Field Def="f32 group_9_unk12" />
     <Field Def="s32 group_9_unk13" />
-    <Field Def="f32 group_9_unk14" />
-    <Field Def="f32 group_9_unk15" />
+    <Field Def="f32 group_9_atk_cooldown_min" />
+    <Field Def="f32 group_9_atk_cooldown_max" />
     <Field Def="s32 group_10_enemy_damage_id_0" />
     <Field Def="s32 group_10_enemy_damage_id_1" />
     <Field Def="s32 group_10_enemy_damage_id_2" />
@@ -254,7 +254,7 @@
     <Field Def="f32 group_10_unk11" />
     <Field Def="f32 group_10_unk12" />
     <Field Def="s32 group_10_unk13" />
-    <Field Def="f32 group_10_unk14" />
-    <Field Def="f32 group_10_unk15" />
+    <Field Def="f32 group_10_atk_cooldown_min" />
+    <Field Def="f32 group_10_atk_cooldown_max" />
   </Fields>
 </PARAMDEF>
