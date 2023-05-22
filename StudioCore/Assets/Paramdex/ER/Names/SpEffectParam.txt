@@ -5,8 +5,8 @@
 16 Festering/Recusant Finger - Attempt Invasion
 26 Stake of Marika
 30 HKS - Unk Throw Def Invalid
-32 HKS - Unk Jump Throw Def Invalid
 31 Behavior - Counter Frames
+32 HKS - Unk Jump Throw Def Invalid
 45 TAE - Counter Frames
 70 Blight Effect
 81 Spectral Steed Whistle
@@ -255,8 +255,8 @@
 1792 Eclipse Shotel
 1793 Eclipse Shotel - Holy/Blight Buff
 1794 Eclipse Shotel - Blight
-1800 Hoarfrost Stomp - Frost 
-1801 Hoarfrost Stomp - Frost 
+1800 Hoarfrost Stomp - Frost
+1801 Hoarfrost Stomp - Frost
 1805 Ruinous Ghostflame
 1806 Ruinous Ghostflame - Frost/Magic Buff
 1807 Ruinous Ghostflame
@@ -551,17 +551,19 @@
 4301 Enemy: Fade after death
 4301 Enemy: Fade after death (boss)
 4302 Enemy: Fade after death (blue)
+4370 Phantom Glow Sellia Sorcerer
+4375 Phantom Glow Sellia Sorcerer
 5250 Enemy: Golden Eyes (Bonus Runes)
 5255 Enemy: Golden Eyes Failed (No Reroll)
-5269 Enemy: Golden Eyes Chance (Guaranteed)
-5268 Enemy: Golden Eyes Chance (50%)
-5267 Enemy: Golden Eyes Chance (30%)
-5266 Enemy: Golden Eyes Chance (10%)
-5265 Enemy: Golden Eyes Chance (5%)
-5264 Enemy: Golden Eyes Chance (3%)
-5263 Enemy: Golden Eyes Chance (2%)
-5262 Enemy: Golden Eyes Chance (1%)
 5261 Enemy: Golden Eyes Chance (0.5%)
+5262 Enemy: Golden Eyes Chance (1%)
+5263 Enemy: Golden Eyes Chance (2%)
+5264 Enemy: Golden Eyes Chance (3%)
+5265 Enemy: Golden Eyes Chance (5%)
+5266 Enemy: Golden Eyes Chance (10%)
+5267 Enemy: Golden Eyes Chance (30%)
+5268 Enemy: Golden Eyes Chance (50%)
+5269 Enemy: Golden Eyes Chance (Guaranteed)
 5300 No Stag
 5301 NPC: Damage Level Override
 5302 NPC: Damage Level Override
@@ -611,8 +613,8 @@
 5373 Med Stag 4 XL Hits + Light 4 Large [Armor]
 5374 Light Stag 4 XL Hits [Armor]
 5600 NPC: Infinite FP
-5635 Sword Arts Dodge Unk
 5601 NPC: Faster Stamina Recovery
+5635 Sword Arts Dodge Unk
 5740 Damaged by Healing Incantations
 5836 Undead Enemy
 5837 Undead Enemy
@@ -753,6 +755,7 @@
 7670 NG+ Scaling -
 7680 NG+ Scaling -
 8001 HKS - Is Stealth
+8972 Phantom Glow Partly Opaque Grey Ghost
 10000 Exile Soldier - Bullet
 10001 Dog - Bullet
 10002 Demi-human - Bullet
@@ -761,12 +764,14 @@
 10006 Fallen Hawks Soldier - Bullet
 10008 Man-Serpent - Bullet
 10010 Dominula Celebrant - Bullet
+10149 Phantom Glow White Grey
 10165 Dragon-faced Flamethrower - Bullet
 10317 Fallen Hawks Soldier - Bullet
 10318 Fallen Hawks Soldier - Bullet [Chain]
 10665 HKS - Unk Event 6001 Event Action Not Possible
 10690 Mohg - Bullet
 10691 Mohg - Bullet [Cycle]
+10880 Phantom Glow White Grey
 10945 Warhawk - Bullet
 11010 Tarnished's Furled Finger
 11030 Duelist's Furled Finger
@@ -778,6 +783,7 @@
 11971 Vulgar Militia - Bullet
 12000 Large Fingercreeper - Bullet
 12018 Giant Fingercreeper
+12295 Phantom Glow Slightly Transparent Gold (Godfrey)
 13020 Wolf - Bullet
 13025 Wolf
 13067 Castle Soldier
@@ -788,13 +794,19 @@
 13156 Ancestral Follower Shaman - Bullet
 13164 Ancestral Follower
 13175 Ancestral Follower - Winged Greathorn
+13177 Phantom Glow Ancestral Follower Light Blue
 13191 Ancestral Follower - HP Restore
 13258 Mad Pumpkin Head/Grinning Torturer - Bullet
+13284 Phantom Glow White Grey
 13296 Castle Soldier
 13462 Putrid Corpse - Explosion
 13617 Ancestor Spirit - Drain Attack
+13648 Phantom Glow Ancestral Follower Light Blue
+13689 Phantom Glow White Grey
+13695 Phantom Glow White Grey
 13780 Tree Sentinel - Sacred Vow Self
 13782 Tree Sentinel - Sacred Vow Ally
+13822 Phantom Glow Royal Knight Loretta
 13855 Cleanrot Knight - Bullet - Buff
 13856 Cleanrot Knight - Bullet - Buff
 14016 Monstrous Crow - Bullet
@@ -808,13 +820,16 @@
 14406 Depraved Perfumer - Bullet
 14435 Depraved Perfumer
 14439 Depraved Perfumer
+14495 Phantom Glow White Grey
 14553 Blaidd the Half-Wolf - Bullet
 14577 Rennala - Bullet
 14596 Rennala 2 - Bullet Magic DEF Down
 14898 Ancient Dragon - Lich Close Trigger Shock
+15032 Phantom Glow Castle Exile
 15321 Tibia Mariner - Bullet
 15322 Tibia Mariner - Bullet [Chain]
 15452 Godskin Apostle - Sleep Awake
+15466 Phantom Glow White Grey
 15467 Godskin Apostle - Lifedrain
 15511 Godskin Noble
 16316 Spirit Summon - Fade In
@@ -822,6 +837,7 @@
 16482 Fallingstar Beast - Ground AoE Alert
 16488 Fallingstar Beast
 17171 Imp
+17550 Phantom Glow White Grey
 17654 Death Rite Bird - Bullet
 18400 Malenia: HP Recovery on ?
 18401 Malenia: HP Recovery on ?
@@ -844,6 +860,12 @@
 18432 Malenia: Rot 120
 18433 Malenia: Rot 60
 18454 Malenia - Bullet
+18672 Phantom Glow Puppet
+18673 Phantom Glow Transparent Red
+18675 Phantom Glow Mostly Opaque Grey Ghost
+18679 PHantom Glow White Grey
+18697 Phantom Glow Golden (summons vs Radahn)
+18699 Phantom Glow Spirit Summon
 18699 Spirit Summon - Phantom Color
 18731 Melina - HP Recovery
 20000 NPC: Poison
@@ -2845,6 +2867,9 @@
 290208 Spirit Summon Adjustment - Mimic Tear +8
 290209 Spirit Summon Adjustment - Mimic Tear +9
 290210 Spirit Summon Adjustment - Mimic Tear +10
+295000 Phantom Glow Castle Exile
+295200 Phantom Glow Puppet
+295201 Phantom Glow Fia's Champions
 295900 Spirit Summon -
 295901 Spirit Summon -
 295902 Spirit Summon -
@@ -3400,29 +3425,3 @@
 5321400 Icon Shield - Grant HP Restoration
 5322200 Ant's Skull Plate - Raise Immunity
 5322400 Eclipse Crest Greatshield - Raise Immunity Robustness and Focus
-18697 Phantom Glow Golden (summons vs Radahn)
-295201 Phantom Glow Fia's Champions
-295200 Phantom Glow Puppet
-18699 Phantom Glow Spirit Summon
-18672 Phantom Glow Puppet
-17550 Phantom Glow White Grey
-15466 Phantom Glow White Grey
-15032 Phantom Glow Castle Exile
-14495 Phantom Glow White Grey
-13822 Phantom Glow Royal Knight Loretta
-13695 Phantom Glow White Grey
-13689 Phantom Glow White Grey
-13648 Phantom Glow Ancestral Follower Light Blue
-13284 Phantom Glow White Grey
-13177 Phantom Glow Ancestral Follower Light Blue
-10880 Phantom Glow White Grey
-10149 Phantom Glow White Grey
-4375 Phantom Glow Sellia Sorcerer
-295000 Phantom Glow Castle Exile
-4370 Phantom Glow Sellia Sorcerer
-8972 Phantom Glow Partly Opaque Grey Ghost
-12295 Phantom Glow Slightly Transparent Gold (Godfrey)
-18673 Phantom Glow Transparent Red
-18675 Phantom Glow Mostly Opaque Grey Ghost
-18679 PHantom Glow White Grey
-
