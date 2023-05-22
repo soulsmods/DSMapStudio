@@ -3400,3 +3400,29 @@
 5321400 Icon Shield - Grant HP Restoration
 5322200 Ant's Skull Plate - Raise Immunity
 5322400 Eclipse Crest Greatshield - Raise Immunity Robustness and Focus
+18697 Phantom Glow Golden (summons vs Radahn)
+295201 Phantom Glow Fia's Champions
+295200 Phantom Glow Puppet
+18699 Phantom Glow Spirit Summon
+18672 Phantom Glow Puppet
+17550 Phantom Glow White Grey
+15466 Phantom Glow White Grey
+15032 Phantom Glow Castle Exile
+14495 Phantom Glow White Grey
+13822 Phantom Glow Royal Knight Loretta
+13695 Phantom Glow White Grey
+13689 Phantom Glow White Grey
+13648 Phantom Glow Ancestral Follower Light Blue
+13284 Phantom Glow White Grey
+13177 Phantom Glow Ancestral Follower Light Blue
+10880 Phantom Glow White Grey
+10149 Phantom Glow White Grey
+4375 Phantom Glow Sellia Sorcerer
+295000 Phantom Glow Castle Exile
+4370 Phantom Glow Sellia Sorcerer
+8972 Phantom Glow Partly Opaque Grey Ghost
+12295 Phantom Glow Slightly Transparent Gold (Godfrey)
+18673 Phantom Glow Transparent Red
+18675 Phantom Glow Mostly Opaque Grey Ghost
+18679 PHantom Glow White Grey
+
