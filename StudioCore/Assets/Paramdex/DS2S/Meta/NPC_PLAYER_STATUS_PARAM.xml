@@ -38,8 +38,6 @@
     <intelligence AltName="Intelligence"/>
     <faith AltName="Faith"/>
     <adaptability AltName="Adaptability"/>
-    <endurance AltName="Endurance"/>
-    <endurance AltName="Endurance"/>
     <unk01 AltName="Unknown"/>
     <equip_load AltName="Equip Load %"/>
     <invincibility_time AltName="Invincibility Duration"/>
