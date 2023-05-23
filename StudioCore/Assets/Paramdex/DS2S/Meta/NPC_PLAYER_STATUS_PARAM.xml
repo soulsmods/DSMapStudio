@@ -7,9 +7,9 @@
       <Option Value="1" Name="Female" />
     </Enum>
     <Enum Name="PlayerStatusHollowType">
-      <Option Value="0" Name="Non-Hollow" />
-      <Option Value="1" Name="Unknown" />
-      <Option Value="2" Name="Hollow" />
+      <Option Value="0" Name="Not Hollow" />
+      <Option Value="1" Name="Hollow" />
+      <Option Value="2" Name="Fully Hollow" />
     </Enum>
     <Enum Name="PlayerStatusBuildType">
       <Option Value="0" Name="Average"/>
