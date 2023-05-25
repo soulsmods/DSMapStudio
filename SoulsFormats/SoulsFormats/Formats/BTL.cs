@@ -283,7 +283,7 @@ namespace SoulsFormats
             /// <summary>
             /// Unknown.
             /// </summary>
-            public float Sharpness { get; set; }
+            public float focus { get; set; }
 
             /// <summary>
             /// Unknown.
@@ -374,7 +374,7 @@ namespace SoulsFormats
                 Unk98 = 1;
                 NearClip = 1;
                 UnkA0 = new byte[4] { 1, 0, 2, 1 };
-                Sharpness = 1;
+                focus = 1;
                 EnableState_UnkC0 = new byte[4];
             }
 
@@ -429,7 +429,7 @@ namespace SoulsFormats
                 Unk98 = br.ReadSingle();
                 NearClip = br.ReadSingle();
                 UnkA0 = br.ReadBytes(4);
-                Sharpness = br.ReadSingle();
+                focus = br.ReadSingle();
                 br.AssertInt32(0);
                 UnkAC = br.ReadSingle();
                 br.AssertVarint(0);
@@ -488,7 +488,7 @@ namespace SoulsFormats
                 bw.WriteSingle(Unk98);
                 bw.WriteSingle(NearClip);
                 bw.WriteBytes(UnkA0);
-                bw.WriteSingle(Sharpness);
+                bw.WriteSingle(focus);
                 bw.WriteInt32(0);
                 bw.WriteSingle(UnkAC);
                 bw.WriteVarint(0);
