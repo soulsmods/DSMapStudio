@@ -43,11 +43,11 @@ namespace SoulsFormats
             br.BigEndian = false;
 
             br.AssertInt32(2);
-            Version = br.AssertInt32(1, 2, 5, 6, 16, 18);
+            Version = br.AssertInt32(1, 2, 5, 6, 8, 15, 16, 18);
             int lightCount = br.ReadInt32();
             int namesLength = br.ReadInt32();
             br.AssertInt32(0);
-            int lightSize = br.AssertInt32(0xC0, 0xC8, 0xE8);
+            int lightSize = br.AssertInt32(0xC0, 0xC8, 0xE8, 0xF0);
             br.AssertPattern(0x24, 0x00);
             LongOffsets = br.VarintLong = lightSize != 0xC0;
 
