@@ -19,7 +19,6 @@
     <PackageReference Include="System.Numerics.Vectors" Version="4.5.0" />
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.0.0" />
     <PackageReference Include="Vortice.Vulkan" Version="1.6.4" />
-    <PackageReference Include="Vortice.VulkanMemoryAllocator" Version="1.2.0-beta" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,6 +26,10 @@
     <Compile Remove="Vk/**/*" Condition="'$(ExcludeVulkan)' == 'true'" />
     <Compile Remove="MTL/**/*" Condition="'$(ExcludeMetal)' == 'true'" />
     <Compile Remove="OpenGL/**/*" Condition="'$(ExcludeOpenGL)' == 'true'" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Vortice.VulkanMemoryAllocator\Vortice.VulkanMemoryAllocator.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

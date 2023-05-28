@@ -18,7 +18,7 @@ namespace Veldrid.Vk
 
         private VkInstance _instance;
         private VkPhysicalDevice _physicalDevice;
-        private VkDeviceMemoryManager _memoryManager;
+        private VmaAllocator _vmaAllocator;
         private VkPhysicalDeviceProperties _physicalDeviceProperties;
         private VkPhysicalDeviceFeatures _physicalDeviceFeatures;
         private VkPhysicalDeviceVulkan11Features _physicalDeviceFeatures11;
@@ -96,7 +96,7 @@ namespace Veldrid.Vk
         public uint GraphicsQueueIndex => _graphicsQueueIndex;
         public uint TransferQueueIndex => _transferQueueIndex;
         public uint PresentQueueIndex => _presentQueueIndex;
-        public VkDeviceMemoryManager MemoryManager => _memoryManager;
+        public VmaAllocator Allocator => _vmaAllocator;
         public VkDescriptorPoolManager DescriptorPoolManager => _descriptorPoolManager;
         public vkCmdDebugMarkerBeginEXT_t MarkerBegin => _markerBegin;
         public vkCmdDebugMarkerEndEXT_t MarkerEnd => _markerEnd;
@@ -127,12 +127,15 @@ namespace Veldrid.Vk
             CreatePhysicalDevice();
             CreateLogicalDevice(surface, options.PreferStandardClipSpaceYDirection, vkOptions);
 
-            _memoryManager = new VkDeviceMemoryManager(
-                _device,
-                _physicalDevice,
-                _physicalDeviceProperties.limits.bufferImageGranularity,
-                _getBufferMemoryRequirements2,
-                _getImageMemoryRequirements2);
+            var allocatorInfo = new VmaAllocatorCreateInfo
+            {
+                PhysicalDevice = _physicalDevice,
+                Device = _device,
+                Instance = _instance,
+                VulkanApiVersion = Vortice.Vulkan.VkVersion.Version_1_3
+            };
+            var result = Vma.vmaCreateAllocator(&allocatorInfo, out _vmaAllocator);
+            CheckResult(result);
 
             Features = new GraphicsDeviceFeatures(
                 computeShader: true,
@@ -965,7 +968,8 @@ namespace Veldrid.Vk
 
         protected override MappedResource MapCore(MappableResource resource, MapMode mode, uint subresource)
         {
-            VkMemoryBlock memoryBlock = default(VkMemoryBlock);
+            VmaAllocation allocation = default(VmaAllocation);
+            VmaAllocationInfo info = default(VmaAllocationInfo);
             IntPtr mappedPtr = IntPtr.Zero;
             uint sizeInBytes;
             uint offset = 0;
@@ -973,30 +977,32 @@ namespace Veldrid.Vk
             uint depthPitch = 0;
             if (resource is VkBuffer buffer)
             {
-                memoryBlock = buffer.Memory;
+                allocation = buffer.Allocation;
+                info = buffer.AllocationInfo;
                 sizeInBytes = buffer.SizeInBytes;
             }
             else
             {
                 VkTexture texture = Util.AssertSubtype<MappableResource, VkTexture>(resource);
                 VkSubresourceLayout layout = texture.GetSubresourceLayout(subresource);
-                memoryBlock = texture.Memory;
+                allocation = texture.Allocation;
+                info = texture.AllocationInfo;
                 sizeInBytes = (uint)layout.size;
                 offset = (uint)layout.offset;
                 rowPitch = (uint)layout.rowPitch;
                 depthPitch = (uint)layout.depthPitch;
             }
-
-            if (memoryBlock.DeviceMemory.Handle != 0)
+            
+            if (info.pMappedData != null)
             {
-                if (memoryBlock.IsPersistentMapped)
-                {
-                    mappedPtr = (IntPtr)memoryBlock.BlockMappedPointer;
-                }
-                else
-                {
-                    mappedPtr = _memoryManager.Map(memoryBlock);
-                }
+                mappedPtr = (IntPtr)info.pMappedData;
+            }
+            else
+            {
+                void* ptr;
+                VkResult result = Vma.vmaMapMemory(Allocator, allocation, &ptr);
+                CheckResult(result);
+                mappedPtr = (IntPtr)ptr;
             }
 
             byte* dataPtr = (byte*)mappedPtr.ToPointer() + offset;
@@ -1012,20 +1018,23 @@ namespace Veldrid.Vk
 
         protected override void UnmapCore(MappableResource resource, uint subresource)
         {
-            VkMemoryBlock memoryBlock = default(VkMemoryBlock);
+            VmaAllocation allocation = default(VmaAllocation);
+            VmaAllocationInfo info = default(VmaAllocationInfo);
             if (resource is VkBuffer buffer)
             {
-                memoryBlock = buffer.Memory;
+                allocation = buffer.Allocation;
+                info = buffer.AllocationInfo;
             }
             else
             {
                 VkTexture tex = Util.AssertSubtype<MappableResource, VkTexture>(resource);
-                memoryBlock = tex.Memory;
+                allocation = tex.Allocation;
+                info = tex.AllocationInfo;
             }
 
-            if (memoryBlock.DeviceMemory.Handle != 0 && !memoryBlock.IsPersistentMapped)
+            if (info.pMappedData == null)
             {
-                vkUnmapMemory(_device, memoryBlock.DeviceMemory);
+                Vma.vmaUnmapMemory(Allocator, allocation);
             }
         }
 
@@ -1069,7 +1078,8 @@ namespace Veldrid.Vk
                 sharedPool.Destroy();
             }
 
-            _memoryManager.Dispose();
+            Vma.vmaDestroyAllocator(_vmaAllocator);
+            //_memoryManager.Dispose();
 
             VkResult result = vkDeviceWaitIdle(_device);
             CheckResult(result);
@@ -1183,16 +1193,16 @@ namespace Veldrid.Vk
             VkBuffer copySrcVkBuffer = null;
             IntPtr mappedPtr;
             byte* destPtr;
-            bool isPersistentMapped = vkBuffer.Memory.IsPersistentMapped;
+            bool isPersistentMapped = vkBuffer.AllocationInfo.pMappedData != null;
             if (isPersistentMapped)
             {
-                mappedPtr = (IntPtr)vkBuffer.Memory.BlockMappedPointer;
+                mappedPtr = (IntPtr)vkBuffer.AllocationInfo.pMappedData;
                 destPtr = (byte*)mappedPtr + bufferOffsetInBytes;
             }
             else
             {
                 copySrcVkBuffer = GetFreeStagingBuffer(sizeInBytes);
-                mappedPtr = (IntPtr)copySrcVkBuffer.Memory.BlockMappedPointer;
+                mappedPtr = (IntPtr)copySrcVkBuffer.AllocationInfo.pMappedData;
                 destPtr = (byte*)mappedPtr;
             }
 
@@ -1230,14 +1240,14 @@ namespace Veldrid.Vk
 
         private IntPtr MapBuffer(VkBuffer buffer, uint numBytes)
         {
-            if (buffer.Memory.IsPersistentMapped)
+            if (buffer.AllocationInfo.pMappedData != null)
             {
-                return (IntPtr)buffer.Memory.BlockMappedPointer;
+                return (IntPtr)buffer.AllocationInfo.pMappedData;
             }
             else
             {
                 void* mappedPtr;
-                VkResult result = vkMapMemory(Device, buffer.Memory.DeviceMemory, buffer.Memory.Offset, numBytes, 0, &mappedPtr);
+                VkResult result = Vma.vmaMapMemory(Allocator, buffer.Allocation, &mappedPtr);
                 CheckResult(result);
                 return (IntPtr)mappedPtr;
             }
@@ -1245,9 +1255,9 @@ namespace Veldrid.Vk
 
         private void UnmapBuffer(VkBuffer buffer)
         {
-            if (!buffer.Memory.IsPersistentMapped)
+            if (buffer.AllocationInfo.pMappedData == null)
             {
-                vkUnmapMemory(Device, buffer.Memory.DeviceMemory);
+                Vma.vmaUnmapMemory(Allocator, buffer.Allocation);
             }
         }
 
@@ -1268,10 +1278,9 @@ namespace Veldrid.Vk
             bool isStaging = (vkTex.Usage & TextureUsage.Staging) != 0;
             if (isStaging)
             {
-                VkMemoryBlock memBlock = vkTex.Memory;
                 uint subresource = texture.CalculateSubresource(mipLevel, arrayLayer);
                 VkSubresourceLayout layout = vkTex.GetSubresourceLayout(subresource);
-                byte* imageBasePtr = (byte*)memBlock.BlockMappedPointer + layout.offset;
+                byte* imageBasePtr = (byte*)vkTex.AllocationInfo.pMappedData + layout.offset;
 
                 uint srcRowPitch = FormatHelpers.GetRowPitch(width, texture.Format);
                 uint srcDepthPitch = FormatHelpers.GetDepthPitch(srcRowPitch, height, texture.Format);
@@ -1312,7 +1321,7 @@ namespace Veldrid.Vk
                 for (int i = 0; i < _availableStagingTextures.Count; i++)
                 {
                     VkTexture tex = _availableStagingTextures[i];
-                    if (tex.Memory.Size >= totalSize)
+                    if (tex.AllocationInfo.size >= totalSize)
                     {
                         _availableStagingTextures.RemoveAt(i);
                         tex.SetStagingDimensions(width, height, depth, format);

@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
+    <Description>VulkanMemoryAllocator bindings.</Description>
+    <IncludeContentInPack>true</IncludeContentInPack>
+    <RootNamespace>Vortice.Vulkan</RootNamespace>
+    <VersionPrefix>1.2.0</VersionPrefix>
+    <VersionSuffix Condition="'$(VersionSuffix)' == ''">beta</VersionSuffix>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE" PackagePath="" Pack="true" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Content Include="build\**" PackagePath="build" Pack="true" />
+    <Content Include="runtimes\**" PackagePath="runtimes" Pack="true" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="lib\**" PackagePath="lib" Pack="true" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Vortice.Vulkan" Version="1.6.4" />
+  </ItemGroup>
+
+</Project>
