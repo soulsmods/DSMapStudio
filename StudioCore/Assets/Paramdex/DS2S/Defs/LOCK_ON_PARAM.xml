@@ -13,6 +13,6 @@
     <Field Def="f32 fov_1" />
     <Field Def="f32 Unk00" />
     <Field Def="f32 Unk01" />
-    <Field Def="f32 Unk02" />
+    <Field Def="f32 max_dist_behind_player" />
   </Fields>
 </PARAMDEF>

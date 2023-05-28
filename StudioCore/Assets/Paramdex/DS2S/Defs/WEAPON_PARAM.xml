@@ -56,6 +56,6 @@
     <Field Def="s16 casting_speed_menu" />
     <Field Def="f32 poise_damage_pvp" />
     <Field Def="f32 poise_damage_pve" />
-    <Field Def="f32 Unk08" />
+    <Field Def="f32 hyper_armor_poise_mult" />
   </Fields>
 </PARAMDEF>

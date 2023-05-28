@@ -7,5 +7,6 @@
     <distance_2 AltName="Distance [2]"/>
     <fov_0 AltName="FOV [0]"/>
     <fov_1 AltName="FOV [1]"/>
+    <max_dist_behind_player AltName="Max Distance Behind Player"/>
   </Field>
 </PARAMMETA>
