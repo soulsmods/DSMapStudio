@@ -9,7 +9,8 @@ namespace Veldrid.Vk
     {
         private readonly VkGraphicsDevice _gd;
         private readonly Vortice.Vulkan.VkBuffer _deviceBuffer;
-        private readonly VkMemoryBlock _memory;
+        private readonly VmaAllocation _allocation;
+        private readonly VmaAllocationInfo _allocationInfo;
         private readonly VkMemoryRequirements _bufferMemoryRequirements;
         public ResourceRefCount RefCount { get; }
         private bool _destroyed;
@@ -19,7 +20,8 @@ namespace Veldrid.Vk
         public override BufferUsage Usage { get; }
 
         public Vortice.Vulkan.VkBuffer DeviceBuffer => _deviceBuffer;
-        public VkMemoryBlock Memory => _memory;
+        public VmaAllocation Allocation => _allocation;
+        public VmaAllocationInfo AllocationInfo => _allocationInfo;
 
         public VkMemoryRequirements BufferMemoryRequirements => _bufferMemoryRequirements;
 
@@ -52,60 +54,27 @@ namespace Veldrid.Vk
                 vkUsage |= VkBufferUsageFlags.IndirectBuffer;
             }
 
+            bool hostVisible = (usage & BufferUsage.Dynamic) == BufferUsage.Dynamic
+                               || (usage & BufferUsage.Staging) == BufferUsage.Staging;
+            
             var bufferCI = new VkBufferCreateInfo
             {
                 sType = VkStructureType.BufferCreateInfo,
                 size = sizeInBytes,
                 usage = vkUsage
             };
-            VkResult result = vkCreateBuffer(gd.Device, &bufferCI, null, out _deviceBuffer);
-            CheckResult(result);
 
-            bool prefersDedicatedAllocation;
-            if (_gd.GetBufferMemoryRequirements2 != null)
+            var allocationCI = new VmaAllocationCreateInfo
             {
-                var memReqInfo2 = new VkBufferMemoryRequirementsInfo2
-                {
-                    sType = VkStructureType.BufferMemoryRequirementsInfo2,
-                    buffer = _deviceBuffer
-                };
-                var dedicatedReqs = VkMemoryDedicatedRequirements.New();
-                var memReqs2 = new VkMemoryRequirements2
-                {
-                    sType = VkStructureType.MemoryRequirements2,
-                    pNext = &dedicatedReqs
-                };
-                _gd.GetBufferMemoryRequirements2(_gd.Device, &memReqInfo2, &memReqs2);
-                _bufferMemoryRequirements = memReqs2.memoryRequirements;
-                prefersDedicatedAllocation = dedicatedReqs.prefersDedicatedAllocation || dedicatedReqs.requiresDedicatedAllocation;
-            }
-            else
-            {
-                vkGetBufferMemoryRequirements(gd.Device, _deviceBuffer, out _bufferMemoryRequirements);
-                prefersDedicatedAllocation = false;
-            }
+                flags = hostVisible ? VmaAllocationCreateFlags.HostAccessRandom | VmaAllocationCreateFlags.Mapped : 0,
+                usage = hostVisible ? VmaMemoryUsage.AutoPreferHost : VmaMemoryUsage.AutoPreferDevice
+            };
 
-            bool hostVisible = (usage & BufferUsage.Dynamic) == BufferUsage.Dynamic
-                || (usage & BufferUsage.Staging) == BufferUsage.Staging;
-
-            VkMemoryPropertyFlags memoryPropertyFlags =
-                hostVisible
-                ? VkMemoryPropertyFlags.HostVisible | VkMemoryPropertyFlags.HostCoherent
-                : VkMemoryPropertyFlags.DeviceLocal;
-
-            VkMemoryBlock memoryToken = gd.MemoryManager.Allocate(
-                gd.PhysicalDeviceMemProperties,
-                _bufferMemoryRequirements.memoryTypeBits,
-                memoryPropertyFlags,
-                hostVisible,
-                _bufferMemoryRequirements.size,
-                _bufferMemoryRequirements.alignment,
-                prefersDedicatedAllocation,
-                VkImage.Null,
-                _deviceBuffer);
-            _memory = memoryToken;
-            result = vkBindBufferMemory(gd.Device, _deviceBuffer, _memory.DeviceMemory, _memory.Offset);
+            VmaAllocationInfo allocationInfo;
+            VkResult result = Vma.vmaCreateBuffer(gd.Allocator, &bufferCI, &allocationCI, out _deviceBuffer,
+                out _allocation, &allocationInfo);
             CheckResult(result);
+            _allocationInfo = allocationInfo;
 
             RefCount = new ResourceRefCount(DisposeCore);
         }
@@ -130,8 +99,7 @@ namespace Veldrid.Vk
             if (!_destroyed)
             {
                 _destroyed = true;
-                vkDestroyBuffer(_gd.Device, _deviceBuffer, null);
-                _gd.MemoryManager.Free(Memory);
+                Vma.vmaDestroyBuffer(_gd.Allocator, _deviceBuffer, _allocation);
             }
         }
     }

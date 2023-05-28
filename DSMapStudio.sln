@@ -40,6 +40,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudioUtils", "StudioUtils\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoapstoneLib", "SoapstoneLib\SoapstoneLib\SoapstoneLib.csproj", "{DEFFEB30-C8AD-4D0E-AE19-39D8452B9568}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vortice.VulkanMemoryAllocator", "Vortice.VulkanMemoryAllocator\Vortice.VulkanMemoryAllocator.csproj", "{40191D0F-C2CC-4021-9F7B-CB8AC7D55471}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -122,6 +124,10 @@ Global
 		{DEFFEB30-C8AD-4D0E-AE19-39D8452B9568}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DEFFEB30-C8AD-4D0E-AE19-39D8452B9568}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DEFFEB30-C8AD-4D0E-AE19-39D8452B9568}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40191D0F-C2CC-4021-9F7B-CB8AC7D55471}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40191D0F-C2CC-4021-9F7B-CB8AC7D55471}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40191D0F-C2CC-4021-9F7B-CB8AC7D55471}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40191D0F-C2CC-4021-9F7B-CB8AC7D55471}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
