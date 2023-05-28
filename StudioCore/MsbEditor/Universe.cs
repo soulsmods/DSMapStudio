@@ -214,6 +214,7 @@ namespace StudioCore.MsbEditor
             var mesh = DebugPrimitiveRenderableProxy.GetBoxRegionProxy(_renderScene);
             mesh.World = obj.GetWorldMatrix();
             obj.RenderSceneMesh = mesh;
+            mesh.DrawFilter = RenderFilter.Region;
             mesh.SetSelectable(obj);
             return mesh;
         }
@@ -493,6 +494,7 @@ namespace StudioCore.MsbEditor
                 var mesh = DebugPrimitiveRenderableProxy.GetBoxRegionProxy(_renderScene);
                 mesh.World = obj.GetLocalTransform().WorldMatrix;
                 obj.RenderSceneMesh = mesh;
+                mesh.DrawFilter = RenderFilter.Region;
                 mesh.SetSelectable(obj);
             }
 
