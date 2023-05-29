@@ -38,6 +38,7 @@ namespace StudioCore.ParamEditor
 
         private unsafe (bool, bool) PropertyRow(Type typ, object oldval, ref object newval, bool isBool)
         {
+            ImGui.SetNextItemWidth(-1);
             bool isChanged = false;
             bool isDeactivatedAfterEdit = false;
             try
@@ -54,6 +55,7 @@ namespace StudioCore.ParamEditor
                     }
                     isDeactivatedAfterEdit = ImGui.IsItemDeactivatedAfterEdit();
                     ImGui.SameLine();
+                    ImGui.SetNextItemWidth(-1);
                 }
             }
             catch
@@ -512,7 +514,6 @@ namespace StudioCore.ParamEditor
 
             //PropertyRowMetaDefContextMenu();
             ImGui.NextColumn();
-            ImGui.SetNextItemWidth(-1);
             bool changed = false;
             bool committed = false;
 
@@ -532,10 +533,32 @@ namespace StudioCore.ParamEditor
                 ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 0.5f, 1.0f, 1.0f));
             else if (matchDefault)
                 ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.75f, 0.75f, 0.75f, 1.0f));
+            
+            // Property Editor UI
             (changed, committed) = PropertyRow(propType, oldval, ref newval, IsBool);
 
             if (isRef || matchDefault) //if diffVanilla, remove styling later
                 ImGui.PopStyleColor();
+
+            // Tooltip
+            if (ImGui.IsItemHovered(ImGuiHoveredFlags.DelayNormal | ImGuiHoveredFlags.NoSharedDelay))
+            {
+                string str = $"Value Type: {propType.Name}";
+                if (propType.IsValueType)
+                {
+                    var min = propType.GetField("MinValue")?.GetValue(propType);
+                    var max = propType.GetField("MaxValue")?.GetValue(propType);
+                    if (min != null & max != null)
+                    {
+                        str += $" (Min {min}, Max {max})";
+                    }
+                }
+                if (Wiki != null)
+                {
+                    str += $"\n\n{Wiki}";
+                }
+                ImGui.SetTooltip(str);
+            }
 
             PropertyRowValueContextMenu(bank, row, internalName, VirtualRef, ExtRefs, oldval);
 
