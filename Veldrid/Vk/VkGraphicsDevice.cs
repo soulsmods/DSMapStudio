@@ -23,6 +23,7 @@ namespace Veldrid.Vk
         private VkPhysicalDeviceFeatures _physicalDeviceFeatures;
         private VkPhysicalDeviceVulkan11Features _physicalDeviceFeatures11;
         private VkPhysicalDeviceVulkan12Features _physicalDeviceFeatures12;
+        private VkPhysicalDeviceVulkan13Features _physicalDeviceFeatures13;
         private VkPhysicalDeviceMemoryProperties _physicalDeviceMemProperties;
         private VkDevice _device;
         private uint _graphicsQueueIndex;
@@ -475,7 +476,13 @@ namespace Veldrid.Vk
 
         private void CreateInstance(bool debug, VulkanDeviceOptions options)
         {
-            vkInitialize();
+            VkResult result = vkInitialize();
+            CheckResult(result);
+            if (result != VkResult.Success)
+            {
+                throw new VeldridException(
+                    "Vulkan initialization failed. Your GPU may not support Vulkan or you may not have a recent driver.");
+            }
 
             HashSet<string> availableInstanceLayers = new HashSet<string>(EnumerateInstanceLayers());
             HashSet<string> availableInstanceExtensions = new HashSet<string>(GetInstanceExtensions());
@@ -576,8 +583,12 @@ namespace Veldrid.Vk
                 ppEnabledLayerNames = (instanceLayers.Count > 0) ? (sbyte**)instanceLayers.Data : null
             };
 
-            VkResult result = vkCreateInstance(&instanceCI, null, out _instance);
+            result = vkCreateInstance(&instanceCI, null, out _instance);
             CheckResult(result);
+            if (result != VkResult.Success)
+            {
+                throw new VeldridException("Failed to create Vulkan instance.");
+            }
             vkLoadInstanceOnly(_instance);
 
             if (debug && debugReportExtensionAvailable)
@@ -666,28 +677,82 @@ namespace Veldrid.Vk
             fixed (VkPhysicalDevice* pPhysicalDevice = &physicalDevices[0])
                 vkEnumeratePhysicalDevices(_instance, &deviceCount, pPhysicalDevice);
             
-            // Try to find a discrete gpu and use that instead if we find one. Otherwise use the first
-            _physicalDevice = physicalDevices[0];
-            foreach (var device in physicalDevices)
+            // Sort the list of devices such that discrete devices have priority over integrated ones
+            int discreteCount = 0;
+            for (int i = 0; i < deviceCount; i++)
             {
-                vkGetPhysicalDeviceProperties(device, out var props);
+                vkGetPhysicalDeviceProperties(physicalDevices[i], out var props);
                 if (props.deviceType == VkPhysicalDeviceType.DiscreteGpu)
                 {
-                    _physicalDevice = device;
-                    break;
+                    // Push discrete GPUs to the top
+                    (physicalDevices[discreteCount], physicalDevices[i]) = (physicalDevices[i], physicalDevices[discreteCount]);
+                    discreteCount++;
                 }
             }
 
-            vkGetPhysicalDeviceProperties(_physicalDevice, out _physicalDeviceProperties);
-            string deviceName;
-            fixed (sbyte* utf8NamePtr = _physicalDeviceProperties.deviceName)
+            // Search for a GPU that supports required features
+            foreach (var device in physicalDevices)
             {
+                vkGetPhysicalDeviceProperties(device, out var physicalDeviceProperties);
+                string deviceName;
+                sbyte* utf8NamePtr = physicalDeviceProperties.deviceName;
                 deviceName = Encoding.UTF8.GetString((byte*)utf8NamePtr, (int)VK_MAX_PHYSICAL_DEVICE_NAME_SIZE);
+
+                var deviceVulkan13Features = new VkPhysicalDeviceVulkan13Features
+                {
+                    sType = VkStructureType.PhysicalDeviceVulkan13Features,
+                };
+                var deviceVulkan12Features = new VkPhysicalDeviceVulkan12Features
+                {
+                    sType = VkStructureType.PhysicalDeviceVulkan12Features,
+                    pNext = &deviceVulkan13Features,
+                };
+                var deviceVulkan11Features = new VkPhysicalDeviceVulkan11Features
+                {
+                    sType = VkStructureType.PhysicalDeviceVulkan11Features,
+                    pNext = &deviceVulkan12Features,
+                };
+                var deviceFeatures = new VkPhysicalDeviceFeatures2
+                {
+                    sType = VkStructureType.PhysicalDeviceFeatures2,
+                    pNext = &deviceVulkan11Features,
+                };
+
+                vkGetPhysicalDeviceFeatures2(device, &deviceFeatures);
+                vkGetPhysicalDeviceMemoryProperties(device, out var physicalDeviceMemProperties);
+                
+                // Check for required features
+                if (deviceFeatures.features.multiDrawIndirect != VkBool32.True ||
+                    deviceFeatures.features.drawIndirectFirstInstance != VkBool32.True ||
+                    deviceFeatures.features.shaderInt64 != VkBool32.True ||
+                    deviceFeatures.features.fragmentStoresAndAtomics != VkBool32.True)
+                    continue;
+                if (deviceVulkan11Features.storageBuffer16BitAccess != VkBool32.True)
+                    continue;
+                if (deviceVulkan12Features.drawIndirectCount != VkBool32.True ||
+                    deviceVulkan12Features.descriptorIndexing != VkBool32.True ||
+                    deviceVulkan12Features.descriptorBindingVariableDescriptorCount != VkBool32.True ||
+                    deviceVulkan12Features.runtimeDescriptorArray != VkBool32.True ||
+                    deviceVulkan12Features.descriptorBindingSampledImageUpdateAfterBind != VkBool32.True ||
+                    deviceVulkan12Features.shaderSampledImageArrayNonUniformIndexing != VkBool32.True)
+                    continue;
+                if (deviceVulkan13Features.synchronization2 != VkBool32.True ||
+                    deviceVulkan13Features.dynamicRendering != VkBool32.True ||
+                    deviceVulkan13Features.maintenance4 != VkBool32.True)
+                    continue;
+                
+                // We found a physical device with the required features
+                _physicalDevice = device;
+                _physicalDeviceMemProperties = physicalDeviceMemProperties;
+                _physicalDeviceFeatures = deviceFeatures.features;
+                _physicalDeviceFeatures11 = deviceVulkan11Features;
+                _physicalDeviceFeatures12 = deviceVulkan12Features;
+                _physicalDeviceFeatures13 = deviceVulkan13Features;
+                return;
             }
 
-            vkGetPhysicalDeviceFeatures(_physicalDevice, out _physicalDeviceFeatures);
-
-            vkGetPhysicalDeviceMemoryProperties(_physicalDevice, out _physicalDeviceMemProperties);
+            throw new VeldridException(
+                "Could not find a supported GPU. Your GPU may be too old or your drivers may be out of date.");
         }
 
         private void CreateLogicalDevice(VkSurfaceKHR surface, bool preferStandardClipY, VulkanDeviceOptions options)
@@ -738,12 +803,23 @@ namespace Veldrid.Vk
             var deviceFeatures12 = new VkPhysicalDeviceVulkan12Features
             {
                 sType = VkStructureType.PhysicalDeviceVulkan12Features,
+                drawIndirectCount = VkBool32.True,
                 descriptorIndexing = VkBool32.True,
                 descriptorBindingVariableDescriptorCount = VkBool32.True,
+                descriptorBindingSampledImageUpdateAfterBind = VkBool32.True,
                 runtimeDescriptorArray = VkBool32.True,
                 shaderSampledImageArrayNonUniformIndexing = VkBool32.True
             };
+            
+            var deviceFeatures13 = new VkPhysicalDeviceVulkan13Features
+            {
+                sType = VkStructureType.PhysicalDeviceVulkan13Features,
+                synchronization2 = VkBool32.True,
+                dynamicRendering = VkBool32.True,
+                maintenance4 = VkBool32.True
+            };
             deviceFeatures11.pNext = &deviceFeatures12;
+            deviceFeatures12.pNext = &deviceFeatures13;
 
             int propertyCount = 0;
             VkResult result = vkEnumerateDeviceExtensionProperties(_physicalDevice, (sbyte*)null, &propertyCount, null);

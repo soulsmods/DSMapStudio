@@ -322,7 +322,8 @@ namespace StudioCore.Scene
             }
 
             var layoutdesc = new ResourceLayoutDescription(
-                new ResourceLayoutElementDescription(_resourceName, ResourceKind.TextureReadOnly, ShaderStages.Fragment, TextureCount));
+                new ResourceLayoutElementDescription(_resourceName, ResourceKind.TextureReadOnly,
+                    ShaderStages.Fragment, ResourceLayoutElementOptions.VariableCount, TextureCount));
             _poolLayout = d.ResourceFactory.CreateResourceLayout(layoutdesc);
         }
 
