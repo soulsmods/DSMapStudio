@@ -27,13 +27,11 @@ namespace Veldrid.Vk
         public VkResourceSet(VkGraphicsDevice gd, ref ResourceSetDescription description)
             : base(ref description)
         {
+            // TODO: There's a lot of hacks done in here to "support" unbounded arrays/descriptor indexing. It
+            // needs to be reworked eventually to get rid of them.
             _gd = gd;
             RefCount = new ResourceRefCount(DisposeCore);
             VkResourceLayout vkLayout = Util.AssertSubtype<ResourceLayout, VkResourceLayout>(description.Layout);
-
-            VkDescriptorSetLayout dsl = vkLayout.DescriptorSetLayout;
-            _descriptorCounts = vkLayout.DescriptorResourceCounts;
-            _descriptorAllocationToken = _gd.DescriptorPoolManager.Allocate(_descriptorCounts, dsl);
 
             BindableResource[] boundResources = description.BoundResources;
             int descriptorWriteCount = vkLayout.Description.Elements.Length;
@@ -43,6 +41,13 @@ namespace Veldrid.Vk
             {
                 desccount += e.DescriptorCount;
             }
+            
+            bool variableCount =
+                (vkLayout.Description.Elements[^1].Options & ResourceLayoutElementOptions.VariableCount) != 0;
+            VkDescriptorSetLayout dsl = vkLayout.DescriptorSetLayout;
+            _descriptorCounts = vkLayout.DescriptorResourceCounts;
+            _descriptorAllocationToken =
+                _gd.DescriptorPoolManager.Allocate(_descriptorCounts, dsl, variableCount ? desccount : 0);
 
             VkWriteDescriptorSet* descriptorWrites = stackalloc VkWriteDescriptorSet[(int)descriptorWriteCount];
             VkDescriptorBufferInfo* bufferInfos = stackalloc VkDescriptorBufferInfo[(int)descriptorWriteCount];

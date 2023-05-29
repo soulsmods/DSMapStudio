@@ -50,12 +50,18 @@ namespace Veldrid
         /// <param name="kind">The kind of resource.</param>
         /// <param name="stages">The <see cref="ShaderStages"/> in which this element is used.</param>
         /// <param name="descCount">The number of descriptors to use.</param>
-        public ResourceLayoutElementDescription(string name, ResourceKind kind, ShaderStages stages, uint descCount)
+        /// <param name="options">Miscellaneous resource options for this element.</param>
+        public ResourceLayoutElementDescription(
+            string name, 
+            ResourceKind kind, 
+            ShaderStages stages,
+            ResourceLayoutElementOptions options,
+            uint descCount)
         {
             Name = name;
             Kind = kind;
             Stages = stages;
-            Options = ResourceLayoutElementOptions.None;
+            Options = options;
             DescriptorCount = descCount;
         }
 
@@ -117,5 +123,9 @@ namespace Veldrid
         /// <see cref="GraphicsDevice.StructuredBufferMinOffsetAlignment"/>.
         /// </summary>
         DynamicBinding = 1 << 0,
+        /// <summary>
+        /// Element has a variable descriptor count. This must be the last element in the layout.
+        /// </summary>
+        VariableCount = 1 << 1,
     }
 }

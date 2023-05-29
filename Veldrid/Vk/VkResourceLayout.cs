@@ -24,6 +24,7 @@ namespace Veldrid.Vk
             ResourceLayoutElementDescription[] elements = description.Elements;
             _descriptorTypes = new VkDescriptorType[elements.Length];
             VkDescriptorSetLayoutBinding* bindings = stackalloc VkDescriptorSetLayoutBinding[elements.Length];
+            VkDescriptorBindingFlags* flags = stackalloc VkDescriptorBindingFlags[elements.Length];
 
             uint uniformBufferCount = 0;
             uint sampledImageCount = 0;
@@ -66,6 +67,15 @@ namespace Veldrid.Vk
                         storageBufferCount += elements[i].DescriptorCount;
                         break;
                 }
+
+                flags[i] = new VkDescriptorBindingFlags();
+                if ((elements[i].Options & ResourceLayoutElementOptions.VariableCount) != 0)
+                {
+                    flags[i] = VkDescriptorBindingFlags.VariableDescriptorCount;
+                    // UpdateAfterBind is needed for larger texture pools on Intel for some reason
+                    if (descriptorType == VkDescriptorType.SampledImage)
+                        flags[i] |= VkDescriptorBindingFlags.UpdateAfterBind;
+                }
             }
 
             DescriptorResourceCounts = new DescriptorResourceCounts(
@@ -75,9 +85,18 @@ namespace Veldrid.Vk
                 storageBufferCount,
                 storageImageCount);
 
+            var bindingFlagsCI = new VkDescriptorSetLayoutBindingFlagsCreateInfo
+            {
+                sType = VkStructureType.DescriptorSetLayoutBindingFlagsCreateInfo,
+                bindingCount = (uint)elements.Length,
+                pBindingFlags = flags
+            };
+            
             var dslCI = new VkDescriptorSetLayoutCreateInfo
             {
                 sType = VkStructureType.DescriptorSetLayoutCreateInfo,
+                pNext = &bindingFlagsCI,
+                flags = VkDescriptorSetLayoutCreateFlags.UpdateAfterBindPool,
                 bindingCount = (uint)elements.Length,
                 pBindings = bindings
             };
