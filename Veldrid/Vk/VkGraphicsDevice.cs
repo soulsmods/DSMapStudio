@@ -215,16 +215,18 @@ namespace Veldrid.Vk
 
             bool useExtraFence = fence != null;
             VkPipelineStageFlags waitDstStageMask = VkPipelineStageFlags.ColorAttachmentOutput;
-            var si = new VkSubmitInfo
+            var cbSubmitInfo = new VkCommandBufferSubmitInfo
             {
-                sType = VkStructureType.SubmitInfo,
-                commandBufferCount = 1,
-                pCommandBuffers = &vkCB,
-                pWaitDstStageMask = &waitDstStageMask,
-                pWaitSemaphores = waitSemaphoresPtr,
-                waitSemaphoreCount = waitSemaphoreCount,
-                pSignalSemaphores = signalSemaphoresPtr,
-                signalSemaphoreCount = signalSemaphoreCount
+                sType = VkStructureType.CommandBufferSubmitInfo,
+                commandBuffer = vkCB,
+                deviceMask = 0,
+            };
+            var si = new VkSubmitInfo2
+            {
+                sType = VkStructureType.SubmitInfo2,
+                flags = VkSubmitFlags.None,
+                commandBufferInfoCount = 1,
+                pCommandBufferInfos = &cbSubmitInfo,
             };
 
             Vortice.Vulkan.VkFence vkFence = Vortice.Vulkan.VkFence.Null;
@@ -244,11 +246,11 @@ namespace Veldrid.Vk
             {
                 lock (_transferQueueLock)
                 {
-                    VkResult result = vkQueueSubmit(_transferQueue, 1, &si, vkFence);
+                    VkResult result = vkQueueSubmit2(_transferQueue, 1, &si, vkFence);
                     CheckResult(result);
                     if (useExtraFence)
                     {
-                        result = vkQueueSubmit(_transferQueue, 0, null, submissionFence);
+                        result = vkQueueSubmit2(_transferQueue, 0, null, submissionFence);
                         CheckResult(result);
                     }
                 }
@@ -257,11 +259,11 @@ namespace Veldrid.Vk
             {
                 lock (_graphicsQueueLock)
                 {
-                    VkResult result = vkQueueSubmit(_graphicsQueue, 1, &si, vkFence);
+                    VkResult result = vkQueueSubmit2(_graphicsQueue, 1, &si, vkFence);
                     CheckResult(result);
                     if (useExtraFence)
                     {
-                        result = vkQueueSubmit(_graphicsQueue, 0, null, submissionFence);
+                        result = vkQueueSubmit2(_graphicsQueue, 0, null, submissionFence);
                         CheckResult(result);
                     }
                 }
