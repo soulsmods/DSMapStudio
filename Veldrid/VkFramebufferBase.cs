@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Vortice.Vulkan;
 
-namespace Veldrid.Vk
+namespace Veldrid
 {
     internal abstract class VkFramebufferBase : Framebuffer
     {

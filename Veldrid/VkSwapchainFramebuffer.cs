@@ -1,16 +1,16 @@
 ﻿using Vortice.Vulkan;
 using static Vortice.Vulkan.Vulkan;
-using static Veldrid.Vk.VulkanUtil;
+using static Veldrid.VulkanUtil;
 using System;
 using System.Linq;
 using System.Collections.Generic;
 
-namespace Veldrid.Vk
+namespace Veldrid
 {
     internal unsafe class VkSwapchainFramebuffer : VkFramebufferBase
     {
-        private readonly VkGraphicsDevice _gd;
-        private readonly VkSwapchain _swapchain;
+        private readonly GraphicsDevice _gd;
+        private readonly Swapchain _swapchain;
         private readonly VkSurfaceKHR _surface;
         private readonly PixelFormat? _depthFormat;
         private uint _currentImageIndex;
@@ -50,11 +50,11 @@ namespace Veldrid.Vk
 
         public override uint AttachmentCount { get; }
 
-        public VkSwapchain Swapchain => _swapchain;
+        public Swapchain Swapchain => _swapchain;
 
         public VkSwapchainFramebuffer(
-            VkGraphicsDevice gd,
-            VkSwapchain swapchain,
+            GraphicsDevice gd,
+            Swapchain swapchain,
             VkSurfaceKHR surface,
             uint width,
             uint height,
@@ -123,7 +123,7 @@ namespace Veldrid.Vk
             if (_depthFormat.HasValue)
             {
                 _depthAttachment?.Target.Dispose();
-                VkTexture depthTexture = (VkTexture)_gd.ResourceFactory.CreateTexture(TextureDescription.Texture2D(
+                var depthTexture = _gd.ResourceFactory.CreateTexture(TextureDescription.Texture2D(
                     Math.Max(1, _scExtent.width),
                     Math.Max(1, _scExtent.height),
                     1,
@@ -150,7 +150,7 @@ namespace Veldrid.Vk
             Util.EnsureArrayMinimumSize(ref _scColorTextures, (uint)_scImages.Length);
             for (uint i = 0; i < _scImages.Length; i++)
             {
-                VkTexture colorTex = new VkTexture(
+                var colorTex = new Texture(
                     _gd,
                     Math.Max(1, _scExtent.width),
                     Math.Max(1, _scExtent.height),
@@ -172,7 +172,7 @@ namespace Veldrid.Vk
             for (int i = 0; i < ColorTargets.Count; i++)
             {
                 FramebufferAttachment ca = ColorTargets[i];
-                VkTexture vkTex = Util.AssertSubtype<Texture, VkTexture>(ca.Target);
+                var vkTex = ca.Target;
                 vkTex.SetImageLayout(0, ca.ArrayLayer, VkImageLayout.ColorAttachmentOptimal);
             }
         }
@@ -182,7 +182,7 @@ namespace Veldrid.Vk
             for (int i = 0; i < ColorTargets.Count; i++)
             {
                 FramebufferAttachment ca = ColorTargets[i];
-                VkTexture vkTex = Util.AssertSubtype<Texture, VkTexture>(ca.Target);
+                var vkTex = ca.Target;
                 vkTex.TransitionImageLayout(cb, 0, 1, ca.ArrayLayer, 1, VkImageLayout.PresentSrcKHR);
             }
         }

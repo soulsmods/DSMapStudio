@@ -4,15 +4,15 @@ using System.Diagnostics;
 using Vortice.Vulkan;
 using static Vortice.Vulkan.Vulkan;
 
-namespace Veldrid.Vk
+namespace Veldrid
 {
     internal class VkDescriptorPoolManager
     {
-        private readonly VkGraphicsDevice _gd;
+        private readonly GraphicsDevice _gd;
         private readonly List<PoolInfo> _pools = new List<PoolInfo>();
         private readonly object _lock = new object();
 
-        public VkDescriptorPoolManager(VkGraphicsDevice gd)
+        public VkDescriptorPoolManager(GraphicsDevice gd)
         {
             _gd = gd;
             _pools.Add(CreateNewPool());

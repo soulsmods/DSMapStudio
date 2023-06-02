@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using Vortice.Vulkan;
-using static Vortice.Vulkan.Vulkan;
+﻿using Vortice.Vulkan;
 
-namespace Veldrid.Vk
+namespace Veldrid
 {
     internal static partial class VkFormats
     {
