@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace Veldrid.Vk
+namespace Veldrid
 {
     internal unsafe class FixedUtf8String : IDisposable
     {

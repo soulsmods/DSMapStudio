@@ -1,9 +1,7 @@
 ﻿using System;
 using Vortice.Vulkan;
-using static Vortice.Vulkan.Vulkan;
-using static Veldrid.Vk.VulkanUtil;
 
-namespace Veldrid.Vk
+namespace Veldrid
 {
     /// <summary>
     /// An object which can be used to create a VkSurfaceKHR.
@@ -41,7 +39,7 @@ namespace Veldrid.Vk
             _hwnd = hwnd;
         }
 
-        public unsafe override VkSurfaceKHR CreateSurface(VkInstance instance)
+        public override VkSurfaceKHR CreateSurface(VkInstance instance)
         {
             return VkSurfaceUtil.CreateSurface(null, instance, GetSurfaceSource());
         }

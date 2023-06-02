@@ -1,15 +1,25 @@
-using System;
+using Vortice.Vulkan;
 
 namespace Veldrid
 {
     /// <summary>
     /// A device object responsible for the creation of graphics resources.
     /// </summary>
-    public abstract class ResourceFactory
+    public class ResourceFactory
     {
+        private readonly GraphicsDevice _gd;
+        private readonly VkDevice _device;
+        
+        internal ResourceFactory(GraphicsDevice vkGraphicsDevice)
+            : this (vkGraphicsDevice.Features)
+        {
+            _gd = vkGraphicsDevice;
+            _device = vkGraphicsDevice.Device;
+        }
+        
         /// <summary></summary>
         /// <param name="features"></param>
-        protected ResourceFactory(GraphicsDeviceFeatures features)
+        public ResourceFactory(GraphicsDeviceFeatures features)
         {
             Features = features;
         }
@@ -17,7 +27,7 @@ namespace Veldrid
         /// <summary>
         /// Gets the <see cref="GraphicsBackend"/> of this instance.
         /// </summary>
-        public abstract GraphicsBackend BackendType { get; }
+        public GraphicsBackend BackendType => GraphicsBackend.Vulkan;
 
         /// <summary>
         /// Gets the <see cref="GraphicsDeviceFeatures"/> this instance was created with.
@@ -30,6 +40,7 @@ namespace Veldrid
         /// <param name="description">The desired properties of the created object.</param>
         /// <returns>A new <see cref="Pipeline"/>.</returns>
         public Pipeline CreateGraphicsPipeline(GraphicsPipelineDescription description) => CreateGraphicsPipeline(ref description);
+        
         /// <summary>
         /// Creates a new <see cref="Pipeline"/> object.
         /// </summary>
@@ -98,8 +109,10 @@ namespace Veldrid
         /// <summary></summary>
         /// <param name="description"></param>
         /// <returns></returns>
-        protected abstract Pipeline CreateGraphicsPipelineCore(ref GraphicsPipelineDescription description);
-
+        protected virtual Pipeline CreateGraphicsPipelineCore(ref GraphicsPipelineDescription description)
+        {
+            return new Pipeline(_gd, ref description);
+        }
         /// <summary>
         /// Creates a new compute <see cref="Pipeline"/> object.
         /// </summary>
@@ -112,33 +125,41 @@ namespace Veldrid
         /// </summary>
         /// <param name="description">The desirede properties of the created object.</param>
         /// <returns>A new <see cref="Pipeline"/> which, when bound to a CommandList, is used to dispatch compute commands.</returns>
-        public abstract Pipeline CreateComputePipeline(ref ComputePipelineDescription description);
-
+        public virtual Pipeline CreateComputePipeline(ref ComputePipelineDescription description)
+        {
+            return new Pipeline(_gd, ref description);
+        }
+        
         /// <summary>
         /// Creates a new <see cref="Framebuffer"/>.
         /// </summary>
         /// <param name="description">The desired properties of the created object.</param>
         /// <returns>A new <see cref="Framebuffer"/>.</returns>
         public Framebuffer CreateFramebuffer(FramebufferDescription description) => CreateFramebuffer(ref description);
+        
         /// <summary>
         /// Creates a new <see cref="Framebuffer"/>.
         /// </summary>
         /// <param name="description">The desired properties of the created object.</param>
         /// <returns>A new <see cref="Framebuffer"/>.</returns>
-        public abstract Framebuffer CreateFramebuffer(ref FramebufferDescription description);
-
+        public virtual Framebuffer CreateFramebuffer(ref FramebufferDescription description)
+        {
+            return new VkFramebuffer(_gd, ref description, false);
+        }
+        
         /// <summary>
         /// Creates a new <see cref="Texture"/>.
         /// </summary>
         /// <param name="description">The desired properties of the created object.</param>
         /// <returns>A new <see cref="Texture"/>.</returns>
         public Texture CreateTexture(TextureDescription description) => CreateTexture(ref description);
+        
         /// <summary>
         /// Creates a new <see cref="Texture"/>.
         /// </summary>
         /// <param name="description">The desired properties of the created object.</param>
         /// <returns>A new <see cref="Texture"/>.</returns>
-        public Texture CreateTexture(ref TextureDescription description)
+        public virtual Texture CreateTexture(ref TextureDescription description)
         {
 #if VALIDATE_USAGE
             if (description.Width == 0 || description.Height == 0 || description.Depth == 0)
@@ -217,27 +238,41 @@ namespace Veldrid
         /// <param name="nativeTexture"></param>
         /// <param name="description"></param>
         /// <returns></returns>
-        protected abstract Texture CreateTextureCore(ulong nativeTexture, ref TextureDescription description);
-
-        // TODO: private protected
+        protected virtual Texture CreateTextureCore(ulong nativeTexture, ref TextureDescription description)
+        {
+            return new Texture(
+                _gd,
+                description.Width, description.Height,
+                description.MipLevels, description.ArrayLayers,
+                VkFormats.VdToVkPixelFormat(description.Format, (description.Usage & TextureUsage.DepthStencil) != 0),
+                description.Usage,
+                description.SampleCount,
+                nativeTexture);
+        }
+        
         /// <summary>
         /// </summary>
         /// <param name="description"></param>
         /// <returns></returns>
-        protected abstract Texture CreateTextureCore(ref TextureDescription description);
-
+        protected virtual Texture CreateTextureCore(ref TextureDescription description)
+        {
+            return new Texture(_gd, ref description);
+        }
+        
         /// <summary>
         /// Creates a new <see cref="TextureView"/>.
         /// </summary>
         /// <param name="target">The target <see cref="Texture"/> used in the new view.</param>
         /// <returns>A new <see cref="TextureView"/>.</returns>
         public TextureView CreateTextureView(Texture target) => CreateTextureView(new TextureViewDescription(target));
+        
         /// <summary>
         /// Creates a new <see cref="TextureView"/>.
         /// </summary>
         /// <param name="description">The desired properties of the created object.</param>
         /// <returns>A new <see cref="TextureView"/>.</returns>
         public TextureView CreateTextureView(TextureViewDescription description) => CreateTextureView(ref description);
+        
         /// <summary>
         /// Creates a new <see cref="TextureView"/>.
         /// </summary>
@@ -280,19 +315,21 @@ namespace Veldrid
             return CreateTextureViewCore(ref description);
         }
 
-        // TODO: private protected
         /// <summary>
         /// </summary>
         /// <param name="description"></param>
         /// <returns></returns>
-        protected abstract TextureView CreateTextureViewCore(ref TextureViewDescription description);
-
+        protected virtual TextureView CreateTextureViewCore(ref TextureViewDescription description)
+        {
+            return new TextureView(_gd, ref description);
+        }
         /// <summary>
         /// Creates a new <see cref="DeviceBuffer"/>.
         /// </summary>
         /// <param name="description">The desired properties of the created object.</param>
         /// <returns>A new <see cref="DeviceBuffer"/>.</returns>
         public DeviceBuffer CreateBuffer(BufferDescription description) => CreateBuffer(ref description);
+        
         /// <summary>
         /// Creates a new <see cref="DeviceBuffer"/>.
         /// </summary>
@@ -344,19 +381,22 @@ namespace Veldrid
             return CreateBufferCore(ref description);
         }
 
-        // TODO: private protected
         /// <summary>
         /// </summary>
         /// <param name="description"></param>
         /// <returns></returns>
-        protected abstract DeviceBuffer CreateBufferCore(ref BufferDescription description);
-
+        protected virtual DeviceBuffer CreateBufferCore(ref BufferDescription description)
+        {
+            return new DeviceBuffer(_gd, description.SizeInBytes, description.Usage);
+        }
+        
         /// <summary>
         /// Creates a new <see cref="Sampler"/>.
         /// </summary>
         /// <param name="description">The desired properties of the created object.</param>
         /// <returns>A new <see cref="Sampler"/>.</returns>
         public Sampler CreateSampler(SamplerDescription description) => CreateSampler(ref description);
+        
         /// <summary>
         /// Creates a new <see cref="Sampler"/>.
         /// </summary>
@@ -383,14 +423,18 @@ namespace Veldrid
         /// <summary></summary>
         /// <param name="description"></param>
         /// <returns></returns>
-        protected abstract Sampler CreateSamplerCore(ref SamplerDescription description);
-
+        protected virtual Sampler CreateSamplerCore(ref SamplerDescription description)
+        {
+            return new Sampler(_gd, ref description);
+        }
+        
         /// <summary>
         /// Creates a new <see cref="Shader"/>.
         /// </summary>
         /// <param name="description">The desired properties of the created object.</param>
         /// <returns>A new <see cref="Shader"/>.</returns>
         public Shader CreateShader(ShaderDescription description) => CreateShader(ref description);
+        
         /// <summary>
         /// Creates a new <see cref="Shader"/>.
         /// </summary>
@@ -420,25 +464,32 @@ namespace Veldrid
         /// <summary></summary>
         /// <param name="description"></param>
         /// <returns></returns>
-        protected abstract Shader CreateShaderCore(ref ShaderDescription description);
-
+        protected virtual Shader CreateShaderCore(ref ShaderDescription description)
+        {
+            return new Shader(_gd, ref description);
+        }
         /// <summary>
         /// Creates a new <see cref="CommandList"/>.
         /// </summary>
         /// <returns>A new <see cref="CommandList"/>.</returns>
         public CommandList CreateCommandList() => CreateCommandList(new CommandListDescription(false));
+        
         /// <summary>
         /// Creates a new <see cref="CommandList"/>.
         /// </summary>
         /// <param name="description">The desired properties of the created object.</param>
         /// <returns>A new <see cref="CommandList"/>.</returns>
         public CommandList CreateCommandList(CommandListDescription description) => CreateCommandList(ref description);
+
         /// <summary>
         /// Creates a new <see cref="CommandList"/>.
         /// </summary>
         /// <param name="description">The desired properties of the created object.</param>
         /// <returns>A new <see cref="CommandList"/>.</returns>
-        public abstract CommandList CreateCommandList(ref CommandListDescription description);
+        public virtual CommandList CreateCommandList(ref CommandListDescription description)
+        {
+            return new CommandList(_gd, ref description);
+        }
 
         /// <summary>
         /// Creates a new <see cref="ResourceLayout"/>.
@@ -446,44 +497,57 @@ namespace Veldrid
         /// <param name="description">The desired properties of the created object.</param>
         /// <returns>A new <see cref="ResourceLayout"/>.</returns>
         public ResourceLayout CreateResourceLayout(ResourceLayoutDescription description) => CreateResourceLayout(ref description);
+        
         /// <summary>
         /// Creates a new <see cref="ResourceLayout"/>.
         /// </summary>
         /// <param name="description">The desired properties of the created object.</param>
         /// <returns>A new <see cref="ResourceLayout"/>.</returns>
-        public abstract ResourceLayout CreateResourceLayout(ref ResourceLayoutDescription description);
-
+        public virtual ResourceLayout CreateResourceLayout(ref ResourceLayoutDescription description)
+        {
+            return new ResourceLayout(_gd, ref description);
+        }
         /// <summary>
         /// Creates a new <see cref="ResourceSet"/>.
         /// </summary>
         /// <param name="description">The desired properties of the created object.</param>
         /// <returns>A new <see cref="ResourceSet"/>.</returns>
         public ResourceSet CreateResourceSet(ResourceSetDescription description) => CreateResourceSet(ref description);
+        
         /// <summary>
         /// Creates a new <see cref="ResourceSet"/>.
         /// </summary>
         /// <param name="description">The desired properties of the created object.</param>
         /// <returns>A new <see cref="ResourceSet"/>.</returns>
-        public abstract ResourceSet CreateResourceSet(ref ResourceSetDescription description);
-
+        public virtual ResourceSet CreateResourceSet(ref ResourceSetDescription description)
+        {
+            ValidationHelpers.ValidateResourceSet(_gd, ref description);
+            return new ResourceSet(_gd, ref description);
+        }
         /// <summary>
         /// Creates a new <see cref="Fence"/> in the given state.
         /// </summary>
         /// <param name="signaled">A value indicating whether the Fence should be in the signaled state when created.</param>
         /// <returns>A new <see cref="Fence"/>.</returns>
-        public abstract Fence CreateFence(bool signaled);
-
+        public virtual Fence CreateFence(bool signaled)
+        {
+            return new Fence(_gd, signaled);
+        }
         /// <summary>
         /// Creates a new <see cref="Swapchain"/>.
         /// </summary>
         /// <param name="description">The desired properties of the created object.</param>
         /// <returns>A new <see cref="Swapchain"/>.</returns>
         public Swapchain CreateSwapchain(SwapchainDescription description) => CreateSwapchain(ref description);
+        
         /// <summary>
         /// Creates a new <see cref="Swapchain"/>.
         /// </summary>
         /// <param name="description">The desired properties of the created object.</param>
         /// <returns>A new <see cref="Swapchain"/>.</returns>
-        public abstract Swapchain CreateSwapchain(ref SwapchainDescription description);
+        public virtual Swapchain CreateSwapchain(ref SwapchainDescription description)
+        {
+            return new Swapchain(_gd, ref description);
+        }    
     }
 }

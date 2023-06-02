@@ -1,13 +1,12 @@
 ﻿using Vortice.Vulkan;
 using static Vortice.Vulkan.Vulkan;
-using static Veldrid.Vk.VulkanUtil;
-using System;
+using static Veldrid.VulkanUtil;
 
-namespace Veldrid.Vk
+namespace Veldrid
 {
     internal static unsafe class VkSurfaceUtil
     {
-        internal static VkSurfaceKHR CreateSurface(VkGraphicsDevice gd, VkInstance instance, SwapchainSource swapchainSource)
+        internal static VkSurfaceKHR CreateSurface(GraphicsDevice gd, VkInstance instance, SwapchainSource swapchainSource)
         {
             // TODO a null GD is passed from VkSurfaceSource.CreateSurface for compatibility
             //      when VkSurfaceInfo is removed we do not have to handle gd == null anymore

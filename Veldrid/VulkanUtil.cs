@@ -3,7 +3,7 @@ using System.Diagnostics;
 using Vortice.Vulkan;
 using static Vortice.Vulkan.Vulkan;
 
-namespace Veldrid.Vk
+namespace Veldrid
 {
     internal unsafe static class VulkanUtil
     {
