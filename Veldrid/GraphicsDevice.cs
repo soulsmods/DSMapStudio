@@ -171,11 +171,6 @@ namespace Veldrid
         internal GraphicsDevice() { }
 
         /// <summary>
-        /// Gets a value identifying the specific graphics API used by this instance.
-        /// </summary>
-        public GraphicsBackend BackendType => GraphicsBackend.Vulkan;
-
-        /// <summary>
         /// Gets a value identifying whether texture coordinates begin in the top left corner of a Texture.
         /// If true, (0, 0) refers to the top-left texel of a Texture. If false, (0, 0) refers to the bottom-left 
         /// texel of a Texture. This property is useful for determining how the output of a Framebuffer should be sampled.
@@ -2387,36 +2382,6 @@ namespace Veldrid
             }
 
             return info;
-        }
-
-        /// <summary>
-        /// Checks whether the given <see cref="GraphicsBackend"/> is supported on this system.
-        /// </summary>
-        /// <param name="backend">The GraphicsBackend to check.</param>
-        /// <returns>True if the GraphicsBackend is supported; false otherwise.</returns>
-        public static bool IsBackendSupported(GraphicsBackend backend)
-        {
-            switch (backend)
-            {
-                case GraphicsBackend.Direct3D11:
-                    return false;
-                case GraphicsBackend.Vulkan:
-#if !EXCLUDE_VULKAN_BACKEND
-                    return IsSupported();
-#else
-                    return false;
-#endif
-                case GraphicsBackend.OpenGL:
-                    return false;
-
-                case GraphicsBackend.Metal:
-                    return false;
-                case GraphicsBackend.OpenGLES:
-                    return false;
-
-                default:
-                    throw Illegal.Value<GraphicsBackend>();
-            }
         }
 
         /// <summary>

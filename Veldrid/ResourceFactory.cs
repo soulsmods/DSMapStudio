@@ -25,11 +25,6 @@ namespace Veldrid
         }
 
         /// <summary>
-        /// Gets the <see cref="GraphicsBackend"/> of this instance.
-        /// </summary>
-        public GraphicsBackend BackendType => GraphicsBackend.Vulkan;
-
-        /// <summary>
         /// Gets the <see cref="GraphicsDeviceFeatures"/> this instance was created with.
         /// </summary>
         public GraphicsDeviceFeatures Features { get; }

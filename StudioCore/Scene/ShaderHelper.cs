@@ -24,8 +24,8 @@ namespace StudioCore.Scene
             ResourceFactory factory,
             string setName)
         {
-            byte[] vsBytes = LoadBytecode(GraphicsBackend.Vulkan, setName, VkShaderStageFlags.Vertex);
-            byte[] fsBytes = LoadBytecode(GraphicsBackend.Vulkan, setName, VkShaderStageFlags.Fragment);
+            byte[] vsBytes = LoadBytecode(setName, VkShaderStageFlags.Vertex);
+            byte[] fsBytes = LoadBytecode(setName, VkShaderStageFlags.Fragment);
             bool debug = false;
 #if DEBUG
             debug = true;
@@ -48,8 +48,7 @@ namespace StudioCore.Scene
         {
             SpecializationConstant[] specializations = GetSpecializations(gd);
 
-            bool fixClipZ = (gd.BackendType == GraphicsBackend.OpenGL || gd.BackendType == GraphicsBackend.OpenGLES)
-                && !gd.IsDepthRangeZeroToOne;
+            bool fixClipZ = !gd.IsDepthRangeZeroToOne;
             bool invertY = false;
 
             return new CrossCompileOptions(fixClipZ, invertY, specializations);
@@ -57,11 +56,9 @@ namespace StudioCore.Scene
 
         public static SpecializationConstant[] GetSpecializations(GraphicsDevice gd)
         {
-            bool glOrGles = gd.BackendType == GraphicsBackend.OpenGL || gd.BackendType == GraphicsBackend.OpenGLES;
-
             List<SpecializationConstant> specializations = new List<SpecializationConstant>();
             specializations.Add(new SpecializationConstant(100, gd.IsClipSpaceYInverted));
-            specializations.Add(new SpecializationConstant(101, glOrGles)); // TextureCoordinatesInvertedY
+            specializations.Add(new SpecializationConstant(101, false)); // TextureCoordinatesInvertedY
             specializations.Add(new SpecializationConstant(102, gd.IsDepthRangeZeroToOne));
 
             var swapchainFormat = gd.MainSwapchain.Framebuffer.OutputDescription.ColorAttachments[0].Format;
@@ -72,52 +69,31 @@ namespace StudioCore.Scene
             return specializations.ToArray();
         }
 
-        public static byte[] LoadBytecode(GraphicsBackend backend, string setName, VkShaderStageFlags stage)
+        public static byte[] LoadBytecode(string setName, VkShaderStageFlags stage)
         {
             string stageExt = stage == VkShaderStageFlags.Vertex ? "vert" : "frag";
             string name = setName + "." + stageExt;
 
-            if (backend == GraphicsBackend.Vulkan || backend == GraphicsBackend.Direct3D11)
+            string bytecodeExtension = GetBytecodeExtension();
+            string bytecodePath = GetPath(Path.Combine("Shaders", name + bytecodeExtension));
+            if (File.Exists(bytecodePath))
             {
-                string bytecodeExtension = GetBytecodeExtension(backend);
-                string bytecodePath = GetPath(Path.Combine("Shaders", name + bytecodeExtension));
-                if (File.Exists(bytecodePath))
-                {
-                    return File.ReadAllBytes(bytecodePath);
-                }
+                return File.ReadAllBytes(bytecodePath);
             }
 
-            string extension = GetSourceExtension(backend);
+            string extension = GetSourceExtension();
             string path = GetPath(Path.Combine("Shaders.Generated", name + extension));
             return File.ReadAllBytes(path);
         }
 
-        private static string GetBytecodeExtension(GraphicsBackend backend)
+        private static string GetBytecodeExtension()
         {
-            switch (backend)
-            {
-                case GraphicsBackend.Direct3D11: return ".hlsl.bytes";
-                case GraphicsBackend.Vulkan: return ".spv";
-                case GraphicsBackend.OpenGL:
-                    throw new InvalidOperationException("OpenGL and OpenGLES do not support shader bytecode.");
-                default: throw new InvalidOperationException("Invalid Graphics backend: " + backend);
-            }
+            return ".spv";
         }
 
-        private static string GetSourceExtension(GraphicsBackend backend)
+        private static string GetSourceExtension()
         {
-            switch (backend)
-            {
-                case GraphicsBackend.Direct3D11: return ".hlsl";
-                case GraphicsBackend.Vulkan: return ".450.glsl";
-                case GraphicsBackend.OpenGL:
-                    return ".330.glsl";
-                case GraphicsBackend.OpenGLES:
-                    return ".300.glsles";
-                case GraphicsBackend.Metal:
-                    return ".metallib";
-                default: throw new InvalidOperationException("Invalid Graphics backend: " + backend);
-            }
+            return ".450.glsl";
         }
     }
 }
