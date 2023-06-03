@@ -5,11 +5,14 @@ using System.Numerics;
 using Veldrid;
 using ImGuiNET;
 using System.Reflection;
+using System.Linq;
 
 namespace StudioCore.MsbEditor
 {
     public class DisplayGroupsEditor
     {
+        public List<string> HighlightedGroups = new();
+
         private Scene.RenderScene _scene;
         private Selection _selection;
         private ActionManager _actionManager;
@@ -50,9 +53,9 @@ namespace StudioCore.MsbEditor
                 ImGui.SetNextWindowFocus();
             }
 
+            ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(4.0f, 2.0f) * scale);
             if (ImGui.Begin("Render Groups"))
             {
-
                 var dg = _scene.DisplayGroup;
                 if (dg.AlwaysVisible || dg.RenderGroups.Length != dispCount)
                 {
@@ -73,7 +76,7 @@ namespace StudioCore.MsbEditor
                     }
                 }
 
-                ImGui.SameLine();
+                ImGui.SameLine(0.0f, 6.0f * scale);
                 if (ImGui.Button($"Hide All <{KeyBindings.Current.Map_RenderGroup_HideAll.HintText}>")
                     || InputTracker.GetKeyDown(KeyBindings.Current.Map_RenderGroup_HideAll))
                 {
@@ -83,10 +86,10 @@ namespace StudioCore.MsbEditor
                     }
                 }
 
-                ImGui.SameLine(0, 14f);
+                ImGui.SameLine(0.0f, 12.0f * scale);
                 if (sdispgroups == null)
                     ImGui.BeginDisabled();
-                if (ImGui.Button($"Get DispGroups <{KeyBindings.Current.Map_RenderGroup_GetDisp.HintText}>")
+                if (ImGui.Button($"Get Disp <{KeyBindings.Current.Map_RenderGroup_GetDisp.HintText}>")
                     || InputTracker.GetKeyDown(KeyBindings.Current.Map_RenderGroup_GetDisp)
                     && sdispgroups != null)
                 {
@@ -96,8 +99,8 @@ namespace StudioCore.MsbEditor
                     }
                 }
 
-                ImGui.SameLine();
-                if (ImGui.Button($"Get DrawGroups <{KeyBindings.Current.Map_RenderGroup_GetDraw.HintText}>")
+                ImGui.SameLine(0.0f, 6.0f * scale);
+                if (ImGui.Button($"Get Draw <{KeyBindings.Current.Map_RenderGroup_GetDraw.HintText}>")
                     || InputTracker.GetKeyDown(KeyBindings.Current.Map_RenderGroup_GetDraw)
                     && sdispgroups != null)
                 {
@@ -107,8 +110,8 @@ namespace StudioCore.MsbEditor
                     }
                 }
 
-                ImGui.SameLine(0, 14f);
-                if (ImGui.Button($"Give as DrawGroups <{KeyBindings.Current.Map_RenderGroup_GiveDraw.HintText}>")
+                ImGui.SameLine(0.0f, 12.0f * scale);
+                if (ImGui.Button($"Assign Draw <{KeyBindings.Current.Map_RenderGroup_GiveDraw.HintText}>")
                     || InputTracker.GetKeyDown(KeyBindings.Current.Map_RenderGroup_GiveDraw)
                     && sdispgroups != null)
                 {
@@ -116,19 +119,27 @@ namespace StudioCore.MsbEditor
                     _actionManager.ExecuteAction(action);
                 }
 
-                ImGui.SameLine();
-                if (ImGui.Button($"Give as DispGroups <{KeyBindings.Current.Map_RenderGroup_GiveDisp.HintText}>")
+                ImGui.SameLine(0.0f, 6.0f * scale);
+                if (ImGui.Button($"Assign Disp <{KeyBindings.Current.Map_RenderGroup_GiveDisp.HintText}>")
                     || InputTracker.GetKeyDown(KeyBindings.Current.Map_RenderGroup_GiveDisp)
                     && sdispgroups != null)
                 {
                     ArrayPropertyCopyAction action = new(dg.RenderGroups, sel.Dispgroups);
                     _actionManager.ExecuteAction(action);
                 }
-
                 if (sdispgroups == null)
                     ImGui.EndDisabled();
 
-                ImGui.SameLine(0, 60f);
+
+                ImGui.SameLine(0.0f, 12.0f * scale);
+                if (!HighlightedGroups.Any())
+                    ImGui.BeginDisabled();
+                if (ImGui.Button("Clear Highlights"))
+                    HighlightedGroups.Clear();
+                else if (!HighlightedGroups.Any())
+                    ImGui.EndDisabled();
+
+                ImGui.SameLine(0.0f, 8.0f * scale);
                 if (ImGui.Button("Help"))
                 {
                     ImGui.OpenPopup("##RenderHelp");
@@ -159,22 +170,22 @@ namespace StudioCore.MsbEditor
                 ImGui.BeginChild("##DispTicks");
                 for (int g = 0; g < dg.RenderGroups.Length; g++)
                 {
-                    //row (groups)
-                    
-                    //add spacing every 4 rows
+                    // Row (groups)
+
+                    // Add spacing every 4 rows
                     if (g % 4 == 0 && g > 0)
                     {
                         ImGui.Spacing();
                     }
 
-                    ImGui.Text($@"Render Group {g}:");
+                    ImGui.Text($@"Group {g}:");
                     for (int i = 0; i < 32; i++)
                     {
-                        //column (bits)
+                        // Column
                         bool check = ((dg.RenderGroups[g] >> i) & 0x1) > 0;
 
-                        //add spacing every 4 boxes
-                        if (i % 4 == 0)
+                        // Add spacing every 4 columns
+                        if (i % 4 == 0 && i > 0)
                         {
                             ImGui.SameLine();
                             ImGui.Spacing();
@@ -187,28 +198,33 @@ namespace StudioCore.MsbEditor
 
                         if (drawActive && dispActive)
                         {
-                            //selection dispgroup and drawgroup is ticked
-                            //yellow
+                            // Selection dispgroup and drawgroup is ticked
+                            // Yellow
                             ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.4f, 0.4f, 0.06f, 1.0f));
                             ImGui.PushStyleColor(ImGuiCol.CheckMark, new Vector4(1f, 1f, 0.02f, 1.0f));
                         }
                         else if (drawActive)
                         {
-                            //selection drawgroup is ticked
-                            //green
+                            // Selection drawgroup is ticked
+                            // Green
                             ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.02f, 0.3f, 0.02f, 1.0f));
                             ImGui.PushStyleColor(ImGuiCol.CheckMark, new Vector4(0.2f, 1.0f, 0.2f, 1.0f));
                         }
                         else if (dispActive)
                         {
-                            //selection dispGroup is ticked
-                            //red
+                            // Selection dispGroup is ticked
+                            // Red
                             ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.4f, 0.06f, 0.06f, 1.0f));
                             ImGui.PushStyleColor(ImGuiCol.CheckMark, new Vector4(1.0f, 0.2f, 0.2f, 1.0f));
                         }
 
+                        string cellKey = $"{g}_{i}";
+                        if (HighlightedGroups.Contains(cellKey))
+                        {
+                            ImGui.PushStyleColor(ImGuiCol.Border, new Vector4(1.0f, 0.2f, 0.2f, 1.0f));
+                        }
 
-                        if (ImGui.Checkbox($@"##dispgroup{g}{i}", ref check))
+                        if (ImGui.Checkbox($@"##cell_{cellKey}", ref check))
                         {
                             if (check)
                             {
@@ -220,6 +236,24 @@ namespace StudioCore.MsbEditor
                             }
                         }
 
+                        if (HighlightedGroups.Contains(cellKey))
+                        {
+                            ImGui.PopStyleColor(1);
+                        }
+
+                        if (ImGui.IsItemHovered() && ImGui.IsMouseClicked(ImGuiMouseButton.Right))
+                        {
+                            // Toggle render group highlights
+                            if (HighlightedGroups.Contains(cellKey))
+                            {
+                                HighlightedGroups.Remove(cellKey);
+                            }
+                            else
+                            {
+                                HighlightedGroups.Add(cellKey);
+                            }
+                        }
+
                         if (drawActive || dispActive)
                         {
                             ImGui.PopStyleColor(2);
@@ -228,6 +262,7 @@ namespace StudioCore.MsbEditor
                 }
                 ImGui.EndChild();
             }
+            ImGui.PopStyleVar();
             ImGui.End();
         }
     }
