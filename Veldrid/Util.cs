@@ -178,7 +178,7 @@ namespace Veldrid
 
         internal static ulong ComputeSubresourceOffset(Texture tex, uint mipLevel, uint arrayLayer)
         {
-            Debug.Assert((tex.Usage & TextureUsage.Staging) == TextureUsage.Staging);
+            Debug.Assert(tex.Tiling == VkImageTiling.Linear);
             return ComputeArrayLayerOffset(tex, arrayLayer) + ComputeMipOffset(tex, mipLevel);
         }
 

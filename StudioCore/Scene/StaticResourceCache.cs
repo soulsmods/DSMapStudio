@@ -23,9 +23,7 @@ namespace StudioCore.Scene
 
         private static readonly Dictionary<ResourceSetDescription, ResourceSet> s_resourceSets
             = new Dictionary<ResourceSetDescription, ResourceSet>();
-
-        private static Texture _pinkTex;
-
+        
         public static readonly ResourceLayoutDescription SceneParamLayoutDescription = new ResourceLayoutDescription(
             new ResourceLayoutElementDescription("SceneParam", ResourceKind.UniformBuffer, VkShaderStageFlags.Vertex | VkShaderStageFlags.Fragment));
 
@@ -97,9 +95,6 @@ namespace StudioCore.Scene
             }
             s_textureViews.Clear();
 
-            _pinkTex?.Dispose();
-            _pinkTex = null;
-
             foreach (KeyValuePair<ResourceSetDescription, ResourceSet> kvp in s_resourceSets)
             {
                 kvp.Value.Dispose();
@@ -116,18 +111,6 @@ namespace StudioCore.Scene
             }
 
             return view;
-        }
-
-        internal static unsafe Texture GetPinkTexture(GraphicsDevice gd, ResourceFactory factory)
-        {
-            if (_pinkTex == null)
-            {
-                RgbaByte pink = RgbaByte.Pink;
-                _pinkTex = factory.CreateTexture(TextureDescription.Texture2D(1, 1, 1, 1, VkFormat.R8G8B8A8Unorm, TextureUsage.Sampled));
-                gd.UpdateTexture(_pinkTex, (IntPtr)(&pink), 4, 0, 0, 0, 1, 1, 1, 0, 0);
-            }
-
-            return _pinkTex;
         }
 
         internal static ResourceSet GetResourceSet(ResourceFactory factory, ResourceSetDescription description)

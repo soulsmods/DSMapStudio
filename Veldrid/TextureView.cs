@@ -63,7 +63,7 @@ namespace Veldrid
             var tex = description.Target;
 
             VkImageAspectFlags aspectFlags;
-            if ((description.Target.Usage & TextureUsage.DepthStencil) == TextureUsage.DepthStencil)
+            if ((description.Target.Usage & VkImageUsageFlags.DepthStencilAttachment) == VkImageUsageFlags.DepthStencilAttachment)
             {
                 aspectFlags = VkImageAspectFlags.Depth;
             }
@@ -85,7 +85,7 @@ namespace Veldrid
                     description.ArrayLayers)
             };
 
-            if ((tex.Usage & TextureUsage.Cubemap) == TextureUsage.Cubemap)
+            if ((tex.CreateFlags & VkImageCreateFlags.CubeCompatible) == VkImageCreateFlags.CubeCompatible)
             {
                 imageViewCI.viewType = description.ArrayLayers == 1 ? VkImageViewType.ImageCube : VkImageViewType.ImageCubeArray;
                 imageViewCI.subresourceRange.layerCount *= 6;

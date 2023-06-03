@@ -467,7 +467,7 @@ namespace Veldrid
         /// <param name="depthFormat">Whether the format will be used in a depth texture.</param>
         /// <returns>A <see cref="TextureSampleCount"/> value representing the maximum count that a <see cref="Texture"/> of that
         /// format can be created with.</returns>
-        public TextureSampleCount GetSampleCountLimit(VkFormat format, bool depthFormat)
+        public VkSampleCountFlags GetSampleCountLimit(VkFormat format, bool depthFormat)
         {
             VkImageUsageFlags usageFlags = VkImageUsageFlags.Sampled;
             usageFlags |= depthFormat ? VkImageUsageFlags.DepthStencilAttachment : VkImageUsageFlags.ColorAttachment;
@@ -484,26 +484,26 @@ namespace Veldrid
             VkSampleCountFlags vkSampleCounts = formatProperties.sampleCounts;
             if ((vkSampleCounts & VkSampleCountFlags.Count32) == VkSampleCountFlags.Count32)
             {
-                return TextureSampleCount.Count32;
+                return VkSampleCountFlags.Count32;
             }
             else if ((vkSampleCounts & VkSampleCountFlags.Count16) == VkSampleCountFlags.Count16)
             {
-                return TextureSampleCount.Count16;
+                return VkSampleCountFlags.Count16;
             }
             else if ((vkSampleCounts & VkSampleCountFlags.Count8) == VkSampleCountFlags.Count8)
             {
-                return TextureSampleCount.Count8;
+                return VkSampleCountFlags.Count8;
             }
             else if ((vkSampleCounts & VkSampleCountFlags.Count4) == VkSampleCountFlags.Count4)
             {
-                return TextureSampleCount.Count4;
+                return VkSampleCountFlags.Count4;
             }
             else if ((vkSampleCounts & VkSampleCountFlags.Count2) == VkSampleCountFlags.Count2)
             {
-                return TextureSampleCount.Count2;
+                return VkSampleCountFlags.Count2;
             }
 
-            return TextureSampleCount.Count1;
+            return VkSampleCountFlags.Count1;
         }
 
         /// <summary>
@@ -544,7 +544,7 @@ namespace Veldrid
             }
             else if (resource is Texture tex)
             {
-                if ((tex.Usage & TextureUsage.Staging) == 0)
+                if ((tex.Tiling & VkImageTiling.Linear) == 0)
                 {
                     throw new VeldridException("Texture must have the Staging usage flag to be mapped.");
                 }
@@ -767,7 +767,7 @@ namespace Veldrid
             uint arrayLayer)
         {
             var vkTex = texture;
-            bool isStaging = (vkTex.Usage & TextureUsage.Staging) != 0;
+            bool isStaging = vkTex.Tiling == VkImageTiling.Linear;
             if (isStaging)
             {
                 uint subresource = texture.CalculateSubresource(mipLevel, arrayLayer);
@@ -857,7 +857,7 @@ namespace Veldrid
             }
 
             uint effectiveArrayLayers = texture.ArrayLayers;
-            if ((texture.Usage & TextureUsage.Cubemap) != 0)
+            if ((texture.CreateFlags & VkImageCreateFlags.CubeCompatible) != 0)
             {
                 effectiveArrayLayers *= 6;
             }
@@ -1026,9 +1026,10 @@ namespace Veldrid
         public bool GetPixelFormatSupport(
             VkFormat format,
             VkImageType type,
-            TextureUsage usage)
+            VkImageUsageFlags usage,
+            VkImageTiling tiling)
         {
-            return GetPixelFormatSupportCore(format, type, usage, out _);
+            return GetPixelFormatSupportCore(format, type, usage, tiling, out _);
         }
 
         /// <summary>
@@ -1045,22 +1046,23 @@ namespace Veldrid
         public bool GetPixelFormatSupport(
             VkFormat format,
             VkImageType type,
-            TextureUsage usage,
+            VkImageUsageFlags usage,
+            VkImageTiling tiling,
             out PixelFormatProperties properties)
         {
-            return GetPixelFormatSupportCore(format, type, usage, out properties);
+            return GetPixelFormatSupportCore(format, type, usage, tiling, out properties);
         }
 
         private protected bool GetPixelFormatSupportCore(
             VkFormat format,
             VkImageType type,
-            TextureUsage usage,
+            VkImageUsageFlags usage,
+            VkImageTiling tiling,
             out PixelFormatProperties properties)
         {
             VkFormat vkFormat = format;
             VkImageType vkType = type;
-            VkImageTiling tiling = usage == TextureUsage.Staging ? VkImageTiling.Linear : VkImageTiling.Optimal;
-            VkImageUsageFlags vkUsage = VkFormats.VdToVkTextureUsage(usage);
+            VkImageUsageFlags vkUsage = usage;
 
             VkResult result = vkGetPhysicalDeviceImageFormatProperties(
                 _physicalDevice,
@@ -2109,7 +2111,10 @@ namespace Veldrid
             uint texWidth = Math.Max(256, width);
             uint texHeight = Math.Max(256, height);
             var newTex = ResourceFactory.CreateTexture(TextureDescription.Texture3D(
-                texWidth, texHeight, depth, 1, format, TextureUsage.Staging));
+                texWidth, texHeight, depth, 1, format, 
+                VkImageUsageFlags.None, 
+                VkImageCreateFlags.None, 
+                VkImageTiling.Linear));
             newTex.SetStagingDimensions(width, height, depth, format);
 
             return newTex;

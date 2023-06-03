@@ -405,20 +405,19 @@ namespace StudioCore.Scene
                 height = FormatHelpers.IsCompressedFormat(format) ? (uint)((height + 3) & ~0x3) : height;
 
                 bool isCubemap = (dds.dwCaps2 & DDS.DDSCAPS2.CUBEMAP) > 0;
-
-                var usage = (isCubemap) ? TextureUsage.Cubemap : 0;
-
                 uint arrayCount = isCubemap ? 6u : 1;
 
                 TextureDescription desc = new TextureDescription();
                 desc.Width = width;
                 desc.Height = height;
                 desc.MipLevels = (uint)dds.dwMipMapCount;
-                desc.SampleCount = TextureSampleCount.Count1;
+                desc.SampleCount = VkSampleCountFlags.Count1;
                 desc.ArrayLayers = arrayCount;
                 desc.Depth = 1;
                 desc.Type = VkImageType.Image2D;
-                desc.Usage = TextureUsage.Staging;
+                desc.Usage = VkImageUsageFlags.None;
+                desc.CreateFlags = VkImageCreateFlags.None;
+                desc.Tiling = VkImageTiling.Linear;
                 desc.Format = format;
 
                 _staging = d.ResourceFactory.CreateTexture(desc);
@@ -444,7 +443,9 @@ namespace StudioCore.Scene
                     }
                 }
 
-                desc.Usage = TextureUsage.Sampled | usage;
+                desc.Usage = VkImageUsageFlags.Sampled;
+                desc.CreateFlags = isCubemap ? VkImageCreateFlags.CubeCompatible : VkImageCreateFlags.None;
+                desc.Tiling = VkImageTiling.Optimal;
                 desc.ArrayLayers = 1;
                 _texture = d.ResourceFactory.CreateTexture(desc);
                 _texture.Name = name;
@@ -643,20 +644,19 @@ namespace StudioCore.Scene
                 }
 
                 bool isCubemap = (tex.Type == TPF.TexType.Cubemap);
-
-                var usage = (isCubemap) ? TextureUsage.Cubemap : 0;
-
                 uint arrayCount = isCubemap ? 6u : 1;
 
                 TextureDescription desc = new TextureDescription();
                 desc.Width = width;
                 desc.Height = height;
                 desc.MipLevels = mipCount;
-                desc.SampleCount = TextureSampleCount.Count1;
+                desc.SampleCount = VkSampleCountFlags.Count1;
                 desc.ArrayLayers = arrayCount;
                 desc.Depth = 1;
                 desc.Type = VkImageType.Image2D;
-                desc.Usage = TextureUsage.Staging;
+                desc.Usage = VkImageUsageFlags.None;
+                desc.CreateFlags = VkImageCreateFlags.None;
+                desc.Tiling = VkImageTiling.Linear;
                 desc.Format = format;
 
                 _staging = d.ResourceFactory.CreateTexture(desc);
@@ -709,7 +709,9 @@ namespace StudioCore.Scene
                     }
                 }
 
-                desc.Usage = TextureUsage.Sampled | usage;
+                desc.Usage = VkImageUsageFlags.Sampled;
+                desc.CreateFlags = isCubemap ? VkImageCreateFlags.CubeCompatible : VkImageCreateFlags.None;
+                desc.Tiling = VkImageTiling.Optimal;
                 desc.ArrayLayers = 1;
                 _texture = d.ResourceFactory.CreateTexture(desc);
                 _texture.Name = name;
@@ -724,11 +726,13 @@ namespace StudioCore.Scene
                 desc.Width = 1;
                 desc.Height = 1;
                 desc.MipLevels = 1;
-                desc.SampleCount = TextureSampleCount.Count1;
+                desc.SampleCount = VkSampleCountFlags.Count1;
                 desc.ArrayLayers = 1;
                 desc.Depth = 1;
                 desc.Type = VkImageType.Image2D;
-                desc.Usage = TextureUsage.Staging;
+                desc.Usage = VkImageUsageFlags.None;
+                desc.CreateFlags = VkImageCreateFlags.None;
+                desc.Tiling = VkImageTiling.Linear;
                 desc.Format = VkFormat.R8G8B8A8Unorm;
                 _staging = d.ResourceFactory.CreateTexture(desc);
 
@@ -747,7 +751,8 @@ namespace StudioCore.Scene
 
                 Renderer.AddBackgroundUploadTask((gd, cl) =>
                 {
-                    desc.Usage = TextureUsage.Sampled;
+                    desc.Usage = VkImageUsageFlags.Sampled;
+                    desc.Tiling = VkImageTiling.Optimal;
                     _texture = d.ResourceFactory.CreateTexture(desc);
                     _texture.Name = name;
                     cl.CopyTexture(_staging, _texture);
@@ -762,11 +767,13 @@ namespace StudioCore.Scene
                 desc.Width = 1;
                 desc.Height = 1;
                 desc.MipLevels = 1;
-                desc.SampleCount = TextureSampleCount.Count1;
+                desc.SampleCount = VkSampleCountFlags.Count1;
                 desc.ArrayLayers = 6;
                 desc.Depth = 1;
                 desc.Type = VkImageType.Image2D;
-                desc.Usage = TextureUsage.Staging;
+                desc.Usage = VkImageUsageFlags.None;
+                desc.CreateFlags = VkImageCreateFlags.None;
+                desc.Tiling = VkImageTiling.Linear;
                 desc.Format = VkFormat.R32G32B32A32Sfloat;
                 _staging = d.ResourceFactory.CreateTexture(desc);
 
@@ -789,7 +796,9 @@ namespace StudioCore.Scene
                 Renderer.AddBackgroundUploadTask((gd, cl) =>
                 {
                     desc.ArrayLayers = 1;
-                    desc.Usage = TextureUsage.Sampled | TextureUsage.Cubemap;
+                    desc.Usage = VkImageUsageFlags.Sampled;
+                    desc.CreateFlags = VkImageCreateFlags.CubeCompatible;
+                    desc.Tiling = VkImageTiling.Optimal;
                     _texture = d.ResourceFactory.CreateTexture(desc);
                     cl.CopyTexture(_staging, _texture);
                     Resident = true;
@@ -808,9 +817,14 @@ namespace StudioCore.Scene
                 _pool.DescriptorTableDirty = true;
             }
 
-            public void CreateRenderTarget(GraphicsDevice d, uint width, uint height, uint mips, uint layes, VkFormat format, TextureUsage usage)
+            public void CreateRenderTarget(GraphicsDevice d, uint width, uint height, uint mips, uint layes, VkFormat format, VkImageUsageFlags usage)
             {
-                _texture = d.ResourceFactory.CreateTexture(TextureDescription.Texture2D(width, height, mips, layes, format, usage | TextureUsage.RenderTarget));
+                _texture = d.ResourceFactory.CreateTexture(
+                    TextureDescription.Texture2D(
+                        width, height, mips, layes, format,
+                        usage | VkImageUsageFlags.ColorAttachment, 
+                        VkImageCreateFlags.None, 
+                        VkImageTiling.Optimal));
                 Resident = true;
                 _pool.DescriptorTableDirty = true;
             }

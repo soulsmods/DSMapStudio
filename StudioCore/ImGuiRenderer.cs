@@ -148,7 +148,7 @@ namespace StudioCore
 
             GraphicsPipelineDescription pd = new GraphicsPipelineDescription(
                 BlendStateDescription.SingleAlphaBlend,
-                new DepthStencilStateDescription(false, false, ComparisonKind.Always),
+                new DepthStencilStateDescription(false, false, VkCompareOp.Always),
                 new RasterizerStateDescription(VkCullModeFlags.None, VkPolygonMode.Fill, FrontFace.Clockwise, true, true),
                 VkPrimitiveTopology.TriangleList,
                 new ShaderSetDescription(
@@ -304,7 +304,9 @@ namespace StudioCore
                 1,
                 1,
                 VkFormat.R8G8B8A8Unorm,
-                TextureUsage.Sampled));
+                VkImageUsageFlags.Sampled,
+                VkImageCreateFlags.None,
+                VkImageTiling.Optimal));
             tex.Name = "ImGui.NET Font Texture";
             gd.UpdateTexture(
                 tex,

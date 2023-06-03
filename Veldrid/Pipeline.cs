@@ -45,12 +45,12 @@ namespace Veldrid
                 BlendAttachmentDescription vdDesc = description.BlendState.AttachmentStates[i];
                 var attachmentState = new VkPipelineColorBlendAttachmentState
                 {
-                    srcColorBlendFactor = VkFormats.VdToVkBlendFactor(vdDesc.SourceColorFactor),
-                    dstColorBlendFactor = VkFormats.VdToVkBlendFactor(vdDesc.DestinationColorFactor),
-                    colorBlendOp = VkFormats.VdToVkBlendOp(vdDesc.ColorFunction),
-                    srcAlphaBlendFactor = VkFormats.VdToVkBlendFactor(vdDesc.SourceAlphaFactor),
-                    dstAlphaBlendFactor = VkFormats.VdToVkBlendFactor(vdDesc.DestinationAlphaFactor),
-                    alphaBlendOp = VkFormats.VdToVkBlendOp(vdDesc.AlphaFunction),
+                    srcColorBlendFactor = vdDesc.SourceColorFactor,
+                    dstColorBlendFactor = vdDesc.DestinationColorFactor,
+                    colorBlendOp = vdDesc.ColorFunction,
+                    srcAlphaBlendFactor = vdDesc.SourceAlphaFactor,
+                    dstAlphaBlendFactor = vdDesc.DestinationAlphaFactor,
+                    alphaBlendOp = vdDesc.AlphaFunction,
                     blendEnable = vdDesc.BlendEnabled,
                     colorWriteMask = VkColorComponentFlags.R | VkColorComponentFlags.G | VkColorComponentFlags.B | VkColorComponentFlags.A
                 };
@@ -101,22 +101,22 @@ namespace Veldrid
                 sType = VkStructureType.PipelineDepthStencilStateCreateInfo,
                 depthWriteEnable = vdDssDesc.DepthWriteEnabled,
                 depthTestEnable = vdDssDesc.DepthTestEnabled,
-                depthCompareOp = VkFormats.VdToVkCompareOp(vdDssDesc.DepthComparison),
+                depthCompareOp = vdDssDesc.DepthComparison,
                 stencilTestEnable = vdDssDesc.StencilTestEnabled,
                 front = new VkStencilOpState
                 {
-                    failOp = VkFormats.VdToVkStencilOp(vdDssDesc.StencilFront.Fail),
-                    passOp = VkFormats.VdToVkStencilOp(vdDssDesc.StencilFront.Pass),
-                    depthFailOp = VkFormats.VdToVkStencilOp(vdDssDesc.StencilFront.DepthFail),
+                    failOp = vdDssDesc.StencilFront.Fail,
+                    passOp = vdDssDesc.StencilFront.Pass,
+                    depthFailOp = vdDssDesc.StencilFront.DepthFail,
                     compareMask = vdDssDesc.StencilReadMask,
                     writeMask = vdDssDesc.StencilWriteMask,
                     reference = vdDssDesc.StencilReference,
                 },
                 back = new VkStencilOpState
                 {
-                    failOp = VkFormats.VdToVkStencilOp(vdDssDesc.StencilBack.Fail),
-                    passOp = VkFormats.VdToVkStencilOp(vdDssDesc.StencilBack.Pass),
-                    depthFailOp = VkFormats.VdToVkStencilOp(vdDssDesc.StencilBack.DepthFail),
+                    failOp = vdDssDesc.StencilBack.Fail,
+                    passOp = vdDssDesc.StencilBack.Pass,
+                    depthFailOp = vdDssDesc.StencilBack.DepthFail,
                     compareMask = vdDssDesc.StencilReadMask,
                     writeMask = vdDssDesc.StencilWriteMask,
                     reference = vdDssDesc.StencilReference,
@@ -124,7 +124,7 @@ namespace Veldrid
             };
 
             // Multisample
-            VkSampleCountFlags vkSampleCount = VkFormats.VdToVkSampleCount(description.Outputs.SampleCount);
+            VkSampleCountFlags vkSampleCount = description.Outputs.SampleCount;
             var multisampleCI = new VkPipelineMultisampleStateCreateInfo
             {
                 sType = VkStructureType.PipelineMultisampleStateCreateInfo,

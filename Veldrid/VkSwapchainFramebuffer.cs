@@ -129,7 +129,9 @@ namespace Veldrid
                     1,
                     1,
                     _depthFormat.Value,
-                    TextureUsage.DepthStencil));
+                    VkImageUsageFlags.DepthStencilAttachment,
+                    VkImageCreateFlags.None,
+                    VkImageTiling.Optimal));
                 _depthAttachment = new FramebufferAttachment(depthTexture, 0);
             }
         }
@@ -157,8 +159,8 @@ namespace Veldrid
                     1,
                     1,
                     _scImageFormat,
-                    TextureUsage.RenderTarget,
-                    TextureSampleCount.Count1,
+                    VkImageUsageFlags.ColorAttachment,
+                    VkSampleCountFlags.Count1,
                     _scImages[i]);
                 FramebufferDescription desc = new FramebufferDescription(_depthAttachment?.Target, colorTex);
                 VkFramebuffer fb = new VkFramebuffer(_gd, ref desc, true);

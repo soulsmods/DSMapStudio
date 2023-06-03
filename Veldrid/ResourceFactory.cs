@@ -159,38 +159,8 @@ namespace Veldrid
         /// </summary>
         /// <param name="description">The desired properties of the created object.</param>
         /// <returns>A new <see cref="Texture"/>.</returns>
-        public virtual Texture CreateTexture(ref TextureDescription description)
+        public Texture CreateTexture(ref TextureDescription description)
         {
-#if VALIDATE_USAGE
-            if (description.Width == 0 || description.Height == 0 || description.Depth == 0)
-            {
-                throw new VeldridException("Width, Height, and Depth must be non-zero.");
-            }
-            if ((description.Format == VkFormat.D24UnormS8Uint || description.Format == VkFormat.D32SfloatS8Uint)
-                && (description.Usage & TextureUsage.DepthStencil) == 0)
-            {
-                throw new VeldridException("The givel PixelFormat can only be used in a Texture with DepthStencil usage.");
-            }
-            if ((description.Type == VkImageType.Image1D || description.Type == VkImageType.Image3D)
-                && description.SampleCount != TextureSampleCount.Count1)
-            {
-                throw new VeldridException(
-                    $"1D and 3D Textures must use {nameof(TextureSampleCount)}.{nameof(TextureSampleCount.Count1)}.");
-            }
-            if (description.Type == VkImageType.Image1D && !Features.Texture1D)
-            {
-                throw new VeldridException($"1D Textures are not supported by this device.");
-            }
-            if ((description.Usage & TextureUsage.Staging) != 0 && description.Usage != TextureUsage.Staging)
-            {
-                throw new VeldridException($"{nameof(TextureUsage)}.{nameof(TextureUsage.Staging)} cannot be combined with any other flags.");
-            }
-            if ((description.Usage & TextureUsage.DepthStencil) != 0 && (description.Usage & TextureUsage.GenerateMipmaps) != 0)
-            {
-                throw new VeldridException(
-                    $"{nameof(TextureUsage)}.{nameof(TextureUsage.DepthStencil)} and {nameof(TextureUsage)}.{nameof(TextureUsage.GenerateMipmaps)} cannot be combined.");
-            }
-#endif
             return CreateTextureCore(ref description);
         }
 
@@ -288,8 +258,8 @@ namespace Veldrid
                 throw new VeldridException(
                     "TextureView mip level and array layer range must be contained in the target Texture.");
             }
-            if ((description.Target.Usage & TextureUsage.Sampled) == 0
-                && (description.Target.Usage & TextureUsage.Storage) == 0)
+            if ((description.Target.Usage & VkImageUsageFlags.Sampled) == 0
+                && (description.Target.Usage & VkImageUsageFlags.Storage) == 0)
             {
                 throw new VeldridException(
                     "To create a TextureView, the target texture must have either Sampled or Storage usage flags.");
@@ -492,7 +462,6 @@ namespace Veldrid
         /// <returns>A new <see cref="ResourceSet"/>.</returns>
         public virtual ResourceSet CreateResourceSet(ref ResourceSetDescription description)
         {
-            ValidationHelpers.ValidateResourceSet(_gd, ref description);
             return new ResourceSet(_gd, ref description);
         }
         /// <summary>

@@ -276,7 +276,7 @@ namespace Veldrid
             foreach (FramebufferAttachment ca in ColorTargets)
             {
                 var vkTex = ca.Target;
-                if ((vkTex.Usage & TextureUsage.Sampled) != 0)
+                if ((vkTex.Usage & VkImageUsageFlags.Sampled) != 0)
                 {
                     vkTex.TransitionImageLayout(
                         cb,
@@ -288,7 +288,7 @@ namespace Veldrid
             if (DepthTarget != null)
             {
                 var vkTex = DepthTarget.Value.Target;
-                if ((vkTex.Usage & TextureUsage.Sampled) != 0)
+                if ((vkTex.Usage & VkImageUsageFlags.Sampled) != 0)
                 {
                     vkTex.TransitionImageLayout(
                         cb,

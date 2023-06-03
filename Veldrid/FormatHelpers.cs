@@ -63,6 +63,11 @@ namespace Veldrid
                 case VkFormat.R32G32Sint:
                 case VkFormat.R32G32Sfloat:
                     return 8;
+                
+                case VkFormat.R32G32B32Sfloat:
+                case VkFormat.R32G32B32Sint:
+                case VkFormat.R32G32B32Uint:
+                    return 12;
 
                 case VkFormat.R32G32B32A32Sfloat:
                 case VkFormat.R32G32B32A32Uint:
@@ -94,24 +99,24 @@ namespace Veldrid
             }
         }
 
-        public static uint GetSampleCountUInt32(TextureSampleCount sampleCount)
+        public static uint GetSampleCountUInt32(VkSampleCountFlags sampleCount)
         {
             switch (sampleCount)
             {
-                case TextureSampleCount.Count1:
+                case VkSampleCountFlags.Count1:
                     return 1;
-                case TextureSampleCount.Count2:
+                case VkSampleCountFlags.Count2:
                     return 2;
-                case TextureSampleCount.Count4:
+                case VkSampleCountFlags.Count4:
                     return 4;
-                case TextureSampleCount.Count8:
+                case VkSampleCountFlags.Count8:
                     return 8;
-                case TextureSampleCount.Count16:
+                case VkSampleCountFlags.Count16:
                     return 16;
-                case TextureSampleCount.Count32:
+                case VkSampleCountFlags.Count32:
                     return 32;
                 default:
-                    throw Illegal.Value<TextureSampleCount>();
+                    throw Illegal.Value<VkSampleCountFlags>();
             }
         }
 
@@ -313,16 +318,16 @@ namespace Veldrid
             return width * height * depth * blockSizeInBytes;
         }
 
-        public static TextureSampleCount GetSampleCount(uint samples)
+        public static VkSampleCountFlags GetSampleCount(uint samples)
         {
             switch (samples)
             {
-                case 1: return TextureSampleCount.Count1;
-                case 2: return TextureSampleCount.Count2;
-                case 4: return TextureSampleCount.Count4;
-                case 8: return TextureSampleCount.Count8;
-                case 16: return TextureSampleCount.Count16;
-                case 32: return TextureSampleCount.Count32;
+                case 1: return VkSampleCountFlags.Count1;
+                case 2: return VkSampleCountFlags.Count2;
+                case 4: return VkSampleCountFlags.Count4;
+                case 8: return VkSampleCountFlags.Count8;
+                case 16: return VkSampleCountFlags.Count16;
+                case 32: return VkSampleCountFlags.Count32;
                 default: throw new VeldridException("Unsupported multisample count: " + samples);
             }
         }

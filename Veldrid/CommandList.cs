@@ -1057,12 +1057,12 @@ namespace Veldrid
         public void ResolveTexture(Texture source, Texture destination)
         {
 #if VALIDATE_USAGE
-            if (source.SampleCount == TextureSampleCount.Count1)
+            if (source.SampleCount == VkSampleCountFlags.Count1)
             {
                 throw new VeldridException(
                     $"The {nameof(source)} parameter of {nameof(ResolveTexture)} must be a multisample texture.");
             }
-            if (destination.SampleCount != TextureSampleCount.Count1)
+            if (destination.SampleCount != VkSampleCountFlags.Count1)
             {
                 throw new VeldridException(
                     $"The {nameof(destination)} parameter of {nameof(ResolveTexture)} must be a non-multisample texture. Instead, it is a texture with {FormatHelpers.GetSampleCountUInt32(source.SampleCount)} samples.");
@@ -1088,7 +1088,7 @@ namespace Veldrid
 
             _currentStagingInfo.Resources.Add(source.RefCount);
             _currentStagingInfo.Resources.Add(destination.RefCount);
-            VkImageAspectFlags aspectFlags = ((source.Usage & TextureUsage.DepthStencil) == TextureUsage.DepthStencil)
+            VkImageAspectFlags aspectFlags = ((source.Usage & VkImageUsageFlags.DepthStencilAttachment) == VkImageUsageFlags.DepthStencilAttachment)
                 ? VkImageAspectFlags.Depth | VkImageAspectFlags.Stencil
                 : VkImageAspectFlags.Color;
             VkImageResolve region = new VkImageResolve
@@ -1110,7 +1110,7 @@ namespace Veldrid
                 1,
                 &region);
 
-            if ((destination.Usage & TextureUsage.Sampled) != 0)
+            if ((destination.Usage & VkImageUsageFlags.Sampled) != 0)
             {
                 destination.TransitionImageLayout(_cb, 0, 1, 0, 1, VkImageLayout.ShaderReadOnlyOptimal);
             }
@@ -1390,10 +1390,10 @@ namespace Veldrid
         public void CopyTexture(Texture source, Texture destination)
         {
 #if VALIDATE_USAGE
-            uint effectiveSrcArrayLayers = (source.Usage & TextureUsage.Cubemap) != 0
+            uint effectiveSrcArrayLayers = (source.CreateFlags & VkImageCreateFlags.CubeCompatible) != 0
                 ? source.ArrayLayers * 6
                 : source.ArrayLayers;
-            uint effectiveDstArrayLayers = (destination.Usage & TextureUsage.Cubemap) != 0
+            uint effectiveDstArrayLayers = (destination.CreateFlags & VkImageCreateFlags.CubeCompatible) != 0
                 ? destination.ArrayLayers * 6
                 : destination.ArrayLayers;
             if (effectiveSrcArrayLayers != effectiveDstArrayLayers || source.MipLevels != destination.MipLevels
@@ -1426,10 +1426,10 @@ namespace Veldrid
         public void CopyTexture(Texture source, Texture destination, uint mipLevel, uint arrayLayer)
         {
 #if VALIDATE_USAGE
-            uint effectiveSrcArrayLayers = (source.Usage & TextureUsage.Cubemap) != 0
+            uint effectiveSrcArrayLayers = (source.CreateFlags & VkImageCreateFlags.CubeCompatible) != 0
                 ? source.ArrayLayers * 6
                 : source.ArrayLayers;
-            uint effectiveDstArrayLayers = (destination.Usage & TextureUsage.Cubemap) != 0
+            uint effectiveDstArrayLayers = (destination.CreateFlags & VkImageCreateFlags.CubeCompatible) != 0
                 ? destination.ArrayLayers * 6
                 : destination.ArrayLayers;
             if (effectiveSrcArrayLayers != effectiveDstArrayLayers || source.MipLevels != destination.MipLevels
@@ -1514,7 +1514,7 @@ namespace Veldrid
             {
                 throw new VeldridException($"{nameof(srcMipLevel)} must be less than the number of mip levels in the source Texture.");
             }
-            uint effectiveSrcArrayLayers = (source.Usage & TextureUsage.Cubemap) != 0
+            uint effectiveSrcArrayLayers = (source.CreateFlags & VkImageCreateFlags.CubeCompatible) != 0
                 ? source.ArrayLayers * 6
                 : source.ArrayLayers;
             if (srcBaseArrayLayer + layerCount > effectiveSrcArrayLayers)
@@ -1525,7 +1525,7 @@ namespace Veldrid
             {
                 throw new VeldridException($"{nameof(dstMipLevel)} must be less than the number of mip levels in the destination Texture.");
             }
-            uint effectiveDstArrayLayers = (destination.Usage & TextureUsage.Cubemap) != 0
+            uint effectiveDstArrayLayers = (destination.CreateFlags & VkImageCreateFlags.CubeCompatible) != 0
                 ? destination.ArrayLayers * 6
                 : destination.ArrayLayers;
             if (dstBaseArrayLayer + layerCount > effectiveDstArrayLayers)
@@ -1596,12 +1596,6 @@ namespace Veldrid
         /// <see cref="TextureUsage"/>.<see cref="TextureUsage.GenerateMipmaps"/>.</param>
         public void GenerateMipmaps(Texture texture)
         {
-            if ((texture.Usage & TextureUsage.GenerateMipmaps) == 0)
-            {
-                throw new VeldridException(
-                    $"{nameof(GenerateMipmaps)} requires a target Texture with {nameof(TextureUsage)}.{nameof(TextureUsage.GenerateMipmaps)}");
-            }
-
             if (texture.MipLevels > 1)
             {
                 GenerateMipmapsCore(texture);
@@ -1654,7 +1648,7 @@ namespace Veldrid
                 blitCount, regions,
                 _gd.GetFormatFilter(texture.VkFormat));
 
-            if ((texture.Usage & TextureUsage.Sampled) != 0)
+            if ((texture.Usage & VkImageUsageFlags.Sampled) != 0)
             {
                 // This is somewhat ugly -- the transition logic does not handle different source layouts, so we do two batches.
                 texture.TransitionImageLayout(_cb, 0, 1, 0, texture.ArrayLayers, VkImageLayout.ShaderReadOnlyOptimal);
@@ -1926,7 +1920,7 @@ namespace Veldrid
                 TransitionImages(vkSet.StorageTextures, VkImageLayout.General);
                 foreach (var storageTex in vkSet.StorageTextures)
                 {
-                    if ((storageTex.Usage & TextureUsage.Sampled) != 0)
+                    if ((storageTex.Usage & VkImageUsageFlags.Sampled) != 0)
                     {
                         _preDrawSampledImages.Add(storageTex);
                     }
@@ -2088,8 +2082,8 @@ namespace Veldrid
             uint width, uint height, uint depth,
             uint layerCount)
         {
-            bool sourceIsStaging = (source.Usage & TextureUsage.Staging) == TextureUsage.Staging;
-            bool destIsStaging = (destination.Usage & TextureUsage.Staging) == TextureUsage.Staging;
+            bool sourceIsStaging = source.Tiling == VkImageTiling.Linear;
+            bool destIsStaging = destination.Tiling == VkImageTiling.Linear;
 
             if (!sourceIsStaging && !destIsStaging)
             {
@@ -2143,7 +2137,7 @@ namespace Veldrid
                     1,
                     &region);
 
-                if ((source.Usage & TextureUsage.Sampled) != 0)
+                if ((source.Usage & VkImageUsageFlags.Sampled) != 0)
                 {
                     source.TransitionImageLayout(
                         cb,
@@ -2154,7 +2148,7 @@ namespace Veldrid
                         VkImageLayout.ShaderReadOnlyOptimal);
                 }
 
-                if ((destination.Usage & TextureUsage.Sampled) != 0)
+                if ((destination.Usage & VkImageUsageFlags.Sampled) != 0)
                 {
                     destination.TransitionImageLayout(
                         cb,
@@ -2214,7 +2208,7 @@ namespace Veldrid
 
                 vkCmdCopyBufferToImage(cb, srcBuffer, dstImage, VkImageLayout.TransferDstOptimal, 1, &regions);
 
-                if ((destination.Usage & TextureUsage.Sampled) != 0)
+                if ((destination.Usage & VkImageUsageFlags.Sampled) != 0)
                 {
                     destination.TransitionImageLayout(
                         cb,
@@ -2274,7 +2268,7 @@ namespace Veldrid
 
                 vkCmdCopyImageToBuffer(cb, srcImage, VkImageLayout.TransferSrcOptimal, dstBuffer, 1, &region);
 
-                if ((source.Usage & TextureUsage.Sampled) != 0)
+                if ((source.Usage & VkImageUsageFlags.Sampled) != 0)
                 {
                     source.TransitionImageLayout(
                         cb,

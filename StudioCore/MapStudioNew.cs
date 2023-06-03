@@ -46,7 +46,7 @@ namespace StudioCore
         private event Action<int, int> _resizeHandled;
 
         private int _msaaOption = 0;
-        private TextureSampleCount? _newSampleCount;
+        private VkSampleCountFlags? _newSampleCount;
 
         // Window framebuffer
         private ResourceLayout TextureSamplerResourceLayout;
@@ -1482,7 +1482,8 @@ namespace StudioCore
             _gd.GetPixelFormatSupport(
                 VkFormat.R8G8B8A8Unorm,
                 VkImageType.Image2D,
-                TextureUsage.RenderTarget,
+                VkImageUsageFlags.ColorAttachment,
+                VkImageTiling.Optimal,
                 out PixelFormatProperties properties);
 
             TextureDescription mainColorDesc = TextureDescription.Texture2D(
@@ -1491,8 +1492,10 @@ namespace StudioCore
                 1,
                 1,
                 VkFormat.R8G8B8A8Unorm,
-                TextureUsage.RenderTarget | TextureUsage.Sampled,
-                TextureSampleCount.Count1);
+                VkImageUsageFlags.ColorAttachment | VkImageUsageFlags.Sampled,
+                VkImageCreateFlags.None,
+                VkImageTiling.Optimal,
+                VkSampleCountFlags.Count1);
             MainWindowColorTexture = factory.CreateTexture(ref mainColorDesc);
             MainWindowFramebuffer = factory.CreateFramebuffer(new FramebufferDescription(null, MainWindowColorTexture));
             //MainWindowResourceSet = factory.CreateResourceSet(new ResourceSetDescription(TextureSamplerResourceLayout, MainWindowResolvedColorView, _gd.PointSampler));
