@@ -28,8 +28,8 @@ namespace Veldrid.SPIRV
     internal struct NativeResourceElementDescription
     {
         public InteropArray Name; // InteropArray<byte>
-        public ResourceKind Kind;
+        public VkDescriptorType Kind;
         public VkShaderStageFlags Stages;
-        public ResourceLayoutElementOptions Options;
+        public VkDescriptorBindingFlags Options;
     }
 }

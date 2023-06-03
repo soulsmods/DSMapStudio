@@ -62,7 +62,7 @@ namespace StudioCore.Scene
             _allocator = new FreeListAllocator(initialSize);
 
             var layoutdesc = new ResourceLayoutDescription(
-                new ResourceLayoutElementDescription(name, ResourceKind.StructuredBufferReadWrite, stages));
+                new ResourceLayoutElementDescription(name, VkDescriptorType.StorageBuffer, stages));
             _bufferLayout = Renderer.Factory.CreateResourceLayout(layoutdesc);
             var rsdesc = new ResourceSetDescription(_bufferLayout, _backingBuffer);
             _bufferResourceSet = Renderer.Factory.CreateResourceSet(rsdesc);

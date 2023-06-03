@@ -126,8 +126,8 @@ namespace StudioCore
 
             var factory = _gd.ResourceFactory;
             TextureSamplerResourceLayout = factory.CreateResourceLayout(new ResourceLayoutDescription(
-               new ResourceLayoutElementDescription("SourceTexture", ResourceKind.TextureReadOnly, VkShaderStageFlags.Fragment),
-               new ResourceLayoutElementDescription("SourceSampler", ResourceKind.Sampler, VkShaderStageFlags.Fragment)));
+               new ResourceLayoutElementDescription("SourceTexture", VkDescriptorType.SampledImage, VkShaderStageFlags.Fragment),
+               new ResourceLayoutElementDescription("SourceSampler", VkDescriptorType.Sampler, VkShaderStageFlags.Fragment)));
 
             Scene.Renderer.Initialize(_gd);
 

@@ -392,8 +392,8 @@ namespace Veldrid
 
             for (int i = 0; i < pipelineLength; i++)
             {
-                ResourceKind pipelineKind = layout.Description.Elements[i].Kind;
-                ResourceKind setKind = layoutDesc.Elements[i].Kind;
+                var pipelineKind = layout.Description.Elements[i].Kind;
+                var setKind = layoutDesc.Elements[i].Kind;
                 if (pipelineKind != setKind)
                 {
                     throw new VeldridException(
@@ -405,16 +405,17 @@ namespace Veldrid
             {
                 throw new VeldridException(
                     $"A dynamic offset must be provided for each resource that specifies " +
-                    $"{nameof(ResourceLayoutElementOptions)}.{nameof(ResourceLayoutElementOptions.DynamicBinding)}. " +
+                    $"dynamic binding. " +
                     $"{rs.Layout.DynamicBufferCountValidation} offsets were expected, but only {dynamicOffsetsCount} were provided.");
             }
 
             uint dynamicOffsetIndex = 0;
             for (uint i = 0; i < layoutDesc.Elements.Length; i++)
             {
-                if ((layoutDesc.Elements[i].Options & ResourceLayoutElementOptions.DynamicBinding) != 0)
+                if (layoutDesc.Elements[i].Kind == VkDescriptorType.StorageBufferDynamic ||
+                    layoutDesc.Elements[i].Kind == VkDescriptorType.UniformBufferDynamic)
                 {
-                    uint requiredAlignment = layoutDesc.Elements[i].Kind == ResourceKind.UniformBuffer
+                    uint requiredAlignment = layoutDesc.Elements[i].Kind == VkDescriptorType.UniformBufferDynamic
                         ? _uniformBufferAlignment
                         : _structuredBufferAlignment;
                     uint desiredOffset = Unsafe.Add(ref dynamicOffsets, (int)dynamicOffsetIndex);
@@ -513,8 +514,8 @@ namespace Veldrid
 
             for (int i = 0; i < pipelineLength; i++)
             {
-                ResourceKind pipelineKind = layout.Description.Elements[i].Kind;
-                ResourceKind setKind = rs.Layout.Description.Elements[i].Kind;
+                var pipelineKind = layout.Description.Elements[i].Kind;
+                var setKind = rs.Layout.Description.Elements[i].Kind;
                 if (pipelineKind != setKind)
                 {
                     throw new VeldridException(

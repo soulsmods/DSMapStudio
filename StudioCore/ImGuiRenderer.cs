@@ -141,10 +141,10 @@ namespace StudioCore
             };
 
             _layout = factory.CreateResourceLayout(new ResourceLayoutDescription(
-                new ResourceLayoutElementDescription("ProjectionMatrixBuffer", ResourceKind.UniformBuffer, VkShaderStageFlags.Vertex),
-                new ResourceLayoutElementDescription("MainSampler", ResourceKind.Sampler, VkShaderStageFlags.Fragment)));
+                new ResourceLayoutElementDescription("ProjectionMatrixBuffer", VkDescriptorType.UniformBuffer, VkShaderStageFlags.Vertex),
+                new ResourceLayoutElementDescription("MainSampler", VkDescriptorType.Sampler, VkShaderStageFlags.Fragment)));
             _textureLayout = factory.CreateResourceLayout(new ResourceLayoutDescription(
-                new ResourceLayoutElementDescription("MainTexture", ResourceKind.TextureReadOnly, VkShaderStageFlags.Fragment)));
+                new ResourceLayoutElementDescription("MainTexture", VkDescriptorType.SampledImage, VkShaderStageFlags.Fragment)));
 
             GraphicsPipelineDescription pd = new GraphicsPipelineDescription(
                 BlendStateDescription.SingleAlphaBlend,

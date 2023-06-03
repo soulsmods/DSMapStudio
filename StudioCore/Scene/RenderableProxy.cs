@@ -480,13 +480,16 @@ namespace StudioCore.Scene
             ResourceLayout projViewCombinedLayout = StaticResourceCache.GetResourceLayout(
                 gd.ResourceFactory,
                 new ResourceLayoutDescription(
-                    new ResourceLayoutElementDescription("ViewProjection", ResourceKind.UniformBuffer,
+                    new ResourceLayoutElementDescription("ViewProjection", VkDescriptorType.UniformBuffer,
                         VkShaderStageFlags.Vertex)));
 
             ResourceLayout worldLayout = StaticResourceCache.GetResourceLayout(gd.ResourceFactory,
                 new ResourceLayoutDescription(
-                    new ResourceLayoutElementDescription("World", ResourceKind.UniformBuffer, VkShaderStageFlags.Vertex,
-                        ResourceLayoutElementOptions.DynamicBinding)));
+                    new ResourceLayoutElementDescription(
+                        "World", 
+                        VkDescriptorType.UniformBufferDynamic, 
+                        VkShaderStageFlags.Vertex,
+                        VkDescriptorBindingFlags.None)));
 
 
             VertexLayoutDescription[] mainVertexLayouts = new VertexLayoutDescription[]
@@ -507,13 +510,19 @@ namespace StudioCore.Scene
 
             ResourceLayout mainPerObjectLayout = StaticResourceCache.GetResourceLayout(gd.ResourceFactory,
                 new ResourceLayoutDescription(
-                    new ResourceLayoutElementDescription("WorldBuffer", ResourceKind.StructuredBufferReadWrite,
-                        VkShaderStageFlags.Vertex | VkShaderStageFlags.Fragment, ResourceLayoutElementOptions.None)));
+                    new ResourceLayoutElementDescription(
+                        "WorldBuffer", 
+                        VkDescriptorType.StorageBuffer,
+                        VkShaderStageFlags.Vertex | VkShaderStageFlags.Fragment, 
+                        VkDescriptorBindingFlags.None)));
 
             ResourceLayout texLayout = StaticResourceCache.GetResourceLayout(gd.ResourceFactory,
                 new ResourceLayoutDescription(
-                    new ResourceLayoutElementDescription("globalTextures", ResourceKind.TextureReadOnly,
-                        VkShaderStageFlags.Vertex | VkShaderStageFlags.Fragment, ResourceLayoutElementOptions.None)));
+                    new ResourceLayoutElementDescription(
+                        "globalTextures", 
+                        VkDescriptorType.SampledImage,
+                        VkShaderStageFlags.Vertex | VkShaderStageFlags.Fragment,
+                        VkDescriptorBindingFlags.None)));
 
             _perObjectResourceSet = StaticResourceCache.GetResourceSet(factory, new ResourceSetDescription(
                 mainPerObjectLayout,
@@ -1091,10 +1100,16 @@ namespace StudioCore.Scene
             ResourceLayout projViewCombinedLayout = StaticResourceCache.GetResourceLayout(
                 gd.ResourceFactory,
                 new ResourceLayoutDescription(
-                    new ResourceLayoutElementDescription("ViewProjection", ResourceKind.UniformBuffer, VkShaderStageFlags.Vertex)));
+                    new ResourceLayoutElementDescription("ViewProjection", VkDescriptorType.UniformBuffer, VkShaderStageFlags.Vertex)));
 
-            ResourceLayout worldLayout = StaticResourceCache.GetResourceLayout(gd.ResourceFactory, new ResourceLayoutDescription(
-                new ResourceLayoutElementDescription("World", ResourceKind.UniformBuffer, VkShaderStageFlags.Vertex, ResourceLayoutElementOptions.DynamicBinding)));
+            ResourceLayout worldLayout = StaticResourceCache.GetResourceLayout(
+                gd.ResourceFactory, 
+                new ResourceLayoutDescription(
+                new ResourceLayoutElementDescription(
+                    "World", 
+                    VkDescriptorType.UniformBufferDynamic, 
+                    VkShaderStageFlags.Vertex,
+                    VkDescriptorBindingFlags.None)));
 
 
             VertexLayoutDescription[] mainVertexLayouts = new VertexLayoutDescription[]
@@ -1113,11 +1128,23 @@ namespace StudioCore.Scene
                 gd.ResourceFactory,
                 StaticResourceCache.PickingResultDescription);
 
-            ResourceLayout mainPerObjectLayout = StaticResourceCache.GetResourceLayout(gd.ResourceFactory, new ResourceLayoutDescription(
-                new ResourceLayoutElementDescription("WorldBuffer", ResourceKind.StructuredBufferReadWrite, VkShaderStageFlags.Vertex | VkShaderStageFlags.Fragment, ResourceLayoutElementOptions.None)));
+            ResourceLayout mainPerObjectLayout = StaticResourceCache.GetResourceLayout(
+                gd.ResourceFactory, 
+                new ResourceLayoutDescription(
+                new ResourceLayoutElementDescription(
+                    "WorldBuffer", 
+                    VkDescriptorType.StorageBuffer, 
+                    VkShaderStageFlags.Vertex | VkShaderStageFlags.Fragment, 
+                    VkDescriptorBindingFlags.None)));
 
-            ResourceLayout texLayout = StaticResourceCache.GetResourceLayout(gd.ResourceFactory, new ResourceLayoutDescription(
-                new ResourceLayoutElementDescription("globalTextures", ResourceKind.TextureReadOnly, VkShaderStageFlags.Vertex | VkShaderStageFlags.Fragment, ResourceLayoutElementOptions.None)));
+            ResourceLayout texLayout = StaticResourceCache.GetResourceLayout(
+                gd.ResourceFactory, 
+                new ResourceLayoutDescription(
+                new ResourceLayoutElementDescription(
+                    "globalTextures", 
+                    VkDescriptorType.SampledImage, 
+                    VkShaderStageFlags.Vertex | VkShaderStageFlags.Fragment, 
+                    VkDescriptorBindingFlags.None)));
 
             _perObjectResourceSet = StaticResourceCache.GetResourceSet(factory, new ResourceSetDescription(mainPerObjectLayout,
                 Renderer.UniformBufferAllocator._backingBuffer));

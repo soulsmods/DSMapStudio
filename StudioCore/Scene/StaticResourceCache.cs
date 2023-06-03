@@ -25,10 +25,10 @@ namespace StudioCore.Scene
             = new Dictionary<ResourceSetDescription, ResourceSet>();
         
         public static readonly ResourceLayoutDescription SceneParamLayoutDescription = new ResourceLayoutDescription(
-            new ResourceLayoutElementDescription("SceneParam", ResourceKind.UniformBuffer, VkShaderStageFlags.Vertex | VkShaderStageFlags.Fragment));
+            new ResourceLayoutElementDescription("SceneParam", VkDescriptorType.UniformBuffer, VkShaderStageFlags.Vertex | VkShaderStageFlags.Fragment));
 
         public static readonly ResourceLayoutDescription PickingResultDescription = new ResourceLayoutDescription(
-            new ResourceLayoutElementDescription("PickingResult", ResourceKind.StructuredBufferReadWrite, VkShaderStageFlags.Vertex | VkShaderStageFlags.Fragment));
+            new ResourceLayoutElementDescription("PickingResult", VkDescriptorType.StorageBuffer, VkShaderStageFlags.Vertex | VkShaderStageFlags.Fragment));
 
         public static Pipeline GetPipeline(ResourceFactory factory, ref GraphicsPipelineDescription desc)
         {
