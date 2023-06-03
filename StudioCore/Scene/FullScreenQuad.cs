@@ -29,8 +29,8 @@ namespace StudioCore.Scene
                     RgbaFloat.Black,
                     BlendAttachmentDescription.OverrideBlend),
                 new DepthStencilStateDescription(true, true, ComparisonKind.Always),
-                new RasterizerStateDescription(FaceCullMode.Back, PolygonFillMode.Solid, FrontFace.Clockwise, true, false),
-                PrimitiveTopology.TriangleList,
+                new RasterizerStateDescription(VkCullModeFlags.Back, VkPolygonMode.Fill, FrontFace.Clockwise, true, false),
+                VkPrimitiveTopology.TriangleList,
                 new ShaderSetDescription(
                     new[]
                     {

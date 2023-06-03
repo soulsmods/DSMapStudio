@@ -85,7 +85,7 @@ namespace Veldrid
         /// <summary>
         /// The <see cref="TextureType"/> of this instance.
         /// </summary>
-        public TextureType Type { get; }
+        public VkImageType Type { get; }
         /// <summary>
         /// The number of samples in this instance. If this returns any value other than <see cref="TextureSampleCount.Count1"/>,
         /// then this instance is a multipsample texture.
@@ -133,7 +133,7 @@ namespace Veldrid
                     sType = VkStructureType.ImageCreateInfo,
                     mipLevels = MipLevels,
                     arrayLayers = _actualImageArrayLayers,
-                    imageType = VkFormats.VdToVkTextureType(Type),
+                    imageType = Type,
                     extent = new VkExtent3D
                     {
                         width = Width,
@@ -238,7 +238,7 @@ namespace Veldrid
             _format = VkFormat;
             ArrayLayers = arrayLayers;
             Usage = usage;
-            Type = TextureType.Texture2D;
+            Type = VkImageType.Image2D;
             SampleCount = sampleCount;
             VkSampleCount = VkFormats.VdToVkSampleCount(sampleCount);
             _optimalImage = existingImage;

@@ -1481,7 +1481,7 @@ namespace StudioCore
             var factory = _gd.ResourceFactory;
             _gd.GetPixelFormatSupport(
                 VkFormat.R8G8B8A8Unorm,
-                TextureType.Texture2D,
+                VkImageType.Image2D,
                 TextureUsage.RenderTarget,
                 out PixelFormatProperties properties);
 

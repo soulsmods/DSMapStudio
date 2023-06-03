@@ -54,7 +54,7 @@ namespace Veldrid
                 throw new VeldridException(
                     "RasterizerState.DepthClipEnabled must be true if GraphicsDeviceFeatures.DepthClipDisable is not supported.");
             }
-            if (description.RasterizerState.FillMode == PolygonFillMode.Wireframe && !Features.FillModeWireframe)
+            if (description.RasterizerState.FillMode == VkPolygonMode.Line && !Features.FillModeWireframe)
             {
                 throw new VeldridException(
                     "PolygonFillMode.Wireframe requires GraphicsDeviceFeatures.FillModeWireframe.");
@@ -171,13 +171,13 @@ namespace Veldrid
             {
                 throw new VeldridException("The givel PixelFormat can only be used in a Texture with DepthStencil usage.");
             }
-            if ((description.Type == TextureType.Texture1D || description.Type == TextureType.Texture3D)
+            if ((description.Type == VkImageType.Image1D || description.Type == VkImageType.Image3D)
                 && description.SampleCount != TextureSampleCount.Count1)
             {
                 throw new VeldridException(
                     $"1D and 3D Textures must use {nameof(TextureSampleCount)}.{nameof(TextureSampleCount.Count1)}.");
             }
-            if (description.Type == TextureType.Texture1D && !Features.Texture1D)
+            if (description.Type == VkImageType.Image1D && !Features.Texture1D)
             {
                 throw new VeldridException($"1D Textures are not supported by this device.");
             }

@@ -417,7 +417,7 @@ namespace StudioCore.Scene
                 desc.SampleCount = TextureSampleCount.Count1;
                 desc.ArrayLayers = arrayCount;
                 desc.Depth = 1;
-                desc.Type = TextureType.Texture2D;
+                desc.Type = VkImageType.Image2D;
                 desc.Usage = TextureUsage.Staging;
                 desc.Format = format;
 
@@ -655,7 +655,7 @@ namespace StudioCore.Scene
                 desc.SampleCount = TextureSampleCount.Count1;
                 desc.ArrayLayers = arrayCount;
                 desc.Depth = 1;
-                desc.Type = TextureType.Texture2D;
+                desc.Type = VkImageType.Image2D;
                 desc.Usage = TextureUsage.Staging;
                 desc.Format = format;
 
@@ -727,7 +727,7 @@ namespace StudioCore.Scene
                 desc.SampleCount = TextureSampleCount.Count1;
                 desc.ArrayLayers = 1;
                 desc.Depth = 1;
-                desc.Type = TextureType.Texture2D;
+                desc.Type = VkImageType.Image2D;
                 desc.Usage = TextureUsage.Staging;
                 desc.Format = VkFormat.R8G8B8A8Unorm;
                 _staging = d.ResourceFactory.CreateTexture(desc);
@@ -765,7 +765,7 @@ namespace StudioCore.Scene
                 desc.SampleCount = TextureSampleCount.Count1;
                 desc.ArrayLayers = 6;
                 desc.Depth = 1;
-                desc.Type = TextureType.Texture2D;
+                desc.Type = VkImageType.Image2D;
                 desc.Usage = TextureUsage.Staging;
                 desc.Format = VkFormat.R32G32B32A32Sfloat;
                 _staging = d.ResourceFactory.CreateTexture(desc);

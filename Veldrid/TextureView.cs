@@ -94,17 +94,17 @@ namespace Veldrid
             {
                 switch (tex.Type)
                 {
-                    case TextureType.Texture1D:
+                    case VkImageType.Image1D:
                         imageViewCI.viewType = description.ArrayLayers == 1
                             ? VkImageViewType.Image1D
                             : VkImageViewType.Image1DArray;
                         break;
-                    case TextureType.Texture2D:
+                    case VkImageType.Image2D:
                         imageViewCI.viewType = description.ArrayLayers == 1
                             ? VkImageViewType.Image2D
                             : VkImageViewType.Image2DArray;
                         break;
-                    case TextureType.Texture3D:
+                    case VkImageType.Image3D:
                         imageViewCI.viewType = VkImageViewType.Image3D;
                         break;
                 }

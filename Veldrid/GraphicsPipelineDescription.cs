@@ -1,4 +1,5 @@
 ﻿using System;
+using Vortice.Vulkan;
 
 namespace Veldrid
 {
@@ -23,7 +24,7 @@ namespace Veldrid
         /// The <see cref="PrimitiveTopology"/> to use, which controls how a series of input vertices is interpreted by the
         /// <see cref="Pipeline"/>.
         /// </summary>
-        public PrimitiveTopology PrimitiveTopology;
+        public VkPrimitiveTopology PrimitiveTopology;
         /// <summary>
         /// A description of the shader set to be used.
         /// </summary>
@@ -61,7 +62,7 @@ namespace Veldrid
             BlendStateDescription blendState,
             DepthStencilStateDescription depthStencilStateDescription,
             RasterizerStateDescription rasterizerState,
-            PrimitiveTopology primitiveTopology,
+            VkPrimitiveTopology primitiveTopology,
             ShaderSetDescription shaderSet,
             ResourceLayout[] resourceLayouts,
             OutputDescription outputs)
@@ -95,7 +96,7 @@ namespace Veldrid
             BlendStateDescription blendState,
             DepthStencilStateDescription depthStencilStateDescription,
             RasterizerStateDescription rasterizerState,
-            PrimitiveTopology primitiveTopology,
+            VkPrimitiveTopology primitiveTopology,
             ShaderSetDescription shaderSet,
             ResourceLayout resourceLayout,
             OutputDescription outputs)
@@ -131,7 +132,7 @@ namespace Veldrid
             BlendStateDescription blendState,
             DepthStencilStateDescription depthStencilStateDescription,
             RasterizerStateDescription rasterizerState,
-            PrimitiveTopology primitiveTopology,
+            VkPrimitiveTopology primitiveTopology,
             ShaderSetDescription shaderSet,
             ResourceLayout[] resourceLayouts,
             OutputDescription outputs,

@@ -74,8 +74,8 @@ namespace Veldrid
             var rsCI = new VkPipelineRasterizationStateCreateInfo
             {
                 sType = VkStructureType.PipelineRasterizationStateCreateInfo,
-                cullMode = VkFormats.VdToVkCullMode(rsDesc.CullMode),
-                polygonMode = VkFormats.VdToVkPolygonMode(rsDesc.FillMode),
+                cullMode = rsDesc.CullMode,
+                polygonMode = rsDesc.FillMode,
                 depthClampEnable = !rsDesc.DepthClipEnabled,
                 frontFace = rsDesc.FrontFace == FrontFace.Clockwise ? VkFrontFace.Clockwise : VkFrontFace.CounterClockwise,
                 lineWidth = 1f
@@ -136,7 +136,7 @@ namespace Veldrid
             var inputAssemblyCI = new VkPipelineInputAssemblyStateCreateInfo
             {
                 sType = VkStructureType.PipelineInputAssemblyStateCreateInfo,
-                topology = VkFormats.VdToVkPrimitiveTopology(description.PrimitiveTopology)
+                topology = description.PrimitiveTopology,
             };
 
             // Vertex Input State

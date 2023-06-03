@@ -30,21 +30,6 @@ namespace Veldrid
             return vkUsage;
         }
 
-        internal static VkImageType VdToVkTextureType(TextureType type)
-        {
-            switch (type)
-            {
-                case TextureType.Texture1D:
-                    return VkImageType.Image1D;
-                case TextureType.Texture2D:
-                    return VkImageType.Image2D;
-                case TextureType.Texture3D:
-                    return VkImageType.Image3D;
-                default:
-                    throw Illegal.Value<TextureType>();
-            }
-        }
-
         internal static VkDescriptorType VdToVkDescriptorType(ResourceKind kind, ResourceLayoutElementOptions options)
         {
             bool dynamicBinding = (options & ResourceLayoutElementOptions.DynamicBinding) != 0;
@@ -112,34 +97,6 @@ namespace Veldrid
             }
         }
 
-        internal static VkPolygonMode VdToVkPolygonMode(PolygonFillMode fillMode)
-        {
-            switch (fillMode)
-            {
-                case PolygonFillMode.Solid:
-                    return VkPolygonMode.Fill;
-                case PolygonFillMode.Wireframe:
-                    return VkPolygonMode.Line;
-                default:
-                    throw Illegal.Value<PolygonFillMode>();
-            }
-        }
-
-        internal static VkCullModeFlags VdToVkCullMode(FaceCullMode cullMode)
-        {
-            switch (cullMode)
-            {
-                case FaceCullMode.Back:
-                    return VkCullModeFlags.Back;
-                case FaceCullMode.Front:
-                    return VkCullModeFlags.Front;
-                case FaceCullMode.None:
-                    return VkCullModeFlags.None;
-                default:
-                    throw Illegal.Value<FaceCullMode>();
-            }
-        }
-
         internal static VkBlendOp VdToVkBlendOp(BlendFunction func)
         {
             switch (func)
@@ -156,25 +113,6 @@ namespace Veldrid
                     return VkBlendOp.Max;
                 default:
                     throw Illegal.Value<BlendFunction>();
-            }
-        }
-
-        internal static VkPrimitiveTopology VdToVkPrimitiveTopology(PrimitiveTopology topology)
-        {
-            switch (topology)
-            {
-                case PrimitiveTopology.TriangleList:
-                    return VkPrimitiveTopology.TriangleList;
-                case PrimitiveTopology.TriangleStrip:
-                    return VkPrimitiveTopology.TriangleStrip;
-                case PrimitiveTopology.LineList:
-                    return VkPrimitiveTopology.LineList;
-                case PrimitiveTopology.LineStrip:
-                    return VkPrimitiveTopology.LineStrip;
-                case PrimitiveTopology.PointList:
-                    return VkPrimitiveTopology.PointList;
-                default:
-                    throw Illegal.Value<PrimitiveTopology>();
             }
         }
 

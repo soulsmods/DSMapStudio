@@ -618,7 +618,7 @@ namespace StudioCore.Scene
             {
                 pipelineDescription.RasterizerState = new RasterizerStateDescription(
                     cullMode: _meshProvider.SelectedUseBackface
-                        ? ((_meshProvider.CullMode == FaceCullMode.Front) ? FaceCullMode.Back : FaceCullMode.Front)
+                        ? ((_meshProvider.CullMode == VkCullModeFlags.Front) ? VkCullModeFlags.Back : VkCullModeFlags.Front)
                         : _meshProvider.CullMode,
                     fillMode: _meshProvider.FillMode,
                     frontFace: _meshProvider.FrontFace,

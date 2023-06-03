@@ -1025,7 +1025,7 @@ namespace Veldrid
         /// <returns>True if the given combination is supported; false otherwise.</returns>
         public bool GetPixelFormatSupport(
             VkFormat format,
-            TextureType type,
+            VkImageType type,
             TextureUsage usage)
         {
             return GetPixelFormatSupportCore(format, type, usage, out _);
@@ -1044,7 +1044,7 @@ namespace Veldrid
         /// then <paramref name="properties"/> contains the limits supported by this instance.</returns>
         public bool GetPixelFormatSupport(
             VkFormat format,
-            TextureType type,
+            VkImageType type,
             TextureUsage usage,
             out PixelFormatProperties properties)
         {
@@ -1053,12 +1053,12 @@ namespace Veldrid
 
         private protected bool GetPixelFormatSupportCore(
             VkFormat format,
-            TextureType type,
+            VkImageType type,
             TextureUsage usage,
             out PixelFormatProperties properties)
         {
             VkFormat vkFormat = format;
-            VkImageType vkType = VkFormats.VdToVkTextureType(type);
+            VkImageType vkType = type;
             VkImageTiling tiling = usage == TextureUsage.Staging ? VkImageTiling.Linear : VkImageTiling.Optimal;
             VkImageUsageFlags vkUsage = VkFormats.VdToVkTextureUsage(usage);
 

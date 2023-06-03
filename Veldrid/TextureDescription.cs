@@ -43,7 +43,7 @@ namespace Veldrid
         /// <summary>
         /// The type of Texture to create.
         /// </summary>
-        public TextureType Type;
+        public VkImageType Type;
         /// <summary>
         /// The number of samples. If equal to <see cref="TextureSampleCount.Count1"/>, this instance does not describe a
         /// multisample <see cref="Texture"/>.
@@ -73,7 +73,7 @@ namespace Veldrid
             uint arrayLayers,
             VkFormat format,
             TextureUsage usage,
-            TextureType type)
+            VkImageType type)
         {
             Width = width;
             Height = height;
@@ -111,7 +111,7 @@ namespace Veldrid
             uint arrayLayers,
             VkFormat format,
             TextureUsage usage,
-            TextureType type,
+            VkImageType type,
             TextureSampleCount sampleCount)
         {
             Width = width;
@@ -153,7 +153,7 @@ namespace Veldrid
                 arrayLayers,
                 format,
                 usage,
-                TextureType.Texture1D,
+                VkImageType.Image1D,
                 TextureSampleCount.Count1);
         }
 
@@ -187,7 +187,7 @@ namespace Veldrid
                 arrayLayers,
                 format,
                 usage,
-                TextureType.Texture2D,
+                VkImageType.Image2D,
                 TextureSampleCount.Count1);
         }
 
@@ -224,7 +224,7 @@ namespace Veldrid
                 arrayLayers,
                 format,
                 usage,
-                TextureType.Texture2D,
+                VkImageType.Image2D,
                 sampleCount);
         }
 
@@ -257,7 +257,7 @@ namespace Veldrid
                 1,
                 format,
                 usage,
-                TextureType.Texture3D,
+                VkImageType.Image3D,
                 TextureSampleCount.Count1);
         }
 
