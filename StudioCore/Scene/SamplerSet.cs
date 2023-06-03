@@ -19,8 +19,8 @@ namespace StudioCore.Scene
         public static void Initialize(GraphicsDevice d)
         {
             var layoutdesc = new ResourceLayoutDescription(
-                new ResourceLayoutElementDescription("linearSampler", ResourceKind.Sampler, ShaderStages.Fragment, ResourceLayoutElementOptions.None),
-                new ResourceLayoutElementDescription("anisoLinearSampler", ResourceKind.Sampler, ShaderStages.Fragment, ResourceLayoutElementOptions.None));
+                new ResourceLayoutElementDescription("linearSampler", ResourceKind.Sampler, VkShaderStageFlags.Fragment, ResourceLayoutElementOptions.None),
+                new ResourceLayoutElementDescription("anisoLinearSampler", ResourceKind.Sampler, VkShaderStageFlags.Fragment, ResourceLayoutElementOptions.None));
             SamplersLayout = d.ResourceFactory.CreateResourceLayout(layoutdesc);
 
             _linearSampler = d.ResourceFactory.CreateSampler(new SamplerDescription(

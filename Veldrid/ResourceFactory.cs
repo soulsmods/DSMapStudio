@@ -429,22 +429,6 @@ namespace Veldrid
         /// <returns>A new <see cref="Shader"/>.</returns>
         public Shader CreateShader(ref ShaderDescription description)
         {
-#if VALIDATE_USAGE
-            if (!Features.ComputeShader && description.Stage == ShaderStages.Compute)
-            {
-                throw new VeldridException("GraphicsDevice does not support Compute Shaders.");
-            }
-            if (!Features.GeometryShader && description.Stage == ShaderStages.Geometry)
-            {
-                throw new VeldridException("GraphicsDevice does not support Compute Shaders.");
-            }
-            if (!Features.TessellationShaders
-                && (description.Stage == ShaderStages.TessellationControl
-                    || description.Stage == ShaderStages.TessellationEvaluation))
-            {
-                throw new VeldridException("GraphicsDevice does not support Tessellation Shaders.");
-            }
-#endif
             return CreateShaderCore(ref description);
         }
 

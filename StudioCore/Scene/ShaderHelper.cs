@@ -24,15 +24,15 @@ namespace StudioCore.Scene
             ResourceFactory factory,
             string setName)
         {
-            byte[] vsBytes = LoadBytecode(GraphicsBackend.Vulkan, setName, ShaderStages.Vertex);
-            byte[] fsBytes = LoadBytecode(GraphicsBackend.Vulkan, setName, ShaderStages.Fragment);
+            byte[] vsBytes = LoadBytecode(GraphicsBackend.Vulkan, setName, VkShaderStageFlags.Vertex);
+            byte[] fsBytes = LoadBytecode(GraphicsBackend.Vulkan, setName, VkShaderStageFlags.Fragment);
             bool debug = false;
 #if DEBUG
             debug = true;
 #endif
             Shader[] shaders = factory.CreateFromSpirv(
-                new ShaderDescription(ShaderStages.Vertex, vsBytes, "main", debug),
-                new ShaderDescription(ShaderStages.Fragment, fsBytes, "main", debug),
+                new ShaderDescription(VkShaderStageFlags.Vertex, vsBytes, "main", debug),
+                new ShaderDescription(VkShaderStageFlags.Fragment, fsBytes, "main", debug),
                 GetOptions(gd));
 
             Shader vs = shaders[0];
@@ -72,9 +72,9 @@ namespace StudioCore.Scene
             return specializations.ToArray();
         }
 
-        public static byte[] LoadBytecode(GraphicsBackend backend, string setName, ShaderStages stage)
+        public static byte[] LoadBytecode(GraphicsBackend backend, string setName, VkShaderStageFlags stage)
         {
-            string stageExt = stage == ShaderStages.Vertex ? "vert" : "frag";
+            string stageExt = stage == VkShaderStageFlags.Vertex ? "vert" : "frag";
             string name = setName + "." + stageExt;
 
             if (backend == GraphicsBackend.Vulkan || backend == GraphicsBackend.Direct3D11)

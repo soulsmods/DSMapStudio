@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using Vortice.Vulkan;
 
 namespace Veldrid.SPIRV
 {
@@ -52,7 +53,7 @@ namespace Veldrid.SPIRV
                         (uint)vsBytes.Length,
                         sourceTextPtr,
                         string.Empty,
-                        ShaderStages.Vertex,
+                        VkShaderStageFlags.Vertex,
                         target == CrossCompileTarget.GLSL || target == CrossCompileTarget.ESSL,
                         0,
                         null);
@@ -72,7 +73,7 @@ namespace Veldrid.SPIRV
                         (uint)fsBytes.Length,
                         sourceTextPtr,
                         string.Empty,
-                        ShaderStages.Fragment,
+                        VkShaderStageFlags.Fragment,
                         target == CrossCompileTarget.GLSL || target == CrossCompileTarget.ESSL,
                         0,
                         null);
@@ -195,7 +196,7 @@ namespace Veldrid.SPIRV
                         (uint)csBytes.Length,
                         sourceTextPtr,
                         string.Empty,
-                        ShaderStages.Compute,
+                        VkShaderStageFlags.Compute,
                         target == CrossCompileTarget.GLSL || target == CrossCompileTarget.ESSL,
                         0,
                         null);
@@ -272,7 +273,7 @@ namespace Veldrid.SPIRV
         public static unsafe SpirvCompilationResult CompileGlslToSpirv(
             string sourceText,
             string fileName,
-            ShaderStages stage,
+            VkShaderStageFlags stage,
             GlslCompileOptions options)
         {
             int sourceAsciiCount = Encoding.ASCII.GetByteCount(sourceText);
@@ -303,7 +304,7 @@ namespace Veldrid.SPIRV
             uint sourceLength,
             byte* sourceTextPtr,
             string fileName,
-            ShaderStages stage,
+            VkShaderStageFlags stage,
             bool debug,
             uint macroCount,
             NativeMacroDefinition* macros)
@@ -354,16 +355,16 @@ namespace Veldrid.SPIRV
             }
         }
 
-        private static ShadercShaderKind GetShadercKind(ShaderStages stage)
+        private static ShadercShaderKind GetShadercKind(VkShaderStageFlags stage)
         {
             switch (stage)
             {
-                case ShaderStages.Vertex: return ShadercShaderKind.Vertex;
-                case ShaderStages.Geometry: return ShadercShaderKind.Geometry;
-                case ShaderStages.TessellationControl: return ShadercShaderKind.TessellationControl;
-                case ShaderStages.TessellationEvaluation: return ShadercShaderKind.TessellationEvaluation;
-                case ShaderStages.Fragment: return ShadercShaderKind.Fragment;
-                case ShaderStages.Compute: return ShadercShaderKind.Compute;
+                case VkShaderStageFlags.Vertex: return ShadercShaderKind.Vertex;
+                case VkShaderStageFlags.Geometry: return ShadercShaderKind.Geometry;
+                case VkShaderStageFlags.TessellationControl: return ShadercShaderKind.TessellationControl;
+                case VkShaderStageFlags.TessellationEvaluation: return ShadercShaderKind.TessellationEvaluation;
+                case VkShaderStageFlags.Fragment: return ShadercShaderKind.Fragment;
+                case VkShaderStageFlags.Compute: return ShadercShaderKind.Compute;
                 default: throw new SpirvCompilationException($"Invalid shader stage: {stage}");
             }
         }

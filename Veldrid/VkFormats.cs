@@ -176,31 +176,6 @@ namespace Veldrid
             }
         }
 
-        internal static VkShaderStageFlags VdToVkShaderStages(ShaderStages stage)
-        {
-            VkShaderStageFlags ret = VkShaderStageFlags.None;
-
-            if ((stage & ShaderStages.Vertex) == ShaderStages.Vertex)
-                ret |= VkShaderStageFlags.Vertex;
-
-            if ((stage & ShaderStages.Geometry) == ShaderStages.Geometry)
-                ret |= VkShaderStageFlags.Geometry;
-
-            if ((stage & ShaderStages.TessellationControl) == ShaderStages.TessellationControl)
-                ret |= VkShaderStageFlags.TessellationControl;
-
-            if ((stage & ShaderStages.TessellationEvaluation) == ShaderStages.TessellationEvaluation)
-                ret |= VkShaderStageFlags.TessellationEvaluation;
-
-            if ((stage & ShaderStages.Fragment) == ShaderStages.Fragment)
-                ret |= VkShaderStageFlags.Fragment;
-
-            if ((stage & ShaderStages.Compute) == ShaderStages.Compute)
-                ret |= VkShaderStageFlags.Compute;
-
-            return ret;
-        }
-
         internal static VkCompareOp VdToVkCompareOp(ComparisonKind comparisonKind)
         {
             switch (comparisonKind)

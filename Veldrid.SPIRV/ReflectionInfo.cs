@@ -29,7 +29,7 @@ namespace Veldrid.SPIRV
     {
         public InteropArray Name; // InteropArray<byte>
         public ResourceKind Kind;
-        public ShaderStages Stages;
+        public VkShaderStageFlags Stages;
         public ResourceLayoutElementOptions Options;
     }
 }

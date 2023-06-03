@@ -51,7 +51,7 @@ namespace StudioCore.Scene
             _allocator = new FreeListAllocator(initialSize);
         }
 
-        public GPUBufferAllocator(string name, uint initialSize, BufferUsage usage, uint stride, ShaderStages stages)
+        public GPUBufferAllocator(string name, uint initialSize, BufferUsage usage, uint stride, VkShaderStageFlags stages)
         {
             BufferDescription desc = new BufferDescription(
                 initialSize, usage, stride);

@@ -1,4 +1,5 @@
 ﻿using System;
+using Vortice.Vulkan;
 
 namespace Veldrid
 {
@@ -18,7 +19,7 @@ namespace Veldrid
         /// <summary>
         /// The <see cref="ShaderStages"/> in which this element is used.
         /// </summary>
-        public ShaderStages Stages;
+        public VkShaderStageFlags Stages;
         /// <summary>
         /// Miscellaneous resource options for this element.
         /// </summary>
@@ -34,7 +35,7 @@ namespace Veldrid
         /// <param name="name">The name of the element.</param>
         /// <param name="kind">The kind of resource.</param>
         /// <param name="stages">The <see cref="ShaderStages"/> in which this element is used.</param>
-        public ResourceLayoutElementDescription(string name, ResourceKind kind, ShaderStages stages)
+        public ResourceLayoutElementDescription(string name, ResourceKind kind, VkShaderStageFlags stages)
         {
             Name = name;
             Kind = kind;
@@ -54,7 +55,7 @@ namespace Veldrid
         public ResourceLayoutElementDescription(
             string name, 
             ResourceKind kind, 
-            ShaderStages stages,
+            VkShaderStageFlags stages,
             ResourceLayoutElementOptions options,
             uint descCount)
         {
@@ -75,7 +76,7 @@ namespace Veldrid
         public ResourceLayoutElementDescription(
             string name,
             ResourceKind kind,
-            ShaderStages stages,
+            VkShaderStageFlags stages,
             ResourceLayoutElementOptions options)
         {
             Name = name;

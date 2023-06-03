@@ -4,15 +4,16 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Vortice.Vulkan;
 
 namespace Veldrid.SPIRV
 {
     public class VariantStageDescription
     {
-        public ShaderStages Stage { get; }
+        public VkShaderStageFlags Stage { get; }
         public string FileName { get; }
 
-        public VariantStageDescription(ShaderStages stage, string fileName)
+        public VariantStageDescription(VkShaderStageFlags stage, string fileName)
         {
             Stage = stage;
             FileName = fileName;
@@ -57,8 +58,8 @@ namespace Veldrid.SPIRV
         {
             if (variant.Shaders.Length == 1)
             {
-                if (variant.Shaders[0].Stage == ShaderStages.Vertex) { return CompileVertexFragment(variant); }
-                if (variant.Shaders[0].Stage == ShaderStages.Compute) { return CompileCompute(variant); }
+                if (variant.Shaders[0].Stage == VkShaderStageFlags.Vertex) { return CompileVertexFragment(variant); }
+                if (variant.Shaders[0].Stage == VkShaderStageFlags.Compute) { return CompileCompute(variant); }
             }
             if (variant.Shaders.Length == 2)
             {
@@ -66,8 +67,8 @@ namespace Veldrid.SPIRV
                 bool hasFragment = false;
                 foreach (var shader in variant.Shaders)
                 {
-                    hasVertex |= shader.Stage == ShaderStages.Vertex;
-                    hasFragment |= shader.Stage == ShaderStages.Fragment;
+                    hasVertex |= shader.Stage == VkShaderStageFlags.Vertex;
+                    hasFragment |= shader.Stage == VkShaderStageFlags.Fragment;
                 }
 
                 if (!hasVertex)
@@ -95,12 +96,12 @@ namespace Veldrid.SPIRV
             byte[] vsBytes = null;
             byte[] fsBytes = null;
 
-            string vertexFileName = variant.Shaders.FirstOrDefault(vsd => vsd.Stage == ShaderStages.Vertex)?.FileName;
+            string vertexFileName = variant.Shaders.FirstOrDefault(vsd => vsd.Stage == VkShaderStageFlags.Vertex)?.FileName;
             if (vertexFileName != null)
             {
                 try
                 {
-                    vsBytes = CompileToSpirv(variant, vertexFileName, ShaderStages.Vertex);
+                    vsBytes = CompileToSpirv(variant, vertexFileName, VkShaderStageFlags.Vertex);
                     //string spvPath = Path.Combine(_outputPath, $"{variant.Name}_{ShaderStages.Vertex.ToString()}.spv");
                     string spvPath = Path.Combine(_outputPath, $"{variant.Name}.vert.spv");
                     File.WriteAllBytes(spvPath, vsBytes);
@@ -112,12 +113,12 @@ namespace Veldrid.SPIRV
                 }
             }
 
-            string fragmentFileName = variant.Shaders.FirstOrDefault(vsd => vsd.Stage == ShaderStages.Fragment)?.FileName;
+            string fragmentFileName = variant.Shaders.FirstOrDefault(vsd => vsd.Stage == VkShaderStageFlags.Fragment)?.FileName;
             if (fragmentFileName != null)
             {
                 try
                 {
-                    fsBytes = CompileToSpirv(variant, fragmentFileName, ShaderStages.Fragment);
+                    fsBytes = CompileToSpirv(variant, fragmentFileName, VkShaderStageFlags.Fragment);
                     //string spvPath = Path.Combine(_outputPath, $"{variant.Name}_{ShaderStages.Fragment.ToString()}.spv");
                     string spvPath = Path.Combine(_outputPath, $"{variant.Name}.frag.spv");
                     File.WriteAllBytes(spvPath, fsBytes);
@@ -210,7 +211,7 @@ namespace Veldrid.SPIRV
         private byte[] CompileToSpirv(
             ShaderVariantDescription variant,
             string fileName,
-            ShaderStages stage)
+            VkShaderStageFlags stage)
         {
             GlslCompileOptions glslOptions = GetOptions(variant);
             string glsl = LoadGlsl(fileName);
@@ -246,8 +247,8 @@ namespace Veldrid.SPIRV
         private string[] CompileCompute(ShaderVariantDescription variant)
         {
             List<string> generatedFiles = new List<string>();
-            byte[] csBytes = CompileToSpirv(variant, variant.Shaders[0].FileName, ShaderStages.Compute);
-            string spvPath = Path.Combine(_outputPath, $"{variant.Name}_{ShaderStages.Compute.ToString()}.spv");
+            byte[] csBytes = CompileToSpirv(variant, variant.Shaders[0].FileName, VkShaderStageFlags.Compute);
+            string spvPath = Path.Combine(_outputPath, $"{variant.Name}_{VkShaderStageFlags.Compute.ToString()}.spv");
             File.WriteAllBytes(spvPath, csBytes);
             generatedFiles.Add(spvPath);
 

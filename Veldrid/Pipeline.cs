@@ -230,7 +230,7 @@ namespace Veldrid
                 {
                     sType = VkStructureType.PipelineShaderStageCreateInfo,
                     module = shader.ShaderModule,
-                    stage = VkFormats.VdToVkShaderStages(shader.Stage),
+                    stage = shader.Stage,
                     pName = new FixedUtf8String(shader.EntryPoint), // TODO: DONT ALLOCATE HERE
                     pSpecializationInfo = &specializationInfo
                 };
@@ -428,7 +428,7 @@ namespace Veldrid
             Shader shader = description.ComputeShader;
             VkPipelineShaderStageCreateInfo stageCI = new VkPipelineShaderStageCreateInfo();
             stageCI.module = shader.ShaderModule;
-            stageCI.stage = VkFormats.VdToVkShaderStages(shader.Stage);
+            stageCI.stage = shader.Stage;
             stageCI.pName = CommonStrings.main; // Meh
             stageCI.pSpecializationInfo = &specializationInfo;
             pipelineCI.stage = stageCI;

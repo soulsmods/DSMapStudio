@@ -27,10 +27,10 @@ namespace StudioCore.Scene
         private static Texture _pinkTex;
 
         public static readonly ResourceLayoutDescription SceneParamLayoutDescription = new ResourceLayoutDescription(
-            new ResourceLayoutElementDescription("SceneParam", ResourceKind.UniformBuffer, ShaderStages.Vertex | ShaderStages.Fragment));
+            new ResourceLayoutElementDescription("SceneParam", ResourceKind.UniformBuffer, VkShaderStageFlags.Vertex | VkShaderStageFlags.Fragment));
 
         public static readonly ResourceLayoutDescription PickingResultDescription = new ResourceLayoutDescription(
-            new ResourceLayoutElementDescription("PickingResult", ResourceKind.StructuredBufferReadWrite, ShaderStages.Vertex | ShaderStages.Fragment));
+            new ResourceLayoutElementDescription("PickingResult", ResourceKind.StructuredBufferReadWrite, VkShaderStageFlags.Vertex | VkShaderStageFlags.Fragment));
 
         public static Pipeline GetPipeline(ResourceFactory factory, ref GraphicsPipelineDescription desc)
         {

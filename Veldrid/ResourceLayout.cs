@@ -51,7 +51,7 @@ namespace Veldrid
                     binding = i,
                     descriptorCount = elements[i].DescriptorCount,
                     descriptorType = descriptorType,
-                    stageFlags = VkFormats.VdToVkShaderStages(elements[i].Stages)
+                    stageFlags = elements[i].Stages
                 };
                 if ((elements[i].Options & ResourceLayoutElementOptions.DynamicBinding) != 0)
                 {
