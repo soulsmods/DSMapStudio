@@ -7,6 +7,7 @@ using Veldrid;
 using StudioCore.Memory;
 using System.Collections.Concurrent;
 using System.Threading;
+using Vortice.Vulkan;
 
 namespace StudioCore.Scene
 {
@@ -100,7 +101,7 @@ namespace StudioCore.Scene
             cl.SetVertexBuffer(0, _backingBuffer);
         }
 
-        public void BindAsIndexBuffer(CommandList cl, IndexFormat indexformat)
+        public void BindAsIndexBuffer(CommandList cl, VkIndexType indexformat)
         {
             cl.SetIndexBuffer(_backingBuffer, indexformat);
         }
@@ -379,7 +380,7 @@ namespace StudioCore.Scene
             return true;
         }
 
-        public bool BindAsIndexBuffer(CommandList cl, int index, IndexFormat indexformat)
+        public bool BindAsIndexBuffer(CommandList cl, int index, VkIndexType indexformat)
         {
             if (_buffers[index] == null)
             {

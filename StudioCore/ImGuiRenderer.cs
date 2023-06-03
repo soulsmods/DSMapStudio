@@ -589,7 +589,7 @@ namespace StudioCore
             }
 
             cl.SetVertexBuffer(0, _vertexBuffer);
-            cl.SetIndexBuffer(_indexBuffer, IndexFormat.UInt16);
+            cl.SetIndexBuffer(_indexBuffer, VkIndexType.Uint16);
             cl.SetPipeline(_pipeline);
             cl.SetGraphicsResourceSet(0, _mainResourceSet);
 

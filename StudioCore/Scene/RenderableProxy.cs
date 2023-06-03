@@ -14,6 +14,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Threading;
 using SoulsFormats;
+using Vortice.Vulkan;
 
 namespace StudioCore.Scene
 {
@@ -570,7 +571,7 @@ namespace StudioCore.Scene
             meshcomp._indirectArgs.IndexCount = (uint)_meshProvider.IndexCount;
 
             // Rest of draw parameters
-            meshcomp._indexFormat = _meshProvider.Is32Bit ? IndexFormat.UInt32 : IndexFormat.UInt16;
+            meshcomp._indexFormat = _meshProvider.Is32Bit ? VkIndexType.Uint32 : VkIndexType.Uint16;
             meshcomp._objectResourceSet = _perObjectResourceSet;
             meshcomp._bufferIndex = geombuffer.BufferIndex;
 
@@ -1169,7 +1170,7 @@ namespace StudioCore.Scene
             meshcomp._indirectArgs.IndexCount = geombuffer.IAllocationSize / (_debugPrimitive.Is32Bit ? 4u : 2u);
 
             // Rest of draw parameters
-            meshcomp._indexFormat = _debugPrimitive.Is32Bit ? IndexFormat.UInt32 : IndexFormat.UInt16;
+            meshcomp._indexFormat = _debugPrimitive.Is32Bit ? VkIndexType.Uint32 : VkIndexType.Uint16;
             meshcomp._objectResourceSet = _perObjectResourceSet;
             meshcomp._bufferIndex = geombuffer.BufferIndex;
 

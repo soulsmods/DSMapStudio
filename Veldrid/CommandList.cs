@@ -39,7 +39,7 @@ namespace Veldrid
 
 #if VALIDATE_USAGE
         private DeviceBuffer _indexBuffer;
-        private IndexFormat _indexFormat;
+        private VkIndexType _indexFormat;
 #endif
         
         private readonly GraphicsDevice _gd;
@@ -294,7 +294,7 @@ namespace Veldrid
         /// </summary>
         /// <param name="buffer">The new <see cref="DeviceBuffer"/>.</param>
         /// <param name="format">The format of data in the <see cref="DeviceBuffer"/>.</param>
-        public void SetIndexBuffer(DeviceBuffer buffer, IndexFormat format)
+        public void SetIndexBuffer(DeviceBuffer buffer, VkIndexType format)
         {
             SetIndexBuffer(buffer, format, 0);
         }
@@ -307,7 +307,7 @@ namespace Veldrid
         /// <param name="format">The format of data in the <see cref="DeviceBuffer"/>.</param>
         /// <param name="offset">The offset from the start of the buffer, in bytes, from which data will start to be read.
         /// </param>
-        public void SetIndexBuffer(DeviceBuffer buffer, IndexFormat format, uint offset)
+        public void SetIndexBuffer(DeviceBuffer buffer, VkIndexType format, uint offset)
         {
 #if VALIDATE_USAGE
             if ((buffer.Usage & BufferUsage.IndexBuffer) == 0)
@@ -321,9 +321,9 @@ namespace Veldrid
             SetIndexBufferCore(buffer, format, offset);
         }
 
-        private void SetIndexBufferCore(DeviceBuffer buffer, IndexFormat format, uint offset)
+        private void SetIndexBufferCore(DeviceBuffer buffer, VkIndexType format, uint offset)
         {
-            vkCmdBindIndexBuffer(_cb, buffer.Buffer, offset, VkFormats.VdToVkIndexFormat(format));
+            vkCmdBindIndexBuffer(_cb, buffer.Buffer, offset, format);
             _currentStagingInfo.Resources.Add(buffer.RefCount);
         }
         
@@ -2464,7 +2464,7 @@ namespace Veldrid
                 throw new VeldridException($"An index buffer must be bound before {nameof(CommandList)}.{nameof(DrawIndexed)} can be called.");
             }
 
-            uint indexFormatSize = _indexFormat == IndexFormat.UInt16 ? 2u : 4u;
+            uint indexFormatSize = _indexFormat == VkIndexType.Uint16 ? 2u : 4u;
             uint bytesNeeded = indexCount * indexFormatSize;
             if (_indexBuffer.SizeInBytes < bytesNeeded)
             {

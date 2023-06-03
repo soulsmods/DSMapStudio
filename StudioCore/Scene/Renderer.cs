@@ -11,6 +11,7 @@ using Veldrid;
 using Veldrid.Sdl2;
 using System.Security.Policy;
 using System.Security.Cryptography;
+using Vortice.Vulkan;
 
 namespace StudioCore.Scene
 {
@@ -57,7 +58,7 @@ namespace StudioCore.Scene
             {
                 public Pipeline _pipeline;
                 public ResourceSet _objectRS;
-                public IndexFormat _indexFormat;
+                public VkIndexType _indexFormat;
                 public uint _batchStart;
                 public int _bufferIndex;
             }
@@ -104,7 +105,7 @@ namespace StudioCore.Scene
             /// <param name="p">The pipeline to use with rendering</param>
             /// <param name="instanceData">Per instance data resource set</param>
             /// <param name="indexf">Format of the indices (16 or 32-bit)</param>
-            public void AddDraw(ref IndirectDrawIndexedArgumentsPacked args, int buffer, Pipeline p, ResourceSet instanceData, IndexFormat indexf)
+            public void AddDraw(ref IndirectDrawIndexedArgumentsPacked args, int buffer, Pipeline p, ResourceSet instanceData, VkIndexType indexf)
             {
                 // Encode the draw
                 if (_indirectDrawCount[_stagingSet] >= _indirectStagingBuffer.Length)

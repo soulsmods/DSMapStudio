@@ -4,6 +4,7 @@ using System.Text;
 using System.Numerics;
 using Veldrid;
 using Veldrid.Utilities;
+using Vortice.Vulkan;
 
 namespace StudioCore.Scene
 {
@@ -62,7 +63,7 @@ namespace StudioCore.Scene
         {
             cl.SetPipeline(_pipeline);
             cl.SetVertexBuffer(0, _vb);
-            cl.SetIndexBuffer(_ib, IndexFormat.UInt16);
+            cl.SetIndexBuffer(_ib, VkIndexType.Uint16);
             cl.DrawIndexed(6, 1, 0, 0, 0);
         }
 
