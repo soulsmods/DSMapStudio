@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Numerics;
 using Veldrid;
 using Veldrid.Utilities;
+using Vortice.Vulkan;
 
 namespace StudioCore.Scene
 {
@@ -51,7 +52,12 @@ namespace StudioCore.Scene
             var factory = device.ResourceFactory;
 
             // Setup scene param uniform buffer
-            SceneParamBuffer = factory.CreateBuffer(new BufferDescription((uint)sizeof(SceneParam), BufferUsage.UniformBuffer));
+            SceneParamBuffer = factory.CreateBuffer(
+                new BufferDescription(
+                    (uint)sizeof(SceneParam), 
+                    VkBufferUsageFlags.UniformBuffer,
+                    VmaMemoryUsage.AutoPreferDevice,
+                    0));
             SceneParams = new SceneParam();
             SceneParams.Projection = Utils.CreatePerspective(device, true, CFG.Current.GFX_Camera_FOV * (float)Math.PI / 180.0f, (float)width / (float)height, 0.1f, 2000.0f);
             SceneParams.View = Matrix4x4.CreateLookAt(new Vector3(0.0f, 2.0f, 0.0f), new Vector3(1.0f, 2.0f, 0.0f), Vector3.UnitY);
@@ -75,7 +81,14 @@ namespace StudioCore.Scene
                 SceneParamBuffer));
 
             // Setup picking uniform buffer
-            PickingResultsBuffer = factory.CreateBuffer(new BufferDescription((uint)sizeof(PickingResult), BufferUsage.StructuredBufferReadWrite, (uint)sizeof(PickingResult)));
+            PickingResultsBuffer = factory.CreateBuffer(
+                new BufferDescription(
+                    (uint)sizeof(PickingResult), 
+                    VkBufferUsageFlags.StorageBuffer, 
+                    VmaMemoryUsage.AutoPreferDevice,
+                    0,
+                    (uint)sizeof(PickingResult)
+                ));
             PickingResult = new PickingResult();
             PickingResult.depth = 0;// int.MaxValue;
             PickingResult.entityID = ulong.MaxValue;
@@ -86,7 +99,12 @@ namespace StudioCore.Scene
             PickingResultResourceSet = StaticResourceCache.GetResourceSet(device.ResourceFactory, new ResourceSetDescription(pickingResultLayout,
                 PickingResultsBuffer));
 
-            PickingResultReadbackBuffer = factory.CreateBuffer(new BufferDescription((uint)sizeof(PickingResult), BufferUsage.Staging));
+            PickingResultReadbackBuffer = factory.CreateBuffer(
+                new BufferDescription(
+                    (uint)sizeof(PickingResult), 
+                    VkBufferUsageFlags.None,
+                    VmaMemoryUsage.AutoPreferHost,
+                    VmaAllocationCreateFlags.Mapped));
             device.UpdateBuffer(PickingResultReadbackBuffer, 0, ref PickingResult, (uint)sizeof(PickingResult));
 
             _renderQueue = new Renderer.RenderQueue("Viewport Render", device, this);

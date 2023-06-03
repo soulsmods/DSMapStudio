@@ -527,8 +527,7 @@ namespace Veldrid
 #if VALIDATE_USAGE
             if (resource is DeviceBuffer buffer)
             {
-                if ((buffer.Usage & BufferUsage.Dynamic) != BufferUsage.Dynamic
-                    && (buffer.Usage & BufferUsage.Staging) != BufferUsage.Staging)
+                if (buffer.MemoryUsage != VmaMemoryUsage.AutoPreferHost)
                 {
                     throw new VeldridException("Buffers must have the Staging or Dynamic usage flag to be mapped.");
                 }
@@ -536,10 +535,10 @@ namespace Veldrid
                 {
                     throw new VeldridException("Subresource must be 0 for Buffer resources.");
                 }
-                if ((mode == MapMode.Read || mode == MapMode.ReadWrite) && (buffer.Usage & BufferUsage.Staging) == 0)
+                if ((mode == MapMode.Read || mode == MapMode.ReadWrite) && (buffer.MemoryUsage != VmaMemoryUsage.AutoPreferHost))
                 {
                     throw new VeldridException(
-                        $"{nameof(MapMode)}.{nameof(MapMode.Read)} and {nameof(MapMode)}.{nameof(MapMode.ReadWrite)} can only be used on buffers created with {nameof(BufferUsage)}.{nameof(BufferUsage.Staging)}.");
+                        $"{nameof(MapMode)}.{nameof(MapMode.Read)} and {nameof(MapMode)}.{nameof(MapMode.ReadWrite)} can only be used on buffers created with host visible mapping");
                 }
             }
             else if (resource is Texture tex)
@@ -2137,7 +2136,11 @@ namespace Veldrid
 
             uint newBufferSize = Math.Max(MinStagingBufferSize, size);
             var newBuffer = ResourceFactory.CreateBuffer(
-                new BufferDescription(newBufferSize, BufferUsage.Staging));
+                new BufferDescription(
+                    newBufferSize,
+                    VkBufferUsageFlags.None,
+                    VmaMemoryUsage.AutoPreferHost,
+                    VmaAllocationCreateFlags.Mapped));
             return newBuffer;
         }
 

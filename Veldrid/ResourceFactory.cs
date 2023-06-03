@@ -307,47 +307,6 @@ namespace Veldrid
         /// <returns>A new <see cref="DeviceBuffer"/>.</returns>
         public DeviceBuffer CreateBuffer(ref BufferDescription description)
         {
-#if VALIDATE_USAGE
-            BufferUsage usage = description.Usage;
-            if ((usage & BufferUsage.StructuredBufferReadOnly) == BufferUsage.StructuredBufferReadOnly
-                || (usage & BufferUsage.StructuredBufferReadWrite) == BufferUsage.StructuredBufferReadWrite)
-            {
-                if (!Features.StructuredBuffer)
-                {
-                    throw new VeldridException("GraphicsDevice does not support structured buffers.");
-                }
-
-                if (description.StructureByteStride == 0)
-                {
-                    throw new VeldridException("Structured Buffer objects must have a non-zero StructureByteStride.");
-                }
-
-                if ((usage & BufferUsage.StructuredBufferReadWrite) != 0 && usage != BufferUsage.StructuredBufferReadWrite)
-                {
-                    throw new VeldridException(
-                        $"{nameof(BufferUsage)}.{nameof(BufferUsage.StructuredBufferReadWrite)} cannot be combined with any other flag.");
-                }
-                else if ((usage & BufferUsage.VertexBuffer) != 0
-                    || (usage & BufferUsage.IndexBuffer) != 0
-                    || (usage & BufferUsage.IndirectBuffer) != 0)
-                {
-                    throw new VeldridException(
-                        $"Read-Only Structured Buffer objects cannot specify {nameof(BufferUsage)}.{nameof(BufferUsage.VertexBuffer)}, {nameof(BufferUsage)}.{nameof(BufferUsage.IndexBuffer)}, or {nameof(BufferUsage)}.{nameof(BufferUsage.IndirectBuffer)}.");
-                }
-            }
-            else if (description.StructureByteStride != 0)
-            {
-                throw new VeldridException("Non-structured Buffers must have a StructureByteStride of zero.");
-            }
-            if ((usage & BufferUsage.Staging) != 0 && usage != BufferUsage.Staging)
-            {
-                throw new VeldridException("Buffers with Staging Usage must not specify any other Usage flags.");
-            }
-            if ((usage & BufferUsage.UniformBuffer) != 0 && (description.SizeInBytes % 16) != 0)
-            {
-                throw new VeldridException($"Uniform buffer size must be a multiple of 16 bytes.");
-            }
-#endif
             return CreateBufferCore(ref description);
         }
 
@@ -357,7 +316,12 @@ namespace Veldrid
         /// <returns></returns>
         protected virtual DeviceBuffer CreateBufferCore(ref BufferDescription description)
         {
-            return new DeviceBuffer(_gd, description.SizeInBytes, description.Usage);
+            return new DeviceBuffer(
+                _gd, 
+                description.SizeInBytes, 
+                description.Usage,
+                description.MemoryUsage,
+                description.AllocationFlags);
         }
         
         /// <summary>

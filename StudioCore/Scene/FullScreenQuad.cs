@@ -46,11 +46,20 @@ namespace StudioCore.Scene
 
             float[] verts = Utils.GetFullScreenQuadVerts(gd);
 
-            _vb = factory.CreateBuffer(new BufferDescription((uint)verts.Length * sizeof(float), BufferUsage.VertexBuffer));
+            _vb = factory.CreateBuffer(
+                new BufferDescription(
+                    (uint)verts.Length * sizeof(float),
+                    VkBufferUsageFlags.VertexBuffer,
+                    VmaMemoryUsage.AutoPreferDevice,
+                    0));
             cl.UpdateBuffer(_vb, 0, verts);
 
             _ib = factory.CreateBuffer(
-                new BufferDescription((uint)s_quadIndices.Length * sizeof(ushort), BufferUsage.IndexBuffer));
+                new BufferDescription(
+                    (uint)s_quadIndices.Length * sizeof(ushort),
+                    VkBufferUsageFlags.IndexBuffer,
+                    VmaMemoryUsage.AutoPreferDevice,
+                    0));
             cl.UpdateBuffer(_ib, 0, s_quadIndices);
         }
 

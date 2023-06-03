@@ -120,12 +120,27 @@ namespace StudioCore
             _gd = gd;
             _colorSpaceHandling = colorSpaceHandling;
             ResourceFactory factory = gd.ResourceFactory;
-            _vertexBuffer = factory.CreateBuffer(new BufferDescription(10000, BufferUsage.VertexBuffer | BufferUsage.Dynamic));
+            _vertexBuffer = factory.CreateBuffer(
+                new BufferDescription(
+                    10000,
+                    VkBufferUsageFlags.VertexBuffer, 
+                    VmaMemoryUsage.AutoPreferHost,
+                    VmaAllocationCreateFlags.Mapped));
             _vertexBuffer.Name = "ImGui.NET Vertex Buffer";
-            _indexBuffer = factory.CreateBuffer(new BufferDescription(2000, BufferUsage.IndexBuffer | BufferUsage.Dynamic));
+            _indexBuffer = factory.CreateBuffer(
+                new BufferDescription(
+                    2000, 
+                    VkBufferUsageFlags.IndexBuffer,
+                    VmaMemoryUsage.AutoPreferHost,
+                    VmaAllocationCreateFlags.Mapped));
             _indexBuffer.Name = "ImGui.NET Index Buffer";
 
-            _projMatrixBuffer = factory.CreateBuffer(new BufferDescription(64, BufferUsage.UniformBuffer | BufferUsage.Dynamic));
+            _projMatrixBuffer = factory.CreateBuffer(
+                new BufferDescription(
+                    64,
+                    VkBufferUsageFlags.UniformBuffer,
+                    VmaMemoryUsage.AutoPreferHost,
+                    VmaAllocationCreateFlags.Mapped));
             _projMatrixBuffer.Name = "ImGui.NET Projection Buffer";
 
             var res = StaticResourceCache.GetShaders(gd, gd.ResourceFactory, "imgui").ToTuple();
@@ -504,14 +519,22 @@ namespace StudioCore
             if (totalVBSize > _vertexBuffer.SizeInBytes)
             {
                 _vertexBuffer.Dispose();
-                _vertexBuffer = gd.ResourceFactory.CreateBuffer(new BufferDescription((uint)(totalVBSize * 1.5f), BufferUsage.VertexBuffer | BufferUsage.Dynamic));
+                _vertexBuffer = gd.ResourceFactory.CreateBuffer(
+                    new BufferDescription((uint)(totalVBSize * 1.5f), 
+                        VkBufferUsageFlags.VertexBuffer,
+                        VmaMemoryUsage.AutoPreferHost,
+                        VmaAllocationCreateFlags.Mapped));
             }
 
             uint totalIBSize = (uint)(draw_data.TotalIdxCount * sizeof(ushort));
             if (totalIBSize > _indexBuffer.SizeInBytes)
             {
                 _indexBuffer.Dispose();
-                _indexBuffer = gd.ResourceFactory.CreateBuffer(new BufferDescription((uint)(totalIBSize * 1.5f), BufferUsage.IndexBuffer | BufferUsage.Dynamic));
+                _indexBuffer = gd.ResourceFactory.CreateBuffer(
+                    new BufferDescription((uint)(totalIBSize * 1.5f), 
+                        VkBufferUsageFlags.IndexBuffer,
+                        VmaMemoryUsage.AutoPreferHost,
+                        VmaAllocationCreateFlags.Mapped));
             }
 
             for (int i = 0; i < draw_data.CmdListsCount; i++)

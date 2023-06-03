@@ -271,7 +271,7 @@ namespace Veldrid
         public void SetVertexBuffer(uint index, DeviceBuffer buffer, uint offset)
         {
 #if VALIDATE_USAGE
-            if ((buffer.Usage & BufferUsage.VertexBuffer) == 0)
+            if ((buffer.Usage & VkBufferUsageFlags.VertexBuffer) == 0)
             {
                 throw new VeldridException(
                     $"Buffer cannot be bound as a vertex buffer because it was not created with BufferUsage.VertexBuffer.");
@@ -310,7 +310,7 @@ namespace Veldrid
         public void SetIndexBuffer(DeviceBuffer buffer, VkIndexType format, uint offset)
         {
 #if VALIDATE_USAGE
-            if ((buffer.Usage & BufferUsage.IndexBuffer) == 0)
+            if ((buffer.Usage & VkBufferUsageFlags.IndexBuffer) == 0)
             {
                 throw new VeldridException(
                     $"Buffer cannot be bound as an index buffer because it was not created with BufferUsage.IndexBuffer.");
@@ -990,7 +990,7 @@ namespace Veldrid
         [Conditional("VALIDATE_USAGE")]
         private static void ValidateIndirectBuffer(DeviceBuffer indirectBuffer)
         {
-            if ((indirectBuffer.Usage & BufferUsage.IndirectBuffer) != BufferUsage.IndirectBuffer)
+            if ((indirectBuffer.Usage & VkBufferUsageFlags.IndirectBuffer) == 0)
             {
                 throw new VeldridException(
                     $"{nameof(indirectBuffer)} parameter must have been created with BufferUsage.IndirectBuffer. Instead, it was {indirectBuffer.Usage}.");
@@ -1287,8 +1287,11 @@ namespace Veldrid
             VkBufferMemoryBarrier2 bbarrier;
             VkDependencyInfo dependencyInfo;
 
-            // If we're doing a readback, make sure memory is host visible
-            if (destination.Usage.HasFlag(BufferUsage.Staging))
+            // If we're doing a readback into mapped host memory, make sure the source data is able
+            // to be transferred.
+            if (source.MemoryUsage == VmaMemoryUsage.AutoPreferDevice &&
+                destination.MemoryUsage == VmaMemoryUsage.AutoPreferHost &&
+                (destination.AllocationFlags & VmaAllocationCreateFlags.Mapped) != 0)
             {
                 bbarrier = new VkBufferMemoryBarrier2
                 {
@@ -1315,7 +1318,9 @@ namespace Veldrid
 
             vkCmdCopyBuffer(_cb, source.Buffer, destination.Buffer, 1, &region);
 
-            if (destination.Usage.HasFlag(BufferUsage.Staging))
+            if (source.MemoryUsage == VmaMemoryUsage.AutoPreferDevice &&
+                destination.MemoryUsage == VmaMemoryUsage.AutoPreferHost &&
+                (destination.AllocationFlags & VmaAllocationCreateFlags.Mapped) != 0)
             {
                 bbarrier = new VkBufferMemoryBarrier2
                 {
@@ -1341,7 +1346,7 @@ namespace Veldrid
             }
             else if (!IsTransfer)
             {
-                if (destination.Usage.HasFlag(BufferUsage.VertexBuffer))
+                if (destination.Usage.HasFlag(VkBufferUsageFlags.VertexBuffer))
                 {
                     barrier = new VkMemoryBarrier2
                     {
@@ -2366,7 +2371,12 @@ namespace Veldrid
                 }
                 if (ret == null)
                 {
-                    ret = _gd.ResourceFactory.CreateBuffer(new BufferDescription(size, BufferUsage.Staging));
+                    ret = _gd.ResourceFactory.CreateBuffer(
+                        new BufferDescription(
+                            size,
+                            VkBufferUsageFlags.None,
+                            VmaMemoryUsage.AutoPreferHost,
+                            VmaAllocationCreateFlags.Mapped));
                     ret.Name = $"Staging Buffer (CommandList {_name})";
                 }
 
