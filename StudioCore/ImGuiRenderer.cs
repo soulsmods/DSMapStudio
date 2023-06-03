@@ -175,8 +175,7 @@ namespace StudioCore
                         new SpecializationConstant(1, _colorSpaceHandling == ColorSpaceHandling.Legacy),
                     }),
                 new ResourceLayout[] { _layout, Renderer.GlobalTexturePool.GetLayout() },
-                outputDescription,
-                ResourceBindingModel.Default);
+                outputDescription);
             _pipeline = factory.CreateGraphicsPipeline(ref pd);
             _pipeline.Name = "ImGuiPipeline";
 

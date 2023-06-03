@@ -106,7 +106,7 @@ namespace StudioCore
                 WindowInitialState = WindowState.Maximized,
                 WindowTitle = $"{_programTitle}",
             };
-            GraphicsDeviceOptions gdOptions = new GraphicsDeviceOptions(false, VkFormat.D32Sfloat, true, ResourceBindingModel.Improved, true, true, _colorSrgb);
+            GraphicsDeviceOptions gdOptions = new GraphicsDeviceOptions(false, VkFormat.D32Sfloat, true, true, true, _colorSrgb);
 
 #if DEBUG
             gdOptions.Debug = true;
