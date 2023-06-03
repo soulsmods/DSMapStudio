@@ -35,8 +35,8 @@ namespace StudioCore.Scene
                     new[]
                     {
                         new VertexLayoutDescription(
-                            new VertexElementDescription("Position", VertexElementFormat.Float2),
-                            new VertexElementDescription("TexCoords", VertexElementFormat.Float2))
+                            new VertexElementDescription("Position", VkFormat.R32G32Sfloat),
+                            new VertexElementDescription("TexCoords", VkFormat.R32G32Sfloat))
                     },
                     new[] { vs, fs },
                     ShaderHelper.GetSpecializations(gd)),

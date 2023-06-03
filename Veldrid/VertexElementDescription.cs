@@ -1,4 +1,5 @@
 ﻿using System;
+using Vortice.Vulkan;
 
 namespace Veldrid
 {
@@ -14,7 +15,7 @@ namespace Veldrid
         /// <summary>
         /// The format of the element.
         /// </summary>
-        public VertexElementFormat Format;
+        public VkFormat Format;
         /// <summary>
         /// The offset in bytes from the beginning of the vertex.
         /// </summary>
@@ -27,7 +28,7 @@ namespace Veldrid
         /// <param name="format">The format of the element.</param>
         public VertexElementDescription(
             string name,
-            VertexElementFormat format)
+            VkFormat format)
         {
             Name = name;
             Format = format;
@@ -42,7 +43,7 @@ namespace Veldrid
         /// <param name="offset">The offset in bytes from the beginning of the vertex.</param>
         public VertexElementDescription(
             string name,
-            VertexElementFormat format,
+            VkFormat format,
             uint offset)
         {
             Name = name;

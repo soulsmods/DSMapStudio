@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices;
+using Vortice.Vulkan;
 
 namespace Veldrid.SPIRV
 {
@@ -13,7 +14,7 @@ namespace Veldrid.SPIRV
     internal struct NativeVertexElementDescription
     {
         public InteropArray Name; // InteropArray<byte>
-        public VertexElementFormat Format;
+        public VkFormat Format;
         public uint Offset;
     }
 

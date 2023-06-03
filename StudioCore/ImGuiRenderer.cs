@@ -135,9 +135,9 @@ namespace StudioCore
             VertexLayoutDescription[] vertexLayouts = new VertexLayoutDescription[]
             {
                 new VertexLayoutDescription(
-                    new VertexElementDescription("in_position", VertexElementFormat.Float2),
-                    new VertexElementDescription("in_texCoord", VertexElementFormat.Float2),
-                    new VertexElementDescription("in_color", VertexElementFormat.Byte4_Norm))
+                    new VertexElementDescription("in_position", VkFormat.R32G32Sfloat),
+                    new VertexElementDescription("in_texCoord", VkFormat.R32G32Sfloat),
+                    new VertexElementDescription("in_color", VkFormat.R8G8B8A8Unorm))
             };
 
             _layout = factory.CreateResourceLayout(new ResourceLayoutDescription(

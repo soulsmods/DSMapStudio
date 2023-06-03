@@ -169,7 +169,7 @@ namespace Veldrid
 
                     attributeDescs[targetIndex] = new VkVertexInputAttributeDescription
                     {
-                        format = VkFormats.VdToVkVertexElementFormat(inputElement.Format),
+                        format = inputElement.Format,
                         binding = (uint)binding,
                         location = (uint)(targetLocation + location),
                         offset = inputElement.Offset != 0 ? inputElement.Offset : currentOffset
