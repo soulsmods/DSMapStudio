@@ -199,7 +199,7 @@ namespace Veldrid
                 uint specDataSize = 0;
                 foreach (SpecializationConstant spec in specDescs)
                 {
-                    specDataSize += VkFormats.GetSpecializationConstantSize(spec.Type);
+                    specDataSize += GetSpecializationConstantSize(spec.Type);
                 }
                 byte* fullSpecData = stackalloc byte[(int)specDataSize];
                 int specializationCount = specDescs.Length;
@@ -209,7 +209,7 @@ namespace Veldrid
                 {
                     ulong data = specDescs[i].Data;
                     byte* srcData = (byte*)&data;
-                    uint dataSize = VkFormats.GetSpecializationConstantSize(specDescs[i].Type);
+                    uint dataSize = GetSpecializationConstantSize(specDescs[i].Type);
                     Unsafe.CopyBlock(fullSpecData + specOffset, srcData, dataSize);
                     mapEntries[i].constantID = specDescs[i].ID;
                     mapEntries[i].offset = specOffset;
@@ -402,7 +402,7 @@ namespace Veldrid
                 uint specDataSize = 0;
                 foreach (SpecializationConstant spec in specDescs)
                 {
-                    specDataSize += VkFormats.GetSpecializationConstantSize(spec.Type);
+                    specDataSize += GetSpecializationConstantSize(spec.Type);
                 }
                 byte* fullSpecData = stackalloc byte[(int)specDataSize];
                 int specializationCount = specDescs.Length;
@@ -412,7 +412,7 @@ namespace Veldrid
                 {
                     ulong data = specDescs[i].Data;
                     byte* srcData = (byte*)&data;
-                    uint dataSize = VkFormats.GetSpecializationConstantSize(specDescs[i].Type);
+                    uint dataSize = GetSpecializationConstantSize(specDescs[i].Type);
                     Unsafe.CopyBlock(fullSpecData + specOffset, srcData, dataSize);
                     mapEntries[i].constantID = specDescs[i].ID;
                     mapEntries[i].offset = specOffset;
@@ -477,6 +477,33 @@ namespace Veldrid
         /// </summary>
         public bool IsComputePipeline { get; }
 
+        internal static uint GetSpecializationConstantSize(ShaderConstantType type)
+        {
+            switch (type)
+            {
+                case ShaderConstantType.Bool:
+                    return 4;
+                case ShaderConstantType.UInt16:
+                    return 2;
+                case ShaderConstantType.Int16:
+                    return 2;
+                case ShaderConstantType.UInt32:
+                    return 4;
+                case ShaderConstantType.Int32:
+                    return 4;
+                case ShaderConstantType.UInt64:
+                    return 8;
+                case ShaderConstantType.Int64:
+                    return 8;
+                case ShaderConstantType.Float:
+                    return 4;
+                case ShaderConstantType.Double:
+                    return 8;
+                default:
+                    throw Illegal.Value<ShaderConstantType>();
+            }
+        }
+        
         /// <summary>
         /// A string identifying this instance. Can be used to differentiate between objects in graphics debuggers and other
         /// tools.
