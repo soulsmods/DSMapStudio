@@ -42,7 +42,7 @@ namespace StudioCore.DebugPrimitives
 
         public abstract VkPolygonMode FillMode { get; }
 
-        public virtual FrontFace FrontFace { get => FrontFace.CounterClockwise; }
+        public virtual VkFrontFace FrontFace { get => VkFrontFace.CounterClockwise; }
 
         public abstract VkPrimitiveTopology Topology { get; }
 

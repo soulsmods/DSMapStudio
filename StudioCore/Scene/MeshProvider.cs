@@ -238,7 +238,7 @@ namespace StudioCore.Scene
 
         public virtual VkPolygonMode FillMode { get => VkPolygonMode.Fill; }
 
-        public virtual FrontFace FrontFace { get => FrontFace.CounterClockwise; }
+        public virtual VkFrontFace FrontFace { get => VkFrontFace.CounterClockwise; }
 
         public virtual VkPrimitiveTopology Topology { get => VkPrimitiveTopology.TriangleList; }
 
@@ -454,7 +454,7 @@ namespace StudioCore.Scene
 
         public override VkCullModeFlags CullMode => _resource.Get().GPUMeshes[_meshIndex].MeshFacesets[0].BackfaceCulling ? VkCullModeFlags.Back : VkCullModeFlags.None;
 
-        public override FrontFace FrontFace => FrontFace.CounterClockwise;
+        public override VkFrontFace FrontFace => VkFrontFace.CounterClockwise;
 
         public override VkPrimitiveTopology Topology => _resource.Get().GPUMeshes[_meshIndex].MeshFacesets[0].IsTriangleStrip ? VkPrimitiveTopology.TriangleStrip : VkPrimitiveTopology.TriangleList;
 
@@ -665,7 +665,7 @@ namespace StudioCore.Scene
 
         public override VkCullModeFlags CullMode => VkCullModeFlags.Back;
 
-        public override FrontFace FrontFace => _resource.Get().FrontFace;
+        public override VkFrontFace FrontFace => _resource.Get().FrontFace;
 
         public override VkPrimitiveTopology Topology => VkPrimitiveTopology.TriangleList;
 
@@ -778,7 +778,7 @@ namespace StudioCore.Scene
 
         public override VkCullModeFlags CullMode => VkCullModeFlags.Back;
 
-        public override FrontFace FrontFace => FrontFace.Clockwise;
+        public override VkFrontFace FrontFace => VkFrontFace.Clockwise;
 
         public override VkPrimitiveTopology Topology => VkPrimitiveTopology.TriangleList;
 
@@ -903,7 +903,7 @@ namespace StudioCore.Scene
 
         public override VkCullModeFlags CullMode => VkCullModeFlags.Back;
 
-        public override FrontFace FrontFace => FrontFace.Clockwise;
+        public override VkFrontFace FrontFace => VkFrontFace.Clockwise;
 
         public override VkPrimitiveTopology Topology => VkPrimitiveTopology.TriangleList;
 
@@ -1024,7 +1024,7 @@ namespace StudioCore.Scene
 
         public override VkCullModeFlags CullMode => VkCullModeFlags.None;
 
-        public override FrontFace FrontFace => FrontFace.Clockwise;
+        public override VkFrontFace FrontFace => VkFrontFace.Clockwise;
 
         public override VkPrimitiveTopology Topology => VkPrimitiveTopology.LineList;
 

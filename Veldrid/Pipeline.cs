@@ -77,7 +77,7 @@ namespace Veldrid
                 cullMode = rsDesc.CullMode,
                 polygonMode = rsDesc.FillMode,
                 depthClampEnable = !rsDesc.DepthClipEnabled,
-                frontFace = rsDesc.FrontFace == FrontFace.Clockwise ? VkFrontFace.Clockwise : VkFrontFace.CounterClockwise,
+                frontFace = rsDesc.FrontFace,
                 lineWidth = 1f
             };
 

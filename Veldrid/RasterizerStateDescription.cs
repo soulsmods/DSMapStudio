@@ -19,7 +19,7 @@ namespace Veldrid
         /// <summary>
         /// Controls the winding order used to determine the front face of primitives.
         /// </summary>
-        public FrontFace FrontFace;
+        public VkFrontFace FrontFace;
         /// <summary>
         /// Controls whether depth clipping is enabled.
         /// </summary>
@@ -40,7 +40,7 @@ namespace Veldrid
         public RasterizerStateDescription(
             VkCullModeFlags cullMode,
             VkPolygonMode fillMode,
-            FrontFace frontFace,
+            VkFrontFace frontFace,
             bool depthClipEnabled,
             bool scissorTestEnabled)
         {
@@ -65,7 +65,7 @@ namespace Veldrid
         {
             CullMode = VkCullModeFlags.Back,
             FillMode = VkPolygonMode.Fill,
-            FrontFace = FrontFace.Clockwise,
+            FrontFace = VkFrontFace.Clockwise,
             DepthClipEnabled = true,
             ScissorTestEnabled = false,
         };
@@ -84,7 +84,7 @@ namespace Veldrid
         {
             CullMode = VkCullModeFlags.None,
             FillMode = VkPolygonMode.Fill,
-            FrontFace = FrontFace.Clockwise,
+            FrontFace = VkFrontFace.Clockwise,
             DepthClipEnabled = true,
             ScissorTestEnabled = false,
         };

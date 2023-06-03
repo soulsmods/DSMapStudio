@@ -164,7 +164,7 @@ namespace StudioCore
             GraphicsPipelineDescription pd = new GraphicsPipelineDescription(
                 BlendStateDescription.SingleAlphaBlend,
                 new DepthStencilStateDescription(false, false, VkCompareOp.Always),
-                new RasterizerStateDescription(VkCullModeFlags.None, VkPolygonMode.Fill, FrontFace.Clockwise, true, true),
+                new RasterizerStateDescription(VkCullModeFlags.None, VkPolygonMode.Fill, VkFrontFace.Clockwise, true, true),
                 VkPrimitiveTopology.TriangleList,
                 new ShaderSetDescription(
                     vertexLayouts,
