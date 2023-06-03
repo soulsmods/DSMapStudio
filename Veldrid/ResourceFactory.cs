@@ -404,19 +404,6 @@ namespace Veldrid
         /// <returns>A new <see cref="Sampler"/>.</returns>
         public Sampler CreateSampler(ref SamplerDescription description)
         {
-#if VALIDATE_USAGE
-            if (!Features.SamplerLodBias && description.LodBias != 0)
-            {
-                throw new VeldridException(
-                    "GraphicsDevice does not support Sampler LOD bias. SamplerDescription.LodBias must be 0.");
-            }
-            if (!Features.SamplerAnisotropy && description.Filter == SamplerFilter.Anisotropic)
-            {
-                throw new VeldridException(
-                    "SamplerFilter.Anisotropic cannot be used unless GraphicsDeviceFeatures.SamplerAnisotropy is supported.");
-            }
-#endif
-
             return CreateSamplerCore(ref description);
         }
 

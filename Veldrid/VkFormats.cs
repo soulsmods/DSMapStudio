@@ -4,81 +4,6 @@ namespace Veldrid
 {
     internal static partial class VkFormats
     {
-        internal static VkSamplerAddressMode VdToVkSamplerAddressMode(SamplerAddressMode mode)
-        {
-            switch (mode)
-            {
-                case SamplerAddressMode.Wrap:
-                    return VkSamplerAddressMode.Repeat;
-                case SamplerAddressMode.Mirror:
-                    return VkSamplerAddressMode.MirroredRepeat;
-                case SamplerAddressMode.Clamp:
-                    return VkSamplerAddressMode.ClampToEdge;
-                case SamplerAddressMode.Border:
-                    return VkSamplerAddressMode.ClampToBorder;
-                default:
-                    throw Illegal.Value<SamplerAddressMode>();
-            }
-        }
-
-        internal static void GetFilterParams(
-            SamplerFilter filter,
-            out VkFilter minFilter,
-            out VkFilter magFilter,
-            out VkSamplerMipmapMode mipmapMode)
-        {
-            switch (filter)
-            {
-                case SamplerFilter.Anisotropic:
-                    minFilter = VkFilter.Linear;
-                    magFilter = VkFilter.Linear;
-                    mipmapMode = VkSamplerMipmapMode.Linear;
-                    break;
-                case SamplerFilter.MinPoint_MagPoint_MipPoint:
-                    minFilter = VkFilter.Nearest;
-                    magFilter = VkFilter.Nearest;
-                    mipmapMode = VkSamplerMipmapMode.Nearest;
-                    break;
-                case SamplerFilter.MinPoint_MagPoint_MipLinear:
-                    minFilter = VkFilter.Nearest;
-                    magFilter = VkFilter.Nearest;
-                    mipmapMode = VkSamplerMipmapMode.Linear;
-                    break;
-                case SamplerFilter.MinPoint_MagLinear_MipPoint:
-                    minFilter = VkFilter.Nearest;
-                    magFilter = VkFilter.Linear;
-                    mipmapMode = VkSamplerMipmapMode.Nearest;
-                    break;
-                case SamplerFilter.MinPoint_MagLinear_MipLinear:
-                    minFilter = VkFilter.Nearest;
-                    magFilter = VkFilter.Linear;
-                    mipmapMode = VkSamplerMipmapMode.Linear;
-                    break;
-                case SamplerFilter.MinLinear_MagPoint_MipPoint:
-                    minFilter = VkFilter.Linear;
-                    magFilter = VkFilter.Nearest;
-                    mipmapMode = VkSamplerMipmapMode.Nearest;
-                    break;
-                case SamplerFilter.MinLinear_MagPoint_MipLinear:
-                    minFilter = VkFilter.Linear;
-                    magFilter = VkFilter.Nearest;
-                    mipmapMode = VkSamplerMipmapMode.Linear;
-                    break;
-                case SamplerFilter.MinLinear_MagLinear_MipPoint:
-                    minFilter = VkFilter.Linear;
-                    magFilter = VkFilter.Linear;
-                    mipmapMode = VkSamplerMipmapMode.Nearest;
-                    break;
-                case SamplerFilter.MinLinear_MagLinear_MipLinear:
-                    minFilter = VkFilter.Linear;
-                    magFilter = VkFilter.Linear;
-                    mipmapMode = VkSamplerMipmapMode.Linear;
-                    break;
-                default:
-                    throw Illegal.Value<SamplerFilter>();
-            }
-        }
-
         internal static VkImageUsageFlags VdToVkTextureUsage(TextureUsage vdUsage)
         {
             VkImageUsageFlags vkUsage = VkImageUsageFlags.None;
@@ -407,21 +332,6 @@ namespace Veldrid
                 ret |= VkShaderStageFlags.Compute;
 
             return ret;
-        }
-
-        internal static VkBorderColor VdToVkSamplerBorderColor(SamplerBorderColor borderColor)
-        {
-            switch (borderColor)
-            {
-                case SamplerBorderColor.TransparentBlack:
-                    return VkBorderColor.FloatTransparentBlack;
-                case SamplerBorderColor.OpaqueBlack:
-                    return VkBorderColor.FloatOpaqueBlack;
-                case SamplerBorderColor.OpaqueWhite:
-                    return VkBorderColor.FloatOpaqueWhite;
-                default:
-                    throw Illegal.Value<SamplerBorderColor>();
-            }
         }
 
         internal static VkIndexType VdToVkIndexFormat(IndexFormat format)
