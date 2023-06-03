@@ -13,7 +13,6 @@ namespace Veldrid.SPIRV
     internal struct NativeVertexElementDescription
     {
         public InteropArray Name; // InteropArray<byte>
-        public VertexElementSemantic Semantic;
         public VertexElementFormat Format;
         public uint Offset;
     }

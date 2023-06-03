@@ -121,7 +121,6 @@ namespace Veldrid.SPIRV
                             = ref reflInfo->VertexElements.Ref<NativeVertexElementDescription>(i);
                         vertexElements[i] = new VertexElementDescription(
                             Util.GetString((byte*)nativeDesc.Name.Data, nativeDesc.Name.Count),
-                            nativeDesc.Semantic,
                             nativeDesc.Format,
                             nativeDesc.Offset);
                     }

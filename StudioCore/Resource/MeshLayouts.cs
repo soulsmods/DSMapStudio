@@ -92,10 +92,10 @@ namespace StudioCore.Resource
         public fixed byte Color[4];
 
         public static VertexLayoutDescription Layout = new VertexLayoutDescription(
-            new VertexElementDescription("position", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Float3),
-            new VertexElementDescription("uv1", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Short2),
-            new VertexElementDescription("normal", VertexElementSemantic.TextureCoordinate, VertexElementFormat.SByte4),
-            new VertexElementDescription("color", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Byte4));
+            new VertexElementDescription("position", VertexElementFormat.Float3),
+            new VertexElementDescription("uv1", VertexElementFormat.Short2),
+            new VertexElementDescription("normal", VertexElementFormat.SByte4),
+            new VertexElementDescription("color", VertexElementFormat.Byte4));
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -105,8 +105,8 @@ namespace StudioCore.Resource
         public fixed sbyte Normal[4];
 
         public static VertexLayoutDescription Layout = new VertexLayoutDescription(
-            new VertexElementDescription("position", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Float3),
-            new VertexElementDescription("normal", VertexElementSemantic.TextureCoordinate, VertexElementFormat.SByte4));
+            new VertexElementDescription("position", VertexElementFormat.Float3),
+            new VertexElementDescription("normal", VertexElementFormat.SByte4));
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -120,12 +120,12 @@ namespace StudioCore.Resource
         public fixed byte Color[4];
 
         public static VertexLayoutDescription Layout = new VertexLayoutDescription(
-            new VertexElementDescription("position", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Float3),
-            new VertexElementDescription("uv1", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Short2),
-            new VertexElementDescription("normal", VertexElementSemantic.TextureCoordinate, VertexElementFormat.SByte4),
-            new VertexElementDescription("binormal", VertexElementSemantic.TextureCoordinate, VertexElementFormat.SByte4),
-            new VertexElementDescription("bitangent", VertexElementSemantic.TextureCoordinate, VertexElementFormat.SByte4),
-            new VertexElementDescription("color", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Byte4));
+            new VertexElementDescription("position", VertexElementFormat.Float3),
+            new VertexElementDescription("uv1", VertexElementFormat.Short2),
+            new VertexElementDescription("normal", VertexElementFormat.SByte4),
+            new VertexElementDescription("binormal", VertexElementFormat.SByte4),
+            new VertexElementDescription("bitangent", VertexElementFormat.SByte4),
+            new VertexElementDescription("color", VertexElementFormat.Byte4));
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -140,13 +140,13 @@ namespace StudioCore.Resource
         public fixed short Uv2[2];
 
         public static VertexLayoutDescription Layout = new VertexLayoutDescription(
-            new VertexElementDescription("position", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Float3),
-            new VertexElementDescription("uv1", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Short2),
-            new VertexElementDescription("normal", VertexElementSemantic.TextureCoordinate, VertexElementFormat.SByte4),
-            new VertexElementDescription("binormal", VertexElementSemantic.TextureCoordinate, VertexElementFormat.SByte4),
-            new VertexElementDescription("bitangent", VertexElementSemantic.TextureCoordinate, VertexElementFormat.SByte4),
-            new VertexElementDescription("color", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Byte4),
-            new VertexElementDescription("uv2", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Short2));
+            new VertexElementDescription("position", VertexElementFormat.Float3),
+            new VertexElementDescription("uv1", VertexElementFormat.Short2),
+            new VertexElementDescription("normal", VertexElementFormat.SByte4),
+            new VertexElementDescription("binormal", VertexElementFormat.SByte4),
+            new VertexElementDescription("bitangent", VertexElementFormat.SByte4),
+            new VertexElementDescription("color", VertexElementFormat.Byte4),
+            new VertexElementDescription("uv2", VertexElementFormat.Short2));
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -162,14 +162,14 @@ namespace StudioCore.Resource
         public fixed short Uv3[2];
 
         public static VertexLayoutDescription Layout = new VertexLayoutDescription(
-            new VertexElementDescription("position", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Float3),
-            new VertexElementDescription("uv1", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Short2),
-            new VertexElementDescription("normal", VertexElementSemantic.TextureCoordinate, VertexElementFormat.SByte4),
-            new VertexElementDescription("binormal", VertexElementSemantic.TextureCoordinate, VertexElementFormat.SByte4),
-            new VertexElementDescription("bitangent", VertexElementSemantic.TextureCoordinate, VertexElementFormat.SByte4),
-            new VertexElementDescription("color", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Byte4),
-            new VertexElementDescription("uv2", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Short2),
-            new VertexElementDescription("uv3", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Short2));
+            new VertexElementDescription("position", VertexElementFormat.Float3),
+            new VertexElementDescription("uv1", VertexElementFormat.Short2),
+            new VertexElementDescription("normal", VertexElementFormat.SByte4),
+            new VertexElementDescription("binormal", VertexElementFormat.SByte4),
+            new VertexElementDescription("bitangent", VertexElementFormat.SByte4),
+            new VertexElementDescription("color", VertexElementFormat.Byte4),
+            new VertexElementDescription("uv2", VertexElementFormat.Short2),
+            new VertexElementDescription("uv3", VertexElementFormat.Short2));
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -186,15 +186,15 @@ namespace StudioCore.Resource
         public fixed short Uv4[2];
 
         public static VertexLayoutDescription Layout = new VertexLayoutDescription(
-            new VertexElementDescription("position", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Float3),
-            new VertexElementDescription("uv1", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Short2),
-            new VertexElementDescription("normal", VertexElementSemantic.TextureCoordinate, VertexElementFormat.SByte4),
-            new VertexElementDescription("binormal", VertexElementSemantic.TextureCoordinate, VertexElementFormat.SByte4),
-            new VertexElementDescription("bitangent", VertexElementSemantic.TextureCoordinate, VertexElementFormat.SByte4),
-            new VertexElementDescription("color", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Byte4),
-            new VertexElementDescription("uv2", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Short2),
-            new VertexElementDescription("uv3", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Short2),
-            new VertexElementDescription("uv4", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Short2));
+            new VertexElementDescription("position", VertexElementFormat.Float3),
+            new VertexElementDescription("uv1", VertexElementFormat.Short2),
+            new VertexElementDescription("normal", VertexElementFormat.SByte4),
+            new VertexElementDescription("binormal", VertexElementFormat.SByte4),
+            new VertexElementDescription("bitangent", VertexElementFormat.SByte4),
+            new VertexElementDescription("color", VertexElementFormat.Byte4),
+            new VertexElementDescription("uv2", VertexElementFormat.Short2),
+            new VertexElementDescription("uv3", VertexElementFormat.Short2),
+            new VertexElementDescription("uv4", VertexElementFormat.Short2));
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -207,10 +207,10 @@ namespace StudioCore.Resource
         public fixed byte Barycentric[4];
 
         public static VertexLayoutDescription Layout = new VertexLayoutDescription(
-             new VertexElementDescription("position", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.Float3),
-             new VertexElementDescription("normal", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.SByte4),
-             new VertexElementDescription("color", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.Byte4),
-             new VertexElementDescription("barycentric", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.Byte4));
+             new VertexElementDescription("position", Veldrid.VertexElementFormat.Float3),
+             new VertexElementDescription("normal", Veldrid.VertexElementFormat.SByte4),
+             new VertexElementDescription("color", Veldrid.VertexElementFormat.Byte4),
+             new VertexElementDescription("barycentric", Veldrid.VertexElementFormat.Byte4));
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -223,10 +223,10 @@ namespace StudioCore.Resource
         public fixed byte Barycentric[4];
 
         public static VertexLayoutDescription Layout = new VertexLayoutDescription(
-             new VertexElementDescription("position", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.Float3),
-             new VertexElementDescription("normal", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.SByte4),
-             new VertexElementDescription("color", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.Byte4),
-             new VertexElementDescription("barycentric", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.Byte4));
+             new VertexElementDescription("position", Veldrid.VertexElementFormat.Float3),
+             new VertexElementDescription("normal", Veldrid.VertexElementFormat.SByte4),
+             new VertexElementDescription("color", Veldrid.VertexElementFormat.Byte4),
+             new VertexElementDescription("barycentric", Veldrid.VertexElementFormat.Byte4));
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -236,8 +236,8 @@ namespace StudioCore.Resource
         public fixed byte Color[4];
 
         public static VertexLayoutDescription Layout = new VertexLayoutDescription(
-            new VertexElementDescription("position", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Float3),
-            new VertexElementDescription("color", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Byte4));
+            new VertexElementDescription("position", VertexElementFormat.Float3),
+            new VertexElementDescription("color", VertexElementFormat.Byte4));
     }
 
     //[StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -278,8 +278,8 @@ namespace StudioCore.Resource
         }
 
         public static VertexLayoutDescription Layout = new VertexLayoutDescription(
-            new VertexElementDescription("position", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.Float3),
-            new VertexElementDescription("color", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.Byte4),
-            new VertexElementDescription("normal", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.Float3));
+            new VertexElementDescription("position", Veldrid.VertexElementFormat.Float3),
+            new VertexElementDescription("color", Veldrid.VertexElementFormat.Byte4),
+            new VertexElementDescription("normal", Veldrid.VertexElementFormat.Float3));
     }
 }
