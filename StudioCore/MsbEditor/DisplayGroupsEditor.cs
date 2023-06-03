@@ -53,7 +53,7 @@ namespace StudioCore.MsbEditor
                 ImGui.SetNextWindowFocus();
             }
 
-            ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(3.0f, 3.0f) * scale);
+            ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(4.0f, 2.0f) * scale);
             if (ImGui.Begin("Render Groups"))
             {
                 var dg = _scene.DisplayGroup;
@@ -76,7 +76,7 @@ namespace StudioCore.MsbEditor
                     }
                 }
 
-                ImGui.SameLine(0.0f, 8.0f * scale);
+                ImGui.SameLine(0.0f, 6.0f * scale);
                 if (ImGui.Button($"Hide All <{KeyBindings.Current.Map_RenderGroup_HideAll.HintText}>")
                     || InputTracker.GetKeyDown(KeyBindings.Current.Map_RenderGroup_HideAll))
                 {
@@ -99,7 +99,7 @@ namespace StudioCore.MsbEditor
                     }
                 }
 
-                ImGui.SameLine(0.0f, 8.0f * scale);
+                ImGui.SameLine(0.0f, 6.0f * scale);
                 if (ImGui.Button($"Get Draw <{KeyBindings.Current.Map_RenderGroup_GetDraw.HintText}>")
                     || InputTracker.GetKeyDown(KeyBindings.Current.Map_RenderGroup_GetDraw)
                     && sdispgroups != null)
@@ -119,7 +119,7 @@ namespace StudioCore.MsbEditor
                     _actionManager.ExecuteAction(action);
                 }
 
-                ImGui.SameLine(0.0f, 8.0f * scale);
+                ImGui.SameLine(0.0f, 6.0f * scale);
                 if (ImGui.Button($"Assign Disp <{KeyBindings.Current.Map_RenderGroup_GiveDisp.HintText}>")
                     || InputTracker.GetKeyDown(KeyBindings.Current.Map_RenderGroup_GiveDisp)
                     && sdispgroups != null)
@@ -178,8 +178,7 @@ namespace StudioCore.MsbEditor
                         ImGui.Spacing();
                     }
 
-                    char columnLetter = (char)(g + 65);
-                    ImGui.Text($@"Render Group {columnLetter}:");
+                    ImGui.Text($@"Group {g}:");
                     for (int i = 0; i < 32; i++)
                     {
                         // Column
@@ -219,12 +218,13 @@ namespace StudioCore.MsbEditor
                             ImGui.PushStyleColor(ImGuiCol.CheckMark, new Vector4(1.0f, 0.2f, 0.2f, 1.0f));
                         }
 
-                        if (HighlightedGroups.Contains($"{columnLetter}{i}"))
+                        string cellKey = $"{g}_{i}";
+                        if (HighlightedGroups.Contains(cellKey))
                         {
                             ImGui.PushStyleColor(ImGuiCol.Border, new Vector4(1.0f, 0.2f, 0.2f, 1.0f));
                         }
 
-                        if (ImGui.Checkbox($@"##dispgroup_{columnLetter}{i}", ref check))
+                        if (ImGui.Checkbox($@"##cell_{cellKey}", ref check))
                         {
                             if (check)
                             {
@@ -236,7 +236,7 @@ namespace StudioCore.MsbEditor
                             }
                         }
 
-                        if (HighlightedGroups.Contains($"{columnLetter}{i}"))
+                        if (HighlightedGroups.Contains(cellKey))
                         {
                             ImGui.PopStyleColor(1);
                         }
@@ -244,13 +244,13 @@ namespace StudioCore.MsbEditor
                         if (ImGui.IsItemHovered() && ImGui.IsMouseClicked(ImGuiMouseButton.Right))
                         {
                             // Toggle render group highlights
-                            if (HighlightedGroups.Contains($"{columnLetter}{i}"))
+                            if (HighlightedGroups.Contains(cellKey))
                             {
-                                HighlightedGroups.Remove($"{columnLetter}{i}");
+                                HighlightedGroups.Remove(cellKey);
                             }
                             else
                             {
-                                HighlightedGroups.Add($"{columnLetter}{i}");
+                                HighlightedGroups.Add(cellKey);
                             }
                         }
 
