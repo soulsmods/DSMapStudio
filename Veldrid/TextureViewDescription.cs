@@ -1,4 +1,5 @@
 ﻿using System;
+using Vortice.Vulkan;
 
 namespace Veldrid
 {
@@ -34,7 +35,7 @@ namespace Veldrid
         /// formats, the overall size and number of components in this format must be equal to the underlying format. For
         /// compressed formats, it is only possible to use the same PixelFormat or its sRGB/non-sRGB counterpart.
         /// </summary>
-        public PixelFormat? Format;
+        public VkFormat? Format;
 
         /// <summary>
         /// Constructs a new TextureViewDescription.
@@ -60,7 +61,7 @@ namespace Veldrid
         /// This format must be "compatible" with the target Texture's. For uncompressed formats, the overall size and number of
         /// components in this format must be equal to the underlying format. For compressed formats, it is only possible to use
         /// the same PixelFormat or its sRGB/non-sRGB counterpart.</param>
-        public TextureViewDescription(Texture target, PixelFormat format)
+        public TextureViewDescription(Texture target, VkFormat format)
         {
             Target = target;
             BaseMipLevel = 0;
@@ -102,7 +103,7 @@ namespace Veldrid
         /// <param name="mipLevels">The number of mip levels visible in the view.</param>
         /// <param name="baseArrayLayer">The base array layer visible in the view.</param>
         /// <param name="arrayLayers">The number of array layers visible in the view.</param>
-        public TextureViewDescription(Texture target, PixelFormat format, uint baseMipLevel, uint mipLevels, uint baseArrayLayer, uint arrayLayers)
+        public TextureViewDescription(Texture target, VkFormat format, uint baseMipLevel, uint mipLevels, uint baseArrayLayer, uint arrayLayers)
         {
             Target = target;
             BaseMipLevel = baseMipLevel;

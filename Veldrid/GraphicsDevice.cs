@@ -467,14 +467,14 @@ namespace Veldrid
         /// <param name="depthFormat">Whether the format will be used in a depth texture.</param>
         /// <returns>A <see cref="TextureSampleCount"/> value representing the maximum count that a <see cref="Texture"/> of that
         /// format can be created with.</returns>
-        public TextureSampleCount GetSampleCountLimit(PixelFormat format, bool depthFormat)
+        public TextureSampleCount GetSampleCountLimit(VkFormat format, bool depthFormat)
         {
             VkImageUsageFlags usageFlags = VkImageUsageFlags.Sampled;
             usageFlags |= depthFormat ? VkImageUsageFlags.DepthStencilAttachment : VkImageUsageFlags.ColorAttachment;
 
             vkGetPhysicalDeviceImageFormatProperties(
                 _physicalDevice,
-                VkFormats.VdToVkPixelFormat(format),
+                format,
                 VkImageType.Image2D,
                 VkImageTiling.Optimal,
                 usageFlags,
@@ -1024,7 +1024,7 @@ namespace Veldrid
         /// <param name="usage">The TextureUsage to query.</param>
         /// <returns>True if the given combination is supported; false otherwise.</returns>
         public bool GetPixelFormatSupport(
-            PixelFormat format,
+            VkFormat format,
             TextureType type,
             TextureUsage usage)
         {
@@ -1043,7 +1043,7 @@ namespace Veldrid
         /// <returns>True if the given combination is supported; false otherwise. If the combination is supported,
         /// then <paramref name="properties"/> contains the limits supported by this instance.</returns>
         public bool GetPixelFormatSupport(
-            PixelFormat format,
+            VkFormat format,
             TextureType type,
             TextureUsage usage,
             out PixelFormatProperties properties)
@@ -1052,12 +1052,12 @@ namespace Veldrid
         }
 
         private protected bool GetPixelFormatSupportCore(
-            PixelFormat format,
+            VkFormat format,
             TextureType type,
             TextureUsage usage,
             out PixelFormatProperties properties)
         {
-            VkFormat vkFormat = VkFormats.VdToVkPixelFormat(format, (usage & TextureUsage.DepthStencil) != 0);
+            VkFormat vkFormat = format;
             VkImageType vkType = VkFormats.VdToVkTextureType(type);
             VkImageTiling tiling = usage == TextureUsage.Staging ? VkImageTiling.Linear : VkImageTiling.Optimal;
             VkImageUsageFlags vkUsage = VkFormats.VdToVkTextureUsage(usage);
@@ -2089,7 +2089,7 @@ namespace Veldrid
             }
         }
         
-        private Texture GetFreeStagingTexture(uint width, uint height, uint depth, PixelFormat format)
+        private Texture GetFreeStagingTexture(uint width, uint height, uint depth, VkFormat format)
         {
             uint totalSize = FormatHelpers.GetRegionSize(width, height, depth, format);
             lock (_stagingResourcesLock)

@@ -1,4 +1,6 @@
-﻿namespace Veldrid
+﻿using Vortice.Vulkan;
+
+namespace Veldrid
 {
     /// <summary>
     /// A structure describing several common properties of a GraphicsDevice.
@@ -18,7 +20,7 @@
         /// An optional <see cref="PixelFormat"/> to be used for the depth buffer of the swapchain. If this value is null, then
         /// no depth buffer will be present on the swapchain.
         /// </summary>
-        public PixelFormat? SwapchainDepthFormat;
+        public VkFormat? SwapchainDepthFormat;
         /// <summary>
         /// Indicates whether the main Swapchain will be synchronized to the window system's vertical refresh rate.
         /// </summary>
@@ -71,7 +73,7 @@
         /// swapchain. If this value is null, then no depth buffer will be present on the swapchain.</param>
         /// <param name="syncToVerticalBlank">Indicates whether the main Swapchain will be synchronized to the window system's
         /// vertical refresh rate.</param>
-        public GraphicsDeviceOptions(bool debug, PixelFormat? swapchainDepthFormat, bool syncToVerticalBlank)
+        public GraphicsDeviceOptions(bool debug, VkFormat? swapchainDepthFormat, bool syncToVerticalBlank)
         {
             Debug = debug;
             HasMainSwapchain = true;
@@ -95,7 +97,7 @@
         /// <param name="resourceBindingModel">Specifies which model the rendering backend should use for binding resources.</param>
         public GraphicsDeviceOptions(
             bool debug,
-            PixelFormat? swapchainDepthFormat,
+            VkFormat? swapchainDepthFormat,
             bool syncToVerticalBlank,
             ResourceBindingModel resourceBindingModel)
         {
@@ -123,7 +125,7 @@
         /// this is not the default, and is not available on all systems.</param>
         public GraphicsDeviceOptions(
             bool debug,
-            PixelFormat? swapchainDepthFormat,
+            VkFormat? swapchainDepthFormat,
             bool syncToVerticalBlank,
             ResourceBindingModel resourceBindingModel,
             bool preferDepthRangeZeroToOne)
@@ -154,7 +156,7 @@
         /// is preferred. For Vulkan, this is not the default, and is not available on all systems.</param>
         public GraphicsDeviceOptions(
             bool debug,
-            PixelFormat? swapchainDepthFormat,
+            VkFormat? swapchainDepthFormat,
             bool syncToVerticalBlank,
             ResourceBindingModel resourceBindingModel,
             bool preferDepthRangeZeroToOne,
@@ -190,7 +192,7 @@
         /// supercede the value specified here.</param>
         public GraphicsDeviceOptions(
             bool debug,
-            PixelFormat? swapchainDepthFormat,
+            VkFormat? swapchainDepthFormat,
             bool syncToVerticalBlank,
             ResourceBindingModel resourceBindingModel,
             bool preferDepthRangeZeroToOne,

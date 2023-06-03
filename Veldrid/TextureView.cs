@@ -40,7 +40,7 @@ namespace Veldrid
         /// The format used to interpret the contents of the target Texture. This may be different from the target Texture's
         /// true storage format, but it will be the same size.
         /// </summary>
-        public PixelFormat Format { get; }
+        public VkFormat Format { get; }
 
         internal VkImageView ImageView => _imageView;
         
@@ -76,7 +76,7 @@ namespace Veldrid
             {
                 sType = VkStructureType.ImageViewCreateInfo,
                 image = tex.OptimalDeviceImage,
-                format = VkFormats.VdToVkPixelFormat(Format, (Target.Usage & TextureUsage.DepthStencil) != 0),
+                format = Format,
                 subresourceRange = new VkImageSubresourceRange(
                     aspectFlags,
                     description.BaseMipLevel,

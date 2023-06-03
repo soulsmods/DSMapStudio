@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using StudioCore.Scene;
 using Veldrid;
+using Vortice.Vulkan;
 
 namespace StudioCore
 {
@@ -343,7 +344,7 @@ namespace StudioCore
                 (uint)height,
                 1,
                 1,
-                PixelFormat.R8_G8_B8_A8_UNorm,
+                VkFormat.R8G8B8A8Unorm,
                 TextureUsage.Sampled));
             tex.Name = "ImGui.NET Font Texture";
             gd.UpdateTexture(

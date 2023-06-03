@@ -21,6 +21,7 @@ using Veldrid.StartupUtilities;
 using System.Windows.Forms;
 using StudioCore.MsbEditor;
 using System.Drawing;
+using Vortice.Vulkan;
 
 namespace StudioCore
 {
@@ -105,7 +106,7 @@ namespace StudioCore
                 WindowInitialState = WindowState.Maximized,
                 WindowTitle = $"{_programTitle}",
             };
-            GraphicsDeviceOptions gdOptions = new GraphicsDeviceOptions(false, PixelFormat.R32_Float, true, ResourceBindingModel.Improved, true, true, _colorSrgb);
+            GraphicsDeviceOptions gdOptions = new GraphicsDeviceOptions(false, VkFormat.D32Sfloat, true, ResourceBindingModel.Improved, true, true, _colorSrgb);
 
 #if DEBUG
             gdOptions.Debug = true;
@@ -1479,7 +1480,7 @@ namespace StudioCore
 
             var factory = _gd.ResourceFactory;
             _gd.GetPixelFormatSupport(
-                PixelFormat.R8_G8_B8_A8_UNorm,
+                VkFormat.R8G8B8A8Unorm,
                 TextureType.Texture2D,
                 TextureUsage.RenderTarget,
                 out PixelFormatProperties properties);
@@ -1489,7 +1490,7 @@ namespace StudioCore
                 _gd.SwapchainFramebuffer.Height,
                 1,
                 1,
-                PixelFormat.R8_G8_B8_A8_UNorm,
+                VkFormat.R8G8B8A8Unorm,
                 TextureUsage.RenderTarget | TextureUsage.Sampled,
                 TextureSampleCount.Count1);
             MainWindowColorTexture = factory.CreateTexture(ref mainColorDesc);

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using Veldrid;
 using Veldrid.SPIRV;
+using Vortice.Vulkan;
 
 namespace StudioCore.Scene
 {
@@ -63,9 +64,9 @@ namespace StudioCore.Scene
             specializations.Add(new SpecializationConstant(101, glOrGles)); // TextureCoordinatesInvertedY
             specializations.Add(new SpecializationConstant(102, gd.IsDepthRangeZeroToOne));
 
-            PixelFormat swapchainFormat = gd.MainSwapchain.Framebuffer.OutputDescription.ColorAttachments[0].Format;
-            bool swapchainIsSrgb = swapchainFormat == PixelFormat.B8_G8_R8_A8_UNorm_SRgb
-                || swapchainFormat == PixelFormat.R8_G8_B8_A8_UNorm_SRgb;
+            var swapchainFormat = gd.MainSwapchain.Framebuffer.OutputDescription.ColorAttachments[0].Format;
+            bool swapchainIsSrgb = swapchainFormat == VkFormat.R8G8B8A8Unorm
+                || swapchainFormat == VkFormat.R8G8B8A8Srgb;
             specializations.Add(new SpecializationConstant(103, swapchainIsSrgb));
 
             return specializations.ToArray();

@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Text;
+using Vortice.Vulkan;
 
 namespace Veldrid
 {
@@ -236,7 +237,7 @@ namespace Veldrid
             uint width,
             uint height,
             uint depth,
-            PixelFormat format)
+            VkFormat format)
         {
             uint blockSize = FormatHelpers.IsCompressedFormat(format) ? 4u : 1u;
             uint blockSizeInBytes = blockSize > 1 ? FormatHelpers.GetBlockSizeInBytes(format) : FormatHelpers.GetSizeInBytes(format);

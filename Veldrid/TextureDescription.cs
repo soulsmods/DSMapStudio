@@ -1,4 +1,5 @@
 ﻿using System;
+using Vortice.Vulkan;
 
 namespace Veldrid
 {
@@ -30,7 +31,7 @@ namespace Veldrid
         /// <summary>
         /// The format of individual texture elements.
         /// </summary>
-        public PixelFormat Format;
+        public VkFormat Format;
         /// <summary>
         /// Controls how the Texture is permitted to be used. If the Texture will be sampled from a shader, then
         /// <see cref="TextureUsage.Sampled"/> must be included. If the Texture will be used as a depth target in a
@@ -70,7 +71,7 @@ namespace Veldrid
             uint depth,
             uint mipLevels,
             uint arrayLayers,
-            PixelFormat format,
+            VkFormat format,
             TextureUsage usage,
             TextureType type)
         {
@@ -108,7 +109,7 @@ namespace Veldrid
             uint depth,
             uint mipLevels,
             uint arrayLayers,
-            PixelFormat format,
+            VkFormat format,
             TextureUsage usage,
             TextureType type,
             TextureSampleCount sampleCount)
@@ -141,7 +142,7 @@ namespace Veldrid
             uint width,
             uint mipLevels,
             uint arrayLayers,
-            PixelFormat format,
+            VkFormat format,
             TextureUsage usage)
         {
             return new TextureDescription(
@@ -175,7 +176,7 @@ namespace Veldrid
             uint height,
             uint mipLevels,
             uint arrayLayers,
-            PixelFormat format,
+            VkFormat format,
             TextureUsage usage)
         {
             return new TextureDescription(
@@ -211,7 +212,7 @@ namespace Veldrid
             uint height,
             uint mipLevels,
             uint arrayLayers,
-            PixelFormat format,
+            VkFormat format,
             TextureUsage usage,
             TextureSampleCount sampleCount)
         {
@@ -245,7 +246,7 @@ namespace Veldrid
             uint height,
             uint depth,
             uint mipLevels,
-            PixelFormat format,
+            VkFormat format,
             TextureUsage usage)
         {
             return new TextureDescription(

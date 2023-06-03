@@ -20,7 +20,7 @@ namespace Veldrid
         private readonly VmaAllocation _allocation;
         private readonly VmaAllocationInfo _allocationInfo;
         private readonly VkBuffer _stagingBuffer;
-        private PixelFormat _format; // Static for regular images -- may change for shared staging images
+        private VkFormat _format; // Static for regular images -- may change for shared staging images
         private readonly uint _actualImageArrayLayers;
         private bool _destroyed;
 
@@ -56,7 +56,7 @@ namespace Veldrid
         /// <summary>
         /// The format of individual texture elements stored in this instance.
         /// </summary>
-        public PixelFormat Format => _format;
+        public VkFormat Format => _format;
         /// <summary>
         /// The total width of this instance, in texels.
         /// </summary>
@@ -122,7 +122,7 @@ namespace Veldrid
             Type = description.Type;
             SampleCount = description.SampleCount;
             VkSampleCount = VkFormats.VdToVkSampleCount(SampleCount);
-            VkFormat = VkFormats.VdToVkPixelFormat(Format, (description.Usage & TextureUsage.DepthStencil) == TextureUsage.DepthStencil);
+            VkFormat = Format;
 
             bool isStaging = (Usage & TextureUsage.Staging) == TextureUsage.Staging;
 
@@ -235,7 +235,7 @@ namespace Veldrid
             _height = height;
             _depth = 1;
             VkFormat = vkFormat;
-            _format = VkFormats.VkToVdPixelFormat(VkFormat);
+            _format = VkFormat;
             ArrayLayers = arrayLayers;
             Usage = usage;
             Type = TextureType.Texture2D;
@@ -391,7 +391,7 @@ namespace Veldrid
             return _imageLayouts[CalculateSubresource(mipLevel, arrayLayer)];
         }
 
-        internal void SetStagingDimensions(uint width, uint height, uint depth, PixelFormat format)
+        internal void SetStagingDimensions(uint width, uint height, uint depth, VkFormat format)
         {
             Debug.Assert(_stagingBuffer != Vortice.Vulkan.VkBuffer.Null);
             Debug.Assert(Usage == TextureUsage.Staging);

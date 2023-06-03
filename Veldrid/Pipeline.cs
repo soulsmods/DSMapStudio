@@ -271,7 +271,7 @@ namespace Veldrid
             StackList<VkAttachmentReference> colorAttachmentRefs = new StackList<VkAttachmentReference>();
             for (uint i = 0; i < outputDesc.ColorAttachments.Length; i++)
             {
-                colorAttachmentDescs[i].format = VkFormats.VdToVkPixelFormat(outputDesc.ColorAttachments[i].Format);
+                colorAttachmentDescs[i].format = outputDesc.ColorAttachments[i].Format;
                 colorAttachmentDescs[i].samples = vkSampleCount;
                 colorAttachmentDescs[i].loadOp = VkAttachmentLoadOp.DontCare;
                 colorAttachmentDescs[i].storeOp = VkAttachmentStoreOp.Store;
@@ -289,9 +289,9 @@ namespace Veldrid
             VkAttachmentReference depthAttachmentRef = new VkAttachmentReference();
             if (outputDesc.DepthAttachment != null)
             {
-                PixelFormat depthFormat = outputDesc.DepthAttachment.Value.Format;
+                VkFormat depthFormat = outputDesc.DepthAttachment.Value.Format;
                 bool hasStencil = FormatHelpers.IsStencilFormat(depthFormat);
-                depthAttachmentDesc.format = VkFormats.VdToVkPixelFormat(outputDesc.DepthAttachment.Value.Format, toDepthFormat: true);
+                depthAttachmentDesc.format = outputDesc.DepthAttachment.Value.Format;
                 depthAttachmentDesc.samples = vkSampleCount;
                 depthAttachmentDesc.loadOp = VkAttachmentLoadOp.DontCare;
                 depthAttachmentDesc.storeOp = VkAttachmentStoreOp.Store;
