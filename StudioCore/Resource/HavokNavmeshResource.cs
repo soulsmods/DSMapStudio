@@ -44,10 +44,17 @@ namespace StudioCore.Resource
                 indexCount += (f.m_numEdges - 2) * 3;
             }
 
-            var MeshIndices = new int[indexCount * 3];
-            var MeshVertices = new NavmeshLayout[indexCount * 3];
-            PickingVertices = new Vector3[indexCount * 3];
-            PickingIndices = new int[indexCount * 3];
+            VertexCount = indexCount * 3;
+            IndexCount = indexCount * 3;
+            uint buffersize = (uint)IndexCount * 4u;
+            uint vbuffersize = (uint)VertexCount * NavmeshLayout.SizeInBytes;
+            GeomBuffer =
+                Scene.Renderer.GeometryBufferAllocator.Allocate(
+                    vbuffersize, buffersize, (int)NavmeshLayout.SizeInBytes, 4);
+            var MeshIndices = new Span<int>(GeomBuffer.MapIBuffer().ToPointer(), IndexCount);
+            var MeshVertices = new Span<NavmeshLayout>(GeomBuffer.MapVBuffer().ToPointer(), VertexCount);
+            PickingVertices = new Vector3[VertexCount];
+            PickingIndices = new int[IndexCount];
 
             var factory = Scene.Renderer.Factory;
 
@@ -128,11 +135,9 @@ namespace StudioCore.Resource
                     idx += 3;
                 }
             }
-
-            VertexCount = MeshVertices.Length;
-            IndexCount = MeshIndices.Length;
-
-            uint buffersize = (uint)IndexCount * 4u;
+            
+            GeomBuffer.UnmapIBuffer();
+            GeomBuffer.UnmapVBuffer();
 
             if (VertexCount > 0)
             {
@@ -145,20 +150,6 @@ namespace StudioCore.Resource
             {
                 Bounds = new BoundingBox();
             }
-
-            uint vbuffersize = (uint)MeshVertices.Length * NavmeshLayout.SizeInBytes;
-
-            GeomBuffer = Scene.Renderer.GeometryBufferAllocator.Allocate(vbuffersize, buffersize, (int)NavmeshLayout.SizeInBytes, 4, (h) =>
-            {
-                h.FillIBuffer(MeshIndices, () =>
-                {
-                    MeshIndices = null;
-                });
-                h.FillVBuffer(MeshVertices, () =>
-                {
-                    MeshVertices = null;
-                });
-            });
         }
 
         unsafe private void ProcessGraph(hkaiDirectedGraphExplicitCost graph)

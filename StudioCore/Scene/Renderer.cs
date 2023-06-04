@@ -529,7 +529,7 @@ namespace StudioCore.Scene
 
             SamplerSet.Initialize(device);
 
-            GeometryBufferAllocator = new VertexIndexBufferAllocator(256 * 1024 * 1024, 128 * 1024 * 1024);
+            GeometryBufferAllocator = new VertexIndexBufferAllocator(Device, 256 * 1024 * 1024, 128 * 1024 * 1024);
             UniformBufferAllocator = new GPUBufferAllocator(5 * 1024 * 1024, VkBufferUsageFlags.StorageBuffer, (uint)sizeof(InstanceData));
 
             MaterialBufferAllocator = new GPUBufferAllocator("materials", 5 * 1024 * 1024, VkBufferUsageFlags.StorageBuffer, (uint)sizeof(Material), VkShaderStageFlags.Fragment);
