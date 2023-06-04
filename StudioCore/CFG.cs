@@ -60,7 +60,8 @@ namespace StudioCore
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show($"{e.Message}\n\nConfig could not be loaded, and will be reset.", $"{Config_FileName} Load Error");
+                    MessageBox.Show($"{e.Message}\n\nConfig could not be loaded, and will be reset.",
+                        $"{Config_FileName} Load Error", MessageBoxButtons.OK);
                     Current = new CFG();
                 }
             }
@@ -82,7 +83,8 @@ namespace StudioCore
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show($"{e.Message}\n\nKeybinds could not be loaded, and will be reset.", $"{Keybinds_FileName} Load Error", MessageBoxButtons.OK);
+                    MessageBox.Show($"{e.Message}\n\nKeybinds could not be loaded, and will be reset.",
+                        $"{Keybinds_FileName} Load Error", MessageBoxButtons.OK);
                     KeyBindings.Current = new KeyBindings.Bindings();
                 }
             }

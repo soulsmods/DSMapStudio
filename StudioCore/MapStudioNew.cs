@@ -167,6 +167,12 @@ namespace StudioCore
                     var project = Editor.ProjectSettings.Deserialize(CFG.Current.LastProjectFile);
                     AttemptLoadProject(project, CFG.Current.LastProjectFile, false);
                 }
+                else
+                {
+                    MessageBox.Show($"Project.json at \"{CFG.Current.LastProjectFile}\" does not exist.", "Project Load Error", MessageBoxButtons.OK);
+                    CFG.Current.LastProjectFile = "";
+                    CFG.Save();
+                }
             }
         }
 
@@ -831,6 +837,12 @@ namespace StudioCore
                                     {
                                         recent = p;
                                     }
+                                }
+                                else
+                                {
+                                    MessageBox.Show($"Project.json at \"{p.ProjectFile}\" does not exist.\nRemoving project from recent projects list.", "Project Load Error", MessageBoxButtons.OK);
+                                    CFG.Current.RecentProjects.Remove(p);
+                                    CFG.Save();
                                 }
                             }
                             if (ImGui.BeginPopupContextItem())
