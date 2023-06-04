@@ -40,7 +40,7 @@ namespace Veldrid
         /// The format used to interpret the contents of the target Texture. This may be different from the target Texture's
         /// true storage format, but it will be the same size.
         /// </summary>
-        public PixelFormat Format { get; }
+        public VkFormat Format { get; }
 
         internal VkImageView ImageView => _imageView;
         
@@ -63,7 +63,7 @@ namespace Veldrid
             var tex = description.Target;
 
             VkImageAspectFlags aspectFlags;
-            if ((description.Target.Usage & TextureUsage.DepthStencil) == TextureUsage.DepthStencil)
+            if ((description.Target.Usage & VkImageUsageFlags.DepthStencilAttachment) == VkImageUsageFlags.DepthStencilAttachment)
             {
                 aspectFlags = VkImageAspectFlags.Depth;
             }
@@ -76,7 +76,7 @@ namespace Veldrid
             {
                 sType = VkStructureType.ImageViewCreateInfo,
                 image = tex.OptimalDeviceImage,
-                format = VkFormats.VdToVkPixelFormat(Format, (Target.Usage & TextureUsage.DepthStencil) != 0),
+                format = Format,
                 subresourceRange = new VkImageSubresourceRange(
                     aspectFlags,
                     description.BaseMipLevel,
@@ -85,7 +85,7 @@ namespace Veldrid
                     description.ArrayLayers)
             };
 
-            if ((tex.Usage & TextureUsage.Cubemap) == TextureUsage.Cubemap)
+            if ((tex.CreateFlags & VkImageCreateFlags.CubeCompatible) == VkImageCreateFlags.CubeCompatible)
             {
                 imageViewCI.viewType = description.ArrayLayers == 1 ? VkImageViewType.ImageCube : VkImageViewType.ImageCubeArray;
                 imageViewCI.subresourceRange.layerCount *= 6;
@@ -94,17 +94,17 @@ namespace Veldrid
             {
                 switch (tex.Type)
                 {
-                    case TextureType.Texture1D:
+                    case VkImageType.Image1D:
                         imageViewCI.viewType = description.ArrayLayers == 1
                             ? VkImageViewType.Image1D
                             : VkImageViewType.Image1DArray;
                         break;
-                    case TextureType.Texture2D:
+                    case VkImageType.Image2D:
                         imageViewCI.viewType = description.ArrayLayers == 1
                             ? VkImageViewType.Image2D
                             : VkImageViewType.Image2DArray;
                         break;
-                    case TextureType.Texture3D:
+                    case VkImageType.Image3D:
                         imageViewCI.viewType = VkImageViewType.Image3D;
                         break;
                 }

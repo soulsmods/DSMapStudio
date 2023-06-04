@@ -56,24 +56,6 @@ namespace Veldrid
         }
 
         /// <summary>
-        /// Gets the underlying VkImage wrapped by the given Veldrid Texture. This method can not be used on Textures with
-        /// TextureUsage.Staging.
-        /// </summary>
-        /// <param name="texture">The Texture whose underlying VkImage will be returned.</param>
-        /// <returns>The underlying VkImage for the given Texture.</returns>
-        public ulong GetVkImage(Texture texture)
-        {
-            if ((texture.Usage & TextureUsage.Staging) != 0)
-            {
-                throw new VeldridException(
-                    $"{nameof(GetVkImage)} cannot be used if the {nameof(Texture)} " +
-                    $"has {nameof(TextureUsage)}.{nameof(TextureUsage.Staging)}.");
-            }
-
-            return texture.OptimalDeviceImage.Handle;
-        }
-
-        /// <summary>
         /// Transitions the given Texture's underlying VkImage into a new layout.
         /// </summary>
         /// <param name="texture">The Texture whose underlying VkImage will be transitioned.</param>

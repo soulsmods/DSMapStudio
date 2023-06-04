@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Text;
+using Vortice.Vulkan;
 
 namespace Veldrid
 {
@@ -177,7 +178,7 @@ namespace Veldrid
 
         internal static ulong ComputeSubresourceOffset(Texture tex, uint mipLevel, uint arrayLayer)
         {
-            Debug.Assert((tex.Usage & TextureUsage.Staging) == TextureUsage.Staging);
+            Debug.Assert(tex.Tiling == VkImageTiling.Linear);
             return ComputeArrayLayerOffset(tex, arrayLayer) + ComputeMipOffset(tex, mipLevel);
         }
 
@@ -236,7 +237,7 @@ namespace Veldrid
             uint width,
             uint height,
             uint depth,
-            PixelFormat format)
+            VkFormat format)
         {
             uint blockSize = FormatHelpers.IsCompressedFormat(format) ? 4u : 1u;
             uint blockSizeInBytes = blockSize > 1 ? FormatHelpers.GetBlockSizeInBytes(format) : FormatHelpers.GetSizeInBytes(format);

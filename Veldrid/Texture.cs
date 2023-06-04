@@ -20,7 +20,7 @@ namespace Veldrid
         private readonly VmaAllocation _allocation;
         private readonly VmaAllocationInfo _allocationInfo;
         private readonly VkBuffer _stagingBuffer;
-        private PixelFormat _format; // Static for regular images -- may change for shared staging images
+        private VkFormat _format; // Static for regular images -- may change for shared staging images
         private readonly uint _actualImageArrayLayers;
         private bool _destroyed;
 
@@ -56,7 +56,7 @@ namespace Veldrid
         /// <summary>
         /// The format of individual texture elements stored in this instance.
         /// </summary>
-        public PixelFormat Format => _format;
+        public VkFormat Format => _format;
         /// <summary>
         /// The total width of this instance, in texels.
         /// </summary>
@@ -81,16 +81,24 @@ namespace Veldrid
         /// The usage flags given when this instance was created. This property controls how this instance is permitted to be
         /// used, and it is an error to attempt to use the Texture outside of those contexts.
         /// </summary>
-        public TextureUsage Usage { get; }
+        public VkImageUsageFlags Usage { get; }
+        /// <summary>
+        /// Create flags for this texture
+        /// </summary>
+        public VkImageCreateFlags CreateFlags { get; }
+        /// <summary>
+        /// Tiling of this image
+        /// </summary>
+        public VkImageTiling Tiling { get; }
         /// <summary>
         /// The <see cref="TextureType"/> of this instance.
         /// </summary>
-        public TextureType Type { get; }
+        public VkImageType Type { get; }
         /// <summary>
         /// The number of samples in this instance. If this returns any value other than <see cref="TextureSampleCount.Count1"/>,
         /// then this instance is a multipsample texture.
         /// </summary>
-        public TextureSampleCount SampleCount { get; }
+        public VkSampleCountFlags SampleCount { get; }
         /// <summary>
         /// A string identifying this instance. Can be used to differentiate between objects in graphics debuggers and other
         /// tools.
@@ -113,18 +121,20 @@ namespace Veldrid
             _depth = description.Depth;
             MipLevels = description.MipLevels;
             ArrayLayers = description.ArrayLayers;
-            bool isCubemap = ((description.Usage) & TextureUsage.Cubemap) == TextureUsage.Cubemap;
+            bool isCubemap = ((description.CreateFlags) & VkImageCreateFlags.CubeCompatible) == VkImageCreateFlags.CubeCompatible;
             _actualImageArrayLayers = isCubemap
                 ? 6 * ArrayLayers
                 : ArrayLayers;
             _format = description.Format;
             Usage = description.Usage;
+            CreateFlags = description.CreateFlags;
+            Tiling = description.Tiling;
             Type = description.Type;
             SampleCount = description.SampleCount;
-            VkSampleCount = VkFormats.VdToVkSampleCount(SampleCount);
-            VkFormat = VkFormats.VdToVkPixelFormat(Format, (description.Usage & TextureUsage.DepthStencil) == TextureUsage.DepthStencil);
+            VkSampleCount = SampleCount;
+            VkFormat = Format;
 
-            bool isStaging = (Usage & TextureUsage.Staging) == TextureUsage.Staging;
+            bool isStaging = Tiling == VkImageTiling.Linear;
 
             if (!isStaging)
             {
@@ -133,7 +143,7 @@ namespace Veldrid
                     sType = VkStructureType.ImageCreateInfo,
                     mipLevels = MipLevels,
                     arrayLayers = _actualImageArrayLayers,
-                    imageType = VkFormats.VdToVkTextureType(Type),
+                    imageType = Type,
                     extent = new VkExtent3D
                     {
                         width = Width,
@@ -141,10 +151,10 @@ namespace Veldrid
                         depth = Depth
                     },
                     initialLayout = VkImageLayout.Preinitialized,
-                    usage = VkFormats.VdToVkTextureUsage(Usage),
-                    tiling = isStaging ? VkImageTiling.Linear : VkImageTiling.Optimal,
+                    usage = Usage | VkImageUsageFlags.TransferDst | VkImageUsageFlags.TransferSrc,
+                    tiling = Tiling,
                     format = VkFormat,
-                    flags = VkImageCreateFlags.MutableFormat,
+                    flags = CreateFlags | VkImageCreateFlags.MutableFormat,
                     samples = VkSampleCount
                 };
 
@@ -224,8 +234,8 @@ namespace Veldrid
             uint mipLevels,
             uint arrayLayers,
             VkFormat vkFormat,
-            TextureUsage usage,
-            TextureSampleCount sampleCount,
+            VkImageUsageFlags usage,
+            VkSampleCountFlags sampleCount,
             VkImage existingImage)
         {
             Debug.Assert(width > 0 && height > 0);
@@ -235,12 +245,12 @@ namespace Veldrid
             _height = height;
             _depth = 1;
             VkFormat = vkFormat;
-            _format = VkFormats.VkToVdPixelFormat(VkFormat);
+            _format = VkFormat;
             ArrayLayers = arrayLayers;
             Usage = usage;
-            Type = TextureType.Texture2D;
+            Type = VkImageType.Image2D;
             SampleCount = sampleCount;
-            VkSampleCount = VkFormats.VdToVkSampleCount(sampleCount);
+            VkSampleCount = sampleCount;
             _optimalImage = existingImage;
             _imageLayouts = new[] { VkImageLayout.Undefined };
 
@@ -269,11 +279,11 @@ namespace Veldrid
         private void ClearIfRenderTarget()
         {
             // If the image is going to be used as a render target, we need to clear the data before its first use.
-            if ((Usage & TextureUsage.RenderTarget) != 0)
+            if ((Usage & VkImageUsageFlags.ColorAttachment) != 0)
             {
                 _gd.ClearColorTexture(this, new VkClearColorValue(0, 0, 0, 0));
             }
-            else if ((Usage & TextureUsage.DepthStencil) != 0)
+            else if ((Usage & VkImageUsageFlags.DepthStencilAttachment) != 0)
             {
                 _gd.ClearDepthTexture(this, new VkClearDepthStencilValue(0, 0));
             }
@@ -281,7 +291,7 @@ namespace Veldrid
 
         private void TransitionIfSampled()
         {
-            if ((Usage & TextureUsage.Sampled) != 0)
+            if ((Usage & VkImageUsageFlags.Sampled) != 0)
             {
                 _gd.TransitionImageLayout(this, VkImageLayout.ShaderReadOnlyOptimal);
             }
@@ -293,7 +303,7 @@ namespace Veldrid
             Util.GetMipLevelAndArrayLayer(this, subresource, out uint mipLevel, out uint arrayLayer);
             if (!staging)
             {
-                VkImageAspectFlags aspect = (Usage & TextureUsage.DepthStencil) == TextureUsage.DepthStencil
+                VkImageAspectFlags aspect = (Usage & VkImageUsageFlags.DepthStencilAttachment) == VkImageUsageFlags.DepthStencilAttachment
                   ? (VkImageAspectFlags.Depth | VkImageAspectFlags.Stencil)
                   : VkImageAspectFlags.Color;
                 VkImageSubresource imageSubresource = new VkImageSubresource
@@ -355,7 +365,7 @@ namespace Veldrid
             if (oldLayout != newLayout)
             {
                 VkImageAspectFlags aspectMask;
-                if ((Usage & TextureUsage.DepthStencil) != 0)
+                if ((Usage & VkImageUsageFlags.DepthStencilAttachment) != 0)
                 {
                     aspectMask = FormatHelpers.IsStencilFormat(Format)
                         ? aspectMask = VkImageAspectFlags.Depth | VkImageAspectFlags.Stencil
@@ -371,14 +381,14 @@ namespace Veldrid
                     baseMipLevel,
                     levelCount,
                     baseArrayLayer,
-                    ((Usage & TextureUsage.Cubemap) > 0) ? _actualImageArrayLayers : layerCount,//layerCount,
+                    ((CreateFlags & VkImageCreateFlags.CubeCompatible) > 0) ? _actualImageArrayLayers : layerCount,//layerCount,
                     aspectMask,
                     _imageLayouts[CalculateSubresource(baseMipLevel, baseArrayLayer)],
                     newLayout);
 
                 for (uint level = 0; level < levelCount; level++)
                 {
-                    for (uint layer = 0; layer < (((Usage & TextureUsage.Cubemap) > 0) ? _actualImageArrayLayers : layerCount); layer++)
+                    for (uint layer = 0; layer < (((CreateFlags & VkImageCreateFlags.CubeCompatible) > 0) ? _actualImageArrayLayers : layerCount); layer++)
                     {
                         _imageLayouts[CalculateSubresource(baseMipLevel + level, baseArrayLayer + layer)] = newLayout;
                     }
@@ -391,10 +401,10 @@ namespace Veldrid
             return _imageLayouts[CalculateSubresource(mipLevel, arrayLayer)];
         }
 
-        internal void SetStagingDimensions(uint width, uint height, uint depth, PixelFormat format)
+        internal void SetStagingDimensions(uint width, uint height, uint depth, VkFormat format)
         {
             Debug.Assert(_stagingBuffer != Vortice.Vulkan.VkBuffer.Null);
-            Debug.Assert(Usage == TextureUsage.Staging);
+            Debug.Assert(Tiling == VkImageTiling.Linear);
             _width = width;
             _height = height;
             _depth = depth;
@@ -409,7 +419,7 @@ namespace Veldrid
 
                 _destroyed = true;
 
-                bool isStaging = (Usage & TextureUsage.Staging) == TextureUsage.Staging;
+                bool isStaging = Tiling == VkImageTiling.Linear;
                 if (isStaging)
                 {
                     Vma.vmaDestroyBuffer(_gd.Allocator, _stagingBuffer, _allocation);

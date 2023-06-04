@@ -48,7 +48,7 @@ namespace Veldrid
             }
             
             bool variableCount =
-                (vkLayout.Description.Elements[^1].Options & ResourceLayoutElementOptions.VariableCount) != 0;
+                (vkLayout.Description.Elements[^1].BindingFlags & VkDescriptorBindingFlags.VariableDescriptorCount) != 0;
             VkDescriptorSetLayout dsl = vkLayout.DescriptorSetLayout;
             _descriptorCounts = vkLayout.DescriptorResourceCounts;
             _descriptorAllocationToken =
@@ -71,8 +71,10 @@ namespace Veldrid
                     dstSet = _descriptorAllocationToken.Set
                 };
 
-                if (type == VkDescriptorType.UniformBuffer || type == VkDescriptorType.UniformBufferDynamic
-                                                           || type == VkDescriptorType.StorageBuffer || type == VkDescriptorType.StorageBufferDynamic)
+                if (type == VkDescriptorType.UniformBuffer 
+                    || type == VkDescriptorType.UniformBufferDynamic 
+                    || type == VkDescriptorType.StorageBuffer 
+                    || type == VkDescriptorType.StorageBufferDynamic)
                 {
                     DeviceBufferRange range = Util.GetBufferRange(boundResources[boundr], 0);
                     var rangedVkBuffer = range.Buffer;

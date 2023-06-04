@@ -10,6 +10,7 @@ using SoulsFormats;
 using System.IO;
 using System.Threading.Tasks.Dataflow;
 using HKX2;
+using Vortice.Vulkan;
 
 namespace StudioCore.Resource
 {
@@ -34,7 +35,7 @@ namespace StudioCore.Resource
 
         public BoundingBox Bounds { get; set; }
 
-        public FrontFace FrontFace { get; private set; }
+        public VkFrontFace FrontFace { get; private set; }
 
         unsafe private void ProcessMesh(HKX.HKPStorageExtendedMeshShapeMeshSubpartStorage mesh, CollisionSubmesh dest)
         {
@@ -666,11 +667,11 @@ namespace StudioCore.Resource
 
             if (type == GameType.DarkSoulsIISOTFS || type == GameType.DarkSoulsIII || type == GameType.Bloodborne)
             {
-                FrontFace = FrontFace.Clockwise;
+                FrontFace = VkFrontFace.Clockwise;
             }
             else
             {
-                FrontFace = FrontFace.CounterClockwise;
+                FrontFace = VkFrontFace.CounterClockwise;
             }
 
             if (type == GameType.DarkSoulsIII)
@@ -701,11 +702,11 @@ namespace StudioCore.Resource
 
             if (type == GameType.DarkSoulsIISOTFS || type == GameType.DarkSoulsIII || type == GameType.Bloodborne)
             {
-                FrontFace = FrontFace.Clockwise;
+                FrontFace = VkFrontFace.Clockwise;
             }
             else
             {
-                FrontFace = FrontFace.CounterClockwise;
+                FrontFace = VkFrontFace.CounterClockwise;
             }
 
             if (type == GameType.DarkSoulsIII)

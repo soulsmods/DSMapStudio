@@ -39,7 +39,7 @@ namespace Veldrid
 
 #if VALIDATE_USAGE
         private DeviceBuffer _indexBuffer;
-        private IndexFormat _indexFormat;
+        private VkIndexType _indexFormat;
 #endif
         
         private readonly GraphicsDevice _gd;
@@ -271,7 +271,7 @@ namespace Veldrid
         public void SetVertexBuffer(uint index, DeviceBuffer buffer, uint offset)
         {
 #if VALIDATE_USAGE
-            if ((buffer.Usage & BufferUsage.VertexBuffer) == 0)
+            if ((buffer.Usage & VkBufferUsageFlags.VertexBuffer) == 0)
             {
                 throw new VeldridException(
                     $"Buffer cannot be bound as a vertex buffer because it was not created with BufferUsage.VertexBuffer.");
@@ -294,7 +294,7 @@ namespace Veldrid
         /// </summary>
         /// <param name="buffer">The new <see cref="DeviceBuffer"/>.</param>
         /// <param name="format">The format of data in the <see cref="DeviceBuffer"/>.</param>
-        public void SetIndexBuffer(DeviceBuffer buffer, IndexFormat format)
+        public void SetIndexBuffer(DeviceBuffer buffer, VkIndexType format)
         {
             SetIndexBuffer(buffer, format, 0);
         }
@@ -307,10 +307,10 @@ namespace Veldrid
         /// <param name="format">The format of data in the <see cref="DeviceBuffer"/>.</param>
         /// <param name="offset">The offset from the start of the buffer, in bytes, from which data will start to be read.
         /// </param>
-        public void SetIndexBuffer(DeviceBuffer buffer, IndexFormat format, uint offset)
+        public void SetIndexBuffer(DeviceBuffer buffer, VkIndexType format, uint offset)
         {
 #if VALIDATE_USAGE
-            if ((buffer.Usage & BufferUsage.IndexBuffer) == 0)
+            if ((buffer.Usage & VkBufferUsageFlags.IndexBuffer) == 0)
             {
                 throw new VeldridException(
                     $"Buffer cannot be bound as an index buffer because it was not created with BufferUsage.IndexBuffer.");
@@ -321,9 +321,9 @@ namespace Veldrid
             SetIndexBufferCore(buffer, format, offset);
         }
 
-        private void SetIndexBufferCore(DeviceBuffer buffer, IndexFormat format, uint offset)
+        private void SetIndexBufferCore(DeviceBuffer buffer, VkIndexType format, uint offset)
         {
-            vkCmdBindIndexBuffer(_cb, buffer.Buffer, offset, VkFormats.VdToVkIndexFormat(format));
+            vkCmdBindIndexBuffer(_cb, buffer.Buffer, offset, format);
             _currentStagingInfo.Resources.Add(buffer.RefCount);
         }
         
@@ -392,8 +392,8 @@ namespace Veldrid
 
             for (int i = 0; i < pipelineLength; i++)
             {
-                ResourceKind pipelineKind = layout.Description.Elements[i].Kind;
-                ResourceKind setKind = layoutDesc.Elements[i].Kind;
+                var pipelineKind = layout.Description.Elements[i].Kind;
+                var setKind = layoutDesc.Elements[i].Kind;
                 if (pipelineKind != setKind)
                 {
                     throw new VeldridException(
@@ -405,16 +405,17 @@ namespace Veldrid
             {
                 throw new VeldridException(
                     $"A dynamic offset must be provided for each resource that specifies " +
-                    $"{nameof(ResourceLayoutElementOptions)}.{nameof(ResourceLayoutElementOptions.DynamicBinding)}. " +
+                    $"dynamic binding. " +
                     $"{rs.Layout.DynamicBufferCountValidation} offsets were expected, but only {dynamicOffsetsCount} were provided.");
             }
 
             uint dynamicOffsetIndex = 0;
             for (uint i = 0; i < layoutDesc.Elements.Length; i++)
             {
-                if ((layoutDesc.Elements[i].Options & ResourceLayoutElementOptions.DynamicBinding) != 0)
+                if (layoutDesc.Elements[i].Kind == VkDescriptorType.StorageBufferDynamic ||
+                    layoutDesc.Elements[i].Kind == VkDescriptorType.UniformBufferDynamic)
                 {
-                    uint requiredAlignment = layoutDesc.Elements[i].Kind == ResourceKind.UniformBuffer
+                    uint requiredAlignment = layoutDesc.Elements[i].Kind == VkDescriptorType.UniformBufferDynamic
                         ? _uniformBufferAlignment
                         : _structuredBufferAlignment;
                     uint desiredOffset = Unsafe.Add(ref dynamicOffsets, (int)dynamicOffsetIndex);
@@ -513,8 +514,8 @@ namespace Veldrid
 
             for (int i = 0; i < pipelineLength; i++)
             {
-                ResourceKind pipelineKind = layout.Description.Elements[i].Kind;
-                ResourceKind setKind = rs.Layout.Description.Elements[i].Kind;
+                var pipelineKind = layout.Description.Elements[i].Kind;
+                var setKind = rs.Layout.Description.Elements[i].Kind;
                 if (pipelineKind != setKind)
                 {
                     throw new VeldridException(
@@ -989,7 +990,7 @@ namespace Veldrid
         [Conditional("VALIDATE_USAGE")]
         private static void ValidateIndirectBuffer(DeviceBuffer indirectBuffer)
         {
-            if ((indirectBuffer.Usage & BufferUsage.IndirectBuffer) != BufferUsage.IndirectBuffer)
+            if ((indirectBuffer.Usage & VkBufferUsageFlags.IndirectBuffer) == 0)
             {
                 throw new VeldridException(
                     $"{nameof(indirectBuffer)} parameter must have been created with BufferUsage.IndirectBuffer. Instead, it was {indirectBuffer.Usage}.");
@@ -1057,12 +1058,12 @@ namespace Veldrid
         public void ResolveTexture(Texture source, Texture destination)
         {
 #if VALIDATE_USAGE
-            if (source.SampleCount == TextureSampleCount.Count1)
+            if (source.SampleCount == VkSampleCountFlags.Count1)
             {
                 throw new VeldridException(
                     $"The {nameof(source)} parameter of {nameof(ResolveTexture)} must be a multisample texture.");
             }
-            if (destination.SampleCount != TextureSampleCount.Count1)
+            if (destination.SampleCount != VkSampleCountFlags.Count1)
             {
                 throw new VeldridException(
                     $"The {nameof(destination)} parameter of {nameof(ResolveTexture)} must be a non-multisample texture. Instead, it is a texture with {FormatHelpers.GetSampleCountUInt32(source.SampleCount)} samples.");
@@ -1088,7 +1089,7 @@ namespace Veldrid
 
             _currentStagingInfo.Resources.Add(source.RefCount);
             _currentStagingInfo.Resources.Add(destination.RefCount);
-            VkImageAspectFlags aspectFlags = ((source.Usage & TextureUsage.DepthStencil) == TextureUsage.DepthStencil)
+            VkImageAspectFlags aspectFlags = ((source.Usage & VkImageUsageFlags.DepthStencilAttachment) == VkImageUsageFlags.DepthStencilAttachment)
                 ? VkImageAspectFlags.Depth | VkImageAspectFlags.Stencil
                 : VkImageAspectFlags.Color;
             VkImageResolve region = new VkImageResolve
@@ -1110,7 +1111,7 @@ namespace Veldrid
                 1,
                 &region);
 
-            if ((destination.Usage & TextureUsage.Sampled) != 0)
+            if ((destination.Usage & VkImageUsageFlags.Sampled) != 0)
             {
                 destination.TransitionImageLayout(_cb, 0, 1, 0, 1, VkImageLayout.ShaderReadOnlyOptimal);
             }
@@ -1286,8 +1287,11 @@ namespace Veldrid
             VkBufferMemoryBarrier2 bbarrier;
             VkDependencyInfo dependencyInfo;
 
-            // If we're doing a readback, make sure memory is host visible
-            if (destination.Usage.HasFlag(BufferUsage.Staging))
+            // If we're doing a readback into mapped host memory, make sure the source data is able
+            // to be transferred.
+            if (source.MemoryUsage == VmaMemoryUsage.AutoPreferDevice &&
+                destination.MemoryUsage == VmaMemoryUsage.AutoPreferHost &&
+                (destination.AllocationFlags & VmaAllocationCreateFlags.Mapped) != 0)
             {
                 bbarrier = new VkBufferMemoryBarrier2
                 {
@@ -1314,7 +1318,9 @@ namespace Veldrid
 
             vkCmdCopyBuffer(_cb, source.Buffer, destination.Buffer, 1, &region);
 
-            if (destination.Usage.HasFlag(BufferUsage.Staging))
+            if (source.MemoryUsage == VmaMemoryUsage.AutoPreferDevice &&
+                destination.MemoryUsage == VmaMemoryUsage.AutoPreferHost &&
+                (destination.AllocationFlags & VmaAllocationCreateFlags.Mapped) != 0)
             {
                 bbarrier = new VkBufferMemoryBarrier2
                 {
@@ -1340,7 +1346,7 @@ namespace Veldrid
             }
             else if (!IsTransfer)
             {
-                if (destination.Usage.HasFlag(BufferUsage.VertexBuffer))
+                if (destination.Usage.HasFlag(VkBufferUsageFlags.VertexBuffer))
                 {
                     barrier = new VkMemoryBarrier2
                     {
@@ -1390,10 +1396,10 @@ namespace Veldrid
         public void CopyTexture(Texture source, Texture destination)
         {
 #if VALIDATE_USAGE
-            uint effectiveSrcArrayLayers = (source.Usage & TextureUsage.Cubemap) != 0
+            uint effectiveSrcArrayLayers = (source.CreateFlags & VkImageCreateFlags.CubeCompatible) != 0
                 ? source.ArrayLayers * 6
                 : source.ArrayLayers;
-            uint effectiveDstArrayLayers = (destination.Usage & TextureUsage.Cubemap) != 0
+            uint effectiveDstArrayLayers = (destination.CreateFlags & VkImageCreateFlags.CubeCompatible) != 0
                 ? destination.ArrayLayers * 6
                 : destination.ArrayLayers;
             if (effectiveSrcArrayLayers != effectiveDstArrayLayers || source.MipLevels != destination.MipLevels
@@ -1426,10 +1432,10 @@ namespace Veldrid
         public void CopyTexture(Texture source, Texture destination, uint mipLevel, uint arrayLayer)
         {
 #if VALIDATE_USAGE
-            uint effectiveSrcArrayLayers = (source.Usage & TextureUsage.Cubemap) != 0
+            uint effectiveSrcArrayLayers = (source.CreateFlags & VkImageCreateFlags.CubeCompatible) != 0
                 ? source.ArrayLayers * 6
                 : source.ArrayLayers;
-            uint effectiveDstArrayLayers = (destination.Usage & TextureUsage.Cubemap) != 0
+            uint effectiveDstArrayLayers = (destination.CreateFlags & VkImageCreateFlags.CubeCompatible) != 0
                 ? destination.ArrayLayers * 6
                 : destination.ArrayLayers;
             if (effectiveSrcArrayLayers != effectiveDstArrayLayers || source.MipLevels != destination.MipLevels
@@ -1514,7 +1520,7 @@ namespace Veldrid
             {
                 throw new VeldridException($"{nameof(srcMipLevel)} must be less than the number of mip levels in the source Texture.");
             }
-            uint effectiveSrcArrayLayers = (source.Usage & TextureUsage.Cubemap) != 0
+            uint effectiveSrcArrayLayers = (source.CreateFlags & VkImageCreateFlags.CubeCompatible) != 0
                 ? source.ArrayLayers * 6
                 : source.ArrayLayers;
             if (srcBaseArrayLayer + layerCount > effectiveSrcArrayLayers)
@@ -1525,7 +1531,7 @@ namespace Veldrid
             {
                 throw new VeldridException($"{nameof(dstMipLevel)} must be less than the number of mip levels in the destination Texture.");
             }
-            uint effectiveDstArrayLayers = (destination.Usage & TextureUsage.Cubemap) != 0
+            uint effectiveDstArrayLayers = (destination.CreateFlags & VkImageCreateFlags.CubeCompatible) != 0
                 ? destination.ArrayLayers * 6
                 : destination.ArrayLayers;
             if (dstBaseArrayLayer + layerCount > effectiveDstArrayLayers)
@@ -1596,12 +1602,6 @@ namespace Veldrid
         /// <see cref="TextureUsage"/>.<see cref="TextureUsage.GenerateMipmaps"/>.</param>
         public void GenerateMipmaps(Texture texture)
         {
-            if ((texture.Usage & TextureUsage.GenerateMipmaps) == 0)
-            {
-                throw new VeldridException(
-                    $"{nameof(GenerateMipmaps)} requires a target Texture with {nameof(TextureUsage)}.{nameof(TextureUsage.GenerateMipmaps)}");
-            }
-
             if (texture.MipLevels > 1)
             {
                 GenerateMipmapsCore(texture);
@@ -1654,7 +1654,7 @@ namespace Veldrid
                 blitCount, regions,
                 _gd.GetFormatFilter(texture.VkFormat));
 
-            if ((texture.Usage & TextureUsage.Sampled) != 0)
+            if ((texture.Usage & VkImageUsageFlags.Sampled) != 0)
             {
                 // This is somewhat ugly -- the transition logic does not handle different source layouts, so we do two batches.
                 texture.TransitionImageLayout(_cb, 0, 1, 0, texture.ArrayLayers, VkImageLayout.ShaderReadOnlyOptimal);
@@ -1926,7 +1926,7 @@ namespace Veldrid
                 TransitionImages(vkSet.StorageTextures, VkImageLayout.General);
                 foreach (var storageTex in vkSet.StorageTextures)
                 {
-                    if ((storageTex.Usage & TextureUsage.Sampled) != 0)
+                    if ((storageTex.Usage & VkImageUsageFlags.Sampled) != 0)
                     {
                         _preDrawSampledImages.Add(storageTex);
                     }
@@ -2088,8 +2088,8 @@ namespace Veldrid
             uint width, uint height, uint depth,
             uint layerCount)
         {
-            bool sourceIsStaging = (source.Usage & TextureUsage.Staging) == TextureUsage.Staging;
-            bool destIsStaging = (destination.Usage & TextureUsage.Staging) == TextureUsage.Staging;
+            bool sourceIsStaging = source.Tiling == VkImageTiling.Linear;
+            bool destIsStaging = destination.Tiling == VkImageTiling.Linear;
 
             if (!sourceIsStaging && !destIsStaging)
             {
@@ -2143,7 +2143,7 @@ namespace Veldrid
                     1,
                     &region);
 
-                if ((source.Usage & TextureUsage.Sampled) != 0)
+                if ((source.Usage & VkImageUsageFlags.Sampled) != 0)
                 {
                     source.TransitionImageLayout(
                         cb,
@@ -2154,7 +2154,7 @@ namespace Veldrid
                         VkImageLayout.ShaderReadOnlyOptimal);
                 }
 
-                if ((destination.Usage & TextureUsage.Sampled) != 0)
+                if ((destination.Usage & VkImageUsageFlags.Sampled) != 0)
                 {
                     destination.TransitionImageLayout(
                         cb,
@@ -2214,7 +2214,7 @@ namespace Veldrid
 
                 vkCmdCopyBufferToImage(cb, srcBuffer, dstImage, VkImageLayout.TransferDstOptimal, 1, &regions);
 
-                if ((destination.Usage & TextureUsage.Sampled) != 0)
+                if ((destination.Usage & VkImageUsageFlags.Sampled) != 0)
                 {
                     destination.TransitionImageLayout(
                         cb,
@@ -2274,7 +2274,7 @@ namespace Veldrid
 
                 vkCmdCopyImageToBuffer(cb, srcImage, VkImageLayout.TransferSrcOptimal, dstBuffer, 1, &region);
 
-                if ((source.Usage & TextureUsage.Sampled) != 0)
+                if ((source.Usage & VkImageUsageFlags.Sampled) != 0)
                 {
                     source.TransitionImageLayout(
                         cb,
@@ -2371,7 +2371,12 @@ namespace Veldrid
                 }
                 if (ret == null)
                 {
-                    ret = _gd.ResourceFactory.CreateBuffer(new BufferDescription(size, BufferUsage.Staging));
+                    ret = _gd.ResourceFactory.CreateBuffer(
+                        new BufferDescription(
+                            size,
+                            VkBufferUsageFlags.None,
+                            VmaMemoryUsage.AutoPreferHost,
+                            VmaAllocationCreateFlags.Mapped));
                     ret.Name = $"Staging Buffer (CommandList {_name})";
                 }
 
@@ -2464,7 +2469,7 @@ namespace Veldrid
                 throw new VeldridException($"An index buffer must be bound before {nameof(CommandList)}.{nameof(DrawIndexed)} can be called.");
             }
 
-            uint indexFormatSize = _indexFormat == IndexFormat.UInt16 ? 2u : 4u;
+            uint indexFormatSize = _indexFormat == VkIndexType.Uint16 ? 2u : 4u;
             uint bytesNeeded = indexCount * indexFormatSize;
             if (_indexBuffer.SizeInBytes < bytesNeeded)
             {

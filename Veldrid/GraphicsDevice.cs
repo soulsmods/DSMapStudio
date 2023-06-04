@@ -171,11 +171,6 @@ namespace Veldrid
         internal GraphicsDevice() { }
 
         /// <summary>
-        /// Gets a value identifying the specific graphics API used by this instance.
-        /// </summary>
-        public GraphicsBackend BackendType => GraphicsBackend.Vulkan;
-
-        /// <summary>
         /// Gets a value identifying whether texture coordinates begin in the top left corner of a Texture.
         /// If true, (0, 0) refers to the top-left texel of a Texture. If false, (0, 0) refers to the bottom-left 
         /// texel of a Texture. This property is useful for determining how the output of a Framebuffer should be sampled.
@@ -467,14 +462,14 @@ namespace Veldrid
         /// <param name="depthFormat">Whether the format will be used in a depth texture.</param>
         /// <returns>A <see cref="TextureSampleCount"/> value representing the maximum count that a <see cref="Texture"/> of that
         /// format can be created with.</returns>
-        public TextureSampleCount GetSampleCountLimit(PixelFormat format, bool depthFormat)
+        public VkSampleCountFlags GetSampleCountLimit(VkFormat format, bool depthFormat)
         {
             VkImageUsageFlags usageFlags = VkImageUsageFlags.Sampled;
             usageFlags |= depthFormat ? VkImageUsageFlags.DepthStencilAttachment : VkImageUsageFlags.ColorAttachment;
 
             vkGetPhysicalDeviceImageFormatProperties(
                 _physicalDevice,
-                VkFormats.VdToVkPixelFormat(format),
+                format,
                 VkImageType.Image2D,
                 VkImageTiling.Optimal,
                 usageFlags,
@@ -484,26 +479,26 @@ namespace Veldrid
             VkSampleCountFlags vkSampleCounts = formatProperties.sampleCounts;
             if ((vkSampleCounts & VkSampleCountFlags.Count32) == VkSampleCountFlags.Count32)
             {
-                return TextureSampleCount.Count32;
+                return VkSampleCountFlags.Count32;
             }
             else if ((vkSampleCounts & VkSampleCountFlags.Count16) == VkSampleCountFlags.Count16)
             {
-                return TextureSampleCount.Count16;
+                return VkSampleCountFlags.Count16;
             }
             else if ((vkSampleCounts & VkSampleCountFlags.Count8) == VkSampleCountFlags.Count8)
             {
-                return TextureSampleCount.Count8;
+                return VkSampleCountFlags.Count8;
             }
             else if ((vkSampleCounts & VkSampleCountFlags.Count4) == VkSampleCountFlags.Count4)
             {
-                return TextureSampleCount.Count4;
+                return VkSampleCountFlags.Count4;
             }
             else if ((vkSampleCounts & VkSampleCountFlags.Count2) == VkSampleCountFlags.Count2)
             {
-                return TextureSampleCount.Count2;
+                return VkSampleCountFlags.Count2;
             }
 
-            return TextureSampleCount.Count1;
+            return VkSampleCountFlags.Count1;
         }
 
         /// <summary>
@@ -527,8 +522,7 @@ namespace Veldrid
 #if VALIDATE_USAGE
             if (resource is DeviceBuffer buffer)
             {
-                if ((buffer.Usage & BufferUsage.Dynamic) != BufferUsage.Dynamic
-                    && (buffer.Usage & BufferUsage.Staging) != BufferUsage.Staging)
+                if (buffer.MemoryUsage != VmaMemoryUsage.AutoPreferHost)
                 {
                     throw new VeldridException("Buffers must have the Staging or Dynamic usage flag to be mapped.");
                 }
@@ -536,15 +530,15 @@ namespace Veldrid
                 {
                     throw new VeldridException("Subresource must be 0 for Buffer resources.");
                 }
-                if ((mode == MapMode.Read || mode == MapMode.ReadWrite) && (buffer.Usage & BufferUsage.Staging) == 0)
+                if ((mode == MapMode.Read || mode == MapMode.ReadWrite) && (buffer.MemoryUsage != VmaMemoryUsage.AutoPreferHost))
                 {
                     throw new VeldridException(
-                        $"{nameof(MapMode)}.{nameof(MapMode.Read)} and {nameof(MapMode)}.{nameof(MapMode.ReadWrite)} can only be used on buffers created with {nameof(BufferUsage)}.{nameof(BufferUsage.Staging)}.");
+                        $"{nameof(MapMode)}.{nameof(MapMode.Read)} and {nameof(MapMode)}.{nameof(MapMode.ReadWrite)} can only be used on buffers created with host visible mapping");
                 }
             }
             else if (resource is Texture tex)
             {
-                if ((tex.Usage & TextureUsage.Staging) == 0)
+                if ((tex.Tiling & VkImageTiling.Linear) == 0)
                 {
                     throw new VeldridException("Texture must have the Staging usage flag to be mapped.");
                 }
@@ -767,7 +761,7 @@ namespace Veldrid
             uint arrayLayer)
         {
             var vkTex = texture;
-            bool isStaging = (vkTex.Usage & TextureUsage.Staging) != 0;
+            bool isStaging = vkTex.Tiling == VkImageTiling.Linear;
             if (isStaging)
             {
                 uint subresource = texture.CalculateSubresource(mipLevel, arrayLayer);
@@ -857,7 +851,7 @@ namespace Veldrid
             }
 
             uint effectiveArrayLayers = texture.ArrayLayers;
-            if ((texture.Usage & TextureUsage.Cubemap) != 0)
+            if ((texture.CreateFlags & VkImageCreateFlags.CubeCompatible) != 0)
             {
                 effectiveArrayLayers *= 6;
             }
@@ -1024,11 +1018,12 @@ namespace Veldrid
         /// <param name="usage">The TextureUsage to query.</param>
         /// <returns>True if the given combination is supported; false otherwise.</returns>
         public bool GetPixelFormatSupport(
-            PixelFormat format,
-            TextureType type,
-            TextureUsage usage)
+            VkFormat format,
+            VkImageType type,
+            VkImageUsageFlags usage,
+            VkImageTiling tiling)
         {
-            return GetPixelFormatSupportCore(format, type, usage, out _);
+            return GetPixelFormatSupportCore(format, type, usage, tiling, out _);
         }
 
         /// <summary>
@@ -1043,24 +1038,25 @@ namespace Veldrid
         /// <returns>True if the given combination is supported; false otherwise. If the combination is supported,
         /// then <paramref name="properties"/> contains the limits supported by this instance.</returns>
         public bool GetPixelFormatSupport(
-            PixelFormat format,
-            TextureType type,
-            TextureUsage usage,
+            VkFormat format,
+            VkImageType type,
+            VkImageUsageFlags usage,
+            VkImageTiling tiling,
             out PixelFormatProperties properties)
         {
-            return GetPixelFormatSupportCore(format, type, usage, out properties);
+            return GetPixelFormatSupportCore(format, type, usage, tiling, out properties);
         }
 
         private protected bool GetPixelFormatSupportCore(
-            PixelFormat format,
-            TextureType type,
-            TextureUsage usage,
+            VkFormat format,
+            VkImageType type,
+            VkImageUsageFlags usage,
+            VkImageTiling tiling,
             out PixelFormatProperties properties)
         {
-            VkFormat vkFormat = VkFormats.VdToVkPixelFormat(format, (usage & TextureUsage.DepthStencil) != 0);
-            VkImageType vkType = VkFormats.VdToVkTextureType(type);
-            VkImageTiling tiling = usage == TextureUsage.Staging ? VkImageTiling.Linear : VkImageTiling.Optimal;
-            VkImageUsageFlags vkUsage = VkFormats.VdToVkTextureUsage(usage);
+            VkFormat vkFormat = format;
+            VkImageType vkType = type;
+            VkImageUsageFlags vkUsage = usage;
 
             VkResult result = vkGetPhysicalDeviceImageFormatProperties(
                 _physicalDevice,
@@ -2089,7 +2085,7 @@ namespace Veldrid
             }
         }
         
-        private Texture GetFreeStagingTexture(uint width, uint height, uint depth, PixelFormat format)
+        private Texture GetFreeStagingTexture(uint width, uint height, uint depth, VkFormat format)
         {
             uint totalSize = FormatHelpers.GetRegionSize(width, height, depth, format);
             lock (_stagingResourcesLock)
@@ -2109,7 +2105,10 @@ namespace Veldrid
             uint texWidth = Math.Max(256, width);
             uint texHeight = Math.Max(256, height);
             var newTex = ResourceFactory.CreateTexture(TextureDescription.Texture3D(
-                texWidth, texHeight, depth, 1, format, TextureUsage.Staging));
+                texWidth, texHeight, depth, 1, format, 
+                VkImageUsageFlags.None, 
+                VkImageCreateFlags.None, 
+                VkImageTiling.Linear));
             newTex.SetStagingDimensions(width, height, depth, format);
 
             return newTex;
@@ -2132,7 +2131,11 @@ namespace Veldrid
 
             uint newBufferSize = Math.Max(MinStagingBufferSize, size);
             var newBuffer = ResourceFactory.CreateBuffer(
-                new BufferDescription(newBufferSize, BufferUsage.Staging));
+                new BufferDescription(
+                    newBufferSize,
+                    VkBufferUsageFlags.None,
+                    VmaMemoryUsage.AutoPreferHost,
+                    VmaAllocationCreateFlags.Mapped));
             return newBuffer;
         }
 
@@ -2379,36 +2382,6 @@ namespace Veldrid
             }
 
             return info;
-        }
-
-        /// <summary>
-        /// Checks whether the given <see cref="GraphicsBackend"/> is supported on this system.
-        /// </summary>
-        /// <param name="backend">The GraphicsBackend to check.</param>
-        /// <returns>True if the GraphicsBackend is supported; false otherwise.</returns>
-        public static bool IsBackendSupported(GraphicsBackend backend)
-        {
-            switch (backend)
-            {
-                case GraphicsBackend.Direct3D11:
-                    return false;
-                case GraphicsBackend.Vulkan:
-#if !EXCLUDE_VULKAN_BACKEND
-                    return IsSupported();
-#else
-                    return false;
-#endif
-                case GraphicsBackend.OpenGL:
-                    return false;
-
-                case GraphicsBackend.Metal:
-                    return false;
-                case GraphicsBackend.OpenGLES:
-                    return false;
-
-                default:
-                    throw Illegal.Value<GraphicsBackend>();
-            }
         }
 
         /// <summary>

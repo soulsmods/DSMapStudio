@@ -12,7 +12,7 @@ namespace Veldrid
     public unsafe class DeviceBuffer : DeviceResource, BindableResource, MappableResource, IDisposable
     {
         private readonly GraphicsDevice _gd;
-        private readonly Vortice.Vulkan.VkBuffer _deviceBuffer;
+        private readonly VkBuffer _deviceBuffer;
         private readonly VmaAllocation _allocation;
         private readonly VmaAllocationInfo _allocationInfo;
         private readonly VkMemoryRequirements _bufferMemoryRequirements;
@@ -29,7 +29,17 @@ namespace Veldrid
         /// <summary>
         /// A bitmask indicating how this instance is permitted to be used.
         /// </summary>
-        public BufferUsage Usage { get; }
+        public VkBufferUsageFlags Usage { get; }
+        
+        /// <summary>
+        /// The memory usage flag for this buffer
+        /// </summary>
+        public VmaMemoryUsage MemoryUsage { get; }
+        
+        /// <summary>
+        /// The allocation flags for this buffer
+        /// </summary>
+        public VmaAllocationCreateFlags AllocationFlags { get; }
 
         /// <summary>
         /// A string identifying this instance. Can be used to differentiate between objects in graphics debuggers and other
@@ -50,49 +60,35 @@ namespace Veldrid
         internal VmaAllocationInfo AllocationInfo => _allocationInfo;
         internal VkMemoryRequirements BufferMemoryRequirements => _bufferMemoryRequirements;
 
-        internal DeviceBuffer(GraphicsDevice gd, uint sizeInBytes, BufferUsage usage, string callerMember = null)
+        internal DeviceBuffer(
+            GraphicsDevice gd, 
+            uint sizeInBytes, 
+            VkBufferUsageFlags usage, 
+            VmaMemoryUsage memUsage, 
+            VmaAllocationCreateFlags allocationFlags)
         {
             _gd = gd;
             SizeInBytes = sizeInBytes;
             Usage = usage;
+            MemoryUsage = memUsage;
+            AllocationFlags = allocationFlags;
 
             VkBufferUsageFlags vkUsage = VkBufferUsageFlags.TransferSrc | VkBufferUsageFlags.TransferDst;
-            if ((usage & BufferUsage.VertexBuffer) == BufferUsage.VertexBuffer)
-            {
-                vkUsage |= VkBufferUsageFlags.VertexBuffer;
-            }
-            if ((usage & BufferUsage.IndexBuffer) == BufferUsage.IndexBuffer)
-            {
-                vkUsage |= VkBufferUsageFlags.IndexBuffer;
-            }
-            if ((usage & BufferUsage.UniformBuffer) == BufferUsage.UniformBuffer)
-            {
-                vkUsage |= VkBufferUsageFlags.UniformBuffer;
-            }
-            if ((usage & BufferUsage.StructuredBufferReadWrite) == BufferUsage.StructuredBufferReadWrite
-                || (usage & BufferUsage.StructuredBufferReadOnly) == BufferUsage.StructuredBufferReadOnly)
-            {
-                vkUsage |= VkBufferUsageFlags.StorageBuffer;
-            }
-            if ((usage & BufferUsage.IndirectBuffer) == BufferUsage.IndirectBuffer)
-            {
-                vkUsage |= VkBufferUsageFlags.IndirectBuffer;
-            }
 
-            bool hostVisible = (usage & BufferUsage.Dynamic) == BufferUsage.Dynamic
-                               || (usage & BufferUsage.Staging) == BufferUsage.Staging;
+            if ((allocationFlags & VmaAllocationCreateFlags.Mapped) != 0)
+                allocationFlags |= VmaAllocationCreateFlags.HostAccessRandom;
             
             var bufferCI = new VkBufferCreateInfo
             {
                 sType = VkStructureType.BufferCreateInfo,
                 size = sizeInBytes,
-                usage = vkUsage
+                usage = vkUsage | usage
             };
 
             var allocationCI = new VmaAllocationCreateInfo
             {
-                flags = hostVisible ? VmaAllocationCreateFlags.HostAccessRandom | VmaAllocationCreateFlags.Mapped : 0,
-                usage = hostVisible ? VmaMemoryUsage.AutoPreferHost : VmaMemoryUsage.AutoPreferDevice
+                flags = allocationFlags,
+                usage = memUsage
             };
 
             VmaAllocationInfo allocationInfo;

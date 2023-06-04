@@ -1,4 +1,5 @@
 ﻿using System;
+using Vortice.Vulkan;
 
 namespace Veldrid
 {
@@ -14,27 +15,27 @@ namespace Veldrid
         /// <summary>
         /// Controls the source color's influence on the blend result.
         /// </summary>
-        public BlendFactor SourceColorFactor;
+        public VkBlendFactor SourceColorFactor;
         /// <summary>
         /// Controls the destination color's influence on the blend result.
         /// </summary>
-        public BlendFactor DestinationColorFactor;
+        public VkBlendFactor DestinationColorFactor;
         /// <summary>
         /// Controls the function used to combine the source and destination color factors.
         /// </summary>
-        public BlendFunction ColorFunction;
+        public VkBlendOp ColorFunction;
         /// <summary>
         /// Controls the source alpha's influence on the blend result.
         /// </summary>
-        public BlendFactor SourceAlphaFactor;
+        public VkBlendFactor SourceAlphaFactor;
         /// <summary>
         /// Controls the destination alpha's influence on the blend result.
         /// </summary>
-        public BlendFactor DestinationAlphaFactor;
+        public VkBlendFactor DestinationAlphaFactor;
         /// <summary>
         /// Controls the function used to combine the source and destination alpha factors.
         /// </summary>
-        public BlendFunction AlphaFunction;
+        public VkBlendOp AlphaFunction;
 
         /// <summary>
         /// Constructs a new <see cref="BlendAttachmentDescription"/>.
@@ -48,12 +49,12 @@ namespace Veldrid
         /// <param name="alphaFunction">Controls the function used to combine the source and destination alpha factors.</param>
         public BlendAttachmentDescription(
             bool blendEnabled,
-            BlendFactor sourceColorFactor,
-            BlendFactor destinationColorFactor,
-            BlendFunction colorFunction,
-            BlendFactor sourceAlphaFactor,
-            BlendFactor destinationAlphaFactor,
-            BlendFunction alphaFunction)
+            VkBlendFactor sourceColorFactor,
+            VkBlendFactor destinationColorFactor,
+            VkBlendOp colorFunction,
+            VkBlendFactor sourceAlphaFactor,
+            VkBlendFactor destinationAlphaFactor,
+            VkBlendOp alphaFunction)
         {
             BlendEnabled = blendEnabled;
             SourceColorFactor = sourceColorFactor;
@@ -78,12 +79,12 @@ namespace Veldrid
         public static readonly BlendAttachmentDescription OverrideBlend = new BlendAttachmentDescription
         {
             BlendEnabled = true,
-            SourceColorFactor = BlendFactor.One,
-            DestinationColorFactor = BlendFactor.Zero,
-            ColorFunction = BlendFunction.Add,
-            SourceAlphaFactor = BlendFactor.One,
-            DestinationAlphaFactor = BlendFactor.Zero,
-            AlphaFunction = BlendFunction.Add,
+            SourceColorFactor = VkBlendFactor.One,
+            DestinationColorFactor = VkBlendFactor.Zero,
+            ColorFunction = VkBlendOp.Add,
+            SourceAlphaFactor = VkBlendFactor.One,
+            DestinationAlphaFactor = VkBlendFactor.Zero,
+            AlphaFunction = VkBlendOp.Add,
         };
 
         /// <summary>
@@ -100,12 +101,12 @@ namespace Veldrid
         public static readonly BlendAttachmentDescription AlphaBlend = new BlendAttachmentDescription
         {
             BlendEnabled = true,
-            SourceColorFactor = BlendFactor.SourceAlpha,
-            DestinationColorFactor = BlendFactor.InverseSourceAlpha,
-            ColorFunction = BlendFunction.Add,
-            SourceAlphaFactor = BlendFactor.SourceAlpha,
-            DestinationAlphaFactor = BlendFactor.InverseSourceAlpha,
-            AlphaFunction = BlendFunction.Add,
+            SourceColorFactor = VkBlendFactor.SrcAlpha,
+            DestinationColorFactor = VkBlendFactor.OneMinusSrcAlpha,
+            ColorFunction = VkBlendOp.Add,
+            SourceAlphaFactor = VkBlendFactor.SrcAlpha,
+            DestinationAlphaFactor = VkBlendFactor.OneMinusSrcAlpha,
+            AlphaFunction = VkBlendOp.Add,
         };
 
         /// <summary>
@@ -122,12 +123,12 @@ namespace Veldrid
         public static readonly BlendAttachmentDescription AdditiveBlend = new BlendAttachmentDescription
         {
             BlendEnabled = true,
-            SourceColorFactor = BlendFactor.SourceAlpha,
-            DestinationColorFactor = BlendFactor.One,
-            ColorFunction = BlendFunction.Add,
-            SourceAlphaFactor = BlendFactor.SourceAlpha,
-            DestinationAlphaFactor = BlendFactor.One,
-            AlphaFunction = BlendFunction.Add,
+            SourceColorFactor = VkBlendFactor.SrcAlpha,
+            DestinationColorFactor = VkBlendFactor.One,
+            ColorFunction = VkBlendOp.Add,
+            SourceAlphaFactor = VkBlendFactor.SrcAlpha,
+            DestinationAlphaFactor = VkBlendFactor.One,
+            AlphaFunction = VkBlendOp.Add,
         };
 
         /// <summary>
@@ -144,12 +145,12 @@ namespace Veldrid
         public static readonly BlendAttachmentDescription Disabled = new BlendAttachmentDescription
         {
             BlendEnabled = false,
-            SourceColorFactor = BlendFactor.One,
-            DestinationColorFactor = BlendFactor.Zero,
-            ColorFunction = BlendFunction.Add,
-            SourceAlphaFactor = BlendFactor.One,
-            DestinationAlphaFactor = BlendFactor.Zero,
-            AlphaFunction = BlendFunction.Add,
+            SourceColorFactor = VkBlendFactor.One,
+            DestinationColorFactor = VkBlendFactor.Zero,
+            ColorFunction = VkBlendOp.Add,
+            SourceAlphaFactor = VkBlendFactor.One,
+            DestinationAlphaFactor = VkBlendFactor.Zero,
+            AlphaFunction = VkBlendOp.Add,
         };
 
         /// <summary>
