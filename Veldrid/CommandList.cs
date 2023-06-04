@@ -1661,6 +1661,129 @@ namespace Veldrid
                 texture.TransitionImageLayout(_cb, 1, texture.MipLevels - 1, 0, texture.ArrayLayers, VkImageLayout.ShaderReadOnlyOptimal);
             }
         }
+
+        public void FullBarrier()
+        {
+            Barrier(VkPipelineStageFlags2.AllCommands,
+                VkAccessFlags2.MemoryWrite,
+                VkPipelineStageFlags2.AllCommands,
+                VkAccessFlags2.MemoryWrite | VkAccessFlags2.MemoryRead);
+        }
+
+        public void PixelBarrier()
+        {
+            Barrier(
+                VkPipelineStageFlags2.ColorAttachmentOutput,
+                VkAccessFlags2.ColorAttachmentWrite,
+                VkPipelineStageFlags2.FragmentShader,
+                VkAccessFlags2.InputAttachmentRead,
+                VkDependencyFlags.ByRegion);
+        }
+
+        public void Barrier(
+            VkPipelineStageFlags2 srcStages,
+            VkAccessFlags2 srcAccess, 
+            VkPipelineStageFlags2 dstStages,
+            VkAccessFlags2 dstAccess,
+            VkDependencyFlags dependencyFlags = VkDependencyFlags.None)
+        {
+            var barrier = new VkMemoryBarrier2()
+            {
+                sType = VkStructureType.MemoryBarrier2,
+                srcStageMask = srcStages,
+                srcAccessMask = srcAccess,
+                dstStageMask = dstStages,
+                dstAccessMask = dstAccess
+            };
+            var dependencyInfo = new VkDependencyInfo()
+            {
+                sType = VkStructureType.DependencyInfo,
+                dependencyFlags = dependencyFlags,
+                memoryBarrierCount = 1,
+                pMemoryBarriers = &barrier,
+            };
+            Barrier(&dependencyInfo);
+        }
+        
+        public void Barrier(VkDependencyInfo *dependencyInfo)
+        {
+            vkCmdPipelineBarrier2(_cb, dependencyInfo);
+        }
+
+        public void BufferBarrier(
+            DeviceBuffer buffer,
+            VkPipelineStageFlags2 srcStages,
+            VkAccessFlags2 srcAccess,
+            VkPipelineStageFlags2 dstStages,
+            VkAccessFlags2 dstAccess,
+            ulong offset = 0,
+            ulong size = VK_WHOLE_SIZE)
+        {
+            var barrier = new VkBufferMemoryBarrier2()
+            {
+                sType = VkStructureType.BufferMemoryBarrier2,
+                srcStageMask = srcStages,
+                srcAccessMask = srcAccess,
+                dstStageMask = dstStages,
+                dstAccessMask = dstAccess,
+                srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED,
+                dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED,
+                buffer = buffer.Buffer,
+                offset = offset,
+                size = size,
+            };
+            var dependencyInfo = new VkDependencyInfo()
+            {
+                sType = VkStructureType.DependencyInfo,
+                bufferMemoryBarrierCount = 1,
+                pBufferMemoryBarriers = &barrier,
+            };
+            Barrier(&dependencyInfo);
+        }
+
+        public void ImageBarrier(
+            Texture texture,
+            VkImageLayout oldLayout,
+            VkImageLayout newLayout,
+            VkPipelineStageFlags2 srcStages,
+            VkAccessFlags2 srcAccess,
+            VkPipelineStageFlags2 dstStages,
+            VkAccessFlags2 dstAccess)
+        {
+            VkImageAspectFlags aspectMask = VkImageAspectFlags.Color;
+            if ((texture.Usage & VkImageUsageFlags.DepthStencilAttachment) != 0)
+            {
+                aspectMask = FormatHelpers.IsStencilFormat(texture.Format)
+                    ? VkImageAspectFlags.Depth | VkImageAspectFlags.Stencil
+                    : VkImageAspectFlags.Depth;
+            }
+            var barrier = new VkImageMemoryBarrier2()
+            {
+                sType = VkStructureType.ImageMemoryBarrier2,
+                srcAccessMask = srcAccess,
+                srcStageMask = srcStages,
+                dstAccessMask = dstAccess,
+                dstStageMask = dstStages,
+                oldLayout = oldLayout,
+                newLayout = newLayout,
+                srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED,
+                dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED,
+                image = texture.OptimalDeviceImage,
+                subresourceRange = new VkImageSubresourceRange()
+                {
+                    aspectMask = aspectMask,
+                    levelCount = texture.MipLevels,
+                    layerCount = texture.ArrayLayers,
+                }
+            };
+            var dependencyInfo = new VkDependencyInfo()
+            {
+                sType = VkStructureType.DependencyInfo,
+                imageMemoryBarrierCount = 1,
+                pImageMemoryBarriers = &barrier,
+            };
+            Barrier(&dependencyInfo);
+        }
         
         /// <summary>
         /// Pushes a debug group at the current position in the <see cref="CommandList"/>. This allows subsequent commands to be
