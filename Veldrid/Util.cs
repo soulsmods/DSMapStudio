@@ -6,7 +6,7 @@ using Vortice.Vulkan;
 
 namespace Veldrid
 {
-    internal static class Util
+    public static class Util
     {
         [DebuggerNonUserCode]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -340,6 +340,28 @@ namespace Veldrid
         {
             ulong src64 = low | ((ulong)high << 32);
             return (IntPtr)src64;
+        }
+
+        public static VkAccessFlags2 AccessFlagsFromBufferUsageFlags(VkBufferUsageFlags flags)
+        {
+            VkAccessFlags2 ret = VkAccessFlags2.None;
+            if (flags.HasFlag(VkBufferUsageFlags.TransferSrc))
+                ret |= VkAccessFlags2.TransferRead;
+            if (flags.HasFlag(VkBufferUsageFlags.TransferDst))
+                ret |= VkAccessFlags2.TransferWrite;
+            if (flags.HasFlag(VkBufferUsageFlags.UniformBuffer))
+                ret |= VkAccessFlags2.UniformRead;
+            if (flags.HasFlag(VkBufferUsageFlags.StorageBuffer))
+                ret |= VkAccessFlags2.ShaderStorageRead | VkAccessFlags2.ShaderStorageWrite;
+            if (flags.HasFlag(VkBufferUsageFlags.IndexBuffer))
+                ret |= VkAccessFlags2.IndexRead;
+            if (flags.HasFlag(VkBufferUsageFlags.VertexBuffer))
+                ret |= VkAccessFlags2.VertexAttributeRead;
+            if (flags.HasFlag(VkBufferUsageFlags.IndirectBuffer))
+                ret |= VkAccessFlags2.IndirectCommandRead;
+            if (flags.HasFlag(VkBufferUsageFlags.ShaderDeviceAddress))
+                ret |= VkAccessFlags2.ShaderStorageRead;
+            return ret;
         }
     }
 }

@@ -29,6 +29,8 @@ namespace StudioCore.Scene
 
         private FreeListAllocator _allocator = null;
 
+        private VkAccessFlags2 _dstAccessFlags = VkAccessFlags2.None;
+
         public GPUBufferAllocator(uint initialSize, VkBufferUsageFlags usage)
         {
             BufferDescription desc = new BufferDescription(
@@ -45,6 +47,7 @@ namespace StudioCore.Scene
             _stagingBuffer = Renderer.Factory.CreateBuffer(desc);
             _bufferSize = initialSize;
             _allocator = new FreeListAllocator(initialSize);
+            _dstAccessFlags = Util.AccessFlagsFromBufferUsageFlags(usage);
         }
 
         public GPUBufferAllocator(uint initialSize, VkBufferUsageFlags usage, uint stride)
@@ -64,6 +67,7 @@ namespace StudioCore.Scene
             _stagingBuffer = Renderer.Factory.CreateBuffer(desc);
             _bufferSize = initialSize;
             _allocator = new FreeListAllocator(initialSize);
+            _dstAccessFlags = Util.AccessFlagsFromBufferUsageFlags(usage);
         }
 
         public GPUBufferAllocator(string name, uint initialSize, VkBufferUsageFlags usage, uint stride, VkShaderStageFlags stages)
@@ -83,6 +87,7 @@ namespace StudioCore.Scene
                 VmaAllocationCreateFlags.Mapped);
             _stagingBuffer = Renderer.Factory.CreateBuffer(desc);
             _allocator = new FreeListAllocator(initialSize);
+            _dstAccessFlags = Util.AccessFlagsFromBufferUsageFlags(usage);
 
             var layoutdesc = new ResourceLayoutDescription(
                 new ResourceLayoutElementDescription(name, VkDescriptorType.StorageBuffer, stages));
@@ -189,9 +194,17 @@ namespace StudioCore.Scene
 
             public void FillBuffer<T>(GraphicsDevice d, CommandList cl, ref T data) where T : struct
             {
-                //cl.UpdateBuffer(_allocator._backingBuffer, AllocationStart, ref data);
                 d.UpdateBuffer(_allocator._stagingBuffer, AllocationStart, data);
-                cl.CopyBuffer(_allocator._stagingBuffer, AllocationStart, _allocator._backingBuffer, AllocationStart, AllocationSize);
+                cl.CopyBuffer(_allocator._stagingBuffer, 
+                    AllocationStart, 
+                    _allocator._backingBuffer, 
+                    AllocationStart, 
+                    AllocationSize);
+                cl.BufferBarrier(_allocator._backingBuffer,
+                    VkPipelineStageFlags2.Transfer,
+                    VkAccessFlags2.TransferWrite,
+                    VkPipelineStageFlags2.AllGraphics,
+                    _allocator._dstAccessFlags);
             }
 
             public void FillBuffer(IntPtr data, uint size, Action completionHandler)
@@ -511,14 +524,20 @@ namespace StudioCore.Scene
                         _backingIndexBuffer = d.ResourceFactory.CreateBuffer(ref id);
                         //cl.CopyBuffer(_stagingBufferVerts, 0, _backingVertBuffer, 0, (uint)_stagingVertsSize);
                         //cl.CopyBuffer(_stagingBufferIndices, 0, _backingIndexBuffer, 0, (uint)_stagingIndicesSize);
-                        Renderer.AddAsyncTransfer(_backingVertBuffer, _stagingBufferVerts, (d) =>
+                        Renderer.AddAsyncTransfer(_backingVertBuffer, 
+                            _stagingBufferVerts, 
+                            VkAccessFlags2.VertexAttributeRead, 
+                            (d) =>
                         {
                             var ctx2 = Tracy.TracyCZoneN(1, $@"Buffer {BufferIndex} V transfer done");
                             _stagingBufferVerts.Dispose();
                             _stagingBufferVerts = null;
                             Tracy.TracyCZoneEnd(ctx2);
                         });
-                        Renderer.AddAsyncTransfer(_backingIndexBuffer, _stagingBufferIndices, (d) =>
+                        Renderer.AddAsyncTransfer(_backingIndexBuffer, 
+                            _stagingBufferIndices,
+                            VkAccessFlags2.IndexRead,
+                            (d) =>
                         {
                             var ctx2 = Tracy.TracyCZoneN(1, $@"Buffer {BufferIndex} I transfer done");
                             _stagingVertsSize = 0;

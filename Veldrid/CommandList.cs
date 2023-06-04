@@ -1275,117 +1275,14 @@ namespace Veldrid
 
             _currentStagingInfo.Resources.Add(source.RefCount);
             _currentStagingInfo.Resources.Add(destination.RefCount);
-
+            
             VkBufferCopy region = new VkBufferCopy
             {
                 srcOffset = sourceOffset,
                 dstOffset = destinationOffset,
                 size = sizeInBytes
             };
-
-            VkMemoryBarrier2 barrier;
-            VkBufferMemoryBarrier2 bbarrier;
-            VkDependencyInfo dependencyInfo;
-
-            // If we're doing a readback into mapped host memory, make sure the source data is able
-            // to be transferred.
-            if (source.MemoryUsage == VmaMemoryUsage.AutoPreferDevice &&
-                destination.MemoryUsage == VmaMemoryUsage.AutoPreferHost &&
-                (destination.AllocationFlags & VmaAllocationCreateFlags.Mapped) != 0)
-            {
-                bbarrier = new VkBufferMemoryBarrier2
-                {
-                    sType = VkStructureType.BufferMemoryBarrier2,
-                    srcStageMask = VkPipelineStageFlags2.AllGraphics,
-                    srcAccessMask = VkAccessFlags2.MemoryWrite | VkAccessFlags2.ShaderWrite,
-                    dstStageMask = VkPipelineStageFlags2.Transfer,
-                    dstAccessMask = VkAccessFlags2.TransferRead,
-                    srcQueueFamilyIndex = 0,
-                    dstQueueFamilyIndex = 0,
-                    buffer = source.Buffer,
-                    offset = 0,
-                    size = source.SizeInBytes
-                };
-                dependencyInfo = new VkDependencyInfo
-                {
-                    sType = VkStructureType.DependencyInfo,
-                    dependencyFlags = VkDependencyFlags.None,
-                    bufferMemoryBarrierCount = 1,
-                    pBufferMemoryBarriers = &bbarrier,
-                };
-                vkCmdPipelineBarrier2(_cb, &dependencyInfo);
-            }
-
             vkCmdCopyBuffer(_cb, source.Buffer, destination.Buffer, 1, &region);
-
-            if (source.MemoryUsage == VmaMemoryUsage.AutoPreferDevice &&
-                destination.MemoryUsage == VmaMemoryUsage.AutoPreferHost &&
-                (destination.AllocationFlags & VmaAllocationCreateFlags.Mapped) != 0)
-            {
-                bbarrier = new VkBufferMemoryBarrier2
-                {
-                    sType = VkStructureType.BufferMemoryBarrier2,
-                    srcStageMask = VkPipelineStageFlags2.Transfer,
-                    srcAccessMask = VkAccessFlags2.TransferWrite,
-                    dstStageMask = VkPipelineStageFlags2.Host,
-                    dstAccessMask = VkAccessFlags2.HostRead,
-                    srcQueueFamilyIndex = 0,
-                    dstQueueFamilyIndex = 0,
-                    buffer = destination.Buffer,
-                    offset = 0,
-                    size = source.SizeInBytes,
-                };
-                dependencyInfo = new VkDependencyInfo
-                {
-                    sType = VkStructureType.DependencyInfo,
-                    dependencyFlags = VkDependencyFlags.None,
-                    bufferMemoryBarrierCount = 1,
-                    pBufferMemoryBarriers = &bbarrier,
-                };
-                vkCmdPipelineBarrier2(_cb, &dependencyInfo);
-            }
-            else if (!IsTransfer)
-            {
-                if (destination.Usage.HasFlag(VkBufferUsageFlags.VertexBuffer))
-                {
-                    barrier = new VkMemoryBarrier2
-                    {
-                        sType = VkStructureType.MemoryBarrier2,
-                        srcStageMask = VkPipelineStageFlags2.Transfer,
-                        srcAccessMask = VkAccessFlags2.TransferWrite,
-                        dstStageMask = VkPipelineStageFlags2.VertexInput,
-                        dstAccessMask = VkAccessFlags2.VertexAttributeRead,
-                    };
-                    dependencyInfo = new VkDependencyInfo
-                    {
-                        sType = VkStructureType.DependencyInfo,
-                        dependencyFlags = VkDependencyFlags.None,
-                        memoryBarrierCount = 1,
-                        pMemoryBarriers = &barrier,
-                    };
-                    vkCmdPipelineBarrier2(_cb, &dependencyInfo);
-                }
-                else
-                {
-                    barrier = new VkMemoryBarrier2
-                    {
-                        sType = VkStructureType.MemoryBarrier2,
-                        srcStageMask = VkPipelineStageFlags2.Transfer,
-                        srcAccessMask = VkAccessFlags2.TransferWrite,
-                        dstStageMask = VkPipelineStageFlags2.DrawIndirect,
-                        //dstAccessMask = VkAccessFlags2.VertexAttributeRead;
-                        dstAccessMask = VkAccessFlags2.IndirectCommandRead,
-                    };
-                    dependencyInfo = new VkDependencyInfo
-                    {
-                        sType = VkStructureType.DependencyInfo,
-                        dependencyFlags = VkDependencyFlags.None,
-                        memoryBarrierCount = 1,
-                        pMemoryBarriers = &barrier,
-                    };
-                    vkCmdPipelineBarrier2(_cb, &dependencyInfo);
-                }
-            }
         }
         
         /// <summary>
