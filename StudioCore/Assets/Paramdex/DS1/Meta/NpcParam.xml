@@ -2,17 +2,22 @@
 <PARAMMETA XmlVersion="0" >
   <Enums>
     <Enum Name="DropType">
-      <Option Value="0" Name="white soul drop attached to ragdoll" />
-      <Option Value="1" Name="yellow soul drop NOT attached to ragdoll" />
-	</Enum>
+      <Option Value="0" Name="White soul drop attached to ragdoll" />
+      <Option Value="1" Name="Yellow soul drop detatched from ragdoll" />
+	  </Enum>
+    <Enum Name="HitstopType">
+      <Option Value="0" Name="No hitstop" />
+      <Option Value="1" Name="Fast hitstop" />
+      <Option Value="2" Name="Slow hitstop" />
+	  </Enum>
   </Enums>
   <Field>
     <behaviorVariationId VRef="BehaviorVariation" Wiki="Determines which BehaviorParam this enemy uses for attacks" />
     <aiThinkId />
     <nameId Wiki="Name of the entity. Only appears on the health bar of c0000 characters." />
     <turnVellocity Wiki="Rotation speed per second[degrees per second]." />
-    <hitHeight Wiki="Vertical radius of hitbox used for character to character collision. May require useRagdoll = false" />
-    <hitRadius Wiki="Horizontal radius of hitbox used for character to character collision. May require useRagdoll = false" />
+    <hitHeight Wiki="Vertical radius of hitbox used for character to character collision. Requires useRagdoll = false" />
+    <hitRadius Wiki="Horizontal radius of hitbox used for character to character collision. Requires useRagdoll = false" />
     <weight />
     <hitYOffset Wiki="Vertical offset of the entity. Will cause them to float." />
     <hp Wiki="Maximum HP" />
@@ -25,7 +30,7 @@
     <itemLotId_5 Refs="ItemLotParam" Wiki="ID of ItemLotParam to use for item drops" />
     <itemLotId_6 Refs="ItemLotParam" Wiki="ID of ItemLotParam to use for item drops" />
     <humanityLotId />
-    <spEffectID0 Refs="SpEffectParam" Wiki="Special effects that affect this entity" />
+    <spEffectID0 Refs="SpEffectParam" Wiki="Special effects that affect this entity"/>
     <spEffectID1 Refs="SpEffectParam" Wiki="Special effects that affect this entity"/>
     <spEffectID2 Refs="SpEffectParam" Wiki="Special effects that affect this entity"/>
     <spEffectID3 Refs="SpEffectParam" Wiki="Special effects that affect this entity"/>
@@ -38,7 +43,7 @@
     <magGuardCutRate Wiki="Percentage reduction in magic damage taken while NPC is guarding." />
     <fireGuardCutRate Wiki="Percentage reduction in fire damage taken while NPC is guarding." />
     <thunGuardCutRate Wiki="Percentage reduction in lightning damage taken while NPC is guarding." />
-    <animIdOffset />
+    <animIdOffset Wiki="Value to offset animation IDs by. 0 = a00, 10000 = a01, etc." />
     <moveAnimId />
     <spMoveAnimId1 />
     <spMoveAnimId2 />
@@ -109,7 +114,7 @@
     <npcType />
     <teamType />
     <moveType />
-    <lockDist />
+    <lockDist Wiki="Additional maximum lock-on distance added onto base distance defined in LockCamParam" />
     <material />
     <materialSfx />
     <material_Weak />
@@ -126,13 +131,13 @@
     <parryDefence />
     <sfxSize />
     <pushOutCamRegionRadius />
-    <hitStopType />
+    <hitStopType Enum="HitstopType" Wiki="Determines how enemy is affected by hitstop." />
     <ladderEndChkOffsetTop />
     <ladderEndChkOffsetLo />
     <useRagdollCamHit IsBool="" Wiki="Causes camera to collide with enemy" />
     <disableClothRigidHit IsBool="" />
     <useRagdoll IsBool="" Wiki="Determines if ragdoll is used for character to character collision. If false, hitRadius and hitHeight are used instead" />
-    <isDemon IsBool="" Wiki="True if the entity is a demon" />
+    <isDemon IsBool="" Wiki="Determines if enemy will be affected by weapons with demon damage multiplier." />
     <isGhost IsBool="" Wiki="True if the entity is a ghost" />
     <isNoDamageMotion IsBool="" />
     <isUnduration IsBool="" />
