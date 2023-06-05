@@ -164,8 +164,16 @@ namespace StudioCore
             {
                 if (File.Exists(CFG.Current.LastProjectFile))
                 {
-                    var project = Editor.ProjectSettings.Deserialize(CFG.Current.LastProjectFile);
-                    AttemptLoadProject(project, CFG.Current.LastProjectFile, false);
+                    var settings = Editor.ProjectSettings.Deserialize(CFG.Current.LastProjectFile);
+                    if (settings == null)
+                    {
+                        CFG.Current.LastProjectFile = "";
+                        CFG.Save();
+                    }
+                    else
+                    {
+                        AttemptLoadProject(settings, CFG.Current.LastProjectFile, false);
+                    }
                 }
                 else
                 {
@@ -819,7 +827,10 @@ namespace StudioCore
                         if (browseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                         {
                             var settings = Editor.ProjectSettings.Deserialize(browseDlg.FileName);
-                            AttemptLoadProject(settings, browseDlg.FileName);
+                            if (settings != null)
+                            {
+                                AttemptLoadProject(settings, browseDlg.FileName);
+                            }
                         }
                     }
                     if (ImGui.BeginMenu("Recent Projects", Editor.TaskManager.GetLiveThreads().Count == 0 && CFG.Current.RecentProjects.Count > 0))
@@ -833,9 +844,12 @@ namespace StudioCore
                                 if (File.Exists(p.ProjectFile))
                                 {
                                     var settings = Editor.ProjectSettings.Deserialize(p.ProjectFile);
-                                    if (AttemptLoadProject(settings, p.ProjectFile, false))
+                                    if (settings != null)
                                     {
-                                        recent = p;
+                                        if (AttemptLoadProject(settings, p.ProjectFile, false))
+                                        {
+                                            recent = p;
+                                        }
                                     }
                                 }
                                 else

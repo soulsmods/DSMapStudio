@@ -50,21 +50,23 @@ namespace StudioCore.Editor
         {
             var jsonString = File.ReadAllBytes(path);
             var readOnlySpan = new ReadOnlySpan<byte>(jsonString);
-            ProjectSettings settings;
             try
             {
-                settings = JsonSerializer.Deserialize<ProjectSettings>(readOnlySpan);
+                ProjectSettings settings = JsonSerializer.Deserialize<ProjectSettings>(readOnlySpan);
                 if (settings == null)
                     throw new Exception("JsonConvert returned null");
+                return settings;
             }
             catch (Exception e)
             {
-                MessageBox.Show($"{e.Message}\n\nProject.json cannot be loaded, and will be deleted. Please create a new project.",
-                    $"Project Load Error", MessageBoxButtons.OK);
-                File.Delete(path);
-                throw;
+                var result = MessageBox.Show($"{e.Message}\n\nProject.json cannot be loaded. Delete project.json?",
+                    $"Project Load Error", MessageBoxButtons.YesNo);
+                if (result == DialogResult.Yes)
+                {
+                    File.Delete(path);
+                }
+                return null;
             }
-            return settings;
         }
     }
 
