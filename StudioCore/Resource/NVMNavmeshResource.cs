@@ -30,13 +30,16 @@ namespace StudioCore.Resource
         unsafe private void ProcessMesh(NVM mesh)
         {
             var verts = mesh.Vertices;
-            var MeshIndices = new int[mesh.Triangles.Count * 3];
-            var MeshVertices = new NavmeshLayout[mesh.Triangles.Count * 3];
+            VertexCount = mesh.Triangles.Count * 3;
+            IndexCount = mesh.Triangles.Count * 3;
+            uint buffersize = (uint)IndexCount * 4u;
+            uint vbuffersize = (uint)VertexCount * NavmeshLayout.SizeInBytes;
+            GeomBuffer = Scene.Renderer.GeometryBufferAllocator.Allocate(vbuffersize, buffersize, (int)NavmeshLayout.SizeInBytes, 4);
+            var MeshIndices = new Span<int>(GeomBuffer.MapIBuffer().ToPointer(), IndexCount);
+            var MeshVertices = new Span<NavmeshLayout>(GeomBuffer.MapVBuffer().ToPointer(), VertexCount);
             PickingVertices = new Vector3[mesh.Triangles.Count * 3];
             PickingIndices = new int[mesh.Triangles.Count * 3];
-
-            var factory = Scene.Renderer.Factory;
-
+            
             for (int id = 0; id < mesh.Triangles.Count; id++)
             {
                 var i = id * 3;
@@ -110,11 +113,9 @@ namespace StudioCore.Resource
                 PickingIndices[i + 1] = i + 1;
                 PickingIndices[i + 2] = i + 2;
             }
-
-            VertexCount = MeshVertices.Length;
-            IndexCount = MeshIndices.Length;
-
-            uint buffersize = (uint)IndexCount * 4u;
+            
+            GeomBuffer.UnmapIBuffer();
+            GeomBuffer.UnmapVBuffer();
 
             if (VertexCount > 0)
             {
@@ -127,20 +128,6 @@ namespace StudioCore.Resource
             {
                 Bounds = new BoundingBox();
             }
-
-            uint vbuffersize = (uint)MeshVertices.Length * NavmeshLayout.SizeInBytes;
-
-            GeomBuffer = Scene.Renderer.GeometryBufferAllocator.Allocate(vbuffersize, buffersize, (int)NavmeshLayout.SizeInBytes, 4, (h) =>
-            {
-                h.FillIBuffer(MeshIndices, () =>
-                {
-                    MeshIndices = null;
-                });
-                h.FillVBuffer(MeshVertices, () =>
-                {
-                    MeshVertices = null;
-                });
-            });
         }
 
         private bool LoadInternal(AccessLevel al)

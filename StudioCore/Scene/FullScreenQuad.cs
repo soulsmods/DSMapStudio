@@ -61,6 +61,11 @@ namespace StudioCore.Scene
                     VmaMemoryUsage.AutoPreferDevice,
                     0));
             cl.UpdateBuffer(_ib, 0, s_quadIndices);
+            
+            cl.Barrier(VkPipelineStageFlags2.Transfer,
+                VkAccessFlags2.TransferWrite,
+                VkPipelineStageFlags2.VertexInput | VkPipelineStageFlags2.IndexInput,
+                VkAccessFlags2.VertexAttributeRead);
         }
 
         public void DestroyDeviceObjects()

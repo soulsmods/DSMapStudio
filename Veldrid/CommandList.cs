@@ -1275,117 +1275,14 @@ namespace Veldrid
 
             _currentStagingInfo.Resources.Add(source.RefCount);
             _currentStagingInfo.Resources.Add(destination.RefCount);
-
+            
             VkBufferCopy region = new VkBufferCopy
             {
                 srcOffset = sourceOffset,
                 dstOffset = destinationOffset,
                 size = sizeInBytes
             };
-
-            VkMemoryBarrier2 barrier;
-            VkBufferMemoryBarrier2 bbarrier;
-            VkDependencyInfo dependencyInfo;
-
-            // If we're doing a readback into mapped host memory, make sure the source data is able
-            // to be transferred.
-            if (source.MemoryUsage == VmaMemoryUsage.AutoPreferDevice &&
-                destination.MemoryUsage == VmaMemoryUsage.AutoPreferHost &&
-                (destination.AllocationFlags & VmaAllocationCreateFlags.Mapped) != 0)
-            {
-                bbarrier = new VkBufferMemoryBarrier2
-                {
-                    sType = VkStructureType.BufferMemoryBarrier2,
-                    srcStageMask = VkPipelineStageFlags2.AllGraphics,
-                    srcAccessMask = VkAccessFlags2.MemoryWrite | VkAccessFlags2.ShaderWrite,
-                    dstStageMask = VkPipelineStageFlags2.Transfer,
-                    dstAccessMask = VkAccessFlags2.TransferRead,
-                    srcQueueFamilyIndex = 0,
-                    dstQueueFamilyIndex = 0,
-                    buffer = source.Buffer,
-                    offset = 0,
-                    size = source.SizeInBytes
-                };
-                dependencyInfo = new VkDependencyInfo
-                {
-                    sType = VkStructureType.DependencyInfo,
-                    dependencyFlags = VkDependencyFlags.None,
-                    bufferMemoryBarrierCount = 1,
-                    pBufferMemoryBarriers = &bbarrier,
-                };
-                vkCmdPipelineBarrier2(_cb, &dependencyInfo);
-            }
-
             vkCmdCopyBuffer(_cb, source.Buffer, destination.Buffer, 1, &region);
-
-            if (source.MemoryUsage == VmaMemoryUsage.AutoPreferDevice &&
-                destination.MemoryUsage == VmaMemoryUsage.AutoPreferHost &&
-                (destination.AllocationFlags & VmaAllocationCreateFlags.Mapped) != 0)
-            {
-                bbarrier = new VkBufferMemoryBarrier2
-                {
-                    sType = VkStructureType.BufferMemoryBarrier2,
-                    srcStageMask = VkPipelineStageFlags2.Transfer,
-                    srcAccessMask = VkAccessFlags2.TransferWrite,
-                    dstStageMask = VkPipelineStageFlags2.Host,
-                    dstAccessMask = VkAccessFlags2.HostRead,
-                    srcQueueFamilyIndex = 0,
-                    dstQueueFamilyIndex = 0,
-                    buffer = destination.Buffer,
-                    offset = 0,
-                    size = source.SizeInBytes,
-                };
-                dependencyInfo = new VkDependencyInfo
-                {
-                    sType = VkStructureType.DependencyInfo,
-                    dependencyFlags = VkDependencyFlags.None,
-                    bufferMemoryBarrierCount = 1,
-                    pBufferMemoryBarriers = &bbarrier,
-                };
-                vkCmdPipelineBarrier2(_cb, &dependencyInfo);
-            }
-            else if (!IsTransfer)
-            {
-                if (destination.Usage.HasFlag(VkBufferUsageFlags.VertexBuffer))
-                {
-                    barrier = new VkMemoryBarrier2
-                    {
-                        sType = VkStructureType.MemoryBarrier2,
-                        srcStageMask = VkPipelineStageFlags2.Transfer,
-                        srcAccessMask = VkAccessFlags2.TransferWrite,
-                        dstStageMask = VkPipelineStageFlags2.VertexInput,
-                        dstAccessMask = VkAccessFlags2.VertexAttributeRead,
-                    };
-                    dependencyInfo = new VkDependencyInfo
-                    {
-                        sType = VkStructureType.DependencyInfo,
-                        dependencyFlags = VkDependencyFlags.None,
-                        memoryBarrierCount = 1,
-                        pMemoryBarriers = &barrier,
-                    };
-                    vkCmdPipelineBarrier2(_cb, &dependencyInfo);
-                }
-                else
-                {
-                    barrier = new VkMemoryBarrier2
-                    {
-                        sType = VkStructureType.MemoryBarrier2,
-                        srcStageMask = VkPipelineStageFlags2.Transfer,
-                        srcAccessMask = VkAccessFlags2.TransferWrite,
-                        dstStageMask = VkPipelineStageFlags2.DrawIndirect,
-                        //dstAccessMask = VkAccessFlags2.VertexAttributeRead;
-                        dstAccessMask = VkAccessFlags2.IndirectCommandRead,
-                    };
-                    dependencyInfo = new VkDependencyInfo
-                    {
-                        sType = VkStructureType.DependencyInfo,
-                        dependencyFlags = VkDependencyFlags.None,
-                        memoryBarrierCount = 1,
-                        pMemoryBarriers = &barrier,
-                    };
-                    vkCmdPipelineBarrier2(_cb, &dependencyInfo);
-                }
-            }
         }
         
         /// <summary>
@@ -1660,6 +1557,129 @@ namespace Veldrid
                 texture.TransitionImageLayout(_cb, 0, 1, 0, texture.ArrayLayers, VkImageLayout.ShaderReadOnlyOptimal);
                 texture.TransitionImageLayout(_cb, 1, texture.MipLevels - 1, 0, texture.ArrayLayers, VkImageLayout.ShaderReadOnlyOptimal);
             }
+        }
+
+        public void FullBarrier()
+        {
+            Barrier(VkPipelineStageFlags2.AllCommands,
+                VkAccessFlags2.MemoryWrite,
+                VkPipelineStageFlags2.AllCommands,
+                VkAccessFlags2.MemoryWrite | VkAccessFlags2.MemoryRead);
+        }
+
+        public void PixelBarrier()
+        {
+            Barrier(
+                VkPipelineStageFlags2.ColorAttachmentOutput,
+                VkAccessFlags2.ColorAttachmentWrite,
+                VkPipelineStageFlags2.FragmentShader,
+                VkAccessFlags2.InputAttachmentRead,
+                VkDependencyFlags.ByRegion);
+        }
+
+        public void Barrier(
+            VkPipelineStageFlags2 srcStages,
+            VkAccessFlags2 srcAccess, 
+            VkPipelineStageFlags2 dstStages,
+            VkAccessFlags2 dstAccess,
+            VkDependencyFlags dependencyFlags = VkDependencyFlags.None)
+        {
+            var barrier = new VkMemoryBarrier2()
+            {
+                sType = VkStructureType.MemoryBarrier2,
+                srcStageMask = srcStages,
+                srcAccessMask = srcAccess,
+                dstStageMask = dstStages,
+                dstAccessMask = dstAccess
+            };
+            var dependencyInfo = new VkDependencyInfo()
+            {
+                sType = VkStructureType.DependencyInfo,
+                dependencyFlags = dependencyFlags,
+                memoryBarrierCount = 1,
+                pMemoryBarriers = &barrier,
+            };
+            Barrier(&dependencyInfo);
+        }
+        
+        public void Barrier(VkDependencyInfo *dependencyInfo)
+        {
+            vkCmdPipelineBarrier2(_cb, dependencyInfo);
+        }
+
+        public void BufferBarrier(
+            DeviceBuffer buffer,
+            VkPipelineStageFlags2 srcStages,
+            VkAccessFlags2 srcAccess,
+            VkPipelineStageFlags2 dstStages,
+            VkAccessFlags2 dstAccess,
+            ulong offset = 0,
+            ulong size = VK_WHOLE_SIZE)
+        {
+            var barrier = new VkBufferMemoryBarrier2()
+            {
+                sType = VkStructureType.BufferMemoryBarrier2,
+                srcStageMask = srcStages,
+                srcAccessMask = srcAccess,
+                dstStageMask = dstStages,
+                dstAccessMask = dstAccess,
+                srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED,
+                dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED,
+                buffer = buffer.Buffer,
+                offset = offset,
+                size = size,
+            };
+            var dependencyInfo = new VkDependencyInfo()
+            {
+                sType = VkStructureType.DependencyInfo,
+                bufferMemoryBarrierCount = 1,
+                pBufferMemoryBarriers = &barrier,
+            };
+            Barrier(&dependencyInfo);
+        }
+
+        public void ImageBarrier(
+            Texture texture,
+            VkImageLayout oldLayout,
+            VkImageLayout newLayout,
+            VkPipelineStageFlags2 srcStages,
+            VkAccessFlags2 srcAccess,
+            VkPipelineStageFlags2 dstStages,
+            VkAccessFlags2 dstAccess)
+        {
+            VkImageAspectFlags aspectMask = VkImageAspectFlags.Color;
+            if ((texture.Usage & VkImageUsageFlags.DepthStencilAttachment) != 0)
+            {
+                aspectMask = FormatHelpers.IsStencilFormat(texture.Format)
+                    ? VkImageAspectFlags.Depth | VkImageAspectFlags.Stencil
+                    : VkImageAspectFlags.Depth;
+            }
+            var barrier = new VkImageMemoryBarrier2()
+            {
+                sType = VkStructureType.ImageMemoryBarrier2,
+                srcAccessMask = srcAccess,
+                srcStageMask = srcStages,
+                dstAccessMask = dstAccess,
+                dstStageMask = dstStages,
+                oldLayout = oldLayout,
+                newLayout = newLayout,
+                srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED,
+                dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED,
+                image = texture.OptimalDeviceImage,
+                subresourceRange = new VkImageSubresourceRange()
+                {
+                    aspectMask = aspectMask,
+                    levelCount = texture.MipLevels,
+                    layerCount = texture.ArrayLayers,
+                }
+            };
+            var dependencyInfo = new VkDependencyInfo()
+            {
+                sType = VkStructureType.DependencyInfo,
+                imageMemoryBarrierCount = 1,
+                pImageMemoryBarriers = &barrier,
+            };
+            Barrier(&dependencyInfo);
         }
         
         /// <summary>
