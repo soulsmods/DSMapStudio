@@ -10,6 +10,11 @@
       <Option Value="1" Name="Fast hitstop" />
       <Option Value="2" Name="Slow hitstop" />
     </Enum>
+    <Enum Name="DrawTypeEnum">
+      <Option Value="0" Name="None" />
+      <Option Value="1" Name="White" />
+      <Option Value="2" Name="Red" />
+    </Enum>
   </Enums>
   <Field>
     <behaviorVariationId VRef="BehaviorVariation" Wiki="Determines which BehaviorParam this enemy uses for attacks" />
@@ -110,7 +115,7 @@
     <mpRecoverBaseVel Wiki="Unknown effect, likely none. Set to zero for NPC parts (tails and Hydra heads) and 10 for everyone else." />
     <flickDamageCutRate Wiki="Reduces damage received from attacks that have been deflected via defFlickPower. 50 = -50%% damage, 90 = -90%% damage" />
     <defaultLodParamId />
-    <drawType />
+    <drawType Enum="DrawTypeEnum" Wiki="Phantom shader used" />
     <npcType />
     <teamType />
     <moveType />
@@ -120,7 +125,7 @@
     <material_Weak />
     <materialSfx_Weak />
     <partsDamageType />
-    <maxUndurationAng />
+    <maxUndurationAng Wiki="Maximum angle enemies can rotate vertically while on slopes. Requires isUnduration" />
     <guardLevel />
     <burnSfxType />
     <poisonGuardResist />
@@ -136,11 +141,11 @@
     <ladderEndChkOffsetLo />
     <useRagdollCamHit IsBool="" Wiki="Causes camera to collide with enemy" />
     <disableClothRigidHit IsBool="" />
-    <useRagdoll IsBool="" Wiki="Determines if ragdoll is used for character to character collision. If false, hitRadius and hitHeight are used instead" />
-    <isDemon IsBool="" Wiki="Determines if enemy will be affected by weapons with demon damage multiplier." />
+    <useRagdoll IsBool="" Wiki="If ragdoll is used for character to character collision. If false, hitRadius and hitHeight are used instead" />
+    <isDemon IsBool="" Wiki="If enemy will be affected by weapons with antiDemonDamageRate (anti-demon damage)." />
     <isGhost IsBool="" Wiki="True if the entity is a ghost" />
     <isNoDamageMotion IsBool="" />
-    <isUnduration IsBool="" />
+    <isUnduration IsBool="" Wiki="If true, enemies will rotate vertically on slopes. Rotation angle determines by maxUndurationAng" />
     <isChangeWanderGhost IsBool="" />
     <modelDispMask0 IsBool="" Wiki="Toggle for masks within the enemy's model. Used for things like broken body parts, different weapons, second phases, etc." />
     <modelDispMask1 IsBool="" Wiki="Toggle for masks within the enemy's model. Used for things like broken body parts, different weapons, second phases, etc." />
@@ -159,13 +164,13 @@
     <modelDispMask14 IsBool="" Wiki="Toggle for masks within the enemy's model. Used for things like broken body parts, different weapons, second phases, etc." />
     <modelDispMask15 IsBool="" Wiki="Toggle for masks within the enemy's model. Used for things like broken body parts, different weapons, second phases, etc." />
     <isEnableNeckTurn IsBool="" />
-    <disableRespawn IsBool="" />
+    <disableRespawn IsBool="" Wiki="If true, enemies will not reset position and behavior when the player rests at a bonfire." />
     <isMoveAnimWait IsBool="" />
     <isCrowd IsBool="" />
-    <isWeakSaint IsBool="" />
-    <isWeakA IsBool="" />
-    <isWeakB IsBool="" />
+    <isWeakSaint IsBool="" Wiki="If enemy will be affected by weapons with antSaintDamageRate (holy damage)." />
+    <isWeakA IsBool="" Wiki="If enemy will be affected by weapons with antWeakA_DamageRate (occult damage)." />
+    <isWeakB IsBool="" Wiki="If enemy will be affected by weapons with antWeakB_DamageRate (anti-darkwraith damage)." />
     <vowType />
-    <disableInitializeDead IsBool="" />
+    <disableInitializeDead IsBool="" Wiki="If true, dead enemies will be alive again when the game is reset without respawning enemies (such as quitting to menu)" />
   </Field>
 </PARAMMETA>
