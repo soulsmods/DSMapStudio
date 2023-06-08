@@ -36,7 +36,7 @@ namespace Veldrid
             }
         }
         
-        internal Shader(ShaderStages stage, string entryPoint)
+        internal Shader(VkShaderStageFlags stage, string entryPoint)
         {
             Stage = stage;
             EntryPoint = entryPoint;
@@ -45,7 +45,7 @@ namespace Veldrid
         /// <summary>
         /// The shader stage this instance can be used in.
         /// </summary>
-        public ShaderStages Stage { get; }
+        public VkShaderStageFlags Stage { get; }
 
         /// <summary>
         /// The name of the entry point function.

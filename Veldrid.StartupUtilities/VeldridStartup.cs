@@ -16,7 +16,6 @@ namespace Veldrid.StartupUtilities
             => CreateWindowAndGraphicsDevice(
                 windowCI,
                 new GraphicsDeviceOptions(),
-                GetPlatformDefaultBackend(),
                 out window,
                 out gd);
 
@@ -25,19 +24,11 @@ namespace Veldrid.StartupUtilities
             GraphicsDeviceOptions deviceOptions,
             out Sdl2Window window,
             out GraphicsDevice gd)
-            => CreateWindowAndGraphicsDevice(windowCI, deviceOptions, GetPlatformDefaultBackend(), out window, out gd);
-
-        public static void CreateWindowAndGraphicsDevice(
-            WindowCreateInfo windowCI,
-            GraphicsDeviceOptions deviceOptions,
-            GraphicsBackend preferredBackend,
-            out Sdl2Window window,
-            out GraphicsDevice gd)
         {
             Sdl2Native.SDL_Init(SDLInitFlags.Video);
 
             window = CreateWindow(ref windowCI);
-            gd = CreateGraphicsDevice(window, deviceOptions, preferredBackend);
+            gd = CreateGraphicsDevice(window, deviceOptions);
         }
 
 
@@ -85,39 +76,13 @@ namespace Veldrid.StartupUtilities
         }
 
         public static GraphicsDevice CreateGraphicsDevice(Sdl2Window window)
-            => CreateGraphicsDevice(window, new GraphicsDeviceOptions(), GetPlatformDefaultBackend());
-        public static GraphicsDevice CreateGraphicsDevice(Sdl2Window window, GraphicsDeviceOptions options)
-            => CreateGraphicsDevice(window, options, GetPlatformDefaultBackend());
-        public static GraphicsDevice CreateGraphicsDevice(Sdl2Window window, GraphicsBackend preferredBackend)
-            => CreateGraphicsDevice(window, new GraphicsDeviceOptions(), preferredBackend);
+            => CreateGraphicsDevice(window, new GraphicsDeviceOptions());
+
         public static GraphicsDevice CreateGraphicsDevice(
             Sdl2Window window,
-            GraphicsDeviceOptions options,
-            GraphicsBackend preferredBackend)
+            GraphicsDeviceOptions options)
         {
-            switch (preferredBackend)
-            {
-                case GraphicsBackend.Direct3D11:
-                    throw new VeldridException("D3D11 support has not been included in this configuration of Veldrid");
-
-                case GraphicsBackend.Vulkan:
-#if !EXCLUDE_VULKAN_BACKEND
-                    return CreateVulkanGraphicsDevice(options, window);
-#else
-                    throw new VeldridException("Vulkan support has not been included in this configuration of Veldrid");
-#endif
-                case GraphicsBackend.OpenGL:
-                    throw new VeldridException("OpenGL support has not been included in this configuration of Veldrid");
-
-                case GraphicsBackend.Metal:
-                    throw new VeldridException("Metal support has not been included in this configuration of Veldrid");
-
-                case GraphicsBackend.OpenGLES:
-                    throw new VeldridException("OpenGL support has not been included in this configuration of Veldrid");
-
-                default:
-                    throw new VeldridException("Invalid GraphicsBackend: " + preferredBackend);
-            }
+            return CreateVulkanGraphicsDevice(options, window);
         }
 
         public static unsafe SwapchainSource GetSwapchainSource(Sdl2Window window)
@@ -145,26 +110,6 @@ namespace Veldrid.StartupUtilities
                     return SwapchainSource.CreateNSWindow(nsWindow);
                 default:
                     throw new PlatformNotSupportedException("Cannot create a SwapchainSource for " + sysWmInfo.subsystem + ".");
-            }
-        }
-
-        public static GraphicsBackend GetPlatformDefaultBackend()
-        {
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                return GraphicsBackend.Direct3D11;
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-            {
-                return GraphicsDevice.IsBackendSupported(GraphicsBackend.Metal)
-                    ? GraphicsBackend.Metal
-                    : GraphicsBackend.OpenGL;
-            }
-            else
-            {
-                return GraphicsDevice.IsBackendSupported(GraphicsBackend.Vulkan)
-                    ? GraphicsBackend.Vulkan
-                    : GraphicsBackend.OpenGL;
             }
         }
 

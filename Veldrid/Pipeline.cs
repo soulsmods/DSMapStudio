@@ -45,12 +45,12 @@ namespace Veldrid
                 BlendAttachmentDescription vdDesc = description.BlendState.AttachmentStates[i];
                 var attachmentState = new VkPipelineColorBlendAttachmentState
                 {
-                    srcColorBlendFactor = VkFormats.VdToVkBlendFactor(vdDesc.SourceColorFactor),
-                    dstColorBlendFactor = VkFormats.VdToVkBlendFactor(vdDesc.DestinationColorFactor),
-                    colorBlendOp = VkFormats.VdToVkBlendOp(vdDesc.ColorFunction),
-                    srcAlphaBlendFactor = VkFormats.VdToVkBlendFactor(vdDesc.SourceAlphaFactor),
-                    dstAlphaBlendFactor = VkFormats.VdToVkBlendFactor(vdDesc.DestinationAlphaFactor),
-                    alphaBlendOp = VkFormats.VdToVkBlendOp(vdDesc.AlphaFunction),
+                    srcColorBlendFactor = vdDesc.SourceColorFactor,
+                    dstColorBlendFactor = vdDesc.DestinationColorFactor,
+                    colorBlendOp = vdDesc.ColorFunction,
+                    srcAlphaBlendFactor = vdDesc.SourceAlphaFactor,
+                    dstAlphaBlendFactor = vdDesc.DestinationAlphaFactor,
+                    alphaBlendOp = vdDesc.AlphaFunction,
                     blendEnable = vdDesc.BlendEnabled,
                     colorWriteMask = VkColorComponentFlags.R | VkColorComponentFlags.G | VkColorComponentFlags.B | VkColorComponentFlags.A
                 };
@@ -74,10 +74,10 @@ namespace Veldrid
             var rsCI = new VkPipelineRasterizationStateCreateInfo
             {
                 sType = VkStructureType.PipelineRasterizationStateCreateInfo,
-                cullMode = VkFormats.VdToVkCullMode(rsDesc.CullMode),
-                polygonMode = VkFormats.VdToVkPolygonMode(rsDesc.FillMode),
+                cullMode = rsDesc.CullMode,
+                polygonMode = rsDesc.FillMode,
                 depthClampEnable = !rsDesc.DepthClipEnabled,
-                frontFace = rsDesc.FrontFace == FrontFace.Clockwise ? VkFrontFace.Clockwise : VkFrontFace.CounterClockwise,
+                frontFace = rsDesc.FrontFace,
                 lineWidth = 1f
             };
 
@@ -101,22 +101,22 @@ namespace Veldrid
                 sType = VkStructureType.PipelineDepthStencilStateCreateInfo,
                 depthWriteEnable = vdDssDesc.DepthWriteEnabled,
                 depthTestEnable = vdDssDesc.DepthTestEnabled,
-                depthCompareOp = VkFormats.VdToVkCompareOp(vdDssDesc.DepthComparison),
+                depthCompareOp = vdDssDesc.DepthComparison,
                 stencilTestEnable = vdDssDesc.StencilTestEnabled,
                 front = new VkStencilOpState
                 {
-                    failOp = VkFormats.VdToVkStencilOp(vdDssDesc.StencilFront.Fail),
-                    passOp = VkFormats.VdToVkStencilOp(vdDssDesc.StencilFront.Pass),
-                    depthFailOp = VkFormats.VdToVkStencilOp(vdDssDesc.StencilFront.DepthFail),
+                    failOp = vdDssDesc.StencilFront.Fail,
+                    passOp = vdDssDesc.StencilFront.Pass,
+                    depthFailOp = vdDssDesc.StencilFront.DepthFail,
                     compareMask = vdDssDesc.StencilReadMask,
                     writeMask = vdDssDesc.StencilWriteMask,
                     reference = vdDssDesc.StencilReference,
                 },
                 back = new VkStencilOpState
                 {
-                    failOp = VkFormats.VdToVkStencilOp(vdDssDesc.StencilBack.Fail),
-                    passOp = VkFormats.VdToVkStencilOp(vdDssDesc.StencilBack.Pass),
-                    depthFailOp = VkFormats.VdToVkStencilOp(vdDssDesc.StencilBack.DepthFail),
+                    failOp = vdDssDesc.StencilBack.Fail,
+                    passOp = vdDssDesc.StencilBack.Pass,
+                    depthFailOp = vdDssDesc.StencilBack.DepthFail,
                     compareMask = vdDssDesc.StencilReadMask,
                     writeMask = vdDssDesc.StencilWriteMask,
                     reference = vdDssDesc.StencilReference,
@@ -124,7 +124,7 @@ namespace Veldrid
             };
 
             // Multisample
-            VkSampleCountFlags vkSampleCount = VkFormats.VdToVkSampleCount(description.Outputs.SampleCount);
+            VkSampleCountFlags vkSampleCount = description.Outputs.SampleCount;
             var multisampleCI = new VkPipelineMultisampleStateCreateInfo
             {
                 sType = VkStructureType.PipelineMultisampleStateCreateInfo,
@@ -136,7 +136,7 @@ namespace Veldrid
             var inputAssemblyCI = new VkPipelineInputAssemblyStateCreateInfo
             {
                 sType = VkStructureType.PipelineInputAssemblyStateCreateInfo,
-                topology = VkFormats.VdToVkPrimitiveTopology(description.PrimitiveTopology)
+                topology = description.PrimitiveTopology,
             };
 
             // Vertex Input State
@@ -169,7 +169,7 @@ namespace Veldrid
 
                     attributeDescs[targetIndex] = new VkVertexInputAttributeDescription
                     {
-                        format = VkFormats.VdToVkVertexElementFormat(inputElement.Format),
+                        format = inputElement.Format,
                         binding = (uint)binding,
                         location = (uint)(targetLocation + location),
                         offset = inputElement.Offset != 0 ? inputElement.Offset : currentOffset
@@ -199,7 +199,7 @@ namespace Veldrid
                 uint specDataSize = 0;
                 foreach (SpecializationConstant spec in specDescs)
                 {
-                    specDataSize += VkFormats.GetSpecializationConstantSize(spec.Type);
+                    specDataSize += GetSpecializationConstantSize(spec.Type);
                 }
                 byte* fullSpecData = stackalloc byte[(int)specDataSize];
                 int specializationCount = specDescs.Length;
@@ -209,7 +209,7 @@ namespace Veldrid
                 {
                     ulong data = specDescs[i].Data;
                     byte* srcData = (byte*)&data;
-                    uint dataSize = VkFormats.GetSpecializationConstantSize(specDescs[i].Type);
+                    uint dataSize = GetSpecializationConstantSize(specDescs[i].Type);
                     Unsafe.CopyBlock(fullSpecData + specOffset, srcData, dataSize);
                     mapEntries[i].constantID = specDescs[i].ID;
                     mapEntries[i].offset = specOffset;
@@ -230,7 +230,7 @@ namespace Veldrid
                 {
                     sType = VkStructureType.PipelineShaderStageCreateInfo,
                     module = shader.ShaderModule,
-                    stage = VkFormats.VdToVkShaderStages(shader.Stage),
+                    stage = shader.Stage,
                     pName = new FixedUtf8String(shader.EntryPoint), // TODO: DONT ALLOCATE HERE
                     pSpecializationInfo = &specializationInfo
                 };
@@ -271,7 +271,7 @@ namespace Veldrid
             StackList<VkAttachmentReference> colorAttachmentRefs = new StackList<VkAttachmentReference>();
             for (uint i = 0; i < outputDesc.ColorAttachments.Length; i++)
             {
-                colorAttachmentDescs[i].format = VkFormats.VdToVkPixelFormat(outputDesc.ColorAttachments[i].Format);
+                colorAttachmentDescs[i].format = outputDesc.ColorAttachments[i].Format;
                 colorAttachmentDescs[i].samples = vkSampleCount;
                 colorAttachmentDescs[i].loadOp = VkAttachmentLoadOp.DontCare;
                 colorAttachmentDescs[i].storeOp = VkAttachmentStoreOp.Store;
@@ -289,9 +289,9 @@ namespace Veldrid
             VkAttachmentReference depthAttachmentRef = new VkAttachmentReference();
             if (outputDesc.DepthAttachment != null)
             {
-                PixelFormat depthFormat = outputDesc.DepthAttachment.Value.Format;
+                VkFormat depthFormat = outputDesc.DepthAttachment.Value.Format;
                 bool hasStencil = FormatHelpers.IsStencilFormat(depthFormat);
-                depthAttachmentDesc.format = VkFormats.VdToVkPixelFormat(outputDesc.DepthAttachment.Value.Format, toDepthFormat: true);
+                depthAttachmentDesc.format = outputDesc.DepthAttachment.Value.Format;
                 depthAttachmentDesc.samples = vkSampleCount;
                 depthAttachmentDesc.loadOp = VkAttachmentLoadOp.DontCare;
                 depthAttachmentDesc.storeOp = VkAttachmentStoreOp.Store;
@@ -402,7 +402,7 @@ namespace Veldrid
                 uint specDataSize = 0;
                 foreach (SpecializationConstant spec in specDescs)
                 {
-                    specDataSize += VkFormats.GetSpecializationConstantSize(spec.Type);
+                    specDataSize += GetSpecializationConstantSize(spec.Type);
                 }
                 byte* fullSpecData = stackalloc byte[(int)specDataSize];
                 int specializationCount = specDescs.Length;
@@ -412,7 +412,7 @@ namespace Veldrid
                 {
                     ulong data = specDescs[i].Data;
                     byte* srcData = (byte*)&data;
-                    uint dataSize = VkFormats.GetSpecializationConstantSize(specDescs[i].Type);
+                    uint dataSize = GetSpecializationConstantSize(specDescs[i].Type);
                     Unsafe.CopyBlock(fullSpecData + specOffset, srcData, dataSize);
                     mapEntries[i].constantID = specDescs[i].ID;
                     mapEntries[i].offset = specOffset;
@@ -428,7 +428,7 @@ namespace Veldrid
             Shader shader = description.ComputeShader;
             VkPipelineShaderStageCreateInfo stageCI = new VkPipelineShaderStageCreateInfo();
             stageCI.module = shader.ShaderModule;
-            stageCI.stage = VkFormats.VdToVkShaderStages(shader.Stage);
+            stageCI.stage = shader.Stage;
             stageCI.pName = CommonStrings.main; // Meh
             stageCI.pSpecializationInfo = &specializationInfo;
             pipelineCI.stage = stageCI;
@@ -477,6 +477,33 @@ namespace Veldrid
         /// </summary>
         public bool IsComputePipeline { get; }
 
+        internal static uint GetSpecializationConstantSize(ShaderConstantType type)
+        {
+            switch (type)
+            {
+                case ShaderConstantType.Bool:
+                    return 4;
+                case ShaderConstantType.UInt16:
+                    return 2;
+                case ShaderConstantType.Int16:
+                    return 2;
+                case ShaderConstantType.UInt32:
+                    return 4;
+                case ShaderConstantType.Int32:
+                    return 4;
+                case ShaderConstantType.UInt64:
+                    return 8;
+                case ShaderConstantType.Int64:
+                    return 8;
+                case ShaderConstantType.Float:
+                    return 4;
+                case ShaderConstantType.Double:
+                    return 8;
+                default:
+                    throw Illegal.Value<ShaderConstantType>();
+            }
+        }
+        
         /// <summary>
         /// A string identifying this instance. Can be used to differentiate between objects in graphics debuggers and other
         /// tools.

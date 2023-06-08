@@ -1,4 +1,5 @@
 ﻿using System;
+using Vortice.Vulkan;
 
 namespace Veldrid
 {
@@ -10,7 +11,7 @@ namespace Veldrid
         /// <summary>
         /// The shader stage this instance describes.
         /// </summary>
-        public ShaderStages Stage;
+        public VkShaderStageFlags Stage;
 
         /// <summary>
         /// An array containing the raw shader bytes.
@@ -39,7 +40,7 @@ namespace Veldrid
         /// <param name="stage">The shader stage to create.</param>
         /// <param name="shaderBytes">An array containing the raw shader bytes.</param>
         /// <param name="entryPoint">The name of the entry point function in the shader module to be used in this stage.</param>
-        public ShaderDescription(ShaderStages stage, byte[] shaderBytes, string entryPoint)
+        public ShaderDescription(VkShaderStageFlags stage, byte[] shaderBytes, string entryPoint)
         {
             Stage = stage;
             ShaderBytes = shaderBytes;
@@ -55,7 +56,7 @@ namespace Veldrid
         /// <param name="entryPoint">The name of the entry point function in the shader module to be used in this stage.</param>
         /// <param name="debug">Indicates whether the shader should be debuggable. This flag only has an effect if
         /// <paramref name="shaderBytes"/> contains shader code that will be compiled.</param>
-        public ShaderDescription(ShaderStages stage, byte[] shaderBytes, string entryPoint, bool debug)
+        public ShaderDescription(VkShaderStageFlags stage, byte[] shaderBytes, string entryPoint, bool debug)
         {
             Stage = stage;
             ShaderBytes = shaderBytes;

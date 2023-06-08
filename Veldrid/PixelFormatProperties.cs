@@ -1,4 +1,6 @@
-﻿namespace Veldrid
+﻿using Vortice.Vulkan;
+
+namespace Veldrid
 {
     /// <summary>
     /// Describes the properties that are supported for a particular combination of <see cref="PixelFormat"/>,
@@ -35,7 +37,7 @@
         /// </summary>
         /// <param name="count">The <see cref="TextureSampleCount"/> to query.</param>
         /// <returns>True if the sample count is supported; false otherwise.</returns>
-        public bool IsSampleCountSupported(TextureSampleCount count)
+        public bool IsSampleCountSupported(VkSampleCountFlags count)
         {
             int bit = (int)count;
             return (_sampleCounts & (1 << bit)) != 0;

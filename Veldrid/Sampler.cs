@@ -35,27 +35,25 @@ namespace Veldrid
         internal Sampler(GraphicsDevice gd, ref SamplerDescription description)
         {
             _gd = gd;
-            VkFormats.GetFilterParams(description.Filter, out VkFilter minFilter, out VkFilter magFilter, out VkSamplerMipmapMode mipmapMode);
-
             VkSamplerCreateInfo samplerCI = new VkSamplerCreateInfo
             {
                 sType = VkStructureType.SamplerCreateInfo,
-                addressModeU = VkFormats.VdToVkSamplerAddressMode(description.AddressModeU),
-                addressModeV = VkFormats.VdToVkSamplerAddressMode(description.AddressModeV),
-                addressModeW = VkFormats.VdToVkSamplerAddressMode(description.AddressModeW),
-                minFilter = minFilter,
-                magFilter = magFilter,
-                mipmapMode = mipmapMode,
+                addressModeU = description.AddressModeU,
+                addressModeV = description.AddressModeV,
+                addressModeW = description.AddressModeW,
+                minFilter = description.MinFilter,
+                magFilter = description.MagFilter,
+                mipmapMode = description.MipmapMode,
                 compareEnable = description.ComparisonKind != null,
                 compareOp = description.ComparisonKind != null
-                    ? VkFormats.VdToVkCompareOp(description.ComparisonKind.Value)
+                    ? description.ComparisonKind.Value
                     : VkCompareOp.Never,
-                anisotropyEnable = description.Filter == SamplerFilter.Anisotropic,
+                anisotropyEnable = description.MaximumAnisotropy > 0 ? VkBool32.True : VkBool32.False,
                 maxAnisotropy = description.MaximumAnisotropy,
                 minLod = description.MinimumLod,
                 maxLod = description.MaximumLod,
                 mipLodBias = description.LodBias,
-                borderColor = VkFormats.VdToVkSamplerBorderColor(description.BorderColor)
+                borderColor = description.BorderColor
             };
             vkCreateSampler(_gd.Device, &samplerCI, null, out _sampler);
             RefCount = new ResourceRefCount(DisposeCore);

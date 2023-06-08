@@ -1,4 +1,5 @@
 ﻿using System;
+using Vortice.Vulkan;
 
 namespace Veldrid
 {
@@ -12,45 +13,25 @@ namespace Veldrid
         /// </summary>
         public string Name;
         /// <summary>
-        /// The semantic type of the element.
-        /// NOTE: When using Veldrid.SPIRV, all vertex elements will use
-        /// <see cref="VertexElementSemantic.TextureCoordinate"/>.
-        /// </summary>
-        public VertexElementSemantic Semantic;
-        /// <summary>
         /// The format of the element.
         /// </summary>
-        public VertexElementFormat Format;
+        public VkFormat Format;
         /// <summary>
         /// The offset in bytes from the beginning of the vertex.
         /// </summary>
         public uint Offset;
 
         /// <summary>
-        /// Constructs a new VertexElementDescription describing a per-vertex element.
-        /// </summary>
-        /// <param name="name">The name of the element.</param>
-        /// <param name="semantic">The semantic type of the element.</param>
-        /// <param name="format">The format of the element.</param>
-        public VertexElementDescription(string name, VertexElementSemantic semantic, VertexElementFormat format)
-            : this(name, format, semantic)
-        {
-        }
-
-        /// <summary>
         /// Constructs a new VertexElementDescription.
         /// </summary>
         /// <param name="name">The name of the element.</param>
-        /// <param name="semantic">The semantic type of the element.</param>
         /// <param name="format">The format of the element.</param>
         public VertexElementDescription(
             string name,
-            VertexElementFormat format,
-            VertexElementSemantic semantic)
+            VkFormat format)
         {
             Name = name;
             Format = format;
-            Semantic = semantic;
             Offset = 0;
         }
 
@@ -58,18 +39,15 @@ namespace Veldrid
         /// Constructs a new VertexElementDescription.
         /// </summary>
         /// <param name="name">The name of the element.</param>
-        /// <param name="semantic">The semantic type of the element.</param>
         /// <param name="format">The format of the element.</param>
         /// <param name="offset">The offset in bytes from the beginning of the vertex.</param>
         public VertexElementDescription(
             string name,
-            VertexElementSemantic semantic,
-            VertexElementFormat format,
+            VkFormat format,
             uint offset)
         {
             Name = name;
             Format = format;
-            Semantic = semantic;
             Offset = offset;
         }
 
@@ -82,7 +60,6 @@ namespace Veldrid
         {
             return Name.Equals(other.Name)
                 && Format == other.Format
-                && Semantic == other.Semantic
                 && Offset == other.Offset;
         }
 
@@ -95,7 +72,6 @@ namespace Veldrid
             return HashHelper.Combine(
                 Name.GetHashCode(),
                 (int)Format,
-                (int)Semantic,
                 (int)Offset);
         }
     }

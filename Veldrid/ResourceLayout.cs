@@ -45,15 +45,16 @@ namespace Veldrid
 
             for (uint i = 0; i < elements.Length; i++)
             {
-                VkDescriptorType descriptorType = VkFormats.VdToVkDescriptorType(elements[i].Kind, elements[i].Options);
+                VkDescriptorType descriptorType = elements[i].Kind;
                 bindings[i] = new VkDescriptorSetLayoutBinding
                 {
                     binding = i,
                     descriptorCount = elements[i].DescriptorCount,
                     descriptorType = descriptorType,
-                    stageFlags = VkFormats.VdToVkShaderStages(elements[i].Stages)
+                    stageFlags = elements[i].Stages
                 };
-                if ((elements[i].Options & ResourceLayoutElementOptions.DynamicBinding) != 0)
+                if (elements[i].Kind == VkDescriptorType.StorageBufferDynamic || 
+                    elements[i].Kind == VkDescriptorType.UniformBufferDynamic)
                 {
                     DynamicBufferCountValidation += 1;
                 }
@@ -79,14 +80,7 @@ namespace Veldrid
                         break;
                 }
 
-                flags[i] = new VkDescriptorBindingFlags();
-                if ((elements[i].Options & ResourceLayoutElementOptions.VariableCount) != 0)
-                {
-                    flags[i] = VkDescriptorBindingFlags.VariableDescriptorCount;
-                    // UpdateAfterBind is needed for larger texture pools on Intel for some reason
-                    if (descriptorType == VkDescriptorType.SampledImage)
-                        flags[i] |= VkDescriptorBindingFlags.UpdateAfterBind;
-                }
+                flags[i] = elements[i].BindingFlags;
             }
 
             DescriptorResourceCounts = new DescriptorResourceCounts(
@@ -121,7 +115,8 @@ namespace Veldrid
             Description = description;
             foreach (ResourceLayoutElementDescription element in description.Elements)
             {
-                if ((element.Options & ResourceLayoutElementOptions.DynamicBinding) != 0)
+                if (element.Kind == VkDescriptorType.StorageBufferDynamic || 
+                    element.Kind == VkDescriptorType.UniformBufferDynamic)
                 {
                     DynamicBufferCount += 1;
                 }

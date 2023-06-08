@@ -12,7 +12,7 @@ namespace Veldrid
         private readonly GraphicsDevice _gd;
         private readonly Swapchain _swapchain;
         private readonly VkSurfaceKHR _surface;
-        private readonly PixelFormat? _depthFormat;
+        private readonly VkFormat? _depthFormat;
         private uint _currentImageIndex;
 
         private VkFramebuffer[] _scFramebuffers;
@@ -58,7 +58,7 @@ namespace Veldrid
             VkSurfaceKHR surface,
             uint width,
             uint height,
-            PixelFormat? depthFormat)
+            VkFormat? depthFormat)
             : base()
         {
             _gd = gd;
@@ -129,7 +129,9 @@ namespace Veldrid
                     1,
                     1,
                     _depthFormat.Value,
-                    TextureUsage.DepthStencil));
+                    VkImageUsageFlags.DepthStencilAttachment,
+                    VkImageCreateFlags.None,
+                    VkImageTiling.Optimal));
                 _depthAttachment = new FramebufferAttachment(depthTexture, 0);
             }
         }
@@ -157,8 +159,8 @@ namespace Veldrid
                     1,
                     1,
                     _scImageFormat,
-                    TextureUsage.RenderTarget,
-                    TextureSampleCount.Count1,
+                    VkImageUsageFlags.ColorAttachment,
+                    VkSampleCountFlags.Count1,
                     _scImages[i]);
                 FramebufferDescription desc = new FramebufferDescription(_depthAttachment?.Target, colorTex);
                 VkFramebuffer fb = new VkFramebuffer(_gd, ref desc, true);

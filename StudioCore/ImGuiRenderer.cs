@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using StudioCore.Scene;
 using Veldrid;
+using Vortice.Vulkan;
 
 namespace StudioCore
 {
@@ -119,12 +120,27 @@ namespace StudioCore
             _gd = gd;
             _colorSpaceHandling = colorSpaceHandling;
             ResourceFactory factory = gd.ResourceFactory;
-            _vertexBuffer = factory.CreateBuffer(new BufferDescription(10000, BufferUsage.VertexBuffer | BufferUsage.Dynamic));
+            _vertexBuffer = factory.CreateBuffer(
+                new BufferDescription(
+                    10000,
+                    VkBufferUsageFlags.VertexBuffer, 
+                    VmaMemoryUsage.AutoPreferHost,
+                    VmaAllocationCreateFlags.Mapped));
             _vertexBuffer.Name = "ImGui.NET Vertex Buffer";
-            _indexBuffer = factory.CreateBuffer(new BufferDescription(2000, BufferUsage.IndexBuffer | BufferUsage.Dynamic));
+            _indexBuffer = factory.CreateBuffer(
+                new BufferDescription(
+                    2000, 
+                    VkBufferUsageFlags.IndexBuffer,
+                    VmaMemoryUsage.AutoPreferHost,
+                    VmaAllocationCreateFlags.Mapped));
             _indexBuffer.Name = "ImGui.NET Index Buffer";
 
-            _projMatrixBuffer = factory.CreateBuffer(new BufferDescription(64, BufferUsage.UniformBuffer | BufferUsage.Dynamic));
+            _projMatrixBuffer = factory.CreateBuffer(
+                new BufferDescription(
+                    64,
+                    VkBufferUsageFlags.UniformBuffer,
+                    VmaMemoryUsage.AutoPreferHost,
+                    VmaAllocationCreateFlags.Mapped));
             _projMatrixBuffer.Name = "ImGui.NET Projection Buffer";
 
             var res = StaticResourceCache.GetShaders(gd, gd.ResourceFactory, "imgui").ToTuple();
@@ -134,22 +150,22 @@ namespace StudioCore
             VertexLayoutDescription[] vertexLayouts = new VertexLayoutDescription[]
             {
                 new VertexLayoutDescription(
-                    new VertexElementDescription("in_position", VertexElementSemantic.Position, VertexElementFormat.Float2),
-                    new VertexElementDescription("in_texCoord", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Float2),
-                    new VertexElementDescription("in_color", VertexElementSemantic.Color, VertexElementFormat.Byte4_Norm))
+                    new VertexElementDescription("in_position", VkFormat.R32G32Sfloat),
+                    new VertexElementDescription("in_texCoord", VkFormat.R32G32Sfloat),
+                    new VertexElementDescription("in_color", VkFormat.R8G8B8A8Unorm))
             };
 
             _layout = factory.CreateResourceLayout(new ResourceLayoutDescription(
-                new ResourceLayoutElementDescription("ProjectionMatrixBuffer", ResourceKind.UniformBuffer, ShaderStages.Vertex),
-                new ResourceLayoutElementDescription("MainSampler", ResourceKind.Sampler, ShaderStages.Fragment)));
+                new ResourceLayoutElementDescription("ProjectionMatrixBuffer", VkDescriptorType.UniformBuffer, VkShaderStageFlags.Vertex),
+                new ResourceLayoutElementDescription("MainSampler", VkDescriptorType.Sampler, VkShaderStageFlags.Fragment)));
             _textureLayout = factory.CreateResourceLayout(new ResourceLayoutDescription(
-                new ResourceLayoutElementDescription("MainTexture", ResourceKind.TextureReadOnly, ShaderStages.Fragment)));
+                new ResourceLayoutElementDescription("MainTexture", VkDescriptorType.SampledImage, VkShaderStageFlags.Fragment)));
 
             GraphicsPipelineDescription pd = new GraphicsPipelineDescription(
                 BlendStateDescription.SingleAlphaBlend,
-                new DepthStencilStateDescription(false, false, ComparisonKind.Always),
-                new RasterizerStateDescription(FaceCullMode.None, PolygonFillMode.Solid, FrontFace.Clockwise, true, true),
-                PrimitiveTopology.TriangleList,
+                new DepthStencilStateDescription(false, false, VkCompareOp.Always),
+                new RasterizerStateDescription(VkCullModeFlags.None, VkPolygonMode.Fill, VkFrontFace.Clockwise, true, true),
+                VkPrimitiveTopology.TriangleList,
                 new ShaderSetDescription(
                     vertexLayouts,
                     new[] { _vertexShader, _fragmentShader },
@@ -159,8 +175,7 @@ namespace StudioCore
                         new SpecializationConstant(1, _colorSpaceHandling == ColorSpaceHandling.Legacy),
                     }),
                 new ResourceLayout[] { _layout, Renderer.GlobalTexturePool.GetLayout() },
-                outputDescription,
-                ResourceBindingModel.Default);
+                outputDescription);
             _pipeline = factory.CreateGraphicsPipeline(ref pd);
             _pipeline.Name = "ImGuiPipeline";
 
@@ -261,47 +276,6 @@ namespace StudioCore
             _lastAssignedID = 100;
         }
 
-        private byte[] LoadEmbeddedShaderCode(
-            ResourceFactory factory,
-            string name,
-            ShaderStages stage,
-            ColorSpaceHandling colorSpaceHandling)
-        {
-            switch (factory.BackendType)
-            {
-                case GraphicsBackend.Direct3D11:
-                {
-                    if (stage == ShaderStages.Vertex && colorSpaceHandling == ColorSpaceHandling.Legacy) { name += "-legacy"; }
-                    string resourceName = name + ".hlsl.bytes";
-                    return GetEmbeddedResourceBytes(resourceName);
-                }
-                case GraphicsBackend.OpenGL:
-                {
-                    if (stage == ShaderStages.Vertex && colorSpaceHandling == ColorSpaceHandling.Legacy) { name += "-legacy"; }
-                    string resourceName = name + ".glsl";
-                    return GetEmbeddedResourceBytes(resourceName);
-                }
-                case GraphicsBackend.OpenGLES:
-                {
-                    if (stage == ShaderStages.Vertex && colorSpaceHandling == ColorSpaceHandling.Legacy) { name += "-legacy"; }
-                    string resourceName = name + ".glsles";
-                    return GetEmbeddedResourceBytes(resourceName);
-                }
-                case GraphicsBackend.Vulkan:
-                {
-                    string resourceName = name + ".spv";
-                    return GetEmbeddedResourceBytes(resourceName);
-                }
-                case GraphicsBackend.Metal:
-                {
-                    string resourceName = name + ".metallib";
-                    return GetEmbeddedResourceBytes(resourceName);
-                }
-                default:
-                    throw new NotImplementedException();
-            }
-        }
-
         private string GetEmbeddedResourceText(string resourceName)
         {
             using (StreamReader sr = new StreamReader(_assembly.GetManifestResourceStream(resourceName)))
@@ -343,8 +317,10 @@ namespace StudioCore
                 (uint)height,
                 1,
                 1,
-                PixelFormat.R8_G8_B8_A8_UNorm,
-                TextureUsage.Sampled));
+                VkFormat.R8G8B8A8Unorm,
+                VkImageUsageFlags.Sampled,
+                VkImageCreateFlags.None,
+                VkImageTiling.Optimal));
             tex.Name = "ImGui.NET Font Texture";
             gd.UpdateTexture(
                 tex,
@@ -542,14 +518,22 @@ namespace StudioCore
             if (totalVBSize > _vertexBuffer.SizeInBytes)
             {
                 _vertexBuffer.Dispose();
-                _vertexBuffer = gd.ResourceFactory.CreateBuffer(new BufferDescription((uint)(totalVBSize * 1.5f), BufferUsage.VertexBuffer | BufferUsage.Dynamic));
+                _vertexBuffer = gd.ResourceFactory.CreateBuffer(
+                    new BufferDescription((uint)(totalVBSize * 1.5f), 
+                        VkBufferUsageFlags.VertexBuffer,
+                        VmaMemoryUsage.AutoPreferHost,
+                        VmaAllocationCreateFlags.Mapped));
             }
 
             uint totalIBSize = (uint)(draw_data.TotalIdxCount * sizeof(ushort));
             if (totalIBSize > _indexBuffer.SizeInBytes)
             {
                 _indexBuffer.Dispose();
-                _indexBuffer = gd.ResourceFactory.CreateBuffer(new BufferDescription((uint)(totalIBSize * 1.5f), BufferUsage.IndexBuffer | BufferUsage.Dynamic));
+                _indexBuffer = gd.ResourceFactory.CreateBuffer(
+                    new BufferDescription((uint)(totalIBSize * 1.5f), 
+                        VkBufferUsageFlags.IndexBuffer,
+                        VmaMemoryUsage.AutoPreferHost,
+                        VmaAllocationCreateFlags.Mapped));
             }
 
             for (int i = 0; i < draw_data.CmdListsCount; i++)
@@ -588,7 +572,7 @@ namespace StudioCore
             }
 
             cl.SetVertexBuffer(0, _vertexBuffer);
-            cl.SetIndexBuffer(_indexBuffer, IndexFormat.UInt16);
+            cl.SetIndexBuffer(_indexBuffer, VkIndexType.Uint16);
             cl.SetPipeline(_pipeline);
             cl.SetGraphicsResourceSet(0, _mainResourceSet);
 

@@ -11,6 +11,7 @@ using Veldrid;
 using Veldrid.Sdl2;
 using System.Security.Policy;
 using System.Security.Cryptography;
+using Vortice.Vulkan;
 
 namespace StudioCore.Scene
 {
@@ -57,7 +58,7 @@ namespace StudioCore.Scene
             {
                 public Pipeline _pipeline;
                 public ResourceSet _objectRS;
-                public IndexFormat _indexFormat;
+                public VkIndexType _indexFormat;
                 public uint _batchStart;
                 public int _bufferIndex;
             }
@@ -67,7 +68,10 @@ namespace StudioCore.Scene
             unsafe public IndirectDrawEncoder(uint initialCallCount)
             {
                 BufferDescription desc = new BufferDescription(
-                    initialCallCount * 20, BufferUsage.IndirectBuffer);
+                    initialCallCount * 20,
+                    VkBufferUsageFlags.IndirectBuffer,
+                    VmaMemoryUsage.AutoPreferDevice,
+                    0);
                 _indirectBuffer = Factory.CreateBuffer(desc);
                 _indirectStagingBuffer = new IndirectDrawIndexedArgumentsPacked[initialCallCount];
                 _directBuffer = new IndirectDrawIndexedArgumentsPacked[initialCallCount];
@@ -104,7 +108,7 @@ namespace StudioCore.Scene
             /// <param name="p">The pipeline to use with rendering</param>
             /// <param name="instanceData">Per instance data resource set</param>
             /// <param name="indexf">Format of the indices (16 or 32-bit)</param>
-            public void AddDraw(ref IndirectDrawIndexedArgumentsPacked args, int buffer, Pipeline p, ResourceSet instanceData, IndexFormat indexf)
+            public void AddDraw(ref IndirectDrawIndexedArgumentsPacked args, int buffer, Pipeline p, ResourceSet instanceData, VkIndexType indexf)
             {
                 // Encode the draw
                 if (_indirectDrawCount[_stagingSet] >= _indirectStagingBuffer.Length)
@@ -521,10 +525,10 @@ namespace StudioCore.Scene
             SamplerSet.Initialize(device);
 
             GeometryBufferAllocator = new VertexIndexBufferAllocator(256 * 1024 * 1024, 128 * 1024 * 1024);
-            UniformBufferAllocator = new GPUBufferAllocator(5 * 1024 * 1024, BufferUsage.StructuredBufferReadWrite, (uint)sizeof(InstanceData));
+            UniformBufferAllocator = new GPUBufferAllocator(5 * 1024 * 1024, VkBufferUsageFlags.StorageBuffer, (uint)sizeof(InstanceData));
 
-            MaterialBufferAllocator = new GPUBufferAllocator("materials", 5 * 1024 * 1024, BufferUsage.StructuredBufferReadWrite, (uint)sizeof(Material), ShaderStages.Fragment);
-            BoneBufferAllocator = new GPUBufferAllocator("bones", CFG.Current.GFX_Limit_Buffer_Flver_Bone * 64, BufferUsage.StructuredBufferReadWrite, 64, ShaderStages.Vertex);
+            MaterialBufferAllocator = new GPUBufferAllocator("materials", 5 * 1024 * 1024, VkBufferUsageFlags.StorageBuffer, (uint)sizeof(Material), VkShaderStageFlags.Fragment);
+            BoneBufferAllocator = new GPUBufferAllocator("bones", CFG.Current.GFX_Limit_Buffer_Flver_Bone * 64, VkBufferUsageFlags.StorageBuffer, 64, VkShaderStageFlags.Vertex);
             GlobalTexturePool = new TexturePool(device, "globalTextures", 6000);
             GlobalCubeTexturePool = new TexturePool(device, "globalCubeTextures", 500);
 

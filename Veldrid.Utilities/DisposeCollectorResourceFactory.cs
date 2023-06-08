@@ -1,3 +1,5 @@
+using Vortice.Vulkan;
+
 namespace Veldrid.Utilities
 {
     public class DisposeCollectorResourceFactory : ResourceFactory
