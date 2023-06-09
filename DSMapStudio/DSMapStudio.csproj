@@ -26,6 +26,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="LaunchWithoutVulkan.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="imgui.ini.backup">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

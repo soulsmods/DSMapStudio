@@ -29,10 +29,20 @@ namespace DSMapStudio
 
             //SDL_version version;
             //Sdl2Native.SDL_GetVersion(&version);
+            bool noVulkan = false;
+            for (int i=0; i<args.Length; i++)
+            {
+                String s = args[i];
+                switch (s)
+                {
+                    case "--noVulkan":
+                        noVulkan = true;
+                        break;
+                }
+            }
 
             Directory.SetCurrentDirectory(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location));
-
-            var mapStudio = new MapStudioNew();
+            var mapStudio = new MapStudioNew(noVulkan);
 #if !DEBUG
             try
             {

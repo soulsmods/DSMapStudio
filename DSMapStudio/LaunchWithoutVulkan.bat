@@ -1,0 +1,1 @@
+Start "" "DSMapStudio.exe" "--noVulkan"

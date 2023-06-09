@@ -30,6 +30,10 @@ namespace StudioCore
         private static string _version = System.Windows.Forms.Application.ProductVersion;
         private static string _programTitle = $"Dark Souls Map Studio version {_version}";
 
+        public Boolean LaunchNoVulkan = false;
+
+        private GLWindow _glwindow;
+
         private Sdl2Window _window;
         private GraphicsDevice _gd;
         private CommandList MainWindowCommandList;
@@ -66,7 +70,7 @@ namespace StudioCore
         private bool _textEditorFocused = false;
         private TextEditor.TextEditorScreen _textEditor;
 
-        private SoapstoneService _soapstoneService;
+        //private SoapstoneService _soapstoneService;
 
         public static RenderDoc RenderDocManager;
 
@@ -87,8 +91,10 @@ namespace StudioCore
         private bool _showImGuiDebugLogWindow = false;
         private bool _showImGuiStackToolWindow = false;
 
-        public MapStudioNew()
+        public MapStudioNew(bool noVulkan)
         {
+            LaunchNoVulkan = noVulkan;
+
             CFG.AttemptLoadOrDefault();
 
             if (UseRenderdoc)
@@ -96,51 +102,60 @@ namespace StudioCore
                 RenderDoc.Load(out RenderDocManager);
                 RenderDocManager.OverlayEnabled = false;
             }
-
-            WindowCreateInfo windowCI = new WindowCreateInfo
+            if (LaunchNoVulkan)
             {
-                X = CFG.Current.GFX_Display_X,
-                Y = CFG.Current.GFX_Display_Y,
-                WindowWidth = CFG.Current.GFX_Display_Width,
-                WindowHeight = CFG.Current.GFX_Display_Height,
-                WindowInitialState = WindowState.Maximized,
-                WindowTitle = $"{_programTitle}",
-            };
-            GraphicsDeviceOptions gdOptions = new GraphicsDeviceOptions(false, VkFormat.D32Sfloat, true, true, true, _colorSrgb);
+                _glwindow = new GLWindow(this);
+            }
+            else
+            {
+                WindowCreateInfo windowCI = new WindowCreateInfo
+                {
+                    X = CFG.Current.GFX_Display_X,
+                    Y = CFG.Current.GFX_Display_Y,
+                    WindowWidth = CFG.Current.GFX_Display_Width,
+                    WindowHeight = CFG.Current.GFX_Display_Height,
+                    WindowInitialState = WindowState.Maximized,
+                    WindowTitle = $"{_programTitle}",
+                };
+                GraphicsDeviceOptions gdOptions = new GraphicsDeviceOptions(false, VkFormat.D32Sfloat, true, true, true, _colorSrgb);
 
-#if DEBUG
-            gdOptions.Debug = true;
-#endif
+    #if DEBUG
+                gdOptions.Debug = true;
+    #endif
 
-            VeldridStartup.CreateWindowAndGraphicsDevice(
-               windowCI,
-               gdOptions,
-               out _window,
-               out _gd);
-            _window.Resized += () => _windowResized = true;
-            _window.Moved += (p) => _windowMoved = true;
+                VeldridStartup.CreateWindowAndGraphicsDevice(
+                windowCI,
+                gdOptions,
+                out _window,
+                out _gd);
+                _window.Resized += () => _windowResized = true;
+                _window.Moved += (p) => _windowMoved = true;
 
-            Sdl2Native.SDL_Init(SDLInitFlags.GameController);
-            //Sdl2ControllerTracker.CreateDefault(out _controllerTracker);
+                Sdl2Native.SDL_Init(SDLInitFlags.GameController);
+                //Sdl2ControllerTracker.CreateDefault(out _controllerTracker);
 
-            var factory = _gd.ResourceFactory;
-            TextureSamplerResourceLayout = factory.CreateResourceLayout(new ResourceLayoutDescription(
-               new ResourceLayoutElementDescription("SourceTexture", VkDescriptorType.SampledImage, VkShaderStageFlags.Fragment),
-               new ResourceLayoutElementDescription("SourceSampler", VkDescriptorType.Sampler, VkShaderStageFlags.Fragment)));
+                var factory = _gd.ResourceFactory;
+                TextureSamplerResourceLayout = factory.CreateResourceLayout(new ResourceLayoutDescription(
+                new ResourceLayoutElementDescription("SourceTexture", VkDescriptorType.SampledImage, VkShaderStageFlags.Fragment),
+                new ResourceLayoutElementDescription("SourceSampler", VkDescriptorType.Sampler, VkShaderStageFlags.Fragment)));
 
-            Scene.Renderer.Initialize(_gd);
+                Scene.Renderer.Initialize(_gd);
 
-            ImguiRenderer = new ImGuiRenderer(_gd, _gd.SwapchainFramebuffer.OutputDescription, CFG.Current.GFX_Display_Width,
-                CFG.Current.GFX_Display_Height, ColorSpaceHandling.Legacy);
-            MainWindowCommandList = factory.CreateCommandList();
-            GuiCommandList = factory.CreateCommandList();
+                ImguiRenderer = new ImGuiRenderer(_gd, _gd.SwapchainFramebuffer.OutputDescription, CFG.Current.GFX_Display_Width,
+                    CFG.Current.GFX_Display_Height, ColorSpaceHandling.Legacy);
+                MainWindowCommandList = factory.CreateCommandList();
+                GuiCommandList = factory.CreateCommandList();
+            }
 
             _assetLocator = new AssetLocator();
-            _msbEditor = new MsbEditor.MsbEditorScreen(_window, _gd, _assetLocator);
-            _modelEditor = new MsbEditor.ModelEditorScreen(_window, _gd, _assetLocator);
+            if (!LaunchNoVulkan)
+            {
+                _msbEditor = new MsbEditor.MsbEditorScreen(_window, _gd, _assetLocator);
+                _modelEditor = new MsbEditor.ModelEditorScreen(_window, _gd, _assetLocator);
+            }
             _paramEditor = new ParamEditor.ParamEditorScreen(_window, _gd);
             _textEditor = new TextEditor.TextEditorScreen(_window, _gd);
-            _soapstoneService = new SoapstoneService(_version, _assetLocator, _msbEditor);
+            //_soapstoneService = new SoapstoneService(_version, _assetLocator, _msbEditor);
 
             _settingsMenu.MsbEditor = _msbEditor;
             _settingsMenu.ModelEditor = _modelEditor;
@@ -151,14 +166,20 @@ namespace StudioCore
             ParamEditor.ParamBank.PrimaryBank.SetAssetLocator(_assetLocator);
             ParamEditor.ParamBank.VanillaBank.SetAssetLocator(_assetLocator);
             TextEditor.FMGBank.SetAssetLocator(_assetLocator);
-            MsbEditor.MtdBank.LoadMtds(_assetLocator);
+            if (!LaunchNoVulkan)
+            {
+                MsbEditor.MtdBank.LoadMtds(_assetLocator);
+            }
 
-            ImGui.GetIO().ConfigFlags |= ImGuiConfigFlags.NavEnableKeyboard;
-            SetupFonts();
-            ImguiRenderer.OnSetupDone();
+            if (!LaunchNoVulkan)
+            {
+                SetupFonts();
+                ImGui.GetIO().ConfigFlags |= ImGuiConfigFlags.NavEnableKeyboard;
+                ImguiRenderer.OnSetupDone();
+                var style = ImGui.GetStyle();
+                style.TabBorderSize = 0;
+            }
 
-            var style = ImGui.GetStyle();
-            style.TabBorderSize = 0;
 
             if (CFG.Current.LastProjectFile != null && CFG.Current.LastProjectFile != "")
             {
@@ -264,7 +285,10 @@ namespace StudioCore
                 }
             }
 
-            ImguiRenderer.RecreateFontDeviceTexture();
+            if (!LaunchNoVulkan)
+            {
+                ImguiRenderer.RecreateFontDeviceTexture();
+            }
         }
 
         public void SetupCSharpDefaults()
@@ -357,66 +381,76 @@ namespace StudioCore
             Stopwatch sw = new Stopwatch();
             sw.Start();
             Tracy.Startup();
-            while (_window.Exists)
+            if (LaunchNoVulkan)
             {
-                // Make sure any awaited UI thread work has a chance to complete
-                //await Task.Yield();
-
-                Tracy.TracyCFrameMark();
-
-                // Limit frame rate when window isn't focused unless we are profiling
-                bool focused = Tracy.EnableTracy ? true : _window.Focused;
-                if (!focused)
+                _glwindow.Run();
+            }
+            else
+            {
+                while (_window.Exists)
                 {
-                    _desiredFrameLengthSeconds = 1.0 / 20.0f;
-                }
-                else
-                {
-                    _desiredFrameLengthSeconds = 1.0 / 60.0f;
-                }
-                long currentFrameTicks = sw.ElapsedTicks;
-                double deltaSeconds = (currentFrameTicks - previousFrameTicks) / (double)Stopwatch.Frequency;
+                    // Make sure any awaited UI thread work has a chance to complete
+                    //await Task.Yield();
 
-                var ctx = Tracy.TracyCZoneNC(1, "Sleep", 0xFF0000FF);
-                while (_limitFrameRate && deltaSeconds < _desiredFrameLengthSeconds)
-                {
-                    currentFrameTicks = sw.ElapsedTicks;
-                    deltaSeconds = (currentFrameTicks - previousFrameTicks) / (double)Stopwatch.Frequency;
-                    System.Threading.Thread.Sleep(focused ? 0 : 1);
-                }
-                Tracy.TracyCZoneEnd(ctx);
+                    Tracy.TracyCFrameMark();
 
-                previousFrameTicks = currentFrameTicks;
+                    // Limit frame rate when window isn't focused unless we are profiling
+                    bool focused = Tracy.EnableTracy ? true : _window.Focused;
+                    if (!focused)
+                    {
+                        _desiredFrameLengthSeconds = 1.0 / 20.0f;
+                    }
+                    else
+                    {
+                        _desiredFrameLengthSeconds = 1.0 / 60.0f;
+                    }
+                    long currentFrameTicks = sw.ElapsedTicks;
+                    double deltaSeconds = (currentFrameTicks - previousFrameTicks) / (double)Stopwatch.Frequency;
 
-                ctx = Tracy.TracyCZoneNC(1, "Update", 0xFF00FF00);
-                InputSnapshot snapshot = null;
-                Sdl2Events.ProcessEvents();
-                snapshot = _window.PumpEvents();
-                InputTracker.UpdateFrameInput(snapshot, _window);
-                Update((float)deltaSeconds);
-                Tracy.TracyCZoneEnd(ctx);
-                if (!_window.Exists)
-                {
-                    break;
-                }
-
-                if (true)//_window.Focused)
-                {
-                    ctx = Tracy.TracyCZoneNC(1, "Draw", 0xFFFF0000);
-                    Draw();
+                    var ctx = Tracy.TracyCZoneNC(1, "Sleep", 0xFF0000FF);
+                    while (_limitFrameRate && deltaSeconds < _desiredFrameLengthSeconds)
+                    {
+                        currentFrameTicks = sw.ElapsedTicks;
+                        deltaSeconds = (currentFrameTicks - previousFrameTicks) / (double)Stopwatch.Frequency;
+                        System.Threading.Thread.Sleep(focused ? 0 : 1);
+                    }
                     Tracy.TracyCZoneEnd(ctx);
-                }
-                else
-                {
-                    // Flush the background queues
-                    Renderer.Frame(null, true);
+
+                    previousFrameTicks = currentFrameTicks;
+
+                    ctx = Tracy.TracyCZoneNC(1, "Update", 0xFF00FF00);
+                    InputSnapshot snapshot = null;
+                    Sdl2Events.ProcessEvents();
+                    snapshot = _window.PumpEvents();
+                    InputTracker.UpdateFrameInput(snapshot, _window);
+                    Update((float)deltaSeconds);
+                    Tracy.TracyCZoneEnd(ctx);
+                    if (!_window.Exists)
+                    {
+                        break;
+                    }
+
+                    if (true)//_window.Focused)
+                    {
+                        ctx = Tracy.TracyCZoneNC(1, "Draw", 0xFFFF0000);
+                        Draw();
+                        Tracy.TracyCZoneEnd(ctx);
+                    }
+                    else
+                    {
+                        // Flush the background queues
+                        Renderer.Frame(null, true);
+                    }
                 }
             }
 
             //DestroyAllObjects();
             Tracy.Shutdown();
-            Resource.ResourceManager.Shutdown();
-            _gd.Dispose();
+            if (!LaunchNoVulkan)
+            {
+                Resource.ResourceManager.Shutdown();
+                _gd.Dispose();
+            }
             CFG.Save();
 
             System.Windows.Forms.Application.Exit();
@@ -439,13 +473,19 @@ namespace StudioCore
 
             Editor.AliasBank.ReloadAliases();
             ParamEditor.ParamBank.ReloadParams(newsettings, options);
-            MsbEditor.MtdBank.ReloadMtds();
-            _msbEditor.ReloadUniverse();
-            _modelEditor.ReloadAssetBrowser();
+            if (!LaunchNoVulkan)
+            {
+                MsbEditor.MtdBank.ReloadMtds();
+                _msbEditor.ReloadUniverse();
+                _modelEditor.ReloadAssetBrowser();
+            }
 
             //Resources loaded here should be moved to databanks
-            _msbEditor.OnProjectChanged(_projectSettings);
-            _modelEditor.OnProjectChanged(_projectSettings);
+            if (!LaunchNoVulkan)
+            {
+                _msbEditor.OnProjectChanged(_projectSettings);
+                _modelEditor.OnProjectChanged(_projectSettings);
+            }
             _textEditor.OnProjectChanged(_projectSettings);
             _paramEditor.OnProjectChanged(_projectSettings);
         }
@@ -619,7 +659,15 @@ namespace StudioCore
                     _projectSettings = settings;
                     ChangeProjectSettings(_projectSettings, Path.GetDirectoryName(filename), options);
                     CFG.Current.LastProjectFile = filename;
-                    _window.Title = $"{_programTitle}  -  {_projectSettings.ProjectName}";
+                    
+                    if (LaunchNoVulkan)
+                    {
+
+                    }
+                    else
+                    {
+                        _window.Title = $"{_programTitle}  -  {_projectSettings.ProjectName}";
+                    }
 
                     if (updateRecents)
                     {
@@ -745,20 +793,23 @@ namespace StudioCore
             }
         }
 
-        private void Update(float deltaseconds)
+        public void Update(float deltaseconds)
         {
             var ctx = Tracy.TracyCZoneN(1, "Imgui");
 
             float scale = ImGuiRenderer.GetUIScale();
 
-            if (_settingsMenu.FontRebuildRequest)
+            if (!LaunchNoVulkan)
             {
-                ImguiRenderer.Update(deltaseconds, InputTracker.FrameSnapshot, SetupFonts);
-                _settingsMenu.FontRebuildRequest = false;
-            }
-            else
-            {
-                ImguiRenderer.Update(deltaseconds, InputTracker.FrameSnapshot, null);
+                if (_settingsMenu.FontRebuildRequest)
+                {
+                    ImguiRenderer.Update(deltaseconds, InputTracker.FrameSnapshot, SetupFonts);
+                    _settingsMenu.FontRebuildRequest = false;
+                }
+                else
+                {
+                    ImguiRenderer.Update(deltaseconds, InputTracker.FrameSnapshot, null);
+                }
             }
 
             Tracy.TracyCZoneEnd(ctx);
@@ -1392,40 +1443,50 @@ namespace StudioCore
             }
             ctx = Tracy.TracyCZoneN(1, "Editor");
             ImGui.PushStyleColor(ImGuiCol.WindowBg, new Vector4(0.0f, 0.0f, 0.0f, 0.0f));
-            if (ImGui.Begin("Map Editor"))
+            if (!LaunchNoVulkan)
             {
-                ImGui.PopStyleColor(1);
-                ImGui.PopStyleVar(1);
-                _msbEditor.OnGUI(mapcmds);
-                ImGui.End();
-                _msbEditorFocused = true;
-                _msbEditor.Update(deltaseconds);
-            }
-            else
-            {
-                ImGui.PopStyleColor(1);
-                ImGui.PopStyleVar(1);
-                _msbEditorFocused = false;
-                ImGui.End();
+                if (ImGui.Begin("Map Editor"))
+                {
+                    ImGui.PopStyleColor(1);
+                    ImGui.PopStyleVar(1);
+                    _msbEditor.OnGUI(mapcmds);
+                    ImGui.End();
+                    _msbEditorFocused = true;
+                    _msbEditor.Update(deltaseconds);
+                }
+                else
+                {
+                    ImGui.PopStyleColor(1);
+                    ImGui.PopStyleVar(1);
+                    _msbEditorFocused = false;
+                    ImGui.End();
+                }
             }
 
-            ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(0.0f, 0.0f));
-            ImGui.PushStyleColor(ImGuiCol.WindowBg, new Vector4(0.0f, 0.0f, 0.0f, 0.0f));
-            if (ImGui.Begin("Model Editor"))
-            {
-                ImGui.PopStyleColor(1);
-                ImGui.PopStyleVar(1);
-                _modelEditor.OnGUI();
-                _modelEditorFocused = true;
-                _modelEditor.Update(deltaseconds);
-            }
+            if (LaunchNoVulkan)
+                ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(5.0f, 5.0f));
             else
+                ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(0.0f, 0.0f));
+            ImGui.PushStyleColor(ImGuiCol.WindowBg, new Vector4(0.0f, 0.0f, 0.0f, 0.0f));
+
+            if (!LaunchNoVulkan)
             {
-                ImGui.PopStyleColor(1);
-                ImGui.PopStyleVar(1);
-                _modelEditorFocused = false;
+                if (ImGui.Begin("Model Editor"))
+                {
+                    ImGui.PopStyleColor(1);
+                    ImGui.PopStyleVar(1);
+                    _modelEditor.OnGUI();
+                    _modelEditorFocused = true;
+                    _modelEditor.Update(deltaseconds);
+                }
+                else
+                {
+                    ImGui.PopStyleColor(1);
+                    ImGui.PopStyleVar(1);
+                    _modelEditorFocused = false;
+                }
+                ImGui.End();
             }
-            ImGui.End();
 
             string[] paramcmds = null;
             if (commandsplit != null && commandsplit[0] == "param")
@@ -1445,14 +1506,17 @@ namespace StudioCore
             ImGui.End();
 
             // Global shortcut keys
-            if (!_msbEditor.Viewport.ViewportSelected)
+            if (LaunchNoVulkan || !_msbEditor.Viewport.ViewportSelected)
             {
                 if (InputTracker.GetKeyDown(KeyBindings.Current.Core_SaveCurrentEditor))
                     SaveFocusedEditor();
                 if (InputTracker.GetKeyDown(KeyBindings.Current.Core_SaveAllEditors))
                 {
-                    _msbEditor.SaveAll();
-                    _modelEditor.SaveAll();
+                    if (!LaunchNoVulkan)
+                    {
+                        _msbEditor.SaveAll();
+                        _modelEditor.SaveAll();
+                    }
                     _paramEditor.SaveAll();
                     _textEditor.SaveAll();
                 }
@@ -1482,7 +1546,10 @@ namespace StudioCore
             Tracy.TracyCZoneEnd(ctx);
 
             ctx = Tracy.TracyCZoneN(1, "Resource");
-            Resource.ResourceManager.UpdateTasks();
+            if (!LaunchNoVulkan)
+            {
+                Resource.ResourceManager.UpdateTasks();
+            }
             Tracy.TracyCZoneEnd(ctx);
 
             if (!_firstframe)
@@ -1528,6 +1595,8 @@ namespace StudioCore
 
         private void Draw()
         {
+            if (LaunchNoVulkan)
+                return;
             Debug.Assert(_window.Exists);
             int width = _window.Width;
             int height = _window.Height;
