@@ -1503,6 +1503,12 @@ namespace StudioCore.ParamEditor
                 return null;
             return _paramStates[_activeParam].compareRow;
         }
+        public Param.Column getCompareCol()
+        {
+            if (_activeParam == null)
+                return null;
+            return _paramStates[_activeParam].compareCol;
+        }
         public void SetActiveRow(Param.Row row, bool clearSelection, bool isHistory = false)
         {
             if (_activeParam != null)
@@ -1525,6 +1531,14 @@ namespace StudioCore.ParamEditor
             {
                 ParamEditorParamSelectionState s = _paramStates[_activeParam];
                 s.compareRow = row;
+            }
+        }
+        public void SetCompareCol(Param.Column col)
+        {
+            if (_activeParam != null)
+            {
+                ParamEditorParamSelectionState s = _paramStates[_activeParam];
+                s.compareCol = col;
             }
         }
         public void toggleRowInSelection(Param.Row row)
@@ -1601,6 +1615,7 @@ namespace StudioCore.ParamEditor
         internal string currentPropSearchString = "";
         internal Param.Row activeRow = null;
         internal Param.Row compareRow = null;
+        internal Param.Column compareCol = null;
 
         internal List<Param.Row> selectionRows = new List<Param.Row>();
     }
@@ -1779,6 +1794,7 @@ namespace StudioCore.ParamEditor
                 {
                     ImGui.BeginChild("rowsNONE");
                     ImGui.Text("Select a param to see rows");
+                    ImGui.EndChild();
                 }
                 else
                 {
@@ -1831,7 +1847,15 @@ namespace StudioCore.ParamEditor
                         _paramEditor._isSearchBarActive = false;
                     UIHints.AddImGuiHintButton("MassEditHint", ref UIHints.SearchBarHint);
                     
-                    ImGui.BeginChild("pinnedRows");
+                    Param.Column compareCol = _selection.getCompareCol();
+                    ImGui.BeginChild("rows" + activeParam);
+                    EditorDecorations.ImGuiTableStdColumns("rowList", compareCol == null ? 1 : 2);
+                    
+                    ImGui.TableSetupColumn("rowCol", ImGuiTableColumnFlags.None, 1f);
+                    if (compareCol != null)
+                        ImGui.TableSetupColumn("rowCol2", ImGuiTableColumnFlags.None, 0.4f);
+                    ImGui.TableNextColumn();
+                    ImGui.PushID("pinned");
 
                     List<int> pinnedRowList = new List<int>(_paramEditor._projectSettings.PinnedRows.GetValueOrDefault(activeParam, new List<int>()));
                     if (pinnedRowList.Count != 0)
@@ -1845,13 +1869,14 @@ namespace StudioCore.ParamEditor
                                 _paramEditor._projectSettings.PinnedRows.GetValueOrDefault(activeParam, new List<int>()).Remove(rowID);
                                 continue;
                             }
-                            RowColumnEntry(activeParam, null, para[rowID], vanillaDiffCache, auxDiffCaches, decorator, ref scrollTo, false, true);
+                            RowColumnEntry(activeParam, null, para[rowID], vanillaDiffCache, auxDiffCaches, decorator, ref scrollTo, false, true, compareCol);
                         }
 
                         ImGui.Spacing();
-                        ImGui.Separator();
+                        EditorDecorations.ImguiTableSeparator();
                         ImGui.Spacing();
                     }
+                    ImGui.PopID();
 
                     // Up/Down arrow key input
                     if ((InputTracker.GetKey(Key.Up) || InputTracker.GetKey(Key.Down))
@@ -1866,7 +1891,6 @@ namespace StudioCore.ParamEditor
                         _focusRows = false;
                     }
 
-                    ImGui.BeginChild("rows" + activeParam);
                     List<Param.Row> rows = CacheBank.GetCached(this._paramEditor, (_viewIndex, activeParam), () => RowSearchEngine.rse.Search((ParamBank.PrimaryBank, para), _selection.getCurrentRowSearchString(), true, true));
 
                     bool enableGrouping = !CFG.Current.Param_DisableRowGrouping && ParamMetaData.Get(ParamBank.PrimaryBank.Params[activeParam].AppliedParamdef).ConsecutiveIDs;
@@ -1880,22 +1904,22 @@ namespace StudioCore.ParamEditor
                             Param.Row prev = i - 1 > 0 ? rows[i - 1] : null;
                             Param.Row next = i + 1 < rows.Count ? rows[i + 1] : null;
                             if (prev != null && next != null && prev.ID + 1 != currentRow.ID && currentRow.ID + 1 == next.ID)
-                                ImGui.Separator();
-                            RowColumnEntry(activeParam, rows, currentRow, vanillaDiffCache, auxDiffCaches, decorator, ref scrollTo, doFocus, false);
+                                EditorDecorations.ImguiTableSeparator();
+                            RowColumnEntry(activeParam, rows, currentRow, vanillaDiffCache, auxDiffCaches, decorator, ref scrollTo, doFocus, false, compareCol);
                             if (prev != null && next != null && prev.ID + 1 == currentRow.ID && currentRow.ID + 1 != next.ID)
-                                ImGui.Separator();
+                                EditorDecorations.ImguiTableSeparator();
                         }
                         else
                         {
-                            RowColumnEntry(activeParam, rows, currentRow, vanillaDiffCache, auxDiffCaches, decorator, ref scrollTo, doFocus, false);
+                            RowColumnEntry(activeParam, rows, currentRow, vanillaDiffCache, auxDiffCaches, decorator, ref scrollTo, doFocus, false, compareCol);
                         }
                     }
                     if (doFocus)
                         ImGui.SetScrollFromPosY(scrollTo - ImGui.GetScrollY());
+                    ImGui.EndTable();
                     ImGui.EndChild();
                 }
                 Param.Row activeRow = _selection.getActiveRow();
-                ImGui.EndChild();
                 ImGui.TableNextColumn();
                 if (activeRow == null)
                 {
@@ -1914,14 +1938,15 @@ namespace StudioCore.ParamEditor
                         _selection.getCompareRow(),
                         ref _selection.getCurrentPropSearchString(),
                         activeParam,
-                        isActiveView);
+                        isActiveView,
+                        _selection);
                 }
                 ImGui.EndChild();
                 ImGui.EndTable();
             }
         }
 
-        private void RowColumnEntry(string activeParam, List<Param.Row> p, Param.Row r, HashSet<int> vanillaDiffCache, List<(HashSet<int>, HashSet<int>)> auxDiffCaches, IParamDecorator decorator, ref float scrollTo, bool doFocus, bool isPinned)
+        private void RowColumnEntry(string activeParam, List<Param.Row> p, Param.Row r, HashSet<int> vanillaDiffCache, List<(HashSet<int>, HashSet<int>)> auxDiffCaches, IParamDecorator decorator, ref float scrollTo, bool doFocus, bool isPinned, Param.Column compareCol)
         {
             bool diffVanilla = vanillaDiffCache.Contains(r.ID);
             bool auxDiffVanilla = auxDiffCaches.Where((cache) => cache.Item1.Contains(r.ID)).Count() > 0;
@@ -2032,6 +2057,13 @@ namespace StudioCore.ParamEditor
                 decorator.DecorateParam(r);
             if (doFocus && _selection.getActiveRow() == r)
                 scrollTo = ImGui.GetCursorPosY();
+
+            if (compareCol != null)
+            {
+                ImGui.TableNextColumn();
+                ImGui.TextUnformatted(r[compareCol].Value.ToParamEditorString());
+            }
+            ImGui.TableNextColumn();
         }
     }
 }

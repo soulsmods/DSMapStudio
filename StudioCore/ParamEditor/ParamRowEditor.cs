@@ -274,7 +274,7 @@ namespace StudioCore.ParamEditor
             }
         }
 
-        public void PropEditorParamRow(ParamBank bank, Param.Row row, Param.Row vrow, List<(string, Param.Row)> auxRows, Param.Row crow, ref string propSearchString, string activeParam, bool isActiveView)
+        public void PropEditorParamRow(ParamBank bank, Param.Row row, Param.Row vrow, List<(string, Param.Row)> auxRows, Param.Row crow, ref string propSearchString, string activeParam, bool isActiveView, ParamEditorSelectionState selection)
         {
             ParamMetaData meta = ParamMetaData.Get(row.Def);
             int id = 0;
@@ -333,8 +333,8 @@ namespace StudioCore.ParamEditor
                 ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.8f, 0.8f, 1.0f, 1.0f));
                 var nameProp = row.GetType().GetProperty("Name");
                 var idProp = row.GetType().GetProperty("ID");
-                PropEditorPropInfoRow(bank, row, vrow, auxRows, crow, nameProp, "Name", ref id, activeParam);
-                PropEditorPropInfoRow(bank, row, vrow, auxRows, crow, idProp, "ID", ref id, activeParam);
+                PropEditorPropInfoRow(bank, row, vrow, auxRows, crow, nameProp, "Name", ref id, activeParam, selection);
+                PropEditorPropInfoRow(bank, row, vrow, auxRows, crow, idProp, "ID", ref id, activeParam, selection);
                 ImGui.PopStyleColor();
                 ImGui.Spacing();
                 EditorDecorations.ImguiTableSeparator();
@@ -363,7 +363,7 @@ namespace StudioCore.ParamEditor
                             auxRows,
                             auxMatches.Select((x, j) => x.Count > i ? x[i] : (PseudoColumn.None, null)).ToList(),
                             matches[i].Item2?.GetByteOffset().ToString("x"),
-                            ref id, activeParam, true);
+                            ref id, activeParam, true, selection);
                         }
                     }
                     EditorDecorations.ImguiTableSeparator();
@@ -399,7 +399,7 @@ namespace StudioCore.ParamEditor
                         auxRows,
                         auxMatches.Select((x, j) => x.Count > i ? x[i] : (PseudoColumn.None, null)).ToList(),
                         matches[i].Item2?.GetByteOffset().ToString("x"),
-                        ref id, activeParam, false);
+                        ref id, activeParam, false, selection);
                     }
                 }
                 ImGui.EndTable();
@@ -442,7 +442,7 @@ namespace StudioCore.ParamEditor
         }
 
         // Many parameter options, which may be simplified.
-        private void PropEditorPropInfoRow(ParamBank bank, Param.Row row, Param.Row vrow, List<(string, Param.Row)> auxRows, Param.Row crow, PropertyInfo prop, string visualName, ref int id, string activeParam)
+        private void PropEditorPropInfoRow(ParamBank bank, Param.Row row, Param.Row vrow, List<(string, Param.Row)> auxRows, Param.Row crow, PropertyInfo prop, string visualName, ref int id, string activeParam, ParamEditorSelectionState selection)
         {
             PropEditorPropRow(
                 bank,
@@ -459,9 +459,11 @@ namespace StudioCore.ParamEditor
                 null,
                 row,
                 null,
-                false);
+                false,
+                null,
+                selection);
         }
-        private bool PropEditorPropCellRow(ParamBank bank, Param.Row row, Param.Row crow, (PseudoColumn, Param.Column) col, Param.Row vrow, (PseudoColumn, Param.Column) vcol, List<(string, Param.Row)> auxRows, List<(PseudoColumn, Param.Column)> auxCols, string fieldOffset, ref int id, string activeParam, bool isPinned)
+        private bool PropEditorPropCellRow(ParamBank bank, Param.Row row, Param.Row crow, (PseudoColumn, Param.Column) col, Param.Row vrow, (PseudoColumn, Param.Column) vcol, List<(string, Param.Row)> auxRows, List<(PseudoColumn, Param.Column)> auxCols, string fieldOffset, ref int id, string activeParam, bool isPinned, ParamEditorSelectionState selection)
         {
             return PropEditorPropRow(
                 bank,
@@ -477,9 +479,11 @@ namespace StudioCore.ParamEditor
                 row[col.Item2],
                 row,
                 activeParam,
-                isPinned);
+                isPinned,
+                col.Item2,
+                selection);
         }
-        private bool PropEditorPropRow(ParamBank bank, object oldval, object compareval, object vanillaval, List<object> auxVals, ref int id, string fieldOffset, string internalName, FieldMetaData cellMeta, Type propType, PropertyInfo proprow, Param.Cell? nullableCell, Param.Row row, string activeParam, bool isPinned)
+        private bool PropEditorPropRow(ParamBank bank, object oldval, object compareval, object vanillaval, List<object> auxVals, ref int id, string fieldOffset, string internalName, FieldMetaData cellMeta, Type propType, PropertyInfo proprow, Param.Cell? nullableCell, Param.Row row, string activeParam, bool isPinned, Param.Column? col, ParamEditorSelectionState selection)
         {
             List<ParamRef> RefTypes = cellMeta?.RefTypes;
             string VirtualRef = cellMeta?.VirtualRef;
@@ -507,7 +511,7 @@ namespace StudioCore.ParamEditor
                 ImGui.SameLine();
             }
             PropertyRowName(fieldOffset, ref internalName, cellMeta);
-            PropertyRowNameContextMenu(bank, internalName, cellMeta, activeParam, activeParam != null, isPinned);
+            PropertyRowNameContextMenu(bank, internalName, cellMeta, activeParam, activeParam != null, isPinned, col, selection);
 
             EditorDecorations.ParamRefText(RefTypes, row);
             EditorDecorations.FmgRefText(FmgRef);
@@ -671,7 +675,7 @@ namespace StudioCore.ParamEditor
             }
         }
 
-        private void PropertyRowNameContextMenu(ParamBank bank, string internalName, FieldMetaData cellMeta, string activeParam, bool showPinOptions, bool isPinned)
+        private void PropertyRowNameContextMenu(ParamBank bank, string internalName, FieldMetaData cellMeta, string activeParam, bool showPinOptions, bool isPinned, Param.Column col, ParamEditorSelectionState selection)
         {
             float scale = ImGuiRenderer.GetUIScale();
             string altName = cellMeta?.AltName;
@@ -704,6 +708,10 @@ namespace StudioCore.ParamEditor
                         pinned.Remove(internalName);
                     else if (!pinned.Contains(internalName))
                         pinned.Add(internalName);
+                }
+                if (col != null && ImGui.MenuItem("Compare field"))
+                {
+                    selection.SetCompareCol(col);
                 }
                 if (ParamEditorScreen.EditorMode && cellMeta != null)
                 {
