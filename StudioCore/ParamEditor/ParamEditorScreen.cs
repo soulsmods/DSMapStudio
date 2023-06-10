@@ -1635,8 +1635,10 @@ namespace StudioCore.ParamEditor
 
         public void ParamView(bool doFocus, bool isActiveView)
         {
-            if (ImGui.BeginTable("paramsT", 3))
+            if (EditorDecorations.ImGuiTableStdColumns("paramsT", 3))
             {
+                ImGui.TableSetupColumn("paramsCol", ImGuiTableColumnFlags.None, 0.5f);
+                ImGui.TableSetupColumn("paramsCol2", ImGuiTableColumnFlags.None, 0.5f);
                 ImGui.TableNextColumn();
                 ImGui.BeginChild("params");
 

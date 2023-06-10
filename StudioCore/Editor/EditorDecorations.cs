@@ -344,8 +344,12 @@ namespace StudioCore.Editor
         {
             ImGui.EndTable();
             ImGui.Separator();
-            ImGui.BeginTable(id, cols);
+            ImGuiTableStdColumns(id, cols);
             ImGui.TableNextColumn();
+        }
+        public static bool ImGuiTableStdColumns(string id, int cols)
+        {
+            return ImGui.BeginTable(id, cols, ImGuiTableFlags.Resizable | ImGuiTableFlags.BordersInnerV | ImGuiTableFlags.PreciseWidths | ImGuiTableFlags.SizingStretchSame | ImGuiTableFlags.NoSavedSettings);
         }
     }
 }
