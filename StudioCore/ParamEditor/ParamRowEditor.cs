@@ -338,7 +338,8 @@ namespace StudioCore.ParamEditor
                 ImGui.EndTable();
             }
             ImGui.Separator();
-            if (ImGui.BeginTable("ParamFieldsT", columnCount))
+            int tableNumber = 0;
+            if (ImGui.BeginTable("ParamFieldsT"+ ++tableNumber, columnCount))
             {
                 ImGui.TableNextColumn();
 
@@ -369,7 +370,7 @@ namespace StudioCore.ParamEditor
                             ref id, activeParam, true);
                         }
                     }
-                    ImGui.Separator();
+                    EditorDecorations.ImguiTableSeparator("ParamFieldsT"+ ++tableNumber, columnCount);
                 }
                 List<string> fieldOrder = meta != null && meta.AlternateOrder != null && CFG.Current.Param_AllowFieldReorder ? meta.AlternateOrder : new List<string>();
                 foreach (PARAMDEF.Field field in row.Def.Fields)
@@ -382,7 +383,7 @@ namespace StudioCore.ParamEditor
                 {
                     if (field.Equals("-") && lastRowExists)
                     {
-                        ImGui.Separator();
+                        EditorDecorations.ImguiTableSeparator("ParamFieldsT"+ ++tableNumber, columnCount);
                         lastRowExists = false;
                         continue;
                     }

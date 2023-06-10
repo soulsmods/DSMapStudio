@@ -339,5 +339,13 @@ namespace StudioCore.Editor
             }
             return false;
         }
+
+        public static void ImguiTableSeparator(string id, int cols)
+        {
+            ImGui.EndTable();
+            ImGui.Separator();
+            ImGui.BeginTable(id, cols);
+            ImGui.TableNextColumn();
+        }
     }
 }
