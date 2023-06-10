@@ -158,6 +158,32 @@ namespace StudioCore
                 }
             }
         }
+        public static void UpdateFrameInput(Vector2 mousePos, Vector2 mouseDelta, float scrollDelta, List<int> mouseDowns, List<int> mouseUps, List<Key> keyDowns, List<Key> keyUps)
+        {
+            _newKeysThisFrame.Clear();
+            _newMouseButtonsThisFrame.Clear();
+            MousePosition = mousePos;
+            MouseDelta = mouseDelta;
+            MouseScrollWheelDelta = scrollDelta;
+            foreach (int m in mouseDowns)
+            {
+                if (m <= (int)MouseButton.LastButton)
+                    MouseDown((MouseButton)m);
+            }
+            foreach (int m in mouseUps)
+            {
+                if (m <= (int)MouseButton.LastButton)
+                    MouseUp((MouseButton)m);
+            }
+            foreach (Key k in keyDowns)
+            {
+                KeyDown(k);
+            }
+            foreach (Key k in keyUps)
+            {
+                KeyUp(k);
+            }
+        }
 
         private static void MouseUp(MouseButton mouseButton)
         {

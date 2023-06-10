@@ -315,6 +315,18 @@ void main()
 
             MouseState MouseState = wnd.MouseState;
             KeyboardState KeyboardState = wnd.KeyboardState;
+            List<int> mouseDowns = new List<int>();
+            List<int> mouseUps = new List<int>();
+            List<Veldrid.Key> keyDowns = new List<Veldrid.Key>();
+            List<Veldrid.Key> keyUps = new List<Veldrid.Key>();
+            
+            foreach (MouseButton button in Enum.GetValues(typeof(MouseButton)))
+            {
+                if (MouseState.IsButtonPressed(button))
+                    mouseDowns.Add((int)button);
+                else if (MouseState.IsButtonReleased(button))
+                    mouseUps.Add((int)button);
+            }
 
             io.MouseDown[0] = MouseState[MouseButton.Left];
             io.MouseDown[1] = MouseState[MouseButton.Right];
@@ -330,8 +342,17 @@ void main()
                 {
                     continue;
                 }
+                if (KeyboardState.IsKeyPressed(key))
+                    keyDowns.Add(TranslateTKKeyToVeldridKey(key));
+                else if (KeyboardState.IsKeyReleased(key))
+                    keyUps.Add(TranslateTKKeyToVeldridKey(key));
                 io.KeysDown[(int)key] = KeyboardState.IsKeyDown(key);
             }
+
+            InputTracker.UpdateFrameInput(
+                new System.Numerics.Vector2(MouseState.Position.X, MouseState.Position.Y),
+                new System.Numerics.Vector2(MouseState.Delta.X, MouseState.Delta.Y),
+                MouseState.ScrollDelta.X, mouseDowns, mouseUps, keyDowns, keyUps);
 
             foreach (var c in PressedChars)
             {
@@ -343,6 +364,34 @@ void main()
             io.KeyAlt = KeyboardState.IsKeyDown(Keys.LeftAlt) || KeyboardState.IsKeyDown(Keys.RightAlt);
             io.KeyShift = KeyboardState.IsKeyDown(Keys.LeftShift) || KeyboardState.IsKeyDown(Keys.RightShift);
             io.KeySuper = KeyboardState.IsKeyDown(Keys.LeftSuper) || KeyboardState.IsKeyDown(Keys.RightSuper);
+        }
+
+        private static Veldrid.Key TranslateTKKeyToVeldridKey(Keys k)
+        {
+            if (k >= Keys.D0 && k <= Keys.D9)
+                return (Veldrid.Key) (int)k + ((int)Veldrid.Key.Number0 - (int)Keys.D0);
+            if (k >= Keys.A && k <= Keys.Z)
+                return (Veldrid.Key) (int)k + ((int)Veldrid.Key.A - (int)Keys.A);
+            
+            switch (k)
+            {
+                case Keys.LeftBracket: return Veldrid.Key.BracketLeft;
+                case Keys.RightBracket: return Veldrid.Key.BracketRight;
+                case Keys.GraveAccent: return Veldrid.Key.Grave;
+                case Keys.KeyPadEnter: return Veldrid.Key.Enter;
+                case Keys.LeftShift: return Veldrid.Key.ShiftLeft;
+                case Keys.LeftControl: return Veldrid.Key.ControlLeft;
+                case Keys.LeftAlt: return Veldrid.Key.AltLeft;
+                case Keys.LeftSuper: return Veldrid.Key.WinLeft;
+                case Keys.RightShift: return Veldrid.Key.ShiftRight;
+                case Keys.RightControl: return Veldrid.Key.ControlRight;
+                case Keys.RightAlt: return Veldrid.Key.AltRight;
+                case Keys.RightSuper: return Veldrid.Key.WinRight;
+            }
+            Veldrid.Key ko;
+            if (Enum.TryParse<Veldrid.Key>(k.ToString(), true, out ko))
+                return ko;
+            return (Veldrid.Key) k;
         }
 
         internal void PressChar(char keyChar)
