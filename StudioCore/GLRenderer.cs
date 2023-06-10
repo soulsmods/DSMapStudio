@@ -18,15 +18,15 @@ namespace StudioCore
         GLImGuiRenderer _controller;
         MapStudioNew _msn;
         bool _firstframe = true;
-        public GLWindow(MapStudioNew msn) : base(GameWindowSettings.Default, new NativeWindowSettings(){ Size = new Vector2i(1600, 900), APIVersion = new Version(3, 3) })
+        public GLWindow(MapStudioNew msn, string title) : base(GameWindowSettings.Default, new NativeWindowSettings(){ Size = new Vector2i(1600, 900), APIVersion = new Version(3, 3) })
         {
             _msn = msn;
+            Title = title;
         }
 
         protected override void OnLoad()
         {
             base.OnLoad();
-            Title = "DSMAPSTUDIO OPENGL TEST";
             _controller = new GLImGuiRenderer(ClientSize.X, ClientSize.Y);
         }
         

@@ -104,7 +104,7 @@ namespace StudioCore
             }
             if (LaunchNoVulkan)
             {
-                _glwindow = new GLWindow(this);
+                _glwindow = new GLWindow(this, _programTitle);
             }
             else
             {
