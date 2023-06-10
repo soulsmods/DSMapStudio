@@ -70,7 +70,7 @@ namespace StudioCore
         private bool _textEditorFocused = false;
         private TextEditor.TextEditorScreen _textEditor;
 
-        //private SoapstoneService _soapstoneService;
+        private SoapstoneService _soapstoneService;
 
         public static RenderDoc RenderDocManager;
 
@@ -155,7 +155,7 @@ namespace StudioCore
             }
             _paramEditor = new ParamEditor.ParamEditorScreen(_window, _gd);
             _textEditor = new TextEditor.TextEditorScreen(_window, _gd);
-            //_soapstoneService = new SoapstoneService(_version, _assetLocator, _msbEditor);
+            _soapstoneService = new SoapstoneService(_version, _assetLocator, _msbEditor);
 
             _settingsMenu.MsbEditor = _msbEditor;
             _settingsMenu.ModelEditor = _modelEditor;
