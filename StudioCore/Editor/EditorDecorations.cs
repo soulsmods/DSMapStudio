@@ -340,11 +340,15 @@ namespace StudioCore.Editor
             return false;
         }
 
-        public static void ImguiTableSeparator(string id, int cols)
+        public static void ImguiTableSeparator()
         {
-            ImGui.EndTable();
-            ImGui.Separator();
-            ImGuiTableStdColumns(id, cols);
+            int cols = ImGui.TableGetColumnCount();
+            ImGui.TableNextRow();
+            for (int i=0; i<cols; i++)
+            {
+                ImGui.TableNextColumn();
+                ImGui.Separator();
+            }
             ImGui.TableNextColumn();
         }
         public static bool ImGuiTableStdColumns(string id, int cols)
