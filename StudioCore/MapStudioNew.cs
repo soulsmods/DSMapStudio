@@ -148,11 +148,8 @@ namespace StudioCore
             }
 
             _assetLocator = new AssetLocator();
-            if (!LaunchNoVulkan)
-            {
-                _msbEditor = new MsbEditor.MsbEditorScreen(_window, _gd, _assetLocator);
-                _modelEditor = new MsbEditor.ModelEditorScreen(_window, _gd, _assetLocator);
-            }
+            _msbEditor = new MsbEditor.MsbEditorScreen(_window, _gd, _assetLocator);
+            _modelEditor = new MsbEditor.ModelEditorScreen(_window, _gd, _assetLocator);
             _paramEditor = new ParamEditor.ParamEditorScreen(_window, _gd);
             _textEditor = new TextEditor.TextEditorScreen(_window, _gd);
             _soapstoneService = new SoapstoneService(_version, _assetLocator, _msbEditor);
@@ -166,10 +163,7 @@ namespace StudioCore
             ParamEditor.ParamBank.PrimaryBank.SetAssetLocator(_assetLocator);
             ParamEditor.ParamBank.VanillaBank.SetAssetLocator(_assetLocator);
             TextEditor.FMGBank.SetAssetLocator(_assetLocator);
-            if (!LaunchNoVulkan)
-            {
-                MsbEditor.MtdBank.LoadMtds(_assetLocator);
-            }
+            MsbEditor.MtdBank.LoadMtds(_assetLocator);
 
             if (!LaunchNoVulkan)
             {
@@ -473,6 +467,7 @@ namespace StudioCore
 
             Editor.AliasBank.ReloadAliases();
             ParamEditor.ParamBank.ReloadParams(newsettings, options);
+
             if (!LaunchNoVulkan)
             {
                 MsbEditor.MtdBank.ReloadMtds();
@@ -481,11 +476,8 @@ namespace StudioCore
             }
 
             //Resources loaded here should be moved to databanks
-            if (!LaunchNoVulkan)
-            {
-                _msbEditor.OnProjectChanged(_projectSettings);
-                _modelEditor.OnProjectChanged(_projectSettings);
-            }
+            _msbEditor.OnProjectChanged(_projectSettings);
+            _modelEditor.OnProjectChanged(_projectSettings);
             _textEditor.OnProjectChanged(_projectSettings);
             _paramEditor.OnProjectChanged(_projectSettings);
         }
@@ -661,13 +653,9 @@ namespace StudioCore
                     CFG.Current.LastProjectFile = filename;
                     
                     if (LaunchNoVulkan)
-                    {
-
-                    }
+                        _glwindow.Title = $"{_programTitle}  -  {_projectSettings.ProjectName}";
                     else
-                    {
                         _window.Title = $"{_programTitle}  -  {_projectSettings.ProjectName}";
-                    }
 
                     if (updateRecents)
                     {
@@ -1463,7 +1451,7 @@ namespace StudioCore
                 }
             }
 
-            if (LaunchNoVulkan)
+            if (LaunchNoVulkan) // Is this a bug?
                 ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(5.0f, 5.0f));
             else
                 ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(0.0f, 0.0f));
@@ -1512,11 +1500,8 @@ namespace StudioCore
                     SaveFocusedEditor();
                 if (InputTracker.GetKeyDown(KeyBindings.Current.Core_SaveAllEditors))
                 {
-                    if (!LaunchNoVulkan)
-                    {
-                        _msbEditor.SaveAll();
-                        _modelEditor.SaveAll();
-                    }
+                    _msbEditor.SaveAll();
+                    _modelEditor.SaveAll();
                     _paramEditor.SaveAll();
                     _textEditor.SaveAll();
                 }
@@ -1561,7 +1546,7 @@ namespace StudioCore
 
         public void SettingsGUI()
         {
-                _settingsMenu.Display();
+            _settingsMenu.Display();
         }
 
         private void RecreateWindowFramebuffers(CommandList cl)
@@ -1595,8 +1580,6 @@ namespace StudioCore
 
         private void Draw()
         {
-            if (LaunchNoVulkan)
-                return;
             Debug.Assert(_window.Exists);
             int width = _window.Width;
             int height = _window.Height;

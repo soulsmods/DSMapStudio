@@ -73,6 +73,8 @@ namespace StudioCore.MsbEditor
 
         public MsbEditorScreen(Sdl2Window window, GraphicsDevice device, AssetLocator locator)
         {
+            if (window == null || device == null)
+                return;
             Rect = window.Bounds;
             AssetLocator = locator;
             ResourceManager.Locator = AssetLocator;
