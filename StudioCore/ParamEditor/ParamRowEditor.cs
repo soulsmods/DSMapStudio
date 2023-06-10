@@ -307,8 +307,10 @@ namespace StudioCore.ParamEditor
                 columnCount++;
             if (showParamCompare)
                 columnCount += auxRows.Count;
-            if (EditorDecorations.ImGuiTableStdColumns("ParamPreFieldsT", columnCount))
+            if (EditorDecorations.ImGuiTableStdColumns("ParamFieldsT", columnCount))
             {
+                ImGui.TableNextColumn();
+                ImGui.TableNextColumn();
                 if (showParamCompare)
                     ImGui.Text("Current");
                 ImGui.TableNextColumn();
@@ -335,13 +337,7 @@ namespace StudioCore.ParamEditor
                 PropEditorPropInfoRow(bank, row, vrow, auxRows, crow, idProp, "ID", ref id, activeParam);
                 ImGui.PopStyleColor();
                 ImGui.Spacing();
-                ImGui.EndTable();
-            }
-            ImGui.Separator();
-            int tableNumber = 0;
-            if (EditorDecorations.ImGuiTableStdColumns("ParamFieldsT"+ ++tableNumber, columnCount))
-            {
-                ImGui.TableNextColumn();
+                EditorDecorations.ImguiTableSeparator();
 
                 string search = propSearchString;
                 List<(PseudoColumn, Param.Column)> cols = CacheBank.GetCached(_paramEditor, row, "fieldFilter", () => CellSearchEngine.cse.Search((activeParam, row), search, true, true));
