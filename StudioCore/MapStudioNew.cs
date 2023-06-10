@@ -204,7 +204,7 @@ namespace StudioCore
         /// </summary>
         private readonly char[] SpecialCharsJP = { '鉤', '梟', '倅', '…', '飴', '護', '戮', 'ā', 'ī', 'ū', 'ē', 'ō', 'Ā', 'Ē', 'Ī', 'Ō', 'Ū' };
 
-        private unsafe void SetupFonts()
+        public unsafe void SetupFonts()
         {
             var fonts = ImGui.GetIO().Fonts;
             var fileEn = Path.Combine(AppContext.BaseDirectory, $@"Assets\Fonts\RobotoMono-Light.ttf");
@@ -279,7 +279,11 @@ namespace StudioCore
                 }
             }
 
-            if (!LaunchNoVulkan)
+            if (LaunchNoVulkan)
+            {
+                _glwindow._controller.RecreateFontDeviceTexture();
+            }
+            else
             {
                 ImguiRenderer.RecreateFontDeviceTexture();
             }
@@ -787,7 +791,15 @@ namespace StudioCore
 
             float scale = ImGuiRenderer.GetUIScale();
 
-            if (!LaunchNoVulkan)
+            if (LaunchNoVulkan)
+            {
+                if (_settingsMenu.FontRebuildRequest)
+                {
+                    SetupFonts();
+                    _settingsMenu.FontRebuildRequest = false;
+                }
+            }
+            else
             {
                 if (_settingsMenu.FontRebuildRequest)
                 {

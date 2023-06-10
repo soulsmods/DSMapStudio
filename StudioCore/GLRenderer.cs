@@ -15,7 +15,7 @@ namespace StudioCore
 {
     public class GLWindow : GameWindow
     {
-        GLImGuiRenderer _controller;
+        public GLImGuiRenderer _controller;
         MapStudioNew _msn;
         bool _firstframe = true;
         public GLWindow(MapStudioNew msn, string title) : base(GameWindowSettings.Default, new NativeWindowSettings(){ Size = new Vector2i(1600, 900), APIVersion = new Version(3, 3) })
@@ -52,6 +52,7 @@ namespace StudioCore
             
             if (_firstframe)
             {
+                _msn.SetupFonts();
                 ImGui.GetIO().ConfigFlags |= ImGuiConfigFlags.NavEnableKeyboard;
                 var style = ImGui.GetStyle();
                 style.TabBorderSize = 0;
