@@ -693,7 +693,7 @@ namespace StudioCore.ParamEditor
 
         private void PropertyRowNameContextMenu(ParamBank bank, string internalName, FieldMetaData cellMeta, string activeParam, bool showPinOptions, bool isPinned)
         {
-            float scale = ImGuiRenderer.GetUIScale();
+            float scale = MapStudioNew.GetUIScale();
             string altName = cellMeta?.AltName;
             string shownName = internalName;
 

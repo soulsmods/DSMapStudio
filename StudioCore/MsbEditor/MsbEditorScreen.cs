@@ -16,6 +16,10 @@ namespace StudioCore.MsbEditor
 {
     public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
     {
+        public string EditorName => "Map Editor";
+        public string CommandEndpoint => "map";
+        public string SaveType => "Maps";
+        
         public AssetLocator AssetLocator = null;
         public Scene.RenderScene RenderScene = new Scene.RenderScene();
         private Selection _selection = new Selection();
@@ -422,7 +426,7 @@ namespace StudioCore.MsbEditor
             }
         }
 
-        public override void DrawEditorMenu()
+        public void DrawEditorMenu()
         {
             if (ImGui.BeginMenu("Edit"))
             {
@@ -757,7 +761,7 @@ namespace StudioCore.MsbEditor
 
         public void OnGUI(string[] initcmd)
         {
-            float scale = ImGuiRenderer.GetUIScale();
+            float scale = MapStudioNew.GetUIScale();
 
             // Docking setup
             //var vp = ImGui.GetMainViewport();
@@ -1058,12 +1062,19 @@ namespace StudioCore.MsbEditor
             var eventSubclasses = msbclass.Assembly.GetTypes().Where(type => type.IsSubclassOf(eventType) && !type.IsAbstract).ToList();
             _eventClasses = eventSubclasses.Select(x => (x.Name, x)).ToList();
         }
+        
+        public bool InputCaptured()
+        {
+            return Viewport.ViewportSelected;
+        }
 
-        public override void OnProjectChanged(Editor.ProjectSettings newSettings)
+        public void OnProjectChanged(Editor.ProjectSettings newSettings)
         {
             _projectSettings = newSettings;
             _selection.ClearSelection();
             EditorActionManager.Clear();
+            
+            ReloadUniverse();
         }
         public void ReloadUniverse()
         {
@@ -1079,7 +1090,7 @@ namespace StudioCore.MsbEditor
             }
         }
 
-        public override void Save()
+        public void Save()
         {
             try
             {
@@ -1093,7 +1104,7 @@ namespace StudioCore.MsbEditor
             }
         }
 
-        public override void SaveAll()
+        public void SaveAll()
         {
             try
             {

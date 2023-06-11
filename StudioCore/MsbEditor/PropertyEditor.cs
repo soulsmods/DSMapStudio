@@ -623,7 +623,7 @@ namespace StudioCore.MsbEditor
 
         private void PropEditorGeneric(Selection selection, HashSet<Entity> entSelection, object target = null, bool decorate = true, int classIndex = -1)
         {
-            float scale = ImGuiRenderer.GetUIScale();
+            float scale = MapStudioNew.GetUIScale();
             var firstEnt = entSelection.First();
             var obj = (target == null) ? firstEnt.WrappedObject : target;
             var type = obj.GetType();
@@ -1024,7 +1024,7 @@ namespace StudioCore.MsbEditor
 
         public void OnGui(Selection selection, string id, float w, float h)
         {
-            float scale = ImGuiRenderer.GetUIScale();
+            float scale = MapStudioNew.GetUIScale();
             var entSelection = selection.GetFilteredSelection<Entity>();
 
             ImGui.PushStyleColor(ImGuiCol.ChildBg, new Vector4(0.145f, 0.145f, 0.149f, 1.0f));

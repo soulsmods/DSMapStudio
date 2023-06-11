@@ -10,13 +10,13 @@ using StudioCore.Scene;
 using Veldrid;
 using Vortice.Vulkan;
 
-namespace StudioCore
+namespace StudioCore.Graphics
 {
     /// <summary>
     /// Can render draw lists produced by ImGui.
     /// Also provides functions for updating ImGui input.
     /// </summary>
-    public class ImGuiRenderer : IDisposable
+    public class VulkanImGuiRenderer : IImguiRenderer, IDisposable
     {
         private GraphicsDevice _gd;
         private readonly Assembly _assembly;
@@ -61,7 +61,7 @@ namespace StudioCore
         /// <param name="outputDescription">The output format.</param>
         /// <param name="width">The initial width of the rendering target. Can be resized.</param>
         /// <param name="height">The initial height of the rendering target. Can be resized.</param>
-        public ImGuiRenderer(GraphicsDevice gd, OutputDescription outputDescription, int width, int height)
+        public VulkanImGuiRenderer(GraphicsDevice gd, OutputDescription outputDescription, int width, int height)
             : this(gd, outputDescription, width, height, ColorSpaceHandling.Legacy) { }
 
         /// <summary>
@@ -72,10 +72,10 @@ namespace StudioCore
         /// <param name="width">The initial width of the rendering target. Can be resized.</param>
         /// <param name="height">The initial height of the rendering target. Can be resized.</param>
         /// <param name="colorSpaceHandling">Identifies how the renderer should treat vertex colors.</param>
-        public ImGuiRenderer(GraphicsDevice gd, OutputDescription outputDescription, int width, int height, ColorSpaceHandling colorSpaceHandling)
+        public VulkanImGuiRenderer(GraphicsDevice gd, OutputDescription outputDescription, int width, int height, ColorSpaceHandling colorSpaceHandling)
         {
             _gd = gd;
-            _assembly = typeof(ImGuiRenderer).GetTypeInfo().Assembly;
+            _assembly = typeof(VulkanImGuiRenderer).GetTypeInfo().Assembly;
             _colorSpaceHandling = colorSpaceHandling;
             _windowWidth = width;
             _windowHeight = height;

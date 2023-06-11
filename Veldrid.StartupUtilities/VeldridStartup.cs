@@ -129,8 +129,8 @@ namespace Veldrid.StartupUtilities
                 options.SyncToVerticalBlank,
                 colorSrgb);
             VulkanDeviceOptions vkopts = new VulkanDeviceOptions();
-            vkopts.InstanceExtensions = new string[] { "VK_KHR_get_physical_device_properties2" };
-            vkopts.DeviceExtensions = new string[] { "VK_KHR_maintenance3", "VK_EXT_descriptor_indexing" };
+            vkopts.InstanceExtensions = new string[] { };
+            vkopts.DeviceExtensions = new string[] { };
             GraphicsDevice gd = GraphicsDevice.CreateVulkan(options, scDesc, vkopts);
 
             return gd;
