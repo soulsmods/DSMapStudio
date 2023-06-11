@@ -13,6 +13,11 @@ using OpenTK.Windowing.Common;
 
 namespace StudioCore
 {
+
+    /*
+     * Sourcecode heavily created from NogginBops's sample program for ImGui.NET on OpenTK, posted as CC0.
+     * https://github.com/NogginBops/ImGui.NET_OpenTK_Sample/issues/13
+     */
     public class GLWindow : GameWindow
     {
         public GLImGuiRenderer _controller;
@@ -70,15 +75,12 @@ namespace StudioCore
         protected override void OnTextInput(TextInputEventArgs e)
         {
             base.OnTextInput(e);
-            
-            
             _controller.PressChar((char)e.Unicode);
         }
 
         protected override void OnMouseWheel(MouseWheelEventArgs e)
         {
             base.OnMouseWheel(e);
-            
             _controller.MouseScroll(e.Offset);
         }
     }
@@ -92,11 +94,7 @@ namespace StudioCore
         private int _vertexBufferSize;
         private int _indexBuffer;
         private int _indexBufferSize;
-
-        //private Texture _fontTexture;
-
         private int _fontTexture;
-
         private int _shader;
         private int _shaderFontTextureLocation;
         private int _shaderProjectionMatrixLocation;
