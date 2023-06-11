@@ -310,7 +310,6 @@ namespace StudioCore.ParamEditor
             if (EditorDecorations.ImGuiTableStdColumns("ParamFieldsT", columnCount))
             {
                 ImGui.TableNextColumn();
-                ImGui.TableNextColumn();
                 if (showParamCompare)
                     ImGui.Text("Current");
                 ImGui.TableNextColumn();
