@@ -790,7 +790,7 @@ namespace StudioCore.Resource
         private static bool ResourceListWindowOpen = true;
         public static void OnGuiDrawTasks(float w, float h)
         {
-            float scale = ImGuiRenderer.GetUIScale();
+            float scale = MapStudioNew.GetUIScale();
             
             if (ActiveJobProgress.Count() > 0)
             {

@@ -26,7 +26,7 @@ namespace StudioCore.MsbEditor
 
         public void OnGui(int dispCount)
         {
-            float scale = ImGuiRenderer.GetUIScale();
+            float scale = MapStudioNew.GetUIScale();
 
             uint[] sdrawgroups = null;
             uint[] sdispgroups = null;

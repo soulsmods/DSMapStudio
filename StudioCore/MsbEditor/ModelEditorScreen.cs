@@ -16,6 +16,10 @@ namespace StudioCore.MsbEditor
 {
     public class ModelEditorScreen : EditorScreen, AssetBrowserEventHandler, SceneTreeEventHandler, IResourceEventListener
     {
+        public string EditorName => "Model Editor";
+        public string CommandEndpoint => "model";
+        public string SaveType => "Models";
+        
         public AssetLocator AssetLocator = null;
         public Scene.RenderScene RenderScene = new Scene.RenderScene();
         public ActionManager EditorActionManager = new ActionManager();
@@ -75,7 +79,7 @@ namespace StudioCore.MsbEditor
             Viewport.Draw(device, cl);
         }
 
-        public override void DrawEditorMenu()
+        public void DrawEditorMenu()
         {
             
         }
@@ -154,9 +158,9 @@ namespace StudioCore.MsbEditor
             LoadModel(modelid, mapid);
         }
 
-        public void OnGUI()
+        public void OnGUI(string[] commands)
         {
-            float scale = ImGuiRenderer.GetUIScale();
+            float scale = MapStudioNew.GetUIScale();
             // Docking setup
             //var vp = ImGui.GetMainViewport();
             var wins = ImGui.GetWindowSize();
@@ -256,10 +260,15 @@ namespace StudioCore.MsbEditor
             _propEditor.OnGui(_selection, "modeleditprop", Viewport.Width, Viewport.Height);
             ResourceManager.OnGuiDrawTasks(Viewport.Width, Viewport.Height);
         }
-
-        public override void OnProjectChanged(Editor.ProjectSettings newSettings)
+        
+        public bool InputCaptured()
         {
-            
+            return Viewport.ViewportSelected;
+        }
+
+        public void OnProjectChanged(Editor.ProjectSettings newSettings)
+        {
+            ReloadAssetBrowser();
         }
 
         public void ReloadAssetBrowser()
@@ -270,12 +279,12 @@ namespace StudioCore.MsbEditor
             }
         }
 
-        public override void Save()
+        public void Save()
         {
 
         }
 
-        public override void SaveAll()
+        public void SaveAll()
         {
 
         }

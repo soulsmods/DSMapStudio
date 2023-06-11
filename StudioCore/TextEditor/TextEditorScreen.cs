@@ -16,6 +16,10 @@ namespace StudioCore.TextEditor
 {
     public class TextEditorScreen : EditorScreen
     {
+        public string EditorName => "Text Editor";
+        public string CommandEndpoint => "text";
+        public string SaveType => "Text";
+        
         public ActionManager EditorActionManager = new ActionManager();
         private readonly PropertyEditor _propEditor = null;
         private ProjectSettings _projectSettings;
@@ -83,7 +87,7 @@ namespace StudioCore.TextEditor
             _searchFilterCached = "";
         }
 
-        public override void DrawEditorMenu()
+        public void DrawEditorMenu()
         {
             if (ImGui.BeginMenu("Edit", FMGBank.IsLoaded))
             {
@@ -430,9 +434,10 @@ namespace StudioCore.TextEditor
                 return;
             }
 
-            var scale = ImGuiRenderer.GetUIScale();
+            var scale = MapStudioNew.GetUIScale();
 
             // Docking setup
+            ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(4, 4) * scale);
             var wins = ImGui.GetWindowSize();
             var winp = ImGui.GetWindowPos();
             winp.Y += 20.0f * scale;
@@ -536,6 +541,7 @@ namespace StudioCore.TextEditor
                 }
             }
             EditorGUI(doFocus);
+            ImGui.PopStyleVar();
         }
 
         private void ChangeLanguage(string path)
@@ -546,7 +552,7 @@ namespace StudioCore.TextEditor
             FMGBank.ReloadFMGs(path);
         }
 
-        public override void OnProjectChanged(ProjectSettings newSettings)
+        public void OnProjectChanged(ProjectSettings newSettings)
         {
             _projectSettings = newSettings;
             ClearTextEditorCache();
@@ -554,12 +560,12 @@ namespace StudioCore.TextEditor
             FMGBank.ReloadFMGs(_projectSettings.LastFmgLanguageUsed);
         }
 
-        public override void Save()
+        public void Save()
         {
             FMGBank.SaveFMGs();
         }
 
-        public override void SaveAll()
+        public void SaveAll()
         {
             FMGBank.SaveFMGs();
         }

@@ -190,7 +190,7 @@ namespace StudioCore.MsbEditor
         private ulong _mapEnt_ImGuiID = 0; // Needed to avoid issue with identical IDs during keyboard navigation. May be unecessary when ImGUI is updated.
         unsafe private void MapObjectSelectable(Entity e, bool visicon, bool hierarchial=false)
         {
-            float scale = ImGuiRenderer.GetUIScale();
+            float scale = MapStudioNew.GetUIScale();
             
             // Main selectable
             if (e is MapEntity me)
@@ -332,7 +332,7 @@ namespace StudioCore.MsbEditor
                 ImGui.SetItemAllowOverlap();
                 bool visible = e.EditorVisible;
                 ImGui.SameLine();
-                ImGui.SetCursorPosX(ImGui.GetWindowContentRegionMax().X - 18.0f * ImGuiRenderer.GetUIScale());
+                ImGui.SetCursorPosX(ImGui.GetWindowContentRegionMax().X - 18.0f * MapStudioNew.GetUIScale());
                 ImGui.PushStyleColor(ImGuiCol.Text, visible ? new Vector4(1.0f, 1.0f, 1.0f, 1.0f)
                     : new Vector4(0.6f, 0.6f, 0.6f, 1.0f));
                 ImGui.TextWrapped(visible ? ForkAwesome.Eye : ForkAwesome.EyeSlash);
@@ -520,7 +520,7 @@ namespace StudioCore.MsbEditor
                                             ImGui.SetItemAllowOverlap();
                                             bool visible = parent.EditorVisible;
                                             ImGui.SameLine();
-                                            ImGui.SetCursorPosX(ImGui.GetWindowContentRegionMax().X - 18.0f * ImGuiRenderer.GetUIScale());
+                                            ImGui.SetCursorPosX(ImGui.GetWindowContentRegionMax().X - 18.0f * MapStudioNew.GetUIScale());
                                             ImGui.PushStyleColor(ImGuiCol.Text, visible ? new Vector4(1.0f, 1.0f, 1.0f, 1.0f)
                                                 : new Vector4(0.6f, 0.6f, 0.6f, 1.0f));
                                             ImGui.TextWrapped(visible ? ForkAwesome.Eye : ForkAwesome.EyeSlash);
@@ -541,7 +541,7 @@ namespace StudioCore.MsbEditor
                                             ImGui.SetItemAllowOverlap();
                                             bool visible = parent.EditorVisible;
                                             ImGui.SameLine();
-                                            ImGui.SetCursorPosX(ImGui.GetWindowContentRegionMax().X - 18.0f * ImGuiRenderer.GetUIScale());
+                                            ImGui.SetCursorPosX(ImGui.GetWindowContentRegionMax().X - 18.0f * MapStudioNew.GetUIScale());
                                             ImGui.PushStyleColor(ImGuiCol.Text, visible ? new Vector4(1.0f, 1.0f, 1.0f, 1.0f)
                                                 : new Vector4(0.6f, 0.6f, 0.6f, 1.0f));
                                             ImGui.TextWrapped(visible ? ForkAwesome.Eye : ForkAwesome.EyeSlash);
@@ -583,7 +583,7 @@ namespace StudioCore.MsbEditor
 
         public void OnGui()
         {
-            float scale = ImGuiRenderer.GetUIScale();
+            float scale = MapStudioNew.GetUIScale();
 
             ImGui.PushStyleColor(ImGuiCol.ChildBg, new Vector4(0.145f, 0.145f, 0.149f, 1.0f));
             if (_configuration == Configuration.MapEditor)

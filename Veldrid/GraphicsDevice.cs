@@ -1723,7 +1723,8 @@ namespace Veldrid
                     deviceFeatures.features.shaderInt64 != VkBool32.True ||
                     deviceFeatures.features.fragmentStoresAndAtomics != VkBool32.True)
                     continue;
-                if (deviceVulkan11Features.storageBuffer16BitAccess != VkBool32.True)
+                if (deviceVulkan11Features.storageBuffer16BitAccess != VkBool32.True ||
+                    deviceVulkan11Features.uniformAndStorageBuffer16BitAccess != VkBool32.True)
                     continue;
                 if (deviceVulkan12Features.drawIndirectCount != VkBool32.True ||
                     deviceVulkan12Features.descriptorIndexing != VkBool32.True ||
@@ -1793,7 +1794,8 @@ namespace Veldrid
             var deviceFeatures11 = new VkPhysicalDeviceVulkan11Features
             {
                 sType = VkStructureType.PhysicalDeviceVulkan11Features,
-                storageBuffer16BitAccess = VkBool32.True
+                storageBuffer16BitAccess = VkBool32.True,
+                uniformAndStorageBuffer16BitAccess = VkBool32.True
             };
 
             var deviceFeatures12 = new VkPhysicalDeviceVulkan12Features

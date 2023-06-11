@@ -100,6 +100,10 @@ namespace StudioCore.ParamEditor
 
     public class ParamEditorScreen : EditorScreen
     {
+        public string EditorName => "Param Editor";
+        public string CommandEndpoint => "param";
+        public string SaveType => "Params";
+        
         public ActionManager EditorActionManager = new ActionManager();
 
         internal List<ParamEditorView> _views;
@@ -287,7 +291,7 @@ namespace StudioCore.ParamEditor
             TaskManager.Run("PB:RefreshDirtyCache", false, true, true, () => ParamBank.PrimaryBank.RefreshParamDiffCaches());
         }
 
-        public override void DrawEditorMenu()
+        public void DrawEditorMenu()
         {
             // Menu Options
             if (ImGui.BeginMenu("Edit"))
@@ -833,7 +837,7 @@ namespace StudioCore.ParamEditor
 
         public void MassEditPopups()
         {
-            float scale = ImGuiRenderer.GetUIScale();
+            float scale = MapStudioNew.GetUIScale();
             
             // Popup size relies on magic numbers. Multiline maxlength is also arbitrary.
             if (ImGui.BeginPopup("massEditMenuRegex"))
@@ -960,7 +964,7 @@ namespace StudioCore.ParamEditor
 
         public void OnGUI(string[] initcmd)
         {
-            float scale = ImGuiRenderer.GetUIScale();
+            float scale = MapStudioNew.GetUIScale();
 
             if (!_isShortcutPopupOpen && !_isMEditPopupOpen && !_isStatisticPopupOpen && !_isSearchBarActive)
             {
@@ -1327,7 +1331,7 @@ namespace StudioCore.ParamEditor
             return (_activeView?._selection?.getActiveParam(), _activeView?._selection?.getSelectedRows());
         }
 
-        public override void OnProjectChanged(ProjectSettings newSettings)
+        public void OnProjectChanged(ProjectSettings newSettings)
         {
             _projectSettings = newSettings;
             foreach (ParamEditorView view in _views)
@@ -1341,7 +1345,7 @@ namespace StudioCore.ParamEditor
             }
         }
 
-        public override void Save()
+        public void Save()
         {
             try
             {
@@ -1358,7 +1362,7 @@ namespace StudioCore.ParamEditor
             }
         }
 
-        public override void SaveAll()
+        public void SaveAll()
         {
             try
             {
