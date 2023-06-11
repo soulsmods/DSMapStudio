@@ -1854,7 +1854,6 @@ namespace StudioCore.ParamEditor
                     ImGui.TableSetupColumn("rowCol", ImGuiTableColumnFlags.None, 1f);
                     if (compareCol != null)
                         ImGui.TableSetupColumn("rowCol2", ImGuiTableColumnFlags.None, 0.4f);
-                    ImGui.TableNextColumn();
                     ImGui.PushID("pinned");
 
                     List<int> pinnedRowList = new List<int>(_paramEditor._projectSettings.PinnedRows.GetValueOrDefault(activeParam, new List<int>()));
@@ -1948,6 +1947,7 @@ namespace StudioCore.ParamEditor
 
         private void RowColumnEntry(string activeParam, List<Param.Row> p, Param.Row r, HashSet<int> vanillaDiffCache, List<(HashSet<int>, HashSet<int>)> auxDiffCaches, IParamDecorator decorator, ref float scrollTo, bool doFocus, bool isPinned, Param.Column compareCol)
         {
+            ImGui.TableNextColumn();
             bool diffVanilla = vanillaDiffCache.Contains(r.ID);
             bool auxDiffVanilla = auxDiffCaches.Where((cache) => cache.Item1.Contains(r.ID)).Count() > 0;
             if (diffVanilla)
@@ -2063,7 +2063,6 @@ namespace StudioCore.ParamEditor
                 ImGui.TableNextColumn();
                 ImGui.TextUnformatted(r[compareCol].Value.ToParamEditorString());
             }
-            ImGui.TableNextColumn();
         }
     }
 }
