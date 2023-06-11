@@ -307,7 +307,7 @@ namespace StudioCore.ParamEditor
                 columnCount++;
             if (showParamCompare)
                 columnCount += auxRows.Count;
-            if (EditorDecorations.ImGuiTableStdColumns("ParamFieldsT", columnCount))
+            if (EditorDecorations.ImGuiTableStdColumns("ParamFieldsT", columnCount, false))
             {
                 ImGui.TableNextColumn();
                 if (showParamCompare)

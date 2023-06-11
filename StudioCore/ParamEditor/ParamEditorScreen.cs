@@ -1654,12 +1654,11 @@ namespace StudioCore.ParamEditor
 
         public void ParamView(bool doFocus, bool isActiveView)
         {
-            if (EditorDecorations.ImGuiTableStdColumns("paramsT", 3))
+            if (EditorDecorations.ImGuiTableStdColumns("paramsT", 3, true))
             {
                 ImGui.TableSetupColumn("paramsCol", ImGuiTableColumnFlags.None, 0.5f);
                 ImGui.TableSetupColumn("paramsCol2", ImGuiTableColumnFlags.None, 0.5f);
                 ImGui.TableNextColumn();
-                ImGui.BeginChild("params");
 
                 if (isActiveView && InputTracker.GetKeyDown(KeyBindings.Current.Param_SearchParam))
                     ImGui.SetKeyboardFocusHere();
@@ -1712,86 +1711,86 @@ namespace StudioCore.ParamEditor
                     ImGui.Separator();
                     ImGui.Spacing();
                 }
-
-                ImGui.BeginChild("paramTypes");
                 float scrollTo = 0f;
-
-                List<string> paramKeyList = CacheBank.GetCached(this._paramEditor, _viewIndex, () => {
-                    var list = ParamSearchEngine.pse.Search(true, _selection.currentParamSearchString, true, true);
-                    var keyList = list.Where((param) => param.Item1 == ParamBank.PrimaryBank).Select((param) => ParamBank.PrimaryBank.GetKeyForParam(param.Item2)).ToList();
-
-                    if (ParamBank.PrimaryBank.AssetLocator.Type is GameType.DemonsSouls
-                        or GameType.DarkSoulsPTDE
-                        or GameType.DarkSoulsRemastered)
-                    {
-                        if (_mapParamView)
-                            keyList = keyList.FindAll(p => p.EndsWith("Bank"));
-                        else
-                            keyList = keyList.FindAll(p => !p.EndsWith("Bank"));
-                    }
-                    else if (ParamBank.PrimaryBank.AssetLocator.Type is GameType.DarkSoulsIISOTFS)
-                    {
-                        if (_mapParamView)
-                            keyList = keyList.FindAll(p => ParamBank.DS2MapParamlist.Contains(p.Split('_')[0]));
-                        else
-                            keyList = keyList.FindAll(p => !ParamBank.DS2MapParamlist.Contains(p.Split('_')[0]));
-                    }
-
-                    if (CFG.Current.Param_AlphabeticalParams)
-                        keyList.Sort();
-                    return keyList;
-                });
-
-                foreach (var paramKey in paramKeyList)
+                if (ImGui.BeginChild("paramTypes"))
                 {
-                    var primary = ParamBank.PrimaryBank.VanillaDiffCache.GetValueOrDefault(paramKey, null);
-                    Param p = ParamBank.PrimaryBank.Params[paramKey];
-                    if (p != null)
-                    {
-                        ParamMetaData meta = ParamMetaData.Get(p.AppliedParamdef);
-                        string Wiki = meta?.Wiki;
-                        if (Wiki != null)
+
+                    List<string> paramKeyList = CacheBank.GetCached(this._paramEditor, _viewIndex, () => {
+                        var list = ParamSearchEngine.pse.Search(true, _selection.currentParamSearchString, true, true);
+                        var keyList = list.Where((param) => param.Item1 == ParamBank.PrimaryBank).Select((param) => ParamBank.PrimaryBank.GetKeyForParam(param.Item2)).ToList();
+
+                        if (ParamBank.PrimaryBank.AssetLocator.Type is GameType.DemonsSouls
+                            or GameType.DarkSoulsPTDE
+                            or GameType.DarkSoulsRemastered)
                         {
-                            if (EditorDecorations.HelpIcon(paramKey + "wiki", ref Wiki, true))
-                                meta.Wiki = Wiki;
+                            if (_mapParamView)
+                                keyList = keyList.FindAll(p => p.EndsWith("Bank"));
+                            else
+                                keyList = keyList.FindAll(p => !p.EndsWith("Bank"));
                         }
-                    }
+                        else if (ParamBank.PrimaryBank.AssetLocator.Type is GameType.DarkSoulsIISOTFS)
+                        {
+                            if (_mapParamView)
+                                keyList = keyList.FindAll(p => ParamBank.DS2MapParamlist.Contains(p.Split('_')[0]));
+                            else
+                                keyList = keyList.FindAll(p => !ParamBank.DS2MapParamlist.Contains(p.Split('_')[0]));
+                        }
 
-                    ImGui.Indent(15.0f * CFG.Current.UIScale);
-                    if (primary != null ? primary.Any() : false)
-                        ImGui.PushStyleColor(ImGuiCol.Text, PRIMARYCHANGEDCOLOUR);
-                    else
-                        ImGui.PushStyleColor(ImGuiCol.Text, ALLVANILLACOLOUR);
-                    if (ImGui.Selectable($"{paramKey}", paramKey == _selection.getActiveParam()))
-                    {
-                        //_selection.setActiveParam(param.Key);
-                        EditorCommandQueue.AddCommand($@"param/view/{_viewIndex}/{paramKey}");
-                    }
-                    ImGui.PopStyleColor();
+                        if (CFG.Current.Param_AlphabeticalParams)
+                            keyList.Sort();
+                        return keyList;
+                    });
 
-                    if (doFocus && paramKey == _selection.getActiveParam())
-                        scrollTo = ImGui.GetCursorPosY();
-                    if (ImGui.BeginPopupContextItem())
+                    foreach (var paramKey in paramKeyList)
                     {
-                        if (ImGui.Selectable("Pin "+paramKey) && !_paramEditor._projectSettings.PinnedParams.Contains(paramKey))
-                            _paramEditor._projectSettings.PinnedParams.Add(paramKey);
-                        if (ParamEditorScreen.EditorMode && p != null)
+                        var primary = ParamBank.PrimaryBank.VanillaDiffCache.GetValueOrDefault(paramKey, null);
+                        Param p = ParamBank.PrimaryBank.Params[paramKey];
+                        if (p != null)
                         {
                             ParamMetaData meta = ParamMetaData.Get(p.AppliedParamdef);
-                            if (meta != null && meta.Wiki == null && ImGui.MenuItem("Add wiki..."))
-                                meta.Wiki = "Empty wiki...";
-                            if (meta?.Wiki != null && ImGui.MenuItem("Remove wiki"))
-                                meta.Wiki = null;
+                            string Wiki = meta?.Wiki;
+                            if (Wiki != null)
+                            {
+                                if (EditorDecorations.HelpIcon(paramKey + "wiki", ref Wiki, true))
+                                    meta.Wiki = Wiki;
+                            }
                         }
-                        ImGui.EndPopup();
-                    }
-                    ImGui.Unindent(15.0f * CFG.Current.UIScale);
-                }
 
-                if (doFocus)
-                    ImGui.SetScrollFromPosY(scrollTo - ImGui.GetScrollY());
-                ImGui.EndChild();
-                ImGui.EndChild();
+                        ImGui.Indent(15.0f * CFG.Current.UIScale);
+                        if (primary != null ? primary.Any() : false)
+                            ImGui.PushStyleColor(ImGuiCol.Text, PRIMARYCHANGEDCOLOUR);
+                        else
+                            ImGui.PushStyleColor(ImGuiCol.Text, ALLVANILLACOLOUR);
+                        if (ImGui.Selectable($"{paramKey}", paramKey == _selection.getActiveParam()))
+                        {
+                            //_selection.setActiveParam(param.Key);
+                            EditorCommandQueue.AddCommand($@"param/view/{_viewIndex}/{paramKey}");
+                        }
+                        ImGui.PopStyleColor();
+
+                        if (doFocus && paramKey == _selection.getActiveParam())
+                            scrollTo = ImGui.GetCursorPosY();
+                        if (ImGui.BeginPopupContextItem())
+                        {
+                            if (ImGui.Selectable("Pin "+paramKey) && !_paramEditor._projectSettings.PinnedParams.Contains(paramKey))
+                                _paramEditor._projectSettings.PinnedParams.Add(paramKey);
+                            if (ParamEditorScreen.EditorMode && p != null)
+                            {
+                                ParamMetaData meta = ParamMetaData.Get(p.AppliedParamdef);
+                                if (meta != null && meta.Wiki == null && ImGui.MenuItem("Add wiki..."))
+                                    meta.Wiki = "Empty wiki...";
+                                if (meta?.Wiki != null && ImGui.MenuItem("Remove wiki"))
+                                    meta.Wiki = null;
+                            }
+                            ImGui.EndPopup();
+                        }
+                        ImGui.Unindent(15.0f * CFG.Current.UIScale);
+                    }
+
+                    if (doFocus)
+                        ImGui.SetScrollFromPosY(scrollTo - ImGui.GetScrollY());
+                    ImGui.EndChild();
+                }
                 ImGui.TableNextColumn();
                 string activeParam = _selection.getActiveParam();
                 if (!_selection.activeParamExists())
@@ -1853,7 +1852,7 @@ namespace StudioCore.ParamEditor
                     
                     Param.Column compareCol = _selection.getCompareCol();
                     ImGui.BeginChild("rows" + activeParam);
-                    EditorDecorations.ImGuiTableStdColumns("rowList", compareCol == null ? 1 : 2);
+                    EditorDecorations.ImGuiTableStdColumns("rowList", compareCol == null ? 1 : 2, false);
                     
                     ImGui.TableSetupColumn("rowCol", ImGuiTableColumnFlags.None, 1f);
                     if (compareCol != null)
@@ -1924,14 +1923,13 @@ namespace StudioCore.ParamEditor
                 }
                 Param.Row activeRow = _selection.getActiveRow();
                 ImGui.TableNextColumn();
-                if (activeRow == null)
+                if (activeRow == null && ImGui.BeginChild("columnsNONE"))
                 {
-                    ImGui.BeginChild("columnsNONE");
                     ImGui.Text("Select a row to see properties");
+                    ImGui.EndChild();
                 }
-                else
+                else if (ImGui.BeginChild("columns" + activeParam))
                 {
-                    ImGui.BeginChild("columns" + activeParam);
                     Param vanillaParam = ParamBank.VanillaBank.Params?.GetValueOrDefault(activeParam);
                     _propEditor.PropEditorParamRow(
                         ParamBank.PrimaryBank,
@@ -1943,8 +1941,8 @@ namespace StudioCore.ParamEditor
                         activeParam,
                         isActiveView,
                         _selection);
+                    ImGui.EndChild();
                 }
-                ImGui.EndChild();
                 ImGui.EndTable();
             }
         }
