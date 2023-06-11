@@ -497,6 +497,7 @@ namespace StudioCore.ParamEditor
 
             ImGui.PushID(id);
             ImGui.AlignTextToFramePadding();
+            ImGui.TableNextColumn();
             if (Wiki != null)
             {
                 if (EditorDecorations.HelpIcon(internalName, ref Wiki, true))
@@ -614,7 +615,6 @@ namespace StudioCore.ParamEditor
             if (changed && committed && !ParamBank.VanillaBank.IsLoadingParams)
                 ParamBank.PrimaryBank.RefreshParamRowVanillaDiff(row, activeParam);
 
-            ImGui.TableNextColumn();
             ImGui.PopID();
             id++;
             return true;

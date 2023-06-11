@@ -349,7 +349,6 @@ namespace StudioCore.Editor
                 ImGui.TableNextColumn();
                 ImGui.Separator();
             }
-            ImGui.TableNextColumn();
         }
         public static bool ImGuiTableStdColumns(string id, int cols)
         {
