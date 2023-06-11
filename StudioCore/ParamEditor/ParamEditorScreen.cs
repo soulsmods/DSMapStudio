@@ -610,6 +610,10 @@ namespace StudioCore.ParamEditor
                 {
                     _activeView._selection.SetCompareRow(null);
                 }
+                if (ImGui.MenuItem("Clear current field comparison", null, false, _activeView != null && _activeView._selection.getCompareCol() != null))
+                {
+                    _activeView._selection.SetCompareCol(null);
+                }
                 ImGui.Separator();
                 // Only support ER for now
                 if (ImGui.MenuItem("Load Params for comparison...", null, false))
