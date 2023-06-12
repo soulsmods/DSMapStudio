@@ -198,7 +198,7 @@ namespace StudioCore
                     {
                         CFG.Current.Map_ArbitraryRotation_Y_Shift = Math.Clamp(arbitrary_rotation_y, -180.0f, 180.0f); ;
                     }
-                    if (ImGui.InputFloat("Move selection to camera (offset distance)", ref camera_radius_offset))
+                    if (ImGui.DragFloat("Move selection to camera (offset distance)", ref camera_radius_offset))
                     {
                         CFG.Current.Map_MoveSelectionToCamera_Radius = camera_radius_offset;
                     }
