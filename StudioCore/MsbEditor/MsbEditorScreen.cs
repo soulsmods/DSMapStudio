@@ -520,15 +520,15 @@ namespace StudioCore.MsbEditor
                     {
                         ResetRotationSelection();
                     }
-                    if (ImGui.MenuItem("Arbitrary Rotation: Vertical", KeyBindings.Current.Map_ArbitraryRotation_Roll.HintText, false, _selection.IsSelection()))
+                    if (ImGui.MenuItem("Arbitrary Rotation: Roll", KeyBindings.Current.Map_ArbitraryRotation_Roll.HintText, false, _selection.IsSelection()))
                     {
                         ArbitraryRotation_Selection(new Vector3(1, 0, 0), false);
                     }
-                    if (ImGui.MenuItem("Arbitrary Rotation: Horizontal", KeyBindings.Current.Map_ArbitraryRotation_Yaw.HintText, false, _selection.IsSelection()))
+                    if (ImGui.MenuItem("Arbitrary Rotation: Yaw", KeyBindings.Current.Map_ArbitraryRotation_Yaw.HintText, false, _selection.IsSelection()))
                     {
                         ArbitraryRotation_Selection(new Vector3(0, 1, 0), false);
-                    }
-                    if (ImGui.MenuItem("Arbitrary Rotation: Horizontal Pivot", KeyBindings.Current.Map_ArbitraryRotation_Yaw_Pivot.HintText, false, _selection.IsSelection()))
+                    Y
+                    if (ImGui.MenuItem("Arbitrary Rotation: Yaw Pivot", KeyBindings.Current.Map_ArbitraryRotation_Yaw_Pivot.HintText, false, _selection.IsSelection()))
                     {
                         ArbitraryRotation_Selection(new Vector3(0, 1, 0), true);
                     }
