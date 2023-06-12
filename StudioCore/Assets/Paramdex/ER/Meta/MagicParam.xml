@@ -588,7 +588,7 @@
     <aiNotifyType AltName="AI Interrupt Type" Wiki="AI interrupt occurs in act (AI notification when magic is activated)" Enum="MAGIC_AI_NOTIFY_TYPE" />
     <mp AltName="FP Consumption - Default" Wiki="MP consumption" />
     <stamina AltName="Stamina Consumption - Default" Wiki="Consumption stamina" />
-    <iconId AltName="Icon ID" Wiki="Specify icon> For menu" />
+    <iconId AltName="Icon ID" Wiki="Specify icon> For menu" ExtRefs="hi,menu\hi\00_solo.tpfbhd,00_Solo\MENU_Knowledge_{0:D5}.tpf.dcx,MENU_Knowledge_{0:D5}.dds;low,menu\low\00_solo.tpfbhd,00_Solo\MENU_Knowledge_{0:D5}.tpf.dcx,MENU_Knowledge_{0:D5}.dds" />
     <behaviorId AltName="Behavior ID" Wiki="Set the action ID" />
     <mtrlItemId AltName="Material Item ID" Wiki="Item ID required for purchase" />
     <replaceMagicId AltName="Replace Magic ID" Wiki="ID to be replaced when the state change matches (-1: invalid)" />
@@ -642,9 +642,9 @@
     <vowType13 AltName="Vow Type [13]" Wiki="Pledge 13" IsBool="" />
     <vowType14 AltName="Vow Type [14]" Wiki="Pledge 14" IsBool="" />
     <vowType15 AltName="Vow Type [15]" Wiki="Pledge 15" IsBool="" />
-    <castSfxId AltName="SFX ID - Cast" Wiki="SFXID during magical chanting" />
-    <fireSfxId AltName="SFX ID - Fire" Wiki="SFX ID when magic is activated" />
-    <effectSfxId AltName="SFX ID - Effect" Wiki="SFXID during magic effect" />
+    <castSfxId AltName="SFX ID - Cast" Wiki="SFXID during magical chanting" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
+    <fireSfxId AltName="SFX ID - Fire" Wiki="SFX ID when magic is activated" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
+    <effectSfxId AltName="SFX ID - Effect" Wiki="SFXID during magic effect" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
     <toughnessCorrectRate AltName="Toughness Correction" Wiki="It is a magnification that corrects the basic value of toughness." />
     <ReplacementStatusType AltName="Replacement Status Type" Wiki="Replacement status type" Enum="MAGIC_STATUS_TYPE" />
     <ReplacementStatus1 AltName="Replacement Threshold [1]" Wiki="Replacement status value 1" />
