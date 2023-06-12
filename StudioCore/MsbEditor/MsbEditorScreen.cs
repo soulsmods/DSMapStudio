@@ -252,7 +252,7 @@ namespace StudioCore.MsbEditor
             Vector3 accumPos = Vector3.Zero;
             foreach (var sel in sels)
             {
-                var pos = sel.GetLocalTransform().Position;
+                var pos = sel.GetRootLocalTransform().Position;
                 accumPos += pos;
             }
             Transform centerT = new(accumPos / (float)sels.Count, Vector3.Zero);
@@ -260,7 +260,7 @@ namespace StudioCore.MsbEditor
             foreach (var sel in sels)
             {
                 var new_pos = target_pos;
-                var relativePos = centerT.Position - sel.GetLocalTransform().Position;
+                var relativePos = centerT.Position - sel.GetRootLocalTransform().Position;
                 var rot = sel.GetRootTransform().EulerRotation;
 
                 // Offset the new position by the map's offset from the origin.
