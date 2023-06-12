@@ -214,7 +214,7 @@ namespace StudioCore.MsbEditor
                 accumPos += sel.GetLocalTransform().Position;
             }
 
-            Transform centerT = new(accumPos / (float)sels.Count, Vector3.Zero);// sels.First().GetRootLocalTransform().EulerRotation);
+            Transform centerT = new(accumPos / (float)sels.Count, Vector3.Zero);
 
             foreach (var s in sels)
             {
@@ -527,7 +527,7 @@ namespace StudioCore.MsbEditor
                     if (ImGui.MenuItem("Arbitrary Rotation: Yaw", KeyBindings.Current.Map_ArbitraryRotation_Yaw.HintText, false, _selection.IsSelection()))
                     {
                         ArbitraryRotation_Selection(new Vector3(0, 1, 0), false);
-                    Y
+                    }
                     if (ImGui.MenuItem("Arbitrary Rotation: Yaw Pivot", KeyBindings.Current.Map_ArbitraryRotation_Yaw_Pivot.HintText, false, _selection.IsSelection()))
                     {
                         ArbitraryRotation_Selection(new Vector3(0, 1, 0), true);
