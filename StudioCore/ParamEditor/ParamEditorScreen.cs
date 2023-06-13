@@ -318,59 +318,7 @@ namespace StudioCore.ParamEditor
                 }
                 if (ImGui.BeginMenu($"Mass Edit Script"))
                 {
-                    IEnumerable<(string, string)> scriptList = CacheBank.GetCached(this, ParamBank.PrimaryBank, "MassEditScriptList", () => Directory.GetFiles(ParamBank.PrimaryBank.AssetLocator.GetScriptAssetsDir()).Select((x) => (x, Path.GetFileNameWithoutExtension(x))));
-                    foreach ((string path, string name) in scriptList)
-                    {
-                        if (ImGui.BeginMenu(name))
-                        {
-                            (List<string> preamble, string[] text, List<string[]> args) = CacheBank.GetCached(this, ParamBank.PrimaryBank, "MassEditScript"+path, () =>
-                            {
-                                try
-                                {
-                                    List<string> preamble = new List<string>();
-                                    string[] text = File.ReadAllLines(path);
-                                    List<string[]> args = new List<string[]>();
-                                    foreach (string line in text)
-                                    {
-                                        if(line.StartsWith("##") && args.Count == 0)
-                                            preamble.Add(line);
-                                        else if(line.StartsWith("newvar "))
-                                        {
-                                            string[] arg = line.Substring(7).Split(':', 2);
-                                            if (arg[1].EndsWith(';'))
-                                            {
-                                                arg[1] = arg[1].Substring(0, arg[1].Length-1);
-                                            }
-                                            args.Add(arg);
-                                        }
-                                        else
-                                            break;
-                                    }
-                                    return (preamble, text, args);
-                                }
-                                catch (Exception e)
-                                {
-                                    TaskManager.warningList["MassEditScriptLoad"] = "Error loading mass edit script "+name;
-                                    return (null, null, null);
-                                }
-                            });
-                            if (text != null)
-                            {
-                                foreach (string[] arg in args)
-                                {
-                                    ImGui.InputText(arg[0], ref arg[1], 128);
-                                }
-                                if (ImGui.Selectable("Load"))
-                                {
-                                    string addedCommands = preamble.Count == 0 ? "" : "\n" + "clear;\nclearvars;\n";
-                                    string newText = string.Join('\n', preamble) + addedCommands + string.Join('\n', args.Select((x) => $@"newvar {x[0]}:{x[1]};")) + '\n' + string.Join('\n', text.Skip(args.Count + preamble.Count));
-                                    _currentMEditRegexInput = newText;
-                                    EditorCommandQueue.AddCommand($@"param/menu/massEditRegex");
-                                }
-                            }
-                            ImGui.EndMenu();
-                        }
-                    }
+                    MassEditScript.EditorScreenMenuItems(ref _currentMEditRegexInput);
                     ImGui.EndMenu();
                 }
                 if (ImGui.BeginMenu("Export CSV", _activeView._selection.rowSelectionExists()))
@@ -1380,6 +1328,7 @@ namespace StudioCore.ParamEditor
             {
                 dec.Value.ClearDecoratorCache();
             }
+            MassEditScript.ReloadScripts();
         }
 
         public override void Save()
