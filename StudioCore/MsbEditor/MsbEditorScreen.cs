@@ -241,24 +241,38 @@ namespace StudioCore.MsbEditor
         /// </summary>
         private void MoveSelectionToCamera()
         {
+            var actlist = new List<Action>();
+            var sels = _selection.GetFilteredSelection<Entity>(o => o.HasTransform);
+
             var camdir = Vector3.Transform(Vector3.UnitZ, Viewport._worldView.CameraTransform.RotationMatrix);
             var cam_pos = Viewport._worldView.CameraTransform.Position;
-            var new_pos = cam_pos + (camdir * CFG.Current.Map_MoveSelectionToCamera_Radius);
+            var target_pos = cam_pos + (camdir * CFG.Current.Map_MoveSelectionToCamera_Radius);
 
-            var actlist = new List<Action>();
-
-            var selected = _selection.GetFilteredSelection<Entity>();
-            foreach (var s in selected)
+            // Get the relative positions of the selections
+            Vector3 accumPos = Vector3.Zero;
+            foreach (var sel in sels)
             {
-                var rot = s.GetRootTransform().EulerRotation;
+                var pos = sel.GetRootLocalTransform().Position;
+                accumPos += pos;
+            }
+            Transform centerT = new(accumPos / (float)sels.Count, Vector3.Zero);
+
+            foreach (var sel in sels)
+            {
+                var new_pos = target_pos;
+                var relativePos = centerT.Position - sel.GetRootLocalTransform().Position;
+                var rot = sel.GetRootTransform().EulerRotation;
 
                 // Offset the new position by the map's offset from the origin.
-                TransformNode node = (TransformNode) s.Container.RootObject.WrappedObject;
+                TransformNode node = (TransformNode)sel.Container.RootObject.WrappedObject;
                 new_pos -= node.Position;
+
+                // Offset position from center of every selected entity to maintain relative positions
+                new_pos -= relativePos;
 
                 Transform newPos = new Transform(new_pos, rot);
 
-                actlist.Add(s.GetUpdateTransformAction(newPos));
+                actlist.Add(sel.GetUpdateTransformAction(newPos));
             }
 
             var action = new CompoundAction(actlist);
