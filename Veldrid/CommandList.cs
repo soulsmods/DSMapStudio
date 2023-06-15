@@ -25,30 +25,27 @@ namespace Veldrid
     /// <see cref="GraphicsDevice"/>, they must be reset and commands must be issued again.
     /// See <see cref="CommandListDescription"/>.
     /// </summary>
-    public unsafe class CommandList : DeviceResource, IDisposable
+    public unsafe class CommandList : DeviceResource
     {
-        private readonly GraphicsDeviceFeatures _features;
-        private readonly uint _uniformBufferAlignment;
-        private readonly uint _structuredBufferAlignment;
+        private GraphicsDeviceFeatures _features;
+        private uint _uniformBufferAlignment;
+        private uint _structuredBufferAlignment;
 
         private protected Framebuffer _framebuffer;
         private protected Pipeline _graphicsPipeline;
         private protected Pipeline _computePipeline;
-
-        private protected bool _isTransfer;
-
+        
 #if VALIDATE_USAGE
         private DeviceBuffer _indexBuffer;
         private VkIndexType _indexFormat;
 #endif
         
-        private readonly GraphicsDevice _gd;
-        private VkCommandPool _pool;
+        private  GraphicsDevice _gd;
+        private QueueType _submissionQueue;
         private VkCommandBuffer _cb;
         private bool _destroyed;
 
-        private bool _commandBufferBegun;
-        private bool _commandBufferEnded;
+        private bool _commandBufferSubmitted;
         private VkRect2D[] _scissorRects = Array.Empty<VkRect2D>();
 
         private VkClearValue[] _clearValues = Array.Empty<VkClearValue>();
@@ -72,50 +69,42 @@ namespace Veldrid
         private bool[] _computeResourceSetsChanged;
         private string _name;
 
-        private readonly object _commandBufferListLock = new object();
-        private readonly Queue<VkCommandBuffer> _availableCommandBuffers = new Queue<VkCommandBuffer>();
-        private readonly List<VkCommandBuffer> _submittedCommandBuffers = new List<VkCommandBuffer>();
-
         private StagingResourceInfo _currentStagingInfo;
         private readonly object _stagingLock = new object();
         private readonly Dictionary<VkCommandBuffer, StagingResourceInfo> _submittedStagingInfos = new Dictionary<VkCommandBuffer, StagingResourceInfo>();
         private readonly List<StagingResourceInfo> _availableStagingInfos = new List<StagingResourceInfo>();
         private readonly List<DeviceBuffer> _availableStagingBuffers = new List<DeviceBuffer>();
 
-        internal VkCommandPool CommandPool => _pool;
+        internal QueueType SubmissionQueue => _submissionQueue;
         internal VkCommandBuffer CommandBuffer => _cb;
 
-        internal bool IsTransfer => _isTransfer;
-
-        internal ResourceRefCount RefCount { get; }
-
-        internal CommandList(GraphicsDevice gd, ref CommandListDescription description)
-            : this(ref description, gd.Features, gd.UniformBufferMinOffsetAlignment, gd.StructuredBufferMinOffsetAlignment)
+        internal void Initialize(GraphicsDevice gd, VkCommandBuffer cb, QueueType type)
         {
             _gd = gd;
-            var poolCI = new VkCommandPoolCreateInfo
-            {
-                sType = VkStructureType.CommandPoolCreateInfo,
-                flags = VkCommandPoolCreateFlags.ResetCommandBuffer,
-                queueFamilyIndex = description.IsTransfer ? gd.TransferQueueIndex : gd.GraphicsQueueIndex
-            };
-            VkResult result = vkCreateCommandPool(_gd.Device, &poolCI, null, out _pool);
-            CheckResult(result);
+            _features = _gd.Features;
+            _uniformBufferAlignment = _gd.UniformBufferMinOffsetAlignment;
+            _structuredBufferAlignment = _gd.StructuredBufferMinOffsetAlignment;
+            _submissionQueue = type;
+            _cb = cb;
+            _commandBufferSubmitted = false;
+            
+            _currentStagingInfo = GetStagingResourceInfo();
 
-            _cb = GetNextCommandBuffer();
-            RefCount = new ResourceRefCount(DisposeCore);
-        }
-        
-        internal CommandList(
-            ref CommandListDescription description,
-            GraphicsDeviceFeatures features,
-            uint uniformAlignment,
-            uint structuredAlignment)
-        {
-            _features = features;
-            _uniformBufferAlignment = uniformAlignment;
-            _structuredBufferAlignment = structuredAlignment;
-            _isTransfer = description.IsTransfer;
+            var beginInfo = new VkCommandBufferBeginInfo
+            {
+                sType = VkStructureType.CommandBufferBeginInfo,
+                flags = VkCommandBufferUsageFlags.OneTimeSubmit
+            };
+            vkBeginCommandBuffer(_cb, &beginInfo);
+
+            ClearCachedState();
+            _currentFramebuffer = null;
+            _currentGraphicsPipeline = null;
+            ClearSets(_currentGraphicsResourceSets);
+            Util.ClearArray(_scissorRects);
+
+            _currentComputePipeline = null;
+            ClearSets(_currentComputeResourceSets);
         }
 
         internal void ClearCachedState()
@@ -129,62 +118,16 @@ namespace Veldrid
         }
 
         /// <summary>
-        /// Puts this <see cref="CommandList"/> into the initial state.
-        /// This function must be called before other graphics commands can be issued.
-        /// Begin must only be called if it has not been previously called, if <see cref="End"/> has been called,
-        /// or if <see cref="GraphicsDevice.SubmitCommands(CommandList)"/> has been called on this instance.
+        /// Called by the device before submission
         /// </summary>
-        public void Begin()
+        /// <exception cref="VeldridException"></exception>
+        internal void End()
         {
-            if (_commandBufferBegun)
+            if (_commandBufferSubmitted)
             {
-                throw new VeldridException(
-                    "CommandList must be in its initial state, or End() must have been called, for Begin() to be valid to call.");
+                throw new VeldridException("Command Buffer already submitted");
             }
-            if (_commandBufferEnded)
-            {
-                _commandBufferEnded = false;
-                _cb = GetNextCommandBuffer();
-                if (_currentStagingInfo != null)
-                {
-                    RecycleStagingInfo(_currentStagingInfo);
-                }
-            }
-
-            _currentStagingInfo = GetStagingResourceInfo();
-
-            var beginInfo = new VkCommandBufferBeginInfo
-            {
-                sType = VkStructureType.CommandBufferBeginInfo,
-                flags = VkCommandBufferUsageFlags.OneTimeSubmit
-            };
-            vkBeginCommandBuffer(_cb, &beginInfo);
-            _commandBufferBegun = true;
-
-            ClearCachedState();
-            _currentFramebuffer = null;
-            _currentGraphicsPipeline = null;
-            ClearSets(_currentGraphicsResourceSets);
-            Util.ClearArray(_scissorRects);
-
-            _currentComputePipeline = null;
-            ClearSets(_currentComputeResourceSets);
-        }
-
-        /// <summary>
-        /// Completes this list of graphics commands, putting it into an executable state for a <see cref="GraphicsDevice"/>.
-        /// This function must only be called after <see cref="Begin"/> has been called.
-        /// It is an error to call this function in succession, unless <see cref="Begin"/> has been called in between invocations.
-        /// </summary>
-        public void End()
-        {
-            if (!_commandBufferBegun)
-            {
-                throw new VeldridException("CommandBuffer must have been started before End() may be called.");
-            }
-
-            _commandBufferBegun = false;
-            _commandBufferEnded = true;
+            _commandBufferSubmitted = true;
 
             if (!_currentFramebufferEverActive && _currentFramebuffer != null)
             {
@@ -197,7 +140,54 @@ namespace Veldrid
             }
 
             vkEndCommandBuffer(_cb);
-            _submittedCommandBuffers.Add(_cb);
+        }
+
+        public void BeginRenderPass(ref RenderPassDescription description)
+        {
+            VkRenderingAttachmentInfo* colorAttachments =
+                stackalloc VkRenderingAttachmentInfo[description.ColorAttachments.Length];
+            VkRenderingAttachmentInfo depthAttachment;
+            for (int i = 0; i < description.ColorAttachments.Length; i++)
+            {
+                var attachment = description.ColorAttachments[i];
+                colorAttachments[i] = new VkRenderingAttachmentInfo()
+                {
+                    sType = VkStructureType.RenderingAttachmentInfo,
+                    imageView = attachment.Texture.ImageView,
+                    imageLayout = VkImageLayout.AttachmentOptimal,
+                    resolveMode = VkResolveModeFlags.None,
+                    loadOp = attachment.LoadOp,
+                    storeOp = attachment.StoreOp
+                };
+            }
+            if (description.DepthStencilAttachment != null)
+            {
+                var attachment = description.DepthStencilAttachment.Value;
+                depthAttachment = new VkRenderingAttachmentInfo()
+                {
+                    sType = VkStructureType.RenderingAttachmentInfo,
+                    imageView = attachment.Texture.ImageView,
+                    imageLayout = VkImageLayout.AttachmentOptimal,
+                    resolveMode = VkResolveModeFlags.None,
+                    loadOp = attachment.LoadOp,
+                    storeOp = attachment.StoreOp
+                };
+            }
+            var renderInfo = new VkRenderingInfo()
+            {
+                sType = VkStructureType.RenderingInfo,
+                renderArea = new VkRect2D(uint.MaxValue, uint.MaxValue),
+                layerCount = 1,
+                colorAttachmentCount = (uint)description.ColorAttachments.Length,
+                pColorAttachments = colorAttachments,
+                pDepthAttachment = description.DepthStencilAttachment != null ? &depthAttachment : null
+            };
+            vkCmdBeginRendering(_cb, &renderInfo);
+        }
+
+        public void EndRenderPass()
+        {
+            vkCmdEndRendering(_cb);
         }
 
         /// <summary>
@@ -1777,36 +1767,9 @@ namespace Veldrid
                 _gd.SetResourceName(this, value);
             }
         }
-        
-        private VkCommandBuffer GetNextCommandBuffer()
-        {
-            lock (_commandBufferListLock)
-            {
-                if (_availableCommandBuffers.Count > 0)
-                {
-                    VkCommandBuffer cachedCB = _availableCommandBuffers.Dequeue();
-                    VkResult resetResult = vkResetCommandBuffer(cachedCB, VkCommandBufferResetFlags.None);
-                    CheckResult(resetResult);
-                    return cachedCB;
-                }
-            }
-
-            var cbAI = new VkCommandBufferAllocateInfo
-            {
-                sType = VkStructureType.CommandBufferAllocateInfo,
-                commandPool = _pool,
-                commandBufferCount = 1,
-                level = VkCommandBufferLevel.Primary
-            };
-            VkCommandBuffer cb = new VkCommandBuffer();
-            VkResult result = vkAllocateCommandBuffers(_gd.Device, &cbAI, &cb);
-            CheckResult(result);
-            return cb;
-        }
 
         public void CommandBufferSubmitted(VkCommandBuffer cb)
         {
-            RefCount.Increment();
             foreach (ResourceRefCount rrc in _currentStagingInfo.Resources)
             {
                 rrc.Increment();
@@ -1818,20 +1781,6 @@ namespace Veldrid
 
         public void CommandBufferCompleted(VkCommandBuffer completedCB)
         {
-            lock (_commandBufferListLock)
-            {
-                for (int i = 0; i < _submittedCommandBuffers.Count; i++)
-                {
-                    VkCommandBuffer submittedCB = _submittedCommandBuffers[i];
-                    if (submittedCB == completedCB)
-                    {
-                        _availableCommandBuffers.Enqueue(completedCB);
-                        _submittedCommandBuffers.RemoveAt(i);
-                        i -= 1;
-                    }
-                }
-            }
-
             lock (_stagingLock)
             {
                 if (_submittedStagingInfos.TryGetValue(completedCB, out StagingResourceInfo info))
@@ -1840,8 +1789,6 @@ namespace Veldrid
                     _submittedStagingInfos.Remove(completedCB);
                 }
             }
-
-            RefCount.Decrement();
         }
 
         private void PreDrawCommand()
@@ -2404,24 +2351,12 @@ namespace Veldrid
                 return ret;
             }
         }
-        
-        /// <summary>
-        /// Frees unmanaged device resources controlled by this instance.
-        /// </summary>
-        public void Dispose()
-        {
-            RefCount.Decrement();
-        }
 
-        private void DisposeCore()
+        internal void Dispose()
         {
             if (!_destroyed)
             {
                 _destroyed = true;
-                vkDestroyCommandPool(_gd.Device, _pool, null);
-
-                Debug.Assert(_submittedStagingInfos.Count == 0);
-
                 foreach (var buffer in _availableStagingBuffers)
                 {
                     buffer.Dispose();

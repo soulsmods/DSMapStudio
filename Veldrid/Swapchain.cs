@@ -17,8 +17,6 @@ namespace Veldrid
         private VkSwapchainKHR _deviceSwapchain;
         private readonly VkSwapchainFramebuffer _framebuffer;
         private VkFence _imageAvailableFence;
-        private readonly uint _presentQueueIndex;
-        private readonly VkQueue _presentQueue;
         private bool _syncToVBlank;
         private readonly SwapchainSource _swapchainSource;
         private readonly bool _colorSrgb;
@@ -30,8 +28,6 @@ namespace Veldrid
         internal uint ImageIndex => _currentImageIndex;
         internal VkFence ImageAvailableFence => _imageAvailableFence;
         internal VkSurfaceKHR Surface => _surface;
-        internal VkQueue PresentQueue => _presentQueue;
-        internal uint PresentQueueIndex => _presentQueueIndex;
         internal ResourceRefCount RefCount { get; }
         
         /// <summary>
@@ -89,12 +85,6 @@ namespace Veldrid
                 _surface = existingSurface;
             }
 
-            if (!GetPresentQueueIndex(out _presentQueueIndex))
-            {
-                throw new VeldridException($"The system does not support presenting the given Vulkan surface.");
-            }
-            vkGetDeviceQueue(_gd.Device, _presentQueueIndex, 0, out _presentQueue);
-
             _framebuffer = new VkSwapchainFramebuffer(gd, this, _surface, description.Width, description.Height, description.DepthFormat);
 
             CreateSwapchain(description.Width, description.Height);
@@ -107,7 +97,7 @@ namespace Veldrid
             vkCreateFence(_gd.Device, &fenceCI, null, out _imageAvailableFence);
 
             AcquireNextImage(_gd.Device, VkSemaphore.Null, _imageAvailableFence);
-            fixed (Vortice.Vulkan.VkFence* p = &_imageAvailableFence)
+            fixed (VkFence* p = &_imageAvailableFence)
             {
                 vkWaitForFences(_gd.Device, 1, p, true, ulong.MaxValue);
                 vkResetFences(_gd.Device, 1, p);
@@ -116,7 +106,7 @@ namespace Veldrid
             RefCount = new ResourceRefCount(DisposeCore);
         }
 
-        public bool AcquireNextImage(VkDevice device, VkSemaphore semaphore, Vortice.Vulkan.VkFence fence)
+        public bool AcquireNextImage(VkDevice device, VkSemaphore semaphore, VkFence fence)
         {
             if (_newSyncToVBlank != null)
             {
@@ -153,7 +143,7 @@ namespace Veldrid
             {
                 if (AcquireNextImage(_gd.Device, VkSemaphore.Null, _imageAvailableFence))
                 {
-                    fixed (Vortice.Vulkan.VkFence* p = &_imageAvailableFence)
+                    fixed (VkFence* p = &_imageAvailableFence)
                     {
                         vkWaitForFences(_gd.Device, 1, p, true, ulong.MaxValue);
                         vkResetFences(_gd.Device, 1, p);
@@ -266,20 +256,8 @@ namespace Veldrid
             swapchainCI.imageArrayLayers = 1;
             swapchainCI.imageUsage = VkImageUsageFlags.ColorAttachment | VkImageUsageFlags.TransferDst;
 
-            FixedArray2<uint> queueFamilyIndices = new FixedArray2<uint>(_gd.GraphicsQueueIndex, _gd.PresentQueueIndex);
-
-            if (_gd.GraphicsQueueIndex != _gd.PresentQueueIndex)
-            {
-                swapchainCI.imageSharingMode = VkSharingMode.Concurrent;
-                swapchainCI.queueFamilyIndexCount = 2;
-                swapchainCI.pQueueFamilyIndices = &queueFamilyIndices.First;
-            }
-            else
-            {
-                swapchainCI.imageSharingMode = VkSharingMode.Exclusive;
-                swapchainCI.queueFamilyIndexCount = 0;
-            }
-
+            swapchainCI.imageSharingMode = VkSharingMode.Exclusive;
+            swapchainCI.queueFamilyIndexCount = 0;
             swapchainCI.preTransform = VkSurfaceTransformFlagsKHR.Identity;
             swapchainCI.compositeAlpha = VkCompositeAlphaFlagsKHR.Opaque;
             swapchainCI.clipped = true;
@@ -298,37 +276,6 @@ namespace Veldrid
             return true;
         }
 
-        private bool GetPresentQueueIndex(out uint queueFamilyIndex)
-        {
-            uint graphicsQueueIndex = _gd.GraphicsQueueIndex;
-            uint presentQueueIndex = _gd.PresentQueueIndex;
-
-            if (QueueSupportsPresent(graphicsQueueIndex, _surface))
-            {
-                queueFamilyIndex = graphicsQueueIndex;
-                return true;
-            }
-            else if (graphicsQueueIndex != presentQueueIndex && QueueSupportsPresent(presentQueueIndex, _surface))
-            {
-                queueFamilyIndex = presentQueueIndex;
-                return true;
-            }
-
-            queueFamilyIndex = 0;
-            return false;
-        }
-
-        private bool QueueSupportsPresent(uint queueFamilyIndex, VkSurfaceKHR surface)
-        {
-            VkResult result = vkGetPhysicalDeviceSurfaceSupportKHR(
-                _gd.PhysicalDevice,
-                queueFamilyIndex,
-                surface,
-                out VkBool32 supported);
-            CheckResult(result);
-            return supported;
-        }
-        
         /// <summary>
         /// Frees unmanaged device resources controlled by this instance.
         /// </summary>
