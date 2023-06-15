@@ -20,11 +20,9 @@ public class VulkanGraphicsContext : IGraphicsContext
     public Sdl2Window Window => _window;
     private GraphicsDevice _gd;
     public GraphicsDevice Device => _gd;
-    private CommandList MainWindowCommandList;
     
     // Window framebuffer
     private Texture MainWindowColorTexture;
-    private TextureView MainWindowResolvedColorView;
     private Framebuffer MainWindowFramebuffer;
     private ResourceSet MainWindowResourceSet;
     
@@ -70,7 +68,6 @@ public class VulkanGraphicsContext : IGraphicsContext
         var factory = _gd.ResourceFactory;
         _imGuiRenderer = new VulkanImGuiRenderer(_gd, _gd.SwapchainFramebuffer.OutputDescription, CFG.Current.GFX_Display_Width,
             CFG.Current.GFX_Display_Height, ColorSpaceHandling.Legacy);
-        MainWindowCommandList = factory.CreateCommandList();
     }
     
     private void RecreateWindowFramebuffers(CommandList cl)
@@ -80,13 +77,6 @@ public class VulkanGraphicsContext : IGraphicsContext
         MainWindowResourceSet?.Dispose();
 
         var factory = _gd.ResourceFactory;
-        _gd.GetPixelFormatSupport(
-            VkFormat.R8G8B8A8Unorm,
-            VkImageType.Image2D,
-            VkImageUsageFlags.ColorAttachment,
-            VkImageTiling.Optimal,
-            out PixelFormatProperties properties);
-
         TextureDescription mainColorDesc = TextureDescription.Texture2D(
             _gd.SwapchainFramebuffer.Width,
             _gd.SwapchainFramebuffer.Height,
@@ -109,6 +99,8 @@ public class VulkanGraphicsContext : IGraphicsContext
         int x = _window.X;
         int y = _window.Y;
 
+        _gd.NextFrame();
+        
         if (_windowResized)
         {
             _windowResized = false;
@@ -118,17 +110,13 @@ public class VulkanGraphicsContext : IGraphicsContext
 
             _gd.ResizeMainWindow((uint)width, (uint)height);
             CommandList cl = _gd.ResourceFactory.CreateCommandList();
-            cl.Begin();
             RecreateWindowFramebuffers(cl);
             _imGuiRenderer.WindowResized(width, height);
             foreach (var editor in editors)
             {
                 editor.EditorResized(_window, _gd);
             }
-
-            cl.End();
             _gd.SubmitCommands(cl);
-            cl.Dispose();
         }
 
         if (_windowMoved)
@@ -138,19 +126,18 @@ public class VulkanGraphicsContext : IGraphicsContext
             CFG.Current.GFX_Display_Y = y;
         }
 
-        MainWindowCommandList.Begin();
-        MainWindowCommandList.SetFramebuffer(_gd.SwapchainFramebuffer);
-        MainWindowCommandList.ClearColorTarget(0, new RgbaFloat(0.176f, 0.176f, 0.188f, 1.0f));
-        MainWindowCommandList.ClearDepthStencil(0.0f);
-        MainWindowCommandList.SetFullViewport(0);
+        var mainWindowCommandList = _gd.ResourceFactory.CreateCommandList(QueueType.Graphics);
+        mainWindowCommandList.SetFramebuffer(_gd.SwapchainFramebuffer);
+        mainWindowCommandList.ClearColorTarget(0, new RgbaFloat(0.176f, 0.176f, 0.188f, 1.0f));
+        mainWindowCommandList.ClearDepthStencil(0.0f);
+        mainWindowCommandList.SetFullViewport(0);
 
-        focusedEditor.Draw(_gd, MainWindowCommandList);
-        var fence = Scene.Renderer.Frame(MainWindowCommandList, false);
-        MainWindowCommandList.SetFullViewport(0);
-        MainWindowCommandList.SetFullScissorRects();
-        _imGuiRenderer.Render(_gd, MainWindowCommandList);
-        MainWindowCommandList.End();
-        _gd.SubmitCommands(MainWindowCommandList, fence);
+        focusedEditor.Draw(_gd, mainWindowCommandList);
+        var fence = Scene.Renderer.Frame(mainWindowCommandList, false);
+        mainWindowCommandList.SetFullViewport(0);
+        mainWindowCommandList.SetFullScissorRects();
+        _imGuiRenderer.Render(_gd, mainWindowCommandList);
+        _gd.SubmitCommands(mainWindowCommandList, fence);
         Scene.Renderer.SubmitPostDrawCommandLists();
 
         _gd.SwapBuffers();
@@ -159,9 +146,7 @@ public class VulkanGraphicsContext : IGraphicsContext
     public void Dispose()
     {
         _imGuiRenderer?.Dispose();
-        MainWindowCommandList?.Dispose();
         MainWindowColorTexture?.Dispose();
-        MainWindowResolvedColorView?.Dispose();
         MainWindowFramebuffer?.Dispose();
         MainWindowResourceSet?.Dispose();
         _gd?.Dispose();

@@ -33,15 +33,16 @@ namespace Veldrid
         {
             _gd = gd;
 
-            StackList<VkAttachmentDescription> attachments = new StackList<VkAttachmentDescription>();
+            StackList<VkAttachmentDescription2> attachments = new StackList<VkAttachmentDescription2>();
 
             uint colorAttachmentCount = (uint)ColorTargets.Count;
-            StackList<VkAttachmentReference> colorAttachmentRefs = new StackList<VkAttachmentReference>();
+            StackList<VkAttachmentReference2> colorAttachmentRefs = new StackList<VkAttachmentReference2>();
             for (int i = 0; i < colorAttachmentCount; i++)
             {
                 var vkColorTex = ColorTargets[i].Target;
-                var colorAttachmentDesc = new VkAttachmentDescription
+                var colorAttachmentDesc = new VkAttachmentDescription2
                 {
+                    sType = VkStructureType.AttachmentDescription2,
                     format = vkColorTex.VkFormat,
                     samples = vkColorTex.VkSampleCount,
                     loadOp = VkAttachmentLoadOp.DontCare,
@@ -53,20 +54,22 @@ namespace Veldrid
                 };
                 attachments.Add(colorAttachmentDesc);
 
-                VkAttachmentReference colorAttachmentRef = new VkAttachmentReference
+                VkAttachmentReference2 colorAttachmentRef = new VkAttachmentReference2
                 {
+                    sType = VkStructureType.AttachmentReference2,
                     attachment = (uint)i,
                     layout = VkImageLayout.ColorAttachmentOptimal
                 };
                 colorAttachmentRefs.Add(colorAttachmentRef);
             }
 
-            VkAttachmentDescription depthAttachmentDesc = new VkAttachmentDescription();
-            VkAttachmentReference depthAttachmentRef = new VkAttachmentReference();
+            VkAttachmentDescription2 depthAttachmentDesc = new VkAttachmentDescription2();
+            VkAttachmentReference2 depthAttachmentRef = new VkAttachmentReference2();
             if (DepthTarget != null)
             {
                 var vkDepthTex = DepthTarget.Value.Target;
                 bool hasStencil = FormatHelpers.IsStencilFormat(vkDepthTex.Format);
+                depthAttachmentDesc.sType = VkStructureType.AttachmentDescription2;
                 depthAttachmentDesc.format = vkDepthTex.VkFormat;
                 depthAttachmentDesc.samples = vkDepthTex.VkSampleCount;
                 depthAttachmentDesc.loadOp = VkAttachmentLoadOp.DontCare;
@@ -76,18 +79,20 @@ namespace Veldrid
                 depthAttachmentDesc.initialLayout = VkImageLayout.Undefined;
                 depthAttachmentDesc.finalLayout = VkImageLayout.DepthStencilAttachmentOptimal;
 
+                depthAttachmentRef.sType = VkStructureType.AttachmentReference2;
                 depthAttachmentRef.attachment = (uint)description.ColorTargets.Length;
                 depthAttachmentRef.layout = VkImageLayout.DepthStencilAttachmentOptimal;
             }
 
-            var subpass = new VkSubpassDescription
+            var subpass = new VkSubpassDescription2
             {
+                sType = VkStructureType.SubpassDescription2,
                 pipelineBindPoint = VkPipelineBindPoint.Graphics
             };
             if (ColorTargets.Count > 0)
             {
                 subpass.colorAttachmentCount = colorAttachmentCount;
-                subpass.pColorAttachments = (VkAttachmentReference*)colorAttachmentRefs.Data;
+                subpass.pColorAttachments = (VkAttachmentReference2*)colorAttachmentRefs.Data;
             }
 
             if (DepthTarget != null)
@@ -96,26 +101,27 @@ namespace Veldrid
                 attachments.Add(depthAttachmentDesc);
             }
 
-            var subpassDependency = new VkSubpassDependency
+            var subpassDependency = new VkSubpassDependency2
             {
+                sType = VkStructureType.SubpassDependency2,
                 srcSubpass = VK_SUBPASS_EXTERNAL,
                 srcStageMask = VkPipelineStageFlags.ColorAttachmentOutput,
                 dstStageMask = VkPipelineStageFlags.ColorAttachmentOutput,
                 dstAccessMask = VkAccessFlags.ColorAttachmentRead | VkAccessFlags.ColorAttachmentWrite
             };
 
-            var renderPassCI = new VkRenderPassCreateInfo
+            var renderPassCI = new VkRenderPassCreateInfo2
             {
-                sType = VkStructureType.RenderPassCreateInfo,
+                sType = VkStructureType.RenderPassCreateInfo2,
                 attachmentCount = attachments.Count,
-                pAttachments = (VkAttachmentDescription*)attachments.Data,
+                pAttachments = (VkAttachmentDescription2*)attachments.Data,
                 subpassCount = 1,
                 pSubpasses = &subpass,
                 dependencyCount = 1,
                 pDependencies = &subpassDependency
             };
 
-            VkResult creationResult = vkCreateRenderPass(_gd.Device, &renderPassCI, null, out _renderPassNoClear);
+            VkResult creationResult = vkCreateRenderPass2(_gd.Device, &renderPassCI, null, out _renderPassNoClear);
             CheckResult(creationResult);
 
             for (int i = 0; i < colorAttachmentCount; i++)
@@ -134,7 +140,7 @@ namespace Veldrid
                 }
 
             }
-            creationResult = vkCreateRenderPass(_gd.Device, &renderPassCI, null, out _renderPassNoClearLoad);
+            creationResult = vkCreateRenderPass2(_gd.Device, &renderPassCI, null, out _renderPassNoClearLoad);
             CheckResult(creationResult);
 
 
@@ -157,7 +163,7 @@ namespace Veldrid
                 attachments[i].initialLayout = VkImageLayout.Undefined;
             }
 
-            creationResult = vkCreateRenderPass(_gd.Device, &renderPassCI, null, out _renderPassClear);
+            creationResult = vkCreateRenderPass2(_gd.Device, &renderPassCI, null, out _renderPassClear);
             CheckResult(creationResult);
             
             uint fbAttachmentsCount = (uint)description.ColorTargets.Length;

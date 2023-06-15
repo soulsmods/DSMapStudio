@@ -11,6 +11,14 @@ using static Veldrid.VulkanUtil;
 
 namespace Veldrid
 {
+    public enum QueueType : int
+    {
+        Graphics = 0,
+        Compute = 1,
+        Transfer = 2,
+        QueueTypeCount = 3,
+    }
+    
     /// <summary>
     /// Represents an abstract graphics device, capable of creating device resources and executing commands.
     /// </summary>
@@ -23,7 +31,7 @@ namespace Veldrid
         private readonly List<IDisposable> _disposables = new List<IDisposable>();
         private Sampler _aniso4xSampler;
         
-                private VkInstance _instance;
+        private VkInstance _instance;
         private VkPhysicalDevice _physicalDevice;
         private VmaAllocator _vmaAllocator;
         private VkPhysicalDeviceProperties _physicalDeviceProperties;
@@ -33,17 +41,12 @@ namespace Veldrid
         private VkPhysicalDeviceVulkan13Features _physicalDeviceFeatures13;
         private VkPhysicalDeviceMemoryProperties _physicalDeviceMemProperties;
         private VkDevice _device;
-        private uint _graphicsQueueIndex;
-        private uint _transferQueueIndex;
-        private uint _presentQueueIndex;
-        private VkCommandPool _graphicsCommandPool;
-        private readonly object _graphicsCommandPoolLock = new object();
-        private VkCommandPool _transferCommandPool;
-        private readonly object _transferCommandPoolLock = new object();
-        private VkQueue _graphicsQueue;
-        private VkQueue _transferQueue;
-        private readonly object _graphicsQueueLock = new object();
-        private readonly object _transferQueueLock = new object();
+        
+        private uint[] _queueFamilyIndices;
+        private uint[] _queueIndices;
+        private VkQueue[] _queues;
+        
+        private readonly object _submitLock = new object();
         private VkDebugReportCallbackEXT _debugCallbackHandle;
         private delegate uint DebugCallbackFunc(VkDebugReportFlagsEXT a, VkDebugReportObjectTypeEXT b, ulong @object, nuint location, int messageCode, sbyte* pLayerPrefix, sbyte* pMessage, void* pUserDat);
         private DebugCallbackFunc _debugCallbackFunc;
@@ -56,7 +59,6 @@ namespace Veldrid
         private readonly BackendInfoVulkan _vulkanInfo;
 
         private const int SharedCommandPoolCount = 4;
-        private ConcurrentStack<SharedCommandPool> _sharedGraphicsCommandPools = new ConcurrentStack<SharedCommandPool>();
         private VkDescriptorPoolManager _descriptorPoolManager;
         private bool _standardValidationSupported;
         private bool _standardClipYDirection;
@@ -75,17 +77,14 @@ namespace Veldrid
             = new Dictionary<VkCommandBuffer, Texture>();
         private readonly Dictionary<VkCommandBuffer, DeviceBuffer> _submittedStagingBuffers
             = new Dictionary<VkCommandBuffer, DeviceBuffer>();
-        private readonly Dictionary<VkCommandBuffer, SharedCommandPool> _submittedSharedCommandPools
-            = new Dictionary<VkCommandBuffer, SharedCommandPool>();
-        
+
+        // Object pools
+        private readonly ObjectPool<CommandList> _commandListPool = new ObjectPool<CommandList>(20);
+
         internal VkInstance Instance => _instance;
         internal VkDevice Device => _device;
         internal VkPhysicalDevice PhysicalDevice => _physicalDevice;
         internal VkPhysicalDeviceMemoryProperties PhysicalDeviceMemProperties => _physicalDeviceMemProperties;
-        internal VkQueue GraphicsQueue => _graphicsQueue;
-        internal uint GraphicsQueueIndex => _graphicsQueueIndex;
-        internal uint TransferQueueIndex => _transferQueueIndex;
-        internal uint PresentQueueIndex => _presentQueueIndex;
         internal VmaAllocator Allocator => _vmaAllocator;
         internal VkDescriptorPoolManager DescriptorPoolManager => _descriptorPoolManager;
         internal vkCmdDebugMarkerBeginEXT_t MarkerBegin => _markerBegin;
@@ -94,12 +93,46 @@ namespace Veldrid
         internal vkGetBufferMemoryRequirements2_t GetBufferMemoryRequirements2 => _getBufferMemoryRequirements2;
         internal vkGetImageMemoryRequirements2_t GetImageMemoryRequirements2 => _getImageMemoryRequirements2;
 
-        private readonly object _submittedFencesLock = new object();
-        private readonly ConcurrentQueue<Vortice.Vulkan.VkFence> _availableSubmissionFences = new ConcurrentQueue<Vortice.Vulkan.VkFence>();
-        private readonly List<FenceSubmissionInfo> _submittedFences = new List<FenceSubmissionInfo>();
+        private readonly object _submittedFencesLock = new();
+        private readonly ConcurrentQueue<VkFence> _availableSubmissionFences = new();
+        private readonly List<FenceSubmissionInfo> _submittedFences = new();
         private readonly Swapchain _mainSwapchain;
 
-        private readonly List<FixedUtf8String> _surfaceExtensions = new List<FixedUtf8String>();
+        private readonly List<FixedUtf8String> _surfaceExtensions = new();
+
+        internal struct PerFrameData
+        {
+            public List<CommandBufferPool> CommandBufferPools;
+
+            public PerFrameData(GraphicsDevice device, int index)
+            {
+                CommandBufferPools = new List<CommandBufferPool>();
+                for (int i = 0; i < (int)QueueType.QueueTypeCount; i++)
+                {
+                    CommandBufferPools.Add(new CommandBufferPool(device, device._queueFamilyIndices[i]));
+                }
+            }
+
+            public void Reset(GraphicsDevice device)
+            {
+                foreach (var pool in CommandBufferPools)
+                {
+                    pool.Reset();
+                }
+            }
+
+            public void Destroy(GraphicsDevice device)
+            {
+                foreach (var pool in CommandBufferPools)
+                {
+                    pool.Dispose();
+                }
+            }
+        }
+
+        private const int MaxFramesInFlight = 3;
+        private readonly List<PerFrameData> _perFrameData = new();
+        private int _currentFrame = 0;
         
         internal GraphicsDevice(GraphicsDeviceOptions options, SwapchainDescription? scDesc)
             : this(options, scDesc, new VulkanDeviceOptions()) { }
@@ -147,6 +180,11 @@ namespace Veldrid
                 commandListDebugMarkers: _debugMarkerEnabled,
                 bufferRangeBinding: true);
 
+            for (int i = 0; i < MaxFramesInFlight; i++)
+            {
+                _perFrameData.Add(new PerFrameData(this, i));
+            }
+            
             ResourceFactory = new ResourceFactory(this);
 
             if (scDesc != null)
@@ -156,12 +194,6 @@ namespace Veldrid
             }
 
             CreateDescriptorPool();
-            CreateGraphicsCommandPool();
-            CreateTransferCommandPool();
-            for (int i = 0; i < SharedCommandPoolCount; i++)
-            {
-                _sharedGraphicsCommandPools.Push(new SharedCommandPool(this, true));
-            }
 
             _vulkanInfo = new BackendInfoVulkan(this);
 
@@ -244,6 +276,18 @@ namespace Veldrid
         internal uint GetStructuredBufferMinOffsetAlignmentCore()
             => (uint)_physicalDeviceProperties.limits.minStorageBufferOffsetAlignment;
 
+        
+        /// <summary>
+        /// Begins a new frame, freeing any retired per-frame resources.
+        /// </summary>
+        public void NextFrame()
+        {
+            _currentFrame++;
+            if (_currentFrame >= MaxFramesInFlight)
+                _currentFrame = 0;
+            _perFrameData[_currentFrame].Reset(this);
+        }
+        
         /// <summary>
         /// Submits the given <see cref="CommandList"/> for execution by this device.
         /// Commands submitted in this way may not be completed when this method returns.
@@ -266,7 +310,7 @@ namespace Veldrid
         /// execution.</param>
         public void SubmitCommands(CommandList commandList, Fence fence) => SubmitCommandsCore(commandList, fence);
 
-        private protected void SubmitCommandsCore(CommandList cl, Fence fence)
+        private void SubmitCommandsCore(CommandList cl, Fence fence)
         {
             SubmitCommandList(cl, 0, null, 0, null, fence);
         }
@@ -360,7 +404,7 @@ namespace Veldrid
         /// <param name="fence">The <see cref="Fence"/> instance to reset.</param>
         public void ResetFence(Fence fence)
         {
-            Vortice.Vulkan.VkFence vkFence = fence.DeviceFence;
+            VkFence vkFence = fence.DeviceFence;
             vkResetFences(_device, 1, &vkFence);
         }
 
@@ -398,13 +442,13 @@ namespace Veldrid
                 pImageIndices = &imageIndex
             };
 
-            object presentLock = vkSC.PresentQueueIndex == _graphicsQueueIndex ? _graphicsQueueLock : vkSC;
+            object presentLock = _submitLock;
             lock (presentLock)
             {
-                vkQueuePresentKHR(vkSC.PresentQueue, &presentInfo);
+                vkQueuePresentKHR(_queues[(int)QueueType.Graphics], &presentInfo);
                 if (vkSC.AcquireNextImage(_device, VkSemaphore.Null, vkSC.ImageAvailableFence))
                 {
-                    Vortice.Vulkan.VkFence fence = vkSC.ImageAvailableFence;
+                    VkFence fence = vkSC.ImageAvailableFence;
                     vkWaitForFences(_device, 1, &fence, true, ulong.MaxValue);
                     vkResetFences(_device, 1, &fence);
                 }
@@ -447,9 +491,9 @@ namespace Veldrid
 
         private void WaitForIdleCore()
         {
-            lock (_graphicsQueueLock)
+            lock (_submitLock)
             {
-                vkQueueWaitIdle(_graphicsQueue);
+                vkQueueWaitIdle(_queues[(int)QueueType.Graphics]);
             }
 
             CheckSubmittedFences();
@@ -784,18 +828,17 @@ namespace Veldrid
             {
                 Texture stagingTex = GetFreeStagingTexture(width, height, depth, texture.Format);
                 UpdateTexture(stagingTex, source, sizeInBytes, 0, 0, 0, width, height, depth, 0, 0);
-                SharedCommandPool pool = GetFreeCommandPool();
-                VkCommandBuffer cb = pool.BeginNewCommandBuffer();
+                var cb = GetCommandList(QueueType.Graphics);
                 CommandList.CopyTextureCore_VkCommandBuffer(
-                    cb,
+                    cb.CommandBuffer,
                     stagingTex, 0, 0, 0, 0, 0,
                     texture, x, y, z, mipLevel, arrayLayer,
                     width, height, depth, 1);
                 lock (_stagingResourcesLock)
                 {
-                    _submittedStagingTextures.Add(cb, stagingTex);
+                    _submittedStagingTextures.Add(cb.CommandBuffer, stagingTex);
                 }
-                pool.EndAndSubmit(cb);
+                SubmitCommandsCore(cb, null);
             }
         }
 
@@ -968,7 +1011,7 @@ namespace Veldrid
             UpdateBufferCore(buffer, bufferOffsetInBytes, source, sizeInBytes);
         }
 
-        private protected void UpdateBufferCore(DeviceBuffer buffer, uint bufferOffsetInBytes, IntPtr source, uint sizeInBytes)
+        private void UpdateBufferCore(DeviceBuffer buffer, uint bufferOffsetInBytes, IntPtr source, uint sizeInBytes)
         {
             var vkBuffer = buffer;
             DeviceBuffer copySrcVkBuffer = null;
@@ -991,20 +1034,19 @@ namespace Veldrid
 
             if (!isPersistentMapped)
             {
-                SharedCommandPool pool = GetFreeCommandPool();
-                VkCommandBuffer cb = pool.BeginNewCommandBuffer();
+                var cb = GetCommandList(QueueType.Transfer);
 
                 VkBufferCopy copyRegion = new VkBufferCopy
                 {
                     dstOffset = bufferOffsetInBytes,
                     size = sizeInBytes
                 };
-                vkCmdCopyBuffer(cb, copySrcVkBuffer.Buffer, vkBuffer.Buffer, 1, &copyRegion);
+                vkCmdCopyBuffer(cb.CommandBuffer, copySrcVkBuffer.Buffer, vkBuffer.Buffer, 1, &copyRegion);
 
-                pool.EndAndSubmit(cb);
+                SubmitCommandsCore(cb, null);
                 lock (_stagingResourcesLock)
                 {
-                    _submittedStagingBuffers.Add(cb, copySrcVkBuffer);
+                    _submittedStagingBuffers.Add(cb.CommandBuffer, copySrcVkBuffer);
                 }
             }
         }
@@ -1047,7 +1089,7 @@ namespace Veldrid
             return GetPixelFormatSupportCore(format, type, usage, tiling, out properties);
         }
 
-        private protected bool GetPixelFormatSupportCore(
+        private bool GetPixelFormatSupportCore(
             VkFormat format,
             VkImageType type,
             VkImageUsageFlags usage,
@@ -1133,8 +1175,6 @@ namespace Veldrid
             }
 
             _descriptorPoolManager.DestroyAll();
-            vkDestroyCommandPool(_device, _graphicsCommandPool, null);
-            vkDestroyCommandPool(_device, _transferCommandPool, null);
 
             Debug.Assert(_submittedStagingTextures.Count == 0);
             foreach (var tex in _availableStagingTextures)
@@ -1146,11 +1186,6 @@ namespace Veldrid
             foreach (var buffer in _availableStagingBuffers)
             {
                 buffer.Dispose();
-            }
-
-            while (_sharedGraphicsCommandPools.TryPop(out SharedCommandPool sharedPool))
-            {
-                sharedPool.Destroy();
             }
 
             Vma.vmaDestroyAllocator(_vmaAllocator);
@@ -1205,6 +1240,15 @@ namespace Veldrid
                 return _aniso4xSampler;
             }
         }
+
+        internal CommandList GetCommandList(QueueType type)
+        {
+            var buffer = _perFrameData[_currentFrame].CommandBufferPools[(int)type].GetCommandBuffer();
+            
+            var ret = _commandListPool.Get();
+            ret.Initialize(this, buffer, type);
+            return ret;
+        }
         
         private void SubmitCommandList(
             CommandList cl,
@@ -1215,9 +1259,9 @@ namespace Veldrid
             Fence fence)
         {
             VkCommandBuffer vkCB = cl.CommandBuffer;
-
+            cl.End();
             cl.CommandBufferSubmitted(vkCB);
-            SubmitCommandBuffer(cl, vkCB, waitSemaphoreCount, waitSemaphoresPtr, signalSemaphoreCount, signalSemaphoresPtr, fence, cl.IsTransfer);
+            SubmitCommandBuffer(cl, vkCB, waitSemaphoreCount, waitSemaphoresPtr, signalSemaphoreCount, signalSemaphoresPtr, fence);
         }
 
         private void SubmitCommandBuffer(
@@ -1227,8 +1271,7 @@ namespace Veldrid
             VkSemaphore* waitSemaphoresPtr,
             uint signalSemaphoreCount,
             VkSemaphore* signalSemaphoresPtr,
-            Fence fence,
-            bool isTransfer)
+            Fence fence)
         {
             CheckSubmittedFences();
 
@@ -1261,30 +1304,15 @@ namespace Veldrid
                 submissionFence = vkFence;
             }
 
-            if (isTransfer)
+            var queue = _queues[(int)vkCL.SubmissionQueue];
+            lock (_submitLock)
             {
-                lock (_transferQueueLock)
+                VkResult result = vkQueueSubmit2(queue, 1, &si, vkFence);
+                CheckResult(result);
+                if (useExtraFence)
                 {
-                    VkResult result = vkQueueSubmit2(_transferQueue, 1, &si, vkFence);
+                    result = vkQueueSubmit2(queue, 0, null, submissionFence);
                     CheckResult(result);
-                    if (useExtraFence)
-                    {
-                        result = vkQueueSubmit2(_transferQueue, 0, null, submissionFence);
-                        CheckResult(result);
-                    }
-                }
-            }
-            else
-            {
-                lock (_graphicsQueueLock)
-                {
-                    VkResult result = vkQueueSubmit2(_graphicsQueue, 1, &si, vkFence);
-                    CheckResult(result);
-                    if (useExtraFence)
-                    {
-                        result = vkQueueSubmit2(_graphicsQueue, 0, null, submissionFence);
-                        CheckResult(result);
-                    }
                 }
             }
 
@@ -1304,6 +1332,7 @@ namespace Veldrid
                     if (vkGetFenceStatus(_device, fsi.Fence) == VkResult.Success)
                     {
                         CompleteFenceSubmission(fsi);
+                        _commandListPool.Recycle(fsi.CommandList);
                         _submittedFences.RemoveAt(i);
                         i -= 1;
                     }
@@ -1342,21 +1371,6 @@ namespace Veldrid
                         stagingBuffer.Dispose();
                     }
                 }
-                if (_submittedSharedCommandPools.TryGetValue(completedCB, out var sharedPool))
-                {
-                    _submittedSharedCommandPools.Remove(completedCB);
-                    lock (_graphicsCommandPoolLock)
-                    {
-                        if (sharedPool.IsCached)
-                        {
-                            _sharedGraphicsCommandPools.Push(sharedPool);
-                        }
-                        else
-                        {
-                            sharedPool.Destroy();
-                        }
-                    }
-                }
             }
         }
 
@@ -1367,7 +1381,7 @@ namespace Veldrid
 
         private VkFence GetFreeSubmissionFence()
         {
-            if (_availableSubmissionFences.TryDequeue(out Vortice.Vulkan.VkFence availableFence))
+            if (_availableSubmissionFences.TryDequeue(out VkFence availableFence))
             {
                 return availableFence;
             }
@@ -1377,7 +1391,7 @@ namespace Veldrid
                 {
                     sType = VkStructureType.FenceCreateInfo
                 };
-                Vortice.Vulkan.VkFence newFence;
+                VkFence newFence;
                 VkResult result = vkCreateFence(_device, &fenceCI, null, out newFence);
                 CheckResult(result);
                 return newFence;
@@ -1398,10 +1412,6 @@ namespace Veldrid
                             VkDebugReportObjectTypeEXT.CommandBuffer,
                             (ulong)commandList.CommandBuffer.Handle,
                             string.Format("{0}_CommandBuffer", name));
-                        SetDebugMarkerName(
-                            VkDebugReportObjectTypeEXT.CommandPool,
-                            commandList.CommandPool.Handle,
-                            string.Format("{0}_CommandPool", name));
                         break;
                     case Framebuffer framebuffer:
                         var vkFramebuffer = Util.AssertSubtype<Framebuffer, VkFramebuffer>(framebuffer);
@@ -1754,25 +1764,99 @@ namespace Veldrid
 
         private void CreateLogicalDevice(VkSurfaceKHR surface, bool preferStandardClipY, VulkanDeviceOptions options)
         {
-            GetQueueFamilyIndices(surface);
-
-            HashSet<uint> familyIndices = new HashSet<uint> { _graphicsQueueIndex, _presentQueueIndex, _transferQueueIndex };
-            VkDeviceQueueCreateInfo* queueCreateInfos = stackalloc VkDeviceQueueCreateInfo[familyIndices.Count];
-            uint queueCreateInfosCount = (uint)familyIndices.Count;
-
-            int i = 0;
-            foreach (uint index in familyIndices)
+            // Queue selection logic is largely taken from granite
+            int count = 0;
+            vkGetPhysicalDeviceQueueFamilyProperties2(_physicalDevice, &count, null);
+            VkQueueFamilyProperties2* props = stackalloc VkQueueFamilyProperties2[count];
+            for (uint i = 0; i < count; i++)
             {
-                float priority = 1f;
+                props[i].sType = VkStructureType.QueueFamilyProperties2;
+            }
+            vkGetPhysicalDeviceQueueFamilyProperties2(_physicalDevice, &count, props);
+            int queueFamilyCount = count;
+
+            _queueFamilyIndices = new uint[(int)QueueType.QueueTypeCount];
+            _queueIndices = new uint[(int)QueueType.QueueTypeCount];
+            _queues = new VkQueue[(int)QueueType.QueueTypeCount];
+
+            var offsets = stackalloc uint[queueFamilyCount];
+            var priorities = stackalloc float[queueFamilyCount * (int)QueueType.QueueTypeCount];
+            bool FindQueue(VkQueueFlags required, VkQueueFlags ignored, float priority, ref uint family, ref uint index)
+            {
+                for (uint i = 0; i < queueFamilyCount; i++)
+                {
+                    // Skip queues with undesired flags
+                    if ((props[i].queueFamilyProperties.queueFlags & ignored) != 0)
+                        continue;
+                    
+                    // Check for present on graphics queues
+                    if ((required & VkQueueFlags.Graphics) != 0 && surface != VkSurfaceKHR.Null)
+                    {
+                        var success = vkGetPhysicalDeviceSurfaceSupportKHR(_physicalDevice, i, surface,
+                            out VkBool32 presentSupported);
+                        if (success != VkResult.Success || !presentSupported)
+                            continue;
+                    }
+
+                    if (props[i].queueFamilyProperties.queueCount > 0 &&
+                        (props[i].queueFamilyProperties.queueFlags & required) == required)
+                    {
+                        family = i;
+                        props[i].queueFamilyProperties.queueCount--;
+                        index = offsets[i]++;
+                        priorities[i * (int)QueueType.QueueTypeCount + index] = priority;
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            // Find graphics queue
+            if (!FindQueue(VkQueueFlags.Graphics | VkQueueFlags.Compute,
+                    VkQueueFlags.None, 0.5f,
+                    ref _queueFamilyIndices[(int)QueueType.Graphics],
+                    ref _queueIndices[(int)QueueType.Graphics]))
+            {
+                throw new VeldridException("Could not find graphics queue with compute and present");
+            }
+            
+            // Find async compute queue, falling back to a secondary or primary graphics queue
+            if (!FindQueue(VkQueueFlags.Graphics | VkQueueFlags.Compute, VkQueueFlags.None, 1.0f,
+                    ref _queueFamilyIndices[(int)QueueType.Compute], ref _queueIndices[(int)QueueType.Compute]) &&
+                !FindQueue(VkQueueFlags.Compute, VkQueueFlags.None, 1.0f,
+                    ref _queueFamilyIndices[(int)QueueType.Compute], ref _queueIndices[(int)QueueType.Compute]))
+            {
+                _queueFamilyIndices[(int)QueueType.Compute] = _queueFamilyIndices[(int)QueueType.Graphics];
+                _queueIndices[(int)QueueType.Compute] = _queueIndices[(int)QueueType.Graphics];
+            }
+            
+            // Try to find a dedicated transfer queue falling back to compute queue
+            if (!FindQueue(VkQueueFlags.Transfer, VkQueueFlags.Graphics | VkQueueFlags.Compute, 0.5f,
+                    ref _queueFamilyIndices[(int)QueueType.Transfer], ref _queueIndices[(int)QueueType.Transfer]) &&
+                !FindQueue(VkQueueFlags.Compute, VkQueueFlags.Graphics, 0.5f,
+                    ref _queueFamilyIndices[(int)QueueType.Transfer], ref _queueIndices[(int)QueueType.Transfer]))
+            {
+                _queueFamilyIndices[(int)QueueType.Transfer] = _queueFamilyIndices[(int)QueueType.Compute];
+                _queueIndices[(int)QueueType.Transfer] = _queueIndices[(int)QueueType.Compute];
+            }
+
+            VkDeviceQueueCreateInfo* queueCreateInfos = stackalloc VkDeviceQueueCreateInfo[queueFamilyCount];
+            
+            uint queueCreateInfosCount = 0;
+            for (uint i = 0; i < queueFamilyCount; i++)
+            {
+                if (offsets[i] == 0)
+                    continue;
+                
                 var queueCreateInfo = new VkDeviceQueueCreateInfo
                 {
                     sType = VkStructureType.DeviceQueueCreateInfo,
-                    queueFamilyIndex = (index == _transferQueueIndex) ? _transferQueueIndex : _graphicsQueueIndex,
-                    queueCount = 1,
-                    pQueuePriorities = &priority
+                    queueFamilyIndex = i,
+                    queueCount = offsets[i],
+                    pQueuePriorities = &priorities[i * (int)QueueType.QueueTypeCount]
                 };
-                queueCreateInfos[i] = queueCreateInfo;
-                i += 1;
+                queueCreateInfos[queueCreateInfosCount] = queueCreateInfo;
+                queueCreateInfosCount++;
             }
 
             var deviceFeatures = new VkPhysicalDeviceFeatures
@@ -1906,8 +1990,10 @@ namespace Veldrid
             CheckResult(result);
             vkLoadDevice(_device);
 
-            vkGetDeviceQueue(_device, _graphicsQueueIndex, 0, out _graphicsQueue);
-            vkGetDeviceQueue(_device, _transferQueueIndex, 0, out _transferQueue);
+            for (uint i = 0; i < (int)QueueType.QueueTypeCount; i++)
+            {
+                vkGetDeviceQueue(_device, _queueFamilyIndices[i], _queueIndices[i], out _queues[i]);
+            }
 
             if (_debugMarkerEnabled)
             {
@@ -1964,80 +2050,9 @@ namespace Veldrid
             else { return default; }
         }
 
-        private void GetQueueFamilyIndices(VkSurfaceKHR surface)
-        {
-            int queueFamilyCount = 0;
-            vkGetPhysicalDeviceQueueFamilyProperties(_physicalDevice, &queueFamilyCount, null);
-            VkQueueFamilyProperties[] qfp = new VkQueueFamilyProperties[queueFamilyCount];
-            fixed (VkQueueFamilyProperties *p = &qfp[0])
-                vkGetPhysicalDeviceQueueFamilyProperties(_physicalDevice, &queueFamilyCount, p);
-
-            bool foundGraphics = false;
-            bool foundTransfer = false;
-            bool foundPresent = surface == VkSurfaceKHR.Null;
-
-            for (uint i = 0; i < qfp.Length; i++)
-            {
-                if ((qfp[i].queueFlags & VkQueueFlags.Graphics) != 0)
-                {
-                    _graphicsQueueIndex = i;
-                }
-
-                if ((qfp[i].queueFlags & VkQueueFlags.Transfer) != 0)
-                {
-                    _transferQueueIndex = i;
-                    foundTransfer = true;
-                }
-
-                if (!foundPresent)
-                {
-                    vkGetPhysicalDeviceSurfaceSupportKHR(_physicalDevice, i, surface, out VkBool32 presentSupported);
-                    if (presentSupported)
-                    {
-                        _presentQueueIndex = i;
-                        foundPresent = true;
-                    }
-                }
-
-                if (foundGraphics && foundPresent && foundTransfer)
-                {
-                    return;
-                }
-            }
-
-            if (!foundTransfer)
-            {
-                _transferQueueIndex = _graphicsQueueIndex;
-            }
-        }
-
         private void CreateDescriptorPool()
         {
             _descriptorPoolManager = new VkDescriptorPoolManager(this);
-        }
-
-        private void CreateGraphicsCommandPool()
-        {
-            var commandPoolCI = new VkCommandPoolCreateInfo
-            {
-                sType = VkStructureType.CommandPoolCreateInfo,
-                flags = VkCommandPoolCreateFlags.ResetCommandBuffer,
-                queueFamilyIndex = _graphicsQueueIndex
-            };
-            var result = vkCreateCommandPool(_device, &commandPoolCI, null, out _graphicsCommandPool);
-            CheckResult(result);
-        }
-
-        private void CreateTransferCommandPool()
-        {
-            var commandPoolCI = new VkCommandPoolCreateInfo
-            {
-                sType = VkStructureType.CommandPoolCreateInfo,
-                flags = VkCommandPoolCreateFlags.ResetCommandBuffer,
-                queueFamilyIndex = _transferQueueIndex
-            };
-            var result = vkCreateCommandPool(_device, &commandPoolCI, null, out _transferCommandPool);
-            CheckResult(result);
         }
 
         internal VkFilter GetFormatFilter(VkFormat format)
@@ -2052,16 +2067,6 @@ namespace Veldrid
             }
 
             return filter;
-        }
-        
-        private SharedCommandPool GetFreeCommandPool()
-        {
-            if (!_sharedGraphicsCommandPools.TryPop(out SharedCommandPool sharedPool))
-            {
-                sharedPool = new SharedCommandPool(this, false);
-            }
-
-            return sharedPool;
         }
 
         private IntPtr MapBuffer(DeviceBuffer buffer, uint numBytes)
@@ -2228,12 +2233,11 @@ namespace Veldrid
                  texture.MipLevels,
                  0,
                  texture.ArrayLayers);
-            SharedCommandPool pool = GetFreeCommandPool();
-            VkCommandBuffer cb = pool.BeginNewCommandBuffer();
-            texture.TransitionImageLayout(cb, 0, texture.MipLevels, 0, texture.ArrayLayers, VkImageLayout.TransferDstOptimal);
-            vkCmdClearColorImage(cb, texture.OptimalDeviceImage, VkImageLayout.TransferDstOptimal, &color, 1, &range);
-            texture.TransitionImageLayout(cb, 0, texture.MipLevels, 0, texture.ArrayLayers, VkImageLayout.ColorAttachmentOptimal);
-            pool.EndAndSubmit(cb);
+            var cb = GetCommandList(QueueType.Graphics);
+            texture.TransitionImageLayout(cb.CommandBuffer, 0, texture.MipLevels, 0, texture.ArrayLayers, VkImageLayout.TransferDstOptimal);
+            vkCmdClearColorImage(cb.CommandBuffer, texture.OptimalDeviceImage, VkImageLayout.TransferDstOptimal, &color, 1, &range);
+            texture.TransitionImageLayout(cb.CommandBuffer, 0, texture.MipLevels, 0, texture.ArrayLayers, VkImageLayout.ColorAttachmentOptimal);
+            SubmitCommandsCore(cb, null);
         }
 
         internal void ClearDepthTexture(Texture texture, VkClearDepthStencilValue clearValue)
@@ -2247,90 +2251,24 @@ namespace Veldrid
                 texture.MipLevels,
                 0,
                 texture.ArrayLayers);
-            SharedCommandPool pool = GetFreeCommandPool();
-            VkCommandBuffer cb = pool.BeginNewCommandBuffer();
-            texture.TransitionImageLayout(cb, 0, texture.MipLevels, 0, texture.ArrayLayers, VkImageLayout.TransferDstOptimal);
+            var cb = GetCommandList(QueueType.Graphics);
+            texture.TransitionImageLayout(cb.CommandBuffer, 0, texture.MipLevels, 0, texture.ArrayLayers, VkImageLayout.TransferDstOptimal);
             vkCmdClearDepthStencilImage(
-                cb,
+                cb.CommandBuffer,
                 texture.OptimalDeviceImage,
                 VkImageLayout.TransferDstOptimal,
                 &clearValue,
                 1,
                 &range);
-            texture.TransitionImageLayout(cb, 0, texture.MipLevels, 0, texture.ArrayLayers, VkImageLayout.DepthStencilAttachmentOptimal);
-            pool.EndAndSubmit(cb);
+            texture.TransitionImageLayout(cb.CommandBuffer, 0, texture.MipLevels, 0, texture.ArrayLayers, VkImageLayout.DepthStencilAttachmentOptimal);
+            SubmitCommandsCore(cb, null);
         }
 
         internal void TransitionImageLayout(Texture texture, VkImageLayout layout)
         {
-            SharedCommandPool pool = GetFreeCommandPool();
-            VkCommandBuffer cb = pool.BeginNewCommandBuffer();
-            texture.TransitionImageLayout(cb, 0, texture.MipLevels, 0, texture.ArrayLayers, layout);
-            pool.EndAndSubmit(cb);
-        }
-
-        private class SharedCommandPool
-        {
-            private readonly GraphicsDevice _gd;
-            private readonly VkCommandPool _pool;
-            private readonly VkCommandBuffer _cb;
-
-            public bool IsCached { get; }
-
-            public SharedCommandPool(GraphicsDevice gd, bool isCached)
-            {
-                _gd = gd;
-                IsCached = isCached;
-
-                var commandPoolCI = new VkCommandPoolCreateInfo
-                {
-                    sType = VkStructureType.CommandPoolCreateInfo,
-                    flags = VkCommandPoolCreateFlags.Transient | VkCommandPoolCreateFlags.ResetCommandBuffer,
-                    queueFamilyIndex = _gd.GraphicsQueueIndex
-                };
-                VkResult result = vkCreateCommandPool(_gd.Device, &commandPoolCI, null, out _pool);
-                CheckResult(result);
-
-                var allocateInfo = new VkCommandBufferAllocateInfo
-                {
-                    sType = VkStructureType.CommandBufferAllocateInfo,
-                    commandBufferCount = 1,
-                    level = VkCommandBufferLevel.Primary,
-                    commandPool = _pool
-                };
-                fixed (VkCommandBuffer *cbp = &_cb)
-                    result = vkAllocateCommandBuffers(_gd.Device, &allocateInfo, cbp);
-                CheckResult(result);
-            }
-
-            public VkCommandBuffer BeginNewCommandBuffer()
-            {
-                var beginInfo = new VkCommandBufferBeginInfo
-                {
-                    sType = VkStructureType.CommandBufferBeginInfo,
-                    flags = VkCommandBufferUsageFlags.OneTimeSubmit
-                };
-                VkResult result = vkBeginCommandBuffer(_cb, &beginInfo);
-                CheckResult(result);
-
-                return _cb;
-            }
-
-            public void EndAndSubmit(VkCommandBuffer cb)
-            {
-                VkResult result = vkEndCommandBuffer(cb);
-                CheckResult(result);
-                _gd.SubmitCommandBuffer(null, cb, 0, null, 0, null, null, false);
-                lock (_gd._stagingResourcesLock)
-                {
-                    _gd._submittedSharedCommandPools.Add(cb, this);
-                }
-            }
-
-            internal void Destroy()
-            {
-                vkDestroyCommandPool(_gd.Device, _pool, null);
-            }
+            var cb = GetCommandList(QueueType.Graphics);
+            texture.TransitionImageLayout(cb.CommandBuffer, 0, texture.MipLevels, 0, texture.ArrayLayers, layout);
+            SubmitCommandsCore(cb, null);
         }
 
         private struct FenceSubmissionInfo

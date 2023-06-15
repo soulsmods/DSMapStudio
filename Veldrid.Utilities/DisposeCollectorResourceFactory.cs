@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Vortice.Vulkan;
 
 namespace Veldrid.Utilities
@@ -19,10 +20,9 @@ namespace Veldrid.Utilities
             DisposeCollector = disposeCollector;
         }
         
-        public override CommandList CreateCommandList(ref CommandListDescription description)
+        public override CommandList CreateCommandList(QueueType type)
         {
-            CommandList cl = Factory.CreateCommandList(ref description);
-            DisposeCollector.Add(cl);
+            CommandList cl = Factory.CreateCommandList(type);
             return cl;
         }
 
