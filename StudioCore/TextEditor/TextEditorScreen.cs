@@ -204,6 +204,20 @@ namespace StudioCore.TextEditor
                             }
                         }
                     }
+
+                    // Extra Text
+                    foreach (var entry in FMGBank.GetFmgEntriesByCategoryAndTextType(_activeFmgInfo.EntryCategory, FMGBank.FmgEntryTextType.ExtraText, false))
+                    {
+                        if (entry.Text != null)
+                        {
+                            if (entry.Text.Contains(_searchFilter, StringComparison.CurrentCultureIgnoreCase))
+                            {
+                                var search = _entryLabelCache.Find(e => e.ID == entry.ID && !matches.Contains(e));
+                                if (search != null)
+                                    matches.Add(search);
+                            }
+                        }
+                    }
                    
                     _EntryLabelCacheFiltered = matches;
                     _searchFilterCached = _searchFilter;
@@ -415,11 +429,15 @@ namespace StudioCore.TextEditor
                 }
                 if (_activeEntryGroup.Summary != null)
                 {
-                    _propEditor.PropEditorFMG(_activeEntryGroup.Summary, "Summary", 80.0f);
+                    _propEditor.PropEditorFMG(_activeEntryGroup.Summary, "Summary", 50.0f);
                 }
                 if (_activeEntryGroup.Description != null)
                 {
                     _propEditor.PropEditorFMG(_activeEntryGroup.Description, "Description", 160.0f);
+                }
+                if (_activeEntryGroup.ExtraText != null)
+                {
+                    _propEditor.PropEditorFMG(_activeEntryGroup.ExtraText, "Extra", 40.0f);
                 }
 
                 _propEditor.PropEditorFMGEnd();
