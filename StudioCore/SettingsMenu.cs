@@ -190,11 +190,11 @@ namespace StudioCore
                     float arbitrary_rotation_y = CFG.Current.Map_ArbitraryRotation_Y_Shift;
                     float camera_radius_offset = CFG.Current.Map_MoveSelectionToCamera_Radius;
 
-                    if (ImGui.InputFloat("Rotation increment degrees: X", ref arbitrary_rotation_x))
+                    if (ImGui.InputFloat("Rotation increment degrees: Roll", ref arbitrary_rotation_x))
                     {
                         CFG.Current.Map_ArbitraryRotation_X_Shift = Math.Clamp(arbitrary_rotation_x, -180.0f, 180.0f);
                     }
-                    if (ImGui.InputFloat("Rotation increment degrees: Y", ref arbitrary_rotation_y))
+                    if (ImGui.InputFloat("Rotation increment degrees: Yaw", ref arbitrary_rotation_y))
                     {
                         CFG.Current.Map_ArbitraryRotation_Y_Shift = Math.Clamp(arbitrary_rotation_y, -180.0f, 180.0f); ;
                     }
