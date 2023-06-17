@@ -61,11 +61,11 @@
     </Enum>
   </Enums>
   <Field>
-    <midstSfxId AltName="Midst SFX ID" Wiki="In effect SfxID (-1: invalid)" />
+    <midstSfxId AltName="Midst SFX ID" Wiki="In effect SfxID (-1: invalid)" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
     <midstSeId AltName="Midst SE ID" Wiki="In effect SeID (-1: invalid)" />
-    <initSfxId AltName="Start SFX ID" Wiki="SfxID at activation (-1: invalid)" />
+    <initSfxId AltName="Start SFX ID" Wiki="SfxID at activation (-1: invalid)" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
     <initSeId AltName="Start SE ID" Wiki="When activated SeID (-1: invalid)" />
-    <finishSfxId AltName="End SFX ID" Wiki="SfxID at the time of cancellation (-1: invalid)" />
+    <finishSfxId AltName="End SFX ID" Wiki="SfxID at the time of cancellation (-1: invalid)" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
     <finishSeId AltName="End SE ID" Wiki="SeID at the time of release (-1: invalid)" />
     <camouflageBeginDist AltName="Camouflage - Start Distance" Wiki="It is the camouflage start distance" />
     <camouflageEndDist AltName="Camouflage - End Distance" Wiki="It is the camouflage end distance" />

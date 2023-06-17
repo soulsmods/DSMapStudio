@@ -1,4 +1,5 @@
 ﻿using System;
+using Vortice.Vulkan;
 
 namespace Veldrid
 {
@@ -10,19 +11,19 @@ namespace Veldrid
         /// <summary>
         /// The operation performed on samples that fail the stencil test.
         /// </summary>
-        public StencilOperation Fail;
+        public VkStencilOp Fail;
         /// <summary>
         /// The operation performed on samples that pass the stencil test.
         /// </summary>
-        public StencilOperation Pass;
+        public VkStencilOp Pass;
         /// <summary>
         /// The operation performed on samples that pass the stencil test but fail the depth test.
         /// </summary>
-        public StencilOperation DepthFail;
+        public VkStencilOp DepthFail;
         /// <summary>
         /// The comparison operator used in the stencil test.
         /// </summary>
-        public ComparisonKind Comparison;
+        public VkCompareOp Comparison;
 
         /// <summary>
         /// Constructs a new StencilBehaviorDescription.
@@ -32,10 +33,10 @@ namespace Veldrid
         /// <param name="depthFail">The operation performed on samples that pass the stencil test but fail the depth test.</param>
         /// <param name="comparison">The comparison operator used in the stencil test.</param>
         public StencilBehaviorDescription(
-            StencilOperation fail,
-            StencilOperation pass,
-            StencilOperation depthFail,
-            ComparisonKind comparison)
+            VkStencilOp fail,
+            VkStencilOp pass,
+            VkStencilOp depthFail,
+            VkCompareOp comparison)
         {
             Fail = fail;
             Pass = pass;

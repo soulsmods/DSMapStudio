@@ -1,4 +1,5 @@
 ﻿using System;
+using Vortice.Vulkan;
 
 namespace Veldrid
 {
@@ -25,7 +26,7 @@ namespace Veldrid
         /// If non-null, this must be a valid depth Texture format.
         /// If null, then no depth target will be created.
         /// </summary>
-        public PixelFormat? DepthFormat;
+        public VkFormat? DepthFormat;
         /// <summary>
         /// Indicates whether presentation of the Swapchain will be synchronized to the window system's vertical refresh rate.
         /// </summary>
@@ -51,7 +52,7 @@ namespace Veldrid
             SwapchainSource source,
             uint width,
             uint height,
-            PixelFormat? depthFormat,
+            VkFormat? depthFormat,
             bool syncToVerticalBlank)
         {
             Source = source;
@@ -79,7 +80,7 @@ namespace Veldrid
             SwapchainSource source,
             uint width,
             uint height,
-            PixelFormat? depthFormat,
+            VkFormat? depthFormat,
             bool syncToVerticalBlank,
             bool colorSrgb)
         {

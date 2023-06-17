@@ -10,6 +10,7 @@ using SoulsFormats;
 using System.IO;
 using System.Threading.Tasks.Dataflow;
 using HKX2;
+using Vortice.Vulkan;
 
 namespace StudioCore.Resource
 {
@@ -34,7 +35,7 @@ namespace StudioCore.Resource
 
         public BoundingBox Bounds { get; set; }
 
-        public FrontFace FrontFace { get; private set; }
+        public VkFrontFace FrontFace { get; private set; }
 
         unsafe private void ProcessMesh(HKX.HKPStorageExtendedMeshShapeMeshSubpartStorage mesh, CollisionSubmesh dest)
         {
@@ -43,20 +44,25 @@ namespace StudioCore.Resource
             if(mesh.Indices8?.Capacity > 0)
             {
                 indices = mesh.Indices8.GetArrayData().Elements;
-            } else if(mesh.Indices16?.Capacity > 0)
+            }
+            else if(mesh.Indices16?.Capacity > 0)
             {
                 indices = mesh.Indices16.GetArrayData().Elements;
-            } else //Indices32 have to be there if those aren't
+            }
+            else //Indices32 have to be there if those aren't
             {
                 indices = mesh.Indices32.GetArrayData().Elements;
             }
-            var MeshIndices = new int[(indices.Count / 4) * 3];
-            var MeshVertices = new CollisionLayout[(indices.Count / 4) * 3];
+            dest.VertexCount = (indices.Count / 4) * 3;
+            dest.IndexCount = (indices.Count / 4) * 3;
+            uint buffersize = (uint)dest.IndexCount * 4u;
+            uint vbuffersize = (uint)dest.VertexCount * CollisionLayout.SizeInBytes;
+            dest.GeomBuffer = Scene.Renderer.GeometryBufferAllocator.Allocate(vbuffersize, buffersize, (int)CollisionLayout.SizeInBytes, 4);
+            var MeshIndices = new Span<int>(dest.GeomBuffer.MapIBuffer().ToPointer(), dest.IndexCount);
+            var MeshVertices = new Span<CollisionLayout>(dest.GeomBuffer.MapVBuffer().ToPointer(), dest.VertexCount);
             dest.PickingVertices = new Vector3[(indices.Count / 4) * 3];
             dest.PickingIndices = new int[(indices.Count / 4) * 3];
-
-            var factory = Scene.Renderer.Factory;
-
+            
             for (int id = 0; id < indices.Count; id += 4)
             {
                 int i = (id / 4) * 3;
@@ -111,30 +117,14 @@ namespace StudioCore.Resource
                 dest.PickingIndices[i + 1] = i + 1;
                 dest.PickingIndices[i + 2] = i + 2;
             }
-
-            dest.VertexCount = MeshVertices.Length;
-            dest.IndexCount = MeshIndices.Length;
-
-            uint buffersize = (uint)dest.IndexCount * 4u;
+            
+            dest.GeomBuffer.UnmapIBuffer();
+            dest.GeomBuffer.UnmapVBuffer();
 
             fixed (void* ptr = dest.PickingVertices)
             {
                 dest.Bounds = BoundingBox.CreateFromPoints((Vector3*)ptr, dest.PickingVertices.Count(), 12, Quaternion.Identity, Vector3.Zero, Vector3.One);
             }
-
-            uint vbuffersize = (uint)MeshVertices.Length * CollisionLayout.SizeInBytes;
-
-            dest.GeomBuffer = Scene.Renderer.GeometryBufferAllocator.Allocate(vbuffersize, buffersize, (int)CollisionLayout.SizeInBytes, 4, (h) =>
-            {
-                h.FillIBuffer(MeshIndices, () =>
-                {
-                    MeshIndices = null;
-                });
-                h.FillVBuffer(MeshVertices, () =>
-                {
-                    MeshVertices = null;
-                });
-            });
         }
 
         internal static Vector3 TransformVert(System.Numerics.Vector3 vert, HKX.HKNPBodyCInfo body)
@@ -261,9 +251,13 @@ namespace StudioCore.Resource
             dest.PickingIndices = indices.ToArray();
             dest.PickingVertices = verts.ToArray();
 
-            var MeshIndices = new int[indices.Count];
-            var MeshVertices = new CollisionLayout[indices.Count];
-            var factory = Scene.Renderer.Factory;
+            dest.VertexCount = indices.Count;
+            dest.IndexCount = indices.Count;
+            uint buffersize = (uint)dest.IndexCount * 4u;
+            uint vbuffersize = (uint)dest.VertexCount * CollisionLayout.SizeInBytes;
+            dest.GeomBuffer = Scene.Renderer.GeometryBufferAllocator.Allocate(vbuffersize, buffersize, (int)CollisionLayout.SizeInBytes, 4);
+            var MeshIndices = new Span<int>(dest.GeomBuffer.MapIBuffer().ToPointer(), dest.IndexCount);
+            var MeshVertices = new Span<CollisionLayout>(dest.GeomBuffer.MapVBuffer().ToPointer(), dest.VertexCount);
 
             for (int i = 0; i < indices.Count; i += 3)
             {
@@ -312,30 +306,14 @@ namespace StudioCore.Resource
                 MeshIndices[i + 1] = i + 1;
                 MeshIndices[i + 2] = i + 2;
             }
-
-            dest.VertexCount = MeshVertices.Length;
-            dest.IndexCount = MeshIndices.Length;
-
-            uint buffersize = (uint)dest.IndexCount * 4u;
+            
+            dest.GeomBuffer.UnmapVBuffer();
+            dest.GeomBuffer.UnmapIBuffer();
 
             fixed (void* ptr = dest.PickingVertices)
             {
                 dest.Bounds = BoundingBox.CreateFromPoints((Vector3*)ptr, dest.PickingVertices.Count(), 12, Quaternion.Identity, Vector3.Zero, Vector3.One);
             }
-
-            uint vbuffersize = (uint)MeshVertices.Length * CollisionLayout.SizeInBytes;
-
-            dest.GeomBuffer = Scene.Renderer.GeometryBufferAllocator.Allocate(vbuffersize, buffersize, (int)CollisionLayout.SizeInBytes, 4, (h) =>
-            {
-                h.FillIBuffer(MeshIndices, () =>
-                {
-                    MeshIndices = null;
-                });
-                h.FillVBuffer(MeshVertices, () =>
-                {
-                    MeshVertices = null;
-                });
-            });
         }
 
         unsafe private void ProcessMesh(HKX2.fsnpCustomParamCompressedMeshShape mesh, HKX2.hknpBodyCinfo bodyinfo, CollisionSubmesh dest)
@@ -441,9 +419,13 @@ namespace StudioCore.Resource
             dest.PickingIndices = indices.ToArray();
             dest.PickingVertices = verts.ToArray();
 
-            var MeshIndices = new int[indices.Count];
-            var MeshVertices = new CollisionLayout[indices.Count];
-            var factory = Scene.Renderer.Factory;
+            dest.VertexCount = indices.Count;
+            dest.IndexCount = indices.Count;
+            uint buffersize = (uint)dest.IndexCount * 4u;
+            uint vbuffersize = (uint)dest.VertexCount * CollisionLayout.SizeInBytes;
+            dest.GeomBuffer = Scene.Renderer.GeometryBufferAllocator.Allocate(vbuffersize, buffersize, (int)CollisionLayout.SizeInBytes, 4);
+            var MeshIndices = new Span<int>(dest.GeomBuffer.MapIBuffer().ToPointer(), dest.IndexCount);
+            var MeshVertices = new Span<CollisionLayout>(dest.GeomBuffer.MapVBuffer().ToPointer(), dest.VertexCount);
 
             for (int i = 0; i < indices.Count; i += 3)
             {
@@ -492,30 +474,14 @@ namespace StudioCore.Resource
                 MeshIndices[i + 1] = i + 1;
                 MeshIndices[i + 2] = i + 2;
             }
-
-            dest.VertexCount = MeshVertices.Length;
-            dest.IndexCount = MeshIndices.Length;
-
-            uint buffersize = (uint)dest.IndexCount * 4u;
-
+            
+            dest.GeomBuffer.UnmapIBuffer();
+            dest.GeomBuffer.UnmapVBuffer();
+            
             fixed (void* ptr = dest.PickingVertices)
             {
                 dest.Bounds = BoundingBox.CreateFromPoints((Vector3*)ptr, dest.PickingVertices.Count(), 12, Quaternion.Identity, Vector3.Zero, Vector3.One);
             }
-
-            uint vbuffersize = (uint)MeshVertices.Length * CollisionLayout.SizeInBytes;
-
-            dest.GeomBuffer = Scene.Renderer.GeometryBufferAllocator.Allocate(vbuffersize, buffersize, (int)CollisionLayout.SizeInBytes, 4, (h) =>
-            {
-                h.FillIBuffer(MeshIndices, () =>
-                {
-                    MeshIndices = null;
-                });
-                h.FillVBuffer(MeshVertices, () =>
-                {
-                    MeshVertices = null;
-                });
-            });
         }
 
         private bool LoadInternal(AccessLevel al)
@@ -666,11 +632,11 @@ namespace StudioCore.Resource
 
             if (type == GameType.DarkSoulsIISOTFS || type == GameType.DarkSoulsIII || type == GameType.Bloodborne)
             {
-                FrontFace = FrontFace.Clockwise;
+                FrontFace = VkFrontFace.Clockwise;
             }
             else
             {
-                FrontFace = FrontFace.CounterClockwise;
+                FrontFace = VkFrontFace.CounterClockwise;
             }
 
             if (type == GameType.DarkSoulsIII)
@@ -701,11 +667,11 @@ namespace StudioCore.Resource
 
             if (type == GameType.DarkSoulsIISOTFS || type == GameType.DarkSoulsIII || type == GameType.Bloodborne)
             {
-                FrontFace = FrontFace.Clockwise;
+                FrontFace = VkFrontFace.Clockwise;
             }
             else
             {
-                FrontFace = FrontFace.CounterClockwise;
+                FrontFace = VkFrontFace.CounterClockwise;
             }
 
             if (type == GameType.DarkSoulsIII)

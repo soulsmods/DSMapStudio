@@ -4,6 +4,7 @@ using System.Text;
 using System.Numerics;
 using Veldrid;
 using Veldrid.Utilities;
+using Vortice.Vulkan;
 
 namespace StudioCore.Scene
 {
@@ -27,15 +28,15 @@ namespace StudioCore.Scene
                 new BlendStateDescription(
                     RgbaFloat.Black,
                     BlendAttachmentDescription.OverrideBlend),
-                new DepthStencilStateDescription(true, true, ComparisonKind.Always),
-                new RasterizerStateDescription(FaceCullMode.Back, PolygonFillMode.Solid, FrontFace.Clockwise, true, false),
-                PrimitiveTopology.TriangleList,
+                new DepthStencilStateDescription(true, true, VkCompareOp.Always),
+                new RasterizerStateDescription(VkCullModeFlags.Back, VkPolygonMode.Fill, VkFrontFace.Clockwise, true, false),
+                VkPrimitiveTopology.TriangleList,
                 new ShaderSetDescription(
                     new[]
                     {
                         new VertexLayoutDescription(
-                            new VertexElementDescription("Position", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Float2),
-                            new VertexElementDescription("TexCoords", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Float2))
+                            new VertexElementDescription("Position", VkFormat.R32G32Sfloat),
+                            new VertexElementDescription("TexCoords", VkFormat.R32G32Sfloat))
                     },
                     new[] { vs, fs },
                     ShaderHelper.GetSpecializations(gd)),
@@ -45,12 +46,26 @@ namespace StudioCore.Scene
 
             float[] verts = Utils.GetFullScreenQuadVerts(gd);
 
-            _vb = factory.CreateBuffer(new BufferDescription((uint)verts.Length * sizeof(float), BufferUsage.VertexBuffer));
+            _vb = factory.CreateBuffer(
+                new BufferDescription(
+                    (uint)verts.Length * sizeof(float),
+                    VkBufferUsageFlags.VertexBuffer,
+                    VmaMemoryUsage.AutoPreferDevice,
+                    0));
             cl.UpdateBuffer(_vb, 0, verts);
 
             _ib = factory.CreateBuffer(
-                new BufferDescription((uint)s_quadIndices.Length * sizeof(ushort), BufferUsage.IndexBuffer));
+                new BufferDescription(
+                    (uint)s_quadIndices.Length * sizeof(ushort),
+                    VkBufferUsageFlags.IndexBuffer,
+                    VmaMemoryUsage.AutoPreferDevice,
+                    0));
             cl.UpdateBuffer(_ib, 0, s_quadIndices);
+            
+            cl.Barrier(VkPipelineStageFlags2.Transfer,
+                VkAccessFlags2.TransferWrite,
+                VkPipelineStageFlags2.VertexInput | VkPipelineStageFlags2.IndexInput,
+                VkAccessFlags2.VertexAttributeRead);
         }
 
         public void DestroyDeviceObjects()
@@ -62,7 +77,7 @@ namespace StudioCore.Scene
         {
             cl.SetPipeline(_pipeline);
             cl.SetVertexBuffer(0, _vb);
-            cl.SetIndexBuffer(_ib, IndexFormat.UInt16);
+            cl.SetIndexBuffer(_ib, VkIndexType.Uint16);
             cl.DrawIndexed(6, 1, 0, 0, 0);
         }
 

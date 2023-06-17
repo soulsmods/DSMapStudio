@@ -33,7 +33,7 @@ namespace StudioCore.Scene
 
         public void OnGui()
         {
-            float scale = ImGuiRenderer.GetUIScale();
+            float scale = MapStudioNew.GetUIScale();
 
             ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 7.0f * scale);
             ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 1.0f);

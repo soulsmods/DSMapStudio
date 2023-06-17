@@ -459,7 +459,7 @@
     <madnessGuardResist_MaxCorrect AltName="Max Correction: Madness Guard Resist" Wiki="Maximum value of cut rate correction value for attack power against madness (set as special effect parameter)" />
     <saWeaponDamage AltName="Poise Damage" Wiki="Super Armor Basic Attack Power" />
     <equipModelId AltName="Equip Model ID" Wiki="Equipment model number." />
-    <iconId AltName="Icon ID" Wiki="Menu icon ID." />
+    <iconId AltName="Icon ID" Wiki="Menu icon ID." ExtRefs="hi,menu\hi\00_solo.tpfbhd,00_Solo\MENU_Knowledge_{0:D5}.tpf.dcx,MENU_Knowledge_{0:D5}.dds;low,menu\low\00_solo.tpfbhd,00_Solo\MENU_Knowledge_{0:D5}.tpf.dcx,MENU_Knowledge_{0:D5}.dds" />
     <durability AltName="Durability" Wiki="Initial durability." />
     <durabilityMax AltName="Max Durability" Wiki="New durability." />
     <attackThrowEscape AltName="Throw Escape Damage" Wiki="Basic value of throw-through attack power" />
@@ -547,28 +547,28 @@
     <wepCollidableType1 AltName="Weapon Collidable Type [1]" Wiki="Weapon 1 collaborative setting" Enum="WEP_COLLIDABLE_TYPE" />
     <postureControlId_Right AltName="Posture Control ID - Weapon Right" Wiki="Attitude control ID (right hand)" Refs="PostureControlParam_WepRight" />
     <postureControlId_Left AltName="Posture Control ID - Weapon Left" Wiki="Attitude control ID (left hand)" Refs="PostureControlParam_WepLeft" />
-    <traceSfxId0 AltName="Trace SFX ID [0]" Wiki="Sword flash SfxID_0 (-1 invalid)" />
+    <traceSfxId0 AltName="Trace SFX ID [0]" Wiki="Sword flash SfxID_0 (-1 invalid)" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
     <traceDmyIdHead0 AltName="Trace SFX ID [0] - Dummy Poly ID - Head" Wiki="Sword flash root Damipoli ID_0 (-1 invalid)" />
     <traceDmyIdTail0 AltName="Trace SFX ID [0] - Dummy Poly ID - Tail" Wiki="Sword Flash Sword Tip Damipoli ID_0" />
-    <traceSfxId1 AltName="Trace SFX ID [1]" Wiki="Sword flash SfxID_1 (-1 invalid)" />
+    <traceSfxId1 AltName="Trace SFX ID [1]" Wiki="Sword flash SfxID_1 (-1 invalid)" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
     <traceDmyIdHead1 AltName="Trace SFX ID [1] - Dummy Poly ID - Head" Wiki="Sword Flash Root Damipoli ID_1 (-1 invalid)" />
     <traceDmyIdTail1 AltName="Trace SFX ID [1] - Dummy Poly ID - Tail" Wiki="Sword Flash Sword Tip Damipoli ID_1" />
-    <traceSfxId2 AltName="Trace SFX ID [2]" Wiki="Sword flash SfxID_2 (-1 invalid)" />
+    <traceSfxId2 AltName="Trace SFX ID [2]" Wiki="Sword flash SfxID_2 (-1 invalid)" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
     <traceDmyIdHead2 AltName="Trace SFX ID [2] - Dummy Poly ID - Head" Wiki="Sword Flash Root Damipoli ID_2 (-1 invalid)" />
     <traceDmyIdTail2 AltName="Trace SFX ID [2] - Dummy Poly ID - Tail" Wiki="Sword Flash Sword Tip Damipoli ID_2" />
-    <traceSfxId3 AltName="Trace SFX ID [3]" Wiki="Sword Flash SfxID_3 (-1 invalid)" />
+    <traceSfxId3 AltName="Trace SFX ID [3]" Wiki="Sword Flash SfxID_3 (-1 invalid)" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
     <traceDmyIdHead3 AltName="Trace SFX ID [3] - Dummy Poly ID - Head" Wiki="Sword flash root Damipoli ID_3 (-1 invalid)" />
     <traceDmyIdTail3 AltName="Trace SFX ID [3] - Dummy Poly ID - Tail" Wiki="Sword Flash Sword Tip Damipoli ID_3" />
-    <traceSfxId4 AltName="Trace SFX ID [4]" Wiki="Sword Flash SfxID_4 (-1 invalid)" />
+    <traceSfxId4 AltName="Trace SFX ID [4]" Wiki="Sword Flash SfxID_4 (-1 invalid)" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
     <traceDmyIdHead4 AltName="Trace SFX ID [4] - Dummy Poly ID - Head" Wiki="Sword flash root Damipoli ID_4 (-1 invalid)" />
     <traceDmyIdTail4 AltName="Trace SFX ID [4] - Dummy Poly ID - Tail" Wiki="Sword Flash Sword Tip Damipoli ID_4" />
-    <traceSfxId5 AltName="Trace SFX ID [5]" Wiki="Sword Flash SfxID_5 (-1 invalid)" />
+    <traceSfxId5 AltName="Trace SFX ID [5]" Wiki="Sword Flash SfxID_5 (-1 invalid)" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
     <traceDmyIdHead5 AltName="Trace SFX ID [5] - Dummy Poly ID - Head" Wiki="Sword Flash Root Damipoli ID_5 (-1 invalid)" />
     <traceDmyIdTail5 AltName="Trace SFX ID [5] - Dummy Poly ID - Tail" Wiki="Sword Flash Sword Tip Damipoli ID_5" />
-    <traceSfxId6 AltName="Trace SFX ID [6]" Wiki="Sword Flash SfxID_6 (-1 invalid)" />
+    <traceSfxId6 AltName="Trace SFX ID [6]" Wiki="Sword Flash SfxID_6 (-1 invalid)" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
     <traceDmyIdHead6 AltName="Trace SFX ID [6] - Dummy Poly ID - Head" Wiki="Sword Flash Root Damipoli ID_6 (-1 invalid)" />
     <traceDmyIdTail6 AltName="Trace SFX ID [6] - Dummy Poly ID - Tail" Wiki="Sword Flash Sword Tip Damipoli ID_6" />
-    <traceSfxId7 AltName="Trace SFX ID [7]" Wiki="Sword Flash SfxID_7 (-1 invalid)" />
+    <traceSfxId7 AltName="Trace SFX ID [7]" Wiki="Sword Flash SfxID_7 (-1 invalid)" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
     <traceDmyIdHead7 AltName="Trace SFX ID [7] - Dummy Poly ID - Head" Wiki="Sword Flash Root Damipoli ID_7 (-1 invalid)" />
     <traceDmyIdTail7 AltName="Trace SFX ID [7] - Dummy Poly ID - Tail" Wiki="Sword Flash Sword Tip Damipoli ID_7" />
     <defSfxMaterial2 AltName="Defence SFX Material [2]" Wiki="Defensive SFX material used from attack para 2" Enum="WEP_MATERIAL_DEF_SFX" />
@@ -615,10 +615,10 @@
     <curseGuardResist_MaxCorrect AltName="Max Correction: Blight Guard Absorption" Wiki="Maximum value of cut rate correction value for attack power against curse (set as special effect parameter)" />
     <freezeGuardResist_MaxCorrect AltName="Max Correction: Frostbite Guard Absorption" Wiki="Maximum value of cut rate correction value for attack power against cold air (set as special effect parameter)" />
     <staminaGuardDef_MaxCorrect AltName="Max Correction: Guard Stability" Wiki="When the guard is successful, the maximum value of the defense power correction value against the enemy's stamina attack" />
-    <residentSfxId_1 AltName="Resident SFX [1]" Wiki="Resident SfxId1" />
-    <residentSfxId_2 AltName="Resident SFX [2]" Wiki="Resident SfxId2" />
-    <residentSfxId_3 AltName="Resident SFX [3]" Wiki="Resident SfxId3" />
-    <residentSfxId_4 AltName="Resident SFX [4]" Wiki="Resident SfxId4" />
+    <residentSfxId_1 AltName="Resident SFX [1]" Wiki="Resident SfxId1" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
+    <residentSfxId_2 AltName="Resident SFX [2]" Wiki="Resident SfxId2" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
+    <residentSfxId_3 AltName="Resident SFX [3]" Wiki="Resident SfxId3" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
+    <residentSfxId_4 AltName="Resident SFX [4]" Wiki="Resident SfxId4" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
     <residentSfx_DmyId_1 AltName="Resident SFX - Dummy Poly [1]" Wiki="Resident Sfx Damipoli Id1" />
     <residentSfx_DmyId_2 AltName="Resident SFX - Dummy Poly [2]" Wiki="Resident Sfx Damipoli Id2" />
     <residentSfx_DmyId_3 AltName="Resident SFX - Dummy Poly [3]" Wiki="Resident Sfx Damipoli Id3" />
