@@ -18,5 +18,7 @@ public interface IGraphicsContext : IDisposable
     
     public GraphicsDevice Device { get; }
 
+    public void Initialize();
+
     public void Draw(List<EditorScreen> editors, EditorScreen focusedEditor);
 }

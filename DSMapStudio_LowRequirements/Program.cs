@@ -10,7 +10,7 @@ using System.Security.Permissions;
 using StudioCore.Graphics;
 using Veldrid.Sdl2;
 
-namespace DSMapStudio
+namespace DSMapStudio_LowRequirements
 {
     public static class Program
     {
@@ -33,7 +33,7 @@ namespace DSMapStudio
 
             Directory.SetCurrentDirectory(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location));
 
-            var mapStudio = new MapStudioNew(new VulkanGraphicsContext());
+            var mapStudio = new MapStudioNew(new OpenGLCompatGraphicsContext());
 #if !DEBUG
             try
             {

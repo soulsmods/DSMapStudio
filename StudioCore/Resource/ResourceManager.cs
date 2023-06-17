@@ -755,7 +755,8 @@ namespace StudioCore.Resource
             }
             else
             {
-                if (Scene.Renderer.GeometryBufferAllocator.HasStagingOrPending())
+                if (Scene.Renderer.GeometryBufferAllocator != null &&
+                    Scene.Renderer.GeometryBufferAllocator.HasStagingOrPending())
                 {
                     var ctx = Tracy.TracyCZoneN(1, "Flush Staging buffer");
                     Scene.Renderer.GeometryBufferAllocator.FlushStaging(true);

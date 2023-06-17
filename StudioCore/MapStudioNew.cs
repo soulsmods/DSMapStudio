@@ -30,7 +30,7 @@ namespace StudioCore
         private static double _desiredFrameLengthSeconds = 1.0 / 20.0f;
         private static bool _limitFrameRate = true;
 
-        private Graphics.IGraphicsContext _context;
+        private IGraphicsContext _context;
 
         private List<EditorScreen> _editors;
         private EditorScreen _focusedEditor;
@@ -52,11 +52,13 @@ namespace StudioCore
         private bool _showImGuiDebugLogWindow = false;
         private bool _showImGuiStackToolWindow = false;
 
-        public MapStudioNew()
+        public MapStudioNew(IGraphicsContext context)
         {
             CFG.AttemptLoadOrDefault();
 
-            _context = new VulkanGraphicsContext(_programTitle);
+            _context = context;
+            _context.Initialize();
+            _context.Window.Title = _programTitle;
 
             _assetLocator = new AssetLocator();
             var msbEditor = new MsbEditor.MsbEditorScreen(_context.Window, _context.Device, _assetLocator);
@@ -644,7 +646,7 @@ namespace StudioCore
             }
         }
 
-        private void Update(float deltaseconds)
+        private unsafe void Update(float deltaseconds)
         {
             var ctx = Tracy.TracyCZoneN(1, "Imgui");
 
@@ -1254,8 +1256,11 @@ namespace StudioCore
                     commands = commandsplit.Skip(1).ToArray();
                     ImGui.SetNextWindowFocus();
                 }
-
-                ImGui.PushStyleColor(ImGuiCol.WindowBg, new Vector4(0.0f, 0.0f, 0.0f, 0.0f));
+                
+                if (_context.Device == null)
+                    ImGui.PushStyleColor(ImGuiCol.WindowBg, *ImGui.GetStyleColorVec4(ImGuiCol.WindowBg));
+                else
+                    ImGui.PushStyleColor(ImGuiCol.WindowBg, new Vector4(0.0f, 0.0f, 0.0f, 0.0f));
                 ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(0.0f, 0.0f));
                 if (ImGui.Begin(editor.EditorName))
                 {

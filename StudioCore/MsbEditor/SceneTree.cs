@@ -31,7 +31,7 @@ namespace StudioCore.MsbEditor
     {
         private Universe _universe;
         private ActionManager _editorActionManager;
-        private Gui.Viewport _viewport;
+        private Gui.IViewport _viewport;
         private AssetLocator _assetLocator;
         private Selection _selection;
 
@@ -84,7 +84,7 @@ namespace StudioCore.MsbEditor
 
         private Configuration _configuration;
 
-        public SceneTree(Configuration configuration, SceneTreeEventHandler handler, string id, Universe universe, Selection sel, ActionManager aman, Gui.Viewport vp, AssetLocator al)
+        public SceneTree(Configuration configuration, SceneTreeEventHandler handler, string id, Universe universe, Selection sel, ActionManager aman, Gui.IViewport vp, AssetLocator al)
         {
             _handler = handler;
             _id = id;

@@ -2,8 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
-    <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <LangVersion>11</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugType>none</DebugType>
+    <DocumentationFile />
   </PropertyGroup>
 
   <ItemGroup>

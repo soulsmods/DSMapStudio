@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
+using Silk.NET.SDL;
 using Veldrid.Sdl2;
 
 namespace Veldrid.StartupUtilities
@@ -25,8 +26,7 @@ namespace Veldrid.StartupUtilities
             out Sdl2Window window,
             out GraphicsDevice gd)
         {
-            Sdl2Native.SDL_Init(SDLInitFlags.Video);
-
+            SdlProvider.InitFlags = Sdl.InitVideo;
             window = CreateWindow(ref windowCI);
             gd = CreateGraphicsDevice(window, deviceOptions);
         }
@@ -36,11 +36,12 @@ namespace Veldrid.StartupUtilities
 
         public static Sdl2Window CreateWindow(ref WindowCreateInfo windowCI)
         {
-            SDL_WindowFlags flags = SDL_WindowFlags.OpenGL | SDL_WindowFlags.Resizable
-                    | GetWindowFlags(windowCI.WindowInitialState);
+            SdlProvider.InitFlags = Sdl.InitVideo;
+            WindowFlags flags = WindowFlags.Opengl | WindowFlags.Resizable | WindowFlags.AllowHighdpi |
+                                GetWindowFlags(windowCI.WindowInitialState);
             if (windowCI.WindowInitialState != WindowState.Hidden)
             {
-                flags |= SDL_WindowFlags.Shown;
+                flags |= WindowFlags.Shown;
             }
             Sdl2Window window = new Sdl2Window(
                 windowCI.WindowTitle,
@@ -54,22 +55,22 @@ namespace Veldrid.StartupUtilities
             return window;
         }
 
-        private static SDL_WindowFlags GetWindowFlags(WindowState state)
+        private static WindowFlags GetWindowFlags(WindowState state)
         {
             switch (state)
             {
                 case WindowState.Normal:
                     return 0;
                 case WindowState.FullScreen:
-                    return SDL_WindowFlags.Fullscreen;
+                    return WindowFlags.Fullscreen;
                 case WindowState.Maximized:
-                    return SDL_WindowFlags.Maximized;
+                    return WindowFlags.Maximized;
                 case WindowState.Minimized:
-                    return SDL_WindowFlags.Minimized;
+                    return WindowFlags.Minimized;
                 case WindowState.BorderlessFullScreen:
-                    return SDL_WindowFlags.FullScreenDesktop;
+                    return WindowFlags.FullscreenDesktop;
                 case WindowState.Hidden:
-                    return SDL_WindowFlags.Hidden;
+                    return WindowFlags.Hidden;
                 default:
                     throw new VeldridException("Invalid WindowState: " + state);
             }
@@ -87,29 +88,29 @@ namespace Veldrid.StartupUtilities
 
         public static unsafe SwapchainSource GetSwapchainSource(Sdl2Window window)
         {
-            IntPtr sdlHandle = window.SdlWindowHandle;
-            SDL_SysWMinfo sysWmInfo;
-            Sdl2Native.SDL_GetVersion(&sysWmInfo.version);
-            Sdl2Native.SDL_GetWMWindowInfo(sdlHandle, &sysWmInfo);
-            switch (sysWmInfo.subsystem)
+            var sdlHandle = window.SdlWindowHandle;
+            SysWMInfo sysWmInfo;
+            var SDL = SdlProvider.SDL.Value;
+            SDL.GetVersion(&sysWmInfo.Version);
+            SDL.GetWindowWMInfo(sdlHandle, &sysWmInfo);
+            switch (sysWmInfo.Subsystem)
             {
                 case SysWMType.Windows:
-                    Win32WindowInfo w32Info = Unsafe.Read<Win32WindowInfo>(&sysWmInfo.info);
-                    return SwapchainSource.CreateWin32(w32Info.Sdl2Window, w32Info.hinstance);
+                    var w32Info = sysWmInfo.Info.Win;
+                    return SwapchainSource.CreateWin32(w32Info.Hwnd, w32Info.HInstance);
                 case SysWMType.X11:
-                    X11WindowInfo x11Info = Unsafe.Read<X11WindowInfo>(&sysWmInfo.info);
+                    var x11Info = sysWmInfo.Info.X11;
                     return SwapchainSource.CreateXlib(
-                        x11Info.display,
-                        x11Info.Sdl2Window);
+                        (IntPtr)x11Info.Display,
+                        (IntPtr)x11Info.Window);
                 case SysWMType.Wayland:
-                    WaylandWindowInfo wlInfo = Unsafe.Read<WaylandWindowInfo>(&sysWmInfo.info);
-                    return SwapchainSource.CreateWayland(wlInfo.display, wlInfo.surface);
+                    var wlInfo = sysWmInfo.Info.Wayland;
+                    return SwapchainSource.CreateWayland((IntPtr)wlInfo.Display, (IntPtr)wlInfo.Surface);
                 case SysWMType.Cocoa:
-                    CocoaWindowInfo cocoaInfo = Unsafe.Read<CocoaWindowInfo>(&sysWmInfo.info);
-                    IntPtr nsWindow = cocoaInfo.Window;
-                    return SwapchainSource.CreateNSWindow(nsWindow);
+                    var cocoaInfo = sysWmInfo.Info.Cocoa;
+                    return SwapchainSource.CreateNSWindow((IntPtr)cocoaInfo.Window);
                 default:
-                    throw new PlatformNotSupportedException("Cannot create a SwapchainSource for " + sysWmInfo.subsystem + ".");
+                    throw new PlatformNotSupportedException("Cannot create a SwapchainSource for " + sysWmInfo.Subsystem + ".");
             }
         }
 
@@ -136,15 +137,15 @@ namespace Veldrid.StartupUtilities
             return gd;
         }
 
-        private static unsafe VkSurfaceSource GetSurfaceSource(SDL_SysWMinfo sysWmInfo)
+        private static unsafe VkSurfaceSource GetSurfaceSource(SysWMInfo sysWmInfo)
         {
-            switch (sysWmInfo.subsystem)
+            switch (sysWmInfo.Subsystem)
             {
                 case SysWMType.Windows:
-                    Win32WindowInfo w32Info = Unsafe.Read<Win32WindowInfo>(&sysWmInfo.info);
-                    return VkSurfaceSource.CreateWin32(w32Info.hinstance, w32Info.Sdl2Window);
+                    var w32Info = sysWmInfo.Info.Win;
+                    return VkSurfaceSource.CreateWin32(w32Info.HInstance, w32Info.Hwnd);
                 default:
-                    throw new PlatformNotSupportedException("Cannot create a Vulkan surface for " + sysWmInfo.subsystem + ".");
+                    throw new PlatformNotSupportedException("Cannot create a Vulkan surface for " + sysWmInfo.Subsystem + ".");
             }
         }
 #endif

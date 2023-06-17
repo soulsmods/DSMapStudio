@@ -11,6 +11,7 @@ using StudioCore.Resource;
 using StudioCore.Scene;
 using StudioCore.Editor;
 using ImGuiNET;
+using StudioCore.Gui;
 
 namespace StudioCore.MsbEditor
 {
@@ -21,11 +22,11 @@ namespace StudioCore.MsbEditor
         public string SaveType => "Models";
         
         public AssetLocator AssetLocator = null;
-        public Scene.RenderScene RenderScene = new Scene.RenderScene();
+        public Scene.RenderScene RenderScene;
         public ActionManager EditorActionManager = new ActionManager();
         private Selection _selection = new Selection();
         private Sdl2Window Window;
-        public Gui.Viewport Viewport;
+        public Gui.IViewport Viewport;
         public Rectangle Rect;
 
         private Universe _universe;
@@ -47,7 +48,17 @@ namespace StudioCore.MsbEditor
             ResourceManager.Locator = AssetLocator;
             Window = window;
 
-            Viewport = new Gui.Viewport("Modeleditvp", device, RenderScene, EditorActionManager, _selection, Rect.Width, Rect.Height);
+            if (device != null)
+            {
+                RenderScene = new RenderScene();
+                Viewport = new Gui.Viewport("Modeleditvp", device, RenderScene, EditorActionManager, _selection,
+                    Rect.Width, Rect.Height);
+            }
+            else
+            {
+                Viewport = new NullViewport("Modeleditvp", EditorActionManager, _selection, Rect.Width, Rect.Height);
+            }
+
             _universe = new Universe(AssetLocator, RenderScene, _selection);
 
             _sceneTree = new SceneTree(SceneTree.Configuration.ModelEditor, this, "modeledittree", _universe, _selection, EditorActionManager, Viewport, AssetLocator);
@@ -76,7 +87,8 @@ namespace StudioCore.MsbEditor
 
         public void Draw(GraphicsDevice device, CommandList cl)
         {
-            Viewport.Draw(device, cl);
+            if (Viewport != null)
+                Viewport.Draw(device, cl);
         }
 
         public void DrawEditorMenu()
@@ -310,9 +322,9 @@ namespace StudioCore.MsbEditor
 
                 var minSpeed = 1.0f;
                 var basespeed = Math.Max(minSpeed, (float)Math.Sqrt(mindim / 3.0f));
-                Viewport._worldView.CameraMoveSpeed_Normal = basespeed;
-                Viewport._worldView.CameraMoveSpeed_Slow = basespeed / 10.0f;
-                Viewport._worldView.CameraMoveSpeed_Fast = basespeed * 10.0f;
+                Viewport.WorldView.CameraMoveSpeed_Normal = basespeed;
+                Viewport.WorldView.CameraMoveSpeed_Slow = basespeed / 10.0f;
+                Viewport.WorldView.CameraMoveSpeed_Fast = basespeed * 10.0f;
 
                 Viewport.FarClip = Math.Max(10.0f, maxdim * 10.0f);
                 Viewport.NearClip = Math.Max(0.001f, maxdim / 10000.0f);

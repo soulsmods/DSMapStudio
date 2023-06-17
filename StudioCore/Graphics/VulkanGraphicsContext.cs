@@ -30,7 +30,11 @@ public class VulkanGraphicsContext : IGraphicsContext
     private bool _windowMoved = true;
     private bool _colorSrgb = false;
 
-    public VulkanGraphicsContext(string title)
+    public VulkanGraphicsContext()
+    {
+    }
+
+    public void Initialize()
     {
         if (UseRenderdoc)
         {
@@ -45,7 +49,6 @@ public class VulkanGraphicsContext : IGraphicsContext
             WindowWidth = CFG.Current.GFX_Display_Width,
             WindowHeight = CFG.Current.GFX_Display_Height,
             WindowInitialState = WindowState.Maximized,
-            WindowTitle = $"{title}",
         };
         GraphicsDeviceOptions gdOptions = new GraphicsDeviceOptions(false, VkFormat.D32Sfloat, true, true, true, _colorSrgb);
 
@@ -60,9 +63,7 @@ public class VulkanGraphicsContext : IGraphicsContext
             out _gd);
         _window.Resized += () => _windowResized = true;
         _window.Moved += (p) => _windowMoved = true;
-
-        Sdl2Native.SDL_Init(SDLInitFlags.GameController);
-
+        
         Scene.Renderer.Initialize(_gd);
         
         var factory = _gd.ResourceFactory;
