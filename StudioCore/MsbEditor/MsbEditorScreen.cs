@@ -21,7 +21,7 @@ namespace StudioCore.MsbEditor
         public string SaveType => "Maps";
         
         public AssetLocator AssetLocator = null;
-        public Scene.RenderScene RenderScene = new Scene.RenderScene();
+        public Scene.RenderScene RenderScene = null;
         private Selection _selection = new Selection();
         public ActionManager EditorActionManager = new ActionManager();
         private Editor.ProjectSettings _projectSettings = null;
@@ -71,7 +71,7 @@ namespace StudioCore.MsbEditor
         public Rectangle Rect;
 
         private Sdl2Window Window;
-        public Gui.Viewport Viewport;
+        public Gui.IViewport Viewport;
 
         private IModal _activeModal = null;
 
@@ -82,7 +82,16 @@ namespace StudioCore.MsbEditor
             ResourceManager.Locator = AssetLocator;
             Window = window;
 
-            Viewport = new Gui.Viewport("Mapeditvp", device, RenderScene, EditorActionManager, _selection, Rect.Width, Rect.Height);
+            if (device != null)
+            {
+                RenderScene = new RenderScene();
+                Viewport = new Gui.Viewport("Mapeditvp", device, RenderScene, EditorActionManager, _selection, Rect.Width, Rect.Height);
+                RenderScene.DrawFilter = CFG.Current.LastSceneFilter;
+            }
+            else
+            {
+                Viewport = new Gui.NullViewport("Mapeditvp", EditorActionManager, _selection, Rect.Width, Rect.Height);
+            }
             Universe = new Universe(AssetLocator, RenderScene, _selection);
 
             SceneTree = new SceneTree(SceneTree.Configuration.MapEditor, this, "mapedittree", Universe, _selection, EditorActionManager, Viewport, AssetLocator);
@@ -92,8 +101,6 @@ namespace StudioCore.MsbEditor
             NavMeshEditor = new NavmeshEditor(locator, RenderScene, _selection);
 
             EditorActionManager.AddEventHandler(SceneTree);
-
-            RenderScene.DrawFilter = CFG.Current.LastSceneFilter;
         }
 
         private bool ViewportUsingKeyboard = false;
@@ -260,8 +267,8 @@ namespace StudioCore.MsbEditor
             var actlist = new List<Action>();
             var sels = _selection.GetFilteredSelection<Entity>(o => o.HasTransform);
 
-            var camdir = Vector3.Transform(Vector3.UnitZ, Viewport._worldView.CameraTransform.RotationMatrix);
-            var cam_pos = Viewport._worldView.CameraTransform.Position;
+            var camdir = Vector3.Transform(Vector3.UnitZ, Viewport.WorldView.CameraTransform.RotationMatrix);
+            var cam_pos = Viewport.WorldView.CameraTransform.Position;
             var target_pos = cam_pos + (camdir * CFG.Current.Map_MoveSelectionToCamera_Radius);
 
             // Get the relative positions of the selections
@@ -916,31 +923,45 @@ namespace StudioCore.MsbEditor
                 }
 
                 // Render settings
-                if (InputTracker.GetControlShortcut(Key.Number1))
+                if (RenderScene != null)
                 {
-                    RenderScene.DrawFilter = Scene.RenderFilter.MapPiece | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Region;
+                    if (InputTracker.GetControlShortcut(Key.Number1))
+                    {
+                        RenderScene.DrawFilter = Scene.RenderFilter.MapPiece | Scene.RenderFilter.Object |
+                                                 Scene.RenderFilter.Character | Scene.RenderFilter.Region;
+                    }
+                    else if (InputTracker.GetControlShortcut(Key.Number2))
+                    {
+                        RenderScene.DrawFilter = Scene.RenderFilter.Collision | Scene.RenderFilter.Object |
+                                                 Scene.RenderFilter.Character | Scene.RenderFilter.Region;
+                    }
+                    else if (InputTracker.GetControlShortcut(Key.Number3))
+                    {
+                        RenderScene.DrawFilter = Scene.RenderFilter.Collision | Scene.RenderFilter.Navmesh |
+                                                 Scene.RenderFilter.Object | Scene.RenderFilter.Character |
+                                                 Scene.RenderFilter.Region;
+                    }
+                    else if (InputTracker.GetControlShortcut(Key.Number4))
+                    {
+                        RenderScene.DrawFilter = Scene.RenderFilter.MapPiece | Scene.RenderFilter.Object |
+                                                 Scene.RenderFilter.Character | Scene.RenderFilter.Light;
+                    }
+                    else if (InputTracker.GetControlShortcut(Key.Number5))
+                    {
+                        RenderScene.DrawFilter = Scene.RenderFilter.Collision | Scene.RenderFilter.Object |
+                                                 Scene.RenderFilter.Character | Scene.RenderFilter.Light;
+                    }
+                    else if (InputTracker.GetControlShortcut(Key.Number6))
+                    {
+                        RenderScene.DrawFilter = Scene.RenderFilter.Collision | Scene.RenderFilter.Navmesh |
+                                                 Scene.RenderFilter.MapPiece | Scene.RenderFilter.Collision |
+                                                 Scene.RenderFilter.Navmesh | Scene.RenderFilter.Object |
+                                                 Scene.RenderFilter.Character | Scene.RenderFilter.Region |
+                                                 Scene.RenderFilter.Light;
+                    }
+
+                    CFG.Current.LastSceneFilter = RenderScene.DrawFilter;
                 }
-                else if (InputTracker.GetControlShortcut(Key.Number2))
-                {
-                    RenderScene.DrawFilter = Scene.RenderFilter.Collision | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Region;
-                }
-                else if (InputTracker.GetControlShortcut(Key.Number3))
-                {
-                    RenderScene.DrawFilter = Scene.RenderFilter.Collision | Scene.RenderFilter.Navmesh | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Region;
-                }
-                else if (InputTracker.GetControlShortcut(Key.Number4))
-                {
-                    RenderScene.DrawFilter = Scene.RenderFilter.MapPiece | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Light;
-                }
-                else if (InputTracker.GetControlShortcut(Key.Number5))
-                {
-                    RenderScene.DrawFilter = Scene.RenderFilter.Collision | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Light;
-                }
-                else if (InputTracker.GetControlShortcut(Key.Number6))
-                {
-                    RenderScene.DrawFilter = Scene.RenderFilter.Collision | Scene.RenderFilter.Navmesh | Scene.RenderFilter.MapPiece | Scene.RenderFilter.Collision | Scene.RenderFilter.Navmesh | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Region | Scene.RenderFilter.Light;
-                }
-                CFG.Current.LastSceneFilter = RenderScene.DrawFilter;
             }
 
             if (ImGui.BeginPopup("##DupeToTargetMapPopup"))
@@ -1050,7 +1071,8 @@ namespace StudioCore.MsbEditor
 
         public void Draw(GraphicsDevice device, CommandList cl)
         {
-            Viewport.Draw(device, cl);
+            if (Viewport != null)
+                Viewport.Draw(device, cl);
         }
 
         /// <summary>

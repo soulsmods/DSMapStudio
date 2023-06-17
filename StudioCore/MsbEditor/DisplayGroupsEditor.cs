@@ -54,7 +54,7 @@ namespace StudioCore.MsbEditor
             }
 
             ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(4.0f, 2.0f) * scale);
-            if (ImGui.Begin("Render Groups"))
+            if (ImGui.Begin("Render Groups") && _scene != null)
             {
                 var dg = _scene.DisplayGroup;
                 if (dg.AlwaysVisible || dg.RenderGroups.Length != dispCount)
