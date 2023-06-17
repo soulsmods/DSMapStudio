@@ -355,7 +355,7 @@ namespace StudioCore.Editor
             Vector2 oldPad = ImGui.GetStyle().CellPadding;
             if (fixVerticalPadding)
                 ImGui.GetStyle().CellPadding = new Vector2(oldPad.X, 0);
-            bool v = ImGui.BeginTable(id, cols, ImGuiTableFlags.Resizable | ImGuiTableFlags.BordersInnerV | ImGuiTableFlags.NoSavedSettings);
+            bool v = ImGui.BeginTable(id, cols, ImGuiTableFlags.Resizable | ImGuiTableFlags.BordersInnerV);
             if (fixVerticalPadding)
                 ImGui.GetStyle().CellPadding = oldPad;
             return v;
