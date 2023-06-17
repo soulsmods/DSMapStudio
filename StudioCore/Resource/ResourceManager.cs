@@ -755,7 +755,8 @@ namespace StudioCore.Resource
             }
             else
             {
-                if (Scene.Renderer.GeometryBufferAllocator.HasStagingOrPending())
+                if (Scene.Renderer.GeometryBufferAllocator != null &&
+                    Scene.Renderer.GeometryBufferAllocator.HasStagingOrPending())
                 {
                     var ctx = Tracy.TracyCZoneN(1, "Flush Staging buffer");
                     Scene.Renderer.GeometryBufferAllocator.FlushStaging(true);
@@ -790,7 +791,7 @@ namespace StudioCore.Resource
         private static bool ResourceListWindowOpen = true;
         public static void OnGuiDrawTasks(float w, float h)
         {
-            float scale = ImGuiRenderer.GetUIScale();
+            float scale = MapStudioNew.GetUIScale();
             
             if (ActiveJobProgress.Count() > 0)
             {

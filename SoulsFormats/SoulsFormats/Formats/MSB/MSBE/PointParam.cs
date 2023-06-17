@@ -1021,9 +1021,9 @@ namespace SoulsFormats
                 public int EffectID { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// If true, the effect is off by default until enabled by event scripts.
                 /// </summary>
-                public int UnkT04 { get; set; }
+                public int StartDisabled { get; set; }
 
                 /// <summary>
                 /// Creates an SFX with default values.
@@ -1035,13 +1035,13 @@ namespace SoulsFormats
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
                     EffectID = br.ReadInt32();
-                    UnkT04 = br.ReadInt32();
+                    StartDisabled = br.ReadInt32();
                 }
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
                     bw.WriteInt32(EffectID);
-                    bw.WriteInt32(UnkT04);
+                    bw.WriteInt32(StartDisabled);
                 }
             }
 

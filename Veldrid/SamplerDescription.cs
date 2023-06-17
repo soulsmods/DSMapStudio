@@ -1,4 +1,5 @@
 ﻿using System;
+using Vortice.Vulkan;
 
 namespace Veldrid
 {
@@ -10,23 +11,35 @@ namespace Veldrid
         /// <summary>
         /// The <see cref="SamplerAddressMode"/> mode to use for the U (or S) coordinate.
         /// </summary>
-        public SamplerAddressMode AddressModeU;
+        public VkSamplerAddressMode AddressModeU;
         /// <summary>
         /// The <see cref="SamplerAddressMode"/> mode to use for the V (or T) coordinate.
         /// </summary>
-        public SamplerAddressMode AddressModeV;
+        public VkSamplerAddressMode AddressModeV;
         /// <summary>
         /// The <see cref="SamplerAddressMode"/> mode to use for the W (or R) coordinate.
         /// </summary>
-        public SamplerAddressMode AddressModeW;
+        public VkSamplerAddressMode AddressModeW;
         /// <summary>
-        /// The filter used when sampling.
+        /// The minification filter
         /// </summary>
-        public SamplerFilter Filter;
+        public VkFilter MinFilter;
+        /// <summary>
+        /// The magnification filter
+        /// </summary>
+        public VkFilter MagFilter;
+        /// <summary>
+        /// The mip map filtering mode
+        /// </summary>
+        public VkSamplerMipmapMode MipmapMode;
+        /// <summary>
+        /// The reduction mode
+        /// </summary>
+        public VkSamplerReductionMode ReductionMode;
         /// <summary>
         /// An optional value controlling the kind of comparison to use when sampling. If null, comparison sampling is not used.
         /// </summary>
-        public ComparisonKind? ComparisonKind;
+        public VkCompareOp? ComparisonKind;
         /// <summary>
         /// The maximum anisotropy of the filter, when <see cref="SamplerFilter.Anisotropic"/> is used, or otherwise ignored.
         /// </summary>
@@ -46,7 +59,7 @@ namespace Veldrid
         /// <summary>
         /// The constant color that is sampled when <see cref="SamplerAddressMode.Border"/> is used, or otherwise ignored.
         /// </summary>
-        public SamplerBorderColor BorderColor;
+        public VkBorderColor BorderColor;
 
         /// <summary>
         /// Constructs a new SamplerDescription.
@@ -65,21 +78,26 @@ namespace Veldrid
         /// <param name="borderColor">The constant color that is sampled when <see cref="SamplerAddressMode.Border"/> is used, or
         /// otherwise ignored.</param>
         public SamplerDescription(
-            SamplerAddressMode addressModeU,
-            SamplerAddressMode addressModeV,
-            SamplerAddressMode addressModeW,
-            SamplerFilter filter,
-            ComparisonKind? comparisonKind,
+            VkSamplerAddressMode addressModeU,
+            VkSamplerAddressMode addressModeV,
+            VkSamplerAddressMode addressModeW,
+            VkFilter minFilter,
+            VkFilter magFilter,
+            VkSamplerMipmapMode mipFilter, 
+            VkCompareOp? comparisonKind,
             uint maximumAnisotropy,
             uint minimumLod,
             uint maximumLod,
             int lodBias,
-            SamplerBorderColor borderColor)
+            VkBorderColor borderColor)
         {
             AddressModeU = addressModeU;
             AddressModeV = addressModeV;
             AddressModeW = addressModeW;
-            Filter = filter;
+            MinFilter = minFilter;
+            MagFilter = magFilter;
+            MipmapMode = mipFilter;
+            ReductionMode = VkSamplerReductionMode.WeightedAverage;
             ComparisonKind = comparisonKind;
             MaximumAnisotropy = maximumAnisotropy;
             MinimumLod = minimumLod;
@@ -102,10 +120,13 @@ namespace Veldrid
         /// </summary>
         public static readonly SamplerDescription Point = new SamplerDescription
         {
-            AddressModeU = SamplerAddressMode.Wrap,
-            AddressModeV = SamplerAddressMode.Wrap,
-            AddressModeW = SamplerAddressMode.Wrap,
-            Filter = SamplerFilter.MinPoint_MagPoint_MipPoint,
+            AddressModeU = VkSamplerAddressMode.Repeat,
+            AddressModeV = VkSamplerAddressMode.Repeat,
+            AddressModeW = VkSamplerAddressMode.Repeat,
+            MinFilter = VkFilter.Nearest,
+            MagFilter = VkFilter.Nearest,
+            MipmapMode = VkSamplerMipmapMode.Nearest,
+            ReductionMode = VkSamplerReductionMode.WeightedAverage,
             LodBias = 0,
             MinimumLod = 0,
             MaximumLod = uint.MaxValue,
@@ -126,10 +147,13 @@ namespace Veldrid
         /// </summary>
         public static readonly SamplerDescription Linear = new SamplerDescription
         {
-            AddressModeU = SamplerAddressMode.Wrap,
-            AddressModeV = SamplerAddressMode.Wrap,
-            AddressModeW = SamplerAddressMode.Wrap,
-            Filter = SamplerFilter.MinLinear_MagLinear_MipLinear,
+            AddressModeU = VkSamplerAddressMode.Repeat,
+            AddressModeV = VkSamplerAddressMode.Repeat,
+            AddressModeW = VkSamplerAddressMode.Repeat,
+            MinFilter = VkFilter.Linear,
+            MagFilter = VkFilter.Linear,
+            MipmapMode = VkSamplerMipmapMode.Linear,
+            ReductionMode = VkSamplerReductionMode.WeightedAverage,
             LodBias = 0,
             MinimumLod = 0,
             MaximumLod = uint.MaxValue,
@@ -150,10 +174,13 @@ namespace Veldrid
         /// </summary>
         public static readonly SamplerDescription Aniso4x = new SamplerDescription
         {
-            AddressModeU = SamplerAddressMode.Wrap,
-            AddressModeV = SamplerAddressMode.Wrap,
-            AddressModeW = SamplerAddressMode.Wrap,
-            Filter = SamplerFilter.Anisotropic,
+            AddressModeU = VkSamplerAddressMode.Repeat,
+            AddressModeV = VkSamplerAddressMode.Repeat,
+            AddressModeW = VkSamplerAddressMode.Repeat,
+            MinFilter = VkFilter.Linear,
+            MagFilter = VkFilter.Linear,
+            MipmapMode = VkSamplerMipmapMode.Linear,
+            ReductionMode = VkSamplerReductionMode.WeightedAverage,
             LodBias = 0,
             MinimumLod = 0,
             MaximumLod = uint.MaxValue,
@@ -170,7 +197,10 @@ namespace Veldrid
             return AddressModeU == other.AddressModeU
                 && AddressModeV == other.AddressModeV
                 && AddressModeW == other.AddressModeW
-                && Filter == other.Filter
+                && MinFilter == other.MinFilter
+                && MagFilter == other.MagFilter
+                && MipmapMode == other.MipmapMode
+                && ReductionMode == other.ReductionMode
                 && ComparisonKind.GetValueOrDefault() == other.ComparisonKind.GetValueOrDefault()
                 && MaximumAnisotropy == other.MaximumAnisotropy
                 && MinimumLod == other.MinimumLod
@@ -189,7 +219,10 @@ namespace Veldrid
                 (int)AddressModeU,
                 (int)AddressModeV,
                 (int)AddressModeW,
-                (int)Filter,
+                (int)MinFilter,
+                (int)MagFilter,
+                (int)MipmapMode,
+                (int)ReductionMode,
                 ComparisonKind.GetHashCode(),
                 MaximumAnisotropy.GetHashCode(),
                 MinimumLod.GetHashCode(),

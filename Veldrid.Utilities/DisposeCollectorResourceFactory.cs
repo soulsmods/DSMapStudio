@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using Vortice.Vulkan;
+
 namespace Veldrid.Utilities
 {
     public class DisposeCollectorResourceFactory : ResourceFactory
@@ -16,13 +19,10 @@ namespace Veldrid.Utilities
             Factory = factory;
             DisposeCollector = disposeCollector;
         }
-
-        public override GraphicsBackend BackendType => Factory.BackendType;
-
-        public override CommandList CreateCommandList(ref CommandListDescription description)
+        
+        public override CommandList CreateCommandList(QueueType type)
         {
-            CommandList cl = Factory.CreateCommandList(ref description);
-            DisposeCollector.Add(cl);
+            CommandList cl = Factory.CreateCommandList(type);
             return cl;
         }
 

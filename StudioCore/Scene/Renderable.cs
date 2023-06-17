@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Veldrid;
 using Veldrid.Utilities;
+using Vortice.Vulkan;
 
 namespace StudioCore.Scene
 {
@@ -24,7 +25,7 @@ namespace StudioCore.Scene
     {
         public Renderer.IndirectDrawIndexedArgumentsPacked _indirectArgs;
         public ResourceSet _objectResourceSet;
-        public IndexFormat _indexFormat;
+        public VkIndexType _indexFormat;
         public int _bufferIndex;
     }
 

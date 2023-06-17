@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Veldrid;
+using Vortice.Vulkan;
 
 namespace StudioCore.Scene
 {
@@ -18,19 +19,27 @@ namespace StudioCore.Scene
         public static void Initialize(GraphicsDevice d)
         {
             var layoutdesc = new ResourceLayoutDescription(
-                new ResourceLayoutElementDescription("linearSampler", ResourceKind.Sampler, ShaderStages.Fragment, ResourceLayoutElementOptions.None),
-                new ResourceLayoutElementDescription("anisoLinearSampler", ResourceKind.Sampler, ShaderStages.Fragment, ResourceLayoutElementOptions.None));
+                new ResourceLayoutElementDescription(
+                    "linearSampler", 
+                    VkDescriptorType.Sampler, 
+                    VkShaderStageFlags.Fragment,
+                    VkDescriptorBindingFlags.None),
+                new ResourceLayoutElementDescription(
+                    "anisoLinearSampler", 
+                    VkDescriptorType.Sampler, 
+                    VkShaderStageFlags.Fragment,
+                    VkDescriptorBindingFlags.None));
             SamplersLayout = d.ResourceFactory.CreateResourceLayout(layoutdesc);
 
             _linearSampler = d.ResourceFactory.CreateSampler(new SamplerDescription(
-                SamplerAddressMode.Wrap, SamplerAddressMode.Wrap, SamplerAddressMode.Wrap,
-                SamplerFilter.MinLinear_MagLinear_MipLinear,
-                null, 0, 0, 15, 0, SamplerBorderColor.OpaqueBlack
+                VkSamplerAddressMode.Repeat, VkSamplerAddressMode.Repeat, VkSamplerAddressMode.Repeat,
+                VkFilter.Linear, VkFilter.Linear, VkSamplerMipmapMode.Linear,
+                null, 0, 0, 15, 0, VkBorderColor.FloatOpaqueBlack
                 ));
             _anisoLinearSampler = d.ResourceFactory.CreateSampler(new SamplerDescription(
-                SamplerAddressMode.Wrap, SamplerAddressMode.Wrap, SamplerAddressMode.Wrap,
-                SamplerFilter.Anisotropic,
-                null, 16, 0, 15, 0, SamplerBorderColor.OpaqueBlack
+                VkSamplerAddressMode.Repeat, VkSamplerAddressMode.Repeat, VkSamplerAddressMode.Repeat,
+                VkFilter.Linear, VkFilter.Linear, VkSamplerMipmapMode.Linear,
+                null, 16, 0, 15, 0, VkBorderColor.FloatOpaqueBlack
             ));
 
             var setdesc = new ResourceSetDescription(SamplersLayout, new [] { _linearSampler, _anisoLinearSampler });

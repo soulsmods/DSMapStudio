@@ -49,19 +49,25 @@ namespace StudioCore
             if (!File.Exists(GetConfigFilePath()))
             {
                 Current = new CFG();
-                SaveConfig();
             }
             else
             {
                 try
                 {
-                    Current = JsonConvert.DeserializeObject<CFG>(
-                    File.ReadAllText(GetConfigFilePath()));
+                    Current = JsonConvert.DeserializeObject<CFG>(File.ReadAllText(GetConfigFilePath()));
+                    if (Current == null)
+                        throw new Exception("JsonConvert returned null");
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show($"{e.Message}\n\nConfig could not be loaded, and will be reset.", $"{Config_FileName} Load Error");
+                    var result = MessageBox.Show($"{e.Message}\n\nConfig could not be loaded. Reset settings?",
+                        $"{Config_FileName} Load Error", MessageBoxButtons.YesNo);
+                    if ( result == DialogResult.No)
+                    {
+                        throw new Exception($"{Config_FileName} could not be loaded.\n\n{e.Message}");
+                    }
                     Current = new CFG();
+                    SaveConfig();
                 }
             }
         }
@@ -71,19 +77,25 @@ namespace StudioCore
             if (!File.Exists(GetBindingsFilePath()))
             {
                 KeyBindings.Current = new KeyBindings.Bindings();
-                SaveKeybinds();
             }
             else
             {
                 try
                 {
-                    KeyBindings.Current = JsonConvert.DeserializeObject<KeyBindings.Bindings>(
-                    File.ReadAllText(GetBindingsFilePath()));
+                    KeyBindings.Current = JsonConvert.DeserializeObject<KeyBindings.Bindings>(File.ReadAllText(GetBindingsFilePath()));
+                    if (KeyBindings.Current == null)
+                        throw new Exception("JsonConvert returned null");
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show($"{e.Message}\n\nKeybinds could not be loaded, and will be reset.", $"{Keybinds_FileName} Load Error", MessageBoxButtons.OK);
+                    var result = MessageBox.Show($"{e.Message}\n\nKeybinds could not be loaded. Reset keybinds?",
+                        $"{Keybinds_FileName} Load Error", MessageBoxButtons.YesNo);
+                    if (result == DialogResult.No)
+                    {
+                        throw new Exception($"{Keybinds_FileName} could not be loaded.\n\n{e.Message}");
+                    }
                     KeyBindings.Current = new KeyBindings.Bindings();
+                    SaveKeybinds();
                 }
             }
         }
