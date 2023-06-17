@@ -5,6 +5,7 @@ using System.IO;
 using System.Numerics;
 using System.Reflection;
 using System.Text;
+using System.Linq;
 using ImGuiNET;
 using Microsoft.Win32;
 using SoulsFormats;
@@ -779,6 +780,53 @@ namespace StudioCore
                     val = refval;
                 }
             }
+        }
+
+        /// <summary>
+        /// Inserts new lines into a string to make it fit in the specified UI width.
+        /// </summary>
+        public static string ImGui_WordWrapString(string text, float uiWidth, int maxLines = 3)
+        {
+            float textWidth = ImGui.CalcTextSize(text).X;
+
+            // Determine how many line breaks are needed
+            float rowNum = float.Ceiling(textWidth / uiWidth);
+            if (rowNum > maxLines)
+            {
+                rowNum = maxLines;
+            }
+
+            // Insert line breaks into text
+            for (float iRow = 1; iRow < rowNum; iRow++)
+            {
+                int pos_default = (int)(text.Length * (iRow / rowNum));
+                int pos_final;
+                int iPos = 0;
+                int sign = 1;
+                while (true)
+                {
+                    // Find position in string to insert new line without interrupting any words
+                    pos_final = pos_default + (iPos * sign);
+                    if (pos_final <= pos_default * 0.7f || pos_final >= pos_default * 1.3f)
+                    {
+                        // Couldn't find empty position within limited range, insert at fractional position instead.
+                        text = text.Insert(pos_default, "-\n ");
+                        break;
+                    }
+                    if (text[pos_final] is ' ' or '-')
+                    {
+                        text = text.Insert(pos_final, "\n");
+                        break;
+                    }
+
+                    sign *= -1;
+                    if (sign == -1)
+                    {
+                        iPos++;
+                    }
+                }
+            }
+            return text;
         }
     }
 }

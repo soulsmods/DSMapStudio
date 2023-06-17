@@ -729,9 +729,6 @@ namespace StudioCore.TextEditor
                 case FmgIDType.SummarySwordArts:
                     return FmgEntryCategory.SwordArts;
 
-                case FmgIDType.TitleMessage:
-                    return FmgEntryCategory.Message;
-
                 case FmgIDType.WeaponEffect:
                     return FmgEntryCategory.ItemFmgDummy;
 
@@ -820,7 +817,6 @@ namespace StudioCore.TextEditor
                 case FmgIDType.TitleSpells_Patch:
                 case FmgIDType.TitleWeapons_Patch:
                 case FmgIDType.TitleGem:
-                case FmgIDType.TitleMessage:
                 case FmgIDType.TitleSwordArts:
                     return FmgEntryTextType.Title;
 

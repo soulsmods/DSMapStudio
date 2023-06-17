@@ -1961,7 +1961,9 @@ namespace StudioCore.ParamEditor
                 }
             }
 
-            if (ImGui.Selectable($@"{r.ID} {Utils.ImGuiEscape(r.Name, "")}", selected))
+            string label = $@"{r.ID} {Utils.ImGuiEscape(r.Name, "")}";
+            label = Utils.ImGui_WordWrapString(label, ImGui.GetColumnWidth());
+            if (ImGui.Selectable(label, selected))
             {
                 _focusRows = true;
                 if (InputTracker.GetKey(Key.LControl))
