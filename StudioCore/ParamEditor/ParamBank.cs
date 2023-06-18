@@ -597,12 +597,11 @@ namespace StudioCore.ParamEditor
 
                     try
                     {
-                        PARAMDEF def = _paramdefs[lp.ParamType];
-
-                        lp.ApplyParamdef(def);
                         if (loose)
                         {
                             // Loose params: override params already loaded via regulation
+                            PARAMDEF def = _paramdefs[lp.ParamType];
+                            lp.ApplyParamdef(def);
                             _params[name] = lp;
                         }
                         else
@@ -610,6 +609,8 @@ namespace StudioCore.ParamEditor
                             // Non-loose params: do not override params already loaded via regulation
                             if (!_params.ContainsKey(name))
                             {
+                                PARAMDEF def = _paramdefs[lp.ParamType];
+                                lp.ApplyParamdef(def);
                                 _params.Add(name, lp);
                             }
                         }
