@@ -597,7 +597,11 @@ namespace StudioCore.ParamEditor
 
                     try
                     {
-                        PARAMDEF def = AssetLocator.GetParamdefForParam(fname);
+                        if (!_paramdefs.TryGetValue(lp.ParamType, out PARAMDEF def))
+                        {
+                            def = AssetLocator.GetParamdefForParam(fname);
+                        }
+
                         lp.ApplyParamdef(def);
                         if (loose)
                         {
@@ -619,7 +623,6 @@ namespace StudioCore.ParamEditor
                     }
                 }
             }
-
         }
 
         private void LoadParamsDS3(bool loose)
