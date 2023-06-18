@@ -59,7 +59,7 @@ namespace StudioCore.ParamEditor
             }
             else if (col.Item1 == PseudoColumn.Name)
             {
-                if (!row.Name.Equals(newval))
+                if (row.Name == null || !row.Name.Equals(newval))
                     actions.Add(new PropertiesChangedAction(row.GetType().GetProperty("Name"), -1, row, newval));
             }
             else
