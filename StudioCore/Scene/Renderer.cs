@@ -70,8 +70,8 @@ namespace StudioCore.Scene
             {
                 BufferDescription desc = new BufferDescription(
                     initialCallCount * 20,
-                    VkBufferUsageFlags.IndirectBuffer,
-                    VmaMemoryUsage.AutoPreferDevice,
+                    VkBufferUsageFlags.IndirectBuffer | VkBufferUsageFlags.TransferDst,
+                    VmaMemoryUsage.Auto,
                     0);
                 _indirectBuffer = Factory.CreateBuffer(desc);
                 _indirectStagingBuffer = new IndirectDrawIndexedArgumentsPacked[initialCallCount];
@@ -409,6 +409,7 @@ namespace StudioCore.Scene
 
                 ctx = Tracy.TracyCZoneN(1, "RenderQueue::Execute pre-draw");
                 var resourceUpdateCommandList = Factory.CreateCommandList(QueueType.Graphics);
+                resourceUpdateCommandList.Name = "ResourceUpdate";
                 resourceUpdateCommandList.PushDebugGroup($@"{Name}: Update resources");
                 PreDrawSetup.Invoke(Device, drawCommandList);
                 resourceUpdateCommandList.PopDebugGroup();
@@ -427,7 +428,7 @@ namespace StudioCore.Scene
                 Tracy.TracyCZoneEnd(ctx);
 
                 ctx = Tracy.TracyCZoneN(1, "RenderQueue::Execute update indirect buffer");
-                resourceUpdateCommandList.InsertDebugMarker($@"{Name}: Indirect buffer update");
+                resourceUpdateCommandList.PushDebugGroup($@"{Name}: Indirect buffer update");
                 _drawEncoders[_currentBuffer].UpdateBuffer(resourceUpdateCommandList);
                 resourceUpdateCommandList.PopDebugGroup();
                 Device.SubmitCommands(resourceUpdateCommandList, _resourcesUpdatedFence[_currentBuffer]);
@@ -436,7 +437,7 @@ namespace StudioCore.Scene
                 // Wait on the last outstanding frame in flight and submit the draws
                 //Device.WaitForFence(_resourcesUpdatedFence[_nextBuffer], ulong.MaxValue - 1);
                 ctx = Tracy.TracyCZoneN(1, "RenderQueue::Execute submit draw");
-                drawCommandList.InsertDebugMarker($@"{Name}: Draw");
+                drawCommandList.PushDebugGroup($@"{Name}: Draw");
                 _drawEncoders[_currentBuffer].SubmitBatches(drawCommandList, Pipeline);
                 drawCommandList.PopDebugGroup();
                 Tracy.TracyCZoneEnd(ctx);
@@ -591,6 +592,7 @@ namespace StudioCore.Scene
             Stopwatch sw = Stopwatch.StartNew();
             var ctx = Tracy.TracyCZoneN(1, "RenderQueue::Frame");
             var mainCommandList = Factory.CreateCommandList(QueueType.Graphics);
+            mainCommandList.Name = "Render";
 
             var ctx2 = Tracy.TracyCZoneN(1, "RenderQueue::Frame Background work");
             Queue<Action<GraphicsDevice, CommandList>> work;
@@ -688,9 +690,9 @@ namespace StudioCore.Scene
                 }
 
                 var transferCommandList = Factory.CreateCommandList(QueueType.Transfer);
-                (DeviceBuffer, DeviceBuffer, VkAccessFlags2, Action<GraphicsDevice>) t;
+                transferCommandList.Name = "Transfer";
                 VkAccessFlags2 dstFlags = VkAccessFlags2.None;
-                while (_asyncTransfersPendingQueue.TryDequeue(out t))
+                while (_asyncTransfersPendingQueue.TryDequeue(out var t))
                 {
                     dstFlags |= t.Item3;
                     transferCommandList.CopyBuffer(t.Item2, 0, t.Item1, 0, t.Item1.SizeInBytes);
@@ -752,6 +754,7 @@ namespace StudioCore.Scene
             else if (_readbackPendingQueue.Count > 0 && _readyForReadback && _readbackPendingFence == _currentBuffer)
             {
                 var readbackCommandList = Factory.CreateCommandList(QueueType.Graphics);
+                readbackCommandList.Name = "Readback";
                 foreach (var entry in _readbackPendingQueue)
                 {
                     readbackCommandList.BufferBarrier(entry.Item2,

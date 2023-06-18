@@ -47,14 +47,9 @@ namespace Veldrid
         private VkQueue[] _queues;
         
         private readonly object _submitLock = new object();
-        private VkDebugReportCallbackEXT _debugCallbackHandle;
-        private delegate uint DebugCallbackFunc(VkDebugReportFlagsEXT a, VkDebugReportObjectTypeEXT b, ulong @object, nuint location, int messageCode, sbyte* pLayerPrefix, sbyte* pMessage, void* pUserDat);
-        private DebugCallbackFunc _debugCallbackFunc;
-        private bool _debugMarkerEnabled;
-        private vkDebugMarkerSetObjectNameEXT_t _setObjectNameDelegate;
-        private vkCmdDebugMarkerBeginEXT_t _markerBegin;
-        private vkCmdDebugMarkerEndEXT_t _markerEnd;
-        private vkCmdDebugMarkerInsertEXT_t _markerInsert;
+        private VkDebugUtilsMessengerEXT _debugMessengerHandle = VkDebugUtilsMessengerEXT.Null;
+        private bool _debugLabelEnabled;
+        
         private readonly ConcurrentDictionary<VkFormat, VkFilter> _filters = new ConcurrentDictionary<VkFormat, VkFilter>();
         private readonly BackendInfoVulkan _vulkanInfo;
 
@@ -70,55 +65,113 @@ namespace Veldrid
         private const uint MaxStagingBufferSize = 512;
 
         private readonly object _stagingResourcesLock = new object();
-        private readonly List<Texture> _availableStagingTextures = new List<Texture>();
-        private readonly List<DeviceBuffer> _availableStagingBuffers = new List<DeviceBuffer>();
-
-        private readonly Dictionary<VkCommandBuffer, Texture> _submittedStagingTextures
-            = new Dictionary<VkCommandBuffer, Texture>();
-        private readonly Dictionary<VkCommandBuffer, DeviceBuffer> _submittedStagingBuffers
-            = new Dictionary<VkCommandBuffer, DeviceBuffer>();
 
         // Object pools
         private readonly ObjectPool<CommandList> _commandListPool = new ObjectPool<CommandList>(20);
 
+        // Resource pools
+        private BufferPool _stagingPool;
+
+        // Long running async transfers
+        private object _asyncTransferCommandListLock = new object();
+        private CommandBufferPool _asyncTransferCommandListPool;
+        private int _activeAsyncTransferCommandListCount = 0;
+        
         internal VkInstance Instance => _instance;
         internal VkDevice Device => _device;
         internal VkPhysicalDevice PhysicalDevice => _physicalDevice;
         internal VkPhysicalDeviceMemoryProperties PhysicalDeviceMemProperties => _physicalDeviceMemProperties;
         internal VmaAllocator Allocator => _vmaAllocator;
         internal VkDescriptorPoolManager DescriptorPoolManager => _descriptorPoolManager;
-        internal vkCmdDebugMarkerBeginEXT_t MarkerBegin => _markerBegin;
-        internal vkCmdDebugMarkerEndEXT_t MarkerEnd => _markerEnd;
-        internal vkCmdDebugMarkerInsertEXT_t MarkerInsert => _markerInsert;
-        internal vkGetBufferMemoryRequirements2_t GetBufferMemoryRequirements2 => _getBufferMemoryRequirements2;
-        internal vkGetImageMemoryRequirements2_t GetImageMemoryRequirements2 => _getImageMemoryRequirements2;
+        internal bool DebugLabelsEnabled => _debugLabelEnabled;
 
         private readonly object _submittedFencesLock = new();
         private readonly ConcurrentQueue<VkFence> _availableSubmissionFences = new();
-        private readonly List<FenceSubmissionInfo> _submittedFences = new();
         private readonly Swapchain _mainSwapchain;
 
         private readonly List<FixedUtf8String> _surfaceExtensions = new();
+        
 
+        internal record struct BufferInfo(VkBuffer Buffer, VmaAllocation Allocation);
+        internal record struct ImageInfo(VkImage Image, VmaAllocation Allocation);
+        internal record struct DescriptorSetInfo(DescriptorAllocationToken Token, DescriptorResourceCounts Counts);
+        
         internal struct PerFrameData
         {
             public List<CommandBufferPool> CommandBufferPools;
+            public List<BufferPool.Block> StagingBlocks;
+            public BufferPool.Block DeviceStagingBlock;
+            
+            // Resource destruction lists
+            public List<BufferInfo> DestroyedBuffers;
+            public List<ImageInfo> DestroyedImages;
+            public List<VkImageView> DestroyedImageViews;
+            public List<DescriptorSetInfo> DestroyedDescriptorSets;
+            public List<VkPipeline> DestroyedPipelines;
+
+            public List<VkFence> WaitFences;
 
             public PerFrameData(GraphicsDevice device, int index)
             {
                 CommandBufferPools = new List<CommandBufferPool>();
+                StagingBlocks = new List<BufferPool.Block>();
+                DeviceStagingBlock = null;
                 for (int i = 0; i < (int)QueueType.QueueTypeCount; i++)
                 {
                     CommandBufferPools.Add(new CommandBufferPool(device, device._queueFamilyIndices[i]));
                 }
+
+                DestroyedBuffers = new List<BufferInfo>();
+                DestroyedImages = new List<ImageInfo>();
+                DestroyedImageViews = new List<VkImageView>();
+                DestroyedDescriptorSets = new List<DescriptorSetInfo>();
+                DestroyedPipelines = new List<VkPipeline>();
+
+                WaitFences = new List<VkFence>();
             }
 
             public void Reset(GraphicsDevice device)
             {
+                // Wait for all command lists associated with this frame index to have finished
+                if (WaitFences.Count > 0)
+                {
+                    VkFence* fences = stackalloc VkFence[WaitFences.Count];
+                    for (int i = 0; i < WaitFences.Count; i++)
+                        fences[i] = WaitFences[i];
+                    vkWaitForFences(device._device, WaitFences.Count, fences, VkBool32.True, UInt64.MaxValue);
+                    vkResetFences(device._device, WaitFences.Count, fences);
+                    foreach (var fence in WaitFences)
+                        device._availableSubmissionFences.Enqueue(fence);
+                    WaitFences.Clear();
+                }
+
                 foreach (var pool in CommandBufferPools)
                 {
                     pool.Reset();
                 }
+
+                foreach (var block in StagingBlocks)
+                {
+                    device._stagingPool.RecycleBlock(block);
+                }
+                StagingBlocks.Clear();
+                DeviceStagingBlock = null;
+                
+                foreach (var b in DestroyedBuffers)
+                    Vma.vmaDestroyBuffer(device._vmaAllocator, b.Buffer, b.Allocation);
+                DestroyedBuffers.Clear();
+                foreach (var i in DestroyedImages)
+                    Vma.vmaDestroyImage(device._vmaAllocator, i.Image, i.Allocation);
+                DestroyedImages.Clear();
+                foreach (var i in DestroyedImageViews)
+                    vkDestroyImageView(device._device, i);
+                DestroyedImageViews.Clear();
+                foreach (var s in DestroyedDescriptorSets)
+                    device._descriptorPoolManager.Free(s.Token, s.Counts);
+                DestroyedDescriptorSets.Clear();
+                foreach (var p in DestroyedPipelines)
+                    vkDestroyPipeline(device._device, p);
+                DestroyedPipelines.Clear();
             }
 
             public void Destroy(GraphicsDevice device)
@@ -177,9 +230,12 @@ namespace Veldrid
                 independentBlend: _physicalDeviceFeatures.independentBlend,
                 structuredBuffer: true,
                 subsetTextureView: true,
-                commandListDebugMarkers: _debugMarkerEnabled,
+                commandListDebugMarkers: _debugLabelEnabled,
                 bufferRangeBinding: true);
 
+            // Internal resources and allocators
+            _asyncTransferCommandListPool = new CommandBufferPool(this, _queueFamilyIndices[(int)QueueType.Transfer]);
+            _stagingPool = new BufferPool(this, 16 * 1024, 16, VkBufferUsageFlags.TransferSrc, false);
             for (int i = 0; i < MaxFramesInFlight; i++)
             {
                 _perFrameData.Add(new PerFrameData(this, i));
@@ -276,6 +332,80 @@ namespace Veldrid
         internal uint GetStructuredBufferMinOffsetAlignmentCore()
             => (uint)_physicalDeviceProperties.limits.minStorageBufferOffsetAlignment;
 
+        internal BufferPool.Block GetBlock(ulong size, 
+            BufferPool pool, 
+            List<BufferPool.Block> transfers,
+            List<BufferPool.Block> recycle)
+        {
+            if (size == 0)
+                return null;
+            
+            var block = pool.GetBlock(size);
+            block.Reset();
+            
+            // If block requires staging we need to schedule a transfer
+            if (block.RequiresStaging)
+                transfers.Add(block);
+            
+            // Block needs to be scheduled for recycling when the associated frame has been completed
+            recycle.Add(block);
+            
+            return block;
+        }
+
+        private object _stagingBlockLock = new object();
+        internal BufferPool.Block GetStagingBlock(ulong size)
+        {
+            lock (_stagingBlockLock)
+            {
+                return GetBlock(size, _stagingPool, null, _perFrameData[_currentFrame].StagingBlocks);
+            }
+        }
+
+        private object _destroyBufferLock = new object();
+        internal void DestroyBuffer(VkBuffer buffer, VmaAllocation allocation)
+        {
+            lock (_destroyBufferLock)
+            {
+                _perFrameData[_currentFrame].DestroyedBuffers.Add(new BufferInfo(buffer, allocation));
+            }
+        }
+
+        private object _destroyImageLock = new object();
+        internal void DestroyImage(VkImage image, VmaAllocation allocation)
+        {
+            lock (_destroyImageLock)
+            {
+                _perFrameData[_currentFrame].DestroyedImages.Add(new ImageInfo(image, allocation));
+            }
+        }
+        
+        private object _destroyImageViewLock = new object();
+        internal void DestroyImageView(VkImageView view)
+        {
+            lock (_destroyImageViewLock)
+            {
+                _perFrameData[_currentFrame].DestroyedImageViews.Add(view);
+            }
+        }
+        
+        private object _destroyDescriptorSetLock = new object();
+        internal void DestroyDescriptorSet(DescriptorAllocationToken token, DescriptorResourceCounts counts)
+        {
+            lock (_destroyDescriptorSetLock)
+            {
+                _perFrameData[_currentFrame].DestroyedDescriptorSets.Add(new DescriptorSetInfo(token, counts));
+            }
+        }
+        
+        private object _destroyPipelineLock = new object();
+        internal void DestroyPipeline(VkPipeline pipeline)
+        {
+            lock (_destroyPipelineLock)
+            {
+                _perFrameData[_currentFrame].DestroyedPipelines.Add(pipeline);
+            }
+        }
         
         /// <summary>
         /// Begins a new frame, freeing any retired per-frame resources.
@@ -493,10 +623,12 @@ namespace Veldrid
         {
             lock (_submitLock)
             {
-                vkQueueWaitIdle(_queues[(int)QueueType.Graphics]);
+                for (int i = 0; i < _perFrameData.Count; i++)
+                {
+                    NextFrame();
+                }
+                vkDeviceWaitIdle(_device);
             }
-
-            CheckSubmittedFences();
         }
 
         /// <summary>
@@ -566,15 +698,16 @@ namespace Veldrid
 #if VALIDATE_USAGE
             if (resource is DeviceBuffer buffer)
             {
-                if (buffer.MemoryUsage != VmaMemoryUsage.AutoPreferHost)
+                if ((buffer.MemoryFlags & VkMemoryPropertyFlags.HostVisible) == 0)
                 {
-                    throw new VeldridException("Buffers must have the Staging or Dynamic usage flag to be mapped.");
+                    throw new VeldridException("Buffers must be host visible to be mapped.");
                 }
                 if (subresource != 0)
                 {
                     throw new VeldridException("Subresource must be 0 for Buffer resources.");
                 }
-                if ((mode == MapMode.Read || mode == MapMode.ReadWrite) && (buffer.MemoryUsage != VmaMemoryUsage.AutoPreferHost))
+                if ((mode == MapMode.Read || mode == MapMode.ReadWrite) && 
+                    (buffer.MemoryFlags & VkMemoryPropertyFlags.HostVisible) == 0)
                 {
                     throw new VeldridException(
                         $"{nameof(MapMode)}.{nameof(MapMode.Read)} and {nameof(MapMode)}.{nameof(MapMode.ReadWrite)} can only be used on buffers created with host visible mapping");
@@ -829,15 +962,13 @@ namespace Veldrid
                 Texture stagingTex = GetFreeStagingTexture(width, height, depth, texture.Format);
                 UpdateTexture(stagingTex, source, sizeInBytes, 0, 0, 0, width, height, depth, 0, 0);
                 var cb = GetCommandList(QueueType.Graphics);
+                cb.Name = "TextureUpdate";
                 CommandList.CopyTextureCore_VkCommandBuffer(
                     cb.CommandBuffer,
                     stagingTex, 0, 0, 0, 0, 0,
                     texture, x, y, z, mipLevel, arrayLayer,
                     width, height, depth, 1);
-                lock (_stagingResourcesLock)
-                {
-                    _submittedStagingTextures.Add(cb.CommandBuffer, stagingTex);
-                }
+                stagingTex.Dispose();
                 SubmitCommandsCore(cb, null);
             }
         }
@@ -905,6 +1036,38 @@ namespace Veldrid
             }
         }
 
+        internal DeviceBuffer CreateBuffer(uint sizeInBytes, 
+            VkBufferUsageFlags usage, 
+            VmaMemoryUsage memUsage, 
+            VmaAllocationCreateFlags allocationFlags)
+        {
+            if ((allocationFlags & VmaAllocationCreateFlags.Mapped) != 0 &&
+                (allocationFlags & VmaAllocationCreateFlags.HostAccessSequentialWrite) == 0)
+                allocationFlags |= VmaAllocationCreateFlags.HostAccessRandom;
+            
+            var bufferCI = new VkBufferCreateInfo
+            {
+                sType = VkStructureType.BufferCreateInfo,
+                size = sizeInBytes,
+                usage = usage
+            };
+
+            var allocationCI = new VmaAllocationCreateInfo
+            {
+                flags = allocationFlags,
+                usage = memUsage
+            };
+
+            VkBuffer buffer;
+            VmaAllocation allocation;
+            VmaAllocationInfo allocationInfo;
+            VkResult result = Vma.vmaCreateBuffer(Allocator, &bufferCI, &allocationCI, out buffer,
+                out allocation, &allocationInfo);
+            CheckResult(result);
+
+            return new DeviceBuffer(this, usage, buffer, sizeInBytes, allocation, allocationInfo);
+        }
+        
         /// <summary>
         /// Updates a <see cref="DeviceBuffer"/> region with new data.
         /// This function must be used with a blittable value type <typeparamref name="T"/>.
@@ -1017,6 +1180,7 @@ namespace Veldrid
             DeviceBuffer copySrcVkBuffer = null;
             IntPtr mappedPtr;
             byte* destPtr;
+            ulong srcOffset = 0;
             bool isPersistentMapped = vkBuffer.AllocationInfo.pMappedData != null;
             if (isPersistentMapped)
             {
@@ -1025,9 +1189,11 @@ namespace Veldrid
             }
             else
             {
-                copySrcVkBuffer = GetFreeStagingBuffer(sizeInBytes);
-                mappedPtr = (IntPtr)copySrcVkBuffer.AllocationInfo.pMappedData;
+                var allocation = GetStagingAllocation(sizeInBytes);
+                copySrcVkBuffer = allocation.Buffer;
+                mappedPtr = allocation.Mapped;
                 destPtr = (byte*)mappedPtr;
+                srcOffset = allocation.Offset;
             }
 
             Unsafe.CopyBlock(destPtr, source.ToPointer(), sizeInBytes);
@@ -1035,19 +1201,17 @@ namespace Veldrid
             if (!isPersistentMapped)
             {
                 var cb = GetCommandList(QueueType.Transfer);
+                cb.Name = "BufferUpdate";
 
                 VkBufferCopy copyRegion = new VkBufferCopy
                 {
+                    srcOffset = srcOffset,
                     dstOffset = bufferOffsetInBytes,
                     size = sizeInBytes
                 };
                 vkCmdCopyBuffer(cb.CommandBuffer, copySrcVkBuffer.Buffer, vkBuffer.Buffer, 1, &copyRegion);
 
                 SubmitCommandsCore(cb, null);
-                lock (_stagingResourcesLock)
-                {
-                    _submittedStagingBuffers.Add(cb.CommandBuffer, copySrcVkBuffer);
-                }
             }
         }
 
@@ -1157,36 +1321,19 @@ namespace Veldrid
         /// </summary>
         protected void PlatformDispose()
         {
-            Debug.Assert(_submittedFences.Count == 0);
+            WaitForIdle();
             foreach (VkFence fence in _availableSubmissionFences)
             {
                 vkDestroyFence(_device, fence, null);
             }
 
             _mainSwapchain?.Dispose();
-            if (_debugCallbackFunc != null)
+            if (_debugMessengerHandle != VkDebugUtilsMessengerEXT.Null)
             {
-                _debugCallbackFunc = null;
-                FixedUtf8String debugExtFnName = "vkDestroyDebugReportCallbackEXT";
-                IntPtr destroyFuncPtr = (IntPtr)vkGetInstanceProcAddr(_instance, debugExtFnName.Span);
-                vkDestroyDebugReportCallbackEXT_d destroyDel
-                    = Marshal.GetDelegateForFunctionPointer<vkDestroyDebugReportCallbackEXT_d>(destroyFuncPtr);
-                destroyDel(_instance, _debugCallbackHandle, null);
+                vkDestroyDebugUtilsMessengerEXT(_instance, _debugMessengerHandle, null);
             }
 
             _descriptorPoolManager.DestroyAll();
-
-            Debug.Assert(_submittedStagingTextures.Count == 0);
-            foreach (var tex in _availableStagingTextures)
-            {
-                tex.Dispose();
-            }
-
-            Debug.Assert(_submittedStagingBuffers.Count == 0);
-            foreach (var buffer in _availableStagingBuffers)
-            {
-                buffer.Dispose();
-            }
 
             Vma.vmaDestroyAllocator(_vmaAllocator);
 
@@ -1249,6 +1396,25 @@ namespace Veldrid
             ret.Initialize(this, buffer, type);
             return ret;
         }
+
+        /// <summary>
+        /// Gets a command list not tied to a frame's lifetime for async transfers that may last a while
+        /// and the user code is responsible for checking for completion.
+        /// </summary>
+        /// <returns></returns>
+        internal CommandList GetAsyncTransferCommandList()
+        {
+            VkCommandBuffer buffer;
+            lock (_asyncTransferCommandListLock)
+            {
+                buffer = _asyncTransferCommandListPool.GetCommandBuffer();
+                _activeAsyncTransferCommandListCount++;
+            }
+
+            var ret = _commandListPool.Get();
+            ret.Initialize(this, buffer, QueueType.Transfer, true);
+            return ret;
+        }
         
         private void SubmitCommandList(
             CommandList cl,
@@ -1260,23 +1426,8 @@ namespace Veldrid
         {
             VkCommandBuffer vkCB = cl.CommandBuffer;
             cl.End();
-            cl.CommandBufferSubmitted(vkCB);
-            SubmitCommandBuffer(cl, vkCB, waitSemaphoreCount, waitSemaphoresPtr, signalSemaphoreCount, signalSemaphoresPtr, fence);
-        }
-
-        private void SubmitCommandBuffer(
-            CommandList vkCL,
-            VkCommandBuffer vkCB,
-            uint waitSemaphoreCount,
-            VkSemaphore* waitSemaphoresPtr,
-            uint signalSemaphoreCount,
-            VkSemaphore* signalSemaphoresPtr,
-            Fence fence)
-        {
-            CheckSubmittedFences();
 
             bool useExtraFence = fence != null;
-            VkPipelineStageFlags waitDstStageMask = VkPipelineStageFlags.ColorAttachmentOutput;
             var cbSubmitInfo = new VkCommandBufferSubmitInfo
             {
                 sType = VkStructureType.CommandBufferSubmitInfo,
@@ -1291,6 +1442,7 @@ namespace Veldrid
                 pCommandBufferInfos = &cbSubmitInfo,
             };
 
+            var queue = _queues[(int)cl.SubmissionQueue];
             var vkFence = VkFence.Null;
             var submissionFence = VkFence.Null;
             if (useExtraFence)
@@ -1303,8 +1455,7 @@ namespace Veldrid
                 vkFence = GetFreeSubmissionFence();
                 submissionFence = vkFence;
             }
-
-            var queue = _queues[(int)vkCL.SubmissionQueue];
+            
             lock (_submitLock)
             {
                 VkResult result = vkQueueSubmit2(queue, 1, &si, vkFence);
@@ -1314,69 +1465,13 @@ namespace Veldrid
                     result = vkQueueSubmit2(queue, 0, null, submissionFence);
                     CheckResult(result);
                 }
+                _commandListPool.Recycle(cl);
             }
 
             lock (_submittedFencesLock)
             {
-                _submittedFences.Add(new FenceSubmissionInfo(submissionFence, vkCL, vkCB));
+                _perFrameData[_currentFrame].WaitFences.Add(submissionFence);
             }
-        }
-
-        private void CheckSubmittedFences()
-        {
-            lock (_submittedFencesLock)
-            {
-                for (int i = 0; i < _submittedFences.Count; i++)
-                {
-                    FenceSubmissionInfo fsi = _submittedFences[i];
-                    if (vkGetFenceStatus(_device, fsi.Fence) == VkResult.Success)
-                    {
-                        CompleteFenceSubmission(fsi);
-                        _commandListPool.Recycle(fsi.CommandList);
-                        _submittedFences.RemoveAt(i);
-                        i -= 1;
-                    }
-                    else
-                    {
-                        break; // Submissions are in order; later submissions cannot complete if this one hasn't.
-                    }
-                }
-            }
-        }
-
-        private void CompleteFenceSubmission(FenceSubmissionInfo fsi)
-        {
-            VkFence fence = fsi.Fence;
-            VkCommandBuffer completedCB = fsi.CommandBuffer;
-            fsi.CommandList?.CommandBufferCompleted(completedCB);
-            VkResult resetResult = vkResetFences(_device, 1, &fence);
-            CheckResult(resetResult);
-            ReturnSubmissionFence(fence);
-            lock (_stagingResourcesLock)
-            {
-                if (_submittedStagingTextures.TryGetValue(completedCB, out var stagingTex))
-                {
-                    _submittedStagingTextures.Remove(completedCB);
-                    _availableStagingTextures.Add(stagingTex);
-                }
-                if (_submittedStagingBuffers.TryGetValue(completedCB, out var stagingBuffer))
-                {
-                    _submittedStagingBuffers.Remove(completedCB);
-                    if (stagingBuffer.SizeInBytes <= MaxStagingBufferSize)
-                    {
-                        _availableStagingBuffers.Add(stagingBuffer);
-                    }
-                    else
-                    {
-                        stagingBuffer.Dispose();
-                    }
-                }
-            }
-        }
-
-        private void ReturnSubmissionFence(Vortice.Vulkan.VkFence fence)
-        {
-            _availableSubmissionFences.Enqueue(fence);
         }
 
         private VkFence GetFreeSubmissionFence()
@@ -1385,71 +1480,69 @@ namespace Veldrid
             {
                 return availableFence;
             }
-            else
+
+            VkFenceCreateInfo fenceCI = new VkFenceCreateInfo
             {
-                VkFenceCreateInfo fenceCI = new VkFenceCreateInfo
-                {
-                    sType = VkStructureType.FenceCreateInfo
-                };
-                VkFence newFence;
-                VkResult result = vkCreateFence(_device, &fenceCI, null, out newFence);
-                CheckResult(result);
-                return newFence;
-            }
+                sType = VkStructureType.FenceCreateInfo
+            };
+            VkFence newFence;
+            VkResult result = vkCreateFence(_device, &fenceCI, null, out newFence);
+            CheckResult(result);
+            return newFence;
         }
 
         internal void SetResourceName(DeviceResource resource, string name)
         {
-            if (_debugMarkerEnabled)
+            if (_debugLabelEnabled)
             {
                 switch (resource)
                 {
                     case DeviceBuffer buffer:
-                        SetDebugMarkerName(VkDebugReportObjectTypeEXT.Buffer, buffer.Buffer.Handle, name);
+                        SetDebugMarkerName(VkObjectType.Buffer, buffer.Buffer.Handle, name);
                         break;
                     case CommandList commandList:
                         SetDebugMarkerName(
-                            VkDebugReportObjectTypeEXT.CommandBuffer,
+                            VkObjectType.CommandBuffer,
                             (ulong)commandList.CommandBuffer.Handle,
                             string.Format("{0}_CommandBuffer", name));
                         break;
                     case Framebuffer framebuffer:
                         var vkFramebuffer = Util.AssertSubtype<Framebuffer, VkFramebuffer>(framebuffer);
                         SetDebugMarkerName(
-                            VkDebugReportObjectTypeEXT.Framebuffer,
+                            VkObjectType.Framebuffer,
                             vkFramebuffer.CurrentFramebuffer.Handle,
                             name);
                         break;
                     case Pipeline pipeline:
-                        SetDebugMarkerName(VkDebugReportObjectTypeEXT.Pipeline, pipeline.DevicePipeline.Handle, name);
-                        SetDebugMarkerName(VkDebugReportObjectTypeEXT.PipelineLayout, pipeline.PipelineLayout.Handle, name);
+                        SetDebugMarkerName(VkObjectType.Pipeline, pipeline.DevicePipeline.Handle, name);
+                        SetDebugMarkerName(VkObjectType.PipelineLayout, pipeline.PipelineLayout.Handle, name);
                         break;
                     case ResourceLayout resourceLayout:
                         SetDebugMarkerName(
-                            VkDebugReportObjectTypeEXT.DescriptorSetLayout,
+                            VkObjectType.DescriptorSetLayout,
                             resourceLayout.DescriptorSetLayout.Handle,
                             name);
                         break;
                     case ResourceSet resourceSet:
-                        SetDebugMarkerName(VkDebugReportObjectTypeEXT.DescriptorSet, resourceSet.DescriptorSet.Handle, name);
+                        SetDebugMarkerName(VkObjectType.DescriptorSet, resourceSet.DescriptorSet.Handle, name);
                         break;
                     case Sampler sampler:
-                        SetDebugMarkerName(VkDebugReportObjectTypeEXT.Sampler, sampler.DeviceSampler.Handle, name);
+                        SetDebugMarkerName(VkObjectType.Sampler, sampler.DeviceSampler.Handle, name);
                         break;
                     case Shader shader:
-                        SetDebugMarkerName(VkDebugReportObjectTypeEXT.ShaderModule, shader.ShaderModule.Handle, name);
+                        SetDebugMarkerName(VkObjectType.ShaderModule, shader.ShaderModule.Handle, name);
                         break;
                     case Texture tex:
-                        SetDebugMarkerName(VkDebugReportObjectTypeEXT.Image, tex.OptimalDeviceImage.Handle, name);
+                        SetDebugMarkerName(VkObjectType.Image, tex.OptimalDeviceImage.Handle, name);
                         break;
                     case TextureView texView:
-                        SetDebugMarkerName(VkDebugReportObjectTypeEXT.ImageView, texView.ImageView.Handle, name);
+                        SetDebugMarkerName(VkObjectType.ImageView, texView.ImageView.Handle, name);
                         break;
                     case Fence fence:
-                        SetDebugMarkerName(VkDebugReportObjectTypeEXT.Fence, fence.DeviceFence.Handle, name);
+                        SetDebugMarkerName(VkObjectType.Fence, fence.DeviceFence.Handle, name);
                         break;
                     case Swapchain sc:
-                        SetDebugMarkerName(VkDebugReportObjectTypeEXT.SwapchainKHR, sc.DeviceSwapchain.Handle, name);
+                        SetDebugMarkerName(VkObjectType.SwapchainKHR, sc.DeviceSwapchain.Handle, name);
                         break;
                     default:
                         break;
@@ -1457,10 +1550,8 @@ namespace Veldrid
             }
         }
 
-        private void SetDebugMarkerName(VkDebugReportObjectTypeEXT type, ulong target, string name)
+        private void SetDebugMarkerName(VkObjectType type, ulong handle, string name)
         {
-            Debug.Assert(_setObjectNameDelegate != null);
-
             int byteCount = Encoding.UTF8.GetByteCount(name);
             sbyte* utf8Ptr = stackalloc sbyte[byteCount + 1];
             fixed (char* namePtr = name)
@@ -1469,14 +1560,14 @@ namespace Veldrid
             }
             utf8Ptr[byteCount] = 0;
             
-            var nameInfo = new VkDebugMarkerObjectNameInfoEXT
+            var nameInfo = new VkDebugUtilsObjectNameInfoEXT()
             {
-                sType = VkStructureType.DebugMarkerObjectNameInfoEXT,
+                sType = VkStructureType.DebugUtilsObjectNameInfoEXT,
                 objectType = type,
-                @object = target,
+                objectHandle = handle,
                 pObjectName = utf8Ptr
             };
-            VkResult result = _setObjectNameDelegate(_device, &nameInfo);
+            VkResult result = vkSetDebugUtilsObjectNameEXT(_device, &nameInfo);
             CheckResult(result);
         }
 
@@ -1564,13 +1655,13 @@ namespace Veldrid
                 tempStrings.Add(utf8Str);
             }
 
-            bool debugReportExtensionAvailable = false;
+            bool debugUtilsExtensionAvailable = false;
             if (debug)
             {
-                if (availableInstanceExtensions.Contains(CommonStrings.VK_EXT_DEBUG_REPORT_EXTENSION_NAME))
+                if (availableInstanceExtensions.Contains(CommonStrings.VK_EXT_DEBUG_UTILS_EXTENSION_NAME))
                 {
-                    debugReportExtensionAvailable = true;
-                    instanceExtensions.Add(CommonStrings.VK_EXT_DEBUG_REPORT_EXTENSION_NAME);
+                    debugUtilsExtensionAvailable = true;
+                    instanceExtensions.Add(CommonStrings.VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
                 }
                 if (availableInstanceLayers.Contains(CommonStrings.StandardValidationLayerName))
                 {
@@ -1589,6 +1680,19 @@ namespace Veldrid
                 ppEnabledLayerNames = (instanceLayers.Count > 0) ? (sbyte**)instanceLayers.Data : null
             };
 
+            VkDebugUtilsMessengerCreateInfoEXT debugCallbackCI;
+            if (debug && debugUtilsExtensionAvailable)
+            {
+                debugCallbackCI = new VkDebugUtilsMessengerCreateInfoEXT()
+                {
+                    sType = VkStructureType.DebugUtilsMessengerCreateInfoEXT,
+                    messageSeverity = VkDebugUtilsMessageSeverityFlagsEXT.Warning | VkDebugUtilsMessageSeverityFlagsEXT.Error,
+                    messageType = VkDebugUtilsMessageTypeFlagsEXT.Validation,
+                    pfnUserCallback = &DebugCallback
+                };
+                instanceCI.pNext = &debugCallbackCI;
+            }
+
             result = vkCreateInstance(&instanceCI, null, out _instance);
             CheckResult(result);
             if (result != VkResult.Success)
@@ -1597,9 +1701,12 @@ namespace Veldrid
             }
             vkLoadInstanceOnly(_instance);
 
-            if (debug && debugReportExtensionAvailable)
+            if (debug && debugUtilsExtensionAvailable)
             {
-                EnableDebugCallback();
+                _debugLabelEnabled = true;
+                Debug.WriteLine("Enabling Vulkan Debug callbacks.");
+                result = vkCreateDebugUtilsMessengerEXT(_instance, &debugCallbackCI, null, out _debugMessengerHandle);
+                CheckResult(result);
             }
 
             foreach (FixedUtf8String tempStr in tempStrings)
@@ -1613,44 +1720,15 @@ namespace Veldrid
             return _surfaceExtensions.Contains(extension);
         }
 
-        internal void EnableDebugCallback(VkDebugReportFlagsEXT flags = VkDebugReportFlagsEXT.Warning | VkDebugReportFlagsEXT.Error)
-        {
-            Debug.WriteLine("Enabling Vulkan Debug callbacks.");
-            _debugCallbackFunc = DebugCallback;
-            IntPtr debugFunctionPtr = Marshal.GetFunctionPointerForDelegate(_debugCallbackFunc);
-            var debugCallbackCI = new VkDebugReportCallbackCreateInfoEXT
-            {
-                sType = VkStructureType.DebugReportCallbackCreateInfoEXT,
-                flags = flags,
-                pfnCallback = (delegate* unmanaged<VkDebugReportFlagsEXT, VkDebugReportObjectTypeEXT, ulong, nuint, int, sbyte*, sbyte*, void*, uint>)debugFunctionPtr
-            };
-            IntPtr createFnPtr;
-            using (FixedUtf8String debugExtFnName = "vkCreateDebugReportCallbackEXT")
-            {
-                createFnPtr = (IntPtr)vkGetInstanceProcAddr(_instance, debugExtFnName.Span);
-            }
-            if (createFnPtr == IntPtr.Zero)
-            {
-                return;
-            }
-
-            vkCreateDebugReportCallbackEXT_d createDelegate = Marshal.GetDelegateForFunctionPointer<vkCreateDebugReportCallbackEXT_d>(createFnPtr);
-            VkResult result = createDelegate(_instance, &debugCallbackCI, IntPtr.Zero, out _debugCallbackHandle);
-            CheckResult(result);
-        }
-
-        private uint DebugCallback(
-            VkDebugReportFlagsEXT flags,
-            VkDebugReportObjectTypeEXT objectType,
-            ulong @object,
-            nuint location,
-            int messageCode,
-            sbyte* pLayerPrefix,
-            sbyte* pMessage,
+        [UnmanagedCallersOnly]
+        private static uint DebugCallback(VkDebugUtilsMessageSeverityFlagsEXT severity, 
+            VkDebugUtilsMessageTypeFlagsEXT type,
+            VkDebugUtilsMessengerCallbackDataEXT *data, 
             void* pUserData)
         {
-            string message = Util.GetString((byte*)pMessage);
-            VkDebugReportFlagsEXT debugReportFlags = (VkDebugReportFlagsEXT)flags;
+            string name = Util.GetString((byte*)data->pMessageIdName);
+            string message = Util.GetString((byte*)data->pMessage);
+            VkDebugUtilsMessageSeverityFlagsEXT debugReportFlags = severity;
 
 #if DEBUG
             if (Debugger.IsAttached)
@@ -1659,9 +1737,9 @@ namespace Veldrid
             }
 #endif
 
-            string fullMessage = $"[{debugReportFlags}] ({objectType}) {message}";
+            string fullMessage = $"[{debugReportFlags}] ({type}) {name}: {message}";
 
-            if (debugReportFlags == VkDebugReportFlagsEXT.Error)
+            if (debugReportFlags == VkDebugUtilsMessageSeverityFlagsEXT.Error)
             {
                 throw new VeldridException("A Vulkan validation error was encountered: " + fullMessage);
             }
@@ -1918,13 +1996,7 @@ namespace Veldrid
             for (int property = 0; property < propertyCount; property++)
             {
                 string extensionName = Util.GetString((byte*)properties[property].extensionName);
-                if (extensionName == "VK_EXT_debug_marker")
-                {
-                    extensionNames.Add(CommonStrings.VK_EXT_DEBUG_MARKER_EXTENSION_NAME);
-                    requiredInstanceExtensions.Remove(extensionName);
-                    _debugMarkerEnabled = true;
-                }
-                else if (extensionName == "VK_KHR_swapchain")
+                if (extensionName == "VK_KHR_swapchain")
                 {
                     extensionNames.Add((IntPtr)properties[property].extensionName);
                     requiredInstanceExtensions.Remove(extensionName);
@@ -1995,17 +2067,13 @@ namespace Veldrid
                 vkGetDeviceQueue(_device, _queueFamilyIndices[i], _queueIndices[i], out _queues[i]);
             }
 
-            if (_debugMarkerEnabled)
+            if (_debugLabelEnabled)
             {
-                _setObjectNameDelegate = Marshal.GetDelegateForFunctionPointer<vkDebugMarkerSetObjectNameEXT_t>(
-                    GetInstanceProcAddr("vkDebugMarkerSetObjectNameEXT"));
-                _markerBegin = Marshal.GetDelegateForFunctionPointer<vkCmdDebugMarkerBeginEXT_t>(
-                    GetInstanceProcAddr("vkCmdDebugMarkerBeginEXT"));
-                _markerEnd = Marshal.GetDelegateForFunctionPointer<vkCmdDebugMarkerEndEXT_t>(
-                    GetInstanceProcAddr("vkCmdDebugMarkerEndEXT"));
-                _markerInsert = Marshal.GetDelegateForFunctionPointer<vkCmdDebugMarkerInsertEXT_t>(
-                    GetInstanceProcAddr("vkCmdDebugMarkerInsertEXT"));
+                SetDebugMarkerName(VkObjectType.Queue, (ulong)_queues[(int)QueueType.Graphics].Handle, "GraphicsQueue");
+                SetDebugMarkerName(VkObjectType.Queue, (ulong)_queues[(int)QueueType.Compute].Handle, "ComputeQueue");
+                SetDebugMarkerName(VkObjectType.Queue, (ulong)_queues[(int)QueueType.Transfer].Handle, "TransferQueue");
             }
+
             if (hasDedicatedAllocation && hasMemReqs2)
             {
                 _getBufferMemoryRequirements2 = GetDeviceProcAddr<vkGetBufferMemoryRequirements2_t>("vkGetBufferMemoryRequirements2")
@@ -2094,21 +2162,6 @@ namespace Veldrid
         
         private Texture GetFreeStagingTexture(uint width, uint height, uint depth, VkFormat format)
         {
-            uint totalSize = FormatHelpers.GetRegionSize(width, height, depth, format);
-            lock (_stagingResourcesLock)
-            {
-                for (int i = 0; i < _availableStagingTextures.Count; i++)
-                {
-                    var tex = _availableStagingTextures[i];
-                    if (tex.AllocationInfo.size >= totalSize)
-                    {
-                        _availableStagingTextures.RemoveAt(i);
-                        tex.SetStagingDimensions(width, height, depth, format);
-                        return tex;
-                    }
-                }
-            }
-
             uint texWidth = Math.Max(256, width);
             uint texHeight = Math.Max(256, height);
             var newTex = ResourceFactory.CreateTexture(TextureDescription.Texture3D(
@@ -2121,29 +2174,23 @@ namespace Veldrid
             return newTex;
         }
 
-        private DeviceBuffer GetFreeStagingBuffer(uint size)
+        private BufferPool.Allocation GetStagingAllocation(uint size)
         {
+            if (size == 0)
+                throw new VeldridException("Use size > 0");
+            var frame = _perFrameData[_currentFrame];
             lock (_stagingResourcesLock)
             {
-                for (int i = 0; i < _availableStagingBuffers.Count; i++)
+                frame.DeviceStagingBlock ??= GetStagingBlock(size);
+                var allocation = frame.DeviceStagingBlock.Allocate(size);
+                if (allocation.Mapped == IntPtr.Zero)
                 {
-                    var buffer = _availableStagingBuffers[i];
-                    if (buffer.SizeInBytes >= size)
-                    {
-                        _availableStagingBuffers.RemoveAt(i);
-                        return buffer;
-                    }
+                    frame.DeviceStagingBlock = GetStagingBlock(size);
+                    allocation = frame.DeviceStagingBlock.Allocate(size);
                 }
-            }
 
-            uint newBufferSize = Math.Max(MinStagingBufferSize, size);
-            var newBuffer = ResourceFactory.CreateBuffer(
-                new BufferDescription(
-                    newBufferSize,
-                    VkBufferUsageFlags.None,
-                    VmaMemoryUsage.AutoPreferHost,
-                    VmaAllocationCreateFlags.Mapped));
-            return newBuffer;
+                return allocation;
+            }
         }
 
         internal static bool IsSupported()
@@ -2234,6 +2281,7 @@ namespace Veldrid
                  0,
                  texture.ArrayLayers);
             var cb = GetCommandList(QueueType.Graphics);
+            cb.Name = "ClearTexture";
             texture.TransitionImageLayout(cb.CommandBuffer, 0, texture.MipLevels, 0, texture.ArrayLayers, VkImageLayout.TransferDstOptimal);
             vkCmdClearColorImage(cb.CommandBuffer, texture.OptimalDeviceImage, VkImageLayout.TransferDstOptimal, &color, 1, &range);
             texture.TransitionImageLayout(cb.CommandBuffer, 0, texture.MipLevels, 0, texture.ArrayLayers, VkImageLayout.ColorAttachmentOptimal);
@@ -2252,6 +2300,7 @@ namespace Veldrid
                 0,
                 texture.ArrayLayers);
             var cb = GetCommandList(QueueType.Graphics);
+            cb.Name = "ClearDepthTexture";
             texture.TransitionImageLayout(cb.CommandBuffer, 0, texture.MipLevels, 0, texture.ArrayLayers, VkImageLayout.TransferDstOptimal);
             vkCmdClearDepthStencilImage(
                 cb.CommandBuffer,
@@ -2267,6 +2316,7 @@ namespace Veldrid
         internal void TransitionImageLayout(Texture texture, VkImageLayout layout)
         {
             var cb = GetCommandList(QueueType.Graphics);
+            cb.Name = "TransitionLayout";
             texture.TransitionImageLayout(cb.CommandBuffer, 0, texture.MipLevels, 0, texture.ArrayLayers, layout);
             SubmitCommandsCore(cb, null);
         }

@@ -15,9 +15,7 @@ namespace Veldrid
         private readonly VkBuffer _deviceBuffer;
         private readonly VmaAllocation _allocation;
         private readonly VmaAllocationInfo _allocationInfo;
-        private readonly VkMemoryRequirements _bufferMemoryRequirements;
         
-        internal ResourceRefCount RefCount { get; }
         private bool _destroyed;
         private string _name;
         
@@ -32,14 +30,10 @@ namespace Veldrid
         public VkBufferUsageFlags Usage { get; }
         
         /// <summary>
-        /// The memory usage flag for this buffer
+        /// The memory type flags flag for this buffer
         /// </summary>
-        public VmaMemoryUsage MemoryUsage { get; }
+        public VkMemoryPropertyFlags MemoryFlags { get; }
         
-        /// <summary>
-        /// The allocation flags for this buffer
-        /// </summary>
-        public VmaAllocationCreateFlags AllocationFlags { get; }
 
         /// <summary>
         /// A string identifying this instance. Can be used to differentiate between objects in graphics debuggers and other
@@ -58,54 +52,33 @@ namespace Veldrid
         internal VkBuffer Buffer => _deviceBuffer;
         internal VmaAllocation Allocation => _allocation;
         internal VmaAllocationInfo AllocationInfo => _allocationInfo;
-        internal VkMemoryRequirements BufferMemoryRequirements => _bufferMemoryRequirements;
 
-        internal DeviceBuffer(
-            GraphicsDevice gd, 
-            uint sizeInBytes, 
-            VkBufferUsageFlags usage, 
-            VmaMemoryUsage memUsage, 
-            VmaAllocationCreateFlags allocationFlags)
+        internal DeviceBuffer(GraphicsDevice gd,
+            VkBufferUsageFlags usage,
+            VkBuffer buffer,
+            uint bufferSize,
+            VmaAllocation allocation,
+            VmaAllocationInfo allocationInfo)
         {
             _gd = gd;
-            SizeInBytes = sizeInBytes;
-            Usage = usage;
-            MemoryUsage = memUsage;
-            AllocationFlags = allocationFlags;
-
-            VkBufferUsageFlags vkUsage = VkBufferUsageFlags.TransferSrc | VkBufferUsageFlags.TransferDst;
-
-            if ((allocationFlags & VmaAllocationCreateFlags.Mapped) != 0)
-                allocationFlags |= VmaAllocationCreateFlags.HostAccessRandom;
-            
-            var bufferCI = new VkBufferCreateInfo
-            {
-                sType = VkStructureType.BufferCreateInfo,
-                size = sizeInBytes,
-                usage = vkUsage | usage
-            };
-
-            var allocationCI = new VmaAllocationCreateInfo
-            {
-                flags = allocationFlags,
-                usage = memUsage
-            };
-
-            VmaAllocationInfo allocationInfo;
-            VkResult result = Vma.vmaCreateBuffer(gd.Allocator, &bufferCI, &allocationCI, out _deviceBuffer,
-                out _allocation, &allocationInfo);
-            CheckResult(result);
+            _deviceBuffer = buffer;
+            _allocation = allocation;
             _allocationInfo = allocationInfo;
 
-            RefCount = new ResourceRefCount(DisposeCore);
+            SizeInBytes = bufferSize;
+            Usage = usage;
+
+            VkMemoryPropertyFlags flags;
+            Vma.vmaGetMemoryTypeProperties(_gd.Allocator, allocationInfo.memoryType, &flags);
+            MemoryFlags = flags;
         }
-        
+
         /// <summary>
         /// Frees unmanaged device resources controlled by this instance.
         /// </summary>
         public void Dispose()
         {
-            RefCount.Decrement();
+            DisposeCore();
         }
 
         private void DisposeCore()
@@ -113,7 +86,7 @@ namespace Veldrid
             if (!_destroyed)
             {
                 _destroyed = true;
-                Vma.vmaDestroyBuffer(_gd.Allocator, _deviceBuffer, _allocation);
+                _gd.DestroyBuffer(_deviceBuffer, _allocation);
             }
         }
     }

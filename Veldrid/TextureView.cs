@@ -44,8 +44,6 @@ namespace Veldrid
 
         internal VkImageView ImageView => _imageView;
         
-        internal ResourceRefCount RefCount { get; }
-        
         internal TextureView(ref TextureViewDescription description)
         {
             Target = description.Target;
@@ -111,7 +109,6 @@ namespace Veldrid
             }
 
             vkCreateImageView(_gd.Device, &imageViewCI, null, out _imageView);
-            RefCount = new ResourceRefCount(DisposeCore);
         }
 
         /// <summary>
@@ -133,15 +130,10 @@ namespace Veldrid
         /// </summary>
         public void Dispose()
         {
-            RefCount.Decrement();
-        }
-
-        private void DisposeCore()
-        {
             if (!_destroyed)
             {
                 _destroyed = true;
-                vkDestroyImageView(_gd.Device, ImageView, null);
+                _gd.DestroyImageView(_imageView);
             }
         }
     }

@@ -289,6 +289,7 @@ namespace Veldrid
             vkDestroyFence(_gd.Device, _imageAvailableFence, null);
             _framebuffer.Dispose();
             vkDestroySwapchainKHR(_gd.Device, _deviceSwapchain, null);
+            vkDestroySurfaceKHR(_gd.Instance, _surface);
         }
     }
 }

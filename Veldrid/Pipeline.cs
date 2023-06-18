@@ -27,14 +27,12 @@ namespace Veldrid
         internal uint ResourceSetCount { get; }
         internal int DynamicOffsetsCount { get; }
         internal bool ScissorTestEnabled { get; }
-        internal ResourceRefCount RefCount { get; }
         
         internal Pipeline(GraphicsDevice gd, ref GraphicsPipelineDescription description)
             : this(ref description)
         {
             _gd = gd;
             IsComputePipeline = false;
-            RefCount = new ResourceRefCount(DisposeCore);
 
             // Blend State
             int attachmentsCount = description.BlendState.AttachmentStates.Length;
@@ -375,7 +373,6 @@ namespace Veldrid
         {
             _gd = gd;
             IsComputePipeline = true;
-            RefCount = new ResourceRefCount(DisposeCore);
 
             VkComputePipelineCreateInfo pipelineCI = new VkComputePipelineCreateInfo();
 
@@ -523,16 +520,11 @@ namespace Veldrid
         /// </summary>
         public void Dispose()
         {
-            RefCount.Decrement();
-        }
-
-        private void DisposeCore()
-        {
             if (!_destroyed)
             {
                 _destroyed = true;
                 vkDestroyPipelineLayout(_gd.Device, _pipelineLayout, null);
-                vkDestroyPipeline(_gd.Device, _devicePipeline, null);
+                _gd.DestroyPipeline(_devicePipeline);
                 if (!IsComputePipeline)
                 {
                     vkDestroyRenderPass(_gd.Device, _renderPass, null);

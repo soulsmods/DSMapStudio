@@ -111,6 +111,7 @@ public class VulkanGraphicsContext : IGraphicsContext
 
             _gd.ResizeMainWindow((uint)width, (uint)height);
             CommandList cl = _gd.ResourceFactory.CreateCommandList();
+            cl.Name = "WindowResize";
             RecreateWindowFramebuffers(cl);
             _imGuiRenderer.WindowResized(width, height);
             foreach (var editor in editors)
@@ -128,6 +129,7 @@ public class VulkanGraphicsContext : IGraphicsContext
         }
 
         var mainWindowCommandList = _gd.ResourceFactory.CreateCommandList(QueueType.Graphics);
+        mainWindowCommandList.Name = "MainWindow";
         mainWindowCommandList.SetFramebuffer(_gd.SwapchainFramebuffer);
         mainWindowCommandList.ClearColorTarget(0, new RgbaFloat(0.176f, 0.176f, 0.188f, 1.0f));
         mainWindowCommandList.ClearDepthStencil(0.0f);
