@@ -780,7 +780,7 @@ namespace StudioCore
         public PARAMDEF GetParamdefForParam(string paramType)
         {
             PARAMDEF pd = PARAMDEF.XmlDeserialize($@"{GetParamdefDir()}\{paramType}.xml");
-            ParamEditor.ParamMetaData meta = ParamEditor.ParamMetaData.XmlDeserialize($@"{GetParammetaDir()}\{paramType}.xml", pd);
+            //ParamEditor.ParamMetaData meta = ParamEditor.ParamMetaData.XmlDeserialize($@"{GetParammetaDir()}\{paramType}.xml", pd);
             return pd;
         }
 

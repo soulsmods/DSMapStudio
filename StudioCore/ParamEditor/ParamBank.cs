@@ -574,9 +574,9 @@ namespace StudioCore.ParamEditor
             }
             if (EnemyParam != null)
             {
-                PARAMDEF def = AssetLocator.GetParamdefForParam(EnemyParam.ParamType);
                 try
                 {
+                    PARAMDEF def = _paramdefs[EnemyParam.ParamType];
                     EnemyParam.ApplyParamdef(def);
                 }
                 catch (Exception e)
@@ -597,10 +597,7 @@ namespace StudioCore.ParamEditor
 
                     try
                     {
-                        if (!_paramdefs.TryGetValue(lp.ParamType, out PARAMDEF def))
-                        {
-                            def = AssetLocator.GetParamdefForParam(fname);
-                        }
+                        PARAMDEF def = _paramdefs[lp.ParamType];
 
                         lp.ApplyParamdef(def);
                         if (loose)
