@@ -633,7 +633,7 @@ namespace StudioCore.ParamEditor
                             };
                             if (rbrowseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                             {
-                                ParamBank.LoadAuxBank(rbrowseDlg.FileName, null, null);
+                                ParamBank.LoadAuxBank(rbrowseDlg.FileName, null, null, _projectSettings);
                             }
                         }
                         else
@@ -664,7 +664,7 @@ namespace StudioCore.ParamEditor
                                     };
                                     if (rbrowseDlgEnemy.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                                     {
-                                        ParamBank.LoadAuxBank(rbrowseDlgBnd.FileName, rbrowseDlgFolder.SelectedPath, rbrowseDlgEnemy.FileName);
+                                        ParamBank.LoadAuxBank(rbrowseDlgBnd.FileName, rbrowseDlgFolder.SelectedPath, rbrowseDlgEnemy.FileName, _projectSettings);
                                     }
                                 }
                             }
