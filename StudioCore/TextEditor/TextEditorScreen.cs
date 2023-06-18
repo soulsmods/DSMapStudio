@@ -359,8 +359,10 @@ namespace StudioCore.TextEditor
                 // Entries
                 foreach (var r in _EntryLabelCacheFiltered)
                 {
-                    var text = (r.Text == null) ? "%null%" : r.Text.Replace("\n", "\n".PadRight(r.ID.ToString().Length+2)); 
-                    if (ImGui.Selectable($@"{r.ID} {text}", _activeIDCache == r.ID))
+                    var text = (r.Text == null) ? "%null%" : r.Text.Replace("\n", "\n".PadRight(r.ID.ToString().Length+2));
+                    var label = $@"{r.ID} {text}";
+                    label = Utils.ImGui_WordWrapString(label, ImGui.GetColumnWidth());
+                    if (ImGui.Selectable(label, _activeIDCache == r.ID))
                     {
                         _activeEntryGroup = FMGBank.GenerateEntryGroup(r.ID, _activeFmgInfo);
                     }
