@@ -103,7 +103,7 @@
     </Enum>
   </Enums>
   <Field>
-    <soundBankId AltName="Sound Bank ID" Wiki="Sound bank ID (-1: no bank, other: bank with specified ID)" />
+    <soundBankId AltName="Sound Bank ID" Wiki="Sound bank ID (-1: no bank, other: bank with specified ID)" ExtRefs="bnk,sound\aeg{0:000'_'000}.bnk" />
     <soundBreakSEId AltName="Sound Break SE ID" Wiki="Destruction sound SEID (9 digits) -1: Generated from assetId" />
     <refDrawParamId AltName="Draw Param Reference ID" Wiki="Drawing parameter reference ID. The reference ID for the part drawing parameter .xlsm." />
     <hitCreateType AltName="Hit Create Type" Wiki="Sets the hit build type for static assets. Ignored for dynamic assets." Enum="ASSET_HIT_CREATE_TYPE_ENUM" />
@@ -113,9 +113,9 @@
     <hp AltName="HP" Wiki="Durability until destruction (-1: Indestructible)" />
     <defense AltName="Defence" Wiki="Attack power below this value is no damage" />
     <breakStopTime AltName="Destruction Stop Time" Wiki="Time from destruction to forced stop of rigid body (do not force stop at 0)" />
-    <breakSfxId AltName="Destruction SFX ID" Wiki="SFX ID on destruction (-1: default (810030))" />
+    <breakSfxId AltName="Destruction SFX ID" Wiki="SFX ID on destruction (-1: default (810030))" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
     <breakSfxCpId AltName="Destruction SFX Dummy Poly ID" Wiki="SFX generation position at the time of destruction Damipoly ID (-1: placement position)" />
-    <breakLandingSfxId AltName="Destruction Landing SFX ID" Wiki="Object material-dependent SFX identifier that regenerates when first landing after being destroyed (-1: does not occur)" />
+    <breakLandingSfxId AltName="Destruction Landing SFX ID" Wiki="Object material-dependent SFX identifier that regenerates when first landing after being destroyed (-1: does not occur)" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
     <breakBulletBehaviorId AltName="Destruction Bullet Behavior ID" Wiki="Action parameter of [bullet] at the time of destruction (-1: does not occur). Please note that there is an offset specification due to laps. ([GR] SEQ35556)" />
     <breakBulletCpId AltName="Destruction Bullet Dummy Poly ID" Wiki="Location of [bullet] at the time of destruction Damipoli ID (-1: placement position)" />
     <FragmentInvisibleWaitTime AltName="Hidden Debris - Wait Time" Wiki="Hidden debris Waiting time (seconds)" />
@@ -154,10 +154,10 @@
     <autoCreateOffsetHeight AltName="Automatic Generation Height Offset" Wiki="Height offset of how much it floats from where the raycast hits the map when it is automatically generated [m]" />
     <burnTime AltName="Burn Time" Wiki="Burning time (seconds) (continues to burn at 0)" />
     <burnBraekRate AltName="Burn Destroy Rate" Wiki="Burnup threshold for switching to the ruptured state" />
-    <burnSfxId AltName="Burn SFX ID [0]" Wiki="SFX ID at the time of combustion: 0 (-1: No SFX)" />
-    <burnSfxId_1 AltName="Burn SFX ID [1]" Wiki="SFX ID at the time of combustion: 1 (-1: No SFX)" />
-    <burnSfxId_2 AltName="Burn SFX ID [2]" Wiki="SFX ID at the time of combustion: 2 (-1: No SFX)" />
-    <burnSfxId_3 AltName="Burn SFX ID [3]" Wiki="SFX ID at the time of combustion: 3 (-1: No SFX)" />
+    <burnSfxId AltName="Burn SFX ID [0]" Wiki="SFX ID at the time of combustion: 0 (-1: No SFX)" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
+    <burnSfxId_1 AltName="Burn SFX ID [1]" Wiki="SFX ID at the time of combustion: 1 (-1: No SFX)" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
+    <burnSfxId_2 AltName="Burn SFX ID [2]" Wiki="SFX ID at the time of combustion: 2 (-1: No SFX)" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
+    <burnSfxId_3 AltName="Burn SFX ID [3]" Wiki="SFX ID at the time of combustion: 3 (-1: No SFX)" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
     <burnSfxDelayTimeMin AltName="Burn SFX Minimum Delay Time [0]" Wiki="SFX generation delay time during combustion Randomly determined between start and end times" />
     <burnSfxDelayTimeMin_1 AltName="Burn SFX Minimum Delay Time [1]" Wiki="SFX generation delay time during combustion Randomly determined between start and end times" />
     <burnSfxDelayTimeMin_2 AltName="Burn SFX Minimum Delay Time [2]" Wiki="SFX generation delay time during combustion Randomly determined between start and end times" />
@@ -188,7 +188,7 @@
     <autoDrawGroupPassPixelNum AltName="Auto Draw Group: Pass Pixel Number" Wiki="Automatic drawing group_Pass pixel (set to 0.0-1.0 to enlarge at the time of shooting)" />
     <pickUpReplacementEventFlag AltName="Pickup Replacement - Event Flag" Wiki="When this event flag is ON, use the ID of the subsequent replacement 0: Do not always replace" />
     <pickUpReplacementAnimIdOffset AltName="Pickup Replacement - Anim ID Offset" Wiki="When Collecting_replacement flag condition is ON, play the uncollected / collected animation with the animation ID offset by this value." />
-    <pickUpReplacementActionButtonParamId AltName="Pickup Replacement - Action Button Param ID" Wiki="This action button ID is used when Collecting_replacement flag condition is ON." />
+    <pickUpReplacementActionButtonParamId AltName="Pickup Replacement - Action Button Param ID" Wiki="This action button ID is used when Collecting_replacement flag condition is ON." Refs="ActionButtonParam" />
     <pickUpReplacementItemLotParamId AltName="Pickup Replacement - Item Lot Param ID" Wiki="When Collecting_replacement flag condition is ON, this item lottery ID_map is used." Refs="ItemLotParam_map" />
     <slidingBulletHitType AltName="Sliding Bullet Hit Type" Wiki="When a bullet of the follow-up type Crawling on the ground even if it collides collides with an asset, does it bend in the direction along the landing point? Behavior" Enum="ASSET_SLIDING_BULLET_HIT_TYPE" />
     <isBushesForDamage AltName="Is Damaged by Special Attacks" Wiki=" Assets can only be damaged by damage to bushes  and object attack power> defense power attacks [GR] SEQ20617" IsBool="" />
@@ -198,10 +198,10 @@
     <soundBreakSECpId AltName="Destruction - Sound SE Dummy Poly ID" Wiki="Damipoli ID of the place where the destruction sound is played (-1: Placement position)" />
     <debug_HeightCheckCapacityMin AltName="Debug - Height Check Minimum" Wiki="Debug_Allowable ground height_Minimum [m] See SEQ07876 for details. Must be smaller than maximum" />
     <debug_HeightCheckCapacityMax AltName="Debug - Height Check Maximum" Wiki="Debug_Allowable ground height_Max [m] See SEQ07876 for details. Must be larger than minimum" />
-    <repickActionButtonParamId AltName="Repick - Action Button ID" Wiki="This action button ID is used when recollecting assets whose Is there a change at the time of recollection?" />
+    <repickActionButtonParamId AltName="Repick - Action Button ID" Wiki="This action button ID is used when recollecting assets whose Is there a change at the time of recollection?" Refs="ActionButtonParam" />
     <repickItemLotParamId AltName="Repick - Item Lot Param ID" Wiki="Assets with Is there a change at the time of recollection? Are used for this item lottery ID_map when recollecting in units of placement." Refs="ItemLotParam_map" />
     <repickReplacementAnimIdOffset AltName="Repick Replacement - Anim ID Offset" Wiki="Use this parameter instead of At the time of collection_replacement animation offset at the time of recollection for assets whose Is there a change at the time of recollection?" />
-    <repickReplacementActionButtonParamId AltName="Repick Replacement - Action Button Param ID" Wiki="Use this parameter instead of At the time of collection_replacement action button ID when recollecting assets whose Is there a change at the time of recollection?" />
+    <repickReplacementActionButtonParamId AltName="Repick Replacement - Action Button Param ID" Wiki="Use this parameter instead of At the time of collection_replacement action button ID when recollecting assets whose Is there a change at the time of recollection?" Refs="ActionButtonParam" />
     <repickReplacementItemLotParamId AltName="Repick Replacement - Item Lot ID" Wiki="Use this parameter instead of At the time of collection_Replacement item lottery ID_For map when recollecting assets whose Is there a change at the time of recollection?" Refs="ItemLotParam_map" />
     <noGenerateCarver AltName="Is Hit Carver Generation Blocked" Wiki="Asset with this set does not create Carver" IsBool="" />
     <noHitHugeAfterBreak AltName="Is Giant Enemy Hit by Destruction" Wiki="Overwrite the hit filter after destruction with a collision detection type that does not hit a huge enemy (static  dynamic )" IsBool="" />

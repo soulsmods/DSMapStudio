@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 
-using static Veldrid.Sdl2.Sdl2Native;
+using static Silk.NET.SDL.SdlProvider;
+using Silk.NET.SDL;
 
 namespace Veldrid.Sdl2
 {
@@ -31,8 +32,8 @@ namespace Veldrid.Sdl2
         {
             lock (s_lock)
             {
-                SDL_Event ev;
-                while (SDL_PollEvent(&ev) == 1)
+                Event ev;
+                while (SDL.Value.PollEvent(&ev) == 1)
                 {
                     foreach (SDLEventHandler processor in s_processors)
                     {

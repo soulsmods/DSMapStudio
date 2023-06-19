@@ -16,27 +16,26 @@ namespace StudioCore.Gui
     /// A viewport is a virtual (i.e. render to texture/render target) view of a scene. It can receive input events to transform
     /// the view within a virtual canvas, or it can be manually configured for say rendering thumbnails
     /// </summary>
-    public class Viewport
+    public class Viewport : IViewport
     {
         private bool DebugRayCastDraw = false;
 
         /// <summary>
         /// The camera in this scene
         /// </summary>
-        public WorldView _worldView;
+        public WorldView WorldView { get; private set; }
+        
         private Scene.RenderScene _renderScene;
         private Scene.SceneRenderPipeline _viewPipeline;
         private MsbEditor.Selection _selection;
-
-        private int PrevWidth;
-        private int PrevHeight;
+        
         public int X;
         public int Y;
-        public int Width;
-        public int Height;
+        public int Width { get; private set; }
+        public int Height { get; private set; }
 
-        public float NearClip = 0.1f;
-        public float FarClip = CFG.Current.GFX_RenderDistance_Max;
+        public float NearClip { get; set; } = 0.1f;
+        public float FarClip { get; set; } = CFG.Current.GFX_RenderDistance_Max;
 
         public bool DrawGrid { get; set; } = true;
 
@@ -73,8 +72,6 @@ namespace StudioCore.Gui
         public Viewport(string id, GraphicsDevice device, Scene.RenderScene scene, MsbEditor.ActionManager am, MsbEditor.Selection sel, int width, int height)
         {
             _vpid = id;
-            PrevWidth = width;
-            PrevHeight = height;
             Width = width;
             Height = height;
             _device = device;
@@ -84,7 +81,7 @@ namespace StudioCore.Gui
             _renderScene = scene;
             _selection = sel;
 
-            _worldView = new WorldView(new Veldrid.Rectangle(0, 0, Width, Height));
+            WorldView = new WorldView(new Veldrid.Rectangle(0, 0, Width, Height));
             _viewPipeline = new Scene.SceneRenderPipeline(scene, device, width, height);
             ViewportGrid = new DebugPrimitives.DbgPrimWireGrid(Color.Green, Color.DarkGreen, 50, 5.0f);
 
@@ -139,12 +136,12 @@ namespace StudioCore.Gui
             viewCoords.W = 0.0f;
 
             Matrix4x4 invView;
-            Matrix4x4.Invert(_worldView.CameraTransform.CameraViewMatrixLH, out invView);
+            Matrix4x4.Invert(WorldView.CameraTransform.CameraViewMatrixLH, out invView);
             Vector3 worldCoords = Vector4.Transform(viewCoords, invView).XYZ();
             worldCoords = Vector3.Normalize(worldCoords);
             //worldCoords.X = -worldCoords.X;
 
-            return new Ray(_worldView.CameraTransform.Position, worldCoords);
+            return new Ray(WorldView.CameraTransform.Position, worldCoords);
         }
 
         private bool MouseInViewport()
@@ -161,7 +158,7 @@ namespace StudioCore.Gui
             return true;
         }
 
-        public bool ViewportSelected = false;
+        public bool ViewportSelected { get; private set; } = false;
 
         public void OnGui()
         {
@@ -183,7 +180,7 @@ namespace StudioCore.Gui
                 _canInteract = ImGui.IsWindowFocused();
                 _vpvisible = true;
                 var proj = Matrix4x4.Transpose(_projectionMat);
-                var view = Matrix4x4.Transpose(_worldView.CameraTransform.CameraViewMatrixLH);
+                var view = Matrix4x4.Transpose(WorldView.CameraTransform.CameraViewMatrixLH);
                 var identity = Matrix4x4.Identity;
                 //ImGui.DrawGrid(ref view.M11, ref proj.M11, ref identity.M11, 100.0f);
             }
@@ -214,13 +211,11 @@ namespace StudioCore.Gui
 
         public void ResizeViewport(GraphicsDevice device, Veldrid.Rectangle newvp)
         {
-            PrevWidth = Width;
-            PrevHeight = Height;
             Width = newvp.Width;
             Height = newvp.Height;
             X = newvp.X;
             Y = newvp.Y;
-            _worldView.UpdateBounds(newvp);
+            WorldView.UpdateBounds(newvp);
             float depth = device.IsDepthRangeZeroToOne ? 0 : 1;
             _renderViewport = new Veldrid.Viewport(newvp.X, newvp.Y, Width, Height, depth, 1.0f - depth);
         }
@@ -239,7 +234,7 @@ namespace StudioCore.Gui
 
             if (!_gizmos.IsMouseBusy() && _canInteract && MouseInViewport())
             {
-                kbbusy = _worldView.UpdateInput(window, dt);
+                kbbusy = WorldView.UpdateInput(window, dt);
                 if (InputTracker.GetMouseButtonDown(MouseButton.Left))
                 {
                     _viewPipeline.CreateAsyncPickingRequest();
@@ -289,8 +284,8 @@ namespace StudioCore.Gui
         public void Draw(GraphicsDevice device, CommandList cl)
         {
             _projectionMat = Utils.CreatePerspective(device, true, CFG.Current.GFX_Camera_FOV * (float)Math.PI / 180.0f, (float)Width / (float)Height, NearClip, FarClip);
-            _frustum = new BoundingFrustum(_worldView.CameraTransform.CameraViewMatrixLH * _projectionMat);
-            _viewPipeline.TestUpdateView(_projectionMat, _worldView.CameraTransform.CameraViewMatrixLH, _worldView.CameraTransform.Position, _cursorX, _cursorY);
+            _frustum = new BoundingFrustum(WorldView.CameraTransform.CameraViewMatrixLH * _projectionMat);
+            _viewPipeline.TestUpdateView(_projectionMat, WorldView.CameraTransform.CameraViewMatrixLH, WorldView.CameraTransform.Position, _cursorX, _cursorY);
             _viewPipeline.RenderScene(_frustum);
 
             if (_rayDebug != null)
@@ -305,7 +300,7 @@ namespace StudioCore.Gui
                 //ViewportGrid.Render(device, cl, ViewPipeline);
             }
 
-            _gizmos.CameraPosition = _worldView.CameraTransform.Position;
+            _gizmos.CameraPosition = WorldView.CameraTransform.Position;
         }
 
         public void SetEnvMap(uint index)
@@ -320,18 +315,18 @@ namespace StudioCore.Gui
         /// <param name="box">The bounding box to frame</param>
         public void FrameBox(BoundingBox box)
         {
-            var camdir = Vector3.Transform(Vector3.UnitZ, _worldView.CameraTransform.RotationMatrix);
+            var camdir = Vector3.Transform(Vector3.UnitZ, WorldView.CameraTransform.RotationMatrix);
             var pos = box.GetCenter();
             var radius = Vector3.Distance(box.Max, box.Min);
-            _worldView.CameraTransform.Position = pos - (camdir * radius);
+            WorldView.CameraTransform.Position = pos - (camdir * radius);
         }
 
         /// <summary>
         /// Moves the camera position such that it is directly looking at a position.
         public void FramePosition(Vector3 pos, float dist)
         {
-            var camdir = Vector3.Transform(Vector3.UnitZ, _worldView.CameraTransform.RotationMatrix);
-            _worldView.CameraTransform.Position = pos - (camdir * dist);
+            var camdir = Vector3.Transform(Vector3.UnitZ, WorldView.CameraTransform.RotationMatrix);
+            WorldView.CameraTransform.Position = pos - (camdir * dist);
         }
     }
 }

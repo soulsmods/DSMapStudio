@@ -96,8 +96,9 @@ namespace StudioCore
             "All Files|*.*";
 
         public static readonly string ERParamUpgradeFilter =
-            ERRegulationFilter + "|" +
+            "Regulation file (regulation.bin) |*REGULATION*.BIN*" + "|" +
             "All Files|*.*";
+
          public static readonly string LooseParamFilter =
             "Loose Param file (*.Param) |*.Param*|" +
             "All Files|*.*";   

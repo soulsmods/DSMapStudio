@@ -2193,10 +2193,40 @@
       <Increment>0.1</Increment>
       <SortID>40001</SortID>
     </Field>
-    <Field Def="dummy8 reserved_124[128]">
+    <Field Def="dummy8 reserved_124[32]">
       <DisplayName>予約</DisplayName>
       <Description>(dummy8)</Description>
       <SortID>70003</SortID>
+    </Field>
+    <Field Def="f32 unkR00">
+    </Field>
+    <Field Def="f32 unkR04">
+    </Field>
+    <Field Def="f32 unkR08">
+    </Field>
+    <Field Def="f32 unkR12">
+    </Field>
+    <Field Def="f32 unkR16">
+    </Field>
+    <Field Def="f32 unkR20">
+    </Field>
+    <Field Def="f32 unkR24">
+    </Field>
+    <Field Def="f32 unkR28">
+    </Field>
+    <Field Def="f32 unkR32">
+    </Field>
+    <Field Def="f32 unkR36">
+    </Field>
+    <Field Def="f32 unkR40">
+    </Field>
+    <Field Def="f32 unkR44">
+    </Field>
+    <Field Def="f32 unkR48">
+    </Field>
+    <Field Def="f32 unkR52">
+    </Field>
+    <Field Def="dummy8 reserved_124_2[40]">
     </Field>
   </Fields>
 </PARAMDEF>

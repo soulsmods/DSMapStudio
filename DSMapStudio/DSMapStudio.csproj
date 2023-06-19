@@ -5,12 +5,13 @@
     <TargetFramework>net7.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
     <Authors>Katalash</Authors>
-    <Version>1.07.0</Version>
+    <Version>1.08.0</Version>
     <ApplicationIcon>icon.ico</ApplicationIcon>
-    <PackageVersion>1.07.0</PackageVersion>
-    <AssemblyVersion>1.07.0</AssemblyVersion>
+    <PackageVersion>1.08.0</PackageVersion>
+    <AssemblyVersion>1.08.0</AssemblyVersion>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <LangVersion>11</LangVersion>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -28,13 +29,16 @@
   <ItemGroup>
     <Content Include="imgui.ini.backup">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
     <Content Include="imgui.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DSMapStudio_LowRequirements\DSMapStudio_LowRequirements.csproj" />
     <ProjectReference Include="..\StudioCore\StudioCore.csproj" />
     <ProjectReference Include="..\Veldrid.SDL2\Veldrid.SDL2.csproj" />
   </ItemGroup>

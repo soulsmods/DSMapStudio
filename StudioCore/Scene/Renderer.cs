@@ -11,6 +11,8 @@ using Veldrid;
 using Veldrid.Sdl2;
 using System.Security.Policy;
 using System.Security.Cryptography;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Vortice.Vulkan;
 
 namespace StudioCore.Scene
 {
@@ -57,7 +59,7 @@ namespace StudioCore.Scene
             {
                 public Pipeline _pipeline;
                 public ResourceSet _objectRS;
-                public IndexFormat _indexFormat;
+                public VkIndexType _indexFormat;
                 public uint _batchStart;
                 public int _bufferIndex;
             }
@@ -67,7 +69,10 @@ namespace StudioCore.Scene
             unsafe public IndirectDrawEncoder(uint initialCallCount)
             {
                 BufferDescription desc = new BufferDescription(
-                    initialCallCount * 20, BufferUsage.IndirectBuffer);
+                    initialCallCount * 20,
+                    VkBufferUsageFlags.IndirectBuffer,
+                    VmaMemoryUsage.AutoPreferDevice,
+                    0);
                 _indirectBuffer = Factory.CreateBuffer(desc);
                 _indirectStagingBuffer = new IndirectDrawIndexedArgumentsPacked[initialCallCount];
                 _directBuffer = new IndirectDrawIndexedArgumentsPacked[initialCallCount];
@@ -104,12 +109,12 @@ namespace StudioCore.Scene
             /// <param name="p">The pipeline to use with rendering</param>
             /// <param name="instanceData">Per instance data resource set</param>
             /// <param name="indexf">Format of the indices (16 or 32-bit)</param>
-            public void AddDraw(ref IndirectDrawIndexedArgumentsPacked args, int buffer, Pipeline p, ResourceSet instanceData, IndexFormat indexf)
+            public void AddDraw(ref IndirectDrawIndexedArgumentsPacked args, int buffer, Pipeline p, ResourceSet instanceData, VkIndexType indexf)
             {
                 // Encode the draw
                 if (_indirectDrawCount[_stagingSet] >= _indirectStagingBuffer.Length)
                 {
-                    throw new Exception("Indirect buffer not large enough for draw");
+                    throw new Exception("Indirect buffer not large enough for draw\n\nTry increasing indirect draw buffer in settings.\n");
                 }
                 if (p == null)
                 {
@@ -195,6 +200,10 @@ namespace StudioCore.Scene
                 {
                     // Copy the indirect buffer to the gpu
                     cl.UpdateBuffer(_indirectBuffer, 0, _indirectStagingBuffer);
+                    cl.Barrier(VkPipelineStageFlags2.Transfer,
+                        VkAccessFlags2.TransferRead,
+                        VkPipelineStageFlags2.DrawIndirect,
+                        VkAccessFlags2.IndirectCommandRead);
                 }
             }
 
@@ -315,7 +324,6 @@ namespace StudioCore.Scene
 
             public SceneRenderPipeline Pipeline { get; private set; }
             private GraphicsDevice Device;
-            private CommandList ResourceUpdateCommandList;
             //private CommandList DrawCommandList;
             private List<Fence> _resourcesUpdatedFence = new List<Fence>();
             private List<Fence> _drawFence = new List<Fence>();
@@ -341,13 +349,12 @@ namespace StudioCore.Scene
             {
                 Device = device;
                 Pipeline = pipeline;
-                ResourceUpdateCommandList = device.ResourceFactory.CreateCommandList();
                 _bufferCount = BUFFER_COUNT;
                 //DrawCommandList = device.ResourceFactory.CreateCommandList();
                 // Create per frame in flight resources
                 for (int i = 0; i < _bufferCount; i++)
                 {
-                    _drawEncoders.Add(new IndirectDrawEncoder(50000));
+                    _drawEncoders.Add(new IndirectDrawEncoder(CFG.Current.GFX_Limit_Buffer_Indirect_Draw));
                     _resourcesUpdatedFence.Add(device.ResourceFactory.CreateFence(i != 0));
                 }
                 Name = name;
@@ -401,10 +408,10 @@ namespace StudioCore.Scene
                 Tracy.TracyCZoneEnd(ctx);
 
                 ctx = Tracy.TracyCZoneN(1, "RenderQueue::Execute pre-draw");
-                ResourceUpdateCommandList.Begin();
-                ResourceUpdateCommandList.PushDebugGroup($@"{Name}: Update resources");
+                var resourceUpdateCommandList = Factory.CreateCommandList(QueueType.Graphics);
+                resourceUpdateCommandList.PushDebugGroup($@"{Name}: Update resources");
                 PreDrawSetup.Invoke(Device, drawCommandList);
-                ResourceUpdateCommandList.PopDebugGroup();
+                resourceUpdateCommandList.PopDebugGroup();
                 Tracy.TracyCZoneEnd(ctx);
 
                 ctx = Tracy.TracyCZoneN(1, "RenderQueue::Execute encode draws");
@@ -420,11 +427,10 @@ namespace StudioCore.Scene
                 Tracy.TracyCZoneEnd(ctx);
 
                 ctx = Tracy.TracyCZoneN(1, "RenderQueue::Execute update indirect buffer");
-                ResourceUpdateCommandList.InsertDebugMarker($@"{Name}: Indirect buffer update");
-                _drawEncoders[_currentBuffer].UpdateBuffer(ResourceUpdateCommandList);
-                ResourceUpdateCommandList.PopDebugGroup();
-                ResourceUpdateCommandList.End();
-                Device.SubmitCommands(ResourceUpdateCommandList, _resourcesUpdatedFence[_currentBuffer]);
+                resourceUpdateCommandList.InsertDebugMarker($@"{Name}: Indirect buffer update");
+                _drawEncoders[_currentBuffer].UpdateBuffer(resourceUpdateCommandList);
+                resourceUpdateCommandList.PopDebugGroup();
+                Device.SubmitCommands(resourceUpdateCommandList, _resourcesUpdatedFence[_currentBuffer]);
                 Tracy.TracyCZoneEnd(ctx);
 
                 // Wait on the last outstanding frame in flight and submit the draws
@@ -440,7 +446,6 @@ namespace StudioCore.Scene
         }
 
         private static GraphicsDevice Device;
-        private static CommandList MainCommandList;
 
         private static List<RenderQueue> RenderQueues;
         private static Queue<Action<GraphicsDevice, CommandList>> BackgroundUploadQueue;
@@ -448,12 +453,10 @@ namespace StudioCore.Scene
         private static Queue<Action<GraphicsDevice, CommandList>> LowPriorityBackgroundUploadQueueBackfill;
 
         private static Fence _readbackFence;
-        private static CommandList _readbackCommandList;
         private static Queue<(DeviceBuffer, DeviceBuffer, Action<GraphicsDevice>)> _readbackQueue;
         private static Queue<(DeviceBuffer, DeviceBuffer, Action<GraphicsDevice>)> _readbackPendingQueue;
 
-        private static CommandList TransferCommandList;
-        private static ConcurrentQueue<(DeviceBuffer, DeviceBuffer, Action<GraphicsDevice>)> _asyncTransfersPendingQueue;
+        private static ConcurrentQueue<(DeviceBuffer, DeviceBuffer, VkAccessFlags2, Action<GraphicsDevice>)> _asyncTransfersPendingQueue;
         private static List<(Fence, Action<GraphicsDevice>)> _asyncTransfers;
         private static Queue<Fence> _freeTransferFences;
 
@@ -494,19 +497,16 @@ namespace StudioCore.Scene
         public unsafe static void Initialize(GraphicsDevice device)
         {
             Device = device;
-            MainCommandList = device.ResourceFactory.CreateCommandList();
             BackgroundUploadQueue = new Queue<Action<GraphicsDevice, CommandList>>();
             LowPriorityBackgroundUploadQueue = new Queue<Action<GraphicsDevice, CommandList>>(100000);
             LowPriorityBackgroundUploadQueueBackfill = new Queue<Action<GraphicsDevice, CommandList>>(100000);
-            _readbackCommandList = device.ResourceFactory.CreateCommandList();
             _readbackFence = device.ResourceFactory.CreateFence(false);
             _readbackQueue = new Queue<(DeviceBuffer, DeviceBuffer, Action<GraphicsDevice>)>();
             _readbackPendingQueue = new Queue<(DeviceBuffer, DeviceBuffer, Action<GraphicsDevice>)>();
             RenderQueues = new List<RenderQueue>();
 
-            TransferCommandList = device.ResourceFactory.CreateCommandList(new CommandListDescription(true));
             _asyncTransfers = new List<(Fence, Action<GraphicsDevice>)>();
-            _asyncTransfersPendingQueue = new ConcurrentQueue<(DeviceBuffer, DeviceBuffer, Action<GraphicsDevice>)>();
+            _asyncTransfersPendingQueue = new ConcurrentQueue<(DeviceBuffer, DeviceBuffer, VkAccessFlags2, Action<GraphicsDevice>)>();
             _freeTransferFences = new Queue<Fence>();
             for (int i = 0; i < 3; i++)
             {
@@ -520,11 +520,11 @@ namespace StudioCore.Scene
 
             SamplerSet.Initialize(device);
 
-            GeometryBufferAllocator = new VertexIndexBufferAllocator(256 * 1024 * 1024, 128 * 1024 * 1024);
-            UniformBufferAllocator = new GPUBufferAllocator(5 * 1024 * 1024, BufferUsage.StructuredBufferReadWrite, (uint)sizeof(InstanceData));
+            GeometryBufferAllocator = new VertexIndexBufferAllocator(Device, 256 * 1024 * 1024, 128 * 1024 * 1024);
+            UniformBufferAllocator = new GPUBufferAllocator(5 * 1024 * 1024, VkBufferUsageFlags.StorageBuffer, (uint)sizeof(InstanceData));
 
-            MaterialBufferAllocator = new GPUBufferAllocator("materials", 5 * 1024 * 1024, BufferUsage.StructuredBufferReadWrite, (uint)sizeof(Material), ShaderStages.Fragment);
-            BoneBufferAllocator = new GPUBufferAllocator("bones", CFG.Current.GFX_Limit_Buffer_Flver_Bone * 64, BufferUsage.StructuredBufferReadWrite, 64, ShaderStages.Vertex);
+            MaterialBufferAllocator = new GPUBufferAllocator("materials", 5 * 1024 * 1024, VkBufferUsageFlags.StorageBuffer, (uint)sizeof(Material), VkShaderStageFlags.Fragment);
+            BoneBufferAllocator = new GPUBufferAllocator("bones", CFG.Current.GFX_Limit_Buffer_Flver_Bone * 64, VkBufferUsageFlags.StorageBuffer, 64, VkShaderStageFlags.Vertex);
             GlobalTexturePool = new TexturePool(device, "globalTextures", 6000);
             GlobalCubeTexturePool = new TexturePool(device, "globalCubeTextures", 500);
 
@@ -578,16 +578,19 @@ namespace StudioCore.Scene
             }
         }
 
-        public static void AddAsyncTransfer(DeviceBuffer dest, DeviceBuffer source, Action<GraphicsDevice> onFinished)
+        public static void AddAsyncTransfer(DeviceBuffer dest, 
+            DeviceBuffer source, 
+            VkAccessFlags2 dstAccessFlags, 
+            Action<GraphicsDevice> onFinished)
         {
-            _asyncTransfersPendingQueue.Enqueue((dest, source, onFinished));
+            _asyncTransfersPendingQueue.Enqueue((dest, source, dstAccessFlags, onFinished));
         }
 
         public static Fence Frame(CommandList drawCommandList, bool backgroundOnly)
         {
             Stopwatch sw = Stopwatch.StartNew();
             var ctx = Tracy.TracyCZoneN(1, "RenderQueue::Frame");
-            MainCommandList.Begin();
+            var mainCommandList = Factory.CreateCommandList(QueueType.Graphics);
 
             var ctx2 = Tracy.TracyCZoneN(1, "RenderQueue::Frame Background work");
             Queue<Action<GraphicsDevice, CommandList>> work;
@@ -616,19 +619,19 @@ namespace StudioCore.Scene
             var ctx4 = Tracy.TracyCZoneN(1, $@"Perform {workitems} background work items");
             while (work.Count() > 0)
             {
-                work.Dequeue().Invoke(Device, MainCommandList);
+                work.Dequeue().Invoke(Device, mainCommandList);
                 //work.Dequeue().Invoke(Device, drawCommandList);
             }
             Tracy.TracyCZoneEnd(ctx4);
 
             // If there's no work swap to the backfill queue to try and find work
-            if (LowPriorityBackgroundUploadQueue.Count == 0 || LowPriorityBackgroundUploadQueueBackfill.Count > LowPriorityBackgroundUploadQueue.Count)
+            if (LowPriorityBackgroundUploadQueue.Count == 0 ||
+                LowPriorityBackgroundUploadQueueBackfill.Count > LowPriorityBackgroundUploadQueue.Count)
             {
                 lock (LowPriorityBackgroundUploadQueueBackfill)
                 {
-                    var temp = LowPriorityBackgroundUploadQueue;
-                    LowPriorityBackgroundUploadQueue = LowPriorityBackgroundUploadQueueBackfill;
-                    LowPriorityBackgroundUploadQueueBackfill = temp;
+                    (LowPriorityBackgroundUploadQueue, LowPriorityBackgroundUploadQueueBackfill) = (
+                        LowPriorityBackgroundUploadQueueBackfill, LowPriorityBackgroundUploadQueue);
                 }
             }
             ctx4 = Tracy.TracyCZoneN(1, $@"Perform {Math.Min(1000, LowPriorityBackgroundUploadQueue.Count)} low priority background work items");
@@ -637,15 +640,14 @@ namespace StudioCore.Scene
             // but we will process a minimum of 500 items per frame to ensure forward progress when loading.
             while ((LowPriorityBackgroundUploadQueue.Count() > 0 && (workdone < 500 || sw.ElapsedMilliseconds <= 12)))
             {
-                LowPriorityBackgroundUploadQueue.Dequeue()?.Invoke(Device, MainCommandList);
+                LowPriorityBackgroundUploadQueue.Dequeue()?.Invoke(Device, mainCommandList);
                 workdone++;
             }
             sw.Stop();
             Tracy.TracyCZoneEnd(ctx4);
 
             ctx4 = Tracy.TracyCZoneN(1, $@"Submit background work items");
-            MainCommandList.End();
-            Device.SubmitCommands(MainCommandList);
+            Device.SubmitCommands(mainCommandList);
             Tracy.TracyCZoneEnd(ctx4);
             Tracy.TracyCZoneEnd(ctx2);
 
@@ -685,15 +687,16 @@ namespace StudioCore.Scene
                     fence = Device.ResourceFactory.CreateFence(false);
                 }
 
-                TransferCommandList.Begin();
-                (DeviceBuffer, DeviceBuffer, Action<GraphicsDevice>) t;
+                var transferCommandList = Factory.CreateCommandList(QueueType.Transfer);
+                (DeviceBuffer, DeviceBuffer, VkAccessFlags2, Action<GraphicsDevice>) t;
+                VkAccessFlags2 dstFlags = VkAccessFlags2.None;
                 while (_asyncTransfersPendingQueue.TryDequeue(out t))
                 {
-                    TransferCommandList.CopyBuffer(t.Item2, 0, t.Item1, 0, t.Item1.SizeInBytes);
-                    _asyncTransfers.Add((fence, t.Item3));
+                    dstFlags |= t.Item3;
+                    transferCommandList.CopyBuffer(t.Item2, 0, t.Item1, 0, t.Item1.SizeInBytes);
+                    _asyncTransfers.Add((fence, t.Item4));
                 }
-                TransferCommandList.End();
-                Device.SubmitCommands(TransferCommandList, fence);
+                Device.SubmitCommands(transferCommandList, fence);
             }
             Tracy.TracyCZoneEnd(ctx2);
 
@@ -748,14 +751,22 @@ namespace StudioCore.Scene
             }
             else if (_readbackPendingQueue.Count > 0 && _readyForReadback && _readbackPendingFence == _currentBuffer)
             {
-                _readbackCommandList.Begin();
+                var readbackCommandList = Factory.CreateCommandList(QueueType.Graphics);
                 foreach (var entry in _readbackPendingQueue)
                 {
-                    _readbackCommandList.CopyBuffer(entry.Item2, 0, entry.Item1, 0, entry.Item2.SizeInBytes);
+                    readbackCommandList.BufferBarrier(entry.Item2,
+                        VkPipelineStageFlags2.AllGraphics,
+                        VkAccessFlags2.MemoryWrite | VkAccessFlags2.ShaderWrite,
+                        VkPipelineStageFlags2.Transfer,
+                        VkAccessFlags2.TransferRead);
+                    readbackCommandList.CopyBuffer(entry.Item2, 0, entry.Item1, 0, entry.Item2.SizeInBytes);
+                    readbackCommandList.BufferBarrier(entry.Item1,
+                        VkPipelineStageFlags2.Transfer,
+                        VkAccessFlags2.TransferWrite,
+                        VkPipelineStageFlags2.Host,
+                        VkAccessFlags2.HostRead);
                 }
-                _readbackCommandList.End();
-                //Device.SubmitCommands(_readbackCommandList, _readbackFence);
-                _postDrawCommandLists.Add((_readbackCommandList, _readbackFence));
+                _postDrawCommandLists.Add((readbackCommandList, _readbackFence));
                 _readyForReadback = false;
                 _readbackPendingFence = -1;
             }

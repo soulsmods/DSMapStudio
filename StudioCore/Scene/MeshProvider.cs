@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using Veldrid;
 using Veldrid.Utilities;
 using System.Numerics;
+using Vortice.Vulkan;
 
 namespace StudioCore.Scene
 {
@@ -233,13 +234,13 @@ namespace StudioCore.Scene
 
         public abstract SpecializationConstant[] SpecializationConstants { get; }
 
-        public virtual FaceCullMode CullMode { get => FaceCullMode.None; }
+        public virtual VkCullModeFlags CullMode { get => VkCullModeFlags.None; }
 
-        public virtual PolygonFillMode FillMode { get => PolygonFillMode.Solid; }
+        public virtual VkPolygonMode FillMode { get => VkPolygonMode.Fill; }
 
-        public virtual FrontFace FrontFace { get => FrontFace.CounterClockwise; }
+        public virtual VkFrontFace FrontFace { get => VkFrontFace.CounterClockwise; }
 
-        public virtual PrimitiveTopology Topology { get => PrimitiveTopology.TriangleList; }
+        public virtual VkPrimitiveTopology Topology { get => VkPrimitiveTopology.TriangleList; }
 
         // Mesh data
         public virtual bool Is32Bit { get => false; }
@@ -451,11 +452,11 @@ namespace StudioCore.Scene
 
         public override SpecializationConstant[] SpecializationConstants => _resource.Get().GPUMeshes[_meshIndex].Material.SpecializationConstants.ToArray();
 
-        public override FaceCullMode CullMode => _resource.Get().GPUMeshes[_meshIndex].MeshFacesets[0].BackfaceCulling ? FaceCullMode.Back : FaceCullMode.None;
+        public override VkCullModeFlags CullMode => _resource.Get().GPUMeshes[_meshIndex].MeshFacesets[0].BackfaceCulling ? VkCullModeFlags.Back : VkCullModeFlags.None;
 
-        public override FrontFace FrontFace => FrontFace.CounterClockwise;
+        public override VkFrontFace FrontFace => VkFrontFace.CounterClockwise;
 
-        public override PrimitiveTopology Topology => _resource.Get().GPUMeshes[_meshIndex].MeshFacesets[0].IsTriangleStrip ? PrimitiveTopology.TriangleStrip : PrimitiveTopology.TriangleList;
+        public override VkPrimitiveTopology Topology => _resource.Get().GPUMeshes[_meshIndex].MeshFacesets[0].IsTriangleStrip ? VkPrimitiveTopology.TriangleStrip : VkPrimitiveTopology.TriangleList;
 
         public override bool Is32Bit => _resource.Get().GPUMeshes[_meshIndex].MeshFacesets[0].Is32Bit;
 
@@ -662,11 +663,11 @@ namespace StudioCore.Scene
 
         public override SpecializationConstant[] SpecializationConstants => new SpecializationConstant[0];
 
-        public override FaceCullMode CullMode => FaceCullMode.Back;
+        public override VkCullModeFlags CullMode => VkCullModeFlags.Back;
 
-        public override FrontFace FrontFace => _resource.Get().FrontFace;
+        public override VkFrontFace FrontFace => _resource.Get().FrontFace;
 
-        public override PrimitiveTopology Topology => PrimitiveTopology.TriangleList;
+        public override VkPrimitiveTopology Topology => VkPrimitiveTopology.TriangleList;
 
         public override bool Is32Bit => true;
 
@@ -775,11 +776,11 @@ namespace StudioCore.Scene
 
         public override SpecializationConstant[] SpecializationConstants => new SpecializationConstant[0];
 
-        public override FaceCullMode CullMode => FaceCullMode.Back;
+        public override VkCullModeFlags CullMode => VkCullModeFlags.Back;
 
-        public override FrontFace FrontFace => FrontFace.Clockwise;
+        public override VkFrontFace FrontFace => VkFrontFace.Clockwise;
 
-        public override PrimitiveTopology Topology => PrimitiveTopology.TriangleList;
+        public override VkPrimitiveTopology Topology => VkPrimitiveTopology.TriangleList;
 
         public override bool Is32Bit => true;
 
@@ -900,11 +901,11 @@ namespace StudioCore.Scene
 
         public override SpecializationConstant[] SpecializationConstants => new SpecializationConstant[0];
 
-        public override FaceCullMode CullMode => FaceCullMode.Back;
+        public override VkCullModeFlags CullMode => VkCullModeFlags.Back;
 
-        public override FrontFace FrontFace => FrontFace.Clockwise;
+        public override VkFrontFace FrontFace => VkFrontFace.Clockwise;
 
-        public override PrimitiveTopology Topology => PrimitiveTopology.TriangleList;
+        public override VkPrimitiveTopology Topology => VkPrimitiveTopology.TriangleList;
 
         public override bool Is32Bit => true;
 
@@ -1021,11 +1022,11 @@ namespace StudioCore.Scene
 
         public override SpecializationConstant[] SpecializationConstants => new SpecializationConstant[0];
 
-        public override FaceCullMode CullMode => FaceCullMode.None;
+        public override VkCullModeFlags CullMode => VkCullModeFlags.None;
 
-        public override FrontFace FrontFace => FrontFace.Clockwise;
+        public override VkFrontFace FrontFace => VkFrontFace.Clockwise;
 
-        public override PrimitiveTopology Topology => PrimitiveTopology.LineList;
+        public override VkPrimitiveTopology Topology => VkPrimitiveTopology.LineList;
 
         public override bool Is32Bit => true;
 

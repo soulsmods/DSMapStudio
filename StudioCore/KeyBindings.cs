@@ -102,8 +102,9 @@ namespace StudioCore
             public KeyBind Map_UnhideAll = new(Key.H, false, true);
             public KeyBind Map_GotoSelectionInObjectList = new(Key.G);
             public KeyBind Map_ResetRotation = new(Key.L);
-            public KeyBind Map_ArbitraryRotationX = new(Key.J);
-            public KeyBind Map_ArbitraryRotationY = new(Key.K);
+            public KeyBind Map_ArbitraryRotation_Roll = new(Key.J);
+            public KeyBind Map_ArbitraryRotation_Yaw = new(Key.K, false, false, true);
+            public KeyBind Map_ArbitraryRotation_Yaw_Pivot = new(Key.K);
             public KeyBind Map_Dummify = new(Key.Comma, false, false, true);
             public KeyBind Map_UnDummify = new(Key.Period, false, false, true);
             public KeyBind Map_MoveSelectionToCamera = new(Key.X);
@@ -114,7 +115,8 @@ namespace StudioCore
             public KeyBind Param_SelectAll = new(Key.A, true);
             public KeyBind Param_Copy = new(Key.C, true);
             public KeyBind Param_Paste = new(Key.V, true);
-            public KeyBind Param_GotoRow = new(Key.G, true);
+            public KeyBind Param_GotoRowID = new(Key.G, true);
+            public KeyBind Param_GotoSelectedRow = new(Key.G);
             public KeyBind Param_GotoBack = new(Key.Escape, false);
             public KeyBind Param_SearchParam = new(Key.P, true);
             public KeyBind Param_SearchRow = new(Key.F, true);

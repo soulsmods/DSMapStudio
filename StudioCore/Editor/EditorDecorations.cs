@@ -35,9 +35,9 @@ namespace StudioCore.Editor
                 return;
             if (CFG.Current.Param_HideReferenceRows == false) //Move preference
             {
-                ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(0, 0));
+                ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(0, ImGui.GetStyle().ItemSpacing.Y));
                 ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 1.0f, 0.0f, 1.0f));
-                ImGui.TextUnformatted($@"  <");
+                ImGui.TextUnformatted($@"   <");
                 List<string> inactiveRefs = new List<string>();
                 bool first = true;
                 foreach (ParamRef r in paramRefs)
@@ -50,11 +50,15 @@ namespace StudioCore.Editor
                     }
                     else
                     {
-                        ImGui.SameLine();
                         if (first)
+                        {
+                            ImGui.SameLine();
                             ImGui.TextUnformatted(r.param);
+                        }
                         else
-                            ImGui.TextUnformatted(","+r.param);
+                        {
+                            ImGui.TextUnformatted("    " + r.param);
+                        }
                         first = false;
                     }
                 }
@@ -64,9 +68,13 @@ namespace StudioCore.Editor
                 {
                     ImGui.SameLine();
                     if (first)
-                        ImGui.TextUnformatted(inactive);
+                    {
+                        ImGui.TextUnformatted("!" + inactive);
+                    }
                     else
-                        ImGui.TextUnformatted(","+inactive);
+                    {
+                        ImGui.TextUnformatted("!"+ inactive);
+                    }
                     first = false;
                 }
                 ImGui.PopStyleColor();
@@ -85,7 +93,7 @@ namespace StudioCore.Editor
             {
                 ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(0, 0));
                 ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 1.0f, 0.0f, 1.0f));
-                ImGui.TextUnformatted($@"  [");
+                ImGui.TextUnformatted($@"   [");
                 ImGui.SameLine();
                 ImGui.TextUnformatted(fmgRef);
                 ImGui.SameLine();
@@ -191,7 +199,7 @@ namespace StudioCore.Editor
             if (enumName != null && CFG.Current.Param_HideEnums == false) //Move preference
             {
                 ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 1.0f, 0.0f, 1.0f));
-                ImGui.TextUnformatted($@"  {enumName}");
+                ImGui.TextUnformatted($@"   {enumName}");
                 ImGui.PopStyleColor();
             }
         }
@@ -223,16 +231,10 @@ namespace StudioCore.Editor
                 if (foundfield == null)
                     continue;
                 //add selectable
-                if (ImGui.Selectable($@"Go to first in {param.Key}"))
+                if (ImGui.Selectable($@"Search in {param.Key}"))
                 {
-                    foreach (Param.Row row in param.Value.Rows)
-                    {
-                        if (row[foundfield.InternalName].Value.ToString().Equals(searchValue.ToString()))
-                        {
-                            EditorCommandQueue.AddCommand($@"param/select/-1/{param.Key}/{row.ID}");
-                            break;
-                        }
-                    }
+                    EditorCommandQueue.AddCommand($@"param/select/-1/{param.Key}");
+                    EditorCommandQueue.AddCommand($@"param/search/prop {foundfield.InternalName} ^{searchValue.ToString()}$");
                 }
             }
         }

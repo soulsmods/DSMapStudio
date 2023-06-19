@@ -11,8 +11,12 @@
     <PackageTags>Debug Profile 3D Graphics Direct3D DirectX Vulkan OpenGL Core Standard Game</PackageTags>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+
   <ItemGroup>
-    <PackageReference Include="NativeLibraryLoader" Version="1.0.12" />
+    <PackageReference Include="NativeLibraryLoader" Version="1.0.13" />
   </ItemGroup>
 
 </Project>
