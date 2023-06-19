@@ -59,7 +59,7 @@ namespace StudioCore.ParamEditor
             }
             else if (col.Item1 == PseudoColumn.Name)
             {
-                if (!row.Name.Equals(newval))
+                if (row.Name == null || !row.Name.Equals(newval))
                     actions.Add(new PropertiesChangedAction(row.GetType().GetProperty("Name"), -1, row, newval));
             }
             else
@@ -85,6 +85,8 @@ namespace StudioCore.ParamEditor
                 foreach (string cmd in commands)
                 {
                     string command = cmd;
+                    if (command.StartsWith("##") || string.IsNullOrWhiteSpace(command))
+                        continue;
                     if (command.EndsWith(';'))
                         command = command.Substring(0, command.Length-1);
                     (MassEditResult result, List<EditorAction> actions) = (null, null);
@@ -325,18 +327,6 @@ namespace StudioCore.ParamEditor
                 var res = rowOpOrCellStageFunc(rowArgFunc, paramname, row, partialActions);
                 if (res.Type != MassEditResultType.SUCCESS)
                     return res;
-                /*if (cellSelector == null)
-                {
-                    var res = ExecRowOp(rowArgFunc, paramname, row, partialActions);
-                    if (res.Type != MassEditResultType.SUCCESS)
-                        return res;
-                }
-                else
-                {
-                    var res = ExecCellStage(rowArgFunc, paramname, row, partialActions);
-                    if (res.Type != MassEditResultType.SUCCESS)
-                        return res;
-                }*/
             }
             return new MassEditResult(MassEditResultType.SUCCESS, "");
         }
@@ -494,7 +484,7 @@ namespace StudioCore.ParamEditor
                     return new MassEditResult(MassEditResultType.PARSEERROR, "No Param selected");
                 int csvLength = p.AppliedParamdef.Fields.Count + 2;// Include ID and name
                 string[] csvLines = csvString.Split("\n");
-                if (csvLines[0].Contains($@"ID{separator}Name"))
+                if (csvLines[0].StartsWith($@"ID{separator}Name"))
                     csvLines[0] = ""; //skip column label row
                 int changeCount = 0;
                 int addedCount = 0;
@@ -753,6 +743,10 @@ namespace StudioCore.ParamEditor
                 Regex rx = new Regex(args[0]);
                 return MassParamEdit.WithDynamicOf(ctx, (v) => rx.Replace(v, args[1]));
             }));
+            operations.Add("store", (new string[]{"variable name"}, "Overwrites the given variable's value with the selected value, attempting to convert type as necessary", (ctx, args) => {
+                MassParamEdit.massEditVars[args[0]] = MassParamEdit.WithDynamicOf(MassParamEdit.massEditVars[args[0]], (x) => ctx);
+                return ctx;
+            }));
         }
     }
     public class MEOperationArgument
@@ -889,6 +883,22 @@ namespace StudioCore.ParamEditor
                 var rows = RowSearchEngine.rse.Search((ParamBank.PrimaryBank, param), field[1], false, false);
                 var avg = ParamUtils.GetParamValueDistribution(rows, col).OrderByDescending((g) => g.Item2).First().Item1;
                 return (j, row) => (k, c) => avg.ToParamEditorString();
+            }, ()=>CFG.Current.Param_AdvancedMassedit));
+            argumentGetters.Add("min", newGetter(new string[]{"field internalName", "row selector"}, "Gives the smallest value from the cells/fields found using the given param, row selector and field", (field) => (i, param) => {
+                var col = param.GetCol(field[0]);
+                if (!col.IsColumnValid())
+                    throw new Exception($@"Could not locate field {field[0]}");
+                var rows = RowSearchEngine.rse.Search((ParamBank.PrimaryBank, param), field[1], false, false);
+                var min = rows.Min((r) => r[field[0]].Value.Value);
+                return (j, row) => (k, c) => min.ToParamEditorString();
+            }, ()=>CFG.Current.Param_AdvancedMassedit));
+            argumentGetters.Add("max", newGetter(new string[]{"field internalName", "row selector"}, "Gives the largest value from the cells/fields found using the given param, row selector and field", (field) => (i, param) => {
+                var col = param.GetCol(field[0]);
+                if (!col.IsColumnValid())
+                    throw new Exception($@"Could not locate field {field[0]}");
+                var rows = RowSearchEngine.rse.Search((ParamBank.PrimaryBank, param), field[1], false, false);
+                var max = rows.Max((r) => r[field[0]].Value.Value);
+                return (j, row) => (k, c) => max.ToParamEditorString();
             }, ()=>CFG.Current.Param_AdvancedMassedit));
             argumentGetters.Add("random", newGetter(new string[]{"minimum number (inclusive)", "maximum number (exclusive)"}, "Gives a random decimal number between the given values for each selected value", (minAndMax) => {
                 double min;

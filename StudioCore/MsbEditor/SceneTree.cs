@@ -699,10 +699,12 @@ namespace StudioCore.MsbEditor
                     if (metaName != "")
                     {
                         ImGui.SameLine();
-                        if (metaName.StartsWith("--")) //marked as normally unused (use red text)
+                        ImGui.PushTextWrapPos();
+                        if (metaName.StartsWith("--")) // Marked as normally unused (use red text)
                             ImGui.TextColored(new Vector4(1.0f, 0.0f, 0.0f, 1.0f), @$"<{metaName.Replace("--","")}>");
                         else
                             ImGui.TextColored(new Vector4(1.0f, 1.0f, 0.0f, 1.0f), @$"<{metaName}>");
+                        ImGui.PopTextWrapPos();
                     }
                     ImGui.EndGroup();
                     if (_selection.ShouldGoto(mapRoot) || _selection.ShouldGoto(mapRef))

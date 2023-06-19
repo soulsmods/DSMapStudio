@@ -35,14 +35,14 @@ namespace StudioCore.Scene
         {
             BufferDescription desc = new BufferDescription(
                 initialSize,
-                usage,
-                VmaMemoryUsage.AutoPreferDevice,
+                usage | VkBufferUsageFlags.TransferDst,
+                VmaMemoryUsage.Auto,
                 0);
             _backingBuffer = Renderer.Factory.CreateBuffer(desc);
             desc = new BufferDescription(
                 initialSize,
-                VkBufferUsageFlags.None,
-                VmaMemoryUsage.AutoPreferHost,
+                VkBufferUsageFlags.TransferSrc,
+                VmaMemoryUsage.Auto,
                 VmaAllocationCreateFlags.Mapped);
             _stagingBuffer = Renderer.Factory.CreateBuffer(desc);
             _bufferSize = initialSize;
@@ -54,15 +54,15 @@ namespace StudioCore.Scene
         {
             BufferDescription desc = new BufferDescription(
                 initialSize,
-                usage,
-                VmaMemoryUsage.AutoPreferDevice,
+                usage | VkBufferUsageFlags.TransferDst,
+                VmaMemoryUsage.Auto,
                 0,
                 stride);
             _backingBuffer = Renderer.Factory.CreateBuffer(desc);
             desc = new BufferDescription(
                 initialSize,
-                VkBufferUsageFlags.None,
-                VmaMemoryUsage.AutoPreferHost,
+                VkBufferUsageFlags.TransferSrc,
+                VmaMemoryUsage.Auto,
                 VmaAllocationCreateFlags.Mapped);
             _stagingBuffer = Renderer.Factory.CreateBuffer(desc);
             _bufferSize = initialSize;
@@ -74,16 +74,16 @@ namespace StudioCore.Scene
         {
             BufferDescription desc = new BufferDescription(
                 initialSize,
-                usage,
-                VmaMemoryUsage.AutoPreferDevice,
+                usage | VkBufferUsageFlags.TransferDst,
+                VmaMemoryUsage.Auto,
                 0,
                 stride);
             _backingBuffer = Renderer.Factory.CreateBuffer(desc);
             _bufferSize = initialSize;
             desc = new BufferDescription(
                 initialSize,
-                VkBufferUsageFlags.None,
-                VmaMemoryUsage.AutoPreferHost,
+                VkBufferUsageFlags.TransferSrc,
+                VmaMemoryUsage.Auto,
                 VmaAllocationCreateFlags.Mapped);
             _stagingBuffer = Renderer.Factory.CreateBuffer(desc);
             _allocator = new FreeListAllocator(initialSize);
@@ -304,8 +304,8 @@ namespace StudioCore.Scene
             _device = gd;
             BufferDescription desc = new BufferDescription(
                 maxVertsSize,
-                VkBufferUsageFlags.None,
-                VmaMemoryUsage.AutoPreferHost,
+                VkBufferUsageFlags.TransferSrc | VkBufferUsageFlags.TransferDst,
+                VmaMemoryUsage.Auto,
                 VmaAllocationCreateFlags.Mapped);
             _currentStaging = new VertexIndexBuffer(_device);
             _currentStaging._stagingBufferVerts = Renderer.Factory.CreateBuffer(desc);
@@ -313,8 +313,8 @@ namespace StudioCore.Scene
                 _device.Map(_currentStaging._stagingBufferVerts, MapMode.Write);
             desc = new BufferDescription(
                 maxIndicesSize,
-                VkBufferUsageFlags.None,
-                VmaMemoryUsage.AutoPreferHost,
+                VkBufferUsageFlags.TransferSrc | VkBufferUsageFlags.TransferDst,
+                VmaMemoryUsage.Auto,
                 VmaAllocationCreateFlags.Mapped);
             _currentStaging._stagingBufferIndices = Renderer.Factory.CreateBuffer(desc);
             _currentStaging._mappedStagingBufferIndices =
@@ -353,16 +353,16 @@ namespace StudioCore.Scene
                     _buffers.Add(_currentStaging);
                     BufferDescription desc = new BufferDescription(
                         _maxVertsSize,
-                        VkBufferUsageFlags.None,
-                        VmaMemoryUsage.AutoPreferHost,
+                        VkBufferUsageFlags.TransferSrc | VkBufferUsageFlags.TransferDst,
+                        VmaMemoryUsage.Auto,
                         VmaAllocationCreateFlags.Mapped);
                     _currentStaging._stagingBufferVerts = Renderer.Factory.CreateBuffer(desc);
                     _currentStaging._mappedStagingBufferVerts = 
                         _device.Map(_currentStaging._stagingBufferVerts, MapMode.Write);
                     desc = new BufferDescription(
                         _maxIndicesSize,
-                        VkBufferUsageFlags.None,
-                        VmaMemoryUsage.AutoPreferHost,
+                        VkBufferUsageFlags.TransferSrc | VkBufferUsageFlags.TransferDst,
+                        VmaMemoryUsage.Auto,
                         VmaAllocationCreateFlags.Mapped);
                     _currentStaging._stagingBufferIndices = Renderer.Factory.CreateBuffer(desc);
                     _currentStaging._mappedStagingBufferIndices = 
@@ -421,16 +421,16 @@ namespace StudioCore.Scene
                 _buffers.Add(_currentStaging);
                 BufferDescription desc = new BufferDescription(
                     _maxVertsSize,
-                    VkBufferUsageFlags.None,
-                    VmaMemoryUsage.AutoPreferHost,
+                    VkBufferUsageFlags.TransferSrc | VkBufferUsageFlags.TransferDst,
+                    VmaMemoryUsage.Auto,
                     VmaAllocationCreateFlags.Mapped);
                 _currentStaging._stagingBufferVerts = Renderer.Factory.CreateBuffer(desc);
                 _currentStaging._mappedStagingBufferVerts = 
                     _device.Map(_currentStaging._stagingBufferVerts, MapMode.Write);
                 desc = new BufferDescription(
                     _maxIndicesSize,
-                    VkBufferUsageFlags.None,
-                    VmaMemoryUsage.AutoPreferHost,
+                    VkBufferUsageFlags.TransferSrc | VkBufferUsageFlags.TransferDst,
+                    VmaMemoryUsage.Auto,
                     VmaAllocationCreateFlags.Mapped);
                 _currentStaging._stagingBufferIndices = Renderer.Factory.CreateBuffer(desc);
                 _currentStaging._mappedStagingBufferIndices = 
@@ -536,13 +536,13 @@ namespace StudioCore.Scene
                         _bufferSizeIndex = _stagingIndicesSize;
                         var vd = new BufferDescription(
                             (uint)_stagingVertsSize,
-                            VkBufferUsageFlags.VertexBuffer,
-                            VmaMemoryUsage.AutoPreferDevice,
+                            VkBufferUsageFlags.VertexBuffer | VkBufferUsageFlags.TransferDst,
+                            VmaMemoryUsage.Auto,
                             0);
                         var id = new BufferDescription(
                             (uint)_stagingIndicesSize,
-                            VkBufferUsageFlags.IndexBuffer,
-                            VmaMemoryUsage.AutoPreferDevice,
+                            VkBufferUsageFlags.IndexBuffer | VkBufferUsageFlags.TransferDst,
+                            VmaMemoryUsage.Auto,
                             0);
                         _backingVertBuffer = d.ResourceFactory.CreateBuffer(ref vd);
                         _backingIndexBuffer = d.ResourceFactory.CreateBuffer(ref id);

@@ -55,8 +55,8 @@ namespace StudioCore.Scene
             SceneParamBuffer = factory.CreateBuffer(
                 new BufferDescription(
                     (uint)sizeof(SceneParam), 
-                    VkBufferUsageFlags.UniformBuffer,
-                    VmaMemoryUsage.AutoPreferDevice,
+                    VkBufferUsageFlags.UniformBuffer | VkBufferUsageFlags.TransferDst,
+                    VmaMemoryUsage.Auto,
                     0));
             SceneParams = new SceneParam();
             SceneParams.Projection = Utils.CreatePerspective(device, true, CFG.Current.GFX_Camera_FOV * (float)Math.PI / 180.0f, (float)width / (float)height, 0.1f, 2000.0f);
@@ -77,15 +77,15 @@ namespace StudioCore.Scene
             ResourceLayout sceneParamLayout = StaticResourceCache.GetResourceLayout(
                 device.ResourceFactory,
                 StaticResourceCache.SceneParamLayoutDescription);
-            SceneParamResourceSet = StaticResourceCache.GetResourceSet(device.ResourceFactory, new ResourceSetDescription(sceneParamLayout,
-                SceneParamBuffer));
+            SceneParamResourceSet = StaticResourceCache.GetResourceSet(device.ResourceFactory,
+                new ResourceSetDescription(sceneParamLayout, SceneParamBuffer));
 
             // Setup picking uniform buffer
             PickingResultsBuffer = factory.CreateBuffer(
                 new BufferDescription(
                     (uint)sizeof(PickingResult), 
-                    VkBufferUsageFlags.StorageBuffer, 
-                    VmaMemoryUsage.AutoPreferDevice,
+                    VkBufferUsageFlags.StorageBuffer | VkBufferUsageFlags.TransferSrc | VkBufferUsageFlags.TransferDst, 
+                    VmaMemoryUsage.Auto,
                     0,
                     (uint)sizeof(PickingResult)
                 ));
@@ -102,8 +102,8 @@ namespace StudioCore.Scene
             PickingResultReadbackBuffer = factory.CreateBuffer(
                 new BufferDescription(
                     (uint)sizeof(PickingResult), 
-                    VkBufferUsageFlags.None,
-                    VmaMemoryUsage.AutoPreferHost,
+                    VkBufferUsageFlags.TransferDst,
+                    VmaMemoryUsage.Auto,
                     VmaAllocationCreateFlags.Mapped));
             device.UpdateBuffer(PickingResultReadbackBuffer, 0, ref PickingResult, (uint)sizeof(PickingResult));
 

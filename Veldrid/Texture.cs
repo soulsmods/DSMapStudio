@@ -40,8 +40,6 @@ namespace Veldrid
         private VkImageLayout[] _imageLayouts;
         private string _name;
         
-        internal ResourceRefCount RefCount { get; }
-        
         /// <summary>
         /// Calculates the subresource index, given a mipmap level and array layer.
         /// </summary>
@@ -223,7 +221,6 @@ namespace Veldrid
 
             ClearIfRenderTarget();
             TransitionIfSampled();
-            RefCount = new ResourceRefCount(RefCountedDispose);
         }
 
         // Used to construct Swapchain textures.
@@ -255,7 +252,6 @@ namespace Veldrid
             _imageLayouts = new[] { VkImageLayout.Undefined };
 
             ClearIfRenderTarget();
-            RefCount = new ResourceRefCount(DisposeCore);
         }
 
         internal TextureView GetFullTextureView(GraphicsDevice gd)
@@ -410,26 +406,7 @@ namespace Veldrid
             _depth = depth;
             _format = format;
         }
-
-        private void RefCountedDispose()
-        {
-            if (!_destroyed)
-            {
-                Dispose();
-
-                _destroyed = true;
-
-                bool isStaging = Tiling == VkImageTiling.Linear;
-                if (isStaging)
-                {
-                    Vma.vmaDestroyBuffer(_gd.Allocator, _stagingBuffer, _allocation);
-                }
-                else
-                {
-                    Vma.vmaDestroyImage(_gd.Allocator, _optimalImage, _allocation);
-                }
-            }
-        }
+        
 
         internal void SetImageLayout(uint mipLevel, uint arrayLayer, VkImageLayout layout)
         {
@@ -441,17 +418,21 @@ namespace Veldrid
         /// </summary>
         public virtual void Dispose()
         {
-            lock (_fullTextureViewLock)
+            if (!_destroyed)
             {
                 _fullTextureView?.Dispose();
+                _destroyed = true;
+
+                bool isStaging = Tiling == VkImageTiling.Linear;
+                if (isStaging)
+                {
+                    _gd.DestroyBuffer(_stagingBuffer, _allocation);
+                }
+                else
+                {
+                    _gd.DestroyImage(_optimalImage, _allocation);
+                }
             }
-
-            DisposeCore();
-        }
-
-        private void DisposeCore()
-        {
-            RefCount.Decrement();
         }
     }
 }

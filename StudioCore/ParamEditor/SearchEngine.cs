@@ -230,16 +230,16 @@ namespace StudioCore.Editor
             }))));
             filterList.Add("param", newCmd(new string[]{"param name (regex)"}, "Selects all params whose name matches the given regex", (args, lenient)=>{
                 Regex rx = lenient ? new Regex(args[0], RegexOptions.IgnoreCase) : new Regex($@"^{args[0]}$");
-                return noContext((param)=>param.Item1 != bank ? false : rx.Match(bank.GetKeyForParam(param.Item2) == null ? "" : bank.GetKeyForParam(param.Item2)).Success);
+                return noContext((param)=>param.Item1 != bank ? false : rx.IsMatch(bank.GetKeyForParam(param.Item2) == null ? "" : bank.GetKeyForParam(param.Item2)));
             }));
             filterList.Add("auxparam", newCmd(new string[]{"parambank name", "param name (regex)"}, "Selects params from the specified regulation or parambnd where the param name matches the given regex", (args, lenient)=>{
                 ParamBank auxBank = ParamBank.AuxBanks[args[0]];
                 Regex rx = lenient ? new Regex(args[1], RegexOptions.IgnoreCase) : new Regex($@"^{args[1]}$");
-                return noContext((param)=>param.Item1 != auxBank ? false : rx.Match(auxBank.GetKeyForParam(param.Item2) == null ? "" : auxBank.GetKeyForParam(param.Item2)).Success);
+                return noContext((param)=>param.Item1 != auxBank ? false : rx.IsMatch(auxBank.GetKeyForParam(param.Item2) == null ? "" : auxBank.GetKeyForParam(param.Item2)));
             }, ()=>ParamBank.AuxBanks.Count > 0 && CFG.Current.Param_AdvancedMassedit));
             defaultFilter = newCmd(new string[]{"param name (regex)"}, "Selects all params whose name matches the given regex", (args, lenient)=>{
                 Regex rx = lenient ? new Regex(args[0], RegexOptions.IgnoreCase) : new Regex($@"^{args[0]}$");
-                return noContext((param)=>param.Item1 != bank ? false : rx.Match(bank.GetKeyForParam(param.Item2) == null ? "" : bank.GetKeyForParam(param.Item2)).Success);
+                return noContext((param)=>param.Item1 != bank ? false : rx.IsMatch(bank.GetKeyForParam(param.Item2) == null ? "" : bank.GetKeyForParam(param.Item2)));
             });
         }
     }
@@ -286,7 +286,7 @@ namespace StudioCore.Editor
             ), ()=>ParamBank.AuxBanks.Count > 0));
             filterList.Add("id", newCmd(new string[]{"row id (regex)"}, "Selects rows whose ID matches the given regex", (args, lenient)=>{
                 Regex rx = lenient ? new Regex(args[0].ToLower()) : new Regex($@"^{args[0]}$");
-                return noContext((row)=>rx.Match(row.ID.ToString()).Success);
+                return noContext((row)=>rx.IsMatch(row.ID.ToString()));
             }));
             filterList.Add("idrange", newCmd(new string[]{"row id minimum (inclusive)", "row id maximum (inclusive)"}, "Selects rows whose ID falls in the given numerical range", (args, lenient)=>{
                 double floor = double.Parse(args[0]);
@@ -295,7 +295,7 @@ namespace StudioCore.Editor
             }));
             filterList.Add("name", newCmd(new string[]{"row name (regex)"}, "Selects rows whose Name matches the given regex", (args, lenient)=>{
                 Regex rx = lenient ? new Regex(args[0], RegexOptions.IgnoreCase) : new Regex($@"^{args[0]}$");
-                return noContext((row)=>rx.Match(row.Name == null ? "" : row.Name).Success);
+                return noContext((row)=>rx.IsMatch(row.Name == null ? "" : row.Name));
             }));
             filterList.Add("prop", newCmd(new string[]{"field internalName", "field value (regex)"}, "Selects rows where the specified field has a value that matches the given regex", (args, lenient)=>{
                 Regex rx = lenient ? new Regex(args[1], RegexOptions.IgnoreCase) : new Regex($@"^{args[1]}$");
@@ -305,7 +305,7 @@ namespace StudioCore.Editor
                         if (cq == null) throw new Exception();
                         Param.Cell c = cq.Value;
                         string term = c.Value.ToParamEditorString();
-                        return rx.Match(term).Success;
+                        return rx.IsMatch(term);
                 });
             }));
             filterList.Add("proprange", newCmd(new string[]{"field internalName", "field value minimum (inclusive)", "field value maximum (inclusive)"}, "Selects rows where the specified field has a value that falls in the given numerical range", (args, lenient)=>{
@@ -332,7 +332,7 @@ namespace StudioCore.Editor
                         foreach (ParamRef rt in validFields)
                         {
                             Param.Row r = bank.Params[rt.param][val];
-                            if (r != null && rx.Match(r.Name ?? "").Success)
+                            if (r != null && rx.IsMatch(r.Name ?? ""))
                                 return true;
                         }
                         return false;
@@ -379,7 +379,7 @@ namespace StudioCore.Editor
                         if (!_cache.ContainsKey(row.ID))
                             return false;
                         FMG.Entry e = _cache[row.ID];
-                        return e != null && rx.Match(e.Text ?? "").Success;
+                        return e != null && rx.IsMatch(e.Text ?? "");
                     };
                 };
             }, ()=>CFG.Current.Param_AdvancedMassedit));
@@ -396,7 +396,7 @@ namespace StudioCore.Editor
                         if (cq == null) throw new Exception();
                         Param.Cell c = cq.Value;
                         string term = c.Value.ToParamEditorString();
-                        return rx.Match(term).Success;
+                        return rx.IsMatch(term);
                     };
                 };
             }, ()=>CFG.Current.Param_AdvancedMassedit));
@@ -432,7 +432,7 @@ namespace StudioCore.Editor
                         if (cq == null) throw new Exception();
                         Param.Cell c = cq.Value;
                         string term = c.Value.ToParamEditorString();
-                        return rx.Match(term).Success;
+                        return rx.IsMatch(term);
                     };
                 };
             }, ()=>ParamBank.AuxBanks.Count > 0 && CFG.Current.Param_AdvancedMassedit));
@@ -453,11 +453,34 @@ namespace StudioCore.Editor
                     };
                 };
             }, ()=>ParamBank.AuxBanks.Count > 0 && CFG.Current.Param_AdvancedMassedit));
+            filterList.Add("semijoin", newCmd(new string[]{"this field internalName", "other param", "other param field internalName", "other param row search"}, "Selects all rows where the value of a given field is any of the values in the second given field found in the given param using the given row selector", (args, lenient)=>{
+                string thisField = args[0].Replace(@"\s", " ");
+                string otherParam = args[1];
+                string otherField = args[2].Replace(@"\s", " ");
+                string otherSearchTerm = args[3];
+                Param otherParamReal;
+                if (!ParamBank.PrimaryBank.Params.TryGetValue(otherParam, out otherParamReal))
+                    throw new Exception("Could not find param "+otherParam);
+                List<Param.Row> rows = RowSearchEngine.rse.Search((ParamBank.PrimaryBank, otherParamReal), otherSearchTerm, lenient, false);
+                (PseudoColumn, Param.Column) otherFieldReal = ParamUtils.GetCol(otherParamReal, otherField);
+                if (!otherFieldReal.IsColumnValid())
+                    throw new Exception("Could not find field "+otherField);
+                HashSet<string> possibleValues = rows.Select((x) => x.Get(otherFieldReal).ToParamEditorString()).Distinct().ToHashSet();
+                return (param) => {
+                    (PseudoColumn, Param.Column) thisFieldReal = ParamUtils.GetCol(param.Item2, thisField);
+                    if (!thisFieldReal.IsColumnValid())
+                        throw new Exception("Could not find field "+thisField);
+                    return (row)=>{
+                        string toFind = row.Get(thisFieldReal).ToParamEditorString();
+                        return possibleValues.Contains(toFind);
+                    };
+                };
+            }, ()=>CFG.Current.Param_AdvancedMassedit));
             defaultFilter = newCmd(new string[]{"row ID or Name (regex)"}, "Selects rows where either the ID or Name matches the given regex, except in strict/massedit mode", (args, lenient)=>{
                 if (!lenient)
                     return noContext((row)=>false);
                 Regex rx = new Regex(args[0], RegexOptions.IgnoreCase);
-                return noContext((row)=>rx.Match(row.Name ?? "").Success || rx.Match(row.ID.ToString()).Success);
+                return noContext((row)=>rx.IsMatch(row.Name ?? "") || rx.IsMatch(row.ID.ToString()));
             });
         }
     }
@@ -486,9 +509,9 @@ namespace StudioCore.Editor
                     if (cell.Item2 != null)
                     {
                         var meta = lenient ? FieldMetaData.Get(cell.Item2.Def) : null;
-                        if (lenient && meta?.AltName != null && rx.Match(meta?.AltName).Success)
+                        if (lenient && meta?.AltName != null && rx.IsMatch(meta?.AltName))
                             return true;
-                        if (rx.Match(cell.Item2.Def.InternalName).Success)
+                        if (rx.IsMatch(cell.Item2.Def.InternalName))
                             return true;
                     }
                     return false;
