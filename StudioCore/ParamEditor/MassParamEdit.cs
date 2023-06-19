@@ -765,17 +765,17 @@ namespace StudioCore.ParamEditor
         {
             Setup();
         }
-        private OperationArgumentGetter newGetter(string[] args, Func<string[], Func<int, Param, Func<int, Param.Row, Func<int, (PseudoColumn, Param.Column), string>>>> func, Func<bool> shouldShow = null)
+        private OperationArgumentGetter newGetter(string[] args, string wiki, Func<string[], Func<int, Param, Func<int, Param.Row, Func<int, (PseudoColumn, Param.Column), string>>>> func, Func<bool> shouldShow = null)
         {
-            return new OperationArgumentGetter(args, func, shouldShow);
+            return new OperationArgumentGetter(args, wiki, func, shouldShow);
         }
         private void Setup()
         {
-            defaultGetter = newGetter(new string[0], (value) => (i, param) => (j, row) => (k, col) => value[0]);
-            argumentGetters.Add("self", newGetter(new string[0], (empty) => (i, param) => (j, row) => (k, col) => {
+            defaultGetter = newGetter(new string[0], "Gives the specified value", (value) => (i, param) => (j, row) => (k, col) => value[0]);
+            argumentGetters.Add("self", newGetter(new string[0], "Gives the value of the currently selected value", (empty) => (i, param) => (j, row) => (k, col) => {
                 return row.Get(col).ToParamEditorString();
             }));
-            argumentGetters.Add("field", newGetter(new string[]{"field internalName"}, (field) => (i, param) => {
+            argumentGetters.Add("field", newGetter(new string[]{"field internalName"}, "Gives the value of the given cell/field for the currently selected row and param", (field) => (i, param) => {
                 var col = param.GetCol(field[0]);
                 if (!col.IsColumnValid())
                     throw new Exception($@"Could not locate field {field[0]}");
@@ -784,7 +784,7 @@ namespace StudioCore.ParamEditor
                     return (k, c) => v;
                 };
             }));
-            argumentGetters.Add("vanilla", newGetter(new string[0], (empty) => {
+            argumentGetters.Add("vanilla", newGetter(new string[0], "Gives the value of the equivalent cell/field in the vanilla regulation or parambnd for the currently selected cell/field, row and param", (empty) => {
                 ParamBank bank = ParamBank.VanillaBank;
                 return (i, param) => {
                     string paramName = ParamBank.PrimaryBank.GetKeyForParam(param);
@@ -803,7 +803,7 @@ namespace StudioCore.ParamEditor
                     };
                 };
             }));
-            argumentGetters.Add("aux", newGetter(new string[]{"parambank name"}, (bankName) => {
+            argumentGetters.Add("aux", newGetter(new string[]{"parambank name"}, "Gives the value of the equivalent cell/field in the specified regulation or parambnd for the currently selected cell/field, row and param", (bankName) => {
                 if (!ParamBank.AuxBanks.ContainsKey(bankName[0]))
                     throw new Exception($@"Could not locate paramBank {bankName[0]}");
                 ParamBank bank = ParamBank.AuxBanks[bankName[0]];
@@ -824,7 +824,7 @@ namespace StudioCore.ParamEditor
                     };
                 };
             }, ()=>ParamBank.AuxBanks.Count > 0));
-            argumentGetters.Add("vanillafield", newGetter(new string[]{"field internalName"}, (field) => (i, param) => {
+            argumentGetters.Add("vanillafield", newGetter(new string[]{"field internalName"}, "Gives the value of the specified cell/field in the vanilla regulation or parambnd for the currently selected row and param", (field) => (i, param) => {
                 var paramName = ParamBank.PrimaryBank.GetKeyForParam(param);
                 var vParam = ParamBank.VanillaBank.GetParamFromName(paramName);
                 if (vParam == null)
@@ -840,7 +840,7 @@ namespace StudioCore.ParamEditor
                     return (k, c) => v;
                 };
             }));
-            argumentGetters.Add("auxfield", newGetter(new string[]{"parambank name", "field internalName"}, (bankAndField) => {
+            argumentGetters.Add("auxfield", newGetter(new string[]{"parambank name", "field internalName"}, "Gives the value of the specified cell/field in the specified regulation or parambnd for the currently selected row and param", (bankAndField) => {
                 if (!ParamBank.AuxBanks.ContainsKey(bankAndField[0]))
                     throw new Exception($@"Could not locate paramBank {bankAndField[0]}");
                 ParamBank bank = ParamBank.AuxBanks[bankAndField[0]];
@@ -861,7 +861,7 @@ namespace StudioCore.ParamEditor
                     };
                 };
             }, ()=>ParamBank.AuxBanks.Count > 0));
-            argumentGetters.Add("average", newGetter(new string[]{"field internalName", "row selector"}, (field) => (i, param) => {
+            argumentGetters.Add("average", newGetter(new string[]{"field internalName", "row selector"}, "Gives the mean value of the cells/fields found using the given selector, for the currently selected param", (field) => (i, param) => {
                 var col = param.GetCol(field[0]);
                 if (!col.IsColumnValid())
                     throw new Exception($@"Could not locate field {field[0]}");
@@ -873,7 +873,7 @@ namespace StudioCore.ParamEditor
                 double avg = vals.Average((val) => Convert.ToDouble(val));
                 return (j, row) => (k, c) => avg.ToString();
             }, ()=>CFG.Current.Param_AdvancedMassedit));
-            argumentGetters.Add("median", newGetter(new string[]{"field internalName", "row selector"}, (field) => (i, param) => {
+            argumentGetters.Add("median", newGetter(new string[]{"field internalName", "row selector"}, "Gives the median value of the cells/fields found using the given selector, for the currently selected param", (field) => (i, param) => {
                 var col = param.GetCol(field[0]);
                 if (!col.IsColumnValid())
                     throw new Exception($@"Could not locate field {field[0]}");
@@ -882,7 +882,7 @@ namespace StudioCore.ParamEditor
                 var avg = vals.OrderBy((val) => Convert.ToDouble(val)).ElementAt(vals.Count()/2);
                 return (j, row) => (k, c) => avg.ToParamEditorString();
             }, ()=>CFG.Current.Param_AdvancedMassedit));
-            argumentGetters.Add("mode", newGetter(new string[]{"field internalName", "row selector"}, (field) => (i, param) => {
+            argumentGetters.Add("mode", newGetter(new string[]{"field internalName", "row selector"}, "Gives the most common value of the cells/fields found using the given selector, for the currently selected param", (field) => (i, param) => {
                 var col = param.GetCol(field[0]);
                 if (!col.IsColumnValid())
                     throw new Exception($@"Could not locate field {field[0]}");
@@ -890,7 +890,7 @@ namespace StudioCore.ParamEditor
                 var avg = ParamUtils.GetParamValueDistribution(rows, col).OrderByDescending((g) => g.Item2).First().Item1;
                 return (j, row) => (k, c) => avg.ToParamEditorString();
             }, ()=>CFG.Current.Param_AdvancedMassedit));
-            argumentGetters.Add("random", newGetter(new string[]{"minimum number (inclusive)", "maximum number (exclusive)"}, (minAndMax) => {
+            argumentGetters.Add("random", newGetter(new string[]{"minimum number (inclusive)", "maximum number (exclusive)"}, "Gives a random decimal number between the given values for each selected value", (minAndMax) => {
                 double min;
                 double max;
                 if (!double.TryParse(minAndMax[0], out min) || !double.TryParse(minAndMax[1], out max))
@@ -900,7 +900,7 @@ namespace StudioCore.ParamEditor
                 double range = max - min;
                 return (i, param) => (j, row) => (k, c) => (Random.Shared.NextDouble() * range + min).ToString();
             }, ()=>CFG.Current.Param_AdvancedMassedit));
-            argumentGetters.Add("randint", newGetter(new string[]{"minimum integer (inclusive)", "maximum integer (inclusive)"}, (minAndMax) => {
+            argumentGetters.Add("randint", newGetter(new string[]{"minimum integer (inclusive)", "maximum integer (inclusive)"}, "Gives a random integer between the given values for each selected value", (minAndMax) => {
                 int min;
                 int max;
                 if (!int.TryParse(minAndMax[0], out min) || !int.TryParse(minAndMax[1], out max))
@@ -909,19 +909,19 @@ namespace StudioCore.ParamEditor
                     throw new Exception($@"Random max must be greater than min");
                 return (i, param) => (j, row) => (k, c) => Random.Shared.NextInt64(min, max + 1).ToString();
             }, ()=>CFG.Current.Param_AdvancedMassedit));
-            argumentGetters.Add("randFrom", newGetter(new string[]{"param name", "field internalName", "row selector"}, (paramFieldRowSelector) => {
+            argumentGetters.Add("randFrom", newGetter(new string[]{"param name", "field internalName", "row selector"}, "Gives a random value from the cells/fields found using the given param, row selector and field, for each selected value", (paramFieldRowSelector) => {
                 Param srcParam = ParamBank.PrimaryBank.Params[paramFieldRowSelector[0]];
                 List<Param.Row> srcRows = RowSearchEngine.rse.Search((ParamBank.PrimaryBank, srcParam), paramFieldRowSelector[2], false, false);
                 object[] values = srcRows.Select((r, i) => r[paramFieldRowSelector[1]].Value.Value).ToArray();
                 return (i, param) => (j, row) => (k, c) => values[Random.Shared.NextInt64(values.Length)].ToString();
             }, ()=>CFG.Current.Param_AdvancedMassedit));
-            argumentGetters.Add("paramIndex", newGetter(new string[0], (empty) => (i, param) => (j, row) => (k, col) => {
+            argumentGetters.Add("paramIndex", newGetter(new string[0], "Gives an integer for the current selected param, beginning at 0 and increasing by 1 for each param selected", (empty) => (i, param) => (j, row) => (k, col) => {
                 return i.ToParamEditorString();
             }, ()=>CFG.Current.Param_AdvancedMassedit));
-            argumentGetters.Add("rowIndex", newGetter(new string[0], (empty) => (i, param) => (j, row) => (k, col) => {
+            argumentGetters.Add("rowIndex", newGetter(new string[0], "Gives an integer for the current selected row, beginning at 0 and increasing by 1 for each row selected", (empty) => (i, param) => (j, row) => (k, col) => {
                 return j.ToParamEditorString();
             }, ()=>CFG.Current.Param_AdvancedMassedit));
-            argumentGetters.Add("fieldIndex", newGetter(new string[0], (empty) => (i, param) => (j, row) => (k, col) => {
+            argumentGetters.Add("fieldIndex", newGetter(new string[0], "Gives an integer for the current selected cell/field, beginning at 0 and increasing by 1 for each cell/field selected", (empty) => (i, param) => (j, row) => (k, col) => {
                 return k.ToParamEditorString();
             }, ()=>CFG.Current.Param_AdvancedMassedit));
         }
@@ -935,14 +935,14 @@ namespace StudioCore.ParamEditor
             }
             return options;
         }
-        public List<(string, string[])> VisibleArguments()
+        public List<(string, string, string[])> VisibleArguments()
         {
-            List<(string, string[])> options = new List<(string, string[])>();
+            List<(string, string, string[])> options = new List<(string, string, string[])>();
             foreach (string op in argumentGetters.Keys)
             {
                 OperationArgumentGetter oag = argumentGetters[op];
                 if (oag.shouldShow == null || oag.shouldShow())
-                    options.Add((op, argumentGetters[op].args));
+                    options.Add((op, oag.wiki, oag.args));
             }
             return options;
         }
@@ -985,11 +985,13 @@ namespace StudioCore.ParamEditor
     class OperationArgumentGetter
     {
         public string[] args;
+        public string wiki;
         internal Func<string[], Func<int, Param, Func<int, Param.Row, Func<int, (PseudoColumn, Param.Column), string>>>> func;
         internal Func<bool> shouldShow;
-        internal OperationArgumentGetter(string[] args, Func<string[], Func<int, Param, Func<int, Param.Row, Func<int, (PseudoColumn, Param.Column), string>>>> func, Func<bool> shouldShow)
+        internal OperationArgumentGetter(string[] args, string wiki, Func<string[], Func<int, Param, Func<int, Param.Row, Func<int, (PseudoColumn, Param.Column), string>>>> func, Func<bool> shouldShow)
         {
             this.args = args;
+            this.wiki = wiki;
             this.func = func;
             this.shouldShow = shouldShow;
         }

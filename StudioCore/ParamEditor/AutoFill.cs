@@ -339,7 +339,7 @@ namespace StudioCore.ParamEditor
             string result = null;
             foreach (var arg in oa.VisibleArguments())
             {
-                int[] argIndices = new int[arg.Item2.Length];
+                int[] argIndices = new int[arg.Item3.Length];
                 bool valid = true;
                 for (int i = 0; i < argIndices.Length; i++)
                 {
@@ -349,6 +349,8 @@ namespace StudioCore.ParamEditor
                         valid = false;
                 }
                 bool selected = false;
+                string wiki = arg.Item2;
+                UIHints.AddImGuiHintButton(arg.Item1, ref wiki, false, true);
                 if (ImGui.Selectable(arg.Item1, selected, valid ? ImGuiSelectableFlags.None : ImGuiSelectableFlags.Disabled))
                 {
                     result = arg.Item1;
@@ -362,7 +364,7 @@ namespace StudioCore.ParamEditor
                 {
                     if (i != 0)
                         ImGui.SameLine();
-                    ImGui.InputTextWithHint("##meautoinputoa"+argIndices[i], arg.Item2[i], ref staticArgs[argIndices[i]], 256);
+                    ImGui.InputTextWithHint("##meautoinputoa"+argIndices[i], arg.Item3[i], ref staticArgs[argIndices[i]], 256);
                     string var = AutoFill.MassEditAutoFillForVars(argIndices[i]);
                     if (var != null)
                         staticArgs[argIndices[i]] = var;
