@@ -45,7 +45,7 @@ namespace StudioCore.ParamEditor
                 _additionalCondition = new AutoFillSearchEngine<A, B>(id+"0", engine);
             else if (!_useAdditionalCondition)
                 _additionalCondition = null;
-            foreach (var cmd in enableDefault ? engine.VisibleCommands().Append((null, engine.defaultFilter.args)).ToList() : engine.VisibleCommands())
+            foreach (var cmd in enableDefault ? engine.VisibleCommands().Append((null, engine.defaultFilter.args, engine.defaultFilter.wiki)).ToList() : engine.VisibleCommands())
             {
                 int[] argIndices = new int[cmd.Item2.Length];
                 bool valid = true;
@@ -57,6 +57,8 @@ namespace StudioCore.ParamEditor
                         valid = false;
                 }
                 string subResult = null;
+                string wiki = cmd.Item3;
+                UIHints.AddImGuiHintButton(cmd.Item1==null ? "hintdefault": "hint"+cmd.Item1, ref wiki, false, true);
                 if (subMenu != null || _additionalCondition != null)
                 {
                     if (ImGui.BeginMenu(cmd.Item1 == null ? "Default filter..." : cmd.Item1, valid))
