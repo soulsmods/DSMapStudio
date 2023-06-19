@@ -339,5 +339,26 @@ namespace StudioCore.Editor
             }
             return false;
         }
+
+        public static void ImguiTableSeparator()
+        {
+            int cols = ImGui.TableGetColumnCount();
+            ImGui.TableNextRow();
+            for (int i=0; i<cols; i++)
+            {
+                ImGui.TableNextColumn();
+                ImGui.Separator();
+            }
+        }
+        public static bool ImGuiTableStdColumns(string id, int cols, bool fixVerticalPadding)
+        {
+            Vector2 oldPad = ImGui.GetStyle().CellPadding;
+            if (fixVerticalPadding)
+                ImGui.GetStyle().CellPadding = new Vector2(oldPad.X, 0);
+            bool v = ImGui.BeginTable(id, cols, ImGuiTableFlags.Resizable | ImGuiTableFlags.BordersInnerV);
+            if (fixVerticalPadding)
+                ImGui.GetStyle().CellPadding = oldPad;
+            return v;
+        }
     }
 }
