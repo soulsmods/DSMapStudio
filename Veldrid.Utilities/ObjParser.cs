@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Numerics;
+using Vortice.Vulkan;
 
 namespace Veldrid.Utilities
 {
@@ -594,14 +595,23 @@ namespace Veldrid.Utilities
         public DeviceBuffer CreateVertexBuffer(ResourceFactory factory, CommandList cl)
         {
             DeviceBuffer vb = factory.CreateBuffer(
-                new BufferDescription((uint)(Vertices.Length * VertexPositionNormalTexture.SizeInBytes), BufferUsage.VertexBuffer));
+                new BufferDescription(
+                    (uint)(Vertices.Length * VertexPositionNormalTexture.SizeInBytes),
+                    VkBufferUsageFlags.VertexBuffer,
+                    VmaMemoryUsage.AutoPreferDevice,
+                    0));
             cl.UpdateBuffer(vb, 0, Vertices);
             return vb;
         }
 
         public DeviceBuffer CreateIndexBuffer(ResourceFactory factory, CommandList cl, out int indexCount)
         {
-            DeviceBuffer ib = factory.CreateBuffer(new BufferDescription((uint)(Indices.Length * sizeof(int)), BufferUsage.IndexBuffer));
+            DeviceBuffer ib = factory.CreateBuffer(
+                new BufferDescription(
+                    (uint)(Indices.Length * sizeof(int)),
+                    VkBufferUsageFlags.IndexBuffer,
+                    VmaMemoryUsage.AutoPreferDevice,
+                    0));
             cl.UpdateBuffer(ib, 0, Indices);
             indexCount = Indices.Length;
             return ib;

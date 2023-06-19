@@ -23,7 +23,7 @@
     <Field Def="f32 Unk12" />
     <Field Def="f32 Unk13" />
     <Field Def="u16 strength_requirement" />
-    <Field Def="u16 dexteroty_requirement" />
+    <Field Def="u16 dexterity_requirement" />
     <Field Def="u16 intelligence_requirement" />
     <Field Def="u16 faith_requirement" />
     <Field Def="f32 weight" />

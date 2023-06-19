@@ -721,7 +721,7 @@ namespace StudioCore
 
                 if (p.PropertyType.IsNested)
                 {
-                    var retObj = FindPropertyObject(prop, p.GetValue(obj));
+                    var retObj = FindPropertyObject(prop, p.GetValue(obj), classIndex);
                     if (retObj != null)
                         return retObj;
                 }
@@ -733,7 +733,7 @@ namespace StudioCore
                         Array array = (Array)p.GetValue(obj);
                         if (classIndex != -1)
                         {
-                            var retObj = FindPropertyObject(prop, array.GetValue(classIndex));
+                            var retObj = FindPropertyObject(prop, array.GetValue(classIndex), classIndex);
                             if (retObj != null)
                                 return retObj;
                         }
@@ -741,7 +741,7 @@ namespace StudioCore
                         {
                             foreach (var arrayObj in array)
                             {
-                                var retObj = FindPropertyObject(prop, arrayObj);
+                                var retObj = FindPropertyObject(prop, arrayObj, classIndex);
                                 if (retObj != null)
                                     return retObj;
                             }

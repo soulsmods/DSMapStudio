@@ -1,4 +1,5 @@
 ﻿using System;
+using Vortice.Vulkan;
 
 namespace Veldrid
 {
@@ -30,7 +31,7 @@ namespace Veldrid
         /// <summary>
         /// The format of individual texture elements.
         /// </summary>
-        public PixelFormat Format;
+        public VkFormat Format;
         /// <summary>
         /// Controls how the Texture is permitted to be used. If the Texture will be sampled from a shader, then
         /// <see cref="TextureUsage.Sampled"/> must be included. If the Texture will be used as a depth target in a
@@ -38,16 +39,24 @@ namespace Veldrid
         /// as a color target in a <see cref="Framebuffer"/>, then <see cref="TextureUsage.RenderTarget"/> must be included.
         /// If the Texture will be used as a 2D cubemap, then <see cref="TextureUsage.Cubemap"/> must be included.
         /// </summary>
-        public TextureUsage Usage;
+        public VkImageUsageFlags Usage;
+        /// <summary>
+        /// Create flags for this texture
+        /// </summary>
+        public VkImageCreateFlags CreateFlags;
+        /// <summary>
+        /// Tiling of this image
+        /// </summary>
+        public VkImageTiling Tiling;
         /// <summary>
         /// The type of Texture to create.
         /// </summary>
-        public TextureType Type;
+        public VkImageType Type;
         /// <summary>
         /// The number of samples. If equal to <see cref="TextureSampleCount.Count1"/>, this instance does not describe a
         /// multisample <see cref="Texture"/>.
         /// </summary>
-        public TextureSampleCount SampleCount;
+        public VkSampleCountFlags SampleCount;
 
         /// <summary>
         /// Contsructs a new TextureDescription describing a non-multisampled <see cref="Texture"/>.
@@ -70,9 +79,11 @@ namespace Veldrid
             uint depth,
             uint mipLevels,
             uint arrayLayers,
-            PixelFormat format,
-            TextureUsage usage,
-            TextureType type)
+            VkFormat format,
+            VkImageUsageFlags usage,
+            VkImageCreateFlags create,
+            VkImageTiling tiling,
+            VkImageType type)
         {
             Width = width;
             Height = height;
@@ -81,7 +92,9 @@ namespace Veldrid
             ArrayLayers = arrayLayers;
             Format = format;
             Usage = usage;
-            SampleCount = TextureSampleCount.Count1;
+            CreateFlags = create;
+            Tiling = tiling;
+            SampleCount = VkSampleCountFlags.Count1;
             Type = type;
         }
 
@@ -108,10 +121,12 @@ namespace Veldrid
             uint depth,
             uint mipLevels,
             uint arrayLayers,
-            PixelFormat format,
-            TextureUsage usage,
-            TextureType type,
-            TextureSampleCount sampleCount)
+            VkFormat format,
+            VkImageUsageFlags usage,
+            VkImageCreateFlags create,
+            VkImageTiling tiling,
+            VkImageType type,
+            VkSampleCountFlags sampleCount)
         {
             Width = width;
             Height = height;
@@ -120,6 +135,8 @@ namespace Veldrid
             ArrayLayers = arrayLayers;
             Format = format;
             Usage = usage;
+            CreateFlags = create;
+            Tiling = tiling;
             Type = type;
             SampleCount = sampleCount;
         }
@@ -141,8 +158,10 @@ namespace Veldrid
             uint width,
             uint mipLevels,
             uint arrayLayers,
-            PixelFormat format,
-            TextureUsage usage)
+            VkFormat format,
+            VkImageUsageFlags usage,
+            VkImageCreateFlags create,
+            VkImageTiling tiling)
         {
             return new TextureDescription(
                 width,
@@ -152,8 +171,10 @@ namespace Veldrid
                 arrayLayers,
                 format,
                 usage,
-                TextureType.Texture1D,
-                TextureSampleCount.Count1);
+                create,
+                tiling,
+                VkImageType.Image1D,
+                VkSampleCountFlags.Count1);
         }
 
         /// <summary>
@@ -175,8 +196,10 @@ namespace Veldrid
             uint height,
             uint mipLevels,
             uint arrayLayers,
-            PixelFormat format,
-            TextureUsage usage)
+            VkFormat format,
+            VkImageUsageFlags usage,
+            VkImageCreateFlags create,
+            VkImageTiling tiling)
         {
             return new TextureDescription(
                 width,
@@ -186,8 +209,10 @@ namespace Veldrid
                 arrayLayers,
                 format,
                 usage,
-                TextureType.Texture2D,
-                TextureSampleCount.Count1);
+                create,
+                tiling,
+                VkImageType.Image2D,
+                VkSampleCountFlags.Count1);
         }
 
         /// <summary>
@@ -211,9 +236,11 @@ namespace Veldrid
             uint height,
             uint mipLevels,
             uint arrayLayers,
-            PixelFormat format,
-            TextureUsage usage,
-            TextureSampleCount sampleCount)
+            VkFormat format,
+            VkImageUsageFlags usage,
+            VkImageCreateFlags create,
+            VkImageTiling tiling,
+            VkSampleCountFlags sampleCount)
         {
             return new TextureDescription(
                 width,
@@ -223,7 +250,9 @@ namespace Veldrid
                 arrayLayers,
                 format,
                 usage,
-                TextureType.Texture2D,
+                create,
+                tiling,
+                VkImageType.Image2D,
                 sampleCount);
         }
 
@@ -245,8 +274,10 @@ namespace Veldrid
             uint height,
             uint depth,
             uint mipLevels,
-            PixelFormat format,
-            TextureUsage usage)
+            VkFormat format,
+            VkImageUsageFlags usage,
+            VkImageCreateFlags create,
+            VkImageTiling tiling)
         {
             return new TextureDescription(
                 width,
@@ -256,8 +287,10 @@ namespace Veldrid
                 1,
                 format,
                 usage,
-                TextureType.Texture3D,
-                TextureSampleCount.Count1);
+                create,
+                tiling,
+                VkImageType.Image3D,
+                VkSampleCountFlags.Count1);
         }
 
         /// <summary>
@@ -274,6 +307,8 @@ namespace Veldrid
                 && ArrayLayers.Equals(other.ArrayLayers)
                 && Format == other.Format
                 && Usage == other.Usage
+                && CreateFlags == other.CreateFlags
+                && Tiling == other.Tiling
                 && Type == other.Type
                 && SampleCount == other.SampleCount;
         }
@@ -292,6 +327,8 @@ namespace Veldrid
                 ArrayLayers.GetHashCode(),
                 (int)Format,
                 (int)Usage,
+                (int)CreateFlags,
+                (int)Tiling,
                 (int)Type,
                 (int)SampleCount);
         }

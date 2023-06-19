@@ -10,6 +10,7 @@ using StudioCore.Scene;
 using System.Runtime.InteropServices;
 using Veldrid.Utilities;
 using StudioCore.Resource;
+using Vortice.Vulkan;
 
 namespace StudioCore.DebugPrimitives
 {
@@ -97,9 +98,9 @@ namespace StudioCore.DebugPrimitives
         public abstract string ShaderName { get; }
         public abstract SpecializationConstant[] SpecializationConstants { get; }
 
-        public abstract FaceCullMode CullMode { get; }
-        public abstract PolygonFillMode FillMode { get; }
-        public abstract PrimitiveTopology Topology { get; }
+        public abstract VkCullModeFlags CullMode { get; }
+        public abstract VkPolygonMode FillMode { get; }
+        public abstract VkPrimitiveTopology Topology { get; }
         public abstract uint VertexSize { get; }
 
         public int IndexCount => Indices.Length;

@@ -20,4 +20,8 @@
     <PackageTags>Core Standard Game SDL2 Window Input</PackageTags>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+
 </Project>

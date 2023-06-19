@@ -506,9 +506,10 @@ namespace SoulsFormats
                 public byte UnkT27 { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// ID of tpf in menu\tex\icon\mapname to use for area name banner.
+                /// ID is also interpreted for mapname FMG for load game menu text (ID example: 102510 = FMG 10250001).
                 /// </summary>
-                public int UnkT28 { get; set; }
+                public int MapNameID { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -579,7 +580,7 @@ namespace SoulsFormats
                     br.AssertInt16(0);
                     UnkT26 = br.ReadByte();
                     UnkT27 = br.ReadByte();
-                    UnkT28 = br.ReadInt32();
+                    MapNameID = br.ReadInt32();
                     UnkT2C = br.ReadByte();
                     br.AssertByte(0);
                     UnkT2E = br.ReadInt16();
@@ -617,7 +618,7 @@ namespace SoulsFormats
                     bw.WriteInt16(0);
                     bw.WriteByte(UnkT26);
                     bw.WriteByte(UnkT27);
-                    bw.WriteInt32(UnkT28);
+                    bw.WriteInt32(MapNameID);
                     bw.WriteByte(UnkT2C);
                     bw.WriteByte(0);
                     bw.WriteInt16(UnkT2E);

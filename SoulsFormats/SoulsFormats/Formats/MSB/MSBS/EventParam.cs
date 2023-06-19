@@ -855,14 +855,14 @@ namespace SoulsFormats
                     private short RegionIndex;
 
                     /// <summary>
-                    /// Unknown.
+                    /// ID of animation to play when arriving at destination region.
                     /// </summary>
-                    public int Unk04 { get; set; }
+                    public int ArrivalAnimID { get; set; }
 
                     /// <summary>
-                    /// Unknown.
+                    /// Time in seconds to wait (after animation finishes) after arriving at destination region.
                     /// </summary>
-                    public int Unk08 { get; set; }
+                    public int ArrivalWaitTime { get; set; }
 
                     /// <summary>
                     /// Creates a WREntry with default values.
@@ -881,16 +881,16 @@ namespace SoulsFormats
                     {
                         RegionIndex = br.ReadInt16();
                         br.AssertInt16(0);
-                        Unk04 = br.ReadInt32();
-                        Unk08 = br.ReadInt32();
+                        ArrivalAnimID = br.ReadInt32();
+                        ArrivalWaitTime = br.ReadInt32();
                     }
 
                     internal void Write(BinaryWriterEx bw)
                     {
                         bw.WriteInt16(RegionIndex);
                         bw.WriteInt16(0);
-                        bw.WriteInt32(Unk04);
-                        bw.WriteInt32(Unk08);
+                        bw.WriteInt32(ArrivalAnimID);
+                        bw.WriteInt32(ArrivalWaitTime);
                     }
 
                     internal void GetNames(Entries entries)

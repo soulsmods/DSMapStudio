@@ -1,4 +1,5 @@
 ﻿using System;
+using Vortice.Vulkan;
 
 namespace Veldrid
 {
@@ -10,15 +11,15 @@ namespace Veldrid
         /// <summary>
         /// Controls which face will be culled.
         /// </summary>
-        public FaceCullMode CullMode;
+        public VkCullModeFlags CullMode;
         /// <summary>
         /// Controls how the rasterizer fills polygons.
         /// </summary>
-        public PolygonFillMode FillMode;
+        public VkPolygonMode FillMode;
         /// <summary>
         /// Controls the winding order used to determine the front face of primitives.
         /// </summary>
-        public FrontFace FrontFace;
+        public VkFrontFace FrontFace;
         /// <summary>
         /// Controls whether depth clipping is enabled.
         /// </summary>
@@ -37,9 +38,9 @@ namespace Veldrid
         /// <param name="depthClipEnabled">Controls whether depth clipping is enabled.</param>
         /// <param name="scissorTestEnabled">Controls whether the scissor test is enabled.</param>
         public RasterizerStateDescription(
-            FaceCullMode cullMode,
-            PolygonFillMode fillMode,
-            FrontFace frontFace,
+            VkCullModeFlags cullMode,
+            VkPolygonMode fillMode,
+            VkFrontFace frontFace,
             bool depthClipEnabled,
             bool scissorTestEnabled)
         {
@@ -62,9 +63,9 @@ namespace Veldrid
         /// </summary>
         public static readonly RasterizerStateDescription Default = new RasterizerStateDescription
         {
-            CullMode = FaceCullMode.Back,
-            FillMode = PolygonFillMode.Solid,
-            FrontFace = FrontFace.Clockwise,
+            CullMode = VkCullModeFlags.Back,
+            FillMode = VkPolygonMode.Fill,
+            FrontFace = VkFrontFace.Clockwise,
             DepthClipEnabled = true,
             ScissorTestEnabled = false,
         };
@@ -81,9 +82,9 @@ namespace Veldrid
         /// </summary>
         public static readonly RasterizerStateDescription CullNone = new RasterizerStateDescription
         {
-            CullMode = FaceCullMode.None,
-            FillMode = PolygonFillMode.Solid,
-            FrontFace = FrontFace.Clockwise,
+            CullMode = VkCullModeFlags.None,
+            FillMode = VkPolygonMode.Fill,
+            FrontFace = VkFrontFace.Clockwise,
             DepthClipEnabled = true,
             ScissorTestEnabled = false,
         };

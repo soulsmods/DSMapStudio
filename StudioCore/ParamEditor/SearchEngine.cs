@@ -85,14 +85,12 @@ namespace StudioCore.Editor
             return options;
         }
 
-        
-
         public List<B> Search(A param, string command, bool lenient, bool failureAllOrNone)
         {
             return Search(param, unpacker(param), command, lenient, failureAllOrNone);
         }
 
-        public List<B> Search(A context, List<B> sourceSet, string command, bool lenient, bool failureAllOrNone)
+        public virtual List<B> Search(A context, List<B> sourceSet, string command, bool lenient, bool failureAllOrNone)
         {
             //assumes unpacking doesn't fail
             string[] conditions = command.Split("&&", StringSplitOptions.TrimEntries);
@@ -163,8 +161,30 @@ namespace StudioCore.Editor
             this.shouldShow = shouldShow;
         }
     }
-    
-    class ParamAndRowSearchEngine : SearchEngine<ParamEditorSelectionState, (MassEditRowSource, Param.Row)>
+
+    /*
+     *  Handles conversion to a secondary searchengine which handles && conditions and conversion back to the anticipated type
+     */
+    class MultiStageSearchEngine<A,B, C,D> : SearchEngine<A,B>
+    {
+        internal Func<A, B, C> contextGetterForMultiStage = null;
+        internal Func<B, D> sourceListGetterForMultiStage = null;
+        internal SearchEngine<C, D> searchEngineForMultiStage = null;
+        internal Func<D, B, B> resultRetrieverForMultiStage = null;
+
+        public override List<B> Search(A context, List<B> sourceSet, string command, bool lenient, bool failureAllOrNone)
+        {
+            string[] conditions = command.Split("&&", 2, StringSplitOptions.TrimEntries);
+            List<B> stage1list = base.Search(context, sourceSet, conditions[0], lenient, failureAllOrNone);
+            if (conditions.Length == 1)
+                return stage1list;
+            B exampleItem = stage1list.FirstOrDefault();
+            List<D> stage2list = searchEngineForMultiStage.Search(contextGetterForMultiStage(context, exampleItem), stage1list.Select((x) => sourceListGetterForMultiStage(x)).ToList(), conditions[1], lenient, failureAllOrNone);
+            return stage2list.Select((x) => resultRetrieverForMultiStage(x, exampleItem)).ToList();
+        }
+    }
+
+    class ParamAndRowSearchEngine : MultiStageSearchEngine<ParamEditorSelectionState, (MassEditRowSource, Param.Row), (ParamBank, Param), Param.Row>
     {
         public static SearchEngine<ParamEditorSelectionState, (MassEditRowSource, Param.Row)> parse = new ParamAndRowSearchEngine();
         internal override void Setup()
@@ -177,6 +197,10 @@ namespace StudioCore.Editor
             };
             filterList.Add("selection", newCmd(new string[0], noArgs(noContext((row)=>row.Item1 == MassEditRowSource.Selection))));
             filterList.Add("clipboard", newCmd(new string[0], noArgs(noContext((row)=>row.Item1 == MassEditRowSource.Clipboard)), ()=>ParamBank.ClipboardRows?.Count > 0));
+            contextGetterForMultiStage = (ParamEditorSelectionState state, (MassEditRowSource, Param.Row) exampleItem) => (ParamBank.PrimaryBank, ParamBank.PrimaryBank.Params[exampleItem.Item1 == MassEditRowSource.Selection ? state.getActiveParam() : ParamBank.ClipboardParam]);
+            sourceListGetterForMultiStage = ((MassEditRowSource, Param.Row) row) => row.Item2;
+            searchEngineForMultiStage = RowSearchEngine.rse;
+            resultRetrieverForMultiStage = (Param.Row row, (MassEditRowSource, Param.Row) exampleItem) => (exampleItem.Item1, row);
         }
     }
     enum MassEditRowSource
