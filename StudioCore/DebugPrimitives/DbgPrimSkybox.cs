@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Veldrid;
 using StudioCore.Resource;
 using Veldrid.Utilities;
+using Vortice.Vulkan;
 
 namespace StudioCore.DebugPrimitives
 {
@@ -28,11 +29,11 @@ namespace StudioCore.DebugPrimitives
 
         public override SpecializationConstant[] SpecializationConstants => throw new NotImplementedException();
 
-        public override FaceCullMode CullMode => throw new NotImplementedException();
+        public override VkCullModeFlags CullMode => VkCullModeFlags.None;
 
-        public override PolygonFillMode FillMode => throw new NotImplementedException();
+        public override VkPolygonMode FillMode => VkPolygonMode.Fill;
 
-        public override PrimitiveTopology Topology => throw new NotImplementedException();
+        public override VkPrimitiveTopology Topology => VkPrimitiveTopology.TriangleList;
 
         public override uint VertexSize => throw new NotImplementedException();
 

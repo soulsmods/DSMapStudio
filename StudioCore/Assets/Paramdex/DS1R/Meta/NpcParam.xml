@@ -2,17 +2,27 @@
 <PARAMMETA XmlVersion="0" >
   <Enums>
     <Enum Name="DropType">
-      <Option Value="0" Name="white soul drop attached to ragdoll" />
-      <Option Value="1" Name="yellow soul drop NOT attached to ragdoll" />
-	</Enum>
+      <Option Value="0" Name="White soul drop attached to ragdoll" />
+      <Option Value="1" Name="Yellow soul drop detatched from ragdoll" />
+    </Enum>
+    <Enum Name="HitstopType">
+      <Option Value="0" Name="No hitstop" />
+      <Option Value="1" Name="Fast hitstop" />
+      <Option Value="2" Name="Slow hitstop" />
+    </Enum>
+    <Enum Name="DrawTypeEnum">
+      <Option Value="0" Name="None" />
+      <Option Value="1" Name="White" />
+      <Option Value="2" Name="Red" />
+    </Enum>
   </Enums>
   <Field>
     <behaviorVariationId VRef="BehaviorVariation" Wiki="Determines which BehaviorParam this enemy uses for attacks" />
     <aiThinkId />
     <nameId Wiki="Name of the entity. Only appears on the health bar of c0000 characters." />
     <turnVellocity Wiki="Rotation speed per second[degrees per second]." />
-    <hitHeight Wiki="Vertical radius of hitbox used for character to character collision. May require useRagdoll = false" />
-    <hitRadius Wiki="Horizontal radius of hitbox used for character to character collision. May require useRagdoll = false" />
+    <hitHeight Wiki="Vertical radius of hitbox used for character to character collision. Requires useRagdoll = false" />
+    <hitRadius Wiki="Horizontal radius of hitbox used for character to character collision. Requires useRagdoll = false" />
     <weight />
     <hitYOffset Wiki="Vertical offset of the entity. Will cause them to float." />
     <hp Wiki="Maximum HP" />
@@ -25,7 +35,7 @@
     <itemLotId_5 Refs="ItemLotParam" Wiki="ID of ItemLotParam to use for item drops" />
     <itemLotId_6 Refs="ItemLotParam" Wiki="ID of ItemLotParam to use for item drops" />
     <humanityLotId />
-    <spEffectID0 Refs="SpEffectParam" Wiki="Special effects that affect this entity" />
+    <spEffectID0 Refs="SpEffectParam" Wiki="Special effects that affect this entity"/>
     <spEffectID1 Refs="SpEffectParam" Wiki="Special effects that affect this entity"/>
     <spEffectID2 Refs="SpEffectParam" Wiki="Special effects that affect this entity"/>
     <spEffectID3 Refs="SpEffectParam" Wiki="Special effects that affect this entity"/>
@@ -38,7 +48,7 @@
     <magGuardCutRate Wiki="Percentage reduction in magic damage taken while NPC is guarding." />
     <fireGuardCutRate Wiki="Percentage reduction in fire damage taken while NPC is guarding." />
     <thunGuardCutRate Wiki="Percentage reduction in lightning damage taken while NPC is guarding." />
-    <animIdOffset />
+    <animIdOffset Wiki="Value to offset animation IDs by. 0 = a00, 10000 = a01, etc." />
     <moveAnimId />
     <spMoveAnimId1 />
     <spMoveAnimId2 />
@@ -105,17 +115,17 @@
     <mpRecoverBaseVel Wiki="Unknown effect, likely none. Set to zero for NPC parts (tails and Hydra heads) and 10 for everyone else." />
     <flickDamageCutRate Wiki="Reduces damage received from attacks that have been deflected via defFlickPower. 50 = -50%% damage, 90 = -90%% damage" />
     <defaultLodParamId />
-    <drawType />
+    <drawType Enum="DrawTypeEnum" Wiki="Phantom shader used" />
     <npcType />
     <teamType />
     <moveType />
-    <lockDist />
+    <lockDist Wiki="Additional maximum lock-on distance added onto base distance defined in LockCamParam" />
     <material />
     <materialSfx />
     <material_Weak />
     <materialSfx_Weak />
     <partsDamageType />
-    <maxUndurationAng />
+    <maxUndurationAng Wiki="Maximum angle enemies can rotate vertically while on slopes. Requires isUnduration" />
     <guardLevel />
     <burnSfxType />
     <poisonGuardResist />
@@ -126,16 +136,16 @@
     <parryDefence />
     <sfxSize />
     <pushOutCamRegionRadius />
-    <hitStopType />
+    <hitStopType Enum="HitstopType" Wiki="Determines how enemy is affected by hitstop." />
     <ladderEndChkOffsetTop />
     <ladderEndChkOffsetLo />
     <useRagdollCamHit IsBool="" Wiki="Causes camera to collide with enemy" />
     <disableClothRigidHit IsBool="" />
-    <useRagdoll IsBool="" Wiki="Determines if ragdoll is used for character to character collision. If false, hitRadius and hitHeight are used instead" />
-    <isDemon IsBool="" Wiki="True if the entity is a demon" />
+    <useRagdoll IsBool="" Wiki="If ragdoll is used for character to character collision. If false, hitRadius and hitHeight are used instead" />
+    <isDemon IsBool="" Wiki="If enemy will be affected by weapons with antiDemonDamageRate (anti-demon damage)." />
     <isGhost IsBool="" Wiki="True if the entity is a ghost" />
     <isNoDamageMotion IsBool="" />
-    <isUnduration IsBool="" />
+    <isUnduration IsBool="" Wiki="If true, enemies will rotate vertically on slopes. Rotation angle determines by maxUndurationAng" />
     <isChangeWanderGhost IsBool="" />
     <modelDispMask0 IsBool="" Wiki="Toggle for masks within the enemy's model. Used for things like broken body parts, different weapons, second phases, etc." />
     <modelDispMask1 IsBool="" Wiki="Toggle for masks within the enemy's model. Used for things like broken body parts, different weapons, second phases, etc." />
@@ -154,13 +164,13 @@
     <modelDispMask14 IsBool="" Wiki="Toggle for masks within the enemy's model. Used for things like broken body parts, different weapons, second phases, etc." />
     <modelDispMask15 IsBool="" Wiki="Toggle for masks within the enemy's model. Used for things like broken body parts, different weapons, second phases, etc." />
     <isEnableNeckTurn IsBool="" />
-    <disableRespawn IsBool="" />
+    <disableRespawn IsBool="" Wiki="If true, enemies will not reset position and behavior when the player rests at a bonfire." />
     <isMoveAnimWait IsBool="" />
     <isCrowd IsBool="" />
-    <isWeakSaint IsBool="" />
-    <isWeakA IsBool="" />
-    <isWeakB IsBool="" />
+    <isWeakSaint IsBool="" Wiki="If enemy will be affected by weapons with antSaintDamageRate (holy damage)." />
+    <isWeakA IsBool="" Wiki="If enemy will be affected by weapons with antWeakA_DamageRate (occult damage)." />
+    <isWeakB IsBool="" Wiki="If enemy will be affected by weapons with antWeakB_DamageRate (anti-darkwraith damage)." />
     <vowType />
-    <disableInitializeDead IsBool="" />
+    <disableInitializeDead IsBool="" Wiki="If true, dead enemies will be alive again when the game is reset without respawning enemies (such as quitting to menu)" />
   </Field>
 </PARAMMETA>

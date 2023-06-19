@@ -10,6 +10,7 @@ using System.Drawing;
 using StudioCore.Scene;
 using StudioCore.Resource;
 using Veldrid.Utilities;
+using Vortice.Vulkan;
 
 namespace StudioCore.DebugPrimitives
 {
@@ -27,11 +28,11 @@ namespace StudioCore.DebugPrimitives
 
         public override SpecializationConstant[] SpecializationConstants => new SpecializationConstant[0];
 
-        public override FaceCullMode CullMode => FaceCullMode.None;
+        public override VkCullModeFlags CullMode => VkCullModeFlags.None;
 
-        public override PolygonFillMode FillMode => PolygonFillMode.Wireframe;
+        public override VkPolygonMode FillMode => VkPolygonMode.Line;
 
-        public override PrimitiveTopology Topology => PrimitiveTopology.LineList;
+        public override VkPrimitiveTopology Topology => VkPrimitiveTopology.LineList;
 
         public override uint VertexSize => MeshLayoutUtils.GetLayoutVertexSize(MeshLayoutType.LayoutPositionColorNormal);
 

@@ -44,5 +44,6 @@
     <casting_speed_menu AltName="Casting Speed Menu" />
     <poise_damage_pvp AltName="Poise Damage PVP" />
     <poise_damage_pve AltName="Poise Damage PVE" />
+    <hyper_armor_poise_mult AltName="Hyper-Armor Poise Multiplier" Wiki="Multiplies poise damage taken during hyper-armor state"/>
   </Field>
 </PARAMMETA>

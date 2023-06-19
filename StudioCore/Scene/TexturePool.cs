@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Veldrid;
 using System.Collections.Concurrent;
+using Vortice.Vulkan;
 
 namespace StudioCore.Scene
 {
@@ -16,82 +17,83 @@ namespace StudioCore.Scene
     /// </summary>
     public class TexturePool
     {
-        private static PixelFormat GetPixelFormatFromFourCC(string str)
+        private static VkFormat GetPixelFormatFromFourCC(string str)
         {
             switch (str)
             {
                 case "DXT1":
-                    return PixelFormat.BC1_Rgba_UNorm_SRgb;
+                    return VkFormat.Bc1RgbaSrgbBlock;
                 case "DXT3":
-                    return PixelFormat.BC2_UNorm_SRgb;
+                    return VkFormat.Bc2SrgbBlock;
                 case "DXT5":
-                    return PixelFormat.BC3_UNorm_SRgb;
+                    return VkFormat.Bc3SrgbBlock;
                 case "ATI1":
-                    return PixelFormat.BC4_UNorm; // Monogame workaround :fatcat:
+                case "BC4U":
+                    return VkFormat.Bc4UnormBlock; // Monogame workaround :fatcat:
                 case "ATI2":
-                    return PixelFormat.BC5_UNorm;
+                    return VkFormat.Bc5UnormBlock;
                 // From wtf
                 case "q\0\0\0":
-                    return PixelFormat.R16_G16_B16_A16_Float;
+                    return VkFormat.R16G16B16A16Sfloat;
                 default:
                     throw new Exception($"Unknown DDS Type: {str}");
             }
         }
 
-        private static PixelFormat GetPixelFormatFromDXGI(DDS.DXGI_FORMAT fmt)
+        private static VkFormat GetPixelFormatFromDXGI(DDS.DXGI_FORMAT fmt)
         {
             switch (fmt)
             {
                 case DDS.DXGI_FORMAT.B5G5R5A1_UNORM:
-                    return PixelFormat.B5_G5_R5_A1_UNorm;
+                    return VkFormat.B5G5R5A1UnormPack16;
                 case DDS.DXGI_FORMAT.B8G8R8A8_TYPELESS:
                 case DDS.DXGI_FORMAT.B8G8R8A8_UNORM:
                 case DDS.DXGI_FORMAT.B8G8R8X8_TYPELESS:
                 case DDS.DXGI_FORMAT.B8G8R8X8_UNORM:
-                    return PixelFormat.B8_G8_R8_A8_UNorm;
+                    return VkFormat.B8G8R8A8Unorm;
                 case DDS.DXGI_FORMAT.B8G8R8A8_UNORM_SRGB:
                 case DDS.DXGI_FORMAT.B8G8R8X8_UNORM_SRGB:
-                    return PixelFormat.B8_G8_R8_A8_UNorm_SRgb;
+                    return VkFormat.B8G8R8A8Srgb;
                 case DDS.DXGI_FORMAT.R8G8B8A8_UNORM_SRGB:
-                    return PixelFormat.R8_G8_B8_A8_UNorm_SRgb;
+                    return VkFormat.R8G8B8A8Srgb;
                 case DDS.DXGI_FORMAT.R8G8B8A8_UNORM:
                 case DDS.DXGI_FORMAT.R8G8B8A8_TYPELESS:
-                    return PixelFormat.R8_G8_B8_A8_UNorm;
+                    return VkFormat.R8G8B8A8Unorm;
                 case DDS.DXGI_FORMAT.BC1_TYPELESS:
                 case DDS.DXGI_FORMAT.BC1_UNORM:
-                    return PixelFormat.BC1_Rgba_UNorm;
+                    return VkFormat.Bc1RgbaUnormBlock;
                 case DDS.DXGI_FORMAT.BC1_UNORM_SRGB:
-                    return PixelFormat.BC1_Rgba_UNorm_SRgb;
+                    return VkFormat.Bc1RgbaSrgbBlock;
                 case DDS.DXGI_FORMAT.BC2_TYPELESS:
                 case DDS.DXGI_FORMAT.BC2_UNORM:
-                    return PixelFormat.BC2_UNorm;
+                    return VkFormat.Bc2UnormBlock;
                 case DDS.DXGI_FORMAT.BC2_UNORM_SRGB:
-                    return PixelFormat.BC2_UNorm_SRgb;
+                    return VkFormat.Bc2SrgbBlock;
                 case DDS.DXGI_FORMAT.BC3_TYPELESS:
                 case DDS.DXGI_FORMAT.BC3_UNORM:
-                    return PixelFormat.BC3_UNorm;
+                    return VkFormat.Bc3UnormBlock;
                 case DDS.DXGI_FORMAT.BC3_UNORM_SRGB:
-                    return PixelFormat.BC3_UNorm_SRgb;
+                    return VkFormat.Bc3SrgbBlock;
                 case DDS.DXGI_FORMAT.BC4_TYPELESS:
                 case DDS.DXGI_FORMAT.BC4_UNORM:
-                    return PixelFormat.BC4_UNorm;
+                    return VkFormat.Bc4UnormBlock;
                 case DDS.DXGI_FORMAT.BC4_SNORM:
-                    return PixelFormat.BC4_SNorm;
+                    return VkFormat.Bc4SnormBlock;
                 case DDS.DXGI_FORMAT.BC5_TYPELESS:
                 case DDS.DXGI_FORMAT.BC5_UNORM:
-                    return PixelFormat.BC5_UNorm;
+                    return VkFormat.Bc5UnormBlock;
                 case DDS.DXGI_FORMAT.BC5_SNORM:
-                    return PixelFormat.BC5_SNorm;
+                    return VkFormat.Bc5SnormBlock;
                 case DDS.DXGI_FORMAT.BC6H_TYPELESS:
                 case DDS.DXGI_FORMAT.BC6H_UF16:
-                    return PixelFormat.BC6H_UFloat;
+                    return VkFormat.Bc6hUfloatBlock;
                 case DDS.DXGI_FORMAT.BC6H_SF16:
-                    return PixelFormat.BC6H_SFloat;
+                    return VkFormat.Bc6hSfloatBlock;
                 case DDS.DXGI_FORMAT.BC7_TYPELESS:
                 case DDS.DXGI_FORMAT.BC7_UNORM:
-                    return PixelFormat.BC7_UNorm;
+                    return VkFormat.Bc7UnormBlock;
                 case DDS.DXGI_FORMAT.BC7_UNORM_SRGB:
-                    return PixelFormat.BC7_UNorm_SRgb;
+                    return VkFormat.Bc7SrgbBlock;
                 default:
                     throw new Exception($"Unimplemented DXGI Type: {fmt.ToString()}");
             }
@@ -99,16 +101,16 @@ namespace StudioCore.Scene
 
         // From MonoGame.Framework/Graphics/Texture2D.cs and MonoGame.Framework/Graphics/TextureCube.cs
         //private static (int ByteCount, Rectangle Rect) GetMipInfo(PixelFormat sf, int width, int height, int mip, bool isCubemap)
-        private static int GetMipInfo(PixelFormat sf, int width, int height, int mip, bool isCubemap)
+        private static int GetMipInfo(VkFormat sf, int width, int height, int mip, bool isCubemap)
         {
             width = Math.Max(width >> mip, 1);
             height = Math.Max(height >> mip, 1);
 
-            int formatTexelSize = GetTexelSize(sf);
+            int formatTexelSize = (int)GetTexelSize(sf);
 
             if (isCubemap)
             {
-                if (IsCompressedFormat(sf))
+                if (FormatHelpers.IsCompressedFormat(sf))
                 {
                     var roundedWidth = (width + 3) & ~0x3;
                     var roundedHeight = (height + 3) & ~0x3;
@@ -128,10 +130,10 @@ namespace StudioCore.Scene
             }
             else
             {
-                if (IsCompressedFormat(sf))
+                if (FormatHelpers.IsCompressedFormat(sf))
                 {
                     int blockWidth, blockHeight;
-                    GetBlockSize(sf, out blockWidth, out blockHeight);
+                    FormatHelpers.GetBlockDimensions(sf, out blockWidth, out blockHeight);
 
                     int blockWidthMinusOne = blockWidth - 1;
                     int blockHeightMinusOne = blockHeight - 1;
@@ -155,10 +157,7 @@ namespace StudioCore.Scene
                     //return (byteCount, new Rectangle(0, 0, width, height));
                     return byteCount;
                 }
-
-
             }
-
         }
 
         internal static int GetBlockSize(byte tpfTexFormat)
@@ -187,111 +186,11 @@ namespace StudioCore.Scene
             }
         }
 
-        public static bool IsCompressedFormat(PixelFormat format)
+        public static uint GetTexelSize(VkFormat surfaceFormat)
         {
-            switch (format)
-            {
-                case PixelFormat.BC1_Rgba_UNorm:
-                case PixelFormat.BC1_Rgba_UNorm_SRgb:
-                case PixelFormat.BC1_Rgb_UNorm:
-                case PixelFormat.BC1_Rgb_UNorm_SRgb:
-                case PixelFormat.BC2_UNorm:
-                case PixelFormat.BC2_UNorm_SRgb:
-                case PixelFormat.BC3_UNorm:
-                case PixelFormat.BC3_UNorm_SRgb:
-                case PixelFormat.BC4_UNorm:
-                case PixelFormat.BC4_SNorm:
-                case PixelFormat.BC5_UNorm:
-                case PixelFormat.BC5_SNorm:
-                case PixelFormat.BC6H_SFloat:
-                case PixelFormat.BC6H_UFloat:
-                case PixelFormat.BC7_UNorm:
-                case PixelFormat.BC7_UNorm_SRgb:
-                    return true;
-            }
-            return false;
-        }
-
-        public static void GetBlockSize(PixelFormat surfaceFormat, out int width, out int height)
-        {
-            switch (surfaceFormat)
-            {
-                case PixelFormat.BC1_Rgba_UNorm:
-                case PixelFormat.BC1_Rgba_UNorm_SRgb:
-                case PixelFormat.BC1_Rgb_UNorm:
-                case PixelFormat.BC1_Rgb_UNorm_SRgb:
-                case PixelFormat.BC2_UNorm:
-                case PixelFormat.BC2_UNorm_SRgb:
-                case PixelFormat.BC3_UNorm:
-                case PixelFormat.BC3_UNorm_SRgb:
-                case PixelFormat.BC4_UNorm:
-                case PixelFormat.BC4_SNorm:
-                case PixelFormat.BC5_UNorm:
-                case PixelFormat.BC5_SNorm:
-                case PixelFormat.BC6H_SFloat:
-                case PixelFormat.BC6H_UFloat:
-                case PixelFormat.BC7_UNorm:
-                case PixelFormat.BC7_UNorm_SRgb:
-                    width = 4;
-                    height = 4;
-                    break;
-                default:
-                    width = 1;
-                    height = 1;
-                    break;
-            }
-        }
-
-        public static int GetTexelSize(PixelFormat surfaceFormat)
-        {
-            switch (surfaceFormat)
-            {
-                case PixelFormat.BC1_Rgba_UNorm:
-                case PixelFormat.BC1_Rgba_UNorm_SRgb:
-                case PixelFormat.BC1_Rgb_UNorm:
-                case PixelFormat.BC1_Rgb_UNorm_SRgb:
-                case PixelFormat.BC4_UNorm:
-                case PixelFormat.BC4_SNorm:
-                case PixelFormat.BC5_UNorm:
-                case PixelFormat.BC5_SNorm:
-                    return 8;
-                case PixelFormat.BC2_UNorm:
-                case PixelFormat.BC2_UNorm_SRgb:
-                case PixelFormat.BC3_UNorm:
-                case PixelFormat.BC3_UNorm_SRgb:
-                case PixelFormat.BC6H_SFloat:
-                case PixelFormat.BC6H_UFloat:
-                case PixelFormat.BC7_UNorm:
-                case PixelFormat.BC7_UNorm_SRgb:
-                    return 16;
-                case PixelFormat.R8_UNorm:
-                case PixelFormat.R8_SNorm:
-                case PixelFormat.R8_UInt:
-                case PixelFormat.R8_SInt:
-                    return 1;
-                case PixelFormat.B5_G5_R5_A1_UNorm:
-                case PixelFormat.R16_UNorm:
-                case PixelFormat.R16_SNorm:
-                case PixelFormat.R8_G8_SInt:
-                case PixelFormat.R8_G8_SNorm:
-                case PixelFormat.R8_G8_UInt:
-                case PixelFormat.R8_G8_UNorm:
-                    return 2;
-                case PixelFormat.R8_G8_B8_A8_SInt:
-                case PixelFormat.R8_G8_B8_A8_SNorm:
-                case PixelFormat.R8_G8_B8_A8_UInt:
-                case PixelFormat.R8_G8_B8_A8_UNorm:
-                case PixelFormat.R8_G8_B8_A8_UNorm_SRgb:
-                case PixelFormat.B8_G8_R8_A8_UNorm:
-                case PixelFormat.B8_G8_R8_A8_UNorm_SRgb:
-                    return 4;
-                case PixelFormat.R16_G16_B16_A16_Float:
-                    return 8;
-                //case SurfaceFormat.Vector4:
-                //    return 16;
-                default:
-                    throw new ArgumentException();
-            }
+            if (FormatHelpers.IsCompressedFormat(surfaceFormat))
+                return FormatHelpers.GetBlockSizeInBytes(surfaceFormat);
+            return FormatHelpers.GetSizeInBytes(surfaceFormat);
         }
 
         private FreeListAllocator _allocator = null;
@@ -322,7 +221,12 @@ namespace StudioCore.Scene
             }
 
             var layoutdesc = new ResourceLayoutDescription(
-                new ResourceLayoutElementDescription(_resourceName, ResourceKind.TextureReadOnly, ShaderStages.Fragment, TextureCount));
+                new ResourceLayoutElementDescription(
+                    _resourceName, 
+                    VkDescriptorType.SampledImage,
+                    VkShaderStageFlags.Fragment,
+                    VkDescriptorBindingFlags.UpdateAfterBind, 
+                    TextureCount));
             _poolLayout = d.ResourceFactory.CreateResourceLayout(layoutdesc);
         }
 
@@ -473,7 +377,7 @@ namespace StudioCore.Scene
 
                 uint width = (uint)dds.dwWidth;
                 uint height = (uint)dds.dwHeight;
-                PixelFormat format;
+                VkFormat format;
                 if (dds.header10 != null)
                 {
                     format = GetPixelFormatFromDXGI(dds.header10.dxgiFormat);
@@ -483,11 +387,11 @@ namespace StudioCore.Scene
                     if (dds.ddspf.dwFlags == (DDS.DDPF.RGB | DDS.DDPF.ALPHAPIXELS) &&
                         dds.ddspf.dwRGBBitCount == 32)
                     {
-                        format = PixelFormat.R8_G8_B8_A8_UNorm_SRgb;
+                        format = VkFormat.R8G8B8A8Srgb;
                     }
                     else if (dds.ddspf.dwFlags == (DDS.DDPF.RGB) && dds.ddspf.dwRGBBitCount == 24)
                     {
-                        format = PixelFormat.R8_G8_B8_A8_UNorm_SRgb;
+                        format = VkFormat.R8G8B8A8Srgb;
                         // 24-bit formats are annoying for now
                         return;
                     }
@@ -501,28 +405,23 @@ namespace StudioCore.Scene
                 {
                     return;
                 }
-                width = IsCompressedFormat(format) ? (uint)((width + 3) & ~0x3) : width;
-                height = IsCompressedFormat(format) ? (uint)((height + 3) & ~0x3) : height;
+                width = FormatHelpers.IsCompressedFormat(format) ? (uint)((width + 3) & ~0x3) : width;
+                height = FormatHelpers.IsCompressedFormat(format) ? (uint)((height + 3) & ~0x3) : height;
 
-                bool isCubemap = false;
-                if ((dds.dwCaps2 & DDS.DDSCAPS2.CUBEMAP) > 0)
-                {
-                    isCubemap = true;
-                }
-
-                var usage = (isCubemap) ? TextureUsage.Cubemap : 0;
-
+                bool isCubemap = (dds.dwCaps2 & DDS.DDSCAPS2.CUBEMAP) > 0;
                 uint arrayCount = isCubemap ? 6u : 1;
 
                 TextureDescription desc = new TextureDescription();
                 desc.Width = width;
                 desc.Height = height;
                 desc.MipLevels = (uint)dds.dwMipMapCount;
-                desc.SampleCount = TextureSampleCount.Count1;
+                desc.SampleCount = VkSampleCountFlags.Count1;
                 desc.ArrayLayers = arrayCount;
                 desc.Depth = 1;
-                desc.Type = TextureType.Texture2D;
-                desc.Usage = TextureUsage.Staging;
+                desc.Type = VkImageType.Image2D;
+                desc.Usage = VkImageUsageFlags.None;
+                desc.CreateFlags = VkImageCreateFlags.None;
+                desc.Tiling = VkImageTiling.Linear;
                 desc.Format = format;
 
                 _staging = d.ResourceFactory.CreateTexture(desc);
@@ -548,7 +447,9 @@ namespace StudioCore.Scene
                     }
                 }
 
-                desc.Usage = TextureUsage.Sampled | usage;
+                desc.Usage = VkImageUsageFlags.Sampled;
+                desc.CreateFlags = isCubemap ? VkImageCreateFlags.CubeCompatible : VkImageCreateFlags.None;
+                desc.Tiling = VkImageTiling.Optimal;
                 desc.ArrayLayers = 1;
                 _texture = d.ResourceFactory.CreateTexture(desc);
                 _texture.Name = name;
@@ -736,7 +637,7 @@ namespace StudioCore.Scene
                 uint width = (uint)tex.Header.Width;
                 uint height = (uint)tex.Header.Height;
                 uint mipCount = (uint)tex.Mipmaps;
-                PixelFormat format;
+                VkFormat format;
                 format = GetPixelFormatFromDXGI((DDS.DXGI_FORMAT)tex.Header.DXGIFormat);
 
                 width = (uint)(Math.Ceiling(width / 4f) * 4f);
@@ -747,20 +648,19 @@ namespace StudioCore.Scene
                 }
 
                 bool isCubemap = (tex.Type == TPF.TexType.Cubemap);
-
-                var usage = (isCubemap) ? TextureUsage.Cubemap : 0;
-
                 uint arrayCount = isCubemap ? 6u : 1;
 
                 TextureDescription desc = new TextureDescription();
                 desc.Width = width;
                 desc.Height = height;
                 desc.MipLevels = mipCount;
-                desc.SampleCount = TextureSampleCount.Count1;
+                desc.SampleCount = VkSampleCountFlags.Count1;
                 desc.ArrayLayers = arrayCount;
                 desc.Depth = 1;
-                desc.Type = TextureType.Texture2D;
-                desc.Usage = TextureUsage.Staging;
+                desc.Type = VkImageType.Image2D;
+                desc.Usage = VkImageUsageFlags.None;
+                desc.CreateFlags = VkImageCreateFlags.None;
+                desc.Tiling = VkImageTiling.Linear;
                 desc.Format = format;
 
                 _staging = d.ResourceFactory.CreateTexture(desc);
@@ -813,7 +713,9 @@ namespace StudioCore.Scene
                     }
                 }
 
-                desc.Usage = TextureUsage.Sampled | usage;
+                desc.Usage = VkImageUsageFlags.Sampled;
+                desc.CreateFlags = isCubemap ? VkImageCreateFlags.CubeCompatible : VkImageCreateFlags.None;
+                desc.Tiling = VkImageTiling.Optimal;
                 desc.ArrayLayers = 1;
                 _texture = d.ResourceFactory.CreateTexture(desc);
                 _texture.Name = name;
@@ -828,12 +730,14 @@ namespace StudioCore.Scene
                 desc.Width = 1;
                 desc.Height = 1;
                 desc.MipLevels = 1;
-                desc.SampleCount = TextureSampleCount.Count1;
+                desc.SampleCount = VkSampleCountFlags.Count1;
                 desc.ArrayLayers = 1;
                 desc.Depth = 1;
-                desc.Type = TextureType.Texture2D;
-                desc.Usage = TextureUsage.Staging;
-                desc.Format = PixelFormat.R8_G8_B8_A8_UNorm;
+                desc.Type = VkImageType.Image2D;
+                desc.Usage = VkImageUsageFlags.None;
+                desc.CreateFlags = VkImageCreateFlags.None;
+                desc.Tiling = VkImageTiling.Linear;
+                desc.Format = VkFormat.R8G8B8A8Unorm;
                 _staging = d.ResourceFactory.CreateTexture(desc);
 
                 byte[] col = new byte[4];
@@ -851,7 +755,8 @@ namespace StudioCore.Scene
 
                 Renderer.AddBackgroundUploadTask((gd, cl) =>
                 {
-                    desc.Usage = TextureUsage.Sampled;
+                    desc.Usage = VkImageUsageFlags.Sampled;
+                    desc.Tiling = VkImageTiling.Optimal;
                     _texture = d.ResourceFactory.CreateTexture(desc);
                     _texture.Name = name;
                     cl.CopyTexture(_staging, _texture);
@@ -866,12 +771,14 @@ namespace StudioCore.Scene
                 desc.Width = 1;
                 desc.Height = 1;
                 desc.MipLevels = 1;
-                desc.SampleCount = TextureSampleCount.Count1;
+                desc.SampleCount = VkSampleCountFlags.Count1;
                 desc.ArrayLayers = 6;
                 desc.Depth = 1;
-                desc.Type = TextureType.Texture2D;
-                desc.Usage = TextureUsage.Staging;
-                desc.Format = PixelFormat.R32_G32_B32_A32_Float;
+                desc.Type = VkImageType.Image2D;
+                desc.Usage = VkImageUsageFlags.None;
+                desc.CreateFlags = VkImageCreateFlags.None;
+                desc.Tiling = VkImageTiling.Linear;
+                desc.Format = VkFormat.R32G32B32A32Sfloat;
                 _staging = d.ResourceFactory.CreateTexture(desc);
 
                 float[] col = new float[4];
@@ -893,7 +800,9 @@ namespace StudioCore.Scene
                 Renderer.AddBackgroundUploadTask((gd, cl) =>
                 {
                     desc.ArrayLayers = 1;
-                    desc.Usage = TextureUsage.Sampled | TextureUsage.Cubemap;
+                    desc.Usage = VkImageUsageFlags.Sampled;
+                    desc.CreateFlags = VkImageCreateFlags.CubeCompatible;
+                    desc.Tiling = VkImageTiling.Optimal;
                     _texture = d.ResourceFactory.CreateTexture(desc);
                     cl.CopyTexture(_staging, _texture);
                     Resident = true;
@@ -912,9 +821,14 @@ namespace StudioCore.Scene
                 _pool.DescriptorTableDirty = true;
             }
 
-            public void CreateRenderTarget(GraphicsDevice d, uint width, uint height, uint mips, uint layes, PixelFormat format, TextureUsage usage)
+            public void CreateRenderTarget(GraphicsDevice d, uint width, uint height, uint mips, uint layes, VkFormat format, VkImageUsageFlags usage)
             {
-                _texture = d.ResourceFactory.CreateTexture(TextureDescription.Texture2D(width, height, mips, layes, format, usage | TextureUsage.RenderTarget));
+                _texture = d.ResourceFactory.CreateTexture(
+                    TextureDescription.Texture2D(
+                        width, height, mips, layes, format,
+                        usage | VkImageUsageFlags.ColorAttachment, 
+                        VkImageCreateFlags.None, 
+                        VkImageTiling.Optimal));
                 Resident = true;
                 _pool.DescriptorTableDirty = true;
             }

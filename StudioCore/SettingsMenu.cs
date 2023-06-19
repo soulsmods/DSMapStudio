@@ -190,15 +190,15 @@ namespace StudioCore
                     float arbitrary_rotation_y = CFG.Current.Map_ArbitraryRotation_Y_Shift;
                     float camera_radius_offset = CFG.Current.Map_MoveSelectionToCamera_Radius;
 
-                    if (ImGui.InputFloat("Rotation increment degrees: X", ref arbitrary_rotation_x))
+                    if (ImGui.InputFloat("Rotation increment degrees: Roll", ref arbitrary_rotation_x))
                     {
                         CFG.Current.Map_ArbitraryRotation_X_Shift = Math.Clamp(arbitrary_rotation_x, -180.0f, 180.0f);
                     }
-                    if (ImGui.InputFloat("Rotation increment degrees: Y", ref arbitrary_rotation_y))
+                    if (ImGui.InputFloat("Rotation increment degrees: Yaw", ref arbitrary_rotation_y))
                     {
                         CFG.Current.Map_ArbitraryRotation_Y_Shift = Math.Clamp(arbitrary_rotation_y, -180.0f, 180.0f); ;
                     }
-                    if (ImGui.InputFloat("Move selection to camera (offset distance)", ref camera_radius_offset))
+                    if (ImGui.DragFloat("Move selection to camera (offset distance)", ref camera_radius_offset))
                     {
                         CFG.Current.Map_MoveSelectionToCamera_Radius = camera_radius_offset;
                     }
@@ -216,21 +216,22 @@ namespace StudioCore
                     {
                         CFG.Current.GFX_Camera_FOV = cam_fov;
                     }
-                    if (ImGui.SliderFloat("Map max render distance", ref MsbEditor.Viewport.FarClip, 10.0f, 500000.0f))
+                    float farClip = MsbEditor.Viewport.FarClip;
+                    if (ImGui.SliderFloat("Map max render distance", ref farClip, 10.0f, 500000.0f))
                     {
-                        CFG.Current.GFX_RenderDistance_Max = MsbEditor.Viewport.FarClip;
+                        CFG.Current.GFX_RenderDistance_Max = farClip;
                     }
-                    if (ImGui.SliderFloat("Map camera speed (slow)", ref MsbEditor.Viewport._worldView.CameraMoveSpeed_Slow, 0.1f, 999.0f))
+                    if (ImGui.SliderFloat("Map camera speed (slow)", ref MsbEditor.Viewport.WorldView.CameraMoveSpeed_Slow, 0.1f, 999.0f))
                     {
-                        CFG.Current.GFX_Camera_MoveSpeed_Slow = MsbEditor.Viewport._worldView.CameraMoveSpeed_Slow;
+                        CFG.Current.GFX_Camera_MoveSpeed_Slow = MsbEditor.Viewport.WorldView.CameraMoveSpeed_Slow;
                     }
-                    if (ImGui.SliderFloat("Map camera speed (normal)", ref MsbEditor.Viewport._worldView.CameraMoveSpeed_Normal, 0.1f, 999.0f))
+                    if (ImGui.SliderFloat("Map camera speed (normal)", ref MsbEditor.Viewport.WorldView.CameraMoveSpeed_Normal, 0.1f, 999.0f))
                     {
-                        CFG.Current.GFX_Camera_MoveSpeed_Normal = MsbEditor.Viewport._worldView.CameraMoveSpeed_Normal;
+                        CFG.Current.GFX_Camera_MoveSpeed_Normal = MsbEditor.Viewport.WorldView.CameraMoveSpeed_Normal;
                     }
-                    if (ImGui.SliderFloat("Map camera speed (fast)", ref MsbEditor.Viewport._worldView.CameraMoveSpeed_Fast, 0.1f, 999.0f))
+                    if (ImGui.SliderFloat("Map camera speed (fast)", ref MsbEditor.Viewport.WorldView.CameraMoveSpeed_Fast, 0.1f, 999.0f))
                     {
-                        CFG.Current.GFX_Camera_MoveSpeed_Fast = MsbEditor.Viewport._worldView.CameraMoveSpeed_Fast;
+                        CFG.Current.GFX_Camera_MoveSpeed_Fast = MsbEditor.Viewport.WorldView.CameraMoveSpeed_Fast;
                     }
                     if (ImGui.Button("Reset##ViewportCamera"))
                     {
@@ -239,14 +240,14 @@ namespace StudioCore
                         MsbEditor.Viewport.FarClip = CFG.Default.GFX_RenderDistance_Max;
                         CFG.Current.GFX_RenderDistance_Max = MsbEditor.Viewport.FarClip;
 
-                        MsbEditor.Viewport._worldView.CameraMoveSpeed_Slow = CFG.Default.GFX_Camera_MoveSpeed_Slow;
-                        CFG.Current.GFX_Camera_MoveSpeed_Slow = MsbEditor.Viewport._worldView.CameraMoveSpeed_Slow;
+                        MsbEditor.Viewport.WorldView.CameraMoveSpeed_Slow = CFG.Default.GFX_Camera_MoveSpeed_Slow;
+                        CFG.Current.GFX_Camera_MoveSpeed_Slow = MsbEditor.Viewport.WorldView.CameraMoveSpeed_Slow;
 
-                        MsbEditor.Viewport._worldView.CameraMoveSpeed_Normal = CFG.Default.GFX_Camera_MoveSpeed_Normal;
-                        CFG.Current.GFX_Camera_MoveSpeed_Normal = MsbEditor.Viewport._worldView.CameraMoveSpeed_Normal;
+                        MsbEditor.Viewport.WorldView.CameraMoveSpeed_Normal = CFG.Default.GFX_Camera_MoveSpeed_Normal;
+                        CFG.Current.GFX_Camera_MoveSpeed_Normal = MsbEditor.Viewport.WorldView.CameraMoveSpeed_Normal;
 
-                        MsbEditor.Viewport._worldView.CameraMoveSpeed_Fast = CFG.Default.GFX_Camera_MoveSpeed_Fast;
-                        CFG.Current.GFX_Camera_MoveSpeed_Fast = MsbEditor.Viewport._worldView.CameraMoveSpeed_Fast;
+                        MsbEditor.Viewport.WorldView.CameraMoveSpeed_Fast = CFG.Default.GFX_Camera_MoveSpeed_Fast;
+                        CFG.Current.GFX_Camera_MoveSpeed_Fast = MsbEditor.Viewport.WorldView.CameraMoveSpeed_Fast;
                     }
                     ImGui.Unindent();
                 }

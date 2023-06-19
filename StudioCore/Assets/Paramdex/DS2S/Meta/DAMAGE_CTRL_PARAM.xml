@@ -43,6 +43,7 @@
     <damage_type AltName="Damage Type" Enum="DamageTypeCategory" />
     <stagger_mode AltName="Stagger Mode" Enum="StaggerModeCategory" />
     <disable_parry AltName="Disable Parry" IsBool="" />
+    <damage_guard_bypass_mult AltName="Damage: Guard Bypass Multiplier" Wiki="Amount of damage that bypasses guards. 100 = 100%" />
     <stagger_type AltName="Stagger Type" Enum="StaggerTypeCategory" />
     <is_instant_kill AltName="Is Instant Kill" IsBool="" />
     <posture_damage AltName="Posture Damage" />
