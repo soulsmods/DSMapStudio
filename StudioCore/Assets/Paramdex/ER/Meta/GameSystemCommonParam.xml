@@ -18,11 +18,11 @@
     <allowUseBuddyItem_sfxInterval AltName="Spirit Summon Item - SFX Interval" Wiki="Buddy item permission_SFX occurrence interval [s]" />
     <allowUseBuddyItem_sfxDmyPolyId AltName="Spirit Summon Item - SFX Dummy Poly ID" Wiki="Buddy Item Permission_SFX Occurrence PC Damipoli ID" />
     <allowUseBuddyItem_sfxDmyPolyId_horse AltName="Spirit Summon Item - SFX Dummy Poly ID (Horse)" Wiki="Buddy item permission_SFX generated horse Damipoli ID_when riding" />
-    <allowUseBuddyItem_sfxId AltName="Spirit Summon Item - SFX ID" Wiki="Buddy Item Permission_Occurrence SFXID" />
+    <allowUseBuddyItem_sfxId AltName="Spirit Summon Item - SFX ID" Wiki="Buddy Item Permission_Occurrence SFXID" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
     <onBuddySummon_inActivateRange_sfxInterval AltName="Spirit Summon - Activation Range - SFX Interval" Wiki="Buddy Summoning_Initial Range_SFX Occurrence Interval [s]" />
     <onBuddySummon_inActivateRange_sfxDmyPolyId AltName="Spirit Summon - Activation Range - SFX Dummy Poly ID" Wiki="Buddy Summoning_Initial Range_SFX Occurrence PC Damipoli ID" />
     <onBuddySummon_inActivateRange_sfxDmyPolyId_horse AltName="Spirit Summon - Activation Range - SFX Dummy Poly ID (Horse)" Wiki="Buddy Summoning_Initial Range_SFX Generated Horse Damipoli ID_When Riding" />
-    <onBuddySummon_inActivateRange_sfxId AltName="Spirit Summon - Activation Range - SFX ID" Wiki="Buddy Summoning_Initial Range_Occurrence SFXID" />
+    <onBuddySummon_inActivateRange_sfxId AltName="Spirit Summon - Activation Range - SFX ID" Wiki="Buddy Summoning_Initial Range_Occurrence SFXID" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
     <onBuddySummon_inActivateRange_spEffectId_pc AltName="Spirit Summon - Activation Range - Player SpEffect ID" Wiki="Buddy Summoning_Initial range Special effect ID_For PC" />
     <onBuddySummon_inWarnRange_spEffectId_pc AltName="Spirit Summon - Warn Range - Player SpEffect ID" Wiki="Buddy Summoning_Warning Range Special Effect ID_For PC" />
     <onBuddySummon_atBuddyUnsummon_spEffectId_pc AltName="Spirit Summon - Unsummoned - Player SpEffect ID" Wiki="Buddy Summoning_Buddy Return Special Effect ID_For PC" />
@@ -47,7 +47,7 @@
     <aiSightRateStart_Midnight_Hour AltName="AI Sight Rate Start - Midnight Hour" Wiki="AI visibility magnification_midnight_start time (hour)" />
     <aiSightRateStart_Midnight_Minute AltName="AI Sight Rate Start - Midnight Minute" Wiki="AI visibility magnification_midnight_start time (minutes)" />
     <saLargeDamageHitSfx_Threshold AltName="Poise - Large Damage Hit SFX Threshold" Wiki="SA large damage hit production SFX_ Occurrence condition SA damage threshold ratio [%]" />
-    <saLargeDamageHitSfx_SfxId AltName="Poise - Large Damage Hit SFX ID" Wiki="SA heavy damage hit production SFX_SFXID" />
+    <saLargeDamageHitSfx_SfxId AltName="Poise - Large Damage Hit SFX ID" Wiki="SA heavy damage hit production SFX_SFXID" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
     <signCreatableDistFromSafePos AltName="Sign Creatable Distance from Safe Position" Wiki="Distance at which you can create a sign away from the last safe position on your PC [m]" />
     <guestResummonDist AltName="Guest Resummon Distance" Wiki="Distance between host and guest where resummoning occurs [m]" />
     <guestLeavingMessageDistMax AltName="Guest Leaving Message - Max Distance" Wiki="Distance [m] to notify the guest that they are about to leave the host. Notify me when I'm farther than this distance." />
@@ -56,8 +56,8 @@
     <retryPointAreaRadius AltName="Marika Stake Area Radius" Wiki="Retry area radius_default value (m). It is used as the default value when the radius and area are not set in the event type Retry Point of MapStudio." />
     <sleepCollectorSpEffectId AltName="Sleep Collector SpEffect ID" Wiki="A special effect ID that activates when a Nemuri item can be acquired. TAE flag Used as the default value when not overwriting with Event> Nemuri item registration." />
     <recoverBelowMaxHpCompletionNoticeSpEffectId AltName="Recovery below HP Max - Notification SpEffect ID" Wiki="ID of the special effect that notifies that Recovery below HP maximum is completed. Mainly used for multi synchronization." />
-    <estusFlaskRecovery_AbsorptionProductionSfxId_byHp AltName="HP Flask - Absorption SFX ID for Intruder Flask Restoration" Wiki="Absorption effect SFXID when recovering the number of times the HP Est bottle has been used when defeating an intruder" />
-    <estusFlaskRecovery_AbsorptionProductionSfxId_byMp AltName="FP Flask - Absorption SFX ID for Intruder Flask Restoration" Wiki="Absorption effect SFXID when recovering the number of times the MP Est bottle has been used when defeating an intruder" />
+    <estusFlaskRecovery_AbsorptionProductionSfxId_byHp AltName="HP Flask - Absorption SFX ID for Intruder Flask Restoration" Wiki="Absorption effect SFXID when recovering the number of times the HP Est bottle has been used when defeating an intruder" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
+    <estusFlaskRecovery_AbsorptionProductionSfxId_byMp AltName="FP Flask - Absorption SFX ID for Intruder Flask Restoration" Wiki="Absorption effect SFXID when recovering the number of times the MP Est bottle has been used when defeating an intruder" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
     <respawnSpecialEffectActiveCheckerSpEffectId AltName="Resurrection - Notification SpEffect ID" Wiki="ID of the special effect that notifies that the resurrection special effect has been activated. Mainly used for multi synchronization." />
     <onBuddySummon_inActivateRange_spEffectId_buddy AltName="Spirit Summon - Activation Range - Spirit SpEffect ID" Wiki="Buddy Summoning_Initial Range Special Effect ID_For Buddy" />
     <estusFlaskRecovery_AddEstusTime AltName="Flask - Absorption SFX Playback Time" Wiki="Time from the start of est absorption SFX playback to the start of est addition processing" />
@@ -70,7 +70,7 @@
     <enemyDetectionSpEffect_ShootBulletDummypolyId AltName="Enemy Detection - Shoot Bullet Dummy Poly ID" Wiki="Detect bullet firing position Damipoli ID" />
     <bigRuneGreaterDemonBreakInGoodsNum AltName="Phantom Great Rune - Amount given for Invasion" Wiki="Large Rune Number of tools granted when the Greater Demon invades" />
     <bigRuneGreaterDemonBreakInGoodsId AltName="Phantom Great Rune - Goods ID" Wiki="Large Rune Greater Demon Invasion Tool Item ID" />
-    <rideJumpRegionDefaultSfxId AltName="Spiritspring Jump SFX ID" Wiki="SFX ID in the riding large jump area" />
+    <rideJumpRegionDefaultSfxId AltName="Spiritspring Jump SFX ID" Wiki="SFX ID in the riding large jump area" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
     <saAttackRate_forVsRideAtk AltName="Poise Damage - Vs. Ride Attack" Wiki="Magnification to be corrected at the time of riding special attack" />
     <enemySpEffectIdAfterSleepCollectorItemLot AltName="Sleep Collector Item Lot - Enemy SpEffect ID" Wiki="Special effects on the enemy side when drawing Nemuri items" />
     <afterEndingMapUid AltName="After Ending Map UID" Wiki="Map UID on hold for lap, enter in 8 digits (example ... m60_42_36_00-> 60423600)" />
@@ -273,10 +273,10 @@
     <remotePlayerThreatLvNotify_NotifyTime AltName="Network Player Threat Notification - Notify Time" Wiki="Network PC Threat Level Notification_Notification Time [seconds] (SEQ21950)" />
     <breakIn_A_rebreakInGoodsNum AltName="Phantom Bloody Finger - Count" Wiki="Number of re-invasion items to be given at the time of intrusion Intrusion item_Greater system (ID102)" />
     <breakIn_A_rebreakInGoodsId AltName="Phantom Bloody Finger - Goods ID" Wiki="Tool item ID of re-invasion item given at the time of intrusion Invasion item_Greater system (ID102)" />
-    <rideJumpoff_SfxId AltName="Spiritspring SFX ID" Wiki="Big jump to get off _ sky SFXID" />
+    <rideJumpoff_SfxId AltName="Spiritspring SFX ID" Wiki="Big jump to get off _ sky SFXID" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
     <rideJumpoff_SfxHeightOffset AltName="Spiritspring SFX Height Offset" Wiki="Big jump to get off_SFX base point offset in the sky" />
-    <rideJumpoff_SpEffectId AltName="Spiritspring SpEffect ID (Horse)" Wiki="In the big jump area to get off _ Special effect ID for PC horse" />
-    <rideJumpoff_SpEffectIdPc AltName="Spiritspring SpEffect ID (Player)" Wiki="Special effect ID for _PC in the big jump area to get off" />
+    <rideJumpoff_SpEffectId AltName="Spiritspring SpEffect ID (Horse)" Wiki="In the big jump area to get off _ Special effect ID for PC horse" Refs="SpEffectParam" />
+    <rideJumpoff_SpEffectIdPc AltName="Spiritspring SpEffect ID (Player)" Wiki="Special effect ID for _PC in the big jump area to get off" Refs="SpEffectParam" />
     <unlockExchangeMenuEventFlagId AltName="Unlock Exchange Menu - Event Flag ID" Wiki="Main menu  Event flag to unlock the item creation menu" />
     <unlockMessageMenuEventFlagId AltName="Unlock Message Menu - Event Flag ID" Wiki="Main menu  Event flag to unlock the message menu" />
     <breakInOnce_A_rebreakInGoodsNum AltName="Phantom Bloody Finger - Count" Wiki="Number of re-invasion items to be given at the time of intrusion Intrusion item_Greater disposable (ID111)" />

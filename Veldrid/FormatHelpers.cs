@@ -1,263 +1,184 @@
 ﻿using System;
 using System.Diagnostics;
+using Vortice.Vulkan;
 
 namespace Veldrid
 {
-    internal static class FormatHelpers
+    public static class FormatHelpers
     {
-        public static uint GetSizeInBytes(PixelFormat format)
+        public static uint GetSizeInBytes(VkFormat format)
         {
             switch (format)
             {
-                case PixelFormat.R8_UNorm:
-                case PixelFormat.R8_SNorm:
-                case PixelFormat.R8_UInt:
-                case PixelFormat.R8_SInt:
+                case VkFormat.R8Unorm:
+                case VkFormat.R8Snorm:
+                case VkFormat.R8Uint:
+                case VkFormat.R8Sint:
                     return 1;
 
-                case PixelFormat.B5_G5_R5_A1_UNorm:
-                case PixelFormat.R16_UNorm:
-                case PixelFormat.R16_SNorm:
-                case PixelFormat.R16_UInt:
-                case PixelFormat.R16_SInt:
-                case PixelFormat.R16_Float:
-                case PixelFormat.R8_G8_UNorm:
-                case PixelFormat.R8_G8_SNorm:
-                case PixelFormat.R8_G8_UInt:
-                case PixelFormat.R8_G8_SInt:
+                case VkFormat.B5G5R5A1UnormPack16:
+                case VkFormat.R16Unorm:
+                case VkFormat.R16Snorm:
+                case VkFormat.R16Uint:
+                case VkFormat.R16Sint:
+                case VkFormat.R16Sfloat:
+                case VkFormat.D16Unorm:
+                case VkFormat.R8G8Unorm:
+                case VkFormat.R8G8Snorm:
+                case VkFormat.R8G8Uint:
+                case VkFormat.R8G8Sint:
                     return 2;
 
-                case PixelFormat.R32_UInt:
-                case PixelFormat.R32_SInt:
-                case PixelFormat.R32_Float:
-                case PixelFormat.R16_G16_UNorm:
-                case PixelFormat.R16_G16_SNorm:
-                case PixelFormat.R16_G16_UInt:
-                case PixelFormat.R16_G16_SInt:
-                case PixelFormat.R16_G16_Float:
-                case PixelFormat.R8_G8_B8_A8_UNorm:
-                case PixelFormat.R8_G8_B8_A8_UNorm_SRgb:
-                case PixelFormat.R8_G8_B8_A8_SNorm:
-                case PixelFormat.R8_G8_B8_A8_UInt:
-                case PixelFormat.R8_G8_B8_A8_SInt:
-                case PixelFormat.B8_G8_R8_A8_UNorm:
-                case PixelFormat.B8_G8_R8_A8_UNorm_SRgb:
-                case PixelFormat.R10_G10_B10_A2_UNorm:
-                case PixelFormat.R10_G10_B10_A2_UInt:
-                case PixelFormat.R11_G11_B10_Float:
-                case PixelFormat.D24_UNorm_S8_UInt:
+                case VkFormat.R32Uint:
+                case VkFormat.R32Sint:
+                case VkFormat.R32Sfloat:
+                case VkFormat.D32Sfloat:
+                case VkFormat.R16G16Unorm:
+                case VkFormat.R16G16Snorm:
+                case VkFormat.R16G16Uint:
+                case VkFormat.R16G16Sint:
+                case VkFormat.R16G16Sfloat:
+                case VkFormat.R8G8B8A8Unorm:
+                case VkFormat.R8G8B8A8Srgb:
+                case VkFormat.R8G8B8A8Snorm:
+                case VkFormat.R8G8B8A8Uint:
+                case VkFormat.R8G8B8A8Sint:
+                case VkFormat.B8G8R8A8Unorm:
+                case VkFormat.B8G8R8A8Srgb:
+                case VkFormat.A2R10G10B10UnormPack32:
+                case VkFormat.A2R10G10B10UintPack32:
+                case VkFormat.B10G11R11UfloatPack32:
+                case VkFormat.D24UnormS8Uint:
                     return 4;
 
-                case PixelFormat.D32_Float_S8_UInt:
+                case VkFormat.D32SfloatS8Uint:
                     return 5;
 
-                case PixelFormat.R16_G16_B16_A16_UNorm:
-                case PixelFormat.R16_G16_B16_A16_SNorm:
-                case PixelFormat.R16_G16_B16_A16_UInt:
-                case PixelFormat.R16_G16_B16_A16_SInt:
-                case PixelFormat.R16_G16_B16_A16_Float:
-                case PixelFormat.R32_G32_UInt:
-                case PixelFormat.R32_G32_SInt:
-                case PixelFormat.R32_G32_Float:
+                case VkFormat.R16G16B16A16Unorm:
+                case VkFormat.R16G16B16A16Snorm:
+                case VkFormat.R16G16B16A16Uint:
+                case VkFormat.R16G16B16A16Sint:
+                case VkFormat.R16G16B16A16Sfloat:
+                case VkFormat.R32G32Uint:
+                case VkFormat.R32G32Sint:
+                case VkFormat.R32G32Sfloat:
                     return 8;
-
-                case PixelFormat.R32_G32_B32_A32_Float:
-                case PixelFormat.R32_G32_B32_A32_UInt:
-                case PixelFormat.R32_G32_B32_A32_SInt:
-                    return 16;
-
-                case PixelFormat.BC1_Rgb_UNorm:
-                case PixelFormat.BC1_Rgb_UNorm_SRgb:
-                case PixelFormat.BC1_Rgba_UNorm:
-                case PixelFormat.BC1_Rgba_UNorm_SRgb:
-                case PixelFormat.BC2_UNorm:
-                case PixelFormat.BC2_UNorm_SRgb:
-                case PixelFormat.BC3_UNorm:
-                case PixelFormat.BC3_UNorm_SRgb:
-                case PixelFormat.BC4_UNorm:
-                case PixelFormat.BC4_SNorm:
-                case PixelFormat.BC5_UNorm:
-                case PixelFormat.BC5_SNorm:
-                case PixelFormat.BC7_UNorm:
-                case PixelFormat.BC7_UNorm_SRgb:
-                case PixelFormat.ETC2_R8_G8_B8_UNorm:
-                case PixelFormat.ETC2_R8_G8_B8_A1_UNorm:
-                case PixelFormat.ETC2_R8_G8_B8_A8_UNorm:
-                    Debug.Fail("GetSizeInBytes should not be used on a compressed format.");
-                    throw Illegal.Value<PixelFormat>();
-                default: throw Illegal.Value<PixelFormat>();
-            }
-        }
-
-        public static uint GetSizeInBytes(VertexElementFormat format)
-        {
-            switch (format)
-            {
-                case VertexElementFormat.Byte2_Norm:
-                case VertexElementFormat.Byte2:
-                case VertexElementFormat.SByte2_Norm:
-                case VertexElementFormat.SByte2:
-                case VertexElementFormat.Half1:
-                    return 2;
-                case VertexElementFormat.Float1:
-                case VertexElementFormat.UInt1:
-                case VertexElementFormat.Int1:
-                case VertexElementFormat.Byte4_Norm:
-                case VertexElementFormat.Byte4:
-                case VertexElementFormat.SByte4_Norm:
-                case VertexElementFormat.SByte4:
-                case VertexElementFormat.UShort2_Norm:
-                case VertexElementFormat.UShort2:
-                case VertexElementFormat.Short2_Norm:
-                case VertexElementFormat.Short2:
-                case VertexElementFormat.Half2:
-                    return 4;
-                case VertexElementFormat.Float2:
-                case VertexElementFormat.UInt2:
-                case VertexElementFormat.Int2:
-                case VertexElementFormat.UShort4_Norm:
-                case VertexElementFormat.UShort4:
-                case VertexElementFormat.Short4_Norm:
-                case VertexElementFormat.Short4:
-                case VertexElementFormat.Half4:
-                    return 8;
-                case VertexElementFormat.Float3:
-                case VertexElementFormat.UInt3:
-                case VertexElementFormat.Int3:
+                
+                case VkFormat.R32G32B32Sfloat:
+                case VkFormat.R32G32B32Sint:
+                case VkFormat.R32G32B32Uint:
                     return 12;
-                case VertexElementFormat.Float4:
-                case VertexElementFormat.UInt4:
-                case VertexElementFormat.Int4:
+
+                case VkFormat.R32G32B32A32Sfloat:
+                case VkFormat.R32G32B32A32Uint:
+                case VkFormat.R32G32B32A32Sint:
                     return 16;
+
+                case VkFormat.Bc1RgbUnormBlock:
+                case VkFormat.Bc1RgbSrgbBlock:
+                case VkFormat.Bc1RgbaUnormBlock:
+                case VkFormat.Bc1RgbaSrgbBlock:
+                case VkFormat.Bc2UnormBlock:
+                case VkFormat.Bc2SrgbBlock:
+                case VkFormat.Bc3UnormBlock:
+                case VkFormat.Bc3SrgbBlock:
+                case VkFormat.Bc4UnormBlock:
+                case VkFormat.Bc4SnormBlock:
+                case VkFormat.Bc5UnormBlock:
+                case VkFormat.Bc5SnormBlock:
+                case VkFormat.Bc7UnormBlock:
+                case VkFormat.Bc7SrgbBlock:
+                case VkFormat.Etc2R8G8B8UnormBlock:
+                case VkFormat.Etc2R8G8B8A1UnormBlock:
+                case VkFormat.Etc2R8G8B8A8UnormBlock:
+                    Debug.Fail("GetSizeInBytes should not be used on a compressed format.");
+                    throw Illegal.Value<VkFormat>();
                 default:
-                    throw Illegal.Value<VertexElementFormat>();
+                    Debug.Fail("Unimplemented VKFormat.");
+                    throw Illegal.Value<VkFormat>();
             }
         }
 
-        public static int GetElementCount(VertexElementFormat format)
-        {
-            switch (format)
-            {
-                case VertexElementFormat.Float1:
-                case VertexElementFormat.UInt1:
-                case VertexElementFormat.Int1:
-                case VertexElementFormat.Half1:
-                    return 1;
-                case VertexElementFormat.Float2:
-                case VertexElementFormat.Byte2_Norm:
-                case VertexElementFormat.Byte2:
-                case VertexElementFormat.SByte2_Norm:
-                case VertexElementFormat.SByte2:
-                case VertexElementFormat.UShort2_Norm:
-                case VertexElementFormat.UShort2:
-                case VertexElementFormat.Short2_Norm:
-                case VertexElementFormat.Short2:
-                case VertexElementFormat.UInt2:
-                case VertexElementFormat.Int2:
-                case VertexElementFormat.Half2:
-                    return 2;
-                case VertexElementFormat.Float3:
-                case VertexElementFormat.UInt3:
-                case VertexElementFormat.Int3:
-                    return 3;
-                case VertexElementFormat.Float4:
-                case VertexElementFormat.Byte4_Norm:
-                case VertexElementFormat.Byte4:
-                case VertexElementFormat.SByte4_Norm:
-                case VertexElementFormat.SByte4:
-                case VertexElementFormat.UShort4_Norm:
-                case VertexElementFormat.UShort4:
-                case VertexElementFormat.Short4_Norm:
-                case VertexElementFormat.Short4:
-                case VertexElementFormat.UInt4:
-                case VertexElementFormat.Int4:
-                case VertexElementFormat.Half4:
-                    return 4;
-                default:
-                    throw Illegal.Value<VertexElementFormat>();
-            }
-        }
-
-        internal static uint GetSampleCountUInt32(TextureSampleCount sampleCount)
+        public static uint GetSampleCountUInt32(VkSampleCountFlags sampleCount)
         {
             switch (sampleCount)
             {
-                case TextureSampleCount.Count1:
+                case VkSampleCountFlags.Count1:
                     return 1;
-                case TextureSampleCount.Count2:
+                case VkSampleCountFlags.Count2:
                     return 2;
-                case TextureSampleCount.Count4:
+                case VkSampleCountFlags.Count4:
                     return 4;
-                case TextureSampleCount.Count8:
+                case VkSampleCountFlags.Count8:
                     return 8;
-                case TextureSampleCount.Count16:
+                case VkSampleCountFlags.Count16:
                     return 16;
-                case TextureSampleCount.Count32:
+                case VkSampleCountFlags.Count32:
                     return 32;
                 default:
-                    throw Illegal.Value<TextureSampleCount>();
+                    throw Illegal.Value<VkSampleCountFlags>();
             }
         }
 
-        internal static bool IsStencilFormat(PixelFormat format)
+        public static bool IsStencilFormat(VkFormat format)
         {
-            return format == PixelFormat.D24_UNorm_S8_UInt || format == PixelFormat.D32_Float_S8_UInt;
+            return format == VkFormat.D24UnormS8Uint || format == VkFormat.D32SfloatS8Uint;
         }
 
-        internal static bool IsDepthStencilFormat(PixelFormat format)
+        public static bool IsDepthStencilFormat(VkFormat format)
         {
-            return format == PixelFormat.D32_Float_S8_UInt
-                || format == PixelFormat.D24_UNorm_S8_UInt
-                || format == PixelFormat.R16_UNorm
-                || format == PixelFormat.R32_Float;
+            return format == VkFormat.D32SfloatS8Uint
+                || format == VkFormat.D24UnormS8Uint
+                || format == VkFormat.R16Unorm
+                || format == VkFormat.R32Sfloat;
         }
 
-        internal static bool IsCompressedFormat(PixelFormat format)
+        public static bool IsCompressedFormat(VkFormat format)
         {
-            return format == PixelFormat.BC1_Rgb_UNorm
-                || format == PixelFormat.BC1_Rgb_UNorm_SRgb
-                || format == PixelFormat.BC1_Rgba_UNorm
-                || format == PixelFormat.BC1_Rgba_UNorm_SRgb
-                || format == PixelFormat.BC2_UNorm
-                || format == PixelFormat.BC2_UNorm_SRgb
-                || format == PixelFormat.BC3_UNorm
-                || format == PixelFormat.BC3_UNorm_SRgb
-                || format == PixelFormat.BC4_UNorm
-                || format == PixelFormat.BC4_SNorm
-                || format == PixelFormat.BC5_UNorm
-                || format == PixelFormat.BC5_SNorm
-                || format == PixelFormat.BC6H_UFloat
-                || format == PixelFormat.BC6H_SFloat
-                || format == PixelFormat.BC7_UNorm
-                || format == PixelFormat.BC7_UNorm_SRgb
-                || format == PixelFormat.ETC2_R8_G8_B8_UNorm
-                || format == PixelFormat.ETC2_R8_G8_B8_A1_UNorm
-                || format == PixelFormat.ETC2_R8_G8_B8_A8_UNorm;
+            return format == VkFormat.Bc1RgbUnormBlock
+                || format == VkFormat.Bc1RgbSrgbBlock
+                || format == VkFormat.Bc1RgbaUnormBlock
+                || format == VkFormat.Bc1RgbaSrgbBlock
+                || format == VkFormat.Bc2UnormBlock
+                || format == VkFormat.Bc2SrgbBlock
+                || format == VkFormat.Bc3UnormBlock
+                || format == VkFormat.Bc3SrgbBlock
+                || format == VkFormat.Bc4UnormBlock
+                || format == VkFormat.Bc4SnormBlock
+                || format == VkFormat.Bc5UnormBlock
+                || format == VkFormat.Bc5SnormBlock
+                || format == VkFormat.Bc6hUfloatBlock
+                || format == VkFormat.Bc6hSfloatBlock
+                || format == VkFormat.Bc7UnormBlock
+                || format == VkFormat.Bc7SrgbBlock
+                || format == VkFormat.Etc2R8G8B8UnormBlock
+                || format == VkFormat.Etc2R8G8B8A1UnormBlock
+                || format == VkFormat.Etc2R8G8B8A8UnormBlock;
         }
 
-        internal static uint GetRowPitch(uint width, PixelFormat format)
+        public static uint GetRowPitch(uint width, VkFormat format)
         {
             switch (format)
             {
-                case PixelFormat.BC1_Rgb_UNorm:
-                case PixelFormat.BC1_Rgb_UNorm_SRgb:
-                case PixelFormat.BC1_Rgba_UNorm:
-                case PixelFormat.BC1_Rgba_UNorm_SRgb:
-                case PixelFormat.BC2_UNorm:
-                case PixelFormat.BC2_UNorm_SRgb:
-                case PixelFormat.BC3_UNorm:
-                case PixelFormat.BC3_UNorm_SRgb:
-                case PixelFormat.BC4_UNorm:
-                case PixelFormat.BC4_SNorm:
-                case PixelFormat.BC5_UNorm:
-                case PixelFormat.BC5_SNorm:
-                case PixelFormat.BC6H_UFloat:
-                case PixelFormat.BC6H_SFloat:
-                case PixelFormat.BC7_UNorm:
-                case PixelFormat.BC7_UNorm_SRgb:
-                case PixelFormat.ETC2_R8_G8_B8_UNorm:
-                case PixelFormat.ETC2_R8_G8_B8_A1_UNorm:
-                case PixelFormat.ETC2_R8_G8_B8_A8_UNorm:
+                case VkFormat.Bc1RgbUnormBlock:
+                case VkFormat.Bc1RgbSrgbBlock:
+                case VkFormat.Bc1RgbaUnormBlock:
+                case VkFormat.Bc1RgbaSrgbBlock:
+                case VkFormat.Bc2UnormBlock:
+                case VkFormat.Bc2SrgbBlock:
+                case VkFormat.Bc3UnormBlock:
+                case VkFormat.Bc3SrgbBlock:
+                case VkFormat.Bc4UnormBlock:
+                case VkFormat.Bc4SnormBlock:
+                case VkFormat.Bc5UnormBlock:
+                case VkFormat.Bc5SnormBlock:
+                case VkFormat.Bc6hSfloatBlock:
+                case VkFormat.Bc6hUfloatBlock:
+                case VkFormat.Bc7UnormBlock:
+                case VkFormat.Bc7SrgbBlock:
+                case VkFormat.Etc2R8G8B8UnormBlock:
+                case VkFormat.Etc2R8G8B8A1UnormBlock:
+                case VkFormat.Etc2R8G8B8A8UnormBlock:
                     var blocksPerRow = (width + 3) / 4;
                     var blockSizeInBytes = GetBlockSizeInBytes(format);
                     return blocksPerRow * blockSizeInBytes;
@@ -267,37 +188,67 @@ namespace Veldrid
             }
         }
 
-        public static uint GetBlockSizeInBytes(PixelFormat format)
+        public static uint GetBlockSizeInBytes(VkFormat format)
         {
             switch (format)
             {
-                case PixelFormat.BC1_Rgb_UNorm:
-                case PixelFormat.BC1_Rgb_UNorm_SRgb:
-                case PixelFormat.BC1_Rgba_UNorm:
-                case PixelFormat.BC1_Rgba_UNorm_SRgb:
-                case PixelFormat.BC4_UNorm:
-                case PixelFormat.BC4_SNorm:
-                case PixelFormat.ETC2_R8_G8_B8_UNorm:
-                case PixelFormat.ETC2_R8_G8_B8_A1_UNorm:
+                case VkFormat.Bc1RgbUnormBlock:
+                case VkFormat.Bc1RgbSrgbBlock:
+                case VkFormat.Bc1RgbaUnormBlock:
+                case VkFormat.Bc1RgbaSrgbBlock:
+                case VkFormat.Bc4UnormBlock:
+                case VkFormat.Bc4SnormBlock:
+                case VkFormat.Etc2R8G8B8UnormBlock:
+                case VkFormat.Etc2R8G8B8A1UnormBlock:
                     return 8;
-                case PixelFormat.BC2_UNorm:
-                case PixelFormat.BC2_UNorm_SRgb:
-                case PixelFormat.BC3_UNorm:
-                case PixelFormat.BC3_UNorm_SRgb:
-                case PixelFormat.BC5_UNorm:
-                case PixelFormat.BC5_SNorm:
-                case PixelFormat.BC6H_UFloat:
-                case PixelFormat.BC6H_SFloat:
-                case PixelFormat.BC7_UNorm:
-                case PixelFormat.BC7_UNorm_SRgb:
-                case PixelFormat.ETC2_R8_G8_B8_A8_UNorm:
+                case VkFormat.Bc2UnormBlock:
+                case VkFormat.Bc2SrgbBlock:
+                case VkFormat.Bc3UnormBlock:
+                case VkFormat.Bc3SrgbBlock:
+                case VkFormat.Bc5UnormBlock:
+                case VkFormat.Bc5SnormBlock:
+                case VkFormat.Bc6hSfloatBlock:
+                case VkFormat.Bc6hUfloatBlock:
+                case VkFormat.Bc7UnormBlock:
+                case VkFormat.Bc7SrgbBlock:
+                case VkFormat.Etc2R8G8B8A8UnormBlock:
                     return 16;
                 default:
-                    throw Illegal.Value<PixelFormat>();
+                    throw Illegal.Value<VkFormat>();
+            }
+        }
+        
+        public static void GetBlockDimensions(VkFormat format, out int width, out int height)
+        {
+            switch (format)
+            {
+                case VkFormat.Bc1RgbUnormBlock:
+                case VkFormat.Bc1RgbSrgbBlock:
+                case VkFormat.Bc1RgbaUnormBlock:
+                case VkFormat.Bc1RgbaSrgbBlock:
+                case VkFormat.Bc2UnormBlock:
+                case VkFormat.Bc2SrgbBlock:
+                case VkFormat.Bc3UnormBlock:
+                case VkFormat.Bc3SrgbBlock:
+                case VkFormat.Bc4UnormBlock:
+                case VkFormat.Bc4SnormBlock:
+                case VkFormat.Bc5UnormBlock:
+                case VkFormat.Bc5SnormBlock:
+                case VkFormat.Bc6hSfloatBlock:
+                case VkFormat.Bc6hUfloatBlock:
+                case VkFormat.Bc7UnormBlock:
+                case VkFormat.Bc7SrgbBlock:
+                    width = 4;
+                    height = 4;
+                    break;
+                default:
+                    width = 1;
+                    height = 1;
+                    break;
             }
         }
 
-        internal static bool IsFormatViewCompatible(PixelFormat viewFormat, PixelFormat realFormat)
+        internal static bool IsFormatViewCompatible(VkFormat viewFormat, VkFormat realFormat)
         {
             if (IsCompressedFormat(realFormat))
             {
@@ -309,32 +260,34 @@ namespace Veldrid
             }
         }
 
-        private static bool IsSrgbCounterpart(PixelFormat viewFormat, PixelFormat realFormat)
+        private static bool IsSrgbCounterpart(VkFormat viewFormat, VkFormat realFormat)
         {
             throw new NotImplementedException();
         }
 
-        internal static uint GetNumRows(uint height, PixelFormat format)
+        public static uint GetNumRows(uint height, VkFormat format)
         {
             switch (format)
             {
-                case PixelFormat.BC1_Rgb_UNorm:
-                case PixelFormat.BC1_Rgb_UNorm_SRgb:
-                case PixelFormat.BC1_Rgba_UNorm:
-                case PixelFormat.BC1_Rgba_UNorm_SRgb:
-                case PixelFormat.BC2_UNorm:
-                case PixelFormat.BC2_UNorm_SRgb:
-                case PixelFormat.BC3_UNorm:
-                case PixelFormat.BC3_UNorm_SRgb:
-                case PixelFormat.BC4_UNorm:
-                case PixelFormat.BC4_SNorm:
-                case PixelFormat.BC5_UNorm:
-                case PixelFormat.BC5_SNorm:
-                case PixelFormat.BC7_UNorm:
-                case PixelFormat.BC7_UNorm_SRgb:
-                case PixelFormat.ETC2_R8_G8_B8_UNorm:
-                case PixelFormat.ETC2_R8_G8_B8_A1_UNorm:
-                case PixelFormat.ETC2_R8_G8_B8_A8_UNorm:
+                case VkFormat.Bc1RgbUnormBlock:
+                case VkFormat.Bc1RgbSrgbBlock:
+                case VkFormat.Bc1RgbaUnormBlock:
+                case VkFormat.Bc1RgbaSrgbBlock:
+                case VkFormat.Bc2UnormBlock:
+                case VkFormat.Bc2SrgbBlock:
+                case VkFormat.Bc3UnormBlock:
+                case VkFormat.Bc3SrgbBlock:
+                case VkFormat.Bc4UnormBlock:
+                case VkFormat.Bc4SnormBlock:
+                case VkFormat.Bc5UnormBlock:
+                case VkFormat.Bc5SnormBlock:
+                case VkFormat.Bc6hSfloatBlock:
+                case VkFormat.Bc6hUfloatBlock:
+                case VkFormat.Bc7UnormBlock:
+                case VkFormat.Bc7SrgbBlock:
+                case VkFormat.Etc2R8G8B8UnormBlock:
+                case VkFormat.Etc2R8G8B8A1UnormBlock:
+                case VkFormat.Etc2R8G8B8A8UnormBlock:
                     return (height + 3) / 4;
 
                 default:
@@ -342,12 +295,12 @@ namespace Veldrid
             }
         }
 
-        internal static uint GetDepthPitch(uint rowPitch, uint height, PixelFormat format)
+        public static uint GetDepthPitch(uint rowPitch, uint height, VkFormat format)
         {
             return rowPitch * GetNumRows(height, format);
         }
 
-        internal static uint GetRegionSize(uint width, uint height, uint depth, PixelFormat format)
+        public static uint GetRegionSize(uint width, uint height, uint depth, VkFormat format)
         {
             uint blockSizeInBytes;
             if (IsCompressedFormat(format))
@@ -365,99 +318,99 @@ namespace Veldrid
             return width * height * depth * blockSizeInBytes;
         }
 
-        internal static TextureSampleCount GetSampleCount(uint samples)
+        public static VkSampleCountFlags GetSampleCount(uint samples)
         {
             switch (samples)
             {
-                case 1: return TextureSampleCount.Count1;
-                case 2: return TextureSampleCount.Count2;
-                case 4: return TextureSampleCount.Count4;
-                case 8: return TextureSampleCount.Count8;
-                case 16: return TextureSampleCount.Count16;
-                case 32: return TextureSampleCount.Count32;
+                case 1: return VkSampleCountFlags.Count1;
+                case 2: return VkSampleCountFlags.Count2;
+                case 4: return VkSampleCountFlags.Count4;
+                case 8: return VkSampleCountFlags.Count8;
+                case 16: return VkSampleCountFlags.Count16;
+                case 32: return VkSampleCountFlags.Count32;
                 default: throw new VeldridException("Unsupported multisample count: " + samples);
             }
         }
 
-        internal static PixelFormat GetViewFamilyFormat(PixelFormat format)
+        public static VkFormat GetViewFamilyFormat(VkFormat format)
         {
             switch (format)
             {
-                case PixelFormat.R32_G32_B32_A32_Float:
-                case PixelFormat.R32_G32_B32_A32_UInt:
-                case PixelFormat.R32_G32_B32_A32_SInt:
-                    return PixelFormat.R32_G32_B32_A32_Float;
-                case PixelFormat.R16_G16_B16_A16_Float:
-                case PixelFormat.R16_G16_B16_A16_UNorm:
-                case PixelFormat.R16_G16_B16_A16_UInt:
-                case PixelFormat.R16_G16_B16_A16_SNorm:
-                case PixelFormat.R16_G16_B16_A16_SInt:
-                    return PixelFormat.R16_G16_B16_A16_Float;
-                case PixelFormat.R32_G32_Float:
-                case PixelFormat.R32_G32_UInt:
-                case PixelFormat.R32_G32_SInt:
-                    return PixelFormat.R32_G32_Float;
-                case PixelFormat.R10_G10_B10_A2_UNorm:
-                case PixelFormat.R10_G10_B10_A2_UInt:
-                    return PixelFormat.R10_G10_B10_A2_UNorm;
-                case PixelFormat.R8_G8_B8_A8_UNorm:
-                case PixelFormat.R8_G8_B8_A8_UNorm_SRgb:
-                case PixelFormat.R8_G8_B8_A8_UInt:
-                case PixelFormat.R8_G8_B8_A8_SNorm:
-                case PixelFormat.R8_G8_B8_A8_SInt:
-                    return PixelFormat.R8_G8_B8_A8_UNorm;
-                case PixelFormat.R16_G16_Float:
-                case PixelFormat.R16_G16_UNorm:
-                case PixelFormat.R16_G16_UInt:
-                case PixelFormat.R16_G16_SNorm:
-                case PixelFormat.R16_G16_SInt:
-                    return PixelFormat.R16_G16_Float;
-                case PixelFormat.R32_Float:
-                case PixelFormat.R32_UInt:
-                case PixelFormat.R32_SInt:
-                    return PixelFormat.R32_Float;
-                case PixelFormat.R8_G8_UNorm:
-                case PixelFormat.R8_G8_UInt:
-                case PixelFormat.R8_G8_SNorm:
-                case PixelFormat.R8_G8_SInt:
-                    return PixelFormat.R8_G8_UNorm;
-                case PixelFormat.R16_Float:
-                case PixelFormat.R16_UNorm:
-                case PixelFormat.R16_UInt:
-                case PixelFormat.R16_SNorm:
-                case PixelFormat.R16_SInt:
-                    return PixelFormat.R16_Float;
-                case PixelFormat.R8_UNorm:
-                case PixelFormat.R8_UInt:
-                case PixelFormat.R8_SNorm:
-                case PixelFormat.R8_SInt:
-                    return PixelFormat.R8_UNorm;
-                case PixelFormat.BC1_Rgba_UNorm:
-                case PixelFormat.BC1_Rgba_UNorm_SRgb:
-                case PixelFormat.BC1_Rgb_UNorm:
-                case PixelFormat.BC1_Rgb_UNorm_SRgb:
-                    return PixelFormat.BC1_Rgba_UNorm;
-                case PixelFormat.BC2_UNorm:
-                case PixelFormat.BC2_UNorm_SRgb:
-                    return PixelFormat.BC2_UNorm;
-                case PixelFormat.BC3_UNorm:
-                case PixelFormat.BC3_UNorm_SRgb:
-                    return PixelFormat.BC3_UNorm;
-                case PixelFormat.BC4_UNorm:
-                case PixelFormat.BC4_SNorm:
-                    return PixelFormat.BC4_UNorm;
-                case PixelFormat.BC5_UNorm:
-                case PixelFormat.BC5_SNorm:
-                    return PixelFormat.BC5_UNorm;
-                case PixelFormat.BC6H_UFloat:
-                case PixelFormat.BC6H_SFloat:
-                    return PixelFormat.BC6H_UFloat;
-                case PixelFormat.B8_G8_R8_A8_UNorm:
-                case PixelFormat.B8_G8_R8_A8_UNorm_SRgb:
-                    return PixelFormat.B8_G8_R8_A8_UNorm;
-                case PixelFormat.BC7_UNorm:
-                case PixelFormat.BC7_UNorm_SRgb:
-                    return PixelFormat.BC7_UNorm;
+                case VkFormat.R32G32B32A32Sfloat:
+                case VkFormat.R32G32B32A32Uint:
+                case VkFormat.R32G32B32A32Sint:
+                    return VkFormat.R32G32B32A32Sfloat;
+                case VkFormat.R16G16B16A16Unorm:
+                case VkFormat.R16G16B16A16Snorm:
+                case VkFormat.R16G16B16A16Uint:
+                case VkFormat.R16G16B16A16Sint:
+                case VkFormat.R16G16B16A16Sfloat:
+                    return VkFormat.R16G16B16A16Sfloat;
+                case VkFormat.R32G32Uint:
+                case VkFormat.R32G32Sint:
+                case VkFormat.R32G32Sfloat:
+                    return VkFormat.R32G32Sfloat;
+                case VkFormat.A2R10G10B10UnormPack32:
+                case VkFormat.A2R10G10B10UintPack32:
+                    return VkFormat.A2R10G10B10UnormPack32;
+                case VkFormat.R8G8B8A8Unorm:
+                case VkFormat.R8G8B8A8Srgb:
+                case VkFormat.R8G8B8A8Snorm:
+                case VkFormat.R8G8B8A8Uint:
+                case VkFormat.R8G8B8A8Sint:
+                    return VkFormat.R8G8B8A8Unorm;
+                case VkFormat.R16G16Unorm:
+                case VkFormat.R16G16Snorm:
+                case VkFormat.R16G16Uint:
+                case VkFormat.R16G16Sint:
+                case VkFormat.R16G16Sfloat:
+                    return VkFormat.R16G16Sfloat;
+                case VkFormat.R32Uint:
+                case VkFormat.R32Sint:
+                case VkFormat.R32Sfloat:
+                    return VkFormat.R32Sfloat;
+                case VkFormat.R8G8Unorm:
+                case VkFormat.R8G8Snorm:
+                case VkFormat.R8G8Uint:
+                case VkFormat.R8G8Sint:
+                    return VkFormat.R8G8Unorm;
+                case VkFormat.R16Unorm:
+                case VkFormat.R16Snorm:
+                case VkFormat.R16Uint:
+                case VkFormat.R16Sint:
+                case VkFormat.R16Sfloat:
+                    return VkFormat.R16Sfloat;
+                case VkFormat.R8Unorm:
+                case VkFormat.R8Snorm:
+                case VkFormat.R8Uint:
+                case VkFormat.R8Sint:
+                    return VkFormat.R8Unorm;
+                case VkFormat.Bc1RgbUnormBlock:
+                case VkFormat.Bc1RgbSrgbBlock:
+                case VkFormat.Bc1RgbaUnormBlock:
+                case VkFormat.Bc1RgbaSrgbBlock:
+                    return VkFormat.Bc1RgbaUnormBlock;
+                case VkFormat.Bc2UnormBlock:
+                case VkFormat.Bc2SrgbBlock:
+                    return VkFormat.Bc2UnormBlock;
+                case VkFormat.Bc3UnormBlock:
+                case VkFormat.Bc3SrgbBlock:
+                    return VkFormat.Bc3UnormBlock;
+                case VkFormat.Bc4UnormBlock:
+                case VkFormat.Bc4SnormBlock:
+                    return VkFormat.Bc4UnormBlock;
+                case VkFormat.Bc5UnormBlock:
+                case VkFormat.Bc5SnormBlock:
+                    return VkFormat.Bc5UnormBlock;
+                case VkFormat.Bc6hUfloatBlock:
+                case VkFormat.Bc6hSfloatBlock:
+                    return VkFormat.Bc6hUfloatBlock;
+                case VkFormat.B8G8R8A8Unorm:
+                case VkFormat.B8G8R8A8Srgb:
+                    return VkFormat.B8G8R8A8Unorm;
+                case VkFormat.Bc7UnormBlock:
+                case VkFormat.Bc7SrgbBlock:
+                    return VkFormat.Bc7UnormBlock;
                 default:
                     return format;
             }

@@ -1,21 +1,32 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
+  <Self Row0Dummy="" />
   <Enums>
-    <Enum Name="GenderType">
+    <Enum Name="PlayerStatusBodyType">
       <Option Value="0" Name="Male" />
       <Option Value="1" Name="Female" />
     </Enum>
-    <Enum Name="HollowingType">
-      <Option Value="0" Name="Non-Hollow" />
-      <Option Value="2" Name="Hollow" />
+    <Enum Name="PlayerStatusHollowType">
+      <Option Value="0" Name="Not Hollow" />
+      <Option Value="1" Name="Hollow" />
+      <Option Value="2" Name="Fully Hollow" />
+    </Enum>
+    <Enum Name="PlayerStatusBuildType">
+      <Option Value="0" Name="Average"/>
+      <Option Value="1" Name="Slim" />
+      <Option Value="2" Name="Very Slim"/>
+      <Option Value="3" Name="Large"/>
+      <Option Value="4" Name="Very Large"/>
+      <Option Value="5" Name="Large Upper Body"/>
+      <Option Value="6" Name="Large Lower Body"/>
+      <Option Value="7" Name="Big-Head"/>
     </Enum>
   </Enums>
-  <Self Row0Dummy="" />
   <Field>
-    <npc_gender AltName="Gender" Enum="GenderType"/>
-    <hollowing_level AltName="Hollowing Level" Enum="HollowingType"/>
-    <physique AltName="Physique"/>
-    <npc_name_id AltName="Name ID" FmgRef="npcmenu"/>
+    <body_type AltName="Body Type" Enum="PlayerStatusBodyType"/>
+    <hollowing_type AltName="Hollowing Type" Enum="PlayerStatusHollowType"/>
+    <body_build_type AltName="Body Build Type" Enum="PlayerStatusPhysiqueType"/>
+    <face_model_id AltName="Face Model ID"/>
     <soul_level AltName="Soul Level"/>
     <vigor AltName="Vigor"/>
     <unk00 AltName="Unknown"/>
@@ -27,8 +38,6 @@
     <intelligence AltName="Intelligence"/>
     <faith AltName="Faith"/>
     <adaptability AltName="Adaptability"/>
-    <endurance AltName="Endurance"/>
-    <endurance AltName="Endurance"/>
     <unk01 AltName="Unknown"/>
     <equip_load AltName="Equip Load %"/>
     <invincibility_time AltName="Invincibility Duration"/>

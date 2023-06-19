@@ -76,8 +76,9 @@ namespace StudioCore.MsbEditor
             GameType gameType,
             string mapid,
             IReadOnlyCollection<string> allMapIds,
-            List<byte[]> connectColMaps)
+            List<byte[]> connectColMaps = null)
         {
+            connectColMaps ??= new List<byte[]>();
             SortedDictionary<string, RelationType> relations = new SortedDictionary<string, RelationType>();
             if (!TryParseMap(mapid, out byte[] parts))
             {

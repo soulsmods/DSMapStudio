@@ -2,10 +2,11 @@
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Text;
+using Vortice.Vulkan;
 
 namespace Veldrid
 {
-    internal static class Util
+    public static class Util
     {
         [DebuggerNonUserCode]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -55,6 +56,11 @@ namespace Veldrid
             }
 
             return Encoding.UTF8.GetString(stringStart, characters);
+        }
+        
+        internal static unsafe string GetString(sbyte* stringStart)
+        {
+            return GetString((byte*)stringStart);
         }
 
         internal static bool NullableEquals<T>(T? left, T? right) where T : struct, IEquatable<T>
@@ -172,7 +178,7 @@ namespace Veldrid
 
         internal static ulong ComputeSubresourceOffset(Texture tex, uint mipLevel, uint arrayLayer)
         {
-            Debug.Assert((tex.Usage & TextureUsage.Staging) == TextureUsage.Staging);
+            Debug.Assert(tex.Tiling == VkImageTiling.Linear);
             return ComputeArrayLayerOffset(tex, arrayLayer) + ComputeMipOffset(tex, mipLevel);
         }
 
@@ -231,7 +237,7 @@ namespace Veldrid
             uint width,
             uint height,
             uint depth,
-            PixelFormat format)
+            VkFormat format)
         {
             uint blockSize = FormatHelpers.IsCompressedFormat(format) ? 4u : 1u;
             uint blockSizeInBytes = blockSize > 1 ? FormatHelpers.GetBlockSizeInBytes(format) : FormatHelpers.GetSizeInBytes(format);
@@ -334,6 +340,28 @@ namespace Veldrid
         {
             ulong src64 = low | ((ulong)high << 32);
             return (IntPtr)src64;
+        }
+
+        public static VkAccessFlags2 AccessFlagsFromBufferUsageFlags(VkBufferUsageFlags flags)
+        {
+            VkAccessFlags2 ret = VkAccessFlags2.None;
+            if (flags.HasFlag(VkBufferUsageFlags.TransferSrc))
+                ret |= VkAccessFlags2.TransferRead;
+            if (flags.HasFlag(VkBufferUsageFlags.TransferDst))
+                ret |= VkAccessFlags2.TransferWrite;
+            if (flags.HasFlag(VkBufferUsageFlags.UniformBuffer))
+                ret |= VkAccessFlags2.UniformRead;
+            if (flags.HasFlag(VkBufferUsageFlags.StorageBuffer))
+                ret |= VkAccessFlags2.ShaderStorageRead | VkAccessFlags2.ShaderStorageWrite;
+            if (flags.HasFlag(VkBufferUsageFlags.IndexBuffer))
+                ret |= VkAccessFlags2.IndexRead;
+            if (flags.HasFlag(VkBufferUsageFlags.VertexBuffer))
+                ret |= VkAccessFlags2.VertexAttributeRead;
+            if (flags.HasFlag(VkBufferUsageFlags.IndirectBuffer))
+                ret |= VkAccessFlags2.IndirectCommandRead;
+            if (flags.HasFlag(VkBufferUsageFlags.ShaderDeviceAddress))
+                ret |= VkAccessFlags2.ShaderStorageRead;
+            return ret;
         }
     }
 }

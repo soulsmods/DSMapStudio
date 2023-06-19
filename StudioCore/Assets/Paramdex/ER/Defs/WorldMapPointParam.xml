@@ -536,21 +536,5 @@
       <Description>pad3</Description>
       <SortID>2907</SortID>
     </Field>
-    <Field Def="s32 unkC0" />
-    <Field Def="s32 unkC4" />
-    <Field Def="s32 unkC8" />
-    <Field Def="s32 unkCC" />
-    <Field Def="s32 unkD0" />
-    <Field Def="s32 unkD4" />
-    <Field Def="s32 unkD8" />
-    <Field Def="s32 unkDC" />
-    <Field Def="s32 unkE0" />
-    <Field Def="s32 unkE4" />
-    <Field Def="s32 unkE8" />
-    <Field Def="s32 unkEC" />
-    <Field Def="s32 unkF0" />
-    <Field Def="s32 unkF4" />
-    <Field Def="s32 unkF8" />
-    <Field Def="s32 unkFC" />
   </Fields>
 </PARAMDEF>

@@ -67,6 +67,11 @@ namespace StudioCore.ParamEditor
         /// </summary>
         public CalcCorrectDefinition CalcCorrectDef {get; set;}
 
+        /// <summary>
+        /// Provides a set of fields the define a CalcCorrectGraph for soul cost
+        /// </summary>
+        public SoulCostDefinition SoulCostDef {get; set;}
+
         public static ParamMetaData Get(PARAMDEF def)
         {
             if (!ParamBank.IsMetaLoaded)
@@ -168,6 +173,11 @@ namespace StudioCore.ParamEditor
                 if (CCD != null)
                 {
                     CalcCorrectDef = new CalcCorrectDefinition(CCD.InnerText);
+                }
+                XmlAttribute SCD = self.Attributes["SoulCostDef"];
+                if (SCD != null)
+                {
+                    SoulCostDef = new SoulCostDefinition(SCD.InnerText);
                 }
             }
 
@@ -275,6 +285,7 @@ namespace StudioCore.ParamEditor
             SetBoolXmlProperty("Row0Dummy", Row0Dummy, _xml, "PARAMMETA", "Self");
             SetStringListXmlProperty("AlternativeOrder", AlternateOrder, "-,", _xml, "PARAMMETA", "Self");
             SetStringXmlProperty("CalcCorrectDef", CalcCorrectDef?.getStringForm(), false, _xml, "PARAMMETA", "Self");
+            SetStringXmlProperty("SoulCostDef", SoulCostDef?.getStringForm(), false, _xml, "PARAMMETA", "Self");
         }
 
         public void Save()
@@ -377,6 +388,11 @@ namespace StudioCore.ParamEditor
         /// </summary>
         public bool IsBool {get; set;}
 
+        /// <summary>
+        /// Path (and subpath) filters for files linked by this field.
+        /// </summary>
+        public List<ExtRef> ExtRefs {get; set;}
+
         public static FieldMetaData Get(PARAMDEF.Field def)
         {
             if (!ParamBank.IsMetaLoaded)
@@ -427,6 +443,9 @@ namespace StudioCore.ParamEditor
             XmlAttribute IsBoolean = fieldMeta.Attributes["IsBool"];
             if (IsBoolean != null)
                 IsBool = true;
+            XmlAttribute ExRef = fieldMeta.Attributes["ExtRefs"];
+            if (ExRef != null)
+                ExtRefs = ExRef.InnerText.Split(';').Select((x) => new ExtRef(x)).ToList();
         }
 
         public void Commit(string field)
@@ -441,6 +460,8 @@ namespace StudioCore.ParamEditor
             ParamMetaData.SetStringXmlProperty("AltName", AltName, false, _parent._xml, "PARAMMETA", "Field", field);
             ParamMetaData.SetStringXmlProperty("Wiki", Wiki, true, _parent._xml, "PARAMMETA", "Field", field);
             ParamMetaData.SetBoolXmlProperty("IsBool", IsBool, _parent._xml, "PARAMMETA", "Field", field);
+            if (ExtRefs != null)
+                ParamMetaData.SetStringListXmlProperty("ExtRefs", ExtRefs.Select((x) => x.getStringForm()).ToList(), null, _parent._xml, "PARAMMETA", "Field", field);
             
             XmlNode thisNode = ParamMetaData.GetXmlNode(_parent._xml, "PARAMMETA", "Field", field);
             if (thisNode.Attributes.Count == 0 && thisNode.ChildNodes.Count == 0)
@@ -458,7 +479,7 @@ namespace StudioCore.ParamEditor
             name = enumNode.Attributes["Name"].InnerText;
             foreach (XmlNode option in enumNode.SelectNodes("Option"))
             {
-                values.Add(option.Attributes["Value"].InnerText, option.Attributes["Name"].InnerText);
+                values[option.Attributes["Value"].InnerText] = option.Attributes["Name"].InnerText;
             }
         }
     }
@@ -491,6 +512,24 @@ namespace StudioCore.ParamEditor
         }
     }
 
+    public class ExtRef
+    {
+        public string name;
+        public List<string> paths;
+
+        internal ExtRef(string refString)
+        {
+            string[] parts = refString.Split(",");
+            name = parts[0];
+            paths = parts.Skip(1).ToList();
+        }
+
+        internal string getStringForm()
+        {
+            return name + ',' + string.Join(',', paths);
+        }
+    }
+
     public class CalcCorrectDefinition
     {
         public string[] stageMaxVal;
@@ -511,6 +550,30 @@ namespace StudioCore.ParamEditor
         internal string getStringForm()
         {
             return string.Join(',', stageMaxVal) + ',' + string.Join(',', stageMaxGrowVal) + ',' + string.Join(',', adjPoint_maxGrowVal);
+        }
+    }
+
+    public class SoulCostDefinition
+    {
+        public string init_inclination_soul;
+        public string adjustment_value;
+        public string boundry_inclination_soul;
+        public string boundry_value;
+        public int cost_row;
+        public int max_level_for_game;
+        internal SoulCostDefinition(string ccd)
+        {
+            string[] parts = ccd.Split(',');
+            init_inclination_soul = parts[0];
+            adjustment_value = parts[1];
+            boundry_inclination_soul = parts[2];
+            boundry_value = parts[3];
+            cost_row = int.Parse(parts[4]);
+            max_level_for_game = int.Parse(parts[5]);
+        }
+        internal string getStringForm()
+        {
+            return $@"{init_inclination_soul},{adjustment_value},{boundry_inclination_soul},{boundry_value},{cost_row},{max_level_for_game}";
         }
     }
 }
