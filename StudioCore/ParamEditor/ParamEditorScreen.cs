@@ -325,6 +325,11 @@ namespace StudioCore.ParamEditor
                 {
                     EditorCommandQueue.AddCommand($@"param/menu/massEditRegex");
                 }
+                if (ImGui.BeginMenu($"Mass Edit Script"))
+                {
+                    MassEditScript.EditorScreenMenuItems(ref _currentMEditRegexInput);
+                    ImGui.EndMenu();
+                }
                 if (ImGui.BeginMenu("Export CSV", _activeView._selection.rowSelectionExists()))
                 {
                     DelimiterInputText();
@@ -1347,6 +1352,7 @@ namespace StudioCore.ParamEditor
             {
                 dec.Value.ClearDecoratorCache();
             }
+            MassEditScript.ReloadScripts();
         }
 
         public void Save()

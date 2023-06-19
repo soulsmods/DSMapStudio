@@ -737,6 +737,11 @@ namespace StudioCore
             return  $@"Assets\Aliases\{GetGameIDForDir()}";
         }
 
+    	public string GetScriptAssetsDir()
+        {
+            return  $@"Assets\MassEditScripts\{GetGameIDForDir()}";
+        }
+
         public string GetGameOffsetsAssetsDir()
         {
             return  $@"Assets\GameOffsets\{GetGameIDForDir()}";
