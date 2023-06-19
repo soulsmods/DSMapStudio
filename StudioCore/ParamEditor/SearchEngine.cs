@@ -437,6 +437,30 @@ namespace StudioCore.Editor
                     };
                 };
             }, ()=>ParamBank.AuxBanks.Count > 0 && CFG.Current.Param_AdvancedMassedit));
+            
+            filterList.Add("semijoin", newCmd(new string[]{"this field internalName", "other param", "other param field internalName", "other param row search"}, (args, lenient)=>{
+                string thisField = args[0].Replace(@"\s", " ");
+                string otherParam = args[1];
+                string otherField = args[2].Replace(@"\s", " ");
+                string otherSearchTerm = args[3];
+                Param otherParamReal;
+                if (!ParamBank.PrimaryBank.Params.TryGetValue(otherParam, out otherParamReal))
+                    throw new Exception("Could not find param "+otherParam);
+                List<Param.Row> rows = RowSearchEngine.rse.Search((ParamBank.PrimaryBank, otherParamReal), otherSearchTerm, lenient, false);
+                (PseudoColumn, Param.Column) otherFieldReal = ParamUtils.GetCol(otherParamReal, otherField);
+                if (!otherFieldReal.IsColumnValid())
+                    throw new Exception("Could not find field "+otherField);
+                HashSet<string> possibleValues = rows.Select((x) => x.Get(otherFieldReal).ToParamEditorString()).Distinct().ToHashSet();
+                return (param) => {
+                    (PseudoColumn, Param.Column) thisFieldReal = ParamUtils.GetCol(param.Item2, thisField);
+                    if (!thisFieldReal.IsColumnValid())
+                        throw new Exception("Could not find field "+thisField);
+                    return (row)=>{
+                        string toFind = row.Get(thisFieldReal).ToParamEditorString();
+                        return possibleValues.Contains(toFind);
+                    };
+                };
+            }, ()=>CFG.Current.Param_AdvancedMassedit));
             defaultFilter = newCmd(new string[]{"row ID or Name (regex)"}, (args, lenient)=>{
                 if (!lenient)
                     return noContext((row)=>false);
