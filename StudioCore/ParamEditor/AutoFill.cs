@@ -289,6 +289,8 @@ namespace StudioCore.ParamEditor
                     if (string.IsNullOrEmpty(staticArgs[argIndices[i]]))
                         valid = false;
                 }
+                string wiki = cmd.Item3;
+                UIHints.AddImGuiHintButton(cmd.Item1, ref wiki, false, true);
                 if (subMenu != null)
                 {
                     if (ImGui.BeginMenu(cmd.Item1, valid))

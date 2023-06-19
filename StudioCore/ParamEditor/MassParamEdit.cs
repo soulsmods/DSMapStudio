@@ -158,8 +158,9 @@ namespace StudioCore.ParamEditor
             string[] opStage = restOfStages.Split(" ", 2);
             globalOperation = opStage[0].Trim();
             if (!MEGlobalOperation.globalOps.operations.ContainsKey(globalOperation))
-                    return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Unknown global operation "+globalOperation), null);
-            (argNames, globalFunc) = MEGlobalOperation.globalOps.operations[globalOperation];
+                return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Unknown global operation "+globalOperation), null);
+            string wiki;
+            (argNames, wiki, globalFunc) = MEGlobalOperation.globalOps.operations[globalOperation];
             ExecParamOperationArguments(opStage.Length > 1 ? opStage[1] : null);
             if (argc != paramArgFuncs.Length)
                 return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Invalid number of arguments for operation {globalOperation}"), null);
@@ -182,7 +183,8 @@ namespace StudioCore.ParamEditor
             varOperation = operationstage[0].Trim();
             if (varOperation.Equals("") || !MEValueOperation.valueOps.operations.ContainsKey(varOperation))
                 return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find operation to perform. Add : and one of + - * / replace"), null);
-            (argNames, genericFunc) = MEValueOperation.valueOps.operations[varOperation];
+            string wiki;
+            (argNames, wiki, genericFunc) = MEValueOperation.valueOps.operations[varOperation];
             ExecParamOperationArguments(operationstage.Length > 1 ? operationstage[1] : null);
             if (argc != paramArgFuncs.Length)
                 return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Invalid number of arguments for operation {varOperation}"), null);
@@ -241,7 +243,8 @@ namespace StudioCore.ParamEditor
             rowOperation = operationstage[0].Trim();
             if (!MERowOperation.rowOps.operations.ContainsKey(rowOperation))
                     return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Unknown row operation "+rowOperation), null);
-            (argNames, rowFunc) = MERowOperation.rowOps.operations[rowOperation];
+            string wiki;
+            (argNames, wiki, rowFunc) = MERowOperation.rowOps.operations[rowOperation];
             ExecParamOperationArguments(operationstage.Length > 1 ? operationstage[1] : null);
             if (argc != paramArgFuncs.Length)
                 return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Invalid number of arguments for operation {rowOperation}"), null);
@@ -257,7 +260,8 @@ namespace StudioCore.ParamEditor
                 return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find operation to perform. Add : and one of + - * / replace"), null);
             if (!MEValueOperation.valueOps.operations.ContainsKey(cellOperation))
                     return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Unknown cell operation "+cellOperation), null);
-            (argNames, genericFunc) = MEValueOperation.valueOps.operations[cellOperation];
+            string wiki;
+            (argNames, wiki, genericFunc) = MEValueOperation.valueOps.operations[cellOperation];
             ExecParamOperationArguments(operationstage.Length > 1 ? operationstage[1] : null);
             if (argc != paramArgFuncs.Length)
                 return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Invalid number of arguments for operation {cellOperation}"), null);
@@ -618,7 +622,7 @@ namespace StudioCore.ParamEditor
 
     public class MEOperation<T, O>
     {
-        internal Dictionary<string, (string[], Func<T, string[], O>)> operations = new Dictionary<string, (string[], Func<T, string[], O>)>();
+        internal Dictionary<string, (string[], string, Func<T, string[], O>)> operations = new Dictionary<string, (string[], string, Func<T, string[], O>)>();
         internal MEOperation()
         {
             Setup();
@@ -630,12 +634,12 @@ namespace StudioCore.ParamEditor
         {
             return operations.ContainsKey(command);
         }
-        public List<(string, string[])> AvailableCommands()
+        public List<(string, string[], string)> AvailableCommands()
         {
-            List<(string, string[])> options = new List<(string, string[])>();
+            List<(string, string[], string)> options = new List<(string, string[], string)>();
             foreach (string op in operations.Keys)
             {
-                options.Add((op, operations[op].Item1));
+                options.Add((op, operations[op].Item1, operations[op].Item2));
             }
             return options;
         }
@@ -646,12 +650,12 @@ namespace StudioCore.ParamEditor
         public static MEGlobalOperation globalOps = new MEGlobalOperation();
         internal override void Setup()
         {
-            operations.Add("clear", (new string[0], (selectionState, args) => {
+            operations.Add("clear", (new string[0], "Clears clipboard param and rows", (selectionState, args) => {
                 ParamBank.ClipboardParam = null;
                 ParamBank.ClipboardRows.Clear();
                 return true;
             }));
-            operations.Add("newvar", (new string[]{"variable name", "value"}, (selectionState, args) => {
+            operations.Add("newvar", (new string[]{"variable name", "value"}, "Creates a variable with the given value, and the type of that value", (selectionState, args) => {
                 int asInt;
                 double asDouble;
                 if (int.TryParse(args[1], out asInt))
@@ -662,7 +666,7 @@ namespace StudioCore.ParamEditor
                     MassParamEdit.massEditVars[args[0]] = args[1];
                 return true;
             }));
-            operations.Add("clearvars", (new string[0], (selectionState, args) => {
+            operations.Add("clearvars", (new string[0], "Deletes all variables", (selectionState, args) => {
                 MassParamEdit.massEditVars.Clear();
                 return true;
             }));
@@ -673,7 +677,7 @@ namespace StudioCore.ParamEditor
         public static MERowOperation rowOps = new MERowOperation();
         internal override void Setup()
         {
-            operations.Add("copy", (new string[0], (paramAndRow, args) => {
+            operations.Add("copy", (new string[0], "Adds the selected rows into clipboard. If the clipboard param is different, the clipboard is emptied first", (paramAndRow, args) => {
                 string paramKey = paramAndRow.Item1;
                 Param.Row row = paramAndRow.Item2;
                 if (paramKey == null)
@@ -690,7 +694,7 @@ namespace StudioCore.ParamEditor
                 ParamBank.ClipboardRows.Add(new Param.Row(row, p));
                 return (p, null);
             }));
-            operations.Add("copyN", (new string[]{"count"}, (paramAndRow, args) => {
+            operations.Add("copyN", (new string[]{"count"}, "Adds the selected rows into clipboard the given number of times. If the clipboard param is different, the clipboard is emptied first", (paramAndRow, args) => {
                 string paramKey = paramAndRow.Item1;
                 Param.Row row = paramAndRow.Item2;
                 if (paramKey == null)
@@ -709,7 +713,7 @@ namespace StudioCore.ParamEditor
                     ParamBank.ClipboardRows.Add(new Param.Row(row, p));
                 return (p, null);
             }));
-            operations.Add("paste", (new string[0], (paramAndRow, args) => {
+            operations.Add("paste", (new string[0], "Adds the selected rows to the primary regulation or parambnd in the selected param", (paramAndRow, args) => {
                 string paramKey = paramAndRow.Item1;
                 Param.Row row = paramAndRow.Item2;
                 if (paramKey == null)
@@ -726,26 +730,26 @@ namespace StudioCore.ParamEditor
         public static MEValueOperation valueOps = new MEValueOperation();
         internal override void Setup()
         {
-            operations.Add("=", (new string[]{"number or text"}, (ctx, args) => MassParamEdit.WithDynamicOf(ctx, (v) => args[0])));
-            operations.Add("+", (new string[]{"number or text"}, (ctx, args) => MassParamEdit.WithDynamicOf(ctx, (v) => {
+            operations.Add("=", (new string[]{"number or text"}, "Assigns the given value to the selected values. Will attempt conversion to the value's data type", (ctx, args) => MassParamEdit.WithDynamicOf(ctx, (v) => args[0])));
+            operations.Add("+", (new string[]{"number or text"}, "Adds the number to the selected values, or appends text if that is the data type of the values", (ctx, args) => MassParamEdit.WithDynamicOf(ctx, (v) => {
                 double val;
                 if (double.TryParse(args[0], out val))
                     return v + val;
                 return v + args[0];
                 })));
-            operations.Add("-", (new string[]{"number"}, (ctx, args) => MassParamEdit.WithDynamicOf(ctx, (v) => v - double.Parse(args[0]))));
-            operations.Add("*", (new string[]{"number"}, (ctx, args) => MassParamEdit.WithDynamicOf(ctx, (v) => v * double.Parse(args[0]))));
-            operations.Add("/", (new string[]{"number"}, (ctx, args) => MassParamEdit.WithDynamicOf(ctx, (v) => v / double.Parse(args[0]))));
-            operations.Add("%", (new string[]{"number"}, (ctx, args) => MassParamEdit.WithDynamicOf(ctx, (v) => v % double.Parse(args[0]))));
-            operations.Add("scale", (new string[]{"factor number", "center number"}, (ctx, args) => {
+            operations.Add("-", (new string[]{"number"}, "Subtracts the number from the selected values", (ctx, args) => MassParamEdit.WithDynamicOf(ctx, (v) => v - double.Parse(args[0]))));
+            operations.Add("*", (new string[]{"number"}, "Multiplies selected values by the number", (ctx, args) => MassParamEdit.WithDynamicOf(ctx, (v) => v * double.Parse(args[0]))));
+            operations.Add("/", (new string[]{"number"}, "Divides the selected values by the number", (ctx, args) => MassParamEdit.WithDynamicOf(ctx, (v) => v / double.Parse(args[0]))));
+            operations.Add("%", (new string[]{"number"}, "Gives the remainder when the selected values are divided by the number", (ctx, args) => MassParamEdit.WithDynamicOf(ctx, (v) => v % double.Parse(args[0]))));
+            operations.Add("scale", (new string[]{"factor number", "center number"}, "Multiplies the difference between the selected values and the center number by the factor number", (ctx, args) => {
                 double opp1 = double.Parse(args[0]);
                 double opp2 = double.Parse(args[1]);
                 return MassParamEdit.WithDynamicOf(ctx, (v) => {
                     return (v - opp2) * opp1 + opp2;
                 });
             }));
-            operations.Add("replace", (new string[]{"text to replace", "new text"}, (ctx, args) => MassParamEdit.WithDynamicOf(ctx, (v) => v.Replace(args[0], args[1]))));
-            operations.Add("replacex", (new string[]{"text to replace (regex)", "new text (w/ groups)"}, (ctx, args) => {
+            operations.Add("replace", (new string[]{"text to replace", "new text"}, "Interprets the selected values as text and replaces all occurances of the text to replace with the new text", (ctx, args) => MassParamEdit.WithDynamicOf(ctx, (v) => v.Replace(args[0], args[1]))));
+            operations.Add("replacex", (new string[]{"text to replace (regex)", "new text (w/ groups)"}, "Interprets the selected values as text and replaces all occurances of the given regex with the replacement, supporting regex groups", (ctx, args) => {
                 Regex rx = new Regex(args[0]);
                 return MassParamEdit.WithDynamicOf(ctx, (v) => rx.Replace(v, args[1]));
             }));
