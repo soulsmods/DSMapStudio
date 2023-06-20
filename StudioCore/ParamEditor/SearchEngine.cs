@@ -437,7 +437,7 @@ namespace StudioCore.Editor
                     };
                 };
             }, ()=>ParamBank.AuxBanks.Count > 0 && CFG.Current.Param_AdvancedMassedit));
-            
+            /*
             filterList.Add("semijoin", newCmd(new string[]{"this field internalName", "other param", "other param field internalName", "other param row search"}, (args, lenient)=>{
                 string thisField = args[0].Replace(@"\s", " ");
                 string otherParam = args[1];
@@ -461,6 +461,7 @@ namespace StudioCore.Editor
                     };
                 };
             }, ()=>CFG.Current.Param_AdvancedMassedit));
+            */
             defaultFilter = newCmd(new string[]{"row ID or Name (regex)"}, (args, lenient)=>{
                 if (!lenient)
                     return noContext((row)=>false);
