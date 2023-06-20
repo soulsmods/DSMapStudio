@@ -84,6 +84,10 @@ namespace StudioCore.ParamEditor
                         }
                     }).ToList();
                 }
+                else
+                {
+                    scriptList = new List<MassEditScript>();
+                }
             }
             catch
             {
