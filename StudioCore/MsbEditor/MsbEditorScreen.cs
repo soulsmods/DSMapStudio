@@ -649,7 +649,7 @@ namespace StudioCore.MsbEditor
                 ImGui.EndMenu();
             }
 
-            if (ImGui.BeginMenu("Display"))
+            if (ImGui.BeginMenu("Display", RenderScene != null && Viewport != null))
             {
                 /*
                 // Does nothing at the moment. Maybe add to settings menu if this is ever implemented
