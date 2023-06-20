@@ -1165,6 +1165,7 @@ namespace StudioCore.ParamEditor
             {
                 ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, new Vector2(1.0f, 1.0f) * scale);
                 ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(5.0f, 1.0f) * scale);
+                ImGui.PushStyleVar(ImGuiStyleVar.CellPadding, new Vector2(5.0f, 1.0f) * scale);
             }
             else
             {
@@ -1205,7 +1206,7 @@ namespace StudioCore.ParamEditor
             }
             if (CFG.Current.UI_CompactParams)
             {
-                ImGui.PopStyleVar(2);
+                ImGui.PopStyleVar(3);
             }
             else
             {
@@ -1959,6 +1960,11 @@ namespace StudioCore.ParamEditor
 
         private void RowColumnEntry(string activeParam, List<Param.Row> p, Param.Row r, HashSet<int> vanillaDiffCache, List<(HashSet<int>, HashSet<int>)> auxDiffCaches, IParamDecorator decorator, ref float scrollTo, bool doFocus, bool isPinned, Param.Column compareCol)
         {
+            if (CFG.Current.UI_CompactParams)
+            {
+                // ItemSpacing only affects clickable area for selectables in tables. Add additional height to prevent gaps between selectables.
+                ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(5.0f, 2.0f) * CFG.Current.UIScale);
+            }
             ImGui.TableNextColumn();
             bool diffVanilla = vanillaDiffCache.Contains(r.ID);
             bool auxDiffVanilla = auxDiffCaches.Where((cache) => cache.Item1.Contains(r.ID)).Count() > 0;
@@ -2077,6 +2083,11 @@ namespace StudioCore.ParamEditor
             {
                 ImGui.TableNextColumn();
                 ImGui.TextUnformatted(r[compareCol].Value.ToParamEditorString());
+            }
+
+            if (CFG.Current.UI_CompactParams)
+            {
+                ImGui.PopStyleVar();
             }
         }
 
