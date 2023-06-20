@@ -420,24 +420,27 @@ namespace StudioCore.Editor
                     };
                 };
             }, ()=>ParamBank.AuxBanks.Count > 0 && CFG.Current.Param_AdvancedMassedit));
-            filterList.Add("auxproprange", newCmd(new string[]{"parambank name", "field internalName", "field value minimum (inclusive)", "field value maximum (inclusive)"}, (args, lenient)=>{
+            filterList.Add("auxproprange", newCmd(new string[] { "parambank name", "field internalName", "field value minimum (inclusive)", "field value maximum (inclusive)" }, (args, lenient) =>
+            {
                 string field = args[0].Replace(@"\s", " ");
                 double floor = double.Parse(args[1]);
                 double ceil = double.Parse(args[2]);
                 ParamBank bank;
                 if (!ParamBank.AuxBanks.TryGetValue(args[0], out bank))
-                    throw new Exception("Unable to find auxbank "+args[0]);
-                return (param) => {
+                    throw new Exception("Unable to find auxbank " + args[0]);
+                return (param) =>
+                {
                     Param vparam = bank.GetParamFromName(param.Item1.GetKeyForParam(param.Item2));
-                    return (row)=>{
+                    return (row) =>
+                    {
                         Param.Row vrow = vparam[row.ID];
                         Param.Cell? c = vrow[field];
                         if (c == null) throw new Exception();
                         return (Convert.ToDouble(c.Value.Value)) >= floor && (Convert.ToDouble(c.Value.Value)) <= ceil;
                     };
                 };
-            }, ()=>ParamBank.AuxBanks.Count > 0 && CFG.Current.Param_AdvancedMassedit));
-            /*
+            }, () => ParamBank.AuxBanks.Count > 0 && CFG.Current.Param_AdvancedMassedit));
+
             filterList.Add("semijoin", newCmd(new string[]{"this field internalName", "other param", "other param field internalName", "other param row search"}, (args, lenient)=>{
                 string thisField = args[0].Replace(@"\s", " ");
                 string otherParam = args[1];
@@ -461,7 +464,6 @@ namespace StudioCore.Editor
                     };
                 };
             }, ()=>CFG.Current.Param_AdvancedMassedit));
-            */
             defaultFilter = newCmd(new string[]{"row ID or Name (regex)"}, (args, lenient)=>{
                 if (!lenient)
                     return noContext((row)=>false);
