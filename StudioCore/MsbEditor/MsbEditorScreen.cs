@@ -3,11 +3,11 @@ using SoulsFormats;
 using StudioCore.Editor;
 using StudioCore.Resource;
 using StudioCore.Scene;
+using StudioCore.Platform;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using System.Windows.Forms;
 using Veldrid;
 using Veldrid.Sdl2;
 using Veldrid.Utilities;
@@ -1162,9 +1162,9 @@ namespace StudioCore.MsbEditor
             }
             catch (SavingFailedException e)
             {
-                System.Windows.Forms.MessageBox.Show(e.Wrapped.Message, e.Message,
-                     System.Windows.Forms.MessageBoxButtons.OK,
-                     System.Windows.Forms.MessageBoxIcon.None);
+                PlatformUtils.Instance.MessageBox(e.Wrapped.Message, e.Message,
+                     MessageBoxButtons.OK,
+                     MessageBoxIcon.None);
             }
         }
 
@@ -1176,9 +1176,9 @@ namespace StudioCore.MsbEditor
             }
             catch (SavingFailedException e)
             {
-                System.Windows.Forms.MessageBox.Show(e.Wrapped.Message, e.Message,
-                     System.Windows.Forms.MessageBoxButtons.OK,
-                     System.Windows.Forms.MessageBoxIcon.None);
+                PlatformUtils.Instance.MessageBox(e.Wrapped.Message, e.Message,
+                     MessageBoxButtons.OK,
+                     MessageBoxIcon.None);
             }
         }
 

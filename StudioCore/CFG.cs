@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using StudioCore.Platform;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -8,7 +9,6 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace StudioCore
 {
@@ -60,7 +60,7 @@ namespace StudioCore
                 }
                 catch (Exception e)
                 {
-                    var result = MessageBox.Show($"{e.Message}\n\nConfig could not be loaded. Reset settings?",
+                    var result = PlatformUtils.Instance.MessageBox($"{e.Message}\n\nConfig could not be loaded. Reset settings?",
                         $"{Config_FileName} Load Error", MessageBoxButtons.YesNo);
                     if ( result == DialogResult.No)
                     {
@@ -88,7 +88,7 @@ namespace StudioCore
                 }
                 catch (Exception e)
                 {
-                    var result = MessageBox.Show($"{e.Message}\n\nKeybinds could not be loaded. Reset keybinds?",
+                    var result = PlatformUtils.Instance.MessageBox($"{e.Message}\n\nKeybinds could not be loaded. Reset keybinds?",
                         $"{Keybinds_FileName} Load Error", MessageBoxButtons.YesNo);
                     if (result == DialogResult.No)
                     {

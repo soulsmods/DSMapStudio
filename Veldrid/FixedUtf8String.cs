@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Veldrid
 {
-    internal unsafe class FixedUtf8String : IDisposable
+    public unsafe class FixedUtf8String : IDisposable
     {
         private GCHandle _handle;
         private uint _numBytes;
