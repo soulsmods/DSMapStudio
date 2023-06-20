@@ -64,20 +64,32 @@ namespace StudioCore.ParamEditor
 
         public static void ReloadScripts()
         {
-            scriptList = Directory.GetFiles(ParamBank.PrimaryBank.AssetLocator.GetScriptAssetsDir()).Select((x) =>
+            var dir = ParamBank.PrimaryBank.AssetLocator.GetScriptAssetsDir();
+            try
             {
-                string name = x;
-                try
+                if (Directory.Exists(dir))
                 {
-                    name = Path.GetFileNameWithoutExtension(x);
-                    return new MassEditScript(x, name);
+                    scriptList = Directory.GetFiles(dir).Select((x) =>
+                    {
+                        string name = x;
+                        try
+                        {
+                            name = Path.GetFileNameWithoutExtension(x);
+                            return new MassEditScript(x, name);
+                        }
+                        catch (Exception e)
+                        {
+                            TaskManager.warningList["MassEditScriptLoad"] = "Error loading mass edit script " + name;
+                            return null;
+                        }
+                    }).ToList();
                 }
-                catch (Exception e)
-                {
-                    TaskManager.warningList["MassEditScriptLoad"] = "Error loading mass edit script " + name;
-                    return null;
-                }
-            }).ToList();
+            }
+            catch
+            {
+                TaskManager.warningList["MassEditScriptsLoad"] = "Error loading mass edit scripts in " + dir;
+                scriptList = new List<MassEditScript>();
+            }
         }
 
         public static void EditorScreenMenuItems(ref string _currentMEditRegexInput)
