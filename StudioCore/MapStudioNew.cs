@@ -16,8 +16,8 @@ using SoapstoneLib;
 using Veldrid;
 using Veldrid.Sdl2;
 using Veldrid.StartupUtilities;
-using System.Windows.Forms;
 using StudioCore.Graphics;
+using StudioCore.Platform;
 using Vortice.Vulkan;
 
 namespace StudioCore
@@ -52,13 +52,16 @@ namespace StudioCore
         private bool _showImGuiDebugLogWindow = false;
         private bool _showImGuiStackToolWindow = false;
 
-        public MapStudioNew(IGraphicsContext context)
+        public unsafe MapStudioNew(IGraphicsContext context)
         {
+            // Hack to make sure dialogs work before the main window is created
+            PlatformUtils.InitializeWindows(null);
             CFG.AttemptLoadOrDefault();
 
             _context = context;
             _context.Initialize();
             _context.Window.Title = _programTitle;
+            PlatformUtils.InitializeWindows(context.Window.SdlWindowHandle);
 
             _assetLocator = new AssetLocator();
             var msbEditor = new MsbEditor.MsbEditorScreen(_context.Window, _context.Device, _assetLocator);
@@ -108,7 +111,7 @@ namespace StudioCore
                 }
                 else
                 {
-                    MessageBox.Show($"Project.json at \"{CFG.Current.LastProjectFile}\" does not exist.", "Project Load Error", MessageBoxButtons.OK);
+                    PlatformUtils.Instance.MessageBox($"Project.json at \"{CFG.Current.LastProjectFile}\" does not exist.", "Project Load Error", MessageBoxButtons.OK);
                     CFG.Current.LastProjectFile = "";
                     CFG.Save();
                 }
@@ -443,7 +446,7 @@ namespace StudioCore
         {
             if (gameType is GameType.DarkSoulsPTDE or GameType.DarkSoulsIISOTFS)
             {
-                MessageBox.Show($@"The files for {gameType} do not appear to be unpacked. Please use UDSFM for DS1:PTDE and UXM for DS2 to unpack the files.", "Error",
+                PlatformUtils.Instance.MessageBox($@"The files for {gameType} do not appear to be unpacked. Please use UDSFM for DS1:PTDE and UXM for DS2 to unpack the files.", "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.None);
                 return false;
@@ -464,7 +467,7 @@ namespace StudioCore
                 if (!Directory.Exists(settings.GameRoot))
                 {
                     success = false;
-                    MessageBox.Show($@"Could not find game data directory for {settings.GameType}. Please select the game executable.", "Error",
+                    PlatformUtils.Instance.MessageBox($@"Could not find game data directory for {settings.GameType}. Please select the game executable.", "Error",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.None);
 
@@ -486,7 +489,7 @@ namespace StudioCore
                             gametype = _assetLocator.GetGameTypeForExePath(settings.GameRoot);
                             if (gametype != settings.GameType)
                             {
-                                MessageBox.Show($@"Selected executable was not for {settings.GameType}. Please select the correct game executable.", "Error",
+                                PlatformUtils.Instance.MessageBox($@"Selected executable was not for {settings.GameType}. Please select the correct game executable.", "Error",
                                     MessageBoxButtons.OK,
                                     MessageBoxIcon.None);
                             }
@@ -519,7 +522,7 @@ namespace StudioCore
                     {
                         if (!File.Exists(Path.Join(settings.GameRoot, "oo2core_6_win64.dll")))
                         {
-                            MessageBox.Show($"Could not find file \"oo2core_6_win64.dll\" in \"{settings.GameRoot}\", which should be included by default.\n\nTry reinstalling the game.", "Error",
+                            PlatformUtils.Instance.MessageBox($"Could not find file \"oo2core_6_win64.dll\" in \"{settings.GameRoot}\", which should be included by default.\n\nTry reinstalling the game.", "Error",
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.None);
                             return false;
@@ -575,7 +578,7 @@ namespace StudioCore
             if (success)
             {
                 SaveAll();
-                MessageBox.Show(
+                PlatformUtils.Instance.MessageBox(
                     $@"Your project was successfully saved to {_assetLocator.GameModDirectory} for manual recovery. " +
                     "You must manually replace your projects with these recovery files should you wish to restore them. " +
                     "Given the program has crashed, these files may be corrupt and you should backup your last good saved " +
@@ -624,9 +627,9 @@ namespace StudioCore
             ImGui.SameLine();
             if (ImGui.Button($@"{ForkAwesome.FileO}"))
             {
-                var browseDlg = new FolderBrowserDialog();
+                var browseDlg = new System.Windows.Forms.FolderBrowserDialog();
 
-                if (browseDlg.ShowDialog() == DialogResult.OK)
+                if (browseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
                     _newProjectOptions.directory = browseDlg.SelectedPath;
                 }
@@ -715,7 +718,7 @@ namespace StudioCore
                     }
                     if (ImGui.MenuItem("Open Project", "", false, Editor.TaskManager.GetLiveThreads().Count == 0))
                     {
-                        var browseDlg = new OpenFileDialog()
+                        var browseDlg = new System.Windows.Forms.OpenFileDialog()
                         {
                             Filter = AssetLocator.JsonFilter,
                             ValidateNames = true,
@@ -723,7 +726,7 @@ namespace StudioCore
                             CheckPathExists = true,
                         };
 
-                        if (browseDlg.ShowDialog() == DialogResult.OK)
+                        if (browseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                         {
                             var settings = Editor.ProjectSettings.Deserialize(browseDlg.FileName);
                             if (settings != null)
@@ -753,7 +756,7 @@ namespace StudioCore
                                 }
                                 else
                                 {
-                                    MessageBox.Show($"Project.json at \"{p.ProjectFile}\" does not exist.\nRemoving project from recent projects list.", "Project Load Error", MessageBoxButtons.OK);
+                                    PlatformUtils.Instance.MessageBox($"Project.json at \"{p.ProjectFile}\" does not exist.\nRemoving project from recent projects list.", "Project Load Error", MessageBoxButtons.OK);
                                     CFG.Current.RecentProjects.Remove(p);
                                     CFG.Save();
                                 }
@@ -1048,7 +1051,7 @@ namespace StudioCore
                     ImGui.SameLine();
                     if (ImGui.Button($@"{ForkAwesome.FileO}##fd2"))
                     {
-                        var browseDlg = new OpenFileDialog()
+                        var browseDlg = new System.Windows.Forms.OpenFileDialog()
                         {
                             Filter = AssetLocator.GameExecutableFilter,
                             ValidateNames = true,
@@ -1056,7 +1059,7 @@ namespace StudioCore
                             CheckPathExists = true,
                         };
 
-                        if (browseDlg.ShowDialog() == DialogResult.OK)
+                        if (browseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                         {
                             _newProjectOptions.settings.GameRoot = Path.GetDirectoryName(browseDlg.FileName);
                             _newProjectOptions.settings.GameType = _assetLocator.GetGameTypeForExePath(browseDlg.FileName);
@@ -1095,9 +1098,9 @@ namespace StudioCore
                     ImGui.SameLine();
                     if (ImGui.Button($@"{ForkAwesome.FileO}##fd2"))
                     {
-                        var browseDlg = new FolderBrowserDialog();
+                        var browseDlg = new System.Windows.Forms.FolderBrowserDialog();
 
-                        if (browseDlg.ShowDialog() == DialogResult.OK)
+                        if (browseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                         {
                             _newProjectOptions.settings.GameRoot = browseDlg.SelectedPath;
                         }
@@ -1167,28 +1170,28 @@ namespace StudioCore
                     bool validated = true;
                     if (_newProjectOptions.settings.GameRoot == null || !Directory.Exists(_newProjectOptions.settings.GameRoot))
                     {
-                        MessageBox.Show("Your game executable path does not exist. Please select a valid executable.", "Error",
+                        PlatformUtils.Instance.MessageBox("Your game executable path does not exist. Please select a valid executable.", "Error",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.None);
                         validated = false;
                     }
                     if (validated && _newProjectOptions.settings.GameType == GameType.Undefined)
                     {
-                        MessageBox.Show("Your game executable is not a valid supported game.", "Error",
+                        PlatformUtils.Instance.MessageBox("Your game executable is not a valid supported game.", "Error",
                                          MessageBoxButtons.OK,
                                          MessageBoxIcon.None);
                         validated = false;
                     }
                     if (validated && (_newProjectOptions.directory == null || !Directory.Exists(_newProjectOptions.directory)))
                     {
-                        MessageBox.Show("Your selected project directory is not valid.", "Error",
+                        PlatformUtils.Instance.MessageBox("Your selected project directory is not valid.", "Error",
                                          MessageBoxButtons.OK,
                                          MessageBoxIcon.None);
                         validated = false;
                     }
                     if (validated && File.Exists($@"{_newProjectOptions.directory}\project.json"))
                     {
-                        var message = MessageBox.Show("Your selected project directory already contains a project.json. Would you like to replace it?", "Error",
+                        var message = PlatformUtils.Instance.MessageBox("Your selected project directory already contains a project.json. Would you like to replace it?", "Error",
                                          MessageBoxButtons.YesNo,
                                          MessageBoxIcon.None);
                         if (message == DialogResult.No)
@@ -1196,7 +1199,7 @@ namespace StudioCore
                     }
                     if (validated && _newProjectOptions.settings.GameRoot == _newProjectOptions.directory)
                     {
-                        var message = MessageBox.Show(
+                        var message = PlatformUtils.Instance.MessageBox(
                             "Project Directory is the same as Game Directory, which allows game files to be overwritten directly.\n\n" +
                             "It's highly recommended you use the Mod Engine mod folder as your project folder instead (if possible).\n\n" +
                             "Continue and create project anyway?", "Caution",
@@ -1207,7 +1210,7 @@ namespace StudioCore
                     }
                     if (validated && (_newProjectOptions.settings.ProjectName == null || _newProjectOptions.settings.ProjectName == ""))
                     {
-                        MessageBox.Show("You must specify a project name.", "Error",
+                        PlatformUtils.Instance.MessageBox("You must specify a project name.", "Error",
                                          MessageBoxButtons.OK,
                                          MessageBoxIcon.None);
                         validated = false;
