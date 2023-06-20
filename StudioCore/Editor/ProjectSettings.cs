@@ -5,7 +5,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.IO;
 using Newtonsoft.Json.Linq;
-using System.Windows.Forms;
+using StudioCore.Platform;
 
 namespace StudioCore.Editor
 {
@@ -59,7 +59,7 @@ namespace StudioCore.Editor
             }
             catch (Exception e)
             {
-                var result = MessageBox.Show($"{e.Message}\n\nProject.json cannot be loaded. Delete project.json?",
+                var result = PlatformUtils.Instance.MessageBox($"{e.Message}\n\nProject.json cannot be loaded. Delete project.json?",
                     $"Project Load Error", MessageBoxButtons.YesNo);
                 if (result == DialogResult.Yes)
                 {

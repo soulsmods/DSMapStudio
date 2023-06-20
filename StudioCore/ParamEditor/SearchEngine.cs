@@ -442,10 +442,12 @@ namespace StudioCore.Editor
                 double ceil = double.Parse(args[2]);
                 ParamBank bank;
                 if (!ParamBank.AuxBanks.TryGetValue(args[0], out bank))
-                    throw new Exception("Unable to find auxbank "+args[0]);
-                return (param) => {
+                    throw new Exception("Unable to find auxbank " + args[0]);
+                return (param) =>
+                {
                     Param vparam = bank.GetParamFromName(param.Item1.GetKeyForParam(param.Item2));
-                    return (row)=>{
+                    return (row) =>
+                    {
                         Param.Row vrow = vparam[row.ID];
                         Param.Cell? c = vrow[field];
                         if (c == null) throw new Exception();

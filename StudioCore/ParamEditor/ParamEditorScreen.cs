@@ -7,7 +7,6 @@ using System.Numerics;
 using System.Threading.Tasks;
 using System.IO;
 using System.Linq;
-using System.Windows.Forms;
 using FSParam;
 using Veldrid;
 using Veldrid.Sdl2;
@@ -18,6 +17,7 @@ using StudioCore;
 using StudioCore.TextEditor;
 using StudioCore.Editor;
 using StudioCore.MsbEditor;
+using StudioCore.Platform;
 using ActionManager = StudioCore.Editor.ActionManager;
 using AddParamsAction = StudioCore.Editor.AddParamsAction;
 using CompoundAction = StudioCore.Editor.CompoundAction;
@@ -183,19 +183,19 @@ namespace StudioCore.ParamEditor
 
             if (result == ParamBank.ParamUpgradeResult.OldRegulationNotFound)
             {
-                System.Windows.Forms.MessageBox.Show(
+                PlatformUtils.Instance.MessageBox(
                     $@"Unable to load old vanilla regulation.", 
                     "Loading error",
-                    System.Windows.Forms.MessageBoxButtons.OK,
-                    System.Windows.Forms.MessageBoxIcon.Error);
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
             if (result == ParamBank.ParamUpgradeResult.OldRegulationVersionMismatch)
             {
-                System.Windows.Forms.MessageBox.Show(
+                PlatformUtils.Instance.MessageBox(
                     $@"The version of the vanilla regulation you selected does not match the version of your mod.", 
                     "Version mismatch",
-                    System.Windows.Forms.MessageBoxButtons.OK,
-                    System.Windows.Forms.MessageBoxIcon.Error);
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
                 return;
             }
 
@@ -225,7 +225,7 @@ namespace StudioCore.ParamEditor
                 }
                 logWriter.Flush();
                 
-                var msgRes = System.Windows.Forms.MessageBox.Show(
+                var msgRes = PlatformUtils.Instance.MessageBox(
                     $@"Conflicts were found while upgrading params. This is usually caused by a game update adding " +
                     "a new row that has the same ID as the one that you added in your mod. It is highly recommended that you " +
                     "review these conflicts and handle them before saving. You can revert to your original params by " +
@@ -234,8 +234,8 @@ namespace StudioCore.ParamEditor
                     "the added rows in the vanilla regulation.\n\nThe list of conflicts can be found in regulationUpgradeLog.txt " +
                     "in your mod project directory. Would you like to open them now?",
                     "Row conflicts found",
-                    System.Windows.Forms.MessageBoxButtons.YesNo,
-                    System.Windows.Forms.MessageBoxIcon.Warning);
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
                 if (msgRes == DialogResult.Yes)
                 {
                     Process.Start(new ProcessStartInfo
@@ -248,33 +248,33 @@ namespace StudioCore.ParamEditor
 
             if (result == ParamBank.ParamUpgradeResult.Success)
             {
-                var msgUpgradeEdits = System.Windows.Forms.MessageBox.Show(
+                var msgUpgradeEdits = PlatformUtils.Instance.MessageBox(
                     $@"MapStudio can automatically perform several edits to keep your params consistent with updates to vanilla params. " +
                     "Would you like to perform these edits?", "Regulation upgrade edits",
-                    System.Windows.Forms.MessageBoxButtons.YesNo,
-                    System.Windows.Forms.MessageBoxIcon.Question);
-                if (msgUpgradeEdits == System.Windows.Forms.DialogResult.Yes)
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Information);
+                if (msgUpgradeEdits == DialogResult.Yes)
                 {
                     var (success, fail) = bank.RunUpgradeEdits(oldVersion, newVersion);
                     if (success.Count > 0 || fail.Count > 0)
-                        System.Windows.Forms.MessageBox.Show(
+                        PlatformUtils.Instance.MessageBox(
                             (success.Count > 0 ? "Successfully performed the following edits:\n" + String.Join('\n', success) : "") +
                             (success.Count > 0 && fail.Count > 0 ? "\n" : "") + 
                             (fail.Count > 0 ? "Unable to perform the following edits:\n" + String.Join('\n', fail) : ""),
                             "Regulation upgrade edits",
-                            System.Windows.Forms.MessageBoxButtons.OK,
-                            System.Windows.Forms.MessageBoxIcon.Information
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information
                         );
                     CacheBank.ClearCaches();
                     bank.RefreshParamDiffCaches();
                 }
 
 
-                var msgRes = System.Windows.Forms.MessageBox.Show(
+                var msgRes = PlatformUtils.Instance.MessageBox(
                     "Upgrade successful",
                     "Success",
-                    System.Windows.Forms.MessageBoxButtons.OK,
-                    System.Windows.Forms.MessageBoxIcon.Information);
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
             }
             
             EditorActionManager.Clear();
@@ -431,7 +431,7 @@ namespace StudioCore.ParamEditor
                                     if (r.Type == MassEditResultType.SUCCESS)
                                         TaskManager.Run("PB:RefreshDirtyCache", false, true, true, () => ParamBank.PrimaryBank.RefreshParamDiffCaches());
                                     else
-                                        System.Windows.Forms.MessageBox.Show(r.Information, "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.None);
+                                        PlatformUtils.Instance.MessageBox(r.Information, "Error", MessageBoxButtons.OK, MessageBoxIcon.None);
                                 }
                             }
                         }
@@ -452,7 +452,7 @@ namespace StudioCore.ParamEditor
                                     if (r.Type == MassEditResultType.SUCCESS && a != null)
                                         EditorActionManager.ExecuteAction(a);
                                     else
-                                        System.Windows.Forms.MessageBox.Show(r.Information, "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.None);
+                                        PlatformUtils.Instance.MessageBox(r.Information, "Error", MessageBoxButtons.OK, MessageBoxIcon.None);
                                     TaskManager.Run("PB:RefreshDirtyCache", false, true, true, () => ParamBank.PrimaryBank.RefreshParamDiffCaches());
                                 }
                             }
@@ -478,7 +478,7 @@ namespace StudioCore.ParamEditor
                                             if (r.Type == MassEditResultType.SUCCESS && a != null)
                                                 EditorActionManager.ExecuteAction(a);
                                             else
-                                                System.Windows.Forms.MessageBox.Show(r.Information, "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.None);
+                                                PlatformUtils.Instance.MessageBox(r.Information, "Error", MessageBoxButtons.OK, MessageBoxIcon.None);
                                             TaskManager.Run("PB:RefreshDirtyCache", false, true, true, () => ParamBank.PrimaryBank.RefreshParamDiffCaches());
                                         }
                                     }
@@ -500,7 +500,7 @@ namespace StudioCore.ParamEditor
                     {
                         const string importRowQuestion = $"Would you like to replace row names with default names defined within DSMapStudio?\n\nSelect \"Yes\" to replace all names, \"No\" to only replace empty names, \"Cancel\" to abort.";
                         string currentParam = currentParamOnly ? _activeView._selection.getActiveParam() : null;
-                        DialogResult question = MessageBox.Show(importRowQuestion, title, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                        DialogResult question = PlatformUtils.Instance.MessageBox(importRowQuestion, title, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Information);
                         switch (question)
                         {
                             case DialogResult.Yes:
@@ -681,11 +681,11 @@ namespace StudioCore.ParamEditor
                     }
                     catch (Exception e)
                     {
-                        System.Windows.Forms.MessageBox.Show(
+                        PlatformUtils.Instance.MessageBox(
                         $@"Unable to load regulation.\n" + e.Message,
                         "Loading error",
-                        System.Windows.Forms.MessageBoxButtons.OK,
-                        System.Windows.Forms.MessageBoxIcon.Error);
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
                     }
                 }
                 if (ImGui.BeginMenu("Clear param comparison...", ParamBank.AuxBanks.Count > 0))
@@ -752,7 +752,7 @@ namespace StudioCore.ParamEditor
                     ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.0f, 1f, 0f, 1.0f));
                     if (ImGui.Button("Upgrade Params"))
                     {
-                        var message = System.Windows.Forms.MessageBox.Show(
+                        var message = PlatformUtils.Instance.MessageBox(
                             $@"Your mod is currently on regulation version {ParamBank.PrimaryBank.ParamVersion} while the game is on param version " +
                             $"{ParamBank.VanillaBank.ParamVersion}.\n\nWould you like to attempt to upgrade your mod's params to be based on the " +
                             "latest game version? Params will be upgraded by copying all rows that you modified to the new regulation, " +
@@ -763,9 +763,9 @@ namespace StudioCore.ParamEditor
                             "in the param editor where you can view and save them. This operation is not undoable, but you can reload the project without " +
                             "saving to revert to the un-upgraded params.\n\n" +
                             "Would you like to continue?", "Regulation upgrade",
-                            System.Windows.Forms.MessageBoxButtons.OKCancel,
-                            System.Windows.Forms.MessageBoxIcon.Question);
-                        if (message == System.Windows.Forms.DialogResult.OK)
+                            MessageBoxButtons.OKCancel,
+                            MessageBoxIcon.Information);
+                        if (message == DialogResult.OK)
                         {
                             var rbrowseDlg = new System.Windows.Forms.OpenFileDialog()
                             {
@@ -1366,9 +1366,9 @@ namespace StudioCore.ParamEditor
             }
             catch (SavingFailedException e)
             {
-                System.Windows.Forms.MessageBox.Show(e.Wrapped.Message, e.Message,
-                    System.Windows.Forms.MessageBoxButtons.OK,
-                    System.Windows.Forms.MessageBoxIcon.None);
+                PlatformUtils.Instance.MessageBox(e.Wrapped.Message, e.Message,
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.None);
             }
         }
 
@@ -1383,9 +1383,9 @@ namespace StudioCore.ParamEditor
             }
             catch (SavingFailedException e)
             {
-                System.Windows.Forms.MessageBox.Show(e.Wrapped.Message, e.Message,
-                    System.Windows.Forms.MessageBoxButtons.OK,
-                    System.Windows.Forms.MessageBoxIcon.None);
+                PlatformUtils.Instance.MessageBox(e.Wrapped.Message, e.Message,
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.None);
             }
         }
 
@@ -1397,7 +1397,7 @@ namespace StudioCore.ParamEditor
             }
             catch (Exception e)
             {
-                System.Windows.Forms.MessageBox.Show("Unable to write to "+path, "Write Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                PlatformUtils.Instance.MessageBox("Unable to write to "+path, "Write Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private static string TryReadFile(string path)
@@ -1408,7 +1408,7 @@ namespace StudioCore.ParamEditor
             }
             catch (Exception e)
             {
-                System.Windows.Forms.MessageBox.Show("Unable to read from "+path, "Read Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                PlatformUtils.Instance.MessageBox("Unable to read from "+path, "Read Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
         }
@@ -1666,8 +1666,8 @@ namespace StudioCore.ParamEditor
         {
             if (EditorDecorations.ImGuiTableStdColumns("paramsT", 3, true))
             {
-                ImGui.TableSetupColumn("paramsCol", ImGuiTableColumnFlags.None, 0.5f);
-                ImGui.TableSetupColumn("paramsCol2", ImGuiTableColumnFlags.None, 0.5f);
+                ImGui.TableSetupColumn("paramsCol", ImGuiTableColumnFlags.None);
+                ImGui.TableSetupColumn("paramsCol2", ImGuiTableColumnFlags.None);
                 ImGui.TableNextColumn();
 
                 if (isActiveView && InputTracker.GetKeyDown(KeyBindings.Current.Param_SearchParam))
@@ -1864,9 +1864,9 @@ namespace StudioCore.ParamEditor
                     ImGui.BeginChild("rows" + activeParam);
                     EditorDecorations.ImGuiTableStdColumns("rowList", compareCol == null ? 1 : 2, false);
                     
-                    ImGui.TableSetupColumn("rowCol", ImGuiTableColumnFlags.None, 1f);
+                    ImGui.TableSetupColumn("rowCol", ImGuiTableColumnFlags.None);
                     if (compareCol != null)
-                        ImGui.TableSetupColumn("rowCol2", ImGuiTableColumnFlags.None, 0.4f);
+                        ImGui.TableSetupColumn("rowCol2", ImGuiTableColumnFlags.None);
                     ImGui.PushID("pinned");
 
                     List<int> pinnedRowList = new List<int>(_paramEditor._projectSettings.PinnedRows.GetValueOrDefault(activeParam, new List<int>()));
@@ -2064,7 +2064,7 @@ namespace StudioCore.ParamEditor
                 ParamRefReverseLookupSelectables(ParamBank.PrimaryBank, activeParam, r.ID);
                 if (ImGui.Selectable("Copy ID to clipboard"))
                 {
-                    Clipboard.SetText($"{r.ID}");
+                    PlatformUtils.Instance.SetClipboardText($"{r.ID}");
                 }
                 ImGui.EndPopup();
             }
