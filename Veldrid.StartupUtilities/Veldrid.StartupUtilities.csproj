@@ -21,7 +21,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <DebugType>none</DebugType>
+    <DebugType>embedded</DebugType>
   </PropertyGroup>
 
 </Project>

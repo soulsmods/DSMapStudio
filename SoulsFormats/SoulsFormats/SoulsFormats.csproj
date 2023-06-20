@@ -10,7 +10,7 @@
     <LangVersion>11</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <DebugType>none</DebugType>
+    <DebugType>embedded</DebugType>
     <DocumentationFile />
   </PropertyGroup>
 

@@ -5,9 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using StudioCore;
-using System.Windows.Forms;
 using System.Security.Permissions;
+using Microsoft.DotNet.PlatformAbstractions;
 using StudioCore.Graphics;
+using StudioCore.Platform;
 using Veldrid.Sdl2;
 
 namespace DSMapStudio
@@ -16,7 +17,7 @@ namespace DSMapStudio
     {
         public static string[] ARGS;
 
-        private static string _version = Application.ProductVersion;
+        private static string _version = System.Windows.Forms.Application.ProductVersion;
 
         /// <summary>
         /// The main entry point for the application.
@@ -81,10 +82,10 @@ namespace DSMapStudio
             File.WriteAllLines(crashLogPath, exceptionInfo);
 
             if (exceptionInfo.Count > 10)
-                MessageBox.Show($"DSMapStudio has run into an issue.\nCrash log has been generated at \"{crashLogPath}\".",
+                PlatformUtils.Instance.MessageBox($"DSMapStudio has run into an issue.\nCrash log has been generated at \"{crashLogPath}\".",
                     $"DSMapStudio Unhandled Error - {_version}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             else
-                MessageBox.Show($"DSMapStudio has run into an issue.\nCrash log has been generated at \"{crashLogPath}\".\n\nCrash Log:\n{string.Join("\n", exceptionInfo)}",
+                PlatformUtils.Instance.MessageBox($"DSMapStudio has run into an issue.\nCrash log has been generated at \"{crashLogPath}\".\n\nCrash Log:\n{string.Join("\n", exceptionInfo)}",
                     $"DSMapStudio Unhandled Error - {_version}", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
