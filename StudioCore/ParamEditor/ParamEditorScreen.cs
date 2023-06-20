@@ -1612,7 +1612,7 @@ namespace StudioCore.ParamEditor
                 return null;
             return _paramStates[_activeParam].selectionRows;
         }
-        public bool[] getSelectionCache(List<Param.Row> rows)
+        public bool[] getSelectionCache(List<Param.Row> rows, string cacheVer)
         {
             if (_activeParam == null)
                 return null;
@@ -1620,7 +1620,7 @@ namespace StudioCore.ParamEditor
             // We maintain this flag as clearing the cache properly is slow for the number of times we modify selection
             if (s.selectionCacheDirty)
                 CacheBank.RemoveCache(_scr, s);
-            return CacheBank.GetCached(_scr, s, "selectionCache", () =>
+            return CacheBank.GetCached(_scr, s, "selectionCache"+cacheVer, () =>
             {
                 s.selectionCacheDirty = false;
                 return rows.Select((x) => getSelectedRows().Contains(x)).ToArray();
@@ -1903,19 +1903,18 @@ namespace StudioCore.ParamEditor
                         ImGui.TableSetupColumn("rowCol2", ImGuiTableColumnFlags.None, 0.4f);
                     ImGui.PushID("pinned");
 
-                    List<int> pinnedRowList = new List<int>(_paramEditor._projectSettings.PinnedRows.GetValueOrDefault(activeParam, new List<int>()));
+                    List<Param.Row> pinnedRowList = _paramEditor._projectSettings.PinnedRows.GetValueOrDefault(activeParam, new List<int>()).Select((id) => para[id]).ToList();
+                    bool[] selectionCachePins = _selection.getSelectionCache(pinnedRowList, "pinned");
                     if (pinnedRowList.Count != 0)
                     {
-
-                        foreach (int rowID in pinnedRowList)
+                        for (int i=0; i<pinnedRowList.Count(); i++)
                         {
-                            Param.Row row = para[rowID];
+                            Param.Row row = pinnedRowList[i];
                             if (row == null)
                             {
-                                _paramEditor._projectSettings.PinnedRows.GetValueOrDefault(activeParam, new List<int>()).Remove(rowID);
                                 continue;
                             }
-                            RowColumnEntry(null, -1, activeParam, null, para[rowID], vanillaDiffCache, auxDiffCaches, decorator, ref scrollTo, false, true, compareCol);
+                            RowColumnEntry(selectionCachePins, i, activeParam, null, row, vanillaDiffCache, auxDiffCaches, decorator, ref scrollTo, false, true, compareCol);
                         }
 
                         ImGui.Spacing();
@@ -1942,7 +1941,7 @@ namespace StudioCore.ParamEditor
                     bool enableGrouping = !CFG.Current.Param_DisableRowGrouping && ParamMetaData.Get(ParamBank.PrimaryBank.Params[activeParam].AppliedParamdef).ConsecutiveIDs;
 
                     // Rows
-                    bool[] selectionCache = _selection.getSelectionCache(rows);
+                    bool[] selectionCache = _selection.getSelectionCache(rows, "regular");
                     for (int i = 0; i < rows.Count; i++)
                     {
                         Param.Row currentRow = rows[i];
