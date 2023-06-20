@@ -104,6 +104,22 @@ namespace Veldrid
         }
 
         /// <summary>
+        /// Create a dynamic buffer description, which represents a buffer that's frequently written to from the CPU
+        /// and consumed by the GPU (i.e. CPU write only, GPU read only)
+        /// </summary>
+        /// <param name="sizeInBytes">Buffer size</param>
+        /// <param name="usage">Usage flags</param>
+        /// <returns></returns>
+        public static BufferDescription DynamicBuffer(uint sizeInBytes,
+            VkBufferUsageFlags usage)
+        {
+            return new BufferDescription(sizeInBytes,
+                usage | VkBufferUsageFlags.TransferDst,
+                VmaMemoryUsage.Auto,
+                VmaAllocationCreateFlags.Mapped | VmaAllocationCreateFlags.HostAccessSequentialWrite);
+        }
+
+        /// <summary>
         /// Element-wise equality.
         /// </summary>
         /// <param name="other">The instance to compare to.</param>

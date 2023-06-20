@@ -26,7 +26,6 @@ namespace Veldrid
         private readonly List<Texture> _storageImages = new List<Texture>();
         internal IReadOnlyList<Texture> StorageTextures => _storageImages;
 
-        internal ResourceRefCount RefCount { get; }
         internal IReadOnlyList<ResourceRefCount> RefCounts => _refCounts;
         
         internal ResourceSet(GraphicsDevice gd, ref ResourceSetDescription description)
@@ -35,7 +34,6 @@ namespace Veldrid
             // TODO: There's a lot of hacks done in here to "support" unbounded arrays/descriptor indexing. It
             // needs to be reworked eventually to get rid of them.
             _gd = gd;
-            RefCount = new ResourceRefCount(DisposeCore);
             var vkLayout = description.Layout;
 
             BindableResource[] boundResources = description.BoundResources;
@@ -85,7 +83,6 @@ namespace Veldrid
                         range = range.SizeInBytes
                     };
                     descriptorWrites[i].pBufferInfo = &bufferInfos[i];
-                    _refCounts.Add(rangedVkBuffer.RefCount);
                 }
                 else if (type == VkDescriptorType.SampledImage)
                 {
@@ -97,7 +94,6 @@ namespace Veldrid
                         imageInfos[boundr].imageView = texView.ImageView;
                         imageInfos[boundr].imageLayout = VkImageLayout.ShaderReadOnlyOptimal;
                         _sampledTextures.Add(texView.Target);
-                        _refCounts.Add(texView.RefCount);
                         boundr++;
                     }
                 }
@@ -108,7 +104,6 @@ namespace Veldrid
                     imageInfos[i].imageLayout = VkImageLayout.General;
                     descriptorWrites[i].pImageInfo = &imageInfos[i];
                     _storageImages.Add(texView.Target);
-                    _refCounts.Add(texView.RefCount);
                 }
                 else if (type == VkDescriptorType.Sampler)
                 {
@@ -150,15 +145,10 @@ namespace Veldrid
         /// </summary>
         public void Dispose()
         {
-            RefCount.Decrement();
-        }
-        
-        private void DisposeCore()
-        {
             if (!_destroyed)
             {
                 _destroyed = true;
-                _gd.DescriptorPoolManager.Free(_descriptorAllocationToken, _descriptorCounts);
+                _gd.DestroyDescriptorSet(_descriptorAllocationToken, _descriptorCounts);
             }
         }
 

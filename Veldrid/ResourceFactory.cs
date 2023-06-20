@@ -311,8 +311,7 @@ namespace Veldrid
         /// <returns></returns>
         protected virtual DeviceBuffer CreateBufferCore(ref BufferDescription description)
         {
-            return new DeviceBuffer(
-                _gd, 
+            return _gd.CreateBuffer(
                 description.SizeInBytes, 
                 description.Usage,
                 description.MemoryUsage,

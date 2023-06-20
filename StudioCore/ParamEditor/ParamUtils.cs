@@ -73,7 +73,11 @@ namespace StudioCore.ParamEditor
 
         public static object Get(this Param.Row row, (PseudoColumn, Param.Column) col)
         {
-            return col.Item1 == PseudoColumn.ID ? row.ID : col.Item1 == PseudoColumn.Name ? row.Name : row[col.Item2].Value;
+            if (col.Item1 == PseudoColumn.ID)
+                return row.ID;
+            if (col.Item1 == PseudoColumn.Name)
+                return row.Name == null ? "" : row.Name;
+            return row[col.Item2].Value;
         }
 
         public static (PseudoColumn, Param.Column) GetCol(this Param param, string field)
