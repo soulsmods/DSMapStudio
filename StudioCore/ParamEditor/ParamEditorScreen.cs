@@ -269,7 +269,7 @@ namespace StudioCore.ParamEditor
                     bank.RefreshParamDiffCaches();
                 }
 
-                var msgRes = System.Windows.Forms.MessageBox.Show(
+                var msgRes = PlatformUtils.Instance.MessageBox(
                     "Upgrade successful",
                     "Success",
                     MessageBoxButtons.OK,
