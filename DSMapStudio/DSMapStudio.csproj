@@ -11,12 +11,13 @@
     <AssemblyVersion>1.08.0</AssemblyVersion>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <LangVersion>11</LangVersion>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <PlatformTarget>x64</PlatformTarget>
-    <DebugType>none</DebugType>
+    <DebugType>embedded</DebugType>
     <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
 
@@ -28,13 +29,16 @@
   <ItemGroup>
     <Content Include="imgui.ini.backup">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
     <Content Include="imgui.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DSMapStudio_LowRequirements\DSMapStudio_LowRequirements.csproj" />
     <ProjectReference Include="..\StudioCore\StudioCore.csproj" />
     <ProjectReference Include="..\Veldrid.SDL2\Veldrid.SDL2.csproj" />
   </ItemGroup>

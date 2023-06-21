@@ -6,10 +6,10 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="u8 npc_gender" />
-    <Field Def="u8 hollowing_level" />
-    <Field Def="u16 physique" />
-    <Field Def="s32 npc_name_id" />
+    <Field Def="u8 body_type" />
+    <Field Def="u8 hollowing_type" />
+    <Field Def="u16 body_build_type" />
+    <Field Def="s32 face_model_id" />
     <Field Def="u8 soul_level" />
     <Field Def="u8 vigor" />
     <Field Def="u8 unk00" />

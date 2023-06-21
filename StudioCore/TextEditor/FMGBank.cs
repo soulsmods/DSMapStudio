@@ -180,6 +180,8 @@ namespace StudioCore.TextEditor
             public FMGInfo SummaryInfo;
             public FMG.Entry Description;
             public FMGInfo DescriptionInfo;
+            public FMG.Entry ExtraText;
+            public FMGInfo ExtraTextInfo;
 
             private int _ID = -1;
             public int ID
@@ -195,6 +197,8 @@ namespace StudioCore.TextEditor
                         Summary.ID = _ID;
                     if (Description != null)
                         Description.ID = _ID;
+                    if (ExtraText != null)
+                        ExtraText.ID = _ID;
                 }
                 get => _ID;
             }
@@ -241,6 +245,15 @@ namespace StudioCore.TextEditor
                     }
                     while (entries.Find(e => e.ID == id) != null);
                 }
+                else if (ExtraText != null)
+                {
+                    var entries = ExtraTextInfo.GetPatchedEntries();
+                    do
+                    {
+                        id++;
+                    }
+                    while (entries.Find(e => e.ID == id) != null);
+                }
                 return id;
             }
 
@@ -273,6 +286,10 @@ namespace StudioCore.TextEditor
                 if (Description != null)
                 {
                     DescriptionInfo.AddEntry(Description);
+                }
+                if (ExtraText != null)
+                {
+                    ExtraTextInfo.AddEntry(ExtraText);
                 }
             }
 
@@ -308,6 +325,12 @@ namespace StudioCore.TextEditor
                     newGroup.Description = DescriptionInfo.CloneEntry(Description);
                     DescriptionInfo.AddEntry(newGroup.Description);
                 }
+                if (ExtraText != null)
+                {
+                    newGroup.ExtraTextInfo = ExtraTextInfo;
+                    newGroup.ExtraText = ExtraTextInfo.CloneEntry(ExtraText);
+                    ExtraTextInfo.AddEntry(newGroup.ExtraText);
+                }
                 newGroup.ID = ID;
                 return newGroup;
             }
@@ -339,6 +362,11 @@ namespace StudioCore.TextEditor
                     newGroup.DescriptionInfo = DescriptionInfo;
                     newGroup.Description = DescriptionInfo.CloneEntry(Description);
                 }
+                if (ExtraText != null)
+                {
+                    newGroup.ExtraTextInfo = ExtraTextInfo;
+                    newGroup.ExtraText = ExtraTextInfo.CloneEntry(ExtraText);
+                }
                 return newGroup;
             }
 
@@ -362,6 +390,10 @@ namespace StudioCore.TextEditor
                 if (Description != null)
                 {
                     DescriptionInfo.DeleteEntry(Description);
+                }
+                if (ExtraText != null)
+                {
+                    ExtraTextInfo.DeleteEntry(ExtraText);
                 }
             }
         }
@@ -399,7 +431,7 @@ namespace StudioCore.TextEditor
             Title = 1,
             Summary = 2,
             Description = 3,
-            ExtraInfo = 4,
+            ExtraText = 4,
         }
 
         /// <summary>
@@ -420,6 +452,7 @@ namespace StudioCore.TextEditor
             SwordArts,
             Effect,
             ActionButtonText,
+            ItemFmgDummy = 200, // Anything with this will be sorted into the item section of the editor.
         }
 
         /// <summary>
@@ -621,6 +654,7 @@ namespace StudioCore.TextEditor
                 case FmgIDType.TitleGoods:
                 case FmgIDType.TitleGoods_Patch:
                 case FmgIDType.TitleGoods_DLC2:
+                case FmgIDType.GoodsInfo2:
                     return FmgEntryCategory.Goods;
 
                 case FmgIDType.DescriptionWeapons:
@@ -695,10 +729,9 @@ namespace StudioCore.TextEditor
                 case FmgIDType.SummarySwordArts:
                     return FmgEntryCategory.SwordArts;
 
-                case FmgIDType.TitleMessage:
-                    return FmgEntryCategory.Message;
-
                 case FmgIDType.WeaponEffect:
+                    return FmgEntryCategory.ItemFmgDummy;
+
                 default:
                     return FmgEntryCategory.None;
             }
@@ -784,15 +817,15 @@ namespace StudioCore.TextEditor
                 case FmgIDType.TitleSpells_Patch:
                 case FmgIDType.TitleWeapons_Patch:
                 case FmgIDType.TitleGem:
-                case FmgIDType.TitleMessage:
                 case FmgIDType.TitleSwordArts:
                     return FmgEntryTextType.Title;
 
-                case FmgIDType.ERUnk45:
-                // TODO: implement these two into a 4th text slot? Figure out how where they get used.
-                case FmgIDType.WeaponEffect:
                 case FmgIDType.GoodsInfo2:
+                    return FmgEntryTextType.ExtraText;
+
+                case FmgIDType.WeaponEffect:
                     return FmgEntryTextType.TextBody;
+
                 default:
                     return FmgEntryTextType.TextBody;
             }
@@ -841,6 +874,7 @@ namespace StudioCore.TextEditor
                 case FmgEntryCategory.Rings:
                 case FmgEntryCategory.Gem:
                 case FmgEntryCategory.SwordArts:
+                case FmgEntryCategory.ItemFmgDummy:
                     info.UICategory = FmgUICategory.Item;
                     break;
                 default:
@@ -958,7 +992,7 @@ namespace StudioCore.TextEditor
 
                 _languageFolder = languageFolder;
 
-                ActiveUITypes.Clear();
+                ActiveUITypes = new();
                 foreach (var e in Enum.GetValues(typeof(FmgUICategory)))
                 {
                     ActiveUITypes.Add((FmgUICategory)e, false);
@@ -983,10 +1017,10 @@ namespace StudioCore.TextEditor
                 AssetDescription itemMsgPath = AssetLocator.GetItemMsgbnd(_languageFolder);
                 AssetDescription menuMsgPath = AssetLocator.GetMenuMsgbnd(_languageFolder);
 
-                _fmgInfoBank.Clear();
+                _fmgInfoBank = new();
                 if (!LoadItemMenuMsgBnds(itemMsgPath, menuMsgPath))
                 {
-                    _fmgInfoBank.Clear();
+                    _fmgInfoBank = new();
                     IsLoaded = false;
                     IsLoading = false;
                     return;
@@ -1020,7 +1054,7 @@ namespace StudioCore.TextEditor
             }
 
             var files = Directory.GetFileSystemEntries($@"{AssetLocator.GameRootDirectory}\{desc.AssetPath}", @"*.fmg").ToList();
-            _fmgInfoBank.Clear();
+            _fmgInfoBank = new();
             foreach (var file in files)
             {
                 var modfile = $@"{AssetLocator.GameModDirectory}\{desc.AssetPath}\{Path.GetFileName(file)}";
@@ -1090,7 +1124,7 @@ namespace StudioCore.TextEditor
                         info.Name = "GemExtraInfo";
                         info.UICategory = FmgUICategory.Item;
                         info.EntryCategory = FmgEntryCategory.Gem;
-                        //info.EntryType = FmgEntryTextType.ExtraInfo; // TODO
+                        info.EntryType = FmgEntryTextType.ExtraText;
                     }
                     else
                     {
@@ -1232,6 +1266,10 @@ namespace StudioCore.TextEditor
                             case FmgEntryTextType.Description:
                                 eGroup.Description = pair.Entry;
                                 eGroup.DescriptionInfo = pair.FmgInfo;
+                                break;
+                            case FmgEntryTextType.ExtraText:
+                                eGroup.ExtraText = pair.Entry;
+                                eGroup.ExtraTextInfo = pair.FmgInfo;
                                 break;
                             case FmgEntryTextType.TextBody:
                                 eGroup.TextBody = pair.Entry;

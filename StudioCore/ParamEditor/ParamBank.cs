@@ -3,7 +3,6 @@ using System.Buffers;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
-using System.Windows.Forms;
 using SoulsFormats;
 using System.Linq;
 using System.Threading;
@@ -12,6 +11,7 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using FSParam;
 using StudioCore.Editor;
+using StudioCore.Platform;
 
 namespace StudioCore.ParamEditor
 {
@@ -507,7 +507,7 @@ namespace StudioCore.ParamEditor
             }
             if (!BND4.Is($@"{dir}\enc_regulation.bnd.dcx"))
             {
-                MessageBox.Show("Attempting to decrypt DS2 regulation file, else functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                PlatformUtils.Instance.MessageBox("Attempting to decrypt DS2 regulation file, else functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 //return;
             }
 
@@ -540,7 +540,7 @@ namespace StudioCore.ParamEditor
             }
             if (!BND4.Is($@"{AssetLocator.GameRootDirectory}\enc_regulation.bnd.dcx"))
             {
-                MessageBox.Show("Attempting to decrypt DS2 regulation file, else functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                PlatformUtils.Instance.MessageBox("Attempting to decrypt DS2 regulation file, else functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             // Load loose params
@@ -865,7 +865,7 @@ namespace StudioCore.ParamEditor
             newBank.ClearParamDiffCaches();
             newBank.IsLoadingParams = false;
             newBank.RefreshParamDiffCaches();
-            AuxBanks[Path.GetFileName(Path.GetDirectoryName(path))] = newBank;
+            AuxBanks[Path.GetFileName(Path.GetDirectoryName(path)).Replace(' ', '_')] = newBank;
         }
 
 
@@ -986,7 +986,7 @@ namespace StudioCore.ParamEditor
             var mod = AssetLocator.GameModDirectory;
             if (!File.Exists($@"{dir}\\param\GameParam\GameParam.parambnd"))
             {
-                MessageBox.Show("Could not find DS1 param file. Cannot save.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                PlatformUtils.Instance.MessageBox("Could not find DS1 param file. Cannot save.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -1031,7 +1031,7 @@ namespace StudioCore.ParamEditor
             var mod = AssetLocator.GameModDirectory;
             if (!File.Exists($@"{dir}\\param\GameParam\GameParam.parambnd.dcx"))
             {
-                MessageBox.Show("Could not find DS1R param file. Cannot save.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                PlatformUtils.Instance.MessageBox("Could not find DS1R param file. Cannot save.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -1077,7 +1077,7 @@ namespace StudioCore.ParamEditor
             var mod = AssetLocator.GameModDirectory;
             if (!File.Exists($@"{dir}\enc_regulation.bnd.dcx"))
             {
-                MessageBox.Show("Could not find DS2 regulation file. Cannot save.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                PlatformUtils.Instance.MessageBox("Could not find DS2 regulation file. Cannot save.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -1118,8 +1118,8 @@ namespace StudioCore.ParamEditor
                 // Replace params in paramBND, write remaining params loosely
                 if (paramBnd.Files.Find(e => e.Name.EndsWith(".param")) == null)
                 {
-                    if (MessageBox.Show("It appears that you are trying to save params non-loosely with an \"enc_regulation.bnd\" that has previously been saved loosely." +
-                        "\n\nWould you like to reinsert params into the bnd that were previously stripped out?", "DS2 de-loose param",
+                    if (PlatformUtils.Instance.MessageBox("It appears that you are trying to save params non-loosely with an \"enc_regulation.bnd\" that has previously been saved loosely." +
+                                                          "\n\nWould you like to reinsert params into the bnd that were previously stripped out?", "DS2 de-loose param",
                         MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
                         param = $@"{dir}\enc_regulation.bnd.dcx";
@@ -1184,7 +1184,7 @@ namespace StudioCore.ParamEditor
             var mod = AssetLocator.GameModDirectory;
             if (!File.Exists($@"{dir}\Data0.bdt"))
             {
-                MessageBox.Show("Could not find DS3 regulation file. Cannot save.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                PlatformUtils.Instance.MessageBox("Could not find DS3 regulation file. Cannot save.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -1248,7 +1248,7 @@ namespace StudioCore.ParamEditor
             var mod = AssetLocator.GameModDirectory;
             if (!File.Exists($@"{dir}\\param\gameparam\gameparam.parambnd.dcx"))
             {
-                MessageBox.Show("Could not find param file. Cannot save.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                PlatformUtils.Instance.MessageBox("Could not find param file. Cannot save.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -1290,7 +1290,7 @@ namespace StudioCore.ParamEditor
 
             if (!File.Exists(param))
             {
-                MessageBox.Show("Could not find param file. Cannot save.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                PlatformUtils.Instance.MessageBox("Could not find param file. Cannot save.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             BND3 paramBnd = BND3.Read(param);
@@ -1356,7 +1356,7 @@ namespace StudioCore.ParamEditor
             var mod = AssetLocator.GameModDirectory;
             if (!File.Exists($@"{dir}\\regulation.bin"))
             {
-                MessageBox.Show("Could not find param file. Cannot save.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                PlatformUtils.Instance.MessageBox("Could not find param file. Cannot save.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 

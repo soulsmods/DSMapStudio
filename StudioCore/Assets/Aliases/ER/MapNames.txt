@@ -446,7 +446,7 @@ m60_52_41_00 Greyoll's Dragonbarrow - Southeast Farum Greatbridge, Lenne's Rise
 m60_26_21_01 Northeast Dragonbarrow
 m60_52_42_00 Greyoll's Dragonbarrow - Northeast Farum Greatbridge
 m60_52_43_00 Greyoll's Dragonbarrow - Northeast Cliffside
-m60_13_13_02 Southeast Mountaintops
+m60_13_13_02 Southeast Mountaintops - Fire Giant Arena
 m60_26_26_01 Southeast Flame Peak
 m60_52_52_00 Flame Peak - Southwest Fire Giant Arena
 m60_52_53_00 Flame Peak - Northwest Fire Giant Arena, Foot of the Forge

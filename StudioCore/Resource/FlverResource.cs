@@ -117,8 +117,21 @@ namespace StudioCore.Resource
             
             private bool disposedValue;
 
+            private bool _setHasIndexNoWeightTransform = false;
+            public bool GetHasIndexNoWeightTransform() => _setHasIndexNoWeightTransform;
+
+            public void SetHasIndexNoWeightTransform()
+            {
+                if(!_setHasIndexNoWeightTransform)
+                {
+                    _setHasIndexNoWeightTransform = true;
+                }
+            }
+
             private bool _setNormalWBoneTransform = false;
             
+            public bool GetNormalWBoneTransform() => _setNormalWBoneTransform;
+
             public void SetNormalWBoneTransform()
             {
                 if (!_setNormalWBoneTransform)
@@ -269,6 +282,7 @@ namespace StudioCore.Resource
 
         public List<FLVER.Bone> Bones { get; private set; } = null;
         private List<FlverBone> FBones { get; set; } = null;
+        private List<Matrix4x4> BoneTransforms { get; set; } = null;
 
         public Scene.GPUBufferAllocator.GPUBufferHandle StaticBoneBuffer { get; private set; } = null;
 
@@ -419,6 +433,42 @@ namespace StudioCore.Resource
             dest.MaterialName = Path.GetFileNameWithoutExtension(mat.MTD);
             dest.MaterialBuffer = Scene.Renderer.MaterialBufferAllocator.Allocate((uint)sizeof(Scene.Material), sizeof(Scene.Material));
             dest.MaterialData = new Scene.Material();
+            
+            //FLVER0 stores layouts directly in the material
+            if(type == GameType.DemonsSouls)
+            {
+                var desMat = (FLVER0.Material)mat;
+                bool foundBoneIndices = false;
+                bool foundBoneWeights = false;
+
+                if(desMat.Layouts?.Count > 0)
+                {
+                    foreach(var layoutType in desMat.Layouts[0])
+                    {
+                        switch(layoutType.Semantic)
+                        {
+                            case FLVER.LayoutSemantic.Normal:
+                                if (layoutType.Type == FLVER.LayoutType.Byte4B || layoutType.Type == FLVER.LayoutType.Byte4E)
+                                {
+                                    dest.SetNormalWBoneTransform();
+                                }
+                                break;
+                            case FLVER.LayoutSemantic.BoneIndices:
+                                foundBoneIndices = true;
+                                break;
+                            case FLVER.LayoutSemantic.BoneWeights: 
+                                foundBoneWeights = true; 
+                                break;
+                        }
+                    }
+                }
+
+                //Transformation condition for DeS models
+                if(foundBoneIndices && !foundBoneWeights)
+                {
+                    dest.SetHasIndexNoWeightTransform();
+                }
+            }
 
             if (!CFG.Current.EnableTexturing)
             {
@@ -1139,12 +1189,45 @@ namespace StudioCore.Resource
 
             dest.Material = GPUMaterials[mesh.MaterialIndex];
 
-            //var MeshVertices = VerticesPool.Rent(mesh.VertexCount);
+            if (dest.Material.GetHasIndexNoWeightTransform())
+            {
+                //Transform based on root
+                for (int v = 0; v < mesh.Vertices.Count; v++)
+                {
+                    var vert = mesh.Vertices[v];
+                    var boneTransformationIndex = mesh.BoneIndices[vert.BoneIndices[0]];
+                    if(boneTransformationIndex > -1 && BoneTransforms.Count > boneTransformationIndex)
+                    {
+                        var boneTfm = BoneTransforms[boneTransformationIndex];
+
+                        vert.Position = Vector3.Transform(vert.Position, boneTfm);
+                        vert.Normal = Vector3.TransformNormal(vert.Normal, boneTfm);
+                        mesh.Vertices[v] = vert;
+                    }
+                }
+            }
+
             var vSize = dest.Material.VertexSize;
-            var meshVertices = Marshal.AllocHGlobal(mesh.Vertices.Count * (int)vSize);
             dest.PickingVertices = Marshal.AllocHGlobal(mesh.Vertices.Count * sizeof(Vector3));
             var pvhandle = new Span<Vector3>(dest.PickingVertices.ToPointer(), mesh.Vertices.Count);
+            uint vbuffersize = (uint)mesh.Vertices.Count * (uint)vSize;
+            
+            dest.VertexCount = mesh.Vertices.Count;
 
+            dest.MeshFacesets = new List<FlverSubmesh.FlverSubmeshFaceSet>();
+
+            bool is32bit = false;//FlverDeS.Version > 0x20005 && mesh.Vertices.Count > 65535;
+            Span<ushort> fs16 = null;
+            Span<int> fs32 = null;
+            
+            var indices = mesh.Triangulate(FlverDeS.Header.Version).ToArray();
+            int indicesTotal = indices.Length;
+
+            dest.GeomBuffer = Scene.Renderer.GeometryBufferAllocator.Allocate(vbuffersize,
+                (uint)indicesTotal * (is32bit ? 4u : 2u), (int)vSize, 4);
+            var meshVertices = dest.GeomBuffer.MapVBuffer();
+            var meshIndices = dest.GeomBuffer.MapIBuffer();
+            
             if (dest.Material.LayoutType == MeshLayoutType.LayoutSky)
             {
                 FillVerticesNormalOnly(mesh, pvhandle, meshVertices);
@@ -1157,30 +1240,16 @@ namespace StudioCore.Resource
             {
                 FillVerticesStandard(mesh, pvhandle, meshVertices);
             }
-
-            dest.VertexCount = mesh.Vertices.Count;
-
-            dest.MeshFacesets = new List<FlverSubmesh.FlverSubmeshFaceSet>();
-
-            bool is32bit = false;//FlverDeS.Version > 0x20005 && mesh.Vertices.Count > 65535;
-            int indicesTotal = 0;
-            ushort[] fs16 = null;
-            int[] fs32 = null;
-
-            int idxoffset = 0;
+            
             if (mesh.VertexIndices.Count != 0)
             {
-                var indices = mesh.Triangulate(FlverDeS.Header.Version).ToArray();
-                uint buffersize = (uint)indices.Length * (is32bit ? 4u : 2u);
-
-                indicesTotal = indices.Length;
                 if (is32bit)
                 {
-                    fs32 = new int[indicesTotal];
+                    fs32 = new Span<int>(meshIndices.ToPointer(), indicesTotal);
                 }
                 else
                 {
-                    fs16 = new ushort[indicesTotal];
+                    fs16 = new Span<ushort>(meshIndices.ToPointer(), indicesTotal);
                 }
 
                 var newFaceSet = new FlverSubmesh.FlverSubmeshFaceSet()
@@ -1188,17 +1257,13 @@ namespace StudioCore.Resource
                     BackfaceCulling = true,
                     IsTriangleStrip = false,
                     //IndexBuffer = factory.CreateBuffer(new BufferDescription(buffersize, BufferUsage.IndexBuffer)),
-                    IndexOffset = idxoffset,
+                    IndexOffset = 0,
 
                     IndexCount = indices.Length,
                     Is32Bit = is32bit,
                     PickingIndicesCount = indices.Length,
                     //PickingIndices = Marshal.AllocHGlobal(indices.Length * 4),
                 };
-                fixed (void* iptr = indices)
-                {
-                    //Unsafe.CopyBlock(newFaceSet.PickingIndices.ToPointer(), iptr, (uint)indices.Length * 4);
-                }
 
                 if (is32bit)
                 {
@@ -1231,26 +1296,11 @@ namespace StudioCore.Resource
 
                 dest.MeshFacesets.Add(newFaceSet);
             }
+            
+            dest.GeomBuffer.UnmapVBuffer();
+            dest.GeomBuffer.UnmapIBuffer();
 
             dest.Bounds = BoundingBox.CreateFromPoints((Vector3*)dest.PickingVertices.ToPointer(), dest.VertexCount, 12, Quaternion.Identity, Vector3.Zero, Vector3.One);
-
-            uint vbuffersize = (uint)mesh.Vertices.Count * (uint)vSize;
-            dest.GeomBuffer = Scene.Renderer.GeometryBufferAllocator.Allocate(vbuffersize, (uint)indicesTotal * (is32bit ? 4u : 2u), (int)vSize, 4, (h) =>
-            {
-                h.FillVBuffer(meshVertices, vSize * (uint)mesh.Vertices.Count, () =>
-                {
-                    Marshal.FreeHGlobal(meshVertices);
-                });
-                if (is32bit)
-                {
-                    h.FillIBuffer(fs32);
-                }
-                else
-                {
-                    h.FillIBuffer(fs16);
-                }
-            });
-
             if (CaptureMaterialLayouts)
             {
                 lock (_matLayoutLock)
@@ -1265,16 +1315,32 @@ namespace StudioCore.Resource
 
         unsafe private void ProcessMesh(FLVER2.Mesh mesh, FlverSubmesh dest)
         {
-            var factory = Scene.Renderer.Factory;
-
             dest.Material = GPUMaterials[mesh.MaterialIndex];
 
-            //var MeshVertices = VerticesPool.Rent(mesh.VertexCount);
             var vSize = dest.Material.VertexSize;
-            var meshVertices = Marshal.AllocHGlobal(mesh.VertexCount * (int)vSize);
             dest.PickingVertices = Marshal.AllocHGlobal(mesh.VertexCount * sizeof(Vector3));
             var pvhandle = new Span<Vector3>(dest.PickingVertices.ToPointer(), mesh.VertexCount);
 
+            dest.VertexCount = mesh.VertexCount;
+
+            dest.MeshFacesets = new List<FlverSubmesh.FlverSubmeshFaceSet>();
+            var facesets = mesh.FaceSets;
+
+            bool is32bit = Flver.Header.Version > 0x20005 && mesh.VertexCount > 65535;
+            int indicesTotal = 0;
+            Span<ushort> fs16 = null;
+            Span<int> fs32 = null;
+            foreach (var faceset in facesets)
+            {
+                indicesTotal += faceset.Indices.Length;
+            }
+            
+            uint vbuffersize = (uint)mesh.VertexCount * (uint)vSize;
+            dest.GeomBuffer = Scene.Renderer.GeometryBufferAllocator.Allocate(vbuffersize,
+                (uint)indicesTotal * (is32bit ? 4u : 2u), (int)vSize, 4);
+            var meshVertices = dest.GeomBuffer.MapVBuffer();
+            var meshIndices = dest.GeomBuffer.MapIBuffer();
+            
             if (dest.Material.LayoutType == MeshLayoutType.LayoutSky)
             {
                 FillVerticesNormalOnly(mesh, pvhandle, meshVertices);
@@ -1287,28 +1353,14 @@ namespace StudioCore.Resource
             {
                 FillVerticesStandard(mesh, pvhandle, meshVertices);
             }
-
-            dest.VertexCount = mesh.VertexCount;
-
-            dest.MeshFacesets = new List<FlverSubmesh.FlverSubmeshFaceSet>();
-            var facesets = mesh.FaceSets;
-            var fsUploadsPending = facesets.Count();
-
-            bool is32bit = Flver.Header.Version > 0x20005 && mesh.VertexCount > 65535;
-            int indicesTotal = 0;
-            ushort[] fs16 = null;
-            int[] fs32 = null;
-            foreach (var faceset in facesets)
-            {
-                indicesTotal += faceset.Indices.Length;
-            }
+            
             if (is32bit)
             {
-                fs32 = new int[indicesTotal];
+                fs32 = new Span<int>(meshIndices.ToPointer(), indicesTotal);
             }
             else
             {
-                fs16 = new ushort[indicesTotal];
+                fs16 = new Span<ushort>(meshIndices.ToPointer(), indicesTotal);
             }
 
             int idxoffset = 0;
@@ -1318,7 +1370,6 @@ namespace StudioCore.Resource
                     continue;
 
                 //At this point they use 32-bit faceset vertex indices
-                uint buffersize = (uint)faceset.IndicesCount * (is32bit ? 4u : 2u);
                 var newFaceSet = new FlverSubmesh.FlverSubmeshFaceSet()
                 {
                     BackfaceCulling = faceset.CullBackfaces,
@@ -1378,28 +1429,12 @@ namespace StudioCore.Resource
                 dest.MeshFacesets.Add(newFaceSet);
                 idxoffset += faceset.Indices.Length;
             }
+            
+            dest.GeomBuffer.UnmapVBuffer();
+            dest.GeomBuffer.UnmapIBuffer();
 
             dest.Bounds = BoundingBox.CreateFromPoints((Vector3*)dest.PickingVertices.ToPointer(), dest.VertexCount, 12, Quaternion.Identity, Vector3.Zero, Vector3.One);
-
-            uint vbuffersize = (uint)mesh.VertexCount * (uint)vSize;
-            dest.GeomBuffer = Scene.Renderer.GeometryBufferAllocator.Allocate(vbuffersize, (uint)indicesTotal * (is32bit ? 4u : 2u), (int)vSize, 4, (h) =>
-            {
-                h.FillVBuffer(meshVertices, vSize * (uint)mesh.VertexCount, () =>
-                {
-                    Marshal.FreeHGlobal(meshVertices);
-                });
-                if (is32bit)
-                {
-                    h.FillIBuffer(fs32);
-                }
-                else
-                {
-                    h.FillIBuffer(fs16);
-                }
-            });
-
-            facesets = null;
-
+            
             if (CaptureMaterialLayouts)
             {
                 lock (_matLayoutLock)
@@ -1453,8 +1488,6 @@ namespace StudioCore.Resource
             Span<FlverVertexBuffer> buffers, Span<FlverBufferLayout> layouts,
             Span<FlverFaceset> facesets, FlverSubmesh dest)
         {
-            var factory = Scene.Renderer.Factory;
-
             dest.Material = GPUMaterials[mesh.materialIndex];
 
             Span<int> facesetIndices = stackalloc int[mesh.facesetCount];
@@ -1475,10 +1508,23 @@ namespace StudioCore.Resource
             int vertexCount = mesh.vertexBufferCount > 0 ? buffers[vertexBufferIndices[0]].vertexCount : 0;
 
             var vSize = dest.Material.VertexSize;
-            var meshVertices = Marshal.AllocHGlobal(vertexCount * (int)vSize);
             dest.PickingVertices = Marshal.AllocHGlobal(vertexCount * sizeof(Vector3));
             var pvhandle = new Span<Vector3>(dest.PickingVertices.ToPointer(), vertexCount);
-
+            
+            bool is32bit = version > 0x20005 && vertexCount > 65535;
+            int indicesTotal = 0;
+            foreach (var fsidx in facesetIndices)
+            {
+                indicesTotal += facesets[fsidx].indexCount;
+                is32bit = is32bit || facesets[fsidx].indexSize != 16;
+            }
+            
+            uint vbuffersize = (uint)vertexCount * (uint)vSize;
+            dest.GeomBuffer = Renderer.GeometryBufferAllocator.Allocate(vbuffersize,
+                (uint)indicesTotal * (is32bit ? 4u : 2u), (int)vSize, 4);
+            var meshVertices = dest.GeomBuffer.MapVBuffer();
+            var meshIndices = dest.GeomBuffer.MapIBuffer();
+            
             foreach (var vbi in vertexBufferIndices)
             {
                 var vb = buffers[vbi];
@@ -1507,27 +1553,17 @@ namespace StudioCore.Resource
             }
 
             dest.VertexCount = vertexCount;
-
             dest.MeshFacesets = new List<FlverSubmesh.FlverSubmeshFaceSet>();
-            var fsUploadsPending = mesh.facesetCount;
-
-            bool is32bit = version > 0x20005 && vertexCount > 65535;
-            int indicesTotal = 0;
-            ushort[] fs16 = null;
-            int[] fs32 = null;
-            //foreach (var faceset in facesets)
-            foreach (var fsidx in facesetIndices)
-            {
-                indicesTotal += facesets[fsidx].indexCount;
-                is32bit = is32bit || facesets[fsidx].indexSize != 16;
-            }
+            
+            Span<ushort> fs16 = null;
+            Span<int> fs32 = null;
             if (is32bit)
             {
-                fs32 = new int[indicesTotal];
+                fs32 = new Span<int>(meshIndices.ToPointer(), indicesTotal);
             }
             else
             {
-                fs16 = new ushort[indicesTotal];
+                fs16 = new Span<ushort>(meshIndices.ToPointer(), indicesTotal);
             }
 
             int idxoffset = 0;
@@ -1538,7 +1574,6 @@ namespace StudioCore.Resource
                     continue;
 
                 //At this point they use 32-bit faceset vertex indices
-                uint buffersize = (uint)faceset.indexCount * (is32bit ? 4u : 2u);
                 var newFaceSet = new FlverSubmesh.FlverSubmeshFaceSet()
                 {
                     BackfaceCulling = faceset.cullBackfaces,
@@ -1600,27 +1635,11 @@ namespace StudioCore.Resource
                 dest.MeshFacesets.Add(newFaceSet);
                 idxoffset += faceset.indexCount;
             }
+            
+            dest.GeomBuffer.UnmapIBuffer();
+            dest.GeomBuffer.UnmapVBuffer();
 
             dest.Bounds = BoundingBox.CreateFromPoints((Vector3*)dest.PickingVertices.ToPointer(), dest.VertexCount, 12, Quaternion.Identity, Vector3.Zero, Vector3.One);
-
-            uint vbuffersize = (uint)vertexCount * (uint)vSize;
-            dest.GeomBuffer = Scene.Renderer.GeometryBufferAllocator.Allocate(vbuffersize, (uint)indicesTotal * (is32bit ? 4u : 2u), (int)vSize, 4, (h) =>
-            {
-                h.FillVBuffer(meshVertices, vSize * (uint)vertexCount, () =>
-                {
-                    Marshal.FreeHGlobal(meshVertices);
-                });
-                if (is32bit)
-                {
-                    h.FillIBuffer(fs32);
-                }
-                else
-                {
-                    h.FillIBuffer(fs16);
-                }
-            });
-
-            facesets = null;
 
             /*if (CaptureMaterialLayouts)
             {
@@ -1656,6 +1675,12 @@ namespace StudioCore.Resource
                 GPUMaterials = new FlverMaterial[FlverDeS.Materials.Count()];
                 Bounds = new BoundingBox();
                 Bones = FlverDeS.Bones;
+                BoneTransforms = new List<Matrix4x4>();
+                for (int i = 0; i < Bones.Count; i++)
+                {
+                    //BoneTransforms.Add(FlverDeS.ComputeBoneWorldMatrix(i));
+                    BoneTransforms.Add(Bones[i].ComputeLocalTransform());
+                }
 
                 for (int i = 0; i < FlverDeS.Materials.Count(); i++)
                 {
@@ -1666,17 +1691,8 @@ namespace StudioCore.Resource
                 for (int i = 0; i < FlverDeS.Meshes.Count(); i++)
                 {
                     GPUMeshes[i] = new FlverSubmesh();
-                    var flverMesh = FlverDeS.Meshes[i];
-                    var defaultBoneMatrix = FlverDeS.ComputeBoneWorldMatrix(flverMesh.DefaultBoneIndex);
 
-                    //Transform based on root
-                    for (int v = 0; v < flverMesh.Vertices.Count; v++)
-                    {
-                        var vert = flverMesh.Vertices[v];
-                        vert.Position = Vector3.Transform(vert.Position, defaultBoneMatrix);
-                        vert.Normal = Vector3.TransformNormal(vert.Normal, defaultBoneMatrix);
-                        flverMesh.Vertices[v] = vert;
-                    }
+                    var flverMesh = FlverDeS.Meshes[i];
                     ProcessMesh(flverMesh, GPUMeshes[i]);
                     if (i == 0)
                     {
@@ -1687,6 +1703,8 @@ namespace StudioCore.Resource
                         Bounds = BoundingBox.Combine(Bounds, GPUMeshes[i].Bounds);
                     }
                 }
+
+                BoneTransforms.Clear();
             }
 
             if (al == AccessLevel.AccessGPUOptimizedOnly)

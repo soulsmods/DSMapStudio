@@ -643,13 +643,13 @@
       <Maximum>4</Maximum>
       <SortID>2502</SortID>
     </Field>
-    <Field Def="dummy8 Reserve_3[1]">
+    <Field Def="u8 unkR3">
       <DisplayName>リザーブ3</DisplayName>
       <DisplayFormat>%d</DisplayFormat>
       <EditFlags>Wrap</EditFlags>
       <SortID>99999</SortID>
     </Field>
-    <Field Def="dummy8 Reserve_4[4]">
+    <Field Def="f32 unkR4">
       <DisplayName>リザーブ4</DisplayName>
       <DisplayFormat>%d</DisplayFormat>
       <EditFlags>Wrap</EditFlags>
@@ -768,7 +768,7 @@
       <Maximum>1</Maximum>
       <SortID>4102</SortID>
     </Field>
-    <Field Def="dummy8 Reserve_1:2">
+    <Field Def="u8 unkR1:2">
       <DisplayName>リザーブ1</DisplayName>
       <SortID>100000</SortID>
     </Field>

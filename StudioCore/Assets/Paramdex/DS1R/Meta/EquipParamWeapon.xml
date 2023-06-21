@@ -40,10 +40,10 @@
     <originEquipWep13 Refs="EquipParamWeapon" Wiki="ID of the weapon this weapon ascends from and reverts into at +13 (details needed)" />
     <originEquipWep14 Refs="EquipParamWeapon" Wiki="ID of the weapon this weapon ascends from and reverts into at +14 (details needed)" />
     <originEquipWep15 Refs="EquipParamWeapon" Wiki="ID of the weapon this weapon ascends from and reverts into at +15 (details needed)" />
-    <antiDemonDamageRate Wiki="Damage multiplier against enemies with isDemon (demons) in npcParam (unverified). Used by Black Knight weapons in vanilla.\n1.1 = +10%% damage" />
-    <antSaintDamageRate Wiki="Divine AUX damage and damage multiplier against enemies with isWeakSaint in npcParam (unverified). Also prevents immortal skeletons from resurrecting.\n1.1 = +10%% damage" />
-    <antWeakA_DamageRate Wiki="Occult AUX damage and damage multiplier against enemies with isWeakA in npcParam (unverified).\n1.1 = +10%% damage" />
-    <antWeakB_DamageRate Wiki="Damage multiplier against enemies with isWeakB (darkwraiths) in npcParam (unverified). Used by Greatsword of Artorias (divine) in vanilla.\n1.1 = +10%% damage" />
+    <antiDemonDamageRate Wiki="Damage multiplier against enemies with isDemon (demons) in npcParam. Used by Black Knight weapons in vanilla.\n1.1 = +10%% damage" />
+    <antSaintDamageRate Wiki="Divine AUX damage and damage multiplier against enemies with isWeakSaint in npcParam. Also prevents immortal skeletons from resurrecting.\n1.1 = +10%% damage" />
+    <antWeakA_DamageRate Wiki="Occult AUX damage and damage multiplier against enemies with isWeakA in npcParam.\n1.1 = +10%% damage" />
+    <antWeakB_DamageRate Wiki="Damage multiplier against enemies with isWeakB (darkwraiths) in npcParam. Used by Greatsword of Artorias (divine) in vanilla.\n1.1 = +10%% damage" />
     <vagrantItemLotId Refs="ItemLotParam" Wiki="Possibly ID of ItemLotParam to use for the vagrant system? (needs testing)" />
     <vagrantBonusEneDropItemLotId Refs="ItemLotParam" Wiki="Possibly ID of ItemLotParam to use for the vagrant system? (needs testing)" />
     <vagrantItemEneDropItemLotId Refs="ItemLotParam" Wiki="Possibly ID of ItemLotParam to use for the vagrant system? (needs testing)" />
@@ -114,8 +114,8 @@
     <isBlowAttackType IsBool="" />
     <isSlashAttackType IsBool="" />
     <isThrustAttackType IsBool="" />
-    <isEnhance IsBool="" />
-    <isLuckCorrect IsBool="" />
+    <isEnhance IsBool="" Wiki="Determines if weapon can be enhanced, such as with magic weapon spells." />
+    <isLuckCorrect IsBool="" Wiki="Determines if weapon damage scales with humanity." />
     <isCustom IsBool="" />
     <disableBaseChangeReset IsBool="" />
     <disableRepair IsBool="" />

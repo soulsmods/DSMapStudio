@@ -37,7 +37,7 @@
     <actionButtonParamId AltName="Action Button Param ID" Wiki="Action button parameter ID" Refs="ActionButtonParam" />
     <enableTreasureDelaySec AltName="Treasure Enable Delay" Wiki="The number of seconds from the execution of the object action to the activation of the treasure. A setting exclusively for the object type treasure box of the object act." />
     <preActionSfxDmypolyId AltName="Pre-action SFX Dummy Poly ID" Wiki="Issue SFX from this Damipoli ID before executing the object. If it is -1, start from the origin." />
-    <preActionSfxId AltName="Pre-action SFX ID" Wiki="SFX issued before executing the object. If it is -1, it will not be issued." />
+    <preActionSfxId AltName="Pre-action SFX ID" Wiki="SFX issued before executing the object. If it is -1, it will not be issued." ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
     <pad2 AltName=""/>
   </Field>
   <Self />

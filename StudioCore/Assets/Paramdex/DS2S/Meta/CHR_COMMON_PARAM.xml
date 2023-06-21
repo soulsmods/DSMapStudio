@@ -20,6 +20,7 @@
     <hit_capsule_radius AltName="Hit Capsule Radius"/>
     <block_angle AltName="Blocking Angle" Wiki="On the XY axis"/>
     <parry_angle AltName="Parrying Angle" Wiki="On the XY axis"/>
+    <movement_speed_limit AltName="Movement Speed Limit" Wiki="Maximum speed a character can move in meters per second"/>
     <lockon_camera_offset_id AltName="Lock-on Camera Offset ID"/>
     <backstab_hitbox_angle_xy AltName="Backstab Hitbox Angle: XY"/>
     <backstab_hitbox_angle_z AltName="Backstab Hitbox Angle: Z"/>
