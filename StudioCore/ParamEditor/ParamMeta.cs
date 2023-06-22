@@ -266,11 +266,14 @@ namespace StudioCore.ParamEditor
             else
                 node.Attributes.RemoveNamedItem(property);
         }
-        internal static void SetStringListXmlProperty(string property, List<string> value, string eolPattern, XmlDocument xml, params string[] path)
+        internal static void SetStringListXmlProperty<T>(string property, IEnumerable<T> list, Func<T, string> stringifier, string eolPattern, XmlDocument xml, params string[] path)
         {
             XmlNode node = GetXmlNode(xml, path);
-            if (value != null)
+            if (list != null)
+            {
+                IEnumerable<string> value = list.Select(stringifier);
                 GetXmlAttribute(xml, node, property).InnerText = eolPattern != null ? String.Join(',', value).Replace(eolPattern, eolPattern+"\n") : String.Join(',', value);
+            }
             else
                 node.Attributes.RemoveNamedItem(property);
         }
@@ -283,7 +286,7 @@ namespace StudioCore.ParamEditor
             SetIntXmlProperty("OffsetSize", OffsetSize, _xml, "PARAMMETA", "Self");
             SetIntXmlProperty("FixedOffset", FixedOffset, _xml, "PARAMMETA", "Self");
             SetBoolXmlProperty("Row0Dummy", Row0Dummy, _xml, "PARAMMETA", "Self");
-            SetStringListXmlProperty("AlternativeOrder", AlternateOrder, "-,", _xml, "PARAMMETA", "Self");
+            SetStringListXmlProperty("AlternativeOrder", AlternateOrder, (x)=>x, "-,", _xml, "PARAMMETA", "Self");
             SetStringXmlProperty("CalcCorrectDef", CalcCorrectDef?.getStringForm(), false, _xml, "PARAMMETA", "Self");
             SetStringXmlProperty("SoulCostDef", SoulCostDef?.getStringForm(), false, _xml, "PARAMMETA", "Self");
         }
@@ -452,16 +455,14 @@ namespace StudioCore.ParamEditor
         {
             if (_parent._xml == null)
                 return;
-            if (RefTypes != null)
-                ParamMetaData.SetStringListXmlProperty("Refs", RefTypes.Select((x) => x.getStringForm()).ToList(), null, _parent._xml, "PARAMMETA", "Field", field);
+            ParamMetaData.SetStringListXmlProperty("Refs", RefTypes, (x) => x.getStringForm(), null, _parent._xml, "PARAMMETA", "Field", field);
             ParamMetaData.SetStringXmlProperty("VRef", VirtualRef, false, _parent._xml, "PARAMMETA", "Field", field);
             ParamMetaData.SetStringXmlProperty("FmgRef", FmgRef, false, _parent._xml, "PARAMMETA", "Field", field);
             ParamMetaData.SetEnumXmlProperty("Enum", EnumType, _parent._xml, "PARAMMETA", "Field", field);
             ParamMetaData.SetStringXmlProperty("AltName", AltName, false, _parent._xml, "PARAMMETA", "Field", field);
             ParamMetaData.SetStringXmlProperty("Wiki", Wiki, true, _parent._xml, "PARAMMETA", "Field", field);
             ParamMetaData.SetBoolXmlProperty("IsBool", IsBool, _parent._xml, "PARAMMETA", "Field", field);
-            if (ExtRefs != null)
-                ParamMetaData.SetStringListXmlProperty("ExtRefs", ExtRefs.Select((x) => x.getStringForm()).ToList(), null, _parent._xml, "PARAMMETA", "Field", field);
+            ParamMetaData.SetStringListXmlProperty("ExtRefs", ExtRefs, (x) => x.getStringForm(), null, _parent._xml, "PARAMMETA", "Field", field);
             
             XmlNode thisNode = ParamMetaData.GetXmlNode(_parent._xml, "PARAMMETA", "Field", field);
             if (thisNode.Attributes.Count == 0 && thisNode.ChildNodes.Count == 0)
