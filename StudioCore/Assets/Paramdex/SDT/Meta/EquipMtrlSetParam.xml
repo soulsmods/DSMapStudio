@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <materialId04 Refs="EquipParamGoods(=0)" />
+    <materialId02 Refs="EquipParamGoods(=0)" />
+    <materialId05 Refs="EquipParamGoods(=0)" />
+    <materialId01 Refs="EquipParamGoods(=0)" />
+    <materialId03 Refs="EquipParamGoods(=0)" />
+    <isDisableDispNum01 IsBool="" />
+    <isDisableDispNum05 IsBool="" />
+    <isDisableDispNum03 IsBool="" />
+    <isDisableDispNum02 IsBool="" />
+    <isDisableDispNum04 IsBool="" />
+  </Field>
+  <Self />
+</PARAMMETA>
