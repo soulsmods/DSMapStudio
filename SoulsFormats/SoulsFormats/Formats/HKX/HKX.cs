@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.IO.MemoryMappedFiles;
 using System.Numerics;
+using DotNext.IO.MemoryMappedFiles;
 
 namespace SoulsFormats
 {
@@ -110,21 +112,20 @@ namespace SoulsFormats
 
         public static HKX Read(string path, HKXVariation variation, bool deserializeObjects = true)
         {
-            using (FileStream stream = File.OpenRead(path))
-            {
-                BinaryReaderEx br = new BinaryReaderEx(false, stream);
-                HKX file = new HKX();
-                file.Variation = variation;
-                file.DeserializeObjects = deserializeObjects;
-                DCX.Type ctype;
-                br = SFUtil.GetDecompressedBR(br, out ctype);
-                file.Compression = ctype;
-                file.Read(br);
-                return file;
-            }
+            using var file = MemoryMappedFile.CreateFromFile(path, FileMode.Open, null, 0, MemoryMappedFileAccess.Read);
+            using var accessor = file.CreateMemoryAccessor(0, 0, MemoryMappedFileAccess.Read);
+            BinaryReaderEx br = new BinaryReaderEx(false, accessor.Memory);
+            HKX ret = new HKX();
+            ret.Variation = variation;
+            ret.DeserializeObjects = deserializeObjects;
+            DCX.Type ctype;
+            br = SFUtil.GetDecompressedBR(br, out ctype);
+            ret.Compression = ctype;
+            ret.Read(br);
+            return ret;
         }
 
-        public static HKX Read(byte[] data, HKXVariation variation, bool deserializeObjects = true)
+        public static HKX Read(Memory<byte> data, HKXVariation variation, bool deserializeObjects = true)
         {
             BinaryReaderEx br = new BinaryReaderEx(false, data);
             HKX file = new HKX();
@@ -142,7 +143,7 @@ namespace SoulsFormats
             return Read(path, HKXVariation.HKXDS3, deserializeObjects);
         }
 
-        public static HKX Read(byte[] data, bool deserializeObjects = true)
+        public static HKX Read(Memory<byte> data, bool deserializeObjects = true)
         {
             return Read(data, HKXVariation.HKXDS3, deserializeObjects);
         }

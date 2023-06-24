@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.IO.MemoryMappedFiles;
+using DotNext.IO.MemoryMappedFiles;
 
 namespace SoulsFormats
 {
@@ -795,14 +797,13 @@ namespace SoulsFormats
         /// </summary>
         public static bool Is(string path)
         {
-            using (FileStream stream = File.OpenRead(path))
-            {
-                if (stream.Length == 0)
-                    return false;
+            using var file = MemoryMappedFile.CreateFromFile(path, FileMode.Open, null, 0, MemoryMappedFileAccess.Read);
+            using var accessor = file.CreateMemoryAccessor(0, 0, MemoryMappedFileAccess.Read);
+            if (accessor.Size == 0)
+                return false;
 
-                BinaryReaderEx br = new BinaryReaderEx(false, stream);
-                return Is(SFUtil.GetDecompressedBR(br, out _));
-            }
+            BinaryReaderEx br = new BinaryReaderEx(false, accessor.Memory);
+            return Is(SFUtil.GetDecompressedBR(br, out _));
         }
 
         /// <summary>
@@ -822,14 +823,13 @@ namespace SoulsFormats
         /// </summary>
         public static DRB Read(string path, DRBVersion version)
         {
-            using (FileStream stream = File.OpenRead(path))
-            {
-                BinaryReaderEx br = new BinaryReaderEx(false, stream);
-                DRB drb = new DRB();
-                br = SFUtil.GetDecompressedBR(br, out drb.Compression);
-                drb.Read(br, version);
-                return drb;
-            }
+            using var file = MemoryMappedFile.CreateFromFile(path, FileMode.Open, null, 0, MemoryMappedFileAccess.Read);
+            using var accessor = file.CreateMemoryAccessor(0, 0, MemoryMappedFileAccess.Read);
+            BinaryReaderEx br = new BinaryReaderEx(false, accessor.Memory);
+            DRB drb = new DRB();
+            br = SFUtil.GetDecompressedBR(br, out drb.Compression);
+            drb.Read(br, version);
+            return drb;
         }
 
         /// <summary>

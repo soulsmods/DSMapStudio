@@ -439,10 +439,8 @@ namespace StudioCore.Scene
                         var mipInfo = GetMipInfo(format, (int)dds.dwWidth, (int)dds.dwHeight, (int)level, false);
                         //paddedSize = mipInfo.ByteCount;
                         paddedSize = mipInfo;
-                        fixed (void* data = &bytes[copyOffset])
-                        {
-                            Unsafe.CopyBlock(map.Data.ToPointer(), data, (uint)paddedSize);
-                        }
+                        var dest = new Span<byte>(map.Data.ToPointer(), paddedSize);
+                        bytes.Span.Slice(copyOffset, paddedSize).CopyTo(dest);
                         copyOffset += paddedSize;
                     }
                 }
@@ -697,7 +695,7 @@ namespace StudioCore.Scene
                         //{
                         //Unsafe.CopyBlock(map.Data.ToPointer(), data, (uint)paddedSize);
                         DeswizzleDDSBytesPS4((int)currentWidth, (int)currentHeight, tex.Format, (int)blockSize,
-                            (int)paddedWidth, new Span<byte>(tex.Bytes, (int)copyOffset, (int)paddedSize),
+                            (int)paddedWidth, tex.Bytes.Span.Slice((int)copyOffset, (int)paddedSize),
                             new Span<byte>(map.Data.ToPointer(), (int)mipInfo));
                         //}
                         copyOffset += paddedSize;

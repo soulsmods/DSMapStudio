@@ -133,16 +133,16 @@ namespace StudioCore.Resource
             public BinderReader Binder = null;
             public bool PopulateResourcesOnly = false;
             public HashSet<int> BinderLoadMask = null;
-            public List<Task> LoadingTasks = new List<Task>();
-            public List<int> TaskSizes = new List<int>();
-            public List<int> TaskProgress = new List<int>();
+            public List<Task> LoadingTasks = new();
+            public List<int> TaskSizes = new();
+            public List<int> TaskProgress = new();
             public int TotalSize = 0;
             public HashSet<string> AssetWhitelist = null;
             public ResourceType ResourceMask = ResourceType.All;
             public AccessLevel AccessLevel = AccessLevel.AccessGPUOptimizedOnly;
 
-            public List<Tuple<IResourceLoadPipeline, string, BinderFileHeader>> PendingResources = new List<Tuple<IResourceLoadPipeline, string, BinderFileHeader>>();
-            public List<Tuple<string, BinderFileHeader>> PendingTPFs = new List<Tuple<string, BinderFileHeader>>();
+            public List<Tuple<IResourceLoadPipeline, string, BinderFileHeader>> PendingResources = new();
+            public List<Tuple<string, BinderFileHeader>> PendingTPFs = new();
 
             public readonly object ProgressLock = new object();
 

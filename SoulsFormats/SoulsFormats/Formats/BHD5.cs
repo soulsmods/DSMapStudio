@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -38,9 +39,9 @@ namespace SoulsFormats
         /// <summary>
         /// Read a dvdbnd header from the given stream, formatted for the given game. Must already be decrypted, if applicable.
         /// </summary>
-        public static BHD5 Read(Stream bhdStream, Game game)
+        public static BHD5 Read(Memory<byte> bytes, Game game)
         {
-            var br = new BinaryReaderEx(false, bhdStream);
+            var br = new BinaryReaderEx(false, bytes);
             return new BHD5(br, game);
         }
 

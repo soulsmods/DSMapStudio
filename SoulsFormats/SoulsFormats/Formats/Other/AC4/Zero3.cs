@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.IO.MemoryMappedFiles;
+using DotNext.IO.MemoryMappedFiles;
 
 namespace SoulsFormats.AC4
 {
@@ -18,19 +20,18 @@ namespace SoulsFormats.AC4
         /// </summary>
         public static bool Is(string path)
         {
-            using (FileStream fs = System.IO.File.OpenRead(path))
-            {
-                var br = new BinaryReaderEx(true, fs);
-                if (br.Length < 0x50 || br.GetInt32(4) != 0x10 || br.GetInt32(8) != 0x10 || br.GetInt32(0xC) != 0x800000)
-                    return false;
+            using var file = MemoryMappedFile.CreateFromFile(path, FileMode.Open, null, 0, MemoryMappedFileAccess.Read);
+            using var accessor = file.CreateMemoryAccessor(0, 0, MemoryMappedFileAccess.Read);
+            var br = new BinaryReaderEx(true, accessor.Memory);
+            if (br.Length < 0x50 || br.GetInt32(4) != 0x10 || br.GetInt32(8) != 0x10 || br.GetInt32(0xC) != 0x800000)
+                return false;
 
-                for (int i = 0; i < 16; i++)
-                {
-                    if (br.GetInt32(0x10 + i * 4) != 0)
-                        return false;
-                }
-                return true;
+            for (int i = 0; i < 16; i++)
+            {
+                if (br.GetInt32(0x10 + i * 4) != 0)
+                    return false;
             }
+            return true;
         }
 
         /// <summary>
@@ -43,14 +44,15 @@ namespace SoulsFormats.AC4
             string containerPath = Path.ChangeExtension(path, index.ToString("D3"));
             while (System.IO.File.Exists(containerPath))
             {
-                containers.Add(new BinaryReaderEx(true, System.IO.File.OpenRead(containerPath)));
+                // Note this is bad if we ever use this lol
+                using var file = MemoryMappedFile.CreateFromFile(path, FileMode.Open, null, 0, MemoryMappedFileAccess.Read);
+                using var accessor = file.CreateMemoryAccessor(0, 0, MemoryMappedFileAccess.Read);
+                containers.Add(new BinaryReaderEx(true, accessor.Memory));
                 index++;
                 containerPath = Path.ChangeExtension(path, index.ToString("D3"));
             }
 
             var result = new Zero3(containers[0], containers);
-            foreach (BinaryReaderEx br in containers)
-                br.Stream.Close();
             return result;
         }
 

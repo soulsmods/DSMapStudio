@@ -102,7 +102,7 @@ namespace StudioCore.Resource
             GC.SuppressFinalize(this);
         }
 
-        bool IResource._Load(byte[] bytes, AccessLevel al, GameType type)
+        bool IResource._Load(Memory<byte> bytes, AccessLevel al, GameType type)
         {
             return _LoadTexture(al);
         }

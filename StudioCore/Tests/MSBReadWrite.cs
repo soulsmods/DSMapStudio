@@ -20,7 +20,7 @@ namespace StudioCore.Tests
                 var decompressed = DCX.Decompress(bytes);
                 MSBE m = MSBE.Read(decompressed);
                 var written = m.Write(DCX.Type.None);
-                if (!decompressed.SequenceEqual(written))
+                if (!decompressed.Span.SequenceEqual(written))
                 {
                     var basepath = Path.GetDirectoryName(path.AssetPath);
                     if (!Directory.Exists($@"{basepath}\mismatches"))

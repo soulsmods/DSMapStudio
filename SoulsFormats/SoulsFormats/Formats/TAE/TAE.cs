@@ -1026,46 +1026,43 @@ namespace SoulsFormats
                 {
                     parameterValues = new Dictionary<string, object>();
                     Template = template;
-                    using (var memStream = new System.IO.MemoryStream(paramData))
+                    var br = new BinaryReaderEx(bigEndian, paramData);
+                    int i = 0;
+                    foreach (var paramKvp in Template)
                     {
-                        var br = new BinaryReaderEx(bigEndian, memStream);
-                        int i = 0;
-                        foreach (var paramKvp in Template)
+                        var p = paramKvp.Value;
+                        if (p.ValueToAssert != null)
                         {
-                            var p = paramKvp.Value;
-                            if (p.ValueToAssert != null)
+                            try
                             {
-                                try
-                                {
-                                    p.AssertValue(br);
-                                }
-                                catch (System.IO.InvalidDataException ex)
-                                {
-                                    var txtField = p.Name != null ? $"'{p.Name}'" : $"{(i + 1)} of {Template.Count}";
-                                    var txtEventType = Template.Name != null ? $"'{Template.Name}'" : Template.ID.ToString();
-
-                                    throw new Exception($"Animation {animID}\nEvent[{eventIndex}] (Type: {txtEventType})" +
-                                            $"\n  -> Assert failed on field {txtField} (Type: {p.Type})", ex);
-                                }
+                                p.AssertValue(br);
                             }
-                            else
+                            catch (System.IO.InvalidDataException ex)
                             {
-                                
-                                try
-                                {
-                                    parameterValues.Add(p.Name, p.ReadValue(br));
-                                }
-                                catch (Exception ex)
-                                {
-                                    var txtField = p.Name != null ? $"'{p.Name}'" : $"{(i + 1)} of {Template.Count}";
-                                    var txtEventType = Template.Name != null ? $"'{Template.Name}'" : Template.ID.ToString();
+                                var txtField = p.Name != null ? $"'{p.Name}'" : $"{(i + 1)} of {Template.Count}";
+                                var txtEventType = Template.Name != null ? $"'{Template.Name}'" : Template.ID.ToString();
 
-                                    throw new Exception($"Animation {animID}\nEvent[{eventIndex}] (Type: {txtEventType})" +
-                                            $"\n  -> Failed to read value of field {txtField} (Type: {p.Type})", ex);
-                                }
+                                throw new Exception($"Animation {animID}\nEvent[{eventIndex}] (Type: {txtEventType})" +
+                                                    $"\n  -> Assert failed on field {txtField} (Type: {p.Type})", ex);
                             }
-                            i++;
                         }
+                        else
+                        {
+                                
+                            try
+                            {
+                                parameterValues.Add(p.Name, p.ReadValue(br));
+                            }
+                            catch (Exception ex)
+                            {
+                                var txtField = p.Name != null ? $"'{p.Name}'" : $"{(i + 1)} of {Template.Count}";
+                                var txtEventType = Template.Name != null ? $"'{Template.Name}'" : Template.ID.ToString();
+
+                                throw new Exception($"Animation {animID}\nEvent[{eventIndex}] (Type: {txtEventType})" +
+                                                    $"\n  -> Failed to read value of field {txtField} (Type: {p.Type})", ex);
+                            }
+                        }
+                        i++;
                     }
                 }
 
@@ -1073,45 +1070,42 @@ namespace SoulsFormats
                 {
                     parameterValues = new Dictionary<string, object>();
                     Template = template;
-                    using (var memStream = new System.IO.MemoryStream(paramData))
+                    var br = new BinaryReaderEx(bigEndian, paramData);
+                    int i = 0;
+                    foreach (var paramKvp in Template)
                     {
-                        var br = new BinaryReaderEx(bigEndian, memStream);
-                        int i = 0;
-                        foreach (var paramKvp in Template)
+                        var p = paramKvp.Value;
+                        if (p.ValueToAssert != null)
                         {
-                            var p = paramKvp.Value;
-                            if (p.ValueToAssert != null)
+                            try
                             {
-                                try
-                                {
-                                    p.AssertValue(br);
-                                }
-                                catch (System.IO.InvalidDataException ex)
-                                {
-                                    var txtField = p.Name != null ? $"'{p.Name}'" : $"{(i + 1)} of {Template.Count}";
-                                    var txtEventType = Template.Name != null ? $"'{Template.Name}'" : Template.ID.ToString();
-
-                                    throw new Exception($"Event Type: {txtEventType}" +
-                                            $"\n  -> Assert failed on field {txtField}", ex);
-                                }
+                                p.AssertValue(br);
                             }
-                            else
+                            catch (System.IO.InvalidDataException ex)
                             {
-                                try
-                                {
-                                    parameterValues.Add(p.Name, p.ReadValue(br));
-                                }
-                                catch (Exception ex)
-                                {
-                                    var txtField = p.Name != null ? $"'{p.Name}'" : $"{(i + 1)} of {Template.Count}";
-                                    var txtEventType = Template.Name != null ? $"'{Template.Name}'" : Template.ID.ToString();
+                                var txtField = p.Name != null ? $"'{p.Name}'" : $"{(i + 1)} of {Template.Count}";
+                                var txtEventType = Template.Name != null ? $"'{Template.Name}'" : Template.ID.ToString();
 
-                                    throw new Exception($"Event Type: {txtEventType}" +
-                                            $"\n  -> Failed to read value of field {txtField} (Type: {p.Type})", ex);
-                                }
+                                throw new Exception($"Event Type: {txtEventType}" +
+                                                    $"\n  -> Assert failed on field {txtField}", ex);
                             }
-                            i++;
                         }
+                        else
+                        {
+                            try
+                            {
+                                parameterValues.Add(p.Name, p.ReadValue(br));
+                            }
+                            catch (Exception ex)
+                            {
+                                var txtField = p.Name != null ? $"'{p.Name}'" : $"{(i + 1)} of {Template.Count}";
+                                var txtEventType = Template.Name != null ? $"'{Template.Name}'" : Template.ID.ToString();
+
+                                throw new Exception($"Event Type: {txtEventType}" +
+                                                    $"\n  -> Failed to read value of field {txtField} (Type: {p.Type})", ex);
+                            }
+                        }
+                        i++;
                     }
                 }
 
