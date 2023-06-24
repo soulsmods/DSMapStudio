@@ -548,7 +548,6 @@
 4282 Disable Grace Warp
 4286 Disable Grace Warp (Trap)
 4288 Disable Grace Warp
-4301 Enemy: Fade after death
 4301 Enemy: Fade after death (boss)
 4302 Enemy: Fade after death (blue)
 5250 Enemy: Golden Eyes (Bonus Runes)
