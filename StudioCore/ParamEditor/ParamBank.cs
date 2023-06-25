@@ -495,7 +495,7 @@ namespace StudioCore.ParamEditor
             "treasureboxparam",
         };
 
-        private void LoadParamsDS2()
+        private void LoadParamsDS2(bool loose)
         {
             var dir = AssetLocator.GameRootDirectory;
             var mod = AssetLocator.GameModDirectory;
@@ -530,9 +530,9 @@ namespace StudioCore.ParamEditor
             {
                 enemyFile = $@"{dir}\Param\EnemyParam.param";
             }
-            LoadParamsDS2FromFile(scandir, param, enemyFile);
+            LoadParamsDS2FromFile(scandir, param, enemyFile, loose);
         }
-        private void LoadVParamsDS2()
+        private void LoadVParamsDS2(bool loose)
         {
             if (!File.Exists($@"{AssetLocator.GameRootDirectory}\enc_regulation.bnd.dcx"))
             {
@@ -547,35 +547,10 @@ namespace StudioCore.ParamEditor
             List<string> scandir = new List<string>();
             scandir.Add($@"{AssetLocator.GameRootDirectory}\Param");
 
-            LoadParamsDS2FromFile(scandir, $@"{AssetLocator.GameRootDirectory}\enc_regulation.bnd.dcx", $@"{AssetLocator.GameRootDirectory}\Param\EnemyParam.param");
+            LoadParamsDS2FromFile(scandir, $@"{AssetLocator.GameRootDirectory}\enc_regulation.bnd.dcx", $@"{AssetLocator.GameRootDirectory}\Param\EnemyParam.param", loose);
         }
-        private void LoadParamsDS2FromFile(List<string> loosedir, string path, string enemypath)
+        private void LoadParamsDS2FromFile(List<string> loosedir, string path, string enemypath, bool loose)
         {
-            foreach (var d in loosedir)
-            {
-                var paramfiles = Directory.GetFileSystemEntries(d, @"*.param");
-                foreach (var p in paramfiles)
-                {
-                    var name = Path.GetFileNameWithoutExtension(p);
-                    var lp = Param.Read(p);
-                    var fname = lp.ParamType;
-
-                    try
-                    {
-                        PARAMDEF def = AssetLocator.GetParamdefForParam(fname);
-                        lp.ApplyParamdef(def);
-                        if (!_params.ContainsKey(name))
-                        {
-                            _params.Add(name, lp);
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        TaskManager.warningList.TryAdd($"{fname} DefFail", $"Could not apply ParamDef for {fname}");
-                    }
-                }
-            }
-
             BND4 paramBnd;
             if (!BND4.Is(path))
             {
@@ -599,9 +574,9 @@ namespace StudioCore.ParamEditor
             }
             if (EnemyParam != null)
             {
-                PARAMDEF def = AssetLocator.GetParamdefForParam(EnemyParam.ParamType);
                 try
                 {
+                    PARAMDEF def = _paramdefs[EnemyParam.ParamType];
                     EnemyParam.ApplyParamdef(def);
                 }
                 catch (Exception e)
@@ -610,6 +585,42 @@ namespace StudioCore.ParamEditor
                 }
             }
             LoadParamFromBinder(paramBnd, ref _params, out _paramVersion);
+
+            foreach (var d in loosedir)
+            {
+                var paramfiles = Directory.GetFileSystemEntries(d, @"*.param");
+                foreach (var p in paramfiles)
+                {
+                    var name = Path.GetFileNameWithoutExtension(p);
+                    var lp = Param.Read(p);
+                    var fname = lp.ParamType;
+
+                    try
+                    {
+                        if (loose)
+                        {
+                            // Loose params: override params already loaded via regulation
+                            PARAMDEF def = _paramdefs[lp.ParamType];
+                            lp.ApplyParamdef(def);
+                            _params[name] = lp;
+                        }
+                        else
+                        {
+                            // Non-loose params: do not override params already loaded via regulation
+                            if (!_params.ContainsKey(name))
+                            {
+                                PARAMDEF def = _paramdefs[lp.ParamType];
+                                lp.ApplyParamdef(def);
+                                _params.Add(name, lp);
+                            }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        TaskManager.warningList.TryAdd($"{fname} DefFail", $"Could not apply ParamDef for {fname}");
+                    }
+                }
+            }
         }
 
         private void LoadParamsDS3(bool loose)
@@ -750,7 +761,7 @@ namespace StudioCore.ParamEditor
                 }
                 if (locator.Type == GameType.DarkSoulsIISOTFS)
                 {
-                    PrimaryBank.LoadParamsDS2();
+                    PrimaryBank.LoadParamsDS2(settings.UseLooseParams);
                 }
                 if (locator.Type == GameType.DarkSoulsIII)
                 {
@@ -786,7 +797,7 @@ namespace StudioCore.ParamEditor
                     }
                     if (locator.Type == GameType.DarkSoulsIISOTFS)
                     {
-                        VanillaBank.LoadVParamsDS2();
+                        VanillaBank.LoadVParamsDS2(settings.UseLooseParams);
                     }
                     if (locator.Type == GameType.DarkSoulsIII)
                     {
@@ -822,7 +833,7 @@ namespace StudioCore.ParamEditor
                 }
             });
         }
-        public static void LoadAuxBank(string path, string looseDir, string enemyPath)
+        public static void LoadAuxBank(string path, string looseDir, string enemyPath, ProjectSettings settings)
         {
             // Steal assetlocator
             AssetLocator locator = PrimaryBank.AssetLocator;
@@ -848,7 +859,7 @@ namespace StudioCore.ParamEditor
             }
             else if (locator.Type == GameType.DarkSoulsIISOTFS)
             {
-                newBank.LoadParamsDS2FromFile(new List<string>{looseDir}, path, enemyPath);
+                newBank.LoadParamsDS2FromFile(new List<string>{looseDir}, path, enemyPath, settings.UseLooseParams);
             }
             else if (locator.Type == GameType.DarkSoulsRemastered)
             {
