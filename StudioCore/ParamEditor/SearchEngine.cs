@@ -25,7 +25,7 @@ namespace StudioCore.Editor
         internal SearchEngineCommand<A,B> defaultFilter = null;
         internal Func<A, List<B>> unpacker;
         protected void addExistsFilter() {
-            filterList.Add("exists", newCmd(new string[0], noArgs(noContext((B)=>true))));
+            filterList.Add("exists", newCmd(new string[0], "Selects all elements", noArgs(noContext((B)=>true))));
         }
         protected Func<string[], bool, Func<A, Func<B, bool>>> noArgs(Func<A, Func<B, bool>> func)
         {
@@ -38,9 +38,9 @@ namespace StudioCore.Editor
 
         internal virtual void Setup(){
         }
-        internal SearchEngineCommand<A, B> newCmd(string[] args, Func<string[], bool, Func<A, Func<B, bool>>> func, Func<bool> shouldShow = null)
+        internal SearchEngineCommand<A, B> newCmd(string[] args, string wiki, Func<string[], bool, Func<A, Func<B, bool>>> func, Func<bool> shouldShow = null)
         {
-            return new SearchEngineCommand<A, B>(args, func, shouldShow);
+            return new SearchEngineCommand<A, B>(args, wiki, func, shouldShow);
         }
 
         public bool HandlesCommand(string command)
@@ -62,14 +62,14 @@ namespace StudioCore.Editor
                 options.Add("or omit specifying and use default ("+defaultFilter.args.Length+"args)");
             return options;
         }
-        public List<(string, string[])> VisibleCommands()
+        public List<(string, string[], string)> VisibleCommands()
         {
-            List<(string, string[])> options = new List<(string, string[])>();
+            List<(string, string[], string)> options = new List<(string, string[], string)>();
             foreach (string op in filterList.Keys)
             {
                 SearchEngineCommand<A,B> cmd = filterList[op];
                 if (cmd.shouldShow == null || cmd.shouldShow())
-                    options.Add((op, cmd.args));
+                    options.Add((op, cmd.args, cmd.wiki));
             }
             return options;
         }
@@ -152,11 +152,13 @@ namespace StudioCore.Editor
     class SearchEngineCommand<A, B>
     {
         public string[] args;
+        public string wiki;
         internal Func<bool> shouldShow;
         internal Func<string[], bool, Func<A, Func<B, bool>>> func;
-        internal SearchEngineCommand(string[] args, Func<string[], bool, Func<A, Func<B, bool>>> func, Func<bool> shouldShow)
+        internal SearchEngineCommand(string[] args, string wiki, Func<string[], bool, Func<A, Func<B, bool>>> func, Func<bool> shouldShow)
         {
             this.args = args;
+            this.wiki = wiki;
             this.func = func;
             this.shouldShow = shouldShow;
         }
@@ -195,8 +197,8 @@ namespace StudioCore.Editor
                 list.AddRange(ParamBank.ClipboardRows.Select((x, i) => (MassEditRowSource.Clipboard, x)));
                 return list;
             };
-            filterList.Add("selection", newCmd(new string[0], noArgs(noContext((row)=>row.Item1 == MassEditRowSource.Selection))));
-            filterList.Add("clipboard", newCmd(new string[0], noArgs(noContext((row)=>row.Item1 == MassEditRowSource.Clipboard)), ()=>ParamBank.ClipboardRows?.Count > 0));
+            filterList.Add("selection", newCmd(new string[0], "Selects the current param selection and selected rows in that param", noArgs(noContext((row)=>row.Item1 == MassEditRowSource.Selection))));
+            filterList.Add("clipboard", newCmd(new string[0], "Selects the param of the clipboard and the rows in the clipboard", noArgs(noContext((row)=>row.Item1 == MassEditRowSource.Clipboard)), ()=>ParamBank.ClipboardRows?.Count > 0));
             contextGetterForMultiStage = (ParamEditorSelectionState state, (MassEditRowSource, Param.Row) exampleItem) => (ParamBank.PrimaryBank, ParamBank.PrimaryBank.Params[exampleItem.Item1 == MassEditRowSource.Selection ? state.getActiveParam() : ParamBank.ClipboardParam]);
             sourceListGetterForMultiStage = ((MassEditRowSource, Param.Row) row) => row.Item2;
             searchEngineForMultiStage = RowSearchEngine.rse;
@@ -220,22 +222,22 @@ namespace StudioCore.Editor
         internal override void Setup()
         {
             unpacker = (dummy)=>ParamBank.AuxBanks.Select((aux, i) => aux.Value.Params.Select((x, i) => (aux.Value, x.Value))).Aggregate(bank.Params.Values.Select((x, i) => (bank, x)), (o, n) => o.Concat(n)).ToList();
-            filterList.Add("modified", newCmd(new string[0], noArgs(noContext((param)=>{
+            filterList.Add("modified", newCmd(new string[0], "Selects params where any rows do not match the vanilla version, or where any are added. Ignores row names", noArgs(noContext((param)=>{
                 if (param.Item1 != bank)
                     return false;
                 HashSet<int> cache = bank.GetVanillaDiffRows(bank.GetKeyForParam(param.Item2));
                 return cache.Count > 0;
             }))));
-            filterList.Add("param", newCmd(new string[]{"param name (regex)"}, (args, lenient)=>{
+            filterList.Add("param", newCmd(new string[]{"param name (regex)"}, "Selects all params whose name matches the given regex", (args, lenient)=>{
                 Regex rx = lenient ? new Regex(args[0], RegexOptions.IgnoreCase) : new Regex($@"^{args[0]}$");
                 return noContext((param)=>param.Item1 != bank ? false : rx.IsMatch(bank.GetKeyForParam(param.Item2) == null ? "" : bank.GetKeyForParam(param.Item2)));
             }));
-            filterList.Add("auxparam", newCmd(new string[]{"parambank name", "param name (regex)"}, (args, lenient)=>{
+            filterList.Add("auxparam", newCmd(new string[]{"parambank name", "param name (regex)"}, "Selects params from the specified regulation or parambnd where the param name matches the given regex", (args, lenient)=>{
                 ParamBank auxBank = ParamBank.AuxBanks[args[0]];
                 Regex rx = lenient ? new Regex(args[1], RegexOptions.IgnoreCase) : new Regex($@"^{args[1]}$");
                 return noContext((param)=>param.Item1 != auxBank ? false : rx.IsMatch(auxBank.GetKeyForParam(param.Item2) == null ? "" : auxBank.GetKeyForParam(param.Item2)));
             }, ()=>ParamBank.AuxBanks.Count > 0 && CFG.Current.Param_AdvancedMassedit));
-            defaultFilter = newCmd(new string[]{"param name (regex)"}, (args, lenient)=>{
+            defaultFilter = newCmd(new string[]{"param name (regex)"}, "Selects all params whose name matches the given regex", (args, lenient)=>{
                 Regex rx = lenient ? new Regex(args[0], RegexOptions.IgnoreCase) : new Regex($@"^{args[0]}$");
                 return noContext((param)=>param.Item1 != bank ? false : rx.IsMatch(bank.GetKeyForParam(param.Item2) == null ? "" : bank.GetKeyForParam(param.Item2)));
             });
@@ -252,13 +254,13 @@ namespace StudioCore.Editor
         internal override void Setup()
         {
             unpacker = (param) => new List<Param.Row>(param.Item2.Rows);
-            filterList.Add("modified", newCmd(new string[0], noArgs((context)=>{
+            filterList.Add("modified", newCmd(new string[0], "Selects rows which do not match the vanilla version, or are added. Ignores row name", noArgs((context)=>{
                     string paramName = context.Item1.GetKeyForParam(context.Item2);
                     HashSet<int> cache = context.Item1.GetVanillaDiffRows(paramName);
                     return (row) => cache.Contains(row.ID);
                 }
             )));
-            filterList.Add("added", newCmd(new string[0], noArgs((context)=>{
+            filterList.Add("added", newCmd(new string[0], "Selects rows where the ID is not found in the vanilla param", noArgs((context)=>{
                     string paramName = context.Item1.GetKeyForParam(context.Item2);
                     if (!ParamBank.VanillaBank.Params.ContainsKey(paramName))
                         return (row) => true;
@@ -266,7 +268,7 @@ namespace StudioCore.Editor
                     return (row) => vanilParam[row.ID] == null;
                 }
             )));
-            filterList.Add("mergeable", newCmd(new string[0], noArgs((context)=>{
+            filterList.Add("mergeable", newCmd(new string[0], "Selects rows which are not modified in the primary regulation or parambnd and there is exactly one equivalent row in another regulation or parambnd that is modified", noArgs((context)=>{
                 string paramName = context.Item1.GetKeyForParam(context.Item2);
                 if (paramName == null)
                     return (row) => true;
@@ -275,27 +277,27 @@ namespace StudioCore.Editor
                 return (row) => !pCache.Contains(row.ID) && auxCaches.Where((x) => x.Item2.Contains(row.ID) && x.Item1.Contains(row.ID)).Count() == 1;
                 }
             ), ()=>ParamBank.AuxBanks.Count > 0));
-            filterList.Add("conflicts", newCmd(new string[0], noArgs((context)=>{
+            filterList.Add("conflicts", newCmd(new string[0], "Selects rows which, among all equivalents in the primary and additional regulations or parambnds, there is more than row 1 which is modified", noArgs((context)=>{
                 string paramName = context.Item1.GetKeyForParam(context.Item2);
                 HashSet<int> pCache = ParamBank.PrimaryBank.GetVanillaDiffRows(paramName);
                 var auxCaches = ParamBank.AuxBanks.Select(x=>(x.Value.GetPrimaryDiffRows(paramName), x.Value.GetVanillaDiffRows(paramName))).ToList();
                 return (row) => (pCache.Contains(row.ID)?1:0) + auxCaches.Where((x) => x.Item2.Contains(row.ID) && x.Item1.Contains(row.ID)).Count() > 1;
                 }
             ), ()=>ParamBank.AuxBanks.Count > 0));
-            filterList.Add("id", newCmd(new string[]{"row id (regex)"}, (args, lenient)=>{
+            filterList.Add("id", newCmd(new string[]{"row id (regex)"}, "Selects rows whose ID matches the given regex", (args, lenient)=>{
                 Regex rx = lenient ? new Regex(args[0].ToLower()) : new Regex($@"^{args[0]}$");
                 return noContext((row)=>rx.IsMatch(row.ID.ToString()));
             }));
-            filterList.Add("idrange", newCmd(new string[]{"row id minimum (inclusive)", "row id maximum (inclusive)"}, (args, lenient)=>{
+            filterList.Add("idrange", newCmd(new string[]{"row id minimum (inclusive)", "row id maximum (inclusive)"}, "Selects rows whose ID falls in the given numerical range", (args, lenient)=>{
                 double floor = double.Parse(args[0]);
                 double ceil = double.Parse(args[1]);
                 return noContext((row)=>row.ID >= floor && row.ID <= ceil);
             }));
-            filterList.Add("name", newCmd(new string[]{"row name (regex)"}, (args, lenient)=>{
+            filterList.Add("name", newCmd(new string[]{"row name (regex)"}, "Selects rows whose Name matches the given regex", (args, lenient)=>{
                 Regex rx = lenient ? new Regex(args[0], RegexOptions.IgnoreCase) : new Regex($@"^{args[0]}$");
                 return noContext((row)=>rx.IsMatch(row.Name == null ? "" : row.Name));
             }));
-            filterList.Add("prop", newCmd(new string[]{"field internalName", "field value (regex)"}, (args, lenient)=>{
+            filterList.Add("prop", newCmd(new string[]{"field internalName", "field value (regex)"}, "Selects rows where the specified field has a value that matches the given regex", (args, lenient)=>{
                 Regex rx = lenient ? new Regex(args[1], RegexOptions.IgnoreCase) : new Regex($@"^{args[1]}$");
                 string field = args[0].Replace(@"\s", " ");
                 return noContext((row)=>{
@@ -306,7 +308,7 @@ namespace StudioCore.Editor
                         return rx.IsMatch(term);
                 });
             }));
-            filterList.Add("proprange", newCmd(new string[]{"field internalName", "field value minimum (inclusive)", "field value maximum (inclusive)"}, (args, lenient)=>{
+            filterList.Add("proprange", newCmd(new string[]{"field internalName", "field value minimum (inclusive)", "field value maximum (inclusive)"}, "Selects rows where the specified field has a value that falls in the given numerical range", (args, lenient)=>{
                 string field = args[0].Replace(@"\s", " ");
                 double floor = double.Parse(args[1]);
                 double ceil = double.Parse(args[2]);
@@ -317,7 +319,7 @@ namespace StudioCore.Editor
                         return (Convert.ToDouble(c.Value.Value)) >= floor && (Convert.ToDouble(c.Value.Value)) <= ceil;
                 });
             }));
-            filterList.Add("propref", newCmd(new string[]{"field internalName", "referenced row name (regex)"}, (args, lenient)=>{
+            filterList.Add("propref", newCmd(new string[]{"field internalName", "referenced row name (regex)"}, "Selects rows where the specified field that references another param has a value referencing a row whose name matches the given regex", (args, lenient)=>{
                 Regex rx = lenient ? new Regex(args[1], RegexOptions.IgnoreCase) : new Regex($@"^{args[1]}$");
                 string field = args[0].Replace(@"\s", " ");
                 return (context)=>{
@@ -337,7 +339,21 @@ namespace StudioCore.Editor
                     };
                 };
             }, ()=>CFG.Current.Param_AdvancedMassedit));
-            filterList.Add("fmg", newCmd(new string[]{"fmg title (regex)"}, (args, lenient)=>{
+            filterList.Add("propwhere", newCmd(new string[]{"field internalName", "cell/field selector"}, "Selects rows where the specified field appears when the given cell/field search is given", (args, lenient)=>{
+                string field = args[0].Replace(@"\s", " ");
+                return (context)=>{
+                    string paramName = context.Item1.GetKeyForParam(context.Item2);
+                    var cols = context.Item2.Cells;
+                    var testCol = context.Item2.GetCol(field);
+                    return (row)=>
+                    {
+                        var cseSearchContext = (paramName, row);
+                        var res = CellSearchEngine.cse.Search(cseSearchContext, new List<(PseudoColumn, Param.Column)>(){testCol}, args[1], lenient, false);
+                        return res.Contains(testCol);
+                    };
+                };
+            }, ()=>CFG.Current.Param_AdvancedMassedit));
+            filterList.Add("fmg", newCmd(new string[]{"fmg title (regex)"}, "Selects rows which have an attached FMG and that FMG's text matches the given regex", (args, lenient)=>{
                 Regex rx = lenient ? new Regex(args[0], RegexOptions.IgnoreCase) : new Regex($@"^{args[0]}$");
                 string field = args[0].Replace(@"\s", " ");
                 return (context)=>{
@@ -367,7 +383,7 @@ namespace StudioCore.Editor
                     };
                 };
             }, ()=>CFG.Current.Param_AdvancedMassedit));
-            filterList.Add("vanillaprop", newCmd(new string[]{"field internalName", "field value (regex)"}, (args, lenient)=>{
+            filterList.Add("vanillaprop", newCmd(new string[]{"field internalName", "field value (regex)"}, "Selects rows where the vanilla equivilent of that row has a value for the given field that matches the given regex", (args, lenient)=>{
                 Regex rx = lenient ? new Regex(args[1], RegexOptions.IgnoreCase) : new Regex($@"^{args[1]}$");
                 string field = args[0].Replace(@"\s", " ");
                 return (param) => {
@@ -384,7 +400,7 @@ namespace StudioCore.Editor
                     };
                 };
             }, ()=>CFG.Current.Param_AdvancedMassedit));
-            filterList.Add("vanillaproprange", newCmd(new string[]{"field internalName", "field value minimum (inclusive)", "field value maximum (inclusive)"}, (args, lenient)=>{
+            filterList.Add("vanillaproprange", newCmd(new string[]{"field internalName", "field value minimum (inclusive)", "field value maximum (inclusive)"}, "Selects rows where the vanilla equivilent of that row has a value for the given field that falls in the given numerical range", (args, lenient)=>{
                 string field = args[0].Replace(@"\s", " ");
                 double floor = double.Parse(args[1]);
                 double ceil = double.Parse(args[2]);
@@ -400,7 +416,7 @@ namespace StudioCore.Editor
                     };
                 };
             }, ()=>CFG.Current.Param_AdvancedMassedit));
-            filterList.Add("auxprop", newCmd(new string[]{"parambank name", "field internalName", "field value (regex)"}, (args, lenient)=>{
+            filterList.Add("auxprop", newCmd(new string[]{"parambank name", "field internalName", "field value (regex)"}, "Selects rows where the equivilent of that row in the given regulation or parambnd has a value for the given field that matches the given regex", (args, lenient)=>{
                 Regex rx = lenient ? new Regex(args[2], RegexOptions.IgnoreCase) : new Regex($@"^{args[2]}$");
                 string field = args[1].Replace(@"\s", " ");
                 ParamBank bank;
@@ -420,8 +436,7 @@ namespace StudioCore.Editor
                     };
                 };
             }, ()=>ParamBank.AuxBanks.Count > 0 && CFG.Current.Param_AdvancedMassedit));
-            filterList.Add("auxproprange", newCmd(new string[] { "parambank name", "field internalName", "field value minimum (inclusive)", "field value maximum (inclusive)" }, (args, lenient) =>
-            {
+            filterList.Add("auxproprange", newCmd(new string[]{"parambank name", "field internalName", "field value minimum (inclusive)", "field value maximum (inclusive)"},  "Selects rows where the equivilent of that row in the given regulation or parambnd has a value for the given field that falls in the given range", (args, lenient)=>{
                 string field = args[0].Replace(@"\s", " ");
                 double floor = double.Parse(args[1]);
                 double ceil = double.Parse(args[2]);
@@ -439,9 +454,8 @@ namespace StudioCore.Editor
                         return (Convert.ToDouble(c.Value.Value)) >= floor && (Convert.ToDouble(c.Value.Value)) <= ceil;
                     };
                 };
-            }, () => ParamBank.AuxBanks.Count > 0 && CFG.Current.Param_AdvancedMassedit));
-
-            filterList.Add("semijoin", newCmd(new string[]{"this field internalName", "other param", "other param field internalName", "other param row search"}, (args, lenient)=>{
+            }, ()=>ParamBank.AuxBanks.Count > 0 && CFG.Current.Param_AdvancedMassedit));
+            filterList.Add("semijoin", newCmd(new string[]{"this field internalName", "other param", "other param field internalName", "other param row search"}, "Selects all rows where the value of a given field is any of the values in the second given field found in the given param using the given row selector", (args, lenient)=>{
                 string thisField = args[0].Replace(@"\s", " ");
                 string otherParam = args[1];
                 string otherField = args[2].Replace(@"\s", " ");
@@ -464,7 +478,7 @@ namespace StudioCore.Editor
                     };
                 };
             }, ()=>CFG.Current.Param_AdvancedMassedit));
-            defaultFilter = newCmd(new string[]{"row ID or Name (regex)"}, (args, lenient)=>{
+            defaultFilter = newCmd(new string[]{"row ID or Name (regex)"}, "Selects rows where either the ID or Name matches the given regex, except in strict/massedit mode", (args, lenient)=>{
                 if (!lenient)
                     return noContext((row)=>false);
                 Regex rx = new Regex(args[0], RegexOptions.IgnoreCase);
@@ -485,7 +499,7 @@ namespace StudioCore.Editor
                 list.AddRange(row.Item2.Cells.Select((cell, i) => (PseudoColumn.None, cell)));
                 return list;
             };
-            defaultFilter = newCmd(new string[]{"field internalName (regex)"}, (args, lenient) => {
+            defaultFilter = newCmd(new string[]{"field internalName (regex)"}, "Selects cells/fields where the internal name of that field matches the given regex", (args, lenient) => {
                 bool matchID = args[0] == "ID";
                 bool matchName = args[0] == "Name";
                 Regex rx = lenient ? new Regex(args[0], RegexOptions.IgnoreCase) : new Regex($@"^{args[0]}$");
@@ -505,7 +519,7 @@ namespace StudioCore.Editor
                     return false;
                 });
             });
-            filterList.Add("modified", newCmd(new string[0], (args, lenient) => (row) => {
+            filterList.Add("modified", newCmd(new string[0], "Selects cells/fields where the equivalent cell in the vanilla regulation or parambnd has a different value", (args, lenient) => (row) => {
                 if (row.Item1 == null)
                     throw new Exception("Can't check if cell is modified - not part of a param");
                 Param vParam = ParamBank.VanillaBank.Params?[row.Item1];
@@ -522,7 +536,7 @@ namespace StudioCore.Editor
                         return ParamUtils.IsValueDiff(ref valA, ref valB, col.GetColumnType());
                     };
             }));
-            filterList.Add("auxmodified", newCmd(new string[]{"parambank name"}, (args, lenient) => {
+            filterList.Add("auxmodified", newCmd(new string[]{"parambank name"}, "Selects cells/fields where the equivalent cell in the specified regulation or parambnd has a different value", (args, lenient) => {
                 if (!ParamBank.AuxBanks.ContainsKey(args[0]))
                     throw new Exception("Can't check if cell is modified - parambank not found");
                 ParamBank bank = ParamBank.AuxBanks[args[0]];
@@ -551,7 +565,7 @@ namespace StudioCore.Editor
                         };
                 };
             }, ()=>ParamBank.AuxBanks.Count > 0));
-            filterList.Add("sftype", newCmd(new string[]{"paramdef type"}, (args, lenient) => {
+            filterList.Add("sftype", newCmd(new string[]{"paramdef type"}, "Selects cells/fields where the field's data type, as enumerated by soulsformats, matches the given regex", (args, lenient) => {
                 Regex r = new Regex('^'+args[0]+'$', lenient ? RegexOptions.IgnoreCase : RegexOptions.None); //Leniency rules break from the norm
                 return (row) => (col) => r.IsMatch(col.GetColumnSfType());
             }, ()=>CFG.Current.Param_AdvancedMassedit));
@@ -568,7 +582,7 @@ namespace StudioCore.Editor
             unpacker = (dummy) => {
                 return MassParamEdit.massEditVars.Keys.ToList();
             };
-            filterList.Add("vars", newCmd(new string[]{"variable names (regex)"}, (args, lenient) => {
+            filterList.Add("vars", newCmd(new string[]{"variable names (regex)"}, "Selects variables whose name matches the given regex", (args, lenient) => {
                 if (args[0].StartsWith('$'))
                     args[0] = args[0].Substring(1);
                 Regex rx = lenient ? new Regex(args[0], RegexOptions.IgnoreCase) : new Regex($@"^{args[0]}$");
