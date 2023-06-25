@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <isSkipSphereCast IsBool="" />
+    <isTurnAtker IsBool="" />
+    <isSkipWepCate IsBool="" />
+    <isEnableThrowFollowingFeedback IsBool="" />
+    <isEnableThrowFollowingFallAssist IsBool="" />
+    <throwKind Refs="ThrowKindParam(=0)" />
+  </Field>
+  <Self />
+</PARAMMETA>
