@@ -928,7 +928,8 @@ namespace StudioCore
                                    "Meowmaritus\n" +
                                    "Radai\n" +
                                    "Moonlight Ruin\n" +
-                                   "Evan (HalfGrownHollow)");
+                                   "Evan (HalfGrownHollow)\n" +
+                                   "MyMaidisKitchenAid");
                         ImGui.EndMenu();
                     }
 
