@@ -1,4 +1,5 @@
-﻿using static SoulsFormats.Binder;
+﻿using System;
+using static SoulsFormats.Binder;
 
 namespace SoulsFormats
 {
@@ -157,7 +158,7 @@ namespace SoulsFormats
 
         internal BinderFile ReadFileData(BinaryReaderEx br)
         {
-            byte[] bytes;
+            Memory<byte> bytes;
             DCX.Type compressionType = DCX.Type.Zlib;
             if (IsCompressed(Flags))
             {
@@ -166,7 +167,9 @@ namespace SoulsFormats
             }
             else
             {
-                bytes = br.GetBytes(DataOffset, (int)CompressedSize);
+                br.StepIn(DataOffset);
+                bytes = br.ReadByteMemoryView((int)CompressedSize);
+                br.StepOut();
             }
 
             return new BinderFile(Flags, ID, Name, bytes)
@@ -230,27 +233,27 @@ namespace SoulsFormats
             }
         }
 
-        private void WriteFileData(BinaryWriterEx bw, byte[] bytes)
+        private void WriteFileData(BinaryWriterEx bw, Memory<byte> bytes)
         {
-            if (bytes.LongLength > 0)
+            if (bytes.Length > 0)
                 bw.Pad(0x10);
 
             DataOffset = bw.Position;
-            UncompressedSize = bytes.LongLength;
+            UncompressedSize = bytes.Length;
             if (IsCompressed(Flags))
             {
-                byte[] compressed = DCX.Compress(bytes, CompressionType);
+                byte[] compressed = DCX.Compress(bytes.Span, CompressionType);
                 CompressedSize = compressed.LongLength;
                 bw.WriteBytes(compressed);
             }
             else
             {
-                CompressedSize = bytes.LongLength;
-                bw.WriteBytes(bytes);
+                CompressedSize = bytes.Length;
+                bw.WriteBytes(bytes.Span);
             }
         }
 
-        internal void WriteBinder3FileData(BinaryWriterEx bwHeader, BinaryWriterEx bwData, Format format, int index, byte[] bytes)
+        internal void WriteBinder3FileData(BinaryWriterEx bwHeader, BinaryWriterEx bwData, Format format, int index, Memory<byte> bytes)
         {
             WriteFileData(bwData, bytes);
 
@@ -265,7 +268,7 @@ namespace SoulsFormats
                 bwHeader.FillUInt32($"FileDataOffset{index}", (uint)DataOffset);
         }
 
-        internal void WriteBinder4FileData(BinaryWriterEx bwHeader, BinaryWriterEx bwData, Format format, int index, byte[] bytes)
+        internal void WriteBinder4FileData(BinaryWriterEx bwHeader, BinaryWriterEx bwData, Format format, int index, Memory<byte> bytes)
         {
             WriteFileData(bwData, bytes);
 

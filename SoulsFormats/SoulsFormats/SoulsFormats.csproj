@@ -20,6 +20,9 @@
 
   <ItemGroup>
     <PackageReference Include="BouncyCastle.Cryptography" Version="2.2.1" />
+    <PackageReference Include="DotNext.IO" Version="4.12.4" />
+    <PackageReference Include="DotNext.Unsafe" Version="4.12.4" />
+    <PackageReference Include="Microsoft.Toolkit.HighPerformance" Version="7.1.2" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="7.0.0" />
   </ItemGroup>
 </Project>

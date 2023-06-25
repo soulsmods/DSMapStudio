@@ -17,7 +17,9 @@ using System.ComponentModel.DataAnnotations;
 using StudioCore.MsbEditor;
 using StudioCore.Scene;
 using System.Data;
+using System.IO.MemoryMappedFiles;
 using System.Threading.Tasks.Dataflow;
+using DotNext.IO.MemoryMappedFiles;
 
 namespace StudioCore.Resource
 {
@@ -594,15 +596,15 @@ namespace StudioCore.Resource
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void FillVertex(ref Vector3 dest, BinaryReaderEx br, FLVER.LayoutType type)
+        private unsafe void FillVertex(Vector3 *dest, BinaryReaderEx br, FLVER.LayoutType type)
         {
             if (type == FLVER.LayoutType.Float3)
             {
-                dest = br.ReadVector3();
+                *dest = br.ReadVector3();
             }
             else if (type == FLVER.LayoutType.Float4)
             {
-                dest = br.ReadVector3();
+                *dest = br.ReadVector3();
                 br.AssertSingle(0);
             }
             else
@@ -628,16 +630,16 @@ namespace StudioCore.Resource
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private unsafe void FillNormalSNorm8(sbyte* dest, BinaryReaderEx br, FLVER.LayoutType type, ref Vector3 n)
+        private unsafe void FillNormalSNorm8(sbyte* dest, BinaryReaderEx br, FLVER.LayoutType type, Vector3 *n)
         {
             int nw = 0;
             if (type == FLVER.LayoutType.Float3)
             {
-                n = br.ReadVector3();
+                *n = br.ReadVector3();
             }
             else if (type == FLVER.LayoutType.Float4)
             {
-                n = br.ReadVector3();
+                *n = br.ReadVector3();
                 float w = br.ReadSingle();
                 nw = (int)w;
                 if (w != nw)
@@ -645,46 +647,46 @@ namespace StudioCore.Resource
             }
             else if (type == FLVER.LayoutType.Byte4A)
             {
-                n = FLVER.Vertex.ReadByteNormXYZ(br);
+                *n = FLVER.Vertex.ReadByteNormXYZ(br);
                 nw = br.ReadByte();
             }
             else if (type == FLVER.LayoutType.Byte4B)
             {
-                n = FLVER.Vertex.ReadByteNormXYZ(br);
+                *n = FLVER.Vertex.ReadByteNormXYZ(br);
                 nw = br.ReadByte();
             }
             else if (type == FLVER.LayoutType.Short2toFloat2)
             {
                 nw = br.ReadByte();
-                n = FLVER.Vertex.ReadSByteNormZYX(br);
+                *n = FLVER.Vertex.ReadSByteNormZYX(br);
             }
             else if (type == FLVER.LayoutType.Byte4C)
             {
-                n = FLVER.Vertex.ReadByteNormXYZ(br);
+                *n = FLVER.Vertex.ReadByteNormXYZ(br);
                 nw = br.ReadByte();
             }
             else if (type == FLVER.LayoutType.Short4toFloat4A)
             {
-                n = FLVER.Vertex.ReadShortNormXYZ(br);
+                *n = FLVER.Vertex.ReadShortNormXYZ(br);
                 nw = br.ReadInt16();
             }
             else if (type == FLVER.LayoutType.Short4toFloat4B)
             {
                 //Normal = ReadUShortNormXYZ(br);
-                n = FLVER.Vertex.ReadFloat16NormXYZ(br);
+                *n = FLVER.Vertex.ReadFloat16NormXYZ(br);
                 nw = br.ReadInt16();
             }
             else if (type == FLVER.LayoutType.Byte4E)
             {
-                n = FLVER.Vertex.ReadByteNormXYZ(br);
+                *n = FLVER.Vertex.ReadByteNormXYZ(br);
                 nw = br.ReadByte();
             }
             else
                 throw new NotImplementedException($"Read not implemented for {type} normal.");
 
-            dest[0] = (sbyte)(n.X * 127.0f);
-            dest[1] = (sbyte)(n.Y * 127.0f);
-            dest[2] = (sbyte)(n.Z * 127.0f);
+            dest[0] = (sbyte)(n->X * 127.0f);
+            dest[1] = (sbyte)(n->Y * 127.0f);
+            dest[2] = (sbyte)(n->Z * 127.0f);
             dest[3] = (sbyte)nw;
         }
 
@@ -794,7 +796,7 @@ namespace StudioCore.Resource
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private unsafe void FillBinormalBitangentSNorm8(sbyte* destBinorm, sbyte* destBitan, ref Vector3 n, BinaryReaderEx br, FLVER.LayoutType type)
+        private unsafe void FillBinormalBitangentSNorm8(sbyte* destBinorm, sbyte* destBitan, Vector3* n, BinaryReaderEx br, FLVER.LayoutType type)
         {
             Vector4 tan;
             if (type == FLVER.LayoutType.Float4)
@@ -832,7 +834,7 @@ namespace StudioCore.Resource
             destBitan[2] = (sbyte)(t.Z * 127.0f);
             destBitan[3] = (sbyte)(tan.W * 127.0f);
 
-            var bn = Vector3.Cross(Vector3.Normalize(n), Vector3.Normalize(new Vector3(t.X, t.Y, t.Z))) * tan.W;
+            var bn = Vector3.Cross(Vector3.Normalize(*n), Vector3.Normalize(new Vector3(t.X, t.Y, t.Z))) * tan.W;
             destBinorm[0] = (sbyte)(bn.X * 127.0f);
             destBinorm[1] = (sbyte)(bn.Y * 127.0f);
             destBinorm[2] = (sbyte)(bn.Z * 127.0f);
@@ -912,12 +914,12 @@ namespace StudioCore.Resource
                             continue;
                         if (l.semantic == FLVER.LayoutSemantic.Position)
                         {
-                            FillVertex(ref (*v).Position, br, l.type);
+                            FillVertex(&(*v).Position, br, l.type);
                             posfilled = true;
                         }
                         else if (l.semantic == FLVER.LayoutSemantic.Normal)
                         {
-                            FillNormalSNorm8((*v).Normal, br, l.type, ref n);
+                            FillNormalSNorm8((*v).Normal, br, l.type, &n);
                         }
                         else
                         {
@@ -968,52 +970,54 @@ namespace StudioCore.Resource
             }
         }
 
-        unsafe private void FillVerticesStandard(BinaryReaderEx br, ref FlverVertexBuffer buffer, Span<FlverBufferLayoutMember> layouts, Span<Vector3> pickingVerts, IntPtr vertBuffer, float uvFactor)
+        private unsafe void FillVerticesStandard(BinaryReaderEx br, ref FlverVertexBuffer buffer,
+            Span<FlverBufferLayoutMember> layouts, Span<Vector3> pickingVerts, IntPtr vertBuffer, float uvFactor)
         {
-            Span<FlverLayout> verts = new Span<FlverLayout>(vertBuffer.ToPointer(), buffer.vertexCount);
             br.StepIn(buffer.bufferOffset);
+            FlverLayout* pverts = (FlverLayout*)vertBuffer;
+
             for (int i = 0; i < buffer.vertexCount; i++)
             {
-                fixed (FlverLayout* v = &verts[i])
+                FlverLayout* v = &pverts[i];
+                Vector3 n = Vector3.UnitX;
+                FillUVShortZero((*v).Uv1);
+                FillBinormalBitangentSNorm8Zero((*v).Binormal, (*v).Bitangent);
+                bool posfilled = false;
+                foreach (var l in layouts)
                 {
-                    Vector3 n = Vector3.UnitX;
-                    FillUVShortZero((*v).Uv1);
-                    FillBinormalBitangentSNorm8Zero((*v).Binormal, (*v).Bitangent);
-                    bool posfilled = false;
-                    foreach (var l in layouts)
+                    // ER meme
+                    if (l.unk00 == -2147483647)
+                        continue;
+                    if (l.semantic == FLVER.LayoutSemantic.Position)
                     {
-                        // ER meme
-                        if (l.unk00 == -2147483647)
-                            continue;
-                        if (l.semantic == FLVER.LayoutSemantic.Position)
-                        {
-                            FillVertex(ref (*v).Position, br, l.type);
-                            posfilled = true;
-                        }
-                        else if (l.semantic == FLVER.LayoutSemantic.Normal)
-                        {
-                            FillNormalSNorm8((*v).Normal, br, l.type, ref n);
-                        }
-                        else if (l.semantic == FLVER.LayoutSemantic.UV && l.index == 0)
-                        {
-                            bool hasv2;
-                            FillUVShort((*v).Uv1, br, l.type, uvFactor, false, out hasv2);
-                        }
-                        else if (l.semantic == FLVER.LayoutSemantic.Tangent && l.index == 0)
-                        {
-                            FillBinormalBitangentSNorm8((*v).Binormal, (*v).Bitangent, ref n, br, l.type);
-                        }
-                        else
-                        {
-                            EatVertex(br, l.type);
-                        }
+                        FillVertex(&(*v).Position, br, l.type);
+                        posfilled = true;
                     }
-                    if (!posfilled)
+                    else if (l.semantic == FLVER.LayoutSemantic.Normal)
                     {
-                        (*v).Position = new Vector3(0, 0, 0);
+                        FillNormalSNorm8((*v).Normal, br, l.type, &n);
                     }
-                    pickingVerts[i] = (*v).Position;
+                    else if (l.semantic == FLVER.LayoutSemantic.UV && l.index == 0)
+                    {
+                        bool hasv2;
+                        FillUVShort((*v).Uv1, br, l.type, uvFactor, false, out hasv2);
+                    }
+                    else if (l.semantic == FLVER.LayoutSemantic.Tangent && l.index == 0)
+                    {
+                        FillBinormalBitangentSNorm8((*v).Binormal, (*v).Bitangent, &n, br, l.type);
+                    }
+                    else
+                    {
+                        EatVertex(br, l.type);
+                    }
                 }
+
+                if (!posfilled)
+                {
+                    (*v).Position = new Vector3(0, 0, 0);
+                }
+
+                pickingVerts[i] = (*v).Position;
             }
             br.StepOut();
         }
@@ -1021,14 +1025,15 @@ namespace StudioCore.Resource
         unsafe private void FillVerticesStandard(FLVER2.Mesh mesh, Span<Vector3> pickingVerts, IntPtr vertBuffer)
         {
             Span<FlverLayout> verts = new Span<FlverLayout>(vertBuffer.ToPointer(), mesh.VertexCount);
-            for (int i = 0; i < mesh.VertexCount; i++)
+            fixed (FlverLayout* pverts = verts)
             {
-                var vert = mesh.Vertices[i];
-
-                verts[i] = new FlverLayout();
-                pickingVerts[i] = new Vector3(vert.Position.X, vert.Position.Y, vert.Position.Z);
-                fixed (FlverLayout* v = &verts[i])
+                for (int i = 0; i < mesh.VertexCount; i++)
                 {
+                    FlverLayout* v = &pverts[i];
+                    var vert = mesh.Vertices[i];
+
+                    verts[i] = new FlverLayout();
+                    pickingVerts[i] = new Vector3(vert.Position.X, vert.Position.Y, vert.Position.Z);
                     FillVertex(ref (*v).Position, ref vert);
                     FillNormalSNorm8((*v).Normal, ref vert);
                     if (vert.UVCount > 0)
@@ -1039,6 +1044,7 @@ namespace StudioCore.Resource
                     {
                         FillUVShortZero((*v).Uv1);
                     }
+
                     if (vert.TangentCount > 0)
                     {
                         FillBinormalBitangentSNorm8((*v).Binormal, (*v).Bitangent, ref vert, 0);
@@ -1054,14 +1060,15 @@ namespace StudioCore.Resource
         unsafe private void FillVerticesStandard(FLVER0.Mesh mesh, Span<Vector3> pickingVerts, IntPtr vertBuffer)
         {
             Span<FlverLayout> verts = new Span<FlverLayout>(vertBuffer.ToPointer(), mesh.Vertices.Count);
-            for (int i = 0; i < mesh.Vertices.Count; i++)
+            fixed (FlverLayout* pverts = verts)
             {
-                var vert = mesh.Vertices[i];
-
-                verts[i] = new FlverLayout();
-                pickingVerts[i] = new Vector3(vert.Position.X, vert.Position.Y, vert.Position.Z);
-                fixed (FlverLayout* v = &verts[i])
+                for (int i = 0; i < mesh.Vertices.Count; i++)
                 {
+                    FlverLayout* v = &pverts[i];
+                    var vert = mesh.Vertices[i];
+
+                    verts[i] = new FlverLayout();
+                    pickingVerts[i] = new Vector3(vert.Position.X, vert.Position.Y, vert.Position.Z);
                     FillVertex(ref (*v).Position, ref vert);
                     FillNormalSNorm8((*v).Normal, ref vert);
                     if (vert.UVCount > 0)
@@ -1072,6 +1079,7 @@ namespace StudioCore.Resource
                     {
                         FillUVShortZero((*v).Uv1);
                     }
+
                     if (vert.TangentCount > 0)
                     {
                         FillBinormalBitangentSNorm8((*v).Binormal, (*v).Bitangent, ref vert, 0);
@@ -1084,14 +1092,15 @@ namespace StudioCore.Resource
             }
         }
 
-        unsafe private void FillVerticesUV2(BinaryReaderEx br, ref FlverVertexBuffer buffer, Span<FlverBufferLayoutMember> layouts, Span<Vector3> pickingVerts, IntPtr vertBuffer, float uvFactor)
+        private unsafe void FillVerticesUV2(BinaryReaderEx br, ref FlverVertexBuffer buffer, Span<FlverBufferLayoutMember> layouts, Span<Vector3> pickingVerts, IntPtr vertBuffer, float uvFactor)
         {
             Span<FlverLayoutUV2> verts = new Span<FlverLayoutUV2>(vertBuffer.ToPointer(), buffer.vertexCount);
             br.StepIn(buffer.bufferOffset);
-            for (int i = 0; i < buffer.vertexCount; i++)
+            fixed (FlverLayoutUV2* pverts = verts)
             {
-                fixed (FlverLayoutUV2* v = &verts[i])
+                for (int i = 0; i < buffer.vertexCount; i++)
                 {
+                    FlverLayoutUV2* v = &pverts[i];
                     Vector3 n = Vector3.UnitX;
                     FillBinormalBitangentSNorm8Zero((*v).Binormal, (*v).Bitangent);
                     int uvsfilled = 0;
@@ -1102,11 +1111,11 @@ namespace StudioCore.Resource
                             continue;
                         if (l.semantic == FLVER.LayoutSemantic.Position)
                         {
-                            FillVertex(ref (*v).Position, br, l.type);
+                            FillVertex(&(*v).Position, br, l.type);
                         }
                         else if (l.semantic == FLVER.LayoutSemantic.Normal)
                         {
-                            FillNormalSNorm8((*v).Normal, br, l.type, ref n);
+                            FillNormalSNorm8((*v).Normal, br, l.type, &n);
                         }
                         else if (l.semantic == FLVER.LayoutSemantic.UV && uvsfilled < 2)
                         {
@@ -1116,30 +1125,33 @@ namespace StudioCore.Resource
                         }
                         else if (l.semantic == FLVER.LayoutSemantic.Tangent && l.index == 0)
                         {
-                            FillBinormalBitangentSNorm8((*v).Binormal, (*v).Bitangent, ref n, br, l.type);
+                            FillBinormalBitangentSNorm8((*v).Binormal, (*v).Bitangent, &n, br, l.type);
                         }
                         else
                         {
                             EatVertex(br, l.type);
                         }
                     }
+
                     pickingVerts[i] = (*v).Position;
                 }
             }
+
             br.StepOut();
         }
 
         unsafe private void FillVerticesUV2(FLVER2.Mesh mesh, Span<Vector3> pickingVerts, IntPtr vertBuffer)
         {
             Span<FlverLayoutUV2> verts = new Span<FlverLayoutUV2>(vertBuffer.ToPointer(), mesh.VertexCount);
-            for (int i = 0; i < mesh.VertexCount; i++)
+            fixed (FlverLayoutUV2* pverts = verts)
             {
-                var vert = mesh.Vertices[i];
-
-                verts[i] = new FlverLayoutUV2();
-                pickingVerts[i] = new Vector3(vert.Position.X, vert.Position.Y, vert.Position.Z);
-                fixed (FlverLayoutUV2* v = &verts[i])
+                for (int i = 0; i < mesh.VertexCount; i++)
                 {
+                    var vert = mesh.Vertices[i];
+
+                    verts[i] = new FlverLayoutUV2();
+                    pickingVerts[i] = new Vector3(vert.Position.X, vert.Position.Y, vert.Position.Z);
+                    FlverLayoutUV2* v = &pverts[i];
                     FillVertex(ref (*v).Position, ref vert);
                     FillNormalSNorm8((*v).Normal, ref vert);
                     FillUVShort((*v).Uv1, ref vert, 0);
@@ -1159,14 +1171,15 @@ namespace StudioCore.Resource
         unsafe private void FillVerticesUV2(FLVER0.Mesh mesh, Span<Vector3> pickingVerts, IntPtr vertBuffer)
         {
             Span<FlverLayoutUV2> verts = new Span<FlverLayoutUV2>(vertBuffer.ToPointer(), mesh.Vertices.Count);
-            for (int i = 0; i < mesh.Vertices.Count; i++)
+            fixed (FlverLayoutUV2* pverts = verts)
             {
-                var vert = mesh.Vertices[i];
-
-                verts[i] = new FlverLayoutUV2();
-                pickingVerts[i] = new Vector3(vert.Position.X, vert.Position.Y, vert.Position.Z);
-                fixed (FlverLayoutUV2* v = &verts[i])
+                for (int i = 0; i < mesh.Vertices.Count; i++)
                 {
+                    var vert = mesh.Vertices[i];
+
+                    verts[i] = new FlverLayoutUV2();
+                    pickingVerts[i] = new Vector3(vert.Position.X, vert.Position.Y, vert.Position.Z);
+                    FlverLayoutUV2* v = &pverts[i];
                     FillVertex(ref (*v).Position, ref vert);
                     FillNormalSNorm8((*v).Normal, ref vert);
                     FillUVShort((*v).Uv1, ref vert, 0);
@@ -2103,7 +2116,7 @@ namespace StudioCore.Resource
             return true;
         }
 
-        public bool _Load(byte[] bytes, AccessLevel al, GameType type)
+        public bool _Load(Memory<byte> bytes, AccessLevel al, GameType type)
         {
             bool ret;
             if (type == GameType.DemonsSouls)
@@ -2131,30 +2144,29 @@ namespace StudioCore.Resource
             return ret;
         }
 
-        public bool _Load(string file, AccessLevel al, GameType type)
+        public bool _Load(string path, AccessLevel al, GameType type)
         {
             bool ret;
             if (type == GameType.DemonsSouls)
             {
-                FlverDeS = FLVER0.Read(file);
+                FlverDeS = FLVER0.Read(path);
                 ret = LoadInternalDeS(al, type);
             }
             else
             {
                 if (al == AccessLevel.AccessGPUOptimizedOnly && type != GameType.DarkSoulsRemastered && type != GameType.DarkSoulsPTDE)
                 {
-                    using (FileStream stream = File.OpenRead(file))
-                    {
-                        BinaryReaderEx br = new BinaryReaderEx(false, stream);
-                        DCX.Type ctype;
-                        br = SFUtil.GetDecompressedBR(br, out ctype);
-                        ret = LoadInternalFast(br, type);
-                    }
+                    using var file = MemoryMappedFile.CreateFromFile(path, FileMode.Open, null, 0, MemoryMappedFileAccess.Read);
+                    using var accessor = file.CreateMemoryAccessor(0, 0, MemoryMappedFileAccess.Read);
+                    BinaryReaderEx br = new BinaryReaderEx(false, accessor.Memory);
+                    DCX.Type ctype;
+                    br = SFUtil.GetDecompressedBR(br, out ctype);
+                    ret = LoadInternalFast(br, type);
                 }
                 else
                 {
                     var cache = (al == AccessLevel.AccessGPUOptimizedOnly) ? GetCache() : null;
-                    Flver = FLVER2.Read(file, cache);
+                    Flver = FLVER2.Read(path, cache);
                     ret = LoadInternal(al, type);
                     ReleaseCache(cache);
                 }

@@ -145,7 +145,7 @@ namespace StudioCore.Resource
             return true;
         }
 
-        public bool _Load(byte[] bytes, AccessLevel al, GameType type)
+        public bool _Load(Memory<byte> bytes, AccessLevel al, GameType type)
         {
             Nvm = NVM.Read(bytes);
             return LoadInternal(al);

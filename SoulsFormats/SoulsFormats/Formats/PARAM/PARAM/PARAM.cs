@@ -73,7 +73,7 @@ namespace SoulsFormats
             br.Position = 0;
 
             // Make a private copy of the file to read row data from later
-            byte[] copy = br.GetBytes(0, (int)br.Stream.Length);
+            byte[] copy = br.GetBytes(0, (int)br.Length);
             RowReader = new BinaryReaderEx(BigEndian, copy);
 
             // The strings offset in the header is highly unreliable; only use it as a last resort

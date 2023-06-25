@@ -1,4 +1,5 @@
-﻿using static SoulsFormats.Binder;
+﻿using System;
+using static SoulsFormats.Binder;
 
 namespace SoulsFormats
 {
@@ -25,7 +26,7 @@ namespace SoulsFormats
         /// <summary>
         /// Raw file data.
         /// </summary>
-        public byte[] Bytes { get; set; }
+        public Memory<byte> Bytes { get; set; }
 
         /// <summary>
         /// If compressed, which type of compression to use.
@@ -55,7 +56,7 @@ namespace SoulsFormats
         /// <summary>
         /// Creates a new file.
         /// </summary>
-        public BinderFile(FileFlags flags, int id, string name, byte[] bytes)
+        public BinderFile(FileFlags flags, int id, string name, Memory<byte> bytes)
         {
             Flags = flags;
             ID = id;

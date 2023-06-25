@@ -7,7 +7,7 @@ using System.Threading.Tasks.Dataflow;
 
 public readonly record struct LoadByteResourceRequest(
     string VirtualPath, 
-    byte[] Data, 
+    Memory<byte> Data, 
     AccessLevel AccessLevel, 
     GameType GameType);
 
@@ -51,7 +51,7 @@ public class ResourceLoadPipeline<T> : IResourceLoadPipeline where T : class, IR
     public ResourceLoadPipeline(ITargetBlock<ResourceLoadedReply> target)
     {
         var options = new ExecutionDataflowBlockOptions();
-        options.MaxDegreeOfParallelism = 6;
+        options.MaxDegreeOfParallelism = DataflowBlockOptions.Unbounded;
         _loadedResources = target;
         _loadByteResourcesTransform = new ActionBlock<LoadByteResourceRequest>(r =>
         {
@@ -96,7 +96,7 @@ public class TextureLoadPipeline : IResourceLoadPipeline
     public TextureLoadPipeline(ITargetBlock<ResourceLoadedReply> target)
     {
         var options = new ExecutionDataflowBlockOptions();
-        options.MaxDegreeOfParallelism = 6;
+        options.MaxDegreeOfParallelism = DataflowBlockOptions.Unbounded;
         _loadedResources = target;
         _loadTPFResourcesTransform = new ActionBlock<LoadTPFTextureResourceRequest>(r =>
         {
