@@ -1666,8 +1666,8 @@ namespace StudioCore.ParamEditor
         {
             if (EditorDecorations.ImGuiTableStdColumns("paramsT", 3, true))
             {
-                ImGui.TableSetupColumn("paramsCol", ImGuiTableColumnFlags.None);
-                ImGui.TableSetupColumn("paramsCol2", ImGuiTableColumnFlags.None);
+                ImGui.TableSetupColumn("paramsCol", ImGuiTableColumnFlags.None, 0.5f);
+                ImGui.TableSetupColumn("paramsCol2", ImGuiTableColumnFlags.None, 0.5f);
                 ImGui.TableNextColumn();
 
                 if (isActiveView && InputTracker.GetKeyDown(KeyBindings.Current.Param_SearchParam))
@@ -1864,9 +1864,9 @@ namespace StudioCore.ParamEditor
                     ImGui.BeginChild("rows" + activeParam);
                     EditorDecorations.ImGuiTableStdColumns("rowList", compareCol == null ? 1 : 2, false);
                     
-                    ImGui.TableSetupColumn("rowCol", ImGuiTableColumnFlags.None);
+                    ImGui.TableSetupColumn("rowCol", ImGuiTableColumnFlags.None, 1f);
                     if (compareCol != null)
-                        ImGui.TableSetupColumn("rowCol2", ImGuiTableColumnFlags.None);
+                        ImGui.TableSetupColumn("rowCol2", ImGuiTableColumnFlags.None, 0.4f);
                     ImGui.PushID("pinned");
 
                     List<int> pinnedRowList = new List<int>(_paramEditor._projectSettings.PinnedRows.GetValueOrDefault(activeParam, new List<int>()));
