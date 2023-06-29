@@ -357,17 +357,17 @@ namespace StudioCore.Editor
                 Regex rx = lenient ? new Regex(args[0], RegexOptions.IgnoreCase) : new Regex($@"^{args[0]}$");
                 string field = args[0].Replace(@"\s", " ");
                 return (context)=>{
-                    FMGBank.FmgEntryCategory category = FMGBank.FmgEntryCategory.None;
+                    FmgEntryCategory category = FmgEntryCategory.None;
                     switch(context.Item1.GetKeyForParam(context.Item2))
                     {
-                        case "EquipParamAccessory": category = FMGBank.FmgEntryCategory.Rings; break;
-                        case "EquipParamGoods": category = FMGBank.FmgEntryCategory.Goods; break;
-                        case "EquipParamWeapon": category = FMGBank.FmgEntryCategory.Weapons; break;
-                        case "EquipParamProtector": category = FMGBank.FmgEntryCategory.Armor; break;
-                        case "EquipParamGem": category = FMGBank.FmgEntryCategory.Gem; break;
-                        case "SwordArtsParam": category = FMGBank.FmgEntryCategory.SwordArts; break;
+                        case "EquipParamAccessory": category = FmgEntryCategory.Rings; break;
+                        case "EquipParamGoods": category = FmgEntryCategory.Goods; break;
+                        case "EquipParamWeapon": category = FmgEntryCategory.Weapons; break;
+                        case "EquipParamProtector": category = FmgEntryCategory.Armor; break;
+                        case "EquipParamGem": category = FmgEntryCategory.Gem; break;
+                        case "SwordArtsParam": category = FmgEntryCategory.SwordArts; break;
                     }
-                    if (category == FMGBank.FmgEntryCategory.None)
+                    if (category == FmgEntryCategory.None)
                         throw new Exception();
                     var fmgEntries = FMGBank.GetFmgEntriesByCategory(category, false);
                     Dictionary<int, FMG.Entry> _cache = new Dictionary<int, FMG.Entry>();

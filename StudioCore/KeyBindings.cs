@@ -5,14 +5,22 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using ImGuiNET;
 using Veldrid;
 
 namespace StudioCore
 {
+    [JsonSourceGenerationOptions(WriteIndented = true, 
+        GenerationMode = JsonSourceGenerationMode.Metadata, IncludeFields = true)]
+    [JsonSerializable(typeof(KeyBindings.Bindings))]
+    [JsonSerializable(typeof(KeyBind))]
+    internal partial class KeybindingsSerializerContext : JsonSerializerContext
+    {
+    }
+    
     public class KeyBind
     {
         public Key PrimaryKey;
@@ -40,6 +48,11 @@ namespace StudioCore
             }
         }
 
+        [JsonConstructor]
+        public KeyBind()
+        {
+        }
+
         public KeyBind(Key primaryKey = Key.Unknown, bool ctrlKey = false, bool altKey = false, bool shiftKey = false)
         {
             PrimaryKey = primaryKey;
@@ -64,7 +77,7 @@ namespace StudioCore
 #pragma warning disable IDE0051
             // JsonExtensionData stores info in config file not present in class in order to retain settings between versions.
             [JsonExtensionData]
-            private IDictionary<string, JToken> _additionalData;
+            internal IDictionary<string, JsonElement> AdditionalData { get; set; }
 #pragma warning restore IDE0051
 
             // Core

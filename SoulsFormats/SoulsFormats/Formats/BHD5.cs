@@ -223,7 +223,7 @@ namespace SoulsFormats
             /// <summary>
             /// Encryption information for this file.
             /// </summary>
-            public AESKey AESKey { get; set; }
+            public AesKey AESKey { get; set; }
 
             /// <summary>
             /// Creates a FileHeader with default values.
@@ -276,7 +276,7 @@ namespace SoulsFormats
                 {
                     br.StepIn(aesKeyOffset);
                     {
-                        AESKey = new AESKey(br);
+                        AESKey = new AesKey(br);
                     }
                     br.StepOut();
                 }
@@ -399,10 +399,9 @@ namespace SoulsFormats
         /// <summary>
         /// Encryption information for a file in the dvdbnd.
         /// </summary>
-        public class AESKey
+        public class AesKey
         {
-            private static AesManaged AES = new AesManaged() { Mode = CipherMode.ECB, Padding = PaddingMode.None, KeySize = 128 };
-
+            private static readonly Aes Aes = Aes.Create();
             /// <summary>
             /// 16-byte encryption key.
             /// </summary>
@@ -416,13 +415,13 @@ namespace SoulsFormats
             /// <summary>
             /// Creates an AESKey with default values.
             /// </summary>
-            public AESKey()
+            public AesKey()
             {
                 Key = new byte[16];
                 Ranges = new List<Range>();
             }
 
-            internal AESKey(BinaryReaderEx br)
+            internal AesKey(BinaryReaderEx br)
             {
                 Key = br.ReadBytes(16);
                 int rangeCount = br.ReadInt32();
@@ -447,14 +446,15 @@ namespace SoulsFormats
             /// </summary>
             public void Decrypt(byte[] bytes)
             {
-                using (ICryptoTransform decryptor = AES.CreateDecryptor(Key, new byte[16]))
+                Aes.Mode = CipherMode.ECB;
+                Aes.Padding = PaddingMode.None;
+                Aes.KeySize = 128;
+                using ICryptoTransform decryptor = Aes.CreateDecryptor(Key, new byte[16]);
+                foreach (Range range in Ranges.Where(r => r.StartOffset != -1 && r.EndOffset != -1 && r.StartOffset != r.EndOffset))
                 {
-                    foreach (Range range in Ranges.Where(r => r.StartOffset != -1 && r.EndOffset != -1 && r.StartOffset != r.EndOffset))
-                    {
-                        int start = (int)range.StartOffset;
-                        int count = (int)(range.EndOffset - range.StartOffset);
-                        decryptor.TransformBlock(bytes, start, count, bytes, start);
-                    }
+                    int start = (int)range.StartOffset;
+                    int count = (int)(range.EndOffset - range.StartOffset);
+                    decryptor.TransformBlock(bytes, start, count, bytes, start);
                 }
             }
         }

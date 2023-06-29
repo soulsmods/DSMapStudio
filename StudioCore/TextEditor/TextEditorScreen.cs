@@ -20,6 +20,7 @@ namespace StudioCore.TextEditor
         public string CommandEndpoint => "text";
         public string SaveType => "Text";
         
+        public readonly AssetLocator AssetLocator;
         public ActionManager EditorActionManager = new ActionManager();
         private readonly PropertyEditor _propEditor = null;
         private ProjectSettings _projectSettings;
@@ -37,8 +38,9 @@ namespace StudioCore.TextEditor
         private bool _clearEntryGroup = false;
         private bool _arrowKeyPressed = false;
 
-        public TextEditorScreen(Sdl2Window window, GraphicsDevice device)
+        public TextEditorScreen(Sdl2Window window, GraphicsDevice device, AssetLocator locator)
         {
+            AssetLocator = locator;
             _propEditor = new PropertyEditor(EditorActionManager);
         }
 
@@ -178,7 +180,7 @@ namespace StudioCore.TextEditor
                     }
 
                     // Descriptions
-                    foreach (var entry in FMGBank.GetFmgEntriesByCategoryAndTextType(_activeFmgInfo.EntryCategory, FMGBank.FmgEntryTextType.Description, false))
+                    foreach (var entry in FMGBank.GetFmgEntriesByCategoryAndTextType(_activeFmgInfo.EntryCategory, FmgEntryTextType.Description, false))
                     {
                         if (entry.Text != null)
                         {
@@ -192,7 +194,7 @@ namespace StudioCore.TextEditor
                     }
 
                     // Summaries
-                    foreach (var entry in FMGBank.GetFmgEntriesByCategoryAndTextType(_activeFmgInfo.EntryCategory, FMGBank.FmgEntryTextType.Summary, false))
+                    foreach (var entry in FMGBank.GetFmgEntriesByCategoryAndTextType(_activeFmgInfo.EntryCategory, FmgEntryTextType.Summary, false))
                     {
                         if (entry.Text != null)
                         {
@@ -206,7 +208,7 @@ namespace StudioCore.TextEditor
                     }
 
                     // Extra Text
-                    foreach (var entry in FMGBank.GetFmgEntriesByCategoryAndTextType(_activeFmgInfo.EntryCategory, FMGBank.FmgEntryTextType.ExtraText, false))
+                    foreach (var entry in FMGBank.GetFmgEntriesByCategoryAndTextType(_activeFmgInfo.EntryCategory, FmgEntryTextType.ExtraText, false))
                     {
                         if (entry.Text != null)
                         {
@@ -230,13 +232,13 @@ namespace StudioCore.TextEditor
             }
         }
 
-        private void CategoryListUI(FMGBank.FmgUICategory uiType, bool doFocus)
+        private void CategoryListUI(FmgUICategory uiType, bool doFocus)
         {
             foreach (var info in FMGBank.FmgInfoBank)
             {
                 if (info.PatchParent == null 
                     && info.UICategory == uiType 
-                    && info.EntryType is FMGBank.FmgEntryTextType.Title or FMGBank.FmgEntryTextType.TextBody)
+                    && info.EntryType is FmgEntryTextType.Title or FmgEntryTextType.TextBody)
                 {
                     string displayName = "";
                     if (CFG.Current.FMG_ShowOriginalNames)
@@ -528,15 +530,15 @@ namespace StudioCore.TextEditor
                     // binder id and FMG name are for soapstone references.
                     // This can be revisited as more high-level categories get added.
                     int? searchId = null;
-                    FMGBank.FmgEntryCategory? searchCategory = null;
+                    FmgEntryCategory? searchCategory = null;
                     string searchName = null;
                     if (int.TryParse(initcmd[1], out int intId) && intId >= 0)
                     {
                         searchId = intId;
                     }
                     // Enum.TryParse allows arbitrary ints (thanks C#), so checking definition is required
-                    else if (Enum.TryParse(initcmd[1], out FMGBank.FmgEntryCategory cat)
-                        && Enum.IsDefined(typeof(FMGBank.FmgEntryCategory), cat))
+                    else if (Enum.TryParse(initcmd[1], out FmgEntryCategory cat)
+                        && Enum.IsDefined(typeof(FmgEntryCategory), cat))
                     {
                         searchCategory = cat;
                     }
@@ -549,7 +551,7 @@ namespace StudioCore.TextEditor
                         bool match = false;
                         // This matches top-level item FMGs
                         if (info.EntryCategory.Equals(searchCategory) && info.PatchParent == null
-                            && info.EntryType is FMGBank.FmgEntryTextType.Title or FMGBank.FmgEntryTextType.TextBody)
+                            && info.EntryType is FmgEntryTextType.Title or FmgEntryTextType.TextBody)
                         {
                             match = true;
                         }

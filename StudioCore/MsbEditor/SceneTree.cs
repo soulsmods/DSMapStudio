@@ -6,8 +6,8 @@ using System.Numerics;
 using System.Runtime.InteropServices;
 using ImGuiNET;
 using Veldrid;
-using System.Windows.Forms;
 using SoulsFormats;
+using StudioCore.Platform;
 
 namespace StudioCore.MsbEditor
 {
@@ -754,9 +754,8 @@ namespace StudioCore.MsbEditor
                                 }
                                 catch (SavingFailedException e)
                                 {
-                                    System.Windows.Forms.MessageBox.Show(e.Wrapped.Message, e.Message,
-                                         System.Windows.Forms.MessageBoxButtons.OK,
-                                         System.Windows.Forms.MessageBoxIcon.None);
+                                    PlatformUtils.Instance.MessageBox(e.Wrapped.Message, e.Message,
+                                         MessageBoxButtons.OK, MessageBoxIcon.None);
                                 }
                             }
                             if (ImGui.Selectable("Unload Map"))
@@ -773,7 +772,7 @@ namespace StudioCore.MsbEditor
                         {
                             if (ImGui.Selectable("Unload All Maps"))
                             {
-                                var result = MessageBox.Show("Unload all maps?", "Confirm", MessageBoxButtons.YesNo);
+                                var result = PlatformUtils.Instance.MessageBox("Unload all maps?", "Confirm", MessageBoxButtons.YesNo);
                                 if (result == DialogResult.Yes)
                                 {
                                     _selection.ClearSelection();
