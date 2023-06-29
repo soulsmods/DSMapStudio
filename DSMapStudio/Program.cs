@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Reflection;
 using StudioCore;
 using System.Security.Permissions;
 using Microsoft.DotNet.PlatformAbstractions;
@@ -15,26 +17,19 @@ namespace DSMapStudio
 {
     public static class Program
     {
-        public static string[] ARGS;
-
-        private static string _version = System.Windows.Forms.Application.ProductVersion;
+        private static string _version = "undefined";
 
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.ControlAppDomain)]
         static void Main(string[] args)
         {
             AppDomain currentDomain = AppDomain.CurrentDomain;
-            currentDomain.UnhandledException += new UnhandledExceptionEventHandler(CrashHandler);
-
-            //SDL_version version;
-            //Sdl2Native.SDL_GetVersion(&version);
-
-            Directory.SetCurrentDirectory(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location));
-
-            var mapStudio = new MapStudioNew(new VulkanGraphicsContext());
+            currentDomain.UnhandledException += CrashHandler;
+            Directory.SetCurrentDirectory(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? throw new InvalidOperationException());
+            _version = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion ?? "undefined";
+            var mapStudio = new MapStudioNew(new VulkanGraphicsContext(), _version);
 #if !DEBUG
             try
             {

@@ -4,11 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace StudioCore
 {
-    [JsonObject(MemberSerialization.OptIn)]
     public struct Transform
     {
         public static readonly Transform Default
@@ -114,11 +112,8 @@ namespace StudioCore
             return EulerUtils.quaternion2Euler(q, r);
         }
 
-        [JsonProperty]
         public Vector3 Position;
-        [JsonProperty]
         public Quaternion Rotation;
-        [JsonProperty]
         public Vector3 Scale;
 
         public Vector3 EulerRotation

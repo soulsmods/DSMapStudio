@@ -11,7 +11,6 @@ using System.Numerics;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks.Dataflow;
-using Accessibility;
 using SoulsFormats;
 using ImGuiNET;
 

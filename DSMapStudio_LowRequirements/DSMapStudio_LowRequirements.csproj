@@ -1,9 +1,8 @@
-<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
         <TargetFramework>net7.0-windows</TargetFramework>
-        <UseWindowsForms>true</UseWindowsForms>
         <Authors>Katalash</Authors>
         <Version>1.08.0</Version>
         <ApplicationIcon>icon.ico</ApplicationIcon>
@@ -12,7 +11,15 @@
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <LangVersion>11</LangVersion>
         <IsPackable>false</IsPackable>
+        <PublishTrimmed>true</PublishTrimmed>
+        <TrimMode>full</TrimMode>
     </PropertyGroup>
+
+    <ItemGroup>
+        <TrimmerRootAssembly Include="SoulsFormats" />
+        <TrimmerRootAssembly Include="StudioCore" />
+        <TrimmerRootAssembly Include="HKX2" />
+    </ItemGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>

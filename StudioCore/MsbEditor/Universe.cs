@@ -7,15 +7,23 @@ using System.Reflection;
 using System.Xml.Serialization;
 using System.Threading.Tasks;
 using System.Numerics;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using FSParam;
 using StudioCore.Resource;
 using SoulsFormats;
-using Newtonsoft.Json;
 using StudioCore.Scene;
 using StudioCore.Editor;
 
 namespace StudioCore.MsbEditor
 {
+    [JsonSourceGenerationOptions(WriteIndented = true, 
+        GenerationMode = JsonSourceGenerationMode.Metadata, IncludeFields = true)]
+    [JsonSerializable(typeof(List<BTL.Light>))]
+    internal partial class BtlLightSerializerContext : JsonSerializerContext
+    {
+    }
+    
     /// <summary>
     /// A universe is a collection of loaded maps with methods to load, serialize,
     /// and unload individual maps.
@@ -1228,7 +1236,8 @@ namespace StudioCore.MsbEditor
                         var newLights = map.SerializeBtlLights(BTLs_w[i].AssetName);
 
                         // Only save BTL if it has been modified
-                        if (JsonConvert.SerializeObject(btl.Lights) != JsonConvert.SerializeObject(newLights))
+                        if (JsonSerializer.Serialize(btl.Lights, BtlLightSerializerContext.Default.ListLight) != 
+                            JsonSerializer.Serialize(newLights, BtlLightSerializerContext.Default.ListLight))
                         {
                             btl.Lights = newLights;
                             file.Bytes = btl.Write(DCX.Type.DCX_DFLT_10000_24_9);
@@ -1261,7 +1270,8 @@ namespace StudioCore.MsbEditor
                         var newLights = map.SerializeBtlLights(BTLs_w[i].AssetName);
 
                         // Only save BTL if it has been modified
-                        if (JsonConvert.SerializeObject(btl.Lights) != JsonConvert.SerializeObject(newLights))
+                        if (JsonSerializer.Serialize(btl.Lights, BtlLightSerializerContext.Default.ListLight) != 
+                            JsonSerializer.Serialize(newLights, BtlLightSerializerContext.Default.ListLight))
                         {
                             btl.Lights = newLights;
                             try

@@ -51,7 +51,7 @@ public class ResourceLoadPipeline<T> : IResourceLoadPipeline where T : class, IR
     public ResourceLoadPipeline(ITargetBlock<ResourceLoadedReply> target)
     {
         var options = new ExecutionDataflowBlockOptions();
-        options.MaxDegreeOfParallelism = DataflowBlockOptions.Unbounded;
+        options.MaxDegreeOfParallelism = 6;
         _loadedResources = target;
         _loadByteResourcesTransform = new ActionBlock<LoadByteResourceRequest>(r =>
         {
@@ -96,7 +96,7 @@ public class TextureLoadPipeline : IResourceLoadPipeline
     public TextureLoadPipeline(ITargetBlock<ResourceLoadedReply> target)
     {
         var options = new ExecutionDataflowBlockOptions();
-        options.MaxDegreeOfParallelism = DataflowBlockOptions.Unbounded;
+        options.MaxDegreeOfParallelism = 6;
         _loadedResources = target;
         _loadTPFResourcesTransform = new ActionBlock<LoadTPFTextureResourceRequest>(r =>
         {

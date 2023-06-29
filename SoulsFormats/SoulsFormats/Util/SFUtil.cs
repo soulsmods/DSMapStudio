@@ -544,29 +544,27 @@ namespace SoulsFormats
 
         private static byte[] EncryptByteArray(byte[] key, byte[] secret)
         {
-            using (MemoryStream ms = new MemoryStream())
-            using (AesManaged cryptor = new AesManaged())
+            using MemoryStream ms = new MemoryStream();
+            using var cryptor = Aes.Create();
+            cryptor.Mode = CipherMode.CBC;
+            cryptor.Padding = PaddingMode.PKCS7;
+            cryptor.KeySize = 256;
+            cryptor.BlockSize = 128;
+
+            byte[] iv = cryptor.IV;
+
+            using (CryptoStream cs = new CryptoStream(ms, cryptor.CreateEncryptor(key, iv), CryptoStreamMode.Write))
             {
-                cryptor.Mode = CipherMode.CBC;
-                cryptor.Padding = PaddingMode.PKCS7;
-                cryptor.KeySize = 256;
-                cryptor.BlockSize = 128;
-
-                byte[] iv = cryptor.IV;
-
-                using (CryptoStream cs = new CryptoStream(ms, cryptor.CreateEncryptor(key, iv), CryptoStreamMode.Write))
-                {
-                    cs.Write(secret, 0, secret.Length);
-                }
-                byte[] encryptedContent = ms.ToArray();
-
-                byte[] result = new byte[iv.Length + encryptedContent.Length];
-
-                Buffer.BlockCopy(iv, 0, result, 0, iv.Length);
-                Buffer.BlockCopy(encryptedContent, 0, result, iv.Length, encryptedContent.Length);
-
-                return result;
+                cs.Write(secret, 0, secret.Length);
             }
+            byte[] encryptedContent = ms.ToArray();
+
+            byte[] result = new byte[iv.Length + encryptedContent.Length];
+
+            Buffer.BlockCopy(iv, 0, result, 0, iv.Length);
+            Buffer.BlockCopy(encryptedContent, 0, result, iv.Length, encryptedContent.Length);
+
+            return result;
         }
 
         private static byte[] DecryptByteArray(byte[] key, byte[] secret)
@@ -577,20 +575,18 @@ namespace SoulsFormats
             Buffer.BlockCopy(secret, 0, iv, 0, iv.Length);
             Buffer.BlockCopy(secret, iv.Length, encryptedContent, 0, encryptedContent.Length);
 
-            using (MemoryStream ms = new MemoryStream())
-            using (AesManaged cryptor = new AesManaged())
-            {
-                cryptor.Mode = CipherMode.CBC;
-                cryptor.Padding = PaddingMode.None;
-                cryptor.KeySize = 256;
-                cryptor.BlockSize = 128;
+            using MemoryStream ms = new MemoryStream();
+            using var cryptor = Aes.Create();
+            cryptor.Mode = CipherMode.CBC;
+            cryptor.Padding = PaddingMode.None;
+            cryptor.KeySize = 256;
+            cryptor.BlockSize = 128;
 
-                using (CryptoStream cs = new CryptoStream(ms, cryptor.CreateDecryptor(key, iv), CryptoStreamMode.Write))
-                {
-                    cs.Write(encryptedContent, 0, encryptedContent.Length);
-                }
-                return ms.ToArray();
+            using (CryptoStream cs = new CryptoStream(ms, cryptor.CreateDecryptor(key, iv), CryptoStreamMode.Write))
+            {
+                cs.Write(encryptedContent, 0, encryptedContent.Length);
             }
+            return ms.ToArray();
         }
     }
 }

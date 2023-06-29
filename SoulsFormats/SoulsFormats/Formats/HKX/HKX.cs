@@ -276,9 +276,6 @@ namespace SoulsFormats
             public uint SectionIndex;
             public uint NameOffset;
 
-            // Reference to the object that is instantiated
-            HKXObject ObjRef;
-
             internal VirtualFixup(BinaryReaderEx br)
             {
                 Src = br.ReadUInt32();
@@ -1213,9 +1210,6 @@ namespace SoulsFormats
         public class HKXGenericObject : HKXObject
         {
             public byte[] Bytes;
-
-            // Optional class name tag that can be set
-            HKXClassName ClassName;
 
             List<HKXLocalReference> LocalReferences;
             List<HKXGlobalReference> GlobalReferences;
