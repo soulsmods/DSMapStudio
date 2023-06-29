@@ -11,6 +11,8 @@
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <LangVersion>11</LangVersion>
         <IsPackable>false</IsPackable>
+        <SelfContained>true</SelfContained>
+        <RuntimeIdentifier>win-x64</RuntimeIdentifier>
         <PublishTrimmed>true</PublishTrimmed>
         <TrimMode>full</TrimMode>
     </PropertyGroup>
