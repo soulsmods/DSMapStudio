@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.MemoryMappedFiles;
+using DotNext.IO.MemoryMappedFiles;
 
 namespace SoulsFormats
 {
     /// <summary>
     /// A general-purpose file container used before DS2. Extension: .*bnd
     /// </summary>
-    public class BND3 : SoulsFile<BND3>, IBinder, IBND3
+    public class BND3 : MountedSoulsFile<BND3>, IBinder, IBND3
     {
         /// <summary>
         /// The files contained within this BND3.
@@ -38,6 +41,8 @@ namespace SoulsFormats
         /// </summary>
         public int Unk18 { get; set; }
 
+        private IMappedMemoryOwner _mappedMemory = null;
+
         /// <summary>
         /// Creates an empty BND3 formatted for DS1.
         /// </summary>
@@ -63,8 +68,9 @@ namespace SoulsFormats
         /// <summary>
         /// Deserializes file data from a stream.
         /// </summary>
-        protected override void Read(BinaryReaderEx br)
+        protected override void Read(BinaryReaderEx br, IMappedMemoryOwner owner)
         {
+            _mappedMemory = owner;
             List<BinderFileHeader> fileHeaders = ReadHeader(this, br);
             Files = new List<BinderFile>(fileHeaders.Count);
             foreach (BinderFileHeader fileHeader in fileHeaders)
@@ -111,7 +117,7 @@ namespace SoulsFormats
                 fileHeaders[i].WriteBinder3FileData(bw, bw, Format, i, Files[i].Bytes);
         }
 
-        internal static void WriteHeader(IBND3 bnd, BinaryWriterEx bw, List<BinderFileHeader> fileHeaders)
+        private static void WriteHeader(IBND3 bnd, BinaryWriterEx bw, List<BinderFileHeader> fileHeaders)
         {
             bw.BigEndian = bnd.BigEndian || Binder.ForceBigEndian(bnd.Format);
 
@@ -135,6 +141,11 @@ namespace SoulsFormats
                 fileHeaders[i].WriteFileName(bw, bnd.Format, false, i);
 
             bw.FillInt32($"FileHeadersEnd", (int)bw.Position);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            _mappedMemory?.Dispose();
         }
     }
 }
