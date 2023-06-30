@@ -400,5 +400,9 @@ namespace SoulsFormats
                 bw.FillInt64("HashTableOffset", 0);
             }
         }
+
+        public void Dispose()
+        {
+        }
     }
 }

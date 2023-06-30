@@ -1914,9 +1914,8 @@ namespace Veldrid
                 _queueIndices[(int)QueueType.Transfer] = _queueIndices[(int)QueueType.Compute];
             }
 
-            var queueCreateInfos = new VkDeviceQueueCreateInfo[queueFamilyCount];
+            var queueCreateInfos = new List<VkDeviceQueueCreateInfo>();
             
-            uint queueCreateInfosCount = 0;
             for (uint i = 0; i < queueFamilyCount; i++)
             {
                 if (offsets[i] == 0)
@@ -1928,8 +1927,7 @@ namespace Veldrid
                     QueueCount = (int)offsets[i],
                     QueuePriorities = new Span<float>(&priorities[i * (int)QueueType.QueueTypeCount], (int)offsets[i]).ToArray()
                 };
-                queueCreateInfos[queueCreateInfosCount] = queueCreateInfo;
-                queueCreateInfosCount++;
+                queueCreateInfos.Add(queueCreateInfo);
             }
 
             var deviceFeatures = new VkPhysicalDeviceFeatures
@@ -2043,7 +2041,7 @@ namespace Veldrid
             // TODO: no support for device layers?
             var deviceCreateInfo = new VkDeviceCreateInfo
             {
-                QueueCreateInfos = queueCreateInfos,
+                QueueCreateInfos = queueCreateInfos.ToArray(),
                 EnabledFeatures = null,
                 EnabledExtensionNames = extensionNames.ToArray(),
                 pNext = &physicalDeviceFeatures2

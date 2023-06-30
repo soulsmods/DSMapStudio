@@ -304,5 +304,9 @@ namespace SoulsFormats
             for (int i = 0; i < fileHeaders.Count; i++)
                 fileHeaders[i].WriteFileName(bw, bxf.Format, false, i);
         }
+
+        public void Dispose()
+        {
+        }
     }
 }

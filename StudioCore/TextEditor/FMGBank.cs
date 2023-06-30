@@ -1005,7 +1005,7 @@ namespace StudioCore.TextEditor
 
             foreach (var file in fmgBinder.Files)
                 _fmgInfoBank.Add(GenerateFMGInfo(file));
-
+            fmgBinder.Dispose();
             return true;
         }
 
@@ -1531,6 +1531,9 @@ namespace StudioCore.TextEditor
                 Utils.WriteWithBackup(AssetLocator.GameRootDirectory,
                     AssetLocator.GameModDirectory, menuMsgPathDest.AssetPath, (BND4)fmgBinderMenu);
             }
+            
+            fmgBinderItem.Dispose();
+            fmgBinderMenu.Dispose();
         }
 
         public static void SetAssetLocator(AssetLocator l)
