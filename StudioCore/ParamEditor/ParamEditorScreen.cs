@@ -1414,6 +1414,7 @@ namespace StudioCore.ParamEditor
 
     public class ParamEditorSelectionState
     {
+        ParamEditorScreen _scr;
         internal string currentParamSearchString = "";
         private static string _globalRowSearchString = "";
         private static string _globalPropSearchString = "";
@@ -1422,6 +1423,10 @@ namespace StudioCore.ParamEditor
         List<(string, Param.Row)> pastStack = new List<(string, Param.Row)>();
         private Dictionary<string, ParamEditorParamSelectionState> _paramStates = new Dictionary<string, ParamEditorParamSelectionState>();
 
+        public ParamEditorSelectionState(ParamEditorScreen paramEditor)
+        {
+            _scr = paramEditor;
+        }
 
         private void pushHistory(string newParam, Param.Row newRow)
         {
@@ -1492,6 +1497,7 @@ namespace StudioCore.ParamEditor
             if (_activeParam == null)
                 return;
             _paramStates[_activeParam].currentRowSearchString = s;
+            _paramStates[_activeParam].selectionCacheDirty = true;
         }
         public void setCurrentPropSearchString(string s)
         {
@@ -1535,6 +1541,7 @@ namespace StudioCore.ParamEditor
                 s.selectionRows.Add(row);
                 if (s.activeRow != null && !ParamBank.VanillaBank.IsLoadingParams)
                     ParamBank.PrimaryBank.RefreshParamRowVanillaDiff(s.activeRow, _activeParam);
+                s.selectionCacheDirty = true;
             }
         }
         public void SetCompareRow(Param.Row row)
@@ -1562,6 +1569,7 @@ namespace StudioCore.ParamEditor
                     s.selectionRows.Remove(row);
                 else
                     s.selectionRows.Add(row);
+                s.selectionCacheDirty = true;
             }
             //Do not perform vanilla diff here, will be very slow when making large selections
         }
@@ -1571,14 +1579,20 @@ namespace StudioCore.ParamEditor
             {
                 ParamEditorParamSelectionState s = _paramStates[_activeParam];
                 if (!s.selectionRows.Contains(row))
+                {
                     s.selectionRows.Add(row);
+                    s.selectionCacheDirty = true;
+                }
             }
             //Do not perform vanilla diff here, will be very slow when making large selections
         }
         public void removeRowFromSelection(Param.Row row)
         {
             if (_activeParam != null)
+            {
                 _paramStates[_activeParam].selectionRows.Remove(row);
+                _paramStates[_activeParam].selectionCacheDirty = true;
+            }
         }
         public void removeRowFromAllSelections(Param.Row row)
         {
@@ -1587,6 +1601,7 @@ namespace StudioCore.ParamEditor
                 state.selectionRows.Remove(row);
                 if (state.activeRow == row)
                     state.activeRow = null;
+                state.selectionCacheDirty = true;
             }
         }
         public List<Param.Row> getSelectedRows()
@@ -1594,6 +1609,20 @@ namespace StudioCore.ParamEditor
             if (_activeParam == null)
                 return null;
             return _paramStates[_activeParam].selectionRows;
+        }
+        public bool[] getSelectionCache(List<Param.Row> rows, string cacheVer)
+        {
+            if (_activeParam == null)
+                return null;
+            ParamEditorParamSelectionState s = _paramStates[_activeParam];
+            // We maintain this flag as clearing the cache properly is slow for the number of times we modify selection
+            if (s.selectionCacheDirty)
+                CacheBank.RemoveCache(_scr, s);
+            return CacheBank.GetCached(_scr, s, "selectionCache"+cacheVer, () =>
+            {
+                s.selectionCacheDirty = false;
+                return rows.Select((x) => getSelectedRows().Contains(x)).ToArray();
+            });
         }
         public void cleanSelectedRows()
         {
@@ -1603,10 +1632,13 @@ namespace StudioCore.ParamEditor
                 s.selectionRows.Clear();
                 if (s.activeRow != null)
                     s.selectionRows.Add(s.activeRow);
+                s.selectionCacheDirty = true;
             }
         }
         public void cleanAllSelectionState()
         {
+            foreach (ParamEditorParamSelectionState s in _paramStates.Values)
+                s.selectionCacheDirty = true;
             _activeParam = null;
             _paramStates.Clear();
         }
@@ -1630,6 +1662,7 @@ namespace StudioCore.ParamEditor
         internal Param.Column compareCol = null;
 
         internal List<Param.Row> selectionRows = new List<Param.Row>();
+        internal bool selectionCacheDirty = true;
     }
 
     public class ParamEditorView
@@ -1639,14 +1672,14 @@ namespace StudioCore.ParamEditor
         private static Vector4 PRIMARYCHANGEDCOLOUR = new Vector4(0.7f,1,0.7f,1);
         private static Vector4 ALLVANILLACOLOUR = new Vector4(0.9f,0.9f,0.9f,1);
 
-        private ParamEditorScreen _paramEditor;
+        internal ParamEditorScreen _paramEditor;
         internal int _viewIndex;
         private int _gotoParamRow = -1;
         private bool _arrowKeyPressed = false;
         private bool _focusRows = false;
         private bool _mapParamView = false;
 
-        internal ParamEditorSelectionState _selection = new ParamEditorSelectionState();
+        internal ParamEditorSelectionState _selection;
 
         private PropertyEditor _propEditor = null;
 
@@ -1658,6 +1691,7 @@ namespace StudioCore.ParamEditor
             _paramEditor = parent;
             _viewIndex = index;
             _propEditor = new PropertyEditor(parent.EditorActionManager, _paramEditor);
+            _selection = new ParamEditorSelectionState(_paramEditor);
         }
 
         public void ParamView(bool doFocus, bool isActiveView)
@@ -1867,19 +1901,18 @@ namespace StudioCore.ParamEditor
                         ImGui.TableSetupColumn("rowCol2", ImGuiTableColumnFlags.None, 0.4f);
                     ImGui.PushID("pinned");
 
-                    List<int> pinnedRowList = new List<int>(_paramEditor._projectSettings.PinnedRows.GetValueOrDefault(activeParam, new List<int>()));
+                    List<Param.Row> pinnedRowList = _paramEditor._projectSettings.PinnedRows.GetValueOrDefault(activeParam, new List<int>()).Select((id) => para[id]).ToList();
+                    bool[] selectionCachePins = _selection.getSelectionCache(pinnedRowList, "pinned");
                     if (pinnedRowList.Count != 0)
                     {
-
-                        foreach (int rowID in pinnedRowList)
+                        for (int i=0; i<pinnedRowList.Count(); i++)
                         {
-                            Param.Row row = para[rowID];
+                            Param.Row row = pinnedRowList[i];
                             if (row == null)
                             {
-                                _paramEditor._projectSettings.PinnedRows.GetValueOrDefault(activeParam, new List<int>()).Remove(rowID);
                                 continue;
                             }
-                            RowColumnEntry(activeParam, null, para[rowID], vanillaDiffCache, auxDiffCaches, decorator, ref scrollTo, false, true, compareCol);
+                            RowColumnEntry(selectionCachePins, i, activeParam, null, row, vanillaDiffCache, auxDiffCaches, decorator, ref scrollTo, false, true, compareCol);
                         }
 
                         ImGui.Spacing();
@@ -1906,6 +1939,7 @@ namespace StudioCore.ParamEditor
                     bool enableGrouping = !CFG.Current.Param_DisableRowGrouping && ParamMetaData.Get(ParamBank.PrimaryBank.Params[activeParam].AppliedParamdef).ConsecutiveIDs;
 
                     // Rows
+                    bool[] selectionCache = _selection.getSelectionCache(rows, "regular");
                     for (int i = 0; i < rows.Count; i++)
                     {
                         Param.Row currentRow = rows[i];
@@ -1915,13 +1949,13 @@ namespace StudioCore.ParamEditor
                             Param.Row next = i + 1 < rows.Count ? rows[i + 1] : null;
                             if (prev != null && next != null && prev.ID + 1 != currentRow.ID && currentRow.ID + 1 == next.ID)
                                 EditorDecorations.ImguiTableSeparator();
-                            RowColumnEntry(activeParam, rows, currentRow, vanillaDiffCache, auxDiffCaches, decorator, ref scrollTo, doFocus, false, compareCol);
+                            RowColumnEntry(selectionCache, i, activeParam, rows, currentRow, vanillaDiffCache, auxDiffCaches, decorator, ref scrollTo, doFocus, false, compareCol);
                             if (prev != null && next != null && prev.ID + 1 == currentRow.ID && currentRow.ID + 1 != next.ID)
                                 EditorDecorations.ImguiTableSeparator();
                         }
                         else
                         {
-                            RowColumnEntry(activeParam, rows, currentRow, vanillaDiffCache, auxDiffCaches, decorator, ref scrollTo, doFocus, false, compareCol);
+                            RowColumnEntry(selectionCache, i, activeParam, rows, currentRow, vanillaDiffCache, auxDiffCaches, decorator, ref scrollTo, doFocus, false, compareCol);
                         }
                     }
                     if (doFocus)
@@ -1955,7 +1989,7 @@ namespace StudioCore.ParamEditor
             }
         }
 
-        private void RowColumnEntry(string activeParam, List<Param.Row> p, Param.Row r, HashSet<int> vanillaDiffCache, List<(HashSet<int>, HashSet<int>)> auxDiffCaches, IParamDecorator decorator, ref float scrollTo, bool doFocus, bool isPinned, Param.Column compareCol)
+        private void RowColumnEntry(bool[] selectionCache, int selectionCacheIndex, string activeParam, List<Param.Row> p, Param.Row r, HashSet<int> vanillaDiffCache, List<(HashSet<int>, HashSet<int>)> auxDiffCaches, IParamDecorator decorator, ref float scrollTo, bool doFocus, bool isPinned, Param.Column compareCol)
         {
             if (CFG.Current.UI_CompactParams)
             {
@@ -1982,7 +2016,7 @@ namespace StudioCore.ParamEditor
                     ImGui.PushStyleColor(ImGuiCol.Text, ALLVANILLACOLOUR);
             }
 
-            var selected = _selection.getSelectedRows().Contains(r);
+            var selected = selectionCache != null && selectionCacheIndex < selectionCache.Length ? selectionCache[selectionCacheIndex] : false;
             if (_gotoParamRow != -1 && !isPinned)
             {
                 // Goto row was activated. As soon as a corresponding ID is found, change selection to it.
