@@ -5,7 +5,7 @@ namespace SoulsFormats
 {
     internal static class Oodle26
     {
-        public static byte[] Compress(byte[] source, OodleLZ_Compressor compressor, OodleLZ_CompressionLevel level)
+        public static unsafe byte[] Compress(Span<byte> source, OodleLZ_Compressor compressor, OodleLZ_CompressionLevel level)
         {
             IntPtr pOptions = OodleLZ_CompressOptions_GetDefault(compressor, level);
             OodleLZ_CompressOptions options = Marshal.PtrToStructure<OodleLZ_CompressOptions>(pOptions);
@@ -18,11 +18,15 @@ namespace SoulsFormats
             try
             {
                 Marshal.StructureToPtr(options, pOptions, false);
-                long compressedBufferSizeNeeded = OodleLZ_GetCompressedBufferSizeNeeded(source.LongLength);
+                long compressedBufferSizeNeeded = OodleLZ_GetCompressedBufferSizeNeeded(source.Length);
                 byte[] compBuf = new byte[compressedBufferSizeNeeded];
-                long compLen = OodleLZ_Compress(compressor, source, source.LongLength, compBuf, level, pOptions, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, 0);
-                Array.Resize(ref compBuf, (int)compLen);
-                return compBuf;
+                fixed (byte* ptr = source)
+                {
+                    long compLen = OodleLZ_Compress(compressor, ptr, source.Length, compBuf, level, pOptions,
+                        IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, 0);
+                    Array.Resize(ref compBuf, (int)compLen);
+                    return compBuf;
+                }
             }
             finally
             {
@@ -30,13 +34,15 @@ namespace SoulsFormats
             }
         }
 
-        public static byte[] Decompress(byte[] source, long uncompressedSize)
+        public static unsafe Memory<byte> Decompress(Span<byte> source, long uncompressedSize)
         {
             long decodeBufferSize = OodleLZ_GetDecodeBufferSize(uncompressedSize, true);
             byte[] rawBuf = new byte[decodeBufferSize];
-            long rawLen = OodleLZ_Decompress(source, source.LongLength, rawBuf, uncompressedSize);
-            Array.Resize(ref rawBuf, (int)rawLen);
-            return rawBuf;
+            fixed (byte* ptr = source)
+            {
+                long rawLen = OodleLZ_Decompress(ptr, source.Length, rawBuf, uncompressedSize);
+                return new Memory<byte>(rawBuf, 0, (int)rawLen);
+            }
         }
 
 
@@ -51,10 +57,9 @@ namespace SoulsFormats
         /// <param name="scratchMem">= NULL</param>
         /// <param name="scratchSize">= 0</param>
         [DllImport("oo2core_6_win64.dll", CallingConvention = CallingConvention.StdCall)]
-        private static extern long OodleLZ_Compress(
+        private static extern unsafe long OodleLZ_Compress(
             OodleLZ_Compressor compressor,
-            [MarshalAs(UnmanagedType.LPArray)]
-            byte[] rawBuf,
+            byte* rawBuf,
             long rawLen,
             [MarshalAs(UnmanagedType.LPArray)]
             byte[] compBuf,
@@ -65,7 +70,7 @@ namespace SoulsFormats
             IntPtr scratchMem,
             long scratchSize);
 
-        private static long OodleLZ_Compress(OodleLZ_Compressor compressor, byte[] rawBuf, long rawLen, byte[] compBuf, OodleLZ_CompressionLevel level)
+        private static unsafe long OodleLZ_Compress(OodleLZ_Compressor compressor, byte* rawBuf, long rawLen, byte[] compBuf, OodleLZ_CompressionLevel level)
             => OodleLZ_Compress(compressor, rawBuf, rawLen, compBuf, level,
                 IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, 0);
 
@@ -96,9 +101,8 @@ namespace SoulsFormats
         /// <param name="decoderMemorySize">= 0</param>
         /// <param name="threadPhase">= OodleLZ_Decode_Unthreaded</param>
         [DllImport("oo2core_6_win64.dll", CallingConvention = CallingConvention.StdCall)]
-        private static extern long OodleLZ_Decompress(
-            [MarshalAs(UnmanagedType.LPArray)]
-            byte[] compBuf,
+        private static extern unsafe long OodleLZ_Decompress(
+            byte* compBuf,
             long compBufSize,
             [MarshalAs(UnmanagedType.LPArray)]
             byte[] rawBuf,
@@ -114,7 +118,7 @@ namespace SoulsFormats
             long decoderMemorySize,
             OodleLZ_Decode_ThreadPhase threadPhase);
 
-        private static long OodleLZ_Decompress(byte[] compBuf, long compBufSize, byte[] rawBuf, long rawLen)
+        private static unsafe long OodleLZ_Decompress(byte* compBuf, long compBufSize, byte[] rawBuf, long rawLen)
             => OodleLZ_Decompress(compBuf, compBufSize, rawBuf, rawLen,
                 OodleLZ_FuzzSafe.OodleLZ_FuzzSafe_Yes, OodleLZ_CheckCRC.OodleLZ_CheckCRC_No, OodleLZ_Verbosity.OodleLZ_Verbosity_None,
                 IntPtr.Zero, 0, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, 0, OodleLZ_Decode_ThreadPhase.OodleLZ_Decode_Unthreaded);

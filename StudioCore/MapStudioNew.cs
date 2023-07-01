@@ -12,6 +12,7 @@ using System.Globalization;
 using System.Threading;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using Gtk;
 using SoapstoneLib;
 using Veldrid;
 using Veldrid.Sdl2;
@@ -19,13 +20,14 @@ using Veldrid.StartupUtilities;
 using StudioCore.Graphics;
 using StudioCore.Platform;
 using Vortice.Vulkan;
+using Application = Gtk.Application;
 
 namespace StudioCore
 {
     public class MapStudioNew
     {
-        private static string _version = System.Windows.Forms.Application.ProductVersion;
-        private static string _programTitle = $"Dark Souls Map Studio version {_version}";
+        private readonly string _version;
+        private readonly string _programTitle;
 
         private static double _desiredFrameLengthSeconds = 1.0 / 20.0f;
         private static bool _limitFrameRate = true;
@@ -52,12 +54,16 @@ namespace StudioCore
         private bool _showImGuiDebugLogWindow = false;
         private bool _showImGuiStackToolWindow = false;
 
-        public unsafe MapStudioNew(IGraphicsContext context)
+        public unsafe MapStudioNew(IGraphicsContext context, string version)
         {
+            _version = version;
+            _programTitle = $"Dark Souls Map Studio version {_version}";
+            
             // Hack to make sure dialogs work before the main window is created
             PlatformUtils.InitializeWindows(null);
             CFG.AttemptLoadOrDefault();
-
+            Application.Init();
+            
             _context = context;
             _context.Initialize();
             _context.Window.Title = _programTitle;
@@ -66,8 +72,8 @@ namespace StudioCore
             _assetLocator = new AssetLocator();
             var msbEditor = new MsbEditor.MsbEditorScreen(_context.Window, _context.Device, _assetLocator);
             var modelEditor = new MsbEditor.ModelEditorScreen(_context.Window, _context.Device, _assetLocator);
-            var paramEditor = new ParamEditor.ParamEditorScreen(_context.Window, _context.Device);
-            var textEditor = new TextEditor.TextEditorScreen(_context.Window, _context.Device);
+            var paramEditor = new ParamEditor.ParamEditorScreen(_context.Window, _context.Device, _assetLocator);
+            var textEditor = new TextEditor.TextEditorScreen(_context.Window, _context.Device, _assetLocator);
             _editors = new List<EditorScreen>()
             {
                 msbEditor, modelEditor, paramEditor, textEditor
@@ -335,7 +341,7 @@ namespace StudioCore
             _context.Dispose();
             CFG.Save();
 
-            System.Windows.Forms.Application.Exit();
+            Application.Quit();
         }
 
         // Try to shutdown things gracefully on a crash
@@ -344,7 +350,7 @@ namespace StudioCore
             Tracy.Shutdown();
             Resource.ResourceManager.Shutdown();
             _context.Dispose();
-            System.Windows.Forms.Application.Exit();
+            Application.Quit();
         }
 
         private void ChangeProjectSettings(Editor.ProjectSettings newsettings, string moddir, NewProjectOptions options)
@@ -419,15 +425,12 @@ namespace StudioCore
 
         private void DumpFlverLayouts()
         {
-            var browseDlg = new System.Windows.Forms.SaveFileDialog()
+            using FileChooserNative fileChooser = new FileChooserNative("Save Flver layout dump",
+                null, FileChooserAction.Save, "Save", "Cancel");
+            fileChooser.AddFilter(_assetLocator.TxtFilter);
+            if (fileChooser.Run() == (int)ResponseType.Accept)
             {
-                Filter = "Text file (*.txt) |*.TXT",
-                ValidateNames = true,
-            };
-
-            if (browseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                using (var file = new StreamWriter(browseDlg.FileName))
+                using (var file = new StreamWriter(fileChooser.Filename))
                 {
                     foreach (var mat in Resource.FlverResource.MaterialLayouts)
                     {
@@ -471,21 +474,16 @@ namespace StudioCore
                         MessageBoxButtons.OK,
                         MessageBoxIcon.None);
 
-                    var rbrowseDlg = new System.Windows.Forms.OpenFileDialog()
-                    {
-                        Filter = AssetLocator.GameExecutableFilter,
-                        ValidateNames = true,
-                        CheckFileExists = true,
-                        CheckPathExists = true,
-                        //ShowReadOnly = true,
-                    };
-
+                    using FileChooserNative fileChooser = new FileChooserNative($"Select executable for {settings.GameType}...",
+                        null, FileChooserAction.Open, "Open", "Cancel");
+                    fileChooser.AddFilter(_assetLocator.GameExecutableFilter);
+                    fileChooser.AddFilter(_assetLocator.AllFilesFilter);
                     var gametype = GameType.Undefined;
                     while (gametype != settings.GameType)
                     {
-                        if (rbrowseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                        if (fileChooser.Run() == (int)ResponseType.Accept)
                         {
-                            settings.GameRoot = rbrowseDlg.FileName;
+                            settings.GameRoot = fileChooser.Filename;
                             gametype = _assetLocator.GetGameTypeForExePath(settings.GameRoot);
                             if (gametype != settings.GameType)
                             {
@@ -627,11 +625,11 @@ namespace StudioCore
             ImGui.SameLine();
             if (ImGui.Button($@"{ForkAwesome.FileO}"))
             {
-                var browseDlg = new System.Windows.Forms.FolderBrowserDialog();
-
-                if (browseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                using FileChooserNative fileChooser = new FileChooserNative($"Select project directory...",
+                    null, FileChooserAction.SelectFolder, "Open", "Cancel");
+                if (fileChooser.Run() == (int)ResponseType.Accept)
                 {
-                    _newProjectOptions.directory = browseDlg.SelectedPath;
+                    _newProjectOptions.directory = fileChooser.Filename;
                 }
             }
         }
@@ -718,20 +716,15 @@ namespace StudioCore
                     }
                     if (ImGui.MenuItem("Open Project", "", false, Editor.TaskManager.GetLiveThreads().Count == 0))
                     {
-                        var browseDlg = new System.Windows.Forms.OpenFileDialog()
+                        using FileChooserNative fileChooser = new FileChooserNative("Choose the project json file",
+                            null, FileChooserAction.Open, "Open", "Cancel");
+                        fileChooser.AddFilter(_assetLocator.ProjectJsonFilter);
+                        if (fileChooser.Run() == (int)ResponseType.Accept)
                         {
-                            Filter = AssetLocator.JsonFilter,
-                            ValidateNames = true,
-                            CheckFileExists = true,
-                            CheckPathExists = true,
-                        };
-
-                        if (browseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                        {
-                            var settings = Editor.ProjectSettings.Deserialize(browseDlg.FileName);
+                            var settings = ProjectSettings.Deserialize(fileChooser.Filename);
                             if (settings != null)
                             {
-                                AttemptLoadProject(settings, browseDlg.FileName);
+                                AttemptLoadProject(settings, fileChooser.Filename);
                             }
                         }
                     }
@@ -844,7 +837,8 @@ namespace StudioCore
                                    "Meowmaritus\n" +
                                    "Radai\n" +
                                    "Moonlight Ruin\n" +
-                                   "Evan (HalfGrownHollow)");
+                                   "Evan (HalfGrownHollow)\n" +
+                                   "MyMaidisKitchenAid");
                         ImGui.EndMenu();
                     }
 
@@ -1051,18 +1045,14 @@ namespace StudioCore
                     ImGui.SameLine();
                     if (ImGui.Button($@"{ForkAwesome.FileO}##fd2"))
                     {
-                        var browseDlg = new System.Windows.Forms.OpenFileDialog()
+                        using FileChooserNative fileChooser = new FileChooserNative($"Select executable for the game you want to mod...",
+                            null, FileChooserAction.Open, "Open", "Cancel");
+                        fileChooser.AddFilter(_assetLocator.GameExecutableFilter);
+                        fileChooser.AddFilter(_assetLocator.AllFilesFilter);
+                        if (fileChooser.Run() == (int)ResponseType.Accept)
                         {
-                            Filter = AssetLocator.GameExecutableFilter,
-                            ValidateNames = true,
-                            CheckFileExists = true,
-                            CheckPathExists = true,
-                        };
-
-                        if (browseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                        {
-                            _newProjectOptions.settings.GameRoot = Path.GetDirectoryName(browseDlg.FileName);
-                            _newProjectOptions.settings.GameType = _assetLocator.GetGameTypeForExePath(browseDlg.FileName);
+                            _newProjectOptions.settings.GameRoot = Path.GetDirectoryName(fileChooser.Filename);
+                            _newProjectOptions.settings.GameType = _assetLocator.GetGameTypeForExePath(fileChooser.Filename);
 
                             if (_newProjectOptions.settings.GameType == GameType.Bloodborne)
                             {
@@ -1098,11 +1088,12 @@ namespace StudioCore
                     ImGui.SameLine();
                     if (ImGui.Button($@"{ForkAwesome.FileO}##fd2"))
                     {
-                        var browseDlg = new System.Windows.Forms.FolderBrowserDialog();
+                        using FileChooserNative fileChooser = new FileChooserNative($"Select project directory...",
+                            null, FileChooserAction.SelectFolder, "Open", "Cancel");
 
-                        if (browseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                        if (fileChooser.Run() == (int)ResponseType.Accept)
                         {
-                            _newProjectOptions.settings.GameRoot = browseDlg.SelectedPath;
+                            _newProjectOptions.settings.GameRoot = fileChooser.Filename;
                         }
                     }
                     NewProject_GameTypeComboGUI();

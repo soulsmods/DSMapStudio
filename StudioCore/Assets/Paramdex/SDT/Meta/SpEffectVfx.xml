@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <isUseOffsetEnchantSfxSize IsBool="" />
+    <isInvisibleWeapon IsBool="" />
+    <isInitFullbody IsBool="" />
+    <isSilence IsBool="" />
+    <isFinishFullbody IsBool="" />
+    <isVisibleDeadChr IsBool="" />
+    <isMidstFullbody IsBool="" />
+    <isFullBodyTransformProtectorId IsBool="" />
+    <phantomParamOverwriteId Refs="PhantomParam(=0)" />
+  </Field>
+  <Self />
+</PARAMMETA>

@@ -9,7 +9,9 @@ using Veldrid.Utilities;
 using SoulsFormats;
 using HKX2;
 using System.IO;
+using System.IO.MemoryMappedFiles;
 using System.Threading.Tasks.Dataflow;
+using DotNext.IO.MemoryMappedFiles;
 
 namespace StudioCore.Resource
 {
@@ -249,7 +251,7 @@ namespace StudioCore.Resource
             return true;
         }
 
-        public bool _Load(byte[] bytes, AccessLevel al, GameType type)
+        public bool _Load(Memory<byte> bytes, AccessLevel al, GameType type)
         {
             BinaryReaderEx br = new BinaryReaderEx(false, bytes);
             var des = new HKX2.PackFileDeserializer();
@@ -257,13 +259,13 @@ namespace StudioCore.Resource
             return LoadInternal(al);
         }
 
-        public bool _Load(string file, AccessLevel al, GameType type)
+        public bool _Load(string path, AccessLevel al, GameType type)
         {
-            using (var s = File.OpenRead(file))
-            {
-                var des = new HKX2.PackFileDeserializer();
-                HkxRoot = (hkRootLevelContainer)des.Deserialize(new BinaryReaderEx(false, s));
-            }
+            using var file = MemoryMappedFile.CreateFromFile(path, FileMode.Open, null, 0, MemoryMappedFileAccess.Read);
+            using var accessor = file.CreateMemoryAccessor(0, 0, MemoryMappedFileAccess.Read);
+            var des = new HKX2.PackFileDeserializer();
+            HkxRoot = (hkRootLevelContainer)des.Deserialize(new BinaryReaderEx(false, accessor.Memory));
+
             return LoadInternal(al);
         }
 

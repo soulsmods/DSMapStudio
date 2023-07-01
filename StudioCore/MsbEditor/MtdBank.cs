@@ -82,6 +82,7 @@ namespace StudioCore.MsbEditor
                             }
                         }
                     }
+                    mtdBinder.Dispose();
                 }
                 catch (Exception e) when (e is FileNotFoundException or DirectoryNotFoundException)
                 {

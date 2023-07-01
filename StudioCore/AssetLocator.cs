@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Text.RegularExpressions;
+using Gtk;
 using SoulsFormats;
 
 namespace StudioCore
@@ -74,34 +75,18 @@ namespace StudioCore
     /// </summary>
     public class AssetLocator
     {
-
-        public static readonly string GameExecutableFilter =
-            "Game Executable (.EXE, EBOOT.BIN) |*.EXE*;*EBOOT.BIN*|" +
-            "Windows executable (*.EXE) |*.EXE*|" +
-            "Playstation executable (*.BIN) |*.BIN*|" +
-            "All Files|*.*";
-
-        public static readonly string JsonFilter =
-            "Project file (project.json) |PROJECT.JSON";
-
-        public static readonly string ERRegulationFilter =
-            "Regulation file (regulation.bin) |REGULATION.BIN";
-        
-        public static readonly string ParamFilter =
-            ERRegulationFilter + "|" +
-            "Data file (Data0.bdt) |DATA0.BDT|" +
-            "ParamBndDcx (gameparam.parambnd.dcx) |GAMEPARAM.PARAMBND.DCX|" +
-            "ParamBnd (gameparam.parambnd) |GAMEPARAM.PARAMBND|" +
-            "Enc_RegBndDcx (enc_regulation.bnd.dcx) |ENC_REGULATION.BND.DCX|" +
-            "All Files|*.*";
-
-        public static readonly string ERParamUpgradeFilter =
-            "Regulation file (regulation.bin) |*REGULATION*.BIN*" + "|" +
-            "All Files|*.*";
-
-         public static readonly string LooseParamFilter =
-            "Loose Param file (*.Param) |*.Param*|" +
-            "All Files|*.*";   
+        public readonly FileFilter GameExecutableFilter;
+        public readonly FileFilter ProjectJsonFilter;
+        public readonly FileFilter RegulationBinFilter;
+        public readonly FileFilter Data0Filter;
+        public readonly FileFilter ParamBndDcxFilter;
+        public readonly FileFilter ParamBndFilter;
+        public readonly FileFilter EncRegulationFilter;
+        public readonly FileFilter ParamLooseFilter;
+        public readonly FileFilter CsvFilter;
+        public readonly FileFilter TxtFilter;
+        public readonly FileFilter FmgJsonFilter;
+        public readonly FileFilter AllFilesFilter;
         
         public GameType Type { get; private set; } = GameType.Undefined;
 
@@ -117,6 +102,31 @@ namespace StudioCore
 
         public AssetLocator()
         {
+            GameExecutableFilter = new FileFilter { Name = "Game Executable (.EXE, EBOOT.BIN)" };
+            GameExecutableFilter.AddPattern("*.exe*");
+            GameExecutableFilter.AddPattern("*.bin*");
+            ProjectJsonFilter = new FileFilter { Name = "Project file (project.json)" };
+            ProjectJsonFilter.AddPattern("project.json");
+            RegulationBinFilter = new FileFilter { Name = "Regulation file (regulation.bin)" };
+            RegulationBinFilter.AddPattern("regulation.bin");
+            Data0Filter = new FileFilter { Name = "Data file (Data0.bdt)" };
+            Data0Filter.AddPattern("data0.bdt");
+            ParamBndDcxFilter = new FileFilter { Name = "Compressed params (gameparam.parambnd.dcx)" };
+            ParamBndDcxFilter.AddPattern("gameparam.parambnd.dcx");
+            ParamBndFilter = new FileFilter { Name = "Params (gameparam.parambnd)" };
+            ParamBndFilter.AddPattern("gameparam.parambnd");
+            EncRegulationFilter = new FileFilter { Name = "DS2 regulation (enc_regulation.bnd.dcx)" };
+            EncRegulationFilter.AddPattern("enc_regulation.bnd.dcx");
+            ParamLooseFilter = new FileFilter { Name = "Loose param file (*.param)" };
+            ParamLooseFilter.AddPattern("*.param");
+            CsvFilter = new FileFilter { Name = "CSV file (*.csv)" };
+            CsvFilter.AddPattern("*.csv");
+            TxtFilter = new FileFilter { Name = "Text file (*.txt)" };
+            TxtFilter.AddPattern("*.txt");
+            FmgJsonFilter = new FileFilter { Name = "Exported FMGs (*.fmg.json)" };
+            FmgJsonFilter.AddPattern("*.fmg.json");
+            AllFilesFilter = new FileFilter { Name = "All files" };
+            AllFilesFilter.AddPattern("*.*");
         }
 
         private List<string> FullMapList = null;
@@ -785,7 +795,6 @@ namespace StudioCore
         public PARAMDEF GetParamdefForParam(string paramType)
         {
             PARAMDEF pd = PARAMDEF.XmlDeserialize($@"{GetParamdefDir()}\{paramType}.xml");
-            ParamEditor.ParamMetaData meta = ParamEditor.ParamMetaData.XmlDeserialize($@"{GetParammetaDir()}\{paramType}.xml", pd);
             return pd;
         }
 

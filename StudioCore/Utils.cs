@@ -263,6 +263,12 @@ namespace StudioCore
                 {
                     item.Write(writepath + ".temp");
                 }
+                
+                // Ugly but until I rethink the binder API we need to dispose it before touching the existing files
+                if (item is IDisposable d)
+                {
+                    d.Dispose();
+                }
 
                 if (File.Exists(writepath))
                 {

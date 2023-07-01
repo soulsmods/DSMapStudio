@@ -20,7 +20,7 @@ namespace StudioCore.MsbEditor
         public string CommandEndpoint => "map";
         public string SaveType => "Maps";
         
-        public AssetLocator AssetLocator = null;
+        public readonly AssetLocator AssetLocator;
         public Scene.RenderScene RenderScene = null;
         private Selection _selection = new Selection();
         public ActionManager EditorActionManager = new ActionManager();
@@ -649,7 +649,7 @@ namespace StudioCore.MsbEditor
                 ImGui.EndMenu();
             }
 
-            if (ImGui.BeginMenu("Display"))
+            if (ImGui.BeginMenu("Display", RenderScene != null && Viewport != null))
             {
                 /*
                 // Does nothing at the moment. Maybe add to settings menu if this is ever implemented

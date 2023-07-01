@@ -46,6 +46,8 @@ namespace StudioCore.Scene
 
         private int _topIndex = 0;
 
+        private Stack<int> _freeIndices = new Stack<int>(100);
+
         public int RenderableSystemIndex { get; protected set; }
 
         /// <summary>
@@ -57,14 +59,13 @@ namespace StudioCore.Scene
 
         protected int GetNextInvalidIndex()
         {
-            for (int i = 0; i < SYSTEM_SIZE; i++)
-            {
-                if (!cVisible[i]._valid)
-                {
-                    return i;
-                }
-            }
-            throw new Exception("Renderable system full.\n\nTry increasing renderables limit in settings.\n");
+            if (_freeIndices.Count > 0)
+                return _freeIndices.Pop();
+            
+            if (_topIndex >= SYSTEM_SIZE)
+                throw new Exception("Renderable system full.\n\nTry increasing renderables limit in settings.\n");
+
+            return _topIndex++;
         }
 
         protected int AllocateValidAndVisibleRenderable()
@@ -81,6 +82,7 @@ namespace StudioCore.Scene
         public void RemoveRenderable(int renderable)
         {
             cVisible[renderable]._valid = false;
+            _freeIndices.Push(renderable);
         }
     }
 

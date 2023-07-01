@@ -20,6 +20,7 @@ namespace StudioCore.TextEditor
         public string CommandEndpoint => "text";
         public string SaveType => "Text";
         
+        public readonly AssetLocator AssetLocator;
         public ActionManager EditorActionManager = new ActionManager();
         private readonly PropertyEditor _propEditor = null;
         private ProjectSettings _projectSettings;
@@ -37,8 +38,9 @@ namespace StudioCore.TextEditor
         private bool _clearEntryGroup = false;
         private bool _arrowKeyPressed = false;
 
-        public TextEditorScreen(Sdl2Window window, GraphicsDevice device)
+        public TextEditorScreen(Sdl2Window window, GraphicsDevice device, AssetLocator locator)
         {
+            AssetLocator = locator;
             _propEditor = new PropertyEditor(EditorActionManager);
         }
 
@@ -178,7 +180,7 @@ namespace StudioCore.TextEditor
                     }
 
                     // Descriptions
-                    foreach (var entry in FMGBank.GetFmgEntriesByCategoryAndTextType(_activeFmgInfo.EntryCategory, FMGBank.FmgEntryTextType.Description, false))
+                    foreach (var entry in FMGBank.GetFmgEntriesByCategoryAndTextType(_activeFmgInfo.EntryCategory, FmgEntryTextType.Description, false))
                     {
                         if (entry.Text != null)
                         {
@@ -192,7 +194,7 @@ namespace StudioCore.TextEditor
                     }
 
                     // Summaries
-                    foreach (var entry in FMGBank.GetFmgEntriesByCategoryAndTextType(_activeFmgInfo.EntryCategory, FMGBank.FmgEntryTextType.Summary, false))
+                    foreach (var entry in FMGBank.GetFmgEntriesByCategoryAndTextType(_activeFmgInfo.EntryCategory, FmgEntryTextType.Summary, false))
                     {
                         if (entry.Text != null)
                         {
@@ -206,7 +208,7 @@ namespace StudioCore.TextEditor
                     }
 
                     // Extra Text
-                    foreach (var entry in FMGBank.GetFmgEntriesByCategoryAndTextType(_activeFmgInfo.EntryCategory, FMGBank.FmgEntryTextType.ExtraText, false))
+                    foreach (var entry in FMGBank.GetFmgEntriesByCategoryAndTextType(_activeFmgInfo.EntryCategory, FmgEntryTextType.ExtraText, false))
                     {
                         if (entry.Text != null)
                         {
@@ -230,13 +232,13 @@ namespace StudioCore.TextEditor
             }
         }
 
-        private void CategoryListUI(FMGBank.FmgUICategory uiType, bool doFocus)
+        private void CategoryListUI(FmgUICategory uiType, bool doFocus)
         {
             foreach (var info in FMGBank.FmgInfoBank)
             {
                 if (info.PatchParent == null 
                     && info.UICategory == uiType 
-                    && info.EntryType is FMGBank.FmgEntryTextType.Title or FMGBank.FmgEntryTextType.TextBody)
+                    && info.EntryType is FmgEntryTextType.Title or FmgEntryTextType.TextBody)
                 {
                     string displayName = "";
                     if (CFG.Current.FMG_ShowOriginalNames)
@@ -350,54 +352,73 @@ namespace StudioCore.TextEditor
             }
             else
             {
-                // Up/Down arrow key input
-                if (InputTracker.GetKey(Key.Up) || InputTracker.GetKey(Key.Down))
+                unsafe
                 {
-                    _arrowKeyPressed = true;
-                }
-
-                // Entries
-                foreach (var r in _EntryLabelCacheFiltered)
-                {
-                    var text = (r.Text == null) ? "%null%" : r.Text.Replace("\n", "\n".PadRight(r.ID.ToString().Length+2));
-                    var label = $@"{r.ID} {text}";
-                    label = Utils.ImGui_WordWrapString(label, ImGui.GetColumnWidth());
-                    if (ImGui.Selectable(label, _activeIDCache == r.ID))
+                    ImGuiListClipperPtr clipper = new(ImGuiNative.ImGuiListClipper_ImGuiListClipper());
+                    clipper.Begin(_EntryLabelCacheFiltered.Count);
+                    // Up/Down arrow key input
+                    if (InputTracker.GetKey(Key.Up) || InputTracker.GetKey(Key.Down))
                     {
-                        _activeEntryGroup = FMGBank.GenerateEntryGroup(r.ID, _activeFmgInfo);
+                        _arrowKeyPressed = true;
                     }
-                    else if (_activeIDCache == r.ID && _activeEntryGroup == null)
+                    while (clipper.Step())
                     {
-                        _activeEntryGroup = FMGBank.GenerateEntryGroup(r.ID, _activeFmgInfo);
-                        _searchFilterCached = "";
-                    }
-
-                    if (_arrowKeyPressed && ImGui.IsItemFocused()
-                        && _activeEntryGroup?.ID != r.ID)
-                    {
-                        // Up/Down arrow key selection
-                        _activeEntryGroup = FMGBank.GenerateEntryGroup(r.ID, _activeFmgInfo);
-                        _arrowKeyPressed = false;
-                    }
-
-                    if (ImGui.BeginPopupContextItem())
-                    {
-                        if (ImGui.Selectable("Duplicate Entry"))
+                        for (var i = clipper.DisplayStart; i < clipper.DisplayEnd; i++)
                         {
-                            _activeEntryGroup = FMGBank.GenerateEntryGroup(r.ID, _activeFmgInfo);
-                            DuplicateFMGEntries(_activeEntryGroup);
+                            FMG.Entry r = _EntryLabelCacheFiltered[i];
+                            // Entries
+                            var text = (r.Text == null) ? "%null%" : r.Text.Replace("\n", "\n".PadRight(r.ID.ToString().Length + 2));
+                            var label = $@"{r.ID} {text}";
+                            label = Utils.ImGui_WordWrapString(label, ImGui.GetColumnWidth());
+                            if (ImGui.Selectable(label, _activeIDCache == r.ID))
+                            {
+                                _activeEntryGroup = FMGBank.GenerateEntryGroup(r.ID, _activeFmgInfo);
+                            }
+                            else if (_activeIDCache == r.ID && _activeEntryGroup == null)
+                            {
+                                _activeEntryGroup = FMGBank.GenerateEntryGroup(r.ID, _activeFmgInfo);
+                                _searchFilterCached = "";
+                            }
+
+                            if (_arrowKeyPressed && ImGui.IsItemFocused()
+                                && _activeEntryGroup?.ID != r.ID)
+                            {
+                                // Up/Down arrow key selection
+                                _activeEntryGroup = FMGBank.GenerateEntryGroup(r.ID, _activeFmgInfo);
+                                _arrowKeyPressed = false;
+                            }
+
+                            if (ImGui.BeginPopupContextItem())
+                            {
+                                if (ImGui.Selectable("Duplicate Entry"))
+                                {
+                                    _activeEntryGroup = FMGBank.GenerateEntryGroup(r.ID, _activeFmgInfo);
+                                    DuplicateFMGEntries(_activeEntryGroup);
+                                }
+                                if (ImGui.Selectable("Delete Entry"))
+                                {
+                                    _activeEntryGroup = FMGBank.GenerateEntryGroup(r.ID, _activeFmgInfo);
+                                    DeleteFMGEntries(_activeEntryGroup);
+                                }
+                                ImGui.EndPopup();
+                            }
                         }
-                        if (ImGui.Selectable("Delete Entry"))
-                        {
-                            _activeEntryGroup = FMGBank.GenerateEntryGroup(r.ID, _activeFmgInfo);
-                            DeleteFMGEntries(_activeEntryGroup);
-                        }
-                        ImGui.EndPopup();
                     }
-                    if (doFocus && _activeEntryGroup?.ID == r.ID)
+                    if (doFocus && _activeEntryGroup != null)
                     {
-                        ImGui.SetScrollHereY();
+                        for (var i = 0; i < _EntryLabelCacheFiltered.Count; i++)
+                        {
+                            if (_activeEntryGroup.ID == _EntryLabelCacheFiltered[i].ID)
+                            {
+                                // Scroll to currently selected entrygroup
+                                var itemY = clipper.StartPosY + clipper.ItemsHeight * i;
+                                var x = itemY - ImGui.GetWindowPos().Y;
+                                ImGui.SetScrollFromPosY(itemY - ImGui.GetWindowPos().Y);
+                                break;
+                            }
+                        }
                     }
+                    clipper.End();
                 }
             }
             ImGui.EndChild();
@@ -509,15 +530,15 @@ namespace StudioCore.TextEditor
                     // binder id and FMG name are for soapstone references.
                     // This can be revisited as more high-level categories get added.
                     int? searchId = null;
-                    FMGBank.FmgEntryCategory? searchCategory = null;
+                    FmgEntryCategory? searchCategory = null;
                     string searchName = null;
                     if (int.TryParse(initcmd[1], out int intId) && intId >= 0)
                     {
                         searchId = intId;
                     }
                     // Enum.TryParse allows arbitrary ints (thanks C#), so checking definition is required
-                    else if (Enum.TryParse(initcmd[1], out FMGBank.FmgEntryCategory cat)
-                        && Enum.IsDefined(typeof(FMGBank.FmgEntryCategory), cat))
+                    else if (Enum.TryParse(initcmd[1], out FmgEntryCategory cat)
+                        && Enum.IsDefined(typeof(FmgEntryCategory), cat))
                     {
                         searchCategory = cat;
                     }
@@ -530,7 +551,7 @@ namespace StudioCore.TextEditor
                         bool match = false;
                         // This matches top-level item FMGs
                         if (info.EntryCategory.Equals(searchCategory) && info.PatchParent == null
-                            && info.EntryType is FMGBank.FmgEntryTextType.Title or FMGBank.FmgEntryTextType.TextBody)
+                            && info.EntryType is FmgEntryTextType.Title or FmgEntryTextType.TextBody)
                         {
                             match = true;
                         }

@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace StudioUtils;
@@ -199,7 +200,10 @@ public class StridedByteArray
     /// <returns>The read element</returns>
     /// <exception cref="IndexOutOfRangeException"></exception>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
-    public unsafe T ReadValueAtElementOffset<T>(uint element, uint offset) where T : struct
+    public unsafe T ReadValueAtElementOffset<
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | 
+                                    DynamicallyAccessedMemberTypes.NonPublicConstructors)] T>
+        (uint element, uint offset) where T : struct
     {
         if (element >= Count)
             throw new IndexOutOfRangeException();

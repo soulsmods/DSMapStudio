@@ -610,7 +610,7 @@ namespace StudioCore.Resource
             return true;
         }
 
-        public bool _Load(byte[] bytes, AccessLevel al, GameType type)
+        public bool _Load(Memory<byte> bytes, AccessLevel al, GameType type)
         {
             
             if (type == GameType.Bloodborne)

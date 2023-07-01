@@ -14,7 +14,6 @@ using StudioCore.Scene;
 using StudioCore.Editor;
 using System.Numerics;
 using SoulsFormats.KF4;
-using System.Windows.Forms.Design;
 using static SoulsFormats.MCP;
 using System.ComponentModel;
 using StudioCore.Platform;

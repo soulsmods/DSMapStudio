@@ -73,32 +73,32 @@ public abstract unsafe class PlatformUtils
                 break;
             case MessageBoxButtons.OKCancel:
                 buttonCount = 2;
-                buttonNames[0] = "Ok";
-                buttonResults[0] = DialogResult.OK;
-                buttonNames[1] = "Cancel";
-                buttonResults[1] = DialogResult.Cancel;
-                returnID = 0;
-                escapeID = 1;
+                buttonNames[1] = "Ok";
+                buttonResults[1] = DialogResult.OK;
+                buttonNames[0] = "Cancel";
+                buttonResults[0] = DialogResult.Cancel;
+                returnID = 1;
+                escapeID = 0;
                 break;
             case MessageBoxButtons.YesNoCancel:
                 buttonCount = 3;
-                buttonNames[0] = "Yes";
-                buttonResults[0] = DialogResult.Yes;
+                buttonNames[2] = "Yes";
+                buttonResults[2] = DialogResult.Yes;
                 buttonNames[1] = "No";
                 buttonResults[1] = DialogResult.No;
-                buttonNames[2] = "Cancel";
-                buttonResults[2] = DialogResult.Cancel;
-                returnID = 0;
-                escapeID = 2;
+                buttonNames[0] = "Cancel";
+                buttonResults[0] = DialogResult.Cancel;
+                returnID = 2;
+                escapeID = 0;
                 break;
             case MessageBoxButtons.YesNo:
                 buttonCount = 2;
-                buttonNames[0] = "Yes";
-                buttonResults[0] = DialogResult.Yes;
-                buttonNames[1] = "No";
-                buttonResults[1] = DialogResult.No;
-                returnID = 0;
-                escapeID = 1;
+                buttonNames[1] = "Yes";
+                buttonResults[1] = DialogResult.Yes;
+                buttonNames[0] = "No";
+                buttonResults[0] = DialogResult.No;
+                returnID = 1;
+                escapeID = 0;
                 break;
             default:
                 throw new Exception("Invalid button type");

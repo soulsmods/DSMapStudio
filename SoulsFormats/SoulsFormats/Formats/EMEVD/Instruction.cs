@@ -289,36 +289,33 @@ namespace SoulsFormats
             public List<object> UnpackArgs(IEnumerable<ArgType> argStruct, bool bigEndian = false)
             {
                 var result = new List<object>();
-                using (var ms = new MemoryStream(ArgData))
+                var br = new BinaryReaderEx(bigEndian, ArgData);
+                foreach (ArgType arg in argStruct)
                 {
-                    var br = new BinaryReaderEx(bigEndian, ms);
-                    foreach (ArgType arg in argStruct)
+                    switch (arg)
                     {
-                        switch (arg)
-                        {
-                            case ArgType.Byte:
-                                result.Add(br.ReadByte()); break;
-                            case ArgType.UInt16:
-                                br.Pad(2);
-                                result.Add(br.ReadUInt16()); break;
-                            case ArgType.UInt32:
-                                br.Pad(4);
-                                result.Add(br.ReadUInt32()); break;
-                            case ArgType.SByte:
-                                result.Add(br.ReadSByte()); break;
-                            case ArgType.Int16:
-                                br.Pad(2);
-                                result.Add(br.ReadInt16()); break;
-                            case ArgType.Int32:
-                                br.Pad(4);
-                                result.Add(br.ReadInt32()); break;
-                            case ArgType.Single:
-                                br.Pad(4);
-                                result.Add(br.ReadSingle()); break;
+                        case ArgType.Byte:
+                            result.Add(br.ReadByte()); break;
+                        case ArgType.UInt16:
+                            br.Pad(2);
+                            result.Add(br.ReadUInt16()); break;
+                        case ArgType.UInt32:
+                            br.Pad(4);
+                            result.Add(br.ReadUInt32()); break;
+                        case ArgType.SByte:
+                            result.Add(br.ReadSByte()); break;
+                        case ArgType.Int16:
+                            br.Pad(2);
+                            result.Add(br.ReadInt16()); break;
+                        case ArgType.Int32:
+                            br.Pad(4);
+                            result.Add(br.ReadInt32()); break;
+                        case ArgType.Single:
+                            br.Pad(4);
+                            result.Add(br.ReadSingle()); break;
 
-                            default:
-                                throw new NotImplementedException($"Unimplemented argument type: {arg}");
-                        }
+                        default:
+                            throw new NotImplementedException($"Unimplemented argument type: {arg}");
                     }
                 }
 

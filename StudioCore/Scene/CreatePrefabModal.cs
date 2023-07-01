@@ -4,7 +4,6 @@ using System.Text;
 using System.Numerics;
 using ImGuiNET;
 using StudioCore.MsbEditor;
-using Newtonsoft.Json;
 
 namespace StudioCore.Scene
 {
@@ -56,7 +55,6 @@ namespace StudioCore.Scene
 
                     if (validated)
                     {
-                        string json = JsonConvert.SerializeObject(_referenceEntity.WrappedObject);
                         ImGui.CloseCurrentPopup();
                     }
                 }

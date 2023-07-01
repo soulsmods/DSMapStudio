@@ -24,7 +24,7 @@ namespace Veldrid
     /// </summary>
     public unsafe class GraphicsDevice : IDisposable
     {
-        private static readonly FixedUtf8String s_name = "Veldrid-VkGraphicsDevice";
+        private static readonly string s_name = "DSMapStudio";
         private static readonly Lazy<bool> s_isSupported = new Lazy<bool>(CheckIsSupported, isThreadSafe: true);
         
         private readonly object _deferredDisposalLock = new object();
@@ -1586,16 +1586,15 @@ namespace Veldrid
             
             var applicationInfo = new VkApplicationInfo
             {
-                sType = VkStructureType.ApplicationInfo,
-                apiVersion = new Vortice.Vulkan.VkVersion(1, 3, 0),
-                applicationVersion = new Vortice.Vulkan.VkVersion(1, 0, 0),
-                engineVersion = new Vortice.Vulkan.VkVersion(1, 0, 0),
-                pApplicationName = s_name.StringPtr,
-                pEngineName = s_name.StringPtr
+                ApiVersion = new VkVersion(1, 3, 0),
+                ApplicationVersion = new VkVersion(1, 0, 0),
+                EngineVersion = new VkVersion(1, 0, 0),
+                ApplicationName = s_name,
+                EngineName = s_name
             };
 
-            StackList<IntPtr, Size64Bytes> instanceExtensions = new StackList<IntPtr, Size64Bytes>();
-            StackList<IntPtr, Size64Bytes> instanceLayers = new StackList<IntPtr, Size64Bytes>();
+            var instanceExtensions = new List<string>();
+            var instanceLayers = new List<string>();
 
             if (availableInstanceExtensions.Contains(CommonStrings.VK_KHR_SURFACE_EXTENSION_NAME))
             {
@@ -1672,12 +1671,9 @@ namespace Veldrid
 
             var instanceCI = new VkInstanceCreateInfo
             {
-                sType = VkStructureType.InstanceCreateInfo,
-                pApplicationInfo = &applicationInfo,
-                enabledExtensionCount = instanceExtensions.Count,
-                ppEnabledExtensionNames = (sbyte**)instanceExtensions.Data,
-                enabledLayerCount = instanceLayers.Count,
-                ppEnabledLayerNames = (instanceLayers.Count > 0) ? (sbyte**)instanceLayers.Data : null
+                ApplicationInfo = applicationInfo,
+                EnabledExtensionNames = instanceExtensions.ToArray(),
+                EnabledLayerNames = instanceLayers.ToArray()
             };
 
             VkDebugUtilsMessengerCreateInfoEXT debugCallbackCI;
@@ -1693,7 +1689,7 @@ namespace Veldrid
                 instanceCI.pNext = &debugCallbackCI;
             }
 
-            result = vkCreateInstance(&instanceCI, null, out _instance);
+            result = vkCreateInstance(instanceCI, out _instance);
             CheckResult(result);
             if (result != VkResult.Success)
             {
@@ -1918,9 +1914,8 @@ namespace Veldrid
                 _queueIndices[(int)QueueType.Transfer] = _queueIndices[(int)QueueType.Compute];
             }
 
-            VkDeviceQueueCreateInfo* queueCreateInfos = stackalloc VkDeviceQueueCreateInfo[queueFamilyCount];
+            var queueCreateInfos = new List<VkDeviceQueueCreateInfo>();
             
-            uint queueCreateInfosCount = 0;
             for (uint i = 0; i < queueFamilyCount; i++)
             {
                 if (offsets[i] == 0)
@@ -1928,13 +1923,11 @@ namespace Veldrid
                 
                 var queueCreateInfo = new VkDeviceQueueCreateInfo
                 {
-                    sType = VkStructureType.DeviceQueueCreateInfo,
-                    queueFamilyIndex = i,
-                    queueCount = offsets[i],
-                    pQueuePriorities = &priorities[i * (int)QueueType.QueueTypeCount]
+                    QueueFamilyIndex = i,
+                    QueueCount = (int)offsets[i],
+                    QueuePriorities = new Span<float>(&priorities[i * (int)QueueType.QueueTypeCount], (int)offsets[i]).ToArray()
                 };
-                queueCreateInfos[queueCreateInfosCount] = queueCreateInfo;
-                queueCreateInfosCount++;
+                queueCreateInfos.Add(queueCreateInfo);
             }
 
             var deviceFeatures = new VkPhysicalDeviceFeatures
@@ -1992,36 +1985,36 @@ namespace Veldrid
 
             bool hasMemReqs2 = false;
             bool hasDedicatedAllocation = false;
-            StackList<IntPtr> extensionNames = new StackList<IntPtr>();
+            var extensionNames = new List<string>();
             for (int property = 0; property < propertyCount; property++)
             {
                 string extensionName = Util.GetString((byte*)properties[property].extensionName);
                 if (extensionName == "VK_KHR_swapchain")
                 {
-                    extensionNames.Add((IntPtr)properties[property].extensionName);
+                    extensionNames.Add(extensionName);
                     requiredInstanceExtensions.Remove(extensionName);
                 }
                 else if (preferStandardClipY && extensionName == "VK_KHR_maintenance1")
                 {
-                    extensionNames.Add((IntPtr)properties[property].extensionName);
+                    extensionNames.Add(extensionName);
                     requiredInstanceExtensions.Remove(extensionName);
                     _standardClipYDirection = true;
                 }
                 else if (extensionName == "VK_KHR_get_memory_requirements2")
                 {
-                    extensionNames.Add((IntPtr)properties[property].extensionName);
+                    extensionNames.Add(extensionName);
                     requiredInstanceExtensions.Remove(extensionName);
                     hasMemReqs2 = true;
                 }
                 else if (extensionName == "VK_KHR_dedicated_allocation")
                 {
-                    extensionNames.Add((IntPtr)properties[property].extensionName);
+                    extensionNames.Add(extensionName);
                     requiredInstanceExtensions.Remove(extensionName);
                     hasDedicatedAllocation = true;
                 }
                 else if (requiredInstanceExtensions.Remove(extensionName))
                 {
-                    extensionNames.Add((IntPtr)properties[property].extensionName);
+                    extensionNames.Add(extensionName);
                 }
             }
 
@@ -2032,7 +2025,7 @@ namespace Veldrid
                     $"The following Vulkan device extensions were not available: {missingList}");
             }
 
-            StackList<IntPtr> layerNames = new StackList<IntPtr>();
+            var layerNames = new List<string>();
             if (_standardValidationSupported)
             {
                 layerNames.Add(CommonStrings.StandardValidationLayerName);
@@ -2045,20 +2038,16 @@ namespace Veldrid
                 pNext = &deviceFeatures11
             };
             
+            // TODO: no support for device layers?
             var deviceCreateInfo = new VkDeviceCreateInfo
             {
-                sType = VkStructureType.DeviceCreateInfo,
-                queueCreateInfoCount = queueCreateInfosCount,
-                pQueueCreateInfos = queueCreateInfos,
-                pEnabledFeatures = null,
-                enabledLayerCount = layerNames.Count,
-                ppEnabledLayerNames = (sbyte**)layerNames.Data,
-                enabledExtensionCount = extensionNames.Count,
-                ppEnabledExtensionNames = (sbyte**)extensionNames.Data,
+                QueueCreateInfos = queueCreateInfos.ToArray(),
+                EnabledFeatures = null,
+                EnabledExtensionNames = extensionNames.ToArray(),
                 pNext = &physicalDeviceFeatures2
             };
 
-            result = vkCreateDevice(_physicalDevice, &deviceCreateInfo, null, out _device);
+            result = vkCreateDevice(_physicalDevice, deviceCreateInfo, out _device);
             CheckResult(result);
             vkLoadDevice(_device);
 
@@ -2207,20 +2196,18 @@ namespace Veldrid
             
             var applicationInfo = new VkApplicationInfo
             {
-                sType = VkStructureType.ApplicationInfo,
-                apiVersion = new VkVersion(1, 2, 0),
-                applicationVersion = new VkVersion(1, 0, 0),
-                engineVersion = new VkVersion(1, 0, 0),
-                pApplicationName = (sbyte*)s_name.StringPtr,
-                pEngineName = (sbyte*)s_name.StringPtr
+                ApiVersion = new VkVersion(1, 2, 0),
+                ApplicationVersion = new VkVersion(1, 0, 0),
+                EngineVersion = new VkVersion(1, 0, 0),
+                ApplicationName = s_name,
+                EngineName = s_name
             };
 
             var instanceCI = new VkInstanceCreateInfo
             {
-                sType = VkStructureType.InstanceCreateInfo,
-                pApplicationInfo = &applicationInfo
+                ApplicationInfo = applicationInfo
             };
-            VkResult result = vkCreateInstance(&instanceCI, null, out VkInstance testInstance);
+            VkResult result = vkCreateInstance(instanceCI, out VkInstance testInstance);
             if (result != VkResult.Success)
             {
                 return false;
