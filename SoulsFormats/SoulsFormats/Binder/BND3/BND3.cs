@@ -146,6 +146,7 @@ namespace SoulsFormats
         protected override void Dispose(bool disposing)
         {
             _mappedMemory?.Dispose();
+            _mappedMemory = null;
         }
     }
 }
