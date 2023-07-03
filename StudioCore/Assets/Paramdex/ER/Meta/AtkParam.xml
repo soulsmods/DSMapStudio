@@ -42,7 +42,7 @@
       <Option Value="112" Name="Skill Attack" />
       <Option Value="113" Name="Ranged Skill Attack" />
       <Option Value="114" Name="Vapor Attack" />
-      <Option Value="116" Name="Unknown Attack" />
+      <Option Value="116" Name="Shriek of Milos" />
       <Option Value="117" Name="Wraith Attack" />
       <Option Value="118" Name="Ammunition On-Hit Attack" />
     </Enum>
@@ -305,8 +305,8 @@
     <guardAtkRateCorrection AltName="Attack Correction: Guard Attack Rate" Wiki="PC only. 1 only" />
     <guardBreakCorrection AltName="Attack Correction: Guard Break" Wiki="PC only. Multiplying the base value by the repelling of the attack" />
     <atkThrowEscapeCorrection AltName="Attack Correction: Throw Escape" Wiki="Weapon correction value for throw-through attacks" />
-    <subCategory1 AltName="Conditional Category [1]" Wiki="Subcategory 1" Enum="ATK_SUB_CATEGORY" />
-    <subCategory2 AltName="Conditional Category [2]" Wiki="Subcategory 2" Enum="ATK_SUB_CATEGORY" />
+    <subCategory1 AltName="Conditional Category [1]" Wiki="Subcategory 1" Enum="ATK_SUB_CATEGORY" VRef="MagicSubCategory" />
+    <subCategory2 AltName="Conditional Category [2]" Wiki="Subcategory 2" Enum="ATK_SUB_CATEGORY" VRef="MagicSubCategory" />
     <atkPhys AltName="Damage: Physical" Wiki="NPCs only. Basic damage of physical attack" />
     <atkMag AltName="Damage: Magic" Wiki="NPCs only. Additional damage from magic attacks" />
     <atkFire AltName="Damage: Fire" Wiki="NPCs only. Additional damage from fire attacks" />
