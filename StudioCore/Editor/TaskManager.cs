@@ -53,12 +53,14 @@ namespace StudioCore.Editor
                 try
                 {
                     action.Invoke();
+                    TaskLogger.AddLog($"Task Completed: {taskId}");
                 }
                 catch (Exception e)
                 {
                     if (silentFail)
                     {
-                        warningList.TryAdd(taskId, ("An error has occurred in task " + taskId + ":\n" + e.Message).Replace("\0", "\\0"));
+                        warningList.TryAdd(taskId, ($"An error has occurred in task \"{taskId}\":\n" + e.Message).Replace("\0", "\\0"));
+                        TaskLogger.AddLog($"Task Failed: {taskId}");
                     }
                     else
                     {
