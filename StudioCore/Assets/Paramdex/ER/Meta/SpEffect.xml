@@ -42,7 +42,7 @@
       <Option Value="112" Name="Skill Attack" />
       <Option Value="113" Name="Ranged Skill Attack" />
       <Option Value="114" Name="Vapor Attack" />
-      <Option Value="116" Name="Unknown Attack" />
+      <Option Value="116" Name="Shriek of Milos" />
       <Option Value="117" Name="Wraith Attack" />
       <Option Value="118" Name="Ammunition On-Hit Attack" />
     </Enum>
