@@ -447,7 +447,7 @@ namespace StudioCore.ParamEditor
             {
                 string name = row.Name==null ? "null" : row.Name.Replace(separator, '-');
                 string rowgen = $@"{row.ID}{separator}{name}";
-                foreach (Param.Column cell in row.Cells)
+                foreach (Param.Column cell in row.Columns)
                     rowgen += $@"{separator}{row[cell].Value.ToParamEditorString()}";
                 gen += rowgen + "\n";
             }
@@ -510,7 +510,7 @@ namespace StudioCore.ParamEditor
                     if (!name.Equals(row.Name))
                         actions.Add(new PropertiesChangedAction(row.GetType().GetProperty("Name"), -1, row, name));
                     int index = 2;
-                    foreach (Param.Column col in row.Cells)
+                    foreach (Param.Column col in row.Columns)
                     {
                         string v = csvs[index];
                         index++;

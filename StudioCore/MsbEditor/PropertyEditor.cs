@@ -472,7 +472,7 @@ namespace StudioCore.MsbEditor
             IReadOnlyList<Param.Cell> cells = new List<Param.Cell>();
             if (selection.WrappedObject is Param.Row row)
             {
-                cells = row.CellHandles;
+                cells = row.Cells;
 
             }
             else if (selection.WrappedObject is MergedParamRow mrow)
@@ -510,7 +510,7 @@ namespace StudioCore.MsbEditor
             PropEditorPropInfoRow(row, idProp, "ID", ref id, null);
             ImGui.PopStyleColor();
 
-            foreach (var cell in row.Cells)
+            foreach (var cell in row.Columns)
             {
                 PropEditorPropCellRow(row[cell], ref id, null);
             }
