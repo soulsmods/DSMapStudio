@@ -42,7 +42,7 @@
       <Option Value="112" Name="Skill Attack" />
       <Option Value="113" Name="Ranged Skill Attack" />
       <Option Value="114" Name="Vapor Attack" />
-      <Option Value="116" Name="Unknown Attack" />
+      <Option Value="116" Name="Shriek of Milos" />
       <Option Value="117" Name="Wraith Attack" />
       <Option Value="118" Name="Ammunition On-Hit Attack" />
     </Enum>
@@ -705,8 +705,8 @@
     <guardDefFlickPowerRate AltName="Guard Defense - Weapon Repel Power %" Wiki="Repellent defense correction value when guarding" />
     <guardStaminaCutRate AltName="Guard Stability %" Wiki="Stamina cut rate correction value when guarding" />
     <rayCastPassedTime AltName="Raycast Passed Time" Wiki="Passing the line of sight: Activation time [ms] (for evil eye)" />
-    <magicSubCategoryChange1 AltName="Conditional Category [1]" Wiki="Vs to subcategory parameter change 1" Enum="ATK_SUB_CATEGORY" />
-    <magicSubCategoryChange2 AltName="Conditional Category [2]" Wiki="Vs to subcategory parameter change 2" Enum="ATK_SUB_CATEGORY" />
+    <magicSubCategoryChange1 AltName="Conditional Category [1]" Wiki="Vs to subcategory parameter change 1" Enum="ATK_SUB_CATEGORY" VRef="MagicSubCategory" />
+    <magicSubCategoryChange2 AltName="Conditional Category [2]" Wiki="Vs to subcategory parameter change 2" Enum="ATK_SUB_CATEGORY" VRef="MagicSubCategory" />
     <bowDistRate AltName="Bow Distance %" Wiki="Correction value added to the flight distance correction of the weapon" />
     <spCategory AltName="Effect Category" Wiki="Categories that determine behavior such as overwriting special effects" Enum="SP_EFFECT_SPCATEGORY" />
     <categoryPriority AltName="Category Priority" Wiki="Priority within the same category (lower one has priority)" />
@@ -954,7 +954,7 @@ Requires State Info 66" />
     <addFaithStatus AltName="Faith" Wiki="Add value to growth status" />
     <addLuckStatus AltName="Arcane" Wiki="Add value to growth status" />
     <deleteCriteriaDamage AltName="Delete Criteria Damage" Wiki="Reason for damage under the condition to remove special effects" Enum="SP_EFFECT_PARAM_DELETE_DAMAGE_TYPE" />
-    <magicSubCategoryChange3 AltName="Conditional Category [3]" Wiki="Vs to subcategory parameter change 3" Enum="ATK_SUB_CATEGORY" />
+    <magicSubCategoryChange3 AltName="Conditional Category [3]" Wiki="Vs to subcategory parameter change 3" Enum="ATK_SUB_CATEGORY" VRef="MagicSubCategory" />
     <spAttributeVariationValue AltName="SpEffect Attribute Variation Value" Wiki="This value is used to give variation to abnormal state SFX, SE, etc. in combination with the special attribute set for the special effect. SEQ16473" />
     <atkFlickPower AltName="Weapon Repel Power +" Wiki="Set a value that overwrites the repelling attack power" />
     <wetConditionDepth AltName="Wet Condition Depth" Wiki="TimeAct Determines whether special effects are applied in combination with at what water level you get wet" Enum="SP_EFFECT_WET_CONDITION_DEPTH" />

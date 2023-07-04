@@ -217,24 +217,16 @@ namespace StudioCore.Editor
                 return;
             foreach (var param in bank.Params)
             {
-                PARAMDEF.Field foundfield = null;
-                //get field
                 foreach (PARAMDEF.Field f in param.Value.AppliedParamdef.Fields)
                 {
                     if (FieldMetaData.Get(f).VirtualRef != null && FieldMetaData.Get(f).VirtualRef.Equals(virtualRefName))
                     {
-                        foundfield = f;
-                        break;
+                        if (ImGui.Selectable($@"Search in {param.Key} ({f.InternalName})"))
+                        {
+                            EditorCommandQueue.AddCommand($@"param/select/-1/{param.Key}");
+                            EditorCommandQueue.AddCommand($@"param/search/prop {f.InternalName} ^{searchValue.ToString()}$");
+                        }
                     }
-                }
-
-                if (foundfield == null)
-                    continue;
-                //add selectable
-                if (ImGui.Selectable($@"Search in {param.Key}"))
-                {
-                    EditorCommandQueue.AddCommand($@"param/select/-1/{param.Key}");
-                    EditorCommandQueue.AddCommand($@"param/search/prop {foundfield.InternalName} ^{searchValue.ToString()}$");
                 }
             }
         }
