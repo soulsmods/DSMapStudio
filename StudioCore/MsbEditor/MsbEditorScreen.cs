@@ -1154,7 +1154,7 @@ namespace StudioCore.MsbEditor
             }
         }
 
-        private void HandleMissingRef(SavingFailedException e)
+        private void HandleSaveException(SavingFailedException e)
         {
             if (e.Wrapped is MSB.MissingReferenceException eRef)
             {
@@ -1195,7 +1195,7 @@ namespace StudioCore.MsbEditor
             }
             catch (SavingFailedException e)
             {
-                HandleMissingRef(e);
+                HandleSaveException(e);
             }
         }
 
@@ -1207,7 +1207,7 @@ namespace StudioCore.MsbEditor
             }
             catch (SavingFailedException e)
             {
-                HandleMissingRef(e);
+                HandleSaveException(e);
             }
         }
 
