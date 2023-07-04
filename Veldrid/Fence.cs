@@ -22,7 +22,6 @@ namespace Veldrid
             _gd = gd;
             var fenceCI = new VkFenceCreateInfo
             {
-                sType = VkStructureType.FenceCreateInfo,
                 flags = signaled ? VkFenceCreateFlags.Signaled : VkFenceCreateFlags.None
             };
             VkResult result = vkCreateFence(_gd.Device, &fenceCI, null, out _fence);

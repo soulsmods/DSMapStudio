@@ -62,7 +62,6 @@ namespace Veldrid
                 VkDescriptorType type = vkLayout.DescriptorTypes[i];
                 descriptorWrites[i] = new VkWriteDescriptorSet
                 {
-                    sType = VkStructureType.WriteDescriptorSet,
                     descriptorCount = 1,
                     descriptorType = type,
                     dstBinding = (uint)i,
