@@ -45,6 +45,7 @@ namespace StudioCore
         private NewProjectOptions _newProjectOptions = new NewProjectOptions();
         private SettingsMenu _settingsMenu = new();
 
+        private static bool _initialLoadComplete = false;
         private static bool _firstframe = true;
         public static bool FirstFrame = true;
         
@@ -464,94 +465,84 @@ namespace StudioCore
         private bool AttemptLoadProject(Editor.ProjectSettings settings, string filename, bool updateRecents = true, NewProjectOptions options = null)
         {
             bool success = true;
-            try
+            // Check if game exe exists
+            if (!Directory.Exists(settings.GameRoot))
             {
-                // Check if game exe exists
-                if (!Directory.Exists(settings.GameRoot))
-                {
-                    success = false;
-                    PlatformUtils.Instance.MessageBox($@"Could not find game data directory for {settings.GameType}. Please select the game executable.", "Error",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.None);
+                success = false;
+                PlatformUtils.Instance.MessageBox($@"Could not find game data directory for {settings.GameType}. Please select the game executable.", "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.None);
 
-                    using FileChooserNative fileChooser = new FileChooserNative($"Select executable for {settings.GameType}...",
-                        null, FileChooserAction.Open, "Open", "Cancel");
-                    fileChooser.AddFilter(_assetLocator.GameExecutableFilter);
-                    fileChooser.AddFilter(_assetLocator.AllFilesFilter);
-                    var gametype = GameType.Undefined;
-                    while (gametype != settings.GameType)
+                using FileChooserNative fileChooser = new FileChooserNative($"Select executable for {settings.GameType}...",
+                    null, FileChooserAction.Open, "Open", "Cancel");
+                fileChooser.AddFilter(_assetLocator.GameExecutableFilter);
+                fileChooser.AddFilter(_assetLocator.AllFilesFilter);
+                var gametype = GameType.Undefined;
+                while (gametype != settings.GameType)
+                {
+                    if (fileChooser.Run() == (int)ResponseType.Accept)
                     {
-                        if (fileChooser.Run() == (int)ResponseType.Accept)
+                        settings.GameRoot = fileChooser.Filename;
+                        gametype = _assetLocator.GetGameTypeForExePath(settings.GameRoot);
+                        if (gametype != settings.GameType)
                         {
-                            settings.GameRoot = fileChooser.Filename;
-                            gametype = _assetLocator.GetGameTypeForExePath(settings.GameRoot);
-                            if (gametype != settings.GameType)
-                            {
-                                PlatformUtils.Instance.MessageBox($@"Selected executable was not for {settings.GameType}. Please select the correct game executable.", "Error",
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.None);
-                            }
-                            else
-                            {
-                                success = true;
-                                settings.GameRoot = Path.GetDirectoryName(settings.GameRoot);
-                                if (settings.GameType == GameType.Bloodborne)
-                                {
-                                    settings.GameRoot += @"\dvdroot_ps4";
-                                }
-                                settings.Serialize(filename);
-                            }
+                            PlatformUtils.Instance.MessageBox($@"Selected executable was not for {settings.GameType}. Please select the correct game executable.", "Error",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.None);
                         }
                         else
                         {
-                            break;
+                            success = true;
+                            settings.GameRoot = Path.GetDirectoryName(settings.GameRoot);
+                            if (settings.GameType == GameType.Bloodborne)
+                            {
+                                settings.GameRoot += @"\dvdroot_ps4";
+                            }
+                            settings.Serialize(filename);
                         }
                     }
-                }
-
-                if (success)
-                {
-                    if (!_assetLocator.CheckFilesExpanded(settings.GameRoot, settings.GameType))
+                    else
                     {
-                        if (!GameNotUnpackedWarning(settings.GameType))
-                            return false;
-                    }
-                    if ((settings.GameType == GameType.Sekiro || settings.GameType == GameType.EldenRing) && !File.Exists(Path.Join(Path.GetFullPath("."), "oo2core_6_win64.dll")))
-                    {
-                        if (!File.Exists(Path.Join(settings.GameRoot, "oo2core_6_win64.dll")))
-                        {
-                            PlatformUtils.Instance.MessageBox($"Could not find file \"oo2core_6_win64.dll\" in \"{settings.GameRoot}\", which should be included by default.\n\nTry reinstalling the game.", "Error",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.None);
-                            return false;
-                        }
-                        File.Copy(Path.Join(settings.GameRoot, "oo2core_6_win64.dll"), Path.Join(Path.GetFullPath("."), "oo2core_6_win64.dll"));
-                    }
-                    _projectSettings = settings;
-                    ChangeProjectSettings(_projectSettings, Path.GetDirectoryName(filename), options);
-                    CFG.Current.LastProjectFile = filename;
-                    _context.Window.Title = $"{_programTitle}  -  {_projectSettings.ProjectName}";
-
-                    if (updateRecents)
-                    {
-                        var recent = new CFG.RecentProject();
-                        recent.Name = _projectSettings.ProjectName;
-                        recent.GameType = _projectSettings.GameType;
-                        recent.ProjectFile = filename;
-                        CFG.Current.RecentProjects.Insert(0, recent);
-                        if (CFG.Current.RecentProjects.Count > CFG.MAX_RECENT_PROJECTS)
-                        {
-                            CFG.Current.RecentProjects.RemoveAt(CFG.Current.RecentProjects.Count - 1);
-                        }
+                        break;
                     }
                 }
             }
-            catch
+
+            if (success)
             {
-                // Error loading project, clear recent project to let the user launch the program next time without issue.
-                CFG.Current.LastProjectFile = "";
-                CFG.Save();
-                throw;
+                if (!_assetLocator.CheckFilesExpanded(settings.GameRoot, settings.GameType))
+                {
+                    if (!GameNotUnpackedWarning(settings.GameType))
+                        return false;
+                }
+                if ((settings.GameType == GameType.Sekiro || settings.GameType == GameType.EldenRing) && !File.Exists(Path.Join(Path.GetFullPath("."), "oo2core_6_win64.dll")))
+                {
+                    if (!File.Exists(Path.Join(settings.GameRoot, "oo2core_6_win64.dll")))
+                    {
+                        PlatformUtils.Instance.MessageBox($"Could not find file \"oo2core_6_win64.dll\" in \"{settings.GameRoot}\", which should be included by default.\n\nTry reinstalling the game.", "Error",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.None);
+                        return false;
+                    }
+                    File.Copy(Path.Join(settings.GameRoot, "oo2core_6_win64.dll"), Path.Join(Path.GetFullPath("."), "oo2core_6_win64.dll"));
+                }
+                _projectSettings = settings;
+                ChangeProjectSettings(_projectSettings, Path.GetDirectoryName(filename), options);
+                CFG.Current.LastProjectFile = filename;
+                _context.Window.Title = $"{_programTitle}  -  {_projectSettings.ProjectName}";
+
+                if (updateRecents)
+                {
+                    var recent = new CFG.RecentProject();
+                    recent.Name = _projectSettings.ProjectName;
+                    recent.GameType = _projectSettings.GameType;
+                    recent.ProjectFile = filename;
+                    CFG.Current.RecentProjects.Insert(0, recent);
+                    if (CFG.Current.RecentProjects.Count > CFG.MAX_RECENT_PROJECTS)
+                    {
+                        CFG.Current.RecentProjects.RemoveAt(CFG.Current.RecentProjects.Count - 1);
+                    }
+                }
             }
             return success;
         }
@@ -572,12 +563,32 @@ namespace StudioCore
         // Saves modded files to a recovery directory in the mod folder on crash
         public void AttemptSaveOnCrash()
         {
+
+            if (!_initialLoadComplete)
+            {
+                // Program crashed on initial load, clear recent project to let the user launch the program next time without issue.
+                try
+                {
+                    CFG.Current.LastProjectFile = "";
+                    CFG.Save();
+                }
+                catch(Exception e)
+                {
+                    PlatformUtils.Instance.MessageBox($"Unable to save config during crash recovery.\n" +
+                        $"If you continue to crash on startup, delete config in AppData\\Local\\DSMapStudio\n\n" +
+                        $"{e.Message} {e.StackTrace}",
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                }
+            }
+
             bool success = _assetLocator.CreateRecoveryProject();
             if (success)
             {
                 SaveAll();
                 PlatformUtils.Instance.MessageBox(
-                    "Your project was successfully saved to {_assetLocator.GameModDirectory} for manual recovery.\n" +
+                    $"Your project was successfully saved to {_assetLocator.GameModDirectory} for manual recovery.\n" +
                     "You must manually replace your projects with these recovery files should you wish to restore them.\n" +
                     "Given the program has crashed, these files may be corrupt and you should backup your last good saved\n" +
                     "files before attempting to use these.",
@@ -1291,6 +1302,14 @@ namespace StudioCore
             ctx = Tracy.TracyCZoneN(1, "Resource");
             Resource.ResourceManager.UpdateTasks();
             Tracy.TracyCZoneEnd(ctx);
+
+            if (!_initialLoadComplete)
+            {
+                if (!tasks.Any())
+                {
+                    _initialLoadComplete = true;
+                }
+            }
 
             if (!_firstframe)
             {
