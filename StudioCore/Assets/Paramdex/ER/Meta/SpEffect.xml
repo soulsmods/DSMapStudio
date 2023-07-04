@@ -335,7 +335,7 @@
         <Option Value="262" Name="WormRecovery(Torch)" />
         <Option Value="264" Name="SetCultBool" />
         <Option Value="266" Name="FallDeathIsDisabled" />
-        <Option Value="267" Name="AI Sight Adjustment" />
+        <Option Value="267" Name="AI Eye Angle" />
         <Option Value="269" Name="Unknown" />
         <Option Value="270" Name="Unknown" />
         <Option Value="271" Name="Unknown" />
@@ -803,8 +803,7 @@
     <vowType14 AltName="Trigger for Vow Type [14]" Wiki="Pledge 14" IsBool="" />
     <vowType15 AltName="Trigger for Vow Type [15]" Wiki="Pledge 15" IsBool="" />
     <repAtkDmgLv AltName="Change Attacker Damage Level" Wiki="The damage level of the attacking side changes to this value" Enum="ATKPARAM_REP_DMGTYPE" />
-    <sightSearchRate AltName="AI Vision Correction" Wiki="Correct the ease of finding with a magnification
-Requires State Info 267" />
+    <sightSearchRate AltName="AI Vision Correction" Wiki="Correct the ease of finding with a magnification" />
     <effectTargetOpposeTarget AltName="Trigger for Opponent" Wiki="Only the target for which this judgment is checked is effective, the default is " IsBool="" />
     <effectTargetFriendlyTarget AltName="Trigger for Friendly" Wiki="Only the target for which this judgment is checked is effective, the default is " IsBool="" />
     <effectTargetSelfTarget AltName="Trigger for Self" Wiki="Only the target for which this judgment is checked is effective, the default is " IsBool="" />
@@ -822,8 +821,10 @@ Requires State Info 132" Enum="SP_EFFECT_CHANGE_TEAM_TYPE" />
     <accumuUnderFireId AltName="Accumulator - Under Value - SpEffect ID" Wiki="Special effect Id activated at the lower limit of the spirit ball" />
     <accumuUnderVal AltName="Accumulator - Under Value" Wiki="Genkitama lower limit" />
     <accumuVal AltName="Accumulator - Increment Value" Wiki="Genkitama accumulation value" />
-    <eye_angX AltName="Vision - Overwrite Height Angle" Wiki="Override the findability angle x" />
-    <eye_angY AltName="Vision - Overwrite Width Angle" Wiki="Override the findability angle y" />
+    <eye_angX AltName="Vision - Overwrite Height Angle" Wiki="Override the findability angle x
+Requires State Info 267" />
+    <eye_angY AltName="Vision - Overwrite Width Angle" Wiki="Override the findability angle y
+Requires State Info 267" />
     <addDeceasedLv AltName="Add Hollowing Level" Wiki="Add this value to the degree of death" />
     <vfxId1 AltName="Effect VFX [1]" Wiki="Special effect VfxId1 (-1 invalid)" Refs="SpEffectVfxParam"/>
     <vfxId2 AltName="Effect VFX [2]" Wiki="Special effect VfxId2 (-1 invalid)" Refs="SpEffectVfxParam"/>
