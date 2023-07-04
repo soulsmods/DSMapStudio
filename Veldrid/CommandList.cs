@@ -91,7 +91,6 @@ namespace Veldrid
 
             var beginInfo = new VkCommandBufferBeginInfo
             {
-                sType = VkStructureType.CommandBufferBeginInfo,
                 flags = VkCommandBufferUsageFlags.OneTimeSubmit
             };
             vkBeginCommandBuffer(_cb, &beginInfo);
@@ -169,7 +168,6 @@ namespace Veldrid
                 var attachment = description.ColorAttachments[i];
                 colorAttachments[i] = new VkRenderingAttachmentInfo()
                 {
-                    sType = VkStructureType.RenderingAttachmentInfo,
                     imageView = attachment.Texture.ImageView,
                     imageLayout = VkImageLayout.AttachmentOptimal,
                     resolveMode = VkResolveModeFlags.None,
@@ -182,7 +180,6 @@ namespace Veldrid
                 var attachment = description.DepthStencilAttachment.Value;
                 depthAttachment = new VkRenderingAttachmentInfo()
                 {
-                    sType = VkStructureType.RenderingAttachmentInfo,
                     imageView = attachment.Texture.ImageView,
                     imageLayout = VkImageLayout.AttachmentOptimal,
                     resolveMode = VkResolveModeFlags.None,
@@ -192,7 +189,6 @@ namespace Veldrid
             }
             var renderInfo = new VkRenderingInfo()
             {
-                sType = VkStructureType.RenderingInfo,
                 renderArea = new VkRect2D(uint.MaxValue, uint.MaxValue),
                 layerCount = 1,
                 colorAttachmentCount = (uint)description.ColorAttachments.Length,
@@ -1568,7 +1564,6 @@ namespace Veldrid
         {
             var barrier = new VkMemoryBarrier2()
             {
-                sType = VkStructureType.MemoryBarrier2,
                 srcStageMask = srcStages,
                 srcAccessMask = srcAccess,
                 dstStageMask = dstStages,
@@ -1576,7 +1571,6 @@ namespace Veldrid
             };
             var dependencyInfo = new VkDependencyInfo()
             {
-                sType = VkStructureType.DependencyInfo,
                 dependencyFlags = dependencyFlags,
                 memoryBarrierCount = 1,
                 pMemoryBarriers = &barrier,
@@ -1600,7 +1594,6 @@ namespace Veldrid
         {
             var barrier = new VkBufferMemoryBarrier2()
             {
-                sType = VkStructureType.BufferMemoryBarrier2,
                 srcStageMask = srcStages,
                 srcAccessMask = srcAccess,
                 dstStageMask = dstStages,
@@ -1613,7 +1606,6 @@ namespace Veldrid
             };
             var dependencyInfo = new VkDependencyInfo()
             {
-                sType = VkStructureType.DependencyInfo,
                 bufferMemoryBarrierCount = 1,
                 pBufferMemoryBarriers = &barrier,
             };
@@ -1638,7 +1630,6 @@ namespace Veldrid
             }
             var barrier = new VkImageMemoryBarrier2()
             {
-                sType = VkStructureType.ImageMemoryBarrier2,
                 srcAccessMask = srcAccess,
                 srcStageMask = srcStages,
                 dstAccessMask = dstAccess,
@@ -1657,7 +1648,6 @@ namespace Veldrid
             };
             var dependencyInfo = new VkDependencyInfo()
             {
-                sType = VkStructureType.DependencyInfo,
                 imageMemoryBarrierCount = 1,
                 pImageMemoryBarriers = &barrier,
             };
@@ -1691,7 +1681,6 @@ namespace Veldrid
 
             var labelInfo = new VkDebugUtilsLabelEXT()
             {
-                sType = VkStructureType.DebugUtilsLabelEXT,
                 pLabelName = utf8Ptr
             };
 
@@ -1737,7 +1726,6 @@ namespace Veldrid
 
             var labelInfo = new VkDebugUtilsLabelEXT()
             {
-                sType = VkStructureType.DebugUtilsLabelEXT,
                 pLabelName = utf8Ptr
             };
 
@@ -1908,7 +1896,6 @@ namespace Veldrid
 
             var renderPassBI = new VkRenderPassBeginInfo
             {
-                sType = VkStructureType.RenderPassBeginInfo,
                 renderArea = new VkRect2D(_currentFramebuffer.RenderableWidth, _currentFramebuffer.RenderableHeight),
                 framebuffer = _currentFramebuffer.CurrentFramebuffer
             };
@@ -1978,7 +1965,6 @@ namespace Veldrid
             // can be read in subsequent passes.
             var barrier = new VkMemoryBarrier2
             {
-                sType = VkStructureType.MemoryBarrier2,
                 srcStageMask = VkPipelineStageFlags2.AllCommands,
                 srcAccessMask = VkAccessFlags2.None,
                 dstStageMask = VkPipelineStageFlags2.AllCommands,
@@ -1986,7 +1972,6 @@ namespace Veldrid
             };
             var dependencyInfo = new VkDependencyInfo
             {
-                sType = VkStructureType.DependencyInfo,
                 memoryBarrierCount = 1,
                 pMemoryBarriers = &barrier
             };

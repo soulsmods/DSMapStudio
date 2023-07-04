@@ -91,7 +91,6 @@ namespace Veldrid
 
             var fenceCI = new VkFenceCreateInfo
             {
-                sType = VkStructureType.FenceCreateInfo,
                 flags = VkFenceCreateFlags.None
             };
             vkCreateFence(_gd.Device, &fenceCI, null, out _imageAvailableFence);
@@ -244,7 +243,6 @@ namespace Veldrid
             uint imageCount = Math.Min(maxImageCount, surfaceCapabilities.minImageCount + 1);
 
             VkSwapchainCreateInfoKHR swapchainCI = new VkSwapchainCreateInfoKHR();
-            swapchainCI.sType = VkStructureType.SwapchainCreateInfoKHR;
             swapchainCI.surface = _surface;
             swapchainCI.presentMode = presentMode;
             swapchainCI.imageFormat = surfaceFormat.format;
