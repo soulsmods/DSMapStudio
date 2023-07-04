@@ -1154,6 +1154,39 @@ namespace StudioCore.MsbEditor
             }
         }
 
+        private void HandleMissingRef(SavingFailedException e)
+        {
+            if (e.Wrapped is MSB.MissingReferenceException eRef)
+            {
+                var result = PlatformUtils.Instance.MessageBox($"{eRef.Message}\nSelect referring map entity?", "Failed to save map",
+                     MessageBoxButtons.YesNo,
+                     MessageBoxIcon.Error);
+                if (result == DialogResult.Yes)
+                {
+                    foreach (var map in Universe.LoadedObjectContainers.Where(e => e.Value != null))
+                    {
+                        foreach (var obj in map.Value.Objects)
+                        {
+                            if (obj.WrappedObject == eRef.Referrer)
+                            {
+                                _selection.ClearSelection();
+                                _selection.AddSelection(obj);
+                                FrameSelection();
+                                return;
+                            }
+                        }
+                    }
+                    TaskManager.warningList.TryAdd("MSB missing referrer not found", $"Unable to find map entity: {eRef.Referrer.Name}");
+                }
+            }
+            else
+            {
+                PlatformUtils.Instance.MessageBox(e.Wrapped.Message, e.Message,
+                     MessageBoxButtons.OK,
+                     MessageBoxIcon.None);
+            }
+        }
+
         public void Save()
         {
             try
@@ -1162,9 +1195,7 @@ namespace StudioCore.MsbEditor
             }
             catch (SavingFailedException e)
             {
-                PlatformUtils.Instance.MessageBox(e.Wrapped.Message, e.Message,
-                     MessageBoxButtons.OK,
-                     MessageBoxIcon.None);
+                HandleMissingRef(e);
             }
         }
 
@@ -1176,9 +1207,7 @@ namespace StudioCore.MsbEditor
             }
             catch (SavingFailedException e)
             {
-                PlatformUtils.Instance.MessageBox(e.Wrapped.Message, e.Message,
-                     MessageBoxButtons.OK,
-                     MessageBoxIcon.None);
+                HandleMissingRef(e);
             }
         }
 
