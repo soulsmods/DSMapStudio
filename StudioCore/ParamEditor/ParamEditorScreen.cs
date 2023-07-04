@@ -1025,14 +1025,14 @@ namespace StudioCore.ParamEditor
                 }
             }
 
+            if (_projectSettings == null)
+            {
+                ImGui.Text("No project loaded. File -> New Project");
+                return;
+            }
             if (ParamBank.PrimaryBank.IsLoadingParams)
             {
                 ImGui.Text("Loading Params...");
-                return;
-            }
-            if (!ParamBank.IsMetaLoaded)
-            {
-                ImGui.Text("Loading Meta...");
                 return;
             }
             if (ParamBank.PrimaryBank.Params == null)
