@@ -391,7 +391,7 @@ namespace StudioCore.Editor
                 var list = new List<(PseudoColumn, Param.Column)>();
                 list.Add((PseudoColumn.ID, null));
                 list.Add((PseudoColumn.Name, null));
-                list.AddRange(row.Item2.Cells.Select((cell, i) => (PseudoColumn.None, cell)));
+                list.AddRange(row.Item2.Columns.Select((cell, i) => (PseudoColumn.None, cell)));
                 return list;
             };
             defaultFilter = (new string[]{"field internalName (regex)"}, (args, lenient) => {

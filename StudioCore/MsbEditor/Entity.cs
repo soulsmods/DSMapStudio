@@ -306,7 +306,7 @@ namespace StudioCore.MsbEditor
             }
             if (WrappedObject is Param.Row row)
             {
-                var pp = row.Cells.FirstOrDefault(cell => cell.Def.InternalName == prop);
+                var pp = row.Columns.FirstOrDefault(cell => cell.Def.InternalName == prop);
                 if (pp != null)
                 {
                     return pp.GetValue(row);
@@ -362,7 +362,7 @@ namespace StudioCore.MsbEditor
             }
             if (WrappedObject is Param.Row row)
             {
-                var pp = row.Cells.FirstOrDefault(cell => cell.Def.InternalName == prop);
+                var pp = row.Columns.FirstOrDefault(cell => cell.Def.InternalName == prop);
                 if (pp != null)
                 {
                     return (T)pp.GetValue(row);
