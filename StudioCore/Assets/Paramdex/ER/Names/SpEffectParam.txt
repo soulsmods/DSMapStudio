@@ -3160,3 +3160,118 @@
 5321400 Icon Shield - Grant HP Restoration
 5322200 Ant's Skull Plate - Raise Immunity
 5322400 Eclipse Crest Greatshield - Raise Immunity Robustness and Focus
+6012000 Alberich's Pointed Hat
+6012010 Alberich's Robe
+6012020 Alberich's Bracers
+6013000 Spellblade's Pointed Hat
+6013010 Spellblade's Traveling Attire
+6013020 Spellblade's Gloves
+6013030 Spellblade's Trousers
+6013110 Spellblade's Traveling Attire (Altered)
+6018010 Black Knife Armor
+6021000 Briar Helm
+6021010 Briar Armor
+6021020 Briar Gauntlets
+6021030 Briar Greaves
+6021110 Briar Armor (Altered)
+6030100 Shining Horned Headband
+6031000 Duelist Helm
+6031030 Duelist Greaves
+6031110 Gravekeeper Cloak (Altered)
+6033010 Guardian Garb (Full Bloom)
+6044000 Pumpkin Helm
+6051000 Queen's Crescent Crown
+6053010 Godskin Noble Robe
+6057000 Crucible Axe Helm
+6057010 Crucible Axe Armor
+6057020 Crucible Gauntlets
+6057030 Crucible Greaves
+6057210 Crucible Axe Armor (Altered)
+6057100 Crucible Tree Helm
+6057110 Crucible Tree Armor
+6057310 Crucible Tree Armor (Altered)
+6058000 Lusat's Glintstone Crown
+6058001 Lusat's Glintstone Crown
+6058100 Azur's Glintstone Crown
+6058101 Azur's Glintstone Crown
+6068000 White Mask
+6068001 White Mask - Effect
+6069000 Royal Remains Helm
+6069010 Royal Remains Armor
+6069020 Royal Remains Gauntlets
+6069030 Royal Remains Greaves
+6074000 Crimson Hood
+6074100 Navy Hood
+6081010 Commoner's Garb
+6082000 Envoy Crown
+6083000 Twinsage Glintstone Crown
+6083001 Twinsage Glintstone Crown
+6083100 Olivinus Glintstone Crown
+6083101 Olivinus Glintstone Crown
+6083200 Lazuli Glintstone Crown
+6083201 Lazuli Glintstone Crown
+6083202 Lazuli Glintstone Crown
+6083300 Karolos Glintstone Crown
+6083301 Karolos Glintstone Crown
+6083400 Witch's Glintstone Crown
+6083401 Witch's Glintstone Crown
+6087200 Okina Mask
+6087201 Okina Mask
+6091000 Preceptor's Big Hat
+6091001 Preceptor's Big Hat
+6091100 Mask of Confidence
+6093010 Raptor's Black Feathers
+6096000 Consort's Mask
+6096100 Ruler's Mask
+6096300 Marais Mask
+6097000 Omen Helm
+6097001 Omen Helm
+6097010 Omen Armor
+6097011 Omen Armor
+6097020 Omen Gauntlets
+6097021 Omen Gauntlets
+6097030 Omen Greaves
+6097031 Omen Greaves
+6099000 Hierodas Glintstone Crown
+6099001 Hierodas Glintstone Crown
+6100000 Haima Glintstone Crown
+6100001 Haima Glintstone Crown
+6101000 Snow Witch Hat
+6104000 Radiant Gold Mask
+6106000 Albinauric Mask
+6106001 Albinauric Mask
+6108000 Imp Head (Cat)
+6108100 Imp Head (Fanged)
+6108200 Imp Head (Long-Tongued)
+6108300 Imp Head (Corpse)
+6108400 Imp Head (Wolf)
+6108500 Imp Head (Elder)
+6109000 Silver Tear Mask
+6109001 Silver Tear Mask
+6112000 Jar
+6160000 Greathood
+6160001 Greathood
+6175000 Haligtree Helm
+6182000 Haligtree Knight Helm
+6188000 Sacred Crown Helm
+6189000 Omensmirk Mask
+6190000 Ash-of-War Scarab
+6190001 Ash-of-War Scarab
+6190100 Incantation Scarab
+6190101 Incantation Scarab
+6190200 Glintstone Scarab
+6190201 Glintstone Scarab
+6191000 Crimson Tear Scarab
+6191001 Crimson Tear Scarab
+6192000 Cerulean Tear Scarab
+6192001 Cerulean Tear Scarab
+6193010 Deathbed Dress
+6193011 Deathbed Dress
+6193012 Deathbed Dress - Heal
+6200000 Rotten Duelist Helm
+6200030 Rotten Duelist Greaves
+6200110 Rotten Gravekeeper Cloak (Altered)
+6201000 Mushroom Crown
+6201001 Mushroom Crown
+6202000 Black Dumpling
+6202001 Black Dumpling 
