@@ -195,7 +195,7 @@ namespace StudioCore.ParamEditor
             int bitFieldPos = 0;
             BitArray bits = null;
 
-            foreach (var cell in row.Cells)
+            foreach (var cell in row.Columns)
             {
                 offset += WriteMemoryCell(row[cell], RowDataSectionPtr + offset, ref bitFieldPos, ref bits, memoryHandler);
             }
