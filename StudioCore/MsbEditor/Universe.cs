@@ -1375,7 +1375,7 @@ namespace StudioCore.MsbEditor
                 {
                     File.Delete(mapPath + ".temp");
                 }
-                
+
                 msb.Write(mapPath + ".temp", compressionType);
 
                 // Make a copy of the previous map
