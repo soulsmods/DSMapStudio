@@ -138,7 +138,6 @@ namespace Veldrid
             {
                 var imageCI = new VkImageCreateInfo
                 {
-                    sType = VkStructureType.ImageCreateInfo,
                     mipLevels = MipLevels,
                     arrayLayers = _actualImageArrayLayers,
                     imageType = Type,
@@ -201,7 +200,6 @@ namespace Veldrid
 
                 var bufferCI = new VkBufferCreateInfo
                 {
-                    sType = VkStructureType.BufferCreateInfo,
                     usage = VkBufferUsageFlags.TransferSrc | VkBufferUsageFlags.TransferDst,
                     size = stagingSize
                 };

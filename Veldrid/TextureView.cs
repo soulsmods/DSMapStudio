@@ -72,7 +72,6 @@ namespace Veldrid
 
             var imageViewCI = new VkImageViewCreateInfo
             {
-                sType = VkStructureType.ImageViewCreateInfo,
                 image = tex.OptimalDeviceImage,
                 format = Format,
                 subresourceRange = new VkImageSubresourceRange(

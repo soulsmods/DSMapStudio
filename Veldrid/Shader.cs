@@ -27,7 +27,6 @@ namespace Veldrid
             {
                 var shaderModuleCI = new VkShaderModuleCreateInfo
                 {
-                    sType = VkStructureType.ShaderModuleCreateInfo,
                     codeSize = (UIntPtr)description.ShaderBytes.Length,
                     pCode = (uint*)codePtr
                 };

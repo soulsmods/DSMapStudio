@@ -704,7 +704,7 @@ namespace StudioCore.ParamEditor
                         else
                         {
                             bRow.Name = row.Name;
-                            foreach (var field in bRow.Cells)
+                            foreach (var field in bRow.Columns)
                             {
                                 var cell = bRow[field];
                                 cell.Value = row[field].Value;

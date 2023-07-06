@@ -92,14 +92,12 @@ namespace Veldrid
 
             var bindingFlagsCI = new VkDescriptorSetLayoutBindingFlagsCreateInfo
             {
-                sType = VkStructureType.DescriptorSetLayoutBindingFlagsCreateInfo,
                 bindingCount = (uint)elements.Length,
                 pBindingFlags = flags
             };
             
             var dslCI = new VkDescriptorSetLayoutCreateInfo
             {
-                sType = VkStructureType.DescriptorSetLayoutCreateInfo,
                 pNext = &bindingFlagsCI,
                 flags = VkDescriptorSetLayoutCreateFlags.UpdateAfterBindPool,
                 bindingCount = (uint)elements.Length,

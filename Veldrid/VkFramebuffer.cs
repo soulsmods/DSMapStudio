@@ -42,7 +42,6 @@ namespace Veldrid
                 var vkColorTex = ColorTargets[i].Target;
                 var colorAttachmentDesc = new VkAttachmentDescription2
                 {
-                    sType = VkStructureType.AttachmentDescription2,
                     format = vkColorTex.VkFormat,
                     samples = vkColorTex.VkSampleCount,
                     loadOp = VkAttachmentLoadOp.DontCare,
@@ -56,7 +55,6 @@ namespace Veldrid
 
                 VkAttachmentReference2 colorAttachmentRef = new VkAttachmentReference2
                 {
-                    sType = VkStructureType.AttachmentReference2,
                     attachment = (uint)i,
                     layout = VkImageLayout.ColorAttachmentOptimal
                 };
@@ -69,7 +67,6 @@ namespace Veldrid
             {
                 var vkDepthTex = DepthTarget.Value.Target;
                 bool hasStencil = FormatHelpers.IsStencilFormat(vkDepthTex.Format);
-                depthAttachmentDesc.sType = VkStructureType.AttachmentDescription2;
                 depthAttachmentDesc.format = vkDepthTex.VkFormat;
                 depthAttachmentDesc.samples = vkDepthTex.VkSampleCount;
                 depthAttachmentDesc.loadOp = VkAttachmentLoadOp.DontCare;
@@ -79,14 +76,12 @@ namespace Veldrid
                 depthAttachmentDesc.initialLayout = VkImageLayout.Undefined;
                 depthAttachmentDesc.finalLayout = VkImageLayout.DepthStencilAttachmentOptimal;
 
-                depthAttachmentRef.sType = VkStructureType.AttachmentReference2;
                 depthAttachmentRef.attachment = (uint)description.ColorTargets.Length;
                 depthAttachmentRef.layout = VkImageLayout.DepthStencilAttachmentOptimal;
             }
 
             var subpass = new VkSubpassDescription2
             {
-                sType = VkStructureType.SubpassDescription2,
                 pipelineBindPoint = VkPipelineBindPoint.Graphics
             };
             if (ColorTargets.Count > 0)
@@ -103,7 +98,6 @@ namespace Veldrid
 
             var subpassDependency = new VkSubpassDependency2
             {
-                sType = VkStructureType.SubpassDependency2,
                 srcSubpass = VK_SUBPASS_EXTERNAL,
                 srcStageMask = VkPipelineStageFlags.ColorAttachmentOutput,
                 dstStageMask = VkPipelineStageFlags.ColorAttachmentOutput,
@@ -112,7 +106,6 @@ namespace Veldrid
 
             var renderPassCI = new VkRenderPassCreateInfo2
             {
-                sType = VkStructureType.RenderPassCreateInfo2,
                 attachmentCount = attachments.Count,
                 pAttachments = (VkAttachmentDescription2*)attachments.Data,
                 subpassCount = 1,
@@ -178,7 +171,6 @@ namespace Veldrid
                 var vkColorTarget = description.ColorTargets[i].Target;
                 var imageViewCI = new VkImageViewCreateInfo
                 {
-                    sType = VkStructureType.ImageViewCreateInfo,
                     image = vkColorTarget.OptimalDeviceImage,
                     format = vkColorTarget.VkFormat,
                     viewType = VkImageViewType.Image2D,
@@ -202,7 +194,6 @@ namespace Veldrid
                 bool hasStencil = FormatHelpers.IsStencilFormat(vkDepthTarget.Format);
                 var depthViewCI = new VkImageViewCreateInfo
                 {
-                    sType = VkStructureType.ImageViewCreateInfo,
                     image = vkDepthTarget.OptimalDeviceImage,
                     format = vkDepthTarget.VkFormat,
                     viewType = description.DepthTarget.Value.Target.ArrayLayers == 1 ? VkImageViewType.Image2D : VkImageViewType.Image2DArray,
@@ -242,7 +233,6 @@ namespace Veldrid
 
             VkFramebufferCreateInfo fbCI = new VkFramebufferCreateInfo
             {
-                sType = VkStructureType.FramebufferCreateInfo,
                 width = mipWidth,
                 height = mipHeight,
                 attachmentCount = fbAttachmentsCount,

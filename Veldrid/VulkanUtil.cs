@@ -123,7 +123,6 @@ namespace Veldrid
             Debug.Assert(oldLayout != newLayout);
             var barrier = new VkImageMemoryBarrier2
             {
-                sType = VkStructureType.ImageMemoryBarrier2,
                 oldLayout = oldLayout,
                 newLayout = newLayout,
                 srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED,
@@ -277,7 +276,6 @@ namespace Veldrid
 
             var dependencyInfo = new VkDependencyInfo
             {
-                sType = VkStructureType.DependencyInfo,
                 dependencyFlags = VkDependencyFlags.None,
                 imageMemoryBarrierCount = 1,
                 pImageMemoryBarriers = &barrier

@@ -343,7 +343,7 @@ namespace StudioCore.Editor
                 string field = args[0].Replace(@"\s", " ");
                 return (context)=>{
                     string paramName = context.Item1.GetKeyForParam(context.Item2);
-                    var cols = context.Item2.Cells;
+                    var cols = context.Item2.Columns;
                     var testCol = context.Item2.GetCol(field);
                     return (row)=>
                     {
@@ -496,7 +496,7 @@ namespace StudioCore.Editor
                 var list = new List<(PseudoColumn, Param.Column)>();
                 list.Add((PseudoColumn.ID, null));
                 list.Add((PseudoColumn.Name, null));
-                list.AddRange(row.Item2.Cells.Select((cell, i) => (PseudoColumn.None, cell)));
+                list.AddRange(row.Item2.Columns.Select((cell, i) => (PseudoColumn.None, cell)));
                 return list;
             };
             defaultFilter = newCmd(new string[]{"field internalName (regex)"}, "Selects cells/fields where the internal name of that field matches the given regex", (args, lenient) => {

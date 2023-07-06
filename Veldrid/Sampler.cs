@@ -37,7 +37,6 @@ namespace Veldrid
             _gd = gd;
             VkSamplerCreateInfo samplerCI = new VkSamplerCreateInfo
             {
-                sType = VkStructureType.SamplerCreateInfo,
                 addressModeU = description.AddressModeU,
                 addressModeV = description.AddressModeV,
                 addressModeW = description.AddressModeW,

@@ -248,7 +248,7 @@ namespace SoulsFormats
 
             internal virtual void GetIndices(MSBN msb, Entries entries)
             {
-                modelIndex = MSB.FindIndex(entries.Models, ModelName);
+                modelIndex = MSB.FindIndex(this, entries.Models, ModelName);
             }
 
             /// <summary>

@@ -749,7 +749,7 @@ namespace SoulsFormats
 
             internal virtual void GetIndices(Entries entries)
             {
-                ActivationPartIndex = MSB.FindIndex(entries.Parts, ActivationPartName);
+                ActivationPartIndex = MSB.FindIndex(this, entries.Parts, ActivationPartName);
                 if (Shape is MSB.Shape.Composite composite)
                     composite.GetIndices(entries.Regions);
             }
@@ -1100,7 +1100,7 @@ namespace SoulsFormats
                 internal override void GetIndices(Entries entries)
                 {
                     base.GetIndices(entries);
-                    WindAreaIndex = MSB.FindIndex(entries.Regions, WindAreaName);
+                    WindAreaIndex = MSB.FindIndex(this, entries.Regions, WindAreaName);
                 }
             }
 

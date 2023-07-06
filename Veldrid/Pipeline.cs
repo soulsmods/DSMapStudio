@@ -58,7 +58,6 @@ namespace Veldrid
             RgbaFloat blendFactor = description.BlendState.BlendFactor;
             VkPipelineColorBlendStateCreateInfo blendStateCI = new VkPipelineColorBlendStateCreateInfo
             {
-                sType = VkStructureType.PipelineColorBlendStateCreateInfo,
                 attachmentCount = (uint)attachmentsCount,
                 pAttachments = attachmentsPtr,
             };
@@ -71,7 +70,6 @@ namespace Veldrid
             RasterizerStateDescription rsDesc = description.RasterizerState;
             var rsCI = new VkPipelineRasterizationStateCreateInfo
             {
-                sType = VkStructureType.PipelineRasterizationStateCreateInfo,
                 cullMode = rsDesc.CullMode,
                 polygonMode = rsDesc.FillMode,
                 depthClampEnable = !rsDesc.DepthClipEnabled,
@@ -87,7 +85,6 @@ namespace Veldrid
             dynamicStates[1] = VkDynamicState.Scissor;
             var dynamicStateCI = new VkPipelineDynamicStateCreateInfo
             {
-                sType = VkStructureType.PipelineDynamicStateCreateInfo,
                 dynamicStateCount = 2,
                 pDynamicStates = dynamicStates
             };
@@ -96,7 +93,6 @@ namespace Veldrid
             DepthStencilStateDescription vdDssDesc = description.DepthStencilState;
             var dssCI = new VkPipelineDepthStencilStateCreateInfo
             {
-                sType = VkStructureType.PipelineDepthStencilStateCreateInfo,
                 depthWriteEnable = vdDssDesc.DepthWriteEnabled,
                 depthTestEnable = vdDssDesc.DepthTestEnabled,
                 depthCompareOp = vdDssDesc.DepthComparison,
@@ -125,7 +121,6 @@ namespace Veldrid
             VkSampleCountFlags vkSampleCount = description.Outputs.SampleCount;
             var multisampleCI = new VkPipelineMultisampleStateCreateInfo
             {
-                sType = VkStructureType.PipelineMultisampleStateCreateInfo,
                 rasterizationSamples = vkSampleCount,
                 alphaToCoverageEnable = description.BlendState.AlphaToCoverageEnabled
             };
@@ -133,7 +128,6 @@ namespace Veldrid
             // Input Assembly
             var inputAssemblyCI = new VkPipelineInputAssemblyStateCreateInfo
             {
-                sType = VkStructureType.PipelineInputAssemblyStateCreateInfo,
                 topology = description.PrimitiveTopology,
             };
 
@@ -182,7 +176,6 @@ namespace Veldrid
 
             var vertexInputCI = new VkPipelineVertexInputStateCreateInfo
             {
-                sType = VkStructureType.PipelineVertexInputStateCreateInfo,
                 vertexBindingDescriptionCount = bindingCount,
                 pVertexBindingDescriptions = bindingDescs,
                 vertexAttributeDescriptionCount = attributeCount,
@@ -226,7 +219,6 @@ namespace Veldrid
             {
                 var stageCI = new VkPipelineShaderStageCreateInfo
                 {
-                    sType = VkStructureType.PipelineShaderStageCreateInfo,
                     module = shader.ShaderModule,
                     stage = shader.Stage,
                     pName = new FixedUtf8String(shader.EntryPoint), // TODO: DONT ALLOCATE HERE
@@ -238,7 +230,6 @@ namespace Veldrid
             // ViewportState
             var viewportStateCI = new VkPipelineViewportStateCreateInfo
             {
-                sType = VkStructureType.PipelineViewportStateCreateInfo,
                 viewportCount = 1,
                 scissorCount = 1
             };
@@ -252,7 +243,6 @@ namespace Veldrid
             }
             var pipelineLayoutCI = new VkPipelineLayoutCreateInfo
             {
-                sType = VkStructureType.PipelineLayoutCreateInfo,
                 setLayoutCount = (uint)resourceLayouts.Length,
                 pSetLayouts = dsls
             };
@@ -327,7 +317,6 @@ namespace Veldrid
 
             var renderPassCI = new VkRenderPassCreateInfo
             {
-                sType = VkStructureType.RenderPassCreateInfo,
                 attachmentCount = attachments.Count,
                 pAttachments = (VkAttachmentDescription*)attachments.Data,
                 subpassCount = 1,
@@ -341,7 +330,6 @@ namespace Veldrid
 
             var pipelineCI = new VkGraphicsPipelineCreateInfo
             {
-                sType = VkStructureType.GraphicsPipelineCreateInfo,
                 pColorBlendState = &blendStateCI,
                 pRasterizationState = &rsCI,
                 pDynamicState = &dynamicStateCI,
