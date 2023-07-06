@@ -21,23 +21,13 @@ namespace StudioCore
     /// </summary>
     public static class TaskLogs
     {
-        /// <summary>
-        /// Entry types for log.
-        /// </summary>
-        public enum EntryType
-        {
-            Transitional = -1,
-            Error = 0,
-            Success = 1,
-            Neutral = 2,
-        }
 
         private static readonly MapStudioLoggerProvider _provider = new();
-        private static readonly List<(EntryType, string)> _log = new();
+        private static readonly List<(LogLevel, string)> _log = new();
 
         // Multiply text color values. Mult transitions from 0 to 1 during transition timer. 
         private static float _timerColorMult = 1.0f;
-        private static EntryType _currentEntryType = EntryType.Success;
+        private static LogLevel _currentEntryType = LogLevel.Information;
         private static bool _loggerWindowOpen = false;
         private static bool _scrollToEnd = false;
 
@@ -51,7 +41,7 @@ namespace StudioCore
 
             public bool IsEnabled(LogLevel logLevel)
             {
-                throw new NotImplementedException();
+                return true;
             }
 
             public void Log<TState>(
@@ -66,14 +56,8 @@ namespace StudioCore
                     return;
                 }
 
-                throw new NotImplementedException();
+                _log.Add((logLevel, state.ToString()));
             }
-
-            public static void Log(string message, params object[] args)
-            {
-                _log.Add(((EntryType)args[0], message));
-            }
-
         }
 
         private class MapStudioLoggerProvider : ILoggerProvider
@@ -92,10 +76,10 @@ namespace StudioCore
         /// </summary>
         /// <param name="text">Text to add to log.</param>
         /// <param name="type">Type of entry. Affects text color.</param>
-        public static void AddLog(string text, EntryType type = EntryType.Success)
+        public static void AddLog(string text, LogLevel type = LogLevel.Information)
         {
-            MapStudioLogger log = (MapStudioLogger)_provider.CreateLogger("");
-            MapStudioLogger.Log(text, type);
+            var logger = _provider.CreateLogger("");
+            logger.Log(type, text);
             _currentEntryType = type;
             _scrollToEnd = true;
 
@@ -154,24 +138,24 @@ namespace StudioCore
 
             if (!_log.Any())
             {
-                AddLog("Log cleared", EntryType.Neutral);
+                AddLog("Log cleared", LogLevel.Information);
             }
 
-            var color = PickColor(EntryType.Transitional);
+            var color = PickColor(null);
             ImGui.TextColored(color, _log.Last().Item2);
         }
 
-        private static Vector4 PickColor(EntryType type)
+        private static Vector4 PickColor(LogLevel? type)
         {
             var mult = 0.0f;
-            if (type == EntryType.Transitional)
+            if (type == null)
             {
                 type = _currentEntryType;
                 mult = _timerColorMult;
             }
 
             float alpha = 1.0f - 0.3f * mult;
-            if (type == EntryType.Success)
+            if (type is LogLevel.Information)
             {
                 return new Vector4(
                     0.8f + 0.1f * mult,
@@ -179,7 +163,15 @@ namespace StudioCore
                     0.4f + 0.5f * mult,
                     alpha);
             }
-            else if (type == EntryType.Error)
+            else if (type is LogLevel.Warning or LogLevel.Error or LogLevel.Critical)
+            {
+                return new Vector4(
+                    1.0f - 0.1f * mult,
+                    1.0f - 0.1f * mult,
+                    0.3f + 0.6f * mult,
+                    alpha);
+            }
+            else if (type is LogLevel.Error or LogLevel.Critical)
             {
                 return new Vector4(
                     1.0f - 0.1f * mult,
@@ -187,7 +179,7 @@ namespace StudioCore
                     0.3f + 0.6f * mult,
                     alpha);
             }
-            else if (type == EntryType.Neutral)
+            else
             {
                 return new Vector4(
                     1.0f - 0.1f * mult,
@@ -195,7 +187,6 @@ namespace StudioCore
                     1.0f - 0.1f * mult,
                     alpha);
             }
-            throw new NotImplementedException("Unsupported task logger LogType");
         }
 
         private static void ColorTimer()

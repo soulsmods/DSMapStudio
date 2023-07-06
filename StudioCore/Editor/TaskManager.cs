@@ -60,7 +60,7 @@ namespace StudioCore.Editor
                     if (silentFail)
                     {
                         warningList.TryAdd(taskId, ($"An error has occurred in task \"{taskId}\":\n" + e.Message).Replace("\0", "\\0"));
-                        TaskLogs.AddLog($"Task Failed: {taskId}");
+                        TaskLogs.AddLog($"Task Failed: {taskId}", Microsoft.Extensions.Logging.LogLevel.Error);
                     }
                     else
                     {
