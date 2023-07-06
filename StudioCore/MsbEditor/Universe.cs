@@ -149,7 +149,7 @@ namespace StudioCore.MsbEditor
 
         public RenderableProxy GetRegionDrawable(Map map, Entity obj)
         {
-            if (obj.WrappedObject is IMsbRegion r && r.Shape is MSB.Shape.Box b)
+            if (obj.WrappedObject is IMsbRegion r && r.Shape is MSB.Shape.Box )
             {
                 var mesh = DebugPrimitiveRenderableProxy.GetBoxRegionProxy(_renderScene);
                 mesh.World = obj.GetWorldMatrix();
@@ -185,6 +185,14 @@ namespace StudioCore.MsbEditor
             {
                 // Not fully implemented. Temporarily uses point region marker.
                 var mesh = DebugPrimitiveRenderableProxy.GetPointRegionProxy(_renderScene);
+                mesh.World = obj.GetWorldMatrix();
+                mesh.SetSelectable(obj);
+                mesh.DrawFilter = RenderFilter.Region;
+                return mesh;
+            }
+            else if (obj.WrappedObject is IMsbRegion r6 && r6.Shape is MSB.Shape.Rectangle re)
+            {
+                var mesh = DebugPrimitiveRenderableProxy.GetBoxRegionProxy(_renderScene);
                 mesh.World = obj.GetWorldMatrix();
                 mesh.SetSelectable(obj);
                 mesh.DrawFilter = RenderFilter.Region;
