@@ -596,7 +596,7 @@ namespace StudioCore.MsbEditor
             Cylinder,
             Box,
             Composite,
-            Rect,
+            Rectangle,
         }
 
         private string[] _regionShapes =
@@ -813,7 +813,7 @@ namespace StudioCore.MsbEditor
                                     case RegionShape.Composite:
                                         newshape = new MSB.Shape.Composite();
                                         break;
-                                    case RegionShape.Rect:
+                                    case RegionShape.Rectangle:
                                         newshape = new MSB.Shape.Rectangle();
                                         break;
                                     default:

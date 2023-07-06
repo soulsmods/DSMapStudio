@@ -12,7 +12,7 @@ namespace SoulsFormats
             Circle = 1,
             Sphere = 2,
             Cylinder = 3,
-            Rect = 4,
+            Rectangle = 4,
             Box = 5,
             Composite = 6,
         }
@@ -44,7 +44,7 @@ namespace SoulsFormats
                     case ShapeType.Circle: return new Circle();
                     case ShapeType.Sphere: return new Sphere();
                     case ShapeType.Cylinder: return new Cylinder();
-                    case ShapeType.Rect: return new Rectangle();
+                    case ShapeType.Rectangle: return new Rectangle();
                     case ShapeType.Box: return new Box();
                     case ShapeType.Composite: return new Composite();
 
@@ -218,7 +218,7 @@ namespace SoulsFormats
             /// </summary>
             public class Rectangle : Shape
             {
-                internal override ShapeType Type => ShapeType.Rect;
+                internal override ShapeType Type => ShapeType.Rectangle;
                 internal override bool HasShapeData => true;
 
                 /// <summary>
