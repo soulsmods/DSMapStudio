@@ -979,7 +979,7 @@ namespace StudioCore
                     ImGui.PopStyleColor();
                 }
 
-                TaskLogger.Display();
+                TaskLogs.Display();
 
                 ImGui.EndMainMenuBar();
             }

@@ -1360,7 +1360,7 @@ namespace StudioCore.ParamEditor
                 if (_projectSettings != null)
                 {
                     ParamBank.PrimaryBank.SaveParams(_projectSettings.UseLooseParams, _projectSettings.PartialParams);
-                    TaskLogger.AddLog("Saved params");
+                    TaskLogs.AddLog("Saved params");
                 }
             }
             catch (SavingFailedException e)
@@ -1378,7 +1378,7 @@ namespace StudioCore.ParamEditor
                 if (_projectSettings != null)
                 {
                     ParamBank.PrimaryBank.SaveParams(_projectSettings.UseLooseParams, _projectSettings.PartialParams);
-                    TaskLogger.AddLog("Saved params");
+                    TaskLogs.AddLog("Saved params");
                 }
             }
             catch (SavingFailedException e)

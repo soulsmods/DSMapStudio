@@ -12,32 +12,79 @@ using System.Reflection;
 using Veldrid;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace StudioCore
 {
     /// <summary>
     /// Used to log and display information for the user.
     /// </summary>
-    public static class TaskLogger
+    public static class TaskLogs
     {
-        // Multiply text color values. Mult transitions from 0 to 1 during transition timer. 
-        private static float _timerColorMult = 1.0f;
-
-        private static readonly List<(EntryType, string)> _log = new();
-        private static readonly object _lockObj = new();
-        private static EntryType _currentEntryType = EntryType.Success;
-        private static bool _loggerWindowOpen = false;
-        private static bool _scrollToEnd = false;
-
         /// <summary>
         /// Entry types for log.
         /// </summary>
         public enum EntryType
-        { 
+        {
             Transitional = -1,
             Error = 0,
             Success = 1,
             Neutral = 2,
+        }
+
+        private static readonly MapStudioLoggerProvider _provider = new();
+        private static readonly List<(EntryType, string)> _log = new();
+
+        // Multiply text color values. Mult transitions from 0 to 1 during transition timer. 
+        private static float _timerColorMult = 1.0f;
+        private static EntryType _currentEntryType = EntryType.Success;
+        private static bool _loggerWindowOpen = false;
+        private static bool _scrollToEnd = false;
+
+        private class MapStudioLogger : ILogger
+        {
+            private readonly string _name;
+
+            public MapStudioLogger(string name) => _name = name;
+
+            public IDisposable? BeginScope<TState>(TState state) where TState : notnull => default!;
+
+            public bool IsEnabled(LogLevel logLevel)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Log<TState>(
+                LogLevel logLevel,
+                EventId eventId,
+                TState state,
+                Exception? exception,
+                Func<TState, Exception?, string> formatter)
+            {
+                if (!IsEnabled(logLevel))
+                {
+                    return;
+                }
+
+                throw new NotImplementedException();
+            }
+
+            public static void Log(string message, params object[] args)
+            {
+                _log.Add(((EntryType)args[0], message));
+            }
+
+        }
+
+        private class MapStudioLoggerProvider : ILoggerProvider
+        {
+            public ILogger CreateLogger(string name)
+            {
+                var logger = new MapStudioLogger(name);
+                return logger;
+            }
+
+            public void Dispose() { }
         }
 
         /// <summary>
@@ -47,21 +94,19 @@ namespace StudioCore
         /// <param name="type">Type of entry. Affects text color.</param>
         public static void AddLog(string text, EntryType type = EntryType.Success)
         {
-            lock (_lockObj)
-            {
-                _log.Add((type, text));
-                _currentEntryType = type;
-                _scrollToEnd = true;
+            MapStudioLogger log = (MapStudioLogger)_provider.CreateLogger("");
+            MapStudioLogger.Log(text, type);
+            _currentEntryType = type;
+            _scrollToEnd = true;
 
-                // Run color timer or reset mult if it's already running.
-                if (_timerColorMult == 1.0f)
-                {
-                    Task.Run(ColorTimer);
-                }
-                else
-                {
-                    _timerColorMult = 0.0f;
-                }
+            // Run color timer or reset mult if it's already running.
+            if (_timerColorMult == 1.0f)
+            {
+                Task.Run(ColorTimer);
+            }
+            else
+            {
+                _timerColorMult = 0.0f;
             }
         }
 
@@ -109,7 +154,7 @@ namespace StudioCore
 
             if (!_log.Any())
             {
-                _log.Add((EntryType.Neutral, "Log cleared"));
+                AddLog("Log cleared", EntryType.Neutral);
             }
 
             var color = PickColor(EntryType.Transitional);

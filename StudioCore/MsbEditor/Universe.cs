@@ -1399,7 +1399,7 @@ namespace StudioCore.MsbEditor
 
                 CheckDupeEntityIDs(map);
                 map.HasUnsavedChanges = false;
-                TaskLogger.AddLog($"Saved map {map.Name}");
+                TaskLogs.AddLog($"Saved map {map.Name}");
             }
             catch (Exception e)
             {

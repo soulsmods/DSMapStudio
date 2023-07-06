@@ -1480,7 +1480,7 @@ namespace StudioCore.TextEditor
                 if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
                 {
                     SaveFMGsDS2();
-                    TaskLogger.AddLog("Saved FMG text");
+                    TaskLogs.AddLog("Saved FMG text");
                     return;
                 }
 
@@ -1536,7 +1536,7 @@ namespace StudioCore.TextEditor
                 }
                 fmgBinderItem.Dispose();
                 fmgBinderMenu.Dispose();
-                TaskLogger.AddLog("Saved FMG text");
+                TaskLogs.AddLog("Saved FMG text");
             }
             catch(MsbEditor.SavingFailedException e)
             {
