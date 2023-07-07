@@ -686,6 +686,8 @@
 6805 Blight - Type 1 - Special 6
 6845 Black Knife - Bullet
 6850 Destined Death - (DoT Main)
+6860 Destined Death - (Max HP Debuff)
+6865 Destined Death - (Max HP Debuff)
 6910 Enemy - Crystal Dart Confusion
 6915 Enemy - Crystal Dart Confusion - Visual
 6920 Enemy - Crystal Dart Confusion - Border A
