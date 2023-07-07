@@ -1377,6 +1377,10 @@ namespace StudioCore.MsbEditor
                 {
                     t.Scale = new Vector3(c.Radius, c.Height, c.Radius);
                 }
+                else if (shape != null && shape is MSB.Shape.Rectangle re)
+                {
+                    t.Scale = new Vector3(re.Width, 0.0f, re.Depth);
+                }
             }
             else if (Type == MapEntityType.Light)
             {
