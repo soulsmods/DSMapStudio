@@ -119,6 +119,7 @@ namespace StudioCore
                     if (ImGui.Button("Clear##TaskLogger"))
                     {
                         _log.Clear();
+                        AddLog("Log cleared", LogLevel.Information);
                     }
 
                     ImGui.BeginChild("##LogItems");
@@ -138,14 +139,13 @@ namespace StudioCore
                 ImGui.End();
                 ImGui.PopStyleColor(4);
             }
-
-            if (!_log.Any())
-            {
-                AddLog("Log cleared", LogLevel.Information);
-            }
-
+            
             var color = PickColor(null);
-            ImGui.TextColored(color, _log.Last().Item2);
+            var message = _log.LastOrDefault();
+            if (message != default)
+            {
+                ImGui.TextColored(color, message.Item2);
+            }
         }
 
         private static Vector4 PickColor(LogLevel? type)
