@@ -100,9 +100,12 @@ namespace StudioCore
             ImGui.Separator();
             ImGui.Spacing();
 
-            if (ImGui.ArrowButton("##ShowLogsBtn", ImGuiDir.Down))
+            var dir = ImGuiDir.Right;
+            if (_loggerWindowOpen)
+                dir = ImGuiDir.Down;
+            if (ImGui.ArrowButton("##ShowLogsBtn", dir))
             {
-                _loggerWindowOpen = true;
+                _loggerWindowOpen = !_loggerWindowOpen;
             }
 
             if (_loggerWindowOpen)
