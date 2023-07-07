@@ -648,7 +648,16 @@ namespace StudioCore.MsbEditor
 
                 ImGui.BeginChild("listtree");
                 if (_configuration == Configuration.MapEditor && _universe.LoadedObjectContainers.Count == 0)
-                    ImGui.Text("This Editor requires game to be unpacked");
+                {
+                    if (_universe.GameType == GameType.Undefined)
+                    {
+                        ImGui.Text("No project loaded. File -> New Project");
+                    }
+                    else
+                    {
+                        ImGui.Text("This Editor requires unpacked game files. Use UXM");
+                    }
+                }
 
                 var orderedMaps = _universe.LoadedObjectContainers.OrderBy(k => k.Key);
 
