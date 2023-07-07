@@ -1407,6 +1407,7 @@ namespace StudioCore.MsbEditor
 
                 CheckDupeEntityIDs(map);
                 map.HasUnsavedChanges = false;
+                TaskLogs.AddLog($"Saved map {map.Name}");
             }
             catch (Exception e)
             {

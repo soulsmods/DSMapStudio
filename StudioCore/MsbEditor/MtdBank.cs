@@ -35,7 +35,7 @@ namespace StudioCore.MsbEditor
         public static void ReloadMtds()
         {
 
-            TaskManager.Run("MB:LoadMtds", true, false, false, () =>
+            TaskManager.Run("Resource - Load MTDs", true, false, false, () =>
             {
                 try
                 {

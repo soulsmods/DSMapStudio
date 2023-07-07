@@ -1011,7 +1011,7 @@ namespace StudioCore.TextEditor
 
         public static void ReloadFMGs(string languageFolder = "")
         {
-            TaskManager.Run("FB:Reload", true, false, true, () =>
+            TaskManager.Run("FMG - Load Text", true, false, true, () =>
             {
                 IsLoaded = false;
                 IsLoading = true;
@@ -1480,6 +1480,7 @@ namespace StudioCore.TextEditor
                 if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
                 {
                     SaveFMGsDS2();
+                    TaskLogs.AddLog("Saved FMG text");
                     return;
                 }
 
@@ -1535,6 +1536,7 @@ namespace StudioCore.TextEditor
                 }
                 fmgBinderItem.Dispose();
                 fmgBinderMenu.Dispose();
+                TaskLogs.AddLog("Saved FMG text");
             }
             catch(MsbEditor.SavingFailedException e)
             {

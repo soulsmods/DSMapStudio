@@ -957,7 +957,7 @@ namespace StudioCore
                     ImGui.PopStyleColor();
                 }
 
-                if (TaskManager.GetLiveThreads().Count > 0 && ImGui.BeginMenu("Tasks"))
+                if (ImGui.BeginMenu("Tasks", TaskManager.GetLiveThreads().Count > 0))
                 {
                     foreach (String task in TaskManager.GetLiveThreads())
                     {
@@ -989,6 +989,8 @@ namespace StudioCore
                     }
                     ImGui.PopStyleColor();
                 }
+
+                TaskLogs.Display();
 
                 ImGui.EndMainMenuBar();
             }

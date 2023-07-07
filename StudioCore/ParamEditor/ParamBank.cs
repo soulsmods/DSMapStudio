@@ -739,13 +739,13 @@ namespace StudioCore.ParamEditor
 
             CacheBank.ClearCaches();
 
-            TaskManager.Run("PB:LoadParams", true, false, false, () =>
+            TaskManager.Run("Param - Load Params", true, false, false, () =>
             {
                 if (PrimaryBank.AssetLocator.Type != GameType.Undefined)
                 {
                     List<(string, PARAMDEF)> defPairs = LoadParamdefs(locator);
                     IsDefsLoaded = true;
-                    TaskManager.Run("PB:LoadParamMeta", true, false, false, () =>
+                    TaskManager.Run("Param - Load Meta", true, false, false, () =>
                     {
                         IsMetaLoaded = false;
                         LoadParamMeta(defPairs, locator);
@@ -786,7 +786,7 @@ namespace StudioCore.ParamEditor
 
                 VanillaBank.IsLoadingParams = true;
                 VanillaBank._params = new Dictionary<string, Param>();
-                TaskManager.Run("PB:LoadVParams", true, false, false, () =>
+                TaskManager.Run("Param - Load Vanilla Params", true, false, false, () =>
                 {
                     if (locator.Type == GameType.DemonsSouls)
                     {
@@ -818,7 +818,7 @@ namespace StudioCore.ParamEditor
                     }
                     VanillaBank.IsLoadingParams = false;
 
-                    TaskManager.Run("PB:RefreshDirtyCache", true, false, false, () => PrimaryBank.RefreshParamDiffCaches());
+                    TaskManager.Run("Param - Check Differences", true, false, false, () => PrimaryBank.RefreshParamDiffCaches());
                 });
 
                 if (options != null)
