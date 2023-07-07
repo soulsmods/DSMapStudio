@@ -974,7 +974,7 @@ Requires State Info 66" />
     <fakeTargetIgnoreAjin AltName="Ignore Fake Target - Human" Wiki="You will not be caught by the fake target of the subhuman system that occurred" IsBool="" />
     <fakeTargetIgnoreMirageArts AltName="Ignore Fake Target - Phantom" Wiki="You will not be caught by the fake target of the phantom arts system that occurred" IsBool="" />
     <requestForceJoinBlackSOS_B AltName="Force Invasion" Wiki="If checked, issue an intrusion_B request when activated" IsBool="" />
-    <unk353_4 AltName="Blank" Wiki="" IsBool="" />
+    <isDestinedDeathHpMult AltName="Is Destined Death HP Mult" Wiki="Makes portion of HP bar in UI black when used with max HP multipliers." IsBool="" />
     <pad2 AltName=""/>
     <changeSuperArmorPoint AltName="Poise +" Wiki="Value to add to the super armor value" />
     <changeSaPoint AltName="Apply Poise Damage +" Wiki="Set how many points to subtract (or add) with one activation" />
@@ -1010,7 +1010,7 @@ behaviorId,dmypolyId,-,
 
 addLifeForceStatus,addWillpowerStatus,addEndureStatus,addVitalityStatus,addStrengthStatus,addDexterityStatus,addMagicStatus,addFaithStatus,addLuckStatus,-,
 
-maxHpRate,maxMpRate,maxStaminaRate,equipWeightChangeRate,hpRecoverRate,bCurrHPIndependeMaxHP,-,
+maxHpRate,maxMpRate,maxStaminaRate,equipWeightChangeRate,hpRecoverRate,bCurrHPIndependeMaxHP,isDestinedDeathHpMult,-,
 
 changeHpRate,changeHpPoint,changeMpRate,changeMpPoint,changeStaminaRate,changeStaminaPoint,staminaRecoverChangeSpeed,-,
 
@@ -1096,6 +1096,6 @@ requestSOS,requestBlackSOS,requestForceJoinBlackSOS,requestForceJoinBlackSOS_B,r
 
 vowType0,vowType1,vowType2,vowType3,vowType4,vowType5,vowType6,vowType7,vowType8,vowType9,vowType10,vowType11,vowType12,vowType13,vowType14,vowType15,-,
 
-unk353_4,mpRecoverChangeSpeed,allItemWeightChangeRate,grabityRate,soulStealRate,rayCastPassedTime,changeMiracleSlot,pad2,unk2,unk3,-,
+mpRecoverChangeSpeed,allItemWeightChangeRate,grabityRate,soulStealRate,rayCastPassedTime,changeMiracleSlot,pad2,unk2,unk3,-,
 " />
 </PARAMMETA>
