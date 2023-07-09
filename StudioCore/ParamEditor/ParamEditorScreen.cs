@@ -902,7 +902,7 @@ namespace StudioCore.ParamEditor
                     MassEditResult r = MassParamEditCSV.PerformMassEdit(ParamBank.PrimaryBank, _currentMEditCSVInput, EditorActionManager, _activeView._selection.getActiveParam(), _mEditCSVAppendOnly, _mEditCSVAppendOnly && _mEditCSVReplaceRows, CFG.Current.Param_Export_Delimiter[0]);
                     if (r.Type == MassEditResultType.SUCCESS)
                     {
-                        TaskManager.Run(new( "Param - Check Differences", false, true, true, TaskLogs.LogPriority.Low, () => ParamBank.PrimaryBank.RefreshParamDiffCaches()));
+                        TaskManager.Run(new("Param - Check Differences", false, true, true, TaskLogs.LogPriority.Low, () => ParamBank.PrimaryBank.RefreshParamDiffCaches()));
                     }
                     _mEditCSVResult = r.Information;
                 }
