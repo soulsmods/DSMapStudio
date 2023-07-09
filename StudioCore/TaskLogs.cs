@@ -195,7 +195,7 @@ namespace StudioCore
                     0.4f + 0.5f * mult,
                     alpha);
             }
-            else if (level is LogLevel.Warning or LogLevel.Error or LogLevel.Critical)
+            else if (level is LogLevel.Warning)
             {
                 return new Vector4(
                     1.0f - 0.1f * mult,
