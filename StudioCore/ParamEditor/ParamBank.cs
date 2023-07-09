@@ -739,18 +739,18 @@ namespace StudioCore.ParamEditor
 
             CacheBank.ClearCaches();
 
-            TaskManager.Run("Param - Load Params", true, false, false, () =>
+            TaskManager.Run(new("Param - Load Params", true, false, false, () =>
             {
                 if (PrimaryBank.AssetLocator.Type != GameType.Undefined)
                 {
                     List<(string, PARAMDEF)> defPairs = LoadParamdefs(locator);
                     IsDefsLoaded = true;
-                    TaskManager.Run("Param - Load Meta", true, false, false, () =>
+                    TaskManager.Run(new("Param - Load Meta", true, false, false, () =>
                     {
                         IsMetaLoaded = false;
                         LoadParamMeta(defPairs, locator);
                         IsMetaLoaded = true;
-                    });
+                    }));
                 }
                 if (locator.Type == GameType.DemonsSouls)
                 {
@@ -786,7 +786,7 @@ namespace StudioCore.ParamEditor
 
                 VanillaBank.IsLoadingParams = true;
                 VanillaBank._params = new Dictionary<string, Param>();
-                TaskManager.Run("Param - Load Vanilla Params", true, false, false, () =>
+                TaskManager.Run(new("Param - Load Vanilla Params", true, false, false, () =>
                 {
                     if (locator.Type == GameType.DemonsSouls)
                     {
@@ -818,8 +818,8 @@ namespace StudioCore.ParamEditor
                     }
                     VanillaBank.IsLoadingParams = false;
 
-                    TaskManager.Run("Param - Check Differences", true, false, false, () => PrimaryBank.RefreshParamDiffCaches());
-                });
+                    TaskManager.Run(new("Param - Check Differences", true, false, false, () => PrimaryBank.RefreshParamDiffCaches()));
+                }));
 
                 if (options != null)
                 {
@@ -836,7 +836,7 @@ namespace StudioCore.ParamEditor
                         }
                     }
                 }
-            });
+            }));
         }
         public static void LoadAuxBank(string path, string looseDir, string enemyPath, ProjectSettings settings)
         {

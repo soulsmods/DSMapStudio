@@ -35,7 +35,7 @@ namespace StudioCore.MsbEditor
         public static void ReloadMtds()
         {
 
-            TaskManager.Run("Resource - Load MTDs", true, false, false, () =>
+            TaskManager.Run(new("Resource - Load MTDs", true, false, false, () =>
             {
                 try
                 {
@@ -89,7 +89,7 @@ namespace StudioCore.MsbEditor
                     _mtds = new Dictionary<string, MTD>();
                     _matbins = new Dictionary<string, MATBIN>();
                 }
-            });
+            }));
         }
 
         public static void LoadMtds(AssetLocator l)

@@ -21,13 +21,38 @@ namespace StudioCore
     /// </summary>
     public static class TaskLogs
     {
+        public enum LogPriority
+        { 
+            Low,
+            Normal,
+            High
+        }
+
+        public class LogEntry
+        {
+            public string Message;
+            public LogLevel Level;
+            public LogPriority Priority = LogPriority.Normal;
+
+            public LogEntry(string message, LogLevel level)
+            {
+                Message = message;
+                Level = level;
+            }
+            public LogEntry(string message, LogLevel level, LogPriority priority)
+            {
+                Message = message;
+                Level = level;
+                Priority = priority;
+            }
+        }
 
         private static readonly MapStudioLoggerProvider _provider = new();
-        private static readonly List<(LogLevel, string)> _log = new();
+        private static readonly List<LogEntry> _log = new();
 
         // Multiply text color values. Mult transitions from 0 to 1 during transition timer. 
         private static float _timerColorMult = 1.0f;
-        private static LogLevel _currentEntryType = LogLevel.Information;
+        private static LogEntry _lastLogEntry = null;
         private static bool _loggerWindowOpen = false;
         private static bool _scrollToEnd = false;
 
@@ -56,7 +81,7 @@ namespace StudioCore
                     return;
                 }
 
-                _log.Add((logLevel, state.ToString()));
+                _log.Add(new LogEntry(state.ToString(), logLevel));
             }
         }
 
@@ -75,22 +100,26 @@ namespace StudioCore
         /// Adds a new entry to task logger.
         /// </summary>
         /// <param name="text">Text to add to log.</param>
-        /// <param name="type">Type of entry. Affects text color.</param>
-        public static void AddLog(string text, LogLevel type = LogLevel.Information)
+        /// <param name="level">Type of entry. Affects text color.</param>
+        public static void AddLog(string text, LogLevel level = LogLevel.Information, LogPriority priority = LogPriority.Normal)
         {
             var logger = _provider.CreateLogger("");
-            logger.Log(type, text);
-            _currentEntryType = type;
+            logger.Log(level, text);
             _scrollToEnd = true;
 
-            // Run color timer or reset mult if it's already running.
-            if (_timerColorMult == 1.0f)
+            if (priority != LogPriority.Low)
             {
-                Task.Run(ColorTimer);
-            }
-            else
-            {
-                _timerColorMult = 0.0f;
+                _lastLogEntry = new LogEntry(text, level, priority);
+
+                // Run color timer or reset mult if it's already running.
+                if (_timerColorMult == 1.0f)
+                {
+                    Task.Run(ColorTimer);
+                }
+                else
+                {
+                    _timerColorMult = 0.0f;
+                }
             }
         }
 
@@ -119,6 +148,7 @@ namespace StudioCore
                     if (ImGui.Button("Clear##TaskLogger"))
                     {
                         _log.Clear();
+                        _lastLogEntry = null;
                         AddLog("Log cleared", LogLevel.Information);
                     }
 
@@ -126,7 +156,7 @@ namespace StudioCore
                     ImGui.Spacing();
                     for (var i = 0; i < _log.Count; i++)
                     {
-                        ImGui.TextColored(PickColor(_log[i].Item1), " " + _log[i].Item2);
+                        ImGui.TextColored(PickColor(_log[i].Level), " " + _log[i].Message);
                     }
                     if (_scrollToEnd)
                     {
@@ -140,25 +170,24 @@ namespace StudioCore
                 ImGui.PopStyleColor(4);
             }
             
-            var color = PickColor(null);
-            var message = _log.LastOrDefault();
-            if (message != default)
+            if (_lastLogEntry != null)
             {
-                ImGui.TextColored(color, message.Item2);
+                var color = PickColor(null);
+                ImGui.TextColored(color, _lastLogEntry.Message);
             }
         }
 
-        private static Vector4 PickColor(LogLevel? type)
+        private static Vector4 PickColor(LogLevel? level)
         {
             var mult = 0.0f;
-            if (type == null)
+            if (level == null)
             {
-                type = _currentEntryType;
+                level = _lastLogEntry.Level;
                 mult = _timerColorMult;
             }
 
             float alpha = 1.0f - 0.3f * mult;
-            if (type is LogLevel.Information)
+            if (level is LogLevel.Information)
             {
                 return new Vector4(
                     0.8f + 0.1f * mult,
@@ -166,7 +195,7 @@ namespace StudioCore
                     0.4f + 0.5f * mult,
                     alpha);
             }
-            else if (type is LogLevel.Warning or LogLevel.Error or LogLevel.Critical)
+            else if (level is LogLevel.Warning or LogLevel.Error or LogLevel.Critical)
             {
                 return new Vector4(
                     1.0f - 0.1f * mult,
@@ -174,7 +203,7 @@ namespace StudioCore
                     0.3f + 0.6f * mult,
                     alpha);
             }
-            else if (type is LogLevel.Error or LogLevel.Critical)
+            else if (level is LogLevel.Error or LogLevel.Critical)
             {
                 return new Vector4(
                     1.0f - 0.1f * mult,

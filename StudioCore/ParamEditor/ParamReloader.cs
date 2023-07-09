@@ -32,7 +32,7 @@ namespace StudioCore.ParamEditor
 
         public static void ReloadMemoryParams(ParamBank bank, AssetLocator loc, string[] paramNames)
         {
-            TaskManager.Run("Param - Hot Reload", true, true, true, () =>
+            TaskManager.Run(new("Param - Hot Reload", true, true, true, () =>
             {
                 GameOffsets offsets = GetGameOffsets(loc);
                 var processArray = Process.GetProcessesByName(offsets.exeName);
@@ -52,7 +52,7 @@ namespace StudioCore.ParamEditor
                 {
                     throw new Exception("Unable to find running game");
                 }
-            });
+            }));
         }
         private static GameOffsets GetCorrectPTDEOffsets(GameOffsets offsets, SoulsMemoryHandler memoryHandler)
         {
