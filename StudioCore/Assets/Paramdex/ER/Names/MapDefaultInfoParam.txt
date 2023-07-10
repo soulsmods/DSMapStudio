@@ -121,7 +121,7 @@
 60375000 Liurnia of the Lake - Northeast Ravine; Bellum Highway - West of Grand Lift of Dectus
 60375100 Altus Plateau - Abandoned Coffin, Ruin-Strewn Precipice Exit
 60375200 Mt. Gelmir - Seethewater River, Hermit Village, Wyndham Catacombs Entrance, Sage's Cave Entrance
-60375300 Mt. Gelmir - Primeval Sorcerer Azur, Gelmir Hero's Grave Entrance
+60375300 Mt. Gelmir - Azur, Gelmir Hero's Grave Entrance
 60375400 Mt. Gelmir - Minor Erdtree, Seethewater Cave Entrance
 60375500 Mt. Gelmir - Volcano Cave Entrance
 60383900 Liurnia of the Lakes - West of Church of Irith
