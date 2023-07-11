@@ -834,7 +834,7 @@ namespace SoulsFormats
                 public short[] AnimIDs { get; private set; }
 
                 /// <summary>
-                /// Used for breakobj functionality in some situations. Determines which part of the shared-map .breakobj file to use.
+                /// Something to do with breakobj functionality. Possibly decides which part of a shared-map (chalice) .breakobj file to use.
                 /// </summary>
                 public int[] BreakobjID { get; private set; }
 
