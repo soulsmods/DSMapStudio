@@ -597,6 +597,7 @@ namespace StudioCore.MsbEditor
             Box,
             Composite,
             Rectangle,
+            Circle,
         }
 
         private string[] _regionShapes =
@@ -606,7 +607,8 @@ namespace StudioCore.MsbEditor
             "Cylinder",
             "Box",
             "Composite",
-            "Rect",
+            "Rectangle",
+            "Circle",
         };
 
         internal enum LightType
@@ -815,6 +817,9 @@ namespace StudioCore.MsbEditor
                                         break;
                                     case RegionShape.Rectangle:
                                         newshape = new MSB.Shape.Rectangle();
+                                        break;
+                                    case RegionShape.Circle:
+                                        newshape = new MSB.Shape.Circle();
                                         break;
                                     default:
                                         throw new Exception("Invalid shape");

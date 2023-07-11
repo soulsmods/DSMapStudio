@@ -198,6 +198,14 @@ namespace StudioCore.MsbEditor
                 mesh.DrawFilter = RenderFilter.Region;
                 return mesh;
             }
+            else if (obj.WrappedObject is IMsbRegion r7 && r7.Shape is MSB.Shape.Circle ci)
+            {
+                var mesh = DebugPrimitiveRenderableProxy.GetCylinderRegionProxy(_renderScene);
+                mesh.World = obj.GetWorldMatrix();
+                mesh.SetSelectable(obj);
+                mesh.DrawFilter = RenderFilter.Region;
+                return mesh;
+            }
             throw new NotSupportedException($"No region model proxy was specified for {obj.WrappedObject.GetType()}");
         }
 
