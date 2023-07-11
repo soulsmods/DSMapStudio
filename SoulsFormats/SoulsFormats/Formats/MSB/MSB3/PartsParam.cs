@@ -615,6 +615,61 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                public int ShadowParamID { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public int DofGlareQualityID { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public int ToneMapID { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public int DofID { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public int BloomID { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public int ColorGradingID { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public int FeedbackBlurID { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public int MotionBlurID { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public int AntiAliasID { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public int SSAO_ID { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public int LightShaftID { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
                 public sbyte[] EventIDs { get; private set; }
 
                 /// <summary>
@@ -642,7 +697,21 @@ namespace SoulsFormats
 
                 internal SceneGparamConfig(BinaryReaderEx br)
                 {
-                    br.AssertPattern(0x3C, 0x00);
+                    ShadowParamID = br.ReadInt32();
+                    DofGlareQualityID = br.ReadInt32();
+                    ToneMapID = br.ReadInt32();
+                    DofID = br.ReadInt32();
+                    BloomID = br.ReadInt32();
+                    ColorGradingID = br.ReadInt32();
+                    br.AssertInt32(0);
+                    br.AssertInt32(0);
+                    br.AssertInt32(0);
+                    br.AssertInt32(0);
+                    FeedbackBlurID = br.ReadInt32();
+                    MotionBlurID = br.ReadInt32();
+                    AntiAliasID = br.ReadInt32();
+                    SSAO_ID = br.ReadInt32();
+                    LightShaftID = br.ReadInt32();
                     EventIDs = br.ReadSBytes(4);
                     TransitionTime = br.ReadSingle();
                     br.AssertInt32(0);
@@ -652,7 +721,21 @@ namespace SoulsFormats
 
                 internal void Write(BinaryWriterEx bw)
                 {
-                    bw.WritePattern(0x3C, 0x00);
+                    bw.WriteInt32(ShadowParamID);
+                    bw.WriteInt32(DofGlareQualityID);
+                    bw.WriteInt32(ToneMapID);
+                    bw.WriteInt32(DofID);
+                    bw.WriteInt32(BloomID);
+                    bw.WriteInt32(ColorGradingID);
+                    bw.WriteInt32(0);
+                    bw.WriteInt32(0);
+                    bw.WriteInt32(0);
+                    bw.WriteInt32(0);
+                    bw.WriteInt32(FeedbackBlurID);
+                    bw.WriteInt32(MotionBlurID);
+                    bw.WriteInt32(AntiAliasID);
+                    bw.WriteInt32(SSAO_ID);
+                    bw.WriteInt32(LightShaftID);
                     bw.WriteSBytes(EventIDs);
                     bw.WriteSingle(TransitionTime);
                     bw.WriteInt32(0);
