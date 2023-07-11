@@ -25,7 +25,7 @@ jobs:
         run: dotnet publish '${{ runner.workspace }}/DSMapStudio/DSMapStudio/DSMapStudio.csproj' --configuration Release -o deploy
 
       - name: Publish
-        run: dotnet publish '${{ runner.workspace }}/DSMapStudio/DSMapStudio/DSMapStudio_LowRequirements.csproj' --configuration Release -o deploy
+        run: dotnet publish '${{ runner.workspace }}/DSMapStudio/DSMapStudio_LowRequirements/DSMapStudio_LowRequirements.csproj' --configuration Release -o deploy
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
