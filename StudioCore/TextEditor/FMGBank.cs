@@ -1011,7 +1011,7 @@ namespace StudioCore.TextEditor
 
         public static void ReloadFMGs(string languageFolder = "")
         {
-            TaskManager.Run("FMG - Load Text", true, false, true, () =>
+            TaskManager.Run(new("FMG - Load Text", true, false, true, () =>
             {
                 IsLoaded = false;
                 IsLoading = true;
@@ -1054,7 +1054,7 @@ namespace StudioCore.TextEditor
 
                 IsLoaded = true;
                 IsLoading = false;
-            });
+            }));
         }
 
         private static bool ReloadDS2FMGs()

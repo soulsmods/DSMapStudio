@@ -787,7 +787,6 @@ namespace StudioCore.Resource
         }
 
         private static bool TaskWindowOpen = true;
-        private static bool ResourceListWindowOpen = true;
         public static void OnGuiDrawTasks(float w, float h)
         {
             float scale = MapStudioNew.GetUIScale();
@@ -824,7 +823,7 @@ namespace StudioCore.Resource
 
         public static void OnGuiDrawResourceList()
         {
-            if (!ImGui.Begin("Resource List", ref ResourceListWindowOpen))
+            if (!ImGui.Begin("Resource List"))
             {
                 ImGui.End();
                 return;

@@ -12,28 +12,60 @@ namespace StudioCore.Editor
         private static volatile ConcurrentDictionary<string, (bool, Task)> _liveTasks = new ConcurrentDictionary<string, (bool, Task)>();
         private static int _anonIndex = 0;
 
-        public static bool Run(string taskId, bool wait, bool canRequeue, bool silentFail, System.Action action)
+        public class LiveTask
         {
-            bool add = AddTask(taskId, silentFail, action);
+            public string TaskId;
+            public bool Wait;
+            public bool CanRequeue;
+            public bool SilentFail;
+            public TaskLogs.LogPriority LogPriority;
+            public Action TaskAction;
+
+            public LiveTask() { }
+
+            public LiveTask(string taskId, bool wait, bool canRequeue, bool silentFail, Action act)
+            {
+                TaskId = taskId;
+                Wait = wait;
+                CanRequeue = canRequeue;
+                SilentFail = silentFail;
+                LogPriority = TaskLogs.LogPriority.Normal;
+                TaskAction = act;
+            }
+
+            public LiveTask(string taskId, bool wait, bool canRequeue, bool silentFail, TaskLogs.LogPriority logPriority, Action act)
+            {
+                TaskId = taskId;
+                Wait = wait;
+                CanRequeue = canRequeue;
+                SilentFail = silentFail;
+                LogPriority = logPriority;
+                TaskAction = act;
+            }
+        }
+
+        public static bool Run(LiveTask liveTask)
+        {
+            bool add = AddTask(liveTask);
 
             if (!add)
             {
-                if (wait)
+                if (liveTask.Wait)
                 {
                     (bool, Task) t;
-                    if (_liveTasks.TryGetValue(taskId, out t))
+                    if (_liveTasks.TryGetValue(liveTask.TaskId, out t))
                     {
                         t.Item2.Wait();
-                        return AddTask(taskId, silentFail, action);                        
+                        return AddTask(liveTask);                        
                     }
                 }
-                if (canRequeue)
+                if (liveTask.CanRequeue)
                 {
                     (bool, Task) t;
-                    if (_liveTasks.TryGetValue(taskId, out t))
+                    if (_liveTasks.TryGetValue(liveTask.TaskId, out t))
                     {
                         if (t.Item1 == false)
-                            _liveTasks[taskId] = (true, t.Item2);
+                            _liveTasks[liveTask.TaskId] = (true, t.Item2);
                     }
                     return true;
                 }
@@ -41,26 +73,27 @@ namespace StudioCore.Editor
 
             return true;
         }
-        private static bool AddTask(string taskId, bool silentFail, System.Action action)
+
+        private static bool AddTask(LiveTask liveTask)
         {
-            if (taskId == null)
+            if (liveTask.TaskId == null)
             {
                 _anonIndex++;
-                taskId = Thread.CurrentThread.Name+":"+_anonIndex;
+                liveTask.TaskId = Thread.CurrentThread.Name+":"+_anonIndex;
             }
 
             Task t = new Task(() => {
                 try
                 {
-                    action.Invoke();
-                    TaskLogs.AddLog($"Task Completed: {taskId}");
+                    liveTask.TaskAction.Invoke();
+                    TaskLogs.AddLog($"Task Completed: {liveTask.TaskId}", Microsoft.Extensions.Logging.LogLevel.Information, liveTask.LogPriority);
                 }
                 catch (Exception e)
                 {
-                    if (silentFail)
+                    if (liveTask.SilentFail)
                     {
-                        warningList.TryAdd(taskId, ($"An error has occurred in task \"{taskId}\":\n" + e.Message).Replace("\0", "\\0"));
-                        TaskLogs.AddLog($"Task Failed: {taskId}", Microsoft.Extensions.Logging.LogLevel.Error);
+                        warningList.TryAdd(liveTask.TaskId, ($"An error has occurred in task \"{liveTask.TaskId}\":\n" + e.Message).Replace("\0", "\\0"));
+                        TaskLogs.AddLog($"Task Failed: {liveTask.TaskId}", Microsoft.Extensions.Logging.LogLevel.Error, liveTask.LogPriority);
                     }
                     else
                     {
@@ -68,11 +101,11 @@ namespace StudioCore.Editor
                     }
                 }
                 (bool, Task) old;
-                _liveTasks.TryRemove(taskId, out old);
+                _liveTasks.TryRemove(liveTask.TaskId, out old);
                 if (old.Item1 == true)
-                    AddTask(taskId, silentFail, action);
+                    AddTask(liveTask);
             });
-            bool add = _liveTasks.TryAdd(taskId, (false, t));
+            bool add = _liveTasks.TryAdd(liveTask.TaskId, (false, t));
             if (add)
                 t.Start();
             return add;

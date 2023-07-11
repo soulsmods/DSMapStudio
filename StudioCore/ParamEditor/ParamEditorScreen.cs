@@ -287,12 +287,12 @@ namespace StudioCore.ParamEditor
         private void ParamUndo()
         {
             EditorActionManager.UndoAction();
-            TaskManager.Run("Param - Check Differences", false, true, true, () => ParamBank.PrimaryBank.RefreshParamDiffCaches());
+            TaskManager.Run(new("Param - Check Differences", false, true, true, TaskLogs.LogPriority.Low, () => ParamBank.PrimaryBank.RefreshParamDiffCaches()));
         }
         private void ParamRedo()
         {
             EditorActionManager.RedoAction();
-            TaskManager.Run("Param - Check Differences", false, true, true, () => ParamBank.PrimaryBank.RefreshParamDiffCaches());
+            TaskManager.Run(new("Param - Check Differences", false, true, true, TaskLogs.LogPriority.Low, () => ParamBank.PrimaryBank.RefreshParamDiffCaches()));
         }
 
         public void DrawEditorMenu()
@@ -438,7 +438,7 @@ namespace StudioCore.ParamEditor
                                 {
                                     MassEditResult r = MassParamEditCSV.PerformMassEdit(ParamBank.PrimaryBank, csv, EditorActionManager, _activeView._selection.getActiveParam(), false, false, CFG.Current.Param_Export_Delimiter[0]);
                                     if (r.Type == MassEditResultType.SUCCESS)
-                                        TaskManager.Run("Param - Check Differences", false, true, true, () => ParamBank.PrimaryBank.RefreshParamDiffCaches());
+                                        TaskManager.Run(new("Param - Check Differences", false, true, true, TaskLogs.LogPriority.Low, () => ParamBank.PrimaryBank.RefreshParamDiffCaches()));
                                     else
                                         PlatformUtils.Instance.MessageBox(r.Information, "Error", MessageBoxButtons.OK, MessageBoxIcon.None);
                                 }
@@ -461,7 +461,7 @@ namespace StudioCore.ParamEditor
                                         EditorActionManager.ExecuteAction(a);
                                     else
                                         PlatformUtils.Instance.MessageBox(r.Information, "Error", MessageBoxButtons.OK, MessageBoxIcon.None);
-                                    TaskManager.Run("Param - Check Differences", false, true, true, () => ParamBank.PrimaryBank.RefreshParamDiffCaches());
+                                    TaskManager.Run(new("Param - Check Differences", false, true, true, TaskLogs.LogPriority.Low, () => ParamBank.PrimaryBank.RefreshParamDiffCaches()));
                                 }
                             }
                         }
@@ -486,7 +486,7 @@ namespace StudioCore.ParamEditor
                                                 EditorActionManager.ExecuteAction(a);
                                             else
                                                 PlatformUtils.Instance.MessageBox(r.Information, "Error", MessageBoxButtons.OK, MessageBoxIcon.None);
-                                            TaskManager.Run("Param - Check Differences", false, true, true, () => ParamBank.PrimaryBank.RefreshParamDiffCaches());
+                                            TaskManager.Run(new("Param - Check Differences", false, true, true, TaskLogs.LogPriority.Low, () => ParamBank.PrimaryBank.RefreshParamDiffCaches()));
                                         }
                                     }
                                 }
@@ -862,7 +862,7 @@ namespace StudioCore.ParamEditor
                     {
                         _lastMEditRegexInput = _currentMEditRegexInput;
                         _currentMEditRegexInput = "";
-                        TaskManager.Run("Param - Check Differences", false, true, true, () => ParamBank.PrimaryBank.RefreshParamDiffCaches());
+                        TaskManager.Run(new("Param - Check Differences", false, true, true, TaskLogs.LogPriority.Low, () => ParamBank.PrimaryBank.RefreshParamDiffCaches()));
                     }
                     _mEditRegexResult = r.Information;
                 }
@@ -902,7 +902,7 @@ namespace StudioCore.ParamEditor
                     MassEditResult r = MassParamEditCSV.PerformMassEdit(ParamBank.PrimaryBank, _currentMEditCSVInput, EditorActionManager, _activeView._selection.getActiveParam(), _mEditCSVAppendOnly, _mEditCSVAppendOnly && _mEditCSVReplaceRows, CFG.Current.Param_Export_Delimiter[0]);
                     if (r.Type == MassEditResultType.SUCCESS)
                     {
-                        TaskManager.Run("Param - Check Differences", false, true, true, () => ParamBank.PrimaryBank.RefreshParamDiffCaches());
+                        TaskManager.Run(new("Param - Check Differences", false, true, true, TaskLogs.LogPriority.Low, () => ParamBank.PrimaryBank.RefreshParamDiffCaches()));
                     }
                     _mEditCSVResult = r.Information;
                 }
