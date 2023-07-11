@@ -357,18 +357,6 @@ namespace StudioCore.ParamEditor
                 var res = rowOpOrCellStageFunc(rowArgFunc, paramname, row, partialActions);
                 if (res.Type != MassEditResultType.SUCCESS)
                     return res;
-                /*if (cellSelector == null)
-                {
-                    var res = ExecRowOp(rowArgFunc, paramname, row, partialActions);
-                    if (res.Type != MassEditResultType.SUCCESS)
-                        return res;
-                }
-                else
-                {
-                    var res = ExecCellStage(rowArgFunc, paramname, row, partialActions);
-                    if (res.Type != MassEditResultType.SUCCESS)
-                        return res;
-                }*/
             }
             return new MassEditResult(MassEditResultType.SUCCESS, "");
         }
@@ -743,10 +731,6 @@ namespace StudioCore.ParamEditor
                 Regex rx = new Regex(args[0]);
                 return MassParamEdit.WithDynamicOf(ctx, (v) => rx.Replace(v, args[1]));
             }));
-            /*operations.Add("store", (new string[]{"variable name"}, "Overwrites the given variable's value with the selected value, attempting to convert type as necessary", (ctx, args) => {
-                MassParamEdit.massEditVars[args[0]] = MassParamEdit.WithDynamicOf(MassParamEdit.massEditVars[args[0]], (x) => ctx);
-                return ctx;
-            }));*/
         }
     }
     public class MEOperationArgument
@@ -859,7 +843,7 @@ namespace StudioCore.ParamEditor
                 Param param = ParamBank.PrimaryBank.Params[address[0]];
                 int id = int.Parse(address[1]);
                 var field = param.GetCol(address[2]);
-                var value = param.Rows[id].Get(field).ToParamEditorString();
+                var value = param[id].Get(field).ToParamEditorString();
                 return (i, param) => (j, row) => (k, col) => value;
             }));
             argumentGetters.Add("average", newGetter(new string[]{"field internalName", "row selector"}, "Gives the mean value of the cells/fields found using the given selector, for the currently selected param", (field) => (i, param) => {
