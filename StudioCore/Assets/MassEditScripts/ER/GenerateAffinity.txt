@@ -43,14 +43,14 @@ newvar occultID:$baseID;
 vars occultID: + 1200;
 ##calculate highest scaling
 newvar maxScale:0.0;
-param EquipParamWeapon: id $baseID: correctStrength: store maxScale;
-param EquipParamWeapon: id $baseID && proprange correctAgility $maxScale infinity: correctAgility: store maxScale;
-param EquipParamWeapon: id $baseID && proprange correctMagic $maxScale infinity: correctMagic: store maxScale;
-param EquipParamWeapon: id $baseID && proprange correctFaith $maxScale infinity: correctFaith: store maxScale;
-param EquipParamWeapon: id $baseID && proprange correctLuck $maxScale infinity: correctLuck: store maxScale;
+vars maxScale: max paramlookup EquipParamWeapon $baseID correctStrength;
+vars maxScale: max paramlookup EquipParamWeapon $baseID correctAgility;
+vars maxScale: max paramlookup EquipParamWeapon $baseID correctMagic;
+vars maxScale: max paramlookup EquipParamWeapon $baseID correctFaith;
+vars maxScale: max paramlookup EquipParamWeapon $baseID correctLuck;
 ##collect basic data
 newvar name:UnkName;
-param EquipParamWeapon: id $baseID: Name: store name;
+vars name: = paramlookup EquipParamWeapon $baseID Name;
 ##heavy
 param EquipParamWeapon: id $heavyID: Name: = Heavy;
 param EquipParamWeapon: id $heavyID: sortId: + 1;
