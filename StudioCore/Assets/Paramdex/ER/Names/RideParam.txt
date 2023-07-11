@@ -1,15 +1,15 @@
 80000 Player <> Torrent
 300081001 Exile Soldier <> Ballista
-300081011 Exile Soldier <> Giant Ballista
+300081011 Exile Soldier <> Trebuchet
 300081101 Exile Soldier <> Dragon-faced Flamethrower
 300090090 Exile Soldier <>
 300090091 Exile Soldier <>
 300090092 Exile Soldier <>
 300090093 Exile Soldier <>
-315031600 Night's Cavalry <> Night's Cavalry Horse
-315031601 Night's Cavalry <> Night's Cavalry Horse
-315031602 Night's Cavalry <> Night's Cavalry Horse
-315031603 Night's Cavalry <> Night's Cavalry Horse
+315031600 Night's Cavalry <> Funeral Steed
+315031601 Night's Cavalry <> Funeral Steed
+315031602 Night's Cavalry <> Funeral Steed
+315031603 Night's Cavalry <> Funeral Steed
 317031802 Albinauric Archer <> Dog
 317031803 Albinauric Archer <> Dog
 320032102 Nomadic Merchant <> Mule
@@ -19,11 +19,11 @@
 330042802 Nox Swordstress <> Giant Ant
 330042803 Nox Swordstress <> Giant Ant
 350081001 Skeleton (Curved Sword) <> Ballista
-350081011 Skeleton (Curved Sword) <> Giant Ballista
+350081011 Skeleton (Curved Sword) <> Trebuchet
 350081101 Skeleton (Curved Sword) <> Dragon-faced Flamethrower
-405040601 Kaiden Sellsword <> Horse (Thick Mane)
-405040602 Kaiden Sellsword <> Horse (Thick Mane)
-405040603 Kaiden Sellsword <> Horse (Thick Mane)
+405040601 Kaiden Sellsword <> Kaiden Sellsword's Horse
+405040602 Kaiden Sellsword <> Kaiden Sellsword's Horse
+405040603 Kaiden Sellsword <> Kaiden Sellsword's Horse
 435043601 Castle Knight <> Knight's Horse
 435043602 Castle Knight <> Knight's Horse
 435043603 Castle Knight <> Knight's Horse
@@ -46,28 +46,28 @@
 435643662 Haligtree Knight <> Haligtree Knight's Horse
 435643663 Haligtree Knight <> Haligtree Knight's Horse
 437081001 Foot Soldier <> Ballista
-437081011 Foot Soldier <> Giant Ballista
+437081011 Foot Soldier <> Trebuchet
 437081101 Foot Soldier <> Dragon-faced Flamethrower
 437181001 Godrick Foot Soldier <> Ballista
-437181011 Godrick Foot Soldier <> Giant Ballista
+437181011 Godrick Foot Soldier <> Trebuchet
 437181101 Godrick Foot Soldier <> Dragon-faced Flamethrower
 437281001 Raya Lucaria Foot Soldier <> Ballista
-437281011 Raya Lucaria Foot Soldier <> Giant Ballista
+437281011 Raya Lucaria Foot Soldier <> Trebuchet
 437281101 Raya Lucaria Foot Soldier <> Dragon-faced Flamethrower
 437381001 Leyndell Foot Soldier <> Ballista
-437381011 Leyndell Foot Soldier <> Giant Ballista
+437381011 Leyndell Foot Soldier <> Trebuchet
 437381101 Leyndell Foot Soldier <> Dragon-faced Flamethrower
 437481001 Radahn Foot Soldier <> Ballista
-437481011 Radahn Foot Soldier <> Giant Ballista
+437481011 Radahn Foot Soldier <> Trebuchet
 437481101 Radahn Foot Soldier <> Dragon-faced Flamethrower
 437581001 Mausoleum Foot Soldier <> Ballista
-437581011 Mausoleum Foot Soldier <> Giant Ballista
+437581011 Mausoleum Foot Soldier <> Trebuchet
 437581101 Mausoleum Foot Soldier <> Dragon-faced Flamethrower
 437681001 Haligtree Foot Soldier <> Ballista
-437681011 Haligtree Foot Soldier <> Giant Ballista
+437681011 Haligtree Foot Soldier <> Trebuchet
 437681101 Haligtree Foot Soldier <> Dragon-faced Flamethrower
 437781001 Highwayman <> Ballista
-437781011 Highwayman <> Giant Ballista
+437781011 Highwayman <> Trebuchet
 437781101 Highwayman <> Dragon-faced Flamethrower
 473047400 Starscourge Radahn <> Leonard
 473047401 Starscourge Radahn <> Leonard
