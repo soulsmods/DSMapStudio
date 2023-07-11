@@ -536,7 +536,7 @@
 11141 Commander - Glory Defend
 11657 Nox Swordstress
 11691 Nox Swordstress/Silver Tear - Bullet
-11954 Writhing Mass - Bullet
+11954 God Devouring Serpent / Rykard Lord of Blasphemy - Bullet
 11971 Vulgar Militia - Bullet
 12000 Large Fingercreeper - Bullet
 12018 Giant Fingercreeper
@@ -551,7 +551,7 @@
 13164 Ancestral Follower
 13175 Ancestral Follower - Winged Greathorn
 13191 Ancestral Follower - HP Restore
-13258 Mad Pumpkin Head/Grinning Torturer - Bullet
+13258 Mad Pumpkin Head/Mad Pumpkin Head (Thin) - Bullet
 13296 Castle Soldier
 13462 Putrid Corpse - Explosion
 13617 Ancestor Spirit - Drain Attack
@@ -559,13 +559,13 @@
 13782 Tree Sentinel - Sacred Vow Ally
 13855 Cleanrot Knight - Bullet - Buff
 13856 Cleanrot Knight - Bullet - Buff
-14016 Monstrous Crow - Bullet
-14028 Monstrous Dog - Bullet
+14016 Giant Crow - Bullet
+14028 Giant Dog - Bullet
 14351 [Rennala]
 14352 [Rennala]
 14353 [Rennala]
 14354 [Rennala]
-14386 Rennala Student - Main Target
+14386 Juvenile Scholar - Main Target
 14405 Depraved Perfumer - Shield Bullet
 14406 Depraved Perfumer - Bullet
 14435 Depraved Perfumer
