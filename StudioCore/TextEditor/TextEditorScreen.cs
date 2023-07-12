@@ -356,73 +356,54 @@ namespace StudioCore.TextEditor
             }
             else
             {
-                unsafe
+                if (InputTracker.GetKey(Key.Up) || InputTracker.GetKey(Key.Down))
                 {
-                    ImGuiListClipperPtr clipper = new(ImGuiNative.ImGuiListClipper_ImGuiListClipper());
-                    clipper.Begin(_EntryLabelCacheFiltered.Count);
-                    // Up/Down arrow key input
-                    if (InputTracker.GetKey(Key.Up) || InputTracker.GetKey(Key.Down))
+                    _arrowKeyPressed = true;
+                }
+                for (var i = 0; i < _EntryLabelCacheFiltered.Count; i++)
+                {
+                    FMG.Entry r = _EntryLabelCacheFiltered[i];
+                    // Entries
+                    var text = (r.Text == null) ? "%null%" : r.Text.Replace("\n", "\n".PadRight(r.ID.ToString().Length + 2));
+                    var label = $@"{r.ID} {text}";
+                    label = Utils.ImGui_WordWrapString(label, ImGui.GetColumnWidth());
+                    if (ImGui.Selectable(label, _activeIDCache == r.ID))
                     {
-                        _arrowKeyPressed = true;
+                        _activeEntryGroup = FMGBank.GenerateEntryGroup(r.ID, _activeFmgInfo);
                     }
-                    while (clipper.Step())
+                    else if (_activeIDCache == r.ID && _activeEntryGroup == null)
                     {
-                        for (var i = clipper.DisplayStart; i < clipper.DisplayEnd; i++)
-                        {
-                            FMG.Entry r = _EntryLabelCacheFiltered[i];
-                            // Entries
-                            var text = (r.Text == null) ? "%null%" : r.Text.Replace("\n", "\n".PadRight(r.ID.ToString().Length + 2));
-                            var label = $@"{r.ID} {text}";
-                            label = Utils.ImGui_WordWrapString(label, ImGui.GetColumnWidth());
-                            if (ImGui.Selectable(label, _activeIDCache == r.ID))
-                            {
-                                _activeEntryGroup = FMGBank.GenerateEntryGroup(r.ID, _activeFmgInfo);
-                            }
-                            else if (_activeIDCache == r.ID && _activeEntryGroup == null)
-                            {
-                                _activeEntryGroup = FMGBank.GenerateEntryGroup(r.ID, _activeFmgInfo);
-                                _searchFilterCached = "";
-                            }
+                        _activeEntryGroup = FMGBank.GenerateEntryGroup(r.ID, _activeFmgInfo);
+                        _searchFilterCached = "";
+                    }
 
-                            if (_arrowKeyPressed && ImGui.IsItemFocused()
-                                && _activeEntryGroup?.ID != r.ID)
-                            {
-                                // Up/Down arrow key selection
-                                _activeEntryGroup = FMGBank.GenerateEntryGroup(r.ID, _activeFmgInfo);
-                                _arrowKeyPressed = false;
-                            }
-
-                            if (ImGui.BeginPopupContextItem())
-                            {
-                                if (ImGui.Selectable("Duplicate Entry"))
-                                {
-                                    _activeEntryGroup = FMGBank.GenerateEntryGroup(r.ID, _activeFmgInfo);
-                                    DuplicateFMGEntries(_activeEntryGroup);
-                                }
-                                if (ImGui.Selectable("Delete Entry"))
-                                {
-                                    _activeEntryGroup = FMGBank.GenerateEntryGroup(r.ID, _activeFmgInfo);
-                                    DeleteFMGEntries(_activeEntryGroup);
-                                }
-                                ImGui.EndPopup();
-                            }
-                        }
-                    }
-                    if (doFocus && _activeEntryGroup != null)
+                    if (_arrowKeyPressed && ImGui.IsItemFocused()
+                        && _activeEntryGroup?.ID != r.ID)
                     {
-                        for (var i = 0; i < _EntryLabelCacheFiltered.Count; i++)
-                        {
-                            if (_activeEntryGroup.ID == _EntryLabelCacheFiltered[i].ID)
-                            {
-                                // Scroll to currently selected entrygroup
-                                var itemY = clipper.StartPosY + clipper.ItemsHeight * i;
-                                var x = itemY - ImGui.GetWindowPos().Y;
-                                ImGui.SetScrollFromPosY(itemY - ImGui.GetWindowPos().Y);
-                                break;
-                            }
-                        }
+                        // Up/Down arrow key selection
+                        _activeEntryGroup = FMGBank.GenerateEntryGroup(r.ID, _activeFmgInfo);
+                        _arrowKeyPressed = false;
                     }
-                    clipper.End();
+                    if (doFocus && _activeEntryGroup?.ID == r.ID)
+                    {
+                        ImGui.SetScrollHereY();
+                        doFocus = false;
+                    }
+
+                    if (ImGui.BeginPopupContextItem())
+                    {
+                        if (ImGui.Selectable("Duplicate Entry"))
+                        {
+                            _activeEntryGroup = FMGBank.GenerateEntryGroup(r.ID, _activeFmgInfo);
+                            DuplicateFMGEntries(_activeEntryGroup);
+                        }
+                        if (ImGui.Selectable("Delete Entry"))
+                        {
+                            _activeEntryGroup = FMGBank.GenerateEntryGroup(r.ID, _activeFmgInfo);
+                            DeleteFMGEntries(_activeEntryGroup);
+                        }
+                        ImGui.EndPopup();
+                    }
                 }
             }
             ImGui.EndChild();
