@@ -1905,73 +1905,74 @@ namespace StudioCore.ParamEditor
                     
                     Param.Column compareCol = _selection.getCompareCol();
                     ImGui.BeginChild("rows" + activeParam);
-                    EditorDecorations.ImGuiTableStdColumns("rowList", compareCol == null ? 1 : 2, false);
-                    
-                    ImGui.TableSetupColumn("rowCol", ImGuiTableColumnFlags.None, 1f);
-                    if (compareCol != null)
-                        ImGui.TableSetupColumn("rowCol2", ImGuiTableColumnFlags.None, 0.4f);
-                    ImGui.PushID("pinned");
-
-                    List<Param.Row> pinnedRowList = _paramEditor._projectSettings.PinnedRows.GetValueOrDefault(activeParam, new List<int>()).Select((id) => para[id]).ToList();
-                    bool[] selectionCachePins = _selection.getSelectionCache(pinnedRowList, "pinned");
-                    if (pinnedRowList.Count != 0)
+                    if (EditorDecorations.ImGuiTableStdColumns("rowList", compareCol == null ? 1 : 2, false))
                     {
-                        for (int i=0; i<pinnedRowList.Count(); i++)
+                        ImGui.TableSetupColumn("rowCol", ImGuiTableColumnFlags.None, 1f);
+                        if (compareCol != null)
+                            ImGui.TableSetupColumn("rowCol2", ImGuiTableColumnFlags.None, 0.4f);
+                        ImGui.PushID("pinned");
+
+                        List<Param.Row> pinnedRowList = _paramEditor._projectSettings.PinnedRows.GetValueOrDefault(activeParam, new List<int>()).Select((id) => para[id]).ToList();
+                        bool[] selectionCachePins = _selection.getSelectionCache(pinnedRowList, "pinned");
+                        if (pinnedRowList.Count != 0)
                         {
-                            Param.Row row = pinnedRowList[i];
-                            if (row == null)
+                            for (int i=0; i<pinnedRowList.Count(); i++)
                             {
-                                continue;
+                                Param.Row row = pinnedRowList[i];
+                                if (row == null)
+                                {
+                                    continue;
+                                }
+                                RowColumnEntry(selectionCachePins, i, activeParam, null, row, vanillaDiffCache, auxDiffCaches, decorator, ref scrollTo, false, true, compareCol);
                             }
-                            RowColumnEntry(selectionCachePins, i, activeParam, null, row, vanillaDiffCache, auxDiffCaches, decorator, ref scrollTo, false, true, compareCol);
+
+                            ImGui.Spacing();
+                            EditorDecorations.ImguiTableSeparator();
+                            ImGui.Spacing();
                         }
+                        ImGui.PopID();
 
-                        ImGui.Spacing();
-                        EditorDecorations.ImguiTableSeparator();
-                        ImGui.Spacing();
-                    }
-                    ImGui.PopID();
-
-                    // Up/Down arrow key input
-                    if ((InputTracker.GetKey(Key.Up) || InputTracker.GetKey(Key.Down))
-                        && !ImGui.IsAnyItemActive())
-                    {
-                        _arrowKeyPressed = true;
-                    }
-                    if (_focusRows)
-                    {
-                        ImGui.SetNextWindowFocus();
-                        _arrowKeyPressed = false;
-                        _focusRows = false;
-                    }
-
-                    List<Param.Row> rows = CacheBank.GetCached(this._paramEditor, (_viewIndex, activeParam), () => RowSearchEngine.rse.Search((ParamBank.PrimaryBank, para), _selection.getCurrentRowSearchString(), true, true));
-
-                    bool enableGrouping = !CFG.Current.Param_DisableRowGrouping && ParamMetaData.Get(ParamBank.PrimaryBank.Params[activeParam].AppliedParamdef).ConsecutiveIDs;
-
-                    // Rows
-                    bool[] selectionCache = _selection.getSelectionCache(rows, "regular");
-                    for (int i = 0; i < rows.Count; i++)
-                    {
-                        Param.Row currentRow = rows[i];
-                        if (enableGrouping)
+                        // Up/Down arrow key input
+                        if ((InputTracker.GetKey(Key.Up) || InputTracker.GetKey(Key.Down))
+                            && !ImGui.IsAnyItemActive())
                         {
-                            Param.Row prev = i - 1 > 0 ? rows[i - 1] : null;
-                            Param.Row next = i + 1 < rows.Count ? rows[i + 1] : null;
-                            if (prev != null && next != null && prev.ID + 1 != currentRow.ID && currentRow.ID + 1 == next.ID)
-                                EditorDecorations.ImguiTableSeparator();
-                            RowColumnEntry(selectionCache, i, activeParam, rows, currentRow, vanillaDiffCache, auxDiffCaches, decorator, ref scrollTo, doFocus, false, compareCol);
-                            if (prev != null && next != null && prev.ID + 1 == currentRow.ID && currentRow.ID + 1 != next.ID)
-                                EditorDecorations.ImguiTableSeparator();
+                            _arrowKeyPressed = true;
                         }
-                        else
+                        if (_focusRows)
                         {
-                            RowColumnEntry(selectionCache, i, activeParam, rows, currentRow, vanillaDiffCache, auxDiffCaches, decorator, ref scrollTo, doFocus, false, compareCol);
+                            ImGui.SetNextWindowFocus();
+                            _arrowKeyPressed = false;
+                            _focusRows = false;
                         }
+
+                        List<Param.Row> rows = CacheBank.GetCached(this._paramEditor, (_viewIndex, activeParam), () => RowSearchEngine.rse.Search((ParamBank.PrimaryBank, para), _selection.getCurrentRowSearchString(), true, true));
+
+                        bool enableGrouping = !CFG.Current.Param_DisableRowGrouping && ParamMetaData.Get(ParamBank.PrimaryBank.Params[activeParam].AppliedParamdef).ConsecutiveIDs;
+
+                        // Rows
+                        bool[] selectionCache = _selection.getSelectionCache(rows, "regular");
+                        for (int i = 0; i < rows.Count; i++)
+                        {
+                            Param.Row currentRow = rows[i];
+                            if (enableGrouping)
+                            {
+                                Param.Row prev = i - 1 > 0 ? rows[i - 1] : null;
+                                Param.Row next = i + 1 < rows.Count ? rows[i + 1] : null;
+                                if (prev != null && next != null && prev.ID + 1 != currentRow.ID && currentRow.ID + 1 == next.ID)
+                                    EditorDecorations.ImguiTableSeparator();
+                                RowColumnEntry(selectionCache, i, activeParam, rows, currentRow, vanillaDiffCache, auxDiffCaches, decorator, ref scrollTo, doFocus, false, compareCol);
+                                if (prev != null && next != null && prev.ID + 1 == currentRow.ID && currentRow.ID + 1 != next.ID)
+                                    EditorDecorations.ImguiTableSeparator();
+                            }
+                            else
+                            {
+                                RowColumnEntry(selectionCache, i, activeParam, rows, currentRow, vanillaDiffCache, auxDiffCaches, decorator, ref scrollTo, doFocus, false, compareCol);
+                            }
+                        }
+                        if (doFocus)
+                            ImGui.SetScrollFromPosY(scrollTo - ImGui.GetScrollY());
+                        ImGui.EndTable();
                     }
-                    if (doFocus)
-                        ImGui.SetScrollFromPosY(scrollTo - ImGui.GetScrollY());
-                    ImGui.EndTable();
                     ImGui.EndChild();
                 }
                 Param.Row activeRow = _selection.getActiveRow();
