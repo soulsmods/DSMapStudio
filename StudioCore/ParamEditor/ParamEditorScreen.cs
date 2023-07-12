@@ -331,6 +331,15 @@ namespace StudioCore.ParamEditor
                 }
                 if (ImGui.BeginMenu($"Mass Edit Script"))
                 {
+                    if (ImGui.Selectable("Open Scripts Folder"))
+                    {
+                        Process.Start("explorer.exe", AssetLocator.GetScriptAssetsDir());
+                    }
+                    if (ImGui.Selectable("Reload Scripts"))
+                    {
+                        MassEditScript.ReloadScripts();
+                    }
+                    ImGui.Separator();
                     MassEditScript.EditorScreenMenuItems(ref _currentMEditRegexInput);
                     ImGui.EndMenu();
                 }
