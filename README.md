@@ -1,4 +1,11 @@
-## Releases can be found [HERE](https://github.com/soulsmods/DSMapStudio/releases)
+# DSMapStudio
+
+Suite of modding tools for Elden Ring, Sekiro, the Dark Souls series, Bloodborne, and Demon's Souls (PS3)
+
+[![GitHub release](https://img.shields.io/github/release/soulsmods/DSMapStudio.svg)](https://github.com/soulsmods/DSMapStudio/releases/latest)
+[![Github All Releases](https://img.shields.io/github/downloads/soulsmods/DSMapStudio/total.svg)](https://github.com/soulsmods/DSMapStudio/releases/latest)
+[![Discord](https://img.shields.io/badge/Discord%20-%237289DA.svg?&logo=discord&logoColor=white)](https://discord.com/invite/CKDBCUFhB3)
+
 ## About DS Map Studio:
 DS Map Studio is a standalone integrated modding tool for modern FromSoft games, which include Demon's Souls (PS3), the Dark Souls series, Bloodborne, Sekiro, and Elden Ring. It currently includes a map editor, a game param editor, and a text editor for editing in game text.
 
