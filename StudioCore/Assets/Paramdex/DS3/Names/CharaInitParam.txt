@@ -27,7 +27,7 @@
 2403 Gift - Hidden Blessing
 2404 Gift - Black Firebomb (5)
 2405 Gift - Fire Gem
-2406 Gift - Soul of a Nameless Soldier
+2406 Gift - Sovereignless Soul
 2407 Gift - Rusted Gold Coin (7)
 2408 Gift - Cracked Red Eye Orb (4)
 2409 Gift - Young White Branch
