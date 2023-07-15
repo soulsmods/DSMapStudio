@@ -514,7 +514,7 @@ namespace StudioCore.ParamEditor
                 {
                     if (_projectSettings.GameType == GameType.DarkSoulsIISOTFS && _projectSettings.UseLooseParams == false)
                     {
-                        ImGui.TextColored(new Vector4(1.0f, 0.4f, 0.4f, 1.0f), "Warning: Saving row names onto non-loose params will crash the game.\nIt is highly recommended you use loose params with Dark Souls 2.");
+                        ImGui.TextColored(new Vector4(1.0f, 0.4f, 0.4f, 1.0f), "Warning: Saving too many row names onto non-loose params will crash the game.\nIt is highly recommended you use loose params with Dark Souls 2.");
                     }
 
                     void ImportRowNames(bool currentParamOnly, string title)
