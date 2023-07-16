@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <spEffectId0 Refs="SpEffectParam(=0)" />
+    <spEffectId3 Refs="SpEffectParam(=0)" />
+    <spEffectId4 Refs="SpEffectParam(=0)" />
+    <AppearAiSoundId Refs="AiSoundParam(=0)" />
+    <HitAiSoundId Refs="AiSoundParam(=0)" />
+    <spEffectId1 Refs="SpEffectParam(=0)" />
+    <spEffectId2 Refs="SpEffectParam(=0)" />
+    <isDamageDropAttack IsBool="" />
+    <isDisableParry IsBool="" />
+    <disableJustGuard_vsGuardAttribute0 IsBool="" />
+    <opposeTarget IsBool="" />
+    <isArrowAtk IsBool="" />
+    <disableGuard_vsGuardAttribute0 IsBool="" />
+    <selfTarget IsBool="" />
+    <isCheckDoorPenetration IsBool="" />
+    <isAllDirGuard IsBool="" />
+    <isObjExtHitSfx IsBool="" />
+    <disableJustGuard_vsGuardAttribute1 IsBool="" />
+    <isChargeAtk IsBool="" />
+    <isGhostAtk IsBool="" />
+    <disableGuard_vsGuardAttribute1 IsBool="" />
+    <friendlyTarget IsBool="" />
+    <isDisableBothHandsAtkBonus IsBool="" />
+    <isDisableNoDamage IsBool="" />
+  </Field>
+  <Self />
+</PARAMMETA>

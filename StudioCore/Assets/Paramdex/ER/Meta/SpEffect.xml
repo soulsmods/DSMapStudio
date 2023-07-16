@@ -3,31 +3,31 @@
   <Enums>
     <Enum Name="ATK_SUB_CATEGORY" type="u8">
       <Option Value="0" Name="None" />
-      <Option Value="1" Name="Full Moon Spell" />
-      <Option Value="2" Name="Carian Sword Spell" />
-      <Option Value="3" Name="Glintblade Spell" />
-      <Option Value="4" Name="Stonedigger Spell" />
-      <Option Value="5" Name="Crystalian Spell" />
-      <Option Value="6" Name="Karolos Spell" />
-      <Option Value="7" Name="Olivinus Spell" />
-      <Option Value="8" Name="Lava Spell" />
-      <Option Value="9" Name="Thorn Spell" />
-      <Option Value="10" Name="Death Spell" />
-      <Option Value="11" Name="Gravity Spell" />
-      <Option Value="12" Name="Night Spell" />
-      <Option Value="13" Name="Ranni Spell" />
-      <Option Value="14" Name="Azur Spell" />
-      <Option Value="15" Name="Lusat Spell" />
-      <Option Value="20" Name="Black Flame Spell" />
-      <Option Value="21" Name="Flame Spell" />
-      <Option Value="22" Name="Dragon Cult Spell" />
-      <Option Value="23" Name="Bestial Spell" />
-      <Option Value="24" Name="Golden Order Spell" />
-      <Option Value="25" Name="Dragon Communion Spell" />
-      <Option Value="26" Name="Frenzied Flame Spell" />
-      <Option Value="27" Name="Godslayer Spell" />
-      <Option Value="28" Name="Primordial Crucible Spell" />
-      <Option Value="100" Name="Charge Attack" />
+      <Option Value="1" Name="Full Moon Sorcery" />
+      <Option Value="2" Name="Carian Sword Sorcery" />
+      <Option Value="3" Name="Glintblade Sorcery" />
+      <Option Value="4" Name="Stonedigger Sorcery" />
+      <Option Value="5" Name="Crystalian Sorcery" />
+      <Option Value="6" Name="Azur Academy Sorcery" />
+      <Option Value="7" Name="Lusat Academy Sorcery" />
+      <Option Value="8" Name="Magma Sorcery" />
+      <Option Value="9" Name="Thorn Sorcery" />
+      <Option Value="10" Name="Death Sorcery" />
+      <Option Value="11" Name="Gravity Sorcery" />
+      <Option Value="12" Name="Night Sorcery" />
+      <Option Value="13" Name="Cold Sorcery" />
+      <Option Value="14" Name="Azur Primeval Sorcery" />
+      <Option Value="15" Name="Lusat Primeval Sorcery" />
+      <Option Value="20" Name="Blackflame Incantation" />
+      <Option Value="21" Name="Giantsflame Incantation" />
+      <Option Value="22" Name="Dragon Cult Incantation" />
+      <Option Value="23" Name="Bestial Incantation" />
+      <Option Value="24" Name="Golden Order Incantation" />
+      <Option Value="25" Name="Dragon Communion Incantation" />
+      <Option Value="26" Name="Frenzied Flame Incantation" />
+      <Option Value="27" Name="Godslayer Incantation" />
+      <Option Value="28" Name="Aspect of the Crucible Incantation" />
+      <Option Value="100" Name="Charged Heavy Attack" />
       <Option Value="101" Name="Horseback Attack" />
       <Option Value="102" Name="Jump Attack" />
       <Option Value="103" Name="Guard Counter Attack" />
@@ -37,14 +37,14 @@
       <Option Value="107" Name="Breath Attack" />
       <Option Value="108" Name="Pot Item Attack" />
       <Option Value="109" Name="Perfume Item Attack" />
-      <Option Value="110" Name="Charged Attack" />
+      <Option Value="110" Name="Charged Spell Attack" />
       <Option Value="111" Name="Charged Skill Attack" />
       <Option Value="112" Name="Skill Attack" />
       <Option Value="113" Name="Ranged Skill Attack" />
       <Option Value="114" Name="Vapor Attack" />
-      <Option Value="116" Name="Unknown Attack" />
+      <Option Value="116" Name="Shriek of Milos" />
       <Option Value="117" Name="Wraith Attack" />
-      <Option Value="118" Name="Ammunition OnHit Attack" />
+      <Option Value="118" Name="Ammunition On-Hit Attack" />
     </Enum>
     <Enum Name="SP_EFFECT_SPCATEGORY" type="u16">
         <Option Value="0" Name="None" />
@@ -79,7 +79,7 @@
         <Option Value="167" Name="Remove Previous" />
         <Option Value="168" Name="Remove Previous" />
         <Option Value="174" Name="Remove Previous" />
-        <Option Value="200" Name="Remove Previous" />
+        <Option Value="200" Name="Remove Previous w/ Matching Priority" />
         <Option Value="201" Name="Remove Previous" />
         <Option Value="1000" Name="Apply Highest (Category Priority)" />
         <Option Value="1001" Name="Apply Highest (Category Priority)" />
@@ -335,7 +335,7 @@
         <Option Value="262" Name="WormRecovery(Torch)" />
         <Option Value="264" Name="SetCultBool" />
         <Option Value="266" Name="FallDeathIsDisabled" />
-        <Option Value="267" Name="AI Sight Adjustment" />
+        <Option Value="267" Name="AI Eye Angle" />
         <Option Value="269" Name="Unknown" />
         <Option Value="270" Name="Unknown" />
         <Option Value="271" Name="Unknown" />
@@ -506,9 +506,9 @@
         <Option Value="449" Name="Malenia's Great Rune" />
         <Option Value="450" Name="Reduce Headshot Impact" />
         <Option Value="452" Name="Unknown" />
-        <Option Value="453" Name="Unknown" />
-        <Option Value="454" Name="Unknown" />
-        <Option Value="455" Name="Unknown" />
+        <Option Value="453" Name="Fade after death - Normal" />
+        <Option Value="454" Name="Fade after death - Blue" />
+        <Option Value="455" Name="Fade after death - Boss" />
         <Option Value="456" Name="Unknown" />
         <Option Value="457" Name="Unknown" />
         <Option Value="458" Name="Attempt Invasion" />
@@ -705,8 +705,8 @@
     <guardDefFlickPowerRate AltName="Guard Defense - Weapon Repel Power %" Wiki="Repellent defense correction value when guarding" />
     <guardStaminaCutRate AltName="Guard Stability %" Wiki="Stamina cut rate correction value when guarding" />
     <rayCastPassedTime AltName="Raycast Passed Time" Wiki="Passing the line of sight: Activation time [ms] (for evil eye)" />
-    <magicSubCategoryChange1 AltName="Conditional Category [1]" Wiki="Vs to subcategory parameter change 1" Enum="ATK_SUB_CATEGORY" />
-    <magicSubCategoryChange2 AltName="Conditional Category [2]" Wiki="Vs to subcategory parameter change 2" Enum="ATK_SUB_CATEGORY" />
+    <magicSubCategoryChange1 AltName="Conditional Category [1]" Wiki="Vs to subcategory parameter change 1" Enum="ATK_SUB_CATEGORY" VRef="MagicSubCategory" />
+    <magicSubCategoryChange2 AltName="Conditional Category [2]" Wiki="Vs to subcategory parameter change 2" Enum="ATK_SUB_CATEGORY" VRef="MagicSubCategory" />
     <bowDistRate AltName="Bow Distance %" Wiki="Correction value added to the flight distance correction of the weapon" />
     <spCategory AltName="Effect Category" Wiki="Categories that determine behavior such as overwriting special effects" Enum="SP_EFFECT_SPCATEGORY" />
     <categoryPriority AltName="Category Priority" Wiki="Priority within the same category (lower one has priority)" />
@@ -803,8 +803,7 @@
     <vowType14 AltName="Trigger for Vow Type [14]" Wiki="Pledge 14" IsBool="" />
     <vowType15 AltName="Trigger for Vow Type [15]" Wiki="Pledge 15" IsBool="" />
     <repAtkDmgLv AltName="Change Attacker Damage Level" Wiki="The damage level of the attacking side changes to this value" Enum="ATKPARAM_REP_DMGTYPE" />
-    <sightSearchRate AltName="AI Vision Correction" Wiki="Correct the ease of finding with a magnification
-Requires State Info 267" />
+    <sightSearchRate AltName="AI Vision Correction" Wiki="Correct the ease of finding with a magnification" />
     <effectTargetOpposeTarget AltName="Trigger for Opponent" Wiki="Only the target for which this judgment is checked is effective, the default is " IsBool="" />
     <effectTargetFriendlyTarget AltName="Trigger for Friendly" Wiki="Only the target for which this judgment is checked is effective, the default is " IsBool="" />
     <effectTargetSelfTarget AltName="Trigger for Self" Wiki="Only the target for which this judgment is checked is effective, the default is " IsBool="" />
@@ -822,8 +821,10 @@ Requires State Info 132" Enum="SP_EFFECT_CHANGE_TEAM_TYPE" />
     <accumuUnderFireId AltName="Accumulator - Under Value - SpEffect ID" Wiki="Special effect Id activated at the lower limit of the spirit ball" />
     <accumuUnderVal AltName="Accumulator - Under Value" Wiki="Genkitama lower limit" />
     <accumuVal AltName="Accumulator - Increment Value" Wiki="Genkitama accumulation value" />
-    <eye_angX AltName="Vision - Overwrite Height Angle" Wiki="Override the findability angle x" />
-    <eye_angY AltName="Vision - Overwrite Width Angle" Wiki="Override the findability angle y" />
+    <eye_angX AltName="Vision - Overwrite Height Angle" Wiki="Override the findability angle x
+Requires State Info 267" />
+    <eye_angY AltName="Vision - Overwrite Width Angle" Wiki="Override the findability angle y
+Requires State Info 267" />
     <addDeceasedLv AltName="Add Hollowing Level" Wiki="Add this value to the degree of death" />
     <vfxId1 AltName="Effect VFX [1]" Wiki="Special effect VfxId1 (-1 invalid)" Refs="SpEffectVfxParam"/>
     <vfxId2 AltName="Effect VFX [2]" Wiki="Special effect VfxId2 (-1 invalid)" Refs="SpEffectVfxParam"/>
@@ -954,7 +955,7 @@ Requires State Info 66" />
     <addFaithStatus AltName="Faith" Wiki="Add value to growth status" />
     <addLuckStatus AltName="Arcane" Wiki="Add value to growth status" />
     <deleteCriteriaDamage AltName="Delete Criteria Damage" Wiki="Reason for damage under the condition to remove special effects" Enum="SP_EFFECT_PARAM_DELETE_DAMAGE_TYPE" />
-    <magicSubCategoryChange3 AltName="Conditional Category [3]" Wiki="Vs to subcategory parameter change 3" Enum="ATK_SUB_CATEGORY" />
+    <magicSubCategoryChange3 AltName="Conditional Category [3]" Wiki="Vs to subcategory parameter change 3" Enum="ATK_SUB_CATEGORY" VRef="MagicSubCategory" />
     <spAttributeVariationValue AltName="SpEffect Attribute Variation Value" Wiki="This value is used to give variation to abnormal state SFX, SE, etc. in combination with the special attribute set for the special effect. SEQ16473" />
     <atkFlickPower AltName="Weapon Repel Power +" Wiki="Set a value that overwrites the repelling attack power" />
     <wetConditionDepth AltName="Wet Condition Depth" Wiki="TimeAct Determines whether special effects are applied in combination with at what water level you get wet" Enum="SP_EFFECT_WET_CONDITION_DEPTH" />
@@ -973,7 +974,7 @@ Requires State Info 66" />
     <fakeTargetIgnoreAjin AltName="Ignore Fake Target - Human" Wiki="You will not be caught by the fake target of the subhuman system that occurred" IsBool="" />
     <fakeTargetIgnoreMirageArts AltName="Ignore Fake Target - Phantom" Wiki="You will not be caught by the fake target of the phantom arts system that occurred" IsBool="" />
     <requestForceJoinBlackSOS_B AltName="Force Invasion" Wiki="If checked, issue an intrusion_B request when activated" IsBool="" />
-    <unk353_4 AltName="Blank" Wiki="" IsBool="" />
+    <isDestinedDeathHpMult AltName="Is Destined Death HP Mult" Wiki="Makes portion of HP bar in UI black when used with max HP multipliers." IsBool="" />
     <pad2 AltName=""/>
     <changeSuperArmorPoint AltName="Poise +" Wiki="Value to add to the super armor value" />
     <changeSaPoint AltName="Apply Poise Damage +" Wiki="Set how many points to subtract (or add) with one activation" />
@@ -990,7 +991,7 @@ Requires State Info 66" />
     <overwrite_backhomeBattleDist AltName="Override - Back Home Battle Distance" Wiki="Distance to give up and fight to return to the nest [m] _ overwrite" />
     <overwrite_BackHome_LookTargetDist AltName="Override - Look Target Distance" Wiki="When returning home: Distance to see the target [m] _ Overwrite" />
     <goodsConsumptionRate AltName="Item FP Consumption %" Wiki="Item consumption MP multiplier" />
-    <pad3 AltName=""/>
+    <guardStaminaMult AltName="Guard Stamina Multiplier" Wiki="Multiplies stamina lost when blocking an attack"/>
   </Field>
   <Self Wiki="Defines various effects that can be applied to the player and to enemies.\nCan define passive, activated, single-use and repeated or continuous application effects with indefinite duration.\nSuccessful application may depend on spCategory or invocationConditions." Row0Dummy="" AlternativeOrder="iconId,-,
   
@@ -1009,7 +1010,7 @@ behaviorId,dmypolyId,-,
 
 addLifeForceStatus,addWillpowerStatus,addEndureStatus,addVitalityStatus,addStrengthStatus,addDexterityStatus,addMagicStatus,addFaithStatus,addLuckStatus,-,
 
-maxHpRate,maxMpRate,maxStaminaRate,equipWeightChangeRate,hpRecoverRate,bCurrHPIndependeMaxHP,-,
+maxHpRate,maxMpRate,maxStaminaRate,equipWeightChangeRate,hpRecoverRate,bCurrHPIndependeMaxHP,isDestinedDeathHpMult,-,
 
 changeHpRate,changeHpPoint,changeMpRate,changeMpPoint,changeStaminaRate,changeStaminaPoint,staminaRecoverChangeSpeed,-,
 
@@ -1095,6 +1096,6 @@ requestSOS,requestBlackSOS,requestForceJoinBlackSOS,requestForceJoinBlackSOS_B,r
 
 vowType0,vowType1,vowType2,vowType3,vowType4,vowType5,vowType6,vowType7,vowType8,vowType9,vowType10,vowType11,vowType12,vowType13,vowType14,vowType15,-,
 
-unk353_4,mpRecoverChangeSpeed,allItemWeightChangeRate,grabityRate,soulStealRate,rayCastPassedTime,changeMiracleSlot,pad2,unk2,unk3,-,
+mpRecoverChangeSpeed,allItemWeightChangeRate,grabityRate,soulStealRate,rayCastPassedTime,changeMiracleSlot,pad2,unk2,unk3,-,
 " />
 </PARAMMETA>

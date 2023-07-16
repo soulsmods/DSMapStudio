@@ -163,6 +163,13 @@ namespace StudioCore.MsbEditor
                 Parent.Children.Remove(child);
             }
             child.Parent = this;
+
+            // Update the containing map for map entities.
+            if (Container.GetType() == typeof(Map) && child.Container.GetType() == typeof(Map))
+            {
+                child.Container = Container;
+            }
+
             Children.Add(child);
             child.UpdateRenderModel();
         }
@@ -299,7 +306,7 @@ namespace StudioCore.MsbEditor
             }
             if (WrappedObject is Param.Row row)
             {
-                var pp = row.Cells.FirstOrDefault(cell => cell.Def.InternalName == prop);
+                var pp = row.Columns.FirstOrDefault(cell => cell.Def.InternalName == prop);
                 if (pp != null)
                 {
                     return pp.GetValue(row);
@@ -355,7 +362,7 @@ namespace StudioCore.MsbEditor
             }
             if (WrappedObject is Param.Row row)
             {
-                var pp = row.Cells.FirstOrDefault(cell => cell.Def.InternalName == prop);
+                var pp = row.Columns.FirstOrDefault(cell => cell.Def.InternalName == prop);
                 if (pp != null)
                 {
                     return (T)pp.GetValue(row);
@@ -1369,6 +1376,14 @@ namespace StudioCore.MsbEditor
                 else if (shape != null && shape is MSB.Shape.Cylinder c)
                 {
                     t.Scale = new Vector3(c.Radius, c.Height, c.Radius);
+                }
+                else if (shape != null && shape is MSB.Shape.Rectangle re)
+                {
+                    t.Scale = new Vector3(re.Width, 0.0f, re.Depth);
+                }
+                else if (shape != null && shape is MSB.Shape.Circle ci)
+                {
+                    t.Scale = new Vector3(ci.Radius, 0.0f, ci.Radius);
                 }
             }
             else if (Type == MapEntityType.Light)

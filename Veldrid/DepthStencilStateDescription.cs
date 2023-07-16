@@ -1,4 +1,5 @@
 ﻿using System;
+using Vortice.Vulkan;
 
 namespace Veldrid
 {
@@ -18,7 +19,7 @@ namespace Veldrid
         /// <summary>
         /// The <see cref="ComparisonKind"/> used when considering new depth values.
         /// </summary>
-        public ComparisonKind DepthComparison;
+        public VkCompareOp DepthComparison;
 
         /// <summary>
         /// Controls whether the stencil test is enabled.
@@ -52,7 +53,7 @@ namespace Veldrid
         /// <param name="depthTestEnabled">Controls whether depth testing is enabled.</param>
         /// <param name="depthWriteEnabled">Controls whether new depth values are written to the depth buffer.</param>
         /// <param name="comparisonKind">The <see cref="Veldrid.ComparisonKind"/> used when considering new depth values.</param>
-        public DepthStencilStateDescription(bool depthTestEnabled, bool depthWriteEnabled, ComparisonKind comparisonKind)
+        public DepthStencilStateDescription(bool depthTestEnabled, bool depthWriteEnabled, VkCompareOp comparisonKind)
         {
             DepthTestEnabled = depthTestEnabled;
             DepthWriteEnabled = depthWriteEnabled;
@@ -82,7 +83,7 @@ namespace Veldrid
         public DepthStencilStateDescription(
             bool depthTestEnabled,
             bool depthWriteEnabled,
-            ComparisonKind comparisonKind,
+            VkCompareOp comparisonKind,
             bool stencilTestEnabled,
             StencilBehaviorDescription stencilFront,
             StencilBehaviorDescription stencilBack,
@@ -114,7 +115,7 @@ namespace Veldrid
         {
             DepthTestEnabled = true,
             DepthWriteEnabled = true,
-            DepthComparison = ComparisonKind.LessEqual
+            DepthComparison = VkCompareOp.LessOrEqual
         };
 
         /// <summary>
@@ -129,7 +130,7 @@ namespace Veldrid
         {
             DepthTestEnabled = true,
             DepthWriteEnabled = false,
-            DepthComparison = ComparisonKind.LessEqual
+            DepthComparison = VkCompareOp.LessOrEqual
         };
 
         /// <summary>
@@ -144,7 +145,7 @@ namespace Veldrid
         {
             DepthTestEnabled = true,
             DepthWriteEnabled = true,
-            DepthComparison = ComparisonKind.GreaterEqual
+            DepthComparison = VkCompareOp.GreaterOrEqual
         };
 
         /// <summary>
@@ -159,7 +160,7 @@ namespace Veldrid
         {
             DepthTestEnabled = true,
             DepthWriteEnabled = false,
-            DepthComparison = ComparisonKind.GreaterEqual
+            DepthComparison = VkCompareOp.GreaterOrEqual
         };
 
         /// <summary>
@@ -174,7 +175,7 @@ namespace Veldrid
         {
             DepthTestEnabled = false,
             DepthWriteEnabled = false,
-            DepthComparison = ComparisonKind.LessEqual
+            DepthComparison = VkCompareOp.LessOrEqual
         };
 
         /// <summary>

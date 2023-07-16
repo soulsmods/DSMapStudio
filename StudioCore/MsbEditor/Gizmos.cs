@@ -378,7 +378,14 @@ namespace StudioCore.MsbEditor
                         var sels = _selection.GetFilteredSelection<Entity>((o) => o.HasTransform);
                         foreach (var sel in sels)
                         {
-                            accumPos += sel.GetRootLocalTransform().Position;
+                            if (Origin == GizmosOrigin.BoundingBox && sel.RenderSceneMesh != null)
+                            {
+                                accumPos += sel.RenderSceneMesh.GetBounds().GetCenter();
+                            }
+                            else
+                            {
+                                accumPos += sel.GetRootLocalTransform().Position;
+                            }
                         }
                         OriginalTransform = new Transform(accumPos / (float)_selection.GetSelection().Count, sels.First().GetRootLocalTransform().EulerRotation);
                     }

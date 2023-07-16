@@ -69,14 +69,14 @@
     <spEffectID7 AltName="SpEffect ID [7]" Wiki="Resident special effect 7" Refs="SpEffectParam"/>
     <spEffectID8 AltName="SpEffect ID [8]" Wiki="Resident special effect 8" Refs="SpEffectParam"/>
     <spEffectID9 AltName="SpEffect ID [9]" Wiki="Resident special effect 9" Refs="SpEffectParam"/>
-    <sosSignSfxId AltName="Summon Sign - SFX ID" Wiki="SOS sign SFX ID issued by another person" />
-    <mySosSignSfxId AltName="Personal Summon Sign - SFX ID" Wiki="SOS sign SFX ID issued by me" />
+    <sosSignSfxId AltName="Summon Sign - SFX ID" Wiki="SOS sign SFX ID issued by another person" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
+    <mySosSignSfxId AltName="Personal Summon Sign - SFX ID" Wiki="SOS sign SFX ID issued by me" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
     <summonStartAnimId AltName="Player Summon Start - Animation ID" Wiki="Anime ID to play when the player is summoned and the game starts" />
     <itemlotParamId AltName="Map Itemlot Param ID" Wiki="Acquisition reward item lottery parameter ID_for map (not -1)" Refs="ItemLotParam_map"/>
     <voiceChatGroup AltName="Voice Chat Group" Wiki="Voice chat group" Enum="VOICE_CHAT_GROUP_Type" />
     <roleNameColor AltName="Role Name Color" Wiki="The color of the role name text displayed on the FE of the network PC" Enum="ROLE_NAME_COLOR_TYPE" />
     <pad1 AltName=""/>
-    <roleNameId AltName="Role Name - Text ID" Wiki="Text ID of the role name to be displayed on the FE of the network PC" />
+    <roleNameId AltName="Role Name - Text ID" Wiki="Text ID of the role name to be displayed on the FE of the network PC" FmgRef="Modern_MenuText" />
     <threatLv AltName="Threat Level" Wiki="Threat level" />
     <phantomParamId_vowRank1 AltName="Phantom Param ID - Vow Rank [1]" Wiki="Phantom parameter ID when pledge rank is 1" Refs="PhantomParam"/>
     <phantomParamId_vowRank2 AltName="Phantom Param ID - Vow Rank [2]" Wiki="Phantom parameter ID when pledge rank is 2" Refs="PhantomParam"/>

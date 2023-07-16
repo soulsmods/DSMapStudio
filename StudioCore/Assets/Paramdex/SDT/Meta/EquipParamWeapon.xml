@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <spEffectBehaviorId0 Refs="SpEffectParam(=0)" />
+    <residentSpEffectId2 Refs="SpEffectParam(=0)" />
+    <spEffectBehaviorId2 Refs="SpEffectParam(=0)" />
+    <residentSpEffectId Refs="SpEffectParam(=0)" />
+    <spEffectBehaviorId1 Refs="SpEffectParam(=0)" />
+    <residentSpEffectId1 Refs="SpEffectParam(=0)" />
+    <isDarkHand IsBool="" />
+    <enableSorcery IsBool="" />
+    <isHeroPointCorrect IsBool="" />
+    <isDiscard IsBool="" />
+    <isSlashAttackType IsBool="" />
+    <isThrustAttackType IsBool="" />
+    <isCustom IsBool="" />
+    <isDrop IsBool="" />
+    <isEnableEmergencyStep IsBool="" />
+    <isDragonSlayer IsBool="" />
+    <actionUnlockParamId Refs="ActionUnlockParam(=0)" />
+    <isEnhance IsBool="" />
+    <isDualBlade IsBool="" />
+    <isDeposit IsBool="" />
+    <enableParry IsBool="" />
+    <enableVowMagic IsBool="" />
+    <isVersusGhostWep IsBool="" />
+    <enableGuard IsBool="" />
+    <isNormalAttackType IsBool="" />
+    <isAutoEquip IsBool="" />
+    <enableMiracle IsBool="" />
+    <isBlowAttackType IsBool="" />
+    <isNoticeLog IsBool="" />
+    <isNoticeDialog IsBool="" />
+    <enableMagic IsBool="" />
+    <isValidTough_ProtSADmg IsBool="" />
+    <disableBaseChangeReset IsBool="" />
+    <disableRepair IsBool="" />
+    <disableMultiDropShare IsBool="" />
+    <materialSetId Refs="EquipMtrlSetParam(=0)" />
+    <isSoulParamIdChange_model0 IsBool="" />
+    <attackElementCorrectId Refs="AttackElementCorrectParam(=0)" />
+    <isSoulParamIdChange_model2 IsBool="" />
+    <isSoulParamIdChange_model1 IsBool="" />
+    <isSoulParamIdChange_model3 IsBool="" />
+  </Field>
+  <Self />
+</PARAMMETA>

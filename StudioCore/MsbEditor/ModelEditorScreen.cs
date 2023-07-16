@@ -11,17 +11,22 @@ using StudioCore.Resource;
 using StudioCore.Scene;
 using StudioCore.Editor;
 using ImGuiNET;
+using StudioCore.Gui;
 
 namespace StudioCore.MsbEditor
 {
     public class ModelEditorScreen : EditorScreen, AssetBrowserEventHandler, SceneTreeEventHandler, IResourceEventListener
     {
+        public string EditorName => "Model Editor";
+        public string CommandEndpoint => "model";
+        public string SaveType => "Models";
+        
         public AssetLocator AssetLocator = null;
-        public Scene.RenderScene RenderScene = new Scene.RenderScene();
+        public Scene.RenderScene RenderScene;
         public ActionManager EditorActionManager = new ActionManager();
         private Selection _selection = new Selection();
         private Sdl2Window Window;
-        public Gui.Viewport Viewport;
+        public Gui.IViewport Viewport;
         public Rectangle Rect;
 
         private Universe _universe;
@@ -43,7 +48,17 @@ namespace StudioCore.MsbEditor
             ResourceManager.Locator = AssetLocator;
             Window = window;
 
-            Viewport = new Gui.Viewport("Modeleditvp", device, RenderScene, EditorActionManager, _selection, Rect.Width, Rect.Height);
+            if (device != null)
+            {
+                RenderScene = new RenderScene();
+                Viewport = new Gui.Viewport("Modeleditvp", device, RenderScene, EditorActionManager, _selection,
+                    Rect.Width, Rect.Height);
+            }
+            else
+            {
+                Viewport = new NullViewport("Modeleditvp", EditorActionManager, _selection, Rect.Width, Rect.Height);
+            }
+
             _universe = new Universe(AssetLocator, RenderScene, _selection);
 
             _sceneTree = new SceneTree(SceneTree.Configuration.ModelEditor, this, "modeledittree", _universe, _selection, EditorActionManager, Viewport, AssetLocator);
@@ -72,10 +87,11 @@ namespace StudioCore.MsbEditor
 
         public void Draw(GraphicsDevice device, CommandList cl)
         {
-            Viewport.Draw(device, cl);
+            if (Viewport != null)
+                Viewport.Draw(device, cl);
         }
 
-        public override void DrawEditorMenu()
+        public void DrawEditorMenu()
         {
             
         }
@@ -154,9 +170,9 @@ namespace StudioCore.MsbEditor
             LoadModel(modelid, mapid);
         }
 
-        public void OnGUI()
+        public void OnGUI(string[] commands)
         {
-            float scale = ImGuiRenderer.GetUIScale();
+            float scale = MapStudioNew.GetUIScale();
             // Docking setup
             //var vp = ImGui.GetMainViewport();
             var wins = ImGui.GetWindowSize();
@@ -256,10 +272,15 @@ namespace StudioCore.MsbEditor
             _propEditor.OnGui(_selection, "modeleditprop", Viewport.Width, Viewport.Height);
             ResourceManager.OnGuiDrawTasks(Viewport.Width, Viewport.Height);
         }
-
-        public override void OnProjectChanged(Editor.ProjectSettings newSettings)
+        
+        public bool InputCaptured()
         {
-            
+            return Viewport.ViewportSelected;
+        }
+
+        public void OnProjectChanged(Editor.ProjectSettings newSettings)
+        {
+            ReloadAssetBrowser();
         }
 
         public void ReloadAssetBrowser()
@@ -270,12 +291,12 @@ namespace StudioCore.MsbEditor
             }
         }
 
-        public override void Save()
+        public void Save()
         {
 
         }
 
-        public override void SaveAll()
+        public void SaveAll()
         {
 
         }
@@ -301,9 +322,9 @@ namespace StudioCore.MsbEditor
 
                 var minSpeed = 1.0f;
                 var basespeed = Math.Max(minSpeed, (float)Math.Sqrt(mindim / 3.0f));
-                Viewport._worldView.CameraMoveSpeed_Normal = basespeed;
-                Viewport._worldView.CameraMoveSpeed_Slow = basespeed / 10.0f;
-                Viewport._worldView.CameraMoveSpeed_Fast = basespeed * 10.0f;
+                Viewport.WorldView.CameraMoveSpeed_Normal = basespeed;
+                Viewport.WorldView.CameraMoveSpeed_Slow = basespeed / 10.0f;
+                Viewport.WorldView.CameraMoveSpeed_Fast = basespeed * 10.0f;
 
                 Viewport.FarClip = Math.Max(10.0f, maxdim * 10.0f);
                 Viewport.NearClip = Math.Max(0.001f, maxdim / 10000.0f);

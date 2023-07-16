@@ -1,4 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.IO.MemoryMappedFiles;
+using DotNext.IO.MemoryMappedFiles;
 
 namespace SoulsFormats
 {
@@ -12,55 +15,47 @@ namespace SoulsFormats
         /// </summary>
         public BXF3Reader(string bhdPath, string bdtPath)
         {
-            using (FileStream fsHeader = File.OpenRead(bhdPath))
-            {
-                FileStream fsData = File.OpenRead(bdtPath);
-                var brHeader = new BinaryReaderEx(false, fsHeader);
-                var brData = new BinaryReaderEx(false, fsData);
-                Read(brHeader, brData);
-            }
+            using MemoryMappedFile headerFile = MemoryMappedFile.CreateFromFile(bhdPath, FileMode.Open, null, 0, MemoryMappedFileAccess.Read);
+            _mappedFile = MemoryMappedFile.CreateFromFile(bdtPath, FileMode.Open, null, 0, MemoryMappedFileAccess.Read);
+            using IMappedMemoryOwner fsHeader = headerFile.CreateMemoryAccessor(0, 0, MemoryMappedFileAccess.Read);
+            _mappedAccessor = _mappedFile.CreateMemoryAccessor(0, 0, MemoryMappedFileAccess.Read);
+            var brHeader = new BinaryReaderEx(false, fsHeader.Memory);
+            var brData = new BinaryReaderEx(false, _mappedAccessor.Memory);
+            Read(brHeader, brData);
         }
 
         /// <summary>
         /// Reads a BXF3 from the given BHD path and BDT bytes.
         /// </summary>
-        public BXF3Reader(string bhdPath, byte[] bdtBytes)
+        public BXF3Reader(string bhdPath, Memory<byte> bdtBytes)
         {
-            using (FileStream fsHeader = File.OpenRead(bhdPath))
-            {
-                var msData = new MemoryStream(bdtBytes);
-                var brHeader = new BinaryReaderEx(false, fsHeader);
-                var brData = new BinaryReaderEx(false, msData);
-                Read(brHeader, brData);
-            }
+            using MemoryMappedFile headerFile = MemoryMappedFile.CreateFromFile(bhdPath, FileMode.Open, null, 0, MemoryMappedFileAccess.Read);
+            using IMappedMemoryOwner fsHeader = headerFile.CreateMemoryAccessor(0, 0, MemoryMappedFileAccess.Read);
+            var brHeader = new BinaryReaderEx(false, fsHeader.Memory);
+            var brData = new BinaryReaderEx(false, bdtBytes);
+            Read(brHeader, brData);
         }
 
         /// <summary>
         /// Reads a BXF3 from the given BHD bytes and BDT path.
         /// </summary>
-        public BXF3Reader(byte[] bhdBytes, string bdtPath)
+        public BXF3Reader(Memory<byte> bhdBytes, string bdtPath)
         {
-            using (var msHeader = new MemoryStream(bhdBytes))
-            {
-                FileStream fsData = File.OpenRead(bdtPath);
-                var brHeader = new BinaryReaderEx(false, msHeader);
-                var brData = new BinaryReaderEx(false, fsData);
-                Read(brHeader, brData);
-            }
+            _mappedFile = MemoryMappedFile.CreateFromFile(bdtPath, FileMode.Open, null, 0, MemoryMappedFileAccess.Read);
+            _mappedAccessor = _mappedFile.CreateMemoryAccessor(0, 0, MemoryMappedFileAccess.Read);
+            var brHeader = new BinaryReaderEx(false, bhdBytes);
+            var brData = new BinaryReaderEx(false, _mappedAccessor.Memory);
+            Read(brHeader, brData);
         }
 
         /// <summary>
         /// Reads a BXF3 from the given BHD and BDT bytes.
         /// </summary>
-        public BXF3Reader(byte[] bhdBytes, byte[] bdtBytes)
+        public BXF3Reader(Memory<byte> bhdBytes, Memory<byte> bdtBytes)
         {
-            using (var msHeader = new MemoryStream(bhdBytes))
-            {
-                var msData = new MemoryStream(bdtBytes);
-                var brHeader = new BinaryReaderEx(false, msHeader);
-                var brData = new BinaryReaderEx(false, msData);
-                Read(brHeader, brData);
-            }
+            var brHeader = new BinaryReaderEx(false, bhdBytes);
+            var brData = new BinaryReaderEx(false, bdtBytes);
+            Read(brHeader, brData);
         }
 
         private void Read(BinaryReaderEx brHeader, BinaryReaderEx brData)

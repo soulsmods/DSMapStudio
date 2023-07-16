@@ -39,7 +39,7 @@ namespace SoulsFormats
         /// <summary>
         /// Read a DDS header from an array of bytes.
         /// </summary>
-        public DDS(byte[] bytes)
+        public DDS(Memory<byte> bytes)
         {
             var br = new BinaryReaderEx(false, bytes);
 
@@ -68,7 +68,7 @@ namespace SoulsFormats
         /// <summary>
         /// Write a DDS file from this header object and given pixel data.
         /// </summary>
-        public byte[] Write(byte[] pixelData)
+        public byte[] Write(Span<byte> pixelData)
         {
             var bw = new BinaryWriterEx(false);
 

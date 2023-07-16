@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <bCallFriend IsBool="" />
+    <friendlyTarget IsBool="" />
+    <selfTarget IsBool="" />
+    <opposeTarget IsBool="" />
+    <bSpEffectEnable IsBool="" />
+    <bRestrictSamePlacementGroup IsBool="" />
+  </Field>
+  <Self />
+</PARAMMETA>

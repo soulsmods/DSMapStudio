@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 using System.Numerics;
 using Veldrid;
+using Vortice.Vulkan;
 
 namespace StudioCore.Resource
 {
@@ -92,10 +93,10 @@ namespace StudioCore.Resource
         public fixed byte Color[4];
 
         public static VertexLayoutDescription Layout = new VertexLayoutDescription(
-            new VertexElementDescription("position", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Float3),
-            new VertexElementDescription("uv1", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Short2),
-            new VertexElementDescription("normal", VertexElementSemantic.TextureCoordinate, VertexElementFormat.SByte4),
-            new VertexElementDescription("color", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Byte4));
+            new VertexElementDescription("position", VkFormat.R32G32B32Sfloat),
+            new VertexElementDescription("uv1", VkFormat.R16G16Sint),
+            new VertexElementDescription("normal", VkFormat.R8G8B8A8Sint),
+            new VertexElementDescription("color", VkFormat.R8G8B8A8Uint));
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -105,8 +106,8 @@ namespace StudioCore.Resource
         public fixed sbyte Normal[4];
 
         public static VertexLayoutDescription Layout = new VertexLayoutDescription(
-            new VertexElementDescription("position", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Float3),
-            new VertexElementDescription("normal", VertexElementSemantic.TextureCoordinate, VertexElementFormat.SByte4));
+            new VertexElementDescription("position", VkFormat.R32G32B32Sfloat),
+            new VertexElementDescription("normal", VkFormat.R8G8B8A8Sint));
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -120,12 +121,12 @@ namespace StudioCore.Resource
         public fixed byte Color[4];
 
         public static VertexLayoutDescription Layout = new VertexLayoutDescription(
-            new VertexElementDescription("position", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Float3),
-            new VertexElementDescription("uv1", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Short2),
-            new VertexElementDescription("normal", VertexElementSemantic.TextureCoordinate, VertexElementFormat.SByte4),
-            new VertexElementDescription("binormal", VertexElementSemantic.TextureCoordinate, VertexElementFormat.SByte4),
-            new VertexElementDescription("bitangent", VertexElementSemantic.TextureCoordinate, VertexElementFormat.SByte4),
-            new VertexElementDescription("color", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Byte4));
+            new VertexElementDescription("position", VkFormat.R32G32B32Sfloat),
+            new VertexElementDescription("uv1", VkFormat.R16G16Sint),
+            new VertexElementDescription("normal", VkFormat.R8G8B8A8Sint),
+            new VertexElementDescription("binormal", VkFormat.R8G8B8A8Sint),
+            new VertexElementDescription("bitangent", VkFormat.R8G8B8A8Sint),
+            new VertexElementDescription("color", VkFormat.R8G8B8A8Uint));
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -140,13 +141,13 @@ namespace StudioCore.Resource
         public fixed short Uv2[2];
 
         public static VertexLayoutDescription Layout = new VertexLayoutDescription(
-            new VertexElementDescription("position", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Float3),
-            new VertexElementDescription("uv1", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Short2),
-            new VertexElementDescription("normal", VertexElementSemantic.TextureCoordinate, VertexElementFormat.SByte4),
-            new VertexElementDescription("binormal", VertexElementSemantic.TextureCoordinate, VertexElementFormat.SByte4),
-            new VertexElementDescription("bitangent", VertexElementSemantic.TextureCoordinate, VertexElementFormat.SByte4),
-            new VertexElementDescription("color", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Byte4),
-            new VertexElementDescription("uv2", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Short2));
+            new VertexElementDescription("position", VkFormat.R32G32B32Sfloat),
+            new VertexElementDescription("uv1", VkFormat.R16G16Sint),
+            new VertexElementDescription("normal", VkFormat.R8G8B8A8Sint),
+            new VertexElementDescription("binormal", VkFormat.R8G8B8A8Sint),
+            new VertexElementDescription("bitangent", VkFormat.R8G8B8A8Sint),
+            new VertexElementDescription("color", VkFormat.R8G8B8A8Uint),
+            new VertexElementDescription("uv2", VkFormat.R16G16Sint));
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -162,14 +163,14 @@ namespace StudioCore.Resource
         public fixed short Uv3[2];
 
         public static VertexLayoutDescription Layout = new VertexLayoutDescription(
-            new VertexElementDescription("position", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Float3),
-            new VertexElementDescription("uv1", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Short2),
-            new VertexElementDescription("normal", VertexElementSemantic.TextureCoordinate, VertexElementFormat.SByte4),
-            new VertexElementDescription("binormal", VertexElementSemantic.TextureCoordinate, VertexElementFormat.SByte4),
-            new VertexElementDescription("bitangent", VertexElementSemantic.TextureCoordinate, VertexElementFormat.SByte4),
-            new VertexElementDescription("color", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Byte4),
-            new VertexElementDescription("uv2", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Short2),
-            new VertexElementDescription("uv3", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Short2));
+            new VertexElementDescription("position", VkFormat.R32G32B32Sfloat),
+            new VertexElementDescription("uv1", VkFormat.R16G16Sint),
+            new VertexElementDescription("normal", VkFormat.R8G8B8A8Sint),
+            new VertexElementDescription("binormal", VkFormat.R8G8B8A8Sint),
+            new VertexElementDescription("bitangent", VkFormat.R8G8B8A8Sint),
+            new VertexElementDescription("color", VkFormat.R8G8B8A8Uint),
+            new VertexElementDescription("uv2", VkFormat.R16G16Sint),
+            new VertexElementDescription("uv3", VkFormat.R16G16Sint));
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -186,15 +187,15 @@ namespace StudioCore.Resource
         public fixed short Uv4[2];
 
         public static VertexLayoutDescription Layout = new VertexLayoutDescription(
-            new VertexElementDescription("position", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Float3),
-            new VertexElementDescription("uv1", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Short2),
-            new VertexElementDescription("normal", VertexElementSemantic.TextureCoordinate, VertexElementFormat.SByte4),
-            new VertexElementDescription("binormal", VertexElementSemantic.TextureCoordinate, VertexElementFormat.SByte4),
-            new VertexElementDescription("bitangent", VertexElementSemantic.TextureCoordinate, VertexElementFormat.SByte4),
-            new VertexElementDescription("color", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Byte4),
-            new VertexElementDescription("uv2", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Short2),
-            new VertexElementDescription("uv3", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Short2),
-            new VertexElementDescription("uv4", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Short2));
+            new VertexElementDescription("position", VkFormat.R32G32B32Sfloat),
+            new VertexElementDescription("uv1", VkFormat.R16G16Sint),
+            new VertexElementDescription("normal", VkFormat.R8G8B8A8Sint),
+            new VertexElementDescription("binormal", VkFormat.R8G8B8A8Sint),
+            new VertexElementDescription("bitangent", VkFormat.R8G8B8A8Sint),
+            new VertexElementDescription("color", VkFormat.R8G8B8A8Uint),
+            new VertexElementDescription("uv2", VkFormat.R16G16Sint),
+            new VertexElementDescription("uv3", VkFormat.R16G16Sint),
+            new VertexElementDescription("uv4", VkFormat.R16G16Sint));
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -207,10 +208,10 @@ namespace StudioCore.Resource
         public fixed byte Barycentric[4];
 
         public static VertexLayoutDescription Layout = new VertexLayoutDescription(
-             new VertexElementDescription("position", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.Float3),
-             new VertexElementDescription("normal", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.SByte4),
-             new VertexElementDescription("color", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.Byte4),
-             new VertexElementDescription("barycentric", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.Byte4));
+             new VertexElementDescription("position", VkFormat.R32G32B32Sfloat),
+             new VertexElementDescription("normal", VkFormat.R8G8B8A8Sint),
+             new VertexElementDescription("color", VkFormat.R8G8B8A8Uint),
+             new VertexElementDescription("barycentric", VkFormat.R8G8B8A8Uint));
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -223,10 +224,10 @@ namespace StudioCore.Resource
         public fixed byte Barycentric[4];
 
         public static VertexLayoutDescription Layout = new VertexLayoutDescription(
-             new VertexElementDescription("position", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.Float3),
-             new VertexElementDescription("normal", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.SByte4),
-             new VertexElementDescription("color", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.Byte4),
-             new VertexElementDescription("barycentric", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.Byte4));
+             new VertexElementDescription("position", VkFormat.R32G32B32Sfloat),
+             new VertexElementDescription("normal", VkFormat.R8G8B8A8Sint),
+             new VertexElementDescription("color", VkFormat.R8G8B8A8Uint),
+             new VertexElementDescription("barycentric", VkFormat.R8G8B8A8Uint));
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -236,8 +237,8 @@ namespace StudioCore.Resource
         public fixed byte Color[4];
 
         public static VertexLayoutDescription Layout = new VertexLayoutDescription(
-            new VertexElementDescription("position", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Float3),
-            new VertexElementDescription("color", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Byte4));
+            new VertexElementDescription("position", VkFormat.R32G32B32Sfloat),
+            new VertexElementDescription("color", VkFormat.R8G8B8A8Uint));
     }
 
     //[StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -278,8 +279,8 @@ namespace StudioCore.Resource
         }
 
         public static VertexLayoutDescription Layout = new VertexLayoutDescription(
-            new VertexElementDescription("position", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.Float3),
-            new VertexElementDescription("color", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.Byte4),
-            new VertexElementDescription("normal", VertexElementSemantic.TextureCoordinate, Veldrid.VertexElementFormat.Float3));
+            new VertexElementDescription("position", VkFormat.R32G32B32Sfloat),
+            new VertexElementDescription("color", VkFormat.R8G8B8A8Uint),
+            new VertexElementDescription("normal", VkFormat.R32G32B32Sfloat));
     }
 }

@@ -1,6 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
   <Self Row0Dummy="" />
+  <Enums>
+    <Enum Name="ItemLotInfusionType">
+      <Option Value="0" Name="None" />
+      <Option Value="1" Name="Fire" />
+      <Option Value="2" Name="Magic" />
+      <Option Value="3" Name="Lightning" />
+      <Option Value="4" Name="Dark" />
+      <Option Value="5" Name="Poison" />
+      <Option Value="6" Name="Bleed" />
+      <Option Value="7" Name="Raw" />
+      <Option Value="8" Name="Enchanted" />
+    </Enum>
+  </Enums>
   <Field>
     <amount_lot_0 AltName="[0] Amount"/>
     <amount_lot_1 AltName="[1] Amount"/>
@@ -22,16 +35,16 @@
     <reinforcement_lot_7 AltName="[7] Reinforcement Level" Wiki="The reinforcement level to apply to the lot item"/>
     <reinforcement_lot_8 AltName="[8] Reinforcement Level" Wiki="The reinforcement level to apply to the lot item"/>
     <reinforcement_lot_9 AltName="[9] Reinforcement Level" Wiki="The reinforcement level to apply to the lot item"/>
-    <infusion_lot_0 AltName="[0] Infusion" Wiki="The infusion to apply to the lot item"/>
-    <infusion_lot_1 AltName="[1] Infusion" Wiki="The infusion to apply to the lot item"/>
-    <infusion_lot_2 AltName="[2] Infusion" Wiki="The infusion to apply to the lot item"/>
-    <infusion_lot_3 AltName="[3] Infusion" Wiki="The infusion to apply to the lot item"/>
-    <infusion_lot_4 AltName="[4] Infusion" Wiki="The infusion to apply to the lot item"/>
-    <infusion_lot_5 AltName="[5] Infusion" Wiki="The infusion to apply to the lot item"/>
-    <infusion_lot_6 AltName="[6] Infusion" Wiki="The infusion to apply to the lot item"/>
-    <infusion_lot_7 AltName="[7] Infusion" Wiki="The infusion to apply to the lot item"/>
-    <infusion_lot_8 AltName="[8] Infusion" Wiki="The infusion to apply to the lot item"/>
-    <infusion_lot_9 AltName="[9] Infusion" Wiki="The infusion to apply to the lot item"/>
+    <infusion_lot_0 AltName="[0] Infusion" Enum="ItemLotInfusionType" Wiki="The infusion to apply to the lot item"/>
+    <infusion_lot_1 AltName="[1] Infusion" Enum="ItemLotInfusionType" Wiki="The infusion to apply to the lot item"/>
+    <infusion_lot_2 AltName="[2] Infusion" Enum="ItemLotInfusionType" Wiki="The infusion to apply to the lot item"/>
+    <infusion_lot_3 AltName="[3] Infusion" Enum="ItemLotInfusionType" Wiki="The infusion to apply to the lot item"/>
+    <infusion_lot_4 AltName="[4] Infusion" Enum="ItemLotInfusionType" Wiki="The infusion to apply to the lot item"/>
+    <infusion_lot_5 AltName="[5] Infusion" Enum="ItemLotInfusionType" Wiki="The infusion to apply to the lot item"/>
+    <infusion_lot_6 AltName="[6] Infusion" Enum="ItemLotInfusionType" Wiki="The infusion to apply to the lot item"/>
+    <infusion_lot_7 AltName="[7] Infusion" Enum="ItemLotInfusionType" Wiki="The infusion to apply to the lot item"/>
+    <infusion_lot_8 AltName="[8] Infusion" Enum="ItemLotInfusionType" Wiki="The infusion to apply to the lot item"/>
+    <infusion_lot_9 AltName="[9] Infusion" Enum="ItemLotInfusionType" Wiki="The infusion to apply to the lot item"/>
     <unk_lot_0 AltName="[0] Unknown"/>
     <unk_lot_1 AltName="[1] Unknown"/>
     <unk_lot_2 AltName="[2] Unknown"/>

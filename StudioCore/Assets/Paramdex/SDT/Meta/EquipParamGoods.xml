@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <actionUnlockParamId Refs="ActionUnlockParam(=0)" />
+    <refId_default Refs="Bullet(=0),SpEffectParam(=0)" />
+    <isUseMultiPenaltyOnly IsBool="" />
+    <isBonfireWarpItem IsBool="" />
+    <isSuppleItem IsBool="" />
+    <isAutoEquip IsBool="" />
+    <isEnableFastUseItem IsBool="" />
+    <isUseMultiPlayPreparation IsBool="" />
+    <disableMultiDropShare IsBool="" />
+    <disableUseAtColiseum IsBool="" />
+    <isNoticeDialog IsBool="" />
+    <isEquip IsBool="" />
+    <isDrop IsBool="" />
+    <canMultiUse IsBool="" />
+    <enable_Ladder IsBool="" />
+    <disableUseAtOutOfColiseum IsBool="" />
+    <maxReplaceItemId Refs="EquipParamGoods(=0)" />
+    <isFixItem IsBool="" />
+    <isDisableHand IsBool="" />
+    <enable_LoadOfCinder IsBool="" />
+    <isDeposit IsBool="" />
+    <isDiscard IsBool="" />
+    <isFullSuppleItem IsBool="" />
+    <isConsume IsBool="" />
+    <isApplySpecialEffect IsBool="" />
+    <isWarpProhibited IsBool="" />
+    <isOnlyOne IsBool="" />
+    <isEnhance IsBool="" />
+    <isEstablishment IsBool="" />
+    <isNoticeLog IsBool="" />
+    <useGetItemId Refs="EquipParamGoods(=0)" />
+    <IsTravelItem IsBool="" />
+    <isUseRefId1ForEnchant IsBool="" />
+    <enable_CantStand IsBool="" />
+    <enable_EmptyHand IsBool="" />
+    <enable_FallWallCling IsBool="" />
+    <enable_Hang IsBool="" />
+    <enable_Diving IsBool="" />
+    <enable_CantClimbHang IsBool="" />
+    <enable_black IsBool="" />
+    <enable_gray IsBool="" />
+    <replaceItemId Refs="EquipParamGoods(=0)" />
+    <enable_multi IsBool="" />
+    <enable_Swimming IsBool="" />
+    <enable_live IsBool="" />
+    <enable_DragonsCough IsBool="" />
+    <enable_white IsBool="" />
+    <disable_offline IsBool="" />
+    <useGetItem IsBool="" />
+  </Field>
+  <Self />
+</PARAMMETA>

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace SoulsFormats
@@ -8,6 +9,19 @@ namespace SoulsFormats
     /// </summary>
     public static partial class MSB
     {
+        public class MissingReferenceException : Exception
+        {
+            public IMsbEntry Referrer;
+            public string ReferreeName;
+
+            public MissingReferenceException(IMsbEntry referrer, string refereeName)
+                : base($"{referrer} references map entity that does not exist: {refereeName}")
+            {
+                Referrer = referrer;
+                ReferreeName = refereeName;
+            }
+        }
+
         internal static void AssertHeader(BinaryReaderEx br)
         {
             br.AssertASCII("MSB ");
@@ -92,6 +106,21 @@ namespace SoulsFormats
                 int result = list.FindIndex(entry => entry.Name == name);
                 if (result == -1)
                     throw new KeyNotFoundException($"Name not found: {name}");
+                return result;
+            }
+        }
+
+        internal static int FindIndex<T>(IMsbEntry referrer, List<T> list, string name) where T : IMsbEntry
+        {
+            if (name == null || name == "")
+            {
+                return -1;
+            }
+            else
+            {
+                int result = list.FindIndex(entry => entry.Name == name);
+                if (result == -1)
+                    throw new MissingReferenceException(referrer, name);
                 return result;
             }
         }

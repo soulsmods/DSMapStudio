@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace SoulsFormats
 {
     /// <summary>
     /// A BND or BXF container of generic files.
     /// </summary>
-    public interface IBinder
+    public interface IBinder : IDisposable
     {
         /// <summary>
         /// Flags indicating features of the binder.

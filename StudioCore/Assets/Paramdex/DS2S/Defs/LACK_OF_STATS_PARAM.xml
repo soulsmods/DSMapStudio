@@ -9,6 +9,6 @@
     <Field Def="f32 lack_stats_min_penalty" />
     <Field Def="f32 lack_stats_max_penalty" />
     <Field Def="f32 lack_stamina_min_penalty" />
-    <Field Def="f32 lack_stamina_max_enalty" />
+    <Field Def="f32 lack_stamina_max_penalty" />
   </Fields>
 </PARAMDEF>
