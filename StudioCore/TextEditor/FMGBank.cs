@@ -1317,7 +1317,8 @@ namespace StudioCore.TextEditor
                 var dupes = info.Fmg.Entries.GroupBy(e => e.ID).SelectMany(g => g.SkipLast(1));
                 if (dupes.Any())
                 {
-                    if (!askedAboutDupes && PlatformUtils.Instance.MessageBox("Duplicate Text Entries within the same FMG have been found.\n\nRemove all duplicates? (Latest entries are kept)", "Duplicate Text Entries", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    var dupeList = string.Join(", ", dupes.Select(dupe => dupe.ID));
+                    if (!askedAboutDupes && PlatformUtils.Instance.MessageBox($"Duplicate text entries have been found in FMG {Path.GetFileNameWithoutExtension(info.FileName)} for the following row IDs:\n\n{dupeList}\n\nRemove all duplicates? (Latest entries are kept)", "Duplicate Text Entries", MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
                         ignoreDupes = false;
                     }
