@@ -1163,7 +1163,7 @@ namespace StudioCore
                     && _newProjectOptions.loadDefaultNames == true
                     && _newProjectOptions.settings.GameType == GameType.DarkSoulsIISOTFS)
                 {
-                    ImGui.TextColored(new Vector4(1.0f, 0.4f, 0.4f, 1.0f), "Warning: Saving row names onto non-loose params will crash the game. It is highly recommended you use loose params with Dark Souls 2.");
+                    ImGui.TextColored(new Vector4(1.0f, 0.4f, 0.4f, 1.0f), "Warning: Saving too many row names onto non-loose params will crash the game. It is highly recommended you use loose params with Dark Souls 2.");
                 }
                 ImGui.NewLine();
 
