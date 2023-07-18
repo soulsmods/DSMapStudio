@@ -15,7 +15,7 @@ namespace SoulsFormats
             public string ReferreeName;
 
             public MissingReferenceException(IMsbEntry referrer, string refereeName)
-                : base($"{referrer} references {refereeName}, which does not exist")
+                : base($"\"{referrer}\" references \"{refereeName}\", which does not exist")
             {
                 Referrer = referrer;
                 ReferreeName = refereeName;
