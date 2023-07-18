@@ -15,7 +15,7 @@ namespace SoulsFormats
             public string ReferreeName;
 
             public MissingReferenceException(IMsbEntry referrer, string refereeName)
-                : base($"{referrer} references map entity that does not exist: {refereeName}")
+                : base($"{referrer} references {refereeName}, which does not exist")
             {
                 Referrer = referrer;
                 ReferreeName = refereeName;
@@ -120,7 +120,14 @@ namespace SoulsFormats
             {
                 int result = list.FindIndex(entry => entry.Name == name);
                 if (result == -1)
-                    throw new MissingReferenceException(referrer, name);
+                {
+                    // Fallback case-insensitive check
+                    result = list.FindIndex(entry => entry.Name.ToLower() == name.ToLower());
+                    if (result == -1)
+                    {
+                        throw new MissingReferenceException(referrer, name);
+                    }
+                }
                 return result;
             }
         }
