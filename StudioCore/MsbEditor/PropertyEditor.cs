@@ -1079,6 +1079,7 @@ namespace StudioCore.MsbEditor
             else if (entSelection.Any())
             {
                 var firstEnt = entSelection.First();
+                ImGui.Text($" Map: {firstEnt.Container.Name}");
                 if (firstEnt.WrappedObject == null)
                 {
                     ImGui.Text("Select a map object to edit its properties.");
