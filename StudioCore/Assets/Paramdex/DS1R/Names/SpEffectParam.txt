@@ -390,8 +390,8 @@
 4017 Sustained Damage Floor [Mine Boss Lava]
 4020 Poison Swamp (shallow)
 4021 Poison Swamp (shallow) - ReplaceEffect
-4030 Water (waist or more)
-4031 Water (waist or more)
+4030 Lava (No Orange Charred Ring)
+4031 Lava (Base)
 4100 Water (ankle level)
 4130 Hidden in a coffin
 4140 in the territory of Kurana

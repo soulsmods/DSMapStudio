@@ -75,8 +75,8 @@
         <Option Value="2" Name="Type 2" />
     </Enum>
     <Enum Name="BULLET_BALLISTIC_CALC_TYPE" type="u8">
-        <Option Value="0" Name="Type 0" />
-        <Option Value="1" Name="Type 1" />
+        <Option Value="0" Name="Emit Forwards" />
+        <Option Value="1" Name="Emit Backwards" />
     </Enum>
     <Enum Name="BULLET_ATTACH_EFFECT_TYPE" type="u8">
         <Option Value="0" Name="Type 0" />
@@ -188,7 +188,7 @@
     <assetNo_Hit AltName="Asset Generated on Hit" Wiki="The number of the asset to be generated at the time of landing. -1: Do not generate. The asset number is the last 6 digits of the asset. Example: AEG999_999 = 999999" />
     <lifeRandomRange AltName="Duration - Random Range" Wiki="Add a random number of seconds with a set time fluctuation range to the lifetime [s]." />
     <homingAngleX AltName="Homing Angle: X" Wiki="Only the X-axis component of the inductive performance is changed. Do not change with -1" />
-    <ballisticCalcType AltName="Ballistic Calculation Type" Wiki="Ballistic calculation type" Enum="BULLET_BALLISTIC_CALC_TYPE" />
+    <ballisticCalcType AltName="Ballistic Calculation Type" Wiki="Initial shoot direction" Enum="BULLET_BALLISTIC_CALC_TYPE" />
     <attachEffectType AltName="Attach Effect Type" Wiki="Effect type to attach" Enum="BULLET_ATTACH_EFFECT_TYPE" />
     <seId_Bullet1 AltName="Insert SE ID - Bullet [1]" Wiki="Insert SE ID1 for [Bullet]. -1: Not generated 9 digits. Sound type is fixed to s: SFX." />
     <seId_Bullet2 AltName="Insert SE ID - Bullet [2]" Wiki="Insert SE ID 2 for [Bullet]. -1: Not generated 9 digits. Sound type is fixed to s: SFX." />
