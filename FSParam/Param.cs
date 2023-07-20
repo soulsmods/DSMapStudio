@@ -657,7 +657,6 @@ namespace FSParam
             RowSize = source.RowSize;
             _paramData = new StridedByteArray((uint)source._rows.Count, (uint)RowSize, BigEndian);
             AppliedParamdef = source.AppliedParamdef;
-            ApplyParamdef(AppliedParamdef);
         }
         
         /// <summary>
@@ -750,6 +749,7 @@ namespace FSParam
         {
             if (AppliedParamdef != null)
                 throw new ArgumentException("Param already has a paramdef applied.");
+
             AppliedParamdef = def;
             var columns = new List<Column>(def.Fields.Count);
             
