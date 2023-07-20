@@ -874,15 +874,15 @@ namespace SoulsFormats
                 public short[] AnimIDs { get; private set; }
 
                 /// <summary>
-                /// Value added to the base ModelSfxParam ID; only the first is actually used, according to Pav.
+                /// Something to do with breakobj functionality. Possibly decides which part of a shared-map (chalice) .breakobj file to use.
                 /// </summary>
-                public int[] ModelSfxParamRelativeIDs { get; private set; }
+                public int[] BreakobjID { get; private set; }
 
                 private protected ObjectBase() : base("oXXXXXX_XXXX")
                 {
                     Gparam = new GparamConfig();
                     AnimIDs = new short[4] { -1, -1, -1, -1 };
-                    ModelSfxParamRelativeIDs = new int[2];
+                    BreakobjID = new int[2];
                 }
 
                 private protected override void DeepCopyTo(Part part)
@@ -890,7 +890,7 @@ namespace SoulsFormats
                     var obj = (ObjectBase)part;
                     obj.Gparam = Gparam.DeepCopy();
                     obj.AnimIDs = (short[])AnimIDs.Clone();
-                    obj.ModelSfxParamRelativeIDs = (int[])ModelSfxParamRelativeIDs.Clone();
+                    obj.BreakobjID = (int[])BreakobjID.Clone();
                 }
 
                 private protected ObjectBase(BinaryReaderEx br) : base(br) { }
@@ -905,7 +905,7 @@ namespace SoulsFormats
                     CollisionFilter = br.ReadBoolean();
                     SetMainObjStructureBooleans = br.ReadBoolean();
                     AnimIDs = br.ReadInt16s(4);
-                    ModelSfxParamRelativeIDs = br.ReadInt32s(2);
+                    BreakobjID = br.ReadInt32s(2);
                 }
 
                 private protected override void ReadGparamConfig(BinaryReaderEx br) => Gparam = new GparamConfig(br);
@@ -920,7 +920,7 @@ namespace SoulsFormats
                     bw.WriteBoolean(CollisionFilter);
                     bw.WriteBoolean(SetMainObjStructureBooleans);
                     bw.WriteInt16s(AnimIDs);
-                    bw.WriteInt32s(ModelSfxParamRelativeIDs);
+                    bw.WriteInt32s(BreakobjID);
                 }
 
                 private protected override void WriteGparamConfig(BinaryWriterEx bw) => Gparam.Write(bw);
