@@ -572,7 +572,7 @@ namespace StudioCore.MsbEditor
                 Editor.EditorDecorations.ParamRefText(refs, null);
                 ImGui.NextColumn();
                 Editor.EditorDecorations.ParamRefsSelectables(ParamEditor.ParamBank.PrimaryBank, refs, null, val);
-                var opened = Editor.EditorDecorations.ParamRefEnumContextMenu(ParamEditor.ParamBank.PrimaryBank, val, ref newObj, refs, null, null, null);
+                var opened = Editor.EditorDecorations.ParamRefEnumContextMenu(ParamEditor.ParamBank.PrimaryBank, val, ref newObj, refs, null, null, null, null);
                 return opened;
             }
             return false;
