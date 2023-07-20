@@ -404,8 +404,6 @@ namespace SoulsFormats
 
         public class CollisionMeshChunk : IHKXSerializable
         {
-            HKXObject SourceObject;
-
             public HKArray<CompressedChunkBVHNode> nodes;
             public Vector4 BoundingBoxMin;
             public Vector4 BoundingBoxMax;

@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
+using Silk.NET.SDL;
 using Veldrid.Sdl2;
 
 namespace Veldrid.StartupUtilities
@@ -16,7 +17,6 @@ namespace Veldrid.StartupUtilities
             => CreateWindowAndGraphicsDevice(
                 windowCI,
                 new GraphicsDeviceOptions(),
-                GetPlatformDefaultBackend(),
                 out window,
                 out gd);
 
@@ -25,19 +25,10 @@ namespace Veldrid.StartupUtilities
             GraphicsDeviceOptions deviceOptions,
             out Sdl2Window window,
             out GraphicsDevice gd)
-            => CreateWindowAndGraphicsDevice(windowCI, deviceOptions, GetPlatformDefaultBackend(), out window, out gd);
-
-        public static void CreateWindowAndGraphicsDevice(
-            WindowCreateInfo windowCI,
-            GraphicsDeviceOptions deviceOptions,
-            GraphicsBackend preferredBackend,
-            out Sdl2Window window,
-            out GraphicsDevice gd)
         {
-            Sdl2Native.SDL_Init(SDLInitFlags.Video);
-
+            SdlProvider.InitFlags = Sdl.InitVideo;
             window = CreateWindow(ref windowCI);
-            gd = CreateGraphicsDevice(window, deviceOptions, preferredBackend);
+            gd = CreateGraphicsDevice(window, deviceOptions);
         }
 
 
@@ -45,11 +36,12 @@ namespace Veldrid.StartupUtilities
 
         public static Sdl2Window CreateWindow(ref WindowCreateInfo windowCI)
         {
-            SDL_WindowFlags flags = SDL_WindowFlags.OpenGL | SDL_WindowFlags.Resizable
-                    | GetWindowFlags(windowCI.WindowInitialState);
+            SdlProvider.InitFlags = Sdl.InitVideo;
+            WindowFlags flags = WindowFlags.Opengl | WindowFlags.Resizable | WindowFlags.AllowHighdpi |
+                                GetWindowFlags(windowCI.WindowInitialState);
             if (windowCI.WindowInitialState != WindowState.Hidden)
             {
-                flags |= SDL_WindowFlags.Shown;
+                flags |= WindowFlags.Shown;
             }
             Sdl2Window window = new Sdl2Window(
                 windowCI.WindowTitle,
@@ -63,108 +55,62 @@ namespace Veldrid.StartupUtilities
             return window;
         }
 
-        private static SDL_WindowFlags GetWindowFlags(WindowState state)
+        private static WindowFlags GetWindowFlags(WindowState state)
         {
             switch (state)
             {
                 case WindowState.Normal:
                     return 0;
                 case WindowState.FullScreen:
-                    return SDL_WindowFlags.Fullscreen;
+                    return WindowFlags.Fullscreen;
                 case WindowState.Maximized:
-                    return SDL_WindowFlags.Maximized;
+                    return WindowFlags.Maximized;
                 case WindowState.Minimized:
-                    return SDL_WindowFlags.Minimized;
+                    return WindowFlags.Minimized;
                 case WindowState.BorderlessFullScreen:
-                    return SDL_WindowFlags.FullScreenDesktop;
+                    return WindowFlags.FullscreenDesktop;
                 case WindowState.Hidden:
-                    return SDL_WindowFlags.Hidden;
+                    return WindowFlags.Hidden;
                 default:
                     throw new VeldridException("Invalid WindowState: " + state);
             }
         }
 
         public static GraphicsDevice CreateGraphicsDevice(Sdl2Window window)
-            => CreateGraphicsDevice(window, new GraphicsDeviceOptions(), GetPlatformDefaultBackend());
-        public static GraphicsDevice CreateGraphicsDevice(Sdl2Window window, GraphicsDeviceOptions options)
-            => CreateGraphicsDevice(window, options, GetPlatformDefaultBackend());
-        public static GraphicsDevice CreateGraphicsDevice(Sdl2Window window, GraphicsBackend preferredBackend)
-            => CreateGraphicsDevice(window, new GraphicsDeviceOptions(), preferredBackend);
+            => CreateGraphicsDevice(window, new GraphicsDeviceOptions());
+
         public static GraphicsDevice CreateGraphicsDevice(
             Sdl2Window window,
-            GraphicsDeviceOptions options,
-            GraphicsBackend preferredBackend)
+            GraphicsDeviceOptions options)
         {
-            switch (preferredBackend)
-            {
-                case GraphicsBackend.Direct3D11:
-                    throw new VeldridException("D3D11 support has not been included in this configuration of Veldrid");
-
-                case GraphicsBackend.Vulkan:
-#if !EXCLUDE_VULKAN_BACKEND
-                    return CreateVulkanGraphicsDevice(options, window);
-#else
-                    throw new VeldridException("Vulkan support has not been included in this configuration of Veldrid");
-#endif
-                case GraphicsBackend.OpenGL:
-                    throw new VeldridException("OpenGL support has not been included in this configuration of Veldrid");
-
-                case GraphicsBackend.Metal:
-                    throw new VeldridException("Metal support has not been included in this configuration of Veldrid");
-
-                case GraphicsBackend.OpenGLES:
-                    throw new VeldridException("OpenGL support has not been included in this configuration of Veldrid");
-
-                default:
-                    throw new VeldridException("Invalid GraphicsBackend: " + preferredBackend);
-            }
+            return CreateVulkanGraphicsDevice(options, window);
         }
 
         public static unsafe SwapchainSource GetSwapchainSource(Sdl2Window window)
         {
-            IntPtr sdlHandle = window.SdlWindowHandle;
-            SDL_SysWMinfo sysWmInfo;
-            Sdl2Native.SDL_GetVersion(&sysWmInfo.version);
-            Sdl2Native.SDL_GetWMWindowInfo(sdlHandle, &sysWmInfo);
-            switch (sysWmInfo.subsystem)
+            var sdlHandle = window.SdlWindowHandle;
+            SysWMInfo sysWmInfo;
+            var SDL = SdlProvider.SDL.Value;
+            SDL.GetVersion(&sysWmInfo.Version);
+            SDL.GetWindowWMInfo(sdlHandle, &sysWmInfo);
+            switch (sysWmInfo.Subsystem)
             {
                 case SysWMType.Windows:
-                    Win32WindowInfo w32Info = Unsafe.Read<Win32WindowInfo>(&sysWmInfo.info);
-                    return SwapchainSource.CreateWin32(w32Info.Sdl2Window, w32Info.hinstance);
+                    var w32Info = sysWmInfo.Info.Win;
+                    return SwapchainSource.CreateWin32(w32Info.Hwnd, w32Info.HInstance);
                 case SysWMType.X11:
-                    X11WindowInfo x11Info = Unsafe.Read<X11WindowInfo>(&sysWmInfo.info);
+                    var x11Info = sysWmInfo.Info.X11;
                     return SwapchainSource.CreateXlib(
-                        x11Info.display,
-                        x11Info.Sdl2Window);
+                        (IntPtr)x11Info.Display,
+                        (IntPtr)x11Info.Window);
                 case SysWMType.Wayland:
-                    WaylandWindowInfo wlInfo = Unsafe.Read<WaylandWindowInfo>(&sysWmInfo.info);
-                    return SwapchainSource.CreateWayland(wlInfo.display, wlInfo.surface);
+                    var wlInfo = sysWmInfo.Info.Wayland;
+                    return SwapchainSource.CreateWayland((IntPtr)wlInfo.Display, (IntPtr)wlInfo.Surface);
                 case SysWMType.Cocoa:
-                    CocoaWindowInfo cocoaInfo = Unsafe.Read<CocoaWindowInfo>(&sysWmInfo.info);
-                    IntPtr nsWindow = cocoaInfo.Window;
-                    return SwapchainSource.CreateNSWindow(nsWindow);
+                    var cocoaInfo = sysWmInfo.Info.Cocoa;
+                    return SwapchainSource.CreateNSWindow((IntPtr)cocoaInfo.Window);
                 default:
-                    throw new PlatformNotSupportedException("Cannot create a SwapchainSource for " + sysWmInfo.subsystem + ".");
-            }
-        }
-
-        public static GraphicsBackend GetPlatformDefaultBackend()
-        {
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                return GraphicsBackend.Direct3D11;
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-            {
-                return GraphicsDevice.IsBackendSupported(GraphicsBackend.Metal)
-                    ? GraphicsBackend.Metal
-                    : GraphicsBackend.OpenGL;
-            }
-            else
-            {
-                return GraphicsDevice.IsBackendSupported(GraphicsBackend.Vulkan)
-                    ? GraphicsBackend.Vulkan
-                    : GraphicsBackend.OpenGL;
+                    throw new PlatformNotSupportedException("Cannot create a SwapchainSource for " + sysWmInfo.Subsystem + ".");
             }
         }
 
@@ -184,22 +130,22 @@ namespace Veldrid.StartupUtilities
                 options.SyncToVerticalBlank,
                 colorSrgb);
             VulkanDeviceOptions vkopts = new VulkanDeviceOptions();
-            vkopts.InstanceExtensions = new string[] { "VK_KHR_get_physical_device_properties2" };
-            vkopts.DeviceExtensions = new string[] { "VK_KHR_maintenance3", "VK_EXT_descriptor_indexing" };
+            vkopts.InstanceExtensions = new string[] { };
+            vkopts.DeviceExtensions = new string[] { };
             GraphicsDevice gd = GraphicsDevice.CreateVulkan(options, scDesc, vkopts);
 
             return gd;
         }
 
-        private static unsafe Veldrid.Vk.VkSurfaceSource GetSurfaceSource(SDL_SysWMinfo sysWmInfo)
+        private static unsafe VkSurfaceSource GetSurfaceSource(SysWMInfo sysWmInfo)
         {
-            switch (sysWmInfo.subsystem)
+            switch (sysWmInfo.Subsystem)
             {
                 case SysWMType.Windows:
-                    Win32WindowInfo w32Info = Unsafe.Read<Win32WindowInfo>(&sysWmInfo.info);
-                    return Vk.VkSurfaceSource.CreateWin32(w32Info.hinstance, w32Info.Sdl2Window);
+                    var w32Info = sysWmInfo.Info.Win;
+                    return VkSurfaceSource.CreateWin32(w32Info.HInstance, w32Info.Hwnd);
                 default:
-                    throw new PlatformNotSupportedException("Cannot create a Vulkan surface for " + sysWmInfo.subsystem + ".");
+                    throw new PlatformNotSupportedException("Cannot create a Vulkan surface for " + sysWmInfo.Subsystem + ".");
             }
         }
 #endif

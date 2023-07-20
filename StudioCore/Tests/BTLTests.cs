@@ -53,7 +53,7 @@ namespace StudioCore.Tests
                     btl = BTL.Read(decompressed);
 
                     var written = btl.Write(DCX.Type.None);
-                    if (!decompressed.SequenceEqual(written))
+                    if (!decompressed.Span.SequenceEqual(written))
                     {
                         noWrite.Add(file.AssetName);
 

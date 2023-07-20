@@ -140,7 +140,7 @@
 1037440100 Liurnia of the Lakes - Gate Town Southeast
 1037490100 Bellum Highway - Church of Inhibition, Southwest of Grand Lift of Dectus
 1037510100 Altus Plateau - Abandoned Coffin, Ruin-Strewn Precipice Exit
-1037530100 Mt. Gelmir - Primeval Sorcerer Azur, Gelmir Hero's Grave Entrance
+1037530100 Mt. Gelmir - Azur, Gelmir Hero's Grave Entrance
 1037540100 Mt. Gelmir - Minor Erdtree, Seethewater Cave Entrance
 1038400100 Liurnia of the Lakes - Liurnia Lake Shore
 1038420100 Liurnia of the Lakes - Highway Lookout Tower

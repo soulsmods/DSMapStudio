@@ -8,7 +8,7 @@ namespace SoulsFormats
     public partial class FFXDLSE
     {
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-        public class ParamList : FXSerializable, IXmlSerializable
+        public class ParamList : FXSerializable
         {
             internal override string ClassName => "FXSerializableParamList";
 
@@ -50,6 +50,8 @@ namespace SoulsFormats
                     param.Write(bw, classNames);
             }
 
+            // Disabled to get rid of trim warnings since this isn't used in DSMS
+            /*
             #region IXmlSerializable
             XmlSchema IXmlSerializable.GetSchema() => null;
 
@@ -77,7 +79,7 @@ namespace SoulsFormats
                     ParamSerializer.Serialize(writer, Params[i]);
                 }
             }
-            #endregion
+            #endregion*/
         }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     }

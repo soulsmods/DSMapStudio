@@ -5,14 +5,22 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using ImGuiNET;
 using Veldrid;
 
 namespace StudioCore
 {
+    [JsonSourceGenerationOptions(WriteIndented = true, 
+        GenerationMode = JsonSourceGenerationMode.Metadata, IncludeFields = true)]
+    [JsonSerializable(typeof(KeyBindings.Bindings))]
+    [JsonSerializable(typeof(KeyBind))]
+    internal partial class KeybindingsSerializerContext : JsonSerializerContext
+    {
+    }
+    
     public class KeyBind
     {
         public Key PrimaryKey;
@@ -40,6 +48,11 @@ namespace StudioCore
             }
         }
 
+        [JsonConstructor]
+        public KeyBind()
+        {
+        }
+
         public KeyBind(Key primaryKey = Key.Unknown, bool ctrlKey = false, bool altKey = false, bool shiftKey = false)
         {
             PrimaryKey = primaryKey;
@@ -64,7 +77,7 @@ namespace StudioCore
 #pragma warning disable IDE0051
             // JsonExtensionData stores info in config file not present in class in order to retain settings between versions.
             [JsonExtensionData]
-            private IDictionary<string, JToken> _additionalData;
+            internal IDictionary<string, JsonElement> AdditionalData { get; set; }
 #pragma warning restore IDE0051
 
             // Core
@@ -102,8 +115,9 @@ namespace StudioCore
             public KeyBind Map_UnhideAll = new(Key.H, false, true);
             public KeyBind Map_GotoSelectionInObjectList = new(Key.G);
             public KeyBind Map_ResetRotation = new(Key.L);
-            public KeyBind Map_ArbitraryRotationX = new(Key.J);
-            public KeyBind Map_ArbitraryRotationY = new(Key.K);
+            public KeyBind Map_ArbitraryRotation_Roll = new(Key.J);
+            public KeyBind Map_ArbitraryRotation_Yaw = new(Key.K, false, false, true);
+            public KeyBind Map_ArbitraryRotation_Yaw_Pivot = new(Key.K);
             public KeyBind Map_Dummify = new(Key.Comma, false, false, true);
             public KeyBind Map_UnDummify = new(Key.Period, false, false, true);
             public KeyBind Map_MoveSelectionToCamera = new(Key.X);
@@ -112,7 +126,8 @@ namespace StudioCore
             public KeyBind Param_SelectAll = new(Key.A, true);
             public KeyBind Param_Copy = new(Key.C, true);
             public KeyBind Param_Paste = new(Key.V, true);
-            public KeyBind Param_GotoRow = new(Key.G, true);
+            public KeyBind Param_GotoRowID = new(Key.G, true);
+            public KeyBind Param_GotoSelectedRow = new(Key.G);
             public KeyBind Param_GotoBack = new(Key.Escape, false);
             public KeyBind Param_SearchParam = new(Key.P, true);
             public KeyBind Param_SearchRow = new(Key.F, true);

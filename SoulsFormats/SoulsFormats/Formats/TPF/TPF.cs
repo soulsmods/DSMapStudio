@@ -147,7 +147,7 @@ namespace SoulsFormats
             /// <summary>
             /// The raw data of the texture.
             /// </summary>
-            public byte[] Bytes { get; set; }
+            public Memory<byte> Bytes { get; set; }
 
             /// <summary>
             /// Extended metadata present in headerless console TPF textures.
@@ -311,18 +311,18 @@ namespace SoulsFormats
             {
                 bw.FillUInt32($"FileData{index}", (uint)bw.Position);
 
-                byte[] bytes = Bytes;
+                Memory<byte> bytes = Bytes;
                 if (Flags1 == 2 || Flags1 == 3)
-                    bytes = DCX.Compress(bytes, DCX.Type.DCP_EDGE);
+                    bytes = DCX.Compress(bytes.Span, DCX.Type.DCP_EDGE);
 
                 bw.FillInt32($"FileSize{index}", bytes.Length);
-                bw.WriteBytes(bytes);
+                bw.WriteBytes(bytes.Span);
             }
 
             /// <summary>
             /// Attempt to create a full DDS file from headerless console textures. Very very very poor support at the moment.
             /// </summary>
-            public byte[] Headerize()
+            public Memory<byte> Headerize()
             {
                 return Headerizer.Headerize(this);
             }

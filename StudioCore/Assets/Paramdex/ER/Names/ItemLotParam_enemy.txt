@@ -12,14 +12,14 @@
 90 Neutralizing Boluses
 100 Neutralizing Boluses
 110 Neutralizing Boluses
-204100000 [Rennala Student (Bug)] None
-204100100 [Rennala Student - Bug Form] Aeonian Butterfly
+204100000 [Larva of Rot] None
+204100100 [Larva of Rot] Aeonian Butterfly
 210000000 [Black Knife Assassin] None
 213000000 [Morgott] None
-214000000 [Omen Monstrosity] Omen Cleaver
-214000100 [Omen Monstrosity] Warped Axe
-214000990 [Omen Monstrosity] Omen Cleaver
-214000991 [Omen Monstrosity] Omen Bairn
+214000000 [Omen] Omen Cleaver
+214000100 [Omen] Warped Axe
+214000990 [Omen] Omen Cleaver
+214000991 [Omen] Omen Bairn
 215000000 [Unknown] None
 227000000 [Giant Crab] Crab Eggs
 227000001 [Giant Crab] Strip of White Flesh
@@ -707,31 +707,31 @@
 361000101 [Oracle Envoy] Strip of White Flesh
 361000200 [Oracle Envoy] Envoy's Greathorn
 361000201 [Oracle Envoy] Strip of White Flesh
-365000000 [Erdtree Guardian] Guardian's Swordspear
-365000001 [Erdtree Guardian] Guardian Mask
-365000002 [Erdtree Guardian] Guardian Garb
-365000003 [Erdtree Guardian] Guardian Bracers
-365000004 [Erdtree Guardian] Guardian Greaves
-365000005 [Erdtree Guardian] Tarnished Golden Sunflower
-365000100 [Erdtree Guardian] Guardian's Swordspear
-365000101 [Erdtree Guardian] Guardian Mask
-365000102 [Erdtree Guardian] Guardian Garb (Full Bloom)
-365000103 [Erdtree Guardian] Guardian Bracers
-365000104 [Erdtree Guardian] Guardian Greaves
-365000105 [Erdtree Guardian] Tarnished Golden Sunflower
-365000200 [Erdtree Guardian] Guardian's Swordspear
-365000201 [Erdtree Guardian] Guardian Mask
-365000202 [Erdtree Guardian] Guardian Garb
-365000203 [Erdtree Guardian] Guardian Bracers
-365000204 [Erdtree Guardian] Guardian Greaves
-365000205 [Erdtree Guardian] Tarnished Golden Sunflower
-365033100 [Erdtree Guardian] Golden Centipede
-365033101 [Erdtree Guardian] Guardian's Swordspear
-365033102 [Erdtree Guardian] Guardian Mask
-365033103 [Erdtree Guardian] Guardian Garb
-365033104 [Erdtree Guardian] Guardian Bracers
-365033105 [Erdtree Guardian] Guardian Greaves
-365033106 [Erdtree Guardian] Tarnished Golden Sunflower
+365000000 [Guardian] Guardian's Swordspear
+365000001 [Guardian] Guardian Mask
+365000002 [Guardian] Guardian Garb
+365000003 [Guardian] Guardian Bracers
+365000004 [Guardian] Guardian Greaves
+365000005 [Guardian] Tarnished Golden Sunflower
+365000100 [Guardian] Guardian's Swordspear
+365000101 [Guardian] Guardian Mask
+365000102 [Guardian] Guardian Garb (Full Bloom)
+365000103 [Guardian] Guardian Bracers
+365000104 [Guardian] Guardian Greaves
+365000105 [Guardian] Tarnished Golden Sunflower
+365000200 [Guardian] Guardian's Swordspear
+365000201 [Guardian] Guardian Mask
+365000202 [Guardian] Guardian Garb
+365000203 [Guardian] Guardian Bracers
+365000204 [Guardian] Guardian Greaves
+365000205 [Guardian] Tarnished Golden Sunflower
+365033100 [Guardian] Golden Centipede
+365033101 [Guardian] Guardian's Swordspear
+365033102 [Guardian] Guardian Mask
+365033103 [Guardian] Guardian Garb
+365033104 [Guardian] Guardian Bracers
+365033105 [Guardian] Guardian Greaves
+365033106 [Guardian] Tarnished Golden Sunflower
 366000000 [Commoner] Weathered Straight Sword
 366000001 [Commoner] Commoner's Headband (Altered)
 366000002 [Commoner] Commoner's Garb
@@ -785,14 +785,14 @@
 366200501 [Scarlet Putrid Corpse] Bloodrose
 366400000 [Cemetery Shade] None
 366400700 [Cemetery Shade] Mantis Blade
-367000000 [Albinauric Lookout] Albinauric Bloodclot
-367000100 [Albinauric Lookout] Albinauric Bloodclot
-367000101 [Albinauric Lookout] Glintstone Firefly
-367000200 [Albinauric Lookout] Albinauric Bloodclot
-367000300 [Albinauric Lookout] Black Dumpling
-367000301 [Albinauric Lookout] Albinauric Bloodclot
-367000400 [Albinauric Lookout] Albinauric Bloodclot
-367020500 [Albinauric Lookout] Albinauric Bloodclot
+367000000 [Elder Albinauric] Albinauric Bloodclot
+367000100 [Elder Albinauric] Albinauric Bloodclot
+367000101 [Elder Albinauric] Glintstone Firefly
+367000200 [Elder Albinauric] Albinauric Bloodclot
+367000300 [Elder Albinauric] Black Dumpling
+367000301 [Elder Albinauric] Albinauric Bloodclot
+367000400 [Elder Albinauric] Albinauric Bloodclot
+367020500 [Elder Albinauric] Albinauric Bloodclot
 370000000 [Depraved Perfumer] Depraved Perfumer Headscarf
 370000001 [Depraved Perfumer] Depraved Perfumer Robe
 370000002 [Depraved Perfumer] Depraved Perfumer Gloves
@@ -808,50 +808,50 @@
 370000105 [Depraved Perfumer] Perfumer's Shield
 370000106 [Depraved Perfumer] Altus Bloom
 370000107 [Depraved Perfumer] Miranda Powder
-370100100 [White Veil Perfumer] Perfumer Hood
-370100101 [White Veil Perfumer] Perfumer Robe
-370100102 [White Veil Perfumer] Perfumer Gloves
-370100103 [White Veil Perfumer] Perfumer Sarong
-370100104 [White Veil Perfumer] Budding Cave Moss
-370100105 [White Veil Perfumer] Altus Bloom
-370100106 [White Veil Perfumer] Miranda Powder
-370100200 [White Veil Perfumer] Perfumer Hood
-370100201 [White Veil Perfumer] Perfumer Robe
-370100202 [White Veil Perfumer] Perfumer Gloves
-370100203 [White Veil Perfumer] Perfumer Sarong
-370100204 [White Veil Perfumer] Perfumer's Shield
-370100205 [White Veil Perfumer] Budding Cave Moss
-370100206 [White Veil Perfumer] Altus Bloom
-370100207 [White Veil Perfumer] Miranda Powder
+370100100 [Perfumer] Perfumer Hood
+370100101 [Perfumer] Perfumer Robe
+370100102 [Perfumer] Perfumer Gloves
+370100103 [Perfumer] Perfumer Sarong
+370100104 [Perfumer] Budding Cave Moss
+370100105 [Perfumer] Altus Bloom
+370100106 [Perfumer] Miranda Powder
+370100200 [Perfumer] Perfumer Hood
+370100201 [Perfumer] Perfumer Robe
+370100202 [Perfumer] Perfumer Gloves
+370100203 [Perfumer] Perfumer Sarong
+370100204 [Perfumer] Perfumer's Shield
+370100205 [Perfumer] Budding Cave Moss
+370100206 [Perfumer] Altus Bloom
+370100207 [Perfumer] Miranda Powder
 370130100 [Depraved Perfumer] None
-370200000 [Raya Lucaria Scholar] Academy Glintstone Staff
-370200001 [Raya Lucaria Scholar] Raya Lucarian Robe
-370200002 [Raya Lucaria Scholar] Sorcerer Manchettes
-370200003 [Raya Lucaria Scholar] Sorcerer Leggings
-370200100 [Raya Lucaria Scholar] Academy Glintstone Staff
-370200101 [Raya Lucaria Scholar] Raya Lucarian Robe
-370200102 [Raya Lucaria Scholar] Sorcerer Manchettes
-370200103 [Raya Lucaria Scholar] Sorcerer Leggings
-370200200 [Raya Lucaria Scholar] Lazuli Glintstone Sword
-370200201 [Raya Lucaria Scholar] Lazuli Robe
-370200300 [Raya Lucaria Scholar] Academy Glintstone Staff
-370200301 [Raya Lucaria Scholar] Raya Lucarian Robe
-370200302 [Raya Lucaria Scholar] Sorcerer Manchettes
-370200303 [Raya Lucaria Scholar] Sorcerer Leggings
-370200400 [Raya Lucaria Scholar] Academy Glintstone Staff
-370200401 [Raya Lucaria Scholar] Raya Lucarian Robe
-370200402 [Raya Lucaria Scholar] Sorcerer Manchettes
-370200403 [Raya Lucaria Scholar] Sorcerer Leggings
-370300000 [Noble's Page] Page Hood
-370300001 [Noble's Page] Page Garb
-370300002 [Noble's Page] Page Trousers
-370300003 [Noble's Page] Perfumer's Bolt
-370300004 [Noble's Page] Red Branch Shortbow
-370300100 [Noble's Page] Perfumer's Bolt
-370300101 [Noble's Page] High Page Hood
-370300102 [Noble's Page] High Page Clothes
-370300103 [Noble's Page] Page Trousers
-370300104 [Noble's Page] Red Branch Shortbow
+370200000 [Glintstone Sorcerer] Academy Glintstone Staff
+370200001 [Glintstone Sorcerer] Raya Lucarian Robe
+370200002 [Glintstone Sorcerer] Sorcerer Manchettes
+370200003 [Glintstone Sorcerer] Sorcerer Leggings
+370200100 [Glintstone Sorcerer] Academy Glintstone Staff
+370200101 [Glintstone Sorcerer] Raya Lucarian Robe
+370200102 [Glintstone Sorcerer] Sorcerer Manchettes
+370200103 [Glintstone Sorcerer] Sorcerer Leggings
+370200200 [Glintstone Sorcerer] Lazuli Glintstone Sword
+370200201 [Glintstone Sorcerer] Lazuli Robe
+370200300 [Glintstone Sorcerer] Academy Glintstone Staff
+370200301 [Glintstone Sorcerer] Raya Lucarian Robe
+370200302 [Glintstone Sorcerer] Sorcerer Manchettes
+370200303 [Glintstone Sorcerer] Sorcerer Leggings
+370200400 [Glintstone Sorcerer] Academy Glintstone Staff
+370200401 [Glintstone Sorcerer] Raya Lucarian Robe
+370200402 [Glintstone Sorcerer] Sorcerer Manchettes
+370200403 [Glintstone Sorcerer] Sorcerer Leggings
+370300000 [Page] Page Hood
+370300001 [Page] Page Garb
+370300002 [Page] Page Trousers
+370300003 [Page] Perfumer's Bolt
+370300004 [Page] Red Branch Shortbow
+370300100 [Page] Perfumer's Bolt
+370300101 [Page] High Page Hood
+370300102 [Page] High Page Clothes
+370300103 [Page] Page Trousers
+370300104 [Page] Red Branch Shortbow
 370400000 [Battlemage] Stone Club
 370400100 [Battlemage] Stone Club
 370400101 [Battlemage] Somber Smithing Stone [1]
@@ -956,18 +956,18 @@
 390000104 [Fire Monk] Fire Monk Greaves
 390000105 [Fire Monk] Smoldering Butterfly
 390000106 [Fire Monk] Fire Blossom
-390100000 [Godskin Monk] Blackflame Monk Hood
-390100001 [Godskin Monk] Blackflame Monk Armor
-390100002 [Godskin Monk] Blackflame Monk Gauntlets
-390100003 [Godskin Monk] Blackflame Monk Greaves
-390100004 [Godskin Monk] Smoldering Butterfly
-390100005 [Godskin Monk] Fire Blossom
-390100100 [Godskin Monk] Blackflame Monk Hood
-390100101 [Godskin Monk] Blackflame Monk Armor
-390100102 [Godskin Monk] Blackflame Monk Gauntlets
-390100103 [Godskin Monk] Blackflame Monk Greaves
-390100104 [Godskin Monk] Smoldering Butterfly
-390100105 [Godskin Monk] Fire Blossom
+390100000 [Blackflame Monk] Blackflame Monk Hood
+390100001 [Blackflame Monk] Blackflame Monk Armor
+390100002 [Blackflame Monk] Blackflame Monk Gauntlets
+390100003 [Blackflame Monk] Blackflame Monk Greaves
+390100004 [Blackflame Monk] Smoldering Butterfly
+390100005 [Blackflame Monk] Fire Blossom
+390100100 [Blackflame Monk] Blackflame Monk Hood
+390100101 [Blackflame Monk] Blackflame Monk Armor
+390100102 [Blackflame Monk] Blackflame Monk Gauntlets
+390100103 [Blackflame Monk] Blackflame Monk Greaves
+390100104 [Blackflame Monk] Smoldering Butterfly
+390100105 [Blackflame Monk] Fire Blossom
 391000000 [Fire Prelate] Fire Prelate Helm
 391000001 [Fire Prelate] Fire Prelate Armor (Altered)
 391000002 [Fire Prelate] Fire Prelate Gauntlets
@@ -1077,8 +1077,8 @@
 405000007 [Kaiden Sellsword] Frozen Raisin
 406000000 [Horse] Sliver of Meat
 406000001 [Horse] Beast Liver
-407000000 [Grey Wolf] Thin Beast Bones
-407000001 [Grey Wolf] Lump of Flesh
+407000000 [Wolf] Thin Beast Bones
+407000001 [Wolf] Lump of Flesh
 407100000 [White Wolf] Thin Beast Bones
 407100001 [White Wolf] Lump of Flesh
 408000000 [Rat] Golden Rune [1]
@@ -1176,43 +1176,43 @@
 415000000 [Basilisk] None
 415062000 [Basilisk] Aeonian Butterfly
 415066000 [Basilisk] None
-416000000 [Large Starved Dog] Thin Beast Bones
-416000001 [Large Starved Dog] Beast Blood
-416000010 [Large Starved Dog] Thin Beast Bones
-416000011 [Large Starved Dog] Ruin Fragment
-416000012 [Large Starved Dog] Sanctuary Stone
-416030100 [Large Starved Dog] Sacramental Bud
-416030101 [Large Starved Dog] Ruin Fragment
-416030102 [Large Starved Dog] Beast Blood
-416100000 [Starved Dog] Thin Beast Bones
-416100001 [Starved Dog] Beast Blood
-416100010 [Starved Dog] Thin Beast Bones
-416100011 [Starved Dog] Beast Blood
-416100012 [Starved Dog] Sanctuary Stone
-416100130 [Starved Dog] Sacramental Bud
-416100131 [Starved Dog] Thin Beast Bones
-416100132 [Starved Dog] Beast Blood
-417000000 [Small Living Mass] Smithing Stone [1]
-417000001 [Small Living Mass] Smithing Stone [2]
-417000002 [Small Living Mass] Glass Shard
-417000100 [Small Living Mass] Glass Shard
-417000101 [Small Living Mass] Thin Beast Bones
-417000102 [Small Living Mass] Hefty Beast Bone
-417000200 [Small Living Mass] Glass Shard
-417000201 [Small Living Mass] Smithing Stone [1]
-417000202 [Small Living Mass] Smithing Stone [2]
-417100000 [Giant Living Mass] Sacramental Bud
-417100001 [Giant Living Mass] Beast Blood
-417100002 [Giant Living Mass] Thin Beast Bones
-417100003 [Giant Living Mass] Hefty Beast Bone
-417100100 [Giant Living Mass] Glass Shard
-417100101 [Giant Living Mass] Thin Beast Bones
-417100102 [Giant Living Mass] Hefty Beast Bone
-417100103 [Giant Living Mass] Smithing Stone [1]
-417100104 [Giant Living Mass] Smithing Stone [2]
-417100200 [Giant Living Mass] Beast Blood
-417100201 [Giant Living Mass] Thin Beast Bones
-417100202 [Giant Living Mass] Hefty Beast Bone
+416000000 [Large Stray] Thin Beast Bones
+416000001 [Large Stray] Beast Blood
+416000010 [Large Stray] Thin Beast Bones
+416000011 [Large Stray] Ruin Fragment
+416000012 [Large Stray] Sanctuary Stone
+416030100 [Large Stray] Sacramental Bud
+416030101 [Large Stray] Ruin Fragment
+416030102 [Large Stray] Beast Blood
+416100000 [Stray] Thin Beast Bones
+416100001 [Stray] Beast Blood
+416100010 [Stray] Thin Beast Bones
+416100011 [Stray] Beast Blood
+416100012 [Stray] Sanctuary Stone
+416100130 [Stray] Sacramental Bud
+416100131 [Stray] Thin Beast Bones
+416100132 [Stray] Beast Blood
+417000000 [Small Putrid Flesh] Smithing Stone [1]
+417000001 [Small Putrid Flesh] Smithing Stone [2]
+417000002 [Small Putrid Flesh] Glass Shard
+417000100 [Small Putrid Flesh] Glass Shard
+417000101 [Small Putrid Flesh] Thin Beast Bones
+417000102 [Small Putrid Flesh] Hefty Beast Bone
+417000200 [Small Putrid Flesh] Glass Shard
+417000201 [Small Putrid Flesh] Smithing Stone [1]
+417000202 [Small Putrid Flesh] Smithing Stone [2]
+417100000 [Giant Putrid Flesh] Sacramental Bud
+417100001 [Giant Putrid Flesh] Beast Blood
+417100002 [Giant Putrid Flesh] Thin Beast Bones
+417100003 [Giant Putrid Flesh] Hefty Beast Bone
+417100100 [Giant Putrid Flesh] Glass Shard
+417100101 [Giant Putrid Flesh] Thin Beast Bones
+417100102 [Giant Putrid Flesh] Hefty Beast Bone
+417100103 [Giant Putrid Flesh] Smithing Stone [1]
+417100104 [Giant Putrid Flesh] Smithing Stone [2]
+417100200 [Giant Putrid Flesh] Beast Blood
+417100201 [Giant Putrid Flesh] Thin Beast Bones
+417100202 [Giant Putrid Flesh] Hefty Beast Bone
 418000000 [Jellyfish] Golden Rune [1]
 418000010 [Jellyfish] Grave Glovewort [1]
 418000020 [Jellyfish] Grave Glovewort [2]
@@ -1228,30 +1228,30 @@
 418052501 [Jellyfish] Golden Rune [3]
 418052502 [Jellyfish] Grave Glovewort [7]
 418052503 [Jellyfish] Grave Glovewort [8]
-420000000 [Giant Bat] None
-420000010 [Giant Bat] Golden Rune [1]
-420000011 [Giant Bat] Golden Rune [2]
-420000020 [Giant Bat] Golden Rune [3]
-420000021 [Giant Bat] Golden Rune [4]
-420000022 [Giant Bat] Golden Rune [5]
-420000040 [Giant Bat] Golden Rune [6]
-420000041 [Giant Bat] Golden Rune [7]
-420000042 [Giant Bat] Golden Rune [8]
-420000043 [Giant Bat] Golden Rune [9]
-420000050 [Giant Bat] Golden Rune [10]
-420000051 [Giant Bat] Golden Rune [11]
-420000100 [Giant Bat] None
-420000110 [Giant Bat] Golden Rune [1]
-420000111 [Giant Bat] Golden Rune [2]
-420000120 [Giant Bat] Golden Rune [3]
-420000121 [Giant Bat] Golden Rune [4]
-420000122 [Giant Bat] Golden Rune [5]
-420000140 [Giant Bat] Golden Rune [6]
-420000141 [Giant Bat] Golden Rune [7]
-420000142 [Giant Bat] Golden Rune [8]
-420000143 [Giant Bat] Golden Rune [9]
-420000150 [Giant Bat] Golden Rune [10]
-420000151 [Giant Bat] Golden Rune [11]
+420000000 [Man-Bat] None
+420000010 [Man-Bat] Golden Rune [1]
+420000011 [Man-Bat] Golden Rune [2]
+420000020 [Man-Bat] Golden Rune [3]
+420000021 [Man-Bat] Golden Rune [4]
+420000022 [Man-Bat] Golden Rune [5]
+420000040 [Man-Bat] Golden Rune [6]
+420000041 [Man-Bat] Golden Rune [7]
+420000042 [Man-Bat] Golden Rune [8]
+420000043 [Man-Bat] Golden Rune [9]
+420000050 [Man-Bat] Golden Rune [10]
+420000051 [Man-Bat] Golden Rune [11]
+420000100 [Man-Bat] None
+420000110 [Man-Bat] Golden Rune [1]
+420000111 [Man-Bat] Golden Rune [2]
+420000120 [Man-Bat] Golden Rune [3]
+420000121 [Man-Bat] Golden Rune [4]
+420000122 [Man-Bat] Golden Rune [5]
+420000140 [Man-Bat] Golden Rune [6]
+420000141 [Man-Bat] Golden Rune [7]
+420000142 [Man-Bat] Golden Rune [8]
+420000143 [Man-Bat] Golden Rune [9]
+420000150 [Man-Bat] Golden Rune [10]
+420000151 [Man-Bat] Golden Rune [11]
 420112000 [Bat Harpy] Golden Rune [6]
 420120000 [Bat Harpy] Golden Rune [6]
 420120010 [Bat Harpy] Golden Rune [6]
@@ -1324,13 +1324,13 @@
 425000030 [Small Fingercreeper] Somber Smithing Stone [4]
 425000040 [Small Fingercreeper] Somber Smithing Stone [7]
 425000050 [Small Fingercreeper] Somber Smithing Stone [7]
-426050000 [Burial Watchdog] Watchdog's Greatsword
-426050100 [Burial Watchdog] Watchdog's Greatsword
-426050200 [Burial Watchdog] None
-426052000 [Burial Watchdog] Watchdog's Greatsword
-426052100 [Burial Watchdog] Watchdog's Greatsword
-426052200 [Burial Watchdog] None
-427000000 [Lion Guardian] None
+426050000 [Erdtree Burial Watchdog] Watchdog's Greatsword
+426050100 [Erdtree Burial Watchdog] Watchdog's Greatsword
+426050200 [Erdtree Burial Watchdog] None
+426052000 [Erdtree Burial Watchdog] Watchdog's Greatsword
+426052100 [Erdtree Burial Watchdog] Watchdog's Greatsword
+426052200 [Erdtree Burial Watchdog] None
+427000000 [Elder Lion] None
 428000000 [Giant Ant] Formic Rock
 428000100 [Giant Ant] None
 428000200 [Giant Ant] None
@@ -2798,227 +2798,227 @@
 437700205 [Highwayman] Mushroom
 438000000 [Starcaller] Gravity Stone Fan
 438000001 [Starcaller] Gravity Stone Chunk
-438100000 [Bloodthorn Exile] Staff of the Guilty
-438100001 [Bloodthorn Exile] Smoldering Butterfly
-438100010 [Bloodthorn Exile] Staff of the Guilty
-438100011 [Bloodthorn Exile] Smoldering Butterfly
-438100012 [Bloodthorn Exile] [Sorcery] Briars of Sin
-438100100 [Bloodthorn Exile] Smoldering Butterfly
-438210000 [Tunnel Miner] Pickaxe
-438210001 [Tunnel Miner] Smithing Stone [1]
-438210200 [Tunnel Miner] Pickaxe
-438210201 [Tunnel Miner] Smithing Stone [1]
-438210300 [Tunnel Miner] Pickaxe
-438210301 [Tunnel Miner] Smithing Stone [1]
-438210302 [Tunnel Miner] Explosive Stone
-438210303 [Tunnel Miner] Explosive Stone Clump
-438210400 [Tunnel Miner] Pickaxe
-438210401 [Tunnel Miner] Smithing Stone [1]
-438212700 [Tunnel Miner] Pickaxe
-438212701 [Tunnel Miner] Smithing Stone [1]
-438212702 [Tunnel Miner] Cracked Crystal
-438220200 [Tunnel Miner] Pickaxe
-438220201 [Tunnel Miner] Smithing Stone [2]
-438220202 [Tunnel Miner] Smithing Stone [3]
-438226000 [Tunnel Miner] Pickaxe
-438226001 [Tunnel Miner] Smithing Stone [4]
-438226200 [Tunnel Miner] Pickaxe
-438226201 [Tunnel Miner] Smithing Stone [4]
-438226300 [Tunnel Miner] Pickaxe
-438226301 [Tunnel Miner] Smithing Stone [4]
-438226302 [Tunnel Miner] Explosive Stone
-438226303 [Tunnel Miner] Explosive Stone Clump
-438226400 [Tunnel Miner] Pickaxe
-438226401 [Tunnel Miner] Smithing Stone [4]
-438226500 [Tunnel Miner] Pickaxe
-438226501 [Tunnel Miner] Smithing Stone [4]
-438226600 [Tunnel Miner] Pickaxe
-438226601 [Tunnel Miner] Smithing Stone [4]
-438226602 [Tunnel Miner] Explosive Stone
-438226603 [Tunnel Miner] Explosive Stone Clump
-438230000 [Tunnel Miner] Pickaxe
-438230001 [Tunnel Miner] Smithing Stone [5]
-438230200 [Tunnel Miner] Pickaxe
-438230201 [Tunnel Miner] Smithing Stone [5]
-438230400 [Tunnel Miner] Pickaxe
-438230401 [Tunnel Miner] Smithing Stone [5]
-438230800 [Tunnel Miner] Pickaxe
-438230801 [Tunnel Miner] Smithing Stone [5]
-438230802 [Tunnel Miner] Cracked Crystal
-438233000 [Tunnel Miner] Pickaxe
-438233001 [Tunnel Miner] Smithing Stone [5]
-438233200 [Tunnel Miner] Pickaxe
-438233201 [Tunnel Miner] Smithing Stone [5]
-438233400 [Tunnel Miner] Pickaxe
-438233401 [Tunnel Miner] Smithing Stone [5]
-438233600 [Tunnel Miner] Pickaxe
-438233601 [Tunnel Miner] Smithing Stone [5]
-438233602 [Tunnel Miner] Poisoned Stone
-438233603 [Tunnel Miner] Poisoned Stone Clump
-438233800 [Tunnel Miner] Pickaxe
-438233801 [Tunnel Miner] Smithing Stone [5]
-438233802 [Tunnel Miner] Poisoned Stone
-438233803 [Tunnel Miner] Poisoned Stone Clump
-438240000 [Tunnel Miner] Flask of Crimson Tears
-438240100 [Tunnel Miner] Pickaxe
-438240101 [Tunnel Miner] Smithing Stone [4]
-438240300 [Tunnel Miner] Pickaxe
-438240301 [Tunnel Miner] Smithing Stone [4]
-438240302 [Tunnel Miner] Explosive Stone
-438240303 [Tunnel Miner] Explosive Stone Clump
-438240400 [Tunnel Miner] Pickaxe
-438240401 [Tunnel Miner] Smithing Stone [4]
-438240800 [Tunnel Miner] Pickaxe
-438240801 [Tunnel Miner] Smithing Stone [4]
-438240802 [Tunnel Miner] Cracked Crystal
-438252000 [Tunnel Miner] Pickaxe
-438252001 [Tunnel Miner] Smithing Stone [6]
-438252002 [Tunnel Miner] Smithing Stone [7]
-438252003 [Tunnel Miner] Smithing Stone [8]
-438252004 [Tunnel Miner] Gravel Stone
-438252200 [Tunnel Miner] Pickaxe
-438252201 [Tunnel Miner] Smithing Stone [6]
-438252202 [Tunnel Miner] Smithing Stone [7]
-438252203 [Tunnel Miner] Smithing Stone [8]
-438252204 [Tunnel Miner] Gravel Stone
-438252700 [Tunnel Miner] Pickaxe
-438252701 [Tunnel Miner] Smithing Stone [6]
-438252702 [Tunnel Miner] Smithing Stone [7]
-438252703 [Tunnel Miner] Smithing Stone [8]
-438320000 [Glintstone Miner] Digger's Staff
-438320001 [Glintstone Miner] Somber Smithing Stone [2]
-438320002 [Glintstone Miner] Somber Smithing Stone [3]
-438320003 [Glintstone Miner] Glintstone Scrap
-438320004 [Glintstone Miner] Large Glintstone Scrap
-438320100 [Glintstone Miner] Digger's Staff
-438320101 [Glintstone Miner] Glintstone Scrap
-438320102 [Glintstone Miner] Large Glintstone Scrap
-438320103 [Glintstone Miner] Somber Smithing Stone [2]
-438320104 [Glintstone Miner] Somber Smithing Stone [3]
-438320105 [Glintstone Miner] Glintstone Scrap
-438320106 [Glintstone Miner] Large Glintstone Scrap
-438330000 [Glintstone Miner] Digger's Staff
-438330001 [Glintstone Miner] Somber Smithing Stone [4]
-438330002 [Glintstone Miner] Somber Smithing Stone [5]
-438330003 [Glintstone Miner] Glintstone Scrap
-438330004 [Glintstone Miner] Large Glintstone Scrap
-438330100 [Glintstone Miner] Digger's Staff
-438330101 [Glintstone Miner] Glintstone Scrap
-438330102 [Glintstone Miner] Large Glintstone Scrap
-438330103 [Glintstone Miner] Somber Smithing Stone [4]
-438330104 [Glintstone Miner] Somber Smithing Stone [5]
-438330105 [Glintstone Miner] Glintstone Scrap
-438330106 [Glintstone Miner] Large Glintstone Scrap
-438340000 [Glintstone Miner] Digger's Staff
-438340001 [Glintstone Miner] Somber Smithing Stone [3]
-438340002 [Glintstone Miner] Somber Smithing Stone [4]
-438340003 [Glintstone Miner] Glintstone Scrap
-438340004 [Glintstone Miner] Large Glintstone Scrap
-438340100 [Glintstone Miner] Digger's Staff
-438340101 [Glintstone Miner] Glintstone Scrap
-438340102 [Glintstone Miner] Large Glintstone Scrap
-438340103 [Glintstone Miner] Somber Smithing Stone [3]
-438340104 [Glintstone Miner] Somber Smithing Stone [4]
-438340105 [Glintstone Miner] Glintstone Scrap
-438340106 [Glintstone Miner] Large Glintstone Scrap
-438420000 [Glintstone Miner] Digger's Staff
-438420001 [Glintstone Miner] Somber Smithing Stone [2]
-438420002 [Glintstone Miner] Somber Smithing Stone [3]
-438420003 [Glintstone Miner] Glintstone Scrap
-438420004 [Glintstone Miner] Large Glintstone Scrap
-438440000 [Glintstone Miner] Digger's Staff
-438440001 [Glintstone Miner] Somber Smithing Stone [3]
-438440002 [Glintstone Miner] Somber Smithing Stone [4]
-438440003 [Glintstone Miner] Glintstone Scrap
-438440004 [Glintstone Miner] Large Glintstone Scrap
-438500000 [Fungal Sorcerer] Toxic Mushroom
-438500100 [Fungal Sorcerer] Toxic Mushroom
-438500200 [Fungal Sorcerer] Toxic Mushroom
-438500500 [Fungal Sorcerer] Serpent Arrow
-438500501 [Fungal Sorcerer] Toxic Mushroom
-438500600 [Fungal Sorcerer] Serpent Arrow
-438500601 [Fungal Sorcerer] Toxic Mushroom
-438500700 [Fungal Sorcerer] Serpent Arrow
-438500701 [Fungal Sorcerer] Toxic Mushroom
-442000000 [Giant Lobster] Strip of White Flesh
-442000100 [Giant Lobster] Strip of White Flesh
-442000101 [Giant Lobster] Crab Eggs
-442000200 [Giant Lobster] Strip of White Flesh
-442000201 [Giant Lobster] Smithing Stone [2]
-442000500 [Giant Lobster] Strip of White Flesh
-442000501 [Giant Lobster] Rimed Crystal Bud
-443000000 [Abnormal Stone Cluster] Ruin Fragment
-443000001 [Abnormal Stone Cluster] Sanctuary Stone
-443000500 [Abnormal Stone Cluster] Ruin Fragment
-443000501 [Abnormal Stone Cluster] Sanctuary Stone
-443000502 [Abnormal Stone Cluster] Volcanic Stone
-444010000 [Fungal Pod] Golden Rune [3]
-444010001 [Fungal Pod] Poisonbloom
-444010002 [Fungal Pod] Strip of White Flesh
-444012000 [Fungal Pod] Golden Rune [3]
-444012001 [Fungal Pod] Poisonbloom
-444012002 [Fungal Pod] Strip of White Flesh
-444020000 [Fungal Pod] Golden Rune [5]
-444020001 [Fungal Pod] Poisonbloom
-444020002 [Fungal Pod] Strip of White Flesh
-444032000 [Fungal Pod] Golden Rune [7]
-444032001 [Fungal Pod] Poisonbloom
-444032002 [Fungal Pod] Strip of White Flesh
-444033000 [Fungal Pod] Golden Rune [7]
-444033001 [Fungal Pod] Poisonbloom
-444033002 [Fungal Pod] Strip of White Flesh
-444040000 [Fungal Pod] Golden Rune [7]
-444040001 [Fungal Pod] Poisonbloom
-444040002 [Fungal Pod] Strip of White Flesh
-444050000 [Fungal Pod] Golden Rune [9]
-444050001 [Fungal Pod] Poisonbloom
-444050002 [Fungal Pod] Strip of White Flesh
-444120000 [Giant Fungal Pod] Golden Rune [5]
-444120001 [Giant Fungal Pod] Poisonbloom
-444120002 [Giant Fungal Pod] Strip of White Flesh
-444150000 [Giant Fungal Pod] Golden Rune [9]
-444150001 [Giant Fungal Pod] Poisonbloom
-444150002 [Giant Fungal Pod] Strip of White Flesh
-444240000 [Giant Rotten Pod] Golden Rune [7]
-444240001 [Giant Rotten Pod] Poisonbloom
-444240002 [Giant Rotten Pod] Strip of White Flesh
+438100000 [Guilty] Staff of the Guilty
+438100001 [Guilty] Smoldering Butterfly
+438100010 [Guilty] Staff of the Guilty
+438100011 [Guilty] Smoldering Butterfly
+438100012 [Guilty] [Sorcery] Briars of Sin
+438100100 [Guilty] Smoldering Butterfly
+438210000 [Stonedigger] Pickaxe
+438210001 [Stonedigger] Smithing Stone [1]
+438210200 [Stonedigger] Pickaxe
+438210201 [Stonedigger] Smithing Stone [1]
+438210300 [Stonedigger] Pickaxe
+438210301 [Stonedigger] Smithing Stone [1]
+438210302 [Stonedigger] Explosive Stone
+438210303 [Stonedigger] Explosive Stone Clump
+438210400 [Stonedigger] Pickaxe
+438210401 [Stonedigger] Smithing Stone [1]
+438212700 [Stonedigger] Pickaxe
+438212701 [Stonedigger] Smithing Stone [1]
+438212702 [Stonedigger] Cracked Crystal
+438220200 [Stonedigger] Pickaxe
+438220201 [Stonedigger] Smithing Stone [2]
+438220202 [Stonedigger] Smithing Stone [3]
+438226000 [Stonedigger] Pickaxe
+438226001 [Stonedigger] Smithing Stone [4]
+438226200 [Stonedigger] Pickaxe
+438226201 [Stonedigger] Smithing Stone [4]
+438226300 [Stonedigger] Pickaxe
+438226301 [Stonedigger] Smithing Stone [4]
+438226302 [Stonedigger] Explosive Stone
+438226303 [Stonedigger] Explosive Stone Clump
+438226400 [Stonedigger] Pickaxe
+438226401 [Stonedigger] Smithing Stone [4]
+438226500 [Stonedigger] Pickaxe
+438226501 [Stonedigger] Smithing Stone [4]
+438226600 [Stonedigger] Pickaxe
+438226601 [Stonedigger] Smithing Stone [4]
+438226602 [Stonedigger] Explosive Stone
+438226603 [Stonedigger] Explosive Stone Clump
+438230000 [Stonedigger] Pickaxe
+438230001 [Stonedigger] Smithing Stone [5]
+438230200 [Stonedigger] Pickaxe
+438230201 [Stonedigger] Smithing Stone [5]
+438230400 [Stonedigger] Pickaxe
+438230401 [Stonedigger] Smithing Stone [5]
+438230800 [Stonedigger] Pickaxe
+438230801 [Stonedigger] Smithing Stone [5]
+438230802 [Stonedigger] Cracked Crystal
+438233000 [Stonedigger] Pickaxe
+438233001 [Stonedigger] Smithing Stone [5]
+438233200 [Stonedigger] Pickaxe
+438233201 [Stonedigger] Smithing Stone [5]
+438233400 [Stonedigger] Pickaxe
+438233401 [Stonedigger] Smithing Stone [5]
+438233600 [Stonedigger] Pickaxe
+438233601 [Stonedigger] Smithing Stone [5]
+438233602 [Stonedigger] Poisoned Stone
+438233603 [Stonedigger] Poisoned Stone Clump
+438233800 [Stonedigger] Pickaxe
+438233801 [Stonedigger] Smithing Stone [5]
+438233802 [Stonedigger] Poisoned Stone
+438233803 [Stonedigger] Poisoned Stone Clump
+438240000 [Stonedigger] Flask of Crimson Tears
+438240100 [Stonedigger] Pickaxe
+438240101 [Stonedigger] Smithing Stone [4]
+438240300 [Stonedigger] Pickaxe
+438240301 [Stonedigger] Smithing Stone [4]
+438240302 [Stonedigger] Explosive Stone
+438240303 [Stonedigger] Explosive Stone Clump
+438240400 [Stonedigger] Pickaxe
+438240401 [Stonedigger] Smithing Stone [4]
+438240800 [Stonedigger] Pickaxe
+438240801 [Stonedigger] Smithing Stone [4]
+438240802 [Stonedigger] Cracked Crystal
+438252000 [Stonedigger] Pickaxe
+438252001 [Stonedigger] Smithing Stone [6]
+438252002 [Stonedigger] Smithing Stone [7]
+438252003 [Stonedigger] Smithing Stone [8]
+438252004 [Stonedigger] Gravel Stone
+438252200 [Stonedigger] Pickaxe
+438252201 [Stonedigger] Smithing Stone [6]
+438252202 [Stonedigger] Smithing Stone [7]
+438252203 [Stonedigger] Smithing Stone [8]
+438252204 [Stonedigger] Gravel Stone
+438252700 [Stonedigger] Pickaxe
+438252701 [Stonedigger] Smithing Stone [6]
+438252702 [Stonedigger] Smithing Stone [7]
+438252703 [Stonedigger] Smithing Stone [8]
+438320000 [Glintstone Digger] Digger's Staff
+438320001 [Glintstone Digger] Somber Smithing Stone [2]
+438320002 [Glintstone Digger] Somber Smithing Stone [3]
+438320003 [Glintstone Digger] Glintstone Scrap
+438320004 [Glintstone Digger] Large Glintstone Scrap
+438320100 [Glintstone Digger] Digger's Staff
+438320101 [Glintstone Digger] Glintstone Scrap
+438320102 [Glintstone Digger] Large Glintstone Scrap
+438320103 [Glintstone Digger] Somber Smithing Stone [2]
+438320104 [Glintstone Digger] Somber Smithing Stone [3]
+438320105 [Glintstone Digger] Glintstone Scrap
+438320106 [Glintstone Digger] Large Glintstone Scrap
+438330000 [Glintstone Digger] Digger's Staff
+438330001 [Glintstone Digger] Somber Smithing Stone [4]
+438330002 [Glintstone Digger] Somber Smithing Stone [5]
+438330003 [Glintstone Digger] Glintstone Scrap
+438330004 [Glintstone Digger] Large Glintstone Scrap
+438330100 [Glintstone Digger] Digger's Staff
+438330101 [Glintstone Digger] Glintstone Scrap
+438330102 [Glintstone Digger] Large Glintstone Scrap
+438330103 [Glintstone Digger] Somber Smithing Stone [4]
+438330104 [Glintstone Digger] Somber Smithing Stone [5]
+438330105 [Glintstone Digger] Glintstone Scrap
+438330106 [Glintstone Digger] Large Glintstone Scrap
+438340000 [Glintstone Digger] Digger's Staff
+438340001 [Glintstone Digger] Somber Smithing Stone [3]
+438340002 [Glintstone Digger] Somber Smithing Stone [4]
+438340003 [Glintstone Digger] Glintstone Scrap
+438340004 [Glintstone Digger] Large Glintstone Scrap
+438340100 [Glintstone Digger] Digger's Staff
+438340101 [Glintstone Digger] Glintstone Scrap
+438340102 [Glintstone Digger] Large Glintstone Scrap
+438340103 [Glintstone Digger] Somber Smithing Stone [3]
+438340104 [Glintstone Digger] Somber Smithing Stone [4]
+438340105 [Glintstone Digger] Glintstone Scrap
+438340106 [Glintstone Digger] Large Glintstone Scrap
+438420000 [Glintstone Digger] Digger's Staff
+438420001 [Glintstone Digger] Somber Smithing Stone [2]
+438420002 [Glintstone Digger] Somber Smithing Stone [3]
+438420003 [Glintstone Digger] Glintstone Scrap
+438420004 [Glintstone Digger] Large Glintstone Scrap
+438440000 [Glintstone Digger] Digger's Staff
+438440001 [Glintstone Digger] Somber Smithing Stone [3]
+438440002 [Glintstone Digger] Somber Smithing Stone [4]
+438440003 [Glintstone Digger] Glintstone Scrap
+438440004 [Glintstone Digger] Large Glintstone Scrap
+438500000 [Disciple of Rot] Toxic Mushroom
+438500100 [Disciple of Rot] Toxic Mushroom
+438500200 [Disciple of Rot] Toxic Mushroom
+438500500 [Disciple of Rot] Serpent Arrow
+438500501 [Disciple of Rot] Toxic Mushroom
+438500600 [Disciple of Rot] Serpent Arrow
+438500601 [Disciple of Rot] Toxic Mushroom
+438500700 [Disciple of Rot] Serpent Arrow
+438500701 [Disciple of Rot] Toxic Mushroom
+442000000 [Giant Crayfish] Strip of White Flesh
+442000100 [Giant Crayfish] Strip of White Flesh
+442000101 [Giant Crayfish] Crab Eggs
+442000200 [Giant Crayfish] Strip of White Flesh
+442000201 [Giant Crayfish] Smithing Stone [2]
+442000500 [Giant Crayfish] Strip of White Flesh
+442000501 [Giant Crayfish] Rimed Crystal Bud
+443000000 [Watcher Stones] Ruin Fragment
+443000001 [Watcher Stones] Sanctuary Stone
+443000500 [Watcher Stones] Ruin Fragment
+443000501 [Watcher Stones] Sanctuary Stone
+443000502 [Watcher Stones] Volcanic Stone
+444010000 [Land Squirt] Golden Rune [3]
+444010001 [Land Squirt] Poisonbloom
+444010002 [Land Squirt] Strip of White Flesh
+444012000 [Land Squirt] Golden Rune [3]
+444012001 [Land Squirt] Poisonbloom
+444012002 [Land Squirt] Strip of White Flesh
+444020000 [Land Squirt] Golden Rune [5]
+444020001 [Land Squirt] Poisonbloom
+444020002 [Land Squirt] Strip of White Flesh
+444032000 [Land Squirt] Golden Rune [7]
+444032001 [Land Squirt] Poisonbloom
+444032002 [Land Squirt] Strip of White Flesh
+444033000 [Land Squirt] Golden Rune [7]
+444033001 [Land Squirt] Poisonbloom
+444033002 [Land Squirt] Strip of White Flesh
+444040000 [Land Squirt] Golden Rune [7]
+444040001 [Land Squirt] Poisonbloom
+444040002 [Land Squirt] Strip of White Flesh
+444050000 [Land Squirt] Golden Rune [9]
+444050001 [Land Squirt] Poisonbloom
+444050002 [Land Squirt] Strip of White Flesh
+444120000 [Giant Land Squirt] Golden Rune [5]
+444120001 [Giant Land Squirt] Poisonbloom
+444120002 [Giant Land Squirt] Strip of White Flesh
+444150000 [Giant Land Squirt] Golden Rune [9]
+444150001 [Giant Land Squirt] Poisonbloom
+444150002 [Giant Land Squirt] Strip of White Flesh
+444240000 [Giant Rotten Land Squirt] Golden Rune [7]
+444240001 [Giant Rotten Land Squirt] Poisonbloom
+444240002 [Giant Rotten Land Squirt] Strip of White Flesh
 445000000 [Walking Mausoleum] None
-446002000 [Flamethrower Tank] Smithing Stone [3]
-446002001 [Flamethrower Tank] Smoldering Butterfly
-446002002 [Flamethrower Tank] Fire Blossom
-446002010 [Flamethrower Tank] Smithing Stone [3]
-446002011 [Flamethrower Tank] Smoldering Butterfly
-446002012 [Flamethrower Tank] Fire Blossom
-446002020 [Flamethrower Tank] Smithing Stone [3]
-446002021 [Flamethrower Tank] Smoldering Butterfly
-446002022 [Flamethrower Tank] Fire Blossom
-446032000 [Flamethrower Tank] Smithing Stone [5]
-446032001 [Flamethrower Tank] Smoldering Butterfly
-446032002 [Flamethrower Tank] Fire Blossom
-446032010 [Flamethrower Tank] Smithing Stone [5]
-446032011 [Flamethrower Tank] Smoldering Butterfly
-446032012 [Flamethrower Tank] Fire Blossom
-446032020 [Flamethrower Tank] Smithing Stone [5]
-446032021 [Flamethrower Tank] Smoldering Butterfly
-446032022 [Flamethrower Tank] Fire Blossom
-446040000 [Flamethrower Tank] Smithing Stone [3]
-446040001 [Flamethrower Tank] Smoldering Butterfly
-446040002 [Flamethrower Tank] Fire Blossom
-446040010 [Flamethrower Tank] Smithing Stone [3]
-446040011 [Flamethrower Tank] Smoldering Butterfly
-446040012 [Flamethrower Tank] Fire Blossom
-446040020 [Flamethrower Tank] Smithing Stone [3]
-446040021 [Flamethrower Tank] Smoldering Butterfly
-446040022 [Flamethrower Tank] Fire Blossom
-446040030 [Flamethrower Tank] Smithing Stone [3]
-446040031 [Flamethrower Tank] Smoldering Butterfly
-446040032 [Flamethrower Tank] Fire Blossom
-446040040 [Flamethrower Tank] Smithing Stone [3]
-446040041 [Flamethrower Tank] Smoldering Butterfly
-446040042 [Flamethrower Tank] Fire Blossom
-446040050 [Flamethrower Tank] Smithing Stone [3]
-446040051 [Flamethrower Tank] Smoldering Butterfly
-446040052 [Flamethrower Tank] Fire Blossom
+446002000 [Flame Chariot] Smithing Stone [3]
+446002001 [Flame Chariot] Smoldering Butterfly
+446002002 [Flame Chariot] Fire Blossom
+446002010 [Flame Chariot] Smithing Stone [3]
+446002011 [Flame Chariot] Smoldering Butterfly
+446002012 [Flame Chariot] Fire Blossom
+446002020 [Flame Chariot] Smithing Stone [3]
+446002021 [Flame Chariot] Smoldering Butterfly
+446002022 [Flame Chariot] Fire Blossom
+446032000 [Flame Chariot] Smithing Stone [5]
+446032001 [Flame Chariot] Smoldering Butterfly
+446032002 [Flame Chariot] Fire Blossom
+446032010 [Flame Chariot] Smithing Stone [5]
+446032011 [Flame Chariot] Smoldering Butterfly
+446032012 [Flame Chariot] Fire Blossom
+446032020 [Flame Chariot] Smithing Stone [5]
+446032021 [Flame Chariot] Smoldering Butterfly
+446032022 [Flame Chariot] Fire Blossom
+446040000 [Flame Chariot] Smithing Stone [3]
+446040001 [Flame Chariot] Smoldering Butterfly
+446040002 [Flame Chariot] Fire Blossom
+446040010 [Flame Chariot] Smithing Stone [3]
+446040011 [Flame Chariot] Smoldering Butterfly
+446040012 [Flame Chariot] Fire Blossom
+446040020 [Flame Chariot] Smithing Stone [3]
+446040021 [Flame Chariot] Smoldering Butterfly
+446040022 [Flame Chariot] Fire Blossom
+446040030 [Flame Chariot] Smithing Stone [3]
+446040031 [Flame Chariot] Smoldering Butterfly
+446040032 [Flame Chariot] Fire Blossom
+446040040 [Flame Chariot] Smithing Stone [3]
+446040041 [Flame Chariot] Smoldering Butterfly
+446040042 [Flame Chariot] Fire Blossom
+446040050 [Flame Chariot] Smithing Stone [3]
+446040051 [Flame Chariot] Smoldering Butterfly
+446040052 [Flame Chariot] Fire Blossom
 447000000 [Ghiza Torturer] None
 447000100 [Ghiza Torturer] None
 447000200 [Ghiza Torturer] None
@@ -3049,8 +3049,8 @@
 448130601 [Miranda Sprout] Miranda Powder
 448200000 [Fading Giant Miranda Sprout] Poisonbloom
 448200001 [Fading Giant Miranda Sprout] Miranda Powder
-448300000 [Fading Miranda Sprout] Poisonbloom
-448300001 [Fading Miranda Sprout] Miranda Powder
+448300000 [Rotten Miranda Sprout] Poisonbloom
+448300001 [Rotten Miranda Sprout] Miranda Powder
 449000000 [Living Pot - Large] Living Jar Shard
 449000010 [Living Pot - Large] Living Jar Shard
 449000100 [Living Pot - Large] Living Jar Shard
@@ -3115,16 +3115,16 @@
 450000100 [Dragon] None
 450010000 [Dragon] None
 450222000 [Dragon] None
-450442000 [Lesser Elder Dragon] None
+450442000 [Flying Dragon (Small)] None
 450542000 [Elder Dragon Greyoll] None
 451072000 [Ancient Dragon] Gravel Stone
-455000000 [Monstrous Dog] Hefty Beast Bone
-455000001 [Monstrous Dog] Beast Blood
-455000100 [Monstrous Dog] Hefty Beast Bone
-455000101 [Monstrous Dog] Beast Blood
-456000000 [Monstrous Crow] Hefty Beast Bone
-456000001 [Monstrous Crow] Beast Blood
-456000002 [Monstrous Crow] Golden Rune [5]
+455000000 [Giant Dog] Hefty Beast Bone
+455000001 [Giant Dog] Beast Blood
+455000100 [Giant Dog] Hefty Beast Bone
+455000101 [Giant Dog] Beast Blood
+456000000 [Giant Crow] Hefty Beast Bone
+456000001 [Giant Crow] Beast Blood
+456000002 [Giant Crow] Golden Rune [5]
 456100000 [Monstrous Rotten Crow] Hefty Beast Bone
 456100001 [Monstrous Rotten Crow] Beast Blood
 456100002 [Monstrous Rotten Crow] Golden Rune [5]
@@ -3154,97 +3154,97 @@
 463000702 [Runebear] Lump of Flesh
 463000703 [Runebear] Gold-Tinged Excrement
 463000704 [Runebear] Prince of Death's Cyst
-466000000 [Golem] Golem's Halberd
-466000010 [Golem] Golem's Halberd
-466000011 [Golem] Smithing Stone [1]
-466000020 [Golem] Golem's Halberd
-466000021 [Golem] Smithing Stone [2]
-466000022 [Golem] Smithing Stone [3]
-466000030 [Golem] Golem's Halberd
-466000031 [Golem] Smithing Stone [4]
-466000040 [Golem] Golem's Halberd
-466000041 [Golem] Smithing Stone [5]
-466000050 [Golem] Golem's Halberd
-466000051 [Golem] Smithing Stone [6]
-466000100 [Golem] Golem Greatbow
-466000101 [Golem] Great Arrow
-466000102 [Golem] Golem's Great Arrow
-466000110 [Golem] Golem Greatbow
-466000111 [Golem] Great Arrow
-466000112 [Golem] Golem's Great Arrow
-466000113 [Golem] Smithing Stone [1]
-466000120 [Golem] Golem Greatbow
-466000121 [Golem] Great Arrow
-466000122 [Golem] Golem's Great Arrow
-466000123 [Golem] Smithing Stone [2]
-466000124 [Golem] Smithing Stone [3]
-466000130 [Golem] Golem Greatbow
-466000131 [Golem] Great Arrow
-466000132 [Golem] Golem's Great Arrow
-466000133 [Golem] Smithing Stone [4]
-466000140 [Golem] Golem Greatbow
-466000141 [Golem] Great Arrow
-466000142 [Golem] Golem's Great Arrow
-466000143 [Golem] Smithing Stone [5]
-466000150 [Golem] Golem Greatbow
-466000151 [Golem] Great Arrow
-466000152 [Golem] Golem's Great Arrow
-466000153 [Golem] Smithing Stone [6]
-466000154 [Golem] Smithing Stone [7]
-466000200 [Golem] Golem's Halberd
-466000201 [Golem] Smithing Stone [6]
-466000202 [Golem] Smithing Stone [7]
-466000300 [Golem] Golem's Halberd
-466000301 [Golem] Smithing Stone [4]
-466000400 [Golem] Golem Greatbow
-466000401 [Golem] Great Arrow
-466000402 [Golem] Golem's Magic Arrow
-466000403 [Golem] Smithing Stone [4]
-466000500 [Golem] Golem's Halberd
-466000510 [Golem] Golem's Halberd
-466000511 [Golem] Smithing Stone [1]
-466000520 [Golem] Golem's Halberd
-466000521 [Golem] Smithing Stone [2]
-466000522 [Golem] Smithing Stone [3]
-466000530 [Golem] Golem's Halberd
-466000531 [Golem] Smithing Stone [4]
-466000540 [Golem] Golem's Halberd
-466000541 [Golem] Smithing Stone [5]
-466000550 [Golem] Golem's Halberd
-466000551 [Golem] Smithing Stone [6]
-466000552 [Golem] Smithing Stone [7]
-466000600 [Golem] Golem Greatbow
-466000601 [Golem] Great Arrow
-466000602 [Golem] Golem's Great Arrow
-466000610 [Golem] Golem Greatbow
-466000611 [Golem] Great Arrow
-466000612 [Golem] Golem's Great Arrow
-466000613 [Golem] Smithing Stone [1]
-466000620 [Golem] Golem Greatbow
-466000621 [Golem] Great Arrow
-466000622 [Golem] Golem's Great Arrow
-466000623 [Golem] Smithing Stone [2]
-466000624 [Golem] Smithing Stone [3]
-466000630 [Golem] Golem Greatbow
-466000631 [Golem] Great Arrow
-466000632 [Golem] Golem's Great Arrow
-466000633 [Golem] Smithing Stone [4]
-466000640 [Golem] Golem Greatbow
-466000641 [Golem] Great Arrow
-466000642 [Golem] Golem's Great Arrow
-466000643 [Golem] Smithing Stone [5]
-466000650 [Golem] Golem Greatbow
-466000651 [Golem] Great Arrow
-466000652 [Golem] Golem's Great Arrow
-466000653 [Golem] Smithing Stone [6]
-466000654 [Golem] Smithing Stone [7]
+466000000 [Guardian Golem] Golem's Halberd
+466000010 [Guardian Golem] Golem's Halberd
+466000011 [Guardian Golem] Smithing Stone [1]
+466000020 [Guardian Golem] Golem's Halberd
+466000021 [Guardian Golem] Smithing Stone [2]
+466000022 [Guardian Golem] Smithing Stone [3]
+466000030 [Guardian Golem] Golem's Halberd
+466000031 [Guardian Golem] Smithing Stone [4]
+466000040 [Guardian Golem] Golem's Halberd
+466000041 [Guardian Golem] Smithing Stone [5]
+466000050 [Guardian Golem] Golem's Halberd
+466000051 [Guardian Golem] Smithing Stone [6]
+466000100 [Guardian Golem] Golem Greatbow
+466000101 [Guardian Golem] Great Arrow
+466000102 [Guardian Golem] Golem's Great Arrow
+466000110 [Guardian Golem] Golem Greatbow
+466000111 [Guardian Golem] Great Arrow
+466000112 [Guardian Golem] Golem's Great Arrow
+466000113 [Guardian Golem] Smithing Stone [1]
+466000120 [Guardian Golem] Golem Greatbow
+466000121 [Guardian Golem] Great Arrow
+466000122 [Guardian Golem] Golem's Great Arrow
+466000123 [Guardian Golem] Smithing Stone [2]
+466000124 [Guardian Golem] Smithing Stone [3]
+466000130 [Guardian Golem] Golem Greatbow
+466000131 [Guardian Golem] Great Arrow
+466000132 [Guardian Golem] Golem's Great Arrow
+466000133 [Guardian Golem] Smithing Stone [4]
+466000140 [Guardian Golem] Golem Greatbow
+466000141 [Guardian Golem] Great Arrow
+466000142 [Guardian Golem] Golem's Great Arrow
+466000143 [Guardian Golem] Smithing Stone [5]
+466000150 [Guardian Golem] Golem Greatbow
+466000151 [Guardian Golem] Great Arrow
+466000152 [Guardian Golem] Golem's Great Arrow
+466000153 [Guardian Golem] Smithing Stone [6]
+466000154 [Guardian Golem] Smithing Stone [7]
+466000200 [Guardian Golem] Golem's Halberd
+466000201 [Guardian Golem] Smithing Stone [6]
+466000202 [Guardian Golem] Smithing Stone [7]
+466000300 [Guardian Golem] Golem's Halberd
+466000301 [Guardian Golem] Smithing Stone [4]
+466000400 [Guardian Golem] Golem Greatbow
+466000401 [Guardian Golem] Great Arrow
+466000402 [Guardian Golem] Golem's Magic Arrow
+466000403 [Guardian Golem] Smithing Stone [4]
+466000500 [Guardian Golem] Golem's Halberd
+466000510 [Guardian Golem] Golem's Halberd
+466000511 [Guardian Golem] Smithing Stone [1]
+466000520 [Guardian Golem] Golem's Halberd
+466000521 [Guardian Golem] Smithing Stone [2]
+466000522 [Guardian Golem] Smithing Stone [3]
+466000530 [Guardian Golem] Golem's Halberd
+466000531 [Guardian Golem] Smithing Stone [4]
+466000540 [Guardian Golem] Golem's Halberd
+466000541 [Guardian Golem] Smithing Stone [5]
+466000550 [Guardian Golem] Golem's Halberd
+466000551 [Guardian Golem] Smithing Stone [6]
+466000552 [Guardian Golem] Smithing Stone [7]
+466000600 [Guardian Golem] Golem Greatbow
+466000601 [Guardian Golem] Great Arrow
+466000602 [Guardian Golem] Golem's Great Arrow
+466000610 [Guardian Golem] Golem Greatbow
+466000611 [Guardian Golem] Great Arrow
+466000612 [Guardian Golem] Golem's Great Arrow
+466000613 [Guardian Golem] Smithing Stone [1]
+466000620 [Guardian Golem] Golem Greatbow
+466000621 [Guardian Golem] Great Arrow
+466000622 [Guardian Golem] Golem's Great Arrow
+466000623 [Guardian Golem] Smithing Stone [2]
+466000624 [Guardian Golem] Smithing Stone [3]
+466000630 [Guardian Golem] Golem Greatbow
+466000631 [Guardian Golem] Great Arrow
+466000632 [Guardian Golem] Golem's Great Arrow
+466000633 [Guardian Golem] Smithing Stone [4]
+466000640 [Guardian Golem] Golem Greatbow
+466000641 [Guardian Golem] Great Arrow
+466000642 [Guardian Golem] Golem's Great Arrow
+466000643 [Guardian Golem] Smithing Stone [5]
+466000650 [Guardian Golem] Golem Greatbow
+466000651 [Guardian Golem] Great Arrow
+466000652 [Guardian Golem] Golem's Great Arrow
+466000653 [Guardian Golem] Smithing Stone [6]
+466000654 [Guardian Golem] Smithing Stone [7]
 469000000 [Grafted Scion] None
 469000001 [Grafted Scion] None
 475000000 [Godrick the Grafted] None
-477000000 [Gargoyle] Gargoyle's Twinblade
-477000100 [Gargoyle] Gargoyle's Greatsword
-477000200 [Gargoyle] None
-480000000 [Mohg, The Omen] None
+477000000 [Valiant Gargoyle] Gargoyle's Twinblade
+477000100 [Valiant Gargoyle] Gargoyle's Greatsword
+477000200 [Valiant Gargoyle] None
+480000000 [Mohg, Lord of Blood] None
 481000000 [Erdtree Avatar] Rotten Staff
 482000000 [Omenkiller] None
 482000400 [Omenkiller] Omensmirk Mask
@@ -3256,8 +3256,8 @@
 491000000 [Magma Wyrm] None
 496000000 [Giant Skeleton Torso] None
 496000100 [Giant Skeleton Torso] None
-600000000 [Hawk] Flight Pinion, Flight Pinion, Flight Pinion
-600000001 [Hawk] Four-Toed Fowl Foot
+600000000 [Eagle] Flight Pinion, Flight Pinion, Flight Pinion
+600000001 [Eagle] Four-Toed Fowl Foot
 601000000 [Deer] Sliver of Meat
 601000001 [Deer] Beast Liver
 601000002 [Deer] Thin Beast Bones, Thin Beast Bones, Thin Beast Bones
@@ -3303,9 +3303,9 @@
 606000212 [Goat] Budding Horn
 606000213 [Goat] Fulgurbloom
 606000214 [Goat] Thin Beast Bones, Thin Beast Bones, Thin Beast Bones
-607000000 [Gull] Flight Pinion, Flight Pinion, Flight Pinion
-607000001 [Gull] Four-Toed Fowl Foot
-607200000 [Gull] None
+607000000 [Murre] Flight Pinion, Flight Pinion, Flight Pinion
+607000001 [Murre] Four-Toed Fowl Foot
+607200000 [Murre] None
 608000000 [Dragonfly] Great Dragonfly Head
 608000100 [Dragonfly] Great Dragonfly Head
 609000000 [Turtle] Turtle Neck Meat
@@ -3326,4 +3326,4 @@
 710000000 [White Mask Assailant] None
 710000100 [White Mask Assailant] None
 810000000 [Ballista] None
-811000000 [Giant Ballista] None
+811000000 [Trebuchet] None

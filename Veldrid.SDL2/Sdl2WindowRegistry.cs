@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Threading;
-using static Veldrid.Sdl2.Sdl2Native;
+using Silk.NET.SDL;
 
 namespace Veldrid.Sdl2
 {
@@ -36,33 +36,53 @@ namespace Veldrid.Sdl2
             }
         }
 
-        private static unsafe void ProcessWindowEvent(ref SDL_Event ev)
+        private static unsafe void ProcessWindowEvent(ref Event ev)
         {
             bool handled = false;
             uint windowID = 0;
-            switch (ev.type)
+            switch ((EventType)ev.Type)
             {
-                case SDL_EventType.Quit:
-                case SDL_EventType.Terminating:
-                case SDL_EventType.WindowEvent:
-                case SDL_EventType.KeyDown:
-                case SDL_EventType.KeyUp:
-                case SDL_EventType.TextEditing:
-                case SDL_EventType.TextInput:
-                case SDL_EventType.KeyMapChanged:
-                case SDL_EventType.MouseMotion:
-                case SDL_EventType.MouseButtonDown:
-                case SDL_EventType.MouseButtonUp:
-                case SDL_EventType.MouseWheel:
-                    windowID = ev.windowID;
+                case EventType.Quit:
+                case EventType.AppTerminating:
+                case EventType.Windowevent:
+                    windowID = ev.Window.WindowID;
                     handled = true;
                     break;
-                case SDL_EventType.DropBegin:
-                case SDL_EventType.DropComplete:
-                case SDL_EventType.DropFile:
-                case SDL_EventType.DropText:
-                    SDL_DropEvent dropEvent = Unsafe.As<SDL_Event, SDL_DropEvent>(ref ev);
-                    windowID = dropEvent.windowID;
+                case EventType.Keydown:
+                case EventType.Keyup:
+                    windowID = ev.Key.WindowID;
+                    handled = true;
+                    break;
+                case EventType.Textediting:
+                    windowID = ev.Edit.WindowID;
+                    handled = true;
+                    break;
+                case EventType.Textinput:
+                    windowID = ev.Text.WindowID;
+                    handled = true;
+                    break;
+                case EventType.Keymapchanged:
+                    windowID = ev.Key.WindowID;
+                    handled = true;
+                    break;
+                case EventType.Mousemotion:
+                    windowID = ev.Motion.WindowID;
+                    handled = true;
+                    break;
+                case EventType.Mousebuttondown:
+                case EventType.Mousebuttonup:
+                    windowID = ev.Button.WindowID;
+                    handled = true;
+                    break;
+                case EventType.Mousewheel:
+                    windowID = ev.Wheel.WindowID;
+                    handled = true;
+                    break;
+                case EventType.Dropbegin:
+                case EventType.Dropcomplete:
+                case EventType.Dropfile:
+                case EventType.Droptext:
+                    windowID = ev.Drop.WindowID;
                     handled = true;
                     break;
                 default:

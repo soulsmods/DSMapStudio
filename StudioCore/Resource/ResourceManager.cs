@@ -11,7 +11,6 @@ using System.Numerics;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks.Dataflow;
-using Accessibility;
 using SoulsFormats;
 using ImGuiNET;
 
@@ -133,16 +132,16 @@ namespace StudioCore.Resource
             public BinderReader Binder = null;
             public bool PopulateResourcesOnly = false;
             public HashSet<int> BinderLoadMask = null;
-            public List<Task> LoadingTasks = new List<Task>();
-            public List<int> TaskSizes = new List<int>();
-            public List<int> TaskProgress = new List<int>();
+            public List<Task> LoadingTasks = new();
+            public List<int> TaskSizes = new();
+            public List<int> TaskProgress = new();
             public int TotalSize = 0;
             public HashSet<string> AssetWhitelist = null;
             public ResourceType ResourceMask = ResourceType.All;
             public AccessLevel AccessLevel = AccessLevel.AccessGPUOptimizedOnly;
 
-            public List<Tuple<IResourceLoadPipeline, string, BinderFileHeader>> PendingResources = new List<Tuple<IResourceLoadPipeline, string, BinderFileHeader>>();
-            public List<Tuple<string, BinderFileHeader>> PendingTPFs = new List<Tuple<string, BinderFileHeader>>();
+            public List<Tuple<IResourceLoadPipeline, string, BinderFileHeader>> PendingResources = new();
+            public List<Tuple<string, BinderFileHeader>> PendingTPFs = new();
 
             public readonly object ProgressLock = new object();
 
@@ -755,7 +754,8 @@ namespace StudioCore.Resource
             }
             else
             {
-                if (Scene.Renderer.GeometryBufferAllocator.HasStagingOrPending())
+                if (Scene.Renderer.GeometryBufferAllocator != null &&
+                    Scene.Renderer.GeometryBufferAllocator.HasStagingOrPending())
                 {
                     var ctx = Tracy.TracyCZoneN(1, "Flush Staging buffer");
                     Scene.Renderer.GeometryBufferAllocator.FlushStaging(true);
@@ -787,10 +787,9 @@ namespace StudioCore.Resource
         }
 
         private static bool TaskWindowOpen = true;
-        private static bool ResourceListWindowOpen = true;
         public static void OnGuiDrawTasks(float w, float h)
         {
-            float scale = ImGuiRenderer.GetUIScale();
+            float scale = MapStudioNew.GetUIScale();
             
             if (ActiveJobProgress.Count() > 0)
             {
@@ -824,7 +823,7 @@ namespace StudioCore.Resource
 
         public static void OnGuiDrawResourceList()
         {
-            if (!ImGui.Begin("Resource List", ref ResourceListWindowOpen))
+            if (!ImGui.Begin("Resource List"))
             {
                 ImGui.End();
                 return;

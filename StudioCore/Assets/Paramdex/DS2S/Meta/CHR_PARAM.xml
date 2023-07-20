@@ -1,12 +1,34 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
   <Self Row0Dummy="" />
+  <Enums>
+    <Enum Name="HitSfxEnum">
+      <Option Value="1" Name="None" />
+      <Option Value="2" Name="Sparks" />
+      <Option Value="3" Name="Sparks" />
+      <Option Value="4" Name="White" />
+      <Option Value="5" Name="White (Unused)" />
+      <Option Value="7" Name="White" />
+      <Option Value="8" Name="Red" />
+      <Option Value="5" Name="White" />
+      <Option Value="10" Name="Purple (Bugs)" />
+      <Option Value="11" Name="Purple (Giants)" />
+      <Option Value="12" Name="Skeleton" />
+      <Option Value="24" Name="White" />
+      <Option Value="33" Name="White (Phantom)" />
+      <Option Value="38" Name="Black Smoke" />
+      <Option Value="39" Name="None" />
+      <Option Value="41" Name="Light Green (Unused)" />
+    </Enum>
+  </Enums> 
   <Field>
     <chr_id AltName="Chr ID"/>
     <behavior_param_id AltName="Behavior ID" Refs="EnemyBehaviorParam,EnemyBehaviorSecondParam,EnemyBehaviorThirdParam"/>
     <common_param_id AltName="Common ID" Refs="EnemyCommonParam"/>
     <move_param_id AltName="Move ID" Refs="EnemyMoveParam"/>
     <npc_player_status_param_id AltName="NPC Player Status ID" Refs="NpcPlayerStatusParam"/>
+    <body_hit_sfx1 AltName="Body Hit SFX 1" Enum="HitSfxEnum" Wiki="First sfx produced when struck. Note that BossPartsParam can also determine hit sfx."/>
+    <body_hit_sfx2 AltName="Body Hit SFX 2" Enum="HitSfxEnum" Wiki="Second sfx produced when struck. Note that BossPartsParam can also determine hit sfx."/>
     <chr_phantom_param_id AltName="Chr Phantom ID" Refs="ChrPhantomParam"/>
     <spawn_limit AltName="Spawn Limit"/>
     <stat_hp AltName="HP"/>
@@ -21,6 +43,7 @@
     <equip_weapon_id_4 AltName="[4] Equip Weapon ID" Refs="EnemyEquipWeaponParam"/>
     <equip_weapon_id_5 AltName="[5] Equip Weapon ID" Refs="EnemyEquipWeaponParam"/>
     <chr_round_damage_param_id AltName="NG+ Damage Adjustment ID" Refs="ChrRoundDamageParam"/>
+    <shield_hit_sfx AltName="Shield Hit SFX" Enum="HitSfxEnum" Wiki="Sfx produced shield is struck."/>
     <shield_block_level AltName="Shield Block Level"/>
     <shield_stability AltName="Shield Stability"/>
     <shield_absorption_physical AltName="Shield Absorption: Physical"/>

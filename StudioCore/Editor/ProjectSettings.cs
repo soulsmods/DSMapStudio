@@ -4,10 +4,16 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.IO;
-using Newtonsoft.Json.Linq;
+using StudioCore.Platform;
 
 namespace StudioCore.Editor
 {
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
+    [JsonSerializable(typeof(ProjectSettings))]
+    internal partial class ProjectSettingsSerializerContext : JsonSerializerContext
+    {
+    }
+    
     /// <summary>
     /// Settings for a modding project. Gets serialized to JSON
     /// </summary>
@@ -20,7 +26,7 @@ namespace StudioCore.Editor
         // JsonExtensionData stores info in config file not present in class in order to retain settings between versions.
 #pragma warning disable IDE0051
         [JsonExtensionData]
-        private IDictionary<string, JToken> _additionalData;
+        public IDictionary<string, JsonElement> AdditionalData { get; set; }
 #pragma warning restore IDE0051
 
         // Params
@@ -41,7 +47,8 @@ namespace StudioCore.Editor
 
         public void Serialize(string path)
         {
-            var jsonString = JsonSerializer.SerializeToUtf8Bytes(this);
+            var jsonString =
+                JsonSerializer.SerializeToUtf8Bytes(this, ProjectSettingsSerializerContext.Default.ProjectSettings);
             File.WriteAllBytes(path, jsonString);
         }
 
@@ -49,7 +56,24 @@ namespace StudioCore.Editor
         {
             var jsonString = File.ReadAllBytes(path);
             var readOnlySpan = new ReadOnlySpan<byte>(jsonString);
-            return JsonSerializer.Deserialize<ProjectSettings>(readOnlySpan);
+            try
+            {
+                ProjectSettings settings = JsonSerializer.Deserialize(readOnlySpan,
+                    ProjectSettingsSerializerContext.Default.ProjectSettings);
+                if (settings == null)
+                    throw new Exception("JsonConvert returned null");
+                return settings;
+            }
+            catch (Exception e)
+            {
+                var result = PlatformUtils.Instance.MessageBox($"{e.Message}\n\nProject.json cannot be loaded. Delete project.json?",
+                    $"Project Load Error", MessageBoxButtons.YesNo);
+                if (result == DialogResult.Yes)
+                {
+                    File.Delete(path);
+                }
+                return null;
+            }
         }
     }
 

@@ -478,7 +478,7 @@ namespace SoulsFormats
 
             internal virtual void GetIndices(MSBD msb, Entries entries)
             {
-                ModelIndex = MSB.FindIndex(entries.Models, ModelName);
+                ModelIndex = MSB.FindIndex(this, entries.Models, ModelName);
             }
 
             /// <summary>
@@ -728,11 +728,11 @@ namespace SoulsFormats
                 internal override void GetIndices(MSBD msb, Entries entries)
                 {
                     base.GetIndices(msb, entries);
-                    CollisionIndex = MSB.FindIndex(entries.Parts, CollisionName);
+                    CollisionIndex = MSB.FindIndex(this, entries.Parts, CollisionName);
 
                     MovePointIndices = new short[MovePointNames.Length];
                     for (int i = 0; i < MovePointNames.Length; i++)
-                        MovePointIndices[i] = (short)MSB.FindIndex(entries.Regions, MovePointNames[i]);
+                        MovePointIndices[i] = (short)MSB.FindIndex(this, entries.Regions, MovePointNames[i]);
                 }
             }
 
@@ -1151,7 +1151,7 @@ namespace SoulsFormats
                 internal override void GetIndices(MSBD msb, Entries entries)
                 {
                     base.GetIndices(msb, entries);
-                    CollisionIndex = MSB.FindIndex(msb.Parts.Collisions, CollisionName);
+                    CollisionIndex = MSB.FindIndex(this, msb.Parts.Collisions, CollisionName);
                 }
             }
         }

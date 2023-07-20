@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
-using System.Windows.Forms;
 using SoulsFormats;
 using System.Linq;
 using System.Threading;
@@ -52,7 +51,7 @@ namespace StudioCore.Editor
         }
         public static void ReloadAliases()
         {
-            TaskManager.Run("AB:LoadAliases", true, false, false, () =>
+            TaskManager.Run(new("Map - Load Names", true, false, false, () =>
             {
                 _mapNames = new Dictionary<string, string>();
                 IsLoadingAliases = true;
@@ -61,7 +60,7 @@ namespace StudioCore.Editor
                     LoadMapNames();
                 }
                 IsLoadingAliases = false;
-            });
+            }));
         }
 
         public static void SetAssetLocator(AssetLocator l)

@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <spEffect2 Refs="SpEffectParam(=0)" />
+    <unlovkViewSkill7 Refs="SkillParam(=0)" />
+    <unlovkViewSkill3 Refs="SkillParam(=0)" />
+    <unlovkViewSkill6 Refs="SkillParam(=0)" />
+    <unenforementWepId Refs="EquipParamWeapon(=0)" />
+    <parent2 Refs="SkillParam(=0)" />
+    <unlovkViewSkill0 Refs="SkillParam(=0)" />
+    <unlovkViewSkill1 Refs="SkillParam(=0)" />
+    <unlovkViewSkill4 Refs="SkillParam(=0)" />
+    <parent1 Refs="SkillParam(=0)" />
+    <spEffect3 Refs="SpEffectParam(=0)" />
+    <spEffect1 Refs="SpEffectParam(=0)" />
+    <acquireWeaponId Refs="EquipParamWeapon(=0)" />
+    <unlovkViewSkill5 Refs="SkillParam(=0)" />
+    <unlovkViewSkill2 Refs="SkillParam(=0)" />
+    <virtualWeaponId Refs="EquipParamWeapon(=0)" />
+    <parent3 Refs="SkillParam(=0)" />
+    <unreleaseWepId Refs="EquipParamWeapon(=0)" />
+    <reinforceWeaponId Refs="EquipParamWeapon(=0)" />
+  </Field>
+  <Self />
+</PARAMMETA>

@@ -749,7 +749,7 @@ namespace SoulsFormats
 
             internal virtual void GetIndices(Entries entries)
             {
-                ActivationPartIndex = MSB.FindIndex(entries.Parts, ActivationPartName);
+                ActivationPartIndex = MSB.FindIndex(this, entries.Parts, ActivationPartName);
                 if (Shape is MSB.Shape.Composite composite)
                     composite.GetIndices(entries.Regions);
             }
@@ -1021,9 +1021,9 @@ namespace SoulsFormats
                 public int EffectID { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// If true, the effect is off by default until enabled by event scripts.
                 /// </summary>
-                public int UnkT04 { get; set; }
+                public int StartDisabled { get; set; }
 
                 /// <summary>
                 /// Creates an SFX with default values.
@@ -1035,13 +1035,13 @@ namespace SoulsFormats
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
                     EffectID = br.ReadInt32();
-                    UnkT04 = br.ReadInt32();
+                    StartDisabled = br.ReadInt32();
                 }
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
                     bw.WriteInt32(EffectID);
-                    bw.WriteInt32(UnkT04);
+                    bw.WriteInt32(StartDisabled);
                 }
             }
 
@@ -1100,7 +1100,7 @@ namespace SoulsFormats
                 internal override void GetIndices(Entries entries)
                 {
                     base.GetIndices(entries);
-                    WindAreaIndex = MSB.FindIndex(entries.Regions, WindAreaName);
+                    WindAreaIndex = MSB.FindIndex(this, entries.Regions, WindAreaName);
                 }
             }
 
@@ -1771,9 +1771,10 @@ namespace SoulsFormats
                 private protected override bool HasTypeData => true;
 
                 /// <summary>
-                /// Unknown.
+                /// Determines which WorldMapPointParam to use.
                 /// </summary>
-                public int UnkT00 { get; set; }
+                [MSBParamReference(ParamName = "WorldMapPointParam")]
+                public int WorldMapPointParamID { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -1809,7 +1810,7 @@ namespace SoulsFormats
 
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
-                    UnkT00 = br.ReadInt32();
+                    WorldMapPointParamID = br.ReadInt32();
                     UnkT04 = br.ReadInt32();
                     UnkT08 = br.ReadSingle();
                     UnkT0C = br.ReadSingle();
@@ -1821,7 +1822,7 @@ namespace SoulsFormats
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    bw.WriteInt32(UnkT00);
+                    bw.WriteInt32(WorldMapPointParamID);
                     bw.WriteInt32(UnkT04);
                     bw.WriteSingle(UnkT08);
                     bw.WriteSingle(UnkT0C);

@@ -1,17 +1,23 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using StudioCore.Platform;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Numerics;
-using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace StudioCore
 {
+    [JsonSourceGenerationOptions(WriteIndented = true, 
+        GenerationMode = JsonSourceGenerationMode.Metadata, IncludeFields = true)]
+    [JsonSerializable(typeof(CFG))]
+    internal partial class CfgSerializerContext : JsonSerializerContext
+    {
+    }
+    
     public class CFG
     {
         public static bool IsEnabled = true;
@@ -27,7 +33,7 @@ namespace StudioCore
         // JsonExtensionData stores info in config file not present in class in order to retain settings between versions.
 #pragma warning disable IDE0051
         [JsonExtensionData]
-        private IDictionary<string, JToken> _additionalData;
+        public IDictionary<string, JsonElement> AdditionalData;
 #pragma warning restore IDE0051
 
         public const int MAX_RECENT_PROJECTS = 20;
@@ -49,27 +55,28 @@ namespace StudioCore
             if (!File.Exists(GetConfigFilePath()))
             {
                 Current = new CFG();
-                SaveConfig();
             }
             else
             {
-                do
+                try
                 {
-                    try
-                    {
-                        Current = JsonConvert.DeserializeObject<CFG>(
-                        File.ReadAllText(GetConfigFilePath()));
-                    }
-                    catch (JsonException e)
-                    {
-                        if (MessageBox.Show($"{e.Message}\n\nReset config settings?", $"{Config_FileName} Load Error",
-                            MessageBoxButtons.OKCancel) == DialogResult.OK)
-                        {
-                            Current = new CFG();
-                        }
-                    }
+                    var options = new JsonSerializerOptions();
+                    Current = JsonSerializer.Deserialize(File.ReadAllText(GetConfigFilePath()),
+                        CfgSerializerContext.Default.CFG);
+                    if (Current == null)
+                        throw new Exception("JsonConvert returned null");
                 }
-                while (Current == null);
+                catch (Exception e)
+                {
+                    var result = PlatformUtils.Instance.MessageBox($"{e.Message}\n\nConfig could not be loaded. Reset settings?",
+                        $"{Config_FileName} Load Error", MessageBoxButtons.YesNo);
+                    if ( result == DialogResult.No)
+                    {
+                        throw new Exception($"{Config_FileName} could not be loaded.\n\n{e.Message}");
+                    }
+                    Current = new CFG();
+                    SaveConfig();
+                }
             }
         }
 
@@ -78,41 +85,41 @@ namespace StudioCore
             if (!File.Exists(GetBindingsFilePath()))
             {
                 KeyBindings.Current = new KeyBindings.Bindings();
-                SaveKeybinds();
             }
             else
             {
-                do
+                try
                 {
-                    try
-                    {
-                        KeyBindings.Current = JsonConvert.DeserializeObject<KeyBindings.Bindings>(
-                        File.ReadAllText(GetBindingsFilePath()));
-                    }
-                    catch (JsonException e)
-                    {
-                        if (MessageBox.Show($"{e.Message}\n\nReset keybinds?", $"{Keybinds_FileName} Load Error",
-                            MessageBoxButtons.OKCancel) == DialogResult.OK)
-                        {
-                            KeyBindings.Current = new KeyBindings.Bindings();
-                        }
-                    }
+                    KeyBindings.Current = JsonSerializer.Deserialize(File.ReadAllText(GetBindingsFilePath()),
+                        KeybindingsSerializerContext.Default.Bindings);
+                    if (KeyBindings.Current == null)
+                        throw new Exception("JsonConvert returned null");
                 }
-                while (KeyBindings.Current == null);
+                catch (Exception e)
+                {
+                    var result = PlatformUtils.Instance.MessageBox($"{e.Message}\n\nKeybinds could not be loaded. Reset keybinds?",
+                        $"{Keybinds_FileName} Load Error", MessageBoxButtons.YesNo);
+                    if (result == DialogResult.No)
+                    {
+                        throw new Exception($"{Keybinds_FileName} could not be loaded.\n\n{e.Message}");
+                    }
+                    KeyBindings.Current = new KeyBindings.Bindings();
+                    SaveKeybinds();
+                }
             }
         }
 
         private static void SaveConfig()
         {
-            var json = JsonConvert.SerializeObject(
-                Current, Formatting.Indented);
+            var json = JsonSerializer.Serialize(
+                Current, CfgSerializerContext.Default.CFG);
             File.WriteAllText(GetConfigFilePath(), json);
         }
 
         private static void SaveKeybinds()
         {
-            var json = JsonConvert.SerializeObject(
-                KeyBindings.Current, Formatting.Indented);
+            var json = JsonSerializer.Serialize(
+                KeyBindings.Current, KeybindingsSerializerContext.Default.Bindings);
             File.WriteAllText(GetBindingsFilePath(), json);
         }
 
@@ -150,12 +157,12 @@ namespace StudioCore
             // JsonExtensionData stores info in config file not present in class in order to retain settings between versions.
 #pragma warning disable IDE0051
             [JsonExtensionData]
-            private IDictionary<string, JToken> _additionalData;
+            public IDictionary<string, JsonElement> AdditionalData { get; set; }
 #pragma warning restore IDE0051
 
-            public string Name;
-            public string ProjectFile;
-            public GameType GameType;
+            public string Name { get; set; }
+            public string ProjectFile { get; set; }
+            public GameType GameType { get; set; }
         }
 
         public string LastProjectFile { get; set; } = "";
@@ -163,12 +170,18 @@ namespace StudioCore
 
         public GameType Game_Type { get; set; } = GameType.Undefined;
 
-        public Scene.RenderFilter LastSceneFilter = Scene.RenderFilter.All ^ Scene.RenderFilter.Light;
+        public Scene.RenderFilter LastSceneFilter { get; set; } = Scene.RenderFilter.All ^ Scene.RenderFilter.Light;
 
         public class RenderFilterPreset
         {
-            public string Name;
-            public Scene.RenderFilter Filters;
+            public string Name  { get; set; }
+            public Scene.RenderFilter Filters  { get; set; }
+
+            [JsonConstructor]
+            public RenderFilterPreset()
+            {
+            }
+            
             public RenderFilterPreset(string name, Scene.RenderFilter filters)
             {
                 Name = name;
@@ -176,12 +189,12 @@ namespace StudioCore
             }
         }
 
-        public RenderFilterPreset SceneFilter_Preset_01 = new("Map", Scene.RenderFilter.MapPiece | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Region);
-        public RenderFilterPreset SceneFilter_Preset_02 = new("Collision", Scene.RenderFilter.Collision | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Region);
-        public RenderFilterPreset SceneFilter_Preset_03 = new("Collision & Navmesh", Scene.RenderFilter.Collision | Scene.RenderFilter.Navmesh | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Region);
-        public RenderFilterPreset SceneFilter_Preset_04 = new("Lighting (Map)", Scene.RenderFilter.MapPiece | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Light);
-        public RenderFilterPreset SceneFilter_Preset_05 = new("Lighting (Collision)", Scene.RenderFilter.Collision | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Light);
-        public RenderFilterPreset SceneFilter_Preset_06 = new("All", Scene.RenderFilter.All);
+        public RenderFilterPreset SceneFilter_Preset_01 { get; set; } = new("Map", Scene.RenderFilter.MapPiece | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Region);
+        public RenderFilterPreset SceneFilter_Preset_02 { get; set; } = new("Collision", Scene.RenderFilter.Collision | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Region);
+        public RenderFilterPreset SceneFilter_Preset_03 { get; set; } = new("Collision & Navmesh", Scene.RenderFilter.Collision | Scene.RenderFilter.Navmesh | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Region);
+        public RenderFilterPreset SceneFilter_Preset_04 { get; set; } = new("Lighting (Map)", Scene.RenderFilter.MapPiece | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Light);
+        public RenderFilterPreset SceneFilter_Preset_05 { get; set; } = new("Lighting (Collision)", Scene.RenderFilter.Collision | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Light);
+        public RenderFilterPreset SceneFilter_Preset_06 { get; set; } = new("All", Scene.RenderFilter.All);
 
         public bool EnableTexturing = false;
 
@@ -222,7 +235,10 @@ namespace StudioCore
         public bool FontThai = false;
         public bool FontVietnamese = false;
         public bool FontCyrillic = false;
+
+        // UI settings
         public float UIScale = 1.0f;
+        public bool UI_CompactParams = false;
 
         // FMG Editor settings
         public bool FMG_ShowOriginalNames = false;
@@ -230,8 +246,8 @@ namespace StudioCore
         public bool FMG_NoFmgPatching = false;
 
         // Param settings
-        public bool Param_ShowAltNames = true;
-        public bool Param_AlwaysShowOriginalName = true;
+        public bool Param_MakeMetaNamesPrimary = true;
+        public bool Param_ShowSecondaryNames = true;
         public bool Param_ShowFieldOffsets = false; 
         public bool Param_HideReferenceRows = false;
         public bool Param_HideEnums = false;
@@ -240,6 +256,7 @@ namespace StudioCore
         public bool Param_ShowVanillaParams = true;
         public bool Param_PasteAfterSelection = false;
         public bool Param_DisableRowGrouping = false; 
+        public bool Param_AdvancedMassedit = false; 
 
         //private string _Param_Export_Array_Delimiter = "|";
         private string _Param_Export_Delimiter = ",";

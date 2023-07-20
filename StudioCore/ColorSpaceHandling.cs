@@ -1,7 +1,7 @@
 ﻿namespace StudioCore
 {
     /// <summary>
-    /// Identifies the kind of color space handling that an <see cref="ImGuiRenderer"/> uses.
+    /// Identifies the kind of color space handling that an <see cref="VulkanImGuiRenderer"/> uses.
     /// </summary>
     public enum ColorSpaceHandling
     {

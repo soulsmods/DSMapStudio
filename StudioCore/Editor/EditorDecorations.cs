@@ -37,7 +37,7 @@ namespace StudioCore.Editor
             {
                 ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(0, ImGui.GetStyle().ItemSpacing.Y));
                 ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 1.0f, 0.0f, 1.0f));
-                ImGui.TextUnformatted($@"  <");
+                ImGui.TextUnformatted($@"   <");
                 List<string> inactiveRefs = new List<string>();
                 bool first = true;
                 foreach (ParamRef r in paramRefs)
@@ -57,7 +57,7 @@ namespace StudioCore.Editor
                         }
                         else
                         {
-                            ImGui.TextUnformatted("   " + r.param);
+                            ImGui.TextUnformatted("    " + r.param);
                         }
                         first = false;
                     }
@@ -217,28 +217,14 @@ namespace StudioCore.Editor
                 return;
             foreach (var param in bank.Params)
             {
-                PARAMDEF.Field foundfield = null;
-                //get field
                 foreach (PARAMDEF.Field f in param.Value.AppliedParamdef.Fields)
                 {
                     if (FieldMetaData.Get(f).VirtualRef != null && FieldMetaData.Get(f).VirtualRef.Equals(virtualRefName))
                     {
-                        foundfield = f;
-                        break;
-                    }
-                }
-
-                if (foundfield == null)
-                    continue;
-                //add selectable
-                if (ImGui.Selectable($@"Go to first in {param.Key}"))
-                {
-                    foreach (Param.Row row in param.Value.Rows)
-                    {
-                        if (row[foundfield.InternalName].Value.ToString().Equals(searchValue.ToString()))
+                        if (ImGui.Selectable($@"Search in {param.Key} ({f.InternalName})"))
                         {
-                            EditorCommandQueue.AddCommand($@"param/select/-1/{param.Key}/{row.ID}");
-                            break;
+                            EditorCommandQueue.AddCommand($@"param/select/-1/{param.Key}");
+                            EditorCommandQueue.AddCommand($@"param/search/prop {f.InternalName} ^{searchValue.ToString()}$");
                         }
                     }
                 }
@@ -353,6 +339,27 @@ namespace StudioCore.Editor
 
             }
             return false;
+        }
+
+        public static void ImguiTableSeparator()
+        {
+            int cols = ImGui.TableGetColumnCount();
+            ImGui.TableNextRow();
+            for (int i=0; i<cols; i++)
+            {
+                ImGui.TableNextColumn();
+                ImGui.Separator();
+            }
+        }
+        public static bool ImGuiTableStdColumns(string id, int cols, bool fixVerticalPadding)
+        {
+            Vector2 oldPad = ImGui.GetStyle().CellPadding;
+            if (fixVerticalPadding)
+                ImGui.GetStyle().CellPadding = new Vector2(oldPad.X, 0);
+            bool v = ImGui.BeginTable(id, cols, ImGuiTableFlags.Resizable | ImGuiTableFlags.BordersInnerV | ImGuiTableFlags.SizingStretchSame);
+            if (fixVerticalPadding)
+                ImGui.GetStyle().CellPadding = oldPad;
+            return v;
         }
     }
 }

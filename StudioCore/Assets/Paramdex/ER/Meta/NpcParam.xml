@@ -202,8 +202,8 @@
         <Option Value="2" Name="Size 2" />
     </Enum>
     <Enum Name="NPC_HITSTOP_TYPE" type="u8">
-      <Option Value="0" Name="Perform Hit Stop" />
-      <Option Value="2" Name="No Hit Stop" />
+      <Option Value="0" Name="No Hit Stop" />
+      <Option Value="2" Name="Hit Stop" />
     </Enum>
     <Enum Name="NPC_SPECIAL_TURN_TYPE" type="u8">
         <Option Value="0" Name="Type 0" />
