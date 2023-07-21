@@ -22,16 +22,24 @@ namespace StudioCore
     /// </summary>
     public static class TaskLogs
     {
-        // Priority of log message. Affects how log is conveyed to the user.
+        /// <summary>
+        /// Priority of log message. Affects how log is conveyed to the user.
+        /// </summary>
         public enum LogPriority
         {
-            // Logger window only
+            /// <summary>
+            /// Log will be present in Logger window.
+            /// </summary>
             Low,
 
-            // Menu bar + warning list (and low priority methods)
+            /// <summary>
+            /// Log will be present in Menu bar + warning list, logger window.
+            /// </summary>
             Normal,
 
-            // Message box and above (and low/normal priority methods)
+            /// <summary>
+            /// Log will be present in message box, menu bar + warning list, logger window.
+            /// </summary>
             High
         }
 
