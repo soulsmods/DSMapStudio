@@ -8,7 +8,6 @@ namespace StudioCore.Editor
 {
     public class TaskManager
     {
-        public static volatile ConcurrentDictionary<string, string> warningList = new ConcurrentDictionary<string, string>();
         private static volatile ConcurrentDictionary<string, (bool, Task)> _liveTasks = new ConcurrentDictionary<string, (bool, Task)>();
         private static int _anonIndex = 0;
 
@@ -86,14 +85,17 @@ namespace StudioCore.Editor
                 try
                 {
                     liveTask.TaskAction.Invoke();
-                    TaskLogs.AddLog($"Task Completed: {liveTask.TaskId}", Microsoft.Extensions.Logging.LogLevel.Information, liveTask.LogPriority);
+                    TaskLogs.AddLog($"Task Completed: {liveTask.TaskId}",
+                        Microsoft.Extensions.Logging.LogLevel.Information,
+                        liveTask.LogPriority);
                 }
                 catch (Exception e)
                 {
                     if (liveTask.SilentFail)
                     {
-                        warningList.TryAdd(liveTask.TaskId, ($"An error has occurred in task \"{liveTask.TaskId}\":\n" + e.Message).Replace("\0", "\\0"));
-                        TaskLogs.AddLog($"Task Failed: {liveTask.TaskId}", Microsoft.Extensions.Logging.LogLevel.Error, liveTask.LogPriority);
+                        TaskLogs.AddLog($"Task Failed: {liveTask.TaskId}",
+                            Microsoft.Extensions.Logging.LogLevel.Error,
+                            liveTask.LogPriority);
                     }
                     else
                     {

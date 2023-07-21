@@ -156,7 +156,8 @@ namespace StudioCore.ParamEditor
                 (MassEditResult r, CompoundAction a) = MassParamEditCSV.PerformSingleMassEdit(this, names, fName, "Name", ' ', true, onlyAffectEmptyNames);
                 if (r.Type != MassEditResultType.SUCCESS)
                 {
-                    TaskManager.warningList.TryAdd($"ParamNameImportFail {fName}", $"Could not apply name files for {fName}");
+                    TaskLogs.AddLog($"Could not apply name files for {fName}",
+                        Microsoft.Extensions.Logging.LogLevel.Warning);
                     continue;
                 }
                 actions.Add(a);
@@ -237,7 +238,18 @@ namespace StudioCore.ParamEditor
                 catch(Exception e)
                 {
                     var name = f.Name.Split("\\").Last();
-                    TaskManager.warningList.TryAdd($"{name} DefFail",$"Could not apply ParamDef for {name}");
+
+                    TaskLogs.LogPriority priority = TaskLogs.LogPriority.Normal;
+                    if (AssetLocator.Type == GameType.DarkSoulsRemastered &&
+                            name is "m99_ToneMapBank.param" or "m99_ToneCorrectBank.param" or "default_ToneCorrectBank.param")
+                    {
+                        // Known cases that don't affect standard modmaking
+                        priority = TaskLogs.LogPriority.Low;
+                    }
+
+                    TaskLogs.AddLog($"Could not apply ParamDef for {name}",
+                        Microsoft.Extensions.Logging.LogLevel.Warning,
+                        priority);
                 }
             }
         }
@@ -585,7 +597,8 @@ namespace StudioCore.ParamEditor
                 }
                 catch (Exception e)
                 {
-                    TaskManager.warningList.TryAdd($"{EnemyParam.ParamType} DefFail", $"Could not apply ParamDef for {EnemyParam.ParamType}");
+                    TaskLogs.AddLog($"Could not apply ParamDef for {EnemyParam.ParamType}",
+                        Microsoft.Extensions.Logging.LogLevel.Warning);
                 }
             }
             LoadParamFromBinder(paramBnd, ref _params, out _paramVersion);
@@ -621,7 +634,16 @@ namespace StudioCore.ParamEditor
                     }
                     catch (Exception e)
                     {
-                        TaskManager.warningList.TryAdd($"{fname} DefFail", $"Could not apply ParamDef for {fname}");
+                        TaskLogs.LogPriority priority = TaskLogs.LogPriority.Normal;
+                        if (AssetLocator.Type == GameType.DarkSoulsIISOTFS &&
+                            fname is "GENERATOR_DBG_LOCATION_PARAM")
+                        {
+                            // Known cases that don't affect standard modmaking
+                            priority = TaskLogs.LogPriority.Low;
+                        }
+                        TaskLogs.AddLog($"Could not apply ParamDef for {fname}",
+                            Microsoft.Extensions.Logging.LogLevel.Warning,
+                            priority);
                     }
                 }
             }
@@ -832,7 +854,8 @@ namespace StudioCore.ParamEditor
                         }
                         catch
                         {
-                            TaskManager.warningList.TryAdd($"ParamNameImportFail", $"Could not locate or apply name files for this game.");
+                            TaskLogs.AddLog($"Could not locate or apply name files",
+                                Microsoft.Extensions.Logging.LogLevel.Warning);
                         }
                     }
                 }
