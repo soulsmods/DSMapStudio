@@ -55,7 +55,7 @@ namespace StudioCore
             /// <summary>
             /// Number of messages this LogEntry represents.
             /// </summary>
-            public uint MessageCount = 0;
+            public uint MessageCount = 1;
 
             /// <summary>
             /// Log message with additional formatting and info.
@@ -65,7 +65,7 @@ namespace StudioCore
                 get
                 {
                     string mes = Message;
-                    if (MessageCount > 0)
+                    if (MessageCount > 1)
                         mes += $" x{MessageCount}";
                     return mes;
                 }
