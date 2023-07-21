@@ -38,7 +38,7 @@ namespace StudioCore
         public class LogEntry
         {
             /// <summary>
-            /// Log message
+            /// Log message.
             /// </summary>
             public string Message;
             public LogLevel Level;
@@ -50,7 +50,7 @@ namespace StudioCore
             public uint MessageCount = 0;
 
             /// <summary>
-            /// Log message with additional formatting and info
+            /// Log message with additional formatting and info.
             /// </summary>
             public string FormattedMessage
             {
@@ -80,7 +80,9 @@ namespace StudioCore
         private static volatile List<LogEntry> _log = new();
         private static volatile HashSet<string> _warningList = new();
 
-        // Multiply text color values. Mult transitions from 0 to 1 during transition timer. 
+        /// <summary>
+        /// Multiply text color values. Mult transitions from 0 to 1 during transition timer. 
+        /// </summary>
         private static float _timerColorMult = 1.0f;
         private static LogEntry _lastLogEntry = null;
         private static bool _loggerWindowOpen = false;
