@@ -343,9 +343,8 @@ namespace StudioCore.MsbEditor
             {
                 if (Clonables[i].MapID == null)
                 {
-#if DEBUG
-                    TaskManager.warningList.TryAdd("FailedDupeNoMapID"+Clonables[i].Name, $"DEBUG Failed to dupe {Clonables[i].Name}, as it had no defined MapID");
-#endif
+                    TaskLogs.AddLog($"Failed to dupe {Clonables[i].Name}, as it had no defined MapID",
+                        Microsoft.Extensions.Logging.LogLevel.Warning);
                     continue;
                 }
 

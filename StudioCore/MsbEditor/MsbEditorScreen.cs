@@ -1176,7 +1176,8 @@ namespace StudioCore.MsbEditor
                             }
                         }
                     }
-                    TaskManager.warningList.TryAdd($"MsbMissingReferrer {eRef.Referrer.Name}", $"Unable to find map entity: {eRef.Referrer.Name}");
+                    TaskLogs.AddLog($"Could not select referrer: Unable to find map entity \"{eRef.Referrer.Name}\"",
+                        Microsoft.Extensions.Logging.LogLevel.Warning);
                 }
             }
             else
