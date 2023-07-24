@@ -326,7 +326,6 @@ namespace StudioCore.ParamEditor
         /// <summary>
         /// CSV Export DIsplay
         /// </summary>
-        /// <param name="rowType">0 = all, 1 = modified, 2 = selected</param>
         private void CsvExportDisplay(ParamBank.RowGetType rowType)
         {
             if (ImGui.BeginMenu("Export to window...", _activeView._selection.activeParamExists()))
@@ -344,7 +343,6 @@ namespace StudioCore.ParamEditor
                             EditorCommandQueue.AddCommand(
                                 $@"param/menu/massEditSingleCSVExport/{field.InternalName}/{rowType}");
                     }
-
                     ImGui.EndMenu();
                 }
                 ImGui.EndMenu();
