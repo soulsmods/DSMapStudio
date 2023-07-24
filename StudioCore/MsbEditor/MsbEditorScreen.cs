@@ -288,7 +288,7 @@ namespace StudioCore.MsbEditor
             }
             Transform centerT = new(accumPos / (float)sels.Count, Vector3.Zero);
 
-            // Offset selection positions to make accumulated center is in front of camera
+            // Offset selection positions to place accumulated center in front of camera
             foreach (var sel in sels)
             {
                 var new_pos = target_pos;
