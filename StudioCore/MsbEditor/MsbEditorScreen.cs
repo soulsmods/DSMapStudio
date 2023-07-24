@@ -271,15 +271,24 @@ namespace StudioCore.MsbEditor
             var cam_pos = Viewport.WorldView.CameraTransform.Position;
             var target_pos = cam_pos + (camdir * CFG.Current.Map_MoveSelectionToCamera_Radius);
 
-            // Get the relative positions of the selections
+            // Get the accumulated center position of all selections
             Vector3 accumPos = Vector3.Zero;
             foreach (var sel in sels)
             {
-                var pos = sel.GetRootLocalTransform().Position;
-                accumPos += pos;
+                if (Gizmos.Origin == Gizmos.GizmosOrigin.BoundingBox && sel.RenderSceneMesh != null)
+                {
+                    // Use bounding box origin as center
+                    accumPos += sel.RenderSceneMesh.GetBounds().GetCenter();
+                }
+                else
+                {
+                    // Use actual position as center
+                    accumPos += sel.GetRootLocalTransform().Position;
+                }
             }
             Transform centerT = new(accumPos / (float)sels.Count, Vector3.Zero);
 
+            // Offset selection positions to make accumulated center is in front of camera
             foreach (var sel in sels)
             {
                 var new_pos = target_pos;
