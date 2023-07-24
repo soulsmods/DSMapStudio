@@ -20,6 +20,13 @@ namespace StudioCore.ParamEditor
     /// </summary>
     public class ParamBank
     {
+        public enum RowGetType
+        {
+            AllRows = 0,
+            ModifiedRows = 1,
+            SelectedRows = 2
+        }
+
         public static ParamBank PrimaryBank = new ParamBank();
         public static ParamBank VanillaBank = new ParamBank();
         public static Dictionary<string, ParamBank> AuxBanks = new Dictionary<string, ParamBank>();

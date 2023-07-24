@@ -295,23 +295,23 @@ namespace StudioCore.ParamEditor
             TaskManager.Run(new("Param - Check Differences", false, true, true, TaskLogs.LogPriority.Low, () => ParamBank.PrimaryBank.RefreshParamDiffCaches()));
         }
 
-        private IReadOnlyList<Param.Row> CsvExportGetRows(int rowType)
+        private IReadOnlyList<Param.Row> CsvExportGetRows(ParamBank.RowGetType rowType)
         {
             IReadOnlyList<Param.Row> rows;
 
             var activeParam = _activeView._selection.getActiveParam();
-            if (rowType == 0)
+            if (rowType == ParamBank.RowGetType.AllRows)
             {
                 // All rows
                 rows = ParamBank.PrimaryBank.Params[activeParam].Rows;
             }
-            else if (rowType == 1)
+            else if (rowType == ParamBank.RowGetType.ModifiedRows)
             {
                 // Modified rows
                 HashSet<int> vanillaDiffCache = ParamBank.PrimaryBank.GetVanillaDiffRows(activeParam);
                 rows = ParamBank.PrimaryBank.Params[activeParam].Rows.Where(p => vanillaDiffCache.Contains(p.ID)).ToList();
             }
-            else if (rowType == 1)
+            else if (rowType == ParamBank.RowGetType.SelectedRows)
             {
                 // Selected rows
                 rows = _activeView._selection.getSelectedRows();
@@ -327,7 +327,7 @@ namespace StudioCore.ParamEditor
         /// CSV Export DIsplay
         /// </summary>
         /// <param name="rowType">0 = all, 1 = modified, 2 = selected</param>
-        private void CsvExportDisplay(int rowType)
+        private void CsvExportDisplay(ParamBank.RowGetType rowType)
         {
             if (ImGui.BeginMenu("Export to window...", _activeView._selection.activeParamExists()))
             {
@@ -497,19 +497,19 @@ namespace StudioCore.ParamEditor
                     ImGui.Separator();
                     if (ImGui.BeginMenu("All rows"))
                     {
-                        CsvExportDisplay(0);
+                        CsvExportDisplay(ParamBank.RowGetType.AllRows);
                         ImGui.EndMenu();
                     }
 
                     if (ImGui.BeginMenu("Modified rows"))
                     {
-                        CsvExportDisplay(1);
+                        CsvExportDisplay(ParamBank.RowGetType.ModifiedRows);
                         ImGui.EndMenu();
                     }
 
                     if (ImGui.BeginMenu("Selected rows", _activeView._selection.rowSelectionExists()))
                     {
-                        CsvExportDisplay(2);
+                        CsvExportDisplay(ParamBank.RowGetType.SelectedRows);
                         ImGui.EndMenu();
                     }
 
@@ -1235,7 +1235,7 @@ namespace StudioCore.ParamEditor
                     else if (initcmd[1] == "massEditCSVExport")
                     {
                         //_activeView._selection.sortSelection();
-                        var rows = CsvExportGetRows(int.Parse(initcmd[2]));
+                        var rows = CsvExportGetRows(Enum.Parse<ParamBank.RowGetType>(initcmd[2]));
                         _currentMEditCSVOutput = MassParamEditCSV.GenerateCSV(rows,
                             ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()],
                             CFG.Current.Param_Export_Delimiter[0]);
@@ -1249,7 +1249,7 @@ namespace StudioCore.ParamEditor
                     {
                         //_activeView._selection.sortSelection();
                         _currentMEditSingleCSVField = initcmd[2];
-                        var rows = CsvExportGetRows(int.Parse(initcmd[3]));
+                        var rows = CsvExportGetRows(Enum.Parse<ParamBank.RowGetType>(initcmd[3]));
                         _currentMEditCSVOutput = MassParamEditCSV.GenerateSingleCSV(rows,
                             ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()],
                             _currentMEditSingleCSVField,
