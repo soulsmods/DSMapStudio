@@ -328,7 +328,7 @@ namespace StudioCore.ParamEditor
         /// </summary>
         private void CsvExportDisplay(ParamBank.RowGetType rowType)
         {
-            if (ImGui.BeginMenu("Export to window...", _activeView._selection.activeParamExists()))
+            if (ImGui.BeginMenu("Export to window..."))
             {
                 if (ImGui.MenuItem("Export all fields", KeyBindings.Current.Param_ExportCSV.HintText))
                     EditorCommandQueue.AddCommand($@"param/menu/massEditCSVExport/{rowType}");
@@ -348,11 +348,10 @@ namespace StudioCore.ParamEditor
                 ImGui.EndMenu();
             }
 
-            if (ImGui.BeginMenu("Export to file...", _activeView._selection.activeParamExists()))
+            if (ImGui.BeginMenu("Export to file..."))
             {
                 if (ImGui.MenuItem("Export all fields"))
                 {
-                    //_activeView._selection.sortSelection();
                     using FileChooserNative fileChooser = new FileChooserNative("Choose CSV file",
                         null, FileChooserAction.Save, "Save", "Cancel");
                     fileChooser.AddFilter(AssetLocator.CsvFilter);
@@ -368,11 +367,10 @@ namespace StudioCore.ParamEditor
                     }
                 }
 
-                if (ImGui.BeginMenu("Export specific field", _activeView._selection.activeParamExists()))
+                if (ImGui.BeginMenu("Export specific field"))
                 {
                     if (ImGui.MenuItem("Row Name"))
                     {
-                        //_activeView._selection.sortSelection();
                         using FileChooserNative fileChooser = new FileChooserNative("Choose CSV file",
                             null, FileChooserAction.Save, "Save", "Cancel");
                         fileChooser.AddFilter(AssetLocator.CsvFilter);
@@ -393,7 +391,6 @@ namespace StudioCore.ParamEditor
                     {
                         if (ImGui.MenuItem(field.InternalName))
                         {
-                            //_activeView._selection.sortSelection();
                             using FileChooserNative fileChooser = new FileChooserNative("Choose CSV file",
                                 null, FileChooserAction.Save, "Save", "Cancel");
                             fileChooser.AddFilter(AssetLocator.CsvFilter);
@@ -464,17 +461,17 @@ namespace StudioCore.ParamEditor
                     MassEditScript.EditorScreenMenuItems(ref _currentMEditRegexInput);
                     ImGui.EndMenu();
                 }
-                if (ImGui.BeginMenu("Export CSV"))
+
+                if (ImGui.BeginMenu("Export CSV", _activeView._selection.activeParamExists()))
                 {
                     DelimiterInputText();
 
-                    if (ImGui.BeginMenu("Quick action", _activeView._selection.activeParamExists()))
+                    if (ImGui.BeginMenu("Quick action"))
                     {
                         if (ImGui.MenuItem("Export param to window", KeyBindings.Current.Param_ExportCSV.HintText))
                             EditorCommandQueue.AddCommand($@"param/menu/massEditCSVExport/0");
                         if (ImGui.MenuItem("Export param to file"))
                         {
-                            //_activeView._selection.sortSelection();
                             using FileChooserNative fileChooser = new FileChooserNative("Choose CSV file",
                                 null, FileChooserAction.Save, "Save", "Cancel");
                             fileChooser.AddFilter(AssetLocator.CsvFilter);
@@ -499,7 +496,7 @@ namespace StudioCore.ParamEditor
                         ImGui.EndMenu();
                     }
 
-                    if (ImGui.BeginMenu("Modified rows"))
+                    if (ImGui.BeginMenu("Modified rows", ParamBank.PrimaryBank.GetVanillaDiffRows(_activeView._selection.getActiveParam()).Any()))
                     {
                         CsvExportDisplay(ParamBank.RowGetType.ModifiedRows);
                         ImGui.EndMenu();
@@ -513,6 +510,7 @@ namespace StudioCore.ParamEditor
 
                     ImGui.EndMenu();
                 }
+
                 if (ImGui.BeginMenu("Import CSV", _activeView._selection.activeParamExists()))
                 {
                     DelimiterInputText();
@@ -1232,7 +1230,6 @@ namespace StudioCore.ParamEditor
                     }
                     else if (initcmd[1] == "massEditCSVExport")
                     {
-                        //_activeView._selection.sortSelection();
                         var rows = CsvExportGetRows(Enum.Parse<ParamBank.RowGetType>(initcmd[2]));
                         _currentMEditCSVOutput = MassParamEditCSV.GenerateCSV(rows,
                             ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()],
@@ -1245,7 +1242,6 @@ namespace StudioCore.ParamEditor
                     }
                     else if (initcmd[1] == "massEditSingleCSVExport")
                     {
-                        //_activeView._selection.sortSelection();
                         _currentMEditSingleCSVField = initcmd[2];
                         var rows = CsvExportGetRows(Enum.Parse<ParamBank.RowGetType>(initcmd[3]));
                         _currentMEditCSVOutput = MassParamEditCSV.GenerateSingleCSV(rows,
