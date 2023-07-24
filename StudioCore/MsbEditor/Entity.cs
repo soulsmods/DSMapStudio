@@ -1433,6 +1433,11 @@ namespace StudioCore.MsbEditor
                     t.Scale.Z = (float)sz;
                 }
             }
+
+            // Prevent zero scale since it won't render
+            if (t.Scale == Vector3.Zero)
+                t.Scale = new Vector3(0.1f);
+
             return t;
         }
 
