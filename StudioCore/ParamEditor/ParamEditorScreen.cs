@@ -334,7 +334,7 @@ namespace StudioCore.ParamEditor
                     EditorCommandQueue.AddCommand($@"param/menu/massEditCSVExport/{rowType}");
                 if (ImGui.BeginMenu("Export specific field"))
                 {
-                    if (ImGui.MenuItem("Row Name"))
+                    if (ImGui.MenuItem("Row name"))
                         EditorCommandQueue.AddCommand($@"param/menu/massEditSingleCSVExport/Name/{rowType}");
                     foreach (PARAMDEF.Field field in ParamBank.PrimaryBank
                                  .Params[_activeView._selection.getActiveParam()].AppliedParamdef.Fields)
@@ -369,7 +369,7 @@ namespace StudioCore.ParamEditor
 
                 if (ImGui.BeginMenu("Export specific field"))
                 {
-                    if (ImGui.MenuItem("Row Name"))
+                    if (ImGui.MenuItem("Row name"))
                     {
                         using FileChooserNative fileChooser = new FileChooserNative("Choose CSV file",
                             null, FileChooserAction.Save, "Save", "Cancel");
@@ -516,7 +516,7 @@ namespace StudioCore.ParamEditor
                     DelimiterInputText();
                     if (ImGui.MenuItem("All fields", KeyBindings.Current.Param_ImportCSV.HintText))
                         EditorCommandQueue.AddCommand($@"param/menu/massEditCSVImport");
-                    if (ImGui.MenuItem("Row Name"))
+                    if (ImGui.MenuItem("Row name"))
                         EditorCommandQueue.AddCommand($@"param/menu/massEditSingleCSVImport/Name");
                     if (ImGui.BeginMenu("Specific Field"))
                     {
@@ -606,7 +606,7 @@ namespace StudioCore.ParamEditor
                 {
                     EditorActionManager.ExecuteAction(MassParamEditOther.SortRows(ParamBank.PrimaryBank, _activeView._selection.getActiveParam()));
                 }
-                if (ImGui.BeginMenu("Import Row Names"))
+                if (ImGui.BeginMenu("Import row names"))
                 {
                     if (_projectSettings.GameType == GameType.DarkSoulsIISOTFS && _projectSettings.UseLooseParams == false)
                     {
