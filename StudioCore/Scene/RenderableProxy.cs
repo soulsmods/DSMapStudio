@@ -1452,9 +1452,10 @@ namespace StudioCore.Scene
             return r;
         }
 
-        private static int GetVariedColor(int originalVal)
+        private static int GetVariedColor(int originalVal, int power)
         {
-            var mult = _colorVarianceRand.NextSingle() * CFG.Current.GFX_Wireframe_Color_Variance;
+            var powerMult = ((255f * 3f) / power) * 0.5f;
+            var mult = _colorVarianceRand.NextSingle() * CFG.Current.GFX_Wireframe_Color_Variance * powerMult;
             int newVal = (int)(originalVal + 255 * mult);
             if (newVal > 255)
             {
@@ -1467,9 +1468,10 @@ namespace StudioCore.Scene
 
         private static Color ApplyColorVariance(Color color)
         {
-            int r = GetVariedColor(color.R);
-            int g = GetVariedColor(color.G);
-            int b = GetVariedColor(color.B);
+            var power = color.R + color.G + color.B;
+            int r = GetVariedColor(color.R, power);
+            int g = GetVariedColor(color.G, power);
+            int b = GetVariedColor(color.B, power);
 
             return Color.FromArgb(color.A, r, g, b);
         }
