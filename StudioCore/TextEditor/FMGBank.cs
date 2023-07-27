@@ -232,7 +232,8 @@ namespace StudioCore.TextEditor
         // ER:  LoadingText
     }
         
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
+    [JsonSourceGenerationOptions(WriteIndented = true,
+        GenerationMode = JsonSourceGenerationMode.Metadata, IncludeFields = true)]
     [JsonSerializable(typeof(JsonFMG))]
     internal partial class FmgSerializerContext : JsonSerializerContext
     {
