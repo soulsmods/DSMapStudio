@@ -209,7 +209,7 @@ namespace StudioCore
         public float GFX_Camera_MoveSpeed_Normal { get; set; } = 20.0f;
         public float GFX_Camera_MoveSpeed_Fast { get; set; } = 200.0f;
         public float GFX_RenderDistance_Max { get; set; } = 50000.0f;
-        public float GFX_Renderables_Color_Variance = 0.33f;
+        public float GFX_Wireframe_Color_Variance = 0.33f;
 
         public int GFX_Limit_Renderables = 50000;
         public uint GFX_Limit_Buffer_Indirect_Draw = 50000;

@@ -890,13 +890,13 @@ namespace StudioCore.Scene
 
     public class DebugPrimitiveRenderableProxy : RenderableProxy
     {
+        private static Random _colorVarianceRand = new();
+
         private MeshRenderables _renderablesSet;
 
         private IDbgPrim? _debugPrimitive;
 
         private int _renderable = -1;
-
-        private static Random _colorRand = new();
 
         protected Pipeline _pipeline;
         protected Pipeline _pickingPipeline;
@@ -908,6 +908,7 @@ namespace StudioCore.Scene
         private Matrix4x4 _world = Matrix4x4.Identity;
         private WeakReference<ISelectable> _selectable = null;
 
+        private bool _hasColorVariance = false;
         private Color _baseColor = Color.Gray;
         public Color BaseColor
         {
@@ -1049,7 +1050,15 @@ namespace StudioCore.Scene
         public DebugPrimitiveRenderableProxy(DebugPrimitiveRenderableProxy clone) : this(clone._renderablesSet, clone._debugPrimitive)
         {
             _drawfilter = clone.DrawFilter;
-            _baseColor = clone._baseColor;
+            if (clone._hasColorVariance)
+            {
+                _hasColorVariance = true;
+                _baseColor = ApplyColorVariance(clone._baseColor);
+            }
+            else
+            {
+                _baseColor = clone._baseColor;
+            }
             _highlightedColor = clone._highlightedColor;
         }
 
@@ -1333,7 +1342,7 @@ namespace StudioCore.Scene
         {
             var r = new DebugPrimitiveRenderableProxy(scene.OpaqueRenderables, _regionBox);
             r.BaseColor = ApplyColorVariance(Color.Blue);
-
+            r._hasColorVariance = true;
             r.HighlightedColor = Color.DarkViolet;
             return r;
         }
@@ -1342,6 +1351,7 @@ namespace StudioCore.Scene
         {
             var r = new DebugPrimitiveRenderableProxy(scene.OpaqueRenderables, _regionCylinder);
             r.BaseColor = ApplyColorVariance(Color.Blue);
+            r._hasColorVariance = true;
             r.HighlightedColor = Color.DarkViolet;
             return r;
         }
@@ -1350,6 +1360,7 @@ namespace StudioCore.Scene
         {
             var r = new DebugPrimitiveRenderableProxy(scene.OpaqueRenderables, _regionSphere);
             r.BaseColor = ApplyColorVariance(Color.Blue);
+            r._hasColorVariance = true;
             r.HighlightedColor = Color.DarkViolet;
             return r;
         }
@@ -1421,6 +1432,7 @@ namespace StudioCore.Scene
         {
             var r = new DebugPrimitiveRenderableProxy(scene.OpaqueRenderables, _pointLight);
             r.BaseColor = ApplyColorVariance(Color.YellowGreen);
+            r._hasColorVariance = true;
             r.HighlightedColor = Color.Yellow;
             return r;
         }
@@ -1428,6 +1440,7 @@ namespace StudioCore.Scene
         {
             var r = new DebugPrimitiveRenderableProxy(scene.OpaqueRenderables, _spotLight);
             r.BaseColor = ApplyColorVariance(Color.Goldenrod);
+            r._hasColorVariance = true;
             r.HighlightedColor = Color.Violet;
             return r;
         }
@@ -1441,7 +1454,7 @@ namespace StudioCore.Scene
 
         private static int GetVariedColor(int originalVal)
         {
-            var mult = _colorRand.NextSingle() * CFG.Current.GFX_Renderables_Color_Variance;
+            var mult = _colorVarianceRand.NextSingle() * CFG.Current.GFX_Wireframe_Color_Variance;
             int returnVal = (int)(originalVal + 255 * mult);
             if (originalVal + 255 * mult > 255)
             {
