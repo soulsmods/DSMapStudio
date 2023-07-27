@@ -1767,7 +1767,11 @@ namespace StudioCore.ParamEditor
                     (10801000L, "1.08 - (BuddyParam) Set Unk1 to default value", "param BuddyParam: modified: Unk1: = 1410;"),
                     (10801000L, "1.08 - (BuddyParam) Set Unk2 to default value", "param BuddyParam: modified: Unk2: = 1420;"),
                     (10801000L, "1.08 - (BuddyParam) Set Unk11 to default value", "param BuddyParam: modified: Unk11: = 1400;"),
-                    (10900000L, "1.09 - (GameSystemCommonParam) Set reserved_124 to Vanilla v1.09 values", "param GameSystemCommonParam: id 0: reserved_124: = vanillafield reserved_124;")
+                    (10900000L, "1.09 - (GameSystemCommonParam) Set reserved_124 to Vanilla v1.09 values", "param GameSystemCommonParam: id 0: reserved_124: = vanillafield reserved_124;"),
+                    //
+                    (11001000L, "1.10 - (EquipParamWeapon) Set unk1 to Vanilla v1.10 values", "param EquipParamWeapon: modified: unk1: = vanillafield unk1;"),
+                    (11001000L, "1.10 - (ToughnessParam) Set unk1 to Vanilla v1.10 values", "param ToughnessParam: modified: unk1: = vanillafield unk1;"),
+                    (11001000L, "1.10 - (ToughnessParam) Set unk2 to Vanilla v1.10 values", "param ToughnessParam: modified: unk2: = vanillafield unk2;"),
                 };
             }
 
