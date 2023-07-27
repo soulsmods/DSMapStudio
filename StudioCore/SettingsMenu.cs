@@ -342,6 +342,10 @@ namespace StudioCore
                     ImGui.Unindent();
                 }
 
+                ImGui.Separator();
+
+                ImGui.SliderFloat("Wireframe color variance", ref CFG.Current.GFX_Renderables_Color_Variance, 0.0f, 1.0f);
+
                 ImGui.Unindent();
                 ImGui.EndTabItem();
             }

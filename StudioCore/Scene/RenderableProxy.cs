@@ -896,6 +896,8 @@ namespace StudioCore.Scene
 
         private int _renderable = -1;
 
+        private static Random _colorRand = new();
+
         protected Pipeline _pipeline;
         protected Pipeline _pickingPipeline;
         protected Shader[] _shaders;
@@ -1330,7 +1332,8 @@ namespace StudioCore.Scene
         public static DebugPrimitiveRenderableProxy GetBoxRegionProxy(RenderScene scene)
         {
             var r = new DebugPrimitiveRenderableProxy(scene.OpaqueRenderables, _regionBox);
-            r.BaseColor = Color.Blue;
+            r.BaseColor = ApplyColorVariance(Color.Blue);
+
             r.HighlightedColor = Color.DarkViolet;
             return r;
         }
@@ -1338,7 +1341,7 @@ namespace StudioCore.Scene
         public static DebugPrimitiveRenderableProxy GetCylinderRegionProxy(RenderScene scene)
         {
             var r = new DebugPrimitiveRenderableProxy(scene.OpaqueRenderables, _regionCylinder);
-            r.BaseColor = Color.Blue;
+            r.BaseColor = ApplyColorVariance(Color.Blue);
             r.HighlightedColor = Color.DarkViolet;
             return r;
         }
@@ -1346,7 +1349,7 @@ namespace StudioCore.Scene
         public static DebugPrimitiveRenderableProxy GetSphereRegionProxy(RenderScene scene)
         {
             var r = new DebugPrimitiveRenderableProxy(scene.OpaqueRenderables, _regionSphere);
-            r.BaseColor = Color.Blue;
+            r.BaseColor = ApplyColorVariance(Color.Blue);
             r.HighlightedColor = Color.DarkViolet;
             return r;
         }
@@ -1417,14 +1420,14 @@ namespace StudioCore.Scene
         public static DebugPrimitiveRenderableProxy GetPointLightProxy(RenderScene scene)
         {
             var r = new DebugPrimitiveRenderableProxy(scene.OpaqueRenderables, _pointLight);
-            r.BaseColor = Color.YellowGreen;
+            r.BaseColor = ApplyColorVariance(Color.YellowGreen);
             r.HighlightedColor = Color.Yellow;
             return r;
         }
         public static DebugPrimitiveRenderableProxy GetSpotLightProxy(RenderScene scene)
         {
             var r = new DebugPrimitiveRenderableProxy(scene.OpaqueRenderables, _spotLight);
-            r.BaseColor = Color.Goldenrod;
+            r.BaseColor = ApplyColorVariance(Color.Goldenrod);
             r.HighlightedColor = Color.Violet;
             return r;
         }
@@ -1434,6 +1437,28 @@ namespace StudioCore.Scene
             r.BaseColor = Color.Cyan;
             r.HighlightedColor = Color.AliceBlue;
             return r;
+        }
+
+        private static int GetVariedColor(int originalVal)
+        {
+            var mult = _colorRand.NextSingle() * CFG.Current.GFX_Renderables_Color_Variance;
+            int returnVal = (int)(originalVal + 255 * mult);
+            if (originalVal + 255 * mult > 255)
+            {
+                returnVal = (int)(originalVal - 255 * mult);
+                if (returnVal < 0)
+                    returnVal = 255;
+            }
+            return returnVal;
+        }
+
+        private static Color ApplyColorVariance(Color color)
+        {
+            int r = GetVariedColor(color.R);
+            int g = GetVariedColor(color.G);
+            int b = GetVariedColor(color.B);
+
+            return Color.FromArgb(color.A, r, g, b);
         }
     }
 
