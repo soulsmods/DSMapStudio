@@ -1455,14 +1455,14 @@ namespace StudioCore.Scene
         private static int GetVariedColor(int originalVal)
         {
             var mult = _colorVarianceRand.NextSingle() * CFG.Current.GFX_Wireframe_Color_Variance;
-            int returnVal = (int)(originalVal + 255 * mult);
-            if (originalVal + 255 * mult > 255)
+            int newVal = (int)(originalVal + 255 * mult);
+            if (newVal > 255)
             {
-                returnVal = (int)(originalVal - 255 * mult);
-                if (returnVal < 0)
-                    returnVal = 255;
+                newVal = (int)(originalVal - 255 * mult);
+                if (newVal < 0)
+                    newVal = 255;
             }
-            return returnVal;
+            return newVal;
         }
 
         private static Color ApplyColorVariance(Color color)
