@@ -1181,7 +1181,7 @@ namespace StudioCore.ParamEditor
             else
             {
                 var style = ImGui.GetStyle();
-                ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, style.ItemSpacing - (new Vector2(3.5f, 0f) * scale));
+                ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, style.ItemSpacing * scale - (new Vector2(3.5f, 0f) * scale));
             }
             if (CountViews() == 1)
             {
@@ -1712,6 +1712,8 @@ namespace StudioCore.ParamEditor
 
         public void ParamView(bool doFocus, bool isActiveView)
         {
+            float scale = MapStudioNew.GetUIScale();
+
             if (EditorDecorations.ImGuiTableStdColumns("paramsT", 3, true))
             {
                 ImGui.TableSetupColumn("paramsCol", ImGuiTableColumnFlags.None, 0.5f);
@@ -1754,6 +1756,21 @@ namespace StudioCore.ParamEditor
                     //ImGui.Text("        Pinned Params");
                     foreach (var paramKey in pinnedParamKeyList)
                     {
+                        var primary = ParamBank.PrimaryBank.VanillaDiffCache.GetValueOrDefault(paramKey, null);
+                        Param p = ParamBank.PrimaryBank.Params[paramKey];
+                        if (p != null)
+                        {
+                            ParamMetaData meta = ParamMetaData.Get(p.AppliedParamdef);
+                            string Wiki = meta?.Wiki;
+                            if (Wiki != null)
+                            {
+                                if (EditorDecorations.HelpIcon(paramKey + "wiki", ref Wiki, true))
+                                {
+                                    meta.Wiki = Wiki;
+                                }
+                            }
+                        }
+                        ImGui.Indent(15.0f * scale);
                         if (ImGui.Selectable(paramKey, paramKey == _selection.getActiveParam()))
                         {
                             EditorCommandQueue.AddCommand($@"param/view/{_viewIndex}/{paramKey}");
@@ -1764,6 +1781,7 @@ namespace StudioCore.ParamEditor
                                 _paramEditor._projectSettings.PinnedParams.Remove(paramKey);
                             ImGui.EndPopup();
                         }
+                        ImGui.Unindent(15.0f * scale);
                     }
                     ImGui.Spacing();
                     ImGui.Separator();
@@ -1814,7 +1832,7 @@ namespace StudioCore.ParamEditor
                             }
                         }
 
-                        ImGui.Indent(15.0f * CFG.Current.UIScale);
+                        ImGui.Indent(15.0f * scale);
                         if (primary != null ? primary.Any() : false)
                             ImGui.PushStyleColor(ImGuiCol.Text, PRIMARYCHANGEDCOLOUR);
                         else
@@ -1842,7 +1860,7 @@ namespace StudioCore.ParamEditor
                             }
                             ImGui.EndPopup();
                         }
-                        ImGui.Unindent(15.0f * CFG.Current.UIScale);
+                        ImGui.Unindent(15.0f * scale);
                     }
 
                     if (doFocus)
@@ -2008,10 +2026,12 @@ namespace StudioCore.ParamEditor
 
         private void RowColumnEntry(bool[] selectionCache, int selectionCacheIndex, string activeParam, List<Param.Row> p, Param.Row r, HashSet<int> vanillaDiffCache, List<(HashSet<int>, HashSet<int>)> auxDiffCaches, IParamDecorator decorator, ref float scrollTo, bool doFocus, bool isPinned, Param.Column compareCol)
         {
+            float scale = MapStudioNew.GetUIScale();
+
             if (CFG.Current.UI_CompactParams)
             {
                 // ItemSpacing only affects clickable area for selectables in tables. Add additional height to prevent gaps between selectables.
-                ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(5.0f, 2.0f) * CFG.Current.UIScale);
+                ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(5.0f, 2.0f) * scale);
             }
             ImGui.TableNextColumn();
             bool diffVanilla = vanillaDiffCache.Contains(r.ID);
