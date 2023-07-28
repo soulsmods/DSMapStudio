@@ -726,6 +726,7 @@ namespace StudioCore.ParamEditor
 
             _paramdefs = new Dictionary<string, PARAMDEF>();
             IsDefsLoaded = false;
+            IsMetaLoaded = false;
 
             AuxBanks = new Dictionary<string, ParamBank>();
 
@@ -742,7 +743,6 @@ namespace StudioCore.ParamEditor
                     IsDefsLoaded = true;
                     TaskManager.Run("PB:LoadParamMeta", true, false, false, () =>
                     {
-                        IsMetaLoaded = false;
                         LoadParamMeta(defPairs, locator);
                         IsMetaLoaded = true;
                     });
