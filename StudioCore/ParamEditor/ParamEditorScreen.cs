@@ -167,7 +167,7 @@ namespace StudioCore.ParamEditor
         /// Any version numbers <= this will be allowed to upgrade.
         /// Used to restrict upgrading before DSMS properly supports it.
         /// </summary>
-        public readonly ulong ParamUpgradeER_TargetWhitelist_Threshold = 1_10_9_9999L;
+        public readonly ulong ParamUpgradeER_TargetWhitelist_Threshold = 1_9_9_9999L;
 
         public void UpgradeRegulation(ParamBank bank, ParamBank vanillaBank, string oldRegulation)
         {
@@ -729,44 +729,60 @@ namespace StudioCore.ParamEditor
                 && !ParamBank.VanillaBank.IsLoadingParams)
             {
                 if (ParamBank.PrimaryBank.AssetLocator.Type == GameType.EldenRing
-                    && ParamBank.PrimaryBank.ParamVersion < ParamBank.VanillaBank.ParamVersion
-                    && ParamBank.VanillaBank.ParamVersion <= ParamUpgradeER_TargetWhitelist_Threshold)
+                    && ParamBank.PrimaryBank.ParamVersion < ParamBank.VanillaBank.ParamVersion)
                 {
-                    ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.0f, 1f, 0f, 1.0f));
-                    if (ImGui.Button("Upgrade Params"))
+                    if (ParamBank.VanillaBank.ParamVersion <= ParamUpgradeER_TargetWhitelist_Threshold)
                     {
-                        var message = System.Windows.Forms.MessageBox.Show(
-                            $@"Your mod is currently on regulation version {ParamBank.PrimaryBank.ParamVersion} while the game is on param version " +
-                            $"{ParamBank.VanillaBank.ParamVersion}.\n\nWould you like to attempt to upgrade your mod's params to be based on the " +
-                            "latest game version? Params will be upgraded by copying all rows that you modified to the new regulation, " +
-                            "overwriting exiting rows if needed.\n\nIf both you and the game update added a row with the same ID, the merge " +
-                            "will fail and there will be a log saying what rows you will need to manually change the ID of before trying " +
-                            "to merge again.\n\nIn order to perform this operation, you must specify the original regulation on the version " +
-                            $"that your current mod is based on (version {ParamBank.PrimaryBank.ParamVersion}).\n\nOnce done, the upgraded params will appear " +
-                            "in the param editor where you can view and save them. This operation is not undoable, but you can reload the project without " +
-                            "saving to revert to the un-upgraded params.\n\n" +
-                            "Would you like to continue?", "Regulation upgrade",
-                            System.Windows.Forms.MessageBoxButtons.OKCancel,
-                            System.Windows.Forms.MessageBoxIcon.Question);
-                        if (message == System.Windows.Forms.DialogResult.OK)
+                        ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.0f, 1f, 0f, 1.0f));
+                        if (ImGui.Button("Upgrade Params"))
                         {
-                            var rbrowseDlg = new System.Windows.Forms.OpenFileDialog()
+                            var message = System.Windows.Forms.MessageBox.Show(
+                                $@"Your mod is currently on regulation version {ParamBank.PrimaryBank.ParamVersion} while the game is on param version " +
+                                $"{ParamBank.VanillaBank.ParamVersion}.\n\nWould you like to attempt to upgrade your mod's params to be based on the " +
+                                "latest game version? Params will be upgraded by copying all rows that you modified to the new regulation, " +
+                                "overwriting exiting rows if needed.\n\nIf both you and the game update added a row with the same ID, the merge " +
+                                "will fail and there will be a log saying what rows you will need to manually change the ID of before trying " +
+                                "to merge again.\n\nIn order to perform this operation, you must specify the original regulation on the version " +
+                                $"that your current mod is based on (version {ParamBank.PrimaryBank.ParamVersion}).\n\nOnce done, the upgraded params will appear " +
+                                "in the param editor where you can view and save them. This operation is not undoable, but you can reload the project without " +
+                                "saving to revert to the un-upgraded params.\n\n" +
+                                "Would you like to continue?", "Regulation upgrade",
+                                System.Windows.Forms.MessageBoxButtons.OKCancel,
+                                System.Windows.Forms.MessageBoxIcon.Question);
+                            if (message == System.Windows.Forms.DialogResult.OK)
                             {
-                                Title = $"Select regulation.bin for game version {ParamBank.PrimaryBank.ParamVersion}...",
-                                Filter = AssetLocator.ERParamUpgradeFilter,
-                                ValidateNames = true,
-                                CheckFileExists = true,
-                                CheckPathExists = true,
-                            };
+                                var rbrowseDlg = new System.Windows.Forms.OpenFileDialog()
+                                {
+                                    Title = $"Select regulation.bin for game version {ParamBank.PrimaryBank.ParamVersion}...",
+                                    Filter = AssetLocator.ERParamUpgradeFilter,
+                                    ValidateNames = true,
+                                    CheckFileExists = true,
+                                    CheckPathExists = true,
+                                };
 
-                            if (rbrowseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                            {
-                                var path = rbrowseDlg.FileName;
-                                UpgradeRegulation(ParamBank.PrimaryBank, ParamBank.VanillaBank, path);
+                                if (rbrowseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                                {
+                                    var path = rbrowseDlg.FileName;
+                                    UpgradeRegulation(ParamBank.PrimaryBank, ParamBank.VanillaBank, path);
+                                }
                             }
                         }
+                        ImGui.PopStyleColor();
                     }
-                    ImGui.PopStyleColor();
+                    else
+                    {
+                        ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 0.2f, 0.2f, 1.0f));
+                        if (ImGui.BeginMenu("Upgrade Params"))
+                        {
+                            ImGui.PopStyleColor();
+                            ImGui.Text("Param version unsupported, DSMapStudio must be updated first.\nDownload update if available, wait for update otherwise.");
+                            ImGui.EndMenu();
+                        }
+                        else
+                        {
+                            ImGui.PopStyleColor();
+                        }
+                    }
                 }
             }
         }
