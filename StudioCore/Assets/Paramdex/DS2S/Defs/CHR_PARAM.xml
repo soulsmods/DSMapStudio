@@ -42,9 +42,9 @@
     <Field Def="s32 equip_weapon_id_4" />
     <Field Def="s32 equip_weapon_id_5" />
     <Field Def="s8 Unk17_1" />
-	<Field Def="s8 Unk17_2" />
-	<Field Def="s8 Unk17_3" />
-	<Field Def="s8 Unk17_4" />
+    <Field Def="s8 Unk17_2" />
+    <Field Def="s8 Unk17_3" />
+    <Field Def="s8 Unk17_4" />
     <Field Def="s8 Unk18" />
     <Field Def="s8 chr_round_damage_param_id" />
     <Field Def="s8 shield_block_level" />
@@ -114,9 +114,9 @@
     <Field Def="s32 stat_hp_ng7" />
     <Field Def="s32 name_text_id" />
     <Field Def="s8 drops_awestone" />
-	<Field Def="u8 Unk47" />
-	<Field Def="u8 Unk48" />
-	<Field Def="u8 Unk49" />
+    <Field Def="u8 Unk47" />
+    <Field Def="u8 Unk48" />
+    <Field Def="u8 Unk49" />
     <Field Def="s32 speffect_id" />
   </Fields>
 </PARAMDEF>
