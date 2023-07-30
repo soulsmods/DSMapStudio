@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Numerics;
 using System.Globalization;
@@ -510,6 +511,8 @@ namespace StudioCore
 
             if (success)
             {
+                BackupProject(settings, filename);
+
                 if (!_assetLocator.CheckFilesExpanded(settings.GameRoot, settings.GameType))
                 {
                     if (!GameNotUnpackedWarning(settings.GameType))
@@ -545,6 +548,79 @@ namespace StudioCore
                 }
             }
             return success;
+        }
+
+        private void BackupProject(ProjectSettings settings, string projectFilename)
+        {
+            Version projLastVersion;
+            Version dsmsVersion;
+            if (!Version.TryParse(settings.LatestMapstudioVersion, out projLastVersion) || !Version.TryParse(_version, out dsmsVersion))
+            {
+                TaskManager.warningList["backupCheck"] = "An issue occurred checking the last used mapstudio version of this project.";
+                return;
+            }
+            if (projLastVersion < dsmsVersion)
+            {
+                settings.LatestMapstudioVersion = _version;
+                var res = PlatformUtils.Instance.MessageBox("This project has not yet been saved with this version of DSMapStudio.\n\nWould you like to create a backup?", "New DSMapStudio version detected!", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                if (res != DialogResult.Yes)
+                {
+                    return;
+                }
+                string projectFolder = Path.GetDirectoryName(projectFilename);
+                string parentFolder = Directory.GetParent(projectFolder).FullName;
+                string backupFile = Path.Join(parentFolder, $@"{settings.ProjectName} - Backup(DSMS{_version}).zip");
+                bool rewrite = false;
+                if (File.Exists(backupFile))
+                {
+                    var res2 = PlatformUtils.Instance.MessageBox("There is already a backup for this update. Continue and overwrite?", "Issue creating backup.", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    if (res2 != DialogResult.Yes)
+                    {
+                        return;
+                    }
+                    rewrite = true;
+                }
+                long projectSize = 128*1024*1024; // 128 MB
+                long projectFiles = 1024; // 1024 files, should be enough for DS2
+                TestFolderForSize(new DirectoryInfo(projectFolder), ref projectSize, ref projectFiles);
+
+                if (projectFiles <= 0 || projectSize <= 0)
+                {
+                    var res3 = PlatformUtils.Instance.MessageBox("The current project contains many files (>=1024) or is of notable size on disk. (>=128MB)\nIt is recommended to backup manually.\n\nWould you like to proceed anyway? (This may take a while)", "Large project detected.", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    if (res3 != DialogResult.Yes)
+                    {
+                        return;
+                    }
+                }
+                // Safely rewrite
+                string tempFile = $@"{backupFile}.temp";
+                if (rewrite)
+                {
+                    File.Move(backupFile, tempFile);
+                }
+                ZipFile.CreateFromDirectory(projectFolder, backupFile);
+                if (rewrite)
+                {
+                    File.Delete(tempFile);
+                }
+            }
+        }
+        private static void TestFolderForSize(DirectoryInfo dir, ref long diskLimit, ref long fileLimit)
+        {
+            foreach (FileInfo file in dir.EnumerateFiles())
+            {
+                diskLimit -= file.Length;
+                fileLimit--;
+                if (fileLimit <= 0 || diskLimit <= 0)
+                    return;
+            }
+            foreach (DirectoryInfo subdir in dir.EnumerateDirectories())
+            {
+                TestFolderForSize(subdir, ref diskLimit, ref fileLimit);
+                fileLimit--; // Include this to avoid further suffering
+                if (fileLimit <= 0 || diskLimit <= 0)
+                    return;
+            }
         }
 
         //Unhappy with this being here
@@ -1019,6 +1095,7 @@ namespace StudioCore
             if (newProject)
             {
                 _newProjectOptions.settings = new Editor.ProjectSettings();
+                _newProjectOptions.settings.LatestMapstudioVersion = _version;
                 _newProjectOptions.directory = "";
                 ImGui.OpenPopup("New Project");
             }
