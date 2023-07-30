@@ -7,8 +7,8 @@
     <max_distance_switch_target AltName="Max Distance Switch Target"/>
     <fov_0 AltName="FOV [0]"/>
     <fov_1 AltName="FOV [1]"/>
-	<max_angle_initiate AltName="Max Angle Initiate"/>
-	<max_angle_switch_target AltName="Max Angle Switch Target"/>
-	<max_distance_behind_player AltName="Max Distance Behind Player"/>
+    <max_angle_initiate AltName="Max Angle Initiate"/>
+    <max_angle_switch_target AltName="Max Angle Switch Target"/>
+    <max_distance_behind_player AltName="Max Distance Behind Player"/>
   </Field>
 </PARAMMETA>
