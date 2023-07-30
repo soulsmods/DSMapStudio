@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
   <Enums>
     <Enum Name="DamageTypeCategory">
@@ -9,8 +9,11 @@
       <Option Value="4" Name="Dark" />
       <Option Value="5" Name="Flat Damage" />
       <Option Value="6" Name="Poison" />
-      <Option Value="7" Name="?" />
+      <Option Value="7" Name="Bleed" />
       <Option Value="8" Name="Durability" />
+      <Option Value="9" Name="Curse" />
+      <Option Value="11" Name="Toxic" />
+      <Option Value="12" Name="Petrification" />
     </Enum>
     <Enum Name="HitboxType">
       <Option Value="0" Name="Sphere" />
