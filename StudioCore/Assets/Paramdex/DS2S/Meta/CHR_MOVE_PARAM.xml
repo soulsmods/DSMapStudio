@@ -29,7 +29,7 @@
     <Unk30 Wiki="Turning Rate While Attacking Related"/>
     <backstep_speed AltName="Backstep Speed"/>
     <backstep_distance AltName="Backstep Distance"/>
-	<fat_backstep_distance AltName="Fat Backstep Distance"/>
+    <fat_backstep_distance AltName="Fat Backstep Distance"/>
     <roll_speed AltName="Roll Speed"/>
     <jump_height AltName="Jump Height"/>
     <jump_length_min AltName="Jump Length - Min"/>
