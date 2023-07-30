@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <variationId AltName="variationId" />
+    <behaviorJudgeId AltName="behaviorJudgeId" />
+    <ezStateBehaviorType_old AltName="ezStateBehaviorType_old" />
+    <refType AltName="refType" />
+    <pad0 AltName="pad0" />
+    <atkParamId AltName="atkParamId" />
+    <bulletParamId AltName="bulletParamId" />
+    <spEffectId AltName="spEffectId" />
+    <sfxVariationId AltName="sfxVariationId" />
+    <category AltName="category" />
+    <pad1 AltName="pad1" />
+    <stamina AltName="stamina" />
+    <mp AltName="mp" />
+    <pad3 AltName="pad3" />
+    <atkType AltName="atkType" />
+    <atkMaterial AltName="atkMaterial" />
+    <defMaterial AltName="defMaterial" />
+    <atkSize AltName="atkSize" />
+    <defSfxMaterial AltName="defSfxMaterial" />
+    <pad2 AltName="pad2" />
+  </Field>
+  <Self />
+</PARAMMETA>
