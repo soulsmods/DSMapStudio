@@ -79,16 +79,16 @@
     <spell_item_8 AltName="[8] Spell ID" Refs="SpellParam" />
     <spell_item_9 AltName="[9] Spell ID" Refs="SpellParam" />
     <spell_item_10 AltName="[10] Spell ID" Refs="SpellParam" />
-    <right_weapon_item_1 AltName="[1] Right Weapon ID" Refs="WeaponParam"/>
-    <right_weapon_item_2 AltName="[2] Right Weapon ID" Refs="WeaponParam"/>
-    <right_weapon_item_3 AltName="[3] Right Weapon ID" Refs="WeaponParam"/>
-    <left_weapon_item_1 AltName="[1] Left Weapon ID" Refs="WeaponParam"/>
-    <left_weapon_item_2 AltName="[2] Left Weapon ID" Refs="WeaponParam"/>
-    <left_weapon_item_3 AltName="[3] Left Weapon ID" Refs="WeaponParam"/>
-    <head_item AltName="Head Armor ID" Refs="ArmorParam"/>
-    <chest_item AltName="Chest Armor ID" Refs="ArmorParam"/>
-    <hands_item AltName="Hands Armor ID" Refs="ArmorParam"/>
-    <legs_item AltName="Legs Armor ID" Refs="ArmorParam"/>
+    <right_weapon_item_1 AltName="[1] Right Weapon ID" Refs="ItemParam"/>
+    <right_weapon_item_2 AltName="[2] Right Weapon ID" Refs="ItemParam"/>
+    <right_weapon_item_3 AltName="[3] Right Weapon ID" Refs="ItemParam"/>
+    <left_weapon_item_1 AltName="[1] Left Weapon ID" Refs="ItemParam"/>
+    <left_weapon_item_2 AltName="[2] Left Weapon ID" Refs="ItemParam"/>
+    <left_weapon_item_3 AltName="[3] Left Weapon ID" Refs="ItemParam"/>
+    <head_item AltName="Head Armor ID" Refs="ItemParam"/>
+    <chest_item AltName="Chest Armor ID" Refs="ItemParam"/>
+    <hands_item AltName="Hands Armor ID" Refs="ItemParam"/>
+    <legs_item AltName="Legs Armor ID" Refs="ItemParam"/>
     <ring_item_1 AltName="[1] Ring ID" Refs="RingParam"/>
     <ring_item_2 AltName="[2] Ring ID" Refs="RingParam"/>
     <ring_item_3 AltName="[3] Ring ID" Refs="RingParam"/>

@@ -34,7 +34,7 @@
     <Field Def="f32 Unk14" />
     <Field Def="f32 Unk15" />
     <Field Def="f32 Unk16" />
-    <Field Def="u8 poise_break_handling" />
+    <Field Def="u8 damage_action_state" />
     <Field Def="u8 Unk17" />
     <Field Def="u16 Unk18" />
     <Field Def="f32 Unk19" />

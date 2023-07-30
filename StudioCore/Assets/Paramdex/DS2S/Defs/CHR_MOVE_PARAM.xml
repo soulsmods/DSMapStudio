@@ -72,10 +72,10 @@
     <Field Def="s32 Unk44" />
     <Field Def="f32 Unk45" />
     <Field Def="f32 backstep_distance" />
-    <Field Def="f32 Unk46" />
+    <Field Def="f32 fat_backstep_distance" />
     <Field Def="f32 Unk47" />
     <Field Def="f32 roll_speed" />
-    <Field Def="f32 Unk48" />
+    <Field Def="f32 fat_roll_speed" />
     <Field Def="f32 Unk49" />
     <Field Def="f32 Unk50" />
     <Field Def="f32 jump_height" />

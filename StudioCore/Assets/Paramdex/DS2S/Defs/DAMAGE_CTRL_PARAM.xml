@@ -18,7 +18,8 @@
     <Field Def="u8 Unk05" />
     <Field Def="u8 is_instant_kill" />
     <Field Def="u16 posture_damage" />
-    <Field Def="u16 Unk06" />
+    <Field Def="u8 is_always_deal_stamina_damage" />
+    <Field Def="u8 is_only_affect_hollows" />
     <Field Def="f32 knockdown_time_mult" />
     <Field Def="f32 Unk07" />
     <Field Def="f32 Unk08" />

@@ -5,14 +5,14 @@
     <souls AltName="Souls"/>
     <itemlot_id AltName="Itemlot ID" Refs="ItemLotParam2_Other"/>
     <enemy_common_id AltName="Enemy Common ID" Refs="EnemyCommonParam" />
-    <boss_destruction_flag AltName="Boss Destruction Flag"/>
+    <boss_destruction_flag_1 AltName="Boss Destruction Flag 1"/>
+	<boss_destruction_flag_2 AltName="Boss Destruction Flag 2" Wiki="Used for enabling shop items"/>
     <camera_follow_iD AltName="Camera Follow ID" Refs="CameraExFollowParam"/>
     <lockon_id AltName="Lock-on ID" Refs="LockOnParam"/>
     <is_primal_bonfire AltName="Is Primal Bonfire" IsBool=""/>
     <name_text_id_0 AltName="Name Text ID [0]"/>
     <name_text_id_1 AltName="Name Text ID [1]"/>
     <name_text_id_2 AltName="Name Text ID [2]"/>
-    <map_obj_bonfire_id AltName="Map Object Bonfire ID"/>
-    
+    <map_obj_bonfire_id AltName="Map Object Bonfire ID"/> 
   </Field>
 </PARAMMETA>

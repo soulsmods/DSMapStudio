@@ -23,9 +23,9 @@
 8310 Dingy Cleric Phantom
 8311 Faraam Knight Phantom
 8320 Underworld Deadeye
-8321 Pretender to the Xanthous Throne
-8322 Abyss Ironclad
-8323 Abyss Ironclad
+8321 Abyss Ironclad
+8322 Pretender to the Xanthous Throne
+8323 Pretender to the Xanthous Throne
 8324 Tenebrous Rogue
 8325 The Ghost of Princes Past
 8326 A Chip Off the Ol Rock
@@ -71,9 +71,9 @@
 8540 Unknown Phantom
 8600 Rockshield Baldyr
 8610 Jester Thomas
-8620 Rhoy the Explorer
-8630 Stewart the Explorer
-8640 Courh the Explorer
+8620 Cerah the Old Explorer
+8630 Ancient Soldier Varg
+8640 Afflicted Graverobber
 8650 Abbess Feeva
 8660 Ruined Aflis
 8670 Steelheart Ellie

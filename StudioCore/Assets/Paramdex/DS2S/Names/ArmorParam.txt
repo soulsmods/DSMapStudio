@@ -165,10 +165,10 @@
 11690103 Flower Skirt
 11700100 Minotaur Helm
 11710100 Symbol of Avarice
-12020100 2020 (in creation) [Kingdom soldier (deceased)], head -- 2020 （作成中）【王国兵士（亡者）】・頭
-12020101 2020 (in creation) [Kingdom soldier (deceased)]chest -- 2020 （作成中）【王国兵士（亡者）】・胸
-12020102 2020 (in creation) [Kingdom soldier (deceased)], arm -- 2020 （作成中）【王国兵士（亡者）】・腕
-12020103 2020 (in creation) [Kingdom soldier (deceased)], foot -- 2020 （作成中）【王国兵士（亡者）】・足
+12020100 Hollow Soldier Helm
+12020101 Hollow Soldier Armor
+12020102 Hollow Soldier Gauntlets
+12020103 Hollow Soldier Leggings
 12021100 Royal Soldier Helm
 12021101 Royal Soldier Armor
 12021102 Royal Soldier Gauntlets

@@ -19,7 +19,7 @@
 16655 The Lost Bastille - Exile Holding Cells
 16660 The Lost Bastille - The Tower Apart
 16665 Belfry Luna - Upper Ramparts
-16670 The Lost Bastille -  	McDuff's Workshop
+16670 The Lost Bastille - McDuff's Workshop
 16675 The Lost Bastille - Servant's Quarters
 16685 Sinners' Rise - The Saltfort
 17650 Harvest Valley - The Mines
@@ -45,7 +45,7 @@
 25650 Black Gulch - Black Gulch Mouth
 25655 The Gutter - Central Gutter
 25660 Black Gulch - Hidden Chamber
-25665 The Gutter -  	Upper Gutter
+25665 The Gutter - Upper Gutter
 27650 Dragon Aerie - Dragon Aerie
 27655 Dragon Shrine - Shrine Entrance
 29650 Shaded Woods - Old Akelarre

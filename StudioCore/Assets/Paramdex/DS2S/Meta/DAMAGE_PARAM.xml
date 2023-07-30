@@ -29,6 +29,7 @@
     <damage_0 AltName="Damage [0]"/>
     <damage_1 AltName="Damage [1]"/>
     <damage_2 AltName="Damage [2]"/>
+	<physical_damage_floor AltName="Physical Damage Floor" Wiki="Lowest physical damage that this attack can deal, regardless of target's physical defense. This value is divided by Absorption %: Physical in DamageAdjustParam."/>
     <damage_type_0 AltName="Damage Type [0]" Enum="DamageTypeCategory" />
     <damage_type_1 AltName="Damage Type [1]" Enum="DamageTypeCategory" />
     <damage_type_2 AltName="Damage Type [2]" Enum="DamageTypeCategory" />
