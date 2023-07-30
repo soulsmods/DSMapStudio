@@ -47,8 +47,8 @@
     <stagger_type AltName="Stagger Type" Enum="StaggerTypeCategory" />
     <is_instant_kill AltName="Is Instant Kill" IsBool="" />
     <posture_damage AltName="Posture Damage" />
-	<is_always_deal_stamina_damage AltName="Is Always Deal Stamina Damage" IsBool="" />
-	<is_only_affect_hollows AltName="Is Only Affect Hollows" IsBool="" />
+    <is_always_deal_stamina_damage AltName="Is Always Deal Stamina Damage" IsBool="" />
+    <is_only_affect_hollows AltName="Is Only Affect Hollows" IsBool="" />
     <knockdown_time_mult AltName="Knockdown Time %" />
     <vertical_throw_distance AltName="Vertical Throw Distance" />
     <block_interaction AltName="Block Interaction" />
