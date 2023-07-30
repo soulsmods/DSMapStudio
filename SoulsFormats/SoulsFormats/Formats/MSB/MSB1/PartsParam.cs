@@ -782,9 +782,11 @@ namespace SoulsFormats
                 public byte SoundSpaceType { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// Enviroment lighting
                 /// </summary>
-                public short EnvLightMapSpotIndex { get; set; }
+                [MSBReference(ReferenceType = typeof(Event.Environment))]
+                public string EnvLightMapSpotName { get; set; }
+                private short EnvLightMapSpotIndex;
 
                 /// <summary>
                 /// Unknown.
@@ -907,6 +909,18 @@ namespace SoulsFormats
                     bw.WriteInt32(0);
                     bw.WriteInt32(0);
                     bw.WriteInt32(0);
+                }
+
+                internal override void GetNames(MSB1 msb, Entries entries)
+                {
+                    base.GetNames(msb, entries);
+                    EnvLightMapSpotName = MSB.FindName(entries.Parts, EnvLightMapSpotIndex);
+                }
+
+                internal override void GetIndices(MSB1 msb, Entries entries)
+                {
+                    base.GetIndices(msb, entries);
+                    EnvLightMapSpotIndex = (short)MSB.FindIndex(this, entries.Parts, EnvLightMapSpotName);
                 }
             }
 
