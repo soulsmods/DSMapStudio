@@ -13,6 +13,7 @@ using Veldrid;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using StudioCore.Platform;
 
 namespace StudioCore
 {
@@ -21,18 +22,54 @@ namespace StudioCore
     /// </summary>
     public static class TaskLogs
     {
+        /// <summary>
+        /// Priority of log message. Affects how log is conveyed to the user.
+        /// </summary>
         public enum LogPriority
-        { 
+        {
+            /// <summary>
+            /// Log will be present in Logger window.
+            /// </summary>
             Low,
+
+            /// <summary>
+            /// Log will be present in Menu bar + warning list, logger window.
+            /// </summary>
             Normal,
+
+            /// <summary>
+            /// Log will be present in message box, menu bar + warning list, logger window.
+            /// </summary>
             High
         }
 
         public class LogEntry
         {
+            /// <summary>
+            /// Log message.
+            /// </summary>
             public string Message;
             public LogLevel Level;
             public LogPriority Priority = LogPriority.Normal;
+
+            /// <summary>
+            /// Number of messages this LogEntry represents.
+            /// </summary>
+            public uint MessageCount = 1;
+
+            /// <summary>
+            /// Log message with additional formatting and info.
+            /// </summary>
+            public string FormattedMessage
+            {
+                get
+                {
+                    string mes = Message;
+                    if (MessageCount > 1)
+                        mes += $" x{MessageCount}";
+                    return mes;
+                }
+            }
 
             public LogEntry(string message, LogLevel level)
             {
@@ -48,9 +85,12 @@ namespace StudioCore
         }
 
         private static readonly MapStudioLoggerProvider _provider = new();
-        private static readonly List<LogEntry> _log = new();
+        private static volatile List<LogEntry> _log = new();
+        private static volatile HashSet<string> _warningList = new();
 
-        // Multiply text color values. Mult transitions from 0 to 1 during transition timer. 
+        /// <summary>
+        /// Multiply text color values. Mult transitions from 0 to 1 during transition timer. 
+        /// </summary>
         private static float _timerColorMult = 1.0f;
         private static LogEntry _lastLogEntry = null;
         private static bool _loggerWindowOpen = false;
@@ -81,7 +121,18 @@ namespace StudioCore
                     return;
                 }
 
-                _log.Add(new LogEntry(state.ToString(), logLevel));
+                string message = state.ToString();
+                var lastLog = _log.LastOrDefault();
+                if (lastLog != null)
+                {
+                    if (lastLog.Message == message)
+                    {
+                        lastLog.MessageCount++;
+                        return;
+                    }
+                }
+
+                _log.Add(new LogEntry(message, logLevel));
             }
         }
 
@@ -120,6 +171,18 @@ namespace StudioCore
                 {
                     _timerColorMult = 0.0f;
                 }
+
+                if (level is LogLevel.Warning or LogLevel.Error)
+                {
+                    _warningList.Add(text);
+                }
+
+                if (priority == LogPriority.High)
+                {
+                    PlatformUtils.Instance.MessageBox(text, level.ToString(),
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.None);
+                }
             }
         }
 
@@ -129,6 +192,33 @@ namespace StudioCore
             ImGui.Separator();
             ImGui.Spacing();
 
+            // Warning List
+            if (_warningList.Count > 0)
+            {
+                ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 0f, 0f, 1.0f));
+                if (ImGui.BeginMenu("!! WARNINGS!! "))
+                {
+                    ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 1.0f, 1.0f, 1.0f));
+                    ImGui.Text("Click warnings to remove them from list");
+                    if (ImGui.Button("Remove All Warnings"))
+                        _warningList.Clear();
+
+                    ImGui.Separator();
+                    foreach (var text in _warningList)
+                    {
+                        if (ImGui.Selectable(text, false, ImGuiSelectableFlags.DontClosePopups))
+                        {
+                            _warningList.Remove(text);
+                            break;
+                        }
+                    }
+                    ImGui.PopStyleColor();
+                    ImGui.EndMenu();
+                }
+                ImGui.PopStyleColor();
+            }
+
+            // Logger
             var dir = ImGuiDir.Right;
             if (_loggerWindowOpen)
                 dir = ImGuiDir.Down;
@@ -156,7 +246,7 @@ namespace StudioCore
                     ImGui.Spacing();
                     for (var i = 0; i < _log.Count; i++)
                     {
-                        ImGui.TextColored(PickColor(_log[i].Level), " " + _log[i].Message);
+                        ImGui.TextColored(PickColor(_log[i].Level), " " + _log[i].FormattedMessage);
                     }
                     if (_scrollToEnd)
                     {
@@ -173,7 +263,7 @@ namespace StudioCore
             if (_lastLogEntry != null)
             {
                 var color = PickColor(null);
-                ImGui.TextColored(color, _lastLogEntry.Message);
+                ImGui.TextColored(color, _lastLogEntry.FormattedMessage);
             }
         }
 

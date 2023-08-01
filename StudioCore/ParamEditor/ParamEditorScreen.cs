@@ -175,7 +175,7 @@ namespace StudioCore.ParamEditor
         /// Any version numbers <= this will be allowed to upgrade.
         /// Used to restrict upgrading before DSMS properly supports it.
         /// </summary>
-        public readonly ulong ParamUpgradeER_TargetWhitelist_Threshold = 10999999L;
+        public readonly ulong ParamUpgradeER_TargetWhitelist_Threshold = 1_10_9_9999L;
 
         public void UpgradeRegulation(ParamBank bank, ParamBank vanillaBank, string oldRegulation)
         {
@@ -762,39 +762,55 @@ namespace StudioCore.ParamEditor
                 && !ParamBank.VanillaBank.IsLoadingParams)
             {
                 if (ParamBank.PrimaryBank.AssetLocator.Type == GameType.EldenRing
-                    && ParamBank.PrimaryBank.ParamVersion < ParamBank.VanillaBank.ParamVersion
-                    && ParamBank.VanillaBank.ParamVersion <= ParamUpgradeER_TargetWhitelist_Threshold)
+                    && ParamBank.PrimaryBank.ParamVersion < ParamBank.VanillaBank.ParamVersion)
                 {
-                    ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.0f, 1f, 0f, 1.0f));
-                    if (ImGui.Button("Upgrade Params"))
+                    if (ParamBank.VanillaBank.ParamVersion <= ParamUpgradeER_TargetWhitelist_Threshold)
                     {
-                        var message = PlatformUtils.Instance.MessageBox(
-                            $@"Your mod is currently on regulation version {ParamBank.PrimaryBank.ParamVersion} while the game is on param version " +
-                            $"{ParamBank.VanillaBank.ParamVersion}.\n\nWould you like to attempt to upgrade your mod's params to be based on the " +
-                            "latest game version? Params will be upgraded by copying all rows that you modified to the new regulation, " +
-                            "overwriting exiting rows if needed.\n\nIf both you and the game update added a row with the same ID, the merge " +
-                            "will fail and there will be a log saying what rows you will need to manually change the ID of before trying " +
-                            "to merge again.\n\nIn order to perform this operation, you must specify the original regulation on the version " +
-                            $"that your current mod is based on (version {ParamBank.PrimaryBank.ParamVersion}).\n\nOnce done, the upgraded params will appear " +
-                            "in the param editor where you can view and save them. This operation is not undoable, but you can reload the project without " +
-                            "saving to revert to the un-upgraded params.\n\n" +
-                            "Would you like to continue?", "Regulation upgrade",
-                            MessageBoxButtons.OKCancel,
-                            MessageBoxIcon.Information);
-                        if (message == DialogResult.OK)
+                        ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.0f, 1f, 0f, 1.0f));
+                        if (ImGui.Button("Upgrade Params"))
                         {
-                            using FileChooserNative fileChooser = new FileChooserNative($"Select regulation.bin for game version {ParamBank.PrimaryBank.ParamVersion}...",
-                                null, FileChooserAction.Open, "Open", "Cancel");
-                            fileChooser.AddFilter(AssetLocator.RegulationBinFilter);
-                            fileChooser.AddFilter(AssetLocator.AllFilesFilter);
-                            if (fileChooser.Run() == (int)ResponseType.Accept)
+                            var message = PlatformUtils.Instance.MessageBox(
+                                $@"Your mod is currently on regulation version {ParamBank.PrimaryBank.ParamVersion} while the game is on param version " +
+                                $"{ParamBank.VanillaBank.ParamVersion}.\n\nWould you like to attempt to upgrade your mod's params to be based on the " +
+                                "latest game version? Params will be upgraded by copying all rows that you modified to the new regulation, " +
+                                "overwriting exiting rows if needed.\n\nIf both you and the game update added a row with the same ID, the merge " +
+                                "will fail and there will be a log saying what rows you will need to manually change the ID of before trying " +
+                                "to merge again.\n\nIn order to perform this operation, you must specify the original regulation on the version " +
+                                $"that your current mod is based on (version {ParamBank.PrimaryBank.ParamVersion}).\n\nOnce done, the upgraded params will appear " +
+                                "in the param editor where you can view and save them. This operation is not undoable, but you can reload the project without " +
+                                "saving to revert to the un-upgraded params.\n\n" +
+                                "Would you like to continue?", "Regulation upgrade",
+                                MessageBoxButtons.OKCancel,
+                                MessageBoxIcon.Information);
+                            if (message == DialogResult.OK)
                             {
-                                var path = fileChooser.Filename;
-                                UpgradeRegulation(ParamBank.PrimaryBank, ParamBank.VanillaBank, path);
+                                using FileChooserNative fileChooser = new FileChooserNative($"Select regulation.bin for game version {ParamBank.PrimaryBank.ParamVersion}...",
+                                    null, FileChooserAction.Open, "Open", "Cancel");
+                                fileChooser.AddFilter(AssetLocator.RegulationBinFilter);
+                                fileChooser.AddFilter(AssetLocator.AllFilesFilter);
+                                if (fileChooser.Run() == (int)ResponseType.Accept)
+                                {
+                                    var path = fileChooser.Filename;
+                                    UpgradeRegulation(ParamBank.PrimaryBank, ParamBank.VanillaBank, path);
+                                }
                             }
                         }
+                        ImGui.PopStyleColor();
                     }
-                    ImGui.PopStyleColor();
+                    else
+                    {
+                        ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 0.3f, 0.3f, 1.0f));
+                        if (ImGui.BeginMenu("Upgrade Params"))
+                        {
+                            ImGui.PopStyleColor();
+                            ImGui.Text("Param version unsupported, DSMapStudio must be updated first.\nDownload update if available, wait for update otherwise.");
+                            ImGui.EndMenu();
+                        }
+                        else
+                        {
+                            ImGui.PopStyleColor();
+                        }
+                    }
                 }
             }
         }
@@ -1181,7 +1197,7 @@ namespace StudioCore.ParamEditor
             else
             {
                 var style = ImGui.GetStyle();
-                ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, style.ItemSpacing - (new Vector2(3.5f, 0f) * scale));
+                ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, style.ItemSpacing * scale - (new Vector2(3.5f, 0f) * scale));
             }
             if (CountViews() == 1)
             {
@@ -1712,6 +1728,8 @@ namespace StudioCore.ParamEditor
 
         public void ParamView(bool doFocus, bool isActiveView)
         {
+            float scale = MapStudioNew.GetUIScale();
+
             if (EditorDecorations.ImGuiTableStdColumns("paramsT", 3, true))
             {
                 ImGui.TableSetupColumn("paramsCol", ImGuiTableColumnFlags.None, 0.5f);
@@ -1754,6 +1772,21 @@ namespace StudioCore.ParamEditor
                     //ImGui.Text("        Pinned Params");
                     foreach (var paramKey in pinnedParamKeyList)
                     {
+                        var primary = ParamBank.PrimaryBank.VanillaDiffCache.GetValueOrDefault(paramKey, null);
+                        Param p = ParamBank.PrimaryBank.Params[paramKey];
+                        if (p != null)
+                        {
+                            ParamMetaData meta = ParamMetaData.Get(p.AppliedParamdef);
+                            string Wiki = meta?.Wiki;
+                            if (Wiki != null)
+                            {
+                                if (EditorDecorations.HelpIcon(paramKey + "wiki", ref Wiki, true))
+                                {
+                                    meta.Wiki = Wiki;
+                                }
+                            }
+                        }
+                        ImGui.Indent(15.0f * scale);
                         if (ImGui.Selectable(paramKey, paramKey == _selection.getActiveParam()))
                         {
                             EditorCommandQueue.AddCommand($@"param/view/{_viewIndex}/{paramKey}");
@@ -1764,6 +1797,7 @@ namespace StudioCore.ParamEditor
                                 _paramEditor._projectSettings.PinnedParams.Remove(paramKey);
                             ImGui.EndPopup();
                         }
+                        ImGui.Unindent(15.0f * scale);
                     }
                     ImGui.Spacing();
                     ImGui.Separator();
@@ -1814,7 +1848,7 @@ namespace StudioCore.ParamEditor
                             }
                         }
 
-                        ImGui.Indent(15.0f * CFG.Current.UIScale);
+                        ImGui.Indent(15.0f * scale);
                         if (primary != null ? primary.Any() : false)
                             ImGui.PushStyleColor(ImGuiCol.Text, PRIMARYCHANGEDCOLOUR);
                         else
@@ -1842,7 +1876,7 @@ namespace StudioCore.ParamEditor
                             }
                             ImGui.EndPopup();
                         }
-                        ImGui.Unindent(15.0f * CFG.Current.UIScale);
+                        ImGui.Unindent(15.0f * scale);
                     }
 
                     if (doFocus)
@@ -2008,10 +2042,12 @@ namespace StudioCore.ParamEditor
 
         private void RowColumnEntry(bool[] selectionCache, int selectionCacheIndex, string activeParam, List<Param.Row> p, Param.Row r, HashSet<int> vanillaDiffCache, List<(HashSet<int>, HashSet<int>)> auxDiffCaches, IParamDecorator decorator, ref float scrollTo, bool doFocus, bool isPinned, Param.Column compareCol)
         {
+            float scale = MapStudioNew.GetUIScale();
+
             if (CFG.Current.UI_CompactParams)
             {
                 // ItemSpacing only affects clickable area for selectables in tables. Add additional height to prevent gaps between selectables.
-                ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(5.0f, 2.0f) * CFG.Current.UIScale);
+                ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(5.0f, 2.0f) * scale);
             }
             ImGui.TableNextColumn();
             bool diffVanilla = vanillaDiffCache.Contains(r.ID);

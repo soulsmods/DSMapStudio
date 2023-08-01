@@ -476,15 +476,16 @@ namespace StudioCore
 
         public void Display()
         {
+            float scale = MapStudioNew.GetUIScale();
             if (!MenuOpenState)
                 return;
 
-            ImGui.SetNextWindowSize(new Vector2(900.0f, 800.0f), ImGuiCond.FirstUseEver);
+            ImGui.SetNextWindowSize(new Vector2(900.0f, 800.0f) * scale, ImGuiCond.FirstUseEver);
             ImGui.PushStyleColor(ImGuiCol.WindowBg, new Vector4(0f, 0f, 0f, 0.98f));
             ImGui.PushStyleColor(ImGuiCol.TitleBgActive, new Vector4(0.25f, 0.25f, 0.25f, 1.0f));
-            ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(10.0f, 10.0f));
-            ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(20.0f, 10.0f));
-            ImGui.PushStyleVar(ImGuiStyleVar.IndentSpacing, 20.0f);
+            ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(10.0f, 10.0f) * scale);
+            ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(20.0f, 10.0f) * scale);
+            ImGui.PushStyleVar(ImGuiStyleVar.IndentSpacing, 20.0f * scale);
 
             if (ImGui.Begin("Settings Menu##Popup", ref MenuOpenState, ImGuiWindowFlags.NoDocking))
             {

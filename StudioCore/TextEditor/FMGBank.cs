@@ -54,6 +54,7 @@ namespace StudioCore.TextEditor
         SwordArts,
         Effect,
         ActionButtonText,
+        Tutorial,
         ItemFmgDummy = 200, // Anything with this will be sorted into the item section of the editor.
     }
 
@@ -231,7 +232,7 @@ namespace StudioCore.TextEditor
         // SDT: TutorialTitle
         // ER:  LoadingText
     }
-        
+
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata)]
     [JsonSerializable(typeof(JsonFMG))]
     internal partial class FmgSerializerContext : JsonSerializerContext
@@ -755,6 +756,10 @@ namespace StudioCore.TextEditor
                 case FmgIDType.SummarySwordArts:
                     return FmgEntryCategory.SwordArts;
 
+                case FmgIDType.TutorialTitle:
+                case FmgIDType.TutorialBody:
+                    return FmgEntryCategory.Tutorial;
+
                 case FmgIDType.WeaponEffect:
                     return FmgEntryCategory.ItemFmgDummy;
 
@@ -791,6 +796,7 @@ namespace StudioCore.TextEditor
                 case FmgIDType.DescriptionSpells_Patch:
                 case FmgIDType.DescriptionWeapons_Patch:
                 case FmgIDType.DescriptionGem:
+                case FmgIDType.SummarySwordArts: // Include as Description (for text box size)
                     return FmgEntryTextType.Description;
 
                 case FmgIDType.SummaryGoods:
@@ -809,7 +815,7 @@ namespace StudioCore.TextEditor
                 case FmgIDType.SummaryRings_Patch:
                 case FmgIDType.SummaryWeapons_Patch:
                 case FmgIDType.SummaryGem:
-                case FmgIDType.SummarySwordArts:
+                case FmgIDType.TutorialTitle: // Include as summary (not all TutorialBody's have a title)
                     return FmgEntryTextType.Summary;
 
                 case FmgIDType.TitleGoods:
@@ -850,6 +856,7 @@ namespace StudioCore.TextEditor
                     return FmgEntryTextType.ExtraText;
 
                 case FmgIDType.WeaponEffect:
+                case FmgIDType.TutorialBody: // Include as TextBody
                     return FmgEntryTextType.TextBody;
 
                 default:
@@ -980,13 +987,13 @@ namespace StudioCore.TextEditor
             {
                 if (_languageFolder != "")
                 {
-                    TaskManager.warningList.TryAdd("FmgPathLoadError" + msgBndType + _languageFolder,
-                        $"Could not find text data files when looking for [{msgBndType}] in [{_languageFolder}] folder.\nText data will not be loaded.");
+                    TaskLogs.AddLog($"Could locate text data files when looking for \"{msgBndType}\" in \"{_languageFolder}\" folder",
+                        Microsoft.Extensions.Logging.LogLevel.Warning);
                 }
                 else
                 {
-                    TaskManager.warningList.TryAdd("FmgDefaultPathLoadError" + msgBndType + _languageFolder,
-                        $"Could not find text data files when looking for [{msgBndType}] in [Default Eng] folder.\nText data will not be loaded. Make sure entire game is unpacked.");
+                    TaskLogs.AddLog($"Could not locate text data files when looking for \"{msgBndType}\" in Default English folder",
+                        Microsoft.Extensions.Logging.LogLevel.Warning);
                 }
                 IsLoaded = false;
                 IsLoading = false;
@@ -1066,13 +1073,13 @@ namespace StudioCore.TextEditor
             {
                 if (_languageFolder != "")
                 {
-                    TaskManager.warningList.TryAdd("FmgPathLoadError" + _languageFolder,
-                        $"Could not find text data files when using [{_languageFolder}] folder.\nText data will not be loaded.");
+                    TaskLogs.AddLog($"Could not locate text data files when using \"{_languageFolder}\" folder",
+                        Microsoft.Extensions.Logging.LogLevel.Warning);
                 }
                 else
                 {
-                    TaskManager.warningList.TryAdd("FmgDefaultPathLoadError" + _languageFolder,
-                        $"Could not find text data files when using [Default Eng] folder.\nText data will not be loaded. Make sure entire game is unpacked.");
+                    TaskLogs.AddLog($"Could not locate text data files when using Default English folder",
+                        Microsoft.Extensions.Logging.LogLevel.Warning);
                 }
                 IsLoaded = false;
                 IsLoading = false;
@@ -1131,8 +1138,8 @@ namespace StudioCore.TextEditor
                         return;
                     }
                 }
-                TaskManager.warningList.TryAdd("FMGFindParentErr "+info.Name+" "+info.FmgID,
-                    $"Could not find a patch parent for FMG \"{info.Name}\" with ID {info.FmgID}");
+                TaskLogs.AddLog($"Could not find a patch parent for FMG \"{info.Name}\" with ID {info.FmgID}",
+                    Microsoft.Extensions.Logging.LogLevel.Warning);
             }
         }
 
