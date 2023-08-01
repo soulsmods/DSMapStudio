@@ -237,31 +237,41 @@ namespace StudioCore.Resource
 
         private static void LoadBinderResources(LoadBinderResourcesAction action)
         {
-            action.ProcessBinder();
-            if (!action.PopulateResourcesOnly)
+            try
             {
-                bool doasync = (action.PendingResources.Count() + action.PendingTPFs.Count()) > 1;
-                int i = 0;
-                foreach (var p in action.PendingResources)
+                action.ProcessBinder();
+                if (!action.PopulateResourcesOnly)
                 {
-                    var f = action.Binder.ReadFile(p.Item3);
-                    p.Item1.LoadByteResourceBlock.Post(new LoadByteResourceRequest(p.Item2, f, action.AccessLevel, Locator.Type));
-                    action._job.IncrementEstimateTaskSize(1);
-                    i++;
-                }
-
-                foreach (var t in action.PendingTPFs)
-                {
-                    try
+                    bool doasync = (action.PendingResources.Count() + action.PendingTPFs.Count()) > 1;
+                    int i = 0;
+                    foreach (var p in action.PendingResources)
                     {
-                        TPF f = TPF.Read(action.Binder.ReadFile(t.Item2));
-                        action._job.AddLoadTPFResources(new LoadTPFResourcesAction(action._job, t.Item1, f, action.AccessLevel, ResourceManager.Locator.Type));
+                        var f = action.Binder.ReadFile(p.Item3);
+                        p.Item1.LoadByteResourceBlock.Post(new LoadByteResourceRequest(p.Item2, f, action.AccessLevel, Locator.Type));
+                        action._job.IncrementEstimateTaskSize(1);
+                        i++;
                     }
-                    catch  
-                    { 
+
+                    foreach (var t in action.PendingTPFs)
+                    {
+                        try
+                        {
+                            TPF f = TPF.Read(action.Binder.ReadFile(t.Item2));
+                            action._job.AddLoadTPFResources(new LoadTPFResourcesAction(action._job, t.Item1, f, action.AccessLevel, ResourceManager.Locator.Type));
+                        }
+                        catch(Exception e)
+                        {
+                            TaskLogs.AddLog($"Failed to load TPF \"{t.Item1}\": {e.Message}", Microsoft.Extensions.Logging.LogLevel.Warning, TaskLogs.LogPriority.Normal);
+                            TaskLogs.AddLog($"{e.StackTrace}", Microsoft.Extensions.Logging.LogLevel.Warning, TaskLogs.LogPriority.Low);
+                        }
+                        i++;
                     }
-                    i++;
                 }
+            }
+            catch(Exception e)
+            {
+                TaskLogs.AddLog($"Failed to load binder \"{action.BinderVirtualPath}\": {e.Message}", Microsoft.Extensions.Logging.LogLevel.Warning, TaskLogs.LogPriority.Normal);
+                TaskLogs.AddLog($"{e.StackTrace}", Microsoft.Extensions.Logging.LogLevel.Warning, TaskLogs.LogPriority.Low);
             }
 
             action.PendingResources.Clear();
