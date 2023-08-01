@@ -557,7 +557,7 @@ namespace StudioCore
             Version dsmsVersion;
             if (!Version.TryParse(settings.LatestMapstudioVersion, out projLastVersion) || !Version.TryParse(_version, out dsmsVersion))
             {
-                TaskManager.warningList["backupCheck"] = "An issue occurred checking the last used mapstudio version of this project.";
+                TaskLogs.AddLog($"An issue occurred checking the last used mapstudio version of this project.", Microsoft.Extensions.Logging.LogLevel.Warning);
                 return;
             }
             if (projLastVersion < dsmsVersion)
