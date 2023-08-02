@@ -813,7 +813,7 @@ namespace SoulsFormats
                 return ReadEnum<TEnum, byte>(ReadByte, "0x{0:X}");
             if (typ == typeof(sbyte))
                 return ReadEnum<TEnum, sbyte>(ReadSByte, "0x{0:X}");
-            throw new InvalidDataException($"Enum is not the right type: {typ.Name}");
+            throw new InvalidDataException($"Enum {typeof(TEnum).Name} has an invalid underlying value type: {typ.Name}");
         }
 
         /// <summary>
@@ -837,7 +837,7 @@ namespace SoulsFormats
                 return ReadEnum<TEnum, short>(ReadInt16, "0x{0:X}");
             if (typ == typeof(ushort))
                 return ReadEnum<TEnum, ushort>(ReadUInt16, "0x{0:X}");
-            throw new InvalidDataException($"Enum has an invalid underlying value type: {typ.Name}");
+            throw new InvalidDataException($"Enum {typeof(TEnum).Name} has an invalid underlying value type: {typ.Name}");
         }
 
         /// <summary>
@@ -861,7 +861,7 @@ namespace SoulsFormats
                 return ReadEnum<TEnum, int>(ReadInt32, "0x{0:X}");
             if (typ == typeof(uint))
                 return ReadEnum<TEnum, uint>(ReadUInt32, "0x{0:X}");
-            throw new InvalidDataException($"Enum has an invalid underlying value type: {typ.Name}");
+            throw new InvalidDataException($"Enum {typeof(TEnum).Name} has an invalid underlying value type: {typ.Name}");
         }
 
         /// <summary>
@@ -885,7 +885,7 @@ namespace SoulsFormats
                 return ReadEnum<TEnum, long>(ReadInt64, "0x{0:X}");
             if (typ == typeof(ulong))
                 return ReadEnum<TEnum, ulong>(ReadUInt64, "0x{0:X}");
-            throw new InvalidDataException($"Enum has an invalid underlying value type: {typ.Name}");
+            throw new InvalidDataException($"Enum {typeof(TEnum).Name} has an invalid underlying value type: {typ.Name}");
         }
 
         /// <summary>
