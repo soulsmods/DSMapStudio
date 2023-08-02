@@ -108,6 +108,8 @@ namespace StudioCore.Resource
                 }
                 catch (Exception e)
                 {
+                    TaskLogs.AddLog($"Failed to load TPF \"{action._filePath}\": {e.Message}", Microsoft.Extensions.Logging.LogLevel.Warning, TaskLogs.LogPriority.Normal);
+                    TaskLogs.AddLog($"{e.StackTrace}", Microsoft.Extensions.Logging.LogLevel.Warning, TaskLogs.LogPriority.Low);
                     return new LoadTPFTextureResourceRequest[]{};
                 }
             }
@@ -502,8 +504,8 @@ namespace StudioCore.Resource
                         if (path != null && File.Exists(path))
                         {
                             _job.AddLoadTPFResources(new LoadTPFResourcesAction(_job,
-                                Path.GetDirectoryName(r.Key).Replace('\\', '/'), 
-                                TPF.Read(path), AccessLevel.AccessGPUOptimizedOnly, Locator.Type));
+                                Path.GetDirectoryName(r.Key).Replace('\\', '/'),
+                                path, AccessLevel.AccessGPUOptimizedOnly, Locator.Type));
                         }
                     }
                 }
@@ -537,7 +539,6 @@ namespace StudioCore.Resource
                             _job.AddLoadTPFResources(new LoadTPFResourcesAction(_job,
                                 Path.GetDirectoryName(r.Key).Replace('\\', '/'), path,
                                 AccessLevel.AccessGPUOptimizedOnly, Locator.Type));
-                            
                         }
                     }
                 }
