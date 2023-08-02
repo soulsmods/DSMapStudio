@@ -851,6 +851,14 @@ namespace SoulsFormats
         }
 
         /// <summary>
+        /// Reads a four-byte value as the specified enum, throwing an exception if not present.
+        /// </summary>
+        public TEnum ReadEnumInt32<TEnum>() where TEnum : Enum
+        {
+            return ReadEnum<TEnum, int>(ReadInt32, "0x{0:X}");
+        }
+
+        /// <summary>
         /// Reads a four-byte enum from the specified position without advancing the stream.
         /// </summary>
         public TEnum GetEnum32<TEnum>(long position) where TEnum : Enum
