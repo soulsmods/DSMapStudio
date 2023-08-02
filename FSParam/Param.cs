@@ -656,6 +656,7 @@ namespace FSParam
             ParamType = source.ParamType;
             RowSize = source.RowSize;
             _paramData = new StridedByteArray((uint)source._rows.Count, (uint)RowSize, BigEndian);
+            Columns = source.Columns;
             AppliedParamdef = source.AppliedParamdef;
         }
         

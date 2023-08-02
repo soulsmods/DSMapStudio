@@ -54,6 +54,7 @@ namespace StudioCore.TextEditor
         SwordArts,
         Effect,
         ActionButtonText,
+        Tutorial,
         ItemFmgDummy = 200, // Anything with this will be sorted into the item section of the editor.
     }
 
@@ -231,7 +232,7 @@ namespace StudioCore.TextEditor
         // SDT: TutorialTitle
         // ER:  LoadingText
     }
-        
+    
     [JsonSourceGenerationOptions(WriteIndented = true,
         GenerationMode = JsonSourceGenerationMode.Metadata, IncludeFields = true)]
     [JsonSerializable(typeof(JsonFMG))]
@@ -756,6 +757,10 @@ namespace StudioCore.TextEditor
                 case FmgIDType.SummarySwordArts:
                     return FmgEntryCategory.SwordArts;
 
+                case FmgIDType.TutorialTitle:
+                case FmgIDType.TutorialBody:
+                    return FmgEntryCategory.Tutorial;
+
                 case FmgIDType.WeaponEffect:
                     return FmgEntryCategory.ItemFmgDummy;
 
@@ -792,6 +797,7 @@ namespace StudioCore.TextEditor
                 case FmgIDType.DescriptionSpells_Patch:
                 case FmgIDType.DescriptionWeapons_Patch:
                 case FmgIDType.DescriptionGem:
+                case FmgIDType.SummarySwordArts: // Include as Description (for text box size)
                     return FmgEntryTextType.Description;
 
                 case FmgIDType.SummaryGoods:
@@ -810,7 +816,7 @@ namespace StudioCore.TextEditor
                 case FmgIDType.SummaryRings_Patch:
                 case FmgIDType.SummaryWeapons_Patch:
                 case FmgIDType.SummaryGem:
-                case FmgIDType.SummarySwordArts:
+                case FmgIDType.TutorialTitle: // Include as summary (not all TutorialBody's have a title)
                     return FmgEntryTextType.Summary;
 
                 case FmgIDType.TitleGoods:
@@ -851,6 +857,7 @@ namespace StudioCore.TextEditor
                     return FmgEntryTextType.ExtraText;
 
                 case FmgIDType.WeaponEffect:
+                case FmgIDType.TutorialBody: // Include as TextBody
                     return FmgEntryTextType.TextBody;
 
                 default:

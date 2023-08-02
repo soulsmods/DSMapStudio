@@ -270,6 +270,8 @@ namespace StudioCore.TextEditor
 
         private void EditorGUI(bool doFocus)
         {
+            float scale = MapStudioNew.GetUIScale();
+
             if (!FMGBank.IsLoaded)
             {
                 if (_projectSettings == null)
@@ -436,7 +438,7 @@ namespace StudioCore.TextEditor
             else
             {
                 ImGui.Columns(2);
-                ImGui.SetColumnWidth(0, 100);
+                ImGui.SetColumnWidth(0, 100 * scale);
                 ImGui.Text("ID");
                 ImGui.NextColumn();
 
@@ -448,23 +450,23 @@ namespace StudioCore.TextEditor
                 _propEditor.PropEditorFMGBegin();
                 if (_activeEntryGroup.TextBody != null)
                 {
-                    _propEditor.PropEditorFMG(_activeEntryGroup.TextBody, "Text", 160.0f);
+                    _propEditor.PropEditorFMG(_activeEntryGroup.TextBody, "Text", 160.0f * scale);
                 }
                 if (_activeEntryGroup.Title != null)
                 {
-                    _propEditor.PropEditorFMG(_activeEntryGroup.Title, "Title", -1.0f);
+                    _propEditor.PropEditorFMG(_activeEntryGroup.Title, "Title", -1.0f * scale);
                 }
                 if (_activeEntryGroup.Summary != null)
                 {
-                    _propEditor.PropEditorFMG(_activeEntryGroup.Summary, "Summary", 50.0f);
+                    _propEditor.PropEditorFMG(_activeEntryGroup.Summary, "Summary", 50.0f * scale);
                 }
                 if (_activeEntryGroup.Description != null)
                 {
-                    _propEditor.PropEditorFMG(_activeEntryGroup.Description, "Description", 160.0f);
+                    _propEditor.PropEditorFMG(_activeEntryGroup.Description, "Description", 160.0f * scale);
                 }
                 if (_activeEntryGroup.ExtraText != null)
                 {
-                    _propEditor.PropEditorFMG(_activeEntryGroup.ExtraText, "Extra", 40.0f);
+                    _propEditor.PropEditorFMG(_activeEntryGroup.ExtraText, "Extra", 40.0f * scale);
                 }
 
                 _propEditor.PropEditorFMGEnd();
@@ -479,7 +481,7 @@ namespace StudioCore.TextEditor
                 return;
             }
 
-            var scale = MapStudioNew.GetUIScale();
+            float scale = MapStudioNew.GetUIScale();
 
             // Docking setup
             ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(4, 4) * scale);

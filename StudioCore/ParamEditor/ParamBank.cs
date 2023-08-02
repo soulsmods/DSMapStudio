@@ -511,6 +511,16 @@ namespace StudioCore.ParamEditor
             "treasureboxparam",
         };
 
+        private static List<string> GetLooseParamsInDir(string dir)
+        {
+            List<string> looseParams = new();
+            if (Directory.Exists($@"{dir}\Param"))
+            {
+                looseParams.AddRange(Directory.GetFileSystemEntries($@"{dir}\Param", @"*.param"));
+            }
+            return looseParams;
+        }
+
         private void LoadParamsDS2(bool loose)
         {
             var dir = AssetLocator.GameRootDirectory;
@@ -527,13 +537,20 @@ namespace StudioCore.ParamEditor
                 //return;
             }
 
-            // Load loose params
-            List<string> scandir = new List<string>();
-            if (mod != null && Directory.Exists($@"{mod}\Param"))
+            // Load loose params (prioritizing ones in mod folder)
+            List<string> looseParams = GetLooseParamsInDir(mod);
+            if (Directory.Exists($@"{dir}\Param"))
             {
-                scandir.Add($@"{mod}\Param");
+                // Include any params in game folder that are not in mod folder
+                foreach (var path in Directory.GetFileSystemEntries($@"{dir}\Param", @"*.param"))
+                {
+                    if (looseParams.Find(e => Path.GetFileName(e) == Path.GetFileName(path)) == null)
+                    {
+                        // Project folder does not contain this loose param
+                        looseParams.Add(path);
+                    }
+                }
             }
-            scandir.Add($@"{dir}\Param");
 
             // Load reg params
             var param = $@"{mod}\enc_regulation.bnd.dcx";
@@ -546,7 +563,7 @@ namespace StudioCore.ParamEditor
             {
                 enemyFile = $@"{dir}\Param\EnemyParam.param";
             }
-            LoadParamsDS2FromFile(scandir, param, enemyFile, loose);
+            LoadParamsDS2FromFile(looseParams, param, enemyFile, loose);
         }
         private void LoadVParamsDS2(bool loose)
         {
@@ -560,12 +577,11 @@ namespace StudioCore.ParamEditor
             }
 
             // Load loose params
-            List<string> scandir = new List<string>();
-            scandir.Add($@"{AssetLocator.GameRootDirectory}\Param");
+            var looseParams = GetLooseParamsInDir(AssetLocator.GameRootDirectory);
 
-            LoadParamsDS2FromFile(scandir, $@"{AssetLocator.GameRootDirectory}\enc_regulation.bnd.dcx", $@"{AssetLocator.GameRootDirectory}\Param\EnemyParam.param", loose);
+            LoadParamsDS2FromFile(looseParams, $@"{AssetLocator.GameRootDirectory}\enc_regulation.bnd.dcx", $@"{AssetLocator.GameRootDirectory}\Param\EnemyParam.param", loose);
         }
-        private void LoadParamsDS2FromFile(List<string> loosedir, string path, string enemypath, bool loose)
+        private void LoadParamsDS2FromFile(List<string> looseParams, string path, string enemypath, bool loose)
         {
             BND4 paramBnd;
             if (!BND4.Is(path))
@@ -603,48 +619,44 @@ namespace StudioCore.ParamEditor
             }
             LoadParamFromBinder(paramBnd, ref _params, out _paramVersion);
 
-            foreach (var d in loosedir)
+            foreach (var p in looseParams)
             {
-                var paramfiles = Directory.GetFileSystemEntries(d, @"*.param");
-                foreach (var p in paramfiles)
-                {
-                    var name = Path.GetFileNameWithoutExtension(p);
-                    var lp = Param.Read(p);
-                    var fname = lp.ParamType;
+                var name = Path.GetFileNameWithoutExtension(p);
+                var lp = Param.Read(p);
+                var fname = lp.ParamType;
 
-                    try
+                try
+                {
+                    if (loose)
                     {
-                        if (loose)
+                        // Loose params: override params already loaded via regulation
+                        PARAMDEF def = _paramdefs[lp.ParamType];
+                        lp.ApplyParamdef(def);
+                        _params[name] = lp;
+                    }
+                    else
+                    {
+                        // Non-loose params: do not override params already loaded via regulation
+                        if (!_params.ContainsKey(name))
                         {
-                            // Loose params: override params already loaded via regulation
                             PARAMDEF def = _paramdefs[lp.ParamType];
                             lp.ApplyParamdef(def);
-                            _params[name] = lp;
-                        }
-                        else
-                        {
-                            // Non-loose params: do not override params already loaded via regulation
-                            if (!_params.ContainsKey(name))
-                            {
-                                PARAMDEF def = _paramdefs[lp.ParamType];
-                                lp.ApplyParamdef(def);
-                                _params.Add(name, lp);
-                            }
+                            _params.Add(name, lp);
                         }
                     }
-                    catch (Exception e)
+                }
+                catch (Exception e)
+                {
+                    TaskLogs.LogPriority priority = TaskLogs.LogPriority.Normal;
+                    if (AssetLocator.Type == GameType.DarkSoulsIISOTFS &&
+                        fname is "GENERATOR_DBG_LOCATION_PARAM")
                     {
-                        TaskLogs.LogPriority priority = TaskLogs.LogPriority.Normal;
-                        if (AssetLocator.Type == GameType.DarkSoulsIISOTFS &&
-                            fname is "GENERATOR_DBG_LOCATION_PARAM")
-                        {
-                            // Known cases that don't affect standard modmaking
-                            priority = TaskLogs.LogPriority.Low;
-                        }
-                        TaskLogs.AddLog($"Could not apply ParamDef for {fname}",
-                            Microsoft.Extensions.Logging.LogLevel.Warning,
-                            priority);
+                        // Known cases that don't affect standard modmaking
+                        priority = TaskLogs.LogPriority.Low;
                     }
+                    TaskLogs.AddLog($"Could not apply ParamDef for {fname}",
+                        Microsoft.Extensions.Logging.LogLevel.Warning,
+                        priority);
                 }
             }
             paramBnd.Dispose();
@@ -753,6 +765,7 @@ namespace StudioCore.ParamEditor
 
             _paramdefs = new Dictionary<string, PARAMDEF>();
             IsDefsLoaded = false;
+            IsMetaLoaded = false;
 
             AuxBanks = new Dictionary<string, ParamBank>();
 
@@ -769,7 +782,6 @@ namespace StudioCore.ParamEditor
                     IsDefsLoaded = true;
                     TaskManager.Run(new("Param - Load Meta", true, false, false, () =>
                     {
-                        IsMetaLoaded = false;
                         LoadParamMeta(defPairs, locator);
                         IsMetaLoaded = true;
                     }));
@@ -887,7 +899,8 @@ namespace StudioCore.ParamEditor
             }
             else if (locator.Type == GameType.DarkSoulsIISOTFS)
             {
-                newBank.LoadParamsDS2FromFile(new List<string>{looseDir}, path, enemyPath, settings.UseLooseParams);
+                var looseParams = GetLooseParamsInDir(looseDir);
+                newBank.LoadParamsDS2FromFile(looseParams, path, enemyPath, settings.UseLooseParams);
             }
             else if (locator.Type == GameType.DarkSoulsRemastered)
             {
@@ -1758,16 +1771,20 @@ namespace StudioCore.ParamEditor
                     (10701000L, "1.07 - (SwordArtsParam) Set swordArtsType to 0", "param SwordArtsParam: modified && !added: swordArtsType: = 0;"),
                     (10701000L, "1.07 - (AtkParam PC/NPC) Set added finalAttackDamageRate refs to -1", "param AtkParam_(Pc|Npc): modified && added: finalDamageRateId: = -1;"),
                     (10701000L, "1.07 - (AtkParam PC/NPC) Set not-added finalAttackDamageRate refs to vanilla", "param AtkParam_(Pc|Npc): modified && !added: finalDamageRateId: = vanillafield finalDamageRateId;"),
-                    (10701000L, "1.07 - (AssetEnvironmentGeometryParam) Set reserved_124 to Vanilla v1.07 values", "param GameSystemCommonParam: modified && !added: reserved_124: = vanillafield reserved_124;"),
-                    (10701000L, "1.07 - (AssetEnvironmentGeometryParam) Set reserved41 to Vanilla v1.07 values", "param PlayerCommonParam: modified: reserved41: = vanillafield reserved41;"),
-                    (10701000L, "1.07 - (AssetEnvironmentGeometryParam) Set Reserve_1 to Vanilla v1.07 values", "param AssetEnvironmentGeometryParam: modified: Reserve_1: = vanillafield Reserve_1;"),
-                    (10701000L, "1.07 - (AssetEnvironmentGeometryParam) Set Reserve_2 to Vanilla v1.07 values", "param AssetEnvironmentGeometryParam: modified: Reserve_2: = vanillafield Reserve_2;"),
-                    (10701000L, "1.07 - (AssetEnvironmentGeometryParam) Set Reserve_3 to Vanilla v1.07 values", "param AssetEnvironmentGeometryParam: modified: Reserve_3: = vanillafield Reserve_3;"),
-                    (10701000L, "1.07 - (AssetEnvironmentGeometryParam) Set Reserve_4 to Vanilla v1.07 values", "param AssetEnvironmentGeometryParam: modified: Reserve_4: = vanillafield Reserve_4;"),
+                    (10701000L, "1.07 - (GameSystemCommonParam) Set reserved_124 to Vanilla v1.07 values", "param GameSystemCommonParam: modified && !added: reserved_124: = vanillafield reserved_124;"),
+                    (10701000L, "1.07 - (PlayerCommonParam) Set reserved41 to Vanilla v1.07 values", "param PlayerCommonParam: modified: reserved41: = vanillafield reserved41;"),
+                    (10701000L, "1.07 - (AssetEnvironmentGeometryParam) Set unkR1 to Vanilla v1.07 values", "param AssetEnvironmentGeometryParam: modified && !added: unkR1: = vanillafield unkR1;"),
+                    (10701000L, "1.07 - (AssetEnvironmentGeometryParam) Set unkR3 to Vanilla v1.07 values", "param AssetEnvironmentGeometryParam: modified && !added: unkR3: = vanillafield unkR3;"),
+                    (10701000L, "1.07 - (AssetEnvironmentGeometryParam) Set unkR4 to Vanilla v1.07 values", "param AssetEnvironmentGeometryParam: modified && !added: unkR4: = vanillafield unkR4;"),
                     (10801000L, "1.08 - (BuddyParam) Set Unk1 to default value", "param BuddyParam: modified: Unk1: = 1410;"),
                     (10801000L, "1.08 - (BuddyParam) Set Unk2 to default value", "param BuddyParam: modified: Unk2: = 1420;"),
                     (10801000L, "1.08 - (BuddyParam) Set Unk11 to default value", "param BuddyParam: modified: Unk11: = 1400;"),
-                    (10900000L, "1.09 - (GameSystemCommonParam) Set reserved_124 to Vanilla v1.09 values", "param GameSystemCommonParam: id 0: reserved_124: = vanillafield reserved_124;")
+                    (10900000L, "1.09 - (GameSystemCommonParam) Set reserved_124 to Vanilla v1.09 values", "param GameSystemCommonParam: id 0: reserved_124: = vanillafield reserved_124;"),
+                    //
+                    (11001000L, "1.10 - (EquipParamWeapon) Set unk1 to Vanilla v1.10 values", "param EquipParamWeapon: modified && !added: unk1: = vanillafield unk1;"),
+                    (11001000L, "1.10 - (ToughnessParam) Set unk1 to default value", "param ToughnessParam: added: unk1: = 1;"),
+                    (11001000L, "1.10 - (ToughnessParam) Set unk1 to Vanilla v1.10 values", "param ToughnessParam: modified && !added: unk1: = vanillafield unk1;"),
+                    (11001000L, "1.10 - (ToughnessParam) Set unk2 to Vanilla v1.10 values", "param ToughnessParam: modified && !added: unk2: = vanillafield unk2;"),
                 };
             }
 

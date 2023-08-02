@@ -44,7 +44,11 @@
       <Maximum>10</Maximum>
       <SortID>150</SortID>
     </Field>
-    <Field Def="dummy8 pad1[16]">
+    <Field Def="f32 unk1 = 1">
+    </Field>
+    <Field Def="f32 unk2 = 1">
+    </Field>
+    <Field Def="dummy8 pad1[8]">
       <DisplayName>パッド</DisplayName>
       <Description>pad</Description>
       <SortID>302</SortID>
