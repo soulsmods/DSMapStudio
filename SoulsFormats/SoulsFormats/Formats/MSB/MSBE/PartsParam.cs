@@ -357,7 +357,7 @@ namespace SoulsFormats
                 Position = br.ReadVector3();
                 Rotation = br.ReadVector3();
                 Scale = br.ReadVector3();
-                UnkEnabledState = br.ReadEnumInt32<UnkEnabledStateType>();
+                UnkEnabledState = br.ReadEnum32<UnkEnabledStateType>();
                 MapStudioLayer = br.ReadUInt32();
                 br.AssertInt32(0);
                 long unkOffset1 = br.ReadInt64();
