@@ -64,7 +64,7 @@ namespace StudioCore
             {
                 get
                 {
-                    string mes = Message;
+                    string mes = $" {Message}";
                     if (MessageCount > 1)
                         mes += $" x{MessageCount}";
                     return mes;
@@ -84,68 +84,17 @@ namespace StudioCore
             }
         }
 
-        private static readonly MapStudioLoggerProvider _provider = new();
         private static volatile List<LogEntry> _log = new();
         private static volatile HashSet<string> _warningList = new();
 
+        private static volatile LogEntry _lastLogEntry = null;
         /// <summary>
         /// Multiply text color values. Mult transitions from 0 to 1 during transition timer. 
         /// </summary>
         private static float _timerColorMult = 1.0f;
-        private static LogEntry _lastLogEntry = null;
         private static bool _loggerWindowOpen = false;
         private static bool _scrollToEnd = false;
-
-        private class MapStudioLogger : ILogger
-        {
-            private readonly string _name;
-
-            public MapStudioLogger(string name) => _name = name;
-
-            public IDisposable? BeginScope<TState>(TState state) where TState : notnull => default!;
-
-            public bool IsEnabled(LogLevel logLevel)
-            {
-                return true;
-            }
-
-            public void Log<TState>(
-                LogLevel logLevel,
-                EventId eventId,
-                TState state,
-                Exception? exception,
-                Func<TState, Exception?, string> formatter)
-            {
-                if (!IsEnabled(logLevel))
-                {
-                    return;
-                }
-
-                string message = state.ToString();
-                var lastLog = _log.LastOrDefault();
-                if (lastLog != null)
-                {
-                    if (lastLog.Message == message)
-                    {
-                        lastLog.MessageCount++;
-                        return;
-                    }
-                }
-
-                _log.Add(new LogEntry(message, logLevel));
-            }
-        }
-
-        private class MapStudioLoggerProvider : ILoggerProvider
-        {
-            public ILogger CreateLogger(string name)
-            {
-                var logger = new MapStudioLogger(name);
-                return logger;
-            }
-
-            public void Dispose() { }
-        }
+        private static SpinLock _spinlock = new(false);
 
         /// <summary>
         /// Adds a new entry to task logger.
@@ -154,35 +103,54 @@ namespace StudioCore
         /// <param name="level">Type of entry. Affects text color.</param>
         public static void AddLog(string text, LogLevel level = LogLevel.Information, LogPriority priority = LogPriority.Normal)
         {
-            var logger = _provider.CreateLogger("");
-            logger.Log(level, text);
-            _scrollToEnd = true;
-
-            if (priority != LogPriority.Low)
+            bool lockTaken = false;
+            try
             {
-                _lastLogEntry = new LogEntry(text, level, priority);
+                // Wait until no other threads are using spinlock
+                _spinlock.Enter(ref lockTaken);
 
-                // Run color timer or reset mult if it's already running.
-                if (_timerColorMult == 1.0f)
+                var lastLog = _log.LastOrDefault();
+                if (lastLog != null)
                 {
-                    Task.Run(ColorTimer);
+                    if (lastLog.Message == text)
+                    {
+                        lastLog.MessageCount++;
+                        return;
+                    }
                 }
-                else
-                {
-                    _timerColorMult = 0.0f;
-                }
+                LogEntry entry = new(text, level, priority);
+                _log.Add(entry);
 
-                if (level is LogLevel.Warning or LogLevel.Error)
-                {
-                    _warningList.Add(text);
-                }
+                _scrollToEnd = true;
 
-                if (priority == LogPriority.High)
+                if (priority != LogPriority.Low)
                 {
-                    PlatformUtils.Instance.MessageBox(text, level.ToString(),
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.None);
+                    _lastLogEntry = entry;
+                    if (level is LogLevel.Warning or LogLevel.Error)
+                    {
+                        _warningList.Add(text);
+                    }
+                    if (priority == LogPriority.High)
+                    {
+                        PlatformUtils.Instance.MessageBox(text, level.ToString(),
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.None);
+                    }
+
+                    // Run color timer or reset mult if it's already running.
+                    if (_timerColorMult == 1.0f)
+                    {
+                        Task.Run(ColorTimer);
+                    }
+                    else
+                    {
+                        _timerColorMult = 0.0f;
+                    }
                 }
+            }
+            finally
+            {
+                if (lockTaken) _spinlock.Exit(false);
             }
         }
 
@@ -246,7 +214,7 @@ namespace StudioCore
                     ImGui.Spacing();
                     for (var i = 0; i < _log.Count; i++)
                     {
-                        ImGui.TextColored(PickColor(_log[i].Level), " " + _log[i].FormattedMessage);
+                        ImGui.TextColored(PickColor(_log[i].Level), _log[i].FormattedMessage);
                     }
                     if (_scrollToEnd)
                     {
