@@ -64,7 +64,7 @@ namespace StudioCore
             {
                 get
                 {
-                    string mes = $" {Message}";
+                    string mes = Message;
                     if (MessageCount > 1)
                         mes += $" x{MessageCount}";
                     return mes;
@@ -214,7 +214,9 @@ namespace StudioCore
                     ImGui.Spacing();
                     for (var i = 0; i < _log.Count; i++)
                     {
+                        ImGui.Indent();
                         ImGui.TextColored(PickColor(_log[i].Level), _log[i].FormattedMessage);
+                        ImGui.Unindent();
                     }
                     if (_scrollToEnd)
                     {
