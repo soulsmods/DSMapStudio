@@ -965,17 +965,15 @@ namespace StudioCore
         /// <returns>The map ID for the purpose of asset storage</returns>
         public string GetAssetMapID(string mapid)
         {
-            var amapid = mapid.Substring(0, 6) + "_00_00";
             if (Type is GameType.EldenRing)
             {
-                // Maps contain their own assets
                 return mapid;
             }
             else if (Type is GameType.DarkSoulsRemastered)
             {
                 if (mapid.StartsWith("m99"))
                 {
-                    // m99 maps contain their own assets
+                    // DSR m99 maps contain their own assets
                     return mapid;
                 }
             }
@@ -992,7 +990,8 @@ namespace StudioCore
                 }
             }
 
-            return amapid;
+            // Default
+            return mapid.Substring(0, 6) + "_00_00";
         }
         
         public AssetDescription GetMapModel(string mapid, string model)
