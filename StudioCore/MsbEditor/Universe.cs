@@ -289,7 +289,6 @@ namespace StudioCore.MsbEditor
             {
                 amapid = "m29_00_00_00";
             }
-            }
             var job = ResourceManager.CreateNewJob($@"Loading mesh");
             if (modelname.ToLower().StartsWith("m"))
             {
