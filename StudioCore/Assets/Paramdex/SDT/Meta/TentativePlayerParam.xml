@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <ClearCountCorrectBaseSpEffectId Refs="SpEffectParam(=0)" />
+    <LoadOfCinderSpEffectId4 Refs="SpEffectParam(=0)" />
+    <LoadOfCinderSpEffectId1 Refs="SpEffectParam(=0)" />
+    <HeroAmongSinnersSpEffectId4 Refs="SpEffectParam(=0)" />
+    <HeroAmongSinnersSpEffectId3 Refs="SpEffectParam(=0)" />
+    <HeroAmongSinnersSpEffectId2 Refs="SpEffectParam(=0)" />
+    <HeroAmongSinnersSpEffectId5 Refs="SpEffectParam(=0)" />
+    <HeroAmongSinnersSpEffectId1 Refs="SpEffectParam(=0)" />
+    <LoadOfCinderSpEffectId3 Refs="SpEffectParam(=0)" />
+    <LoadOfCinderSpEffectId5 Refs="SpEffectParam(=0)" />
+    <LoadOfCinderSpEffectId2 Refs="SpEffectParam(=0)" />
+  </Field>
+  <Self />
+</PARAMMETA>

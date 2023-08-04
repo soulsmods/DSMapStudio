@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using Vortice.Vulkan;
 
 namespace Veldrid
 {
@@ -19,7 +20,7 @@ namespace Veldrid
         /// <summary>
         /// The number of samples in each target attachment.
         /// </summary>
-        public TextureSampleCount SampleCount;
+        public VkSampleCountFlags SampleCount;
 
         /// <summary>
         /// Constructs a new <see cref="OutputDescription"/>.
@@ -30,7 +31,7 @@ namespace Veldrid
         {
             DepthAttachment = depthAttachment;
             ColorAttachments = colorAttachments ?? Array.Empty<OutputAttachmentDescription>();
-            SampleCount = TextureSampleCount.Count1;
+            SampleCount = VkSampleCountFlags.Count1;
         }
 
         /// <summary>
@@ -42,7 +43,7 @@ namespace Veldrid
         public OutputDescription(
             OutputAttachmentDescription? depthAttachment,
             OutputAttachmentDescription[] colorAttachments,
-            TextureSampleCount sampleCount)
+            VkSampleCountFlags sampleCount)
         {
             DepthAttachment = depthAttachment;
             ColorAttachments = colorAttachments ?? Array.Empty<OutputAttachmentDescription>();
@@ -51,7 +52,7 @@ namespace Veldrid
 
         internal static OutputDescription CreateFromFramebuffer(Framebuffer fb)
         {
-            TextureSampleCount sampleCount = 0;
+            VkSampleCountFlags sampleCount = 0;
             OutputAttachmentDescription? depthAttachment = null;
             if (fb.DepthTarget != null)
             {

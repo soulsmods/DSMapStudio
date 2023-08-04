@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <mtrlId Refs="EquipMtrlSetParam(=0)" />
+    <equipId Refs="EquipParamGoods(=0),EquipParamWeapon(=0)" />
+  </Field>
+  <Self />
+</PARAMMETA>

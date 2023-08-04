@@ -19,7 +19,7 @@
     <armor_reinforce_id AltName="Armor Reinforce ID" Refs="ArmorReinforceParam" />
     <physical_defence_scaling AltName="Scaling: Physical Defence" />
     <strength_requirement AltName="Requirement: STR" />
-    <dexteroty_requirement AltName="Requirement: DEX" />
+    <dexterity_requirement AltName="Requirement: DEX" />
     <intelligence_requirement AltName="Requirement: INT" />
     <faith_requirement AltName="Requirement: FTH" />
     <weight AltName="Weight" />

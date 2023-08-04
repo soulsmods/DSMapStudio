@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.MemoryMappedFiles;
+using DotNext.IO.MemoryMappedFiles;
 
 namespace SoulsFormats
 {
@@ -13,7 +15,7 @@ namespace SoulsFormats
         /// <summary>
         /// Returns true if the bytes appear to be a BXF3 header file.
         /// </summary>
-        public static bool IsBHD(byte[] bytes)
+        public static bool IsBHD(Memory<byte> bytes)
         {
             BinaryReaderEx br = new BinaryReaderEx(false, bytes);
             return IsBHD(SFUtil.GetDecompressedBR(br, out _));
@@ -24,17 +26,16 @@ namespace SoulsFormats
         /// </summary>
         public static bool IsBHD(string path)
         {
-            using (FileStream fs = System.IO.File.OpenRead(path))
-            {
-                BinaryReaderEx br = new BinaryReaderEx(false, fs);
-                return IsBHD(SFUtil.GetDecompressedBR(br, out _));
-            }
+            using var file = MemoryMappedFile.CreateFromFile(path, FileMode.Open, null, 0, MemoryMappedFileAccess.Read);
+            using var accessor = file.CreateMemoryAccessor(0, 0, MemoryMappedFileAccess.Read);
+            BinaryReaderEx br = new BinaryReaderEx(false, accessor.Memory);
+            return IsBHD(SFUtil.GetDecompressedBR(br, out _));
         }
 
         /// <summary>
         /// Returns true if the file appears to be a BXF3 data file.
         /// </summary>
-        public static bool IsBDT(byte[] bytes)
+        public static bool IsBDT(Memory<byte> bytes)
         {
             BinaryReaderEx br = new BinaryReaderEx(false, bytes);
             return IsBDT(SFUtil.GetDecompressedBR(br, out _));
@@ -45,11 +46,10 @@ namespace SoulsFormats
         /// </summary>
         public static bool IsBDT(string path)
         {
-            using (FileStream fs = System.IO.File.OpenRead(path))
-            {
-                BinaryReaderEx br = new BinaryReaderEx(false, fs);
-                return IsBDT(SFUtil.GetDecompressedBR(br, out _));
-            }
+            using var file = MemoryMappedFile.CreateFromFile(path, FileMode.Open, null, 0, MemoryMappedFileAccess.Read);
+            using var accessor = file.CreateMemoryAccessor(0, 0, MemoryMappedFileAccess.Read);
+            BinaryReaderEx br = new BinaryReaderEx(false, accessor.Memory);
+            return IsBDT(SFUtil.GetDecompressedBR(br, out _));
         }
         #endregion
 
@@ -57,7 +57,7 @@ namespace SoulsFormats
         /// <summary>
         /// Reads two arrays of bytes as the BHD and BDT.
         /// </summary>
-        public static BXF3 Read(byte[] bhdBytes, byte[] bdtBytes)
+        public static BXF3 Read(Memory<byte> bhdBytes, Memory<byte> bdtBytes)
         {
             BinaryReaderEx bhdReader = new BinaryReaderEx(false, bhdBytes);
             BinaryReaderEx bdtReader = new BinaryReaderEx(false, bdtBytes);
@@ -67,27 +67,25 @@ namespace SoulsFormats
         /// <summary>
         /// Reads an array of bytes as the BHD and a file as the BDT.
         /// </summary>
-        public static BXF3 Read(byte[] bhdBytes, string bdtPath)
+        public static BXF3 Read(Memory<byte> bhdBytes, string bdtPath)
         {
-            using (FileStream bdtStream = System.IO.File.OpenRead(bdtPath))
-            {
-                BinaryReaderEx bhdReader = new BinaryReaderEx(false, bhdBytes);
-                BinaryReaderEx bdtReader = new BinaryReaderEx(false, bdtStream);
-                return new BXF3(bhdReader, bdtReader);
-            }
+            using MemoryMappedFile dataFile = MemoryMappedFile.CreateFromFile(bdtPath, FileMode.Open, null, 0, MemoryMappedFileAccess.Read);
+            using IMappedMemoryOwner fsData = dataFile.CreateMemoryAccessor(0, 0, MemoryMappedFileAccess.Read);
+            BinaryReaderEx bhdReader = new BinaryReaderEx(false, bhdBytes);
+            BinaryReaderEx bdtReader = new BinaryReaderEx(false, fsData.Memory);
+            return new BXF3(bhdReader, bdtReader);
         }
 
         /// <summary>
         /// Reads a file as the BHD and an array of bytes as the BDT.
         /// </summary>
-        public static BXF3 Read(string bhdPath, byte[] bdtBytes)
+        public static BXF3 Read(string bhdPath, Memory<byte> bdtBytes)
         {
-            using (FileStream bhdStream = System.IO.File.OpenRead(bhdPath))
-            {
-                BinaryReaderEx bhdReader = new BinaryReaderEx(false, bhdStream);
-                BinaryReaderEx bdtReader = new BinaryReaderEx(false, bdtBytes);
-                return new BXF3(bhdReader, bdtReader);
-            }
+            using MemoryMappedFile headerFile = MemoryMappedFile.CreateFromFile(bhdPath, FileMode.Open, null, 0, MemoryMappedFileAccess.Read);
+            using IMappedMemoryOwner fsHeader = headerFile.CreateMemoryAccessor(0, 0, MemoryMappedFileAccess.Read);
+            BinaryReaderEx bhdReader = new BinaryReaderEx(false, fsHeader.Memory);
+            BinaryReaderEx bdtReader = new BinaryReaderEx(false, bdtBytes);
+            return new BXF3(bhdReader, bdtReader);
         }
 
         /// <summary>
@@ -95,13 +93,13 @@ namespace SoulsFormats
         /// </summary>
         public static BXF3 Read(string bhdPath, string bdtPath)
         {
-            using (FileStream bhdStream = System.IO.File.OpenRead(bhdPath))
-            using (FileStream bdtStream = System.IO.File.OpenRead(bdtPath))
-            {
-                BinaryReaderEx bhdReader = new BinaryReaderEx(false, bhdStream);
-                BinaryReaderEx bdtReader = new BinaryReaderEx(false, bdtStream);
-                return new BXF3(bhdReader, bdtReader);
-            }
+            using MemoryMappedFile headerFile = MemoryMappedFile.CreateFromFile(bhdPath, FileMode.Open, null, 0, MemoryMappedFileAccess.Read),
+                dataFile = MemoryMappedFile.CreateFromFile(bdtPath, FileMode.Open, null, 0, MemoryMappedFileAccess.Read);
+            using IMappedMemoryOwner fsHeader = headerFile.CreateMemoryAccessor(0, 0, MemoryMappedFileAccess.Read),
+                fsData = dataFile.CreateMemoryAccessor(0, 0, MemoryMappedFileAccess.Read);
+            BinaryReaderEx bhdReader = new BinaryReaderEx(false, fsHeader.Memory);
+            BinaryReaderEx bdtReader = new BinaryReaderEx(false, fsData.Memory);
+            return new BXF3(bhdReader, bdtReader);
         }
         #endregion
 
@@ -305,6 +303,10 @@ namespace SoulsFormats
 
             for (int i = 0; i < fileHeaders.Count; i++)
                 fileHeaders[i].WriteFileName(bw, bxf.Format, false, i);
+        }
+
+        public void Dispose()
+        {
         }
     }
 }

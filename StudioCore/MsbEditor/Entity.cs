@@ -163,6 +163,13 @@ namespace StudioCore.MsbEditor
                 Parent.Children.Remove(child);
             }
             child.Parent = this;
+
+            // Update the containing map for map entities.
+            if (Container.GetType() == typeof(Map) && child.Container.GetType() == typeof(Map))
+            {
+                child.Container = Container;
+            }
+
             Children.Add(child);
             child.UpdateRenderModel();
         }
@@ -299,7 +306,7 @@ namespace StudioCore.MsbEditor
             }
             if (WrappedObject is Param.Row row)
             {
-                var pp = row.Cells.FirstOrDefault(cell => cell.Def.InternalName == prop);
+                var pp = row.Columns.FirstOrDefault(cell => cell.Def.InternalName == prop);
                 if (pp != null)
                 {
                     return pp.GetValue(row);
@@ -355,7 +362,7 @@ namespace StudioCore.MsbEditor
             }
             if (WrappedObject is Param.Row row)
             {
-                var pp = row.Cells.FirstOrDefault(cell => cell.Def.InternalName == prop);
+                var pp = row.Columns.FirstOrDefault(cell => cell.Def.InternalName == prop);
                 if (pp != null)
                 {
                     return (T)pp.GetValue(row);
@@ -885,7 +892,8 @@ namespace StudioCore.MsbEditor
                         if (colNameStr != "")
                         {
                             // CollisionName referenced doesn't exist
-                            TaskManager.warningList.TryAdd($"{Name} colName", $"{Container?.Name}: {Name} refers to CollisionName `{colNameStr}` which doesn't exist.");
+                            TaskLogs.AddLog($"{Container?.Name}: {Name} references to CollisionName {colNameStr} which doesn't exist",
+                                Microsoft.Extensions.Logging.LogLevel.Warning);
                         }
                     }
                 }
@@ -1370,6 +1378,14 @@ namespace StudioCore.MsbEditor
                 {
                     t.Scale = new Vector3(c.Radius, c.Height, c.Radius);
                 }
+                else if (shape != null && shape is MSB.Shape.Rectangle re)
+                {
+                    t.Scale = new Vector3(re.Width, 0.0f, re.Depth);
+                }
+                else if (shape != null && shape is MSB.Shape.Circle ci)
+                {
+                    t.Scale = new Vector3(ci.Radius, 0.0f, ci.Radius);
+                }
             }
             else if (Type == MapEntityType.Light)
             {
@@ -1417,6 +1433,11 @@ namespace StudioCore.MsbEditor
                     t.Scale.Z = (float)sz;
                 }
             }
+
+            // Prevent zero scale since it won't render
+            if (t.Scale == Vector3.Zero)
+                t.Scale = new Vector3(0.1f);
+
             return t;
         }
 

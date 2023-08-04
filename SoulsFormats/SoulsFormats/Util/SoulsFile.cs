@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using System.IO.MemoryMappedFiles;
+using DotNext.IO.MemoryMappedFiles;
 
 namespace SoulsFormats
 {
@@ -40,15 +42,14 @@ namespace SoulsFormats
         /// </summary>
         public static bool Is(string path)
         {
-            using (FileStream stream = File.OpenRead(path))
-            {
-                if (stream.Length == 0)
-                    return false;
+            using var file = MemoryMappedFile.CreateFromFile(path, FileMode.Open, null, 0, MemoryMappedFileAccess.Read);
+            using var accessor = file.CreateMemoryAccessor(0, 0, MemoryMappedFileAccess.Read);
+            if (accessor.Size == 0)
+                return false;
 
-                BinaryReaderEx br = new BinaryReaderEx(false, stream);
-                var dummy = new TFormat();
-                return dummy.Is(SFUtil.GetDecompressedBR(br, out _));
-            }
+            BinaryReaderEx br = new BinaryReaderEx(false, accessor.Memory);
+            var dummy = new TFormat();
+            return dummy.Is(SFUtil.GetDecompressedBR(br, out _));
         }
 
         /// <summary>
@@ -62,7 +63,7 @@ namespace SoulsFormats
         /// <summary>
         /// Loads a file from a byte array, automatically decompressing it if necessary.
         /// </summary>
-        public static TFormat Read(byte[] bytes)
+        public static TFormat Read(Memory<byte> bytes)
         {
             BinaryReaderEx br = new BinaryReaderEx(false, bytes);
             TFormat file = new TFormat();
@@ -77,15 +78,14 @@ namespace SoulsFormats
         /// </summary>
         public static TFormat Read(string path)
         {
-            using (FileStream stream = File.OpenRead(path))
-            {
-                BinaryReaderEx br = new BinaryReaderEx(false, stream);
-                TFormat file = new TFormat();
-                br = SFUtil.GetDecompressedBR(br, out DCX.Type compression);
-                file.Compression = compression;
-                file.Read(br);
-                return file;
-            }
+            using var file = MemoryMappedFile.CreateFromFile(path, FileMode.Open, null, 0, MemoryMappedFileAccess.Read);
+            using var accessor = file.CreateMemoryAccessor(0, 0, MemoryMappedFileAccess.Read);
+            BinaryReaderEx br = new BinaryReaderEx(false, accessor.Memory);
+            TFormat ret = new TFormat();
+            br = SFUtil.GetDecompressedBR(br, out DCX.Type compression);
+            ret.Compression = compression;
+            ret.Read(br);
+            return ret;
         }
 
         private static bool IsRead(BinaryReaderEx br, out TFormat file)
@@ -119,13 +119,12 @@ namespace SoulsFormats
         /// <summary>
         /// Returns whether the file appears to be a file of this type and reads it if so.
         /// </summary>
-        public static bool IsRead(string path, out TFormat file)
+        public static bool IsRead(string path, out TFormat ret)
         {
-            using (FileStream fs = File.OpenRead(path))
-            {
-                var br = new BinaryReaderEx(false, fs);
-                return IsRead(br, out file);
-            }
+            using var file = MemoryMappedFile.CreateFromFile(path, FileMode.Open, null, 0, MemoryMappedFileAccess.Read);
+            using var accessor = file.CreateMemoryAccessor(0, 0, MemoryMappedFileAccess.Read);
+            var br = new BinaryReaderEx(false, accessor.Memory);
+            return IsRead(br, out ret);
         }
 
         /// <summary>

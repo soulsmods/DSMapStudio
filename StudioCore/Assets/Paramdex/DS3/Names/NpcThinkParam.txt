@@ -1,293 +1,727 @@
-0 For testing -- テスト用
-1 For not doing anything -- なにもしない用
-2 Atarisawari data (copy and paste recommended) -- あたりさわりのないデータ（コピペ元推奨）
-10 Logic for animation check: near -- アニメチェック用ロジック：近
-11 Logic for animation check: Far -- アニメチェック用ロジック：遠
-50 Ishizaki Test -- 石崎テスト
-100 Automatic patrol (default) -- 自動巡回用(デフォルト)
-540 For automatic patrol (running) -- 自動巡回用(走り)
-541 Automatic patrol (walking) -- 自動巡回用(歩き)
-542 Automatic patrol (super dash) -- 自動巡回用(スーパーダッシュ)
-10000 Collective Patrol dummy leader -- 集団巡回ダミーリーダー
-10001 For funnels -- ファンネル用
-10010 City Map Sniper Platoon target dummy character -- 街マップスナイパーの小隊ターゲット用ダミーキャラ
-10200 For NPC Logic Testing -- NPCロジックテスト用
-20000 NPC Sub-goal Test 00: Combat -- NPCサブゴールテスト00:戦闘
-20001 NPC Sub-goal Test 01: walking and Running -- NPCサブゴールテスト01:歩行・走行
-20002 NPC Sub-goal Test 02: Quick Turn/left/right movement -- NPCサブゴールテスト02:クイックターン・左右移動
-20003 NPC Sub-goal Test 03: Retreat/Step -- NPCサブゴールテスト03:後退・ステップ
-20010 NPC Test 00: Test -- NPCテスト00：テスト
-90390 Dungeon Objects (for bullet owners) -- 地下牢 器オブジェ（弾丸オーナー用）
-107000 Skeleton (King of the Evil Kin) -- スケルトン（死霊の王 眷属）
-107001 Skeleton (song sword) -- スケルトン（曲剣）
-107002 Skeleton (Sword) -- スケルトン（大曲剣）
-107003 Skeleton (bow) -- スケルトン（弓）
-107004 Skeleton (song sword) * Always running -- スケルトン（曲剣）※必ず走る
-107005 Skeleton (Sword) * Always running -- スケルトン（大曲剣）※必ず走る
-107006 Skeleton (Flame vase) -- スケルトン（火炎壺）
-107081 Skeleton (Sword for suspension bridge) -- スケルトン（吊り橋用 剣）
-107082 Skeleton (torch for suspension bridge) -- スケルトン（吊り橋用 松明）
-109000 Dead Soldier: Segunda State -- 亡者兵士 ：グンダ状態
-110000 Dead Soldier (Straight Sword + shield) -- 亡者兵士 （直剣＋盾）
-110001 Dead Soldier (Straight Sword + shield): Oil pot possible -- 亡者兵士 （直剣＋盾）：油壺可能
-110003 Dead Soldier (Straight Sword + shield): Flame bottle possible -- 亡者兵士 （直剣＋盾）：火炎瓶可能
-110004 Dead Soldier (Straight Sword + shield): Love Molotov cocktails -- 亡者兵士 （直剣＋盾）：火炎瓶大好き
-110005 Dead Soldier (Straight sword only) -- 亡者兵士 （直剣のみ）
-110006 Dead Soldier (Straight sword only): Love Molotov cocktails -- 亡者兵士 （直剣のみ）：火炎瓶大好き
-110007 Dead Soldier (Straight sword only): Flame bottle possible -- 亡者兵士 （直剣のみ）：火炎瓶可能
-110008 Dead Soldier (Straight sword only): Oil pot possible -- 亡者兵士 （直剣のみ）：油壷可能
-110010 Dead soldier (Spear + large shield) -- 亡者兵士 （槍＋大盾）
-110020 Dead Soldier (Crossbow) -- 亡者兵士 （クロスボウ）
-110030 Dead Soldier (Lantern) -- 亡者兵士 （ランタン）
-110050 Dead Soldier (broken) -- 亡者兵士 （折れ直）
-110053 Dead Soldier (Ojo 1) -- 亡者兵士 （折れ直　嗅覚有　王城1）
-110054 Dead soldier (for a broken straight makeover. Only closer) -- 亡者兵士 （折れ直 変身用。近づくだけ）
-110060 Dead Soldier (Dagger) -- 亡者兵士 （短剣）
-110070 Dead Soldier (Common) special standby ※ When you become a combat state, change to another thought ID on the event side -- 亡者兵士 （共通）特殊待機時　※戦闘状態になったら、イベント側で別の思考IDに変更する
-110090 [Monster House] dead soldier (Straight sword) -- 【モンスターハウス】亡者兵士 （直剣）
-110091 [Monster House] dead soldier (Spear + large shield) -- 【モンスターハウス】亡者兵士 （槍＋大盾）
-110093 [Monster House] dead soldier (lantern) -- 【モンスターハウス】亡者兵士 （ランタン）
-110094 [For City Test] dead Sniper -- 【街テスト用】亡者スナイパー
-110098 Dead soldier Test: Straight Sword + Shield -- 亡者兵士テスト用：直剣+盾
-110500 Dead Soldier (Large) _ Axe -- 亡者兵士（大）_斧
-110501 Dead Soldier (Large) _ Axe visibility Low Ojo 1 -- 亡者兵士（大）_斧 視界低い　王城1
-110510 Dead Soldier (Large) _ Halle Bird -- 亡者兵士（大）_ハルバード
-110511 Dead Soldier (Large) _ Halle Bird Vision/Hearing Low Ojo 1 -- 亡者兵士（大）_ハルバード 視界/聴覚低い　王城1
-110580 Dead Soldier (Large) _ Axe _interupttest -- 亡者兵士（大）_斧_INTERUPTTest
-110590 Dead Soldier (Large) _ for Umeda test -- 亡者兵士（大）_梅田テスト用
-111000 Dark Knight Straight Sword + Shield -- ダークナイト 直剣 + 盾
-111001 Dark Knight Straight Sword + shield (olfactory parameters for events) -- ダークナイト 直剣 + 盾　　（イベント用嗅覚パラメータ）
-111050 Dark Knight Straight Sword + shield for Avatar -- ダークナイト 直剣 + 盾　アバター用
-111098 For the Dark Knight Test (Nakano) -- ダークナイト テスト用（中野）
-112000 Dead Knight (Sword shield) -- 亡者騎士(剣盾）
-113000 Small slugs of caries -- 蝕のナメクジ小
-113010 It's a small arm slug. -- 蝕のナメクジ小　腕だし
-113200 A slug of the caries (dead dumpling) -- 蝕のナメクジ(亡者団子）
-115000 Dead Shi Mace + Large Shield -- 亡者僧兵　メイス＋大盾
-115010 Dead Shi both hand held hammer -- 亡者僧兵　両手持ちハンマー
-115020 Dead Shi Ice-ax -- 亡者僧兵　ピッケル
-115030 Dead Shi Mace + Miracle -- 亡者僧兵　メイス＋奇跡
-115040 Dead Shi Long Distance miracle -- 亡者僧兵　遠距離奇跡
-115070 Narrow visual range for dead Shi circuit -- 亡者僧兵　巡回用 視覚範囲狭い
-117000 Skeleton Warrior a Scimitar + shield -- スケルトン戦士A　シミター+盾
-117010 Skeleton Warrior A Nodachi -- スケルトン戦士A　野太刀
-117030 Skeleton Warrior A bow (pre-creation) -- スケルトン戦士A　弓（先行作成）
-118000 Skeleton Warrior B: Scimitar one hand -- スケルトン戦士B：シミター片手
-118010 Skeleton Warrior B: Scimitar Nitori -- スケルトン戦士B：シミター二刀流
-119000 Dead Priest Grey Tome + Cathedral Church of the Great Shield -- 亡者僧騎士　グレートメイス＋大盾　聖堂教会
-119005 Dead Priest Grey tome + great Shield Bow Switching Basilica Association -- 亡者僧騎士　グレートメイス＋大盾　弓持ち替え可　聖堂協会
-119010 Dead Priest the Great Sword Basilica Church -- 亡者僧騎士　グレートソード　聖堂教会
-119050 Dead Knight Grey Tome + Large shield (avatar) -- 亡者僧騎士　グレートメイス＋大盾（アバター）
-120000 Dwarf man hatchet/ice-ax: blowgun possible -- 矮小人 ハチェット/ピッケル ：吹き矢可能
-120001 Dwarf man hatchet/ice-ax: blowgun narrow View -- 矮小人 ハチェット/ピッケル ：吹き矢可能　視野狭い
-120002 Dwarf man hatchet/ice-ax: blowgun possible?? -- 矮小人 ハチェット/ピッケル ：吹き矢可能　？？
-120003 Dwarf man hatchet/ice-ax: Flame pots available -- 矮小人 ハチェット/ピッケル ：火炎壺可能
-120004 Dwarf man hatchet/ice-ax: Fire Pot battery -- 矮小人 ハチェット/ピッケル ：火炎壺砲台
-120005 Dwarf man hatchet/ice-ax: blowgun/flame vase not available -- 矮小人 ハチェット/ピッケル ：吹き矢/火炎壺　不可
-120010 Dwarf man hatchet/ice-ax: blowgun Main -- 矮小人 ハチェット/ピッケル ：吹き矢メイン
-120020 Dwarf Man Large Sword -- 矮小人 大剣
-120050 Dwarf man hatchet/ice-ax (avatar) -- 矮小人 ハチェット/ピッケル （アバター）
-121000 Blue _ Spear + Shield -- ブルー_槍+盾
-121001 Blue _ Spear + Shield: Arimoro -- ブルー_槍+盾：専守
-121010 Blue _ Sword -- ブルー_剣
-121020 Deep Blue -- ブルー_ディープ
-121030 Blue _ Estrus -- ブルー_発情
-121040 Blue _ quadruped -- ブルー_四足
-122000 Resurrection (first to second form) patrol -- よみがえり（第１～２形態）　巡回
-122010 Resurrection (first to second form) fixed battery -- よみがえり（第１～２形態）　固定砲台
-122020 Resurrection (first to second form) body appearance solid -- よみがえり（第１～２形態）　本体出現固体
-122030 Resurrection (first to second form) body injection solid -- よみがえり（第１～２形態）　本体射出固体
-123000 Missionary -- 宣教師
-123001 Long distance attack version until missionary PC approaches -- 宣教師　PCが近づくまで遠距離攻撃版
-123051 Missionary (Avatar: Retreat) -- 宣教師（アバター：後退）
-123098 Missionaries (for snipers) -- 宣教師(スナイパー用)
-123099 Missionary -- 宣教師
-124000 Poor dead (hatchet) -- 貧民亡者（鉈）
-124001 Poor Dead (hatchet): Fire pot fixed Battery -- 貧民亡者（鉈）：火炎壺固定砲台
-124002 Poor Dead (hatchet): Use of flame pots -- 貧民亡者（鉈）：火炎壺使用
-124003 Poor Dead (hatchet): Oil pot fixed Battery -- 貧民亡者（鉈）：油壺固定砲台
-124004 Poor Dead (hatchet): Oil jar use -- 貧民亡者（鉈）：油壷使用
-124010 Poor dead (hatchet + lantern) -- 貧民亡者（鉈+ランタン）
-124020 The poor dead (sickle + dagger) -- 貧民亡者（鎌+短剣）
-124030 Poor dead (Mallet) -- 貧民亡者（木槌）
-124040 Poor dead (hoe) -- 貧民亡者（鍬）
-125000 Poor dead Elite -- 貧民亡者エリート
-125099 Poor dead Elite patrol test -- 貧民亡者エリート巡回テスト用
-126000 Poor dead servant: common -- 貧民亡者下男：共通
-126090 Poor dead servant: sawing -- 貧民亡者下男：鋸
-126091 Poor dead servant: common/Upper Visibility Limited edition -- 貧民亡者下男：共通/上視界制限版
-128000 Shin Ojo Knight: Straight Sword + Shield -- 新王城騎士：直剣+盾
-128010 New Ojo Knight: Spear + Shield -- 新王城騎士：槍+盾
-128020 New Ojo Knight: the Great Sword -- 新王城騎士：大剣
-128030 Shin Ojo Knight: Crossbow -- 新王城騎士：クロスボウ
-129000 Ojo Deb: Long axe -- 王城デブ：長斧
-129010 Ojo Deb: Short Axe Nitori -- 王城デブ：短斧二刀流
-130000 Black Knight: Sword -- 黒騎士：剣
-130010 Black Knight: Oversized Sword -- 黒騎士：特大剣
-130020 Black Knight: The Great Axe -- 黒騎士：大斧
-130030 Black Knight: Axe Spear -- 黒騎士：斧槍
-131000 Dark Knight Beast -- ダークナイトビースト
-132000 Crystal Elders -- 結晶の古老
-132010 Elders alter ego of Crystal -- 結晶の古老　分身
-132200 Crystal Elders Funnel -- 結晶の古老　ファンネル
-133000 The Keeper of the Forest: Long axe -- 森の番人：長斧
-133010 The Keeper of the Forest: the Great Sword -- 森の番人：大剣
-133098 Forest keeper: Long axe for bug test -- 森の番人：長斧バグテスト用
-133099 The Keeper of the Forest: the Great Sword test -- 森の番人：大剣 テスト
-134000 Dead Wax: Whip + Magic -- 蝋の死人：鞭＋魔法
-134010 Dead Wax: Beating -- 蝋の死人：殴り
-135000 Slave Spirits: Dagger -- 奴隷霊：短剣
-135010 Slave Spirits: fetters -- 奴隷霊：足枷
-135020 Slave Spirits: no Legs -- 奴隷霊：足なし
-135030 Slave Spirit: Straight Sword -- 奴隷霊：直剣
-136000 Crucifixion dead A -- 磔亡者A
-137000 Crucifixion dead B -- 磔亡者B
-137090 Crucifixion dead b * old -- 磔亡者B　※古い
-138000 Snake Man priest -- 蛇人の司祭
-139000 Snake Assassin (Dagger x 2) -- 蛇人の暗殺者(短刀×2)
-139010 Snake Assassin (shorty + small shield) -- 蛇人の暗殺者（ショーテル+小盾）
-139100 Snake Assassin (Large) (Kusarigama) -- 蛇人の暗殺者（大）　(鎖鎌)
-141000 Silver Knight Sword + Shield -- 銀騎士 剣＋盾
-141010 Silver Knight Spear + Shield -- 銀騎士 槍＋盾
-141020 Silver Knight Bow → Sword + shield -- 銀騎士 弓　→　剣＋盾
-141030 Silver Knight bow → Spear + shield -- 銀騎士 弓　→　槍＋盾
-146000 Painting Protection (phantom) -- 絵画守り（幻影）
-147000 Wheel skeleton -- 車輪スケルトン
-148000 Dark Knight (spirit body) -- ダークナイト（霊体）
-149000 A tracker (spirit body) -- 追跡者（霊体）
-200000 Eclipse Wolf -- 蝕のオオカミ
-200096 Eclipse Wolf: Kayukawa test -- 蝕のオオカミ：粥川テスト
-200097 Eclipse Wolf (heat up): Yoshida test -- 蝕のオオカミ（ヒートアップ）：吉田テスト
-200098 Eclipse Wolf: Yoshida Test -- 蝕のオオカミ：吉田テスト
-200099 Eclipse Wolf: Kayukawa test -- 蝕のオオカミ：粥川テスト
-202000 Dead Dog (Large) -- 亡者犬（大）
-202050 Dead Dog (Large): Avatar test -- 亡者犬（大）：アバタ―テスト
-202099 Dead Dog (Large): test -- 亡者犬（大）：テスト
-202100 Dead Dog (Large) visual range minimum, hearing lower forest first half (dog skeleton instead) -- 亡者犬（大）　視覚範囲極小，聴覚低め　森前半（犬スケルトン代わり）
-202101 Dead Dog (small) -- 亡者犬（小）
-202102 Dead Dog (small) visibility Low Ojo 1 -- 亡者犬（小） 視界低い　王城1
-202200 Dead Dog (Large) (Salivan dog instead) -- 亡者犬（大）（サリヴァーン犬代わり）
-202201 Dead Dog (Large) (Salivan dog instead) _ Olfactory strong -- 亡者犬（大）（サリヴァーン犬代わり）_嗅覚強い
-203000 Salivan Reaper (song sword) -- サリヴァーンの死神（曲剣）
-203010 Salivan's death (sickle) -- サリヴァーンの死神（鎌）
-203099 Salivan Reaper: Test -- サリヴァーンの死神：テスト
-204000 Hungry Jack -- はらぺこジャック
-204050 Hungry Jack: The 12-end Avatar Edition -- はらぺこジャック：12末アバタ―版
-204099 Hungry Jack: Test -- はらぺこジャック：テスト
-206000 Resurrection (Third form) -- よみがえり（第３形態）
-206010 Resurrection (third form) Poison swamp forest -- よみがえり（第３形態）　毒沼の森
-207000 Prisoners in Dungeons (bare hands) -- 地下牢の囚人たち（素手）
-207010 Prisoners in Dungeons (spear) -- 地下牢の囚人たち（槍）
-207020 Prisoners in Dungeons (Daggers) -- 地下牢の囚人たち（短剣）
-208000 Dead Dog (Jibara) -- 亡者犬（うじばら）
-209000 The Angel of the Dragon -- 竜の御使い
-210000 Drifting Stuff -- 漂うもの
-210010 Drifting Stuff (mimicry) -- 漂うもの（擬態）
-211000 Dog Rats -- 犬ネズミ
-211098 Dog Rat (Test ai) -- 犬ネズミ（テストAI）
-212000 Mimic _ Normal -- ミミック_ノーマル
-212010 Mimic _ Exorcist -- ミミック_エクソシスト
-213000 Wriggles Carrion -- 蠢く腐肉
-213090 Wriggles Carrion (underground test) -- 蠢く腐肉(地下テスト）
-214000 Basilisk -- バジリスク
-215000 Crystal Lizard -- 結晶トカゲ
-216000 What we call Eclipse (small) -- 蝕を呼ぶもの（小）
-218000 Maggots (slug type) -- 蛆人（ナメクジタイプ）
-218010 Maggots (witch type) -- 蛆人（魔法使いタイプ）
-218100 Maggots (slug type): for Salivan warfare -- 蛆人（ナメクジタイプ）：サリヴァーン戦用
-218110 Maggots (witch type): for Salivan warfare -- 蛆人（魔法使いタイプ）：サリヴァーン戦用
-219000 Ojo Gargoyle: Lights -- 王城のガーゴイル：灯火
-219010 Ojo Gargoyle: Spear -- 王城のガーゴイル：槍
-220000 Sand worm in the waste city -- 廃都のサンドワーム
-220100 Sand worm in the Waste City (queen) -- 廃都のサンドワーム（女王）
-221000 Zombie Glass (dagger) -- ゾンビガラス（短剣）
-221001 Zombie Glass (scythe) -- ゾンビガラス（大鎌）
-221002 Zombie Glass (Cane) -- ゾンビガラス（杖）
-223000 New Shing -- 新獄吏
-223010 New Shing Sniper -- 新獄吏 スナイパー
-224000 Full Armor Beast -- フルアーマー獣
-224100 Full Armor Beast Ojo 2 small -- フルアーマー獣　王城2　雑魚
-225000 Tindalos -- ティンダロス
-226000 3-Ream Varistor -- 3連バリスタ
-227000 Stench crab -- 死臭蟹
-227100 Stench Crab (small) -- 死臭蟹（小）
-229000 Salivan watchdog (Large) -- サリヴァーンの番犬（大）
-229100 Salivan watchdog (small) -- サリヴァーンの番犬（小）
-302000 Golem (Bare hands) -- ゴーレム（素手）
-302010 Golem (Iron Sphere) -- ゴーレム（鉄球）
-302100 Golem (Large) -- ゴーレム（大）
-302197 Golem (Large) olfactory test -- ゴーレム（大） 嗅覚テスト
-302198 Golem (Large) Dungeon -- ゴーレム（大） 地下牢
-302199 Golem Cathedral -- ゴーレム（大） 聖堂
-304000 Observer of the Abyss -- 深淵の監視者
-304090 Observer of the Abyss * old -- 深淵の監視者　※古い
-304098 Observer of the Abyss: Yoshida Test -- 深淵の監視者：吉田テスト
-305000 Ash Daemon -- 灰のデーモン
-306000 Firewood Daemon -- 薪のデーモン
-306099 Firewood Daemon (old) -- 薪のデーモン（古い）
-306100 Fire Wood Demon Street entrance square -- 薪のデーモン 街　入口広場
-307000 Daemon Priest -- デーモン司祭
-308000 Butterfly in caries -- 蝕の蝶
-308001 Butterfly of caries (not landing) -- 蝕の蝶（着地しない）
-309000 The prison spider -- 牢蜘蛛
-310000 Crystal Lizard God -- 結晶トカゲの神
-310050 Crystal Lizard God-avatar-bver- -- 結晶トカゲの神-アバタ-Bver-
-311000 Eclipse Spider -- 蝕の蜘蛛
-312000 Sacred Beast of the Forest -- 森の霊獣
-312020 Sacred Beast in the Forest (test) -- 森の霊獣(テスト)
-314000 The Flying Dragon of the bridge _ Hashimoto -- 橋の飛竜_ヘルカイト_橋下
-314010 The Flying Dragon of the bridge _ the Climb 2 -- 橋の飛竜_ヘルカイト_登る2
-314020 The bridge Flying Dragon _ hellfire _ Normal Combat -- 橋の飛竜_ヘルカイト_通常戦闘
-314100 The Flying Dragon of the bridge _ Ojo 1 (without sight or hearing) -- 橋の飛竜_ヘルカイト_王城1　（視覚・聴覚なし）
-316000 Dragon's Guardian Knight -- 竜の守護騎士
-317000 Dark Wraith -- ダークレイス
-501000 King of storms, simple -- 嵐の王・単体
-502000 Crimson Bat -- クリムゾンバット
-503000 The King of the Storm: riding -- 嵐の王：騎乗
-511000 Hero Segunda -- 英雄グンダ
-511080 Segunda (for throwing sync confirmation) -- グンダ（投げ同期確認用）
-511090 Segunda (Dead soldier control) monster House -- グンダ（亡者兵士系制御）モンスターハウス
-511091 Segunda (tracker-based control) monster House -- グンダ（追跡者系制御）モンスターハウス
-511098 Segunda (servant) -- グンダ（下男）
-511099 Segunda (tracker-based control) -- グンダ（追跡者系制御）
-512000 Snake Spirit -- 蛇霊
-512092 Snake Spirit Test _ Monster House -- 蛇霊テスト_モンスターハウス
-512099 Snake Spirit Test -- 蛇霊テスト
-514000 The Old king of caries -- 蝕の老王
-514010 The old king of caries _ an apparition -- 蝕の老王_幻影
-514099 The old king of caries test -- 蝕の老王テスト
-515000 Salivan -- サリヴァーン
-516000 King of the Dead -- 死霊の王
-518000 Cursed Colossus -- 呪われた巨像
-518001 Cursed Colossus (heat up Test) -- 呪われた巨像（ヒートアップテスト）
-518002 Cursed Colossus (normal test) -- 呪われた巨像（通常時テスト）
-519000 King of the disused city -- 廃都の孤王
-520000 Fat Daemon -- デブデーモン
-520001 Deb Demon Ojo 1 (Mausoleum) -- デブデーモン 王城1（霊廟）
-520002 Fat Demon Dungeon (surrogate) -- デブデーモン ダンジョン（代理）
-522000 Cardinal (Long) -- 枢機卿団（長）
-522099 Cardinal Test -- 枢機卿団テスト
-522100 Cardinal (Deb) -- 枢機卿団（デブ）
-522101 Cardinal (long guards Deb) -- 枢機卿団（長親衛デブ）
-522200 Cardinal (tall) -- 枢機卿団（のっぽ）
-522300 Cardinal (Normal) -- 枢機卿団（通常）
-523000 Mother Dragon -- 母ドラゴン
-524000 Moonlight Witch -- 月光の魔女
-525000 Prince of Darkness (brother) -- 闇の双皇子（兄）
-525001 Prince of Darkness (brother): HU -- 闇の双皇子（兄）:HU
-525100 Prince of Darkness (brother) -- 闇の双皇子（弟）
-526000 Mad Warrior Hallec -- 狂戦士ハレック
-527000 A tracker -- 追跡者
-900000 ■ ■ ■ ■ ■ For products up here ■ ■ ■ ■. ■. -- ■■■■■製品用ここまで■■■■■
-901000 Hiras Test -- hirasテスト
-901100 Yoshihi Test -- yoshihiテスト
-901200 Tsuruy Test -- tsuruyテスト
-901300 Move sub-goal Test 1: walking and running -- 移動サブゴールテスト1:歩行・走行
-901301 Move sub-goal Test 2: Quick turn/left/right movement -- 移動サブゴールテスト2:クイックターン・左右移動
-901302 Move sub-goal Test 3: Retreat Step -- 移動サブゴールテスト3:後退・ステップ
-901400 Masut Test -- masutテスト
-902000 Yoshihi damage Check -- yoshihiダメージチェック用
-999305 [FDP] Proto-wolf (weakening) -- 【FDP】プロト_ウルフ（弱化）
-999410 [FDP] Dead _ for covert confirmation -- 【FDP】亡者_隠密確認用
-999901 Team AI Reader test -- チームAIリーダーテスト
-999910 For sound Confirmation -- 音確認用
+0 For testing
+1 For not doing anything
+2 Atarisawari data (copy and paste recommended)
+10 Logic for animation check near
+11 Logic for animation check Far
+50 Ishizaki Test
+100 Automatic patrol (default)
+540 For automatic patrol (running)
+541 Automatic patrol (walking)
+542 Automatic patrol (super dash)
+10000 Collective Patrol dummy leader
+10001 For funnels
+10010 City Map Sniper Platoon target dummy character
+10200 For NPC Logic Testing
+20000 NPC Sub-goal Test 00 Combat
+20001 NPC Sub-goal Test 01 walking and Running
+20002 NPC Sub-goal Test 02 Quick Turn/left/right movement
+20003 NPC Sub-goal Test 03 Retreat/Step
+20010 NPC Test 00 Test
+21000 Slave Knight Gael - White Phantom - Ariandel
+21002 Slave Knight Gael - Cathedral of the Deep
+21005 Slave Knight Gael - White Phantom - Dreg Heap
+21006 Slave Knight Gael - Illusion
+21100 Sir Vilhelm - Ariandel
+21140 Sir Vilhelm - Ariandel
+21200 Livid Pyromancer Dunnel - Ariandel
+21400 Amnesiac Lapp - Dreg Heap
+21420 Amnesiac Lapp - White Phantom - Dreg Heap
+21421 Amnesiac Lapp - White Phantom
+21440 Amnesiac Lapp - Red Phantom
+21500 Shira, Knight of Filianore
+21520 Shira, Knight of Filianore - White Phantom
+21540 Shira, Knight of Filianore
+21700 Painting Guardian
+21800 Halflight
+21940 Desert Pyromancer Zoey - Dreg Heap
+22000 Amnesiac Lapp
+22140 Silver Knight Ledo - Red Phantom
+22240 Alva, Seeker of the Spurned - Red Phantom
+22241 Alva, Seeker of the Spurned - Red Phantom
+22340 Eygon of Carim - Red Phantom
+24700 Butcher - Road of Sacrifices
+24800 Greirat of the Undead Settlement
+24801 Greirat of the Undead Settlement - Firelink Shrine
+24802 Greirat of the Undead Settlement - Irithyll
+24803 Greirat of the Undead Settlement - Grand Archives
+24810 Greirat of the Undead Settlement - Hostile
+25000 Yuria of Londor - Firelink Shrine
+25020 Yuria of Londor - White Phantom - Kiln of the First Flame
+25100 Hawkwood the Deserter - Firelink Shrine
+25101 Hawkwood the Deserter - Farron Keep
+25120 Hawkwood the Deserter - White Phantom
+25121 Hawkwood the Deserter - White Phantom - Archdragon Peak
+25200 Sirris of the Sunless Realms - Firelink Shrine
+25201 Sirris of the Sunless Realms - Undead Settlement
+25202 Sirris of the Sunless Realms - Irithyll
+25203 Sirris of the Sunless Realms - Undead Settlement
+25204 Sirris of the Sunless Realms - Firelink Shrine
+25220 Sirris of the Sunless Realms - White Phantom - Cathedral of the Deep
+25221 Sirris of the Sunless Realms - White Phantom - Farron Keep
+25222 Sirris of the Sunless Realms - White Phantom - Lothric Castle
+25223 Sirris of the Sunless Realms - White Phantom - Grand Archives
+25300 Ringfinger Leonhard - Firelink Shrine
+25301 Ringfinger Leonhard - Cathedral of the Deep
+25302 Ringfinger Leonhard - Irithyll
+25400 Orbeck of Vinheim - Road of Sacrifices
+25401 Orbeck of Vinheim - Firelink Shrine
+25402 Orbeck of Vinheim - Grand Archives
+25420 Orbeck of Vinheim - White Phantom - Grand Archives
+25500 Cornyx of the Great Swamp - Undead Settlement
+25501 Cornyx of the Great Swamp - Firelink Shrine
+25600 Karla - Irithyll Dungeon
+25601 Karla - Firelink Shrine
+25700 Irina of Carim - Undead Settlement
+25701 Irina of Carim - Firelink Shrine
+25702 Irina of Carim - Firelink Shrine
+25703 Irina of Carim - Firelink Shrine
+25800 Eygon of Carim - Undead Settlement
+25801 Eygon of Carim - Firelink Shrine
+25802 Eygon of Carim - Firelink Shrine
+25820 Eygon of Carim - White Phantom - Road of Sacrifices
+25821 Eygon of Carim - White Phantom - Lothric Castle
+26000 Anri of Astora - Road of Sacrifices
+26001 Anri of Astora - Firelink Shrine
+26002 Anri of Astora - Catacombs of Carthus
+26003 Anri of Astora - Catacombs of Carthus
+26004 Anri of Astora - Catacombs of Carthus
+26005 Anri of Astora - Catacombs of Carthus
+26006 Anri of Astora - Irithyll
+26007 Anri of Astora - Irithyll
+26008 Anri of Astora - Irithyll
+26009 Anri of Astora - Cathedral of the Deep
+26020 Anri of Astora - White Phantom - Irithyll
+26021 Anri of Astora - White Phantom - Cathedral of the Deep
+26100 Unbreakable Patches - Cathedral of the Deep
+26101 Unbreakable Patches - Cathedral of the Deep
+26102 Unbreakable Patches - Cathedral of the Deep
+26103 Unbreakable Patches - Firelink Shrine
+26104 Unbreakable Patches - Firelink Shrine
+26200 Siegward of Catarina - Undead Settlement
+26201 Siegward of Catarina - Undead Settlement
+26202 Siegward of Catarina - Irithyll
+26203 Siegward of Catarina - Profaned Capital
+26204 Siegward of Catarina - Profaned Capital
+26300 Horace the Hushed - Road of Sacrifices
+26301 Horace the Hushed - Firelink Shrine
+26302 Horace the Hushed - Smouldering Lake
+26320 Horace the Hushed - White Phantom - Cathedral of the Deep
+27300 Sword Master - Firelink Shrine
+27320 Sword Master - White Phantom
+27321 Sword Master - Phantom - Untended Graves
+27420 Yellowfinger Heysel - Red Phantom - Farron Keep
+27440 Yellowfinger Heysel - Red Phantom - Road of Sacrifices
+27441 Yellowfinger Heysel - Red Phantom - Farron Keep
+27500 Black Hand Gotthard - Grand Archives
+27520 Black Hand Gotthard - White Phantom - Farron Keep
+27521 Black Hand Gotthard - White Phantom - Irithyll
+27600 Great Swamp Cuculus
+27620 Great Swamp Cuculus - White Phantom - Smouldering Lake
+27700 Holy Knight Hodrick - Undead Settlement
+27701 Holy Knight Hodrick - Undead Settlement
+27720 Holy Knight Hodrick - Mad Phantom - Road of Sacrifices
+27740 Holy Knight Hodrick - Mad Phantom - Undead Settlement
+27800 Londor Pale Shade
+27820 Londor Pale Shade - White Phantom - Farron Keep
+27821 Londor Pale Shade - White Phantom - Irithyll
+27822 Londor Pale Shade - White Phantom - Kiln of the First Flame
+27890 Londor Pale Shade - Red Phantom - Farron Keep
+27891 Londor Pale Shade - Red Phantom - Irithyll
+27900 Lion Knight Albert - Grand Archives
+27920 Lion Knight Albert - White Phantom
+28000 Daughter of Crystal Kriemhild - Grand Archives
+28040 Daughter of Crystal Kriemhild - Red Phantom - Untended Graves
+28100 Exile Watchdog - Exile Greatsword - Farron Keep
+28200 Exile Watchdog - Great Club - Farron Keep
+28300 Unkindled Brigand - Cathedral of the Deep
+28400 Unkindled Thief - Cathedral of the Deep
+28600 Court Sorcerer - Profaned Capital
+28700 Havel the Rock - Archdragon Peak
+28701 Havel the Rock
+28900 Unkindled Ricard
+29000 Drang Knight - Hammers - Irithyll
+29100 Drang Knight - Spears - Irithyll
+29200 Knight Slayer Tsorig - Smouldering Lake
+29220 Knight Slayer Tsorig - White Phantom - Smouldering Lake
+29240 Knight Slayer Tsorig - Red Phantom - Catacombs of Carthus
+29241 Knight Slayer Tsorig - Red Phantom
+29340 Creighton the Wanderer - Red Phantom - Irithyll
+29341 Creighton the Wanderer - Red Phantom - Irithyll
+29440 Alva, Seeker of the Spurned - Red Phantom - Irithyll Dungeon
+29540 Longfinger Kirk - Red Phantom - Cathedral of the Deep
+90390 Dungeon Objects (for bullet owners)
+107000 Skeleton - Catacombs of Carthus
+107001 Skeleton - Scimitar - Catacombs of Carthus
+107002 Skeleton - Falchion - Catacombs of Carthus
+107003 Skeleton - Bow - Catacombs of Carthus
+107004 Skeleton - Running - Scimitar - Catacombs of Carthus
+107005 Skeleton - Running - Falchion - Catacombs of Carthus
+107006 Skeleton - Firebomb - Catacombs of Carthus
+107021 Skeleton - Scimitar
+107022 Skeleton - Falchion
+107023 Skeleton - Bow
+107024 Skeleton - Running - Scimitar
+107025 Skeleton - Running - Falchion
+107026 Skeleton - Firebomb
+107027 Skeleton
+107028 Skeleton
+107029 Skeleton
+107033 Skeleton
+107081 Skeleton - Scimitar - Suspension Bridge
+107082 Skeleton - Torch - Suspension Bridge
+107090 Skeleton
+107091 Skeleton
+107092 Skeleton
+107093 Skeleton
+107094 Skeleton
+107095 Skeleton
+107096 Skeleton
+107126 Skeleton
+109000 Pus of Man
+109010 Pus of Man
+110000 Hollow Soldier - Straight Sword
+110001 Hollow Soldier - Straight Sword - Firebomb
+110003 Hollow Soldier - Straight Sword - Firebomb
+110004 Hollow Soldier - Straight Sword - Firebomb
+110005 Hollow Soldier - Straight Sword
+110006 Hollow Soldier - Straight Sword - Firebomb
+110007 Hollow Soldier - Straight Sword - Firebomb
+110008 Hollow Soldier - Straight Sword - Firebomb
+110009 Hollow Soldier - Straight Sword
+110010 Hollow Soldier - Sword and Shield
+110020 Hollow Soldier - Crossbow
+110021 Hollow Soldier - Crossbow
+110022 Hollow Soldier - Crossbow
+110023 Hollow Soldier - Crossbow
+110024 Hollow Soldier - Crossbow
+110025 Hollow Soldier - Crossbow
+110030 Hollow Soldier - Lantern
+110050 Hollow Soldier - Spear and Shield
+110051 Hollow Soldier - Spear and Shield
+110053 Hollow Soldier - Spear and Shield
+110054 Hollow Soldier - Spear and Shield
+110060 Hollow Soldier - Dagger
+110061 Hollow Soldier - Dagger
+110062 Hollow Soldier - Dagger
+110063 Hollow Soldier - Dagger
+110070 Hollow Soldier - Combat State -> Think ID
+110080 Hollow Assassin
+110085 Hollow Assassin
+110090 Hollow Assassin
+110091 Hollow Assassin
+110093 Hollow Assassin
+110094 Hollow Assassin
+110098 Hollow Assassin
+110100 Hollow Soldier - Sword - Lothric Castle
+110105 Hollow Soldier - Sword - Lothric Castle
+110500 Large Hollow Soldier - Greataxe
+110501 Large Hollow Soldier - Greataxe - Low Visibility
+110510 Large Hollow Soldier - Halberd
+110511 Large Hollow Soldier - Halberd - Low Visibility
+110520 Large Hollow Soldier
+110580 Large Hollow Soldier - Greataxe
+110590 Large Hollow Soldier
+113000 Rotten Slug
+113010 Rotten Slug
+113200 Rotten Slug
+117000 Carthus Swordsman - Sword
+117001 Carthus Swordsman - Sword
+117010 Carthus Swordsman - Greatsword
+117030 Carthus Swordsman - Bow
+117040 Carthus Swordsman
+118000 Carthus Swordsman - Shotel
+118010 Carthus Swordsman - Shotel
+118020 Carthus Swordsman
+119000 Cathedral Knight
+119001 Cathedral Knight
+119002 Cathedral Knight
+119005 Cathedral Knight
+119010 Cathedral Knight
+119011 Cathedral Knight
+119012 Cathedral Knight
+119020 Cathedral Knight
+119021 Cathedral Knight
+119050 Cathedral Knight
+120000 Hollow Slave - Axe - Blowpipe
+120001 Hollow Slave - Axe - Blowpipe
+120002 Hollow Slave - Axe - Blowpipe
+120003 Hollow Slave - Axe - Firebomb
+120004 Hollow Slave - Axe - Firebomb
+120005 Hollow Slave - Axe - Firebomb
+120006 Hollow Slave - Axe - Firebomb
+120009 Hollow Slave - Axe - Firebomb
+120010 Hollow Slave - Axe - Blowpipe
+120020 Hollow Slave - Flamberge
+120050 Hollow Slave - Flamberge
+121000 Ghru - Spear
+121001 Ghru - Spear
+121010 Ghru - Curved Sword
+121020 Ghru - Dagger
+121021 Ghru - Dagger
+121022 Ghru - Dagger
+121023 Ghru - Dagger
+121030 Mad Ghru
+121040 Mad Ghru
+121049 Mad Ghru
+122000 Infested Corpse
+122010 Infested Corpse - Chest
+122020 Infested Corpse
+122030 Infested Corpse
+122040 Infested Corpse
+122050 Infested Corpse
+122060 Infested Corpse
+122070 Infested Corpse
+123000 Cathedral Evangelist
+123001 Cathedral Evangelist
+123002 Cathedral Evangelist
+123003 Cathedral Evangelist
+123004 Cathedral Evangelist
+123005 Cathedral Evangelist
+123010 Cathedral Evangelist
+123051 Cathedral Evangelist
+123097 Cathedral Evangelist
+123098 Cathedral Evangelist
+123099 Cathedral Evangelist
+124000 Peasant Hollow - Axe
+124001 Peasant Hollow - Axe
+124002 Peasant Hollow - Axe
+124003 Peasant Hollow - Axe
+124004 Peasant Hollow - Axe
+124005 Peasant Hollow - Axe
+124006 Peasant Hollow - Axe
+124009 Peasant Hollow - Axe
+124010 Peasant Hollow - Lantern
+124011 Peasant Hollow - Lantern
+124012 Peasant Hollow - Lantern
+124013 Peasant Hollow - Lantern
+124014 Peasant Hollow - Lantern
+124019 Peasant Hollow - Lantern
+124020 Peasant Hollow - Sickle
+124021 Peasant Hollow - Sickle
+124029 Peasant Hollow - Sickle
+124030 Peasant Hollow - Mallet
+124039 Peasant Hollow - Mallet
+124040 Peasant Hollow - Hoe
+124041 Peasant Hollow - Hoe
+124049 Peasant Hollow - Hoe
+124050 Peasant Hollow
+125000 Cathedral Grave Warden
+125001 Cathedral Grave Warden
+125002 Cathedral Grave Warden
+125099 Cathedral Grave Warden
+126000 Hollow Manservant
+126001 Hollow Manservant
+126002 Hollow Manservant
+126090 Hollow Manservant - Saw
+126091 Hollow Manservant - Low Visibility
+128000 Lothric Knight - Sword and Shield
+128010 Lothric Knight - Spear and Shield
+128020 Lothric Knight - Greatsword
+128030 Lothric Knight - Crossbow
+128100 Lothric Knight - Sword and Shield
+128110 Lothric Knight - Spear and Shield
+128120 Lothric Knight - Greatsword
+128200 Lothric Knight - Sword and Shield
+128210 Lothric Knight - Spear and Shield
+128220 Lothric Knight - Greatsword
+128300 Lothric Knight - Sword and Shield
+128310 Lothric Knight - Spear and Shield
+128311 Lothric Knight - Spear and Shield
+129000 Winged Knight - Halberd
+129010 Winged Knight - Twinaxes
+129020 Winged Knight - Halberd - Grand Archives
+129030 Winged Knight - Twinaxes - Grand Archives
+130000 Black Knight - Sword
+130010 Black Knight - Greatsword
+130020 Black Knight - Greataxe
+130030 Black Knight - Halberd
+130040 Black Knight - Sword
+130100 Black Knight - Sword
+130110 Black Knight - Greatsword
+130120 Black Knight - Greataxe
+130130 Black Knight - Halberd
+131000 Boreal Outrider Knight
+131002 Boreal Outrider Knight - Undead Settlement
+132000 Crystal Sage
+132010 Crystal Sage
+132050 Crystal Sage
+132051 Crystal Sage
+132052 Crystal Sage
+132200 Crystal Sage
+134000 Archive Scholar
+134010 Archive Scholar
+135000 Irithyllian Slave
+135005 Irithyllian Slave
+135006 Irithyllian Slave
+135010 Irithyllian Slave
+135020 Irithyllian Slave
+135021 Irithyllian Slave
+135030 Irithyllian Slave
+136000 Lycanthrope
+136001 Lycanthrope
+137000 Lycanthrope Hunter
+137090 Lycanthrope Hunter
+138000 Serpent-man Summoner
+138001 Serpent-man Summoner
+138010 Serpent-man Summoner
+138200 Serpent-man Summoner
+139000 Serpent-man - Dagger
+139010 Serpent-man - Hatchet
+139020 Serpent-man - Axe
+139030 Serpent-man - Double-bit Axe
+139100 Giant Serpent-man - Chainaxe
+139110 Giant Serpent-man - Greataxe
+140000 Fire Keeper
+141000 Silver Knight - Sword and Shield
+141010 Silver Knight - Spear and Shield
+141020 Silver Knight - Greatbow -> Sword and Shield
+141021 Silver Knight - Greatbow -> Sword and Shield
+141030 Silver Knight - Greatbow -> Spear and Shield
+143010 Undead Cleric 1
+143030 Undead Cleric 2
+143031 Undead Cleric 2
+143040 Undead Cleric 3
+143041 Undead Cleric 3
+143061 Undead Cleric 4
+144000 Devout of the Deep 1
+144001 Devout of the Deep 1
+144010 Devout of the Deep 2
+144020 Devout of the Deep 3
+144030 Devout of the Deep 4
+144031 Devout of the Deep 4
+144035 Devout of the Deep 4
+144040 Devout of the Deep 5
+144041 Devout of the Deep 5
+144050 Devout of the Deep 6
+144060 Devout of the Deep 7
+144061 Devout of the Deep 7
+144070 Lothric Priest
+144071 Lothric Priest
+144072 Lothric Priest
+146000 Painting Protection (phantom)
+147000 Bonewheel Skeleton
+147010 Bonewheel Skeleton
+148000 Irithyll Knight - Regular - Ghost
+149000 Irithyll Knight - Dancer - Ghost
+202000 Undead Dog
+202050 Undead Dog
+202099 Undead Dog
+202100 Small Undead Dog (Undead Settlement)
+202101 Small Undead Dog
+202102 Small Undead Dog
+202103 Small Undead Dog
+202200 Undead Dog (Irithyll)
+202201 Undead Dog (Irithyll)
+203000 Pontiff Knight - Curved Sword
+203005 Pontiff Knight - Curved Sword
+203010 Pontiff Knight - Scythe
+203099 Pontiff Knight
+204000 Monstrosity of Sin
+204050 Monstrosity of Sin
+204099 Monstrosity of Sin
+206000 Infested Corpse
+206010 Infested Corpse
+207000 Wretch (Unarmed)
+207010 Wretch (Spear)
+207011 Wretch (Spear)
+207020 Wretch (Dagger)
+208000 Undead Dog - Pregnant
+209000 Oceiros, the Consumed King
+209001 Consumed Beast
+210000 Sewer Centipede
+210010 Sewer Centipede
+211000 Hound-rat
+211098 Hound-rat
+211400 Hound-rat (Passive)
+212000 Mimic
+212010 Mimic - Exorcist
+212100 Mimic
+213000 Writhing Rotten Flesh
+213090 Writhing Rotten Flesh
+213200 Smouldering Rotten Flesh
+214000 Basilisk
+214001 Basilisk
+215000 Crystal Lizard
+215005 Crystal Lizard
+215010 Red Crystal Lizard
+215011 Red Crystal Lizard - Bait
+215020 Crystal Lizard
+215025 Crystal Lizard
+216000 Yoel of Londor
+216001 Pilgrim - TOG
+216010 Londor Pilgrim
+216030 Pilgrim Dummy
+218000 Grub
+218001 Grub
+218010 Grub (Witch)
+218100 Grub
+218110 Grub (Witch)
+219000 Gargoyle (Hammer)
+219010 Gargoyle (Spear)
+220000 Carthus Sandworm
+220010 Carthus Sandworm
+220100 Carthus Sandworm
+221000 Corvian (Dagger) - Road of Sacrifices
+221001 Corvian (Scythe) - Road of Sacrifices
+221002 Corvian (Storyteller's Staff) - Road of Sacrifices
+221010 Corvian (Dagger) - Untended Graves
+221011 Corvian (Scythe) - Untended Graves
+221012 Corvian (Storyteller's Staff) - Untended Graves
+221020 Corvian (Dagger) - Irithyll
+221021 Corvian (Scythe) - Irithyll
+221022 Corvian (Storyteller's Staff) - Irithyll
+223000 Jailer
+223005 Jailer
+223006 Jailer
+223010 Jailer Handmaid
+223020 Jailer Handmaid
+224000 Vordt of the Boreal Valley
+224100 Vordt of the Boreal Valley (Heatup)
+225000 Sulyvahn's Beast
+225010 Sulyvahn's Beast
+226000 Ballista
+227000 Giant Crab
+227001 Giant Crab
+227002 Giant Crab
+227003 Giant Crab
+227100 Lesser Crab
+227101 Lesser Crab
+228000 Giant Rat
+229000 Irithyll Dog
+229100 Irithyll Dog
+302000 Giant Slave
+302010 Giant Slave
+302020 Giant Slave
+302100 Giant Slave
+302101 Giant Slave
+302102 Giant Slave
+302110 Giant Slave
+302197 Giant Slave
+302198 Giant Slave
+302199 Giant Slave (Cathedral of the Deep)
+304000 Abyss Watcher
+304005 Abyss Watcher
+304010 Abyss Watcher
+304090 Abyss Watcher - Test
+304098 Abyss Watcher - Test
+304100 Abyss Watcher
+305000 Old Demon King
+305100 Old Demon Prince
+306000 Demon
+306002 Demon - Smouldering Lake
+306099 Demon - Test
+306100 Demon (Undead Settlement)
+307000 Demon Cleric
+307100 Demon Cleric
+308000 Pilgrim Butterfly
+308001 Pilgrim Butterfly
+309000 Caged Hollow
+309010 Caged Hollow
+310000 Ravenous Crystal Lizard
+310050 Ravenous Crystal Lizard
+311000 Deep Acursed
+312000 Elder Ghru
+312001 Elder Ghru
+312020 Elder Ghru
+314000 Ancient Wyvern
+314010 Ancient Wyvern
+314020 Ancient Wyvern
+314100 Ancient Wyvern
+314200 Ancient Wyvern
+314300 Ancient Wyvern - Bridge
+316000 Dragonslayer Armour
+316010 Dragonslayer Armour
+317000 Darkwraith
+321000 Poisonhorn Bug
+322000 Rock Lizard
+322001 Rock Lizard
+322002 Rock Lizard
+323000 Demon Statue
+325000 High Priestess Emma
+501000 Nameless King
+502000 Demon Prince
+502010 Demon in Pain
+502020 Demon from Below
+502090 Demon Prince
+502100 Demon Prince (Orb)
+502200 Demon Prince (Orb)
+502300 Crimson Bat
+503000 King of the Storm
+511000 Corrupted Gundyr
+511080 Iudex Gundyr (Throwing)
+511090 Iudex Gundyr
+511091 Iudex Gundyr
+511098 Iudex Gundyr
+511099 Iudex Gundyr
+511100 Champion Gundyr
+512000 Iudex Gundyr (Pus of Man)
+512092 Iudex Gundyr (Pus of Man)
+512099 Iudex Gundyr (Pus of Man) - Test
+514000 Pontiff Sulyvahn
+514010 Pontiff Sulyvahn - Spirit Clone
+514011 Spirit of the Pontiff
+514099 Pontiff Sulyvahn - Test
+515000 Aldrich, Devourer of Gods
+516000 High Lord Wolnir
+518000 Curse-rotted Greatwood
+518001 Curse-rotted Greatwood (Heatup) - Test
+518002 Curse-rotted Greatwood - Test
+520000 Stray Demon
+520001 Stray Demon (Heatup)
+520002 Stray Demon
+522000 Deacons of the Deep
+522099 Deacons of the Deep - Test
+522100 Fat Deacon
+522101 Fat Deacon (Boss)
+522110 Fat Deacon
+522200 Tall Deacon
+522210 Tall Deacon
+522300 Deacon
+522310 Deacon
+522500 Fat Deacon (Irithyll)
+522510 Fat Deacon (Irithyll)
+522600 Tall Deacon (Irithyll)
+522610 Tall Deacon (Irithyll)
+522700 Deacon (Irithyll)
+522710 Deacon (Irithyll)
+524000 Irithyll Fire Witch
+525000 Lorian, Elder Prince
+525001 Lorian, Elder Prince (Heatup)
+525100 Lothric, Younger Prince
+526000 Yhorm the Giant
+527000 Dancer of the Boreal Valley
+528000 Soul of Cinder
+528100 Soul of Cinder (Heatup)
+600000 Farron Follower 1
+600001 Farron Follower 1
+600002 Farron Follower 1
+600010 Farron Follower 2
+600011 Farron Follower 2
+600012 Farron Follower 2
+600020 Farron Follower 3
+600021 Farron Follower 3
+600022 Farron Follower 3
+600030 Farron Follower 4
+600031 Farron Follower 4
+600032 Farron Follower 4
+601000 Father Ariandel
+602000 Sister Friede
+602001 Sister Friede (Heatup)
+603000 Greatwolf
+603001 Greatwolf
+603002 Greatwolf
+603004 Greatwolf
+603200 Greatwolf
+604000 Wolf
+604010 Wolf
+604020 Wolf
+604040 Wolf
+605000 Skittish Wolf
+605010 Skittish Wolf
+605020 Skittish Wolf
+605030 Skittish Wolf
+605031 Skittish Wolf
+605032 Skittish Wolf
+605040 Skittish Wolf
+606000 Tree Woman
+606001 Tree Woman
+606002 Tree Woman
+606010 Tree Woman
+607000 Corvian Knight
+607001 Corvian Knight
+607002 Corvian Knight
+607010 Corvian Knight
+607012 Corvian Knight
+608000 Corvian Villager
+608001 Corvian Villager
+608002 Corvian Villager
+608003 Corvian Villager
+608005 Corvian Villager
+608006 Corvian Villager
+608010 Corvian Villager
+608011 Corvian Villager
+608015 Corvian Villager
+608020 Corvian Villager
+608100 Corvian Villager
+608101 Corvian Villager
+608102 Corvian Villager
+608105 Corvian Villager
+609000 Giant Fly
+610000 Millwood Knight 1
+610010 Millwood Knight 2
+610011 Millwood Knight 2
+610020 Millwood Knight 3
+610021 Millwood Knight 3
+610030 Millwood Knight 4
+610031 Millwood Knight 4
+610032 Millwood Knight 4
+610033 Millwood Knight 4
+610034 Millwood Knight 4
+610035 Millwood Knight 4
+613000 Great Crab
+620000 Slave Knight Gael
+620100 Slave Knight Gael (Heatup)
+621000 Darkeater Midir (Bridge)
+621010 Darkeater Midir (Bridge)
+621100 Darkeater Midir
+623000 Murkman
+623001 Murkman
+623002 Murkman
+623003 Murkman
+623004 Murkman
+623100 Crawling Murkman
+623101 Crawling Murkman
+623104 Crawling Murkman
+623200 Murkman Spirit
+624000 Pilgrim Pulpa
+625000 Pilgrim Angel
+625001 Pilgrim Angel
+625002 Pilgrim Angel
+625003 Pilgrim Angel
+626000 Ringed Knight
+626001 Ringed Knight
+626002 Ringed Knight
+626005 Ringed Knight
+626010 Ringed Knight
+626015 Ringed Knight
+626020 Ringed Knight
+626021 Ringed Knight
+627000 Hollow Vagabond
+627001 Hollow Vagabond
+627002 Hollow Vagabond
+628000 Judicator
+628010 Judicator
+628020 Judicator
+628090 Judicator
+628100 Judicator
+629000 Hollow Cleric
+629001 Hollow Cleric
+629002 Hollow Cleric
+629003 Hollow Cleric
+629004 Hollow Cleric
+630000 Mad Pilgrim
+632000 Harald Knight
+632001 Harald Knight
+632002 Harald Knight
+632010 Harald Knight
+633000 Big Locust
+633001 Big Locust
+633002 Big Locust
+633010 Big Locust
+633100 Small Locust
+633101 Small Locust
+633110 Small Locust
+633111 Small Locust
+633112 Small Locust
+901000 Hiras Test
+901100 Yoshihi Test
+901200 Tsuruy Test
+901300 Move sub-goal Test 1 walking and running
+901301 Move sub-goal Test 2 Quick turn/left/right movement
+901302 Move sub-goal Test 3 Retreat Step
+901400 Masut Test
+902000 Yoshihi damage Check
+999305 - FDP Proto-wolf (weakening)
+999410 - FDP Dead _ for covert confirmation
+999901 Team AI Reader test
+999910 For sound Confirmation

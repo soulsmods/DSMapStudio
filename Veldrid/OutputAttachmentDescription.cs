@@ -1,4 +1,5 @@
 ﻿using System;
+using Vortice.Vulkan;
 
 namespace Veldrid
 {
@@ -10,13 +11,13 @@ namespace Veldrid
         /// <summary>
         /// The format of the <see cref="Texture"/> attachment.
         /// </summary>
-        public PixelFormat Format;
+        public VkFormat Format;
 
         /// <summary>
         /// Constructs a new <see cref="OutputAttachmentDescription"/>.
         /// </summary>
         /// <param name="format">THe format of the <see cref="Texture"/> attachment.</param>
-        public OutputAttachmentDescription(PixelFormat format)
+        public OutputAttachmentDescription(VkFormat format)
         {
             Format = format;
         }

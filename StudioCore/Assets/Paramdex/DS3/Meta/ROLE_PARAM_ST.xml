@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
   <Enums>
-    <Enum Name="TeamType">
+    <Enum Name="TEAM_TYPE">
       <Option Value="0" Name="None" />
       <Option Value="1" Name="Live" />
       <Option Value="2" Name="White Ghost" />
@@ -37,39 +37,42 @@
       <Option Value="32" Name="Invader Mad Phantom" />
       <Option Value="33" Name="Arch Enemy Team" />
     </Enum>
-	<Enum Name="VoiceChatGroup">
+	<Enum Name="VOICE_CHAT_GROUP_TYPE">
 	  <Option Value="0" Name="Hostile" />
       <Option Value="1" Name="Friendly" />
 	</Enum>
-	<Enum Name="RoleColor">
+	<Enum Name="ROLE_NAME_COLOR_TYPE">
 	  <Option Value="1" Name="White" />
       <Option Value="2" Name="Red" />
 	</Enum>
   </Enums>
-  <Self AlternativeOrder="TeamType,subTeamType,SfxId0,SfxId1,StayAnimId,ItemLotId,TextId,spEffectCondition,IsDisplayTeamName [ON_OFF],-,
-  PhantomParamId0,PhantomParamId1,PhantomParamId2,PhantomParamId3,PhantomParamIdForDebug,-,
-  SpEffectId0,SpEffectId1,SpEffectId2,SpEffectId3,SpEffectId4,SpEffectId5,SpEffectId6,SpEffectId7,SpEffectId8,SpEffectId9,spEffect10,spEffect11,spEffect12,spEffect13" />
+  <Self Wiki="All Phantom Type Data" AlternativeOrder="TeamType,subTeamType,-,
+roleNameId,voiceChatGroup,roleNameColor,-,
+sosSignSfxId,mySosSignSfxId,summonStartAnimId,nonPlayerSummonStartAnimId,-,
+itemlotParamId,-,
+PhantomParamId0,PhantomParamId1,PhantomParamId2,PhantomParamId3,signPhantomId,-,
+SpEffectId0,SpEffectId1,SpEffectId2,SpEffectId3,SpEffectId4,SpEffectId5,SpEffectId6,SpEffectId7,SpEffectId8,SpEffectId9,spEffect10,spEffect11,spEffect12,spEffect13" />
   <Field>
-    <TeamType Enum="TeamType" />
+    <TeamType AltName="Team Type" Enum="TEAM_TYPE" />
 	<PhantomParamId0 AltName="Phantom ID - Level 0" Refs="PhantomParam" />
-    <SpEffectId0 Refs="SpEffectParam" />
-    <SpEffectId1 Refs="SpEffectParam" />
-    <SpEffectId2 Refs="SpEffectParam" />
-    <SpEffectId3 Refs="SpEffectParam" />
-    <SpEffectId4 Refs="SpEffectParam" />
-    <SpEffectId5 Refs="SpEffectParam" />
-    <SpEffectId6 Refs="SpEffectParam" />
-    <SpEffectId7 Refs="SpEffectParam" />
-    <SpEffectId8 Refs="SpEffectParam" />
-    <SpEffectId9 Refs="SpEffectParam" />
-    <SfxId0 AltName="Sign VFX ID - To Others" />
-    <SfxId1 AltName="Sign VFX ID - To Self" />
-	<StayAnimId AltName="Summon Anim ID" />
-    <ItemLotId Refs="ItemLotParam" />
-	<spEffectCondition AltName="Voice Chat Group" Enum="VoiceChatGroup" />
-	<IsDisplayTeamNameON_OFF AltName="Name Color" Enum="RoleColor" />
-	<TextId AltName="Role Name ID" />
-	<subTeamType AltName="Giant Seed TeamType" Enum="TeamType"/>
+    <SpEffectId0 AltName="SpEffect ID 0" Refs="SpEffectParam" />
+    <SpEffectId1 AltName="SpEffect ID 1" Refs="SpEffectParam" />
+    <SpEffectId2 AltName="SpEffect ID 2" Refs="SpEffectParam" />
+    <SpEffectId3 AltName="SpEffect ID 3" Refs="SpEffectParam" />
+    <SpEffectId4 AltName="SpEffect ID 4" Refs="SpEffectParam" />
+    <SpEffectId5 AltName="SpEffect ID 5" Refs="SpEffectParam" />
+    <SpEffectId6 AltName="SpEffect ID 6" Refs="SpEffectParam" />
+    <SpEffectId7 AltName="SpEffect ID 7" Refs="SpEffectParam" />
+    <SpEffectId8 AltName="SpEffect ID 8" Refs="SpEffectParam" />
+    <SpEffectId9 AltName="SpEffect ID 9" Refs="SpEffectParam" />
+    <sosSignSfxId AltName="Summon Sign VFX ID - To Others" />
+    <mySosSignSfxId AltName="Summon Sign VFX ID - To Self" />
+	<summonStartAnimId AltName="Summon Anim ID" />
+    <itemlotParamId AltName="Item Lot ID" Refs="ItemLotParam" />
+	<voiceChatGroup AltName="Voice Chat Group" Enum="VOICE_CHAT_GROUP_TYPE" />
+	<roleNameColor AltName="Name Color" Enum="ROLE_NAME_COLOR_TYPE" />
+	<roleNameId AltName="Role Name ID" />
+	<subTeamType AltName="Giant Seed Team Type" Enum="TEAM_TYPE"/>
 	<PhantomParamId1 AltName="Phantom ID - Level 1" Refs="PhantomParam" />
 	<PhantomParamId2 AltName="Phantom ID - Level 2" Refs="PhantomParam" />
 	<PhantomParamId3 AltName="Phantom ID - Level 3" Refs="PhantomParam" />
@@ -77,7 +80,11 @@
 	<spEffect11 AltName="SpEffect ID - Level 1" Refs="SpEffectParam" />
 	<spEffect12 AltName="SpEffect ID - Level 2" Refs="SpEffectParam" />
 	<spEffect13 AltName="SpEffect ID - Level 3" Refs="SpEffectParam" />
-	<PhantomParamIdForDebug AltName="Summon Preview Phantom ID" Refs="PhantomParam" />
+	<signPhantomId AltName="Summon Preview Phantom ID" Refs="PhantomParam" />
+    <nonPlayerSummonStartAnimId AltName="NPC Summon Start - Animation ID" Wiki="Anime ID to play when a player other than the player is summoned and the game starts" />
+    <pad1 AltName="" />
+    <pad2 AltName="" />
+    <pad3 AltName="" />
   </Field>
   <Self />
 </PARAMMETA>

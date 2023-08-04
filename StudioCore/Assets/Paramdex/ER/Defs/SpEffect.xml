@@ -2516,7 +2516,7 @@
       <Maximum>1</Maximum>
       <SortID>78100</SortID>
     </Field>
-	<Field Def="u8 unk353_4:1">
+	<Field Def="u8 isDestinedDeathHpMult:1">
 	  <Enum>SP_EFFECT_BOOL</Enum>
 	  <Maximum>1</Maximum>
 	</Field>
@@ -2632,7 +2632,7 @@
       <Increment>0.001</Increment>
       <SortID>300040</SortID>
     </Field>
-    <Field Def="f32 unk2">
+    <Field Def="f32 guardStaminaMult = 1">
       <DisplayName>pad</DisplayName>
       <DisplayFormat>%f</DisplayFormat>
       <EditFlags>Wrap</EditFlags>

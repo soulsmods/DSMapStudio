@@ -6,10 +6,10 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="s32 CorrectionVal0 = 140201" />
-    <Field Def="s32 CorrectionVal1 = 140202" />
-    <Field Def="s32 CorrectionVal2 = 140203" />
-    <Field Def="s32 CorrectionVal3" />
+    <Field Def="s32 client1SpEffectId = 140201" />
+    <Field Def="s32 client2SpEffectId = 140202" />
+    <Field Def="s32 client3SpEffectId = 140203" />
+    <Field Def="s32 bOverrideSpEffect" />
     <Field Def="dummy8 pad1[16]" />
   </Fields>
 </PARAMDEF>

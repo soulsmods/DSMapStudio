@@ -3,31 +3,31 @@
   <Enums>
     <Enum Name="ATK_SUB_CATEGORY" type="u8">
       <Option Value="0" Name="None" />
-      <Option Value="1" Name="Full Moon Spell" />
-      <Option Value="2" Name="Carian Sword Spell" />
-      <Option Value="3" Name="Glintblade Spell" />
-      <Option Value="4" Name="Stonedigger Spell" />
-      <Option Value="5" Name="Crystalian Spell" />
-      <Option Value="6" Name="Karolos Spell" />
-      <Option Value="7" Name="Olivinus Spell" />
-      <Option Value="8" Name="Lava Spell" />
-      <Option Value="9" Name="Thorn Spell" />
-      <Option Value="10" Name="Death Spell" />
-      <Option Value="11" Name="Gravity Spell" />
-      <Option Value="12" Name="Night Spell" />
-      <Option Value="13" Name="Ranni Spell" />
-      <Option Value="14" Name="Azur Spell" />
-      <Option Value="15" Name="Lusat Spell" />
-      <Option Value="20" Name="Black Flame Spell" />
-      <Option Value="21" Name="Flame Spell" />
-      <Option Value="22" Name="Dragon Cult Spell" />
-      <Option Value="23" Name="Bestial Spell" />
-      <Option Value="24" Name="Golden Order Spell" />
-      <Option Value="25" Name="Dragon Communion Spell" />
-      <Option Value="26" Name="Frenzied Flame Spell" />
-      <Option Value="27" Name="Godslayer Spell" />
-      <Option Value="28" Name="Primordial Crucible Spell" />
-      <Option Value="100" Name="Charge Attack" />
+      <Option Value="1" Name="Full Moon Sorcery" />
+      <Option Value="2" Name="Carian Sword Sorcery" />
+      <Option Value="3" Name="Glintblade Sorcery" />
+      <Option Value="4" Name="Stonedigger Sorcery" />
+      <Option Value="5" Name="Crystalian Sorcery" />
+      <Option Value="6" Name="Azur Academy Sorcery" />
+      <Option Value="7" Name="Lusat Academy Sorcery" />
+      <Option Value="8" Name="Magma Sorcery" />
+      <Option Value="9" Name="Thorn Sorcery" />
+      <Option Value="10" Name="Death Sorcery" />
+      <Option Value="11" Name="Gravity Sorcery" />
+      <Option Value="12" Name="Night Sorcery" />
+      <Option Value="13" Name="Cold Sorcery" />
+      <Option Value="14" Name="Azur Primeval Sorcery" />
+      <Option Value="15" Name="Lusat Primeval Sorcery" />
+      <Option Value="20" Name="Blackflame Incantation" />
+      <Option Value="21" Name="Giantsflame Incantation" />
+      <Option Value="22" Name="Dragon Cult Incantation" />
+      <Option Value="23" Name="Bestial Incantation" />
+      <Option Value="24" Name="Golden Order Incantation" />
+      <Option Value="25" Name="Dragon Communion Incantation" />
+      <Option Value="26" Name="Frenzied Flame Incantation" />
+      <Option Value="27" Name="Godslayer Incantation" />
+      <Option Value="28" Name="Aspect of the Crucible Incantation" />
+      <Option Value="100" Name="Charged Heavy Attack" />
       <Option Value="101" Name="Horseback Attack" />
       <Option Value="102" Name="Jump Attack" />
       <Option Value="103" Name="Guard Counter Attack" />
@@ -37,14 +37,14 @@
       <Option Value="107" Name="Breath Attack" />
       <Option Value="108" Name="Pot Item Attack" />
       <Option Value="109" Name="Perfume Item Attack" />
-      <Option Value="110" Name="Charged Attack" />
+      <Option Value="110" Name="Charged Spell Attack" />
       <Option Value="111" Name="Charged Skill Attack" />
       <Option Value="112" Name="Skill Attack" />
       <Option Value="113" Name="Ranged Skill Attack" />
       <Option Value="114" Name="Vapor Attack" />
-      <Option Value="116" Name="Unknown Attack" />
+      <Option Value="116" Name="Shriek of Milos" />
       <Option Value="117" Name="Wraith Attack" />
-      <Option Value="118" Name="Ammunition OnHit Attack" />
+      <Option Value="118" Name="Ammunition On-Hit Attack" />
     </Enum>
     <Enum Name="ATK_PARAM_HIT_TYPE" type="u8">
         <Option Value="0" Name="Ignore Collision" />
@@ -305,8 +305,8 @@
     <guardAtkRateCorrection AltName="Attack Correction: Guard Attack Rate" Wiki="PC only. 1 only" />
     <guardBreakCorrection AltName="Attack Correction: Guard Break" Wiki="PC only. Multiplying the base value by the repelling of the attack" />
     <atkThrowEscapeCorrection AltName="Attack Correction: Throw Escape" Wiki="Weapon correction value for throw-through attacks" />
-    <subCategory1 AltName="Conditional Category [1]" Wiki="Subcategory 1" Enum="ATK_SUB_CATEGORY" />
-    <subCategory2 AltName="Conditional Category [2]" Wiki="Subcategory 2" Enum="ATK_SUB_CATEGORY" />
+    <subCategory1 AltName="Conditional Category [1]" Wiki="Subcategory 1" Enum="ATK_SUB_CATEGORY" VRef="MagicSubCategory" />
+    <subCategory2 AltName="Conditional Category [2]" Wiki="Subcategory 2" Enum="ATK_SUB_CATEGORY" VRef="MagicSubCategory" />
     <atkPhys AltName="Damage: Physical" Wiki="NPCs only. Basic damage of physical attack" />
     <atkMag AltName="Damage: Magic" Wiki="NPCs only. Additional damage from magic attacks" />
     <atkFire AltName="Damage: Fire" Wiki="NPCs only. Additional damage from fire attacks" />
@@ -369,28 +369,28 @@
     <HitRumbleIdByNormal AltName="Hit Rumble ID - Normal" Wiki="Vibration ID at the time of hit when hitting the tip (-1 invalid)" />
     <HitRumbleIdByMiddle AltName="Hit Rumble ID - Middle" Wiki="Vibration ID at the time of hit when hit in the middle (-1 invalid)" />
     <HitRumbleIdByRoot AltName="Hit Rumble ID - Root" Wiki="Vibration ID at the time of hit when hitting the root (-1 invalid)" />
-    <traceSfxId0 AltName="Trace SFX ID [0]" Wiki="Sword flash SfxID_0 (-1 invalid)" />
+    <traceSfxId0 AltName="Trace SFX ID [0]" Wiki="Sword flash SfxID_0 (-1 invalid)" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
     <traceDmyIdHead0 AltName="Trace SFX ID [0] - Head Dummy Poly" Wiki="Sword flash root Damipoli ID_0 (-1 invalid)" />
     <traceDmyIdTail0 AltName="Trace SFX ID [0] - Tail Dummy Poly" Wiki="Sword Flash Sword Tip Damipoli ID_0" />
-    <traceSfxId1 AltName="Trace SFX ID [1]" Wiki="Sword flash SfxID_1 (-1 invalid)" />
+    <traceSfxId1 AltName="Trace SFX ID [1]" Wiki="Sword flash SfxID_1 (-1 invalid)" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
     <traceDmyIdHead1 AltName="Trace SFX ID [1] - Head Dummy Poly" Wiki="Sword Flash Root Damipoli ID_1 (-1 invalid)" />
     <traceDmyIdTail1 AltName="Trace SFX ID [1] - Tail Dummy Poly" Wiki="Sword Flash Sword Tip Damipoli ID_1" />
-    <traceSfxId2 AltName="Trace SFX ID [2]" Wiki="Sword flash SfxID_2 (-1 invalid)" />
+    <traceSfxId2 AltName="Trace SFX ID [2]" Wiki="Sword flash SfxID_2 (-1 invalid)" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
     <traceDmyIdHead2 AltName="Trace SFX ID [2] - Head Dummy Poly" Wiki="Sword Flash Root Damipoli ID_2 (-1 invalid)" />
     <traceDmyIdTail2 AltName="Trace SFX ID [2] - Tail Dummy Poly" Wiki="Sword Flash Sword Tip Damipoli ID_2" />
-    <traceSfxId3 AltName="Trace SFX ID [3]" Wiki="Sword Flash SfxID_3 (-1 invalid)" />
+    <traceSfxId3 AltName="Trace SFX ID [3]" Wiki="Sword Flash SfxID_3 (-1 invalid)" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
     <traceDmyIdHead3 AltName="Trace SFX ID [3] - Head Dummy Poly" Wiki="Sword flash root Damipoli ID_3 (-1 invalid)" />
     <traceDmyIdTail3 AltName="Trace SFX ID [3] - Tail Dummy Poly" Wiki="Sword Flash Sword Tip Damipoli ID_3" />
-    <traceSfxId4 AltName="Trace SFX ID [4]" Wiki="Sword Flash SfxID_4 (-1 invalid)" />
+    <traceSfxId4 AltName="Trace SFX ID [4]" Wiki="Sword Flash SfxID_4 (-1 invalid)" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
     <traceDmyIdHead4 AltName="Trace SFX ID [4] - Head Dummy Poly" Wiki="Sword flash root Damipoli ID_4 (-1 invalid)" />
     <traceDmyIdTail4 AltName="Trace SFX ID [4] - Tail Dummy Poly" Wiki="Sword Flash Sword Tip Damipoli ID_4" />
-    <traceSfxId5 AltName="Trace SFX ID [5]" Wiki="Sword Flash SfxID_5 (-1 invalid)" />
+    <traceSfxId5 AltName="Trace SFX ID [5]" Wiki="Sword Flash SfxID_5 (-1 invalid)" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
     <traceDmyIdHead5 AltName="Trace SFX ID [5] - Head Dummy Poly" Wiki="Sword Flash Root Damipoli ID_5 (-1 invalid)" />
     <traceDmyIdTail5 AltName="Trace SFX ID [5] - Tail Dummy Poly" Wiki="Sword Flash Sword Tip Damipoli ID_5" />
-    <traceSfxId6 AltName="Trace SFX ID [6]" Wiki="Sword Flash SfxID_6 (-1 invalid)" />
+    <traceSfxId6 AltName="Trace SFX ID [6]" Wiki="Sword Flash SfxID_6 (-1 invalid)" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr"/>
     <traceDmyIdHead6 AltName="Trace SFX ID [6] - Head Dummy Poly" Wiki="Sword Flash Root Damipoli ID_6 (-1 invalid)" />
     <traceDmyIdTail6 AltName="Trace SFX ID [6] - Tail Dummy Poly" Wiki="Sword Flash Sword Tip Damipoli ID_6" />
-    <traceSfxId7 AltName="Trace SFX ID [7]" Wiki="Sword Flash SfxID_7 (-1 invalid)" />
+    <traceSfxId7 AltName="Trace SFX ID [7]" Wiki="Sword Flash SfxID_7 (-1 invalid)" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
     <traceDmyIdHead7 AltName="Trace SFX ID [7] - Head Dummy Poly" Wiki="Sword Flash Root Damipoli ID_7 (-1 invalid)" />
     <traceDmyIdTail7 AltName="Trace SFX ID [7] - Tail Dummy Poly" Wiki="Sword Flash Sword Tip Damipoli ID_7" />
     <hit4_Radius AltName="Hit 4: Radius" Wiki="Sphere, capsule radius" />
@@ -471,7 +471,7 @@
     <atkBehaviorId_2 AltName="Attack Behavior ID [2]" Wiki="Behavior identification value: Plays damage motion only at specific times" Enum="ATKPARAM_BEHAVIOR_ID" />
     <throwDamageAttribute AltName="Throw Damage Attribute" Wiki="Attribute of throw damage of attack judgment. Corresponding special effects will be applied. It works only when the attack ATK_PATAM_THROWFLAG_TYPE is 2: Throw." Enum="ATKPARAM_THROWATTR_TYPE" />
     <statusAilmentAtkPowerCorrectRate_byPoint AltName="Status Ailment Correction - By Point" Wiki="Magnification correction is performed for the special effect Whether to apply the abnormal state attack power magnification correction." />
-    <overwriteAttackElementCorrectId AltName="Attack Element Correct ID" Wiki="For overwriting the ID of the parameter that corrects the attack attribute" />
+    <overwriteAttackElementCorrectId AltName="Attack Element Correct ID" Wiki="For overwriting the ID of the parameter that corrects the attack attribute" Refs="AttackElementCorrectParam" />
     <decalBaseId1 AltName="Decal Base ID [1]" Wiki="Decal identifier 1 (3 digits)" />
     <decalBaseId2 AltName="Decal Base ID [2]" Wiki="Decal identifier 2 (3 digits)" />
     <wepRegainHpScale AltName="Weapon HP Regain Amount Scale" Wiki="Weapon regain amount correction value" />
@@ -483,7 +483,7 @@
     <parryForwardOffset AltName="Parry Forward Offset" Wiki="Front angle offset of [collapsed side] of parry establishment condition" />
     <atkSuperArmorCorrection AltName="Attack Correction: Poise" Wiki="PC only. Correction value to be applied to the [basic value] set for the weapon" />
     <defSfxMaterialVariationValue AltName="Defence SFX Material Variation Offset" Wiki="A value to have variations of damage SFX and SE in combination with defense material 1 or 2 used when guarding. (SEQ16473)" />
-    <finalDamageRateId Refs="FinalDamageRateParam" />
+    <finalDamageRateId AltName="Final Damage % ID" Refs="FinalDamageRateParam" />
     <pad4 AltName=""/>
   </Field>
   <Self Wiki="Governs hitboxes and damage of attacks" AlternativeOrder="

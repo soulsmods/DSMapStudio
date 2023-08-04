@@ -12,9 +12,9 @@
     <weapon_y_orientation AltName="Weapon Y Orientation" />
     <self_pushback_1 AltName="Self Pushback 1" />
     <self_pushback_2 AltName="Self Pushback 2" />
-    <damage_ctrl_id_1 AltName="Damage Ctrl ID 1" Refs="DamageCtrlParam" />
-    <damage_ctrl_id_2 AltName="Damage Ctrl ID 2" Refs="DamageCtrlParam" />
-    <damage_ctrl_id_3 AltName="Damage Ctrl ID 3" Refs="DamageCtrlParam" />
+    <damage_param_id_1 AltName="Damage Param ID 1" Refs="PlayerDamageParam" />
+    <damage_param_id_2 AltName="Damage Param ID 2" Refs="PlayerDamageParam" />
+    <damage_param_id_3 AltName="Damage Param ID 3" Refs="PlayerDamageParam" />
     <bullet_on_swing_end_1_1 AltName="Swing 1 - Bullet on Swing End [1]" Refs="BulletParam,EnemyBulletParam,SpellParam" />
     <bullet_on_swing_end_1_2 AltName="Swing 1 - Bullet on Swing End [2]" Refs="BulletParam,EnemyBulletParam,SpellParam" />
     <bullet_on_swing_end_2_1 AltName="Swing 2 - Bullet on Swing End [1]" Refs="BulletParam,EnemyBulletParam,SpellParam" />

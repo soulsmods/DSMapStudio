@@ -7,15 +7,23 @@ using System.Reflection;
 using System.Xml.Serialization;
 using System.Threading.Tasks;
 using System.Numerics;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using FSParam;
 using StudioCore.Resource;
 using SoulsFormats;
-using Newtonsoft.Json;
 using StudioCore.Scene;
 using StudioCore.Editor;
 
 namespace StudioCore.MsbEditor
 {
+    [JsonSourceGenerationOptions(WriteIndented = true, 
+        GenerationMode = JsonSourceGenerationMode.Metadata, IncludeFields = true)]
+    [JsonSerializable(typeof(List<BTL.Light>))]
+    internal partial class BtlLightSerializerContext : JsonSerializerContext
+    {
+    }
+    
     /// <summary>
     /// A universe is a collection of loaded maps with methods to load, serialize,
     /// and unload individual maps.
@@ -23,7 +31,7 @@ namespace StudioCore.MsbEditor
     public class Universe
     {
 
-        public Exception LoadMapExceptions = null;
+        public System.Runtime.ExceptionServices.ExceptionDispatchInfo LoadMapExceptions = null;
         public Dictionary<string, ObjectContainer> LoadedObjectContainers { get; private set; } = new Dictionary<string, ObjectContainer>();
         private AssetLocator _assetLocator;
         private Scene.RenderScene _renderScene;
@@ -48,6 +56,19 @@ namespace StudioCore.MsbEditor
                 }
             }
             return null;
+        }
+
+        public int GetLoadedMapCount()
+        {
+            int i = 0;
+            foreach (var map in LoadedObjectContainers)
+            {
+                if (map.Value != null)
+                {
+                    i++;  
+                }
+            }
+            return i;
         }
 
         public GameType GameType => _assetLocator.Type;
@@ -128,7 +149,7 @@ namespace StudioCore.MsbEditor
 
         public RenderableProxy GetRegionDrawable(Map map, Entity obj)
         {
-            if (obj.WrappedObject is IMsbRegion r && r.Shape is MSB.Shape.Box b)
+            if (obj.WrappedObject is IMsbRegion r && r.Shape is MSB.Shape.Box )
             {
                 var mesh = DebugPrimitiveRenderableProxy.GetBoxRegionProxy(_renderScene);
                 mesh.World = obj.GetWorldMatrix();
@@ -160,7 +181,32 @@ namespace StudioCore.MsbEditor
                 mesh.DrawFilter = RenderFilter.Region;
                 return mesh;
             }
-            return null;
+            else if (obj.WrappedObject is IMsbRegion r5 && r5.Shape is MSB.Shape.Composite co)
+            {
+                // Not fully implemented. Temporarily uses point region marker.
+                var mesh = DebugPrimitiveRenderableProxy.GetPointRegionProxy(_renderScene);
+                mesh.World = obj.GetWorldMatrix();
+                mesh.SetSelectable(obj);
+                mesh.DrawFilter = RenderFilter.Region;
+                return mesh;
+            }
+            else if (obj.WrappedObject is IMsbRegion r6 && r6.Shape is MSB.Shape.Rectangle re)
+            {
+                var mesh = DebugPrimitiveRenderableProxy.GetBoxRegionProxy(_renderScene);
+                mesh.World = obj.GetWorldMatrix();
+                mesh.SetSelectable(obj);
+                mesh.DrawFilter = RenderFilter.Region;
+                return mesh;
+            }
+            else if (obj.WrappedObject is IMsbRegion r7 && r7.Shape is MSB.Shape.Circle ci)
+            {
+                var mesh = DebugPrimitiveRenderableProxy.GetCylinderRegionProxy(_renderScene);
+                mesh.World = obj.GetWorldMatrix();
+                mesh.SetSelectable(obj);
+                mesh.DrawFilter = RenderFilter.Region;
+                return mesh;
+            }
+            throw new NotSupportedException($"No region model proxy was specified for {obj.WrappedObject.GetType()}");
         }
 
         public RenderableProxy GetLightDrawable(Map map, Entity obj)
@@ -201,6 +247,7 @@ namespace StudioCore.MsbEditor
             var mesh = DebugPrimitiveRenderableProxy.GetBoxRegionProxy(_renderScene);
             mesh.World = obj.GetWorldMatrix();
             obj.RenderSceneMesh = mesh;
+            mesh.DrawFilter = RenderFilter.Region;
             mesh.SetSelectable(obj);
             return mesh;
         }
@@ -237,7 +284,12 @@ namespace StudioCore.MsbEditor
             bool loadflver = false;
             Scene.RenderFilter filt = Scene.RenderFilter.All;
             var amapid = _assetLocator.GetAssetMapID(map.Name);
-
+            // Special case for chalice dungeon assets
+            if (map.Name.StartsWith("m29"))
+            {
+                amapid = "m29_00_00_00";
+            }
+            }
             var job = ResourceManager.CreateNewJob($@"Loading mesh");
             if (modelname.ToLower().StartsWith("m"))
             {
@@ -393,13 +445,6 @@ namespace StudioCore.MsbEditor
                     row.Name = "generator_" + row.ID.ToString();
                 }
 
-                // Offset the generators by the map offset
-                row.GetCellHandleOrThrow("PositionX").SetValue(
-                    (float)row.GetCellHandleOrThrow("PositionX").Value + map.MapOffset.Position.X);
-                row.GetCellHandleOrThrow("PositionY").SetValue(
-                    (float)row.GetCellHandleOrThrow("PositionY").Value + map.MapOffset.Position.Y);
-                row.GetCellHandleOrThrow("PositionZ").SetValue(
-                    (float)row.GetCellHandleOrThrow("PositionZ").Value + map.MapOffset.Position.Z);
                 
                 var mergedRow = new MergedParamRow();
                 mergedRow.AddRow("generator-loc", row);
@@ -408,6 +453,7 @@ namespace StudioCore.MsbEditor
                 var obj = new MapEntity(map, mergedRow, MapEntity.MapEntityType.DS2Generator);
                 generatorObjs.Add(row.ID, obj);
                 map.AddObject(obj);
+                map.MapOffsetNode.AddChild(obj);
             }
 
             var chrsToLoad = new HashSet<AssetDescription>();
@@ -473,22 +519,16 @@ namespace StudioCore.MsbEditor
                     row.Name = "eventloc_" + row.ID.ToString();
                 }
                 eventLocationParams.Add(row.ID, row);
-
-                // Offset the generators by the map offset
-                row.GetCellHandleOrThrow("PositionX").SetValue(
-                    (float)row.GetCellHandleOrThrow("PositionX").Value + map.MapOffset.Position.X);
-                row.GetCellHandleOrThrow("PositionY").SetValue(
-                    (float)row.GetCellHandleOrThrow("PositionY").Value + map.MapOffset.Position.Y);
-                row.GetCellHandleOrThrow("PositionZ").SetValue(
-                    (float)row.GetCellHandleOrThrow("PositionZ").Value + map.MapOffset.Position.Z);
-
+                
                 var obj = new MapEntity(map, row, MapEntity.MapEntityType.DS2EventLocation);
                 map.AddObject(obj);
+                map.MapOffsetNode.AddChild(obj);
 
                 // Try rendering as a box for now
                 var mesh = DebugPrimitiveRenderableProxy.GetBoxRegionProxy(_renderScene);
                 mesh.World = obj.GetLocalTransform().WorldMatrix;
                 obj.RenderSceneMesh = mesh;
+                mesh.DrawFilter = RenderFilter.Region;
                 mesh.SetSelectable(obj);
             }
 
@@ -529,13 +569,24 @@ namespace StudioCore.MsbEditor
             }
         }
 
+        public void LoadRelatedMaps(string mapid, Dictionary<string, ObjectContainer> maps)
+        {
+            var relatedMaps = SpecialMapConnections.GetRelatedMaps(GameType.EldenRing, mapid, maps.Keys);
+            foreach (var map in relatedMaps)
+            {
+                LoadMap(map.Key);
+            }
+            return;
+        }
+
         public bool LoadMap(string mapid, bool selectOnLoad = false)
         {
             if (_assetLocator.Type == GameType.DarkSoulsIISOTFS
                 && ParamEditor.ParamBank.VanillaBank.Params == null)
             {
                 // ParamBank must be loaded for DS2 maps
-                TaskManager.warningList.TryAdd("ds2-mapload-noparams", "DS2 maps cannot be loaded until params are loaded.");
+                TaskLogs.AddLog("Cannot load DS2 maps until params finish loading",
+                    Microsoft.Extensions.Logging.LogLevel.Warning);
                 return false;
             }
 
@@ -546,7 +597,6 @@ namespace StudioCore.MsbEditor
             }
             LoadMapAsync(mapid, selectOnLoad);
             return true;
-
         }
 
         public BTL ReturnBTL(AssetDescription ad)
@@ -574,7 +624,8 @@ namespace StudioCore.MsbEditor
             }
             catch (InvalidDataException)
             {
-                TaskManager.warningList.TryAdd($"{ad.AssetName} load", $"Failed to load {ad.AssetName}");
+                TaskLogs.AddLog($"Failed to load {ad.AssetName}",
+                    Microsoft.Extensions.Logging.LogLevel.Error);
                 return null;
             }
         }
@@ -897,17 +948,17 @@ namespace StudioCore.MsbEditor
                 }
                 // Check for duplicate EntityIDs
                 CheckDupeEntityIDs(map);
-
-                return;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                // Store async exception so it can be caught by crash handler.
 #if DEBUG
+                TaskLogs.AddLog($"Map Load Failed (debug build): {e}",
+                    Microsoft.Extensions.Logging.LogLevel.Error,
+                    TaskLogs.LogPriority.High);
                 throw;
 #else
-                LoadMapExceptions = e;
-                return;
+                // Store async exception so it can be caught by crash handler.
+                LoadMapExceptions = System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(e);
 #endif
             }
         }
@@ -951,9 +1002,8 @@ namespace StudioCore.MsbEditor
                             var entryExists = entityIDList.TryGetValue(entityID, out string name);
                             if (entryExists)
                             {
-                                var key = $"{obj.Name} Dupe EntityID";
-                                var value = $"Duplicate EntityID: `{entityID}` is being used by multiple regions; `{obj.PrettyName}` and `{name}`";
-                                TaskManager.warningList.TryAdd(key, value);
+                                TaskLogs.AddLog($"Duplicate EntityID: \"{entityID}\" is being used by multiple regions \"{obj.PrettyName}\" and \"{name}\"",
+                                    Microsoft.Extensions.Logging.LogLevel.Warning);
                             }
                             else
                             {
@@ -1207,7 +1257,8 @@ namespace StudioCore.MsbEditor
                         var newLights = map.SerializeBtlLights(BTLs_w[i].AssetName);
 
                         // Only save BTL if it has been modified
-                        if (JsonConvert.SerializeObject(btl.Lights) != JsonConvert.SerializeObject(newLights))
+                        if (JsonSerializer.Serialize(btl.Lights, BtlLightSerializerContext.Default.ListLight) != 
+                            JsonSerializer.Serialize(newLights, BtlLightSerializerContext.Default.ListLight))
                         {
                             btl.Lights = newLights;
                             file.Bytes = btl.Write(DCX.Type.DCX_DFLT_10000_24_9);
@@ -1240,7 +1291,8 @@ namespace StudioCore.MsbEditor
                         var newLights = map.SerializeBtlLights(BTLs_w[i].AssetName);
 
                         // Only save BTL if it has been modified
-                        if (JsonConvert.SerializeObject(btl.Lights) != JsonConvert.SerializeObject(newLights))
+                        if (JsonSerializer.Serialize(btl.Lights, BtlLightSerializerContext.Default.ListLight) != 
+                            JsonSerializer.Serialize(newLights, BtlLightSerializerContext.Default.ListLight))
                         {
                             btl.Lights = newLights;
                             try
@@ -1344,7 +1396,7 @@ namespace StudioCore.MsbEditor
                 {
                     File.Delete(mapPath + ".temp");
                 }
-                
+
                 msb.Write(mapPath + ".temp", compressionType);
 
                 // Make a copy of the previous map
@@ -1368,6 +1420,7 @@ namespace StudioCore.MsbEditor
 
                 CheckDupeEntityIDs(map);
                 map.HasUnsavedChanges = false;
+                TaskLogs.AddLog($"Saved map {map.Name}");
             }
             catch (Exception e)
             {

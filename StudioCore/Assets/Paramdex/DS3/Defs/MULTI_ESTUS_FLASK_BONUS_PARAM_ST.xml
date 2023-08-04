@@ -6,25 +6,22 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="u8 estusFlaskRestoreCount0" />
-    <Field Def="u8 estusFlaskRestoreCount1 = 1" />
-    <Field Def="u8 estusFlaskRestoreCount2 = 1" />
-    <Field Def="u8 estusFlaskRestoreCount3 = 1" />
-    <Field Def="u8 estusFlaskRestoreCount4 = 1" />
-    <Field Def="u8 estusFlaskRestoreCount5 = 1" />
-    <Field Def="u8 estusFlaskRestoreCount6 = 1" />
-    <Field Def="u8 estusFlaskRestoreCount7 = 1" />
-    <Field Def="u8 estusFlaskRestoreCount8 = 1" />
-    <Field Def="u8 estusFlaskRestoreCount9 = 1" />
-    <Field Def="u8 estusFlaskRestoreCount10" />
-    <Field Def="u8 estusFlaskRestoreCount11" />
-    <Field Def="u8 estusFlaskRestoreCount12 = 1" />
-    <Field Def="u8 estusFlaskRestoreCount13 = 1" />
-    <Field Def="u8 estusFlaskRestoreCount14" />
-    <Field Def="u8 estusFlaskRestoreCount15" />
-    <Field Def="u8 estusFlaskRestoreCount16" />
-    <Field Def="u8 estusFlaskRestoreCount17" />
-    <Field Def="u8 estusFlaskRestoreCount18" />
-    <Field Def="u8 estusFlaskRestoreCount19" />
+    <Field Def="u8 host" />
+    <Field Def="u8 WhiteGhost_None = 1" />
+    <Field Def="u8 WhiteGhost_Umbasa = 1" />
+    <Field Def="u8 WhiteGhost_Berserker = 1" />
+    <Field Def="u8 BlackGhost_None_Sign = 1" />
+    <Field Def="u8 BlackGhost_Umbasa_Sign = 1" />
+    <Field Def="u8 BlackGhost_Berserker_Sign = 1" />
+    <Field Def="u8 BlackGhost_None_Invade = 1" />
+    <Field Def="u8 BlackGhost_Umbasa_Invade = 1" />
+    <Field Def="u8 BlackGhost_Berserker_Invade = 1" />
+    <Field Def="u8 RedHunter1" />
+    <Field Def="u8 RedHunter2" />
+    <Field Def="u8 GuardianOfForest = 1" />
+    <Field Def="u8 GuardianOfAnor = 1" />
+    <Field Def="u8 BattleRoyal" />
+    <Field Def="u8 YellowMonk" />
+    <Field Def="dummy8 pad4[4]" />
   </Fields>
 </PARAMDEF>

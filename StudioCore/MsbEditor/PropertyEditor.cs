@@ -30,8 +30,12 @@ namespace StudioCore.MsbEditor
             ContextActionManager = manager;
         }
 
-        private bool PropertyRow(Type typ, object oldval, out object newval, Entity obj, PropertyInfo prop)
+        private (bool, bool) PropertyRow(Type typ, object oldval, out object newval, PropertyInfo prop)
         {
+            ImGui.SetNextItemWidth(-1);
+
+            newval = null;
+            bool isChanged = false;
             if (typ == typeof(long))
             {
                 long val = (long)oldval;
@@ -42,7 +46,7 @@ namespace StudioCore.MsbEditor
                     if (res)
                     {
                         newval = val;
-                        return true;
+                        isChanged = true;
                     }
                 }
             }
@@ -52,7 +56,7 @@ namespace StudioCore.MsbEditor
                 if (ImGui.InputInt("##value", ref val))
                 {
                     newval = val;
-                    return true;
+                    isChanged = true;
                 }
             }
             else if (typ == typeof(uint))
@@ -65,7 +69,7 @@ namespace StudioCore.MsbEditor
                     if (res)
                     {
                         newval = val;
-                        return true;
+                        isChanged = true;
                     }
                 }
             }
@@ -75,7 +79,7 @@ namespace StudioCore.MsbEditor
                 if (ImGui.InputInt("##value", ref val))
                 {
                     newval = (short)val;
-                    return true;
+                    isChanged = true;
                 }
             }
             else if (typ == typeof(ushort))
@@ -88,7 +92,7 @@ namespace StudioCore.MsbEditor
                     if (res)
                     {
                         newval = val;
-                        return true;
+                        isChanged = true;
                     }
                 }
             }
@@ -98,7 +102,7 @@ namespace StudioCore.MsbEditor
                 if (ImGui.InputInt("##value", ref val))
                 {
                     newval = (sbyte)val;
-                    return true;
+                    isChanged = true;
                 }
             }
             else if (typ == typeof(byte))
@@ -111,7 +115,7 @@ namespace StudioCore.MsbEditor
                     if (res)
                     {
                         newval = val;
-                        return true;
+                        isChanged = true;
                     }
                 }
                 /*
@@ -124,7 +128,7 @@ namespace StudioCore.MsbEditor
                         newval = obj.Container.GetNextUnique(propname, val);
                         _forceCommit = true;
                         ImGui.EndPopup();
-                        return true;
+                        edited = true;
                     }
                     ImGui.EndPopup();
                 }
@@ -136,7 +140,7 @@ namespace StudioCore.MsbEditor
                 if (ImGui.Checkbox("##value", ref val))
                 {
                     newval = val;
-                    return true;
+                    isChanged = true;
                 }
             }
             else if (typ == typeof(float))
@@ -145,7 +149,7 @@ namespace StudioCore.MsbEditor
                 if (ImGui.DragFloat("##value", ref val, 0.1f))
                 {
                     newval = val;
-                    return true;
+                    isChanged = true;
                 }
             }
             else if (typ == typeof(string))
@@ -158,7 +162,7 @@ namespace StudioCore.MsbEditor
                 if (ImGui.InputText("##value", ref val, 99))
                 {
                     newval = val;
-                    return true;
+                    isChanged = true;
                 }
             }
             else if (typ == typeof(Vector2))
@@ -167,7 +171,7 @@ namespace StudioCore.MsbEditor
                 if (ImGui.DragFloat2("##value", ref val, 0.1f))
                 {
                     newval = val;
-                    return true;
+                    isChanged = true;
                 }
             }
             else if (typ == typeof(Vector3))
@@ -176,7 +180,7 @@ namespace StudioCore.MsbEditor
                 if (ImGui.DragFloat3("##value", ref val, 0.1f))
                 {
                     newval = val;
-                    return true;
+                    isChanged = true;
                 }
             }
             else if (typ.BaseType == typeof(Enum))
@@ -193,7 +197,7 @@ namespace StudioCore.MsbEditor
                     if (EnumEditor(enumVals, enumNames, oldval, out object val, intVals))
                     {
                         newval = val;
-                        return true;
+                        isChanged = true;
                     }
                 }
                 else if (typ.GetEnumUnderlyingType() == typeof(int))
@@ -204,7 +208,7 @@ namespace StudioCore.MsbEditor
                     if (EnumEditor(enumVals, enumNames, oldval, out object val, intVals))
                     {
                         newval = val;
-                        return true;
+                        isChanged = true;
                     }
                 }
                 else if (typ.GetEnumUnderlyingType() == typeof(uint))
@@ -215,7 +219,7 @@ namespace StudioCore.MsbEditor
                     if (EnumEditor(enumVals, enumNames, oldval, out object val, intVals))
                     {
                         newval = val;
-                        return true;
+                        isChanged = true;
                     }
                 }
                 else
@@ -225,7 +229,7 @@ namespace StudioCore.MsbEditor
             }
             else if (typ == typeof(Color))
             {
-                var att = prop.GetCustomAttribute<SupportsAlphaAttribute>();
+                var att = prop?.GetCustomAttribute<SupportsAlphaAttribute>();
                 if (att != null)
                 {
                     if (att.Supports == false)
@@ -236,7 +240,7 @@ namespace StudioCore.MsbEditor
                         {
                             Color newColor = Color.FromArgb((int)(val.X * 255.0f), (int)(val.Y * 255.0f), (int)(val.Z * 255.0f));
                             newval = newColor;
-                            return true;
+                            isChanged = true;
                         }
                     }
                     else
@@ -247,23 +251,24 @@ namespace StudioCore.MsbEditor
                         {
                             Color newColor = Color.FromArgb((int)(val.W * 255.0f), (int)(val.X * 255.0f), (int)(val.Y * 255.0f), (int)(val.Z * 255.0f));
                             newval = newColor;
-                            return true;
+                            isChanged = true;
                         }
                     }
                 }
                 else
                 {
                     // SoulsFormats does not define if alpha should be exposed. Expose alpha by default.
-#if DEBUG
-                    TaskManager.warningList.TryAdd($"{prop.DeclaringType} NullAlphaAttribute", $"Color property in `{prop.DeclaringType}` does not declare if it supports Alpha. Alpha will be exposed by default.");
-#endif
+                    TaskLogs.AddLog($"Color property in \"{prop.DeclaringType}\" does not declare if it supports Alpha. Alpha will be exposed by default",
+                        Microsoft.Extensions.Logging.LogLevel.Warning,
+                        TaskLogs.LogPriority.Low);
+
                     var color = (Color)oldval;
                     Vector4 val = new(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f);
                     if (ImGui.ColorEdit4("##value", ref val))
                     {
                         Color newColor = Color.FromArgb((int)(val.W * 255.0f), (int)(val.X * 255.0f), (int)(val.Y * 255.0f), (int)(val.Z * 255.0f));
                         newval = newColor;
-                        return true;
+                        isChanged = true;
                     }
                 }
             }
@@ -271,9 +276,25 @@ namespace StudioCore.MsbEditor
             {
                 ImGui.Text("ImplementMe");
             }
+            bool isDeactivatedAfterEdit = ImGui.IsItemDeactivatedAfterEdit() || !ImGui.IsAnyItemActive();
 
-            newval = null;
-            return false;
+            // Tooltip
+            if (ImGui.IsItemHovered(ImGuiHoveredFlags.DelayNormal | ImGuiHoveredFlags.NoSharedDelay))
+            {
+                string str = $"Value Type: {typ.Name}";
+                if (typ.IsValueType)
+                {
+                    var min = typ.GetField("MinValue")?.GetValue(typ);
+                    var max = typ.GetField("MaxValue")?.GetValue(typ);
+                    if (min != null & max != null)
+                    {
+                        str += $" (Min {min}, Max {max})";
+                    }
+                }
+                ImGui.SetTooltip(str);
+            }
+
+            return (isChanged, isDeactivatedAfterEdit);
         }
 
 
@@ -385,12 +406,17 @@ namespace StudioCore.MsbEditor
         }
 
 
+        /// <summary>
+        /// Handles changing a property's value for any number of entities.
+        /// </summary>
+        /// <param name="arrayindex">Index of the targeted value in an array of values.</param>
+        /// <param name="classIndex">Index of the targeted class in an array of classes.</param>
         private void UpdateProperty(object prop, HashSet<Entity> selection, object newval,
-            bool changed, bool committed, int arrayindex = -1)
+            bool changed, bool committed, int arrayindex, int classIndex)
         {
             if (changed)
             {
-                ChangePropertyMultiple(prop, selection, newval, ref committed, arrayindex);
+                ChangePropertyMultiple(prop, selection, newval, ref committed, arrayindex, classIndex);
             }
             if (committed)
             {
@@ -408,7 +434,13 @@ namespace StudioCore.MsbEditor
                 }
             }
         }
-        private void ChangePropertyMultiple(object prop, HashSet<Entity> ents, object newval, ref bool committed, int arrayindex = -1)
+
+        /// <summary>
+        /// Change a property's value for any number of entities.
+        /// </summary>
+        /// <param name="arrayindex">Index of the targeted value in an array of values.</param>
+        /// <param name="classIndex">Index of the targeted class in an array of classes.</param>
+        private void ChangePropertyMultiple(object prop, HashSet<Entity> ents, object newval, ref bool committed, int arrayindex = -1, int classIndex = -1)
         {
             if (prop == _changingPropery && _lastUncommittedAction != null && ContextActionManager.PeekUndoAction() == _lastUncommittedAction)
             {
@@ -428,7 +460,7 @@ namespace StudioCore.MsbEditor
                 }
 
             }
-            action = new MultipleEntityPropertyChangeAction((PropertyInfo)prop, ents, newval, arrayindex);
+            action = new MultipleEntityPropertyChangeAction((PropertyInfo)prop, ents, newval, arrayindex, classIndex);
             ContextActionManager.ExecuteAction(action);
 
             _lastUncommittedAction = action;
@@ -441,7 +473,7 @@ namespace StudioCore.MsbEditor
             IReadOnlyList<Param.Cell> cells = new List<Param.Cell>();
             if (selection.WrappedObject is Param.Row row)
             {
-                cells = row.CellHandles;
+                cells = row.Cells;
 
             }
             else if (selection.WrappedObject is MergedParamRow mrow)
@@ -479,7 +511,7 @@ namespace StudioCore.MsbEditor
             PropEditorPropInfoRow(row, idProp, "ID", ref id, null);
             ImGui.PopStyleColor();
 
-            foreach (var cell in row.Cells)
+            foreach (var cell in row.Columns)
             {
                 PropEditorPropCellRow(row[cell], ref id, null);
             }
@@ -504,9 +536,10 @@ namespace StudioCore.MsbEditor
             ImGui.SetNextItemWidth(-1);
 
             object newval;
-            bool changed = PropertyRow(propType, oldval, out newval, nullableEntity, proprow);
-            bool committed = ImGui.IsItemDeactivatedAfterEdit();
-            //bool committed = ImGui.IsItemDeactivatedAfterEdit() || !ImGui.IsAnyItemActive();
+            // Property Editor UI
+            (bool, bool) propEditResults = PropertyRow(propType, oldval, out newval, proprow);
+            bool changed = propEditResults.Item1;
+            bool committed = propEditResults.Item2;
             UpdateProperty(proprow, nullableSelection, paramRowOrCell, newval, changed, committed);
             ImGui.NextColumn();
             ImGui.PopID();
@@ -525,19 +558,23 @@ namespace StudioCore.MsbEditor
                 ImGui.EndPopup();
             }
         }
-        private bool ParamRefRow(PropertyInfo propinfo, object oldval, ref object newObj)
+        private bool ParamRefRow(PropertyInfo propinfo, object val, ref object newObj)
         {
-            var att = propinfo.GetCustomAttribute<MSBParamReference>();
-            if (att != null)
+            List<MSBParamReference> attributes = propinfo.GetCustomAttributes<MSBParamReference>().ToList();
+            if (attributes.Any())
             {
-                ImGui.NextColumn();
                 List<ParamEditor.ParamRef> refs = new List<ParamEditor.ParamRef>();
-                refs.Add(new ParamEditor.ParamRef(att.ParamName));
+                foreach (var att in attributes)
+                {
+                    refs.Add(new ParamEditor.ParamRef(att.ParamName));
+                }
+                ImGui.NextColumn();
+                    
                 Editor.EditorDecorations.ParamRefText(refs, null);
                 ImGui.NextColumn();
-                var id = oldval; //oldval cannot always be casted to int
-                Editor.EditorDecorations.ParamRefsSelectables(ParamEditor.ParamBank.PrimaryBank, refs, null, id);
-                return Editor.EditorDecorations.ParamRefEnumContextMenu(ParamEditor.ParamBank.PrimaryBank, id, ref newObj, refs, null, null, null);
+                Editor.EditorDecorations.ParamRefsSelectables(ParamEditor.ParamBank.PrimaryBank, refs, null, val);
+                var opened = Editor.EditorDecorations.ParamRefEnumContextMenu(ParamEditor.ParamBank.PrimaryBank, val, ref newObj, refs, null, null, null, null);
+                return opened;
             }
             return false;
         }
@@ -560,6 +597,8 @@ namespace StudioCore.MsbEditor
             Cylinder,
             Box,
             Composite,
+            Rectangle,
+            Circle,
         }
 
         private string[] _regionShapes =
@@ -569,6 +608,8 @@ namespace StudioCore.MsbEditor
             "Cylinder",
             "Box",
             "Composite",
+            "Rectangle",
+            "Circle",
         };
 
         internal enum LightType
@@ -585,9 +626,9 @@ namespace StudioCore.MsbEditor
             "Point",
         };
 
-        private void PropEditorGeneric(Selection selection, HashSet<Entity> entSelection, object target = null, bool decorate = true)
+        private void PropEditorGeneric(Selection selection, HashSet<Entity> entSelection, object target = null, bool decorate = true, int classIndex = -1)
         {
-            float scale = ImGuiRenderer.GetUIScale();
+            float scale = MapStudioNew.GetUIScale();
             var firstEnt = entSelection.First();
             var obj = (target == null) ? firstEnt.WrappedObject : target;
             var type = obj.GetType();
@@ -654,7 +695,7 @@ namespace StudioCore.MsbEditor
                                 ImGui.NextColumn();
                                 if (open)
                                 {
-                                    PropEditorGeneric(selection, entSelection, o, false);
+                                    PropEditorGeneric(selection, entSelection, o, false, i);
                                     ImGui.TreePop();
                                 }
                                 ImGui.PopID();
@@ -665,22 +706,23 @@ namespace StudioCore.MsbEditor
                                 ImGui.NextColumn();
                                 ImGui.SetNextItemWidth(-1);
                                 var oldval = a.GetValue(i);
-                                bool changed = false;
                                 object newval = null;
 
-                                changed = PropertyRow(typ.GetElementType(), oldval, out newval, null, prop);
+                                // Property Editor UI
+                                (bool, bool) propEditResults = PropertyRow(typ.GetElementType(), oldval, out newval, prop);
+                                bool changed = propEditResults.Item1;
+                                bool committed = propEditResults.Item2;
                                 PropertyContextMenu(obj, prop);
                                 if (ImGui.IsItemActive() && !ImGui.IsWindowFocused())
                                 {
                                     ImGui.SetItemDefaultFocus();
                                 }
-                                bool committed = ImGui.IsItemDeactivatedAfterEdit() || !ImGui.IsAnyItemActive();
                                 if (ParamRefRow(prop, oldval, ref newval))
                                 {
                                     changed = true;
                                     committed = true;
                                 }
-                                UpdateProperty(prop, entSelection, newval, changed, committed, i);
+                                UpdateProperty(prop, entSelection, newval, changed, committed, i, classIndex);
 
                                 ImGui.NextColumn();
                                 ImGui.PopID();
@@ -719,22 +761,23 @@ namespace StudioCore.MsbEditor
                                 ImGui.NextColumn();
                                 ImGui.SetNextItemWidth(-1);
                                 var oldval = itemprop.GetValue(l, new object[] { i });
-                                bool changed = false;
                                 object newval = null;
 
-                                changed = PropertyRow(arrtyp, oldval, out newval, null, prop);
+                                // Property Editor UI
+                                (bool, bool) propEditResults = PropertyRow(arrtyp, oldval, out newval, prop);
+                                bool changed = propEditResults.Item1;
+                                bool committed = propEditResults.Item2;
                                 PropertyContextMenu(obj, prop);
                                 if (ImGui.IsItemActive() && !ImGui.IsWindowFocused())
                                 {
                                     ImGui.SetItemDefaultFocus();
                                 }
-                                bool committed = ImGui.IsItemDeactivatedAfterEdit() || !ImGui.IsAnyItemActive();
                                 if (ParamRefRow(prop, oldval, ref newval))
                                 {
                                     changed = true;
                                     committed = true;
                                 }
-                                UpdateProperty(prop, entSelection, newval, changed, committed, i);
+                                UpdateProperty(prop, entSelection, newval, changed, committed, i, classIndex);
 
                                 ImGui.NextColumn();
                                 ImGui.PopID();
@@ -742,7 +785,6 @@ namespace StudioCore.MsbEditor
                         }
                         ImGui.PopID();
                     }
-                    // TODO: find a better place to handle this special case (maybe)
                     else if (typ.IsClass && typ == typeof(MSB.Shape))
                     {
                         bool open = ImGui.TreeNodeEx(prop.Name, ImGuiTreeNodeFlags.DefaultOpen);
@@ -773,6 +815,12 @@ namespace StudioCore.MsbEditor
                                         break;
                                     case RegionShape.Composite:
                                         newshape = new MSB.Shape.Composite();
+                                        break;
+                                    case RegionShape.Rectangle:
+                                        newshape = new MSB.Shape.Rectangle();
+                                        break;
+                                    case RegionShape.Circle:
+                                        newshape = new MSB.Shape.Circle();
                                         break;
                                     default:
                                         throw new Exception("Invalid shape");
@@ -874,23 +922,23 @@ namespace StudioCore.MsbEditor
                         ImGui.NextColumn();
                         ImGui.SetNextItemWidth(-1);
                         var oldval = prop.GetValue(obj);
-                        bool changed = false;
                         object newval = null;
 
-                        changed = PropertyRow(typ, oldval, out newval, firstEnt, prop);
-
+                        // Property Editor UI
+                        (bool, bool) propEditResults = PropertyRow(typ, oldval, out newval, prop);
+                        bool changed = propEditResults.Item1;
+                        bool committed = propEditResults.Item2;
                         PropertyContextMenu(obj, prop);
                         if (ImGui.IsItemActive() && !ImGui.IsWindowFocused())
                         {
                             ImGui.SetItemDefaultFocus();
                         }
-                        bool committed = ImGui.IsItemDeactivatedAfterEdit() || !ImGui.IsAnyItemActive();
                         if (ParamRefRow(prop, oldval, ref newval))
                         {
                             changed = true;
                             committed = true;
                         }
-                        UpdateProperty(prop, entSelection, newval, changed, committed);
+                        UpdateProperty(prop, entSelection, newval, changed, committed, -1, classIndex);
 
                         ImGui.NextColumn();
                         ImGui.PopID();
@@ -987,7 +1035,7 @@ namespace StudioCore.MsbEditor
 
         public void OnGui(Selection selection, string id, float w, float h)
         {
-            float scale = ImGuiRenderer.GetUIScale();
+            float scale = MapStudioNew.GetUIScale();
             var entSelection = selection.GetFilteredSelection<Entity>();
 
             ImGui.PushStyleColor(ImGuiCol.ChildBg, new Vector4(0.145f, 0.145f, 0.149f, 1.0f));
@@ -1032,6 +1080,7 @@ namespace StudioCore.MsbEditor
             else if (entSelection.Any())
             {
                 var firstEnt = entSelection.First();
+                ImGui.Text($" Map: {firstEnt.Container.Name}");
                 if (firstEnt.WrappedObject == null)
                 {
                     ImGui.Text("Select a map object to edit its properties.");

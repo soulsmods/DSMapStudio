@@ -4,7 +4,6 @@ using System.Text;
 using System.Numerics;
 using ImGuiNET;
 using StudioCore.MsbEditor;
-using Newtonsoft.Json;
 
 namespace StudioCore.Scene
 {
@@ -33,7 +32,7 @@ namespace StudioCore.Scene
 
         public void OnGui()
         {
-            float scale = ImGuiRenderer.GetUIScale();
+            float scale = MapStudioNew.GetUIScale();
 
             ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 7.0f * scale);
             ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 1.0f);
@@ -56,7 +55,6 @@ namespace StudioCore.Scene
 
                     if (validated)
                     {
-                        string json = JsonConvert.SerializeObject(_referenceEntity.WrappedObject);
                         ImGui.CloseCurrentPopup();
                     }
                 }

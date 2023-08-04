@@ -6,8 +6,8 @@ using System.Numerics;
 using System.Runtime.InteropServices;
 using ImGuiNET;
 using Veldrid;
-using System.Windows.Forms;
 using SoulsFormats;
+using StudioCore.Platform;
 
 namespace StudioCore.MsbEditor
 {
@@ -31,7 +31,7 @@ namespace StudioCore.MsbEditor
     {
         private Universe _universe;
         private ActionManager _editorActionManager;
-        private Gui.Viewport _viewport;
+        private Gui.IViewport _viewport;
         private AssetLocator _assetLocator;
         private Selection _selection;
 
@@ -41,8 +41,6 @@ namespace StudioCore.MsbEditor
 
         private string _chaliceMapID = "m29_";
         private bool _chaliceLoadError = false;
-
-        private bool _GCNeedsCollection = false;
 
         private Dictionary<string, Dictionary<MapEntity.MapEntityType, Dictionary<Type, List<MapEntity>>>> _cachedTypeView = null;
 
@@ -86,7 +84,7 @@ namespace StudioCore.MsbEditor
 
         private Configuration _configuration;
 
-        public SceneTree(Configuration configuration, SceneTreeEventHandler handler, string id, Universe universe, Selection sel, ActionManager aman, Gui.Viewport vp, AssetLocator al)
+        public SceneTree(Configuration configuration, SceneTreeEventHandler handler, string id, Universe universe, Selection sel, ActionManager aman, Gui.IViewport vp, AssetLocator al)
         {
             _handler = handler;
             _id = id;
@@ -192,7 +190,7 @@ namespace StudioCore.MsbEditor
         private ulong _mapEnt_ImGuiID = 0; // Needed to avoid issue with identical IDs during keyboard navigation. May be unecessary when ImGUI is updated.
         unsafe private void MapObjectSelectable(Entity e, bool visicon, bool hierarchial=false)
         {
-            float scale = ImGuiRenderer.GetUIScale();
+            float scale = MapStudioNew.GetUIScale();
             
             // Main selectable
             if (e is MapEntity me)
@@ -334,7 +332,7 @@ namespace StudioCore.MsbEditor
                 ImGui.SetItemAllowOverlap();
                 bool visible = e.EditorVisible;
                 ImGui.SameLine();
-                ImGui.SetCursorPosX(ImGui.GetWindowContentRegionMax().X - 18.0f * ImGuiRenderer.GetUIScale());
+                ImGui.SetCursorPosX(ImGui.GetWindowContentRegionMax().X - 18.0f * MapStudioNew.GetUIScale());
                 ImGui.PushStyleColor(ImGuiCol.Text, visible ? new Vector4(1.0f, 1.0f, 1.0f, 1.0f)
                     : new Vector4(0.6f, 0.6f, 0.6f, 1.0f));
                 ImGui.TextWrapped(visible ? ForkAwesome.Eye : ForkAwesome.EyeSlash);
@@ -379,7 +377,7 @@ namespace StudioCore.MsbEditor
                 {
                     // Select Range
                     var entList = e.Container.Objects;
-                    var i1 = entList.IndexOf((MapEntity)_selection.GetSelection().FirstOrDefault(fe => ((MapEntity)fe).Container == e.Container && fe != e.Container.RootObject));
+                    var i1 = entList.IndexOf((MapEntity)_selection.GetFilteredSelection<MapEntity>().FirstOrDefault(fe => ((MapEntity)fe).Container == e.Container && fe != e.Container.RootObject));
                     var i2 = entList.IndexOf((MapEntity)e);
 
                     if (i1 != -1 && i2 != -1)
@@ -522,7 +520,7 @@ namespace StudioCore.MsbEditor
                                             ImGui.SetItemAllowOverlap();
                                             bool visible = parent.EditorVisible;
                                             ImGui.SameLine();
-                                            ImGui.SetCursorPosX(ImGui.GetWindowContentRegionMax().X - 18.0f * ImGuiRenderer.GetUIScale());
+                                            ImGui.SetCursorPosX(ImGui.GetWindowContentRegionMax().X - 18.0f * MapStudioNew.GetUIScale());
                                             ImGui.PushStyleColor(ImGuiCol.Text, visible ? new Vector4(1.0f, 1.0f, 1.0f, 1.0f)
                                                 : new Vector4(0.6f, 0.6f, 0.6f, 1.0f));
                                             ImGui.TextWrapped(visible ? ForkAwesome.Eye : ForkAwesome.EyeSlash);
@@ -543,7 +541,7 @@ namespace StudioCore.MsbEditor
                                             ImGui.SetItemAllowOverlap();
                                             bool visible = parent.EditorVisible;
                                             ImGui.SameLine();
-                                            ImGui.SetCursorPosX(ImGui.GetWindowContentRegionMax().X - 18.0f * ImGuiRenderer.GetUIScale());
+                                            ImGui.SetCursorPosX(ImGui.GetWindowContentRegionMax().X - 18.0f * MapStudioNew.GetUIScale());
                                             ImGui.PushStyleColor(ImGuiCol.Text, visible ? new Vector4(1.0f, 1.0f, 1.0f, 1.0f)
                                                 : new Vector4(0.6f, 0.6f, 0.6f, 1.0f));
                                             ImGui.TextWrapped(visible ? ForkAwesome.Eye : ForkAwesome.EyeSlash);
@@ -581,11 +579,11 @@ namespace StudioCore.MsbEditor
             }
         }
 
-        private string  _mapNameSearchStr = "";
+        private string _mapNameSearchStr = "";
 
         public void OnGui()
         {
-            float scale = ImGuiRenderer.GetUIScale();
+            float scale = MapStudioNew.GetUIScale();
 
             ImGui.PushStyleColor(ImGuiCol.ChildBg, new Vector4(0.145f, 0.145f, 0.149f, 1.0f));
             if (_configuration == Configuration.MapEditor)
@@ -612,19 +610,33 @@ namespace StudioCore.MsbEditor
                 ImGui.PopStyleVar();
                 if (_configuration == Configuration.MapEditor)
                 {
+
+                    if (_assetLocator.Type is GameType.DarkSoulsIISOTFS)
+                    {
+                        if (ParamEditor.ParamBank.PrimaryBank.IsLoadingParams)
+                        {
+                            ImGui.NewLine();
+                            ImGui.Text("  Please wait for params to finish loading.");
+                            ImGui.End();
+                            ImGui.PopStyleColor();
+                            return;
+                        }
+                    }
+
                     ImGui.Spacing();
                     ImGui.Indent(30 * scale);
+
                     ImGui.AlignTextToFramePadding();
                     ImGui.Text("List Sorting Style:");
                     ImGui.SameLine();
                     ImGui.SetNextItemWidth(-1);
-                    
+
                     int mode = (int)_viewMode;
                     if (ImGui.Combo("##typecombo", ref mode, _viewModeStrings, _viewModeStrings.Length))
                     {
                         _viewMode = (ViewMode)mode;
                     }
-                    
+
                     ImGui.AlignTextToFramePadding();
                     ImGui.Text("Map ID Search:");
                     ImGui.SameLine();
@@ -635,9 +647,17 @@ namespace StudioCore.MsbEditor
                 }
 
                 ImGui.BeginChild("listtree");
-                Map pendingUnload = null;
                 if (_configuration == Configuration.MapEditor && _universe.LoadedObjectContainers.Count == 0)
-                    ImGui.Text("This Editor requires game to be unpacked");
+                {
+                    if (_universe.GameType == GameType.Undefined)
+                    {
+                        ImGui.Text("No project loaded. File -> New Project");
+                    }
+                    else
+                    {
+                        ImGui.Text("This Editor requires unpacked game files. Use UXM");
+                    }
+                }
 
                 var orderedMaps = _universe.LoadedObjectContainers.OrderBy(k => k.Key);
 
@@ -688,10 +708,12 @@ namespace StudioCore.MsbEditor
                     if (metaName != "")
                     {
                         ImGui.SameLine();
-                        if (metaName.StartsWith("--")) //marked as normally unused (use red text)
+                        ImGui.PushTextWrapPos();
+                        if (metaName.StartsWith("--")) // Marked as normally unused (use red text)
                             ImGui.TextColored(new Vector4(1.0f, 0.0f, 0.0f, 1.0f), @$"<{metaName.Replace("--","")}>");
                         else
                             ImGui.TextColored(new Vector4(1.0f, 1.0f, 0.0f, 1.0f), @$"<{metaName}>");
+                        ImGui.PopTextWrapPos();
                     }
                     ImGui.EndGroup();
                     if (_selection.ShouldGoto(mapRoot) || _selection.ShouldGoto(mapRef))
@@ -715,6 +737,21 @@ namespace StudioCore.MsbEditor
                                 }
                                 _universe.LoadMap(mapid, selected);
                             }
+                            if (_universe.GameType is GameType.EldenRing)
+                            {
+                                if (mapid.StartsWith("m60"))
+                                {
+                                    if (ImGui.Selectable("Load Related Maps"))
+                                    {
+                                        if (selected)
+                                        {
+                                            _selection.ClearSelection();
+                                        }
+                                        _universe.LoadMap(mapid, false);
+                                        _universe.LoadRelatedMaps(mapid, _universe.LoadedObjectContainers);
+                                    }
+                                }
+                            }
                         }
                         else if (map is Map m)
                         {
@@ -726,18 +763,37 @@ namespace StudioCore.MsbEditor
                                 }
                                 catch (SavingFailedException e)
                                 {
-                                    System.Windows.Forms.MessageBox.Show(e.Wrapped.Message, e.Message,
-                                         System.Windows.Forms.MessageBoxButtons.OK,
-                                         System.Windows.Forms.MessageBoxIcon.None);
+                                    PlatformUtils.Instance.MessageBox(e.Wrapped.Message, e.Message,
+                                         MessageBoxButtons.OK, MessageBoxIcon.None);
                                 }
                             }
                             if (ImGui.Selectable("Unload Map"))
                             {
                                 _selection.ClearSelection();
                                 _editorActionManager.Clear();
-                                pendingUnload = m;
+                                _universe.UnloadContainer(m);
+                                GC.Collect();
+                                GC.WaitForPendingFinalizers();
+                                GC.Collect();
                             }
                         }
+                        if (_universe.GetLoadedMapCount() > 1)
+                        {
+                            if (ImGui.Selectable("Unload All Maps"))
+                            {
+                                var result = PlatformUtils.Instance.MessageBox("Unload all maps?", "Confirm", MessageBoxButtons.YesNo);
+                                if (result == DialogResult.Yes)
+                                {
+                                    _selection.ClearSelection();
+                                    _editorActionManager.Clear();
+                                    _universe.UnloadAllMaps();
+                                    GC.Collect();
+                                    GC.WaitForPendingFinalizers();
+                                    GC.Collect();
+                                }
+                            }
+                        }
+
                         ImGui.EndPopup();
                     }
                     if (ImGui.IsItemClicked())
@@ -827,6 +883,7 @@ namespace StudioCore.MsbEditor
                 {
                     ChaliceDungeonImportButton();
                 }
+
                 ImGui.EndChild();
 
                 if (_dragDropSources.Count > 0)
@@ -846,15 +903,6 @@ namespace StudioCore.MsbEditor
                         _dragDropSources.Clear();
                         _dragDropDests.Clear();
                     }
-                }
-
-                if (pendingUnload != null)
-                {
-                    _universe.UnloadContainer(pendingUnload);
-                    GC.Collect();
-                    GC.WaitForPendingFinalizers();
-                    GC.Collect();
-                    _GCNeedsCollection = true;
                 }
             }
             else

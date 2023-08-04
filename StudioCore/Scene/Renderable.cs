@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Veldrid;
 using Veldrid.Utilities;
+using Vortice.Vulkan;
 
 namespace StudioCore.Scene
 {
@@ -24,7 +25,7 @@ namespace StudioCore.Scene
     {
         public Renderer.IndirectDrawIndexedArgumentsPacked _indirectArgs;
         public ResourceSet _objectResourceSet;
-        public IndexFormat _indexFormat;
+        public VkIndexType _indexFormat;
         public int _bufferIndex;
     }
 
@@ -41,9 +42,11 @@ namespace StudioCore.Scene
     /// </summary>
     public class Renderables
     {
-        protected const int SYSTEM_SIZE = 50000;
+        protected static readonly int SYSTEM_SIZE = CFG.Current.GFX_Limit_Renderables;
 
         private int _topIndex = 0;
+
+        private Stack<int> _freeIndices = new Stack<int>(100);
 
         public int RenderableSystemIndex { get; protected set; }
 
@@ -56,14 +59,13 @@ namespace StudioCore.Scene
 
         protected int GetNextInvalidIndex()
         {
-            for (int i = 0; i < SYSTEM_SIZE; i++)
-            {
-                if (!cVisible[i]._valid)
-                {
-                    return i;
-                }
-            }
-            throw new Exception("Renderable system full");
+            if (_freeIndices.Count > 0)
+                return _freeIndices.Pop();
+            
+            if (_topIndex >= SYSTEM_SIZE)
+                throw new Exception("Renderable system full.\n\nTry increasing renderables limit in settings.\n");
+
+            return _topIndex++;
         }
 
         protected int AllocateValidAndVisibleRenderable()
@@ -80,6 +82,7 @@ namespace StudioCore.Scene
         public void RemoveRenderable(int renderable)
         {
             cVisible[renderable]._valid = false;
+            _freeIndices.Push(renderable);
         }
     }
 

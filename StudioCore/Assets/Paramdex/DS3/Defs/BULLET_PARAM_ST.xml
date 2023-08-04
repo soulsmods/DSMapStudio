@@ -104,7 +104,7 @@
     <Field Def="u8 IsPenetrateTarget:1" />
     <Field Def="u8 IsSpCorrection2:1" />
     <Field Def="u8 IsDisableIntScale:1" />
-    <Field Def="u8 0xC3:1" />
+    <Field Def="u8 unknown:1" />
     <Field Def="f32 EmittePosRadius" />
     <Field Def="s32 hitObjectId = -1" />
     <Field Def="f32 subLife" />

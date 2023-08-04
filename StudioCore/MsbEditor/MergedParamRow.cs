@@ -50,7 +50,7 @@ namespace StudioCore.MsbEditor
                 var ret = new List<Param.Cell>();
                 foreach (var r in Rows)
                 {
-                    ret.AddRange(r.CellHandles);
+                    ret.AddRange(r.Cells);
                 }
                 return ret;
             }
@@ -96,7 +96,7 @@ namespace StudioCore.MsbEditor
             {
                 foreach (var r in Rows)
                 {
-                    if (r.Cells.FirstOrDefault(cell => cell.Def.InternalName == name) != null)
+                    if (r.Columns.FirstOrDefault(cell => cell.Def.InternalName == name) != null)
                     {
                         return r[name];
                     }
