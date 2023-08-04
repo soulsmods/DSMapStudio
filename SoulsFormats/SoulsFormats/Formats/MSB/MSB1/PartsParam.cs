@@ -782,7 +782,7 @@ namespace SoulsFormats
                 public byte SoundSpaceType { get; set; }
 
                 /// <summary>
-                /// Enviroment lighting
+                /// Environment lighting
                 /// </summary>
                 [MSBReference(ReferenceType = typeof(Event.Environment))]
                 public string EnvLightMapSpotName { get; set; }
