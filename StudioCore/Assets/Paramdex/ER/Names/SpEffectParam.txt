@@ -717,14 +717,14 @@
 7180 Area Scaling - Tier 19 (Haligtree Roots)
 7190 Area Scaling - Tier 20 (Elphael)
 7200 Area Scaling - Tier 21 (Malenia)
-7210 Area Scaling - Tier 210 (Unusued)
-7220 Area Scaling - Tier 220 (Unusued)
-7230 Area Scaling - Tier 230 (Unusued)
-7240 Area Scaling - Tier 240 (Unusued)
-7250 Area Scaling - Tier 250 (Unusued)
-7260 Area Scaling - Tier 260 (Unusued)
-7270 Area Scaling - Tier 270 (Unusued)
-7280 Area Scaling - Tier 280 (Unusued)
+7210 Area Scaling - (Unused)
+7220 Area Scaling - (Unused) 
+7230 Area Scaling - (Unused)
+7240 Area Scaling - (Unused)
+7250 Area Scaling - (Unused)
+7260 Area Scaling - (Unused)
+7270 Area Scaling - (Unused)
+7280 Area Scaling - (Unused)
 7400 NG+ Scaling -
 7410 NG+ Scaling -
 7420 NG+ Scaling -
