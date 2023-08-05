@@ -3,10 +3,11 @@
 10 Duelist's Furled Finger - Create Invasion Sign
 11 Bloody Finger - Attempt Invasion
 16 Festering/Recusant Finger - Attempt Invasion
+23 Animation Offset +10k - Unknown
 26 Stake of Marika
 30 HKS - Unk Throw Def Invalid
-32 HKS - Unk Jump Throw Def Invalid
 31 Behavior - Counter Frames
+32 HKS - Unk Jump Throw Def Invalid
 45 TAE - Counter Frames
 70 Blight Effect
 81 Spectral Steed Whistle
@@ -255,8 +256,8 @@
 1792 Eclipse Shotel
 1793 Eclipse Shotel - Holy/Blight Buff
 1794 Eclipse Shotel - Blight
-1800 Hoarfrost Stomp - Frost 
-1801 Hoarfrost Stomp - Frost 
+1800 Hoarfrost Stomp - Frost
+1801 Hoarfrost Stomp - Frost
 1805 Ruinous Ghostflame
 1806 Ruinous Ghostflame - Frost/Magic Buff
 1807 Ruinous Ghostflame
@@ -553,15 +554,15 @@
 4302 Enemy: Fade after death (blue)
 5250 Enemy: Golden Eyes (Bonus Runes)
 5255 Enemy: Golden Eyes Failed (No Reroll)
-5269 Enemy: Golden Eyes Chance (Guaranteed)
-5268 Enemy: Golden Eyes Chance (50%)
-5267 Enemy: Golden Eyes Chance (30%)
-5266 Enemy: Golden Eyes Chance (10%)
-5265 Enemy: Golden Eyes Chance (5%)
-5264 Enemy: Golden Eyes Chance (3%)
-5263 Enemy: Golden Eyes Chance (2%)
-5262 Enemy: Golden Eyes Chance (1%)
 5261 Enemy: Golden Eyes Chance (0.5%)
+5262 Enemy: Golden Eyes Chance (1%)
+5263 Enemy: Golden Eyes Chance (2%)
+5264 Enemy: Golden Eyes Chance (3%)
+5265 Enemy: Golden Eyes Chance (5%)
+5266 Enemy: Golden Eyes Chance (10%)
+5267 Enemy: Golden Eyes Chance (30%)
+5268 Enemy: Golden Eyes Chance (50%)
+5269 Enemy: Golden Eyes Chance (Guaranteed)
 5300 No Stag
 5301 NPC: Damage Level Override
 5302 NPC: Damage Level Override
@@ -610,9 +611,16 @@
 5372 Med Stag 4 XL Hits [Armor]
 5373 Med Stag 4 XL Hits + Light 4 Large [Armor]
 5374 Light Stag 4 XL Hits [Armor]
+5401 Animation Offset +1m - Generic
+5402 Animation Offset +2m - Generic
+5403 Animation Offset +3m - Generic
+5404 Animation Offset +4m - Generic
+5405 Animation Offset +5m - Generic
+5410 Animation Offset +3m - Unknown
+5420 Animation Offset +3m - Unknown
 5600 NPC: Infinite FP
-5635 Sword Arts Dodge Unk
 5601 NPC: Faster Stamina Recovery
+5635 Sword Arts Dodge Unk
 5740 Damaged by Healing Incantations
 5836 Undead Enemy
 5837 Undead Enemy
@@ -718,7 +726,7 @@
 7190 Area Scaling - Tier 20 (Elphael)
 7200 Area Scaling - Tier 21 (Malenia)
 7210 Area Scaling - (Unused)
-7220 Area Scaling - (Unused) 
+7220 Area Scaling - (Unused)
 7230 Area Scaling - (Unused)
 7240 Area Scaling - (Unused)
 7250 Area Scaling - (Unused)
@@ -755,6 +763,52 @@
 7670 NG+ Scaling -
 7680 NG+ Scaling -
 8001 HKS - Is Stealth
+9820 Animation Offset - Unk
+9821 Animation Offset - Unk
+9822 Animation Offset - Unk
+9823 Animation Offset - Unk
+9824 Animation Offset - Unk
+9825 Animation Offset - Unk
+9826 Animation Offset - Unk
+9827 Animation Offset - Unk
+9828 Animation Offset - Unk
+9829 Animation Offset - Unk
+9830 Animation Offset - Unk
+9831 Animation Offset - Unk
+9832 Animation Offset - Unk
+9833 Animation Offset - Unk
+9834 Animation Offset - Unk
+9835 Animation Offset - Unk
+9837 Animation Offset - Unk
+9838 Animation Offset - Unk
+9839 Animation Offset - Unk
+9840 Animation Offset - Unk
+9841 Animation Offset - Unk
+9842 Animation Offset - Unk
+9843 Animation Offset - Unk
+9844 Animation Offset - Unk
+9845 Animation Offset - Unk
+9846 Animation Offset - Unk
+9847 Animation Offset - Unk
+9848 Animation Offset - Unk
+9849 Animation Offset - Unk
+9850 Animation Offset - Unk
+9851 Animation Offset - Unk
+9852 Animation Offset - Unk
+9853 Animation Offset - Unk
+9854 Animation Offset - Unk
+9855 Animation Offset - Unk
+9856 Animation Offset - Unk
+9857 Animation Offset - Unk
+9858 Animation Offset - Unk
+9859 Animation Offset - Unk
+9860 Animation Offset - Unk
+9861 Animation Offset - Unk
+9862 Animation Offset - Unk
+9863 Animation Offset - Unk
+9864 Animation Offset - Unk
+9865 Animation Offset - Unk
+9866 Animation Offset - Unk
 10000 Exile Soldier - Bullet
 10001 Dog - Bullet
 10002 Demi-human - Bullet
@@ -766,20 +820,28 @@
 10165 Dragon-faced Flamethrower - Bullet
 10317 Fallen Hawks Soldier - Bullet
 10318 Fallen Hawks Soldier - Bullet [Chain]
+10631 Mohg Phase 2 - Animation Offset +1m
 10665 HKS - Unk Event 6001 Event Action Not Possible
 10690 Mohg - Bullet
 10691 Mohg - Bullet [Cycle]
+10700 Animation Offset +1m - Unknown
 10945 Warhawk - Bullet
 11010 Tarnished's Furled Finger
 11030 Duelist's Furled Finger
+11100 Commander Phase 2 - Animation Offset +1m
 11140 Commander - Glory Attack
 11141 Commander - Glory Defend
+11199 Animation Offset +1m - Unknown
 11657 Nox Swordstress
 11691 Nox Swordstress/Silver Tear - Bullet
+11701 Animation Offset +1m - Unknown
+11901 Rykard Phase 2/3 - Animation Offset +1m
+11902 Rykard Phase 2/3 - Animation Offset +1m
 11954 God Devouring Serpent / Rykard Lord of Blasphemy - Bullet
 11971 Vulgar Militia - Bullet
 12000 Large Fingercreeper - Bullet
 12018 Giant Fingercreeper
+12290 Godfrey/Hoarah Loux Phase 2 - VFX
 13020 Wolf - Bullet
 13025 Wolf
 13067 Castle Soldier
@@ -795,6 +857,7 @@
 13296 Castle Soldier
 13462 Putrid Corpse - Explosion
 13617 Ancestor Spirit - Drain Attack
+13631 Ancestor Spirit Phase 2 - Animation Offset +1m
 13780 Tree Sentinel - Sacred Vow Self
 13782 Tree Sentinel - Sacred Vow Ally
 13855 Cleanrot Knight - Bullet - Buff
@@ -819,10 +882,13 @@
 15452 Godskin Apostle - Sleep Awake
 15467 Godskin Apostle - Lifedrain
 15511 Godskin Noble
+16230 Morgott Phase 2 - Animation Offset +1m
 16316 Spirit Summon - Fade In
 16414 Elemer of the Briar
 16482 Fallingstar Beast - Ground AoE Alert
 16488 Fallingstar Beast
+16513 Omen Phase 2 - Animation Offset +1m
+16514 Omen Phase 2 - Animation Offset +1m
 17171 Imp
 17654 Death Rite Bird - Bullet
 18400 Malenia: HP Recovery on ?
@@ -1106,6 +1172,8 @@
 90161 NPC: Ignore Fake Targets - Animal
 90162 NPC: Ignore Fake Targets - Undead and Animal
 90200 NPC: Enable Charm
+99002 Animation Offset +1m - Unknown
+99402 Animation Offset +1m - Unknown
 100002 HKS - Sword Arts - Dashing
 100020 HKS - Out of Stamina
 100050 HKS - Sword Arts - One Shot Combo End
@@ -3428,9 +3496,9 @@
 6057010 Crucible Axe Armor
 6057020 Crucible Gauntlets
 6057030 Crucible Greaves
-6057210 Crucible Axe Armor (Altered)
 6057100 Crucible Tree Helm
 6057110 Crucible Tree Armor
+6057210 Crucible Axe Armor (Altered)
 6057310 Crucible Tree Armor (Altered)
 6058000 Lusat's Glintstone Crown
 6058001 Lusat's Glintstone Crown
@@ -3516,4 +3584,4 @@
 6201000 Mushroom Crown
 6201001 Mushroom Crown
 6202000 Black Dumpling
-6202001 Black Dumpling 
+6202001 Black Dumpling
