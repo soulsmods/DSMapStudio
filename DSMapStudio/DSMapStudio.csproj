@@ -5,10 +5,10 @@
     <TargetFramework>net7.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
     <Authors>Katalash</Authors>
-    <Version>1.08.1</Version>
+    <Version>1.08.2</Version>
     <ApplicationIcon>icon.ico</ApplicationIcon>
-    <PackageVersion>1.08.1</PackageVersion>
-    <AssemblyVersion>1.08.1</AssemblyVersion>
+    <PackageVersion>1.08.2</PackageVersion>
+    <AssemblyVersion>1.08.2</AssemblyVersion>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <LangVersion>11</LangVersion>
   </PropertyGroup>
