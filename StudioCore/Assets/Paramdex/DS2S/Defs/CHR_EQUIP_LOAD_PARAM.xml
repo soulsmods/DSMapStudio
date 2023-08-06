@@ -6,10 +6,10 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="f32 Unk00" />
-    <Field Def="f32 Unk01" />
-    <Field Def="f32 Unk02" />
-    <Field Def="f32 Unk03" />
-    <Field Def="f32 Unk04" />
+    <Field Def="f32 load_percent_breakpoint_1" />
+    <Field Def="f32 load_percent_breakpoint_2" />
+    <Field Def="f32 load_percent_breakpoint_3" />
+    <Field Def="f32 load_percent_breakpoint_4" />
+    <Field Def="f32 load_percent_breakpoint_5" />
   </Fields>
 </PARAMDEF>

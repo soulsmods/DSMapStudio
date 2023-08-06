@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
   <Enums>
     <Enum Name="DamageTypeCategory">
@@ -9,8 +9,11 @@
       <Option Value="4" Name="Dark" />
       <Option Value="5" Name="Flat Damage" />
       <Option Value="6" Name="Poison" />
-      <Option Value="7" Name="?" />
+      <Option Value="7" Name="Bleed" />
       <Option Value="8" Name="Durability" />
+      <Option Value="9" Name="Curse" />
+      <Option Value="11" Name="Toxic" />
+      <Option Value="12" Name="Petrification" />
     </Enum>
     <Enum Name="HitboxType">
       <Option Value="0" Name="Sphere" />
@@ -29,6 +32,7 @@
     <damage_0 AltName="Damage [0]"/>
     <damage_1 AltName="Damage [1]"/>
     <damage_2 AltName="Damage [2]"/>
+    <physical_damage_floor AltName="Physical Damage Floor" Wiki="Lowest physical damage that this attack can deal, regardless of target's physical defense. This value is divided by Absorption %: Physical in DamageAdjustParam."/>
     <damage_type_0 AltName="Damage Type [0]" Enum="DamageTypeCategory" />
     <damage_type_1 AltName="Damage Type [1]" Enum="DamageTypeCategory" />
     <damage_type_2 AltName="Damage Type [2]" Enum="DamageTypeCategory" />

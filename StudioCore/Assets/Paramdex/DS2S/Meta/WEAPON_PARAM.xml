@@ -1,5 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
+  <Enums>
+  	<Enum Name="DamageTypeMenu" type="u8">
+		<Option Value="0" Name="None" />
+		<Option Value="1" Name="Strike" />
+		<Option Value="2" Name="Slash" />
+		<Option Value="3" Name="Thrust" />
+		<Option Value="4" Name="Parry" />
+		<Option Value="5" Name="Spell parry" />
+		<Option Value="6" Name="Spell" />
+		<Option Value="7" Name="Projectile" />
+	</Enum>
+  </Enums>
   <Self Row0Dummy="" />
   <Field>
     <weapon_motion_id AltName="Weapon Motion ID" Refs="WeaponAttackMotionParam" />
@@ -27,7 +39,7 @@
     <player_damage_id_riposte_small AltName="Player Damage ID: Riposte Small" Refs="PlayerDamageParam" />
     <player_damage_id_riposte_medium AltName="Player Damage ID: Riposte Medium" Refs="PlayerDamageParam" />
     <player_damage_id_riposte_large AltName="Player Damage ID: Riposte Large" Refs="PlayerDamageParam" />
-    <unknown_tae_field AltName="TAE Related" />
+    <parry_frames_duration AltName="Parry Frames Duration" />
     <damage_mult AltName="Damage %" />
     <stamina_damage_mult AltName="Stamina Damage %" />
     <durability_damage_mult AltName="Equipment Damage %" />
@@ -38,7 +50,8 @@
     <hitbox_length AltName="Hitbox Length" />
     <hitback_radius AltName="Hitback Radius" />
     <hitback_length AltName="Hitback Length" />
-    <damage_type_menu AltName="Damage Type Menu" />
+    <damage_type_menu_1 AltName="Damage Type Menu 1" Enum="DamageTypeMenu" />
+	<damage_type_menu_2 AltName="Damage Type Menu 2" Enum="DamageTypeMenu" />
     <poise_damage_menu AltName="Poise Damage Menu" />
     <counter_damage_menu AltName="Counter Damage Menu" />
     <casting_speed_menu AltName="Casting Speed Menu" />

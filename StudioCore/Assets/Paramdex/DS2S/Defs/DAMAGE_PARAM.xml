@@ -12,7 +12,7 @@
     <Field Def="s32 damage_0" />
     <Field Def="s32 damage_1" />
     <Field Def="s32 damage_2" />
-    <Field Def="u8 Unk00" />
+    <Field Def="u8 physical_damage_floor" />
     <Field Def="u8 damage_type_0" />
     <Field Def="u8 damage_type_1" />
     <Field Def="u8 damage_type_2" />

@@ -37,7 +37,7 @@
     <Field Def="s32 player_damage_id_riposte_small" />
     <Field Def="s32 player_damage_id_riposte_medium" />
     <Field Def="s32 player_damage_id_riposte_large" />
-    <Field Def="f32 unknown_tae_field" />
+    <Field Def="f32 parry_frames_duration" />
     <Field Def="s32 Unk06" />
     <Field Def="s32 Unk07" />
     <Field Def="f32 damage_mult" />
