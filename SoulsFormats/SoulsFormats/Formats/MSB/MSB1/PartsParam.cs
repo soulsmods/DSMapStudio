@@ -824,6 +824,21 @@ namespace SoulsFormats
                 public int DisableBonfireEntityID { get; set; }
 
                 /// <summary>
+                /// Unknown value only used in m99 maps.
+                /// </summary>
+                public int M99Unk00 { get; set; }
+
+                /// <summary>
+                /// Unknown value only used in m99 maps.
+                /// </summary>
+                public int M99Unk04 { get; set; }
+
+                /// <summary>
+                /// Unknown value only used in m99 maps.
+                /// </summary>
+                public int M99Unk08 { get; set; }
+
+                /// <summary>
                 /// An ID used for multiplayer eligibility.
                 /// </summary>
                 public int PlayRegionID { get; set; }
@@ -875,9 +890,9 @@ namespace SoulsFormats
                     DisableStart = br.ReadBoolean();
                     UnkT27 = br.ReadByte();
                     DisableBonfireEntityID = br.ReadInt32();
-                    br.AssertInt32(-1);
-                    br.AssertInt32(-1);
-                    br.AssertInt32(-1);
+                    M99Unk00 = br.ReadInt32();
+                    M99Unk04 = br.ReadInt32();
+                    M99Unk08 = br.ReadInt32();
                     PlayRegionID = br.ReadInt32();
                     LockCamParamID1 = br.ReadInt16();
                     LockCamParamID2 = br.ReadInt16();
@@ -899,9 +914,9 @@ namespace SoulsFormats
                     bw.WriteBoolean(DisableStart);
                     bw.WriteByte(UnkT27);
                     bw.WriteInt32(DisableBonfireEntityID);
-                    bw.WriteInt32(-1);
-                    bw.WriteInt32(-1);
-                    bw.WriteInt32(-1);
+                    bw.WriteInt32(M99Unk00);
+                    bw.WriteInt32(M99Unk04);
+                    bw.WriteInt32(M99Unk08);
                     bw.WriteInt32(PlayRegionID);
                     bw.WriteInt16(LockCamParamID1);
                     bw.WriteInt16(LockCamParamID2);

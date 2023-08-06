@@ -283,12 +283,9 @@ namespace StudioCore.MsbEditor
             bool loadnav = false;
             bool loadflver = false;
             Scene.RenderFilter filt = Scene.RenderFilter.All;
+
             var amapid = _assetLocator.GetAssetMapID(map.Name);
-            // Special case for chalice dungeon assets
-            if (map.Name.StartsWith("m29"))
-            {
-                amapid = "m29_00_00_00";
-            }
+
             var job = ResourceManager.CreateNewJob($@"Loading mesh");
             if (modelname.ToLower().StartsWith("m"))
             {
