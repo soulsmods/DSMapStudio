@@ -156,31 +156,29 @@
 34702500 Albinauric
 34703000 Albinauric
 34704000 Albinauric
-35000000 Skeletal Militiaman
-35000010 Skeletal Militiaman
-35001000 Skeletal Crossbowman
-35001010 Skeletal Crossbowman
-35002000 Skeletal Grave Warden
-35002010 Skeletal Grave Warden
-35003000 Skeletal Knight
-35003010 Skeletal Knight
-35004000 Skeletal Bandit
-35004010 Skeletal Bandit
-35100000 Catacombs Skeleton
-35100010 Catacombs Skeleton
-35100100 Catacombs Skeleton
-35100110 Catacombs Skeleton
-35100200 Catacombs Skeleton
-35101000 Catacombs Skeleton
-35101100 Catacombs Skeleton
-35102000 Catacombs Skeleton
-35102010 Catacombs Skeleton
-35102020 Catacombs Skeleton
-35103000 Catacombs Skeleton
-35103100 Catacombs Skeleton
-35104000 Catacombs Skeleton
-35104010 Catacombs Skeleton
-35104100 Catacombs Skeleton
+35000000 Large Skeleton (Spear)
+35000010 Large Skeleton (Spear)
+35001000 Large Skeleton (Crossbow)
+35001010 Large Skeleton (Crossbow)
+35002000 Large Skeleton (Scythe)
+35002010 Large Skeleton (Scythe)
+35003000 Large Skeleton (Sword and Shield)
+35003010 Large Skeleton (Sword and Shield)
+35004000 Large Skeleton (Curved Sword)
+35004010 Large Skeleton (Curved Sword)
+35100000 Skeleton (Sword and Shield)
+35100010 Skeleton (Sword and Shield)
+35100100 Skeleton (Sword and Shield)
+35100110 Skeleton (Sword and Shield)
+35100200 Skeleton (Sword and Shield)
+35101000 Skeleton (Sword)
+35101100 Skeleton (Sword)
+35102000 Skeleton (Bow)
+35102010 Skeleton (Bow)
+35102020 Skeleton (Bow)
+35103000 Skeleton (Fists)
+35103100 Skeleton (Fists)
+35104000 Skeleton (Fists)
 35500000 Sanguine Noble
 35600000 Godskin Apostle
 35600100 Godskin Apostle
