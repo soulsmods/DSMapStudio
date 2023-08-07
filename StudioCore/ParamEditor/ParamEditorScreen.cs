@@ -1494,9 +1494,12 @@ namespace StudioCore.ParamEditor
             }
             catch (SavingFailedException e)
             {
-                PlatformUtils.Instance.MessageBox(e.Wrapped.Message, e.Message,
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.None);
+                TaskLogs.AddLog($"{e.Message}. {e.Wrapped.Message}", Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High);
+            }
+            catch (Exception e)
+            {
+                TaskLogs.AddLog(e.Message, Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High);
+                TaskLogs.AddLog($"{e.StackTrace}", Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.Low);
             }
         }
 
@@ -1512,9 +1515,12 @@ namespace StudioCore.ParamEditor
             }
             catch (SavingFailedException e)
             {
-                PlatformUtils.Instance.MessageBox(e.Wrapped.Message, e.Message,
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.None);
+                TaskLogs.AddLog($"{e.Message}. {e.Wrapped.Message}", Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High);
+            }
+            catch (Exception e)
+            {
+                TaskLogs.AddLog($"{e.Message}", Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High);
+                TaskLogs.AddLog($"{e.StackTrace}", Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.Low);
             }
         }
 
