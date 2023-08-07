@@ -171,7 +171,7 @@ namespace StudioCore.Editor
                     }
                     if (r == null)
                         continue;
-                    if (r.Name == null || r.Name.Trim().Equals(""))
+                    if (string.IsNullOrWhiteSpace(r.Name))
                         rows.Add((rf.param, r, "Unnamed Row" + hint));
                     else
                         rows.Add((rf.param, r, r.Name + hint));
@@ -217,29 +217,21 @@ namespace StudioCore.Editor
                 return;
             foreach (var param in bank.Params)
             {
-                PARAMDEF.Field foundfield = null;
-                //get field
                 foreach (PARAMDEF.Field f in param.Value.AppliedParamdef.Fields)
                 {
                     if (FieldMetaData.Get(f).VirtualRef != null && FieldMetaData.Get(f).VirtualRef.Equals(virtualRefName))
                     {
-                        foundfield = f;
-                        break;
+                        if (ImGui.Selectable($@"Search in {param.Key} ({f.InternalName})"))
+                        {
+                            EditorCommandQueue.AddCommand($@"param/select/-1/{param.Key}");
+                            EditorCommandQueue.AddCommand($@"param/search/prop {f.InternalName} ^{searchValue.ToString()}$");
+                        }
                     }
-                }
-
-                if (foundfield == null)
-                    continue;
-                //add selectable
-                if (ImGui.Selectable($@"Search in {param.Key}"))
-                {
-                    EditorCommandQueue.AddCommand($@"param/select/-1/{param.Key}");
-                    EditorCommandQueue.AddCommand($@"param/search/prop {foundfield.InternalName} ^{searchValue.ToString()}$");
                 }
             }
         }
         
-        public static bool ParamRefEnumContextMenu(ParamBank bank, object oldval, ref object newval, List<ParamRef> RefTypes, Param.Row context, FMGBank.FMGInfo fmgInfo, ParamEnum Enum)
+        public static bool ParamRefEnumContextMenu(ParamBank bank, object oldval, ref object newval, List<ParamRef> RefTypes, Param.Row context, FMGBank.FMGInfo fmgInfo, ParamEnum Enum, ActionManager executor)
         {
             if ((CFG.Current.Param_HideReferenceRows || RefTypes == null) && (CFG.Current.Param_HideEnums || Enum == null) && (CFG.Current.Param_HideReferenceRows || fmgInfo == null))
                 return false;
@@ -265,7 +257,7 @@ namespace StudioCore.Editor
             if (ImGui.BeginPopupContextItem("rowMetaValue"))
             {
                 if (RefTypes != null)
-                    result |= PropertyRowRefsContextItems(bank, RefTypes, context, oldval, ref newval);
+                    result |= PropertyRowRefsContextItems(bank, RefTypes, context, oldval, ref newval, executor);
                 if (Enum != null)
                     result |= PropertyRowEnumContextItems(Enum, oldval, ref newval);
                 if (fmgInfo != null && ImGui.Selectable($@"Goto {fmgInfo.Name} Text"))
@@ -275,7 +267,7 @@ namespace StudioCore.Editor
             return result;
         }
 
-        public static bool PropertyRowRefsContextItems(ParamBank bank, List<ParamRef> reftypes, Param.Row context, dynamic oldval, ref object newval)
+        public static bool PropertyRowRefsContextItems(ParamBank bank, List<ParamRef> reftypes, Param.Row context, dynamic oldval, ref object newval, ActionManager executor)
         {
             if (bank.Params == null)
                 return false;
@@ -287,6 +279,16 @@ namespace StudioCore.Editor
                     EditorCommandQueue.AddCommand($@"param/select/-1/{rf.Item1}/{rf.Item2.ID}");
                 if (ImGui.Selectable($@"Go to {rf.Item3} in new view"))
                     EditorCommandQueue.AddCommand($@"param/select/new/{rf.Item1}/{rf.Item2.ID}");
+                if (context == null || executor == null)
+                    continue;
+                if (!string.IsNullOrWhiteSpace(rf.Item2.Name) && string.IsNullOrWhiteSpace(context.Name) && ImGui.Selectable($@"Inherit referenced row's name ({rf.Item2.Name})"))
+                {
+                    executor.ExecuteAction(new PropertiesChangedAction(context.GetType().GetProperty("Name"), context, rf.Item2.Name));
+                }
+                else if (string.IsNullOrWhiteSpace(rf.Item2.Name) && !string.IsNullOrWhiteSpace(context.Name) && ImGui.Selectable($@"Proliferate name to referenced row ({rf.Item1})"))
+                {
+                    executor.ExecuteAction(new PropertiesChangedAction(rf.Item2.GetType().GetProperty("Name"), rf.Item2, context.Name));
+                }
             }
             // Add searchbar for named editing
             ImGui.InputText("##value", ref _refContextCurrentAutoComplete, 128);

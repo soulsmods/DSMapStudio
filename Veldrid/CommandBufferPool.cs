@@ -19,7 +19,6 @@ namespace Veldrid
             _device = device;
             var info = new VkCommandPoolCreateInfo
             {
-                sType = VkStructureType.CommandPoolCreateInfo,
                 flags = VkCommandPoolCreateFlags.Transient,
                 queueFamilyIndex = queueFamilyIndex,
             };
@@ -36,7 +35,6 @@ namespace Veldrid
 
             var info = new VkCommandBufferAllocateInfo
             {
-                sType = VkStructureType.CommandBufferAllocateInfo,
                 commandPool = _pool,
                 level = VkCommandBufferLevel.Primary,
                 commandBufferCount = 1,

@@ -3,10 +3,11 @@
 10 Duelist's Furled Finger - Create Invasion Sign
 11 Bloody Finger - Attempt Invasion
 16 Festering/Recusant Finger - Attempt Invasion
+23 Animation Offset +10k - Unknown
 26 Stake of Marika
 30 HKS - Unk Throw Def Invalid
-32 HKS - Unk Jump Throw Def Invalid
 31 Behavior - Counter Frames
+32 HKS - Unk Jump Throw Def Invalid
 45 TAE - Counter Frames
 70 Blight Effect
 81 Spectral Steed Whistle
@@ -255,8 +256,8 @@
 1792 Eclipse Shotel
 1793 Eclipse Shotel - Holy/Blight Buff
 1794 Eclipse Shotel - Blight
-1800 Hoarfrost Stomp - Frost 
-1801 Hoarfrost Stomp - Frost 
+1800 Hoarfrost Stomp - Frost
+1801 Hoarfrost Stomp - Frost
 1805 Ruinous Ghostflame
 1806 Ruinous Ghostflame - Frost/Magic Buff
 1807 Ruinous Ghostflame
@@ -553,15 +554,15 @@
 4302 Enemy: Fade after death (blue)
 5250 Enemy: Golden Eyes (Bonus Runes)
 5255 Enemy: Golden Eyes Failed (No Reroll)
-5269 Enemy: Golden Eyes Chance (Guaranteed)
-5268 Enemy: Golden Eyes Chance (50%)
-5267 Enemy: Golden Eyes Chance (30%)
-5266 Enemy: Golden Eyes Chance (10%)
-5265 Enemy: Golden Eyes Chance (5%)
-5264 Enemy: Golden Eyes Chance (3%)
-5263 Enemy: Golden Eyes Chance (2%)
-5262 Enemy: Golden Eyes Chance (1%)
 5261 Enemy: Golden Eyes Chance (0.5%)
+5262 Enemy: Golden Eyes Chance (1%)
+5263 Enemy: Golden Eyes Chance (2%)
+5264 Enemy: Golden Eyes Chance (3%)
+5265 Enemy: Golden Eyes Chance (5%)
+5266 Enemy: Golden Eyes Chance (10%)
+5267 Enemy: Golden Eyes Chance (30%)
+5268 Enemy: Golden Eyes Chance (50%)
+5269 Enemy: Golden Eyes Chance (Guaranteed)
 5300 No Stag
 5301 NPC: Damage Level Override
 5302 NPC: Damage Level Override
@@ -610,9 +611,16 @@
 5372 Med Stag 4 XL Hits [Armor]
 5373 Med Stag 4 XL Hits + Light 4 Large [Armor]
 5374 Light Stag 4 XL Hits [Armor]
+5401 Animation Offset +1m - Generic
+5402 Animation Offset +2m - Generic
+5403 Animation Offset +3m - Generic
+5404 Animation Offset +4m - Generic
+5405 Animation Offset +5m - Generic
+5410 Animation Offset +3m - Unknown
+5420 Animation Offset +3m - Unknown
 5600 NPC: Infinite FP
-5635 Sword Arts Dodge Unk
 5601 NPC: Faster Stamina Recovery
+5635 Sword Arts Dodge Unk
 5740 Damaged by Healing Incantations
 5836 Undead Enemy
 5837 Undead Enemy
@@ -686,6 +694,8 @@
 6805 Blight - Type 1 - Special 6
 6845 Black Knife - Bullet
 6850 Destined Death - (DoT Main)
+6860 Destined Death - (Max HP Debuff)
+6865 Destined Death - (Max HP Debuff)
 6910 Enemy - Crystal Dart Confusion
 6915 Enemy - Crystal Dart Confusion - Visual
 6920 Enemy - Crystal Dart Confusion - Border A
@@ -694,35 +704,35 @@
 6930 Enemy - Crystal Dart Confusion - Point A
 6931 Enemy - Crystal Dart Confusion - Point B
 6932 Enemy - Crystal Dart Confusion - Point C
-7000 Area Scaling - Tier 1 (Tutorial Tunnel)
-7010 Area Scaling - Tier 2 (Limgrave Exploration)
-7020 Area Scaling - Tier 3 (South Limgrave Exploration)
-7030 Area Scaling - Tier 4 (North Limgrave Exploration + Bosses)
-7040 Area Scaling - Tier 5 (Stormveil Castle Boss)
-7050 Area Scaling - Tier 6 (Siofra River)
-7060 Area Scaling - Tier 7 (South Liurnia Exploration  + Archives)
-7070 Area Scaling - Tier 8 (North Liurnia Exploration + Archives Latter)
-7080 Area Scaling - Tier 9 (Below Mt. Gelmir + Ainsel River)
-7090 Area Scaling - Tier 10 (Entering Mt. Gelmir + Entering Caelid)
-7100 Area Scaling - Tier 11 (Altus Plateua + Southeast Caelid)
-7110 Area Scaling - Tier 12 (Leyndell + Nokstella)
-7120 Area Scaling - Tier 13 (Volcano Manor + North Caelid)
-7130 Area Scaling - Tier 22 (Leyndell Sewers)
-7140 Area Scaling - Tier 23 (Giant Mountaintops + Farum Azula Weak)
-7150 Area Scaling - Tier 24 (Farum Azula Latter)
-7160 Area Scaling - Tier 25 (Leyndell Ashen + Snowfields)
-7170 Area Scaling - Tier 26 (Final Battle)
-7180 Area Scaling - Tier 27 (Haligtree + Mohgwyn Palace)
-7190 Area Scaling - Tier 28 (Elphael)
-7200 Area Scaling - Tier 29 (Haligtree Roots)
-7210 Area Scaling - Tier 14 (Unusued)
-7220 Area Scaling - Tier 15 (Unusued)
-7230 Area Scaling - Tier 16 (Unusued)
-7240 Area Scaling - Tier 17 (Unusued)
-7250 Area Scaling - Tier 18 (Unusued)
-7260 Area Scaling - Tier 19 (Unusued)
-7270 Area Scaling - Tier 20 (Unusued)
-7280 Area Scaling - Tier 21 (Unusued)
+7000 Area Scaling - Tier 01 (Stranded Graveyard)
+7010 Area Scaling - Tier 02 (Limgrave)
+7020 Area Scaling - Tier 03 (Weeping Peninsula)
+7030 Area Scaling - Tier 04 (Stormveil Castle)
+7040 Area Scaling - Tier 05 (Misc. Limgrave)
+7050 Area Scaling - Tier 06 (Ainsel River)
+7060 Area Scaling - Tier 07 (Liurnia / Caria Manor / Academy)
+7070 Area Scaling - Tier 08 (Caelid)
+7080 Area Scaling - Tier 09 (Altus Plateau)
+7090 Area Scaling - Tier 10 (Mt. Gelmir / Capital Outskirts / Nokron)
+7100 Area Scaling - Tier 11 (Leyndell / SE Caelid)
+7110 Area Scaling - Tier 12 (Volcano Manor / Deeproot Depths / Nokstella)
+7120 Area Scaling - Tier 13 (Mountaintops)
+7130 Area Scaling - Tier 14 (Moonlight Altar / Leyndell Sewers)
+7140 Area Scaling - Tier 15 (Farum Azula)
+7150 Area Scaling - Tier 16 (Dragonbarrow / Ashen Capital)
+7160 Area Scaling - Tier 17 (Consecrated Snowfield)
+7170 Area Scaling - Tier 18 (Mohgwyn Palace)
+7180 Area Scaling - Tier 19 (Haligtree Roots)
+7190 Area Scaling - Tier 20 (Elphael)
+7200 Area Scaling - Tier 21 (Malenia)
+7210 Area Scaling - (Unused)
+7220 Area Scaling - (Unused)
+7230 Area Scaling - (Unused)
+7240 Area Scaling - (Unused)
+7250 Area Scaling - (Unused)
+7260 Area Scaling - (Unused)
+7270 Area Scaling - (Unused)
+7280 Area Scaling - (Unused)
 7400 NG+ Scaling -
 7410 NG+ Scaling -
 7420 NG+ Scaling -
@@ -753,6 +763,52 @@
 7670 NG+ Scaling -
 7680 NG+ Scaling -
 8001 HKS - Is Stealth
+9820 Animation Offset - Unk
+9821 Animation Offset - Unk
+9822 Animation Offset - Unk
+9823 Animation Offset - Unk
+9824 Animation Offset - Unk
+9825 Animation Offset - Unk
+9826 Animation Offset - Unk
+9827 Animation Offset - Unk
+9828 Animation Offset - Unk
+9829 Animation Offset - Unk
+9830 Animation Offset - Unk
+9831 Animation Offset - Unk
+9832 Animation Offset - Unk
+9833 Animation Offset - Unk
+9834 Animation Offset - Unk
+9835 Animation Offset - Unk
+9837 Animation Offset - Unk
+9838 Animation Offset - Unk
+9839 Animation Offset - Unk
+9840 Animation Offset - Unk
+9841 Animation Offset - Unk
+9842 Animation Offset - Unk
+9843 Animation Offset - Unk
+9844 Animation Offset - Unk
+9845 Animation Offset - Unk
+9846 Animation Offset - Unk
+9847 Animation Offset - Unk
+9848 Animation Offset - Unk
+9849 Animation Offset - Unk
+9850 Animation Offset - Unk
+9851 Animation Offset - Unk
+9852 Animation Offset - Unk
+9853 Animation Offset - Unk
+9854 Animation Offset - Unk
+9855 Animation Offset - Unk
+9856 Animation Offset - Unk
+9857 Animation Offset - Unk
+9858 Animation Offset - Unk
+9859 Animation Offset - Unk
+9860 Animation Offset - Unk
+9861 Animation Offset - Unk
+9862 Animation Offset - Unk
+9863 Animation Offset - Unk
+9864 Animation Offset - Unk
+9865 Animation Offset - Unk
+9866 Animation Offset - Unk
 10000 Exile Soldier - Bullet
 10001 Dog - Bullet
 10002 Demi-human - Bullet
@@ -764,20 +820,28 @@
 10165 Dragon-faced Flamethrower - Bullet
 10317 Fallen Hawks Soldier - Bullet
 10318 Fallen Hawks Soldier - Bullet [Chain]
+10631 Mohg Phase 2 - Animation Offset +1m
 10665 HKS - Unk Event 6001 Event Action Not Possible
 10690 Mohg - Bullet
 10691 Mohg - Bullet [Cycle]
+10700 Animation Offset +1m - Unknown
 10945 Warhawk - Bullet
 11010 Tarnished's Furled Finger
 11030 Duelist's Furled Finger
+11100 Commander Phase 2 - Animation Offset +1m
 11140 Commander - Glory Attack
 11141 Commander - Glory Defend
+11199 Animation Offset +1m - Unknown
 11657 Nox Swordstress
 11691 Nox Swordstress/Silver Tear - Bullet
-11954 Writhing Mass - Bullet
+11701 Animation Offset +1m - Unknown
+11901 Rykard Phase 2/3 - Animation Offset +1m
+11902 Rykard Phase 2/3 - Animation Offset +1m
+11954 God Devouring Serpent / Rykard Lord of Blasphemy - Bullet
 11971 Vulgar Militia - Bullet
 12000 Large Fingercreeper - Bullet
 12018 Giant Fingercreeper
+12290 Godfrey/Hoarah Loux Phase 2 - VFX
 13020 Wolf - Bullet
 13025 Wolf
 13067 Castle Soldier
@@ -789,21 +853,22 @@
 13164 Ancestral Follower
 13175 Ancestral Follower - Winged Greathorn
 13191 Ancestral Follower - HP Restore
-13258 Mad Pumpkin Head/Grinning Torturer - Bullet
+13258 Mad Pumpkin Head/Mad Pumpkin Head (Thin) - Bullet
 13296 Castle Soldier
 13462 Putrid Corpse - Explosion
 13617 Ancestor Spirit - Drain Attack
+13631 Ancestor Spirit Phase 2 - Animation Offset +1m
 13780 Tree Sentinel - Sacred Vow Self
 13782 Tree Sentinel - Sacred Vow Ally
 13855 Cleanrot Knight - Bullet - Buff
 13856 Cleanrot Knight - Bullet - Buff
-14016 Monstrous Crow - Bullet
-14028 Monstrous Dog - Bullet
+14016 Giant Crow - Bullet
+14028 Giant Dog - Bullet
 14351 [Rennala]
 14352 [Rennala]
 14353 [Rennala]
 14354 [Rennala]
-14386 Rennala Student - Main Target
+14386 Juvenile Scholar - Main Target
 14405 Depraved Perfumer - Shield Bullet
 14406 Depraved Perfumer - Bullet
 14435 Depraved Perfumer
@@ -817,10 +882,13 @@
 15452 Godskin Apostle - Sleep Awake
 15467 Godskin Apostle - Lifedrain
 15511 Godskin Noble
+16230 Morgott Phase 2 - Animation Offset +1m
 16316 Spirit Summon - Fade In
 16414 Elemer of the Briar
 16482 Fallingstar Beast - Ground AoE Alert
 16488 Fallingstar Beast
+16513 Omen Phase 2 - Animation Offset +1m
+16514 Omen Phase 2 - Animation Offset +1m
 17171 Imp
 17654 Death Rite Bird - Bullet
 18400 Malenia: HP Recovery on ?
@@ -1104,6 +1172,8 @@
 90161 NPC: Ignore Fake Targets - Animal
 90162 NPC: Ignore Fake Targets - Undead and Animal
 90200 NPC: Enable Charm
+99002 Animation Offset +1m - Unknown
+99402 Animation Offset +1m - Unknown
 100002 HKS - Sword Arts - Dashing
 100020 HKS - Out of Stamina
 100050 HKS - Sword Arts - One Shot Combo End
@@ -3400,3 +3470,118 @@
 5321400 Icon Shield - Grant HP Restoration
 5322200 Ant's Skull Plate - Raise Immunity
 5322400 Eclipse Crest Greatshield - Raise Immunity Robustness and Focus
+6012000 Alberich's Pointed Hat
+6012010 Alberich's Robe
+6012020 Alberich's Bracers
+6013000 Spellblade's Pointed Hat
+6013010 Spellblade's Traveling Attire
+6013020 Spellblade's Gloves
+6013030 Spellblade's Trousers
+6013110 Spellblade's Traveling Attire (Altered)
+6018010 Black Knife Armor
+6021000 Briar Helm
+6021010 Briar Armor
+6021020 Briar Gauntlets
+6021030 Briar Greaves
+6021110 Briar Armor (Altered)
+6030100 Shining Horned Headband
+6031000 Duelist Helm
+6031030 Duelist Greaves
+6031110 Gravekeeper Cloak (Altered)
+6033010 Guardian Garb (Full Bloom)
+6044000 Pumpkin Helm
+6051000 Queen's Crescent Crown
+6053010 Godskin Noble Robe
+6057000 Crucible Axe Helm
+6057010 Crucible Axe Armor
+6057020 Crucible Gauntlets
+6057030 Crucible Greaves
+6057100 Crucible Tree Helm
+6057110 Crucible Tree Armor
+6057210 Crucible Axe Armor (Altered)
+6057310 Crucible Tree Armor (Altered)
+6058000 Lusat's Glintstone Crown
+6058001 Lusat's Glintstone Crown
+6058100 Azur's Glintstone Crown
+6058101 Azur's Glintstone Crown
+6068000 White Mask
+6068001 White Mask - Effect
+6069000 Royal Remains Helm
+6069010 Royal Remains Armor
+6069020 Royal Remains Gauntlets
+6069030 Royal Remains Greaves
+6074000 Crimson Hood
+6074100 Navy Hood
+6081010 Commoner's Garb
+6082000 Envoy Crown
+6083000 Twinsage Glintstone Crown
+6083001 Twinsage Glintstone Crown
+6083100 Olivinus Glintstone Crown
+6083101 Olivinus Glintstone Crown
+6083200 Lazuli Glintstone Crown
+6083201 Lazuli Glintstone Crown
+6083202 Lazuli Glintstone Crown
+6083300 Karolos Glintstone Crown
+6083301 Karolos Glintstone Crown
+6083400 Witch's Glintstone Crown
+6083401 Witch's Glintstone Crown
+6087200 Okina Mask
+6087201 Okina Mask
+6091000 Preceptor's Big Hat
+6091001 Preceptor's Big Hat
+6091100 Mask of Confidence
+6093010 Raptor's Black Feathers
+6096000 Consort's Mask
+6096100 Ruler's Mask
+6096300 Marais Mask
+6097000 Omen Helm
+6097001 Omen Helm
+6097010 Omen Armor
+6097011 Omen Armor
+6097020 Omen Gauntlets
+6097021 Omen Gauntlets
+6097030 Omen Greaves
+6097031 Omen Greaves
+6099000 Hierodas Glintstone Crown
+6099001 Hierodas Glintstone Crown
+6100000 Haima Glintstone Crown
+6100001 Haima Glintstone Crown
+6101000 Snow Witch Hat
+6104000 Radiant Gold Mask
+6106000 Albinauric Mask
+6106001 Albinauric Mask
+6108000 Imp Head (Cat)
+6108100 Imp Head (Fanged)
+6108200 Imp Head (Long-Tongued)
+6108300 Imp Head (Corpse)
+6108400 Imp Head (Wolf)
+6108500 Imp Head (Elder)
+6109000 Silver Tear Mask
+6109001 Silver Tear Mask
+6112000 Jar
+6160000 Greathood
+6160001 Greathood
+6175000 Haligtree Helm
+6182000 Haligtree Knight Helm
+6188000 Sacred Crown Helm
+6189000 Omensmirk Mask
+6190000 Ash-of-War Scarab
+6190001 Ash-of-War Scarab
+6190100 Incantation Scarab
+6190101 Incantation Scarab
+6190200 Glintstone Scarab
+6190201 Glintstone Scarab
+6191000 Crimson Tear Scarab
+6191001 Crimson Tear Scarab
+6192000 Cerulean Tear Scarab
+6192001 Cerulean Tear Scarab
+6193010 Deathbed Dress
+6193011 Deathbed Dress
+6193012 Deathbed Dress - Heal
+6200000 Rotten Duelist Helm
+6200030 Rotten Duelist Greaves
+6200110 Rotten Gravekeeper Cloak (Altered)
+6201000 Mushroom Crown
+6201001 Mushroom Crown
+6202000 Black Dumpling
+6202001 Black Dumpling

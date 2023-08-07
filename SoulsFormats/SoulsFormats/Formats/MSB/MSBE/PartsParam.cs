@@ -153,6 +153,13 @@ namespace SoulsFormats
         /// </summary>
         public abstract class Part : Entry, IMsbPart
         {
+            public enum UnkEnabledStateType : int
+            {
+                Default = 0,
+                Disabled = 1,
+                Unk2 = 2,
+                Unk3 = 3,
+            }
             private protected abstract PartType Type { get; }
             private protected abstract bool HasUnk1 { get; }
             private protected abstract bool HasUnk2 { get; }
@@ -196,9 +203,9 @@ namespace SoulsFormats
             public Vector3 Scale { get; set; }
 
             /// <summary>
-            /// Unknown
+            /// 1 disables the part, 2 and 3 are unknown.
             /// </summary>
-            public int Unk44 { get; set; }
+            public UnkEnabledStateType UnkEnabledState { get; set; }
 
             /// <summary>
             /// Very speculative
@@ -350,7 +357,7 @@ namespace SoulsFormats
                 Position = br.ReadVector3();
                 Rotation = br.ReadVector3();
                 Scale = br.ReadVector3();
-                Unk44 = br.ReadInt32();
+                UnkEnabledState = br.ReadEnumInt32<UnkEnabledStateType>();
                 MapStudioLayer = br.ReadUInt32();
                 br.AssertInt32(0);
                 long unkOffset1 = br.ReadInt64();
@@ -533,7 +540,7 @@ namespace SoulsFormats
                 bw.WriteVector3(Position);
                 bw.WriteVector3(Rotation);
                 bw.WriteVector3(Scale);
-                bw.WriteInt32(Unk44);
+                bw.WriteInt32((int)UnkEnabledState);
                 bw.WriteUInt32(MapStudioLayer);
                 bw.WriteInt32(0);
                 bw.ReserveInt64("UnkOffset1");
@@ -722,7 +729,7 @@ namespace SoulsFormats
 
             internal virtual void GetIndices(MSBE msb, Entries entries)
             {
-                ModelIndex = MSB.FindIndex(entries.Models, ModelName);
+                ModelIndex = MSB.FindIndex(this, entries.Models, ModelName);
             }
 
             /// <summary>
@@ -1738,8 +1745,8 @@ namespace SoulsFormats
                 internal override void GetIndices(MSBE msb, Entries entries)
                 {
                     base.GetIndices(msb, entries);
-                    CollisionPartIndex = MSB.FindIndex(entries.Parts, CollisionPartName);
-                    WalkRouteIndex = (short)MSB.FindIndex(msb.Events.PatrolInfo, WalkRouteName);
+                    CollisionPartIndex = MSB.FindIndex(this, entries.Parts, CollisionPartName);
+                    WalkRouteIndex = (short)MSB.FindIndex(this, msb.Events.PatrolInfo, WalkRouteName);
                 }
             }
 
@@ -2379,7 +2386,7 @@ namespace SoulsFormats
                 internal override void GetIndices(MSBE msb, Entries entries)
                 {
                     base.GetIndices(msb, entries);
-                    CollisionIndex = MSB.FindIndex(msb.Parts.Collisions, CollisionName);
+                    CollisionIndex = MSB.FindIndex(this, msb.Parts.Collisions, CollisionName);
                 }
             }
 

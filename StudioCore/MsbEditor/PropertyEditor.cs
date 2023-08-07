@@ -258,9 +258,10 @@ namespace StudioCore.MsbEditor
                 else
                 {
                     // SoulsFormats does not define if alpha should be exposed. Expose alpha by default.
-    #if DEBUG
-                    TaskManager.warningList.TryAdd($"{prop.DeclaringType} NullAlphaAttribute", $"Color property in `{prop.DeclaringType}` does not declare if it supports Alpha. Alpha will be exposed by default.");
-    #endif
+                    TaskLogs.AddLog($"Color property in \"{prop.DeclaringType}\" does not declare if it supports Alpha. Alpha will be exposed by default",
+                        Microsoft.Extensions.Logging.LogLevel.Warning,
+                        TaskLogs.LogPriority.Low);
+
                     var color = (Color)oldval;
                     Vector4 val = new(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f);
                     if (ImGui.ColorEdit4("##value", ref val))
@@ -472,7 +473,7 @@ namespace StudioCore.MsbEditor
             IReadOnlyList<Param.Cell> cells = new List<Param.Cell>();
             if (selection.WrappedObject is Param.Row row)
             {
-                cells = row.CellHandles;
+                cells = row.Cells;
 
             }
             else if (selection.WrappedObject is MergedParamRow mrow)
@@ -510,7 +511,7 @@ namespace StudioCore.MsbEditor
             PropEditorPropInfoRow(row, idProp, "ID", ref id, null);
             ImGui.PopStyleColor();
 
-            foreach (var cell in row.Cells)
+            foreach (var cell in row.Columns)
             {
                 PropEditorPropCellRow(row[cell], ref id, null);
             }
@@ -572,7 +573,7 @@ namespace StudioCore.MsbEditor
                 Editor.EditorDecorations.ParamRefText(refs, null);
                 ImGui.NextColumn();
                 Editor.EditorDecorations.ParamRefsSelectables(ParamEditor.ParamBank.PrimaryBank, refs, null, val);
-                var opened = Editor.EditorDecorations.ParamRefEnumContextMenu(ParamEditor.ParamBank.PrimaryBank, val, ref newObj, refs, null, null, null);
+                var opened = Editor.EditorDecorations.ParamRefEnumContextMenu(ParamEditor.ParamBank.PrimaryBank, val, ref newObj, refs, null, null, null, null);
                 return opened;
             }
             return false;
@@ -596,6 +597,8 @@ namespace StudioCore.MsbEditor
             Cylinder,
             Box,
             Composite,
+            Rectangle,
+            Circle,
         }
 
         private string[] _regionShapes =
@@ -605,6 +608,8 @@ namespace StudioCore.MsbEditor
             "Cylinder",
             "Box",
             "Composite",
+            "Rectangle",
+            "Circle",
         };
 
         internal enum LightType
@@ -810,6 +815,12 @@ namespace StudioCore.MsbEditor
                                         break;
                                     case RegionShape.Composite:
                                         newshape = new MSB.Shape.Composite();
+                                        break;
+                                    case RegionShape.Rectangle:
+                                        newshape = new MSB.Shape.Rectangle();
+                                        break;
+                                    case RegionShape.Circle:
+                                        newshape = new MSB.Shape.Circle();
                                         break;
                                     default:
                                         throw new Exception("Invalid shape");
@@ -1069,6 +1080,7 @@ namespace StudioCore.MsbEditor
             else if (entSelection.Any())
             {
                 var firstEnt = entSelection.First();
+                ImGui.Text($" Map: {firstEnt.Container.Name}");
                 if (firstEnt.WrappedObject == null)
                 {
                     ImGui.Text("Select a map object to edit its properties.");

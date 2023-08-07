@@ -357,18 +357,6 @@ namespace StudioCore.ParamEditor
                 var res = rowOpOrCellStageFunc(rowArgFunc, paramname, row, partialActions);
                 if (res.Type != MassEditResultType.SUCCESS)
                     return res;
-                /*if (cellSelector == null)
-                {
-                    var res = ExecRowOp(rowArgFunc, paramname, row, partialActions);
-                    if (res.Type != MassEditResultType.SUCCESS)
-                        return res;
-                }
-                else
-                {
-                    var res = ExecCellStage(rowArgFunc, paramname, row, partialActions);
-                    if (res.Type != MassEditResultType.SUCCESS)
-                        return res;
-                }*/
             }
             return new MassEditResult(MassEditResultType.SUCCESS, "");
         }
@@ -438,7 +426,7 @@ namespace StudioCore.ParamEditor
             return str+"\n";
         }
         
-        public static string GenerateCSV(List<Param.Row> rows, Param param, char separator)
+        public static string GenerateCSV(IReadOnlyList<Param.Row> rows, Param param, char separator)
         {
             string gen = "";
             gen += GenerateColumnLabels(param, separator);
@@ -447,13 +435,13 @@ namespace StudioCore.ParamEditor
             {
                 string name = row.Name==null ? "null" : row.Name.Replace(separator, '-');
                 string rowgen = $@"{row.ID}{separator}{name}";
-                foreach (Param.Column cell in row.Cells)
+                foreach (Param.Column cell in row.Columns)
                     rowgen += $@"{separator}{row[cell].Value.ToParamEditorString()}";
                 gen += rowgen + "\n";
             }
             return gen;
         }
-        public static string GenerateSingleCSV(List<Param.Row> rows, Param param, string field, char separator)
+        public static string GenerateSingleCSV(IReadOnlyList<Param.Row> rows, Param param, string field, char separator)
         {
             string gen = $@"ID{separator}{field}"+"\n";
             foreach (Param.Row row in rows)
@@ -510,7 +498,7 @@ namespace StudioCore.ParamEditor
                     if (!name.Equals(row.Name))
                         actions.Add(new PropertiesChangedAction(row.GetType().GetProperty("Name"), -1, row, name));
                     int index = 2;
-                    foreach (Param.Column col in row.Cells)
+                    foreach (Param.Column col in row.Columns)
                     {
                         string v = csvs[index];
                         index++;
@@ -743,10 +731,8 @@ namespace StudioCore.ParamEditor
                 Regex rx = new Regex(args[0]);
                 return MassParamEdit.WithDynamicOf(ctx, (v) => rx.Replace(v, args[1]));
             }));
-            operations.Add("store", (new string[]{"variable name"}, "Overwrites the given variable's value with the selected value, attempting to convert type as necessary", (ctx, args) => {
-                MassParamEdit.massEditVars[args[0]] = MassParamEdit.WithDynamicOf(MassParamEdit.massEditVars[args[0]], (x) => ctx);
-                return ctx;
-            }));
+            operations.Add("max", (new string[]{"number"}, "Returns the larger of the current value and number", (ctx, args) => MassParamEdit.WithDynamicOf(ctx, (v) => Math.Max(v, double.Parse(args[0])))));
+            operations.Add("min", (new string[]{"number"}, "Returns the smaller of the current value and number", (ctx, args) => MassParamEdit.WithDynamicOf(ctx, (v) => Math.Min(v, double.Parse(args[0])))));
         }
     }
     public class MEOperationArgument
@@ -855,6 +841,13 @@ namespace StudioCore.ParamEditor
                     };
                 };
             }, ()=>ParamBank.AuxBanks.Count > 0));
+            argumentGetters.Add("paramlookup", newGetter(new string[]{"param name", "row id", "field name"}, "Returns the specific value specified by the exact param, row and field.", (address) => {
+                Param param = ParamBank.PrimaryBank.Params[address[0]];
+                int id = int.Parse(address[1]);
+                var field = param.GetCol(address[2]);
+                var value = param[id].Get(field).ToParamEditorString();
+                return (i, param) => (j, row) => (k, col) => value;
+            }));
             argumentGetters.Add("average", newGetter(new string[]{"field internalName", "row selector"}, "Gives the mean value of the cells/fields found using the given selector, for the currently selected param", (field) => (i, param) => {
                 var col = param.GetCol(field[0]);
                 if (!col.IsColumnValid())

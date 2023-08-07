@@ -271,15 +271,24 @@ namespace StudioCore.MsbEditor
             var cam_pos = Viewport.WorldView.CameraTransform.Position;
             var target_pos = cam_pos + (camdir * CFG.Current.Map_MoveSelectionToCamera_Radius);
 
-            // Get the relative positions of the selections
+            // Get the accumulated center position of all selections
             Vector3 accumPos = Vector3.Zero;
             foreach (var sel in sels)
             {
-                var pos = sel.GetRootLocalTransform().Position;
-                accumPos += pos;
+                if (Gizmos.Origin == Gizmos.GizmosOrigin.BoundingBox && sel.RenderSceneMesh != null)
+                {
+                    // Use bounding box origin as center
+                    accumPos += sel.RenderSceneMesh.GetBounds().GetCenter();
+                }
+                else
+                {
+                    // Use actual position as center
+                    accumPos += sel.GetRootLocalTransform().Position;
+                }
             }
             Transform centerT = new(accumPos / (float)sels.Count, Vector3.Zero);
 
+            // Offset selection positions to place accumulated center in front of camera
             foreach (var sel in sels)
             {
                 var new_pos = target_pos;
@@ -1154,6 +1163,40 @@ namespace StudioCore.MsbEditor
             }
         }
 
+        private void HandleSaveException(SavingFailedException e)
+        {
+            if (e.Wrapped is MSB.MissingReferenceException eRef)
+            {
+                var result = PlatformUtils.Instance.MessageBox($"{eRef.Message}\nSelect referring map entity?", "Failed to save map",
+                     MessageBoxButtons.YesNo,
+                     MessageBoxIcon.Error);
+                if (result == DialogResult.Yes)
+                {
+                    foreach (var map in Universe.LoadedObjectContainers.Where(e => e.Value != null))
+                    {
+                        foreach (var obj in map.Value.Objects)
+                        {
+                            if (obj.WrappedObject == eRef.Referrer)
+                            {
+                                _selection.ClearSelection();
+                                _selection.AddSelection(obj);
+                                FrameSelection();
+                                return;
+                            }
+                        }
+                    }
+                    TaskLogs.AddLog($"Could not select referrer: Unable to find map entity \"{eRef.Referrer.Name}\"",
+                        Microsoft.Extensions.Logging.LogLevel.Warning);
+                }
+            }
+            else
+            {
+                PlatformUtils.Instance.MessageBox(e.Wrapped.Message, e.Message,
+                     MessageBoxButtons.OK,
+                     MessageBoxIcon.None);
+            }
+        }
+
         public void Save()
         {
             try
@@ -1162,9 +1205,7 @@ namespace StudioCore.MsbEditor
             }
             catch (SavingFailedException e)
             {
-                PlatformUtils.Instance.MessageBox(e.Wrapped.Message, e.Message,
-                     MessageBoxButtons.OK,
-                     MessageBoxIcon.None);
+                HandleSaveException(e);
             }
         }
 
@@ -1176,9 +1217,7 @@ namespace StudioCore.MsbEditor
             }
             catch (SavingFailedException e)
             {
-                PlatformUtils.Instance.MessageBox(e.Wrapped.Message, e.Message,
-                     MessageBoxButtons.OK,
-                     MessageBoxIcon.None);
+                HandleSaveException(e);
             }
         }
 

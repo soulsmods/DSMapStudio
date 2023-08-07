@@ -359,8 +359,8 @@ namespace SoulsFormats
 
             internal virtual void GetIndices(MSBS msb, Entries entries)
             {
-                PartIndex = MSB.FindIndex(entries.Parts, PartName);
-                RegionIndex = MSB.FindIndex(entries.Regions, RegionName);
+                PartIndex = MSB.FindIndex(this, entries.Parts, PartName);
+                RegionIndex = MSB.FindIndex(this, entries.Regions, RegionName);
             }
 
             /// <summary>
@@ -468,7 +468,7 @@ namespace SoulsFormats
                 internal override void GetIndices(MSBS msb, Entries entries)
                 {
                     base.GetIndices(msb, entries);
-                    TreasurePartIndex = MSB.FindIndex(entries.Parts, TreasurePartName);
+                    TreasurePartIndex = MSB.FindIndex(this, entries.Parts, TreasurePartName);
                 }
             }
 
@@ -706,7 +706,7 @@ namespace SoulsFormats
                 internal override void GetIndices(MSBS msb, Entries entries)
                 {
                     base.GetIndices(msb, entries);
-                    ObjActPartIndex = MSB.FindIndex(entries.Parts, ObjActPartName);
+                    ObjActPartIndex = MSB.FindIndex(this, entries.Parts, ObjActPartName);
                 }
             }
 
@@ -836,10 +836,10 @@ namespace SoulsFormats
                     base.GetIndices(msb, entries);
                     WalkRegionIndices = new short[WalkRegionNames.Length];
                     for (int i = 0; i < WalkRegionNames.Length; i++)
-                        WalkRegionIndices[i] = (short)MSB.FindIndex(entries.Regions, WalkRegionNames[i]);
+                        WalkRegionIndices[i] = (short)MSB.FindIndex(this, entries.Regions, WalkRegionNames[i]);
 
                     foreach (WREntry wrEntry in WREntries)
-                        wrEntry.GetIndices(entries);
+                        wrEntry.GetIndices(this, entries);
                 }
 
                 /// <summary>
@@ -898,9 +898,9 @@ namespace SoulsFormats
                         RegionName = MSB.FindName(entries.Regions, RegionIndex);
                     }
 
-                    internal void GetIndices(Entries entries)
+                    internal void GetIndices(IMsbEntry entry, Entries entries)
                     {
-                        RegionIndex = (short)MSB.FindIndex(entries.Regions, RegionName);
+                        RegionIndex = (short)MSB.FindIndex(entry, entries.Regions, RegionName);
                     }
                 }
             }
@@ -1319,8 +1319,8 @@ namespace SoulsFormats
                 internal override void GetIndices(MSBS msb, Entries entries)
                 {
                     base.GetIndices(msb, entries);
-                    AutoDrawGroupPointIndex = MSB.FindIndex(msb.Regions.AutoDrawGroupPoints, AutoDrawGroupPointName);
-                    OwningCollisionIndex = MSB.FindIndex(msb.Parts.Collisions, OwningCollisionName);
+                    AutoDrawGroupPointIndex = MSB.FindIndex(this, msb.Regions.AutoDrawGroupPoints, AutoDrawGroupPointName);
+                    OwningCollisionIndex = MSB.FindIndex(this, msb.Parts.Collisions, OwningCollisionName);
                 }
             }
 

@@ -7,21 +7,28 @@
         <Option Value="2" Name="Type 2" />
     </Enum>
     <Enum Name="SP_EFFECT_VFX_SOUL_PARAM_TYPE" type="u8">
-        <Option Value="0" Name="Type 0" />
-        <Option Value="1" Name="Type 1" />
-        <Option Value="2" Name="Type 2" />
-        <Option Value="3" Name="Type 3" />
-        <Option Value="4" Name="Type 4" />
-        <Option Value="5" Name="Type 5" />
-        <Option Value="6" Name="Type 6" />
-        <Option Value="7" Name="Type 7" />
-        <Option Value="9" Name="Type 9" />
-        <Option Value="10" Name="Type 10" />
-        <Option Value="11" Name="Type 11" />
-        <Option Value="12" Name="Type 12" />
-        <Option Value="17" Name="Type 17" />
-        <Option Value="18" Name="Type 18" />
-        <Option Value="24" Name="Type 24" />
+        <Option Value="0" Name="0 Default - No Trace" />
+        <Option Value="1" Name="1 Magic - Light Blue" />
+        <Option Value="2" Name="2 Fire - Orange-Yellow" />
+        <Option Value="3" Name="3 Lightning - Light Yellow" />
+        <Option Value="4" Name="4 Blood 1/2 - Red" />
+        <Option Value="5" Name="5 Poison - Green" />
+        <Option Value="6" Name="6 Frost/Ice - Blue-White" />
+        <Option Value="7" Name="7 Royal Knight's Resolve - Silver" />
+        <Option Value="9" Name="9 Vyke Red Lightning - Red" />
+        <Option Value="10" Name="10 Holy - Light Yellow" />
+        <Option Value="11" Name="11 Blood 2/2 - Red" />
+        <Option Value="12" Name="12 Sleep - Light Purple" />
+        <Option Value="14" Name="14 Scarlet Rot - Pink-Red" />
+        <Option Value="15" Name="15 Black and Yellow - Death Lightning" />
+        <Option Value="16" Name="16 Dragon Wound - Light Red" />
+        <Option Value="17" Name="17 Black Flame - Black-White" />
+        <Option Value="18" Name="18 Blood Flame - Red" />
+        <Option Value="19" Name="19 Ghost Flame - White-Gray" />
+        <Option Value="20" Name="20 Darkmoon Greatsword - Blue" />
+        <Option Value="21" Name="21 Ice Lightning - Blue-White" />
+        <Option Value="24" Name="24 Golden Holy - Gold" />
+        <Option Value="25" Name="25 Loretta's Blue Fire - Dark Blue" />
     </Enum>
     <Enum Name="SP_EFFECT_VFX_PLAYCATEGORY" type="u8">
         <Option Value="0" Name="Category 0" />

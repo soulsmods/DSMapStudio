@@ -24,7 +24,7 @@ namespace Veldrid
     /// </summary>
     public unsafe class GraphicsDevice : IDisposable
     {
-        private static readonly string s_name = "DSMapStudio";
+        private static readonly FixedUtf8String s_name = "DSMapStudio";
         private static readonly Lazy<bool> s_isSupported = new Lazy<bool>(CheckIsSupported, isThreadSafe: true);
         
         private readonly object _deferredDisposalLock = new object();
@@ -566,7 +566,6 @@ namespace Veldrid
             uint imageIndex = vkSC.ImageIndex;
             var presentInfo = new VkPresentInfoKHR
             {
-                sType = VkStructureType.PresentInfoKHR,
                 swapchainCount = 1,
                 pSwapchains = &deviceSwapchain,
                 pImageIndices = &imageIndex
@@ -1047,7 +1046,6 @@ namespace Veldrid
             
             var bufferCI = new VkBufferCreateInfo
             {
-                sType = VkStructureType.BufferCreateInfo,
                 size = sizeInBytes,
                 usage = usage
             };
@@ -1430,13 +1428,11 @@ namespace Veldrid
             bool useExtraFence = fence != null;
             var cbSubmitInfo = new VkCommandBufferSubmitInfo
             {
-                sType = VkStructureType.CommandBufferSubmitInfo,
                 commandBuffer = vkCB,
                 deviceMask = 0,
             };
             var si = new VkSubmitInfo2
             {
-                sType = VkStructureType.SubmitInfo2,
                 flags = VkSubmitFlags.None,
                 commandBufferInfoCount = 1,
                 pCommandBufferInfos = &cbSubmitInfo,
@@ -1483,7 +1479,6 @@ namespace Veldrid
 
             VkFenceCreateInfo fenceCI = new VkFenceCreateInfo
             {
-                sType = VkStructureType.FenceCreateInfo
             };
             VkFence newFence;
             VkResult result = vkCreateFence(_device, &fenceCI, null, out newFence);
@@ -1562,7 +1557,6 @@ namespace Veldrid
             
             var nameInfo = new VkDebugUtilsObjectNameInfoEXT()
             {
-                sType = VkStructureType.DebugUtilsObjectNameInfoEXT,
                 objectType = type,
                 objectHandle = handle,
                 pObjectName = utf8Ptr
@@ -1586,15 +1580,15 @@ namespace Veldrid
             
             var applicationInfo = new VkApplicationInfo
             {
-                ApiVersion = new VkVersion(1, 3, 0),
-                ApplicationVersion = new VkVersion(1, 0, 0),
-                EngineVersion = new VkVersion(1, 0, 0),
-                ApplicationName = s_name,
-                EngineName = s_name
+                apiVersion = new VkVersion(1, 3, 0),
+                applicationVersion = new VkVersion(1, 0, 0),
+                engineVersion = new VkVersion(1, 0, 0),
+                pApplicationName = s_name.StringPtr,
+                pEngineName = s_name.StringPtr
             };
 
-            var instanceExtensions = new List<string>();
-            var instanceLayers = new List<string>();
+            var instanceExtensions = new StackList<IntPtr, Size64Bytes>();
+            var instanceLayers = new StackList<IntPtr, Size64Bytes>();
 
             if (availableInstanceExtensions.Contains(CommonStrings.VK_KHR_SURFACE_EXTENSION_NAME))
             {
@@ -1671,9 +1665,11 @@ namespace Veldrid
 
             var instanceCI = new VkInstanceCreateInfo
             {
-                ApplicationInfo = applicationInfo,
-                EnabledExtensionNames = instanceExtensions.ToArray(),
-                EnabledLayerNames = instanceLayers.ToArray()
+                pApplicationInfo = &applicationInfo,
+                enabledExtensionCount = instanceExtensions.Count,
+                ppEnabledExtensionNames = (sbyte**)instanceExtensions.Data,
+                enabledLayerCount = instanceLayers.Count,
+                ppEnabledLayerNames = (instanceLayers.Count > 0) ? (sbyte**)instanceLayers.Data : null
             };
 
             VkDebugUtilsMessengerCreateInfoEXT debugCallbackCI;
@@ -1681,7 +1677,6 @@ namespace Veldrid
             {
                 debugCallbackCI = new VkDebugUtilsMessengerCreateInfoEXT()
                 {
-                    sType = VkStructureType.DebugUtilsMessengerCreateInfoEXT,
                     messageSeverity = VkDebugUtilsMessageSeverityFlagsEXT.Warning | VkDebugUtilsMessageSeverityFlagsEXT.Error,
                     messageType = VkDebugUtilsMessageTypeFlagsEXT.Validation,
                     pfnUserCallback = &DebugCallback
@@ -1689,7 +1684,7 @@ namespace Veldrid
                 instanceCI.pNext = &debugCallbackCI;
             }
 
-            result = vkCreateInstance(instanceCI, out _instance);
+            result = vkCreateInstance(&instanceCI, null, out _instance);
             CheckResult(result);
             if (result != VkResult.Success)
             {
@@ -1780,21 +1775,17 @@ namespace Veldrid
 
                 var deviceVulkan13Features = new VkPhysicalDeviceVulkan13Features
                 {
-                    sType = VkStructureType.PhysicalDeviceVulkan13Features,
                 };
                 var deviceVulkan12Features = new VkPhysicalDeviceVulkan12Features
                 {
-                    sType = VkStructureType.PhysicalDeviceVulkan12Features,
                     pNext = &deviceVulkan13Features,
                 };
                 var deviceVulkan11Features = new VkPhysicalDeviceVulkan11Features
                 {
-                    sType = VkStructureType.PhysicalDeviceVulkan11Features,
                     pNext = &deviceVulkan12Features,
                 };
                 var deviceFeatures = new VkPhysicalDeviceFeatures2
                 {
-                    sType = VkStructureType.PhysicalDeviceFeatures2,
                     pNext = &deviceVulkan11Features,
                 };
 
@@ -1844,7 +1835,7 @@ namespace Veldrid
             VkQueueFamilyProperties2* props = stackalloc VkQueueFamilyProperties2[count];
             for (uint i = 0; i < count; i++)
             {
-                props[i].sType = VkStructureType.QueueFamilyProperties2;
+                props[i] = new VkQueueFamilyProperties2();
             }
             vkGetPhysicalDeviceQueueFamilyProperties2(_physicalDevice, &count, props);
             int queueFamilyCount = count;
@@ -1914,8 +1905,9 @@ namespace Veldrid
                 _queueIndices[(int)QueueType.Transfer] = _queueIndices[(int)QueueType.Compute];
             }
 
-            var queueCreateInfos = new List<VkDeviceQueueCreateInfo>();
+            var queueCreateInfos = stackalloc VkDeviceQueueCreateInfo[queueFamilyCount];
             
+            uint queueCreateInfosCount = 0;
             for (uint i = 0; i < queueFamilyCount; i++)
             {
                 if (offsets[i] == 0)
@@ -1923,11 +1915,12 @@ namespace Veldrid
                 
                 var queueCreateInfo = new VkDeviceQueueCreateInfo
                 {
-                    QueueFamilyIndex = i,
-                    QueueCount = (int)offsets[i],
-                    QueuePriorities = new Span<float>(&priorities[i * (int)QueueType.QueueTypeCount], (int)offsets[i]).ToArray()
+                    queueFamilyIndex = i,
+                    queueCount = offsets[i],
+                    pQueuePriorities = &priorities[i * (int)QueueType.QueueTypeCount]
                 };
-                queueCreateInfos.Add(queueCreateInfo);
+                queueCreateInfos[queueCreateInfosCount] = queueCreateInfo;
+                queueCreateInfosCount++;
             }
 
             var deviceFeatures = new VkPhysicalDeviceFeatures
@@ -1948,14 +1941,12 @@ namespace Veldrid
 
             var deviceFeatures11 = new VkPhysicalDeviceVulkan11Features
             {
-                sType = VkStructureType.PhysicalDeviceVulkan11Features,
                 storageBuffer16BitAccess = VkBool32.True,
                 uniformAndStorageBuffer16BitAccess = VkBool32.True
             };
 
             var deviceFeatures12 = new VkPhysicalDeviceVulkan12Features
             {
-                sType = VkStructureType.PhysicalDeviceVulkan12Features,
                 drawIndirectCount = VkBool32.True,
                 descriptorIndexing = VkBool32.True,
                 descriptorBindingVariableDescriptorCount = VkBool32.True,
@@ -1966,7 +1957,6 @@ namespace Veldrid
             
             var deviceFeatures13 = new VkPhysicalDeviceVulkan13Features
             {
-                sType = VkStructureType.PhysicalDeviceVulkan13Features,
                 synchronization2 = VkBool32.True,
                 dynamicRendering = VkBool32.True,
                 maintenance4 = VkBool32.True
@@ -1985,36 +1975,36 @@ namespace Veldrid
 
             bool hasMemReqs2 = false;
             bool hasDedicatedAllocation = false;
-            var extensionNames = new List<string>();
+            var extensionNames = new StackList<IntPtr>();
             for (int property = 0; property < propertyCount; property++)
             {
                 string extensionName = Util.GetString((byte*)properties[property].extensionName);
                 if (extensionName == "VK_KHR_swapchain")
                 {
-                    extensionNames.Add(extensionName);
+                    extensionNames.Add((IntPtr)properties[property].extensionName);
                     requiredInstanceExtensions.Remove(extensionName);
                 }
                 else if (preferStandardClipY && extensionName == "VK_KHR_maintenance1")
                 {
-                    extensionNames.Add(extensionName);
+                    extensionNames.Add((IntPtr)properties[property].extensionName);
                     requiredInstanceExtensions.Remove(extensionName);
                     _standardClipYDirection = true;
                 }
                 else if (extensionName == "VK_KHR_get_memory_requirements2")
                 {
-                    extensionNames.Add(extensionName);
+                    extensionNames.Add((IntPtr)properties[property].extensionName);
                     requiredInstanceExtensions.Remove(extensionName);
                     hasMemReqs2 = true;
                 }
                 else if (extensionName == "VK_KHR_dedicated_allocation")
                 {
-                    extensionNames.Add(extensionName);
+                    extensionNames.Add((IntPtr)properties[property].extensionName);
                     requiredInstanceExtensions.Remove(extensionName);
                     hasDedicatedAllocation = true;
                 }
                 else if (requiredInstanceExtensions.Remove(extensionName))
                 {
-                    extensionNames.Add(extensionName);
+                    extensionNames.Add((IntPtr)properties[property].extensionName);
                 }
             }
 
@@ -2025,7 +2015,7 @@ namespace Veldrid
                     $"The following Vulkan device extensions were not available: {missingList}");
             }
 
-            var layerNames = new List<string>();
+            var layerNames = new StackList<IntPtr>();
             if (_standardValidationSupported)
             {
                 layerNames.Add(CommonStrings.StandardValidationLayerName);
@@ -2033,7 +2023,6 @@ namespace Veldrid
             
             var physicalDeviceFeatures2 = new VkPhysicalDeviceFeatures2
             {
-                sType = VkStructureType.PhysicalDeviceFeatures2,
                 features = deviceFeatures,
                 pNext = &deviceFeatures11
             };
@@ -2041,13 +2030,17 @@ namespace Veldrid
             // TODO: no support for device layers?
             var deviceCreateInfo = new VkDeviceCreateInfo
             {
-                QueueCreateInfos = queueCreateInfos.ToArray(),
-                EnabledFeatures = null,
-                EnabledExtensionNames = extensionNames.ToArray(),
+                queueCreateInfoCount = queueCreateInfosCount,
+                pQueueCreateInfos = queueCreateInfos,
+                pEnabledFeatures = null,
+                enabledLayerCount = layerNames.Count,
+                ppEnabledLayerNames = (sbyte**)layerNames.Data,
+                enabledExtensionCount = extensionNames.Count,
+                ppEnabledExtensionNames = (sbyte**)extensionNames.Data,
                 pNext = &physicalDeviceFeatures2
             };
 
-            result = vkCreateDevice(_physicalDevice, deviceCreateInfo, out _device);
+            result = vkCreateDevice(_physicalDevice, &deviceCreateInfo, null, out _device);
             CheckResult(result);
             vkLoadDevice(_device);
 
@@ -2196,18 +2189,18 @@ namespace Veldrid
             
             var applicationInfo = new VkApplicationInfo
             {
-                ApiVersion = new VkVersion(1, 2, 0),
-                ApplicationVersion = new VkVersion(1, 0, 0),
-                EngineVersion = new VkVersion(1, 0, 0),
-                ApplicationName = s_name,
-                EngineName = s_name
+                apiVersion = new VkVersion(1, 3, 0),
+                applicationVersion = new VkVersion(1, 0, 0),
+                engineVersion = new VkVersion(1, 0, 0),
+                pApplicationName = (sbyte*)s_name.StringPtr,
+                pEngineName = (sbyte*)s_name.StringPtr
             };
 
             var instanceCI = new VkInstanceCreateInfo
             {
-                ApplicationInfo = applicationInfo
+                pApplicationInfo = &applicationInfo
             };
-            VkResult result = vkCreateInstance(instanceCI, out VkInstance testInstance);
+            VkResult result = vkCreateInstance(&instanceCI, null, out VkInstance testInstance);
             if (result != VkResult.Success)
             {
                 return false;

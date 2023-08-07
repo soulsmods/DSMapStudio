@@ -24,13 +24,11 @@ namespace Veldrid
             VkDescriptorPool pool = GetPool(counts);
             var variableCountAI = new VkDescriptorSetVariableDescriptorCountAllocateInfo
             {
-                sType = VkStructureType.DescriptorSetVariableDescriptorCountAllocateInfo,
                 descriptorSetCount = 1,
                 pDescriptorCounts = &variableCount,
             };
             VkDescriptorSetAllocateInfo dsAI = new VkDescriptorSetAllocateInfo
             {
-                sType = VkStructureType.DescriptorSetAllocateInfo,
                 pNext = &variableCountAI,
                 descriptorSetCount = 1,
                 pSetLayouts = &setLayout,
@@ -100,7 +98,6 @@ namespace Veldrid
 
             var poolCI = new VkDescriptorPoolCreateInfo
             {
-                sType = VkStructureType.DescriptorPoolCreateInfo,
                 flags = VkDescriptorPoolCreateFlags.FreeDescriptorSet | VkDescriptorPoolCreateFlags.UpdateAfterBind,
                 maxSets = totalSets,
                 pPoolSizes = sizes,
@@ -143,7 +140,6 @@ namespace Veldrid
 
             var poolCI = new VkDescriptorPoolCreateInfo
             {
-                sType = VkStructureType.DescriptorPoolCreateInfo,
                 flags = VkDescriptorPoolCreateFlags.FreeDescriptorSet | VkDescriptorPoolCreateFlags.UpdateAfterBind,
                 maxSets = totalSets,
                 pPoolSizes = sizes,

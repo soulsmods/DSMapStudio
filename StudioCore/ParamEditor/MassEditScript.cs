@@ -78,7 +78,8 @@ namespace StudioCore.ParamEditor
                         }
                         catch (Exception e)
                         {
-                            TaskManager.warningList["MassEditScriptLoad"] = "Error loading mass edit script " + name;
+                            TaskLogs.AddLog($"Error loading mass edit script {name}",
+                                Microsoft.Extensions.Logging.LogLevel.Warning);
                             return null;
                         }
                     }).ToList();
@@ -90,7 +91,8 @@ namespace StudioCore.ParamEditor
             }
             catch
             {
-                TaskManager.warningList["MassEditScriptsLoad"] = "Error loading mass edit scripts in " + dir;
+                TaskLogs.AddLog($"Error loading mass edit scripts in {dir}",
+                    Microsoft.Extensions.Logging.LogLevel.Warning);
                 scriptList = new List<MassEditScript>();
             }
         }

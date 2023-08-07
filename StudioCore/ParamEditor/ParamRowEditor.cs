@@ -260,7 +260,8 @@ namespace StudioCore.ParamEditor
                 if (newval == null)
                 {
                     // Safety check warned to user, should have proper crash handler instead
-                    TaskManager.warningList["ParamRowEditorPropertyChangeError"] = "ParamRowEditor: Property changed was null";
+                    TaskLogs.AddLog("ParamRowEditor: Property changed was null",
+                        Microsoft.Extensions.Logging.LogLevel.Warning);
                     return;
                 }
                 PropertiesChangedAction action;
@@ -580,7 +581,7 @@ namespace StudioCore.ParamEditor
             if (CFG.Current.Param_HideReferenceRows == false || CFG.Current.Param_HideEnums == false)
             {
                 var fmgInfo = TextEditor.FMGBank.FmgInfoBank.Find((x) => x.Name == FmgRef);
-                if (EditorDecorations.ParamRefEnumContextMenu(bank, oldval, ref newval, RefTypes, row, fmgInfo, Enum))
+                if (EditorDecorations.ParamRefEnumContextMenu(bank, oldval, ref newval, RefTypes, row, fmgInfo, Enum, ContextActionManager))
                 {
                     changed = true;
                     committed = true;
@@ -840,7 +841,8 @@ namespace StudioCore.ParamEditor
                     Process.Start("explorer.exe", $"/select,\"{path}\"");
                 else
                 {
-                    TaskManager.warningList.TryAdd("GotoExtRef", "File could not be found. It may be map or chr specific.");
+                    TaskLogs.AddLog("File could not be found. It may be map or chr specific",
+                        Microsoft.Extensions.Logging.LogLevel.Warning);
                     CacheBank.ClearCaches();
                 }
             }

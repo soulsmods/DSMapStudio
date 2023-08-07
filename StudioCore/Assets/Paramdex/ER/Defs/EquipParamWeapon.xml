@@ -1229,7 +1229,7 @@
       <Maximum>1</Maximum>
       <SortID>2530</SortID>
     </Field>
-    <Field Def="dummy8 pad2:3">
+    <Field Def="dummy8 unk1:3">
       <DisplayName>pad</DisplayName>
       <DisplayFormat>%d</DisplayFormat>
       <EditFlags>Wrap</EditFlags>

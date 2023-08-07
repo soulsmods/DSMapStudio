@@ -265,8 +265,8 @@ namespace SoulsFormats
 
             internal virtual void GetIndices(MSBD msb, Entries entries)
             {
-                PartIndex = MSB.FindIndex(entries.Parts, PartName);
-                RegionIndex = MSB.FindIndex(entries.Regions, RegionName);
+                PartIndex = MSB.FindIndex(this, entries.Parts, PartName);
+                RegionIndex = MSB.FindIndex(this, entries.Regions, RegionName);
             }
 
             /// <summary>
@@ -569,7 +569,7 @@ namespace SoulsFormats
                 internal override void GetIndices(MSBD msb, Entries entries)
                 {
                     base.GetIndices(msb, entries);
-                    TreasurePartIndex = MSB.FindIndex(entries.Parts, TreasurePartName);
+                    TreasurePartIndex = MSB.FindIndex(this, entries.Parts, TreasurePartName);
                 }
             }
 
