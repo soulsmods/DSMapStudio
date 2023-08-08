@@ -929,13 +929,13 @@ namespace SoulsFormats
                 internal override void GetNames(MSB1 msb, Entries entries)
                 {
                     base.GetNames(msb, entries);
-                    EnvLightMapSpotName = MSB.FindName(entries.Parts, EnvLightMapSpotIndex);
+                    EnvLightMapSpotName = MSB.FindName(entries.Events.FindAll(e => e.GetType() == typeof(MSB1.Event.Environment)), EnvLightMapSpotIndex);
                 }
 
                 internal override void GetIndices(MSB1 msb, Entries entries)
                 {
                     base.GetIndices(msb, entries);
-                    EnvLightMapSpotIndex = (short)MSB.FindIndex(this, entries.Parts, EnvLightMapSpotName);
+                    EnvLightMapSpotIndex = (short)MSB.FindIndex(this, entries.Events.FindAll(e => e.GetType() == typeof(MSB1.Event.Environment)), EnvLightMapSpotName);
                 }
             }
 
