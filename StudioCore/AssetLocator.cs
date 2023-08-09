@@ -100,6 +100,11 @@ namespace StudioCore
         /// </summary>
         public string GameModDirectory { get; private set; } = null;
 
+        /// <summary>
+        /// Directory where misc DSMapStudio files associated with a project are stored.
+        /// </summary>
+        public string ProjectMiscDir => @$"{GameModDirectory}\DSMapStudio";
+
         public AssetLocator()
         {
             GameExecutableFilter = new FileFilter { Name = "Game Executable (.EXE, EBOOT.BIN)" };
@@ -766,7 +771,7 @@ namespace StudioCore
         {
             return $@"{GetParamAssetsDir()}\Defs";
         }
-        
+
         public ulong[] GetParamdefPatches()
         {
             if (Directory.Exists($@"{GetParamAssetsDir()}\DefsPatch"))
@@ -790,6 +795,13 @@ namespace StudioCore
         public string GetParamNamesDir()
         {
             return $@"{GetParamAssetsDir()}\Names";
+        }
+
+        public string GetStrippedRowNamesPath(string paramName)
+        {
+            string dir = $@"{ProjectMiscDir}\Stripped Row Names";
+            Directory.CreateDirectory(dir);
+            return $@"{dir}\{paramName}.txt"; ;
         }
 
         public PARAMDEF GetParamdefForParam(string paramType)

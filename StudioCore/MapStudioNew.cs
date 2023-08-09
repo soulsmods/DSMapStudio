@@ -1136,12 +1136,6 @@ namespace StudioCore
                     "Default: ON\nImports and applies row names from lists stored in Assets folder.\nRow names can be imported at any time in the param editor's Edit menu.");
                 ImGui.SameLine();
                 ImGui.Checkbox("##loadDefaultNames", ref _newProjectOptions.loadDefaultNames);
-                if (_newProjectOptions.settings.UseLooseParams == false
-                    && _newProjectOptions.loadDefaultNames == true
-                    && _newProjectOptions.settings.GameType == GameType.DarkSoulsIISOTFS)
-                {
-                    ImGui.TextColored(new Vector4(1.0f, 0.4f, 0.4f, 1.0f), "Warning: Saving too many row names onto non-loose params will crash the game. It is highly recommended you use loose params with Dark Souls 2.");
-                }
                 ImGui.NewLine();
 
                 if (_newProjectOptions.settings.GameType == GameType.Undefined)
