@@ -63,7 +63,7 @@
     <Field Def="f32 infusion_mult_bleed" />
     <Field Def="f32 infusion_mult_raw" />
     <Field Def="f32 infusion_mult_enchanted" />
-    <Field Def="f32 infusion_mult_mundance" />
+    <Field Def="f32 infusion_mult_mundane" />
     <Field Def="s32 custom_attr_spec_param_id" />
     <Field Def="s32 custom_attr_cost_param_id" />
     <Field Def="s32 reinforce_cost_id" />

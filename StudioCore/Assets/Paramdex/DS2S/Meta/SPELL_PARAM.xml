@@ -1,5 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
+  <Enums>
+  	<Enum Name="SpellClass" type="u32">
+		<Option Value="0" Name="Sorcery" />
+		<Option Value="1" Name="Miracle" />
+		<Option Value="2" Name="Pyromancy" />
+		<Option Value="3" Name="Hex (Staff)" />
+		<Option Value="4" Name="Hex (Chime)" />
+	</Enum>
+  	<Enum Name="SpellFunction" type="u8">
+		<Option Value="0" Name="Default" />
+		<Option Value="1" Name="Weapon Buff" />
+		<Option Value="2" Name="Shield Buff" />
+		<Option Value="3" Name="Homeward" />
+		<Option Value="4" Name="Guidance" />
+	</Enum>
+  </Enums>
   <Self Row0Dummy="" />
   <Field>
     <spell_class AltName="Spell Class" />

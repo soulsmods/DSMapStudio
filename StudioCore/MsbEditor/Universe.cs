@@ -283,12 +283,9 @@ namespace StudioCore.MsbEditor
             bool loadnav = false;
             bool loadflver = false;
             Scene.RenderFilter filt = Scene.RenderFilter.All;
+
             var amapid = _assetLocator.GetAssetMapID(map.Name);
-            // Special case for chalice dungeon assets
-            if (map.Name.StartsWith("m29"))
-            {
-                amapid = "m29_00_00_00";
-            }
+
             var job = ResourceManager.CreateNewJob($@"Loading mesh");
             if (modelname.ToLower().StartsWith("m"))
             {
@@ -584,7 +581,8 @@ namespace StudioCore.MsbEditor
                 && ParamEditor.ParamBank.VanillaBank.Params == null)
             {
                 // ParamBank must be loaded for DS2 maps
-                TaskManager.warningList.TryAdd("ds2-mapload-noparams", "DS2 maps cannot be loaded until params are loaded.");
+                TaskLogs.AddLog("Cannot load DS2 maps until params finish loading",
+                    Microsoft.Extensions.Logging.LogLevel.Warning);
                 return false;
             }
 
@@ -622,7 +620,8 @@ namespace StudioCore.MsbEditor
             }
             catch (InvalidDataException)
             {
-                TaskManager.warningList.TryAdd($"{ad.AssetName} load", $"Failed to load {ad.AssetName}");
+                TaskLogs.AddLog($"Failed to load {ad.AssetName}",
+                    Microsoft.Extensions.Logging.LogLevel.Error);
                 return null;
             }
         }
@@ -949,6 +948,9 @@ namespace StudioCore.MsbEditor
             catch (Exception e)
             {
 #if DEBUG
+                TaskLogs.AddLog($"Map Load Failed (debug build): {e}",
+                    Microsoft.Extensions.Logging.LogLevel.Error,
+                    TaskLogs.LogPriority.High);
                 throw;
 #else
                 // Store async exception so it can be caught by crash handler.
@@ -996,9 +998,8 @@ namespace StudioCore.MsbEditor
                             var entryExists = entityIDList.TryGetValue(entityID, out string name);
                             if (entryExists)
                             {
-                                var key = $"{obj.Name} Dupe EntityID";
-                                var value = $"Duplicate EntityID: `{entityID}` is being used by multiple regions; `{obj.PrettyName}` and `{name}`";
-                                TaskManager.warningList.TryAdd(key, value);
+                                TaskLogs.AddLog($"Duplicate EntityID: \"{entityID}\" is being used by multiple regions \"{obj.PrettyName}\" and \"{name}\"",
+                                    Microsoft.Extensions.Logging.LogLevel.Warning);
                             }
                             else
                             {

@@ -2,5 +2,10 @@
 <PARAMMETA XmlVersion="0">
   <Self Row0Dummy="" />
   <Field>
+    <load_percent_breakpoint_1 AltName="Load % Breakpoint 1"/>
+    <load_percent_breakpoint_2 AltName="Load % Breakpoint 2"/>
+    <load_percent_breakpoint_3 AltName="Load % Breakpoint 3"/>
+    <load_percent_breakpoint_4 AltName="Load % Breakpoint 4"/>
+    <load_percent_breakpoint_5 AltName="Load % Breakpoint 5"/>
   </Field>
 </PARAMMETA>

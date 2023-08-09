@@ -25,13 +25,12 @@
 2401 Gift - Life Ring
 2402 Gift - Divine Blessing
 2403 Gift - Hidden Blessing
-2404 Gift - Black Firebomb
+2404 Gift - Black Firebomb (5)
 2405 Gift - Fire Gem
-2406 Gift - Rouge Water (5)
-2407 Gift - Sovereignless Soul
-2408 Gift - Rusted Gold Coin
-2409 Gift - Cracked Red Eye Orb
-2410 Gift - Young White Branch
+2406 Gift - Sovereignless Soul
+2407 Gift - Rusted Gold Coin (7)
+2408 Gift - Cracked Red Eye Orb (4)
+2409 Gift - Young White Branch
 2500 Nothing
 2501 Life Ring
 2502 Divine Blessing

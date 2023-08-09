@@ -244,9 +244,9 @@ namespace StudioCore
             }
             catch(Exception e)
             {
-#if DEBUG
-                TaskManager.warningList.TryAdd("ProgramUpdateCheckFail", $"Failed to check for program updates ({e.Message})");
-#endif
+                TaskLogs.AddLog($"Failed to check for program updates",
+                    Microsoft.Extensions.Logging.LogLevel.Warning,
+                    TaskLogs.LogPriority.Low);
             }
         }
 
@@ -450,14 +450,15 @@ namespace StudioCore
         {
             if (gameType is GameType.DarkSoulsPTDE or GameType.DarkSoulsIISOTFS)
             {
-                PlatformUtils.Instance.MessageBox($@"The files for {gameType} do not appear to be unpacked. Please use UDSFM for DS1:PTDE and UXM for DS2 to unpack the files.", "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.None);
+                TaskLogs.AddLog($"The files for {gameType} do not appear to be unpacked. Please use UDSFM for DS1:PTDE and UXM for DS2 to unpack game files",
+                    Microsoft.Extensions.Logging.LogLevel.Error,
+                    TaskLogs.LogPriority.High);
                 return false;
             }
             else
             {
-                TaskManager.warningList.TryAdd($"GameNotUnpacked{gameType}", $"The files for {gameType} do not appear to be fully unpacked. Functionality will be limited.\nPlease use UXM to unpack the files.");
+                TaskLogs.AddLog($"The files for {gameType} do not appear to be fully unpacked. Functionality will be limited. Please use UXM selective unpacker to unpack game files",
+                    Microsoft.Extensions.Logging.LogLevel.Warning);
                 return true;
             }
         }
@@ -966,30 +967,6 @@ namespace StudioCore
                     ImGui.EndMenu();
                 }
 
-                if (TaskManager.warningList.Count > 0)
-                {
-                    ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 0f, 0f, 1.0f));
-                    if (ImGui.BeginMenu("!! WARNINGS !!"))
-                    {
-                        ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 1.0f, 1.0f, 1.0f));
-                        ImGui.Text("Click warnings to remove them from list");
-                        if (ImGui.Button("Remove All Warnings"))
-                            TaskManager.warningList.Clear();
-
-                        ImGui.Separator();
-                        foreach (var task in TaskManager.warningList)
-                        {
-                            if (ImGui.Selectable(task.Value, false, ImGuiSelectableFlags.DontClosePopups))
-                            {
-                                TaskManager.warningList.TryRemove(task);
-                            }
-                        }
-                        ImGui.PopStyleColor();
-                        ImGui.EndMenu();
-                    }
-                    ImGui.PopStyleColor();
-                }
-
                 TaskLogs.Display();
 
                 ImGui.EndMainMenuBar();
@@ -1163,7 +1140,7 @@ namespace StudioCore
                     && _newProjectOptions.loadDefaultNames == true
                     && _newProjectOptions.settings.GameType == GameType.DarkSoulsIISOTFS)
                 {
-                    ImGui.TextColored(new Vector4(1.0f, 0.4f, 0.4f, 1.0f), "Warning: Saving row names onto non-loose params will crash the game. It is highly recommended you use loose params with Dark Souls 2.");
+                    ImGui.TextColored(new Vector4(1.0f, 0.4f, 0.4f, 1.0f), "Warning: Saving too many row names onto non-loose params will crash the game. It is highly recommended you use loose params with Dark Souls 2.");
                 }
                 ImGui.NewLine();
 
