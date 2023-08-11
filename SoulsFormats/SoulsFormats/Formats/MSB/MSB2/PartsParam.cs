@@ -517,9 +517,9 @@ namespace SoulsFormats
                 public byte UnkT2C { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// ID of tpf in model\map\envbnd to use for cubemaps.
                 /// </summary>
-                public short UnkT2E { get; set; }
+                public short CubeEnvID { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -583,7 +583,7 @@ namespace SoulsFormats
                     MapNameID = br.ReadInt32();
                     UnkT2C = br.ReadByte();
                     br.AssertByte(0);
-                    UnkT2E = br.ReadInt16();
+                    CubeEnvID = br.ReadInt16();
                     CameraExFollowParamID = br.ReadInt32();
                     br.AssertByte(0);
                     UnkT35 = br.ReadByte();
@@ -621,7 +621,7 @@ namespace SoulsFormats
                     bw.WriteInt32(MapNameID);
                     bw.WriteByte(UnkT2C);
                     bw.WriteByte(0);
-                    bw.WriteInt16(UnkT2E);
+                    bw.WriteInt16(CubeEnvID);
                     bw.WriteInt32(CameraExFollowParamID);
                     bw.WriteByte(0);
                     bw.WriteByte(UnkT35);
