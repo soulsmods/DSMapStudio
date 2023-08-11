@@ -37,5 +37,6 @@
     <damage_bleed AltName="Damage: Bleed" />
     <apply_bleed AltName="Inflict Bleed" IsBool="" />
     <ammo_type AltName="Ammunition Type" Enum="AmmoType"/>
+    <damage_durability AltName="Damage: Durability" />
   </Field>
 </PARAMMETA>
