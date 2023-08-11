@@ -1452,28 +1452,20 @@ namespace StudioCore.Scene
             return r;
         }
 
-        private static int GetVariedColor(int originalVal, int power)
-        {
-            var powerMult = ((255f * 3f) / power) * 0.5f;
-            var mult = _colorVarianceRand.NextSingle() * CFG.Current.GFX_Wireframe_Color_Variance * powerMult;
-            int newVal = (int)(originalVal + 255 * mult);
-            if (newVal > 255)
-            {
-                newVal = (int)(originalVal - 255 * mult);
-                if (newVal < 0)
-                    newVal = 255;
-            }
-            return newVal;
-        }
-
         private static Color ApplyColorVariance(Color color)
         {
-            var power = color.R + color.G + color.B;
-            int r = GetVariedColor(color.R, power);
-            int g = GetVariedColor(color.G, power);
-            int b = GetVariedColor(color.B, power);
+            var hsv = Utils.ColorToHSV(color);
 
-            return Color.FromArgb(color.A, r, g, b);
+            if (_colorVarianceRand.Next(2) == 0)
+            {
+                hsv.X += 360.0f * (_colorVarianceRand.NextSingle() * CFG.Current.GFX_Wireframe_Color_Variance);
+            }
+            else
+            {
+                hsv.X -= 360.0f * (_colorVarianceRand.NextSingle() * CFG.Current.GFX_Wireframe_Color_Variance);
+            }
+
+            return Utils.ColorFromHSV(hsv);
         }
     }
 

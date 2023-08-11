@@ -345,6 +345,9 @@ namespace StudioCore
                 ImGui.Separator();
 
                 ImGui.SliderFloat("Wireframe color variance", ref CFG.Current.GFX_Wireframe_Color_Variance, 0.0f, 1.0f);
+                ImGui.SameLine();
+                if (ImGui.Button("Reset##WireframeColorVariance"))
+                    CFG.Current.GFX_Wireframe_Color_Variance = CFG.Default.GFX_Wireframe_Color_Variance;
 
                 ImGui.Unindent();
                 ImGui.EndTabItem();
