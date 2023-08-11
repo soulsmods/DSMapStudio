@@ -17,7 +17,7 @@ namespace SoulsFormats
 
         /// <summary>
         /// Indicates size of BTL Light.
-        /// Usually number of bytes, with the exception of DS2's 0xC0 (which has 0xC8)bytes .
+        /// Usually number of bytes, with the exception of DS2's 0xC0 (which has 0xC8 bytes).
         /// </summary>
         public int LightSize { get; set; }
 
