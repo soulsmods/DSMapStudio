@@ -891,6 +891,7 @@ namespace StudioCore.Scene
     public class DebugPrimitiveRenderableProxy : RenderableProxy
     {
         private static Random _colorVarianceRand = new();
+        private static float _colorIncrement = 0;
 
         private MeshRenderables _renderablesSet;
 
@@ -1454,16 +1455,20 @@ namespace StudioCore.Scene
 
         private static Color ApplyColorVariance(Color color)
         {
-            var hsv = Utils.ColorToHSV(color);
+            // Determines how much color varies per-increment.
+            const float incrementModifier = 0.721f;
 
-            if (_colorVarianceRand.Next(2) == 0)
-            {
-                hsv.X += 360.0f * (_colorVarianceRand.NextSingle() * CFG.Current.GFX_Wireframe_Color_Variance);
-            }
-            else
-            {
-                hsv.X -= 360.0f * (_colorVarianceRand.NextSingle() * CFG.Current.GFX_Wireframe_Color_Variance);
-            }
+            var hsv = Utils.ColorToHSV(color);
+            var range = 360.0f * (CFG.Current.GFX_Wireframe_Color_Variance / 2.0f);
+            _colorIncrement += range * incrementModifier;
+            if (_colorIncrement > range)
+                _colorIncrement -= range * 2.0f;
+
+            hsv.X += _colorIncrement;
+            if (hsv.X > 360.0f)
+                hsv.X -= 360.0f;
+            else if (hsv.X < 0.0f)
+                hsv.X += 360.0f;
 
             return Utils.ColorFromHSV(hsv);
         }
