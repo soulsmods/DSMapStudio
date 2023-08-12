@@ -13,6 +13,7 @@ using System.Globalization;
 using System.Threading;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using System.Text;
 using Gtk;
 using SoapstoneLib;
 using Veldrid;
@@ -599,10 +600,18 @@ namespace StudioCore
                 {
                     File.Move(backupFile, tempFile);
                 }
-                ZipFile.CreateFromDirectory(projectFolder, backupFile);
-                if (rewrite)
+                try
                 {
-                    File.Delete(tempFile);
+                    ZipFile.CreateFromDirectory(projectFolder, backupFile, CompressionLevel.Optimal, false, Encoding.UTF8);
+                    if (rewrite)
+                    {
+                        File.Delete(tempFile);
+                    }
+                }
+                catch (Exception e)
+                {
+                    if (!File.Exists(backupFile))
+                        File.Move(tempFile, backupFile);
                 }
             }
         }
