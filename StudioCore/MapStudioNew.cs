@@ -598,6 +598,10 @@ namespace StudioCore
                     }
                     // Safely rewrite
                     string tempFile = $@"{backupFile}.temp";
+                    while (File.Exists(tempFile))
+                    {
+                        tempFile += ".new";
+                    }
                     if (rewrite)
                     {
                         File.Move(backupFile, tempFile);
