@@ -105,7 +105,7 @@
   <Field>
     <soundBankId AltName="Sound Bank ID" Wiki="Sound bank ID (-1: no bank, other: bank with specified ID)" ExtRefs="bnk,sound\aeg{0:000'_'000}.bnk" />
     <soundBreakSEId AltName="Sound Break SE ID" Wiki="Destruction sound SEID (9 digits) -1: Generated from assetId" />
-    <refDrawParamId AltName="Draw Param Reference ID" Wiki="Drawing parameter reference ID. The reference ID for the part drawing parameter .xlsm." />
+    <refDrawParamId AltName="Draw Param Reference ID" Wiki="Drawing parameter reference ID. The reference ID for the part drawing parameter .xlsm." Refs="PartsDrawParam" />
     <hitCreateType AltName="Hit Create Type" Wiki="Sets the hit build type for static assets. Ignored for dynamic assets." Enum="ASSET_HIT_CREATE_TYPE_ENUM" />
     <behaviorType AltName="Asset Behavior Type" Wiki="Dynamic (all asset features available), static (light assets with limited functionality treated as old maps), partially static (partially destroyed assets)" Enum="ASSET_BEHAVIOR_TYPE" />
     <collisionType AltName="Collision Detection Type" Wiki="Collision detection type. You can set what the asset will hit." Enum="ASSET_COLLISION_TYPE" />
