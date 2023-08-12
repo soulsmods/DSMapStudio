@@ -910,6 +910,7 @@ namespace StudioCore.Scene
         private WeakReference<ISelectable> _selectable = null;
 
         private bool _hasColorVariance = false;
+        private Color _initialColor = Color.Empty;
         private Color _baseColor = Color.Gray;
         public Color BaseColor
         {
@@ -917,6 +918,8 @@ namespace StudioCore.Scene
             set
             {
                 _baseColor = value;
+                if (_initialColor == Color.Empty)
+                    _initialColor = value;
                 ScheduleRenderableUpdate();
             }
         }
@@ -1051,14 +1054,15 @@ namespace StudioCore.Scene
         public DebugPrimitiveRenderableProxy(DebugPrimitiveRenderableProxy clone) : this(clone._renderablesSet, clone._debugPrimitive)
         {
             _drawfilter = clone.DrawFilter;
+            _initialColor = clone._initialColor;
             if (clone._hasColorVariance)
             {
                 _hasColorVariance = true;
-                _baseColor = ApplyColorVariance(clone._baseColor);
+                _baseColor = ApplyColorVariance(_initialColor);
             }
             else
             {
-                _baseColor = clone._baseColor;
+                _baseColor = clone.BaseColor;
             }
             _highlightedColor = clone._highlightedColor;
         }
