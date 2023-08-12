@@ -558,7 +558,7 @@ namespace StudioCore
             Version dsmsVersion;
             if (!Version.TryParse(settings.LatestMapstudioVersion, out projLastVersion) || !Version.TryParse(_version, out dsmsVersion))
             {
-                TaskLogs.AddLog($"An issue occurred checking the last used mapstudio version of this project.", Microsoft.Extensions.Logging.LogLevel.Warning);
+                TaskLogs.AddLog($"An issue occurred checking the last used mapstudio version of this project.", Microsoft.Extensions.Logging.LogLevel.Warning, TaskLogs.LogPriority.High);
                 return;
             }
             if (projLastVersion < dsmsVersion)
@@ -569,49 +569,57 @@ namespace StudioCore
                 {
                     return;
                 }
-                string projectFolder = Path.GetDirectoryName(projectFilename);
-                string parentFolder = Directory.GetParent(projectFolder).FullName;
-                string backupFile = Path.Join(parentFolder, $@"{settings.ProjectName} - Backup(DSMS{_version}).zip");
-                bool rewrite = false;
-                if (File.Exists(backupFile))
-                {
-                    var res2 = PlatformUtils.Instance.MessageBox("There is already a backup for this update. Continue and overwrite?", "Issue creating backup.", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                    if (res2 != DialogResult.Yes)
-                    {
-                        return;
-                    }
-                    rewrite = true;
-                }
-                long projectSize = 128*1024*1024; // 128 MB
-                long projectFiles = 1024; // 1024 files, should be enough for DS2
-                TestFolderForSize(new DirectoryInfo(projectFolder), ref projectSize, ref projectFiles);
-
-                if (projectFiles <= 0 || projectSize <= 0)
-                {
-                    var res3 = PlatformUtils.Instance.MessageBox("The current project contains many files (>=1024) or is of notable size on disk. (>=128MB)\nIt is recommended to backup manually.\n\nWould you like to proceed anyway? (This may take a while)", "Large project detected.", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                    if (res3 != DialogResult.Yes)
-                    {
-                        return;
-                    }
-                }
-                // Safely rewrite
-                string tempFile = $@"{backupFile}.temp";
-                if (rewrite)
-                {
-                    File.Move(backupFile, tempFile);
-                }
                 try
                 {
-                    ZipFile.CreateFromDirectory(projectFolder, backupFile, CompressionLevel.Optimal, false, Encoding.UTF8);
+                    string projectFolder = Path.GetDirectoryName(projectFilename);
+                    string parentFolder = Directory.GetParent(projectFolder).FullName;
+                    string backupFile = Path.Join(parentFolder, $@"{settings.ProjectName} - Backup(DSMS{_version}).zip");
+                    bool rewrite = false;
+                    if (File.Exists(backupFile))
+                    {
+                        var res2 = PlatformUtils.Instance.MessageBox("There is already a backup for this update. Continue and overwrite?", "Issue creating backup.", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                        if (res2 != DialogResult.Yes)
+                        {
+                            return;
+                        }
+                        rewrite = true;
+                    }
+                    long projectSize = 128*1024*1024; // 128 MB
+                    long projectFiles = 1024; // 1024 files, should be enough for DS2
+                    TestFolderForSize(new DirectoryInfo(projectFolder), ref projectSize, ref projectFiles);
+
+                    if (projectFiles <= 0 || projectSize <= 0)
+                    {
+                        var res3 = PlatformUtils.Instance.MessageBox("The current project contains many files (>=1024) or is of notable size on disk. (>=128MB)\nIt is recommended to backup manually.\n\nWould you like to proceed anyway? (This may take a while)", "Large project detected.", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                        if (res3 != DialogResult.Yes)
+                        {
+                            return;
+                        }
+                    }
+                    // Safely rewrite
+                    string tempFile = $@"{backupFile}.temp";
                     if (rewrite)
                     {
-                        File.Delete(tempFile);
+                        File.Move(backupFile, tempFile);
+                    }
+                    try
+                    {
+                        ZipFile.CreateFromDirectory(projectFolder, backupFile, CompressionLevel.Optimal, false, Encoding.UTF8);
+                        if (rewrite)
+                        {
+                            File.Delete(tempFile);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        TaskLogs.AddLog($"An issue occurred when writing the project backup.", Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High);
+                        if (!File.Exists(backupFile))
+                            File.Move(tempFile, backupFile);
                     }
                 }
                 catch (Exception e)
                 {
-                    if (!File.Exists(backupFile))
-                        File.Move(tempFile, backupFile);
+                    TaskLogs.AddLog($"An unknown error occurred during the project backup process. Please report this.", Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High);
                 }
             }
         }
