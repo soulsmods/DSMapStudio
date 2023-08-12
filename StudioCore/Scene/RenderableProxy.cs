@@ -890,8 +890,7 @@ namespace StudioCore.Scene
 
     public class DebugPrimitiveRenderableProxy : RenderableProxy
     {
-        private static Random _colorVarianceRand = new();
-        private static float _colorIncrement = 0;
+        private static float _colorHueIncrement = 0;
 
         private MeshRenderables _renderablesSet;
 
@@ -1055,16 +1054,12 @@ namespace StudioCore.Scene
         {
             _drawfilter = clone.DrawFilter;
             _initialColor = clone._initialColor;
+            _baseColor = clone.BaseColor;
+            _highlightedColor = clone._highlightedColor;
             if (clone._hasColorVariance)
             {
-                _hasColorVariance = true;
-                _baseColor = ApplyColorVariance(_initialColor);
+                ApplyColorVariance(this);
             }
-            else
-            {
-                _baseColor = clone.BaseColor;
-            }
-            _highlightedColor = clone._highlightedColor;
         }
 
         public override void UnregisterAndRelease()
@@ -1346,27 +1341,27 @@ namespace StudioCore.Scene
         public static DebugPrimitiveRenderableProxy GetBoxRegionProxy(RenderScene scene)
         {
             var r = new DebugPrimitiveRenderableProxy(scene.OpaqueRenderables, _regionBox);
-            r.BaseColor = ApplyColorVariance(Color.Blue);
-            r._hasColorVariance = true;
+            r.BaseColor = Color.Blue;
             r.HighlightedColor = Color.DarkViolet;
+            ApplyColorVariance(r);
             return r;
         }
 
         public static DebugPrimitiveRenderableProxy GetCylinderRegionProxy(RenderScene scene)
         {
             var r = new DebugPrimitiveRenderableProxy(scene.OpaqueRenderables, _regionCylinder);
-            r.BaseColor = ApplyColorVariance(Color.Blue);
-            r._hasColorVariance = true;
+            r.BaseColor = Color.Blue;
             r.HighlightedColor = Color.DarkViolet;
+            ApplyColorVariance(r);
             return r;
         }
 
         public static DebugPrimitiveRenderableProxy GetSphereRegionProxy(RenderScene scene)
         {
             var r = new DebugPrimitiveRenderableProxy(scene.OpaqueRenderables, _regionSphere);
-            r.BaseColor = ApplyColorVariance(Color.Blue);
-            r._hasColorVariance = true;
+            r.BaseColor = Color.Blue;
             r.HighlightedColor = Color.DarkViolet;
+            ApplyColorVariance(r);
             return r;
         }
 
@@ -1436,17 +1431,17 @@ namespace StudioCore.Scene
         public static DebugPrimitiveRenderableProxy GetPointLightProxy(RenderScene scene)
         {
             var r = new DebugPrimitiveRenderableProxy(scene.OpaqueRenderables, _pointLight);
-            r.BaseColor = ApplyColorVariance(Color.YellowGreen);
-            r._hasColorVariance = true;
+            r.BaseColor = Color.YellowGreen;
             r.HighlightedColor = Color.Yellow;
+            ApplyColorVariance(r);
             return r;
         }
         public static DebugPrimitiveRenderableProxy GetSpotLightProxy(RenderScene scene)
         {
             var r = new DebugPrimitiveRenderableProxy(scene.OpaqueRenderables, _spotLight);
-            r.BaseColor = ApplyColorVariance(Color.Goldenrod);
-            r._hasColorVariance = true;
+            r.BaseColor = Color.Goldenrod;
             r.HighlightedColor = Color.Violet;
+            ApplyColorVariance(r);
             return r;
         }
         public static DebugPrimitiveRenderableProxy GetDirectionalLightProxy(RenderScene scene)
@@ -1457,24 +1452,26 @@ namespace StudioCore.Scene
             return r;
         }
 
-        private static Color ApplyColorVariance(Color color)
+        private static void ApplyColorVariance(DebugPrimitiveRenderableProxy rend)
         {
             // Determines how much color varies per-increment.
             const float incrementModifier = 0.721f;
 
-            var hsv = Utils.ColorToHSV(color);
-            var range = 360.0f * (CFG.Current.GFX_Wireframe_Color_Variance / 2.0f);
-            _colorIncrement += range * incrementModifier;
-            if (_colorIncrement > range)
-                _colorIncrement -= range * 2.0f;
+            rend._hasColorVariance = true;
 
-            hsv.X += _colorIncrement;
+            var hsv = Utils.ColorToHSV(rend._initialColor);
+            var range = 360.0f * CFG.Current.GFX_Wireframe_Color_Variance / 2;
+            _colorHueIncrement += range * incrementModifier;
+            if (_colorHueIncrement > range)
+                _colorHueIncrement -= range * 2;
+
+            hsv.X += _colorHueIncrement;
             if (hsv.X > 360.0f)
                 hsv.X -= 360.0f;
             else if (hsv.X < 0.0f)
                 hsv.X += 360.0f;
 
-            return Utils.ColorFromHSV(hsv);
+            rend.BaseColor = Utils.ColorFromHSV(hsv);
         }
     }
 

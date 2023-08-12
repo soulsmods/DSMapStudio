@@ -142,11 +142,6 @@ namespace StudioCore
             float saturation = hsv.Y;
             float value = hsv.Z;
 
-            if (hue < 0)
-                hue += 360;
-            else if (hue > 360)
-                hue -= 360;
-
             int hi = Convert.ToInt32(Math.Floor(hue / 60)) % 6;
             float f = hue / 60 - (float)Math.Floor(hue / 60);
 
