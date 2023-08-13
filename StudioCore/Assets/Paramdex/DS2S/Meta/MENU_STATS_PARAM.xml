@@ -25,7 +25,7 @@
     <stat_petrify_defence AltName="Resist: Petrify"/>
     <stat_curse_defence AltName="Resist: Curse"/>
     <stat_agility AltName="Agility"/>
-    <stat_mundane_bonus AltName="Bonus: Mundance"/>
+    <stat_mundane_bonus AltName="Bonus: Mundane"/>
     <stat_equip_load AltName="Max Equip Load"/>
   </Field>
 </PARAMMETA>

@@ -104,7 +104,7 @@
 11340103 Xanthous Waistcloth
 11350100 Mask of Judgment
 11350101 Robe of Judgment
-11350102 Manchettes ofJudgment
+11350102 Manchettes of Judgment
 11350103 Tights of Judgment
 11360100 Helm of Aurous
 11360101 Armor of Aurous
@@ -161,10 +161,10 @@
 11690103 Flower Skirt
 11700100 Minotaur Helm
 11710100 Symbol of Avarice
-12020100 2020 [Kingdom Soldier (Dead)], Head -- 2020 【王国兵士（亡者）】・頭
-12020101 2020 [Kingdom Soldier (Dead)], Chest -- 2020 【王国兵士（亡者）】・胸
-12020102 2020 [Kingdom Soldier (Dead)], Arm -- 2020 【王国兵士（亡者）】・腕
-12020103 2020 [Kingdom Soldier (Dead)], Feet -- 2020 【王国兵士（亡者）】・足
+12020100 Hollow Soldier Helm
+12020101 Hollow Soldier Armor
+12020102 Hollow Soldier Gauntlets
+12020103 Hollow Soldier Leggings
 12021100 Royal Soldier Helm
 12021101 Royal Soldier Armor
 12021102 Royal Soldier Gauntlets

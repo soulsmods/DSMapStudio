@@ -50,10 +50,10 @@
     <Field Def="u8 is_cast_hexes_chime" />
     <Field Def="f32 left_hand_damage_mult" />
     <Field Def="f32 Unk11" />
-    <Field Def="f32 Unk12" />
+    <Field Def="f32 left_hand_stamina_damage_mult" />
     <Field Def="f32 right_hand_damage_mult" />
     <Field Def="f32 Unk13" />
-    <Field Def="f32 Unk14" />
+    <Field Def="f32 right_hand_stamina_damage_mult" />
     <Field Def="f32 counter_damage" />
     <Field Def="f32 Unk15" />
     <Field Def="f32 Unk16" />

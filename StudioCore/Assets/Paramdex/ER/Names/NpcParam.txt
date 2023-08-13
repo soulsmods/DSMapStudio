@@ -928,141 +928,141 @@
 34715268 Large Bloodbane Albinauric
 34715300 Large Snowfield Albinauric (Unscaled)
 34715352 Large Snowfield Albinauric
-35000000 Skeletal Militiaman
-35000010 Skeletal Militiaman
-35000012 Skeletal Militiaman
-35000014 Skeletal Militiaman
-35000020 Skeletal Militiaman
-35000030 Skeletal Militiaman
-35000032 Skeletal Militiaman
-35000034 Skeletal Militiaman (Leyndell- Royal Capital)
-35000040 Skeletal Militiaman
-35000050 Skeletal Militiaman
-35000100 Beast Skeletal Militiaman
-35000172 Beast Skeletal Militiaman
-35000300 Skeletal Militiaman
-35000330 Skeletal Militiaman
-35000400 Skeletal Militiaman
-35000500 Skeletal Militiaman
-35000700 Golden Skeletal Militiaman
-35000733 Golden Skeletal Militiaman
-35001000 Skeletal Crossbowman
-35001010 Skeletal Crossbowman
-35001012 Skeletal Crossbowman
-35001014 Skeletal Crossbowman
-35001030 Skeletal Crossbowman
-35001032 Skeletal Crossbowman
-35001040 Skeletal Crossbowman
-35001050 Skeletal Crossbowman
-35001100 Beast Skeletal Crossbowman
-35001172 Beast Skeletal Crossbowman
-35001700 Golden Skeletal Crossbowman
-35001733 Golden Skeletal Crossbowman
-35002000 Skeletal Grave Warden
-35002010 Skeletal Grave Warden
-35002012 Skeletal Grave Warden
-35002020 Skeletal Grave Warden
-35002032 Skeletal Grave Warden
-35002040 Skeletal Grave Warden
-35002050 Skeletal Grave Warden
-35002100 Beast Skeletal Grave Warden
-35002172 Beast Skeletal Grave Warden
-35002700 Golden Skeletal Grave Warden
-35002733 Golden Skeletal Grave Warden
-35003000 Skeletal Knight
-35003010 Skeletal Knight
-35003012 Skeletal Knight
-35003014 Skeletal Knight
-35003032 Skeletal Knight
-35003040 Skeletal Knight
-35003050 Skeletal Knight
-35003100 Beast Skeletal Knight
-35003172 Beast Skeletal Knight
-35003700 Golden Skeletal Knight
-35003733 Golden Skeletal Knight
-35004000 Skeletal Bandit
-35004010 Skeletal Bandit
-35004012 Skeletal Bandit
-35004020 Skeletal Bandit
-35004030 Skeletal Bandit
-35004032 Skeletal Bandit
-35004040 Skeletal Bandit
-35004050 Skeletal Bandit
-35004100 Beast Skeletal Bandit
-35004172 Beast Skeletal Bandit
-35004700 Golden Skeletal Bandit
-35004733 Golden Skeletal Bandit
-35005000 Skeletal Militiaman
-35005010 Skeletal Militiaman
-35005020 Skeletal Militiaman
-35005032 Skeletal Militiaman
-35006000 Skeletal Crossbowman
-35006010 Skeletal Crossbowman
-35006032 Skeletal Crossbowman
-35007000 Skeletal Grave Warden
-35007010 Skeletal Grave Warden
-35007020 Skeletal Grave Warden
-35007032 Skeletal Grave Warden
-35008000 Skeletal Knight
-35008010 Skeletal Knight
-35008020 Skeletal Knight
-35008032 Skeletal Knight
-35009000 Skeletal Bandit
-35009010 Skeletal Bandit
-35009032 Skeletal Bandit
-35100000 Catacombs Skeleton (Scimitar + Shield)
-35100006 Catacombs Skeleton (Scimitar + Shield)
-35100010 Catacombs Skeleton (Scimitar + Shield)
-35100012 Catacombs Skeleton (Scimitar + Shield)
-35100020 Catacombs Skeleton (Scimitar + Shield)
-35100032 Catacombs Skeleton (Scimitar + Shield)
-35100033 Catacombs Skeleton (Scimitar + Shield)
-35100040 Catacombs Skeleton (Scimitar + Shield)
-35100100 Catacombs Skeleton (Scimitar)
-35100110 Catacombs Skeleton (Scimitar)
-35100112 Catacombs Skeleton (Scimitar)
-35100120 Catacombs Skeleton (Scimitar)
-35100132 Catacombs Skeleton (Scimitar)
-35100133 Catacombs Skeleton (Scimitar)
-35100200 Catacombs Skeleton (Scimitar, Headless/One Arm)
-35100210 Catacombs Skeleton (Scimitar, Headless/One Arm)
-35100920 Catacombs Skeleton (Scimitar) (Boss)
-35101000 Catacombs Skeleton (Grossmesser)
-35101006 Catacombs Skeleton (Grossmesser)
-35101010 Catacombs Skeleton (Grossmesser)
-35101012 Catacombs Skeleton (Grossmesser)
-35101020 Catacombs Skeleton (Grossmesser)
-35101032 Catacombs Skeleton (Grossmesser)
-35101033 Catacombs Skeleton (Grossmesser)
-35101040 Catacombs Skeleton (Grossmesser)
-35101100 Catacombs Skeleton (Grossmesser, Headless)
-35101110 Catacombs Skeleton (Grossmesser, Headless)
-35101112 Catacombs Skeleton (Grossmesser, Headless)
-35101140 Catacombs Skeleton (Grossmesser, Headless)
-35101920 Catacombs Skeleton (Grossmesser) (Boss)
-35102000 Catacombs Skeleton (Bow)
-35102006 Catacombs Skeleton (Bow)
-35102010 Catacombs Skeleton (Bow)
-35102012 Catacombs Skeleton (Bow)
-35102020 Catacombs Skeleton (Bow)
-35102032 Catacombs Skeleton (Bow)
-35102033 Catacombs Skeleton (Bow)
-35102040 Catacombs Skeleton (Bow)
-35102920 Catacombs Skeleton (Bow) (Boss)
-35103000 Catacombs Skeleton (Unarmed)
-35103010 Catacombs Skeleton (Unarmed)
-35103012 Catacombs Skeleton (Unarmed)
-35103020 Catacombs Skeleton (Unarmed)
-35103100 Catacombs Skeleton (Unarmed, Headless)
-35103106 Catacombs Skeleton (Unarmed, Headless)
-35103110 Catacombs Skeleton (Unarmed, Headless)
-35104000 Catacombs Skeleton (Unarmed 2)
-35104006 Catacombs Skeleton (Unarmed 2)
-35104010 Catacombs Skeleton (Unarmed 2)
-35104012 Catacombs Skeleton (Unarmed 2)
-35104032 Catacombs Skeleton (Unarmed 2)
-35104100 Catacombs Skeleton (Unarmed 2, Headless)
-35104110 Catacombs Skeleton (Unarmed 2, Headless)
+35000000 Large Skeleton (Spear)
+35000010 Large Skeleton (Spear)
+35000012 Large Skeleton (Spear)
+35000014 Large Skeleton (Spear)
+35000020 Large Skeleton (Spear)
+35000030 Large Skeleton (Spear)
+35000032 Large Skeleton (Spear)
+35000034 Large Skeleton (Spear)
+35000040 Large Skeleton (Spear)
+35000050 Large Skeleton (Spear)
+35000100 Large Skeleton (Spear)
+35000172 Large Skeleton (Spear)
+35000300 Large Skeleton (Spear)
+35000330 Large Skeleton (Spear)
+35000400 Large Skeleton (Spear)
+35000500 Large Skeleton (Spear)
+35000700 Large Skeleton (Spear)
+35000733 Large Skeleton (Spear)
+35001000 Large Skeleton (Crossbow)
+35001010 Large Skeleton (Crossbow)
+35001012 Large Skeleton (Crossbow)
+35001014 Large Skeleton (Crossbow)
+35001030 Large Skeleton (Crossbow)
+35001032 Large Skeleton (Crossbow)
+35001040 Large Skeleton (Crossbow)
+35001050 Large Skeleton (Crossbow)
+35001100 Large Skeleton (Crossbow)
+35001172 Large Skeleton (Crossbow)
+35001700 Large Skeleton (Crossbow)
+35001733 Large Skeleton (Crossbow)
+35002000 Large Skeleton (Scythe)
+35002010 Large Skeleton (Scythe)
+35002012 Large Skeleton (Scythe)
+35002020 Large Skeleton (Scythe)
+35002032 Large Skeleton (Scythe)
+35002040 Large Skeleton (Scythe)
+35002050 Large Skeleton (Scythe)
+35002100 Large Skeleton (Scythe)
+35002172 Large Skeleton (Scythe)
+35002700 Large Skeleton (Scythe)
+35002733 Large Skeleton (Scythe)
+35003000 Large Skeleton (Sword and Shield)
+35003010 Large Skeleton (Sword and Shield)
+35003012 Large Skeleton (Sword and Shield)
+35003014 Large Skeleton (Sword and Shield)
+35003032 Large Skeleton (Sword and Shield)
+35003040 Large Skeleton (Sword and Shield)
+35003050 Large Skeleton (Sword and Shield)
+35003100 Large Skeleton (Sword and Shield)
+35003172 Large Skeleton (Sword and Shield)
+35003700 Large Skeleton (Sword and Shield)
+35003733 Large Skeleton (Sword and Shield)
+35004000 Large Skeleton (Curved Swords)
+35004010 Large Skeleton (Curved Swords)
+35004012 Large Skeleton (Curved Swords)
+35004020 Large Skeleton (Curved Swords)
+35004030 Large Skeleton (Curved Swords)
+35004032 Large Skeleton (Curved Swords)
+35004040 Large Skeleton (Curved Swords)
+35004050 Large Skeleton (Curved Swords)
+35004100 Large Skeleton (Curved Swords)
+35004172 Large Skeleton (Curved Swords)
+35004700 Large Skeleton (Curved Swords)
+35004733 Large Skeleton (Curved Swords)
+35005000 Large Skeleton (Spear)
+35005010 Large Skeleton (Spear)
+35005020 Large Skeleton (Spear)
+35005032 Large Skeleton (Spear)
+35006000 Large Skeleton (Crossbow)
+35006010 Large Skeleton (Crossbow)
+35006032 Large Skeleton (Crossbow)
+35007000 Large Skeleton (Scythe)
+35007010 Large Skeleton (Scythe)
+35007020 Large Skeleton (Scythe)
+35007032 Large Skeleton (Scythe)
+35008000 Large Skeleton (Sword and Shield)
+35008010 Large Skeleton (Sword and Shield)
+35008020 Large Skeleton (Sword and Shield)
+35008032 Large Skeleton (Sword and Shield)
+35009000 Large Skeleton (Curved Swords)
+35009010 Large Skeleton (Curved Swords)
+35009032 Large Skeleton (Curved Swords)
+35100000 Skeleton (Sword and Shield)
+35100006 Skeleton (Sword and Shield)
+35100010 Skeleton (Sword and Shield)
+35100012 Skeleton (Sword and Shield)
+35100020 Skeleton (Sword and Shield)
+35100032 Skeleton (Sword and Shield)
+35100033 Skeleton (Sword and Shield)
+35100040 Skeleton (Sword and Shield)
+35100100 Skeleton (Sword and Shield)
+35100110 Skeleton (Sword and Shield)
+35100112 Skeleton (Sword and Shield)
+35100120 Skeleton (Sword and Shield)
+35100132 Skeleton (Sword and Shield)
+35100133 Skeleton (Sword and Shield)
+35100200 Skeleton (Sword and Shield)
+35100210 Skeleton (Sword and Shield)
+35100920 Skeleton (Sword and Shield)
+35101000 Skeleton (Sword)
+35101006 Skeleton (Sword)
+35101010 Skeleton (Sword)
+35101012 Skeleton (Sword)
+35101020 Skeleton (Sword)
+35101032 Skeleton (Sword)
+35101033 Skeleton (Sword)
+35101040 Skeleton (Sword)
+35101100 Skeleton (Sword)
+35101110 Skeleton (Sword)
+35101112 Skeleton (Sword)
+35101140 Skeleton (Sword)
+35101920 Skeleton (Sword)
+35102000 Skeleton (Bow)
+35102006 Skeleton (Bow)
+35102010 Skeleton (Bow)
+35102012 Skeleton (Bow)
+35102020 Skeleton (Bow)
+35102032 Skeleton (Bow)
+35102033 Skeleton (Bow)
+35102040 Skeleton (Bow)
+35102920 Skeleton (Bow)
+35103000 Skeleton (Fists)
+35103010 Skeleton (Fists)
+35103012 Skeleton (Fists)
+35103020 Skeleton (Fists)
+35103100 Skeleton (Fists)
+35103106 Skeleton (Fists)
+35103110 Skeleton (Fists)
+35104000 Skeleton (Fists)
+35104006 Skeleton (Fists)
+35104010 Skeleton (Fists)
+35104012 Skeleton (Fists)
+35104032 Skeleton (Fists)
+35104100 Skeleton (Fists)
+35104110 Skeleton (Fists)
 35500000 Sanguine Noble (Unscaled)
 35500020 Sanguine Noble
 35500030 Sanguine Noble

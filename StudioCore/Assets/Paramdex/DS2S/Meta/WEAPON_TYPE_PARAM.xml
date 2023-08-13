@@ -141,7 +141,9 @@
     <weapon_category_name AltName="Weapon Category Name" Enum="WeaponCategoryNameType" />
     <swing_sound AltName="Swing Sound" Enum="SwingSoundEnum" />
     <is_cast_hexes_chime AltName="Cast Hexes (Chime)" IsBool="" />
+	<left_hand_stamina_damage_mult AltName="Left Hand Stamina Damage %" />
     <left_hand_damage_mult AltName="Left Hand Damage %" />
+	<right_hand_stamina_damage_mult AltName="Right Hand Stamina Damage %" />
     <right_hand_damage_mult AltName="Right Hand Damage %" />
     <counter_damage AltName="Counter Damage" />
     <bow_distance AltName="Bow Range" />

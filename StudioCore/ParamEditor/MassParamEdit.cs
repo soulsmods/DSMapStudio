@@ -426,7 +426,7 @@ namespace StudioCore.ParamEditor
             return str+"\n";
         }
         
-        public static string GenerateCSV(List<Param.Row> rows, Param param, char separator)
+        public static string GenerateCSV(IReadOnlyList<Param.Row> rows, Param param, char separator)
         {
             string gen = "";
             gen += GenerateColumnLabels(param, separator);
@@ -441,7 +441,7 @@ namespace StudioCore.ParamEditor
             }
             return gen;
         }
-        public static string GenerateSingleCSV(List<Param.Row> rows, Param param, string field, char separator)
+        public static string GenerateSingleCSV(IReadOnlyList<Param.Row> rows, Param param, string field, char separator)
         {
             string gen = $@"ID{separator}{field}"+"\n";
             foreach (Param.Row row in rows)

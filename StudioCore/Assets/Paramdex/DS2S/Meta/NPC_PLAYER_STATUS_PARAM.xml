@@ -25,7 +25,7 @@
   <Field>
     <body_type AltName="Body Type" Enum="PlayerStatusBodyType"/>
     <hollowing_type AltName="Hollowing Type" Enum="PlayerStatusHollowType"/>
-    <body_build_type AltName="Body Build Type" Enum="PlayerStatusPhysiqueType"/>
+    <body_build_type AltName="Body Build Type" Enum="PlayerStatusBuildType"/>
     <face_model_id AltName="Face Model ID"/>
     <soul_level AltName="Soul Level"/>
     <vigor AltName="Vigor"/>
