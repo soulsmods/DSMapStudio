@@ -1072,11 +1072,11 @@ namespace StudioCore.MsbEditor
         /// Change selected map objects from one type to another. Only works for map objects of the same overarching type, such as Parts or Regions.
         /// Data for properties absent in targeted type will be lost, but will be restored for undo/redo.
         /// </summary>
-        public ChangeMapObjectType(Universe univ, Type msbclass, List<MapEntity> selectedEnts, string[] oldTypes, string[] newTypes, string msbParamStr, bool setSelection)
+        public ChangeMapObjectType(Universe univ, Type msbType, List<MapEntity> selectedEnts, string[] oldTypes, string[] newTypes, string msbParamStr, bool setSelection)
         {
 
             Universe = univ;
-            MsbType = msbclass;
+            MsbType = msbType;
             Entities.AddRange(selectedEnts);
             OldTypes = oldTypes;
             NewTypes = newTypes;
