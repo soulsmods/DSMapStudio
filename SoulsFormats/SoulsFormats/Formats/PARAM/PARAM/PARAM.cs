@@ -149,7 +149,11 @@ namespace SoulsFormats
             }
             bw.WriteInt16(Unk06);
             bw.WriteInt16(ParamdefDataVersion);
+
+            if (Rows.Count > ushort.MaxValue)
+                throw new OverflowException($"Param \"{AppliedParamdef.ParamType}\" has more than {ushort.MaxValue} rows and cannot be saved.");
             bw.WriteUInt16((ushort)Rows.Count);
+
             if (Format2D.HasFlag(FormatFlags1.OffsetParamType))
             {
                 bw.WriteInt32(0);
