@@ -189,7 +189,7 @@ namespace StudioCore.MsbEditor
         {
             var actlist = new List<Action>();
 
-            var selected = _selection.GetFilteredSelection<Entity>();
+            var selected = _selection.GetFilteredSelection<Entity>(o => o.HasTransform);
             foreach (var s in selected)
             {
                 var pos = s.GetLocalTransform().Position;
