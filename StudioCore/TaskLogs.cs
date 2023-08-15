@@ -103,55 +103,58 @@ namespace StudioCore
         /// <param name="level">Type of entry. Affects text color.</param>
         public static void AddLog(string text, LogLevel level = LogLevel.Information, LogPriority priority = LogPriority.Normal)
         {
-            bool lockTaken = false;
-            try
+            Task.Run(() =>
             {
-                // Wait until no other threads are using spinlock
-                _spinlock.Enter(ref lockTaken);
-
-                var lastLog = _log.LastOrDefault();
-                if (lastLog != null)
+                bool lockTaken = false;
+                try
                 {
-                    if (lastLog.Message == text)
+                    // Wait until no other threads are using spinlock
+                    _spinlock.Enter(ref lockTaken);
+
+                    var lastLog = _log.LastOrDefault();
+                    if (lastLog != null)
                     {
-                        lastLog.MessageCount++;
-                        return;
+                        if (lastLog.Message == text)
+                        {
+                            lastLog.MessageCount++;
+                            return;
+                        }
+                    }
+                    LogEntry entry = new(text, level, priority);
+                    _log.Add(entry);
+
+                    _scrollToEnd = true;
+
+                    if (priority != LogPriority.Low)
+                    {
+                        _lastLogEntry = entry;
+                        if (level is LogLevel.Warning or LogLevel.Error)
+                        {
+                            _warningList.Add(text);
+                        }
+                        if (priority == LogPriority.High)
+                        {
+                            PlatformUtils.Instance.MessageBox(text, level.ToString(),
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.None);
+                        }
+
+                        // Run color timer or reset mult if it's already running.
+                        if (_timerColorMult == 1.0f)
+                        {
+                            Task.Run(ColorTimer);
+                        }
+                        else
+                        {
+                            _timerColorMult = 0.0f;
+                        }
                     }
                 }
-                LogEntry entry = new(text, level, priority);
-                _log.Add(entry);
-
-                _scrollToEnd = true;
-
-                if (priority != LogPriority.Low)
+                finally
                 {
-                    _lastLogEntry = entry;
-                    if (level is LogLevel.Warning or LogLevel.Error)
-                    {
-                        _warningList.Add(text);
-                    }
-                    if (priority == LogPriority.High)
-                    {
-                        PlatformUtils.Instance.MessageBox(text, level.ToString(),
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.None);
-                    }
-
-                    // Run color timer or reset mult if it's already running.
-                    if (_timerColorMult == 1.0f)
-                    {
-                        Task.Run(ColorTimer);
-                    }
-                    else
-                    {
-                        _timerColorMult = 0.0f;
-                    }
+                    if (lockTaken) _spinlock.Exit(false);
                 }
-            }
-            finally
-            {
-                if (lockTaken) _spinlock.Exit(false);
-            }
+            });
         }
 
         public static void Display()
