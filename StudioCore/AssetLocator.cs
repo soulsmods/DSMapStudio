@@ -800,7 +800,6 @@ namespace StudioCore
         public string GetStrippedRowNamesPath(string paramName)
         {
             string dir = $@"{ProjectMiscDir}\Stripped Row Names";
-            Directory.CreateDirectory(dir);
             return $@"{dir}\{paramName}.txt"; ;
         }
 

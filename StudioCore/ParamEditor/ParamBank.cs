@@ -1945,7 +1945,9 @@ namespace StudioCore.ParamEditor
                     list.Add(r.Name);
                     r.Name = "";
                 }
-                File.WriteAllLines(AssetLocator.GetStrippedRowNamesPath(p.Key), list);
+                var path = AssetLocator.GetStrippedRowNamesPath(p.Key);
+                Directory.CreateDirectory(Path.GetDirectoryName(path));
+                File.WriteAllLines(path, list);
             }
         }
 
