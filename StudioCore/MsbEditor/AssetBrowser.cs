@@ -40,26 +40,18 @@ namespace StudioCore.MsbEditor
             _handler = handler;
         }
 
-        public void RebuildCaches()
+        public void ClearCaches()
         {
             _chrCache = new List<string>();
             _objCache = new List<string>();
             _mapModelCache = new Dictionary<string, List<string>>();
-            _chrCache = _locator.GetChrModels();
-            _objCache = _locator.GetObjModels();
             var mapList = _locator.GetFullMapList();
             foreach (var m in mapList)
             {
                 var adjm = _locator.GetAssetMapID(m);
                 if (!_mapModelCache.ContainsKey(adjm))
                 {
-                    var modelList = _locator.GetMapModels(adjm);
-                    var cache = new List<string>();
-                    foreach (var model in modelList)
-                    {
-                        cache.Add(model.AssetName);
-                    }
-                    _mapModelCache.Add(adjm, cache);
+                    _mapModelCache.Add(adjm, null);
                 }
             }
         }
@@ -72,16 +64,33 @@ namespace StudioCore.MsbEditor
                 ImGui.BeginChild("AssetTypeList");
                 if (ImGui.Selectable("Chr", _selected == "Chr"))
                 {
+                    _chrCache = _locator.GetChrModels();
                     _selected = "Chr";
                 }
-                if (ImGui.Selectable("Obj", _selected == "Obj"))
+                string objLabel = "Obj";
+                if (_locator.Type is GameType.EldenRing)
                 {
+                    objLabel = "Aeg";
+                }
+                if (ImGui.Selectable(objLabel, _selected == "Obj"))
+                {
+                    _objCache = _locator.GetObjModels();
                     _selected = "Obj";
                 }
                 foreach (var m in _mapModelCache.Keys)
                 {
                     if (ImGui.Selectable(m, _selected == m))
                     {
+                        if (_mapModelCache[m] == null)
+                        {
+                            var modelList = _locator.GetMapModels(m);
+                            var cache = new List<string>();
+                            foreach (var model in modelList)
+                            {
+                                cache.Add(model.AssetName);
+                            }
+                            _mapModelCache[m] = cache;
+                        }
                         _selected = m;
                     }
                 }
