@@ -1,9 +1,31 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
-  <Self Row0Dummy="" />
+  <Enums>
+  	<Enum Name="AttackType" type="s32">
+		<Option Value="0" Name="Unknown" />
+		<Option Value="1" Name="Unknown" />
+		<Option Value="2" Name="Unknown" />
+		<Option Value="3" Name="Unknown" />
+		<Option Value="4" Name="Unknown" />
+		<Option Value="5" Name="Unknown" />
+		<Option Value="6" Name="Unknown" />
+		<Option Value="7" Name="Unknown" />
+		<Option Value="8" Name="Unknown" />
+		<Option Value="9" Name="Unknown" />
+		<Option Value="10" Name="Unknown" />
+		<Option Value="11" Name="Unknown" />
+		<Option Value="12" Name="Unknown" />
+		<Option Value="13" Name="Unknown" />
+		<Option Value="14" Name="Unknown" />
+		<Option Value="15" Name="Unknown" />
+		<Option Value="16" Name="Unknown" />
+		<Option Value="17" Name="Binocular - Precision Shoot" />
+	</Enum>
+  </Enums>
+  <Self Wiki="Defines parameters relating to weapon animations." Row0Dummy="" />
   <Field>
     <animation_id AltName="Animation ID" />
-    <attack_type AltName="Attack Type" />
+    <attack_type AltName="Attack Type" Enum="AttackType" />
     <startup_speed AltName="Startup Speed" />
     <recovery_speed AltName="Recovery Speed" />
     <tracking_start AltName="Tracking Start" />

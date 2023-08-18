@@ -6,6 +6,14 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="dummy8 data[36]" />
+    <Field Def="s32 Unk00" />
+    <Field Def="s32 Unk01" />
+    <Field Def="s32 Unk02" />
+    <Field Def="f32 Unk03" />
+    <Field Def="f32 Unk04" />
+    <Field Def="f32 Unk05" />
+    <Field Def="f32 Unk06" />
+    <Field Def="f32 Unk07" />
+    <Field Def="f32 Unk08" />
   </Fields>
 </PARAMDEF>

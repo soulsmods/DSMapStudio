@@ -24,14 +24,14 @@
       <Option Value="2" Name="Guard Break" />
     </Enum>
   </Enums>
-  <Self Row0Dummy="" />
+  <Self Wiki="Defines parameters related to damage." Row0Dummy="" />
   <Field>
     <damage_ctrl_id AltName="Damage Control ID" Refs="DamageCtrlParam"/>
     <damage_id_followup AltName="Damage ID - Follow-up" Refs="EnemyDamageParam,PlayerDamageParam,SystemDamageParam"/>
     <damage_id_origin AltName="Damage ID - Origin" Refs="EnemyDamageParam,PlayerDamageParam,SystemDamageParam"/>
-    <damage_0 AltName="Damage [0]"/>
-    <damage_1 AltName="Damage [1]"/>
-    <damage_2 AltName="Damage [2]"/>
+    <damage_0 AltName="Damage [0]" Wiki="Direct damage, not used if damage is derived from weapon." />
+    <damage_1 AltName="Damage [1]" Wiki="Direct damage, not used if damage is derived from weapon." />
+    <damage_2 AltName="Damage [2]" Wiki="Direct damage, not used if damage is derived from weapon." />
     <physical_damage_floor AltName="Physical Damage Floor" Wiki="Lowest physical damage that this attack can deal, regardless of target's physical defense. This value is divided by Absorption %: Physical in DamageAdjustParam."/>
     <damage_type_0 AltName="Damage Type [0]" Enum="DamageTypeCategory" />
     <damage_type_1 AltName="Damage Type [1]" Enum="DamageTypeCategory" />
@@ -42,7 +42,7 @@
     <durability_damage_mult AltName="Durability Damage"/>
     <knockback_amount AltName="Knockback Amount"/>
     <knockback_speed AltName="Knockback Speed"/>
-    <is_spawn_on_weapon AltName="Is Spawn on Weapon" IsBool=""/>
+    <is_spawn_on_weapon AltName="Derive Damage from Weapon" IsBool="" Wiki="When enabled, damage is derived from the weapon, instead of using the damage fields directly."/>
     <hitbox_origin_dummy_poly_id AltName="Hitbox Origin Dummy Poly ID"/>
     <guardbreak_type AltName="Guard Break Type" Enum="GuardBreakType"/>
     <hitbox_shape AltName="Hitbox Shape" Enum="HitboxType" />
@@ -58,7 +58,7 @@
     <hitback_hitbox_shape AltName="Hitback - Hitbox Shape" Enum="HitboxType" />
     <hitback_hitbox_radius_mult AltName="Hitback - Hitbox Radius %"/>
     <hitback_hitbox_length_mult AltName="Hitback - Hitbox Length %"/>
-    <grab_param_id AltName="Grab ID"/>
+    <grab_param_id AltName="Grab ID" Refs="GrabParam" />
     <hitbox_max_size AltName="Hitbox Max Size"/>
     <hitbox_expand_speed AltName="Hitbox Expansion Speed"/>
   </Field>

@@ -6,8 +6,8 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="s32 Unk00" />
-    <Field Def="s32 Unk01" />
-    <Field Def="s32 Unk02" />
+    <Field Def="s32 is_twin_door" />
+    <Field Def="s32 key_guide_id_when_closed" />
+    <Field Def="s32 key_guide_id_when_open" />
   </Fields>
 </PARAMDEF>

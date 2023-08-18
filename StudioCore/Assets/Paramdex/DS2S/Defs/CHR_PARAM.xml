@@ -80,7 +80,7 @@
     <Field Def="f32 vs_player_damage_mult" />
     <Field Def="f32 vs_enemy_damage_mult" />
     <Field Def="f32 vs_npc_damage_mult" />
-    <Field Def="f32 Unk31" />
+    <Field Def="f32 unknown_damage_mult" />
     <Field Def="s32 Unk32" />
     <Field Def="s32 Unk33" />
     <Field Def="s32 Unk34" />

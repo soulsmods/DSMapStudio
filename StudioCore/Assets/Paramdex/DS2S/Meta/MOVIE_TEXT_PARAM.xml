@@ -1,7 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
-  <Self Row0Dummy="" />
+  <Self Wiki="Defines parameters related to the subtitles during the prologue." Row0Dummy="" />
   <Field>
-    <text_id AltName="Text ID"/>
+    <start_time AltName="Start Time" />
+    <end_time AltName="End Time" />
+    <text_id AltName="Text ID" FmgRef="prologue"/>
   </Field>
 </PARAMMETA>

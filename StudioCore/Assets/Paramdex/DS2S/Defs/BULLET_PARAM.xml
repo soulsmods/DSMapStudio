@@ -57,8 +57,8 @@
     <Field Def="f32 Unk09" />
     <Field Def="f32 Unk10" />
     <Field Def="f32 Unk11" />
-    <Field Def="s32 Unk12" />
-    <Field Def="s32 Unk13" />
+    <Field Def="f32 Unk12" />
+    <Field Def="f32 Unk13" />
     <Field Def="u8 hit_character" />
     <Field Def="u8 hit_wall" />
     <Field Def="u8 hit_floor" />

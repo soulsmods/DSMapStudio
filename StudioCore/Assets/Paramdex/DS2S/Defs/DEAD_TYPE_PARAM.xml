@@ -12,11 +12,11 @@
     <Field Def="f32 Unk03" />
     <Field Def="f32 Unk04" />
     <Field Def="f32 Unk05" />
-    <Field Def="s32 Unk06" />
+    <Field Def="s32 chr_full_body_sfx" />
     <Field Def="f32 Unk07" />
     <Field Def="f32 Unk08" />
     <Field Def="s32 Unk09" />
     <Field Def="s32 Unk10" />
-    <Field Def="s32 Unk11" />
+    <Field Def="s32 bullet_emitted_on_death" />
   </Fields>
 </PARAMDEF>
