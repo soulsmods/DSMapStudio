@@ -15,4 +15,8 @@
     <PackageTags>Core Standard Game Graphics</PackageTags>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+
 </Project>

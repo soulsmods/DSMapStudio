@@ -7,13 +7,13 @@
   <Version>201</Version>
   <Fields>
     <Field Def="u8 Unk00" />
-    <Field Def="u8 Unk00" />
-    <Field Def="u8 Unk00" />
-    <Field Def="u8 Unk00" />
-    <Field Def="u8 Unk00" />
-    <Field Def="u8 Unk00" />
-    <Field Def="u8 Unk00" />
-    <Field Def="u8 Unk00" />
-    <Field Def="s32 Text ID" />
+    <Field Def="u8 Unk01" />
+    <Field Def="u8 Unk02" />
+    <Field Def="u8 Unk03" />
+    <Field Def="u8 Unk04" />
+    <Field Def="u8 Unk05" />
+    <Field Def="u8 Unk06" />
+    <Field Def="u8 Unk07" />
+    <Field Def="s32 text_id" />
   </Fields>
 </PARAMDEF>

@@ -6,35 +6,35 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="u16 HP" />
-    <Field Def="u16 Stamina" />
-    <Field Def="u8 Unk04" />
-    <Field Def="u8 Cast Tier" />
-    <Field Def="u16 Attunement Slots" />
-    <Field Def="u16 Cast Speed" />
-    <Field Def="u16 Strength Bonus" />
-    <Field Def="u16 Dexterity Bonus" />
-    <Field Def="u16 Magic Bonus" />
-    <Field Def="u16 Fire Bonus" />
-    <Field Def="u16 Lightning Bonus" />
-    <Field Def="u16 Dark Bonus" />
-    <Field Def="u16 Poison Bonus" />
-    <Field Def="u16 Bleed Bonus" />
-    <Field Def="u16 Unk1A" />
-    <Field Def="u16 Physical Defense" />
-    <Field Def="u16 Magic Defense" />
-    <Field Def="u16 Fire Defense" />
-    <Field Def="u16 Lightning Defense" />
-    <Field Def="u16 Dark Defense" />
-    <Field Def="u16 Poison Resist" />
-    <Field Def="u16 Bleed Resist" />
-    <Field Def="u16 Unk2A" />
-    <Field Def="u16 Petrify Resist" />
-    <Field Def="u16 Curse Resist" />
-    <Field Def="u16 Unk30" />
-    <Field Def="u16 Agility" />
-    <Field Def="u16 Mundane Bonus" />
-    <Field Def="u16 Unk36" />
-    <Field Def="f32 Max Equip Load" />
+    <Field Def="u16 stat_hp" />
+    <Field Def="u16 stat_stamina" />
+    <Field Def="u8 Unk00" />
+    <Field Def="u8 stat_cast_tier" />
+    <Field Def="u16 stat_attunement_slots" />
+    <Field Def="u16 stat_cast_speed" />
+    <Field Def="u16 stat_strength_bonus" />
+    <Field Def="u16 stat_dexterity_bonus" />
+    <Field Def="u16 stat_magic_bonus" />
+    <Field Def="u16 stat_lightning_bonus" />
+    <Field Def="u16 stat_fire_bonus" />
+    <Field Def="u16 stat_dark_bonus" />
+    <Field Def="u16 stat_poison_bonus" />
+    <Field Def="u16 stat_bleed_bonus" />
+    <Field Def="u16 Unk01" />
+    <Field Def="u16 stat_physical_defence" />
+    <Field Def="u16 stat_magic_defence" />
+    <Field Def="u16 stat_lightning_defence" />
+    <Field Def="u16 stat_fire_defence" />
+    <Field Def="u16 stat_dark_defence" />
+    <Field Def="u16 stat_poison_defence" />
+    <Field Def="u16 stat_bleed_defence" />
+    <Field Def="u16 Unk02" />
+    <Field Def="u16 stat_petrify_defence" />
+    <Field Def="u16 stat_curse_defence" />
+    <Field Def="u16 Unk03" />
+    <Field Def="u16 stat_agility" />
+    <Field Def="u16 stat_mundane_bonus" />
+    <Field Def="u16 Unk04" />
+    <Field Def="f32 stat_equip_load" />
   </Fields>
 </PARAMDEF>

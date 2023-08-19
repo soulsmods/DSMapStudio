@@ -46,19 +46,26 @@
   </Enums>
   <Self Row0Dummy="" />
   <Field>
-    <IconID Wiki="Typically found in menu\tex\icon." />
-    <EffectID Wiki="The effect ID- can be called from EMEVD." />
-    <WeaponID Refs="WeaponParam" />
-    <ArmorID Refs="ArmorParam" />
-    <AmmunitionID Refs="ArrowParam" />
-    <RingID Refs="RingParam" />
-    <SpellID Refs="SpellParam" />
-    <BaseBuyPrice Wiki="Per-merchant pricing can be altered with ShopLineupParam." />
-    <ItemUsageID Refs="ItemUsageParam" />
-    <ItemType Enum="ItemTypeCategory" />
-    <ItemType2 Enum="ItemType2Category" />
-    <BuffFlags Enum="BuffFlagType" />
-    <ItemType3 Enum="ItemType3Category" />
-    <NewGamePlusBehavior Enum="NewGamePlusBehaviorType" />
+    <icon_id AltName="Icon ID" Wiki="Typically found in menu\tex\icon." />
+    <speffect_id AltName="SpEffect ID" Wiki="The SpEffect ID - can be called from EMEVD." />
+    <weapon_id AltName="Weapon ID" Refs="WeaponParam" />
+    <armor_id AltName="Armor ID" Refs="ArmorParam" />
+    <ammo_id AltName="Ammo ID" Refs="ArrowParam" />
+    <ring_id AltName="Ring ID" Refs="RingParam" />
+    <spell_id AltName="Spell ID" Refs="SpellParam" />
+    <gesture_id AltName="Gesture ID" />
+    <sort_id AltName="Sort ID" />
+    <base_price AltName="Base Price" Wiki="Per-merchant pricing can be altered with ShopLineupParam." />
+    <sell_price AltName="Sell Price" />
+    <animation_speed AltName="Animation Speed" />
+    <item_type_id AltName="Item Type ID" />
+    <item_usage_id AltName="Item Usage ID" Refs="ItemUsageParam" />
+    <max_held_count AltName="Max Held" />
+    <speffect_type AltName="SpEffect Type" />
+    <item_type_1 AltName="Item Type [1]" Enum="ItemTypeCategory" />
+    <item_type_2 AltName="Item Type [2]" Enum="ItemType2Category" />
+    <buff_flags AltName="Buff Flags" Enum="BuffFlagType" />
+    <item_type_3 AltName="Item Type [3]" Enum="ItemType3Category" />
+    <ng_behavior_type AltName="NG+ Behavior Type" Enum="NewGamePlusBehaviorType" />
   </Field>
 </PARAMMETA>

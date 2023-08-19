@@ -6,6 +6,6 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="f32 Speed Scale" />
+    <Field Def="f32 object_chr_speed_scale" />
   </Fields>
 </PARAMDEF>

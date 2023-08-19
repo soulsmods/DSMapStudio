@@ -6,13 +6,13 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="f32 Unk00" />
-    <Field Def="f32 Unk04" />
-    <Field Def="f32 Unk08" />
-    <Field Def="f32 Unk0C" />
-    <Field Def="f32 Unk10" />
-    <Field Def="f32 Unk14" />
-    <Field Def="f32 Unk18" />
-    <Field Def="f32 Unk1C" />
+    <Field Def="f32 max_distance_auto_release" />
+    <Field Def="f32 max_distance_initiate" />
+    <Field Def="f32 max_distance_switch_target" />
+    <Field Def="f32 fov_0" />
+    <Field Def="f32 fov_1" />
+    <Field Def="f32 max_angle_initiate" />
+    <Field Def="f32 max_angle_switch_target" />
+    <Field Def="f32 max_dist_behind_player" />
   </Fields>
 </PARAMDEF>

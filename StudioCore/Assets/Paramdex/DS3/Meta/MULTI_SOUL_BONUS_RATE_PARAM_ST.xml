@@ -18,5 +18,5 @@
 	<soulMultiplierRate14 AltName="Soul Modifier - Arena" />
 	<soulMultiplierRate15 AltName="Soul Modifier - Spears of the Church" />
   </Field>
-  <Self />
+  <Self Wiki="Souls Multiplier for killing phantoms/invaders"/>
 </PARAMMETA>

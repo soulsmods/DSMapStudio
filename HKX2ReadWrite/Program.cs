@@ -1,6 +1,8 @@
 ﻿using SoulsFormats;
 using System;
 using System.IO;
+using System.IO.MemoryMappedFiles;
+using DotNext.IO.MemoryMappedFiles;
 using HKX2;
 
 namespace HKX2ReadWrite
@@ -10,14 +12,14 @@ namespace HKX2ReadWrite
         static void Main(string[] args)
         {
             var hkxpath = args[0];
-            using (FileStream stream = File.OpenRead(hkxpath))
-            {
-                BinaryReaderEx br = new BinaryReaderEx(false, stream);
-                var des = new HKX2.PackFileDeserializer();
-                var root = (hkRootLevelContainer)des.Deserialize(br);
+            using var file = MemoryMappedFile.CreateFromFile(hkxpath, FileMode.Open, null, 0, MemoryMappedFileAccess.Read);
+            using var accessor = file.CreateMemoryAccessor(0, 0, MemoryMappedFileAccess.Read);
+            BinaryReaderEx br = new BinaryReaderEx(false, accessor.Memory);
+            var des = new HKX2.PackFileDeserializer();
+            var root = (hkRootLevelContainer)des.Deserialize(br);
 
-                // Strip some stuff
-                /*var v = (hknpPhysicsSceneData)root.m_namedVariants[0].m_variant;
+            // Strip some stuff
+            /*var v = (hknpPhysicsSceneData)root.m_namedVariants[0].m_variant;
                 foreach (fsnpCustomParamCompressedMeshShape s in v.m_systemDatas[0].m_referencedObjects)
                 {
                     var bvh = s.m_data.getMeshBVH();
@@ -47,12 +49,11 @@ namespace HKX2ReadWrite
                     }
                 }*/
 
-                using (FileStream s2 = File.Create(args[1]))
-                {
-                    BinaryWriterEx bw = new BinaryWriterEx(false, s2);
-                    var s = new HKX2.PackFileSerializer();
-                    s.Serialize(root, bw);
-                }
+            using (FileStream s2 = File.Create(args[1]))
+            {
+                BinaryWriterEx bw = new BinaryWriterEx(false, s2);
+                var s = new HKX2.PackFileSerializer();
+                s.Serialize(root, bw);
             }
         }
     }

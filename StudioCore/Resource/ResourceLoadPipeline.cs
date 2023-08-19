@@ -7,7 +7,7 @@ using System.Threading.Tasks.Dataflow;
 
 public readonly record struct LoadByteResourceRequest(
     string VirtualPath, 
-    byte[] Data, 
+    Memory<byte> Data, 
     AccessLevel AccessLevel, 
     GameType GameType);
 

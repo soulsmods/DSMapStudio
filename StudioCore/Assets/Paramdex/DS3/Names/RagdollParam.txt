@@ -1,28 +1,28 @@
-0 Move -- 動かない
-1 Havok Default Value -- Havokのデフォルト値
-1000 Segunda: The Evil Spirits -- グンダ：邪霊
-1001 Segunda Ragdoll Test 2 -- グンダのラグドールテスト2
-1100 Snake Spirit: Right arm -- 蛇霊：右腕
-1101 Snake Spirit: Left arm -- 蛇霊：左腕
-1102 Snake Spirit: small feet -- 蛇霊：小足
-1103 Snake Spirit: Tail root -- 蛇霊：尻尾付け根
-1104 Snake Spirit: Tail tip -- 蛇霊：尻尾先端
-1105 Snake Spirit: Head -- 蛇霊：頭
-1106 Snake Spirit: Neck -- 蛇霊：首
-1201 King of the Dead: Crown -- 死霊の王：王冠
-1202 King of the Dead: torso -- 死霊の王：胴体
-1203 King of the dead: right arm -- 死霊の王：右腕
-1204 King of the dead: left arm -- 死霊の王：左腕
-1206 King of the Dead: Head -- 死霊の王：頭
-1301 Mad Warrior Hallec: Head -- 狂戦士ハレック：頭
-1302 Mad Warrior Hallec: Torso -- 狂戦士ハレック：胴
-1303 Mad Warrior Hallec: left arm -- 狂戦士ハレック：左腕
-1304 Mad Warrior Hallec: right arm -- 狂戦士ハレック：右腕
-1305 Mad Warrior Hallec: Left Shin -- 狂戦士ハレック：左脛
-1306 Mad Warrior Hallec: Right Shin -- 狂戦士ハレック：右脛
-1307 Mad Warrior Hallec: right hand weapon -- 狂戦士ハレック：右手武器
-1401 Dead Slug (dumpling): Dead dumpling -- 蝕のナメクジ（亡者団子）：亡者団子
-1500 Hell Kite: twines in the legs -- ヘルカイト：脚に絡みつく蝕
-1501 Hell Kite: Before your left ankle -- ヘルカイト：左足の足首より先
-1600 Golem: Iron Ball -- ゴーレム：鉄球
-9999 Dummy -- ダミー
+0 Move 
+1 Havok Default Value 
+1000 Gundyr - The Evil Spirits 
+1001 Gundyr - Ragdoll Test 2 
+1100 Pus of Man - Right arm 
+1101 Pus of Man - Left arm 
+1102 Pus of Man - small feet 
+1103 Pus of Man - Tail root 
+1104 Pus of Man - Tail tip 
+1105 Pus of Man - Head 
+1106 Pus of Man - Neck 
+1201 Wolnir - Crown 
+1202 Wolnir - torso 
+1203 Wolnir - right arm 
+1204 Wolnir - left arm 
+1206 Wolnir - Head 
+1301 Yhorm - Head 
+1302 Yhorm - Torso 
+1303 Yhorm - left arm 
+1304 Yhorm - right arm 
+1305 Yhorm - Left Shin 
+1306 Yhorm - Right Shin 
+1307 Yhorm - right hand weapon 
+1401 Slug - Dead dumpling 
+1500 Dragon - twines in the legs 
+1501 Dragon - Before your left ankle 
+1600 Giant Slave - Iron Ball 
+9999 Dummy 

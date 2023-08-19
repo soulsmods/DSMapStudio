@@ -42,20 +42,20 @@
 20310024 Rennala, Queen of the Full Moon
 20310100 Rennala, Queen of the Full Moon
 20310124 Rennala, Queen of the Full Moon
-20400000 Rennala Student
-20400024 Rennala Student
-20401000 Rennala Student
-20401024 Rennala Student
-20402000 Rennala Student
-20402024 Rennala Student
-20402100 Rennala Student
-20402124 Rennala Student
-20402200 Rennala Student
-20402224 Rennala Student
-20403000 Rennala Student
-20403024 Rennala Student
-20404000 Rennala Student
-20404024 Rennala Student
+20400000 Juvenile Scholar
+20400024 Juvenile Scholar
+20401000 Juvenile Scholar
+20401024 Juvenile Scholar
+20402000 Juvenile Scholar
+20402024 Juvenile Scholar
+20402100 Juvenile Scholar
+20402124 Juvenile Scholar
+20402200 Juvenile Scholar
+20402224 Juvenile Scholar
+20403000 Juvenile Scholar
+20403024 Juvenile Scholar
+20404000 Juvenile Scholar
+20404024 Juvenile Scholar
 20410000 Kindred of Rot Larva
 20410040 Kindred of Rot Larva
 20410056 Kindred of Rot Larva
@@ -69,7 +69,7 @@
 20501022 Ranni the Witch
 20501100 Ranni the Witch
 20501122 Ranni the Witch
-20510000 Snow Witch Ranni
+20510000 Ranni the Witch
 20600000 The Two Fingers
 20600079 The Two Fingers
 21000000 Black Knife Assassin (Unscaled)
@@ -92,15 +92,15 @@
 21102000 Beast Clergyman
 21109000 Gurranq, Beast Clergyman
 21109042 Gurranq, Beast Clergyman
-21200000 Malenia- Blade of Miquella
-21200056 Malenia, Goddess of Rot
-21201000 Malenia- Blade of Miquella
-21201100 Malenia- Blade of Miquella
-21202000 Malenia- Blade of Miquella
-21202056 Malenia- Blade of Miquella
-21203000 Malenia- Blade of Miquella
-21203056 Malenia- Blade of Miquella
-21209000 Malenia- Blade of Miquella
+21200000 Malenia, Blade of Miquella
+21200056 Malenia, Blade of Miquella
+21201000 Malenia, Blade of Miquella
+21201100 Malenia, Blade of Miquella
+21202000 Malenia, Blade of Miquella
+21202056 Malenia, Blade of Miquella
+21203000 Malenia, Blade of Miquella
+21203056 Malenia, Blade of Miquella
+21209000 Malenia, Blade of Miquella
 21300000 Margit
 21300014 Margit, the Fell Omen
 21300033 Margit (Capital Outskirts)
@@ -119,14 +119,14 @@
 21400120 Omen
 21400130 Omen
 21400135 Omen
-21400200 Omen
-21400235 Omen
+21400200 Omen (Accursed)
+21400235 Omen (Accursed)
 21400300 Omen
 21400335 Omen
-21400400 Omen
-21400435 Omen
-21400600 Omen
-21400633 Omen
+21400400 Omen (Horned)
+21400435 Omen (Horned)
+21400600 Omen (Death-serving)
+21400633 Omen (Death-serving)
 21400900 Omen
 21400930 Omen
 21401000 Omen
@@ -150,12 +150,12 @@
 21403100 Omen
 21403150 Fell Twin
 21409000 Omen
-21500052 Wisp
-21500064 Wisp (Siofra River)
-21500352 Wisp
-21500452 Wisp
-21500552 Wisp
-21500652 Wisp
+21500052 Lightning Ball
+21500064 Lightning Ball (Siofra River)
+21500352 Lightning Ball
+21500452 Lightning Ball
+21500552 Lightning Ball
+21500652 Lightning Ball
 21600000 Finger Reader Crone
 21601000 Finger Reader Crone
 21601010 Finger Reader Crone
@@ -201,31 +201,31 @@
 22710060 Crab (Ainsel River)
 22710064 Crab (Siofra River)
 22710065 Crab
-22720000 Giant Crab - Damaged
-22720020 Giant Crab - Damaged
-22720100 Giant Crab - Damaged
-22720112 Giant Crab - Damaged
-22730000 Giant Crab - Damaged
-22730020 Crab - Maggots
-22740000 Giant Crab - Clean
-22740020 Giant Crab - Clean
-22740021 Giant Crab - Clean
-22740024 Giant Crab - Clean
-22740052 Giant Crab - Clean
-22740120 Giant Crab - Clean
-22750000 Crab - Clean
-22750020 Crab - Clean
-22750024 Crab - Clean
-22750052 Crab - Clean
-22750120 Crab - Clean
-22751000 Crab - Clean
-22751024 Crab - Clean
-22760000 Giant Crab - Golden Tuffs
-22760020 Giant Crab - Golden Tuffs
-22760033 Giant Crab - Golden Tuffs
-22770000 Crab - Golden Tuffs
-22770020 Crab - Golden Tuffs
-22770033 Crab - Golden Tuffs
+22720000 Giant Black Crab
+22720020 Giant Black Crab
+22720100 Giant Black Crab
+22720112 Giant Black Crab
+22730000 Giant Black Crab
+22730020 Black Crab
+22740000 Giant Albinauric Crab
+22740020 Giant Albinauric Crab
+22740021 Giant Albinauric Crab
+22740024 Giant Albinauric Crab
+22740052 Giant Albinauric Crab
+22740120 Giant Albinauric Crab
+22750000 Albinauric Crab
+22750020 Albinauric Crab
+22750024 Albinauric Crab
+22750052 Albinauric Crab
+22750120 Albinauric Crab
+22751000 Albinauric Crab
+22751024 Albinauric Crab
+22760000 Giant Death Crab
+22760020 Giant Death Crab
+22760033 Giant Death Crab
+22770000 Death Crab
+22770020 Death Crab
+22770033 Death Crab
 25000000 Crucible Knight (Unscaled)
 25000010 Crucible Knight (Limgrave Evergaol Boss)
 25000014 Crucible Knight (Unused)
@@ -389,10 +389,10 @@
 30601030 Giant Skeleton
 30601040 Giant Skeleton
 30601050 Giant Skeleton
-30610000 Undead Azula Beastman
-30610072 Undead Azula Beastman
-30611000 Undead Azula Beastman
-30611072 Undead Azula Beastman
+30610000 Giant Beast Skeleton
+30610072 Giant Beast Skeleton
+30611000 Giant Beast Skeleton
+30611072 Giant Beast Skeleton
 30700000 Dominula Celebrant
 30700030 Dominula Celebrant
 30700032 Dominula Celebrant
@@ -487,16 +487,16 @@
 31501040 Night's Cavalry
 31501042 Night's Cavalry
 31501052 Night's Cavalry (Flail)
-31600000 Night's Cavalry Horse
-31600010 Night's Cavalry Horse (Limgrave)
-31600012 Night's Cavalry Horse (Weeping Peninsula)
-31600020 Night's Cavalry Horse
-31600030 Night's Cavalry Horse
-31600032 Night's Cavalry Horse
-31600040 Night's Cavalry Horse
-31600042 Night's Cavalry Horse
-31600050 Night's Cavalry Horse
-31600052 Night's Cavalry Horse
+31600000 Funeral Steed
+31600010 Funeral Steed (Limgrave)
+31600012 Funeral Steed (Weeping Peninsula)
+31600020 Funeral Steed
+31600030 Funeral Steed
+31600032 Funeral Steed
+31600040 Funeral Steed
+31600042 Funeral Steed
+31600050 Funeral Steed
+31600052 Funeral Steed
 31700000 Albinauric Archer
 31700052 Albinauric Archer
 31701000 Albinauric Archer
@@ -506,12 +506,12 @@
 31709052 Latenna the Albinauric
 31710000 Phillia, Towering Little Sister
 31710052 Phillia, Towering Little Sister
-31800000 Dog
-31800020 Dog
-31800021 Big Wolf
-31800052 Big Wolf
-31809000 Dog
-31809020 Big Wolf
+31800000 Albinauric Archer's Wolf
+31800020 Albinauric Archer's Wolf
+31800021 Albinauric Archer's Wolf
+31800052 Albinauric Archer's Wolf
+31809000 Albinauric Archer's Wolf
+31809020 Albinauric Archer's Wolf
 31810000 Red Wolf of Radagon
 31810020 Red Wolf of Radagon
 31810022 Red Wolf of Radagon
@@ -570,49 +570,49 @@
 32009800 Nomadic Merchant
 32009900 Nomadic Merchant
 32009910 Nomadic Merchant
-32010000 Nomadic Merchant
+32010000 Frenzied Nomad
 32010035 Frenzied Nomad
 32020000 Merchant Kalé
 32020035 Merchant Kalé
-32100000 Nomadic Merchant Mule
-32100010 Nomadic Merchant Mule
-32100012 Nomadic Merchant Mule
-32100030 Nomadic Merchant Mule
-32100032 Nomadic Merchant Mule
-32100210 Nomadic Merchant Mule
-32101010 Nomadic Merchant Mule
-32101110 Nomadic Merchant Mule
-32101210 Nomadic Merchant Mule
-32101310 Nomadic Merchant Mule
-32101412 Nomadic Merchant Mule
-32101520 Nomadic Merchant Mule
-32101612 Nomadic Merchant Mule
-32101720 Nomadic Merchant Mule
-32101820 Nomadic Merchant Mule
-32101933 Nomadic Merchant Mule
-32102030 Nomadic Merchant Mule
-32102132 Nomadic Merchant Mule
-32102240 Nomadic Merchant Mule
-32102340 Nomadic Merchant Mule
-32102542 Nomadic Merchant Mule
-32102650 Nomadic Merchant Mule
-32102764 Nomadic Merchant Mule (Siofra River)
-32102860 Nomadic Merchant Mule (Ainsel River)
-32102968 Nomadic Merchant Mule
-32103010 Nomadic Merchant Mule
-32108900 Nomadic Merchant Mule
-32109000 Nomadic Merchant Mule
-32109010 Nomadic Merchant Mule
-32109100 Nomadic Merchant Mule
-32109200 Nomadic Merchant Mule
-32109300 Nomadic Merchant Mule
-32109400 Nomadic Merchant Mule
-32109500 Nomadic Merchant Mule
-32109600 Nomadic Merchant Mule
-32109700 Nomadic Merchant Mule
-32109800 Nomadic Merchant Mule
-32109810 Nomadic Merchant Mule
-32109900 Nomadic Merchant Mule
+32100000 Nomadic Merchant's Donkey
+32100010 Nomadic Merchant's Donkey
+32100012 Nomadic Merchant's Donkey
+32100030 Nomadic Merchant's Donkey
+32100032 Nomadic Merchant's Donkey
+32100210 Nomadic Merchant's Donkey
+32101010 Nomadic Merchant's Donkey
+32101110 Nomadic Merchant's Donkey
+32101210 Nomadic Merchant's Donkey
+32101310 Nomadic Merchant's Donkey
+32101412 Nomadic Merchant's Donkey
+32101520 Nomadic Merchant's Donkey
+32101612 Nomadic Merchant's Donkey
+32101720 Nomadic Merchant's Donkey
+32101820 Nomadic Merchant's Donkey
+32101933 Nomadic Merchant's Donkey
+32102030 Nomadic Merchant's Donkey
+32102132 Nomadic Merchant's Donkey
+32102240 Nomadic Merchant's Donkey
+32102340 Nomadic Merchant's Donkey
+32102542 Nomadic Merchant's Donkey
+32102650 Nomadic Merchant's Donkey
+32102764 Nomadic Merchant's Donkey (Siofra River)
+32102860 Nomadic Merchant's Donkey (Ainsel River)
+32102968 Nomadic Merchant's Donkey
+32103010 Nomadic Merchant's Donkey
+32108900 Nomadic Merchant's Donkey
+32109000 Nomadic Merchant's Donkey
+32109010 Nomadic Merchant's Donkey
+32109100 Nomadic Merchant's Donkey
+32109200 Nomadic Merchant's Donkey
+32109300 Nomadic Merchant's Donkey
+32109400 Nomadic Merchant's Donkey
+32109500 Nomadic Merchant's Donkey
+32109600 Nomadic Merchant's Donkey
+32109700 Nomadic Merchant's Donkey
+32109800 Nomadic Merchant's Donkey
+32109810 Nomadic Merchant's Donkey
+32109900 Nomadic Merchant's Donkey
 32500000 Draconic Tree Sentinel (Unscaled)
 32500033 Draconic Tree Sentinel (Capital Outskirts)
 32500070 Draconic Tree Sentinel
@@ -629,21 +629,21 @@
 32520100 Loretta Tree Sentinel (Unscaled)
 32520921 Royal Knight Loretta
 33000000 Nox Swordstress (Unscaled)
-33000061 Nox Fighter
+33000061 Nox Swordstress
 33000062 Nox Swordstress
 33000820 Nox Swordstress
 33000900 Nox Swordstress
 33000940 Nox Swordstress (Boss)
-33001000 Nox Swordstress (Unscaled)
-33001061 Nox Fighter
-33001062 Nox Swordstress
-33001065 Nox Swordstress
-33001100 Nox Swordstress
-33001940 Nox Swordstress (Boss)
-33002000 Nox Swordstress
-33002061 Nox Fighter
-33002062 Nox Swordstress
-33002065 Nox Swordstress
+33001000 Nox Monk (Unscaled)
+33001061 Nox Monk
+33001062 Nox Monk
+33001065 Nox Monk
+33001100 Nox Monk
+33001940 Nox Monk (Boss)
+33002000 Nox Nightmaiden
+33002061 Nox Nightmaiden
+33002062 Nox Nightmaiden
+33002065 Nox Nightmaiden
 33200000 Silver Tear (Unscaled)
 33200061 Silver Tear
 33200062 Silver Tear
@@ -659,12 +659,12 @@
 33201065 Silver Tear
 33201100 Silver Tear
 33201165 Silver Tear
-33202000 Silver Tear (Unscaled)
-33202062 Silver Tear
-33202100 Silver Tear
-33202200 Silver Tear
-33202261 Silver Tear
-33202262 Silver Tear
+33202000 Electrified Silver Tear (Unscaled)
+33202062 Electrified Silver Tear
+33202100 Electrified Silver Tear
+33202200 Electrified Silver Tear
+33202261 Electrified Silver Tear
+33202262 Electrified Silver Tear
 33209000 Asimi, Silver Tear
 33209010 Asimi, Silver Tear
 33300000 Giant Silver Tear (Unscaled)
@@ -686,9 +686,9 @@
 33500000 Crystalian
 33500022 Crystalian
 33500054 Crystalian
-33500154 Crystalian
-33500500 Crystalian Rot
-33500556 Crystalian Rot
+33500154 Crystalian (Spirit)
+33500500 Putrid Crystalian
+33500556 Putrid Crystalian
 33500920 Crystalian (Boss)
 33500930 Crystalian (Ringblade)
 33500940 Putrid Crystalian (Ringblade)
@@ -698,15 +698,15 @@
 33501054 Crystalian
 33501056 Crystalian
 33501154 Crystalian
-33501500 Crystalian Rot
-33501556 Crystalian Rot
+33501500 Putrid Crystalian
+33501556 Putrid Crystalian
 33501920 Crystalian (Spear)
 33501930 Crystalian (Spear)
 33501940 Putrid Crystalian (Spear)
 33502000 Crystalian
 33502154 Crystalian
-33502500 Crystalian Rot
-33502556 Crystalian Rot
+33502500 Putrid Crystalian
+33502556 Putrid Crystalian
 33502920 Crystalian (Staff)
 33502940 Putrid Crystalian (Staff)
 33507000 Crystalian
@@ -830,17 +830,17 @@
 34500054 Misbegotten
 34500100 Misbegotten
 34500112 Misbegotten
-34501000 Misbegotten
-34501012 Misbegotten
-34501013 Misbegotten
-34501020 Misbegotten
-34501030 Misbegotten
-34501034 Misbegotten (Leyndell- Royal Capital)
-34501052 Misbegotten
-34501054 Misbegotten
-34501100 Misbegotten
-34501112 Misbegotten
-34501354 Misbegotten
+34501000 Winged Misbegotten
+34501012 Winged Misbegotten
+34501013 Winged Misbegotten
+34501020 Winged Misbegotten
+34501030 Winged Misbegotten
+34501034 Winged Misbegotten (Leyndell- Royal Capital)
+34501052 Winged Misbegotten
+34501054 Winged Misbegotten
+34501100 Winged Misbegotten
+34501112 Winged Misbegotten
+34501354 Winged Misbegotten
 34502000 Misbegotten
 34502012 Misbegotten
 34502030 Misbegotten
@@ -864,8 +864,8 @@
 34510912 Scaly Misbegotten (Morne Tunnel Boss)
 34519000 Scaly Misbegotten
 34519020 Scaly Misbegotten
-34600000 Winged Misbegotten
-34600012 Winged Misbegotten
+34600000 Leonine Misbegotten
+34600012 Leonine Misbegotten
 34600034 Leonine Misbegotten (Leyndell- Royal Capital)
 34600054 Leonine Misbegotten
 34600354 Leonine Misbegotten
@@ -878,10 +878,10 @@
 34700020 Albinauric
 34700100 Albinauric
 34700120 Albinauric
-34700200 Albinauric
-34700268 Red Albinauric
-34700300 Albinauric
-34700352 Albinauric
+34700200 Bloodbane Albinauric (Unscaled)
+34700268 Bloodbane Albinauric
+34700300 Snowfield Albinauric (Unscaled)
+34700352 Snowfield Albinauric
 34700400 Albinauric
 34700452 Albinauric
 34701000 Albinauric
@@ -890,8 +890,8 @@
 34701120 Albinauric
 34701200 Albinauric
 34701300 Albinauric
-34701400 Albinauric
-34701468 Red Albinauric
+34701400 Bloodbane Albinauric
+34701468 Bloodbane Albinauric
 34701500 Albinauric
 34701552 Albinauric
 34701600 Albinauric
@@ -902,13 +902,13 @@
 34702200 Albinauric
 34702300 Albinauric
 34702320 Albinauric
-34702400 Albinauric
-34702468 Red Albinauric
+34702400 Bloodbane Albinauric
+34702468 Bloodbane Albinauric
 34702500 Albinauric
 34702552 Albinauric
 34703000 Albinauric
-34703020 Albinauric
-34703068 Red Albinauric
+34703020 Bloodbane Albinauric
+34703068 Bloodbane Albinauric
 34703100 Albinauric
 34703200 Albinauric
 34703252 Albinauric
@@ -916,153 +916,153 @@
 34704020 Albinauric
 34704100 Albinauric
 34704120 Albinauric
-34704200 Albinauric
-34704268 Red Albinauric
+34704200 Bloodbane Albinauric
+34704268 Bloodbane Albinauric
 34704300 Albinauric
 34704352 Albinauric
 34715000 Large Albinauric
-34715068 Albinauric 2
+34715068 Large Albinauric
 34715100 Large Albinauric
 34715120 Large Albinauric
-34715200 Large Albinauric
-34715268 Large Red Albinauric
-34715300 Large Albinauric
-34715352 Large Albinauric
-35000000 Skeleton
-35000010 Skeleton
-35000012 Skeleton
-35000014 Skeleton (Curved Sword)
-35000020 Skeleton
-35000030 Skeleton
-35000032 Skeleton
-35000034 Skeleton - Curved Sword  (Leyndell- Royal Capital)
-35000040 Skeleton
-35000050 Skeleton
-35000100 Skeleton
-35000172 Skeleton
-35000300 Skeleton (Curved Sword)
-35000330 Skeleton
-35000400 Skeleton (Curved Sword)
-35000500 Skeleton (Curved Sword)
-35000700 Skeleton (Curved Sword)
-35000733 Skeleton
-35001000 Skeleton
-35001010 Skeleton
-35001012 Skeleton (Curved Sword)
-35001014 Skeleton (Curved Sword)
-35001030 Skeleton
-35001032 Skeleton
-35001040 Skeleton
-35001050 Skeleton
-35001100 Skeleton (Curved Sword)
-35001172 Skeleton
-35001700 Skeleton (Curved Sword)
-35001733 Skeleton
-35002000 Skeleton (Curved Sword)
-35002010 Skeleton
-35002012 Skeleton (Curved Sword)
-35002020 Skeleton
-35002032 Skeleton
-35002040 Skeleton
-35002050 Skeleton
-35002100 Skeleton (Curved Sword)
-35002172 Skeleton
-35002700 Skeleton (Curved Sword)
-35002733 Skeleton
-35003000 Skeleton (Curved Sword)
-35003010 Skeleton
-35003012 Skeleton (Curved Sword)
-35003014 Skeleton (Curved Sword)
-35003032 Skeleton
-35003040 Skeleton
-35003050 Skeleton
-35003100 Skeleton (Curved Sword)
-35003172 Skeleton
-35003700 Skeleton (Curved Sword)
-35003733 Skeleton
-35004000 Skeleton (Curved Sword)
-35004010 Skeleton
-35004012 Skeleton
-35004020 Skeleton
-35004030 Skeleton
-35004032 Skeleton
-35004040 Skeleton
-35004050 Skeleton
-35004100 Skeleton (Curved Sword)
-35004172 Skeleton
-35004700 Skeleton (Curved Sword)
-35004733 Skeleton
-35005000 Skeleton (Curved Sword)
-35005010 Skeleton
-35005020 Skeleton
-35005032 Skeleton
-35006000 Skeleton (Curved Sword)
-35006010 Skeleton
-35006032 Skeleton
-35007000 Skeleton (Curved Sword)
-35007010 Skeleton
-35007020 Skeleton
-35007032 Skeleton
-35008000 Skeleton (Curved Sword)
-35008010 Skeleton (Curved Sword)
-35008020 Skeleton
-35008032 Skeleton
-35009000 Skeleton (Curved Sword)
-35009010 Skeleton (Curved Sword)
-35009032 Skeleton
-35100000 Catacombs Skeleton
-35100006 Skeleton (Scimitar)
-35100010 Catacombs Skeleton
-35100012 Catacombs Skeleton
-35100020 Catacombs Skeleton
-35100032 Catacombs Skeleton
-35100033 Catacombs Skeleton
-35100040 Skeleton (Scimitar)
-35100100 Catacombs Skeleton
-35100110 Catacombs Skeleton
-35100112 Catacombs Skeleton
-35100120 Catacombs Skeleton
-35100132 Catacombs Skeleton
-35100133 Catacombs Skeleton
-35100200 Skeleton (Scimitar)
-35100210 Skeleton (Scimitar)
-35100920 Skeleton (Scimitar) (Boss)
-35101000 Skeleton (Scimitar)
-35101006 Skeleton (Scimitar)
-35101010 Skeleton (Scimitar)
-35101012 Catacombs Skeleton
-35101020 Catacombs Skeleton
-35101032 Catacombs Skeleton
-35101033 Catacombs Skeleton
-35101040 Catacombs Skeleton
-35101100 Skeleton (Scimitar)
-35101110 Skeleton (Scimitar)
-35101112 Skeleton (Scimitar)
-35101140 Skeleton (Scimitar)
-35101920 Skeleton (Scimitar) (Boss)
-35102000 Catacombs Skeleton
-35102006 Skeleton (Scimitar)
-35102010 Catacombs Skeleton
-35102012 Catacombs Skeleton
-35102020 Catacombs Skeleton
-35102032 Catacombs Skeleton
-35102033 Catacombs Skeleton
-35102040 Catacombs Skeleton
-35102920 Skeleton (Scimitar) (Boss)
-35103000 Skeleton (Scimitar)
-35103010 Catacombs Skeleton
-35103012 Catacombs Skeleton
-35103020 Catacombs Skeleton
-35103100 Skeleton (Scimitar)
-35103106 Skeleton (Scimitar)
-35103110 Catacombs Skeleton
-35104000 Skeleton (Scimitar)
-35104006 Skeleton (Scimitar)
-35104010 Skeleton (Scimitar)
-35104012 Skeleton (Scimitar)
-35104032 Catacombs Skeleton
-35104100 Skeleton (Scimitar)
-35104110 Skeleton (Scimitar)
+34715200 Large Bloodbane Albinauric (Unscaled)
+34715268 Large Bloodbane Albinauric
+34715300 Large Snowfield Albinauric (Unscaled)
+34715352 Large Snowfield Albinauric
+35000000 Large Skeleton (Spear)
+35000010 Large Skeleton (Spear)
+35000012 Large Skeleton (Spear)
+35000014 Large Skeleton (Spear)
+35000020 Large Skeleton (Spear)
+35000030 Large Skeleton (Spear)
+35000032 Large Skeleton (Spear)
+35000034 Large Skeleton (Spear)
+35000040 Large Skeleton (Spear)
+35000050 Large Skeleton (Spear)
+35000100 Large Skeleton (Spear)
+35000172 Large Skeleton (Spear)
+35000300 Large Skeleton (Spear)
+35000330 Large Skeleton (Spear)
+35000400 Large Skeleton (Spear)
+35000500 Large Skeleton (Spear)
+35000700 Large Skeleton (Spear)
+35000733 Large Skeleton (Spear)
+35001000 Large Skeleton (Crossbow)
+35001010 Large Skeleton (Crossbow)
+35001012 Large Skeleton (Crossbow)
+35001014 Large Skeleton (Crossbow)
+35001030 Large Skeleton (Crossbow)
+35001032 Large Skeleton (Crossbow)
+35001040 Large Skeleton (Crossbow)
+35001050 Large Skeleton (Crossbow)
+35001100 Large Skeleton (Crossbow)
+35001172 Large Skeleton (Crossbow)
+35001700 Large Skeleton (Crossbow)
+35001733 Large Skeleton (Crossbow)
+35002000 Large Skeleton (Scythe)
+35002010 Large Skeleton (Scythe)
+35002012 Large Skeleton (Scythe)
+35002020 Large Skeleton (Scythe)
+35002032 Large Skeleton (Scythe)
+35002040 Large Skeleton (Scythe)
+35002050 Large Skeleton (Scythe)
+35002100 Large Skeleton (Scythe)
+35002172 Large Skeleton (Scythe)
+35002700 Large Skeleton (Scythe)
+35002733 Large Skeleton (Scythe)
+35003000 Large Skeleton (Sword and Shield)
+35003010 Large Skeleton (Sword and Shield)
+35003012 Large Skeleton (Sword and Shield)
+35003014 Large Skeleton (Sword and Shield)
+35003032 Large Skeleton (Sword and Shield)
+35003040 Large Skeleton (Sword and Shield)
+35003050 Large Skeleton (Sword and Shield)
+35003100 Large Skeleton (Sword and Shield)
+35003172 Large Skeleton (Sword and Shield)
+35003700 Large Skeleton (Sword and Shield)
+35003733 Large Skeleton (Sword and Shield)
+35004000 Large Skeleton (Curved Swords)
+35004010 Large Skeleton (Curved Swords)
+35004012 Large Skeleton (Curved Swords)
+35004020 Large Skeleton (Curved Swords)
+35004030 Large Skeleton (Curved Swords)
+35004032 Large Skeleton (Curved Swords)
+35004040 Large Skeleton (Curved Swords)
+35004050 Large Skeleton (Curved Swords)
+35004100 Large Skeleton (Curved Swords)
+35004172 Large Skeleton (Curved Swords)
+35004700 Large Skeleton (Curved Swords)
+35004733 Large Skeleton (Curved Swords)
+35005000 Large Skeleton (Spear)
+35005010 Large Skeleton (Spear)
+35005020 Large Skeleton (Spear)
+35005032 Large Skeleton (Spear)
+35006000 Large Skeleton (Crossbow)
+35006010 Large Skeleton (Crossbow)
+35006032 Large Skeleton (Crossbow)
+35007000 Large Skeleton (Scythe)
+35007010 Large Skeleton (Scythe)
+35007020 Large Skeleton (Scythe)
+35007032 Large Skeleton (Scythe)
+35008000 Large Skeleton (Sword and Shield)
+35008010 Large Skeleton (Sword and Shield)
+35008020 Large Skeleton (Sword and Shield)
+35008032 Large Skeleton (Sword and Shield)
+35009000 Large Skeleton (Curved Swords)
+35009010 Large Skeleton (Curved Swords)
+35009032 Large Skeleton (Curved Swords)
+35100000 Skeleton (Sword and Shield)
+35100006 Skeleton (Sword and Shield)
+35100010 Skeleton (Sword and Shield)
+35100012 Skeleton (Sword and Shield)
+35100020 Skeleton (Sword and Shield)
+35100032 Skeleton (Sword and Shield)
+35100033 Skeleton (Sword and Shield)
+35100040 Skeleton (Sword and Shield)
+35100100 Skeleton (Sword and Shield)
+35100110 Skeleton (Sword and Shield)
+35100112 Skeleton (Sword and Shield)
+35100120 Skeleton (Sword and Shield)
+35100132 Skeleton (Sword and Shield)
+35100133 Skeleton (Sword and Shield)
+35100200 Skeleton (Sword and Shield)
+35100210 Skeleton (Sword and Shield)
+35100920 Skeleton (Sword and Shield)
+35101000 Skeleton (Sword)
+35101006 Skeleton (Sword)
+35101010 Skeleton (Sword)
+35101012 Skeleton (Sword)
+35101020 Skeleton (Sword)
+35101032 Skeleton (Sword)
+35101033 Skeleton (Sword)
+35101040 Skeleton (Sword)
+35101100 Skeleton (Sword)
+35101110 Skeleton (Sword)
+35101112 Skeleton (Sword)
+35101140 Skeleton (Sword)
+35101920 Skeleton (Sword)
+35102000 Skeleton (Bow)
+35102006 Skeleton (Bow)
+35102010 Skeleton (Bow)
+35102012 Skeleton (Bow)
+35102020 Skeleton (Bow)
+35102032 Skeleton (Bow)
+35102033 Skeleton (Bow)
+35102040 Skeleton (Bow)
+35102920 Skeleton (Bow)
+35103000 Skeleton (Fists)
+35103010 Skeleton (Fists)
+35103012 Skeleton (Fists)
+35103020 Skeleton (Fists)
+35103100 Skeleton (Fists)
+35103106 Skeleton (Fists)
+35103110 Skeleton (Fists)
+35104000 Skeleton (Fists)
+35104006 Skeleton (Fists)
+35104010 Skeleton (Fists)
+35104012 Skeleton (Fists)
+35104032 Skeleton (Fists)
+35104100 Skeleton (Fists)
+35104110 Skeleton (Fists)
 35500000 Sanguine Noble (Unscaled)
 35500020 Sanguine Noble
 35500030 Sanguine Noble
@@ -1085,11 +1085,11 @@
 35700172 Godskin Noble (Godskin Duo)
 35700950 Godskin Noble
 36000000 Alabaster Lord (Unscaled)
-36000010 Onyx Lord
-36000012 Onyx Lord
-36000024 Onyx Lord
-36000052 Onyx Lord
-36000062 Onyx Lord
+36000010 Alabaster Lord
+36000012 Alabaster Lord
+36000024 Alabaster Lord
+36000052 Alabaster Lord
+36000062 Alabaster Lord
 36001000 Onyx Lord
 36001052 Onyx Lord
 36001920 Onyx Lord (Boss)
@@ -1102,22 +1102,22 @@
 36200054 Large Oracle Envoy
 36300000 Giant Oracle Envoy
 36300054 Giant Oracle Envoy
-36500000 Erdtree Guardian
-36500012 Erdtree Guardian
-36500020 Erdtree Guardian
-36500030 Erdtree Guardian
-36500033 Erdtree Guardian
-36500034 Erdtree Guardian (Leyndell- Royal Capital)
-36501000 Erdtree Guardian
-36501033 Erdtree Guardian
-36501034 Erdtree Guardian (Leyndell- Royal Capital)
-36501100 Erdtree Guardian - Full Bloomed
-36501833 Erdtree Guardian
-36502000 Erdtree Guardian
-36502040 Erdtree Guardian
-36502042 Erdtree Guardian
-36502052 Erdtree Guardian
-36503000 Erdtree Guardian
+36500000 Guardian
+36500012 Guardian
+36500020 Guardian
+36500030 Guardian
+36500033 Guardian
+36500034 Guardian (Leyndell- Royal Capital)
+36501000 Full-Bloom Guardian
+36501033 Full-Bloom Guardian
+36501034 Full-Bloom Guardian (Leyndell- Royal Capital)
+36501100 Full-Bloom Guardian - Full Bloomed
+36501833 Full-Bloom Guardian
+36502000 Rotten Guardian
+36502040 Rotten Guardian
+36502042 Rotten Guardian
+36502052 Rotten Guardian
+36503000 Fuller-Bloom Guardian
 36600000 Commoner
 36600014 Commoner
 36600020 Commoner
@@ -1130,61 +1130,61 @@
 36600110 Commoner
 36600114 Commoner
 36600314 Commoner
-36600600 Commoner
-36600612 Commoner
-36600620 Commoner
-36600652 Commoner
-36600700 Commoner
-36600733 Commoner
-36600800 Commoner
-36600838 Commoner
-36601000 Commoner
+36600600 Frenzied Commoner
+36600612 Frenzied Commoner
+36600620 Frenzied Commoner
+36600652 Frenzied Commoner
+36600700 Death-serving Commoner
+36600733 Death-serving Commoner
+36600800 Imprisoned Commoner
+36600838 Imprisoned Commoner
+36601000 Commoner (Spear)
 36601030 Commoner
 36601070 Commoner
-36601200 Commoner
-36601212 Commoner
-36601220 Commoner
-36601252 Commoner
-36601300 Commoner
-36601333 Commoner
-36601400 Commoner
-36601438 Commoner
-36602000 Commoner
+36601200 Frenzied Commoner
+36601212 Frenzied Commoner
+36601220 Frenzied Commoner
+36601252 Frenzied Commoner
+36601300 Death-serving Commoner
+36601333 Death-serving Commoner
+36601400 Imprisoned Commoner
+36601438 Imprisoned Commoner
+36602000 Commoner (Torchpole, Cloak)
 36602070 Commoner
-36602100 Commoner
-36602152 Commoner
-36602200 Commoner
-36602233 Commoner
-36602300 Commoner
-36602338 Commoner
-36603000 Commoner
+36602100 Frenzied Commoner
+36602152 Frenzied Commoner
+36602200 Death-serving Commoner
+36602233 Death-serving Commoner
+36602300 Imprisoned Commoner
+36602338 Imprisoned Commoner
+36603000 Commoner (Torchpole)
 36603010 Commoner
 36603020 Commoner
 36603100 Commoner
 36603110 Commoner
-36608000 Commoner
-36608033 Morgott
-36609000 Commoner
-36609006 Commoner Ghost
-36609010 Commoner Ghost
-36609012 Commoner Ghost
-36609020 Commoner Ghost
-36609022 Commoner Ghost
-36609040 Commoner
-36609052 Commoner
-36609100 Commoner
-36609114 Commoner Ghost
-36609120 Commoner Ghost
-36609130 Commoner Ghost
-36609140 Commoner Ghost
-36609142 Commoner Ghost
-36609152 Commoner
-36609162 Commoner Ghost
-36609165 Commoner Ghost
-36609170 Commoner Ghost
-36609500 Commoner
-36609510 Commoner
-36609520 Commoner
+36608000 Commoner (Margit)
+36608033 Commoner (Margit)
+36609000 Commoner (Stranded Soul)
+36609006 Commoner (Stranded Soul)
+36609010 Commoner (Stranded Soul)
+36609012 Commoner (Stranded Soul)
+36609020 Commoner (Stranded Soul)
+36609022 Commoner (Stranded Soul)
+36609040 Commoner (Stranded Soul)
+36609052 Commoner (Stranded Soul)
+36609100 Commoner (Stranded Soul)
+36609114 Commoner (Stranded Soul)
+36609120 Commoner (Stranded Soul)
+36609130 Commoner (Stranded Soul)
+36609140 Commoner (Stranded Soul)
+36609142 Commoner (Stranded Soul)
+36609152 Commoner (Stranded Soul)
+36609162 Commoner (Stranded Soul)
+36609165 Commoner (Stranded Soul)
+36609170 Commoner (Stranded Soul)
+36609500 Commoner (Stranded Soul)
+36609510 Commoner (Stranded Soul)
+36609520 Commoner (Stranded Soul)
 36610000 Putrid Corpse
 36610012 Putrid Corpse
 36610030 Putrid Corpse
@@ -1198,61 +1198,61 @@
 36610100 Putrid Corpse
 36610140 Putrid Corpse
 36610812 Putrid Corpse
-36610820 Putrid Corpse
-36611000 Putrid Corpse
-36611012 Putrid Corpse
-36611030 Putrid Corpse
-36611031 Putrid Corpse (Shaded Castle)
-36611035 Putrid Corpse
-36611100 Putrid Corpse
-36612000 Putrid Corpse
-36612030 Putrid Corpse
-36612032 Putrid Corpse
-36612035 Putrid Corpse
-36612040 Putrid Corpse
-36612132 Putrid Corpse
-36612200 Putrid Corpse
-36613000 Putrid Corpse
-36613054 Putrid Corpse
-36613100 Putrid Corpse
-36613154 Putrid Corpse
-36613200 Putrid Corpse
-36613254 Putrid Corpse
-36614000 Putrid Corpse
-36614024 Putrid Corpse
-36615000 Putrid Corpse
-36615068 Putrid Corpse
-36616000 Putrid Corpse
-36616040 Putrid Corpse
+36610820 Putrid Corpse (Mirage)
+36611000 Putrid Corpse (Maggots)
+36611012 Putrid Corpse (Maggots)
+36611030 Putrid Corpse (Maggots)
+36611031 Putrid Corpse (Maggots) (Shaded Castle)
+36611035 Putrid Corpse (Maggots)
+36611100 Putrid Corpse (Maggots)
+36612000 Putrid Corpse (Burning)
+36612030 Putrid Corpse (Burning)
+36612032 Putrid Corpse (Burning)
+36612035 Putrid Corpse (Burning)
+36612040 Putrid Corpse (Burning)
+36612132 Putrid Corpse (Burning)
+36612200 Putrid Corpse (Burning)
+36613000 Putrid Corpse (Mushroom)
+36613054 Putrid Corpse (Mushroom)
+36613100 Putrid Corpse (Mushroom)
+36613154 Putrid Corpse (Mushroom)
+36613200 Putrid Corpse (Mushroom)
+36613254 Putrid Corpse (Mushroom)
+36614000 Putrid Corpse (Magic)
+36614024 Putrid Corpse (Magic)
+36615000 Putrid Corpse (Blood)
+36615068 Putrid Corpse (Blood)
+36616000 Putrid Corpse (Rotten)
+36616040 Putrid Corpse (Rotten)
 36619000 Putrid Corpse
 36619040 Putrid Corpse Ghost
-36620000 Putrid Corpse 2
-36620012 Scarlet Putrid Corpse
-36620034 Scarlet Putrid Corpse (Leyndell- Royal Capital)
-36620040 Scarlet Putrid Corpse
-36620054 Scarlet Putrid Corpse
-36620100 Scarlet Putrid Corpse
-36620140 Scarlet Putrid Corpse
-36621000 Scarlet Putrid Corpse
-36621031 Scarlet Putrid Corpse (Shaded Castle)
-36621035 Putrid Corpse 2
-36621100 Scarlet Putrid Corpse
-36621140 Scarlet Putrid Corpse
-36622000 Scarlet Putrid Corpse
-36622040 Putrid Corpse 2
-36622200 Scarlet Putrid Corpse
-36623000 Scarlet Putrid Corpse
-36623054 Scarlet Putrid Corpse
-36623100 Scarlet Putrid Corpse
-36623154 Scarlet Putrid Corpse
-36623200 Scarlet Putrid Corpse
-36623254 Scarlet Putrid Corpse
-36624000 Scarlet Putrid Corpse
-36624024 Putrid Corpse 2
-36625000 Scarlet Putrid Corpse
-36625068 Scarlet Putrid Corpse
-36626000 Scarlet Putrid Corpse
-36626040 Putrid Corpse 2
+36620000 Putrid Corpse (Large)
+36620012 Putrid Corpse (Large)
+36620034 Putrid Corpse (Large) (Leyndell- Royal Capital)
+36620040 Putrid Corpse (Large)
+36620054 Putrid Corpse (Large)
+36620100 Putrid Corpse (Large)
+36620140 Putrid Corpse (Large)
+36621000 Putrid Corpse (Large) (Maggots)
+36621031 Putrid Corpse (Large) (Maggots) (Shaded Castle)
+36621035 Putrid Corpse (Large) (Maggots)
+36621100 Putrid Corpse (Large) (Maggots)
+36621140 Putrid Corpse (Large) (Maggots)
+36622000 Putrid Corpse (Large) (Burning)
+36622040 Putrid Corpse (Large) (Burning)
+36622200 Putrid Corpse (Large) (Burning)
+36623000 Putrid Corpse (Large) (Mushroom)
+36623054 Putrid Corpse (Large) (Mushroom)
+36623100 Putrid Corpse (Large) (Mushroom)
+36623154 Putrid Corpse (Large) (Mushroom)
+36623200 Putrid Corpse (Large) (Mushroom)
+36623254 Putrid Corpse (Large) (Mushroom)
+36624000 Putrid Corpse (Large) (Magic)
+36624024 Putrid Corpse (Large) (Magic)
+36625000 Putrid Corpse (Large) (Blood)
+36625068 Putrid Corpse (Large) (Blood)
+36626000 Putrid Corpse (Large) (Rotten)
+36626040 Putrid Corpse (Large) (Rotten)
 36640000 Cemetery Shade
 36640012 Cemetery Shade (Weeping Peninsula)
 36640032 Cemetery Shade
@@ -1273,41 +1273,41 @@
 36660034 The Noble Goldmask
 36660050 The Noble Goldmask
 36660070 The Noble Goldmask
-36700000 Albinauric Lookout
-36700042 Albinauric Lookout
-36700100 Albinauric Lookout
-36700120 Albinauric Lookout
-36700134 Albinauric Lookout (Leyndell- Royal Capital)
-36701000 Albinauric Lookout
-36701021 Albinauric Lookout
-36701038 Albinauric Lookout
-36701042 Albinauric Lookout
-36701100 Albinauric Lookout
-36701120 Albinauric Lookout
-36701121 Albinauric Lookout
-36701138 Albinauric Lookout
+36700000 Elder Albinauric
+36700042 Elder Albinauric
+36700100 Elder Albinauric
+36700120 Elder Albinauric
+36700134 Elder Albinauric (Leyndell- Royal Capital)
+36701000 Elder Albinauric Sorcerer
+36701021 Elder Albinauric Sorcerer
+36701038 Elder Albinauric Sorcerer
+36701042 Elder Albinauric Sorcerer
+36701100 Elder Albinauric Sorcerer
+36701120 Elder Albinauric Sorcerer
+36701121 Elder Albinauric Sorcerer
+36701138 Elder Albinauric Sorcerer
 36701200 Pidia, Carian Servant
-36702000 Albinauric Lookout
-36702038 Albinauric Lookout
-36702039 Albinauric Lookout
-36702051 Albinauric Lookout
-36702100 Albinauric Lookout
-36702138 Albinauric Lookout
-36702151 Albinauric Lookout
-36702200 Albinauric Lookout
-36702238 Albinauric Lookout
-36702251 Albinauric Lookout
-36703000 Albinauric Lookout
-36703034 Albinauric Lookout (Leyndell- Royal Capital)
-36703038 Albinauric Lookout
-36703051 Albinauric Lookout
-36704000 Albinauric Lookout
-36704020 Albinauric Lookout
+36702000 Imprisoned Elder Albinauric
+36702038 Imprisoned Elder Albinauric
+36702039 Imprisoned Elder Albinauric
+36702051 Imprisoned Elder Albinauric
+36702100 Imprisoned Elder Albinauric
+36702138 Imprisoned Elder Albinauric
+36702151 Imprisoned Elder Albinauric
+36702200 Imprisoned Elder Albinauric
+36702238 Imprisoned Elder Albinauric
+36702251 Imprisoned Elder Albinauric
+36703000 Black Dumpling Elder Albinauric
+36703034 Black Dumpling Elder Albinauric (Leyndell, Royal Capital)
+36703038 Black Dumpling Elder Albinauric
+36703051 Black Dumpling Elder Albinauric
+36704000 Poison Claw Elder Albinauric
+36704020 Poison Claw Elder Albinauric
 36708000 Old Albus
 36708020 Old Albus
 36709000 Pidia, Carian Servant
 36709020 Pidia, Carian Servant
-36709100 Albinauric Lookout
+36709100 Elder Albinauric
 36709120 Pidia, Carian Servant
 36709920 Pidia, Carian Servant
 37000000 Depraved Perfumer
@@ -1319,53 +1319,53 @@
 37001000 Depraved Perfumer
 37001030 Depraved Perfumer
 37001031 Depraved Perfumer (Shaded Castle)
-37010000 Depraved Perfumer 2
-37010030 Depraved Perfumer 2
-37010033 White Veil Perfumer
-37010034 White Veil Perfumer  (Leyndell- Royal Capital)
-37010830 Depraved Perfumer 2
-37011000 White Veil Perfumer
-37011030 Depraved Perfumer 2
-37011034 White Veil Perfumer (Leyndell- Royal Capital)
+37010000 Perfumer
+37010030 Perfumer
+37010033 Perfumer
+37010034 Perfumer  (Leyndell- Royal Capital)
+37010830 Perfumer
+37011000 Perfumer
+37011030 Perfumer
+37011034 Perfumer (Leyndell- Royal Capital)
 37011930 Perfumer Tricia
-37020000 Raya Lucaria Scholar
-37020020 Raya Lucaria Scholar
-37020021 Raya Lucaria Scholar
-37020024 Raya Lucaria Scholar
-37020032 Raya Lucaria Scholar
-37020040 Raya Lucaria Scholar
-37021000 Glintstone Raya Lucaria Scholar
-37021020 Glintstone Raya Lucaria Scholar
-37021024 Glintstone Raya Lucaria Scholar
-37021032 Glintstone Raya Lucaria Scholar
-37021040 Glintstone Raya Lucaria Scholar
-37021140 Glintstone Raya Lucaria Scholar
-37022000 Lazuli Raya Lucaria Scholar
-37022021 Lazuli Raya Lucaria Scholar
-37022024 Lazuli Raya Lucaria Scholar
-37022040 Lazuli Raya Lucaria Scholar
-37022140 Lazuli Raya Lucaria Scholar
-37023000 Twinsage Raya Lucaria Scholar
-37023020 Twinsage Raya Lucaria Scholar
-37023024 Twinsage Raya Lucaria Scholar
-37023040 Twinsage Raya Lucaria Scholar
-37023140 Twinsage Raya Lucaria Scholar
-37024000 Raya Lucaria Scholar
-37024024 Raya Lucaria Scholar
-37024040 Raya Lucaria Scholar
+37020000 Glintstone Sorcerer
+37020020 Glintstone Sorcerer
+37020021 Glintstone Sorcerer
+37020024 Glintstone Sorcerer
+37020032 Glintstone Sorcerer
+37020040 Glintstone Sorcerer (Mirage)
+37021000 Karolos Glintstone Sorcerer
+37021020 Karolos Glintstone Sorcerer
+37021024 Karolos Glintstone Sorcerer
+37021032 Karolos Glintstone Sorcerer
+37021040 Karolos Glintstone Sorcerer (Mirage)
+37021140 Karolos Glintstone Sorcerer
+37022000 Lazuli Glintstone Sorcerer
+37022021 Lazuli Glintstone Sorcerer
+37022024 Lazuli Glintstone Sorcerer
+37022040 Lazuli Glintstone Sorcerer
+37022140 Lazuli Glintstone Sorcerer
+37023000 Twinsage Glintstone Sorcerer A
+37023020 Twinsage Glintstone Sorcerer A
+37023024 Twinsage Glintstone Sorcerer A
+37023040 Mirage Twinsage Glintstone Sorcerer A
+37023140 Twinsage Glintstone Sorcerer A
+37024000 Twinsage Glintstone Sorcerer B
+37024024 Twinsage Glintstone Sorcerer B
+37024040 Mirage Twinsage Glintstone Sorcerer B
 37030000 Page
 37030012 Page
 37030021 Page
-37030030 Noble's Page
-37030031 Noble's Page (Shaded Castle)
+37030030 Page
+37030031 Page (Shaded Castle)
 37030032 Page
 37030033 Page
-37030034 Noble's Page (Leyndell- Royal Capital)
+37030034 Page (Leyndell- Royal Capital)
 37030041 Page
 37030052 Page
-37031000 Noble's Page
-37031024 Noble's Page (Raya Lucaria)
-37031034 Noble's Page (Leyndell- Royal Capital)
+37031000 High Page
+37031024 High Page (Raya Lucaria)
+37031034 High Page (Leyndell- Royal Capital)
 37040000 Battlemage
 37040020 Battlemage
 37040040 Battlemage
@@ -1373,12 +1373,12 @@
 37040800 Battlemage
 37040830 Battlemage
 37040940 Battlemage Hugues (Boss)
-37100000 Primeval Sorcerer Azur
-37100024 Primeval Sorcerer Azur
-37100032 Primeval Sorcerer Azur
-37200000 Primeval Sorcerer Lusat
-37200040 Primeval Sorcerer Lusat
-37200042 Primeval Sorcerer Lusat
+37100000 Azur
+37100024 Azur
+37100032 Azur
+37200000 Lusat
+37200040 Lusat
+37200042 Lusat
 37300000 Graven School
 37300020 Graven School
 37300040 Graven School
@@ -1505,14 +1505,14 @@
 39001032 Fire Monk
 39001050 Fire Monk
 39010000 Fire Monk
-39010038 Godskin Monk
-39011000 Godskin Monk
-39011042 Godskin Monk
+39010038 Blackflame Monk
+39011000 Blackflame Monk
+39011042 Blackflame Monk
 39100000 Fire Prelate
 39100032 Fire Prelate
 39100050 Fire Prelate
-39100100 Fire Prelate
-39100150 Fire Prelate
+39100100 Fire Prelate (Surcoat)
+39100150 Fire Prelate (Surcoat)
 39100200 Fire Prelate
 39100250 Fire Prelate
 39101000 Fire Prelate
@@ -1540,36 +1540,36 @@
 39509038 Zorayas the Scout
 39509138 Zorayas the Scout
 39700000 Azula Beastman
-39700072 Beastman of Farum Azula
+39700072 Azula Beastman
 39700100 Azula Beastman
-39700172 Beastman of Farum Azula
+39700172 Azula Beastman
 39700200 Azula Beastman
-39700272 Beastman of Farum Azula
+39700272 Azula Beastman
 39700300 Azula Beastman
-39700372 Beastman of Farum Azula
+39700372 Azula Beastman
 39700400 Azula Beastman
-39700472 Beastman of Farum Azula
-39701000 Azula Beastman - Armored
-39701072 Azula Beastman - Armored
-39701100 Azula Beastman - Armored
-39701172 Azula Beastman - Armored
-39701200 Azula Beastman - Armored
-39701272 Azula Beastman - Armored
-39701910 Azula Beastman - Armored (Limgrave Cave Boss)
-39701942 Azula Beastman - Armored (Boss)
+39700472 Azula Beastman
+39701000 Armored Beastman of Farum Azula
+39701072 Armored Beastman of Farum Azula
+39701100 Armored Beastman of Farum Azula
+39701172 Armored Beastman of Farum Azula
+39701200 Armored Beastman of Farum Azula
+39701272 Armored Beastman of Farum Azula
+39701910 Beastman of Farum Azula (Limgrave Cave Boss)
+39701942 Armored Beastman of Farum Azula (Boss)
 39702000 Azula Beastman
-39702072 Beastman of Farum Azula
+39702072 Azula Beastman
 39702100 Azula Beastman
-39702172 Beastman of Farum Azula
+39702172 Azula Beastman
 39702200 Azula Beastman
-39702272 Beastman of Farum Azula
+39702272 Azula Beastman
 39702300 Azula Beastman
-39702372 Beastman of Farum Azula
+39702372 Azula Beastman
 39702942 Azula Beastman (Boss)
 39703000 Azula Beastman
-39703072 Beastman of Farum Azula
+39703072 Azula Beastman
 39703100 Azula Beastman
-39703172 Beastman of Farum Azula
+39703172 Azula Beastman
 39709000 Azula Beastman
 40000000 Revenant Follower
 40000020 Revenant Follower
@@ -1628,17 +1628,17 @@
 40400035 Slug
 40400040 Slug
 40400051 Slug
-40401000 Slug
-40401032 Slug
-40401038 Slug
-40402000 Slug
-40402030 Slug
-40403000 Slug
-40403010 Slug
-40403020 Slug
-40403033 Slug
-40403050 Slug
-40403052 Slug
+40401000 Magma Slug
+40401032 Magma Slug
+40401038 Magma Slug
+40402000 Worm Slug
+40402030 Worm Slug
+40403000 Fire Slug
+40403010 Fire Slug
+40403020 Fire Slug
+40403033 Fire Slug
+40403050 Fire Slug
+40403052 Fire Slug
 40500000 Kaiden Sellsword
 40500010 Kaiden Sellsword
 40500012 Kaiden Sellsword
@@ -1650,50 +1650,50 @@
 40600000 Horse
 40600010 Kaiden Sellsword Horse
 40600052 Kaiden Sellsword Horse
-40700000 Grey Wolf
+40700000 Wolf
 40700009 Wolf
 40700010 Wolf
 40700012 Wolf
-40700013 Grey Wolf
+40700013 Wolf
 40700020 Wolf
 40700030 Wolf
 40700032 Wolf
 40700033 Wolf
-40700036 Grey Wolf
+40700036 Wolf
 40700042 Wolf
 40700051 Wolf
 40700052 Wolf
 40700065 Wolf
-40700100 Grey Wolf
+40700100 Wolf
 40700110 Wolf
-40700112 Grey Wolf
-40700152 Grey Wolf
+40700112 Wolf
+40700152 Wolf
 40700165 Wolf
 40700550 Wolf
-40700900 Grey Wolf
-40701000 Grey Wolf
-40701010 Grey Wolf
-40701012 Grey Wolf
-40702000 Grey Wolf
-40702010 Grey Wolf
+40700900 Wolf
+40701000 Wolf
+40701010 Wolf
+40701012 Wolf
+40702000 Wolf
+40702010 Wolf
 40702012 Wolf
-40708000 Grey Wolf
+40708000 Wolf
 40708024 Wolf
-40709000 Grey Wolf
+40709000 Wolf
 40710000 White Wolf
-40710009 Wolf Pack Leader
-40710010 Wolf Pack Leader
-40710012 Wolf Pack Leader
-40710020 Wolf Pack Leader
-40710022 Wolf Pack Leader
-40710030 Wolf Pack Leader
-40710032 Wolf Pack Leader
-40710033 Wolf Pack Leader
-40710042 Wolf Pack Leader
-40710051 Wolf Pack Leader
-40710052 Wolf Pack Leader
-40710065 Wolf Pack Leader
-40710550 Wolf Pack Leader
+40710009 White Wolf
+40710010 White Wolf
+40710012 White Wolf
+40710020 White Wolf
+40710022 White Wolf
+40710030 White Wolf
+40710032 White Wolf
+40710033 White Wolf
+40710042 White Wolf
+40710051 White Wolf
+40710052 White Wolf
+40710065 White Wolf
+40710550 White Wolf
 40800000 Rat
 40800010 Rat
 40800012 Rat
@@ -1868,480 +1868,480 @@
 41500066 Basilisk
 41500100 Basilisk
 41500862 Basilisk
-41600000 Large Starved Dog
-41600014 Large Starved Dog (Stormveil Castle)
-41600024 Dog
-41600030 Dog
-41600031 Large Starved Dog (Shaded Castle)
-41600032 Dog
-41600034 Large Starved Dog (Leyndell- Royal Capital)
-41600035 Large Starved Dog
-41600100 Dog
-41601000 Large Starved Dog
-41601010 Dog
-41601020 Dog
-41602000 Large Starved Dog
-41602050 Dog
-41610000 Starved Dog
-41610010 Smaller Dog
-41610012 Smaller Dog
-41610013 Smaller Dog
-41610014 Starved Dog (Stormveil Castle)
-41610020 Starved Dog (Village of the Albinaurics)
-41610024 Smaller Dog
-41610030 Smaller Dog
-41610031 Starved Dog (Shaded Castle)
-41610032 Smaller Dog
-41610033 Starved Dog
-41610034 Starved Dog (Leyndell- Royal Capital)
-41610038 Smaller Dog
-41610040 Smaller Dog
-41610041 Smaller Dog
-41610050 Smaller Dog
-41610064 Starved Dog (Siofra River)
-41610140 Smaller Dog
-41610200 Starved Dog
-41610210 Smaller Dog
-41610212 Starved Dog
-41610220 Smaller Dog
-41610252 Smaller Dog
-41610300 Starved Dog
-41610350 Smaller Dog
-41620000 Large Braided Dog
-41620072 Farum Azula Dog
-41630000 Braided Dog
-41630072 Farum Azula Dog 2
-41640000 Large Rotten Dog
-41640030 Large Rotten Dog
-41640052 Large Rotten Dog
-41640830 Altus Dog
-41650000 Rotten Dog
-41650030 Bleed Dog
-41650052 Bleed Dog
-41650068 Bleed Dog
-41650830 Bleed Dog
-41650935 Rotten Dog (Boss)
-41660000 Large Mushroom Dog
-41660040 Caelid Dog
-41660042 Caelid Dog
-41670000 Mushroom Dog
-41670040 Caelid Dog 2
-41700000 Small Living Mass
-41700010 Living Mass
-41700012 Living Mass
-41700013 Living Mass
-41700020 Small Living Mass
-41700030 Living Mass
-41700032 Living Mass
-41700040 Living Mass
-41700100 Small Living Mass
-41700110 Living Mass
-41700130 Living Mass
-41700140 Living Mass
-41700141 Living Mass
-41700152 Living Mass
-41700200 Small Living Mass
-41700240 Living Mass
-41700300 Small Living Mass
-41700312 Living Mass
-41700332 Living Mass
-41710000 Giant Living Mass
-41710400 Giant Living Mass
-41710430 Giant Living Mass
-41710468 Living Mass 2
-41800000 Jellyfish
+41600000 Large Stray
+41600014 Large Stray (Stormveil Castle)
+41600024 Large Stray
+41600030 Large Stray
+41600031 Large Stray (Shaded Castle)
+41600032 Large Stray
+41600034 Large Stray (Leyndell- Royal Capital)
+41600035 Large Stray
+41600100 Large Stray
+41601000 Large Stray
+41601010 Large Stray
+41601020 Large Stray
+41602000 Large Stray
+41602050 Large Stray
+41610000 Stray
+41610010 Stray
+41610012 Stray
+41610013 Stray
+41610014 Stray (Stormveil Castle)
+41610020 Stray (Village of the Albinaurics)
+41610024 Stray
+41610030 Stray
+41610031 Stray (Shaded Castle)
+41610032 Stray
+41610033 Stray
+41610034 Stray (Leyndell- Royal Capital)
+41610038 Stray
+41610040 Stray
+41610041 Stray
+41610050 Stray
+41610064 Stray (Siofra River)
+41610140 Stray
+41610200 Stray
+41610210 Stray
+41610212 Stray
+41610220 Stray
+41610252 Stray
+41610300 Stray
+41610350 Stray
+41620000 Large Azula Stray
+41620072 Large Azula Stray
+41630000 Azula Stray
+41630072 Azula Stray
+41640000 Large Bloodbane Stray
+41640030 Large Bloodbane Stray
+41640052 Large Bloodbane Stray
+41640830 Large Bloodbane Stray
+41650000 Bloodbane Stray
+41650030 Bloodbane Stray
+41650052 Bloodbane Stray
+41650068 Bloodbane Stray
+41650830 Bloodbane Stray
+41650935 Bloodbane Stray (Boss)
+41660000 Large Rotten Stray
+41660040 Large Rotten Stray
+41660042 Large Rotten Stray
+41670000 Rotten Stray
+41670040 Rotten Stray
+41700000 Putrid Flesh
+41700010 Putrid Flesh
+41700012 Putrid Flesh
+41700013 Putrid Flesh
+41700020 Putrid Flesh
+41700030 Putrid Flesh
+41700032 Putrid Flesh
+41700040 Putrid Flesh
+41700100 Putrid Flesh (Blood)
+41700110 Putrid Flesh (Blood)
+41700130 Putrid Flesh (Blood)
+41700140 Putrid Flesh (Blood)
+41700141 Putrid Flesh (Blood)
+41700152 Putrid Flesh (Blood)
+41700200 Putrid Flesh (Rotten)
+41700240 Putrid Flesh (Rotten)
+41700300 Putrid Flesh (Green)
+41700312 Putrid Flesh (Green)
+41700332 Putrid Flesh (Green)
+41710000 Giant Putrid Flesh (Blood)
+41710400 Giant Putrid Flesh (Blood)
+41710430 Giant Putrid Flesh (Blood)
+41710468 Giant Putrid Flesh (Blood)
+41800000 Spirit Jellyfish
 41800010 Spirit Jellyfish
 41800012 Spirit Jellyfish
 41800020 Spirit Jellyfish
 41800030 Spirit Jellyfish
 41800032 Spirit Jellyfish
-41800033 Jellyfish
+41800033 Spirit Jellyfish
 41800050 Spirit Jellyfish
 41800052 Spirit Jellyfish
 41800065 Spirit Jellyfish
-41800100 Jellyfish
+41800100 Spirit Jellyfish
 41800110 Spirit Jellyfish
 41800112 Spirit Jellyfish
 41800120 Spirit Jellyfish
 41800152 Spirit Jellyfish
-41800200 Jellyfish
-41800210 Jellyfish
-41800300 Jellyfish
-41800312 Jellyfish
+41800200 Spirit Jellyfish
+41800210 Spirit Jellyfish
+41800300 Spirit Jellyfish
+41800312 Spirit Jellyfish
 41800852 Spirit Jellyfish
-41801000 Jellyfish
+41801000 Spirit Jellyfish
 41801013 Spirit Jellyfish
-41809000 Jellyfish
+41809000 Spirit Jellyfish
 41809050 Aurelia (Jellyfish)
-41900000 Large Tear Scarab
-41900050 Large Tear Scarab
-41900052 Large Scarab
-41900220 Large Scarab
-41901000 Large Tear Scarab
-41901050 Large Tear Scarab
-41901052 Large Tear Scarab
-41902000 Large Tear Scarab
-41902020 Large Tear Scarab
-41902032 Large Scarab
-41902050 Large Tear Scarab
-41902052 Large Tear Scarab
-41902100 Large Tear Scarab
-41902150 Large Tear Scarab
-41902152 Large Tear Scarab
-41902200 Large Tear Scarab
-41902250 Large Tear Scarab
-41902252 Large Tear Scarab
-41903000 Large Tear Scarab
-41903050 Large Tear Scarab
-41903052 Large Tear Scarab
-41903100 Large Tear Scarab
-41903150 Large Tear Scarab
-41903152 Large Tear Scarab
-41903200 Large Tear Scarab
-41903250 Large Tear Scarab
-41903252 Large Tear Scarab
-41904000 Large Tear Scarab
-41904050 Large Tear Scarab
-41904052 Large Tear Scarab
-41904100 Large Tear Scarab
-41904150 Large Tear Scarab
-41904152 Large Tear Scarab
-41904200 Large Tear Scarab
-41904250 Large Tear Scarab
-41904252 Large Tear Scarab
-41905000 Large Tear Scarab
-41905050 Large Scarab
-41905052 Large Scarab
-41905100 Large Tear Scarab
-41905200 Large Tear Scarab
-41905364 Large Tear Scarab
-41906110 Large Tear Scarab
-41907310 Large Tear Scarab
-41908110 Large Tear Scarab
-41909112 Large Tear Scarab
-41910000 Tear Scarab
-41910010 Scarab
-41910012 Scarab
-41910020 Scarab
-41910022 Scarab
-41910030 Scarab
-41910032 Scarab
-41910035 Scarab
-41910038 Scarab
-41910040 Scarab
-41910041 Scarab
-41910050 Scarab
-41910052 Scarab
-41910054 Scarab
-41910056 Scarab
-41910060 Tear Scarab
-41910062 Tear Scarab
-41910064 Scarab
-41910065 Scarab
-41910066 Tear Scarab
-41910068 Tear Scarab
-41910110 Scarab
-41910162 Scarab
-41910164 Scarab
-41910310 Scarab
-41911000 Tear Scarab
-41911010 Scarab
-41911020 Scarab
-41911022 Tear Scarab
-41911030 Scarab
-41911035 Scarab
-41911050 Scarab
-41911052 Scarab
-41911054 Scarab
-41911056 Scarab
-41911060 Tear Scarab
-41911062 Scarab
-41911064 Tear Scarab
-41911065 Scarab
-41911066 Tear Scarab
-41911068 Tear Scarab
-41911120 Scarab
-41912000 Tear Scarab
-41912010 Scarab
-41912012 Scarab
-41912014 Scarab
-41912020 Scarab
-41912022 Scarab
-41912024 Scarab
-41912030 Scarab
-41912032 Scarab
-41912033 Scarab
-41912034 Tear Scarab (Leyndell- Royal Capital)
-41912040 Scarab
-41912041 Scarab
-41912042 Scarab
-41912050 Scarab
-41912052 Scarab
-41912054 Tear Scarab
-41912056 Tear Scarab
-41912060 Scarab
-41912062 Scarab
-41912064 Scarab
-41912065 Scarab
-41912066 Scarab
-41912068 Scarab
-41912072 Scarab
-41912100 Tear Scarab
-41912150 Tear Scarab
-41912152 Tear Scarab
-41912160 Tear Scarab
-41912162 Tear Scarab
-41912164 Scarab
-41912165 Tear Scarab
-41912166 Tear Scarab
-41912168 Tear Scarab
-41912200 Tear Scarab
-41912220 Scarab
-41912230 Scarab
-41912233 Scarab
-41912240 Scarab
-41912250 Tear Scarab
-41912252 Tear Scarab
-41912260 Tear Scarab
-41912262 Tear Scarab
-41912264 Tear Scarab
-41912265 Scarab
-41912266 Tear Scarab
-41912268 Tear Scarab
-41913000 Tear Scarab
-41913014 Scarab
-41913020 Scarab
-41913022 Scarab
-41913024 Scarab
-41913032 Tear Scarab
-41913035 Tear Scarab
-41913050 Tear Scarab
-41913052 Tear Scarab
-41913054 Tear Scarab
-41913056 Tear Scarab
-41913060 Tear Scarab
-41913062 Tear Scarab
-41913064 Scarab
-41913065 Scarab
-41913066 Tear Scarab
-41913068 Tear Scarab
-41913072 Scarab
-41913100 Tear Scarab
-41913150 Tear Scarab
-41913152 Tear Scarab
-41913160 Tear Scarab
-41913162 Tear Scarab
-41913164 Tear Scarab
-41913165 Tear Scarab
-41913166 Tear Scarab
-41913168 Tear Scarab
-41913200 Tear Scarab
-41913250 Tear Scarab
-41913252 Tear Scarab
-41913260 Tear Scarab
-41913262 Scarab
-41913264 Tear Scarab
-41913265 Tear Scarab
-41913266 Tear Scarab
-41913268 Tear Scarab
-41914000 Tear Scarab
-41914012 Scarab
-41914014 Tear Scarab
-41914020 Scarab
-41914022 Scarab
-41914030 Scarab
-41914032 Tear Scarab
-41914034 Tear Scarab (Leyndell- Royal Capital)
-41914040 Scarab
-41914042 Scarab
-41914050 Tear Scarab
-41914052 Tear Scarab
-41914054 Tear Scarab
-41914056 Tear Scarab
-41914060 Tear Scarab
-41914062 Tear Scarab
-41914064 Tear Scarab
-41914065 Scarab
-41914066 Tear Scarab
-41914068 Tear Scarab
-41914072 Scarab
-41914100 Tear Scarab
-41914150 Tear Scarab
-41914152 Tear Scarab
-41914160 Tear Scarab
-41914162 Tear Scarab
-41914164 Tear Scarab
-41914165 Tear Scarab
-41914166 Tear Scarab
-41914168 Tear Scarab
-41914200 Tear Scarab
-41914212 Scarab
-41914250 Tear Scarab
-41914252 Tear Scarab
-41914260 Tear Scarab
-41914262 Tear Scarab
-41914264 Tear Scarab
-41914265 Tear Scarab
-41914266 Tear Scarab
-41914268 Tear Scarab
-41915000 Tear Scarab
-41915010 Scarab
-41915020 Scarab
-41915026 Scarab
-41915030 Scarab
-41915035 Scarab
-41915038 Scarab
-41915040 Scarab
-41915042 Scarab
-41915050 Scarab
-41915052 Scarab
-41915062 Scarab
-41915065 Scarab
-41915066 Scarab
-41915100 Tear Scarab
-41915150 Scarab
-41915200 Tear Scarab
-41915220 Scarab
-41915535 Tear Scarab
-41915540 Tear Scarab
-41915542 Tear Scarab
-41915554 Tear Scarab
-41915560 Tear Scarab
-41915562 Tear Scarab
-41915564 Tear Scarab
-41915565 Tear Scarab
-41915566 Tear Scarab
-41915568 Tear Scarab
-41916160 Tear Scarab
-41916162 Tear Scarab
-41916164 Tear Scarab
-41916165 Tear Scarab
-41916166 Tear Scarab
-41917364 Tear Scarab
-41917365 Tear Scarab
-41917366 Tear Scarab
-41918062 Tear Scarab
-41918064 Tear Scarab
-41918065 Tear Scarab
-41918066 Tear Scarab
-41918068 Tear Scarab
-41918120 Tear Scarab
-41918140 Tear Scarab
-41918940 Tear Scarab
-41919062 Tear Scarab
-41919064 Tear Scarab
-41919065 Tear Scarab
-41919068 Tear Scarab
-41919140 Tear Scarab
-41920000 Ash Scarab
-41920020 Extra Large Scarab
-41920040 Extra Large Scarab
-41920042 Extra Large Scarab
-41921000 Ash Scarab
-41921040 Extra Large Scarab
-41921042 Extra Large Scarab
-41922000 Ash Scarab
-41922020 Extra Large Scarab
-41922050 Extra Large Scarab
-41922052 Extra Large Scarab
-41922200 Ash Scarab
-41922250 Ash Scarab
-41922252 Ash Scarab
-41923000 Ash Scarab
-41923050 Ash Scarab
-41923052 Ash Scarab
-41923200 Ash Scarab
-41923250 Ash Scarab
-41923252 Ash Scarab
-41924000 Ash Scarab
-41924050 Ash Scarab
-41924052 Ash Scarab
-41924200 Ash Scarab
-41924250 Ash Scarab
-41924252 Ash Scarab
-41925000 Ash Scarab
-41925050 Extra Large Scarab
-41925052 Extra Large Scarab
-41925200 Ash Scarab
-41925250 Extra Large Scarab
-41927064 Ash Scarab
-42000000 Giant Bat
-42000010 Bat
-42000011 Bat
-42000012 Bat
-42000014 Bat
-42000020 Bat
-42000026 Bat
-42000033 Bat
-42000038 Bat
-42000040 Bat
-42000042 Bat
-42000050 Bat
-42000064 Giant Bat (Siofra River)
-42000100 Giant Bat
-42000110 Bat
-42000112 Bat
-42000120 Bat
-42000126 Bat
-42000133 Bat
-42000138 Bat
-42000140 Bat
-42000141 Bat
-42000142 Bat
-42000150 Bat
-42000200 Giant Bat
-42000210 Bat
-42000226 Bat
-42000242 Bat
-42000250 Giant Bat
-42001000 Giant Bat
-42001050 Bat
-42001100 Giant Bat
-42001150 Bat
-42001200 Giant Bat
-42001250 Giant Bat
-42010000 Old Woman Bat
-42010020 Old Woman Bat
-42010100 Old Woman Bat
-42010110 Old Woman Bat
-42010112 Old Woman Bat
-42010120 Old Woman Bat
-42010126 Old Woman Bat
-42010133 Old Woman Bat
-42010140 Old Woman Bat
-42010141 Old Woman Bat
-42010142 Old Woman Bat
-42011000 Old Woman Bat
-42011026 Old Woman Bat
-42011100 Old Woman Bat
-42011126 Old Woman Bat
-42011142 Old Woman Bat
-42017000 Old Woman Bat
-42017020 Old Woman Bat
-42017400 Old Woman Bat
-42017412 Old Woman Bat
-42017420 Old Woman Bat
-42017426 Old Woman Bat
-42017433 Old Woman Bat
-42017440 Old Woman Bat
-42017441 Old Woman Bat
-42017442 Old Woman Bat
-42017500 Old Woman Bat
-42017526 Old Woman Bat
-42017540 Old Woman Bat
-42017542 Old Woman Bat
-42017600 Old Woman Bat
-42017640 Old Woman Bat
-42017642 Old Woman Bat
-42017700 Old Woman Bat
-42017740 Old Woman Bat
-42017800 Old Woman Bat
-42017840 Old Woman Bat
-42018000 Old Woman Bat
-42018026 Old Woman Bat
-42018042 Old Woman Bat
-42018100 Old Woman Bat
-42018126 Old Woman Bat
+41900000 Large Crimson Tear Scarab
+41900050 Large Crimson Tear Scarab
+41900052 Large Crimson Tear Scarab
+41900220 Large Crimson Tear Scarab
+41901000 Large Cerulean Tear Scarab
+41901050 Large Cerulean Tear Scarab
+41901052 Large Cerulean Tear Scarab
+41902000 Large Ash of War Scarab
+41902020 Large Ash of War Scarab
+41902032 Large Ash of War Scarab
+41902050 Large Ash of War Scarab
+41902052 Large Ash of War Scarab
+41902100 Large Ash of War Scarab
+41902150 Large Ash of War Scarab
+41902152 Large Ash of War Scarab
+41902200 Large Ash of War Scarab
+41902250 Large Ash of War Scarab
+41902252 Large Ash of War Scarab
+41903000 Large Glintstone Scarab
+41903050 Large Glintstone Scarab
+41903052 Large Glintstone Scarab
+41903100 Large Glintstone Scarab
+41903150 Large Glintstone Scarab
+41903152 Large Glintstone Scarab
+41903200 Large Glintstone Scarab
+41903250 Large Glintstone Scarab
+41903252 Large Glintstone Scarab
+41904000 Large Incantation Scarab
+41904050 Large Incantation Scarab
+41904052 Large Incantation Scarab
+41904100 Large Incantation Scarab
+41904150 Large Incantation Scarab
+41904152 Large Incantation Scarab
+41904200 Large Incantation Scarab
+41904250 Large Incantation Scarab
+41904252 Large Incantation Scarab
+41905000 Large Smithing Stone Scarab
+41905050 Large Smithing Stone Scarab
+41905052 Large Smithing Stone Scarab
+41905100 Large Smithing Stone Scarab
+41905200 Large Smithing Stone Scarab
+41905364 Large Smithing Stone Scarab
+41906110 Large Scarab
+41907310 Large Scarab
+41908110 Large Scarab
+41909112 Large Scarab
+41910000 Crimson Tear Scarab
+41910010 Crimson Tear Scarab
+41910012 Crimson Tear Scarab
+41910020 Crimson Tear Scarab
+41910022 Crimson Tear Scarab
+41910030 Crimson Tear Scarab
+41910032 Crimson Tear Scarab
+41910035 Crimson Tear Scarab
+41910038 Crimson Tear Scarab
+41910040 Crimson Tear Scarab
+41910041 Crimson Tear Scarab
+41910050 Crimson Tear Scarab
+41910052 Crimson Tear Scarab
+41910054 Crimson Tear Scarab
+41910056 Crimson Tear Scarab
+41910060 Crimson Tear Scarab
+41910062 Crimson Tear Scarab
+41910064 Crimson Tear Scarab
+41910065 Crimson Tear Scarab
+41910066 Crimson Tear Scarab
+41910068 Crimson Tear Scarab
+41910110 Crimson Tear Scarab
+41910162 Crimson Tear Scarab
+41910164 Crimson Tear Scarab
+41910310 Crimson Tear Scarab
+41911000 Cerulean Tear Scarab
+41911010 Cerulean Tear Scarab
+41911020 Cerulean Tear Scarab
+41911022 Cerulean Tear Scarab
+41911030 Cerulean Tear Scarab
+41911035 Cerulean Tear Scarab
+41911050 Cerulean Tear Scarab
+41911052 Cerulean Tear Scarab
+41911054 Cerulean Tear Scarab
+41911056 Cerulean Tear Scarab
+41911060 Cerulean Tear Scarab
+41911062 Cerulean Tear Scarab
+41911064 Cerulean Tear Scarab
+41911065 Cerulean Tear Scarab
+41911066 Cerulean Tear Scarab
+41911068 Cerulean Tear Scarab
+41911120 Cerulean Tear Scarab
+41912000 Ash of War Scarab
+41912010 Ash of War Scarab
+41912012 Ash of War Scarab
+41912014 Ash of War Scarab
+41912020 Ash of War Scarab
+41912022 Ash of War Scarab
+41912024 Ash of War Scarab
+41912030 Ash of War Scarab
+41912032 Ash of War Scarab
+41912033 Ash of War Scarab
+41912034 Ash of War Scarab
+41912040 Ash of War Scarab
+41912041 Ash of War Scarab
+41912042 Ash of War Scarab
+41912050 Ash of War Scarab
+41912052 Ash of War Scarab
+41912054 Ash of War Scarab
+41912056 Ash of War Scarab
+41912060 Ash of War Scarab
+41912062 Ash of War Scarab
+41912064 Ash of War Scarab
+41912065 Ash of War Scarab
+41912066 Ash of War Scarab
+41912068 Ash of War Scarab
+41912072 Ash of War Scarab
+41912100 Ash of War Scarab
+41912150 Ash of War Scarab
+41912152 Ash of War Scarab
+41912160 Ash of War Scarab
+41912162 Ash of War Scarab
+41912164 Ash of War Scarab
+41912165 Ash of War Scarab
+41912166 Ash of War Scarab
+41912168 Ash of War Scarab
+41912200 Ash of War Scarab
+41912220 Ash of War Scarab
+41912230 Ash of War Scarab
+41912233 Ash of War Scarab
+41912240 Ash of War Scarab
+41912250 Ash of War Scarab
+41912252 Ash of War Scarab
+41912260 Ash of War Scarab
+41912262 Ash of War Scarab
+41912264 Ash of War Scarab
+41912265 Ash of War Scarab
+41912266 Ash of War Scarab
+41912268 Ash of War Scarab
+41913000 Glintstone Scarab
+41913014 Glintstone Scarab
+41913020 Glintstone Scarab
+41913022 Glintstone Scarab
+41913024 Glintstone Scarab
+41913032 Glintstone Scarab
+41913035 Glintstone Scarab
+41913050 Glintstone Scarab
+41913052 Glintstone Scarab
+41913054 Glintstone Scarab
+41913056 Glintstone Scarab
+41913060 Glintstone Scarab
+41913062 Glintstone Scarab
+41913064 Glintstone Scarab
+41913065 Glintstone Scarab
+41913066 Glintstone Scarab
+41913068 Glintstone Scarab
+41913072 Glintstone Scarab
+41913100 Glintstone Scarab
+41913150 Glintstone Scarab
+41913152 Glintstone Scarab
+41913160 Glintstone Scarab
+41913162 Glintstone Scarab
+41913164 Glintstone Scarab
+41913165 Glintstone Scarab
+41913166 Glintstone Scarab
+41913168 Glintstone Scarab
+41913200 Glintstone Scarab
+41913250 Glintstone Scarab
+41913252 Glintstone Scarab
+41913260 Glintstone Scarab
+41913262 Glintstone Scarab
+41913264 Glintstone Scarab
+41913265 Glintstone Scarab
+41913266 Glintstone Scarab
+41913268 Glintstone Scarab
+41914000 Incantation Scarab
+41914012 Incantation Scarab
+41914014 Incantation Scarab
+41914020 Incantation Scarab
+41914022 Incantation Scarab
+41914030 Incantation Scarab
+41914032 Incantation Scarab
+41914034 Incantation Scarab
+41914040 Incantation Scarab
+41914042 Incantation Scarab
+41914050 Incantation Scarab
+41914052 Incantation Scarab
+41914054 Incantation Scarab
+41914056 Incantation Scarab
+41914060 Incantation Scarab
+41914062 Incantation Scarab
+41914064 Incantation Scarab
+41914065 Incantation Scarab
+41914066 Incantation Scarab
+41914068 Incantation Scarab
+41914072 Incantation Scarab
+41914100 Incantation Scarab
+41914150 Incantation Scarab
+41914152 Incantation Scarab
+41914160 Incantation Scarab
+41914162 Incantation Scarab
+41914164 Incantation Scarab
+41914165 Incantation Scarab
+41914166 Incantation Scarab
+41914168 Incantation Scarab
+41914200 Incantation Scarab
+41914212 Incantation Scarab
+41914250 Incantation Scarab
+41914252 Incantation Scarab
+41914260 Incantation Scarab
+41914262 Incantation Scarab
+41914264 Incantation Scarab
+41914265 Incantation Scarab
+41914266 Incantation Scarab
+41914268 Incantation Scarab
+41915000 Smithing Stone Scarab
+41915010 Smithing Stone Scarab
+41915020 Smithing Stone Scarab
+41915026 Smithing Stone Scarab
+41915030 Smithing Stone Scarab
+41915035 Smithing Stone Scarab
+41915038 Smithing Stone Scarab
+41915040 Smithing Stone Scarab
+41915042 Smithing Stone Scarab
+41915050 Smithing Stone Scarab
+41915052 Smithing Stone Scarab
+41915062 Smithing Stone Scarab
+41915065 Smithing Stone Scarab
+41915066 Smithing Stone Scarab
+41915100 Smithing Stone Scarab
+41915150 Smithing Stone Scarab
+41915200 Smithing Stone Scarab
+41915220 Smithing Stone Scarab
+41915535 Smithing Stone Scarab
+41915540 Smithing Stone Scarab
+41915542 Smithing Stone Scarab
+41915554 Smithing Stone Scarab
+41915560 Smithing Stone Scarab
+41915562 Smithing Stone Scarab
+41915564 Smithing Stone Scarab
+41915565 Smithing Stone Scarab
+41915566 Smithing Stone Scarab
+41915568 Smithing Stone Scarab
+41916160 Scarab
+41916162 Scarab
+41916164 Scarab
+41916165 Scarab
+41916166 Scarab
+41917364 Scarab
+41917365 Scarab
+41917366 Scarab
+41918062 Scarab
+41918064 Scarab
+41918065 Scarab
+41918066 Scarab
+41918068 Scarab
+41918120 Scarab
+41918140 Scarab
+41918940 Scarab
+41919062 Scarab
+41919064 Scarab
+41919065 Scarab
+41919068 Scarab
+41919140 Scarab
+41920000 Giant Crimson Tear Scarab
+41920020 Giant Crimson Tear Scarab
+41920040 Giant Crimson Tear Scarab
+41920042 Giant Crimson Tear Scarab
+41921000 Giant Cerulean Tear Scarab
+41921040 Giant Cerulean Tear Scarab
+41921042 Giant Cerulean Tear Scarab
+41922000 Giant Ash of War Scarab
+41922020 Giant Ash of War Scarab
+41922050 Giant Ash of War Scarab
+41922052 Giant Ash of War Scarab
+41922200 Giant Ash of War Scarab
+41922250 Giant Ash of War Scarab
+41922252 Giant Ash of War Scarab
+41923000 Giant Glintstone Scarab
+41923050 Giant Glintstone Scarab
+41923052 Giant Glintstone Scarab
+41923200 Giant Glintstone Scarab
+41923250 Giant Glintstone Scarab
+41923252 Giant Glintstone Scarab
+41924000 Giant Incantation Scarab
+41924050 Giant Incantation Scarab
+41924052 Giant Incantation Scarab
+41924200 Giant Incantation Scarab
+41924250 Giant Incantation Scarab
+41924252 Giant Incantation Scarab
+41925000 Giant Smithing Stone Scarab
+41925050 Giant Smithing Stone Scarab
+41925052 Giant Smithing Stone Scarab
+41925200 Giant Smithing Stone Scarab
+41925250 Giant Smithing Stone Scarab
+41927064 Giant Scarab
+42000000 Man-Bat
+42000010 Man-Bat
+42000011 Man-Bat
+42000012 Man-Bat
+42000014 Man-Bat
+42000020 Man-Bat
+42000026 Man-Bat
+42000033 Man-Bat
+42000038 Man-Bat
+42000040 Man-Bat
+42000042 Man-Bat
+42000050 Man-Bat
+42000064 Man-Bat (Siofra River)
+42000100 Man-Bat
+42000110 Man-Bat
+42000112 Man-Bat
+42000120 Man-Bat
+42000126 Man-Bat
+42000133 Man-Bat
+42000138 Man-Bat
+42000140 Man-Bat
+42000141 Man-Bat
+42000142 Man-Bat
+42000150 Man-Bat
+42000200 Man-Bat
+42000210 Man-Bat
+42000226 Man-Bat
+42000242 Man-Bat
+42000250 Man-Bat
+42001000 Man-Bat
+42001050 Man-Bat
+42001100 Man-Bat
+42001150 Man-Bat
+42001200 Man-Bat
+42001250 Man-Bat
+42010000 Operatic Bat
+42010020 Operatic Bat
+42010100 Operatic Bat
+42010110 Operatic Bat
+42010112 Operatic Bat
+42010120 Operatic Bat
+42010126 Operatic Bat
+42010133 Operatic Bat
+42010140 Operatic Bat
+42010141 Operatic Bat
+42010142 Operatic Bat
+42011000 Operatic Bat
+42011026 Operatic Bat
+42011100 Operatic Bat
+42011126 Operatic Bat
+42011142 Operatic Bat
+42017000 Operatic Bat
+42017020 Operatic Bat
+42017400 Operatic Bat
+42017412 Operatic Bat
+42017420 Operatic Bat
+42017426 Operatic Bat
+42017433 Operatic Bat
+42017440 Operatic Bat
+42017441 Operatic Bat
+42017442 Operatic Bat
+42017500 Operatic Bat
+42017526 Operatic Bat
+42017540 Operatic Bat
+42017542 Operatic Bat
+42017600 Operatic Bat
+42017640 Operatic Bat
+42017642 Operatic Bat
+42017700 Operatic Bat
+42017740 Operatic Bat
+42017800 Operatic Bat
+42017840 Operatic Bat
+42018000 Operatic Bat
+42018026 Operatic Bat
+42018042 Operatic Bat
+42018100 Operatic Bat
+42018126 Operatic Bat
 42100000 Warhawk
 42100014 Warhawk (Stormveil Castle)
 42100100 Warhawk
@@ -2380,149 +2380,149 @@
 42200052 Giant Land Octopus
 42200064 Giant Land Octopus (Siofra River)
 42300000 Small Land Octopus
-42300010 Octopus
-42300012 Octopus
-42300020 Octopus
-42300026 Octopus
-42300032 Small Land Octopus
-42300040 Octopus
-42300050 Small Land Octopus
-42300052 Octopus
-42300064 Small Land Octopus (Siofra River)
-42300830 Octopus
-42300852 Octopus
-42400000 Large Fingercreeper
-42400020 Large Fingercreeper
+42300010 Land Octopus
+42300012 Land Octopus
+42300020 Land Octopus
+42300026 Land Octopus
+42300032 Land Octopus
+42300040 Land Octopus
+42300050 Land Octopus
+42300052 Land Octopus
+42300064 Land Octopus (Siofra River)
+42300830 Land Octopus
+42300852 Land Octopus
+42400000 Fingercreeper
+42400020 Fingercreeper
 42400021 Fingercreeper
-42400032 Large Fingercreeper
-42400034 Large Fingercreeper (Leyndell- Royal Capital)
-42400035 Large Fingercreeper
-42400100 Large Fingercreeper
+42400032 Fingercreeper
+42400034 Fingercreeper (Leyndell- Royal Capital)
+42400035 Fingercreeper
+42400100 Fingercreeper
 42400150 Fingercreeper
-42400200 Large Fingercreeper
-42400221 Large Fingercreeper
-42405000 Large Fingercreeper
+42400200 Fingercreeper
+42400221 Fingercreeper
+42405000 Fingercreeper
 42405050 Fingercreeper
-42405100 Large Fingercreeper
+42405100 Fingercreeper
 42405150 Fingercreeper
-42405200 Large Fingercreeper
+42405200 Fingercreeper
 42405250 Fingercreeper
-42405300 Large Fingercreeper
+42405300 Fingercreeper
 42405350 Fingercreeper
-42405400 Large Fingercreeper
+42405400 Fingercreeper
 42405450 Fingercreeper
-42405500 Large Fingercreeper
+42405500 Fingercreeper
 42405550 Fingercreeper
-42405600 Large Fingercreeper
+42405600 Fingercreeper
 42405650 Fingercreeper
-42405700 Large Fingercreeper
+42405700 Fingercreeper
 42405750 Fingercreeper
-42405800 Large Fingercreeper
+42405800 Fingercreeper
 42405850 Fingercreeper
-42406000 Large Fingercreeper
+42406000 Fingercreeper
 42406050 Fingercreeper
-42406100 Large Fingercreeper
+42406100 Fingercreeper
 42406150 Fingercreeper
-42406200 Large Fingercreeper
+42406200 Fingercreeper
 42406250 Fingercreeper
-42406300 Large Fingercreeper
+42406300 Fingercreeper
 42406350 Fingercreeper
-42406400 Large Fingercreeper
+42406400 Fingercreeper
 42406450 Fingercreeper
-42407000 Large Fingercreeper
+42407000 Fingercreeper
 42407020 Fingercreeper
 42407021 Fingercreeper
 42407032 Fingercreeper
-42407034 Large Fingercreeper  (Leyndell- Royal Capital)
+42407034 Fingercreeper  (Leyndell- Royal Capital)
 42407035 Fingercreeper
-42407100 Large Fingercreeper
+42407100 Fingercreeper
 42407121 Fingercreeper
 42407132 Fingercreeper
-42407200 Large Fingercreeper
+42407200 Fingercreeper
 42407221 Fingercreeper
-42407300 Large Fingercreeper
+42407300 Fingercreeper
 42407321 Fingercreeper
-42407400 Large Fingercreeper
+42407400 Fingercreeper
 42407421 Fingercreeper
-42407500 Large Fingercreeper
+42407500 Fingercreeper
 42407521 Fingercreeper
-42407600 Large Fingercreeper
+42407600 Fingercreeper
 42407621 Fingercreeper
-42407700 Large Fingercreeper
+42407700 Fingercreeper
 42407721 Fingercreeper
-42407800 Large Fingercreeper
+42407800 Fingercreeper
 42407821 Fingercreeper
-42408000 Large Fingercreeper
+42408000 Fingercreeper
 42408021 Fingercreeper
-42408100 Large Fingercreeper
+42408100 Fingercreeper
 42408121 Fingercreeper
-42408200 Large Fingercreeper
+42408200 Fingercreeper
 42408221 Fingercreeper
-42408300 Large Fingercreeper
+42408300 Fingercreeper
 42408321 Fingercreeper
-42408400 Large Fingercreeper
+42408400 Fingercreeper
 42408421 Fingercreeper
-42408500 Large Fingercreeper
+42408500 Fingercreeper
 42408521 Fingercreeper
-42408800 Large Fingercreeper
+42408800 Fingercreeper
 42408821 Fingercreeper
 42410000 Giant Fingercreeper
 42410100 Giant Fingercreeper
-42410150 Massive Fingercreeper
+42410150 Giant Fingercreeper
 42500000 Small Fingercreeper
-42500020 Lesser Fingercreeper
-42500021 Lesser Fingercreeper
+42500020 Small Fingercreeper
+42500021 Small Fingercreeper
 42500028 Small Fingercreeper (Leyndell- Royal Capital)
-42500032 Lesser Fingercreeper
+42500032 Small Fingercreeper
 42500034 Small Fingercreeper  (Leyndell- Royal Capital)
-42500035 Lesser Fingercreeper
+42500035 Small Fingercreeper
 42500100 Small Fingercreeper
-42500150 Lesser Fingercreeper
-42600000 Burial Watchdog
-42600100 Burial Watchdog
-42600110 Burial Watchdog (Limgrave Catacombs)
-42600500 Burial Watchdog
-42600512 Burial Watchdog (Impalers Catacombs)
-42600600 Burial Watchdog
-42600940 Burial Watchdog (Minor Erdtree Catacombs)
-42601000 Burial Watchdog
-42601100 Burial Watchdog
-42601500 Burial Watchdog
-42601600 Burial Watchdog
-42601920 Burial Watchdog (Cliffbottom Catacombs)
-42601940 Burial Watchdog (Minor Erdtree Catacombs)
-42602000 Burial Watchdog
-42602100 Burial Watchdog
-42602500 Burial Watchdog
-42602600 Burial Watchdog
-42602932 Burial Watchdog (Wyndham Catacombs)
-42603000 Burial Watchdog
-42603100 Burial Watchdog
-42603500 Burial Watchdog
-42603600 Burial Watchdog
-42604000 Burial Watchdog
-42604100 Burial Watchdog
+42500150 Small Fingercreeper
+42600000 Erdtree Burial Watchdog
+42600100 Erdtree Burial Watchdog
+42600110 Erdtree Burial Watchdog (Limgrave Catacombs)
+42600500 Erdtree Burial Watchdog
+42600512 Erdtree Burial Watchdog (Impalers Catacombs)
+42600600 Erdtree Burial Watchdog
+42600940 Erdtree Burial Watchdog (Minor Erdtree Catacombs)
+42601000 Erdtree Burial Watchdog
+42601100 Erdtree Burial Watchdog
+42601500 Erdtree Burial Watchdog
+42601600 Erdtree Burial Watchdog
+42601920 Erdtree Burial Watchdog (Cliffbottom Catacombs)
+42601940 Erdtree Burial Watchdog (Minor Erdtree Catacombs)
+42602000 Erdtree Burial Watchdog
+42602100 Erdtree Burial Watchdog
+42602500 Erdtree Burial Watchdog
+42602600 Erdtree Burial Watchdog
+42602932 Erdtree Burial Watchdog (Wyndham Catacombs)
+42603000 Erdtree Burial Watchdog
+42603100 Erdtree Burial Watchdog
+42603500 Erdtree Burial Watchdog
+42603600 Erdtree Burial Watchdog
+42604000 Erdtree Burial Watchdog
+42604100 Erdtree Burial Watchdog
 42604150 Erdtree Burial Watchdog
 42604152 Erdtree Burial Watchdog
-42604500 Burial Watchdog
-42604600 Burial Watchdog
+42604500 Erdtree Burial Watchdog
+42604600 Erdtree Burial Watchdog
 42604650 Erdtree Burial Watchdog
 42604652 Erdtree Burial Watchdog
-42605000 Burial Watchdog
-42605100 Burial Watchdog
+42605000 Erdtree Burial Watchdog
+42605100 Erdtree Burial Watchdog
 42605150 Erdtree Burial Watchdog
 42605152 Erdtree Burial Watchdog
-42605500 Burial Watchdog
-42605600 Burial Watchdog
-42700000 Lion Guardian
-42700014 Lion Guardian (Stormveil Castle)
-42700020 Lion Guardian
-42700030 Lion Guardian
-42700034 Lion Guardian  (Leyndell- Royal Capital)
-42700040 Lion Guardian
-42700041 Lion Guardian
-42701000 Lion Guardian
-42701051 Lion Guardian
+42605500 Erdtree Burial Watchdog
+42605600 Erdtree Burial Watchdog
+42700000 Elder Lion
+42700014 Elder Lion (Stormveil Castle)
+42700020 Elder Lion
+42700030 Elder Lion
+42700034 Elder Lion  (Leyndell- Royal Capital)
+42700040 Elder Lion
+42700041 Elder Lion
+42701000 Elder Lion
+42701051 Elder Lion
 42800000 Giant Ant
 42800054 Giant Ant
 42800056 Giant Ant
@@ -2530,29 +2530,29 @@
 42800061 Giant Ant
 42800062 Giant Ant
 42800066 Giant Ant
-42800100 Giant Ant
-42800160 Giant Ant (Ainsel River)
-42800166 Giant Ant
-42800200 Giant Ant
-42800260 Giant Ant (Ainsel River)
-42800300 Giant Ant
-42800354 Giant Ant
-42800360 Giant Ant (Ainsel River)
-42800362 Giant Ant
-42800366 Giant Ant
-42800400 Giant Ant
-42800462 Giant Ant
-42800466 Giant Ant
+42800100 Giant Ant (Stinger)
+42800160 Giant Ant (Stinger) (Ainsel River)
+42800166 Giant Ant (Stinger)
+42800200 Giant Ant (Stinger, Large Abdomen)
+42800260 Giant Ant (Stinger, Large Abdomen) (Ainsel River)
+42800300 Giant Ant (Replete)
+42800354 Giant Ant (Replete)
+42800360 Giant Ant (Replete) (Ainsel River)
+42800362 Giant Ant (Replete)
+42800366 Giant Ant (Replete)
+42800400 Giant Ant (Winged)
+42800462 Giant Ant (Winged)
+42800466 Giant Ant (Winged)
 42800500 Giant Ant
 42800562 Giant Ant
 42800566 Giant Ant
 42800862 Giant Ant
-42801100 Giant Ant Skull
-42801162 Giant Ant Skull
-42810000 Giant Ant - Sac
-42810060 Giant Ant - Sac (Ainsel River)
-42810062 Giant Ant Sac
-42810066 Giant Ant Sac
+42801100 Giant Ant (Mounted)
+42801162 Giant Ant (Mounted)
+42810000 Skull Plate Giant Ant
+42810060 Skull Plate Giant Ant (Ainsel River)
+42810062 Skull Plate Giant Ant
+42810066 Skull Plate Giant Ant
 42900000 Bloodhound Knight
 42900010 Bloodhound Knight Darriwil
 42900020 Bloodhound Knight
@@ -2593,10 +2593,10 @@
 43000233 Wandering Noble
 43000240 Wandering Noble
 43000252 Wandering Noble
-43000300 Wandering Noble
-43000310 Wandering Noble
-43000320 Wandering Noble
-43000324 Wandering Noble
+43000300 Wandering Noble (Puppet)
+43000310 Wandering Noble (Puppet)
+43000320 Wandering Noble (Puppet)
+43000324 Wandering Noble (Puppet)
 43000410 Wandering Noble
 43000600 Wandering Noble
 43000800 Wandering Noble
@@ -2623,50 +2623,50 @@
 43001528 Wandering Noble
 43001800 Wandering Noble
 43001900 Wandering Noble
-43002000 Wandering Noble
-43002009 Wandering Noble
-43002010 Wandering Noble
-43002012 Wandering Noble
-43002020 Wandering Noble
-43002021 Wandering Noble
-43002024 Wandering Noble
-43002030 Wandering Noble
-43002031 Wandering Noble (Shaded Castle)
-43002032 Wandering Noble
-43002033 Wandering Noble
-43002040 Wandering Noble
-43002052 Wandering Noble
-43002110 Wandering Noble
-43002140 Wandering Noble
-43002200 Wandering Noble
-43002220 Wandering Noble
-43002228 Wandering Noble
-43002300 Wandering Noble
-43002320 Wandering Noble
-43002322 Wandering Noble
-43002400 Wandering Noble
-43002410 Wandering Noble
-43002800 Wandering Noble
-43002900 Wandering Noble
-43003000 Wandering Noble
-43003010 Wandering Noble
-43003012 Wandering Noble
-43003020 Wandering Noble
-43003030 Wandering Noble
-43003032 Wandering Noble
-43003033 Wandering Noble
-43003040 Wandering Noble
-43003052 Wandering Noble
-43003100 Wandering Noble
-43003800 Wandering Noble
-43003900 Wandering Noble
-43004000 Wandering Noble
-43004030 Wandering Noble
-43004033 Wandering Noble
-43004052 Wandering Noble
-43004100 Wandering Noble
-43004130 Wandering Noble
-43004152 Wandering Noble
+43002000 Wandering Noble (Sorcerer)
+43002009 Wandering Noble (Sorcerer)
+43002010 Wandering Noble (Sorcerer)
+43002012 Wandering Noble (Sorcerer)
+43002020 Wandering Noble (Sorcerer)
+43002021 Wandering Noble (Sorcerer)
+43002024 Wandering Noble (Sorcerer)
+43002030 Wandering Noble (Sorcerer)
+43002031 Wandering Noble (Sorcerer) (Shaded Castle)
+43002032 Wandering Noble (Sorcerer)
+43002033 Wandering Noble (Sorcerer)
+43002040 Wandering Noble (Sorcerer)
+43002052 Wandering Noble (Sorcerer)
+43002110 Wandering Noble (Sorcerer)
+43002140 Wandering Noble (Sorcerer)
+43002200 Wandering Noble (Sorcerer)
+43002220 Wandering Noble (Sorcerer)
+43002228 Wandering Noble (Sorcerer)
+43002300 Wandering Noble (Sorcerer)
+43002320 Wandering Noble (Sorcerer)
+43002322 Wandering Noble (Sorcerer)
+43002400 Wandering Noble (Sorcerer)
+43002410 Wandering Noble (Sorcerer)
+43002800 Wandering Noble (Sorcerer)
+43002900 Wandering Noble (Sorcerer)
+43003000 Wandering Noble (Banner)
+43003010 Wandering Noble (Banner)
+43003012 Wandering Noble (Banner)
+43003020 Wandering Noble (Banner)
+43003030 Wandering Noble (Banner)
+43003032 Wandering Noble (Banner)
+43003033 Wandering Noble (Banner)
+43003040 Wandering Noble (Banner)
+43003052 Wandering Noble (Banner)
+43003100 Wandering Noble (Banner)
+43003800 Wandering Noble (Banner)
+43003900 Wandering Noble (Banner)
+43004000 Wandering Noble (Chest)
+43004030 Wandering Noble (Chest)
+43004033 Wandering Noble (Chest)
+43004052 Wandering Noble (Chest)
+43004100 Wandering Noble (Chest)
+43004130 Wandering Noble (Chest)
+43004152 Wandering Noble (Chest)
 43004800 Wandering Noble
 43004900 Wandering Noble
 43005000 Wandering Noble
@@ -2692,36 +2692,36 @@
 43005230 Wandering Noble
 43005233 Wandering Noble
 43005252 Wandering Noble
-43006000 Wandering Noble
-43006010 Wandering Noble
-43006012 Wandering Noble
-43006024 Wandering Noble
-43006030 Wandering Noble
-43006032 Wandering Noble
-43006033 Wandering Noble
-43006052 Wandering Noble
-43006100 Wandering Noble
-43006110 Wandering Noble
-43006112 Wandering Noble
-43006130 Wandering Noble
-43006133 Wandering Noble
-43006152 Wandering Noble
-43006200 Wandering Noble
-43006210 Wandering Noble
-43006212 Wandering Noble
-43006230 Wandering Noble
-43006233 Wandering Noble
-43006252 Wandering Noble
-43006300 Wandering Noble
-43006352 Wandering Noble
-43006600 Wandering Noble
-43006630 Wandering Noble
-43006633 Wandering Noble
-43006638 Wandering Noble
-43006700 Wandering Noble
-43006738 Wandering Noble
-43006800 Wandering Noble
-43006838 Wandering Noble
+43006000 Wandering Noble (Poisoned)
+43006010 Wandering Noble (Poisoned)
+43006012 Wandering Noble (Poisoned)
+43006024 Wandering Noble (Poisoned)
+43006030 Wandering Noble (Poisoned)
+43006032 Wandering Noble (Poisoned)
+43006033 Wandering Noble (Poisoned)
+43006052 Wandering Noble (Poisoned)
+43006100 Wandering Noble (Poisoned)
+43006110 Wandering Noble (Poisoned)
+43006112 Wandering Noble (Poisoned)
+43006130 Wandering Noble (Poisoned)
+43006133 Wandering Noble (Poisoned)
+43006152 Wandering Noble (Poisoned)
+43006200 Wandering Noble (Poisoned)
+43006210 Wandering Noble (Poisoned)
+43006212 Wandering Noble (Poisoned)
+43006230 Wandering Noble (Poisoned)
+43006233 Wandering Noble (Poisoned)
+43006252 Wandering Noble (Poisoned)
+43006300 Wandering Noble (Poisoned)
+43006352 Wandering Noble (Poisoned)
+43006600 Wandering Noble (Poisoned)
+43006630 Wandering Noble (Poisoned)
+43006633 Wandering Noble (Poisoned)
+43006638 Wandering Noble (Poisoned)
+43006700 Wandering Noble (Poisoned)
+43006738 Wandering Noble (Poisoned)
+43006800 Wandering Noble (Poisoned)
+43006838 Wandering Noble (Poisoned)
 43007000 Wandering Noble
 43007010 Wandering Noble
 43007012 Wandering Noble
@@ -2735,36 +2735,36 @@
 43007120 Wandering Noble
 43007130 Wandering Noble
 43007150 Wandering Noble
-43009000 Wandering Noble
-43009010 Wandering Noble Ghost
-43009012 Wandering Noble Ghost
-43009100 Wandering Noble
-43009110 Wandering Noble Ghost
-43009120 Wandering Noble Ghost
-43009130 Wandering Noble Ghost
-43009132 Wandering Noble
-43009140 Wandering Noble Ghost
-43009150 Wandering Noble
-43009200 Wandering Noble
-43009212 Wandering Noble Ghost
-43009220 Wandering Noble Ghost
-43009232 Wandering Noble Ghost
-43009240 Wandering Noble Ghost
-43009250 Wandering Noble
-43009252 Wandering Noble Ghost
-43009300 Wandering Noble
-43009320 Wandering Noble
-43009330 Wandering Noble Ghost
-43009332 Wandering Noble Ghost
-43009340 Wandering Noble Ghost
-43009350 Wandering Noble Ghost
-43009352 Wandering Noble Ghost
-43009366 Wandering Noble Ghost
-43100040 Soldier
-43100340 Soldier
-43101040 Soldier
-43110000 Leyndell Soldier
-43110009 Radahn Soldier
+43009000 Wandering Noble (Stranded Soul)
+43009010 Wandering Noble (Stranded Soul)
+43009012 Wandering Noble (Stranded Soul)
+43009100 Wandering Noble (Stranded Soul)
+43009110 Wandering Noble (Stranded Soul)
+43009120 Wandering Noble (Stranded Soul)
+43009130 Wandering Noble (Stranded Soul)
+43009132 Wandering Noble (Stranded Soul)
+43009140 Wandering Noble (Stranded Soul)
+43009150 Wandering Noble (Stranded Soul)
+43009200 Wandering Noble (Stranded Soul)
+43009212 Wandering Noble (Stranded Soul)
+43009220 Wandering Noble (Stranded Soul)
+43009232 Wandering Noble (Stranded Soul)
+43009240 Wandering Noble (Stranded Soul)
+43009250 Wandering Noble (Stranded Soul)
+43009252 Wandering Noble (Stranded Soul)
+43009300 Wandering Noble (Stranded Soul)
+43009320 Wandering Noble (Stranded Soul)
+43009330 Wandering Noble (Stranded Soul)
+43009332 Wandering Noble (Stranded Soul)
+43009340 Wandering Noble (Stranded Soul)
+43009350 Wandering Noble (Stranded Soul)
+43009352 Wandering Noble (Stranded Soul)
+43009366 Wandering Noble (Stranded Soul)
+43100040 Lordsworn Soldier
+43100340 Lordsworn Soldier
+43101040 Lordsworn Soldier
+43110000 Godrick Soldier
+43110009 Godrick Soldier
 43110010 Godrick Soldier
 43110012 Godrick Soldier
 43110013 Godrick Soldier
@@ -2801,7 +2801,7 @@
 43113000 Godrick Soldier
 43113010 Godrick Soldier
 43113012 Godrick Soldier
-43113040 Radahn Soldier
+43113040 Godrick Soldier
 43113906 Soldier of Godrick (Boss)
 43114000 Godrick Soldier
 43114006 Godrick Soldier
@@ -3044,9 +3044,9 @@
 43401110 Mad Pumpkin Head
 43401130 Mad Pumpkin Head
 43401940 Mad Pumpkin Head (Hammer)
-43410000 Lesser Mad Pumpkin Head
-43411000 Lesser Mad Pumpkin Head
-43501140 Castle Knight
+43410000 Thin Mad Pumpkin Head
+43411000 Thin Mad Pumpkin Head
+43501140 Lordsworn Knight
 43510000 Godrick Knight
 43510010 Godrick Knight
 43510100 Godrick Knight
@@ -3140,7 +3140,7 @@
 43562000 Haligtree Knight
 43562056 Haligtree Knight
 43562556 Haligtree Knight
-43600040 Knight's Horse
+43600040 Lordsworn Knight's Horse
 43610000 Godrick Knight's Horse
 43610010 Godrick Knight's Horse
 43610012 Godrick Knight's Horse
@@ -3164,15 +3164,15 @@
 43710010 Godrick Foot Soldier
 43710012 Godrick Foot Soldier
 43710013 Godrick Foot Soldier
-43710040 Radahn Foot Soldier
+43710040 Godrick Foot Soldier
 43710500 Godrick Foot Soldier
 43710510 Godrick Foot Soldier
 43710512 Godrick Foot Soldier
-43710540 Radahn Foot Soldier
+43710540 Godrick Foot Soldier
 43711000 Godrick Foot Soldier
 43711010 Godrick Foot Soldier
 43711012 Godrick Foot Soldier
-43711040 Radahn Foot Soldier
+43711040 Godrick Foot Soldier
 43711400 Godrick Foot Soldier
 43711500 Godrick Foot Soldier
 43711510 Godrick Foot Soldier
@@ -3190,20 +3190,20 @@
 43712500 Godrick Foot Soldier
 43712510 Godrick Foot Soldier
 43712512 Godrick Foot Soldier
-43712540 Radahn Foot Soldier
+43712540 Godrick Foot Soldier
 43713000 Godrick Foot Soldier
 43713010 Godrick Foot Soldier
 43713012 Godrick Foot Soldier
-43713040 Radahn Foot Soldier
+43713040 Godrick Foot Soldier
 43714000 Godrick Foot Soldier
 43714010 Godrick Foot Soldier
 43714012 Godrick Foot Soldier
 43714013 Godrick Foot Soldier
-43714040 Radahn Foot Soldier
+43714040 Godrick Foot Soldier
 43716000 Godrick Foot Soldier
 43716010 Godrick Foot Soldier
 43716012 Godrick Foot Soldier
-43716040 Radahn Foot Soldier
+43716040 Godrick Foot Soldier
 43717000 Godrick Foot Soldier
 43717010 Godrick Foot Soldier
 43717012 Godrick Foot Soldier
@@ -3373,155 +3373,155 @@
 43800062 Starcaller
 43800100 Starcaller
 43800130 Starcaller
-43810000 Bloodthorn Exile
-43810020 Thorn Sorcerer
-43810032 Thorn Sorcerer
-43810100 Bloodthorn Exile
-43810132 Thorn Sorcerer
-43810200 Bloodthorn Exile
-43810250 Thorn Sorcerer
-43810300 Bloodthorn Exile
-43810350 Thorn Sorcerer
-43811000 Bloodthorn Exile
-43811020 Thorn Sorcerer
-43811100 Bloodthorn Exile
-43811150 Thorn Sorcerer
-43820000 Tunnel Miner
-43820010 Tunnel Miner
-43820012 Tunnel Miner
-43820026 Tunnel Miner
-43820030 Tunnel Miner
-43820033 Tunnel Miner
-43820039 Tunnel Miner
-43820052 Tunnel Miner
-43820100 Tunnel Miner
-43820140 Tunnel Miner
-43821000 Tunnel Miner
-43821010 Tunnel Miner
-43821012 Tunnel Miner
-43821020 Tunnel Miner
-43821026 Tunnel Miner
-43821030 Tunnel Miner
-43821033 Tunnel Miner
-43821052 Tunnel Miner
-43821100 Tunnel Miner
-43822000 Tunnel Miner
-43822010 Tunnel Miner
-43822026 Tunnel Miner
-43822100 Tunnel Miner
-43822140 Tunnel Miner
-43823000 Tunnel Miner
-43823010 Tunnel Miner
-43823012 Tunnel Miner
-43823026 Tunnel Miner
-43823030 Tunnel Miner
-43823033 Tunnel Miner
-43823040 Tunnel Miner
-43823100 Tunnel Miner
-43824000 Tunnel Miner
-43824026 Tunnel Miner
-43824100 Tunnel Miner
-43825000 Tunnel Miner
-43825026 Tunnel Miner
-43825100 Tunnel Miner
-43826000 Tunnel Miner
-43826033 Tunnel Miner
-43826100 Tunnel Miner
-43827000 Tunnel Miner
-43827012 Tunnel Miner
-43827052 Tunnel Miner
-43827100 Tunnel Miner
-43828000 Tunnel Miner
-43828033 Tunnel Miner
-43828100 Tunnel Miner
-43829000 Tunnel Miner
-43829030 Tunnel Miner
-43829100 Tunnel Miner
-43829140 Tunnel Miner
-43830000 Glintstone Miner
-43830010 Glintstone Miner
-43830020 Glintstone Miner
-43830030 Glintstone Miner
-43830040 Glintstone Miner (Sellia Tunnel)
-43831000 Glintstone Miner
-43831020 Glintstone Miner
-43831030 Glintstone Miner
-43831040 Glintstone Miner (Sellia Hideaway)
-43840000 Glintstone Miner
-43840020 Big Glintstone Miner
-43840040 Big Glintstone Miner
-43850000 Fungal Sorcerer
-43850010 Fungal Sorcerer
-43850012 Fungal Sorcerer
-43850020 Fungal Sorcerer
-43850032 Fungal Sorcerer
-43850040 Fungal Sorcerer
-43850100 Fungal Sorcerer
-43850110 Fungal Sorcerer
-43850112 Fungal Sorcerer
-43850120 Fungal Sorcerer
-43850132 Fungal Sorcerer
-43850140 Fungal Sorcerer
-43850200 Fungal Sorcerer
-43850210 Fungal Sorcerer
-43850212 Fungal Sorcerer
-43850220 Fungal Sorcerer
-43850232 Fungal Sorcerer
-43850240 Fungal Sorcerer
-43858000 Fungal Sorcerer
-43858040 Fungal Sorcerer
-43858100 Fungal Sorcerer
-43858140 Fungal Sorcerer
-43858200 Fungal Sorcerer
-43858240 Fungal Sorcerer
-44200000 Giant Lobster
-44200020 Giant Lobster
-44200035 Giant Lobster
-44200120 Giant Lobster
-44201000 Giant Lobster
-44201020 Giant Lobster
-44202000 Giant Lobster
-44202020 Giant Lobster
-44203000 Giant Lobster
-44203050 Giant Lobster
-44204000 Giant Lobster
-44204050 Giant Lobster
-44205000 Giant Lobster
-44205050 Giant Lobster
-44300000 Abnormal Stone Cluster
-44300010 Abnormal Stone Cluster
-44300012 Abnormal Stone Cluster
-44300020 Abnormal Stone Cluster
-44300022 Abnormal Stone Cluster
-44300030 Abnormal Stone Cluster
-44300040 Abnormal Stone Cluster
-44300050 Abnormal Stone Cluster
-44300100 Abnormal Stone Cluster
-44300110 Abnormal Stone Cluster
-44300150 Abnormal Stone Cluster
-44300200 Abnormal Stone Cluster
-44300250 Abnormal Stone Cluster
-44300300 Abnormal Stone Cluster
-44300310 Abnormal Stone Cluster
-44300340 Abnormal Stone Cluster
-44300350 Abnormal Stone Cluster
-44301000 Abnormal Stone Cluster
-44301010 Abnormal Stone Cluster
-44301033 Abnormal Stone Cluster
-44301040 Abnormal Stone Cluster
-44400000 Fungal Pod
-44400010 Fungal Pod
-44400012 Fungal Pod
-44400020 Fungal Pod
-44400032 Fungal Pod
-44400033 Fungal Pod
-44400040 Fungal Pod
-44400050 Fungal Pod
-44410000 Giant Fungal Pod
-44410020 Giant Fungal Pod
-44410050 Giant Fungal Pod
-44420000 Giant Fungal Pod
-44420040 Giant Rotten Pod
+43810000 Guilty
+43810020 Guilty
+43810032 Guilty
+43810100 Guilty
+43810132 Guilty
+43810200 Guilty
+43810250 Guilty
+43810300 Guilty
+43810350 Guilty
+43811000 Guilty
+43811020 Guilty
+43811100 Guilty
+43811150 Guilty
+43820000 Stonedigger
+43820010 Stonedigger
+43820012 Stonedigger
+43820026 Stonedigger
+43820030 Stonedigger
+43820033 Stonedigger
+43820039 Stonedigger
+43820052 Stonedigger
+43820100 Stonedigger
+43820140 Stonedigger
+43821000 Stonedigger
+43821010 Stonedigger
+43821012 Stonedigger
+43821020 Stonedigger
+43821026 Stonedigger
+43821030 Stonedigger
+43821033 Stonedigger
+43821052 Stonedigger
+43821100 Stonedigger
+43822000 Stonedigger
+43822010 Stonedigger
+43822026 Stonedigger
+43822100 Stonedigger
+43822140 Stonedigger
+43823000 Stonedigger
+43823010 Stonedigger
+43823012 Stonedigger
+43823026 Stonedigger
+43823030 Stonedigger
+43823033 Stonedigger
+43823040 Stonedigger
+43823100 Stonedigger
+43824000 Stonedigger
+43824026 Stonedigger
+43824100 Stonedigger
+43825000 Stonedigger
+43825026 Stonedigger
+43825100 Stonedigger
+43826000 Stonedigger
+43826033 Stonedigger
+43826100 Stonedigger
+43827000 Stonedigger
+43827012 Stonedigger
+43827052 Stonedigger
+43827100 Stonedigger
+43828000 Stonedigger
+43828033 Stonedigger
+43828100 Stonedigger
+43829000 Stonedigger
+43829030 Stonedigger
+43829100 Stonedigger
+43829140 Stonedigger
+43830000 Glintstone Digger
+43830010 Glintstone Digger
+43830020 Glintstone Digger
+43830030 Glintstone Digger
+43830040 Glintstone Digger (Sellia Tunnel)
+43831000 Glintstone Digger
+43831020 Glintstone Digger
+43831030 Glintstone Digger
+43831040 Glintstone Digger (Sellia Hideaway)
+43840000 Glintstone Digger
+43840020 Large Glintstone Digger
+43840040 Large Glintstone Digger
+43850000 Disciple of Rot
+43850010 Disciple of Rot
+43850012 Disciple of Rot
+43850020 Disciple of Rot
+43850032 Disciple of Rot
+43850040 Disciple of Rot
+43850100 Disciple of Rot
+43850110 Disciple of Rot
+43850112 Disciple of Rot
+43850120 Disciple of Rot
+43850132 Disciple of Rot
+43850140 Disciple of Rot
+43850200 Disciple of Rot
+43850210 Disciple of Rot
+43850212 Disciple of Rot
+43850220 Disciple of Rot
+43850232 Disciple of Rot
+43850240 Disciple of Rot
+43858000 Disciple of Rot
+43858040 Disciple of Rot
+43858100 Disciple of Rot
+43858140 Disciple of Rot
+43858200 Disciple of Rot
+43858240 Disciple of Rot
+44200000 Giant Crayfish
+44200020 Giant Crayfish
+44200035 Giant Crayfish
+44200120 Giant Crayfish
+44201000 Giant Crayfish
+44201020 Giant Crayfish
+44202000 Giant Crayfish
+44202020 Giant Crayfish
+44203000 Giant Crayfish
+44203050 Giant Crayfish
+44204000 Giant Crayfish
+44204050 Giant Crayfish
+44205000 Giant Crayfish
+44205050 Giant Crayfish
+44300000 Watcher Stones
+44300010 Watcher Stones
+44300012 Watcher Stones
+44300020 Watcher Stones
+44300022 Watcher Stones
+44300030 Watcher Stones
+44300040 Watcher Stones
+44300050 Watcher Stones
+44300100 Watcher Stones
+44300110 Watcher Stones
+44300150 Watcher Stones
+44300200 Watcher Stones
+44300250 Watcher Stones
+44300300 Watcher Stones
+44300310 Watcher Stones
+44300340 Watcher Stones
+44300350 Watcher Stones
+44301000 Watcher Stones
+44301010 Watcher Stones
+44301033 Watcher Stones
+44301040 Watcher Stones
+44400000 Land Squirt
+44400010 Land Squirt
+44400012 Land Squirt
+44400020 Land Squirt
+44400032 Land Squirt
+44400033 Land Squirt
+44400040 Land Squirt
+44400050 Land Squirt
+44410000 Giant Land Squirt
+44410020 Giant Land Squirt
+44410050 Giant Land Squirt
+44420000 Giant Land Squirt
+44420040 Giant Rotten Land Squirt
 44500000 Walking Mausoleum
 44500012 Walking Mausoleum
 44500020 Walking Mausoleum
@@ -3530,36 +3530,36 @@
 44500066 Walking Mausoleum
 44501000 Walking Mausoleum
 44501020 Walking Mausoleum
-44600000 Flamethrower Tank
-44600020 Flamethrower Tank
-44600032 Flamethrower Tank
-44600036 Flamethrower Tank
-44600040 Flamethrower Tank
-44600840 Flamethrower Tank
-44601000 Flamethrower Tank
-44601032 Flamethrower Tank
-44601040 Flamethrower Tank
-44601840 Maneuverable Flamethrower
-44607000 Flamethrower Tank
-44607020 Maneuverable Flamethrower
-44607032 Maneuverable Flamethrower
-44607040 Maneuverable Flamethrower
-44607100 Flamethrower Tank
-44607120 Maneuverable Flamethrower
-44607132 Maneuverable Flamethrower
-44607200 Flamethrower Tank
-44607220 Maneuverable Flamethrower
-44607800 Flamethrower Tank
-44607840 Maneuverable Flamethrower
-44608000 Flamethrower Tank
-44608032 Maneuverable Flamethrower
-44608040 Maneuverable Flamethrower
-44608600 Flamethrower Tank
-44608640 Maneuverable Flamethrower
-44608700 Flamethrower Tank
-44608740 Maneuverable Flamethrower
-44608800 Flamethrower Tank
-44608840 Maneuverable Flamethrower
+44600000 Flame Chariot
+44600020 Flame Chariot
+44600032 Flame Chariot
+44600036 Flame Chariot
+44600040 Flame Chariot
+44600840 Flame Chariot
+44601000 Flame Chariot
+44601032 Flame Chariot
+44601040 Flame Chariot
+44601840 Flame Chariot
+44607000 Flame Chariot
+44607020 Flame Chariot
+44607032 Flame Chariot
+44607040 Flame Chariot
+44607100 Flame Chariot
+44607120 Flame Chariot
+44607132 Flame Chariot
+44607200 Flame Chariot
+44607220 Flame Chariot
+44607800 Flame Chariot
+44607840 Flame Chariot
+44608000 Flame Chariot
+44608032 Flame Chariot
+44608040 Flame Chariot
+44608600 Flame Chariot
+44608640 Flame Chariot
+44608700 Flame Chariot
+44608740 Flame Chariot
+44608800 Flame Chariot
+44608840 Flame Chariot
 44700000 Abductor Virgin (Unscaled)
 44700020 Abductor Virgin
 44700024 Abductor Virgin
@@ -3580,120 +3580,120 @@
 44701938 Abductor Virgin (Boss)
 44702000 Abductor Virgin (Unscaled)
 44702041 Abductor Virgin Both
-44800000 Giant Miranda Flower
-44800010 Giant Miranda Flower
-44800012 Giant Miranda Flower
-44800020 Giant Miranda Flower
-44800032 Giant Miranda Flower
-44800034 Giant Miranda Flower (Leyndell- Royal Capital)
-44800035 Giant Miranda Flower
-44800040 Giant Miranda Flower
-44800054 Giant Miranda Flower
-44800064 Giant Miranda Flower (Siofra River)
-44800100 Giant Miranda Flower
-44800120 Giant Miranda Flower
-44800130 Giant Miranda Flower
-44800140 Giant Miranda Flower
-44800162 Giant Miranda Flower
-44800200 Giant Miranda Flower
-44800220 Giant Miranda Flower
-44800300 Giant Miranda Flower
-44800330 Giant Miranda Flower
-44800370 Giant Miranda Flower
-44800400 Giant Miranda Flower
-44800430 Giant Miranda Flower
+44800000 Miranda Blossom
+44800010 Miranda Blossom
+44800012 Miranda Blossom
+44800020 Miranda Blossom
+44800032 Miranda Blossom
+44800034 Miranda Blossom (Leyndell- Royal Capital)
+44800035 Miranda Blossom
+44800040 Miranda Blossom
+44800054 Miranda Blossom
+44800064 Miranda Blossom (Siofra River)
+44800100 Miranda Blossom (Frenzy)
+44800120 Miranda Blossom (Frenzy)
+44800130 Miranda Blossom (Frenzy)
+44800140 Miranda Blossom (Frenzy)
+44800162 Miranda Blossom (Frenzy)
+44800200 Miranda Blossom (Magic)
+44800220 Miranda Blossom (Magic)
+44800300 Miranda Blossom
+44800330 Miranda Blossom
+44800370 Miranda Blossom
+44800400 Miranda Blossom
+44800430 Miranda Blossom
 44800912 Miranda Blossom
 44800930 Miranda the Blighted Bloom
 44810000 Miranda Sprout
-44810010 Miranda Flower
-44810012 Miranda Flower
-44810020 Miranda Flower
+44810010 Miranda Sprout
+44810012 Miranda Sprout
+44810020 Miranda Sprout
 44810032 Miranda Sprout
 44810034 Miranda Sprout (Leyndell- Royal Capital)
-44810035 Miranda Flower
+44810035 Miranda Sprout
 44810040 Miranda Sprout
 44810054 Miranda Sprout
 44810064 Miranda Sprout (Siofra River)
-44810100 Miranda Sprout
-44810120 Miranda Flower
-44810130 Miranda Sprout
-44810162 Miranda Flower
-44810200 Miranda Sprout
-44810220 Miranda Flower
+44810100 Miranda Sprout (Frenzy)
+44810120 Miranda Sprout (Frenzy)
+44810130 Miranda Sprout (Frenzy)
+44810162 Miranda Sprout (Frenzy)
+44810200 Miranda Sprout (Magic)
+44810220 Miranda Sprout (Magic)
 44810300 Miranda Sprout
-44810330 Miranda Flower
-44810370 Miranda Flower
+44810330 Miranda Sprout
+44810370 Miranda Sprout
 44810400 Miranda Sprout
-44810430 Miranda Flower
-44810500 Miranda Flower
+44810430 Miranda Sprout
+44810500 Miranda Sprout
 44810540 Miranda Sprout
-44810830 Miranda Flower
+44810830 Miranda Sprout
 44810912 Miranda Sprout (Boss)
-44811000 Miranda Sprout
-44811012 Miranda Flower
-44811100 Miranda Sprout
-44811200 Miranda Sprout
-44811300 Miranda Sprout
-44811330 Miranda Flower
-44811400 Miranda Sprout
-44811430 Miranda Sprout
-44811830 Miranda Flower
-44820000 Fading Giant Miranda Flower
-44820031 Fading Giant Miranda Flower (Shaded Castle)
-44820040 Giant Miranda Rot Flower
-44820054 Giant Miranda Rot Flower
-44820056 Giant Miranda Rot Flower
-44830000 Fading Miranda Sprout
-44830030 Fading Miranda Sprout
-44830031 Fading Miranda Sprout (Shaded Castle)
-44830040 Miranda Rot Flower
-44830054 Miranda Rot Flower
-44831000 Fading Miranda Sprout
-44831040 Miranda Rot Flower
-44831054 Miranda Rot Flower
-44831056 Miranda Rot Flower
-44900000 Living Jar - Large
-44900011 Living Jar - Large
-44900014 Living Jar - Large (Stormveil Castle)
-44900020 Living Jar - Large
-44900021 Living Jar - Large
-44900024 Living Jar - Large
-44900032 Living Jar - Large
-44900033 Living Jar
-44900034 Living Jar - Large (Leyndell- Royal Capital)
-44900035 Living Jar - Large
-44900038 Living Jar - Large
-44900050 Living Jar - Large
-44900100 Living Jar - Large
-44900124 Living Jar - Large
-44900200 Living Jar - Large
-44900320 Living Jar - Large
-44907000 Living Jar - Large
-44907014 Living Jar - Large (Stormveil Castle)
-44907021 Living Jar
-44907033 Living Jar
-44907035 Living Jar
-44907038 Living Jar
-44907050 Living Jar
-44907100 Living Jar - Large
-44907121 Living Jar
-44907133 Living Jar
-44907150 Living Jar
-44907200 Living Jar - Large
-44907221 Living Jar
-44907233 Living Jar
-44907250 Living Jar
-44907300 Living Jar - Large
-44907333 Living Jar
-44907350 Living Jar
-44907400 Living Jar - Large
-44907450 Living Jar
-44908100 Living Jar - Large
-44908124 Living Jar
-44908300 Living Jar - Large
-44908320 Living Jar
-44908400 Living Jar - Large
-44908420 Living Jar
+44811000 Miranda Sprout (Burrowed)
+44811012 Miranda Sprout (Burrowed)
+44811100 Miranda Sprout (Burrowed)
+44811200 Miranda Sprout (Burrowed)
+44811300 Miranda Sprout (Burrowed)
+44811330 Miranda Sprout (Burrowed)
+44811400 Miranda Sprout (Burrowed)
+44811430 Miranda Sprout (Burrowed)
+44811830 Miranda Sprout (Burrowed)
+44820000 Fading Miranda Blossom
+44820031 Fading Miranda Blossom (Shaded Castle)
+44820040 Rotten Miranda Blossom
+44820054 Rotten Miranda Blossom
+44820056 Rotten Miranda Blossom
+44830000 Rotten Miranda Sprout
+44830030 Rotten Miranda Sprout
+44830031 Rotten Miranda Sprout (Shaded Castle)
+44830040 Rotten Miranda Sprout
+44830054 Rotten Miranda Sprout
+44831000 Rotten Miranda Sprout
+44831040 Rotten Miranda Sprout
+44831054 Rotten Miranda Sprout
+44831056 Rotten Miranda Sprout
+44900000 Living Jar Warrior
+44900011 Living Jar Warrior
+44900014 Living Jar Warrior (Stormveil Castle)
+44900020 Living Jar Warrior
+44900021 Living Jar Warrior
+44900024 Living Jar Warrior
+44900032 Living Jar Warrior
+44900033 Living Jar Warrior
+44900034 Living Jar Warrior (Leyndell- Royal Capital)
+44900035 Living Jar Warrior
+44900038 Living Jar Warrior
+44900050 Living Jar Warrior
+44900100 Living Jar Warrior
+44900124 Living Jar Warrior
+44900200 Living Jar Warrior
+44900320 Living Jar Warrior
+44907000 Living Jar Warrior
+44907014 Living Jar Warrior (Stormveil Castle)
+44907021 Living Jar Warrior
+44907033 Living Jar Warrior
+44907035 Living Jar Warrior
+44907038 Living Jar Warrior
+44907050 Living Jar Warrior
+44907100 Living Jar Warrior
+44907121 Living Jar Warrior
+44907133 Living Jar Warrior
+44907150 Living Jar Warrior
+44907200 Living Jar Warrior
+44907221 Living Jar Warrior
+44907233 Living Jar Warrior
+44907250 Living Jar Warrior
+44907300 Living Jar Warrior
+44907333 Living Jar Warrior
+44907350 Living Jar Warrior
+44907400 Living Jar Warrior
+44907450 Living Jar Warrior
+44908100 Living Jar Warrior
+44908124 Living Jar Warrior
+44908300 Living Jar Warrior
+44908320 Living Jar Warrior
+44908400 Living Jar Warrior
+44908420 Living Jar Warrior
 44909000 Alexander, Warrior Jar
 44909040 Alexander, Warrior Jar
 44909100 Alexander, Warrior Jar
@@ -3707,67 +3707,67 @@
 44909732 Alexander, Warrior Jar
 44909850 Alexander, Warrior Jar
 44909972 Alexander, Warrior Jar
-44910000 Living Jar - Small
-44910002 Living Jar - Small
-44910014 Living Jar - Small (Stormveil Castle)
-44910020 Living Jar - Small
-44910021 Living Jar - Small
-44910024 Living Jar - Small
-44910032 Living Jar - Small
-44910033 Living Jar - Small
-44910034 Living Jar - Small (Leyndell- Royal Capital)
-44910035 Living Jar - Small
-44910038 Living Jar - Small
-44910050 Living Jar - Small
-44910100 Living Jar - Small
-44910124 Living Jar - Small
-44910150 Living Jar - Small
-44910200 Living Jar - Small
-44910232 Living Jar - Small
-44910233 Living Jar - Small
-44910234 Living Jar - Small (Leyndell- Royal Capital)
-44910238 Living Jar - Small
-44910250 Living Jar - Small
-44910300 Living Jar - Small
-44910333 Living Jar - Small
-44910350 Living Jar - Small
-44910400 Living Jar - Small
-44910500 Living Jar - Small
-44910600 Living Jar - Small
-44910720 Living Jar - Small
-44910933 Living Jar - Small
+44910000 Living Jar
+44910002 Living Jar
+44910014 Living Jar (Stormveil Castle)
+44910020 Living Jar
+44910021 Living Jar
+44910024 Living Jar
+44910032 Living Jar
+44910033 Living Jar
+44910034 Living Jar (Leyndell- Royal Capital)
+44910035 Living Jar
+44910038 Living Jar
+44910050 Living Jar
+44910100 Living Jar
+44910124 Living Jar
+44910150 Living Jar
+44910200 Living Fire Jar
+44910232 Living Fire Jar
+44910233 Living Fire Jar
+44910234 Living Fire Jar (Leyndell- Royal Capital)
+44910238 Living Fire Jar
+44910250 Living Fire Jar
+44910300 Living Jar
+44910333 Living Jar
+44910350 Living Jar
+44910400 Living Jar
+44910500 Living Jar
+44910600 Living Jar
+44910720 Living Jar
+44910933 Living Jar
 44919000 Jar-Bairn
 44919020 Jar-Bairn
 44919120 Jar-Bairn
 44919220 Jar-Bairn
 44919320 Jar-Bairn
-44920000 Living Jar - Huge
-44920040 Big pot
-44920100 Living Jar - Huge
-45000000 Dragon (Unscaled)
-45000010 Dragon - Agheel (Limgrave)
+44920000 Greatjar
+44920040 Greatjar
+44920100 Greatjar
+45000000 Flying Dragon (Unscaled)
+45000010 Flying Dragon Agheel (Limgrave)
 45000040 Flying Dragon
-45000042 Dragon - Greyll (Caelid)
-45000072 Dragon
-45001000 Dragon (Unscaled)
+45000042 Flying Dragon Greyll (Caelid)
+45000072 Flying Dragon
+45001000 Flying Dragon (Unscaled)
 45001042 Flying Dragon
-45001072 Dragon
-45008000 Dragon (Unscaled)
-45008024 Flying Dragon
-45010000 Dragon (Unscaled)
-45010040 Dragon - Ekzykes (Caelid)
-45020000 Dragon (Unscaled)
-45020022 Glintstone Dragon
+45001072 Flying Dragon
+45008000 Flying Dragon (Unscaled)
+45008024 Flying Dragon (Rennala)
+45010000 Decaying Ekzykes (Unscaled)
+45010040 Decaying Ekzykes (Caelid)
+45020000 Glintstone (Unscaled)
+45020022 Glintstone Dragon (Moonlight Plateau)
 45020920 Glintstone Dragon Smarag
-45021000 Dragon (Unscaled)
-45021920 Dragon - Smarag
+45021000 Glintstone Dragon (Unscaled)
+45021920 Glintstone Dragon Smarag
 45021922 Glintstone Dragon Adula
-45030000 Dragon (Unscaled)
-45030050 Dragon - Borealis (Mountaintops)
+45030000 Borealis the Freezing Fog (Unscaled)
+45030050 Borealis the Freezing Fog (Mountaintops)
 45040000 Elder Dragon Greyoll
 45040042 Elder Dragon Greyoll
-45050000 Lesser Elder Dragon
-45050042 Lesser Elder Dragon
+45050000 Flying Dragon (Small)
+45050042 Flying Dragon (Small)
 45100000 Ancient Dragon
 45100072 Ancient Dragon
 45100172 Ancient Dragon
@@ -3778,7 +3778,7 @@
 45101200 Ancient Dragon
 45101272 Ancient Dragon
 45102000 Ancient Dragon
-45102030 Ancient Dragon (Boss)
+45102030 Ancient Dragon Lansseax (Boss)
 45102100 Ancient Dragon
 45102200 Ancient Dragon
 45102272 Ancient Dragon
@@ -3787,108 +3787,108 @@
 45200000 Dragonlord Placidusax (Unscaled)
 45200072 Dragonlord Placidusax
 45200100 Dragonlord Placidusax (Unscaled)
-45500000 Monstrous Dog
-45500040 Monstrous Dog
-45500042 Monstrous Dog
-45501000 Monstrous Dog
-45501040 Monstrous Dog
-45502000 Monstrous Dog
-45502040 Monstrous Dog
-45502042 Monstrous Dog
-45503000 Monstrous Dog
-45503040 Monstrous Dog
-45504000 Gowry's Monstrous Dog
-45504040 Gowry's Monstrous Dog
-45505000 Monstrous Dog
-45505050 Monstrous Dog
-45506000 Monstrous Dog
-45506050 Monstrous Dog
-45506200 Monstrous Dog
-45506400 Monstrous Dog
-45506450 Monstrous Dog
-45506600 Monstrous Dog
-45506650 Monstrous Dog
-45508000 Monstrous Dog
-45508100 Monstrous Dog
-45600000 Monstrous Crow
-45600040 Monstrous Crow
-45600042 Monstrous Crow
-45601000 Monstrous Crow
-45601050 Monstrous Crow
-45601850 Monstrous Crow
-45609000 Monstrous Crow
-45610000 Monstrous Blood Crow
-45610068 Monstrous Blood Crow
-45700000 Large Wormface
+45500000 Giant Dog
+45500040 Giant Dog
+45500042 Giant Dog
+45501000 Giant Dog
+45501040 Giant Dog
+45502000 Giant Dog
+45502040 Giant Dog
+45502042 Giant Dog
+45503000 Giant Dog
+45503040 Giant Dog
+45504000 Gowry's Giant Dog
+45504040 Gowry's Giant Dog
+45505000 Giant Dog (Snowfield)
+45505050 Giant Dog (Snowfield)
+45506000 Giant Dog
+45506050 Giant Dog
+45506200 Giant Dog
+45506400 Giant Dog
+45506450 Giant Dog
+45506600 Giant Dog
+45506650 Giant Dog
+45508000 Giant Dog
+45508100 Giant Dog
+45600000 Giant Crow
+45600040 Giant Crow
+45600042 Giant Crow
+45601000 Giant Crow (Snowfield)
+45601050 Giant Crow (Snowfield)
+45601850 Giant Crow (Snowfield)
+45609000 Giant Crow
+45610000 Bloodbane Giant Crow
+45610068 Bloodbane Giant Crow
+45700000 Wormface
 45700030 Wormface
-45701000 Large Wormface
+45701000 Wormface
 45701072 Wormface
-45702000 Large Wormface
+45702000 Wormface
 45702030 Wormface
 45800000 Giant Wormface
-45800030 Giant Wormface (Boss)
+45800030 Wormface (Boss)
 45801000 Giant Wormface
-45801072 Wormface 2
+45801072 Giant Wormface
 45802000 Giant Wormface
-45802132 Wormface 2
+45802132 Giant Wormface
 46000000 Troll
 46000010 Troll
 46000012 Troll
-46000014 Troll Knight (Stormveil Castle)
-46000020 Troll Knight
+46000014 Troll (Stormveil Castle)
+46000020 Troll
 46000032 Troll
 46000033 Troll
 46000040 Troll
-46000050 Troll Knight
+46000050 Troll
 46000065 Troll
-46000100 Troll Knight
+46000100 Troll
 46000150 Troll
-46001000 Troll Knight
+46001000 Troll
 46001010 Troll
 46001020 Troll
 46001030 Troll
-46001032 Troll Knight
-46001099 Troll Knight
+46001032 Troll
+46001099 Troll
 46001120 Troll
 46001130 Troll
-46003000 Troll Knight
+46003000 Troll
 46003041 Troll
 46003140 Troll
-46004000 Troll Knight
-46004032 Troll
-46004100 Troll Knight
-46004152 Troll
-46008000 Troll Knight (Boss)
-46008024 Troll Knight (Boss)
-46010000 Armored Troll Knight
-46010020 Liurnia Troll
-46010021 Armored Troll Knight
-46010100 Armored Troll Knight
-46010120 Liurnia Troll
-46010200 Armored Troll Knight
-46010220 Liurnia Troll
-46010920 Armored Troll Knight (Boss)
-46018000 Armored Troll Knight
-46018021 Liurnia Troll
-46020000 Troll Knight
-46020050 Snow Troll
-46021000 Troll Knight
-46021052 Snow Troll
-46022000 Troll Knight
-46030000 Stonedigger Troll (Club)
-46030910 Stonedigger Troll (Club) (Boss)
-46030930 Stonedigger Troll (Club) (Boss)
+46004000 Frenzied Troll
+46004032 Frenzied Troll
+46004100 Frenzied Troll
+46004152 Frenzied Troll
+46008000 Troll (Rennala) (Unscaled)
+46008024 Troll (Rennala)
+46010000 Troll Knight
+46010020 Troll Knight
+46010021 Troll Knight
+46010100 Troll Knight (Mausoleum)
+46010120 Troll Knight (Mausoleum)
+46010200 Troll Knight (Puppet)
+46010220 Troll Knight (Puppet)
+46010920 Carian Knight Bols (Boss)
+46018000 Troll Knight
+46018021 Troll Knight
+46020000 Snowfield Troll
+46020050 Snowfield Troll
+46021000 Snowfield Troll
+46021052 Snowfield Troll
+46022000 Snowfield Troll
+46030000 Stonedigger Troll
+46030910 Stonedigger Troll (Boss)
+46030930 Stonedigger Troll (Boss)
 46040000 Smithing Master Iji
 46040020 Smithing Master Iji
 46040120 War Counselor Iji
 46040220 War Counselor Iji
-46200000 Astel Stars of Darkness
-46200062 Astel, Naturalborn of the Void
-46200952 Astel- Stars of Darkness (Snowfield Mine)
+46200000 AAstel, Stars of Darkness
+46200062 Astel, Stars of Darkness
+46200952 Astel, Stars of Darkness (Snowfield Mine)
 46201000 Astel- Stars of Darkness (Unscaled)
-46202000 Astel- Stars of Darkness (Unscaled)
-46202030 Astel- Stars of Darkness
-46202060 Astel- Stars of Darkness (Ainsel River)
+46202000 Astel, Naturalborn of the Void (Unscaled)
+46202030 Astel, Naturalborn of the Void
+46202060 Astel, Naturalborn of the Void (Ainsel River)
 46202062 Astel- Stars of Darkness
 46209000 Astel- Stars of Darkness (Unscaled)
 46209100 Astel- Stars of Darkness (Unscaled)
@@ -3929,10 +3929,10 @@
 46400162 Ulcerated Tree Spirit
 46400942 Ulcerated Tree Spirit (Boss)
 46400950 Ulcerated Tree Spirit (Boss)
-46500000 Dragonkin Soldier (Unscaled)
-46500060 Dragonkin Soldier (Nokstella)
-46500100 Dragonkin Soldier Ice (Unscaled)
-46500160 Dragonkin Soldier Ice
+46500000 Dragonkin Soldier (Ice Lightning) (Unscaled)
+46500060 Dragonkin Soldier (Ice Lightning) (Nokstella)
+46500100 Dragonkin Soldier (Ice Lightning)  (Unscaled)
+46500160 Dragonkin Soldier (Ice Lightning)
 46500200 Dragonkin Soldier (Unscaled)
 46500262 Dragonkin Soldier (Lake of Rot)
 46500265 Dragonkin Soldier (Nokron)
@@ -3940,47 +3940,47 @@
 46500352 Dragonkin Soldier Phantom (Snowfields)
 46500900 Dragonkin Soldier of Nokstella Healthbar (Unscaled)
 46500960 Dragonkin Soldier of Nokstella Healthbar (Boss)
-46600000 Golem
+46600000 Guardian Golem
 46600010 Guardian Golem
 46600030 Guardian Golem
-46600034 Golem (Leyndell- Royal Capital)
+46600034 Guardian Golem (Leyndell- Royal Capital)
 46600070 Guardian Golem
-46600100 Golem
-46600120 Golem
+46600100 Guardian Golem
+46600120 Guardian Golem
 46600133 Guardian Golem
-46600150 Golem
-46600170 Golem
-46600910 Golem (Limgrave Boss)
-46601000 Golem
+46600150 Guardian Golem
+46600170 Guardian Golem
+46600910 Guardian Golem (Limgrave Boss)
+46601000 Guardian Golem
 46601010 Guardian Golem
 46601030 Guardian Golem
-46601034 Golem (Leyndell- Royal Capital)
-46601040 Golem
-46601042 Golem
-46601100 Golem
-46601120 Golem
-46601140 Golem
-46602000 Golem
+46601034 Guardian Golem (Leyndell- Royal Capital)
+46601040 Guardian Golem
+46601042 Guardian Golem
+46601100 Guardian Golem
+46601120 Guardian Golem
+46601140 Guardian Golem
+46602000 Guardian Golem
 46602050 Guardian Golem
-46602100 Golem
-46603000 Golem
-46603100 Golem
-46604000 Golem
+46602100 Guardian Golem
+46603000 Guardian Golem
+46603100 Guardian Golem
+46604000 Guardian Golem
 46604012 Guardian Golem
-46604100 Golem
+46604100 Guardian Golem
 46604142 Guardian Golem
-46605000 Golem
+46605000 Guardian Golem
 46605040 Guardian Golem
-46605100 Golem
+46605100 Guardian Golem
 46605140 Guardian Golem
-46606000 Golem
+46606000 Guardian Golem
 46606010 Guardian Golem
 46606020 Guardian Golem
-46607000 Golem
+46607000 Guardian Golem
 46607012 Guardian Golem
 46607033 Guardian Golem
-46608000 Golem
-46609000 Golem
+46608000 Guardian Golem
+46609000 Guardian Golem
 46609050 Guardian Golem
 46700000 Ancestor Spirit
 46700065 Ancestor Spirit (Regal)
@@ -4008,8 +4008,8 @@
 47101038 Rykard- Lord of Blasphemy
 47102000 Rykard- Lord of Blasphemy (Unscaled)
 47109000 Rykard- Lord of Blasphemy (Unscaled)
-47110000 Writhing Mass
-47110038 Writhing Mass
+47110000 Rykard's Corpse
+47110038 Rykard's Corpse
 47200000 Godfrey- First Elden Lord (Unscaled)
 47200070 Godfrey- First Elden Lord
 47200100 Godfrey- First Elden Lord (Unscaled)
@@ -4234,47 +4234,47 @@
 60604030 Goat
 60605000 Goat
 60605030 Goat
-60700000 Gull
-60700010 Gull
-60700012 Gull
-60700020 Gull
-60700022 Gull
-60700032 Gull
-60700040 Gull
-60700042 Gull
-60700050 Gull
-60700052 Gull
-60720000 Gull
-60720010 Carrier Pidgeon
-60720020 Carrier Pidgeon
-60720040 Gull
-60720042 Gull
-60720050 Gull
-60720052 Gull
-60720100 Gull
-60720120 Gull
-60720134 Gull (Leyndell- Royal Capital)
+60700000 Murre
+60700010 Murre
+60700012 Murre
+60700020 Murre
+60700022 Murre
+60700032 Murre
+60700040 Murre
+60700042 Murre
+60700050 Murre
+60700052 Murre
+60720000 Carrier Pigeon
+60720010 Carrier Pigeon
+60720020 Carrier Pigeon
+60720040 Carrier Pigeon
+60720042 Carrier Pigeon
+60720050 Carrier Pigeon
+60720052 Carrier Pigeon
+60720100 Carrier Pigeon
+60720120 Carrier Pigeon
+60720134 Carrier Pigeon (Leyndell- Royal Capital)
 60800000 Dragonfly
-60800010 Giant Dragonfly
-60800012 Giant Dragonfly
-60800020 Giant Dragonfly
-60800030 Giant Dragonfly
-60800032 Giant Dragonfly
-60800033 Giant Dragonfly
-60800040 Giant Dragonfly
-60800052 Giant Dragonfly
-60800064 Giant Dragonfly
-60810000 Dragonfly
-60810010 Giant Dragonfly 2
-60810012 Giant Dragonfly 2
-60810020 Giant Dragonfly 2
-60810030 Giant Dragonfly 2
-60810033 Giant Dragonfly 2
-60810040 Giant Dragonfly 2
-60810042 Giant Dragonfly 2
-60810052 Giant Dragonfly 2
-60820000 Dragonfly
-60820040 Aeonia Giant Dragonfly
+60800010 Dragonfly
+60800012 Dragonfly
+60800020 Dragonfly
+60800030 Dragonfly
+60800032 Dragonfly
+60800033 Dragonfly
+60800040 Dragonfly
+60800052 Dragonfly
+60800064 Dragonfly
+60810000 Yellow Dragonfly
+60810010 Yellow Dragonfly
+60810012 Yellow Dragonfly
+60810020 Yellow Dragonfly
+60810030 Yellow Dragonfly
+60810033 Yellow Dragonfly
+60810040 Yellow Dragonfly
+60810042 Yellow Dragonfly
+60810052 Yellow Dragonfly
+60820000 Great Dragonfly
+60820040 Great Dragonfly
 60900000 Turtle
 60900010 Turtle
 60900012 Turtle
@@ -4290,8 +4290,8 @@
 60900064 Turtle
 60910000 Miriel, Pastor of Vows
 60910020 Miriel, Pastor of Vows
-60911000 Turtle Large
-60911022 Turtle Large
+60911000 Miriel, Pastor of Vows
+60911022 Miriel, Pastor of Vows
 61000000 Springhare
 61000010 Springhare
 61000012 Springhare
@@ -4344,12 +4344,12 @@
 81000041 Ballista
 81000051 Ballista
 81000056 Ballista
-81010000 Giant Ballista
-81010010 Giant Ballista
-81010012 Giant Ballista
-81010030 Giant Ballista
-81010041 Giant Ballista
-81010050 Giant Ballista
+81010000 Trebuchet
+81010010 Trebuchet
+81010012 Trebuchet
+81010030 Trebuchet
+81010041 Trebuchet
+81010050 Trebuchet
 81100000 Dragon-faced Flamethrower
 81100014 Dragon-Faced Flamethrower
 81100020 Dragon-Faced Flamethrower

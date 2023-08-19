@@ -121,21 +121,47 @@ namespace FSParam
             Flag80 = 0b1000_0000,
         }
 
+        /// <summary>
+        /// A param row, which represents a single collection of values for fields specified in a paramdef. Each
+        /// row has an ID, which is usually unique but not always, and may optionally have a name. Unlike a
+        /// Soulsformats PARAM row, this row is tied to a specific instance of the Param class as the parent,
+        /// and must be cloned to the target Param instance before being added to that Param. This is because
+        /// a Row doesn't store any data on its own but merely references specific data managed by the parent
+        /// Param instance.
+        /// </summary>
         public class Row
         {
             internal Param Parent;
+            
+            /// <summary>
+            /// The ID for this row. Should be a unique identifier in theory but in practice it isn't always
+            /// guaranteed to be unique.
+            /// </summary>
             public int ID { get; set; }
+            
+            /// <summary>
+            /// The optional name for this row. These are usually stripped in many Fromsoft games but
+            /// community created names exist for many different games/params.
+            /// </summary>
             public string? Name { get; set; }
             internal uint DataIndex;
 
-            public IEnumerable<Column> Cells => Parent.Cells;
+            /// <summary>
+            /// The enumerable list of columns representing the fields in this row
+            /// </summary>
+            public IEnumerable<Column> Columns => Parent.Columns;
 
-            public IReadOnlyList<Cell> CellHandles
+            /// <summary>
+            /// Gets a list of cells for this row that allow getting/setting the value for the fields in
+            /// this row. This is provided to assist migrating Soulsformats based code but this has allocation
+            /// overhead and the column API should be used instead.
+            /// </summary>
+            public IReadOnlyList<Cell> Cells
             {
                 get
                 {
-                    var cells = new List<Cell>(Cells.Count());
-                    foreach (var cell in Cells)
+                    var cells = new List<Cell>(Columns.Count());
+                    foreach (var cell in Columns)
                     {
                         cells.Add(new Cell(this, cell));
                     }
@@ -144,6 +170,9 @@ namespace FSParam
                 }
             }
 
+            /// <summary>
+            /// The paramdef for this row.
+            /// </summary>
             public PARAMDEF Def => Parent.AppliedParamdef;
 
             internal Row(int id, string? name, Param parent, uint dataIndex)
@@ -154,7 +183,14 @@ namespace FSParam
                 DataIndex = dataIndex;
             }
             
-            public Row(int id, string name, Param parent)
+            /// <summary>
+            /// Creates a new empty row with all fields zeroed out. This row must then be manually added to
+            /// the parent Param.
+            /// </summary>
+            /// <param name="id">The ID for this row</param>
+            /// <param name="name">The name for this row</param>
+            /// <param name="parent">The Param that this row will be added to/associated with</param>
+            public Row(int id, string? name, Param parent)
             {
                 ID = id;
                 Name = name;
@@ -162,6 +198,12 @@ namespace FSParam
                 DataIndex = parent._paramData.AddZeroedElement();
             }
 
+            /// <summary>
+            /// Clones a row with all the field data copied from the existing row to the new one. This
+            /// row will have the same ID and name and must be manually added to the Param instance
+            /// associated with the row this row was cloned from.
+            /// </summary>
+            /// <param name="clone">The row to clone</param>
             public Row(Row clone)
             {
                 Parent = clone.Parent;
@@ -171,6 +213,13 @@ namespace FSParam
                 Parent._paramData.CopyData(DataIndex, clone.DataIndex);
             }
             
+            /// <summary>
+            /// Clones a row with all the field data copied from the existing row to the new one. This
+            /// row will have the same ID and name, but will be associated with the Param provided instead
+            /// of the Param associated with the original row.
+            /// </summary>
+            /// <param name="clone">The row to clone</param>
+            /// <param name="newParent">The Param to associate this new clone with</param>
             public Row(Row clone, Param newParent)
             {
                 Parent = newParent;
@@ -180,6 +229,12 @@ namespace FSParam
                 clone.Parent._paramData.CopyData(Parent._paramData, DataIndex, clone.DataIndex);
             }
 
+            /// <summary>
+            /// Compares if the ID and field data of this row is the same as another row. The other row does
+            /// not need to have the same parent Param as this row.
+            /// </summary>
+            /// <param name="other">The row to compare to</param>
+            /// <returns>True if the IDs of the two rows match and the field data is byte equal.</returns>
             public bool DataEquals(Row? other)
             {
                 if (other == null)
@@ -196,33 +251,49 @@ namespace FSParam
             }
 
             /// <summary>
-            /// Gets a cell handle from a name or throw an exception if the field name is not found
+            /// Gets a cell handle from a name or throw an exception if the field name is not found. This is
+            /// not very efficient and it is not recommended to use this in a hot code path.
             /// </summary>
             /// <param name="field">The field to look for</param>
             /// <returns>A cell handle for the field</returns>
             /// <exception cref="ArgumentException">Throws if field name doesn't exist</exception>
             public Cell GetCellHandleOrThrow(string field)
             {
-                var cell = Cells.FirstOrDefault(cell => cell.Def.InternalName == field);
+                var cell = Columns.FirstOrDefault(cell => cell.Def.InternalName == field);
                 if (cell == null)
                     throw new ArgumentException();
                 return new Cell(this, cell);
             }
             
+            /// <summary>
+            /// Gets a cell for a specific field. This is mainly provided for API compatibility with SoulsFormats
+            /// and is not recommended for new code.
+            /// </summary>
+            /// <param name="field">The name of the field to look up</param>
             public Cell? this[string field]
             {
                 get
                 {
-                    var cell = Cells.FirstOrDefault(cell => cell.Def.InternalName == field);
+                    var cell = Columns.FirstOrDefault(cell => cell.Def.InternalName == field);
                     return cell != null ? new Cell(this, cell) : null;
                 }
             }
-            public Cell this[Column field] => new Cell(this, field);
+            
+            /// <summary>
+            /// Gets a cell for a specific field in this row using a column. Using the column API directly is
+            /// the recommended way to access and modify field data, but there are cases where having a value
+            /// type cell handle can be useful.
+            /// </summary>
+            /// <param name="field">The column representing the field to create a cell for</param>
+            public Cell this[Column field] => new(this, field);
         }
 
         /// <summary>
-        /// Minimal handle of a cell in a row that contains enough to mutate the value of the cell and created
-        /// on demand
+        /// Similar to the SoulsFormats PARAM Cell class, a cell represents a specific field within a specific
+        /// row. In other words, it represents the cross of a specified row and column. This is meant to be a
+        /// mostly drop in replacement for existing code using the SF PARAM Cell API, but it is now a value type
+        /// that is created on demand and therefore more lightweight. For new code, usage of this is not
+        /// recommended.
         /// </summary>
         public struct Cell
         {
@@ -235,28 +306,45 @@ namespace FSParam
                 _column = column;
             }
 
+            /// <summary>
+            /// Property to get and set the value of this cell using the appropriate type for the field.
+            /// </summary>
             public object Value
             {
                 get => _column.GetValue(_row);
                 set => _column.SetValue(_row, value);
             }
 
+            /// <summary>
+            /// Alternate accessor to set the value of the cell in cases where properties can't be used.
+            /// </summary>
+            /// <param name="value">The value to set the cell to</param>
             public void SetValue(object value)
             {
                 _column.SetValue(_row, value);
             }
 
+            /// <summary>
+            /// The paramdef field definition for this cell
+            /// </summary>
             public PARAMDEF.Field Def => _column.Def;
         }
         
         /// <summary>
-        /// Represents a Column (param field) in the param. Unlike the Soulsformats Cell, this one is stored
-        /// completely separately, and reading/writing a value requires the Row to read/write from.
+        /// Represents a Column (param field) in the param. Unlike the Soulsformats Cell, which represents a
+        /// value for a specific param field in a specific row, a column isn't associated with any specific row
+        /// but is instead used as an accessor to a specific paramdef field in any given row.
         /// </summary>
         public class Column
         {
+            /// <summary>
+            /// The paramdef field definition associated with this column
+            /// </summary>
             public PARAMDEF.Field Def { get; }
 
+            /// <summary>
+            /// The C# datatype that is used to represent the data in this column
+            /// </summary>
             public Type ValueType { get; private set; }
             
             private uint _byteOffset;
@@ -316,6 +404,11 @@ namespace FSParam
                 }
             }
 
+            /// <summary>
+            /// Gets the value of the field associated with this column from the specified row.
+            /// </summary>
+            /// <param name="row">The row to access the field data from.</param>
+            /// <returns>The value for the field with the type ValueType</returns>
             public object GetValue(Row row)
             {
                 var data = row.Parent._paramData;
@@ -362,6 +455,11 @@ namespace FSParam
                 }
             }
 
+            /// <summary>
+            /// Gets the value of the field associated with this column in the specified row.
+            /// </summary>
+            /// <param name="row">The row to store the field data to.</param>
+            /// <param name="value">The value for the field with the type ValueType</param>
             public void SetValue(Row row, object value)
             {
                 var data = row.Parent._paramData;
@@ -434,6 +532,14 @@ namespace FSParam
                         throw new NotImplementedException($"Unsupported field type: {Def.DisplayType}");
                 }
             }
+
+            /// <summary>
+            /// Gets the byte offset of the data for this field in the raw byte data for the row.
+            /// </summary>
+            public uint GetByteOffset()
+            {
+                return _byteOffset;
+            }
         }
         
         /// <summary>
@@ -472,13 +578,20 @@ namespace FSParam
         public string ParamType { get; set; }
 
         /// <summary>
-        /// Automatically determined based on spacing of row offsets; 0 if param had no rows.
+        /// Detected size of the row in bytes. Empty params will have a size of 0 and params constructed
+        /// from scratch without a paramdef applied will have a size of -1
         /// </summary>
-        public uint DetectedSize { get; private set; }
+        public int RowSize { get; private set; } = -1;
 
-        private StridedByteArray _paramData = new StridedByteArray(0, 1);
+        private StridedByteArray _paramData = new(0, 1);
 
-        private List<Row> _rows = new List<Row>();
+        private List<Row> _rows = new();
+        
+        /// <summary>
+        /// List of rows in the param. The list itself is readonly and the row API should be used to add and
+        /// delete rows, but this can be reset to a specified list of rows so long as all the rows are
+        /// constructed with this param as the parent.
+        /// </summary>
         public IReadOnlyList<Row> Rows 
         { 
             get => _rows;
@@ -496,17 +609,40 @@ namespace FSParam
             } 
         }
         
-        public IReadOnlyList<Column> Cells { get; private set; }
+        /// <summary>
+        /// List of columns created from the applied paramdef. You can iterate through these and use the columns
+        /// to access the specific data of rows.
+        /// </summary>
+        public IReadOnlyList<Column> Columns { get; private set; }
 
-        public PARAMDEF AppliedParamdef { get; private set; }
+        /// <summary>
+        /// The applied paramdef
+        /// </summary>
+        public PARAMDEF? AppliedParamdef { get; private set; } = null;
 
+        /// <summary>
+        /// Create an empty param. Param specific header data must be set before saving and ApplyParamdef()
+        /// must be called before using the Row APIs.
+        /// </summary>
         public Param()
         {
             
         }
+
+        /// <summary>
+        /// Create an empty param conforming to a specified paramdef. Param specific header data must be
+        /// set before saving.
+        /// </summary>
+        /// <param name="paramdef">The paramdef that this param conforms to</param>
+        /// <param name="bigEndian">Whether the param is stored in big endian or not</param>
+        public Param(PARAMDEF paramdef, bool bigEndian = false)
+        {
+            BigEndian = bigEndian;
+            ApplyParamdef(paramdef);
+        }
         
         /// <summary>
-        /// Creates a new empty param inheriting config/paramdef from a source
+        /// Creates a new empty param inheriting config/paramdef from a source.
         /// </summary>
         /// <param name="source"></param>
         public Param(Param source)
@@ -518,54 +654,105 @@ namespace FSParam
             Unk06 = source.Unk06;
             ParamdefDataVersion = source.ParamdefDataVersion;
             ParamType = source.ParamType;
-            DetectedSize = source.DetectedSize;
-            _paramData = new StridedByteArray((uint)source._rows.Count, DetectedSize, BigEndian);
+            RowSize = source.RowSize;
+            _paramData = new StridedByteArray((uint)source._rows.Count, (uint)RowSize, BigEndian);
+            Columns = source.Columns;
             AppliedParamdef = source.AppliedParamdef;
-            ApplyParamdef(AppliedParamdef);
         }
         
+        /// <summary>
+        /// Delete all the rows in the param
+        /// </summary>
         public void ClearRows()
         {
+            if (AppliedParamdef == null)
+                throw new Exception("Paramdef must be applied to use row management APIs");
             _rows.Clear();
         }
         
+        /// <summary>
+        /// Adds a row at the end of the param row lists. Row must be created with this param as the parent.
+        /// </summary>
+        /// <param name="row">The row to add</param>
         public void AddRow(Row row)
         {
+            if (AppliedParamdef == null)
+                throw new Exception("Paramdef must be applied to use row management APIs");
             if (row.Parent != this)
                 throw new ArgumentException();
             _rows.Add(row);
         }
 
+        /// <summary>
+        /// Inserts a row in the row list at a specified index. Row must be created with this param as the parent.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="row"></param>
         public void InsertRow(int index, Row row)
         {
+            if (AppliedParamdef == null)
+                throw new Exception("Paramdef must be applied to use row management APIs");
             if (row.Parent != this)
                 throw new ArgumentException();
             _rows.Insert(index, row);
         }
 
+        /// <summary>
+        /// Returns the index of a specified row in this param, or -1 if the row is not found. This runs
+        /// in linear time with respect to the total size of the param and should not be used in hot code.
+        /// </summary>
+        /// <param name="row"></param>
+        /// <returns>The index of the row, or -1 if the row is not found.</returns>
         public int IndexOfRow(Row? row)
         {
+            if (AppliedParamdef == null)
+                throw new Exception("Paramdef must be applied to use row management APIs");
             if (row == null || row.Parent != this)
                 throw new ArgumentException();
             return _rows.IndexOf(row);
         }
 
-        public void RemoveRow(Row row)
+        /// <summary>
+        /// Removes a row from the param if the row is found. This runs in linear time for the search and then
+        /// the shifting.
+        /// </summary>
+        /// <param name="row">The row to search for</param>
+        /// <returns>True if the row was found and removed</returns>
+        public bool RemoveRow(Row row)
         {
+            if (AppliedParamdef == null)
+                throw new Exception("Paramdef must be applied to use row management APIs");
             if (row.Parent != this)
                 throw new ArgumentException();
-            _rows.Remove(row);
+            return _rows.Remove(row);
         }
 
+        /// <summary>
+        /// Removes a row from the param at a specified index. This runs in linear time for the shifting but
+        /// is generally faster than removing by row reference.
+        /// </summary>
+        /// <param name="index"></param>
         public void RemoveRowAt(int index)
         {
+            if (AppliedParamdef == null)
+                throw new Exception("Paramdef must be applied to use row management APIs");
             _rows.RemoveAt(index);
         }
 
+        /// <summary>
+        /// Apply a paramdef to a newly created/read param. For params that were read, the computed row
+        /// size from the layout must match the row size of the param file read. For params created from
+        /// scratch, the row size will be computed from the layout. The endianess of the param should be
+        /// set before this method is called.
+        /// </summary>
+        /// <param name="def">The paramdef to apply</param>
         public void ApplyParamdef(PARAMDEF def)
         {
+            if (AppliedParamdef != null)
+                throw new ArgumentException("Param already has a paramdef applied.");
+
             AppliedParamdef = def;
-            var cells = new List<Column>(def.Fields.Count);
+            var columns = new List<Column>(def.Fields.Count);
             
             int bitOffset = -1;
             uint byteOffset = 0;
@@ -583,7 +770,7 @@ namespace FSParam
                     if (bitOffset != -1)
                         byteOffset += lastSize;
                     
-                    cells.Add(ParamUtil.IsArrayType(type)
+                    columns.Add(ParamUtil.IsArrayType(type)
                         ? new Column(field, byteOffset, (uint)field.ArrayLength)
                         : new Column(field, byteOffset));
                     switch (type)
@@ -638,18 +825,28 @@ namespace FSParam
                         bitType = newBitType;
                     }
                     
-                    cells.Add(new Column(field, byteOffset, field.BitSize, (uint)bitOffset));
+                    columns.Add(new Column(field, byteOffset, field.BitSize, (uint)bitOffset));
                     bitOffset += field.BitSize;
                 }
             }
             
-            // Get the final size and sanity check against our calculated row size
+            // Get the final size
             if (bitOffset != -1)
                 byteOffset += lastSize;
-            if (byteOffset != DetectedSize)
-                throw new Exception($@"Row size paramdef mismatch for {ParamType}");
 
-            Cells = cells;
+            if (RowSize == -1)
+            {
+                // Param is being created from scratch. Set the row size and create an initial data store
+                RowSize = (int)byteOffset;
+                _paramData = new StridedByteArray(32, (uint)RowSize, BigEndian);
+            }
+            // If a row size is already read it must match our computed row size
+            else if (byteOffset != RowSize)
+            {
+                throw new Exception($@"Row size paramdef mismatch for {ParamType}");
+            }
+
+            Columns = columns;
         }
 
         /// <summary>
@@ -667,7 +864,7 @@ namespace FSParam
             }
 
             _paramData = newData;
-            DetectedSize = 36;
+            RowSize = 36;
         }
         
         /// <summary>
@@ -677,7 +874,7 @@ namespace FSParam
         /// </summary>
         public void FixupERChrModelParam()
         {
-            if (DetectedSize != 12)
+            if (RowSize != 12)
                 return;
             StridedByteArray newData = new StridedByteArray((uint)Rows.Count, 16, BigEndian);
             for (int i = 0; i < Rows.Count; i++)
@@ -687,7 +884,7 @@ namespace FSParam
             }
 
             _paramData = newData;
-            DetectedSize = 16;
+            RowSize = 16;
         }
         
         protected override void Read(BinaryReaderEx br)
@@ -774,27 +971,27 @@ namespace FSParam
             }
             
             if (Rows.Count > 1)
-                DetectedSize = Rows[1].DataIndex - Rows[0].DataIndex;
+                RowSize = (int)(Rows[1].DataIndex - Rows[0].DataIndex);
             else if (Rows.Count == 1)
-                DetectedSize = (actualStringsOffset == 0 ? (uint)stringsOffset : (uint)actualStringsOffset) - Rows[0].DataIndex;
+                RowSize = (int)((actualStringsOffset == 0 ? (uint)stringsOffset : (uint)actualStringsOffset) - Rows[0].DataIndex);
             else
-                DetectedSize = 0;
+                RowSize = 0;
 
             if (Rows.Count > 0)
             {
                 var dataStart = Rows.Min(row => row.DataIndex);
                 br.Position = dataStart;
-                var rowData = br.ReadBytes(Rows.Count * (int)DetectedSize);
-                _paramData = new StridedByteArray(rowData, DetectedSize, BigEndian);
+                var rowData = br.ReadBytes(Rows.Count * (int)RowSize);
+                _paramData = new StridedByteArray(rowData, (uint)RowSize, BigEndian);
                 
                 // Convert raw data offsets into indices
                 foreach (var r in Rows)
                 {
-                    r.DataIndex = (r.DataIndex - dataStart) / DetectedSize;
+                    r.DataIndex = (r.DataIndex - dataStart) / (uint)RowSize;
                 }
             }
 
-            if (ParamType == "SOUND_CUTSCENE_PARAM_ST" && ParamdefDataVersion == 6 && DetectedSize == 32)
+            if (ParamType == "SOUND_CUTSCENE_PARAM_ST" && ParamdefDataVersion == 6 && RowSize == 32)
             {
                 FixupERSoundCutsceneParam();
             }
@@ -943,6 +1140,12 @@ namespace FSParam
             }
         }
 
-        public Column? this[string name] => Cells.FirstOrDefault(cell => cell.Def.InternalName == name);
+        /// <summary>
+        /// Gets a param column from a field name in the paramdef. Note that this currently runs in quadratic time
+        /// with respect to the number of paramdef fields and this should not be used in hot code. Mostly available
+        /// for compatability with Soulsformats PARAM class.
+        /// </summary>
+        /// <param name="name">The internal name of the paramdef field to lookup</param>
+        public Column? this[string name] => Columns.FirstOrDefault(cell => cell.Def.InternalName == name);
     }
 }

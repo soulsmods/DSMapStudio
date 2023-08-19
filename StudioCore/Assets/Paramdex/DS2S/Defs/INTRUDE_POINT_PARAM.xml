@@ -6,9 +6,7 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="s32 Play Area Param ID" />
-    <Field Def="s32 Intrusion Point ID" >
-      <Description>This is UnkT00 for the point objects in the msb</Description>
-    </Field>
+    <Field Def="s32 play_area_param_id" />
+    <Field Def="s32 intrusion_point_id" />
   </Fields>
 </PARAMDEF>

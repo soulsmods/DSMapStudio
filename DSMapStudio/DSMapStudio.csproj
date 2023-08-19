@@ -1,22 +1,32 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net7.0-windows</TargetFramework>
-    <UseWindowsForms>true</UseWindowsForms>
     <Authors>Katalash</Authors>
-    <Version>1.03.0</Version>
+    <Version>1.08.0</Version>
     <ApplicationIcon>icon.ico</ApplicationIcon>
-    <PackageVersion>1.03.1</PackageVersion>
-    <AssemblyVersion>1.03.1</AssemblyVersion>
+    <PackageVersion>1.08.0</PackageVersion>
+    <AssemblyVersion>1.08.0</AssemblyVersion>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <LangVersion>11</LangVersion>
+    <IsPackable>false</IsPackable>
+    <SelfContained>true</SelfContained>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <PublishTrimmed>true</PublishTrimmed>
+    <TrimMode>full</TrimMode>
   </PropertyGroup>
 
+  <ItemGroup>
+    <TrimmerRootAssembly Include="SoulsFormats" />
+    <TrimmerRootAssembly Include="StudioCore" />
+    <TrimmerRootAssembly Include="HKX2" />
+  </ItemGroup>
+  
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <PlatformTarget>x64</PlatformTarget>
-    <DebugType>none</DebugType>
+    <DebugType>embedded</DebugType>
     <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
 
@@ -28,9 +38,11 @@
   <ItemGroup>
     <Content Include="imgui.ini.backup">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
     <Content Include="imgui.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
   </ItemGroup>
 

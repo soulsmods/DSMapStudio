@@ -2,5 +2,7 @@
 <PARAMMETA XmlVersion="0">
   <Self Row0Dummy="" />
   <Field>
+    <value_0 AltName="Value [0]"/>
+    <value_1 AltName="Value [1]"/>
   </Field>
 </PARAMMETA>

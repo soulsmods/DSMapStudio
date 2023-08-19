@@ -18,7 +18,7 @@
     <Field Def="f32 lv34_PlayDist" />
     <Field Def="f32 lv45_BorderDist" />
     <Field Def="f32 lv45_PlayDist" />
-    <Field Def="u8 DistanceScaleId [0-255]" />
+    <Field Def="u8 DistanceScaleId" />
     <Field Def="dummy8 pad2[19]" />
   </Fields>
 </PARAMDEF>

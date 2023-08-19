@@ -42,6 +42,18 @@
     <cumulateLotPoint06 AltName="Item 6 Cumulative Chance" />
     <cumulateLotPoint07 AltName="Item 7 Cumulative Chance" />
     <cumulateLotPoint08 AltName="Item 8 Cumulative Chance" />
+    <GetItemFlagId01 AltName="Item Acquisition Flag [1]" Wiki="Combined use of acquired flag and crunchy frame (0: common use)" />
+    <GetItemFlagId02 AltName="Item Acquisition Flag [2]" Wiki="Combined use of acquired flag and crunchy frame (0: common use)" />
+    <GetItemFlagId03 AltName="Item Acquisition Flag [3]" Wiki="Combined use of acquired flag and crunchy frame (0: common use)" />
+    <GetItemFlagId04 AltName="Item Acquisition Flag [4]" Wiki="Combined use of acquired flag and crunchy frame (0: common use)" />
+    <GetItemFlagId05 AltName="Item Acquisition Flag [5]" Wiki="Combined use of acquired flag and crunchy frame (0: common use)" />
+    <GetItemFlagId06 AltName="Item Acquisition Flag [6]" Wiki="Combined use of acquired flag and crunchy frame (0: common use)" />
+    <GetItemFlagId07 AltName="Item Acquisition Flag [7]" Wiki="Combined use of acquired flag and crunchy frame (0: common use)" />
+    <GetItemFlagId08 AltName="Item Acquisition Flag [8]" Wiki="Combined use of acquired flag and crunchy frame (0: common use)" />
+    <getItemFlagId AltName="Item Acquisition Flag" Wiki="Combined use of acquired flag and crunchy frame (0: flag invalid)" />
+    <cumulateNumFlagId AltName="Item Accumulate Flag [1]" Wiki="For saving the number of lottery (* 8 flag serial number used)" />
+    <cumulateNumMax AltName="Item Accumulate Max" Wiki="Maximum number of lottery cumulative (0: no cumulative)" />
+    <LotItemRarity AltName="Item Rarity" Wiki="Specify how valuable items are in the treasure chest. When -1, use the rarity of the equipment para without overwriting" />
     <LotItemNum1 AltName="Item 1 Amount" />
     <LotItemNum2 AltName="Item 2 Amount" />
     <LotItemNum3 AltName="Item 3 Amount" />
@@ -50,14 +62,14 @@
     <LotItemNum6 AltName="Item 6 Amount" />
     <LotItemNum7 AltName="Item 7 Amount" />
     <LotItemNum8 AltName="Item 8 Amount" />
-    <EnableLuck01 IsBool="" />
-    <EnableLuck02 IsBool="" />
-    <EnableLuck03 IsBool="" />
-    <EnableLuck04 IsBool="" />
-    <EnableLuck05 IsBool="" />
-    <EnableLuck06 IsBool="" />
-    <EnableLuck07 IsBool="" />
-    <EnableLuck08 IsBool="" />
+    <EnableLuck01 AltName="Affected by Item Discovery" IsBool="" />
+    <EnableLuck02 AltName="Affected by Item Discovery" IsBool="" />
+    <EnableLuck03 AltName="Affected by Item Discovery" IsBool="" />
+    <EnableLuck04 AltName="Affected by Item Discovery" IsBool="" />
+    <EnableLuck05 AltName="Affected by Item Discovery" IsBool="" />
+    <EnableLuck06 AltName="Affected by Item Discovery" IsBool="" />
+    <EnableLuck07 AltName="Affected by Item Discovery" IsBool="" />
+    <EnableLuck08 AltName="Affected by Item Discovery" IsBool="" />
     <cumulateReset01 AltName="Item 1 Cumulative Chance Reset" IsBool="" />
     <cumulateReset02 AltName="Item 2 Cumulative Chance Reset" IsBool="" />
     <cumulateReset03 AltName="Item 3 Cumulative Chance Reset" IsBool="" />
@@ -66,6 +78,8 @@
     <cumulateReset06 AltName="Item 6 Cumulative Chance Reset" IsBool="" />
     <cumulateReset07 AltName="Item 7 Cumulative Chance Reset" IsBool="" />
     <cumulateReset08 AltName="Item 8 Cumulative Chance Reset" IsBool="" />
+    <ClearCount AltName="Game Clear Offset" Wiki="Offset during lap play" />
+    <pad1 AltName="" />
   </Field>
-  <Self />
+  <Self Wiki="Defines item lots that can be rolled upon item pickup, enemy death or granted via script.\nWhen doing this, consecutive IDs are also rolled.\nA single result is produced by each row.\nA row will not be rolled if the flag is already set." ConsecutiveIDs="" />
 </PARAMMETA>

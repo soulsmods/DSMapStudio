@@ -6,9 +6,9 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="s32 CaptionTextId" />
-    <Field Def="s32 IconId = -1" />
-    <Field Def="s32 RequiredPropertyId" />
+    <Field Def="s32 CaptionTextID" />
+    <Field Def="s32 IconID = -1" />
+    <Field Def="s32 RequiredPropertyID" />
     <Field Def="u8 CompareType = 1" />
     <Field Def="u8 RequiredPropertyFormatId" />
     <Field Def="fixstrW AdhocCaption[9]" />

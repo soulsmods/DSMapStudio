@@ -6,9 +6,9 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="s32 Value = 1" />
-    <Field Def="s32 TextId = 11320" />
-    <Field Def="u8 CompareType" />
+    <Field Def="s32 value = 1" />
+    <Field Def="s32 textId = 11320" />
+    <Field Def="u8 compareType" />
     <Field Def="dummy8 pad1[3]" />
   </Fields>
 </PARAMDEF>

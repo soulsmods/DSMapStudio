@@ -43,5 +43,11 @@
     <madnessGuardDefRate AltName="Guard Absorption %: Madness" Wiki="Correction value of mad attack cut rate when guarding" />
     <baseAtkRate AltName="Base Damage %: Overall" Wiki="Additional attack power multiplier" />
   </Field>
-  <Self ConsecutiveIDs="" Wiki="Defines upgrades of weapons, include stat changes and upgrade cost (EquipMtrlSetParam id offset)"/>
+  <Self ConsecutiveIDs="" Wiki="Defines upgrades of weapons, include stat changes and upgrade cost (EquipMtrlSetParam id offset)" AlternativeOrder="materialSetId,maxReinforceLevel,reinforcePriceRate,baseChangePriceRate,enableGemRank,-,
+baseAtkRate,physicsAtkRate,magicAtkRate,fireAtkRate,thunderAtkRate,darkAtkRate,-,
+correctStrengthRate,correctAgilityRate,correctMagicRate,correctFaithRate,correctLuckRate,-,
+staminaAtkRate,saWeaponAtkRate,saDurabilityRate,-,
+physicsGuardCutRate,magicGuardCutRate,fireGuardCutRate,thunderGuardCutRate,darkGuardCutRate,staminaGuardDefRate,-,
+poisonGuardResistRate,diseaseGuardResistRate,bloodGuardResistRate,curseGuardResistRate,freezeGuardDefRate,sleepGuardDefRate,madnessGuardDefRate,-,
+spEffectId1,spEffectId2,spEffectId3,residentSpEffectId1,residentSpEffectId2,residentSpEffectId3,-,"/>
 </PARAMMETA>

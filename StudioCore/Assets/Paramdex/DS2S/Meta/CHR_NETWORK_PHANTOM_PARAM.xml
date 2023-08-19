@@ -2,5 +2,14 @@
 <PARAMMETA XmlVersion="0">
   <Self Row0Dummy="" />
   <Field>
+    <chr_phantom_param_id AltName="Phantom Color ID" Refs="ChrPhantomParam"/>
+    <chr_full_body_sfx_id_0 AltName="Full Body SFX ID - 0"/>
+    <chr_full_body_sfx_id_1 AltName="Full Body SFX ID - 1"/>
+    <chr_full_body_sfx_id_2 AltName="Full Body SFX ID - 2"/>
+    <chr_full_body_sfx_id_3 AltName="Full Body SFX ID - 3"/>
+    <chr_full_body_sfx_id_4 AltName="Full Body SFX ID - 4"/>
+    <chr_physics_texture_id AltName="Physics Texture ID"/>
+    <dead_type_id AltName="Dead Type ID" Refs="DeadTypeParam"/>
+    <allotted_time AltName="Allotted Time"/>
   </Field>
 </PARAMMETA>

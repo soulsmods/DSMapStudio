@@ -15,7 +15,7 @@
     <Field Def="s32 basicPrice = 200" />
     <Field Def="s32 sellValue = 100" />
     <Field Def="f32 weight" />
-    <Field Def="s32 residentSpEffectId1" />
+    <Field Def="s32 residentSpEffectId" />
     <Field Def="s32 residentSpEffectId2" />
     <Field Def="s32 residentSpEffectId3 = -1" />
     <Field Def="s32 materialSetId = 7000" />
@@ -44,9 +44,9 @@
     <Field Def="f32 faceScaleF_ScaleX" />
     <Field Def="f32 faceScaleF_ScaleZ" />
     <Field Def="f32 faceScaleF_MaxX" />
-    <Field Def="f32 faceScaleF_MaxX" />
+    <Field Def="f32 faceScaleF_MaxZ" />
     <Field Def="s32 qwcId = -1" />
-    <Field Def="s16 equipModelID" />
+    <Field Def="s16 equipModelId" />
     <Field Def="s16 iconIdM" />
     <Field Def="s16 iconIdF" />
     <Field Def="s16 Knockback" />
@@ -137,8 +137,8 @@
     <Field Def="u8 simpleModelForDlc1:1" />
     <Field Def="u8 isGuestDrop0:1 = 1" />
     <Field Def="u8 isGuestDrop1:1 = 1" />
-    <Field Def="u8 simpleModelForDlc2:1" />
-    <Field Def="u8 Unk1:1" />
+    <Field Def="u8 showLogCondType:1" />
+    <Field Def="u8 showDialogCondType:1" />
     <Field Def="u8 Unk2:1" />
     <Field Def="u8 Unk3:1" />
     <Field Def="u8 Unk4:1" />
@@ -150,24 +150,24 @@
     <Field Def="f32 MagicDamageCutRate" />
     <Field Def="f32 FireDamageCutRate" />
     <Field Def="f32 ThunderDamageCutRate" />
-    <Field Def="u16 MaterialId0 = 146" />
-    <Field Def="u16 MaterialId1" />
-    <Field Def="u16 MaterialId2 = 106" />
-    <Field Def="u16 MaterialId3" />
-    <Field Def="u16 MaterialId4 = 106" />
-    <Field Def="u16 MaterialId5 = 139" />
-    <Field Def="u16 MaterialId6 = 139" />
-    <Field Def="u16 MaterialId7 = 139" />
-    <Field Def="s32 protectorCategoryId = -1" />
-    <Field Def="f32 Poise" />
+    <Field Def="u16 defenseMaterialSfx1 = 146" />
+    <Field Def="u16 defenseMaterialSfx_Weak1" />
+    <Field Def="u16 defenseMaterial1 = 106" />
+    <Field Def="u16 defenseMaterial_Weak1" />
+    <Field Def="u16 defenseMaterialSfx2 = 106" />
+    <Field Def="u16 defenseMaterialSfx_Weak2 = 139" />
+    <Field Def="u16 footMaterialSe = 139" />
+    <Field Def="u16 defenseMaterial_Weak2 = 139" />
+    <Field Def="s32 autoFootEffectDecalBaseId1 = -1" />
+    <Field Def="f32 toughnessDamageCutRate" />
     <Field Def="dummy8 pad1[4]" />
     <Field Def="f32 DarkDamageCutRate" />
     <Field Def="s16 defenseDark" />
     <Field Def="u8 Unk6" />
     <Field Def="u8 Unk7" />
     <Field Def="s32 Unk8" />
-    <Field Def="s32 UpperArmId = -1" />
-    <Field Def="s32 Unk9 = -1" />
+    <Field Def="s32 postureControlId = -1" />
+    <Field Def="s32 saleValue = -1" />
     <Field Def="s16 resistFrost" />
     <Field Def="u8 Mask00" />
     <Field Def="u8 Mask01" />

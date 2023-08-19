@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO.MemoryMappedFiles;
+using DotNext.IO.MemoryMappedFiles;
 
 namespace SoulsFormats
 {
@@ -38,10 +40,13 @@ namespace SoulsFormats
         /// </summary>
         protected BinaryReaderEx DataBR;
 
+        protected MemoryMappedFile _mappedFile;
+        protected IMappedMemoryOwner _mappedAccessor;
+
         /// <summary>
         /// Reads file data according to the header at the given index in Files.
         /// </summary>
-        public byte[] ReadFile(int index)
+        public Memory<byte> ReadFile(int index)
         {
             return ReadFile(Files[index]);
         }
@@ -49,7 +54,7 @@ namespace SoulsFormats
         /// <summary>
         /// Reads file data according to the given header.
         /// </summary>
-        public byte[] ReadFile(BinderFileHeader fileHeader)
+        public Memory<byte> ReadFile(BinderFileHeader fileHeader)
         {
             BinderFile file = fileHeader.ReadFileData(DataBR);
             return file.Bytes;
@@ -67,7 +72,8 @@ namespace SoulsFormats
             {
                 if (disposing)
                 {
-                    DataBR?.Stream?.Dispose();
+                    _mappedAccessor?.Dispose();
+                    _mappedFile?.Dispose();
                 }
 
                 disposedValue = true;

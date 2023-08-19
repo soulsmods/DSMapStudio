@@ -2,5 +2,8 @@
 <PARAMMETA XmlVersion="0">
   <Self Row0Dummy="" />
   <Field>
+    <edit_color_R AltName="Color: R"/>
+    <edit_color_G AltName="Color: G"/>
+    <edit_color_B AltName="Color: B"/>
   </Field>
 </PARAMMETA>

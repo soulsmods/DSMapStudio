@@ -10,21 +10,21 @@
     <Field Def="u8 Unk01" />
     <Field Def="u8 Unk02" />
     <Field Def="u8 Unk03" />
-    <Field Def="s32 Conversation ID" />
-    <Field Def="s32 Conversation Exit ID" />
-    <Field Def="s32 Unk0C" />
-    <Field Def="s32 Item ID" />
-    <Field Def="s32 Itemlot ID" />
-    <Field Def="s32 Unk18" />
-    <Field Def="u16 NPC Info ID" />
-    <Field Def="u8 Unk18" />
-    <Field Def="u8 Unk19" />
-    <Field Def="u8 Unk20" />
-    <Field Def="u8 Unk21" />
-    <Field Def="u8 Unk22" />
-    <Field Def="u8 Unk23" />
-    <Field Def="s32 Unk24" />
-    <Field Def="s32 Unk28" />
-    <Field Def="s32 Unk2C" />
+    <Field Def="s32 conversation_id" />
+    <Field Def="s32 conversation_exit_id" />
+    <Field Def="s32 Unk04" />
+    <Field Def="s32 item_id" />
+    <Field Def="s32 Unk05" />
+    <Field Def="s32 Unk06" />
+    <Field Def="u16 npc_info_id" />
+    <Field Def="u8 Unk07" />
+    <Field Def="u8 Unk08" />
+    <Field Def="u8 Unk09" />
+    <Field Def="u8 Unk10" />
+    <Field Def="u8 Unk11" />
+    <Field Def="u8 Unk12" />
+    <Field Def="s32 Unk13" />
+    <Field Def="s32 Unk14" />
+    <Field Def="s32 Unk15" />
   </Fields>
 </PARAMDEF>

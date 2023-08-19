@@ -8,7 +8,7 @@
   <Fields>
     <Field Def="u16 Unk00" />
     <Field Def="u16 Unk02" />
-    <Field Def="f32 Unk04" />
+    <Field Def="f32 fog_size" />
     <Field Def="f32 Unk08" />
   </Fields>
 </PARAMDEF>

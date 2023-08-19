@@ -6,10 +6,9 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="u8 MsgType0 = 3" />
-    <Field Def="u8 MsgType1" />
+    <Field Def="u16 MsgType0 = 3" />
     <Field Def="u8 MsgType2 = 1" />
-    <Field Def="u8 MsgType3" />
+    <Field Def="u8 pad2" />
     <Field Def="s32 MsgId0 = -1" />
     <Field Def="s32 MsgId1 = -1" />
     <Field Def="s32 MsgId2 = -1" />

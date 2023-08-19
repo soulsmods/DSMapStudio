@@ -1,34 +1,85 @@
-0 [usually bonfire] base bonfire -- 【通常篝火】拠点篝火
-1 [Normal bonfire] Tutorial bonfire -- 【通常篝火】チュートリアル篝火
-2 The big wall of Le dress -- ルドレスの大壁
-3 [usually bonfire] the last tower roof of the rampart -- 【通常篝火】城壁最後の塔　屋上
-4 [Boss Bonfire] Tracker (saloon) -- 【ボス篝火】追跡者（大広間）
-5 [Boss Bonfire] Full Armor beast (gate) -- 【ボス篝火】フルアーマー獣（門）
-6 [Boss Bonfire] Dragon Angel (Mausoleum, Segunda Room) -- 【ボス篝火】竜の御使い（霊廟・グンダ部屋）
-7 * The large wall of the NT version dress -- ※NT版 ルドレスの大壁
-8 * NT version [normal bonfire] wall last tower roof -- ※NT版 【通常篝火】城壁最後の塔　屋上
-9 [Normal bonfire] Start (back of the saloon) -- 【通常篝火】スタート（大広間奥）
-10 [Boss Bonfire] Guardian Knight of the Dragon (bridge) -- 【ボス篝火】竜の守護騎士（橋）
-11 [Boss Bonfire] Prince of Darkness (innermost) -- 【ボス篝火】闇の双皇子（最奥）
-12 [Normal bonfire] Start (point overlooking the city) -- 【通常篝火】スタート（街を見下ろせるポイント）
-13 【 Normal Bonfire 】 shortcut route -- 【通常篝火】ショートカットルート途中
-14 [Boss Bonfire] Colossus (innermost) -- 【ボス篝火】巨像（最奥）
-15 [Normal bonfire] Start bonfire -- 【通常篝火】スタート篝火
-16 [Boss Bonfire] King of the Storm -- 【ボス篝火】嵐の王
-17 [Normal bonfire] start (where overlooking the forest) -- 【通常篝火】スタート（森を見下ろせる場所）
-18 【 boss Bonfire 】 Crystal Elders (connection to the Church of the Basilica) -- 【ボス篝火】結晶の古老（聖堂教会への接続）
-19 [Boss Bonfire] observer of the Abyss + Wolf of caries -- 【ボス篝火】深淵の監視者＋蝕の狼
-20 [Normal bonfire] Start (small church entrance) -- 【通常篝火】スタート（小教会入口）
-21 [Boss Bonfire] Cardinal (bottom) -- 【ボス篝火】枢機卿団（最奥）
-22 [Boss Bonfire] Rosalia + NPC (Saint Room) -- 【ボス篝火】ロザリア＋NPC（聖女部屋）
-23 【 Normal bonfire 】 Bonfire Church -- 【通常篝火】篝火教会
-24 [Boss Bonfire] Witch of Moonlight -- 【ボス篝火】月光の魔女
-25 [Boss Bonfire] Salivan -- 【ボス篝火】サリヴァーン
-26 [Boss Bonfire] Hallec (Anole towards the bottom) -- 【ボス篝火】ハレック（アノール方面最奥）
-27 【 Normal bonfire 】 underground Lake entrance -- 【通常篝火】地底湖入口
-28 [Normal bonfire] underground dungeon exit -- 【通常篝火】地下ダンジョン出口
-29 [Normal bonfire] underground dungeon entrance -- 【通常篝火】地下ダンジョン入口
-30 [Boss Bonfire] Sand worm (sub route underground lake) -- 【ボス篝火】サンドワーム（サブルート地底湖）
-31 【 boss Bonfire 】 Ash Daemon (sub Route underground lake) -- 【ボス篝火】灰のデーモン（サブルート地底湖）
-32 [Normal bonfire] Start (Dungeon entrance) -- 【通常篝火】スタート（地下牢入口）
-33 [Boss Bonfire] King of the Dead -- 【ボス篝火】死霊の王
+0 Firelink Shrine
+1 Cemetery of Ash - Firelink Shrine
+2 Cemetery of Ash - Cemetery of Ash
+3 Cemetery of Ash - Overgrown Sanctum
+4 Cemetery of Ash - Untended Graves
+5 Cemetery of Ash - Champion Gundyr
+6 High Wall of Lothric - High Wall of Lothric
+7 High Wall of Lothric - High Wall of Lothric - Initial Warp
+8 High Wall of Lothric - Knight's Rest
+9 High Wall of Lothric - High Wall Jail
+10 High Wall of Lothric - Abandoned Storeroom
+11 High Wall of Lothric - Consumed King's Garden
+12 High Wall of Lothric - High Wall of Lothric
+13 High Wall of Lothric - High Wall of Lothric
+14 Lothric Castle - Lothric Castle
+15 Lothric Castle - Grand Foyer
+16 Lothric Castle - Dragonslayer Armour
+17 Grand Archives - Grand Archives
+18 Grand Archives - Throne Ascent
+19 Undead Settlement - Foot of the High Wall
+20 Undead Settlement - Tower Basement
+21 Undead Settlement - Cliff Underside
+22 Undead Settlement - Dilapidated Bridge
+23 Undead Settlement - Pit of Hollows
+24 Archdragon Peak - Archdragon Peak
+25 Archdragon Peak - Dragon-Kin Mausoleum
+26 Archdragon Peak - Great Belfry
+27 Archdragon Peak - Nameless King
+28 Road of Sacrifices - Road of Sacrifices
+29 Road of Sacrifices - Halfway Fortress
+30 Road of Sacrifices - Crucifixion Woods
+31 Road of Sacrifices - Crystal Sage
+32 Farron Keep - Farron Keep
+33 Farron Keep - Unused <Keep Ruins>
+34 Farron Keep - Farron Keep Perimeter
+35 Farron Keep - Old Wolf of Farron
+36 Farron Keep - Abyss Watchers
+37 Cathedral of the Deep - Scribe's Retreat
+38 Cathedral of the Deep - Cleansing Chapel
+39 Cathedral of the Deep - Secluded Cloister
+40 Cathedral of the Deep - Rosaria's Bed Chamber
+41 Irithyll of the Boreal Valley - Irithyll of the Boreal Valley
+42 Irithyll of the Boreal Valley - Central Irithyll
+43 Irithyll of the Boreal Valley - Church of Yorshka
+44 Irithyll of the Boreal Valley - Distant Manor
+45 Irithyll of the Boreal Valley - Lower Anor Londo
+46 Irithyll of the Boreal Valley - Water Reserve
+47 Irithyll of the Boreal Valley - Anor Londo
+48 Irithyll of the Boreal Valley - Prison Tower
+49 Irithyll of the Boreal Valley - Chamber of the Princess
+50 Catacombs of Carthus - Catacombs of Carthus
+51 Catacombs of Carthus - High Lord Wolnir
+52 Catacombs of Carthus - Abandoned Tomb
+53 Smouldering Lake - Old King's Antechamber
+54 Smouldering Lake - Smouldering Lake <Demon Ruins>
+55 Smouldering Lake - Old Demon King
+56 Irithyll Dungeon - Irithyll Dungeon
+57 Profaned Capital - Profaned Capital
+58 Profaned Capital - Swamp of Sin
+59 Flameless Shrine - Flameless Shrine
+60 Flameless Shrine - Kiln of the First Flame
+61 Flameless Shrine - The First Flame
+62 Ariandel - Snowfield
+63 Ariandel - Rope Bridge Cave
+64 Ariandel - Corvian Settlement
+65 Ariandel - Snowy Mountain Pass
+66 Ariandel - Ariandel Chapel
+67 Ariandel - Sister Friede
+68 Ariandel - Depths of the Painting
+69 Ariandel - Champion's Gravetender
+70 Dreg Heap - The Dreg Heap
+71 Dreg Heap - Earthen Peak Ruins
+72 Dreg Heap - Within the Earthen Peak Ruins
+73 Dreg Heap - The Demon Prince
+74 The Ringed City - Mausoleum Lookout
+75 The Ringed City - Ringed Inner Wall
+76 The Ringed City - Ringed City Streets
+77 The Ringed City - Shared Grave
+78 The Ringed City - Church of Filianore
+79 The Ringed City - Darkeater Midir
+80 The Ringed City - Filianore's Rest
+81 The Ringed City - Slave Knight Gael
+82 Ariandel - Dunnel's Respite
+91 Kiln of Flame - Memory of Endurance
+92 Dragon Ruins - Memory of Strength

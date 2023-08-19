@@ -407,8 +407,8 @@ namespace SoulsFormats
 
             internal virtual void GetIndices(MSBB msb, Entries entries)
             {
-                PartIndex = MSB.FindIndex(entries.Parts, PartName);
-                RegionIndex = MSB.FindIndex(entries.Regions, RegionName);
+                PartIndex = MSB.FindIndex(this, entries.Parts, PartName);
+                RegionIndex = MSB.FindIndex(this, entries.Regions, RegionName);
             }
 
             /// <summary>
@@ -663,7 +663,7 @@ namespace SoulsFormats
                 internal override void GetIndices(MSBB msb, Entries entries)
                 {
                     base.GetIndices(msb, entries);
-                    TreasurePartIndex = MSB.FindIndex(entries.Parts, TreasurePartName);
+                    TreasurePartIndex = MSB.FindIndex(this, entries.Parts, TreasurePartName);
                 }
             }
 
@@ -956,7 +956,7 @@ namespace SoulsFormats
                 internal override void GetIndices(MSBB msb, Entries entries)
                 {
                     base.GetIndices(msb, entries);
-                    ObjActPartIndex = MSB.FindIndex(entries.Parts, ObjActPartName);
+                    ObjActPartIndex = MSB.FindIndex(this, entries.Parts, ObjActPartName);
                 }
             }
 
@@ -1007,7 +1007,7 @@ namespace SoulsFormats
                 internal override void GetIndices(MSBB msb, Entries entries)
                 {
                     base.GetIndices(msb, entries);
-                    SpawnPointIndex = MSB.FindIndex(entries.Regions, SpawnPointName);
+                    SpawnPointIndex = MSB.FindIndex(this, entries.Regions, SpawnPointName);
                 }
             }
 
@@ -1096,7 +1096,7 @@ namespace SoulsFormats
                 internal override void GetIndices(MSBB msb, Entries entries)
                 {
                     base.GetIndices(msb, entries);
-                    NavmeshRegionIndex = MSB.FindIndex(entries.Regions, NavmeshRegionName);
+                    NavmeshRegionIndex = MSB.FindIndex(this, entries.Regions, NavmeshRegionName);
                 }
             }
 
@@ -1227,7 +1227,7 @@ namespace SoulsFormats
                 internal override void GetIndices(MSBB msb, Entries entries)
                 {
                     base.GetIndices(msb, entries);
-                    WindRegionIndex = MSB.FindIndex(entries.Regions, WindRegionName);
+                    WindRegionIndex = MSB.FindIndex(this, entries.Regions, WindRegionName);
                 }
             }
 
@@ -1298,7 +1298,7 @@ namespace SoulsFormats
                     base.GetIndices(msb, entries);
                     WalkPointIndices = new short[WalkPointNames.Length];
                     for (int i = 0; i < WalkPointNames.Length; i++)
-                        WalkPointIndices[i] = (short)MSB.FindIndex(entries.Regions, WalkPointNames[i]);
+                        WalkPointIndices[i] = (short)MSB.FindIndex(this, entries.Regions, WalkPointNames[i]);
                 }
             }
 

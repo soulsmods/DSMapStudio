@@ -1,14 +1,3 @@
-60 ID Monitoring Item 1 -- ID監視用アイテム1
-61 ID Monitoring Item 2 -- ID監視用アイテム2
-62 ID Monitoring Item 3 -- ID監視用アイテム3
-63 ID Monitoring Item 4 -- ID監視用アイテム4
-64 ID Monitoring Item 5 -- ID監視用アイテム5
-65 ID Monitoring Item 6 -- ID監視用アイテム6
-66 ID Monitoring Item 7 -- ID監視用アイテム7
-67 ID Monitoring Item 8 -- ID監視用アイテム8
-68 ID Monitoring Item 9 -- ID監視用アイテム9
-69 ID Monitoring Item 10 -- ID監視用アイテム10
-94 Dummy for PC animation reproduction when blood character is created -- 血文字作成時のPCアニメ再生用ダミー
 100 White Sign Soapstone
 101 Red Sign Soapstone
 102 Red Eye Orb

@@ -8,14 +8,14 @@
   <Fields>
     <Field Def="s32 behaviorVariationId" />
     <Field Def="s32 AiThinkId" />
-    <Field Def="s32 NameId" />
+    <Field Def="s32 nameId" />
     <Field Def="f32 turnVellocity" />
     <Field Def="f32 hitHeight" />
     <Field Def="f32 hitRadius" />
     <Field Def="s32 weight = 100" />
     <Field Def="f32 hitOffset" />
-    <Field Def="s32 Hp" />
-    <Field Def="s32 Mp" />
+    <Field Def="s32 hp" />
+    <Field Def="s32 mp" />
     <Field Def="s32 getSoul" />
     <Field Def="s32 ItemLotId1 = -1" />
     <Field Def="s32 ItemLotId2 = -1" />
@@ -38,9 +38,12 @@
     <Field Def="f32 fireGuardCutRate" />
     <Field Def="f32 thunGuardCutRate" />
     <Field Def="s32 animidOffset" />
-    <Field Def="s32 moveAnimId" />
-    <Field Def="s32 spMoveAnimId1" />
-    <Field Def="s32 spMoveAnimId2" />
+    <Field Def="s16 lockGazePoint0" />
+    <Field Def="s16 lockGazePoint1" />
+    <Field Def="s16 lockGazePoint2" />
+    <Field Def="s16 lockGazePoint3" />
+    <Field Def="s16 lockGazePoint4" />
+    <Field Def="s16 lockGazePoint5" />
     <Field Def="f32 networkWarpDisp" />
     <Field Def="s32 dbgBehaviorR1 = 3000" />
     <Field Def="s32 dbgBehaviorL1 = 3001" />
@@ -54,7 +57,7 @@
     <Field Def="s32 dbgBehaviorLR = 703" />
     <Field Def="s32 dbgBehaviorLD = 701" />
     <Field Def="s32 dbgBehaviorLU = 700" />
-    <Field Def="s32 animIdOffset" />
+    <Field Def="s32 animIdOffset2" />
     <Field Def="f32 partsDamageRate1" />
     <Field Def="f32 partsDamageRate2" />
     <Field Def="f32 partsDamageRate3" />
@@ -129,74 +132,74 @@
     <Field Def="u8 UseRagdollCamHit:1" />
     <Field Def="u8 disableClothRigidHit:1" />
     <Field Def="u8 UseRagdoll:1" />
-    <Field Def="u8 isDemon:1" />
+    <Field Def="u8 isWeakA:1" />
     <Field Def="u8 isGhost:1" />
     <Field Def="u8 isNoDamageMotion:1" />
     <Field Def="u8 isUnduration:1" />
     <Field Def="u8 isChangeWanderGhost:1" />
-    <Field Def="u8 ModelDispMask0:1" />
-    <Field Def="u8 ModelDispMask1:1" />
-    <Field Def="u8 ModelDispMask2:1" />
-    <Field Def="u8 ModelDispMask3:1" />
-    <Field Def="u8 ModelDispMask4:1" />
-    <Field Def="u8 ModelDispMask5:1" />
-    <Field Def="u8 ModelDispMask6:1" />
-    <Field Def="u8 ModelDispMask7:1" />
-    <Field Def="u8 ModelDispMask8:1" />
-    <Field Def="u8 ModelDispMask9:1" />
-    <Field Def="u8 ModelDispMask10:1" />
-    <Field Def="u8 ModelDispMask11:1" />
-    <Field Def="u8 ModelDispMask12:1" />
-    <Field Def="u8 ModelDispMask13:1" />
-    <Field Def="u8 ModelDispMask14:1" />
-    <Field Def="u8 ModelDispMask15:1" />
+    <Field Def="u8 modelDispMask0:1" />
+    <Field Def="u8 modelDispMask1:1" />
+    <Field Def="u8 modelDispMask2:1" />
+    <Field Def="u8 modelDispMask3:1" />
+    <Field Def="u8 modelDispMask4:1" />
+    <Field Def="u8 modelDispMask5:1" />
+    <Field Def="u8 modelDispMask6:1" />
+    <Field Def="u8 modelDispMask7:1" />
+    <Field Def="u8 modelDispMask8:1" />
+    <Field Def="u8 modelDispMask9:1" />
+    <Field Def="u8 modelDispMask10:1" />
+    <Field Def="u8 modelDispMask11:1" />
+    <Field Def="u8 modelDispMask12:1" />
+    <Field Def="u8 modelDispMask13:1" />
+    <Field Def="u8 modelDispMask14:1" />
+    <Field Def="u8 modelDispMask15:1" />
     <Field Def="u8 isEnableNeckTurn:1" />
     <Field Def="u8 disableRespawn:1" />
     <Field Def="u8 isMoveAnimWait:1" />
     <Field Def="u8 isCrowd:1" />
-    <Field Def="u8 isWeakSaint:1" />
-    <Field Def="u8 isWeakA:1" />
     <Field Def="u8 isWeakB:1" />
-    <Field Def="u8 isEnableDropSoulCapture:1" />
+    <Field Def="u8 isWeakC:1" />
+    <Field Def="u8 isWeakD:1" />
+    <Field Def="u8 doesAlwaysUseSpecialTurn:1" />
     <Field Def="u8 VowType0:1" />
     <Field Def="u8 VowType1:1" />
     <Field Def="u8 VowType2:1" />
-    <Field Def="u8 disableIntiliazeDead:1" />
-    <Field Def="u8 isSoulGetByBoss:1 = 1" />
-    <Field Def="u8 isMultilingual:1 = 1" />
-    <Field Def="u8 Unk1:1" />
-    <Field Def="u8 Unk2:1" />
-    <Field Def="u8 ModelDispMask16:1" />
-    <Field Def="u8 ModelDispMask17:1" />
-    <Field Def="u8 ModelDispMask18:1" />
-    <Field Def="u8 ModelDispMask19:1" />
-    <Field Def="u8 ModelDispMask20:1" />
-    <Field Def="u8 ModelDispMask21:1" />
-    <Field Def="u8 ModelDispMask22:1" />
-    <Field Def="u8 ModelDispMask23:1" />
-    <Field Def="u8 ModelDispMask24:1" />
-    <Field Def="u8 ModelDispMask25:1" />
-    <Field Def="u8 ModelDispMask26:1" />
-    <Field Def="u8 ModelDispMask27:1" />
-    <Field Def="u8 ModelDispMask28:1" />
-    <Field Def="u8 ModelDispMask29:1" />
-    <Field Def="u8 ModelDispMask30:1" />
-    <Field Def="u8 ModelDispMask31:1" />
+    <Field Def="u8 disableInitializeDead:1" />
+    <Field Def="u8 isHitRumble:1 = 1" />
+    <Field Def="u8 isSmoothTurn:1 = 1" />
+    <Field Def="u8 isWeakE:1" />
+    <Field Def="u8 isWeakF:1" />
+    <Field Def="u8 modelDispMask16:1" />
+    <Field Def="u8 modelDispMask17:1" />
+    <Field Def="u8 modelDispMask18:1" />
+    <Field Def="u8 modelDispMask19:1" />
+    <Field Def="u8 modelDispMask20:1" />
+    <Field Def="u8 modelDispMask21:1" />
+    <Field Def="u8 modelDispMask22:1" />
+    <Field Def="u8 modelDispMask23:1" />
+    <Field Def="u8 modelDispMask24:1" />
+    <Field Def="u8 modelDispMask25:1" />
+    <Field Def="u8 modelDispMask26:1" />
+    <Field Def="u8 modelDispMask27:1" />
+    <Field Def="u8 modelDispMask28:1" />
+    <Field Def="u8 modelDispMask29:1" />
+    <Field Def="u8 modelDispMask30:1" />
+    <Field Def="u8 modelDispMask31:1" />
     <Field Def="f32 itemSearchRadius" />
-    <Field Def="f32 subHitHeight" />
-    <Field Def="f32 subHitRadius" />
-    <Field Def="u8 turnVelocityType" />
-    <Field Def="u8 isMultModeBoss:1" />
-    <Field Def="u8 Unk3:1" />
-    <Field Def="u8 behMemSize:1" />
-    <Field Def="u8 Unk4:1" />
-    <Field Def="u8 isUseFeetData:1" />
-    <Field Def="u8 Unk5:1" />
+    <Field Def="f32 chrHitHeight" />
+    <Field Def="f32 chrHitRadius" />
+    <Field Def="u8 specialTurnType" />
+    <Field Def="u8 isSoulGetByBoss:1" />
+    <Field Def="u8 isBulletOwner_byObject:1" />
+    <Field Def="u8 isUseLowHitFootIk:1" />
+    <Field Def="u8 isCalculatePvPDamage:1" />
+    <Field Def="u8 isHostSyncChr:1" />
+    <Field Def="u8 isSkipWeakDamageAnim:1" />
     <Field Def="u8 Unk6:1" />
     <Field Def="u8 Unk7:1" />
     <Field Def="s16 defDark = 100" />
-    <Field Def="f32 subTurnVelocity" />
-    <Field Def="s32 footStepId = 1" />
+    <Field Def="f32 specialTurnDistanceThreshold" />
+    <Field Def="s32 autoFootEffectSfxId = 1" />
     <Field Def="s16 subMaterial = 109" />
     <Field Def="s16 subMaterialSfx = 109" />
     <Field Def="s16 material_Weak = 139" />
@@ -211,9 +214,9 @@
     <Field Def="s32 spEffectId13" />
     <Field Def="s32 spEffectId14" />
     <Field Def="s32 spEffectId15" />
-    <Field Def="s32 TentativePlayerId = 101" />
-    <Field Def="s32 basicToughnessValue" />
-    <Field Def="f32 gameSystemParamCorrection" />
+    <Field Def="s32 autoFootEffectDecalBaseId1 = 101" />
+    <Field Def="s32 toughness" />
+    <Field Def="f32 toughnessRecoverCorrection" />
     <Field Def="f32 regainRate_PhysNeutral" />
     <Field Def="f32 regainRate_PhysSlash" />
     <Field Def="f32 regainRate_PhysBlow" />
@@ -222,18 +225,18 @@
     <Field Def="f32 regainRate_Fire" />
     <Field Def="f32 regainRate_Thunder" />
     <Field Def="f32 regainRate_Dark" />
-    <Field Def="f32 maxAnkleAngle" />
+    <Field Def="f32 darkGuardCutRate" />
     <Field Def="s8 clothUpdateOffset" />
-    <Field Def="u8 spNpcType [ON_OFF] = 1" />
+    <Field Def="u8 npcPlayerWeightType = 1" />
     <Field Def="s16 normalChangeModelId = -1" />
     <Field Def="s16 normalChangeAnimChrId = -1" />
-    <Field Def="s16 staminaGuardDefVal = 256" />
+    <Field Def="s16 paintRenderTargetSize = 256" />
     <Field Def="s32 CultSettingId" />
     <Field Def="s32 PhantomParamId = -1" />
     <Field Def="s32 MultiPlayCorrectionId = 100" />
-    <Field Def="f32 FootAnkle" />
+    <Field Def="f32 maxAnklePitchAngle" />
     <Field Def="s16 resistFrost = 112" />
-    <Field Def="u8 subNpcType" />
+    <Field Def="u8 freezeGuardResist" />
     <Field Def="u8 subTeamType = 6" />
     <Field Def="s32 lockCamParamId = -1" />
     <Field Def="s32 spEffectId16 = -1" />
@@ -252,20 +255,19 @@
     <Field Def="s32 spEffectId29 = -1" />
     <Field Def="s32 spEffectId30 = -1" />
     <Field Def="s32 spEffectId31 = -1" />
-    <Field Def="f32 lockCorrection" />
-    <Field Def="s8 subClothUpdateOffset = -1" />
+    <Field Def="f32 disableLockOnAng" />
+    <Field Def="s8 clothOffLodLevel = -1" />
     <Field Def="dummy8 pad1[1]" />
-    <Field Def="s16 EstusFlaskParamId = 1001" />
-    <Field Def="s32 TextId = -1" />
-    <Field Def="s16 HP&amp;MP_RestoreId0" />
-    <Field Def="s16 HP_RestoreId0" />
-    <Field Def="s16 MP_RestoreId0" />
-    <Field Def="s16 HP&amp;MP_RestoreId1" />
-    <Field Def="s16 HP_RestoreId1" />
-    <Field Def="s16 MP_RestoreId1" />
-    <Field Def="s32 subPhantomParamId = -1" />
-    <Field Def="s16 activateDistance" />
-    <Field Def="s16 DeactivateDistance" />
+    <Field Def="s16 estusFlaskRecoveryParamId = 1001" />
+    <Field Def="s32 roleNameId = -1" />
+    <Field Def="s16 estusFlaskLotPoint" />
+    <Field Def="s16 hpEstusFlaskLotPoint" />
+    <Field Def="s16 mpEstusFlaskLotPoint" />
+    <Field Def="s16 estusFlaskRecovery_failedLotPointAdd" />
+    <Field Def="s16 hpEstusFlaskRecovery_failedLotPointAdd" />
+    <Field Def="s16 mpEstusFlaskRecovery_failedLotPointAdd" />
+    <Field Def="s32 WanderGhostPhantomId = -1" />
+    <Field Def="f32 hearingHeadSize = -1" />
     <Field Def="dummy8 pad2[4]" />
   </Fields>
 </PARAMDEF>

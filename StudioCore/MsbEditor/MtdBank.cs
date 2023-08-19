@@ -35,7 +35,7 @@ namespace StudioCore.MsbEditor
         public static void ReloadMtds()
         {
 
-            TaskManager.Run("MB:LoadMtds", true, false, false, () =>
+            TaskManager.Run(new("Resource - Load MTDs", true, false, false, () =>
             {
                 try
                 {
@@ -82,13 +82,14 @@ namespace StudioCore.MsbEditor
                             }
                         }
                     }
+                    mtdBinder.Dispose();
                 }
                 catch (Exception e) when (e is FileNotFoundException or DirectoryNotFoundException)
                 {
                     _mtds = new Dictionary<string, MTD>();
                     _matbins = new Dictionary<string, MATBIN>();
                 }
-            });
+            }));
         }
 
         public static void LoadMtds(AssetLocator l)

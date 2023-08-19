@@ -54,25 +54,44 @@ namespace StudioCore
             return _newKeysThisFrame.Contains(key);
         }
 
+        public static bool GetKey_IgnoreModifier(KeyBind key)
+        {
+            if (!GetKey(key.PrimaryKey))
+                return false;
+            return true;
+        }
+
         public static bool GetKey(KeyBind key)
         {
-            if (key.Ctrl_Pressed && !GetKey(Key.LControl) && !GetKey(Key.RControl))
+            if (!GetKey(key.PrimaryKey))
                 return false;
-            if (key.Alt_Pressed && !GetKey(Key.AltLeft) && !GetKey(Key.AltRight))
+            if (key.Ctrl_Pressed != (GetKey(Key.LControl) || GetKey(Key.RControl)))
                 return false;
-            if (key.Shift_Pressed && !GetKey(Key.ShiftLeft) && !GetKey(Key.ShiftRight))
+            if (key.Alt_Pressed != (GetKey(Key.AltLeft) || GetKey(Key.AltRight)))
                 return false;
-            return _currentlyPressedKeys.Contains(key.PrimaryKey);
+            if (key.Shift_Pressed != (GetKey(Key.ShiftLeft) || GetKey(Key.ShiftRight)))
+                return false;
+            return true;
         }
+
+        public static bool GetKeyDown_IgnoreModifier(KeyBind key)
+        {
+            if (!GetKeyDown(key.PrimaryKey))
+                return false;
+            return true;
+        }
+
         public static bool GetKeyDown(KeyBind key)
         {
-            if (key.Ctrl_Pressed && !GetKey(Key.LControl) && !GetKey(Key.RControl))
+            if (!GetKeyDown(key.PrimaryKey))
                 return false;
-            if (key.Alt_Pressed && !GetKey(Key.AltLeft) && !GetKey(Key.AltRight))
+            if (key.Ctrl_Pressed != (GetKey(Key.LControl) || GetKey(Key.RControl)))
                 return false;
-            if (key.Shift_Pressed && !GetKey(Key.ShiftLeft) && !GetKey(Key.ShiftRight))
+            if (key.Alt_Pressed != (GetKey(Key.AltLeft) || GetKey(Key.AltRight)))
                 return false;
-            return _newKeysThisFrame.Contains(key.PrimaryKey);
+            if (key.Shift_Pressed != (GetKey(Key.ShiftLeft) ||GetKey(Key.ShiftRight)))
+                return false;
+            return true;
         }
 
         public static bool GetControlShortcut(Key key)

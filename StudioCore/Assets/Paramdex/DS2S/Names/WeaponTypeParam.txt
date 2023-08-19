@@ -4,7 +4,7 @@
 20 Claws
 21 Work Hook
 22 Malformed Claws
-30 UNKNOWN
+30 Caestus
 40 Broken Thief Sword
 41 Thief Dagger / Retainer's Short Sword
 42 Parrying Dagger / Blue Dagger

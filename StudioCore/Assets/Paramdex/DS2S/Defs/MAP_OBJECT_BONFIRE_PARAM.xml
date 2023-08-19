@@ -6,22 +6,20 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="s32 Area ID" />
-    <Field Def="s32 Unk04" />
-    <Field Def="f32 Unk08" />
-    <Field Def="f32 Unk0C" />
+    <Field Def="s32 area_id" />
+    <Field Def="s32 Unk00" />
+    <Field Def="f32 Unk01" />
+    <Field Def="f32 Unk02" />
+    <Field Def="s32 Unk03" />
+    <Field Def="f32 Unk04" />
+    <Field Def="f32 Unk05" />
+    <Field Def="s32 fog_door_id" />
+    <Field Def="u8 Unk06" />
+    <Field Def="u8 Unk07" />
+    <Field Def="u8 Unk08" />
+    <Field Def="u8 Unk09" />
+    <Field Def="s32 bonfire_lit_flag" />
     <Field Def="s32 Unk10" />
-    <Field Def="f32 Unk14" />
-    <Field Def="f32 Unk18" />
-    <Field Def="s32 Fog Door ID" >
-      <Description>Refers to MapObjectWhiteDoorParam.</Description>
-    </Field>
-    <Field Def="u8 Unk20" />
-    <Field Def="u8 Unk21" />
-    <Field Def="u8 Unk22" />
-    <Field Def="u8 Unk23" />
-    <Field Def="s32 Bonfire Lit Flag ID" />
-    <Field Def="s32 Unk28" />
-    <Field Def="s32 Unk2C" />
+    <Field Def="s32 Unk11" />
   </Fields>
 </PARAMDEF>

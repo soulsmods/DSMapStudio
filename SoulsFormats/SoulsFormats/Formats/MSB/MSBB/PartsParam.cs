@@ -563,7 +563,7 @@ namespace SoulsFormats
 
             internal virtual void GetIndices(MSBB msb, Entries entries)
             {
-                ModelIndex = MSB.FindIndex(entries.Models, ModelName);
+                ModelIndex = MSB.FindIndex(this, entries.Models, ModelName);
             }
 
             /// <summary>
@@ -650,38 +650,62 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int Unk00 { get; set; }
+                public int ShadowParamID { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int Unk04 { get; set; }
+                public int DofGlareQualityID { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int Unk08 { get; set; }
+                public int ToneMapID { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int Unk0C { get; set; }
+                public int DofID { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int Unk10 { get; set; }
+                public int BloomID { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int Unk14 { get; set; }
+                public int ColorGradingID { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public int FeedbackBlurID { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public int MotionBlurID { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public int AntiAliasID { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public int SSAO_ID { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public int LightShaftID { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
                 public sbyte[] EventIDs { get; private set; }
-
 
                 /// <summary>
                 /// Amount of time it takes for GParam to transition (in seconds). -1 = Some default time.
@@ -708,13 +732,21 @@ namespace SoulsFormats
 
                 internal SceneGparamConfig(BinaryReaderEx br)
                 {
-                    Unk00 = br.ReadInt32();
-                    Unk04 = br.ReadInt32();
-                    Unk08 = br.ReadInt32();
-                    Unk0C = br.ReadInt32();
-                    Unk10 = br.ReadInt32();
-                    Unk14 = br.ReadInt32();
-                    br.AssertPattern(0x24, 0x00);
+                    ShadowParamID = br.ReadInt32();
+                    DofGlareQualityID = br.ReadInt32();
+                    ToneMapID = br.ReadInt32();
+                    DofID = br.ReadInt32();
+                    BloomID = br.ReadInt32();
+                    ColorGradingID = br.ReadInt32();
+                    br.AssertInt32(0);
+                    br.AssertInt32(0);
+                    br.AssertInt32(0);
+                    br.AssertInt32(0);
+                    FeedbackBlurID = br.ReadInt32();
+                    MotionBlurID = br.ReadInt32();
+                    AntiAliasID = br.ReadInt32();
+                    SSAO_ID = br.ReadInt32();
+                    LightShaftID = br.ReadInt32();
                     EventIDs = br.ReadSBytes(4);
                     TransitionTime = br.ReadSingle();
                     br.AssertInt32(0);
@@ -724,13 +756,21 @@ namespace SoulsFormats
 
                 internal void Write(BinaryWriterEx bw)
                 {
-                    bw.WriteInt32(Unk00);
-                    bw.WriteInt32(Unk04);
-                    bw.WriteInt32(Unk08);
-                    bw.WriteInt32(Unk0C);
-                    bw.WriteInt32(Unk10);
-                    bw.WriteInt32(Unk14);
-                    bw.WritePattern(0x24, 0x00);
+                    bw.WriteInt32(ShadowParamID);
+                    bw.WriteInt32(DofGlareQualityID);
+                    bw.WriteInt32(ToneMapID);
+                    bw.WriteInt32(DofID);
+                    bw.WriteInt32(BloomID);
+                    bw.WriteInt32(ColorGradingID);
+                    bw.WriteInt32(0);
+                    bw.WriteInt32(0);
+                    bw.WriteInt32(0);
+                    bw.WriteInt32(0);
+                    bw.WriteInt32(FeedbackBlurID);
+                    bw.WriteInt32(MotionBlurID);
+                    bw.WriteInt32(AntiAliasID);
+                    bw.WriteInt32(SSAO_ID);
+                    bw.WriteInt32(LightShaftID);
                     bw.WriteSBytes(EventIDs);
                     bw.WriteSingle(TransitionTime);
                     bw.WriteInt32(0);
@@ -834,15 +874,15 @@ namespace SoulsFormats
                 public short[] AnimIDs { get; private set; }
 
                 /// <summary>
-                /// Value added to the base ModelSfxParam ID; only the first is actually used, according to Pav.
+                /// Something to do with breakobj functionality. Possibly decides which part of a shared-map (chalice) .breakobj file to use.
                 /// </summary>
-                public short[] ModelSfxParamRelativeIDs { get; private set; }
+                public int[] BreakobjID { get; private set; }
 
                 private protected ObjectBase() : base("oXXXXXX_XXXX")
                 {
                     Gparam = new GparamConfig();
                     AnimIDs = new short[4] { -1, -1, -1, -1 };
-                    ModelSfxParamRelativeIDs = new short[4];
+                    BreakobjID = new int[2];
                 }
 
                 private protected override void DeepCopyTo(Part part)
@@ -850,7 +890,7 @@ namespace SoulsFormats
                     var obj = (ObjectBase)part;
                     obj.Gparam = Gparam.DeepCopy();
                     obj.AnimIDs = (short[])AnimIDs.Clone();
-                    obj.ModelSfxParamRelativeIDs = (short[])ModelSfxParamRelativeIDs.Clone();
+                    obj.BreakobjID = (int[])BreakobjID.Clone();
                 }
 
                 private protected ObjectBase(BinaryReaderEx br) : base(br) { }
@@ -865,7 +905,7 @@ namespace SoulsFormats
                     CollisionFilter = br.ReadBoolean();
                     SetMainObjStructureBooleans = br.ReadBoolean();
                     AnimIDs = br.ReadInt16s(4);
-                    ModelSfxParamRelativeIDs = br.ReadInt16s(4);
+                    BreakobjID = br.ReadInt32s(2);
                 }
 
                 private protected override void ReadGparamConfig(BinaryReaderEx br) => Gparam = new GparamConfig(br);
@@ -880,7 +920,7 @@ namespace SoulsFormats
                     bw.WriteBoolean(CollisionFilter);
                     bw.WriteBoolean(SetMainObjStructureBooleans);
                     bw.WriteInt16s(AnimIDs);
-                    bw.WriteInt16s(ModelSfxParamRelativeIDs);
+                    bw.WriteInt32s(BreakobjID);
                 }
 
                 private protected override void WriteGparamConfig(BinaryWriterEx bw) => Gparam.Write(bw);
@@ -894,7 +934,7 @@ namespace SoulsFormats
                 internal override void GetIndices(MSBB msb, Entries entries)
                 {
                     base.GetIndices(msb, entries);
-                    CollisionIndex = MSB.FindIndex(entries.Parts, CollisionName);
+                    CollisionIndex = MSB.FindIndex(this, entries.Parts, CollisionName);
                 }
             }
 
@@ -1056,11 +1096,11 @@ namespace SoulsFormats
                 internal override void GetIndices(MSBB msb, Entries entries)
                 {
                     base.GetIndices(msb, entries);
-                    CollisionIndex = MSB.FindIndex(entries.Parts, CollisionName);
+                    CollisionIndex = MSB.FindIndex(this, entries.Parts, CollisionName);
 
                     MovePointIndices = new short[MovePointNames.Length];
                     for (int i = 0; i < MovePointNames.Length; i++)
-                        MovePointIndices[i] = (short)MSB.FindIndex(entries.Regions, MovePointNames[i]);
+                        MovePointIndices[i] = (short)MSB.FindIndex(this, entries.Regions, MovePointNames[i]);
                 }
             }
 
@@ -1118,6 +1158,19 @@ namespace SoulsFormats
             /// </summary>
             public class Collision : Part
             {
+
+                /// <summary>
+                /// MapVisibilityType
+                /// </summary>
+                public enum MapVisibilityTypeEnum : byte
+                {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+                    Good = 0,
+                    Dark = 1,
+                    PitchDark = 2
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
+                }
+
                 private protected override PartType Type => PartType.Collision;
                 private protected override bool HasTypeData => true;
                 private protected override bool HasGparamConfig => true;
@@ -1164,9 +1217,9 @@ namespace SoulsFormats
                 public bool DisableStart { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// Determines if enemy think will use dark and pitch dark eye distances.
                 /// </summary>
-                public byte UnkT0B { get; set; }
+                public MapVisibilityTypeEnum MapVisibilityType { get; set; }
 
                 /// <summary>
                 /// If set, disables a bonfire when any enemy is on the collision.
@@ -1218,7 +1271,7 @@ namespace SoulsFormats
                     ReflectPlaneHeight = br.ReadSingle();
                     MapNameID = br.ReadInt16();
                     DisableStart = br.ReadBoolean();
-                    UnkT0B = br.ReadByte();
+                    MapVisibilityType = br.ReadEnum8<MapVisibilityTypeEnum>();
                     DisableBonfireEntityID = br.ReadInt32();
                     PlayRegionID = br.ReadInt32();
                     LockCamParamID1 = br.ReadInt16();
@@ -1236,7 +1289,7 @@ namespace SoulsFormats
                     bw.WriteSingle(ReflectPlaneHeight);
                     bw.WriteInt16(MapNameID);
                     bw.WriteBoolean(DisableStart);
-                    bw.WriteByte(UnkT0B);
+                    bw.WriteByte((byte)MapVisibilityType);
                     bw.WriteInt32(DisableBonfireEntityID);
                     bw.WriteInt32(PlayRegionID);
                     bw.WriteInt16(LockCamParamID1);
@@ -1370,7 +1423,7 @@ namespace SoulsFormats
                 internal override void GetIndices(MSBB msb, Entries entries)
                 {
                     base.GetIndices(msb, entries);
-                    CollisionIndex = MSB.FindIndex(msb.Parts.Collisions, CollisionName);
+                    CollisionIndex = MSB.FindIndex(this, msb.Parts.Collisions, CollisionName);
                 }
             }
 

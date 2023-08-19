@@ -541,7 +541,7 @@
     <potGroupId AltName="Pot Group ID" Wiki="Consumable items for which 0 or more is set for the pot group ID can be possessed by the number of pots with the same pot group ID." />
     <pad AltName=""/>
     
-    <iconId AltName="Icon ID" Wiki="Menu icon ID" />
+    <iconId AltName="Icon ID" Wiki="Menu icon ID" ExtRefs="hi,menu\hi\00_solo.tpfbhd,00_Solo\MENU_Knowledge_{0:D5}.tpf.dcx,MENU_Knowledge_{0:D5}.dds;low,menu\low\00_solo.tpfbhd,00_Solo\MENU_Knowledge_{0:D5}.tpf.dcx,MENU_Knowledge_{0:D5}.dds" />
     <modelId AltName="Model ID" Wiki="Model ID" />
     <shopLv AltName="Shop Level" Wiki="Level that can be sold at the store" />
     <compTrophySedId AltName="Achivement ID" Wiki="SEQ number of complete trophy" />
@@ -589,9 +589,9 @@
     <vagrantItemLotId AltName="Vagrant Item Lot ID" Wiki="-1 No vagrant 0 No lottery 1  With lottery" />
     <vagrantBonusEneDropItemLotId AltName="Vagrant Enemy Item Lot ID" Wiki="-1 No drop 0 No lottery 1  With lottery" />
     <vagrantItemEneDropItemLotId AltName="Vagrant Bonus Item Lot ID" Wiki="-1 No drop 0 No lottery 1  With lottery" />
-    <castSfxId AltName="Usage VFX - Cast" Wiki="SFXID until the effect is activated when you try to use the item" />
-    <fireSfxId AltName="Usage VFX  - Activate" Wiki="SFX ID when the item is activated" />
-    <effectSfxId AltName="Usage VFX - Effect" Wiki="After the item is activated, the SFX ID in effect" />
+    <castSfxId AltName="Usage VFX - Cast" Wiki="SFXID until the effect is activated when you try to use the item" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
+    <fireSfxId AltName="Usage VFX  - Activate" Wiki="SFX ID when the item is activated" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
+    <effectSfxId AltName="Usage VFX - Effect" Wiki="After the item is activated, the SFX ID in effect" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
     <enable_ActiveBigRune AltName="Usable with Great Rune Active" Wiki="Can it be used with a large rune activated?" IsBool="" />
     <isBonfireWarpItem AltName="Is Bonfire Warp Item" Wiki="If the state change type Warp Prohibition is applied when TRUE, remove the function to disable the item." IsBool="" />
     <enable_Ladder AltName="Enable on Ladder" Wiki="Check here for items available in the ladder" IsBool="" />
@@ -644,5 +644,37 @@
     <itemGetTutorialFlagId AltName="Item Get Tutorial Flag ID" Wiki="Event flag ID for the tutorial when you first get the item. Flag ON when item is obtained." />
     <reserve3 AltName=""/>
   </Field>
-  <Self Wiki="Defines an item, both consumable and key items.\nNote that many key items are placebo and the item's effect is granted through scripting. Passive effects from ownership are not defined here." />
+  <Self Wiki="Defines an item, both consumable and key items.\nNote that many key items are placebo and the item's effect is granted through scripting. Passive effects from ownership are not defined here." 
+  AlternativeOrder="sortId,sortGroupId,iconId,-,
+rarity,sellValue,basicPrice,saleValue,-,
+maxNum,maxRepositoryNum,potGroupId,-,
+weight,consumeMP,consumeHP,consumeHeroPoint,-,
+
+castSfxId,fireSfxId,effectSfxId,sfxVariationId,-,
+
+refCategory,refId_default,refId_1,refVirtualWepId,aiUseJudgeId,-,
+reinforceGoodsId,reinforceMaterialId,reinforcePrice,useLimitSummonBuddy,-,
+
+goodsUseAnim,goodsType,spEffectCategory,opmeMenuType,useLimitCategory,replaceCategory,suppleType,autoReplenishType,useEnableSpEffectType,useLimitSpEffectType,behaviorId,syncNumVaryId,yesNoDialogMessageId,replaceItemId,appearanceReplaceItemId,-,
+
+isEquip,isDrop,isDiscard,isDeposit,isFixItem,-,
+
+isConsume,isAutoEquip,isEstablishment,isOnlyOne,isSuppleItem,isFullSuppleItem,isAshenEstusFlask,isEnhance,isEnableFastUseItem,isBonfireWarpItem,isShieldEnchant,isWarpProhibited,enable_ActiveEmber,enable_Ladder,isUseMultiPlayPreparation,canMultiUse,isUseMultiPenaltyOnly,enable_ActiveBigRune,isSleepCol,isUseNoAttackRegion,-,
+
+isSummonHorse,enableRiding,disableRiding,-,
+
+isDisableHand,isRemoveItem_forGameClear,isApplySpecialEffect,-,
+
+enable_live,enable_gray,enable_white,enable_black,enable_multi,disable_offline,disableUseAtColiseum,disableUseAtOutOfColiseum,disableMultiDropShare,-,
+
+itemGetTutorialFlagId,-,
+compTrophySedId,trophySeqId,-,
+showLogCondType,showDialogCondType,-,
+
+overDexterity,magicId,modelId,shopLv,vagrantItemLotId,vagrantBonusEneDropItemLotId,vagrantItemEneDropItemLotId,isSleepCollectionItem,-,
+
+useLevel,useLevel_vowType0,useLevel_vowType1,useLevel_vowType2,useLevel_vowType3,useLevel_vowType4,useLevel_vowType5,useLevel_vowType6,useLevel_vowType7,useLevel_vowType8,useLevel_vowType9,useLevel_vowType10,useLevel_vowType11,useLevel_vowType12,useLevel_vowType13,useLevel_vowType14,useLevel_vowType15,-,
+
+disableParam_NT,pad,pad1,pad2,pad3,disableParamReserve1,-,
+disableParamReserve2,reserve4,reserve5,reserve3,-"/>
 </PARAMMETA>

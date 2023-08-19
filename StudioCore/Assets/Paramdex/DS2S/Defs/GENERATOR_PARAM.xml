@@ -41,8 +41,8 @@
     <Field Def="u16 Unk48" />
     <Field Def="u16 Map Object Bonfire ID" />
     <Field Def="f32 Leash Distance" />
-    <Field Def="u32 LocationEventID" />
-    <Field Def="u32 LocationEventID" />
+    <Field Def="u32 LocationEventID6" />
+    <Field Def="u32 LocationEventID7" />
     <Field Def="u32 AIThinkID" >
       <Description>Determines AI used by enemy.</Description>
     </Field>
@@ -60,8 +60,8 @@
     </Field>
     <Field Def="u16 Unk6C" />
     <Field Def="u16 Unk71" />
-    <Field Def="u32 LocationEventID1" />
-    <Field Def="u32 LocationEventID2" />
+    <Field Def="u32 LocationEventID8" />
+    <Field Def="u32 LocationEventID9" />
     <Field Def="u32 Unk78" />
     <Field Def="u32 Unk7C" />
     <Field Def="f32 Unk80" />

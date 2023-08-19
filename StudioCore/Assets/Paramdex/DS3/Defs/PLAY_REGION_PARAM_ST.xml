@@ -6,39 +6,47 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="s32 playRegionSpId" />
-    <Field Def="s32 EventFlagId0" />
-    <Field Def="f32 LimitationTime" />
-    <Field Def="s32 EventFlagId1" />
-    <Field Def="s32 EventFlagId2" />
-    <Field Def="s16 DisolvedEventFlag = 180" />
-    <Field Def="u8 LoadOfCinder [ON_OFF]" />
-    <Field Def="u8 IsEnableEvent:1" />
-    <Field Def="u8 Unk1:1" />
-    <Field Def="u8 Unk2:1" />
-    <Field Def="u8 Unk3:1" />
-    <Field Def="u8 Unk4:1" />
-    <Field Def="u8 Unk5:1" />
-    <Field Def="u8 Unk6:1" />
-    <Field Def="u8 Unk7:1" />
-    <Field Def="s32 BonfireEventId0 = -1" />
-    <Field Def="s32 BonfireEventId1 = -1" />
-    <Field Def="s32 BonfireEventId2 = -1" />
-    <Field Def="s32 BonfireEventId3 = -1" />
-    <Field Def="s32 BonfireEventId4 = -1" />
-    <Field Def="s32 BonfireEventId5 = -1" />
-    <Field Def="s32 BonfireEventId6 = -1" />
-    <Field Def="s32 BonfireEventId7 = -1" />
-    <Field Def="s32 BonfireEventId8 = -1" />
-    <Field Def="s32 BonfireEventId9 = -1" />
-    <Field Def="u8 Unk8:1 = 1" />
-    <Field Def="u8 Unk9:1 = 1" />
-    <Field Def="u8 Unk10:1 = 1" />
-    <Field Def="u8 Unk11:1" />
-    <Field Def="u8 Unk12:1" />
-    <Field Def="u8 Unk13:1" />
-    <Field Def="u8 Unk14:1" />
-    <Field Def="u8 Unk15:1" />
-    <Field Def="dummy8 pad1[31]" />
+    <Field Def="s32 matchAreaId" />
+    <Field Def="s32 multiPlayStartLimitEventFlagId" />
+    <Field Def="f32 otherDisableDistance" />
+    <Field Def="s32 pcPositionSaveLimitEventFlagId" />
+    <Field Def="s32 bossAreaId" />
+    <Field Def="s16 cultNpcWhiteGhostEntityId_byFree = -1" />
+    <Field Def="u8 bMapGuradianRegion" />
+    <Field Def="u8 bYellowCostumeRegion:1" />
+    <Field Def="u8 multiPlayStartLimitEventFlagId_targetFlagState:1" />
+    <Field Def="u8 breakInLimitEventFlagId_1_targetFlagState:1" />
+    <Field Def="u8 whiteSignLimitEventFlagId_1_targetFlagState:1" />
+    <Field Def="u8 redSignLimitEventFlagId_1_targetFlagState:1" />
+    <Field Def="u8 breakInLimitEventFlagId_2_targetFlagState:1" />
+    <Field Def="u8 breakInLimitEventFlagId_3_targetFlagState:1" />
+    <Field Def="u8 whiteSignLimitEventFlagId_2_targetFlagState:1" />
+    <Field Def="s32 warpItemUsePermitBonfireId_1 = -1" />
+    <Field Def="s32 warpItemUsePermitBonfireId_2 = -1" />
+    <Field Def="s32 warpItemUsePermitBonfireId_3 = -1" />
+    <Field Def="s32 warpItemUsePermitBonfireId_4 = -1" />
+    <Field Def="s32 warpItemUsePermitBonfireId_5 = -1" />
+    <Field Def="s32 warpItemProhibitionEventFlagId_1 = -1" />
+    <Field Def="s32 warpItemProhibitionEventFlagId_2 = -1" />
+    <Field Def="s32 warpItemProhibitionEventFlagId_3 = -1" />
+    <Field Def="s32 warpItemProhibitionEventFlagId_4 = -1" />
+    <Field Def="s32 warpItemProhibitionEventFlagId_5 = -1" />
+    <Field Def="u8 enableBloodstain:1 = 1" />
+    <Field Def="u8 enableBloodMessage:1 = 1" />
+    <Field Def="u8 enableGhost:1 = 1" />
+    <Field Def="u8 dispMask00:1" />
+    <Field Def="u8 dispMask01:1" />
+    <Field Def="u8 whiteSignLimitEventFlagId_3_targetFlagState:1" />
+    <Field Def="u8 redSignLimitEventFlagId_2_targetFlagState:1" />
+    <Field Def="u8 redSignLimitEventFlagId_3_targetFlagState:1" />
+    <Field Def="u8 isAutoIntrudePoint:1" />
+    <Field Def="dummy8 pad1:7" />
+    <Field Def="dummy8 pad2[2]" />
+    
+    <Field Def="s32 multiPlayHASHostLimitEventFlagId" />
+    <Field Def="f32 otherMaxDistance = 1000" />
+    <Field Def="s32 signPuddleOpenEventFlagId" />
+    
+    <Field Def="dummy8 pad3[16]" />
   </Fields>
 </PARAMDEF>

@@ -77,6 +77,7 @@ m39_20_00_00 Ruin-Strewn Precipice
 m45_00_00_00 Royal Colosseum
 m45_01_00_00 Caelid Colosseum
 m45_02_00_00 Limgrave Colosseum
+m60_00_00_99 Super Overworld
 m60_08_10_02 Southwest Liurnia
 m60_16_20_01 Southwest Moonlight Altar
 m60_33_40_00 Moonlight Altar - Altar South, Chelona's Rise
@@ -445,7 +446,7 @@ m60_52_41_00 Greyoll's Dragonbarrow - Southeast Farum Greatbridge, Lenne's Rise
 m60_26_21_01 Northeast Dragonbarrow
 m60_52_42_00 Greyoll's Dragonbarrow - Northeast Farum Greatbridge
 m60_52_43_00 Greyoll's Dragonbarrow - Northeast Cliffside
-m60_13_13_02 Southeast Mountaintops
+m60_13_13_02 Southeast Mountaintops - Fire Giant Arena
 m60_26_26_01 Southeast Flame Peak
 m60_52_52_00 Flame Peak - Southwest Fire Giant Arena
 m60_52_53_00 Flame Peak - Northwest Fire Giant Arena, Foot of the Forge
