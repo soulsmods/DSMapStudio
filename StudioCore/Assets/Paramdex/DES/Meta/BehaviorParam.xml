@@ -13,7 +13,7 @@
     <ezStateBehaviorType_old AltName="ezStateBehaviorType_old" />
     <refType AltName="refType" />
     <pad0 AltName="pad0" />
-    <atkParamId AltName="atkParamId" Refs="AtkParam_Pc" />
+    <atkParamId AltName="atkParamId" Refs="AtkParam_Npc,AtkParam_Pc"/>
     <bulletParamId AltName="bulletParamId" Refs="Bullet" />
     <spEffectId AltName="spEffectId" Refs="SpEffectParam" />
     <sfxVariationId AltName="sfxVariationId" />

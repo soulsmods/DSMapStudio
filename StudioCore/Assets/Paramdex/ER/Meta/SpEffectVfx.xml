@@ -110,7 +110,7 @@
     <enchantStartDmyId_7 AltName="Enchant SFX Start - Dummy Poly ID [7]" Wiki="Damipoli ID generated at the base of enchantment" />
     <enchantEndDmyId_7 AltName="Enchant SFX End - Dummy Poly ID [7]" Wiki="Damipoli ID generated at the tip of the sword at the time of enchantment. -1 If specified, it will be automatically put out to the point where it is a serial number." />
     <SfxIdOffsetType AltName="SFX ID Offset Type" Wiki="SfxID offset type" Enum="SP_EFFECT_VFX_SFX_ID_OFFSET_TYPE" />
-    <phantomParamOverwriteType AltName="Phantom Param Overwrite Type" Wiki="Forced overwrite type of phantom parameters" Enum="SP_EFFECT_OVERWRITE_PHANTOM_PARAM_TYPE" Refs="PhantomParam"/>
+    <phantomParamOverwriteType AltName="Phantom Param Overwrite Type" Wiki="Forced overwrite type of phantom parameters" Enum="SP_EFFECT_OVERWRITE_PHANTOM_PARAM_TYPE"/>
     <camouflageMinAlpha AltName="Camouflage - Min Alpha" Wiki="Minimum  value when hiding [%]" />
     <wetAspectType AltName="Wet Aspect Type" Wiki="Generate a wet expression by referring to the wet parameter" Refs="WetAspectParam" />
     <phantomParamOverwriteId AltName="Phantom Param Overwrite ID" Wiki="Forced Id of phantom parameter" Refs="PhantomParam"/>

@@ -812,6 +812,8 @@ namespace SoulsFormats
                 public UnkStruct1 DeepCopy()
                 {
                     var unk1 = (UnkStruct1)MemberwiseClone();
+                    unk1.DisplayGroups = (uint[])DisplayGroups.Clone();
+                    unk1.DrawGroups = (uint[])DrawGroups.Clone();
                     unk1.CollisionMask = (uint[])CollisionMask.Clone();
                     return unk1;
                 }
