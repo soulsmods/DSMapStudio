@@ -60,7 +60,7 @@ namespace StudioCore.ParamEditor
             return gen;
         }
         
-        public static MassEditResult ApplyCSV(ParamBank bank, string csvString, ActionManager actionManager, string param, bool appendOnly, bool replaceParams, char separator)
+        public static (string, CompoundAction?) ApplyCSV(ParamBank bank, string csvString, string param, bool appendOnly, bool replaceParams, char separator)
         {
             #if !DEBUG
             try
@@ -68,7 +68,7 @@ namespace StudioCore.ParamEditor
             #endif
                 Param p = bank.Params[param];
                 if (p == null)
-                    return new MassEditResult(MassEditResultType.PARSEERROR, "No Param selected");
+                    return ("No Param selected", null);
                 int csvLength = p.AppliedParamdef.Fields.Count + 2;// Include ID and name
                 string[] csvLines = csvString.Split("\n");
                 if (csvLines[0].StartsWith($@"ID{separator}Name"))
@@ -84,7 +84,7 @@ namespace StudioCore.ParamEditor
                     string[] csvs = csvLine.Trim().Split(separator);
                     if (csvs.Length != csvLength && !(csvs.Length==csvLength+1 && csvs[csvLength].Trim().Equals("")))
                     {
-                        return new MassEditResult(MassEditResultType.PARSEERROR, "CSV has wrong number of values");
+                        return ("CSV has wrong number of values", null);
                     }
                     int id = int.Parse(csvs[0]);
                     string name = csvs[1];
@@ -103,39 +103,38 @@ namespace StudioCore.ParamEditor
                         index++;
                         object newval = Convert.ChangeType(v, row.Get((PseudoColumn.None, col)).GetType());
                         if (newval == null)
-                            return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not assign {v} to field {col.Def.InternalName}");
+                            return ($@"Could not assign {v} to field {col.Def.InternalName}", null);
                         actions.AppendParamEditAction(row, (PseudoColumn.None, col), newval);
                     }
                 }
                 changeCount = actions.Count;
                 addedCount = addedParams.Count;
-                actions.Add(new AddParamsAction(p, "legacystring", addedParams, appendOnly, replaceParams));
-                if (changeCount != 0 || addedCount != 0)
-                    actionManager.ExecuteAction(new CompoundAction(actions));
-                return new MassEditResult(MassEditResultType.SUCCESS, $@"{changeCount} cells affected, {addedCount} rows added");
+                if (addedCount != 0)
+                    actions.Add(new AddParamsAction(p, "legacystring", addedParams, appendOnly, replaceParams));
+                return ($@"{changeCount} cells affected, {addedCount} rows added", new CompoundAction(actions));
             #if !DEBUG
             }
             catch
             {
-                return new MassEditResult(MassEditResultType.PARSEERROR, "Unable to parse CSV into correct data types");
+                return ("Unable to parse CSV into correct data types", null);
             }
             #else
-                return new MassEditResult(MassEditResultType.PARSEERROR, "Unable to parse CSV into correct data types");
+                return ("Unable to parse CSV into correct data types", null);
             #endif
         }
-        public static (MassEditResult, CompoundAction) ApplySingleCSV(ParamBank bank, string csvString, string param, string field, char separator, bool ignoreMissingRows, bool onlyAffectEmptyNames = false)
+        public static (string, CompoundAction?) ApplySingleCSV(ParamBank bank, string csvString, string param, string field, char separator, bool ignoreMissingRows, bool onlyAffectEmptyNames = false)
         {
             try
             {
                 Param p = bank.Params[param];
                 if (p == null)
-                    return (new MassEditResult(MassEditResultType.PARSEERROR, "No Param selected"), null);
+                    return ("No Param selected", null);
                 string[] csvLines = csvString.Split("\n");
                 if (csvLines[0].Trim().StartsWith($@"ID{separator}"))
                 {
                     if (!csvLines[0].Contains($@"ID{separator}{field}"))
                     {
-                        return (new MassEditResult(MassEditResultType.PARSEERROR, "CSV has wrong field name"), null);
+                        return ("CSV has wrong field name", null);
                     }
                     csvLines[0] = ""; //skip column label row
                 }
@@ -147,7 +146,7 @@ namespace StudioCore.ParamEditor
                         continue;
                     string[] csvs = csvLine.Trim().Split(separator, 2);
                     if (csvs.Length != 2 && !(csvs.Length==3 && csvs[2].Trim().Equals("")))
-                        return (new MassEditResult(MassEditResultType.PARSEERROR, "CSV has wrong number of values"), null);
+                        return ("CSV has wrong number of values", null);
                     int id = int.Parse(csvs[0]);
                     string value = csvs[1];
                     Param.Row? row = p[id];
@@ -155,7 +154,7 @@ namespace StudioCore.ParamEditor
                     {
                         if (ignoreMissingRows)
                             continue;
-                        return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not locate row {id}"), null);
+                        return ($@"Could not locate row {id}", null);
                     }
                     if (field.Equals("Name"))
                     {
@@ -168,20 +167,20 @@ namespace StudioCore.ParamEditor
                         Param.Column? col = p[field];
                         if (col == null)
                         {
-                            return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not locate field {field}"), null);
+                            return ($@"Could not locate field {field}", null);
                         }
                         object newval = Convert.ChangeType(value, row.Get((PseudoColumn.None, col)).GetType());
                         if (newval == null)
-                            return (new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not assign {value} to field {col.Def.InternalName}"), null);
+                            return ($@"Could not assign {value} to field {col.Def.InternalName}", null);
                         actions.AppendParamEditAction(row, (PseudoColumn.None, col), newval);
                     }
                 }
                 changeCount = actions.Count;
-                return (new MassEditResult(MassEditResultType.SUCCESS, $@"{changeCount} rows affected"), new CompoundAction(actions));
+                return ($@"{changeCount} rows affected", new CompoundAction(actions));
             }
             catch
             {
-                return (new MassEditResult(MassEditResultType.PARSEERROR, "Unable to parse CSV into correct data types"), null);
+                return ("Unable to parse CSV into correct data types", null);
             }
         }
     }

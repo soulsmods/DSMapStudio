@@ -160,14 +160,14 @@ namespace StudioCore.ParamEditor
                 if (!_params.ContainsKey(fName))
                     continue;
                 string names = File.ReadAllText(f);
-                (MassEditResult r, CompoundAction a) = ParamIO.ApplySingleCSV(this, names, fName, "Name", ' ', true, onlyAffectEmptyNames);
-                if (r.Type != MassEditResultType.SUCCESS)
+                (string result, CompoundAction action) = ParamIO.ApplySingleCSV(this, names, fName, "Name", ' ', true, onlyAffectEmptyNames);
+                if (action == null)
                 {
                     TaskLogs.AddLog($"Could not apply name files for {fName}",
                         Microsoft.Extensions.Logging.LogLevel.Warning);
                     continue;
                 }
-                actions.Add(a);
+                actions.Add(action);
             }
             return new CompoundAction(actions);
         }
