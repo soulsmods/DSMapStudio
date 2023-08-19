@@ -13,7 +13,7 @@ namespace StudioCore.DebugPrimitives
     {
         private static DbgPrimGeometryData GeometryData = null;
 
-        public DbgPrimWireSpheroidWithArrow(Transform location, float radius, Color color, int numVerticalSegments = 11, int numSidesPerSegment = 12, bool flatBottom = false)
+        public DbgPrimWireSpheroidWithArrow(Transform location, float radius, Color color, int numVerticalSegments = 11, int numSidesPerSegment = 12, bool flatBottom = false, bool reverseDirection = false)
         {
             NameColor = color;
 
@@ -112,6 +112,8 @@ namespace StudioCore.DebugPrimitives
                 //AddLine(Vector3.Zero, -Vector3.UnitX * OrientingSpinesLength * 0.5f);
 
                 Vector3 tip = -Vector3.UnitZ;
+                if (reverseDirection)
+                    tip = Vector3.UnitZ;
 
                 for (int i = 0; i <= Segments; i++)
                 {
