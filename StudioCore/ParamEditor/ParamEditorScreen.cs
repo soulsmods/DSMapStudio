@@ -468,9 +468,9 @@ namespace StudioCore.ParamEditor
 
                     if (ImGui.BeginMenu("Quick action"))
                     {
-                        if (ImGui.MenuItem("Export param to window", KeyBindings.Current.Param_ExportCSV.HintText))
+                        if (ImGui.MenuItem("Export entire param to window", KeyBindings.Current.Param_ExportCSV.HintText))
                             EditorCommandQueue.AddCommand($@"param/menu/massEditCSVExport/0");
-                        if (ImGui.MenuItem("Export param to file"))
+                        if (ImGui.MenuItem("Export entire param to file"))
                         {
                             using FileChooserNative fileChooser = new FileChooserNative("Choose CSV file",
                                 null, FileChooserAction.Save, "Save", "Cancel");
@@ -516,7 +516,7 @@ namespace StudioCore.ParamEditor
                     DelimiterInputText();
                     if (ImGui.MenuItem("All fields", KeyBindings.Current.Param_ImportCSV.HintText))
                         EditorCommandQueue.AddCommand($@"param/menu/massEditCSVImport");
-                    if (ImGui.MenuItem("Row name"))
+                    if (ImGui.MenuItem("Row Name"))
                         EditorCommandQueue.AddCommand($@"param/menu/massEditSingleCSVImport/Name");
                     if (ImGui.BeginMenu("Specific Field"))
                     {
@@ -529,7 +529,7 @@ namespace StudioCore.ParamEditor
                     }
                     if (ImGui.BeginMenu("From file...", _activeView._selection.activeParamExists()))
                     {
-                        if (ImGui.MenuItem("All"))
+                        if (ImGui.MenuItem("All fields"))
                         {
                             using FileChooserNative fileChooser = new FileChooserNative("Choose CSV file",
                                 null, FileChooserAction.Open, "Open", "Cancel");
@@ -553,7 +553,7 @@ namespace StudioCore.ParamEditor
                                 }
                             }
                         }
-                        if (ImGui.MenuItem("Name"))
+                        if (ImGui.MenuItem("Row Name"))
                         {
                             using FileChooserNative fileChooser = new FileChooserNative("Choose CSV file",
                                 null, FileChooserAction.Open, "Open", "Cancel");
@@ -574,7 +574,7 @@ namespace StudioCore.ParamEditor
                                 }
                             }
                         }
-                        if (ImGui.BeginMenu("Field"))
+                        if (ImGui.BeginMenu("Specific Field"))
                         {
                             foreach (PARAMDEF.Field field in ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()].AppliedParamdef.Fields)
                             {
