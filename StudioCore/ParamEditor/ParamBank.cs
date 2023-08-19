@@ -162,12 +162,10 @@ namespace StudioCore.ParamEditor
                 string names = File.ReadAllText(f);
                 (string result, CompoundAction action) = ParamIO.ApplySingleCSV(this, names, fName, "Name", ' ', true, onlyAffectEmptyNames);
                 if (action == null)
-                {
                     TaskLogs.AddLog($"Could not apply name files for {fName}",
                         Microsoft.Extensions.Logging.LogLevel.Warning);
-                    continue;
-                }
-                actions.Add(action);
+                else
+                    actions.Add(action);
             }
             return new CompoundAction(actions);
         }
