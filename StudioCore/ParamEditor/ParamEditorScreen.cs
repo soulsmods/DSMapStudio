@@ -434,6 +434,10 @@ namespace StudioCore.ParamEditor
                 {
                     EditorCommandQueue.AddCommand($@"param/menu/ctrlVPopup");
                 }
+                if (ImGui.MenuItem("Delete", KeyBindings.Current.Core_Delete.HintText, false, _activeView._selection.rowSelectionExists()))
+                {
+                    DeleteSelection();
+                }
                 if (ImGui.MenuItem("Duplicate", KeyBindings.Current.Core_Duplicate.HintText, false, _activeView._selection.rowSelectionExists()))
                 {
                     DuplicateSelection();
@@ -940,6 +944,18 @@ namespace StudioCore.ParamEditor
                 CFG.Current.Param_Export_Delimiter = displayDelimiter;
             }
         }
+
+        public void DeleteSelection()
+        {
+            List<Param.Row> toRemove = new List<Param.Row>(_activeView._selection.getSelectedRows());
+            var act = new DeleteParamsAction(ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()], toRemove);
+            EditorActionManager.ExecuteAction(act);
+            _views.ForEach((view) => {
+                if (view != null)
+                    toRemove.ForEach((row) => view._selection.removeRowFromAllSelections(row));
+            });
+        }
+
         public void DuplicateSelection()
         {
             Param param = ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()];
@@ -1132,18 +1148,9 @@ namespace StudioCore.ParamEditor
                 {
                     DuplicateSelection();
                 }
-                if (!ImGui.IsAnyItemActive() && InputTracker.GetKeyDown(KeyBindings.Current.Core_Delete))
+                if (!ImGui.IsAnyItemActive() && _activeView._selection.rowSelectionExists() && InputTracker.GetKeyDown(KeyBindings.Current.Core_Delete))
                 {
-                    if (_activeView._selection.rowSelectionExists())
-                    {
-                        List<Param.Row> toRemove = new List<Param.Row>(_activeView._selection.getSelectedRows());
-                        var act = new DeleteParamsAction(ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()], toRemove);
-                        EditorActionManager.ExecuteAction(act);
-                        _views.ForEach((view) => {
-                            if (view != null)
-                                toRemove.ForEach((row) => view._selection.removeRowFromAllSelections(row));
-                        });
-                    }
+                    DeleteSelection();
                 }
                 if (!ImGui.IsAnyItemActive() && _activeView._selection.rowSelectionExists() && InputTracker.GetKeyDown(KeyBindings.Current.Param_GotoSelectedRow))
                 {
