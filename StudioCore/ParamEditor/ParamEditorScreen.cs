@@ -361,7 +361,7 @@ namespace StudioCore.ParamEditor
                     {
                         var rows = CsvExportGetRows(rowType);
                         TryWriteFile(fileChooser.Filename,
-                            MassParamEditCSV.GenerateCSV(rows,
+                            ParamIO.GenerateCSV(rows,
                                 ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()],
                                 CFG.Current.Param_Export_Delimiter[0]));
                     }
@@ -380,7 +380,7 @@ namespace StudioCore.ParamEditor
                         {
                             var rows = CsvExportGetRows(rowType);
                             TryWriteFile(fileChooser.Filename,
-                                    MassParamEditCSV.GenerateSingleCSV(rows,
+                                    ParamIO.GenerateSingleCSV(rows,
                                         ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()],
                                         "Name",
                                         CFG.Current.Param_Export_Delimiter[0]));
@@ -400,7 +400,7 @@ namespace StudioCore.ParamEditor
                             {
                                 var rows = CsvExportGetRows(rowType);
                                 TryWriteFile(fileChooser.Filename,
-                                    MassParamEditCSV.GenerateSingleCSV(rows,
+                                    ParamIO.GenerateSingleCSV(rows,
                                         ParamBank.PrimaryBank.Params[
                                             _activeView._selection.getActiveParam()],
                                         field.InternalName, CFG.Current.Param_Export_Delimiter[0]));
@@ -481,7 +481,7 @@ namespace StudioCore.ParamEditor
                             {
                                 var rows = ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()].Rows;
                                 TryWriteFile(fileChooser.Filename,
-                                    MassParamEditCSV.GenerateCSV(rows,
+                                    ParamIO.GenerateCSV(rows,
                                         ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()],
                                         CFG.Current.Param_Export_Delimiter[0]));
                             }
@@ -541,7 +541,7 @@ namespace StudioCore.ParamEditor
                                 string csv = TryReadFile(fileChooser.Filename);
                                 if (csv != null)
                                 {
-                                    MassEditResult r = MassParamEditCSV.PerformMassEdit(ParamBank.PrimaryBank, csv, EditorActionManager, _activeView._selection.getActiveParam(), false, false, CFG.Current.Param_Export_Delimiter[0]);
+                                    MassEditResult r = ParamIO.ApplyCSV(ParamBank.PrimaryBank, csv, EditorActionManager, _activeView._selection.getActiveParam(), false, false, CFG.Current.Param_Export_Delimiter[0]);
                                     if (r.Type == MassEditResultType.SUCCESS)
                                         TaskManager.Run(new("Param - Check Differences", false, true, true, TaskLogs.LogPriority.Low, () => ParamBank.PrimaryBank.RefreshParamDiffCaches()));
                                     else
@@ -561,7 +561,7 @@ namespace StudioCore.ParamEditor
                                 string csv = TryReadFile(fileChooser.Filename);
                                 if (csv != null)
                                 {
-                                    (MassEditResult r, CompoundAction a) = MassParamEditCSV.PerformSingleMassEdit(ParamBank.PrimaryBank, csv, _activeView._selection.getActiveParam(), "Name", CFG.Current.Param_Export_Delimiter[0], false);
+                                    (MassEditResult r, CompoundAction a) = ParamIO.ApplySingleCSV(ParamBank.PrimaryBank, csv, _activeView._selection.getActiveParam(), "Name", CFG.Current.Param_Export_Delimiter[0], false);
                                     if (r.Type == MassEditResultType.SUCCESS && a != null)
                                         EditorActionManager.ExecuteAction(a);
                                     else
@@ -586,7 +586,7 @@ namespace StudioCore.ParamEditor
                                         string csv = TryReadFile(fileChooser.Filename);
                                         if (csv != null)
                                         {
-                                            (MassEditResult r, CompoundAction a) = MassParamEditCSV.PerformSingleMassEdit(ParamBank.PrimaryBank, csv, _activeView._selection.getActiveParam(), field.InternalName, CFG.Current.Param_Export_Delimiter[0], false);
+                                            (MassEditResult r, CompoundAction a) = ParamIO.ApplySingleCSV(ParamBank.PrimaryBank, csv, _activeView._selection.getActiveParam(), field.InternalName, CFG.Current.Param_Export_Delimiter[0], false);
                                             if (r.Type == MassEditResultType.SUCCESS && a != null)
                                                 EditorActionManager.ExecuteAction(a);
                                             else
@@ -1025,7 +1025,7 @@ namespace StudioCore.ParamEditor
                 DelimiterInputText();
                 if (ImGui.Selectable("Submit", false, ImGuiSelectableFlags.DontClosePopups))
                 {
-                    MassEditResult r = MassParamEditCSV.PerformMassEdit(ParamBank.PrimaryBank, _currentMEditCSVInput, EditorActionManager, _activeView._selection.getActiveParam(), _mEditCSVAppendOnly, _mEditCSVAppendOnly && _mEditCSVReplaceRows, CFG.Current.Param_Export_Delimiter[0]);
+                    MassEditResult r = ParamIO.ApplyCSV(ParamBank.PrimaryBank, _currentMEditCSVInput, EditorActionManager, _activeView._selection.getActiveParam(), _mEditCSVAppendOnly, _mEditCSVAppendOnly && _mEditCSVReplaceRows, CFG.Current.Param_Export_Delimiter[0]);
                     if (r.Type == MassEditResultType.SUCCESS)
                     {
                         TaskManager.Run(new("Param - Check Differences", false, true, true, TaskLogs.LogPriority.Low, () => ParamBank.PrimaryBank.RefreshParamDiffCaches()));
@@ -1042,7 +1042,7 @@ namespace StudioCore.ParamEditor
                 DelimiterInputText();
                 if (ImGui.Selectable("Submit", false, ImGuiSelectableFlags.DontClosePopups))
                 {
-                    (MassEditResult r, CompoundAction a) = MassParamEditCSV.PerformSingleMassEdit(ParamBank.PrimaryBank, _currentMEditCSVInput, _activeView._selection.getActiveParam(), _currentMEditSingleCSVField, CFG.Current.Param_Export_Delimiter[0], false);
+                    (MassEditResult r, CompoundAction a) = ParamIO.ApplySingleCSV(ParamBank.PrimaryBank, _currentMEditCSVInput, _activeView._selection.getActiveParam(), _currentMEditSingleCSVField, CFG.Current.Param_Export_Delimiter[0], false);
                     if (a != null)
                         EditorActionManager.ExecuteAction(a);
                     _mEditCSVResult = r.Information;
@@ -1247,7 +1247,7 @@ namespace StudioCore.ParamEditor
                     else if (initcmd[1] == "massEditCSVExport")
                     {
                         var rows = CsvExportGetRows(Enum.Parse<ParamBank.RowGetType>(initcmd[2]));
-                        _currentMEditCSVOutput = MassParamEditCSV.GenerateCSV(rows,
+                        _currentMEditCSVOutput = ParamIO.GenerateCSV(rows,
                             ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()],
                             CFG.Current.Param_Export_Delimiter[0]);
                         OpenMassEditPopup("massEditMenuCSVExport");
@@ -1260,7 +1260,7 @@ namespace StudioCore.ParamEditor
                     {
                         _currentMEditSingleCSVField = initcmd[2];
                         var rows = CsvExportGetRows(Enum.Parse<ParamBank.RowGetType>(initcmd[3]));
-                        _currentMEditCSVOutput = MassParamEditCSV.GenerateSingleCSV(rows,
+                        _currentMEditCSVOutput = ParamIO.GenerateSingleCSV(rows,
                             ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()],
                             _currentMEditSingleCSVField,
                             CFG.Current.Param_Export_Delimiter[0]);

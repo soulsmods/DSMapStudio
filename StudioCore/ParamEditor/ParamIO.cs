@@ -12,7 +12,7 @@ using StudioCore.ParamEditor;
 
 namespace StudioCore.ParamEditor
 {
-    public class MassParamEditCSV
+    public class ParamIO
     {
         public static string GenerateColumnLabels(Param param, char separator)
         {
@@ -60,7 +60,7 @@ namespace StudioCore.ParamEditor
             return gen;
         }
         
-        public static MassEditResult PerformMassEdit(ParamBank bank, string csvString, ActionManager actionManager, string param, bool appendOnly, bool replaceParams, char separator)
+        public static MassEditResult ApplyCSV(ParamBank bank, string csvString, ActionManager actionManager, string param, bool appendOnly, bool replaceParams, char separator)
         {
             #if !DEBUG
             try
@@ -123,7 +123,7 @@ namespace StudioCore.ParamEditor
                 return new MassEditResult(MassEditResultType.PARSEERROR, "Unable to parse CSV into correct data types");
             #endif
         }
-        public static (MassEditResult, CompoundAction) PerformSingleMassEdit(ParamBank bank, string csvString, string param, string field, char separator, bool ignoreMissingRows, bool onlyAffectEmptyNames = false)
+        public static (MassEditResult, CompoundAction) ApplySingleCSV(ParamBank bank, string csvString, string param, string field, char separator, bool ignoreMissingRows, bool onlyAffectEmptyNames = false)
         {
             try
             {
