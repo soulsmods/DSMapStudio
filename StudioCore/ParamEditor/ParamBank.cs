@@ -45,6 +45,7 @@ namespace StudioCore.ParamEditor
         private Dictionary<string, Param> _params = null;
         private Dictionary<string, HashSet<int>> _vanillaDiffCache = null; //If param != vanillaparam
         private Dictionary<string, HashSet<int>> _primaryDiffCache = null; //If param != primaryparam
+        private Dictionary<string, List<string?>> _storedStrippedRowNames = null;
 
         private bool _pendingUpgrade = false;
 
@@ -571,6 +572,7 @@ namespace StudioCore.ParamEditor
                 enemyFile = $@"{dir}\Param\EnemyParam.param";
             }
             LoadParamsDS2FromFile(looseParams, param, enemyFile, loose);
+            LoadExternalRowNames();
         }
         private void LoadVParamsDS2(bool loose)
         {
@@ -1171,21 +1173,21 @@ namespace StudioCore.ParamEditor
                 paramBnd = BND4.Read(param);
             }
 
-            // If params aren't loose, replace params with edited ones
             if (!loose)
             {
-                // Replace params in paramBND, write remaining params loosely
+                // Save params non-loosely: Replace params regulation and write remaining params loosely.
+
                 if (paramBnd.Files.Find(e => e.Name.EndsWith(".param")) == null)
                 {
                     if (PlatformUtils.Instance.MessageBox("It appears that you are trying to save params non-loosely with an \"enc_regulation.bnd\" that has previously been saved loosely." +
-                                                          "\n\nWould you like to reinsert params into the bnd that were previously stripped out?", "DS2 de-loose param",
+                                                            "\n\nWould you like to reinsert params into the bnd that were previously stripped out?", "DS2 de-loose param",
                         MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
                         paramBnd.Dispose();
                         param = $@"{dir}\enc_regulation.bnd.dcx";
                         if (!BND4.Is($@"{dir}\enc_regulation.bnd.dcx"))
                         {
-                            // Decrypt the file
+                            // Decrypt the file.
                             paramBnd = SFUtil.DecryptDS2Regulation(param);
 
                             // Since the file is encrypted, check for a backup. If it has none, then make one and write a decrypted one.
@@ -1201,26 +1203,41 @@ namespace StudioCore.ParamEditor
                         }
                     }
                 }
-
-                foreach (var p in _params)
+                try
                 {
-                    var bnd = paramBnd.Files.Find(e => Path.GetFileNameWithoutExtension(e.Name) == p.Key);
-                    if (bnd != null)
+                    // Strip and store row names before saving, as too many row names can cause DS2 to crash.
+                    StripRowNames();
+
+                    foreach (var p in _params)
                     {
-                        bnd.Bytes = p.Value.Write();
-                    }
-                    else
-                    {
-                        Utils.WriteWithBackup(dir, mod, $@"Param\{p.Key}.param", p.Value);
+                        var bnd = paramBnd.Files.Find(e => Path.GetFileNameWithoutExtension(e.Name) == p.Key);
+                        if (bnd != null)
+                        {
+                            // Regulation contains this param, overwrite it.
+                            bnd.Bytes = p.Value.Write();
+                        }
+                        else
+                        {
+                            // Regulation does not contain this param, write param loosely.
+                            Utils.WriteWithBackup(dir, mod, $@"Param\{p.Key}.param", p.Value);
+                        }
                     }
                 }
+                catch
+                {
+                    RestoreStrippedRowNames();
+                    throw;
+                }
+                RestoreStrippedRowNames();
             }
             else
             {
-                // strip all the params from the regulation
+                // Save params loosely: Strip params from regulation and write all params loosely.
+
                 List<BinderFile> newFiles = new List<BinderFile>();
                 foreach (var p in paramBnd.Files)
                 {
+                    // Strip params from regulation bnd
                     if (!p.Name.ToUpper().Contains(".PARAM"))
                     {
                         newFiles.Add(p);
@@ -1228,12 +1245,23 @@ namespace StudioCore.ParamEditor
                 }
                 paramBnd.Files = newFiles;
 
-                // Write all the params out loose
-                foreach (var p in _params)
+                try
                 {
-                    Utils.WriteWithBackup(dir, mod, $@"Param\{p.Key}.param", p.Value);
-                }
+                    // Strip and store row names before saving, as too many row names can cause DS2 to crash.
+                    StripRowNames();
 
+                    // Write params to loose files.
+                    foreach (var p in _params)
+                    {
+                        Utils.WriteWithBackup(dir, mod, $@"Param\{p.Key}.param", p.Value);
+                    }
+                }
+                catch
+                {
+                    RestoreStrippedRowNames();
+                    throw;
+                }
+                RestoreStrippedRowNames();
             }
             Utils.WriteWithBackup(dir, mod, @"enc_regulation.bnd.dcx", paramBnd);
             paramBnd.Dispose();
@@ -1865,6 +1893,82 @@ namespace StudioCore.ParamEditor
             if (allDiffs == null || !allDiffs.ContainsKey(param))
                 return EMPTYSET;
             return allDiffs[param];
+        }
+
+        /// <summary>
+        /// Loads row names from external files and applies them to params.
+        /// Uses indicies rather than IDs.
+        /// </summary>
+        private void LoadExternalRowNames()
+        {
+            int failCount = 0;
+            foreach (var p in _params)
+            {
+                var path = AssetLocator.GetStrippedRowNamesPath(p.Key);
+                if (File.Exists(path))
+                {
+                    var names = File.ReadAllLines(path);
+                    if (names.Length != p.Value.Rows.Count)
+                    {
+                        TaskLogs.AddLog($"External row names could not be applied to {p.Key}, row count does not match",
+                            Microsoft.Extensions.Logging.LogLevel.Warning, TaskLogs.LogPriority.Low);
+                        failCount++;
+                        continue;
+                    }
+
+                    for (var i = 0; i < names.Length; i++)
+                    {
+                        p.Value.Rows[i].Name = names[i];
+                    }
+                }
+            }
+            if (failCount > 0)
+            {
+                TaskLogs.AddLog($"External row names could not be applied to {failCount} params due to non-matching row counts.",
+                    Microsoft.Extensions.Logging.LogLevel.Warning);
+            }
+        }
+
+        /// <summary>
+        /// Strips row names from params, saves them to files, and stores them to be restored after saving params.
+        /// Should always be used in conjunction with RestoreStrippedRowNames().
+        /// </summary>
+        private void StripRowNames()
+        {
+            _storedStrippedRowNames = new();
+            foreach (var p in _params)
+            {
+                _storedStrippedRowNames.TryAdd(p.Key, new());
+                var list = _storedStrippedRowNames[p.Key];
+                foreach (var r in p.Value.Rows)
+                {
+                    list.Add(r.Name);
+                    r.Name = "";
+                }
+                var path = AssetLocator.GetStrippedRowNamesPath(p.Key);
+                Directory.CreateDirectory(Path.GetDirectoryName(path));
+                File.WriteAllLines(path, list);
+            }
+        }
+
+        /// <summary>
+        /// Restores stripped row names back to all params.
+        /// Should always be used in conjunction with StripRowNames().
+        /// </summary>
+        private void RestoreStrippedRowNames()
+        {
+            if (_storedStrippedRowNames == null)
+                throw new InvalidOperationException("No stripped row names have been stored.");
+
+            foreach (var p in _params)
+            {
+                var storedNames = _storedStrippedRowNames[p.Key];
+                for (var i = 0; i < p.Value.Rows.Count; i++)
+                {
+                    p.Value.Rows[i].Name = storedNames[i];
+                }
+            }
+            _storedStrippedRowNames = null;
         }
     }
 }
