@@ -890,6 +890,8 @@ namespace StudioCore.Scene
 
     public class DebugPrimitiveRenderableProxy : RenderableProxy
     {
+        private static float _colorHueIncrement = 0;
+
         private MeshRenderables _renderablesSet;
 
         private IDbgPrim? _debugPrimitive;
@@ -906,6 +908,8 @@ namespace StudioCore.Scene
         private Matrix4x4 _world = Matrix4x4.Identity;
         private WeakReference<ISelectable> _selectable = null;
 
+        private bool _hasColorVariance = false;
+        private Color _initialColor = Color.Empty;
         private Color _baseColor = Color.Gray;
         public Color BaseColor
         {
@@ -913,6 +917,8 @@ namespace StudioCore.Scene
             set
             {
                 _baseColor = value;
+                if (_initialColor == Color.Empty)
+                    _initialColor = value;
                 ScheduleRenderableUpdate();
             }
         }
@@ -1047,8 +1053,13 @@ namespace StudioCore.Scene
         public DebugPrimitiveRenderableProxy(DebugPrimitiveRenderableProxy clone) : this(clone._renderablesSet, clone._debugPrimitive)
         {
             _drawfilter = clone.DrawFilter;
-            _baseColor = clone._baseColor;
+            _initialColor = clone._initialColor;
+            _baseColor = clone.BaseColor;
             _highlightedColor = clone._highlightedColor;
+            if (clone._hasColorVariance)
+            {
+                ApplyColorVariance(this);
+            }
         }
 
         public override void UnregisterAndRelease()
@@ -1332,6 +1343,7 @@ namespace StudioCore.Scene
             var r = new DebugPrimitiveRenderableProxy(scene.OpaqueRenderables, _regionBox);
             r.BaseColor = Color.Blue;
             r.HighlightedColor = Color.DarkViolet;
+            ApplyColorVariance(r);
             return r;
         }
 
@@ -1340,6 +1352,7 @@ namespace StudioCore.Scene
             var r = new DebugPrimitiveRenderableProxy(scene.OpaqueRenderables, _regionCylinder);
             r.BaseColor = Color.Blue;
             r.HighlightedColor = Color.DarkViolet;
+            ApplyColorVariance(r);
             return r;
         }
 
@@ -1348,6 +1361,7 @@ namespace StudioCore.Scene
             var r = new DebugPrimitiveRenderableProxy(scene.OpaqueRenderables, _regionSphere);
             r.BaseColor = Color.Blue;
             r.HighlightedColor = Color.DarkViolet;
+            ApplyColorVariance(r);
             return r;
         }
 
@@ -1419,6 +1433,7 @@ namespace StudioCore.Scene
             var r = new DebugPrimitiveRenderableProxy(scene.OpaqueRenderables, _pointLight);
             r.BaseColor = Color.YellowGreen;
             r.HighlightedColor = Color.Yellow;
+            ApplyColorVariance(r);
             return r;
         }
         public static DebugPrimitiveRenderableProxy GetSpotLightProxy(RenderScene scene)
@@ -1426,6 +1441,7 @@ namespace StudioCore.Scene
             var r = new DebugPrimitiveRenderableProxy(scene.OpaqueRenderables, _spotLight);
             r.BaseColor = Color.Goldenrod;
             r.HighlightedColor = Color.Violet;
+            ApplyColorVariance(r);
             return r;
         }
         public static DebugPrimitiveRenderableProxy GetDirectionalLightProxy(RenderScene scene)
@@ -1434,6 +1450,28 @@ namespace StudioCore.Scene
             r.BaseColor = Color.Cyan;
             r.HighlightedColor = Color.AliceBlue;
             return r;
+        }
+
+        private static void ApplyColorVariance(DebugPrimitiveRenderableProxy rend)
+        {
+            // Determines how much color varies per-increment.
+            const float incrementModifier = 0.721f;
+
+            rend._hasColorVariance = true;
+
+            var hsv = Utils.ColorToHSV(rend._initialColor);
+            var range = 360.0f * CFG.Current.GFX_Wireframe_Color_Variance / 2;
+            _colorHueIncrement += range * incrementModifier;
+            if (_colorHueIncrement > range)
+                _colorHueIncrement -= range * 2;
+
+            hsv.X += _colorHueIncrement;
+            if (hsv.X > 360.0f)
+                hsv.X -= 360.0f;
+            else if (hsv.X < 0.0f)
+                hsv.X += 360.0f;
+
+            rend.BaseColor = Utils.ColorFromHSV(hsv);
         }
     }
 

@@ -12,6 +12,8 @@ using SoulsFormats;
 using StudioCore.MsbEditor;
 using Veldrid;
 using Veldrid.Utilities;
+using System.Drawing;
+using System.Diagnostics;
 
 namespace StudioCore
 {
@@ -116,32 +118,52 @@ namespace StudioCore
             return temp2;
         }
 
-        /*public static Color HSLtoRGB(float H, float S, float L)
+        /// <summary>
+        /// Derived from https://stackoverflow.com/a/1626232
+        /// </summary>
+        public static Vector3 ColorToHSV(Color color)
         {
-            double r = 0;
-            double g = 0;
-            double b = 0;
-            if (L != 0f)
-            {
-                if (S != 0f)
-                {
-                    double temp2 = Utils.GetTemp2(H, S, L);
-                    double temp1 = 2 * (double)L - temp2;
-                    r = Utils.GetColorComponent(temp1, temp2, (double)H + 0.333333333333333);
-                    g = Utils.GetColorComponent(temp1, temp2, (double)H);
-                    b = Utils.GetColorComponent(temp1, temp2, (double)H - 0.333333333333333);
-                }
-                else
-                {
-                    double l = (double)L;
-                    b = l;
-                    g = l;
-                    r = l;
-                }
-            }
-            Color color = Color.FromNonPremultiplied(new Vector4((float)r, (float)g, (float)b, 1f));
-            return color;
-        }*/
+            int max = Math.Max(color.R, Math.Max(color.G, color.B));
+            int min = Math.Min(color.R, Math.Min(color.G, color.B));
+
+            var hue = color.GetHue();
+            var saturation = (max == 0) ? 0 : 1.0f - (1.0f * min / max);
+            var value = max / 255.0f;
+
+            return new Vector3(hue, saturation, value);
+        }
+
+        /// <summary>
+        /// Derived from https://stackoverflow.com/a/1626232
+        /// </summary>
+        public static Color ColorFromHSV(Vector3 hsv)
+        {
+            float hue = hsv.X;
+            float saturation = hsv.Y;
+            float value = hsv.Z;
+
+            int hi = Convert.ToInt32(Math.Floor(hue / 60)) % 6;
+            float f = hue / 60 - (float)Math.Floor(hue / 60);
+
+            value *= 255.0f;
+            int v = Convert.ToInt32(value);
+            int p = Convert.ToInt32(value * (1 - saturation));
+            int q = Convert.ToInt32(value * (1 - f * saturation));
+            int t = Convert.ToInt32(value * (1 - (1 - f) * saturation));
+
+            if (hi == 0)
+                return Color.FromArgb(255, v, t, p);
+            else if (hi == 1)
+                return Color.FromArgb(255, q, v, p);
+            else if (hi == 2)
+                return Color.FromArgb(255, p, v, t);
+            else if (hi == 3)
+                return Color.FromArgb(255, p, q, v);
+            else if (hi == 4)
+                return Color.FromArgb(255, t, p, v);
+            else
+                return Color.FromArgb(255, v, p, q);
+        }
 
         private static double MoveIntoRange(double temp3)
         {
