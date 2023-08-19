@@ -1154,6 +1154,13 @@ namespace StudioCore
                 {
                     //TODO SDT
                 }
+                else if (Type == GameType.EldenRing)
+                {
+                    var env = new AssetDescription();
+                    env.AssetPath = GetAssetPath($@"map\{mid}\{mid}_envmap.tpf.dcx");
+                    env.AssetVirtualPath = $@"map/tex/{mid}/env";
+                    ads.Add(env);
+                }
             }
 
             return ads;
