@@ -493,8 +493,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                [MSBParamReference(ParamName = "PlayAreaParam")]
-                public int PlayAreaParamID { get; set; }
+                public int UnkT20 { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -577,7 +576,7 @@ namespace SoulsFormats
                     UnkT17 = br.ReadByte();
                     CameraSfxID = br.ReadInt32();
                     PlayerLightParamID = br.ReadInt32();
-                    PlayAreaParamID = br.ReadInt32();
+                    UnkT20 = br.ReadInt32();
                     br.AssertInt16(0);
                     UnkT26 = br.ReadByte();
                     UnkT27 = br.ReadByte();
@@ -615,7 +614,7 @@ namespace SoulsFormats
                     bw.WriteByte(UnkT17);
                     bw.WriteInt32(CameraSfxID);
                     bw.WriteInt32(PlayerLightParamID);
-                    bw.WriteInt32(PlayAreaParamID);
+                    bw.WriteInt32(UnkT20);
                     bw.WriteInt16(0);
                     bw.WriteByte(UnkT26);
                     bw.WriteByte(UnkT27);
