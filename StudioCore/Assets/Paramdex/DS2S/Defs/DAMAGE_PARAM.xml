@@ -29,7 +29,14 @@
     <Field Def="f32 hitbox_radius_mult" />
     <Field Def="f32 hitbox_length_mult" />
     <Field Def="f32 cycle_period" />
-    <Field Def="u8 target" />
+    <Field Def="u8 target_disable_damage:1 = 1" />
+    <Field Def="u8 target2:1 = 1" />
+    <Field Def="u8 target_self:1 = 1" />
+    <Field Def="u8 target4:1 = 1" />
+    <Field Def="u8 target_characters:1 = 1" />
+    <Field Def="u8 target6:1 = 1" />
+    <Field Def="u8 target_map:1 = 1" />
+    <Field Def="u8 target8:1 = 1" />
     <Field Def="u8 Unk01" />
     <Field Def="u8 Unk02" />
     <Field Def="u8 Unk03" />
@@ -51,10 +58,10 @@
     <Field Def="u8 Unk15" />
     <Field Def="u8 Unk16" />
     <Field Def="u8 Unk17" />
-    <Field Def="u8 Unk18" />
+    <Field Def="u8 hitback_is_spawn_on_weapon" />
     <Field Def="u8 hitback_hitbox_origin_dummy_poly_id" />
     <Field Def="u8 hitback_hitbox_shape" />
-    <Field Def="u8 Unk19" />
+    <Field Def="u8 sfx_opacity_adjustment" />
     <Field Def="u8 Unk20" />
     <Field Def="u8 Unk21" />
     <Field Def="f32 hitback_hitbox_radius_mult" />

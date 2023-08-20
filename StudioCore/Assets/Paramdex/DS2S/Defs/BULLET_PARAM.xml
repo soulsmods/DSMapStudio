@@ -8,16 +8,16 @@
   <Fields>
     <Field Def="s32 sfx_id" />
     <Field Def="u8 spawn_location" />
-    <Field Def="u8 spawn_flag_0" />
+    <Field Def="u8 spawn_direction" />
     <Field Def="u8 online_visibility" />
     <Field Def="u8 spawn_flag_1" />
-    <Field Def="f32 vertical_spawn_distance" />
-    <Field Def="f32 unknown_spawn_distance" />
-    <Field Def="f32 horizontal_spawn_distance" />
-    <Field Def="f32 shooter_horizontal_angle" />
-    <Field Def="f32 shooter_unknown_angle_0" />
-    <Field Def="f32 shooter_vertical_angle" />
-    <Field Def="f32 shooter_unknown_angle_1" />
+    <Field Def="f32 relative_z_coord" />
+    <Field Def="f32 relative_y_coord" />
+    <Field Def="f32 relative_x_coord" />
+    <Field Def="f32 relative_vertical_angle" />
+    <Field Def="f32 relative_horizontal_angle" />
+    <Field Def="f32 lockon_vertical_angle" />
+    <Field Def="f32 lockon_horizontal_angle" />
     <Field Def="f32 vertical_angle_randomizer" />
     <Field Def="f32 horizontal_angle_randomizer" />
     <Field Def="u8 Unk00" />
@@ -27,8 +27,8 @@
     <Field Def="f32 Unk02" />
     <Field Def="f32 Unk03" />
     <Field Def="f32 shoot_interval" />
-    <Field Def="f32 vertical_spread" />
-    <Field Def="f32 horizontal_spread" />
+    <Field Def="f32 sequential_relative_vertical_angle" />
+    <Field Def="f32 sequential_relative_horizontal_angle" />
     <Field Def="u8 Unk04" />
     <Field Def="u8 Unk05" />
     <Field Def="u8 Unk06" />
@@ -63,7 +63,7 @@
     <Field Def="u8 hit_wall" />
     <Field Def="u8 hit_floor" />
     <Field Def="u8 hit_water" />
-    <Field Def="s32 speffect_on_shoot" />
+    <Field Def="s32 shoot_sfx_id" />
     <Field Def="u8 Unk14" />
     <Field Def="u8 Unk15" />
     <Field Def="u8 Unk16" />

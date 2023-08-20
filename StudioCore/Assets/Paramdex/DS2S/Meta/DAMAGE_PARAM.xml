@@ -49,13 +49,22 @@
     <hitbox_radius_mult AltName="Hitbox Radius %"/>
     <hitbox_length_mult AltName="Hitbox Length %"/>
     <cycle_period AltName="Cycle Period"/>
-    <target AltName="Target"/>
+    <target_disable_damage AltName="Disable Damage" IsBool="" />
+    <target2 AltName="Unk" IsBool="" />
+    <target_self AltName="Target Self" IsBool="" />
+    <target4 AltName="Unk" IsBool="" />
+    <target_characters AltName="Target Characters" IsBool="" />
+    <target6 AltName="Unk" IsBool="" />
+    <target_map AltName="Target Map" IsBool="" />
+    <target8 AltName="Unk" IsBool="" />
     <speffect_id AltName="SpEffect ID"/>
     <apply_speffect AltName="Apply SpEffect" IsBool=""/>
     <speffect_type AltName="SpEffect Type"/>
     <speffect_apply_mode AltName="SpEffect Apply Mode"/>
+    <hitback_is_spawn_on_weapon AltName="Hitback - Derive from Weapon" IsBool="" />
     <hitback_hitbox_origin_dummy_poly_id AltName="Hitback - Hitbox Origin DmyPoly ID"/>
     <hitback_hitbox_shape AltName="Hitback - Hitbox Shape" Enum="HitboxType" />
+    <sfx_opacity_adjustment AltName="Affects SFX Opacity" />
     <hitback_hitbox_radius_mult AltName="Hitback - Hitbox Radius %"/>
     <hitback_hitbox_length_mult AltName="Hitback - Hitbox Length %"/>
     <grab_param_id AltName="Grab ID" Refs="GrabParam" />
