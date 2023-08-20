@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
-  <Self Row0Dummy="" />
+  <Self Wiki="Defines parameters relating to projectiles." Row0Dummy="" />
   <Field>
     <sfx_id AltName="SFX ID" Wiki="The SFX ID of this particular bullet. Sometimes unlisted here and sometimes provided by the EMEVD."/>
     <spawn_location AltName="Spawn Location" Wiki="Where the effect/bullet will spawn in relation to the parent."/>
@@ -10,10 +10,10 @@
     <vertical_spawn_distance AltName="Vertical Spawn Distance"/>
     <unknown_spawn_distance AltName="Unknown Spawn Distance"/>
     <horizontal_spawn_distance AltName="Horizontal Spawn Distance"/>
-    <shooter_horizontal_angle AltName="Shooter Horizontal Angle"/>
-    <shooter_unknown_angle_0 AltName="Shooter Unknown Angle 0"/>
-    <shooter_vertical_angle AltName="Shooter Vertical Angle"/>
-    <shooter_unknown_angle_1 AltName="Shooter Unknown Angle 1"/>
+    <shooter_horizontal_angle AltName="Shooter Horizontal Angle" Wiki="In radians."/>
+    <shooter_unknown_angle_0 AltName="Shooter Unknown Angle 0" Wiki="In radians."/>
+    <shooter_vertical_angle AltName="Shooter Vertical Angle" Wiki="In radians."/>
+    <shooter_unknown_angle_1 AltName="Shooter Unknown Angle 1" Wiki="In radians."/>
     <vertical_angle_randomizer AltName="Vertical Angle Randomizer"/>
     <horizontal_angle_randomizer AltName="Horizontal Angle Randomizer"/>
     <shoot_count AltName="Instant Shoot Count"/>
@@ -39,7 +39,7 @@
     <tan_horizontal_target_velocity AltName="Tangential Horizontal: Target Velocity"/>
     <tan_horizontal_max_velocity AltName="Tangential Horizontal: Max Velocity"/>
     <max_angle_change AltName="Max Angle Adjustment"/>
-    <max_tracking_angle_change AltName="Max Tracking Angle Adjustment"/>
+    <max_tracking_angle_change AltName="Max Tracking Angle Adjustment" Wiki="In radians."/>
     <max_tracking_time AltName="Max Tracking Duration"/>
     <hit_character AltName="Collides with Character" IsBool=""/>
     <hit_wall AltName="Collides with Wall" IsBool=""/>

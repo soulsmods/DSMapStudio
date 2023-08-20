@@ -8,7 +8,7 @@
   <Fields>
     <Field Def="u16 stat_hp" />
     <Field Def="u16 stat_stamina" />
-    <Field Def="u8 Unk00" />
+    <Field Def="u8 stat_poise" />
     <Field Def="u8 stat_cast_tier" />
     <Field Def="u16 stat_attunement_slots" />
     <Field Def="u16 stat_cast_speed" />
