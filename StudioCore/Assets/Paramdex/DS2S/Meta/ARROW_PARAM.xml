@@ -7,7 +7,7 @@
       <Option Value="4" Name="Bolt" />
     </Enum>
   </Enums>
-  <Self Row0Dummy="" />
+  <Self Wiki="Defines parameters for ammunition, covering arrows, greatarrows and bolts." Row0Dummy="" />
   <Field>
     <sort_id AltName="Sort ID" />
     <damage_id_0 AltName="Damage ID [0]" Refs="EnemyDamageParam,PlayerDamageParam,SystemDamageParam"/>
@@ -37,5 +37,6 @@
     <damage_bleed AltName="Damage: Bleed" />
     <apply_bleed AltName="Inflict Bleed" IsBool="" />
     <ammo_type AltName="Ammunition Type" Enum="AmmoType"/>
+    <damage_durability AltName="Damage: Durability" />
   </Field>
 </PARAMMETA>

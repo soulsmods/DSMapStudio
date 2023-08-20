@@ -108,7 +108,7 @@
       <Option Value="11" Name="Chimes" />
     </Enum>
   </Enums>
-  <Self Row0Dummy="" />
+  <Self Wiki="Defines parameters relating to weapon type and position." Row0Dummy="" />
   <Field>
     <is_cast_sorceries AltName="Cast Sorceries" IsBool="" />
     <is_cast_miracles AltName="Cast Miracles" IsBool="" />

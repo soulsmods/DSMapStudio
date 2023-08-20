@@ -10,7 +10,7 @@
 		<Option Value="5" Name="Unknown" />
 	</Enum>
   </Enums>
-  <Self Row0Dummy="" />
+  <Self Wiki="Defines parameters relating to the player and humanoid characters." Row0Dummy="" />
   <Field>
     <chr_size AltName="Chr Size"/>
     <stamina_exhaustion_time AltName="Empty Stamina State Duration"/>
@@ -31,7 +31,7 @@
     <block_angle AltName="Blocking Angle" Wiki="On the XY axis"/>
     <parry_angle AltName="Parrying Angle" Wiki="On the XY axis"/>
     <movement_speed_limit AltName="Movement Speed Limit" Wiki="Maximum speed a character can move in meters per second"/>
-    <lockon_camera_offset_id AltName="Lock-on Camera Offset ID"/>
+    <lockon_camera_offset_id AltName="Lock-on Camera Offset ID" Refs="LockOnCameraOffsetParam"/>
     <backstab_hitbox_angle_xy AltName="Backstab Hitbox Angle: XY"/>
     <backstab_hitbox_angle_z AltName="Backstab Hitbox Angle: Z"/>
     <backstab_hitbox_height AltName="Backstab Hitbox Height"/>
@@ -48,21 +48,21 @@
     <poise_break_rotate_speed AltName="Poise Break Rotate Speed"/>
     <stance_break_anim_speed AltName="Stance Break Animation Speed"/>
     <stance_break_anim_wait_speed AltName="Stance Break Animation Wait Speed"/>
-    <Unk116 Wiki="Related to Boss Status"/>
-    <headshot_damage_mult Wiki="Headshot Damage Adjustment"/>
-    <crit_damage_mult Wiki="Critical Damage Adjustment"/>
-    <absorption_slash Wiki="Absorption: Slash"/>
-    <absorption_thrust Wiki="Absorption: Thrust"/>
-    <absorption_strike Wiki="Absorption: Strike"/>
-    <equip_weapon_id Wiki="Equip Weapon ID"/>
-    <critical_absorption_slash Wiki="Critical Absorption: Slash"/>
-    <critical_absorption_thrust Wiki="Critical Absorption: Thrust"/>
-    <critical_absorption_strike Wiki="Critical Absorption: Strike"/>
-    <critical_absorption_standard Wiki="Critical Absorption: Standard"/>
-    <bullet_absorption_physical Wiki="Bullet Absorption: Physical"/>
-    <bullet_absorption_magic Wiki="Bullet Absorption: Magic"/>
-    <bullet_absorption_lightning Wiki="Bullet Absorption: Lightning"/>
-    <bullet_absorption_fire Wiki="Bullet Absorption: Fire"/>
-    <bullet_absorption_dark Wiki="Bullet Absorption: Dark"/>
+    <Unk116 AltName="Related to Boss Status"/>
+    <headshot_damage_mult AltName="Headshot Damage Adjustment"/>
+    <crit_damage_mult AltName="Critical Damage Adjustment"/>
+    <absorption_slash AltName="Absorption: Slash"/>
+    <absorption_thrust AltName="Absorption: Thrust"/>
+    <absorption_strike AltName="Absorption: Strike"/>
+    <equip_weapon_id AltName="Equip Weapon ID" Refs="EnemyEquipWeaponParam"/>
+    <critical_absorption_slash AltName="Critical Absorption: Slash"/>
+    <critical_absorption_thrust AltName="Critical Absorption: Thrust"/>
+    <critical_absorption_strike AltName="Critical Absorption: Strike"/>
+    <critical_absorption_standard AltName="Critical Absorption: Standard"/>
+    <bullet_absorption_physical AltName="Bullet Absorption: Physical"/>
+    <bullet_absorption_magic AltName="Bullet Absorption: Magic"/>
+    <bullet_absorption_lightning AltName="Bullet Absorption: Lightning"/>
+    <bullet_absorption_fire AltName="Bullet Absorption: Fire"/>
+    <bullet_absorption_dark AltName="Bullet Absorption: Dark"/>
   </Field>
 </PARAMMETA>

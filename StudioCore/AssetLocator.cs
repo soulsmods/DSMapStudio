@@ -100,6 +100,11 @@ namespace StudioCore
         /// </summary>
         public string GameModDirectory { get; private set; } = null;
 
+        /// <summary>
+        /// Directory where misc DSMapStudio files associated with a project are stored.
+        /// </summary>
+        public string ProjectMiscDir => @$"{GameModDirectory}\DSMapStudio";
+
         public AssetLocator()
         {
             GameExecutableFilter = new FileFilter { Name = "Game Executable (.EXE, EBOOT.BIN)" };
@@ -766,7 +771,7 @@ namespace StudioCore
         {
             return $@"{GetParamAssetsDir()}\Defs";
         }
-        
+
         public ulong[] GetParamdefPatches()
         {
             if (Directory.Exists($@"{GetParamAssetsDir()}\DefsPatch"))
@@ -790,6 +795,12 @@ namespace StudioCore
         public string GetParamNamesDir()
         {
             return $@"{GetParamAssetsDir()}\Names";
+        }
+
+        public string GetStrippedRowNamesPath(string paramName)
+        {
+            string dir = $@"{ProjectMiscDir}\Stripped Row Names";
+            return $@"{dir}\{paramName}.txt"; ;
         }
 
         public PARAMDEF GetParamdefForParam(string paramType)
@@ -921,6 +932,23 @@ namespace StudioCore
                 ad.AssetArchiveVirtualPath = $@"map/{mapid}/model";
                 ret.Add(ad);
             }
+            else if (Type == GameType.EldenRing)
+            {
+                var mapPath = GameRootDirectory + $@"\map\{mapid[..3]}\{mapid}";
+                if (!Directory.Exists(mapPath))
+                    return ret;
+                var mapfiles = Directory.GetFileSystemEntries(mapPath, @"*.mapbnd.dcx").ToList();
+                foreach (var f in mapfiles)
+                {
+                    var ad = new AssetDescription();
+                    ad.AssetPath = f;
+                    var name = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(f));
+                    ad.AssetName = name;
+                    ad.AssetArchiveVirtualPath = $@"map/{mapid}/model/{name}";
+                    ad.AssetVirtualPath = $@"map/{mapid}/model/{name}/{name}.flver";
+                    ret.Add(ad);
+                }
+            }
             else
             {
                 if (!Directory.Exists(GameRootDirectory + $@"\map\{mapid}\"))
@@ -1009,6 +1037,10 @@ namespace StudioCore
             {
                 ret.AssetPath = GetAssetPath($@"model\map\{mapid}.mapbhd");
             }
+            else if (Type == GameType.EldenRing)
+            {
+                ret.AssetPath = GetAssetPath($@"map\{mapid[..3]}\{mapid}\{model}.mapbnd.dcx");
+            }
             else
             {
                 ret.AssetPath = GetAssetPath($@"map\{mapid}\{model}.mapbnd.dcx");
@@ -1021,7 +1053,10 @@ namespace StudioCore
             }
             else
             {
-                if (Type != GameType.DarkSoulsPTDE && Type != GameType.DarkSoulsRemastered && Type != GameType.Bloodborne && Type != GameType.DemonsSouls)
+                if (Type is not GameType.DemonsSouls
+                    and not GameType.DarkSoulsPTDE
+                    and not GameType.DarkSoulsRemastered
+                    and not GameType.Bloodborne)
                 {
                     ret.AssetArchiveVirtualPath = $@"map/{mapid}/model/{model}";
                 }

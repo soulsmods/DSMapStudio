@@ -6,7 +6,7 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="s32 Unk00" />
+    <Field Def="s32 dummy_poly_id_1" />
     <Field Def="f32 Unk04" />
     <Field Def="f32 Unk08" />
     <Field Def="f32 Unk0C" />
@@ -19,7 +19,7 @@
     <Field Def="f32 Unk28" />
     <Field Def="f32 Unk2C" />
     <Field Def="f32 Unk30" />
-    <Field Def="s32 Unk34" />
+    <Field Def="s32 dummy_poly_id_2" />
     <Field Def="f32 Unk38" />
     <Field Def="f32 Unk3C" />
     <Field Def="f32 Unk40" />
@@ -32,7 +32,7 @@
     <Field Def="f32 Unk5C" />
     <Field Def="f32 Unk60" />
     <Field Def="f32 Unk64" />
-    <Field Def="s32 Unk68" />
+    <Field Def="s32 dummy_poly_id_3" />
     <Field Def="f32 Unk6C" />
     <Field Def="f32 Unk70" />
     <Field Def="f32 Unk74" />
@@ -45,7 +45,7 @@
     <Field Def="f32 Unk90" />
     <Field Def="f32 Unk94" />
     <Field Def="f32 Unk98" />
-    <Field Def="s32 Unk9C" />
+    <Field Def="s32 dummy_poly_id_4" />
     <Field Def="f32 UnkA0" />
     <Field Def="f32 UnkA4" />
     <Field Def="f32 UnkA8" />

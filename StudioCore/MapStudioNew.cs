@@ -215,38 +215,29 @@ namespace StudioCore
 
         private bool _programUpdateAvailable = false;
         private string _releaseUrl = "";
-        private async Task CheckProgramUpdate()
+        private void CheckProgramUpdate()
         {
             GitHubClient gitHubClient = new GitHubClient(new ProductHeaderValue("DSMapStudio"));
-            try
+            Release release = gitHubClient.Repository.Release.GetLatest("soulsmods", "DSMapStudio").Result;
+            bool isVer = false;
+            string verstring = "";
+            foreach (char c in release.TagName)
             {
-                Release release = await gitHubClient.Repository.Release.GetLatest("soulsmods", "DSMapStudio");
-                bool isVer = false;
-                string verstring = "";
-                foreach (char c in release.TagName)
+                if (char.IsDigit(c) || (isVer && c == '.'))
                 {
-                    if (char.IsDigit(c) || (isVer && c == '.'))
-                    {
-                        verstring += c;
-                        isVer = true;
-                    }
-                    else
-                    {
-                        isVer = false;
-                    }
+                    verstring += c;
+                    isVer = true;
                 }
-                if (Version.Parse(verstring) > Version.Parse(_version))
+                else
                 {
-                    // Update available
-                    _programUpdateAvailable = true;
-                    _releaseUrl = release.HtmlUrl;
+                    isVer = false;
                 }
             }
-            catch(Exception e)
+            if (Version.Parse(verstring) > Version.Parse(_version))
             {
-                TaskLogs.AddLog($"Failed to check for program updates",
-                    Microsoft.Extensions.Logging.LogLevel.Warning,
-                    TaskLogs.LogPriority.Low);
+                // Update available
+                _programUpdateAvailable = true;
+                _releaseUrl = release.HtmlUrl;
             }
         }
 
@@ -271,12 +262,12 @@ namespace StudioCore
 
             if (CFG.Current.EnableSoapstone)
             {
-                SoapstoneServer.RunAsync(KnownServer.DSMapStudio, _soapstoneService);
+                TaskManager.Run(new("Initialize Soapstone Server", false, false, true, () => SoapstoneServer.RunAsync(KnownServer.DSMapStudio, _soapstoneService).Wait()));
             }
 
             if (CFG.Current.EnableCheckProgramUpdate)
             {
-                CheckProgramUpdate();
+                TaskManager.Run(new("Check Program Updates", false, false, true, () => CheckProgramUpdate()));
             }
 
             long previousFrameTicks = 0;
@@ -1136,12 +1127,6 @@ namespace StudioCore
                     "Default: ON\nImports and applies row names from lists stored in Assets folder.\nRow names can be imported at any time in the param editor's Edit menu.");
                 ImGui.SameLine();
                 ImGui.Checkbox("##loadDefaultNames", ref _newProjectOptions.loadDefaultNames);
-                if (_newProjectOptions.settings.UseLooseParams == false
-                    && _newProjectOptions.loadDefaultNames == true
-                    && _newProjectOptions.settings.GameType == GameType.DarkSoulsIISOTFS)
-                {
-                    ImGui.TextColored(new Vector4(1.0f, 0.4f, 0.4f, 1.0f), "Warning: Saving too many row names onto non-loose params will crash the game. It is highly recommended you use loose params with Dark Souls 2.");
-                }
                 ImGui.NewLine();
 
                 if (_newProjectOptions.settings.GameType == GameType.Undefined)

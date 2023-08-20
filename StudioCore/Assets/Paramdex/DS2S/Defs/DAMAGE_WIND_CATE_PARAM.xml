@@ -6,8 +6,14 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="s32 Unk00" />
-    <Field Def="s32 Unk01" />
+    <Field Def="u8 Unk00a" />
+    <Field Def="u8 Unk00b" />
+    <Field Def="u8 Unk00c" />
+    <Field Def="u8 Unk00d" />
+    <Field Def="u8 Unk01a" />
+    <Field Def="u8 Unk01b" />
+    <Field Def="u8 Unk01c" />
+    <Field Def="u8 Unk01d" />
     <Field Def="f32 Unk02" />
     <Field Def="f32 Unk03" />
   </Fields>

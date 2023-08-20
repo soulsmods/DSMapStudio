@@ -346,6 +346,8 @@ namespace StudioCore.Editor
             Actions = actions;
         }
 
+        public bool HasActions { get => Actions.Any(); }
+
         public void SetPostExecutionAction(Action<bool> action)
         {
             PostExecutionAction = action;
