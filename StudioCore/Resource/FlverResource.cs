@@ -20,7 +20,6 @@ using System.Data;
 using System.IO.MemoryMappedFiles;
 using System.Threading.Tasks.Dataflow;
 using DotNext.IO.MemoryMappedFiles;
-using System.Reflection.Metadata.Ecma335;
 
 namespace StudioCore.Resource
 {
