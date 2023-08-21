@@ -1253,7 +1253,6 @@ namespace StudioCore.MsbEditor
             return false;
         }
 
-        private bool _canLoadPostLoad = true;
         public override void UpdateRenderModel()
         {
             if (Type == MapEntityType.DS2Generator)
@@ -1291,18 +1290,16 @@ namespace StudioCore.MsbEditor
                 {
                     string model = (string)modelProp.GetValue(WrappedObject);
 
-                    bool modelChanged = CurrentModel != model;
+                    bool needsMeshUpdate = CurrentModel != model;
 
-                    if (modelChanged)
+                    if (needsMeshUpdate)
                     {
-                        //model name has been changed or this is the initial check
+                        // ModelName has been changed or this is an initial check
                         if (_renderSceneMesh != null)
                         {
                             _renderSceneMesh.Dispose();
                         }
 
-                        if (Universe.postLoad)
-                            _canLoadPostLoad = false;
                         CurrentModel = model;
 
                         // Get model
