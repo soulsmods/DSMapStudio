@@ -189,7 +189,7 @@ namespace StudioCore.MsbEditor
         {
             var actlist = new List<Action>();
 
-            var selected = _selection.GetFilteredSelection<Entity>();
+            var selected = _selection.GetFilteredSelection<Entity>(o => o.HasTransform);
             foreach (var s in selected)
             {
                 var pos = s.GetLocalTransform().Position;
@@ -202,8 +202,12 @@ namespace StudioCore.MsbEditor
                 actlist.Add(s.GetUpdateTransformAction(newRot));
             }
 
-            var action = new CompoundAction(actlist);
-            EditorActionManager.ExecuteAction(action);
+
+            if (actlist.Any())
+            {
+                var action = new CompoundAction(actlist);
+                EditorActionManager.ExecuteAction(action);
+            }
         }
 
         /// <summary>
@@ -252,11 +256,14 @@ namespace StudioCore.MsbEditor
 
                 newPos.EulerRotation = new Vector3(rot_x, rot_y, rot_z);
 
-            actlist.Add(s.GetUpdateTransformAction(newPos));
+                actlist.Add(s.GetUpdateTransformAction(newPos));
             }
 
-            var action = new CompoundAction(actlist);
-            EditorActionManager.ExecuteAction(action);
+            if (actlist.Any())
+            {
+                var action = new CompoundAction(actlist);
+                EditorActionManager.ExecuteAction(action);
+            }
         }
 
         /// <summary>
@@ -307,8 +314,11 @@ namespace StudioCore.MsbEditor
                 actlist.Add(sel.GetUpdateTransformAction(newPos));
             }
 
-            var action = new CompoundAction(actlist);
-            EditorActionManager.ExecuteAction(action);
+            if (actlist.Any())
+            {
+                var action = new CompoundAction(actlist);
+                EditorActionManager.ExecuteAction(action);
+            }
         }
         
         /// <summary>

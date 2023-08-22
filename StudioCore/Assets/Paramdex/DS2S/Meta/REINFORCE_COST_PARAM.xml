@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
-  <Self Row0Dummy="" />
+  <Self Wiki="Defines parameters related to reinforcement costs for weapons" Row0Dummy="" />
   <Field>
     <reinforce_soul_cost_1 AltName="+1 - Soul Cost" />
     <reinforce_soul_cost_2 AltName="+2 - Soul Cost" />

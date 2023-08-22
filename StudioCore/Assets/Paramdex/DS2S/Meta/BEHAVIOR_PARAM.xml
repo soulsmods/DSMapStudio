@@ -10,7 +10,7 @@
 		<Option Value="5" Name="Unknown" />
 	</Enum>
   </Enums>  
-  <Self Row0Dummy="" />
+  <Self Wiki="Defines parameters related to enemy behavior." Row0Dummy="" />
   <Field>
     <group_1_enemy_damage_id_0 AltName="[1] Enemy Damage ID 0" Refs="EnemyDamageParam,PlayerDamageParam,SystemDamageParam"/>
     <group_1_enemy_damage_id_1 AltName="[1] Enemy Damage ID 1" Refs="EnemyDamageParam,PlayerDamageParam,SystemDamageParam"/>

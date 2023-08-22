@@ -9,7 +9,7 @@
       <Option Value="4" Name="Legs" />
     </Enum>
   </Enums>
-  <Self Row0Dummy="" />
+  <Self Wiki="Defines parameters relating to equippable armor." Row0Dummy="" />
   <Field>
     <armor_set_id AltName="Armor ID" Wiki="The ID for this armor set. Do not forget this when creating custom armor." />
     <slot_category AltName="Slot Category" Enum="Slot" />

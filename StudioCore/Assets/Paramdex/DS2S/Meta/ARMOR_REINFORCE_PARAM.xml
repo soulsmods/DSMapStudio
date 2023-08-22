@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
-  <Self Row0Dummy="" />
+  <Self Wiki="Defines parameters for armor reinforcement." Row0Dummy="" />
   <Field>
     <defence_slash AltName="Defence: Slash" />
     <defence_thrust AltName="Defence: Thrust" />

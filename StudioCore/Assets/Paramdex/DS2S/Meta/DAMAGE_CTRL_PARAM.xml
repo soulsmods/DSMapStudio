@@ -38,7 +38,7 @@
       <Option Value="3" Name="Non-physical" />
     </Enum>
   </Enums>
-  <Self Row0Dummy="" />
+  <Self Wiki="Defines parameters related to attacks." Row0Dummy="" />
   <Field>
     <damage_type AltName="Damage Type" Enum="DamageTypeCategory" />
     <stagger_mode AltName="Stagger Mode" Enum="StaggerModeCategory" />
@@ -52,10 +52,10 @@
     <knockdown_time_mult AltName="Knockdown Time %" />
     <vertical_throw_distance AltName="Vertical Throw Distance" />
     <block_interaction AltName="Block Interaction" />
-    <camera_noise_param_id AltName="Camera Noise ID" />
+    <camera_noise_param_id AltName="Camera Noise ID" Refs="CameraNoiseParam" />
     <pad_rumble_param_id AltName="Pad Rumble ID" />
     <pad_rumble_time AltName="Pad Rumble Duration" />
-    <damage_window_category_id AltName="Damage Window Category ID" />
+    <damage_window_category_id AltName="Damage Window Category ID" Refs="DamageWindCateParam" />
     <instability_time AltName="Instability Duration" />
     <poise_damage AltName="Poise Damage" />
     <tip_hit_min_distance AltName="Tip Hit - Minimum Distance" />

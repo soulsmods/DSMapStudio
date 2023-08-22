@@ -287,7 +287,7 @@ namespace StudioCore.MsbEditor
         {
             if (AssetLocator.Type != GameType.Undefined)
             {
-                _assetBrowser.RebuildCaches();
+                _assetBrowser.ClearCaches();
             }
         }
 
