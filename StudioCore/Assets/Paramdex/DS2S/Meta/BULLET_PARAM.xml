@@ -32,11 +32,13 @@
     <horizontal_angle_randomizer AltName="Horizontal Angle Randomizer" Wiki="In radians. Applies random value between 0 and the specified angle here on shoot to the horizontal shoot angle."/>
     <Unk00 Wiki="Related to lock-on" />
     <Unk01 Wiki="Related to lock-on" />
-    <shoot_count AltName="Number to Shoot at Once"/>
-    <shoot_sequential_count AltName="Number to Shoot at Sequentially"/>
-    <shoot_interval AltName="Shoot Interval"/>
-    <sequential_relative_vertical_angle AltName="Sequential Relative Vertical Angle"/>
-    <sequential_relative_horizontal_angle AltName="Sequential Relative Horizontal Angle"/>
+    <shoot_once_count AltName="Shoot Once - Number to Shoot"/>
+    <shoot_sequential_count AltName="Shoot Sequential - Number to Shoot"/>
+    <shoot_once_relative_vertical_angle AltName="Shoot Once Relative Vertical Angle"/>
+    <shoot_once_relative_horizontal_angle AltName="Shoot Once Relative Horizontal Angle"/>
+    <shoot_sequential_interval AltName="Shoot Sequential Interval"/>
+    <shoot_sequential_relative_vertical_angle AltName="Shoot Sequential Relative Vertical Angle"/>
+    <shoot_sequential_relative_horizontal_angle AltName="Shoot Sequential Relative Horizontal Angle"/>
     <max_life AltName="Max Duration"/>
     <initial_horizontal_velocity AltName="Horizontal: Initial Velocity"/>
     <horizontal_acceleration_start_delay AltName="Horizontal: Acceleration Start Delay"/>
