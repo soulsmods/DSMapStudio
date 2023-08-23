@@ -70,5 +70,7 @@
     <grab_param_id AltName="Grab ID" Refs="GrabParam" />
     <hitbox_max_size AltName="Hitbox Max Size"/>
     <hitbox_expand_speed AltName="Hitbox Expansion Speed"/>
+    <damage_effect_material_param_id AltName="Damage Effect Material ID" Refs="DamageEffectMaterialParam" />
+    <damage_movement_power_param_id AltName="Damage Movement Power ID" Refs="DamageMovementPowerParam" />
   </Field>
 </PARAMMETA>

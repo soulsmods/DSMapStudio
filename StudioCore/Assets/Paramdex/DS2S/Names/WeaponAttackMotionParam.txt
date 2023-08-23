@@ -434,14 +434,14 @@
 10038600 Scythe: DW 2H Strong 1
 10038700 Scythe: 2H Guard 
 10038800 Greatsword: 1H Weak 1
-10038810 Greatsword: 1H Weak 1 #Moonlight Sword
+10038810 Greatsword: 1H Weak 1 (Moonlight Sword)
 10039100 Greatsword: 1H Weak 2
 10039410 Greatsword: 1H Strong 2
 10039500 Greatsword: 1H Strong 2 #1
 10039600 Greatsword: 1H Strong 2 #2
 10039700 Greatsword: 1H Strong 2 #3 
 10039900 Greatsword: 1H Dash 
-10039910 Greatsword: 1H Dash #Moonlight Sword
+10039910 Greatsword: 1H Dash (Moonlight Sword)
 10040000 Greatsword: 1H Roll 
 10040100 Greatsword: 1H Guard Break
 10040200 Greatsword: 1H Jump 
@@ -461,7 +461,7 @@
 10041300 Greatsword: 2H Strong 1 #4
 10041350 Greatsword: 2H Strong 1 #5
 10041400 Greatsword: 2H Dash 
-10041410 Greatsword: 2H Dash #Moonlight Sword
+10041410 Greatsword: 2H Dash (Moonlight Sword)
 10041500 Greatsword: 2H Roll
 10041510 Greatsword: 2H Roll #1
 10041520 Greatsword: 2H Roll #2 
@@ -1076,7 +1076,7 @@
 20039400 Archdrake Mace: DW 2H Weak 2 
 20039500 Archdrake Mace: DW 2H Strong 1 
 20039600 Archdrake Mace: 2H Guard 
-20039700 Iron King Hammer: 2H Special Attack
+20039700 Iron King Hammer: 1H Special Attack
 20039800 Iron King Hammer: 2H Special Attack 
 20039900 Sacred Chime Hammer: 2H Special Attack
 20040000 Helix Halberd: 1H Strong 1 
@@ -1549,10 +1549,10 @@
 20120000 Bewitched Alonne Sword: DW 2H Weak 2
 20121000 Bewitched Alonne Sword: DW 2H Strong 1
 20123000 Wrathful Axe: 2H Special Attack
-20124000 Umbral Dagger: 
-20125000 Umbral Dagger: 
-20126000 Umbral Dagger: 
-20127000 Umbral Dagger: 
+20124000 Umbral Dagger: Blank
+20125000 Umbral Dagger: Blank
+20126000 Umbral Dagger: Blank
+20127000 Umbral Dagger: Blank
 20128000 Yorgh's Spear: 1H Weak 1
 20129000 Yorgh's Spear: 1H Weak 1 #1
 20130000 Yorgh's Spear: 1H Weak 2
@@ -1573,9 +1573,9 @@
 20147000 Yorgh's Spear: DW 2H Weak 1
 20148000 Yorgh's Spear: DW 2H Weak 2
 20149000 Yorgh's Spear: DW 2H Strong 1
-20151000 Sanctum Shield: 
-20153000 Sanctum Shield: 
-20154000 Sanctum Shield: 
+20151000 Sanctum Shield: Blank
+20153000 Sanctum Shield: Blank
+20154000 Sanctum Shield: Blank
 20157000 Possessed Armor Sword: 
 20158000 Possessed Armor Sword: 
 20159000 Drakeblood Greatsword: 
@@ -1594,73 +1594,73 @@
 20181000 Pilgrim's Spontoon: 2H Dash
 20182000 Pilgrim's Spontoon: 2H Roll
 20183000 Pilgrim's Spontoon: 2H Guard Break
-20187000 Drakekeeper's Warpick: 1H Weak 1
-20187100 Drakekeeper's Warpick: 1H Weak 1 #1
-20188000 Drakekeeper's Warpick: 1H Weak 2
-20189000 Drakekeeper's Warpick: 1H Weak 2 #1
-20190000 Drakekeeper's Warpick: 1H Strong 1
-20191000 Drakekeeper's Warpick: 1H Dash
-20192000 Drakekeeper's Warpick: 1H Roll
-20193000 Drakekeeper's Warpick: 1H Jump
-20194000 Drakekeeper's Warpick: 1H Fall
-20195000 Drakekeeper's Warpick: 1H Jump Fall
-20196000 Drakekeeper's Warpick: 
-20197000 Drakekeeper's Warpick: 
-20198000 Drakekeeper's Warpick: 
-20199000 Drakekeeper's Warpick: 
-20199100 Drakekeeper's Warpick: 
-20199200 Drakekeeper's Warpick: 
-20199300 Drakekeeper's Warpick: 
-20200000 King's Ultra Greatsword: 
-20200010 King's Ultra Greatsword: 
-20201000 King's Ultra Greatsword: 
-20202000 King's Ultra Greatsword: 
-20203000 King's Ultra Greatsword: 
-20204000 King's Ultra Greatsword: 
-20205000 King's Ultra Greatsword: 
-20206000 King's Ultra Greatsword: 1H Jump
-20207000 King's Ultra Greatsword: 1H Fall
-20208000 King's Ultra Greatsword: 
-20209000 King's Ultra Greatsword: 
-20210000 King's Ultra Greatsword: 
-20211000 King's Ultra Greatsword: 
-20212000 King's Ultra Greatsword: 
-20213000 King's Ultra Greatsword: 
-20214000 King's Ultra Greatsword: 
-20215000 King's Ultra Greatsword: 
-20216000 King's Ultra Greatsword: 
-20217000 Greatsword (Special): 
-20218000 Greatsword (Special): 
-20219000 Greatsword (Special): 
-20220000 Greatsword (Special): 
-20220010 Greatsword (Special): 
-20221000 Greatsword (Special): 
-20222000 Greatsword (Special): 
-20223000 Black Knight Greatsword: 
-20224000 Gyrm Great Hammer: 
-20224010 Gyrm Great Hammer: 
-20225000 Sacred Chime Hammer: 
-20225010 Sacred Chime Hammer: 
-20226000 Black Knight Halberd: 
-20227000 Curved Dragon Greatsword: 
-20228000 Curved Dragon Greatsword: 
-20229000 Possessed Armor Sword: 
-20230100 Loyce Greatsword / Charred Loyce Greatsword: 
-20230200 Loyce Greatsword / Charred Loyce Greatsword: 
-20230300 Loyce Greatsword: 
-20230400 Loyce Greatsword: 
-20230500 Loyce Greatsword: 
-20230600 Aged Smelter Sword: 
-20230700 Aged Smelter Sword: 
-20230800 Aged Smelter Sword: 
-20230900 Aged Smelter Sword: 
-20231000 Aged Smelter Sword: 
-20232200 Aged Smelter Sword: 
-20232300 Aged Smelter Sword: 
-20232400 Aged Smelter Sword: 
-20232500 Aged Smelter Sword: 
-20232600 Aged Smelter Sword: 
-20232700 Aged Smelter Sword: 
+20187000 Drakekeeper's Warpick: Blank
+20187100 Drakekeeper's Warpick: Blank
+20188000 Drakekeeper's Warpick: Blank
+20189000 Drakekeeper's Warpick: Blank
+20190000 Drakekeeper's Warpick: Blank
+20191000 Drakekeeper's Warpick: Blank
+20192000 Drakekeeper's Warpick: Blank
+20193000 Drakekeeper's Warpick: Blank
+20194000 Drakekeeper's Warpick: Blank
+20195000 Drakekeeper's Warpick: Blank
+20196000 Drakekeeper's Warpick: Blank
+20197000 Drakekeeper's Warpick: Blank
+20198000 Drakekeeper's Warpick: Blank
+20199000 Drakekeeper's Warpick: Blank
+20199100 Drakekeeper's Warpick: Blank
+20199200 Drakekeeper's Warpick: Blank
+20199300 Drakekeeper's Warpick: Blank
+20200000 King's Ultra Greatsword: Blank
+20200010 King's Ultra Greatsword: Blank
+20201000 King's Ultra Greatsword: Blank
+20202000 King's Ultra Greatsword: Blank
+20203000 King's Ultra Greatsword: Blank
+20204000 King's Ultra Greatsword: Blank
+20205000 King's Ultra Greatsword: Blank
+20206000 King's Ultra Greatsword: Blank
+20207000 King's Ultra Greatsword: Blank
+20208000 King's Ultra Greatsword: Blank
+20209000 King's Ultra Greatsword: Blank
+20210000 King's Ultra Greatsword: Blank
+20211000 King's Ultra Greatsword: Blank
+20212000 King's Ultra Greatsword: Blank
+20213000 King's Ultra Greatsword: Blank
+20214000 King's Ultra Greatsword: Blank
+20215000 King's Ultra Greatsword: Blank
+20216000 King's Ultra Greatsword: Blank
+20217000 Greatsword (Special): Blank
+20218000 Greatsword (Special): Blank
+20219000 Greatsword (Special): Blank
+20220000 Greatsword (Special): Blank
+20220010 Greatsword (Special): Blank
+20221000 Greatsword (Special): Blank
+20222000 Greatsword (Special): Blank
+20223000 Black Knight Greatsword: Blank
+20224000 Gyrm Great Hammer: Blank
+20224010 Gyrm Great Hammer: Blank
+20225000 Sacred Chime Hammer: Blank
+20225010 Sacred Chime Hammer: Blank
+20226000 Black Knight Halberd: Blank
+20227000 Curved Dragon Greatsword: Blank
+20228000 Curved Dragon Greatsword: Blank
+20229000 Possessed Armor Sword: Blank
+20230100 Loyce Greatsword / Charred Loyce Greatsword: Blank
+20230200 Loyce Greatsword / Charred Loyce Greatsword: Blank
+20230300 Loyce Greatsword: Blank
+20230400 Loyce Greatsword: Blank
+20230500 Loyce Greatsword: Blank
+20230600 Aged Smelter Sword: Blank
+20230700 Aged Smelter Sword: Blank
+20230800 Aged Smelter Sword: Blank
+20230900 Aged Smelter Sword: Blank
+20231000 Aged Smelter Sword: Blank
+20232200 Aged Smelter Sword: Blank
+20232300 Aged Smelter Sword: Blank
+20232400 Aged Smelter Sword: Blank
+20232500 Aged Smelter Sword: Blank
+20232600 Aged Smelter Sword: Blank
+20232700 Aged Smelter Sword: Blank
 21001000 Throw (Backstab): Fists
 21001010 Throw (Backstab): Fists (Stong)
 21002000 Throw (Backstab): Caestus

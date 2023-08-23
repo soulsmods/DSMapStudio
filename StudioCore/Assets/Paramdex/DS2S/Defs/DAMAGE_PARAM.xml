@@ -49,12 +49,12 @@
     <Field Def="u8 speffect_type" />
     <Field Def="u8 speffect_apply_mode" />
     <Field Def="u8 Unk08" />
-    <Field Def="s32 Unk09" />
+    <Field Def="s32 damage_effect_material_param_id" />
     <Field Def="s32 Unk10" />
     <Field Def="s32 Unk11" />
     <Field Def="u8 Unk12" />
     <Field Def="u8 Unk13" />
-    <Field Def="u8 Unk14" />
+    <Field Def="u8 damage_movement_power_param_id" />
     <Field Def="u8 Unk15" />
     <Field Def="u8 Unk16" />
     <Field Def="u8 Unk17" />

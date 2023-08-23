@@ -1,100 +1,100 @@
-1 【Calculated Value Test】 -- 【計算値テスト】
-2 【Calculated Value Test】 -- 【計算値テスト】
-3 【Calculated Value Test】 -- 【計算値テスト】
-400 General-purpose - Tossing - Baxta - Minimal - Hit target -- 汎用-投げつかみ-バクスタ-極小-対象にＨＩＴ
-410 General-purpose - Tossing - Baxta - Minimal - Hit not eligible -- 汎用-投げつかみ-バクスタ-極小-対象外にＨＩＴ
-420 General-purpose - Tossing - Baxta - Medium - Hit target -- 汎用-投げつかみ-バクスタ-中-対象にＨＩＴ
-430 General-purpose - Tossing - Baxta - Medium - Hit not eligible -- 汎用-投げつかみ-バクスタ-中-対象外にＨＩＴ
-440 General-purpose - Tossing - Baxta - Oversized - Hit on target -- 汎用-投げつかみ-バクスタ-特大-対象にＨＩＴ
-450 General-purpose - Tossing - Baxta - Oversized - Hit not eligible -- 汎用-投げつかみ-バクスタ-特大-対象外にＨＩＴ
-490 General-purpose-throwing-directing-cutting-small -- 汎用-投げ演出-斬り-小
-491 General-purpose - Throwing - Kicking - Small -- 汎用-投げ演出-蹴り-小
-500 General-purpose -Collision - Ground -- 汎用-衝突-地上
-510 General -Collision- Airborne -- 汎用-衝突-空中
-600 General-purpose-wind-very small -- 汎用-風-極小
-601 General-purpose-wind-small -- 汎用-風-小
-602 General-purpose-wind-middle -- 汎用-風-中
-603 General-purpose-wind-large -- 汎用-風-大
-610 General-purpose-wind-oversized -- 汎用-風-特大
-611 General-purpose-wind-oversized -- 汎用-風-特特大
-612 General-purpose-wind-special-purpose -- 汎用-風-特特特大
-700 General-purpose-throwing camera vibration-medium-sized-dagger system -- 汎用-投げカメラ振動-中型-短剣系
-710 General-purpose-throwing camera vibration-medium-handed-two-handed axe system -- 汎用-投げカメラ振動-中型-両手斧系
-720 General-purpose-throwing camera vibration-medium-handed oversized sword system -- 汎用-投げカメラ振動-中型-両手特大剣系
-800 General-purpose-throwing camera vibration-large-dagger system -- 汎用-投げカメラ振動-大型-短剣系
-810 General-purpose-throwing camera vibration-large-handed-two-handed axe system -- 汎用-投げカメラ振動-大型-両手斧系
-820 General-purpose-throwing camera vibration-large-handed oversized sword system -- 汎用-投げカメラ振動-大型-両手特大剣系
-900 General-purpose -Vibration-Swaying-Small -- 汎用-振動-横揺れ-小
-910 General-purpose -Vibration-Swaying-Medium -- 汎用-振動-横揺れ-中
-920 General-purpose - Vibration - Swaying - Large -- 汎用-振動-横揺れ-大
-930 General-purpose -Vibration-Vertical Shaking-Small -- 汎用-振動-縦揺れ-小
-931 General-purpose - Vibration - Vertical Shaking - Small (Assault Spear) -- 汎用-振動-縦揺れ-小（突撃槍）
-940 General-purpose -Vibration-Vertical Shaking-Medium -- 汎用-振動-縦揺れ-中
-941 General Purpose - Vibration - Vertical Shaking - Medium (Assault Spear) -- 汎用-振動-縦揺れ-中（突撃槍）
-950 General-purpose -Vibration-Vertical Shaking-Large -- 汎用-振動-縦揺れ-大
-951 General Purpose - Vibration - Vertical Shaking - Large (Assault Spear) -- 汎用-振動-縦揺れ-大（突撃槍）
-960 General-purpose -Vibration- Up- Bottom- Left- Right - Large -- 汎用-振動-上下左右-大
-1000 General-purpose-guard break -- 汎用-ガードブレイク
-1400 General-purpose - Tossing - Guard Break Stub - Minimal - Hit on target -- 汎用-投げつかみ-ガードブレイクスタブ-極小-対象にＨＩＴ
-1420 General-purpose - Tossing - Guard Break Stub - Medium - Hit on target -- 汎用-投げつかみ-ガードブレイクスタブ-中-対象にＨＩＴ
-1440 General-purpose - Tossing - Guard Break Stub - Oversized - Hit on target -- 汎用-投げつかみ-ガードブレイクスタブ-特大-対象にＨＩＴ
-2000 General-purpose- directing For SFX playback -- 汎用-演出SFX再生用
-2400 General -Pari-Break Stub-Kick-Minis -- 汎用-パリィブレイクスタブ-蹴り-極小
-2420 Generic - Pariei Break Stub - Kicking - Medium -- 汎用-パリィブレイクスタブ-蹴り-中
-2440 General - Paribreak Stub - Kick - Oversized -- 汎用-パリィブレイクスタブ-蹴り-特大
-5010 General -Stun -- 汎用-気絶
-6010 General-purpose-equipment destruction -- 汎用-装備破壊
-7010 General-purpose-equipment destruction -- 汎用-装備破壊
-8010 General-purpose-throwing break -- 汎用-投げブレイク
-9000 Abnormal state - reduced effect time -- 状態異常-効果時間短縮
-9010 Poison -- 毒
-9020 Bleeding -- 出血
-9030 Weapon Destruction -- 武器破壊
-9050 Combustion -- 燃焼
-9051 Combustion - Start -- 燃焼-開始
-9060 Toxic -- 猛毒
-9070 Oil-soaked explosion -- 油濡れ爆発
-9090 Poison wet -- 毒濡れ
-10010 Ladder - Top Attack R1 Button - Weak - Right -- はしご-上攻撃R１ボタン-弱-右
-10011 Ladder - Top Attack R1 Button - Weak - Left -- はしご-上攻撃R１ボタン-弱-左
-10012 Ladder - Top Attack R1 Button - Weak - Right (vs. OBJ) -- はしご-上攻撃R１ボタン-弱-右（対OBJ）
-10013 Ladder - Top Attack R1 Button - Weak - Left (vs. OBJ) -- はしご-上攻撃R１ボタン-弱-左（対OBJ）
-10020 Ladder - Lower Attack R2 Button - Strong - Right -- はしご-下攻撃R２ボタン-強-右
-10021 Ladder - Lower Attack R2 Button - Strong - Left -- はしご-下攻撃R２ボタン-強-左
-10022 Ladder - Lower Attack R2 Button - Strong - Right (vs. OBJ) -- はしご-下攻撃R２ボタン-強-右（対OBJ）
-10023 Ladder - Lower Attack R2 Button - Strong - Left (vs. OBJ) -- はしご-下攻撃R２ボタン-強-左（対OBJ）
-10030 Ladder - Top Attack L1 Button - Weak - Right -- はしご-上攻撃Ｌ１ボタン-弱-右
-10031 Ladder - Top Attack L1 Button - Weak - Left -- はしご-上攻撃Ｌ１ボタン-弱-左
-10032 Ladder - Top Attack L1 Button - Weak - Right (vs. OBJ) -- はしご-上攻撃Ｌ１ボタン-弱-右（対OBJ）
-10033 Ladder - Top Attack L1 Button - Weak - Left (vs. OBJ) -- はしご-上攻撃Ｌ１ボタン-弱-左（対OBJ）
-10040 Ladder - Lower Attack L2 Button - Strong - Right -- はしご-下攻撃Ｌ２ボタン-強-右
-10041 Ladder - Lower Attack L2 Button - Strong - Left -- はしご-下攻撃Ｌ２ボタン-強-左
-10042 Ladder - Lower Attack L2 Button - Strong - Right (vs. OBJ) -- はしご-下攻撃Ｌ２ボタン-強-右（対OBJ）
-10043 Ladder - Lower Attack L2 Button - Strong - Left (vs. OBJ) -- はしご-下攻撃Ｌ２ボタン-強-左（対OBJ）
-10050 Ladder - Downhill Collision (Special Effects) -- はしご-滑り降り衝突（特殊効果）
-10060 Ladder - Climb end collision -- はしご-登り終わり衝突
-10061 Ladder - Climb end collision (vs. OBJ) -- はしご-登り終わり衝突（対OBJ）
-10070 Ladder - Sliding collision (damage) -- はしご-滑り降り衝突（ダメージ）
-10071 Ladder - Downhill Collision (OBJ Damage) -- はしご-滑り降り衝突（OBJダメージ）
-11010 Per Rolling Body - Torch -- ローリング体当たり-松明
-12010 When Oil Wet - Magic Explosion -- 油濡れ時-呪術爆発
-50000 Landing Confirmation - Small -- 着弾確認-小
-50001 Landing confirmation - medium -- 着弾確認-中
-50002 Landing Confirmation - Large -- 着弾確認-大
-50003 Landing confirmation - oversized -- 着弾確認-特大
-50004 Landing confirmation - extra large -- 着弾確認-特特大
-1720000 1720: Blade of Chaos: Self-inflicted damage -- 1720：混沌の刃：自傷ダメージ
-1960000 1960: Queen Knight A: Sword of Light -- 1960：王妃の騎士A：光の剣
-1960010 1960: Queen Knight A: Sword of Light: For Endurance Wear and Tear -- 1960：王妃の騎士A：光の剣：耐久消耗用
-1970000 1970: Queen Knight C: Sword of Light in the Dark Moon -- 1970：王妃の騎士C：暗月の光の剣
-1970010 1970: Queen Knight C: Sword of Light in the Dark Moon: For Endurance Wear and Tear -- 1970：王妃の騎士C：暗月の光の剣：耐久消耗用
-1980000 6000: Torch: Fire Damage -- 6000：松明：炎ダメージ
-1990000 2890: Evangelist's Trigeminal Spear: Power-up -- 2890：伝道師の三叉槍：パワーアップ
-1990010 2890: Evangelist's Trigeminal Spear: Power-up (Effect) -- 2890：伝道師の三叉槍：パワーアップ（効果）
-3660000 3660: Old Whip: Additional Damage to the Dead (Section 1) -- 3660：古びた鞭：亡者追加ダメージ（第一節）
-3660001 3660: Old Whip: Additional Damage to the Dead (Verse 2) -- 3660：古びた鞭：亡者追加ダメージ（第二節）
-3660002 3660: Old Whip: Additional Damage to the Dead (Verse 3) -- 3660：古びた鞭：亡者追加ダメージ（第三節）
-5295000 5295: Sinner's Sword: Self-inflicted damage -- 5295：罪人の剣：自傷ダメージ
+1 【Calculated Value Test】
+2 【Calculated Value Test】
+3 【Calculated Value Test】
+400 General-purpose - Tossing - Baxta - Minimal - Hit target
+410 General-purpose - Tossing - Baxta - Minimal - Hit not eligible
+420 General-purpose - Tossing - Baxta - Medium - Hit target
+430 General-purpose - Tossing - Baxta - Medium - Hit not eligible
+440 General-purpose - Tossing - Baxta - Oversized - Hit on target
+450 General-purpose - Tossing - Baxta - Oversized - Hit not eligible
+490 General-purpose-throwing-Controller-cutting-small
+491 General-purpose - Throwing - Kicking - Small
+500 General-purpose -Collision - Ground
+510 General -Collision- Airborne
+600 General-purpose-wind-very small
+601 General-purpose-wind-small
+602 General-purpose-wind-middle
+603 General-purpose-wind-large
+610 General-purpose-wind-oversized
+611 General-purpose-wind-oversized
+612 General-purpose-wind-special-purpose
+700 General-purpose-throwing camera vibration-medium-sized-dagger system
+710 General-purpose-throwing camera vibration-medium-handed-two-handed axe system
+720 General-purpose-throwing camera vibration-medium-handed oversized sword system
+800 General-purpose-throwing camera vibration-large-dagger system
+810 General-purpose-throwing camera vibration-large-handed-two-handed axe system
+820 General-purpose-throwing camera vibration-large-handed oversized sword system
+900 General-purpose -Vibration-Swaying-Small
+910 General-purpose -Vibration-Swaying-Medium
+920 General-purpose - Vibration - Swaying - Large
+930 General-purpose -Vibration-Vertical Shaking-Small
+931 General-purpose - Vibration - Vertical Shaking - Small (Assault Spear)
+940 General-purpose -Vibration-Vertical Shaking-Medium
+941 General Purpose - Vibration - Vertical Shaking - Medium (Assault Spear)
+950 General-purpose -Vibration-Vertical Shaking-Large
+951 General Purpose - Vibration - Vertical Shaking - Large (Assault Spear)
+960 General-purpose -Vibration- Up- Bottom- Left- Right - Large
+1000 General-purpose-guard break
+1400 General-purpose - Tossing - Guard Break Stub - Minimal - Hit on target
+1420 General-purpose - Tossing - Guard Break Stub - Medium - Hit on target
+1440 General-purpose - Tossing - Guard Break Stub - Oversized - Hit on target
+2000 General-purpose- Controller For SFX playback
+2400 General -Pari-Break Stub-Kick-Minis
+2420 Generic - Pariei Break Stub - Kicking - Medium
+2440 General - Paribreak Stub - Kick - Oversized
+5010 General -Stun
+6010 General-purpose-equipment destruction
+7010 General-purpose-equipment destruction
+8010 General-purpose-throwing break
+9000 Abnormal state - reduced effect time
+9010 Poison
+9020 Bleeding
+9030 Weapon Destruction
+9050 Combustion
+9051 Combustion - Start
+9060 Toxic
+9070 Oil-soaked explosion
+9090 Poison wet
+10010 Ladder - Top Attack R1 Button - Weak - Right
+10011 Ladder - Top Attack R1 Button - Weak - Left
+10012 Ladder - Top Attack R1 Button - Weak - Right (vs. OBJ)
+10013 Ladder - Top Attack R1 Button - Weak - Left (vs. OBJ)
+10020 Ladder - Lower Attack R2 Button - Strong - Right
+10021 Ladder - Lower Attack R2 Button - Strong - Left
+10022 Ladder - Lower Attack R2 Button - Strong - Right (vs. OBJ)
+10023 Ladder - Lower Attack R2 Button - Strong - Left (vs. OBJ)
+10030 Ladder - Top Attack L1 Button - Weak - Right
+10031 Ladder - Top Attack L1 Button - Weak - Left
+10032 Ladder - Top Attack L1 Button - Weak - Right (vs. OBJ)
+10033 Ladder - Top Attack L1 Button - Weak - Left (vs. OBJ)
+10040 Ladder - Lower Attack L2 Button - Strong - Right
+10041 Ladder - Lower Attack L2 Button - Strong - Left
+10042 Ladder - Lower Attack L2 Button - Strong - Right (vs. OBJ)
+10043 Ladder - Lower Attack L2 Button - Strong - Left (vs. OBJ)
+10050 Ladder - Downhill Collision (Special Effects)
+10060 Ladder - Climb end collision
+10061 Ladder - Climb end collision (vs. OBJ)
+10070 Ladder - Sliding collision (damage)
+10071 Ladder - Downhill Collision (OBJ Damage)
+11010 Per Rolling Body - Torch
+12010 When Oil Wet - Magic Explosion
+50000 Landing Confirmation - Small
+50001 Landing confirmation - medium
+50002 Landing Confirmation - Large
+50003 Landing confirmation - oversized
+50004 Landing confirmation - extra large
+1720000 1720: Blade of Chaos: Self-inflicted damage
+1960000 1960: Queen Knight A: Sword of Light
+1960010 1960: Queen Knight A: Sword of Light: For Endurance Wear and Tear
+1970000 1970: Queen Knight C: Sword of Light in the Dark Moon
+1970010 1970: Queen Knight C: Sword of Light in the Dark Moon: For Endurance Wear and Tear
+1980000 6000: Torch: Fire Damage
+1990000 2890: Evangelist's Trigeminal Spear: Power-up
+1990010 2890: Evangelist's Trigeminal Spear: Power-up (Effect)
+3660000 3660: Old Whip: Additional Damage to the Dead (Section 1)
+3660001 3660: Old Whip: Additional Damage to the Dead (Verse 2)
+3660002 3660: Old Whip: Additional Damage to the Dead (Verse 3)
+5295000 5295: Sinner's Sword: Self-inflicted damage
 10000000 Fists: 1H Weak 1
 10000300 Fists: 1H Weak 2
 10000400 Fists: 1H Weak 2 #1
@@ -141,7 +141,7 @@
 10004013 Bare Fists: 1H Jump 
 10004014 Bare Fists: 1H Fall 
 10004015 Bare Fists: 1H Jump Fall 
-10004016 Bare Fists: 1H Jump Fall -> Follow
+10004016 Bare Fists: 1H Jump Chase
 10004017 Bare Fists: 1H Parry
 10004018 Bare Fists: 2H Weak 1
 10004020 Bare Fists: 2H Weak 2
@@ -233,7 +233,7 @@
 10008600 Thrusting Sword: 1H Jump 
 10008700 Thrusting Sword: 1H Fall 
 10008800 Thrusting Sword: 1H Jump Fall 
-10008900 Thrusting Sword: 1H Jump Fall -> Follow 
+10008900 Thrusting Sword: 1H Jump Chase 
 10009000 Thrusting Sword: 1H Parry 
 10009100 Thrusting Sword: 2H Weak 1
 10009300 Thrusting Sword: 2H Weak 2
@@ -359,6 +359,7 @@
 10015401 Twinblade: 1H Jump (Reverse Blade)
 10015500 Twinblade: 1H Fall 
 10015501 Twinblade: 1H Fall (Reverse Blade)
+10015600 Twinblade: 1H Jump Fall 
 10015700 Twinblade: DW 1H Weak 1
 10015701 Twinblade: DW 1H Weak 1 (Reverse Blade)
 10015800 Twinblade: 1H Parry 
@@ -467,34 +468,48 @@
 10021260 Spear: DW 2H Strong Left 2 #1
 10021300 Spear: 2H Guard 
 10021400 Lance: 1H Weak 1
+10021410 Lance: 1H Weak 1 #1
 10021510 Lance: 1H Weak 1 Shield Poke #1
 10021520 Lance: 1H Weak 1 Shield Poke #2
+10021530 Lance: 1H Strong 1 Shield Poke #1
+10021540 Lance: 1H Strong 1 Shield Poke #2
 10021600 Lance: 1H Weak 2
 10021610 Lance: 1H Weak 2 #1
 10021800 Lance: 1H Strong 1
+10021801 Lance: 1H Strong 1 (Tip)
 10021810 Lance: 1H Strong 1 #1
 10022100 Lance: 1H Dash 
+10022101 Lance: 1H Dash  (Tip)
 10022200 Lance: 1H Roll 
 10022300 Lance: 1H Guard Break
 10022400 Lance: 1H Jump 
 10022500 Lance: 1H Fall 
 10022600 Lance: 1H Jump Fall 
 10022700 Lance: DW 1H Weak 1
+10022800 Lance: 1H Parry
 10022900 Lance: 2H Weak 1 
+10022910 Lance: 2H Weak 1 #1
 10023100 Lance: 2H Weak 2 
 10023110 Lance: 2H Weak 2 #1
 10023300 Lance: 2H Strong 1 
+10023301 Lance: 2H Strong 1 (Tip)
 10023310 Lance: 2H Strong 1 #1 
 10023600 Lance: 2H Dash 
+10023601 Lance: 2H Dash (Tip)
 10023700 Lance: 2H Roll 
 10023800 Lance: 2H Guard Break
 10024350 Lance: DW 2H Dash
+10024360 Lance: DW 2H Dash - Left
 10024400 Lance: DW 2H Weak 1
+10024410 Lance: DW 2H Weak 1 - Left
 10024500 Lance: DW 2H Weak 2
+10024510 Lance: DW 2H Weak 2 - Left
 10024600 Lance: DW 2H Strong 1
+10024610 Lance: DW 2H Strong 1 - Left
 10024700 Lance: 2H Guard 
 10024800 Curved Sword: 1H Weak 1 
 10024810 Curved Sword: 1H Weak 1 #1
+10024900 Curved Sword: 1H Weak 1 #2
 10025000 Curved Sword: 1H Weak 2 
 10025005 Curved Sword: 1H Weak 2 #1
 10025010 Curved Sword: 1H Weak 2 #2 
@@ -502,21 +517,24 @@
 10025200 Curved Sword: 1H Strong 1 
 10025210 Curved Sword: 1H Strong 1 #1
 10025220 Curved Sword: 1H Strong 1 #2 
+10025221 Curved Sword: 1H Strong 1 #3
 10025230 Curved Sword: 1H Strong 1 #3 
 10025300 Curved Sword: 1H Strong 1 #4
 10025500 Curved Sword: 1H Dash 
+10025501 Curved Sword: 1H Dash #1
 10025600 Curved Sword: 1H Roll 
 10025700 Curved Sword: 1H Guard Break
 10025800 Curved Sword: 1H Jump 
 10025900 Curved Sword: 1H Fall 
 10026000 Curved Sword: 1H Jump Fall 
-10026100 Curved Sword: 1H Jump Fall -> Follow 
+10026100 Curved Sword: 1H Jump Chase 
 10026200 Curved Sword: 1H Parry 
 10026300 Curved Sword: 2H Weak 1
 10026310 Curved Sword: 2H Weak 1 #1
 10026400 Curved Sword: 2H Weak 1 #2
 10026500 Curved Sword: 2H Weak 2 
 10026510 Curved Sword: 2H Weak 2 #1
+10026600 Curved Sword: 2H Weak 2 #2
 10026710 Curved Sword: 2H Strong 1
 10026800 Curved Sword: 2H Strong 1 #1
 10027000 Curved Sword: 2H Dash 
@@ -526,6 +544,7 @@
 10027900 Curved Sword: DW 2H Weak 2 
 10028000 Curved Sword: DW 2H Strong 1 
 10028050 Curved Sword: DW 2H Strong 1 #1
+10028051 Curved Sword: DW 2H Strong 1 #2
 10028100 Curved Sword: 2H Guard 
 10028200 Katana: 1H Weak 1 
 10028400 Katana: 1H Weak 2 
@@ -609,7 +628,9 @@
 10035300 Straight Sword: 2H Guard 
 10035400 Scythe: 1H Weak 1
 10035410 Scythe: 1H Weak 1 #1
+10035500 Scythe: 1H Weak 1 #2
 10035600 Scythe: 1H Weak 2 
+10035700 Scythe: 1H Weak 2 #1
 10035800 Scythe: 1H Strong 1 
 10035810 Scythe: 1H Strong 1 #1
 10036100 Scythe: 1H Dash 
@@ -620,8 +641,10 @@
 10036600 Scythe: 1H Jump Fall 
 10036700 Scythe: DW 1H Weak 1
 10036900 Scythe: 2H Weak 1
-10036910 Scythe: 2H Weak 1 #2
+10036910 Scythe: 2H Weak 1 #1
+10037000 Scythe: 2H Weak 1 #2
 10037100 Scythe: 2H Weak 2
+10037200 Scythe: 2H Weak 2 #1
 10037300 Scythe: 2H Strong 1 
 10037310 Scythe: 2H Strong 1 #1
 10037500 Scythe: 2H Strong 1 #2
@@ -629,24 +652,27 @@
 10037700 Scythe: 2H Roll
 10037800 Scythe: 2H Guard Break
 10038400 Scythe: DW 2H Weak 1
+10038410 Scythe: DW 2H Weak 1 - Left
 10038500 Scythe: DW 2H Weak 2
+10038510 Scythe: DW 2H Weak 2 - Left
 10038600 Scythe: DW 2H Strong 1
+10038610 Scythe: DW 2H Strong 1 - Left
 10038700 Scythe: 2H Guard 
 10038800 Greatsword: 1H Weak 1
-10038810 Greatsword: 1H Weak 1 #Moonlight Sword
+10038810 Greatsword: 1H Weak 1 (Moonlight Sword)
 10039100 Greatsword: 1H Weak 2
 10039410 Greatsword: 1H Strong 2
 10039500 Greatsword: 1H Strong 2 #1
 10039600 Greatsword: 1H Strong 2 #2
 10039700 Greatsword: 1H Strong 2 #3 
 10039900 Greatsword: 1H Dash 
-10039910 Greatsword: 1H Dash #Moonlight Sword
+10039910 Greatsword: 1H Dash (Moonlight Sword)
 10040000 Greatsword: 1H Roll 
 10040100 Greatsword: 1H Guard Break
 10040200 Greatsword: 1H Jump 
 10040300 Greatsword: 1H Fall 
 10040400 Greatsword: 1H Jump Fall 
-10040500 Greatsword: 1H Jump Fall -> Follow 
+10040500 Greatsword: 1H Jump Chase 
 10040700 Greatsword: 2H Weak 1
 10040800 Greatsword: 2H Weak 1 #1
 10040810 Greatsword: 2H Weak 1 #2
@@ -660,7 +686,7 @@
 10041300 Greatsword: 2H Strong 1 #4
 10041350 Greatsword: 2H Strong 1 #5
 10041400 Greatsword: 2H Dash 
-10041410 Greatsword: 2H Dash #Moonlight Sword
+10041410 Greatsword: 2H Dash (Moonlight Sword)
 10041500 Greatsword: 2H Roll
 10041510 Greatsword: 2H Roll #1
 10041520 Greatsword: 2H Roll #2 
@@ -671,29 +697,42 @@
 10042400 Greatsword: DW 2H Strong 1
 10042500 Greatsword: 2H Guard 
 10042600 Ultra Greatsword: 1H Weak 1
+10042601 Ultra Greatsword: 1H Weak 1 (Root)
 10042610 Ultra Greatsword: 1H Weak 1 #1
 10042620 Ultra Greatsword: 1H Weak 1 #2
 10042630 Ultra Greatsword: 1H Weak 1 #3
 10042700 Ultra Greatsword: 1H Weak 1 #4
+10042701 Ultra Greatsword: 1H Weak 1 #4 (Root)
 10042800 Ultra Greatsword: 1H Weak 2
+10042801 Ultra Greatsword: 1H Weak 2 (Root)
 10042810 Ultra Greatsword: 1H Weak 2 #1
+10042811 Ultra Greatsword: 1H Weak 2 #1 (Root)
 10042900 Ultra Greatsword: 1H Weak 2 #2
+10042901 Ultra Greatsword: 1H Weak 2 #2 (Root)
 10042910 Ultra Greatsword: 1H Weak 2 #3
+10042911 Ultra Greatsword: 1H Weak 2 #3 (Root)
 10042920 Ultra Greatsword: 1H Weak 2 #4
+10042921 Ultra Greatsword: 1H Weak 2 #4 (Root)
 10042930 Ultra Greatsword: 1H Weak 2 #5
+10042931 Ultra Greatsword: 1H Weak 2 #5 (Root)
 10043000 Ultra Greatsword: 1H Strong 1 
+10043001 Ultra Greatsword: 1H Strong 1 (Root)
 10043010 Ultra Greatsword: 1H Strong 1 #1
+10043011 Ultra Greatsword: 1H Strong 1 #1 (Root)
 10043020 Ultra Greatsword: 1H Strong 1 #2
 10043030 Ultra Greatsword: 1H Strong 1 #3
 10043040 Ultra Greatsword: 1H Strong 1 #4
 10043050 Ultra Greatsword: 1H Strong 1 #5
 10043200 Ultra Greatsword: 1H Strong 1 #6
+10043201 Ultra Greatsword: 1H Strong 1 #6 (Root)
 10043600 Ultra Greatsword: 1H Dash 
 10043610 Ultra Greatsword: 1H Dash #1 
 10043620 Ultra Greatsword: 1H Dash #2
 10043700 Ultra Greatsword: 1H Roll 
+10043701 Ultra Greatsword: 1H Roll (Root)
 10043710 Ultra Greatsword: 1H Roll #1
 10043720 Ultra Greatsword: 1H Roll #2
+10043721 Ultra Greatsword: 1H Roll #2 (Root)
 10043800 Ultra Greatsword: 1H Guard Break
 10043810 Ultra Greatsword: 1H Guard Break #1
 10043900 Ultra Greatsword: 1H Jump 
@@ -705,28 +744,42 @@
 10044200 Ultra Greatsword: DW 1H Weak 1
 10044210 Ultra Greatsword: DW 1H Weak 1 #1
 10044400 Ultra Greatsword: 2H Weak 1 
+10044401 Ultra Greatsword: 2H Weak 1 (Root)
 10044410 Ultra Greatsword: 2H Weak 1 #1
 10044420 Ultra Greatsword: 2H Weak 1 #2
 10044500 Ultra Greatsword: 2H Weak 1 #3
+10044501 Ultra Greatsword: 2H Weak 1 #3 (Root)
 10044510 Ultra Greatsword: DW 1H Weak 1 #2
 10044600 Ultra Greatsword: 2H Weak 2 
+10044601 Ultra Greatsword: 2H Weak 2 (Root)
 10044610 Ultra Greatsword: 2H Weak 2 #1
+10044611 Ultra Greatsword: 2H Weak 2 #1 (Root)
 10044620 Ultra Greatsword: 2H Weak 2 #2
+10044621 Ultra Greatsword: 2H Weak 2 #2 (Root)
 10044700 Ultra Greatsword: 2H Weak 2 #3
+10044701 Ultra Greatsword: 2H Weak 2 #3 (Root)
 10044710 Ultra Greatsword: 2H Weak 2 #4
 10044800 Ultra Greatsword: 2H Strong 1 
+10044801 Ultra Greatsword: 2H Strong 1 (Root)
 10044900 Ultra Greatsword: 2H Strong 1 #1
+10044901 Ultra Greatsword: 2H Strong 1 #1 (Root)
 10044910 Ultra Greatsword: 2H Strong 1 #2
+10044911 Ultra Greatsword: 2H Strong 1 #2 (Root)
 10044920 Ultra Greatsword: 2H Strong 1 #3
+10044921 Ultra Greatsword: 2H Strong 1 #3 (Root)
 10044930 Ultra Greatsword: 2H Strong 1 #4
+10044931 Ultra Greatsword: 2H Strong 1 #4 (Root)
 10044940 Ultra Greatsword: 2H Strong 1 #5
+10044941 Ultra Greatsword: 2H Strong 1 #5 (Root)
 10044950 Ultra Greatsword: 2H Strong 1 #6
 10045200 Ultra Greatsword: 2H Strong 1 #7
 10045300 Ultra Greatsword: 2H Dash 
 10045310 Ultra Greatsword: 2H Dash #1
+10045311 Ultra Greatsword: 2H Dash #1(root)
 10045320 Ultra Greatsword: 2H Dash #2 
 10045400 Ultra Greatsword: 2H Roll 
 10045410 Ultra Greatsword: 2H Roll #1
+10045411 Ultra Greatsword: 2H Roll #1 (Peripheral Damage)
 10045420 Ultra Greatsword: 2H Roll #2 
 10045430 Ultra Greatsword: 2H Roll #3 
 10045500 Ultra Greatsword: 2H Guard Break
@@ -758,10 +811,13 @@
 10047500 Hammer: 1H Jump 
 10047600 Hammer: 1H Fall 
 10047700 Hammer: 1H Jump Fall 
-10047800 Hammer: 1H Jump Fall -> Follow 
+10047800 Hammer: 1H Jump Chase 
 10047900 Hammer: 1H Blank
+10048000 Hammer: 2H Weak 1
 10048010 Hammer: 2H Weak 1
+10048200 Hammer: 2H Weak 2
 10048210 Hammer: 2H Weak 2
+10048400 Hammer: 2H Strong 1
 10048410 Hammer: 2H Strong 1
 10048420 Hammer: 2H Strong 1 #1
 10048700 Hammer: 2H Dash 
@@ -785,18 +841,22 @@
 10050900 Great Hammer: 1H Jump 
 10051000 Great Hammer: 1H Fall 
 10051100 Great Hammer: 1H Jump Fall 
-10051200 Great Hammer: 1H Jump Fall -> Follow 
+10051200 Great Hammer: 1H Jump Chase 
+10051300 Great Hammer: 1H Parry
 10051400 Great Hammer: 2H Weak 1 
 10051410 Great Hammer: 2H Weak 1 #1 
 10051500 Great Hammer: 2H Weak 1 #2
 10051610 Great Hammer: 2H Weak 2 
-10051620 Great Hammer: 2H Weak 2 #2 
+10051620 Great Hammer: 2H Weak 2 #1
+10051630 Great Hammer: 2H Weak 2 #2
 10051800 Great Hammer: 2H Strong 1 
 10051810 Great Hammer: 2H Strong 1 #1
 10051900 Great Hammer: 2H Strong 1 #2
+10051901 Great Hammer: 2H Strong 1 (Part)
 10052100 Great Hammer: 2H Dash 
 10052200 Great Hammer: 2H Roll 
 10052210 Great Hammer: 2H Roll #1
+10052211 Great Hammer: 2H Roll #1 (Peripheral Damage)
 10052300 Great Hammer: 2H Guard Break
 10052900 Great Hammer: DW 2H Weak 1 
 10053000 Great Hammer: DW 2H Weak 2 
@@ -817,7 +877,7 @@
 10054300 Axe: 1H Jump 
 10054400 Axe: 1H Fall 
 10054500 Axe: 1H Jump Fall 
-10054600 Axe: 1H Jump Fall -> Follow 
+10054600 Axe: 1H Jump Chase 
 10054700 Axe: 1H Parry 
 10054800 Axe: 2H Weak 1 
 10055000 Axe: 2H Weak 2 
@@ -826,6 +886,7 @@
 10055510 Axe: 2H Strong 1 #2
 10055520 Axe: 2H Strong 1 #3
 10055600 Axe: 2H Dash 
+10055601 Axe: 2H Dash #1 
 10055700 Axe: 2H Roll 
 10055800 Axe: 2H Guard Break
 10056400 Axe: DW 2H Weak 1 
@@ -833,36 +894,50 @@
 10056600 Axe: DW 2H Strong 
 10056700 Axe: 2H Guard 
 10056800 Great Axe: 1H Weak 1 
+10056801 Great Axe: 1H Weak 1 (Root)
 10056900 Great Axe: 1H Weak 1 #1
 10056910 Great Axe: 1H Weak 1 #2
 10057000 Great Axe: 1H Weak 2 
 10057110 Great Axe: 1H Weak 2 #1
+10057111 Great Axe: 1H Weak 2 #1 (Root)
 10057120 Great Axe: 1H Weak 2 #2
 10057200 Great Axe: 1H Strong 1 
+10057201 Great Axe: 1H Strong 1 (Root)
 10057300 Great Axe: 1H Strong 1 #1
+10057301 Great Axe: 1H Strong 1 #1 (Root)
 10057310 Great Axe: 1H Strong 1 #2
+10057311 Great Axe: 1H Strong 1 #2 (Root)
 10057600 Great Axe: 1H Dash 
+10057601 Great Axe: 1H Dash (Root)
 10057700 Great Axe: 1H Roll 
+10057701 Great Axe: 1H Roll (Root)
 10057800 Great Axe: 1H Guard Break
 10057810 Great Axe: 1H Guard Break #1
 10057900 Great Axe: 1H Jump 
 10058000 Great Axe: 1H Fall 
 10058100 Great Axe: 1H Jump Fall 
-10058200 Great Axe: 1H Jump Fall -> Follow 
+10058200 Great Axe: 1H Jump Chase 
 10058400 Great Axe: 2H Weak 1 
 10058410 Great Axe: 2H Weak 1 #1
+10058411 Great Axe: 2H Weak 1 #1 (Root)
 10058500 Great Axe: 2H Weak 1 #2
 10058600 Great Axe: 2H Weak 1 #3
 10058700 Great Axe: 2H Weak 2 
 10058710 Great Axe: 2H Weak 2 #1
+10058711 Great Axe: 2H Weak 2 #1 (Root)
 10058900 Great Axe: 2H Weak 2 #2
 10059000 Great Axe: 2H Strong 1 
+10059001 Great Axe: 2H Strong 1 (Root)
 10059310 Great Axe: 2H Strong 1 #1
+10059311 Great Axe: 2H Strong 1 #1 (Root)
 10059320 Great Axe: 2H Strong 1 #2
 10059330 Great Axe: 2H Strong 1 #3
+10059331 Great Axe: 2H Strong 1 #3 (Root)
 10059400 Great Axe: 2H Dash 
+10059401 Great Axe: 2H Dash (Root)
 10059500 Great Axe: 2H Roll 
 10059510 Great Axe: 2H Roll #1
+10059511 Great Axe: 2H Roll #1 (Peripheral Damage)
 10059600 Great Axe: 2H Guard Break
 10059610 Great Axe: 2H Guard Break #1
 10059620 Great Axe: 2H Guard Break #2 
@@ -883,6 +958,7 @@
 10060720 Halberd: 1H Weak 1 #3
 10060730 Halberd: 1H Weak 1 #4
 10060740 Halberd: 1H Weak 1 #5
+10060800 Halberd: 1H Weak 2
 10060900 Halberd: 1H Weak 1 #6
 10060910 Halberd: 1H Weak 2
 10061000 Halberd: 1H Strong 1 
@@ -912,24 +988,33 @@
 10063110 Halberd: 2H Roll
 10063200 Halberd: 2H Guard Break
 10063800 Halberd: DW 2H Weak 1 
+10063801 Halberd: DW 2H Weak 1 - Left
 10063900 Halberd: DW 2H Weak 2 
+10063901 Halberd: DW 2H Weak 2 - Left
 10064000 Halberd: DW 2H Strong 
+10064001 Halberd: DW 2H Strong - Left
 10064100 Halberd: 2H Guard 
+10065600 Small Shield: 1H Guard Break
 10065110 Small Shield: Spell Cast
 10065700 Small Shield: 1H Jump 
 10065800 Small Shield: 1H Fall 
 10065900 Small Shield: 1H Jump Fall 
-10066000 Small Shield: 1H Jump Fall -> Follow 
+10066000 Small Shield: 1H Jump Chase 
 10066100 Small Shield: 1H Parry 
 10066105 Small Shield: 1H Parry #1
+10066106 Small Shield: 1H Parry #1
 10066110 Small Shield: 1H Parry #2 
 10066115 Small Shield: 1H Parry #3
+10066116 Small Shield: 1H Parry #3
 10066310 Small Shield: 2H Weak 1
 10066810 Small Shield: 2H Strong 1
+10067100 Small Shield: 2H Guard Break
 10067600 Small Shield: 2H Parry  
 10067605 Small Shield: 2H Parry #1
+10067606 Small Shield: 2H Parry #1
 10067610 Small Shield: 2H Parry #2
 10067615 Small Shield: 2H Parry #3
+10067616 Small Shield: 2H Parry #3
 10068000 Small Shield: 1H Guard 
 10068010 Small Shield: 1H Guard #1 
 10068100 Small Shield: 2H Guard 
@@ -938,47 +1023,55 @@
 10069200 Medium Shield 1H Jump 
 10069300 Medium Shield 1H Fall 
 10069400 Medium Shield 1H Jump Fall 
-10069500 Medium Shield 1H Jump Fall -> Follow 
+10069500 Medium Shield 1H Jump Chase 
 10069600 Medium Shield 1H Parry 
 10069605 Medium Shield 1H Parry #1
+10069606 Medium Shield 1H Parry #1
 10069700 Medium Shield 2H Weak 1 
 10069900 Medium Shield 2H Weak 2 
 10070100 Medium Shield 2H Strong 1 
 10071100 Medium Shield 2H Parry 
 10071105 Medium Shield 2H Parry #1
+10071106 Medium Shield 2H Parry #1
 10071500 Medium Shield 1H Guard 
 10071600 Medium Shield 2H Guard 
 10072100 Greatshield: 1H Strong 1 
+10072101 Greatshield: 1H Strong 1 
 10072200 Greatshield: 1H Strong 1 #1
 10072700 Greatshield: 1H Jump 
 10072800 Greatshield: 1H Fall 
-10073000 Greatshield: 1H Jump Fall -> Follow 
+10072900 Greatshield: 1H Jump Fall 
+10073000 Greatshield: 1H Jump Chase 
 10073200 Greatshield: 2H Weak 1 
 10073600 Greatshield: 2H Strong 1 
 10073700 Greatshield: 2H Strong 1 #1
+10073800 Greatshield: 2H Strong 1 #2
 10074200 Greatshield: 2H Jump 
 10074300 Greatshield: 2H Falling 
 10074400 Greatshield: 2H Jump Fall 
 10074900 Greatshield: DW 2H Strong 1 
 10075000 Greatshield: 1H Guard 
 10075100 Greatshield: 2H Guard 
-10080800 Spear: 1H Fall - Giant Lower Soldier 
-10080900 Spear: 1H Fall - Giant Basilisk 
-10081000 Spear: 1H Fall - Ogre 
-10081100 Spear: 1H Fall - Bayground 
-10081200 Spear: 1H Fall - Covetous Demon
-10081300 Spear: 1H Fall - Flame Lizard
-10081900 Straight Sword: 1H Fall - Giant Lower Soldier 
-10082000 Straight Sword: 1H Fall - Giant Basilisk 
-10082100 Straight Sword: 1H Fall - Ogre
-10082200 Straight Sword: 1H Fall - Bayground
-10082300 Straight Sword: 1H Fall - Covetous Demon
-10082400 Straight Sword: 1H Fall - Flame Lizard
+10080000 Fist - 1H Grab (Medium)
+10080100 Fist - 1H Grab (Large)
+10080800 Spear: 1H Grab - Giant Lower Soldier 
+10080900 Spear: 1H Grab - Giant Basilisk 
+10081000 Spear: 1H Grab - Ogre 
+10081100 Spear: 1H Grab - Bayground 
+10081200 Spear: 1H Grab - Covetous Demon
+10081300 Spear: 1H Grab - Flame Lizard
+10081900 Straight Sword: 1H Grab - Giant Lower Soldier 
+10082000 Straight Sword: 1H Grab - Giant Basilisk 
+10082100 Straight Sword: 1H Grab - Ogre
+10082200 Straight Sword: 1H Grab - Bayground
+10082300 Straight Sword: 1H Grab - Covetous Demon
+10082400 Straight Sword: 1H Grab - Flame Lizard
+10082700 Ultra Greatsword: 1H Grab (Medium)
 20000000 Staff: 1H Weak 1
 20000100 Staff: 1H Weak 2
 20000200 Staff: 1H Strong 1
 20000300 Staff: 1H Strong 2
-20000600 Staff: 1H Jump Fall -> Follow 
+20000600 Staff: 1H Jump Chase 
 20000700 Staff: 1H Fall 
 20000800 Staff: 1H Jump 
 20000900 Staff: 1H Jump Fall 
@@ -994,7 +1087,7 @@
 20002700 Chime: 1H Weak 2 
 20002800 Chime: 1H Strong 1 
 20002900 Chime: 1H Strong 2 
-20003200 Chime: 1H Jump Fall -> Follow
+20003200 Chime: 1H Jump Chase
 20003300 Chime: 1H Fall 
 20003400 Chime: 1H Jump 
 20003500 Chime: 1H Jump Fall 
@@ -1022,6 +1115,7 @@
 20006800 Crossbow: 1H Shoot 
 20006900 Crossbow: 1H Fall 
 20007000 Crossbow: 1H Jump 
+20007100 Crossbow: 1H Jump Fall
 20007200 Crossbow: 1H Guard Break
 20007300 Crossbow: 2H Shoot
 20007400 Crossbow: 2H Precision Shoot
@@ -1029,6 +1123,7 @@
 20007900 Crossbow: 1H Shoot Early
 20008000 Crossbow: 2H Guard 
 20008100 Crossbow: DW 2H Shoot
+20008200 Crossbow: DW 2H Precision Shoot
 20008600 Crossbow: DW 2H Guard Break
 20008700 Crossbow: DW 2H Shoot Early
 20008800 Greatbow: 1H Shoot
@@ -1062,6 +1157,9 @@
 20012600 Avelyn: 2H Guard 
 20012700 Avelyn: DW 2H Shoot
 20012800 Avelyn: DW 2H Precision Shoot
+20012900 Avelyn: DW 2H Fall
+20013000 Avelyn: DW 2H Jump
+20013100 Avelyn: DW 2H Jump Fall
 20013200 Avelyn: DW 2H Guard Break
 20013300 Avelyn: DW 2H Shoot
 20013600 Torch: 1H Strong 1
@@ -1104,7 +1202,7 @@
 20019200 Mytha's Bent Blade: 1H Jump 
 20019300 Mytha's Bent Blade: 1H Fall 
 20019400 Mytha's Bent Blade: 1H Jump Fall 
-20019500 Mytha's Bent Blade: 1H Jump Fall -> Follow 
+20019500 Mytha's Bent Blade: 1H Jump Chase 
 20019600 Mytha's Bent Blade: 1H Parry 
 20019700 Mytha's Bent Blade: 2H Weak 1 
 20019800 Mytha's Bent Blade: 2H Weak 2 
@@ -1122,12 +1220,13 @@
 20021500 Curved Sword: 1H Strong 1 
 20021600 Curved Sword: 1H Strong 2 
 20021700 Curved Sword: 1H Dash 
+20021701 Curved Sword: 1H Dash 
 20021800 Curved Sword: 1H Roll 
 20021900 Curved Sword: 1H Guard Break
 20022000 Curved Sword: 1H Jump 
 20022100 Curved Sword: 1H Fall 
 20022200 Curved Sword: 1H Jump Fall 
-20022300 Curved Sword: 1H Jump Fall -> Follow 
+20022300 Curved Sword: 1H Jump Chase 
 20022400 Curved Sword: 1H Parry 
 20022500 Curved Sword: 2H Weak 1 
 20022600 Curved Sword: 2H Weak 2 
@@ -1140,10 +1239,14 @@
 20023800 Curved Sword: DW 2H Weak 2 
 20023900 Curved Sword: DW 2H Strong 1 
 20024000 Curved Sword: 2H Guard 
-20024100 Spider Fang: 1H Strong 1 
+20024100 Spider Fang: 1H Strong 1
+20024110 Spider Fang: 1H Strong 1 (Weapon Damage)
 20024200 Spider Fang: 1H Strong 2 
+20024210 Spider Fang: 1H Strong 2 (Weapon Damage)
 20024300 Spider Fang: 2H Strong 1 
+20024310 Spider Fang: 2H Strong 1 (Weapon Damage)
 20024400 Spider Fang: 2H Strong 2 
+20024410 Spider Fang: 2H Strong 2 (Weapon Damage)
 20024500 Chaos Blade: 1H Weak 1 
 20024600 Chaos Blade: 1H Weak 2 
 20024700 Chaos Blade: 1H Strong 1 
@@ -1154,7 +1257,7 @@
 20025200 Chaos Blade: 1H Jump 
 20025300 Chaos Blade: 1H Fall 
 20025400 Chaos Blade: 1H Jump Fall 
-20025500 Chaos Blade: 1H Jump Fall -> Follow 
+20025500 Chaos Blade: 1H Jump Chase 
 20025600 Chaos Blade: 1H Parry 
 20025700 Chaos Blade: 2H Weak 1 
 20025800 Chaos Blade: 2H Weak 2 
@@ -1177,7 +1280,7 @@
 20028000 Darkdrift: 1H Jump 
 20028100 Darkdrift: 1H Fall 
 20028200 Darkdrift: 1H Jump Fall 
-20028300 Darkdrift: 1H Jump Fall -> Follow 
+20028300 Darkdrift: 1H Jump Chase 
 20028400 Darkdrift: 1H Parry 
 20028500 Darkdrift: 2H Weak 1 
 20028600 Darkdrift: 2H Weak 2 
@@ -1191,13 +1294,25 @@
 20029900 Darkdrift: DW 2H Strong 1 
 20030000 Darkdrift: 2H Guard 
 20030100 Thorned Greatsword: 1H Strong 1 
+20030110 Thorned Greatsword: 1H Strong 1 (Weapon Damage)
 20030200 Thorned Greatsword: 1H Strong 2 
+20030210 Thorned Greatsword: 1H Strong 2 (Weapon Damage)
 20030300 Thorned Greatsword: 2H Strong 1 
+20030310 Thorned Greatsword: 2H Strong 1 (Weapon Damage)
 20030400 Thorned Greatsword: 2H Strong 2 
+20030410 Thorned Greatsword: 2H Strong 2 (Weapon Damage)
 20030500 Moonlight Greatsword: 1H Strong 1 
+20030510 Moonlight Greatsword: 1H Strong 1 (Weapon Damage)
+20030520 Moonlight Greatsword: 1H Strong 1 (Landing)
 20030600 Moonlight Greatsword: 1H Strong 2 
+20030610 Moonlight Greatsword: 1H Strong 2 (Weapon Damage)
+20030620 Moonlight Greatsword: 1H Strong 2 (Landing)
 20030700 Moonlight Greatsword: 2H Strong 1 
+20030710 Moonlight Greatsword: 2H Strong 1 (Weapon Damage)
+20030720 Moonlight Greatsword: 2H Strong 1 (Landing)
 20030800 Moonlight Greatsword: 2H Strong 2 
+20030810 Moonlight Greatsword: 2H Strong 2 (Weapon Damage)
+20030820 Moonlight Greatsword: 2H Strong 2 (Landing)
 20030900 Butcher's Knife: 1H Weak 1 
 20030910 Butcher's Knife: 1H Weak 1 #1
 20031000 Butcher's Knife: 1H Weak 2 
@@ -1209,7 +1324,7 @@
 20031600 Butcher's Knife: 1H Jump 
 20031700 Butcher's Knife: 1H Fall 
 20031800 Butcher's Knife: 1H Jump Fall 
-20031900 Butcher's Knife: 1H Jump Fall -> Follow 
+20031900 Butcher's Knife: 1H Jump Chase 
 20032000 Butcher's Knife: 1H Parry 
 20032100 Butcher's Knife: 2H Weak 1 
 20032200 Butcher's Knife: 2H Weak 2 
@@ -1225,8 +1340,14 @@
 20033700 Defender Greatsword: Special Attack: Lightning Buff
 20033800 Watcher Greatsword: Special Attack: Magic Buff
 20033900 Spitfire Spear: 1H Breath 
+20033901 Spitfire Spear: 1H Breath (Explosion)
+20033910 Spitfire Spear: 1H Breath (Weapon Damage)
 20034000 Spitfire Spear: 2H Breath
+20034001 Spitfire Spear: 2H Breath (Explosion)
+20034010 Spitfire Spear: 2H Breath (Weapon Damage)
 20034050 Spitfire Spear: DW 2H Breath
+20034051 Spitfire Spear: DW 2H Breath (Explosion)
+20034060 Spitfire Spear: DW 2H Breath (Weapon Damage)
 20034100 Pickaxe: 1H Weak 1 
 20034110 Pickaxe: 1H Weak 1 #1
 20034200 Pickaxe: 1H Weak 2 
@@ -1238,53 +1359,98 @@
 20034800 Pickaxe: 1H Jump 
 20034900 Pickaxe: 1H Falling 
 20035000 Pickaxe: 1H Jump Fall 
-20035100 Pickaxe: 1H Jump Fall -> Follow 
+20035100 Pickaxe: 1H Jump Chase 
 20035200 Pickaxe: 1H Parry
 20035300 Pickaxe: 2H Weak 1 
 20035400 Pickaxe: 2H Weak 2 
 20035500 Pickaxe: 2H Strong 1 
 20035600 Pickaxe: 2H Strong 2 
+20035601 Pickaxe: 2H Strong 2 (Weapon Shaft)
 20035700 Pickaxe: 2H Dash 
 20035800 Pickaxe: 2H Roll
 20035900 Pickaxe: 2H Guard Break
 20036500 Pickaxe: DW 2H Weak 1 
+20036510 Pickaxe: DW 2H Weak 1 - Left
 20036600 Pickaxe: DW 2H Weak 2 
+20036610 Pickaxe: DW 2H Weak 2 - Left
 20036700 Pickaxe: DW 2H Strong 
+20036710 Pickaxe: DW 2H Strong - Left
 20036800 Pickaxe: 2H Guard 
 20036900 Archdrake Mace: 1H Weak 1 
+20036901 Archdrake Mace: 1H Weak 1 (Weapon Shaft)
 20036910 Archdrake Mace: 1H Weak 1 #1
+20036911 Archdrake Mace: 1H Weak 1 #1 (Weapon Shaft)
 20037000 Archdrake Mace: 1H Weak 2 
+20037001 Archdrake Mace: 1H Weak 2 (Weapon Shaft)
 20037100 Archdrake Mace: 1H Strong 1 
+20037101 Archdrake Mace: 1H Strong 1 (Weapon Shaft)
 20037200 Archdrake Mace: 1H Strong 2 
+20037201 Archdrake Mace: 1H Strong 2 (Weapon Shaft)
 20037300 Archdrake Mace: 1H Dash 
+20037301 Archdrake Mace: 1H Dash (Weapon Shaft)
 20037400 Archdrake Mace: 1H Roll 
+20037401 Archdrake Mace: 1H Roll (Weapon Shaft)
 20037500 Archdrake Mace: 1H Guard Break
 20037600 Archdrake Mace: 1H Jump 
 20037700 Archdrake Mace: 1H Fall 
 20037800 Archdrake Mace: 1H Jump Fall 
-20037900 Archdrake Mace: 1H Jump Fall -> Follow 
+20037900 Archdrake Mace: 1H Jump Chase 
 20038000 Archdrake Mace: 1H Parry 
 20038100 Archdrake Mace: 2H Weak 1 
+20038101 Archdrake Mace: 2H Weak 1 (Weapon Shaft)
 20038200 Archdrake Mace: 2H Weak 2 
+20038201 Archdrake Mace: 2H Weak 2 (Weapon Shaft)
 20038300 Archdrake Mace: 2H Strong 1 
+20038301 Archdrake Mace: 2H Strong 1 (Weapon Shaft)
 20038400 Archdrake Mace: 2H Strong 2 
+20038401 Archdrake Mace: 2H Strong 2 (Weapon Shaft)
 20038500 Archdrake Mace: 2H Dash 
+20038501 Archdrake Mace: 2H Dash (Weapon Shaft)
 20038600 Archdrake Mace: 2H Roll 
+20038601 Archdrake Mace: 2H Roll (Weapon Shaft)
 20038700 Archdrake Mace: 2H Guard Break
 20039300 Archdrake Mace: DW 2H Weak 1 
+20039301 Archdrake Mace: DW 2H Weak 1 (Weapon Shaft)
+20039310 Archdrake Mace: DW 2H Weak 1 - Left (Weapon Shaft)
+20039311 Archdrake Mace: DW 2H Weak 1 - Left (Weapon Shaft)
 20039400 Archdrake Mace: DW 2H Weak 2 
+20039401 Archdrake Mace: DW 2H Weak 2 (Weapon Shaft)
+20039410 Archdrake Mace: DW 2H Weak 2 - Left (Weapon Shaft)
+20039411 Archdrake Mace: DW 2H Weak 2 - Left (Weapon Shaft)
 20039500 Archdrake Mace: DW 2H Strong 1 
+20039501 Archdrake Mace: DW 2H Strong 1 (Weapon Shaft)
+20039510 Archdrake Mace: DW 2H Strong 1 - Left (Weapon Shaft)
+20039511 Archdrake Mace: DW 2H Strong 1 - Left (Weapon Shaft)
 20039600 Archdrake Mace: 2H Guard 
-20039700 Iron King Hammer: 2H Special Attack
+20039700 Iron King Hammer: 1H Special Attack
+20039710 Iron King Hammer: 1H Special Attack (Weapon Damage)
+20039720 Iron King Hammer: 1H Special Attack (Explosion)
 20039800 Iron King Hammer: 2H Special Attack 
+20039810 Iron King Hammer: 2H Special Attack (Weapon Damage)
+20039820 Iron King Hammer: 2H Special Attack (Explosion)
 20039900 Sacred Chime Hammer: 2H Special Attack
+20039901 Sacred Chime Hammer: 2H Special Attack (Generation)
+20039910 Sacred Chime Hammer: 2H Special Attack (Weapon Damage)
 20040000 Helix Halberd: 1H Strong 1 
+20040001 Helix Halberd: 1H Strong 1 (Weapon Shaft)
 20040100 Helix Halberd: 1H Strong 2 
+20040101 Helix Halberd: 1H Strong 2 (Weapon Shaft)
 20040200 Helix Halberd: 2H Strong 1 
+20040201 Helix Halberd: 2H Strong 1 (Weapon Shaft)
 20040300 Helix Halberd: 2H Strong 2 
+20040301 Helix Halberd: 2H Strong 2 (Weapon Shaft)
 20040400 Helix Halberd: DW 2H Weak 1
+20040401 Helix Halberd: DW 2H Weak 1 (Weapon Shaft)
+20040410 Helix Halberd: DW 2H Weak 1 - Left
+20040411 Helix Halberd: DW 2H Weak 1 - Left (Weapon Shaft)
 20040500 Helix Halberd: DW 2H Weak 2
+20040501 Helix Halberd: DW 2H Weak 2 (Weapon Shaft)
+20040510 Helix Halberd: DW 2H Weak 2 - Left
+20040511 Helix Halberd: DW 2H Weak 2 - Left (Weapon Shaft)
 20040600 Helix Halberd: DW 2H Strong 1
+20040601 Helix Halberd: DW 2H Strong 1 (Weapon Shaft)
+20040610 Helix Halberd: DW 2H Strong 1 - Left
+20040611 Helix Halberd: DW 2H Strong 1 - Left (Weapon Shaft)
 20040700 Staff: 1H Strong 1 
 20040800 Staff: 1H Strong 2 
 20040900 Staff: 2H Strong 1 
@@ -1307,7 +1473,7 @@
 20043000 Washing Pole: 1H Jumping 
 20043100 Washing Pole: 1H Falling 
 20043200 Washing Pole: 1H Jump Fall 
-20043300 Washing Pole: 1H Jump Fall -> Follow 
+20043300 Washing Pole: 1H Jump Chase 
 20043400 Washing Pole: 1H Parry 
 20043500 Washing Pole: 2H Weak 1 
 20043600 Washing Pole: 2H Weak 2 
@@ -1331,7 +1497,7 @@
 20045800 Crescent Axe: 1H Jump 
 20045900 Crescent Axe: 1H Fall 
 20046000 Crescent Axe: 1H Jump Fall 
-20046100 Crescent Axe: 1H Jump Fall -> Follow 
+20046100 Crescent Axe: 1H Jump Chase 
 20046200 Crescent Axe: 1H Parry 
 20046300 Crescent Axe: 2H Weak 1 
 20046400 Crescent Axe: 2H Weak 2 
@@ -1341,9 +1507,12 @@
 20046800 Crescent Axe: 2H Roll
 20046900 Crescent Axe: 2H Guard Break
 20047500 Crescent Axe: DW 2H Weak 1 
+20047510 Crescent Axe: DW 2H Weak 1 - Left
 20047600 Crescent Axe: DW 2H Weak 2 
+20047610 Crescent Axe: DW 2H Weak 2 - Left
 20047700 Crescent Axe: DW 2H Strong 
-20047800 Crescent Axe: 2H Guard 
+20047710 Crescent Axe: DW 2H Strong - Left
+20048100 Crescent Axe: 2H Guard 
 20048200 Black Knight Greataxe: 1H Weak 1 
 20048210 Black Knight Greataxe: 1H Weak 1 #1
 20048300 Black Knight Greataxe: 1H Weak 2
@@ -1355,7 +1524,7 @@
 20048900 Black Knight Greataxe: 1H Jump 
 20049000 Black Knight Greataxe: 1H Fall 
 20049100 Black Knight Greataxe: 1H Jump Fall 
-20049200 Black Knight Greataxe: 1H Jump Fall -> Follow 
+20049200 Black Knight Greataxe: 1H Jump Chase 
 20049300 Black Knight Greataxe: 1H Parry 
 20049400 Black Knight Greataxe: 2H Weak 1 
 20049500 Black Knight Greataxe: 2H Weak 2
@@ -1366,8 +1535,11 @@
 20050000 Black Knight Greataxe: 2H Guard Break
 20050500 Black Knight Greataxe: 2H Parry 
 20050600 Black Knight Greataxe: DW 2H Weak 1
+20050700 Black Knight Greataxe: DW 2H Weak 1 - Left
 20050800 Black Knight Greataxe: DW 2H Weak 2
+20050900 Black Knight Greataxe: DW 2H Weak 2 - Left
 20051000 Black Knight Greataxe: DW 2H Strong 1 
+20051100 Black Knight Greataxe: DW 2H Strong 1 - Left
 20051200 Black Knight Greataxe: 2H Guard 
 20051400 Handmaid's Ladle: 1H Weak 1 
 20051600 Handmaid's Ladle: 1H Weak 2 
@@ -1379,7 +1551,7 @@
 20052800 Handmaid's Ladle: 1H Jump 
 20053000 Handmaid's Ladle: 1H Fall 
 20053200 Handmaid's Ladle: 1H Jump Fall 
-20053400 Handmaid's Ladle: 1H Jump Fall -> Follow 
+20053400 Handmaid's Ladle: 1H Jump Chase 
 20053600 Handmaid's Ladle: 1H Parry 
 20053800 Handmaid's Ladle: 2H Weak 1 
 20054000 Handmaid's Ladle: 2H Weak 2 
@@ -1403,7 +1575,7 @@
 20058400 Black Dragon Warpick: 1H Jump 
 20058600 Black Dragon Warpick: 1H Fall 
 20058800 Black Dragon Warpick: 1H Jump Fall 
-20059000 Black Dragon Warpick: 1H Jump Fall -> Follow 
+20059000 Black Dragon Warpick: 1H Jump Chase 
 20059200 Black Dragon Warpick: 1H Parry 
 20059400 Black Dragon Warpick: 2H Weak 1
 20059600 Black Dragon Warpick: 2H Weak 2
@@ -1426,7 +1598,7 @@
 20063200 Claw: 1H Jump 
 20063300 Claw: 1H Fall 
 20063400 Claw: 1H Jump Fall 
-20063500 Claw: 1H Jump Fall -> Follow 
+20063500 Claw: 1H Jump Chase 
 20063600 Claw: 1H Parry 
 20063700 Claw: 2H Weak 1 
 20063800 Claw: 2H Weak 2 
@@ -1435,6 +1607,11 @@
 20064100 Claw: 2H Dash 
 20064200 Claw: 2H Roll
 20064300 Claw: 2H Guard Break
+20064400 Claw: 2H Jump
+20064500 Claw: 2H Fall
+20064600 Claw: 2H Jump Fall
+20064700 Claw: 2H Jump Chase 
+20064800 Claw: 2H Parry
 20064900 Claw: DW 2H Weak 1 
 20065000 Claw: DW 2H Weak 2 
 20065100 Claw: DW 2H Strong 1 
@@ -1442,6 +1619,7 @@
 20065300 Scythe of Want: 1H Weak 1 
 20065400 Scythe of Want: 1H Weak 2 
 20065500 Scythe of Want: 1H Strong 1 
+20065501 Scythe of Want: 1H Strong 1
 20065600 Scythe of Want: 1H Strong 2 
 20065700 Scythe of Want: 1H Dash 
 20065800 Scythe of Want: 1H Roll
@@ -1449,30 +1627,35 @@
 20066000 Scythe of Want: 1H Jump 
 20066100 Scythe of Want: 1H Fall 
 20066200 Scythe of Want: 1H Jump Fall 
-20066300 Scythe of Want: 1H Jump Fall -> Follow
+20066300 Scythe of Want: 1H Jump Chase
 20066400 Scythe of Want: 1H Parry
 20066500 Scythe of Want: 2H Weak 1 
 20066600 Scythe of Want: 2H Weak 2 
 20066700 Scythe of Want: 2H Strong 1 
+20066701 Scythe of Want: 2H Strong 1 
 20066800 Scythe of Want: 2H Strong 2 
 20066900 Scythe of Want: 2H Dash 
 20067000 Scythe of Want: 2H Roll
 20067100 Scythe of Want: 2H Guard Break
 20067700 Scythe of Want: DW 2H Weak 1 
+20067710 Scythe of Want: DW 2H Weak 1 - Left
 20067800 Scythe of Want: DW 2H Weak 2 
+20067810 Scythe of Want: DW 2H Weak 2 - Left
 20067900 Scythe of Want: DW 2H Strong 1 
+20067910 Scythe of Want: DW 2H Strong 1 - Left
 20068000 Scythe of Want: 2H Guard 
 20068100 Santier's Spear: 1H Weak 1
 20068200 Santier's Spear: 1H Weak 2 
 20068300 Santier's Spear: 1H Strong 1 
 20068400 Santier's Spear: 1H Strong 2 
 20068500 Santier's Spear: 1H Dash 
+20068501 Santier's Spear: 1H Dash 
 20068600 Santier's Spear: 1H Roll 
 20068700 Santier's Spear: 1H Guard Break
 20068800 Santier's Spear: 1H Jump 
 20068900 Santier's Spear: 1H Fall 
 20069000 Santier's Spear: 1H Jump Fall 
-20069100 Santier's Spear: 1H Jump Fall -> Follow
+20069100 Santier's Spear: 1H Jump Chase
 20069200 Santier's Spear: 1H Parry 
 20069300 Santier's Spear: 2H Weak 1 
 20069400 Santier's Spear: 2H Weak 2 
@@ -1482,20 +1665,43 @@
 20069800 Santier's Spear: 2H Roll
 20069900 Santier's Spear: 2H Guard Break
 20070500 Santier's Spear: DW 2H Weak 1 
+20070510 Santier's Spear: DW 2H Weak 1 - Left
 20070600 Santier's Spear: DW 2H Weak 2 
+20070610 Santier's Spear: DW 2H Weak 2 - Left
 20070700 Santier's Spear: DW 2H Strong 1 
+20070710 Santier's Spear: DW 2H Strong 1 - Left
 20070800 Santier's Spear: 2H Guard 
 20070900 Smelter Sword: 1H Strong 1 
+20070910 Smelter Sword: 1H Strong 1 (Weapon Damage)
+20070920 Smelter Sword: 1H Strong 1 (for Damage)
 20071000 Smelter Sword: 1H Strong 2 
+20071010 Smelter Sword: 1H Strong 2 (Weapon Damage)
+20071020 Smelter Sword: 1H Strong 2 (for Damage)
 20071100 Smelter Sword: 2H Strong 1 
+20071110 Smelter Sword: 2H Strong 1 (Weapon Damage)
+20071120 Smelter Sword: 2H Strong 1 (for Damage)
 20071200 Smelter Sword: 2H Strong 2 
+20071210 Smelter Sword: 2H Strong 2 (Weapon Damage)
+20071220 Smelter Sword: 2H Strong 2 (for Damage)
 20071250 Smelter Sword: 2H Strong 2 #1
+20071260 Smelter Sword: 2H Strong 2 #1 (Weapon Damage)
+20071270 Smelter Sword: 2H Strong 2 #1 (for Damage)
 20071300 Curved Dragon Greatsword: 1H Strong 1 
+20071310 Curved Dragon Greatsword: 1H Strong 1 (Charge)
+20071320 Curved Dragon Greatsword: 1H Strong 1 (Weapon Damage)
 20071400 Curved Dragon Greatsword: 1H Strong 2 
+20071401 Curved Dragon Greatsword: 1H Strong 2 (Root)
 20071500 Curved Dragon Greatsword: 2H Strong 1 
+20071510 Curved Dragon Greatsword: 2H Strong 1 (Charge)
+20071520 Curved Dragon Greatsword: 2H Strong 1 (Weapon Damage)
 20071600 Curved Dragon Greatsword: 2H Strong 2 
+20071601 Curved Dragon Greatsword: 2H Strong 2 (root)
 20071900 Bow of Want: 2H Strong 1 
+20071901 Bow of Want: 2H Strong 1 (Charge)
+20071910 Bow of Want: 2H Strong 1 (Weapon Damage)
 20072000 Bow of Want: 2H Strong 2 
+20072001 Bow of Want: 2H Strong 2 (Charge)
+20072010 Bow of Want: 2H Strong 2 (Weapon Damage)
 20072100 Lost Sinner's Sword: 1H Weak 1 
 20072200 Lost Sinner's Sword: 1H Weak 2 
 20072300 Lost Sinner's Sword: 1H Strong 1 
@@ -1506,7 +1712,8 @@
 20072800 Lost Sinner's Sword: 1H Jump 
 20072900 Lost Sinner's Sword: 1H Fall 
 20073000 Lost Sinner's Sword: 1H Jump Fall 
-20073100 Lost Sinner's Sword: 1H Jump Fall -> Follow 
+20073100 Lost Sinner's Sword: 1H Jump Chase 
+20073200 Lost Sinner's Sword: 1H Parry
 20073300 Lost Sinner's Sword: 2H Weak 1 
 20073400 Lost Sinner's Sword: 2H Weak 2 
 20073500 Lost Sinner's Sword: 2H Strong 1 
@@ -1514,6 +1721,10 @@
 20073700 Lost Sinner's Sword: 2H Dash 
 20073800 Lost Sinner's Sword: 2H Roll 
 20073900 Lost Sinner's Sword: 2H Guard Break
+20074000 Lost Sinner's Sword: 2H Jump
+20074100 Lost Sinner's Sword: 2H Fall
+20074200 Lost Sinner's Sword: 2H Jump Fall
+20074300 Lost Sinner's Sword: 2H Jump Chase
 20074400 Lost Sinner's Sword: 2H Parry 
 20074500 Lost Sinner's Sword: DW 2H Weak 1 
 20074600 Lost Sinner's Sword: DW 2H Weak 2 
@@ -1529,7 +1740,7 @@
 20075600 Fists (Strong): 1H Jump 
 20075700 Fists (Strong): 1H Fall 
 20075800 Fists (Strong): 1H Jump Fall 
-20075900 Fists (Strong): 1H Jump Fall -> Follow 
+20075900 Fists (Strong): 1H Jump Chase 
 20076000 Fists (Strong): 1H Parry 
 20076100 Fists (Strong): 2H Weak 1 
 20076200 Fists (Strong): 2H Weak 2 
@@ -1553,7 +1764,7 @@
 20078800 Dragon Tooth: 1H Jump 
 20078900 Dragon Tooth: 1H Fall 
 20079000 Dragon Tooth: 1H Jump Fall 
-20079100 Dragon Tooth: 1H Jump Fall -> Follow 
+20079100 Dragon Tooth: 1H Jump Chase 
 20079300 Dragon Tooth: 2H Weak 1
 20079400 Dragon Tooth: 2H Weak 2 
 20079500 Dragon Tooth: 2H Strong 1 
@@ -1567,11 +1778,19 @@
 20080700 Dragon Tooth: DW 2H Strong 1 
 20080800 Dragon Tooth: 2H Guard 
 20080900 Drakewing Ultra Greatsword: 2H Strong 1 
+20080910 Drakewing Ultra Greatsword: 2H Strong 1 (Weapon Damage)
+20080920 Drakewing Ultra Greatsword: 2H Strong 1 (Landing)
 20081000 Drakewing Ultra Greatsword: 2H Strong 2 
+20081010 Drakewing Ultra Greatsword: 2H Strong 2 (Weapon Damage)
+20081020 Drakewing Ultra Greatsword: 2H Strong 2 (Landing)
 20081100 Dragonslayer Spear: 1H Strong 1 
+20081110 Dragonslayer Spear: 1H Strong 1 (Weapon Damage)
 20081200 Dragonslayer Spear: 1H Strong 2 
+20081210 Dragonslayer Spear: 1H Strong 2 (Weapon Damage)
 20081300 Dragonslayer Spear: 2H Strong 1 
+20081310 Dragonslayer Spear: 2H Strong 1 (Weapon Damage)
 20081400 Dragonslayer Spear: 2H Strong 2 
+20081410 Dragonslayer Spear: 2H Strong 2 (Weapon Damage)
 20081500 Old Whip: 1H Weak 1 
 20081600 Old Whip: 1H Weak 2 
 20081700 Old Whip: 1H Strong 1 
@@ -1600,6 +1819,8 @@
 20084000 Ivory Straight Sword: 1H Guard Break
 20084100 Ivory Straight Sword: 1H Jump
 20084200 Ivory Straight Sword: 1H Fall
+20084205 Ivory Straight Sword: 1H Fall
+20084210 Ivory Straight Sword: 1H Fall (for Damage)
 20084300 Ivory Straight Sword: 1H Parry
 20084400 Ivory Straight Sword: 2H Weak 1
 20084500 Ivory Straight Sword: 2H Weak 2
@@ -1613,6 +1834,7 @@
 20085300 Ivory Straight Sword: DW 2H Weak 2
 20085400 Ivory Straight Sword: DW 2H Strong 1
 20085500 Ivory Straight Sword: 2H Guard
+20085600 Ivory Straight Sword: Stamina Consumption
 20085609 Ice Rapier: 1H Weak 2
 20085610 Ice Rapier: 1H Weak 2 #1
 20085611 Ice Rapier: 1H Strong 
@@ -1623,19 +1845,34 @@
 20085622 Ice Rapier: 2H Dash
 20085623 Ice Rapier: 2H Roll
 20085700 Ice Rapier: 1H Strong 1
+20085710 Ice Rapier: 1H Strong 1 (Weapon Damage)
 20085800 Ice Rapier: 1H Strong 2
+20085810 Ice Rapier: 1H Strong 2 (Weapon Damage)
 20085900 Ice Rapier: 2H Strong 1
+20085910 Ice Rapier: 2H Strong 1 (Weapon Damage)
 20086000 Ice Rapier: 2H Strong 2
+20086010 Ice Rapier: 2H Strong 2 (Weapon Damage)
 20086100 Majestic Greatsword: 1H Strong 1
+20086101 Majestic Greatsword: 1H Strong 1 (Vertical Rotation)
 20086200 Majestic Greatsword: 1H Strong 2
 20086300 Majestic Greatsword: 2H Strong 1 - Mid-air
+20086301 Majestic Greatsword: 2H Strong 1 - Mid-air (Vertical Rotation)
+20086302 Majestic Greatsword: 2H Strong 1 - Mid-air
 20086500 Majestic Greatsword: DW 2H Strong 1
+20086501 Majestic Greatsword: DW 2H Strong 1 (Vertical Rotation)
 20086600 Bone Fist: 1H Weak 1
 20086700 Bone Fist: DW 1H Weak 1
 20086800 Bone Fist: 1H Weak 2
+20086801 Bone Fist: 1H Weak 2
+20086805 Bone Fist: 1H Weak 2
 20086900 Bone Fist: 1H Strong 1
+20086901 Bone Fist: 1H Strong 1
+20086905 Bone Fist: 1H Strong 1
 20087000 Bone Fist: 1H Strong 2
+20087001 Bone Fist: 1H Strong 2
+20087005 Bone Fist: 1H Strong 2
 20087100 Bone Fist: 1H Dash
+20087101 Bone Fist: 1H Dash
 20087200 Bone Fist: 1H Roll
 20087300 Bone Fist: 1H Guard Break
 20087400 Bone Fist: 1H Jump
@@ -1643,70 +1880,140 @@
 20087600 Bone Fist: 1H Parry
 20087700 Bone Fist: 2H Weak 1
 20087800 Bone Fist: 2H Weak 2
+20087805 Bone Fist: 2H Weak 2
 20087900 Bone Fist: 2H Strong 1
+20087901 Bone Fist: 2H Strong 1
 20088000 Bone Fist: 2H Strong 2
 20088100 Bone Fist: 2H Dash
 20088200 Bone Fist: 2H Roll
 20088300 Bone Fist: 2H Guard Break
 20088400 Bone Fist: 2H Parry
 20088500 Bone Fist: DW 2H Weak 1
+20088510 Bone Fist: DW 2H Weak 1 - Left
 20088600 Bone Fist: DW 2H Weak 2
+20088605 Bone Fist: DW 2H Weak 2
+20088606 Bone Fist: DW 2H Weak 2
+20088610 Bone Fist: DW 2H Weak 2 - Left
 20088700 Bone Fist: DW 2H Strong 1
+20088705 Bone Fist: DW 2H Strong 1
+20088710 Bone Fist: DW 2H Strong 1 - Left
+20088720 Bone Fist: Blank
+20088730 Bone Fist: Blank
 20088800 Bone Fist: 2H Guard
+20088810 Bone Fist: Blank
+20088815 Bone Fist: Blank
+20088816 Bone Fist: Blank
+20088820 Bone Fist: Blank
+20088821 Bone Fist: Blank
 20088900 Bewitched Alonne Sword: Special Attack (Seppuku)
+20088901 Bewitched Alonne Sword: Special Attack (Seppuku)
+20088911 Bewitched Alonne Sword: Blank
+20088915 Bewitched Alonne Sword: Blank
+20088919 Bewitched Alonne Sword: Blank
+20088920 Bewitched Alonne Sword: Strong 1
+20088921 Bewitched Alonne Sword: Strong 1
 20089000 Eleum Loyce: 1H Strong 1
+20089001 Eleum Loyce: 1H Strong 1 (Charge)
+20089005 Eleum Loyce: 1H Strong 1
+20089010 Eleum Loyce: 1H Strong 1 (for Recovery)
+20089011 Eleum Loyce: 1H Strong 1
+20089012 Eleum Loyce: 1H Strong 1
 20089100 Eleum Loyce: 2H Strong 1
+20089101 Eleum Loyce: 2H Strong 1 (Charge)
+20089105 Eleum Loyce: 2H Strong 1
+20089110 Eleum Loyce: 2H Strong 1 (for Recovery)
+20089111 Eleum Loyce: 2H Strong 1 
+20089112 Eleum Loyce: 2H Strong 1 
 20089200 Fume Ultra Greatsword: 1H Strong 1
 20089210 Fume Ultra Greatsword: 1H Strong 1 #1
 20089300 Fume Ultra Greatsword: 2H Strong 1
 20089380 Curved Nil Greatsword: 2H Weak 1
 20089390 Curved Nil Greatsword: 2H Weak 2
 20089400 Curved Nil Greatsword: 2H Strong 1
+20089401 Curved Nil Greatsword: 2H Strong 1
 20089410 Curved Nil Greatsword: DW 2H Weak 1
 20089420 Curved Nil Greatsword: DW 2H Weak 2
 20089500 Curved Nil Greatsword: DW 2H Strong 1
+20089501 Curved Nil Greatsword: DW 2H Strong 1
 20089600 Puzzling Stone Sword: 1H Strong 1
-20089700 Puzzling Stone Sword: 1H Strong 2
+20089601 Puzzling Stone Sword: 1H Strong 1 (Section 1)
+20089602 Puzzling Stone Sword: 1H Strong 1 (Section 2)
+20089700 Puzzling Stone Sword: 1H Strong 2 
+20089701 Puzzling Stone Sword: 1H Strong 2 (Section 1)
+20089702 Puzzling Stone Sword: 1H Strong 2 (Section 2)
 20089800 Puzzling Stone Sword: 2H Strong 1
+20089801 Puzzling Stone Sword: 2H Strong 1 (Section 1)
+20089802 Puzzling Stone Sword: 2H Strong 1 (Section 2)
 20089900 Puzzling Stone Sword: 2H Strong 2
+20089901 Puzzling Stone Sword: 2H Strong 2 (Section 1)
+20089902 Puzzling Stone Sword: 2H Strong 2 (Section 2)
 20090000 Sanctum Repeating Crossbow: 1H Strong 1
+20090001 Sanctum Repeating Crossbow: 1H Strong 1 (Charge)
+20090010 Sanctum Repeating Crossbow: 1H Strong 1 (Weapon)
 20090100 Sanctum Repeating Crossbow: 2H Strong 1
+20090101 Sanctum Repeating Crossbow: 2H Strong 1 (Charge)
+20090110 Sanctum Repeating Crossbow: 2H Strong 1 (Weapon)
 20090200 Smelter Hammer: 1H Weak 1
 20090300 Smelter Hammer: DW 1H Weak 1
 20090400 Smelter Hammer: 1H Weak 2
 20090500 Smelter Hammer: 1H Strong 1
 20090600 Smelter Hammer: 1H Strong 2
 20090700 Smelter Hammer: 1H Dash
+20090701 Smelter Hammer: 1H Dash
+20090702 Smelter Hammer: 1H Dash
 20090800 Smelter Hammer: 1H Roll
 20090900 Smelter Hammer: 1H Guard Break
 20091000 Smelter Hammer: 1H Jump
 20091100 Smelter Hammer: 1H Fall
 20091300 Smelter Hammer: 2H Weak 1
 20091400 Smelter Hammer: 2H Weak 2
+20091401 Smelter Hammer: 2H Weak 2
 20091500 Smelter Hammer: 2H Strong 1
 20091600 Smelter Hammer: 2H Strong 2
 20091610 Smelter Hammer: 2H Strong 2 #1
+20091611 Smelter Hammer: 2H Strong 2 #1
+20091612 Smelter Hammer: 2H Strong 2 #1
 20091700 Smelter Hammer: 2H Dash
+20091701 Smelter Hammer: 2H Dash
+20091702 Smelter Hammer: 2H Dash
 20091800 Smelter Hammer: 2H Roll
 20091900 Smelter Hammer: 2H Guard Break
+20092000 Smelter Hammer: 2H Parry
 20092100 Smelter Hammer: DW 2H Weak 1
 20092200 Smelter Hammer: DW 2H Weak 2
 20092300 Smelter Hammer: DW 2H Strong 1
 20092400 Smelter Hammer: 2H Guard
 20092500 Sorcerer's Twinblade: 1H Weak 1
+20092501 Sorcerer's Twinblade: 1H Weak 1 (Reverse Blade)
 20092600 Sorcerer's Twinblade: 1H Weak 2
+20092601 Sorcerer's Twinblade: 1H Weak 2 (Reverse Blade)
 20092700 Sorcerer's Twinblade: 1H Strong 1
+20092701 Sorcerer's Twinblade: 1H Strong 1 (Reverse Blade)
 20093000 Sorcerer's Twinblade: 1H Dash
+20093001 Sorcerer's Twinblade: 1H Dash (Reverse Blade)
 20093100 Sorcerer's Twinblade: 1H Roll
+20093101 Sorcerer's Twinblade: 1H Roll (Reverse Blade)
 20093300 Sorcerer's Twinblade: 1H Jump
 20093600 Sorcerer's Twinblade: 2H Weak 1
+20093601 Sorcerer's Twinblade: 2H Weak 1 (Reverse Blade)
 20093700 Sorcerer's Twinblade: 2H Weak 2
+20093701 Sorcerer's Twinblade: 2H Weak 2 (Reverse Blade)
 20093800 Sorcerer's Twinblade: 2H Strong 1
+20093801 Sorcerer's Twinblade: 2H Strong 1 (Reverse Blade)
 20094000 Sorcerer's Twinblade: 2H Strong 2
+20094001 Sorcerer's Twinblade: 2H Strong 2 (Reverse Blade)
 20094100 Sorcerer's Twinblade: 2H Dash
-20094400 Sorcerer's Twinblade: 
-20094500 Sorcerer's Twinblade: 
-20094600 Sorcerer's Twinblade: 
+20094101 Sorcerer's Twinblade: 2H Dash (Reverse Blade)
+20094400 Sorcerer's Twinblade: Blank
+20094401 Sorcerer's Twinblade: Blank (Reverse Blade)
+20094410 Sorcerer's Twinblade: Blank
+20094411 Sorcerer's Twinblade: Blank (Reverse Blade)
+20094500 Sorcerer's Twinblade: Blank
+20094501 Sorcerer's Twinblade: Blank (Reverse Blade)
+20094510 Sorcerer's Twinblade: Blank
+20094511 Sorcerer's Twinblade: Blank (Reverse Blade)
+20094600 Sorcerer's Twinblade: Blank
+20094605 Sorcerer's Twinblade: Blank
 20094800 Sanctum Mace: 1H Weak 1
 20094900 Sanctum Mace: DW 1H Weak 1
 20095000 Sanctum Mace: 1H Weak 2
@@ -1719,20 +2026,28 @@
 20095900 Sanctum Mace: 2H Weak 1
 20096000 Sanctum Mace: 2H Weak 2
 20096100 Sanctum Mace: 2H Strong 1
+20096110 Sanctum Mace: 2H Strong 1
 20096200 Sanctum Mace: 2H Strong 2
+20096210 Sanctum Mace: 2H Strong 2
 20096300 Sanctum Mace: 2H Dash
 20096400 Sanctum Mace: 2H Roll
 20096700 Sanctum Mace: DW 2H Weak 1
 20096800 Sanctum Mace: DW 2H Weak 2
 20096900 Sanctum Mace: DW 2H Strong 1
+20097100 Sanctum Mace: Blank
+20097101 Sanctum Mace: Blank
+20097110 Sanctum Mace: Blank
+20097111 Sanctum Mace: Blank
 20098000 Possessed Armor Greatbow: 2H Shoot
 20099000 Possessed Armor Greatbow: 2H Shoot
 20100000 Bewitched Alonne Sword: 1H Weak 1
 20101000 Bewitched Alonne Sword: 1H Weak 1 #1
 20102000 Bewitched Alonne Sword: 1H Weak 2
 20103000 Bewitched Alonne Sword: 1H Weak 2 #1
+20103001 Bewitched Alonne Sword: 1H Weak 2 #1
 20104000 Bewitched Alonne Sword: 1H Strong 1
 20105000 Bewitched Alonne Sword: 1H Strong 2
+20105001 Bewitched Alonne Sword: 1H Strong 2
 20106000 Bewitched Alonne Sword: 1H Dash
 20107000 Bewitched Alonne Sword: 1H Roll
 20108000 Bewitched Alonne Sword: 1H Jump
@@ -1742,19 +2057,25 @@
 20113000 Bewitched Alonne Sword: 2H Strong 1
 20114000 Bewitched Alonne Sword: 2H Strong 2
 20115000 Bewitched Alonne Sword: 2H Dash
+20115001 Bewitched Alonne Sword: 2H Dash
 20116000 Bewitched Alonne Sword: 2H Roll
 20117000 Bewitched Alonne Sword: 2H Guard Break
 20119000 Bewitched Alonne Sword: DW 2H Weak 1
 20120000 Bewitched Alonne Sword: DW 2H Weak 2
 20121000 Bewitched Alonne Sword: DW 2H Strong 1
 20123000 Wrathful Axe: 2H Special Attack
-20124000 Umbral Dagger: 
-20125000 Umbral Dagger: 
-20126000 Umbral Dagger: 
-20127000 Umbral Dagger: 
+20123001 Wrathful Axe: 2H Special Attack
+20123002 Wrathful Axe: 2H Special Attack
+20123005 Wrathful Axe: 2H Special Attack
+20123010 Wrathful Axe: Blank
+20124000 Umbral Dagger: Blank
+20125000 Umbral Dagger: Blank
+20126000 Umbral Dagger: Blank
+20127000 Umbral Dagger: Blank
 20128000 Yorgh's Spear: 1H Weak 1
 20129000 Yorgh's Spear: 1H Weak 1 #1
 20130000 Yorgh's Spear: 1H Weak 2
+20130001 Yorgh's Spear: 1H Weak 2
 20131000 Yorgh's Spear: 1H Weak 2 #1
 20132000 Yorgh's Spear: 1H Strong 1
 20133000 Yorgh's Spear: 1H Strong 2
@@ -1767,99 +2088,161 @@
 20141000 Yorgh's Spear: 2H Strong 1
 20142000 Yorgh's Spear: 2H Strong 2
 20143000 Yorgh's Spear: 2H Dash
+20143001 Yorgh's Spear: 2H Dash
 20144000 Yorgh's Spear: 2H Roll
 20145000 Yorgh's Spear: 2H Guard Break
 20147000 Yorgh's Spear: DW 2H Weak 1
 20148000 Yorgh's Spear: DW 2H Weak 2
 20149000 Yorgh's Spear: DW 2H Strong 1
-20151000 Sanctum Shield: 
-20153000 Sanctum Shield: 
-20154000 Sanctum Shield: 
-20157000 Possessed Armor Sword: 
-20158000 Possessed Armor Sword: 
-20159000 Drakeblood Greatsword: 
-20160000 Drakeblood Greatsword: 
+20150001 Sanctum Shield: Blank
+20150002 Sanctum Shield: Blank
+20151000 Sanctum Shield: Blank
+20153000 Sanctum Shield: Blank
+20154000 Sanctum Shield: Blank
+20156000 Sanctum Shield: Blank
+20157000 Possessed Armor Sword: Blank
+20158000 Possessed Armor Sword: Blank
+20159000 Drakeblood Greatsword: Blank
+20160000 Drakeblood Greatsword: Blank
 20161000 Pilgrim's Spontoon: 1H Weak 1
+20161001 Pilgrim's Spontoon: 1H Weak 1
 20162000 Pilgrim's Spontoon: 1H Weak 2
+20162001 Pilgrim's Spontoon: 1H Weak 2
 20163000 Pilgrim's Spontoon: 1H Strong 1
+20163001 Pilgrim's Spontoon: 1H Strong 1
 20166000 Pilgrim's Spontoon: 1H Dash
+20166001 Pilgrim's Spontoon: 1H Dash
 20167000 Pilgrim's Spontoon: 1H Roll
 20169000 Pilgrim's Spontoon: 1H Jump
 20170000 Pilgrim's Spontoon: 1H Fall
 20172000 Pilgrim's Spontoon: 2H Weak 1
+20172001 Pilgrim's Spontoon: 2H Weak 1
 20173000 Pilgrim's Spontoon: 2H Weak 2
+20173001 Pilgrim's Spontoon: 2H Weak 2
 20177000 Pilgrim's Spontoon: 2H Strong 1
+20177001 Pilgrim's Spontoon: 2H Strong 1
 20178000 Pilgrim's Spontoon: 2H Strong 2
 20181000 Pilgrim's Spontoon: 2H Dash
 20182000 Pilgrim's Spontoon: 2H Roll
 20183000 Pilgrim's Spontoon: 2H Guard Break
-20187000 Drakekeeper's Warpick: 1H Weak 1
-20187100 Drakekeeper's Warpick: 1H Weak 1 #1
-20188000 Drakekeeper's Warpick: 1H Weak 2
-20189000 Drakekeeper's Warpick: 1H Weak 2 #1
-20190000 Drakekeeper's Warpick: 1H Strong 1
-20191000 Drakekeeper's Warpick: 1H Dash
-20192000 Drakekeeper's Warpick: 1H Roll
-20193000 Drakekeeper's Warpick: 1H Jump
-20194000 Drakekeeper's Warpick: 1H Fall
-20195000 Drakekeeper's Warpick: 1H Jump Fall
-20196000 Drakekeeper's Warpick: 
-20197000 Drakekeeper's Warpick: 
-20198000 Drakekeeper's Warpick: 
-20199000 Drakekeeper's Warpick: 
-20199100 Drakekeeper's Warpick: 
-20199200 Drakekeeper's Warpick: 
-20199300 Drakekeeper's Warpick: 
-20200000 King's Ultra Greatsword: 
-20200010 King's Ultra Greatsword: 
-20201000 King's Ultra Greatsword: 
-20202000 King's Ultra Greatsword: 
-20203000 King's Ultra Greatsword: 
-20204000 King's Ultra Greatsword: 
-20205000 King's Ultra Greatsword: 
-20206000 King's Ultra Greatsword: 1H Jump
-20207000 King's Ultra Greatsword: 1H Fall
-20208000 King's Ultra Greatsword: 
-20209000 King's Ultra Greatsword: 
-20210000 King's Ultra Greatsword: 
-20211000 King's Ultra Greatsword: 
-20212000 King's Ultra Greatsword: 
-20213000 King's Ultra Greatsword: 
-20214000 King's Ultra Greatsword: 
-20215000 King's Ultra Greatsword: 
-20216000 King's Ultra Greatsword: 
-20217000 Greatsword (Special): 
-20218000 Greatsword (Special): 
-20219000 Greatsword (Special): 
-20220000 Greatsword (Special): 
-20220010 Greatsword (Special): 
-20221000 Greatsword (Special): 
-20222000 Greatsword (Special): 
-20223000 Black Knight Greatsword: 
-20224000 Gyrm Great Hammer: 
-20224010 Gyrm Great Hammer: 
-20225000 Sacred Chime Hammer: 
-20225010 Sacred Chime Hammer: 
-20226000 Black Knight Halberd: 
-20227000 Curved Dragon Greatsword: 
-20228000 Curved Dragon Greatsword: 
-20229000 Possessed Armor Sword: 
-20230100 Loyce Greatsword / Charred Loyce Greatsword: 
-20230200 Loyce Greatsword / Charred Loyce Greatsword: 
-20230300 Loyce Greatsword: 
-20230400 Loyce Greatsword: 
-20230500 Loyce Greatsword: 
-20230600 Aged Smelter Sword: 
-20230700 Aged Smelter Sword: 
-20230800 Aged Smelter Sword: 
-20230900 Aged Smelter Sword: 
-20231000 Aged Smelter Sword: 
-20232200 Aged Smelter Sword: 
-20232300 Aged Smelter Sword: 
-20232400 Aged Smelter Sword: 
-20232500 Aged Smelter Sword: 
-20232600 Aged Smelter Sword: 
-20232700 Aged Smelter Sword: 
+20185000 Pilgrim's Spontoon: Blank
+20185000 Pilgrim's Spontoon: Blank
+20185001 Pilgrim's Spontoon: Blank
+20186000 Pilgrim's Spontoon: Blank
+20186001 Pilgrim's Spontoon: Blank
+20187000 Drakekeeper's Warpick: Blank
+20187001 Drakekeeper's Warpick: Blank
+20187100 Drakekeeper's Warpick: Blank
+20188000 Drakekeeper's Warpick: Blank
+20189000 Drakekeeper's Warpick: Blank
+20190000 Drakekeeper's Warpick: Blank
+20191000 Drakekeeper's Warpick: Blank
+20192000 Drakekeeper's Warpick: Blank
+20193000 Drakekeeper's Warpick: Blank
+20194000 Drakekeeper's Warpick: Blank
+20195000 Drakekeeper's Warpick: Blank
+20196000 Drakekeeper's Warpick: Blank
+20197000 Drakekeeper's Warpick: Blank
+20197001 Drakekeeper's Warpick: Blank
+20198000 Drakekeeper's Warpick: Blank
+20199000 Drakekeeper's Warpick: Blank
+20199100 Drakekeeper's Warpick: Blank
+20199101 Drakekeeper's Warpick: Blank
+20199200 Drakekeeper's Warpick: Blank
+20199201 Drakekeeper's Warpick: Blank
+20199300 Drakekeeper's Warpick: Blank
+20199301 Drakekeeper's Warpick: Blank
+20200000 King's Ultra Greatsword: Blank
+20200001 King's Ultra Greatsword: Blank
+20200010 King's Ultra Greatsword: Blank
+20200011 King's Ultra Greatsword: Blank
+20201000 King's Ultra Greatsword: Blank
+20201001 King's Ultra Greatsword: Blank
+20202000 King's Ultra Greatsword: Blank
+20202001 King's Ultra Greatsword: Blank
+20203000 King's Ultra Greatsword: Blank
+20203001 King's Ultra Greatsword: Blank
+20204000 King's Ultra Greatsword: Blank
+20205000 King's Ultra Greatsword: Blank
+20206000 King's Ultra Greatsword: Blank
+20207000 King's Ultra Greatsword: Blank
+20208000 King's Ultra Greatsword: Blank
+20208001 King's Ultra Greatsword: Blank
+20209000 King's Ultra Greatsword: Blank
+20209001 King's Ultra Greatsword: Blank
+20210000 King's Ultra Greatsword: Blank
+20210001 King's Ultra Greatsword: Blank
+20211000 King's Ultra Greatsword: Blank
+20211001 King's Ultra Greatsword: Blank
+20212000 King's Ultra Greatsword: Blank
+20212001 King's Ultra Greatsword: Blank
+20213000 King's Ultra Greatsword: Blank
+20213001 King's Ultra Greatsword: Blank
+20214000 King's Ultra Greatsword: Blank
+20215000 King's Ultra Greatsword: Blank
+20216000 King's Ultra Greatsword: Blank
+20217000 Greatsword (Special): Blank
+20218000 Greatsword (Special): Blank
+20219000 Greatsword (Special): Blank
+20220000 Greatsword (Special): Blank
+20220010 Greatsword (Special): Blank
+20221000 Greatsword (Special): Blank
+20222000 Greatsword (Special): Blank
+20223000 Black Knight Greatsword: Blank
+20224000 Gyrm Great Hammer: Blank
+20224010 Gyrm Great Hammer: Blank
+20225000 Sacred Chime Hammer: Blank
+20225010 Sacred Chime Hammer: Blank
+20226000 Black Knight Halberd: Blank
+20227000 Curved Dragon Greatsword: Blank
+20228000 Curved Dragon Greatsword: Blank
+20229000 Possessed Armor Sword: Blank
+20229010 Possessed Armor Sword: Blank
+20230100 Loyce Greatsword / Charred Loyce Greatsword: Blank
+20230200 Loyce Greatsword / Charred Loyce Greatsword: Blank
+20230300 Loyce Greatsword: Blank
+20230400 Loyce Greatsword: Blank
+20230500 Loyce Greatsword: Blank
+20230600 Aged Smelter Sword: Blank
+20230610 Aged Smelter Sword: Blank
+20230620 Aged Smelter Sword: Blank
+20230700 Aged Smelter Sword: Blank
+20230710 Aged Smelter Sword: Blank
+20230720 Aged Smelter Sword: Blank
+20230800 Aged Smelter Sword: Blank
+20230810 Aged Smelter Sword: Blank
+20230820 Aged Smelter Sword: Blank
+20230900 Aged Smelter Sword: Blank
+20230910 Aged Smelter Sword: Blank
+20230920 Aged Smelter Sword: Blank
+20231000 Aged Smelter Sword: Blank
+20231010 Aged Smelter Sword: Blank
+20231020 Aged Smelter Sword: Blank
+20232200 Aged Smelter Sword: Blank
+20232210 Aged Smelter Sword: Blank
+20232220 Aged Smelter Sword: Blank
+20232230 Aged Smelter Sword: Blank
+20232300 Aged Smelter Sword: Blank
+20232310 Aged Smelter Sword: Blank
+20232320 Aged Smelter Sword: Blank
+20232330 Aged Smelter Sword: Blank
+20232400 Aged Smelter Sword: Blank
+20232410 Aged Smelter Sword: Blank
+20232420 Aged Smelter Sword: Blank
+20232430 Aged Smelter Sword: Blank
+20232500 Aged Smelter Sword: Blank
+20232510 Aged Smelter Sword: Blank
+20232520 Aged Smelter Sword: Blank
+20232530 Aged Smelter Sword: Blank
+20232600 Aged Smelter Sword: Blank
+20232610 Aged Smelter Sword: Blank
+20232620 Aged Smelter Sword: Blank
+20232630 Aged Smelter Sword: Blank
+20232700 Aged Smelter Sword: Blank
+20232710 Aged Smelter Sword: Blank
+20232720 Aged Smelter Sword: Blank
+20232730 Aged Smelter Sword: Blank
+20233530 Blank
 21001000 Throw (Backstab): Fists
 21001010 Throw (Backstab): Fists (Stong)
 21002000 Throw (Backstab): Caestus
@@ -1884,6 +2267,7 @@
 21012000 Throw (Backstab): Scythe
 21013000 Throw (Backstab): Straight Sword
 21013010 Throw (Backstab): Ivory Straight Sword
+21013011 Throw (Backstab): Ivory Straight Sword
 21014000 Throw (Backstab): Greatsword
 21015000 Throw (Backstab): Ultra Greatsword
 21016000 Throw (Backstab): Curved Greatsword
@@ -1930,6 +2314,7 @@
 22012000 Throw (Guard Break): Scythe
 22013000 Throw (Guard Break): Straight Sword
 22013010 Throw (Guard Break): Ivory Straight Sword
+22013011 Throw (Guard Break): Ivory Straight Sword
 22014000 Throw (Guard Break): Greatsword
 22015000 Throw (Guard Break): Ultra Greatsword
 22016000 Throw (Guard Break): Curved Greatsword
@@ -1976,6 +2361,7 @@
 23012000 Throw (Riposte): Scythe
 23013000 Throw (Riposte): Straight Sword
 23013010 Throw (Riposte): Ivory Straight Sword
+23013011 Throw (Riposte): Ivory Straight Sword
 23014000 Throw (Riposte): Greatsword
 23015000 Throw (Riposte): Ultra Greatsword
 23016000 Throw (Riposte): Curved Greatsword
@@ -1998,594 +2384,737 @@
 23030000 Throw (Riposte): Binoculars 
 23031000 Throw (Riposte): Torch 
 23032000 Throw (Riposte): Pyromancy Flame
-30000010 Spell Control - Floor Search -- スペル制御用-床面検索
-30000020 For spell control - ground search right below -- スペル制御用-真下地面検索
-30000030 Spell Control - Target Location Search -- スペル制御用-ターゲット位置検索
-30000040 Spell Control - Right Foot Enchantment -- スペル制御用-右足エンチャント
-30000041 Spell Control - Left Foot Enchantment -- スペル制御用-左足エンチャント
-30000042 Spell Control - Left Arm Enchantment -- スペル制御用-左腕エンチャント
-30000043 Spell Control - Right Arm Enchantment -- スペル制御用-右腕エンチャント
-30000044 For Spell Control - Body Enchantment -- スペル制御用-体エンチャント
-30000060 For spell control - single feet -- スペル制御用-単体足元
-30000061 For spell control - range feet -- スペル制御用-範囲足元
-30000070 Spell control - parent position -- スペル制御用-親位置
-30000110 For Spell Control - Magic Muzzle Flash -- スペル制御用-魔術マズルフラッシュ
-30000120 For Spell Control - Miracle Muzzle Flash -- スペル制御用-奇蹟マズルフラッシュ
-30000130 Spell Control - Magic Muzzle Flash -- スペル制御用-呪術マズルフラッシュ
-30000140 For Spell Control - Dark Magic Muzzle Flash -- スペル制御用-闇術マズルフラッシュ
-31010000 Magic: The Arrow of Soul -- 魔術：ソウルの矢
-31020000 Magic: Strong Soul Arrows -- 魔術：強いソウルの矢
-31030000 Magic: The Head of Seoul -- 魔術：ソウルの太矢
-31040000 Magic: The Strong Soul's Taya -- 魔術：強いソウルの太矢
-31050000 Magic: The Arrows of Seoul Inducing -- 魔術：誘導するソウルの矢
-31060000 Magic: The Arrow of Seoul To Induce -- 魔術：誘導するソウルの太矢
-31070000 Magic: Floating Chunks of Soul (Special Effects) -- 魔術：浮遊するソウルの塊（特殊効果）
-31070010 Magic: Floating Soul Mass (Main Body) -- 魔術：浮遊するソウルの塊（本体）
-31070060 Magic: A floating mass of soul (bullet) -- 魔術：浮遊するソウルの塊（弾）
-31080000 Magic: Floating Soul Crystal Mass (Special Effects) -- 魔術：浮遊するソウルの結晶塊（特殊効果）
-31080010 Magic: Floating soul crystal mass (main body) -- 魔術：浮遊するソウルの結晶塊（本体）
-31080060 Magic: Floating soul crystal mass (bullet) -- 魔術：浮遊するソウルの結晶塊（弾）
-31090000 Magic: The Spear of Soul -- 魔術：ソウルの槍
-31100000 Magic: Crystal Spear of Soul -- 魔術：ソウルの結晶槍
-31110000 Magic: Fall bullets -- 魔術：転倒弾
-31120000 Magic: Continuous Magic Bullet -- 魔術：連続魔力弾
-31130000 Magic: The arrow of the magic which explodes (main body) -- 魔術：爆発する魔力の矢（本体）
-31130010 Magic: The Arrow of Magic (Bullet) -- 魔術：爆発する魔力の矢（弾）
-31140000 Magic: An Oversized Sword of Magic -- 魔術：魔力の特大剣
-31140010 Magic: An oversized sword of magic (delayed activation) -- 魔術：魔力の特大剣（発動遅延）
-31140020 Magic: Magic's Oversized Sword (Damage) -- 魔術：魔力の特大剣（ダメージ）
-31150000 Magic: Swirling Magic Ball (Main Body) -- 魔術：渦巻く魔力球（本体）
-31150010 Magic: Swirling Magic Ball (Bullet) -- 魔術：渦巻く魔力球（弾）
-31160000 Magic: The Flash of Magic (Muzzle Flash) -- 魔術：魔力の閃光（マズルフラッシュ）
-31160001 Magic: The Flash of Magic -- 魔術：魔力の閃光（演出光）
-31160002 Magic: Magic Flash (Generation Delay) -- 魔術：魔力の閃光（生成遅延）
-31160010 Magic: The Flash of Magic (Directing Part) -- 魔術：魔力の閃光（演出部分）
-31160011 Magic: Magic Flash (for Damage) -- 魔術：魔力の閃光（ダメージ用）
-31170000 Magic: Seoul's Torrent (Parent) -- 魔術：ソウルの奔流（親）
-31170001 Magic: The Flow of Soul (Child 1) -- 魔術：ソウルの奔流（子１）
-31170002 Magic: The Flow of Soul (Child 2) -- 魔術：ソウルの奔流（子２）
-31170010 Magic: Seoul's Torrent (Bullet 1) -- 魔術：ソウルの奔流（弾１）
-31170011 Magic: Seoul's Torrent (Bullet 2) -- 魔術：ソウルの奔流（弾２）
-31170012 Magic: Seoul's Torrent (Bullet 3) -- 魔術：ソウルの奔流（弾３）
-31170013 Magic: Seoul's Torrent (Bullet 4) -- 魔術：ソウルの奔流（弾４）
-31180000 Magic: Magic Weapon: Right Hand (Muzzle Flash) -- 魔術：魔法の武器：右片手（マズルフラッシュ）
-31180001 Magic: Magic Weapon: Right Hand -- 魔術：魔法の武器：右片手
-31181000 Magic: Magic Weapon: Left Hand (Muzzle Flash) -- 魔術：魔法の武器：左片手（マズルフラッシュ）
-31181001 Magic: Magic Weapon: Left Hand -- 魔術：魔法の武器：左片手
-31190000 Magic: Strong Magic Weapon: Right Hand (Muzzle Flash) -- 魔術：強い魔法の武器：右片手（マズルフラッシュ）
-31190001 Magic: Strong Magic Weapon: Right Hand -- 魔術：強い魔法の武器：右片手
-31191000 Magic: Strong Magic Weapon: Left Hand (Muzzle Flash) -- 魔術：強い魔法の武器：左片手（マズルフラッシュ）
-31191001 Magic: Strong Magic Weapon: Left Hand -- 魔術：強い魔法の武器：左片手
-31200000 Magic: Crystal Magic Weapon: Right Hand (Muzzle Flash) -- 魔術：結晶魔法の武器：右片手（マズルフラッシュ）
-31200001 Magic: Crystal Magic Weapon: Right Hand -- 魔術：結晶魔法の武器：右片手
-31201000 Magic: Crystal Magic Weapon: Left Hand (Muzzle Flash) -- 魔術：結晶魔法の武器：左片手（マズルフラッシュ）
-31201001 Magic: Crystal Magic Weapon: Left Hand -- 魔術：結晶魔法の武器：左片手
-31210000 Magic: Strong Magic Shield: Right Hand (Muzzle Flash) -- 魔術：強い魔法の盾：右片手（マズルフラッシュ）
-31210001 Magic: Strong Magic Shield: Right Hand -- 魔術：強い魔法の盾：右片手
-31211000 Magic: Strong Magic Shield: Left Hand (Muzzle Flash) -- 魔術：強い魔法の盾：左片手（マズルフラッシュ）
-31211001 Magic: Strong Magic Shield: Left Hand -- 魔術：強い魔法の盾：左片手
-31220000 Magic: The Mischief of the Devil (Bullet) -- 魔術：使い魔の悪戯（弾）
-31220001 Magic: Mischievous Mischief (Production Landing) -- 魔術：使い魔の悪戯（演出着弾）
-31220010 Magic: Mischief of the Devil (Decoy) -- 魔術：使い魔の悪戯（デコイ）
-31230000 Magic: No Sound -- 魔術：音なし
-31240000 Magic: Fall Control -- 魔術：落下制御
-31250000 Magic: Invisible Weapon: Right Hand (Muzzle Flash) -- 魔術：見えない武器：右片手（マズルフラッシュ）
-31250001 Magic: Invisible Weapon: Right Hand (Directing) -- 魔術：見えない武器：右片手（演出）
-31250002 Magic: Invisible Weapon: Right Hand (Annihilation) -- 魔術：見えない武器：右片手（消滅）
-31251000 Magic: Invisible Weapon: Right Hand (Muzzle Flash) -- 魔術：見えない武器：右片手（マズルフラッシュ）
-31251001 Magic: Invisible Weapon: Right Hand (Directing) -- 魔術：見えない武器：右片手（演出）
-31251002 Magic: Invisible Weapon: Right Hand (Annihilation) -- 魔術：見えない武器：右片手（消滅）
-31260000 Magic: Restoration -- 魔術：修復
-31270000 Magic: Illuminating Light (Muzzle Flash) -- 魔術：照らす光（マズルフラッシュ）
-31270001 Magic: Illuminating Light -- 魔術：照らす光（光）
-31280000 Magic: Mimicry (directing) -- 魔術：擬態（演出）
-31280010 Magic: Mimicry (Makeover) -- 魔術：擬態（変身）
-31290000 Magic: Magic Open (Muzzle Flash) -- 魔術：魔力開放（マズルフラッシュ）
-31290001 Magic: Magic Open -- 魔術：魔力開放
-31300000 DLC: Self-centered explosion (muzzle flash) -- DLC：自己中心爆発（マズルフラッシュ）
-31300010 DLC: Self-centered explosion (directing) -- DLC：自己中心爆発（演出）
-31300020 DLC: Self-centered explosion (damage) -- DLC：自己中心爆発（ダメージ）
-31310000 DLC: Laser beam one hand (muzzle flash) -- DLC：レーザービーム片手（マズルフラッシュ）
-31310002 DLC: Laser Beam Both Hands (Muzzle Flash) -- DLC：レーザービーム両手（マズルフラッシュ）
-31310010 DLC: Laser beam one hand (firing light) -- DLC：レーザービーム片手（発射光）
-31310012 DLC: Laser beam both hands (firing light) -- DLC：レーザービーム両手（発射光）
-31310020 DLC: Laser beam one hand (firing delay) -- DLC：レーザービーム片手（発射遅延）
-31310022 DLC: Laser beam both hands (firing delay) -- DLC：レーザービーム両手（発射遅延）
-31310030 DLC: Laser beam one hand (bullet) -- DLC：レーザービーム片手（弾）
-31310032 DLC: Laser beam both hands (bullet) -- DLC：レーザービーム両手（弾）
-32010000 Miracle: Recovery (Muzzle Flash) -- 奇蹟：回復（マズルフラッシュ）
-32020000 Miracle: Medium Recovery (Muzzle Flash) -- 奇蹟：中回復（マズルフラッシュ）
-32030000 Miracles: Limited Great Recovery (Muzzle Flash) -- 奇蹟：限られた大回復（マズルフラッシュ）
-32030001 Miracles: Limited Great Recovery -- 奇蹟：限られた大回復
-32040000 Miracle: The Great Recovery (Muzzle Flash) -- 奇蹟：大回復（マズルフラッシュ）
-32050000 Miracle: The Healing of the Sun's Light (Muzzle Flash) -- 奇蹟：太陽の光の癒し（マズルフラッシュ）
-32060000 Miracle: Life Springing (Muzzle Flash) -- 奇蹟：生命湧き（マズルフラッシュ）
-32060001 Miracles: Springing of Life -- 奇蹟：生命湧き
-32070000 Miracle: Automatic Medium Recovery (Muzzle Flash) -- 奇蹟：自動中回復（マズルフラッシュ）
-32070001 Miracles: Automatic Medium Recovery -- 奇蹟：自動中回復
-32080000 Miracle: The Grace of Sunshine (Muzzle Flash) -- 奇蹟：太陽の光の恵み（マズルフラッシュ）
-32090000 Miracle: Poison Recovery (Muzzle Flash) -- 奇蹟：毒回復（マズルフラッシュ）
-32090001 Miracle: Poison Recovery -- 奇蹟：毒回復
-32100000 Miracle: Force (for timing delay) -- 奇蹟：フォース（タイミング遅延用）
-32100001 Miracle: Force (bullet) -- 奇蹟：フォース（弾）
-32110000 Miracle: Wrath of God (Muzzle Flash) -- 奇蹟：神の怒り（マズルフラッシュ）
-32110001 Miracle: The Wrath of God -- 奇蹟：神の怒り（弾）
-32120000 Miracle: The Force that Shoots -- 奇蹟：放つフォース
-32120010 Miracle: The Force that Shoots (Landing Explosion) -- 奇蹟：放つフォース（着弾爆発）
-32130000 Miracle: Discharge (position determination) -- 奇蹟：放電（位置判定）
-32130001 Miracle: Discharge (ceiling judgment) -- 奇蹟：放電（天井判定）
-32130010 Miracle: Discharge (bullet) -- 奇蹟：放電（弾）
-32130020 Miracle: Discharge (water propagation determination) -- 奇蹟：放電（水面伝播判定）
-32130021 Miracle: Discharge (water propagation water surface search) -- 奇蹟：放電（水面伝播水面検索）
-32130030 Miracle: Discharge (water propagation damage) -- 奇蹟：放電（水面伝播ダメージ）
-32130031 Miracle: Discharge (water propagation damage) -- 奇蹟：放電（水面伝播ダメージ）
-32140000 Miracle: Spear of Thunder (Bullet) -- 奇蹟：雷の槍（弾）
-32140010 Miracle: Spear of Thunder (Landing) -- 奇蹟：雷の槍（着弾）
-32140020 Miracle: Spear of Thunder (Water Propagation Judgment) -- 奇蹟：雷の槍（水面伝播判定）
-32140021 Miracle: Spear of Thunder (Search for surface of the water) -- 奇蹟：雷の槍（水面伝播水面検索）
-32140030 Miracle: Spear of Thunder (Water Propagation Damage) -- 奇蹟：雷の槍（水面伝播ダメージ）
-32140031 Miracle: Spear of Thunder (Water Propagation Damage) -- 奇蹟：雷の槍（水面伝播ダメージ）
-32150000 Miracle: The Great Spear of Thunder (Bullet) -- 奇蹟：雷の大槍（弾）
-32150010 Miracle: The Great Spear of Thunder (Landing) -- 奇蹟：雷の大槍（着弾）
-32150020 Miracle: The Great Spear of Thunder (Water Propagation Judgment) -- 奇蹟：雷の大槍（水面伝播判定）
-32150021 Miracle: The Great Spear of Thunder (Search for the Surface of the Water) -- 奇蹟：雷の大槍（水面伝播水面検索）
-32150030 Miracle: The Great Spear of Thunder (Water Propagation Damage) -- 奇蹟：雷の大槍（水面伝播ダメージ）
-32150031 Miracle: The Great Spear of Thunder (Water Propagation Damage) -- 奇蹟：雷の大槍（水面伝播ダメージ）
-32160000 Miracle: Spear of the Sun's Light (bullet) -- 奇蹟：太陽の光の槍（弾）
-32160010 Miracle: Spear of the Sun's Light -- 奇蹟：太陽の光の槍（着弾）
-32160020 Miracle: Spear of sunlight (water propagation judgment) -- 奇蹟：太陽の光の槍（水面伝播判定）
-32160021 Miracle: Spear of sunlight (water surface propagation water search) -- 奇蹟：太陽の光の槍（水面伝播水面検索）
-32160030 Miracle: Spear of sunlight (water propagation damage) -- 奇蹟：太陽の光の槍（水面伝播ダメージ）
-32160031 Miracle: Spear of sunlight (water propagation damage) -- 奇蹟：太陽の光の槍（水面伝播ダメージ）
-32170000 Miracle: Immortal Annihilation: Parents -- 奇蹟：不死人消滅：親
-32170010 Miracle: Immortal Annihilation: Directing -- 奇蹟：不死人消滅：演出
-32170011 Miracle: Immortal Annihilation: For Damage -- 奇蹟：不死人消滅：ダメージ用
-32180000 Miracle: The Source of Thunder (Main Body) -- 奇蹟：雷の源（本体）
-32180001 Miracle: The Source of Thunder (Body: Stationary) -- 奇蹟：雷の源（本体：静止）
-32180010 Miracle: The Source of Thunder (Bullet) -- 奇蹟：雷の源（弾）
-32180011 Miracle: The Source of Thunder (Landing) -- 奇蹟：雷の源（着弾）
-32180020 Miracle: Source of Lightning (Water Propagation Judgment) -- 奇蹟：雷の源（水面伝播判定）
-32180021 Miracle: Source of Lightning (Water Propagation Surface Search) -- 奇蹟：雷の源（水面伝播水面検索）
-32180030 Miracle: Source of Lightning (Water Propagation Damage) -- 奇蹟：雷の源（水面伝播ダメージ）
-32180031 Miracle: Source of Lightning (Water Propagation Damage) -- 奇蹟：雷の源（水面伝播ダメージ）
-32190000 Miracles: Magic Protection (Muzzle Flash) -- 奇蹟：魔法防護（マズルフラッシュ）
-32200000 Miracle: Great Magic Protection (Muzzle Flash) -- 奇蹟：大魔法防護（マズルフラッシュ）
-32200001 Miracle: Great Magic Protection (Bullet) -- 奇蹟：大魔法防護（弾）
-32210000 Miracle: Home Journey -- 奇蹟：家路
-32220000 Miracle: Seeking Advice (Muzzle Flash) -- 奇蹟：助言求め（マズルフラッシュ）
-32220001 Miracle: Seeking Advice (Bullet) -- 奇蹟：助言求め（弾）
-32230000 Miracle: Jihad (Muzzle Flash) -- 奇蹟：ジハド（マズルフラッシュ）
-32240000 Miracle: Dark Spirit Detection (Muzzle Flash) -- 奇蹟：闇霊探知（マズルフラッシュ）
-32250000 Miracle: Increased resistance (muzzle flash) -- 奇蹟：抵抗力増加（マズルフラッシュ）
-32250001 Miracle: Increased resistance (bullet) -- 奇蹟：抵抗力増加（弾）
-32260000 Miracle: Sword of Sunshine: Right Hand -- 奇蹟：太陽の光の剣：右片手
-32261000 Miracle: Sword of Sunshine: Left Hand -- 奇蹟：太陽の光の剣：左片手
-32300000 DLC: One-time Resurrection -- DLC：一度きりの復活
-32310000 DLC: Lightning of defense neglect (muzzle flash) -- DLC：防御力無視の雷（マズルフラッシュ）
-32310010 DLC: Lightning in defense neglect (position search) -- DLC：防御力無視の雷（位置検索）
-32310020 DLC: Lightning for ignoring defense (omen) -- DLC：防御力無視の雷（予兆）
-33010000 Magic: Fireball -- 呪術：火球
-33010001 Magic: Fireball (landing) -- 呪術：火球（着弾）
-33010010 Magic: Fireball (Friendfire) -- 呪術：火球（フレンドファイア）
-33020000 Magic: Fireball -- 呪術：火の玉
-33020001 Magic: Fireball (Landing) -- 呪術：火の玉（着弾）
-33020010 Magic: Fireball (Friendfire) -- 呪術：火の玉（フレンドファイア）
-33030000 Magic: The Great Fireball -- 呪術：大火球
-33030001 Magic: Large fireball (landing) -- 呪術：大火球（着弾）
-33030010 Magic: The Great Fireball (Friendfire) -- 呪術：大火球（フレンドファイア）
-33040000 Magic: The Great Fireball of Chaos (Bullet) -- 呪術：混沌の大火球（弾）
-33040001 Magic: The Great Fire Ball of Chaos (Landing) -- 呪術：混沌の大火球（着弾演出）
-33040002 Magic: The Great Fire Ball of Chaos (Landing Damage) -- 呪術：混沌の大火球（着弾ダメージ）
-33040010 Magic: The Great Fire Ball of Chaos (Friendfire) -- 呪術：混沌の大火球（フレンドファイア）
-33040020 Magic: A Large Fireball of Chaos (Lava Floor Search) -- 呪術：混沌の大火球（溶岩床検索）
-33040021 Magic: The Great Fire Ball of Chaos (Lava) -- 呪術：混沌の大火球（溶岩）
-33050000 Magic: Storm of Fire (Parent) -- 呪術：炎の嵐（親）
-33050001 Magic: Storm of Fire (Location Search A) -- 呪術：炎の嵐（位置検索A）
-33050002 Magic: Storm of Fire (Location Search B) -- 呪術：炎の嵐（位置検索B）
-33050003 Magic: Storm of Fire (Light Source) -- 呪術：炎の嵐（光源）
-33050004 Magic: Storm of Fire (Light Source: Attach) -- 呪術：炎の嵐（光源：アタッチ）
-33050010 Magic: Storm of Fire (Floor Search A) -- 呪術：炎の嵐（床検索A）
-33050011 Magic: Storm of Fire (Floor Search B) -- 呪術：炎の嵐（床検索B）
-33050020 Magic: Storm of Fire (Foreboding A) -- 呪術：炎の嵐（予兆A）
-33050021 Magic: Storm of Fire (Foreboding B) -- 呪術：炎の嵐（予兆B）
-33050030 Magic: Storm of Fire (Pillar of Fire) -- 呪術：炎の嵐（火柱）
-33060000 Magic: The Great Storm of Fire (Parent) -- 呪術：炎の大嵐（親）
-33060001 Magic: The Great Storm of Fire (Location Search A) -- 呪術：炎の大嵐（位置検索A）
-33060002 Magic: The Great Storm of Fire (Location Search B) -- 呪術：炎の大嵐（位置検索B）
-33060003 Magic: The Great Storm of Fire (Light Source) -- 呪術：炎の大嵐（光源）
-33060004 Magic: The Great Storm of Fire (Light Source: Attach) -- 呪術：炎の大嵐（光源：アタッチ）
-33060010 Magic: The Great Storm of Fire (Floor Search A) -- 呪術：炎の大嵐（床検索A）
-33060011 Magic: The Great Storm of Fire (Floor Search B) -- 呪術：炎の大嵐（床検索B）
-33060020 Magic: The Great Storm of Fire (Oensign A) -- 呪術：炎の大嵐（予兆A）
-33060021 Magic: The Great Storm of Fire (Foreboding B) -- 呪術：炎の大嵐（予兆B）
-33060030 Magic: The Great Storm of Fire -- 呪術：炎の大嵐（火柱）
-33070000 Magic: Storm of Chaos (Parent) -- 呪術：混沌の嵐（親）
-33070001 Magic: Storm of Chaos (Location Search A) -- 呪術：混沌の嵐（位置検索A）
-33070002 Magic: Storm of Chaos (Location Search B) -- 呪術：混沌の嵐（位置検索B）
-33070003 Magic: Storm of Chaos (Light Source) -- 呪術：混沌の嵐（光源）
-33070004 Magic: Storm of Chaos (Light Source: Attach) -- 呪術：混沌の嵐（光源：アタッチ）
-33070010 Magic: Storm of Chaos (Floor Search A) -- 呪術：混沌の嵐（床検索A）
-33070011 Magic: Storm of Chaos (Floor Search B) -- 呪術：混沌の嵐（床検索B）
-33070020 Magic: Storm of Chaos (OenaA) -- 呪術：混沌の嵐（予兆A）
-33070021 Magic: Storm of Chaos (Foreboding B) -- 呪術：混沌の嵐（予兆B）
-33070030 Magic: Storm of Chaos (Pillar of Fire) -- 呪術：混沌の嵐（火柱）
-33070040 Magic: Storm of Chaos (Lava) -- 呪術：混沌の嵐（溶岩）
-33080000 Sorcery: Fire (directing) -- 呪術：発火（演出）
-33080010 Magic: Fire (Damage) -- 呪術：発火（ダメージ）
-33090000 Magic: Large fire (directing) -- 呪術：大発火（演出）
-33090010 Magic: Large fire (damage) -- 呪術：大発火（ダメージ）
-33100000 Magic: The Flame of The Fire: (Parent) -- 呪術：薙ぎ払う炎:（親）
-33100001 Magic: Flame to be removed: (directing) -- 呪術：薙ぎ払う炎:（演出）
-33100010 Magic: Flame to be removed (damage): -- 呪術：薙ぎ払う炎（ダメージ）:
-33110000 Magic: Fog of Poison (Location Search) -- 呪術：毒の霧（位置検索）
-33110010 Magic: The Fog of Poison (Production) -- 呪術：毒の霧（発生演出）
-33110011 Magic: The Fog of Poison (Stagnation) -- 呪術：毒の霧（その場停滞）
-33120000 Magic: Fog of venom (location search) -- 呪術：猛毒の霧（位置検索）
-33120010 Magic: The Fog of The Poison (Generation) -- 呪術：猛毒の霧（発生演出）
-33120011 Magic: The fog of the poison (the place stagnation) -- 呪術：猛毒の霧（その場停滞）
-33130000 Magic: Acid injection (location search) -- 呪術：酸の噴射（位置検索）
-33130010 Magic: Acid injection (production of) -- 呪術：酸の噴射（発生演出）
-33130011 Magic: Acid injection (stagnant) -- 呪術：酸の噴射（その場停滞）
-33140000 Magic: Floating Fireball (Parent) -- 呪術：浮遊する火球（親）
-33140001 Magic: Floating Fireball (Child) -- 呪術：浮遊する火球（子）
-33140010 Magic: Floating Fireball (Explosion) -- 呪術：浮遊する火球（爆発発生）
-33140011 Magic: Floating Fireball (Explosion) -- 呪術：浮遊する火球（爆発）
-33150000 Magic: Fire's Fire (Location Search) -- 呪術：炎の鎚（位置検索）
-33150001 Magic: Fire Fire (Bullet) -- 呪術：炎の鎚（弾）
-33150010 Magic: Fire's Fire (Explosion) -- 呪術：炎の鎚（爆発演出）
-33150011 Magic: Fire Fire (Explosion Damage) -- 呪術：炎の鎚（爆発ダメージ）
-33160000 Magic: The Sun of Chaos (bullet) -- 呪術：混沌の太陽（弾）
-33160001 Magic: The Sun of Chaos (Landing) -- 呪術：混沌の太陽（着弾演出）
-33160002 Magic: The Sun of Chaos (Landing Damage) -- 呪術：混沌の太陽（着弾ダメージ）
-33160010 Magic: The Sun of Chaos (Friendfire) -- 呪術：混沌の太陽（フレンドファイア）
-33160020 Magic: The Sun of Chaos (Lava Floor Search) -- 呪術：混沌の太陽（溶岩床検索）
-33160021 Magic: The Chaotic Sun (Lava) -- 呪術：混沌の太陽（溶岩）
-33170000 Magic: Weapon of Fire: Right Hand -- 呪術：炎の武器：右片手
-33171000 Magic: Weapon of Fire: Left Hand -- 呪術：炎の武器：左片手
-33180000 Magic: Intense Sweating -- 呪術：激しい発汗
-33190000 Magic: The Iron Body -- 呪術：鉄の体
-33200000 Magic: The Recovery Soul -- 呪術：回復魂
-33210000 Magic: Burnt (parent) -- 呪術：焼身（親）
-33210010 Magic: Burn (Barrett Trigger) -- 呪術：焼身（バレットトリガー）
-33210020 Magic: Burn (self-damage) -- 呪術：焼身（自分ダメージ）
-33210021 Sorcery: Burn (surrounding damage) -- 呪術：焼身（周辺ダメージ）
-33210022 Sorcery: Burn (surrounding damage) -- 呪術：焼身（周辺ダメージ）
-33300000 DLC: Smoke Dragon (Storm of Fire 0: Location Search) -- DLC：爆煙竜（炎の嵐０：位置検索）
-33300001 DLC: Smoke Dragon (Storm of Fire 0: Bullet) -- DLC：爆煙竜（炎の嵐０：弾）
-33300010 DLC: The Smoke Dragon (Production Pillar) -- DLC：爆煙竜（演出火柱）
-33300020 DLC: Smoke Dragon (Storm of Fire 1: Location Search) -- DLC：爆煙竜（炎の嵐１：位置検索）
-33300021 DLC: The Smoke Dragon (Storm of Fire 1: Bullet) -- DLC：爆煙竜（炎の嵐１：弾）
-33300030 DLC: Smoke Dragon (Storm of Fire 2: Location Search) -- DLC：爆煙竜（炎の嵐２：位置検索）
-33300031 DLC: The Smoke Dragon (Storm of Fire 2: Bullet) -- DLC：爆煙竜（炎の嵐２：弾）
-33300040 DLC: Smoke Dragon (Storm of Fire 3: Location Search) -- DLC：爆煙竜（炎の嵐３：位置検索）
-33300041 DLC: The Smoke Dragon (Storm of Fire 3: Bullet) -- DLC：爆煙竜（炎の嵐３：弾）
-33300050 DLC: Smoke Dragon (Storm of Fire 4: Location Search) -- DLC：爆煙竜（炎の嵐４：位置検索）
-33300051 DLC: The Smoke Dragon (Storm of Fire 4: Bullet) -- DLC：爆煙竜（炎の嵐４：弾）
-33300060 DLC: Smoke Dragon (Storm of Fire 5: Location Search) -- DLC：爆煙竜（炎の嵐５：位置検索）
-33300061 DLC: The Smoke Dragon (Storm of Fire 5: Bullet) -- DLC：爆煙竜（炎の嵐５：弾）
-33300070 DLC: Smoke Dragon (Storm of Fire 6: Location Search) -- DLC：爆煙竜（炎の嵐６：位置検索）
-33300071 DLC: The Smoke Dragon (Storm of Fire 6: Bullet) -- DLC：爆煙竜（炎の嵐６：弾）
-33300080 DLC: Smoke Dragon (Storm 7 of the Flame: Location Search) -- DLC：爆煙竜（炎の嵐７：位置検索）
-33300081 DLC: The Smoke Dragon (Storm of Fire 7: Bullet) -- DLC：爆煙竜（炎の嵐７：弾）
-33310000 DLC: Dark Ness: Right Hand (Position Search) -- DLC：闇払い：右手（位置検索）
-33310010 DLC: Dark Ness: Right Hand (Wall Search) -- DLC：闇払い：右手（壁検索）
-33310020 DLC: Dark Pay: Right Hand (Directing) -- DLC：闇払い：右手（演出）
-33310030 DLC: Dark- off: Right Hand (bullet) -- DLC：闇払い：右手（弾）
-33311000 DLC: Dark Ness: Left Hand (Location Search) -- DLC：闇払い：左手（位置検索）
-33311010 DLC: Dark Ness: Left Hand (Wall Search) -- DLC：闇払い：左手（壁検索）
-33311020 DLC: Dark Pay: Left Hand (Directed) -- DLC：闇払い：左手（演出）
-33311030 DLC: Dark- off: Left hand (bullet) -- DLC：闇払い：左手（弾）
-34010000 Dark Art - The Devil: The Ball of Darkness -- 闇術-魔：闇の玉
-34020000 Dark Art - The Devil: The Splash of Darkness (Muzzle Flash) -- 闇術-魔：闇の飛沫（マズルフラッシュ）
-34020001 Dark Art - The Devil: The Splash of Darkness -- 闇術-魔：闇の飛沫
-34030000 Dark Art - The Devil: The Fog of Darkness (Location Search) -- 闇術-魔：闇の霧（位置検索）
-34030010 Dark Art - The Devil: The Fog of Darkness (Generation) -- 闇術-魔：闇の霧（発生演出）
-34030011 Dark Art - The Devil: The Fog of Darkness (Stagnant) -- 闇術-魔：闇の霧（その場停滞）
-34040000 Dark Art - The Devil: The Mourners (Special Effects) -- 闇術-魔：追う者たち（特殊効果）
-34040010 Dark Art - The Devil: The Chasing People (Main Body) -- 闇術-魔：追う者たち（本体）
-34040060 Dark Art - The Devil: The Chasing People (Bullet) -- 闇術-魔：追う者たち（弾）
-34050000 Dark Art - Demon: Range Corpse Bombing (Muzzle Flash) -- 闇術-魔：範囲死体爆破（マズルフラッシュ）
-34050001 Dark Art - Demon: Range Corpse Bombing (Body Search) -- 闇術-魔：範囲死体爆破（死体検索）
-34050010 Dark Art - Demon: Range Corpse Bombing (Explosion Warning) -- 闇術-魔：範囲死体爆破（爆発予兆）
-34050011 Dark Art - Demon: Range Corpse Explosion (Explosion) -- 闇術-魔：範囲死体爆破（爆発）
-34050012 Dark Art - Demon: Range Corpse Bombing (Bullet) -- 闇術-魔：範囲死体爆破（弾）
-34060000 Dark Art - The Devil: Weapon of Darkness: Right Hand -- 闇術-魔：闇の武器：右片手
-34061000 Dark Art - The Devil: Weapon of Darkness: Left Hand -- 闇術-魔：闇の武器：左片手
-34070000 Dark Art - The Devil: The Whisper of Darkness -- 闇術-魔：闇のささやき
-34080000 Dark Art - The Devil: The Space of Nothingness -- 闇術-魔：無の空間
-34090000 Dark Art - The Devil: The Spellparibarrier -- 闇術-魔：スペルパリィ障壁
-34100000 Dark Art - The Devil: Darkness -- 闇術-魔：闇
-34300000 DLC: Armor editer (muzzle flash) -- DLC：防具はがし弾（マズルフラッシュ）
-34300010 DLC- Armor editer -- DLC：防具はがし弾（弾）
-34310000 DLC: A Blow of Resentment (Muzzle Flash) -- DLC：恨みの一撃（マズルフラッシュ）
-34310010 DLC: A blow of resentment (bullet) -- DLC：恨みの一撃（弾）
-35010000 The Art of Darkness - Bizarre: Summoning The Self-Restraint Spirit (Muzzle Flash) -- 闇術-奇：自縛霊召喚（マズルフラッシュ）
-35010001 Dark Art - Bizarre: Self-Restraint Summoning (Magic Square) -- 闇術-奇：自縛霊召喚（魔方陣）
-35010002 The Art of Darkness - Bizarre: Self-Restraint Summoning (Parent) -- 闇術-奇：自縛霊召喚（親）
-35010011 Dark Art - Bizarre: Self-Restraint Summoning (Position Search A) -- 闇術-奇：自縛霊召喚（位置検索A）
-35010012 Dark Art - Bizarre: Self-Restraint Summoning (Position Search B) -- 闇術-奇：自縛霊召喚（位置検索B）
-35010020 Dark Art - Bizarre: Self-Restraint Summoning (Floor Search A) -- 闇術-奇：自縛霊召喚（床検索A）
-35010021 Dark Art - Bizarre: Self-Restraint Summoning (Floor Search B) -- 闇術-奇：自縛霊召喚（床検索B）
-35010030 The Art of Darkness - Bizarre: Summoning The Self-Restraint Spirit (Foreboding A) -- 闇術-奇：自縛霊召喚（予兆A）
-35010031 The Art of Darkness - Bizarre: Summoning The Self-Restraint Spirit (Oensign B) -- 闇術-奇：自縛霊召喚（予兆B）
-35010040 The Art of Darkness - Bizarre: Self-Restraint Summoning (Pillar of Fire) -- 闇術-奇：自縛霊召喚（火柱）
-35020000 Dark Art - Bizarre: Self-Centered Typhoon -- 闇術-奇：自己中心台風
-35020010 Dark Art - Bizarre: Self-Centered Typhoon (Turning Bullet: Directing) -- 闇術-奇：自己中心台風（回る弾：演出）
-35020011 Dark Art - Bizarre: Self-Centered Typhoon (Turning Bullet: Damage) -- 闇術-奇：自己中心台風（回る弾：ダメージ）
-35020012 Dark Art - Bizarre: Self-centered typhoon (turning bullet: damage small) -- 闇術-奇：自己中心台風（回る弾：ダメージ小）
-35030000 The Dark Art - Bizarre: Soul Ball: Max -- 闇術-奇：ソウル玉：最大
-35030001 The Art of Darkness - Bizarre: Soul Ball: Large -- 闇術-奇：ソウル玉：大
-35030002 The Dark Art - Bizarre: Soul Ball: Inside -- 闇術-奇：ソウル玉：中
-35030003 The Dark Art - Bizarre: Soul Ball: Small -- 闇術-奇：ソウル玉：小
-35030004 Dark Art - Bizarre: Soul Ball: Tiny -- 闇術-奇：ソウル玉：極小
-35040000 The Dark Art - Bizarre: Soul Great Ball: Max -- 闇術-奇：ソウル大玉：最大
-35040001 The Dark Art - Bizarre: Soul Great Ball: Large -- 闇術-奇：ソウル大玉：大
-35040002 Dark Art - Bizarre: Soul Great Ball: Inside -- 闇術-奇：ソウル大玉：中
-35040003 Dark Art - Bizarre: Soul Great Ball: Small -- 闇術-奇：ソウル大玉：小
-35040004 Dark Art - Bizarre: Soul Great Ball: Tiny -- 闇術-奇：ソウル大玉：極小
-35050000 Dark Art - Bizarre: Soul Super Large Ball: Max -- 闇術-奇：ソウル超大玉：最大
-35050001 Dark Art - Bizarre: Soul Super Large Ball: Large -- 闇術-奇：ソウル超大玉：大
-35050002 Dark Art - Bizarre: Soul Super Large Ball: Inside -- 闇術-奇：ソウル超大玉：中
-35050003 Dark Art - Bizarre: Soul Super Large Ball: Small -- 闇術-奇：ソウル超大玉：小
-35050004 Dark Art - Bizarre: Soul Super Large Ball: Tiny -- 闇術-奇：ソウル超大玉：極小
-35060000 The Art of Darkness - Bizarre: The Body of Seoul: The Greatest -- 闇術-奇：ソウルの身体：最大
-35060001 The Art of Darkness - Bizarre: The Body of Seoul: Large -- 闇術-奇：ソウルの身体：大
-35060002 The Art of Darkness - Bizarre: The Body of Seoul: Inside -- 闇術-奇：ソウルの身体：中
-35060003 The Art of Darkness - Bizarre: The Body of Seoul: Small -- 闇術-奇：ソウルの身体：小
-35060004 The Art of Darkness - Bizarre: The Body of Seoul: Tiny -- 闇術-奇：ソウルの身体：極小
-35070000 Dark Art - Bizarre: The Sword of Soul: Right Hand Lv.5 -- 闇術-奇：ソウルの剣：右片手Lv.5
-35070001 Dark Art - Bizarre: The Sword of Soul: Right Hand Lv.4 -- 闇術-奇：ソウルの剣：右片手Lv.4
-35070002 Dark Art - Bizarre: The Sword of Soul: Right Hand Lv.3 -- 闇術-奇：ソウルの剣：右片手Lv.3
-35070003 Dark Art - Bizarre: The Sword of Soul: Right Hand Lv.2 -- 闇術-奇：ソウルの剣：右片手Lv.2
-35070004 Dark Art - Bizarre: The Sword of Soul: Right Hand Lv.1 -- 闇術-奇：ソウルの剣：右片手Lv.1
-35071000 Dark Art - Bizarre: The Sword of Soul: Left Hand Lv.5 -- 闇術-奇：ソウルの剣：左片手Lv.5
-35071001 Dark Art - Bizarre: The Sword of Soul: Left Hand Lv.4 -- 闇術-奇：ソウルの剣：左片手Lv.4
-35071002 Dark Art - Bizarre: The Sword of Soul: Left Hand Lv.3 -- 闇術-奇：ソウルの剣：左片手Lv.3
-35071003 Dark Art - Bizarre: The Sword of Soul: Left Hand Lv.2 -- 闇術-奇：ソウルの剣：左片手Lv.2
-35071004 Dark Art - Bizarre: The Sword of Soul: Left Hand Lv.1 -- 闇術-奇：ソウルの剣：左片手Lv.1
-35071010 The Art of Darkness - Bizarre: The Sword of Seoul: For SE Play -- 闇術-奇：ソウルの剣：SE再生用
-35080000 Dark Art - Bizarre: The Hole of Soul (First Bullet): Max: Muzzle Flash -- 闇術-奇：ソウルの穴（最初の弾）：最大：マズルフラッシュ
-35080001 Dark Art - Bizarre: The Hole of Soul (First Bullet): Max -- 闇術-奇：ソウルの穴（最初の弾）：最大
-35080002 Dark Art - Bizarre: The Hole of Soul (First Bullet): Max (Small) -- 闇術-奇：ソウルの穴（最初の弾）：最大（小）
-35080010 Dark Art - Bizarre: The Hole of Soul (First Bullet): Large: Muzzle Flash -- 闇術-奇：ソウルの穴（最初の弾）：大：マズルフラッシュ
-35080011 Dark Art - Bizarre: The Hole of Soul (First Bullet): Large -- 闇術-奇：ソウルの穴（最初の弾）：大
-35080012 Dark Art - Bizarre: The Hole of Soul (First Bullet): Large (Small) -- 闇術-奇：ソウルの穴（最初の弾）：大（小）
-35080020 Dark Art - Bizarre: The Hole of Soul (First Bullet): Medium: Muzzle Flash -- 闇術-奇：ソウルの穴（最初の弾）：中：マズルフラッシュ
-35080021 The Dark Art - Bizarre: The Hole of Soul (First Bullet): Inside -- 闇術-奇：ソウルの穴（最初の弾）：中
-35080022 Dark Art - Bizarre: The Hole of Soul (First Bullet): Medium (Small) -- 闇術-奇：ソウルの穴（最初の弾）：中（小）
-35080030 Dark Art - Bizarre: The Hole of Soul (First Bullet): Small: Muzzle Flash -- 闇術-奇：ソウルの穴（最初の弾）：小：マズルフラッシュ
-35080031 Dark Art - Bizarre: The Hole of Soul (First Bullet): Small -- 闇術-奇：ソウルの穴（最初の弾）：小
-35080032 Dark Art - Bizarre: The Hole of Soul (First Bullet): Small (Small) -- 闇術-奇：ソウルの穴（最初の弾）：小（小）
-35080040 Dark Art - Bizarre: The Hole of Soul (First Bullet): Tiny: Muzzle Flash -- 闇術-奇：ソウルの穴（最初の弾）：極小：マズルフラッシュ
-35080041 Dark Art - Bizarre: The Hole of Soul (First Bullet): Tiny -- 闇術-奇：ソウルの穴（最初の弾）：極小
-35080042 Dark Art - Bizarre: The Hole of Soul (First Bullet): Tiny (Small) -- 闇術-奇：ソウルの穴（最初の弾）：極小（小）
-35090000 Dark Art - Bizarre: Multi-Target Spell Seal (Muzzle Flash) -- 闇術-奇：マルチターゲットスペル封印（マズルフラッシュ）
-35300000 DLC: The Walk of Gentle Peace: Lv.5 (Muzzle Flash) -- DLC：緩やかな平和の歩み：Lv.5（マズルフラッシュ）
-35300010 DLC: The Walk of Gradual Peace: Lv.5 -- DLC：緩やかな平和の歩み：Lv.5
-35300011 DLC: The Walk of Gradual Peace: Lv.4 -- DLC：緩やかな平和の歩み：Lv.4
-35300012 DLC: The Walk of Gradual Peace: Lv.3 -- DLC：緩やかな平和の歩み：Lv.3
-35300013 DLC: The Walk of Gradual Peace: Lv.2 -- DLC：緩やかな平和の歩み：Lv.2
-35300014 DLC: The Walk of Gradual Peace: Lv.1 -- DLC：緩やかな平和の歩み：Lv.1
-35310000 DLC: CurrentHP 1/4 Damage Bullet: Lv.5 -- DLC：現在HPの1/4ダメージ弾：Lv.5
-40000010 Spear _ one hand pole part -- 槍_片手ポール部分
-40000011 Spear _ One-handed pole part (root) -- 槍_片手ポール部分（根元）
-40000015 Spear _ one-handed pole part (non-bounced) -- 槍_片手ポール部分（非弾かれ）
-40000016 Spear _ one-handed pole part (non-bounced - root) -- 槍_片手ポール部分（非弾かれ-根元）
-40000020 Spear _ Both Hands Pole Part -- 槍_両手ポール部分
-40000021 Spear_ Both hands pole part (root) -- 槍_両手ポール部分（根元）
-40000025 Spear _ Both Hands Pole Part (Non-Bouncy) -- 槍_両手ポール部分（非弾かれ）
-40000026 Spear _ Both hands pole part (non-bounced - root) -- 槍_両手ポール部分（非弾かれ-根元）
-40000030 Spear_Two-sword-style pole part -- 槍_二刀流ポール部分
-40000031 Spear_Two-sword pole part (root) -- 槍_二刀流ポール部分（根元）
-40000040 Spear_Two-sword-style two-handed both-handed pole part (right) -- 槍_二刀流両手ポール部分（右）
-40000041 Spear_Two-sword-style two-handed pole part (right) (root) -- 槍_二刀流両手ポール部分（右）（根元）
-40000042 Spear_Two-sword-style two-handed pole part (left) -- 槍_二刀流両手ポール部分（左）
-40000043 Spear_Two-sword-style two-handed pole part (left) (root) -- 槍_二刀流両手ポール部分（左）（根元）
-40000110 Two-handed ax_ one-handed pole part -- 両手長斧_片手ポール部分
-40000111 Two-handed ax_ one-handed pole part (root) -- 両手長斧_片手ポール部分（根元）
-40000115 Two-handed ax_ one-handed pole part (non-bounced) -- 両手長斧_片手ポール部分（非弾かれ）
-40000116 Two-handed ax_ one-handed pole part (non-bounced- root) -- 両手長斧_片手ポール部分（非弾かれ-根元）
-40000120 Two-handed ax_ both hands pole part -- 両手長斧_両手ポール部分
-40000121 Both-handed ax_ both hands pole part (root) -- 両手長斧_両手ポール部分（根元）
-40000125 Two-handed ax_ both-hands pole part (non-bounced) -- 両手長斧_両手ポール部分（非弾かれ）
-40000126 Both-handed ax_ both-hands pole part (non-bounced-root) -- 両手長斧_両手ポール部分（非弾かれ-根元）
-40000130 Two-handed ax_two-sword-style pole part -- 両手長斧_二刀流ポール部分
-40000131 Two-handed ax_two-sword pole part (root) -- 両手長斧_二刀流ポール部分（根元）
-40000140 Two-handed long axe_two-sword-style two-handed two-handed pole part (right) -- 両手長斧_二刀流両手ポール部分（右）
-40000141 Two-handed long axe_two-sword-style two-handed two-handed pole part (right) (root) -- 両手長斧_二刀流両手ポール部分（右）（根元）
-40000142 Two-handed long axe_two-sword-style two-handed two-handed pole part (left) -- 両手長斧_二刀流両手ポール部分（左）
-40000143 Two-handed long axe_two-sword-style two-handed two-handed pole part (left) (root) -- 両手長斧_二刀流両手ポール部分（左）（根元）
-40000210 Two-handed sickle_ one-handed pole part -- 両手鎌_片手ポール部分
-40000211 Two-handed sickle_ one-handed pole part (root) -- 両手鎌_片手ポール部分（根元）
-40000215 Two-handed sickle_ one-handed pole part (non-bounced) -- 両手鎌_片手ポール部分（非弾かれ）
-40000216 Two-handed sickle_ one-handed pole part (non-bounced- root) -- 両手鎌_片手ポール部分（非弾かれ-根元）
-40000220 Two-handed sickle_ both hands pole part -- 両手鎌_両手ポール部分
-40000221 Two-handed sickle_ both-hands pole part (root) -- 両手鎌_両手ポール部分（根元）
-40000225 Two-handed sickle_ both hands pole part (non-bounced) -- 両手鎌_両手ポール部分（非弾かれ）
-40000226 Two-handed sickle_ both-hands pole part (non-bounced- root) -- 両手鎌_両手ポール部分（非弾かれ-根元）
-40000230 Two-handed sickle_ two-sword-style pole part -- 両手鎌_二刀流ポール部分
-40000231 Two-handed sickle_two-sword pole part (root) -- 両手鎌_二刀流ポール部分（根元）
-40000240 Two-handed sickle_two-sword-style two-handed two-handed pole part (right) -- 両手鎌_二刀流両手ポール部分（右）
-40000241 Two-handed sickle_two-sword-style two-handed two-handed pole part (right) (root) -- 両手鎌_二刀流両手ポール部分（右）（根元）
-40000242 Two-handed sickle_two-sword-style two-handed two-handed pole part (left) -- 両手鎌_二刀流両手ポール部分（左）
-40000243 Two-handed sickle_two-sword-style two-handed two-handed pole part (left) (root) -- 両手鎌_二刀流両手ポール部分（左）（根元）
-40000310 One-handed long axe_ one-handed pole part -- 片手長斧_片手ポール部分
-40000311 One-handed long axe_ one-handed pole part (root) -- 片手長斧_片手ポール部分（根元）
-40000315 One-handed long axe_ one-handed pole part (non-bounced) -- 片手長斧_片手ポール部分（非弾かれ）
-40000316 One-handed long axe_ one-handed pole part (non-bounced- root) -- 片手長斧_片手ポール部分（非弾かれ-根元）
-40000320 One-handed long axe_ both hands pole part -- 片手長斧_両手ポール部分
-40000321 One-handed long axe_ both hands pole part (root) -- 片手長斧_両手ポール部分（根元）
-40000325 One-handed long axe_ both hands pole part (non-bounced) -- 片手長斧_両手ポール部分（非弾かれ）
-40000326 One-handed long axe _ both hands pole part (non-bounced - root) -- 片手長斧_両手ポール部分（非弾かれ-根元）
-40000330 One-handed long axe_two-sword-style pole part -- 片手長斧_二刀流ポール部分
-40000331 One-handed long axe_two-sword-style pole part (root) -- 片手長斧_二刀流ポール部分（根元）
-40000340 One-handed long axe_two-sword-style two-handed both-handed pole part (right) -- 片手長斧_二刀流両手ポール部分（右）
-40000341 One-handed long axe_two-sword-style two-handed pole part (right) (root) -- 片手長斧_二刀流両手ポール部分（右）（根元）
-40000342 One-handed long axe_two-sword-style two-handed both-handed pole part (left) -- 片手長斧_二刀流両手ポール部分（左）
-40000343 One-handed long axe_two-sword-style two-handed pole part (left) (root) -- 片手長斧_二刀流両手ポール部分（左）（根元）
-40000410 Black Knight Axe_ One Hand Pole Part -- 黒騎士斧_片手ポール部分
-40000411 Black Knight Axe_ One Hand Pole Part (Root) -- 黒騎士斧_片手ポール部分（根元）
-40000415 Black Knight Axe_ One Hand Pole Part (Non-Bouncy) -- 黒騎士斧_片手ポール部分（非弾かれ）
-40000416 Black Knight Axe_ One Hand Pole Part (Non-Bouncy- Root) -- 黒騎士斧_片手ポール部分（非弾かれ-根元）
-40000420 Black Knight Axe_ Both Hands Pole Part -- 黒騎士斧_両手ポール部分
-40000421 Black Knight Axe_ Both Hands Pole Part (Root) -- 黒騎士斧_両手ポール部分（根元）
-40000425 Black Knight Axe_ Both Hands Pole Part (Non-Bouncy) -- 黒騎士斧_両手ポール部分（非弾かれ）
-40000426 Black Knight Axe_ Both Hands Pole Part (Non-Bulleted- Root) -- 黒騎士斧_両手ポール部分（非弾かれ-根元）
-40000430 Black Knight Axe_Two-Sword Pole Part -- 黒騎士斧_二刀流ポール部分
-40000431 Black Knight Axe_Two-Sword Pole Part -- 黒騎士斧_二刀流ポール部分（根元）
-40000440 Black Knight Axe_Two-Sword Style Both-Handed Pole Part (right) -- 黒騎士斧_二刀流両手ポール部分（右）
-40000441 Black Knight Axe_Two-Sword-Style Both-Handed Pole Part (Right) (Root) -- 黒騎士斧_二刀流両手ポール部分（右）（根元）
-40000442 Black Knight Axe_Two-Sword Sword-Style Both-Handed Pole Part (left) -- 黒騎士斧_二刀流両手ポール部分（左）
-40000443 Black Knight Axe_Two-Sword-Style Two-Handed Pole Part (Left) (Root) -- 黒騎士斧_二刀流両手ポール部分（左）（根元）
-40000510 vine sushi _ one-handed pole part -- つるはし_片手ポール部分
-40000511 One-handed pole part (root) -- つるはし_片手ポール部分（根元）
-40000515 Tsurushi _ One-handed pole part (non-bounced) -- つるはし_片手ポール部分（非弾かれ）
-40000516 Tsurushi_ One-handed pole part (non-bounced- root) -- つるはし_片手ポール部分（非弾かれ-根元）
-40000520 Vine shards_ both hands pole part -- つるはし_両手ポール部分
-40000521 Tsurushi_ Both Hands Pole Part (Root) -- つるはし_両手ポール部分（根元）
-40000525 Tsurushi_ Both-Hands Pole Part (Non-Bounced) -- つるはし_両手ポール部分（非弾かれ）
-40000526 Tsurushi_ Both-hands pole part (non-bounced - root) -- つるはし_両手ポール部分（非弾かれ-根元）
-40000530 Tsurushi_ Two-sword pole part -- つるはし_二刀流ポール部分
-40000531 Tsurushi_Two-sword pole part -- つるはし_二刀流ポール部分（根元）
-40000540 Tsurushi_Two-sword-style two-handed two-handed pole part (right) -- つるはし_二刀流両手ポール部分（右）
-40000541 Tsurushi_Two-sword-style two-handed two-handed pole part (right) -- つるはし_二刀流両手ポール部分（右）（根元）
-40000542 Tsurushi_Two-sword-style two-handed two-handed pole part (left) -- つるはし_二刀流両手ポール部分（左）
-40000543 Tsurushi_Two-sword-style two-handed pole part (left) (root) -- つるはし_二刀流両手ポール部分（左）（根元）
-40000610 The Queen's Sickle_ One Hand Pole Part -- 王妃の鎌_片手ポール部分
-40000611 Queen's sickle_ one-handed pole part (root) -- 王妃の鎌_片手ポール部分（根元）
-40000615 Queen's sickle_ one-handed pole part (non-bounced) -- 王妃の鎌_片手ポール部分（非弾かれ）
-40000616 Queen's sickle_one-handed pole part (non-bounced-root) -- 王妃の鎌_片手ポール部分（非弾かれ-根元）
-40000620 Queen's Sickle_ Both Hands Pole Part -- 王妃の鎌_両手ポール部分
-40000621 Queen's sickle_ both hands pole part (root) -- 王妃の鎌_両手ポール部分（根元）
-40000625 Queen's sickle_ both hands pole part (non-bounced) -- 王妃の鎌_両手ポール部分（非弾かれ）
-40000626 Queen's sickle_ both hands pole part (non-bounced- root) -- 王妃の鎌_両手ポール部分（非弾かれ-根元）
-40000630 The Queen's Sickle_ Two-Sword Pole Part -- 王妃の鎌_二刀流ポール部分
-40000631 Queen's Sickle_Two-Sword Pole Part (Root) -- 王妃の鎌_二刀流ポール部分（根元）
-40000640 Queen's Sickle_Two-Sword Style Both Hands Pole Part (right) -- 王妃の鎌_二刀流両手ポール部分（右）
-40000641 Queen's Sickle_ Two-Sword Style Both Hands Pole Part (Right) (Root) -- 王妃の鎌_二刀流両手ポール部分（右）（根元）
-40000642 Queen's Sickle_Two-Sword Style Both Hands Pole Part (left) -- 王妃の鎌_二刀流両手ポール部分（左）
-40000643 Queen's Sickle_Two-Sword Style Both Hands Pole Part (Left) (Root) -- 王妃の鎌_二刀流両手ポール部分（左）（根元）
-40480000 Old Sun Ring (Causal Retribution): Omen -- 古い太陽の指輪（因果応報発動）：予兆
-40480010 Old Sun Ring (Causal Retribution): Explosion -- 古い太陽の指輪（因果応報発動）：爆発
-40530000 Thorn ring: Parent -- 棘の指輪（棘の指輪）：親
-40530010 Thorn Ring (Thorn Ring): Bullet -- 棘の指輪（棘の指輪）：弾
-50000000 Butterfly Armor: Poison Limpun (for Generation) -- 蝶の鎧：毒リンプン（生成用）
-50000010 Butterfly Armor: Poison Limpun (for Damage) -- 蝶の鎧：毒リンプン（ダメージ用）
-60405000 Ryutoishi (Directing) -- 竜頭石（演出）
-60405001 Dragon Head Stone (Transformation) -- 竜頭石（変身）
-60405010 Dragon Head Stone (Dragon Breath: First Time) -- 竜頭石（竜のブレス：初回）
-60405011 Dragon Head Stone (Dragon Breath: Stamina Consumption) -- 竜頭石（竜のブレス：スタミナ消費）
-60405020 Dragon Head Stone (Dragon Breath: First Time) -- 竜頭石（竜のブレス：初回）
-60405030 Dragon head stone (dragon breath: for damage) -- 竜頭石（竜のブレス：ダメージ用）
-60406000 Ryutaiishi (Directing) -- 竜体石（演出）
-60406001 Dragon Body Stone (Transformation) -- 竜体石（変身）
-60406010 Dragon stone (dragon roar) -- 竜体石（竜の咆哮）
-60406011 Dragon stone (dragon roar: stamina consumption) -- 竜体石（竜の咆哮：スタミナ消費）
-60430000 Fire Butterfly (Ignition Stone) -- 火の蝶（着火石）
-60470000 Hello -- 人面「こんにちは」
-60480000 Thank you. -- 人面「ありがとう」
-60490000 I'm sorry. -- 人面「申し訳ない」
-60500000 People like 」 -- 人面「いいね！」
-60530000 Invitation Skeleton -- 誘い骸骨
-60530010 Invitation Skeleton (Decoy) -- 誘い骸骨（デコイ）
-60531000 Lloyd's Amulet -- ロイドの護符
-60531010 Lloyd's Amulet (Landing) -- ロイドの護符（着弾）
-60540000 Tossing knife Small -- 投げナイフ 小
-60550000 Magic Bottle Small -- 魔力瓶 小
-60550010 Magic Bottle Small - Explosion -- 魔力瓶 小-爆発
-60550011 Magic Bottle Small - Explosion - Friendfire -- 魔力瓶 小-爆発-フレンドファイア
-60560000 Electric bottle Small -- 電瓶 小
-60560010 Lightning Bottle Small - Explosion -- 雷瓶 小-爆発
-60560011 Lightning Bottle Small - Explosion - Friendfire -- 雷瓶 小-爆発-フレンドファイア
-60570000 Flame bottle Small -- 炎瓶 小
-60570010 Flame Bottle Small - Explosion -- 炎瓶 小-爆発
-60570011 Flame Bottle Small - Explosion - Friendfire -- 炎瓶 小-爆発-フレンドファイア
-60575000 Black Flame Bottle Small -- 黒炎瓶 小
-60575010 Black Flame Bottle Small - Explosion -- 黒炎瓶 小-爆発
-60575011 Black Flame Bottle Small - Explosion - Friendfire -- 黒炎瓶 小-爆発-フレンドファイア
-60580000 Dark Bottle Small -- 闇瓶 小
-60580010 Dark Bottle Small - Explosion -- 闇瓶 小-爆発
-60580011 Dark Bottle Small - Explosion - Friendfire -- 闇瓶 小-爆発-フレンドファイア
-60590000 Poison knife Small -- 毒ナイフ 小
-60595000 Dung dumplings: Bullets -- 糞団子：弾
-60595010 Dung Dumplings: Hit yourself -- 糞団子：自分にヒット
-60600000 Bleeding knife Small -- 出血ナイフ 小
-60610000 Weapon Destruction Bottle Small -- 武器破壊瓶 小
-60610010 Weapon Destruction Bottle Small - Explosion -- 武器破壊瓶 小-爆発
-60610011 Weapon Destruction Bottle Small - Friendfire -- 武器破壊瓶 小-フレンドファイア
-60620000 Holy Water Bottle Small -- 聖水瓶 小
-60620010 Holy Water Bottle Small - Explosion -- 聖水瓶 小-爆発
-60620011 Holy Water Bottle Small - Friendfire -- 聖水瓶 小-フレンドファイア
-60760020 Arrowman - Physics - Weak - Both Hands - Weak -- 矢弾-物理-弱-両手-弱
-60760030 Arrowman - Physics - Weak - Both Hands - Strong -- 矢弾-物理-弱-両手-強
-60770020 Arrowman - Physics - Strong - Both Hands - Weak -- 矢弾-物理-強-両手-弱
-60770030 Arrowman - Physics - Strong - Both Hands - Strong -- 矢弾-物理-強-両手-強
-60780020 Arrowman - Magic - Both Hands - Weak -- 矢弾-魔力-両手-弱
-60780030 Arrowman - Magic - Both Hands - Strong -- 矢弾-魔力-両手-強
-60790020 Arrowman - Lightning - Both Hands - Weak -- 矢弾-雷-両手-弱
-60790030 Arrowman - Lightning - Both Hands - Strong -- 矢弾-雷-両手-強
-60800020 Arrowhead - Flame - Both Hands - Weak -- 矢弾-炎-両手-弱
-60800030 Arrowman - Flame - Both Hands - Strong -- 矢弾-炎-両手-強
-60810020 Arrowman - Darkness - Both Hands - Weak -- 矢弾-闇-両手-弱
-60810030 Arrowman - Darkness - Both Hands - Strong -- 矢弾-闇-両手-強
-60820020 Arrowhead - Poison - Both Hands - Weak -- 矢弾-毒-両手-弱
-60820030 Arrowhead - Poison - Both Hands - Strong -- 矢弾-毒-両手-強
-60830020 Arrowhead - Bleeding - Both Hands - Weak -- 矢弾-出血-両手-弱
-60830030 Arrowhead - Bleeding - Both Hands - Strong -- 矢弾-出血-両手-強
-60850020 Large Bullet - Physics - Strong - Both Hands - Weak -- 大矢弾-物理-強-両手-弱
-60850030 Large Bullet - Physics - Strong - Both Hands - Strong -- 大矢弾-物理-強-両手-強
-60870020 Large Arrow Bullet - Lightning - Both Hands - Weak -- 大矢弾-雷-両手-弱
-60870030 Large Arrow Bullet - Lightning - Both Hands - Strong -- 大矢弾-雷-両手-強
-60880020 Large arrow bullet - flame - both hands - weak -- 大矢弾-炎-両手-弱
-60880030 Large Arrow Bullet - Flame - Both Hands - Strong -- 大矢弾-炎-両手-強
-60900020 Large Arrow Bullets - Weapons Destruction - Both Hands - Weak -- 大矢弾-武器破壊-両手-弱
-60900030 Large Arrow Bullets - Weapon Destruction - Both Hands - Strong -- 大矢弾-武器破壊-両手-強
-60910000 Bolt bullets - Physical - Weak - One Hand - Weak -- ボルト弾-物理-弱-片手-弱
-60910010 Bolt bullets - Physical - Weak - One Hand - Strong -- ボルト弾-物理-弱-片手-強
-60910020 Bolt bullets - Physical - Weak - Both Hands - Weak -- ボルト弾-物理-弱-両手-弱
-60910030 Bolt bullets - Physical - Weak - Both Hands - Strong -- ボルト弾-物理-弱-両手-強
-60910040 Bolt bullets - Physics - Weak - Two-sword style - Weak -- ボルト弾-物理-弱-二刀流-弱
-60910050 Bolt bullets - Physics - Weak - Two-sword style - Strong -- ボルト弾-物理-弱-二刀流-強
-60910060 Bolt bullets - Physics - Weak - Two-sword style - Weak -- ボルト弾-物理-弱-二刀流両手-弱
-60910070 Bolt bullets - Physics - Weak - Two-sword style two-handed - strong -- ボルト弾-物理-弱-二刀流両手-強
-60920000 Bolt bullets - Physical - Strong - One Hand - Weak -- ボルト弾-物理-強-片手-弱
-60920010 Bolt bullets - Physical - Strong - One Hand - Strong -- ボルト弾-物理-強-片手-強
-60920020 Bolt bullets - Physical - Strong - Both Hands - Weak -- ボルト弾-物理-強-両手-弱
-60920030 Bolt bullets - Physical - Strong - Both Hands - Strong -- ボルト弾-物理-強-両手-強
-60920040 Bolt bullets - Physics - Strength - Two-sword style - Weak -- ボルト弾-物理-強-二刀流-弱
-60920050 Bolt bullets - Physics - Strong - Two-sword style - Strong -- ボルト弾-物理-強-二刀流-強
-60920060 Bolt bullets - Physics - Strong - Two-sword style - Weak -- ボルト弾-物理-強-二刀流両手-弱
-60920070 Bolt bullets - Physics - Strong - Two-sword style - Strong -- ボルト弾-物理-強-二刀流両手-強
-60930000 Bolt bullets - magic - one hand - weak -- ボルト弾-魔力-片手-弱
-60930010 Bolt bullets - magic - one hand - strong -- ボルト弾-魔力-片手-強
-60930020 Bolt bullets - magic - both hands - weak -- ボルト弾-魔力-両手-弱
-60930030 Bolt bullets - magic - both hands - strong -- ボルト弾-魔力-両手-強
-60930040 Bolt bullets - magic - two-sword-style - weak -- ボルト弾-魔力-二刀流-弱
-60930050 Bolt bullets - Magic - Two-sword style - Strong -- ボルト弾-魔力-二刀流-強
-60930060 Bolt bullets - magic - two-sword-style both hands - weak -- ボルト弾-魔力-二刀流両手-弱
-60930070 Bolt bullets - Magic - Two-sword-style two-handed - strong -- ボルト弾-魔力-二刀流両手-強
-60940000 Bolt bullets - lightning - one hand - weak -- ボルト弾-雷-片手-弱
-60940010 Bolt bullets - lightning - one hand - strong -- ボルト弾-雷-片手-強
-60940020 Bolt bullets - lightning - both hands - weak -- ボルト弾-雷-両手-弱
-60940030 Bolt bullets - lightning - both hands - strong -- ボルト弾-雷-両手-強
-60940040 Bolt bullets - Lightning - Two-sword style - Weak -- ボルト弾-雷-二刀流-弱
-60940050 Bolt bullets - Lightning - Two-sword style - Strong -- ボルト弾-雷-二刀流-強
-60940060 Bolt bullets - lightning - two-sword-style two-handed - weak -- ボルト弾-雷-二刀流両手-弱
-60940070 Bolt bullets - Lightning - Two-sword-style two-handed - strong -- ボルト弾-雷-二刀流両手-強
-60950000 Bolt bullets - flames - one hand - weak -- ボルト弾-炎-片手-弱
-60950010 Bolt bullets - flames - one hand - strong -- ボルト弾-炎-片手-強
-60950020 Bolt bullets - flames - hands - weak -- ボルト弾-炎-両手-弱
-60950030 Bolt bullets - flames - hands - strong -- ボルト弾-炎-両手-強
-60950040 Bolt bullets - flames - two-sword-style - weak -- ボルト弾-炎-二刀流-弱
-60950050 Bolt bullet - flame - two-sword style - strong -- ボルト弾-炎-二刀流-強
-60950060 Bolt bullets - flame - two-sword-style both hands - weak -- ボルト弾-炎-二刀流両手-弱
-60950070 Bolt bullet - flame - two-sword style both hands - strong -- ボルト弾-炎-二刀流両手-強
-60960000 Bolt bullets - darkness - one hand - weak -- ボルト弾-闇-片手-弱
-60960010 Bolt bullets - darkness - one hand - strong -- ボルト弾-闇-片手-強
-60960020 Bolt bullets - darkness - both hands - weak -- ボルト弾-闇-両手-弱
-60960030 Bolt bullets - darkness - hands - strong -- ボルト弾-闇-両手-強
-60960040 Bolt bullets - darkness - two-sword-style - weak -- ボルト弾-闇-二刀流-弱
-60960050 Bolt bullets - Darkness - Two-sword style - Strong -- ボルト弾-闇-二刀流-強
-60960060 Bolt bullets - darkness - two-sword-style two-handed - weak -- ボルト弾-闇-二刀流両手-弱
-60960070 Bolt bullet - darkness - two-sword style both hands - strong -- ボルト弾-闇-二刀流両手-強
-62100010 Proof of good intentions (host HP recovery) -- 善意の証（ホストHP回復）
+30000010 Spell Control - Floor Search
+30000020 Spell Control - Underground Search
+30000030 Spell Control - Target Location Search
+30000040 Spell Control - Right Foot Enchantment
+30000041 Spell Control - Left Foot Enchantment
+30000042 Spell Control - Left Arm Enchantment
+30000043 Spell Control - Right Arm Enchantment
+30000044 Spell Control - Body Enchantment
+30000060 Spell Control - Single feet
+30000061 Spell Control - Range feet
+30000070 Spell Control - Parent Position
+30000110 Spell Control - Sorcery (Flash)
+30000120 Spell Control - Miracle (Flash)
+30000130 Spell Control - Pyromancy (Flash)
+30000140 Spell Control - Hex (Flash)
+31010000 Soul Arrow
+31020000 Great Soul Arrow
+31030000 Heavy Soul Arrow
+31040000 Great Heavy Soul Arrow
+31050000 Homing Soul Arrow
+31050010 Homing Soul Arrow
+31060000 Heavy Homing Soul Arrow
+31060010 Heavy Homing Soul Arrow
+31070000 Homing Soulmass (SFX)
+31070010 Homing Soulmass (Main Body)
+31070060 Homing Soulmass (Bullet)
+31080000 Homing Crystal Soulmass (SFX)
+31080010 Homing Crystal Soulmass (Main Body)
+31080060 Homing Crystal Soulmass (Bullet)
+31090000 Soul Spear
+31100000 Crystal Soul Spear
+31110000 Shockwave
+31110010 Shockwave
+31120000 Soul Spear Barrage
+31130000 Soul Shower (Main Body)
+31130010 Soul Shower (Bullet)
+31140000 Soul Greatsword
+31140010 Soul Greatsword (Delayed Activation)
+31140020 Soul Greatsword (Damage)
+31150000 Soul Vortex (Main Body)
+31150010 Soul Vortex (Bullet)
+31160000 Soul Bolt (Flash)
+31160001 Soul Bolt
+31160002 Soul Bolt (Generation Delay)
+31160010 Soul Bolt (Controller)
+31160011 Soul Bolt (for Damage)
+31170000 Soul Geyser (Parent)
+31170001 Soul Geyser (Child 1)
+31170002 Soul Geyser (Child 2)
+31170010 Soul Geyser (Bullet 1)
+31170011 Soul Geyser (Bullet 2)
+31170012 Soul Geyser (Bullet 3)
+31170013 Soul Geysert (Bullet 4)
+31180000 Magic Weapon - Right Hand (Flash)
+31180001 Magic Weapon - Right Hand
+31181000 Magic Weapon - Left Hand (Flash)
+31181001 Magic Weapon - Left Hand
+31190000 Great Magic Weapon - Right Hand (Flash)
+31190001 Great Magic Weapon - Right Hand
+31191000 Great Magic Weapon - Left Hand (Flash)
+31191001 Great Magic Weapon - Left Hand
+31200000 Crystal Magic Weapon - Right Hand (Flash)
+31200001 Crystal Magic Weapon - Right Hand
+31201000 Crystal Magic Weapon - Left Hand (Flash)
+31201001 Crystal Magic Weapon - Left Hand
+31210000 Strong Magic Shield - Right Hand (Flash)
+31210001 Strong Magic Shield - Right Hand
+31211000 Strong Magic Shield - Left Hand (Flash)
+31211001 Strong Magic Shield - Left Hand
+31220000 Yearn (Bullet)
+31220001 Yearn (Landing Generation)
+31220010 Yearn (Decoy)
+31230000 Hush
+31240000 Fall Control
+31250000 Hidden Weapon (Flash)
+31250001 Hidden Weapon (Controller)
+31250002 Hidden Weapon (Annihilation)
+31251000 Hidden Weapon (Flash)
+31251001 Hidden Weapon (Controller)
+31251002 Hidden Weapon (Annihilation)
+31260000 Repair
+31270000 Cast Light (Flash)
+31270001 Cast Light
+31280000 Chameleon (Controller)
+31280010 Chameleon (Transform)
+31290000 Unleash Magic (Flash)
+31290001 Unleash Magic
+31300000 Soul Flash (Flash)
+31300010 Soul Flash (Controller)
+31300020 Soul Flash (damage)
+31310000 Focus Souls (Flash)
+31310001 Focus Souls
+31310002 Focus Souls - 2H (Flash)
+31310003 Focus Souls - 2H 
+31310010 Focus Souls (Firing Light)
+31310011 Focus Souls 
+31310012 Focus Souls - 2H (Firing Light)
+31310013 Focus Souls - 2H 
+31310014 Focus Souls - 2H 
+31310020 Focus Souls (Firing Delay)
+31310021 Focus Souls 
+31310022 Focus Souls - 2H (Firing Delay)
+31310023 Focus Souls - 2H 
+31310024 Focus Souls - 2H 
+31310030 Focus Souls (Bullet)
+31310031 Focus Souls 
+31310032 Focus Souls - 2H (Bullet)
+31310033 Focus Souls - 2H 
+31310034 Focus Souls - 2H 
+31310040 Focus Souls
+31310040 Focus Souls
+31310041 Focus Souls
+31310042 Focus Souls
+31310043 Focus Souls
+31310044 Focus Souls
+32010000 Heal (Flash)
+32010010 Heal (Base)
+32010011 Heal (FTH: 12)
+32010012 Heal (FTH: 22)
+32010013 Heal (FTH: 32)
+32010014 Heal (FTH: 42)
+32020000 Med Heal (Flash)
+32020010 Med Heal (Base)
+32020011 Med Heal (FTH: 15)
+32020012 Med Heal (FTH: 18)
+32020013 Med Heal (FTH: 28)
+32020014 Med Heal (FTH: 38)
+32030000 Great Heal Excerpt (Flash)
+32030001 Great Heal Excerpt
+32040000 Great Heal (Flash)
+32040010 Great Heal (Base)
+32040011 Great Heal (FTH: 18)
+32040012 Great Heal (FTH: 28)
+32040013 Great Heal (FTH: 38)
+32040014 Great Heal (FTH: 48)
+32050000 Soothing Sunlight (Flash)
+32050010 Soothing Sunlight (Base)
+32050011 Soothing Sunlight (FTH: 32)
+32050012 Soothing Sunlight (FTH: 42)
+32050013 Soothing Sunlight (FTH: 52)
+32050014 Soothing Sunlight (FTH: 62)
+32060000 Replenishment (Flash)
+32060001 Replenishment
+32070000 Resplendent Life (Flash)
+32070001 Resplendent Life
+32080000 Bountiful Sunlight (Flash)
+32080010 Bountiful Sunlight (Base)
+32080011 Bountiful Sunlight (FTH: 32)
+32080012 Bountiful Sunlight (FTH: 42)
+32080013 Bountiful Sunlight (FTH: 52)
+32080014 Bountiful Sunlight (FTH: 62)
+32080050 Bountiful Sunlight 
+32090000 Caressing Prayer (Flash)
+32090001 Caressing Prayer
+32100000 Force (for Timing Delay)
+32100001 Force (Bullet)
+32110000 Wrath of the Gods (Flash)
+32110001 Wrath of the Gods
+32120000 Emit Force
+32120010 Emit Force (Landing Explosion)
+32130000 Heavenly Thunder (Position Determination)
+32130001 Heavenly Thunder (Ceiling Judgment)
+32130010 Heavenly Thunder (Bullet)
+32130020 Heavenly Thunder (Water Propagation: Determination)
+32130021 Heavenly Thunder (Water Propagation: Water Surface Search)
+32130030 Heavenly Thunder (Water Propagation: Damage)
+32130031 Heavenly Thunder (water Propagation: Damage)
+32140000 Lightning Spear (Bullet)
+32140010 Lightning Spear (Landing)
+32140020 Lightning Spear (Water Propagation: Determination)
+32140021 Lightning Spear (Water Propagation: Water Surface Search)
+32140030 Lightning Spear (Water Propagation: Damage)
+32140031 Lightning Spear (Water Propagation: Damage)
+32150000 Great Lightning Spear (Bullet)
+32150010 Great Lightning Spear (Landing)
+32150020 Great Lightning Spear (Water Propagation: Determination)
+32150021 Great Lightning Spear (Water Propagation: Water Surface Search)
+32150030 Great Lightning Spear (Water Propagation: Damage)
+32150031 Great Lightning Spear (Water Propagation: Damage)
+32160000 Sunlight Spear (Bullet)
+32160010 Sunlight Spear (Landing)
+32160020 Sunlight Spear (Water Propagation: Determination)
+32160021 Sunlight Spear (Water Propagation: Water Surface Search)
+32160030 Sunlight Spear (Water Propagation: Damage)
+32160031 Sunlight Spear (Water Propagation: Damage)
+32170000 Soul Appease (Parent)
+32170010 Soul Appease (Controller)
+32170011 Soul Appease (for Damage)
+32180000 Blinding Bolt (Main Body)
+32180001 Blinding Bolt (Stationary Body)
+32180010 Blinding Bolt (Bullet)
+32180011 Blinding Bolt (Landing)
+32180020 Blinding Bolt (Water Propagation: Determination)
+32180021 Blinding Bolt (Water Propagation: Water Surface Search)
+32180030 Blinding Bolt (Water Propagation: Damage)
+32180031 Blinding Bolt (Water Propagation: Damage)
+32190000 Magic Barrier (Flash)
+32190010 Magic Barrier (Base)
+32190011 Magic Barrier (FTH: 10)
+32190012 Magic Barrier (FTH: 14)
+32190013 Magic Barrier (FTH: 24)
+32190014 Magic Barrier (FTH: 34)
+32200000 Great Magic Barrier (Flash)
+32200001 Great Magic Barrier (Bullet)
+32210000 Homeward
+32220000 Guidance (Flash)
+32220001 Guidance (Bullet)
+32230000 Sacred Oath (Flash)
+32230010 Sacred Oath (Base)
+32230011 Sacred Oath (FTH: 15)
+32230012 Sacred Oath (FTH: 20)
+32230013 Sacred Oath (FTH: 25)
+32230014 Sacred Oath (FTH: 35)
+32230050 Sacred Oath 
+32240000 Unveil (Flash)
+32250000 Perseverance (Flash)
+32250001 Perseverance (Bullet)
+32260000 Sunlight Blade - Right Hand
+32261000 Sunlight Blade - Left Hand
+32300000 Denial
+32300001 Denial
+32300005 Denial (Effect on Death)
+32300010 Denial (Bullet on Death)
+32310000 Splintering Lightning Spear (Flash)
+32310001 Splintering Lightning Spear (Flash)
+32310002 Splintering Lightning Spear (Flash)
+32310003 Splintering Lightning Spear (Flash)
+32310004 Splintering Lightning Spear (Flash)
+32310005 Splintering Lightning Spear (Flash)
+32310006 Splintering Lightning Spear (Flash)
+32310007 Splintering Lightning Spear (Flash)
+32310008 Splintering Lightning Spear (Flash)
+32310009 Splintering Lightning Spear (Flash)
+32310010 Splintering Lightning Spear (Position Search)
+32310011 Splintering Lightning Spear 
+32310020 Splintering Lightning Spear 
+32310021 Splintering Lightning Spear 
+32310040 Splintering Lightning Spear 
+32310041 Splintering Lightning Spear 
+32310042 Splintering Lightning Spear 
+32310050 Splintering Lightning Spear 
+32310051 Splintering Lightning Spear 
+32310060 Splintering Lightning Spear 
+32310061 Splintering Lightning Spear 
+33010000 Fireball
+33010001 Fireball (Landing)
+33010010 Fireball (Friendly Fire)
+33020000 Fire Orb
+33020001 Fire Orb (Landing)
+33020010 Fire Orb (Friendly Fire)
+33030000 Great Fireball
+33030001 Great Fireball (Landing)
+33030010 Great Fireball (Friendly Fire)
+33040000 Great Chaos Fireball (Bullet)
+33040001 Great Chaos Fireball (Landing)
+33040002 Great Chaos Fireball (Landing Damage)
+33040010 Great Chaos Fireball (Friendly Fire)
+33040020 Great Chaos Fireball (Lava Floor Search)
+33040021 Great Chaos Fireball (Lava)
+33050000 Firestorm (Parent)
+33050001 Firestorm (Location Search A)
+33050002 Firestorm (Location Search B)
+33050003 Firestorm (Light Source)
+33050004 Firestorm (Light Source Attach)
+33050010 Firestorm (Floor Search A)
+33050011 Firestorm (Floor Search B)
+33050020 Firestorm (Foreboding A)
+33050021 Firestorm (Foreboding B)
+33050030 Firestorm (Pillar of Fire)
+33050031 Firestorm (Pillar of Fire)
+33050040 Firestorm 
+33060000 Fire Tempest (Parent)
+33060001 Fire Tempest (Location Search A)
+33060002 Fire Tempest (Location Search B)
+33060003 Fire Tempest (Light Source)
+33060004 Fire Tempest (Light Source Attach)
+33060010 Fire Tempest (Floor Search A)
+33060011 Fire Tempest (Floor Search B)
+33060020 Fire Tempest (Foreboding A)
+33060021 Fire Tempest (Foreboding B)
+33060030 Fire Tempest (Pillar of Fire)
+33060031 Fire Tempest (Pillar of Fire)
+33060040 Fire Tempest 
+33070000 Chaos Storm (Parent)
+33070001 Chaos Storm (Location Search A)
+33070002 Chaos Storm (Location Search B)
+33070003 Chaos Storm (Light Source)
+33070004 Chaos Storm (Light Source Attach)
+33070010 Chaos Storm (Floor Search A)
+33070011 Chaos Storm (Floor Search B)
+33070020 Chaos Storm (Foreboding A)
+33070021 Chaos Storm (Foreboding B)
+33070030 Chaos Storm (Pillar of Fire)
+33070031 Chaos Storm (Pillar of Fire)
+33070040 Chaos Storm (Lava)
+33070050 Chaos Storm 
+33080000 Combustion (Controller)
+33080010 Combustion (Damage)
+33090000 Great Combustion (Controller)
+33090010 Great Combustion (damage)
+33100000 Fire Whip (Parent)
+33100001 Fire Whip (Controller)
+33100010 Fire Whip (Damage)
+33110000 Poison Mist (Location Search)
+33110010 Poison Mist (Generation)
+33110011 Poison Mist (Expiration)
+33120000 Toxic Mist (Location Search)
+33120010 Toxic Mist (Generation)
+33120011 Toxic Mist (Expiration)
+33130000 Acid Surge (Location Search)
+33130010 Acid Surge (Generation)
+33130011 Acid Surge (Expiration)
+33140000 Lingering Flame (Parent)
+33140001 Lingering Flame (Child)
+33140010 Lingering Flame (Explosion)
+33140011 Lingering Flame (Explosion)
+33150000 Flame Swathe (Location Search)
+33150001 Flame Swathe (Bullet)
+33150010 Flame Swathe (Explosion)
+33150011 Flame Swathe (Explosion Damage)
+33160000 Forbidden Sun (Bullet)
+33160001 Forbidden Sun (Landing)
+33160002 Forbidden Sun (Landing Damage)
+33160010 Forbidden Sun (Friendly Fire)
+33160020 Forbidden Sun (Lava Floor Search)
+33160021 Forbidden Sun (Lava)
+33170000 Flame Weapon - Right Hand
+33171000 Flame Weapon - Left Hand
+33180000 Flash Sweat
+33180010 Flash Sweat
+33190000 Iron Flesh
+33190010 Iron Flesh
+33200000 Warmth
+33210000 Immolation (Parent)
+33210005 Immolation 
+33210010 Immolation (Trigger)
+33210020 Immolation (Self Damage)
+33210021 Immolation (Damage Aura)
+33210022 Immolation (Damage Aura)
+33300000 Fire Snake (Fire Pillar 0: Location Search)
+33300001 Fire Snake (Fire Pillar 0: Bullet)
+33300010 Fire Snake (Generation Pillar)
+33300020 Fire Snake (Fire Pillar 1: Location Search)
+33300021 Fire Snake (Fire Pillar 1: Bullet)
+33300030 Fire Snake (Fire Pillar 2: Location Search)
+33300031 Fire Snake (Fire Pillar 2: Bullet)
+33300040 Fire Snake (Fire Pillar 3: Location Search)
+33300041 Fire Snake (Fire Pillar 3: Bullet)
+33300050 Fire Snake (Fire Pillar 4: Location Search)
+33300051 Fire Snake (Fire Pillar 4: Bullet)
+33300060 Fire Snake (Fire Pillar 5: Location Search)
+33300061 Fire Snake (Fire Pillar 5: Bullet)
+33300070 Fire Snake (Fire Pillar 6: Location Search)
+33300071 Fire Snake (Fire Pillar 6: Bullet)
+33300080 Fire Snake (Fire Pillar: Location Search)
+33300081 Fire Snake (Fire Pillar 7: Bullet)
+33300090 Fire Snake 
+33310000 Dance of Fire - Right Hand (Position Search)
+33310010 Dance of Fire - Right Hand (Wall Search)
+33310020 Dance of Fire - Right Hand (Controller)
+33310030 Dance of Fire - Right Hand (Bullet)
+33310031 Dance of Fire - Right Hand 
+33311000 Dance of Fire - Left Hand (Location Search)
+33311010 Dance of Fire - Left Hand (Wall Search)
+33311020 Dance of Fire - Left Hand (Controller)
+33311030 Dance of Fire - Left hand (Bullet)
+33311031 Dance of Fire - Left hand 
+33320000 Outcry (Parent)
+33320001 Outcry (Location Search A)
+33320002 Outcry (Location Search B)
+33320003 Outcry (Light Source)
+33320004 Outcry (Light Source Attach)
+33320010 Outcry (Floor Search A)
+33320011 Outcry (Floor Search B)
+33320020 Outcry (Foreboding A)
+33320021 Outcry (Foreboding B)
+33320030 Outcry (Pillar of Dark)
+33320031 Outcry (Pillar of Dark)
+33320040 Outcry
+33320050 Outcry
+33320051 Outcry
+34010000 Dark Orb
+34020000 Dark Hail (Flash)
+34020001 Dark Hail
+34030000 Dark Fog (Location Search)
+34030010 Dark Fog (Generation)
+34030011 Dark Fog (Expiration)
+34040000 Affinity (Special Effects)
+34040010 Affinity (Main Body)
+34040060 Affinity (Bullet)
+34050000 Dead Again (Flash)
+34050001 Dead Again (Body Search)
+34050010 Dead Again (Explosion Warning)
+34050011 Dead Again (Explosion)
+34050012 Dead Again (Bullet)
+34060000 Dark Weapon - Right Hand
+34061000 Dark Weapon - Left Hand
+34070000 Whisper of Despair
+34070010 Whisper of Despair
+34070011 Whisper of Despair
+34070012 Whisper of Despair
+34070013 Whisper of Despair
+34070014 Whisper of Despair
+34080000 Repel
+34090000 Twisted Barricade
+34100000 Numbness
+34100010 Numbness (Effect)
+34300000 Dark Greatsword (Flash)
+34300010 Dark Greatsword (Delayed Activation)
+34300020 Dark Greatsword (Damage)
+34300021 Dark Greatsword (Damage)
+34300022 Dark Greatsword (Damage)
+34300030 Dark Greatsword
+34300031 Dark Greatsword
+34310000 Recollection (Flash)
+34310010 Recollection (Bullet)
+34310011 Recollection 
+35010000 Scraps of Life (Flash)
+35010001 Scraps of Life (Magic Square)
+35010002 Scraps of Life (Parent)
+35010011 Scraps of Life (Position Search A)
+35010012 Scraps of Life (Position Search B)
+35010020 Scraps of Life (Floor Search A)
+35010021 Scraps of Life (Floor Search B)
+35010030 Scraps of Life (Foreboding A)
+35010031 Scraps of Life (Foreboding B)
+35010040 Scraps of Life (Pillar of Dark)
+35010050 Scraps of Life 
+35020000 Darkstorm
+35020010 Darkstorm (Turning Bullet: Controller)
+35020011 Darkstorm (Turning Bullet: Damage)
+35020012 Darkstorm (Turning Bullet: Damage Small)
+35030000 Resonant Soul (Souls: Tier 5)
+35030001 Resonant Soul (Souls: Tier 4)
+35030002 Resonant Soul (Souls: Tier 3)
+35030003 Resonant Soul (Souls: Tier 2)
+35030004 Resonant Soul (Souls: Tier 1)
+35040000 Great Resonant Soul (Souls: Tier 5)
+35040001 Great Resonant Soul (Souls: Tier 4)
+35040002 Great Resonant Soul (Souls: Tier 3)
+35040003 Great Resonant Soul (Souls: Tier 2)
+35040004 Great Resonant Soul (Souls: Tier 1)
+35050000 Climax (Souls: Tier 5)
+35050001 Climax (Souls: Tier 4)
+35050002 Climax (Souls: Tier 3)
+35050003 Climax (Souls: Tier 2)
+35050004 Climax (Souls: Tier 1)
+35060000 Resonant Flesh (Souls: Tier 5)
+35060001 Resonant Flesh (Souls: Tier 4)
+35060002 Resonant Flesh (Souls: Tier 3)
+35060003 Resonant Flesh (Souls: Tier 2)
+35060004 Resonant Flesh (Souls: Tier 1)
+35060010 Resonant Flesh (Souls: Tier 5)
+35060011 Resonant Flesh (Souls: Tier 4)
+35060012 Resonant Flesh (Souls: Tier 3)
+35060013 Resonant Flesh (Souls: Tier 2)
+35060014 Resonant Flesh (Souls: Tier 1)
+35070000 Resonant Weapon - Right Hand (Souls: Tier 5)
+35070001 Resonant Weapon - Right Hand (Souls: Tier 4)
+35070002 Resonant Weapon - Right Hand (Souls: Tier 3)
+35070003 Resonant Weapon - Right Hand (Souls: Tier 2)
+35070004 Resonant Weapon - Right Hand (Souls: Tier 1)
+35071000 Resonant Weapon - Left Hand (Souls: Tier 5)
+35071001 Resonant Weapon - Left Hand (Souls: Tier 4)
+35071002 Resonant Weapon - Left Hand (Souls: Tier 3)
+35071003 Resonant Weapon - Left Hand (Souls: Tier 2)
+35071004 Resonant Weapon - Left Hand (Souls: Tier 1)
+35071010 Resonant Weapon (SE Effect)
+35080000 Lifedrain Patch (Souls: Tier 5) (Flash)
+35080001 Lifedrain Patch (Souls: Tier 5) (First Bullet)
+35080002 Lifedrain Patch (Souls: Tier 5) (First Bullet - Small)
+35080010 Lifedrain Patch (Souls: Tier 4) (Flash)
+35080011 Lifedrain Patch (Souls: Tier 4) (First Bullet)
+35080012 Lifedrain Patch (Souls: Tier 4) (First Bullet - Small)
+35080020 Lifedrain Patch (Souls: Tier 3) (Flash)
+35080021 Lifedrain Patch (Souls: Tier 3) (First Bullet)
+35080022 Lifedrain Patch (Souls: Tier 3) (First Bullet - Small)
+35080030 Lifedrain Patch (Souls: Tier 2) (Flash)
+35080031 Lifedrain Patch (Souls: Tier 2) (First Bullet)
+35080032 Lifedrain Patch (Souls: Tier 2) (First Bullet - Small)
+35080040 Lifedrain Patch (Souls: Tier 1) (Flash)
+35080041 Lifedrain Patch (Souls: Tier 1) (First Bullet)
+35080042 Lifedrain Patch (Souls: Tier 1) (First Bullet - Small)
+35090000 Profound Still (Flash)
+35090010 Profound Still (Base)
+35090011 Profound Still (FTH: 32)
+35090012 Profound Still (FTH: 42)
+35090013 Profound Still (FTH: 52)
+35090014 Profound Still (FTH: 62)
+35300000 Promised Walk of Peace (Flash)
+35300010 Promised Walk of Peace (Base)
+35300011 Promised Walk of Peace (FTH: 30)
+35300012 Promised Walk of Peace (FTH: 40)
+35300013 Promised Walk of Peace (FTH: 50)
+35300014 Promised Walk of Peace (FTH: 60)
+35310000 Dark Dance 
+35310010 Dark Dance 
+35310011 Dark Dance 
+35310020 Dark Dance 
+35310021 Dark Dance 
+35310030 Dark Dance 
+35310040 Dark Dance 
+35310100 Dark Dance 
+35310200 Dark Dance 
+35310300 Dark Dance 
+35310400 Dark Dance 
+40000010 Spear - 1H Weapon Shaft 
+40000011 Spear - 1H Weapon Shaft (Root)
+40000015 Spear - 1H Weapon Shaft (Non-Bounced)
+40000016 Spear - 1H Weapon Shaft (Non-Bounced Root)
+40000020 Spear - 2H Weapon Shaft
+40000021 Spear - 2H Weapon Shaft (Root)
+40000025 Spear - 2H Weapon Shaft (Non-Bounced)
+40000026 Spear - 2H Weapon Shaft (Non-Bounced Root)
+40000030 Spear - DW Weapon Shaft 
+40000031 Spear - DW Weapon Shaft (Root)
+40000040 Spear - DW Weapon Shaft - Right
+40000041 Spear - DW Weapon Shaft - Right (Root)
+40000042 Spear - DW Weapon Shaft - Left
+40000043 Spear - DW Weapon Shaft - Left (Root)
+40000110 Greataxe - 1H Weapon Shaft 
+40000111 Greataxe - 1H Weapon Shaft  (Root)
+40000115 Greataxe - 1H Weapon Shaft (Non-Bounced)
+40000116 Greataxe - 1H Weapon Shaft (Non-Bounced Root)
+40000120 Greataxe - 2H Weapon Shaft
+40000121 Greataxe - 2H Weapon Shaft (Root)
+40000125 Greataxe - 2H Weapon Shaft (Non-Bounced)
+40000126 Greataxe - 2H Weapon Shaft (Non-Bounced Root)
+40000130 Greataxe - DW Weapon Shaft 
+40000131 Greataxe - DW Weapon Shaft - Right
+40000140 Greataxe - DW Weapon Shaft - Right
+40000141 Greataxe - DW Weapon Shaft - Right (Root)
+40000142 Greataxe - DW Weapon Shaft - Left
+40000143 Greataxe - DW Weapon Shaft - Left (Root)
+40000210 Scythe - 1H Weapon Shaft 
+40000211 Scythe - 1H Weapon Shaft  (Root)
+40000215 Scythe - 1H Weapon Shaft (Non-Bounced)
+40000216 Scythe - 1H Weapon Shaft (Non-Bounced Root)
+40000220 Scythe - 2H Weapon Shaft
+40000221 Scythe - 2H Weapon Shaft (Root)
+40000225 Scythe - 2H Weapon Shaft (Non-Bounced)
+40000226 Scythe - 2H Weapon Shaft (Non-Bounced Root)
+40000230 Scythe - DW Weapon Shaft 
+40000231 Scythe - DW Weapon Shaft - Right
+40000240 Scythe - DW Weapon Shaft - Right
+40000241 Scythe - DW Weapon Shaft - Right (Root)
+40000242 Scythe - DW Weapon Shaft - Left
+40000243 Scythe - DW Weapon Shaft - Left (Root)
+40000310 Halberd - 1H Weapon Shaft 
+40000311 Halberd - 1H Weapon Shaft  (Root)
+40000315 Halberd - 1H Weapon Shaft (Non-Bounced)
+40000316 Halberd - 1H Weapon Shaft (Non-Bounced Root)
+40000320 Halberd - 2H Weapon Shaft
+40000321 Halberd - 2H Weapon Shaft (Root)
+40000325 Halberd - 2H Weapon Shaft (Non-Bounced)
+40000326 Halberd - 2H Weapon Shaft (Non-Bounced Root)
+40000330 Halberd - DW Weapon Shaft 
+40000331 Halberd - DW Weapon Shaft - Right
+40000340 Halberd - DW Weapon Shaft - Right
+40000341 Halberd - DW Weapon Shaft - Right (Root)
+40000342 Halberd - DW Weapon Shaft - Left
+40000343 Halberd - DW Weapon Shaft - Left (Root)
+40000410 Black Knight Greataxe - 1H Weapon Shaft 
+40000411 Black Knight Greataxe - 1H Weapon Shaft  (Root)
+40000415 Black Knight Greataxe - 1H Weapon Shaft (Non-Bounced)
+40000416 Black Knight Greataxe - 1H Weapon Shaft (Non-Bounced Root)
+40000420 Black Knight Greataxe - 2H Weapon Shaft
+40000421 Black Knight Greataxe - 2H Weapon Shaft (Root)
+40000425 Black Knight Greataxe - 2H Weapon Shaft (Non-Bounced)
+40000426 Black Knight Greataxe - 2H Weapon Shaft (Non-Bounced Root)
+40000430 Black Knight Greataxe - DW Weapon Shaft 
+40000431 Black Knight Greataxe - DW Weapon Shaft - Right
+40000440 Black Knight Greataxe - DW Weapon Shaft - Right
+40000441 Black Knight Greataxe - DW Weapon Shaft - Right (Root)
+40000442 Black Knight Greataxe - DW Weapon Shaft - Left
+40000443 Black Knight Greataxe - DW Weapon Shaft - Left (Root)
+40000510 Pickaxe - 1H Weapon Shaft 
+40000511 Pickaxe - 1H Weapon Shaft  (Root)
+40000515 Pickaxe - 1H Weapon Shaft (Non-Bounced)
+40000516 Pickaxe - 1H Weapon Shaft (Non-Bounced Root)
+40000520 Pickaxe - 2H Weapon Shaft
+40000521 Pickaxe - 2H Weapon Shaft (Root)
+40000525 Pickaxe - 2H Weapon Shaft (Non-Bounced)
+40000526 Pickaxe - 2H Weapon Shaft (Non-Bounced Root)
+40000530 Pickaxe - DW Weapon Shaft 
+40000531 Pickaxe - DW Weapon Shaft - Right
+40000540 Pickaxe - DW Weapon Shaft - Right
+40000541 Pickaxe - DW Weapon Shaft - Right (Root)
+40000542 Pickaxe - DW Weapon Shaft - Left
+40000543 Pickaxe - DW Weapon Shaft - Left (Root)
+40000610 Scythe of Want - 1H Weapon Shaft 
+40000611 Scythe of Want - 1H Weapon Shaft  (Root)
+40000615 Scythe of Want - 1H Weapon Shaft (Non-Bounced)
+40000616 Scythe of Want - 1H Weapon Shaft (Non-Bounced Root)
+40000620 Scythe of Want - 2H Weapon Shaft
+40000621 Scythe of Want - 2H Weapon Shaft (Root)
+40000625 Scythe of Want - 2H Weapon Shaft (Non-Bounced)
+40000626 Scythe of Want - 2H Weapon Shaft (Non-Bounced Root)
+40000630 Scythe of Want - DW Weapon Shaft 
+40000631 Scythe of Want - DW Weapon Shaft - Right
+40000640 Scythe of Want - DW Weapon Shaft - Right
+40000641 Scythe of Want - DW Weapon Shaft - Right (Root)
+40000642 Scythe of Want - DW Weapon Shaft - Left
+40000643 Scythe of Want - DW Weapon Shaft - Left (Root)
+40480000 Old Sun Ring (Omen)
+40480010 Old Sun Ring (Explosion)
+51000000 Crown of the Old Iron King
+51010000 Blank
+51010001 Blank
+51010002 Blank
+51020000 Sanctum Priestess Tiara
+51040000 Symbol of Avarice
+40530000 Ring of Thorns (Parent)
+40530010 Ring of Thorns (Bullet)
+50000000 Butterfly Armor - Poison Aura (Generation)
+50000010 Butterfly Armor - Poison Aura (Damage)
+60405000 Dragon Head Stone (Controller)
+60405001 Dragon Head Stone (Transformation)
+60405010 Dragon Head Stone - Transformed (Dragon Breath: Initial)
+60405011 Dragon Head Stone - Transformed (Dragon Breath: Stamina Consumption)
+60405020 Dragon Head Stone - Transformed (Dragon Breath: Initial)
+60405030 Dragon head stone - Transformed (Dragon Breath: Damage)
+60406000 Dragon Torso Stone (Controller)
+60406001 Dragon Torso Stone (Transformation)
+60406010 Dragon Torso Stone - Transformed (Dragon Roar)
+60406011 Dragon Torso Stone - Transformed (Dragon RoarL Stamina Consumption)
+60430000 Fire Butterfly
+60470000 Hello Carving
+60480000 Thank you Carving
+60490000 I'm sorry Carving
+60500000 Very Good! Carving
+60530000 Alluring Skull
+60530010 Alluring Skull (Decoy)
+60531000 Lloyd's Talisman
+60531010 Lloyd's Talisman (Landing)
+60540000 Throwing Knife
+60550000 Witching Urn
+60550010 Witching Urn - Explosion
+60550011 Witching Urn - Explosion (Friendly Fire)
+60560000 Lightning Urn
+60560010 Lightning Urn - Explosion
+60560011 Lightning Urn - Explosion (Friendly Fire)
+60570000 Firebomb
+60570010 Firebomb - Explosion
+60570011 Firebomb - Explosion (Friendly Fire)
+60575000 Black Firebomb
+60575010 Black Firebomb - Explosion
+60575011 Black Firebomb - Explosion (Friendly Fire)
+60580000 Hexing Urn
+60580010 Hexing Urn - Explosion
+60580011 Hexing Urn - Explosion (Friendly Fire)
+60590000 Poison Throwing Knife
+60595000 Dung Pie (Bullet)
+60595010 Dung Pie (Self-Poison)
+60600000 Lacerating Knife
+60610000 Corrosive Urn
+60610010 Corrosive Urn - Explosion
+60610011 Corrosive Urn - Explosion (Friendly Fire)
+60620000 Holy Water Urn
+60620010 Holy Water Urn - Explosion
+60620011 Holy Water Urn - Explosion (Friendly Fire)
+60760020 Wood Arrow - 2H Weak
+60760030 Wood Arrow - 2H Strong
+60770020 Iron Arrow - 2H Weak
+60770030 Iron Arrow - 2H Strong
+60780020 Magic Arrow - 2H Weak
+60780030 Magic Arrow - 2H Strong
+60790020 Lightning Arrow - 2H Weak
+60790030 Lightning Arrow - 2H Strong
+60800020 Fire Arrow - 2H Weak
+60800030 Fire Arrow - 2H Strong
+60810020 Dark Arrow - 2H Weak
+60810030 Dark Arrow - 2H Strong
+60820020 Poison Arrow - 2H Weak
+60820030 Poison Arrow - 2H Strong
+60830020 Lacerating Arrow - 2H Weak
+60830030 Lacerating Arrow - 2H Strong
+60850020 Iron Greatarrow - 2H Weak
+60850030 Iron Greatarrow - 2H Strong
+60870020 Lightning Greatarrow - 2H Weak
+60870030 Lightning Greatarrow - 2H Strong
+60880020 Fire Greatarrow - 2H Weak
+60880030 Fire Greatarrow - 2H Strong
+60900020 Destructive Greatarrow - 2H Weak
+60900030 Destructive Greatarrow - 2H Strong
+60910000 Wood Bolt - 1H Weak
+60910010 Wood Bolt - 1H Strong
+60910020 Wood Bolt - 2H Weak
+60910030 Wood Bolt - 2H Strong
+60910040 Wood Bolt - DW 1H Weak
+60910050 Wood Bolt - DW 1H Strong
+60910060 Wood Bolt - DW 2H Weak
+60910070 Wood Bolt - DW 2H Strong
+60920000 Heavy Bolt - 1H Weak
+60920010 Heavy Bolt - 1H Strong
+60920020 Heavy Bolt - 2H Weak
+60920030 Heavy Bolt - 2H Strong
+60920040 Heavy Bolt - DW 1H Weak
+60920050 Heavy Bolt - DW 1H Strong
+60920060 Heavy Bolt - DW 2H Weak
+60920070 Heavy Bolt - DW 2H Strong
+60930000 Magic Bolt - 1H Weak
+60930010 Magic Bolt - 1H Strong
+60930020 Magic Bolt - 2H Weak
+60930030 Magic Bolt - 2H Strong
+60930040 Magic Bolt - DW 1H Weak
+60930050 Magic Bolt - DW 1H Strong
+60930060 Magic Bolt - DW 2H Weak
+60930070 Magic Bolt - DW 2H Strong
+60940000 Lightning Bolt - 1H Weak
+60940010 Lightning Bolt - 1H Strong
+60940020 Lightning Bolt - 2H Weak
+60940030 Lightning Bolt - 2H Strong
+60940040 Lightning Bolt - DW 1H Weak
+60940050 Lightning Bolt - DW 1H Strong
+60940060 Lightning Bolt - DW 2H Weak
+60940070 Lightning Bolt - DW 2H Strong
+60950000 Fire Bolt - 1H Weak
+60950010 Fire Bolt - 1H Strong
+60950020 Fire Bolt - 2H Weak
+60950030 Fire Bolt - 2H Strong
+60950040 Fire Bolt - DW 1H Weak
+60950050 Fire Bolt - DW 1H Strong
+60950060 Fire Bolt - DW 2H Weak
+60950070 Fire Bolt - DW 2H Strong
+60960000 Dark Bolt - 1H Weak
+60960010 Dark Bolt - 1H Strong
+60960020 Dark Bolt - 2H Weak
+60960030 Dark Bolt - 2H Strong
+60960040 Dark Bolt - DW 1H Weak
+60960050 Dark Bolt - DW 1H Strong
+60960060 Dark Bolt - DW 2H Weak
+60960070 Dark Bolt - DW 2H Strong
+62100010 Token of Fidelity (Host HP recovery)
