@@ -35,7 +35,7 @@ namespace StudioCore.MsbEditor
         public static void ReloadMtds()
         {
 
-            TaskManager.Run(new("Resource - Load MTDs", true, false, false, () =>
+            TaskManager.Run(new("Resource - Load MTDs", TaskManager.RequeueTypeEnum.WaitThenRequeue, false, () =>
             {
                 try
                 {

@@ -51,7 +51,7 @@ namespace StudioCore.Editor
         }
         public static void ReloadAliases()
         {
-            TaskManager.Run(new("Map - Load Names", true, false, false, () =>
+            TaskManager.Run(new("Map - Load Names", TaskManager.RequeueTypeEnum.WaitThenRequeue, false, () =>
             {
                 _mapNames = new Dictionary<string, string>();
                 IsLoadingAliases = true;

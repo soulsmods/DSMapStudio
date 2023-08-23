@@ -781,13 +781,13 @@ namespace StudioCore.ParamEditor
 
             CacheBank.ClearCaches();
 
-            TaskManager.Run(new("Param - Load Params", true, false, false, () =>
+            TaskManager.Run(new("Param - Load Params", TaskManager.RequeueTypeEnum.WaitThenRequeue, false, () =>
             {
                 if (PrimaryBank.AssetLocator.Type != GameType.Undefined)
                 {
                     List<(string, PARAMDEF)> defPairs = LoadParamdefs(locator);
                     IsDefsLoaded = true;
-                    TaskManager.Run(new("Param - Load Meta", true, false, false, () =>
+                    TaskManager.Run(new("Param - Load Meta", TaskManager.RequeueTypeEnum.WaitThenRequeue, false, () =>
                     {
                         LoadParamMeta(defPairs, locator);
                         IsMetaLoaded = true;
@@ -827,7 +827,7 @@ namespace StudioCore.ParamEditor
 
                 VanillaBank.IsLoadingParams = true;
                 VanillaBank._params = new Dictionary<string, Param>();
-                TaskManager.Run(new("Param - Load Vanilla Params", true, false, false, () =>
+                TaskManager.Run(new("Param - Load Vanilla Params", TaskManager.RequeueTypeEnum.WaitThenRequeue, false, () =>
                 {
                     if (locator.Type == GameType.DemonsSouls)
                     {
@@ -859,7 +859,9 @@ namespace StudioCore.ParamEditor
                     }
                     VanillaBank.IsLoadingParams = false;
 
-                    TaskManager.Run(new("Param - Check Differences", true, false, false, () => PrimaryBank.RefreshParamDiffCaches()));
+                    TaskManager.Run(new("Param - Check Differences",
+                        TaskManager.RequeueTypeEnum.WaitThenRequeue, false,
+                        () => PrimaryBank.RefreshParamDiffCaches()));
                 }));
 
                 if (options != null)

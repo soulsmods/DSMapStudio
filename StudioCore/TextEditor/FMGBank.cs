@@ -1019,7 +1019,7 @@ namespace StudioCore.TextEditor
 
         public static void ReloadFMGs(string languageFolder = "")
         {
-            TaskManager.Run(new("FMG - Load Text", true, false, true, () =>
+            TaskManager.Run(new("FMG - Load Text", TaskManager.RequeueTypeEnum.WaitThenRequeue, true, () =>
             {
                 IsLoaded = false;
                 IsLoading = true;

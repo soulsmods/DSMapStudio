@@ -262,12 +262,15 @@ namespace StudioCore
 
             if (CFG.Current.EnableSoapstone)
             {
-                TaskManager.Run(new("Initialize Soapstone Server", false, false, true, () => SoapstoneServer.RunAsync(KnownServer.DSMapStudio, _soapstoneService)));
+                TaskManager.LiveTask soapstoneTask = new("Soapstone Server", true,
+                    () => SoapstoneServer.RunAsync(KnownServer.DSMapStudio, _soapstoneService).Wait());
+                soapstoneTask.PassiveTask = true;
+                TaskManager.Run(soapstoneTask);
             }
 
             if (CFG.Current.EnableCheckProgramUpdate)
             {
-                TaskManager.Run(new("Check Program Updates", false, false, true, () => CheckProgramUpdate()));
+                TaskManager.Run(new("Check Program Updates", true, () => CheckProgramUpdate()));
             }
 
             long previousFrameTicks = 0;
@@ -667,7 +670,6 @@ namespace StudioCore
             }
 
             Tracy.TracyCZoneEnd(ctx);
-            List<string> tasks = Editor.TaskManager.GetLiveThreads();
             Editor.TaskManager.ThrowTaskExceptions();
 
             string[] commandsplit = EditorCommandQueue.GetNextCommand();
@@ -713,11 +715,11 @@ namespace StudioCore
                     {
                         CFG.Current.EnableTexturing = !CFG.Current.EnableTexturing;
                     }
-                    if (ImGui.MenuItem("New Project", "", false, Editor.TaskManager.GetLiveThreads().Count == 0))
+                    if (ImGui.MenuItem("New Project", "", false, !TaskManager.AnyActiveTasks()))
                     {
                         newProject = true;
                     }
-                    if (ImGui.MenuItem("Open Project", "", false, Editor.TaskManager.GetLiveThreads().Count == 0))
+                    if (ImGui.MenuItem("Open Project", "", false, !TaskManager.AnyActiveTasks()))
                     {
                         using FileChooserNative fileChooser = new FileChooserNative("Choose the project json file",
                             null, FileChooserAction.Open, "Open", "Cancel");
@@ -731,7 +733,7 @@ namespace StudioCore
                             }
                         }
                     }
-                    if (ImGui.BeginMenu("Recent Projects", Editor.TaskManager.GetLiveThreads().Count == 0 && CFG.Current.RecentProjects.Count > 0))
+                    if (ImGui.BeginMenu("Recent Projects", !TaskManager.AnyActiveTasks() && CFG.Current.RecentProjects.Count > 0))
                     {
                         CFG.RecentProject recent = null;
                         int id = 0;
@@ -776,19 +778,19 @@ namespace StudioCore
                         }
                         ImGui.EndMenu();
                     }
-                    if (ImGui.BeginMenu("Open in Explorer", Editor.TaskManager.GetLiveThreads().Count == 0 && CFG.Current.RecentProjects.Count > 0))
+                    if (ImGui.BeginMenu("Open in Explorer", !TaskManager.AnyActiveTasks() && CFG.Current.RecentProjects.Count > 0))
                     {
-                        if (ImGui.MenuItem("Open Project Folder", "", false, Editor.TaskManager.GetLiveThreads().Count == 0))
+                        if (ImGui.MenuItem("Open Project Folder", "", false, !TaskManager.AnyActiveTasks()))
                         {
                             string projectPath = _assetLocator.GameModDirectory;
                             Process.Start("explorer.exe", projectPath);
                         }
-                        if (ImGui.MenuItem("Open Game Folder", "", false, Editor.TaskManager.GetLiveThreads().Count == 0))
+                        if (ImGui.MenuItem("Open Game Folder", "", false, !TaskManager.AnyActiveTasks()))
                         {
                             var gamePath = _assetLocator.GameRootDirectory;
                             Process.Start("explorer.exe", gamePath);
                         }
-                        if (ImGui.MenuItem("Open Config Folder", "", false, Editor.TaskManager.GetLiveThreads().Count == 0))
+                        if (ImGui.MenuItem("Open Config Folder", "", false, !TaskManager.AnyActiveTasks()))
                         {
                             var configPath = CFG.GetConfigFolderPath();
                             Process.Start("explorer.exe", configPath);
@@ -1269,7 +1271,7 @@ namespace StudioCore
 
             if (!_initialLoadComplete)
             {
-                if (!tasks.Any())
+                if (!TaskManager.AnyActiveTasks())
                 {
                     _initialLoadComplete = true;
                 }
