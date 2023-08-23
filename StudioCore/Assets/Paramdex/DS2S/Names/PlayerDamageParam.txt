@@ -1,60 +1,60 @@
-1 【Calculated Value Test】
-2 【Calculated Value Test】
-3 【Calculated Value Test】
-400 General-purpose - Tossing - Baxta - Minimal - Hit target
-410 General-purpose - Tossing - Baxta - Minimal - Hit not eligible
-420 General-purpose - Tossing - Baxta - Medium - Hit target
-430 General-purpose - Tossing - Baxta - Medium - Hit not eligible
-440 General-purpose - Tossing - Baxta - Oversized - Hit on target
-450 General-purpose - Tossing - Baxta - Oversized - Hit not eligible
-490 General-purpose-throwing-Controller-cutting-small
-491 General-purpose - Throwing - Kicking - Small
-500 General-purpose -Collision - Ground
-510 General -Collision- Airborne
-600 General-purpose-wind-very small
-601 General-purpose-wind-small
-602 General-purpose-wind-middle
-603 General-purpose-wind-large
-610 General-purpose-wind-oversized
-611 General-purpose-wind-oversized
-612 General-purpose-wind-special-purpose
-700 General-purpose-throwing camera vibration-medium-sized-dagger system
-710 General-purpose-throwing camera vibration-medium-handed-two-handed axe system
-720 General-purpose-throwing camera vibration-medium-handed oversized sword system
-800 General-purpose-throwing camera vibration-large-dagger system
-810 General-purpose-throwing camera vibration-large-handed-two-handed axe system
-820 General-purpose-throwing camera vibration-large-handed oversized sword system
-900 General-purpose -Vibration-Swaying-Small
-910 General-purpose -Vibration-Swaying-Medium
-920 General-purpose - Vibration - Swaying - Large
-930 General-purpose -Vibration-Vertical Shaking-Small
-931 General-purpose - Vibration - Vertical Shaking - Small (Assault Spear)
-940 General-purpose -Vibration-Vertical Shaking-Medium
-941 General Purpose - Vibration - Vertical Shaking - Medium (Assault Spear)
-950 General-purpose -Vibration-Vertical Shaking-Large
-951 General Purpose - Vibration - Vertical Shaking - Large (Assault Spear)
-960 General-purpose -Vibration- Up- Bottom- Left- Right - Large
-1000 General-purpose-guard break
-1400 General-purpose - Tossing - Guard Break Stub - Minimal - Hit on target
-1420 General-purpose - Tossing - Guard Break Stub - Medium - Hit on target
-1440 General-purpose - Tossing - Guard Break Stub - Oversized - Hit on target
-2000 General-purpose- Controller For SFX playback
-2400 General -Pari-Break Stub-Kick-Minis
-2420 Generic - Pariei Break Stub - Kicking - Medium
-2440 General - Paribreak Stub - Kick - Oversized
-5010 General -Stun
-6010 General-purpose-equipment destruction
-7010 General-purpose-equipment destruction
-8010 General-purpose-throwing break
-9000 Abnormal state - reduced effect time
+1 Blank
+2 Blank
+3 Blank
+400 Throw: Backstab (Small) - Hit target
+410 Throw: Backstab (Small) - Hit not eligible
+420 Throw: Backstab (Medium) - Hit target
+430 Throw: Backstab (Medium) - Hit not eligible
+440 Throw: Backstab (Huge) - Hit on target
+450 Throw: Backstab (Huge) - Hit not eligible
+490 Throw: Cut (Small)
+491 Throw: Kick (Small)
+500 Collision: Ground
+510 Collision: Airborne
+600 Wind: Tiny
+601 Wind: Small
+602 Wind: Medium
+603 Wind: Large
+610 Wind: Huge
+611 Wind: Giant
+612 Wind: Special
+700 Grab Camera Vibration: Dagger (Medium)
+710 Grab Camera Vibration: Greataxe Dagger (Medium)
+720 Grab Camera Vibration: Greatsword (Medium)
+800 Grab Camera Vibration: Dagger (Large)
+810 Grab Camera Vibration: Greataxe Dagger (Large)
+820 Grab Camera Vibration: Greatsword (Large)
+900 Vibration: Sway (Small)
+910 Vibration: Sway (Medium)
+920 Vibration: Sway (Large)
+930 Vibration: Vertical Shake (Small)
+931 Vibration: Vertical Shake (Small) - Lance
+940 Vibration: Vertical Shake (Medium)
+941 Vibration: Vertical Shake (Medium) - Lance
+950 Vibration: Vertical Shake (Large)
+951 Vibration: Vertical Shake (Large) - Lance
+960 Vibration: Up, Bottom, Left, Right (Large)
+1000 Guard Break
+1400 Grab: Guard Break (Small)
+1420 Grab: Guard Break (Medium)
+1440 Grab: Guard Break (Huge)
+2000 Controller: For SFX playback
+2400 Parry: Kick (Small)
+2420 Generic - Parry: Kick (Medium)
+2440 Parry: Kick (Huge)
+5010 Stun
+6010 Equipment Destruction
+7010 Equipment Destruction
+8010 Throwing Break
+9000 Status - Reduced Effect Time
 9010 Poison
-9020 Bleeding
-9030 Weapon Destruction
+9020 Bleed
+9030 Corrosion
 9050 Combustion
 9051 Combustion - Start
-9060 Toxic
-9070 Oil-soaked explosion
-9090 Poison wet
+9060 Wetness: Toxic
+9070 Wetness: Oil - Explosion
+9090 Wetness: Poison
 10010 Ladder - Top Attack R1 Button - Weak - Right
 10011 Ladder - Top Attack R1 Button - Weak - Left
 10012 Ladder - Top Attack R1 Button - Weak - Right (vs. OBJ)
@@ -76,25 +76,27 @@
 10061 Ladder - Climb end collision (vs. OBJ)
 10070 Ladder - Sliding collision (damage)
 10071 Ladder - Downhill Collision (OBJ Damage)
-11010 Per Rolling Body - Torch
-12010 When Oil Wet - Magic Explosion
+11010 Torch - Rolling Body
+12010 Oil Soaked - Fire Explosion
 50000 Landing Confirmation - Small
-50001 Landing confirmation - medium
+50001 Landing Confirmation - Medium
 50002 Landing Confirmation - Large
-50003 Landing confirmation - oversized
-50004 Landing confirmation - extra large
-1720000 1720: Blade of Chaos: Self-inflicted damage
-1960000 1960: Queen Knight A: Sword of Light
-1960010 1960: Queen Knight A: Sword of Light: For Endurance Wear and Tear
-1970000 1970: Queen Knight C: Sword of Light in the Dark Moon
-1970010 1970: Queen Knight C: Sword of Light in the Dark Moon: For Endurance Wear and Tear
-1980000 6000: Torch: Fire Damage
-1990000 2890: Evangelist's Trigeminal Spear: Power-up
-1990010 2890: Evangelist's Trigeminal Spear: Power-up (Effect)
-3660000 3660: Old Whip: Additional Damage to the Dead (Section 1)
-3660001 3660: Old Whip: Additional Damage to the Dead (Verse 2)
-3660002 3660: Old Whip: Additional Damage to the Dead (Verse 3)
-5295000 5295: Sinner's Sword: Self-inflicted damage
+50003 Landing confirmation - Huge
+50004 Landing confirmation - Giant
+50100 Blank
+50110 Blank
+1720000 Chaos Blade (Self-Damage)
+1960000 Defender Greatsword (Buff)
+1960010 Defender Greatsword (Buff)
+1970000 Watcher Greatsword (Buff)
+1970010 Watcher Greatsword (Buff)
+1980000 Key to the Embedded
+1990000 Drakeblood Greatsword (Buff)
+1990010 Drakeblood Greatsword (Buff)
+3660000 Old Whip - Undead Buff (Section 1)
+3660001 Old Whip - Undead Buff (Section 2)
+3660002 Old Whip - Undead Buff (Section 3)
+5295000 Lost Sinner's Sword (Self-Damage)
 10000000 Fists: 1H Weak 1
 10000300 Fists: 1H Weak 2
 10000400 Fists: 1H Weak 2 #1
