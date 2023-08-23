@@ -262,7 +262,7 @@ namespace StudioCore
 
             if (CFG.Current.EnableSoapstone)
             {
-                TaskManager.Run(new("Initialize Soapstone Server", false, false, true, () => SoapstoneServer.RunAsync(KnownServer.DSMapStudio, _soapstoneService).Wait()));
+                TaskManager.Run(new("Initialize Soapstone Server", false, false, true, () => SoapstoneServer.RunAsync(KnownServer.DSMapStudio, _soapstoneService)));
             }
 
             if (CFG.Current.EnableCheckProgramUpdate)
