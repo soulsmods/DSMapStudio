@@ -192,9 +192,8 @@ namespace StudioCore.Editor
         }
 
         /// <summary>
-        /// Number of active tasks. Ignores passive tasks.
+        /// Number of active tasks. Dpes not include passive tasks.
         /// </summary>
-        /// <returns></returns>
         public static bool AnyActiveTasks() => ActiveTaskNum > 0;
 
         public static List<string> GetLiveThreads()
