@@ -220,7 +220,7 @@ namespace StudioCore.Editor
 
             // Refresh diff cache
             TaskManager.Run(new("Param - Check Differences",
-                TaskManager.RequeueTypeEnum.Repeat, true,
+                TaskManager.RequeueType.Repeat, true,
                 TaskLogs.LogPriority.Low,
                 () => ParamBank.PrimaryBank.RefreshParamDiffCaches()));
             return ActionEvent.NoEvent;
@@ -283,7 +283,7 @@ namespace StudioCore.Editor
 
             // Refresh diff cache
             TaskManager.Run(new("Param - Check Differences",
-                TaskManager.RequeueTypeEnum.Repeat, true,
+                TaskManager.RequeueType.Repeat, true,
                 TaskLogs.LogPriority.Low,
                 () => ParamBank.PrimaryBank.RefreshParamDiffCaches()));
             return ActionEvent.NoEvent;

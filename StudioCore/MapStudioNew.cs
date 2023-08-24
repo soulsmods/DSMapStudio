@@ -262,15 +262,16 @@ namespace StudioCore
 
             if (CFG.Current.EnableSoapstone)
             {
-                TaskManager.LiveTask soapstoneTask = new("Soapstone Server", true,
-                    () => SoapstoneServer.RunAsync(KnownServer.DSMapStudio, _soapstoneService).Wait());
-                soapstoneTask.PassiveTask = true;
-                TaskManager.Run(soapstoneTask);
+                TaskManager.RunPassiveTask(new("Soapstone Server",
+                    TaskManager.RequeueType.None, true,
+                    () => SoapstoneServer.RunAsync(KnownServer.DSMapStudio, _soapstoneService).Wait()));
             }
 
             if (CFG.Current.EnableCheckProgramUpdate)
             {
-                TaskManager.Run(new("Check Program Updates", true, () => CheckProgramUpdate()));
+                TaskManager.Run(new("Check Program Updates",
+                    TaskManager.RequeueType.None, true,
+                    () => CheckProgramUpdate()));
             }
 
             long previousFrameTicks = 0;

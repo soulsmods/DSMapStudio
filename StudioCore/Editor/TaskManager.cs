@@ -11,17 +11,17 @@ namespace StudioCore.Editor
     public class TaskManager
     {
         /// <summary>
-        /// Behavior of a LiveTask added when a task with the same task ID is already running.
+        /// Behavior of a LiveTask when the same task ID is already running.
         /// </summary>
-        public enum RequeueTypeEnum
+        public enum RequeueType
         {
             // Don't requeue.
             None,
 
-            // Wait for first task to finish, then run.
+            // Wait for already-active task to finish, then run this task.
             WaitThenRequeue,
 
-            // Tell first task to run again after finishing.
+            // Already-active task is told to run again after it finishes.
             Repeat
         }
 
@@ -41,10 +41,9 @@ namespace StudioCore.Editor
             public readonly string TaskId;
 
             /// <summary>
-            /// Behavior of a LiveTask added when a task with the same task ID is already running.
+            /// Behavior of a LiveTask when the same task ID is already running.
             /// </summary>
-            public readonly RequeueTypeEnum RequeueType;
-
+            public readonly RequeueType RequeueBehavior;
             public readonly TaskLogs.LogPriority LogPriority;
             public readonly Action TaskAction;
 
@@ -67,37 +66,19 @@ namespace StudioCore.Editor
 
             public LiveTask() { }
 
-            public LiveTask(string taskId, RequeueTypeEnum requeueType, bool silentFail, Action act)
+            public LiveTask(string taskId, RequeueType requeueType, bool silentFail, Action act)
             {
                 TaskId = taskId;
-                RequeueType = requeueType;
+                RequeueBehavior = requeueType;
                 SilentFail = silentFail;
                 LogPriority = TaskLogs.LogPriority.Normal;
                 TaskAction = act;
             }
 
-            public LiveTask(string taskId, RequeueTypeEnum requeueType, bool silentFail, TaskLogs.LogPriority logPriority, Action act)
+            public LiveTask(string taskId, RequeueType requeueType, bool silentFail, TaskLogs.LogPriority logPriority, Action act)
             {
                 TaskId = taskId;
-                RequeueType = requeueType;
-                SilentFail = silentFail;
-                LogPriority = logPriority;
-                TaskAction = act;
-            }
-
-            public LiveTask(string taskId, bool silentFail, Action act)
-            {
-                TaskId = taskId;
-                RequeueType = RequeueTypeEnum.None;
-                SilentFail = silentFail;
-                LogPriority = TaskLogs.LogPriority.Normal;
-                TaskAction = act;
-            }
-
-            public LiveTask(string taskId, bool silentFail, TaskLogs.LogPriority logPriority, Action act)
-            {
-                TaskId = taskId;
-                RequeueType = RequeueTypeEnum.None;
+                RequeueBehavior = requeueType;
                 SilentFail = silentFail;
                 LogPriority = logPriority;
                 TaskAction = act;
@@ -107,11 +88,11 @@ namespace StudioCore.Editor
             {
                 if (_liveTasks.TryGetValue(TaskId, out var oldLiveTask))
                 {
-                    if (oldLiveTask.RequeueType == RequeueTypeEnum.WaitThenRequeue)
+                    if (oldLiveTask.RequeueBehavior == RequeueType.WaitThenRequeue)
                     {
                         oldLiveTask.Task.Wait();
                     }
-                    else if (oldLiveTask.RequeueType == RequeueTypeEnum.Repeat)
+                    else if (oldLiveTask.RequeueBehavior == RequeueType.Repeat)
                     {
                         oldLiveTask.HasScheduledRequeue = true;
                         return;
@@ -122,11 +103,11 @@ namespace StudioCore.Editor
                     }
                 }
 
-                CreateTask();
-
                 if (!PassiveTask)
                     ActiveTaskNum++;
                 _liveTasks[TaskId] = this;
+
+                CreateTask();
                 Task.Start();
             }
 
@@ -167,10 +148,12 @@ namespace StudioCore.Editor
                             throw;
                         }
                     }
+
                     if (HasScheduledRequeue)
                     {
                         HasScheduledRequeue = false;
-                        Run();
+                        CreateTask();
+                        Task.Start();
                     }
                     else
                     {
@@ -184,6 +167,12 @@ namespace StudioCore.Editor
 
         public static void Run(LiveTask liveTask)
         {
+            liveTask.Run();
+        }
+
+        public static void RunPassiveTask(LiveTask liveTask)
+        {
+            liveTask.PassiveTask = true;
             liveTask.Run();
         }
 

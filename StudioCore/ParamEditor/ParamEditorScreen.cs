@@ -288,7 +288,7 @@ namespace StudioCore.ParamEditor
         {
             EditorActionManager.UndoAction();
             TaskManager.Run(new("Param - Check Differences",
-                TaskManager.RequeueTypeEnum.Repeat, true,
+                TaskManager.RequeueType.Repeat, true,
                 TaskLogs.LogPriority.Low,
                 () => ParamBank.PrimaryBank.RefreshParamDiffCaches()));
         }
@@ -296,7 +296,7 @@ namespace StudioCore.ParamEditor
         {
             EditorActionManager.RedoAction();
             TaskManager.Run(new("Param - Check Differences",
-                TaskManager.RequeueTypeEnum.Repeat, true,
+                TaskManager.RequeueType.Repeat, true,
                 TaskLogs.LogPriority.Low,
                 () => ParamBank.PrimaryBank.RefreshParamDiffCaches()));
         }
@@ -557,7 +557,7 @@ namespace StudioCore.ParamEditor
                                         if (action.HasActions)
                                             EditorActionManager.ExecuteAction(action);
                                         TaskManager.Run(new("Param - Check Differences",
-                                            TaskManager.RequeueTypeEnum.Repeat, true,
+                                            TaskManager.RequeueType.Repeat, true,
                                             TaskLogs.LogPriority.Low,
                                             () => ParamBank.PrimaryBank.RefreshParamDiffCaches()));
                                     }
@@ -584,7 +584,7 @@ namespace StudioCore.ParamEditor
                                     else
                                         PlatformUtils.Instance.MessageBox(result, "Error", MessageBoxButtons.OK, MessageBoxIcon.None);
                                     TaskManager.Run(new("Param - Check Differences",
-                                        TaskManager.RequeueTypeEnum.Repeat,
+                                        TaskManager.RequeueType.Repeat,
                                         true, TaskLogs.LogPriority.Low,
                                         () => ParamBank.PrimaryBank.RefreshParamDiffCaches()));
                                 }
@@ -612,7 +612,7 @@ namespace StudioCore.ParamEditor
                                             else
                                                 PlatformUtils.Instance.MessageBox(result, "Error", MessageBoxButtons.OK, MessageBoxIcon.None);
                                             TaskManager.Run(new("Param - Check Differences",
-                                                TaskManager.RequeueTypeEnum.Repeat,
+                                                TaskManager.RequeueType.Repeat,
                                                 true, TaskLogs.LogPriority.Low,
                                                 () => ParamBank.PrimaryBank.RefreshParamDiffCaches()));
                                         }
@@ -1019,7 +1019,7 @@ namespace StudioCore.ParamEditor
                         _lastMEditRegexInput = _currentMEditRegexInput;
                         _currentMEditRegexInput = "";
                         TaskManager.Run(new("Param - Check Differences",
-                            TaskManager.RequeueTypeEnum.Repeat,
+                            TaskManager.RequeueType.Repeat,
                             true, TaskLogs.LogPriority.Low,
                             () => ParamBank.PrimaryBank.RefreshParamDiffCaches()));
                     }
@@ -1064,7 +1064,7 @@ namespace StudioCore.ParamEditor
                         if (action.HasActions)
                             EditorActionManager.ExecuteAction(action);
                         TaskManager.Run(new("Param - Check Differences",
-                            TaskManager.RequeueTypeEnum.Repeat, true,
+                            TaskManager.RequeueType.Repeat, true,
                             TaskLogs.LogPriority.Low,
                             () => ParamBank.PrimaryBank.RefreshParamDiffCaches()));
                     }

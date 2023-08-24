@@ -32,7 +32,7 @@ namespace StudioCore.ParamEditor
 
         public static void ReloadMemoryParams(ParamBank bank, AssetLocator loc, string[] paramNames)
         {
-            TaskManager.Run(new("Param - Hot Reload", TaskManager.RequeueTypeEnum.WaitThenRequeue, true, () =>
+            TaskManager.Run(new("Param - Hot Reload", TaskManager.RequeueType.WaitThenRequeue, true, () =>
             {
                 GameOffsets offsets = GetGameOffsets(loc);
                 var processArray = Process.GetProcessesByName(offsets.exeName);
