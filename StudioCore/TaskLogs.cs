@@ -101,7 +101,7 @@ namespace StudioCore
         /// </summary>
         /// <param name="text">Text to add to log.</param>
         /// <param name="level">Type of entry. Affects text color.</param>
-        public static void AddLog(string text, LogLevel level = LogLevel.Information, LogPriority priority = LogPriority.Normal)
+        public static void AddLog(string text, LogLevel level = LogLevel.Information, LogPriority priority = LogPriority.Normal, Exception ex = null)
         {
             Task.Run(() =>
             {
@@ -122,6 +122,20 @@ namespace StudioCore
                     }
                     LogEntry entry = new(text, level, priority);
                     _log.Add(entry);
+
+                    if (ex != null)
+                    {
+                        if (text == ex.Message)
+                        {
+                            _log.Add(new LogEntry(ex.StackTrace,
+                                level, LogPriority.Low));
+                        }
+                        else
+                        {
+                            _log.Add(new LogEntry($"   {ex.Message}\n{ex.StackTrace}",
+                                level, LogPriority.Low));
+                        }
+                    }
 
                     _scrollToEnd = true;
 

@@ -135,13 +135,7 @@ namespace StudioCore.Editor
                         {
                             TaskLogs.AddLog($"Task Failed: {TaskId}",
                                 Microsoft.Extensions.Logging.LogLevel.Error,
-                                LogPriority);
-                            TaskLogs.AddLog($"   {e.Message}",
-                                Microsoft.Extensions.Logging.LogLevel.Error,
-                                TaskLogs.LogPriority.Low);
-                            TaskLogs.AddLog(e.StackTrace,
-                                Microsoft.Extensions.Logging.LogLevel.Error,
-                                TaskLogs.LogPriority.Low);
+                                LogPriority, e);
                         }
                         else
                         {

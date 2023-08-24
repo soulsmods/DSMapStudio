@@ -118,7 +118,8 @@ namespace StudioCore
                 }
                 else
                 {
-                    PlatformUtils.Instance.MessageBox($"Project.json at \"{CFG.Current.LastProjectFile}\" does not exist.", "Project Load Error", MessageBoxButtons.OK);
+                    TaskLogs.AddLog($"Cannot load project: \"{CFG.Current.LastProjectFile}\" does not exist.",
+                        Microsoft.Extensions.Logging.LogLevel.Warning, TaskLogs.LogPriority.High);
                     CFG.Current.LastProjectFile = "";
                     CFG.Save();
                 }
@@ -755,7 +756,8 @@ namespace StudioCore
                                 }
                                 else
                                 {
-                                    PlatformUtils.Instance.MessageBox($"Project.json at \"{p.ProjectFile}\" does not exist.\nRemoving project from recent projects list.", "Project Load Error", MessageBoxButtons.OK);
+                                    TaskLogs.AddLog($"Project.json at \"{p.ProjectFile}\" does not exist.\nRemoving project from recent projects list.",
+                                        Microsoft.Extensions.Logging.LogLevel.Warning, TaskLogs.LogPriority.High);
                                     CFG.Current.RecentProjects.Remove(p);
                                     CFG.Save();
                                 }
