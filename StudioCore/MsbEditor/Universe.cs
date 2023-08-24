@@ -1422,9 +1422,6 @@ namespace StudioCore.MsbEditor
             {
                 throw new SavingFailedException(Path.GetFileName(map.Name), e);
             }
-            //var json = JsonConvert.SerializeObject(map.SerializeHierarchy());
-            //Utils.WriteStringWithBackup(_assetLocator.GameRootDirectory, _assetLocator.GameModDirectory,
-            //    $@"{Path.GetFileNameWithoutExtension(mapPath)}.json", json);
         }
 
         public void SaveAllMaps()
