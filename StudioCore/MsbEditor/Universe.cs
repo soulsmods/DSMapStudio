@@ -618,10 +618,10 @@ namespace StudioCore.MsbEditor
 
                 return btl;
             }
-            catch (InvalidDataException)
+            catch (InvalidDataException e)
             {
                 TaskLogs.AddLog($"Failed to load {ad.AssetName}",
-                    Microsoft.Extensions.Logging.LogLevel.Error);
+                    Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.Normal, e);
                 return null;
             }
         }
@@ -948,9 +948,8 @@ namespace StudioCore.MsbEditor
             catch (Exception e)
             {
 #if DEBUG
-                TaskLogs.AddLog($"Map Load Failed (debug build): {e}",
-                    Microsoft.Extensions.Logging.LogLevel.Error,
-                    TaskLogs.LogPriority.High);
+                TaskLogs.AddLog($"Map Load Failed (debug build)",
+                    Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High, e);
                 throw;
 #else
                 // Store async exception so it can be caught by crash handler.

@@ -841,7 +841,7 @@ namespace StudioCore.ParamEditor
                     Process.Start("explorer.exe", $"/select,\"{path}\"");
                 else
                 {
-                    TaskLogs.AddLog("File could not be found. It may be map or chr specific",
+                    TaskLogs.AddLog($"\"{path}\" could not be found. It may be map or chr specific",
                         Microsoft.Extensions.Logging.LogLevel.Warning);
                     CacheBank.ClearCaches();
                 }

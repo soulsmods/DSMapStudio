@@ -108,7 +108,8 @@ namespace StudioCore.Resource
                 }
                 catch (Exception e)
                 {
-                    TaskLogs.AddLog($"Failed to load TPF \"{action._filePath}\": {e.Message}", Microsoft.Extensions.Logging.LogLevel.Warning, TaskLogs.LogPriority.Normal, e);
+                    TaskLogs.AddLog($"Failed to load TPF \"{action._filePath}\": {e.Message}",
+                        Microsoft.Extensions.Logging.LogLevel.Warning, TaskLogs.LogPriority.Normal, e);
                     return new LoadTPFTextureResourceRequest[]{};
                 }
             }

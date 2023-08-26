@@ -447,8 +447,7 @@ namespace StudioCore
             if (gameType is GameType.DarkSoulsPTDE or GameType.DarkSoulsIISOTFS)
             {
                 TaskLogs.AddLog($"The files for {gameType} do not appear to be unpacked. Please use UDSFM for DS1:PTDE and UXM for DS2 to unpack game files",
-                    Microsoft.Extensions.Logging.LogLevel.Error,
-                    TaskLogs.LogPriority.High);
+                    Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High);
                 return false;
             }
             else

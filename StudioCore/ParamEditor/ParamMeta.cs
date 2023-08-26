@@ -307,7 +307,7 @@ namespace StudioCore.ParamEditor
             catch (Exception e)
             {
                 TaskLogs.AddLog("Unable to save editor mode changes to file",
-                    Microsoft.Extensions.Logging.LogLevel.Warning);
+                    Microsoft.Extensions.Logging.LogLevel.Warning, TaskLogs.LogPriority.High, e);
             }
         }
 

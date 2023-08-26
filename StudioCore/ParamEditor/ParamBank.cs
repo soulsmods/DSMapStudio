@@ -244,18 +244,20 @@ namespace StudioCore.ParamEditor
                 catch(Exception e)
                 {
                     var name = f.Name.Split("\\").Last();
+                    var message = $"Could not apply ParamDef for {name}";
 
-                    TaskLogs.LogPriority priority = TaskLogs.LogPriority.Normal;
                     if (AssetLocator.Type == GameType.DarkSoulsRemastered &&
                             name is "m99_ToneMapBank.param" or "m99_ToneCorrectBank.param" or "default_ToneCorrectBank.param")
                     {
                         // Known cases that don't affect standard modmaking
-                        priority = TaskLogs.LogPriority.Low;
+                        TaskLogs.AddLog(message,
+                            Microsoft.Extensions.Logging.LogLevel.Warning, TaskLogs.LogPriority.Low);
                     }
-
-                    TaskLogs.AddLog($"Could not apply ParamDef for {name}",
-                        Microsoft.Extensions.Logging.LogLevel.Warning,
-                        priority);
+                    else
+                    {
+                        TaskLogs.AddLog(message,
+                            Microsoft.Extensions.Logging.LogLevel.Warning, TaskLogs.LogPriority.Normal, e);
+                    }
                 }
             }
         }
@@ -621,7 +623,7 @@ namespace StudioCore.ParamEditor
                 catch (Exception e)
                 {
                     TaskLogs.AddLog($"Could not apply ParamDef for {EnemyParam.ParamType}",
-                        Microsoft.Extensions.Logging.LogLevel.Warning);
+                        Microsoft.Extensions.Logging.LogLevel.Warning, TaskLogs.LogPriority.Normal, e);
                 }
             }
             LoadParamFromBinder(paramBnd, ref _params, out _paramVersion);
@@ -654,16 +656,19 @@ namespace StudioCore.ParamEditor
                 }
                 catch (Exception e)
                 {
-                    TaskLogs.LogPriority priority = TaskLogs.LogPriority.Normal;
+                    var message = $"Could not apply ParamDef for {fname}";
                     if (AssetLocator.Type == GameType.DarkSoulsIISOTFS &&
                         fname is "GENERATOR_DBG_LOCATION_PARAM")
                     {
                         // Known cases that don't affect standard modmaking
-                        priority = TaskLogs.LogPriority.Low;
+                        TaskLogs.AddLog(message,
+                            Microsoft.Extensions.Logging.LogLevel.Warning, TaskLogs.LogPriority.Low);
                     }
-                    TaskLogs.AddLog($"Could not apply ParamDef for {fname}",
-                        Microsoft.Extensions.Logging.LogLevel.Warning,
-                        priority);
+                    else
+                    {
+                        TaskLogs.AddLog(message,
+                            Microsoft.Extensions.Logging.LogLevel.Warning, TaskLogs.LogPriority.Normal, e);
+                    }
                 }
             }
             paramBnd.Dispose();
