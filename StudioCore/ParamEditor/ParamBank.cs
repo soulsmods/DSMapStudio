@@ -198,7 +198,11 @@ namespace StudioCore.ParamEditor
                 {
                     continue;
                 }
-                if (f.Name.EndsWith("LoadBalancerParam.param") && AssetLocator.Type != GameType.EldenRing)
+                if (AssetLocator.Type == GameType.ArmoredCoreVI)
+                {
+                    //TODO AC6
+                }
+                else if (f.Name.EndsWith("LoadBalancerParam.param") && AssetLocator.Type != GameType.EldenRing)
                 {
                     continue;
                 }
@@ -821,6 +825,10 @@ namespace StudioCore.ParamEditor
                 {
                     PrimaryBank.LoadParamsER(settings.PartialParams);
                 }
+                if (locator.Type == GameType.ArmoredCoreVI)
+                {
+                    //TODO AC6
+                }
 
                 PrimaryBank.ClearParamDiffCaches();
                 PrimaryBank.IsLoadingParams = false;
@@ -857,6 +865,10 @@ namespace StudioCore.ParamEditor
                     {
                         VanillaBank.LoadVParamsER();
                     }
+                    if (locator.Type == GameType.ArmoredCoreVI)
+                    {
+                        //TODO AC6
+                    }
                     VanillaBank.IsLoadingParams = false;
 
                     TaskManager.Run(new("Param - Check Differences", true, false, false, () => PrimaryBank.RefreshParamDiffCaches()));
@@ -888,6 +900,10 @@ namespace StudioCore.ParamEditor
             newBank.SetAssetLocator(locator);
             newBank._params = new Dictionary<string, Param>();
             newBank.IsLoadingParams = true;
+            if (locator.Type == GameType.ArmoredCoreVI)
+            {
+                //TODO AC6
+            }
             if (locator.Type == GameType.EldenRing)
             {
                 newBank.LoadParamsERFromFile(path);
@@ -1515,6 +1531,10 @@ namespace StudioCore.ParamEditor
             if (AssetLocator.Type == GameType.EldenRing)
             {
                 SaveParamsER(partialParams);
+            }
+            if (AssetLocator.Type == GameType.ArmoredCoreVI)
+            {
+                //TODO AC6
             }
         }
 

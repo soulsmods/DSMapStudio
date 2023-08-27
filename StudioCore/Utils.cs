@@ -281,6 +281,11 @@ namespace StudioCore
                 {
                     SFUtil.EncryptERRegulation(writepath + ".temp", bndER);
                 }
+                else if (gameType == GameType.ArmoredCoreVI)
+                {
+                    //TODO AC6
+                    item.Write(writepath + ".temp");
+                }
                 else
                 {
                     item.Write(writepath + ".temp");

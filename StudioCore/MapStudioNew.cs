@@ -446,6 +446,11 @@ namespace StudioCore
                     TaskLogs.LogPriority.High);
                 return false;
             }
+            else if (gameType is GameType.ArmoredCoreVI)
+            {
+                //TODO AC6
+                return false;
+            }
             else
             {
                 TaskLogs.AddLog($"The files for {gameType} do not appear to be fully unpacked. Functionality will be limited. Please use UXM selective unpacker to unpack game files",
@@ -507,16 +512,15 @@ namespace StudioCore
                     if (!GameNotUnpackedWarning(settings.GameType))
                         return false;
                 }
-                if ((settings.GameType == GameType.Sekiro || settings.GameType == GameType.EldenRing) && !File.Exists(Path.Join(Path.GetFullPath("."), "oo2core_6_win64.dll")))
+                if ((settings.GameType == GameType.Sekiro || settings.GameType == GameType.EldenRing))
                 {
-                    if (!File.Exists(Path.Join(settings.GameRoot, "oo2core_6_win64.dll")))
-                    {
-                        PlatformUtils.Instance.MessageBox($"Could not find file \"oo2core_6_win64.dll\" in \"{settings.GameRoot}\", which should be included by default.\n\nTry reinstalling the game.", "Error",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.None);
+                    if (!StealGameDllIfMissing(settings, "oo2core_6_win64"))
                         return false;
-                    }
-                    File.Copy(Path.Join(settings.GameRoot, "oo2core_6_win64.dll"), Path.Join(Path.GetFullPath("."), "oo2core_6_win64.dll"));
+                }
+                else if (settings.GameType == GameType.ArmoredCoreVI)
+                {
+                    if (!StealGameDllIfMissing(settings, "oo2core_8_win64"))
+                        return false;
                 }
                 _projectSettings = settings;
                 ChangeProjectSettings(_projectSettings, Path.GetDirectoryName(filename), options);
@@ -537,6 +541,22 @@ namespace StudioCore
                 }
             }
             return success;
+        }
+
+        private bool StealGameDllIfMissing(ProjectSettings settings, string dllName)
+        {
+            dllName = dllName+".dll";
+            if (File.Exists(Path.Join(Path.GetFullPath("."), dllName)))
+                return true;
+            if (!File.Exists(Path.Join(settings.GameRoot, dllName)))
+            {
+                PlatformUtils.Instance.MessageBox($"Could not find file \"{dllName}\" in \"{settings.GameRoot}\", which should be included by default.\n\nTry verifying or reinstalling the game.", "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.None);
+                return false;
+            }
+            File.Copy(Path.Join(settings.GameRoot, dllName), Path.Join(Path.GetFullPath("."), dllName));
+            return true;
         }
 
         //Unhappy with this being here
@@ -1117,6 +1137,10 @@ namespace StudioCore
                     }
                     ImGui.SameLine();
                     ImGui.TextUnformatted("Warning: partial params require merging before use in game.\nRow names on unchanged rows will be forgotten between saves");
+                }
+                else if (_newProjectOptions.settings.GameType is GameType.ArmoredCoreVI)
+                {
+                    //TODO AC6
                 }
                 ImGui.NewLine();
 

@@ -188,6 +188,10 @@ namespace StudioCore
             {
                 type = GameType.EldenRing;
             }
+            else if (exePath.ToLower().Contains("armoredcore6.exe"))
+            {
+                type = GameType.ArmoredCoreVI;
+            }
             return type;
         }
 
@@ -226,62 +230,10 @@ namespace StudioCore
                     return false;
                 }
             }
-            return true;
-        }
-
-        /// <summary>
-        /// Sets the game root directory by giving a path to the game exe/eboot.bin. Autodetects the game type.
-        /// </summary>
-        /// <param name="exePath">Path to an exe/eboot.bin</param>
-        /// <returns>true if the game was autodetected</returns>
-        public bool SetGameRootDirectoryByExePath(string exePath)
-        {
-            GameRootDirectory = Path.GetDirectoryName(exePath);
-            if (exePath.ToLower().Contains("darksouls.exe"))
+            if (game == GameType.ArmoredCoreVI)
             {
-                Type = GameType.DarkSoulsPTDE;
+                //TODO AC6
             }
-            else if (exePath.ToLower().Contains("darksoulsremastered.exe"))
-            {
-                Type = GameType.DarkSoulsRemastered;
-            }
-            else if (exePath.ToLower().Contains("darksoulsii.exe"))
-            {
-                Type = GameType.DarkSoulsIISOTFS;
-            }
-            else if (exePath.ToLower().Contains("darksoulsiii.exe"))
-            {
-                Type = GameType.DarkSoulsIII;
-            }
-            else if (exePath.ToLower().Contains("eboot.bin"))
-            {
-                if (Directory.Exists($@"{GameRootDirectory}\dvdroot_ps4"))
-                {
-                    Type = GameType.Bloodborne;
-                    GameRootDirectory = GameRootDirectory + $@"\dvdroot_ps4";
-                }
-                else
-                {
-                    Type = GameType.DemonsSouls;
-                }
-            }
-            else if (exePath.ToLower().Contains("sekiro.exe"))
-            {
-                Type = GameType.Sekiro;
-            }
-            else if (exePath.ToLower().Contains("eldenring.exe"))
-            {
-                Type = GameType.EldenRing;
-            }
-            else
-            {
-                GameRootDirectory = null;
-            }
-
-            // Invalidate various caches
-            FullMapList = null;
-            GameModDirectory = null;
-
             return true;
         }
 
@@ -383,6 +335,10 @@ namespace StudioCore
                         mapSet.Add(Path.GetFileNameWithoutExtension($@"{map}.blah"));
                     }
                 }
+                else if (Type == GameType.ArmoredCoreVI)
+                {
+                    //TODO AC6
+                }
                 else
                 {
                     var msbFiles = Directory.GetFileSystemEntries(GameRootDirectory + @"\map\MapStudio\", @"*.msb")
@@ -451,6 +407,12 @@ namespace StudioCore
             // BB, DS3, ER, SSDT
             else if (Type == GameType.Bloodborne || Type == GameType.DarkSoulsIII || Type == GameType.EldenRing || Type == GameType.Sekiro)
             {
+                preferredPath = $@"\map\MapStudio\{mapid}.msb.dcx";
+                backupPath = $@"\map\MapStudio\{mapid}.msb";
+            }
+            else if (Type == GameType.ArmoredCoreVI)
+            {
+                //TODO AC6
                 preferredPath = $@"\map\MapStudio\{mapid}.msb.dcx";
                 backupPath = $@"\map\MapStudio\{mapid}.msb";
             }
@@ -573,6 +535,10 @@ namespace StudioCore
                     }
                 }
             }
+            else if (Type is GameType.ArmoredCoreVI)
+            {
+                //TODO AC6
+            }
             return adList;
         }
 
@@ -596,6 +562,10 @@ namespace StudioCore
                 {
                     ad.AssetPath = $@"{GameRootDirectory}\{path}.nva.dcx";
                 }
+            }
+            else if (Type == GameType.ArmoredCoreVI)
+            {
+                //TODO AC6
             }
             else
             {
@@ -641,6 +611,10 @@ namespace StudioCore
                 else if (Type == GameType.DarkSoulsIISOTFS)
                 {
                     folders = Directory.GetDirectories(GameRootDirectory + @"\menu\text").ToList();
+                }
+                else if (Type == GameType.ArmoredCoreVI)
+                {
+                    //TODO AC6
                 }
                 else
                 {
@@ -707,6 +681,10 @@ namespace StudioCore
             {
                 path = $@"msg\{langFolder}\{msgBndType}_dlc2.msgbnd.dcx";
             }
+            else if (Type == GameType.ArmoredCoreVI)
+            {
+                //TODO AC6
+            }
 
             if (writemode)
             {
@@ -743,6 +721,8 @@ namespace StudioCore
                     return "SDT";
                 case GameType.EldenRing:
                     return "ER";
+                case GameType.ArmoredCoreVI:
+                    return "AC6";
                 default:
                     throw new Exception("Game type not set");
             }
@@ -949,6 +929,10 @@ namespace StudioCore
                     ret.Add(ad);
                 }
             }
+            else if (Type == GameType.ArmoredCoreVI)
+            {
+                //TODO AC6
+            }
             else
             {
                 if (!Directory.Exists(GameRootDirectory + $@"\map\{mapid}\"))
@@ -982,6 +966,10 @@ namespace StudioCore
             else if (Type == GameType.DarkSoulsIISOTFS)
             {
                 return modelname;
+            }
+            else if (Type == GameType.ArmoredCoreVI)
+            {
+                //TODO AC6
             }
             return $@"{mapid}_{modelname.Substring(1)}";
         }
@@ -1017,6 +1005,10 @@ namespace StudioCore
                     return "m29_00_00_00";
                 }
             }
+            else if (Type is GameType.ArmoredCoreVI)
+            {
+                //TODO AC6
+            }
 
             // Default
             return mapid.Substring(0, 6) + "_00_00";
@@ -1041,6 +1033,10 @@ namespace StudioCore
             {
                 ret.AssetPath = GetAssetPath($@"map\{mapid[..3]}\{mapid}\{model}.mapbnd.dcx");
             }
+            else if (Type == GameType.ArmoredCoreVI)
+            {
+                //TODO AC6
+            }
             else
             {
                 ret.AssetPath = GetAssetPath($@"map\{mapid}\{model}.mapbnd.dcx");
@@ -1050,6 +1046,10 @@ namespace StudioCore
             {
                 ret.AssetArchiveVirtualPath = $@"map/{mapid}/model";
                 ret.AssetVirtualPath = $@"map/{mapid}/model/{model}.flv.dcx";
+            }
+            else if (Type is GameType.ArmoredCoreVI)
+            {
+                //TODO AC6
             }
             else
             {
@@ -1107,6 +1107,11 @@ namespace StudioCore
                     ret.AssetArchiveVirtualPath = $@"map/{mapid}/hit/lo";
                 }
             }
+            else if (Type == GameType.ArmoredCoreVI)
+            {
+                //TODO AC6
+                GetNullAsset();
+            }
             else
             {
                 return GetNullAsset();
@@ -1130,6 +1135,10 @@ namespace StudioCore
                 // TODO
             }
             else if (Type == GameType.EldenRing)
+            {
+                // TODO ER
+            }
+            else if (Type == GameType.ArmoredCoreVI)
             {
                 // TODO ER
             }
@@ -1209,6 +1218,10 @@ namespace StudioCore
                     }
                 }
             }
+            else if (Type == GameType.ArmoredCoreVI)
+            {
+                //TODO AC6
+            }
             return l;
         }
 
@@ -1217,6 +1230,10 @@ namespace StudioCore
             AssetDescription ad = new AssetDescription();
             ad.AssetArchiveVirtualPath = null;
             ad.AssetPath = null;
+            if (Type == GameType.ArmoredCoreVI)
+            {
+                //TODO AC6
+            }
             if (Type == GameType.EldenRing)
             {
                 // Maybe add an option down the line to load lower quality
@@ -1257,6 +1274,11 @@ namespace StudioCore
                 ret.AssetName = model;
                 ret.AssetArchiveVirtualPath = $@"map/{mapid}/nav";
                 ret.AssetVirtualPath = $@"map/{mapid}/nav/{model}.nvm";
+            }
+            else if (Type == GameType.ArmoredCoreVI)
+            {
+                //TODO AC6
+                return GetNullAsset();
             }
             else
             {
@@ -1302,6 +1324,10 @@ namespace StudioCore
                 {
                     modelDir = $@"\model\chr";
                     modelExt = ".bnd";
+                }
+                else if (Type == GameType.ArmoredCoreVI)
+                {
+                    //TODO AC6
                 }
 
                 if (Type == GameType.DemonsSouls)
@@ -1359,6 +1385,10 @@ namespace StudioCore
             {
                 ret.AssetVirtualPath = $@"chr/{chr}/model/{chr}.flv";
             }
+            else if (Type == GameType.ArmoredCoreVI)
+            {
+                //TODO AC6
+            }
             else
             {
                 ret.AssetVirtualPath = $@"chr/{chr}/model/{chr}.flver";
@@ -1390,12 +1420,20 @@ namespace StudioCore
                     modelDir = @"\asset\aeg";
                     modelExt = ".geombnd.dcx";
                 }
+                else if (Type == GameType.ArmoredCoreVI)
+                {
+                    //TODO AC6
+                }
 
                 // Directories to search for obj models
                 List<string> searchDirs = new List<string>();
                 if (Type == GameType.EldenRing)
                 {
                     searchDirs = Directory.GetFileSystemEntries(GameRootDirectory + modelDir, $@"aeg*").ToList();
+                }
+                else if (Type == GameType.ArmoredCoreVI)
+                {
+                    //TODO AC6
                 }
                 else
                 {
@@ -1448,6 +1486,10 @@ namespace StudioCore
             else if (Type == GameType.EldenRing)
             {
                 ret.AssetVirtualPath = $@"obj/{obj}/model/{obj.ToUpper()}.flver";
+            }
+            else if (Type == GameType.ArmoredCoreVI)
+            {
+                //TODO AC6
             }
             else
             {
@@ -1504,6 +1546,10 @@ namespace StudioCore
                         bndpath = "";
                         return GetAssetPath($@"map\{mid}\{mid}_{pathElements[i]}.tpf.dcx");
                     }
+                    else if (Type == GameType.ArmoredCoreVI)
+                    {
+                        //TODO AC6
+                    }
                     else
                     {
                         var mid = pathElements[i];
@@ -1548,6 +1594,10 @@ namespace StudioCore
                         {
                             return GetAssetPath($@"map\{mapid.Substring(0, 3)}\{mapid}\{pathElements[i]}.mapbnd.dcx");
                         }
+                        else if (Type == GameType.ArmoredCoreVI)
+                        {
+                            //TODO AC6
+                        }
                         return GetAssetPath($@"map\{mapid}\{pathElements[i]}.mapbnd.dcx");
                     }
                     else if (pathElements[i].Equals("hit"))
@@ -1573,6 +1623,10 @@ namespace StudioCore
                                 return GetAssetPath($@"map\{mapid}\l{mapid.Substring(1)}.hkxbhd");
                             }
                             return GetAssetPath($@"map\{mapid}\h{mapid.Substring(1)}.hkxbhd");
+                        }
+                        else if (Type == GameType.ArmoredCoreVI)
+                        {
+                            //TODO AC6
                         }
                         bndpath = "";
                         return null;
@@ -1601,6 +1655,10 @@ namespace StudioCore
                             bndpath = "";
                             return GetAssetPath($@"map\{mapid}\{ mapid}.nvmhktbnd.dcx");
                         }
+                        else if (Type == GameType.ArmoredCoreVI)
+                        {
+                            //TODO AC6
+                        }
                         bndpath = "";
                         return null;
                     }
@@ -1626,11 +1684,19 @@ namespace StudioCore
                     {
                         return GetOverridenFilePath($@"chr\{chrid}\{chrid}.chrbnd.dcx");
                     }
+                    else if (Type == GameType.ArmoredCoreVI)
+                    {
+                        //TODO AC6
+                    }
                     return GetOverridenFilePath($@"chr\{chrid}.chrbnd.dcx");
                 }
                 else if (pathElements[i].Equals("tex"))
                 {
                     bndpath = "";
+                    if (Type == GameType.ArmoredCoreVI)
+                    {
+                        //TODO AC6
+                    }
                     if (Type == GameType.EldenRing)
                     {
                         return GetOverridenFilePath($@"chr\{chrid}_h.texbnd.dcx");
@@ -1668,6 +1734,10 @@ namespace StudioCore
                             return GetOverridenFilePath($@"asset\aeg\{objid.Substring(0, 6)}\{objid}.geombnd.dcx");
                         else
                             return null;
+                    }
+                    else if (Type == GameType.ArmoredCoreVI)
+                    {
+                        //TODO AC6
                     }
                     return GetOverridenFilePath($@"obj\{objid}.objbnd.dcx");
                 }
