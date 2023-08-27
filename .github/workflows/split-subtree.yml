@@ -1,0 +1,21 @@
+name: Mirror SoulsFormats
+on:
+  push:
+    paths:
+      - 'SoulsFormats/**'
+jobs:
+  split:
+    runs-on: ubuntu-latest
+    name: Update soulsmods/DsmsSoulsFormats repo
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Split
+        uses: nxtlvlsoftware/git-subtree-action@1.1
+        with:
+          repo: 'soulsmods/DsmsSoulsFormats'
+          path: 'SoulsFormats'
+          deploy_key: ${{ secrets.DSMS_SOULS_FORMATS_DEPLOY_KEY }}
+          force: true
