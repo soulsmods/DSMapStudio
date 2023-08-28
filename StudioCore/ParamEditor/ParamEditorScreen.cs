@@ -749,7 +749,11 @@ namespace StudioCore.ParamEditor
                 {
                     try
                     {
-                        if (_projectSettings.GameType != GameType.DarkSoulsIISOTFS)
+                        if (_projectSettings.GameType == GameType.ArmoredCoreVI)
+                        {
+                            //TODO AC6
+                        }
+                        else if (_projectSettings.GameType != GameType.DarkSoulsIISOTFS)
                         {
                             using FileChooserNative fileChooser = new FileChooserNative("Select file containing params",
                                 null, FileChooserAction.Open, "Open", "Cancel");
@@ -1877,6 +1881,10 @@ namespace StudioCore.ParamEditor
                         CacheBank.ClearCaches();
                     ImGui.Separator();
                 }
+                else if (ParamBank.PrimaryBank.AssetLocator.Type is GameType.ArmoredCoreVI)
+                {
+                    //TODO AC6
+                }
 
                 List<string> pinnedParamKeyList = new List<string>(_paramEditor._projectSettings.PinnedParams);
 
@@ -1939,6 +1947,10 @@ namespace StudioCore.ParamEditor
                                 keyList = keyList.FindAll(p => ParamBank.DS2MapParamlist.Contains(p.Split('_')[0]));
                             else
                                 keyList = keyList.FindAll(p => !ParamBank.DS2MapParamlist.Contains(p.Split('_')[0]));
+                        }
+                        else if (ParamBank.PrimaryBank.AssetLocator.Type is GameType.ArmoredCoreVI)
+                        {
+                            //TODO AC6
                         }
 
                         if (CFG.Current.Param_AlphabeticalParams)

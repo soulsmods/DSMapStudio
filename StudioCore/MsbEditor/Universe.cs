@@ -350,6 +350,10 @@ namespace StudioCore.MsbEditor
                 }
                 return mesh;
             }
+            else if (_assetLocator.Type == GameType.ArmoredCoreVI)
+            {
+                //TODO AC6
+            }
             else if (loadnav && _assetLocator.Type != GameType.DarkSoulsIISOTFS)
             {
                 var mesh = MeshRenderableProxy.MeshRenderableFromNVMResource(
@@ -565,7 +569,7 @@ namespace StudioCore.MsbEditor
             }
         }
 
-        public void LoadRelatedMaps(string mapid, Dictionary<string, ObjectContainer> maps)
+        public void LoadRelatedMapsER(string mapid, Dictionary<string, ObjectContainer> maps)
         {
             var relatedMaps = SpecialMapConnections.GetRelatedMaps(GameType.EldenRing, mapid, maps.Keys);
             foreach (var map in relatedMaps)
@@ -610,6 +614,11 @@ namespace StudioCore.MsbEditor
                         return null;
                     }
                     btl = BTL.Read(file.Bytes);
+                }
+                else if (_assetLocator.Type == GameType.ArmoredCoreVI)
+                {
+                    //TODO AC6
+                    btl = BTL.Read(ad.AssetPath);
                 }
                 else
                 {
@@ -660,6 +669,8 @@ namespace StudioCore.MsbEditor
                     case GameType.EldenRing:
                         _dispGroupCount = 8; //?
                         break;
+                    case GameType.ArmoredCoreVI:
+                        //TODO AC6
                     default:
                         throw new Exception($"Error: Did not expect Gametype {_assetLocator.Type}");
                         //break;
@@ -682,6 +693,11 @@ namespace StudioCore.MsbEditor
                 else if (_assetLocator.Type == GameType.EldenRing)
                 {
                     msb = MSBE.Read(ad.AssetPath);
+                }
+                else if (_assetLocator.Type == GameType.ArmoredCoreVI)
+                {
+                    //TODO AC6
+                    return;
                 }
                 else if (_assetLocator.Type == GameType.DarkSoulsIISOTFS)
                 {
@@ -730,6 +746,10 @@ namespace StudioCore.MsbEditor
                     {
                         asset = _assetLocator.GetMapCollisionModel(amapid, _assetLocator.MapModelNameToAssetName(amapid, model.Name), false);
                         colsToLoad.Add(asset);
+                    }
+                    else if (_assetLocator.Type == GameType.ArmoredCoreVI)
+                    {
+                        //TODO AC6
                     }
                     else if (model.Name.StartsWith("n") && _assetLocator.Type != GameType.DarkSoulsIISOTFS && _assetLocator.Type != GameType.Bloodborne)
                     {
@@ -1213,6 +1233,10 @@ namespace StudioCore.MsbEditor
             {
                 return DCX.Type.DCX_DFLT_10000_44_9;
             }
+            else if (_assetLocator.Type == GameType.ArmoredCoreVI)
+            {
+                //TODO AC6
+            }
             else if (_assetLocator.Type == GameType.DarkSoulsIISOTFS)
             {
                 return DCX.Type.None;
@@ -1277,6 +1301,10 @@ namespace StudioCore.MsbEditor
                     }
                 }
             }
+            else if (_assetLocator.Type == GameType.ArmoredCoreVI)
+            {
+                //TODO AC6
+            }
             else
             {
                 for (var i = 0; i < BTLs.Count; i++)
@@ -1332,6 +1360,11 @@ namespace StudioCore.MsbEditor
                     n.Layers = prev.Layers;
                     n.Routes = prev.Routes;
                     msb = n;
+                }
+                else if (_assetLocator.Type == GameType.ArmoredCoreVI)
+                {
+                    //TODO AC6
+                    return;
                 }
                 else if (_assetLocator.Type == GameType.DarkSoulsIISOTFS)
                 {

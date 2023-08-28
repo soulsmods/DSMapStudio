@@ -412,6 +412,8 @@ namespace StudioCore.MsbEditor
                 case GameType.EldenRing:
                     msbclass = typeof(MSBE);
                     break;
+                case GameType.ArmoredCoreVI:
+                    //TODO AC6
                 default:
                     throw new ArgumentException("type must be valid");
             }
@@ -1125,6 +1127,8 @@ namespace StudioCore.MsbEditor
                 case GameType.EldenRing:
                     msbclass = typeof(MSBE);
                     break;
+                case GameType.ArmoredCoreVI:
+                    //TODO AC6
                 default:
                     throw new ArgumentException("type must be valid");
             }
@@ -1166,8 +1170,12 @@ namespace StudioCore.MsbEditor
             GC.WaitForPendingFinalizers();
             GC.Collect();
             Universe.PopulateMapList();
-
-            if (AssetLocator.Type != GameType.Undefined)
+            
+            if (AssetLocator.Type == GameType.ArmoredCoreVI)
+            {
+                //TODO AC6
+            }
+            else if (AssetLocator.Type != GameType.Undefined)
             {
                 PopulateClassNames(AssetLocator.Type);
             }

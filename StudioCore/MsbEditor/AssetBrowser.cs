@@ -72,6 +72,10 @@ namespace StudioCore.MsbEditor
                 {
                     objLabel = "Aeg";
                 }
+                else if (_locator.Type is GameType.ArmoredCoreVI)
+                {
+                    //TODO AC6
+                }
                 if (ImGui.Selectable(objLabel, _selected == "Obj"))
                 {
                     _objCache = _locator.GetObjModels();

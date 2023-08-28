@@ -1006,6 +1006,11 @@ namespace StudioCore.TextEditor
             {
                 fmgBinder = BND3.Read(path);
             }
+            else if (AssetLocator.Type == GameType.ArmoredCoreVI)
+            {
+                //TODO AC6
+                return false;
+            }
             else
             {
                 fmgBinder = BND4.Read(path);
@@ -1044,6 +1049,10 @@ namespace StudioCore.TextEditor
                         IsLoaded = true;
                     }
                     return;
+                }
+                if (AssetLocator.Type == GameType.ArmoredCoreVI)
+                {
+                    //TODO AC6
                 }
 
                 SetDefaultLanguagePath();
