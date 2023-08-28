@@ -284,6 +284,7 @@ namespace StudioCore
                 else if (gameType == GameType.ArmoredCoreVI)
                 {
                     //TODO AC6
+                    /*SFUtil.EncryptAC6Regulation*/
                     item.Write(writepath + ".temp");
                 }
                 else
