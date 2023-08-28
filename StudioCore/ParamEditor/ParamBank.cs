@@ -206,7 +206,21 @@ namespace StudioCore.ParamEditor
                 {
                     continue;
                 }
-                FSParam.Param p = FSParam.Param.Read(f.Bytes);
+                FSParam.Param p;
+                try
+                {
+                    p = FSParam.Param.Read(f.Bytes);
+                }
+                catch(Exception e)
+                {
+                    // TODO AC6
+                    Debugger.Break();
+                    TaskLogs.AddLog($"Failed to read param {f.Name}: {e.StackTrace} {e.Message}", Microsoft.Extensions.Logging.LogLevel.Error);
+                    if (true)
+                        throw;
+                    else
+                        continue;
+                }
                 if (!_paramdefs.ContainsKey(p.ParamType) && !_patchParamdefs.ContainsKey(p.ParamType))
                 {
                     continue;
@@ -793,7 +807,7 @@ namespace StudioCore.ParamEditor
         }
         private void LoadParamsAC6FromFile(string path)
         {
-            LoadParamFromBinder(null /*SFUtil.DecryptAC6Regulation*/, ref _params, out _paramVersion, true);
+            LoadParamFromBinder(SFUtil.DecryptAC6Regulation(path), ref _params, out _paramVersion, true);
         }
 
         //Some returns and repetition, but it keeps all threading and loading-flags visible inside this method
