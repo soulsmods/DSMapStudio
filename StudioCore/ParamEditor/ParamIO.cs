@@ -9,8 +9,6 @@ using ImGuiNET;
 using SoulsFormats;
 using StudioCore.Editor;
 using StudioCore.ParamEditor;
-using System.Diagnostics;
-using Microsoft.Toolkit.HighPerformance.Buffers;
 
 namespace StudioCore.ParamEditor
 {
