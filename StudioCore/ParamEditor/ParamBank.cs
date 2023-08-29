@@ -198,29 +198,18 @@ namespace StudioCore.ParamEditor
                 {
                     continue;
                 }
+
+                FSParam.Param p = FSParam.Param.Read(f.Bytes);
+
                 if (AssetLocator.Type == GameType.ArmoredCoreVI)
                 {
-                    //TODO AC6
+                    if (p.ParamType == null)
+                    {
+                        TaskLogs.AddLog($"Couldn't read ParamType for {Path.GetFileNameWithoutExtension(f.Name)}, used file name as ParamType.");
+                        p.ParamType = Path.GetFileNameWithoutExtension(f.Name);
+                    }
                 }
-                else if (f.Name.EndsWith("LoadBalancerParam.param") && AssetLocator.Type != GameType.EldenRing)
-                {
-                    continue;
-                }
-                FSParam.Param p;
-                try
-                {
-                    p = FSParam.Param.Read(f.Bytes);
-                }
-                catch(Exception e)
-                {
-                    // TODO AC6
-                    Debugger.Break();
-                    TaskLogs.AddLog($"Failed to read param {f.Name}: {e.StackTrace} {e.Message}", Microsoft.Extensions.Logging.LogLevel.Error);
-                    if (true)
-                        throw;
-                    else
-                        continue;
-                }
+
                 if (!_paramdefs.ContainsKey(p.ParamType) && !_patchParamdefs.ContainsKey(p.ParamType))
                 {
                     continue;
