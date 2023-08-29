@@ -125,7 +125,8 @@ namespace SoulsFormats
                 }
                 else if (format == "KRAK")
                 {
-                    type = Type.DCX_KRAK;
+                    int compressionLevel = br.GetByte(0x30);
+                    type = compressionLevel == 9 ? Type.DCX_KRAK_MAX : Type.DCX_KRAK;
                 }
             }
             else
@@ -155,6 +156,8 @@ namespace SoulsFormats
                 return DecompressDCXDFLT(br, type);
             else if (type == Type.DCX_KRAK)
                 return DecompressDCXKRAK(br);
+            else if (type == Type.DCX_KRAK_MAX)
+                return DecompressDCXKRAK(br, 9);
             else
                 throw new FormatException("Unknown DCX format.");
         }
@@ -355,7 +358,7 @@ namespace SoulsFormats
             return SFUtil.ReadZlib(br, compressedSize);
         }
 
-        private static Memory<byte> DecompressDCXKRAK(BinaryReaderEx br)
+        private static Memory<byte> DecompressDCXKRAK(BinaryReaderEx br, byte compressionLevel = 6)
         {
             br.AssertASCII("DCX\0");
             br.AssertInt32(0x11000);
@@ -369,7 +372,10 @@ namespace SoulsFormats
             br.AssertASCII("DCP\0");
             br.AssertASCII("KRAK");
             br.AssertInt32(0x20);
-            br.AssertInt32(0x6000000);
+            br.AssertByte(compressionLevel);
+            br.AssertByte(0);
+            br.AssertByte(0);
+            br.AssertByte(0);
             br.AssertInt32(0);
             br.AssertInt32(0);
             br.AssertInt32(0);
@@ -378,6 +384,7 @@ namespace SoulsFormats
             br.AssertInt32(8);
 
             var compressed = br.ReadSpanView<byte>((int)compressedSize);
+
             return Oodle26.Decompress(compressed, uncompressedSize);
         }
 
@@ -423,6 +430,8 @@ namespace SoulsFormats
                 CompressDCXDFLT(data, bw, type);
             else if (type == Type.DCX_KRAK)
                 CompressDCXKRAK(data, bw);
+            else if (type == Type.DCX_KRAK_MAX)
+                CompressDCXKRAK(data, bw, 9);
             else if (type == Type.Unknown)
                 throw new ArgumentException("You cannot compress a DCX with an unknown type.");
             else
@@ -609,9 +618,9 @@ namespace SoulsFormats
             bw.FillInt32("CompressedSize", (int)(bw.Position - compressedStart));
         }
 
-        private static void CompressDCXKRAK(Span<byte> data, BinaryWriterEx bw)
+        private static void CompressDCXKRAK(Span<byte> data, BinaryWriterEx bw, byte compressionLevel = 6)
         {
-            byte[] compressed = Oodle26.Compress(data, Oodle26.OodleLZ_Compressor.OodleLZ_Compressor_Kraken, Oodle26.OodleLZ_CompressionLevel.OodleLZ_CompressionLevel_Optimal2);
+            byte[] compressed = Oodle26.Compress(data, Oodle.OodleLZ_Compressor.OodleLZ_Compressor_Kraken, Oodle.OodleLZ_CompressionLevel.OodleLZ_CompressionLevel_Optimal2);
 
             bw.WriteASCII("DCX\0");
             bw.WriteInt32(0x11000);
@@ -625,7 +634,10 @@ namespace SoulsFormats
             bw.WriteASCII("DCP\0");
             bw.WriteASCII("KRAK");
             bw.WriteInt32(0x20);
-            bw.WriteInt32(0x6000000);
+            bw.WriteByte(compressionLevel);
+            bw.WriteByte(0);
+            bw.WriteByte(0);
+            bw.WriteByte(0);
             bw.WriteInt32(0);
             bw.WriteInt32(0);
             bw.WriteInt32(0);
@@ -700,6 +712,11 @@ namespace SoulsFormats
             /// DCX header, Oodle compression. Used in Sekiro.
             /// </summary>
             DCX_KRAK,
+
+            /// <summary>
+            /// DCX header, different Oodle compression. Used in Armored Core VI.
+            /// </summary>
+            DCX_KRAK_MAX
         }
 
         /// <summary>
@@ -741,6 +758,11 @@ namespace SoulsFormats
             /// Most common compression format for Elden Ring.
             /// </summary>
             EldenRing = Type.DCX_KRAK,
+
+            /// <summary>
+            /// Most common compression format for Armored Core VI.
+            /// </summary>
+            AC6 = Type.DCX_KRAK_MAX,
         }
     }
 }
