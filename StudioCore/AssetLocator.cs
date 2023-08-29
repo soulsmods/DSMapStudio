@@ -612,10 +612,6 @@ namespace StudioCore
                 {
                     folders = Directory.GetDirectories(GameRootDirectory + @"\menu\text").ToList();
                 }
-                else if (Type == GameType.ArmoredCoreVI)
-                {
-                    //TODO AC6
-                }
                 else
                 {
                     // Exclude folders that don't have typical msgbnds
@@ -680,10 +676,6 @@ namespace StudioCore
             else if (Type == GameType.DarkSoulsIII)
             {
                 path = $@"msg\{langFolder}\{msgBndType}_dlc2.msgbnd.dcx";
-            }
-            else if (Type == GameType.ArmoredCoreVI)
-            {
-                //TODO AC6
             }
 
             if (writemode)
