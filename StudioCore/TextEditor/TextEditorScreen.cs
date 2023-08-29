@@ -431,23 +431,23 @@ namespace StudioCore.TextEditor
                 _propEditor.PropEditorFMGBegin();
                 if (_activeEntryGroup.TextBody != null)
                 {
-                    _propEditor.PropEditorFMG(_activeEntryGroup.TextBody, "Text", 160.0f * scale);
+                    _propEditor.PropEditorFMG(_activeEntryGroup.TextBody, "Text");
                 }
                 if (_activeEntryGroup.Title != null)
                 {
-                    _propEditor.PropEditorFMG(_activeEntryGroup.Title, "Title", -1.0f * scale);
+                    _propEditor.PropEditorFMG(_activeEntryGroup.Title, "Title");
                 }
                 if (_activeEntryGroup.Summary != null)
                 {
-                    _propEditor.PropEditorFMG(_activeEntryGroup.Summary, "Summary", 50.0f * scale);
+                    _propEditor.PropEditorFMG(_activeEntryGroup.Summary, "Summary");
                 }
                 if (_activeEntryGroup.Description != null)
                 {
-                    _propEditor.PropEditorFMG(_activeEntryGroup.Description, "Description", 160.0f * scale);
+                    _propEditor.PropEditorFMG(_activeEntryGroup.Description, "Description");
                 }
                 if (_activeEntryGroup.ExtraText != null)
                 {
-                    _propEditor.PropEditorFMG(_activeEntryGroup.ExtraText, "Extra", 40.0f * scale);
+                    _propEditor.PropEditorFMG(_activeEntryGroup.ExtraText, "Extra");
                 }
 
                 _propEditor.PropEditorFMGEnd();
