@@ -782,12 +782,9 @@ namespace StudioCore.TextEditor
                 case FmgIDType.TitleLocations_Patch:
                     return FmgEntryCategory.Locations;
 
-                //case FmgIDType.TitleGem:
-                //case FmgIDType.SummaryGem:
                 case FmgIDType.DescriptionGem:
                     return FmgEntryCategory.Gem;
 
-                //case FmgIDType.TitleSwordArts:
                 case FmgIDType.SummarySwordArts:
                     return FmgEntryCategory.SwordArts;
 
@@ -868,9 +865,9 @@ namespace StudioCore.TextEditor
                 case FmgIDType.SummaryGoods_Patch:
                 case FmgIDType.SummaryRings_Patch:
                 case FmgIDType.SummaryWeapons_Patch:
+                case FmgIDType.SummaryMission:
                 case FmgIDType.TutorialTitle: // Include as summary (not all TutorialBody's have a title)
                 case FmgIDType.TutorialTitle2023:
-                case FmgIDType.SummaryMission:
                     return FmgEntryTextType.Summary;
 
                 case FmgIDType.TitleGoods:
@@ -903,7 +900,6 @@ namespace StudioCore.TextEditor
                 case FmgIDType.TitleRings_Patch:
                 case FmgIDType.TitleSpells_Patch:
                 case FmgIDType.TitleWeapons_Patch:
-                //case FmgIDType.TitleSwordArts:
                 case FmgIDType.TitleBooster:
                 case FmgIDType.TitleMission:
                 case FmgIDType.TitleArchive:
@@ -914,7 +910,7 @@ namespace StudioCore.TextEditor
                     return FmgEntryTextType.ExtraText;
 
                 case FmgIDType.WeaponEffect:
-                case FmgIDType.TutorialBody:
+                case FmgIDType.TutorialBody: // Include as TextBody to make it display foremost.
                 case FmgIDType.TutorialBody2023:
                     return FmgEntryTextType.TextBody;
 
