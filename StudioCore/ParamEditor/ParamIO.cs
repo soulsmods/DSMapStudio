@@ -183,16 +183,16 @@ namespace StudioCore.ParamEditor
 
                         if (col.ValueType.IsArray)
                         {
-                            byte[] newval = ParamUtils.Dummy8Read(v, col.Def.ArrayLength);
+                            byte[] newval = ParamUtils.Dummy8Read(value, col.Def.ArrayLength);
                             if (newval == null)
-                                return ($@"Could not assign {v} to field {col.Def.InternalName}", null);
+                                return ($@"Could not assign {value} to field {col.Def.InternalName}", null);
                             actions.AppendParamEditAction(row, (PseudoColumn.None, col), newval);
                         }
                         else
                         {
-                            object newval = Convert.ChangeType(v, row.Get((PseudoColumn.None, col)).GetType());
+                            object newval = Convert.ChangeType(value, row.Get((PseudoColumn.None, col)).GetType());
                             if (newval == null)
-                                return ($@"Could not assign {v} to field {col.Def.InternalName}", null);
+                                return ($@"Could not assign {value} to field {col.Def.InternalName}", null);
                             actions.AppendParamEditAction(row, (PseudoColumn.None, col), newval);
                         }
                     }
