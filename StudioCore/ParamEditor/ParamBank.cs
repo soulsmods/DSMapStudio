@@ -203,9 +203,14 @@ namespace StudioCore.ParamEditor
 
                 if (AssetLocator.Type == GameType.ArmoredCoreVI)
                 {
-                    if (p.ParamType == null)
+                    if (p.ParamType == "")
                     {
-                        TaskLogs.AddLog($"Couldn't read ParamType for {Path.GetFileNameWithoutExtension(f.Name)}, used file name as ParamType.");
+                        TaskLogs.AddLog($"Couldn't read ParamType (empty string) for {Path.GetFileNameWithoutExtension(f.Name)}, used file name as ParamType.");
+                        p.ParamType = Path.GetFileNameWithoutExtension(f.Name);
+                    }
+                    else if (p.ParamType == null)
+                    {
+                        TaskLogs.AddLog($"Couldn't read ParamType (null) for {Path.GetFileNameWithoutExtension(f.Name)}, used file name as ParamType.");
                         p.ParamType = Path.GetFileNameWithoutExtension(f.Name);
                     }
                 }

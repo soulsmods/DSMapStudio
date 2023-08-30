@@ -910,18 +910,15 @@ namespace FSParam
             Unk06 = br.ReadInt16();
             ParamdefDataVersion = br.ReadInt16();
             ushort rowCount = br.ReadUInt16();
+            long paramTypeOffset = 0;
             if (Format2D.HasFlag(FormatFlags1.OffsetParamType))
             {
                 br.AssertInt32(0);
-                long paramTypeOffset = br.ReadInt64();
+                paramTypeOffset = br.ReadInt64();
                 br.AssertPattern(0x14, 0x00);
 
-                // Check if ParamTypeOffset is invalid and longer than file.
-                if (paramTypeOffset < br.Length)
-                {
-                    ParamType = br.GetASCII(paramTypeOffset);
-                    actualStringsOffset = paramTypeOffset;
-                }
+                // ParamType itself will be checked after rows.
+                actualStringsOffset = paramTypeOffset;
             }
             else
             {
@@ -982,9 +979,10 @@ namespace FSParam
             else
                 RowSize = 0;
 
+            uint dataStart = 0;
             if (Rows.Count > 0)
             {
-                var dataStart = Rows.Min(row => row.DataIndex);
+                dataStart = Rows.Min(row => row.DataIndex);
                 br.Position = dataStart;
                 var rowData = br.ReadBytes(Rows.Count * (int)RowSize);
                 _paramData = new StridedByteArray(rowData, (uint)RowSize, BigEndian);
@@ -993,6 +991,15 @@ namespace FSParam
                 foreach (var r in Rows)
                 {
                     r.DataIndex = (r.DataIndex - dataStart) / (uint)RowSize;
+                }
+            }
+
+            if (Format2D.HasFlag(FormatFlags1.OffsetParamType))
+            {
+                // Check if ParamTypeOffset is valid.
+                if (paramTypeOffset == dataStart + rowCount * RowSize)
+                {
+                    ParamType = br.GetASCII(paramTypeOffset);
                 }
             }
 
