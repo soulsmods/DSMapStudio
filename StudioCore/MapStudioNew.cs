@@ -113,14 +113,24 @@ namespace StudioCore
                     }
                     else
                     {
-                        AttemptLoadProject(settings, CFG.Current.LastProjectFile, false);
+                        try
+                        {
+                            AttemptLoadProject(settings, CFG.Current.LastProjectFile, false);
+                        }
+                        catch
+                        {
+                            CFG.Current.LastProjectFile = "";
+                            CFG.Save();
+                            PlatformUtils.Instance.MessageBox($"Failed to load last project. Project will not be loaded after restart.", "Project Load Error", MessageBoxButtons.OK);
+                            throw;
+                        }
                     }
                 }
                 else
                 {
-                    PlatformUtils.Instance.MessageBox($"Project.json at \"{CFG.Current.LastProjectFile}\" does not exist.", "Project Load Error", MessageBoxButtons.OK);
                     CFG.Current.LastProjectFile = "";
                     CFG.Save();
+                    PlatformUtils.Instance.MessageBox($"Project.json at \"{CFG.Current.LastProjectFile}\" does not exist.", "Project Load Error", MessageBoxButtons.OK);
                 }
             }
         }
