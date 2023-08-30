@@ -113,15 +113,25 @@ namespace StudioCore
                     }
                     else
                     {
-                        AttemptLoadProject(settings, CFG.Current.LastProjectFile, false);
+                        try
+                        {
+                            AttemptLoadProject(settings, CFG.Current.LastProjectFile, false);
+                        }
+                        catch
+                        {
+                            CFG.Current.LastProjectFile = "";
+                            CFG.Save();
+                            PlatformUtils.Instance.MessageBox($"Failed to load last project. Project will not be loaded after restart.", "Project Load Error", MessageBoxButtons.OK);
+                            throw;
+                        }
                     }
                 }
                 else
                 {
-                    TaskLogs.AddLog($"Cannot load project: \"{CFG.Current.LastProjectFile}\" does not exist.",
-                        Microsoft.Extensions.Logging.LogLevel.Warning, TaskLogs.LogPriority.High);
                     CFG.Current.LastProjectFile = "";
                     CFG.Save();
+                    TaskLogs.AddLog($"Cannot load project: \"{CFG.Current.LastProjectFile}\" does not exist.",
+                        Microsoft.Extensions.Logging.LogLevel.Warning, TaskLogs.LogPriority.High);
                 }
             }
         }
