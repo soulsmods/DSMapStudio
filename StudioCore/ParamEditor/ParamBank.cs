@@ -945,7 +945,7 @@ namespace StudioCore.ParamEditor
             newBank.IsLoadingParams = true;
             if (locator.Type == GameType.ArmoredCoreVI)
             {
-                //TODO AC6
+                newBank.LoadParamsAC6FromFile(path);
             }
             if (locator.Type == GameType.EldenRing)
             {
@@ -1847,7 +1847,20 @@ namespace StudioCore.ParamEditor
                 return ParamUpgradeResult.OldRegulationNotFound;
 
             // Load old vanilla regulation
-            BND4 oldVanillaParamBnd = SFUtil.DecryptERRegulation(oldVanillaParamPath);
+            BND4 oldVanillaParamBnd;
+            if (AssetLocator.Type == GameType.EldenRing)
+            {
+                oldVanillaParamBnd = SFUtil.DecryptERRegulation(oldVanillaParamPath);
+            }
+            else if (AssetLocator.Type == GameType.ArmoredCoreVI)
+            {
+                oldVanillaParamBnd = SFUtil.DecryptAC6Regulation(oldVanillaParamPath);
+            }
+            else
+            {
+                throw new NotImplementedException($"Param upgrading for game type {AssetLocator.Type} is not supported.");
+            }
+
             var oldVanillaParams = new Dictionary<string, Param>();
             ulong version;
             LoadParamFromBinder(oldVanillaParamBnd, ref oldVanillaParams, out version, true);
@@ -1915,6 +1928,10 @@ namespace StudioCore.ParamEditor
                     (11001000L, "1.10 - (ToughnessParam) Set unk1 to Vanilla v1.10 values", "param ToughnessParam: modified && !added: unk1: = vanillafield unk1;"),
                     (11001000L, "1.10 - (ToughnessParam) Set unk2 to Vanilla v1.10 values", "param ToughnessParam: modified && !added: unk2: = vanillafield unk2;"),
                 };
+            }
+            else if (AssetLocator.Type == GameType.ArmoredCoreVI)
+            {
+                throw new NotImplementedException();
             }
 
             List<string> performed = new List<string>();

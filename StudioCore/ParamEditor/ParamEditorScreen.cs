@@ -105,7 +105,7 @@ namespace StudioCore.ParamEditor
         public string EditorName => "Param Editor";
         public string CommandEndpoint => "param";
         public string SaveType => "Params";
-        
+
         public readonly AssetLocator AssetLocator;
         public ActionManager EditorActionManager = new ActionManager();
 
@@ -172,10 +172,80 @@ namespace StudioCore.ParamEditor
         }
 
         /// <summary>
-        /// Any version numbers <= this will be allowed to upgrade.
+        /// Whitelist of games and maximum param version to allow param upgrading.
         /// Used to restrict upgrading before DSMS properly supports it.
         /// </summary>
-        public readonly ulong ParamUpgradeER_TargetWhitelist_Threshold = 1_10_9_9999L;
+        public readonly Dictionary<GameType, ulong> ParamUpgrade_Whitelist = new()
+        {
+            {GameType.EldenRing, 1_10_9_9999L},
+            {GameType.ArmoredCoreVI, 0_00_0_9999L},
+        };
+
+        private void ParamUpgradeDisplay()
+        {
+            // Param upgrading for Elden Ring
+            if (ParamBank.IsDefsLoaded
+                && ParamBank.PrimaryBank.Params != null
+                && ParamBank.VanillaBank.Params != null
+                && !ParamBank.PrimaryBank.IsLoadingParams
+                && !ParamBank.VanillaBank.IsLoadingParams)
+            {
+                if (!ParamUpgrade_Whitelist.TryGetValue(ParamBank.PrimaryBank.AssetLocator.Type, out ulong versionThreshold))
+                {
+                    // Unsupported game type.
+                    return;
+                }
+
+                if (ParamBank.PrimaryBank.ParamVersion < ParamBank.VanillaBank.ParamVersion
+                    && ParamBank.VanillaBank.ParamVersion <= versionThreshold)
+                {
+                    ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.0f, 1f, 0f, 1.0f));
+                    if (ImGui.Button("Upgrade Params"))
+                    {
+                        var message = PlatformUtils.Instance.MessageBox(
+                            $@"Your mod is currently on regulation version {ParamBank.PrimaryBank.ParamVersion} while the game is on param version " +
+                            $"{ParamBank.VanillaBank.ParamVersion}.\n\nWould you like to attempt to upgrade your mod's params to be based on the " +
+                            "latest game version? Params will be upgraded by copying all rows that you modified to the new regulation, " +
+                            "overwriting exiting rows if needed.\n\nIf both you and the game update added a row with the same ID, the merge " +
+                            "will fail and there will be a log saying what rows you will need to manually change the ID of before trying " +
+                            "to merge again.\n\nIn order to perform this operation, you must specify the original regulation on the version " +
+                            $"that your current mod is based on (version {ParamBank.PrimaryBank.ParamVersion}).\n\nOnce done, the upgraded params will appear " +
+                            "in the param editor where you can view and save them. This operation is not undoable, but you can reload the project without " +
+                            "saving to revert to the un-upgraded params.\n\n" +
+                            "Would you like to continue?", "Regulation upgrade",
+                            MessageBoxButtons.OKCancel,
+                            MessageBoxIcon.Information);
+                        if (message == DialogResult.OK)
+                        {
+                            using FileChooserNative fileChooser = new FileChooserNative($"Select regulation.bin for game version {ParamBank.PrimaryBank.ParamVersion}...",
+                                null, FileChooserAction.Open, "Open", "Cancel");
+                            fileChooser.AddFilter(AssetLocator.RegulationBinFilter);
+                            fileChooser.AddFilter(AssetLocator.AllFilesFilter);
+                            if (fileChooser.Run() == (int)ResponseType.Accept)
+                            {
+                                var path = fileChooser.Filename;
+                                UpgradeRegulation(ParamBank.PrimaryBank, ParamBank.VanillaBank, path);
+                            }
+                        }
+                    }
+                    ImGui.PopStyleColor();
+                }
+                else
+                {
+                    ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 0.3f, 0.3f, 1.0f));
+                    if (ImGui.BeginMenu("Upgrade Params"))
+                    {
+                        ImGui.PopStyleColor();
+                        ImGui.Text("Param version unsupported, DSMapStudio must be updated first.\nDownload update if available, wait for update otherwise.");
+                        ImGui.EndMenu();
+                    }
+                    else
+                    {
+                        ImGui.PopStyleColor();
+                    }
+                }
+            }
+        }
 
         public void UpgradeRegulation(ParamBank bank, ParamBank vanillaBank, string oldRegulation)
         {
@@ -872,65 +942,7 @@ namespace StudioCore.ParamEditor
                 ImGui.EndMenu();
             }
 
-            // Param upgrading for Elden Ring
-            if (ParamBank.IsDefsLoaded
-                && ParamBank.PrimaryBank.Params != null
-                && ParamBank.VanillaBank.Params != null
-                && !ParamBank.PrimaryBank.IsLoadingParams
-                && !ParamBank.VanillaBank.IsLoadingParams)
-            {
-                if (ParamBank.PrimaryBank.AssetLocator.Type == GameType.EldenRing
-                    && ParamBank.PrimaryBank.ParamVersion < ParamBank.VanillaBank.ParamVersion)
-                {
-                    if (ParamBank.VanillaBank.ParamVersion <= ParamUpgradeER_TargetWhitelist_Threshold)
-                    {
-                        ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.0f, 1f, 0f, 1.0f));
-                        if (ImGui.Button("Upgrade Params"))
-                        {
-                            var message = PlatformUtils.Instance.MessageBox(
-                                $@"Your mod is currently on regulation version {ParamBank.PrimaryBank.ParamVersion} while the game is on param version " +
-                                $"{ParamBank.VanillaBank.ParamVersion}.\n\nWould you like to attempt to upgrade your mod's params to be based on the " +
-                                "latest game version? Params will be upgraded by copying all rows that you modified to the new regulation, " +
-                                "overwriting exiting rows if needed.\n\nIf both you and the game update added a row with the same ID, the merge " +
-                                "will fail and there will be a log saying what rows you will need to manually change the ID of before trying " +
-                                "to merge again.\n\nIn order to perform this operation, you must specify the original regulation on the version " +
-                                $"that your current mod is based on (version {ParamBank.PrimaryBank.ParamVersion}).\n\nOnce done, the upgraded params will appear " +
-                                "in the param editor where you can view and save them. This operation is not undoable, but you can reload the project without " +
-                                "saving to revert to the un-upgraded params.\n\n" +
-                                "Would you like to continue?", "Regulation upgrade",
-                                MessageBoxButtons.OKCancel,
-                                MessageBoxIcon.Information);
-                            if (message == DialogResult.OK)
-                            {
-                                using FileChooserNative fileChooser = new FileChooserNative($"Select regulation.bin for game version {ParamBank.PrimaryBank.ParamVersion}...",
-                                    null, FileChooserAction.Open, "Open", "Cancel");
-                                fileChooser.AddFilter(AssetLocator.RegulationBinFilter);
-                                fileChooser.AddFilter(AssetLocator.AllFilesFilter);
-                                if (fileChooser.Run() == (int)ResponseType.Accept)
-                                {
-                                    var path = fileChooser.Filename;
-                                    UpgradeRegulation(ParamBank.PrimaryBank, ParamBank.VanillaBank, path);
-                                }
-                            }
-                        }
-                        ImGui.PopStyleColor();
-                    }
-                    else
-                    {
-                        ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 0.3f, 0.3f, 1.0f));
-                        if (ImGui.BeginMenu("Upgrade Params"))
-                        {
-                            ImGui.PopStyleColor();
-                            ImGui.Text("Param version unsupported, DSMapStudio must be updated first.\nDownload update if available, wait for update otherwise.");
-                            ImGui.EndMenu();
-                        }
-                        else
-                        {
-                            ImGui.PopStyleColor();
-                        }
-                    }
-                }
-            }
+            ParamUpgradeDisplay();
         }
 
         public void CopySelectionToClipboard()
