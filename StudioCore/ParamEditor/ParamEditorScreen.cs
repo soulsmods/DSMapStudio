@@ -1174,6 +1174,11 @@ namespace StudioCore.ParamEditor
                 ImGui.Text("No params loaded");
                 return;
             }
+            if (!ParamBank.IsMetaLoaded)
+            {
+                ImGui.Text("Loading Meta...");
+                return;
+            }
 
             //Hot Reload shortcut keys
             if (ParamReloader.CanReloadMemoryParams(ParamBank.PrimaryBank, _projectSettings))
