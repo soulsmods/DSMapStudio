@@ -2,23 +2,20 @@
 <PARAMMETA XmlVersion="0">
   <Enums>
   	<Enum Name="AttackType" type="s32">
-		<Option Value="0" Name="Unknown" />
-		<Option Value="1" Name="Unknown" />
-		<Option Value="2" Name="Unknown" />
-		<Option Value="3" Name="Unknown" />
-		<Option Value="4" Name="Unknown" />
-		<Option Value="5" Name="Unknown" />
-		<Option Value="6" Name="Unknown" />
-		<Option Value="7" Name="Unknown" />
-		<Option Value="8" Name="Unknown" />
-		<Option Value="9" Name="Unknown" />
-		<Option Value="10" Name="Unknown" />
-		<Option Value="11" Name="Unknown" />
-		<Option Value="12" Name="Unknown" />
-		<Option Value="13" Name="Unknown" />
-		<Option Value="14" Name="Unknown" />
-		<Option Value="15" Name="Unknown" />
-		<Option Value="16" Name="Unknown" />
+		<Option Value="0" Name="Throw" />
+		<Option Value="1" Name="Heavy" />
+		<Option Value="2" Name="Standard" />
+		<Option Value="4" Name="Shield Poke - Thrusting Sword" />
+		<Option Value="5" Name="Shield Poke - Spear/Lance/Halberd" />
+		<Option Value="7" Name="Jump/Fall" />
+		<Option Value="8" Name="Bow Shoot" />
+		<Option Value="9" Name="Greatbow Shoot" />
+		<Option Value="10" Name="Crossbow Shoot" />
+		<Option Value="11" Name="Dual Wield Crossbow Shoot" />
+		<Option Value="12" Name="Spell Cast" />
+		<Option Value="13" Name="Guard" />
+		<Option Value="15" Name="1H Shoot" />
+		<Option Value="16" Name="2H Shoot" />
 		<Option Value="17" Name="Binocular - Precision Shoot" />
 	</Enum>
   </Enums>

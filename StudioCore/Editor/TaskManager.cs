@@ -118,21 +118,30 @@ namespace StudioCore.Editor
                     if (PassiveTask)
                     {
                         TaskLogs.AddLog($"Running passive task: {TaskId}",
-                            Microsoft.Extensions.Logging.LogLevel.Information, LogPriority);
+                            Microsoft.Extensions.Logging.LogLevel.Information,
+                            LogPriority);
                     }
 
                     try
                     {
                         TaskAction.Invoke();
                         TaskLogs.AddLog($"Task Completed: {TaskId}",
-                            Microsoft.Extensions.Logging.LogLevel.Information, LogPriority);
+                            Microsoft.Extensions.Logging.LogLevel.Information,
+                            LogPriority);
                     }
                     catch (Exception e)
                     {
                         if (SilentFail)
                         {
                             TaskLogs.AddLog($"Task Failed: {TaskId}",
-                                Microsoft.Extensions.Logging.LogLevel.Error, LogPriority, e);
+                                Microsoft.Extensions.Logging.LogLevel.Error,
+                                LogPriority);
+                            TaskLogs.AddLog($"   {e.Message}",
+                                Microsoft.Extensions.Logging.LogLevel.Error,
+                                TaskLogs.LogPriority.Low);
+                            TaskLogs.AddLog(e.StackTrace,
+                                Microsoft.Extensions.Logging.LogLevel.Error,
+                                TaskLogs.LogPriority.Low);
                         }
                         else
                         {

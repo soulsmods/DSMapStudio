@@ -1,4 +1,4 @@
-10 UNKNOWN
+10 Blank
 1000 Dagger
 1010 Bandit's Knife
 1040 Mytha's Bent Blade
@@ -171,9 +171,9 @@
 3403 Fists
 3404 Fists
 3405 Fists
-3406 Fists
-3407 Fists
-3408 Fists
+3406 Caestus
+3407 Caestus
+3408 Caestus
 3410 Claws
 3420 Malformed Claws
 3430 Manikin Claws
@@ -259,37 +259,37 @@
 5520 Bound Hand Axe
 5530 Homunculus Mace
 5540 Transgressor's Staff
-6000 UNKNOWN
-6100 UNKNOWN
-6300 UNKNOWN
-6310 UNKNOWN
-6320 UNKNOWN
-6330 UNKNOWN
-6340 UNKNOWN
-6350 UNKNOWN
-6360 UNKNOWN
-6370 UNKNOWN
-6380 UNKNOWN
-6390 UNKNOWN
-6400 UNKNOWN
-6410 UNKNOWN
-6420 UNKNOWN
-6430 UNKNOWN
-6440 UNKNOWN
-6450 UNKNOWN
-6460 UNKNOWN
-6470 UNKNOWN
-6480 UNKNOWN
-6490 UNKNOWN
-6500 UNKNOWN
-6510 UNKNOWN
-6520 UNKNOWN
-6530 UNKNOWN
-6540 UNKNOWN
-6550 UNKNOWN
-7010 UNKNOWN
-8182 UNKNOWN
-8183 UNKNOWN
+6000 Torch
+6100 Binoculars
+6300 Ghost Phantom - Dagger
+6310 Ghost Phantom - Dagger
+6320 Ghost Phantom - Curved Sword
+6330 Ghost Phantom - Katana
+6340 Ghost Phantom - Straight Sword
+6350 Ghost Phantom - Greatsword
+6360 Ghost Phantom - Hammer
+6370 Ghost Phantom - Great Hammer
+6380 Ghost Phantom - Axe
+6390 Ghost Phantom - Greataxe
+6400 Ghost Phantom - Spear
+6410 Ghost Phantom - Scythe
+6420 Ghost Phantom - Halberd
+6430 Ghost Phantom - Fists
+6440 Ghost Phantom - Claw
+6450 Ghost Phantom - Torch
+6460 Ghost Phantom - Binoculars
+6470 Ghost Phantom - Whip
+6480 Ghost Phantom - Staff
+6490 Ghost Phantom - Chime
+6500 Ghost Phantom - Bow
+6510 Ghost Phantom - Greatbow
+6520 Ghost Phantom - Crossbow
+6530 Ghost Phantom - Curved Greatsword
+6540 Ghost Phantom - Ultra Greatsword
+6550 Ghost Phantom - Twinblade
+7010 Cutscene - Statue of a Man
+8182 Weapon Color Check
+8183 Landing Check
 11000 Buckler
 11005 Benhart's Parma
 11010 Small Leather Shield
@@ -300,7 +300,7 @@
 11070 Manikin Shield
 11080 Llewellyn Shield
 11091 Crimson Parma
-11095 UNKNOWN
+11095 Blank
 11110 Cleric's Parma
 11120 Cleric's Small Shield
 11130 Magic Shield
@@ -365,102 +365,104 @@
 11820 Bound Wooden Shield
 11830 Homunculus Wooden Shield
 11840 Transgressor's Leather Shield
-12000 UNKNOWN
-12010 UNKNOWN
-12020 UNKNOWN
-732000 UNKNOWN
-733000 UNKNOWN
-741000 UNKNOWN
-761000 UNKNOWN
-763000 UNKNOWN
-766000 UNKNOWN
-772000 UNKNOWN
-784000 UNKNOWN
-810000 UNKNOWN
-811000 UNKNOWN
-812000 UNKNOWN
-813000 UNKNOWN
-814000 UNKNOWN
-814009 UNKNOWN
-820000 UNKNOWN
-821000 UNKNOWN
-822000 UNKNOWN
-823000 UNKNOWN
-824000 UNKNOWN
-831000 UNKNOWN
-831100 UNKNOWN
-832000 UNKNOWN
-832100 UNKNOWN
-832200 NPCCastTool
-832201 NPCWhip
-832300 UNKNOWN
-832301 UNKNOWN
-832400 UNKNOWN
-832401 UNKNOWN
-832500 UNKNOWN
-832600 UNKNOWN
-832700 UNKNOWN
-832701 UNKNOWN
-833000 UNKNOWN
-834000 UNKNOWN
-834100 UNKNOWN
-835000 UNKNOWN
-835001 UNKNOWN
-835100 UNKNOWN
-835200 UNKNOWN
-836000 UNKNOWN
-836001 UNKNOWN
-836100 UNKNOWN
-836200 UNKNOWN
-836300 UNKNOWN
-836301 NPCSpear
-836400 UNKNOWN
-837000 UNKNOWN
-837100 UNKNOWN
-837200 UNKNOWN
-838000 UNKNOWN
-838100 UNKNOWN
-842000 UNKNOWN
-843000 UNKNOWN
-843001 UNKNOWN
-844000 UNKNOWN
-845000 UNKNOWN
-846000 UNKNOWN
-847000 UNKNOWN
-847100 UNKNOWN
-848000 UNKNOWN
-848100 UNKNOWN
-849000 UNKNOWN
-849100 UNKNOWN
-849200 UNKNOWN
-850000 UNKNOWN
-850001 UNKNOWN
-851000 UNKNOWN
-852000 UNKNOWN
-853000 UNKNOWN
-853100 UNKNOWN
-853200 UNKNOWN
-853300 UNKNOWN
-853400 UNKNOWN
-853500 UNKNOWN
-854000 UNKNOWN
-867000 UNKNOWN
-880000 UNKNOWN
-883000 UNKNOWN
-885000 UNKNOWN
-886000 UNKNOWN
-887000 NPCMace
-888000 NPCDagger
-889000 NPCFist
-890000 NPCSpear
-892000 NPCGreathammer
-893000 NPCCurvedSword
-894000 NPCMace2
-895000 NPCSpear2
-896000 NPCGreatsword
-897000 Bonefist?
-898000 NPCUGS
-899000 NPCMace3
-900000 NPCGreatsword2
-910000 NPCReaper
-900000000 ULTIMATE FIST
+12000 Ghost Phantom - Small Shield
+12010 Ghost Phantom - Medium Shield
+12020 Ghost Phantom - Greatshield
+732000 NPC: Pyromancy Flame (Lost Sinner Phantom)
+733000 NPC: Pyromancy Flame (Lost Sinner Phantom)
+741000 NPC: Bastard Sword (Crestfallen Saulden)
+761000 NPC: Falchion (Maughlin the Armourer)
+763000 NPC: Bone Staff (NPC)
+766000 NPC: Lizard Staff (Carhillion of the Fold)
+772000 NPC: Scythe (Magerold of Lanafir)
+784000 NPC: Great Scythe (Cromwell the Pardoner)
+810000 NPC: Zweihander (Masterless Glencour)
+811000 NPC: Composite Bow (Lone Hunter Schmidt)
+812000 NPC: Staff of Amana (Pilgrim Bellclaire)
+813000 NPC: Heide Greatlance (Felicia the Brave)
+814000 NPC: Greataxe (Melinda the Butcher)
+814009 Blank
+820000 NPC: Winged Spear (Vorgel the Sinner)
+821000 NPC: Bone Scythe (Merciless Roenna)
+822000 NPC: Black Witch's Staff (Peculiar Kindalur)
+823000 NPC: Black Dragon Greatsword (Dragonfang Villard/Transcendent Edde)
+824000 NPC: Mirrah Greatsword (Aslatiel of Mirrah)
+831000 NPC: Chime of Want (Dingy Cleric/Abbess Feeva/Evangelist Scion Waslo/Hexer Nicholai)
+831100 NPC: Ruler's Sword (Faraam Knight/Holy Knight Aurheim)
+832000 NPC: Composite Bow (Underworld Deadeye)
+832100 NPC: Drakekeeper's Great Hammer (Abyss Ironclad)
+832200 NPC: Pyromancy Flame (Pretender to the Xanthous Throne)
+832201 NPC: Notched Whip (Swashbuckling Matelas)
+832300 NPC: Pyromancy Flame (Pretender to the Xanthous Throne)
+832301 NPC: Notched Whip (NPC)
+832400 NPC: Bandit's Knife (Tenebrous Rogue)
+832401 NPC: Mytha's Bent Blade (Tenebrous Rogue)
+832500 NPC: Ricard's Rapier (The Ghost of Princes Past/Oliver the Collector)
+832600 NPC: Dragon Tooth (A Chip Off the Ol Rock/Ancient Soldier Varg)
+832700 NPC: Shotel (Shadowveil Assasin)
+832701 NPC: Warped Sword (Shadowveil Assasin)
+833000 NPC: Butcher's Knife (Peculiar Kindalur)
+834000 Blank
+834100 NPC: Stone Twinblade (NPC)
+835000 NPC: Black Dragon Greataxe (Black Dragon Knight) [Dragon Aerie]
+835001 NPC: Monastery Scimitar (Black Dragon Knight) [Dragon Aerie]
+835100 NPC: Black Dragon Warpick (Black Dragon Knight) [Dragon Aerie]
+835200 NPC: Black Dragon Sword (Black Dragon Knight) [Dragon Aerie]
+836000 NPC: Berserker Blade (Mad Warrior/Prowler) [Iron Keep]
+836001 NPC: Berserker Blade (Mad Warrior/Afflicted Graverobber) [Iron Keep]
+836100 NPC: Greatsword (Bell Keeper) [Iron Keep]
+836200 NPC: Avelyn (Bell Keeper) [Iron Keep]
+836300 NPC: Bat Staff (Bell Keeper) [Iron Keep]
+836301 NPC: Spitfire Spear (Bell Keeper) [Iron Keep]
+836400 NPC: Drakekeeper's Great Hammer (Ironclad Warrior) [Iron Keep]
+837000 NPC: Shortsword (NPC) [Things Betwixt]
+837100 NPC: Broken Straight Sword (Foreign Wanderer) [Things Betwixt]
+837200 NPC: Short Bow (Foreigner) [Things Betwixt]
+838000 NPC: Dagger (Forest Guardian) [Shaded Woods]
+838100 NPC: Longsword (Forest Guardian) [Shaded Woods]
+842000 NPC: Mastodon Greatsword (Syan Knight/Steel-willed Lorrie) [Forest of Fallen Giants]
+843000 NPC: Heide Knight Sword (Knight) [Forest of Fallen Giants]
+843001 NPC: Dagger (Knight/Butcher) [Forest of Fallen Giants]
+844000 NPC: Broadsword (Catarina Knight) [Forest of Fallen Giants]
+845000 NPC: Scimitar (NPC) [Forest of Fallen Giants]
+846000 NPC: Pickaxe (NPC) [Brightstone Cove Tseldora]
+847000 NPC: Chariot Lance (Executioner) [Heide's Tower of Flame]
+847100 NPC: Blue Knight's Halberd (Sentinel) [Heide's Tower of Flame]
+848000 NPC: Blue Flame (Swordsman) [Undead Crypt]
+848100 NPC: Bandit's Knife (NPC) [Undead Crypt]
+849000 NPC: Bandit's Knife (Nameless Usurper) [Drangleic Castle]
+849100 NPC: Pyromancy Flame (Jester Thomas) [Drangleic Castle]
+849200 NPC: Shotel (Rhoy the Explorer/Rapacious Andrei) [Drangleic Castle]
+850000 NPC: Shadow Dagger (Painting Guardian) [Aldia's Keep]
+850001 NPC: Broken Thief Sword (Painting Guardian) [Aldia's Keep]
+851000 NPC: Full Moon Sickle (NPC) [Harvest Valley]
+852000 NPC: Greatsword (NPC) [Huntsman's Copse]
+853000 NPC: Avelyn (Bowman Guthry) [Drangleic Castle]
+853100 NPC: Estoc (Ashen Knight Boyd/Twiggy Shei) [Drangleic Castle]
+853200 NPC: Drakekeeper's Warpick (Drakekeeper Knight/Wall Watchman) [Drangleic Castle]
+853300 NPC: Longsword (Elite Knight) [Drangleic Castle]
+853400 NPC: Dragonslayer Greatbow (Knight/Cerah the Old Explorer/Twiggy Shei) [Drangleic Castle]
+853500 NPC: Washing Pole (Samurai) [Drangleic Castle]
+854000 NPC: Stone Twinblade (Drifter Swordsman Aidel) [No-man's Wharf]
+867000 NPC: Caestus (Steelheart Ellie)
+880000 NPC: Drakeblood Greatsword (Drakeblood Knight Rondor)
+883000 NPC: Drakekeeper's Sword (Wall Watchman)
+885000 NPC: Puzzling Stone Sword (Fencer Sharron/Oliver the Collector)
+885001 NPC: Lion Greataxe (NPC)
+885002 NPC: Mastodon Halberd (NPC)
+886000 NPC: Greatshield of Glory (Sellsword Luet)
+887000 NPC: Mace (Devotee Scarlett)
+888000 NPC: Umbral Dagger (Bashful Ray)
+889000 NPC: Claws (Bashful Ray)
+890000 NPC: Heide Spear (Bradley of the Old Guard)
+892000 NPC: Giant Stone Axe (Woodland Child Victor/Woodland Child Gully)
+893000 NPC: Spider Fang (Fencer Sharron)
+894000 NPC: Blue Flame (Armorer Dennis)
+895000 NPC: Santier's Spear (Oliver the Collector)
+896000 NPC: Majestic Greatsword (Oliver the Collector)
+897000 NPC: Bone Fist (Oliver the Collector)
+898000 NPC: Smelter Hammer (Oliver the Collector)
+899000 NPC: Mace of the Insolent (Insolent Knight)
+900000 NPC: Greatsword of the Forlorn (Forlorn)
+910000 NPC: Scythe of the Forlorn (Forlorn)
+900000000 Blank

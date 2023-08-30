@@ -1,9 +1,4 @@
-0 UNKNOWN
-1 UNKNOWN
-2 UNKNOWN
-3 UNKNOWN
-4 UNKNOWN
-900 UNKNOWN
+900 NPC Weapon
 1000 Dagger
 1010 Bandit's Knife
 1040 Mytha's Bent Blade
@@ -176,9 +171,9 @@
 3403 Fists
 3404 Fists
 3405 Fists
-3406 Fists
-3407 Fists
-3408 Fists
+3406 Caestus
+3407 Caestus
+3408 Caestus
 3410 Claws
 3420 Malformed Claws
 3430 Manikin Claws
@@ -264,37 +259,37 @@
 5520 Bound Hand Axe
 5530 Homunculus Mace
 5540 Transgressor's Staff
-6000 UNKNOWN
-6100 UNKNOWN
-6300 UNKNOWN
-6310 UNKNOWN
-6320 UNKNOWN
-6330 UNKNOWN
-6340 UNKNOWN
-6350 UNKNOWN
-6360 UNKNOWN
-6370 UNKNOWN
-6380 UNKNOWN
-6390 UNKNOWN
-6400 UNKNOWN
-6410 UNKNOWN
-6420 UNKNOWN
-6430 UNKNOWN
-6440 UNKNOWN
-6450 UNKNOWN
-6460 UNKNOWN
-6470 UNKNOWN
-6480 UNKNOWN
-6490 UNKNOWN
-6500 UNKNOWN
-6510 UNKNOWN
-6520 UNKNOWN
-6530 UNKNOWN
-6540 UNKNOWN
-6550 UNKNOWN
-7010 UNKNOWN
-8182 UNKNOWN
-8183 UNKNOWN
+6000 Torch
+6100 Binoculars
+6300 Ghost Phantom - Dagger
+6310 Ghost Phantom - Dagger
+6320 Ghost Phantom - Curved Sword
+6330 Ghost Phantom - Katana
+6340 Ghost Phantom - Straight Sword
+6350 Ghost Phantom - Greatsword
+6360 Ghost Phantom - Hammer
+6370 Ghost Phantom - Great Hammer
+6380 Ghost Phantom - Axe
+6390 Ghost Phantom - Greataxe
+6400 Ghost Phantom - Spear
+6410 Ghost Phantom - Scythe
+6420 Ghost Phantom - Halberd
+6430 Ghost Phantom - Fists
+6440 Ghost Phantom - Claw
+6450 Ghost Phantom - Torch
+6460 Ghost Phantom - Binoculars
+6470 Ghost Phantom - Whip
+6480 Ghost Phantom - Staff
+6490 Ghost Phantom - Chime
+6500 Ghost Phantom - Bow
+6510 Ghost Phantom - Greatbow
+6520 Ghost Phantom - Crossbow
+6530 Ghost Phantom - Curved Greatsword
+6540 Ghost Phantom - Ultra Greatsword
+6550 Ghost Phantom - Twinblade
+7010 Cutscene - Statue of a Man
+8182 Weapon Color Check
+8183 Landing Check
 11000 Buckler
 11005 Benhart's Parma
 11010 Small Leather Shield
@@ -369,6 +364,6 @@
 11820 Bound Wooden Shield
 11830 Homunculus Wooden Shield
 11840 Transgressor's Leather Shield
-12000 UNKNOWN
-12010 UNKNOWN
-12020 UNKNOWN
+12000 Ghost Phantom - Small Shield
+12010 Ghost Phantom - Medium Shield
+12020 Ghost Phantom - Greatshield

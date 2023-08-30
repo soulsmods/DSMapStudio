@@ -88,6 +88,7 @@ namespace StudioCore
         private static volatile HashSet<string> _warningList = new();
 
         private static volatile LogEntry _lastLogEntry = null;
+
         /// <summary>
         /// Multiply text color values. Mult transitions from 0 to 1 during transition timer. 
         /// </summary>
@@ -117,6 +118,7 @@ namespace StudioCore
                         if (lastLog.Message == text)
                         {
                             lastLog.MessageCount++;
+                            ResetColorTimer();
                             return;
                         }
                     }
@@ -153,15 +155,7 @@ namespace StudioCore
                                 MessageBoxIcon.None);
                         }
 
-                        // Run color timer or reset mult if it's already running.
-                        if (_timerColorMult == 1.0f)
-                        {
-                            Task.Run(ColorTimer);
-                        }
-                        else
-                        {
-                            _timerColorMult = 0.0f;
-                        }
+                        ResetColorTimer();
                     }
                 }
                 finally
@@ -298,27 +292,42 @@ namespace StudioCore
             }
         }
 
-        private static void ColorTimer()
+        /// <summary>
+        /// Manages color timer for last log in menu bar.
+        /// </summary>
+        private static void ResetColorTimer()
         {
-            // Time for task text color to transition completely (in miliseconds)
-            const float transitionTime = 1000.0f;
-            // Time for task text color to start transitioning (in miliseconds)
-            const int transitionDelay = 4000;
-
-            _timerColorMult = 0.0f;
-            float prevMult = -1.0f;
-            while (_timerColorMult < 1.0f)
+            if (_timerColorMult == 1.0f)
             {
-                if (_timerColorMult != prevMult)
+                // Color timer is not currently running, start it.
+                Task.Run(() =>
                 {
-                    // Mult was just changed, sleep for initial delay.
-                    Thread.Sleep(transitionDelay);
-                }
-                _timerColorMult += 1.0f / transitionTime;
-                prevMult = _timerColorMult;
-                Thread.Sleep(1);
+                    // Time for task text color to transition completely (in miliseconds)
+                    const float transitionTime = 1000.0f;
+                    // Time for task text color to start transitioning (in miliseconds)
+                    const int transitionDelay = 4000;
+
+                    _timerColorMult = 0.0f;
+                    float prevMult = -1.0f;
+                    while (_timerColorMult < 1.0f)
+                    {
+                        if (_timerColorMult != prevMult)
+                        {
+                            // Mult was just changed, sleep for initial delay.
+                            Thread.Sleep(transitionDelay);
+                        }
+                        _timerColorMult += 1.0f / transitionTime;
+                        prevMult = _timerColorMult;
+                        Thread.Sleep(1);
+                    }
+                    _timerColorMult = 1.0f;
+                });
             }
-            _timerColorMult = 1.0f;
+            else
+            {
+                // Color timer is currently running, reset time.
+                _timerColorMult = 0.0f;
+            }
         }
     }
 }

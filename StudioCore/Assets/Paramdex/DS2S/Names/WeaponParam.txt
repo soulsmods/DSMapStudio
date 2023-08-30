@@ -1,103 +1,103 @@
-1 Test -- テスト
-2 Test -- テスト
-3 Test -- テスト
-10 10: Unauthorized data (prohibited) -- 10：不正データ（使用禁止）
-8182 8182: Weapon Color Check -- 8182：武器カラーチェック
-8183 8183: Landing Check -- 8183：着弾チェック
-732000 Sorcerer Sinner 1: The Fire of The Sorcerer -- 呪術師の罪人１：呪術の火
-733000 Sorcerer Sinner 2: The Fire of The Sorcerer -- 呪術師の罪人２：呪術の火
-741000 Heartbroken Blue Warrior: Busted Sword -- 心折れた青教戦士：バスタードソード
-761000 Armor shop: Falcion -- 防具屋：ファルシオン
-763000 Sorcerer: Sorcerer's Wand -- 呪術屋：呪術屋の杖
-766000 Sorcerer: Dark Wizard Lizard Wand -- 魔術屋：ダークウィザードのトカゲ杖
-772000 Curiosity: Size -- 珍品屋：サイズ
-784000 The Teacher of The Sin: The Long Sickle -- 免罪の教戒師：長鎌
-810000 NPC for Multi: Swordsman (Male): Zweiender -- マルチ用NPC：剣士（男）：ツヴァイヘンダー
-811000 NPC for Multi: Archer (Man): Convoy Bow -- マルチ用NPC：弓兵（男）：コンボジットボウ
-812000 NPC for Multi: Sage (Female): Fairy Shrine Maiden's Wand -- マルチ用NPC：賢者（女）：妖精の巫女の杖
-813000 NPC for Multi: Lancer (Female): The Knight's Assault Spear C -- マルチ用NPC：ランサー（女）：彷徨える騎士の突撃槍C
-814000 NPC for Multi: Flesh breaking (female): White Spirit: Great Axe -- マルチ用NPC：肉断ち（女）：白霊：グレートアックス
-820000 NPC for Multi: Spearman (Man): Winged Spear -- マルチ用NPC：槍兵（男）：ウィングドスピア
-821000 NPC for Multi: Reaper (Female): Jabazahat's Two-Handed Sickle -- マルチ用NPC：死神（女）：ジャバザハットの両手鎌
-822000 NPC for Multi: The Magician (Man): Dark Bishop's Wand -- マルチ用NPC：魔導士（男）：ダークビショップの杖
-823000 NPC for Multi: Koryu Swordsman (Male): Old Dragon's Two-Handed Sword -- マルチ用NPC：古龍剣士（男）：古龍の両手剣
-824000 NPC for Multi: The Older Brother of a Female Swordsman: The Swordsman's Two-Handed Sword -- マルチ用NPC：女剣士の兄：女剣士の両手剣
-831000 Saint's Tomb: Abandoned Saint: Queen's Bell -- 聖人墓所：捨てられた聖女：王妃のベル
-831100 Saint's Tomb: Knight of the Saint: King Van Grad's Two-Handed Sword -- 聖人墓所：聖女の騎士：ヴァングラッド王の両手剣
-832000 Old Dark Hole: Abyss 1: Sniper: Compositing Bow -- 古き闇の穴：深淵霊１：スナイパー：コンポジッドボウ
-832100 Old Dark Hole: Abyss 2: Axeman: Demon Heavy Soldier's Two Hands Mallet -- 古き闇の穴：深淵霊２：アックスマン：デーモン重兵士の両手槌
-832200 The Hole of Old Darkness: The Abyss 3: Yellow Husband: The Fire of The Magic -- 古き闇の穴：深淵霊３：黄衣夫：呪術の火
-832201 The Old Dark Hole: The Abyss 3: Yellow Husband: Ibara Whip -- 古き闇の穴：深淵霊３：黄衣夫：イバラ鞭
-832300 The Hole of Old Darkness: The Abyss 4: Yellow Wife: The Fire of The Magic -- 古き闇の穴：深淵霊４：黄衣妻：呪術の火
-832301 The Old Dark Hole: The Abyss 4: Yellow Wife: The Whip -- 古き闇の穴：深淵霊４：黄衣妻：イバラ鞭
-832400 The Hole of Old Darkness: The Abyss 5: Traveler: Dagger -- 古き闇の穴：深淵霊５：旅人：短刀
-832401 The Old Dark Hole: The Abyss 5: Traveler: The Dagger of the Nagain -- 古き闇の穴：深淵霊５：旅人：ナーガの短剣
-832500 Old Dark Hole: Abyss 6: Knight: Ricardo's Sting -- 古き闇の穴：深淵霊６：騎士：リカールの刺剣
-832600 The Hole of The Old Darkness: The Abyss 7: Heavy Warrior: The Great Dragon Fang -- 古き闇の穴：深淵霊７：重戦士：大竜牙
-832700 Old Dark Hole: Abyss 8: Queen: Shorter -- 古き闇の穴：深淵霊８：女王様：ショーテル
-832701 Old Dark Hole: Abyss 8: Queen: Two-Sided Swordsman's Song Sword -- 古き闇の穴：深淵霊８：女王様：両面剣士の曲剣
-833000 Amana's Shrine: Cannibal Keeper: Meat Cleaver -- アマナの祠：人食い番長：肉絶ち包丁
-835000 Enshrinement Hall: Dragon Knight: Old Dragon's Two-Handed Axe -- 祭祀場：竜騎士：古龍の両手斧
-835001 Enshrinement Hall: Painting Guard (Female): The Song of Painting -- 祭祀場：絵画守（女）：絵画守の曲刀
-835100 Enshrinement Hall: Dragon Knight: Old Dragon's One Hand Mallet -- 祭祀場：竜騎士：古龍の片手槌
-835200 Enshrinement Hall: Dragon Knight: Old Dragon's One Hand Sword -- 祭祀場：竜騎士：古龍の片手剣
-836000 Molten Castle: Samurai Sorcerer: Stalker Warrior's Sword -- 熔鉄城：侍ソーサラー：ストーカー戦士の刀
-836001 Molten Castle: Samurai Sorcerer: Stalker Warrior's Sword (for two-sword-style both hands) -- 熔鉄城：侍ソーサラー：ストーカー戦士の刀（二刀流両手用）
-836100 Molten Castle: Bell Guard 1: Great Sword -- 熔鉄城：鐘守１：グレートソード
-836200 Molten Castle: Bell Guard 2: Fire Bow (Averin) -- 熔鉄城：鐘守２：連射ボウ（アヴェリン）
-836300 Ming-iron castle: Bell Guard 3: Dark Wizard's Komori Wand -- 熔鉄城：鐘守３：ダークウィザードのこうもり杖
-836301 Molten Castle: Bell Guard 3: Salamander Spear -- 熔鉄城：鐘守３：サラマンダーの槍
-836400 Molten Castle: Light Heavy Soldier: Daemon Heavy Soldier's Two-Handed Mallet -- 熔鉄城：軽快重兵士：デーモン重兵士の両手槌
-837000 Gap Sinus: Second Lap Hunting: Short Sword -- 隙間の洞：２周目狩り：ショートソード
-837100 Gap Sinus: Tutorial: Broken Straight Sword -- 隙間の洞：チュートリアル：折れた直剣
-837200 Gap Sinus: Tutorial: Short Bow -- 隙間の洞：チュートリアル：ショートボウ
-838000 Forest of Shadows: Phantom Enemy 1: Dagger -- 虚ろの影の森：幻影敵１：ダガー
-838100 Forest of Shadows: Phantom Enemy 2: Long Sword -- 虚ろの影の森：幻影敵２：ロングソード
-842000 The Forest of Decayed Giants: In Front of the King's Door: The Second Lap Red Spirit 1: The Two-Handed Sword of the Elephant -- 朽ちた巨人の森：王の扉前：２周目赤霊１：象人の両手剣
-843000 The Forest of Decayed Giants: In front of the king's door: Second Lap Red Spirit 2: The Straight Sword of the Wandering Knight -- 朽ちた巨人の森：王の扉前：２周目赤霊２：彷徨える騎士の直剣
-843001 Decayed Giant Forest: In Front of the King's Door: Round 2 Red Spirit 2: Dagger -- 朽ちた巨人の森：王の扉前：２周目赤霊２：ダガー
-844000 Decayed Giant Forest: Ground Cracking Square: Round 2 Red Spirit 3: Broad Sword -- 朽ちた巨人の森：地割れ広場：２周目赤霊３：ブロードソード
-845000 Decaying Giant Forest: Second Lap Dark Spirit: Scimiter -- 朽ちた巨人の森：２周目闇霊：シミター
-846000 Kiseki-gai Gerdra: Dark Spirit: Tsurushi -- 輝石街ジェルドラ：闇霊：つるはし
-847000 Heide Great Fire Tower: Second Lap Dark Spirit 1: Silver Chariot Assault Spear -- ハイデ大火塔：２周目闇霊１：シルバーチャリオットの突撃槍
-847100 Heide Great Fire Tower: Second Lap Dark Spirit 2: The Old Woman's Two-Handed Axe -- ハイデ大火塔：２周目闇霊２：聖女の付き人の両手長斧
-848000 Tomb of Immortality: Second Lap Dark Spirit 1: Phantom Mage's One Hand Sword -- 不死廟：２周目闇霊１：ファントムメイジの片手剣
-848100 Tomb of Immortality: Dark Spirit 2 (Ghost): Dagger -- 不死廟：闇霊２（亡霊）：短刀
-849000 King's Castle D'Angheig: Dark Spirit 1 (Ghost): Dagger -- 王城ドラングレイグ：闇霊１（亡霊）：短刀
-849100 King's Castle D'Angheig: The Dark Spirit 2 (Clown): The Fire of The Magic -- 王城ドラングレイグ：闇霊２（ピエロ）：呪術の火
-849200 King's Castle D'Angheig: Dark Spirit 3 (Transparent Armor): Shorter -- 王城ドラングレイグ：闇霊３（透明鎧）：ショーテル
-850000 Anne Deal's House: The Second Lap Dark Spirit (right): A dagger in a deformed shadow -- アン・ディールの館：２周目闇霊（右）：異形の影の短剣
-850001 Anne Deal's House: The Second Lap Dark Spirit (left): Rogue Dagger 2 -- アン・ディールの館：２周目闇霊（左）：ローグの短剣２
-851000 Valley of The Reservoir: Dark Spirit: The Two-Handed Sickle of the Man-Made Immortal -- 溜まりの谷：闇霊：人造不死人の両手鎌
-852000 Hunting Forest: Red Spirit Level 3: The Great Sword -- 狩猟の森：赤霊レベル３：グレートソード
-853000 King Castle D'Angheig: Two-Sword Avalin -- 王城ドラングレイグ：二刀流アヴァリン
-853100 King's Castle D'Angheig: Leroy: Estock -- 王城ドラングレイグ：リロイ：エストック
-853200 King's Castle D'Angheig: Second Lap Dark Spirit 1: Heavy Equipment: Demon Heavy Soldier Warpick -- 王城ドラングレイグ：２周目闇霊１：重装備：デーモン重兵士のウォーピック
-853300 King's Castle D'Angheig: 2 laps Dark Spirit 2: Knight: Long Sword -- 王城ドラングレイグ：２周目闇霊２：騎士：ロングソード
-853400 King's Castle D'Angheig: 2 laps: Dark Spirit 3: Long distance: Dragon Hunting Arch -- 王城ドラングレイグ：２周目闇霊３：遠距離：竜狩りの大弓
-853500 King's Castle D'Angheig: Dark Spirit Key number: Drying Rod -- 王城ドラングレイグ：闇霊鍵番：物干し竿
-854000 Hidden Port: Dark Spirit (Darth Mall): Statuenite's Double-Edged Sword -- 隠れ港：闇霊（ダースモール）：スタチューナイトの双刃剣
-867000 UNKNOWN
-880000 UNKNOWN
-883000 UNKNOWN
-885000 UNKNOWN
-885001 UNKNOWN
-885002 UNKNOWN
-886000 UNKNOWN
-887000 UNKNOWN
-888000 UNKNOWN
-889000 UNKNOWN
-890000 UNKNOWN
-892000 UNKNOWN
-893000 UNKNOWN
-894000 UNKNOWN
-895000 UNKNOWN
-896000 UNKNOWN
-897000 UNKNOWN
-898000 UNKNOWN
-899000 UNKNOWN
-900000 UNKNOWN
-910000 UNKNOWN
+1 Test 
+2 Test 
+3 Test 
+10 Unauthorized data (prohibited) 
+8182 Weapon Color Check 
+8183 Landing Check 
+732000 NPC: Pyromancy Flame (Lost Sinner Phantom)
+733000 NPC: Pyromancy Flame (Lost Sinner Phantom)
+741000 NPC: Bastard Sword (Crestfallen Saulden)
+761000 NPC: Falchion (Maughlin the Armourer)
+763000 NPC: Bone Staff (NPC)
+766000 NPC: Lizard Staff (Carhillion of the Fold)
+772000 NPC: Scythe (Magerold of Lanafir)
+784000 NPC: Great Scythe (Cromwell the Pardoner)
+810000 NPC: Zweihander (Masterless Glencour)
+811000 NPC: Composite Bow (Lone Hunter Schmidt)
+812000 NPC: Staff of Amana (Pilgrim Bellclaire)
+813000 NPC: Heide Greatlance (Felicia the Brave)
+814000 NPC: Greataxe (Melinda the Butcher)
+820000 NPC: Winged Spear (Vorgel the Sinner)
+821000 NPC: Bone Scythe (Merciless Roenna)
+822000 NPC: Black Witch's Staff (Peculiar Kindalur)
+823000 NPC: Black Dragon Greatsword (Dragonfang Villard/Transcendent Edde)
+824000 NPC: Mirrah Greatsword (Aslatiel of Mirrah)
+831000 NPC: Chime of Want (Dingy Cleric/Abbess Feeva/Evangelist Scion Waslo/Hexer Nicholai)
+831100 NPC: Ruler's Sword (Faraam Knight/Holy Knight Aurheim)
+832000 NPC: Composite Bow (Underworld Deadeye)
+832100 NPC: Drakekeeper's Great Hammer (Abyss Ironclad)
+832200 NPC: Pyromancy Flame (Pretender to the Xanthous Throne)
+832201 NPC: Notched Whip (Swashbuckling Matelas)
+832300 NPC: Pyromancy Flame (Pretender to the Xanthous Throne)
+832301 NPC: Notched Whip (NPC)
+832400 NPC: Bandit's Knife (Tenebrous Rogue)
+832401 NPC: Mytha's Bent Blade (Tenebrous Rogue)
+832500 NPC: Ricard's Rapier (The Ghost of Princes Past/Oliver the Collector)
+832600 NPC: Dragon Tooth (A Chip Off the Ol Rock/Ancient Soldier Varg)
+832700 NPC: Shotel (Shadowveil Assasin)
+832701 NPC: Warped Sword (Shadowveil Assasin)
+833000 NPC: Butcher's Knife (Peculiar Kindalur)
+835000 NPC: Black Dragon Greataxe (Black Dragon Knight) [Dragon Aerie]
+835001 NPC: Monastery Scimitar (Black Dragon Knight) [Dragon Aerie]
+835100 NPC: Black Dragon Warpick (Black Dragon Knight) [Dragon Aerie]
+835200 NPC: Black Dragon Sword (Black Dragon Knight) [Dragon Aerie]
+836000 NPC: Berserker Blade (Mad Warrior/Prowler) [Iron Keep]
+836001 NPC: Berserker Blade (Mad Warrior/Afflicted Graverobber) [Iron Keep]
+836100 NPC: Greatsword (Bell Keeper) [Iron Keep]
+836200 NPC: Avelyn (Bell Keeper) [Iron Keep]
+836300 NPC: Bat Staff (Bell Keeper) [Iron Keep]
+836301 NPC: Spitfire Spear (Bell Keeper) [Iron Keep]
+836400 NPC: Drakekeeper's Great Hammer (Ironclad Warrior) [Iron Keep]
+837000 NPC: Shortsword (NPC) [Things Betwixt]
+837100 NPC: Broken Straight Sword (Foreign Wanderer) [Things Betwixt]
+837200 NPC: Short Bow (Foreigner) [Things Betwixt]
+838000 NPC: Dagger (Forest Guardian) [Shaded Woods]
+838100 NPC: Longsword (Forest Guardian) [Shaded Woods]
+842000 NPC: Mastodon Greatsword (Syan Knight/Steel-willed Lorrie) [Forest of Fallen Giants]
+843000 NPC: Heide Knight Sword (Knight) [Forest of Fallen Giants]
+843001 NPC: Dagger (Knight/Butcher) [Forest of Fallen Giants]
+844000 NPC: Broadsword (Catarina Knight) [Forest of Fallen Giants]
+845000 NPC: Scimitar (NPC) [Forest of Fallen Giants]
+846000 NPC: Pickaxe (NPC) [Brightstone Cove Tseldora]
+847000 NPC: Chariot Lance (Executioner) [Heide's Tower of Flame]
+847100 NPC: Blue Knight's Halberd (Sentinel) [Heide's Tower of Flame]
+848000 NPC: Blue Flame (Swordsman) [Undead Crypt]
+848100 NPC: Bandit's Knife (NPC) [Undead Crypt]
+849000 NPC: Bandit's Knife (Nameless Usurper) [Drangleic Castle]
+849100 NPC: Pyromancy Flame (Jester Thomas) [Drangleic Castle]
+849200 NPC: Shotel (Rhoy the Explorer/Rapacious Andrei) [Drangleic Castle]
+850000 NPC: Shadow Dagger (Painting Guardian) [Aldia's Keep]
+850001 NPC: Broken Thief Sword (Painting Guardian) [Aldia's Keep]
+851000 NPC: Full Moon Sickle (NPC) [Harvest Valley]
+852000 NPC: Greatsword (NPC) [Huntsman's Copse]
+853000 NPC: Avelyn (Bowman Guthry) [Drangleic Castle]
+853100 NPC: Estoc (Ashen Knight Boyd/Twiggy Shei) [Drangleic Castle]
+853200 NPC: Drakekeeper's Warpick (Drakekeeper Knight/Wall Watchman) [Drangleic Castle]
+853300 NPC: Longsword (Elite Knight) [Drangleic Castle]
+853400 NPC: Dragonslayer Greatbow (Knight/Cerah the Old Explorer/Twiggy Shei) [Drangleic Castle]
+853500 NPC: Washing Pole (Samurai) [Drangleic Castle]
+854000 NPC: Stone Twinblade (Drifter Swordsman Aidel) [No-man's Wharf]
+867000 NPC: Caestus (Steelheart Ellie)
+880000 NPC: Drakeblood Greatsword (Drakeblood Knight Rondor)
+883000 NPC: Drakekeeper's Sword (Wall Watchman)
+885000 NPC: Puzzling Stone Sword (Fencer Sharron/Oliver the Collector)
+885001 NPC: Lion Greataxe (NPC)
+885002 NPC: Mastodon Halberd (NPC)
+886000 NPC: Greatshield of Glory (Sellsword Luet)
+887000 NPC: Mace (Devotee Scarlett)
+888000 NPC: Umbral Dagger (Bashful Ray)
+889000 NPC: Claws (Bashful Ray)
+890000 NPC: Heide Spear (Bradley of the Old Guard)
+892000 NPC: Giant Stone Axe (Woodland Child Victor/Woodland Child Gully)
+893000 NPC: Spider Fang (Fencer Sharron)
+894000 NPC: Blue Flame (Armorer Dennis)
+895000 NPC: Santier's Spear (Oliver the Collector)
+896000 NPC: Majestic Greatsword (Oliver the Collector)
+897000 NPC: Bone Fist (Oliver the Collector)
+898000 NPC: Smelter Hammer (Oliver the Collector)
+899000 NPC: Mace of the Insolent (Insolent Knight)
+900000 NPC: Greatsword of the Forlorn (Forlorn)
+910000 NPC: Scythe of the Forlorn (Forlorn)
 1000000 Dagger
 1010000 Bandit's Knife
 1040000 Mytha's Bent Blade
@@ -270,9 +270,9 @@
 3403000 Fists
 3404000 Fists
 3405000 Fists
-3406000 Fists
-3407000 Fists
-3408000 Fists
+3406000 Caestus
+3407000 Caestus
+3408000 Caestus
 3410000 Claws
 3420000 Malformed Claws
 3430000 Manikin Claws
@@ -365,35 +365,35 @@
 5640000 Greataxe [Recolor]
 5650000 Great Club [Recolor]
 5660000 Caestus [Recolor]
-6000000 6000: Torch (Small) -- 6000：松明（小）
+6000000 Torch
 6100000 Binoculars
-6300000 6300: Phantom - Dagger  -- 6300：幻影-短剣
-6310000 6310: Phantom - Swords  -- 6310：幻影-刺剣
-6320000 6320: Phantom - Song Sword -- 6320：幻影-曲剣
-6330000 6330: Phantom-Sword -- 6330：幻影-刀
-6340000 6340: Phantom - Direct Sword -- 6340：幻影-直剣
-6350000 6350: Phantom - Two-Handed Sword  -- 6350：幻影-両手剣
-6360000 6360: Phantom - One-handed battle  -- 6360：幻影-片手戦鎚
-6370000 6370: Phantom - Two-Handed Battle  -- 6370：幻影-両手戦鎚
-6380000 6380: Phantom - One Hand Axe -- 6380：幻影-片手斧
-6390000 6390: Phantom - Two-Handed Axe -- 6390：幻影-両手斧
-6400000 6400: Phantom -Spear -- 6400：幻影-槍
-6410000 6410: Phantom - Two-Handed Sickle -- 6410：幻影-両手鎌
-6420000 6420: Phantom - Two-Handed Long Axe  -- 6420：幻影-両手長斧
-6430000 6430: Phantom - Bare Hands -- 6430：幻影-素手
-6440000 6440: Phantom - Nails -- 6440：幻影-爪
-6450000 6450: Phantom - Torch -- 6450：幻影-松明
-6460000 6460: Phantom-Telescope  -- 6460：幻影-望遠鏡
-6470000 6470: Phantom-Whip  -- 6470：幻影-鞭
-6480000 6480: Phantom - One Hand Wand -- 6480：幻影-片手杖
-6490000 6490: Phantom - One Hand Bell -- 6490：幻影-片手ベル
-6500000 6500: Phantom - Two-Handed Bow -- 6500：幻影-両手弓
-6510000 6510: Phantom - Two Hands Large Bow  -- 6510：幻影-両手大弓
-6520000 6520: Phantom - One Hand Bow  -- 6520：幻影-片手ボウ
-6530000 6530: Phantom - Two-Handed Sword  -- 6530：幻影-両手大曲剣
-6540000 6540: Phantom - Two-Handed Oversized Sword -- 6540：幻影-両手特大剣
-6550000 6550: Phantom - Double Blade  -- 6550：幻影-双刃剣
-7010000 7010: Statue of a man for a cut scene -- 7010：カットシーン用人の像
+6300000 Ghost Phantom - Dagger  
+6310000 Ghost Phantom - Dagger
+6320000 Ghost Phantom - Curved Sword
+6330000 Ghost Phantom - Katana
+6340000 Ghost Phantom - Straight Sword
+6350000 Ghost Phantom - Greatsword
+6360000 Ghost Phantom - Hammer
+6370000 Ghost Phantom - Great Hammer
+6380000 Ghost Phantom - Axe
+6390000 Ghost Phantom - Greataxe
+6400000 Ghost Phantom - Spear 
+6410000 Ghost Phantom - Scythe
+6420000 Ghost Phantom - Halberd
+6430000 Ghost Phantom - Fists
+6440000 Ghost Phantom - Claw
+6450000 Ghost Phantom - Torch 
+6460000 Ghost Phantom - Binoculars
+6470000 Ghost Phantom - Whip  
+6480000 Ghost Phantom - Staff
+6490000 Ghost Phantom - Chime
+6500000 Ghost Phantom - Bow
+6510000 Ghost Phantom - Greatbow
+6520000 Ghost Phantom - Crossbow
+6530000 Ghost Phantom - Curved Greatsword
+6540000 Ghost Phantom - Ultra Greatsword
+6550000 Ghost Phantom - Twinblade
+7010000 Cutscene - Statue of a Man
 11000000 Buckler
 11005000 Benhart's Parma
 11010000 Small Leather Shield
@@ -468,6 +468,6 @@
 11820000 Bound Wooden Shield
 11830000 Homunculus Wooden Shield
 11840000 Transgressor's Leather Shield
-12000000 12000: Phantom - Small Shield -- 12000：幻影-小盾
-12010000 12010: Phantom - Medium Shield -- 12010：幻影-中盾
-12020000 12020: Phantom - Great Shield -- 12020：幻影-大盾
+12000000 Ghost Phantom - Small Shield 
+12010000 Ghost Phantom - Medium Shield 
+12020000 Ghost Phantom - Greatshield 
