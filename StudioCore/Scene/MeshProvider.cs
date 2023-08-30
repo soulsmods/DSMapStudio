@@ -350,6 +350,8 @@ namespace StudioCore.Scene
 
         public override SpecializationConstant[] SpecializationConstants => throw new NotImplementedException();
 
+        public string MeshName { get => System.IO.Path.GetFileNameWithoutExtension(_resourceName); }
+
         private void CreateSubmeshes()
         {
             _submeshes = new List<FlverSubmeshProvider>();
@@ -465,6 +467,8 @@ namespace StudioCore.Scene
             _resource.Get().GPUMeshes[_meshIndex].MeshFacesets[0].IndexCount : 0;
 
         public override uint VertexSize => _resource.Get().GPUMeshes[_meshIndex].Material.VertexSize;
+
+        public string MeshName { get => System.IO.Path.GetFileNameWithoutExtension(_resource.AssetVirtualPath); }
     }
 
 

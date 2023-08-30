@@ -166,6 +166,14 @@ namespace StudioCore.Scene
         private ModelMarkerType _placeholderType;
         private RenderableProxy? _placeholderProxy = null;
 
+        /// <summary>
+        /// List of assets starting IDs that will always receive a model marker.
+        /// Contains speedtree AEGs, which currently do not render in DSMS.
+        /// Can be removed when speedtree rendering is functional.
+        /// </summary>
+        private static readonly HashSet<string> _speedtreeAegNames = new()
+            {"AEG801", "AEG805", "AEG810", "AEG811", "AEG813", "AEG814", "AEG815", "AEG816"};
+
         private int _renderable = -1;
         private int _selectionOutlineRenderable = -1;
 
@@ -768,26 +776,41 @@ namespace StudioCore.Scene
                 }
             }
 
-            if (needsPlaceholder)
+            if (_placeholderType != ModelMarkerType.None)
             {
-                _placeholderProxy =
-                    DebugPrimitiveRenderableProxy.GetModelMarkerProxy(_renderablesSet, _placeholderType);
-                _placeholderProxy.World = World;
-                _placeholderProxy.Visible = Visible;
-                _placeholderProxy.DrawFilter = _drawfilter;
-                _placeholderProxy.DrawGroups = _drawgroups;
-                if (_selectable != null)
+                if (_meshProvider is FlverMeshProvider fProvider)
                 {
-                    _selectable.TryGetTarget(out var sel);
-                    if (sel != null)
+                    if (_speedtreeAegNames.FirstOrDefault(n => fProvider.MeshName.ToUpper().StartsWith(n)) != null)
                     {
-                        _placeholderProxy.SetSelectable(sel);
+                        if (fProvider.MeshName.ToUpper() != "AEG801_224")
+                        {
+                            // Non-rendering speedtree
+                            needsPlaceholder = true;
+                        }
                     }
                 }
 
-                if (_registered)
+                if (needsPlaceholder)
                 {
-                    _placeholderProxy.Register();
+                    _placeholderProxy =
+                        DebugPrimitiveRenderableProxy.GetModelMarkerProxy(_renderablesSet, _placeholderType);
+                    _placeholderProxy.World = World;
+                    _placeholderProxy.Visible = Visible;
+                    _placeholderProxy.DrawFilter = _drawfilter;
+                    _placeholderProxy.DrawGroups = _drawgroups;
+                    if (_selectable != null)
+                    {
+                        _selectable.TryGetTarget(out var sel);
+                        if (sel != null)
+                        {
+                            _placeholderProxy.SetSelectable(sel);
+                        }
+                    }
+
+                    if (_registered)
+                    {
+                        _placeholderProxy.Register();
+                    }
                 }
             }
         }
