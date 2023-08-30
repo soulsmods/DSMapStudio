@@ -130,7 +130,8 @@ namespace StudioCore
                 {
                     CFG.Current.LastProjectFile = "";
                     CFG.Save();
-                    PlatformUtils.Instance.MessageBox($"Project.json at \"{CFG.Current.LastProjectFile}\" does not exist.", "Project Load Error", MessageBoxButtons.OK);
+                    TaskLogs.AddLog($"Cannot load project: \"{CFG.Current.LastProjectFile}\" does not exist.",
+                        Microsoft.Extensions.Logging.LogLevel.Warning, TaskLogs.LogPriority.High);
                 }
             }
         }
@@ -456,8 +457,7 @@ namespace StudioCore
             if (gameType is GameType.DarkSoulsPTDE or GameType.DarkSoulsIISOTFS)
             {
                 TaskLogs.AddLog($"The files for {gameType} do not appear to be unpacked. Please use UDSFM for DS1:PTDE and UXM for DS2 to unpack game files",
-                    Microsoft.Extensions.Logging.LogLevel.Error,
-                    TaskLogs.LogPriority.High);
+                    Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High);
                 return false;
             }
             else
@@ -765,7 +765,8 @@ namespace StudioCore
                                 }
                                 else
                                 {
-                                    PlatformUtils.Instance.MessageBox($"Project.json at \"{p.ProjectFile}\" does not exist.\nRemoving project from recent projects list.", "Project Load Error", MessageBoxButtons.OK);
+                                    TaskLogs.AddLog($"Project.json at \"{p.ProjectFile}\" does not exist.\nRemoving project from recent projects list.",
+                                        Microsoft.Extensions.Logging.LogLevel.Warning, TaskLogs.LogPriority.High);
                                     CFG.Current.RecentProjects.Remove(p);
                                     CFG.Save();
                                 }

@@ -763,8 +763,7 @@ namespace StudioCore.MsbEditor
                                 }
                                 catch (SavingFailedException e)
                                 {
-                                    PlatformUtils.Instance.MessageBox(e.Wrapped.Message, e.Message,
-                                         MessageBoxButtons.OK, MessageBoxIcon.None);
+                                    ((MsbEditorScreen)_handler).HandleSaveException(e);
                                 }
                             }
                             if (ImGui.Selectable("Unload Map"))

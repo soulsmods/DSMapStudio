@@ -1528,12 +1528,13 @@ namespace StudioCore.ParamEditor
             }
             catch (SavingFailedException e)
             {
-                TaskLogs.AddLog($"{e.Message}. {e.Wrapped.Message}", Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High);
+                TaskLogs.AddLog(e.Message,
+                    Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High, e.Wrapped);
             }
             catch (Exception e)
             {
-                TaskLogs.AddLog(e.Message, Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High);
-                TaskLogs.AddLog($"{e.StackTrace}", Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.Low);
+                TaskLogs.AddLog(e.Message,
+                    Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High, e);
             }
         }
 
@@ -1549,12 +1550,13 @@ namespace StudioCore.ParamEditor
             }
             catch (SavingFailedException e)
             {
-                TaskLogs.AddLog($"{e.Message}. {e.Wrapped.Message}", Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High);
+                TaskLogs.AddLog($"{e.Message}",
+                    Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High, e.Wrapped);
             }
             catch (Exception e)
             {
-                TaskLogs.AddLog($"{e.Message}", Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High);
-                TaskLogs.AddLog($"{e.StackTrace}", Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.Low);
+                TaskLogs.AddLog($"{e.Message}",
+                    Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High, e);
             }
         }
 
