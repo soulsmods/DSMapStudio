@@ -915,8 +915,13 @@ namespace FSParam
                 br.AssertInt32(0);
                 long paramTypeOffset = br.ReadInt64();
                 br.AssertPattern(0x14, 0x00);
-                ParamType = br.GetASCII(paramTypeOffset);
-                actualStringsOffset = paramTypeOffset;
+
+                // Check if ParamTypeOffset is invalid and longer than file.
+                if (paramTypeOffset < br.Length)
+                {
+                    ParamType = br.GetASCII(paramTypeOffset);
+                    actualStringsOffset = paramTypeOffset;
+                }
             }
             else
             {
