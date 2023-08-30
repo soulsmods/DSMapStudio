@@ -1076,7 +1076,7 @@ namespace StudioCore.TextEditor
 
         public static void ReloadFMGs(string languageFolder = "")
         {
-            TaskManager.Run(new("FMG - Load Text", true, false, true, () =>
+            TaskManager.Run(new("FMG - Load Text", TaskManager.RequeueType.WaitThenRequeue, true, () =>
             {
                 IsLoaded = false;
                 IsLoading = true;
@@ -1196,8 +1196,8 @@ namespace StudioCore.TextEditor
                         return;
                     }
                 }
-                TaskLogs.AddLog($"Could not find a patch parent for FMG \"{info.Name}\" with ID {info.FmgID}",
-                    Microsoft.Extensions.Logging.LogLevel.Warning);
+                TaskLogs.AddLog($"Couldn't find patch parent for FMG \"{info.Name}\" with ID {info.FmgID}",
+                    Microsoft.Extensions.Logging.LogLevel.Error);
             }
         }
 
@@ -1585,7 +1585,8 @@ namespace StudioCore.TextEditor
                 }
                 catch (JsonException e)
                 {
-                    PlatformUtils.Instance.MessageBox($"{e.Message}\n\nCouldn't import '{filePath}'", "Import Error", MessageBoxButtons.OK);
+                    TaskLogs.AddLog($"{e.Message}\n\nCouldn't import \"{filePath}\"",
+                        Microsoft.Extensions.Logging.LogLevel.Warning, TaskLogs.LogPriority.High, e);
                 }
             }
 
@@ -1679,9 +1680,8 @@ namespace StudioCore.TextEditor
             }
             catch(MsbEditor.SavingFailedException e)
             {
-                PlatformUtils.Instance.MessageBox(e.Wrapped.Message, e.Message,
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.None);
+                TaskLogs.AddLog(e.Wrapped.Message,
+                    Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High, e.Wrapped);
             }
         }
 

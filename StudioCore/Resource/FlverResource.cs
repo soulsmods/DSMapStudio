@@ -366,7 +366,7 @@ namespace StudioCore.Resource
             }
         }
 
-        private void ProcessMaterialTexture(FlverMaterial dest, string type, string mpath, string mtd,
+        private void ProcessMaterialTexture(FlverMaterial dest, string texType, string mpath, string mtd, GameType gameType,
             out bool blend, out bool hasNormal2, out bool hasSpec2, out bool hasShininess2, out bool blendMask)
         {
             blend = false;
@@ -376,56 +376,72 @@ namespace StudioCore.Resource
             hasShininess2 = false;
 
             string paramNameCheck;
-            if (type == null)
+            if (texType == null)
             {
                 paramNameCheck = "G_DIFFUSE";
             }
             else
             {
-                paramNameCheck = type.ToUpper();
+                paramNameCheck = texType.ToUpper();
             }
             if (paramNameCheck == "G_DIFFUSETEXTURE2" || paramNameCheck == "G_DIFFUSE2" || paramNameCheck.Contains("ALBEDO_2"))
             {
-                LookupTexture(FlverMaterial.TextureType.AlbedoTextureResource2, dest, type, mpath, mtd);
+                LookupTexture(FlverMaterial.TextureType.AlbedoTextureResource2, dest, texType, mpath, mtd);
                 blend = true;
             }
             else if (paramNameCheck == "G_DIFFUSETEXTURE" || paramNameCheck == "G_DIFFUSE" || paramNameCheck.Contains("ALBEDO"))
             {
-                LookupTexture(FlverMaterial.TextureType.AlbedoTextureResource, dest, type, mpath, mtd);
+                LookupTexture(FlverMaterial.TextureType.AlbedoTextureResource, dest, texType, mpath, mtd);
             }
             else if (paramNameCheck == "G_BUMPMAPTEXTURE2" || paramNameCheck == "G_BUMPMAP2" || paramNameCheck.Contains("NORMAL_2"))
             {
-                LookupTexture(FlverMaterial.TextureType.NormalTextureResource2, dest, type, mpath, mtd);
+                LookupTexture(FlverMaterial.TextureType.NormalTextureResource2, dest, texType, mpath, mtd);
                 blend = true;
                 hasNormal2 = true;
             }
             else if (paramNameCheck == "G_BUMPMAPTEXTURE" || paramNameCheck == "G_BUMPMAP" || paramNameCheck.Contains("NORMAL"))
             {
-                LookupTexture(FlverMaterial.TextureType.NormalTextureResource, dest, type, mpath, mtd);
+                LookupTexture(FlverMaterial.TextureType.NormalTextureResource, dest, texType, mpath, mtd);
             }
             else if (paramNameCheck == "G_SPECULARTEXTURE2" || paramNameCheck == "G_SPECULAR2" || paramNameCheck.Contains("SPECULAR_2"))
             {
-                LookupTexture(FlverMaterial.TextureType.SpecularTextureResource2, dest, type, mpath, mtd);
-                blend = true;
-                hasSpec2 = true;
+                if (gameType == GameType.DarkSoulsRemastered)
+                {
+                    LookupTexture(FlverMaterial.TextureType.ShininessTextureResource2, dest, texType, mpath, mtd);
+                    blend = true;
+                    hasShininess2 = true;
+                }
+                else
+                {
+                    LookupTexture(FlverMaterial.TextureType.SpecularTextureResource2, dest, texType, mpath, mtd);
+                    blend = true;
+                    hasSpec2 = true;
+                }
             }
             else if (paramNameCheck == "G_SPECULARTEXTURE" || paramNameCheck == "G_SPECULAR" || paramNameCheck.Contains("SPECULAR"))
             {
-                LookupTexture(FlverMaterial.TextureType.SpecularTextureResource, dest, type, mpath, mtd);
+                if (gameType == GameType.DarkSoulsRemastered)
+                {
+                    LookupTexture(FlverMaterial.TextureType.ShininessTextureResource, dest, texType, mpath, mtd);
+                }
+                else
+                {
+                    LookupTexture(FlverMaterial.TextureType.SpecularTextureResource, dest, texType, mpath, mtd);
+                }
             }
             else if (paramNameCheck == "G_SHININESSTEXTURE2" || paramNameCheck == "G_SHININESS2" || paramNameCheck.Contains("SHININESS2"))
             {
-                LookupTexture(FlverMaterial.TextureType.ShininessTextureResource2, dest, type, mpath, mtd);
+                LookupTexture(FlverMaterial.TextureType.ShininessTextureResource2, dest, texType, mpath, mtd);
                 blend = true;
                 hasShininess2 = true;
             }
             else if (paramNameCheck == "G_SHININESSTEXTURE" || paramNameCheck == "G_SHININESS" || paramNameCheck.Contains("SHININESS"))
             {
-                LookupTexture(FlverMaterial.TextureType.ShininessTextureResource, dest, type, mpath, mtd);
+                LookupTexture(FlverMaterial.TextureType.ShininessTextureResource, dest, texType, mpath, mtd);
             }
             else if (paramNameCheck.Contains("BLENDMASK"))
             {
-                LookupTexture(FlverMaterial.TextureType.BlendmaskTextureResource, dest, type, mpath, mtd);
+                LookupTexture(FlverMaterial.TextureType.BlendmaskTextureResource, dest, texType, mpath, mtd);
                 blendMask = true;
             }
         }
@@ -494,7 +510,7 @@ namespace StudioCore.Resource
 
             foreach (var matparam in mat.Textures)
             {
-                ProcessMaterialTexture(dest, matparam.Type, matparam.Path, mat.MTD,
+                ProcessMaterialTexture(dest, matparam.Type, matparam.Path, mat.MTD, type,
                     out blend, out hasNormal2, out hasSpec2, out hasShininess2, out blendMask);
             }
 
@@ -557,7 +573,7 @@ namespace StudioCore.Resource
             {
                 string ttype = isUTF ? br.GetUTF16(textures[i].typeOffset) : br.GetShiftJIS(textures[i].typeOffset);
                 string tpath = isUTF ? br.GetUTF16(textures[i].pathOffset) : br.GetShiftJIS(textures[i].pathOffset);
-                ProcessMaterialTexture(dest, ttype, tpath, mtd,
+                ProcessMaterialTexture(dest, ttype, tpath, mtd, type,
                     out blend, out hasNormal2, out hasSpec2, out hasShininess2, out blendMask);
             }
 

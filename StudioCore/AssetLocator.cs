@@ -499,21 +499,18 @@ namespace StudioCore
                     path = $@"map\{mapid}";
 
                 List<string> files = new();
-                try
+
+                if (Directory.Exists($@"{GameRootDirectory}\{path}"))
                 {
                     files.AddRange(Directory.GetFiles($@"{GameRootDirectory}\{path}", "*.btl").ToList());
                     files.AddRange(Directory.GetFiles($@"{GameRootDirectory}\{path}", "*.btl.dcx").ToList());
-                    if (Directory.Exists($"{GameModDirectory}\\{path}"))
-                    {
-                        // Check for additional BTLs the user has created.
-                        files.AddRange(Directory.GetFiles($@"{GameModDirectory}\{path}", "*.btl").ToList());
-                        files.AddRange(Directory.GetFiles($@"{GameModDirectory}\{path}", "*.btl.dcx").ToList());
-                        files = files.DistinctBy(f => f.Split("\\").Last()).ToList();
-                    }
                 }
-                catch (DirectoryNotFoundException)
+                if (Directory.Exists($@"{GameModDirectory}\{path}"))
                 {
-                    return adList;
+                    // Check for additional BTLs the user has created.
+                    files.AddRange(Directory.GetFiles($@"{GameModDirectory}\{path}", "*.btl").ToList());
+                    files.AddRange(Directory.GetFiles($@"{GameModDirectory}\{path}", "*.btl.dcx").ToList());
+                    files = files.DistinctBy(f => f.Split("\\").Last()).ToList();
                 }
 
                 foreach (var file in files)

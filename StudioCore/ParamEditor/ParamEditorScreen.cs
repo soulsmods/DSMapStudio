@@ -287,12 +287,18 @@ namespace StudioCore.ParamEditor
         private void ParamUndo()
         {
             EditorActionManager.UndoAction();
-            TaskManager.Run(new("Param - Check Differences", false, true, true, TaskLogs.LogPriority.Low, () => ParamBank.PrimaryBank.RefreshParamDiffCaches()));
+            TaskManager.Run(new("Param - Check Differences",
+                TaskManager.RequeueType.Repeat, true,
+                TaskLogs.LogPriority.Low,
+                () => ParamBank.PrimaryBank.RefreshParamDiffCaches()));
         }
         private void ParamRedo()
         {
             EditorActionManager.RedoAction();
-            TaskManager.Run(new("Param - Check Differences", false, true, true, TaskLogs.LogPriority.Low, () => ParamBank.PrimaryBank.RefreshParamDiffCaches()));
+            TaskManager.Run(new("Param - Check Differences",
+                TaskManager.RequeueType.Repeat, true,
+                TaskLogs.LogPriority.Low,
+                () => ParamBank.PrimaryBank.RefreshParamDiffCaches()));
         }
 
         private IReadOnlyList<Param.Row> CsvExportGetRows(ParamBank.RowGetType rowType)
@@ -550,7 +556,10 @@ namespace StudioCore.ParamEditor
                                     {
                                         if (action.HasActions)
                                             EditorActionManager.ExecuteAction(action);
-                                        TaskManager.Run(new("Param - Check Differences", false, true, true, TaskLogs.LogPriority.Low, () => ParamBank.PrimaryBank.RefreshParamDiffCaches()));
+                                        TaskManager.Run(new("Param - Check Differences",
+                                            TaskManager.RequeueType.Repeat, true,
+                                            TaskLogs.LogPriority.Low,
+                                            () => ParamBank.PrimaryBank.RefreshParamDiffCaches()));
                                     }
                                     else
                                         PlatformUtils.Instance.MessageBox(result, "Error", MessageBoxButtons.OK, MessageBoxIcon.None);
@@ -574,7 +583,10 @@ namespace StudioCore.ParamEditor
                                         EditorActionManager.ExecuteAction(action);
                                     else
                                         PlatformUtils.Instance.MessageBox(result, "Error", MessageBoxButtons.OK, MessageBoxIcon.None);
-                                    TaskManager.Run(new("Param - Check Differences", false, true, true, TaskLogs.LogPriority.Low, () => ParamBank.PrimaryBank.RefreshParamDiffCaches()));
+                                    TaskManager.Run(new("Param - Check Differences",
+                                        TaskManager.RequeueType.Repeat,
+                                        true, TaskLogs.LogPriority.Low,
+                                        () => ParamBank.PrimaryBank.RefreshParamDiffCaches()));
                                 }
                             }
                         }
@@ -599,7 +611,10 @@ namespace StudioCore.ParamEditor
                                                 EditorActionManager.ExecuteAction(action);
                                             else
                                                 PlatformUtils.Instance.MessageBox(result, "Error", MessageBoxButtons.OK, MessageBoxIcon.None);
-                                            TaskManager.Run(new("Param - Check Differences", false, true, true, TaskLogs.LogPriority.Low, () => ParamBank.PrimaryBank.RefreshParamDiffCaches()));
+                                            TaskManager.Run(new("Param - Check Differences",
+                                                TaskManager.RequeueType.Repeat,
+                                                true, TaskLogs.LogPriority.Low,
+                                                () => ParamBank.PrimaryBank.RefreshParamDiffCaches()));
                                         }
                                     }
                                 }
@@ -1007,7 +1022,10 @@ namespace StudioCore.ParamEditor
                     {
                         _lastMEditRegexInput = _currentMEditRegexInput;
                         _currentMEditRegexInput = "";
-                        TaskManager.Run(new("Param - Check Differences", false, true, true, TaskLogs.LogPriority.Low, () => ParamBank.PrimaryBank.RefreshParamDiffCaches()));
+                        TaskManager.Run(new("Param - Check Differences",
+                            TaskManager.RequeueType.Repeat,
+                            true, TaskLogs.LogPriority.Low,
+                            () => ParamBank.PrimaryBank.RefreshParamDiffCaches()));
                     }
                     _mEditRegexResult = r.Information;
                 }
@@ -1049,7 +1067,10 @@ namespace StudioCore.ParamEditor
                     {
                         if (action.HasActions)
                             EditorActionManager.ExecuteAction(action);
-                        TaskManager.Run(new("Param - Check Differences", false, true, true, TaskLogs.LogPriority.Low, () => ParamBank.PrimaryBank.RefreshParamDiffCaches()));
+                        TaskManager.Run(new("Param - Check Differences",
+                            TaskManager.RequeueType.Repeat, true,
+                            TaskLogs.LogPriority.Low,
+                            () => ParamBank.PrimaryBank.RefreshParamDiffCaches()));
                     }
                     _mEditCSVResult = result;
                 }
@@ -1176,6 +1197,11 @@ namespace StudioCore.ParamEditor
             if (ParamBank.PrimaryBank.Params == null)
             {
                 ImGui.Text("No params loaded");
+                return;
+            }
+            if (!ParamBank.IsMetaLoaded)
+            {
+                ImGui.Text("Loading Meta...");
                 return;
             }
 
@@ -1506,12 +1532,13 @@ namespace StudioCore.ParamEditor
             }
             catch (SavingFailedException e)
             {
-                TaskLogs.AddLog($"{e.Message}. {e.Wrapped.Message}", Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High);
+                TaskLogs.AddLog(e.Message,
+                    Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High, e.Wrapped);
             }
             catch (Exception e)
             {
-                TaskLogs.AddLog(e.Message, Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High);
-                TaskLogs.AddLog($"{e.StackTrace}", Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.Low);
+                TaskLogs.AddLog(e.Message,
+                    Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High, e);
             }
         }
 
@@ -1527,12 +1554,13 @@ namespace StudioCore.ParamEditor
             }
             catch (SavingFailedException e)
             {
-                TaskLogs.AddLog($"{e.Message}. {e.Wrapped.Message}", Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High);
+                TaskLogs.AddLog($"{e.Message}",
+                    Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High, e.Wrapped);
             }
             catch (Exception e)
             {
-                TaskLogs.AddLog($"{e.Message}", Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High);
-                TaskLogs.AddLog($"{e.StackTrace}", Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.Low);
+                TaskLogs.AddLog($"{e.Message}",
+                    Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High, e);
             }
         }
 

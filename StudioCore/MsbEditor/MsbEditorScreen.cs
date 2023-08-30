@@ -1181,10 +1181,13 @@ namespace StudioCore.MsbEditor
             }
         }
 
-        private void HandleSaveException(SavingFailedException e)
+        public void HandleSaveException(SavingFailedException e)
         {
             if (e.Wrapped is MSB.MissingReferenceException eRef)
             {
+                TaskLogs.AddLog(e.Message,
+                    Microsoft.Extensions.Logging.LogLevel.Error,TaskLogs.LogPriority.Normal, e.Wrapped);
+
                 var result = PlatformUtils.Instance.MessageBox($"{eRef.Message}\nSelect referring map entity?", "Failed to save map",
                      MessageBoxButtons.YesNo,
                      MessageBoxIcon.Error);
@@ -1203,15 +1206,15 @@ namespace StudioCore.MsbEditor
                             }
                         }
                     }
-                    TaskLogs.AddLog($"Could not select referrer: Unable to find map entity \"{eRef.Referrer.Name}\"",
-                        Microsoft.Extensions.Logging.LogLevel.Warning);
+
+                    TaskLogs.AddLog($"Unable to find map entity \"{eRef.Referrer.Name}\"",
+                        Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High);
                 }
             }
             else
             {
-                PlatformUtils.Instance.MessageBox(e.Wrapped.Message, e.Message,
-                     MessageBoxButtons.OK,
-                     MessageBoxIcon.None);
+                TaskLogs.AddLog(e.Message,
+                    Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High, e.Wrapped);
             }
         }
 
