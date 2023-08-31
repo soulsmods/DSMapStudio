@@ -3,11 +3,11 @@ using System.Runtime.InteropServices;
 
 namespace SoulsFormats
 {
-    internal class Oodle26 : IOodleCompressor
+    internal class Oodle28 : IOodleCompressor
     {
         public unsafe byte[] Compress(Span<byte> source, Oodle.OodleLZ_Compressor compressor, Oodle.OodleLZ_CompressionLevel level)
         {
-            IntPtr pOptions = OodleLZ_CompressOptions_GetDefault(compressor, level);
+            IntPtr pOptions = OodleLZ_CompressOptions_GetDefault();
             Oodle.OodleLZ_CompressOptions options = Marshal.PtrToStructure<Oodle.OodleLZ_CompressOptions>(pOptions);
             // Required for the game to not crash
             options.seekChunkReset = true;
@@ -18,7 +18,7 @@ namespace SoulsFormats
             try
             {
                 Marshal.StructureToPtr(options, pOptions, false);
-                long compressedBufferSizeNeeded = OodleLZ_GetCompressedBufferSizeNeeded(source.Length);
+                long compressedBufferSizeNeeded = OodleLZ_GetCompressedBufferSizeNeeded(0, source.Length);
                 byte[] compBuf = new byte[compressedBufferSizeNeeded];
                 fixed (byte* ptr = source)
                 {
@@ -36,7 +36,7 @@ namespace SoulsFormats
 
         public unsafe Memory<byte> Decompress(Span<byte> source, long uncompressedSize)
         {
-            long decodeBufferSize = OodleLZ_GetDecodeBufferSize(uncompressedSize, true);
+            long decodeBufferSize = OodleLZ_GetDecodeBufferSize(0, uncompressedSize, true);
             byte[] rawBuf = new byte[decodeBufferSize];
             fixed (byte* ptr = source)
             {
@@ -56,7 +56,7 @@ namespace SoulsFormats
         /// <param name="lrm">= NULL</param>
         /// <param name="scratchMem">= NULL</param>
         /// <param name="scratchSize">= 0</param>
-        [DllImport("oo2core_6_win64.dll", CallingConvention = CallingConvention.StdCall)]
+        [DllImport("oo2core_8_win64.dll", CallingConvention = CallingConvention.StdCall)]
         private static extern unsafe long OodleLZ_Compress(
             Oodle.OodleLZ_Compressor compressor,
             byte* rawBuf,
@@ -77,14 +77,8 @@ namespace SoulsFormats
 
         /// <param name="compressor">= OodleLZ_Compressor_Invalid</param>
         /// <param name="lzLevel">= OodleLZ_CompressionLevel_Normal</param>
-        [DllImport("oo2core_6_win64.dll", CallingConvention = CallingConvention.StdCall)]
-        private static extern IntPtr OodleLZ_CompressOptions_GetDefault(
-            Oodle.OodleLZ_Compressor compressor,
-            Oodle.OodleLZ_CompressionLevel lzLevel);
-
-        public static IntPtr OodleLZ_CompressOptions_GetDefault()
-            => OodleLZ_CompressOptions_GetDefault(Oodle.OodleLZ_Compressor.OodleLZ_Compressor_Invalid, Oodle.OodleLZ_CompressionLevel.OodleLZ_CompressionLevel_Normal);
-
+        [DllImport("oo2core_8_win64.dll", CallingConvention = CallingConvention.StdCall)]
+        public static extern IntPtr OodleLZ_CompressOptions_GetDefault();
 
         /// <param name="compBuf"></param>
         /// <param name="compBufSize"></param>
@@ -100,7 +94,7 @@ namespace SoulsFormats
         /// <param name="decoderMemory">= NULL</param>
         /// <param name="decoderMemorySize">= 0</param>
         /// <param name="threadPhase">= OodleLZ_Decode_Unthreaded</param>
-        [DllImport("oo2core_6_win64.dll", CallingConvention = CallingConvention.StdCall)]
+        [DllImport("oo2core_8_win64.dll", CallingConvention = CallingConvention.StdCall)]
         private static extern unsafe long OodleLZ_Decompress(
             byte* compBuf,
             long compBufSize,
@@ -124,15 +118,20 @@ namespace SoulsFormats
                 IntPtr.Zero, 0, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, 0, Oodle.OodleLZ_Decode_ThreadPhase.OodleLZ_Decode_Unthreaded);
 
 
-        [DllImport("oo2core_6_win64.dll", CallingConvention = CallingConvention.StdCall)]
+        [DllImport("oo2core_8_win64.dll", CallingConvention = CallingConvention.StdCall)]
         private static extern long OodleLZ_GetCompressedBufferSizeNeeded(
-               long rawSize);
+                byte unk,
+                long rawSize);
 
 
-        [DllImport("oo2core_6_win64.dll", CallingConvention = CallingConvention.StdCall)]
+        [DllImport("oo2core_8_win64.dll", CallingConvention = CallingConvention.StdCall)]
         private static extern long OodleLZ_GetDecodeBufferSize(
+            byte unk,
             long rawSize,
             [MarshalAs(UnmanagedType.Bool)]
             bool corruptionPossible);
+
+
+
     }
 }

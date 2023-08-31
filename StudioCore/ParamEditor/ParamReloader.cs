@@ -581,7 +581,8 @@ namespace StudioCore.ParamEditor
 
         internal int GetRowCount(GameOffsets gOffsets, IntPtr paramPtr)
         {
-            if (gOffsets.type >= GameType.DarkSoulsIII)
+            //TODO AC6
+            if (gOffsets.type is GameType.DarkSoulsIII or GameType.Sekiro or GameType.EldenRing)
                 return GetRowCountInt(gOffsets, paramPtr);
 
             return GetRowCountShort(gOffsets, paramPtr);

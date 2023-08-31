@@ -487,6 +487,10 @@ namespace StudioCore.Resource
                     dest.SetHasIndexNoWeightTransform();
                 }
             }
+            else if (type == GameType.ArmoredCoreVI)
+            {
+                //TODO AC6
+            }
 
             if (!CFG.Current.EnableTexturing)
             {
@@ -2135,13 +2139,18 @@ namespace StudioCore.Resource
         public bool _Load(Memory<byte> bytes, AccessLevel al, GameType type)
         {
             bool ret;
-            if (type == GameType.DemonsSouls)
+            if (type == GameType.ArmoredCoreVI)
+            {
+                //TODO AC6
+                return false;
+            }
+            else if (type == GameType.DemonsSouls)
             {
                 FlverDeS = FLVER0.Read(bytes);
                 ret = LoadInternalDeS(al, type);
             }
             else
-            {
+            {   
                 if (al == AccessLevel.AccessGPUOptimizedOnly && type != GameType.DarkSoulsRemastered && type != GameType.DarkSoulsPTDE)
                 {
                     BinaryReaderEx br = new BinaryReaderEx(false, bytes);
@@ -2163,7 +2172,12 @@ namespace StudioCore.Resource
         public bool _Load(string path, AccessLevel al, GameType type)
         {
             bool ret;
-            if (type == GameType.DemonsSouls)
+            if (type == GameType.ArmoredCoreVI)
+            {
+                //TODO AC6
+                return false;
+            }
+            else if (type == GameType.DemonsSouls)
             {
                 FlverDeS = FLVER0.Read(path);
                 ret = LoadInternalDeS(al, type);

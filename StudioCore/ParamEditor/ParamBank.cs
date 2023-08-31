@@ -198,11 +198,23 @@ namespace StudioCore.ParamEditor
                 {
                     continue;
                 }
-                if (f.Name.EndsWith("LoadBalancerParam.param") && AssetLocator.Type != GameType.EldenRing)
-                {
-                    continue;
-                }
+
                 FSParam.Param p = FSParam.Param.Read(f.Bytes);
+
+                if (AssetLocator.Type == GameType.ArmoredCoreVI)
+                {
+                    if (p.ParamType == "")
+                    {
+                        TaskLogs.AddLog($"Couldn't read ParamType (empty string) for {Path.GetFileNameWithoutExtension(f.Name)}, used file name as ParamType.");
+                        p.ParamType = Path.GetFileNameWithoutExtension(f.Name);
+                    }
+                    else if (p.ParamType == null)
+                    {
+                        TaskLogs.AddLog($"Couldn't read ParamType (null) for {Path.GetFileNameWithoutExtension(f.Name)}, used file name as ParamType.");
+                        p.ParamType = Path.GetFileNameWithoutExtension(f.Name);
+                    }
+                }
+
                 if (!_paramdefs.ContainsKey(p.ParamType) && !_patchParamdefs.ContainsKey(p.ParamType))
                 {
                     continue;
@@ -769,6 +781,34 @@ namespace StudioCore.ParamEditor
             LoadParamFromBinder(SFUtil.DecryptERRegulation(path), ref _params, out _paramVersion, true);
         }
 
+        private void LoadParamsAC6()
+        {
+            var dir = AssetLocator.GameRootDirectory;
+            var mod = AssetLocator.GameModDirectory;
+            if (!File.Exists($@"{dir}\\regulation.bin"))
+            {
+                //MessageBox.Show("Could not find param file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //return null;
+                throw new FileNotFoundException("Could not find param file. Functionality will be limited.");
+            }
+
+            // Load params
+            var param = $@"{mod}\regulation.bin";
+            if (!File.Exists(param))
+            {
+                param = $@"{dir}\regulation.bin";
+            }
+            LoadParamsAC6FromFile(param);
+        }
+        private void LoadVParamsAC6()
+        {
+            LoadParamsAC6FromFile($@"{AssetLocator.GameRootDirectory}\regulation.bin");
+        }
+        private void LoadParamsAC6FromFile(string path)
+        {
+            LoadParamFromBinder(SFUtil.DecryptAC6Regulation(path), ref _params, out _paramVersion, true);
+        }
+
         //Some returns and repetition, but it keeps all threading and loading-flags visible inside this method
         public static void ReloadParams(ProjectSettings settings, NewProjectOptions options)
         {
@@ -826,6 +866,10 @@ namespace StudioCore.ParamEditor
                 {
                     PrimaryBank.LoadParamsER(settings.PartialParams);
                 }
+                if (locator.Type == GameType.ArmoredCoreVI)
+                {
+                    PrimaryBank.LoadParamsAC6();
+                }
 
                 PrimaryBank.ClearParamDiffCaches();
                 PrimaryBank.IsLoadingParams = false;
@@ -862,6 +906,10 @@ namespace StudioCore.ParamEditor
                     {
                         VanillaBank.LoadVParamsER();
                     }
+                    if (locator.Type == GameType.ArmoredCoreVI)
+                    {
+                        VanillaBank.LoadVParamsAC6();
+                    }
                     VanillaBank.IsLoadingParams = false;
 
                     TaskManager.Run(new("Param - Check Differences",
@@ -895,7 +943,11 @@ namespace StudioCore.ParamEditor
             newBank.SetAssetLocator(locator);
             newBank._params = new Dictionary<string, Param>();
             newBank.IsLoadingParams = true;
-            if (locator.Type == GameType.EldenRing)
+            if (locator.Type == GameType.ArmoredCoreVI)
+            {
+                newBank.LoadParamsAC6FromFile(path);
+            }
+            else if (locator.Type == GameType.EldenRing)
             {
                 newBank.LoadParamsERFromFile(path);
             }
@@ -1488,6 +1540,39 @@ namespace StudioCore.ParamEditor
             Utils.WriteWithBackup(dir, mod, @"regulation.bin", paramBnd, GameType.EldenRing);
             _pendingUpgrade = false;
         }
+        private void SaveParamsAC6()
+        {
+            var dir = AssetLocator.GameRootDirectory;
+            var mod = AssetLocator.GameModDirectory;
+            if (!File.Exists($@"{dir}\\regulation.bin"))
+            {
+                PlatformUtils.Instance.MessageBox("Could not find param file. Cannot save.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // Load params
+            var param = $@"{mod}\regulation.bin";
+            if (!File.Exists(param) || _pendingUpgrade)
+            {
+                param = $@"{dir}\regulation.bin";
+            }
+            BND4 paramBnd = SFUtil.DecryptERRegulation(param);
+
+            // Replace params with edited ones
+            foreach (var p in paramBnd.Files)
+            {
+                if (_params.ContainsKey(Path.GetFileNameWithoutExtension(p.Name)))
+                {
+                    Param paramFile = _params[Path.GetFileNameWithoutExtension(p.Name)];
+                    IReadOnlyList<Param.Row> backup = paramFile.Rows;
+                    List<Param.Row> changed = new List<Param.Row>();
+                    p.Bytes = paramFile.Write();
+                    paramFile.Rows = backup;
+                }
+            }
+            Utils.WriteWithBackup(dir, mod, @"regulation.bin", paramBnd, GameType.ArmoredCoreVI);
+            _pendingUpgrade = false;
+        }
 
         public void SaveParams(bool loose = false, bool partialParams = false)
         {
@@ -1522,6 +1607,10 @@ namespace StudioCore.ParamEditor
             if (AssetLocator.Type == GameType.EldenRing)
             {
                 SaveParamsER(partialParams);
+            }
+            if (AssetLocator.Type == GameType.ArmoredCoreVI)
+            {
+                SaveParamsAC6();
             }
         }
 
@@ -1758,7 +1847,20 @@ namespace StudioCore.ParamEditor
                 return ParamUpgradeResult.OldRegulationNotFound;
 
             // Load old vanilla regulation
-            BND4 oldVanillaParamBnd = SFUtil.DecryptERRegulation(oldVanillaParamPath);
+            BND4 oldVanillaParamBnd;
+            if (AssetLocator.Type == GameType.EldenRing)
+            {
+                oldVanillaParamBnd = SFUtil.DecryptERRegulation(oldVanillaParamPath);
+            }
+            else if (AssetLocator.Type == GameType.ArmoredCoreVI)
+            {
+                oldVanillaParamBnd = SFUtil.DecryptAC6Regulation(oldVanillaParamPath);
+            }
+            else
+            {
+                throw new NotImplementedException($"Param upgrading for game type {AssetLocator.Type} is not supported.");
+            }
+
             var oldVanillaParams = new Dictionary<string, Param>();
             ulong version;
             LoadParamFromBinder(oldVanillaParamBnd, ref oldVanillaParams, out version, true);
@@ -1826,6 +1928,10 @@ namespace StudioCore.ParamEditor
                     (11001000L, "1.10 - (ToughnessParam) Set unk1 to Vanilla v1.10 values", "param ToughnessParam: modified && !added: unk1: = vanillafield unk1;"),
                     (11001000L, "1.10 - (ToughnessParam) Set unk2 to Vanilla v1.10 values", "param ToughnessParam: modified && !added: unk2: = vanillafield unk2;"),
                 };
+            }
+            else if (AssetLocator.Type == GameType.ArmoredCoreVI)
+            {
+                throw new NotImplementedException();
             }
 
             List<string> performed = new List<string>();
