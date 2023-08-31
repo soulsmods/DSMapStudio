@@ -834,11 +834,7 @@ namespace StudioCore.ParamEditor
                 {
                     try
                     {
-                        if (_projectSettings.GameType == GameType.ArmoredCoreVI)
-                        {
-                            //TODO AC6
-                        }
-                        else if (_projectSettings.GameType != GameType.DarkSoulsIISOTFS)
+                        if (_projectSettings.GameType != GameType.DarkSoulsIISOTFS)
                         {
                             using FileChooserNative fileChooser = new FileChooserNative("Select file containing params",
                                 null, FileChooserAction.Open, "Open", "Cancel");
@@ -1921,10 +1917,6 @@ namespace StudioCore.ParamEditor
                         CacheBank.ClearCaches();
                     ImGui.Separator();
                 }
-                else if (ParamBank.PrimaryBank.AssetLocator.Type is GameType.ArmoredCoreVI)
-                {
-                    //TODO AC6
-                }
 
                 List<string> pinnedParamKeyList = new List<string>(_paramEditor._projectSettings.PinnedParams);
 
@@ -1967,7 +1959,6 @@ namespace StudioCore.ParamEditor
                 float scrollTo = 0f;
                 if (ImGui.BeginChild("paramTypes"))
                 {
-
                     List<string> paramKeyList = CacheBank.GetCached(this._paramEditor, _viewIndex, () => {
                         var list = ParamSearchEngine.pse.Search(true, _selection.currentParamSearchString, true, true);
                         var keyList = list.Where((param) => param.Item1 == ParamBank.PrimaryBank).Select((param) => ParamBank.PrimaryBank.GetKeyForParam(param.Item2)).ToList();
@@ -1987,10 +1978,6 @@ namespace StudioCore.ParamEditor
                                 keyList = keyList.FindAll(p => ParamBank.DS2MapParamlist.Contains(p.Split('_')[0]));
                             else
                                 keyList = keyList.FindAll(p => !ParamBank.DS2MapParamlist.Contains(p.Split('_')[0]));
-                        }
-                        else if (ParamBank.PrimaryBank.AssetLocator.Type is GameType.ArmoredCoreVI)
-                        {
-                            //TODO AC6
                         }
 
                         if (CFG.Current.Param_AlphabeticalParams)

@@ -947,7 +947,7 @@ namespace StudioCore.ParamEditor
             {
                 newBank.LoadParamsAC6FromFile(path);
             }
-            if (locator.Type == GameType.EldenRing)
+            else if (locator.Type == GameType.EldenRing)
             {
                 newBank.LoadParamsERFromFile(path);
             }

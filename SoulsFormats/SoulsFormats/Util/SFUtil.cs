@@ -556,6 +556,17 @@ namespace SoulsFormats
             File.WriteAllBytes(path, bytes);
         }
 
+        /// <summary>
+        /// Repacks and encrypts ER's regulation BND4 to the specified path.
+        /// </summary>
+        public static void EncryptAC6Regulation(string path, BND4 bnd)
+        {
+            byte[] bytes = bnd.Write();
+            bytes = EncryptByteArray(ac6RegulationKey, bytes);
+            Directory.CreateDirectory(Path.GetDirectoryName(path));
+            File.WriteAllBytes(path, bytes);
+        }
+
         private static byte[] EncryptByteArray(byte[] key, byte[] secret)
         {
             using MemoryStream ms = new MemoryStream();
