@@ -3,9 +3,9 @@ using System.Runtime.InteropServices;
 
 namespace SoulsFormats
 {
-    internal static class Oodle28
+    internal class Oodle28 : IOodleCompressor
     {
-        public static unsafe byte[] Compress(Span<byte> source, Oodle.OodleLZ_Compressor compressor, Oodle.OodleLZ_CompressionLevel level)
+        public unsafe byte[] Compress(Span<byte> source, Oodle.OodleLZ_Compressor compressor, Oodle.OodleLZ_CompressionLevel level)
         {
             IntPtr pOptions = OodleLZ_CompressOptions_GetDefault();
             Oodle.OodleLZ_CompressOptions options = Marshal.PtrToStructure<Oodle.OodleLZ_CompressOptions>(pOptions);
@@ -34,7 +34,7 @@ namespace SoulsFormats
             }
         }
 
-        public static unsafe Memory<byte> Decompress(Span<byte> source, long uncompressedSize)
+        public unsafe Memory<byte> Decompress(Span<byte> source, long uncompressedSize)
         {
             long decodeBufferSize = OodleLZ_GetDecodeBufferSize(0, uncompressedSize, true);
             byte[] rawBuf = new byte[decodeBufferSize];
@@ -59,7 +59,6 @@ namespace SoulsFormats
         [DllImport("oo2core_8_win64.dll", CallingConvention = CallingConvention.StdCall)]
         private static extern unsafe long OodleLZ_Compress(
             Oodle.OodleLZ_Compressor compressor,
-            [MarshalAs(UnmanagedType.LPArray)]
             byte* rawBuf,
             long rawLen,
             [MarshalAs(UnmanagedType.LPArray)]
@@ -97,7 +96,6 @@ namespace SoulsFormats
         /// <param name="threadPhase">= OodleLZ_Decode_Unthreaded</param>
         [DllImport("oo2core_8_win64.dll", CallingConvention = CallingConvention.StdCall)]
         private static extern unsafe long OodleLZ_Decompress(
-            [MarshalAs(UnmanagedType.LPArray)]
             byte* compBuf,
             long compBufSize,
             [MarshalAs(UnmanagedType.LPArray)]

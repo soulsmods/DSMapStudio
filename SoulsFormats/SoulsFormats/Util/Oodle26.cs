@@ -3,9 +3,9 @@ using System.Runtime.InteropServices;
 
 namespace SoulsFormats
 {
-    internal static class Oodle26
+    internal class Oodle26 : IOodleCompressor
     {
-        public static unsafe byte[] Compress(Span<byte> source, Oodle.OodleLZ_Compressor compressor, Oodle.OodleLZ_CompressionLevel level)
+        public unsafe byte[] Compress(Span<byte> source, Oodle.OodleLZ_Compressor compressor, Oodle.OodleLZ_CompressionLevel level)
         {
             IntPtr pOptions = OodleLZ_CompressOptions_GetDefault(compressor, level);
             Oodle.OodleLZ_CompressOptions options = Marshal.PtrToStructure<Oodle.OodleLZ_CompressOptions>(pOptions);
@@ -34,7 +34,7 @@ namespace SoulsFormats
             }
         }
 
-        public static unsafe Memory<byte> Decompress(Span<byte> source, long uncompressedSize)
+        public unsafe Memory<byte> Decompress(Span<byte> source, long uncompressedSize)
         {
             long decodeBufferSize = OodleLZ_GetDecodeBufferSize(uncompressedSize, true);
             byte[] rawBuf = new byte[decodeBufferSize];
@@ -82,7 +82,7 @@ namespace SoulsFormats
             Oodle.OodleLZ_Compressor compressor,
             Oodle.OodleLZ_CompressionLevel lzLevel);
 
-        private static IntPtr OodleLZ_CompressOptions_GetDefault()
+        public static IntPtr OodleLZ_CompressOptions_GetDefault()
             => OodleLZ_CompressOptions_GetDefault(Oodle.OodleLZ_Compressor.OodleLZ_Compressor_Invalid, Oodle.OodleLZ_CompressionLevel.OodleLZ_CompressionLevel_Normal);
 
 

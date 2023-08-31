@@ -1,92 +1,44 @@
 ﻿using System;
-using System.ComponentModel;
+using System.IO;
 using System.Runtime.InteropServices;
 
 namespace SoulsFormats;
 
 public class Oodle
 {
-    static IntPtr Oodle6Ptr = IntPtr.Zero;
-    static IntPtr Oodle8Ptr = IntPtr.Zero;
-    /*
-    // Commented out while we figure out how to juggle using oodle26 vs oodle28
+    public class NoOodleFoundException : Exception
+    {
+        public NoOodleFoundException(string message) : base(message) { }
+    }
+
+    static bool Oodle6Exists = false;
+    static bool Oodle8Exists = false;
 
     public static IOodleCompressor GetOodleCompressor()
     {
-        if (Oodle6Ptr != IntPtr.Zero)
+        if (Oodle8Exists)
+        {
+            return new Oodle28();
+        }
+        if (Oodle6Exists)
         {
             return new Oodle26();
         }
 
-        if (Oodle8Ptr != IntPtr.Zero)
+        if (Path.Exists($@"{Directory.GetCurrentDirectory()}\oo2core_8_win64.dll"))
         {
+            Oodle8Exists = true;
             return new Oodle28();
         }
-
-        IntPtr oodle6Ptr = Kernel32.LoadLibrary("oo2core_6_win64.dll");
-        if (oodle6Ptr != IntPtr.Zero)
+        if (Path.Exists($@"{Directory.GetCurrentDirectory()}\oo2core_8_win64.dll"))
         {
-            Oodle6Ptr = oodle6Ptr;
+            Oodle6Exists = true;
             return new Oodle26();
         }
-        int oodle6Error = Kernel32.GetLastError();
-        
-        IntPtr oodle8Ptr = Kernel32.LoadLibrary("oo2core_8_win64.dll");
-        if (oodle8Ptr != IntPtr.Zero)
-        {
-            Oodle8Ptr = oodle8Ptr;
-            return new Oodle28();
-        }
-        int oodle8Error = Kernel32.GetLastError();
-        
-        string oodle6ErrorMessage = new Win32Exception(oodle6Error).Message;
-        string oodle8ErrorMessage = new Win32Exception(oodle8Error).Message;
-        
+
         throw new NoOodleFoundException($"Could not find a supported version of oo2core. "
-            + $"Please copy oo2core_6_win64.dll or oo2core_8_win64.dll into the program directory\n"
-            + $"Last Error Oodle 6: {oodle6ErrorMessage}\n"
-            + $"Last Error Oodle 8: {oodle8ErrorMessage}\n"
-        );
+            + $"Please copy oo2core_6_win64.dll or oo2core_8_win64.dll into the program directory");
     }
-
-    private static int _oodleVersion = -1;
-    public static IOodleCompressor GetOodleCompressor2()
-    {
-        switch (_oodleVersion)
-        {
-            case 6:
-                return new Oodle26();
-            case 8:
-                return new Oodle28();
-        }
-        
-        try
-        {
-            Oodle26.OodleLZ_CompressOptions_GetDefault();
-            _oodleVersion = 6;
-            return new Oodle26();
-        }
-        catch (EntryPointNotFoundException ex)
-        {
-            try
-            {
-                Oodle28.OodleLZ_CompressOptions_GetDefault();
-                _oodleVersion = 8;
-                return new Oodle28();
-            }
-            catch (EntryPointNotFoundException innerEx)
-            {
-                throw new NoOodleFoundException(
-                    $"Could not find a supported version of oo2core. "
-                    + $"Please copy oo2core_6_win64.dll or oo2core_8_win64.dll into the program directory\n"
-                    + $"{ex.Message}\n"
-                    + $"{innerEx.Message}"
-                );
-            }
-        }
-    }
-    */
-
 
     [StructLayout(LayoutKind.Sequential)]
     public struct OodleLZ_CompressOptions
