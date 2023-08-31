@@ -63,7 +63,13 @@ namespace StudioCore
             // Hack to make sure dialogs work before the main window is created
             PlatformUtils.InitializeWindows(null);
             CFG.AttemptLoadOrDefault();
+            
+            Environment.SetEnvironmentVariable("PATH", Environment.GetEnvironmentVariable("PATH") + Path.PathSeparator + "bin");
+            Environment.SetEnvironmentVariable("GTK_PATH", Environment.GetEnvironmentVariable("GTK_PATH") + Path.PathSeparator + "etc\\gtk-3.0");
+            Environment.SetEnvironmentVariable("GDK_PIXBUF_MODULE_FILE", "lib\\gdk-pixbuf-2.0\\2.10.0\\loaders.cache");
+
             Application.Init();
+            Gtk.IconTheme.Default.AppendSearchPath("share\\icons");
             
             _context = context;
             _context.Initialize();
