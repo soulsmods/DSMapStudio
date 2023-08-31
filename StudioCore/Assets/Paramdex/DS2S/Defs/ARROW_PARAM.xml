@@ -33,7 +33,7 @@
     <Field Def="u8 apply_poison" />
     <Field Def="u8 damage_bleed" />
     <Field Def="u8 apply_bleed" />
-    <Field Def="u8 Unk54" />
+    <Field Def="u8 damage_durability" />
     <Field Def="u8 Unk55" />
     <Field Def="u8 ammo_type" />
     <Field Def="u8 Unk57" />

@@ -79,7 +79,7 @@ namespace StudioCore.ParamEditor
                         catch (Exception e)
                         {
                             TaskLogs.AddLog($"Error loading mass edit script {name}",
-                                Microsoft.Extensions.Logging.LogLevel.Warning);
+                                Microsoft.Extensions.Logging.LogLevel.Warning, TaskLogs.LogPriority.Normal, e);
                             return null;
                         }
                     }).ToList();
@@ -89,10 +89,10 @@ namespace StudioCore.ParamEditor
                     scriptList = new List<MassEditScript>();
                 }
             }
-            catch
+            catch(Exception e)
             {
                 TaskLogs.AddLog($"Error loading mass edit scripts in {dir}",
-                    Microsoft.Extensions.Logging.LogLevel.Warning);
+                    Microsoft.Extensions.Logging.LogLevel.Warning, TaskLogs.LogPriority.Normal, e);
                 scriptList = new List<MassEditScript>();
             }
         }

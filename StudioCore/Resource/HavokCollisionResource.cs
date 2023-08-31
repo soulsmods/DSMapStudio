@@ -625,7 +625,11 @@ namespace StudioCore.Resource
                 var des = new HKX2.PackFileDeserializer();
                 Hkx2 = (hkRootLevelContainer)des.Deserialize(br);
             }
-            else
+            else if (type == GameType.ArmoredCoreVI)
+            {
+                //TODO AC6
+            }
+            else 
             {
                 Hkx = HKX.Read(bytes);
             }
@@ -633,6 +637,10 @@ namespace StudioCore.Resource
             if (type == GameType.DarkSoulsIISOTFS || type == GameType.DarkSoulsIII || type == GameType.Bloodborne)
             {
                 FrontFace = VkFrontFace.Clockwise;
+            }
+            else if (type == GameType.ArmoredCoreVI)
+            {
+                //TODO AC6
             }
             else
             {
@@ -642,6 +650,10 @@ namespace StudioCore.Resource
             if (type == GameType.DarkSoulsIII)
             {
                 return LoadInternalNew(al);
+            }
+            else if (type == GameType.ArmoredCoreVI)
+            {
+                //TODO AC6
             }
             return LoadInternal(al);
         }
@@ -660,6 +672,10 @@ namespace StudioCore.Resource
                 var des = new HKX2.PackFileDeserializer();
                 Hkx2 = (hkRootLevelContainer)des.Deserialize(br);
             }
+            else if (type == GameType.ArmoredCoreVI)
+            {
+                //TODO AC6
+            }
             else
             {
                 Hkx = HKX.Read(file);
@@ -669,6 +685,10 @@ namespace StudioCore.Resource
             {
                 FrontFace = VkFrontFace.Clockwise;
             }
+            else if (type == GameType.ArmoredCoreVI)
+            {
+                //TODO AC6
+            }
             else
             {
                 FrontFace = VkFrontFace.CounterClockwise;
@@ -677,6 +697,10 @@ namespace StudioCore.Resource
             if (type == GameType.DarkSoulsIII)
             {
                 return LoadInternalNew(al);
+            }
+            else if (type == GameType.ArmoredCoreVI)
+            {
+                //TODO AC6
             }
             return LoadInternal(al);
         }

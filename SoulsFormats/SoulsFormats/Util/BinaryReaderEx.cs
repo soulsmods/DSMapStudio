@@ -808,9 +808,13 @@ namespace SoulsFormats
         /// </summary>
         public TEnum ReadEnum8<TEnum>() where TEnum : Enum
         {
-            return ReadEnum<TEnum, byte>(ReadByte, "0x{0:X}");
+            Type typ = Enum.GetUnderlyingType(typeof(TEnum));
+            if (typ == typeof(byte))
+                return ReadEnum<TEnum, byte>(ReadByte, "0x{0:X}");
+            if (typ == typeof(sbyte))
+                return ReadEnum<TEnum, sbyte>(ReadSByte, "0x{0:X}");
+            throw new InvalidDataException($"Enum {typeof(TEnum).Name} has an invalid underlying value type: {typ.Name}");
         }
-
 
         /// <summary>
         /// Reads a one-byte enum from the specified position without advancing the stream.
@@ -828,7 +832,12 @@ namespace SoulsFormats
         /// </summary>
         public TEnum ReadEnum16<TEnum>() where TEnum : Enum
         {
-            return ReadEnum<TEnum, ushort>(ReadUInt16, "0x{0:X}");
+            Type typ = Enum.GetUnderlyingType(typeof(TEnum));
+            if (typ == typeof(short))
+                return ReadEnum<TEnum, short>(ReadInt16, "0x{0:X}");
+            if (typ == typeof(ushort))
+                return ReadEnum<TEnum, ushort>(ReadUInt16, "0x{0:X}");
+            throw new InvalidDataException($"Enum {typeof(TEnum).Name} has an invalid underlying value type: {typ.Name}");
         }
 
         /// <summary>
@@ -847,15 +856,12 @@ namespace SoulsFormats
         /// </summary>
         public TEnum ReadEnum32<TEnum>() where TEnum : Enum
         {
-            return ReadEnum<TEnum, uint>(ReadUInt32, "0x{0:X}");
-        }
-
-        /// <summary>
-        /// Reads a four-byte value as the specified enum, throwing an exception if not present.
-        /// </summary>
-        public TEnum ReadEnumInt32<TEnum>() where TEnum : Enum
-        {
-            return ReadEnum<TEnum, int>(ReadInt32, "0x{0:X}");
+            Type typ = Enum.GetUnderlyingType(typeof(TEnum));
+            if (typ == typeof(int))
+                return ReadEnum<TEnum, int>(ReadInt32, "0x{0:X}");
+            if (typ == typeof(uint))
+                return ReadEnum<TEnum, uint>(ReadUInt32, "0x{0:X}");
+            throw new InvalidDataException($"Enum {typeof(TEnum).Name} has an invalid underlying value type: {typ.Name}");
         }
 
         /// <summary>
@@ -874,7 +880,12 @@ namespace SoulsFormats
         /// </summary>
         public TEnum ReadEnum64<TEnum>() where TEnum : Enum
         {
-            return ReadEnum<TEnum, ulong>(ReadUInt64, "0x{0:X}");
+            Type typ = Enum.GetUnderlyingType(typeof(TEnum));
+            if (typ == typeof(long))
+                return ReadEnum<TEnum, long>(ReadInt64, "0x{0:X}");
+            if (typ == typeof(ulong))
+                return ReadEnum<TEnum, ulong>(ReadUInt64, "0x{0:X}");
+            throw new InvalidDataException($"Enum {typeof(TEnum).Name} has an invalid underlying value type: {typ.Name}");
         }
 
         /// <summary>

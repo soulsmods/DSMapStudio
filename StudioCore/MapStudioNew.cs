@@ -63,7 +63,13 @@ namespace StudioCore
             // Hack to make sure dialogs work before the main window is created
             PlatformUtils.InitializeWindows(null);
             CFG.AttemptLoadOrDefault();
+            
+            Environment.SetEnvironmentVariable("PATH", Environment.GetEnvironmentVariable("PATH") + Path.PathSeparator + "bin");
+            Environment.SetEnvironmentVariable("GTK_PATH", Environment.GetEnvironmentVariable("GTK_PATH") + Path.PathSeparator + "etc\\gtk-3.0");
+            Environment.SetEnvironmentVariable("GDK_PIXBUF_MODULE_FILE", "lib\\gdk-pixbuf-2.0\\2.10.0\\loaders.cache");
+
             Application.Init();
+            Gtk.IconTheme.Default.AppendSearchPath("share\\icons");
             
             _context = context;
             _context.Initialize();
@@ -113,14 +119,25 @@ namespace StudioCore
                     }
                     else
                     {
-                        AttemptLoadProject(settings, CFG.Current.LastProjectFile, false);
+                        try
+                        {
+                            AttemptLoadProject(settings, CFG.Current.LastProjectFile, false);
+                        }
+                        catch
+                        {
+                            CFG.Current.LastProjectFile = "";
+                            CFG.Save();
+                            PlatformUtils.Instance.MessageBox($"Failed to load last project. Project will not be loaded after restart.", "Project Load Error", MessageBoxButtons.OK);
+                            throw;
+                        }
                     }
                 }
                 else
                 {
-                    PlatformUtils.Instance.MessageBox($"Project.json at \"{CFG.Current.LastProjectFile}\" does not exist.", "Project Load Error", MessageBoxButtons.OK);
                     CFG.Current.LastProjectFile = "";
                     CFG.Save();
+                    TaskLogs.AddLog($"Cannot load project: \"{CFG.Current.LastProjectFile}\" does not exist.",
+                        Microsoft.Extensions.Logging.LogLevel.Warning, TaskLogs.LogPriority.High);
                 }
             }
         }
@@ -215,38 +232,29 @@ namespace StudioCore
 
         private bool _programUpdateAvailable = false;
         private string _releaseUrl = "";
-        private async Task CheckProgramUpdate()
+        private void CheckProgramUpdate()
         {
             GitHubClient gitHubClient = new GitHubClient(new ProductHeaderValue("DSMapStudio"));
-            try
+            Release release = gitHubClient.Repository.Release.GetLatest("soulsmods", "DSMapStudio").Result;
+            bool isVer = false;
+            string verstring = "";
+            foreach (char c in release.TagName)
             {
-                Release release = await gitHubClient.Repository.Release.GetLatest("soulsmods", "DSMapStudio");
-                bool isVer = false;
-                string verstring = "";
-                foreach (char c in release.TagName)
+                if (char.IsDigit(c) || (isVer && c == '.'))
                 {
-                    if (char.IsDigit(c) || (isVer && c == '.'))
-                    {
-                        verstring += c;
-                        isVer = true;
-                    }
-                    else
-                    {
-                        isVer = false;
-                    }
+                    verstring += c;
+                    isVer = true;
                 }
-                if (Version.Parse(verstring) > Version.Parse(_version))
+                else
                 {
-                    // Update available
-                    _programUpdateAvailable = true;
-                    _releaseUrl = release.HtmlUrl;
+                    isVer = false;
                 }
             }
-            catch(Exception e)
+            if (Version.Parse(verstring) > Version.Parse(_version))
             {
-                TaskLogs.AddLog($"Failed to check for program updates",
-                    Microsoft.Extensions.Logging.LogLevel.Warning,
-                    TaskLogs.LogPriority.Low);
+                // Update available
+                _programUpdateAvailable = true;
+                _releaseUrl = release.HtmlUrl;
             }
         }
 
@@ -271,12 +279,16 @@ namespace StudioCore
 
             if (CFG.Current.EnableSoapstone)
             {
-                SoapstoneServer.RunAsync(KnownServer.DSMapStudio, _soapstoneService);
+                TaskManager.RunPassiveTask(new("Soapstone Server",
+                    TaskManager.RequeueType.None, true,
+                    () => SoapstoneServer.RunAsync(KnownServer.DSMapStudio, _soapstoneService).Wait()));
             }
 
             if (CFG.Current.EnableCheckProgramUpdate)
             {
-                CheckProgramUpdate();
+                TaskManager.Run(new("Check Program Updates",
+                    TaskManager.RequeueType.None, true,
+                    () => CheckProgramUpdate()));
             }
 
             long previousFrameTicks = 0;
@@ -451,8 +463,12 @@ namespace StudioCore
             if (gameType is GameType.DarkSoulsPTDE or GameType.DarkSoulsIISOTFS)
             {
                 TaskLogs.AddLog($"The files for {gameType} do not appear to be unpacked. Please use UDSFM for DS1:PTDE and UXM for DS2 to unpack game files",
-                    Microsoft.Extensions.Logging.LogLevel.Error,
-                    TaskLogs.LogPriority.High);
+                    Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High);
+                return false;
+            }
+            else if (gameType is GameType.ArmoredCoreVI)
+            {
+                //TODO AC6
                 return false;
             }
             else
@@ -516,16 +532,15 @@ namespace StudioCore
                     if (!GameNotUnpackedWarning(settings.GameType))
                         return false;
                 }
-                if ((settings.GameType == GameType.Sekiro || settings.GameType == GameType.EldenRing) && !File.Exists(Path.Join(Path.GetFullPath("."), "oo2core_6_win64.dll")))
+                if ((settings.GameType == GameType.Sekiro || settings.GameType == GameType.EldenRing))
                 {
-                    if (!File.Exists(Path.Join(settings.GameRoot, "oo2core_6_win64.dll")))
-                    {
-                        PlatformUtils.Instance.MessageBox($"Could not find file \"oo2core_6_win64.dll\" in \"{settings.GameRoot}\", which should be included by default.\n\nTry reinstalling the game.", "Error",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.None);
+                    if (!StealGameDllIfMissing(settings, "oo2core_6_win64"))
                         return false;
-                    }
-                    File.Copy(Path.Join(settings.GameRoot, "oo2core_6_win64.dll"), Path.Join(Path.GetFullPath("."), "oo2core_6_win64.dll"));
+                }
+                else if (settings.GameType == GameType.ArmoredCoreVI)
+                {
+                    if (!StealGameDllIfMissing(settings, "oo2core_8_win64"))
+                        return false;
                 }
                 _projectSettings = settings;
                 ChangeProjectSettings(_projectSettings, Path.GetDirectoryName(filename), options);
@@ -546,6 +561,22 @@ namespace StudioCore
                 }
             }
             return success;
+        }
+
+        private bool StealGameDllIfMissing(ProjectSettings settings, string dllName)
+        {
+            dllName = dllName+".dll";
+            if (File.Exists(Path.Join(Path.GetFullPath("."), dllName)))
+                return true;
+            if (!File.Exists(Path.Join(settings.GameRoot, dllName)))
+            {
+                PlatformUtils.Instance.MessageBox($"Could not find file \"{dllName}\" in \"{settings.GameRoot}\", which should be included by default.\n\nTry verifying or reinstalling the game.", "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.None);
+                return false;
+            }
+            File.Copy(Path.Join(settings.GameRoot, dllName), Path.Join(Path.GetFullPath("."), dllName));
+            return true;
         }
 
         //Unhappy with this being here
@@ -676,7 +707,6 @@ namespace StudioCore
             }
 
             Tracy.TracyCZoneEnd(ctx);
-            List<string> tasks = Editor.TaskManager.GetLiveThreads();
             Editor.TaskManager.ThrowTaskExceptions();
 
             string[] commandsplit = EditorCommandQueue.GetNextCommand();
@@ -722,11 +752,11 @@ namespace StudioCore
                     {
                         CFG.Current.EnableTexturing = !CFG.Current.EnableTexturing;
                     }
-                    if (ImGui.MenuItem("New Project", "", false, Editor.TaskManager.GetLiveThreads().Count == 0))
+                    if (ImGui.MenuItem("New Project", "", false, !TaskManager.AnyActiveTasks()))
                     {
                         newProject = true;
                     }
-                    if (ImGui.MenuItem("Open Project", "", false, Editor.TaskManager.GetLiveThreads().Count == 0))
+                    if (ImGui.MenuItem("Open Project", "", false, !TaskManager.AnyActiveTasks()))
                     {
                         using FileChooserNative fileChooser = new FileChooserNative("Choose the project json file",
                             null, FileChooserAction.Open, "Open", "Cancel");
@@ -740,7 +770,7 @@ namespace StudioCore
                             }
                         }
                     }
-                    if (ImGui.BeginMenu("Recent Projects", Editor.TaskManager.GetLiveThreads().Count == 0 && CFG.Current.RecentProjects.Count > 0))
+                    if (ImGui.BeginMenu("Recent Projects", !TaskManager.AnyActiveTasks() && CFG.Current.RecentProjects.Count > 0))
                     {
                         CFG.RecentProject recent = null;
                         int id = 0;
@@ -761,7 +791,8 @@ namespace StudioCore
                                 }
                                 else
                                 {
-                                    PlatformUtils.Instance.MessageBox($"Project.json at \"{p.ProjectFile}\" does not exist.\nRemoving project from recent projects list.", "Project Load Error", MessageBoxButtons.OK);
+                                    TaskLogs.AddLog($"Project.json at \"{p.ProjectFile}\" does not exist.\nRemoving project from recent projects list.",
+                                        Microsoft.Extensions.Logging.LogLevel.Warning, TaskLogs.LogPriority.High);
                                     CFG.Current.RecentProjects.Remove(p);
                                     CFG.Save();
                                 }
@@ -785,19 +816,19 @@ namespace StudioCore
                         }
                         ImGui.EndMenu();
                     }
-                    if (ImGui.BeginMenu("Open in Explorer", Editor.TaskManager.GetLiveThreads().Count == 0 && CFG.Current.RecentProjects.Count > 0))
+                    if (ImGui.BeginMenu("Open in Explorer", !TaskManager.AnyActiveTasks() && CFG.Current.RecentProjects.Count > 0))
                     {
-                        if (ImGui.MenuItem("Open Project Folder", "", false, Editor.TaskManager.GetLiveThreads().Count == 0))
+                        if (ImGui.MenuItem("Open Project Folder", "", false, !TaskManager.AnyActiveTasks()))
                         {
                             string projectPath = _assetLocator.GameModDirectory;
                             Process.Start("explorer.exe", projectPath);
                         }
-                        if (ImGui.MenuItem("Open Game Folder", "", false, Editor.TaskManager.GetLiveThreads().Count == 0))
+                        if (ImGui.MenuItem("Open Game Folder", "", false, !TaskManager.AnyActiveTasks()))
                         {
                             var gamePath = _assetLocator.GameRootDirectory;
                             Process.Start("explorer.exe", gamePath);
                         }
-                        if (ImGui.MenuItem("Open Config Folder", "", false, Editor.TaskManager.GetLiveThreads().Count == 0))
+                        if (ImGui.MenuItem("Open Config Folder", "", false, !TaskManager.AnyActiveTasks()))
                         {
                             var configPath = CFG.GetConfigFolderPath();
                             Process.Start("explorer.exe", configPath);
@@ -1127,6 +1158,10 @@ namespace StudioCore
                     ImGui.SameLine();
                     ImGui.TextUnformatted("Warning: partial params require merging before use in game.\nRow names on unchanged rows will be forgotten between saves");
                 }
+                else if (_newProjectOptions.settings.GameType is GameType.ArmoredCoreVI)
+                {
+                    //TODO AC6
+                }
                 ImGui.NewLine();
 
                 ImGui.AlignTextToFramePadding();
@@ -1136,12 +1171,6 @@ namespace StudioCore
                     "Default: ON\nImports and applies row names from lists stored in Assets folder.\nRow names can be imported at any time in the param editor's Edit menu.");
                 ImGui.SameLine();
                 ImGui.Checkbox("##loadDefaultNames", ref _newProjectOptions.loadDefaultNames);
-                if (_newProjectOptions.settings.UseLooseParams == false
-                    && _newProjectOptions.loadDefaultNames == true
-                    && _newProjectOptions.settings.GameType == GameType.DarkSoulsIISOTFS)
-                {
-                    ImGui.TextColored(new Vector4(1.0f, 0.4f, 0.4f, 1.0f), "Warning: Saving too many row names onto non-loose params will crash the game. It is highly recommended you use loose params with Dark Souls 2.");
-                }
                 ImGui.NewLine();
 
                 if (_newProjectOptions.settings.GameType == GameType.Undefined)
@@ -1284,7 +1313,7 @@ namespace StudioCore
 
             if (!_initialLoadComplete)
             {
-                if (!tasks.Any())
+                if (!TaskManager.AnyActiveTasks())
                 {
                     _initialLoadComplete = true;
                 }

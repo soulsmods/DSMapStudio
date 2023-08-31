@@ -12,12 +12,11 @@
 		<Option Value="7" Name="Projectile" />
 	</Enum>
   </Enums>
-  <Self Row0Dummy="" />
+  <Self Wiki="Defines parameters relating to weapons." Row0Dummy="" />
   <Field>
-    <weapon_motion_id AltName="Weapon Motion ID" Refs="WeaponAttackMotionParam" />
     <weapon_model_id AltName="Weapon Model ID" />
     <weapon_reinforce_id AltName="Weapon Reinforce ID" Refs="WeaponReinforceParam" />
-    <action_category_id AltName="Action Category ID" />
+    <weapon_action_category_id AltName="Weapon Action Category ID" Refs="WeaponActionCategoryParam" />
     <weapon_type_id AltName="Weapon Type ID" Refs="WeaponTypeParam" />
     <str_requirement AltName="STR Requirement" />
     <dex_requirement AltName="DEX Requirement" />

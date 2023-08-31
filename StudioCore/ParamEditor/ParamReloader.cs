@@ -32,7 +32,7 @@ namespace StudioCore.ParamEditor
 
         public static void ReloadMemoryParams(ParamBank bank, AssetLocator loc, string[] paramNames)
         {
-            TaskManager.Run(new("Param - Hot Reload", true, true, true, () =>
+            TaskManager.Run(new("Param - Hot Reload", TaskManager.RequeueType.WaitThenRequeue, true, () =>
             {
                 GameOffsets offsets = GetGameOffsets(loc);
                 var processArray = Process.GetProcessesByName(offsets.exeName);
@@ -581,7 +581,8 @@ namespace StudioCore.ParamEditor
 
         internal int GetRowCount(GameOffsets gOffsets, IntPtr paramPtr)
         {
-            if (gOffsets.type >= GameType.DarkSoulsIII)
+            //TODO AC6
+            if (gOffsets.type is GameType.DarkSoulsIII or GameType.Sekiro or GameType.EldenRing)
                 return GetRowCountInt(gOffsets, paramPtr);
 
             return GetRowCountShort(gOffsets, paramPtr);

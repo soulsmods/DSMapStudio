@@ -108,8 +108,8 @@ namespace StudioCore.Resource
                 }
                 catch (Exception e)
                 {
-                    TaskLogs.AddLog($"Failed to load TPF \"{action._filePath}\": {e.Message}", Microsoft.Extensions.Logging.LogLevel.Warning, TaskLogs.LogPriority.Normal);
-                    TaskLogs.AddLog($"{e.StackTrace}", Microsoft.Extensions.Logging.LogLevel.Warning, TaskLogs.LogPriority.Low);
+                    TaskLogs.AddLog($"Failed to load TPF \"{action._filePath}\": {e.Message}",
+                        Microsoft.Extensions.Logging.LogLevel.Warning, TaskLogs.LogPriority.Normal, e);
                     return new LoadTPFTextureResourceRequest[]{};
                 }
             }
@@ -263,8 +263,8 @@ namespace StudioCore.Resource
                         }
                         catch(Exception e)
                         {
-                            TaskLogs.AddLog($"Failed to load TPF \"{t.Item1}\": {e.Message}", Microsoft.Extensions.Logging.LogLevel.Warning, TaskLogs.LogPriority.Normal);
-                            TaskLogs.AddLog($"{e.StackTrace}", Microsoft.Extensions.Logging.LogLevel.Warning, TaskLogs.LogPriority.Low);
+                            TaskLogs.AddLog($"Failed to load TPF \"{t.Item1}\"",
+                                Microsoft.Extensions.Logging.LogLevel.Warning, TaskLogs.LogPriority.Normal, e);
                         }
                         i++;
                     }
@@ -272,8 +272,8 @@ namespace StudioCore.Resource
             }
             catch(Exception e)
             {
-                TaskLogs.AddLog($"Failed to load binder \"{action.BinderVirtualPath}\": {e.Message}", Microsoft.Extensions.Logging.LogLevel.Warning, TaskLogs.LogPriority.Normal);
-                TaskLogs.AddLog($"{e.StackTrace}", Microsoft.Extensions.Logging.LogLevel.Warning, TaskLogs.LogPriority.Low);
+                TaskLogs.AddLog($"Failed to load binder \"{action.BinderVirtualPath}\"",
+                    Microsoft.Extensions.Logging.LogLevel.Warning, TaskLogs.LogPriority.Normal, e);
             }
 
             action.PendingResources.Clear();
@@ -641,6 +641,11 @@ namespace StudioCore.Resource
                     return new BXF3Reader(filePath, filePath.Substring(0, filePath.Length - 3) + "bdt");
                 }
                 return new BND3Reader(filePath);
+            }
+            else if (type == GameType.ArmoredCoreVI)
+            {
+                //TODO AC6
+                return null;
             }
             else
             {

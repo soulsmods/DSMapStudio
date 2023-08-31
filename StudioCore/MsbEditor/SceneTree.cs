@@ -115,6 +115,10 @@ namespace StudioCore.MsbEditor
             {
                 mapcache.Add(MapEntity.MapEntityType.Light, new Dictionary<Type, List<MapEntity>>());
             }
+            else if (_assetLocator.Type is GameType.ArmoredCoreVI)
+            {
+                //TODO AC6
+            }
             else if (_assetLocator.Type is GameType.DarkSoulsIISOTFS)
             {
                 mapcache.Add(MapEntity.MapEntityType.Light, new Dictionary<Type, List<MapEntity>>());
@@ -510,6 +514,10 @@ namespace StudioCore.MsbEditor
                                         MapObjectSelectable(obj, true);
                                     }
                                 }
+                                else if (_assetLocator.Type is GameType.ArmoredCoreVI)
+                                {
+                                    //TODO AC6
+                                }
                                 else if (cats.Key == MapEntity.MapEntityType.Light)
                                 {
                                     foreach (var parent in map.BTLParents)
@@ -748,9 +756,13 @@ namespace StudioCore.MsbEditor
                                             _selection.ClearSelection();
                                         }
                                         _universe.LoadMap(mapid, false);
-                                        _universe.LoadRelatedMaps(mapid, _universe.LoadedObjectContainers);
+                                        _universe.LoadRelatedMapsER(mapid, _universe.LoadedObjectContainers);
                                     }
                                 }
+                            }
+                            else if (_universe.GameType is GameType.ArmoredCoreVI)
+                            {
+                                //TODO AC6
                             }
                         }
                         else if (map is Map m)
@@ -763,8 +775,7 @@ namespace StudioCore.MsbEditor
                                 }
                                 catch (SavingFailedException e)
                                 {
-                                    PlatformUtils.Instance.MessageBox(e.Wrapped.Message, e.Message,
-                                         MessageBoxButtons.OK, MessageBoxIcon.None);
+                                    ((MsbEditorScreen)_handler).HandleSaveException(e);
                                 }
                             }
                             if (ImGui.Selectable("Unload Map"))

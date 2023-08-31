@@ -35,7 +35,7 @@ namespace StudioCore.MsbEditor
         public static void ReloadMtds()
         {
 
-            TaskManager.Run(new("Resource - Load MTDs", true, false, false, () =>
+            TaskManager.Run(new("Resource - Load MTDs", TaskManager.RequeueType.WaitThenRequeue, false, () =>
             {
                 try
                 {
@@ -49,6 +49,10 @@ namespace StudioCore.MsbEditor
                     {
                         mtdBinder = BND4.Read(AssetLocator.GetAssetPath($@"material\allmaterial.matbinbnd.dcx"));
                         IsMatbin = true;
+                    }
+                    else if (AssetLocator.Type == GameType.ArmoredCoreVI)
+                    {
+                        //TODO AC6
                     }
 
                     if (mtdBinder == null)

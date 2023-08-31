@@ -604,7 +604,7 @@ namespace StudioCore.ParamEditor
                 for (int i=0; i<auxVals.Count; i++)
                 {
                     if (!conflict && diffAuxVanilla[i])
-                        ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.2f, 0.2f, 0.236f, 1.0f));
+                        ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.2f, 0.2f, 0.35f, 1.0f));
                     ImGui.TableNextColumn();
                     AdditionalColumnValue(auxVals[i], propType, bank, RefTypes, FmgRef, row, Enum, i.ToString());
                     if (!conflict && diffAuxVanilla[i])
@@ -616,7 +616,7 @@ namespace StudioCore.ParamEditor
             if (compareval != null)
             {
                 if(diffCompare)
-                    ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.2f, 0.2f, 0.236f, 1.0f));
+                    ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.2f, 0.2f, 0.35f, 1.0f));
                 ImGui.TableNextColumn();
                 AdditionalColumnValue(compareval, propType, bank, RefTypes, FmgRef, row, Enum, "compRow");
                 if (diffCompare)
@@ -841,7 +841,7 @@ namespace StudioCore.ParamEditor
                     Process.Start("explorer.exe", $"/select,\"{path}\"");
                 else
                 {
-                    TaskLogs.AddLog("File could not be found. It may be map or chr specific",
+                    TaskLogs.AddLog($"\"{path}\" could not be found. It may be map or chr specific",
                         Microsoft.Extensions.Logging.LogLevel.Warning);
                     CacheBank.ClearCaches();
                 }

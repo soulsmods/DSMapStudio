@@ -1,26 +1,44 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
-  <Self Row0Dummy="" />
+  <Enums>
+  	<Enum Name="SpawnLocation" type="u8">
+		<Option Value="0" Name="Default" />
+		<Option Value="1" Name="Shooter Feet" />
+		<Option Value="2" Name="Parent" />
+	</Enum>
+    <Enum Name="SpawnDirection" type="u8">
+		<Option Value="0" Name="Default" />
+		<Option Value="1" Name="Forward" />
+		<Option Value="2" Name="Attached" />
+		<Option Value="3" Name="Forward - Fast" />
+		<Option Value="5" Name="Forward - Child" />
+	</Enum>
+  </Enums>
+  <Self Wiki="Defines parameters relating to projectiles." Row0Dummy="" />
   <Field>
     <sfx_id AltName="SFX ID" Wiki="The SFX ID of this particular bullet. Sometimes unlisted here and sometimes provided by the EMEVD."/>
-    <spawn_location AltName="Spawn Location" Wiki="Where the effect/bullet will spawn in relation to the parent."/>
-    <spawn_flag_0 AltName="Spawn Flag 0"/>
+    <spawn_location AltName="Spawn Location" Wiki="Where the bullet will spawn in relation to the parent." Enum="SpawnLocation"/>
+    <spawn_direction AltName="Spawn Direction"  Enum="SpawnDirection" Wiki="Affects how the bullet is spawned."/>
     <online_visibility AltName="Is Visible Online" IsBool=""/>
     <spawn_flag_1 AltName="Spawn Flag 1"/>
-    <vertical_spawn_distance AltName="Vertical Spawn Distance"/>
-    <unknown_spawn_distance AltName="Unknown Spawn Distance"/>
-    <horizontal_spawn_distance AltName="Horizontal Spawn Distance"/>
-    <shooter_horizontal_angle AltName="Shooter Horizontal Angle"/>
-    <shooter_unknown_angle_0 AltName="Shooter Unknown Angle 0"/>
-    <shooter_vertical_angle AltName="Shooter Vertical Angle"/>
-    <shooter_unknown_angle_1 AltName="Shooter Unknown Angle 1"/>
-    <vertical_angle_randomizer AltName="Vertical Angle Randomizer"/>
-    <horizontal_angle_randomizer AltName="Horizontal Angle Randomizer"/>
-    <shoot_count AltName="Instant Shoot Count"/>
-    <shoot_sequential_count AltName="Sequential Shoot Count"/>
-    <shoot_interval AltName="Shoot Interval"/>
-    <vertical_spread AltName="Vertical Spread"/>
-    <horizontal_spread AltName="Horizontal Spread"/>
+    <relative_z_coord AltName="Relative Spawn Position: Z" Wiki="Offset the bullet's spawn location. +Z is above the player, -Z is below the player."/>
+    <relative_y_coord AltName="Relative Spawn Position: Y" Wiki="Offset the bullet's spawn location. +Y is to the right of the player, -Y is to the left of the player."/>
+    <relative_x_coord AltName="Relative Spawn Position: X" Wiki="Offset the bullet's spawn location. +X is in front of the player, -X is behind the player."/>
+    <relative_vertical_angle AltName="Relative Vertical Angle" Wiki="In radians."/>
+    <relative_horizontal_angle AltName="Relative Horizontal Angle" Wiki="In radians."/>
+    <lockon_vertical_angle AltName="Lock-on Vertical Angle" Wiki="In radians."/>
+    <lockon_horizontal_angle AltName="Lock-on Horizontal Angle" Wiki="In radians."/>
+    <vertical_angle_randomizer AltName="Vertical Angle Randomizer" Wiki="In radians. Applies random value between 0 and the specified angle here on shoot to the vertical shoot angle." />
+    <horizontal_angle_randomizer AltName="Horizontal Angle Randomizer" Wiki="In radians. Applies random value between 0 and the specified angle here on shoot to the horizontal shoot angle."/>
+    <Unk00 Wiki="Related to lock-on" />
+    <Unk01 Wiki="Related to lock-on" />
+    <shoot_once_count AltName="Shoot Once - Number to Shoot"/>
+    <shoot_sequential_count AltName="Shoot Sequential - Number to Shoot"/>
+    <shoot_once_relative_vertical_angle AltName="Shoot Once Relative Vertical Angle"/>
+    <shoot_once_relative_horizontal_angle AltName="Shoot Once Relative Horizontal Angle"/>
+    <shoot_sequential_interval AltName="Shoot Sequential Interval"/>
+    <shoot_sequential_relative_vertical_angle AltName="Shoot Sequential Relative Vertical Angle"/>
+    <shoot_sequential_relative_horizontal_angle AltName="Shoot Sequential Relative Horizontal Angle"/>
     <max_life AltName="Max Duration"/>
     <initial_horizontal_velocity AltName="Horizontal: Initial Velocity"/>
     <horizontal_acceleration_start_delay AltName="Horizontal: Acceleration Start Delay"/>
@@ -39,15 +57,15 @@
     <tan_horizontal_target_velocity AltName="Tangential Horizontal: Target Velocity"/>
     <tan_horizontal_max_velocity AltName="Tangential Horizontal: Max Velocity"/>
     <max_angle_change AltName="Max Angle Adjustment"/>
-    <max_tracking_angle_change AltName="Max Tracking Angle Adjustment"/>
+    <max_tracking_angle_change AltName="Max Tracking Angle Adjustment" Wiki="In radians."/>
     <max_tracking_time AltName="Max Tracking Duration"/>
     <hit_character AltName="Collides with Character" IsBool=""/>
     <hit_wall AltName="Collides with Wall" IsBool=""/>
     <hit_floor AltName="Collides with Floor/Ceiling" IsBool=""/>
     <hit_water AltName="Collides with Water" IsBool=""/>
-    <speffect_on_shoot AltName="SpEffect on Shoot"/>
-    <hit_sfx_id AltName="SFX on Hit"/>
-    <expire_sfx_id AltName="SFX on Expiration"/>
+    <shoot_sfx_id AltName="SFX on Shoot" Wiki="SFX to play on shoot."/>
+    <hit_sfx_id AltName="SFX on Hit" Wiki="SFX to play when the bullet collides with something."/>
+    <expire_sfx_id AltName="SFX on Expiration" Wiki="SFX to play when the bullet expires."/>
     <sfx_duration_on_expiration AltName="SFX Duration after Expiration"/>
     <bullet_attach_param_id AltName="Bullet Attach ID" Refs="BulletAttachParam"/>
     <child_bullet_1_bullet_id AltName="Child Bullet [1] - Bullet ID" Refs="BulletParam,EnemyBulletParam" />

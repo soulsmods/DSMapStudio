@@ -7,7 +7,7 @@
       <Option Value="2" Name="Active" />
     </Enum>
   </Enums>
-  <Self Row0Dummy="" />
+  <Self Wiki="Defines parameters related to map object instances." Row0Dummy="" />
   <Field>
     <param_id AltName="Param ID" />
     <obj_bullet_1 AltName="Object Bullet [1]" Refs="SystemBulletParam" />

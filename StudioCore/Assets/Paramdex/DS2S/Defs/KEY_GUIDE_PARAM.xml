@@ -11,10 +11,13 @@
     <Field Def="f32 Unk00" />
     <Field Def="f32 Unk01" />
     <Field Def="f32 Unk02" />
-    <Field Def="s16 Unk03" />
-    <Field Def="s16 Unk04" />
-    <Field Def="s16 Unk05" />
-    <Field Def="u8 Unk06" />
-    <Field Def="u8 Unk07" />
+    <Field Def="u8 Unk03a" />
+    <Field Def="u8 Unk03b" />
+    <Field Def="u8 Unk03c" />
+    <Field Def="u8 Unk03d" />
+    <Field Def="u8 Unk04a" />
+    <Field Def="u8 Unk04b" />
+    <Field Def="u8 Unk04c" />
+    <Field Def="u8 Unk04d" />
   </Fields>
 </PARAMDEF>

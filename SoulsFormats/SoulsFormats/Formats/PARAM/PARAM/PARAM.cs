@@ -95,8 +95,13 @@ namespace SoulsFormats
                 br.AssertInt32(0);
                 long paramTypeOffset = br.ReadInt64();
                 br.AssertPattern(0x14, 0x00);
-                ParamType = br.GetASCII(paramTypeOffset);
-                actualStringsOffset = paramTypeOffset;
+
+                // Check if ParamTypeOffset is invalid and longer than file.
+                if (paramTypeOffset < br.Length)
+                {
+                    ParamType = br.GetASCII(paramTypeOffset);
+                    actualStringsOffset = paramTypeOffset;
+                }
             }
             else
             {
@@ -149,7 +154,11 @@ namespace SoulsFormats
             }
             bw.WriteInt16(Unk06);
             bw.WriteInt16(ParamdefDataVersion);
+
+            if (Rows.Count > ushort.MaxValue)
+                throw new OverflowException($"Param \"{AppliedParamdef.ParamType}\" has more than {ushort.MaxValue} rows and cannot be saved.");
             bw.WriteUInt16((ushort)Rows.Count);
+
             if (Format2D.HasFlag(FormatFlags1.OffsetParamType))
             {
                 bw.WriteInt32(0);

@@ -370,7 +370,7 @@ m60_24_19_01 Aeonia Swamp; West Sellia
 m60_48_38_00 Caelid - West Aeonia Swamp
 m60_48_39_00 Caelid - Smoldering Wall, Abandoned Cave Entrance
 m60_49_38_00 Caelid - East Aeonia Swamp
-m60_49_39_00 Caelid - West Sellia, Sellia Crystal Tunnel Entrance
+m60_49_39_00 Caelid - West Sellia, Sellia Crystal Tunnel Entrance, Sellia Evergaol
 m60_25_18_01 Redmane Castle; Southwest Radahn Arena
 m60_50_36_00 Caelid - Impassable Greatbridge
 m60_50_37_00 Caelid - Far Southwest Radahn Arena, Aeonia Swamp Bank Southeast Cliffside
