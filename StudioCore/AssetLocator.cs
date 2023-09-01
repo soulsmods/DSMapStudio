@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Text.RegularExpressions;
-using Gtk;
 using SoulsFormats;
 
 namespace StudioCore
@@ -75,18 +74,17 @@ namespace StudioCore
     /// </summary>
     public class AssetLocator
     {
-        public readonly FileFilter GameExecutableFilter;
-        public readonly FileFilter ProjectJsonFilter;
-        public readonly FileFilter RegulationBinFilter;
-        public readonly FileFilter Data0Filter;
-        public readonly FileFilter ParamBndDcxFilter;
-        public readonly FileFilter ParamBndFilter;
-        public readonly FileFilter EncRegulationFilter;
-        public readonly FileFilter ParamLooseFilter;
-        public readonly FileFilter CsvFilter;
-        public readonly FileFilter TxtFilter;
-        public readonly FileFilter FmgJsonFilter;
-        public readonly FileFilter AllFilesFilter;
+        public readonly string GameExecutableFilter;
+        public readonly string ProjectJsonFilter;
+        public readonly string RegulationBinFilter;
+        public readonly string Data0Filter;
+        public readonly string ParamBndDcxFilter;
+        public readonly string ParamBndFilter;
+        public readonly string EncRegulationFilter;
+        public readonly string ParamLooseFilter;
+        public readonly string CsvFilter;
+        public readonly string TxtFilter;
+        public readonly string FmgJsonFilter;
         
         public GameType Type { get; private set; } = GameType.Undefined;
 
@@ -107,35 +105,50 @@ namespace StudioCore
 
         public AssetLocator()
         {
-            GameExecutableFilter = new FileFilter { Name = "Game Executable (.EXE, EBOOT.BIN)" };
-            GameExecutableFilter.AddPattern("*.exe*");
-            GameExecutableFilter.AddPattern("*.bin*");
-            ProjectJsonFilter = new FileFilter { Name = "Project file (project.json)" };
-            ProjectJsonFilter.AddPattern("project.json");
-            RegulationBinFilter = new FileFilter { Name = "Regulation file (regulation.bin)" };
-            RegulationBinFilter.AddPattern("regulation.bin");
-            Data0Filter = new FileFilter { Name = "Data file (Data0.bdt)" };
-            Data0Filter.AddPattern("data0.bdt");
-            ParamBndDcxFilter = new FileFilter { Name = "Compressed params (gameparam.parambnd.dcx)" };
-            ParamBndDcxFilter.AddPattern("gameparam.parambnd.dcx");
-            ParamBndFilter = new FileFilter { Name = "Params (gameparam.parambnd)" };
-            ParamBndFilter.AddPattern("gameparam.parambnd");
-            EncRegulationFilter = new FileFilter { Name = "DS2 regulation (enc_regulation.bnd.dcx)" };
-            EncRegulationFilter.AddPattern("enc_regulation.bnd.dcx");
-            ParamLooseFilter = new FileFilter { Name = "Loose param file (*.param)" };
-            ParamLooseFilter.AddPattern("*.param");
-            CsvFilter = new FileFilter { Name = "CSV file (*.csv)" };
-            CsvFilter.AddPattern("*.csv");
-            TxtFilter = new FileFilter { Name = "Text file (*.txt)" };
-            TxtFilter.AddPattern("*.txt");
-            FmgJsonFilter = new FileFilter { Name = "Exported FMGs (*.fmg.json)" };
-            FmgJsonFilter.AddPattern("*.fmg.json");
-            AllFilesFilter = new FileFilter { Name = "All files" };
-            AllFilesFilter.AddPattern("*.*");
+            // GameExecutableFilter = "Game Executable (.EXE, EBOOT.BIN)";
+            // GameExecutableFilter.AddPattern("*.exe*");
+            // GameExecutableFilter.AddPattern("*.bin*");
+            GameExecutableFilter = "exe,bin";
+            // ProjectJsonFilter = new FileFilter { Name = "Project file (project.json)" };
+            // ProjectJsonFilter.AddPattern("project.json");
+            ProjectJsonFilter = "json";
+            // RegulationBinFilter = new FileFilter { Name = "Regulation file (regulation.bin)" };
+            // RegulationBinFilter.AddPattern("regulation.bin");
+            RegulationBinFilter = "bin";
+            // Data0Filter = new FileFilter { Name = "Data file (Data0.bdt)" };
+            // Data0Filter.AddPattern("data0.bdt");
+            Data0Filter = "bdt";
+            // ParamBndDcxFilter = new FileFilter { Name = "Compressed params (gameparam.parambnd.dcx)" };
+            // ParamBndDcxFilter.AddPattern("gameparam.parambnd.dcx");
+            ParamBndDcxFilter = "parambnd.dcx";
+            // ParamBndFilter = new FileFilter { Name = "Params (gameparam.parambnd)" };
+            // ParamBndFilter.AddPattern("gameparam.parambnd");
+            ParamBndFilter = "parambnd";
+            // EncRegulationFilter = new FileFilter { Name = "DS2 regulation (enc_regulation.bnd.dcx)" };
+            // EncRegulationFilter.AddPattern("enc_regulation.bnd.dcx");
+            EncRegulationFilter = "bnd.dcx";
+            // ParamLooseFilter = new FileFilter { Name = "Loose param file (*.param)" };
+            // ParamLooseFilter.AddPattern("*.param");
+            ParamLooseFilter = "param";
+            // CsvFilter = new FileFilter { Name = "CSV file (*.csv)" };
+            // CsvFilter.AddPattern("*.csv");
+            CsvFilter = "csv";
+            // TxtFilter = new FileFilter { Name = "Text file (*.txt)" };
+            // TxtFilter.AddPattern("*.txt");
+            TxtFilter = "txt";
+            // FmgJsonFilter = new FileFilter { Name = "Exported FMGs (*.fmg.json)" };
+            // FmgJsonFilter.AddPattern("*.fmg.json");
+            FmgJsonFilter = "fmg.json";
+            // AllFilesFilter = new FileFilter { Name = "All files" };
+            // AllFilesFilter.AddPattern("*.*");
         }
 
         private List<string> FullMapList = null;
 
+        public string CombineFilters(params string[] filters)
+        {
+            return string.Join(";", filters);
+        }
         public string GetAssetPath(string relpath)
         {
             if (GameModDirectory != null)

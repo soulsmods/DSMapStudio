@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Linq;
 using FSParam;
-using Gtk;
 using Veldrid;
 using Veldrid.Sdl2;
 using Veldrid.Utilities;
@@ -217,13 +216,10 @@ namespace StudioCore.ParamEditor
                             MessageBoxIcon.Information);
                         if (message == DialogResult.OK)
                         {
-                            using FileChooserNative fileChooser = new FileChooserNative($"Select regulation.bin for game version {ParamBank.PrimaryBank.ParamVersion}...",
-                                null, FileChooserAction.Open, "Open", "Cancel");
-                            fileChooser.AddFilter(AssetLocator.RegulationBinFilter);
-                            fileChooser.AddFilter(AssetLocator.AllFilesFilter);
-                            if (fileChooser.Run() == (int)ResponseType.Accept)
+                            var fileDialog = NativeFileDialogSharp.Dialog.FileOpen(AssetLocator.RegulationBinFilter);
+                            if (fileDialog.IsOk)
                             {
-                                var path = fileChooser.Filename;
+                                var path = fileDialog.Path;
                                 UpgradeRegulation(ParamBank.PrimaryBank, ParamBank.VanillaBank, path);
                             }
                         }
@@ -428,15 +424,11 @@ namespace StudioCore.ParamEditor
             {
                 if (ImGui.MenuItem("Export all fields"))
                 {
-                    using FileChooserNative fileChooser = new FileChooserNative("Choose CSV file",
-                        null, FileChooserAction.Save, "Save", "Cancel");
-                    fileChooser.AddFilter(AssetLocator.CsvFilter);
-                    fileChooser.AddFilter(AssetLocator.TxtFilter);
-                    fileChooser.AddFilter(AssetLocator.AllFilesFilter);
-                    if (fileChooser.Run() == (int)ResponseType.Accept)
+                    var fileDialog = NativeFileDialogSharp.Dialog.FileOpen(AssetLocator.CombineFilters(AssetLocator.CsvFilter, AssetLocator.TxtFilter));
+                    if (fileDialog.IsOk)
                     {
                         var rows = CsvExportGetRows(rowType);
-                        TryWriteFile(fileChooser.Filename,
+                        TryWriteFile(fileDialog.Path,
                             ParamIO.GenerateCSV(rows,
                                 ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()],
                                 CFG.Current.Param_Export_Delimiter[0]));
@@ -447,15 +439,11 @@ namespace StudioCore.ParamEditor
                 {
                     if (ImGui.MenuItem("Row name"))
                     {
-                        using FileChooserNative fileChooser = new FileChooserNative("Choose CSV file",
-                            null, FileChooserAction.Save, "Save", "Cancel");
-                        fileChooser.AddFilter(AssetLocator.CsvFilter);
-                        fileChooser.AddFilter(AssetLocator.TxtFilter);
-                        fileChooser.AddFilter(AssetLocator.AllFilesFilter);
-                        if (fileChooser.Run() == (int)ResponseType.Accept)
+                        var fileDialog = NativeFileDialogSharp.Dialog.FileOpen(AssetLocator.CombineFilters(AssetLocator.CsvFilter, AssetLocator.TxtFilter));
+                        if (fileDialog.IsOk)
                         {
                             var rows = CsvExportGetRows(rowType);
-                            TryWriteFile(fileChooser.Filename,
+                            TryWriteFile(fileDialog.Path,
                                     ParamIO.GenerateSingleCSV(rows,
                                         ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()],
                                         "Name",
@@ -467,15 +455,11 @@ namespace StudioCore.ParamEditor
                     {
                         if (ImGui.MenuItem(field.InternalName))
                         {
-                            using FileChooserNative fileChooser = new FileChooserNative("Choose CSV file",
-                                null, FileChooserAction.Save, "Save", "Cancel");
-                            fileChooser.AddFilter(AssetLocator.CsvFilter);
-                            fileChooser.AddFilter(AssetLocator.TxtFilter);
-                            fileChooser.AddFilter(AssetLocator.AllFilesFilter);
-                            if (fileChooser.Run() == (int)ResponseType.Accept)
+                            var fileDialog = NativeFileDialogSharp.Dialog.FileOpen(AssetLocator.CombineFilters(AssetLocator.CsvFilter, AssetLocator.TxtFilter));
+                            if (fileDialog.IsOk)
                             {
                                 var rows = CsvExportGetRows(rowType);
-                                TryWriteFile(fileChooser.Filename,
+                                TryWriteFile(fileDialog.Path,
                                     ParamIO.GenerateSingleCSV(rows,
                                         ParamBank.PrimaryBank.Params[
                                             _activeView._selection.getActiveParam()],
@@ -552,15 +536,11 @@ namespace StudioCore.ParamEditor
                             EditorCommandQueue.AddCommand($@"param/menu/massEditCSVExport/0");
                         if (ImGui.MenuItem("Export entire param to file"))
                         {
-                            using FileChooserNative fileChooser = new FileChooserNative("Choose CSV file",
-                                null, FileChooserAction.Save, "Save", "Cancel");
-                            fileChooser.AddFilter(AssetLocator.CsvFilter);
-                            fileChooser.AddFilter(AssetLocator.TxtFilter);
-                            fileChooser.AddFilter(AssetLocator.AllFilesFilter);
-                            if (fileChooser.Run() == (int)ResponseType.Accept)
+                            var fileDialog = NativeFileDialogSharp.Dialog.FileOpen(AssetLocator.CombineFilters(AssetLocator.CsvFilter, AssetLocator.TxtFilter));
+                            if (fileDialog.IsOk)
                             {
                                 var rows = ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()].Rows;
-                                TryWriteFile(fileChooser.Filename,
+                                TryWriteFile(fileDialog.Path,
                                     ParamIO.GenerateCSV(rows,
                                         ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()],
                                         CFG.Current.Param_Export_Delimiter[0]));
@@ -611,14 +591,10 @@ namespace StudioCore.ParamEditor
                     {
                         if (ImGui.MenuItem("All fields"))
                         {
-                            using FileChooserNative fileChooser = new FileChooserNative("Choose CSV file",
-                                null, FileChooserAction.Open, "Open", "Cancel");
-                            fileChooser.AddFilter(AssetLocator.CsvFilter);
-                            fileChooser.AddFilter(AssetLocator.TxtFilter);
-                            fileChooser.AddFilter(AssetLocator.AllFilesFilter);
-                            if (fileChooser.Run() == (int)ResponseType.Accept)
+                            var fileDialog = NativeFileDialogSharp.Dialog.FileOpen(AssetLocator.CombineFilters(AssetLocator.CsvFilter, AssetLocator.TxtFilter));
+                            if (fileDialog.IsOk)
                             {
-                                string csv = TryReadFile(fileChooser.Filename);
+                                string csv = TryReadFile(fileDialog.Path);
                                 if (csv != null)
                                 {
                                     (string result, CompoundAction action) = ParamIO.ApplyCSV(ParamBank.PrimaryBank, csv, _activeView._selection.getActiveParam(), false, false, CFG.Current.Param_Export_Delimiter[0]);
@@ -638,14 +614,10 @@ namespace StudioCore.ParamEditor
                         }
                         if (ImGui.MenuItem("Row Name"))
                         {
-                            using FileChooserNative fileChooser = new FileChooserNative("Choose CSV file",
-                                null, FileChooserAction.Open, "Open", "Cancel");
-                            fileChooser.AddFilter(AssetLocator.CsvFilter);
-                            fileChooser.AddFilter(AssetLocator.TxtFilter);
-                            fileChooser.AddFilter(AssetLocator.AllFilesFilter);
-                            if (fileChooser.Run() == (int)ResponseType.Accept)
+                            var fileDialog = NativeFileDialogSharp.Dialog.FileOpen(AssetLocator.CombineFilters(AssetLocator.CsvFilter, AssetLocator.TxtFilter));
+                            if (fileDialog.IsOk)
                             {
-                                string csv = TryReadFile(fileChooser.Filename);
+                                string csv = TryReadFile(fileDialog.Path);
                                 if (csv != null)
                                 {
                                     (string result, CompoundAction action) = ParamIO.ApplySingleCSV(ParamBank.PrimaryBank, csv, _activeView._selection.getActiveParam(), "Name", CFG.Current.Param_Export_Delimiter[0], false);
@@ -666,14 +638,10 @@ namespace StudioCore.ParamEditor
                             {
                                 if (ImGui.MenuItem(field.InternalName))
                                 {
-                                    using FileChooserNative fileChooser = new FileChooserNative("Choose CSV file",
-                                        null, FileChooserAction.Open, "Open", "Cancel");
-                                    fileChooser.AddFilter(AssetLocator.CsvFilter);
-                                    fileChooser.AddFilter(AssetLocator.TxtFilter);
-                                    fileChooser.AddFilter(AssetLocator.AllFilesFilter);
-                                    if (fileChooser.Run() == (int)ResponseType.Accept)
+                                    var fileDialog = NativeFileDialogSharp.Dialog.FileOpen(AssetLocator.CombineFilters(AssetLocator.CsvFilter, AssetLocator.TxtFilter));
+                                    if (fileDialog.IsOk)
                                     {
-                                        string csv = TryReadFile(fileChooser.Filename);
+                                        string csv = TryReadFile(fileDialog.Path);
                                         if (csv != null)
                                         {
                                             (string result, CompoundAction action) = ParamIO.ApplySingleCSV(ParamBank.PrimaryBank, csv, _activeView._selection.getActiveParam(), field.InternalName, CFG.Current.Param_Export_Delimiter[0], false);
@@ -836,44 +804,33 @@ namespace StudioCore.ParamEditor
                     {
                         if (_projectSettings.GameType != GameType.DarkSoulsIISOTFS)
                         {
-                            using FileChooserNative fileChooser = new FileChooserNative("Select file containing params",
-                                null, FileChooserAction.Open, "Open", "Cancel");
-                            fileChooser.AddFilter(AssetLocator.RegulationBinFilter);
-                            fileChooser.AddFilter(AssetLocator.Data0Filter);
-                            fileChooser.AddFilter(AssetLocator.ParamBndDcxFilter);
-                            fileChooser.AddFilter(AssetLocator.ParamBndFilter);
-                            fileChooser.AddFilter(AssetLocator.EncRegulationFilter);
-                            fileChooser.AddFilter(AssetLocator.AllFilesFilter);
-                            if (fileChooser.Run() == (int)ResponseType.Accept)
+                            var fileDialog = NativeFileDialogSharp.Dialog.FileOpen(AssetLocator.CombineFilters(AssetLocator.RegulationBinFilter,
+                                AssetLocator.Data0Filter,
+                                AssetLocator.ParamBndDcxFilter,
+                                AssetLocator.ParamBndFilter,
+                                AssetLocator.EncRegulationFilter));
+                            if (fileDialog.IsOk)
                             {
-                                ParamBank.LoadAuxBank(fileChooser.Filename, null, null, _projectSettings);
+                                ParamBank.LoadAuxBank(fileDialog.Path, null, null, _projectSettings);
                             }
                         }
                         else
                         {
-                            using FileChooserNative fileChooser = new FileChooserNative("Select folder for looseparams",
-                                null, FileChooserAction.SelectFolder, "Open", "Cancel");
-                            if (fileChooser.Run() == (int)ResponseType.Accept)
+                            var folderDialog = NativeFileDialogSharp.Dialog.FolderPicker();
+                            if (folderDialog.IsOk)
                             {
-
-                                using FileChooserNative fileChooser2 = new FileChooserNative("Select file containing remaining, non-loose params",
-                                    null, FileChooserAction.Open, "Open", "Cancel");
-                                fileChooser2.AddFilter(AssetLocator.RegulationBinFilter);
-                                fileChooser2.AddFilter(AssetLocator.Data0Filter);
-                                fileChooser2.AddFilter(AssetLocator.ParamBndDcxFilter);
-                                fileChooser2.AddFilter(AssetLocator.ParamBndFilter);
-                                fileChooser2.AddFilter(AssetLocator.EncRegulationFilter);
-                                fileChooser2.AddFilter(AssetLocator.AllFilesFilter);
-                                if (fileChooser2.Run() == (int)ResponseType.Accept)
+                                var fileDialog = NativeFileDialogSharp.Dialog.FileOpen(AssetLocator.CombineFilters(AssetLocator.RegulationBinFilter,
+                                    AssetLocator.Data0Filter,
+                                    AssetLocator.ParamBndDcxFilter,
+                                    AssetLocator.ParamBndFilter,
+                                    AssetLocator.EncRegulationFilter));
+                                if (fileDialog.IsOk)
                                 {
-                                    using FileChooserNative fileChooser3 = new FileChooserNative("Select file containing enemyparam",
-                                        null, FileChooserAction.Open, "Open", "Cancel");
-                                    fileChooser3.AddFilter(AssetLocator.ParamLooseFilter);
-                                    fileChooser3.AddFilter(AssetLocator.AllFilesFilter);
-                                    if (fileChooser3.Run() == (int)ResponseType.Accept)
+                                    var enemyFileDialog = NativeFileDialogSharp.Dialog.FileOpen(AssetLocator.CombineFilters(AssetLocator.ParamLooseFilter));
+                                    if (enemyFileDialog.IsOk)
                                     {
-                                        ParamBank.LoadAuxBank(fileChooser2.Filename, fileChooser.Filename,
-                                            fileChooser3.Filename, _projectSettings);
+                                        ParamBank.LoadAuxBank(fileDialog.Path, folderDialog.Path,
+                                            enemyFileDialog.Path, _projectSettings);
                                     }
                                 }
                             }

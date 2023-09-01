@@ -12,7 +12,6 @@ using System.Globalization;
 using System.Threading;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using Gtk;
 using SoapstoneLib;
 using Veldrid;
 using Veldrid.Sdl2;
@@ -20,7 +19,6 @@ using Veldrid.StartupUtilities;
 using StudioCore.Graphics;
 using StudioCore.Platform;
 using Vortice.Vulkan;
-using Application = Gtk.Application;
 
 namespace StudioCore
 {
@@ -65,11 +63,6 @@ namespace StudioCore
             CFG.AttemptLoadOrDefault();
             
             Environment.SetEnvironmentVariable("PATH", Environment.GetEnvironmentVariable("PATH") + Path.PathSeparator + "bin");
-            Environment.SetEnvironmentVariable("GTK_PATH", Environment.GetEnvironmentVariable("GTK_PATH") + Path.PathSeparator + "etc\\gtk-3.0");
-            Environment.SetEnvironmentVariable("GDK_PIXBUF_MODULE_FILE", "lib\\gdk-pixbuf-2.0\\2.10.0\\loaders.cache");
-
-            Application.Init();
-            Gtk.IconTheme.Default.AppendSearchPath("share\\icons");
             
             _context = context;
             _context.Initialize();
@@ -354,7 +347,7 @@ namespace StudioCore
             _context.Dispose();
             CFG.Save();
 
-            Application.Quit();
+            // Application.Quit();
         }
 
         // Try to shutdown things gracefully on a crash
@@ -363,7 +356,7 @@ namespace StudioCore
             Tracy.Shutdown();
             Resource.ResourceManager.Shutdown();
             _context.Dispose();
-            Application.Quit();
+            // Application.Quit();
         }
 
         private void ChangeProjectSettings(Editor.ProjectSettings newsettings, string moddir, NewProjectOptions options)
@@ -438,12 +431,11 @@ namespace StudioCore
 
         private void DumpFlverLayouts()
         {
-            using FileChooserNative fileChooser = new FileChooserNative("Save Flver layout dump",
-                null, FileChooserAction.Save, "Save", "Cancel");
-            fileChooser.AddFilter(_assetLocator.TxtFilter);
-            if (fileChooser.Run() == (int)ResponseType.Accept)
+            var dialogResult = NativeFileDialogSharp.Dialog.FileOpen(_assetLocator.TxtFilter);
+
+            if (dialogResult.IsOk)
             {
-                using (var file = new StreamWriter(fileChooser.Filename))
+                using (var file = new StreamWriter(dialogResult.Path))
                 {
                     foreach (var mat in Resource.FlverResource.MaterialLayouts)
                     {
@@ -490,16 +482,13 @@ namespace StudioCore
                     MessageBoxButtons.OK,
                     MessageBoxIcon.None);
 
-                using FileChooserNative fileChooser = new FileChooserNative($"Select executable for {settings.GameType}...",
-                    null, FileChooserAction.Open, "Open", "Cancel");
-                fileChooser.AddFilter(_assetLocator.GameExecutableFilter);
-                fileChooser.AddFilter(_assetLocator.AllFilesFilter);
+                var fileDialog = NativeFileDialogSharp.Dialog.FileOpen(_assetLocator.GameExecutableFilter);
                 var gametype = GameType.Undefined;
                 while (gametype != settings.GameType)
                 {
-                    if (fileChooser.Run() == (int)ResponseType.Accept)
+                    if (fileDialog.IsOk)
                     {
-                        settings.GameRoot = fileChooser.Filename;
+                        settings.GameRoot = fileDialog.Path;
                         gametype = _assetLocator.GetGameTypeForExePath(settings.GameRoot);
                         if (gametype != settings.GameType)
                         {
@@ -668,11 +657,10 @@ namespace StudioCore
             ImGui.SameLine();
             if (ImGui.Button($@"{ForkAwesome.FileO}"))
             {
-                using FileChooserNative fileChooser = new FileChooserNative($"Select project directory...",
-                    null, FileChooserAction.SelectFolder, "Open", "Cancel");
-                if (fileChooser.Run() == (int)ResponseType.Accept)
+                var folderDialog = NativeFileDialogSharp.Dialog.FolderPicker();
+                if (folderDialog.IsOk)
                 {
-                    _newProjectOptions.directory = fileChooser.Filename;
+                    _newProjectOptions.directory = folderDialog.Path;
                 }
             }
         }
@@ -758,15 +746,13 @@ namespace StudioCore
                     }
                     if (ImGui.MenuItem("Open Project", "", false, !TaskManager.AnyActiveTasks()))
                     {
-                        using FileChooserNative fileChooser = new FileChooserNative("Choose the project json file",
-                            null, FileChooserAction.Open, "Open", "Cancel");
-                        fileChooser.AddFilter(_assetLocator.ProjectJsonFilter);
-                        if (fileChooser.Run() == (int)ResponseType.Accept)
+                        var fileDialog = NativeFileDialogSharp.Dialog.FileOpen(_assetLocator.ProjectJsonFilter);
+                        if (fileDialog.IsOk)
                         {
-                            var settings = ProjectSettings.Deserialize(fileChooser.Filename);
+                            var settings = ProjectSettings.Deserialize(fileDialog.Path);
                             if (settings != null)
                             {
-                                AttemptLoadProject(settings, fileChooser.Filename);
+                                AttemptLoadProject(settings, fileDialog.Path);
                             }
                         }
                     }
@@ -1066,14 +1052,12 @@ namespace StudioCore
                     ImGui.SameLine();
                     if (ImGui.Button($@"{ForkAwesome.FileO}##fd2"))
                     {
-                        using FileChooserNative fileChooser = new FileChooserNative($"Select executable for the game you want to mod...",
-                            null, FileChooserAction.Open, "Open", "Cancel");
-                        fileChooser.AddFilter(_assetLocator.GameExecutableFilter);
-                        fileChooser.AddFilter(_assetLocator.AllFilesFilter);
-                        if (fileChooser.Run() == (int)ResponseType.Accept)
+                        var fileDialog = NativeFileDialogSharp.Dialog.FileOpen(_assetLocator.GameExecutableFilter);
+
+                        if (fileDialog.IsOk)
                         {
-                            _newProjectOptions.settings.GameRoot = Path.GetDirectoryName(fileChooser.Filename);
-                            _newProjectOptions.settings.GameType = _assetLocator.GetGameTypeForExePath(fileChooser.Filename);
+                            _newProjectOptions.settings.GameRoot = Path.GetDirectoryName(fileDialog.Path);
+                            _newProjectOptions.settings.GameType = _assetLocator.GetGameTypeForExePath(fileDialog.Path);
 
                             if (_newProjectOptions.settings.GameType == GameType.Bloodborne)
                             {
@@ -1109,12 +1093,10 @@ namespace StudioCore
                     ImGui.SameLine();
                     if (ImGui.Button($@"{ForkAwesome.FileO}##fd2"))
                     {
-                        using FileChooserNative fileChooser = new FileChooserNative($"Select project directory...",
-                            null, FileChooserAction.SelectFolder, "Open", "Cancel");
-
-                        if (fileChooser.Run() == (int)ResponseType.Accept)
+                        var folderDialog = NativeFileDialogSharp.Dialog.FolderPicker();
+                        if (folderDialog.IsOk)
                         {
-                            _newProjectOptions.settings.GameRoot = fileChooser.Filename;
+                            _newProjectOptions.settings.GameRoot = folderDialog.Path;
                         }
                     }
                     NewProject_GameTypeComboGUI();
