@@ -346,8 +346,6 @@ namespace StudioCore
             Resource.ResourceManager.Shutdown();
             _context.Dispose();
             CFG.Save();
-
-            // Application.Quit();
         }
 
         // Try to shutdown things gracefully on a crash
@@ -356,7 +354,6 @@ namespace StudioCore
             Tracy.Shutdown();
             Resource.ResourceManager.Shutdown();
             _context.Dispose();
-            // Application.Quit();
         }
 
         private void ChangeProjectSettings(Editor.ProjectSettings newsettings, string moddir, NewProjectOptions options)
