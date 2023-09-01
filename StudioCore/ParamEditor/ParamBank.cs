@@ -1592,7 +1592,7 @@ namespace StudioCore.ParamEditor
             {
                 param = $@"{dir}\regulation.bin";
             }
-            BND4 paramBnd = SFUtil.DecryptERRegulation(param);
+            BND4 paramBnd = SFUtil.DecryptAC6Regulation(param);
 
             // Replace params with edited ones
             foreach (var p in paramBnd.Files)
