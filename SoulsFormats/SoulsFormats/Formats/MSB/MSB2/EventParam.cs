@@ -375,32 +375,37 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public float UnkT04 { get; set; }
+                public float FadeStart { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public float UnkT08 { get; set; }
+                public float FadeDist { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public float UnkT0C { get; set; }
+                public float DepthOffset { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public float UnkT14 { get; set; }
+                public float PsmDepthOffset { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public float UnkT18 { get; set; }
+                public float PsmFarClipDistanceRate { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public float UnkT20 { get; set; }
+                public float PsmAdjustment { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public float VolumeDepth { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -417,14 +422,14 @@ namespace SoulsFormats
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
                     br.AssertInt32(0);
-                    UnkT04 = br.ReadSingle();
-                    UnkT08 = br.ReadSingle();
-                    UnkT0C = br.ReadSingle();
+                    FadeStart = br.ReadSingle();
+                    FadeDist = br.ReadSingle();
+                    DepthOffset = br.ReadSingle();
+                    PsmDepthOffset = br.ReadSingle();
+                    PsmFarClipDistanceRate = br.ReadSingle();
+                    PsmAdjustment = br.ReadSingle();
                     br.AssertInt32(0);
-                    UnkT14 = br.ReadSingle();
-                    UnkT18 = br.ReadSingle();
-                    br.AssertInt32(0);
-                    UnkT20 = br.ReadSingle();
+                    VolumeDepth = br.ReadSingle();
                     ColorT24 = br.ReadRGBA();
                     br.AssertPattern(0x18, 0x00);
                 }
@@ -432,14 +437,14 @@ namespace SoulsFormats
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
                     bw.WriteInt32(0);
-                    bw.WriteSingle(UnkT04);
-                    bw.WriteSingle(UnkT08);
-                    bw.WriteSingle(UnkT0C);
+                    bw.WriteSingle(FadeStart);
+                    bw.WriteSingle(FadeDist);
+                    bw.WriteSingle(DepthOffset);
+                    bw.WriteSingle(PsmDepthOffset);
+                    bw.WriteSingle(PsmFarClipDistanceRate);
+                    bw.WriteSingle(PsmAdjustment);
                     bw.WriteInt32(0);
-                    bw.WriteSingle(UnkT14);
-                    bw.WriteSingle(UnkT18);
-                    bw.WriteInt32(0);
-                    bw.WriteSingle(UnkT20);
+                    bw.WriteSingle(VolumeDepth);
                     bw.WriteRGBA(ColorT24);
                     bw.WritePattern(0x18, 0x00);
                 }
@@ -455,43 +460,43 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public byte UnkT00 { get; set; }
+                public byte DataID { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
                 [SupportsAlpha(true)]
-                public Color ColorT04 { get; set; }
+                public Color Color { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public float UnkT08 { get; set; }
+                public float Distance { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public float UnkT0C { get; set; }
+                public float HeightBase { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public float UnkT10 { get; set; }
+                public float HeightDensity { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public byte UnkT14 { get; set; }
+                public bool IsUpper { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public byte UnkT15 { get; set; }
+                public byte Alpha { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public byte UnkT16 { get; set; }
+                public byte Contrast { get; set; }
 
                 /// <summary>
                 /// Creates a Fog with default values.
@@ -502,33 +507,33 @@ namespace SoulsFormats
 
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
-                    UnkT00 = br.ReadByte();
+                    DataID = br.ReadByte();
                     br.AssertByte(0);
                     br.AssertByte(0);
                     br.AssertByte(0);
-                    ColorT04 = br.ReadRGBA();
-                    UnkT08 = br.ReadSingle();
-                    UnkT0C = br.ReadSingle();
-                    UnkT10 = br.ReadSingle();
-                    UnkT14 = br.ReadByte();
-                    UnkT15 = br.ReadByte();
-                    UnkT16 = br.ReadByte();
+                    Color = br.ReadRGBA();
+                    Distance = br.ReadSingle();
+                    HeightBase = br.ReadSingle();
+                    HeightDensity = br.ReadSingle();
+                    IsUpper = br.ReadByte();
+                    Alpha = br.ReadByte();
+                    Contrast = br.ReadByte();
                     br.AssertPattern(0x11, 0x00);
                 }
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    bw.WriteByte(UnkT00);
+                    bw.WriteByte(DataID);
                     bw.WriteByte(0);
                     bw.WriteByte(0);
                     bw.WriteByte(0);
-                    bw.WriteRGBA(ColorT04);
-                    bw.WriteSingle(UnkT08);
-                    bw.WriteSingle(UnkT0C);
-                    bw.WriteSingle(UnkT10);
-                    bw.WriteByte(UnkT14);
-                    bw.WriteByte(UnkT15);
-                    bw.WriteByte(UnkT16);
+                    bw.WriteRGBA(Color);
+                    bw.WriteSingle(Distance);
+                    bw.WriteSingle(HeightBase);
+                    bw.WriteSingle(HeightDensity);
+                    bw.WriteByte(IsUpper);
+                    bw.WriteByte(Alpha);
+                    bw.WriteByte(Contrast);
                     bw.WritePattern(0x11, 0x00);
                 }
             }
