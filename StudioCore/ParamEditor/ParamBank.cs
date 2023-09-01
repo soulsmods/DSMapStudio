@@ -1597,11 +1597,10 @@ namespace StudioCore.ParamEditor
             // Replace params with edited ones
             foreach (var p in paramBnd.Files)
             {
-                if (_params.ContainsKey(Path.GetFileNameWithoutExtension(p.Name)))
+                string paramName = Path.GetFileNameWithoutExtension(p.Name);
+                if (_params.TryGetValue(paramName, out Param paramFile))
                 {
-                    Param paramFile = _params[Path.GetFileNameWithoutExtension(p.Name)];
                     IReadOnlyList<Param.Row> backup = paramFile.Rows;
-                    List<Param.Row> changed = new List<Param.Row>();
                     p.Bytes = paramFile.Write();
                     paramFile.Rows = backup;
                 }
