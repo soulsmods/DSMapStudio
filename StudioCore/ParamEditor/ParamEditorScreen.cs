@@ -188,7 +188,8 @@ namespace StudioCore.ParamEditor
                 && ParamBank.PrimaryBank.Params != null
                 && ParamBank.VanillaBank.Params != null
                 && !ParamBank.PrimaryBank.IsLoadingParams
-                && !ParamBank.VanillaBank.IsLoadingParams)
+                && !ParamBank.VanillaBank.IsLoadingParams
+                && ParamBank.PrimaryBank.ParamVersion < ParamBank.VanillaBank.ParamVersion)
             {
                 if (!ParamUpgrade_Whitelist.TryGetValue(ParamBank.PrimaryBank.AssetLocator.Type, out ulong versionThreshold))
                 {
@@ -196,8 +197,7 @@ namespace StudioCore.ParamEditor
                     return;
                 }
 
-                if (ParamBank.PrimaryBank.ParamVersion < ParamBank.VanillaBank.ParamVersion
-                    && ParamBank.VanillaBank.ParamVersion <= versionThreshold)
+                if (ParamBank.VanillaBank.ParamVersion <= versionThreshold)
                 {
                     ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.0f, 1f, 0f, 1.0f));
                     if (ImGui.Button("Upgrade Params"))

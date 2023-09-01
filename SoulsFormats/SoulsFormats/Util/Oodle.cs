@@ -30,7 +30,7 @@ public class Oodle
             Oodle8Exists = true;
             return new Oodle28();
         }
-        if (Path.Exists($@"{Directory.GetCurrentDirectory()}\oo2core_8_win64.dll"))
+        if (Path.Exists($@"{Directory.GetCurrentDirectory()}\oo2core_6_win64.dll"))
         {
             Oodle6Exists = true;
             return new Oodle26();
