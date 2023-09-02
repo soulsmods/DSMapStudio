@@ -216,11 +216,11 @@ namespace StudioCore.ParamEditor
                             MessageBoxIcon.Information);
                         if (message == DialogResult.OK)
                         {
-                            // $"Select regulation.bin for game version {ParamBank.PrimaryBank.ParamVersion}..."
-                            var fileDialog = NativeFileDialogSharp.Dialog.FileOpen(AssetLocator.RegulationBinFilter);
-                            if (fileDialog.IsOk)
+                            if (PlatformUtils.Instance.OpenFileDialog(
+                                $"Select regulation.bin for game version {ParamBank.PrimaryBank.ParamVersion}...",
+                                new[] { AssetLocator.RegulationBinFilter },
+                                out string path))
                             {
-                                var path = fileDialog.Path;
                                 UpgradeRegulation(ParamBank.PrimaryBank, ParamBank.VanillaBank, path);
                             }
                         }

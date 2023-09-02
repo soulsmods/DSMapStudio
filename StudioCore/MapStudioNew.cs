@@ -19,6 +19,7 @@ using Veldrid.StartupUtilities;
 using StudioCore.Graphics;
 using StudioCore.Platform;
 using Vortice.Vulkan;
+using StudioCore.ParamEditor;
 
 namespace StudioCore
 {
@@ -742,14 +743,15 @@ namespace StudioCore
                     }
                     if (ImGui.MenuItem("Open Project", "", false, !TaskManager.AnyActiveTasks()))
                     {
-                        // Choose the project json file
-                        var fileDialog = NativeFileDialogSharp.Dialog.FileOpen(AssetLocator.ProjectJsonFilter);
-                        if (fileDialog.IsOk)
+                        if (PlatformUtils.Instance.OpenFileDialog(
+                            "Choose the project json file",
+                            new[] { AssetLocator.ProjectJsonFilter },
+                            out string path))
                         {
-                            var settings = ProjectSettings.Deserialize(fileDialog.Path);
+                            var settings = ProjectSettings.Deserialize(path);
                             if (settings != null)
                             {
-                                AttemptLoadProject(settings, fileDialog.Path);
+                                AttemptLoadProject(settings, path);
                             }
                         }
                     }
@@ -1049,13 +1051,13 @@ namespace StudioCore
                     ImGui.SameLine();
                     if (ImGui.Button($@"{ForkAwesome.FileO}##fd2"))
                     {
-                        // Select executable for the game you want to mod...
-                        var fileDialog = NativeFileDialogSharp.Dialog.FileOpen(AssetLocator.GameExecutableFilter);
-
-                        if (fileDialog.IsOk)
+                        if (PlatformUtils.Instance.OpenFileDialog(
+                            "Select executable for the game you want to mod...",
+                            new[] { AssetLocator.GameExecutableFilter },
+                            out string path))
                         {
-                            _newProjectOptions.settings.GameRoot = Path.GetDirectoryName(fileDialog.Path);
-                            _newProjectOptions.settings.GameType = _assetLocator.GetGameTypeForExePath(fileDialog.Path);
+                            _newProjectOptions.settings.GameRoot = Path.GetDirectoryName(path);
+                            _newProjectOptions.settings.GameType = _assetLocator.GetGameTypeForExePath(path);
 
                             if (_newProjectOptions.settings.GameType == GameType.Bloodborne)
                             {
@@ -1091,11 +1093,9 @@ namespace StudioCore
                     ImGui.SameLine();
                     if (ImGui.Button($@"{ForkAwesome.FileO}##fd2"))
                     {
-                        // "Select project directory..."
-                        var folderDialog = NativeFileDialogSharp.Dialog.FolderPicker();
-                        if (folderDialog.IsOk)
+                        if (PlatformUtils.Instance.OpenFolderDialog("Select project directory...", out string path))
                         {
-                            _newProjectOptions.settings.GameRoot = folderDialog.Path;
+                            _newProjectOptions.settings.GameRoot = path;
                         }
                     }
                     NewProject_GameTypeComboGUI();
