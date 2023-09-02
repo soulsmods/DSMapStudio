@@ -13,6 +13,8 @@ namespace StudioCore.ParamEditor
         SearchEngine<A, B> engine;
         private string[] _autoFillArgs;
         private bool _autoFillNotToggle;
+        private bool _autoFillForceLenientToggle;
+        private bool _autoFillForceNonLenientToggle;
         private bool _useAdditionalCondition;
         private AutoFillSearchEngine<A, B> _additionalCondition;
         internal AutoFillSearchEngine(string id, SearchEngine<A, B> searchEngine)
@@ -34,6 +36,15 @@ namespace StudioCore.ParamEditor
             if (enableComplexToggles)
             {
                 ImGui.Checkbox("Invert selection?##meautoinputnottoggle"+id, ref _autoFillNotToggle);
+                if (CFG.Current.Param_AdvancedMassedit)
+                {
+                    ImGui.SameLine();
+                    if (ImGui.Checkbox("Force lenient mode?##meautoinputforcelenienttoggle"+id, ref _autoFillForceLenientToggle) && _autoFillForceLenientToggle)
+                        _autoFillForceNonLenientToggle = false;
+                    ImGui.SameLine();
+                    if (ImGui.Checkbox("Force nonlenient mode?##meautoinputforcenonlenienttoggle"+id, ref _autoFillForceNonLenientToggle) && _autoFillForceNonLenientToggle)
+                        _autoFillForceLenientToggle = false;
+                }
                 ImGui.SameLine();
                 ImGui.Checkbox("Add another condition?##meautoinputadditionalcondition"+id, ref _useAdditionalCondition);
             }
@@ -101,7 +112,7 @@ namespace StudioCore.ParamEditor
                 return null;
             if (command != null)
             {
-                string cmdText = _autoFillNotToggle ? '!' + command : command;
+                string cmdText = $@"{(_autoFillNotToggle ? '!' : "")}{(_autoFillForceLenientToggle ? '~' : "")}{(_autoFillForceNonLenientToggle ? '=' : "")}{command}";
                 for (int i = 0; i < argIndices.Length; i++)
                     cmdText += " " + _autoFillArgs[argIndices[i]];
                 return cmdText + suffixToUse;
