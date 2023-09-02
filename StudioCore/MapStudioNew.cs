@@ -473,29 +473,20 @@ namespace StudioCore
             if (!Directory.Exists(settings.GameRoot))
             {
                 success = false;
-                var fileDialog = NativeFileDialogSharp.Dialog.FileOpen();
-                var gametype = GameType.Undefined;
-                while (gametype != settings.GameType)
-                {
-                    PlatformUtils.Instance.MessageBox($@"Could not find game data directory for {settings.GameType}. Please select the game executable.", "Error",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.None);
+                PlatformUtils.Instance.MessageBox($@"Could not find game data directory for {settings.GameType}. Please select the game executable.", "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.None);
 
+                while (true)
+                {
                     if (PlatformUtils.Instance.OpenFileDialog(
                         $"Select executable for {settings.GameType}...",
                         new[] { AssetLocator.GameExecutableFilter },
                         out string path))
-                    if (fileDialog.IsOk)
                     {
-                        settings.GameRoot = fileDialog.Path;
-                        gametype = _assetLocator.GetGameTypeForExePath(settings.GameRoot);
-                        if (gametype != settings.GameType)
-                        {
-                            PlatformUtils.Instance.MessageBox($@"Selected executable was not for {settings.GameType}. Please select the correct game executable.", "Error",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.None);
-                        }
-                        else
+                        settings.GameRoot = path;
+                        GameType gametype = _assetLocator.GetGameTypeForExePath(settings.GameRoot);
+                        if (gametype == settings.GameType)
                         {
                             success = true;
                             settings.GameRoot = Path.GetDirectoryName(settings.GameRoot);
@@ -504,6 +495,13 @@ namespace StudioCore
                                 settings.GameRoot += @"\dvdroot_ps4";
                             }
                             settings.Serialize(filename);
+                            break;
+                        }
+                        else
+                        {
+                            PlatformUtils.Instance.MessageBox($@"Selected executable was not for {settings.GameType}. Please select the correct game executable.", "Error",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.None);
                         }
                     }
                     else
