@@ -148,6 +148,8 @@ Some common tools for mapstudio include:
             if (isRowHint)
             {
                 ImGui.TextColored(new Vector4(0.6f, 0.6f, 1.0f, 1f), "?");
+                if (ImGui.IsItemClicked(ImGuiMouseButton.Left))
+                    ImGui.OpenPopup(id);
                 if (ImGui.BeginPopupContextItem(id))
                 {
                     if (ParamEditor.ParamEditorScreen.EditorMode && canEdit) //remove this, editor mode should be called earlier
