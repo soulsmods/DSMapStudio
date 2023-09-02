@@ -667,7 +667,7 @@ namespace StudioCore.MsbEditor
                     }
                 }
 
-                if (_assetLocator.Type == GameType.ArmoredCoreVI && FeatureFlags.AC6_MSB == false)
+                if (_configuration == Configuration.MapEditor && _assetLocator.Type == GameType.ArmoredCoreVI && FeatureFlags.AC6_MSB == false)
                 {
                     ImGui.Indent();
                     ImGui.Spacing();
@@ -904,7 +904,7 @@ namespace StudioCore.MsbEditor
                     ChaliceDungeonImportButton();
                 }
 
-                if (_assetLocator.Type == GameType.ArmoredCoreVI && FeatureFlags.AC6_MSB == false)
+                if (_configuration == Configuration.MapEditor && _assetLocator.Type == GameType.ArmoredCoreVI && FeatureFlags.AC6_MSB == false)
                 {
                     ImGui.EndDisabled();
                 }
