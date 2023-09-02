@@ -428,11 +428,9 @@ namespace StudioCore
 
         private void DumpFlverLayouts()
         {
-            var dialogResult = NativeFileDialogSharp.Dialog.FileOpen(_assetLocator.TxtFilter);
-
-            if (dialogResult.IsOk)
+            if (PlatformUtils.Instance.SaveFileDialog("Save Flver layout dump", new[] { AssetLocator.TxtFilter }, out string path))
             {
-                using (var file = new StreamWriter(dialogResult.Path))
+                using (var file = new StreamWriter(path))
                 {
                     foreach (var mat in Resource.FlverResource.MaterialLayouts)
                     {
@@ -475,14 +473,18 @@ namespace StudioCore
             if (!Directory.Exists(settings.GameRoot))
             {
                 success = false;
-                PlatformUtils.Instance.MessageBox($@"Could not find game data directory for {settings.GameType}. Please select the game executable.", "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.None);
-
-                var fileDialog = NativeFileDialogSharp.Dialog.FileOpen(_assetLocator.GameExecutableFilter);
+                var fileDialog = NativeFileDialogSharp.Dialog.FileOpen();
                 var gametype = GameType.Undefined;
                 while (gametype != settings.GameType)
                 {
+                    PlatformUtils.Instance.MessageBox($@"Could not find game data directory for {settings.GameType}. Please select the game executable.", "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.None);
+
+                    if (PlatformUtils.Instance.OpenFileDialog(
+                        $"Select executable for {settings.GameType}...",
+                        new[] { AssetLocator.GameExecutableFilter },
+                        out string path))
                     if (fileDialog.IsOk)
                     {
                         settings.GameRoot = fileDialog.Path;
@@ -654,10 +656,9 @@ namespace StudioCore
             ImGui.SameLine();
             if (ImGui.Button($@"{ForkAwesome.FileO}"))
             {
-                var folderDialog = NativeFileDialogSharp.Dialog.FolderPicker();
-                if (folderDialog.IsOk)
+                if (PlatformUtils.Instance.OpenFolderDialog("Select project directory...", out string path))
                 {
-                    _newProjectOptions.directory = folderDialog.Path;
+                    _newProjectOptions.directory = path;
                 }
             }
         }
@@ -743,7 +744,8 @@ namespace StudioCore
                     }
                     if (ImGui.MenuItem("Open Project", "", false, !TaskManager.AnyActiveTasks()))
                     {
-                        var fileDialog = NativeFileDialogSharp.Dialog.FileOpen(_assetLocator.ProjectJsonFilter);
+                        // Choose the project json file
+                        var fileDialog = NativeFileDialogSharp.Dialog.FileOpen(AssetLocator.ProjectJsonFilter);
                         if (fileDialog.IsOk)
                         {
                             var settings = ProjectSettings.Deserialize(fileDialog.Path);
@@ -1049,7 +1051,8 @@ namespace StudioCore
                     ImGui.SameLine();
                     if (ImGui.Button($@"{ForkAwesome.FileO}##fd2"))
                     {
-                        var fileDialog = NativeFileDialogSharp.Dialog.FileOpen(_assetLocator.GameExecutableFilter);
+                        // Select executable for the game you want to mod...
+                        var fileDialog = NativeFileDialogSharp.Dialog.FileOpen(AssetLocator.GameExecutableFilter);
 
                         if (fileDialog.IsOk)
                         {
@@ -1090,6 +1093,7 @@ namespace StudioCore
                     ImGui.SameLine();
                     if (ImGui.Button($@"{ForkAwesome.FileO}##fd2"))
                     {
+                        // "Select project directory..."
                         var folderDialog = NativeFileDialogSharp.Dialog.FolderPicker();
                         if (folderDialog.IsOk)
                         {
