@@ -243,6 +243,7 @@ namespace StudioCore.ParamEditor
 
                 if (AssetLocator.Type == GameType.ArmoredCoreVI)
                 {
+                    _usedTentativeParamTypes = new();
                     p = FSParam.Param.ReadIgnoreCompression(f.Bytes);
                     if (p.ParamType != null)
                     {
@@ -250,6 +251,7 @@ namespace StudioCore.ParamEditor
                         {
                             if (TentativeParamType_AC6.TryGetValue(paramName, out string newParamType))
                             {
+                                _usedTentativeParamTypes.Add(paramName, p.ParamType);
                                 p.ParamType = newParamType;
                                 TaskLogs.AddLog($"Couldn't find ParamDef for {paramName}, but tentative ParamType \"{newParamType}\" exists.");
                             }
@@ -264,6 +266,7 @@ namespace StudioCore.ParamEditor
                     {
                         if (TentativeParamType_AC6.TryGetValue(paramName, out string newParamType))
                         {
+                            _usedTentativeParamTypes.Add(paramName, p.ParamType);
                             p.ParamType = newParamType;
                             TaskLogs.AddLog($"Couldn't read ParamType for {paramName}, but tentative ParamType \"{newParamType}\" exists.");
                         }
