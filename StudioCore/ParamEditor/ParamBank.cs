@@ -246,11 +246,11 @@ namespace StudioCore.ParamEditor
                                 p.ParamType = newParamType;
                                 TaskLogs.AddLog($"Couldn't find ParamDef for {paramName}, but tentative ParamType \"{newParamType}\" exists.");
                             }
-                        }
-                        else
-                        {
-                            TaskLogs.AddLog($"Couldn't find ParamDef for param {paramName} and no tentative ParamType exists.",
-                                Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High);
+                            else
+                            {
+                                TaskLogs.AddLog($"Couldn't find ParamDef for param {paramName} and no tentative ParamType exists.",
+                                    Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High);
+                            }
                         }
                     }
                     else
