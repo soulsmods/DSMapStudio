@@ -326,8 +326,7 @@ namespace StudioCore.MsbEditor
                 Viewport.WorldView.CameraMoveSpeed_Slow = basespeed / 10.0f;
                 Viewport.WorldView.CameraMoveSpeed_Fast = basespeed * 10.0f;
 
-                //Viewport.FarClip = Math.Max(10.0f, maxdim * 10.0f);
-                //Viewport.NearClip = Math.Max(0.001f, maxdim / 10000.0f);
+                Viewport.NearClip = Math.Max(0.001f, maxdim / 10000.0f);
             }
 
             if (_flverhandle.IsLoaded && _flverhandle.Get() != null)
