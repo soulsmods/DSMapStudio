@@ -9,7 +9,6 @@ using SoulsFormats;
 using System.Threading.Tasks;
 using System.Xml;
 using StudioCore.Editor;
-using Gtk;
 using StudioCore.Platform;
 
 namespace StudioCore.TextEditor
@@ -1482,14 +1481,11 @@ namespace StudioCore.TextEditor
 
         public static bool ExportFMGs()
         {
-            using FileChooserNative fileChooser = new FileChooserNative("Choose Export Folder",
-                null, FileChooserAction.SelectFolder, "Open", "Cancel");
-            if (fileChooser.Run() != (int)ResponseType.Accept)
+            if (!PlatformUtils.Instance.OpenFolderDialog("Choose Export Folder", out string path))
             {
                 return false;
             }
 
-            var path = fileChooser.Filename;
             int filecount = 0;
             if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
             {
@@ -1545,17 +1541,11 @@ namespace StudioCore.TextEditor
 
         public static bool ImportFMGs()
         {
-            using FileChooserNative fileChooser = new FileChooserNative("Choose Files to Import",
-                null, FileChooserAction.Open, "Open", "Cancel");
-            fileChooser.AddFilter(AssetLocator.FmgJsonFilter);
-            fileChooser.AddFilter(AssetLocator.AllFilesFilter);
-            if (fileChooser.Run() != (int)ResponseType.Accept)
+            if (!PlatformUtils.Instance.OpenMultiFileDialog("Choose Files to Import", new[] { AssetLocator.FmgJsonFilter }, out var files))
             {
                 return false;
             }
-            var files = fileChooser.Filenames;
-
-            if (files.Length == 0)
+            if (files.Count == 0)
             {
                 return false;
             }

@@ -1,14 +1,14 @@
-m00_10_00_00 
+m00_10_00_00 Garage
 m00_12_00_00 
 m00_90_00_00 AC Test
 m01_00_30_00 Mission 9100 - AC Test
 m01_00_50_00 
 m01_00_60_00 
-m01_00_70_00 Mission 4020 - Watchpoint Alpha - Underground Exploration – Depth 3
+m01_00_70_00 Mission 4020 - Watchpoint Alpha - Underground Exploration - Depth 3
 m01_00_80_00 Mission 4100 - Watchpoint Alpha - MIA
 m01_01_00_00 Mission 5110 - Xylem Control Block - Regain Control of the Xylem
 m01_01_10_00 Mission 2010 - Grid 135 - Illegal Entry
-m01_01_30_00 Mission 5040 - Xylem Upper Districts - Breach the Kármán Line
+m01_01_30_00 Mission 5040 - Xylem Upper Districts - Breach the Karman Line
 m01_01_40_00 Mission 2080 - Bona Dea Dunes - Destroy the Weaponized Mining Ship
 m01_01_50_00 Mission 2020 and 2025 - Gallia Dam Complex - Attack the Dam Complex
 m01_01_60_00 
@@ -30,9 +30,9 @@ m01_04_70_00 Mission 5100 and 5105 - Xylem, the Floating City - Survey the Uninh
 m01_04_80_00 Mission 5010 - Xylem, the Floating City - Take the Uninhabited Floating City
 m01_04_90_00 Mission 5030 - Xylem Drive Block - Destroy the Drive Block
 m01_05_30_00 Mission 5020 - Xylem Upper Districts - Intercept the Corporate Forces
-m01_06_00_00 Mission 9001
-m01_06_10_00 Mission 4000 - Watchpoint Alpha - Underground Exploration – Depth 1
-m01_06_20_00 Mission 4010 and 4015 - Watchpoint Alpha - Underground Exploration – Depth 2
+m01_06_00_00 Mission 9001 - Garage - Unknown
+m01_06_10_00 Mission 4000 - Watchpoint Alpha - Underground Exploration - Depth 1
+m01_06_20_00 Mission 4010 and 4015 - Watchpoint Alpha - Underground Exploration - Depth 2
 m01_06_30_00 Mission 4021 and 4026 - Watchpoint Alpha - Unknown Territory Survey
 m01_06_40_00 Mission 4030 and 4035 - Institute City - Reach the Coral Convergence
 m01_06_60_00 Mission 3500 - Engebret Tunnel - Historic Data Recovery

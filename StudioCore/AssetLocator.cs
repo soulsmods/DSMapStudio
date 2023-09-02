@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Text.RegularExpressions;
-using Gtk;
 using SoulsFormats;
 
 namespace StudioCore
@@ -75,18 +74,17 @@ namespace StudioCore
     /// </summary>
     public class AssetLocator
     {
-        public readonly FileFilter GameExecutableFilter;
-        public readonly FileFilter ProjectJsonFilter;
-        public readonly FileFilter RegulationBinFilter;
-        public readonly FileFilter Data0Filter;
-        public readonly FileFilter ParamBndDcxFilter;
-        public readonly FileFilter ParamBndFilter;
-        public readonly FileFilter EncRegulationFilter;
-        public readonly FileFilter ParamLooseFilter;
-        public readonly FileFilter CsvFilter;
-        public readonly FileFilter TxtFilter;
-        public readonly FileFilter FmgJsonFilter;
-        public readonly FileFilter AllFilesFilter;
+        public static readonly string GameExecutableFilter;
+        public static readonly string ProjectJsonFilter;
+        public static readonly string RegulationBinFilter;
+        public static readonly string Data0Filter;
+        public static readonly string ParamBndDcxFilter;
+        public static readonly string ParamBndFilter;
+        public static readonly string EncRegulationFilter;
+        public static readonly string ParamLooseFilter;
+        public static readonly string CsvFilter;
+        public static readonly string TxtFilter;
+        public static readonly string FmgJsonFilter;
         
         public GameType Type { get; private set; } = GameType.Undefined;
 
@@ -105,33 +103,37 @@ namespace StudioCore
         /// </summary>
         public string ProjectMiscDir => @$"{GameModDirectory}\DSMapStudio";
 
-        public AssetLocator()
+        static AssetLocator()
         {
-            GameExecutableFilter = new FileFilter { Name = "Game Executable (.EXE, EBOOT.BIN)" };
-            GameExecutableFilter.AddPattern("*.exe*");
-            GameExecutableFilter.AddPattern("*.bin*");
-            ProjectJsonFilter = new FileFilter { Name = "Project file (project.json)" };
-            ProjectJsonFilter.AddPattern("project.json");
-            RegulationBinFilter = new FileFilter { Name = "Regulation file (regulation.bin)" };
-            RegulationBinFilter.AddPattern("regulation.bin");
-            Data0Filter = new FileFilter { Name = "Data file (Data0.bdt)" };
-            Data0Filter.AddPattern("data0.bdt");
-            ParamBndDcxFilter = new FileFilter { Name = "Compressed params (gameparam.parambnd.dcx)" };
-            ParamBndDcxFilter.AddPattern("gameparam.parambnd.dcx");
-            ParamBndFilter = new FileFilter { Name = "Params (gameparam.parambnd)" };
-            ParamBndFilter.AddPattern("gameparam.parambnd");
-            EncRegulationFilter = new FileFilter { Name = "DS2 regulation (enc_regulation.bnd.dcx)" };
-            EncRegulationFilter.AddPattern("enc_regulation.bnd.dcx");
-            ParamLooseFilter = new FileFilter { Name = "Loose param file (*.param)" };
-            ParamLooseFilter.AddPattern("*.param");
-            CsvFilter = new FileFilter { Name = "CSV file (*.csv)" };
-            CsvFilter.AddPattern("*.csv");
-            TxtFilter = new FileFilter { Name = "Text file (*.txt)" };
-            TxtFilter.AddPattern("*.txt");
-            FmgJsonFilter = new FileFilter { Name = "Exported FMGs (*.fmg.json)" };
-            FmgJsonFilter.AddPattern("*.fmg.json");
-            AllFilesFilter = new FileFilter { Name = "All files" };
-            AllFilesFilter.AddPattern("*.*");
+            // These patterns are meant to be passed directly into PlatformUtils.
+            // Everything about their handling should be done there.
+
+            // Game Executable (.EXE, EBOOT.BIN)|*.EXE*;*EBOOT.BIN*
+            // Windows executable (*.EXE)|*.EXE*
+            // Playstation executable (*.BIN)|*.BIN*
+            GameExecutableFilter = "exe,bin";
+            // Project file (project.json)|PROJECT.JSON
+            ProjectJsonFilter = "json";
+            // Regulation file (regulation.bin)|REGULATION.BIN
+            RegulationBinFilter = "bin";
+            // Data file (Data0.bdt)|DATA0.BDT
+            Data0Filter = "bdt";
+            // ParamBndDcx (gameparam.parambnd.dcx)|GAMEPARAM.PARAMBND.DCX
+            ParamBndDcxFilter = "parambnd.dcx";
+            // ParamBnd (gameparam.parambnd)|GAMEPARAM.PARAMBND
+            ParamBndFilter = "parambnd";
+            // Enc_RegBndDcx (enc_regulation.bnd.dcx)|ENC_REGULATION.BND.DCX
+            EncRegulationFilter = "bnd.dcx";
+            // Loose Param file (*.Param)|*.Param
+            ParamLooseFilter = "param";
+            // CSV file (*.csv)|*.csv
+            CsvFilter = "csv";
+            // Text file (*.txt)|*.txt
+            TxtFilter = "txt";
+            // Exported FMGs (*.fmg.json)|*.fmg.json
+            FmgJsonFilter = "fmg.json";
+            // All file filter is implicitly added by NFD. Ideally this is used explicitly.
+            // All files|*.*
         }
 
         private List<string> FullMapList = null;
@@ -335,10 +337,6 @@ namespace StudioCore
                         mapSet.Add(Path.GetFileNameWithoutExtension($@"{map}.blah"));
                     }
                 }
-                else if (Type == GameType.ArmoredCoreVI)
-                {
-                    //TODO AC6
-                }
                 else
                 {
                     var msbFiles = Directory.GetFileSystemEntries(GameRootDirectory + @"\map\MapStudio\", @"*.msb")
@@ -407,12 +405,6 @@ namespace StudioCore
             // BB, DS3, ER, SSDT
             else if (Type == GameType.Bloodborne || Type == GameType.DarkSoulsIII || Type == GameType.EldenRing || Type == GameType.Sekiro)
             {
-                preferredPath = $@"\map\MapStudio\{mapid}.msb.dcx";
-                backupPath = $@"\map\MapStudio\{mapid}.msb";
-            }
-            else if (Type == GameType.ArmoredCoreVI)
-            {
-                //TODO AC6
                 preferredPath = $@"\map\MapStudio\{mapid}.msb.dcx";
                 backupPath = $@"\map\MapStudio\{mapid}.msb";
             }
@@ -559,10 +551,6 @@ namespace StudioCore
                 {
                     ad.AssetPath = $@"{GameRootDirectory}\{path}.nva.dcx";
                 }
-            }
-            else if (Type == GameType.ArmoredCoreVI)
-            {
-                //TODO AC6
             }
             else
             {
@@ -1472,13 +1460,9 @@ namespace StudioCore
             {
                 ret.AssetVirtualPath = $@"obj/{obj}/model/{obj}.flv";
             }
-            else if (Type == GameType.EldenRing)
+            else if (Type is GameType.EldenRing or GameType.ArmoredCoreVI)
             {
                 ret.AssetVirtualPath = $@"obj/{obj}/model/{obj.ToUpper()}.flver";
-            }
-            else if (Type == GameType.ArmoredCoreVI)
-            {
-                //TODO AC6
             }
             else
             {
