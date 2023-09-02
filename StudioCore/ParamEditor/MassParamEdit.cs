@@ -674,7 +674,7 @@ namespace StudioCore.ParamEditor
                 var field = param.GetCol(address[2]);
                 var value = param[id].Get(field).ToParamEditorString();
                 return (i, param) => (j, row) => (k, col) => value;
-            }));
+            }, ()=>CFG.Current.Param_AdvancedMassedit));
             argumentGetters.Add("average", newGetter(new string[]{"field internalName", "row selector"}, "Gives the mean value of the cells/fields found using the given selector, for the currently selected param", (field) => (i, param) => {
                 var col = param.GetCol(field[0]);
                 if (!col.IsColumnValid())
