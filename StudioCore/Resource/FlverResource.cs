@@ -2139,12 +2139,7 @@ namespace StudioCore.Resource
         public bool _Load(Memory<byte> bytes, AccessLevel al, GameType type)
         {
             bool ret;
-            if (type == GameType.ArmoredCoreVI)
-            {
-                //TODO AC6
-                return false;
-            }
-            else if (type == GameType.DemonsSouls)
+            if (type == GameType.DemonsSouls)
             {
                 FlverDeS = FLVER0.Read(bytes);
                 ret = LoadInternalDeS(al, type);
@@ -2172,12 +2167,7 @@ namespace StudioCore.Resource
         public bool _Load(string path, AccessLevel al, GameType type)
         {
             bool ret;
-            if (type == GameType.ArmoredCoreVI)
-            {
-                //TODO AC6
-                return false;
-            }
-            else if (type == GameType.DemonsSouls)
+            if (type == GameType.DemonsSouls)
             {
                 FlverDeS = FLVER0.Read(path);
                 ret = LoadInternalDeS(al, type);

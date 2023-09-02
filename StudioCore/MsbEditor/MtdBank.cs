@@ -11,8 +11,8 @@ namespace StudioCore.MsbEditor
     {
         private static AssetLocator AssetLocator = null;
 
-        private static Dictionary<string, MTD> _mtds = null;
-        private static Dictionary<string, MATBIN> _matbins = null;
+        private static Dictionary<string, MTD> _mtds = new();
+        private static Dictionary<string, MATBIN> _matbins = new();
 
         public static bool IsMatbin { get; private set; }
 

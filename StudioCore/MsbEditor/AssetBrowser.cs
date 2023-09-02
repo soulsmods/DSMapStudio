@@ -68,13 +68,9 @@ namespace StudioCore.MsbEditor
                     _selected = "Chr";
                 }
                 string objLabel = "Obj";
-                if (_locator.Type is GameType.EldenRing)
+                if (_locator.Type is GameType.EldenRing or GameType.ArmoredCoreVI)
                 {
                     objLabel = "Aeg";
-                }
-                else if (_locator.Type is GameType.ArmoredCoreVI)
-                {
-                    //TODO AC6
                 }
                 if (ImGui.Selectable(objLabel, _selected == "Obj"))
                 {

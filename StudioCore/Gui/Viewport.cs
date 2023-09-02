@@ -35,7 +35,7 @@ namespace StudioCore.Gui
         public int Height { get; private set; }
 
         public float NearClip { get; set; } = 0.1f;
-        public float FarClip { get; set; } = CFG.Current.GFX_RenderDistance_Max;
+        public float FarClip => CFG.Current.GFX_RenderDistance_Max;
 
         public bool DrawGrid { get; set; } = true;
 

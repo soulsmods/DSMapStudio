@@ -1210,6 +1210,7 @@ namespace StudioCore
             if (Type == GameType.ArmoredCoreVI)
             {
                 //TODO AC6
+                // Apparently assets are used for CHR textures sometimes.
             }
             if (Type == GameType.EldenRing)
             {
@@ -1362,10 +1363,6 @@ namespace StudioCore
             {
                 ret.AssetVirtualPath = $@"chr/{chr}/model/{chr}.flv";
             }
-            else if (Type == GameType.ArmoredCoreVI)
-            {
-                //TODO AC6
-            }
             else
             {
                 ret.AssetVirtualPath = $@"chr/{chr}/model/{chr}.flver";
@@ -1399,7 +1396,9 @@ namespace StudioCore
                 }
                 else if (Type == GameType.ArmoredCoreVI)
                 {
-                    //TODO AC6
+                    // AEGs are objs in my heart :(
+                    modelDir = @"\asset\environment\geometry";
+                    modelExt = ".geombnd.dcx";
                 }
 
                 // Directories to search for obj models
@@ -1407,10 +1406,6 @@ namespace StudioCore
                 if (Type == GameType.EldenRing)
                 {
                     searchDirs = Directory.GetFileSystemEntries(GameRootDirectory + modelDir, $@"aeg*").ToList();
-                }
-                else if (Type == GameType.ArmoredCoreVI)
-                {
-                    //TODO AC6
                 }
                 else
                 {
@@ -1657,10 +1652,6 @@ namespace StudioCore
                     {
                         return GetOverridenFilePath($@"chr\{chrid}\{chrid}.chrbnd.dcx");
                     }
-                    else if (Type == GameType.ArmoredCoreVI)
-                    {
-                        //TODO AC6
-                    }
                     return GetOverridenFilePath($@"chr\{chrid}.chrbnd.dcx");
                 }
                 else if (pathElements[i].Equals("tex"))
@@ -1670,11 +1661,11 @@ namespace StudioCore
                     {
                         //TODO AC6
                     }
-                    if (Type == GameType.EldenRing)
+                    else if (Type == GameType.EldenRing)
                     {
                         return GetOverridenFilePath($@"chr\{chrid}_h.texbnd.dcx");
                     }
-                    if (Type == GameType.DarkSoulsIII || Type == GameType.Sekiro)
+                    else if (Type == GameType.DarkSoulsIII || Type == GameType.Sekiro)
                     {
                         return GetOverridenFilePath($@"chr\{chrid}.texbnd.dcx");
                     }
@@ -1710,7 +1701,10 @@ namespace StudioCore
                     }
                     else if (Type == GameType.ArmoredCoreVI)
                     {
-                        //TODO AC6
+                        if (objid.Length >= 6)
+                            return GetOverridenFilePath($@"asset\environment\geometry\{objid}.geombnd.dcx");
+                        else
+                            return null;
                     }
                     return GetOverridenFilePath($@"obj\{objid}.objbnd.dcx");
                 }
