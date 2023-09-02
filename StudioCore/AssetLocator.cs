@@ -74,17 +74,17 @@ namespace StudioCore
     /// </summary>
     public class AssetLocator
     {
-        public readonly string GameExecutableFilter;
-        public readonly string ProjectJsonFilter;
-        public readonly string RegulationBinFilter;
-        public readonly string Data0Filter;
-        public readonly string ParamBndDcxFilter;
-        public readonly string ParamBndFilter;
-        public readonly string EncRegulationFilter;
-        public readonly string ParamLooseFilter;
-        public readonly string CsvFilter;
-        public readonly string TxtFilter;
-        public readonly string FmgJsonFilter;
+        public static readonly string GameExecutableFilter;
+        public static readonly string ProjectJsonFilter;
+        public static readonly string RegulationBinFilter;
+        public static readonly string Data0Filter;
+        public static readonly string ParamBndDcxFilter;
+        public static readonly string ParamBndFilter;
+        public static readonly string EncRegulationFilter;
+        public static readonly string ParamLooseFilter;
+        public static readonly string CsvFilter;
+        public static readonly string TxtFilter;
+        public static readonly string FmgJsonFilter;
         
         public GameType Type { get; private set; } = GameType.Undefined;
 
@@ -103,52 +103,41 @@ namespace StudioCore
         /// </summary>
         public string ProjectMiscDir => @$"{GameModDirectory}\DSMapStudio";
 
-        public AssetLocator()
+        static AssetLocator()
         {
-            // GameExecutableFilter = "Game Executable (.EXE, EBOOT.BIN)";
-            // GameExecutableFilter.AddPattern("*.exe*");
-            // GameExecutableFilter.AddPattern("*.bin*");
+            // These patterns are meant to be passed directly into PlatformUtils.
+            // Everything about their handling should be done there.
+
+            // Game Executable (.EXE, EBOOT.BIN)|*.EXE*;*EBOOT.BIN*
+            // Windows executable (*.EXE)|*.EXE*
+            // Playstation executable (*.BIN)|*.BIN*
             GameExecutableFilter = "exe,bin";
-            // ProjectJsonFilter = new FileFilter { Name = "Project file (project.json)" };
-            // ProjectJsonFilter.AddPattern("project.json");
+            // Project file (project.json)|PROJECT.JSON
             ProjectJsonFilter = "json";
-            // RegulationBinFilter = new FileFilter { Name = "Regulation file (regulation.bin)" };
-            // RegulationBinFilter.AddPattern("regulation.bin");
+            // Regulation file (regulation.bin)|REGULATION.BIN
             RegulationBinFilter = "bin";
-            // Data0Filter = new FileFilter { Name = "Data file (Data0.bdt)" };
-            // Data0Filter.AddPattern("data0.bdt");
+            // Data file (Data0.bdt)|DATA0.BDT
             Data0Filter = "bdt";
-            // ParamBndDcxFilter = new FileFilter { Name = "Compressed params (gameparam.parambnd.dcx)" };
-            // ParamBndDcxFilter.AddPattern("gameparam.parambnd.dcx");
+            // ParamBndDcx (gameparam.parambnd.dcx)|GAMEPARAM.PARAMBND.DCX
             ParamBndDcxFilter = "parambnd.dcx";
-            // ParamBndFilter = new FileFilter { Name = "Params (gameparam.parambnd)" };
-            // ParamBndFilter.AddPattern("gameparam.parambnd");
+            // ParamBnd (gameparam.parambnd)|GAMEPARAM.PARAMBND
             ParamBndFilter = "parambnd";
-            // EncRegulationFilter = new FileFilter { Name = "DS2 regulation (enc_regulation.bnd.dcx)" };
-            // EncRegulationFilter.AddPattern("enc_regulation.bnd.dcx");
+            // Enc_RegBndDcx (enc_regulation.bnd.dcx)|ENC_REGULATION.BND.DCX
             EncRegulationFilter = "bnd.dcx";
-            // ParamLooseFilter = new FileFilter { Name = "Loose param file (*.param)" };
-            // ParamLooseFilter.AddPattern("*.param");
+            // Loose Param file (*.Param)|*.Param
             ParamLooseFilter = "param";
-            // CsvFilter = new FileFilter { Name = "CSV file (*.csv)" };
-            // CsvFilter.AddPattern("*.csv");
+            // CSV file (*.csv)|*.csv
             CsvFilter = "csv";
-            // TxtFilter = new FileFilter { Name = "Text file (*.txt)" };
-            // TxtFilter.AddPattern("*.txt");
+            // Text file (*.txt)|*.txt
             TxtFilter = "txt";
-            // FmgJsonFilter = new FileFilter { Name = "Exported FMGs (*.fmg.json)" };
-            // FmgJsonFilter.AddPattern("*.fmg.json");
+            // Exported FMGs (*.fmg.json)|*.fmg.json
             FmgJsonFilter = "fmg.json";
-            // AllFilesFilter = new FileFilter { Name = "All files" };
-            // AllFilesFilter.AddPattern("*.*");
+            // All file filter is implicitly added by NFD. Ideally this is used explicitly.
+            // All files|*.*
         }
 
         private List<string> FullMapList = null;
 
-        public string CombineFilters(params string[] filters)
-        {
-            return string.Join(";", filters);
-        }
         public string GetAssetPath(string relpath)
         {
             if (GameModDirectory != null)
