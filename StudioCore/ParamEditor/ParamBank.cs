@@ -222,11 +222,13 @@ namespace StudioCore.ParamEditor
             // Load every param in the regulation
             foreach (var f in parambnd.Files)
             {
+                string paramName = Path.GetFileNameWithoutExtension(f.Name);
+
                 if (!f.Name.ToUpper().EndsWith(".PARAM"))
                 {
                     continue;
                 }
-                if (paramBank.ContainsKey(Path.GetFileNameWithoutExtension(f.Name)))
+                if (paramBank.ContainsKey(paramName))
                 {
                     continue;
                 }
@@ -235,9 +237,24 @@ namespace StudioCore.ParamEditor
 
                 if (AssetLocator.Type == GameType.ArmoredCoreVI)
                 {
-                    if (p.ParamType == "" || p.ParamType == null)
+                    if (p.ParamType != null)
                     {
-                        string paramName = Path.GetFileNameWithoutExtension(f.Name);
+                        if (!_paramdefs.ContainsKey(p.ParamType) && !_patchParamdefs.ContainsKey(p.ParamType))
+                        {
+                            if (TentativeParamType_AC6.TryGetValue(paramName, out string newParamType))
+                            {
+                                p.ParamType = newParamType;
+                                TaskLogs.AddLog($"Couldn't find ParamDef for {paramName}, but tentative ParamType \"{newParamType}\" exists.");
+                            }
+                        }
+                        else
+                        {
+                            TaskLogs.AddLog($"Couldn't find ParamDef for param {paramName} and no tentative ParamType exists.",
+                                Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High);
+                        }
+                    }
+                    else
+                    {
                         if (TentativeParamType_AC6.TryGetValue(paramName, out string newParamType))
                         {
                             p.ParamType = newParamType;
@@ -250,10 +267,14 @@ namespace StudioCore.ParamEditor
                         }
                     }
                 }
-
-                if (!_paramdefs.ContainsKey(p.ParamType) && !_patchParamdefs.ContainsKey(p.ParamType))
+                else
                 {
-                    continue;
+                    if (!_paramdefs.ContainsKey(p.ParamType) && !_patchParamdefs.ContainsKey(p.ParamType))
+                    {
+                        TaskLogs.AddLog($"Couldn't find ParamDef for param {paramName} with ParamType \"{p.ParamType}\".",
+                            Microsoft.Extensions.Logging.LogLevel.Warning);
+                        continue;
+                    }
                 }
 
                 // Try to fixup Elden Ring ChrModelParam for ER 1.06 because many have been saving botched params and
@@ -287,7 +308,7 @@ namespace StudioCore.ParamEditor
                 try
                 {
                     p.ApplyParamdef(def);
-                    paramBank.Add(Path.GetFileNameWithoutExtension(f.Name), p);
+                    paramBank.Add(paramName, p);
                 }
                 catch(Exception e)
                 {
