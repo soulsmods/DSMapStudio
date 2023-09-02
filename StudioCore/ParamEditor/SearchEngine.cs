@@ -45,7 +45,7 @@ namespace StudioCore.Editor
 
         public bool HandlesCommand(string command)
         {
-            if (command.Length > 0 && command.StartsWith('!'))
+            if (command.Length > 0 && (command.StartsWith('!') || command.StartsWith('~') || command.StartsWith('=')))
                 command = command.Substring(1);
             return filterList.ContainsKey(command.Split(" ")[0]);
         }
@@ -108,7 +108,25 @@ namespace StudioCore.Editor
                     int argC;
                     string[] args;
                     bool not = false;
+                    bool forceLenient = false;
+                    bool forceNonLenient = false;
+                    // Organise these operators better
                     if (cmd[0].Length > 0 && cmd[0].StartsWith('!'))
+                    {
+                        cmd[0] = cmd[0].Substring(1);
+                        not = true;
+                    }
+                    if (cmd[0].Length > 0 && cmd[0].StartsWith('~'))
+                    {
+                        cmd[0] = cmd[0].Substring(1);
+                        forceLenient = true;
+                    }
+                    else if (cmd[0].Length > 0 && cmd[0].StartsWith('='))
+                    {
+                        cmd[0] = cmd[0].Substring(1);
+                        forceNonLenient = true;
+                    }
+                    if (cmd[0].Length > 0 && cmd[0].StartsWith('!') && not == false)
                     {
                         cmd[0] = cmd[0].Substring(1);
                         not = true;
@@ -131,7 +149,7 @@ namespace StudioCore.Editor
                             args[i] = MassParamEdit.massEditVars[args[i].Substring(1)].ToString();
                     }
 
-                    var filter = selectedCommand.func(args, lenient);
+                    var filter = selectedCommand.func(args, (lenient || forceLenient) && !forceNonLenient);
                     Func<B, bool> criteria = filter(context);
                     List<B> newRows = new List<B>();
                     foreach (B row in liveSet)
