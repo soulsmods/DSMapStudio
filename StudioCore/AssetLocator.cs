@@ -1486,7 +1486,7 @@ namespace StudioCore
             }
             else if (Type == GameType.ArmoredCoreVI)
             {
-                //TODO AC6
+                ret.AssetVirtualPath = $@"obj/{obj}/model/{obj.ToUpper()}.flver";
             }
             else
             {
