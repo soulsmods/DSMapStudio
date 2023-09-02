@@ -1481,13 +1481,11 @@ namespace StudioCore.TextEditor
 
         public static bool ExportFMGs()
         {
-            var folderDialog = NativeFileDialogSharp.Dialog.FolderPicker();
-            if (folderDialog.IsOk)
+            if (!PlatformUtils.Instance.OpenFolderDialog("Choose Export Folder", out string path))
             {
                 return false;
             }
 
-            var path = folderDialog.Path;
             int filecount = 0;
             if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
             {
@@ -1543,13 +1541,10 @@ namespace StudioCore.TextEditor
 
         public static bool ImportFMGs()
         {
-            var fileDialog = NativeFileDialogSharp.Dialog.FileOpenMultiple(AssetLocator.CombineFilters(AssetLocator.FmgJsonFilter));
-            if (fileDialog.IsOk)
+            if (!PlatformUtils.Instance.OpenMultiFileDialog("Choose Files to Import", new[] { AssetLocator.FmgJsonFilter }, out var files))
             {
                 return false;
             }
-            var files = fileDialog.Paths;
-
             if (files.Count == 0)
             {
                 return false;

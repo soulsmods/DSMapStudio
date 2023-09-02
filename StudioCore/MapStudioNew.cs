@@ -428,11 +428,9 @@ namespace StudioCore
 
         private void DumpFlverLayouts()
         {
-            var dialogResult = NativeFileDialogSharp.Dialog.FileOpen(_assetLocator.TxtFilter);
-
-            if (dialogResult.IsOk)
+            if (PlatformUtils.Instance.SaveFileDialog("Save Flver layout dump", new[] { AssetLocator.TxtFilter }, out string path))
             {
-                using (var file = new StreamWriter(dialogResult.Path))
+                using (var file = new StreamWriter(path))
                 {
                     foreach (var mat in Resource.FlverResource.MaterialLayouts)
                     {
@@ -479,21 +477,16 @@ namespace StudioCore
                     MessageBoxButtons.OK,
                     MessageBoxIcon.None);
 
-                var fileDialog = NativeFileDialogSharp.Dialog.FileOpen(_assetLocator.GameExecutableFilter);
-                var gametype = GameType.Undefined;
-                while (gametype != settings.GameType)
+                while (true)
                 {
-                    if (fileDialog.IsOk)
+                    if (PlatformUtils.Instance.OpenFileDialog(
+                        $"Select executable for {settings.GameType}...",
+                        new[] { AssetLocator.GameExecutableFilter },
+                        out string path))
                     {
-                        settings.GameRoot = fileDialog.Path;
-                        gametype = _assetLocator.GetGameTypeForExePath(settings.GameRoot);
-                        if (gametype != settings.GameType)
-                        {
-                            PlatformUtils.Instance.MessageBox($@"Selected executable was not for {settings.GameType}. Please select the correct game executable.", "Error",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.None);
-                        }
-                        else
+                        settings.GameRoot = path;
+                        GameType gametype = _assetLocator.GetGameTypeForExePath(settings.GameRoot);
+                        if (gametype == settings.GameType)
                         {
                             success = true;
                             settings.GameRoot = Path.GetDirectoryName(settings.GameRoot);
@@ -502,6 +495,13 @@ namespace StudioCore
                                 settings.GameRoot += @"\dvdroot_ps4";
                             }
                             settings.Serialize(filename);
+                            break;
+                        }
+                        else
+                        {
+                            PlatformUtils.Instance.MessageBox($@"Selected executable was not for {settings.GameType}. Please select the correct game executable.", "Error",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.None);
                         }
                     }
                     else
@@ -654,10 +654,9 @@ namespace StudioCore
             ImGui.SameLine();
             if (ImGui.Button($@"{ForkAwesome.FileO}"))
             {
-                var folderDialog = NativeFileDialogSharp.Dialog.FolderPicker();
-                if (folderDialog.IsOk)
+                if (PlatformUtils.Instance.OpenFolderDialog("Select project directory...", out string path))
                 {
-                    _newProjectOptions.directory = folderDialog.Path;
+                    _newProjectOptions.directory = path;
                 }
             }
         }
@@ -743,13 +742,15 @@ namespace StudioCore
                     }
                     if (ImGui.MenuItem("Open Project", "", false, !TaskManager.AnyActiveTasks()))
                     {
-                        var fileDialog = NativeFileDialogSharp.Dialog.FileOpen(_assetLocator.ProjectJsonFilter);
-                        if (fileDialog.IsOk)
+                        if (PlatformUtils.Instance.OpenFileDialog(
+                            "Choose the project json file",
+                            new[] { AssetLocator.ProjectJsonFilter },
+                            out string path))
                         {
-                            var settings = ProjectSettings.Deserialize(fileDialog.Path);
+                            var settings = ProjectSettings.Deserialize(path);
                             if (settings != null)
                             {
-                                AttemptLoadProject(settings, fileDialog.Path);
+                                AttemptLoadProject(settings, path);
                             }
                         }
                     }
@@ -1049,12 +1050,13 @@ namespace StudioCore
                     ImGui.SameLine();
                     if (ImGui.Button($@"{ForkAwesome.FileO}##fd2"))
                     {
-                        var fileDialog = NativeFileDialogSharp.Dialog.FileOpen(_assetLocator.GameExecutableFilter);
-
-                        if (fileDialog.IsOk)
+                        if (PlatformUtils.Instance.OpenFileDialog(
+                            "Select executable for the game you want to mod...",
+                            new[] { AssetLocator.GameExecutableFilter },
+                            out string path))
                         {
-                            _newProjectOptions.settings.GameRoot = Path.GetDirectoryName(fileDialog.Path);
-                            _newProjectOptions.settings.GameType = _assetLocator.GetGameTypeForExePath(fileDialog.Path);
+                            _newProjectOptions.settings.GameRoot = Path.GetDirectoryName(path);
+                            _newProjectOptions.settings.GameType = _assetLocator.GetGameTypeForExePath(path);
 
                             if (_newProjectOptions.settings.GameType == GameType.Bloodborne)
                             {
@@ -1090,10 +1092,9 @@ namespace StudioCore
                     ImGui.SameLine();
                     if (ImGui.Button($@"{ForkAwesome.FileO}##fd2"))
                     {
-                        var folderDialog = NativeFileDialogSharp.Dialog.FolderPicker();
-                        if (folderDialog.IsOk)
+                        if (PlatformUtils.Instance.OpenFolderDialog("Select project directory...", out string path))
                         {
-                            _newProjectOptions.settings.GameRoot = folderDialog.Path;
+                            _newProjectOptions.settings.GameRoot = path;
                         }
                     }
                     NewProject_GameTypeComboGUI();

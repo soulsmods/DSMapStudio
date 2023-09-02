@@ -667,6 +667,15 @@ namespace StudioCore.MsbEditor
                     }
                 }
 
+                if (_configuration == Configuration.MapEditor && _assetLocator.Type == GameType.ArmoredCoreVI && FeatureFlags.AC6_MSB == false)
+                {
+                    ImGui.Indent();
+                    ImGui.Spacing();
+                    ImGui.Text("AC6 map editing is unsupported for now.");
+                    ImGui.Spacing();
+                    ImGui.BeginDisabled();
+                }
+
                 var orderedMaps = _universe.LoadedObjectContainers.OrderBy(k => k.Key);
 
                 _mapEnt_ImGuiID = 0;
@@ -893,6 +902,11 @@ namespace StudioCore.MsbEditor
                 if (_assetLocator.Type == GameType.Bloodborne && _configuration == Configuration.MapEditor)
                 {
                     ChaliceDungeonImportButton();
+                }
+
+                if (_configuration == Configuration.MapEditor && _assetLocator.Type == GameType.ArmoredCoreVI && FeatureFlags.AC6_MSB == false)
+                {
+                    ImGui.EndDisabled();
                 }
 
                 ImGui.EndChild();
