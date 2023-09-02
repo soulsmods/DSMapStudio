@@ -88,6 +88,30 @@ namespace SoulsFormats
             return ret;
         }
 
+        /// <summary>
+        /// Loads a file from a byte array while ignoring compression.
+        /// </summary>
+        public static TFormat ReadIgnoreCompression(Memory<byte> bytes)
+        {
+            BinaryReaderEx br = new BinaryReaderEx(false, bytes);
+            TFormat file = new TFormat();
+            file.Read(br);
+            return file;
+        }
+
+        /// <summary>
+        /// Loads a file from the specified path while ignoring compression.
+        /// </summary>
+        public static TFormat ReadIgnoreCompression(string path)
+        {
+            using var file = MemoryMappedFile.CreateFromFile(path, FileMode.Open, null, 0, MemoryMappedFileAccess.Read);
+            using var accessor = file.CreateMemoryAccessor(0, 0, MemoryMappedFileAccess.Read);
+            BinaryReaderEx br = new BinaryReaderEx(false, accessor.Memory);
+            TFormat ret = new TFormat();
+            ret.Read(br);
+            return ret;
+        }
+
         private static bool IsRead(BinaryReaderEx br, out TFormat file)
         {
             var test = new TFormat();

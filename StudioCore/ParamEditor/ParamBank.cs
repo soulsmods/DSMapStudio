@@ -182,7 +182,7 @@ namespace StudioCore.ParamEditor
         /// Dictionary of param file names that contain no ParamType, and the ParamType to be assigned to them.
         /// ParamType names ending in "_TENTATIVE" did not have official data to reference.
         /// </summary>
-        public Dictionary<string, string> TentativeParamType_AC6 = new()
+        public static Dictionary<string, string> TentativeParamType_AC6 = new()
         {
             {"EquipParamWeapon", "EquipParamWeapon_TENTATIVE"}, //
             {"EquipParamProtector", "EQUIP_PARAM_PROTECTOR_ST"},
@@ -211,6 +211,12 @@ namespace StudioCore.ParamEditor
             {"RuntimeSoundGlobalParam", "RuntimeSoundGlobalParam_TENTATIVE"}, //
         };
 
+        /// <summary>
+        /// Dictionary of param file names that were given a tentative ParamType, and the original ParamType it had.
+        /// Used to later restore original ParamType on write (if possible).
+        /// </summary>
+        private Dictionary<string, string?> _usedTentativeParamTypes = null;
+
         private void LoadParamFromBinder(IBinder parambnd, ref Dictionary<string, FSParam.Param> paramBank, out ulong version, bool checkVersion = false)
         {
             bool success = ulong.TryParse(parambnd.Version, out version);
@@ -222,24 +228,45 @@ namespace StudioCore.ParamEditor
             // Load every param in the regulation
             foreach (var f in parambnd.Files)
             {
+                string paramName = Path.GetFileNameWithoutExtension(f.Name);
+
                 if (!f.Name.ToUpper().EndsWith(".PARAM"))
                 {
                     continue;
                 }
-                if (paramBank.ContainsKey(Path.GetFileNameWithoutExtension(f.Name)))
+                if (paramBank.ContainsKey(paramName))
                 {
                     continue;
                 }
 
-                FSParam.Param p = FSParam.Param.Read(f.Bytes);
+                FSParam.Param p;
 
                 if (AssetLocator.Type == GameType.ArmoredCoreVI)
                 {
-                    if (p.ParamType == "" || p.ParamType == null)
+                    _usedTentativeParamTypes = new();
+                    p = FSParam.Param.ReadIgnoreCompression(f.Bytes);
+                    if (p.ParamType != null)
                     {
-                        string paramName = Path.GetFileNameWithoutExtension(f.Name);
+                        if (!_paramdefs.ContainsKey(p.ParamType) && !_patchParamdefs.ContainsKey(p.ParamType))
+                        {
+                            if (TentativeParamType_AC6.TryGetValue(paramName, out string newParamType))
+                            {
+                                _usedTentativeParamTypes.Add(paramName, p.ParamType);
+                                p.ParamType = newParamType;
+                                TaskLogs.AddLog($"Couldn't find ParamDef for {paramName}, but tentative ParamType \"{newParamType}\" exists.");
+                            }
+                            else
+                            {
+                                TaskLogs.AddLog($"Couldn't find ParamDef for param {paramName} and no tentative ParamType exists.",
+                                    Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High);
+                            }
+                        }
+                    }
+                    else
+                    {
                         if (TentativeParamType_AC6.TryGetValue(paramName, out string newParamType))
                         {
+                            _usedTentativeParamTypes.Add(paramName, p.ParamType);
                             p.ParamType = newParamType;
                             TaskLogs.AddLog($"Couldn't read ParamType for {paramName}, but tentative ParamType \"{newParamType}\" exists.");
                         }
@@ -250,10 +277,15 @@ namespace StudioCore.ParamEditor
                         }
                     }
                 }
-
-                if (!_paramdefs.ContainsKey(p.ParamType) && !_patchParamdefs.ContainsKey(p.ParamType))
+                else
                 {
-                    continue;
+                    p = FSParam.Param.Read(f.Bytes);
+                    if (!_paramdefs.ContainsKey(p.ParamType) && !_patchParamdefs.ContainsKey(p.ParamType))
+                    {
+                        TaskLogs.AddLog($"Couldn't find ParamDef for param {paramName} with ParamType \"{p.ParamType}\".",
+                            Microsoft.Extensions.Logging.LogLevel.Warning);
+                        continue;
+                    }
                 }
 
                 // Try to fixup Elden Ring ChrModelParam for ER 1.06 because many have been saving botched params and
@@ -287,7 +319,7 @@ namespace StudioCore.ParamEditor
                 try
                 {
                     p.ApplyParamdef(def);
-                    paramBank.Add(Path.GetFileNameWithoutExtension(f.Name), p);
+                    paramBank.Add(paramName, p);
                 }
                 catch(Exception e)
                 {
@@ -1601,6 +1633,21 @@ namespace StudioCore.ParamEditor
                 if (_params.TryGetValue(paramName, out Param paramFile))
                 {
                     IReadOnlyList<Param.Row> backup = paramFile.Rows;
+                    if (AssetLocator.Type is GameType.ArmoredCoreVI)
+                    {
+                        if (_usedTentativeParamTypes.TryGetValue(paramName, out string? oldParamType))
+                        {
+                            // This param was given a tentative ParamType, return original ParamType if possible.
+                            oldParamType ??= "";
+                            string prevParamType = paramFile.ParamType;
+                            paramFile.ParamType = oldParamType;
+
+                            p.Bytes = paramFile.Write();
+                            paramFile.ParamType = prevParamType;
+                            paramFile.Rows = backup;
+                            continue;
+                        }
+                    }
                     p.Bytes = paramFile.Write();
                     paramFile.Rows = backup;
                 }
