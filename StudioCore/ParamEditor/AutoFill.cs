@@ -138,7 +138,7 @@ namespace StudioCore.ParamEditor
         {
             ImGui.SameLine();
             ImGui.Button($@"{ForkAwesome.CaretDown}");
-            if (ImGui.BeginPopupContextItem("##rsbautoinputoapopup", ImGuiPopupFlags.MouseButtonLeft))
+            if (ImGui.BeginPopupContextItem("##psbautoinputoapopup", ImGuiPopupFlags.MouseButtonLeft))
             {
                 ImGui.TextColored(HINTCOLOUR, "Select params...");
                 var result = autoFillPse.Menu(true, false, "", null, null);
