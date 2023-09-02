@@ -283,8 +283,6 @@ namespace StudioCore
                 }
                 else if (gameType == GameType.ArmoredCoreVI && item is BND4 bndAC6)
                 {
-                    //TODO AC6: test
-                    Debugger.Break();
                     SFUtil.EncryptAC6Regulation(writepath + ".temp", bndAC6);
                 }
                 else
