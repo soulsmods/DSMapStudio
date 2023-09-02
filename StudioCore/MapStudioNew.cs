@@ -19,7 +19,6 @@ using Veldrid.StartupUtilities;
 using StudioCore.Graphics;
 using StudioCore.Platform;
 using Vortice.Vulkan;
-using StudioCore.ParamEditor;
 
 namespace StudioCore
 {
