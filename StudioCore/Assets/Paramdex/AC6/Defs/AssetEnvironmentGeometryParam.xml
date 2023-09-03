@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>ASSET_GEOMETORY_PARAM_ST</ParamType>
+  <DataVersion>2</DataVersion>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <FormatVersion>203</FormatVersion>
+  <Fields>
+    <!-- <Field Def="dummy8 paramSize[344]" /> -->
+    <Field Def="s32 soundBankId = -1"></Field>
+    <Field Def="s32 soundBreakSEId = -1"></Field>
+    <Field Def="s32 refDrawParamId = -1"></Field>
+    <Field Def="s8 hitCreateType"></Field>
+    <Field Def="u8 behaviorType = 1"></Field>
+    <Field Def="u8 collisionType"></Field>
+    <Field Def="u8 rainBlockingType"></Field>
+    <Field Def="s16 hp = -1"></Field>
+    <Field Def="u16 defense"></Field>
+    <Field Def="f32 breakStopTime = 30"></Field>
+    <Field Def="s32 breakSfxId = -1"></Field>
+    <Field Def="s32 breakSfxCpId = -1"></Field>
+    <Field Def="s32 breakLandingSfxId = -1"></Field>
+    <Field Def="s32 breakBulletBehaviorId = -1"></Field>
+    <Field Def="s32 breakBulletCpId = -1"></Field>
+    <Field Def="f32 FragmentInvisibleWaitTime"></Field>
+    <Field Def="f32 FragmentInvisibleTime"></Field>
+    <Field Def="s32 BreakAiSoundID"></Field>
+    <Field Def="s8 breakItemLotType"></Field>
+    <Field Def="u8 animBreakIdMax"></Field>
+    <Field Def="s8 breakBulletAttributeDamageType"></Field>
+    <Field Def="u8 isBreakByPlayerCollide:1"></Field>
+    <Field Def="u8 isBreakByEnemyCollide:1"></Field>
+    <Field Def="u8 isBreak_ByChrRide:1"></Field>
+    <Field Def="u8 isDisableBreakForFirstAppear:1"></Field>
+    <Field Def="u8 isAnimBreak:1"></Field>
+    <Field Def="u8 isDamageCover:1"></Field>
+    <Field Def="u8 isAttackBacklash:1 = 1"></Field>
+    <Field Def="dummy8 Reserve_2:1"></Field>
+    <Field Def="u8 isLadder:1"></Field>
+    <Field Def="u8 isMoveObj:1"></Field>
+    <Field Def="u8 isSkydomeFlag:1"></Field>
+    <Field Def="u8 isAnimPauseOnRemoPlay:1"></Field>
+    <Field Def="u8 isBurn:1"></Field>
+    <Field Def="u8 isEnableRepick:1"></Field>
+    <Field Def="u8 isBreakOnPickUp:1"></Field>
+    <Field Def="u8 isBreakByHugeenemyCollide:1"></Field>
+    <Field Def="u8 navimeshFlag"></Field>
+    <Field Def="u16 burnBulletInterval = 30"></Field>
+    <Field Def="f32 clothUpdateDist = 30"></Field>
+    <Field Def="f32 lifeTime_forRuntimeCreate"></Field>
+    <Field Def="s32 contactSeId = -1"></Field>
+    <Field Def="s32 repickAnimIdOffset"></Field>
+    <Field Def="f32 windEffectRate_0 = 0.5"></Field>
+    <Field Def="f32 windEffectRate_1 = 0.5"></Field>
+    <Field Def="u8 windEffectType_0"></Field>
+    <Field Def="u8 windEffectType_1"></Field>
+    <Field Def="s16 overrideMaterialId = -1"></Field>
+    <Field Def="f32 autoCreateOffsetHeight = 0.1"></Field>
+    <Field Def="f32 burnTime"></Field>
+    <Field Def="f32 burnBraekRate = 0.5"></Field>
+    <Field Def="s32 burnSfxId = -1"></Field>
+    <Field Def="s32 burnSfxId_1 = -1"></Field>
+    <Field Def="s32 burnSfxId_2 = -1"></Field>
+    <Field Def="s32 burnSfxId_3 = -1"></Field>
+    <Field Def="f32 burnSfxDelayTimeMin"></Field>
+    <Field Def="f32 burnSfxDelayTimeMin_1"></Field>
+    <Field Def="f32 burnSfxDelayTimeMin_2"></Field>
+    <Field Def="f32 burnSfxDelayTimeMin_3"></Field>
+    <Field Def="f32 burnSfxDelayTimeMax"></Field>
+    <Field Def="f32 burnSfxDelayTimeMax_1"></Field>
+    <Field Def="f32 burnSfxDelayTimeMax_2"></Field>
+    <Field Def="f32 burnSfxDelayTimeMax_3"></Field>
+    <Field Def="s32 burnBulletBehaviorId = -1"></Field>
+    <Field Def="s32 burnBulletBehaviorId_1 = -1"></Field>
+    <Field Def="s32 burnBulletBehaviorId_2 = -1"></Field>
+    <Field Def="s32 burnBulletBehaviorId_3 = -1"></Field>
+    <Field Def="f32 burnBulletDelayTime"></Field>
+    <Field Def="u16 paintDecalTargetTextureSize"></Field>
+    <Field Def="u8 navimeshFlag_after"></Field>
+    <Field Def="s8 camNearBehaviorType"></Field>
+    <Field Def="s32 breakItemLotParamId = -1"></Field>
+    <Field Def="s32 pickUpActionButtonParamId = -1"></Field>
+    <Field Def="s32 pickUpItemLotParamId = -1"></Field>
+    <Field Def="u8 autoDrawGroupBackFaceCheck"></Field>
+    <Field Def="u8 autoDrawGroupDepthWrite"></Field>
+    <Field Def="u8 autoDrawGroupShadowTest"></Field>
+    <Field Def="u8 debug_isHeightCheckEnable"></Field>
+    <Field Def="u8 hitCarverCancelAreaFlag"></Field>
+    <Field Def="u8 assetNavimeshNoCombine"></Field>
+    <Field Def="u8 navimeshFlagApply"></Field>
+    <Field Def="u8 navimeshFlagApply_after"></Field>
+    <Field Def="f32 autoDrawGroupPassPixelNum = -1"></Field>
+    <Field Def="u32 pickUpReplacementEventFlag"></Field>
+    <Field Def="s32 pickUpReplacementAnimIdOffset"></Field>
+    <Field Def="s32 pickUpReplacementActionButtonParamId = -1"></Field>
+    <Field Def="s32 pickUpReplacementItemLotParamId = -1"></Field>
+    <Field Def="u8 slidingBulletHitType"></Field>
+    <Field Def="u8 isBushesForDamage"></Field>
+    <Field Def="u8 penetrationBulletType"></Field>
+    <Field Def="dummy8 Reserve_3[1]"></Field>
+    <Field Def="dummy8 Reserve_4[4]"></Field>
+    <Field Def="s32 soundBreakSECpId = -1"></Field>
+    <Field Def="f32 debug_HeightCheckCapacityMin = -99"></Field>
+    <Field Def="f32 debug_HeightCheckCapacityMax = 99"></Field>
+    <Field Def="s32 repickActionButtonParamId = -1"></Field>
+    <Field Def="s32 repickItemLotParamId = -1"></Field>
+    <Field Def="s32 repickReplacementAnimIdOffset"></Field>
+    <Field Def="s32 repickReplacementActionButtonParamId = -1"></Field>
+    <Field Def="s32 repickReplacementItemLotParamId = -1"></Field>
+    <Field Def="u8 noGenerateCarver"></Field>
+    <Field Def="u8 noHitHugeAfterBreak"></Field>
+    <Field Def="u8 isEnabledBreakSync:1 = 1"></Field>
+    <Field Def="u8 isHiddenOnRepick:1"></Field>
+    <Field Def="u8 isCreateMultiPlayOnly:1"></Field>
+    <Field Def="u8 isDisableBulletHitSfx:1"></Field>
+    <Field Def="u8 isEnableSignPreBreak:1 = 1"></Field>
+    <Field Def="u8 isEnableSignPostBreak:1 = 1"></Field>
+    <Field Def="dummy8 Reserve_1:2"></Field>
+    <Field Def="u8 generateMultiForbiddenRegion"></Field>
+    <Field Def="s32 residentSeId0 = -1"></Field>
+    <Field Def="s32 residentSeId1 = -1"></Field>
+    <Field Def="s32 residentSeId2 = -1"></Field>
+    <Field Def="s32 residentSeId3 = -1"></Field>
+    <Field Def="s16 residentSeDmypolyId0 = -1"></Field>
+    <Field Def="s16 residentSeDmypolyId1 = -1"></Field>
+    <Field Def="s16 residentSeDmypolyId2 = -1"></Field>
+    <Field Def="s16 residentSeDmypolyId3 = -1"></Field>
+    <Field Def="u8 excludeActivateRatio_Xboxone_Grid"></Field>
+    <Field Def="u8 excludeActivateRatio_Xboxone_Legacy"></Field>
+    <Field Def="u8 excludeActivateRatio_PS4_Grid"></Field>
+    <Field Def="u8 excludeActivateRatio_PS4_Legacy"></Field>
+    <Field Def="dummy8 Reserve_0[56]"></Field>
+   </Fields>
+</PARAMDEF>

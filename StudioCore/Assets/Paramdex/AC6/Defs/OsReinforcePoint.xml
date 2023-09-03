@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>OS_REINFORCE_POINT_PARAM_ST</ParamType>
+  <DataVersion>0</DataVersion>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <FormatVersion>203</FormatVersion>
+  <Fields>
+    <!-- <Field Def="dummy8 paramSize[8]" /> -->
+    <Field Def="s32 Unk0x00"></Field>
+    <Field Def="s32 Unk0x04"></Field>
+  </Fields>
+</PARAMDEF>

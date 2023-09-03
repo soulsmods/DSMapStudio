@@ -13,7 +13,7 @@
       <Description>Value determining which tab in the arena menu to use; can be set arbitrarily. Tab text FMG ID is 258010 + menuCategory in FNR_メニューテキスト.</Description>
     </Field>
     <Field Def="dummy8 pad08[4]" />
-    <Field Def="s32 unk0c" />
+    <Field Def="s32 Unk0x0C" />
     <Field Def="s32 accountParamId">
       <Description>AccountParam row ID; opponent's name and emblem.</Description>
     </Field>
