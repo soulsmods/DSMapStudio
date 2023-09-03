@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>EQUIP_PARAM_ACCESSORY_ST</ParamType>
+  <DataVersion>2</DataVersion>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <FormatVersion>203</FormatVersion>
+  <Fields>
+    <!-- <Field Def="dummy8 paramSize[100]" /> -->
+    <Field Def="u8 disableParam_NT:1"></Field>
+    <Field Def="dummy8 disableParamReserve1:7"></Field>
+    <Field Def="dummy8 disableParamReserve2[3]"></Field>
+    <Field Def="s32 refId = -1"></Field>
+    <Field Def="s32 sfxVariationId = -1"></Field>
+    <Field Def="f32 weight = 1"></Field>
+    <Field Def="s32 behaviorId"></Field>
+    <Field Def="s32 basicPrice"></Field>
+    <Field Def="s32 sellValue"></Field>
+    <Field Def="s32 sortId"></Field>
+    <Field Def="s32 qwcId = -1"></Field>
+    <Field Def="u16 equipModelId"></Field>
+    <Field Def="u16 iconId"></Field>
+    <Field Def="s16 shopLv"></Field>
+    <Field Def="s16 trophySGradeId = -1"></Field>
+    <Field Def="s16 trophySeqId = -1"></Field>
+    <Field Def="u8 equipModelCategory"></Field>
+    <Field Def="u8 equipModelGender"></Field>
+    <Field Def="u8 accessoryCategory"></Field>
+    <Field Def="u8 refCategory"></Field>
+    <Field Def="u8 spEffectCategory"></Field>
+    <Field Def="u8 sortGroupId = 255"></Field>
+    <Field Def="s32 vagrantItemLotId"></Field>
+    <Field Def="s32 vagrantBonusEneDropItemLotId"></Field>
+    <Field Def="s32 vagrantItemEneDropItemLotId"></Field>
+    <Field Def="u8 isDeposit:1"></Field>
+    <Field Def="u8 isEquipOutBrake:1"></Field>
+    <Field Def="u8 disableMultiDropShare:1"></Field>
+    <Field Def="u8 isDiscard:1"></Field>
+    <Field Def="u8 isDrop:1"></Field>
+    <Field Def="u8 showLogCondType:1 = 1"></Field>
+    <Field Def="u8 showDialogCondType:2 = 2"></Field>
+    <Field Def="u8 rarity"></Field>
+    <Field Def="dummy8 pad2[2]"></Field>
+    <Field Def="s32 saleValue = -1"></Field>
+    <Field Def="s16 accessoryGroup = -1"></Field>
+    <Field Def="dummy8 pad3[1]"></Field>
+    <Field Def="s8 compTrophySedId = -1"></Field>
+    <Field Def="s32 residentSpEffectId1"></Field>
+    <Field Def="s32 residentSpEffectId2"></Field>
+    <Field Def="s32 residentSpEffectId3"></Field>
+    <Field Def="s32 residentSpEffectId4"></Field>
+    <Field Def="dummy8 pad1[8]"></Field>
+  </Fields>
+</PARAMDEF>

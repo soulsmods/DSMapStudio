@@ -1,0 +1,505 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>EquipParamWeapon_TENTATIVE</ParamType>
+  <DataVersion>9</DataVersion>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <FormatVersion>203</FormatVersion>
+  <Fields>
+    <!-- <Field Def="dummy8 paramSize[1556]" /> -->
+    <Field Def="s32 Unk0x00"></Field>
+    <Field Def="s32 behaviorJudgeId">
+        <Description>Used to link BehaviorParam_PC entries to the weapon.</Description>
+    </Field>
+    <Field Def="s32 Unk0x08"></Field>
+    <Field Def="s32 Unk0x0C"></Field>
+    <Field Def="f32 weight">
+        <Description>Weight of the part.</Description>
+    </Field>
+    <Field Def="s32 Unk0x14"></Field>
+    <Field Def="s32 Unk0x18"></Field>
+    <Field Def="s32 Unk0x1C"></Field>
+    <Field Def="s32 Unk0x20"></Field>
+    <Field Def="s32 Unk0x24"></Field>
+    <Field Def="s32 Unk0x28"></Field>
+    <Field Def="s32 Unk0x2C"></Field>
+    <Field Def="s32 Unk0x30"></Field>
+    <Field Def="f32 damageMitigation_Kinetic">
+        <Description>Ability to mitigate incoming Kinetic damage while performing a regular guard.</Description>
+    </Field>
+    <Field Def="f32 damageMitigation_Energy">
+        <Description>Ability to mitigate incoming Energy damage while performing a regular guard.</Description>
+    </Field>
+    <Field Def="f32 damageMitigation_Explosive">
+        <Description>Ability to mitigate incoming Explosive damage while performing a regular guard.</Description>
+    </Field>
+    <Field Def="f32 damageMitigation_Coral">
+        <Description>Ability to mitigate incoming Coral damage while performing a regular guard.</Description>
+    </Field>
+    <Field Def="s32 Unk0x44"></Field>
+    <Field Def="s32 Unk0x48"></Field>
+    <Field Def="s32 Unk0x4C"></Field>
+    <Field Def="s32 Unk0x50"></Field>
+    <Field Def="s32 Unk0x54"></Field>
+    <Field Def="s32 Unk0x58"></Field>
+    <Field Def="s32 Unk0x5C"></Field>
+    <Field Def="s32 Unk0x60"></Field>
+    <Field Def="s32 Unk0x64"></Field>
+    <Field Def="s32 Unk0x68"></Field>
+    <Field Def="s32 Unk0x6C"></Field>
+    <Field Def="s32 Unk0x70"></Field>
+    <Field Def="s32 Unk0x74"></Field>
+    <Field Def="s32 Unk0x78"></Field>
+    <Field Def="s32 Unk0x7C"></Field>
+    <Field Def="s32 Unk0x80"></Field>
+    <Field Def="s32 Unk0x84"></Field>
+    <Field Def="s32 Unk0x88"></Field>
+    <Field Def="s32 Unk0x8C"></Field>
+    <Field Def="s32 Unk0x90"></Field>
+    <Field Def="s32 Unk0x94"></Field>
+    <Field Def="s32 Unk0x98"></Field>
+    <Field Def="s32 Unk0x9C"></Field>
+    <Field Def="f32 meleeConsecutiveHits">
+        <Description>Number of chain attacks possible with additional inputs.</Description>
+    </Field>
+    <Field Def="f32 Unk0xA4"></Field>
+    <Field Def="f32 Unk0xA8"></Field>
+    <Field Def="f32 Unk0xAC"></Field>
+    <Field Def="s32 Unk0xB0"></Field>
+    <Field Def="s32 Unk0xB4"></Field>
+    <Field Def="s32 Unk0xB8"></Field>
+    <Field Def="s32 modelId"></Field>
+    <Field Def="u16 Unk0xC0"></Field>
+    <Field Def="u16 Unk0xC2"></Field>
+    <Field Def="u16 Unk0xC4"></Field>
+    <Field Def="u8 Unk0xC6"></Field>
+    <Field Def="u8 Unk0xC7"></Field>
+    <Field Def="s32 Unk0xC8"></Field>
+    <Field Def="s32 Unk0xCC"></Field>
+    <Field Def="s32 Unk0xD0"></Field>
+    <Field Def="s32 Unk0xD4"></Field>
+    <Field Def="s32 Unk0xD8"></Field>
+    <Field Def="u8 Unk0xDC"></Field>
+    <Field Def="u8 Unk0xDD"></Field>
+    <Field Def="u16 Unk0xDE"></Field>
+    <Field Def="s32 Unk0xE0"></Field>
+    <Field Def="u8 Unk0xE4"></Field>
+    <Field Def="u8 Unk0xE5"></Field>
+    <Field Def="u16 Unk0xE6"></Field>
+    <Field Def="u16 Unk0xE8"></Field>
+    <Field Def="u16 Unk0xE9"></Field>
+    <Field Def="u16 Unk0xEC"></Field>
+    <Field Def="u16 Unk0xED"></Field>
+    <Field Def="s32 Unk0xF0"></Field>
+    <Field Def="s32 Unk0xF4"></Field>
+    <Field Def="s32 Unk0xF8"></Field>
+    <Field Def="s32 Unk0xFC"></Field>
+    <Field Def="s32 Unk0x100"></Field>
+    <Field Def="u8 Unk0x104"></Field>
+    <Field Def="u8 Unk0x105"></Field> <!-- Seems linked to whether the weapon is right or left -->
+    <Field Def="u16 Unk0x106"></Field>
+    <Field Def="u16 Unk0x108"></Field>
+    <Field Def="u16 Unk0x10A"></Field>
+    <Field Def="s32 Unk0x10C"></Field>
+    <Field Def="s32 Unk0x110"></Field>
+    <Field Def="s32 Unk0x114"></Field>
+    <Field Def="s32 Unk0x118"></Field>
+    <Field Def="s32 Unk0x11C"></Field>
+    <Field Def="s32 Unk0x120"></Field>
+    <Field Def="s32 Unk0x124"></Field>
+    <Field Def="s32 Unk0x128"></Field>
+    <Field Def="s32 Unk0x12C"></Field>
+    <Field Def="s32 Unk0x130"></Field>
+    <Field Def="s32 Unk0x134"></Field>
+    <Field Def="s32 Unk0x138"></Field>
+    <Field Def="s32 Unk0x13C"></Field>
+    <Field Def="s32 Unk0x140"></Field>
+    <Field Def="s32 Unk0x144"></Field>
+    <Field Def="s32 Unk0x148"></Field>
+    <Field Def="s32 Unk0x14C"></Field>
+    <Field Def="s32 Unk0x150"></Field>
+    <Field Def="s32 Unk0x154"></Field>
+    <Field Def="s32 Unk0x158"></Field>
+    <Field Def="s32 Unk0x15C"></Field>
+    <Field Def="s32 Unk0x160"></Field>
+    <Field Def="s32 Unk0x164"></Field>
+    <Field Def="s32 Unk0x168"></Field>
+    <Field Def="s32 Unk0x16C"></Field>
+    <Field Def="s32 Unk0x170"></Field>
+    <Field Def="s32 Unk0x174"></Field>
+    <Field Def="s32 Unk0x178"></Field>
+    <Field Def="s32 Unk0x17C"></Field>
+    <Field Def="f32 Unk0x180"></Field>
+    <Field Def="f32 Unk0x184"></Field>
+    <Field Def="s32 Unk0x188"></Field>
+    <Field Def="s32 Unk0x18C"></Field>
+    <Field Def="s32 Unk0x190"></Field>
+    <Field Def="s32 Unk0x194"></Field>
+    <Field Def="s32 Unk0x198"></Field>
+    <Field Def="s32 Unk0x19C"></Field>
+    <Field Def="s32 Unk0x1A0"></Field>
+    <Field Def="s32 Unk0x1A4"></Field>
+    <Field Def="s32 Unk0x1A8"></Field>
+    <Field Def="s32 Unk0x1AC"></Field>
+    <Field Def="u16 Unk0x1B0"></Field>
+    <Field Def="u16 Unk0x1B2"></Field>
+    <Field Def="u8 Unk0x1B4"></Field>
+    <Field Def="u8 Unk0x1B5"></Field>
+    <Field Def="u16 Unk0x1B6"></Field>
+    <Field Def="s32 Unk0x1B8"></Field>
+    <Field Def="s32 Unk0x1BC"></Field>
+    <Field Def="s32 Unk0x1C0"></Field>
+    <Field Def="s32 Unk0x1C4"></Field>
+    <Field Def="s32 Unk0x1C8"></Field>
+    <Field Def="s32 Unk0x1CC"></Field>
+    <Field Def="s32 Unk0x1D0"></Field>
+    <Field Def="s32 Unk0x1D4"></Field>
+    <Field Def="s32 Unk0x1D8"></Field>
+    <Field Def="s32 Unk0x1DC"></Field>
+    <Field Def="s32 Unk0x1E0"></Field>
+    <Field Def="s32 Unk0x1E4"></Field>
+    <Field Def="s32 Unk0x1E8"></Field>
+    <Field Def="s32 Unk0x1EC"></Field>
+    <Field Def="s32 Unk0x1F0"></Field>
+    <Field Def="f32 Unk0x1F4"></Field>
+    <Field Def="f32 Unk0x1F8"></Field>
+    <Field Def="f32 Unk0x1FC"></Field>
+    <Field Def="f32 Unk0x200"></Field>
+    <Field Def="f32 Unk0x204"></Field>
+    <Field Def="f32 Unk0x208"></Field>
+    <Field Def="f32 Unk0x20C"></Field>
+    <Field Def="f32 Unk0x210"></Field>
+    <Field Def="f32 Unk0x214"></Field>
+    <Field Def="s32 Unk0x218"></Field>
+    <Field Def="s32 Unk0x21C"></Field>
+    <Field Def="s32 Unk0x220"></Field>
+    <Field Def="s32 Unk0x224"></Field>
+    <Field Def="s32 Unk0x228"></Field>
+    <Field Def="s32 Unk0x22C"></Field>
+    <Field Def="s32 Unk0x230"></Field>
+    <Field Def="u16 Unk0x234"></Field>
+    <Field Def="u16 Unk0x236"></Field>
+    <Field Def="s32 Unk0x238"></Field>
+    <Field Def="u8 Unk0x23C"></Field>
+    <Field Def="u8 Unk0x23D"></Field>
+    <Field Def="u16 Unk0x23E"></Field>
+    <Field Def="s32 Unk0x240"></Field>
+    <Field Def="s32 magazineRounds">
+        <Description>Number of rounds loaded per magazine.</Description>
+    </Field>
+    <Field Def="f32 Unk0x248"></Field>
+    <Field Def="f32 Unk0x24C"></Field>
+    <Field Def="s32 Unk0x250"></Field>
+    <Field Def="s32 Unk0x254"></Field>
+    <Field Def="s32 Unk0x258"></Field>
+    <Field Def="s32 Unk0x25C"></Field>
+    <Field Def="s32 Unk0x260"></Field>
+    <Field Def="s32 Unk0x264"></Field>
+    <Field Def="s32 Unk0x268"></Field>
+    <Field Def="s32 Unk0x26C"></Field>
+    <Field Def="s32 Unk0x270"></Field>
+    <Field Def="s32 Unk0x274"></Field>
+    <Field Def="s32 Unk0x278"></Field>
+    <Field Def="s32 Unk0x27C"></Field>
+    <Field Def="s32 Unk0x280"></Field>
+    <Field Def="s32 Unk0x284"></Field>
+    <Field Def="s32 Unk0x288"></Field>
+    <Field Def="s32 Unk0x28C"></Field>
+    <Field Def="s32 Unk0x290"></Field>
+    <Field Def="s32 Unk0x294"></Field>
+    <Field Def="s32 Unk0x298"></Field>
+    <Field Def="s32 Unk0x29C"></Field>
+    <Field Def="s32 Unk0x2A0"></Field>
+    <Field Def="s32 Unk0x2A4"></Field>
+    <Field Def="s32 totalRounds">
+        <Description>Total number of rounds that can be fired.</Description>
+    </Field>
+    <Field Def="s32 Unk0x2AC"></Field>
+    <Field Def="f32 Unk0x2B0"></Field>
+    <Field Def="f32 Unk0x2B4"></Field>
+    <Field Def="f32 Unk0x2B8"></Field>
+    <Field Def="f32 Unk0x2BC"></Field>
+    <Field Def="s32 Unk0x2C0"></Field>
+    <Field Def="s32 Unk0x2C4"></Field>
+    <Field Def="u16 Unk0x2C8"></Field>
+    <Field Def="u16 Unk0x2CA"></Field>
+    <Field Def="s32 energyLoad">
+        <Description>EN Load of the part.</Description>
+    </Field>
+    <Field Def="s32 Unk0x2D0"></Field>
+    <Field Def="s32 Unk0x2D4"></Field>
+    <Field Def="u16 Unk0x2D8"></Field>
+    <Field Def="u16 ammunitionCost">
+        <Description>Cost per round fired. At the end of each mission, the total number of rounds fired is used to calculate ammunition expenses.</Description>
+    </Field>
+    <Field Def="s32 Unk0x2DC"></Field>
+    <Field Def="s32 Unk0x2E0"></Field>
+    <Field Def="s32 Unk0x2E4"></Field>
+    <Field Def="s32 Unk0x2E8"></Field>
+    <Field Def="s32 Unk0x2EC"></Field>
+    <Field Def="s32 Unk0x2F0"></Field>
+    <Field Def="s32 Unk0x2F4"></Field>
+    <Field Def="s32 Unk0x2F8"></Field>
+    <Field Def="s32 Unk0x2FC"></Field>
+    <Field Def="s32 Unk0x300"></Field>
+    <Field Def="s32 Unk0x304"></Field>
+    <Field Def="s32 Unk0x308"></Field>
+    <Field Def="s32 Unk0x30C"></Field>
+    <Field Def="s32 Unk0x310"></Field>
+    <Field Def="s32 Unk0x314"></Field>
+    <Field Def="s32 Unk0x318"></Field>
+    <Field Def="s32 Unk0x31C"></Field>
+    <Field Def="s32 Unk0x320"></Field>
+    <Field Def="s32 Unk0x324"></Field>
+    <Field Def="s32 Unk0x328"></Field>
+    <Field Def="s32 Unk0x32C"></Field>
+    <Field Def="s32 Unk0x330"></Field>
+    <Field Def="s32 Unk0x334"></Field>
+    <Field Def="s32 Unk0x338"></Field>
+    <Field Def="s32 Unk0x33C"></Field>
+    <Field Def="s32 Unk0x340"></Field>
+    <Field Def="s32 Unk0x344"></Field>
+    <Field Def="s32 Unk0x348"></Field>
+    <Field Def="s32 Unk0x34C"></Field>
+    <Field Def="s32 Unk0x350"></Field>
+    <Field Def="s32 Unk0x354"></Field>
+    <Field Def="s32 Unk0x358"></Field>
+    <Field Def="s32 Unk0x35C"></Field>
+    <Field Def="s32 Unk0x360"></Field>
+    <Field Def="s32 Unk0x364"></Field>
+    <Field Def="s32 Unk0x368"></Field>
+    <Field Def="s32 Unk0x36C"></Field>
+    <Field Def="s32 Unk0x370"></Field>
+    <Field Def="s32 Unk0x374"></Field>
+    <Field Def="s32 Unk0x378"></Field>
+    <Field Def="s32 Unk0x37C"></Field>
+    <Field Def="s32 Unk0x380"></Field>
+    <Field Def="s32 Unk0x384"></Field>
+    <Field Def="s32 Unk0x388"></Field>
+    <Field Def="s32 Unk0x38C"></Field>
+    <Field Def="u16 Unk0x390"></Field>
+    <Field Def="u16 Unk0x392"></Field>
+    <Field Def="s32 Unk0x394"></Field>
+    <Field Def="s32 attackActionParamId">
+        <Description>References the AttackActionParam_PC</Description>
+    </Field>
+    <Field Def="f32 reloadTime">
+        <Description>Time from start to completion of reload.</Description>
+    </Field>
+    <Field Def="f32 chargeTime">
+        <Description>Time it takes to complete charging, for weapons that support charging.</Description>
+    </Field>
+    <Field Def="f32 Unk0x3A4"></Field>
+    <Field Def="f32 Unk0x3A8"></Field>
+    <Field Def="s32 Unk0x3AC"></Field>
+    <Field Def="s32 Unk0x3B0"></Field>
+    <Field Def="f32 Unk0x3B4"></Field>
+    <Field Def="f32 Unk0x3B8"></Field>
+    <Field Def="f32 Unk0x3BC"></Field>
+    <Field Def="f32 Unk0x3C0"></Field>
+    <Field Def="f32 Unk0x3C4"></Field>
+    <Field Def="f32 Unk0x3C8"></Field>
+    <Field Def="f32 Unk0x3CC"></Field>
+    <Field Def="f32 Unk0x3D0"></Field>
+    <Field Def="s32 Unk0x3D4"></Field>
+    <Field Def="s32 Unk0x3D8"></Field>
+    <Field Def="s32 Unk0x3DC"></Field>
+    <Field Def="s32 Unk0x3E0"></Field>
+    <Field Def="s32 Unk0x3E4"></Field>
+    <Field Def="s32 Unk0x3E8"></Field>
+    <Field Def="s32 Unk0x3EC"></Field>
+    <Field Def="s32 Unk0x3F0"></Field>
+    <Field Def="f32 Unk0x3F4"></Field>
+    <Field Def="f32 Unk0x3F8"></Field>
+    <Field Def="f32 Unk0x3FC"></Field>
+    <Field Def="u16 Unk0x400"></Field>
+    <Field Def="u16 Unk0x402"></Field>
+    <Field Def="f32 Unk0x404"></Field>
+    <Field Def="s32 Unk0x408"></Field>
+    <Field Def="u16 corporationTextureId">
+        <Description>Determines which corporation icon is used for the weapon.</Description>
+    </Field>
+    <Field Def="u16 equipmentMenuManageCategoryParamId">
+        <Description>References the EquipmentMenuManageCategoryParam</Description>
+    </Field>
+    <Field Def="f32 initialGuardDuration">
+        <Description>Duration of the Initial Guard damage mitigation window.</Description>
+    </Field>
+    <Field Def="s32 Unk0x414"></Field>
+    <Field Def="f32 initialGuardImpactDampening">
+        <Description>Ability to mitigate ACS strain whileperforming an Initial Guard.</Description>
+    </Field>
+    <Field Def="s32 Unk0x41C"></Field>
+    <Field Def="s32 Unk0x420"></Field>
+    <Field Def="s32 Unk0x424"></Field>
+    <Field Def="s32 Unk0x428"></Field>
+    <Field Def="s32 Unk0x42C"></Field>
+    <Field Def="s32 Unk0x430"></Field>
+    <Field Def="s32 Unk0x434"></Field>
+    <Field Def="s32 Unk0x438"></Field>
+    <Field Def="s32 Unk0x43C"></Field>
+    <Field Def="s32 Unk0x440"></Field>
+    <Field Def="f32 Unk0x444"></Field>
+    <Field Def="u16 Unk0x448"></Field>
+    <Field Def="u16 Unk0x44A"></Field>
+    <Field Def="s32 Unk0x44C"></Field>
+    <Field Def="f32 Unk0x450"></Field>
+    <Field Def="s32 Unk0x454"></Field>
+    <Field Def="f32 Unk0x458"></Field>
+    <Field Def="s32 chargingEnergyLoad">
+        <Description>EN Load when charging. EN is reduced if this value exceeds supply.</Description>
+    </Field>
+    <Field Def="u16 Unk0x460"></Field>
+    <Field Def="u16 Unk0x462"></Field>
+    <Field Def="s32 Unk0x464"></Field>
+    <Field Def="s32 Unk0x468"></Field>
+    <Field Def="s32 Unk0x46C"></Field>
+    <Field Def="f32 Unk0x470"></Field>
+    <Field Def="f32 Unk0x474"></Field>
+    <Field Def="s32 Unk0x478"></Field>
+    <Field Def="f32 Unk0x47C"></Field>
+    <Field Def="s32 Unk0x480"></Field>
+    <Field Def="s32 Unk0x484"></Field>
+    <Field Def="s32 Unk0x488"></Field>
+    <Field Def="s32 Unk0x48C"></Field>
+    <Field Def="s32 Unk0x490"></Field>
+    <Field Def="s32 Unk0x494"></Field>
+    <Field Def="s32 Unk0x498"></Field>
+    <Field Def="s32 Unk0x49C"></Field>
+    <Field Def="u16 Unk0x4A0"></Field>
+    <Field Def="u16 Unk0x4A2"></Field>
+    <Field Def="f32 impactDampeningRate">
+        <Description>Ability to mitigate incoming ACS burden while performing a regular guard.</Description>
+    </Field>
+    <Field Def="s32 Unk0x4A8"></Field>
+    <Field Def="s32 Unk0x4AC"></Field>
+    <Field Def="s32 Unk0x4B0"></Field>
+    <Field Def="s32 Unk0x4B4"></Field>
+    <Field Def="s32 Unk0x4B8"></Field>
+    <Field Def="s32 Unk0x4BC"></Field>
+    <Field Def="s32 Unk0x4C0"></Field>
+    <Field Def="s32 Unk0x4C4"></Field>
+    <Field Def="s32 Unk0x4C8"></Field>
+    <Field Def="s32 Unk0x4CC"></Field>
+    <Field Def="s32 Unk0x4D0"></Field>
+    <Field Def="s32 Unk0x4D4"></Field>
+    <Field Def="s32 Unk0x4D8"></Field>
+    <Field Def="s32 Unk0x4DC"></Field>
+    <Field Def="s32 Unk0x4E0"></Field>
+    <Field Def="s32 Unk0x4E4"></Field>
+    <Field Def="s32 Unk0x4E8"></Field>
+    <Field Def="s32 Unk0x4EC"></Field>
+    <Field Def="s32 Unk0x4F0"></Field>
+    <Field Def="s32 Unk0x4F4"></Field>
+    <Field Def="s32 Unk0x4F8"></Field>
+    <Field Def="s32 Unk0x4FC"></Field>
+    <Field Def="s32 Unk0x500"></Field>
+    <Field Def="s32 Unk0x504"></Field>
+    <Field Def="s32 Unk0x508"></Field>
+    <Field Def="s32 Unk0x50C"></Field>
+    <Field Def="s32 Unk0x510"></Field>
+    <Field Def="s32 Unk0x514"></Field>
+    <Field Def="s32 Unk0x518"></Field>
+    <Field Def="s32 Unk0x51C"></Field>
+    <Field Def="s32 Unk0x520"></Field>
+    <Field Def="s32 Unk0x524"></Field>
+    <Field Def="s32 Unk0x528"></Field>
+    <Field Def="s32 Unk0x52C"></Field>
+    <Field Def="s32 Unk0x530"></Field>
+    <Field Def="s32 Unk0x534"></Field>
+    <Field Def="s32 Unk0x538"></Field>
+    <Field Def="s32 Unk0x53C"></Field>
+    <Field Def="s32 Unk0x540"></Field>
+    <Field Def="s32 Unk0x544"></Field>
+    <Field Def="s32 Unk0x548"></Field>
+    <Field Def="s32 Unk0x54C"></Field>
+    <Field Def="f32 Unk0x550"></Field>
+    <Field Def="s32 Unk0x554"></Field>
+    <Field Def="f32 Unk0x558"></Field>
+    <Field Def="u16 Unk0x55C"></Field>
+    <Field Def="u16 Unk0x55E"></Field>
+    <Field Def="s32 Unk0x560"></Field>
+    <Field Def="s32 Unk0x564"></Field>
+    <Field Def="s32 Unk0x568"></Field>
+    <Field Def="s32 Unk0x56C"></Field>
+    <Field Def="f32 Unk0x570"></Field>
+    <Field Def="f32 Unk0x574"></Field>
+    <Field Def="f32 initialGuardDamageMitigation_Kinetic">
+        <Description>Ability to mitigate incoming Kinetic damage while performing an Initial Guard.</Description>
+    </Field>
+    <Field Def="f32 initialGuardDamageMitigation_Energy">
+        <Description>Ability to mitigate incoming Energy damage while performing an Initial Guard.</Description>
+    </Field>
+    <Field Def="f32 initialGuardDamageMitigation_Explosive">
+        <Description>Ability to mitigate incoming Explosive damage while performing an Initial Guard.</Description>
+    </Field>
+    <Field Def="f32 initialGuardDamageMitigation_Coral">
+        <Description>Ability to mitigate incoming Coral damage while performing an Initial Guard.</Description>
+    </Field>
+    <Field Def="u16 Unk0x588"></Field>
+    <Field Def="u16 Unk0x58A"></Field>
+    <Field Def="f32 weaponCoolingRate">
+        <Description>Speed at which head buildup is reduced when cooling weapon.</Description>
+    </Field>
+    <Field Def="f32 Unk0x590"></Field>
+    <Field Def="f32 Unk0x594"></Field>
+    <Field Def="f32 Unk0x598"></Field>
+    <Field Def="s32 Unk0x59C"></Field>
+    <Field Def="s32 Unk0x5A0"></Field>
+    <Field Def="u16 Unk0x5A4"></Field>
+    <Field Def="u8 Unk0x5A6"></Field>
+    <Field Def="u8 Unk0x5A7"></Field>
+    <Field Def="u8 Unk0x5A8"></Field>
+    <Field Def="u8 Unk0x5A9"></Field>
+    <Field Def="u16 menuShootCount">
+        <Description>Determines the number of rounds shot per attack in the weapon . Purely visual, the actual count has to be changed within the weapon's Bullets.</Description>
+    </Field>
+    <Field Def="u8 Unk0x5AC"></Field>
+    <Field Def="u8 Unk0x5AD"></Field>
+    <Field Def="u8 Unk0x5AE"></Field>
+    <Field Def="u8 Unk0x5AF"></Field>
+    <Field Def="u8 Unk0x5B0"></Field>
+    <Field Def="u8 Unk0x5B1"></Field>
+    <Field Def="u8 Unk0x5B2"></Field>
+    <Field Def="u8 Unk0x5B3"></Field>
+    <Field Def="u8 Unk0x5B4"></Field>
+    <Field Def="u8 Unk0x5B5"></Field>
+    <Field Def="u8 Unk0x5B6"></Field>
+    <Field Def="u8 Unk0x5B7"></Field>
+    <Field Def="u16 Unk0x5B8"></Field>
+    <Field Def="u8 Unk0x5BA"></Field>
+    <Field Def="u8 Unk0x5BB"></Field>
+    <Field Def="u16 Unk0x5BC"></Field>
+    <Field Def="u16 Unk0x5BE"></Field>
+    <Field Def="u16 Unk0x5C0"></Field>
+    <Field Def="u16 Unk0x5C2"></Field>
+    <Field Def="u16 Unk0x5C4"></Field>
+    <Field Def="u16 Unk0x5C6"></Field>
+    <Field Def="u16 Unk0x5C8"></Field>
+    <Field Def="u16 Unk0x5CA"></Field>
+    <Field Def="s32 Unk0x5CC"></Field>
+    <Field Def="u8 Unk0x5D0"></Field>
+    <Field Def="u8 Unk0x5D1"></Field>
+    <Field Def="u16 Unk0x5D2"></Field>
+    <Field Def="s32 demonstrationVideoBinkId">
+        <Description>Refers to the video filename in Game/movie/</Description>
+    </Field>
+    <Field Def="u16 Unk0x5D8"></Field>
+    <Field Def="u16 Unk0x5DA"></Field>
+    <Field Def="s32 Unk0x5DC"></Field>
+    <Field Def="f32 Unk0x5E0"></Field>
+    <Field Def="f32 Unk0x5E4"></Field>
+    <Field Def="s32 Unk0x5E8"></Field>
+    <Field Def="u16 Unk0x5EC"></Field>
+    <Field Def="u16 Unk0x5EE"></Field>
+    <Field Def="s32 Unk0x5F0"></Field>
+    <Field Def="s32 Unk0x5F4"></Field>
+    <Field Def="s32 Unk0x5F8"></Field>
+    <Field Def="s32 Unk0x5FC"></Field>
+    <Field Def="s32 Unk0x600"></Field>
+    <Field Def="s32 Unk0x604"></Field>
+    <Field Def="s32 Unk0x608"></Field>
+    <Field Def="s32 Unk0x60C"></Field>
+    <Field Def="s32 Unk0x610"></Field>
+  </Fields>
+</PARAMDEF>

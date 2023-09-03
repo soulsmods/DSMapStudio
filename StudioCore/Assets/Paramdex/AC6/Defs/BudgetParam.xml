@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>BUDGET_PARAM_ST</ParamType>
+  <DataVersion>2</DataVersion>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <FormatVersion>203</FormatVersion>
+  <Fields>
+    <!-- <Field Def="dummy8 paramSize[132]" /> -->
+    <Field Def="f32 vram_all = 1"></Field>
+    <Field Def="f32 vram_mapobj_tex = 1"></Field>
+    <Field Def="f32 vram_mapobj_mdl = 1"></Field>
+    <Field Def="f32 vram_map = 1"></Field>
+    <Field Def="f32 vram_chr = 1"></Field>
+    <Field Def="f32 vram_parts = 1"></Field>
+    <Field Def="f32 vram_sfx = 1"></Field>
+    <Field Def="f32 vram_chr_tex = 1"></Field>
+    <Field Def="f32 vram_chr_mdl = 1"></Field>
+    <Field Def="f32 vram_parts_tex = 1"></Field>
+    <Field Def="f32 vram_parts_mdl = 1"></Field>
+    <Field Def="f32 vram_sfx_tex = 1"></Field>
+    <Field Def="f32 vram_sfx_mdl = 1"></Field>
+    <Field Def="f32 vram_gi = 1"></Field>
+    <Field Def="f32 vram_menu_tex = 1"></Field>
+    <Field Def="f32 vram_decal_rt = 1"></Field>
+    <Field Def="f32 vram_decal = 1"></Field>
+    <Field Def="dummy8 reserve_0[4]"></Field>
+    <Field Def="f32 vram_other_tex = 1"></Field>
+    <Field Def="f32 vram_other_mdl = 1"></Field>
+    <Field Def="f32 havok_anim = 1"></Field>
+    <Field Def="f32 havok_ins = 1"></Field>
+    <Field Def="f32 havok_hit = 1"></Field>
+    <Field Def="f32 vram_other = 1"></Field>
+    <Field Def="f32 vram_detail_all = 1"></Field>
+    <Field Def="f32 vram_chr_and_parts = 1"></Field>
+    <Field Def="f32 havok_navimesh = 1"></Field>
+    <Field Def="dummy8 reserve_1[24]"></Field>
+  </Fields>
+</PARAMDEF>
