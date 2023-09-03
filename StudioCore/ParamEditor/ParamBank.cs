@@ -280,7 +280,7 @@ namespace StudioCore.ParamEditor
                 }
                 else
                 {
-                    p = FSParam.Param.Read(f.Bytes);
+                    p = FSParam.Param.ReadIgnoreCompression(f.Bytes);
                     if (!_paramdefs.ContainsKey(p.ParamType) && !_patchParamdefs.ContainsKey(p.ParamType))
                     {
                         TaskLogs.AddLog($"Couldn't find ParamDef for param {paramName} with ParamType \"{p.ParamType}\".",
