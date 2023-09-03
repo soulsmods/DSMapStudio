@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using FSParam;
 using StudioCore.Editor;
+using StudioCore.TextEditor;
 using StudioCore.Platform;
 
 namespace StudioCore.ParamEditor
@@ -597,6 +598,19 @@ namespace StudioCore.ParamEditor
             "maptargetdirparam",
             "npctalkparam",
             "treasureboxparam",
+        };
+
+        /// <summary>
+        /// Param name - FMGCategory map
+        /// </summary>
+        public readonly static List<(string, TextEditor.FmgEntryCategory)> ParamToFmgCategoryList = new List<(string, FmgEntryCategory)>()
+        {
+            ("EquipParamAccessory", FmgEntryCategory.Rings),
+            ("EquipParamGoods",  FmgEntryCategory.Goods),
+            ("EquipParamWeapon", FmgEntryCategory.Weapons),
+            ("EquipParamProtector", FmgEntryCategory.Armor),
+            ("EquipParamGem", FmgEntryCategory.Gem),
+            ("SwordArtsParam", FmgEntryCategory.SwordArts)
         };
 
         private static List<string> GetLooseParamsInDir(string dir)

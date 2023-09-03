@@ -355,17 +355,14 @@ namespace StudioCore.Editor
             }, ()=>CFG.Current.Param_AdvancedMassedit));
             filterList.Add("fmg", newCmd(new string[]{"fmg title (regex)"}, "Selects rows which have an attached FMG and that FMG's text matches the given regex", (args, lenient)=>{
                 Regex rx = lenient ? new Regex(args[0], RegexOptions.IgnoreCase) : new Regex($@"^{args[0]}$");
-                string field = args[0].Replace(@"\s", " ");
                 return (context)=>{
                     FmgEntryCategory category = FmgEntryCategory.None;
-                    switch(context.Item1.GetKeyForParam(context.Item2))
+                    string paramName = context.Item1.GetKeyForParam(context.Item2);
+                    foreach ((string param, FmgEntryCategory cat) in ParamBank.ParamToFmgCategoryList)
                     {
-                        case "EquipParamAccessory": category = FmgEntryCategory.Rings; break;
-                        case "EquipParamGoods": category = FmgEntryCategory.Goods; break;
-                        case "EquipParamWeapon": category = FmgEntryCategory.Weapons; break;
-                        case "EquipParamProtector": category = FmgEntryCategory.Armor; break;
-                        case "EquipParamGem": category = FmgEntryCategory.Gem; break;
-                        case "SwordArtsParam": category = FmgEntryCategory.SwordArts; break;
+                        if (paramName != param)
+                            continue;
+                        category = cat;
                     }
                     if (category == FmgEntryCategory.None)
                         throw new Exception();
@@ -482,7 +479,32 @@ namespace StudioCore.Editor
                 if (!lenient)
                     return noContext((row)=>false);
                 Regex rx = new Regex(args[0], RegexOptions.IgnoreCase);
-                return noContext((row)=>rx.IsMatch(row.Name ?? "") || rx.IsMatch(row.ID.ToString()));
+                return (paramContext)=>{
+                    FmgEntryCategory category = FmgEntryCategory.None;
+                    string paramName = paramContext.Item1.GetKeyForParam(paramContext.Item2);
+                    foreach ((string param, FmgEntryCategory cat) in ParamBank.ParamToFmgCategoryList)
+                    {
+                        if (paramName != param)
+                            continue;
+                        category = cat;
+                    }
+                    if (category == FmgEntryCategory.None || !FMGBank.IsLoaded)
+                        return (row)=>rx.IsMatch(row.Name ?? "") || rx.IsMatch(row.ID.ToString());
+                    var fmgEntries = FMGBank.GetFmgEntriesByCategory(category, false);
+                    Dictionary<int, FMG.Entry> _cache = new Dictionary<int, FMG.Entry>();
+                    foreach (var fmgEntry in fmgEntries)
+                    {
+                        _cache[fmgEntry.ID] = fmgEntry;
+                    }
+                    return (row)=>{
+                        if (rx.IsMatch(row.Name ?? "") || rx.IsMatch(row.ID.ToString()))
+                            return true;
+                        if (!_cache.ContainsKey(row.ID))
+                            return false;
+                        FMG.Entry e = _cache[row.ID];
+                        return e != null && rx.IsMatch(e.Text ?? "");
+                    };
+                };
             });
         }
     }
