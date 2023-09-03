@@ -492,7 +492,7 @@ namespace StudioCore.Editor
                         case "EquipParamGem": category = FmgEntryCategory.Gem; break;
                         case "SwordArtsParam": category = FmgEntryCategory.SwordArts; break;
                     }
-                    if (category == FmgEntryCategory.None)
+                    if (category == FmgEntryCategory.None || !FMGBank.IsLoaded)
                         return (row)=>rx.IsMatch(row.Name ?? "") || rx.IsMatch(row.ID.ToString());
                     var fmgEntries = FMGBank.GetFmgEntriesByCategory(category, false);
                     Dictionary<int, FMG.Entry> _cache = new Dictionary<int, FMG.Entry>();
