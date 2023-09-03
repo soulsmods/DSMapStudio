@@ -75,7 +75,7 @@ public class Oodle
         }
 
         throw new NoOodleFoundException($"Could not find a supported version of oo2core. "
-        + $"Please copy oo2core_6_win64.dll or oo2core_8_win64.dll into the program directory");
+            + $"Please copy oo2core_6_win64.dll or oo2core_8_win64.dll into the program directory");
     }
 
     [StructLayout(LayoutKind.Sequential)]
