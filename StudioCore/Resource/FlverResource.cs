@@ -318,11 +318,12 @@ namespace StudioCore.Resource
                 return $@"aet/{aetid}/{Path.GetFileNameWithoutExtension(texpath)}";
             }
             // Parts texture reference
-            /*else if (texpath.Contains(@"\parts\"))
+            else if (texpath.Contains(@"\parts\"))
             {
-                var asset = AssetDatabase.LoadAssetAtPath<Texture2D>($@"Assets/{gamePath}/Parts/textures/{Path.GetFileNameWithoutExtension(path)}.dds");
-                return asset;
-            }*/
+                var splits = texpath.Split('\\');
+                var partsId = splits[splits.Length - 3];
+                return $@"parts/{partsId}/tex/{Path.GetFileNameWithoutExtension(texpath)}";
+            }
             return texpath;
         }
 
