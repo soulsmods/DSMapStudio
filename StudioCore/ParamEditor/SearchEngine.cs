@@ -357,14 +357,12 @@ namespace StudioCore.Editor
                 Regex rx = lenient ? new Regex(args[0], RegexOptions.IgnoreCase) : new Regex($@"^{args[0]}$");
                 return (context)=>{
                     FmgEntryCategory category = FmgEntryCategory.None;
-                    switch(context.Item1.GetKeyForParam(context.Item2))
+                    string paramName = context.Item1.GetKeyForParam(context.Item2);
+                    foreach ((string param, FmgEntryCategory cat) in ParamBank.ParamToFmgCategoryList)
                     {
-                        case "EquipParamAccessory": category = FmgEntryCategory.Rings; break;
-                        case "EquipParamGoods": category = FmgEntryCategory.Goods; break;
-                        case "EquipParamWeapon": category = FmgEntryCategory.Weapons; break;
-                        case "EquipParamProtector": category = FmgEntryCategory.Armor; break;
-                        case "EquipParamGem": category = FmgEntryCategory.Gem; break;
-                        case "SwordArtsParam": category = FmgEntryCategory.SwordArts; break;
+                        if (paramName != param)
+                            continue;
+                        category = cat;
                     }
                     if (category == FmgEntryCategory.None)
                         throw new Exception();
@@ -483,14 +481,12 @@ namespace StudioCore.Editor
                 Regex rx = new Regex(args[0], RegexOptions.IgnoreCase);
                 return (paramContext)=>{
                     FmgEntryCategory category = FmgEntryCategory.None;
-                    switch(paramContext.Item1.GetKeyForParam(paramContext.Item2))
+                    string paramName = paramContext.Item1.GetKeyForParam(paramContext.Item2);
+                    foreach ((string param, FmgEntryCategory cat) in ParamBank.ParamToFmgCategoryList)
                     {
-                        case "EquipParamAccessory": category = FmgEntryCategory.Rings; break;
-                        case "EquipParamGoods": category = FmgEntryCategory.Goods; break;
-                        case "EquipParamWeapon": category = FmgEntryCategory.Weapons; break;
-                        case "EquipParamProtector": category = FmgEntryCategory.Armor; break;
-                        case "EquipParamGem": category = FmgEntryCategory.Gem; break;
-                        case "SwordArtsParam": category = FmgEntryCategory.SwordArts; break;
+                        if (paramName != param)
+                            continue;
+                        category = cat;
                     }
                     if (category == FmgEntryCategory.None || !FMGBank.IsLoaded)
                         return (row)=>rx.IsMatch(row.Name ?? "") || rx.IsMatch(row.ID.ToString());
