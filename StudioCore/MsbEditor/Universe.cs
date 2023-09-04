@@ -607,7 +607,7 @@ namespace StudioCore.MsbEditor
 
                 if (_assetLocator.Type == GameType.DarkSoulsIISOTFS)
                 {
-                    var bdt = BXF4.Read(ad.AssetPath, ad.AssetPath[..^3] + "bdt");
+                    using var bdt = BXF4.Read(ad.AssetPath, ad.AssetPath[..^3] + "bdt");
                     var file = bdt.Files.Find(f => f.Name.EndsWith("light.btl.dcx"));
                     if (file == null)
                     {
@@ -617,8 +617,7 @@ namespace StudioCore.MsbEditor
                 }
                 else if (_assetLocator.Type == GameType.ArmoredCoreVI)
                 {
-                    //TODO AC6
-                    btl = BTL.Read(ad.AssetPath);
+                    throw new NotSupportedException("AC6 TODO: BTL");
                 }
                 else
                 {
