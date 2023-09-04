@@ -9,7 +9,7 @@ namespace SoulsFormats
     /// <summary>
     /// A general-purpose headered file container used in DS2, DS3, and BB. Extensions: .*bhd (header) and .*bdt (data)
     /// </summary>
-    public class BXF4 : MountedSoulsFile<BND3>, IBinder, IBXF4
+    public class BXF4 : MountedSoulsFile<BXF4>, IBinder, IBXF4
     {
         #region Public Is
         /// <summary>
