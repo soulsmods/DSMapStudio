@@ -729,6 +729,11 @@ namespace StudioCore
             return $@"{GetParamAssetsDir()}\Defs";
         }
 
+        public string GetTentativeParamTypePath()
+        {
+            return $@"{GetParamAssetsDir()}\Defs\TentativeParamType.csv";
+        }
+
         public ulong[] GetParamdefPatches()
         {
             if (Directory.Exists($@"{GetParamAssetsDir()}\DefsPatch"))
@@ -757,7 +762,7 @@ namespace StudioCore
         public string GetStrippedRowNamesPath(string paramName)
         {
             string dir = $@"{ProjectMiscDir}\Stripped Row Names";
-            return $@"{dir}\{paramName}.txt"; ;
+            return $@"{dir}\{paramName}.txt";
         }
 
         public PARAMDEF GetParamdefForParam(string paramType)

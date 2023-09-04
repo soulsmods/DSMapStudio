@@ -36,9 +36,20 @@ namespace StudioCore.ParamEditor
         public static string ClipboardParam = null;
         public static List<Param.Row> ClipboardRows = new List<Param.Row>();
 
+        /// <summary>
+        /// Mapping from ParamType -> PARAMDEF.
+        /// </summary>
         private static Dictionary<string, PARAMDEF> _paramdefs = null;
+        /// <summary>
+        /// Mapping from ParamType -> max application param version -> alternative PARAMDEF.
+        /// </summary>
         private static Dictionary<string, Dictionary<ulong, PARAMDEF>> _patchParamdefs = null;
-
+        /// <summary>
+        /// Mapping from Param filename -> Manual ParamType.
+        /// This is for params with no usable ParamType at some particular game version.
+        /// By convention, ParamTypes ending in "_TENTATIVE" do not have official data to reference.
+        /// </summary>
+        private static Dictionary<string, string> _tentativeParamType = null;
 
         private Param EnemyParam = null;
         internal AssetLocator AssetLocator = null;
@@ -107,6 +118,7 @@ namespace StudioCore.ParamEditor
         {
             _paramdefs = new Dictionary<string, PARAMDEF>();
             _patchParamdefs = new Dictionary<string, Dictionary<ulong, PARAMDEF>>();
+            _tentativeParamType = new Dictionary<string, string>();
             var dir = assetLocator.GetParamdefDir();
             var files = Directory.GetFiles(dir, "*.xml");
             List<(string, PARAMDEF)> defPairs = new List<(string, PARAMDEF)>();
@@ -115,6 +127,21 @@ namespace StudioCore.ParamEditor
                 var pdef = PARAMDEF.XmlDeserialize(f);
                 _paramdefs.Add(pdef.ParamType, pdef);
                 defPairs.Add((f, pdef));
+            }
+            var tentativeMappingPath = assetLocator.GetTentativeParamTypePath();
+            if (File.Exists(tentativeMappingPath))
+            {
+                // No proper CSV library is used currently, and all CSV parsing is in the context of param files.
+                // If a CSV library is introduced in DSMapStudio, use it here.
+                foreach (string line in File.ReadAllLines(tentativeMappingPath).Skip(1))
+                {
+                    string[] parts = line.Split(',');
+                    if (parts.Length != 2 || string.IsNullOrWhiteSpace(parts[0]) || string.IsNullOrWhiteSpace(parts[1]))
+                    {
+                        throw new FormatException($"Malformed line in {tentativeMappingPath}: {line}");
+                    }
+                    _tentativeParamType[parts[0]] = parts[1];
+                }
             }
 
             // Load patch paramdefs
@@ -180,40 +207,6 @@ namespace StudioCore.ParamEditor
         }
 
         /// <summary>
-        /// Dictionary of param file names that contain no ParamType, and the ParamType to be assigned to them.
-        /// ParamType names ending in "_TENTATIVE" did not have official data to reference.
-        /// </summary>
-        public static Dictionary<string, string> TentativeParamType_AC6 = new()
-        {
-            // Update StudioCore/Assets/Paramdex/AC6/Defs/TentativeParamType.csv whenever updating this mapping.
-            {"EquipParamWeapon", "EquipParamWeapon_TENTATIVE"}, //
-            {"EquipParamProtector", "EQUIP_PARAM_PROTECTOR_ST"},
-            {"EquipParamAccessory", "EQUIP_PARAM_ACCESSORY_ST"},
-            {"ReinforceParamProtector", "REINFORCE_PARAM_PROTECTOR_ST"},
-            {"NpcParam", "NPC_PARAM_ST"},
-            {"NpcTransformParam", "NpcTransformParam_TENTATIVE"}, //
-            {"AtkParam_Npc", "ATK_PARAM_ST"},
-            {"WepAbsorpPosParam", "WEP_ABSORP_POS_PARAM_ST"},
-            {"DirectionCameraParam", "DIRECTION_CAMERA_PARAM_ST"},
-            {"MovementAcTypeParam", "MovementAcTypeParam_TENTATIVE"}, //
-            {"MovementRideObjParam", "MovementRideObjParam_TENTATIVE"}, //
-            {"MovementFlyEnemyParam", "MovementFlyEnemyParam_TENTATIVE"}, //
-            {"ChrModelParam", "CHR_MODEL_PARAM_ST"},
-            {"MissionParam", "MissionParam_TENTATIVE"}, //
-            {"MailParam", "MAIL_PARAM_ST"},
-            {"EquipParamBooster", "EquipParamBooster_TENTATIVE"}, //
-            {"EquipParamGenerator", "EquipParamGenerator_TENTATIVE"}, //
-            {"EquipParamFcs", "EquipParamFcs_TENTATIVE"}, //
-            {"RuntimeSoundParam_Npc", "RuntimeSoundParam_TENTATIVE"}, //
-            {"RuntimeSoundParam_Pc", "RuntimeSoundParam_TENTATIVE"}, //
-            {"CutsceneGparamTimeParam", "CUTSCENE_GPARAM_TIME_PARAM_ST"},
-            {"CutsceneTimezoneConvertParam", "CUTSCENE_TIMEZONE_CONVERT_PARAM_ST"},
-            {"CutsceneMapIdParam", "CUTSCENE_MAP_ID_PARAM_ST"},
-            {"MapAreaParam", "MapAreaParam_TENTATIVE"}, //
-            {"RuntimeSoundGlobalParam", "RuntimeSoundGlobalParam_TENTATIVE"}, //
-        };
-
-        /// <summary>
         /// Dictionary of param file names that were given a tentative ParamType, and the original ParamType it had.
         /// Used to later restore original ParamType on write (if possible).
         /// </summary>
@@ -251,7 +244,7 @@ namespace StudioCore.ParamEditor
                     {
                         if (!_paramdefs.ContainsKey(p.ParamType) && !_patchParamdefs.ContainsKey(p.ParamType))
                         {
-                            if (TentativeParamType_AC6.TryGetValue(paramName, out string newParamType))
+                            if (_tentativeParamType.TryGetValue(paramName, out string newParamType))
                             {
                                 _usedTentativeParamTypes.Add(paramName, p.ParamType);
                                 p.ParamType = newParamType;
@@ -266,7 +259,7 @@ namespace StudioCore.ParamEditor
                     }
                     else
                     {
-                        if (TentativeParamType_AC6.TryGetValue(paramName, out string newParamType))
+                        if (_tentativeParamType.TryGetValue(paramName, out string newParamType))
                         {
                             _usedTentativeParamTypes.Add(paramName, p.ParamType);
                             p.ParamType = newParamType;
