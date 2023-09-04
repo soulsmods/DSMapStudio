@@ -318,11 +318,12 @@ namespace StudioCore.Resource
                 return $@"aet/{aetid}/{Path.GetFileNameWithoutExtension(texpath)}";
             }
             // Parts texture reference
-            /*else if (texpath.Contains(@"\parts\"))
+            else if (texpath.Contains(@"\parts\"))
             {
-                var asset = AssetDatabase.LoadAssetAtPath<Texture2D>($@"Assets/{gamePath}/Parts/textures/{Path.GetFileNameWithoutExtension(path)}.dds");
-                return asset;
-            }*/
+                var splits = texpath.Split('\\');
+                var partsId = splits[splits.Length - 3];
+                return $@"parts/{partsId}/tex/{Path.GetFileNameWithoutExtension(texpath)}";
+            }
             return texpath;
         }
 
@@ -2139,12 +2140,7 @@ namespace StudioCore.Resource
         public bool _Load(Memory<byte> bytes, AccessLevel al, GameType type)
         {
             bool ret;
-            if (type == GameType.ArmoredCoreVI)
-            {
-                //TODO AC6
-                return false;
-            }
-            else if (type == GameType.DemonsSouls)
+            if (type == GameType.DemonsSouls)
             {
                 FlverDeS = FLVER0.Read(bytes);
                 ret = LoadInternalDeS(al, type);
@@ -2172,12 +2168,7 @@ namespace StudioCore.Resource
         public bool _Load(string path, AccessLevel al, GameType type)
         {
             bool ret;
-            if (type == GameType.ArmoredCoreVI)
-            {
-                //TODO AC6
-                return false;
-            }
-            else if (type == GameType.DemonsSouls)
+            if (type == GameType.DemonsSouls)
             {
                 FlverDeS = FLVER0.Read(path);
                 ret = LoadInternalDeS(al, type);

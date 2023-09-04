@@ -24,7 +24,8 @@ namespace StudioCore.ParamEditor
         public static bool CanReloadMemoryParams(ParamBank bank, ProjectSettings projectSettings)
         {
             if (projectSettings != null && (projectSettings.GameType == GameType.DarkSoulsIII || projectSettings.GameType == GameType.EldenRing
-                || projectSettings.GameType == GameType.DarkSoulsPTDE || projectSettings.GameType == GameType.DarkSoulsRemastered) && bank.IsLoadingParams == false)
+                || projectSettings.GameType == GameType.DarkSoulsPTDE || projectSettings.GameType == GameType.DarkSoulsRemastered 
+                || projectSettings.GameType == GameType.Sekiro || projectSettings.GameType == GameType.ArmoredCoreVI) && bank.IsLoadingParams == false)
                 return true;
 
             return false;

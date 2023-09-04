@@ -14,26 +14,64 @@ public class Oodle
     static bool Oodle6Exists = false;
     static bool Oodle8Exists = false;
 
-    public static IOodleCompressor GetOodleCompressor()
+    private static bool CanUseOodle6()
+    {
+        if (Oodle6Exists)
+        {
+            return true;
+        }
+        if (Path.Exists($@"{Directory.GetCurrentDirectory()}\oo2core_6_win64.dll"))
+        {
+            Oodle6Exists = true;
+            return true;
+        }
+        return false;
+    }
+
+    private static bool CanUseOodle8()
     {
         if (Oodle8Exists)
         {
-            return new Oodle28();
+            return true;
         }
-        if (Oodle6Exists)
-        {
-            return new Oodle26();
-        }
-
         if (Path.Exists($@"{Directory.GetCurrentDirectory()}\oo2core_8_win64.dll"))
         {
             Oodle8Exists = true;
-            return new Oodle28();
+            return true;
         }
-        if (Path.Exists($@"{Directory.GetCurrentDirectory()}\oo2core_8_win64.dll"))
+        return false;
+    }
+
+    /// <summary>
+    /// Returns oodle class to use for compression and decompression.
+    /// </summary>
+    /// <param name="compressionLevel">Used to determine preferred oodle. If not applicable, any available oodle will be used.</param>
+    public static IOodleCompressor GetOodleCompressor(int compressionLevel = -1)
+    {
+        if (compressionLevel != -1)
         {
-            Oodle6Exists = true;
-            return new Oodle26();
+            // Try to get preferred oodle using compressionLevel.
+            if (compressionLevel == 9)
+            {
+                if (CanUseOodle8())
+                    return new Oodle28();
+                if (CanUseOodle6())
+                    return new Oodle26();
+            }
+            else if (compressionLevel == 6)
+            {
+                if (CanUseOodle6())
+                    return new Oodle26();
+                if (CanUseOodle8())
+                    return new Oodle28();
+            }
+        }
+        else
+        {
+            if (CanUseOodle6())
+                return new Oodle26();
+            if (CanUseOodle8())
+                return new Oodle28();
         }
 
         throw new NoOodleFoundException($"Could not find a supported version of oo2core. "

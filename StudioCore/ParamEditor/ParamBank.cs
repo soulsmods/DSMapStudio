@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using FSParam;
 using StudioCore.Editor;
+using StudioCore.TextEditor;
 using StudioCore.Platform;
 
 namespace StudioCore.ParamEditor
@@ -178,6 +179,45 @@ namespace StudioCore.ParamEditor
             return child;
         }
 
+        /// <summary>
+        /// Dictionary of param file names that contain no ParamType, and the ParamType to be assigned to them.
+        /// ParamType names ending in "_TENTATIVE" did not have official data to reference.
+        /// </summary>
+        public static Dictionary<string, string> TentativeParamType_AC6 = new()
+        {
+            {"EquipParamWeapon", "EquipParamWeapon_TENTATIVE"}, //
+            {"EquipParamProtector", "EQUIP_PARAM_PROTECTOR_ST"},
+            {"EquipParamAccessory", "EQUIP_PARAM_ACCESSORY_ST"},
+            {"ReinforceParamProtector", "REINFORCE_PARAM_PROTECTOR_ST"},
+            {"NpcParam", "NPC_PARAM_ST"},
+            {"NpcTransformParam", "NpcTransformParam_TENTATIVE"}, //
+            {"AtkParam_Npc", "ATK_PARAM_ST"},
+            {"WepAbsorpPosParam", "WEP_ABSORP_POS_PARAM_ST"},
+            {"DirectionCameraParam", "DIRECTION_CAMERA_PARAM_ST"},
+            {"MovementAcTypeParam", "MovementAcTypeParam_TENTATIVE"}, //
+            {"MovementRideObjParam", "MovementRideObjParam_TENTATIVE"}, //
+            {"MovementFlyEnemyParam", "MovementFlyEnemyParam_TENTATIVE"}, //
+            {"ChrModelParam", "CHR_MODEL_PARAM_ST"},
+            {"MissionParam", "MissionParam_TENTATIVE"}, //
+            {"MailParam", "MAIL_PARAM_ST"},
+            {"EquipParamBooster", "EquipParamBooster_TENTATIVE"}, //
+            {"EquipParamGenerator", "EquipParamGenerator_TENTATIVE"}, //
+            {"EquipParamFcs", "EquipParamFcs_TENTATIVE"}, //
+            {"RuntimeSoundParam_Npc", "RuntimeSoundParam_TENTATIVE"}, //
+            {"RuntimeSoundParam_Pc", "RuntimeSoundParam_TENTATIVE"}, //
+            {"CutsceneGparamTimeParam", "CUTSCENE_GPARAM_TIME_PARAM_ST"},
+            {"CutsceneTimezoneConvertParam", "CUTSCENE_TIMEZONE_CONVERT_PARAM_ST"},
+            {"CutsceneMapIdParam", "CUTSCENE_MAP_ID_PARAM_ST"},
+            {"MapAreaParam", "MapAreaParam_TENTATIVE"}, //
+            {"RuntimeSoundGlobalParam", "RuntimeSoundGlobalParam_TENTATIVE"}, //
+        };
+
+        /// <summary>
+        /// Dictionary of param file names that were given a tentative ParamType, and the original ParamType it had.
+        /// Used to later restore original ParamType on write (if possible).
+        /// </summary>
+        private Dictionary<string, string?> _usedTentativeParamTypes = null;
+
         private void LoadParamFromBinder(IBinder parambnd, ref Dictionary<string, FSParam.Param> paramBank, out ulong version, bool checkVersion = false)
         {
             bool success = ulong.TryParse(parambnd.Version, out version);
@@ -187,37 +227,66 @@ namespace StudioCore.ParamEditor
             }
 
             // Load every param in the regulation
-            // _params = new Dictionary<string, PARAM>();
             foreach (var f in parambnd.Files)
             {
+                string paramName = Path.GetFileNameWithoutExtension(f.Name);
+
                 if (!f.Name.ToUpper().EndsWith(".PARAM"))
                 {
                     continue;
                 }
-                if (paramBank.ContainsKey(Path.GetFileNameWithoutExtension(f.Name)))
+                if (paramBank.ContainsKey(paramName))
                 {
                     continue;
                 }
 
-                FSParam.Param p = FSParam.Param.Read(f.Bytes);
+                FSParam.Param p;
 
                 if (AssetLocator.Type == GameType.ArmoredCoreVI)
                 {
-                    if (p.ParamType == "")
+                    _usedTentativeParamTypes = new();
+                    p = FSParam.Param.ReadIgnoreCompression(f.Bytes);
+                    if (p.ParamType != null)
                     {
-                        TaskLogs.AddLog($"Couldn't read ParamType (empty string) for {Path.GetFileNameWithoutExtension(f.Name)}, used file name as ParamType.");
-                        p.ParamType = Path.GetFileNameWithoutExtension(f.Name);
+                        if (!_paramdefs.ContainsKey(p.ParamType) && !_patchParamdefs.ContainsKey(p.ParamType))
+                        {
+                            if (TentativeParamType_AC6.TryGetValue(paramName, out string newParamType))
+                            {
+                                _usedTentativeParamTypes.Add(paramName, p.ParamType);
+                                p.ParamType = newParamType;
+                                TaskLogs.AddLog($"Couldn't find ParamDef for {paramName}, but tentative ParamType \"{newParamType}\" exists.");
+                            }
+                            else
+                            {
+                                TaskLogs.AddLog($"Couldn't find ParamDef for param {paramName} and no tentative ParamType exists.",
+                                    Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High);
+                            }
+                        }
                     }
-                    else if (p.ParamType == null)
+                    else
                     {
-                        TaskLogs.AddLog($"Couldn't read ParamType (null) for {Path.GetFileNameWithoutExtension(f.Name)}, used file name as ParamType.");
-                        p.ParamType = Path.GetFileNameWithoutExtension(f.Name);
+                        if (TentativeParamType_AC6.TryGetValue(paramName, out string newParamType))
+                        {
+                            _usedTentativeParamTypes.Add(paramName, p.ParamType);
+                            p.ParamType = newParamType;
+                            TaskLogs.AddLog($"Couldn't read ParamType for {paramName}, but tentative ParamType \"{newParamType}\" exists.");
+                        }
+                        else
+                        {
+                            TaskLogs.AddLog($"Couldn't read ParamType for {paramName} and no tentative ParamType exists.",
+                                Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High);
+                        }
                     }
                 }
-
-                if (!_paramdefs.ContainsKey(p.ParamType) && !_patchParamdefs.ContainsKey(p.ParamType))
+                else
                 {
-                    continue;
+                    p = FSParam.Param.ReadIgnoreCompression(f.Bytes);
+                    if (!_paramdefs.ContainsKey(p.ParamType) && !_patchParamdefs.ContainsKey(p.ParamType))
+                    {
+                        TaskLogs.AddLog($"Couldn't find ParamDef for param {paramName} with ParamType \"{p.ParamType}\".",
+                            Microsoft.Extensions.Logging.LogLevel.Warning);
+                        continue;
+                    }
                 }
 
                 // Try to fixup Elden Ring ChrModelParam for ER 1.06 because many have been saving botched params and
@@ -251,7 +320,7 @@ namespace StudioCore.ParamEditor
                 try
                 {
                     p.ApplyParamdef(def);
-                    paramBank.Add(Path.GetFileNameWithoutExtension(f.Name), p);
+                    paramBank.Add(paramName, p);
                 }
                 catch(Exception e)
                 {
@@ -529,6 +598,19 @@ namespace StudioCore.ParamEditor
             "maptargetdirparam",
             "npctalkparam",
             "treasureboxparam",
+        };
+
+        /// <summary>
+        /// Param name - FMGCategory map
+        /// </summary>
+        public readonly static List<(string, TextEditor.FmgEntryCategory)> ParamToFmgCategoryList = new List<(string, FmgEntryCategory)>()
+        {
+            ("EquipParamAccessory", FmgEntryCategory.Rings),
+            ("EquipParamGoods",  FmgEntryCategory.Goods),
+            ("EquipParamWeapon", FmgEntryCategory.Weapons),
+            ("EquipParamProtector", FmgEntryCategory.Armor),
+            ("EquipParamGem", FmgEntryCategory.Gem),
+            ("SwordArtsParam", FmgEntryCategory.SwordArts)
         };
 
         private static List<string> GetLooseParamsInDir(string dir)
@@ -1556,16 +1638,30 @@ namespace StudioCore.ParamEditor
             {
                 param = $@"{dir}\regulation.bin";
             }
-            BND4 paramBnd = SFUtil.DecryptERRegulation(param);
+            BND4 paramBnd = SFUtil.DecryptAC6Regulation(param);
 
             // Replace params with edited ones
             foreach (var p in paramBnd.Files)
             {
-                if (_params.ContainsKey(Path.GetFileNameWithoutExtension(p.Name)))
+                string paramName = Path.GetFileNameWithoutExtension(p.Name);
+                if (_params.TryGetValue(paramName, out Param paramFile))
                 {
-                    Param paramFile = _params[Path.GetFileNameWithoutExtension(p.Name)];
                     IReadOnlyList<Param.Row> backup = paramFile.Rows;
-                    List<Param.Row> changed = new List<Param.Row>();
+                    if (AssetLocator.Type is GameType.ArmoredCoreVI)
+                    {
+                        if (_usedTentativeParamTypes.TryGetValue(paramName, out string? oldParamType))
+                        {
+                            // This param was given a tentative ParamType, return original ParamType if possible.
+                            oldParamType ??= "";
+                            string prevParamType = paramFile.ParamType;
+                            paramFile.ParamType = oldParamType;
+
+                            p.Bytes = paramFile.Write();
+                            paramFile.ParamType = prevParamType;
+                            paramFile.Rows = backup;
+                            continue;
+                        }
+                    }
                     p.Bytes = paramFile.Write();
                     paramFile.Rows = backup;
                 }

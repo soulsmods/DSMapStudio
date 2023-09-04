@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>LOAD_BALANCER_PARAM_ST</ParamType>
+  <DataVersion>0</DataVersion>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <FormatVersion>203</FormatVersion>
+  <Fields>
+    <!-- <Field Def="dummy8 paramSize[80]" /> -->
+    <Field Def="f32 lowerFpsThreshold = 23"></Field>
+    <Field Def="f32 upperFpsThreshold = 27"></Field>
+    <Field Def="u32 lowerFpsContinousCount = 5"></Field>
+    <Field Def="u32 upperFpsContinousCount = 20"></Field>
+    <Field Def="u32 downAfterChangeSleep = 30"></Field>
+    <Field Def="u32 upAfterChangeSleep = 10"></Field>
+    <Field Def="u8 postProcessLightShaft = 20"></Field>
+    <Field Def="u8 postProcessBloom = 20"></Field>
+    <Field Def="u8 postProcessGlow = 20"></Field>
+    <Field Def="u8 postProcessAA = 20"></Field>
+    <Field Def="u8 postProcessSSAO = 20"></Field>
+    <Field Def="u8 postProcessDOF = 20"></Field>
+    <Field Def="u8 postProcessMotionBlur = 20"></Field>
+    <Field Def="u8 postProcessMotionBlurIteration = 20"></Field>
+    <Field Def="dummy8 reserve0[1]"></Field>
+    <Field Def="u8 shadowBlur = 20"></Field>
+    <Field Def="u8 sfxParticleHalf = 20"></Field>
+    <Field Def="u8 sfxReflection = 20"></Field>
+    <Field Def="u8 sfxWaterInteraction = 20"></Field>
+    <Field Def="u8 sfxGlow = 20"></Field>
+    <Field Def="u8 sfxDistortion = 20"></Field>
+    <Field Def="u8 sftSoftSprite = 20"></Field>
+    <Field Def="u8 sfxLightShaft = 20"></Field>
+    <Field Def="u8 sfxScaleRenderDistanceScale = 20"></Field>
+    <Field Def="u8 dynamicResolution = 1"></Field>
+    <Field Def="u8 shadowCascade0ResolutionHalf"></Field>
+    <Field Def="u8 shadowCascade1ResolutionHalf = 13"></Field>
+    <Field Def="u8 chrWetDisablePlayer = 21"></Field>
+    <Field Def="u8 chrWetDisableRemotePlayer = 21"></Field>
+    <Field Def="u8 chrWetDisableEnemy = 21"></Field>
+    <Field Def="u8 dynamicResolutionPercentageMin = 100"></Field>
+    <Field Def="u8 dynamicResolutionPercentageMax = 100"></Field>
+    <Field Def="dummy8 reserve1[30]"></Field>
+  </Fields>
+</PARAMDEF>

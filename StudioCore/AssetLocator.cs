@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Text.RegularExpressions;
-using Gtk;
 using SoulsFormats;
 
 namespace StudioCore
@@ -75,18 +74,17 @@ namespace StudioCore
     /// </summary>
     public class AssetLocator
     {
-        public readonly FileFilter GameExecutableFilter;
-        public readonly FileFilter ProjectJsonFilter;
-        public readonly FileFilter RegulationBinFilter;
-        public readonly FileFilter Data0Filter;
-        public readonly FileFilter ParamBndDcxFilter;
-        public readonly FileFilter ParamBndFilter;
-        public readonly FileFilter EncRegulationFilter;
-        public readonly FileFilter ParamLooseFilter;
-        public readonly FileFilter CsvFilter;
-        public readonly FileFilter TxtFilter;
-        public readonly FileFilter FmgJsonFilter;
-        public readonly FileFilter AllFilesFilter;
+        public static readonly string GameExecutableFilter;
+        public static readonly string ProjectJsonFilter;
+        public static readonly string RegulationBinFilter;
+        public static readonly string Data0Filter;
+        public static readonly string ParamBndDcxFilter;
+        public static readonly string ParamBndFilter;
+        public static readonly string EncRegulationFilter;
+        public static readonly string ParamLooseFilter;
+        public static readonly string CsvFilter;
+        public static readonly string TxtFilter;
+        public static readonly string FmgJsonFilter;
         
         public GameType Type { get; private set; } = GameType.Undefined;
 
@@ -105,33 +103,37 @@ namespace StudioCore
         /// </summary>
         public string ProjectMiscDir => @$"{GameModDirectory}\DSMapStudio";
 
-        public AssetLocator()
+        static AssetLocator()
         {
-            GameExecutableFilter = new FileFilter { Name = "Game Executable (.EXE, EBOOT.BIN)" };
-            GameExecutableFilter.AddPattern("*.exe*");
-            GameExecutableFilter.AddPattern("*.bin*");
-            ProjectJsonFilter = new FileFilter { Name = "Project file (project.json)" };
-            ProjectJsonFilter.AddPattern("project.json");
-            RegulationBinFilter = new FileFilter { Name = "Regulation file (regulation.bin)" };
-            RegulationBinFilter.AddPattern("regulation.bin");
-            Data0Filter = new FileFilter { Name = "Data file (Data0.bdt)" };
-            Data0Filter.AddPattern("data0.bdt");
-            ParamBndDcxFilter = new FileFilter { Name = "Compressed params (gameparam.parambnd.dcx)" };
-            ParamBndDcxFilter.AddPattern("gameparam.parambnd.dcx");
-            ParamBndFilter = new FileFilter { Name = "Params (gameparam.parambnd)" };
-            ParamBndFilter.AddPattern("gameparam.parambnd");
-            EncRegulationFilter = new FileFilter { Name = "DS2 regulation (enc_regulation.bnd.dcx)" };
-            EncRegulationFilter.AddPattern("enc_regulation.bnd.dcx");
-            ParamLooseFilter = new FileFilter { Name = "Loose param file (*.param)" };
-            ParamLooseFilter.AddPattern("*.param");
-            CsvFilter = new FileFilter { Name = "CSV file (*.csv)" };
-            CsvFilter.AddPattern("*.csv");
-            TxtFilter = new FileFilter { Name = "Text file (*.txt)" };
-            TxtFilter.AddPattern("*.txt");
-            FmgJsonFilter = new FileFilter { Name = "Exported FMGs (*.fmg.json)" };
-            FmgJsonFilter.AddPattern("*.fmg.json");
-            AllFilesFilter = new FileFilter { Name = "All files" };
-            AllFilesFilter.AddPattern("*.*");
+            // These patterns are meant to be passed directly into PlatformUtils.
+            // Everything about their handling should be done there.
+
+            // Game Executable (.EXE, EBOOT.BIN)|*.EXE*;*EBOOT.BIN*
+            // Windows executable (*.EXE)|*.EXE*
+            // Playstation executable (*.BIN)|*.BIN*
+            GameExecutableFilter = "exe,bin";
+            // Project file (project.json)|PROJECT.JSON
+            ProjectJsonFilter = "json";
+            // Regulation file (regulation.bin)|REGULATION.BIN
+            RegulationBinFilter = "bin";
+            // Data file (Data0.bdt)|DATA0.BDT
+            Data0Filter = "bdt";
+            // ParamBndDcx (gameparam.parambnd.dcx)|GAMEPARAM.PARAMBND.DCX
+            ParamBndDcxFilter = "parambnd.dcx";
+            // ParamBnd (gameparam.parambnd)|GAMEPARAM.PARAMBND
+            ParamBndFilter = "parambnd";
+            // Enc_RegBndDcx (enc_regulation.bnd.dcx)|ENC_REGULATION.BND.DCX
+            EncRegulationFilter = "bnd.dcx";
+            // Loose Param file (*.Param)|*.Param
+            ParamLooseFilter = "param";
+            // CSV file (*.csv)|*.csv
+            CsvFilter = "csv";
+            // Text file (*.txt)|*.txt
+            TxtFilter = "txt";
+            // Exported FMGs (*.fmg.json)|*.fmg.json
+            FmgJsonFilter = "fmg.json";
+            // All file filter is implicitly added by NFD. Ideally this is used explicitly.
+            // All files|*.*
         }
 
         private List<string> FullMapList = null;
@@ -335,10 +337,6 @@ namespace StudioCore
                         mapSet.Add(Path.GetFileNameWithoutExtension($@"{map}.blah"));
                     }
                 }
-                else if (Type == GameType.ArmoredCoreVI)
-                {
-                    //TODO AC6
-                }
                 else
                 {
                     var msbFiles = Directory.GetFileSystemEntries(GameRootDirectory + @"\map\MapStudio\", @"*.msb")
@@ -407,12 +405,6 @@ namespace StudioCore
             // BB, DS3, ER, SSDT
             else if (Type == GameType.Bloodborne || Type == GameType.DarkSoulsIII || Type == GameType.EldenRing || Type == GameType.Sekiro)
             {
-                preferredPath = $@"\map\MapStudio\{mapid}.msb.dcx";
-                backupPath = $@"\map\MapStudio\{mapid}.msb";
-            }
-            else if (Type == GameType.ArmoredCoreVI)
-            {
-                //TODO AC6
                 preferredPath = $@"\map\MapStudio\{mapid}.msb.dcx";
                 backupPath = $@"\map\MapStudio\{mapid}.msb";
             }
@@ -559,10 +551,6 @@ namespace StudioCore
                 {
                     ad.AssetPath = $@"{GameRootDirectory}\{path}.nva.dcx";
                 }
-            }
-            else if (Type == GameType.ArmoredCoreVI)
-            {
-                //TODO AC6
             }
             else
             {
@@ -1222,6 +1210,7 @@ namespace StudioCore
             if (Type == GameType.ArmoredCoreVI)
             {
                 //TODO AC6
+                // Apparently assets are used for CHR textures sometimes.
             }
             if (Type == GameType.EldenRing)
             {
@@ -1374,10 +1363,6 @@ namespace StudioCore
             {
                 ret.AssetVirtualPath = $@"chr/{chr}/model/{chr}.flv";
             }
-            else if (Type == GameType.ArmoredCoreVI)
-            {
-                //TODO AC6
-            }
             else
             {
                 ret.AssetVirtualPath = $@"chr/{chr}/model/{chr}.flver";
@@ -1411,7 +1396,9 @@ namespace StudioCore
                 }
                 else if (Type == GameType.ArmoredCoreVI)
                 {
-                    //TODO AC6
+                    // AEGs are objs in my heart :(
+                    modelDir = @"\asset\environment\geometry";
+                    modelExt = ".geombnd.dcx";
                 }
 
                 // Directories to search for obj models
@@ -1419,10 +1406,6 @@ namespace StudioCore
                 if (Type == GameType.EldenRing)
                 {
                     searchDirs = Directory.GetFileSystemEntries(GameRootDirectory + modelDir, $@"aeg*").ToList();
-                }
-                else if (Type == GameType.ArmoredCoreVI)
-                {
-                    //TODO AC6
                 }
                 else
                 {
@@ -1472,19 +1455,150 @@ namespace StudioCore
             {
                 ret.AssetVirtualPath = $@"obj/{obj}/model/{obj}.flv";
             }
-            else if (Type == GameType.EldenRing)
+            else if (Type is GameType.EldenRing or GameType.ArmoredCoreVI)
             {
                 ret.AssetVirtualPath = $@"obj/{obj}/model/{obj.ToUpper()}.flver";
-            }
-            else if (Type == GameType.ArmoredCoreVI)
-            {
-                //TODO AC6
             }
             else
             {
                 ret.AssetVirtualPath = $@"obj/{obj}/model/{obj}.flver";
             }
             return ret;
+        }
+
+        public List<string> GetPartsModels()
+        {
+            try
+            {
+                var parts = new HashSet<string>();
+                var ret = new List<string>();
+
+                string modelDir = $@"\parts";
+                string modelExt = $@".partsbnd.dcx";
+                if (Type == GameType.DarkSoulsPTDE)
+                {
+                    modelExt = ".partsbnd";
+                } else if (Type == GameType.DarkSoulsIISOTFS)
+                {
+                    modelDir = $@"\model\parts";
+                    modelExt = ".bnd";
+                    var partsGatheredFiles = Directory.GetFiles(GameRootDirectory + modelDir, "*", SearchOption.AllDirectories);
+                    foreach (var f in partsGatheredFiles)
+                    {
+                        if(!f.EndsWith("common.commonbnd.dcx") && !f.EndsWith("common_cloth.commonbnd.dcx") && !f.EndsWith("facepreset.bnd"))
+                            ret.Add(Path.GetFileNameWithoutExtension(f));
+                    }
+
+                    return ret;
+                }
+
+                var partsFiles = Directory.GetFileSystemEntries(GameRootDirectory + modelDir, $@"*{modelExt}").ToList();
+                foreach (var f in partsFiles)
+                {
+                    var name = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(f));
+                    ret.Add(name);
+                    parts.Add(name);
+                }
+
+                if (GameModDirectory != null && Directory.Exists(GameModDirectory + modelDir))
+                {
+                    partsFiles = Directory.GetFileSystemEntries(GameModDirectory + modelDir, $@"*{modelExt}").ToList();
+                    foreach (var f in partsFiles)
+                    {
+                        var name = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(f));
+                        if (!parts.Contains(name))
+                        {
+                            ret.Add(name);
+                            parts.Add(name);
+                        }
+                    }
+                }
+
+                return ret;
+            }
+            catch (DirectoryNotFoundException e)
+            {
+                // Game likely isn't UXM unpacked
+                return new List<string>();
+            }
+        }
+
+        public AssetDescription GetPartsModel(string part)
+        {
+            var ret = new AssetDescription();
+            ret.AssetName = part;
+            ret.AssetArchiveVirtualPath = $@"parts/{part}/model";
+            if (Type == GameType.DarkSoulsIISOTFS)
+            {
+                ret.AssetVirtualPath = $@"parts/{part}/model/{part}.flv";
+            }
+            else if (Type is GameType.DarkSoulsPTDE)
+            {
+                ret.AssetVirtualPath = $@"parts/{part}/model/{part.ToUpper()}.flver";
+            }
+            else
+            {
+                ret.AssetVirtualPath = $@"parts/{part}/model/{part}.flver";
+            }
+            return ret;
+        }
+
+        public AssetDescription GetPartTextures(string partsId)
+        {
+            AssetDescription ad = new AssetDescription();
+            ad.AssetArchiveVirtualPath = null;
+            ad.AssetPath = null;
+            if (Type == GameType.ArmoredCoreVI)
+            {
+                string path = GetOverridenFilePath($@"parts\{partsId}.partsbnd.dcx");
+                if (path != null)
+                {
+                    ad.AssetPath = path;
+                    ad.AssetArchiveVirtualPath = $@"parts/{partsId}/tex";
+                }
+            } else if (Type == GameType.EldenRing)
+            {
+                // Maybe add an option down the line to load lower quality
+                string path = GetOverridenFilePath($@"parts\{partsId}.partsbnd.dcx");
+                if (path != null)
+                {
+                    ad.AssetPath = path;
+                    ad.AssetArchiveVirtualPath = $@"parts/{partsId}/tex";
+                }
+            } else if (Type == GameType.DarkSoulsIII || Type == GameType.Sekiro)
+            {
+                string path = GetOverridenFilePath($@"parts\{partsId}.partsbnd.dcx");
+                if (path != null)
+                {
+                    ad.AssetPath = path;
+                    ad.AssetArchiveVirtualPath = $@"parts/{partsId}/tex";
+                }
+            } else if (Type == GameType.Bloodborne)
+            {
+                string path = GetOverridenFilePath($@"parts\{partsId}.partsbnd.dcx");
+                if (path != null)
+                {
+                    ad.AssetPath = path;
+                    ad.AssetVirtualPath = $@"parts/{partsId}/tex";
+                }
+            } else if (Type == GameType.DarkSoulsPTDE)
+            {
+                string path = GetOverridenFilePath($@"parts\{partsId}.partsbnd");
+                if (path != null)
+                {
+                    ad.AssetPath = path;
+                    ad.AssetArchiveVirtualPath = $@"parts/{partsId}/tex";
+                }
+            } else if (Type == GameType.DemonsSouls)
+            {
+                string path = GetOverridenFilePath($@"parts\{partsId}.partsbnd.dcx");
+                if (path != null)
+                {
+                    ad.AssetPath = path;
+                    ad.AssetArchiveVirtualPath = $@"parts/{partsId}/tex";
+                }
+            }
+            return ad;
         }
 
         public AssetDescription GetNullAsset()
@@ -1673,10 +1787,6 @@ namespace StudioCore
                     {
                         return GetOverridenFilePath($@"chr\{chrid}\{chrid}.chrbnd.dcx");
                     }
-                    else if (Type == GameType.ArmoredCoreVI)
-                    {
-                        //TODO AC6
-                    }
                     return GetOverridenFilePath($@"chr\{chrid}.chrbnd.dcx");
                 }
                 else if (pathElements[i].Equals("tex"))
@@ -1686,11 +1796,11 @@ namespace StudioCore
                     {
                         //TODO AC6
                     }
-                    if (Type == GameType.EldenRing)
+                    else if (Type == GameType.EldenRing)
                     {
                         return GetOverridenFilePath($@"chr\{chrid}_h.texbnd.dcx");
                     }
-                    if (Type == GameType.DarkSoulsIII || Type == GameType.Sekiro)
+                    else if (Type == GameType.DarkSoulsIII || Type == GameType.Sekiro)
                     {
                         return GetOverridenFilePath($@"chr\{chrid}.texbnd.dcx");
                     }
@@ -1726,9 +1836,73 @@ namespace StudioCore
                     }
                     else if (Type == GameType.ArmoredCoreVI)
                     {
-                        //TODO AC6
+                        if (objid.Length >= 6)
+                            return GetOverridenFilePath($@"asset\environment\geometry\{objid}.geombnd.dcx");
+                        else
+                            return null;
                     }
                     return GetOverridenFilePath($@"obj\{objid}.objbnd.dcx");
+                }
+            }
+            else if (pathElements[i].Equals("parts"))
+            {
+                i++;
+                var partsId = pathElements[i];
+                i++;
+                if (pathElements[i].Equals("model") || pathElements[i].Equals("tex"))
+                {
+                    bndpath = "";
+                    if (Type == GameType.DarkSoulsPTDE || Type == GameType.DarkSoulsRemastered)
+                    {
+                        return GetOverridenFilePath($@"parts\{partsId}.partsbnd");
+                    }
+                    else if (Type == GameType.DarkSoulsIISOTFS)
+                    {
+                        string partType = "";
+                        switch(partsId.Substring(0, 2))
+                        {
+                            case "as":
+                                partType = "accessories";
+                                break;
+                            case "am":
+                                partType = "arm";
+                                break;
+                            case "bd":
+                                partType = "body";
+                                break;
+                            case "fa":
+                            case "fc":
+                            case "fg":
+                                partType = "face";
+                                break;
+                            case "hd":
+                                partType = "head";
+                                break;
+                            case "leg":
+                                partType = "leg";
+                                break;
+                            case "sd":
+                                partType = "shield";
+                                break;
+                            case "wp":
+                                partType = "weapon";
+                                break;
+                        }
+                        return GetOverridenFilePath($@"model\parts\{partType}\{partsId}.bnd");
+                    }
+                    else if (Type == GameType.EldenRing)
+                    {
+                        return GetOverridenFilePath($@"parts\{partsId}\{partsId}.partsbnd.dcx");
+                    } else if (Type == GameType.ArmoredCoreVI && pathElements[i].Equals("tex"))
+                    {
+                        string texAddition = "_u";
+                        if(partsId.Substring(0, 2) == "wp")
+                        {
+                            texAddition = "";
+                        }
+                        return GetOverridenFilePath($@"parts\{partsId}{texAddition}.tpf.dcx");
+                    }
+                    return GetOverridenFilePath($@"parts\{partsId}.partsbnd.dcx");
                 }
             }
 

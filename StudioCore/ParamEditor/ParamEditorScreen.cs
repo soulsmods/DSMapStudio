@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Linq;
 using FSParam;
-using Gtk;
 using Veldrid;
 using Veldrid.Sdl2;
 using Veldrid.Utilities;
@@ -162,12 +161,10 @@ namespace StudioCore.ParamEditor
         public void ResetFMGDecorators()
         {
             _decorators.Clear();
-            _decorators.Add("EquipParamAccessory", new FMGItemParamDecorator(FmgEntryCategory.Rings));
-            _decorators.Add("EquipParamGoods", new FMGItemParamDecorator(FmgEntryCategory.Goods));
-            _decorators.Add("EquipParamProtector", new FMGItemParamDecorator(FmgEntryCategory.Armor));
-            _decorators.Add("EquipParamWeapon", new FMGItemParamDecorator(FmgEntryCategory.Weapons));
-            _decorators.Add("EquipParamGem", new FMGItemParamDecorator(FmgEntryCategory.Gem));
-            _decorators.Add("SwordArtsParam", new FMGItemParamDecorator(FmgEntryCategory.SwordArts));
+            foreach ((string paramName, FmgEntryCategory category) in ParamBank.ParamToFmgCategoryList)
+            {
+                _decorators.Add(paramName, new FMGItemParamDecorator(category));
+            }
             //_decorators.Add("CharacterText", new FMGItemParamDecorator(FmgEntryCategory.Characters)); // TODO: Decorators need to be updated to support text references.
         }
 
@@ -188,7 +185,8 @@ namespace StudioCore.ParamEditor
                 && ParamBank.PrimaryBank.Params != null
                 && ParamBank.VanillaBank.Params != null
                 && !ParamBank.PrimaryBank.IsLoadingParams
-                && !ParamBank.VanillaBank.IsLoadingParams)
+                && !ParamBank.VanillaBank.IsLoadingParams
+                && ParamBank.PrimaryBank.ParamVersion < ParamBank.VanillaBank.ParamVersion)
             {
                 if (!ParamUpgrade_Whitelist.TryGetValue(ParamBank.PrimaryBank.AssetLocator.Type, out ulong versionThreshold))
                 {
@@ -196,8 +194,7 @@ namespace StudioCore.ParamEditor
                     return;
                 }
 
-                if (ParamBank.PrimaryBank.ParamVersion < ParamBank.VanillaBank.ParamVersion
-                    && ParamBank.VanillaBank.ParamVersion <= versionThreshold)
+                if (ParamBank.VanillaBank.ParamVersion <= versionThreshold)
                 {
                     ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.0f, 1f, 0f, 1.0f));
                     if (ImGui.Button("Upgrade Params"))
@@ -213,13 +210,11 @@ namespace StudioCore.ParamEditor
                             MessageBoxIcon.Information);
                         if (message == DialogResult.OK)
                         {
-                            using FileChooserNative fileChooser = new FileChooserNative($"Select old vanilla regulation.bin matching mod version ({oldVersionString})...",
-                                null, FileChooserAction.Open, "Open", "Cancel");
-                            fileChooser.AddFilter(AssetLocator.RegulationBinFilter);
-                            fileChooser.AddFilter(AssetLocator.AllFilesFilter);
-                            if (fileChooser.Run() == (int)ResponseType.Accept)
+                            if (PlatformUtils.Instance.OpenFileDialog(
+                                $"Select regulation.bin for game version ({oldVersionString})...",
+                                new[] { AssetLocator.RegulationBinFilter },
+                                out string path))
                             {
-                                var path = fileChooser.Filename;
                                 UpgradeRegulation(ParamBank.PrimaryBank, ParamBank.VanillaBank, path);
                             }
                         }
@@ -254,7 +249,7 @@ namespace StudioCore.ParamEditor
             if (result == ParamBank.ParamUpgradeResult.OldRegulationNotFound)
             {
                 PlatformUtils.Instance.MessageBox(
-                    $@"Unable to load old vanilla regulation.", 
+                    $@"Unable to load old vanilla regulation.",
                     "Loading error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
@@ -262,7 +257,7 @@ namespace StudioCore.ParamEditor
             if (result == ParamBank.ParamUpgradeResult.OldRegulationVersionMismatch)
             {
                 PlatformUtils.Instance.MessageBox(
-                    $@"The version of the vanilla regulation you selected does not match the version of your mod.", 
+                    $@"The version of the vanilla regulation you selected does not match the version of your mod.",
                     "Version mismatch",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
@@ -294,7 +289,7 @@ namespace StudioCore.ParamEditor
                     logWriter.WriteLine();
                 }
                 logWriter.Flush();
-                
+
                 var msgRes = PlatformUtils.Instance.MessageBox(
                     $@"Conflicts were found while upgrading params. This is usually caused by a game update adding " +
                     "a new row that has the same ID as the one that you added in your mod. It is highly recommended that you " +
@@ -329,7 +324,7 @@ namespace StudioCore.ParamEditor
                     if (success.Count > 0 || fail.Count > 0)
                         PlatformUtils.Instance.MessageBox(
                             (success.Count > 0 ? "Successfully performed the following edits:\n" + String.Join('\n', success) : "") +
-                            (success.Count > 0 && fail.Count > 0 ? "\n" : "") + 
+                            (success.Count > 0 && fail.Count > 0 ? "\n" : "") +
                             (fail.Count > 0 ? "Unable to perform the following edits:\n" + String.Join('\n', fail) : ""),
                             "Regulation upgrade edits",
                             MessageBoxButtons.OK,
@@ -345,7 +340,7 @@ namespace StudioCore.ParamEditor
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
             }
-            
+
             EditorActionManager.Clear();
         }
 
@@ -423,15 +418,11 @@ namespace StudioCore.ParamEditor
             {
                 if (ImGui.MenuItem("Export all fields"))
                 {
-                    using FileChooserNative fileChooser = new FileChooserNative("Choose CSV file",
-                        null, FileChooserAction.Save, "Save", "Cancel");
-                    fileChooser.AddFilter(AssetLocator.CsvFilter);
-                    fileChooser.AddFilter(AssetLocator.TxtFilter);
-                    fileChooser.AddFilter(AssetLocator.AllFilesFilter);
-                    if (fileChooser.Run() == (int)ResponseType.Accept)
+                    if (SaveCsvDialog(out string path))
                     {
                         var rows = CsvExportGetRows(rowType);
-                        TryWriteFile(fileChooser.Filename,
+                        TryWriteFile(
+                            path,
                             ParamIO.GenerateCSV(rows,
                                 ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()],
                                 CFG.Current.Param_Export_Delimiter[0]));
@@ -442,19 +433,15 @@ namespace StudioCore.ParamEditor
                 {
                     if (ImGui.MenuItem("Row name"))
                     {
-                        using FileChooserNative fileChooser = new FileChooserNative("Choose CSV file",
-                            null, FileChooserAction.Save, "Save", "Cancel");
-                        fileChooser.AddFilter(AssetLocator.CsvFilter);
-                        fileChooser.AddFilter(AssetLocator.TxtFilter);
-                        fileChooser.AddFilter(AssetLocator.AllFilesFilter);
-                        if (fileChooser.Run() == (int)ResponseType.Accept)
+                        if (SaveCsvDialog(out string path))
                         {
                             var rows = CsvExportGetRows(rowType);
-                            TryWriteFile(fileChooser.Filename,
-                                    ParamIO.GenerateSingleCSV(rows,
-                                        ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()],
-                                        "Name",
-                                        CFG.Current.Param_Export_Delimiter[0]));
+                            TryWriteFile(
+                                path,
+                                ParamIO.GenerateSingleCSV(rows,
+                                    ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()],
+                                    "Name",
+                                    CFG.Current.Param_Export_Delimiter[0]));
                         }
                     }
                     foreach (PARAMDEF.Field field in ParamBank.PrimaryBank
@@ -462,15 +449,11 @@ namespace StudioCore.ParamEditor
                     {
                         if (ImGui.MenuItem(field.InternalName))
                         {
-                            using FileChooserNative fileChooser = new FileChooserNative("Choose CSV file",
-                                null, FileChooserAction.Save, "Save", "Cancel");
-                            fileChooser.AddFilter(AssetLocator.CsvFilter);
-                            fileChooser.AddFilter(AssetLocator.TxtFilter);
-                            fileChooser.AddFilter(AssetLocator.AllFilesFilter);
-                            if (fileChooser.Run() == (int)ResponseType.Accept)
+                            if (SaveCsvDialog(out string path))
                             {
                                 var rows = CsvExportGetRows(rowType);
-                                TryWriteFile(fileChooser.Filename,
+                                TryWriteFile(
+                                    path,
                                     ParamIO.GenerateSingleCSV(rows,
                                         ParamBank.PrimaryBank.Params[
                                             _activeView._selection.getActiveParam()],
@@ -547,15 +530,11 @@ namespace StudioCore.ParamEditor
                             EditorCommandQueue.AddCommand($@"param/menu/massEditCSVExport/0");
                         if (ImGui.MenuItem("Export entire param to file"))
                         {
-                            using FileChooserNative fileChooser = new FileChooserNative("Choose CSV file",
-                                null, FileChooserAction.Save, "Save", "Cancel");
-                            fileChooser.AddFilter(AssetLocator.CsvFilter);
-                            fileChooser.AddFilter(AssetLocator.TxtFilter);
-                            fileChooser.AddFilter(AssetLocator.AllFilesFilter);
-                            if (fileChooser.Run() == (int)ResponseType.Accept)
+                            if (SaveCsvDialog(out string path))
                             {
                                 var rows = ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()].Rows;
-                                TryWriteFile(fileChooser.Filename,
+                                TryWriteFile(
+                                    path,
                                     ParamIO.GenerateCSV(rows,
                                         ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()],
                                         CFG.Current.Param_Export_Delimiter[0]));
@@ -606,53 +585,35 @@ namespace StudioCore.ParamEditor
                     {
                         if (ImGui.MenuItem("All fields"))
                         {
-                            using FileChooserNative fileChooser = new FileChooserNative("Choose CSV file",
-                                null, FileChooserAction.Open, "Open", "Cancel");
-                            fileChooser.AddFilter(AssetLocator.CsvFilter);
-                            fileChooser.AddFilter(AssetLocator.TxtFilter);
-                            fileChooser.AddFilter(AssetLocator.AllFilesFilter);
-                            if (fileChooser.Run() == (int)ResponseType.Accept)
+                            if (ReadCsvDialog(out string csv))
                             {
-                                string csv = TryReadFile(fileChooser.Filename);
-                                if (csv != null)
+                                (string result, CompoundAction action) = ParamIO.ApplyCSV(ParamBank.PrimaryBank, csv, _activeView._selection.getActiveParam(), false, false, CFG.Current.Param_Export_Delimiter[0]);
+                                if (action != null)
                                 {
-                                    (string result, CompoundAction action) = ParamIO.ApplyCSV(ParamBank.PrimaryBank, csv, _activeView._selection.getActiveParam(), false, false, CFG.Current.Param_Export_Delimiter[0]);
-                                    if (action != null)
-                                    {
-                                        if (action.HasActions)
-                                            EditorActionManager.ExecuteAction(action);
-                                        TaskManager.Run(new("Param - Check Differences",
-                                            TaskManager.RequeueType.Repeat, true,
-                                            TaskLogs.LogPriority.Low,
-                                            () => ParamBank.PrimaryBank.RefreshParamDiffCaches()));
-                                    }
-                                    else
-                                        PlatformUtils.Instance.MessageBox(result, "Error", MessageBoxButtons.OK, MessageBoxIcon.None);
+                                    if (action.HasActions)
+                                        EditorActionManager.ExecuteAction(action);
+                                    TaskManager.Run(new("Param - Check Differences",
+                                        TaskManager.RequeueType.Repeat, true,
+                                        TaskLogs.LogPriority.Low,
+                                        () => ParamBank.PrimaryBank.RefreshParamDiffCaches()));
                                 }
+                                else
+                                    PlatformUtils.Instance.MessageBox(result, "Error", MessageBoxButtons.OK, MessageBoxIcon.None);
                             }
                         }
                         if (ImGui.MenuItem("Row Name"))
                         {
-                            using FileChooserNative fileChooser = new FileChooserNative("Choose CSV file",
-                                null, FileChooserAction.Open, "Open", "Cancel");
-                            fileChooser.AddFilter(AssetLocator.CsvFilter);
-                            fileChooser.AddFilter(AssetLocator.TxtFilter);
-                            fileChooser.AddFilter(AssetLocator.AllFilesFilter);
-                            if (fileChooser.Run() == (int)ResponseType.Accept)
+                            if (ReadCsvDialog(out string csv))
                             {
-                                string csv = TryReadFile(fileChooser.Filename);
-                                if (csv != null)
-                                {
-                                    (string result, CompoundAction action) = ParamIO.ApplySingleCSV(ParamBank.PrimaryBank, csv, _activeView._selection.getActiveParam(), "Name", CFG.Current.Param_Export_Delimiter[0], false);
-                                    if (action != null)
-                                        EditorActionManager.ExecuteAction(action);
-                                    else
-                                        PlatformUtils.Instance.MessageBox(result, "Error", MessageBoxButtons.OK, MessageBoxIcon.None);
-                                    TaskManager.Run(new("Param - Check Differences",
-                                        TaskManager.RequeueType.Repeat,
-                                        true, TaskLogs.LogPriority.Low,
-                                        () => ParamBank.PrimaryBank.RefreshParamDiffCaches()));
-                                }
+                                (string result, CompoundAction action) = ParamIO.ApplySingleCSV(ParamBank.PrimaryBank, csv, _activeView._selection.getActiveParam(), "Name", CFG.Current.Param_Export_Delimiter[0], false);
+                                if (action != null)
+                                    EditorActionManager.ExecuteAction(action);
+                                else
+                                    PlatformUtils.Instance.MessageBox(result, "Error", MessageBoxButtons.OK, MessageBoxIcon.None);
+                                TaskManager.Run(new("Param - Check Differences",
+                                    TaskManager.RequeueType.Repeat,
+                                    true, TaskLogs.LogPriority.Low,
+                                    () => ParamBank.PrimaryBank.RefreshParamDiffCaches()));
                             }
                         }
                         if (ImGui.BeginMenu("Specific Field"))
@@ -661,26 +622,17 @@ namespace StudioCore.ParamEditor
                             {
                                 if (ImGui.MenuItem(field.InternalName))
                                 {
-                                    using FileChooserNative fileChooser = new FileChooserNative("Choose CSV file",
-                                        null, FileChooserAction.Open, "Open", "Cancel");
-                                    fileChooser.AddFilter(AssetLocator.CsvFilter);
-                                    fileChooser.AddFilter(AssetLocator.TxtFilter);
-                                    fileChooser.AddFilter(AssetLocator.AllFilesFilter);
-                                    if (fileChooser.Run() == (int)ResponseType.Accept)
+                                    if (ReadCsvDialog(out string csv))
                                     {
-                                        string csv = TryReadFile(fileChooser.Filename);
-                                        if (csv != null)
-                                        {
-                                            (string result, CompoundAction action) = ParamIO.ApplySingleCSV(ParamBank.PrimaryBank, csv, _activeView._selection.getActiveParam(), field.InternalName, CFG.Current.Param_Export_Delimiter[0], false);
-                                            if (action != null)
-                                                EditorActionManager.ExecuteAction(action);
-                                            else
-                                                PlatformUtils.Instance.MessageBox(result, "Error", MessageBoxButtons.OK, MessageBoxIcon.None);
-                                            TaskManager.Run(new("Param - Check Differences",
-                                                TaskManager.RequeueType.Repeat,
-                                                true, TaskLogs.LogPriority.Low,
-                                                () => ParamBank.PrimaryBank.RefreshParamDiffCaches()));
-                                        }
+                                        (string result, CompoundAction action) = ParamIO.ApplySingleCSV(ParamBank.PrimaryBank, csv, _activeView._selection.getActiveParam(), field.InternalName, CFG.Current.Param_Export_Delimiter[0], false);
+                                        if (action != null)
+                                            EditorActionManager.ExecuteAction(action);
+                                        else
+                                            PlatformUtils.Instance.MessageBox(result, "Error", MessageBoxButtons.OK, MessageBoxIcon.None);
+                                        TaskManager.Run(new("Param - Check Differences",
+                                            TaskManager.RequeueType.Repeat,
+                                            true, TaskLogs.LogPriority.Low,
+                                            () => ParamBank.PrimaryBank.RefreshParamDiffCaches()));
                                     }
                                 }
                             }
@@ -714,16 +666,22 @@ namespace StudioCore.ParamEditor
 
                     if (ImGui.MenuItem("All", "", false, ParamBank.PrimaryBank.Params != null))
                     {
-                        try {
+                        try
+                        {
                             ImportRowNames(false, "Replace all row names?");
-                        } catch {
+                        }
+                        catch
+                        {
                         }
                     }
                     if (ImGui.MenuItem("Current Param", "", false, ParamBank.PrimaryBank.Params != null && _activeView._selection.activeParamExists()))
                     {
-                        try {
+                        try
+                        {
                             ImportRowNames(true, $"Replace all row names in {_activeView._selection.getActiveParam()}?");
-                        } catch {
+                        }
+                        catch
+                        {
                         }
                     }
                     ImGui.EndMenu();
@@ -731,9 +689,12 @@ namespace StudioCore.ParamEditor
 
                 if (ImGui.MenuItem("Trim hidden newlines in names", "", false, ParamBank.PrimaryBank.Params != null))
                 {
-                    try {
+                    try
+                    {
                         EditorActionManager.PushSubManager(ParamBank.PrimaryBank.TrimNewlineChrsFromNames());
-                    } catch {
+                    }
+                    catch
+                    {
                     }
                 }
                 ImGui.EndMenu();
@@ -827,48 +788,52 @@ namespace StudioCore.ParamEditor
                 // Only support ER for now
                 if (ImGui.MenuItem("Load Params for comparison...", null, false))
                 {
+                    string[] allParamTypes = new[]
+                    {
+                        AssetLocator.RegulationBinFilter,
+                        AssetLocator.Data0Filter,
+                        AssetLocator.ParamBndDcxFilter,
+                        AssetLocator.ParamBndFilter,
+                        AssetLocator.EncRegulationFilter
+                    };
                     try
                     {
                         if (_projectSettings.GameType != GameType.DarkSoulsIISOTFS)
                         {
-                            using FileChooserNative fileChooser = new FileChooserNative("Select file containing params",
-                                null, FileChooserAction.Open, "Open", "Cancel");
-                            fileChooser.AddFilter(AssetLocator.RegulationBinFilter);
-                            fileChooser.AddFilter(AssetLocator.Data0Filter);
-                            fileChooser.AddFilter(AssetLocator.ParamBndDcxFilter);
-                            fileChooser.AddFilter(AssetLocator.ParamBndFilter);
-                            fileChooser.AddFilter(AssetLocator.EncRegulationFilter);
-                            fileChooser.AddFilter(AssetLocator.AllFilesFilter);
-                            if (fileChooser.Run() == (int)ResponseType.Accept)
+                            if (PlatformUtils.Instance.OpenFileDialog("Select file containing params", allParamTypes, out string path))
                             {
-                                ParamBank.LoadAuxBank(fileChooser.Filename, null, null, _projectSettings);
+                                ParamBank.LoadAuxBank(path, null, null, _projectSettings);
                             }
                         }
                         else
                         {
-                            using FileChooserNative fileChooser = new FileChooserNative("Select folder for looseparams",
-                                null, FileChooserAction.SelectFolder, "Open", "Cancel");
-                            if (fileChooser.Run() == (int)ResponseType.Accept)
+                            // NativeFileDialog doesn't show the title currently, so manual dialogs are required for now.
+                            PlatformUtils.Instance.MessageBox(
+                                "To compare DS2 params, select the file locations of alternative params, including\n" +
+                                "the loose params folder, the non-loose parambnd or regulation, and the loose enemy param.\n\n" +
+                                "First, select the loose params folder.",
+                                "Select loose params",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information);
+                            if (PlatformUtils.Instance.OpenFolderDialog("Select folder for looseparams", out string folder))
                             {
-
-                                using FileChooserNative fileChooser2 = new FileChooserNative("Select file containing remaining, non-loose params",
-                                    null, FileChooserAction.Open, "Open", "Cancel");
-                                fileChooser2.AddFilter(AssetLocator.RegulationBinFilter);
-                                fileChooser2.AddFilter(AssetLocator.Data0Filter);
-                                fileChooser2.AddFilter(AssetLocator.ParamBndDcxFilter);
-                                fileChooser2.AddFilter(AssetLocator.ParamBndFilter);
-                                fileChooser2.AddFilter(AssetLocator.EncRegulationFilter);
-                                fileChooser2.AddFilter(AssetLocator.AllFilesFilter);
-                                if (fileChooser2.Run() == (int)ResponseType.Accept)
+                                PlatformUtils.Instance.MessageBox(
+                                    "Second, select the non-loose parambnd or regulation",
+                                    "Select regulation",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Information);
+                                if (PlatformUtils.Instance.OpenFileDialog(
+                                    "Select file containing remaining, non-loose params", allParamTypes, out string path))
                                 {
-                                    using FileChooserNative fileChooser3 = new FileChooserNative("Select file containing enemyparam",
-                                        null, FileChooserAction.Open, "Open", "Cancel");
-                                    fileChooser3.AddFilter(AssetLocator.ParamLooseFilter);
-                                    fileChooser3.AddFilter(AssetLocator.AllFilesFilter);
-                                    if (fileChooser3.Run() == (int)ResponseType.Accept)
+                                    PlatformUtils.Instance.MessageBox(
+                                        "Finally, select the file containing enemyparam",
+                                        "Select enemyparam",
+                                        MessageBoxButtons.OK,
+                                        MessageBoxIcon.Information);
+                                    if (PlatformUtils.Instance.OpenFileDialog(
+                                        "Select file containing enemyparam", new[] { AssetLocator.ParamLooseFilter }, out string enemyPath))
                                     {
-                                        ParamBank.LoadAuxBank(fileChooser2.Filename, fileChooser.Filename,
-                                            fileChooser3.Filename, _projectSettings);
+                                        ParamBank.LoadAuxBank(path, folder, enemyPath, _projectSettings);
                                     }
                                 }
                             }
@@ -877,10 +842,10 @@ namespace StudioCore.ParamEditor
                     catch (Exception e)
                     {
                         PlatformUtils.Instance.MessageBox(
-                        $@"Unable to load regulation.\n" + e.Message,
-                        "Loading error",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
+                            $@"Unable to load regulation.\n" + e.Message,
+                            "Loading error",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
                     }
                 }
                 if (ImGui.BeginMenu("Clear param comparison...", ParamBank.AuxBanks.Count > 0))
@@ -971,7 +936,8 @@ namespace StudioCore.ParamEditor
             List<Param.Row> toRemove = new List<Param.Row>(_activeView._selection.getSelectedRows());
             var act = new DeleteParamsAction(ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()], toRemove);
             EditorActionManager.ExecuteAction(act);
-            _views.ForEach((view) => {
+            _views.ForEach((view) =>
+            {
                 if (view != null)
                     toRemove.ForEach((row) => view._selection.removeRowFromAllSelections(row));
             });
@@ -1007,7 +973,7 @@ namespace StudioCore.ParamEditor
         public void MassEditPopups()
         {
             float scale = MapStudioNew.GetUIScale();
-            
+
             // Popup size relies on magic numbers. Multiline maxlength is also arbitrary.
             if (ImGui.BeginPopup("massEditMenuRegex"))
             {
@@ -1105,8 +1071,8 @@ namespace StudioCore.ParamEditor
         {
             if (ImGui.BeginPopup("distributionPopup"))
             {
-                ImGui.Text("Occurences in "+_statisticPopupParameter);
-                ImGui.Text("Count".PadLeft(9)+" Value");
+                ImGui.Text("Occurences in " + _statisticPopupParameter);
+                ImGui.Text("Count".PadLeft(9) + " Value");
                 ImGui.SameLine();
                 try
                 {
@@ -1161,7 +1127,7 @@ namespace StudioCore.ParamEditor
                 if (!ImGui.IsAnyItemActive() && _activeView._selection.activeParamExists() && InputTracker.GetKeyDown(KeyBindings.Current.Param_SelectAll))
                 {
                     ParamBank.ClipboardParam = _activeView._selection.getActiveParam();
-                    foreach (Param.Row row in CacheBank.GetCached(this, (_activeView._viewIndex, _activeView._selection.getActiveParam()), () =>RowSearchEngine.rse.Search((ParamBank.PrimaryBank, ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()]), _activeView._selection.getCurrentRowSearchString(), true, true)))
+                    foreach (Param.Row row in CacheBank.GetCached(this, (_activeView._viewIndex, _activeView._selection.getActiveParam()), () => RowSearchEngine.rse.Search((ParamBank.PrimaryBank, ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()]), _activeView._selection.getCurrentRowSearchString(), true, true)))
 
                         _activeView._selection.addRowToSelection(row);
                 }
@@ -1567,6 +1533,28 @@ namespace StudioCore.ParamEditor
             }
         }
 
+        private static bool SaveCsvDialog(out string path)
+        {
+            return PlatformUtils.Instance.SaveFileDialog(
+                "Choose CSV file", new[] { AssetLocator.CsvFilter, AssetLocator.TxtFilter }, out path);
+        }
+
+        private static bool OpenCsvDialog(out string path)
+        {
+            return PlatformUtils.Instance.OpenFileDialog(
+                "Choose CSV file", new[] { AssetLocator.CsvFilter, AssetLocator.TxtFilter }, out path);
+        }
+
+        private static bool ReadCsvDialog(out string csv)
+        {
+            csv = null;
+            if (OpenCsvDialog(out string path))
+            {
+                csv = TryReadFile(path);
+            }
+            return csv != null;
+        }
+
         private static void TryWriteFile(string path, string text)
         {
             try
@@ -1578,6 +1566,7 @@ namespace StudioCore.ParamEditor
                 PlatformUtils.Instance.MessageBox("Unable to write to "+path, "Write Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
         private static string TryReadFile(string path)
         {
             try

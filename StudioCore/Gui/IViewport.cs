@@ -13,7 +13,7 @@ public interface IViewport
     public int Height { get; }
     
     public float NearClip { get; set; }
-    public float FarClip { get; set; }
+    public float FarClip { get; }
     
     public bool ViewportSelected { get; }
     

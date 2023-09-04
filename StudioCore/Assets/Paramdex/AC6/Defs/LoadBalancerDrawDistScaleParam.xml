@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>LOAD_BALANCER_DRAW_DIST_SCALE_PARAM_ST</ParamType>
+  <DataVersion>0</DataVersion>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <FormatVersion>203</FormatVersion>
+  <Fields>
+    <!-- <Field Def="dummy8 paramSize[128]" /> -->
+    <Field Def="f32 Lv00 = 1"></Field>
+    <Field Def="f32 Lv01 = 1"></Field>
+    <Field Def="f32 Lv02 = 1"></Field>
+    <Field Def="f32 Lv03 = 1"></Field>
+    <Field Def="f32 Lv04 = 1"></Field>
+    <Field Def="f32 Lv05 = 1"></Field>
+    <Field Def="f32 Lv06 = 1"></Field>
+    <Field Def="f32 Lv07 = 1"></Field>
+    <Field Def="f32 Lv08 = 1"></Field>
+    <Field Def="f32 Lv09 = 1"></Field>
+    <Field Def="f32 Lv10 = 1"></Field>
+    <Field Def="f32 Lv11 = 1"></Field>
+    <Field Def="f32 Lv12 = 1"></Field>
+    <Field Def="f32 Lv13 = 1"></Field>
+    <Field Def="f32 Lv14 = 1"></Field>
+    <Field Def="f32 Lv15 = 1"></Field>
+    <Field Def="f32 Lv16 = 1"></Field>
+    <Field Def="f32 Lv17 = 1"></Field>
+    <Field Def="f32 Lv18 = 1"></Field>
+    <Field Def="f32 Lv19 = 1"></Field>
+    <Field Def="f32 Lv20 = 1"></Field>
+    <Field Def="dummy8 reserve[44]"></Field>
+  </Fields>
+</PARAMDEF>

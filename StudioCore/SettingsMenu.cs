@@ -216,7 +216,7 @@ namespace StudioCore
                     {
                         CFG.Current.GFX_Camera_FOV = cam_fov;
                     }
-                    float farClip = MsbEditor.Viewport.FarClip;
+                    float farClip = CFG.Current.GFX_RenderDistance_Max;
                     if (ImGui.SliderFloat("Map max render distance", ref farClip, 10.0f, 500000.0f))
                     {
                         CFG.Current.GFX_RenderDistance_Max = farClip;
@@ -237,8 +237,7 @@ namespace StudioCore
                     {
                         CFG.Current.GFX_Camera_FOV = CFG.Default.GFX_Camera_FOV;
 
-                        MsbEditor.Viewport.FarClip = CFG.Default.GFX_RenderDistance_Max;
-                        CFG.Current.GFX_RenderDistance_Max = MsbEditor.Viewport.FarClip;
+                        CFG.Current.GFX_RenderDistance_Max = CFG.Default.GFX_RenderDistance_Max;
 
                         MsbEditor.Viewport.WorldView.CameraMoveSpeed_Slow = CFG.Default.GFX_Camera_MoveSpeed_Slow;
                         CFG.Current.GFX_Camera_MoveSpeed_Slow = MsbEditor.Viewport.WorldView.CameraMoveSpeed_Slow;
