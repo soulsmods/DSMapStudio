@@ -74,7 +74,7 @@
     <Field Def="f32 sightSearchEnemyCut"></Field>
     <Field Def="f32 hearingSearchEnemyCut"></Field>
     <Field Def="f32 grabityRate"></Field>
-    <Field Def="s32 Unk"></Field>
+    <Field Def="s32 Unk_1"></Field>
     <Field Def="f32 registStatusChangeRate_Shock"></Field>
     <Field Def="f32 registStatusChangeRate_AcsFailure"></Field>
     <Field Def="f32 registStatusChangeRate_CameraDisruption"></Field>
@@ -119,7 +119,7 @@
     <Field Def="s16 lifeReductionType"></Field>
     <Field Def="s8 throwCondition"></Field>
     <Field Def="s8 addBehaviorJudgeId_condition"></Field>
-    <Field Def="s8 addBehaviorJudgeId_add"></Field>
+    <Field Def="s8 freezeDamageRate"></Field>
     <Field Def="u8 effectTargetSelf:1"></Field>
     <Field Def="u8 effectTargetFriend:1"></Field>
     <Field Def="u8 effectTargetEnemy:1"></Field>
@@ -210,7 +210,7 @@
     <Field Def="u8 eye_angX"></Field>
     <Field Def="u8 eye_angY"></Field>
     <Field Def="s16 addDeceasedLv"></Field>
-    <Field Def="s32 Unk"></Field>
+    <Field Def="s32 Unk_2"></Field>
     <Field Def="s32 spEffectVfxParamId1"></Field>
     <Field Def="s32 spEffectVfxParamId2"></Field>
     <Field Def="s32 spEffectVfxParamId3"></Field>

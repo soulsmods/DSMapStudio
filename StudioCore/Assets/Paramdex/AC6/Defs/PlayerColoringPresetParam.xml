@@ -24,8 +24,8 @@
     <Field Def="u8 Unk0x13"></Field>
     <Field Def="u8 Unk0x14"></Field>
     <Field Def="u8 Unk0x15"></Field>
+    <Field Def="u8 Unk0x16"></Field>
     <Field Def="u8 Unk0x17"></Field>
-    <Field Def="u8 Unk0x18"></Field>
     <Field Def="u8 Unk0x18"></Field>
     <Field Def="u8 Unk0x19"></Field>
     <Field Def="u8 Unk0x1A"></Field>

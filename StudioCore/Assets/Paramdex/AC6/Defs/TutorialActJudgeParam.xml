@@ -7,14 +7,8 @@
   <FormatVersion>203</FormatVersion>
   <Fields>
     <!-- <Field Def="dummy8 paramSize[9]" /> -->
-    <Field Def="u8 Unk0x00"></Field>
-    <Field Def="u8 Unk0x01"></Field>
-    <Field Def="u8 Unk0x02"></Field>
-    <Field Def="u8 Unk0x03"></Field>
-    <Field Def="u8 Unk0x04"></Field>
-    <Field Def="u8 Unk0x05"></Field>
-    <Field Def="u8 Unk0x06"></Field>
-    <Field Def="u8 Unk0x07"></Field>
+    <Field Def="s32 Unk0x00"></Field>
+    <Field Def="s32 Unk0x04"></Field>
     <Field Def="u8 Unk0x08"></Field>
   </Fields>
 </PARAMDEF>

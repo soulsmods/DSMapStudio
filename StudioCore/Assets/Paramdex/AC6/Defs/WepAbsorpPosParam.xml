@@ -40,7 +40,7 @@
     <Field Def="s16 weaponDummyPoly_LeftBoth_2"></Field>
     <Field Def="s16 weaponDummyPoly_LeftBoth_3"></Field>
     <Field Def="u8 displayPos_Right_0"></Field>
-    <Field Def="u8 displayPos_Left_1"></Field>
+    <Field Def="u8 displayPos_Left_0"></Field>
     <Field Def="u8 displayPos_RightBoth_0"></Field>
     <Field Def="u8 displayPos_LeftBoth_0"></Field>
     <Field Def="u8 displayPos_RightHang_0"></Field>

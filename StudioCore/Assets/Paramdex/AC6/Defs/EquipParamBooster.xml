@@ -111,7 +111,7 @@
     <Field Def="f32 Unk0x124"></Field>
     <Field Def="f32 Unk0x128"></Field>
     <Field Def="s32 Unk0x12C"></Field> <!-- Always 0 -->
-    <Field Def="f32 meleeBoostEnergyConsumption"></Field>
+    <Field Def="s32 meleeBoostEnergyConsumption"></Field>
     <Field Def="f32 Unk0x134"></Field>
     <Field Def="f32 Unk0x138"></Field>
     <Field Def="s32 Unk0x13C"></Field> <!-- Always 0 -->

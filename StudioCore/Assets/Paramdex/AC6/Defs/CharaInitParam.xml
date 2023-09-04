@@ -96,10 +96,7 @@
     <Field Def="s32 equipPartFcs"></Field>
     <Field Def="s32 Unk0x15C"></Field>
     <Field Def="s32 equipPartCoreExpansion"></Field>
-    <Field Def="u8 Unk0x164"></Field>
-    <Field Def="u8 Unk0x165"></Field>
-    <Field Def="u8 Unk0x166"></Field>
-    <Field Def="u8 Unk0x167"></Field>
+    <Field Def="s32 Unk0x164"></Field>
     <Field Def="s32 Unk0x168"></Field>
     <Field Def="s32 Unk0x16C"></Field>
     <Field Def="s32 Unk0x170"></Field>
