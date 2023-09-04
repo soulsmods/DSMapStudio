@@ -296,12 +296,12 @@ namespace StudioCore.ParamEditor
                 PARAMDEF def = null;
                 if (_patchParamdefs.ContainsKey(p.ParamType))
                 {
-                    var keys = _patchParamdefs[p.ParamType].Keys.OrderByDescending(e => e);
-                    foreach (var k in keys)
+                    var olderVersions = _patchParamdefs[p.ParamType].Keys.OrderBy(e => e);
+                    foreach (var olderVersion in olderVersions)
                     {
-                        if (version >= k)
+                        if (version <= olderVersion)
                         {
-                            def = _patchParamdefs[p.ParamType][k];
+                            def = _patchParamdefs[p.ParamType][olderVersion];
                             break;
                         }
                     }

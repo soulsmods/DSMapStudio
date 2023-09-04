@@ -736,17 +736,17 @@ namespace StudioCore
 
         public ulong[] GetParamdefPatches()
         {
-            if (Directory.Exists($@"{GetParamAssetsDir()}\DefsPatch"))
+            if (Directory.Exists($@"{GetParamAssetsDir()}\OldDefs"))
             {
-                var entries = Directory.GetFileSystemEntries($@"{GetParamAssetsDir()}\DefsPatch");
+                var entries = Directory.GetFileSystemEntries($@"{GetParamAssetsDir()}\OldDefs");
                 return entries.Select(e => ulong.Parse(Path.GetFileNameWithoutExtension(e))).ToArray();
             }
-            return new ulong[]  { };
+            return new ulong[] { };
         }
         
         public string GetParamdefPatchDir(ulong patch)
         {
-            return $@"{GetParamAssetsDir()}\DefsPatch\{patch}";
+            return $@"{GetParamAssetsDir()}\OldDefs\{patch}";
         }
 
         public string GetParammetaDir()
