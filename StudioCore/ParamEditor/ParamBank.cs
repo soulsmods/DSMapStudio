@@ -185,6 +185,7 @@ namespace StudioCore.ParamEditor
         /// </summary>
         public static Dictionary<string, string> TentativeParamType_AC6 = new()
         {
+            // Update StudioCore/Assets/Paramdex/AC6/Defs/TentativeParamType.csv whenever updating this mapping.
             {"EquipParamWeapon", "EquipParamWeapon_TENTATIVE"}, //
             {"EquipParamProtector", "EQUIP_PARAM_PROTECTOR_ST"},
             {"EquipParamAccessory", "EQUIP_PARAM_ACCESSORY_ST"},
