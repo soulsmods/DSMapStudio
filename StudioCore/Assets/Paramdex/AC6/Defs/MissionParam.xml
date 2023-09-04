@@ -26,10 +26,7 @@
     <Field Def="s32 Unk0x38"></Field>
     <Field Def="s32 Unk0x3C"></Field>
     <Field Def="s32 Unk0x40"></Field>
-    <Field Def="u8 Unk0x44"></Field>
-    <Field Def="u8 Unk0x45"></Field>
-    <Field Def="u8 Unk0x46"></Field>
-    <Field Def="u8 Unk0x47"></Field>
+    <Field Def="s32 Unk0x44"></Field>
     <Field Def="f32 Unk0x48"></Field>
     <Field Def="s32 Unk0x4C"></Field>
     <Field Def="f32 Unk0x50"></Field>

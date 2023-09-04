@@ -198,29 +198,19 @@
     <Field Def="u8 hti15_Priority"></Field>
     <Field Def="u16 defSfxMaterial1"></Field>
     <Field Def="u16 defSeMaterial2"></Field>
-    <Field Def="u16 Unk0x188"></Field>
-    <Field Def="u16 Unk0x18A"></Field>
+    <Field Def="s32 Unk0x188"></Field>
     <Field Def="s32 Unk0x18C"></Field>
     <Field Def="s32 Unk0x190"></Field>
     <Field Def="f32 Unk0x194"></Field>
-    <Field Def="u16 Unk0x198"></Field>
-    <Field Def="u16 Unk0x19A"></Field>
+    <Field Def="s32 Unk0x198"></Field>
     <Field Def="f32 Unk0x19C"></Field>
     <Field Def="f32 Unk0x1A0"></Field>
     <Field Def="f32 Unk0x1A4"></Field>
-    <Field Def="u8 Unk0x1A8"></Field>
-    <Field Def="u8 Unk0x1A9"></Field>
-    <Field Def="u8 Unk0x1AA"></Field>
-    <Field Def="u8 Unk0x1AB"></Field>
+    <Field Def="s32 Unk0x1A8"></Field>
     <Field Def="s32 Unk0x1AC"></Field>
     <Field Def="s32 Unk0x1B0"></Field>
-    <Field Def="u8 Unk0x1B4"></Field>
-    <Field Def="u8 Unk0x1B5"></Field>
-    <Field Def="u8 Unk0x1B6"></Field>
-    <Field Def="u8 Unk0x1B7"></Field>
-    <Field Def="u16 Unk0x1B8"></Field>
-    <Field Def="u8 Unk0x1BA"></Field>
-    <Field Def="u8 Unk0x1BB"></Field>
+    <Field Def="s32 Unk0x1B4"></Field>
+    <Field Def="s32 Unk0x1B8"></Field>
     <Field Def="f32 Unk0x1BC"></Field>
     <Field Def="f32 Unk0x1C0"></Field>
     <Field Def="f32 Unk0x1C4"></Field>
@@ -228,12 +218,8 @@
     <Field Def="f32 Unk0x1CC"></Field>
     <Field Def="f32 Unk0x1D0"></Field>
     <Field Def="s32 Unk0x1D4"></Field>
-    <Field Def="u8 Unk0x1D8"></Field>
-    <Field Def="u8 Unk0x1D9"></Field>
-    <Field Def="u8 Unk0x1DA"></Field>
-    <Field Def="u8 Unk0x1DB"></Field>
-    <Field Def="u16 Unk0x1DC"></Field>
-    <Field Def="u16 Unk0x1DE"></Field>
+    <Field Def="s32 Unk0x1D8"></Field>
+    <Field Def="s32 Unk0x1DC"></Field>
     <Field Def="s32 Unk0x1E0"></Field>
     <Field Def="u16 Unk0x1E4"></Field>
     <Field Def="u16 Unk0x1E6"></Field>
@@ -255,15 +241,13 @@
     <Field Def="u16 weaponChargedImpact">
         <Description>ACS overload performance for charge attacks. This corresponds to immediate ACS strain, which resets within a short period.</Description>
     </Field>
-    <Field Def="u8 Unk0x212"></Field>
-    <Field Def="u8 Unk0x213"></Field>
+    <Field Def="u16 Unk0x212"></Field>
     <Field Def="s32 Unk0x214"></Field>
     <Field Def="s32 damageLevelConvParamId">
         <Description>Refers to DamageLevelConvParam</Description>
     </Field>
     <Field Def="s32 Unk0x21C"></Field>
-    <Field Def="u8 Unk0x220"></Field>
-    <Field Def="u8 Unk0x221"></Field>
+    <Field Def="u16 Unk0x220"></Field>
     <Field Def="u16 Unk0x222"></Field>
     <Field Def="s32 Unk0x224"></Field>
     <Field Def="u16 Unk0x228"></Field>
