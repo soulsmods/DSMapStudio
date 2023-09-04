@@ -2233,9 +2233,9 @@ namespace StudioCore.ParamEditor
                 }
             }
 
-            string label = $@"{r.ID} {Utils.ImGuiEscape(r.Name, "")}##{selectionCacheIndex}";
+            string label = $@"{r.ID} {Utils.ImGuiEscape(r.Name, "")}";
             label = Utils.ImGui_WordWrapString(label, ImGui.GetColumnWidth());
-            if (ImGui.Selectable(label, selected))
+            if (ImGui.Selectable($@"{label}##{selectionCacheIndex}", selected))
             {
                 _focusRows = true;
                 if (InputTracker.GetKey(Key.LControl))
