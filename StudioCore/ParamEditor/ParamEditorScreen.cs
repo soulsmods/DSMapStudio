@@ -2233,7 +2233,7 @@ namespace StudioCore.ParamEditor
                 }
             }
 
-            string label = $@"{r.ID} {Utils.ImGuiEscape(r.Name, "")}";
+            string label = $@"{r.ID} {Utils.ImGuiEscape(r.Name, "")}##{selectionCacheIndex}";
             label = Utils.ImGui_WordWrapString(label, ImGui.GetColumnWidth());
             if (ImGui.Selectable(label, selected))
             {
