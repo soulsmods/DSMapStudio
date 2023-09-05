@@ -735,7 +735,7 @@ namespace StudioCore
 
         /// <summary>
         /// Replace # with fullwidth # to prevent ImGui from hiding text when detecting ## and ###.
-        /// Does the same with %.
+        /// Optionally replaces %, which is only an issue with certain imgui elements.
         /// </summary>
         public static string ImGuiEscape(string str, string nullStr = "", bool percent = false)
         {
