@@ -172,11 +172,42 @@ namespace StudioCore.ParamEditor
         /// Whitelist of games and maximum param version to allow param upgrading.
         /// Used to restrict upgrading before DSMS properly supports it.
         /// </summary>
-        public readonly Dictionary<GameType, ulong> ParamUpgrade_Whitelist = new()
+        public readonly Dictionary<GameType, ulong> ParamUpgrade_HardWhitelist = new()
         {
-            {GameType.EldenRing, 1_10_9_9999L},
+            {GameType.EldenRing, 1_10_7_9999L},
             {GameType.ArmoredCoreVI, 0_00_0_9999L},
         };
+        public ulong ParamUpgradeVersionSoftWhitelist = 0;
+        public List<(ulong, string, string)> ParamUpgradeEdits = null;
+
+        private void LoadUpgraderData()
+        {
+            try
+            {
+                string baseDir = AssetLocator.GetUpgraderAssetsDir();
+                string wlFile = Path.Join(AssetLocator.GetUpgraderAssetsDir(), "versionWhitelist.txt");
+                string massEditFile = Path.Join(AssetLocator.GetUpgraderAssetsDir(), "upgradeEdits.txt");
+                if (!File.Exists(wlFile) || !File.Exists(massEditFile))
+                    return;
+                ulong versionWhitelist = ulong.Parse(File.ReadAllText(wlFile).Replace("_", "").Replace("L", ""));
+
+                string[] parts = File.ReadAllLines(massEditFile);
+                if (parts.Length % 3 != 0)
+                    throw new Exception("Wrong number of lines in upgrader massedit file");
+                List<(ulong, string, string)> upgradeEdits = new List<(ulong, string, string)>();
+                for (int i=0; i<parts.Length; i+=3)
+                {
+                    upgradeEdits.Add((ulong.Parse(parts[i].Replace("_", "").Replace("L", "")), parts[i+1], parts[i+2]));
+                }
+                ParamUpgradeVersionSoftWhitelist = versionWhitelist;
+                ParamUpgradeEdits = upgradeEdits;
+            }
+            catch(Exception e)
+            {
+                TaskLogs.AddLog($"Error loading upgrader data.",
+                Microsoft.Extensions.Logging.LogLevel.Warning, TaskLogs.LogPriority.Normal, e);
+            }
+        }
 
         private void ParamUpgradeDisplay()
         {
@@ -186,19 +217,28 @@ namespace StudioCore.ParamEditor
                 && ParamBank.VanillaBank.Params != null
                 && !ParamBank.PrimaryBank.IsLoadingParams
                 && !ParamBank.VanillaBank.IsLoadingParams
-                && ParamBank.PrimaryBank.ParamVersion < ParamBank.VanillaBank.ParamVersion)
+                && ParamBank.PrimaryBank.ParamVersion < ParamBank.VanillaBank.ParamVersion
+                && ParamUpgradeVersionSoftWhitelist != 0)
             {
-                if (!ParamUpgrade_Whitelist.TryGetValue(ParamBank.PrimaryBank.AssetLocator.Type, out ulong versionThreshold))
-                {
-                    // Unsupported game type.
-                    return;
-                }
-
-                if (ParamBank.VanillaBank.ParamVersion <= versionThreshold)
+                if (ParamBank.VanillaBank.ParamVersion <= ParamUpgradeVersionSoftWhitelist)
                 {
                     ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.0f, 1f, 0f, 1.0f));
                     if (ImGui.Button("Upgrade Params"))
                     {
+                        if (!ParamUpgrade_HardWhitelist.TryGetValue(ParamBank.PrimaryBank.AssetLocator.Type, out ulong hardWhitelist))
+                        {
+                            // Unexpected game type
+                            PlatformUtils.Instance.MessageBox("You appear to be attempting to upgrade params for a different game than mapstudio is prepared for." +
+                            "\n\nMaptudio cannot guarantee this will be successful, and this may corrupt your data." +
+                            "\nEnsure you have correct paramdefs and backups.", "Param Upgrade Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
+                        else if (hardWhitelist < ParamUpgradeVersionSoftWhitelist)
+                        {
+                            // Unexpected game version
+                            PlatformUtils.Instance.MessageBox("You appear to be attempting to upgrade params for a different version than mapstudio is prepared for." +
+                            "\n\nMaptudio cannot guarantee this will be successful, and this may corrupt your data." +
+                            "\nEnsure you have correct paramdefs and backups.", "Param Upgrade Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
                         var message = PlatformUtils.Instance.MessageBox(
                             $@"Your mod is currently on regulation version {ParamBank.PrimaryBank.ParamVersion} while the game is on param version " +
                             $"{ParamBank.VanillaBank.ParamVersion}.\n\nWould you like to attempt to upgrade your mod's params to be based on the " +
@@ -324,7 +364,7 @@ namespace StudioCore.ParamEditor
                     MessageBoxIcon.Information);
                 if (msgUpgradeEdits == DialogResult.Yes)
                 {
-                    var (success, fail) = bank.RunUpgradeEdits(oldVersion, newVersion);
+                    var (success, fail) = RunUpgradeEdits(oldVersion, newVersion);
                     if (success.Count > 0 || fail.Count > 0)
                         PlatformUtils.Instance.MessageBox(
                             (success.Count > 0 ? "Successfully performed the following edits:\n" + String.Join('\n', success) : "") +
@@ -347,6 +387,41 @@ namespace StudioCore.ParamEditor
             }
 
             EditorActionManager.Clear();
+        }
+
+        private (List<string>, List<string>) RunUpgradeEdits(ulong startVersion, ulong endVersion)
+        {
+            if (ParamUpgradeEdits == null)
+                throw new NotImplementedException();
+
+            List<string> performed = new List<string>();
+            List<string> unperformed = new List<string>();
+
+            bool hasFailed = false;
+            foreach (var (version, task, command) in ParamUpgradeEdits)
+            {
+                // Don't bother updating modified cache between edits
+                if (version <= startVersion || version > endVersion)
+                    continue;
+
+                if (!hasFailed)
+                {
+                    try {
+                        var (result, actions) = MassParamEditRegex.PerformMassEdit(ParamBank.PrimaryBank, command, null);
+                        if (result.Type != MassEditResultType.SUCCESS)
+                            hasFailed = true;
+                    }
+                    catch (Exception e)
+                    {
+                        hasFailed = true;
+                    }
+                }
+                if (!hasFailed)
+                    performed.Add(task);
+                else
+                    unperformed.Add(task);
+            }
+            return (performed, unperformed);
         }
 
         private void ParamUndo()
@@ -1491,7 +1566,8 @@ namespace StudioCore.ParamEditor
             {
                 dec.Value.ClearDecoratorCache();
             }
-            MassEditScript.ReloadScripts();
+            TaskManager.Run(new("Param - Load MassEdit Scripts", TaskManager.RequeueType.Repeat, true, ()=>MassEditScript.ReloadScripts()));
+            TaskManager.Run(new("Param - Load Upgrader Data", TaskManager.RequeueType.Repeat, true, ()=>LoadUpgraderData()));
         }
 
         public void Save()
