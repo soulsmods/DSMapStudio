@@ -2193,10 +2193,45 @@
       <Increment>0.1</Increment>
       <SortID>40001</SortID>
     </Field>
-    <Field Def="dummy8 reserved_124[48]">
+    <Field Def="dummy8 reserved_124[48]" RemovedVersion="10701000">
       <DisplayName>予約</DisplayName>
       <Description>(dummy8)</Description>
       <SortID>70003</SortID>
+    </Field>
+    <Field Def="dummy8 reserved_124[32]" FirstVersion="10701000">
+      <DisplayName>予約</DisplayName>
+      <Description>(dummy8)</Description>
+      <SortID>70003</SortID>
+    </Field>
+    <Field Def="f32 unkR00" FirstVersion="10701000">
+    </Field>
+    <Field Def="f32 unkR04" FirstVersion="10701000">
+    </Field>
+    <Field Def="f32 unkR08" FirstVersion="10701000">
+    </Field>
+    <Field Def="f32 unkR12" FirstVersion="10701000">
+    </Field>
+    <Field Def="f32 unkR16" FirstVersion="10701000">
+    </Field>
+    <Field Def="f32 unkR20" FirstVersion="10701000">
+    </Field>
+    <Field Def="f32 unkR24" FirstVersion="10701000">
+    </Field>
+    <Field Def="f32 unkR28" FirstVersion="10701000">
+    </Field>
+    <Field Def="f32 unkR32" FirstVersion="10701000">
+    </Field>
+    <Field Def="f32 unkR36" FirstVersion="10701000">
+    </Field>
+    <Field Def="f32 unkR40" FirstVersion="10701000">
+    </Field>
+    <Field Def="f32 unkR44" FirstVersion="10701000">
+    </Field>
+    <Field Def="f32 unkR48" FirstVersion="10701000">
+    </Field>
+    <Field Def="f32 unkR52" FirstVersion="10701000">
+    </Field>
+    <Field Def="dummy8 reserved_124_2[40]" FirstVersion="10701000">
     </Field>
   </Fields>
 </PARAMDEF>

@@ -1,7 +1,4 @@
-﻿using System.Data;
-using System.Runtime.InteropServices;
-using System.Security;
-using SoulsFormats;
+﻿using SoulsFormats;
 using StudioUtils;
 
 namespace FSParam
@@ -131,7 +128,7 @@ namespace FSParam
         /// </summary>
         public class Row
         {
-            internal Param Parent;
+            internal readonly Param Parent;
             
             /// <summary>
             /// The ID for this row. Should be a unique identifier in theory but in practice it isn't always
@@ -173,7 +170,7 @@ namespace FSParam
             /// <summary>
             /// The paramdef for this row.
             /// </summary>
-            public PARAMDEF Def => Parent.AppliedParamdef;
+            public PARAMDEF? Def => Parent.AppliedParamdef;
 
             internal Row(int id, string? name, Param parent, uint dataIndex)
             {
@@ -295,10 +292,10 @@ namespace FSParam
         /// that is created on demand and therefore more lightweight. For new code, usage of this is not
         /// recommended.
         /// </summary>
-        public struct Cell
+        public readonly struct Cell
         {
-            private Row _row;
-            private Column _column;
+            private readonly Row _row;
+            private readonly Column _column;
 
             internal Cell(Row row, Column column)
             {
@@ -347,10 +344,10 @@ namespace FSParam
             /// </summary>
             public Type ValueType { get; private set; }
             
-            private uint _byteOffset;
-            private uint _arrayLength;
-            private int _bitSize;
-            private uint _bitOffset;
+            private readonly uint _byteOffset;
+            private readonly uint _arrayLength;
+            private readonly int _bitSize;
+            private readonly uint _bitOffset;
             
             internal Column(PARAMDEF.Field def, uint byteOffset, uint arrayLength = 1)
             {
@@ -575,7 +572,7 @@ namespace FSParam
         /// <summary>
         /// Identifies corresponding params and paramdefs.
         /// </summary>
-        public string ParamType { get; set; }
+        public string? ParamType { get; set; }
 
         /// <summary>
         /// Detected size of the row in bytes. Empty params will have a size of 0 and params constructed
@@ -608,17 +605,17 @@ namespace FSParam
                 _rows = new List<Row>(value);
             } 
         }
-        
+
         /// <summary>
         /// List of columns created from the applied paramdef. You can iterate through these and use the columns
         /// to access the specific data of rows.
         /// </summary>
-        public IReadOnlyList<Column> Columns { get; private set; }
+        public IReadOnlyList<Column> Columns { get; private set; } = new List<Column>();
 
         /// <summary>
         /// The applied paramdef
         /// </summary>
-        public PARAMDEF? AppliedParamdef { get; private set; } = null;
+        public PARAMDEF? AppliedParamdef { get; private set; }
 
         /// <summary>
         /// Create an empty param. Param specific header data must be set before saving and ApplyParamdef()
@@ -626,7 +623,13 @@ namespace FSParam
         /// </summary>
         public Param()
         {
-            
+            BigEndian = false;
+            Format2D = FormatFlags1.None;
+            Format2E = FormatFlags2.None;
+            ParamdefDataVersion = 0;
+            ParamdefFormatVersion = 0;
+            Unk06 = 0;
+            ParamType = null;
         }
 
         /// <summary>
@@ -635,10 +638,17 @@ namespace FSParam
         /// </summary>
         /// <param name="paramdef">The paramdef that this param conforms to</param>
         /// <param name="bigEndian">Whether the param is stored in big endian or not</param>
-        public Param(PARAMDEF paramdef, bool bigEndian = false)
+        /// <param name="regulationVersion">For versioned paramdefs, the regulation version to apply</param>
+        public Param(PARAMDEF paramdef, bool bigEndian = false, ulong regulationVersion = ulong.MaxValue)
         {
             BigEndian = bigEndian;
-            ApplyParamdef(paramdef);
+            Format2D = FormatFlags1.None;
+            Format2E = FormatFlags2.None;
+            ParamdefDataVersion = paramdef.DataVersion;
+            ParamdefFormatVersion = 0;
+            Unk06 = 0;
+            ParamType = paramdef.ParamType;
+            ApplyParamdef(paramdef, regulationVersion);
         }
         
         /// <summary>
@@ -746,7 +756,9 @@ namespace FSParam
         /// set before this method is called.
         /// </summary>
         /// <param name="def">The paramdef to apply</param>
-        public void ApplyParamdef(PARAMDEF def)
+        /// <param name="regulationVersion">For version aware paramdefs, the regulation version of the param the
+        /// paramdef is being applied to</param>
+        public void ApplyParamdef(PARAMDEF def, ulong regulationVersion = ulong.MaxValue)
         {
             if (AppliedParamdef != null)
                 throw new ArgumentException("Param already has a paramdef applied.");
@@ -757,13 +769,14 @@ namespace FSParam
             int bitOffset = -1;
             uint byteOffset = 0;
             uint lastSize = 0;
-            PARAMDEF.DefType bitType = PARAMDEF.DefType.u8;
+            var bitType = PARAMDEF.DefType.u8;
 
-            for (int i = 0; i < def.Fields.Count; i++)
+            foreach (var field in def.Fields)
             {
-                PARAMDEF.Field field = def.Fields[i];
-                PARAMDEF.DefType type = field.DisplayType;
-                bool isBitType = ParamUtil.IsBitType(type);
+                if (def.VersionAware && !field.IsValidForRegulationVersion(regulationVersion))
+                    continue;
+                var type = field.DisplayType;
+                var isBitType = ParamUtil.IsBitType(type);
                 if (!isBitType || (isBitType && field.BitSize == -1))
                 {
                     // Advance the offset if we were last reading bits
@@ -984,7 +997,7 @@ namespace FSParam
             {
                 dataStart = Rows.Min(row => row.DataIndex);
                 br.Position = dataStart;
-                var rowData = br.ReadBytes(Rows.Count * (int)RowSize);
+                var rowData = br.ReadBytes(Rows.Count * RowSize);
                 _paramData = new StridedByteArray(rowData, (uint)RowSize, BigEndian);
                 
                 // Convert raw data offsets into indices

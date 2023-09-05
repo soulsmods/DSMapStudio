@@ -7,26 +7,11 @@
   <FormatVersion>203</FormatVersion>
   <Fields>
     <!-- <Field Def="dummy8 paramSize[32]" /> -->
-    <Field Def="u8 Unk0x00"></Field>
-    <Field Def="u8 Unk0x01"></Field>
-    <Field Def="u8 Unk0x02"></Field>
-    <Field Def="u8 Unk0x03"></Field>
-    <Field Def="u8 Unk0x04"></Field>
-    <Field Def="u8 Unk0x05"></Field>
-    <Field Def="u8 Unk0x06"></Field>
-    <Field Def="u8 Unk0x07"></Field>
-    <Field Def="u8 Unk0x08"></Field>
-    <Field Def="u8 Unk0x09"></Field>
-    <Field Def="u8 Unk0x0A"></Field>
-    <Field Def="u8 Unk0x0B"></Field>
-    <Field Def="u8 Unk0x0C"></Field>
-    <Field Def="u8 Unk0x0D"></Field>
-    <Field Def="u8 Unk0x0E"></Field>
-    <Field Def="u8 Unk0x0F"></Field>
-    <Field Def="u8 Unk0x10"></Field>
-    <Field Def="u8 Unk0x11"></Field>
-    <Field Def="u8 Unk0x12"></Field>
-    <Field Def="u8 Unk0x13"></Field>
+    <Field Def="s32 Unk0x00"></Field>
+    <Field Def="s32 Unk0x04"></Field>
+    <Field Def="s32 Unk0x08"></Field>
+    <Field Def="s32 Unk0x0C"></Field>
+    <Field Def="s32 Unk0x10"></Field>
     <Field Def="s32 Unk0x14"></Field>
     <Field Def="s32 Unk0x18"></Field>
     <Field Def="s32 Unk0x1C"></Field>

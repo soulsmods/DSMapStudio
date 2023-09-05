@@ -54,6 +54,12 @@ namespace SoulsFormats
         public List<Field> Fields { get; set; }
 
         /// <summary>
+        /// PARAMDEF is "regulation version aware" and can be applied to older regulation params that may have a
+        /// different layout that the latest params if the XML paramdef supports it.
+        /// </summary>
+        public bool VersionAware { get; set; } = false;
+
+        /// <summary>
         /// Creates a PARAMDEF formatted for DS1.
         /// </summary>
         public PARAMDEF()
@@ -162,6 +168,9 @@ namespace SoulsFormats
         /// </summary>
         protected override void Write(BinaryWriterEx bw)
         {
+            if (VersionAware)
+                throw new Exception("Version aware PARAMDEFs cannot be written as binary.");
+            
             bw.BigEndian = BigEndian;
             bw.VarintLong = FormatVersion >= 200;
 
@@ -247,11 +256,13 @@ namespace SoulsFormats
         /// <summary>
         /// Calculates the size of cell data for each row.
         /// </summary>
-        public int GetRowSize()
+        public int GetRowSize(ulong version = ulong.MaxValue)
         {
             int size = 0;
             for (int i = 0; i < Fields.Count; i++)
             {
+                if (VersionAware && !Fields[i].IsValidForRegulationVersion(version))
+                    continue;
                 Field field = Fields[i];
                 DefType type = field.DisplayType;
                 if (ParamUtil.IsArrayType(type))
@@ -280,6 +291,35 @@ namespace SoulsFormats
         }
 
         /// <summary>
+        /// If this PARAMDEF is version aware, returns a filtered PARAMDEF with only the fields that are valid for a
+        /// specific regulation version. This is useful for binary or XML serialization for a specific regulation version.
+        /// Note that the underlying fields are NOT cloned for the new PARAMDEF.
+        /// </summary>
+        /// <param name="version">The version to filter the fields for</param>
+        /// <returns>A new PARAMDEF with only the filtered fields</returns>
+        public PARAMDEF GetFilteredParamdefForRegulationVersion(ulong version)
+        {
+            if (!VersionAware)
+                throw new Exception("Version aware PARAMDEF required for filtering");
+            var ret = new PARAMDEF
+            {
+                DataVersion = DataVersion,
+                ParamType = ParamType,
+                BigEndian = BigEndian,
+                Unicode = Unicode,
+                FormatVersion = FormatVersion,
+                Fields = new List<Field>()
+            };
+            foreach (var field in Fields)
+            {
+                if (field.IsValidForRegulationVersion(version))
+                    ret.Fields.Add(field);
+            }
+
+            return ret;
+        }
+
+        /// <summary>
         /// Returns a string representation of the PARAMDEF.
         /// </summary>
         public override string ToString()
@@ -290,11 +330,16 @@ namespace SoulsFormats
         /// <summary>
         /// Reads an XML-formatted PARAMDEF from a file.
         /// </summary>
-        public static PARAMDEF XmlDeserialize(string path)
+        /// <param name="path">The path to read the PARAMDEF XML file from</param>
+        /// <param name="versionAware">If versionAware is enabled and the PARAMDEFs support it, additional data will be
+        /// read such that the PARAMDEFs can be used on older regulations if the regulation version is known. Otherwise,
+        /// the PARAMDEFs will be read to support the latest supported regulation version only.</param>
+        /// <returns></returns>
+        public static PARAMDEF XmlDeserialize(string path, bool versionAware = false)
         {
             var xml = new XmlDocument();
             xml.Load(path);
-            return XmlSerializer.Deserialize(xml);
+            return XmlSerializer.Deserialize(xml, versionAware);
         }
 
         /// <summary>

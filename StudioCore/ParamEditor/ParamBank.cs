@@ -41,10 +41,6 @@ namespace StudioCore.ParamEditor
         /// </summary>
         private static Dictionary<string, PARAMDEF> _paramdefs = null;
         /// <summary>
-        /// Mapping from ParamType -> max application param version -> alternative PARAMDEF.
-        /// </summary>
-        private static Dictionary<string, Dictionary<ulong, PARAMDEF>> _patchParamdefs = null;
-        /// <summary>
         /// Mapping from Param filename -> Manual ParamType.
         /// This is for params with no usable ParamType at some particular game version.
         /// By convention, ParamTypes ending in "_TENTATIVE" do not have official data to reference.
@@ -92,8 +88,8 @@ namespace StudioCore.ParamEditor
                     return null;
                 }
                 {
-                if (VanillaBank == this)
-                    return null;
+                    if (VanillaBank == this)
+                        return null;
                 }
                 return _vanillaDiffCache;
             }
@@ -107,8 +103,8 @@ namespace StudioCore.ParamEditor
                     return null;
                 }
                 {
-                if (PrimaryBank == this)
-                    return null;
+                    if (PrimaryBank == this)
+                        return null;
                 }
                 return _primaryDiffCache;
             }
@@ -117,17 +113,17 @@ namespace StudioCore.ParamEditor
         private static List<(string, PARAMDEF)> LoadParamdefs(AssetLocator assetLocator)
         {
             _paramdefs = new Dictionary<string, PARAMDEF>();
-            _patchParamdefs = new Dictionary<string, Dictionary<ulong, PARAMDEF>>();
             _tentativeParamType = new Dictionary<string, string>();
             var dir = assetLocator.GetParamdefDir();
             var files = Directory.GetFiles(dir, "*.xml");
             List<(string, PARAMDEF)> defPairs = new List<(string, PARAMDEF)>();
             foreach (var f in files)
             {
-                var pdef = PARAMDEF.XmlDeserialize(f);
+                var pdef = PARAMDEF.XmlDeserialize(f, true);
                 _paramdefs.Add(pdef.ParamType, pdef);
                 defPairs.Add((f, pdef));
             }
+
             var tentativeMappingPath = assetLocator.GetTentativeParamTypePath();
             if (File.Exists(tentativeMappingPath))
             {
@@ -141,24 +137,6 @@ namespace StudioCore.ParamEditor
                         throw new FormatException($"Malformed line in {tentativeMappingPath}: {line}");
                     }
                     _tentativeParamType[parts[0]] = parts[1];
-                }
-            }
-
-            // Load patch paramdefs
-            var patches = assetLocator.GetParamdefPatches();
-            foreach (var patch in patches)
-            {
-                var pdir = assetLocator.GetParamdefPatchDir(patch);
-                var pfiles = Directory.GetFiles(pdir, "*.xml");
-                foreach (var f in pfiles)
-                {
-                    var pdef = PARAMDEF.XmlDeserialize(f);
-                    defPairs.Add((f, pdef));
-                    if (!_patchParamdefs.ContainsKey(pdef.ParamType))
-                    {
-                        _patchParamdefs[pdef.ParamType] = new Dictionary<ulong, PARAMDEF>();
-                    }
-                    _patchParamdefs[pdef.ParamType].Add(patch, pdef);
                 }
             }
 
@@ -212,7 +190,7 @@ namespace StudioCore.ParamEditor
         /// </summary>
         private Dictionary<string, string?> _usedTentativeParamTypes = null;
 
-        private void LoadParamFromBinder(IBinder parambnd, ref Dictionary<string, FSParam.Param> paramBank, out ulong version, bool checkVersion = false)
+        private void LoadParamFromBinder(IBinder parambnd, ref Dictionary<string, Param> paramBank, out ulong version, bool checkVersion = false)
         {
             bool success = ulong.TryParse(parambnd.Version, out version);
             if (checkVersion && !success)
@@ -234,15 +212,15 @@ namespace StudioCore.ParamEditor
                     continue;
                 }
 
-                FSParam.Param p;
+                Param p;
 
                 if (AssetLocator.Type == GameType.ArmoredCoreVI)
                 {
                     _usedTentativeParamTypes = new();
-                    p = FSParam.Param.ReadIgnoreCompression(f.Bytes);
-                    if (p.ParamType != null)
+                    p = Param.ReadIgnoreCompression(f.Bytes);
+                    if (!string.IsNullOrEmpty(p.ParamType))
                     {
-                        if (!_paramdefs.ContainsKey(p.ParamType) && !_patchParamdefs.ContainsKey(p.ParamType))
+                        if (!_paramdefs.ContainsKey(p.ParamType))
                         {
                             if (_tentativeParamType.TryGetValue(paramName, out string newParamType))
                             {
@@ -274,8 +252,8 @@ namespace StudioCore.ParamEditor
                 }
                 else
                 {
-                    p = FSParam.Param.ReadIgnoreCompression(f.Bytes);
-                    if (!_paramdefs.ContainsKey(p.ParamType) && !_patchParamdefs.ContainsKey(p.ParamType))
+                    p = Param.ReadIgnoreCompression(f.Bytes);
+                    if (!_paramdefs.ContainsKey(p.ParamType ?? ""))
                     {
                         TaskLogs.AddLog($"Couldn't find ParamDef for param {paramName} with ParamType \"{p.ParamType}\".",
                             Microsoft.Extensions.Logging.LogLevel.Warning);
@@ -287,33 +265,17 @@ namespace StudioCore.ParamEditor
                 // it's an easy fixup
                 if (AssetLocator.Type == GameType.EldenRing &&
                     p.ParamType == "CHR_MODEL_PARAM_ST" &&
-                    _paramVersion == 10601000)
+                    version == 10601000)
                 {
                     p.FixupERChrModelParam();
                 }
 
-                // Lookup the correct paramdef based on the version
-                PARAMDEF def = null;
-                if (_patchParamdefs.ContainsKey(p.ParamType))
-                {
-                    var keys = _patchParamdefs[p.ParamType].Keys.OrderByDescending(e => e);
-                    foreach (var k in keys)
-                    {
-                        if (version >= k)
-                        {
-                            def = _patchParamdefs[p.ParamType][k];
-                            break;
-                        }
-                    }
-                }
-
-                // If no patched paramdef was found for this regulation version, fallback to vanilla defs
-                if (def == null)
-                    def = _paramdefs[p.ParamType];
-
+                if (p.ParamType == null)
+                    throw new Exception("Param type is unexpectedly null");
+                PARAMDEF def = _paramdefs[p.ParamType];
                 try
                 {
-                    p.ApplyParamdef(def);
+                    p.ApplyParamdef(def, version);
                     paramBank.Add(paramName, p);
                 }
                 catch(Exception e)
@@ -597,7 +559,7 @@ namespace StudioCore.ParamEditor
         /// <summary>
         /// Param name - FMGCategory map
         /// </summary>
-        public readonly static List<(string, TextEditor.FmgEntryCategory)> ParamToFmgCategoryList = new List<(string, FmgEntryCategory)>()
+        public readonly static List<(string, FmgEntryCategory)> ParamToFmgCategoryList = new List<(string, FmgEntryCategory)>()
         {
             ("EquipParamAccessory", FmgEntryCategory.Rings),
             ("EquipParamGoods",  FmgEntryCategory.Goods),
@@ -701,7 +663,7 @@ namespace StudioCore.ParamEditor
             {
                 EnemyParam = Param.Read(enemypath);
             }
-            if (EnemyParam != null)
+            if (EnemyParam is { ParamType: not null })
             {
                 try
                 {
@@ -999,7 +961,7 @@ namespace StudioCore.ParamEditor
                     {
                         try
                         {
-                            new Editor.ActionManager().ExecuteAction(PrimaryBank.LoadParamDefaultNames());
+                            new ActionManager().ExecuteAction(PrimaryBank.LoadParamDefaultNames());
                             PrimaryBank.SaveParams(settings.UseLooseParams);
                         }
                         catch

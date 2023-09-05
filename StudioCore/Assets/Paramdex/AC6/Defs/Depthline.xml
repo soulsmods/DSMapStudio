@@ -15,10 +15,7 @@
     <Field Def="f32 Unk0x14"></Field>
     <Field Def="u16 Unk0x18"></Field>
     <Field Def="u16 Unk0x1A"></Field>
-    <Field Def="u8 Unk0x1C"></Field>
-    <Field Def="u8 Unk0x1D"></Field>
-    <Field Def="u8 Unk0x1E"></Field>
-    <Field Def="u8 Unk0x1F"></Field>
+    <Field Def="s32 Unk0x1C"></Field>
     <Field Def="f32 Unk0x20"></Field>
     <Field Def="f32 Unk0x24"></Field>
     <Field Def="f32 Unk0x28"></Field>
