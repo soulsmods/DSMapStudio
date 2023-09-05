@@ -174,7 +174,7 @@ namespace StudioCore.ParamEditor
         /// </summary>
         public readonly Dictionary<GameType, ulong> ParamUpgrade_HardWhitelist = new()
         {
-            {GameType.EldenRing, 1_10_7_9999L},
+            {GameType.EldenRing, 1_10_9_9999L},
             {GameType.ArmoredCoreVI, 0_00_0_9999L},
         };
         public ulong ParamUpgradeVersionSoftWhitelist = 0;
