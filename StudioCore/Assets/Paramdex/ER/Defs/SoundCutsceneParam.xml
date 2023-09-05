@@ -82,5 +82,6 @@
       <Description>リザーブ</Description>
       <SortID>10002</SortID>
     </Field>
+    <Field Def="dummy8 reserved2[4]" FirstVersion="10501000" />
   </Fields>
 </PARAMDEF>

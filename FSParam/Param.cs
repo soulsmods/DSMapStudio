@@ -1,7 +1,4 @@
-﻿using System.Data;
-using System.Runtime.InteropServices;
-using System.Security;
-using SoulsFormats;
+﻿using SoulsFormats;
 using StudioUtils;
 
 namespace FSParam
@@ -122,7 +119,7 @@ namespace FSParam
         }
 
         /// <summary>
-        /// A param row, which represents a single collection of values for fields specified in a paramdef. Each
+        /// A param row, which represents a single collection of values for fields specified in a paramDef. Each
         /// row has an ID, which is usually unique but not always, and may optionally have a name. Unlike a
         /// Soulsformats PARAM row, this row is tied to a specific instance of the Param class as the parent,
         /// and must be cloned to the target Param instance before being added to that Param. This is because
@@ -131,7 +128,7 @@ namespace FSParam
         /// </summary>
         public class Row
         {
-            internal Param Parent;
+            internal readonly Param Parent;
             
             /// <summary>
             /// The ID for this row. Should be a unique identifier in theory but in practice it isn't always
@@ -171,9 +168,9 @@ namespace FSParam
             }
 
             /// <summary>
-            /// The paramdef for this row.
+            /// The paramDef for this row.
             /// </summary>
-            public PARAMDEF Def => Parent.AppliedParamdef;
+            public PARAMDEF? Def => Parent.AppliedParamdef;
 
             internal Row(int id, string? name, Param parent, uint dataIndex)
             {
@@ -325,7 +322,7 @@ namespace FSParam
             }
 
             /// <summary>
-            /// The paramdef field definition for this cell
+            /// The paramDef field definition for this cell
             /// </summary>
             public PARAMDEF.Field Def => _column.Def;
         }
@@ -333,12 +330,12 @@ namespace FSParam
         /// <summary>
         /// Represents a Column (param field) in the param. Unlike the Soulsformats Cell, which represents a
         /// value for a specific param field in a specific row, a column isn't associated with any specific row
-        /// but is instead used as an accessor to a specific paramdef field in any given row.
+        /// but is instead used as an accessor to a specific paramDef field in any given row.
         /// </summary>
         public class Column
         {
             /// <summary>
-            /// The paramdef field definition associated with this column
+            /// The paramDef field definition associated with this column
             /// </summary>
             public PARAMDEF.Field Def { get; }
 
@@ -347,10 +344,10 @@ namespace FSParam
             /// </summary>
             public Type ValueType { get; private set; }
             
-            private uint _byteOffset;
-            private uint _arrayLength;
-            private int _bitSize;
-            private uint _bitOffset;
+            private readonly uint _byteOffset;
+            private readonly uint _arrayLength;
+            private readonly int _bitSize;
+            private readonly uint _bitOffset;
             
             internal Column(PARAMDEF.Field def, uint byteOffset, uint arrayLength = 1)
             {
@@ -558,7 +555,7 @@ namespace FSParam
         public FormatFlags2 Format2E { get; set; }
 
         /// <summary>
-        /// Originally matched the paramdef for version 101, but since is always 0 or 0xFF.
+        /// Originally matched the paramDef for version 101, but since is always 0 or 0xFF.
         /// </summary>
         public byte ParamdefFormatVersion { get; set; }
 
@@ -579,7 +576,7 @@ namespace FSParam
 
         /// <summary>
         /// Detected size of the row in bytes. Empty params will have a size of 0 and params constructed
-        /// from scratch without a paramdef applied will have a size of -1
+        /// from scratch without a paramDef applied will have a size of -1
         /// </summary>
         public int RowSize { get; private set; } = -1;
 
@@ -608,17 +605,17 @@ namespace FSParam
                 _rows = new List<Row>(value);
             } 
         }
-        
-        /// <summary>
-        /// List of columns created from the applied paramdef. You can iterate through these and use the columns
-        /// to access the specific data of rows.
-        /// </summary>
-        public IReadOnlyList<Column> Columns { get; private set; }
 
         /// <summary>
-        /// The applied paramdef
+        /// List of columns created from the applied paramDef. You can iterate through these and use the columns
+        /// to access the specific data of rows.
         /// </summary>
-        public PARAMDEF? AppliedParamdef { get; private set; } = null;
+        public IReadOnlyList<Column> Columns { get; private set; } = new List<Column>();
+
+        /// <summary>
+        /// The applied paramDef
+        /// </summary>
+        public PARAMDEF? AppliedParamdef { get; private set; }
 
         /// <summary>
         /// Create an empty param. Param specific header data must be set before saving and ApplyParamdef()
@@ -626,23 +623,36 @@ namespace FSParam
         /// </summary>
         public Param()
         {
-            
+            BigEndian = false;
+            Format2D = FormatFlags1.None;
+            Format2E = FormatFlags2.None;
+            ParamdefDataVersion = 0;
+            ParamdefFormatVersion = 0;
+            Unk06 = 0;
+            ParamType = "";
         }
 
         /// <summary>
-        /// Create an empty param conforming to a specified paramdef. Param specific header data must be
+        /// Create an empty param conforming to a specified paramDef. Param specific header data must be
         /// set before saving.
         /// </summary>
-        /// <param name="paramdef">The paramdef that this param conforms to</param>
+        /// <param name="paramDef">The paramDef that this param conforms to</param>
         /// <param name="bigEndian">Whether the param is stored in big endian or not</param>
-        public Param(PARAMDEF paramdef, bool bigEndian = false)
+        /// <param name="regulationVersion">For versioned paramDefs, the regulation version to apply</param>
+        public Param(PARAMDEF paramDef, bool bigEndian = false, ulong regulationVersion = ulong.MaxValue)
         {
             BigEndian = bigEndian;
-            ApplyParamdef(paramdef);
+            Format2D = FormatFlags1.None;
+            Format2E = FormatFlags2.None;
+            ParamdefDataVersion = paramDef.DataVersion;
+            ParamdefFormatVersion = 0;
+            Unk06 = 0;
+            ParamType = paramDef.ParamType;
+            ApplyParamdef(paramDef, regulationVersion);
         }
         
         /// <summary>
-        /// Creates a new empty param inheriting config/paramdef from a source.
+        /// Creates a new empty param inheriting config/paramDef from a source.
         /// </summary>
         /// <param name="source"></param>
         public Param(Param source)
@@ -740,16 +750,18 @@ namespace FSParam
         }
 
         /// <summary>
-        /// Apply a paramdef to a newly created/read param. For params that were read, the computed row
+        /// Apply a paramDef to a newly created/read param. For params that were read, the computed row
         /// size from the layout must match the row size of the param file read. For params created from
         /// scratch, the row size will be computed from the layout. The endianess of the param should be
         /// set before this method is called.
         /// </summary>
-        /// <param name="def">The paramdef to apply</param>
-        public void ApplyParamdef(PARAMDEF def)
+        /// <param name="def">The paramDef to apply</param>
+        /// <param name="regulationVersion">For version aware paramDefs, the regulation version of the param the
+        /// paramDef is being applied to</param>
+        public void ApplyParamdef(PARAMDEF def, ulong regulationVersion = ulong.MaxValue)
         {
             if (AppliedParamdef != null)
-                throw new ArgumentException("Param already has a paramdef applied.");
+                throw new ArgumentException("Param already has a paramDef applied.");
 
             AppliedParamdef = def;
             var columns = new List<Column>(def.Fields.Count);
@@ -757,13 +769,14 @@ namespace FSParam
             int bitOffset = -1;
             uint byteOffset = 0;
             uint lastSize = 0;
-            PARAMDEF.DefType bitType = PARAMDEF.DefType.u8;
+            var bitType = PARAMDEF.DefType.u8;
 
-            for (int i = 0; i < def.Fields.Count; i++)
+            foreach (var field in def.Fields)
             {
-                PARAMDEF.Field field = def.Fields[i];
-                PARAMDEF.DefType type = field.DisplayType;
-                bool isBitType = ParamUtil.IsBitType(type);
+                if (def.VersionAware && !field.IsValidForRegulationVersion(regulationVersion))
+                    continue;
+                var type = field.DisplayType;
+                var isBitType = ParamUtil.IsBitType(type);
                 if (!isBitType || (isBitType && field.BitSize == -1))
                 {
                     // Advance the offset if we were last reading bits
@@ -843,7 +856,7 @@ namespace FSParam
             // If a row size is already read it must match our computed row size
             else if (byteOffset != RowSize)
             {
-                throw new Exception($@"Row size paramdef mismatch for {ParamType}");
+                throw new Exception($@"Row size paramDef mismatch for {ParamType}");
             }
 
             Columns = columns;
@@ -869,7 +882,7 @@ namespace FSParam
         
         /// <summary>
         /// People were using Yapped and other param editors to save botched ER 1.06 params, so we need
-        /// to fix them up again. Fortunately the only modified paramdef was ChrModelParam, and the new
+        /// to fix them up again. Fortunately the only modified paramDef was ChrModelParam, and the new
         /// field is always 0, so we can easily fix them.
         /// </summary>
         public void FixupERChrModelParam()
@@ -984,7 +997,7 @@ namespace FSParam
             {
                 dataStart = Rows.Min(row => row.DataIndex);
                 br.Position = dataStart;
-                var rowData = br.ReadBytes(Rows.Count * (int)RowSize);
+                var rowData = br.ReadBytes(Rows.Count * RowSize);
                 _paramData = new StridedByteArray(rowData, (uint)RowSize, BigEndian);
                 
                 // Convert raw data offsets into indices
@@ -1012,7 +1025,7 @@ namespace FSParam
         protected override void Write(BinaryWriterEx bw)
         {
             if (AppliedParamdef == null)
-                throw new InvalidOperationException("Params cannot be written without applying a paramdef.");
+                throw new InvalidOperationException("Params cannot be written without applying a paramDef.");
             
             bw.BigEndian = BigEndian;
             
@@ -1157,11 +1170,11 @@ namespace FSParam
         }
 
         /// <summary>
-        /// Gets a param column from a field name in the paramdef. Note that this currently runs in quadratic time
-        /// with respect to the number of paramdef fields and this should not be used in hot code. Mostly available
+        /// Gets a param column from a field name in the paramDef. Note that this currently runs in quadratic time
+        /// with respect to the number of paramDef fields and this should not be used in hot code. Mostly available
         /// for compatability with Soulsformats PARAM class.
         /// </summary>
-        /// <param name="name">The internal name of the paramdef field to lookup</param>
+        /// <param name="name">The internal name of the paramDef field to lookup</param>
         public Column? this[string name] => Columns.FirstOrDefault(cell => cell.Def.InternalName == name);
     }
 }
