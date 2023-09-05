@@ -225,7 +225,7 @@ namespace StudioCore.ParamEditor
                 {
                     _usedTentativeParamTypes = new();
                     p = Param.ReadIgnoreCompression(f.Bytes);
-                    if (p.ParamType != "")
+                    if (!string.IsNullOrEmpty(p.ParamType))
                     {
                         if (!_paramdefs.ContainsKey(p.ParamType))
                         {
@@ -260,7 +260,7 @@ namespace StudioCore.ParamEditor
                 else
                 {
                     p = Param.ReadIgnoreCompression(f.Bytes);
-                    if (!_paramdefs.ContainsKey(p.ParamType))
+                    if (!_paramdefs.ContainsKey(p.ParamType ?? ""))
                     {
                         TaskLogs.AddLog($"Couldn't find ParamDef for param {paramName} with ParamType \"{p.ParamType}\".",
                             Microsoft.Extensions.Logging.LogLevel.Warning);
@@ -277,6 +277,8 @@ namespace StudioCore.ParamEditor
                     p.FixupERChrModelParam();
                 }
 
+                if (p.ParamType == null)
+                    throw new Exception("Param type is unexpectedly null");
                 PARAMDEF def = _paramdefs[p.ParamType];
                 try
                 {
@@ -668,7 +670,7 @@ namespace StudioCore.ParamEditor
             {
                 EnemyParam = Param.Read(enemypath);
             }
-            if (EnemyParam != null)
+            if (EnemyParam is { ParamType: not null })
             {
                 try
                 {
