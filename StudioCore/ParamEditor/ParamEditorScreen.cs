@@ -182,6 +182,8 @@ namespace StudioCore.ParamEditor
 
         private void LoadUpgraderData()
         {
+            ParamUpgradeVersionSoftWhitelist = 0;
+            ParamUpgradeEdits = null;
             try
             {
                 string baseDir = AssetLocator.GetUpgraderAssetsDir();
