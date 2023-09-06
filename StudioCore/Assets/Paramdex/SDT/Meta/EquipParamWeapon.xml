@@ -1,47 +1,276 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
   <Field>
-    <spEffectBehaviorId0 Refs="SpEffectParam(=0)" />
-    <residentSpEffectId2 Refs="SpEffectParam(=0)" />
-    <spEffectBehaviorId2 Refs="SpEffectParam(=0)" />
-    <residentSpEffectId Refs="SpEffectParam(=0)" />
-    <spEffectBehaviorId1 Refs="SpEffectParam(=0)" />
-    <residentSpEffectId1 Refs="SpEffectParam(=0)" />
-    <isDarkHand IsBool="" />
+    <behaviorVariationId Wiki="Behavior that this weapon can use, must match variationId in BehaviorParam_Pc" />
+    <sortId Wiki="Position of this weapon in your inventory" />
+    <wanderingEquipId Wiki="If your character becomes a wandering ghost this weapon will be replaced with the weapon referenced here" />
+    <weight Wiki="Weapon weight" />
+    <weaponWeightRate />
+    <fixPrice Wiki="Amount of Souls required to repair this weapon" />
+    <reinforcePrice Wiki="Souls required to upgrade the weapon" />
+    <sellValue Wiki="Souls you will recieve when this weapon is sold" />
+    <correctStrength Wiki="Strength scaling" />
+    <correctAgility Wiki="Dexterity scaling" />
+    <correctMagic Wiki="Intelligence scaling" />
+    <correctFaith Wiki="Faith scaling" />
+    <physGuardCutRate Wiki="Percentage of physical damage this weapon can block" />
+    <magGuardCutRate Wiki="Percentage of magic damage this weapon can block" />
+    <fireGuardCutRate Wiki="Percentage of fire damage this weapon can block" />
+    <thunGuardCutRate Wiki="Percentage of lightning damage this weapon can block" />
+    <spEffectBehaviorId0 Wiki="Applies speffect when this weapon hits another character" Refs="SpEffectParam(=0)" />
+    <spEffectBehaviorId1 Wiki="Applies speffect when this weapon hits another character" Refs="SpEffectParam(=0)" />
+    <spEffectBehaviorId2 Wiki="Applies speffect when this weapon hits another character" Refs="SpEffectParam(=0)" />
+    <residentSpEffectId Wiki="Applies this speffect to the player when this weapon is equipped" Refs="SpEffectParam(=0)" />
+    <residentSpEffectId1 Wiki="Applies this speffect to the player when this weapon is equipped" Refs="SpEffectParam(=0)" />
+    <residentSpEffectId2 Wiki="Applies this speffect to the player when this weapon is equipped" Refs="SpEffectParam(=0)" />
+    <materialSetId Wiki="Materials used to obtain this item in a shop" Refs="EquipMtrlSetParam(=0)" />
+    <originEquipWep Wiki="Logic used to automatically upgrade this weapon using ReinforceParamWeapon" Refs="EquipParamWeapon(=0)" />
+    <originEquipWep1 Wiki="Logic used to automatically upgrade this weapon using ReinforceParamWeapon" Refs="EquipParamWeapon(=0)" />
+    <originEquipWep2 Wiki="Logic used to automatically upgrade this weapon using ReinforceParamWeapon" Refs="EquipParamWeapon(=0)" />
+    <originEquipWep3 Wiki="Logic used to automatically upgrade this weapon using ReinforceParamWeapon" Refs="EquipParamWeapon(=0)" />
+    <originEquipWep4 Wiki="Logic used to automatically upgrade this weapon using ReinforceParamWeapon" Refs="EquipParamWeapon(=0)" />
+    <originEquipWep5 Wiki="Logic used to automatically upgrade this weapon using ReinforceParamWeapon" Refs="EquipParamWeapon(=0)" />
+    <originEquipWep6 Wiki="Logic used to automatically upgrade this weapon using ReinforceParamWeapon" Refs="EquipParamWeapon(=0)" />
+    <originEquipWep7 Wiki="Logic used to automatically upgrade this weapon using ReinforceParamWeapon" Refs="EquipParamWeapon(=0)" />
+    <originEquipWep8 Wiki="Logic used to automatically upgrade this weapon using ReinforceParamWeapon" Refs="EquipParamWeapon(=0)" />
+    <originEquipWep9 Wiki="Logic used to automatically upgrade this weapon using ReinforceParamWeapon" Refs="EquipParamWeapon(=0)" />
+    <originEquipWep10 Wiki="Logic used to automatically upgrade this weapon using ReinforceParamWeapon" Refs="EquipParamWeapon(=0)" />
+    <originEquipWep11 Wiki="Logic used to automatically upgrade this weapon using ReinforceParamWeapon" Refs="EquipParamWeapon(=0)" />
+    <originEquipWep12 Wiki="Logic used to automatically upgrade this weapon using ReinforceParamWeapon" Refs="EquipParamWeapon(=0)" />
+    <originEquipWep13 Wiki="Logic used to automatically upgrade this weapon using ReinforceParamWeapon" Refs="EquipParamWeapon(=0)" />
+    <originEquipWep14 Wiki="Logic used to automatically upgrade this weapon using ReinforceParamWeapon" Refs="EquipParamWeapon(=0)" />
+    <originEquipWep15 Wiki="Logic used to automatically upgrade this weapon using ReinforceParamWeapon" Refs="EquipParamWeapon(=0)" />
+    <weakA_DamageRate Wiki="Multiplies this weapons damage against Npc's with isWeakA enabled" />
+    <weakB_DamageRate Wiki="Multiplies this weapons damage against Npc's with isWeakB enabled" />
+    <weakC_DamageRate Wiki="Multiplies this weapons damage against Npc's with isWeakC enabled" />
+    <weakD_DamageRate Wiki="Multiplies this weapons damage against Npc's with isWeakD enabled" />
+    <vagrantItemLotId />
+    <vagrantBonusEnDropItemLotId />
+    <vagrantItemEneDropItemLotId />
+    <equipModelId />
+    <iconId />
+    <durability />
+    <durabilityMax />
+    <attackThrowEscape />
+    <parryDamageLife />
+    <attackBasePhysics Wiki="Base physical damage" />
+    <attackBaseMagic Wiki="Base Magic damage" />
+    <attackBaseFire Wiki="Base Fire damage" />
+    <attackBaseThunder Wiki="Base Lightning damage" />
+    <attackBaseStamina Wiki="Base Posture damage" />
+    <saWeaponDamage Wiki="Base Super Armor damage" />
+    <saDurability />
+    <guardAngle />
+    <staminaGuardDef />
+    <reinforceTypeId />
+    <trophySGradeId />
+    <trophySeqId />
+    <throwAtkRate />
+    <bowDistRate Wiki="Amount of range to add the weapons base range" />
+    <equipModelCategory />
+    <equipModelGender />
+    <weaponCategory />
+    <wepmotionCategory />
+    <guardMotionCategory />
+    <atkMaterial />
+    <defSeMaterial1 />
+    <correctType_Physics Wiki="Defines the scaling curve for physical damage" Refs="CalcCorrectGraph(=0)" />
+    <spAttribute />
+    <spAtkcategory />
+    <wepmotionOneHandId />
+    <wepmotionBothHandId />
+    <properStrength Wiki="Strength requirment" />
+    <properAgility Wiki="Dexterity requirment" />
+    <properMagic Wiki="Intelligence requirment" />
+    <properFaith Wiki="Faith requirment" />
+    <overStrength />
+    <attackBaseParry />
+    <defenseBaseParry />
+    <guardBaseRepel />
+    <attackBaseRepel />
+    <guardCutCancelRate />
+    <guardLevel />
+    <slashGuardCutRate Wiki="Percentage of slash damage this weapon can block" />
+    <lightHitGuardCutRate Wiki="Percentage of light hit damage this weapon can block" />
+    <thrustGuardCutRate Wiki="Percentage of thrust damage this weapon can block" />
+    <poisonGuardResist Wiki="Percentage of Poison build-up that this weapon can block" />
+    <diseaseGuardResist Wiki="Percentage of Terror build-up that this weapon can block" />
+    <bloodGuardResist Wiki="Percentage of Burn build-up that this weapon can block" />
+    <curseGuardResist Wiki="Percentage of Enfeeble build-up that this weapon can block" />
+    <isDurabilityDivergence IsBool="" />
+    <rightHandEquipable Wiki="Can this weapon be equipped in the right hand?" IsBool="" />
+    <leftHandEquipable Wiki="Can this weapon be equipped in the left hand?" IsBool="" />
+    <bothHandEquipable Wiki="Can this weapon be equipped in both hands?" IsBool="" />
+    <arrowSlotEquipable Wiki="Can this weapon be equipped in an arrow slot?" IsBool="" />
+    <boltSlotEquipable Wiki="Can this weapon be equipped in a bolt slot?" IsBool="" />
+    <enableGuard IsBool="" />
+    <enableParry IsBool="" />
+    <enableMagic IsBool="" />
     <enableSorcery IsBool="" />
-    <isHeroPointCorrect IsBool="" />
-    <isDiscard IsBool="" />
+    <enableMiracle IsBool="" />
+    <enableVowMagic IsBool="" />
+    <isNormalAttackType IsBool="" />
+    <isBlowAttackType IsBool="" />
     <isSlashAttackType IsBool="" />
     <isThrustAttackType IsBool="" />
+    <isEnhance Wiki="Can this weapon be buffed with speffect?" IsBool="" />
+    <isHeroPointCorrect Wiki="Will this weapon's damage be adjusted based on the amount of hero points(humanity/insight) you have?" IsBool="" />
     <isCustom IsBool="" />
-    <isDrop IsBool="" />
-    <isEnableEmergencyStep IsBool="" />
-    <isDragonSlayer IsBool="" />
-    <actionUnlockParamId Refs="ActionUnlockParam(=0)" />
-    <isEnhance IsBool="" />
-    <isDualBlade IsBool="" />
-    <isDeposit IsBool="" />
-    <enableParry IsBool="" />
-    <enableVowMagic IsBool="" />
-    <isVersusGhostWep IsBool="" />
-    <enableGuard IsBool="" />
-    <isNormalAttackType IsBool="" />
-    <isAutoEquip IsBool="" />
-    <enableMiracle IsBool="" />
-    <isBlowAttackType IsBool="" />
-    <isNoticeLog IsBool="" />
-    <isNoticeDialog IsBool="" />
-    <enableMagic IsBool="" />
-    <isValidTough_ProtSADmg IsBool="" />
     <disableBaseChangeReset IsBool="" />
     <disableRepair IsBool="" />
-    <disableMultiDropShare IsBool="" />
-    <materialSetId Refs="EquipMtrlSetParam(=0)" />
+    <isDarkHand IsBool="" />
+    <simpleModeForDlc />
+    <lanternWep IsBool="" />
+    <isVersusGhostWep IsBool="" />
+    <baseChangeCategory />
+    <isDragonSlayer IsBool="" />
+    <isDeposit Wiki="Can this weapon be put in storage?" IsBool="" />
+    <disableMultiDropShare Wiki="Can drop this weapon during multiplayer?" IsBool="" />
+    <isDiscard Wiki="Can this weapon be discarded?" IsBool="" />
+    <isDrop Wiki="Can this weapon be dropped?" IsBool="" />
+    <isNoticeLog Wiki="When the weapon is obtained a UI indicater will appear above the Sen counter on the right hand side of the screen, does not pause gameplay" IsBool="" />
+    <isNoticeDialog Wiki="When the weapon is obtaines a UI indicator will appear in the middle of the screen, pauses gameplay" IsBool="" />
+    <pad1 />
+    <defSfxMaterial1 />
+    <wepCollidableType0 />
+    <wepCollidableType1 />
+    <staminaJustGuardDef />
+    <traceSfxId0 />
+    <traceDmyIdHead0 />
+    <traceDmyIdTail0 />
+    <traceSfxId1 />
+    <traceDmyIdHead1 />
+    <traceDmyIdTail1 />
+    <traceSfxId2 />
+    <traceDmyIdHead2 />
+    <traceDmyIdTail2 />
+    <traceSfxId3 />
+    <traceDmyIdHead3 />
+    <traceDmyIdTail3 />
+    <traceSfxId4 />
+    <traceDmyIdHead4 />
+    <traceDmyIdTail4 />
+    <traceSfxId5 />
+    <traceDmyIdHead5 />
+    <traceDmyIdTail5 />
+    <traceSfxId6 />
+    <traceDmyIdHead6 />
+    <traceDmyIdTail6 />
+    <traceSfxId7 />
+    <traceDmyIdHead7 />
+    <traceDmyIdTail7 />
+    <defSfxMaterial2 />
+    <defSeMaterial2 />
+    <absorpParamId />
+    <toughnessCorrectRate />
+    <isValidTough_ProtSADmg IsBool="" />
+    <isDualBlade IsBool="" />
+    <isAutoEquip Wiki="Will this weapon be equipped automatically when it is obtained?" IsBool="" />
+    <isEnableEmergencyStep IsBool="" />
+    <invisibleOnRemo />
+    <pad2 />
+    <correctType_Magic Wiki="Defines the scaling curve for magic damage" Refs="CalcCorrectGraph(=0)" />
+    <correctType_Fire Wiki="Defines the scaling curve for fire damage" Refs="CalcCorrectGraph(=0)" />
+    <correctType_Thunder Wiki="Defines the scaling curve for lightning damage" Refs="CalcCorrectGraph(=0)" />
+    <weakE_DamageRate Wiki="Multiplies this weapons damage against Npc's with isWeakE enabled" />
+    <weakF_DamageRate Wiki="Multiplies this weapons damage against Npc's with isWeakF enabled" />
+    <darkGuardCutRate Wiki="Percentage of dark damage this weapon can block" />
+    <attackBaseDark Wiki="Base dark damage" />
+    <correctType_Dark Wiki="Defines the scaling curve for dark damage" Refs="CalcCorrectGraph(=0)" />
+    <correctType_Poison Wiki="Defines the scaling curve for Poison build-up" Refs="CalcCorrectGraph(=0)" />
+    <swordArtsId />
+    <correctType_Blood Wiki="Defines the scaling curve for Burn build-up" Refs="CalcCorrectGraph(=0)" />
+    <properLuck Wiki="Luck requirment" />
+    <freezeGuardResist Wiki="Percentage of Shock build-up this weapon can block" />
+    <autoReplenishType />
+    <swordArtsParamId Refs="SwordArtsParam" />
+    <correctLuck Wiki="Luck scaling" />
+    <arrowBoltEquipId />
+    <residentSfxId_1 Wiki="Sfx spawned when this weapon is equipped" />
+    <residentSfxId_2 Wiki="Sfx spawned when this weapon is equipped" />
+    <residentSfxId_3 Wiki="Sfx spawned when this weapon is equipped" />
+    <residentSfxId_4 Wiki="Sfx spawned when this weapon is equipped" />
+    <residentSfx_DmyId_1 Wiki="Dummypoly that residentSfxId_1 spawns from" />
+    <residentSfx_DmyId_2 Wiki="Dummypoly that residentSfxId_2 spawns from" />
+    <residentSfx_DmyId_3 Wiki="Dummypoly that residentSfxId_3 spawns from" />
+    <residentSfx_DmyId_4 Wiki="Dummypoly that residentSfxId_4 spawns from" />
+    <residentSfx_1_IsVisibleForHang Wiki="Hides the SFX set in residentSfxId_1 when the weapon is sheathed if Resident SFX1 display when sheathed? is true" IsBool="" />
+    <residentSfx_2_IsVisibleForHang Wiki="Hides the SFX set in residentSfxId_2 when the weapon is sheathed if Resident SFX2 display when sheathed? is true" IsBool="" />
+    <residentSfx_3_IsVisibleForHang Wiki="Hides the SFX set in residentSfxId_3 when the weapon is sheathed if Resident SFX3 display when sheathed? is true" IsBool="" />
+    <residentSfx_4_IsVisibleForHang Wiki="Hides the SFX set in residentSfxId_4 when the weapon is sheathed if Resident SFX4 display when sheathed? is true" IsBool="" />
     <isSoulParamIdChange_model0 IsBool="" />
-    <attackElementCorrectId Refs="AttackElementCorrectParam(=0)" />
-    <isSoulParamIdChange_model2 IsBool="" />
     <isSoulParamIdChange_model1 IsBool="" />
+    <isSoulParamIdChange_model2 IsBool="" />
     <isSoulParamIdChange_model3 IsBool="" />
+    <DerivationLevelType />
+    <enchantSfxSize />
+    <compTrophySedId />
+    <pad3 />
+    <wepTypeForText />
+    <physGuardCutRate_MaxCorrect Wiki="Caps the amount of physical damage this weapon can block" />
+    <magGuardCutRate_MaxCorrect Wiki="Caps the amount of magic damage this weapon can block" />
+    <fireGuardCutRate_MaxCorrect Wiki="Caps the amount of fire damage this weapon can block" />
+    <thunGuardCutRate_MaxCorrect Wiki="Caps the amount of lightning damage this weapon can block" />
+    <darkGuardCutRate_MaxCorrect Wiki="Caps the amount of dark damage this weapon can block" />
+    <poisonGuardCutRate_MaxCorrect Wiki="Caps the amount of Poison build-up this weapon can block" />
+    <diseaseGuardResist_MaxCorrect Wiki="Caps the amount of Terror build-up this weapon can block" />
+    <bloodGuardResist_MaxCorrect Wiki="Caps the amount of Burn build-up this weapon can block" />
+    <curseGuardResist_MaxCorrect Wiki="Caps the amount of Enfeeble build-up this weapon can block" />
+    <freezeGuardResist_MaxCorrect Wiki="Caps the amount of Shock build-up this weapon can block" />
+    <staminaGuardDef_MaxCorrect Wiki="Caps the amount that Posture that is reduced when blocking with this weapon" />
+    <staminaConsumptionRate Wiki="Multiplies the base Posture cost of this weapon" />
+    <vsPlayerDmgCorrectRate_Physics Wiki="Multiplier for physical damage this weapon deals against other c0000 characters" />
+    <vsPlayerDmgCorrectRate_Magic Wiki="Multiplier for magic damage this weapon deals against other c0000 characters" />
+    <vsPlayerDmgCorrectRate_Fire Wiki="Multiplier for fire damage this weapon deals against other c0000 characters" />
+    <vsPlayerDmgCorrectRate_Thunder Wiki="Multiplier for lightning damage this weapon deals against other c0000 characters" />
+    <vsPlayerDmgCorrectRate_Dark Wiki="Multiplier for dark damage this weapon deals against other c0000 characters" />
+    <vsPlayerDmgCorrectRate_Poison Wiki="Multiplier for Poison build-up dealt towards c0000 characters" />
+    <vsPlayerDmgCorrectRate_Blood Wiki="Multiplier for Burn build-up dealt towards c0000 characters" />
+    <vsPlayerDmgCorrectRate_Freeze Wiki="Multiplier for Shock build-up dealt towards c0000 characters" />
+    <attainmentWepStatusStr />
+    <attainmentWepStatusDex />
+    <attainmentWepStatusMag />
+    <attainmentWepStatusFai />
+    <attainmentWepStatusLuc />
+    <attackElementCorrectId Wiki="Detemines what damage type each stat can scale" Refs="AttackElementCorrectParam(=0)" />
+    <saleValue />
+    <reinforceShopCategory />
+    <maxArrowQuantity />
+    <wepSeIdOffset />
+    <pad4 />
+    <baseChangePrice />
+    <levelSyncCorrectId />
+    <knockBackCutRate_vsPlayer_Guard />
+    <knockBackCutRate_vsPlayer_JustGuard />
+    <knockBackCutRate_vsEnemy_Guard />
+    <knockBackCutRate_vsEnemy_JustGuard />
+    <neutralAttackCutRate />
+    <ninsatsuAttackCutRate />
+    <heavyHitAttackCutRate />
+    <antiGroundAttackCutRate />
+    <antiAirAttackCutRate />
+    <lightShootAttackCutRate />
+    <resourceItemA Wiki="Amount of Resource Item A consumed by this weapon (Spirit Emblems)" />
+    <resourceItemB Wiki="Amount of Resource Item B consumed by this weapon (Unused Emblem)" />
+    <resourceItemC Wiki="Amount of Resource Item C consumed by this weapon (Unused Emblem)" />
+    <itemUIDisplayType />
+    <actionUnlockParamId Refs="ActionUnlockParam(=0)" />
+    <firstGetEventFlagId Wiki="Event flag that is set on when this weapon is first obtained" />
+    <poisonJustGuardResist Wiki="Percentage of Poison build-up that can be deflected" />
+    <diseaseJustGuardResist Wiki="Percentage of Terror build-up that can be deflected" />
+    <bloodJustGuardResist Wiki="Percentage of Burn build-up that can be deflected" />
+    <curseJustGuardResist Wiki="Percentage of Enfeeble build-up that can be deflected" />
+    <freezeJustGuardResist Wiki="Percentage of Shock build-up that can be deflected" />
+    <attriAAttackCutRate />
+    <attriBAttackCutRate />
+    <attriCAttackCutRate />
+    <physJustGuardCutRate Wiki="Percentage of physical damage that can be deflected with this weapon" />
+    <magJustGuardCutRate Wiki="Percentage of magic damage that can be deflected with this weapon" />
+    <fireJustGuardCutRate Wiki="Percentage of fire damage that can be deflected with this weapon" />
+    <thunJustGuardCutRate Wiki="Percentage of lightning damage that can be deflected with this weapon" />
+    <darkJustGuardCutRate Wiki="Percentage of dark damage that can be deflected with this weapon" />
+    <staminaAttackPowerRate Wiki="Multiplies Posture attack power" />
+    <passiveStaminaAtkRate Wiki="Multiplies the amount of Posture damage dealt to Npc's when deflecting with this weapon" />
   </Field>
-  <Self />
+  <Self Wiki="Player weapons. Prosthetics, Combat Arts, Kusabimaru, and skills" />
 </PARAMMETA>
