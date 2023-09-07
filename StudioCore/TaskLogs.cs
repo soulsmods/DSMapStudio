@@ -126,19 +126,13 @@ namespace StudioCore
 
                     if (ex != null)
                     {
-                        if (text == ex.Message)
-                        {
-                            _log.Add(entry);
-                            _log.Add(new LogEntry(ex.StackTrace,
-                                level, LogPriority.Low));
-                        }
-                        else
+                        if (text != ex.Message)
                         {
                             entry.Message += $": {ex.Message}";
-                            _log.Add(entry);
-                            _log.Add(new LogEntry($"{ex.StackTrace}",
-                                level, LogPriority.Low));
                         }
+                        _log.Add(entry);
+                        _log.Add(new LogEntry($"{ex.StackTrace}",
+                            level, LogPriority.Low));
                     }
                     else
                     {
