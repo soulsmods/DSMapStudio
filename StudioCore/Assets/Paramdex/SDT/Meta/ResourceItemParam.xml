@@ -1,7 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
   <Field>
+    <SfxIdOnMap Wiki="Sfx that appears when a Resource Item is placed in a map" />
+    <SfxIdFlying Wiki="Sfx when Resource Item is travelling towards you" />
+    <SfxIdOnHit Wiki="Sfx spawned when Resource Item hits the player" />
     <ItemID Refs="EquipParamGoods(=0)" />
+    <ActionUnlockType Wiki="Prevents this Resource Item from being obtained until this Action is unlocked in ActionUnlockParam" />
   </Field>
-  <Self />
+  <Self Wiki="Defines Resource Items, aka Spirit Emblems/Regenerative Power Fragments" />
 </PARAMMETA>
