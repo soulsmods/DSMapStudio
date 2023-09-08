@@ -123,20 +123,20 @@ namespace StudioCore
                         }
                     }
                     LogEntry entry = new(text, level, priority);
-                    _log.Add(entry);
 
                     if (ex != null)
                     {
-                        if (text == ex.Message)
+                        if (text != ex.Message)
                         {
-                            _log.Add(new LogEntry(ex.StackTrace,
-                                level, LogPriority.Low));
+                            entry.Message += $": {ex.Message}";
                         }
-                        else
-                        {
-                            _log.Add(new LogEntry($"   {ex.Message}\n{ex.StackTrace}",
-                                level, LogPriority.Low));
-                        }
+                        _log.Add(entry);
+                        _log.Add(new LogEntry($"{ex.StackTrace}",
+                            level, LogPriority.Low));
+                    }
+                    else
+                    {
+                        _log.Add(entry);
                     }
 
                     _scrollToEnd = true;
@@ -150,7 +150,12 @@ namespace StudioCore
                         }
                         if (priority == LogPriority.High)
                         {
-                            PlatformUtils.Instance.MessageBox(text, level.ToString(),
+                            string popupMessage = entry.Message;
+                            if (ex != null)
+                            {
+                                popupMessage += $"\n{ex.StackTrace}";
+                            }
+                            PlatformUtils.Instance.MessageBox(popupMessage, level.ToString(),
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.None);
                         }
