@@ -1,40 +1,57 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PARAMDEF XmlVersion="0">
+<PARAMDEF XmlVersion="3">
   <ParamType>ACTIONBUTTON_PARAM_ST</ParamType>
   <DataVersion>2</DataVersion>
   <BigEndian>False</BigEndian>
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <!-- <Field Def="dummy8 paramSize[112]" /> -->
-    <Field Def="u8 regionType"></Field>
-    <Field Def="u8 category"></Field>
-    <Field Def="dummy8 padding1[2]"></Field>
-    <Field Def="s32 dummyPoly1 = -1"></Field>
-    <Field Def="s32 dummyPoly2 = -1"></Field>
-    <Field Def="f32 radius"></Field>
-    <Field Def="s32 angle = 180"></Field>
-    <Field Def="f32 depth"></Field>
-    <Field Def="f32 width"></Field>
-    <Field Def="f32 height"></Field>
-    <Field Def="f32 baseHeightOffset"></Field>
-    <Field Def="u8 angleCheckType"></Field>
-    <Field Def="dummy8 padding2[3]"></Field>
-    <Field Def="s32 allowAngle = 180"></Field>
-    <Field Def="s32 spotDummyPoly = -1"></Field>
-    <Field Def="u8 textBoxType"></Field>
-    <Field Def="dummy8 padding3[2]"></Field>
+    <Field Def="u8 regionType" />
+    <Field Def="u8 category" />
+    <Field Def="u8 unkAutoGenned0x10" />
+    <Field Def="u8 unkAutoGenned0x18" />
+    <Field Def="s32 dummyPoly1" />
+    <Field Def="s32 dummyPoly2" />
+    <Field Def="f32 radius" />
+    <Field Def="s32 angle" />
+    <Field Def="f32 depth" />
+    <Field Def="f32 width" />
+    <Field Def="f32 height" />
+    <Field Def="f32 baseHeightOffset" />
+    <Field Def="u8 angleCheckType" />
+    <Field Def="u8 unkAutoGenned0x128" />
+    <Field Def="u8 unkAutoGenned0x130" />
+    <Field Def="u8 unkAutoGenned0x138" />
+    <Field Def="s32 allowAngle" />
+    <Field Def="s32 spotDummyPoly" />
+    <Field Def="u8 textBoxType" />
+    <Field Def="u8 unk0x031" />
+    <Field Def="u8 unkAutoGenned0x190" />
     <Field Def="dummy8 padding5:1"></Field>
     <Field Def="u8 isInvalidForRide:1"></Field>
     <Field Def="u8 isGrayoutForRide:1"></Field>
     <Field Def="u8 isInvalidForCrouching:1"></Field>
     <Field Def="u8 isGrayoutForCrouching:1"></Field>
     <Field Def="dummy8 padding4:3"></Field>
-    <Field Def="s32 textId = -1"></Field>
-    <Field Def="u32 invalidFlag"></Field>
-    <Field Def="u32 grayoutFlag"></Field>
-    <Field Def="s32 overrideActionButtonIdForRide = -1"></Field>
-    <Field Def="f32 execInvalidTime"></Field>
-    <Field Def="dummy8 padding6[40]"></Field>
+    <Field Def="s32 textId" />
+    <Field Def="s32 invalidFlag" />
+    <Field Def="s32 grayoutFlag" />
+    <Field Def="s32 overrideActionButtonIdForRide" />
+    <Field Def="f32 execInvalidTime" />
+    <Field Def="u8 unk0x048" />
+    <Field Def="u8 unkAutoGenned0x248" />
+    <Field Def="u16 unk0x04A" />
+    <Field Def="f32 unk0x04C" />
+    <Field Def="s32 unk0x050" />
+    <Field Def="f32 unk0x054" />
+    <Field Def="f32 unk0x058" />
+    <Field Def="f32 unk0x05C" />
+    <Field Def="f32 unk0x060" />
+    <Field Def="f32 unk0x064" />
+    <Field Def="f32 unk0x068" />
+    <Field Def="u8 unkAutoGenned0x360" />
+    <Field Def="u8 unkAutoGenned0x368" />
+    <Field Def="u8 unkAutoGenned0x370" />
+    <Field Def="u8 unkAutoGenned0x378" />
   </Fields>
 </PARAMDEF>

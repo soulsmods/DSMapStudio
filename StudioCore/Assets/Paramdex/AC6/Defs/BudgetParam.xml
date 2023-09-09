@@ -1,39 +1,64 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PARAMDEF XmlVersion="0">
+<PARAMDEF XmlVersion="3">
   <ParamType>BUDGET_PARAM_ST</ParamType>
   <DataVersion>2</DataVersion>
   <BigEndian>False</BigEndian>
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <!-- <Field Def="dummy8 paramSize[132]" /> -->
-    <Field Def="f32 vram_all = 1"></Field>
-    <Field Def="f32 vram_mapobj_tex = 1"></Field>
-    <Field Def="f32 vram_mapobj_mdl = 1"></Field>
-    <Field Def="f32 vram_map = 1"></Field>
-    <Field Def="f32 vram_chr = 1"></Field>
-    <Field Def="f32 vram_parts = 1"></Field>
-    <Field Def="f32 vram_sfx = 1"></Field>
-    <Field Def="f32 vram_chr_tex = 1"></Field>
-    <Field Def="f32 vram_chr_mdl = 1"></Field>
-    <Field Def="f32 vram_parts_tex = 1"></Field>
-    <Field Def="f32 vram_parts_mdl = 1"></Field>
-    <Field Def="f32 vram_sfx_tex = 1"></Field>
-    <Field Def="f32 vram_sfx_mdl = 1"></Field>
-    <Field Def="f32 vram_gi = 1"></Field>
-    <Field Def="f32 vram_menu_tex = 1"></Field>
-    <Field Def="f32 vram_decal_rt = 1"></Field>
-    <Field Def="f32 vram_decal = 1"></Field>
-    <Field Def="dummy8 reserve_0[4]"></Field>
-    <Field Def="f32 vram_other_tex = 1"></Field>
-    <Field Def="f32 vram_other_mdl = 1"></Field>
-    <Field Def="f32 havok_anim = 1"></Field>
-    <Field Def="f32 havok_ins = 1"></Field>
-    <Field Def="f32 havok_hit = 1"></Field>
-    <Field Def="f32 vram_other = 1"></Field>
-    <Field Def="f32 vram_detail_all = 1"></Field>
-    <Field Def="f32 vram_chr_and_parts = 1"></Field>
-    <Field Def="f32 havok_navimesh = 1"></Field>
-    <Field Def="dummy8 reserve_1[24]"></Field>
+    <Field Def="f32 vram_all" />
+    <Field Def="f32 vram_mapobj_tex" />
+    <Field Def="f32 vram_mapobj_mdl" />
+    <Field Def="f32 vram_map" />
+    <Field Def="f32 vram_chr" />
+    <Field Def="f32 vram_parts" />
+    <Field Def="f32 vram_sfx" />
+    <Field Def="f32 vram_chr_tex" />
+    <Field Def="f32 vram_chr_mdl" />
+    <Field Def="f32 vram_parts_tex" />
+    <Field Def="f32 vram_parts_mdl" />
+    <Field Def="f32 vram_sfx_tex" />
+    <Field Def="f32 vram_sfx_mdl" />
+    <Field Def="f32 vram_gi" />
+    <Field Def="f32 vram_menu_tex" />
+    <Field Def="f32 vram_decal_rt" />
+    <Field Def="f32 vram_decal" />
+    <Field Def="u8 unkAutoGenned0x220" />
+    <Field Def="u8 unkAutoGenned0x228" />
+    <Field Def="u8 unkAutoGenned0x230" />
+    <Field Def="u8 unkAutoGenned0x238" />
+    <Field Def="f32 vram_other_tex" />
+    <Field Def="f32 vram_other_mdl" />
+    <Field Def="f32 havok_anim" />
+    <Field Def="f32 havok_ins" />
+    <Field Def="f32 havok_hit" />
+    <Field Def="f32 vram_other" />
+    <Field Def="f32 vram_detail_all" />
+    <Field Def="f32 vram_chr_and_parts" />
+    <Field Def="f32 havok_navimesh" />
+    <Field Def="u8 unkAutoGenned0x360" />
+    <Field Def="u8 unkAutoGenned0x368" />
+    <Field Def="u8 unkAutoGenned0x370" />
+    <Field Def="u8 unkAutoGenned0x378" />
+    <Field Def="u8 unkAutoGenned0x380" />
+    <Field Def="u8 unkAutoGenned0x388" />
+    <Field Def="u8 unkAutoGenned0x390" />
+    <Field Def="u8 unkAutoGenned0x398" />
+    <Field Def="u8 unkAutoGenned0x3A0" />
+    <Field Def="u8 unkAutoGenned0x3A8" />
+    <Field Def="u8 unkAutoGenned0x3B0" />
+    <Field Def="u8 unkAutoGenned0x3B8" />
+    <Field Def="u8 unkAutoGenned0x3C0" />
+    <Field Def="u8 unkAutoGenned0x3C8" />
+    <Field Def="u8 unkAutoGenned0x3D0" />
+    <Field Def="u8 unkAutoGenned0x3D8" />
+    <Field Def="u8 unkAutoGenned0x3E0" />
+    <Field Def="u8 unkAutoGenned0x3E8" />
+    <Field Def="u8 unkAutoGenned0x3F0" />
+    <Field Def="u8 unkAutoGenned0x3F8" />
+    <Field Def="u8 unkAutoGenned0x400" />
+    <Field Def="u8 unkAutoGenned0x408" />
+    <Field Def="u8 unkAutoGenned0x410" />
+    <Field Def="u8 unkAutoGenned0x418" />
   </Fields>
 </PARAMDEF>

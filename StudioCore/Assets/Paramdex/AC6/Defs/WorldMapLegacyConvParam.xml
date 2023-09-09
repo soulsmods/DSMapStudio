@@ -1,31 +1,40 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PARAMDEF XmlVersion="0">
+<PARAMDEF XmlVersion="3">
   <ParamType>WORLD_MAP_LEGACY_CONV_PARAM_ST</ParamType>
   <DataVersion>1</DataVersion>
   <BigEndian>False</BigEndian>
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <!-- <Field Def="dummy8 paramSize[48]" /> -->
-    <Field Def="u8 disableParam_NT:1"></Field>
-    <Field Def="dummy8 disableParamReserve1:7"></Field>
-    <Field Def="dummy8 disableParamReserve2[3]"></Field>
-    <Field Def="u8 srcAreaNo"></Field>
-    <Field Def="u8 srcGridXNo"></Field>
-    <Field Def="u8 srcGridZNo"></Field>
-    <Field Def="dummy8 pad1[1]"></Field>
-    <Field Def="f32 srcPosX"></Field>
-    <Field Def="f32 srcPosY"></Field>
-    <Field Def="f32 srcPosZ"></Field>
-    <Field Def="u8 dstAreaNo"></Field>
-    <Field Def="u8 dstGridXNo"></Field>
-    <Field Def="u8 dstGridZNo"></Field>
-    <Field Def="dummy8 pad2[1]"></Field>
-    <Field Def="f32 dstPosX"></Field>
-    <Field Def="f32 dstPosY"></Field>
-    <Field Def="f32 dstPosZ"></Field>
-    <Field Def="u8 isBasePoint:1"></Field>
-    <Field Def="dummy8 pad3:7"></Field>
-    <Field Def="dummy8 pad4[11]"></Field>
+    <Field Def="u8 disableParam_NT" />
+    <Field Def="u8 unkAutoGenned0x8" />
+    <Field Def="u8 unkAutoGenned0x10" />
+    <Field Def="u8 unkAutoGenned0x18" />
+    <Field Def="u8 srcAreaNo" />
+    <Field Def="u8 srcGridXNo" />
+    <Field Def="u8 srcGridZNo" />
+    <Field Def="u8 unkAutoGenned0x38" />
+    <Field Def="f32 srcPosX" />
+    <Field Def="f32 srcPosY" />
+    <Field Def="f32 srcPosZ" />
+    <Field Def="u8 dstAreaNo" />
+    <Field Def="u8 dstGridXNo" />
+    <Field Def="u8 dstGridZNo" />
+    <Field Def="u8 unkAutoGenned0xB8" />
+    <Field Def="f32 dstPosX" />
+    <Field Def="f32 dstPosY" />
+    <Field Def="f32 dstPosZ" />
+    <Field Def="u8 isBasePoint" />
+    <Field Def="u8 unkAutoGenned0x128" />
+    <Field Def="u8 unkAutoGenned0x130" />
+    <Field Def="u8 unkAutoGenned0x138" />
+    <Field Def="u8 unkAutoGenned0x140" />
+    <Field Def="u8 unkAutoGenned0x148" />
+    <Field Def="u8 unkAutoGenned0x150" />
+    <Field Def="u8 unkAutoGenned0x158" />
+    <Field Def="u8 unkAutoGenned0x160" />
+    <Field Def="u8 unkAutoGenned0x168" />
+    <Field Def="u8 unkAutoGenned0x170" />
+    <Field Def="u8 unkAutoGenned0x178" />
   </Fields>
 </PARAMDEF>

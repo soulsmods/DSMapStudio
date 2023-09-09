@@ -1,28 +1,36 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PARAMDEF XmlVersion="0">
+<PARAMDEF XmlVersion="3">
   <ParamType>TALK_PARAM_ST</ParamType>
   <DataVersion>5</DataVersion>
   <BigEndian>False</BigEndian>
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <!-- <Field Def="dummy8 paramSize[64]" /> -->
-    <Field Def="s32 Unk0x00"></Field>
-    <Field Def="s32 msgId"></Field>
-    <Field Def="s32 voiceId"></Field>
-    <Field Def="s32 spEffectId0"></Field>
-    <Field Def="s32 motionId0"></Field>
-    <Field Def="s32 spEffectId1"></Field>
-    <Field Def="s32 motionId1"></Field>
-    <Field Def="s32 returnPos"></Field>
-    <Field Def="s32 reactionId"></Field>
-    <Field Def="s32 eventId"></Field>
-    <Field Def="s32 msgId_female"></Field>
-    <Field Def="s32 Unk0x2C"></Field>
-    <Field Def="s16 lipSyncStart"></Field>
-    <Field Def="s16 lipSyncTime"></Field>
-    <Field Def="dummy8 pad2[4]"></Field>
-    <Field Def="f32 timeout"></Field>
-    <Field Def="s32 talkAnimationId"></Field>
+    <Field Def="u8 unkAutoGenned0x0" />
+    <Field Def="u8 unkAutoGenned0x8" />
+    <Field Def="u8 unkAutoGenned0x10" />
+    <Field Def="u8 unkAutoGenned0x18" />
+    <Field Def="s32 msgId" />
+    <Field Def="s32 voiceId" />
+    <Field Def="s32 spEffectId0" />
+    <Field Def="s32 motionId0" />
+    <Field Def="s32 spEffectId1" />
+    <Field Def="s32 motionId1" />
+    <Field Def="s32 returnPos" />
+    <Field Def="s32 reactionId" />
+    <Field Def="s32 eventId" />
+    <Field Def="s32 msgId_female" />
+    <Field Def="u8 unkAutoGenned0x160" />
+    <Field Def="u8 unkAutoGenned0x168" />
+    <Field Def="u8 unkAutoGenned0x170" />
+    <Field Def="u8 unkAutoGenned0x178" />
+    <Field Def="s16 lipSyncStart" />
+    <Field Def="s16 lipSyncTime" />
+    <Field Def="u8 unkAutoGenned0x1A0" />
+    <Field Def="u8 unkAutoGenned0x1A8" />
+    <Field Def="u8 unkAutoGenned0x1B0" />
+    <Field Def="u8 unkAutoGenned0x1B8" />
+    <Field Def="f32 timeout" />
+    <Field Def="s32 talkAnimationId" />
   </Fields>
 </PARAMDEF>

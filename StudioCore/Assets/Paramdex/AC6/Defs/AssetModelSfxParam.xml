@@ -1,36 +1,90 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PARAMDEF XmlVersion="0">
+<PARAMDEF XmlVersion="3">
   <ParamType>ASSET_MODEL_SFX_PARAM_ST</ParamType>
   <DataVersion>0</DataVersion>
   <BigEndian>False</BigEndian>
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <!-- <Field Def="dummy8 paramSize[128]" /> -->
-    <Field Def="s32 sfxId_0 = -1"></Field>
-    <Field Def="s32 dmypolyId_0 = -1"></Field>
-    <Field Def="dummy8 reserve_0[8]"></Field>
-    <Field Def="s32 sfxId_1 = -1"></Field>
-    <Field Def="s32 dmypolyId_1 = -1"></Field>
-    <Field Def="dummy8 reserve_1[8]"></Field>
-    <Field Def="s32 sfxId_2 = -1"></Field>
-    <Field Def="s32 dmypolyId_2 = -1"></Field>
-    <Field Def="dummy8 reserve_2[8]"></Field>
-    <Field Def="s32 sfxId_3 = -1"></Field>
-    <Field Def="s32 dmypolyId_3 = -1"></Field>
-    <Field Def="dummy8 reserve_3[8]"></Field>
-    <Field Def="s32 sfxId_4 = -1"></Field>
-    <Field Def="s32 dmypolyId_4 = -1"></Field>
-    <Field Def="dummy8 reserve_4[8]"></Field>
-    <Field Def="s32 sfxId_5 = -1"></Field>
-    <Field Def="s32 dmypolyId_5 = -1"></Field>
-    <Field Def="dummy8 reserve_5[8]"></Field>
-    <Field Def="s32 sfxId_6 = -1"></Field>
-    <Field Def="s32 dmypolyId_6 = -1"></Field>
-    <Field Def="dummy8 reserve_6[8]"></Field>
-    <Field Def="s32 sfxId_7 = -1"></Field>
-    <Field Def="s32 dmypolyId_7 = -1"></Field>
-    <Field Def="u8 isDisableIV"></Field>
-    <Field Def="dummy8 reserve_7[7]"></Field>
+    <Field Def="s32 sfxId_0" />
+    <Field Def="s32 dmypolyId_0" />
+    <Field Def="u8 unkAutoGenned0x40" />
+    <Field Def="u8 unkAutoGenned0x48" />
+    <Field Def="u8 unkAutoGenned0x50" />
+    <Field Def="u8 unkAutoGenned0x58" />
+    <Field Def="u8 unkAutoGenned0x60" />
+    <Field Def="u8 unkAutoGenned0x68" />
+    <Field Def="u8 unkAutoGenned0x70" />
+    <Field Def="u8 unkAutoGenned0x78" />
+    <Field Def="s32 sfxId_1" />
+    <Field Def="s32 dmypolyId_1" />
+    <Field Def="u8 unkAutoGenned0xC0" />
+    <Field Def="u8 unkAutoGenned0xC8" />
+    <Field Def="u8 unkAutoGenned0xD0" />
+    <Field Def="u8 unkAutoGenned0xD8" />
+    <Field Def="u8 unkAutoGenned0xE0" />
+    <Field Def="u8 unkAutoGenned0xE8" />
+    <Field Def="u8 unkAutoGenned0xF0" />
+    <Field Def="u8 unkAutoGenned0xF8" />
+    <Field Def="s32 sfxId_2" />
+    <Field Def="s32 dmypolyId_2" />
+    <Field Def="u8 unkAutoGenned0x140" />
+    <Field Def="u8 unkAutoGenned0x148" />
+    <Field Def="u8 unkAutoGenned0x150" />
+    <Field Def="u8 unkAutoGenned0x158" />
+    <Field Def="u8 unkAutoGenned0x160" />
+    <Field Def="u8 unkAutoGenned0x168" />
+    <Field Def="u8 unkAutoGenned0x170" />
+    <Field Def="u8 unkAutoGenned0x178" />
+    <Field Def="s32 sfxId_3" />
+    <Field Def="s32 dmypolyId_3" />
+    <Field Def="u8 unkAutoGenned0x1C0" />
+    <Field Def="u8 unkAutoGenned0x1C8" />
+    <Field Def="u8 unkAutoGenned0x1D0" />
+    <Field Def="u8 unkAutoGenned0x1D8" />
+    <Field Def="u8 unkAutoGenned0x1E0" />
+    <Field Def="u8 unkAutoGenned0x1E8" />
+    <Field Def="u8 unkAutoGenned0x1F0" />
+    <Field Def="u8 unkAutoGenned0x1F8" />
+    <Field Def="s32 sfxId_4" />
+    <Field Def="s32 dmypolyId_4" />
+    <Field Def="u8 unkAutoGenned0x240" />
+    <Field Def="u8 unkAutoGenned0x248" />
+    <Field Def="u8 unkAutoGenned0x250" />
+    <Field Def="u8 unkAutoGenned0x258" />
+    <Field Def="u8 unkAutoGenned0x260" />
+    <Field Def="u8 unkAutoGenned0x268" />
+    <Field Def="u8 unkAutoGenned0x270" />
+    <Field Def="u8 unkAutoGenned0x278" />
+    <Field Def="s32 sfxId_5" />
+    <Field Def="s32 dmypolyId_5" />
+    <Field Def="u8 unkAutoGenned0x2C0" />
+    <Field Def="u8 unkAutoGenned0x2C8" />
+    <Field Def="u8 unkAutoGenned0x2D0" />
+    <Field Def="u8 unkAutoGenned0x2D8" />
+    <Field Def="u8 unkAutoGenned0x2E0" />
+    <Field Def="u8 unkAutoGenned0x2E8" />
+    <Field Def="u8 unkAutoGenned0x2F0" />
+    <Field Def="u8 unkAutoGenned0x2F8" />
+    <Field Def="s32 sfxId_6" />
+    <Field Def="s32 dmypolyId_6" />
+    <Field Def="u8 unkAutoGenned0x340" />
+    <Field Def="u8 unkAutoGenned0x348" />
+    <Field Def="u8 unkAutoGenned0x350" />
+    <Field Def="u8 unkAutoGenned0x358" />
+    <Field Def="u8 unkAutoGenned0x360" />
+    <Field Def="u8 unkAutoGenned0x368" />
+    <Field Def="u8 unkAutoGenned0x370" />
+    <Field Def="u8 unkAutoGenned0x378" />
+    <Field Def="s32 sfxId_7" />
+    <Field Def="s32 dmypolyId_7" />
+    <Field Def="u8 isDisableIV" />
+    <Field Def="u8 unkAutoGenned0x3C8" />
+    <Field Def="u8 unkAutoGenned0x3D0" />
+    <Field Def="u8 unkAutoGenned0x3D8" />
+    <Field Def="u8 unkAutoGenned0x3E0" />
+    <Field Def="u8 unkAutoGenned0x3E8" />
+    <Field Def="u8 unkAutoGenned0x3F0" />
+    <Field Def="u8 unkAutoGenned0x3F8" />
   </Fields>
 </PARAMDEF>

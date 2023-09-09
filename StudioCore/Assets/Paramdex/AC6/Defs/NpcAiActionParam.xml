@@ -1,22 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PARAMDEF XmlVersion="0">
+<PARAMDEF XmlVersion="3">
   <ParamType>NPC_AI_ACTION_PARAM_ST</ParamType>
   <DataVersion>2</DataVersion>
   <BigEndian>False</BigEndian>
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <!-- <Field Def="dummy8 paramSize[20]" /> -->
-    <Field Def="u8 moveDir"></Field>
-    <Field Def="u8 key1"></Field>
-    <Field Def="u8 key2"></Field>
-    <Field Def="u8 key3"></Field>
-    <Field Def="u8 bMoveDirHold"></Field>
-    <Field Def="u8 bKeyHold1"></Field>
-    <Field Def="u8 bKeyHold2"></Field>
-    <Field Def="u8 bKeyHold3"></Field>
-    <Field Def="s32 gestureId"></Field>
-    <Field Def="u8 bLifeEndSuccess"></Field>
-    <Field Def="dummy8 pad1[7]"></Field>
+    <Field Def="u8 moveDir" />
+    <Field Def="u8 key1" />
+    <Field Def="u8 key2" />
+    <Field Def="u8 key3" />
+    <Field Def="u8 bMoveDirHold" />
+    <Field Def="u8 bKeyHold1" />
+    <Field Def="u8 bKeyHold2" />
+    <Field Def="u8 bKeyHold3" />
+    <Field Def="s32 gestureId" />
+    <Field Def="u8 bLifeEndSuccess" />
+    <Field Def="u8 unkAutoGenned0x68" />
+    <Field Def="u8 unkAutoGenned0x70" />
+    <Field Def="u8 unkAutoGenned0x78" />
+    <Field Def="u8 unkAutoGenned0x80" />
+    <Field Def="u8 unkAutoGenned0x88" />
+    <Field Def="u8 unkAutoGenned0x90" />
+    <Field Def="u8 unkAutoGenned0x98" />
   </Fields>
 </PARAMDEF>

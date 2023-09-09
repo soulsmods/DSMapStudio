@@ -1,27 +1,45 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PARAMDEF XmlVersion="0">
+<PARAMDEF XmlVersion="3">
   <ParamType>TUTORIAL_PARAM_ST</ParamType>
   <DataVersion>1</DataVersion>
   <BigEndian>False</BigEndian>
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <!-- <Field Def="dummy8 paramSize[48]" /> -->
-    <Field Def="s32 Unk0x00"></Field>
-    <Field Def="u8 menuType"></Field>
-    <Field Def="u8 triggerType"></Field>
-    <Field Def="u8 repeatType"></Field>
-    <Field Def="dummy8 pad1[1]"></Field>
-    <Field Def="u16 imageId"></Field>
-    <Field Def="dummy8 pad2[2]"></Field>
-    <Field Def="u32 unlockEventFlagId"></Field>
-    <Field Def="s32 textId"></Field>
-    <Field Def="f32 displayMinTime"></Field>
-    <Field Def="f32 displayTime"></Field>
-    <Field Def="s32 Unk0x1C"></Field>
-    <Field Def="s32 Unk0x20"></Field>
-    <Field Def="s32 Unk0x24"></Field>
-    <Field Def="s32 Unk0x28"></Field>
-    <Field Def="s32 Unk0x2C"></Field>
+    <Field Def="u8 unkAutoGenned0x0" />
+    <Field Def="u8 unkAutoGenned0x8" />
+    <Field Def="u8 unkAutoGenned0x10" />
+    <Field Def="u8 unkAutoGenned0x18" />
+    <Field Def="u8 menuType" />
+    <Field Def="u8 triggerType" />
+    <Field Def="u8 repeatType" />
+    <Field Def="u8 unkAutoGenned0x38" />
+    <Field Def="u16 imageId" />
+    <Field Def="u8 unkAutoGenned0x50" />
+    <Field Def="u8 unkAutoGenned0x58" />
+    <Field Def="u32 unlockEventFlagId" />
+    <Field Def="s32 textId" />
+    <Field Def="f32 displayMinTime" />
+    <Field Def="f32 displayTime" />
+    <Field Def="u8 unkAutoGenned0xE0" />
+    <Field Def="u8 unkAutoGenned0xE8" />
+    <Field Def="u8 unkAutoGenned0xF0" />
+    <Field Def="u8 unkAutoGenned0xF8" />
+    <Field Def="u8 unkAutoGenned0x100" />
+    <Field Def="u8 unkAutoGenned0x108" />
+    <Field Def="u8 unkAutoGenned0x110" />
+    <Field Def="u8 unkAutoGenned0x118" />
+    <Field Def="u8 unkAutoGenned0x120" />
+    <Field Def="u8 unkAutoGenned0x128" />
+    <Field Def="u8 unkAutoGenned0x130" />
+    <Field Def="u8 unkAutoGenned0x138" />
+    <Field Def="u8 unkAutoGenned0x140" />
+    <Field Def="u8 unkAutoGenned0x148" />
+    <Field Def="u8 unkAutoGenned0x150" />
+    <Field Def="u8 unkAutoGenned0x158" />
+    <Field Def="u8 unkAutoGenned0x160" />
+    <Field Def="u8 unkAutoGenned0x168" />
+    <Field Def="u8 unkAutoGenned0x170" />
+    <Field Def="u8 unkAutoGenned0x178" />
   </Fields>
 </PARAMDEF>
