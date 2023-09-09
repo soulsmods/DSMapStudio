@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using SoulsFormats;
+using StudioCore.ParamEditor;
+using StudioCore.TextEditor;
 
 namespace StudioCore.Tests
 {
@@ -12,25 +14,31 @@ namespace StudioCore.Tests
     {
         public static bool Run(AssetLocator locator)
         {
-            var msbs = locator.GetFullMapList();
-            foreach (var msb in msbs)
+            List<string> output = new();
+
+            Dictionary<int, string> nameDict = new(); // behaviorVariationID, weapon name
+
+            var wepParam = ParamBank.PrimaryBank.Params["EquipParamWeapon"];
+            var behParam = ParamBank.PrimaryBank.Params["BehaviorParam_PC"];
+            var entries = FMGBank.GetFmgEntriesByCategoryAndTextType(FmgEntryCategory.Weapons, FmgEntryTextType.Title);
+
+            foreach (var wep in wepParam.Rows)
             {
-                var path = locator.GetMapMSB(msb);
-                var bytes = File.ReadAllBytes(path.AssetPath);
-                var decompressed = DCX.Decompress(bytes);
-                MSBE m = MSBE.Read(decompressed);
-                var written = m.Write(DCX.Type.None);
-                if (!decompressed.Span.SequenceEqual(written))
+                var entry = entries.Find(e => e.ID == wep.ID);
+                if (entry != default)
+                    nameDict[(int)wep["behaviorJudgeId"].Value.Value] = entry.Text;
+            }
+
+            foreach (var beh in behParam.Rows)
+            {
+                if (nameDict.TryGetValue((int)beh["behaviorJudgeId"].Value.Value, out string name))
                 {
-                    var basepath = Path.GetDirectoryName(path.AssetPath);
-                    if (!Directory.Exists($@"{basepath}\mismatches"))
-                    {
-                        Directory.CreateDirectory($@"{basepath}\mismatches");
-                    }
-                    Console.WriteLine($@"Mismatch: {msb}");
-                    File.WriteAllBytes($@"{basepath}\mismatches\{Path.GetFileNameWithoutExtension(path.AssetPath)}", written);
+                    output.Add($"{beh.ID} {name}");
                 }
             }
+
+            File.WriteAllLines("BehaviorParam_PC.txt", output);
+
             return true;
         }
     }
