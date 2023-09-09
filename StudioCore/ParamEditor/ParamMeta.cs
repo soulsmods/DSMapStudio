@@ -510,7 +510,7 @@ namespace StudioCore.ParamEditor
 
         internal string getStringForm()
         {
-            return param+'('+conditionField+'='+conditionValue+')';
+            return conditionField != null ? param+'('+conditionField+'='+conditionValue+')' : param;
         }
     }
 

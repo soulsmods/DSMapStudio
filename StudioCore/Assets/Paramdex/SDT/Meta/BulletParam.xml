@@ -46,7 +46,7 @@
     </Enum>
   </Enums>
   <Field>
-    <atkId_Bullet Wiki="Hitbox referenced by this bullet" Refs="AtkParam_Npc(=0),AtkParam_Pc(=0)" />
+    <atkId_Bullet Wiki="Hitbox referenced by this bullet" Refs="AtkParam_Npc,AtkParam_Pc" />
     <sfxId_Bullet Wiki="Sfx attached to the bullet as it travels" />
     <sfxId_Hit Wiki="Sfx spawned when the bullet hits something" />
     <sfxId_Flick Wiki="Sfx spawned when the bullet is blocked" />
@@ -70,14 +70,14 @@
     <hormingOffsetRange Wiki="0 is correct. Shift each component of XYZ by this amount when aiming." />
     <dmgHitRecordLifeTime Wiki="How often the bullet can hit while it is active" />
     <externalForce />
-    <spEffectIDForShooter Wiki="Applies speffect to the bullet owner when the bullet is shot" Refs="SpEffectParam(=0)" />
+    <spEffectIDForShooter Wiki="Applies speffect to the bullet owner when the bullet is shot" Refs="SpEffectParam" />
     <autoSearchNPCThinkID />
-    <HitBulletID Wiki="Bullet that spawns based on the launchConditionType" Refs="Bullet(=0)" />
-    <spEffectId0 Refs="SpEffectParam(=0)" />
-    <spEffectId1 Refs="SpEffectParam(=0)" />
-    <spEffectId2 Refs="SpEffectParam(=0)" />
-    <spEffectId3 Refs="SpEffectParam(=0)" />
-    <spEffectId4 Refs="SpEffectParam(=0)" />
+    <HitBulletID Wiki="Bullet that spawns based on the launchConditionType" Refs="Bullet" />
+    <spEffectId0 Refs="SpEffectParam" />
+    <spEffectId1 Refs="SpEffectParam" />
+    <spEffectId2 Refs="SpEffectParam" />
+    <spEffectId3 Refs="SpEffectParam" />
+    <spEffectId4 Refs="SpEffectParam" />
     <numShoot Wiki="The number of projectiles fired at once" />
     <homingAngle Wiki="The amount of corrections applied to the bullet trajectory every second" />
     <shootAngle Wiki="Offsets the angle the bullet is shot at in degrees on the Y axis, Negative # = Shoot right/Positive # = Shoot left" />
@@ -124,7 +124,7 @@
     <targetYOffsetRange Wiki="Vertical offset of the impact position. Shifts the target position up and down when firing and homing" />
     <shootAngleYMaxRandom />
     <shootAngleXMaxRandom />
-    <intervalCreateBulletId Wiki="Bullet that is spawned from this bullet over the duration of this bullet" Refs="Bullet(=0)" />
+    <intervalCreateBulletId Wiki="Bullet that is spawned from this bullet over the duration of this bullet" Refs="Bullet" />
     <intervalCreateTimeMin Wiki="Maximum amount of time to wait for before create another bullet via intervalCreateBulletId" />
     <intervalCreateTimeMax Wiki="Minimum amount of time to wait for before create another bullet via intervalCreateBulletId" />
     <predictionShootObserveTime />
@@ -141,7 +141,7 @@
     <isNonDependenceMagicForFunnleNum IsBool="" />
     <pad1 />
     <randomCreateRadius />
-    <generateObjId Wiki="Creates the specified object when the bullet is shot" Refs="ObjectParam(=0)" />
+    <generateObjId Wiki="Creates the specified object when the bullet is shot" Refs="ObjectParam" />
     <lifeRandomRange Wiki="Add a random number of seconds with the set time amplitude to the lifetime" />
     <Material_AttackMaterial_forSe />
     <staminaPhysicsAttribute Wiki="Posture damage type" Enum="ATKPARAM_STAMINA_ATKATTR_TYPE" />

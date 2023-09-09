@@ -79,11 +79,11 @@
     <knockbackDist_Guard Wiki="Amount of knockback applied if target is hit while blocking" />
     <knockbackDist_JustGuard Wiki="Amount of knockback applied if target is hit while deflecting" />
     <hitStopTime />
-    <spEffectId0 Wiki="Applies speffect when the attack connects" Refs="SpEffectParam(=0)" />
-    <spEffectId1 Wiki="Applies speffect when the attack connects" Refs="SpEffectParam(=0)" />
-    <spEffectId2 Wiki="Applies speffect when the attack connects" Refs="SpEffectParam(=0)" />
-    <spEffectId3 Wiki="Applies speffect when the attack connects" Refs="SpEffectParam(=0)" />
-    <spEffectId4 Wiki="Applies speffect when the attack connects" Refs="SpEffectParam(=0)" />
+    <spEffectId0 Wiki="Applies speffect when the attack connects" Refs="SpEffectParam" />
+    <spEffectId1 Wiki="Applies speffect when the attack connects" Refs="SpEffectParam" />
+    <spEffectId2 Wiki="Applies speffect when the attack connects" Refs="SpEffectParam" />
+    <spEffectId3 Wiki="Applies speffect when the attack connects" Refs="SpEffectParam" />
+    <spEffectId4 Wiki="Applies speffect when the attack connects" Refs="SpEffectParam" />
     <hit0_DmyPoly1 Wiki="Location of the hitbox, defined by DummyPoly" />
     <hit1_DmyPoly1 Wiki="Location of the hitbox, defined by DummyPoly" />
     <hit2_DmyPoly1 Wiki="Location of the hitbox, defined by DummyPoly" />
@@ -156,8 +156,8 @@
     <rigidImpulse />
     <decalId1 Wiki="Applies Decal when attack hits" Refs="DecalParam" />
     <decalId2 Wiki="Applies Decal when attack hits" Refs="DecalParam" />
-    <AppearAiSoundId Refs="AiSoundParam(=0)" />
-    <HitAiSoundId Refs="AiSoundParam(=0)" />
+    <AppearAiSoundId Refs="AiSoundParam" />
+    <HitAiSoundId Refs="AiSoundParam" />
     <HitRumbleId />
     <HitRumbleIdByNormal />
     <HitRumbleIdByMiddle />
