@@ -2094,6 +2094,7 @@ namespace StudioCore.ParamEditor
 
                         List<Param.Row> pinnedRowList = _paramEditor._projectSettings.PinnedRows.GetValueOrDefault(activeParam, new List<int>()).Select((id) => para[id]).ToList();
                         bool[] selectionCachePins = _selection.getSelectionCache(pinnedRowList, "pinned");
+                        bool lineBreaks = !CFG.Current.Param_DisableLineWrapping;
                         if (pinnedRowList.Count != 0)
                         {
                             for (int i=0; i<pinnedRowList.Count(); i++)
@@ -2103,7 +2104,7 @@ namespace StudioCore.ParamEditor
                                 {
                                     continue;
                                 }
-                                RowColumnEntry(selectionCachePins, i, activeParam, null, row, vanillaDiffCache, auxDiffCaches, decorator, ref scrollTo, false, true, compareCol);
+                                RowColumnEntry(selectionCachePins, i, activeParam, null, row, vanillaDiffCache, auxDiffCaches, decorator, ref scrollTo, false, true, compareCol, lineBreaks);
                             }
 
                             ImGui.Spacing();
@@ -2140,13 +2141,13 @@ namespace StudioCore.ParamEditor
                                 Param.Row next = i + 1 < rows.Count ? rows[i + 1] : null;
                                 if (prev != null && next != null && prev.ID + 1 != currentRow.ID && currentRow.ID + 1 == next.ID)
                                     EditorDecorations.ImguiTableSeparator();
-                                RowColumnEntry(selectionCache, i, activeParam, rows, currentRow, vanillaDiffCache, auxDiffCaches, decorator, ref scrollTo, doFocus, false, compareCol);
+                                RowColumnEntry(selectionCache, i, activeParam, rows, currentRow, vanillaDiffCache, auxDiffCaches, decorator, ref scrollTo, doFocus, false, compareCol, lineBreaks);
                                 if (prev != null && next != null && prev.ID + 1 == currentRow.ID && currentRow.ID + 1 != next.ID)
                                     EditorDecorations.ImguiTableSeparator();
                             }
                             else
                             {
-                                RowColumnEntry(selectionCache, i, activeParam, rows, currentRow, vanillaDiffCache, auxDiffCaches, decorator, ref scrollTo, doFocus, false, compareCol);
+                                RowColumnEntry(selectionCache, i, activeParam, rows, currentRow, vanillaDiffCache, auxDiffCaches, decorator, ref scrollTo, doFocus, false, compareCol, lineBreaks);
                             }
                         }
                         if (doFocus)
@@ -2181,7 +2182,7 @@ namespace StudioCore.ParamEditor
             }
         }
 
-        private void RowColumnEntry(bool[] selectionCache, int selectionCacheIndex, string activeParam, List<Param.Row> p, Param.Row r, HashSet<int> vanillaDiffCache, List<(HashSet<int>, HashSet<int>)> auxDiffCaches, IParamDecorator decorator, ref float scrollTo, bool doFocus, bool isPinned, Param.Column compareCol)
+        private void RowColumnEntry(bool[] selectionCache, int selectionCacheIndex, string activeParam, List<Param.Row> p, Param.Row r, HashSet<int> vanillaDiffCache, List<(HashSet<int>, HashSet<int>)> auxDiffCaches, IParamDecorator decorator, ref float scrollTo, bool doFocus, bool isPinned, Param.Column compareCol, bool lineBreaks)
         {
             float scale = MapStudioNew.GetUIScale();
 
@@ -2232,7 +2233,7 @@ namespace StudioCore.ParamEditor
             }
 
             string label = $@"{r.ID} {Utils.ImGuiEscape(r.Name, "")}";
-            label = Utils.ImGui_WordWrapString(label, ImGui.GetColumnWidth());
+            label = Utils.ImGui_WordWrapString(label, ImGui.GetColumnWidth(), lineBreaks ? 3 : 1);
             if (ImGui.Selectable($@"{label}##{selectionCacheIndex}", selected))
             {
                 _focusRows = true;

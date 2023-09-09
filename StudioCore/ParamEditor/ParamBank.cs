@@ -566,7 +566,12 @@ namespace StudioCore.ParamEditor
             ("EquipParamWeapon", FmgEntryCategory.Weapons),
             ("EquipParamProtector", FmgEntryCategory.Armor),
             ("EquipParamGem", FmgEntryCategory.Gem),
-            ("SwordArtsParam", FmgEntryCategory.SwordArts)
+            ("SwordArtsParam", FmgEntryCategory.SwordArts),
+            ("EquipParamGenerator", FmgEntryCategory.Generator),
+            ("EquipParamFcs", FmgEntryCategory.FCS),
+            ("EquipParamBooster", FmgEntryCategory.Booster),
+            ("ArchiveParam", FmgEntryCategory.Archive),
+            ("MissionParam", FmgEntryCategory.Mission),
         };
 
         private static List<string> GetLooseParamsInDir(string dir)

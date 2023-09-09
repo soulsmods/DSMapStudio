@@ -1112,7 +1112,8 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int UnkT04 { get; set; }
+                [MSBParamReference(ParamName = "SignPuddleParam")]
+                public int SignPuddleParamID { get; set; }
 
                 /// <summary>
                 /// Creates a SignPool with default values.
@@ -1127,7 +1128,7 @@ namespace SoulsFormats
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
                     SignPartIndex = br.ReadInt32();
-                    UnkT04 = br.ReadInt32();
+                    SignPuddleParamID = br.ReadInt32();
                     br.AssertInt32(0);
                     br.AssertInt32(0);
                 }
@@ -1135,7 +1136,7 @@ namespace SoulsFormats
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
                     bw.WriteInt32(SignPartIndex);
-                    bw.WriteInt32(UnkT04);
+                    bw.WriteInt32(SignPuddleParamID);
                     bw.WriteInt32(0);
                     bw.WriteInt32(0);
                 }
