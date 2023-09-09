@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
   <Field>
-    <actionUnlockParamId Refs="ActionUnlockParam(=0)" />
-    <refId_default Refs="Bullet(=0),SpEffectParam(=0)" />
+    <actionUnlockParamId Refs="ActionUnlockParam" />
+    <refId_default Refs="Bullet,SpEffectParam" />
     <isUseMultiPenaltyOnly IsBool="" />
     <isBonfireWarpItem IsBool="" />
     <isSuppleItem IsBool="" />
@@ -17,7 +17,7 @@
     <canMultiUse IsBool="" />
     <enable_Ladder IsBool="" />
     <disableUseAtOutOfColiseum IsBool="" />
-    <maxReplaceItemId Refs="EquipParamGoods(=0)" />
+    <maxReplaceItemId Refs="EquipParamGoods" />
     <isFixItem IsBool="" />
     <isDisableHand IsBool="" />
     <enable_LoadOfCinder IsBool="" />
@@ -31,7 +31,7 @@
     <isEnhance IsBool="" />
     <isEstablishment IsBool="" />
     <isNoticeLog IsBool="" />
-    <useGetItemId Refs="EquipParamGoods(=0)" />
+    <useGetItemId Refs="EquipParamGoods" />
     <IsTravelItem IsBool="" />
     <isUseRefId1ForEnchant IsBool="" />
     <enable_CantStand IsBool="" />
@@ -42,7 +42,7 @@
     <enable_CantClimbHang IsBool="" />
     <enable_black IsBool="" />
     <enable_gray IsBool="" />
-    <replaceItemId Refs="EquipParamGoods(=0)" />
+    <replaceItemId Refs="EquipParamGoods" />
     <enable_multi IsBool="" />
     <enable_Swimming IsBool="" />
     <enable_live IsBool="" />

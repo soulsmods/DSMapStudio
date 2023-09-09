@@ -8,8 +8,8 @@
     <useSpEffectEffect IsBool="" />
     <effectTargetPlayer IsBool="" />
     <requestLeaveSession IsBool="" />
-    <vfxId6 Refs="SpEffectVfxParam(=0)" />
-    <vfxId2 Refs="SpEffectVfxParam(=0)" />
+    <vfxId6 Refs="SpEffectVfxParam" />
+    <vfxId2 Refs="SpEffectVfxParam" />
     <isForceVisibleFootEffect IsBool="" />
     <isIgnoreNoDamage IsBool="" />
     <enableCharm IsBool="" />
@@ -18,41 +18,41 @@
     <fakeTargetIgnore IsBool="" />
     <grabityIgnore IsBool="" />
     <disableFreeze IsBool="" />
-    <applyIdOnGetSoul Refs="SpEffectParam(=0)" />
-    <vfxId Refs="SpEffectVfxParam(=0)" />
+    <applyIdOnGetSoul Refs="SpEffectParam" />
+    <vfxId Refs="SpEffectVfxParam" />
     <requestKickSession IsBool="" />
     <fakeTargetIgnoreUndead IsBool="" />
     <isContractSpEffectLife IsBool="" />
     <bCurrHPIndependeMaxHP IsBool="" />
-    <replaceSpEffectId Refs="SpEffectParam(=0)" />
+    <replaceSpEffectId Refs="SpEffectParam" />
     <effectTargetPCOnlyTarget IsBool="" />
     <effectTargetWhiteGhost IsBool="" />
-    <accumuUnderFireId Refs="SpEffectParam(=0)" />
+    <accumuUnderFireId Refs="SpEffectParam" />
     <miracleParamChange IsBool="" />
-    <atkOccurrenceSpEffectId Refs="SpEffectParam(=0)" />
-    <vfxId5 Refs="SpEffectVfxParam(=0)" />
+    <atkOccurrenceSpEffectId Refs="SpEffectParam" />
+    <vfxId5 Refs="SpEffectVfxParam" />
     <requestNpcInveda IsBool="" />
-    <vfxId7 Refs="SpEffectVfxParam(=0)" />
-    <vfxId3 Refs="SpEffectVfxParam(=0)" />
-    <vfxId4 Refs="SpEffectVfxParam(=0)" />
-    <chrWireVariationNo Refs="WireVariationParam(=0)" />
+    <vfxId7 Refs="SpEffectVfxParam" />
+    <vfxId3 Refs="SpEffectVfxParam" />
+    <vfxId4 Refs="SpEffectVfxParam" />
+    <chrWireVariationNo Refs="WireVariationParam" />
     <bAdjustMagicAblity IsBool="" />
     <effectTargetSelf IsBool="" />
     <shamanParamChange IsBool="" />
     <effectTargetFriend IsBool="" />
-    <accumuOverFireId Refs="SpEffectParam(=0)" />
+    <accumuOverFireId Refs="SpEffectParam" />
     <isFireDamageCancel IsBool="" />
     <disableBlood IsBool="" />
-    <vfxId1 Refs="SpEffectVfxParam(=0)" />
+    <vfxId1 Refs="SpEffectVfxParam" />
     <effectTargetAttacker IsBool="" />
     <disableCurse IsBool="" />
     <effectTargetOpposeTarget IsBool="" />
     <bAdjustFaithAblity IsBool="" />
-    <counterSpEffectId Refs="SpEffectParam(=0)" />
+    <counterSpEffectId Refs="SpEffectParam" />
     <effectTargetBlackGhost IsBool="" />
     <effectTargetSelfTarget IsBool="" />
     <requestLeaveColiseumSession IsBool="" />
-    <AppearAiSoundId Refs="AiSoundParam(=0)" />
+    <AppearAiSoundId Refs="AiSoundParam" />
     <fakeTargetIgnoreAnimal IsBool="" />
     <isExtendSpEffectLife IsBool="" />
     <clearSoul IsBool="" />
@@ -64,12 +64,12 @@
     <corrosionIgnore IsBool="" />
     <magParamChange IsBool="" />
     <effectTargetGhost IsBool="" />
-    <cycleOccurrenceSpEffectId Refs="SpEffectParam(=0)" />
+    <cycleOccurrenceSpEffectId Refs="SpEffectParam" />
     <effectTargetLive IsBool="" />
     <bGameClearBonus IsBool="" />
     <isUseAtkParamAtkPowerCorrect IsBool="" />
     <effectTargetAI IsBool="" />
-    <behaviorId Refs="BehaviorParam(=0),BehaviorParam_PC(=0)" />
+    <behaviorId Refs="BehaviorParam,BehaviorParam_PC" />
     <isWaitModeDelete IsBool="" />
     <requestForceJoinBlackSOS IsBool="" />
     <isUseStatusAilmentAtkPowerCorrect IsBool="" />

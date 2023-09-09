@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
   <Field>
-    <spEffectId Refs="SpEffectParam(=0)" />
+    <spEffectId Refs="SpEffectParam" />
     <isNonEffectiveCorrectionForMin IsBool="" />
   </Field>
   <Self />

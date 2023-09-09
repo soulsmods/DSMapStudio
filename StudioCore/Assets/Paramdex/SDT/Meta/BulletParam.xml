@@ -1,16 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
   <Field>
-    <spEffectId3 Refs="SpEffectParam(=0)" />
-    <intervalCreateBulletId Refs="Bullet(=0)" />
-    <spEffectId1 Refs="SpEffectParam(=0)" />
-    <HitBulletID Refs="Bullet(=0)" />
-    <spEffectIDForShooter Refs="SpEffectParam(=0)" />
-    <spEffectId2 Refs="SpEffectParam(=0)" />
-    <spEffectId4 Refs="SpEffectParam(=0)" />
-    <spEffectId0 Refs="SpEffectParam(=0)" />
+    <spEffectId3 Refs="SpEffectParam" />
+    <intervalCreateBulletId Refs="Bullet" />
+    <spEffectId1 Refs="SpEffectParam" />
+    <HitBulletID Refs="Bullet" />
+    <spEffectIDForShooter Refs="SpEffectParam" />
+    <spEffectId2 Refs="SpEffectParam" />
+    <spEffectId4 Refs="SpEffectParam" />
+    <spEffectId0 Refs="SpEffectParam" />
     <isHitBothTeam IsBool="" />
-    <generateObjId Refs="ObjectParam(=0)" />
+    <generateObjId Refs="ObjectParam" />
     <isUseBulletWallFilter IsBool="" />
     <isInheritSpeedToChild IsBool="" />
     <isHitForceMagic IsBool="" />
@@ -30,7 +30,7 @@
     <isInheritSfxToChild IsBool="" />
     <isUseMultiDmyPolyIfPlace IsBool="" />
     <isIgnoreMoveStateIfHitWater IsBool="" />
-    <atkId_Bullet Refs="AtkParam_Npc(=0),AtkParam_Pc(=0)" />
+    <atkId_Bullet Refs="AtkParam_Npc,AtkParam_Pc" />
     <isPenetrate IsBool="" />
     <isDisableHitSfx_byChrAndObj IsBool="" />
     <isAttackSFX IsBool="" />

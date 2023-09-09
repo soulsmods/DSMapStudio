@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
   <Field>
-    <spEffectBehaviorId0 Refs="SpEffectParam(=0)" />
-    <residentSpEffectId2 Refs="SpEffectParam(=0)" />
-    <spEffectBehaviorId2 Refs="SpEffectParam(=0)" />
-    <residentSpEffectId Refs="SpEffectParam(=0)" />
-    <spEffectBehaviorId1 Refs="SpEffectParam(=0)" />
-    <residentSpEffectId1 Refs="SpEffectParam(=0)" />
+    <spEffectBehaviorId0 Refs="SpEffectParam" />
+    <residentSpEffectId2 Refs="SpEffectParam" />
+    <spEffectBehaviorId2 Refs="SpEffectParam" />
+    <residentSpEffectId Refs="SpEffectParam" />
+    <spEffectBehaviorId1 Refs="SpEffectParam" />
+    <residentSpEffectId1 Refs="SpEffectParam" />
     <isDarkHand IsBool="" />
     <enableSorcery IsBool="" />
     <isHeroPointCorrect IsBool="" />
@@ -17,7 +17,7 @@
     <isDrop IsBool="" />
     <isEnableEmergencyStep IsBool="" />
     <isDragonSlayer IsBool="" />
-    <actionUnlockParamId Refs="ActionUnlockParam(=0)" />
+    <actionUnlockParamId Refs="ActionUnlockParam" />
     <isEnhance IsBool="" />
     <isDualBlade IsBool="" />
     <isDeposit IsBool="" />
@@ -36,9 +36,9 @@
     <disableBaseChangeReset IsBool="" />
     <disableRepair IsBool="" />
     <disableMultiDropShare IsBool="" />
-    <materialSetId Refs="EquipMtrlSetParam(=0)" />
+    <materialSetId Refs="EquipMtrlSetParam" />
     <isSoulParamIdChange_model0 IsBool="" />
-    <attackElementCorrectId Refs="AttackElementCorrectParam(=0)" />
+    <attackElementCorrectId Refs="AttackElementCorrectParam" />
     <isSoulParamIdChange_model2 IsBool="" />
     <isSoulParamIdChange_model1 IsBool="" />
     <isSoulParamIdChange_model3 IsBool="" />

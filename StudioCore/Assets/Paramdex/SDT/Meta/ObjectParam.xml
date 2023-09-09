@@ -3,7 +3,7 @@
   <Field>
     <isAddRigidImpulse_ByDamage IsBool="" />
     <isDisableEnvMapCapture IsBool="" />
-    <BreakAiSoundID Refs="AiSoundParam(=0)" />
+    <BreakAiSoundID Refs="AiSoundParam" />
     <isEnableWallJump IsBool="" />
     <isBreakByPlayerCollide IsBool="" />
     <isMoveObj IsBool="" />
@@ -18,7 +18,7 @@
     <isDamageCover IsBool="" />
     <isAttackBacklash IsBool="" />
     <isBreakByEnemyCollide IsBool="" />
-    <SpecialEffectId_InsideHit Refs="SpEffectParam(=0)" />
+    <SpecialEffectId_InsideHit Refs="SpEffectParam" />
     <isUserPhysicForChrCollide IsBool="" />
     <isBreak_ByChrRide IsBool="" />
   </Field>

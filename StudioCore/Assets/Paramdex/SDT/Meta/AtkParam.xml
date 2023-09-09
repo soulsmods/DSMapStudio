@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
   <Field>
-    <spEffectId0 Refs="SpEffectParam(=0)" />
-    <spEffectId3 Refs="SpEffectParam(=0)" />
-    <spEffectId4 Refs="SpEffectParam(=0)" />
-    <AppearAiSoundId Refs="AiSoundParam(=0)" />
-    <HitAiSoundId Refs="AiSoundParam(=0)" />
-    <spEffectId1 Refs="SpEffectParam(=0)" />
-    <spEffectId2 Refs="SpEffectParam(=0)" />
+    <spEffectId0 Refs="SpEffectParam" />
+    <spEffectId3 Refs="SpEffectParam" />
+    <spEffectId4 Refs="SpEffectParam" />
+    <AppearAiSoundId Refs="AiSoundParam" />
+    <HitAiSoundId Refs="AiSoundParam" />
+    <spEffectId1 Refs="SpEffectParam" />
+    <spEffectId2 Refs="SpEffectParam" />
     <isDamageDropAttack IsBool="" />
     <isDisableParry IsBool="" />
     <disableJustGuard_vsGuardAttribute0 IsBool="" />

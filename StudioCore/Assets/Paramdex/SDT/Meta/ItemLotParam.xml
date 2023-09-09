@@ -3,19 +3,19 @@
   <Field>
     <enableLuck04 IsBool="" />
     <enableLuck08 IsBool="" />
-    <lotItemId08 Refs="EquipParamGoods(=0),EquipParamWeapon(=0),EquipParamProtector(=0)" />
-    <lotItemId06 Refs="EquipParamGoods(=0),EquipParamWeapon(=0),EquipParamProtector(=0)" />
-    <lotItemId05 Refs="EquipParamGoods(=0),EquipParamWeapon(=0),EquipParamProtector(=0)" />
+    <lotItemId08 Refs="EquipParamGoods,EquipParamWeapon,EquipParamProtector" />
+    <lotItemId06 Refs="EquipParamGoods,EquipParamWeapon,EquipParamProtector" />
+    <lotItemId05 Refs="EquipParamGoods,EquipParamWeapon,EquipParamProtector" />
     <enableLuck05 IsBool="" />
     <enableLuck01 IsBool="" />
-    <lotItemId03 Refs="EquipParamGoods(=0),EquipParamWeapon(=0),EquipParamProtector(=0)" />
+    <lotItemId03 Refs="EquipParamGoods,EquipParamWeapon,EquipParamProtector" />
     <enableLuck06 IsBool="" />
     <enableLuck02 IsBool="" />
-    <lotItemId02 Refs="EquipParamGoods(=0),EquipParamWeapon(=0),EquipParamProtector(=0)" />
+    <lotItemId02 Refs="EquipParamGoods,EquipParamWeapon,EquipParamProtector" />
     <enableLuck07 IsBool="" />
-    <lotItemId07 Refs="EquipParamGoods(=0),EquipParamWeapon(=0),EquipParamProtector(=0)" />
-    <lotItemId04 Refs="EquipParamGoods(=0),EquipParamWeapon(=0),EquipParamProtector(=0)" />
-    <lotItemId01 Refs="EquipParamGoods(=0),EquipParamWeapon(=0),EquipParamProtector(=0)" />
+    <lotItemId07 Refs="EquipParamGoods,EquipParamWeapon,EquipParamProtector" />
+    <lotItemId04 Refs="EquipParamGoods,EquipParamWeapon,EquipParamProtector" />
+    <lotItemId01 Refs="EquipParamGoods,EquipParamWeapon,EquipParamProtector" />
     <enableLuck03 IsBool="" />
   </Field>
   <Self />

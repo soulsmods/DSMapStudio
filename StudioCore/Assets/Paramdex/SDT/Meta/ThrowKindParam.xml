@@ -2,8 +2,8 @@
 <PARAMMETA XmlVersion="0">
   <Field>
     <isThrowBeginning IsBool="" />
-    <throwSkillId Refs="EquipParamGoods(=0)" />
-    <checkAction_ActionUnlock_2 Refs="ActionUnlockParam(=0)" />
+    <throwSkillId Refs="EquipParamGoods" />
+    <checkAction_ActionUnlock_2 Refs="ActionUnlockParam" />
   </Field>
   <Self />
 </PARAMMETA>
