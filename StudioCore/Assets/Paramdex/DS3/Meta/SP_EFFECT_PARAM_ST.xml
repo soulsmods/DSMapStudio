@@ -502,7 +502,7 @@
     <soul AltName="Soul Gain +" Wiki="Add the set value to the possessed soul" />
     <animIdOffset AltName="Anim ID Offset" Wiki="Anime ID offset (invalid-1)" />
     <haveSoulRate AltName="Soul Possession Amount %" Wiki="For enemy lap effect. It is applied when the soul goes out from the set character." />
-    <targetPriority AltName="Target Priority" Wiki="During multiplayer, the enemy will give priority to being targeted as a target. Addition of priority. 0 is the default. It will be often targeted with a positive value. Minus is up to -1." />
+    <targetPriority AltName="Target Priority" Wiki="Chance for an enemy to switch aggro targets to/away the effect's owner. Values range from -1 to 1. +1 = 100% chance to target owner instead of current target, -1 = 100% chance to target somebody else instead of current target (effect owner)." />
     <sightSearchEnemyRate AltName="Enemy Vision Adjustment" Wiki="Correct the ease of finding by a magnification" />
     <hearingSearchEnemyRate AltName="Enemy Listen Adjustment" Wiki="Correct the loudness of the AI sound emitted by the magnification" />
     <grabityRate AltName="Gravity %" Wiki="Gravity rate" />
