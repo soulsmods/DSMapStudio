@@ -219,7 +219,7 @@
     <Field Def="s32 attitudeStability"></Field>
     <Field Def="s32 Unk0x1EC"></Field>
     <Field Def="f32 Unk0x1F0"></Field>
-    <Field Def="f32 Unk0x1F4"></Field>
+    <Field Def="f32 tetrapodFlightDrainRate"></Field>
     <Field Def="f32 Unk0x1F8"></Field>
     <Field Def="s32 Unk0x1FC"></Field>
     <Field Def="u16 Unk0x200"></Field>

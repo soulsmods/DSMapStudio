@@ -8,7 +8,7 @@
   <Fields>
     <!-- <Field Def="dummy8 paramSize[208]" /> -->
     <Field Def="s32 Unk0x00"></Field> 
-    <Field Def="s32 behaviorJudgeId">
+    <Field Def="s32 behaviorVariationId">
         <Description>Used to link BehaviorParam entries to a weapon or enemy.</Description>
     </Field> 
     <Field Def="u8 ezStateBehaviorType_old"></Field> 
@@ -69,10 +69,10 @@
         <Description>References BulletShotgunParam</Description>
     </Field>
     <Field Def="f32 Unk0xA0"></Field>
-    <Field Def="f32 Unk0xA4"></Field>
+    <Field Def="f32 channelingHeatBuildup"></Field>
     <Field Def="s32 Unk0xA8"></Field>
     <Field Def="f32 Unk0xAC"></Field>
-    <Field Def="s32 Unk0xB0"></Field>
+    <Field Def="s32 heatBuildup"></Field>
     <Field Def="s32 Unk0xB4"></Field>
     <Field Def="s32 Unk0xB8"></Field>
     <Field Def="s32 Unk0xBC"></Field>

@@ -201,7 +201,7 @@
     <Field Def="s32 Unk0x188"></Field>
     <Field Def="s32 Unk0x18C"></Field>
     <Field Def="s32 Unk0x190"></Field>
-    <Field Def="f32 Unk0x194"></Field>
+    <Field Def="f32 dmgHitRecordLifeTime"></Field>
     <Field Def="s32 Unk0x198"></Field>
     <Field Def="f32 Unk0x19C"></Field>
     <Field Def="f32 Unk0x1A0"></Field>
