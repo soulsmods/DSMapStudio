@@ -161,12 +161,10 @@ namespace StudioCore.ParamEditor
         public void ResetFMGDecorators()
         {
             _decorators.Clear();
-            _decorators.Add("EquipParamAccessory", new FMGItemParamDecorator(FmgEntryCategory.Rings));
-            _decorators.Add("EquipParamGoods", new FMGItemParamDecorator(FmgEntryCategory.Goods));
-            _decorators.Add("EquipParamProtector", new FMGItemParamDecorator(FmgEntryCategory.Armor));
-            _decorators.Add("EquipParamWeapon", new FMGItemParamDecorator(FmgEntryCategory.Weapons));
-            _decorators.Add("EquipParamGem", new FMGItemParamDecorator(FmgEntryCategory.Gem));
-            _decorators.Add("SwordArtsParam", new FMGItemParamDecorator(FmgEntryCategory.SwordArts));
+            foreach ((string paramName, FmgEntryCategory category) in ParamBank.ParamToFmgCategoryList)
+            {
+                _decorators.Add(paramName, new FMGItemParamDecorator(category));
+            }
             //_decorators.Add("CharacterText", new FMGItemParamDecorator(FmgEntryCategory.Characters)); // TODO: Decorators need to be updated to support text references.
         }
 
@@ -2235,7 +2233,7 @@ namespace StudioCore.ParamEditor
 
             string label = $@"{r.ID} {Utils.ImGuiEscape(r.Name, "")}";
             label = Utils.ImGui_WordWrapString(label, ImGui.GetColumnWidth());
-            if (ImGui.Selectable(label, selected))
+            if (ImGui.Selectable($@"{label}##{selectionCacheIndex}", selected))
             {
                 _focusRows = true;
                 if (InputTracker.GetKey(Key.LControl))

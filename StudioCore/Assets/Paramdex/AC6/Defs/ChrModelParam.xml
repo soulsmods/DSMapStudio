@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>CHR_MODEL_PARAM_ST</ParamType>
+  <DataVersion>2</DataVersion>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <FormatVersion>203</FormatVersion>
+  <Fields>
+    <!-- <Field Def="dummy8 paramSize[12]" /> -->
+    <Field Def="u8 disableParam_NT:1"></Field>
+    <Field Def="dummy8 disableParamReserve1:7"></Field>
+    <Field Def="dummy8 disableParamReserve2[3]"></Field>
+    <Field Def="u8 modelMemoryType"></Field>
+    <Field Def="u8 texMemoryType"></Field>
+    <Field Def="s16 cameraDitherFadeId"></Field>
+    <Field Def="f32 reportAnimMemSizeMb = 12"></Field>
+  </Fields>
+</PARAMDEF>

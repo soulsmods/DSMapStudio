@@ -233,11 +233,12 @@ namespace SoulsFormats
         {
             AppliedParamdef = paramdef;
             foreach (Row row in Rows)
-                row.ReadCells(RowReader, AppliedParamdef);
+                row.ReadCells(RowReader, AppliedParamdef, ulong.MaxValue);
         }
 
         /// <summary>
-        /// Applies a paramdef only if its param type, data version, and row size match this param's. Returns true if applied.
+        /// Applies a paramdef only if its param type, data version, and row size match this param's. Returns true if
+        /// applied.
         /// </summary>
         public bool ApplyParamdefCarefully(PARAMDEF paramdef)
         {
@@ -251,7 +252,8 @@ namespace SoulsFormats
         }
 
         /// <summary>
-        /// Applies the first paramdef in the sequence whose param type, data version, and row size match this param's, if any. Returns true if applied. 
+        /// Applies the first paramdef in the sequence whose param type, data version, and row size match this param's,
+        /// if any. Returns true if applied. 
         /// </summary>
         public bool ApplyParamdefCarefully(IEnumerable<PARAMDEF> paramdefs)
         {
@@ -259,6 +261,38 @@ namespace SoulsFormats
             {
                 if (ApplyParamdefCarefully(paramdef))
                     return true;
+            }
+            return false;
+        }
+        
+        /// <summary>
+        /// Interprets row data according to the given versioned paramdef and stores it for later writing.
+        /// </summary>
+        /// <param name="paramdef">The version aware paramdef to apply</param>
+        /// <param name="version">The regulation version of the param that the paramdef is being applied to</param>
+        public void ApplyRegulationVersionedParamdef(PARAMDEF paramdef, ulong version)
+        {
+            if (!paramdef.VersionAware)
+                throw new Exception("PARAMDEF must be version aware to apply with a regulation version");
+            AppliedParamdef = paramdef;
+            foreach (Row row in Rows)
+                row.ReadCells(RowReader, AppliedParamdef, version);
+        }
+
+        /// <summary>
+        /// Applies a versioned paramdef only if its param type, data version, and row size match this param's. Returns
+        /// true if applied.
+        /// </summary>
+        /// <param name="paramdef">The version aware paramdef to apply</param>
+        /// <param name="version">The regulation version of the param that the paramdef is being applied to</param>
+        /// <returns>True if the paramdef was applied</returns>
+        public bool ApplyRegulationVersionedParamdefCarefully(PARAMDEF paramdef, ulong version)
+        {
+            if (ParamType == paramdef.ParamType && ParamdefDataVersion == paramdef.DataVersion
+                                                && (DetectedSize == -1 || DetectedSize == paramdef.GetRowSize(version)))
+            {
+                ApplyRegulationVersionedParamdef(paramdef, version);
+                return true;
             }
             return false;
         }

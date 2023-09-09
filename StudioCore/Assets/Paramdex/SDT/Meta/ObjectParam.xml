@@ -21,6 +21,11 @@
     <SpecialEffectId_InsideHit Refs="SpEffectParam(=0)" />
     <isUserPhysicForChrCollide IsBool="" />
     <isBreak_ByChrRide IsBool="" />
+    <burnBulletBehaviorId_1 Refs="BehaviorParam(=0)" />
+    <burnBulletBehaviorId_2 Refs="BehaviorParam(=0)" />
+    <burnBulletBehaviorId_3 Refs="BehaviorParam(=0)" />
+    <burnBulletBehaviorId Refs="BehaviorParam(=0)" />
+    <breakBulletBehaviorId Refs="BehaviorParam(=0)" />
   </Field>
   <Self />
 </PARAMMETA>

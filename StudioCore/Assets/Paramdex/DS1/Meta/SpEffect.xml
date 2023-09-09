@@ -116,7 +116,7 @@
     <soul Wiki="Flat increase/decrease to souls." />
     <animIdOffset Wiki="Offsets animation IDs. Frequently used to make enemies swap movesets." />
     <haveSoulRate Wiki="Multiplies the amount of souls granted after death. May only work when added via npcParam? (needs testing)" />
-    <targetPriority Wiki="Value added to or subtract from this character's priority in the target queue.\nHigher priority means they are more likely to be targeted by enemies." />
+    <targetPriority Wiki="Chance for an enemy to switch aggro targets to/away the effect's owner. Values range from -1 to 1. +1 = 100% chance to target owner instead of current target, -1 = 100% chance to target somebody else instead of current target (effect owner)." />
     <sightSearchEnemyCut Wiki="Reduces distance for enemies to see the effect's owner.\n0 = default, 50 = -50%% sight distance, 100 = -100%% sight distance" />
     <hearingSearchEnemyCut Wiki="Reduces distance for enemies to hear the effect's owner.\n0 = default, 50 = -50%% hearing distance, 100 = -100%% hearing distance" />
     <grabityRate Wiki="Multiplies animation speeds. 1 = default, .5 = -50%% speed, 2 = +100%% speed" />

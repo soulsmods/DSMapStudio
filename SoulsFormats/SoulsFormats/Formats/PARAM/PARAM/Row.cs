@@ -100,7 +100,7 @@ namespace SoulsFormats
                 }
             }
 
-            internal void ReadCells(BinaryReaderEx br, PARAMDEF paramdef)
+            internal void ReadCells(BinaryReaderEx br, PARAMDEF paramdef, ulong regulationVersion)
             {
                 // In case someone decides to add new rows before applying the paramdef (please don't do that)
                 if (DataOffset == 0)
@@ -126,6 +126,10 @@ namespace SoulsFormats
 
                 for (int i = 0; i < paramdef.Fields.Count; i++)
                 {
+                    // For version aware PARAMDEFs, skip fields that don't exist in the specified version
+                    if (paramdef.VersionAware && !paramdef.Fields[i].IsValidForRegulationVersion(regulationVersion))
+                        continue;
+                    
                     PARAMDEF.Field field = paramdef.Fields[i];
                     object value = null;
                     PARAMDEF.DefType type = field.DisplayType;

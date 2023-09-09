@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="0">
+  <ParamType>HIT_EFFECT_SFX_CONCEPT_PARAM_ST</ParamType>
+  <DataVersion>1</DataVersion>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <FormatVersion>203</FormatVersion>
+  <Fields>
+    <!-- <Field Def="dummy8 paramSize[128]" /> -->
+    <Field Def="s16 atkIron_1"></Field>
+    <Field Def="s16 atkIron_2"></Field>
+    <Field Def="s16 atkLeather_1"></Field>
+    <Field Def="s16 atkLeather_2"></Field>
+    <Field Def="s16 atkWood_1"></Field>
+    <Field Def="s16 atkWood_2"></Field>
+    <Field Def="s16 atkBody_1"></Field>
+    <Field Def="s16 atkBody_2"></Field>
+    <Field Def="s16 atkStone_1"></Field>
+    <Field Def="s16 atkStone_2"></Field>
+    <Field Def="dummy8 pad[4]"></Field>
+    <Field Def="s16 atkNone_1"></Field>
+    <Field Def="s16 atkNone_2"></Field>
+    <Field Def="dummy8 reserve[100]"></Field>
+  </Fields>
+</PARAMDEF>

@@ -13,7 +13,7 @@ namespace SoulsFormats
         {
             public const int CURRENT_XML_VERSION = 3;
 
-            public static PARAMDEF Deserialize(XmlDocument xml)
+            public static PARAMDEF Deserialize(XmlDocument xml, bool versionAware)
             {
                 var def = new PARAMDEF();
                 XmlNode root = xml.SelectSingleNode("PARAMDEF");
@@ -29,8 +29,12 @@ namespace SoulsFormats
                 def.Fields = new List<Field>();
                 foreach (XmlNode node in root.SelectNodes("Fields/Field"))
                 {
-                    def.Fields.Add(DeserializeField(def, node));
+                    var field = DeserializeField(def, node, versionAware);
+                    if (field != null)
+                        def.Fields.Add(field);
                 }
+                
+                def.VersionAware = versionAware;
 
                 return def;
             }
@@ -66,8 +70,23 @@ namespace SoulsFormats
             private static readonly Regex defBitRx = new Regex($@"^(?<name>.+?)\s*:\s*(?<size>\d+)$");
             private static readonly Regex defArrayRx = new Regex($@"^(?<name>.+?)\s*\[\s*(?<length>\d+)\]$");
 
-            private static Field DeserializeField(PARAMDEF def, XmlNode node)
+            private static Field DeserializeField(PARAMDEF def, XmlNode node, bool versionAware)
             {
+                // Check regulation version info for the field if it exists
+                ulong firstVersion = 0;
+                ulong removedVersion = 0;
+                var firstVersionAttribute = node.Attributes?["FirstVersion"];
+                var removedVersionAttribute = node.Attributes?["RemovedVersion"];
+                if (firstVersionAttribute != null && !ulong.TryParse(firstVersionAttribute.InnerText, out firstVersion))
+                    throw new Exception("FirstVersion attribute is not a valid integer");
+                if (removedVersionAttribute != null && !ulong.TryParse(removedVersionAttribute.InnerText, out removedVersion))
+                    throw new Exception("RemovedVersion attribute is not a valid integer");
+                
+                // If we are not reading paramdefs in a version aware way, we implicitly are loading paramdefs for the
+                // latest defined version and will throw away any fields that are ever removed
+                if (!versionAware && removedVersion != 0)
+                    return null;
+                
                 var field = new Field();
                 string fieldDef = node.Attributes["Def"].InnerText;
                 Match outerMatch = defOuterRx.Match(fieldDef);
@@ -108,6 +127,13 @@ namespace SoulsFormats
                 field.UnkB8 = node.ReadStringIfExist("UnkB8");
                 field.UnkC0 = node.ReadStringIfExist("UnkC0");
                 field.UnkC8 = node.ReadStringIfExist("UnkC8");
+
+                if (versionAware)
+                {
+                    field.FirstRegulationVersion = firstVersion;
+                    field.RemovedRegulationVersion = removedVersion;
+                }
+                
                 return field;
             }
 
@@ -197,6 +223,10 @@ namespace SoulsFormats
                     fieldDef += $" = {VariableValueToString(def, field.DisplayType, field.Default)}";
 
                 xw.WriteAttributeString("Def", fieldDef);
+                if (def.VersionAware && field.FirstRegulationVersion != 0)
+                    xw.WriteAttributeString("FirstVersion", $"{field.FirstRegulationVersion}");
+                if (def.VersionAware && field.RemovedRegulationVersion != 0)
+                    xw.WriteAttributeString("RemovedVersion", $"{field.RemovedRegulationVersion}");
                 xw.WriteDefaultElement("DisplayName", field.DisplayName, field.InternalName);
                 xw.WriteDefaultElement("Enum", field.InternalType, field.DisplayType.ToString());
                 xw.WriteDefaultElement("Description", field.Description, null);

@@ -642,11 +642,6 @@ namespace StudioCore.Resource
                 }
                 return new BND3Reader(filePath);
             }
-            else if (type == GameType.ArmoredCoreVI)
-            {
-                //TODO AC6
-                return null;
-            }
             else
             {
                 if (filePath.ToUpper().EndsWith("BHD"))

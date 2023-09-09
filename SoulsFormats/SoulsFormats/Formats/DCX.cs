@@ -385,7 +385,7 @@ namespace SoulsFormats
 
             var compressed = br.ReadSpanView<byte>((int)compressedSize);
 
-            return Oodle.GetOodleCompressor().Decompress(compressed, uncompressedSize);
+            return Oodle.GetOodleCompressor(compressionLevel).Decompress(compressed, uncompressedSize);
         }
 
         #region Public Compress
@@ -620,7 +620,7 @@ namespace SoulsFormats
 
         private static void CompressDCXKRAK(Span<byte> data, BinaryWriterEx bw, byte compressionLevel = 6)
         {
-            byte[] compressed = Oodle.GetOodleCompressor().Compress(data, Oodle.OodleLZ_Compressor.OodleLZ_Compressor_Kraken, Oodle.OodleLZ_CompressionLevel.OodleLZ_CompressionLevel_Optimal2);
+            byte[] compressed = Oodle.GetOodleCompressor(compressionLevel).Compress(data, Oodle.OodleLZ_Compressor.OodleLZ_Compressor_Kraken, Oodle.OodleLZ_CompressionLevel.OodleLZ_CompressionLevel_Optimal2);
 
             bw.WriteASCII("DCX\0");
             bw.WriteInt32(0x11000);

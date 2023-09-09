@@ -712,10 +712,10 @@ namespace StudioCore.ParamEditor
                     if (CFG.Current.Param_MakeMetaNamesPrimary)
                     {
                         shownName = altName;
-                        ImGui.TextColored(new Vector4(1f, .7f, .4f, 1f), internalName);
+                        ImGui.TextColored(new Vector4(1f, .7f, .4f, 1f), Utils.ImGuiEscape(internalName, "", true));
                     }
                     else
-                        ImGui.TextColored(new Vector4(1f, .7f, .4f, 1f), altName);
+                        ImGui.TextColored(new Vector4(1f, .7f, .4f, 1f), Utils.ImGuiEscape(altName, "", true));
                     ImGui.Separator();
                 }
                 if (ImGui.MenuItem("Add to Searchbar"))
