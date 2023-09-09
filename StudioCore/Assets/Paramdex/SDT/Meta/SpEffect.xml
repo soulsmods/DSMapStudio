@@ -143,7 +143,7 @@
     <soul Wiki="Adds or removes Sen from the player over the duration of the effect" />
     <animIdOffset Wiki="Changes the animation category used, only for Npc's" />
     <haveSoulRate Wiki="Increases the amount of Sen dropped by enemies, only works when applied to enemies" />
-    <targetPriority Wiki="The higher the priority the more likely enemies are to target you" />
+    <targetPriority Wiki="Chance for an enemy to switch aggro targets to/away the effect's owner. Values range from -1 to 1. +1 = 100% chance to target owner instead of current target, -1 = 100% chance to target somebody else instead of current target (effect owner)." />
     <sightSearchEnemyCut />
     <aroundSightPointAddRate />
     <mapVisibilityOverrideGood />
