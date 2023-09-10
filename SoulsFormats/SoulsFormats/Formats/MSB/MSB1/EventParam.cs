@@ -843,7 +843,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public StateType ObjActState { get; set; }
+                public StateType ObjActState { get; set; } = StateType.Default;
 
                 /// <summary>
                 /// Unknown, probably enables or disables the ObjAct.

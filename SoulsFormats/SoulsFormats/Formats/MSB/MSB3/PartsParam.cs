@@ -1230,7 +1230,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Modifies sounds while the player is touching this collision.
                 /// </summary>
-                public SoundSpace SoundSpaceType { get; set; }
+                public SoundSpace SoundSpaceType { get; set; } = SoundSpace.NoReverb;
 
                 /// <summary>
                 /// Unknown.
@@ -1303,7 +1303,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public MapVisiblity MapVisType { get; set; }
+                public MapVisiblity MapVisType { get; set; } = MapVisiblity.Good;
 
                 /// <summary>
                 /// Creates a Collision with default values.

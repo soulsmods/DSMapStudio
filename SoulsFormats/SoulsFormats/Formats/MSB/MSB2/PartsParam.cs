@@ -447,7 +447,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Modifies sounds while the player is touching this collision.
                 /// </summary>
-                public SoundSpace SoundSpaceType { get; set; }
+                public SoundSpace SoundSpaceType { get; set; } = SoundSpace.NoReverb;
 
                 /// <summary>
                 /// Unknown.
