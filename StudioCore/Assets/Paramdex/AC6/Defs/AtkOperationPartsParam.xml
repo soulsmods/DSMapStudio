@@ -1,23 +1,46 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PARAMDEF XmlVersion="0">
+<PARAMDEF XmlVersion="3">
   <ParamType>ATK_OPERATION_PARTS_PARAM_ST</ParamType>
   <DataVersion>1</DataVersion>
   <BigEndian>False</BigEndian>
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <!-- <Field Def="dummy8 paramSize[48]" /> -->
-    <Field Def="s32 Unk0x00"></Field>
-    <Field Def="s32 Unk0x04"></Field>
-    <Field Def="s32 Unk0x08"></Field>
-    <Field Def="s32 Unk0x0C"></Field>
-    <Field Def="s32 Unk0x10"></Field>
-    <Field Def="s32 Unk0x14"></Field>
-    <Field Def="s32 Unk0x18"></Field>
-    <Field Def="s32 Unk0x1C"></Field>
-    <Field Def="s32 Unk0x20"></Field>
-    <Field Def="s32 Unk0x24"></Field>
-    <Field Def="s32 Unk0x28"></Field>
-    <Field Def="s32 Unk0x2C"></Field>
+    <Field Def="u8 UnkByte0x0" />
+    <Field Def="u8 UnkByte0x1" />
+    <Field Def="u8 UnkByte0x2" />
+    <Field Def="u8 UnkByte0x3" />
+    <Field Def="u8 UnkByte0x4" />
+    <Field Def="u8 UnkByte0x5" />
+    <Field Def="u8 UnkByte0x6" />
+    <Field Def="u8 UnkByte0x7" />
+    <Field Def="u8 UnkByte0x8" />
+    <Field Def="u8 UnkByte0x9" />
+    <Field Def="u8 UnkByte0xA" />
+    <Field Def="u8 UnkByte0xB" />
+    <Field Def="u8 UnkByte0xC" />
+    <Field Def="u8 UnkByte0xD" />
+    <Field Def="u8 UnkByte0xE" />
+    <Field Def="u8 UnkByte0xF" />
+    <Field Def="u8 UnkByte0x10" />
+    <Field Def="u8 UnkByte0x11" />
+    <Field Def="u8 UnkByte0x12" />
+    <Field Def="u8 UnkByte0x13" />
+    <Field Def="u8 UnkByte0x14" />
+    <Field Def="u8 UnkByte0x15" />
+    <Field Def="u8 UnkByte0x16" />
+    <Field Def="u8 UnkByte0x17" />
+    <Field Def="u8 UnkByte0x18" />
+    <Field Def="u8 UnkByte0x19" />
+    <Field Def="u8 UnkByte0x1A" />
+    <Field Def="u8 UnkByte0x1B" />
+    <Field Def="u8 UnkByte0x1C" />
+    <Field Def="u8 UnkByte0x1D" />
+    <Field Def="u8 UnkByte0x1E" />
+    <Field Def="u8 UnkByte0x1F" />
+    <Field Def="s32 Unk0x20" />
+    <Field Def="s32 Unk0x24" />
+    <Field Def="s32 Unk0x28" />
+    <Field Def="s32 Unk0x2C" />
   </Fields>
 </PARAMDEF>

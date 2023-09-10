@@ -1,17 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PARAMDEF XmlVersion="0">
+<PARAMDEF XmlVersion="3">
   <ParamType>KEY_ASSIGN_DISPLAY_PARAM</ParamType>
   <DataVersion>1</DataVersion>
   <BigEndian>False</BigEndian>
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-   <!--  <Field Def="dummy8 paramSize[32]" /> -->
-    <Field Def="s32 padKeyId = -1"></Field>
-    <Field Def="s32 keyboardModifyKey"></Field>
-    <Field Def="s32 keyboardKeyId = -1"></Field>
-    <Field Def="s32 mouseModifyKey"></Field>
-    <Field Def="s32 mouseKeyId"></Field>
-    <Field Def="dummy8 reserved[12]"></Field>
+    <Field Def="s32 padKeyId" />
+    <Field Def="s32 keyboardModifyKey" />
+    <Field Def="s32 keyboardKeyId" />
+    <Field Def="s32 mouseModifyKey" />
+    <Field Def="s32 mouseKeyId" />
+    <Field Def="s32 Unk0x14" />
+    <Field Def="s32 Unk0x18" />
+    <Field Def="s32 Unk0x1C" />
   </Fields>
 </PARAMDEF>

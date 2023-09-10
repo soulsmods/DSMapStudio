@@ -1,25 +1,48 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PARAMDEF XmlVersion="0">
+<PARAMDEF XmlVersion="3">
   <ParamType>HIT_EFFECT_SFX_CONCEPT_PARAM_ST</ParamType>
   <DataVersion>1</DataVersion>
   <BigEndian>False</BigEndian>
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <!-- <Field Def="dummy8 paramSize[128]" /> -->
-    <Field Def="s16 atkIron_1"></Field>
-    <Field Def="s16 atkIron_2"></Field>
-    <Field Def="s16 atkLeather_1"></Field>
-    <Field Def="s16 atkLeather_2"></Field>
-    <Field Def="s16 atkWood_1"></Field>
-    <Field Def="s16 atkWood_2"></Field>
-    <Field Def="s16 atkBody_1"></Field>
-    <Field Def="s16 atkBody_2"></Field>
-    <Field Def="s16 atkStone_1"></Field>
-    <Field Def="s16 atkStone_2"></Field>
-    <Field Def="dummy8 pad[4]"></Field>
-    <Field Def="s16 atkNone_1"></Field>
-    <Field Def="s16 atkNone_2"></Field>
-    <Field Def="dummy8 reserve[100]"></Field>
+    <Field Def="s16 atkIron_1" />
+    <Field Def="s16 atkIron_2" />
+    <Field Def="s16 atkLeather_1" />
+    <Field Def="s16 atkLeather_2" />
+    <Field Def="s16 atkWood_1" />
+    <Field Def="s16 atkWood_2" />
+    <Field Def="s16 atkBody_1" />
+    <Field Def="s16 atkBody_2" />
+    <Field Def="s16 atkStone_1" />
+    <Field Def="s16 atkStone_2" />
+    <Field Def="s32 Unk0x14" />
+    <Field Def="s16 atkNone_1" />
+    <Field Def="s16 atkNone_2" />
+    <Field Def="s32 Unk0x1C" />
+    <Field Def="s32 Unk0x20" />
+    <Field Def="s32 Unk0x24" />
+    <Field Def="s32 Unk0x28" />
+    <Field Def="s32 Unk0x2C" />
+    <Field Def="s32 Unk0x30" />
+    <Field Def="s32 Unk0x34" />
+    <Field Def="s32 Unk0x38" />
+    <Field Def="s32 Unk0x3C" />
+    <Field Def="s32 Unk0x40" />
+    <Field Def="s32 Unk0x44" />
+    <Field Def="s32 Unk0x48" />
+    <Field Def="s32 Unk0x4C" />
+    <Field Def="s32 Unk0x50" />
+    <Field Def="s32 Unk0x54" />
+    <Field Def="s32 Unk0x58" />
+    <Field Def="s32 Unk0x5C" />
+    <Field Def="s32 Unk0x60" />
+    <Field Def="s32 Unk0x64" />
+    <Field Def="s32 Unk0x68" />
+    <Field Def="s32 Unk0x6C" />
+    <Field Def="s32 Unk0x70" />
+    <Field Def="s32 Unk0x74" />
+    <Field Def="s32 Unk0x78" />
+    <Field Def="s32 Unk0x7C" />
   </Fields>
 </PARAMDEF>
