@@ -1,27 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PARAMDEF XmlVersion="3">
+<PARAMDEF XmlVersion="0">
   <ParamType>CAMERA_FADE_PARAM_ST</ParamType>
   <DataVersion>1</DataVersion>
   <BigEndian>False</BigEndian>
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <Field Def="f32 NearMinDist" />
-    <Field Def="f32 NearMaxDist" />
-    <Field Def="f32 FarMinDist" />
-    <Field Def="f32 FarMaxDist" />
-    <Field Def="f32 MiddleAlpha" />
-    <Field Def="u8 unkAutoGenned0xA0" />
-    <Field Def="u8 unkAutoGenned0xA8" />
-    <Field Def="u8 unkAutoGenned0xB0" />
-    <Field Def="u8 unkAutoGenned0xB8" />
-    <Field Def="u8 unkAutoGenned0xC0" />
-    <Field Def="u8 unkAutoGenned0xC8" />
-    <Field Def="u8 unkAutoGenned0xD0" />
-    <Field Def="u8 unkAutoGenned0xD8" />
-    <Field Def="u8 unkAutoGenned0xE0" />
-    <Field Def="u8 unkAutoGenned0xE8" />
-    <Field Def="u8 unkAutoGenned0xF0" />
-    <Field Def="u8 unkAutoGenned0xF8" />
+    <!-- <Field Def="dummy8 paramSize[32]" /> -->
+    <Field Def="f32 NearMinDist"></Field>
+    <Field Def="f32 NearMaxDist"></Field>
+    <Field Def="f32 FarMinDist"></Field>
+    <Field Def="f32 FarMaxDist"></Field>
+    <Field Def="f32 MiddleAlpha"></Field>
+    <Field Def="dummy8 dummy[12]"></Field>
   </Fields>
 </PARAMDEF>

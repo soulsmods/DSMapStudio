@@ -1,42 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PARAMDEF XmlVersion="3">
+<PARAMDEF XmlVersion="0">
   <ParamType>BULLET_CREATE_LIMIT_PARAM_ST</ParamType>
   <DataVersion>1</DataVersion>
   <BigEndian>False</BigEndian>
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <Field Def="u8 limitNum_byGroup" />
-    <Field Def="u8 isLimitEachOwner" />
-    <Field Def="u8 unkAutoGenned0x10" />
-    <Field Def="u8 unkAutoGenned0x18" />
-    <Field Def="u8 unkAutoGenned0x20" />
-    <Field Def="u8 unkAutoGenned0x28" />
-    <Field Def="u8 unkAutoGenned0x30" />
-    <Field Def="u8 unkAutoGenned0x38" />
-    <Field Def="u8 unkAutoGenned0x40" />
-    <Field Def="u8 unkAutoGenned0x48" />
-    <Field Def="u8 unkAutoGenned0x50" />
-    <Field Def="u8 unkAutoGenned0x58" />
-    <Field Def="u8 unkAutoGenned0x60" />
-    <Field Def="u8 unkAutoGenned0x68" />
-    <Field Def="u8 unkAutoGenned0x70" />
-    <Field Def="u8 unkAutoGenned0x78" />
-    <Field Def="u8 unkAutoGenned0x80" />
-    <Field Def="u8 unkAutoGenned0x88" />
-    <Field Def="u8 unkAutoGenned0x90" />
-    <Field Def="u8 unkAutoGenned0x98" />
-    <Field Def="u8 unkAutoGenned0xA0" />
-    <Field Def="u8 unkAutoGenned0xA8" />
-    <Field Def="u8 unkAutoGenned0xB0" />
-    <Field Def="u8 unkAutoGenned0xB8" />
-    <Field Def="u8 unkAutoGenned0xC0" />
-    <Field Def="u8 unkAutoGenned0xC8" />
-    <Field Def="u8 unkAutoGenned0xD0" />
-    <Field Def="u8 unkAutoGenned0xD8" />
-    <Field Def="u8 unkAutoGenned0xE0" />
-    <Field Def="u8 unkAutoGenned0xE8" />
-    <Field Def="u8 unkAutoGenned0xF0" />
-    <Field Def="u8 unkAutoGenned0xF8" />
+    <!-- <Field Def="dummy8 paramSize[32]" /> -->
+    <Field Def="u8 limitNum_byGroup"></Field>
+    <Field Def="u8 isLimitEachOwner:1"></Field>
+    <Field Def="dummy8 pad2:7"></Field>
+    <Field Def="dummy8 pad[30]"></Field>
   </Fields>
 </PARAMDEF>

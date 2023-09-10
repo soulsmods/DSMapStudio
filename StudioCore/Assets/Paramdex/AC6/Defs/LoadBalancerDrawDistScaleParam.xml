@@ -1,75 +1,33 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PARAMDEF XmlVersion="3">
+<PARAMDEF XmlVersion="0">
   <ParamType>LOAD_BALANCER_DRAW_DIST_SCALE_PARAM_ST</ParamType>
   <DataVersion>0</DataVersion>
   <BigEndian>False</BigEndian>
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <Field Def="f32 Lv00" />
-    <Field Def="f32 Lv01" />
-    <Field Def="f32 Lv02" />
-    <Field Def="f32 Lv03" />
-    <Field Def="f32 Lv04" />
-    <Field Def="f32 Lv05" />
-    <Field Def="f32 Lv06" />
-    <Field Def="f32 Lv07" />
-    <Field Def="f32 Lv08" />
-    <Field Def="f32 Lv09" />
-    <Field Def="f32 Lv10" />
-    <Field Def="f32 Lv11" />
-    <Field Def="f32 Lv12" />
-    <Field Def="f32 Lv13" />
-    <Field Def="f32 Lv14" />
-    <Field Def="f32 Lv15" />
-    <Field Def="f32 Lv16" />
-    <Field Def="f32 Lv17" />
-    <Field Def="f32 Lv18" />
-    <Field Def="f32 Lv19" />
-    <Field Def="f32 Lv20" />
-    <Field Def="u8 unkAutoGenned0x2A0" />
-    <Field Def="u8 unkAutoGenned0x2A8" />
-    <Field Def="u8 unkAutoGenned0x2B0" />
-    <Field Def="u8 unkAutoGenned0x2B8" />
-    <Field Def="u8 unkAutoGenned0x2C0" />
-    <Field Def="u8 unkAutoGenned0x2C8" />
-    <Field Def="u8 unkAutoGenned0x2D0" />
-    <Field Def="u8 unkAutoGenned0x2D8" />
-    <Field Def="u8 unkAutoGenned0x2E0" />
-    <Field Def="u8 unkAutoGenned0x2E8" />
-    <Field Def="u8 unkAutoGenned0x2F0" />
-    <Field Def="u8 unkAutoGenned0x2F8" />
-    <Field Def="u8 unkAutoGenned0x300" />
-    <Field Def="u8 unkAutoGenned0x308" />
-    <Field Def="u8 unkAutoGenned0x310" />
-    <Field Def="u8 unkAutoGenned0x318" />
-    <Field Def="u8 unkAutoGenned0x320" />
-    <Field Def="u8 unkAutoGenned0x328" />
-    <Field Def="u8 unkAutoGenned0x330" />
-    <Field Def="u8 unkAutoGenned0x338" />
-    <Field Def="u8 unkAutoGenned0x340" />
-    <Field Def="u8 unkAutoGenned0x348" />
-    <Field Def="u8 unkAutoGenned0x350" />
-    <Field Def="u8 unkAutoGenned0x358" />
-    <Field Def="u8 unkAutoGenned0x360" />
-    <Field Def="u8 unkAutoGenned0x368" />
-    <Field Def="u8 unkAutoGenned0x370" />
-    <Field Def="u8 unkAutoGenned0x378" />
-    <Field Def="u8 unkAutoGenned0x380" />
-    <Field Def="u8 unkAutoGenned0x388" />
-    <Field Def="u8 unkAutoGenned0x390" />
-    <Field Def="u8 unkAutoGenned0x398" />
-    <Field Def="u8 unkAutoGenned0x3A0" />
-    <Field Def="u8 unkAutoGenned0x3A8" />
-    <Field Def="u8 unkAutoGenned0x3B0" />
-    <Field Def="u8 unkAutoGenned0x3B8" />
-    <Field Def="u8 unkAutoGenned0x3C0" />
-    <Field Def="u8 unkAutoGenned0x3C8" />
-    <Field Def="u8 unkAutoGenned0x3D0" />
-    <Field Def="u8 unkAutoGenned0x3D8" />
-    <Field Def="u8 unkAutoGenned0x3E0" />
-    <Field Def="u8 unkAutoGenned0x3E8" />
-    <Field Def="u8 unkAutoGenned0x3F0" />
-    <Field Def="u8 unkAutoGenned0x3F8" />
+    <!-- <Field Def="dummy8 paramSize[128]" /> -->
+    <Field Def="f32 Lv00 = 1"></Field>
+    <Field Def="f32 Lv01 = 1"></Field>
+    <Field Def="f32 Lv02 = 1"></Field>
+    <Field Def="f32 Lv03 = 1"></Field>
+    <Field Def="f32 Lv04 = 1"></Field>
+    <Field Def="f32 Lv05 = 1"></Field>
+    <Field Def="f32 Lv06 = 1"></Field>
+    <Field Def="f32 Lv07 = 1"></Field>
+    <Field Def="f32 Lv08 = 1"></Field>
+    <Field Def="f32 Lv09 = 1"></Field>
+    <Field Def="f32 Lv10 = 1"></Field>
+    <Field Def="f32 Lv11 = 1"></Field>
+    <Field Def="f32 Lv12 = 1"></Field>
+    <Field Def="f32 Lv13 = 1"></Field>
+    <Field Def="f32 Lv14 = 1"></Field>
+    <Field Def="f32 Lv15 = 1"></Field>
+    <Field Def="f32 Lv16 = 1"></Field>
+    <Field Def="f32 Lv17 = 1"></Field>
+    <Field Def="f32 Lv18 = 1"></Field>
+    <Field Def="f32 Lv19 = 1"></Field>
+    <Field Def="f32 Lv20 = 1"></Field>
+    <Field Def="dummy8 reserve[44]"></Field>
   </Fields>
 </PARAMDEF>

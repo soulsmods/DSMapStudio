@@ -1,228 +1,137 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PARAMDEF XmlVersion="3">
-  <ParamType>EquipParamBooster_TENTATIVE</ParamType>
+<PARAMDEF XmlVersion="0">
+  <ParamType>EquipParamBooster_TENTATIVE</ParamType> 
   <DataVersion>7</DataVersion>
   <BigEndian>False</BigEndian>
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <Field Def="u8 unkAutoGenned0x0" />
-    <Field Def="u8 unkAutoGenned0x8" />
-    <Field Def="u8 unkAutoGenned0x10" />
-    <Field Def="u8 unkAutoGenned0x18" />
-    <Field Def="u8 unkAutoGenned0x20" />
-    <Field Def="u8 unkAutoGenned0x28" />
-    <Field Def="u16 unk0x006" />
-    <Field Def="s32 unk0x008" />
+    <!-- <Field Def="dummy8 paramSize[384]" /> -->
+    <Field Def="s32 Unk0x00"></Field>
+    <Field Def="u16 Unk0x04"></Field>
+    <Field Def="u16 Unk0x06"></Field>
+    <Field Def="s32 Unk0x08"></Field>
     <Field Def="f32 weight">
-      <Description>Weight of the part.</Description>
+        <Description>Weight of the part.</Description>
     </Field>
-    <Field Def="s32 unk0x010" />
-    <Field Def="u8 unkAutoGenned0xA0" />
-    <Field Def="u8 unkAutoGenned0xA8" />
-    <Field Def="u8 unkAutoGenned0xB0" />
-    <Field Def="u8 unkAutoGenned0xB8" />
+    <Field Def="s32 Unk0x10"></Field> <!-- Always 0 -->
+    <Field Def="s32 Unk0x14"></Field> <!-- Always 0 -->
     <Field Def="s32 energyLoad">
-      <Description>EN load of the part.</Description>
+        <Description>EN load of the part.</Description>
     </Field>
-    <Field Def="f32 unk0x01C" />
-    <Field Def="f32 unk0x020" />
-    <Field Def="f32 unk0x024" />
-    <Field Def="f32 unk0x028" />
-    <Field Def="f32 unk0x02C" />
-    <Field Def="f32 unk0x030" />
-    <Field Def="f32 unk0x034" />
-    <Field Def="f32 unk0x038" />
-    <Field Def="f32 unk0x03C" />
-    <Field Def="f32 unk0x040" />
-    <Field Def="f32 unk0x044" />
-    <Field Def="f32 unk0x048" />
-    <Field Def="f32 unk0x04C" />
+    <Field Def="s32 Unk0x1C"></Field> <!-- Always 0 -->
+    <Field Def="f32 Unk0x20"></Field>
+    <Field Def="f32 Unk0x24"></Field>
+    <Field Def="f32 Unk0x28"></Field>
+    <Field Def="f32 Unk0x2C"></Field>
+    <Field Def="f32 Unk0x30"></Field>
+    <Field Def="s32 Unk0x34"></Field> <!-- Always 0 -->
+    <Field Def="f32 Unk0x38"></Field>
+    <Field Def="f32 Unk0x3C"></Field>
+    <Field Def="f32 Unk0x40"></Field>
+    <Field Def="s32 Unk0x44"></Field> <!-- Always 0 -->
+    <Field Def="s32 Unk0x48"></Field> <!-- Always 0 -->
+    <Field Def="s32 Unk0x4C"></Field> <!-- Always 0 -->
     <Field Def="f32 upwardEnergyConsumption">
-      <Description>EN consumed by ascending boost movement.</Description>
+        <Description>EN consumed by ascending boost movement.</Description>
     </Field>
     <Field Def="s32 quickBoostEnergyConsumption">
-      <Description>EN consumed by Quick Boost.</Description>
+        <Description>EN consumed by Quick Boost.</Description>
     </Field>
     <Field Def="f32 quickBoostVelocity">
-      <Description>Velocity upon using Quick Boost.</Description>
+        <Description>Velocity upon using Quick Boost.</Description>
     </Field>
-    <Field Def="f32 boostModeDuration" />
+    <Field Def="f32 boostModeDuration"></Field>
     <Field Def="f32 boostModeMovementVelocity">
-      <Description>Velocity upon moving with boost movement.</Description>
+        <Description>Velocity upon moving with boost movement.</Description>
     </Field>
     <Field Def="f32 boostModeJumpVelocity">
-      <Description>Velocity upon jumping with boost movement.</Description>
+        <Description>Velocity upon jumping with boost movement.</Description>
     </Field>
-    <Field Def="f32 unk0x068" />
-    <Field Def="f32 unk0x06C" />
-    <Field Def="f32 unk0x070" />
-    <Field Def="f32 unk0x074" />
-    <Field Def="f32 unk0x078" />
-    <Field Def="u8 unkAutoGenned0x3E0" />
-    <Field Def="u8 unkAutoGenned0x3E8" />
-    <Field Def="u8 unkAutoGenned0x3F0" />
-    <Field Def="u8 unkAutoGenned0x3F8" />
-    <Field Def="u8 unkAutoGenned0x400" />
-    <Field Def="u8 unkAutoGenned0x408" />
-    <Field Def="u8 unkAutoGenned0x410" />
-    <Field Def="u8 unkAutoGenned0x418" />
+    <Field Def="f32 Unk0x68"></Field>  <!-- quickBoostVelocity related -->
+    <Field Def="f32 Unk0x6C"></Field> 
+    <Field Def="f32 Unk0x70"></Field> <!-- boostModeJumpVelocity related -->
+    <Field Def="f32 Unk0x74"></Field> <!-- boostModeJumpVelocity related -->
+    <Field Def="f32 Unk0x78"></Field> 
+    <Field Def="s32 Unk0x7C"></Field>
+    <Field Def="s32 Unk0x80"></Field>
     <Field Def="f32 quickBoostReloadTime">
-      <Description>Reload time for Quick Boost.</Description>
+        <Description>Reload time for Quick Boost.</Description>
     </Field>
-    <Field Def="f32 unk0x088" />
-    <Field Def="f32 unk0x08C" />
-    <Field Def="f32 unk0x090" />
-    <Field Def="s32 unk0x094" />
-    <Field Def="u8 unkAutoGenned0x4C0" />
-    <Field Def="u8 unkAutoGenned0x4C8" />
-    <Field Def="u8 unkAutoGenned0x4D0" />
-    <Field Def="u8 unkAutoGenned0x4D8" />
-    <Field Def="u8 unkAutoGenned0x4E0" />
-    <Field Def="u8 unkAutoGenned0x4E8" />
-    <Field Def="u8 unkAutoGenned0x4F0" />
-    <Field Def="u8 unkAutoGenned0x4F8" />
+    <Field Def="f32 Unk0x88"></Field>
+    <Field Def="f32 Unk0x8C"></Field>
+    <Field Def="s32 Unk0x90"></Field> <!-- Always 0 -->
+    <Field Def="s32 Unk0x94"></Field>
+    <Field Def="s32 Unk0x98"></Field> <!-- Always 0 -->
+    <Field Def="s32 Unk0x9C"></Field>
     <Field Def="f32 highSpeedPerformance">
-      <Description>Speed while boost is engaged. Used by Tank leg parts.</Description>
+        <Description>Speed while boost is engaged. Used by Tank leg parts.</Description>
     </Field>
-    <Field Def="u8 unkAutoGenned0x520" />
-    <Field Def="u8 unkAutoGenned0x528" />
-    <Field Def="u8 unkAutoGenned0x530" />
-    <Field Def="u8 unkAutoGenned0x538" />
-    <Field Def="u8 unkAutoGenned0x540" />
-    <Field Def="u8 unkAutoGenned0x548" />
-    <Field Def="u8 unkAutoGenned0x550" />
-    <Field Def="u8 unkAutoGenned0x558" />
-    <Field Def="u8 unkAutoGenned0x560" />
-    <Field Def="u8 unkAutoGenned0x568" />
-    <Field Def="u8 unkAutoGenned0x570" />
-    <Field Def="u8 unkAutoGenned0x578" />
-    <Field Def="u8 unkAutoGenned0x580" />
-    <Field Def="u8 unkAutoGenned0x588" />
-    <Field Def="u8 unkAutoGenned0x590" />
-    <Field Def="u8 unkAutoGenned0x598" />
-    <Field Def="u8 unkAutoGenned0x5A0" />
-    <Field Def="u8 unkAutoGenned0x5A8" />
-    <Field Def="u8 unkAutoGenned0x5B0" />
-    <Field Def="u8 unkAutoGenned0x5B8" />
-    <Field Def="u8 unkAutoGenned0x5C0" />
-    <Field Def="u8 unkAutoGenned0x5C8" />
-    <Field Def="u8 unkAutoGenned0x5D0" />
-    <Field Def="u8 unkAutoGenned0x5D8" />
-    <Field Def="u8 unkAutoGenned0x5E0" />
-    <Field Def="u8 unkAutoGenned0x5E8" />
-    <Field Def="u8 unkAutoGenned0x5F0" />
-    <Field Def="u8 unkAutoGenned0x5F8" />
-    <Field Def="u8 unkAutoGenned0x600" />
-    <Field Def="u8 unkAutoGenned0x608" />
-    <Field Def="u8 unkAutoGenned0x610" />
-    <Field Def="u8 unkAutoGenned0x618" />
-    <Field Def="u8 unkAutoGenned0x620" />
-    <Field Def="u8 unkAutoGenned0x628" />
-    <Field Def="u8 unkAutoGenned0x630" />
-    <Field Def="u8 unkAutoGenned0x638" />
-    <Field Def="u8 unkAutoGenned0x640" />
-    <Field Def="u8 unkAutoGenned0x648" />
-    <Field Def="u8 unkAutoGenned0x650" />
-    <Field Def="u8 unkAutoGenned0x658" />
-    <Field Def="u8 unkAutoGenned0x660" />
-    <Field Def="u8 unkAutoGenned0x668" />
-    <Field Def="u8 unkAutoGenned0x670" />
-    <Field Def="u8 unkAutoGenned0x678" />
-    <Field Def="u8 unkAutoGenned0x680" />
-    <Field Def="u8 unkAutoGenned0x688" />
-    <Field Def="u8 unkAutoGenned0x690" />
-    <Field Def="u8 unkAutoGenned0x698" />
-    <Field Def="u8 unkAutoGenned0x6A0" />
-    <Field Def="u8 unkAutoGenned0x6A8" />
-    <Field Def="u8 unkAutoGenned0x6B0" />
-    <Field Def="u8 unkAutoGenned0x6B8" />
-    <Field Def="u8 unkAutoGenned0x6C0" />
-    <Field Def="u8 unkAutoGenned0x6C8" />
-    <Field Def="u8 unkAutoGenned0x6D0" />
-    <Field Def="u8 unkAutoGenned0x6D8" />
-    <Field Def="u8 unkAutoGenned0x6E0" />
-    <Field Def="u8 unkAutoGenned0x6E8" />
-    <Field Def="u8 unkAutoGenned0x6F0" />
-    <Field Def="u8 unkAutoGenned0x6F8" />
-    <Field Def="f32 unk0x0E0" />
-    <Field Def="f32 unk0x0E4" />
-    <Field Def="f32 unk0x0E8" />
-    <Field Def="f32 unk0x0EC" />
-    <Field Def="f32 unk0x0F0" />
-    <Field Def="f32 unk0x0F4" />
-    <Field Def="f32 unk0x0F8" />
-    <Field Def="f32 unk0x0FC" />
+    <Field Def="f32 Unk0xA4"></Field>
+    <Field Def="f32 Unk0xA8"></Field>
+    <Field Def="f32 Unk0xAC"></Field>
+    <Field Def="f32 Unk0xB0"></Field>
+    <Field Def="f32 Unk0xB4"></Field>
+    <Field Def="f32 Unk0xB8"></Field>
+    <Field Def="s32 Unk0xBC"></Field> <!-- Always 0 -->
+    <Field Def="s32 Unk0xC0"></Field> <!-- Always 0 -->
+    <Field Def="s32 Unk0xC4"></Field> <!-- Always 0 -->
+    <Field Def="s32 Unk0xC8"></Field> <!-- Always 0 -->
+    <Field Def="s32 Unk0xCC"></Field> <!-- Always 0 -->
+    <Field Def="s32 Unk0xD0"></Field> <!-- Always 0 -->
+    <Field Def="s32 Unk0xD4"></Field> <!-- Always 0 -->
+    <Field Def="s32 Unk0xD8"></Field> <!-- Always 0 -->
+    <Field Def="s32 Unk0xDC"></Field> <!-- Always 0 -->
+    <Field Def="f32 Unk0xE0"></Field> <!-- boostModeJumpVelocity Related -->
+    <Field Def="f32 Unk0xE4"></Field> <!-- boostModeJumpVelocity Related -->
+    <Field Def="f32 Unk0xE8"></Field> <!-- boostModeJumpVelocity Related -->
+    <Field Def="s32 Unk0xEC"></Field> <!-- Always 0 -->
+    <Field Def="f32 Unk0xF0"></Field>
+    <Field Def="f32 Unk0xF4"></Field>
+    <Field Def="f32 Unk0xF8"></Field>
+    <Field Def="f32 Unk0xFC"></Field>
     <Field Def="f32 assaultBoostInitialVelocity">
-      <Description>Initial velocity upon using Assault Boost.</Description>
+        <Description>Initial velocity upon using Assault Boost.</Description>
     </Field>
     <Field Def="f32 assaultBoostContinuousVelocity">
-      <Description>Velocity after initial boost during an Assault Boost.</Description>
+        <Description>Velocity after initial boost during an Assault Boost.</Description>
     </Field>
-    <Field Def="f32 unk0x108" />
-    <Field Def="f32 unk0x10C" />
+    <Field Def="f32 Unk0x108"></Field>
+    <Field Def="s32 Unk0x10C"></Field> <!-- Always 0 -->
     <Field Def="f32 assaultBoostReloadTime">
-      <Description>Duration after which Assault Boost will be available again.</Description>
+        <Description>Duration after which Assault Boost will be available again.</Description>
     </Field>
-    <Field Def="u16 unk0x114" />
-    <Field Def="u8 unkAutoGenned0x8B0" />
-    <Field Def="u8 unkAutoGenned0x8B8" />
+    <Field Def="s32 Unk0x114"></Field>
     <Field Def="f32 assaultBoostEnergyConsumption">
-      <Description>EN consumed by Assault Boost.</Description>
+        <Description>EN consumed by Assault Boost.</Description>
     </Field>
-    <Field Def="u8 unkAutoGenned0x8E0" />
-    <Field Def="u8 unkAutoGenned0x8E8" />
-    <Field Def="u16 meleeBoostInitialVelocity" />
-    <Field Def="f32 meleeBoostContinuousVelocity" />
-    <Field Def="f32 unk0x124" />
-    <Field Def="f32 unk0x128" />
-    <Field Def="f32 unk0x12C" />
-    <Field Def="u16 meleeBoostEnergyConsumption" />
-    <Field Def="u8 unkAutoGenned0x990" />
-    <Field Def="u8 unkAutoGenned0x998" />
-    <Field Def="f32 unk0x134" />
-    <Field Def="f32 unk0x138" />
-    <Field Def="f32 unk0x13C" />
-    <Field Def="f32 unk0x140" />
+    <Field Def="u16 Unk0x11C"></Field> <!-- Always 0 -->
+    <Field Def="u16 meleeBoostInitialVelocity"></Field>
+    <Field Def="f32 meleeBoostContinuousVelocity"></Field>
+    <Field Def="f32 Unk0x124"></Field>
+    <Field Def="f32 Unk0x128"></Field>
+    <Field Def="s32 Unk0x12C"></Field> <!-- Always 0 -->
+    <Field Def="s32 meleeBoostEnergyConsumption"></Field>
+    <Field Def="f32 Unk0x134"></Field>
+    <Field Def="f32 Unk0x138"></Field>
+    <Field Def="s32 Unk0x13C"></Field> <!-- Always 0 -->
+    <Field Def="s32 Unk0x140"></Field> <!-- Always 0 -->
     <Field Def="f32 quickBoostReloadIdealWeight">
-      <Description>Maximum tolerable AC weight before Quick Boost reload time is compromised.</Description>
+        <Description>Maximum tolerable AC weight before Quick Boost reload time is compromised.</Description>
     </Field>
-    <Field Def="s32 unk0x148" />
-    <Field Def="f32 unk0x14C" />
-    <Field Def="f32 unk0x150" />
-    <Field Def="f32 unk0x154" />
-    <Field Def="f32 unk0x158" />
-    <Field Def="u16 unk0x15C" />
-    <Field Def="u8 unkAutoGenned0xAF0" />
-    <Field Def="u8 unkAutoGenned0xAF8" />
-    <Field Def="f32 unk0x160" />
-    <Field Def="u8 unkAutoGenned0xB20" />
-    <Field Def="u8 unkAutoGenned0xB28" />
-    <Field Def="u8 unkAutoGenned0xB30" />
-    <Field Def="u8 unkAutoGenned0xB38" />
-    <Field Def="u8 unkAutoGenned0xB40" />
-    <Field Def="u8 unkAutoGenned0xB48" />
-    <Field Def="u8 unkAutoGenned0xB50" />
-    <Field Def="u8 unkAutoGenned0xB58" />
-    <Field Def="u8 unkAutoGenned0xB60" />
-    <Field Def="u8 unkAutoGenned0xB68" />
-    <Field Def="u8 unkAutoGenned0xB70" />
-    <Field Def="u8 unkAutoGenned0xB78" />
-    <Field Def="u8 unkAutoGenned0xB80" />
-    <Field Def="u8 unkAutoGenned0xB88" />
-    <Field Def="u8 unkAutoGenned0xB90" />
-    <Field Def="u8 unkAutoGenned0xB98" />
-    <Field Def="u8 unkAutoGenned0xBA0" />
-    <Field Def="u8 unkAutoGenned0xBA8" />
-    <Field Def="u8 unkAutoGenned0xBB0" />
-    <Field Def="u8 unkAutoGenned0xBB8" />
-    <Field Def="u8 unkAutoGenned0xBC0" />
-    <Field Def="u8 unkAutoGenned0xBC8" />
-    <Field Def="u8 unkAutoGenned0xBD0" />
-    <Field Def="u8 unkAutoGenned0xBD8" />
-    <Field Def="u8 unkAutoGenned0xBE0" />
-    <Field Def="u8 unkAutoGenned0xBE8" />
-    <Field Def="u8 unkAutoGenned0xBF0" />
-    <Field Def="u8 unkAutoGenned0xBF8" />
+    <Field Def="s32 Unk0x148"></Field>
+    <Field Def="f32 Unk0x14C"></Field>
+    <Field Def="f32 Unk0x150"></Field>
+    <Field Def="f32 Unk0x154"></Field>
+    <Field Def="s32 Unk0x158"></Field> <!-- Always 0 -->
+    <Field Def="s32 Unk0x15C"></Field>
+    <Field Def="s32 Unk0x160"></Field> <!-- Always 0 -->
+    <Field Def="s32 Unk0x164"></Field> <!-- Always 0 -->
+    <Field Def="s32 Unk0x168"></Field> <!-- Always 0 -->
+    <Field Def="s32 Unk0x16C"></Field> <!-- Always 0 -->
+    <Field Def="s32 Unk0x170"></Field> <!-- Always 0 -->
+    <Field Def="s32 Unk0x174"></Field> <!-- Always 0 -->
+    <Field Def="s32 Unk0x178"></Field> <!-- Always 0 -->
+    <Field Def="s32 Unk0x17C"></Field> <!-- Always 0 -->
   </Fields>
 </PARAMDEF>

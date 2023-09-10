@@ -1,71 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PARAMDEF XmlVersion="3">
+<PARAMDEF XmlVersion="0">
   <ParamType>CYLINDER_PARAM_ST</ParamType>
   <DataVersion>1</DataVersion>
   <BigEndian>False</BigEndian>
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <Field Def="u8 unk0x000[1]" />
-    <Field Def="u8 unkAutoGenned0x8" />
-    <Field Def="u8 unkAutoGenned0x10" />
-    <Field Def="u8 unkAutoGenned0x18" />
-    <Field Def="u8 unkAutoGenned0x20" />
-    <Field Def="u8 unkAutoGenned0x28" />
-    <Field Def="u8 unkAutoGenned0x30" />
-    <Field Def="u8 unkAutoGenned0x38" />
-    <Field Def="u8 unkAutoGenned0x40" />
-    <Field Def="u8 unkAutoGenned0x48" />
-    <Field Def="u8 unkAutoGenned0x50" />
-    <Field Def="u8 unkAutoGenned0x58" />
-    <Field Def="u8 unkAutoGenned0x60" />
-    <Field Def="u8 unkAutoGenned0x68" />
-    <Field Def="u8 unkAutoGenned0x70" />
-    <Field Def="u8 unkAutoGenned0x78" />
-    <Field Def="u8 unkAutoGenned0x80" />
-    <Field Def="u8 unkAutoGenned0x88" />
-    <Field Def="u8 unkAutoGenned0x90" />
-    <Field Def="u8 unkAutoGenned0x98" />
-    <Field Def="u8 unkAutoGenned0xA0" />
-    <Field Def="u8 unkAutoGenned0xA8" />
-    <Field Def="u8 unkAutoGenned0xB0" />
-    <Field Def="u8 unkAutoGenned0xB8" />
-    <Field Def="s32 unk0x018" />
-    <Field Def="u8 unkAutoGenned0xE0" />
-    <Field Def="u8 unkAutoGenned0xE8" />
-    <Field Def="u8 unkAutoGenned0xF0" />
-    <Field Def="u8 unkAutoGenned0xF8" />
-    <Field Def="u8 unkAutoGenned0x100" />
-    <Field Def="u8 unkAutoGenned0x108" />
-    <Field Def="u8 unkAutoGenned0x110" />
-    <Field Def="u8 unkAutoGenned0x118" />
-    <Field Def="u8 unk0x024" />
-    <Field Def="u8 unk0x025" />
-    <Field Def="u8 unkAutoGenned0x130" />
-    <Field Def="u8 unkAutoGenned0x138" />
-    <Field Def="u8 unkAutoGenned0x140" />
-    <Field Def="u8 unkAutoGenned0x148" />
-    <Field Def="u8 unkAutoGenned0x150" />
-    <Field Def="u8 unkAutoGenned0x158" />
-    <Field Def="u8 unkAutoGenned0x160" />
-    <Field Def="u8 unkAutoGenned0x168" />
-    <Field Def="u8 unkAutoGenned0x170" />
-    <Field Def="u8 unkAutoGenned0x178" />
-    <Field Def="u8 unkAutoGenned0x180" />
-    <Field Def="u8 unkAutoGenned0x188" />
-    <Field Def="u8 unkAutoGenned0x190" />
-    <Field Def="u8 unkAutoGenned0x198" />
-    <Field Def="u8 unkAutoGenned0x1A0" />
-    <Field Def="u8 unkAutoGenned0x1A8" />
-    <Field Def="u8 unkAutoGenned0x1B0" />
-    <Field Def="u8 unkAutoGenned0x1B8" />
-    <Field Def="u8 unkAutoGenned0x1C0" />
-    <Field Def="u8 unkAutoGenned0x1C8" />
-    <Field Def="u8 unkAutoGenned0x1D0" />
-    <Field Def="u8 unkAutoGenned0x1D8" />
-    <Field Def="u8 unkAutoGenned0x1E0" />
-    <Field Def="u8 unkAutoGenned0x1E8" />
-    <Field Def="u8 unkAutoGenned0x1F0" />
-    <Field Def="u8 unkAutoGenned0x1F8" />
+    <!-- <Field Def="dummy8 paramSize[64]" /> -->
+    <Field Def="s32 Unk0x00"></Field>
+    <Field Def="s32 Unk0x04"></Field>
+    <Field Def="s32 Unk0x08"></Field>
+    <Field Def="s32 Unk0x0C"></Field>
+    <Field Def="s32 Unk0x10"></Field>
+    <Field Def="s32 Unk0x14"></Field>
+    <Field Def="s32 Unk0x18"></Field>
+    <Field Def="s32 Unk0x1C"></Field>
+    <Field Def="s32 Unk0x20"></Field>
+    <Field Def="s32 Unk0x24"></Field>
+    <Field Def="s32 Unk0x28"></Field>
+    <Field Def="s32 Unk0x2C"></Field>
+    <Field Def="s32 Unk0x30"></Field>
+    <Field Def="s32 Unk0x34"></Field>
+    <Field Def="s32 Unk0x38"></Field>
+    <Field Def="s32 Unk0x3C"></Field>
   </Fields>
 </PARAMDEF>

@@ -1,27 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PARAMDEF XmlVersion="3">
+<PARAMDEF XmlVersion="0">
   <ParamType>KEY_ASSIGN_DISPLAY_PARAM</ParamType>
   <DataVersion>1</DataVersion>
   <BigEndian>False</BigEndian>
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <Field Def="s32 padKeyId" />
-    <Field Def="s32 keyboardModifyKey" />
-    <Field Def="s32 keyboardKeyId" />
-    <Field Def="s32 mouseModifyKey" />
-    <Field Def="s32 mouseKeyId" />
-    <Field Def="u8 unkAutoGenned0xA0" />
-    <Field Def="u8 unkAutoGenned0xA8" />
-    <Field Def="u8 unkAutoGenned0xB0" />
-    <Field Def="u8 unkAutoGenned0xB8" />
-    <Field Def="u8 unkAutoGenned0xC0" />
-    <Field Def="u8 unkAutoGenned0xC8" />
-    <Field Def="u8 unkAutoGenned0xD0" />
-    <Field Def="u8 unkAutoGenned0xD8" />
-    <Field Def="u8 unkAutoGenned0xE0" />
-    <Field Def="u8 unkAutoGenned0xE8" />
-    <Field Def="u8 unkAutoGenned0xF0" />
-    <Field Def="u8 unkAutoGenned0xF8" />
+   <!--  <Field Def="dummy8 paramSize[32]" /> -->
+    <Field Def="s32 padKeyId = -1"></Field>
+    <Field Def="s32 keyboardModifyKey"></Field>
+    <Field Def="s32 keyboardKeyId = -1"></Field>
+    <Field Def="s32 mouseModifyKey"></Field>
+    <Field Def="s32 mouseKeyId"></Field>
+    <Field Def="dummy8 reserved[12]"></Field>
   </Fields>
 </PARAMDEF>

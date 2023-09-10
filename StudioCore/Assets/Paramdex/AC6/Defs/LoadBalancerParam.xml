@@ -1,72 +1,44 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PARAMDEF XmlVersion="3">
+<PARAMDEF XmlVersion="0">
   <ParamType>LOAD_BALANCER_PARAM_ST</ParamType>
   <DataVersion>0</DataVersion>
   <BigEndian>False</BigEndian>
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <Field Def="f32 lowerFpsThreshold" />
-    <Field Def="f32 upperFpsThreshold" />
-    <Field Def="u32 lowerFpsContinousCount" />
-    <Field Def="u32 upperFpsContinousCount" />
-    <Field Def="u32 downAfterChangeSleep" />
-    <Field Def="u32 upAfterChangeSleep" />
-    <Field Def="u8 postProcessLightShaft" />
-    <Field Def="u8 postProcessBloom" />
-    <Field Def="u8 postProcessGlow" />
-    <Field Def="u8 postProcessAA" />
-    <Field Def="u8 postProcessSSAO" />
-    <Field Def="u8 postProcessDOF" />
-    <Field Def="u8 postProcessMotionBlur" />
-    <Field Def="u8 postProcessMotionBlurIteration" />
-    <Field Def="u8 unkAutoGenned0x100" />
-    <Field Def="u8 shadowBlur" />
-    <Field Def="u8 sfxParticleHalf" />
-    <Field Def="u8 sfxReflection" />
-    <Field Def="u8 sfxWaterInteraction" />
-    <Field Def="u8 sfxGlow" />
-    <Field Def="u8 sfxDistortion" />
-    <Field Def="u8 sftSoftSprite" />
-    <Field Def="u8 sfxLightShaft" />
-    <Field Def="u8 sfxScaleRenderDistanceScale" />
-    <Field Def="u8 dynamicResolution" />
-    <Field Def="u8 shadowCascade0ResolutionHalf" />
-    <Field Def="u8 shadowCascade1ResolutionHalf" />
-    <Field Def="u8 chrWetDisablePlayer" />
-    <Field Def="u8 chrWetDisableRemotePlayer" />
-    <Field Def="u8 chrWetDisableEnemy" />
-    <Field Def="u8 dynamicResolutionPercentageMin" />
-    <Field Def="u8 dynamicResolutionPercentageMax" />
-    <Field Def="u8 unkAutoGenned0x190" />
-    <Field Def="u8 unkAutoGenned0x198" />
-    <Field Def="u8 unkAutoGenned0x1A0" />
-    <Field Def="u8 unkAutoGenned0x1A8" />
-    <Field Def="u8 unkAutoGenned0x1B0" />
-    <Field Def="u8 unkAutoGenned0x1B8" />
-    <Field Def="u8 unkAutoGenned0x1C0" />
-    <Field Def="u8 unkAutoGenned0x1C8" />
-    <Field Def="u8 unkAutoGenned0x1D0" />
-    <Field Def="u8 unkAutoGenned0x1D8" />
-    <Field Def="u8 unkAutoGenned0x1E0" />
-    <Field Def="u8 unkAutoGenned0x1E8" />
-    <Field Def="u8 unkAutoGenned0x1F0" />
-    <Field Def="u8 unkAutoGenned0x1F8" />
-    <Field Def="u8 unkAutoGenned0x200" />
-    <Field Def="u8 unkAutoGenned0x208" />
-    <Field Def="u8 unkAutoGenned0x210" />
-    <Field Def="u8 unkAutoGenned0x218" />
-    <Field Def="u8 unkAutoGenned0x220" />
-    <Field Def="u8 unkAutoGenned0x228" />
-    <Field Def="u8 unkAutoGenned0x230" />
-    <Field Def="u8 unkAutoGenned0x238" />
-    <Field Def="u8 unkAutoGenned0x240" />
-    <Field Def="u8 unkAutoGenned0x248" />
-    <Field Def="u8 unkAutoGenned0x250" />
-    <Field Def="u8 unkAutoGenned0x258" />
-    <Field Def="u8 unkAutoGenned0x260" />
-    <Field Def="u8 unkAutoGenned0x268" />
-    <Field Def="u8 unkAutoGenned0x270" />
-    <Field Def="u8 unkAutoGenned0x278" />
+    <!-- <Field Def="dummy8 paramSize[80]" /> -->
+    <Field Def="f32 lowerFpsThreshold = 23"></Field>
+    <Field Def="f32 upperFpsThreshold = 27"></Field>
+    <Field Def="u32 lowerFpsContinousCount = 5"></Field>
+    <Field Def="u32 upperFpsContinousCount = 20"></Field>
+    <Field Def="u32 downAfterChangeSleep = 30"></Field>
+    <Field Def="u32 upAfterChangeSleep = 10"></Field>
+    <Field Def="u8 postProcessLightShaft = 20"></Field>
+    <Field Def="u8 postProcessBloom = 20"></Field>
+    <Field Def="u8 postProcessGlow = 20"></Field>
+    <Field Def="u8 postProcessAA = 20"></Field>
+    <Field Def="u8 postProcessSSAO = 20"></Field>
+    <Field Def="u8 postProcessDOF = 20"></Field>
+    <Field Def="u8 postProcessMotionBlur = 20"></Field>
+    <Field Def="u8 postProcessMotionBlurIteration = 20"></Field>
+    <Field Def="dummy8 reserve0[1]"></Field>
+    <Field Def="u8 shadowBlur = 20"></Field>
+    <Field Def="u8 sfxParticleHalf = 20"></Field>
+    <Field Def="u8 sfxReflection = 20"></Field>
+    <Field Def="u8 sfxWaterInteraction = 20"></Field>
+    <Field Def="u8 sfxGlow = 20"></Field>
+    <Field Def="u8 sfxDistortion = 20"></Field>
+    <Field Def="u8 sftSoftSprite = 20"></Field>
+    <Field Def="u8 sfxLightShaft = 20"></Field>
+    <Field Def="u8 sfxScaleRenderDistanceScale = 20"></Field>
+    <Field Def="u8 dynamicResolution = 1"></Field>
+    <Field Def="u8 shadowCascade0ResolutionHalf"></Field>
+    <Field Def="u8 shadowCascade1ResolutionHalf = 13"></Field>
+    <Field Def="u8 chrWetDisablePlayer = 21"></Field>
+    <Field Def="u8 chrWetDisableRemotePlayer = 21"></Field>
+    <Field Def="u8 chrWetDisableEnemy = 21"></Field>
+    <Field Def="u8 dynamicResolutionPercentageMin = 100"></Field>
+    <Field Def="u8 dynamicResolutionPercentageMax = 100"></Field>
+    <Field Def="dummy8 reserve1[30]"></Field>
   </Fields>
 </PARAMDEF>
