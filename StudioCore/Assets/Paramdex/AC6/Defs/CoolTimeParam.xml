@@ -6,13 +6,13 @@
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <Field Def="f32 limitationTime0" />
-    <Field Def="f32 observeTime0" />
-    <Field Def="f32 limitationTime1" />
-    <Field Def="f32 observeTime1" />
-    <Field Def="f32 limitationTime2" />
-    <Field Def="f32 observeTime2" />
-    <Field Def="f32 limitationTime3" />
-    <Field Def="f32 observeTime3" />
+    <Field Def="f32 limitationTime0"></Field>
+    <Field Def="f32 observeTime0"></Field>
+    <Field Def="f32 limitationTime1"></Field>
+    <Field Def="f32 observeTime1"></Field>
+    <Field Def="f32 limitationTime2"></Field>
+    <Field Def="f32 observeTime2"></Field>
+    <Field Def="f32 limitationTime3"></Field>
+    <Field Def="f32 observeTime3"></Field>
   </Fields>
 </PARAMDEF>

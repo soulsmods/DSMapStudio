@@ -6,10 +6,10 @@
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <Field Def="u16 UnkUshort0x0" />
-    <Field Def="u16 UnkUshort0x2" />
-    <Field Def="s32 UnkInt0x4" />
-    <Field Def="s32 UnkInt0x8" />
-    <Field Def="s32 UnkInt0xC" />
+    <Field Def="u16 UnkUshort0x0"></Field>
+    <Field Def="u16 UnkUshort0x2"></Field>
+    <Field Def="s32 UnkInt0x4"></Field>
+    <Field Def="s32 UnkInt0x8"></Field>
+    <Field Def="s32 UnkInt0xC"></Field>
   </Fields>
 </PARAMDEF>

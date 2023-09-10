@@ -6,12 +6,12 @@
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <Field Def="s32 textID" />
-    <Field Def="s32 key" />
-    <Field Def="u8 enableUnassign" />
-    <Field Def="u8 enablePadConfig" />
-    <Field Def="u8 enableMouseConfig" />
-    <Field Def="u8 group" />
-    <Field Def="s32 mappingTextID" />
+    <Field Def="s32 textID"></Field>
+    <Field Def="s32 key"></Field>
+    <Field Def="u8 enableUnassign"></Field>
+    <Field Def="u8 enablePadConfig"></Field>
+    <Field Def="u8 enableMouseConfig"></Field>
+    <Field Def="u8 group"></Field>
+    <Field Def="s32 mappingTextID"></Field>
   </Fields>
 </PARAMDEF>

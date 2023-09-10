@@ -6,25 +6,25 @@
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <Field Def="u8 UnkByte0x0" />
-    <Field Def="s32 Unk0x1" />
-    <Field Def="s32 Unk0x5" />
-    <Field Def="s32 Unk0x9" />
-    <Field Def="s32 Unk0xD" />
-    <Field Def="s32 Unk0x11" />
-    <Field Def="s16 Unk0x15" />
-    <Field Def="u8 Unk0x17" />
-    <Field Def="s32 UnkInt0x18" />
-    <Field Def="s32 Unk0x1C" />
-    <Field Def="s32 Unk0x20" />
-    <Field Def="u8 UnkByte0x24" />
-    <Field Def="u8 UnkByte0x25" />
-    <Field Def="s32 Unk0x26" />
-    <Field Def="s32 Unk0x2A" />
-    <Field Def="s32 Unk0x2E" />
-    <Field Def="s32 Unk0x32" />
-    <Field Def="s32 Unk0x36" />
-    <Field Def="s32 Unk0x3A" />
-    <Field Def="s16 Unk0x3E" />
+    <Field Def="u8 UnkByte0x0"></Field>
+    <Field Def="s32 Unk0x1"></Field>
+    <Field Def="s32 Unk0x5"></Field>
+    <Field Def="s32 Unk0x9"></Field>
+    <Field Def="s32 Unk0xD"></Field>
+    <Field Def="s32 Unk0x11"></Field>
+    <Field Def="s16 Unk0x15"></Field>
+    <Field Def="u8 Unk0x17"></Field>
+    <Field Def="s32 UnkInt0x18"></Field>
+    <Field Def="s32 Unk0x1C"></Field>
+    <Field Def="s32 Unk0x20"></Field>
+    <Field Def="u8 UnkByte0x24"></Field>
+    <Field Def="u8 UnkByte0x25"></Field>
+    <Field Def="s32 Unk0x26"></Field>
+    <Field Def="s32 Unk0x2A"></Field>
+    <Field Def="s32 Unk0x2E"></Field>
+    <Field Def="s32 Unk0x32"></Field>
+    <Field Def="s32 Unk0x36"></Field>
+    <Field Def="s32 Unk0x3A"></Field>
+    <Field Def="s16 Unk0x3E"></Field>
   </Fields>
 </PARAMDEF>

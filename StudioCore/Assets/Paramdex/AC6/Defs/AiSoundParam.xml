@@ -6,20 +6,20 @@
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <Field Def="f32 radius" />
-    <Field Def="f32 lifeFrame" />
-    <Field Def="u8 bSpEffectEnable" />
-    <Field Def="u8 type" />
-    <Field Def="u8 opposeTarget:1" />
-    <Field Def="u8 friendlyTarget:1" />
-    <Field Def="u8 selfTarget:1" />
-    <Field Def="u8 disableOnTargetPCompany:1" />
-    <Field Def="u8 rank" />
-    <Field Def="f32 forgetTime" />
-    <Field Def="s32 priority" />
-    <Field Def="s32 soundBehaviorId" />
-    <Field Def="u8 aiSoundLevel" />
-    <Field Def="u8 replaningState" />
-    <Field Def="dummy8 pad1[6]" />
+    <Field Def="f32 radius"></Field>
+    <Field Def="f32 lifeFrame"></Field>
+    <Field Def="u8 bSpEffectEnable"></Field>
+    <Field Def="u8 type"></Field>
+    <Field Def="u8 opposeTarget:1"></Field>
+    <Field Def="u8 friendlyTarget:1"></Field>
+    <Field Def="u8 selfTarget:1"></Field>
+    <Field Def="u8 disableOnTargetPCompany:1"></Field>
+    <Field Def="u8 rank"></Field>
+    <Field Def="f32 forgetTime"></Field>
+    <Field Def="s32 priority"></Field>
+    <Field Def="s32 soundBehaviorId"></Field>
+    <Field Def="u8 aiSoundLevel"></Field>
+    <Field Def="u8 replaningState"></Field>
+    <Field Def="dummy8 pad1[6]"></Field>
   </Fields>
 </PARAMDEF>

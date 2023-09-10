@@ -6,11 +6,11 @@
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <Field Def="s32 Unk0x0" />
-    <Field Def="s32 assetEnvironmentGeometryParamID" />
-    <Field Def="f32 Unk0x8" />
-    <Field Def="s32 Unk0xC" />
-    <Field Def="f32 Unk0x10" />
-    <Field Def="s32 Unk0x14" />
+    <Field Def="s32 Unk0x0"></Field>
+    <Field Def="s32 assetEnvironmentGeometryParamID"></Field>
+    <Field Def="f32 Unk0x8"></Field>
+    <Field Def="s32 Unk0xC"></Field>
+    <Field Def="f32 Unk0x10"></Field>
+    <Field Def="s32 Unk0x14"></Field>
   </Fields>
 </PARAMDEF>

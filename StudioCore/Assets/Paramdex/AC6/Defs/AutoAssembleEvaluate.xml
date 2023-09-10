@@ -6,9 +6,9 @@
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <Field Def="s32 Unk0001" />
-    <Field Def="f32 Unk0002" />
-    <Field Def="s32 Unk0003" />
-    <Field Def="s32 Unk0004" />
+    <Field Def="s32 Unk0001"></Field>
+    <Field Def="f32 Unk0002"></Field>
+    <Field Def="s32 Unk0003"></Field>
+    <Field Def="s32 Unk0004"></Field>
   </Fields>
 </PARAMDEF>

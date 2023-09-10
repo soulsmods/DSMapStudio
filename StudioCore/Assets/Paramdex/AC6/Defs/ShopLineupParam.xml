@@ -6,14 +6,14 @@
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <Field Def="s32 equipId" />
-    <Field Def="s32 value" />
-    <Field Def="s32 mtrlId" />
-    <Field Def="s32 eventFlag_forStock" />
-    <Field Def="s32 eventFlag_forRelease" />
-    <Field Def="s16 sellQuantity" />
-    <Field Def="s32 UnkInt0x16" />
-    <Field Def="u16 UnkUshort0x1A" />
-    <Field Def="s32 UnkInt0x1C" />
+    <Field Def="s32 equipId"></Field>
+    <Field Def="s32 value"></Field>
+    <Field Def="s32 mtrlId"></Field>
+    <Field Def="s32 eventFlag_forStock"></Field>
+    <Field Def="s32 eventFlag_forRelease"></Field>
+    <Field Def="s16 sellQuantity"></Field>
+    <Field Def="s32 UnkInt0x16"></Field>
+    <Field Def="u16 UnkUshort0x1A"></Field>
+    <Field Def="s32 UnkInt0x1C"></Field>
   </Fields>
 </PARAMDEF>

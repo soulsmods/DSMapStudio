@@ -6,13 +6,13 @@
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <Field Def="fixstrW paramName[32]" />
-    <Field Def="s32 materialId" />
-    <Field Def="f32 materialParamValue0" />
-    <Field Def="f32 materialParamValue1" />
-    <Field Def="f32 materialParamValue2" />
-    <Field Def="f32 materialParamValue3" />
-    <Field Def="f32 materialParamValue4" />
-    <Field Def="dummy8 pad[8]" />
+    <Field Def="fixstrW paramName[32]"></Field>
+    <Field Def="s32 materialId"></Field>
+    <Field Def="f32 materialParamValue0"></Field>
+    <Field Def="f32 materialParamValue1"></Field>
+    <Field Def="f32 materialParamValue2"></Field>
+    <Field Def="f32 materialParamValue3"></Field>
+    <Field Def="f32 materialParamValue4"></Field>
+    <Field Def="dummy8 pad[8]"></Field>
   </Fields>
 </PARAMDEF>

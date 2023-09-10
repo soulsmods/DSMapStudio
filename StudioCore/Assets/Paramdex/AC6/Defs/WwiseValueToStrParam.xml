@@ -6,6 +6,6 @@
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <Field Def="fixstrW bnkName[32]" />
+    <Field Def="fixstrW bnkName[32]"></Field>
   </Fields>
 </PARAMDEF>

@@ -6,13 +6,13 @@
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <Field Def="s32 padKeyId" />
-    <Field Def="s32 keyboardModifyKey" />
-    <Field Def="s32 keyboardKeyId" />
-    <Field Def="s32 mouseModifyKey" />
-    <Field Def="s32 mouseKeyId" />
-    <Field Def="s32 Unk0x14" />
-    <Field Def="s32 Unk0x18" />
-    <Field Def="s32 Unk0x1C" />
+    <Field Def="s32 padKeyId"></Field>
+    <Field Def="s32 keyboardModifyKey"></Field>
+    <Field Def="s32 keyboardKeyId"></Field>
+    <Field Def="s32 mouseModifyKey"></Field>
+    <Field Def="s32 mouseKeyId"></Field>
+    <Field Def="s32 Unk0x14"></Field>
+    <Field Def="s32 Unk0x18"></Field>
+    <Field Def="s32 Unk0x1C"></Field>
   </Fields>
 </PARAMDEF>

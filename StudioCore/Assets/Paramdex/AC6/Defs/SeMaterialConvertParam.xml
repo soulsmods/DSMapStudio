@@ -6,15 +6,15 @@
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <Field Def="u8 seMaterialId" />
-    <Field Def="s32 Unk0x1" />
-    <Field Def="s32 Unk0x5" />
-    <Field Def="s32 Unk0x9" />
-    <Field Def="s32 Unk0xD" />
-    <Field Def="s32 Unk0x11" />
-    <Field Def="s32 Unk0x15" />
-    <Field Def="s32 Unk0x19" />
-    <Field Def="s16 Unk0x1D" />
-    <Field Def="u8 Unk0x1F" />
+    <Field Def="u8 seMaterialId"></Field>
+    <Field Def="s32 Unk0x1"></Field>
+    <Field Def="s32 Unk0x5"></Field>
+    <Field Def="s32 Unk0x9"></Field>
+    <Field Def="s32 Unk0xD"></Field>
+    <Field Def="s32 Unk0x11"></Field>
+    <Field Def="s32 Unk0x15"></Field>
+    <Field Def="s32 Unk0x19"></Field>
+    <Field Def="s16 Unk0x1D"></Field>
+    <Field Def="u8 Unk0x1F"></Field>
   </Fields>
 </PARAMDEF>

@@ -6,9 +6,9 @@
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <Field Def="f32 limitationTime_Normal" />
-    <Field Def="f32 limitationTime_NormalDriedFinger" />
-    <Field Def="f32 limitationTime_Guardian" />
-    <Field Def="f32 limitationTime_GuardianDriedFinger" />
+    <Field Def="f32 limitationTime_Normal"></Field>
+    <Field Def="f32 limitationTime_NormalDriedFinger"></Field>
+    <Field Def="f32 limitationTime_Guardian"></Field>
+    <Field Def="f32 limitationTime_GuardianDriedFinger"></Field>
   </Fields>
 </PARAMDEF>

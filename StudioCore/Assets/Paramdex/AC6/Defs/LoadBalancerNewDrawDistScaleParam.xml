@@ -6,21 +6,21 @@
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <Field Def="u8 DrawDist_LvBegin" />
-    <Field Def="u8 DrawDist_LvEnd" />
-    <Field Def="s16 Unk0x2" />
-    <Field Def="f32 DrawDist_ScaleBegin" />
-    <Field Def="f32 DrawDist_ScaleEnd" />
-    <Field Def="u8 ShadwDrawDist_LvBegin" />
-    <Field Def="u8 ShadwDrawDist_LvEnd" />
-    <Field Def="s16 Unk0xE" />
-    <Field Def="f32 ShadwDrawDist_ScaleBegin" />
-    <Field Def="f32 ShadwDrawDist_ScaleEnd" />
-    <Field Def="s32 Unk0x18" />
-    <Field Def="s32 Unk0x1C" />
-    <Field Def="s32 Unk0x20" />
-    <Field Def="s32 Unk0x24" />
-    <Field Def="s32 Unk0x28" />
-    <Field Def="s32 Unk0x2C" />
+    <Field Def="u8 DrawDist_LvBegin"></Field>
+    <Field Def="u8 DrawDist_LvEnd"></Field>
+    <Field Def="s16 Unk0x2"></Field>
+    <Field Def="f32 DrawDist_ScaleBegin"></Field>
+    <Field Def="f32 DrawDist_ScaleEnd"></Field>
+    <Field Def="u8 ShadwDrawDist_LvBegin"></Field>
+    <Field Def="u8 ShadwDrawDist_LvEnd"></Field>
+    <Field Def="s16 Unk0xE"></Field>
+    <Field Def="f32 ShadwDrawDist_ScaleBegin"></Field>
+    <Field Def="f32 ShadwDrawDist_ScaleEnd"></Field>
+    <Field Def="s32 Unk0x18"></Field>
+    <Field Def="s32 Unk0x1C"></Field>
+    <Field Def="s32 Unk0x20"></Field>
+    <Field Def="s32 Unk0x24"></Field>
+    <Field Def="s32 Unk0x28"></Field>
+    <Field Def="s32 Unk0x2C"></Field>
   </Fields>
 </PARAMDEF>

@@ -6,16 +6,16 @@
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <Field Def="u8 limitNum_byGroup" />
-    <Field Def="u8 isLimitEachOwner:1" />
-    <Field Def="dummy8 pad2:7" />
-    <Field Def="s32 Unk0x2" />
-    <Field Def="s32 Unk0x6" />
-    <Field Def="s32 Unk0xA" />
-    <Field Def="s32 Unk0xE" />
-    <Field Def="s32 Unk0x12" />
-    <Field Def="s32 Unk0x16" />
-    <Field Def="s32 Unk0x1A" />
-    <Field Def="s16 Unk0x1E" />
+    <Field Def="u8 limitNum_byGroup"></Field>
+    <Field Def="u8 isLimitEachOwner:1"></Field>
+    <Field Def="dummy8 pad2:7"></Field>
+    <Field Def="s32 Unk0x2"></Field>
+    <Field Def="s32 Unk0x6"></Field>
+    <Field Def="s32 Unk0xA"></Field>
+    <Field Def="s32 Unk0xE"></Field>
+    <Field Def="s32 Unk0x12"></Field>
+    <Field Def="s32 Unk0x16"></Field>
+    <Field Def="s32 Unk0x1A"></Field>
+    <Field Def="s16 Unk0x1E"></Field>
   </Fields>
 </PARAMDEF>

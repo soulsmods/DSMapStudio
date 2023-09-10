@@ -6,13 +6,13 @@
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <Field Def="f32 NearMinDist" />
-    <Field Def="f32 NearMaxDist" />
-    <Field Def="f32 FarMinDist" />
-    <Field Def="f32 FarMaxDist" />
-    <Field Def="f32 MiddleAlpha" />
-    <Field Def="s32 Unk0x14" />
-    <Field Def="s32 Unk0x18" />
-    <Field Def="s32 Unk0x1C" />
+    <Field Def="f32 NearMinDist"></Field>
+    <Field Def="f32 NearMaxDist"></Field>
+    <Field Def="f32 FarMinDist"></Field>
+    <Field Def="f32 FarMaxDist"></Field>
+    <Field Def="f32 MiddleAlpha"></Field>
+    <Field Def="s32 Unk0x14"></Field>
+    <Field Def="s32 Unk0x18"></Field>
+    <Field Def="s32 Unk0x1C"></Field>
   </Fields>
 </PARAMDEF>

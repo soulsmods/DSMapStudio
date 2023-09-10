@@ -6,15 +6,15 @@
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <Field Def="s32 equipId" />
-    <Field Def="s32 purchasePrice" />
-    <Field Def="s32 unlockFlag" />
-    <Field Def="u8 equipCategory" />
-    <Field Def="s16 Unk0xD" />
-    <Field Def="u8 UnkByte0xF" />
-    <Field Def="s32 logHunterRankUnlockValue" />
-    <Field Def="s32 Unk0x14" />
-    <Field Def="s32 Unk0x18" />
-    <Field Def="s32 Unk0x1C" />
+    <Field Def="s32 equipId"></Field>
+    <Field Def="s32 purchasePrice"></Field>
+    <Field Def="s32 unlockFlag"></Field>
+    <Field Def="u8 equipCategory"></Field>
+    <Field Def="s16 Unk0xD"></Field>
+    <Field Def="u8 UnkByte0xF"></Field>
+    <Field Def="s32 logHunterRankUnlockValue"></Field>
+    <Field Def="s32 Unk0x14"></Field>
+    <Field Def="s32 Unk0x18"></Field>
+    <Field Def="s32 Unk0x1C"></Field>
   </Fields>
 </PARAMDEF>

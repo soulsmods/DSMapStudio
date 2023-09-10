@@ -6,15 +6,15 @@
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <Field Def="u8 disableParam_NT:1" />
-    <Field Def="dummy8 disableParamReserve1:7" />
-    <Field Def="s16 Unk0x1" />
-    <Field Def="u8 Unk0x3" />
-    <Field Def="u8 modelMemoryType" />
-    <Field Def="u8 texMemoryType" />
-    <Field Def="s16 cameraDitherFadeId" />
-    <Field Def="u8 reportAnimMemSizeMb" />
-    <Field Def="u8 UnkByte0x9" />
-    <Field Def="s16 Unk0xA" />
+    <Field Def="u8 disableParam_NT:1"></Field>
+    <Field Def="dummy8 disableParamReserve1:7"></Field>
+    <Field Def="s16 Unk0x1"></Field>
+    <Field Def="u8 Unk0x3"></Field>
+    <Field Def="u8 modelMemoryType"></Field>
+    <Field Def="u8 texMemoryType"></Field>
+    <Field Def="s16 cameraDitherFadeId"></Field>
+    <Field Def="u8 reportAnimMemSizeMb"></Field>
+    <Field Def="u8 UnkByte0x9"></Field>
+    <Field Def="s16 Unk0xA"></Field>
   </Fields>
 </PARAMDEF>

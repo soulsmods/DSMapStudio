@@ -6,15 +6,15 @@
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <Field Def="s32 LocationEventId" />
-    <Field Def="s32 WarpEventId" />
-    <Field Def="s32 BonfireNameId" />
-    <Field Def="s32 DescriptionTextId" />
-    <Field Def="s32 PictureId" />
-    <Field Def="u8 ListId" />
-    <Field Def="u8 IsDisableQuickwarp" />
-    <Field Def="s16 CeremonyId" />
-    <Field Def="s32 onlineAreaId" />
-    <Field Def="s32 Unk0x1C" />
+    <Field Def="s32 LocationEventId"></Field>
+    <Field Def="s32 WarpEventId"></Field>
+    <Field Def="s32 BonfireNameId"></Field>
+    <Field Def="s32 DescriptionTextId"></Field>
+    <Field Def="s32 PictureId"></Field>
+    <Field Def="u8 ListId"></Field>
+    <Field Def="u8 IsDisableQuickwarp"></Field>
+    <Field Def="s16 CeremonyId"></Field>
+    <Field Def="s32 onlineAreaId"></Field>
+    <Field Def="s32 Unk0x1C"></Field>
   </Fields>
 </PARAMDEF>

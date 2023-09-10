@@ -6,20 +6,20 @@
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <Field Def="u8 baseColorR" />
-    <Field Def="u8 baseColorG" />
-    <Field Def="u8 baseColorB" />
-    <Field Def="u8 Unk0x3" />
-    <Field Def="f32 baseColorA" />
-    <Field Def="u8 metallic" />
-    <Field Def="s16 Unk0x9" />
-    <Field Def="u8 Unk0xB" />
-    <Field Def="f32 metallicRate" />
-    <Field Def="f32 shininessRate" />
-    <Field Def="u8 shininess" />
-    <Field Def="s32 Unk0x15" />
-    <Field Def="s32 Unk0x19" />
-    <Field Def="s16 Unk0x1D" />
-    <Field Def="u8 Unk0x1F" />
+    <Field Def="u8 baseColorR"></Field>
+    <Field Def="u8 baseColorG"></Field>
+    <Field Def="u8 baseColorB"></Field>
+    <Field Def="u8 Unk0x3"></Field>
+    <Field Def="f32 baseColorA"></Field>
+    <Field Def="u8 metallic"></Field>
+    <Field Def="s16 Unk0x9"></Field>
+    <Field Def="u8 Unk0xB"></Field>
+    <Field Def="f32 metallicRate"></Field>
+    <Field Def="f32 shininessRate"></Field>
+    <Field Def="u8 shininess"></Field>
+    <Field Def="s32 Unk0x15"></Field>
+    <Field Def="s32 Unk0x19"></Field>
+    <Field Def="s16 Unk0x1D"></Field>
+    <Field Def="u8 Unk0x1F"></Field>
   </Fields>
 </PARAMDEF>

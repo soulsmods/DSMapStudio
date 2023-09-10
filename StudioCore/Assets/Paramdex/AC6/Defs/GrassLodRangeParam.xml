@@ -6,11 +6,11 @@
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <Field Def="f32 LOD0_range" />
-    <Field Def="f32 LOD0_play" />
-    <Field Def="f32 LOD1_range" />
-    <Field Def="f32 LOD1_play" />
-    <Field Def="f32 LOD2_range" />
-    <Field Def="f32 LOD2_play" />
+    <Field Def="f32 LOD0_range"></Field>
+    <Field Def="f32 LOD0_play"></Field>
+    <Field Def="f32 LOD1_range"></Field>
+    <Field Def="f32 LOD1_play"></Field>
+    <Field Def="f32 LOD2_range"></Field>
+    <Field Def="f32 LOD2_play"></Field>
   </Fields>
 </PARAMDEF>

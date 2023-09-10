@@ -6,9 +6,9 @@
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <Field Def="u8 colorR" />
-    <Field Def="u8 colorG" />
-    <Field Def="u8 colorB" />
-    <Field Def="u8 colorAlpha" />
+    <Field Def="u8 colorR"></Field>
+    <Field Def="u8 colorG"></Field>
+    <Field Def="u8 colorB"></Field>
+    <Field Def="u8 colorAlpha"></Field>
   </Fields>
 </PARAMDEF>
