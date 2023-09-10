@@ -6,11 +6,11 @@
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <Field Def="s32 Unk0x0"></Field>
-    <Field Def="s16 Unk0x4"></Field>
+    <Field Def="s32 Unk0x00"></Field>
+    <Field Def="s16 Unk0x04"></Field>
     <Field Def="u16 missionObjectiveTextId"></Field>
     <Field Def="s32 msbMapId"></Field>
-    <Field Def="s32 Unk0xC"></Field>
+    <Field Def="s32 Unk0x0C"></Field>
     <Field Def="s32 Unk0x10"></Field>
     <Field Def="s32 Unk0x14"></Field>
     <Field Def="s32 Unk0x18"></Field>

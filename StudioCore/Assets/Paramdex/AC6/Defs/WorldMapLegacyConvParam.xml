@@ -8,12 +8,12 @@
   <Fields>
     <Field Def="u8 disableParam_NT:1"></Field>
     <Field Def="dummy8 disableParamReserve1:7"></Field>
-    <Field Def="s16 Unk0x1"></Field>
-    <Field Def="u8 Unk0x3"></Field>
+    <Field Def="s16 Unk0x01"></Field>
+    <Field Def="u8 Unk0x03"></Field>
     <Field Def="u8 srcAreaNo"></Field>
     <Field Def="u8 srcGridXNo"></Field>
     <Field Def="u8 srcGridZNo"></Field>
-    <Field Def="u8 Unk0x7"></Field>
+    <Field Def="u8 Unk0x07"></Field>
     <Field Def="f32 srcPosX"></Field>
     <Field Def="f32 srcPosY"></Field>
     <Field Def="f32 srcPosZ"></Field>

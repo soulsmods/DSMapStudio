@@ -6,13 +6,13 @@
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <Field Def="u8 UnkByte0x0"></Field>
-    <Field Def="u8 UnkByte0x1"></Field>
-    <Field Def="u8 UnkByte0x2"></Field>
-    <Field Def="u8 UnkByte0x3"></Field>
-    <Field Def="f32 UnkFloat0x4"></Field>
-    <Field Def="f32 UnkFloat0x8"></Field>
-    <Field Def="f32 UnkFloat0xC"></Field>
+    <Field Def="u8 UnkByte0x00"></Field>
+    <Field Def="u8 UnkByte0x01"></Field>
+    <Field Def="u8 UnkByte0x02"></Field>
+    <Field Def="u8 UnkByte0x03"></Field>
+    <Field Def="f32 UnkFloat0x04"></Field>
+    <Field Def="f32 UnkFloat0x08"></Field>
+    <Field Def="f32 UnkFloat0x0C"></Field>
     <Field Def="f32 UnkFloat0x10"></Field>
     <Field Def="f32 UnkFloat0x14"></Field>
     <Field Def="f32 UnkFloat0x18"></Field>

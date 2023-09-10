@@ -6,10 +6,10 @@
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <Field Def="u32 UnkUint0x0"></Field>
-    <Field Def="u32 UnkUint0x4"></Field>
-    <Field Def="u32 UnkUint0x8"></Field>
-    <Field Def="u32 UnkUint0xC"></Field>
+    <Field Def="u32 UnkUint0x00"></Field>
+    <Field Def="u32 UnkUint0x04"></Field>
+    <Field Def="u32 UnkUint0x08"></Field>
+    <Field Def="u32 UnkUint0x0C"></Field>
     <Field Def="u32 UnkUint0x10"></Field>
     <Field Def="u32 UnkUint0x14"></Field>
     <Field Def="u32 UnkUint0x18"></Field>

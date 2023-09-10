@@ -6,14 +6,14 @@
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <Field Def="u16 UnkUshort0x0"></Field>
-    <Field Def="u16 UnkUshort0x2"></Field>
-    <Field Def="u16 UnkUshort0x4"></Field>
-    <Field Def="u16 UnkUshort0x6"></Field>
-    <Field Def="u16 UnkUshort0x8"></Field>
-    <Field Def="u16 UnkUshort0xA"></Field>
-    <Field Def="u16 UnkUshort0xC"></Field>
-    <Field Def="u16 UnkUshort0xE"></Field>
+    <Field Def="u16 UnkUshort0x00"></Field>
+    <Field Def="u16 UnkUshort0x02"></Field>
+    <Field Def="u16 UnkUshort0x04"></Field>
+    <Field Def="u16 UnkUshort0x06"></Field>
+    <Field Def="u16 UnkUshort0x08"></Field>
+    <Field Def="u16 UnkUshort0x0A"></Field>
+    <Field Def="u16 UnkUshort0x0C"></Field>
+    <Field Def="u16 UnkUshort0x0E"></Field>
     <Field Def="s32 UnkInt0x10"></Field>
     <Field Def="f32 UnkFloat0x14"></Field>
     <Field Def="s32 UnkInt0x18"></Field>

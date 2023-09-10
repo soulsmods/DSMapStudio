@@ -6,12 +6,12 @@
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <Field Def="s32 Unk0x0"></Field>
+    <Field Def="s32 Unk0x00"></Field>
     <Field Def="s32 logicId"></Field>
     <Field Def="s32 battleGoalID"></Field>
     <Field Def="u16 searchEye_dist"></Field>
     <Field Def="u8 searchEye_angY"></Field>
-    <Field Def="s32 Unk0xF"></Field>
+    <Field Def="s32 Unk0x0F"></Field>
     <Field Def="u8 Unk0x13"></Field>
     <Field Def="f32 searchTargetLv1ForgetTime"></Field>
     <Field Def="f32 searchTargetLv2ForgetTime"></Field>

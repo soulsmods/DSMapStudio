@@ -9,11 +9,11 @@
     <Field Def="u8 baseColorR"></Field>
     <Field Def="u8 baseColorG"></Field>
     <Field Def="u8 baseColorB"></Field>
-    <Field Def="u8 Unk0x3"></Field>
+    <Field Def="u8 Unk0x03"></Field>
     <Field Def="f32 baseColorA"></Field>
     <Field Def="u8 metallic"></Field>
-    <Field Def="s16 Unk0x9"></Field>
-    <Field Def="u8 Unk0xB"></Field>
+    <Field Def="s16 Unk0x09"></Field>
+    <Field Def="u8 Unk0x0B"></Field>
     <Field Def="f32 metallicRate"></Field>
     <Field Def="f32 shininessRate"></Field>
     <Field Def="u8 shininess"></Field>

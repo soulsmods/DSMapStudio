@@ -7,8 +7,8 @@
   <FormatVersion>203</FormatVersion>
   <Fields>
     <Field Def="u8 teamType"></Field>
-    <Field Def="s16 Unk0x1"></Field>
-    <Field Def="u8 Unk0x3"></Field>
+    <Field Def="s16 Unk0x01"></Field>
+    <Field Def="u8 Unk0x03"></Field>
     <Field Def="s32 phantomParamId"></Field>
     <Field Def="s32 spEffectID0"></Field>
     <Field Def="s32 spEffectID1"></Field>

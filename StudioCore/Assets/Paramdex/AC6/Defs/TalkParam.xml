@@ -6,7 +6,7 @@
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <Field Def="s32 Unk0x0"></Field>
+    <Field Def="s32 Unk0x00"></Field>
     <Field Def="s32 msgId"></Field>
     <Field Def="s32 voiceId"></Field>
     <Field Def="s32 spEffectId0"></Field>

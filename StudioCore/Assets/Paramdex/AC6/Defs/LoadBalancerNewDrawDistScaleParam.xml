@@ -8,12 +8,12 @@
   <Fields>
     <Field Def="u8 DrawDist_LvBegin"></Field>
     <Field Def="u8 DrawDist_LvEnd"></Field>
-    <Field Def="s16 Unk0x2"></Field>
+    <Field Def="s16 Unk0x02"></Field>
     <Field Def="f32 DrawDist_ScaleBegin"></Field>
     <Field Def="f32 DrawDist_ScaleEnd"></Field>
     <Field Def="u8 ShadwDrawDist_LvBegin"></Field>
     <Field Def="u8 ShadwDrawDist_LvEnd"></Field>
-    <Field Def="s16 Unk0xE"></Field>
+    <Field Def="s16 Unk0x0E"></Field>
     <Field Def="f32 ShadwDrawDist_ScaleBegin"></Field>
     <Field Def="f32 ShadwDrawDist_ScaleEnd"></Field>
     <Field Def="s32 Unk0x18"></Field>

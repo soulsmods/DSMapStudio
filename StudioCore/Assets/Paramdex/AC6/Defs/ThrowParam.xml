@@ -6,7 +6,7 @@
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <Field Def="s32 UnkInt0x0"></Field>
+    <Field Def="s32 UnkInt0x00"></Field>
     <Field Def="s32 AtkChrId"></Field>
     <Field Def="s32 DefChrId"></Field>
     <Field Def="f32 Dist"></Field>
@@ -48,11 +48,11 @@
     <Field Def="s32 judgeRangeBasePosDmyId2"></Field>
     <Field Def="f32 adsrobModelPosInterpolationTime"></Field>
     <Field Def="f32 throwFollowingEndEasingTime"></Field>
-    <Field Def="s32 UnkInt0x6B"></Field>
-    <Field Def="s32 UnkInt0x6F"></Field>
-    <Field Def="s32 UnkInt0x73"></Field>
-    <Field Def="s32 UnkInt0x77"></Field>
-    <Field Def="s32 UnkInt0x7B"></Field>
-    <Field Def="s32 UnkInt0x7F"></Field>
+    <Field Def="s32 UnkInt0x6C"></Field>
+    <Field Def="s32 UnkInt0x70"></Field>
+    <Field Def="s32 UnkInt0x74"></Field>
+    <Field Def="s32 UnkInt0x78"></Field>
+    <Field Def="s32 UnkInt0x7C"></Field>
+    <Field Def="s32 UnkInt0x80"></Field>
   </Fields>
 </PARAMDEF>

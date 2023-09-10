@@ -12,10 +12,10 @@
     <Field Def="s8 menuCategory">
       <Description>Value determining which tab in the arena menu to use; can be set arbitrarily. Tab text FMG ID is 258010 + menuCategory in FNR_メニューテキスト.</Description>
     </Field>
-    <Field Def="s16 Unk0x5"></Field>
-    <Field Def="u8 Unk0x7"></Field>
+    <Field Def="s16 Unk0x05"></Field>
+    <Field Def="u8 Unk0x07"></Field>
     <Field Def="s32 pad08"></Field>
-    <Field Def="s32 UnkInt0xC"></Field>
+    <Field Def="s32 UnkInt0x0C"></Field>
     <Field Def="s32 accountParamId">
       <Description>AccountParam row ID; opponent's name and emblem.</Description>
     </Field>

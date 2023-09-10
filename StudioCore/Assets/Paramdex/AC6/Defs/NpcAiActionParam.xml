@@ -16,7 +16,7 @@
     <Field Def="u8 bKeyHold3"></Field>
     <Field Def="s32 gestureId"></Field>
     <Field Def="u8 bLifeEndSuccess"></Field>
-    <Field Def="s32 Unk0xD"></Field>
+    <Field Def="s32 Unk0x0D"></Field>
     <Field Def="s16 Unk0x11"></Field>
     <Field Def="u8 Unk0x13"></Field>
   </Fields>

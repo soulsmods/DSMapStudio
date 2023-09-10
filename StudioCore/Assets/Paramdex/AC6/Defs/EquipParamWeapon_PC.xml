@@ -6,7 +6,7 @@
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <Field Def="s32 Unk0x0"></Field>
+    <Field Def="s32 Unk0x00"></Field>
     <Field Def="s32 behaviorJudgeId">
       <Description>Used to link BehaviorParam_PC entries to the weapon.</Description>
     </Field>
