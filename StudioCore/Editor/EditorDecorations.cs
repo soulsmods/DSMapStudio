@@ -232,13 +232,11 @@ namespace StudioCore.Editor
         }
         public static void FmgRefSelectable(EditorScreen ownerScreen, List<FMGRef> fmgNames, Param.Row context, dynamic oldval)
         {
-            List<(string, FMGBank.EntryGroup)> refs = resolveFMGRefs(fmgNames, context, oldval);
-            foreach (var (name, group) in refs)
-            {
-                if (group == null)
-                    return;
-                ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 0.5f, 0.5f, 1.0f));
-                string textToPrint = CacheBank.GetCached(ownerScreen, (name, (int)oldval), () => {
+            List<string> textsToPrint = CacheBank.GetCached(ownerScreen, (int)oldval, () => {
+                List<(string, FMGBank.EntryGroup)> refs = resolveFMGRefs(fmgNames, context, oldval);
+                return refs.Where((x) => x.Item2 != null)
+                .Select((x) => {
+                    var group = x.Item2;
                     string toPrint = "";
                     if (!string.IsNullOrWhiteSpace(group.Title?.Text))
                         toPrint += '\n'+group.Title.Text;
@@ -251,14 +249,17 @@ namespace StudioCore.Editor
                     if (!string.IsNullOrWhiteSpace(group.ExtraText?.Text))
                         toPrint += '\n'+group.ExtraText.Text;
                     return toPrint.TrimStart();
-                });
-                if (string.IsNullOrWhiteSpace(textToPrint))
+                }).ToList();
+            });
+            ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 0.5f, 0.5f, 1.0f));
+            foreach(string text in textsToPrint)
+            {
+                if (string.IsNullOrWhiteSpace(text))
                     ImGui.TextUnformatted("%null%");
                 else
-                {
-                    ImGui.TextUnformatted(textToPrint);
-                }
+                    ImGui.TextUnformatted(text);
             }
+            
             ImGui.PopStyleColor();
         }
         public static void EnumNameText(string enumName)
