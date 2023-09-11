@@ -466,7 +466,7 @@
     <Field Def="s32 Unk0x494"></Field>
     <Field Def="s32 Unk0x498"></Field>
     <Field Def="s32 Unk0x49C"></Field>
-    <Field Def="u16 expansionDecayRate">
+    <Field Def="u16 coreExpansionDecayRate">
       <Description>How much expansion HP is lost per second.</Description>
     </Field>
     <Field Def="u8 Unk0x4A2"></Field>

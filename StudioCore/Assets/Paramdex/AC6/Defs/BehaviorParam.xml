@@ -82,7 +82,9 @@
       <Description>References BulletShotgunParam</Description>
     </Field>
     <Field Def="f32 UnkFloat0x98"></Field>
-    <Field Def="f32 channelingHeatBuildup"></Field>
+    <Field Def="f32 channelAttackHeatBuildup">
+      <Description>Heat buildup when attacking. Used by parts that 'channel'.</Description>
+    </Field>
     <Field Def="s32 UnkInt0xA0"></Field>
     <Field Def="f32 UnkFloat0xA4"></Field>
     <Field Def="s32 heatBuildup"></Field>
