@@ -43,7 +43,7 @@
     <Field Def="f32 UnkFloat0x48"></Field>
     <Field Def="f32 UnkFloat0x4C"></Field>
     <Field Def="u8 UnkByte0x50"></Field>
-    <Field Def="u8 UnkByte0x51"></Field>
+    <Field Def="u8 weaponBurstFireAmount"></Field>
     <Field Def="s16 UnkShort0x52"></Field>
     <Field Def="f32 UnkFloat0x54"></Field>
     <Field Def="f32 rateOfFire"></Field>
