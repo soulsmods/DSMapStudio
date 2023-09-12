@@ -291,8 +291,8 @@
     <Field Def="s32 attitudeStability"></Field>
     <Field Def="f32 UnkFloat0x1EC"></Field>
     <Field Def="f32 UnkFloat0x1F0"></Field>
-    <Field Def="f32 tetrapodFlightDrainRate"></Field>
-    <Field Def="f32 UnkFloat0x1F8"></Field>
+    <Field Def="f32 tetrapodHoverDrainRate"></Field>
+    <Field Def="f32 tetrapodHoverQuickBoostVelocity"></Field>
     <Field Def="s32 Unk0x1FC"></Field>
     <Field Def="u16 UnkUshort0x200"></Field>
     <Field Def="u16 UnkUshort0x202"></Field>
