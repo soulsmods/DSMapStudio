@@ -1,15 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PARAMDEF XmlVersion="0">
+<PARAMDEF XmlVersion="3">
   <ParamType>MENU_VALUE_TABLE_SPEC</ParamType>
   <DataVersion>1</DataVersion>
   <BigEndian>False</BigEndian>
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <!-- <Field Def="dummy8 paramSize[12]" /> -->
     <Field Def="s32 value"></Field>
     <Field Def="s32 textId"></Field>
     <Field Def="s8 compareType"></Field>
-    <Field Def="dummy8 padding[3]"></Field>
+    <Field Def="s16 Unk0x09"></Field>
+    <Field Def="u8 Unk0x0B"></Field>
   </Fields>
 </PARAMDEF>

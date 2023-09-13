@@ -1,34 +1,34 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PARAMDEF XmlVersion="0">
+<PARAMDEF XmlVersion="3">
   <ParamType>EquipParamGenerator_TENTATIVE</ParamType>
   <DataVersion>7</DataVersion>
   <BigEndian>False</BigEndian>
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <!-- <Field Def="dummy8 paramSize[340]" /> -->
     <Field Def="s32 Unk0x00"></Field>
-    <Field Def="u16 Unk0x04"></Field>
-    <Field Def="u16 Unk0x06"></Field>
-    <Field Def="s32 Unk0x08"></Field>
+    <Field Def="s16 Unk0x04"></Field>
+    <Field Def="u16 UnkUshort0x06"></Field>
+    <Field Def="s32 UnkInt0x08"></Field>
     <Field Def="f32 weight"></Field>
     <Field Def="s32 energyCapacity"></Field>
     <Field Def="s32 energyOutput"></Field>
     <Field Def="s32 Unk0x18"></Field>
     <Field Def="f32 enRecharge"></Field>
     <Field Def="f32 supplyRecovery">
-        <Description>It an inverse multipliers. 1x == 1000 (base value), 4x == 250, etc. Game value == 1000/x.</Description>
+      <Description>It an inverse multipliers. 1x == 1000 (base value), 4x == 250, etc. Game value == 1000/x.</Description>
     </Field>
     <Field Def="f32 postRecoveryEnSupply">
-        <Description>It an inverse multipliers. 1x == 1000 (base value), 4x == 250, etc. Game value == 1000/x.</Description>
+      <Description>It an inverse multipliers. 1x == 1000 (base value), 4x == 250, etc. Game value == 1000/x.</Description>
     </Field>
     <Field Def="s32 energyFirearmSpec">
-        <Description>It an inverse multipliers. 1x == 1000 (base value), 4x == 250, etc. Game value == 1000/x.</Description>
+      <Description>It an inverse multipliers. 1x == 1000 (base value), 4x == 250, etc. Game value == 1000/x.</Description>
     </Field>
     <Field Def="s32 Unk0x2C"></Field>
     <Field Def="s32 Unk0x30"></Field>
     <Field Def="s32 Unk0x34"></Field>
-    <Field Def="s32 Unk0x38"></Field>
+    <Field Def="s16 Unk0x38"></Field>
+    <Field Def="u16 UnkUshort0x3A"></Field>
     <Field Def="s32 Unk0x3C"></Field>
     <Field Def="s32 Unk0x40"></Field>
     <Field Def="f32 Unk0x44"></Field>
@@ -54,10 +54,12 @@
     <Field Def="s32 Unk0x94"></Field>
     <Field Def="s32 Unk0x98"></Field>
     <Field Def="s32 Unk0x9C"></Field>
-    <Field Def="s32 boosterEmitterColor">
-        <Description>Also affects shield color.</Description>
+    <Field Def="u16 boosterEmitterColor">
+      <Description>Also affects shield color.</Description>
     </Field>
-    <Field Def="s32 Unk0xA4"></Field>
+    <Field Def="s8 UnkSbyte0xA2"></Field>
+    <Field Def="u8 Unk0xA3"></Field>
+    <Field Def="s32 UnkInt0xA4"></Field>
     <Field Def="s32 Unk0xA8"></Field>
     <Field Def="s32 Unk0xAC"></Field>
     <Field Def="s32 Unk0xB0"></Field>

@@ -1,12 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PARAMDEF XmlVersion="0">
+<PARAMDEF XmlVersion="3">
   <ParamType>SP_EFFECT_PARAM_ST</ParamType>
   <DataVersion>5</DataVersion>
   <BigEndian>False</BigEndian>
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <!-- <Field Def="dummy8 paramSize[956]" /> -->
     <Field Def="s32 Unk0x00"></Field>
     <Field Def="s32 iconId"></Field>
     <Field Def="f32 conditionHp"></Field>
@@ -195,12 +194,8 @@
     <Field Def="u8 isWaitModeDelete:1"></Field>
     <Field Def="u8 isIgnoreNoDamage:1"></Field>
     <Field Def="s8 changeTeamType"></Field>
-    <Field Def="u8 Unk0x176"></Field>
-    <Field Def="u8 Unk0x177"></Field>
-    <Field Def="u8 Unk0x178"></Field>
-    <Field Def="u8 Unk0x179"></Field>
-    <Field Def="u8 Unk0x17A"></Field>
-    <Field Def="u8 Unk0x17B"></Field>
+    <Field Def="s32 Unk0x176"></Field>
+    <Field Def="s16 Unk0x17A"></Field>
     <Field Def="s32 vfxId"></Field>
     <Field Def="s32 accumuOverFireId"></Field>
     <Field Def="s32 accumuOverVal"></Field>
