@@ -11,8 +11,6 @@
     <Field Def="s32 keyboardKeyId"></Field>
     <Field Def="s32 mouseModifyKey"></Field>
     <Field Def="s32 mouseKeyId"></Field>
-    <Field Def="s32 Unk0x14"></Field>
-    <Field Def="s32 Unk0x18"></Field>
-    <Field Def="s32 Unk0x1C"></Field>
+    <Field Def="dummy8 reserved[12]"></Field>
   </Fields>
 </PARAMDEF>

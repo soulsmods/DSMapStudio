@@ -29,7 +29,7 @@
     <Field Def="u8 goodsType"></Field>
     <Field Def="u8 refCategory"></Field>
     <Field Def="u8 spEffectCategory"></Field>
-    <Field Def="u8 Unk0x41"></Field>
+    <Field Def="dummy8 padding1[1]" />
     <Field Def="u8 goodsUseAnim"></Field>
     <Field Def="u8 opmeMenuType"></Field>
     <Field Def="u8 useLimitCategory"></Field>

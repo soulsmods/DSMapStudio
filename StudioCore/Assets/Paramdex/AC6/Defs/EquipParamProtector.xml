@@ -60,7 +60,7 @@
     <Field Def="u16 knockbackBounceRate"></Field>
     <Field Def="u16 durability"></Field>
     <Field Def="u16 durabilityMax"></Field>
-    <Field Def="s16 pad03"></Field>
+    <Field Def="s16 Unk0xB2"></Field>
     <Field Def="u16 defFlickPower"></Field>
     <Field Def="u16 defensePhysics"></Field>
     <Field Def="u16 defenseMagic"></Field>
@@ -84,7 +84,7 @@
     <Field Def="u8 rarity"></Field>
     <Field Def="u8 sortGroupId"></Field>
     <Field Def="u8 partsDmgType"></Field>
-    <Field Def="u16 pad04"></Field>
+    <Field Def="u16 Unk0xDA"></Field>
     <Field Def="u8 isDeposit:1"></Field>
     <Field Def="u8 headEquip:1"></Field>
     <Field Def="u8 bodyEquip:1"></Field>
@@ -401,10 +401,12 @@
       <Description>Scan visibility duration after having detected enemies or part containers.</Description>
     </Field>
     <Field Def="u8 UnkByte0x340"></Field>
-    <Field Def="s16 Unk0x341"></Field>
+    <Field Def="u8 Unk0x341"></Field>
+    <Field Def="u8 Unk0x342"></Field>
     <Field Def="u8 UnkByte0x343"></Field>
     <Field Def="u8 UnkByte0x344"></Field>
-    <Field Def="s16 Unk0x345"></Field>
+    <Field Def="u8 Unk0x345"></Field>
+    <Field Def="u8 Unk0x346"></Field>
     <Field Def="u8 Unk0x347"></Field>
     <Field Def="f32 UnkFloat0x348"></Field>
     <Field Def="f32 UnkFloat0x34C"></Field>

@@ -13,13 +13,6 @@
     <Field Def="f32 UnkFloat0x10"></Field>
     <Field Def="f32 UnkFloat0x14"></Field>
     <Field Def="f32 UnkFloat0x18"></Field>
-    <Field Def="s32 Unk0x1C"></Field>
-    <Field Def="s32 Unk0x20"></Field>
-    <Field Def="s32 Unk0x24"></Field>
-    <Field Def="s32 Unk0x28"></Field>
-    <Field Def="s32 Unk0x2C"></Field>
-    <Field Def="s32 Unk0x30"></Field>
-    <Field Def="s32 Unk0x34"></Field>
-    <Field Def="s32 Unk0x38"></Field>
+    <Field Def="dummy8 padding_0001[32]"></Field>
   </Fields>
 </PARAMDEF>

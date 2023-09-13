@@ -8,7 +8,7 @@
   <Fields>
     <Field Def="u8 regionType"></Field>
     <Field Def="u8 category"></Field>
-    <Field Def="s16 Unk0x02"></Field>
+    <Field Def="dummy8 padding1[2]"></Field>
     <Field Def="s32 dummyPoly1"></Field>
     <Field Def="s32 dummyPoly2"></Field>
     <Field Def="f32 radius"></Field>
@@ -18,7 +18,8 @@
     <Field Def="f32 height"></Field>
     <Field Def="f32 baseHeightOffset"></Field>
     <Field Def="u8 angleCheckType"></Field>
-    <Field Def="s16 Unk0x25"></Field>
+    <Field Def="u8 Unk0x25"></Field>
+    <Field Def="u8 Unk0x26"></Field>
     <Field Def="u8 Unk0x27"></Field>
     <Field Def="s32 allowAngle"></Field>
     <Field Def="s32 spotDummyPoly"></Field>

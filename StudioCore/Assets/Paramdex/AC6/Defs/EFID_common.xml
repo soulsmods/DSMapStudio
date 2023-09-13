@@ -8,13 +8,8 @@
   <Fields>
     <Field Def="u8 usageType"></Field>
     <Field Def="u8 playlogCategory"></Field>
-    <Field Def="s16 Unk0x02"></Field>
+    <Field Def="dummy8 padding1[2]"></Field>
     <Field Def="s32 flagNum"></Field>
-    <Field Def="s32 Unk0x08"></Field>
-    <Field Def="s32 Unk0x0C"></Field>
-    <Field Def="s32 Unk0x10"></Field>
-    <Field Def="s32 Unk0x14"></Field>
-    <Field Def="s32 Unk0x18"></Field>
-    <Field Def="s32 Unk0x1C"></Field>
+    <Field Def="dummy8 padding2[24]"></Field>
   </Fields>
 </PARAMDEF>

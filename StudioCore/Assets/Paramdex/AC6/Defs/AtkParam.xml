@@ -239,10 +239,10 @@
     <Field Def="u8 UnkByte0x1E4"></Field>
     <Field Def="u8 UnkByte0x1E5"></Field>
     <Field Def="u8 UnkByte0x1E6"></Field>
-    <Field Def="s32 Unk0x1E7"></Field>
-    <Field Def="s32 Unk0x1EB"></Field>
-    <Field Def="s32 Unk0x1EF"></Field>
-    <Field Def="u8 Unk0x1F3"></Field>
+    <Field Def="u8 Unk0x1E7"></Field>
+    <Field Def="s32 Unk0x1E8"></Field>
+    <Field Def="s32 Unk0x1EC"></Field>
+    <Field Def="s32 Unk0x1F0"></Field>
     <Field Def="f32 UnkFloat0x1F4"></Field>
     <Field Def="f32 Unk0x1F8"></Field>
     <Field Def="f32 Unk0x1FC"></Field>
@@ -433,9 +433,9 @@
     </Field>
     <Field Def="s16 Unk0x3A6"></Field>
     <Field Def="u16 UnkUshort0x3A8"></Field>
-    <Field Def="s32 Unk0x3AA"></Field>
-    <Field Def="s32 Unk0x3AE"></Field>
-    <Field Def="s16 Unk0x3B2"></Field>
+    <Field Def="s16 Unk0x3AA"></Field>
+    <Field Def="s32 Unk0x3AC"></Field>
+    <Field Def="s32 Unk0x3B0"></Field>
     <Field Def="s32 padRumbleIdB">
       <Description>Refers to PadRumble.</Description>
     </Field>

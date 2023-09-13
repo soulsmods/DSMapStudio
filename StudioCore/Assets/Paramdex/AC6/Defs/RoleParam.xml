@@ -7,8 +7,7 @@
   <FormatVersion>203</FormatVersion>
   <Fields>
     <Field Def="u8 teamType"></Field>
-    <Field Def="s16 Unk0x01"></Field>
-    <Field Def="u8 Unk0x03"></Field>
+    <Field Def="dummy8 pad0[3]"></Field>
     <Field Def="s32 phantomParamId"></Field>
     <Field Def="s32 spEffectID0"></Field>
     <Field Def="s32 spEffectID1"></Field>
@@ -26,7 +25,7 @@
     <Field Def="s32 itemlotParamId"></Field>
     <Field Def="u8 voiceChatGroup"></Field>
     <Field Def="u8 roleNameColor"></Field>
-    <Field Def="s16 Unk0x42"></Field>
+    <Field Def="dummy8 pad1[2]"></Field>
     <Field Def="s32 roleNameId"></Field>
     <Field Def="u32 threatLv"></Field>
     <Field Def="s32 phantomParamId_vowRank1"></Field>

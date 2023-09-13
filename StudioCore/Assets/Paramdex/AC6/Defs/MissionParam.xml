@@ -15,7 +15,8 @@
     <Field Def="s32 Unk0x14"></Field>
     <Field Def="s32 Unk0x18"></Field>
     <Field Def="f32 Unk0x1C"></Field>
-    <Field Def="s32 Unk0x20"></Field>
+    <Field Def="u16 Unk0x20"></Field>
+    <Field Def="u16 Unk0x22"></Field>
     <Field Def="s32 Unk0x24"></Field>
     <Field Def="s32 Unk0x28"></Field>
     <Field Def="s32 currencyReward"></Field>
@@ -86,7 +87,9 @@
     <Field Def="s32 Unk0x130"></Field>
     <Field Def="s32 Unk0x134"></Field>
     <Field Def="s32 Unk0x138"></Field>
-    <Field Def="f32 Unk0x13C"></Field>
+    <Field Def="f32 Unk0x13C">
+      <Description>Fields related to level borders</Description>
+    </Field>
     <Field Def="s32 Unk0x140"></Field>
     <Field Def="s32 Unk0x144"></Field>
     <Field Def="s32 Unk0x148"></Field>

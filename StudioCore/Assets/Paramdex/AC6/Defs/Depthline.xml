@@ -19,8 +19,10 @@
     <Field Def="u8 UnkByte0x1D"></Field>
     <Field Def="u8 UnkByte0x1E"></Field>
     <Field Def="u8 UnkByte0x1F"></Field>
-    <Field Def="f64 UnkDouble0x20"></Field>
-    <Field Def="f64 UnkDouble0x28"></Field>
+    <Field Def="f32 Unk0x20"></Field>
+    <Field Def="f32 Unk0x24"></Field>
+    <Field Def="f32 Unk0x28"></Field>
+    <Field Def="f32 Unk0x2C"></Field>
     <Field Def="f32 Unk0x30"></Field>
     <Field Def="f32 Unk0x34"></Field>
     <Field Def="f32 Unk0x38"></Field>

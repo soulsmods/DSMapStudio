@@ -6,9 +6,7 @@
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <Field Def="u8 disableParam_NT"></Field>
-    <Field Def="s16 Unk0x01"></Field>
-    <Field Def="u8 Unk0x03"></Field>
+    <Field Def="s32 Unk0x00"></Field>
     <Field Def="s32 refId"></Field>
     <Field Def="s32 sfxVariationId"></Field>
     <Field Def="f32 weight"></Field>
@@ -39,16 +37,15 @@
     <Field Def="u8 showLogCondType:1"></Field>
     <Field Def="u8 showDialogCondType:2"></Field>
     <Field Def="u8 rarity"></Field>
-    <Field Def="s16 Unk0x42"></Field>
+    <Field Def="dummy8 pad2[2]"></Field>
     <Field Def="s32 saleValue"></Field>
     <Field Def="s16 accessoryGroup"></Field>
-    <Field Def="u8 Unk0x4A"></Field>
+    <Field Def="dummy8 pad3[1]"></Field>
     <Field Def="s8 compTrophySedId"></Field>
     <Field Def="s32 residentSpEffectId1"></Field>
     <Field Def="s32 residentSpEffectId2"></Field>
     <Field Def="s32 residentSpEffectId3"></Field>
     <Field Def="s32 residentSpEffectId4"></Field>
-    <Field Def="s32 Unk0x5C"></Field>
-    <Field Def="s32 Unk0x60"></Field>
+    <Field Def="dummy8 pad1[8]"></Field>
   </Fields>
 </PARAMDEF>

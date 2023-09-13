@@ -12,9 +12,7 @@
     <Field Def="s8 menuCategory">
       <Description>Value determining which tab in the arena menu to use; can be set arbitrarily. Tab text FMG ID is 258010 + menuCategory in FNR_メニューテキスト.</Description>
     </Field>
-    <Field Def="s16 Unk0x05"></Field>
-    <Field Def="u8 Unk0x07"></Field>
-    <Field Def="s32 pad08"></Field>
+    <Field Def="dummy8 pad08[7]" />
     <Field Def="s32 UnkInt0x0C"></Field>
     <Field Def="s32 accountParamId">
       <Description>AccountParam row ID; opponent's name and emblem.</Description>
@@ -31,15 +29,11 @@
     <Field Def="s32 initialCoamReward">
       <Description>Money granted on first completion.</Description>
     </Field>
-    <Field Def="s32 Unk0x24"></Field>
-    <Field Def="s32 Unk0x28"></Field>
-    <Field Def="s32 Unk0x2C"></Field>
+    <Field Def="dummy8 pad24[12]" />
     <Field Def="s32 repeatCoamReward">
       <Description>Money granted on repeat completions.</Description>
     </Field>
-    <Field Def="s32 Unk0x34"></Field>
-    <Field Def="s32 Unk0x38"></Field>
-    <Field Def="s32 Unk0x3C"></Field>
+    <Field Def="dummy8 pad34[12]" />
     <Field Def="s32 introCutsceneId">
       <Description>Cutscene ID to play at the start of the mission.</Description>
     </Field>
@@ -52,9 +46,6 @@
     <Field Def="s32 outroCutsceneId">
       <Description>Cutscene ID to play at the end of the mission.</Description>
     </Field>
-    <Field Def="s32 Unk0x50"></Field>
-    <Field Def="s32 Unk0x54"></Field>
-    <Field Def="s32 Unk0x58"></Field>
-    <Field Def="s32 Unk0x5C"></Field>
+    <Field Def="dummy8 pad50[16]" />
   </Fields>
 </PARAMDEF>
