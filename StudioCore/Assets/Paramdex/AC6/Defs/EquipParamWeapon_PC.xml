@@ -450,7 +450,9 @@
     <Field Def="s32 Unk0x494"></Field>
     <Field Def="s32 Unk0x498"></Field>
     <Field Def="s32 Unk0x49C"></Field>
-    <Field Def="u16 Unk0x4A0"></Field>
+    <Field Def="u16 expansionDecayRate">
+        <Description>How much expansion HP is lost per second.</Description>
+    </Field>
     <Field Def="u16 Unk0x4A2"></Field>
     <Field Def="f32 impactDampeningRate">
         <Description>Ability to mitigate incoming ACS burden while performing a regular guard.</Description>

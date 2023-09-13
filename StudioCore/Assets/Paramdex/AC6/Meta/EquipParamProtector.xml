@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <movementAcTypeParamId AltName="movementAcTypeParamId" Refs="MovementAcTypeParam" />
+    <chrActTurnParamId AltName="chrActTurnParamId" Refs="ChrActTurnParam" />
+    <thrusterParamId AltName="thrusterParamId" Refs="ThrustersParam_PC" />
+    <corePartWeaponParamId AltName="corePartWeaponParamId" Refs="EquipParamWeapon" />
+    <protectorParamId AltName="protectorParamId" Refs="EquipParamProtector" />
+    <legPartBoosterParamId AltName="legPartBoosterParamId" Refs="EquipParamBooster" />
+    <knockbackParamId AltName="knockbackParamId" Refs="KnockbackParam" />
+  </Field>
+  <Self />
+</PARAMMETA>
