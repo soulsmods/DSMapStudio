@@ -21,11 +21,24 @@ namespace StudioCore.ParamEditor
         public static uint numberOfItemsToGive = 1;
         public static uint upgradeLevelItemToGive = 0;
 
+        private static List<GameType> _supportedGames = new()
+        {
+            GameType.DarkSoulsPTDE,
+            GameType.DarkSoulsRemastered,
+            GameType.Sekiro,
+            GameType.DarkSoulsIII,
+            GameType.EldenRing,
+            GameType.ArmoredCoreVI,
+        };
+
+        public static bool GameIsSupported(GameType gameType)
+        {
+            return _supportedGames.Contains(gameType);
+        }
+
         public static bool CanReloadMemoryParams(ParamBank bank, ProjectSettings projectSettings)
         {
-            if (projectSettings != null && (projectSettings.GameType == GameType.DarkSoulsIII || projectSettings.GameType == GameType.EldenRing
-                || projectSettings.GameType == GameType.DarkSoulsPTDE || projectSettings.GameType == GameType.DarkSoulsRemastered 
-                || projectSettings.GameType == GameType.Sekiro || projectSettings.GameType == GameType.ArmoredCoreVI) && bank.IsLoadingParams == false)
+            if (projectSettings != null && GameIsSupported(projectSettings.GameType) && bank.IsLoadingParams == false)
                 return true;
 
             return false;
@@ -36,22 +49,29 @@ namespace StudioCore.ParamEditor
             TaskManager.Run(new("Param - Hot Reload", TaskManager.RequeueType.WaitThenRequeue, true, () =>
             {
                 GameOffsets offsets = GetGameOffsets(loc);
-                var processArray = Process.GetProcessesByName(offsets.exeName);
-                if (!processArray.Any())
-                    processArray = Process.GetProcessesByName(offsets.exeName.Replace(".exe", ""));
-                if (processArray.Any())
+                if (offsets == null)
                 {
-                    SoulsMemoryHandler memoryHandler = new SoulsMemoryHandler(processArray.First());
-                    if (offsets.type == GameType.DarkSoulsPTDE)
-                    {
-                        offsets = GetCorrectPTDEOffsets(offsets, memoryHandler);
-                    }
-                    ReloadMemoryParamsThreads(bank, offsets, paramNames, memoryHandler);
-                    memoryHandler.Terminate();
+                    return;
                 }
                 else
                 {
-                    throw new Exception("Unable to find running game");
+                    var processArray = Process.GetProcessesByName(offsets.exeName);
+                    if (!processArray.Any())
+                        processArray = Process.GetProcessesByName(offsets.exeName.Replace(".exe", ""));
+                    if (processArray.Any())
+                    {
+                        SoulsMemoryHandler memoryHandler = new SoulsMemoryHandler(processArray.First());
+                        if (offsets.type == GameType.DarkSoulsPTDE)
+                        {
+                            offsets = GetCorrectPTDEOffsets(offsets, memoryHandler);
+                        }
+                        ReloadMemoryParamsThreads(bank, offsets, paramNames, memoryHandler);
+                        memoryHandler.Terminate();
+                    }
+                    else
+                    {
+                        throw new Exception("Unable to find running game");
+                    }
                 }
             }));
         }
@@ -414,6 +434,7 @@ namespace StudioCore.ParamEditor
                 }
                 catch (Exception e)
                 {
+                    TaskLogs.AddLog("Unable to create GameOffsets for param hot reloader.", Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High, e);
                     return null;
                 }
             }
