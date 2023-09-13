@@ -286,7 +286,7 @@
     <actionButtonInputCancelTime AltName="Action Button Input Cancel Time" Wiki="Time to disable action button operation by holding down the action button" />
     <blockClearBonusDelayTime AltName="Boss Kill - Rune Acquisition Delay Time" Wiki="Clear bonus acquisition delay time after boss defeat processing" />
     <bonfireCheckEnemyRange AltName="Bonfire Check Enemy Range" Wiki="[Unused] (Refer to SEQ25048) Distance from PC to bonfire that determines invalidation of bonfire by enemy [m] (0 or less PC distance is not checked. Checked at all distances)" />
-    <reserved_124 AltName=""/>
+    <reserved_124_0 AltName=""/>
   </Field>
   <Self />
 </PARAMMETA>
