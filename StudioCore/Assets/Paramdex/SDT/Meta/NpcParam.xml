@@ -46,22 +46,22 @@
     <hp Wiki="Base Hp" />
     <mp Wiki="Base Mp/Fp" />
     <getSoul Wiki="Amount of Sen dropped when enemy is killed" />
-    <itemLotId_1 Wiki="Item Lottery that is rolled whenever this Npc is killed" Refs="ItemLotParam(=0)" />
-    <itemLotId_2 Wiki="Item Lottery that is rolled whenever this Npc is killed" Refs="ItemLotParam(=0)" />
-    <itemLotId_3 Wiki="Item Lottery that is rolled whenever this Npc is killed" Refs="ItemLotParam(=0)" />
-    <itemLotId_4 Wiki="Item Lottery that is rolled whenever this Npc is killed" Refs="ItemLotParam(=0)" />
-    <itemLotId_5 Wiki="Item Lottery that is rolled whenever this Npc is killed" Refs="ItemLotParam(=0)" />
-    <itemLotId_6 Wiki="Item Lottery that is rolled whenever this Npc is killed" Refs="ItemLotParam(=0)" />
+    <itemLotId_1 Wiki="Item Lottery that is rolled whenever this Npc is killed" Refs="ItemLotParam" />
+    <itemLotId_2 Wiki="Item Lottery that is rolled whenever this Npc is killed" Refs="ItemLotParam" />
+    <itemLotId_3 Wiki="Item Lottery that is rolled whenever this Npc is killed" Refs="ItemLotParam" />
+    <itemLotId_4 Wiki="Item Lottery that is rolled whenever this Npc is killed" Refs="ItemLotParam" />
+    <itemLotId_5 Wiki="Item Lottery that is rolled whenever this Npc is killed" Refs="ItemLotParam" />
+    <itemLotId_6 Wiki="Item Lottery that is rolled whenever this Npc is killed" Refs="ItemLotParam" />
     <humanityLotId />
-    <spEffectID0 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam(=0)" />
-    <spEffectID1 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam(=0)" />
-    <spEffectID2 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam(=0)" />
-    <spEffectID3 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam(=0)" />
-    <spEffectID4 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam(=0)" />
-    <spEffectID5 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam(=0)" />
-    <spEffectID6 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam(=0)" />
-    <spEffectID7 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam(=0)" />
-    <GameClearSpEffectID Wiki="NG+ scaling" Refs="SpEffectParam(=0)" />
+    <spEffectID0 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam" />
+    <spEffectID1 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam" />
+    <spEffectID2 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam" />
+    <spEffectID3 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam" />
+    <spEffectID4 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam" />
+    <spEffectID5 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam" />
+    <spEffectID6 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam" />
+    <spEffectID7 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam" />
+    <GameClearSpEffectID Wiki="NG+ scaling" Refs="SpEffectParam" />
     <physGuardCutRate Wiki="Amount of physical damage this Npc can block" />
     <magGuardCutRate Wiki="Amount of magic damage this Npc can block" />
     <fireGuardCutRate Wiki="Amount of fire damage this Npc can block" />
@@ -131,7 +131,7 @@
     <pad2 />
     <hitStopType_Defencer />
     <ninsatuNum Wiki="Amount of healthbars" />
-    <knockbackParamId Refs="KnockBackParam(=0)" />
+    <knockbackParamId Refs="KnockBackParam" />
     <fallDamageDump />
     <staminaGuardDef Wiki="Amount of Posture damage this Npc can block" />
     <pcAttrB Wiki="When Npc is killed, move character tendency towards black" />
@@ -242,14 +242,14 @@
     <materialSfx_Weak2 Wiki="Determines the SFX that occurs when weak point damage is received" />
     <materialSe2 Wiki="Determines the sound when receiving damage" />
     <materialSfx2 Wiki="Determines the SFX that occurs when receiving damage" />
-    <spEffectID8 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam(=0)" />
-    <spEffectID9 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam(=0)" />
-    <spEffectID10 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam(=0)" />
-    <spEffectID11 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam(=0)" />
-    <spEffectID12 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam(=0)" />
-    <spEffectID13 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam(=0)" />
-    <spEffectID14 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam(=0)" />
-    <spEffectID15 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam(=0)" />
+    <spEffectID8 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam" />
+    <spEffectID9 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam" />
+    <spEffectID10 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam" />
+    <spEffectID11 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam" />
+    <spEffectID12 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam" />
+    <spEffectID13 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam" />
+    <spEffectID14 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam" />
+    <spEffectID15 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam" />
     <footEffectDecalBaseId1 />
     <toughness />
     <toughnessRecoverCorrection />
@@ -286,27 +286,27 @@
     <resist_freeze Wiki="Base Shock resistance" />
     <freezeGuardResist Wiki="Amount of Shock build-up the Npc can block" />
     <teamTypeByGiantNut />
-    <lockCameraParamId Refs="LockCamParam(=0)" />
-    <spEffectID16 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam(=0)" />
-    <spEffectID17 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam(=0)" />
-    <spEffectID18 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam(=0)" />
-    <spEffectID19 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam(=0)" />
-    <spEffectID20 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam(=0)" />
-    <spEffectID21 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam(=0)" />
-    <spEffectID22 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam(=0)" />
-    <spEffectID23 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam(=0)" />
-    <spEffectID24 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam(=0)" />
-    <spEffectID25 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam(=0)" />
-    <spEffectID26 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam(=0)" />
-    <spEffectID27 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam(=0)" />
-    <spEffectID28 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam(=0)" />
-    <spEffectID29 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam(=0)" />
-    <spEffectID30 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam(=0)" />
-    <spEffectID31 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam(=0)" />
+    <lockCameraParamId Refs="LockCamParam" />
+    <spEffectID16 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam" />
+    <spEffectID17 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam" />
+    <spEffectID18 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam" />
+    <spEffectID19 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam" />
+    <spEffectID20 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam" />
+    <spEffectID21 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam" />
+    <spEffectID22 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam" />
+    <spEffectID23 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam" />
+    <spEffectID24 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam" />
+    <spEffectID25 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam" />
+    <spEffectID26 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam" />
+    <spEffectID27 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam" />
+    <spEffectID28 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam" />
+    <spEffectID29 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam" />
+    <spEffectID30 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam" />
+    <spEffectID31 Wiki="Applies SpEffect to the Npc" Refs="SpEffectParam" />
     <disableLockOnAng />
     <clothOffLodLevel />
     <isAffectedPlayingBgm Wiki="Will combat music play when this Npc targets the player?" IsBool="" />
-    <estusFlaskRecoveryParamId Wiki="Defines how many Flasks will be regained when the enemy is killed" Refs="HPEstusFlaskRecoveryParam(=0),MPEstusFlaskRecoveryParam(=0)" />
+    <estusFlaskRecoveryParamId Wiki="Defines how many Flasks will be regained when the enemy is killed" Refs="HPEstusFlaskRecoveryParam,MPEstusFlaskRecoveryParam" />
     <roleNameId />
     <estusFlaskLotPoint Wiki="Chance for both Hp and Fp Flasks to drop" />
     <hpEstusFlaskLotPoint Wiki="Chance for Hp Flasks to drop" />
@@ -345,8 +345,8 @@
     <antiGroundGuardCutRate Wiki="Amount of anti ground damage this Npc can block" />
     <antiAirGuardCutRate Wiki="Amount of anti air damage this Npc can block" />
     <lightShootGuardCutRate Wiki="Amount of light shoot damage this Npc can block" />
-    <staminaControlParamId Wiki="Determines the posture regen values used whenever Event960 is active on an Npc's animations" Refs="StaminaControlParam(=0)" />
-    <resourceItemLotParamId Wiki="Item Lottery that is rolled when the Npc is killed (for Resource Items)" Refs="ResourceItemLotParam(=0)" />
+    <staminaControlParamId Wiki="Determines the posture regen values used whenever Event960 is active on an Npc's animations" Refs="StaminaControlParam" />
+    <resourceItemLotParamId Wiki="Item Lottery that is rolled when the Npc is killed (for Resource Items)" Refs="ResourceItemLotParam" />
     <lookAtHeightOffset />
     <staminaDamageRate_DamageGroup1 Wiki="Multiplier applied to stamina damage processing for damage group 1 (damage group is set by FD4ParamWeaver)" />
     <staminaDamageRate_DamageGroup2 Wiki="Multiplier applied to stamina damage processing for damage group 2 (damage group is set by FD4ParamWeaver)" />
@@ -360,7 +360,7 @@
     <chrPhysicsHomingIdOffset />
     <activateBorderDist />
     <deactivateIntervalDist />
-    <resourceItemLotParamId2 Wiki="Item Lottery that is rolled when the Npc is killed (for Resource Items)" Refs="ResourceItemLotParam(=0)" />
+    <resourceItemLotParamId2 Wiki="Item Lottery that is rolled when the Npc is killed (for Resource Items)" Refs="ResourceItemLotParam" />
     <attriAStaminaDmgRate Wiki="Resistance to Attribute A Posture damage" />
     <attriBStaminaDmgRate Wiki="Resistance to Attribute B Posture damage" />
     <attriCStaminaDmgRate Wiki="Resistance to Attribute C Posture damage" />
@@ -375,17 +375,17 @@
     <attriBDamageCutRate Wiki="Resistance to Attribute B damage" />
     <attriCDamageCutRate Wiki="Resistance to Attribute C damage" />
     <damageDropSoul />
-    <damageDropItemLotId_1 Refs="ItemLotParam(=0)" />
-    <damageDropItemLotId_2 Refs="ItemLotParam(=0)" />
+    <damageDropItemLotId_1 Refs="ItemLotParam" />
+    <damageDropItemLotId_2 Refs="ItemLotParam" />
     <camDitherFadeMinDist />
     <camDitherFadeMaxDist />
     <lifeCountItemLotId />
     <skillPoint Wiki="Amount of XP dropped when the Npc is killed" />
-    <HardModeSpEffectID Wiki="Scaling speffect for Charmless difficulty, only applied when the player doesn't have Kuro's Charm" Refs="SpEffectParam(=0)" />
+    <HardModeSpEffectID Wiki="Scaling speffect for Charmless difficulty, only applied when the player doesn't have Kuro's Charm" Refs="SpEffectParam" />
     <offsetSeID />
-    <ninsatsuResourceItemLotId_1 Wiki="Resource Item dropped when the Npc recieves ninsatsu damage (deathblows)" Refs="ResourceItemLotParam(=0)" />
-    <ninsatsuResourceItemLotId_2 Wiki="Resource Item dropped when the Npc recieves ninsatsu damage (deathblows)" Refs="ResourceItemLotParam(=0)" />
-    <growthDopingSpEffectID Wiki="Area Scaking, when the player doesn't have Kuro's Charm and is not in NG+ the speffects Id is offset by 700" Refs="SpEffectParam(=0)" />
+    <ninsatsuResourceItemLotId_1 Wiki="Resource Item dropped when the Npc recieves ninsatsu damage (deathblows)" Refs="ResourceItemLotParam" />
+    <ninsatsuResourceItemLotId_2 Wiki="Resource Item dropped when the Npc recieves ninsatsu damage (deathblows)" Refs="ResourceItemLotParam" />
+    <growthDopingSpEffectID Wiki="Area Scaking, when the player doesn't have Kuro's Charm and is not in NG+ the speffects Id is offset by 700" Refs="SpEffectParam" />
   </Field>
   <Self Wiki="Default Npc stats" AlternativeOrder="behaviorVariationId,nameId,-,
 getSoul,damageDropSoul,skillPoint,-,

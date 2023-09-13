@@ -6,38 +6,38 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="u32 0x00:1" />
-    <Field Def="u32 0x00:1" />
-    <Field Def="u32 0x00:1" />
-    <Field Def="u32 0x00:1" />
-    <Field Def="u32 0x00:1" />
-    <Field Def="u32 0x00:1" />
-    <Field Def="u32 0x00:1" />
-    <Field Def="u32 0x00:1" />
-    <Field Def="u32 0x00:1" />
-    <Field Def="u32 0x00:1" />
-    <Field Def="u32 0x00:1" />
-    <Field Def="u32 0x00:1" />
-    <Field Def="u32 0x00:1" />
-    <Field Def="u32 0x00:1" />
-    <Field Def="u32 0x00:1" />
-    <Field Def="u32 0x00:1" />
-    <Field Def="u32 0x00:1" />
-    <Field Def="u32 0x00:1" />
-    <Field Def="u32 0x00:1" />
-    <Field Def="u32 0x00:1" />
-    <Field Def="u32 0x00:1" />
-    <Field Def="u32 0x00:1" />
-    <Field Def="u32 0x00:1" />
-    <Field Def="u32 0x00:1" />
-    <Field Def="u32 0x00:1" />
-    <Field Def="u32 0x00:1" />
-    <Field Def="u32 0x00:1" />
-    <Field Def="u32 0x00:1" />
-    <Field Def="u32 0x00:1" />
-    <Field Def="u32 0x00:1" />
-    <Field Def="u32 0x00:1" />
-    <Field Def="u32 0x00:1" />
+    <Field Def="u32 0x00_0:1" />
+    <Field Def="u32 0x00_1:1" />
+    <Field Def="u32 0x00_2:1" />
+    <Field Def="u32 0x00_3:1" />
+    <Field Def="u32 0x00_4:1" />
+    <Field Def="u32 0x00_5:1" />
+    <Field Def="u32 0x00_6:1" />
+    <Field Def="u32 0x00_7:1" />
+    <Field Def="u32 0x00_8:1" />
+    <Field Def="u32 0x00_9:1" />
+    <Field Def="u32 0x00_10:1" />
+    <Field Def="u32 0x00_11:1" />
+    <Field Def="u32 0x00_12:1" />
+    <Field Def="u32 0x00_13:1" />
+    <Field Def="u32 0x00_14:1" />
+    <Field Def="u32 0x00_15:1" />
+    <Field Def="u32 0x00_16:1" />
+    <Field Def="u32 0x00_17:1" />
+    <Field Def="u32 0x00_18:1" />
+    <Field Def="u32 0x00_19:1" />
+    <Field Def="u32 0x00_20:1" />
+    <Field Def="u32 0x00_21:1" />
+    <Field Def="u32 0x00_22:1" />
+    <Field Def="u32 0x00_23:1" />
+    <Field Def="u32 0x00_24:1" />
+    <Field Def="u32 0x00_25:1" />
+    <Field Def="u32 0x00_26:1" />
+    <Field Def="u32 0x00_27:1" />
+    <Field Def="u32 0x00_28:1" />
+    <Field Def="u32 0x00_29:1" />
+    <Field Def="u32 0x00_30:1" />
+    <Field Def="u32 0x00_31:1" />
     <Field Def="s16 addRate0 = -1" />
     <Field Def="s16 addRate1 = -1" />
     <Field Def="s16 addRate2 = -1" />

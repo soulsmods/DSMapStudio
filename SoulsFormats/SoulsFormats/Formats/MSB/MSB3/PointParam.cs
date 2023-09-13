@@ -627,7 +627,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Type of sound in this region; determines mixing behavior like muffling.
                 /// </summary>
-                public SndType SoundType { get; set; }
+                public SndType SoundType { get; set; } = SndType.Environment;
 
                 /// <summary>
                 /// ID of the sound to play in this region, or 0 for child regions.

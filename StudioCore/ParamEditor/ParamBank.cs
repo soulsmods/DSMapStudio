@@ -232,6 +232,7 @@ namespace StudioCore.ParamEditor
                             {
                                 TaskLogs.AddLog($"Couldn't find ParamDef for param {paramName} and no tentative ParamType exists.",
                                     Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High);
+                                continue;
                             }
                         }
                     }
@@ -247,6 +248,7 @@ namespace StudioCore.ParamEditor
                         {
                             TaskLogs.AddLog($"Couldn't read ParamType for {paramName} and no tentative ParamType exists.",
                                 Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High);
+                            continue;
                         }
                     }
                 }

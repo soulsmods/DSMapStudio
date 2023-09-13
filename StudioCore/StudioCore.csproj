@@ -478,4 +478,8 @@
     </Compile>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Assets\Paramdex\AC6\Meta\NewFolder\" />
+  </ItemGroup>
+
 </Project>

@@ -4,7 +4,7 @@
     <SfxIdOnMap Wiki="Sfx that appears when a Resource Item is placed in a map" />
     <SfxIdFlying Wiki="Sfx when Resource Item is travelling towards you" />
     <SfxIdOnHit Wiki="Sfx spawned when Resource Item hits the player" />
-    <ItemID Refs="EquipParamGoods(=0)" />
+    <ItemID Refs="EquipParamGoods" />
     <ActionUnlockType Wiki="Prevents this Resource Item from being obtained until this Action is unlocked in ActionUnlockParam" />
   </Field>
   <Self Wiki="Defines Resource Items, aka Spirit Emblems/Regenerative Power Fragments" />

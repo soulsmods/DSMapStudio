@@ -3,7 +3,7 @@
   <Field>
     <equipId Wiki="Product being sold" Refs="EquipParamGoods(equipType=3),EquipParamWeapon(equipType=0)"/>
     <value Wiki="Purchase price, overwrties the saleValue in EquipParamGoods" />
-    <mtrlId Wiki="Defines items needed to trade in order to purchase this item" Refs="EquipMtrlSetParam(=0)" />
+    <mtrlId Wiki="Defines items needed to trade in order to purchase this item" Refs="EquipMtrlSetParam" />
     <eventFlag Wiki="Event Flag that is turned on once the item is purchased, cannot be purchased again while the event flag is on" />
     <flagId_forRelease Wiki="Event flag needed to unlock this item" />
     <sellQuantity Wiki="Amount of items sold -1=Unlimited" />
