@@ -259,7 +259,7 @@
     <Field Def="u8 UnkByte0x190"></Field>
     <Field Def="u8 UnkByte0x191"></Field>
     <Field Def="s16 UnkShort0x192"></Field>
-    <Field Def="s32 UnkInt0x194"></Field>
+    <Field Def="s32 lockCamParamId"></Field>
     <Field Def="s32 energyLoad"></Field>
     <Field Def="s32 armorPoints"></Field>
     <Field Def="s32 Unk0x1A0"></Field>
