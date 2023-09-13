@@ -655,7 +655,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public ObjActState ObjActStateType { get; set; }
+                public ObjActState ObjActStateType { get; set; } = ObjActState.OneState;
 
                 /// <summary>
                 /// Unknown.
@@ -818,12 +818,12 @@ namespace SoulsFormats
                 /// <summary>
                 /// Player type to use while in pseudo world. 
                 /// </summary>
-                public PseudoPlayerChrType PlayerChrType { get; set; }
+                public PseudoPlayerChrType PlayerChrType { get; set; } = PseudoPlayerChrType.WhitePhantom;
 
                 /// <summary>
                 /// Determines which set of FMG entries to use in pseudo world.
                 /// </summary>
-                public PseudoMessageSetType MessageSetType { get; set; }
+                public PseudoMessageSetType MessageSetType { get; set; } = PseudoMessageSetType.Default;
 
                 /// <summary>
                 /// ID of FMG entry to display when trying to join pseudo world.
