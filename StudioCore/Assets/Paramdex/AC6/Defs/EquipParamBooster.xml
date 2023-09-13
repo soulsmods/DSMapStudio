@@ -47,7 +47,9 @@
     <Field Def="f32 boostModeJumpVelocity">
       <Description>Velocity upon jumping with boost movement.</Description>
     </Field>
-    <Field Def="f32 UnkFloatQuickBoostVelocity0x68"></Field>
+    <Field Def="f32 displayQuickBoostThrust">
+      <Description>Only affects value in UI.</Description>
+    </Field>
     <Field Def="f32 UnkFloat0x6C"></Field>
     <Field Def="f32 UnkFloatBoostModeJumpVelocity0x70"></Field>
     <Field Def="f32 UnkFloatBoostModeJumpVelocity0x74"></Field>
@@ -106,9 +108,9 @@
       <Description>EN consumed by Assault Boost.</Description>
     </Field>
     <Field Def="s16 Unk0x11C"></Field>
-    <Field Def="u16 meleeBoostInitialVelocity"></Field>
+    <Field Def="u16 Unk0x11E"></Field>
+    <Field Def="f32 meleeBoostInitialVelocity"></Field>
     <Field Def="f32 meleeBoostContinuousVelocity"></Field>
-    <Field Def="f32 UnkFloat0x124"></Field>
     <Field Def="f32 UnkFloat0x128"></Field>
     <Field Def="f32 UnkFloat0x12C"></Field>
     <Field Def="u16 meleeBoostEnergyConsumption"></Field>

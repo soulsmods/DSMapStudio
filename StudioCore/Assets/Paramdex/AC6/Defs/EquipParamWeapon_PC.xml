@@ -96,7 +96,7 @@
     <Field Def="u16 defMaterial"></Field>
     <Field Def="u8 correctType"></Field>
     <Field Def="u8 spAttribute"></Field>
-    <Field Def="u16 spAtkCategory"></Field>
+    <Field Def="u16 Unk0xEE"></Field>
     <Field Def="u8 wepmotionOneHandId"></Field>
     <Field Def="u8 wepmotionBothHandId"></Field>
     <Field Def="u8 properStrength"></Field>
@@ -336,11 +336,11 @@
     <Field Def="s32 Unk0x2FC"></Field>
     <Field Def="s32 Unk0x300"></Field>
     <Field Def="s32 Unk0x304"></Field>
-    <Field Def="s16 UnkShort0x308"></Field>
-    <Field Def="s16 Unk0x30A"></Field>
-    <Field Def="s32 Unk0x30C"></Field>
-    <Field Def="s32 Unk0x310"></Field>
-    <Field Def="s32 Unk0x314"></Field>
+    <Field Def="s16 unkAnimation"></Field>
+    <Field Def="s32 Unk0x30A"></Field>
+    <Field Def="s32 Unk0x30E"></Field>
+    <Field Def="s32 Unk0x312"></Field>
+    <Field Def="s16 Unk0x316"></Field>
     <Field Def="f32 UnkFloat0x318"></Field>
     <Field Def="f32 UnkFloat0x31C"></Field>
     <Field Def="f32 UnkFloat0x320"></Field>
@@ -555,11 +555,14 @@
     <Field Def="u8 Unk0x58A"></Field>
     <Field Def="u8 Unk0x58B"></Field>
     <Field Def="f32 weaponCoolingRate">
-      <Description>Speed at which head buildup is reduced when cooling weapon.</Description>
+      <Description>Speed at which heat buildup is reduced.</Description>
     </Field>
-    <Field Def="f32 UnkFloat0x590"></Field>
-    <Field Def="f32 UnkFloat0x594"></Field>
-    <Field Def="f32 UnkFloat0x598"></Field>
+    <Field Def="f32 weaponOverheatedCoolingRate"></Field>
+      <Description>Speed at which heat buildup is reduced if weapon has overheated. Added on top of weaponCoolingRate.</Description>
+    <Field Def="f32 weaponCoolingDelay"></Field>
+      <Description>Delay in seconds before heat buildup starts draining.</Description>
+    <Field Def="f32 weaponOverheatedCoolingDelay"></Field>
+      <Description>Delay in seconds before heat buildup starts draining when weapon has overheated. Added on top of weaponCoolingDelay.</Description>
     <Field Def="f32 UnkFloat0x59C"></Field>
     <Field Def="s32 UnkInt0x5A0"></Field>
     <Field Def="u16 UnkUshort0x5A4"></Field>
