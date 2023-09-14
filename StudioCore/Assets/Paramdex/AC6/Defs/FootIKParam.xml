@@ -14,7 +14,7 @@
     <Field Def="f32 UnkFloat0x14"></Field>
     <Field Def="f32 UnkFloat0x18"></Field>
     <Field Def="f32 UnkFloat0x1C"></Field>
-    <Field Def="dummy8 Unk0x20[1]"></Field>
+    <Field Def="u8 Unk0x20"></Field>
     <Field Def="u8 UnkByte0x21"></Field>
     <Field Def="u8 Unk0x22"></Field>
     <Field Def="u8 Unk0x23"></Field>
