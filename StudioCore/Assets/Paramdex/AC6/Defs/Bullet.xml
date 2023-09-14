@@ -103,7 +103,7 @@
     <Field Def="f32 intervalCreateTimeMax"></Field>
     <Field Def="f32 predictionShootObserveTime"></Field>
     <Field Def="f32 intervalCreateWaitTime"></Field>
-    <Field Def="u8 sfxPostureType"></Field>
+    <Field Def="s8 sfxPostureType"></Field>
     <Field Def="u8 UnkByte0xD1"></Field>
     <Field Def="u8 UnkByte0xD2"></Field>
     <Field Def="u8 UnkByte0xD3"></Field>
@@ -156,13 +156,13 @@
     <Field Def="f32 UnkFloat0x174"></Field>
     <Field Def="u8 UnkByte0x178"></Field>
     <Field Def="u8 UnkByte0x179"></Field>
-    <Field Def="u8 UnkByte0x17A"></Field>
+    <Field Def="s8 UnkSbyte0x17A"></Field>
     <Field Def="u8 UnkByte0x17B"></Field>
     <Field Def="f32 UnkFloat0x17C"></Field>
     <Field Def="f32 UnkFloat0x180"></Field>
     <Field Def="s16 Unk0x184"></Field>
     <Field Def="u8 UnkByte0x186"></Field>
-    <Field Def="u8 UnkByte0x187"></Field>
+    <Field Def="s8 UnkSbyte0x187"></Field>
     <Field Def="s32 Unk0x188"></Field>
     <Field Def="s32 Unk0x18C"></Field>
     <Field Def="f32 Unk0x190"></Field>
@@ -231,7 +231,7 @@
     <Field Def="u8 UnkByte0x278"></Field>
     <Field Def="u8 UnkByte0x279"></Field>
     <Field Def="u8 UnkByte0x27A"></Field>
-    <Field Def="u8 UnkByte0x27B"></Field>
+    <Field Def="s8 UnkSbyte0x27B"></Field>
     <Field Def="s32 UnkInt0x27C"></Field>
     <Field Def="f32 UnkFloat0x280"></Field>
     <Field Def="f32 UnkFloat0x284"></Field>
@@ -252,19 +252,21 @@
     </Field>
     <Field Def="s32 UnkInt0x2B0"></Field>
     <Field Def="s16 UnkShort0x2B4"></Field>
-    <Field Def="u8 UnkByte0x2B6"></Field>
+    <Field Def="s8 UnkSbyte0x2B6"></Field>
     <Field Def="u8 UnkByte0x2B7"></Field>
     <Field Def="s32 UnkInt0x2B8"></Field>
     <Field Def="f32 UnkFloat0x2BC"></Field>
     <Field Def="f32 UnkFloat0x2C0"></Field>
     <Field Def="f32 Unk0x2C4"></Field>
     <Field Def="f32 Unk0x2C8"></Field>
-    <Field Def="f32 UnkFloat0x2CC"></Field>
+    <Field Def="f32 homingOffsetRate">
+      <Description>Affects much homing projectile will lead the target.</Description>
+    </Field>
     <Field Def="f32 UnkFloat0x2D0"></Field>
     <Field Def="u8 UnkByte0x2D4"></Field>
     <Field Def="u8 UnkByte0x2D5"></Field>
     <Field Def="u8 UnkByte0x2D6"></Field>
-    <Field Def="u8 UnkByte0x2D7"></Field>
+    <Field Def="s8 UnkSbyte0x2D7"></Field>
     <Field Def="f32 UnkFloat0x2D8"></Field>
     <Field Def="f32 UnkFloat0x2DC"></Field>
     <Field Def="f32 UnkFloat0x2E0"></Field>
@@ -275,10 +277,10 @@
     <Field Def="f32 UnkFloat0x2F4"></Field>
     <Field Def="f32 UnkFloat0x2F8"></Field>
     <Field Def="f32 UnkFloat0x2FC"></Field>
-    <Field Def="u8 UnkByte0x300"></Field>
-    <Field Def="u8 UnkByte0x301"></Field>
-    <Field Def="u8 UnkByte0x302"></Field>
-    <Field Def="u8 UnkByte0x303"></Field>
+    <Field Def="s8 UnkSbyte0x300"></Field>
+    <Field Def="s8 UnkSbyte0x301"></Field>
+    <Field Def="s8 UnkSbyte0x302"></Field>
+    <Field Def="s8 UnkSbyte0x303"></Field>
     <Field Def="f32 UnkFloat0x304"></Field>
     <Field Def="f32 UnkFloat0x308"></Field>
     <Field Def="f32 UnkFloat0x30C"></Field>

@@ -7,7 +7,7 @@
   <FormatVersion>203</FormatVersion>
   <Fields>
     <Field Def="u32 UnkUint0x00"></Field>
-    <Field Def="u32 UnkUint0x04"></Field>
+    <Field Def="s32 UnkInt0x04"></Field>
     <Field Def="u32 UnkUint0x08"></Field>
     <Field Def="u32 UnkUint0x0C"></Field>
     <Field Def="u32 UnkUint0x10"></Field>
@@ -17,7 +17,7 @@
     <Field Def="u32 UnkUint0x20"></Field>
     <Field Def="u32 UnkUint0x24"></Field>
     <Field Def="u32 UnkUint0x28"></Field>
-    <Field Def="u32 UnkUint0x2C"></Field>
+    <Field Def="s32 UnkInt0x2C"></Field>
     <Field Def="u32 UnkUint0x30"></Field>
     <Field Def="u32 UnkUint0x34"></Field>
     <Field Def="u32 UnkUint0x38"></Field>
@@ -37,7 +37,7 @@
     <Field Def="u32 UnkUint0x70"></Field>
     <Field Def="u32 UnkUint0x74"></Field>
     <Field Def="u32 UnkUint0x78"></Field>
-    <Field Def="u32 UnkUint0x7C"></Field>
+    <Field Def="s32 UnkInt0x7C"></Field>
     <Field Def="u32 UnkUint0x80"></Field>
     <Field Def="u32 UnkUint0x84"></Field>
     <Field Def="u32 UnkUint0x88"></Field>
@@ -157,7 +157,7 @@
     <Field Def="u32 UnkUint0x250"></Field>
     <Field Def="u32 UnkUint0x254"></Field>
     <Field Def="u32 UnkUint0x258"></Field>
-    <Field Def="u32 UnkUint0x25C"></Field>
+    <Field Def="s32 UnkInt0x25C"></Field>
     <Field Def="u32 UnkUint0x260"></Field>
     <Field Def="u32 UnkUint0x264"></Field>
     <Field Def="u32 UnkUint0x268"></Field>

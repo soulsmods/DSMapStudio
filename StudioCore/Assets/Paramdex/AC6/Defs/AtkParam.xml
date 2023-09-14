@@ -84,8 +84,8 @@
     <Field Def="u8 isArrowAtk:1"></Field>
     <Field Def="u8 isGhostAtk:1"></Field>
     <Field Def="u8 isDisableNoDamage:1"></Field>
-    <Field Def="s8 atkPow_forSfx"></Field>
-    <Field Def="s8 atkDir_forSfx"></Field>
+    <Field Def="u8 atkPow_forSfx"></Field>
+    <Field Def="u8 atkDir_forSfx"></Field>
     <Field Def="u8 opposeTarget:1"></Field>
     <Field Def="u8 friendlyTarget:1"></Field>
     <Field Def="u8 selfTarget:1"></Field>
@@ -95,7 +95,7 @@
     <Field Def="u8 excludeThreatLvNotify:1"></Field>
     <Field Def="dummy8 pad1:1"></Field>
     <Field Def="u8 atkBehaviorId"></Field>
-    <Field Def="s8 atkPow_forSe"></Field>
+    <Field Def="u8 atkPow_forSe"></Field>
     <Field Def="f32 atkSuperArmor"></Field>
     <Field Def="s32 decalId1"></Field>
     <Field Def="s32 decalId2"></Field>
@@ -214,10 +214,10 @@
     <Field Def="u8 UnkByte0x1AB"></Field>
     <Field Def="s32 UnkInt0x1AC"></Field>
     <Field Def="f32 UnkFloat0x1B0"></Field>
-    <Field Def="u8 UnkByte0x1B4"></Field>
+    <Field Def="s8 UnkSbyte0x1B4"></Field>
     <Field Def="u8 UnkByte0x1B5"></Field>
     <Field Def="u16 UnkUshort0x1B6"></Field>
-    <Field Def="u8 UnkByte0x1B8"></Field>
+    <Field Def="s8 UnkSbyte0x1B8"></Field>
     <Field Def="u8 UnkByte0x1B9"></Field>
     <Field Def="u8 UnkByte0x1BA"></Field>
     <Field Def="u8 UnkByte0x1BB"></Field>
@@ -229,7 +229,7 @@
     <Field Def="f32 UnkFloat0x1D0"></Field>
     <Field Def="s32 UnkInt0x1D4"></Field>
     <Field Def="u8 UnkByte0x1D8"></Field>
-    <Field Def="u8 UnkByte0x1D9"></Field>
+    <Field Def="s8 UnkSbyte0x1D9"></Field>
     <Field Def="u8 UnkByte0x1DA"></Field>
     <Field Def="u8 UnkByte0x1DB"></Field>
     <Field Def="u16 UnkUshort0x1DC"></Field>
@@ -375,7 +375,7 @@
     <Field Def="s16 UnkShort0x332"></Field>
     <Field Def="f32 Unk0x334"></Field>
     <Field Def="s16 Unk0x338"></Field>
-    <Field Def="u8 UnkByte0x33A"></Field>
+    <Field Def="s8 UnkSbyte0x33A"></Field>
     <Field Def="u8 UnkByte0x33B"></Field>
     <Field Def="s32 UnkInt0x33C"></Field>
     <Field Def="f32 UnkFloat0x340"></Field>
@@ -459,13 +459,16 @@
       <Description>Refers to PadRumble.</Description>
     </Field>
     <Field Def="f32 UnkFloat0x3EC"></Field>
-    <Field Def="s32 Unk0x3F0"></Field>
+    <Field Def="s8 UnkSbyte0x3F0"></Field>
+    <Field Def="u8 Unk0x3F1"></Field>
+    <Field Def="u8 Unk0x3F2"></Field>
+    <Field Def="u8 Unk0x3F3"></Field>
     <Field Def="f32 UnkFloat0x3F4"></Field>
     <Field Def="s32 Unk0x3F8"></Field>
     <Field Def="s32 Unk0x3FC"></Field>
     <Field Def="s32 Unk0x400"></Field>
     <Field Def="s32 Unk0x404"></Field>
-    <Field Def="s32 Unk0x408" FirstVersion="10210005"></Field>
-    <Field Def="s32 Unk0x40C" FirstVersion="10210005"></Field>
+    <Field Def="s32 Unk0x408"></Field>
+    <Field Def="s32 Unk0x40C"></Field>
   </Fields>
 </PARAMDEF>

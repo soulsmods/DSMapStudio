@@ -4,7 +4,7 @@
     <movementAcTypeParamId AltName="movementAcTypeParamId" Refs="MovementAcTypeParam" />
     <chrActTurnParamId AltName="chrActTurnParamId" Refs="ChrActTurnParam" />
     <thrusterParamId AltName="thrusterParamId" Refs="ThrustersParam_PC" />
-    <corePartWeaponParamId AltName="corePartWeaponParamId" Refs="EquipParamWeapon" />
+    <weaponParamId AltName="Weapon Param ID" Refs="EquipParamWeapon" />
     <protectorParamId AltName="protectorParamId" Refs="EquipParamProtector" />
     <legPartBoosterParamId AltName="legPartBoosterParamId" Refs="EquipParamBooster" />
     <knockbackParamId AltName="knockbackParamId" Refs="KnockbackParam" />
