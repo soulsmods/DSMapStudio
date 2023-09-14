@@ -286,7 +286,9 @@
     <Field Def="s16 UnkShort0x1D6"></Field>
     <Field Def="s32 UnkInt0x1D8"></Field>
     <Field Def="f32 UnkFloat0x1DC"></Field>
-    <Field Def="f32 UnkFloat0x1E0"></Field>
+    <Field Def="f32 quickBoostVelocity">
+      <Description>Referred to in-game as "Jump Distance". Does not affect jump distance.</Description>
+    </Field>
     <Field Def="s32 UnkInt0x1E4"></Field>
     <Field Def="s32 attitudeStability"></Field>
     <Field Def="f32 UnkFloat0x1EC"></Field>
@@ -324,7 +326,7 @@
     <Field Def="s32 chrActTurnParamId">
       <Description>Refers to ChrActTurnParam</Description>
     </Field>
-    <Field Def="s32 Unk0x254"></Field>
+    <Field Def="f32 Unk0x254"></Field>
     <Field Def="s32 Unk0x258"></Field>
     <Field Def="s32 Unk0x25C"></Field>
     <Field Def="s32 Unk0x260"></Field>
@@ -346,18 +348,26 @@
     <Field Def="f32 UnkFloat0x288"></Field>
     <Field Def="s32 Unk0x28C"></Field>
     <Field Def="f32 UnkFloat0x290"></Field>
-    <Field Def="f32 UnkFloat0x294"></Field>
-    <Field Def="f32 UnkFloat0x298"></Field>
-    <Field Def="f32 UnkFloat0x29C"></Field>
-    <Field Def="f32 UnkFloat0x2A0"></Field>
+    <Field Def="f32 quickBoostGroundedHeight">
+      <Description>Height gained while quick boosting..</Description>
+    </Field>
+    <Field Def="f32 boostingJumpHorizontalSpeedBonus">
+      <Description>When boosting then jumping, takes current speed and multiplies it by this value then adds it to current speed.</Description>
+    </Field>
+    <Field Def="f32 jumpVelocityVertical"></Field>
+    <Field Def="f32 jumpVelocityAcceleration">
+      <Description>How quickly jump reaches max velocity and velocity ends. Interrupted by boosting.</Description>
+    </Field>
     <Field Def="f32 UnkFloat0x2A4"></Field>
     <Field Def="f32 UnkFloat0x2A8"></Field>
     <Field Def="f32 UnkFloat0x2AC"></Field>
-    <Field Def="f32 UnkFloat0x2B0"></Field>
+    <Field Def="f32 jumpVelocityHorizontalTransferred">
+      <Description>Amount of jumpVelocityVertical to transfer into horizontal velocity.</Description>
+    </Field>
     <Field Def="s32 Unk0x2B4"></Field>
     <Field Def="s32 Unk0x2B8"></Field>
     <Field Def="s32 Unk0x2BC"></Field>
-    <Field Def="s32 Unk0x2C0"></Field>
+    <Field Def="f32 Unk0x2C0"></Field>
     <Field Def="s32 Unk0x2C4"></Field>
     <Field Def="s32 Unk0x2C8"></Field>
     <Field Def="s32 Unk0x2CC"></Field>
@@ -368,14 +378,14 @@
     <Field Def="s32 Unk0x2D8"></Field>
     <Field Def="s32 Unk0x2DC"></Field>
     <Field Def="s32 Unk0x2E0"></Field>
-    <Field Def="s32 Unk0x2E4"></Field>
-    <Field Def="s32 Unk0x2E8"></Field>
-    <Field Def="s32 Unk0x2EC"></Field>
-    <Field Def="f32 legsJumpDistance">
-      <Description>Horizontal jumping performance. Higher values correspond to higher initial speed of Quick Boosts from the ground.</Description>
+    <Field Def="f32 Unk0x2E4"></Field>
+    <Field Def="f32 Unk0x2E8"></Field>
+    <Field Def="f32 Unk0x2EC"></Field>
+    <Field Def="f32 unkDisplayLegsJumpDistance">
+      <Description>Seemingly does nothing, and UI element for "Jump Distance" is governed by quickBoostVelocity.</Description>
     </Field>
-    <Field Def="f32 legsJumpHeight">
-      <Description>Vertical jumping performance. Higher values correspond to higher maximum heights of jumps from the ground.</Description>
+    <Field Def="f32 displayLegsJumpHeight">
+      <Description>Only affects value in UI.</Description>
     </Field>
     <Field Def="s32 Unk0x2F8"></Field>
     <Field Def="s32 Unk0x2FC"></Field>
@@ -416,9 +426,9 @@
     <Field Def="s32 UnkInt0x35C"></Field>
     <Field Def="f32 UnkFloat0x360"></Field>
     <Field Def="s32 protectorParamId"></Field>
-    <Field Def="f32 UnkFloat0x368"></Field>
-    <Field Def="f32 UnkFloat0x36C"></Field>
-    <Field Def="f32 UnkFloat0x370"></Field>
+    <Field Def="f32 boostEfficiencyAdj"></Field>
+    <Field Def="f32 generatorOutputAdj"></Field>
+    <Field Def="f32 generatorSupplyAdj"></Field>
     <Field Def="s32 Unk0x374"></Field>
     <Field Def="s32 Unk0x378"></Field>
     <Field Def="s32 Unk0x37C"></Field>
