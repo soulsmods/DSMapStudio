@@ -19,10 +19,7 @@
     <Field Def="f32 closeAngRange"></Field>
     <Field Def="f32 closeMaxRadius"></Field>
     <Field Def="f32 closeMaxRadius_forD"></Field>
-    <Field Def="u8 UnkByte0x34"></Field>
-    <Field Def="u8 Unk0x35"></Field>
-    <Field Def="u8 Unk0x36"></Field>
-    <Field Def="u8 Unk0x37"></Field>
+    <Field Def="s32 UnkInt0x34"></Field>
     <Field Def="f32 bulletMaxRadius"></Field>
     <Field Def="f32 bulletMaxRadius_forD"></Field>
     <Field Def="f32 bulletMaxRadius_forPD"></Field>
