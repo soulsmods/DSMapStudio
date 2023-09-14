@@ -12,7 +12,8 @@
     <Field Def="s32 eventFlag_forStock"></Field>
     <Field Def="s32 eventFlag_forRelease"></Field>
     <Field Def="s16 sellQuantity"></Field>
-    <Field Def="s32 UnkInt0x16"></Field>
+    <Field Def="s16 Unk0x16"></Field>
+    <Field Def="s16 Unk0x18"></Field>
     <Field Def="u16 UnkUshort0x1A"></Field>
     <Field Def="s32 UnkInt0x1C"></Field>
   </Fields>

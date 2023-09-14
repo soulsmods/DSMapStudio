@@ -12,8 +12,6 @@
     <Field Def="u16 menuDecalId">
       <Description>ID of the MENU_Decal texture in 00_Solo to use for the character's emblem.</Description>
     </Field>
-    <Field Def="s32 Unk0x06"></Field>
-    <Field Def="s32 Unk0x0A"></Field>
-    <Field Def="s16 Unk0x0E"></Field>
+    <Field Def="dummy8 pad08[10]" />
   </Fields>
 </PARAMDEF>

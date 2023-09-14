@@ -194,8 +194,12 @@
     <Field Def="u8 isWaitModeDelete:1"></Field>
     <Field Def="u8 isIgnoreNoDamage:1"></Field>
     <Field Def="s8 changeTeamType"></Field>
-    <Field Def="s32 Unk0x176"></Field>
-    <Field Def="s16 Unk0x17A"></Field>
+    <Field Def="u8 Unk0x176"></Field>
+    <Field Def="u8 Unk0x177"></Field>
+    <Field Def="u8 Unk0x178"></Field>
+    <Field Def="u8 Unk0x179"></Field>
+    <Field Def="u8 Unk0x17A"></Field>
+    <Field Def="u8 Unk0x17B"></Field>
     <Field Def="s32 vfxId"></Field>
     <Field Def="s32 accumuOverFireId"></Field>
     <Field Def="s32 accumuOverVal"></Field>

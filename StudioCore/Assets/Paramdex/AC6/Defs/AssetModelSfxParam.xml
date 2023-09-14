@@ -6,39 +6,30 @@
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <Field Def="s32 sfxId_0"></Field>
-    <Field Def="s32 dmypolyId_0"></Field>
-    <Field Def="s32 Unk0x08"></Field>
-    <Field Def="s32 Unk0x0C"></Field>
-    <Field Def="s32 sfxId_1"></Field>
-    <Field Def="s32 dmypolyId_1"></Field>
-    <Field Def="s32 Unk0x18"></Field>
-    <Field Def="s32 Unk0x1C"></Field>
-    <Field Def="s32 sfxId_2"></Field>
-    <Field Def="s32 dmypolyId_2"></Field>
-    <Field Def="s32 Unk0x28"></Field>
-    <Field Def="s32 Unk0x2C"></Field>
-    <Field Def="s32 sfxId_3"></Field>
-    <Field Def="s32 dmypolyId_3"></Field>
-    <Field Def="s32 Unk0x38"></Field>
-    <Field Def="s32 Unk0x3C"></Field>
-    <Field Def="s32 sfxId_4"></Field>
-    <Field Def="s32 dmypolyId_4"></Field>
-    <Field Def="s32 Unk0x48"></Field>
-    <Field Def="s32 Unk0x4C"></Field>
-    <Field Def="s32 sfxId_5"></Field>
-    <Field Def="s32 dmypolyId_5"></Field>
-    <Field Def="s32 Unk0x58"></Field>
-    <Field Def="s32 Unk0x5C"></Field>
-    <Field Def="s32 sfxId_6"></Field>
-    <Field Def="s32 dmypolyId_6"></Field>
-    <Field Def="s32 Unk0x68"></Field>
-    <Field Def="s32 Unk0x6C"></Field>
-    <Field Def="s32 sfxId_7"></Field>
-    <Field Def="s32 dmypolyId_7"></Field>
+    <Field Def="s32 sfxId_0 = -1"></Field>
+    <Field Def="s32 dmypolyId_0 = -1"></Field>
+    <Field Def="dummy8 reserve_0[8]"></Field>
+    <Field Def="s32 sfxId_1 = -1"></Field>
+    <Field Def="s32 dmypolyId_1 = -1"></Field>
+    <Field Def="dummy8 reserve_1[8]"></Field>
+    <Field Def="s32 sfxId_2 = -1"></Field>
+    <Field Def="s32 dmypolyId_2 = -1"></Field>
+    <Field Def="dummy8 reserve_2[8]"></Field>
+    <Field Def="s32 sfxId_3 = -1"></Field>
+    <Field Def="s32 dmypolyId_3 = -1"></Field>
+    <Field Def="dummy8 reserve_3[8]"></Field>
+    <Field Def="s32 sfxId_4 = -1"></Field>
+    <Field Def="s32 dmypolyId_4 = -1"></Field>
+    <Field Def="dummy8 reserve_4[8]"></Field>
+    <Field Def="s32 sfxId_5 = -1"></Field>
+    <Field Def="s32 dmypolyId_5 = -1"></Field>
+    <Field Def="dummy8 reserve_5[8]"></Field>
+    <Field Def="s32 sfxId_6 = -1"></Field>
+    <Field Def="s32 dmypolyId_6 = -1"></Field>
+    <Field Def="dummy8 reserve_6[8]"></Field>
+    <Field Def="s32 sfxId_7 = -1"></Field>
+    <Field Def="s32 dmypolyId_7 = -1"></Field>
     <Field Def="u8 isDisableIV"></Field>
-    <Field Def="s32 Unk0x79"></Field>
-    <Field Def="s16 Unk0x7D"></Field>
-    <Field Def="u8 Unk0x7F"></Field>
+    <Field Def="dummy8 reserve_7[7]"></Field>
   </Fields>
 </PARAMDEF>

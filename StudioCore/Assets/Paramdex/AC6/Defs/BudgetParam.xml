@@ -33,11 +33,6 @@
     <Field Def="f32 vram_detail_all"></Field>
     <Field Def="f32 vram_chr_and_parts"></Field>
     <Field Def="f32 havok_navimesh"></Field>
-    <Field Def="s32 Unk0x6C"></Field>
-    <Field Def="s32 Unk0x70"></Field>
-    <Field Def="s32 Unk0x74"></Field>
-    <Field Def="s32 Unk0x78"></Field>
-    <Field Def="s32 Unk0x7C"></Field>
-    <Field Def="s32 Unk0x80"></Field>
+    <Field Def="dummy8 reserve_1[24]"></Field>
   </Fields>
 </PARAMDEF>

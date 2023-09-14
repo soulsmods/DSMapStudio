@@ -38,13 +38,13 @@
     <Field Def="u8 chrWetDisableEnemy"></Field>
     <Field Def="u8 dynamicResolutionPercentageMin"></Field>
     <Field Def="u8 dynamicResolutionPercentageMax"></Field>
-    <Field Def="s32 Unk0x32"></Field>
-    <Field Def="s32 Unk0x36"></Field>
-    <Field Def="s32 Unk0x3A"></Field>
-    <Field Def="s32 Unk0x3E"></Field>
-    <Field Def="s32 Unk0x42"></Field>
-    <Field Def="s32 Unk0x46"></Field>
-    <Field Def="s32 Unk0x4A"></Field>
-    <Field Def="s16 Unk0x4E"></Field>
+    <Field Def="s16 Unk0x32"></Field>
+    <Field Def="s32 Unk0x34"></Field>
+    <Field Def="s32 Unk0x38"></Field>
+    <Field Def="s32 Unk0x3C"></Field>
+    <Field Def="s32 Unk0x40"></Field>
+    <Field Def="s32 Unk0x44"></Field>
+    <Field Def="s32 Unk0x48"></Field>
+    <Field Def="s32 Unk0x4C"></Field>
   </Fields>
 </PARAMDEF>

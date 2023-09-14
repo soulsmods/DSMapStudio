@@ -26,7 +26,7 @@
     <Field Def="u8 lightColorR"></Field>
     <Field Def="u8 lightColorG"></Field>
     <Field Def="u8 lightColorB"></Field>
-    <Field Def="u8 Unk0x23"></Field>
+    <Field Def="dummy8 reserve[1]"></Field>
     <Field Def="f32 alpha"></Field>
     <Field Def="f32 blendRate"></Field>
     <Field Def="u8 blendType"></Field>
