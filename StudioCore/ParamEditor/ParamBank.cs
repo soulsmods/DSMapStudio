@@ -23,6 +23,7 @@ namespace StudioCore.ParamEditor
     {
         public enum RowGetType
         {
+            AllParams = -1,
             AllRows = 0,
             ModifiedRows = 1,
             SelectedRows = 2
