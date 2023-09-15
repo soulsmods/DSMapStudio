@@ -436,15 +436,20 @@ namespace StudioCore.Editor
             return false;
         }
 
-        public static void ImguiTableSeparator()
+        public static bool ImguiTableSeparator()
         {
+            bool lastCol = false;
             int cols = ImGui.TableGetColumnCount();
             ImGui.TableNextRow();
             for (int i=0; i<cols; i++)
             {
-                ImGui.TableNextColumn();
-                ImGui.Separator();
+                if (ImGui.TableNextColumn())
+                {
+                    ImGui.Separator();
+                    lastCol = true;
+                }
             }
+            return lastCol;
         }
         public static bool ImGuiTableStdColumns(string id, int cols, bool fixVerticalPadding)
         {

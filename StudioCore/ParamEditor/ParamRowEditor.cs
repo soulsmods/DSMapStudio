@@ -313,96 +313,109 @@ namespace StudioCore.ParamEditor
                     columnCount += auxRows.Count;
                 if (EditorDecorations.ImGuiTableStdColumns("ParamFieldsT", columnCount, false))
                 {
-                    ImGui.TableNextColumn();
-                    if (showParamCompare)
-                        ImGui.Text("Current");
-                    ImGui.TableNextColumn();
+                    if (ImGui.TableNextColumn())
+                    {
+                        if (showParamCompare)
+                            ImGui.Text("Current");
+                    }
                     if (CFG.Current.Param_ShowVanillaParams)
                     {
-                        if (showParamCompare)
-                            ImGui.Text("Vanilla");
-                        ImGui.TableNextColumn();
+                        if (ImGui.TableNextColumn())
+                        {
+                            if (showParamCompare)
+                                ImGui.Text("Vanilla");
+                        }
                     }
-                    foreach ((string name, Param.Row r) in auxRows)
+                    if (showParamCompare)
                     {
-                        if (showParamCompare)
-                            ImGui.Text(name);
-                        ImGui.TableNextColumn();
+                        foreach ((string name, Param.Row r) in auxRows)
+                        {
+                            if (ImGui.TableNextColumn())
+                                ImGui.Text(name);
+                        }
                     }
-                    if (showRowCompare)
-                        ImGui.TableNextColumn();
-
-                    // This should be rewritten somehow it's super ugly
-                    ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.8f, 0.8f, 1.0f, 1.0f));
-                    var nameProp = row.GetType().GetProperty("Name");
-                    var idProp = row.GetType().GetProperty("ID");
-                    PropEditorPropInfoRow(bank, row, vrow, auxRows, crow, nameProp, "Name", ref id, activeParam, selection);
-                    PropEditorPropInfoRow(bank, row, vrow, auxRows, crow, idProp, "ID", ref id, activeParam, selection);
-                    ImGui.PopStyleColor();
-                    ImGui.Spacing();
-                    EditorDecorations.ImguiTableSeparator();
-
+                    if (ImGui.TableNextColumn())
+                    {
+                        // This should be rewritten somehow it's super ugly
+                        ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.8f, 0.8f, 1.0f, 1.0f));
+                        var nameProp = row.GetType().GetProperty("Name");
+                        var idProp = row.GetType().GetProperty("ID");
+                        PropEditorPropInfoRow(bank, row, vrow, auxRows, crow, nameProp, "Name", ref id, activeParam, selection);
+                        PropEditorPropInfoRow(bank, row, vrow, auxRows, crow, idProp, "ID", ref id, activeParam, selection);
+                        ImGui.PopStyleColor();
+                        ImGui.Spacing();
+                    }
                     string search = propSearchString;
                     List<(PseudoColumn, Param.Column)> cols = CacheBank.GetCached(_paramEditor, row, "fieldFilter", () => CellSearchEngine.cse.Search((activeParam, row), search, true, true));
                     List<(PseudoColumn, Param.Column)> vcols = CacheBank.GetCached(_paramEditor, vrow, "vFieldFilter", () => cols.Select((x, i) => x.GetAs(ParamBank.VanillaBank.GetParamFromName(activeParam))).ToList());
                     List<List<(PseudoColumn, Param.Column)>> auxCols = CacheBank.GetCached(_paramEditor, auxRows, "auxFieldFilter", () => auxRows.Select((r, i) => cols.Select((c, j) => c.GetAs(ParamBank.AuxBanks[r.Item1].GetParamFromName(activeParam))).ToList()).ToList());
 
                     List<string> pinnedFields = new List<string>(_paramEditor._projectSettings.PinnedFields.GetValueOrDefault(activeParam, new List<string>()));
+
                     if (pinnedFields.Count > 0)
-                    {
-                        foreach (var field in pinnedFields)
+                    {                        
+                        if (EditorDecorations.ImguiTableSeparator())
                         {
-                            List<(PseudoColumn, Param.Column)> matches = cols.Where((x, i) => x.Item2 != null && x.Item2.Def.InternalName == field).ToList();
-                            List<(PseudoColumn, Param.Column)> vmatches = vcols.Where((x, i) => x.Item2 != null && x.Item2.Def.InternalName == field).ToList();
-                            List<List<(PseudoColumn, Param.Column)>> auxMatches = auxCols.Select((aux, i) => aux.Where((x, i) => x.Item2 != null && x.Item2.Def.InternalName == field).ToList()).ToList();
-                            for (int i = 0; i < matches.Count; i++)
+                            foreach (var field in pinnedFields)
                             {
-                                PropEditorPropCellRow(bank,
-                                row,
-                                crow,
-                                matches[i],
-                                vrow,
-                                vmatches.Count > i ? vmatches[i] : (PseudoColumn.None, null),
-                                auxRows,
-                                auxMatches.Select((x, j) => x.Count > i ? x[i] : (PseudoColumn.None, null)).ToList(),
-                                matches[i].Item2?.GetByteOffset().ToString("x"),
-                                ref id, activeParam, true, selection);
+                                List<(PseudoColumn, Param.Column)> matches = cols.Where((x, i) => x.Item2 != null && x.Item2.Def.InternalName == field).ToList();
+                                List<(PseudoColumn, Param.Column)> vmatches = vcols.Where((x, i) => x.Item2 != null && x.Item2.Def.InternalName == field).ToList();
+                                List<List<(PseudoColumn, Param.Column)>> auxMatches = auxCols.Select((aux, i) => aux.Where((x, i) => x.Item2 != null && x.Item2.Def.InternalName == field).ToList()).ToList();
+                                for (int i = 0; i < matches.Count; i++)
+                                {
+                                    PropEditorPropCellRow(bank,
+                                    row,
+                                    crow,
+                                    matches[i],
+                                    vrow,
+                                    vmatches.Count > i ? vmatches[i] : (PseudoColumn.None, null),
+                                    auxRows,
+                                    auxMatches.Select((x, j) => x.Count > i ? x[i] : (PseudoColumn.None, null)).ToList(),
+                                    matches[i].Item2?.GetByteOffset().ToString("x"),
+                                    ref id, activeParam, true, selection);
+                                }
                             }
                         }
-                        EditorDecorations.ImguiTableSeparator();
                     }
-                    List<string> fieldOrder = meta != null && meta.AlternateOrder != null && CFG.Current.Param_AllowFieldReorder ? meta.AlternateOrder : new List<string>();
-                    foreach (PARAMDEF.Field field in row.Def.Fields)
+                    if (pinnedFields.Count == 0 || (pinnedFields?.Count > 0 && EditorDecorations.ImguiTableSeparator()))
                     {
-                        if (!fieldOrder.Contains(field.InternalName))
-                            fieldOrder.Add(field.InternalName);
-                    }
-                    bool lastRowExists = false;
-                    foreach (var field in fieldOrder)
-                    {
-                        if (field.Equals("-") && lastRowExists)
+                        List<string> fieldOrder = meta != null && meta.AlternateOrder != null && CFG.Current.Param_AllowFieldReorder ? meta.AlternateOrder : new List<string>();
+                        foreach (PARAMDEF.Field field in row.Def.Fields)
                         {
-                            EditorDecorations.ImguiTableSeparator();
-                            lastRowExists = false;
-                            continue;
+                            if (!fieldOrder.Contains(field.InternalName))
+                                fieldOrder.Add(field.InternalName);
                         }
-                        if (row[field] == null)
-                            continue;
-                        List<(PseudoColumn, Param.Column)> matches = cols.Where((x, i) => x.Item2 != null && x.Item2.Def.InternalName == field).ToList();
-                        List<(PseudoColumn, Param.Column)> vmatches = vcols.Where((x, i) => x.Item2 != null && x.Item2.Def.InternalName == field).ToList();
-                        List<List<(PseudoColumn, Param.Column)>> auxMatches = auxCols.Select((aux, i) => aux.Where((x, i) => x.Item2 != null && x.Item2.Def.InternalName == field).ToList()).ToList();
-                        for (int i = 0; i < matches.Count; i++)
+                        bool lastRowExists = false;
+                        bool doDraw = true;
+                        foreach (var field in fieldOrder)
                         {
-                            lastRowExists |= PropEditorPropCellRow(bank,
-                            row,
-                            crow,
-                            matches[i],
-                            vrow,
-                            vmatches.Count > i ? vmatches[i] : (PseudoColumn.None, null),
-                            auxRows,
-                            auxMatches.Select((x, j) => x.Count > i ? x[i] : (PseudoColumn.None, null)).ToList(),
-                            matches[i].Item2?.GetByteOffset().ToString("x"),
-                            ref id, activeParam, false, selection);
+                            if (field.Equals("-") && lastRowExists)
+                            {
+                                doDraw = EditorDecorations.ImguiTableSeparator();
+                                lastRowExists = false;
+                                continue;
+                            }
+                            if (row[field] == null)
+                                continue;
+                            if (doDraw)
+                            {
+                                List<(PseudoColumn, Param.Column)> matches = cols?.Where((x, i) => x.Item2 != null && x.Item2.Def.InternalName == field).ToList();
+                                List<(PseudoColumn, Param.Column)> vmatches = vcols?.Where((x, i) => x.Item2 != null && x.Item2.Def.InternalName == field).ToList();
+                                List<List<(PseudoColumn, Param.Column)>> auxMatches = auxCols?.Select((aux, i) => aux.Where((x, i) => x.Item2 != null && x.Item2.Def.InternalName == field).ToList()).ToList();
+                                for (int i = 0; i < matches.Count; i++)
+                                {
+                                    lastRowExists |= PropEditorPropCellRow(bank,
+                                    row,
+                                    crow,
+                                    matches[i],
+                                    vrow,
+                                    vmatches.Count > i ? vmatches[i] : (PseudoColumn.None, null),
+                                    auxRows,
+                                    auxMatches.Select((x, j) => x.Count > i ? x[i] : (PseudoColumn.None, null)).ToList(),
+                                    matches[i].Item2?.GetByteOffset().ToString("x"),
+                                    ref id, activeParam, false, selection);
+                                }
+                            }
                         }
                     }
                     ImGui.EndTable();
@@ -500,31 +513,30 @@ namespace StudioCore.ParamEditor
             object newval = null;
 
             ImGui.PushID(id);
-            ImGui.TableNextColumn();
-            ImGui.AlignTextToFramePadding();
-            if (Wiki != null)
+            if (ImGui.TableNextColumn())
             {
-                if (EditorDecorations.HelpIcon(internalName, ref Wiki, true))
+                ImGui.AlignTextToFramePadding();
+                if (Wiki != null)
                 {
-                    cellMeta.Wiki = Wiki;
+                    if (EditorDecorations.HelpIcon(internalName, ref Wiki, true))
+                    {
+                        cellMeta.Wiki = Wiki;
+                    }
+                    ImGui.SameLine();
                 }
-                ImGui.SameLine();
-            }
-            else
-            {
-                ImGui.Text(" ");
-                ImGui.SameLine();
-            }
-            PropertyRowName(fieldOffset, ref internalName, cellMeta);
-            PropertyRowNameContextMenu(bank, internalName, cellMeta, activeParam, activeParam != null, isPinned, col, selection);
+                else
+                {
+                    ImGui.Text(" ");
+                    ImGui.SameLine();
+                }
+                PropertyRowName(fieldOffset, ref internalName, cellMeta);
+                PropertyRowNameContextMenu(bank, internalName, cellMeta, activeParam, activeParam != null, isPinned, col, selection);
 
-            EditorDecorations.ParamRefText(RefTypes, row);
-            EditorDecorations.FmgRefText(FmgRef, row);
-            EditorDecorations.EnumNameText(Enum == null ? null : Enum.name);
-
+                EditorDecorations.ParamRefText(RefTypes, row);
+                EditorDecorations.FmgRefText(FmgRef, row);
+                EditorDecorations.EnumNameText(Enum == null ? null : Enum.name);
+            }
             //PropertyRowMetaDefContextMenu();
-            ImGui.TableNextColumn();
-            ImGui.SetNextItemWidth(-1);
             bool changed = false;
             bool committed = false;
 
@@ -536,69 +548,74 @@ namespace StudioCore.ParamEditor
 
             bool matchDefault = nullableCell?.Def.Default != null && nullableCell.Value.Def.Default.Equals(oldval);
             bool isRef = (CFG.Current.Param_HideReferenceRows == false && (RefTypes != null || FmgRef != null)) || (CFG.Current.Param_HideEnums == false && Enum != null) || VirtualRef != null || ExtRefs != null;
-            if (conflict)
-                ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.25f, 0.2f, 0.2f, 1.0f));
-            else if (diffVanilla)
-                ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.2f, 0.22f, 0.2f, 1.0f));
-            if (isRef)
-                ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 0.5f, 1.0f, 1.0f));
-            else if (matchDefault)
-                ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.75f, 0.75f, 0.75f, 1.0f));
             
-            // Property Editor UI
-            (changed, committed) = PropertyRow(propType, oldval, ref newval, IsBool);
-
-            if (isRef || matchDefault) //if diffVanilla, remove styling later
-                ImGui.PopStyleColor();
-
-            // Tooltip
-            if (ImGui.IsItemHovered(ImGuiHoveredFlags.DelayNormal | ImGuiHoveredFlags.NoSharedDelay))
+            if (ImGui.TableNextColumn())
             {
-                string str = $"Value Type: {propType.Name}";
-                if (propType.IsValueType)
+                ImGui.SetNextItemWidth(-1);
+                if (conflict)
+                    ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.25f, 0.2f, 0.2f, 1.0f));
+                else if (diffVanilla)
+                    ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.2f, 0.22f, 0.2f, 1.0f));
+                if (isRef)
+                    ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 0.5f, 1.0f, 1.0f));
+                else if (matchDefault)
+                    ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.75f, 0.75f, 0.75f, 1.0f));
+
+                // Property Editor UI
+                (changed, committed) = PropertyRow(propType, oldval, ref newval, IsBool);
+
+                if (isRef || matchDefault) //if diffVanilla, remove styling later
+                    ImGui.PopStyleColor();
+
+                // Tooltip
+                if (ImGui.IsItemHovered(ImGuiHoveredFlags.DelayNormal | ImGuiHoveredFlags.NoSharedDelay))
                 {
-                    var min = propType.GetField("MinValue")?.GetValue(propType);
-                    var max = propType.GetField("MaxValue")?.GetValue(propType);
-                    if (min != null & max != null)
+                    string str = $"Value Type: {propType.Name}";
+                    if (propType.IsValueType)
                     {
-                        str += $" (Min {min}, Max {max})";
+                        var min = propType.GetField("MinValue")?.GetValue(propType);
+                        var max = propType.GetField("MaxValue")?.GetValue(propType);
+                        if (min != null & max != null)
+                        {
+                            str += $" (Min {min}, Max {max})";
+                        }
+                    }
+                    if (Wiki != null)
+                    {
+                        str += $"\n\n{Wiki}";
+                    }
+                    ImGui.SetTooltip(str);
+                }
+
+                PropertyRowValueContextMenu(bank, row, internalName, VirtualRef, ExtRefs, oldval);
+
+                if (CFG.Current.Param_HideReferenceRows == false && RefTypes != null)
+                    EditorDecorations.ParamRefsSelectables(bank, RefTypes, row, oldval);
+                if (CFG.Current.Param_HideReferenceRows == false && FmgRef != null)
+                    EditorDecorations.FmgRefSelectable(_paramEditor, FmgRef, row, oldval);
+                if (CFG.Current.Param_HideEnums == false && Enum != null)
+                    EditorDecorations.EnumValueText(Enum.values, oldval.ToString());
+
+                if (CFG.Current.Param_HideReferenceRows == false || CFG.Current.Param_HideEnums == false)
+                {
+                    if (EditorDecorations.ParamRefEnumContextMenu(bank, oldval, ref newval, RefTypes, row, FmgRef, Enum, ContextActionManager))
+                    {
+                        changed = true;
+                        committed = true;
+                        _editedPropCache = newval;
                     }
                 }
-                if (Wiki != null)
-                {
-                    str += $"\n\n{Wiki}";
-                }
-                ImGui.SetTooltip(str);
+                if (conflict || diffVanilla)
+                    ImGui.PopStyleColor();
             }
-
-            PropertyRowValueContextMenu(bank, row, internalName, VirtualRef, ExtRefs, oldval);
-
-            if (CFG.Current.Param_HideReferenceRows == false && RefTypes != null)
-                EditorDecorations.ParamRefsSelectables(bank, RefTypes, row, oldval);
-            if (CFG.Current.Param_HideReferenceRows == false && FmgRef != null)
-                EditorDecorations.FmgRefSelectable(_paramEditor, FmgRef, row, oldval);
-            if (CFG.Current.Param_HideEnums == false && Enum != null)
-                EditorDecorations.EnumValueText(Enum.values, oldval.ToString());
-
-            if (CFG.Current.Param_HideReferenceRows == false || CFG.Current.Param_HideEnums == false)
-            {
-                if (EditorDecorations.ParamRefEnumContextMenu(bank, oldval, ref newval, RefTypes, row, FmgRef, Enum, ContextActionManager))
-                {
-                    changed = true;
-                    committed = true;
-                    _editedPropCache = newval;
-                }
-            }
-            if (conflict || diffVanilla)
-                ImGui.PopStyleColor();
             ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.180f, 0.180f, 0.196f, 1.0f));
             ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.9f, 0.9f, 0.9f, 1.0f));
             if (conflict)
                 ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.25f, 0.2f, 0.2f, 1.0f));
             if (CFG.Current.Param_ShowVanillaParams)
             {
-                ImGui.TableNextColumn();
-                AdditionalColumnValue(vanillaval, propType, bank, RefTypes, FmgRef, row, Enum, "vanilla");
+                if (ImGui.TableNextColumn())
+                    AdditionalColumnValue(vanillaval, propType, bank, RefTypes, FmgRef, row, Enum, "vanilla");
             }
             if (auxVals.Count > 0)
             {
@@ -606,20 +623,20 @@ namespace StudioCore.ParamEditor
                 {
                     if (!conflict && diffAuxVanilla[i])
                         ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.2f, 0.2f, 0.35f, 1.0f));
-                    ImGui.TableNextColumn();
-                    AdditionalColumnValue(auxVals[i], propType, bank, RefTypes, FmgRef, row, Enum, i.ToString());
+                    if (ImGui.TableNextColumn())
+                        AdditionalColumnValue(auxVals[i], propType, bank, RefTypes, FmgRef, row, Enum, i.ToString());
                     if (!conflict && diffAuxVanilla[i])
                         ImGui.PopStyleColor();
                 }
-                if (conflict)
-                    ImGui.PopStyleColor();
             }
+            if (conflict)
+                ImGui.PopStyleColor();
             if (compareval != null)
             {
                 if(diffCompare)
                     ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.2f, 0.2f, 0.35f, 1.0f));
-                ImGui.TableNextColumn();
-                AdditionalColumnValue(compareval, propType, bank, RefTypes, FmgRef, row, Enum, "compRow");
+                if (ImGui.TableNextColumn())
+                    AdditionalColumnValue(compareval, propType, bank, RefTypes, FmgRef, row, Enum, "compRow");
                 if (diffCompare)
                     ImGui.PopStyleColor();
             }

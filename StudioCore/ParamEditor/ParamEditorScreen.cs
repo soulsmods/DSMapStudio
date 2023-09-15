@@ -1884,317 +1884,321 @@ namespace StudioCore.ParamEditor
             {
                 ImGui.TableSetupColumn("paramsCol", ImGuiTableColumnFlags.None, 0.5f);
                 ImGui.TableSetupColumn("paramsCol2", ImGuiTableColumnFlags.None, 0.5f);
-                ImGui.TableNextColumn();
-
-                if (isActiveView && InputTracker.GetKeyDown(KeyBindings.Current.Param_SearchParam))
-                    ImGui.SetKeyboardFocusHere();
-                ImGui.InputText($"Search <{KeyBindings.Current.Param_SearchParam.HintText}>", ref _selection.currentParamSearchString, 256);
-                string resAutoParam = AutoFill.ParamSearchBarAutoFill();
-                if (resAutoParam != null)
-                    _selection.setCurrentRowSearchString(resAutoParam);
-                if (!_selection.currentParamSearchString.Equals(lastParamSearch))
-                {
-                    CacheBank.ClearCaches();
-                    lastParamSearch = _selection.currentParamSearchString;
-                }
-
-                if (ParamBank.PrimaryBank.AssetLocator.Type is GameType.DemonsSouls
-                    or GameType.DarkSoulsPTDE
-                    or GameType.DarkSoulsRemastered)
-                {
-                    // This game has DrawParams, add UI element to toggle viewing DrawParam and GameParams.
-                    if (ImGui.Checkbox("Edit Drawparams", ref _mapParamView))
-                        CacheBank.ClearCaches();
-                    ImGui.Separator();
-                }
-                else if (ParamBank.PrimaryBank.AssetLocator.Type is GameType.DarkSoulsIISOTFS)
-                {
-                    // DS2 has map params, add UI element to toggle viewing map params and GameParams.
-                    if (ImGui.Checkbox("Edit Map Params", ref _mapParamView))
-                        CacheBank.ClearCaches();
-                    ImGui.Separator();
-                }
-
-                List<string> pinnedParamKeyList = new List<string>(_paramEditor._projectSettings.PinnedParams);
-
-                if (pinnedParamKeyList.Count > 0)
-                {
-                    //ImGui.Text("        Pinned Params");
-                    foreach (var paramKey in pinnedParamKeyList)
-                    {
-                        var primary = ParamBank.PrimaryBank.VanillaDiffCache.GetValueOrDefault(paramKey, null);
-                        Param p = ParamBank.PrimaryBank.Params[paramKey];
-                        if (p != null)
-                        {
-                            ParamMetaData meta = ParamMetaData.Get(p.AppliedParamdef);
-                            string Wiki = meta?.Wiki;
-                            if (Wiki != null)
-                            {
-                                if (EditorDecorations.HelpIcon(paramKey + "wiki", ref Wiki, true))
-                                {
-                                    meta.Wiki = Wiki;
-                                }
-                            }
-                        }
-                        ImGui.Indent(15.0f * scale);
-                        if (ImGui.Selectable(paramKey, paramKey == _selection.getActiveParam()))
-                        {
-                            EditorCommandQueue.AddCommand($@"param/view/{_viewIndex}/{paramKey}");
-                        }
-                        if (ImGui.BeginPopupContextItem())
-                        {
-                            if (ImGui.Selectable("Unpin " + paramKey))
-                                _paramEditor._projectSettings.PinnedParams.Remove(paramKey);
-                            ImGui.EndPopup();
-                        }
-                        ImGui.Unindent(15.0f * scale);
-                    }
-                    ImGui.Spacing();
-                    ImGui.Separator();
-                    ImGui.Spacing();
-                }
                 float scrollTo = 0f;
-                if (ImGui.BeginChild("paramTypes"))
+                if (ImGui.TableNextColumn())
                 {
-                    List<string> paramKeyList = CacheBank.GetCached(this._paramEditor, _viewIndex, () => {
-                        var list = ParamSearchEngine.pse.Search(true, _selection.currentParamSearchString, true, true);
-                        var keyList = list.Where((param) => param.Item1 == ParamBank.PrimaryBank).Select((param) => ParamBank.PrimaryBank.GetKeyForParam(param.Item2)).ToList();
 
-                        if (ParamBank.PrimaryBank.AssetLocator.Type is GameType.DemonsSouls
-                            or GameType.DarkSoulsPTDE
-                            or GameType.DarkSoulsRemastered)
-                        {
-                            if (_mapParamView)
-                                keyList = keyList.FindAll(p => p.EndsWith("Bank"));
-                            else
-                                keyList = keyList.FindAll(p => !p.EndsWith("Bank"));
-                        }
-                        else if (ParamBank.PrimaryBank.AssetLocator.Type is GameType.DarkSoulsIISOTFS)
-                        {
-                            if (_mapParamView)
-                                keyList = keyList.FindAll(p => ParamBank.DS2MapParamlist.Contains(p.Split('_')[0]));
-                            else
-                                keyList = keyList.FindAll(p => !ParamBank.DS2MapParamlist.Contains(p.Split('_')[0]));
-                        }
-
-                        if (CFG.Current.Param_AlphabeticalParams)
-                            keyList.Sort();
-                        return keyList;
-                    });
-
-                    foreach (var paramKey in paramKeyList)
+                    if (isActiveView && InputTracker.GetKeyDown(KeyBindings.Current.Param_SearchParam))
+                        ImGui.SetKeyboardFocusHere();
+                    ImGui.InputText($"Search <{KeyBindings.Current.Param_SearchParam.HintText}>", ref _selection.currentParamSearchString, 256);
+                    string resAutoParam = AutoFill.ParamSearchBarAutoFill();
+                    if (resAutoParam != null)
+                        _selection.setCurrentRowSearchString(resAutoParam);
+                    if (!_selection.currentParamSearchString.Equals(lastParamSearch))
                     {
-                        var primary = ParamBank.PrimaryBank.VanillaDiffCache.GetValueOrDefault(paramKey, null);
-                        Param p = ParamBank.PrimaryBank.Params[paramKey];
-                        if (p != null)
-                        {
-                            ParamMetaData meta = ParamMetaData.Get(p.AppliedParamdef);
-                            string Wiki = meta?.Wiki;
-                            if (Wiki != null)
-                            {
-                                if (EditorDecorations.HelpIcon(paramKey + "wiki", ref Wiki, true))
-                                    meta.Wiki = Wiki;
-                            }
-                        }
+                        CacheBank.ClearCaches();
+                        lastParamSearch = _selection.currentParamSearchString;
+                    }
 
-                        ImGui.Indent(15.0f * scale);
-                        if (primary != null ? primary.Any() : false)
-                            ImGui.PushStyleColor(ImGuiCol.Text, PRIMARYCHANGEDCOLOUR);
-                        else
-                            ImGui.PushStyleColor(ImGuiCol.Text, ALLVANILLACOLOUR);
-                        if (ImGui.Selectable($"{paramKey}", paramKey == _selection.getActiveParam()))
-                        {
-                            //_selection.setActiveParam(param.Key);
-                            EditorCommandQueue.AddCommand($@"param/view/{_viewIndex}/{paramKey}");
-                        }
-                        ImGui.PopStyleColor();
+                    if (ParamBank.PrimaryBank.AssetLocator.Type is GameType.DemonsSouls
+                        or GameType.DarkSoulsPTDE
+                        or GameType.DarkSoulsRemastered)
+                    {
+                        // This game has DrawParams, add UI element to toggle viewing DrawParam and GameParams.
+                        if (ImGui.Checkbox("Edit Drawparams", ref _mapParamView))
+                            CacheBank.ClearCaches();
+                        ImGui.Separator();
+                    }
+                    else if (ParamBank.PrimaryBank.AssetLocator.Type is GameType.DarkSoulsIISOTFS)
+                    {
+                        // DS2 has map params, add UI element to toggle viewing map params and GameParams.
+                        if (ImGui.Checkbox("Edit Map Params", ref _mapParamView))
+                            CacheBank.ClearCaches();
+                        ImGui.Separator();
+                    }
 
-                        if (doFocus && paramKey == _selection.getActiveParam())
-                            scrollTo = ImGui.GetCursorPosY();
-                        if (ImGui.BeginPopupContextItem())
+                    List<string> pinnedParamKeyList = new List<string>(_paramEditor._projectSettings.PinnedParams);
+
+                    if (pinnedParamKeyList.Count > 0)
+                    {
+                        //ImGui.Text("        Pinned Params");
+                        foreach (var paramKey in pinnedParamKeyList)
                         {
-                            if (ImGui.Selectable("Pin "+paramKey) && !_paramEditor._projectSettings.PinnedParams.Contains(paramKey))
-                                _paramEditor._projectSettings.PinnedParams.Add(paramKey);
-                            if (ParamEditorScreen.EditorMode && p != null)
+                            var primary = ParamBank.PrimaryBank.VanillaDiffCache.GetValueOrDefault(paramKey, null);
+                            Param p = ParamBank.PrimaryBank.Params[paramKey];
+                            if (p != null)
                             {
                                 ParamMetaData meta = ParamMetaData.Get(p.AppliedParamdef);
-                                if (meta != null && meta.Wiki == null && ImGui.MenuItem("Add wiki..."))
-                                    meta.Wiki = "Empty wiki...";
-                                if (meta?.Wiki != null && ImGui.MenuItem("Remove wiki"))
-                                    meta.Wiki = null;
+                                string Wiki = meta?.Wiki;
+                                if (Wiki != null)
+                                {
+                                    if (EditorDecorations.HelpIcon(paramKey + "wiki", ref Wiki, true))
+                                    {
+                                        meta.Wiki = Wiki;
+                                    }
+                                }
+                            }
+                            ImGui.Indent(15.0f * scale);
+                            if (ImGui.Selectable(paramKey, paramKey == _selection.getActiveParam()))
+                            {
+                                EditorCommandQueue.AddCommand($@"param/view/{_viewIndex}/{paramKey}");
+                            }
+                            if (ImGui.BeginPopupContextItem())
+                            {
+                                if (ImGui.Selectable("Unpin " + paramKey))
+                                    _paramEditor._projectSettings.PinnedParams.Remove(paramKey);
+                                ImGui.EndPopup();
+                            }
+                            ImGui.Unindent(15.0f * scale);
+                        }
+                        ImGui.Spacing();
+                        ImGui.Separator();
+                        ImGui.Spacing();
+                    }
+                    if (ImGui.BeginChild("paramTypes"))
+                    {
+                        List<string> paramKeyList = CacheBank.GetCached(this._paramEditor, _viewIndex, () => {
+                            var list = ParamSearchEngine.pse.Search(true, _selection.currentParamSearchString, true, true);
+                            var keyList = list.Where((param) => param.Item1 == ParamBank.PrimaryBank).Select((param) => ParamBank.PrimaryBank.GetKeyForParam(param.Item2)).ToList();
+
+                            if (ParamBank.PrimaryBank.AssetLocator.Type is GameType.DemonsSouls
+                                or GameType.DarkSoulsPTDE
+                                or GameType.DarkSoulsRemastered)
+                            {
+                                if (_mapParamView)
+                                    keyList = keyList.FindAll(p => p.EndsWith("Bank"));
+                                else
+                                    keyList = keyList.FindAll(p => !p.EndsWith("Bank"));
+                            }
+                            else if (ParamBank.PrimaryBank.AssetLocator.Type is GameType.DarkSoulsIISOTFS)
+                            {
+                                if (_mapParamView)
+                                    keyList = keyList.FindAll(p => ParamBank.DS2MapParamlist.Contains(p.Split('_')[0]));
+                                else
+                                    keyList = keyList.FindAll(p => !ParamBank.DS2MapParamlist.Contains(p.Split('_')[0]));
+                            }
+
+                            if (CFG.Current.Param_AlphabeticalParams)
+                                keyList.Sort();
+                            return keyList;
+                        });
+
+                        foreach (var paramKey in paramKeyList)
+                        {
+                            var primary = ParamBank.PrimaryBank.VanillaDiffCache.GetValueOrDefault(paramKey, null);
+                            Param p = ParamBank.PrimaryBank.Params[paramKey];
+                            if (p != null)
+                            {
+                                ParamMetaData meta = ParamMetaData.Get(p.AppliedParamdef);
+                                string Wiki = meta?.Wiki;
+                                if (Wiki != null)
+                                {
+                                    if (EditorDecorations.HelpIcon(paramKey + "wiki", ref Wiki, true))
+                                        meta.Wiki = Wiki;
+                                }
+                            }
+
+                            ImGui.Indent(15.0f * scale);
+                            if (primary != null ? primary.Any() : false)
+                                ImGui.PushStyleColor(ImGuiCol.Text, PRIMARYCHANGEDCOLOUR);
+                            else
+                                ImGui.PushStyleColor(ImGuiCol.Text, ALLVANILLACOLOUR);
+                            if (ImGui.Selectable($"{paramKey}", paramKey == _selection.getActiveParam()))
+                            {
+                                //_selection.setActiveParam(param.Key);
+                                EditorCommandQueue.AddCommand($@"param/view/{_viewIndex}/{paramKey}");
+                            }
+                            ImGui.PopStyleColor();
+
+                            if (doFocus && paramKey == _selection.getActiveParam())
+                                scrollTo = ImGui.GetCursorPosY();
+                            if (ImGui.BeginPopupContextItem())
+                            {
+                                if (ImGui.Selectable("Pin "+paramKey) && !_paramEditor._projectSettings.PinnedParams.Contains(paramKey))
+                                    _paramEditor._projectSettings.PinnedParams.Add(paramKey);
+                                if (ParamEditorScreen.EditorMode && p != null)
+                                {
+                                    ParamMetaData meta = ParamMetaData.Get(p.AppliedParamdef);
+                                    if (meta != null && meta.Wiki == null && ImGui.MenuItem("Add wiki..."))
+                                        meta.Wiki = "Empty wiki...";
+                                    if (meta?.Wiki != null && ImGui.MenuItem("Remove wiki"))
+                                        meta.Wiki = null;
+                                }
+                                ImGui.EndPopup();
+                            }
+                            ImGui.Unindent(15.0f * scale);
+                        }
+
+                        if (doFocus)
+                            ImGui.SetScrollFromPosY(scrollTo - ImGui.GetScrollY());
+                        ImGui.EndChild();
+                    }
+                }
+                
+                string activeParam = _selection.getActiveParam();
+                if (ImGui.TableNextColumn())
+                {
+                    if (!_selection.activeParamExists())
+                    {
+                        ImGui.Text("Select a param to see rows");
+                    }
+                    else
+                    {
+                        Param para = ParamBank.PrimaryBank.Params[activeParam];
+                        HashSet<int> vanillaDiffCache = ParamBank.PrimaryBank.GetVanillaDiffRows(activeParam);
+                        List<(HashSet<int>, HashSet<int>)> auxDiffCaches = ParamBank.AuxBanks.Select((bank, i) => (bank.Value.GetVanillaDiffRows(activeParam), bank.Value.GetPrimaryDiffRows(activeParam))).ToList();
+                        IParamDecorator decorator = null;
+                        if (_paramEditor._decorators.ContainsKey(activeParam))
+                        {
+                            decorator = _paramEditor._decorators[activeParam];
+                        }
+                        scrollTo = 0;
+
+                        //Goto ID
+                        if (ImGui.Button($"Goto ID <{KeyBindings.Current.Param_GotoRowID.HintText}>") || (isActiveView && InputTracker.GetKeyDown(KeyBindings.Current.Param_GotoRowID)))
+                        {
+                            ImGui.OpenPopup("gotoParamRow");
+                        }
+                        if (ImGui.BeginPopup("gotoParamRow"))
+                        {
+                            int gotorow = 0;
+                            ImGui.SetKeyboardFocusHere();
+                            ImGui.InputInt("Goto Row ID", ref gotorow);
+                            if (ImGui.IsItemDeactivatedAfterEdit())
+                            {
+                                _gotoParamRow = gotorow;
+                                ImGui.CloseCurrentPopup();
                             }
                             ImGui.EndPopup();
                         }
-                        ImGui.Unindent(15.0f * scale);
-                    }
 
-                    if (doFocus)
-                        ImGui.SetScrollFromPosY(scrollTo - ImGui.GetScrollY());
-                    ImGui.EndChild();
-                }
-                ImGui.TableNextColumn();
-                string activeParam = _selection.getActiveParam();
-                if (!_selection.activeParamExists())
-                {
-                    if (ImGui.BeginChild("rowsNONE"))
-                    {
-                        ImGui.Text("Select a param to see rows");
-                        ImGui.EndChild();
-                    }
-                }
-                else
-                {
-                    Param para = ParamBank.PrimaryBank.Params[activeParam];
-                    HashSet<int> vanillaDiffCache = ParamBank.PrimaryBank.GetVanillaDiffRows(activeParam);
-                    List<(HashSet<int>, HashSet<int>)> auxDiffCaches = ParamBank.AuxBanks.Select((bank, i) => (bank.Value.GetVanillaDiffRows(activeParam), bank.Value.GetPrimaryDiffRows(activeParam))).ToList();
-                    IParamDecorator decorator = null;
-                    if (_paramEditor._decorators.ContainsKey(activeParam))
-                    {
-                        decorator = _paramEditor._decorators[activeParam];
-                    }
-                    scrollTo = 0;
+                        //Row ID/name search
+                        if (isActiveView && InputTracker.GetKeyDown(KeyBindings.Current.Param_SearchRow))
+                            ImGui.SetKeyboardFocusHere();
 
-                    //Goto ID
-                    if (ImGui.Button($"Goto ID <{KeyBindings.Current.Param_GotoRowID.HintText}>") || (isActiveView && InputTracker.GetKeyDown(KeyBindings.Current.Param_GotoRowID)))
-                    {
-                        ImGui.OpenPopup("gotoParamRow");
-                    }
-                    if (ImGui.BeginPopup("gotoParamRow"))
-                    {
-                        int gotorow = 0;
-                        ImGui.SetKeyboardFocusHere();
-                        ImGui.InputInt("Goto Row ID", ref gotorow);
-                        if (ImGui.IsItemDeactivatedAfterEdit())
+                        ImGui.InputText($"Search <{KeyBindings.Current.Param_SearchRow.HintText}>", ref _selection.getCurrentRowSearchString(), 256);
+                        string resAutoRow = AutoFill.RowSearchBarAutoFill();
+                        if (resAutoRow != null)
+                            _selection.setCurrentRowSearchString(resAutoRow);
+                        if (!lastRowSearch.ContainsKey(_selection.getActiveParam()) || !lastRowSearch[_selection.getActiveParam()].Equals(_selection.getCurrentRowSearchString()))
                         {
-                            _gotoParamRow = gotorow;
-                            ImGui.CloseCurrentPopup();
+                            CacheBank.ClearCaches();
+                            lastRowSearch[_selection.getActiveParam()] = _selection.getCurrentRowSearchString();
+                            doFocus = true;
                         }
-                        ImGui.EndPopup();
-                    }
 
-                    //Row ID/name search
-                    if (isActiveView && InputTracker.GetKeyDown(KeyBindings.Current.Param_SearchRow))
-                        ImGui.SetKeyboardFocusHere();
-
-                    ImGui.InputText($"Search <{KeyBindings.Current.Param_SearchRow.HintText}>", ref _selection.getCurrentRowSearchString(), 256);
-                    string resAutoRow = AutoFill.RowSearchBarAutoFill();
-                    if (resAutoRow != null)
-                        _selection.setCurrentRowSearchString(resAutoRow);
-                    if (!lastRowSearch.ContainsKey(_selection.getActiveParam()) || !lastRowSearch[_selection.getActiveParam()].Equals(_selection.getCurrentRowSearchString()))
-                    {
-                        CacheBank.ClearCaches();
-                        lastRowSearch[_selection.getActiveParam()] = _selection.getCurrentRowSearchString();
-                        doFocus = true;
-                    }
-
-                    if (ImGui.IsItemActive())
-                        _paramEditor._isSearchBarActive = true;
-                    else
-                        _paramEditor._isSearchBarActive = false;
-                    UIHints.AddImGuiHintButton("MassEditHint", ref UIHints.SearchBarHint);
-                    
-                    Param.Column compareCol = _selection.getCompareCol();
-                    if (ImGui.BeginChild("rows" + activeParam))
-                    {
-                        if (EditorDecorations.ImGuiTableStdColumns("rowList", compareCol == null ? 1 : 2, false))
+                        if (ImGui.IsItemActive())
+                            _paramEditor._isSearchBarActive = true;
+                        else
+                            _paramEditor._isSearchBarActive = false;
+                        UIHints.AddImGuiHintButton("MassEditHint", ref UIHints.SearchBarHint);
+                        
+                        Param.Column compareCol = _selection.getCompareCol();
+                        if (ImGui.BeginChild("rows" + activeParam))
                         {
-                            ImGui.TableSetupColumn("rowCol", ImGuiTableColumnFlags.None, 1f);
-                            if (compareCol != null)
-                                ImGui.TableSetupColumn("rowCol2", ImGuiTableColumnFlags.None, 0.4f);
-                            ImGui.PushID("pinned");
-
-                            List<Param.Row> pinnedRowList = _paramEditor._projectSettings.PinnedRows.GetValueOrDefault(activeParam, new List<int>()).Select((id) => para[id]).ToList();
-                            bool[] selectionCachePins = _selection.getSelectionCache(pinnedRowList, "pinned");
-                            bool lineBreaks = !CFG.Current.Param_DisableLineWrapping;
-                            if (pinnedRowList.Count != 0)
+                            if (EditorDecorations.ImGuiTableStdColumns("rowList", compareCol == null ? 1 : 2, false))
                             {
-                                for (int i=0; i<pinnedRowList.Count(); i++)
+                                ImGui.TableSetupColumn("rowCol", ImGuiTableColumnFlags.None, 1f);
+                                if (compareCol != null)
+                                    ImGui.TableSetupColumn("rowCol2", ImGuiTableColumnFlags.None, 0.4f);
+                                ImGui.PushID("pinned");
+
+                                List<Param.Row> pinnedRowList = _paramEditor._projectSettings.PinnedRows.GetValueOrDefault(activeParam, new List<int>()).Select((id) => para[id]).ToList();
+                                bool[] selectionCachePins = _selection.getSelectionCache(pinnedRowList, "pinned");
+                                bool lineBreaks = !CFG.Current.Param_DisableLineWrapping;
+                                if (pinnedRowList.Count != 0)
                                 {
-                                    Param.Row row = pinnedRowList[i];
-                                    if (row == null)
+                                    bool lastCol = false;
+                                    for (int i=0; i<pinnedRowList.Count(); i++)
                                     {
-                                        continue;
+                                        Param.Row row = pinnedRowList[i];
+                                        if (row == null)
+                                        {
+                                            continue;
+                                        }
+                                        lastCol = RowColumnEntry(selectionCachePins, i, activeParam, null, row, vanillaDiffCache, auxDiffCaches, decorator, ref scrollTo, false, true, compareCol, lineBreaks);
                                     }
-                                    RowColumnEntry(selectionCachePins, i, activeParam, null, row, vanillaDiffCache, auxDiffCaches, decorator, ref scrollTo, false, true, compareCol, lineBreaks);
+                                    if (lastCol)
+                                        ImGui.Spacing();
+                                    if (EditorDecorations.ImguiTableSeparator())
+                                        ImGui.Spacing();
                                 }
+                                ImGui.PopID();
 
-                                ImGui.Spacing();
-                                EditorDecorations.ImguiTableSeparator();
-                                ImGui.Spacing();
-                            }
-                            ImGui.PopID();
-
-                            // Up/Down arrow key input
-                            if ((InputTracker.GetKey(Key.Up) || InputTracker.GetKey(Key.Down))
-                                && !ImGui.IsAnyItemActive())
-                            {
-                                _arrowKeyPressed = true;
-                            }
-                            if (_focusRows)
-                            {
-                                ImGui.SetNextWindowFocus();
-                                _arrowKeyPressed = false;
-                                _focusRows = false;
-                            }
-
-                            List<Param.Row> rows = CacheBank.GetCached(this._paramEditor, (_viewIndex, activeParam), () => RowSearchEngine.rse.Search((ParamBank.PrimaryBank, para), _selection.getCurrentRowSearchString(), true, true));
-
-                            bool enableGrouping = !CFG.Current.Param_DisableRowGrouping && ParamMetaData.Get(ParamBank.PrimaryBank.Params[activeParam].AppliedParamdef).ConsecutiveIDs;
-
-                            // Rows
-                            bool[] selectionCache = _selection.getSelectionCache(rows, "regular");
-                            for (int i = 0; i < rows.Count; i++)
-                            {
-                                Param.Row currentRow = rows[i];
-                                if (enableGrouping)
+                                // Up/Down arrow key input
+                                if ((InputTracker.GetKey(Key.Up) || InputTracker.GetKey(Key.Down))
+                                    && !ImGui.IsAnyItemActive())
                                 {
-                                    Param.Row prev = i - 1 > 0 ? rows[i - 1] : null;
-                                    Param.Row next = i + 1 < rows.Count ? rows[i + 1] : null;
-                                    if (prev != null && next != null && prev.ID + 1 != currentRow.ID && currentRow.ID + 1 == next.ID)
-                                        EditorDecorations.ImguiTableSeparator();
-                                    RowColumnEntry(selectionCache, i, activeParam, rows, currentRow, vanillaDiffCache, auxDiffCaches, decorator, ref scrollTo, doFocus, false, compareCol, lineBreaks);
-                                    if (prev != null && next != null && prev.ID + 1 == currentRow.ID && currentRow.ID + 1 != next.ID)
-                                        EditorDecorations.ImguiTableSeparator();
+                                    _arrowKeyPressed = true;
                                 }
-                                else
+                                if (_focusRows)
                                 {
-                                    RowColumnEntry(selectionCache, i, activeParam, rows, currentRow, vanillaDiffCache, auxDiffCaches, decorator, ref scrollTo, doFocus, false, compareCol, lineBreaks);
+                                    ImGui.SetNextWindowFocus();
+                                    _arrowKeyPressed = false;
+                                    _focusRows = false;
                                 }
+
+                                List<Param.Row> rows = CacheBank.GetCached(this._paramEditor, (_viewIndex, activeParam), () => RowSearchEngine.rse.Search((ParamBank.PrimaryBank, para), _selection.getCurrentRowSearchString(), true, true));
+
+                                bool enableGrouping = !CFG.Current.Param_DisableRowGrouping && ParamMetaData.Get(ParamBank.PrimaryBank.Params[activeParam].AppliedParamdef).ConsecutiveIDs;
+
+                                // Rows
+                                bool[] selectionCache = _selection.getSelectionCache(rows, "regular");
+                                for (int i = 0; i < rows.Count; i++)
+                                {
+                                    Param.Row currentRow = rows[i];
+                                    if (enableGrouping)
+                                    {
+                                        Param.Row prev = i - 1 > 0 ? rows[i - 1] : null;
+                                        Param.Row next = i + 1 < rows.Count ? rows[i + 1] : null;
+                                        if (prev != null && next != null && prev.ID + 1 != currentRow.ID && currentRow.ID + 1 == next.ID)
+                                            EditorDecorations.ImguiTableSeparator();
+                                        RowColumnEntry(selectionCache, i, activeParam, rows, currentRow, vanillaDiffCache, auxDiffCaches, decorator, ref scrollTo, doFocus, false, compareCol, lineBreaks);
+                                        if (prev != null && next != null && prev.ID + 1 == currentRow.ID && currentRow.ID + 1 != next.ID)
+                                            EditorDecorations.ImguiTableSeparator();
+                                    }
+                                    else
+                                    {
+                                        RowColumnEntry(selectionCache, i, activeParam, rows, currentRow, vanillaDiffCache, auxDiffCaches, decorator, ref scrollTo, doFocus, false, compareCol, lineBreaks);
+                                    }
+                                }
+                                if (doFocus)
+                                    ImGui.SetScrollFromPosY(scrollTo - ImGui.GetScrollY());
+                                ImGui.EndTable();
                             }
-                            if (doFocus)
-                                ImGui.SetScrollFromPosY(scrollTo - ImGui.GetScrollY());
-                            ImGui.EndTable();
+                            ImGui.EndChild();
                         }
-                        ImGui.EndChild();
                     }
                 }
                 Param.Row activeRow = _selection.getActiveRow();
-                ImGui.TableNextColumn();
-                if (activeRow == null && ImGui.BeginChild("columnsNONE"))
+                if (ImGui.TableNextColumn())
                 {
-                    ImGui.Text("Select a row to see properties");
-                    ImGui.EndChild();
-                }
-                else if (ImGui.BeginChild("columns" + activeParam))
-                {
-                    Param vanillaParam = ParamBank.VanillaBank.Params?.GetValueOrDefault(activeParam);
-                    _propEditor.PropEditorParamRow(
-                        ParamBank.PrimaryBank,
-                        activeRow,
-                        vanillaParam?[activeRow.ID],
-                        ParamBank.AuxBanks.Select((bank, i) => (bank.Key, bank.Value.Params?.GetValueOrDefault(activeParam)?[activeRow.ID])).ToList(),
-                        _selection.getCompareRow(),
-                        ref _selection.getCurrentPropSearchString(),
-                        activeParam,
-                        isActiveView,
-                        _selection);
-                    ImGui.EndChild();
+                    if (activeRow == null && ImGui.BeginChild("columnsNONE"))
+                    {
+                        ImGui.Text("Select a row to see properties");
+                        ImGui.EndChild();
+                    }
+                    else if (ImGui.BeginChild("columns" + activeParam))
+                    {
+                        Param vanillaParam = ParamBank.VanillaBank.Params?.GetValueOrDefault(activeParam);
+                        _propEditor.PropEditorParamRow(
+                            ParamBank.PrimaryBank,
+                            activeRow,
+                            vanillaParam?[activeRow.ID],
+                            ParamBank.AuxBanks.Select((bank, i) => (bank.Key, bank.Value.Params?.GetValueOrDefault(activeParam)?[activeRow.ID])).ToList(),
+                            _selection.getCompareRow(),
+                            ref _selection.getCurrentPropSearchString(),
+                            activeParam,
+                            isActiveView,
+                            _selection);
+                        ImGui.EndChild();
+                    }
                 }
                 ImGui.EndTable();
             }
         }
 
-        private void RowColumnEntry(bool[] selectionCache, int selectionCacheIndex, string activeParam, List<Param.Row> p, Param.Row r, HashSet<int> vanillaDiffCache, List<(HashSet<int>, HashSet<int>)> auxDiffCaches, IParamDecorator decorator, ref float scrollTo, bool doFocus, bool isPinned, Param.Column compareCol, bool lineBreaks)
+        private bool RowColumnEntry(bool[] selectionCache, int selectionCacheIndex, string activeParam, List<Param.Row> p, Param.Row r, HashSet<int> vanillaDiffCache, List<(HashSet<int>, HashSet<int>)> auxDiffCaches, IParamDecorator decorator, ref float scrollTo, bool doFocus, bool isPinned, Param.Column compareCol, bool lineBreaks)
         {
             float scale = MapStudioNew.GetUIScale();
 
@@ -2203,130 +2207,137 @@ namespace StudioCore.ParamEditor
                 // ItemSpacing only affects clickable area for selectables in tables. Add additional height to prevent gaps between selectables.
                 ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(5.0f, 2.0f) * scale);
             }
-            ImGui.TableNextColumn();
-            bool diffVanilla = vanillaDiffCache.Contains(r.ID);
-            bool auxDiffVanilla = auxDiffCaches.Where((cache) => cache.Item1.Contains(r.ID)).Count() > 0;
-            if (diffVanilla)
+            bool lastCol = false;
+            if (ImGui.TableNextColumn())
             {
-                // If the auxes are changed bu
-                bool auxDiffPrimaryAndVanilla = auxDiffCaches.Where((cache) => cache.Item1.Contains(r.ID) && cache.Item2.Contains(r.ID)).Count() > 0;
-                if (auxDiffVanilla && auxDiffPrimaryAndVanilla)
-                    ImGui.PushStyleColor(ImGuiCol.Text, AUXCONFLICTCOLOUR);
+                bool diffVanilla = vanillaDiffCache.Contains(r.ID);
+                bool auxDiffVanilla = auxDiffCaches.Where((cache) => cache.Item1.Contains(r.ID)).Count() > 0;
+                if (diffVanilla)
+                {
+                    // If the auxes are changed bu
+                    bool auxDiffPrimaryAndVanilla = auxDiffCaches.Where((cache) => cache.Item1.Contains(r.ID) && cache.Item2.Contains(r.ID)).Count() > 0;
+                    if (auxDiffVanilla && auxDiffPrimaryAndVanilla)
+                        ImGui.PushStyleColor(ImGuiCol.Text, AUXCONFLICTCOLOUR);
+                    else
+                        ImGui.PushStyleColor(ImGuiCol.Text, PRIMARYCHANGEDCOLOUR);
+                }
                 else
-                    ImGui.PushStyleColor(ImGuiCol.Text, PRIMARYCHANGEDCOLOUR);
-            }
-            else
-            {
-                if (auxDiffVanilla)
-                    ImGui.PushStyleColor(ImGuiCol.Text, AUXADDEDCOLOUR);
-                else
-                    ImGui.PushStyleColor(ImGuiCol.Text, ALLVANILLACOLOUR);
-            }
+                {
+                    if (auxDiffVanilla)
+                        ImGui.PushStyleColor(ImGuiCol.Text, AUXADDEDCOLOUR);
+                    else
+                        ImGui.PushStyleColor(ImGuiCol.Text, ALLVANILLACOLOUR);
+                }
 
-            var selected = selectionCache != null && selectionCacheIndex < selectionCache.Length ? selectionCache[selectionCacheIndex] : false;
-            if (_gotoParamRow != -1 && !isPinned)
-            {
-                // Goto row was activated. As soon as a corresponding ID is found, change selection to it.
-                if (r.ID == _gotoParamRow)
+                var selected = selectionCache != null && selectionCacheIndex < selectionCache.Length ? selectionCache[selectionCacheIndex] : false;
+                if (_gotoParamRow != -1 && !isPinned)
                 {
-                    selected = true;
-                    _selection.SetActiveRow(r, true);
-                    _gotoParamRow = -1;
-                    ImGui.SetScrollHereY();
-                }
-            }
-            if (_paramEditor.GotoSelectedRow && !isPinned)
-            {
-                if (_selection.getActiveRow().ID == r.ID)
-                {
-                    ImGui.SetScrollHereY();
-                    _paramEditor.GotoSelectedRow = false;
-                }
-            }
-
-            string label = $@"{r.ID} {Utils.ImGuiEscape(r.Name, "")}";
-            label = Utils.ImGui_WordWrapString(label, ImGui.GetColumnWidth(), lineBreaks ? 3 : 1);
-            if (ImGui.Selectable($@"{label}##{selectionCacheIndex}", selected))
-            {
-                _focusRows = true;
-                if (InputTracker.GetKey(Key.LControl))
-                {
-                    _selection.toggleRowInSelection(r);
-                }
-                else if (p != null && InputTracker.GetKey(Key.LShift) && _selection.getActiveRow() != null)
-                {
-                    _selection.cleanSelectedRows();
-                    int start = p.IndexOf(_selection.getActiveRow());
-                    int end = p.IndexOf(r);
-                    if (start != end && start != -1 && end != -1)
+                    // Goto row was activated. As soon as a corresponding ID is found, change selection to it.
+                    if (r.ID == _gotoParamRow)
                     {
-                        foreach (var r2 in p.GetRange(start < end ? start : end, Math.Abs(end - start)))
-                            _selection.addRowToSelection(r2);
+                        selected = true;
+                        _selection.SetActiveRow(r, true);
+                        _gotoParamRow = -1;
+                        ImGui.SetScrollHereY();
                     }
-                    _selection.addRowToSelection(r);
                 }
-                else
+                if (_paramEditor.GotoSelectedRow && !isPinned)
                 {
-                    _selection.SetActiveRow(r, true);
+                    if (_selection.getActiveRow().ID == r.ID)
+                    {
+                        ImGui.SetScrollHereY();
+                        _paramEditor.GotoSelectedRow = false;
+                    }
                 }
-            }
-            if (_arrowKeyPressed && ImGui.IsItemFocused()
-                && (r != _selection.getActiveRow()))
-            {
-                if (InputTracker.GetKey(Key.ControlLeft) || InputTracker.GetKey(Key.ControlRight))
-                {
-                    // Add to selection
-                    _selection.addRowToSelection(r);
-                }
-                else
-                {
-                    // Exclusive selection
-                    _selection.SetActiveRow(r, true);
-                }
-                _arrowKeyPressed = false;
-            }
-            ImGui.PopStyleColor();
 
-            if (ImGui.BeginPopupContextItem(r.ID.ToString()))
-            {
+                string label = $@"{r.ID} {Utils.ImGuiEscape(r.Name, "")}";
+                label = Utils.ImGui_WordWrapString(label, ImGui.GetColumnWidth(), lineBreaks ? 3 : 1);
+                if (ImGui.Selectable($@"{label}##{selectionCacheIndex}", selected))
+                {
+                    _focusRows = true;
+                    if (InputTracker.GetKey(Key.LControl))
+                    {
+                        _selection.toggleRowInSelection(r);
+                    }
+                    else if (p != null && InputTracker.GetKey(Key.LShift) && _selection.getActiveRow() != null)
+                    {
+                        _selection.cleanSelectedRows();
+                        int start = p.IndexOf(_selection.getActiveRow());
+                        int end = p.IndexOf(r);
+                        if (start != end && start != -1 && end != -1)
+                        {
+                            foreach (var r2 in p.GetRange(start < end ? start : end, Math.Abs(end - start)))
+                                _selection.addRowToSelection(r2);
+                        }
+                        _selection.addRowToSelection(r);
+                    }
+                    else
+                    {
+                        _selection.SetActiveRow(r, true);
+                    }
+                }
+                if (_arrowKeyPressed && ImGui.IsItemFocused()
+                    && (r != _selection.getActiveRow()))
+                {
+                    if (InputTracker.GetKey(Key.ControlLeft) || InputTracker.GetKey(Key.ControlRight))
+                    {
+                        // Add to selection
+                        _selection.addRowToSelection(r);
+                    }
+                    else
+                    {
+                        // Exclusive selection
+                        _selection.SetActiveRow(r, true);
+                    }
+                    _arrowKeyPressed = false;
+                }
+                ImGui.PopStyleColor();
+
+                if (ImGui.BeginPopupContextItem(r.ID.ToString()))
+                {
+                    if (decorator != null)
+                        decorator.DecorateContextMenuItems(r);
+                    if (ImGui.Selectable((isPinned ? "Unpin ":"Pin ")+r.ID))
+                    {
+                        if (!_paramEditor._projectSettings.PinnedRows.ContainsKey(activeParam))
+                            _paramEditor._projectSettings.PinnedRows.Add(activeParam, new List<int>());
+                        List<int> pinned = _paramEditor._projectSettings.PinnedRows[activeParam];
+                        if (isPinned)
+                            pinned.Remove(r.ID);
+                        else if (!pinned.Contains(r.ID))
+                        pinned.Add(r.ID);
+                    }
+                    if (ImGui.Selectable("Compare..."))
+                    {
+                        _selection.SetCompareRow(r);
+                    }
+                    ParamRefReverseLookupSelectables(ParamBank.PrimaryBank, activeParam, r.ID);
+                    if (ImGui.Selectable("Copy ID to clipboard"))
+                    {
+                        PlatformUtils.Instance.SetClipboardText($"{r.ID}");
+                    }
+                    ImGui.EndPopup();
+                }
                 if (decorator != null)
-                    decorator.DecorateContextMenuItems(r);
-                if (ImGui.Selectable((isPinned ? "Unpin ":"Pin ")+r.ID))
-                {
-                    if (!_paramEditor._projectSettings.PinnedRows.ContainsKey(activeParam))
-                        _paramEditor._projectSettings.PinnedRows.Add(activeParam, new List<int>());
-                    List<int> pinned = _paramEditor._projectSettings.PinnedRows[activeParam];
-                    if (isPinned)
-                        pinned.Remove(r.ID);
-                    else if (!pinned.Contains(r.ID))
-                       pinned.Add(r.ID);
-                }
-                if (ImGui.Selectable("Compare..."))
-                {
-                    _selection.SetCompareRow(r);
-                }
-                ParamRefReverseLookupSelectables(ParamBank.PrimaryBank, activeParam, r.ID);
-                if (ImGui.Selectable("Copy ID to clipboard"))
-                {
-                    PlatformUtils.Instance.SetClipboardText($"{r.ID}");
-                }
-                ImGui.EndPopup();
+                    decorator.DecorateParam(r);
+                if (doFocus && _selection.getActiveRow() == r)
+                    scrollTo = ImGui.GetCursorPosY();
+                lastCol = true;
             }
-            if (decorator != null)
-                decorator.DecorateParam(r);
-            if (doFocus && _selection.getActiveRow() == r)
-                scrollTo = ImGui.GetCursorPosY();
-
             if (compareCol != null)
             {
-                ImGui.TableNextColumn();
-                ImGui.TextUnformatted(r[compareCol].Value.ToParamEditorString());
+                if (ImGui.TableNextColumn())
+                {
+                    ImGui.TextUnformatted(r[compareCol].Value.ToParamEditorString());
+                    lastCol = true;
+                }
             }
 
             if (CFG.Current.UI_CompactParams)
             {
                 ImGui.PopStyleVar();
             }
+            return lastCol;
         }
 
         private void ParamRefReverseLookupSelectables(ParamBank bank, string currentParam, int currentID)
