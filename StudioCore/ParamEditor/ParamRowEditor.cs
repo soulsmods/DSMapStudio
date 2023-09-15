@@ -19,262 +19,17 @@ using StudioCore.Editor;
 
 namespace StudioCore.ParamEditor
 {
-    public class PropertyEditor
+    public class ParamRowEditor
     {
         public ActionManager ContextActionManager;
         private ParamEditorScreen _paramEditor;
 
         private Dictionary<string, PropertyInfo[]> _propCache = new Dictionary<string, PropertyInfo[]>();
 
-        public PropertyEditor(ActionManager manager, ParamEditorScreen paramEditorScreen)
+        public ParamRowEditor(ActionManager manager, ParamEditorScreen paramEditorScreen)
         {
             ContextActionManager = manager;
             _paramEditor = paramEditorScreen;
-        }
-
-        private object _editedPropCache;
-        private object _editedTypeCache;
-        private object _editedObjCache;
-
-        private unsafe (bool, bool) PropertyRow(Type typ, object oldval, ref object newval, bool isBool)
-        {
-            ImGui.SetNextItemWidth(-1);
-            bool isChanged = false;
-            bool isDeactivatedAfterEdit = false;
-            try
-            {
-                if (isBool)
-                {
-                    dynamic val = oldval;
-                    bool checkVal = val > 0;
-                    if (ImGui.Checkbox("##valueBool", ref checkVal))
-                    {
-                        newval = Convert.ChangeType(checkVal ? 1 : 0, oldval.GetType());
-                        _editedPropCache = newval;
-                        isChanged = true;
-                    }
-                    isDeactivatedAfterEdit = ImGui.IsItemDeactivatedAfterEdit();
-                    ImGui.SameLine();
-                    ImGui.SetNextItemWidth(-1);
-                }
-            }
-            catch
-            {
-
-            }
-
-            if (typ == typeof(long))
-            {
-                long val = (long)oldval;
-                string strval = $@"{val}";
-                if (ImGui.InputText("##value", ref strval, 128))
-                {
-                    var res = long.TryParse(strval, out val);
-                    if (res)
-                    {
-                        newval = val;
-                        _editedPropCache = newval;
-                        isChanged = true;
-                    }
-                }
-            }
-            else if (typ == typeof(int))
-            {
-                int val = (int)oldval;
-                if (ImGui.InputInt("##value", ref val))
-                {
-                    newval = val;
-                    _editedPropCache = newval;
-                    isChanged = true;
-                }
-            }
-            else if (typ == typeof(uint))
-            {
-                uint val = (uint)oldval;
-                string strval = $@"{val}";
-                if (ImGui.InputText("##value", ref strval, 16))
-                {
-                    var res = uint.TryParse(strval, out val);
-                    if (res)
-                    {
-                        newval = val;
-                        _editedPropCache = newval;
-                        isChanged = true;
-                    }
-                }
-            }
-            else if (typ == typeof(short))
-            {
-                int val = (short)oldval;
-                if (ImGui.InputInt("##value", ref val))
-                {
-                    newval = (short)val;
-                    _editedPropCache = newval;
-                    isChanged = true;
-                }
-            }
-            else if (typ == typeof(ushort))
-            {
-                ushort val = (ushort)oldval;
-                string strval = $@"{val}";
-                if (ImGui.InputText("##value", ref strval, 5))
-                {
-                    var res = ushort.TryParse(strval, out val);
-                    if (res)
-                    {
-                        newval = val;
-                        _editedPropCache = newval;
-                        isChanged = true;
-                    }
-                }
-            }
-            else if (typ == typeof(sbyte))
-            {
-                int val = (sbyte)oldval;
-                if (ImGui.InputInt("##value", ref val))
-                {
-                    newval = (sbyte)val;
-                    _editedPropCache = newval;
-                    isChanged = true;
-                }
-            }
-            else if (typ == typeof(byte))
-            {
-                byte val = (byte)oldval;
-                string strval = $@"{val}";
-                if (ImGui.InputText("##value", ref strval, 3))
-                {
-                    var res = byte.TryParse(strval, out val);
-                    if (res)
-                    {
-                        newval = val;
-                        _editedPropCache = newval;
-                        isChanged = true;
-                    }
-                }
-            }
-            else if (typ == typeof(bool))
-            {
-                bool val = (bool)oldval;
-                if (ImGui.Checkbox("##value", ref val))
-                {
-                    newval = val;
-                    _editedPropCache = newval;
-                    isChanged = true;
-                }
-            }
-            else if (typ == typeof(float))
-            {
-                float val = (float)oldval;
-                if (ImGui.InputFloat("##value", ref val, 0.1f))
-                {
-                    newval = val;
-                    _editedPropCache = newval;
-                    isChanged = true;
-                }
-            }
-            else if (typ == typeof(double))
-            {
-                double val = (double)oldval;
-                if (ImGui.InputScalar("##value", ImGuiDataType.Double, new IntPtr(&val)))
-                {
-                    newval = val;
-                    _editedPropCache = newval;
-                    isChanged = true;
-                }
-            }
-            else if (typ == typeof(string))
-            {
-                string val = (string)oldval;
-                if (val == null)
-                {
-                    val = "";
-                }
-                if (ImGui.InputText("##value", ref val, 128))
-                {
-                    newval = val;
-                    _editedPropCache = newval;
-                    isChanged = true;
-                }
-            }
-            else if (typ == typeof(Vector2))
-            {
-                Vector2 val = (Vector2)oldval;
-                if (ImGui.InputFloat2("##value", ref val))
-                {
-                    newval = val;
-                    _editedPropCache = newval;
-                    isChanged = true;
-                }
-            }
-            else if (typ == typeof(Vector3))
-            {
-                Vector3 val = (Vector3)oldval;
-                if (ImGui.InputFloat3("##value", ref val))
-                {
-                    newval = val;
-                    _editedPropCache = newval;
-                    isChanged = true;
-                }
-            }
-            else if (typ == typeof(byte[]))
-            {
-                byte[] bval = (byte[])oldval;
-                string val = ParamUtils.Dummy8Write(bval);
-                if (ImGui.InputText("##value", ref val, 9999))
-                {
-                    byte[] nval = ParamUtils.Dummy8Read(val, bval.Length);
-                    if (nval!=null)
-                    {
-                        newval = nval;
-                        _editedPropCache = newval;
-                        isChanged = true;
-                    }
-                }
-            }
-            else
-            {
-                // Using InputText means IsItemDeactivatedAfterEdit doesn't pick up random previous item
-                string implMe = "ImplementMe";
-                ImGui.InputText(null, ref implMe, 256, ImGuiInputTextFlags.ReadOnly);
-            }
-            isDeactivatedAfterEdit |= ImGui.IsItemDeactivatedAfterEdit();
-
-            return (isChanged, isDeactivatedAfterEdit);
-        }
-
-        private void UpdateProperty(object prop, object obj, object newval,
-            bool changed, bool committed, int arrayindex = -1)
-        {
-            if (changed)
-            {
-                ChangeProperty(prop, obj, newval, ref committed, arrayindex);
-            }
-        }
-
-        private void ChangeProperty(object prop, object obj, object newval,
-            ref bool committed, int arrayindex = -1)
-        {
-            if (committed)
-            {
-                if (newval == null)
-                {
-                    // Safety check warned to user, should have proper crash handler instead
-                    TaskLogs.AddLog("ParamRowEditor: Property changed was null",
-                        Microsoft.Extensions.Logging.LogLevel.Warning);
-                    return;
-                }
-                PropertiesChangedAction action;
-                if (arrayindex != -1)
-                {
-                    action = new PropertiesChangedAction((PropertyInfo)prop, arrayindex, obj, newval);
-                }
-                else
-                {
-                    action = new PropertiesChangedAction((PropertyInfo)prop, obj, newval);
-                }
-                ContextActionManager.ExecuteAction(action);
-            }
         }
 
         public void PropEditorParamRow(ParamBank bank, Param.Row row, Param.Row vrow, List<(string, Param.Row)> auxRows, Param.Row crow, ref string propSearchString, string activeParam, bool isActiveView, ParamEditorSelectionState selection)
@@ -523,8 +278,6 @@ namespace StudioCore.ParamEditor
             //PropertyRowMetaDefContextMenu();
             ImGui.TableNextColumn();
             ImGui.SetNextItemWidth(-1);
-            bool changed = false;
-            bool committed = false;
 
             bool diffVanilla = ParamUtils.IsValueDiff(ref oldval, ref vanillaval, propType);
             bool diffCompare = ParamUtils.IsValueDiff(ref oldval, ref compareval, propType);
@@ -544,7 +297,7 @@ namespace StudioCore.ParamEditor
                 ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.75f, 0.75f, 0.75f, 1.0f));
             
             // Property Editor UI
-            (changed, committed) = PropertyRow(propType, oldval, ref newval, IsBool);
+            ParamEditorCommon.PropertyField(propType, oldval, ref newval, IsBool);
 
             if (isRef || matchDefault) //if diffVanilla, remove styling later
                 ImGui.PopStyleColor();
@@ -582,9 +335,7 @@ namespace StudioCore.ParamEditor
             {
                 if (EditorDecorations.ParamRefEnumContextMenu(bank, oldval, ref newval, RefTypes, row, FmgRef, Enum, ContextActionManager))
                 {
-                    changed = true;
-                    committed = true;
-                    _editedPropCache = newval;
+                    ParamEditorCommon.SetLastPropertyManual(newval);
                 }
             }
             if (conflict || diffVanilla)
@@ -623,19 +374,8 @@ namespace StudioCore.ParamEditor
             }
             ImGui.PopStyleColor(2);
 
-
-            if (changed)
-            {
-                _editedObjCache = nullableCell != null ? (object)nullableCell : row;
-                _editedTypeCache = proprow;
-            }
-            else if (_editedPropCache != null && _editedPropCache != oldval)
-            {
-                changed = true;
-            }
-
-            UpdateProperty(_editedTypeCache, _editedObjCache, _editedPropCache, changed, committed);
-            if (changed && committed && !ParamBank.VanillaBank.IsLoadingParams)
+            bool committed = ParamEditorCommon.UpdateProperty(ContextActionManager, nullableCell != null ? nullableCell : row, proprow, oldval);
+            if (committed && !ParamBank.VanillaBank.IsLoadingParams)
                 ParamBank.PrimaryBank.RefreshParamRowVanillaDiff(row, activeParam);
             ImGui.PopID();
             id++;
