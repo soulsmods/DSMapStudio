@@ -226,8 +226,8 @@
     <Field Def="s32 UnkInt0x364"></Field>
     <Field Def="s32 UnkInt0x368"></Field>
     <Field Def="s32 UnkInt0x36C"></Field>
-    <Field Def="f32 UnkFloat0x370"></Field>
-    <Field Def="f32 UnkFloat0x374"></Field>
+    <Field Def="f32 tetrapodHoverMaxVelocity"></Field>
+    <Field Def="f32 tetrapodHoverVelocity"></Field>
     <Field Def="f32 UnkFloat0x378"></Field>
     <Field Def="f32 UnkFloat0x37C"></Field>
     <Field Def="s32 UnkInt0x380"></Field>
