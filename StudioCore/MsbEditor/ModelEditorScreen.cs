@@ -110,7 +110,7 @@ namespace StudioCore.MsbEditor
                     break;
                 case ModelEditorModelType.Object:
                     asset = AssetLocator.GetObjModel(modelid);
-                    assettex = AssetLocator.GetNullAsset();
+                    assettex = AssetLocator.GetObjTexture(modelid);
                     break;
                 case ModelEditorModelType.Parts:
                     asset = AssetLocator.GetPartsModel(modelid);
@@ -123,7 +123,7 @@ namespace StudioCore.MsbEditor
                 default:
                     //Uh oh
                     asset = AssetLocator.GetNullAsset();
-                    assettex = AssetLocator.GetNullAsset();
+                assettex = AssetLocator.GetNullAsset();
                     break;
             }
             
