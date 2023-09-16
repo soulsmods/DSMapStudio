@@ -328,18 +328,16 @@ namespace StudioCore.ParamEditor
             ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.9f, 0.9f, 0.9f, 1.0f));
             if (conflict)
                 ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.25f, 0.2f, 0.2f, 1.0f));
-            if (CFG.Current.Param_ShowVanillaParams)
+            if (CFG.Current.Param_ShowVanillaParams && ImGui.TableNextColumn())
+            {
+                AdditionalColumnValue(vanillaval, propType, bank, RefTypes, FmgRef, row, Enum, "vanilla");
+            }
+            for (int i=0; i<auxVals.Count; i++)
             {
                 if (ImGui.TableNextColumn())
-                    AdditionalColumnValue(vanillaval, propType, bank, RefTypes, FmgRef, row, Enum, "vanilla");
-            }
-            if (auxVals.Count > 0)
-            {
-                for (int i=0; i<auxVals.Count; i++)
                 {
                     if (!conflict && diffAuxVanilla[i])
                         ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.2f, 0.2f, 0.35f, 1.0f));
-                    if (ImGui.TableNextColumn())
                         AdditionalColumnValue(auxVals[i], propType, bank, RefTypes, FmgRef, row, Enum, i.ToString());
                     if (!conflict && diffAuxVanilla[i])
                         ImGui.PopStyleColor();
@@ -347,12 +345,11 @@ namespace StudioCore.ParamEditor
             }
             if (conflict)
                 ImGui.PopStyleColor();
-            if (compareval != null)
+            if (compareval != null && ImGui.TableNextColumn())
             {
                 if(diffCompare)
                     ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.2f, 0.2f, 0.35f, 1.0f));
-                if (ImGui.TableNextColumn())
-                    AdditionalColumnValue(compareval, propType, bank, RefTypes, FmgRef, row, Enum, "compRow");
+                AdditionalColumnValue(compareval, propType, bank, RefTypes, FmgRef, row, Enum, "compRow");
                 if (diffCompare)
                     ImGui.PopStyleColor();
             }
