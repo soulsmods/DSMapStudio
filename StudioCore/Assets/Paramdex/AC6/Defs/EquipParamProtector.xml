@@ -84,7 +84,9 @@
     <Field Def="s8 rarity"></Field>
     <Field Def="u8 sortGroupId"></Field>
     <Field Def="u8 partsDmgType"></Field>
-    <Field Def="u16 UnkUshort0xDA"></Field>
+    <Field Def="u16 legType">
+      <Description>Determines leg type and behavior, such as reverse joints, tetrapod, and tank legs.</Description>
+    </Field>
     <Field Def="u8 isDeposit:1"></Field>
     <Field Def="u8 headEquip:1"></Field>
     <Field Def="u8 bodyEquip:1"></Field>
