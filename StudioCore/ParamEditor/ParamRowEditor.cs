@@ -176,39 +176,9 @@ namespace StudioCore.ParamEditor
             }
             if (meta.CalcCorrectDef != null || meta.SoulCostDef != null)
             {
-                DrawCalcCorrectGraph(meta, row);
+                EditorDecorations.DrawCalcCorrectGraph(_paramEditor, meta, row);
             }
             ImGui.EndChild();
-        }
-
-        private void DrawCalcCorrectGraph(ParamMetaData meta, Param.Row row)
-        {
-            try
-            {
-                ImGui.Separator();
-                ImGui.NewLine();
-                var ccd = meta.CalcCorrectDef;
-                var scd = meta.SoulCostDef;
-                float[] values;
-                int xOffset;
-                float minY;
-                float maxY;
-                if (scd != null && scd.cost_row == row.ID)
-                {
-                    (values, maxY) = CacheBank.GetCached(_paramEditor, row, "soulCostData", () => ParamUtils.getSoulCostData(scd, row));
-                    ImGui.PlotLines("##graph", ref values[0], values.Length, 0, "", 0, maxY, new Vector2(ImGui.GetColumnWidth(-1), ImGui.GetColumnWidth(-1)*0.5625f));
-                
-                }
-                else if (ccd != null)
-                {
-                    (values, xOffset, minY, maxY) = CacheBank.GetCached(_paramEditor, row, "calcCorrectData", () => ParamUtils.getCalcCorrectedData(ccd, row));
-                    ImGui.PlotLines("##graph", ref values[0], values.Length, 0, xOffset == 0 ? "" : $@"Note: add {xOffset} to x coordinate", minY, maxY, new Vector2(ImGui.GetColumnWidth(-1), ImGui.GetColumnWidth(-1)*0.5625f));
-                }
-            }
-            catch (Exception e)
-            {
-                ImGui.TextUnformatted("Unable to draw graph");
-            }
         }
 
         // Many parameter options, which may be simplified.
