@@ -43,7 +43,7 @@ namespace StudioCore.ParamEditor
             _scr = paramEditor;
         }
 
-        private void pushHistory(string newParam, Param.Row newRow)
+        private void PushHistory(string newParam, Param.Row newRow)
         {
             if (pastStack.Count > 0)
             {
@@ -59,7 +59,7 @@ namespace StudioCore.ParamEditor
             if (pastStack.Count >= 6)
                 pastStack.RemoveAt(0);
         }
-        public void popHistory()
+        public void PopHistory()
         {
             if (pastStack.Count > 0)
             {
@@ -70,73 +70,73 @@ namespace StudioCore.ParamEditor
                     past = pastStack[pastStack.Count - 1];
                     pastStack.RemoveAt(pastStack.Count - 1);
                 }
-                setActiveParam(past.Item1, true);
+                SetActiveParam(past.Item1, true);
                 SetActiveRow(past.Item2, true, true);
             }
         }
-        public bool hasHistory()
+        public bool HasHistory()
         {
             return pastStack.Count > 0;
         }
 
-        public bool activeParamExists()
+        public bool ActiveParamExists()
         {
             return _activeParam != null;
         }
-        public string getActiveParam()
+        public string GetActiveParam()
         {
             return _activeParam;
         }
-        public void setActiveParam(string param, bool isHistory = false)
+        public void SetActiveParam(string param, bool isHistory = false)
         {
             if (!isHistory)
-                pushHistory(param, null);
+                PushHistory(param, null);
             _activeParam = param;
             if (!_paramStates.ContainsKey(_activeParam))
                 _paramStates.Add(_activeParam, new ParamEditorParamSelectionState());
         }
-        public ref string getCurrentRowSearchString()
+        public ref string GetCurrentRowSearchString()
         {
             if (_activeParam == null)
                 return ref _globalRowSearchString;
             return ref _paramStates[_activeParam].currentRowSearchString;
         }
-        public ref string getCurrentPropSearchString()
+        public ref string GetCurrentPropSearchString()
         {
             if (_activeParam == null)
                 return ref _globalPropSearchString;
             return ref _paramStates[_activeParam].currentPropSearchString;
         }
-        public void setCurrentRowSearchString(string s)
+        public void SetCurrentRowSearchString(string s)
         {
             if (_activeParam == null)
                 return;
             _paramStates[_activeParam].currentRowSearchString = s;
             _paramStates[_activeParam].selectionCacheDirty = true;
         }
-        public void setCurrentPropSearchString(string s)
+        public void SetCurrentPropSearchString(string s)
         {
             if (_activeParam == null)
                 return;
             _paramStates[_activeParam].currentPropSearchString = s;
         }
-        public bool rowSelectionExists()
+        public bool RowSelectionExists()
         {
             return _activeParam != null && _paramStates[_activeParam].selectionRows.Count > 0;
         }
-        public Param.Row getActiveRow()
+        public Param.Row GetActiveRow()
         {
             if (_activeParam == null)
                 return null;
             return _paramStates[_activeParam].activeRow;
         }
-        public Param.Row getCompareRow()
+        public Param.Row GetCompareRow()
         {
             if (_activeParam == null)
                 return null;
             return _paramStates[_activeParam].compareRow;
         }
-        public Param.Column getCompareCol()
+        public Param.Column GetCompareCol()
         {
             if (_activeParam == null)
                 return null;
@@ -150,7 +150,7 @@ namespace StudioCore.ParamEditor
                 if (s.activeRow != null && !ParamBank.VanillaBank.IsLoadingParams)
                     ParamBank.PrimaryBank.RefreshParamRowVanillaDiff(s.activeRow, _activeParam);
                 if (!isHistory)
-                    pushHistory(_activeParam, s.activeRow);
+                    PushHistory(_activeParam, s.activeRow);
                 s.activeRow = row;
                 s.selectionRows.Clear();
                 s.selectionRows.Add(row);
@@ -175,7 +175,7 @@ namespace StudioCore.ParamEditor
                 s.compareCol = col;
             }
         }
-        public void toggleRowInSelection(Param.Row row)
+        public void ToggleRowInSelection(Param.Row row)
         {
             if (_activeParam != null)
             {
@@ -188,7 +188,7 @@ namespace StudioCore.ParamEditor
             }
             //Do not perform vanilla diff here, will be very slow when making large selections
         }
-        public void addRowToSelection(Param.Row row)
+        public void AddRowToSelection(Param.Row row)
         {
             if (_activeParam != null)
             {
@@ -201,7 +201,7 @@ namespace StudioCore.ParamEditor
             }
             //Do not perform vanilla diff here, will be very slow when making large selections
         }
-        public void removeRowFromSelection(Param.Row row)
+        public void RemoveRowFromSelection(Param.Row row)
         {
             if (_activeParam != null)
             {
@@ -209,7 +209,7 @@ namespace StudioCore.ParamEditor
                 _paramStates[_activeParam].selectionCacheDirty = true;
             }
         }
-        public void removeRowFromAllSelections(Param.Row row)
+        public void RemoveRowFromAllSelections(Param.Row row)
         {
             foreach (ParamEditorParamSelectionState state in _paramStates.Values)
             {
@@ -219,13 +219,13 @@ namespace StudioCore.ParamEditor
                 state.selectionCacheDirty = true;
             }
         }
-        public List<Param.Row> getSelectedRows()
+        public List<Param.Row> GetSelectedRows()
         {
             if (_activeParam == null)
                 return null;
             return _paramStates[_activeParam].selectionRows;
         }
-        public bool[] getSelectionCache(List<Param.Row> rows, string cacheVer)
+        public bool[] GetSelectionCache(List<Param.Row> rows, string cacheVer)
         {
             if (_activeParam == null)
                 return null;
@@ -236,10 +236,10 @@ namespace StudioCore.ParamEditor
             return CacheBank.GetCached(_scr, s, "selectionCache"+cacheVer, () =>
             {
                 s.selectionCacheDirty = false;
-                return rows.Select((x) => getSelectedRows().Contains(x)).ToArray();
+                return rows.Select((x) => GetSelectedRows().Contains(x)).ToArray();
             });
         }
-        public void cleanSelectedRows()
+        public void CleanSelectedRows()
         {
             if (_activeParam != null)
             {
@@ -250,14 +250,14 @@ namespace StudioCore.ParamEditor
                 s.selectionCacheDirty = true;
             }
         }
-        public void cleanAllSelectionState()
+        public void CleanAllSelectionState()
         {
             foreach (ParamEditorParamSelectionState s in _paramStates.Values)
                 s.selectionCacheDirty = true;
             _activeParam = null;
             _paramStates.Clear();
         }
-        public void sortSelection()
+        public void SortSelection()
         {
             if (_activeParam != null)
             {

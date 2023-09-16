@@ -63,7 +63,7 @@ namespace StudioCore.ParamEditor
             ImGui.InputText($"Search <{KeyBindings.Current.Param_SearchParam.HintText}>", ref _selection.currentParamSearchString, 256);
             string resAutoParam = AutoFill.ParamSearchBarAutoFill();
             if (resAutoParam != null)
-                _selection.setCurrentRowSearchString(resAutoParam);
+                _selection.SetCurrentRowSearchString(resAutoParam);
             if (!_selection.currentParamSearchString.Equals(lastParamSearch))
             {
                 CacheBank.ClearCaches();
@@ -111,7 +111,7 @@ namespace StudioCore.ParamEditor
                         }
                     }
                     ImGui.Indent(15.0f * scale);
-                    if (ImGui.Selectable(paramKey, paramKey == _selection.getActiveParam()))
+                    if (ImGui.Selectable(paramKey, paramKey == _selection.GetActiveParam()))
                     {
                         EditorCommandQueue.AddCommand($@"param/view/{_viewIndex}/{paramKey}");
                     }
@@ -176,14 +176,14 @@ namespace StudioCore.ParamEditor
                     ImGui.PushStyleColor(ImGuiCol.Text, PRIMARYCHANGEDCOLOUR);
                 else
                     ImGui.PushStyleColor(ImGuiCol.Text, ALLVANILLACOLOUR);
-                if (ImGui.Selectable($"{paramKey}", paramKey == _selection.getActiveParam()))
+                if (ImGui.Selectable($"{paramKey}", paramKey == _selection.GetActiveParam()))
                 {
                     //_selection.setActiveParam(param.Key);
                     EditorCommandQueue.AddCommand($@"param/view/{_viewIndex}/{paramKey}");
                 }
                 ImGui.PopStyleColor();
 
-                if (doFocus && paramKey == _selection.getActiveParam())
+                if (doFocus && paramKey == _selection.GetActiveParam())
                     scrollTo = ImGui.GetCursorPosY();
                 if (ImGui.BeginPopupContextItem())
                 {
@@ -242,14 +242,14 @@ namespace StudioCore.ParamEditor
             if (isActiveView && InputTracker.GetKeyDown(KeyBindings.Current.Param_SearchRow))
                 ImGui.SetKeyboardFocusHere();
 
-            ImGui.InputText($"Search <{KeyBindings.Current.Param_SearchRow.HintText}>", ref _selection.getCurrentRowSearchString(), 256);
+            ImGui.InputText($"Search <{KeyBindings.Current.Param_SearchRow.HintText}>", ref _selection.GetCurrentRowSearchString(), 256);
             string resAutoRow = AutoFill.RowSearchBarAutoFill();
             if (resAutoRow != null)
-                _selection.setCurrentRowSearchString(resAutoRow);
-            if (!lastRowSearch.ContainsKey(_selection.getActiveParam()) || !lastRowSearch[_selection.getActiveParam()].Equals(_selection.getCurrentRowSearchString()))
+                _selection.SetCurrentRowSearchString(resAutoRow);
+            if (!lastRowSearch.ContainsKey(_selection.GetActiveParam()) || !lastRowSearch[_selection.GetActiveParam()].Equals(_selection.GetCurrentRowSearchString()))
             {
                 CacheBank.ClearCaches();
-                lastRowSearch[_selection.getActiveParam()] = _selection.getCurrentRowSearchString();
+                lastRowSearch[_selection.GetActiveParam()] = _selection.GetCurrentRowSearchString();
                 doFocus = true;
             }
 
@@ -261,7 +261,7 @@ namespace StudioCore.ParamEditor
         }
         private void ParamView_RowList(bool doFocus, bool isActiveView, float scrollTo, string activeParam)
         {
-            if (!_selection.activeParamExists())
+            if (!_selection.ActiveParamExists())
             {
                 ImGui.Text("Select a param to see rows");
             }
@@ -277,7 +277,7 @@ namespace StudioCore.ParamEditor
                 HashSet<int> vanillaDiffCache = ParamBank.PrimaryBank.GetVanillaDiffRows(activeParam);
                 List<(HashSet<int>, HashSet<int>)> auxDiffCaches = ParamBank.AuxBanks.Select((bank, i) => (bank.Value.GetVanillaDiffRows(activeParam), bank.Value.GetPrimaryDiffRows(activeParam))).ToList();
 
-                Param.Column compareCol = _selection.getCompareCol();
+                Param.Column compareCol = _selection.GetCompareCol();
                 
                 ImGui.BeginChild("rows" + activeParam);
                 if (EditorDecorations.ImGuiTableStdColumns("rowList", compareCol == null ? 1 : 2, false))
@@ -288,7 +288,7 @@ namespace StudioCore.ParamEditor
                     ImGui.PushID("pinned");
 
                     List<Param.Row> pinnedRowList = _paramEditor._projectSettings.PinnedRows.GetValueOrDefault(activeParam, new List<int>()).Select((id) => para[id]).ToList();
-                    bool[] selectionCachePins = _selection.getSelectionCache(pinnedRowList, "pinned");
+                    bool[] selectionCachePins = _selection.GetSelectionCache(pinnedRowList, "pinned");
                     if (pinnedRowList.Count != 0)
                     {
                         bool lastCol = false;
@@ -320,12 +320,12 @@ namespace StudioCore.ParamEditor
                         _focusRows = false;
                     }
 
-                    List<Param.Row> rows = CacheBank.GetCached(this._paramEditor, (_viewIndex, activeParam), () => RowSearchEngine.rse.Search((ParamBank.PrimaryBank, para), _selection.getCurrentRowSearchString(), true, true));
+                    List<Param.Row> rows = CacheBank.GetCached(this._paramEditor, (_viewIndex, activeParam), () => RowSearchEngine.rse.Search((ParamBank.PrimaryBank, para), _selection.GetCurrentRowSearchString(), true, true));
 
                     bool enableGrouping = !CFG.Current.Param_DisableRowGrouping && ParamMetaData.Get(ParamBank.PrimaryBank.Params[activeParam].AppliedParamdef).ConsecutiveIDs;
 
                     // Rows
-                    bool[] selectionCache = _selection.getSelectionCache(rows, "regular");
+                    bool[] selectionCache = _selection.GetSelectionCache(rows, "regular");
                     for (int i = 0; i < rows.Count; i++)
                     {
                         Param.Row currentRow = rows[i];
@@ -368,8 +368,8 @@ namespace StudioCore.ParamEditor
                     activeRow,
                     vanillaParam?[activeRow.ID],
                     ParamBank.AuxBanks.Select((bank, i) => (bank.Key, bank.Value.Params?.GetValueOrDefault(activeParam)?[activeRow.ID])).ToList(),
-                    _selection.getCompareRow(),
-                    ref _selection.getCurrentPropSearchString(),
+                    _selection.GetCompareRow(),
+                    ref _selection.GetCurrentPropSearchString(),
                     activeParam,
                     isActiveView,
                     _selection);
@@ -390,12 +390,12 @@ namespace StudioCore.ParamEditor
                     ParamView_ParamList(doFocus, isActiveView, scale, scrollTo);
                 }
                 
-                string activeParam = _selection.getActiveParam();
+                string activeParam = _selection.GetActiveParam();
                 if (ImGui.TableNextColumn())
                 {
                     ParamView_RowList(doFocus, isActiveView, scrollTo, activeParam);
                 }
-                Param.Row activeRow = _selection.getActiveRow();
+                Param.Row activeRow = _selection.GetActiveRow();
                 if (ImGui.TableNextColumn())
                 {
                     ParamView_FieldList(isActiveView, activeParam, activeRow);
@@ -438,7 +438,7 @@ namespace StudioCore.ParamEditor
             }
             if (_paramEditor.GotoSelectedRow && !isPinned)
             {
-                if (_selection.getActiveRow().ID == r.ID)
+                if (_selection.GetActiveRow().ID == r.ID)
                 {
                     ImGui.SetScrollHereY();
                     _paramEditor.GotoSelectedRow = false;
@@ -452,19 +452,19 @@ namespace StudioCore.ParamEditor
                 _focusRows = true;
                 if (InputTracker.GetKey(Key.LControl))
                 {
-                    _selection.toggleRowInSelection(r);
+                    _selection.ToggleRowInSelection(r);
                 }
-                else if (p != null && InputTracker.GetKey(Key.LShift) && _selection.getActiveRow() != null)
+                else if (p != null && InputTracker.GetKey(Key.LShift) && _selection.GetActiveRow() != null)
                 {
-                    _selection.cleanSelectedRows();
-                    int start = p.IndexOf(_selection.getActiveRow());
+                    _selection.CleanSelectedRows();
+                    int start = p.IndexOf(_selection.GetActiveRow());
                     int end = p.IndexOf(r);
                     if (start != end && start != -1 && end != -1)
                     {
                         foreach (var r2 in p.GetRange(start < end ? start : end, Math.Abs(end - start)))
-                            _selection.addRowToSelection(r2);
+                            _selection.AddRowToSelection(r2);
                     }
-                    _selection.addRowToSelection(r);
+                    _selection.AddRowToSelection(r);
                 }
                 else
                 {
@@ -472,12 +472,12 @@ namespace StudioCore.ParamEditor
                 }
             }
             if (_arrowKeyPressed && ImGui.IsItemFocused()
-                && (r != _selection.getActiveRow()))
+                && (r != _selection.GetActiveRow()))
             {
                 if (InputTracker.GetKey(Key.ControlLeft) || InputTracker.GetKey(Key.ControlRight))
                 {
                     // Add to selection
-                    _selection.addRowToSelection(r);
+                    _selection.AddRowToSelection(r);
                 }
                 else
                 {
@@ -515,7 +515,7 @@ namespace StudioCore.ParamEditor
             }
             if (decorator != null)
                 decorator.DecorateParam(r);
-            if (doFocus && _selection.getActiveRow() == r)
+            if (doFocus && _selection.GetActiveRow() == r)
                 scrollTo = ImGui.GetCursorPosY();
         }
         private bool ParamView_RowList_Entry(bool[] selectionCache, int selectionCacheIndex, string activeParam, List<Param.Row> p, Param.Row r, HashSet<int> vanillaDiffCache, List<(HashSet<int>, HashSet<int>)> auxDiffCaches, IParamDecorator decorator, ref float scrollTo, bool doFocus, bool isPinned, Param.Column compareCol)

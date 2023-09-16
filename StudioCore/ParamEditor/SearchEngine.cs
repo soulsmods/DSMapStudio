@@ -193,13 +193,13 @@ namespace StudioCore.Editor
         {
             unpacker = (selection)=>{
                 List<(MassEditRowSource, Param.Row)> list = new List<(MassEditRowSource, Param.Row)>();
-                list.AddRange(selection.getSelectedRows().Select((x, i) => (MassEditRowSource.Selection, x)));
+                list.AddRange(selection.GetSelectedRows().Select((x, i) => (MassEditRowSource.Selection, x)));
                 list.AddRange(ParamBank.ClipboardRows.Select((x, i) => (MassEditRowSource.Clipboard, x)));
                 return list;
             };
             filterList.Add("selection", newCmd(new string[0], "Selects the current param selection and selected rows in that param", noArgs(noContext((row)=>row.Item1 == MassEditRowSource.Selection))));
             filterList.Add("clipboard", newCmd(new string[0], "Selects the param of the clipboard and the rows in the clipboard", noArgs(noContext((row)=>row.Item1 == MassEditRowSource.Clipboard)), ()=>ParamBank.ClipboardRows?.Count > 0));
-            contextGetterForMultiStage = (ParamEditorSelectionState state, (MassEditRowSource, Param.Row) exampleItem) => (ParamBank.PrimaryBank, ParamBank.PrimaryBank.Params[exampleItem.Item1 == MassEditRowSource.Selection ? state.getActiveParam() : ParamBank.ClipboardParam]);
+            contextGetterForMultiStage = (ParamEditorSelectionState state, (MassEditRowSource, Param.Row) exampleItem) => (ParamBank.PrimaryBank, ParamBank.PrimaryBank.Params[exampleItem.Item1 == MassEditRowSource.Selection ? state.GetActiveParam() : ParamBank.ClipboardParam]);
             sourceListGetterForMultiStage = ((MassEditRowSource, Param.Row) row) => row.Item2;
             searchEngineForMultiStage = RowSearchEngine.rse;
             resultRetrieverForMultiStage = (Param.Row row, (MassEditRowSource, Param.Row) exampleItem) => (exampleItem.Item1, row);

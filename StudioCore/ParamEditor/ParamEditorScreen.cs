@@ -370,7 +370,7 @@ namespace StudioCore.ParamEditor
         {
             IReadOnlyList<Param.Row> rows;
 
-            var activeParam = _activeView._selection.getActiveParam();
+            var activeParam = _activeView._selection.GetActiveParam();
             if (rowType == ParamBank.RowGetType.AllRows)
             {
                 // All rows
@@ -385,7 +385,7 @@ namespace StudioCore.ParamEditor
             else if (rowType == ParamBank.RowGetType.SelectedRows)
             {
                 // Selected rows
-                rows = _activeView._selection.getSelectedRows();
+                rows = _activeView._selection.GetSelectedRows();
             }
             else
             {
@@ -408,7 +408,7 @@ namespace StudioCore.ParamEditor
                     if (ImGui.MenuItem("Row name"))
                         EditorCommandQueue.AddCommand($@"param/menu/massEditSingleCSVExport/Name/{rowType}");
                     foreach (PARAMDEF.Field field in ParamBank.PrimaryBank
-                                 .Params[_activeView._selection.getActiveParam()].AppliedParamdef.Fields)
+                                 .Params[_activeView._selection.GetActiveParam()].AppliedParamdef.Fields)
                     {
                         if (ImGui.MenuItem(field.InternalName))
                             EditorCommandQueue.AddCommand(
@@ -429,7 +429,7 @@ namespace StudioCore.ParamEditor
                         TryWriteFile(
                             path,
                             ParamIO.GenerateCSV(rows,
-                                ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()],
+                                ParamBank.PrimaryBank.Params[_activeView._selection.GetActiveParam()],
                                 CFG.Current.Param_Export_Delimiter[0]));
                     }
                 }
@@ -444,13 +444,13 @@ namespace StudioCore.ParamEditor
                             TryWriteFile(
                                 path,
                                 ParamIO.GenerateSingleCSV(rows,
-                                    ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()],
+                                    ParamBank.PrimaryBank.Params[_activeView._selection.GetActiveParam()],
                                     "Name",
                                     CFG.Current.Param_Export_Delimiter[0]));
                         }
                     }
                     foreach (PARAMDEF.Field field in ParamBank.PrimaryBank
-                                 .Params[_activeView._selection.getActiveParam()].AppliedParamdef.Fields)
+                                 .Params[_activeView._selection.GetActiveParam()].AppliedParamdef.Fields)
                     {
                         if (ImGui.MenuItem(field.InternalName))
                         {
@@ -461,7 +461,7 @@ namespace StudioCore.ParamEditor
                                     path,
                                     ParamIO.GenerateSingleCSV(rows,
                                         ParamBank.PrimaryBank.Params[
-                                            _activeView._selection.getActiveParam()],
+                                            _activeView._selection.GetActiveParam()],
                                         field.InternalName, CFG.Current.Param_Export_Delimiter[0]));
                             }
                         }
@@ -485,7 +485,7 @@ namespace StudioCore.ParamEditor
                 {
                     ParamRedo();
                 }
-                if (ImGui.MenuItem("Copy", KeyBindings.Current.Param_Copy.HintText, false, _activeView._selection.rowSelectionExists()))
+                if (ImGui.MenuItem("Copy", KeyBindings.Current.Param_Copy.HintText, false, _activeView._selection.RowSelectionExists()))
                 {
                     CopySelectionToClipboard();
                 }
@@ -493,15 +493,15 @@ namespace StudioCore.ParamEditor
                 {
                     EditorCommandQueue.AddCommand($@"param/menu/ctrlVPopup");
                 }
-                if (ImGui.MenuItem("Delete", KeyBindings.Current.Core_Delete.HintText, false, _activeView._selection.rowSelectionExists()))
+                if (ImGui.MenuItem("Delete", KeyBindings.Current.Core_Delete.HintText, false, _activeView._selection.RowSelectionExists()))
                 {
                     DeleteSelection();
                 }
-                if (ImGui.MenuItem("Duplicate", KeyBindings.Current.Core_Duplicate.HintText, false, _activeView._selection.rowSelectionExists()))
+                if (ImGui.MenuItem("Duplicate", KeyBindings.Current.Core_Duplicate.HintText, false, _activeView._selection.RowSelectionExists()))
                 {
                     DuplicateSelection();
                 }
-                if (ImGui.MenuItem("Goto selected row", KeyBindings.Current.Param_GotoSelectedRow.HintText, false, _activeView._selection.rowSelectionExists()))
+                if (ImGui.MenuItem("Goto selected row", KeyBindings.Current.Param_GotoSelectedRow.HintText, false, _activeView._selection.RowSelectionExists()))
                 {
                     GotoSelectedRow = true;
                 }
@@ -525,7 +525,7 @@ namespace StudioCore.ParamEditor
                     ImGui.EndMenu();
                 }
 
-                if (ImGui.BeginMenu("Export CSV", _activeView._selection.activeParamExists()))
+                if (ImGui.BeginMenu("Export CSV", _activeView._selection.ActiveParamExists()))
                 {
                     DelimiterInputText();
 
@@ -537,11 +537,11 @@ namespace StudioCore.ParamEditor
                         {
                             if (SaveCsvDialog(out string path))
                             {
-                                var rows = ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()].Rows;
+                                var rows = ParamBank.PrimaryBank.Params[_activeView._selection.GetActiveParam()].Rows;
                                 TryWriteFile(
                                     path,
                                     ParamIO.GenerateCSV(rows,
-                                        ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()],
+                                        ParamBank.PrimaryBank.Params[_activeView._selection.GetActiveParam()],
                                         CFG.Current.Param_Export_Delimiter[0]));
                             }
                         }
@@ -555,13 +555,13 @@ namespace StudioCore.ParamEditor
                         ImGui.EndMenu();
                     }
 
-                    if (ImGui.BeginMenu("Modified rows", ParamBank.PrimaryBank.GetVanillaDiffRows(_activeView._selection.getActiveParam()).Any()))
+                    if (ImGui.BeginMenu("Modified rows", ParamBank.PrimaryBank.GetVanillaDiffRows(_activeView._selection.GetActiveParam()).Any()))
                     {
                         CsvExportDisplay(ParamBank.RowGetType.ModifiedRows);
                         ImGui.EndMenu();
                     }
 
-                    if (ImGui.BeginMenu("Selected rows", _activeView._selection.rowSelectionExists()))
+                    if (ImGui.BeginMenu("Selected rows", _activeView._selection.RowSelectionExists()))
                     {
                         CsvExportDisplay(ParamBank.RowGetType.SelectedRows);
                         ImGui.EndMenu();
@@ -570,7 +570,7 @@ namespace StudioCore.ParamEditor
                     ImGui.EndMenu();
                 }
 
-                if (ImGui.BeginMenu("Import CSV", _activeView._selection.activeParamExists()))
+                if (ImGui.BeginMenu("Import CSV", _activeView._selection.ActiveParamExists()))
                 {
                     DelimiterInputText();
                     if (ImGui.MenuItem("All fields", KeyBindings.Current.Param_ImportCSV.HintText))
@@ -579,20 +579,20 @@ namespace StudioCore.ParamEditor
                         EditorCommandQueue.AddCommand($@"param/menu/massEditSingleCSVImport/Name");
                     if (ImGui.BeginMenu("Specific Field"))
                     {
-                        foreach (PARAMDEF.Field field in ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()].AppliedParamdef.Fields)
+                        foreach (PARAMDEF.Field field in ParamBank.PrimaryBank.Params[_activeView._selection.GetActiveParam()].AppliedParamdef.Fields)
                         {
                             if (ImGui.MenuItem(field.InternalName))
                                 EditorCommandQueue.AddCommand($@"param/menu/massEditSingleCSVImport/{field.InternalName}");
                         }
                         ImGui.EndMenu();
                     }
-                    if (ImGui.BeginMenu("From file...", _activeView._selection.activeParamExists()))
+                    if (ImGui.BeginMenu("From file...", _activeView._selection.ActiveParamExists()))
                     {
                         if (ImGui.MenuItem("All fields"))
                         {
                             if (ReadCsvDialog(out string csv))
                             {
-                                (string result, CompoundAction action) = ParamIO.ApplyCSV(ParamBank.PrimaryBank, csv, _activeView._selection.getActiveParam(), false, false, CFG.Current.Param_Export_Delimiter[0]);
+                                (string result, CompoundAction action) = ParamIO.ApplyCSV(ParamBank.PrimaryBank, csv, _activeView._selection.GetActiveParam(), false, false, CFG.Current.Param_Export_Delimiter[0]);
                                 if (action != null)
                                 {
                                     if (action.HasActions)
@@ -610,7 +610,7 @@ namespace StudioCore.ParamEditor
                         {
                             if (ReadCsvDialog(out string csv))
                             {
-                                (string result, CompoundAction action) = ParamIO.ApplySingleCSV(ParamBank.PrimaryBank, csv, _activeView._selection.getActiveParam(), "Name", CFG.Current.Param_Export_Delimiter[0], false);
+                                (string result, CompoundAction action) = ParamIO.ApplySingleCSV(ParamBank.PrimaryBank, csv, _activeView._selection.GetActiveParam(), "Name", CFG.Current.Param_Export_Delimiter[0], false);
                                 if (action != null)
                                     EditorActionManager.ExecuteAction(action);
                                 else
@@ -623,13 +623,13 @@ namespace StudioCore.ParamEditor
                         }
                         if (ImGui.BeginMenu("Specific Field"))
                         {
-                            foreach (PARAMDEF.Field field in ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()].AppliedParamdef.Fields)
+                            foreach (PARAMDEF.Field field in ParamBank.PrimaryBank.Params[_activeView._selection.GetActiveParam()].AppliedParamdef.Fields)
                             {
                                 if (ImGui.MenuItem(field.InternalName))
                                 {
                                     if (ReadCsvDialog(out string csv))
                                     {
-                                        (string result, CompoundAction action) = ParamIO.ApplySingleCSV(ParamBank.PrimaryBank, csv, _activeView._selection.getActiveParam(), field.InternalName, CFG.Current.Param_Export_Delimiter[0], false);
+                                        (string result, CompoundAction action) = ParamIO.ApplySingleCSV(ParamBank.PrimaryBank, csv, _activeView._selection.GetActiveParam(), field.InternalName, CFG.Current.Param_Export_Delimiter[0], false);
                                         if (action != null)
                                             EditorActionManager.ExecuteAction(action);
                                         else
@@ -647,16 +647,16 @@ namespace StudioCore.ParamEditor
                     }
                     ImGui.EndMenu();
                 }
-                if (ImGui.MenuItem("Sort rows by ID", _activeView._selection.activeParamExists()))
+                if (ImGui.MenuItem("Sort rows by ID", _activeView._selection.ActiveParamExists()))
                 {
-                    EditorActionManager.ExecuteAction(MassParamEditOther.SortRows(ParamBank.PrimaryBank, _activeView._selection.getActiveParam()));
+                    EditorActionManager.ExecuteAction(MassParamEditOther.SortRows(ParamBank.PrimaryBank, _activeView._selection.GetActiveParam()));
                 }
                 if (ImGui.BeginMenu("Import row names"))
                 {
                     void ImportRowNames(bool currentParamOnly, string title)
                     {
                         const string importRowQuestion = $"Would you like to replace row names with default names defined within DSMapStudio?\n\nSelect \"Yes\" to replace all names, \"No\" to only replace empty names, \"Cancel\" to abort.";
-                        string currentParam = currentParamOnly ? _activeView._selection.getActiveParam() : null;
+                        string currentParam = currentParamOnly ? _activeView._selection.GetActiveParam() : null;
                         DialogResult question = PlatformUtils.Instance.MessageBox(importRowQuestion, title, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Information);
                         switch (question)
                         {
@@ -679,11 +679,11 @@ namespace StudioCore.ParamEditor
                         {
                         }
                     }
-                    if (ImGui.MenuItem("Current Param", "", false, ParamBank.PrimaryBank.Params != null && _activeView._selection.activeParamExists()))
+                    if (ImGui.MenuItem("Current Param", "", false, ParamBank.PrimaryBank.Params != null && _activeView._selection.ActiveParamExists()))
                     {
                         try
                         {
-                            ImportRowNames(true, $"Replace all row names in {_activeView._selection.getActiveParam()}?");
+                            ImportRowNames(true, $"Replace all row names in {_activeView._selection.GetActiveParam()}?");
                         }
                         catch
                         {
@@ -715,7 +715,7 @@ namespace StudioCore.ParamEditor
                     RemoveView(_activeView);
                 }
                 ImGui.Separator();
-                if (ImGui.MenuItem("Go back...", KeyBindings.Current.Param_GotoBack.HintText, false, _activeView._selection.hasHistory()))
+                if (ImGui.MenuItem("Go back...", KeyBindings.Current.Param_GotoBack.HintText, false, _activeView._selection.HasHistory()))
                 {
                     EditorCommandQueue.AddCommand($@"param/back");
                 }
@@ -759,7 +759,7 @@ namespace StudioCore.ParamEditor
 
                         if (ImGui.MenuItem("Current Param", KeyBindings.Current.Param_HotReload.HintText, false, canHotReload))
                         {
-                            ParamReloader.ReloadMemoryParams(ParamBank.PrimaryBank, ParamBank.PrimaryBank.AssetLocator, new string[] { _activeView._selection.getActiveParam() });
+                            ParamReloader.ReloadMemoryParams(ParamBank.PrimaryBank, ParamBank.PrimaryBank.AssetLocator, new string[] { _activeView._selection.GetActiveParam() });
                         }
                         if (ImGui.MenuItem("All Params", KeyBindings.Current.Param_HotReloadAll.HintText, false, canHotReload))
                         {
@@ -775,10 +775,10 @@ namespace StudioCore.ParamEditor
                     }
                     ImGui.EndMenu();
                 }
-                string activeParam = _activeView._selection.getActiveParam();
+                string activeParam = _activeView._selection.GetActiveParam();
                 if (activeParam != null && _projectSettings.GameType == GameType.DarkSoulsIII)
                 {
-                    ParamReloader.GiveItemMenu(ParamBank.PrimaryBank.AssetLocator, _activeView._selection.getSelectedRows(), _activeView._selection.getActiveParam());
+                    ParamReloader.GiveItemMenu(ParamBank.PrimaryBank.AssetLocator, _activeView._selection.GetSelectedRows(), _activeView._selection.GetActiveParam());
                 }
                 ImGui.EndMenu();
             }
@@ -789,11 +789,11 @@ namespace StudioCore.ParamEditor
                     CFG.Current.Param_ShowVanillaParams = !CFG.Current.Param_ShowVanillaParams;
                 }
                 ImGui.Separator();
-                if (ImGui.MenuItem("Clear current row comparison", null, false, _activeView != null && _activeView._selection.getCompareRow() != null))
+                if (ImGui.MenuItem("Clear current row comparison", null, false, _activeView != null && _activeView._selection.GetCompareRow() != null))
                 {
                     _activeView._selection.SetCompareRow(null);
                 }
-                if (ImGui.MenuItem("Clear current field comparison", null, false, _activeView != null && _activeView._selection.getCompareCol() != null))
+                if (ImGui.MenuItem("Clear current field comparison", null, false, _activeView != null && _activeView._selection.GetCompareCol() != null))
                 {
                     _activeView._selection.SetCompareCol(null);
                 }
@@ -916,11 +916,11 @@ namespace StudioCore.ParamEditor
 
         public void CopySelectionToClipboard()
         {
-            ParamBank.ClipboardParam = _activeView._selection.getActiveParam();
+            ParamBank.ClipboardParam = _activeView._selection.GetActiveParam();
             ParamBank.ClipboardRows.Clear();
             long baseValue = long.MaxValue;
-            _activeView._selection.sortSelection();
-            foreach (Param.Row r in _activeView._selection.getSelectedRows())
+            _activeView._selection.SortSelection();
+            foreach (Param.Row r in _activeView._selection.GetSelectedRows())
             {
                 ParamBank.ClipboardRows.Add(new Param.Row(r));// make a clone
                 if (r.ID < baseValue)
@@ -946,20 +946,20 @@ namespace StudioCore.ParamEditor
 
         public void DeleteSelection()
         {
-            List<Param.Row> toRemove = new List<Param.Row>(_activeView._selection.getSelectedRows());
-            var act = new DeleteParamsAction(ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()], toRemove);
+            List<Param.Row> toRemove = new List<Param.Row>(_activeView._selection.GetSelectedRows());
+            var act = new DeleteParamsAction(ParamBank.PrimaryBank.Params[_activeView._selection.GetActiveParam()], toRemove);
             EditorActionManager.ExecuteAction(act);
             _views.ForEach((view) =>
             {
                 if (view != null)
-                    toRemove.ForEach((row) => view._selection.removeRowFromAllSelections(row));
+                    toRemove.ForEach((row) => view._selection.RemoveRowFromAllSelections(row));
             });
         }
 
         public void DuplicateSelection()
         {
-            Param param = ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()];
-            List<Param.Row> rows = _activeView._selection.getSelectedRows();
+            Param param = ParamBank.PrimaryBank.Params[_activeView._selection.GetActiveParam()];
+            List<Param.Row> rows = _activeView._selection.GetSelectedRows();
             if (rows.Count == 0)
                 return;
 
@@ -996,7 +996,7 @@ namespace StudioCore.ParamEditor
 
                 if (ImGui.Selectable("Submit", false, ImGuiSelectableFlags.DontClosePopups))
                 {
-                    _activeView._selection.sortSelection();
+                    _activeView._selection.SortSelection();
                     (MassEditResult r, ActionManager child) = MassParamEditRegex.PerformMassEdit(ParamBank.PrimaryBank, _currentMEditRegexInput, _activeView._selection);
                     if (child != null)
                         EditorActionManager.PushSubManager(child);
@@ -1044,7 +1044,7 @@ namespace StudioCore.ParamEditor
                 DelimiterInputText();
                 if (ImGui.Selectable("Submit", false, ImGuiSelectableFlags.DontClosePopups))
                 {
-                    (string result, CompoundAction action) = ParamIO.ApplyCSV(ParamBank.PrimaryBank, _currentMEditCSVInput, _activeView._selection.getActiveParam(), _mEditCSVAppendOnly, _mEditCSVAppendOnly && _mEditCSVReplaceRows, CFG.Current.Param_Export_Delimiter[0]);
+                    (string result, CompoundAction action) = ParamIO.ApplyCSV(ParamBank.PrimaryBank, _currentMEditCSVInput, _activeView._selection.GetActiveParam(), _mEditCSVAppendOnly, _mEditCSVAppendOnly && _mEditCSVReplaceRows, CFG.Current.Param_Export_Delimiter[0]);
                     if (action != null)
                     {
                         if (action.HasActions)
@@ -1066,7 +1066,7 @@ namespace StudioCore.ParamEditor
                 DelimiterInputText();
                 if (ImGui.Selectable("Submit", false, ImGuiSelectableFlags.DontClosePopups))
                 {
-                    (string result, CompoundAction action) = ParamIO.ApplySingleCSV(ParamBank.PrimaryBank, _currentMEditCSVInput, _activeView._selection.getActiveParam(), _currentMEditSingleCSVField, CFG.Current.Param_Export_Delimiter[0], false);
+                    (string result, CompoundAction action) = ParamIO.ApplySingleCSV(ParamBank.PrimaryBank, _currentMEditCSVInput, _activeView._selection.GetActiveParam(), _currentMEditSingleCSVField, CFG.Current.Param_Export_Delimiter[0], false);
                     if (action != null)
                         EditorActionManager.ExecuteAction(action);
                     _mEditCSVResult = result;
@@ -1133,34 +1133,34 @@ namespace StudioCore.ParamEditor
                 {
                     ParamRedo();
                 }
-                if (_activeView._selection.hasHistory() && InputTracker.GetKeyDown(KeyBindings.Current.Param_GotoBack))
+                if (_activeView._selection.HasHistory() && InputTracker.GetKeyDown(KeyBindings.Current.Param_GotoBack))
                 {
                     EditorCommandQueue.AddCommand($@"param/back");
                 }
-                if (!ImGui.IsAnyItemActive() && _activeView._selection.activeParamExists() && InputTracker.GetKeyDown(KeyBindings.Current.Param_SelectAll))
+                if (!ImGui.IsAnyItemActive() && _activeView._selection.ActiveParamExists() && InputTracker.GetKeyDown(KeyBindings.Current.Param_SelectAll))
                 {
-                    ParamBank.ClipboardParam = _activeView._selection.getActiveParam();
-                    foreach (Param.Row row in CacheBank.GetCached(this, (_activeView._viewIndex, _activeView._selection.getActiveParam()), () => RowSearchEngine.rse.Search((ParamBank.PrimaryBank, ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()]), _activeView._selection.getCurrentRowSearchString(), true, true)))
+                    ParamBank.ClipboardParam = _activeView._selection.GetActiveParam();
+                    foreach (Param.Row row in CacheBank.GetCached(this, (_activeView._viewIndex, _activeView._selection.GetActiveParam()), () => RowSearchEngine.rse.Search((ParamBank.PrimaryBank, ParamBank.PrimaryBank.Params[_activeView._selection.GetActiveParam()]), _activeView._selection.GetCurrentRowSearchString(), true, true)))
 
-                        _activeView._selection.addRowToSelection(row);
+                        _activeView._selection.AddRowToSelection(row);
                 }
-                if (!ImGui.IsAnyItemActive() && _activeView._selection.rowSelectionExists() && InputTracker.GetKeyDown(KeyBindings.Current.Param_Copy))
+                if (!ImGui.IsAnyItemActive() && _activeView._selection.RowSelectionExists() && InputTracker.GetKeyDown(KeyBindings.Current.Param_Copy))
                 {
                     CopySelectionToClipboard();
                 }
-                if (ParamBank.ClipboardRows.Count > 00 && ParamBank.ClipboardParam == _activeView._selection.getActiveParam() && !ImGui.IsAnyItemActive() && InputTracker.GetKeyDown(KeyBindings.Current.Param_Paste))
+                if (ParamBank.ClipboardRows.Count > 00 && ParamBank.ClipboardParam == _activeView._selection.GetActiveParam() && !ImGui.IsAnyItemActive() && InputTracker.GetKeyDown(KeyBindings.Current.Param_Paste))
                 {
                     ImGui.OpenPopup("ctrlVPopup");
                 }
-                if (!ImGui.IsAnyItemActive() && _activeView._selection.rowSelectionExists() && InputTracker.GetKeyDown(KeyBindings.Current.Core_Duplicate))
+                if (!ImGui.IsAnyItemActive() && _activeView._selection.RowSelectionExists() && InputTracker.GetKeyDown(KeyBindings.Current.Core_Duplicate))
                 {
                     DuplicateSelection();
                 }
-                if (!ImGui.IsAnyItemActive() && _activeView._selection.rowSelectionExists() && InputTracker.GetKeyDown(KeyBindings.Current.Core_Delete))
+                if (!ImGui.IsAnyItemActive() && _activeView._selection.RowSelectionExists() && InputTracker.GetKeyDown(KeyBindings.Current.Core_Delete))
                 {
                     DeleteSelection();
                 }
-                if (!ImGui.IsAnyItemActive() && _activeView._selection.rowSelectionExists() && InputTracker.GetKeyDown(KeyBindings.Current.Param_GotoSelectedRow))
+                if (!ImGui.IsAnyItemActive() && _activeView._selection.RowSelectionExists() && InputTracker.GetKeyDown(KeyBindings.Current.Param_GotoSelectedRow))
                 {
                     GotoSelectedRow = true;
                 }
@@ -1193,7 +1193,7 @@ namespace StudioCore.ParamEditor
                 if (InputTracker.GetKeyDown(KeyBindings.Current.Param_HotReloadAll))
                     ParamReloader.ReloadMemoryParams(ParamBank.PrimaryBank, ParamBank.PrimaryBank.AssetLocator, ParamBank.PrimaryBank.Params.Keys.ToArray());
                 else if (InputTracker.GetKeyDown(KeyBindings.Current.Param_HotReload))
-                    ParamReloader.ReloadMemoryParams(ParamBank.PrimaryBank, ParamBank.PrimaryBank.AssetLocator, new string[] { _activeView._selection.getActiveParam() });
+                    ParamReloader.ReloadMemoryParams(ParamBank.PrimaryBank, ParamBank.PrimaryBank.AssetLocator, new string[] { _activeView._selection.GetActiveParam() });
             }
 
             if (InputTracker.GetKeyDown(KeyBindings.Current.Param_MassEdit))
@@ -1224,11 +1224,11 @@ namespace StudioCore.ParamEditor
                                 viewToMofidy = _views[cmdIndex];
                         }
                         _activeView = viewToMofidy;
-                        viewToMofidy._selection.setActiveParam(initcmd[2]);
+                        viewToMofidy._selection.SetActiveParam(initcmd[2]);
                         if (initcmd.Length > 3)
                         {
                             viewToMofidy._selection.SetActiveRow(null, doFocus);
-                            var p = ParamBank.PrimaryBank.Params[viewToMofidy._selection.getActiveParam()];
+                            var p = ParamBank.PrimaryBank.Params[viewToMofidy._selection.GetActiveParam()];
                             int id;
                             var parsed = int.TryParse(initcmd[3], out id);
                             if (parsed)
@@ -1244,13 +1244,13 @@ namespace StudioCore.ParamEditor
                 }
                 else if (initcmd[0] == "back")
                 {
-                    _activeView._selection.popHistory();
+                    _activeView._selection.PopHistory();
                 }
                 else if (initcmd[0] == "search")
                 {
                     if (initcmd.Length > 1)
                     {
-                        _activeView._selection.setCurrentRowSearchString(initcmd[1]);
+                        _activeView._selection.SetCurrentRowSearchString(initcmd[1]);
                     }
                 }
                 else if (initcmd[0] == "menu" && initcmd.Length > 1)
@@ -1268,7 +1268,7 @@ namespace StudioCore.ParamEditor
                     {
                         var rows = CsvExportGetRows(Enum.Parse<ParamBank.RowGetType>(initcmd[2]));
                         _currentMEditCSVOutput = ParamIO.GenerateCSV(rows,
-                            ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()],
+                            ParamBank.PrimaryBank.Params[_activeView._selection.GetActiveParam()],
                             CFG.Current.Param_Export_Delimiter[0]);
                         OpenMassEditPopup("massEditMenuCSVExport");
                     }
@@ -1281,7 +1281,7 @@ namespace StudioCore.ParamEditor
                         _currentMEditSingleCSVField = initcmd[2];
                         var rows = CsvExportGetRows(Enum.Parse<ParamBank.RowGetType>(initcmd[3]));
                         _currentMEditCSVOutput = ParamIO.GenerateSingleCSV(rows,
-                            ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()],
+                            ParamBank.PrimaryBank.Params[_activeView._selection.GetActiveParam()],
                             _currentMEditSingleCSVField,
                             CFG.Current.Param_Export_Delimiter[0]);
                         OpenMassEditPopup("massEditMenuSingleCSVExport");
@@ -1293,9 +1293,9 @@ namespace StudioCore.ParamEditor
                     }
                     else if (initcmd[1] == "distributionPopup" && initcmd.Length > 2)
                     {
-                        Param p = ParamBank.PrimaryBank.GetParamFromName(_activeView._selection.getActiveParam());
+                        Param p = ParamBank.PrimaryBank.GetParamFromName(_activeView._selection.GetActiveParam());
                         var col = ParamUtils.GetCol(p, initcmd[2]);
-                        _distributionOutput = ParamUtils.GetParamValueDistribution(_activeView._selection.getSelectedRows(), col);
+                        _distributionOutput = ParamUtils.GetParamValueDistribution(_activeView._selection.GetSelectedRows(), col);
                         _statisticPopupOutput = String.Join('\n', _distributionOutput.Select((e) => e.Item2.ToString().PadLeft(9) + " " + e.Item1.ToParamEditorString()));
                         _statisticPopupParameter = initcmd[2];
                         OpenStatisticPopup("distributionPopup");
@@ -1329,7 +1329,7 @@ namespace StudioCore.ParamEditor
                 {
                     if (view == null)
                         continue;
-                    string name = view._selection.getActiveRow() != null ? view._selection.getActiveRow().Name : null;
+                    string name = view._selection.GetActiveRow() != null ? view._selection.GetActiveRow().Name : null;
                     string toDisplay = (view == _activeView ? "**" : "") + (name == null || name.Trim().Equals("") ? "Param Editor View" : Utils.ImGuiEscape(name, "null")) + (view == _activeView ? "**" : "");
                     ImGui.SetNextWindowSize(new Vector2(1280.0f, 720.0f) * scale, ImGuiCond.Once);
                     ImGui.SetNextWindowDockID(ImGui.GetID("DockSpace_ParamEditorViews"), ImGuiCond.Once);
@@ -1392,7 +1392,7 @@ namespace StudioCore.ParamEditor
                         offset = long.Parse(_currentCtrlVValue);
                         offset = long.Parse(_currentCtrlVOffset);
                     }
-                    bool disableSubmit = CFG.Current.Param_PasteAfterSelection && !_activeView._selection.rowSelectionExists();
+                    bool disableSubmit = CFG.Current.Param_PasteAfterSelection && !_activeView._selection.RowSelectionExists();
                     if (disableSubmit)
                     {
                         ImGui.TextUnformatted("No selection exists");
@@ -1411,19 +1411,19 @@ namespace StudioCore.ParamEditor
                         }
                         else
                         {
-                            List<Param.Row> rows = _activeView._selection.getSelectedRows();
-                            Param param = ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()];
+                            List<Param.Row> rows = _activeView._selection.GetSelectedRows();
+                            Param param = ParamBank.PrimaryBank.Params[_activeView._selection.GetActiveParam()];
                             insertIndex = param.IndexOfRow(rows.Last()) + 1;
                             foreach (Param.Row r in ParamBank.ClipboardRows)
                             {
                                 // Determine new ID based on paste target. Increment ID until a free ID is found.
                                 Param.Row newrow = new Param.Row(r);
-                                newrow.ID = _activeView._selection.getSelectedRows().Last().ID;
+                                newrow.ID = _activeView._selection.GetSelectedRows().Last().ID;
                                 do
                                 {
                                     newrow.ID++;
                                 }
-                                while (ParamBank.PrimaryBank.Params[_activeView._selection.getActiveParam()][newrow.ID] != null || rowsToInsert.Exists(e => e.ID == newrow.ID));
+                                while (ParamBank.PrimaryBank.Params[_activeView._selection.GetActiveParam()][newrow.ID] != null || rowsToInsert.Exists(e => e.ID == newrow.ID));
                                 rowsToInsert.Add(newrow);
                             }
                             // Do a clever thing by reversing order, making ID order incremental and resulting in row insertion being in the correct order because of the static index.
@@ -1484,7 +1484,7 @@ namespace StudioCore.ParamEditor
 
         public (string, List<Param.Row>) GetActiveSelection()
         {
-            return (_activeView?._selection?.getActiveParam(), _activeView?._selection?.getSelectedRows());
+            return (_activeView?._selection?.GetActiveParam(), _activeView?._selection?.GetSelectedRows());
         }
 
         public void OnProjectChanged(ProjectSettings newSettings)
@@ -1493,7 +1493,7 @@ namespace StudioCore.ParamEditor
             foreach (ParamEditorView view in _views)
             {
                 if (view != null)
-                    view._selection.cleanAllSelectionState();
+                    view._selection.CleanAllSelectionState();
             }
             foreach (var dec in _decorators)
             {
