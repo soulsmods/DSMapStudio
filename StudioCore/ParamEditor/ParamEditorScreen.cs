@@ -355,7 +355,7 @@ namespace StudioCore.ParamEditor
             TaskManager.Run(new("Param - Check Differences",
                 TaskManager.RequeueType.Repeat, true,
                 TaskLogs.LogPriority.Low,
-                () => ParamBank.PrimaryBank.RefreshParamDiffCaches()));
+                () => ParamBank.RefreshAllParamDiffCaches(false)));
         }
         private void ParamRedo()
         {
@@ -363,7 +363,7 @@ namespace StudioCore.ParamEditor
             TaskManager.Run(new("Param - Check Differences",
                 TaskManager.RequeueType.Repeat, true,
                 TaskLogs.LogPriority.Low,
-                () => ParamBank.PrimaryBank.RefreshParamDiffCaches()));
+                () => ParamBank.RefreshAllParamDiffCaches(false)));
         }
 
         private IReadOnlyList<Param.Row> CsvExportGetRows(ParamBank.RowGetType rowType)
@@ -600,7 +600,7 @@ namespace StudioCore.ParamEditor
                                     TaskManager.Run(new("Param - Check Differences",
                                         TaskManager.RequeueType.Repeat, true,
                                         TaskLogs.LogPriority.Low,
-                                        () => ParamBank.PrimaryBank.RefreshParamDiffCaches()));
+                                        () => ParamBank.RefreshAllParamDiffCaches(false)));
                                 }
                                 else
                                     PlatformUtils.Instance.MessageBox(result, "Error", MessageBoxButtons.OK, MessageBoxIcon.None);
@@ -618,7 +618,7 @@ namespace StudioCore.ParamEditor
                                 TaskManager.Run(new("Param - Check Differences",
                                     TaskManager.RequeueType.Repeat,
                                     true, TaskLogs.LogPriority.Low,
-                                    () => ParamBank.PrimaryBank.RefreshParamDiffCaches()));
+                                    () => ParamBank.RefreshAllParamDiffCaches(false)));
                             }
                         }
                         if (ImGui.BeginMenu("Specific Field"))
@@ -637,7 +637,7 @@ namespace StudioCore.ParamEditor
                                         TaskManager.Run(new("Param - Check Differences",
                                             TaskManager.RequeueType.Repeat,
                                             true, TaskLogs.LogPriority.Low,
-                                            () => ParamBank.PrimaryBank.RefreshParamDiffCaches()));
+                                            () => ParamBank.RefreshAllParamDiffCaches(false)));
                                     }
                                 }
                             }
@@ -722,7 +722,7 @@ namespace StudioCore.ParamEditor
                 ImGui.Separator();
                 if (ImGui.MenuItem("Check all params for edits", null, false, !ParamBank.PrimaryBank.IsLoadingParams && !ParamBank.VanillaBank.IsLoadingParams))
                 {
-                    ParamBank.PrimaryBank.RefreshParamDiffCaches();
+                    ParamBank.RefreshAllParamDiffCaches(true);
                 }
                 ImGui.Separator();
                 if (!EditorMode && ImGui.MenuItem("Editor Mode", null, EditorMode))
@@ -1007,7 +1007,7 @@ namespace StudioCore.ParamEditor
                         TaskManager.Run(new("Param - Check Differences",
                             TaskManager.RequeueType.Repeat,
                             true, TaskLogs.LogPriority.Low,
-                            () => ParamBank.PrimaryBank.RefreshParamDiffCaches()));
+                            () => ParamBank.RefreshAllParamDiffCaches(false)));
                     }
                     _mEditRegexResult = r.Information;
                 }
@@ -1052,7 +1052,7 @@ namespace StudioCore.ParamEditor
                         TaskManager.Run(new("Param - Check Differences",
                             TaskManager.RequeueType.Repeat, true,
                             TaskLogs.LogPriority.Low,
-                            () => ParamBank.PrimaryBank.RefreshParamDiffCaches()));
+                            () => ParamBank.RefreshAllParamDiffCaches(false)));
                     }
                     _mEditCSVResult = result;
                 }

@@ -959,7 +959,7 @@ namespace StudioCore.ParamEditor
 
                     TaskManager.Run(new("Param - Check Differences",
                         TaskManager.RequeueType.WaitThenRequeue, false,
-                        () => PrimaryBank.RefreshParamDiffCaches()));
+                        () => RefreshAllParamDiffCaches(true)));
                 }));
 
                 if (options != null)
@@ -1042,11 +1042,19 @@ namespace StudioCore.ParamEditor
                 _primaryDiffCache.Add(param, new HashSet<int>());
             }
         }
-        public void RefreshParamDiffCaches()
+        public static void RefreshAllParamDiffCaches(bool checkAuxVanillaDiff)
         {
-            if (this != VanillaBank)
+            PrimaryBank.RefreshParamDiffCaches();
+            foreach (var bank in AuxBanks)
+                bank.Value.RefreshParamDiffCaches(checkAuxVanillaDiff);
+        }
+        public void RefreshParamDiffCaches(bool checkVanillaDiff = true)
+        {
+            if (this != VanillaBank && checkVanillaDiff)
                 _vanillaDiffCache = GetParamDiff(VanillaBank);
-            if (this != PrimaryBank)
+            if (this == VanillaBank && PrimaryBank._vanillaDiffCache != null)
+                _primaryDiffCache = PrimaryBank._vanillaDiffCache;
+            else if (this != PrimaryBank)
                 _primaryDiffCache = GetParamDiff(PrimaryBank);
         }
         private Dictionary<string, HashSet<int>> GetParamDiff(ParamBank otherBank)
@@ -1955,7 +1963,7 @@ namespace StudioCore.ParamEditor
 
             // Refresh dirty cache
             CacheBank.ClearCaches();
-            RefreshParamDiffCaches();
+            RefreshAllParamDiffCaches(false);
 
             return conflictingParams.Count > 0 ? ParamUpgradeResult.RowConflictsFound : ParamUpgradeResult.Success;
         }
