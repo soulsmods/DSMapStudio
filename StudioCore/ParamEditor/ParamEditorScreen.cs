@@ -2245,11 +2245,11 @@ namespace StudioCore.ParamEditor
             if (ImGui.Selectable($@"{label}##{selectionCacheIndex}", selected))
             {
                 _focusRows = true;
-                if (InputTracker.GetKey(Key.LControl))
+                if (InputTracker.GetKey(Key.LControl) || InputTracker.GetKey(Key.RControl))
                 {
                     _selection.toggleRowInSelection(r);
                 }
-                else if (p != null && InputTracker.GetKey(Key.LShift) && _selection.getActiveRow() != null)
+                else if (p != null && (InputTracker.GetKey(Key.LShift) || InputTracker.GetKey(Key.RShift)) && _selection.getActiveRow() != null)
                 {
                     _selection.cleanSelectedRows();
                     int start = p.IndexOf(_selection.getActiveRow());
