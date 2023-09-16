@@ -1027,7 +1027,7 @@ namespace StudioCore.ParamEditor
             }
             newBank.ClearParamDiffCaches();
             newBank.IsLoadingParams = false;
-            newBank.RefreshParamDiffCaches();
+            newBank.RefreshParamDiffCaches(true);
             AuxBanks[Path.GetFileName(Path.GetDirectoryName(path)).Replace(' ', '_')] = newBank;
         }
 
@@ -1044,11 +1044,12 @@ namespace StudioCore.ParamEditor
         }
         public static void RefreshAllParamDiffCaches(bool checkAuxVanillaDiff)
         {
-            PrimaryBank.RefreshParamDiffCaches();
+            PrimaryBank.RefreshParamDiffCaches(true);
             foreach (var bank in AuxBanks)
                 bank.Value.RefreshParamDiffCaches(checkAuxVanillaDiff);
+            CacheBank.ClearCaches();
         }
-        public void RefreshParamDiffCaches(bool checkVanillaDiff = true)
+        public void RefreshParamDiffCaches(bool checkVanillaDiff)
         {
             if (this != VanillaBank && checkVanillaDiff)
                 _vanillaDiffCache = GetParamDiff(VanillaBank);
@@ -1117,17 +1118,24 @@ namespace StudioCore.ParamEditor
                 cache.Remove(row.ID);
         }
 
-        public void RefreshParamRowVanillaDiff(Param.Row row, string param)
+        public void RefreshParamRowDiffs(Param.Row row, string param)
         {
             if (param == null)
                 return;
-            if (!VanillaBank.Params.ContainsKey(param) || VanillaDiffCache == null || !VanillaDiffCache.ContainsKey(param))
-                return; // Don't try for now
-            var otherBankRows = VanillaBank.Params[param].Rows.Where(cell => cell.ID == row.ID).ToArray();
-            if (IsChanged(row, otherBankRows))
-                VanillaDiffCache[param].Add(row.ID);
-            else
-                VanillaDiffCache[param].Remove(row.ID);
+            if (!VanillaBank.Params.ContainsKey(param) && VanillaDiffCache != null && VanillaDiffCache.ContainsKey(param))
+            {
+                var otherBankRows = VanillaBank.Params[param].Rows.Where(cell => cell.ID == row.ID).ToArray();
+                RefreshParamRowDiffCache(row, otherBankRows, VanillaDiffCache[param]);
+            }
+            if (this != PrimaryBank)
+                return;
+            foreach (ParamBank aux in AuxBanks.Values)
+            {
+                if (!aux.Params.ContainsKey(param) || aux.PrimaryDiffCache == null || !aux.PrimaryDiffCache.ContainsKey(param))
+                    continue; // Don't try for now
+                var otherBankRows = aux.Params[param].Rows.Where(cell => cell.ID == row.ID).ToArray();
+                RefreshParamRowDiffCache(row, otherBankRows, aux.PrimaryDiffCache[param]);
+            }
         }
 
         private static bool IsChanged(Param.Row row, ReadOnlySpan<Param.Row> vanillaRows)

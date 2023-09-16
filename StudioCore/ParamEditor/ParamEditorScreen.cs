@@ -335,7 +335,7 @@ namespace StudioCore.ParamEditor
                             MessageBoxIcon.Information
                         );
                     CacheBank.ClearCaches();
-                    bank.RefreshParamDiffCaches();
+                    ParamBank.RefreshAllParamDiffCaches(false);
                 }
 
 

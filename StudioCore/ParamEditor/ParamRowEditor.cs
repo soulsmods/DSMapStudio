@@ -360,7 +360,7 @@ namespace StudioCore.ParamEditor
 
             bool committed = ParamEditorCommon.UpdateProperty(ContextActionManager, nullableCell != null ? nullableCell : row, proprow, oldval);
             if (committed && !ParamBank.VanillaBank.IsLoadingParams)
-                ParamBank.PrimaryBank.RefreshParamRowVanillaDiff(row, activeParam);
+                ParamBank.PrimaryBank.RefreshParamRowDiffs(row, activeParam);
             ImGui.PopID();
             imguiId++;
         }

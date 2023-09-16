@@ -148,14 +148,14 @@ namespace StudioCore.ParamEditor
             {
                 ParamEditorParamSelectionState s = _paramStates[_activeParam];
                 if (s.activeRow != null && !ParamBank.VanillaBank.IsLoadingParams)
-                    ParamBank.PrimaryBank.RefreshParamRowVanillaDiff(s.activeRow, _activeParam);
+                    ParamBank.PrimaryBank.RefreshParamRowDiffs(s.activeRow, _activeParam);
                 if (!isHistory)
                     PushHistory(_activeParam, s.activeRow);
                 s.activeRow = row;
                 s.selectionRows.Clear();
                 s.selectionRows.Add(row);
                 if (s.activeRow != null && !ParamBank.VanillaBank.IsLoadingParams)
-                    ParamBank.PrimaryBank.RefreshParamRowVanillaDiff(s.activeRow, _activeParam);
+                    ParamBank.PrimaryBank.RefreshParamRowDiffs(s.activeRow, _activeParam);
                 s.selectionCacheDirty = true;
             }
         }
