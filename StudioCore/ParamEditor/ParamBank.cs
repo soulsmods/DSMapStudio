@@ -869,7 +869,7 @@ namespace StudioCore.ParamEditor
             PrimaryBank._params = new Dictionary<string, Param>();
             PrimaryBank.IsLoadingParams = true;
 
-            CacheBank.ClearCaches();
+            UICache.ClearCaches();
 
             TaskManager.Run(new("Param - Load Params", TaskManager.RequeueType.WaitThenRequeue, false, () =>
             {
@@ -1047,7 +1047,7 @@ namespace StudioCore.ParamEditor
             PrimaryBank.RefreshParamDiffCaches(true);
             foreach (var bank in AuxBanks)
                 bank.Value.RefreshParamDiffCaches(checkAuxVanillaDiff);
-            CacheBank.ClearCaches();
+            UICache.ClearCaches();
         }
         public void RefreshParamDiffCaches(bool checkVanillaDiff)
         {
@@ -1970,7 +1970,7 @@ namespace StudioCore.ParamEditor
             _pendingUpgrade = true;
 
             // Refresh dirty cache
-            CacheBank.ClearCaches();
+            UICache.ClearCaches();
             RefreshAllParamDiffCaches(false);
 
             return conflictingParams.Count > 0 ? ParamUpgradeResult.RowConflictsFound : ParamUpgradeResult.Success;

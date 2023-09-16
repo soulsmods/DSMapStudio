@@ -66,7 +66,7 @@ namespace StudioCore.ParamEditor
                 _selection.SetCurrentRowSearchString(resAutoParam);
             if (!_selection.currentParamSearchString.Equals(lastParamSearch))
             {
-                CacheBank.ClearCaches();
+                UICache.ClearCaches();
                 lastParamSearch = _selection.currentParamSearchString;
             }
 
@@ -76,14 +76,14 @@ namespace StudioCore.ParamEditor
             {
                 // This game has DrawParams, add UI element to toggle viewing DrawParam and GameParams.
                 if (ImGui.Checkbox("Edit Drawparams", ref _mapParamView))
-                    CacheBank.ClearCaches();
+                    UICache.ClearCaches();
                 ImGui.Separator();
             }
             else if (ParamBank.PrimaryBank.AssetLocator.Type is GameType.DarkSoulsIISOTFS)
             {
                 // DS2 has map params, add UI element to toggle viewing map params and GameParams.
                 if (ImGui.Checkbox("Edit Map Params", ref _mapParamView))
-                    CacheBank.ClearCaches();
+                    UICache.ClearCaches();
                 ImGui.Separator();
             }
         }
@@ -130,7 +130,7 @@ namespace StudioCore.ParamEditor
         }
         private void ParamView_ParamList_Main(bool doFocus, float scale, float scrollTo)
         {
-            List<string> paramKeyList = CacheBank.GetCached(_paramEditor, _viewIndex, () => {
+            List<string> paramKeyList = UICache.GetCached(_paramEditor, _viewIndex, () => {
                 var list = ParamSearchEngine.pse.Search(true, _selection.currentParamSearchString, true, true);
                 var keyList = list.Where((param) => param.Item1 == ParamBank.PrimaryBank).Select((param) => ParamBank.PrimaryBank.GetKeyForParam(param.Item2)).ToList();
 
@@ -248,7 +248,7 @@ namespace StudioCore.ParamEditor
                 _selection.SetCurrentRowSearchString(resAutoRow);
             if (!lastRowSearch.ContainsKey(_selection.GetActiveParam()) || !lastRowSearch[_selection.GetActiveParam()].Equals(_selection.GetCurrentRowSearchString()))
             {
-                CacheBank.ClearCaches();
+                UICache.ClearCaches();
                 lastRowSearch[_selection.GetActiveParam()] = _selection.GetCurrentRowSearchString();
                 doFocus = true;
             }
@@ -320,7 +320,7 @@ namespace StudioCore.ParamEditor
                         _focusRows = false;
                     }
 
-                    List<Param.Row> rows = CacheBank.GetCached(this._paramEditor, (_viewIndex, activeParam), () => RowSearchEngine.rse.Search((ParamBank.PrimaryBank, para), _selection.GetCurrentRowSearchString(), true, true));
+                    List<Param.Row> rows = UICache.GetCached(this._paramEditor, (_viewIndex, activeParam), () => RowSearchEngine.rse.Search((ParamBank.PrimaryBank, para), _selection.GetCurrentRowSearchString(), true, true));
 
                     bool enableGrouping = !CFG.Current.Param_DisableRowGrouping && ParamMetaData.Get(ParamBank.PrimaryBank.Params[activeParam].AppliedParamdef).ConsecutiveIDs;
 

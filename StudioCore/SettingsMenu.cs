@@ -427,7 +427,7 @@ namespace StudioCore
                 ImGui.Checkbox("Allow field reordering", ref CFG.Current.Param_AllowFieldReorder);
                 if (ImGui.Checkbox("Sort params alphabetically", ref CFG.Current.Param_AlphabeticalParams))
                 {
-                    CacheBank.ClearCaches();
+                    UICache.ClearCaches();
                 }
                 ImGui.Checkbox("Disable row grouping", ref CFG.Current.Param_DisableRowGrouping);
                 ImGui.Checkbox("Disable line wrapping", ref CFG.Current.Param_DisableLineWrapping);

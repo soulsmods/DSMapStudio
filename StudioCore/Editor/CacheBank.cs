@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace StudioCore.Editor
 {
-    public class CacheBank
+    public class UICache
     {
         private static Dictionary<(EditorScreen, object, string), object> caches = new Dictionary<(EditorScreen, object, string), object>();
         

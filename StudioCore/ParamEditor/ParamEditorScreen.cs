@@ -334,7 +334,7 @@ namespace StudioCore.ParamEditor
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Information
                         );
-                    CacheBank.ClearCaches();
+                    UICache.ClearCaches();
                     ParamBank.RefreshAllParamDiffCaches(false);
                 }
 
@@ -1140,7 +1140,7 @@ namespace StudioCore.ParamEditor
                 if (!ImGui.IsAnyItemActive() && _activeView._selection.ActiveParamExists() && InputTracker.GetKeyDown(KeyBindings.Current.Param_SelectAll))
                 {
                     ParamBank.ClipboardParam = _activeView._selection.GetActiveParam();
-                    foreach (Param.Row row in CacheBank.GetCached(this, (_activeView._viewIndex, _activeView._selection.GetActiveParam()), () => RowSearchEngine.rse.Search((ParamBank.PrimaryBank, ParamBank.PrimaryBank.Params[_activeView._selection.GetActiveParam()]), _activeView._selection.GetCurrentRowSearchString(), true, true)))
+                    foreach (Param.Row row in UICache.GetCached(this, (_activeView._viewIndex, _activeView._selection.GetActiveParam()), () => RowSearchEngine.rse.Search((ParamBank.PrimaryBank, ParamBank.PrimaryBank.Params[_activeView._selection.GetActiveParam()]), _activeView._selection.GetCurrentRowSearchString(), true, true)))
 
                         _activeView._selection.AddRowToSelection(row);
                 }

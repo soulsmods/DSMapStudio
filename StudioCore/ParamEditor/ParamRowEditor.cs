@@ -40,12 +40,12 @@ namespace StudioCore.ParamEditor
                     ImGui.SetKeyboardFocusHere();
                 ImGui.InputText($"Search <{KeyBindings.Current.Param_SearchField.HintText}>", ref propSearchString, 255);
                 if (ImGui.IsItemEdited())
-                    CacheBank.ClearCaches();
+                    UICache.ClearCaches();
                 string resAutoCol = AutoFill.ColumnSearchBarAutoFill();
                 if (resAutoCol != null)
                 {
                     propSearchString = resAutoCol;
-                    CacheBank.ClearCaches();
+                    UICache.ClearCaches();
                 }
                 ImGui.Spacing();
                 ImGui.Separator();
@@ -158,9 +158,9 @@ namespace StudioCore.ParamEditor
                 EditorDecorations.ImguiTableSeparator();
                 
                 string search = propSearchString;
-                List<(PseudoColumn, Param.Column)> cols = CacheBank.GetCached(_paramEditor, row, "fieldFilter", () => CellSearchEngine.cse.Search((activeParam, row), search, true, true));
-                List<(PseudoColumn, Param.Column)> vcols = CacheBank.GetCached(_paramEditor, vrow, "vFieldFilter", () => cols.Select((x, i) => x.GetAs(ParamBank.VanillaBank.GetParamFromName(activeParam))).ToList());
-                List<List<(PseudoColumn, Param.Column)>> auxCols = CacheBank.GetCached(_paramEditor, auxRows, "auxFieldFilter", () => auxRows.Select((r, i) => cols.Select((c, j) => c.GetAs(ParamBank.AuxBanks[r.Item1].GetParamFromName(activeParam))).ToList()).ToList());
+                List<(PseudoColumn, Param.Column)> cols = UICache.GetCached(_paramEditor, row, "fieldFilter", () => CellSearchEngine.cse.Search((activeParam, row), search, true, true));
+                List<(PseudoColumn, Param.Column)> vcols = UICache.GetCached(_paramEditor, vrow, "vFieldFilter", () => cols.Select((x, i) => x.GetAs(ParamBank.VanillaBank.GetParamFromName(activeParam))).ToList());
+                List<List<(PseudoColumn, Param.Column)>> auxCols = UICache.GetCached(_paramEditor, auxRows, "auxFieldFilter", () => auxRows.Select((r, i) => cols.Select((c, j) => c.GetAs(ParamBank.AuxBanks[r.Item1].GetParamFromName(activeParam))).ToList()).ToList());
 
                 List<string> pinnedFields = _paramEditor._projectSettings.PinnedFields.GetValueOrDefault(activeParam, null);
                 if (pinnedFields?.Count > 0)
@@ -555,7 +555,7 @@ namespace StudioCore.ParamEditor
         }
         private void ExtRefItem(Param.Row keyRow, string fieldKey, string menuText, List<string> matchedExtRefPath, string dir)
         {
-            bool exist = CacheBank.GetCached(_paramEditor, keyRow, $"extRef{menuText}{fieldKey}", () => Path.Exists(Path.Join(dir, matchedExtRefPath[0])));
+            bool exist = UICache.GetCached(_paramEditor, keyRow, $"extRef{menuText}{fieldKey}", () => Path.Exists(Path.Join(dir, matchedExtRefPath[0])));
             if (exist && ImGui.Selectable($"Go to {menuText} file..."))
             {
                 string path = ResolveExtRefPath(matchedExtRefPath, dir);
@@ -565,7 +565,7 @@ namespace StudioCore.ParamEditor
                 {
                     TaskLogs.AddLog($"\"{path}\" could not be found. It may be map or chr specific",
                         Microsoft.Extensions.Logging.LogLevel.Warning);
-                    CacheBank.ClearCaches();
+                    UICache.ClearCaches();
                 }
             }
         }

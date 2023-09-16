@@ -232,7 +232,7 @@ namespace StudioCore.Editor
         }
         public static void FmgRefSelectable(EditorScreen ownerScreen, List<FMGRef> fmgNames, Param.Row context, dynamic oldval)
         {
-            List<string> textsToPrint = CacheBank.GetCached(ownerScreen, (int)oldval, () => {
+            List<string> textsToPrint = UICache.GetCached(ownerScreen, (int)oldval, () => {
                 List<(string, FMGBank.EntryGroup)> refs = resolveFMGRefs(fmgNames, context, oldval);
                 return refs.Where((x) => x.Item2 != null)
                 .Select((x) => {
@@ -440,7 +440,7 @@ namespace StudioCore.Editor
         {
             if (ImGui.BeginMenu("Search for references..."))
             {
-                Dictionary<string, List<(string, ParamRef)>> items = CacheBank.GetCached(screen, (bank, currentParam), () => ParamRefReverseLookupFieldItems(bank, currentParam));
+                Dictionary<string, List<(string, ParamRef)>> items = UICache.GetCached(screen, (bank, currentParam), () => ParamRefReverseLookupFieldItems(bank, currentParam));
                 foreach (KeyValuePair<string, List<(string, ParamRef)>> paramitems in items)
                 {
                     if (ImGui.BeginMenu($@"in {paramitems.Key}..."))
@@ -449,7 +449,7 @@ namespace StudioCore.Editor
                         {
                             if (ImGui.BeginMenu($@"in {fieldName}"))
                             {
-                                List<Param.Row> rows = CacheBank.GetCached(screen, (bank, currentParam, currentID, pref), () => ParamRefReverseLookupRowItems(bank, paramitems.Key, fieldName, currentID, pref));
+                                List<Param.Row> rows = UICache.GetCached(screen, (bank, currentParam, currentID, pref), () => ParamRefReverseLookupRowItems(bank, paramitems.Key, fieldName, currentID, pref));
                                 foreach (Param.Row row in rows)
                                 {
                                     string nameToPrint = string.IsNullOrEmpty(row.Name) ? "Unnamed Row" : row.Name;
@@ -486,13 +486,13 @@ namespace StudioCore.Editor
                 float maxY;
                 if (scd != null && scd.cost_row == row.ID)
                 {
-                    (values, maxY) = CacheBank.GetCached(screen, row, "soulCostData", () => ParamUtils.getSoulCostData(scd, row));
+                    (values, maxY) = UICache.GetCached(screen, row, "soulCostData", () => ParamUtils.getSoulCostData(scd, row));
                     ImGui.PlotLines("##graph", ref values[0], values.Length, 0, "", 0, maxY, new Vector2(ImGui.GetColumnWidth(-1), ImGui.GetColumnWidth(-1)*0.5625f));
                 
                 }
                 else if (ccd != null)
                 {
-                    (values, xOffset, minY, maxY) = CacheBank.GetCached(screen, row, "calcCorrectData", () => ParamUtils.getCalcCorrectedData(ccd, row));
+                    (values, xOffset, minY, maxY) = UICache.GetCached(screen, row, "calcCorrectData", () => ParamUtils.getCalcCorrectedData(ccd, row));
                     ImGui.PlotLines("##graph", ref values[0], values.Length, 0, xOffset == 0 ? "" : $@"Note: add {xOffset} to x coordinate", minY, maxY, new Vector2(ImGui.GetColumnWidth(-1), ImGui.GetColumnWidth(-1)*0.5625f));
                 }
             }

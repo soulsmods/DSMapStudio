@@ -232,8 +232,8 @@ namespace StudioCore.ParamEditor
             ParamEditorParamSelectionState s = _paramStates[_activeParam];
             // We maintain this flag as clearing the cache properly is slow for the number of times we modify selection
             if (s.selectionCacheDirty)
-                CacheBank.RemoveCache(_scr, s);
-            return CacheBank.GetCached(_scr, s, "selectionCache"+cacheVer, () =>
+                UICache.RemoveCache(_scr, s);
+            return UICache.GetCached(_scr, s, "selectionCache"+cacheVer, () =>
             {
                 s.selectionCacheDirty = false;
                 return rows.Select((x) => GetSelectedRows().Contains(x)).ToArray();
