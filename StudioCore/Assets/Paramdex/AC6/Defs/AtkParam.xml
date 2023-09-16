@@ -251,11 +251,11 @@
     <Field Def="u16 UnkUshort0x208"></Field>
     <Field Def="u16 UnkUshort0x20A"></Field>
     <Field Def="u16 UnkUshort0x20C"></Field>
-    <Field Def="u16 weaponImpact">
-      <Description>ACS overload performance. This corresponds to immediate ACS strain, which resets within a short period.</Description>
+    <Field Def="u16 pulseInterferenceDamage">
+      <Description>Bonus damage dealt to pulse armor, pulse protection, and terminal armor core expansions. Doesn't affect shields, nor weapons that create pulse barrier assets</Description>
     </Field>
-    <Field Def="s32 weaponChargedImpact">
-      <Description>ACS overload performance for charge attacks. This corresponds to immediate ACS strain, which resets within a short period.</Description>
+    <Field Def="s32 weaponImpactDamage">
+      <Description>ACS overload performance. This corresponds to immediate ACS strain, which resets within a short period.</Description>
     </Field>
     <Field Def="s32 UnkInt0x214"></Field>
     <Field Def="s32 damageLevelConvParamId">
