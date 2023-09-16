@@ -8,7 +8,10 @@
   <Fields>
     <Field Def="s32 UnkInt0x00"></Field>
     <Field Def="s32 UnkInt0x04"></Field>
-    <Field Def="s32 UnkInt0x08"></Field>
+    <Field Def="u8 UnkByte0x08"></Field>
+    <Field Def="u8 Unk0x09"></Field>
+    <Field Def="u8 Unk0x0A"></Field>
+    <Field Def="u8 Unk0x0B"></Field>
     <Field Def="s32 UnkInt0x0C"></Field>
     <Field Def="s32 UnkInt0x10"></Field>
     <Field Def="s32 UnkInt0x14"></Field>

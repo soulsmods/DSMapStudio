@@ -27,8 +27,14 @@
     <Field Def="f32 UnkFloat0x48"></Field>
     <Field Def="f32 UnkFloat0x4C"></Field>
     <Field Def="f32 UnkFloat0x50"></Field>
-    <Field Def="s32 UnkInt0x54"></Field>
-    <Field Def="s32 UnkInt0x58"></Field>
+    <Field Def="u8 UnkByte0x54"></Field>
+    <Field Def="u8 UnkByte0x55"></Field>
+    <Field Def="u8 UnkByte0x56"></Field>
+    <Field Def="u8 UnkByte0x57"></Field>
+    <Field Def="u8 UnkByte0x58"></Field>
+    <Field Def="u8 UnkByte0x59"></Field>
+    <Field Def="u8 Unk0x5A"></Field>
+    <Field Def="u8 Unk0x5B"></Field>
     <Field Def="f32 UnkFloat0x5C"></Field>
     <Field Def="f32 UnkFloat0x60"></Field>
     <Field Def="f32 UnkFloat0x64"></Field>

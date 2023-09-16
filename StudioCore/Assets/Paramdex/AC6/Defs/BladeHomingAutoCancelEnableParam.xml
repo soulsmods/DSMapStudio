@@ -13,6 +13,6 @@
     <Field Def="f32 UnkFloat0x10"></Field>
     <Field Def="f32 UnkFloat0x14"></Field>
     <Field Def="f32 UnkFloat0x18"></Field>
-    <Field Def="dummy8 padding_0001[32]"></Field>
+    <Field Def="dummy8 Unk0x1C[32]"></Field>
   </Fields>
 </PARAMDEF>

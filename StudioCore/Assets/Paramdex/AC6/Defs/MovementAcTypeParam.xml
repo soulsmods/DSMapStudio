@@ -45,8 +45,8 @@
     <Field Def="s32 UnkInt0x90"></Field>
     <Field Def="s32 UnkInt0x94"></Field>
     <Field Def="s32 UnkInt0x98"></Field>
-    <Field Def="s32 UnkInt0x9C"></Field>
-    <Field Def="s32 UnkInt0xA0"></Field>
+    <Field Def="f32 UnkFloat0x9C"></Field>
+    <Field Def="f32 UnkFloat0xA0"></Field>
     <Field Def="f32 UnkFloat0xA4"></Field>
     <Field Def="f32 UnkFloat0xA8"></Field>
     <Field Def="f32 UnkFloat0xAC"></Field>
@@ -68,7 +68,7 @@
     <Field Def="f32 UnkFloat0xEC"></Field>
     <Field Def="s32 UnkInt0xF0"></Field>
     <Field Def="f32 UnkFloat0xF4"></Field>
-    <Field Def="s32 UnkInt0xF8"></Field>
+    <Field Def="f32 UnkFloat0xF8"></Field>
     <Field Def="f32 UnkFloat0xFC"></Field>
     <Field Def="s32 UnkInt0x100"></Field>
     <Field Def="f32 UnkFloat0x104"></Field>
@@ -81,7 +81,7 @@
     <Field Def="f32 UnkFloat0x120"></Field>
     <Field Def="f32 UnkFloat0x124"></Field>
     <Field Def="f32 UnkFloat0x128"></Field>
-    <Field Def="s32 UnkInt0x12C"></Field>
+    <Field Def="f32 UnkFloat0x12C"></Field>
     <Field Def="f32 UnkFloat0x130"></Field>
     <Field Def="f32 UnkFloat0x134"></Field>
     <Field Def="f32 UnkFloat0x138"></Field>
@@ -96,12 +96,12 @@
     <Field Def="f32 UnkFloat0x15C"></Field>
     <Field Def="f32 UnkFloat0x160"></Field>
     <Field Def="f32 UnkFloat0x164"></Field>
-    <Field Def="s32 UnkInt0x168"></Field>
+    <Field Def="f32 UnkFloat0x168"></Field>
     <Field Def="f32 UnkFloat0x16C"></Field>
     <Field Def="f32 UnkFloat0x170"></Field>
     <Field Def="f32 UnkFloat0x174"></Field>
     <Field Def="f32 UnkFloat0x178"></Field>
-    <Field Def="s32 UnkInt0x17C"></Field>
+    <Field Def="f32 UnkFloat0x17C"></Field>
     <Field Def="f32 UnkFloat0x180"></Field>
     <Field Def="s32 UnkInt0x184"></Field>
     <Field Def="f32 UnkFloat0x188"></Field>
@@ -226,8 +226,8 @@
     <Field Def="s32 UnkInt0x364"></Field>
     <Field Def="s32 UnkInt0x368"></Field>
     <Field Def="s32 UnkInt0x36C"></Field>
-    <Field Def="f32 UnkFloat0x370"></Field>
-    <Field Def="f32 UnkFloat0x374"></Field>
+    <Field Def="f32 tetrapodHoverMaxVelocity"></Field>
+    <Field Def="f32 tetrapodHoverVelocity"></Field>
     <Field Def="f32 UnkFloat0x378"></Field>
     <Field Def="f32 UnkFloat0x37C"></Field>
     <Field Def="s32 UnkInt0x380"></Field>

@@ -7,6 +7,8 @@
   <FormatVersion>203</FormatVersion>
   <Fields>
     <Field Def="s32 UnkInt0x00"></Field>
-    <Field Def="s32 UnkInt0x04"></Field>
+    <Field Def="u16 UnkUshort0x04"></Field>
+    <Field Def="u8 Unk0x06"></Field>
+    <Field Def="u8 Unk0x07"></Field>
   </Fields>
 </PARAMDEF>

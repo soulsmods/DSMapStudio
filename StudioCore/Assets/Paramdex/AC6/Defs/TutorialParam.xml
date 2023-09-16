@@ -19,7 +19,10 @@
     <Field Def="f32 displayTime"></Field>
     <Field Def="s32 Unk0x1C"></Field>
     <Field Def="s32 Unk0x20"></Field>
-    <Field Def="s32 Unk0x24"></Field>
+    <Field Def="u8 UnkByte0x24"></Field>
+    <Field Def="u8 Unk0x25"></Field>
+    <Field Def="u8 Unk0x26"></Field>
+    <Field Def="u8 Unk0x27"></Field>
     <Field Def="s32 Unk0x28"></Field>
     <Field Def="s32 Unk0x2C"></Field>
   </Fields>

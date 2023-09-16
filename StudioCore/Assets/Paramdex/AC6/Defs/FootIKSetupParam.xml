@@ -6,8 +6,11 @@
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <Field Def="s32 UnkInt0x00"></Field>
-    <Field Def="s32 UnkInt0x04"></Field>
+    <Field Def="u8 UnkByte0x00"></Field>
+    <Field Def="u8 UnkByte0x01"></Field>
+    <Field Def="u8 Unk0x02"></Field>
+    <Field Def="u8 Unk0x03"></Field>
+    <Field Def="f32 UnkFloat0x04"></Field>
     <Field Def="f32 UnkFloat0x08"></Field>
     <Field Def="f32 UnkFloat0x0C"></Field>
     <Field Def="f32 UnkFloat0x10"></Field>
@@ -16,8 +19,8 @@
     <Field Def="f32 UnkFloat0x1C"></Field>
     <Field Def="f32 UnkFloat0x20"></Field>
     <Field Def="f32 UnkFloat0x24"></Field>
-    <Field Def="s32 UnkInt0x28"></Field>
-    <Field Def="s32 UnkInt0x2C"></Field>
+    <Field Def="f32 UnkFloat0x28"></Field>
+    <Field Def="f32 UnkFloat0x2C"></Field>
     <Field Def="f32 UnkFloat0x30"></Field>
     <Field Def="f32 UnkFloat0x34"></Field>
     <Field Def="f32 UnkFloat0x38"></Field>

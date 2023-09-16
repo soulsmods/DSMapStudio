@@ -18,8 +18,10 @@
     <Field Def="f32 UnkFloat0x24"></Field>
     <Field Def="f32 UnkFloat0x28"></Field>
     <Field Def="f32 UnkFloat0x2C"></Field>
-    <Field Def="u16 UnkUshort0x30"></Field>
-    <Field Def="u16 UnkUshort0x32"></Field>
+    <Field Def="u8 UnkByte0x30"></Field>
+    <Field Def="u8 UnkByte0x31"></Field>
+    <Field Def="u8 UnkByte0x32"></Field>
+    <Field Def="u8 Unk0x33"></Field>
     <Field Def="f32 UnkFloat0x34"></Field>
     <Field Def="f32 UnkFloat0x38"></Field>
     <Field Def="f32 UnkFloat0x3C"></Field>

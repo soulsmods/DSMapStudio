@@ -77,7 +77,7 @@
     <Field Def="s32 bulletShotgunParamIdA">
       <Description>References BulletShotgunParam</Description>
     </Field>
-    <Field Def="f32 UnkFloat0x8C"></Field>
+    <Field Def="f32 unkBulletSpread"></Field>
     <Field Def="f32 weaponAttackHeatBuildup">
       <Description>Heat buildup when attacking. Overheat occurs when value exceeds maximum tolerance.</Description>
     </Field>
