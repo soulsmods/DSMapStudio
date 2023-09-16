@@ -142,6 +142,7 @@ namespace StudioCore.ParamEditor
             {
                 if (auxRows.Count > 0)
                 {
+                    ImGui.TableNextColumn();
                     if (ImGui.TableNextColumn())
                         ImGui.Text("Current");
                     if (CFG.Current.Param_ShowVanillaParams && ImGui.TableNextColumn())
@@ -263,7 +264,8 @@ namespace StudioCore.ParamEditor
             bool diffCompare = ParamUtils.IsValueDiff(ref oldval, ref compareval, propType);
             List<bool> diffAuxVanilla = auxVals.Select((o, i) => ParamUtils.IsValueDiff(ref o, ref vanillaval, propType)).ToList();
             List<bool> diffAuxPrimaryAndVanilla = auxVals.Select((o, i) => ParamUtils.IsValueDiff(ref o, ref oldval, propType) && ParamUtils.IsValueDiff(ref o, ref vanillaval, propType)).ToList();
-            bool conflict = diffVanilla && diffAuxPrimaryAndVanilla.Contains(true);
+            int count = diffAuxPrimaryAndVanilla.Where((x)=>x).Count();
+            bool conflict = ((diffVanilla ? 1:0) + diffAuxPrimaryAndVanilla.Where((x)=>x).Count()) > 1;
 
             bool matchDefault = nullableCell?.Def.Default != null && nullableCell.Value.Def.Default.Equals(oldval);
             bool isRef = (CFG.Current.Param_HideReferenceRows == false && (RefTypes != null || FmgRef != null)) || (CFG.Current.Param_HideEnums == false && Enum != null) || VirtualRef != null || ExtRefs != null;
