@@ -222,13 +222,15 @@ namespace StudioCore.ParamEditor
         }
         private void PropEditorPropRow(ParamBank bank, object oldval, object compareval, object vanillaval, List<object> auxVals, ref int imguiId, string fieldOffset, string internalName, FieldMetaData cellMeta, Type propType, PropertyInfo proprow, Param.Cell? nullableCell, Param.Row row, string activeParam, bool isPinned, Param.Column? col, ParamEditorSelectionState selection)
         {
-            List<ParamRef> RefTypes = cellMeta?.RefTypes;
-            string VirtualRef = cellMeta?.VirtualRef;
-            List<FMGRef> FmgRef = cellMeta?.FmgRef;
-            ParamEnum Enum = cellMeta?.EnumType;
             string Wiki = cellMeta?.Wiki;
-            bool IsBool = cellMeta?.IsBool ?? false;
+
+            List<ParamRef> RefTypes = cellMeta?.RefTypes;
+            List<FMGRef> FmgRef = cellMeta?.FmgRef;
             List<ExtRef> ExtRefs = cellMeta?.ExtRefs;
+            string VirtualRef = cellMeta?.VirtualRef;
+
+            ParamEnum Enum = cellMeta?.EnumType;
+            bool IsBool = cellMeta?.IsBool ?? false;
 
             object newval = null;
 
@@ -256,7 +258,6 @@ namespace StudioCore.ParamEditor
                 EditorDecorations.FmgRefText(FmgRef, row);
                 EditorDecorations.EnumNameText(Enum == null ? null : Enum.name);
             }
-            //PropertyRowMetaDefContextMenu();
 
             bool diffVanilla = ParamUtils.IsValueDiff(ref oldval, ref vanillaval, propType);
             bool diffCompare = ParamUtils.IsValueDiff(ref oldval, ref compareval, propType);
