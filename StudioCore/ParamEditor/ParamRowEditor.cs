@@ -110,7 +110,7 @@ namespace StudioCore.ParamEditor
                 List<List<(PseudoColumn, Param.Column)>> auxMatches = auxCols?.Select((aux, i) => aux.Where((x, i) => x.Item2 != null && x.Item2.Def.InternalName == field).ToList()).ToList();
                 for (int i = 0; i < matches.Count; i++)
                 {
-                    lastRowExists |= PropEditorPropCellRow(bank,
+                    PropEditorPropCellRow(bank,
                     row,
                     crow,
                     matches[i],
@@ -120,6 +120,7 @@ namespace StudioCore.ParamEditor
                     auxMatches.Select((x, j) => x.Count > i ? x[i] : (PseudoColumn.None, null)).ToList(),
                     matches[i].Item2?.GetByteOffset().ToString("x"),
                     ref id, activeParam, false, selection);
+                    lastRowExists = true;
                 }
             }
         }
@@ -201,9 +202,9 @@ namespace StudioCore.ParamEditor
                 null,
                 selection);
         }
-        private bool PropEditorPropCellRow(ParamBank bank, Param.Row row, Param.Row crow, (PseudoColumn, Param.Column) col, Param.Row vrow, (PseudoColumn, Param.Column) vcol, List<(string, Param.Row)> auxRows, List<(PseudoColumn, Param.Column)> auxCols, string fieldOffset, ref int id, string activeParam, bool isPinned, ParamEditorSelectionState selection)
+        private void PropEditorPropCellRow(ParamBank bank, Param.Row row, Param.Row crow, (PseudoColumn, Param.Column) col, Param.Row vrow, (PseudoColumn, Param.Column) vcol, List<(string, Param.Row)> auxRows, List<(PseudoColumn, Param.Column)> auxCols, string fieldOffset, ref int id, string activeParam, bool isPinned, ParamEditorSelectionState selection)
         {
-            return PropEditorPropRow(
+            PropEditorPropRow(
                 bank,
                 row.Get(col),
                 crow?.Get(col),
@@ -221,7 +222,7 @@ namespace StudioCore.ParamEditor
                 col.Item2,
                 selection);
         }
-        private bool PropEditorPropRow(ParamBank bank, object oldval, object compareval, object vanillaval, List<object> auxVals, ref int id, string fieldOffset, string internalName, FieldMetaData cellMeta, Type propType, PropertyInfo proprow, Param.Cell? nullableCell, Param.Row row, string activeParam, bool isPinned, Param.Column? col, ParamEditorSelectionState selection)
+        private void PropEditorPropRow(ParamBank bank, object oldval, object compareval, object vanillaval, List<object> auxVals, ref int id, string fieldOffset, string internalName, FieldMetaData cellMeta, Type propType, PropertyInfo proprow, Param.Cell? nullableCell, Param.Row row, string activeParam, bool isPinned, Param.Column? col, ParamEditorSelectionState selection)
         {
             List<ParamRef> RefTypes = cellMeta?.RefTypes;
             string VirtualRef = cellMeta?.VirtualRef;
@@ -364,7 +365,6 @@ namespace StudioCore.ParamEditor
                 ParamBank.PrimaryBank.RefreshParamRowVanillaDiff(row, activeParam);
             ImGui.PopID();
             id++;
-            return true;
         }
 
         private void AdditionalColumnValue(object colVal, Type propType, ParamBank bank, List<ParamRef> RefTypes, List<FMGRef> FmgRef, Param.Row context, ParamEnum Enum, string imguiSuffix)
