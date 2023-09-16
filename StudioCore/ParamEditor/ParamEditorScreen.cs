@@ -1863,7 +1863,7 @@ namespace StudioCore.ParamEditor
 
         internal ParamEditorSelectionState _selection;
 
-        private PropertyEditor _propEditor = null;
+        private ParamRowEditor _propEditor = null;
 
         private string lastParamSearch = "";
         private Dictionary<string, string> lastRowSearch = new Dictionary<string, string>();
@@ -1872,7 +1872,7 @@ namespace StudioCore.ParamEditor
         {
             _paramEditor = parent;
             _viewIndex = index;
-            _propEditor = new PropertyEditor(parent.EditorActionManager, _paramEditor);
+            _propEditor = new ParamRowEditor(parent.EditorActionManager, _paramEditor);
             _selection = new ParamEditorSelectionState(_paramEditor);
         }
 
