@@ -123,7 +123,7 @@ namespace StudioCore.MsbEditor
                 default:
                     //Uh oh
                     asset = AssetLocator.GetNullAsset();
-                assettex = AssetLocator.GetNullAsset();
+                    assettex = AssetLocator.GetNullAsset();
                     break;
             }
             
