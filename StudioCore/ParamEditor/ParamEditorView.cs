@@ -410,7 +410,7 @@ namespace StudioCore.ParamEditor
             if (diffVanilla)
             {
                 // If the auxes are changed bu
-                bool auxDiffPrimaryAndVanilla = auxDiffCaches.Where((cache) => cache.Item1.Contains(r.ID) && cache.Item2.Contains(r.ID)).Count() > 0;
+                bool auxDiffPrimaryAndVanilla = ((auxDiffVanilla ? 1:0) + auxDiffCaches.Where((cache) => cache.Item1.Contains(r.ID) && cache.Item2.Contains(r.ID)).Count()) > 1;
                 if (auxDiffVanilla && auxDiffPrimaryAndVanilla)
                     ImGui.PushStyleColor(ImGuiCol.Text, AUXCONFLICTCOLOUR);
                 else
