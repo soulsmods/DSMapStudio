@@ -221,12 +221,12 @@
     <Field Def="u8 UnkByte0x1B9"></Field>
     <Field Def="u8 UnkByte0x1BA"></Field>
     <Field Def="u8 UnkByte0x1BB"></Field>
-    <Field Def="f32 UnkFloat0x1BC"></Field>
-    <Field Def="f32 UnkFloat0x1C0"></Field>
-    <Field Def="f32 UnkFloat0x1C4"></Field>
-    <Field Def="f32 UnkFloat0x1C8"></Field>
+    <Field Def="f32 hitboxLengthMin"></Field>
+    <Field Def="f32 hitboxLengthMax"></Field>
+    <Field Def="f32 hitboxLengthSpreadTime"></Field>
+    <Field Def="f32 unkHitboxSize0x1C8"></Field>
     <Field Def="f32 UnkFloat0x1CC"></Field>
-    <Field Def="f32 UnkFloat0x1D0"></Field>
+    <Field Def="f32 unkHitboxModifier0x1D0"></Field>
     <Field Def="s32 UnkInt0x1D4"></Field>
     <Field Def="u8 UnkByte0x1D8"></Field>
     <Field Def="s8 UnkSbyte0x1D9"></Field>
@@ -383,7 +383,7 @@
     <Field Def="f32 UnkFloat0x340"></Field>
     <Field Def="s16 UnkShort0x344"></Field>
     <Field Def="s16 UnkShort0x346"></Field>
-    <Field Def="s16 UnkShort0x348"></Field>
+    <Field Def="s16 directHitBonusDamageRate"></Field>
     <Field Def="s16 UnkShort0x34A"></Field>
     <Field Def="s16 UnkShort0x34C"></Field>
     <Field Def="s16 UnkShort0x34E"></Field>
