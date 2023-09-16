@@ -32,13 +32,8 @@ namespace StudioCore.ParamEditor
             _paramEditor = paramEditorScreen;
         }
 
-        public void PropEditorParamRow(ParamBank bank, Param.Row row, Param.Row vrow, List<(string, Param.Row)> auxRows, Param.Row crow, ref string propSearchString, string activeParam, bool isActiveView, ParamEditorSelectionState selection)
+        private static void PropEditorParamRow_Header(bool isActiveView, ref string propSearchString)
         {
-            ParamMetaData meta = ParamMetaData.Get(row.Def);
-            int id = 0;
-            bool showParamCompare = auxRows.Count > 0;
-            bool showRowCompare = crow != null;
-
             if (propSearchString != null)
             {
                 if (isActiveView && InputTracker.GetKeyDown(KeyBindings.Current.Param_SearchField))
@@ -56,49 +51,112 @@ namespace StudioCore.ParamEditor
                 ImGui.Separator();
                 ImGui.Spacing();
             }
+        }
+
+        private void PropEditorParamRow_RowFields(ParamBank bank, Param.Row row, Param.Row vrow, List<(string, Param.Row)> auxRows, Param.Row crow, ref int id, string activeParam, ParamEditorSelectionState selection)
+        {
+            ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.8f, 0.8f, 1.0f, 1.0f));
+            var nameProp = row.GetType().GetProperty("Name");
+            var idProp = row.GetType().GetProperty("ID");
+            PropEditorPropInfoRow(bank, row, vrow, auxRows, crow, nameProp, "Name", ref id, activeParam, selection);
+            PropEditorPropInfoRow(bank, row, vrow, auxRows, crow, idProp, "ID", ref id, activeParam, selection);
+            ImGui.PopStyleColor();
+            ImGui.Spacing();
+        }
+
+        private void PropEditorParamRow_PinnedFields(List<string> pinnedFields, ParamBank bank, Param.Row row, Param.Row vrow, List<(string, Param.Row)> auxRows, Param.Row crow, List<(PseudoColumn, Param.Column)> cols, List<(PseudoColumn, Param.Column)> vcols, List<List<(PseudoColumn, Param.Column)>> auxCols, ref int id, string activeParam, ParamEditorSelectionState selection)
+        {
+            foreach (var field in pinnedFields)
+            {
+                List<(PseudoColumn, Param.Column)> matches = cols.Where((x, i) => x.Item2 != null && x.Item2.Def.InternalName == field).ToList();
+                List<(PseudoColumn, Param.Column)> vmatches = vcols.Where((x, i) => x.Item2 != null && x.Item2.Def.InternalName == field).ToList();
+                List<List<(PseudoColumn, Param.Column)>> auxMatches = auxCols.Select((aux, i) => aux.Where((x, i) => x.Item2 != null && x.Item2.Def.InternalName == field).ToList()).ToList();
+                for (int i = 0; i < matches.Count; i++)
+                {
+                    PropEditorPropCellRow(bank,
+                    row,
+                    crow,
+                    matches[i],
+                    vrow,
+                    vmatches.Count > i ? vmatches[i] : (PseudoColumn.None, null),
+                    auxRows,
+                    auxMatches.Select((x, j) => x.Count > i ? x[i] : (PseudoColumn.None, null)).ToList(),
+                    matches[i].Item2?.GetByteOffset().ToString("x"),
+                    ref id, activeParam, true, selection);
+                }
+            }
+        }
+        private void PropEditorParamRow_MainFields(ParamMetaData meta, ParamBank bank, Param.Row row, Param.Row vrow, List<(string, Param.Row)> auxRows, Param.Row crow, List<(PseudoColumn, Param.Column)> cols, List<(PseudoColumn, Param.Column)> vcols, List<List<(PseudoColumn, Param.Column)>> auxCols, ref int id, string activeParam, ParamEditorSelectionState selection)
+        {
+            List<string> fieldOrder = meta != null && meta.AlternateOrder != null && CFG.Current.Param_AllowFieldReorder ? meta.AlternateOrder : new List<string>();
+            foreach (PARAMDEF.Field field in row.Def.Fields)
+            {
+                if (!fieldOrder.Contains(field.InternalName))
+                    fieldOrder.Add(field.InternalName);
+            }
+            bool lastRowExists = false;
+            foreach (var field in fieldOrder)
+            {
+                if (field.Equals("-") && lastRowExists)
+                {
+                    EditorDecorations.ImguiTableSeparator();
+                    lastRowExists = false;
+                    continue;
+                }
+                if (row[field] == null)
+                    continue;
+                List<(PseudoColumn, Param.Column)> matches = cols?.Where((x, i) => x.Item2 != null && x.Item2.Def.InternalName == field).ToList();
+                List<(PseudoColumn, Param.Column)> vmatches = vcols?.Where((x, i) => x.Item2 != null && x.Item2.Def.InternalName == field).ToList();
+                List<List<(PseudoColumn, Param.Column)>> auxMatches = auxCols?.Select((aux, i) => aux.Where((x, i) => x.Item2 != null && x.Item2.Def.InternalName == field).ToList()).ToList();
+                for (int i = 0; i < matches.Count; i++)
+                {
+                    lastRowExists |= PropEditorPropCellRow(bank,
+                    row,
+                    crow,
+                    matches[i],
+                    vrow,
+                    vmatches.Count > i ? vmatches[i] : (PseudoColumn.None, null),
+                    auxRows,
+                    auxMatches.Select((x, j) => x.Count > i ? x[i] : (PseudoColumn.None, null)).ToList(),
+                    matches[i].Item2?.GetByteOffset().ToString("x"),
+                    ref id, activeParam, false, selection);
+                }
+            }
+        }
+
+        public void PropEditorParamRow(ParamBank bank, Param.Row row, Param.Row vrow, List<(string, Param.Row)> auxRows, Param.Row crow, ref string propSearchString, string activeParam, bool isActiveView, ParamEditorSelectionState selection)
+        {
+            ParamMetaData meta = ParamMetaData.Get(row.Def);
+            int id = 0;
+
+            PropEditorParamRow_Header(isActiveView, ref propSearchString);
 
             ImGui.BeginChild("Param Fields");
             int columnCount = 2;
             if (CFG.Current.Param_ShowVanillaParams)
                 columnCount++;
-            if (showRowCompare)
+            if (crow != null)
                 columnCount++;
-            if (showParamCompare)
+            if (auxRows.Count > 0)
                 columnCount += auxRows.Count;
             if (EditorDecorations.ImGuiTableStdColumns("ParamFieldsT", columnCount, false))
             {
-                if (ImGui.TableNextColumn())
-                {
-                    if (showParamCompare)
-                        ImGui.Text("Current");
-                }
-                if (CFG.Current.Param_ShowVanillaParams)
+                if (auxRows.Count > 0)
                 {
                     if (ImGui.TableNextColumn())
-                    {
-                        if (showParamCompare)
-                            ImGui.Text("Vanilla");
-                    }
-                }
-                if (showParamCompare)
-                {
+                        ImGui.Text("Current");
+                    if (CFG.Current.Param_ShowVanillaParams && ImGui.TableNextColumn())
+                        ImGui.Text("Vanilla");
                     foreach ((string name, Param.Row r) in auxRows)
                     {
                         if (ImGui.TableNextColumn())
                             ImGui.Text(name);
                     }
                 }
-                if (ImGui.TableNextColumn())
-                {
-                    // This should be rewritten somehow it's super ugly
-                    ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.8f, 0.8f, 1.0f, 1.0f));
-                    var nameProp = row.GetType().GetProperty("Name");
-                    var idProp = row.GetType().GetProperty("ID");
-                    PropEditorPropInfoRow(bank, row, vrow, auxRows, crow, nameProp, "Name", ref id, activeParam, selection);
-                    PropEditorPropInfoRow(bank, row, vrow, auxRows, crow, idProp, "ID", ref id, activeParam, selection);
-                    ImGui.PopStyleColor();
-                    ImGui.Spacing();
-                }
+                
+                PropEditorParamRow_RowFields(bank, row, vrow, auxRows, crow, ref id, activeParam, selection);
+                EditorDecorations.ImguiTableSeparator();
+                
                 string search = propSearchString;
                 List<(PseudoColumn, Param.Column)> cols = CacheBank.GetCached(_paramEditor, row, "fieldFilter", () => CellSearchEngine.cse.Search((activeParam, row), search, true, true));
                 List<(PseudoColumn, Param.Column)> vcols = CacheBank.GetCached(_paramEditor, vrow, "vFieldFilter", () => cols.Select((x, i) => x.GetAs(ParamBank.VanillaBank.GetParamFromName(activeParam))).ToList());
@@ -107,71 +165,11 @@ namespace StudioCore.ParamEditor
                 List<string> pinnedFields = new List<string>(_paramEditor._projectSettings.PinnedFields.GetValueOrDefault(activeParam, new List<string>()));
 
                 if (pinnedFields.Count > 0)
-                {                        
-                    if (EditorDecorations.ImguiTableSeparator())
-                    {
-                        foreach (var field in pinnedFields)
-                        {
-                            List<(PseudoColumn, Param.Column)> matches = cols.Where((x, i) => x.Item2 != null && x.Item2.Def.InternalName == field).ToList();
-                            List<(PseudoColumn, Param.Column)> vmatches = vcols.Where((x, i) => x.Item2 != null && x.Item2.Def.InternalName == field).ToList();
-                            List<List<(PseudoColumn, Param.Column)>> auxMatches = auxCols.Select((aux, i) => aux.Where((x, i) => x.Item2 != null && x.Item2.Def.InternalName == field).ToList()).ToList();
-                            for (int i = 0; i < matches.Count; i++)
-                            {
-                                PropEditorPropCellRow(bank,
-                                row,
-                                crow,
-                                matches[i],
-                                vrow,
-                                vmatches.Count > i ? vmatches[i] : (PseudoColumn.None, null),
-                                auxRows,
-                                auxMatches.Select((x, j) => x.Count > i ? x[i] : (PseudoColumn.None, null)).ToList(),
-                                matches[i].Item2?.GetByteOffset().ToString("x"),
-                                ref id, activeParam, true, selection);
-                            }
-                        }
-                    }
-                }
-                if (pinnedFields.Count == 0 || (pinnedFields?.Count > 0 && EditorDecorations.ImguiTableSeparator()))
                 {
-                    List<string> fieldOrder = meta != null && meta.AlternateOrder != null && CFG.Current.Param_AllowFieldReorder ? meta.AlternateOrder : new List<string>();
-                    foreach (PARAMDEF.Field field in row.Def.Fields)
-                    {
-                        if (!fieldOrder.Contains(field.InternalName))
-                            fieldOrder.Add(field.InternalName);
-                    }
-                    bool lastRowExists = false;
-                    bool doDraw = true;
-                    foreach (var field in fieldOrder)
-                    {
-                        if (field.Equals("-") && lastRowExists)
-                        {
-                            doDraw = EditorDecorations.ImguiTableSeparator();
-                            lastRowExists = false;
-                            continue;
-                        }
-                        if (row[field] == null)
-                            continue;
-                        if (doDraw)
-                        {
-                            List<(PseudoColumn, Param.Column)> matches = cols?.Where((x, i) => x.Item2 != null && x.Item2.Def.InternalName == field).ToList();
-                            List<(PseudoColumn, Param.Column)> vmatches = vcols?.Where((x, i) => x.Item2 != null && x.Item2.Def.InternalName == field).ToList();
-                            List<List<(PseudoColumn, Param.Column)>> auxMatches = auxCols?.Select((aux, i) => aux.Where((x, i) => x.Item2 != null && x.Item2.Def.InternalName == field).ToList()).ToList();
-                            for (int i = 0; i < matches.Count; i++)
-                            {
-                                lastRowExists |= PropEditorPropCellRow(bank,
-                                row,
-                                crow,
-                                matches[i],
-                                vrow,
-                                vmatches.Count > i ? vmatches[i] : (PseudoColumn.None, null),
-                                auxRows,
-                                auxMatches.Select((x, j) => x.Count > i ? x[i] : (PseudoColumn.None, null)).ToList(),
-                                matches[i].Item2?.GetByteOffset().ToString("x"),
-                                ref id, activeParam, false, selection);
-                            }
-                        }
-                    }
+                    PropEditorParamRow_PinnedFields(pinnedFields, bank, row, vrow, auxRows, crow, cols, vcols, auxCols, ref id, activeParam, selection);
+                    EditorDecorations.ImguiTableSeparator();
                 }
+                PropEditorParamRow_MainFields(meta, bank, row, vrow, auxRows, crow, cols, vcols, auxCols, ref id, activeParam, selection);
                 ImGui.EndTable();
             }
             if (meta.CalcCorrectDef != null || meta.SoulCostDef != null)
