@@ -187,8 +187,8 @@ namespace StudioCore.ParamEditor
             try
             {
                 string baseDir = AssetLocator.GetUpgraderAssetsDir();
-                string wlFile = Path.Join(AssetLocator.GetUpgraderAssetsDir(), "versionWhitelist.txt");
-                string massEditFile = Path.Join(AssetLocator.GetUpgraderAssetsDir(), "upgradeEdits.txt");
+                string wlFile = Path.Join(AssetLocator.GetUpgraderAssetsDir(), "version.txt");
+                string massEditFile = Path.Join(AssetLocator.GetUpgraderAssetsDir(), "massedit.txt");
                 if (!File.Exists(wlFile) || !File.Exists(massEditFile))
                     return;
                 ulong versionWhitelist = ulong.Parse(File.ReadAllText(wlFile).Replace("_", "").Replace("L", ""));

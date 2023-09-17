@@ -716,7 +716,7 @@ namespace StudioCore
 
     	public string GetUpgraderAssetsDir()
         {
-            return  $@"Assets\Upgrader\{GetGameIDForDir()}";
+            return  $@"{GetParamAssetsDir()}\Upgrader";
         }
 
         public string GetGameOffsetsAssetsDir()
