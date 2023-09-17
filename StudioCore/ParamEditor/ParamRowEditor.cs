@@ -130,7 +130,7 @@ namespace StudioCore.ParamEditor
 
             PropEditorParamRow_Header(isActiveView, ref propSearchString);
 
-            ImGui.BeginChild("Param Fields");
+            //ImGui.BeginChild("Param Fields");
             int columnCount = 2;
             if (CFG.Current.Param_ShowVanillaParams)
                 columnCount++;
@@ -140,6 +140,7 @@ namespace StudioCore.ParamEditor
                 columnCount += auxRows.Count;
             if (EditorDecorations.ImGuiTableStdColumns("ParamFieldsT", columnCount, false))
             {
+                ImGui.TableSetupScrollFreeze(columnCount, auxRows.Count > 0 ? 3 : 2);
                 if (auxRows.Count > 0)
                 {
                     ImGui.TableNextColumn();
@@ -153,7 +154,6 @@ namespace StudioCore.ParamEditor
                             ImGui.Text(name);
                     }
                 }
-                
                 PropEditorParamRow_RowFields(bank, row, vrow, auxRows, crow, ref imguiId, selection);
                 EditorDecorations.ImguiTableSeparator();
                 
@@ -176,7 +176,7 @@ namespace StudioCore.ParamEditor
             {
                 EditorDecorations.DrawCalcCorrectGraph(_paramEditor, meta, row);
             }
-            ImGui.EndChild();
+            //ImGui.EndChild();
         }
 
         // Many parameter options, which may be simplified.
