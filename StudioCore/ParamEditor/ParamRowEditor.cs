@@ -352,8 +352,7 @@ namespace StudioCore.ParamEditor
                     ImGui.PopStyleColor();
             }
             ImGui.PopStyleColor(2);
-
-            if (ImGui.BeginPopupContextItem("ParamRowCommonMenu", ImGuiPopupFlags.None))
+            if (ImGui.BeginPopup("ParamRowCommonMenu"))
             {
                 PropertyRowNameContextMenuItems(bank, internalName, cellMeta, activeParam, activeParam != null, isPinned, col, selection, propType, Wiki, oldval);
                 PropertyRowValueContextMenuItems(bank, row, internalName, VirtualRef, ExtRefs, oldval, ref newval, RefTypes, FmgRef, Enum);
