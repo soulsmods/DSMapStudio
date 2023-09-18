@@ -9,8 +9,7 @@
                     "referenceName": "Default",
                     
                     "tags": [
-                        { "tag": "default" },
-                        { "tag": "default" }
+                        "default"
                     ]
                 },
                 {
@@ -18,7 +17,7 @@
 					"referenceName": "Human",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -26,7 +25,7 @@
 					"referenceName": "Rat",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -34,7 +33,7 @@
 					"referenceName": "Small Rat",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -42,7 +41,7 @@
 					"referenceName": "Large Rat",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -50,7 +49,7 @@
 					"referenceName": "Snow Rat",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -58,7 +57,7 @@
 					"referenceName": "Infested Ghoul",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -66,7 +65,7 @@
 					"referenceName": "Invisible Ghost (unused)",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -74,7 +73,7 @@
 					"referenceName": "Stray Demon",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -82,7 +81,7 @@
 					"referenceName": "Demon Firesage",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -90,7 +89,7 @@
 					"referenceName": "Asylum Demon",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -98,7 +97,7 @@
 					"referenceName": "Capra Demon",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -106,7 +105,7 @@
 					"referenceName": "Taurus Demon",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -114,7 +113,7 @@
 					"referenceName": "Batwing Demon",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -122,7 +121,7 @@
 					"referenceName": "Mushroom Parent",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -130,7 +129,7 @@
 					"referenceName": "Mushroom Child",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -138,7 +137,7 @@
 					"referenceName": "Prototype Chained Prisoner",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -146,7 +145,7 @@
 					"referenceName": "Titanite Demon",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -154,7 +153,7 @@
 					"referenceName": "Crow Demon",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -162,7 +161,7 @@
 					"referenceName": "Iron Golem",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -170,7 +169,7 @@
 					"referenceName": "Demonic Foliage",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -178,7 +177,7 @@
 					"referenceName": "Smough",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -186,7 +185,7 @@
 					"referenceName": "Channeler",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -194,7 +193,7 @@
 					"referenceName": "Giant Stone Knight",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -202,7 +201,7 @@
 					"referenceName": "Darkwraith",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -210,7 +209,7 @@
 					"referenceName": "Painting Guardian",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -218,7 +217,7 @@
 					"referenceName": "Silver Knight",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -226,7 +225,7 @@
 					"referenceName": "Demonic Statue",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -234,7 +233,7 @@
 					"referenceName": "Hollow",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -242,7 +241,7 @@
 					"referenceName": "Undead Merchant",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -250,7 +249,7 @@
 					"referenceName": "Undead Assassin",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -258,7 +257,7 @@
 					"referenceName": "Blowdart Sniper",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -266,7 +265,7 @@
 					"referenceName": "Armored Hollow",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -274,7 +273,7 @@
 					"referenceName": "Undead Soldier",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -282,7 +281,7 @@
 					"referenceName": "Balder Knight",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -290,7 +289,7 @@
 					"referenceName": "Heavy Knight",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -298,7 +297,7 @@
 					"referenceName": "Prototype Marvelous Chester",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -306,7 +305,7 @@
 					"referenceName": "Prototype Marvelous Chester",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -314,7 +313,7 @@
 					"referenceName": "Prototype Young Beatrice",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -322,7 +321,7 @@
 					"referenceName": "Andre of Astora",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -330,7 +329,7 @@
 					"referenceName": "Necromancer",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -338,7 +337,7 @@
 					"referenceName": "Butcher",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -346,7 +345,7 @@
 					"referenceName": "Ghost (Male)",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -354,7 +353,7 @@
 					"referenceName": "Ghost (Female)",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -362,7 +361,7 @@
 					"referenceName": "Serpent Soldier",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -370,7 +369,7 @@
 					"referenceName": "Serpent Mage",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -378,7 +377,7 @@
 					"referenceName": "Crystal Golem",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -386,7 +385,7 @@
 					"referenceName": "Golden Crystal Golem",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -394,7 +393,7 @@
 					"referenceName": "Crossbreed Priscilla",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -402,7 +401,7 @@
 					"referenceName": "Priscilla's Tail",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -410,7 +409,7 @@
 					"referenceName": "Anastacia of Astora",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -418,7 +417,7 @@
 					"referenceName": "Mimic",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -426,7 +425,7 @@
 					"referenceName": "Black Knight (all, kiln variation)",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -434,7 +433,7 @@
 					"referenceName": "Black Knight (Kiln Ghost)",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -442,7 +441,7 @@
 					"referenceName": "Black Knight (Sword)",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -450,7 +449,7 @@
 					"referenceName": "Black Knight (Greatsword)",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -458,7 +457,7 @@
 					"referenceName": "Black Knight (Axe)",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -466,7 +465,7 @@
 					"referenceName": "Black Knight (Halberd)",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -474,7 +473,7 @@
 					"referenceName": "Undead Crystal Soldier",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -482,7 +481,7 @@
 					"referenceName": "Infested Barbarian (Club)",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -490,7 +489,7 @@
 					"referenceName": "Infested Barbarian (Boulder)",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -498,7 +497,7 @@
 					"referenceName": "Prototype Claw Hollow",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -506,7 +505,7 @@
 					"referenceName": "Phalanx",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -514,7 +513,7 @@
 					"referenceName": "Engorged Zombie",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -522,7 +521,7 @@
 					"referenceName": "Giant",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -530,7 +529,7 @@
 					"referenceName": "Sentinel / Royal Sentinel",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -538,7 +537,7 @@
 					"referenceName": "Skeleton",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -546,7 +545,7 @@
 					"referenceName": "Giant Skeleton",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -554,7 +553,7 @@
 					"referenceName": "Vamos",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -562,7 +561,7 @@
 					"referenceName": "Bonewheel Skeleton",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -570,7 +569,7 @@
 					"referenceName": "Skeleton Baby",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -578,7 +577,7 @@
 					"referenceName": "Skeleton Beast",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -586,7 +585,7 @@
 					"referenceName": "Bone Tower",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -594,7 +593,7 @@
 					"referenceName": "Giant Mosquito",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -602,7 +601,7 @@
 					"referenceName": "Demon's Souls Crystal Lizard",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -610,7 +609,7 @@
 					"referenceName": "Slime",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -618,7 +617,7 @@
 					"referenceName": "Egg Carrier",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -626,7 +625,7 @@
 					"referenceName": "Vile Maggot",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -634,7 +633,7 @@
 					"referenceName": "Moonlight Butterfly",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -642,7 +641,7 @@
 					"referenceName": "Chaos Eater",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -650,7 +649,7 @@
 					"referenceName": "Man-Eater Shell",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -658,7 +657,7 @@
 					"referenceName": "Basilisk",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -666,7 +665,7 @@
 					"referenceName": "Ohmushi",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -674,7 +673,7 @@
 					"referenceName": "Crystal Lizard",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -682,7 +681,7 @@
 					"referenceName": "Pinwheel",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -690,7 +689,7 @@
 					"referenceName": "Pisaca",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -698,7 +697,7 @@
 					"referenceName": "Undead Attack Dog",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -706,7 +705,7 @@
 					"referenceName": "Flaming Attack Dog",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -714,7 +713,7 @@
 					"referenceName": "Possessed Tree",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -722,7 +721,7 @@
 					"referenceName": "Tree Lizard",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -730,7 +729,7 @@
 					"referenceName": "Giant Leech",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -738,7 +737,7 @@
 					"referenceName": "Burrowing Rockworm",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -746,7 +745,7 @@
 					"referenceName": "Crag-Spider",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -754,7 +753,7 @@
 					"referenceName": "Frog-Ray",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -762,7 +761,7 @@
 					"referenceName": "Undead Dragon",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -770,7 +769,7 @@
 					"referenceName": "Bounding Demon",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -778,7 +777,7 @@
 					"referenceName": "Undead Dragon's Wing",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -786,7 +785,7 @@
 					"referenceName": "Hellkite Drake",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -794,7 +793,7 @@
 					"referenceName": "Hellkite Drake's Tail",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -802,7 +801,7 @@
 					"referenceName": "Prototype Kalameet",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -810,7 +809,7 @@
 					"referenceName": "Stone Dragon",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -818,7 +817,7 @@
 					"referenceName": "Everlasting Dragon's Tail",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -826,7 +825,7 @@
 					"referenceName": "Armored Tusk (Armored Boar)",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -834,7 +833,7 @@
 					"referenceName": "Armored Tusk (Reinforced)",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -842,7 +841,7 @@
 					"referenceName": "Prototype Sanctuary Guardian",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -850,7 +849,7 @@
 					"referenceName": "Sanctuary Guardian",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -858,7 +857,7 @@
 					"referenceName": "Sanctuary Guardian's Tail",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -866,7 +865,7 @@
 					"referenceName": "Chaos Bug",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -874,7 +873,7 @@
 					"referenceName": "Good Vagrant",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -882,7 +881,7 @@
 					"referenceName": "Evil Vagrant",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -890,7 +889,7 @@
 					"referenceName": "Mass of Souls",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -898,7 +897,7 @@
 					"referenceName": "Wisp (exploding skull)",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -906,7 +905,7 @@
 					"referenceName": "Asylum Transport Crow",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -914,7 +913,7 @@
 					"referenceName": "Crow (cutscene version)",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -922,7 +921,7 @@
 					"referenceName": "Drake",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -930,7 +929,7 @@
 					"referenceName": "Hydra",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -938,7 +937,7 @@
 					"referenceName": "Hydra Head",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -946,7 +945,7 @@
 					"referenceName": "Marvelous Chester",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -954,7 +953,7 @@
 					"referenceName": "Alternate Chester?",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -962,7 +961,7 @@
 					"referenceName": "Alternate Chester?",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -970,7 +969,7 @@
 					"referenceName": "Artorias",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -978,7 +977,7 @@
 					"referenceName": "Hawkeye Gough",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -986,7 +985,7 @@
 					"referenceName": "Stone Guardian",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -994,7 +993,7 @@
 					"referenceName": "Scarecrow",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1002,7 +1001,7 @@
 					"referenceName": "Elizabeth",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1010,7 +1009,7 @@
 					"referenceName": "Bloathead",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1018,7 +1017,7 @@
 					"referenceName": "Bloathead Sorcerer",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1026,7 +1025,7 @@
 					"referenceName": "Humanity Phantom (small)",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1034,7 +1033,7 @@
 					"referenceName": "Humanity Phantom (medium)",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1042,7 +1041,7 @@
 					"referenceName": "Humanity Phantom (large)",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1050,7 +1049,7 @@
 					"referenceName": "Chained Prisoner",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1058,7 +1057,7 @@
 					"referenceName": "Attack Dog (DLC)",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1066,7 +1065,7 @@
 					"referenceName": "Manus",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1074,7 +1073,7 @@
 					"referenceName": "Black Dragon Kalameet",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1082,7 +1081,7 @@
 					"referenceName": "Kalameet's Tail",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1090,7 +1089,7 @@
 					"referenceName": "Young Sif",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1098,7 +1097,7 @@
 					"referenceName": "Young Alvina",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1106,7 +1105,7 @@
 					"referenceName": "Young Alvina",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1114,7 +1113,7 @@
 					"referenceName": "Centipede Demon",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1122,7 +1121,7 @@
 					"referenceName": "Centipede Demon's Arm",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1130,7 +1129,7 @@
 					"referenceName": "Centipede Demon's Tail",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1138,7 +1137,7 @@
 					"referenceName": "Sif",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1146,7 +1145,7 @@
 					"referenceName": "Gravelord Nito",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1154,7 +1153,7 @@
 					"referenceName": "Bed of Chaos (Tree Body)",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1162,7 +1161,7 @@
 					"referenceName": "Crawling Bed of Chaos (unused, Tree Body)",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1170,7 +1169,7 @@
 					"referenceName": "Parasitic Wall Hugger",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1178,7 +1177,7 @@
 					"referenceName": "Ceaseless Discharge",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1186,7 +1185,7 @@
 					"referenceName": "Gaping Dragon",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1194,7 +1193,7 @@
 					"referenceName": "Gaping Dragon's Tail",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1202,7 +1201,7 @@
 					"referenceName": "Ornstein",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1210,7 +1209,7 @@
 					"referenceName": "Super Ornstein",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1218,7 +1217,7 @@
 					"referenceName": "Quelaag",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1226,7 +1225,7 @@
 					"referenceName": "Seath",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1234,7 +1233,7 @@
 					"referenceName": "Seath's Tail",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1242,7 +1241,7 @@
 					"referenceName": "Undead King Jar Eel (unused)",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1250,7 +1249,7 @@
 					"referenceName": "Gwynevere",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1258,7 +1257,7 @@
 					"referenceName": "Gwyndolin",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1266,7 +1265,7 @@
 					"referenceName": "Frampt / Kaathe",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1274,7 +1273,7 @@
 					"referenceName": "The Fair Lady",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1282,7 +1281,7 @@
 					"referenceName": "Bell Gargoyles",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1290,7 +1289,7 @@
 					"referenceName": "Lightning Gargoyles",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1298,7 +1297,7 @@
 					"referenceName": "Bell Gargoyle Tail",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1306,7 +1305,7 @@
 					"referenceName": "Lightning Gargolye Tail",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1314,7 +1313,7 @@
 					"referenceName": "Great Feline",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1322,7 +1321,7 @@
 					"referenceName": "Alvina",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1330,7 +1329,7 @@
 					"referenceName": "Alvina",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1338,7 +1337,7 @@
 					"referenceName": "Gwyn",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1346,7 +1345,7 @@
 					"referenceName": "Four Kings",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1354,7 +1353,7 @@
 					"referenceName": "Bed of Chaos (Fire Body)",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1362,7 +1361,7 @@
 					"referenceName": "Bed of Chaos (Worm)",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1370,7 +1369,7 @@
 					"referenceName": "Fluted Knight",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				}
             ],
@@ -1380,8 +1379,7 @@
                     "referenceName": "Default",
                     
                     "tags": [
-                        { "tag": "default" },
-                        { "tag": "default" }
+                        "default"
                     ]
                 }
             ],
@@ -1391,8 +1389,7 @@
                     "referenceName": "Default",
                     
                     "tags": [
-                        { "tag": "default" },
-                        { "tag": "default" }
+                        "default"
                     ]
                 }
             ],
@@ -1402,8 +1399,7 @@
                     "referenceName": "Default",
                     
                     "tags": [
-                        { "tag": "default" },
-                        { "tag": "default" }
+                        "default"
                     ]
                 }
             ]

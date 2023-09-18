@@ -74,6 +74,7 @@ namespace StudioCore
                         "For example, typing in \"grass\" will show all objects tagged as \"grass\".\n" +
                         "\n" +
                         "Multiple filters may be chained together by adding a semi-colon between each statement.\n" +
+                        "This will acts as an OR statement.\n" +
                         "\n" +
                         "USAGE\n" +
                         "If a Enemy object is selected within the MSB view, \n" +
@@ -157,10 +158,10 @@ namespace StudioCore
                             {
                                 referenceName = entry.referenceName;
                                 tagList = "{ ";
-                                foreach (Tag tagEntry in entry.tags)
+                                foreach (string tagEntry in entry.tags)
                                 {
-                                    tags.Add(tagEntry.tag);
-                                    tagList = tagList + tagEntry.tag + " ";
+                                    tags.Add(tagEntry);
+                                    tagList = tagList + tagEntry + " ";
                                 }
                                 tagList = tagList + "}";
                             }
@@ -208,10 +209,10 @@ namespace StudioCore
                             {
                                 referenceName = entry.referenceName;
                                 tagList = "{ ";
-                                foreach (Tag tagEntry in entry.tags)
+                                foreach (string tagEntry in entry.tags)
                                 {
-                                    tags.Add(tagEntry.tag);
-                                    tagList = tagList + tagEntry.tag + " ";
+                                    tags.Add(tagEntry);
+                                    tagList = tagList + tagEntry + " ";
                                 }
                                 tagList = tagList + "}";
                             }

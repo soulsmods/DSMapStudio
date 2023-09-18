@@ -9,8 +9,7 @@
                     "referenceName": "Default",
                     
                     "tags": [
-                        { "tag": "default" },
-                        { "tag": "default" }
+                        "default"
                     ]
                 },
                 {
@@ -18,7 +17,7 @@
 					"referenceName": "Human NPC/Player",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -26,7 +25,7 @@
 					"referenceName": "Goblin",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -34,7 +33,7 @@
 					"referenceName": "Kobold",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -42,7 +41,7 @@
 					"referenceName": "Hollow Soldier",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -50,7 +49,7 @@
 					"referenceName": "Royal Soldier",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -58,7 +57,7 @@
 					"referenceName": "Hollow Infantry",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -66,7 +65,7 @@
 					"referenceName": "Royal Infantry",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -74,7 +73,7 @@
 					"referenceName": "Amana Shrine Maiden",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -82,7 +81,7 @@
 					"referenceName": "Hollow Priest",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -90,7 +89,7 @@
 					"referenceName": "Hollow Priestess",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -98,7 +97,7 @@
 					"referenceName": "Parasitized Undead",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -106,7 +105,7 @@
 					"referenceName": "Hollow Rouge",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -114,7 +113,7 @@
 					"referenceName": "Varangian Sailor",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -122,7 +121,7 @@
 					"referenceName": "Undead Traveler",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -130,7 +129,7 @@
 					"referenceName": "Stone Soldier",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -138,7 +137,7 @@
 					"referenceName": "Hollow Mage (Black)",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -146,7 +145,7 @@
 					"referenceName": "Hollow Mage (White)",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -154,7 +153,7 @@
 					"referenceName": "Giant",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -162,7 +161,7 @@
 					"referenceName": "Suspicious Shadow",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -170,7 +169,7 @@
 					"referenceName": "Manikin",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -178,7 +177,7 @@
 					"referenceName": "Undead Citizen",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -186,7 +185,7 @@
 					"referenceName": "Undead Laborer",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -194,7 +193,7 @@
 					"referenceName": "Undead Laborer (Frozen)",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -202,7 +201,7 @@
 					"referenceName": "Witchtree",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -210,7 +209,7 @@
 					"referenceName": "Witchtree (Frozen)",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -218,7 +217,7 @@
 					"referenceName": "Lindelt Cleric",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -226,7 +225,7 @@
 					"referenceName": "Skeleton",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -234,7 +233,7 @@
 					"referenceName": "Bonewheel Skeleton",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -242,7 +241,7 @@
 					"referenceName": "Gyrm",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -250,7 +249,7 @@
 					"referenceName": "Gyrm Warrior",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -258,7 +257,7 @@
 					"referenceName": "Aldia Warlock",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -266,7 +265,7 @@
 					"referenceName": "Torturer",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -274,7 +273,7 @@
 					"referenceName": "Artificial Undead",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -282,7 +281,7 @@
 					"referenceName": "Weaponsmith Ornifex",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -290,7 +289,7 @@
 					"referenceName": "Undead Aberration",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -298,7 +297,7 @@
 					"referenceName": "Duke Tseldora",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -306,7 +305,7 @@
 					"referenceName": "Undead Supplicant",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -314,7 +313,7 @@
 					"referenceName": "Undead Peasant",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -322,7 +321,7 @@
 					"referenceName": "Undead Steelworker",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -330,7 +329,7 @@
 					"referenceName": "Stone Knight",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -338,7 +337,7 @@
 					"referenceName": "Ironclad Soldier",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -346,7 +345,7 @@
 					"referenceName": "Old Ironclad Soldier",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -354,7 +353,7 @@
 					"referenceName": "Royal Swordsman",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -362,7 +361,7 @@
 					"referenceName": "Syan Soldier",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -370,7 +369,7 @@
 					"referenceName": "Skeleton Lords",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -378,7 +377,7 @@
 					"referenceName": "Amana Aberration",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -386,7 +385,7 @@
 					"referenceName": "Armored Skeleton",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -394,7 +393,7 @@
 					"referenceName": "Enslaved Pig",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -402,7 +401,7 @@
 					"referenceName": "Undead Boar",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -410,7 +409,7 @@
 					"referenceName": "Parasite Spider",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -418,7 +417,7 @@
 					"referenceName": "Poison Moth",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -426,7 +425,7 @@
 					"referenceName": "Poison Horn Beetle",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -434,7 +433,7 @@
 					"referenceName": "Acid Horn Beetle",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -442,7 +441,7 @@
 					"referenceName": "Razorback Nightcrawler",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -450,7 +449,7 @@
 					"referenceName": "Hunting Dog",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -458,7 +457,7 @@
 					"referenceName": "Basilisk",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -466,7 +465,7 @@
 					"referenceName": "Guardian Dragon",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -474,7 +473,7 @@
 					"referenceName": "Crystal Lizard",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -482,7 +481,7 @@
 					"referenceName": "Red Crystal Lizard",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -490,7 +489,7 @@
 					"referenceName": "Giant Undead Boar",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -498,7 +497,7 @@
 					"referenceName": "Wall Ghost",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -506,7 +505,7 @@
 					"referenceName": "Dark Stalker",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -514,7 +513,7 @@
 					"referenceName": "Giant Acid Horn Beetle",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -522,7 +521,7 @@
 					"referenceName": "Giant Basilisk",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -530,7 +529,7 @@
 					"referenceName": "Dog Rat",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -538,7 +537,7 @@
 					"referenceName": "Darksucker",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -546,7 +545,7 @@
 					"referenceName": "Marker NPC",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -554,7 +553,7 @@
 					"referenceName": "Corpse Rat",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -562,7 +561,7 @@
 					"referenceName": "Royal Rat Vanguard",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -570,7 +569,7 @@
 					"referenceName": "The Rat King",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -578,7 +577,7 @@
 					"referenceName": "Stray Hound Stray Dog",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -586,7 +585,7 @@
 					"referenceName": "Frost Hound",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -594,7 +593,7 @@
 					"referenceName": "Ogre",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -602,7 +601,7 @@
 					"referenceName": "Heide Knight",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -610,7 +609,7 @@
 					"referenceName": "Undead Jailer",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -618,7 +617,7 @@
 					"referenceName": "Flexile Sentry",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -626,7 +625,7 @@
 					"referenceName": "Injured Milfanito",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -634,7 +633,7 @@
 					"referenceName": "Smelter Demon",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -642,7 +641,7 @@
 					"referenceName": "Smelter Demon (Blue)",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -650,7 +649,7 @@
 					"referenceName": "Alonne Captain",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -658,7 +657,7 @@
 					"referenceName": "Body of Vengarl",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -666,7 +665,7 @@
 					"referenceName": "Head of Vengarl",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -674,7 +673,7 @@
 					"referenceName": "Lion Clan Warrior",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -682,7 +681,7 @@
 					"referenceName": "Lion Clan Warrior (Golden)",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -690,7 +689,7 @@
 					"referenceName": "Elite Giant",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -698,7 +697,7 @@
 					"referenceName": "The Last Giant",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -706,7 +705,7 @@
 					"referenceName": "Giant Lord",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -714,7 +713,7 @@
 					"referenceName": "Mounted Overseer",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -722,7 +721,7 @@
 					"referenceName": "Grave Warden",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -730,7 +729,7 @@
 					"referenceName": "Falconer",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -738,7 +737,7 @@
 					"referenceName": "Primal Knight (Undead)",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -746,7 +745,7 @@
 					"referenceName": "Primal Knight",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -754,7 +753,7 @@
 					"referenceName": "Desert Sorceress",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -762,7 +761,7 @@
 					"referenceName": "Dragon Acolyte",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -770,7 +769,7 @@
 					"referenceName": "The Pursuer",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -778,7 +777,7 @@
 					"referenceName": "Alonne Knight",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -786,7 +785,7 @@
 					"referenceName": "Mimic",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -794,7 +793,7 @@
 					"referenceName": "Belfry Gargoyles",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -802,7 +801,7 @@
 					"referenceName": "Ruin Sentinels",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -810,7 +809,7 @@
 					"referenceName": "The Rotten",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -818,7 +817,7 @@
 					"referenceName": "Dragon Skeleton",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -826,7 +825,7 @@
 					"referenceName": "Old Knight",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -834,7 +833,7 @@
 					"referenceName": "Drakekeeper",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -842,7 +841,7 @@
 					"referenceName": "Throne Defender",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -850,7 +849,7 @@
 					"referenceName": "Velstadt, The Royal Aegis",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -858,7 +857,7 @@
 					"referenceName": "Throne Watcher",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -866,7 +865,7 @@
 					"referenceName": "Captive Undead",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -874,7 +873,7 @@
 					"referenceName": "Covetous Demon (Boss)",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -882,7 +881,7 @@
 					"referenceName": "Covetous Demon",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -890,7 +889,7 @@
 					"referenceName": "Mytha, the Baneful Queen",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -898,7 +897,7 @@
 					"referenceName": "Manscorpion Tark",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -906,7 +905,7 @@
 					"referenceName": "Scorpioness Najka",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -914,7 +913,7 @@
 					"referenceName": "Looking Glass Knighy",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -922,7 +921,7 @@
 					"referenceName": "Darklurker",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -930,7 +929,7 @@
 					"referenceName": "Darklurker (Clone)",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -938,7 +937,7 @@
 					"referenceName": "Grave Warden Agdayne",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -946,7 +945,7 @@
 					"referenceName": "Leydia Witch",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -954,7 +953,7 @@
 					"referenceName": "Imperious Knight",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -962,7 +961,7 @@
 					"referenceName": "Leydia Pyromancer",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -970,7 +969,7 @@
 					"referenceName": "Vendrick (Boss)",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -978,7 +977,7 @@
 					"referenceName": "Ancient Dragon",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -986,7 +985,7 @@
 					"referenceName": "Flame Salamander",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -994,7 +993,7 @@
 					"referenceName": "Demon of Song",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1002,7 +1001,7 @@
 					"referenceName": "The Duke's Dear Freja",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1010,7 +1009,7 @@
 					"referenceName": "Old Iron King",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1018,7 +1017,7 @@
 					"referenceName": "Corrosive Ant Queen",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1026,7 +1025,7 @@
 					"referenceName": "Dragonrider (Black)",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1034,7 +1033,7 @@
 					"referenceName": "Dragonrider (Red)",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1042,7 +1041,7 @@
 					"referenceName": "Executioner's Chariot",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1050,7 +1049,7 @@
 					"referenceName": "Old Dragonslayer",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1058,7 +1057,7 @@
 					"referenceName": "Lost Sinner",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1066,7 +1065,7 @@
 					"referenceName": "Nashandra (Boss)",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1074,7 +1073,7 @@
 					"referenceName": "Royal Rat Authority",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1082,7 +1081,7 @@
 					"referenceName": "Iron Warrior",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1090,7 +1089,7 @@
 					"referenceName": "Fume Sorcerer",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1098,7 +1097,7 @@
 					"referenceName": "Ashen Warrior",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1106,7 +1105,7 @@
 					"referenceName": "Scorcher Ashen Crawler",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1114,7 +1113,7 @@
 					"referenceName": "Possessed Armor",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1122,7 +1121,7 @@
 					"referenceName": "Cask Runner Barrel Carrier",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1130,7 +1129,7 @@
 					"referenceName": "Alsanna, Silent Oracle",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1138,7 +1137,7 @@
 					"referenceName": "Rampart Golem",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1146,7 +1145,7 @@
 					"referenceName": "Ice Golem",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1154,7 +1153,7 @@
 					"referenceName": "Ice Stallion Frozen Reindeer",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1162,7 +1161,7 @@
 					"referenceName": "Ice Rat Rampart Hedgehog",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1170,7 +1169,7 @@
 					"referenceName": "Spellsword Rampart Spearman",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1178,7 +1177,7 @@
 					"referenceName": "Sanctum Knight",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1186,7 +1185,7 @@
 					"referenceName": "Sanctum Soldier",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1194,7 +1193,7 @@
 					"referenceName": "Sanctum Priestess",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1202,7 +1201,7 @@
 					"referenceName": "Poison Kokeshi Lizard",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1210,7 +1209,7 @@
 					"referenceName": "Petrifying Kokeshi Lizard",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1218,7 +1217,7 @@
 					"referenceName": "Corrosive Egg Insect",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1226,7 +1225,7 @@
 					"referenceName": "Pagan Tree",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1234,7 +1233,7 @@
 					"referenceName": "Fume Knight",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1242,7 +1241,7 @@
 					"referenceName": "Retainer",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1250,7 +1249,7 @@
 					"referenceName": "Frozen Golem",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1258,7 +1257,7 @@
 					"referenceName": "Lud & Zallen, the King's Pets",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1266,7 +1265,7 @@
 					"referenceName": "Aava, the King's Pet",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1274,7 +1273,7 @@
 					"referenceName": "Sir Alonne",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1282,7 +1281,7 @@
 					"referenceName": "Sinh, the Slumbering Dragon",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1290,7 +1289,7 @@
 					"referenceName": "Elana, the Squalid Queen",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1298,7 +1297,7 @@
 					"referenceName": "The Imperfect",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1306,7 +1305,7 @@
 					"referenceName": "Vendrick",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1314,7 +1313,7 @@
 					"referenceName": "Loyce Knight",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1322,7 +1321,7 @@
 					"referenceName": "Charred Loyce Knight",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1330,7 +1329,7 @@
 					"referenceName": "Burnt Ivory King",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1338,7 +1337,7 @@
 					"referenceName": "Aldia, Scholar of the First Sin",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1346,7 +1345,7 @@
 					"referenceName": "Aldia (Voice Marker)",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1354,7 +1353,7 @@
 					"referenceName": "Emerald Herald Shanalotte",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1362,7 +1361,7 @@
 					"referenceName": "Child Emerald Herald (unused)",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1370,7 +1369,7 @@
 					"referenceName": "Nashandra",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1378,7 +1377,7 @@
 					"referenceName": "Laddersmith Gilligan",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1386,7 +1385,7 @@
 					"referenceName": "Strowen (cutscene)",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1394,7 +1393,7 @@
 					"referenceName": "Griant (cutscene)",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1402,7 +1401,7 @@
 					"referenceName": "Morrel (cutscene)",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1410,7 +1409,7 @@
 					"referenceName": "Strowen",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1418,7 +1417,7 @@
 					"referenceName": "Griant",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1426,7 +1425,7 @@
 					"referenceName": "Morrel",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1434,7 +1433,7 @@
 					"referenceName": "Chancellor Wellager",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1442,7 +1441,7 @@
 					"referenceName": "Milibeth",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1450,7 +1449,7 @@
 					"referenceName": "Captain Drummond",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1458,7 +1457,7 @@
 					"referenceName": "Darkdiver Grandahl",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1466,7 +1465,7 @@
 					"referenceName": "Looking Glass Phantom (Ultra Greatsword)",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1474,7 +1473,7 @@
 					"referenceName": "Looking Glass Phantom (Halberd)",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1482,7 +1481,7 @@
 					"referenceName": "Creighton the Wanderer",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1490,7 +1489,7 @@
 					"referenceName": "Benhart of Jugo",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1498,7 +1497,7 @@
 					"referenceName": "Mild-mannered Pate",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1506,7 +1505,7 @@
 					"referenceName": "Cartographer Cale",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1514,7 +1513,7 @@
 					"referenceName": "Lucatiel of Mirrah",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1522,7 +1521,7 @@
 					"referenceName": "Bell Keeper",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1530,7 +1529,7 @@
 					"referenceName": "Merchant Hag Melentia",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1538,7 +1537,7 @@
 					"referenceName": "Milfanito (Blonde)",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1546,7 +1545,7 @@
 					"referenceName": "Milfanito (Brunette)",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1554,7 +1553,7 @@
 					"referenceName": "Imprisoned Milfanito",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1562,7 +1561,7 @@
 					"referenceName": "Stone Trader Chloanne",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1570,7 +1569,7 @@
 					"referenceName": "Blacksmith Lenigrast",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1578,7 +1577,7 @@
 					"referenceName": "Steady Hand McDuff",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1586,7 +1585,7 @@
 					"referenceName": "Straid of Olaphis",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1594,7 +1593,7 @@
 					"referenceName": "Licia of Lindeldt",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1602,7 +1601,7 @@
 					"referenceName": "Felkin the Outcast",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1610,7 +1609,7 @@
 					"referenceName": "Royal Sorcerer Navlaan",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1618,7 +1617,7 @@
 					"referenceName": "Sweet Shalquoir",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1626,7 +1625,7 @@
 					"referenceName": "Titchy Gren",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1634,7 +1633,7 @@
 					"referenceName": "Blue Sentinel Targray",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1642,7 +1641,7 @@
 					"referenceName": "Player Cutscene Character",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				}
             ],
@@ -1652,8 +1651,7 @@
                     "referenceName": "Default",
                     
                     "tags": [
-                        { "tag": "default" },
-                        { "tag": "default" }
+                        "default"
                     ]
                 }
             ],
@@ -1663,8 +1661,7 @@
                     "referenceName": "Default",
                     
                     "tags": [
-                        { "tag": "default" },
-                        { "tag": "default" }
+                        "default"
                     ]
                 }
             ],
@@ -1674,8 +1671,7 @@
                     "referenceName": "Default",
                     
                     "tags": [
-                        { "tag": "default" },
-                        { "tag": "default" }
+                        "default"
                     ]
                 }
             ]

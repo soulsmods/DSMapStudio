@@ -9,8 +9,7 @@
                     "referenceName": "Default",
                     
                     "tags": [
-                        { "tag": "default" },
-                        { "tag": "default" }
+                        "default"
                     ]
                 }
             ],
@@ -20,8 +19,7 @@
                     "referenceName": "Default",
                     
                     "tags": [
-                        { "tag": "default" },
-                        { "tag": "default" }
+                        "default"
                     ]
                 }
             ],
@@ -31,8 +29,7 @@
                     "referenceName": "Default",
                     
                     "tags": [
-                        { "tag": "default" },
-                        { "tag": "default" }
+                        "default"
                     ]
                 }
             ],
@@ -42,8 +39,7 @@
                     "referenceName": "Default",
                     
                     "tags": [
-                        { "tag": "default" },
-                        { "tag": "default" }
+                        "default"
                     ]
                 }
             ]

@@ -136,10 +136,10 @@ namespace StudioCore.MsbEditor
                             {
                                 referenceName = entry.referenceName;
                                 tagList = "{ ";
-                                foreach (Tag tagEntry in entry.tags)
+                                foreach (string tagEntry in entry.tags)
                                 {
-                                    tags.Add(tagEntry.tag);
-                                    tagList = tagList + tagEntry.tag + " ";
+                                    tags.Add(tagEntry);
+                                    tagList = tagList + tagEntry + " ";
                                 }
                                 tagList = tagList + "}";
                             }
@@ -186,10 +186,10 @@ namespace StudioCore.MsbEditor
                             {
                                 referenceName = entry.referenceName;
                                 tagList = "{ ";
-                                foreach (Tag tagEntry in entry.tags)
+                                foreach (string tagEntry in entry.tags)
                                 {
-                                    tags.Add(tagEntry.tag);
-                                    tagList = tagList + tagEntry.tag + " ";
+                                    tags.Add(tagEntry);
+                                    tagList = tagList + tagEntry + " ";
                                 }
                                 tagList = tagList + "}";
                             }
@@ -237,10 +237,10 @@ namespace StudioCore.MsbEditor
                             {
                                 referenceName = entry.referenceName;
                                 tagList = "{ ";
-                                foreach (Tag tagEntry in entry.tags)
+                                foreach (String tagEntry in entry.tags)
                                 {
-                                    tags.Add(tagEntry.tag);
-                                    tagList = tagList + tagEntry.tag + " ";
+                                    tags.Add(tagEntry);
+                                    tagList = tagList + tagEntry + " ";
                                 }
                                 tagList = tagList + "}";
                             }
@@ -289,10 +289,10 @@ namespace StudioCore.MsbEditor
                                 {
                                     referenceName = entry.referenceName;
                                     tagList = "{ ";
-                                    foreach (Tag tagEntry in entry.tags)
+                                    foreach (string tagEntry in entry.tags)
                                     {
-                                        tags.Add(tagEntry.tag);
-                                        tagList = tagList + tagEntry.tag + " ";
+                                        tags.Add(tagEntry);
+                                        tagList = tagList + tagEntry + " ";
                                     }
                                     tagList = tagList + "}";
                                 }

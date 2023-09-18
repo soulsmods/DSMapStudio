@@ -9,8 +9,7 @@
                     "referenceName": "Default",
                     
                     "tags": [
-                        { "tag": "default" },
-                        { "tag": "default" }
+                        "default"
                     ]
                 },
                 {
@@ -18,7 +17,7 @@
 					"referenceName": "Player",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -26,7 +25,7 @@
 					"referenceName": "Invisible",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -34,7 +33,7 @@
 					"referenceName": "Invisible",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -42,7 +41,7 @@
 					"referenceName": "Ashina Soldier",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -50,7 +49,7 @@
 					"referenceName": "Tutorial Ashina Soldier",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -58,7 +57,7 @@
 					"referenceName": "Hanbei the Undying",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -66,7 +65,7 @@
 					"referenceName": "Hanbei the Undying (Alternate)",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -74,7 +73,7 @@
 					"referenceName": "Samurai General",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -82,7 +81,7 @@
 					"referenceName": "Seven Ashina Spears",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -90,7 +89,7 @@
 					"referenceName": "Centipede",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -98,7 +97,7 @@
 					"referenceName": "Centipede Boss",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -106,7 +105,7 @@
 					"referenceName": "Shinobi Hunter",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -114,7 +113,7 @@
 					"referenceName": "Spear Adept",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -122,7 +121,7 @@
 					"referenceName": "Shura Samurai",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -130,7 +129,7 @@
 					"referenceName": "Shichimen Warrior",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -138,7 +137,7 @@
 					"referenceName": "Gecko",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -146,7 +145,7 @@
 					"referenceName": "Old Maid",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -154,7 +153,7 @@
 					"referenceName": "Old Maid (Sunken Valley)",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -162,7 +161,7 @@
 					"referenceName": "Sentry",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -170,7 +169,7 @@
 					"referenceName": "Armored Warrior",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -178,7 +177,7 @@
 					"referenceName": "Rock Diver",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -186,7 +185,7 @@
 					"referenceName": "Hound",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -194,7 +193,7 @@
 					"referenceName": "Palace Hound",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -202,7 +201,7 @@
 					"referenceName": "Taro Troop",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -210,7 +209,7 @@
 					"referenceName": "Taro Troop (Mibu)",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -218,7 +217,7 @@
 					"referenceName": "Sunken Valley Clan",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -226,7 +225,7 @@
 					"referenceName": "Snake Eyes",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -234,7 +233,7 @@
 					"referenceName": "Infested Seeker (Parasite)",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -242,7 +241,7 @@
 					"referenceName": "Infested Seeker",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -250,7 +249,7 @@
 					"referenceName": "Cricket",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -258,7 +257,7 @@
 					"referenceName": "Seeker",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -266,7 +265,7 @@
 					"referenceName": "Gamefowl",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -274,7 +273,7 @@
 					"referenceName": "Valley Monkey",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -282,7 +281,7 @@
 					"referenceName": "Folding Screen Monkey",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -290,7 +289,7 @@
 					"referenceName": "Palace Noble",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -298,7 +297,7 @@
 					"referenceName": "Okami Warrior",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -306,7 +305,7 @@
 					"referenceName": "Treasure Carp",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -314,7 +313,7 @@
 					"referenceName": "Man-eating Carp",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -322,7 +321,7 @@
 					"referenceName": "Underwater Headless",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -330,7 +329,7 @@
 					"referenceName": "Headless",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -338,7 +337,7 @@
 					"referenceName": "Assassin (Senpou)",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -346,7 +345,7 @@
 					"referenceName": "Assassin (Interior Ministry)",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -354,7 +353,7 @@
 					"referenceName": "Blazing Bull",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -362,7 +361,7 @@
 					"referenceName": "Sakura Bull of the Palace",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -370,7 +369,7 @@
 					"referenceName": "Fencer",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -378,7 +377,7 @@
 					"referenceName": "Nightjar Ninja",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -386,7 +385,7 @@
 					"referenceName": "Kite",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -394,7 +393,7 @@
 					"referenceName": "Lone Shadow",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -402,7 +401,7 @@
 					"referenceName": "Mibu Villager",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -410,7 +409,7 @@
 					"referenceName": "Mibu Villager",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -418,7 +417,7 @@
 					"referenceName": "Mibu Villager Illusion",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -426,7 +425,7 @@
 					"referenceName": "Test Subject",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -434,7 +433,7 @@
 					"referenceName": "Bandit",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -442,7 +441,7 @@
 					"referenceName": "Red Guard",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -450,7 +449,7 @@
 					"referenceName": "Corrupted Monk",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -458,7 +457,7 @@
 					"referenceName": "Immortal Centipede",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -466,7 +465,7 @@
 					"referenceName": "Corrupted Monk Illusion",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -474,7 +473,7 @@
 					"referenceName": "Great Serpent",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -482,7 +481,7 @@
 					"referenceName": "Chained Ogre",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -490,7 +489,7 @@
 					"referenceName": "Feeding Grounds Attendant",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -498,7 +497,7 @@
 					"referenceName": "Giant Rope Guy",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -506,7 +505,7 @@
 					"referenceName": "Giant Carp",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -514,7 +513,7 @@
 					"referenceName": "Owl",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -522,7 +521,7 @@
 					"referenceName": "An Actual Owl",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -530,7 +529,7 @@
 					"referenceName": "Gyoubu Oniwa",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -538,7 +537,7 @@
 					"referenceName": "Lady Butterfly",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -546,7 +545,7 @@
 					"referenceName": "Guardian Ape",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -554,7 +553,7 @@
 					"referenceName": "Divine Dragon",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -562,7 +561,7 @@
 					"referenceName": "Old Dragon",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -570,7 +569,7 @@
 					"referenceName": "Tree Dragon",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -578,7 +577,7 @@
 					"referenceName": "Sword Saint Isshin",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -586,7 +585,7 @@
 					"referenceName": "Isshin",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -594,7 +593,7 @@
 					"referenceName": "Isshin",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -602,7 +601,7 @@
 					"referenceName": "Isshin",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -610,7 +609,7 @@
 					"referenceName": "O'Rin",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -618,7 +617,7 @@
 					"referenceName": "Sculptor",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -626,7 +625,7 @@
 					"referenceName": "Demon of Hatred",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -634,7 +633,7 @@
 					"referenceName": "Genichiro Ashina",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -642,7 +641,7 @@
 					"referenceName": "Genichiro, Way of Tomoe",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -650,7 +649,7 @@
 					"referenceName": "Kuro",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -658,7 +657,7 @@
 					"referenceName": "Memory Kuro",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -666,7 +665,7 @@
 					"referenceName": "Divine Child",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -674,7 +673,7 @@
 					"referenceName": "Emma",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -682,7 +681,7 @@
 					"referenceName": "Emma",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -690,7 +689,7 @@
 					"referenceName": "Jinzaemon Kumano",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -698,7 +697,7 @@
 					"referenceName": "Anayama the Peddler",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -706,7 +705,7 @@
 					"referenceName": "Fujioka the Info Broker",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -714,7 +713,7 @@
 					"referenceName": "Old Praying Woman",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -722,7 +721,7 @@
 					"referenceName": "Inosuke's Mother",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -730,7 +729,7 @@
 					"referenceName": "Inosuke",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -738,7 +737,7 @@
 					"referenceName": "Kotaro",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -746,7 +745,7 @@
 					"referenceName": "Head Priest",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -754,7 +753,7 @@
 					"referenceName": "Doujun",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -762,7 +761,7 @@
 					"referenceName": "Blackhat Badger",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -770,7 +769,7 @@
 					"referenceName": "Exiled Memorial Mob",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -778,7 +777,7 @@
 					"referenceName": "Feeding Ground Attendant's Daughter",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -786,7 +785,7 @@
 					"referenceName": "Old Priestess",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -794,7 +793,7 @@
 					"referenceName": "Toxic Memorial Mob",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -802,7 +801,7 @@
 					"referenceName": "Shugendo Memorial Mob",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -810,7 +809,7 @@
 					"referenceName": "Dungeon Memorial Mob",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -818,7 +817,7 @@
 					"referenceName": "Exiled Memorial Mob",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -826,7 +825,7 @@
 					"referenceName": "Outskirts Memorial Mob",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				}
             ],
@@ -836,8 +835,7 @@
                     "referenceName": "Default",
                     
                     "tags": [
-                        { "tag": "default" },
-                        { "tag": "default" }
+                        "default"
                     ]
                 }
             ],
@@ -847,8 +845,7 @@
                     "referenceName": "Default",
                     
                     "tags": [
-                        { "tag": "default" },
-                        { "tag": "default" }
+                        "default"
                     ]
                 }
             ],
@@ -858,8 +855,7 @@
                     "referenceName": "Default",
                     
                     "tags": [
-                        { "tag": "default" },
-                        { "tag": "default" }
+                        "default"
                     ]
                 }
             ]

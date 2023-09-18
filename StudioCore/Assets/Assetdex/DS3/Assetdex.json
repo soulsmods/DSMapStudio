@@ -9,8 +9,7 @@
                     "referenceName": "Default",
                     
                     "tags": [
-                        { "tag": "default" },
-                        { "tag": "default" }
+                        "default"
                     ]
                 },
                 {
@@ -18,7 +17,7 @@
 					"referenceName": "Human NPC",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -26,7 +25,7 @@
 					"referenceName": "Cornyx of the Great Swamp",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -34,7 +33,7 @@
 					"referenceName": "Greirat of the Undead Settlement",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -42,7 +41,7 @@
 					"referenceName": "Invisible",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -50,7 +49,7 @@
 					"referenceName": "Skeleton",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -58,7 +57,7 @@
 					"referenceName": "Ringed City Skeleton",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -66,7 +65,7 @@
 					"referenceName": "Pus of Man",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -74,7 +73,7 @@
 					"referenceName": "Hollow Soldier",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -82,7 +81,7 @@
 					"referenceName": "Lothric Castle Hollow Soldier",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -90,7 +89,7 @@
 					"referenceName": "Grand Archives Hollow Soldier",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -98,7 +97,7 @@
 					"referenceName": "Large Hollow Soldier",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -106,7 +105,7 @@
 					"referenceName": "Lothric Castle Large Hollow Soldier",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -114,7 +113,7 @@
 					"referenceName": "Rotten Slug",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -122,7 +121,7 @@
 					"referenceName": "Carthus Curved Sword Skeleton",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -130,7 +129,7 @@
 					"referenceName": "Carthus Shotel Skeleton",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -138,7 +137,7 @@
 					"referenceName": "Cathedral Knight",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -146,7 +145,7 @@
 					"referenceName": "Hollow Slave",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -154,7 +153,7 @@
 					"referenceName": "Dreg Heap Hollow Slave",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -162,7 +161,7 @@
 					"referenceName": "Ghru Grunt",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -170,7 +169,7 @@
 					"referenceName": "Smouldering Ghru Grunt",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -178,7 +177,7 @@
 					"referenceName": "Reanimated Corpse",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -186,7 +185,7 @@
 					"referenceName": "Cathedral Evangelist",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -194,7 +193,7 @@
 					"referenceName": "Peasant Hollow",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -202,7 +201,7 @@
 					"referenceName": "Irirthyll Dungeon Peasant Hollow",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -210,7 +209,7 @@
 					"referenceName": "Grave Warden",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -218,7 +217,7 @@
 					"referenceName": "Hollow Manservant",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -226,7 +225,7 @@
 					"referenceName": "High Wall Lothric Knight",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -234,7 +233,7 @@
 					"referenceName": "Lothric Castle Lothric Knight",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -242,7 +241,7 @@
 					"referenceName": "Red-Eyed Lothric Knight",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -250,7 +249,7 @@
 					"referenceName": "Dreg Heap Lothric Knight",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -258,7 +257,7 @@
 					"referenceName": "Winged Knight",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -266,7 +265,7 @@
 					"referenceName": "Black Knight",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -274,7 +273,7 @@
 					"referenceName": "Boreal Outrider Knight",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -282,7 +281,7 @@
 					"referenceName": "Crystal Sage in Farron",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -290,7 +289,7 @@
 					"referenceName": "Crystal Sage in Archives",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -298,7 +297,7 @@
 					"referenceName": "Grand Archives Scholar",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -306,7 +305,7 @@
 					"referenceName": "Irithyllian Slave",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -314,7 +313,7 @@
 					"referenceName": "Lycanthrope",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -322,7 +321,7 @@
 					"referenceName": "Lycanthrope Hunter",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -330,7 +329,7 @@
 					"referenceName": "Serpent-Man Summoner",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -338,7 +337,7 @@
 					"referenceName": "Serpent-Man",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -346,7 +345,7 @@
 					"referenceName": "Large Serpent-Man",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -354,7 +353,7 @@
 					"referenceName": "Fire Keeper",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -362,7 +361,7 @@
 					"referenceName": "Silver Knight",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -370,7 +369,7 @@
 					"referenceName": "Cemetery Hollow",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -378,7 +377,7 @@
 					"referenceName": "Cathedral Hollow Soldier",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -386,7 +385,7 @@
 					"referenceName": "Road of Sacrifices Hollow Soldier",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -394,7 +393,7 @@
 					"referenceName": "Lothric Priest",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -402,7 +401,7 @@
 					"referenceName": "Cathedral Large Hollow Soldier",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -410,7 +409,7 @@
 					"referenceName": "Road of Sacrifices Sorcerer",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -418,7 +417,7 @@
 					"referenceName": "Ludleth of Courland",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -426,7 +425,7 @@
 					"referenceName": "Bonewheel Skeleton",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -434,7 +433,7 @@
 					"referenceName": "Irithyll Phantom 1",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -442,7 +441,7 @@
 					"referenceName": "Irithyll Phantom 2",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -450,7 +449,7 @@
 					"referenceName": "Large Starved Hound",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -458,7 +457,7 @@
 					"referenceName": "Starved Hound",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -466,7 +465,7 @@
 					"referenceName": "Pontiff Knight",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -474,7 +473,7 @@
 					"referenceName": "Monstrosity of Sin",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -482,7 +481,7 @@
 					"referenceName": "Infested Corpse",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -490,7 +489,7 @@
 					"referenceName": "Wretch",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -498,7 +497,7 @@
 					"referenceName": "Maggot Belly Starved Hound",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -506,7 +505,7 @@
 					"referenceName": "Consumed King Oceiros",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -514,7 +513,7 @@
 					"referenceName": "Sewer Centipede",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -522,7 +521,7 @@
 					"referenceName": "Hound Rat",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -530,7 +529,7 @@
 					"referenceName": "Mimic Chest",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -538,7 +537,7 @@
 					"referenceName": "Catacombs Writhing Flesh",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -546,7 +545,7 @@
 					"referenceName": "Anor Londo Writhing Flesh",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -554,7 +553,7 @@
 					"referenceName": "Smouldering Writhing Flesh",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -562,7 +561,7 @@
 					"referenceName": "Basilisk",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -570,7 +569,7 @@
 					"referenceName": "Crystal Lizard",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -578,7 +577,7 @@
 					"referenceName": "Yoel of Londor (Stone-humped Hag)",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -586,7 +585,7 @@
 					"referenceName": "Yorshka",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -594,7 +593,7 @@
 					"referenceName": "Corpse-grub",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -602,7 +601,7 @@
 					"referenceName": "Archives Gargoyle",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -610,7 +609,7 @@
 					"referenceName": "Profaned Capital Gargoyle",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -618,7 +617,7 @@
 					"referenceName": "Carthus Sandworm",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -626,7 +625,7 @@
 					"referenceName": "Corvian",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -634,7 +633,7 @@
 					"referenceName": "Jailer",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -642,7 +641,7 @@
 					"referenceName": "Vordt of the Boreal Valley",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -650,7 +649,7 @@
 					"referenceName": "Sulyvahn's Beast",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -658,7 +657,7 @@
 					"referenceName": "Ballista",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -666,7 +665,7 @@
 					"referenceName": "Greater Crab",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -674,7 +673,7 @@
 					"referenceName": "Lesser Crab",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -682,7 +681,7 @@
 					"referenceName": "Large Hound Rat",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -690,7 +689,7 @@
 					"referenceName": "Irithyll Starved Hound",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -698,7 +697,7 @@
 					"referenceName": "Irithyll Giant Slave",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -706,7 +705,7 @@
 					"referenceName": "Giant Slave",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -714,7 +713,7 @@
 					"referenceName": "Abyss Watchers",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -722,7 +721,7 @@
 					"referenceName": "Old Demon King",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -730,7 +729,7 @@
 					"referenceName": "Demon",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -738,7 +737,7 @@
 					"referenceName": "Demon Cleric",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -746,7 +745,7 @@
 					"referenceName": "Demon Cleric Helper",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -754,7 +753,7 @@
 					"referenceName": "Pilgrim Butterfly",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -762,7 +761,7 @@
 					"referenceName": "Cage Spider",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -770,7 +769,7 @@
 					"referenceName": "Ravenous Crystal Lizard",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -778,7 +777,7 @@
 					"referenceName": "Deep Accursed",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -786,7 +785,7 @@
 					"referenceName": "Elder Ghru",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -794,7 +793,7 @@
 					"referenceName": "Ancient Wyvern Mob",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -802,7 +801,7 @@
 					"referenceName": "Ancient Wyvern",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -810,7 +809,7 @@
 					"referenceName": "Dragonslayer Armour",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -818,7 +817,7 @@
 					"referenceName": "Darkwraith",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -826,7 +825,7 @@
 					"referenceName": "Andre",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -834,7 +833,7 @@
 					"referenceName": "Shrine Handmaid",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -842,7 +841,7 @@
 					"referenceName": "Poisonhorn Bug",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -850,7 +849,7 @@
 					"referenceName": "Rock Lizard",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -858,7 +857,7 @@
 					"referenceName": "Demonic Statue",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -866,7 +865,7 @@
 					"referenceName": "Emma",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -874,7 +873,7 @@
 					"referenceName": "Demon Prince",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -882,7 +881,7 @@
 					"referenceName": "Demon Prince Helper 1",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -890,7 +889,7 @@
 					"referenceName": "Demon Prince Helper 2",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -898,7 +897,7 @@
 					"referenceName": "Nameless King",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -906,7 +905,7 @@
 					"referenceName": "King of the Storm",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -914,7 +913,7 @@
 					"referenceName": "Gundyr",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -922,7 +921,7 @@
 					"referenceName": "Pontiff Sulyvahn",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -930,7 +929,7 @@
 					"referenceName": "Aldrich, Devourer of Gods",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -938,7 +937,7 @@
 					"referenceName": "High Lord Wolnir",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -946,7 +945,7 @@
 					"referenceName": "Rotted Greatwood",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -954,7 +953,7 @@
 					"referenceName": "Stray Demon",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -962,7 +961,7 @@
 					"referenceName": "Rosaria",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -970,7 +969,7 @@
 					"referenceName": "Archdeacon of the Deep",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -978,7 +977,7 @@
 					"referenceName": "Wide Deacon of the Deep",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -986,7 +985,7 @@
 					"referenceName": "Tall Deacon of the Deep",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -994,7 +993,7 @@
 					"referenceName": "Cathedral Deacon",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1002,7 +1001,7 @@
 					"referenceName": "Irirthyll Wide Deacon",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1010,7 +1009,7 @@
 					"referenceName": "Irirthyll Tall Deacon",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1018,7 +1017,7 @@
 					"referenceName": "Irirthyll Deacon",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1026,7 +1025,7 @@
 					"referenceName": "Fire Witch",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1034,7 +1033,7 @@
 					"referenceName": "Twin Princes",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1042,7 +1041,7 @@
 					"referenceName": "Twin Princes Helper",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1050,7 +1049,7 @@
 					"referenceName": "Yhorm the Giant",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1058,7 +1057,7 @@
 					"referenceName": "Dancer of the Boreal Valley",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1066,7 +1065,7 @@
 					"referenceName": "Lords of Cinder",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1074,7 +1073,7 @@
 					"referenceName": "Farron Follower",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1082,7 +1081,7 @@
 					"referenceName": "Father Ariandel",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1090,7 +1089,7 @@
 					"referenceName": "Sister Friede",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1098,7 +1097,7 @@
 					"referenceName": "Greatwolf",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1106,7 +1105,7 @@
 					"referenceName": "Wolf",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1114,7 +1113,7 @@
 					"referenceName": "Wolf",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1122,7 +1121,7 @@
 					"referenceName": "Tree Woman",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1130,7 +1129,7 @@
 					"referenceName": "Corvian Knight",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1138,7 +1137,7 @@
 					"referenceName": "Corvian Settler",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1146,7 +1145,7 @@
 					"referenceName": "Corvian Settler",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1154,7 +1153,7 @@
 					"referenceName": "Giant Fly",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1162,7 +1161,7 @@
 					"referenceName": "Millwood Knight",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1170,7 +1169,7 @@
 					"referenceName": "Ariandel Painting Child",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1178,7 +1177,7 @@
 					"referenceName": "Ariandel Painting Child 2",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1186,7 +1185,7 @@
 					"referenceName": "Ariandel Greater Crab",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1194,7 +1193,7 @@
 					"referenceName": "Slave Knight Gael",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1202,7 +1201,7 @@
 					"referenceName": "Slave Knight Gael 2",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1210,7 +1209,7 @@
 					"referenceName": "Bridge Darkeater Midir",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1218,7 +1217,7 @@
 					"referenceName": "Darkeater Midir",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1226,7 +1225,7 @@
 					"referenceName": "Murkman Summoner",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1234,7 +1233,7 @@
 					"referenceName": "Murkman",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1242,7 +1241,7 @@
 					"referenceName": "Humanity Sprite",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1250,7 +1249,7 @@
 					"referenceName": "Angel Pilgrim",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1258,7 +1257,7 @@
 					"referenceName": "Angel",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1266,7 +1265,7 @@
 					"referenceName": "Ringed Knight",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1274,7 +1273,7 @@
 					"referenceName": "Lothric Thief",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1282,7 +1281,7 @@
 					"referenceName": "Judicator",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1290,7 +1289,7 @@
 					"referenceName": "Judicator Helper",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1298,7 +1297,7 @@
 					"referenceName": "Hollow Cleric",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1306,7 +1305,7 @@
 					"referenceName": "Passive Locust Preacher",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1314,7 +1313,7 @@
 					"referenceName": "Filianore",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1322,7 +1321,7 @@
 					"referenceName": "Harald Legion Knight",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1330,7 +1329,7 @@
 					"referenceName": "Locust Preacher",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				},
 				{
@@ -1338,7 +1337,7 @@
 					"referenceName": "Small Locust Preacher",
 					
 					"tags": [
-						{ "tag": "creature" }
+						"creature"
 					]
 				}
             ],
@@ -1348,8 +1347,7 @@
                     "referenceName": "Default",
                     
                     "tags": [
-                        { "tag": "default" },
-                        { "tag": "default" }
+                        "default"
                     ]
                 }
             ],
@@ -1359,8 +1357,7 @@
                     "referenceName": "Default",
                     
                     "tags": [
-                        { "tag": "default" },
-                        { "tag": "default" }
+                        "default"
                     ]
                 }
             ],
@@ -1370,8 +1367,7 @@
                     "referenceName": "Default",
                     
                     "tags": [
-                        { "tag": "default" },
-                        { "tag": "default" }
+                        "default"
                     ]
                 }
             ]

@@ -20,33 +20,28 @@ namespace StudioCore
     {
         public string fileName { get; set; }
         public string referenceName { get; set; }
-        public List<Tag> tags { get; set; }
+        public List<string> tags { get; set; }
     }
 
     public class ObjReference
     {
         public string fileName { get; set; }
         public string referenceName { get; set; }
-        public List<Tag> tags { get; set; }
+        public List<string> tags { get; set; }
     }
 
     public class PartReference
     {
         public string fileName { get; set; }
         public string referenceName { get; set; }
-        public List<Tag> tags { get; set; }
+        public List<string> tags { get; set; }
     }
 
     public class MapPieceReference
     {
         public string fileName { get; set; }
         public string referenceName { get; set; }
-        public List<Tag> tags { get; set; }
-    }
-
-    public class Tag
-    {
-        public string tag { get; set; }
+        public List<string> tags { get; set; }
     }
 
     // Not ideal, but the static requirement for deserialization makes this the simplest method to support individual assetdex files for each game.
