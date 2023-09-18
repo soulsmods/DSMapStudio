@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using ImGuiNET;
 using Veldrid;
-using static Google.Protobuf.Reflection.SourceCodeInfo.Types;
 
 namespace StudioCore.MsbEditor
 {
