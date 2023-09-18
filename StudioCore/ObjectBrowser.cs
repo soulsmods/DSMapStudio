@@ -61,6 +61,28 @@ namespace StudioCore
 
             if (ImGui.Begin($@"Object Browser##{_id}"))
             {
+                if (ImGui.Button("Help"))
+                {
+                    ImGui.OpenPopup("##ObjectBrowserHelp");
+                }
+                if (ImGui.BeginPopup("##ObjectBrowserHelp"))
+                {
+                    ImGui.Text(
+                        "OVERVIEW\n" +
+                        "The Object Browser allows you to browse through all of the characters and objects/assets available.\n" +
+                        "The search is fuzzy, and includes pre-defined tags.\n" +
+                        "For example, typing in \"grass\" will show all objects tagged as \"grass\".\n" +
+                        "\n" +
+                        "USAGE\n" +
+                        "If a Enemy object is selected within the MSB view, \n" +
+                        "you can click on an entry within the Chr list to change the enemy to that type.\n" +
+                        "\n" +
+                        "If a Asset or Obj object is selected within the MSB view, \n" +
+                        "you can click on an entry within the AEG or Obj list to change the enemy to that type.\n"
+                        );
+                    ImGui.EndPopup();
+                }
+
                 if (ImGui.Checkbox("Show Tags", ref CFG.Current.ObjectBrowser_ShowTagsInBrowser))
                 {
                 }
@@ -105,7 +127,7 @@ namespace StudioCore
 
                 if (InputTracker.GetKeyDown(KeyBindings.Current.Map_PropSearch))
                     ImGui.SetKeyboardFocusHere();
-                ImGui.InputText($"Search <{KeyBindings.Current.Map_PropSearch.HintText}>", ref _searchStrInput, 255);
+                ImGui.InputText($"Search", ref _searchStrInput, 255);
 
                 ImGui.Spacing();
                 ImGui.Separator();
