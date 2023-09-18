@@ -383,10 +383,10 @@
     <Field Def="f32 UnkFloat0x340"></Field>
     <Field Def="s16 UnkShort0x344"></Field>
     <Field Def="s16 UnkShort0x346"></Field>
-    <Field Def="s16 directHitBonusDamageRate"></Field>
-    <Field Def="s16 UnkShort0x34A"></Field>
-    <Field Def="s16 UnkShort0x34C"></Field>
-    <Field Def="s16 UnkShort0x34E"></Field>
+    <Field Def="s16 directHitDamageRate_Kinetic"></Field>
+    <Field Def="s16 directHitDamageRate_Energy"></Field>
+    <Field Def="s16 directHitDamageRate_Explosive"></Field>
+    <Field Def="s16 directHitDamageRate_Coral"></Field>
     <Field Def="s16 UnkShort0x350"></Field>
     <Field Def="u8 UnkByte0x352"></Field>
     <Field Def="u8 UnkByte0x353"></Field>
