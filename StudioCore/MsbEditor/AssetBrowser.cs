@@ -33,8 +33,9 @@ namespace StudioCore.MsbEditor
         private string _selected = null;
         private string _selectedCache = null;
 
-        private string _searchStr = "";
-        private string _searchStrCache = "";
+        private string _searchStrInput = "";
+        private string _searchStrInputCache = "";
+        private List<string> _searchStrList = new List<string>();
 
         public AssetBrowser(AssetBrowserEventHandler handler, string id, AssetLocator locator)
         {
@@ -107,7 +108,7 @@ namespace StudioCore.MsbEditor
 
                 if (InputTracker.GetKeyDown(KeyBindings.Current.Map_PropSearch))
                     ImGui.SetKeyboardFocusHere();
-                ImGui.InputText($"Search <{KeyBindings.Current.Map_PropSearch.HintText}>", ref _searchStr, 255);
+                ImGui.InputText($"Search <{KeyBindings.Current.Map_PropSearch.HintText}>", ref _searchStrInput, 255);
                 
                 ImGui.Spacing();
                 ImGui.Separator();
@@ -117,15 +118,16 @@ namespace StudioCore.MsbEditor
 
                 if (_selected == "Chr")
                 {
-                    if (_searchStr != _searchStrCache || _selected != _selectedCache)
+                    if (_searchStrInput != _searchStrInputCache || _selected != _selectedCache)
                     {
                         _cacheFiltered = _chrCache;
-                        _searchStrCache = _searchStr;
+                        _searchStrInputCache = _searchStrInput;
                         _selectedCache = _selected;
                     }
                     foreach (var chr in _cacheFiltered)
                     {
                         string referenceName = "";
+                        string tagList = "";
                         List<string> tags = new List<string>();
 
                         foreach (ChrReference entry in AssetdexUtils.GetCurrentGameAssetdex(_locator.Type).chrReferences)
@@ -133,18 +135,26 @@ namespace StudioCore.MsbEditor
                             if (chr == entry.fileName)
                             {
                                 referenceName = entry.referenceName;
+                                tagList = "{ ";
                                 foreach (Tag tagEntry in entry.tags)
                                 {
                                     tags.Add(tagEntry.tag);
+                                    tagList = tagList + tagEntry.tag + " ";
                                 }
+                                tagList = tagList + "}";
                             }
                         }
 
-                        if (chr.Contains(_searchStr) || referenceName.Contains(_searchStr) || tags.Contains(_searchStr))
+                        if (MatchInput(chr, referenceName, tags))
                         {
                             string fullName = $"{chr}";
                             if (referenceName != "")
                                 fullName = fullName + $" <{referenceName}>";
+
+                            if (CFG.Current.ObjectBrowser_ShowTagsInBrowser)
+                            {
+                                fullName = fullName + " " + tagList;
+                            }
 
                             if (ImGui.Selectable(fullName))
                             {
@@ -158,15 +168,16 @@ namespace StudioCore.MsbEditor
                 }
                 else if (_selected == "Obj")
                 {
-                    if (_searchStr != _searchStrCache || _selected != _selectedCache)
+                    if (_searchStrInput != _searchStrInputCache || _selected != _selectedCache)
                     {
                         _cacheFiltered = _objCache;
-                        _searchStrCache = _searchStr;
+                        _searchStrInputCache = _searchStrInput;
                         _selectedCache = _selected;
                     }
                     foreach (var obj in _cacheFiltered)
                     {
                         string referenceName = "";
+                        string tagList = "";
                         List<string> tags = new List<string>();
 
                         foreach (ObjReference entry in AssetdexUtils.GetCurrentGameAssetdex(_locator.Type).objReferences)
@@ -174,18 +185,26 @@ namespace StudioCore.MsbEditor
                             if (obj == entry.fileName)
                             {
                                 referenceName = entry.referenceName;
+                                tagList = "{ ";
                                 foreach (Tag tagEntry in entry.tags)
                                 {
                                     tags.Add(tagEntry.tag);
+                                    tagList = tagList + tagEntry.tag + " ";
                                 }
+                                tagList = tagList + "}";
                             }
                         }
 
-                        if (obj.Contains(_searchStr) || referenceName.Contains(_searchStr) || tags.Contains(_searchStr))
+                        if (MatchInput(obj, referenceName, tags))
                         {
                             string fullName = $"{obj}";
                             if (referenceName != "")
                                 fullName = fullName + $" <{referenceName}>";
+
+                            if (CFG.Current.ObjectBrowser_ShowTagsInBrowser)
+                            {
+                                fullName = fullName + " " + tagList;
+                            }
 
                             if (ImGui.Selectable(fullName))
                             {
@@ -199,15 +218,17 @@ namespace StudioCore.MsbEditor
                 }
                 else if (_selected == "Parts")
                 {
-                    if (_searchStr != _searchStrCache || _selected != _selectedCache)
+                    if (_searchStrInput != _searchStrInputCache || _selected != _selectedCache)
                     {
                         _cacheFiltered = _partsCache;
-                        _searchStrCache = _searchStr;
+                        _searchStrInputCache = _searchStrInput;
                         _selectedCache = _selected;
                     }
+
                     foreach (var part in _cacheFiltered)
                     {
                         string referenceName = "";
+                        string tagList = "";
                         List<string> tags = new List<string>();
 
                         foreach (PartReference entry in AssetdexUtils.GetCurrentGameAssetdex(_locator.Type).partReferences)
@@ -215,18 +236,26 @@ namespace StudioCore.MsbEditor
                             if (part == entry.fileName)
                             {
                                 referenceName = entry.referenceName;
+                                tagList = "{ ";
                                 foreach (Tag tagEntry in entry.tags)
                                 {
                                     tags.Add(tagEntry.tag);
+                                    tagList = tagList + tagEntry.tag + " ";
                                 }
+                                tagList = tagList + "}";
                             }
                         }
 
-                        if (part.Contains(_searchStr) || referenceName.Contains(_searchStr) || tags.Contains(_searchStr))
+                        if (MatchInput(part, referenceName, tags))
                         {
                             string fullName = $"{part}";
                             if (referenceName != "")
                                 fullName = fullName + $" <{referenceName}>";
+
+                            if (CFG.Current.ObjectBrowser_ShowTagsInBrowser)
+                            {
+                                fullName = fullName + " " + tagList;
+                            }
 
                             if (ImGui.Selectable(fullName))
                             {
@@ -242,15 +271,16 @@ namespace StudioCore.MsbEditor
                 {
                     if (_mapModelCache.ContainsKey(_selected))
                     {
-                        if (_searchStr != _searchStrCache || _selected != _selectedCache)
+                        if (_searchStrInput != _searchStrInputCache || _selected != _selectedCache)
                         {
                             _cacheFiltered = _mapModelCache[_selected];
-                            _searchStrCache = _searchStr;
+                            _searchStrInputCache = _searchStrInput;
                             _selectedCache = _selected;
                         }
                         foreach (var model in _cacheFiltered)
                         {
                             string referenceName = "";
+                            string tagList = "";
                             List<string> tags = new List<string>();
 
                             foreach (MapPieceReference entry in AssetdexUtils.GetCurrentGameAssetdex(_locator.Type).mapPieceReferences)
@@ -258,18 +288,26 @@ namespace StudioCore.MsbEditor
                                 if (model == entry.fileName)
                                 {
                                     referenceName = entry.referenceName;
+                                    tagList = "{ ";
                                     foreach (Tag tagEntry in entry.tags)
                                     {
                                         tags.Add(tagEntry.tag);
+                                        tagList = tagList + tagEntry.tag + " ";
                                     }
+                                    tagList = tagList + "}";
                                 }
                             }
 
-                            if (model.Contains(_searchStr) || referenceName.Contains(_searchStr) || tags.Contains(_searchStr))
+                            if (MatchInput(model, referenceName, tags))
                             {
                                 string fullName = $"{model}";
                                 if (referenceName != "")
                                     fullName = fullName + $" <{referenceName}>";
+
+                                if (CFG.Current.ObjectBrowser_ShowTagsInBrowser)
+                                {
+                                    fullName = fullName + " " + tagList;
+                                }
 
                                 if (ImGui.Selectable(fullName))
                                 {
@@ -286,6 +324,58 @@ namespace StudioCore.MsbEditor
                 ImGui.EndChild();
             }
             ImGui.End();
+        }
+
+        public bool MatchInput(string fileName, string referenceName, List<string> tags)
+        {
+            // Force input to lower so it matches more readily.
+            _searchStrInput = _searchStrInput.ToLower();
+
+            // Remove braces in referenceName, and force lower to match more readily.
+            referenceName = referenceName.Replace("(", "").Replace(")", "").ToLower();
+
+            bool match = false;
+
+            // Match input can be split via the ; delimiter
+            if (_searchStrInput.Contains(";"))
+                _searchStrList = _searchStrInput.Split(";").ToList();
+            else
+                _searchStrList = new List<string> { _searchStrInput };
+
+            match = MatchInputSegment(tags, _searchStrList);
+
+            // If referenceName has multiple word segments, break it up and check if input matches any of the segments
+            if (referenceName.Contains(" "))
+            {
+                List<string> refereceNameSegement = referenceName.Split(" ").ToList();
+
+                match = MatchInputSegment(refereceNameSegement, _searchStrList);
+            }
+
+            if (_searchStrList.Contains(fileName) || _searchStrList.Contains(referenceName))
+            {
+                match = true;
+            }
+
+            if (_searchStrInput == "")
+                match = true;
+
+            return match;
+        }
+        public bool MatchInputSegment(List<string> stringList, List<string> inputStringList)
+        {
+            bool match = false;
+
+            foreach (string str in stringList)
+            {
+                foreach (string entry in inputStringList)
+                {
+                    if (entry.Contains(str))
+                        match = true;
+                }
+            }
+
+            return match;
         }
     }
 }

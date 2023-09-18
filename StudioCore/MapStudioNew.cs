@@ -1311,6 +1311,12 @@ namespace StudioCore
                 }
             }
 
+            // Force shut the Object Browser outside of MSB editor
+            if(_focusedEditor != _editors[0])
+            {
+                _ObjectBrowser.MenuOpenState = false;
+            }
+
             ImGui.PopStyleVar(2);
             UnapplyStyle();
             Tracy.TracyCZoneEnd(ctx);

@@ -230,6 +230,9 @@ namespace StudioCore
         public float Map_ArbitraryRotation_Y_Shift { get; set; } = 90.0f;
         public float Map_MoveSelectionToCamera_Radius = 3.0f;
 
+        // Object Browser settings
+        public bool ObjectBrowser_ShowTagsInBrowser = true;
+
         // Font settings
         public bool FontChinese = false;
         public bool FontKorean = false;
