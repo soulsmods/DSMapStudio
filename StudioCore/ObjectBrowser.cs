@@ -73,6 +73,8 @@ namespace StudioCore
                         "The search is fuzzy, and includes pre-defined tags.\n" +
                         "For example, typing in \"grass\" will show all objects tagged as \"grass\".\n" +
                         "\n" +
+                        "Multiple filters may be chained together by adding a semi-colon between each statement.\n" +
+                        "\n" +
                         "USAGE\n" +
                         "If a Enemy object is selected within the MSB view, \n" +
                         "you can click on an entry within the Chr list to change the enemy to that type.\n" +
