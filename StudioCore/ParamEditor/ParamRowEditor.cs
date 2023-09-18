@@ -16,8 +16,6 @@ using System.Text.RegularExpressions;
 using FSParam;
 using StudioCore;
 using StudioCore.Editor;
-using System.Security.Cryptography.X509Certificates;
-using Silk.NET.OpenGL;
 
 namespace StudioCore.ParamEditor
 {
