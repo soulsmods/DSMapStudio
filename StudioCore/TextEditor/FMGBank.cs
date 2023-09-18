@@ -54,6 +54,7 @@ namespace StudioCore.TextEditor
         Effect,
         ActionButtonText,
         Tutorial,
+        LoadingScreen,
         Generator,
         Booster,
         FCS,
@@ -1293,21 +1294,43 @@ namespace StudioCore.TextEditor
                     break;
                 case FmgIDType.ReusedFMG_205:
                     if (gameType == GameType.EldenRing)
+                    {
                         info.Name = "LoadingTitle";
+                        info.EntryType = FmgEntryTextType.Title;
+                        info.EntryCategory = FmgEntryCategory.LoadingScreen;
+                    }
                     else if (gameType == GameType.Sekiro)
+                    {
                         info.Name = "LoadingText";
+                        info.EntryType = FmgEntryTextType.Description;
+                        info.EntryCategory = FmgEntryCategory.LoadingScreen;
+                    }
                     else if (gameType == GameType.ArmoredCoreVI)
+                    {
                         info.Name = "MenuContext";
+                    }
                     else
+                    {
                         info.Name = "SystemMessage_PS4";
+                    }
                     break;
                 case FmgIDType.ReusedFMG_206:
                     if (gameType == GameType.EldenRing)
+                    {
                         info.Name = "LoadingText";
+                        info.EntryType = FmgEntryTextType.Description;
+                        info.EntryCategory = FmgEntryCategory.LoadingScreen;
+                    }
                     else if (gameType == GameType.Sekiro)
+                    {
                         info.Name = "LoadingTitle";
+                        info.EntryType = FmgEntryTextType.Title;
+                        info.EntryCategory = FmgEntryCategory.LoadingScreen;
+                    }
                     else
+                    {
                         info.Name = "SystemMessage_XboxOne";
+                    }
                     break;
                 case FmgIDType.ReusedFMG_210:
                     if (gameType == GameType.EldenRing)
