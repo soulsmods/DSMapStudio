@@ -7,7 +7,7 @@
   <FormatVersion>203</FormatVersion>
   <Fields>
     <Field Def="s32 Unk0x00"></Field>
-    <Field Def="s32 behaviorVariationId">
+    <Field Def="s32 variationId">
       <Description>Used to link BehaviorParam entries to a weapon or enemy.</Description>
     </Field>
     <Field Def="u8 ezStateBehaviorType_old"></Field>
