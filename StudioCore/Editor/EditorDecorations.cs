@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
+using System.Diagnostics;
 using System.Numerics;
 using SoulsFormats;
 using ImGuiNET;
@@ -33,57 +35,54 @@ namespace StudioCore.Editor
         {
             if (paramRefs == null || paramRefs.Count == 0)
                 return;
-            if (CFG.Current.Param_HideReferenceRows == false) //Move preference
+            ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(0, ImGui.GetStyle().ItemSpacing.Y));
+            ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 1.0f, 0.0f, 1.0f));
+            ImGui.TextUnformatted($@"   <");
+            List<string> inactiveRefs = new List<string>();
+            bool first = true;
+            foreach (ParamRef r in paramRefs)
             {
-                ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(0, ImGui.GetStyle().ItemSpacing.Y));
-                ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 1.0f, 0.0f, 1.0f));
-                ImGui.TextUnformatted($@"   <");
-                List<string> inactiveRefs = new List<string>();
-                bool first = true;
-                foreach (ParamRef r in paramRefs)
+                Param.Cell? c = context?[r.conditionField];
+                bool inactiveRef = context != null && c != null && Convert.ToInt32(c.Value.Value) != r.conditionValue;
+                if (inactiveRef)
                 {
-                    Param.Cell? c = context?[r.conditionField];
-                    bool inactiveRef = context != null && c != null && Convert.ToInt32(c.Value.Value) != r.conditionValue;
-                    if (inactiveRef)
-                    {
-                        inactiveRefs.Add(r.param);
-                    }
-                    else
-                    {
-                        if (first)
-                        {
-                            ImGui.SameLine();
-                            ImGui.TextUnformatted(r.param);
-                        }
-                        else
-                        {
-                            ImGui.TextUnformatted("    " + r.param);
-                        }
-                        first = false;
-                    }
+                    inactiveRefs.Add(r.param);
                 }
-
-                ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.7f, 0.7f, 0.7f, 1.0f));
-                foreach (string inactive in inactiveRefs)
+                else
                 {
-                    ImGui.SameLine();
                     if (first)
                     {
-                        ImGui.TextUnformatted("!" + inactive);
+                        ImGui.SameLine();
+                        ImGui.TextUnformatted(r.param);
                     }
                     else
                     {
-                        ImGui.TextUnformatted("!"+ inactive);
+                        ImGui.TextUnformatted("    " + r.param);
                     }
                     first = false;
                 }
-                ImGui.PopStyleColor();
-
-                ImGui.SameLine();
-                ImGui.TextUnformatted(">");
-                ImGui.PopStyleColor();
-                ImGui.PopStyleVar();
             }
+
+            ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.7f, 0.7f, 0.7f, 1.0f));
+            foreach (string inactive in inactiveRefs)
+            {
+                ImGui.SameLine();
+                if (first)
+                {
+                    ImGui.TextUnformatted("!" + inactive);
+                }
+                else
+                {
+                    ImGui.TextUnformatted("!"+ inactive);
+                }
+                first = false;
+            }
+            ImGui.PopStyleColor();
+
+            ImGui.SameLine();
+            ImGui.TextUnformatted(">");
+            ImGui.PopStyleColor();
+            ImGui.PopStyleVar();
         }
         public static void FmgRefText(List<FMGRef> fmgRef, Param.Row context)
         {
@@ -262,12 +261,12 @@ namespace StudioCore.Editor
             
             ImGui.PopStyleColor();
         }
-        public static void EnumNameText(string enumName)
+        public static void EnumNameText(ParamEnum pEnum)
         {
-            if (enumName != null && CFG.Current.Param_HideEnums == false) //Move preference
+            if (pEnum != null && pEnum.name != null && CFG.Current.Param_HideEnums == false) //Move preference
             {
                 ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 1.0f, 0.0f, 1.0f));
-                ImGui.TextUnformatted($@"   {enumName}");
+                ImGui.TextUnformatted($@"   {pEnum.name}");
                 ImGui.PopStyleColor();
             }
         }
@@ -278,37 +277,81 @@ namespace StudioCore.Editor
             ImGui.PopStyleColor();
         }
 
-        public static void VirtualParamRefSelectables(ParamBank bank, string virtualRefName, object searchValue)
+        public static void VirtualParamRefSelectables(ParamBank bank, string virtualRefName, object searchValue, Param.Row context, string fieldName, List<ExtRef> ExtRefs, EditorScreen cacheOwner)
         {
             // Add Goto statements
-            if (bank.Params == null)
-                return;
-            foreach (var param in bank.Params)
+            if (bank.Params != null)
             {
-                foreach (PARAMDEF.Field f in param.Value.AppliedParamdef.Fields)
+                foreach (var param in bank.Params)
                 {
-                    if (FieldMetaData.Get(f).VirtualRef != null && FieldMetaData.Get(f).VirtualRef.Equals(virtualRefName))
+                    foreach (PARAMDEF.Field f in param.Value.AppliedParamdef.Fields)
                     {
-                        if (ImGui.Selectable($@"Search in {param.Key} ({f.InternalName})"))
+                        if (FieldMetaData.Get(f).VirtualRef != null && FieldMetaData.Get(f).VirtualRef.Equals(virtualRefName))
                         {
-                            EditorCommandQueue.AddCommand($@"param/select/-1/{param.Key}");
-                            EditorCommandQueue.AddCommand($@"param/search/prop {f.InternalName} ^{searchValue.ToString()}$");
+                            if (ImGui.Selectable($@"Search in {param.Key} ({f.InternalName})"))
+                            {
+                                EditorCommandQueue.AddCommand($@"param/select/-1/{param.Key}");
+                                EditorCommandQueue.AddCommand($@"param/search/prop {f.InternalName} ^{searchValue.ToParamEditorString()}$");
+                            }
                         }
                     }
                 }
             }
+            if (ExtRefs != null)
+            {
+                foreach (ExtRef currentRef in ExtRefs)
+                {
+                    List<string> matchedExtRefPath = currentRef.paths.Select((x) => (string)(string.Format(x, searchValue))).ToList();
+                    AssetLocator al = ParamBank.PrimaryBank.AssetLocator;
+                    ExtRefItem(context, fieldName, $"modded {currentRef.name}", matchedExtRefPath, al.GameModDirectory, cacheOwner);
+                    ExtRefItem(context, fieldName, $"vanilla {currentRef.name}", matchedExtRefPath, al.GameRootDirectory, cacheOwner);
+                }
+            }
         }
-        
-        public static bool ParamRefEnumContextMenu(ParamBank bank, object oldval, ref object newval, List<ParamRef> RefTypes, Param.Row context, List<FMGRef> fmgRefs, ParamEnum Enum, ActionManager executor)
+        private static void ExtRefItem(Param.Row keyRow, string fieldKey, string menuText, List<string> matchedExtRefPath, string dir, EditorScreen cacheOwner)
         {
-            if ((CFG.Current.Param_HideReferenceRows || RefTypes == null) && (CFG.Current.Param_HideEnums || Enum == null) && (CFG.Current.Param_HideReferenceRows || fmgRefs == null))
-                return false;
+            bool exist = UICache.GetCached(cacheOwner, keyRow, $"extRef{menuText}{fieldKey}", () => Path.Exists(Path.Join(dir, matchedExtRefPath[0])));
+            if (exist && ImGui.Selectable($"Go to {menuText} file..."))
+            {
+                string path = ResolveExtRefPath(matchedExtRefPath, dir);
+                if (File.Exists(path))
+                    Process.Start("explorer.exe", $"/select,\"{path}\"");
+                else
+                {
+                    TaskLogs.AddLog($"\"{path}\" could not be found. It may be map or chr specific",
+                        Microsoft.Extensions.Logging.LogLevel.Warning);
+                    UICache.ClearCaches();
+                }
+            }
+        }
+        private static string ResolveExtRefPath(List<string> matchedExtRefPath, string baseDir)
+        {
+            string currentPath = baseDir;
+            foreach (string nextStage in matchedExtRefPath)
+            {
+                string thisPathF = Path.Join(currentPath, nextStage);
+                string thisPathD = Path.Join(currentPath, nextStage.Replace('.', '-'));
+                if (Directory.Exists(thisPathD))
+                {
+                    currentPath = thisPathD;
+                    continue;
+                }
+                if (File.Exists(thisPathF))
+                    currentPath = thisPathF;
+                break;
+            }
+            if (currentPath == baseDir)
+                return null;
+            return currentPath;
+        }
+        public static void ParamRefEnumQuickLink(ParamBank bank, object oldval, List<ParamRef> RefTypes, Param.Row context, List<FMGRef> fmgRefs, ParamEnum Enum)
+        {
             if (ImGui.IsItemClicked(ImGuiMouseButton.Left) && (InputTracker.GetKey(Veldrid.Key.ControlLeft) || InputTracker.GetKey(Veldrid.Key.ControlRight)))
             {
                 if (RefTypes != null)
                 {
-                    var primaryRef = resolveRefs(bank, RefTypes, context, oldval)?.First();
-                    if (primaryRef != null)
+                    var primaryRef = resolveRefs(bank, RefTypes, context, oldval)?.FirstOrDefault();
+                    if (primaryRef?.Item2 != null)
                     {
                         if (InputTracker.GetKey(Veldrid.Key.ShiftLeft) || InputTracker.GetKey(Veldrid.Key.ShiftRight))
                             EditorCommandQueue.AddCommand($@"param/select/new/{primaryRef?.Item1}/{primaryRef?.Item2.ID}");
@@ -318,24 +361,23 @@ namespace StudioCore.Editor
                 }
                 else if (fmgRefs != null)
                 {
-                    var primaryRef = resolveFMGRefs(fmgRefs, context, oldval)?.First();
-                    if (primaryRef != null)
+                    var primaryRef = resolveFMGRefs(fmgRefs, context, oldval)?.FirstOrDefault();
+                    if (primaryRef?.Item2 != null)
                     {
                         EditorCommandQueue.AddCommand($@"text/select/{primaryRef?.Item1}/{primaryRef?.Item2.ID}");
                     }
                 }
             }
+        }
+        public static bool ParamRefEnumContextMenuItems(ParamBank bank, object oldval, ref object newval, List<ParamRef> RefTypes, Param.Row context, List<FMGRef> fmgRefs, ParamEnum Enum, ActionManager executor)
+        {
             bool result = false;
-            if (ImGui.BeginPopupContextItem("rowMetaValue"))
-            {
-                if (RefTypes != null)
-                    result |= PropertyRowRefsContextItems(bank, RefTypes, context, oldval, ref newval, executor);
-                if (Enum != null)
-                    result |= PropertyRowEnumContextItems(Enum, oldval, ref newval);
-                if (fmgRefs != null)
-                    PropertyRowFMGRefsContextItems(fmgRefs, context, oldval, executor);
-                ImGui.EndPopup();
-            }
+            if (RefTypes != null)
+                result |= PropertyRowRefsContextItems(bank, RefTypes, context, oldval, ref newval, executor);
+            if (fmgRefs != null)
+                PropertyRowFMGRefsContextItems(fmgRefs, context, oldval, executor);
+            if (Enum != null)
+                result |= PropertyRowEnumContextItems(Enum, oldval, ref newval);
             return result;
         }
 
@@ -364,7 +406,7 @@ namespace StudioCore.Editor
                 }
             }
             // Add searchbar for named editing
-            ImGui.InputText("##value", ref _refContextCurrentAutoComplete, 128);
+            ImGui.InputTextWithHint("##value", "Search...", ref _refContextCurrentAutoComplete, 128);
             // This should be replaced by a proper search box with a scroll and everything
             if (_refContextCurrentAutoComplete != "")
             {
@@ -418,21 +460,25 @@ namespace StudioCore.Editor
         }
         public static bool PropertyRowEnumContextItems(ParamEnum en, object oldval, ref object newval)
         {
-            try
+            if (ImGui.BeginChild("EnumList", new Vector2(0, ImGui.GetTextLineHeightWithSpacing() * Math.Min(7, en.values.Count))))
             {
-                foreach (KeyValuePair<string, string> option in en.values)
+            try
                 {
-                    if (ImGui.Selectable($"{option.Key}: {option.Value}"))
+                    foreach (KeyValuePair<string, string> option in en.values)
                     {
-                        newval = Convert.ChangeType(option.Key, oldval.GetType());
-                        return true;
+                        if (ImGui.Selectable($"{option.Key}: {option.Value}"))
+                        {
+                            newval = Convert.ChangeType(option.Key, oldval.GetType());
+                            return true;
+                        }
                     }
                 }
-            }
-            catch
-            {
+                catch
+                {
 
+                }
             }
+            ImGui.EndChild();
             return false;
         }
 

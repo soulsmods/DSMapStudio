@@ -1089,16 +1089,16 @@ namespace StudioCore.ParamEditor
                 ImGui.SameLine();
                 try
                 {
-                    if (ImGui.Button("Sort by count"))
-                    {
-                        _distributionOutput = _distributionOutput.OrderByDescending((g) => g.Item2);
-                        _statisticPopupOutput = String.Join('\n', _distributionOutput.Select((e) => e.Item2.ToString().PadLeft(9) + " " + e.Item1.ToParamEditorString()));
-                    }
-                    ImGui.SameLine();
                     if (ImGui.Button("Sort by value"))
                     {
                         _distributionOutput = _distributionOutput.OrderBy((g) => g.Item1);
-                        _statisticPopupOutput = String.Join('\n', _distributionOutput.Select((e) => e.Item2.ToString().PadLeft(9) + " " + e.Item1.ToParamEditorString()));
+                        _statisticPopupOutput = String.Join('\n', _distributionOutput.Select((e) => e.Item2.ToString().PadLeft(9) + " " + e.Item1.ToParamEditorString() + " times"));
+                    }
+                    ImGui.SameLine();
+                    if (ImGui.Button("Sort by count"))
+                    {
+                        _distributionOutput = _distributionOutput.OrderByDescending((g) => g.Item2);
+                        _statisticPopupOutput = String.Join('\n', _distributionOutput.Select((e) => e.Item2.ToString().PadLeft(9) + " " + e.Item1.ToParamEditorString() + " times"));
                     }
                 }
                 catch (Exception e)
@@ -1296,7 +1296,7 @@ namespace StudioCore.ParamEditor
                         Param p = ParamBank.PrimaryBank.GetParamFromName(_activeView._selection.GetActiveParam());
                         var col = ParamUtils.GetCol(p, initcmd[2]);
                         _distributionOutput = ParamUtils.GetParamValueDistribution(_activeView._selection.GetSelectedRows(), col);
-                        _statisticPopupOutput = String.Join('\n', _distributionOutput.Select((e) => e.Item2.ToString().PadLeft(9) + " " + e.Item1.ToParamEditorString()));
+                        _statisticPopupOutput = String.Join('\n', _distributionOutput.Select((e) => e.Item1.ToString().PadLeft(9) + " " + e.Item2.ToParamEditorString() + " times"));
                         _statisticPopupParameter = initcmd[2];
                         OpenStatisticPopup("distributionPopup");
                     }
