@@ -1,0 +1,486 @@
+{
+    "GameReference": [   
+        // Demon Souls
+        {
+            "gameType": "DemonsSouls",
+            
+            "chrReferences": [
+                {
+                    "fileName": "default",
+                    "referenceName": "Default",
+                    
+                    "tags": [
+                        { "tag": "default" },
+                        { "tag": "default" }
+                    ]
+                }
+            ],
+            "objReferences": [
+                {
+                    "fileName": "default",
+                    "referenceName": "Default",
+                    
+                    "tags": [
+                        { "tag": "default" },
+                        { "tag": "default" }
+                    ]
+                }
+            ],
+            "partReferences": [
+                {
+                    "fileName": "default",
+                    "referenceName": "Default",
+                    
+                    "tags": [
+                        { "tag": "default" },
+                        { "tag": "default" }
+                    ]
+                }
+            ],
+            "mapPieceReferences": [
+                {
+                    "fileName": "default",
+                    "referenceName": "Default",
+                    
+                    "tags": [
+                        { "tag": "default" },
+                        { "tag": "default" }
+                    ]
+                }
+            ]
+        },
+        // Dark Souls PTDE
+        {
+            "gameType": "DarkSoulsPTDE",
+            
+            "chrReferences": [
+                {
+                    "fileName": "default",
+                    "referenceName": "Default",
+                    
+                    "tags": [
+                        { "tag": "default" },
+                        { "tag": "default" }
+                    ]
+                }
+            ],
+            "objReferences": [
+                {
+                    "fileName": "default",
+                    "referenceName": "Default",
+                    
+                    "tags": [
+                        { "tag": "default" },
+                        { "tag": "default" }
+                    ]
+                }
+            ],
+            "partReferences": [
+                {
+                    "fileName": "default",
+                    "referenceName": "Default",
+                    
+                    "tags": [
+                        { "tag": "default" },
+                        { "tag": "default" }
+                    ]
+                }
+            ],
+            "mapPieceReferences": [
+                {
+                    "fileName": "default",
+                    "referenceName": "Default",
+                    
+                    "tags": [
+                        { "tag": "default" },
+                        { "tag": "default" }
+                    ]
+                }
+            ]
+        },
+        // Dark Souls Remastered
+        {
+            "gameType": "DarkSouslRemastered",
+            
+            "chrReferences": [
+                {
+                    "fileName": "default",
+                    "referenceName": "Default",
+                    
+                    "tags": [
+                        { "tag": "default" },
+                        { "tag": "default" }
+                    ]
+                }
+            ],
+            "objReferences": [
+                {
+                    "fileName": "default",
+                    "referenceName": "Default",
+                    
+                    "tags": [
+                        { "tag": "default" },
+                        { "tag": "default" }
+                    ]
+                }
+            ],
+            "partReferences": [
+                {
+                    "fileName": "default",
+                    "referenceName": "Default",
+                    
+                    "tags": [
+                        { "tag": "default" },
+                        { "tag": "default" }
+                    ]
+                }
+            ],
+            "mapPieceReferences": [
+                {
+                    "fileName": "default",
+                    "referenceName": "Default",
+                    
+                    "tags": [
+                        { "tag": "default" },
+                        { "tag": "default" }
+                    ]
+                }
+            ]
+        },
+        // Dark Souls II: Scholar of the First Sin
+        {
+            "gameType": "DarkSoulsIISOTFS",
+            
+            "chrReferences": [
+                {
+                    "fileName": "default",
+                    "referenceName": "Default",
+                    
+                    "tags": [
+                        { "tag": "default" },
+                        { "tag": "default" }
+                    ]
+                }
+            ],
+            "objReferences": [
+                {
+                    "fileName": "default",
+                    "referenceName": "Default",
+                    
+                    "tags": [
+                        { "tag": "default" },
+                        { "tag": "default" }
+                    ]
+                }
+            ],
+            "partReferences": [
+                {
+                    "fileName": "default",
+                    "referenceName": "Default",
+                    
+                    "tags": [
+                        { "tag": "default" },
+                        { "tag": "default" }
+                    ]
+                }
+            ],
+            "mapPieceReferences": [
+                {
+                    "fileName": "default",
+                    "referenceName": "Default",
+                    
+                    "tags": [
+                        { "tag": "default" },
+                        { "tag": "default" }
+                    ]
+                }
+            ]
+        },
+        // Bloodborne
+        {
+            "gameType": "Bloodborne",
+            
+            "chrReferences": [
+                {
+                    "fileName": "default",
+                    "referenceName": "Default",
+                    
+                    "tags": [
+                        { "tag": "default" },
+                        { "tag": "default" }
+                    ]
+                }
+            ],
+            "objReferences": [
+                {
+                    "fileName": "default",
+                    "referenceName": "Default",
+                    
+                    "tags": [
+                        { "tag": "default" },
+                        { "tag": "default" }
+                    ]
+                }
+            ],
+            "partReferences": [
+                {
+                    "fileName": "default",
+                    "referenceName": "Default",
+                    
+                    "tags": [
+                        { "tag": "default" },
+                        { "tag": "default" }
+                    ]
+                }
+            ],
+            "mapPieceReferences": [
+                {
+                    "fileName": "default",
+                    "referenceName": "Default",
+                    
+                    "tags": [
+                        { "tag": "default" },
+                        { "tag": "default" }
+                    ]
+                }
+            ]
+        },
+        // Dark Souls III
+        {
+            "gameType": "DarkSoulsIII",
+            
+            "chrReferences": [
+                {
+                    "fileName": "default",
+                    "referenceName": "Default",
+                    
+                    "tags": [
+                        { "tag": "default" },
+                        { "tag": "default" }
+                    ]
+                }
+            ],
+            "objReferences": [
+                {
+                    "fileName": "default",
+                    "referenceName": "Default",
+                    
+                    "tags": [
+                        { "tag": "default" },
+                        { "tag": "default" }
+                    ]
+                }
+            ],
+            "partReferences": [
+                {
+                    "fileName": "default",
+                    "referenceName": "Default",
+                    
+                    "tags": [
+                        { "tag": "default" },
+                        { "tag": "default" }
+                    ]
+                }
+            ],
+            "mapPieceReferences": [
+                {
+                    "fileName": "default",
+                    "referenceName": "Default",
+                    
+                    "tags": [
+                        { "tag": "default" },
+                        { "tag": "default" }
+                    ]
+                }
+            ]
+        },
+        // Sekiro
+        {
+            "gameType": "Sekiro",
+            
+            "chrReferences": [
+                {
+                    "fileName": "default",
+                    "referenceName": "Default",
+                    
+                    "tags": [
+                        { "tag": "default" },
+                        { "tag": "default" }
+                    ]
+                }
+            ],
+            "objReferences": [
+                {
+                    "fileName": "default",
+                    "referenceName": "Default",
+                    
+                    "tags": [
+                        { "tag": "default" },
+                        { "tag": "default" }
+                    ]
+                }
+            ],
+            "partReferences": [
+                {
+                    "fileName": "default",
+                    "referenceName": "Default",
+                    
+                    "tags": [
+                        { "tag": "default" },
+                        { "tag": "default" }
+                    ]
+                }
+            ],
+            "mapPieceReferences": [
+                {
+                    "fileName": "default",
+                    "referenceName": "Default",
+                    
+                    "tags": [
+                        { "tag": "default" },
+                        { "tag": "default" }
+                    ]
+                }
+            ]
+        },
+        // Elden Ring
+        {
+            "gameType": "EldenRing",
+            
+            "chrReferences": [
+                {
+                    "fileName": "default",
+                    "referenceName": "Default",
+                    
+                    "tags": [
+                        { "tag": "default" },
+                        { "tag": "default" }
+                    ]
+                },
+                {
+                    "fileName": "c0000",
+                    "referenceName": "Player",
+                    
+                    "tags": [
+                        { "tag": "player" },
+                        { "tag": "human" }
+                    ]
+                }
+            ],
+            "objReferences": [
+                {
+                    "fileName": "default",
+                    "referenceName": "Default",
+                    
+                    "tags": [
+                        { "tag": "default" },
+                        { "tag": "default" }
+                    ]
+                },
+                {
+                    "fileName": "aeg001_003",
+                    "referenceName": "Grass",
+                    
+                    "tags": [
+                        { "tag": "grass" }
+                    ]
+                },
+                {
+                    "fileName": "aeg001_061",
+                    "referenceName": "Grass",
+                    
+                    "tags": [
+                        { "tag": "grass" }
+                    ]
+                },
+                {
+                    "fileName": "aeg217_239",
+                    "referenceName": "Broken Statue (Smashed Head)",
+                    
+                    "tags": [
+                        { "tag": "statue" }
+                    ]
+                }
+            ],
+            "partReferences": [
+                {
+                    "fileName": "default",
+                    "referenceName": "Default",
+                    
+                    "tags": [
+                        { "tag": "default" },
+                        { "tag": "default" }
+                    ]
+                }
+            ],
+            "mapPieceReferences": [
+                {
+                    "fileName": "default",
+                    "referenceName": "Default",
+                    
+                    "tags": [
+                        { "tag": "default" },
+                        { "tag": "default" }
+                    ]
+                },
+                {
+                    "fileName": "m10_00_00_00_000004",
+                    "referenceName": "Stone Room with Buttresses",
+                    
+                    "tags": [
+                        { "tag": "structure" }
+                    ]
+                }
+            ]
+        },
+        // Armored Core VI
+        {
+            "gameType": "AC6",
+            
+            "chrReferences": [
+                {
+                    "fileName": "default",
+                    "referenceName": "Default",
+                    
+                    "tags": [
+                        { "tag": "default" },
+                        { "tag": "default" }
+                    ]
+                }
+            ],
+            "objReferences": [
+                {
+                    "fileName": "default",
+                    "referenceName": "Default",
+                    
+                    "tags": [
+                        { "tag": "default" },
+                        { "tag": "default" }
+                    ]
+                }
+            ],
+            "partReferences": [
+                {
+                    "fileName": "default",
+                    "referenceName": "Default",
+                    
+                    "tags": [
+                        { "tag": "default" },
+                        { "tag": "default" }
+                    ]
+                }
+            ],
+            "mapPieceReferences": [
+                {
+                    "fileName": "default",
+                    "referenceName": "Default",
+                    
+                    "tags": [
+                        { "tag": "default" },
+                        { "tag": "default" }
+                    ]
+                }
+            ]
+        }
+    ]
+}

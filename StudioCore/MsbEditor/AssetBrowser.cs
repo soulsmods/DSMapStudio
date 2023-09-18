@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using ImGuiNET;
 using Veldrid;
+using static Google.Protobuf.Reflection.SourceCodeInfo.Types;
 
 namespace StudioCore.MsbEditor
 {
@@ -57,7 +59,6 @@ namespace StudioCore.MsbEditor
                 }
             }
         }
-
         public void OnGui()
         {
             if (ImGui.Begin($@"Asset Browser##{_id}"))
@@ -125,9 +126,34 @@ namespace StudioCore.MsbEditor
                     }
                     foreach (var chr in _cacheFiltered)
                     {
-                        if (chr.Contains(_searchStr))
+                        string referenceName = "";
+                        List<string> tags = new List<string>();
+
+                        foreach (GameReference game in Assetdex.Static.GameReference)
                         {
-                            if (ImGui.Selectable(chr))
+                            if (game.gameType == _locator.Type.ToString())
+                            {
+                                foreach (ChrReference entry in game.chrReferences)
+                                {
+                                    if (chr == entry.fileName)
+                                    {
+                                        referenceName = entry.referenceName;
+                                        foreach (Tag tagEntry in entry.tags)
+                                        {
+                                            tags.Add(tagEntry.tag);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        if (chr.Contains(_searchStr) || referenceName.Contains(_searchStr) || tags.Contains(_searchStr))
+                        {
+                            string fullName = $"{chr}";
+                            if (referenceName != "")
+                                fullName = fullName + $" <{referenceName}>";
+
+                            if (ImGui.Selectable(fullName))
                             {
                             }
                             if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClicked(0))
@@ -147,9 +173,34 @@ namespace StudioCore.MsbEditor
                     }
                     foreach (var obj in _cacheFiltered)
                     {
-                        if (obj.Contains(_searchStr))
+                        string referenceName = "";
+                        List<string> tags = new List<string>();
+
+                        foreach (GameReference game in Assetdex.Static.GameReference)
                         {
-                            if (ImGui.Selectable(obj))
+                            if (game.gameType == _locator.Type.ToString())
+                            {
+                                foreach (ObjReference entry in game.objReferences)
+                                {
+                                    if (obj == entry.fileName)
+                                    {
+                                        referenceName = entry.referenceName;
+                                        foreach (Tag tagEntry in entry.tags)
+                                        {
+                                            tags.Add(tagEntry.tag);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        if (obj.Contains(_searchStr) || referenceName.Contains(_searchStr) || tags.Contains(_searchStr))
+                        {
+                            string fullName = $"{obj}";
+                            if (referenceName != "")
+                                fullName = fullName + $" <{referenceName}>";
+
+                            if (ImGui.Selectable(fullName))
                             {
                             }
                             if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClicked(0))
@@ -169,9 +220,34 @@ namespace StudioCore.MsbEditor
                     }
                     foreach (var part in _cacheFiltered)
                     {
-                        if (part.Contains(_searchStr))
+                        string referenceName = "";
+                        List<string> tags = new List<string>();
+
+                        foreach (GameReference game in Assetdex.Static.GameReference)
                         {
-                            if (ImGui.Selectable(part))
+                            if (game.gameType == _locator.Type.ToString())
+                            {
+                                foreach (PartReference entry in game.partReferences)
+                                {
+                                    if (part == entry.fileName)
+                                    {
+                                        referenceName = entry.referenceName;
+                                        foreach (Tag tagEntry in entry.tags)
+                                        {
+                                            tags.Add(tagEntry.tag);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        if (part.Contains(_searchStr) || referenceName.Contains(_searchStr) || tags.Contains(_searchStr))
+                        {
+                            string fullName = $"{part}";
+                            if (referenceName != "")
+                                fullName = fullName + $" <{referenceName}>";
+
+                            if (ImGui.Selectable(fullName))
                             {
                             }
                             if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClicked(0))
@@ -193,9 +269,34 @@ namespace StudioCore.MsbEditor
                         }
                         foreach (var model in _cacheFiltered)
                         {
-                            if (model.Contains(_searchStr))
+                            string referenceName = "";
+                            List<string> tags = new List<string>();
+
+                            foreach (GameReference game in Assetdex.Static.GameReference)
                             {
-                                if (ImGui.Selectable(model))
+                                if (game.gameType == _locator.Type.ToString())
+                                {
+                                    foreach (MapPieceReference entry in game.mapPieceReferences)
+                                    {
+                                        if (model == entry.fileName)
+                                        {
+                                            referenceName = entry.referenceName;
+                                            foreach (Tag tagEntry in entry.tags)
+                                            {
+                                                tags.Add(tagEntry.tag);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            if (model.Contains(_searchStr) || referenceName.Contains(_searchStr) || tags.Contains(_searchStr))
+                            {
+                                string fullName = $"{model}";
+                                if (referenceName != "")
+                                    fullName = fullName + $" <{referenceName}>";
+
+                                if (ImGui.Selectable(fullName))
                                 {
                                 }
                                 if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClicked(0))
