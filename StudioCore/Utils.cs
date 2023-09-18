@@ -281,6 +281,10 @@ namespace StudioCore
                 {
                     SFUtil.EncryptERRegulation(writepath + ".temp", bndER);
                 }
+                else if (gameType == GameType.ArmoredCoreVI && item is BND4 bndAC6)
+                {
+                    SFUtil.EncryptAC6Regulation(writepath + ".temp", bndAC6);
+                }
                 else
                 {
                     item.Write(writepath + ".temp");
@@ -731,10 +735,19 @@ namespace StudioCore
 
         /// <summary>
         /// Replace # with fullwidth # to prevent ImGui from hiding text when detecting ## and ###.
+        /// Optionally replaces %, which is only an issue with certain imgui elements.
         /// </summary>
-        public static string ImGuiEscape(string str, string nullStr)
+        public static string ImGuiEscape(string str, string nullStr = "", bool percent = false)
         {
-            return str == null ? nullStr : str.Replace("#", "\xFF03"); //eastern block #
+            if (str == null) 
+                return nullStr;
+
+            str = str.Replace("#", "\xFF03"); // FF03 is eastern block #
+
+            if (percent)
+                str = str.Replace("%", "%%");
+
+            return str;
         }
 
         /// <summary>

@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Enums>
+    <Enum Name = "LegTypeEnum"> 
+      <Option Value="0" Name="Bipedal 1" />
+      <Option Value="1" Name="Bipedal 2" />
+      <Option Value="100" Name="Tetrapod" />
+      <Option Value="200" Name="Reverse Joint" />
+      <Option Value="300" Name="Tank 1" />
+      <Option Value="301" Name="Tank 2" />
+      <Option Value="302" Name="Tank 3" />
+    </Enum>
+  </Enums>
+  <Field>
+    <knockbackParamId AltName="knockbackParamId" Refs="KnockbackParam" />
+    <legType AltName="Leg Type" Enum="LegTypeEnum" Wiki="Determines basic leg behavior. Value references are unknown." />
+    <thrusterParamId AltName="thrusterParamId" Refs="ThrustersParam_PC" />
+    <weaponParamId AltName="Weapon Param ID" Refs="EquipParamWeapon" Wiki="Refers to EquipParamWeapon. Used to define scanner for with head parts, unknown usage with core parts."/>
+    <quickBoostVelocity AltName="Quick boost velocity (&quot;Jump Distance&quot;)" Wiki="Referred to in-game as &quot;Jump Distance&quot;. Does not affect jump distance."/>
+    <movementAcTypeParamId AltName="movementAcTypeParamId" Refs="MovementAcTypeParam" />
+    <chrActTurnParamId AltName="chrActTurnParamId" Refs="ChrActTurnParam" />
+    <quickBoostGroundedVerticalVelocity AltName="Quick Boost Vertical Velocity (on ground)" Wiki="Vertical velocity gained from quick boosting while on the ground." />
+    <boostingJumpHorizontalSpeedBonus AltName="Boost Jump Horizontal Speed Bonus" Wiki="When boosting then jumping, takes current speed and multiplies it by this value then adds it to current speed." />
+    <jumpVelocityVertical AltName="Jump Vertical Velocity" Wiki="Amount of vertical velocity when jumping." />
+    <jumpVelocityAcceleration AltName="Jump Velocity Acceleration" Wiki="How quickly jump reaches max velocity and velocity ends. Interrupted by boosting." />
+    <jumpVelocityHorizontalTransferred AltName="Jump Velocity Horizontal Transfer Rate" Wiki="Amount of vertical jump velocity to transfer into horizontal velocity." />
+    <unkDisplayLegsJumpDistance AltName="Unk Displayed Jump Distance (no effect?)" Wiki="Seemingly does nothing. UI element for &quot;Jump Distance&quot; is governed by quickBoostVelocity." />
+    <displayLegsJumpHeight AltName="Displayed Jump Height" Wiki=">Only affects value displayed in UI. Use jumpVelocityAcceleration for actual effects." />
+    <protectorParamId AltName="protectorParamId" Refs="EquipParamProtector" />
+    <legPartBoosterParamId AltName="legPartBoosterParamId" Refs="EquipParamBooster" />
+  </Field>
+  <Self />
+</PARAMMETA>

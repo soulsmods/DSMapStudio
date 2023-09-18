@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Enums>
+    <Enum Name="BEHAVIOR_REF_TYPE" type="u8">
+      <Option Value="0" Name="Attack" />
+      <Option Value="1" Name="Bullet" />
+      <Option Value="2" Name="SpEffect" />
+    </Enum>
+  </Enums>
+  <Field>
+    <variationId AltName="Behavior Variation ID" Wiki="Used to link BehaviorParam entries to a weapon or enemy." />
+    <refType AltName="Reference Type" Wiki="Which param type to reference for attack behavior." Enum="BEHAVIOR_REF_TYPE" />
+    <refId AltName="Reference ID" Wiki="ID of param to use for attack behavior. Param used determined by refType" Refs="AtkParam_Pc(refType=0),AtkParam_Npc(refType=0),Bullet(refType=1),SpEffectParam(refType=2)" />
+  </Field>
+  <Self />
+</PARAMMETA>

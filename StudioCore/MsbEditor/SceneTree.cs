@@ -115,6 +115,10 @@ namespace StudioCore.MsbEditor
             {
                 mapcache.Add(MapEntity.MapEntityType.Light, new Dictionary<Type, List<MapEntity>>());
             }
+            else if (_assetLocator.Type is GameType.ArmoredCoreVI)
+            {
+                //TODO AC6
+            }
             else if (_assetLocator.Type is GameType.DarkSoulsIISOTFS)
             {
                 mapcache.Add(MapEntity.MapEntityType.Light, new Dictionary<Type, List<MapEntity>>());
@@ -510,6 +514,10 @@ namespace StudioCore.MsbEditor
                                         MapObjectSelectable(obj, true);
                                     }
                                 }
+                                else if (_assetLocator.Type is GameType.ArmoredCoreVI)
+                                {
+                                    //TODO AC6
+                                }
                                 else if (cats.Key == MapEntity.MapEntityType.Light)
                                 {
                                     foreach (var parent in map.BTLParents)
@@ -659,6 +667,15 @@ namespace StudioCore.MsbEditor
                     }
                 }
 
+                if (_configuration == Configuration.MapEditor && _assetLocator.Type == GameType.ArmoredCoreVI && FeatureFlags.AC6_MSB == false)
+                {
+                    ImGui.Indent();
+                    ImGui.Spacing();
+                    ImGui.Text("AC6 map editing is unsupported for now.");
+                    ImGui.Spacing();
+                    ImGui.BeginDisabled();
+                }
+
                 var orderedMaps = _universe.LoadedObjectContainers.OrderBy(k => k.Key);
 
                 _mapEnt_ImGuiID = 0;
@@ -748,9 +765,13 @@ namespace StudioCore.MsbEditor
                                             _selection.ClearSelection();
                                         }
                                         _universe.LoadMap(mapid, false);
-                                        _universe.LoadRelatedMaps(mapid, _universe.LoadedObjectContainers);
+                                        _universe.LoadRelatedMapsER(mapid, _universe.LoadedObjectContainers);
                                     }
                                 }
+                            }
+                            else if (_universe.GameType is GameType.ArmoredCoreVI)
+                            {
+                                //TODO AC6
                             }
                         }
                         else if (map is Map m)
@@ -763,8 +784,7 @@ namespace StudioCore.MsbEditor
                                 }
                                 catch (SavingFailedException e)
                                 {
-                                    PlatformUtils.Instance.MessageBox(e.Wrapped.Message, e.Message,
-                                         MessageBoxButtons.OK, MessageBoxIcon.None);
+                                    ((MsbEditorScreen)_handler).HandleSaveException(e);
                                 }
                             }
                             if (ImGui.Selectable("Unload Map"))
@@ -882,6 +902,11 @@ namespace StudioCore.MsbEditor
                 if (_assetLocator.Type == GameType.Bloodborne && _configuration == Configuration.MapEditor)
                 {
                     ChaliceDungeonImportButton();
+                }
+
+                if (_configuration == Configuration.MapEditor && _assetLocator.Type == GameType.ArmoredCoreVI && FeatureFlags.AC6_MSB == false)
+                {
+                    ImGui.EndDisabled();
                 }
 
                 ImGui.EndChild();

@@ -10,6 +10,7 @@ namespace StudioCore.MsbEditor
     {
         public void OnInstantiateChr(string chrid);
         public void OnInstantiateObj(string objid);
+        public void OnInstantiateParts(string objid);
         public void OnInstantiateMapPiece(string mapid, string modelid);
     }
 
@@ -19,6 +20,7 @@ namespace StudioCore.MsbEditor
 
         private List<string> _chrCache = new List<string>();
         private List<string> _objCache = new List<string>();
+        private List<string> _partsCache = new List<string>();
         private Dictionary<string, List<string>> _mapModelCache = new Dictionary<string, List<string>>();
 
         private List<string> _cacheFiltered = new();
@@ -68,7 +70,7 @@ namespace StudioCore.MsbEditor
                     _selected = "Chr";
                 }
                 string objLabel = "Obj";
-                if (_locator.Type is GameType.EldenRing)
+                if (_locator.Type is GameType.EldenRing or GameType.ArmoredCoreVI)
                 {
                     objLabel = "Aeg";
                 }
@@ -76,6 +78,11 @@ namespace StudioCore.MsbEditor
                 {
                     _objCache = _locator.GetObjModels();
                     _selected = "Obj";
+                }
+                if (ImGui.Selectable("Parts", _selected == "Parts"))
+                {
+                    _partsCache = _locator.GetPartsModels();
+                    _selected = "Parts";
                 }
                 foreach (var m in _mapModelCache.Keys)
                 {
@@ -148,6 +155,28 @@ namespace StudioCore.MsbEditor
                             if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClicked(0))
                             {
                                 _handler.OnInstantiateObj(obj);
+                            }
+                        }
+                    }
+                }
+                else if (_selected == "Parts")
+                {
+                    if (_searchStr != _searchStrCache || _selected != _selectedCache)
+                    {
+                        _cacheFiltered = _partsCache;
+                        _searchStrCache = _searchStr;
+                        _selectedCache = _selected;
+                    }
+                    foreach (var part in _cacheFiltered)
+                    {
+                        if (part.Contains(_searchStr))
+                        {
+                            if (ImGui.Selectable(part))
+                            {
+                            }
+                            if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClicked(0))
+                            {
+                                _handler.OnInstantiateParts(part);
                             }
                         }
                     }

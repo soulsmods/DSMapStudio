@@ -96,31 +96,35 @@ namespace StudioCore.MsbEditor
             
         }
 
-        public void LoadModel(string modelid, string mapid = null)
+        public void LoadModel(string modelid, ModelEditorModelType modelType, string mapid = null)
         {
             AssetDescription asset;
             AssetDescription assettex;
             Scene.RenderFilter filt = Scene.RenderFilter.All;
             var job = ResourceManager.CreateNewJob($@"Loading mesh");
-            if (modelid.StartsWith("c"))
+            switch (modelType)
             {
-                asset = AssetLocator.GetChrModel(modelid);
-                assettex = AssetLocator.GetChrTextures(modelid);
-            }
-            else if (modelid.StartsWith("o") || modelid.StartsWith("aeg"))
-            {
-                asset = AssetLocator.GetObjModel(modelid);
-                assettex = AssetLocator.GetNullAsset();
-            }
-            else if (modelid.StartsWith("m"))
-            {
-                asset = AssetLocator.GetMapModel(mapid, modelid);
-                assettex = AssetLocator.GetNullAsset();
-            }
-            else
-            {
-                asset = AssetLocator.GetNullAsset();
-                assettex = AssetLocator.GetNullAsset();
+                case ModelEditorModelType.Character:
+                    asset = AssetLocator.GetChrModel(modelid);
+                    assettex = AssetLocator.GetChrTextures(modelid);
+                    break;
+                case ModelEditorModelType.Object:
+                    asset = AssetLocator.GetObjModel(modelid);
+                    assettex = AssetLocator.GetObjTexture(modelid);
+                    break;
+                case ModelEditorModelType.Parts:
+                    asset = AssetLocator.GetPartsModel(modelid);
+                    assettex = AssetLocator.GetPartTextures(modelid);
+                    break;
+                case ModelEditorModelType.MapPiece:
+                    asset = AssetLocator.GetMapModel(mapid, modelid);
+                    assettex = AssetLocator.GetNullAsset();
+                    break;
+                default:
+                    //Uh oh
+                    asset = AssetLocator.GetNullAsset();
+                    assettex = AssetLocator.GetNullAsset();
+                    break;
             }
             
             if (_renderMesh != null)
@@ -157,17 +161,21 @@ namespace StudioCore.MsbEditor
 
         public void OnInstantiateChr(string chrid)
         {
-            LoadModel(chrid);
+            LoadModel(chrid, ModelEditorModelType.Character);
         }
 
         public void OnInstantiateObj(string objid)
         {
-            LoadModel(objid);
+            LoadModel(objid, ModelEditorModelType.Object);
+        }
+        public void OnInstantiateParts(string partsid)
+        {
+            LoadModel(partsid, ModelEditorModelType.Parts);
         }
 
         public void OnInstantiateMapPiece(string mapid, string modelid)
         {
-            LoadModel(modelid, mapid);
+            LoadModel(modelid, ModelEditorModelType.MapPiece, mapid);
         }
 
         public void OnGUI(string[] commands)
@@ -326,7 +334,6 @@ namespace StudioCore.MsbEditor
                 Viewport.WorldView.CameraMoveSpeed_Slow = basespeed / 10.0f;
                 Viewport.WorldView.CameraMoveSpeed_Fast = basespeed * 10.0f;
 
-                Viewport.FarClip = Math.Max(10.0f, maxdim * 10.0f);
                 Viewport.NearClip = Math.Max(0.001f, maxdim / 10000.0f);
             }
 

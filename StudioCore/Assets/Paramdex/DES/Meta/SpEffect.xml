@@ -73,7 +73,7 @@
     <allItemWeightChangeRate AltName="allItemWeightChangeRate" />
     <soul AltName="soul" />
     <haveSoulRate AltName="haveSoulRate" />
-    <targetPriority AltName="targetPriority" />
+    <targetPriority AltName="targetPriority" Wiki="Chance for an enemy to switch aggro targets to/away the effect's owner. Values range from -1 to 1. +1 = 100% chance to target owner instead of current target, -1 = 100% chance to target somebody else instead of current target (effect owner)." />
     <sightSearchEnemyCut AltName="sightSearchEnemyCut" />
     <hearingSearchEnemyCut AltName="hearingSearchEnemyCut" />
     <requestSOS AltName="requestSOS" />

@@ -219,7 +219,10 @@ namespace StudioCore.Editor
             }
 
             // Refresh diff cache
-            TaskManager.Run(new("Param - Check Differences", false, true, true, TaskLogs.LogPriority.Low, () => ParamBank.PrimaryBank.RefreshParamDiffCaches()));
+            TaskManager.Run(new("Param - Check Differences",
+                TaskManager.RequeueType.Repeat, true,
+                TaskLogs.LogPriority.Low,
+                () => ParamBank.PrimaryBank.RefreshParamDiffCaches()));
             return ActionEvent.NoEvent;
         }
 
@@ -279,7 +282,10 @@ namespace StudioCore.Editor
             }
 
             // Refresh diff cache
-            TaskManager.Run(new("Param - Check Differences", false, true, true, TaskLogs.LogPriority.Low, () => ParamBank.PrimaryBank.RefreshParamDiffCaches()));
+            TaskManager.Run(new("Param - Check Differences",
+                TaskManager.RequeueType.Repeat, true,
+                TaskLogs.LogPriority.Low,
+                () => ParamBank.PrimaryBank.RefreshParamDiffCaches()));
             return ActionEvent.NoEvent;
         }
     }

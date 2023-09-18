@@ -591,7 +591,7 @@ namespace StudioCore.ParamEditor
                     return (k, c) => v;
                 };
             }));
-            argumentGetters.Add("vanilla", newGetter(new string[0], "Gives the value of the equivalent cell/field in the vanilla regulation or parambnd for the currently selected cell/field, row and param", (empty) => {
+            argumentGetters.Add("vanilla", newGetter(new string[0], "Gives the value of the equivalent cell/field in the vanilla regulation or parambnd for the currently selected cell/field, row and param.\nWill fail if a row does not have a vanilla equivilent. Consider using && !added", (empty) => {
                 ParamBank bank = ParamBank.VanillaBank;
                 return (i, param) => {
                     string paramName = ParamBank.PrimaryBank.GetKeyForParam(param);
@@ -610,7 +610,7 @@ namespace StudioCore.ParamEditor
                     };
                 };
             }));
-            argumentGetters.Add("aux", newGetter(new string[]{"parambank name"}, "Gives the value of the equivalent cell/field in the specified regulation or parambnd for the currently selected cell/field, row and param", (bankName) => {
+            argumentGetters.Add("aux", newGetter(new string[]{"parambank name"}, "Gives the value of the equivalent cell/field in the specified regulation or parambnd for the currently selected cell/field, row and param.\nWill fail if a row does not have an aux equivilent. Consider using && auxprop ID .*", (bankName) => {
                 if (!ParamBank.AuxBanks.ContainsKey(bankName[0]))
                     throw new Exception($@"Could not locate paramBank {bankName[0]}");
                 ParamBank bank = ParamBank.AuxBanks[bankName[0]];
@@ -631,7 +631,7 @@ namespace StudioCore.ParamEditor
                     };
                 };
             }, ()=>ParamBank.AuxBanks.Count > 0));
-            argumentGetters.Add("vanillafield", newGetter(new string[]{"field internalName"}, "Gives the value of the specified cell/field in the vanilla regulation or parambnd for the currently selected row and param", (field) => (i, param) => {
+            argumentGetters.Add("vanillafield", newGetter(new string[]{"field internalName"}, "Gives the value of the specified cell/field in the vanilla regulation or parambnd for the currently selected row and param.\nWill fail if a row does not have a vanilla equivilent. Consider using && !added", (field) => (i, param) => {
                 var paramName = ParamBank.PrimaryBank.GetKeyForParam(param);
                 var vParam = ParamBank.VanillaBank.GetParamFromName(paramName);
                 if (vParam == null)
@@ -647,7 +647,7 @@ namespace StudioCore.ParamEditor
                     return (k, c) => v;
                 };
             }));
-            argumentGetters.Add("auxfield", newGetter(new string[]{"parambank name", "field internalName"}, "Gives the value of the specified cell/field in the specified regulation or parambnd for the currently selected row and param", (bankAndField) => {
+            argumentGetters.Add("auxfield", newGetter(new string[]{"parambank name", "field internalName"}, "Gives the value of the specified cell/field in the specified regulation or parambnd for the currently selected row and param.\nWill fail if a row does not have an aux equivilent. Consider using && auxprop ID .*", (bankAndField) => {
                 if (!ParamBank.AuxBanks.ContainsKey(bankAndField[0]))
                     throw new Exception($@"Could not locate paramBank {bankAndField[0]}");
                 ParamBank bank = ParamBank.AuxBanks[bankAndField[0]];
@@ -674,7 +674,7 @@ namespace StudioCore.ParamEditor
                 var field = param.GetCol(address[2]);
                 var value = param[id].Get(field).ToParamEditorString();
                 return (i, param) => (j, row) => (k, col) => value;
-            }));
+            }, ()=>CFG.Current.Param_AdvancedMassedit));
             argumentGetters.Add("average", newGetter(new string[]{"field internalName", "row selector"}, "Gives the mean value of the cells/fields found using the given selector, for the currently selected param", (field) => (i, param) => {
                 var col = param.GetCol(field[0]);
                 if (!col.IsColumnValid())

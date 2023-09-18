@@ -9,7 +9,6 @@ using SoulsFormats;
 using System.Threading.Tasks;
 using System.Xml;
 using StudioCore.Editor;
-using Gtk;
 using StudioCore.Platform;
 
 namespace StudioCore.TextEditor
@@ -55,6 +54,12 @@ namespace StudioCore.TextEditor
         Effect,
         ActionButtonText,
         Tutorial,
+        Generator,
+        Booster,
+        FCS,
+        Mission,
+        Archive,
+
         ItemFmgDummy = 200, // Anything with this will be sorted into the item section of the editor.
     }
 
@@ -191,11 +196,7 @@ namespace StudioCore.TextEditor
         Skills = 40,
 
         // ER
-        TitleGem = 35,
-        SummaryGem = 36,
         DescriptionGem = 37,
-        TitleMessage = 41,
-        TitleSwordArts = 42,
         SummarySwordArts = 43,
         WeaponEffect = 44,
         ERUnk45 = 45,
@@ -209,6 +210,20 @@ namespace StudioCore.TextEditor
         TutorialBody = 208,
         TextEmbedImageName_win64 = 209,
 
+        // AC6
+        TitleBooster = 38,
+        DescriptionBooster = 39,
+        //
+        RankerProfile = 50,
+        TitleMission = 60,
+        SummaryMission = 61,
+        DescriptionMission = 62,
+        MissionLocation = 63,
+        TitleArchive = 65,
+        DescriptionArchive = 66,
+        TutorialTitle2023 = 73,
+        TutorialBody2023 = 74,
+
         // Multiple use cases. Differences are applied in ApplyGameDifferences();
         ReusedFMG_32 = 32,
         // FMG 32
@@ -216,16 +231,34 @@ namespace StudioCore.TextEditor
         // DS3: ActionButtonText
         // SDT: ActionButtonText
         // ER:  ActionButtonText
+        ReusedFMG_35 = 35,
+        // FMG 35
+        // Most: TitleGem
+        // AC6:  TitleGenerator
+        ReusedFMG_36 = 36,
+        // FMG 36
+        // Most: SummaryGem
+        // AC6:  DescriptionGenerator
+        ReusedFMG_41 = 41,
+        // FMG 41
+        // Most: TitleMessage
+        // AC6:  TitleFCS
+        ReusedFMG_42 = 42,
+        // FMG 42
+        // Most: TitleSwordArts
+        // AC6:  DescriptionFCS
         ReusedFMG_210 = 210,
         // FMG 210
         // DS3: TitleGoods_DLC1
         // SDT: ?
         // ER:  ToS_win64
+        // AC6: TextEmbeddedImageNames
         ReusedFMG_205 = 205,
         // FMG 205
         // DS3: SystemMessage_PS4
         // SDT: TutorialText
         // ER:  LoadingTitle
+        // AC6: MenuContext
         ReusedFMG_206 = 206,
         // FMG 206
         // DS3: SystemMessage_XboxOne 
@@ -748,21 +781,34 @@ namespace StudioCore.TextEditor
                 case FmgIDType.TitleLocations_Patch:
                     return FmgEntryCategory.Locations;
 
-                case FmgIDType.TitleGem:
-                case FmgIDType.SummaryGem:
                 case FmgIDType.DescriptionGem:
                     return FmgEntryCategory.Gem;
 
-                case FmgIDType.TitleSwordArts:
                 case FmgIDType.SummarySwordArts:
                     return FmgEntryCategory.SwordArts;
 
                 case FmgIDType.TutorialTitle:
                 case FmgIDType.TutorialBody:
+                case FmgIDType.TutorialTitle2023:
+                case FmgIDType.TutorialBody2023:
                     return FmgEntryCategory.Tutorial;
 
                 case FmgIDType.WeaponEffect:
                     return FmgEntryCategory.ItemFmgDummy;
+
+                case FmgIDType.TitleMission:
+                case FmgIDType.SummaryMission:
+                case FmgIDType.DescriptionMission:
+                case FmgIDType.MissionLocation:
+                    return FmgEntryCategory.Mission;
+
+                case FmgIDType.TitleBooster:
+                case FmgIDType.DescriptionBooster:
+                    return FmgEntryCategory.Booster;
+
+                case FmgIDType.TitleArchive:
+                case FmgIDType.DescriptionArchive:
+                    return FmgEntryCategory.Archive;
 
                 default:
                     return FmgEntryCategory.None;
@@ -798,6 +844,9 @@ namespace StudioCore.TextEditor
                 case FmgIDType.DescriptionWeapons_Patch:
                 case FmgIDType.DescriptionGem:
                 case FmgIDType.SummarySwordArts: // Include as Description (for text box size)
+                case FmgIDType.DescriptionBooster:
+                case FmgIDType.DescriptionMission:
+                case FmgIDType.DescriptionArchive:
                     return FmgEntryTextType.Description;
 
                 case FmgIDType.SummaryGoods:
@@ -815,8 +864,9 @@ namespace StudioCore.TextEditor
                 case FmgIDType.SummaryGoods_Patch:
                 case FmgIDType.SummaryRings_Patch:
                 case FmgIDType.SummaryWeapons_Patch:
-                case FmgIDType.SummaryGem:
+                case FmgIDType.SummaryMission:
                 case FmgIDType.TutorialTitle: // Include as summary (not all TutorialBody's have a title)
+                case FmgIDType.TutorialTitle2023:
                     return FmgEntryTextType.Summary;
 
                 case FmgIDType.TitleGoods:
@@ -849,15 +899,18 @@ namespace StudioCore.TextEditor
                 case FmgIDType.TitleRings_Patch:
                 case FmgIDType.TitleSpells_Patch:
                 case FmgIDType.TitleWeapons_Patch:
-                case FmgIDType.TitleGem:
-                case FmgIDType.TitleSwordArts:
+                case FmgIDType.TitleBooster:
+                case FmgIDType.TitleMission:
+                case FmgIDType.TitleArchive:
                     return FmgEntryTextType.Title;
 
                 case FmgIDType.GoodsInfo2:
+                case FmgIDType.MissionLocation:
                     return FmgEntryTextType.ExtraText;
 
                 case FmgIDType.WeaponEffect:
-                case FmgIDType.TutorialBody: // Include as TextBody
+                case FmgIDType.TutorialBody: // Include as TextBody to make it display foremost.
+                case FmgIDType.TutorialBody2023:
                     return FmgEntryTextType.TextBody;
 
                 default:
@@ -908,7 +961,10 @@ namespace StudioCore.TextEditor
                 case FmgEntryCategory.Rings:
                 case FmgEntryCategory.Gem:
                 case FmgEntryCategory.SwordArts:
-                case FmgEntryCategory.ItemFmgDummy:
+                case FmgEntryCategory.Generator:
+                case FmgEntryCategory.Booster:
+                case FmgEntryCategory.FCS:
+                case FmgEntryCategory.Archive:
                     info.UICategory = FmgUICategory.Item;
                     break;
                 default:
@@ -1019,7 +1075,7 @@ namespace StudioCore.TextEditor
 
         public static void ReloadFMGs(string languageFolder = "")
         {
-            TaskManager.Run(new("FMG - Load Text", true, false, true, () =>
+            TaskManager.Run(new("FMG - Load Text", TaskManager.RequeueType.WaitThenRequeue, true, () =>
             {
                 IsLoaded = false;
                 IsLoading = true;
@@ -1139,8 +1195,8 @@ namespace StudioCore.TextEditor
                         return;
                     }
                 }
-                TaskLogs.AddLog($"Could not find a patch parent for FMG \"{info.Name}\" with ID {info.FmgID}",
-                    Microsoft.Extensions.Logging.LogLevel.Warning);
+                TaskLogs.AddLog($"Couldn't find patch parent for FMG \"{info.Name}\" with ID {info.FmgID}",
+                    Microsoft.Extensions.Logging.LogLevel.Error);
             }
         }
 
@@ -1166,6 +1222,70 @@ namespace StudioCore.TextEditor
                         info.EntryCategory = FmgEntryCategory.ActionButtonText;
                     }
                     break;
+                case FmgIDType.ReusedFMG_35:
+                    if (gameType == GameType.ArmoredCoreVI)
+                    {
+                        info.Name = "TitleGenerator";
+                        info.UICategory = FmgUICategory.Item;
+                        info.EntryCategory = FmgEntryCategory.Generator;
+                        info.EntryType = FmgEntryTextType.Title;
+                    }
+                    else
+                    {
+                        info.Name = "TitleGem";
+                        info.UICategory = FmgUICategory.Item;
+                        info.EntryCategory = FmgEntryCategory.Gem;
+                        info.EntryType = FmgEntryTextType.Title;
+                    }
+                    break;
+                case FmgIDType.ReusedFMG_36:
+                    if (gameType == GameType.ArmoredCoreVI)
+                    {
+                        info.Name = "DescriptionGenerator";
+                        info.UICategory = FmgUICategory.Item;
+                        info.EntryCategory = FmgEntryCategory.Generator;
+                        info.EntryType = FmgEntryTextType.Description;
+                    }
+                    else
+                    {
+                        info.Name = "SummaryGem";
+                        info.UICategory = FmgUICategory.Item;
+                        info.EntryCategory = FmgEntryCategory.Gem;
+                        info.EntryType = FmgEntryTextType.Summary;
+                    }
+                    break;
+                case FmgIDType.ReusedFMG_41:
+                    if (gameType == GameType.ArmoredCoreVI)
+                    {
+                        info.Name = "TitleFCS";
+                        info.UICategory = FmgUICategory.Item;
+                        info.EntryCategory = FmgEntryCategory.FCS;
+                        info.EntryType = FmgEntryTextType.Title;
+                    }
+                    else
+                    {
+                        info.Name = "TitleMessage";
+                        info.UICategory = FmgUICategory.Menu;
+                        info.EntryCategory = FmgEntryCategory.Message;
+                        info.EntryType = FmgEntryTextType.TextBody;
+                    }
+                    break;
+                case FmgIDType.ReusedFMG_42:
+                    if (gameType == GameType.ArmoredCoreVI)
+                    {
+                        info.Name = "DescriptionFCS";
+                        info.UICategory = FmgUICategory.Item;
+                        info.EntryCategory = FmgEntryCategory.FCS;
+                        info.EntryType = FmgEntryTextType.Description;
+                    }
+                    else
+                    {
+                        info.Name = "TitleSwordArts";
+                        info.UICategory = FmgUICategory.Item;
+                        info.EntryCategory = FmgEntryCategory.SwordArts;
+                        info.EntryType = FmgEntryTextType.Title;
+                    }
+                    break;
                 case FmgIDType.Event:
                 case FmgIDType.Event_Patch:
                     if (gameType is GameType.DemonsSouls or GameType.DarkSoulsPTDE or GameType.DarkSoulsRemastered or GameType.Bloodborne)
@@ -1176,6 +1296,8 @@ namespace StudioCore.TextEditor
                         info.Name = "LoadingTitle";
                     else if (gameType == GameType.Sekiro)
                         info.Name = "LoadingText";
+                    else if (gameType == GameType.ArmoredCoreVI)
+                        info.Name = "MenuContext";
                     else
                         info.Name = "SystemMessage_PS4";
                     break;
@@ -1191,6 +1313,13 @@ namespace StudioCore.TextEditor
                     if (gameType == GameType.EldenRing)
                     {
                         info.Name = "ToS_win64";
+                        info.UICategory = FmgUICategory.Menu;
+                        info.EntryType = FmgEntryTextType.TextBody;
+                        info.EntryCategory = FmgEntryCategory.None;
+                    }
+                    else if (gameType == GameType.ArmoredCoreVI)
+                    {
+                        info.Name = "TextEmbeddedImageNames";
                         info.UICategory = FmgUICategory.Menu;
                         info.EntryType = FmgEntryTextType.TextBody;
                         info.EntryCategory = FmgEntryCategory.None;
@@ -1352,14 +1481,11 @@ namespace StudioCore.TextEditor
 
         public static bool ExportFMGs()
         {
-            using FileChooserNative fileChooser = new FileChooserNative("Choose Export Folder",
-                null, FileChooserAction.SelectFolder, "Open", "Cancel");
-            if (fileChooser.Run() != (int)ResponseType.Accept)
+            if (!PlatformUtils.Instance.OpenFolderDialog("Choose Export Folder", out string path))
             {
                 return false;
             }
 
-            var path = fileChooser.Filename;
             int filecount = 0;
             if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
             {
@@ -1415,17 +1541,11 @@ namespace StudioCore.TextEditor
 
         public static bool ImportFMGs()
         {
-            using FileChooserNative fileChooser = new FileChooserNative("Choose Files to Import",
-                null, FileChooserAction.Open, "Open", "Cancel");
-            fileChooser.AddFilter(AssetLocator.FmgJsonFilter);
-            fileChooser.AddFilter(AssetLocator.AllFilesFilter);
-            if (fileChooser.Run() != (int)ResponseType.Accept)
+            if (!PlatformUtils.Instance.OpenMultiFileDialog("Choose Files to Import", new[] { AssetLocator.FmgJsonFilter }, out var files))
             {
                 return false;
             }
-            var files = fileChooser.Filenames;
-
-            if (files.Length == 0)
+            if (files.Count == 0)
             {
                 return false;
             }
@@ -1455,7 +1575,8 @@ namespace StudioCore.TextEditor
                 }
                 catch (JsonException e)
                 {
-                    PlatformUtils.Instance.MessageBox($"{e.Message}\n\nCouldn't import '{filePath}'", "Import Error", MessageBoxButtons.OK);
+                    TaskLogs.AddLog($"{e.Message}\n\nCouldn't import \"{filePath}\"",
+                        Microsoft.Extensions.Logging.LogLevel.Warning, TaskLogs.LogPriority.High, e);
                 }
             }
 
@@ -1549,9 +1670,8 @@ namespace StudioCore.TextEditor
             }
             catch(MsbEditor.SavingFailedException e)
             {
-                PlatformUtils.Instance.MessageBox(e.Wrapped.Message, e.Message,
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.None);
+                TaskLogs.AddLog(e.Wrapped.Message,
+                    Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High, e.Wrapped);
             }
         }
 

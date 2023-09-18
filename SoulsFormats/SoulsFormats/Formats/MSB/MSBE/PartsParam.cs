@@ -205,7 +205,7 @@ namespace SoulsFormats
             /// <summary>
             /// 1 disables the part, 2 and 3 are unknown.
             /// </summary>
-            public UnkEnabledStateType UnkEnabledState { get; set; }
+            public UnkEnabledStateType UnkEnabledState { get; set; } = UnkEnabledStateType.Default;
 
             /// <summary>
             /// Very speculative
@@ -1924,7 +1924,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Sets collision behavior. Fall collision, death collision, enemy-only collision, etc.
                 /// </summary>
-                public HitFilterType HitFilterID { get; set; }
+                public HitFilterType HitFilterID { get; set; } = HitFilterType.Standard;
 
                 /// <summary>
                 /// Unknown.

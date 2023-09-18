@@ -33,20 +33,14 @@
     <Field Def="u8 Unk08c" />
     <Field Def="u8 Unk08d" />
     <Field Def="f32 Unk09" />
-    <Field Def="u8 Unk10a" />
-    <Field Def="u8 Unk10b" />
-    <Field Def="u8 Unk10c" />
-    <Field Def="u8 Unk10d" />
-    <Field Def="u8 Unk11a" />
-    <Field Def="u8 Unk11b" />
-    <Field Def="u8 Unk11c" />
-    <Field Def="u8 Unk11d" />
+    <Field Def="s32 Unk10a" />
+    <Field Def="s32 message_box_id" />
     <Field Def="f32 Unk12" />
     <Field Def="f32 Unk13" />
     <Field Def="f32 Unk14" />
-    <Field Def="s32 Unk15" />
-    <Field Def="s32 Unk16" />
-    <Field Def="s32 Unk17" />
+    <Field Def="s32 rank_1_color" />
+    <Field Def="s32 rank_2_color" />
+    <Field Def="s32 rank_3_color" />
     <Field Def="f32 Unk18" />
   </Fields>
 </PARAMDEF>

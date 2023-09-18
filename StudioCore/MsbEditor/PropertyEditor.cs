@@ -259,8 +259,7 @@ namespace StudioCore.MsbEditor
                 {
                     // SoulsFormats does not define if alpha should be exposed. Expose alpha by default.
                     TaskLogs.AddLog($"Color property in \"{prop.DeclaringType}\" does not declare if it supports Alpha. Alpha will be exposed by default",
-                        Microsoft.Extensions.Logging.LogLevel.Warning,
-                        TaskLogs.LogPriority.Low);
+                        Microsoft.Extensions.Logging.LogLevel.Warning, TaskLogs.LogPriority.Low);
 
                     var color = (Color)oldval;
                     Vector4 val = new(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f);

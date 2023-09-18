@@ -350,6 +350,10 @@ namespace StudioCore.MsbEditor
                 }
                 return mesh;
             }
+            else if (_assetLocator.Type == GameType.ArmoredCoreVI)
+            {
+                //TODO AC6
+            }
             else if (loadnav && _assetLocator.Type != GameType.DarkSoulsIISOTFS)
             {
                 var mesh = MeshRenderableProxy.MeshRenderableFromNVMResource(
@@ -565,7 +569,7 @@ namespace StudioCore.MsbEditor
             }
         }
 
-        public void LoadRelatedMaps(string mapid, Dictionary<string, ObjectContainer> maps)
+        public void LoadRelatedMapsER(string mapid, Dictionary<string, ObjectContainer> maps)
         {
             var relatedMaps = SpecialMapConnections.GetRelatedMaps(GameType.EldenRing, mapid, maps.Keys);
             foreach (var map in relatedMaps)
@@ -603,13 +607,17 @@ namespace StudioCore.MsbEditor
 
                 if (_assetLocator.Type == GameType.DarkSoulsIISOTFS)
                 {
-                    var bdt = BXF4.Read(ad.AssetPath, ad.AssetPath[..^3] + "bdt");
+                    using var bdt = BXF4.Read(ad.AssetPath, ad.AssetPath[..^3] + "bdt");
                     var file = bdt.Files.Find(f => f.Name.EndsWith("light.btl.dcx"));
                     if (file == null)
                     {
                         return null;
                     }
                     btl = BTL.Read(file.Bytes);
+                }
+                else if (_assetLocator.Type == GameType.ArmoredCoreVI)
+                {
+                    throw new NotSupportedException("AC6 TODO: BTL");
                 }
                 else
                 {
@@ -618,10 +626,10 @@ namespace StudioCore.MsbEditor
 
                 return btl;
             }
-            catch (InvalidDataException)
+            catch (InvalidDataException e)
             {
                 TaskLogs.AddLog($"Failed to load {ad.AssetName}",
-                    Microsoft.Extensions.Logging.LogLevel.Error);
+                    Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.Normal, e);
                 return null;
             }
         }
@@ -660,6 +668,8 @@ namespace StudioCore.MsbEditor
                     case GameType.EldenRing:
                         _dispGroupCount = 8; //?
                         break;
+                    case GameType.ArmoredCoreVI:
+                        //TODO AC6
                     default:
                         throw new Exception($"Error: Did not expect Gametype {_assetLocator.Type}");
                         //break;
@@ -682,6 +692,11 @@ namespace StudioCore.MsbEditor
                 else if (_assetLocator.Type == GameType.EldenRing)
                 {
                     msb = MSBE.Read(ad.AssetPath);
+                }
+                else if (_assetLocator.Type == GameType.ArmoredCoreVI)
+                {
+                    //TODO AC6
+                    return;
                 }
                 else if (_assetLocator.Type == GameType.DarkSoulsIISOTFS)
                 {
@@ -721,7 +736,17 @@ namespace StudioCore.MsbEditor
                             chrsToLoad.Add(tasset);
                         }
                     }
-                    else if (model.Name.StartsWith("o") || model.Name.StartsWith("AEG"))
+                    else if (model.Name.StartsWith("o"))
+                    {
+                        asset = _assetLocator.GetObjModel(model.Name);
+                        objsToLoad.Add(asset);
+                        var tasset = _assetLocator.GetObjTexture(model.Name);
+                        if (tasset.AssetVirtualPath != null || tasset.AssetArchiveVirtualPath != null)
+                        {
+                            objsToLoad.Add(tasset);
+                        }
+                    }
+                    else if (model.Name.StartsWith("AEG"))
                     {
                         asset = _assetLocator.GetObjModel(model.Name);
                         objsToLoad.Add(asset);
@@ -730,6 +755,10 @@ namespace StudioCore.MsbEditor
                     {
                         asset = _assetLocator.GetMapCollisionModel(amapid, _assetLocator.MapModelNameToAssetName(amapid, model.Name), false);
                         colsToLoad.Add(asset);
+                    }
+                    else if (_assetLocator.Type == GameType.ArmoredCoreVI)
+                    {
+                        //TODO AC6
                     }
                     else if (model.Name.StartsWith("n") && _assetLocator.Type != GameType.DarkSoulsIISOTFS && _assetLocator.Type != GameType.Bloodborne)
                     {
@@ -948,9 +977,8 @@ namespace StudioCore.MsbEditor
             catch (Exception e)
             {
 #if DEBUG
-                TaskLogs.AddLog($"Map Load Failed (debug build): {e}",
-                    Microsoft.Extensions.Logging.LogLevel.Error,
-                    TaskLogs.LogPriority.High);
+                TaskLogs.AddLog($"Map Load Failed (debug build)",
+                    Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High, e);
                 throw;
 #else
                 // Store async exception so it can be caught by crash handler.
@@ -1213,6 +1241,10 @@ namespace StudioCore.MsbEditor
             {
                 return DCX.Type.DCX_DFLT_10000_44_9;
             }
+            else if (_assetLocator.Type == GameType.ArmoredCoreVI)
+            {
+                //TODO AC6
+            }
             else if (_assetLocator.Type == GameType.DarkSoulsIISOTFS)
             {
                 return DCX.Type.None;
@@ -1277,6 +1309,10 @@ namespace StudioCore.MsbEditor
                     }
                 }
             }
+            else if (_assetLocator.Type == GameType.ArmoredCoreVI)
+            {
+                //TODO AC6
+            }
             else
             {
                 for (var i = 0; i < BTLs.Count; i++)
@@ -1332,6 +1368,11 @@ namespace StudioCore.MsbEditor
                     n.Layers = prev.Layers;
                     n.Routes = prev.Routes;
                     msb = n;
+                }
+                else if (_assetLocator.Type == GameType.ArmoredCoreVI)
+                {
+                    //TODO AC6
+                    return;
                 }
                 else if (_assetLocator.Type == GameType.DarkSoulsIISOTFS)
                 {
@@ -1422,9 +1463,6 @@ namespace StudioCore.MsbEditor
             {
                 throw new SavingFailedException(Path.GetFileName(map.Name), e);
             }
-            //var json = JsonConvert.SerializeObject(map.SerializeHierarchy());
-            //Utils.WriteStringWithBackup(_assetLocator.GameRootDirectory, _assetLocator.GameModDirectory,
-            //    $@"{Path.GetFileNameWithoutExtension(mapPath)}.json", json);
         }
 
         public void SaveAllMaps()

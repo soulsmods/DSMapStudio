@@ -11,5 +11,9 @@
     <chr_physics_texture_id AltName="Physics Texture ID" Refs="PhysicsTextureParam0"/>
     <dead_type_id AltName="Dead Type ID" Refs="DeadTypeParam"/>
     <allotted_time AltName="Allotted Time"/>
+    <message_box_id AltName="Message Box ID" />
+    <rank_1_color AltName="Rank 1 Color" />
+    <rank_2_color AltName="Rank 2 Color" />
+    <rank_3_color AltName="Rank 3 Color" />
   </Field>
 </PARAMMETA>
