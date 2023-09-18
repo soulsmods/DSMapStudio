@@ -12,7 +12,1335 @@
                         { "tag": "default" },
                         { "tag": "default" }
                     ]
-                }
+                },
+                {
+					"fileName": "c0000",
+					"referenceName": "Human NPC",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c0000_0018",
+					"referenceName": "Cornyx of the Great Swamp",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c0000_0020",
+					"referenceName": "Greirat of the Undead Settlement",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1000",
+					"referenceName": "Invisible",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1070",
+					"referenceName": "Skeleton",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1071",
+					"referenceName": "Ringed City Skeleton",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1090",
+					"referenceName": "Pus of Man",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1100",
+					"referenceName": "Hollow Soldier",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1101",
+					"referenceName": "Lothric Castle Hollow Soldier",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1102",
+					"referenceName": "Grand Archives Hollow Soldier",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1105",
+					"referenceName": "Large Hollow Soldier",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1106",
+					"referenceName": "Lothric Castle Large Hollow Soldier",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1130",
+					"referenceName": "Rotten Slug",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1170",
+					"referenceName": "Carthus Curved Sword Skeleton",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1180",
+					"referenceName": "Carthus Shotel Skeleton",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1190",
+					"referenceName": "Cathedral Knight",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1200",
+					"referenceName": "Hollow Slave",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1201",
+					"referenceName": "Dreg Heap Hollow Slave",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1210",
+					"referenceName": "Ghru Grunt",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1211",
+					"referenceName": "Smouldering Ghru Grunt",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1220",
+					"referenceName": "Reanimated Corpse",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1230",
+					"referenceName": "Cathedral Evangelist",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1240",
+					"referenceName": "Peasant Hollow",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1241",
+					"referenceName": "Irirthyll Dungeon Peasant Hollow",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1250",
+					"referenceName": "Grave Warden",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1260",
+					"referenceName": "Hollow Manservant",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1280",
+					"referenceName": "High Wall Lothric Knight",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1281",
+					"referenceName": "Lothric Castle Lothric Knight",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1282",
+					"referenceName": "Red-Eyed Lothric Knight",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1283",
+					"referenceName": "Dreg Heap Lothric Knight",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1290",
+					"referenceName": "Winged Knight",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1300",
+					"referenceName": "Black Knight",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1310",
+					"referenceName": "Boreal Outrider Knight",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1320",
+					"referenceName": "Crystal Sage in Farron",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1321",
+					"referenceName": "Crystal Sage in Archives",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1340",
+					"referenceName": "Grand Archives Scholar",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1350",
+					"referenceName": "Irithyllian Slave",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1360",
+					"referenceName": "Lycanthrope",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1370",
+					"referenceName": "Lycanthrope Hunter",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1380",
+					"referenceName": "Serpent-Man Summoner",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1390",
+					"referenceName": "Serpent-Man",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1391",
+					"referenceName": "Large Serpent-Man",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1400",
+					"referenceName": "Fire Keeper",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1410",
+					"referenceName": "Silver Knight",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1430",
+					"referenceName": "Cemetery Hollow",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1440",
+					"referenceName": "Cathedral Hollow Soldier",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1441",
+					"referenceName": "Road of Sacrifices Hollow Soldier",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1442",
+					"referenceName": "Lothric Priest",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1445",
+					"referenceName": "Cathedral Large Hollow Soldier",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1446",
+					"referenceName": "Road of Sacrifices Sorcerer",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1450",
+					"referenceName": "Ludleth of Courland",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1470",
+					"referenceName": "Bonewheel Skeleton",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1480",
+					"referenceName": "Irithyll Phantom 1",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1490",
+					"referenceName": "Irithyll Phantom 2",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2020",
+					"referenceName": "Large Starved Hound",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2021",
+					"referenceName": "Starved Hound",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2030",
+					"referenceName": "Pontiff Knight",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2040",
+					"referenceName": "Monstrosity of Sin",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2060",
+					"referenceName": "Infested Corpse",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2070",
+					"referenceName": "Wretch",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2080",
+					"referenceName": "Maggot Belly Starved Hound",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2090",
+					"referenceName": "Consumed King Oceiros",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2100",
+					"referenceName": "Sewer Centipede",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2110",
+					"referenceName": "Hound Rat",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2120",
+					"referenceName": "Mimic Chest",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2130",
+					"referenceName": "Catacombs Writhing Flesh",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2131",
+					"referenceName": "Anor Londo Writhing Flesh",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2132",
+					"referenceName": "Smouldering Writhing Flesh",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2140",
+					"referenceName": "Basilisk",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2150",
+					"referenceName": "Crystal Lizard",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2160",
+					"referenceName": "Yoel of Londor (Stone-humped Hag)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2170",
+					"referenceName": "Yorshka",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2180",
+					"referenceName": "Corpse-grub",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2190",
+					"referenceName": "Archives Gargoyle",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2191",
+					"referenceName": "Profaned Capital Gargoyle",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2200",
+					"referenceName": "Carthus Sandworm",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2210",
+					"referenceName": "Corvian",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2230",
+					"referenceName": "Jailer",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2240",
+					"referenceName": "Vordt of the Boreal Valley",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2250",
+					"referenceName": "Sulyvahn's Beast",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2260",
+					"referenceName": "Ballista",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2270",
+					"referenceName": "Greater Crab",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2271",
+					"referenceName": "Lesser Crab",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2280",
+					"referenceName": "Large Hound Rat",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2290",
+					"referenceName": "Irithyll Starved Hound",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3020",
+					"referenceName": "Irithyll Giant Slave",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3021",
+					"referenceName": "Giant Slave",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3040",
+					"referenceName": "Abyss Watchers",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3050",
+					"referenceName": "Old Demon King",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3060",
+					"referenceName": "Demon",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3070",
+					"referenceName": "Demon Cleric",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3071",
+					"referenceName": "Demon Cleric Helper",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3080",
+					"referenceName": "Pilgrim Butterfly",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3090",
+					"referenceName": "Cage Spider",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3100",
+					"referenceName": "Ravenous Crystal Lizard",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3110",
+					"referenceName": "Deep Accursed",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3120",
+					"referenceName": "Elder Ghru",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3140",
+					"referenceName": "Ancient Wyvern Mob",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3141",
+					"referenceName": "Ancient Wyvern",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3160",
+					"referenceName": "Dragonslayer Armour",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3170",
+					"referenceName": "Darkwraith",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3190",
+					"referenceName": "Andre",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3200",
+					"referenceName": "Shrine Handmaid",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3210",
+					"referenceName": "Poisonhorn Bug",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3220",
+					"referenceName": "Rock Lizard",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3230",
+					"referenceName": "Demonic Statue",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3250",
+					"referenceName": "Emma",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5020",
+					"referenceName": "Demon Prince",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5021",
+					"referenceName": "Demon Prince Helper 1",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5022",
+					"referenceName": "Demon Prince Helper 2",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5010",
+					"referenceName": "Nameless King",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5030",
+					"referenceName": "King of the Storm",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5110",
+					"referenceName": "Gundyr",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5140",
+					"referenceName": "Pontiff Sulyvahn",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5150",
+					"referenceName": "Aldrich, Devourer of Gods",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5160",
+					"referenceName": "High Lord Wolnir",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5180",
+					"referenceName": "Rotted Greatwood",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5200",
+					"referenceName": "Stray Demon",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5210",
+					"referenceName": "Rosaria",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5220",
+					"referenceName": "Archdeacon of the Deep",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5221",
+					"referenceName": "Wide Deacon of the Deep",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5222",
+					"referenceName": "Tall Deacon of the Deep",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5223",
+					"referenceName": "Cathedral Deacon",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5225",
+					"referenceName": "Irirthyll Wide Deacon",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5226",
+					"referenceName": "Irirthyll Tall Deacon",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5227",
+					"referenceName": "Irirthyll Deacon",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5240",
+					"referenceName": "Fire Witch",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5250",
+					"referenceName": "Twin Princes",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5251",
+					"referenceName": "Twin Princes Helper",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5260",
+					"referenceName": "Yhorm the Giant",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5270",
+					"referenceName": "Dancer of the Boreal Valley",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5280",
+					"referenceName": "Lords of Cinder",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6000",
+					"referenceName": "Farron Follower",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6010",
+					"referenceName": "Father Ariandel",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6020",
+					"referenceName": "Sister Friede",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6030",
+					"referenceName": "Greatwolf",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6040",
+					"referenceName": "Wolf",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6050",
+					"referenceName": "Wolf",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6060",
+					"referenceName": "Tree Woman",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6070",
+					"referenceName": "Corvian Knight",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6080",
+					"referenceName": "Corvian Settler",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6081",
+					"referenceName": "Corvian Settler",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6090",
+					"referenceName": "Giant Fly",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6100",
+					"referenceName": "Millwood Knight",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6120",
+					"referenceName": "Ariandel Painting Child",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6121",
+					"referenceName": "Ariandel Painting Child 2",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6130",
+					"referenceName": "Ariandel Greater Crab",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6200",
+					"referenceName": "Slave Knight Gael",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6201",
+					"referenceName": "Slave Knight Gael 2",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6210",
+					"referenceName": "Bridge Darkeater Midir",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6211",
+					"referenceName": "Darkeater Midir",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6230",
+					"referenceName": "Murkman Summoner",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6231",
+					"referenceName": "Murkman",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6232",
+					"referenceName": "Humanity Sprite",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6240",
+					"referenceName": "Angel Pilgrim",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6250",
+					"referenceName": "Angel",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6260",
+					"referenceName": "Ringed Knight",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6270",
+					"referenceName": "Lothric Thief",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6280",
+					"referenceName": "Judicator",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6281",
+					"referenceName": "Judicator Helper",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6290",
+					"referenceName": "Hollow Cleric",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6300",
+					"referenceName": "Passive Locust Preacher",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6310",
+					"referenceName": "Filianore",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6320",
+					"referenceName": "Harald Legion Knight",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6330",
+					"referenceName": "Locust Preacher",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6331",
+					"referenceName": "Small Locust Preacher",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				}
             ],
             "objReferences": [
                 {
@@ -47,6 +1375,6 @@
                     ]
                 }
             ]
-        },
+        }
     ]
 }

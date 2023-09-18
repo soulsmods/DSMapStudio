@@ -12,7 +12,1639 @@
                         { "tag": "default" },
                         { "tag": "default" }
                     ]
-                }
+                },
+                {
+					"fileName": "c0001",
+					"referenceName": "Human NPC/Player",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1000",
+					"referenceName": "Goblin",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1010",
+					"referenceName": "Kobold",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1020",
+					"referenceName": "Hollow Soldier",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1021",
+					"referenceName": "Royal Soldier",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1030",
+					"referenceName": "Hollow Infantry",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1031",
+					"referenceName": "Royal Infantry",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1050",
+					"referenceName": "Amana Shrine Maiden",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1060",
+					"referenceName": "Hollow Priest",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1062",
+					"referenceName": "Hollow Priestess",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1070",
+					"referenceName": "Parasitized Undead",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1080",
+					"referenceName": "Hollow Rouge",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1130",
+					"referenceName": "Varangian Sailor",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1150",
+					"referenceName": "Undead Traveler",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1170",
+					"referenceName": "Stone Soldier",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1180",
+					"referenceName": "Hollow Mage (Black)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1182",
+					"referenceName": "Hollow Mage (White)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1210",
+					"referenceName": "Giant",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1230",
+					"referenceName": "Suspicious Shadow",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1240",
+					"referenceName": "Manikin",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1250",
+					"referenceName": "Undead Citizen",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1270",
+					"referenceName": "Undead Laborer",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1271",
+					"referenceName": "Undead Laborer (Frozen)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1290",
+					"referenceName": "Witchtree",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1292",
+					"referenceName": "Witchtree (Frozen)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1310",
+					"referenceName": "Lindelt Cleric",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1320",
+					"referenceName": "Skeleton",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1330",
+					"referenceName": "Bonewheel Skeleton",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1340",
+					"referenceName": "Gyrm",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1350",
+					"referenceName": "Gyrm Warrior",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1370",
+					"referenceName": "Aldia Warlock",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1380",
+					"referenceName": "Torturer",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1390",
+					"referenceName": "Artificial Undead",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1400",
+					"referenceName": "Weaponsmith Ornifex",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1410",
+					"referenceName": "Undead Aberration",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1460",
+					"referenceName": "Duke Tseldora",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1470",
+					"referenceName": "Undead Supplicant",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1480",
+					"referenceName": "Undead Peasant",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1490",
+					"referenceName": "Undead Steelworker",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1500",
+					"referenceName": "Stone Knight",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1510",
+					"referenceName": "Ironclad Soldier",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1512",
+					"referenceName": "Old Ironclad Soldier",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1520",
+					"referenceName": "Royal Swordsman",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1530",
+					"referenceName": "Syan Soldier",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1540",
+					"referenceName": "Skeleton Lords",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1550",
+					"referenceName": "Amana Aberration",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1570",
+					"referenceName": "Armored Skeleton",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2011",
+					"referenceName": "Enslaved Pig",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2021",
+					"referenceName": "Undead Boar",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2030",
+					"referenceName": "Parasite Spider",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2040",
+					"referenceName": "Poison Moth",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2050",
+					"referenceName": "Poison Horn Beetle",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2051",
+					"referenceName": "Acid Horn Beetle",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2060",
+					"referenceName": "Razorback Nightcrawler",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2090",
+					"referenceName": "Hunting Dog",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2100",
+					"referenceName": "Basilisk",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2120",
+					"referenceName": "Guardian Dragon",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2130",
+					"referenceName": "Crystal Lizard",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2131",
+					"referenceName": "Red Crystal Lizard",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2140",
+					"referenceName": "Giant Undead Boar",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2160",
+					"referenceName": "Wall Ghost",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2170",
+					"referenceName": "Dark Stalker",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2200",
+					"referenceName": "Giant Acid Horn Beetle",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2220",
+					"referenceName": "Giant Basilisk",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2230",
+					"referenceName": "Dog Rat",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2240",
+					"referenceName": "Darksucker",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2250",
+					"referenceName": "Marker NPC",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2260",
+					"referenceName": "Corpse Rat",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2261",
+					"referenceName": "Royal Rat Vanguard",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2262",
+					"referenceName": "The Rat King",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2270",
+					"referenceName": "Stray Hound Stray Dog",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2271",
+					"referenceName": "Frost Hound",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3000",
+					"referenceName": "Ogre",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3010",
+					"referenceName": "Heide Knight",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3020",
+					"referenceName": "Undead Jailer",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3033",
+					"referenceName": "Flexile Sentry",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3040",
+					"referenceName": "Injured Milfanito",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3050",
+					"referenceName": "Smelter Demon",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3052",
+					"referenceName": "Smelter Demon (Blue)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3060",
+					"referenceName": "Alonne Captain",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3070",
+					"referenceName": "Body of Vengarl",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3071",
+					"referenceName": "Head of Vengarl",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3080",
+					"referenceName": "Lion Clan Warrior",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3081",
+					"referenceName": "Lion Clan Warrior (Golden)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3090",
+					"referenceName": "Elite Giant",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3096",
+					"referenceName": "The Last Giant",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3097",
+					"referenceName": "Giant Lord",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3110",
+					"referenceName": "Mounted Overseer",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3120",
+					"referenceName": "Grave Warden",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3130",
+					"referenceName": "Falconer",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3140",
+					"referenceName": "Primal Knight (Undead)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3150",
+					"referenceName": "Primal Knight",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3160",
+					"referenceName": "Desert Sorceress",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3170",
+					"referenceName": "Dragon Acolyte",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3180",
+					"referenceName": "The Pursuer",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3190",
+					"referenceName": "Alonne Knight",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3210",
+					"referenceName": "Mimic",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3240",
+					"referenceName": "Belfry Gargoyles",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3250",
+					"referenceName": "Ruin Sentinels",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3260",
+					"referenceName": "The Rotten",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3270",
+					"referenceName": "Dragon Skeleton",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3300",
+					"referenceName": "Old Knight",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3310",
+					"referenceName": "Drakekeeper",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3320",
+					"referenceName": "Throne Defender",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3330",
+					"referenceName": "Velstadt, The Royal Aegis",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3340",
+					"referenceName": "Throne Watcher",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3370",
+					"referenceName": "Captive Undead",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5000",
+					"referenceName": "Covetous Demon (Boss)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5001",
+					"referenceName": "Covetous Demon",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5010",
+					"referenceName": "Mytha, the Baneful Queen",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5020",
+					"referenceName": "Manscorpion Tark",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5030",
+					"referenceName": "Scorpioness Najka",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5040",
+					"referenceName": "Looking Glass Knighy",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5061",
+					"referenceName": "Darklurker",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5062",
+					"referenceName": "Darklurker (Clone)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5065",
+					"referenceName": "Grave Warden Agdayne",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5090",
+					"referenceName": "Leydia Witch",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5110",
+					"referenceName": "Imperious Knight",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5120",
+					"referenceName": "Leydia Pyromancer",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5146",
+					"referenceName": "Vendrick (Boss)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6000",
+					"referenceName": "Ancient Dragon",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6010",
+					"referenceName": "Flame Salamander",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6020",
+					"referenceName": "Demon of Song",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6030",
+					"referenceName": "The Duke's Dear Freja",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6070",
+					"referenceName": "Old Iron King",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6080",
+					"referenceName": "Corrosive Ant Queen",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6110",
+					"referenceName": "Dragonrider (Black)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6115",
+					"referenceName": "Dragonrider (Red)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6191",
+					"referenceName": "Executioner's Chariot",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6250",
+					"referenceName": "Old Dragonslayer",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6260",
+					"referenceName": "Lost Sinner",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6270",
+					"referenceName": "Nashandra (Boss)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6280",
+					"referenceName": "Royal Rat Authority",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6500",
+					"referenceName": "Iron Warrior",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6510",
+					"referenceName": "Fume Sorcerer",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6530",
+					"referenceName": "Ashen Warrior",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6540",
+					"referenceName": "Scorcher Ashen Crawler",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6560",
+					"referenceName": "Possessed Armor",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6570",
+					"referenceName": "Cask Runner Barrel Carrier",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6580",
+					"referenceName": "Alsanna, Silent Oracle",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6590",
+					"referenceName": "Rampart Golem",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6600",
+					"referenceName": "Ice Golem",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6610",
+					"referenceName": "Ice Stallion Frozen Reindeer",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6620",
+					"referenceName": "Ice Rat Rampart Hedgehog",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6630",
+					"referenceName": "Spellsword Rampart Spearman",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6650",
+					"referenceName": "Sanctum Knight",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6660",
+					"referenceName": "Sanctum Soldier",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6700",
+					"referenceName": "Sanctum Priestess",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6710",
+					"referenceName": "Poison Kokeshi Lizard",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6711",
+					"referenceName": "Petrifying Kokeshi Lizard",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6720",
+					"referenceName": "Corrosive Egg Insect",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6740",
+					"referenceName": "Pagan Tree",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6750",
+					"referenceName": "Fume Knight",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6770",
+					"referenceName": "Retainer",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6780",
+					"referenceName": "Frozen Golem",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6790",
+					"referenceName": "Lud & Zallen, the King's Pets",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6791",
+					"referenceName": "Aava, the King's Pet",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6800",
+					"referenceName": "Sir Alonne",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6810",
+					"referenceName": "Sinh, the Slumbering Dragon",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6820",
+					"referenceName": "Elana, the Squalid Queen",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6830",
+					"referenceName": "The Imperfect",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6840",
+					"referenceName": "Vendrick",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6880",
+					"referenceName": "Loyce Knight",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6890",
+					"referenceName": "Charred Loyce Knight",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6900",
+					"referenceName": "Burnt Ivory King",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6920",
+					"referenceName": "Aldia, Scholar of the First Sin",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6930",
+					"referenceName": "Aldia (Voice Marker)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7005",
+					"referenceName": "Emerald Herald Shanalotte",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7015",
+					"referenceName": "Child Emerald Herald (unused)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7036",
+					"referenceName": "Nashandra",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7045",
+					"referenceName": "Laddersmith Gilligan",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7050",
+					"referenceName": "Strowen (cutscene)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7051",
+					"referenceName": "Griant (cutscene)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7053",
+					"referenceName": "Morrel (cutscene)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7055",
+					"referenceName": "Strowen",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7056",
+					"referenceName": "Griant",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7058",
+					"referenceName": "Morrel",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7210",
+					"referenceName": "Chancellor Wellager",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7230",
+					"referenceName": "Milibeth",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7240",
+					"referenceName": "Captain Drummond",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7250",
+					"referenceName": "Darkdiver Grandahl",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7300",
+					"referenceName": "Looking Glass Phantom (Ultra Greatsword)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7310",
+					"referenceName": "Looking Glass Phantom (Halberd)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7420",
+					"referenceName": "Creighton the Wanderer",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7430",
+					"referenceName": "Benhart of Jugo",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7440",
+					"referenceName": "Mild-mannered Pate",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7510",
+					"referenceName": "Cartographer Cale",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7520",
+					"referenceName": "Lucatiel of Mirrah",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7530",
+					"referenceName": "Bell Keeper",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7540",
+					"referenceName": "Merchant Hag Melentia",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7600",
+					"referenceName": "Milfanito (Blonde)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7601",
+					"referenceName": "Milfanito (Brunette)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7602",
+					"referenceName": "Imprisoned Milfanito",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7620",
+					"referenceName": "Stone Trader Chloanne",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7640",
+					"referenceName": "Blacksmith Lenigrast",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7643",
+					"referenceName": "Steady Hand McDuff",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7680",
+					"referenceName": "Straid of Olaphis",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7690",
+					"referenceName": "Licia of Lindeldt",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7700",
+					"referenceName": "Felkin the Outcast",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7710",
+					"referenceName": "Royal Sorcerer Navlaan",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7770",
+					"referenceName": "Sweet Shalquoir",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7830",
+					"referenceName": "Titchy Gren",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7850",
+					"referenceName": "Blue Sentinel Targray",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c8050",
+					"referenceName": "Player Cutscene Character",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				}
             ],
             "objReferences": [
                 {
@@ -47,6 +1679,6 @@
                     ]
                 }
             ]
-        },
+        }
     ]
 }

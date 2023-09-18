@@ -12,7 +12,823 @@
                         { "tag": "default" },
                         { "tag": "default" }
                     ]
-                }
+                },
+                {
+					"fileName": "c0000",
+					"referenceName": "Player",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1000",
+					"referenceName": "Invisible",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1001",
+					"referenceName": "Invisible",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1010",
+					"referenceName": "Ashina Soldier",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1011",
+					"referenceName": "Tutorial Ashina Soldier",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1012",
+					"referenceName": "Hanbei the Undying",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1013",
+					"referenceName": "Hanbei the Undying (Alternate)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1020",
+					"referenceName": "Samurai General",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1021",
+					"referenceName": "Seven Ashina Spears",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1030",
+					"referenceName": "Centipede",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1040",
+					"referenceName": "Centipede Boss",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1050",
+					"referenceName": "Shinobi Hunter",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1060",
+					"referenceName": "Spear Adept",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1070",
+					"referenceName": "Shura Samurai",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1080",
+					"referenceName": "Shichimen Warrior",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1100",
+					"referenceName": "Gecko",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1110",
+					"referenceName": "Old Maid",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1111",
+					"referenceName": "Old Maid (Sunken Valley)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1120",
+					"referenceName": "Sentry",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1130",
+					"referenceName": "Armored Warrior",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1140",
+					"referenceName": "Rock Diver",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1150",
+					"referenceName": "Hound",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1151",
+					"referenceName": "Palace Hound",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1180",
+					"referenceName": "Taro Troop",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1181",
+					"referenceName": "Taro Troop (Mibu)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1190",
+					"referenceName": "Sunken Valley Clan",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1191",
+					"referenceName": "Snake Eyes",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1200",
+					"referenceName": "Infested Seeker (Parasite)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1210",
+					"referenceName": "Infested Seeker",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1211",
+					"referenceName": "Cricket",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1220",
+					"referenceName": "Seeker",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1240",
+					"referenceName": "Gamefowl",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1250",
+					"referenceName": "Valley Monkey",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1260",
+					"referenceName": "Folding Screen Monkey",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1300",
+					"referenceName": "Palace Noble",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1310",
+					"referenceName": "Okami Warrior",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1320",
+					"referenceName": "Treasure Carp",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1321",
+					"referenceName": "Man-eating Carp",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1340",
+					"referenceName": "Underwater Headless",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1350",
+					"referenceName": "Headless",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1360",
+					"referenceName": "Assassin (Senpou)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1361",
+					"referenceName": "Assassin (Interior Ministry)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1370",
+					"referenceName": "Blazing Bull",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1380",
+					"referenceName": "Sakura Bull of the Palace",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1400",
+					"referenceName": "Fencer",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1450",
+					"referenceName": "Nightjar Ninja",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1460",
+					"referenceName": "Kite",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1470",
+					"referenceName": "Lone Shadow",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1500",
+					"referenceName": "Mibu Villager",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1501",
+					"referenceName": "Mibu Villager",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1510",
+					"referenceName": "Mibu Villager Illusion",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1520",
+					"referenceName": "Test Subject",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1550",
+					"referenceName": "Bandit",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c1700",
+					"referenceName": "Red Guard",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5000",
+					"referenceName": "Corrupted Monk",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5001",
+					"referenceName": "Immortal Centipede",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5005",
+					"referenceName": "Corrupted Monk Illusion",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5010",
+					"referenceName": "Great Serpent",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5020",
+					"referenceName": "Chained Ogre",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5021",
+					"referenceName": "Feeding Grounds Attendant",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5040",
+					"referenceName": "Giant Rope Guy",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5050",
+					"referenceName": "Giant Carp",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5060",
+					"referenceName": "Owl",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5070",
+					"referenceName": "An Actual Owl",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5080",
+					"referenceName": "Gyoubu Oniwa",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5090",
+					"referenceName": "Lady Butterfly",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5100",
+					"referenceName": "Guardian Ape",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5200",
+					"referenceName": "Divine Dragon",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5300",
+					"referenceName": "Old Dragon",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5310",
+					"referenceName": "Tree Dragon",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5400",
+					"referenceName": "Sword Saint Isshin",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5410",
+					"referenceName": "Isshin",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5420",
+					"referenceName": "Isshin",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c5430",
+					"referenceName": "Isshin",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7000",
+					"referenceName": "O'Rin",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7010",
+					"referenceName": "Sculptor",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7020",
+					"referenceName": "Demon of Hatred",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7100",
+					"referenceName": "Genichiro Ashina",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7110",
+					"referenceName": "Genichiro, Way of Tomoe",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7200",
+					"referenceName": "Kuro",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7210",
+					"referenceName": "Memory Kuro",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7300",
+					"referenceName": "Divine Child",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7400",
+					"referenceName": "Emma",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7401",
+					"referenceName": "Emma",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7410",
+					"referenceName": "Jinzaemon Kumano",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7420",
+					"referenceName": "Anayama the Peddler",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7430",
+					"referenceName": "Fujioka the Info Broker",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7440",
+					"referenceName": "Old Praying Woman",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7450",
+					"referenceName": "Inosuke's Mother",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7460",
+					"referenceName": "Inosuke",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7470",
+					"referenceName": "Kotaro",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7480",
+					"referenceName": "Head Priest",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7490",
+					"referenceName": "Doujun",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7510",
+					"referenceName": "Blackhat Badger",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7500",
+					"referenceName": "Exiled Memorial Mob",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7520",
+					"referenceName": "Feeding Ground Attendant's Daughter",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7530",
+					"referenceName": "Old Priestess",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7540",
+					"referenceName": "Toxic Memorial Mob",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7550",
+					"referenceName": "Shugendo Memorial Mob",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7560",
+					"referenceName": "Dungeon Memorial Mob",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7590",
+					"referenceName": "Exiled Memorial Mob",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7600",
+					"referenceName": "Outskirts Memorial Mob",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				}
             ],
             "objReferences": [
                 {
@@ -47,6 +863,6 @@
                     ]
                 }
             ]
-        },
+        }
     ]
 }

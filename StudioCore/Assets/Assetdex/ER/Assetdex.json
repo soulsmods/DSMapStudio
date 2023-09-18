@@ -21,7 +21,2339 @@
                         { "tag": "player" },
                         { "tag": "human" }
                     ]
-                }
+                },
+                {
+					"fileName": "c2010",
+					"referenceName": "Blaidd",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2030",
+					"referenceName": "Rennala",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2031",
+					"referenceName": "Rennala",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2040",
+					"referenceName": "Rennala Student",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2041",
+					"referenceName": "Small Pest",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2050",
+					"referenceName": "Snow Witch Ranni",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2051",
+					"referenceName": "Snow Witch Ranni",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2060",
+					"referenceName": "The Two Fingers",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2070",
+					"referenceName": "The Three Fingers",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2100",
+					"referenceName": "Black Knife Assassin",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2110",
+					"referenceName": "Beast Clergyman",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2120",
+					"referenceName": "Malenia, Blade of Miquella",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2130",
+					"referenceName": "Morgott",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "boss" }
+					]
+				},
+				{
+					"fileName": "c2131",
+					"referenceName": "Morgott (Dead)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2140",
+					"referenceName": "Fell Twin",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2150",
+					"referenceName": "Empty",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2160",
+					"referenceName": "Palm Reader (Wooden Chair)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2170",
+					"referenceName": "Palm Reader (No Chair)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2180",
+					"referenceName": "Melina",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2190",
+					"referenceName": "Radagon",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "boss" }
+					]
+				},
+				{
+					"fileName": "c2191",
+					"referenceName": "Radagon (Crucified)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2200",
+					"referenceName": "Elden Beast",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "boss" }
+					]
+				},
+				{
+					"fileName": "c2270",
+					"referenceName": "Giant Crab",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2271",
+					"referenceName": "Crab",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2272",
+					"referenceName": "Giant Crab (Damaged)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2273",
+					"referenceName": "Crab (Maggots)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2274",
+					"referenceName": "Giant Crab (Clean)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2275",
+					"referenceName": "Crab (Clean)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2276",
+					"referenceName": "Giant Crab (Golden Tuffs)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2277",
+					"referenceName": "Crab (Golden Tuffs)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c2500",
+					"referenceName": "Crucible Knight",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3000",
+					"referenceName": "Castle Exile",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3010",
+					"referenceName": "Banished Knight",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3020",
+					"referenceName": "Castle Exile (Large)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3050",
+					"referenceName": "Commander",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "boss" }
+					]
+				},
+				{
+					"fileName": "c3060",
+					"referenceName": "Undead Mariner",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3061",
+					"referenceName": "Undead Azula Beastman",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3070",
+					"referenceName": "Dominula Celebrant",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3080",
+					"referenceName": "Imp",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3100",
+					"referenceName": "Elemer of the Briar",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "boss" }
+					]
+				},
+				{
+					"fileName": "c3150",
+					"referenceName": "Night's Cavalry",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3160",
+					"referenceName": "Night's Cavalry Horse",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "horse" }
+					]
+				},
+				{
+					"fileName": "c3170",
+					"referenceName": "Albinauric Archer",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3171",
+					"referenceName": "Giant Albinauric Archer",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3180",
+					"referenceName": "Wolf",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3181",
+					"referenceName": "Red Wolf of Radagon",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "boss" }
+					]
+				},
+				{
+					"fileName": "c3200",
+					"referenceName": "Nomad Trader",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3201",
+					"referenceName": "Nomad Trader",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3202",
+					"referenceName": "Nomad Trader",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3210",
+					"referenceName": "Nomad Mule",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "horse" }
+					]
+				},
+				{
+					"fileName": "c3250",
+					"referenceName": "Draconic Tree Sentinel",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "boss" }
+					]
+				},
+				{
+					"fileName": "c3251",
+					"referenceName": "Tree Sentinel",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "boss" }
+					]
+				},
+				{
+					"fileName": "c3252",
+					"referenceName": "Nox Swordstress",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "boss" }
+					]
+				},
+				{
+					"fileName": "c3300",
+					"referenceName": "Nox Priest",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "boss" }
+					]
+				},
+				{
+					"fileName": "c3320",
+					"referenceName": "Silver Tear",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3330",
+					"referenceName": "Silver Tear Orb",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3350",
+					"referenceName": "Crystalian",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "boss" }
+					]
+				},
+				{
+					"fileName": "c3360",
+					"referenceName": "Ancestral Follower",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3361",
+					"referenceName": "Undead Ancestral Follower",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3370",
+					"referenceName": "Ancestral Follower Shaman",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3371",
+					"referenceName": "Undead Ancestral Follower Shaman",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3400",
+					"referenceName": "Grave Warden Duelist",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3450",
+					"referenceName": "Winged Misbegotten",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3451",
+					"referenceName": "Misbegotten",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3460",
+					"referenceName": "Leonine Misbegotten",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "boss" }
+					]
+				},
+				{
+					"fileName": "c3470",
+					"referenceName": "Albinauric",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3471",
+					"referenceName": "Albinauric (Large)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3500",
+					"referenceName": "Skeleton (Curved Sword)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3510",
+					"referenceName": "Skeleton (Scimitar)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3550",
+					"referenceName": "Sanguine Noble",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3560",
+					"referenceName": "Godskin Apostle",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3570",
+					"referenceName": "Godskin Noble",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3600",
+					"referenceName": "Alabaster Lord",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3610",
+					"referenceName": "Oracle Envoy",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3620",
+					"referenceName": "Oracle Envoy (Medium)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3630",
+					"referenceName": "Oracle Envoy (Large)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3650",
+					"referenceName": "Erdtree Guardian",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3660",
+					"referenceName": "Commoner",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3661",
+					"referenceName": "Putrid Corpse",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3662",
+					"referenceName": "Scarlet Putrid Corpse",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3664",
+					"referenceName": "Cemetery Shade",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3665",
+					"referenceName": "Devious Commoner",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3666",
+					"referenceName": "Sunflower Commoner",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3670",
+					"referenceName": "Albinauric Lookout",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3700",
+					"referenceName": "Depraved Perfumer",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3701",
+					"referenceName": "White Veil Perfumer",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3702",
+					"referenceName": "Raya Lucaria Scholar",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3703",
+					"referenceName": "Noble's Page",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3704",
+					"referenceName": "Battlemage",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3710",
+					"referenceName": "Master Azur",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3720",
+					"referenceName": "Master Lusat",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3730",
+					"referenceName": "Orb of Many Faces",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3750",
+					"referenceName": "Clayman",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3800",
+					"referenceName": "Cleanrot Knight",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3810",
+					"referenceName": "Kindred of Rot",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3850",
+					"referenceName": "Marionette",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3860",
+					"referenceName": "Avionette",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3900",
+					"referenceName": "Fire Monk",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3901",
+					"referenceName": "Godskin Monk",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3910",
+					"referenceName": "Fire Prelate",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3950",
+					"referenceName": "Man-Serpent",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c3970",
+					"referenceName": "Azula Beastman",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4000",
+					"referenceName": "Royal Rider",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4020",
+					"referenceName": "Royal Revenant",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4040",
+					"referenceName": "Slug",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4050",
+					"referenceName": "Kaiden Sellsword",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4060",
+					"referenceName": "Horse (Thick Mane)",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "horse" }
+					]
+				},
+				{
+					"fileName": "c4070",
+					"referenceName": "Grey Wolf",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4071",
+					"referenceName": "White Wolf",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4080",
+					"referenceName": "Rat",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4090",
+					"referenceName": "Giant Rat",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4100",
+					"referenceName": "Demi-Human",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4101",
+					"referenceName": "Large Demi-Human",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4110",
+					"referenceName": "Demi-Human Shaman",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4120",
+					"referenceName": "Demi-Human Beastman",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4130",
+					"referenceName": "Demi-Human Queen",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "boss" }
+					]
+				},
+				{
+					"fileName": "c4140",
+					"referenceName": "Snail",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4150",
+					"referenceName": "Basilisk",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4160",
+					"referenceName": "Large Starved Dog",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4161",
+					"referenceName": "Starved Dog",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4162",
+					"referenceName": "Large Braided Dog",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4163",
+					"referenceName": "Braided Dog",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4164",
+					"referenceName": "Large Rotten Dog",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4165",
+					"referenceName": "Rotten Dog",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4166",
+					"referenceName": "Large Mushroom Dog",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4167",
+					"referenceName": "Mushroom Dog",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4170",
+					"referenceName": "Small Living Mass",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4171",
+					"referenceName": "Giant Living Mass",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4180",
+					"referenceName": "Jellyfish",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4190",
+					"referenceName": "Large Tear Scarab",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "scarab" }
+					]
+				},
+				{
+					"fileName": "c4191",
+					"referenceName": "Tear Scarab",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "scarab" }
+					]
+				},
+				{
+					"fileName": "c4192",
+					"referenceName": "Ash Scarab",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "scarab" }
+					]
+				},
+				{
+					"fileName": "c4200",
+					"referenceName": "Giant Bat",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4201",
+					"referenceName": "Bat Harpy",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4210",
+					"referenceName": "Warhawk",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "bird" }
+					]
+				},
+				{
+					"fileName": "c4220",
+					"referenceName": "Land Octopus (Large)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4230",
+					"referenceName": "Land Octopus (Small)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4240",
+					"referenceName": "Fingercreeper (Large)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4241",
+					"referenceName": "Fingercreeper (Giant)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4250",
+					"referenceName": "Fingercreeper (Small)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4260",
+					"referenceName": "Burial Watchdog",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4270",
+					"referenceName": "Lion Guardian",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4280",
+					"referenceName": "Giant Ant",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4281",
+					"referenceName": "Giant Ant (Sac)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4290",
+					"referenceName": "Bloodhound Knight",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4300",
+					"referenceName": "Wandering Noble",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4310",
+					"referenceName": "Soldier",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "knight" }
+					]
+				},
+				{
+					"fileName": "c4311",
+					"referenceName": "Godrick Soldier",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "godrick" }
+					]
+				},
+				{
+					"fileName": "c4312",
+					"referenceName": "Raya Lucaria Soldier",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "cuckoo" }
+					]
+				},
+				{
+					"fileName": "c4313",
+					"referenceName": "Leyndell Soldier",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "leyndell" }
+					]
+				},
+				{
+					"fileName": "c4314",
+					"referenceName": "Radahn Soldier",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "redmane" }
+					]
+				},
+				{
+					"fileName": "c4315",
+					"referenceName": "Mausoleum Soldier (Headless)",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "mausoleum" }
+					]
+				},
+				{
+					"fileName": "c4316",
+					"referenceName": "Haligtree Soldier",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "haligtree" }
+					]
+				},
+				{
+					"fileName": "c4320",
+					"referenceName": "Vulgar Militia",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4321",
+					"referenceName": "Vulgar Militia",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4340",
+					"referenceName": "Mad Pumpkin Head",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4341",
+					"referenceName": "Mad Pumpkin Head",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4350",
+					"referenceName": "Castle Knight",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "knight" }
+					]
+				},
+				{
+					"fileName": "c4351",
+					"referenceName": "Godrick Knight",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "godrick" }
+					]
+				},
+				{
+					"fileName": "c4352",
+					"referenceName": "Cuckoo Knight",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "cuckoo" }
+					]
+				},
+				{
+					"fileName": "c4353",
+					"referenceName": "Leyndell Knight",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "leyndell" }
+					]
+				},
+				{
+					"fileName": "c4354",
+					"referenceName": "Redmane Knight",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "redmane" }
+					]
+				},
+				{
+					"fileName": "c4355",
+					"referenceName": "Mausoleum Knight (Headless)",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "mausoleum" }
+					]
+				},
+				{
+					"fileName": "c4356",
+					"referenceName": "Haligtree Knight",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "haligtree" }
+					]
+				},
+				{
+					"fileName": "c4360",
+					"referenceName": "Knight's Horse",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "knight" }
+					]
+				},
+				{
+					"fileName": "c4361",
+					"referenceName": "Godrick Knight's Horse",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "horse" },
+						{ "tag": "godrick" }
+					]
+				},
+				{
+					"fileName": "c4362",
+					"referenceName": "Cuckoo Knight's Horse",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "horse" },
+						{ "tag": "cuckoo" }
+					]
+				},
+				{
+					"fileName": "c4363",
+					"referenceName": "Leyndell Knight's Horse",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "horse" },
+						{ "tag": "leyndell" }
+					]
+				},
+				{
+					"fileName": "c4364",
+					"referenceName": "Redmane Knight's Horse",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "horse" },
+						{ "tag": "redmane" }
+					]
+				},
+				{
+					"fileName": "c4365",
+					"referenceName": "Mausoleum Knight's Horse",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "horse" },
+						{ "tag": "mausoleum" }
+					]
+				},
+				{
+					"fileName": "c4366",
+					"referenceName": "Haligtree Knight's Horse",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "horse" },
+						{ "tag": "haligtree" }
+					]
+				},
+				{
+					"fileName": "c4370",
+					"referenceName": "Foot Soldier",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "knight" }
+					]
+				},
+				{
+					"fileName": "c4371",
+					"referenceName": "Godrick Foot Soldier",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "godrick" }
+					]
+				},
+				{
+					"fileName": "c4372",
+					"referenceName": "Raya Lucaria Foot Soldier",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "cuckoo" }
+					]
+				},
+				{
+					"fileName": "c4373",
+					"referenceName": "Leyndell Foot Soldier",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "leyndell" }
+					]
+				},
+				{
+					"fileName": "c4374",
+					"referenceName": "Radahn Foot Soldier",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "redmane" }
+					]
+				},
+				{
+					"fileName": "c4375",
+					"referenceName": "Mausoleum Foot Soldier",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "mausoleum" }
+					]
+				},
+				{
+					"fileName": "c4376",
+					"referenceName": "Haligtree Foot Soldier",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "haligtree" }
+					]
+				},
+				{
+					"fileName": "c4377",
+					"referenceName": "Highwayman",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4380",
+					"referenceName": "Starcaller",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4381",
+					"referenceName": "Bloodthorn Exile",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4382",
+					"referenceName": "Tunnel Miner (Big Sack)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4383",
+					"referenceName": "Glintstone Miner",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4384",
+					"referenceName": "Glintstone Miner (Small Sack)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4385",
+					"referenceName": "Fungal Sorcerer",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4400",
+					"referenceName": "Fungal Pod (Land Squirt)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4420",
+					"referenceName": "Giant Lobster",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4421",
+					"referenceName": "Giant Lobster",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4430",
+					"referenceName": "Abnormal Stone Cluster",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4440",
+					"referenceName": "Fungal Pod",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4441",
+					"referenceName": "Giant Fungal Pod",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4442",
+					"referenceName": "Giant Fungal Pod (Rotten)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4450",
+					"referenceName": "Walking Mausoleum",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4460",
+					"referenceName": "Flamethrower Chariot",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4470",
+					"referenceName": "Abductor Virgin",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "boss" }
+					]
+				},
+				{
+					"fileName": "c4480",
+					"referenceName": "Giant Miranda Sprout",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4481",
+					"referenceName": "Miranda Sprout",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4482",
+					"referenceName": "Fading Giant Miranda Sprout",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4483",
+					"referenceName": "Fading Miranda Sprout",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4490",
+					"referenceName": "Living Pot (Large)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4491",
+					"referenceName": "Living Pot (Small)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4492",
+					"referenceName": "Living Pot (Huge)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4500",
+					"referenceName": "Dragon",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "boss" }
+					]
+				},
+				{
+					"fileName": "c4501",
+					"referenceName": "Dragon",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "boss" }
+					]
+				},
+				{
+					"fileName": "c4502",
+					"referenceName": "Dragon (Blade in Mouth)",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "boss" }
+					]
+				},
+				{
+					"fileName": "c4503",
+					"referenceName": "Dragon",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "boss" }
+					]
+				},
+				{
+					"fileName": "c4504",
+					"referenceName": "Elder Dragon Greyoll",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "boss" }
+					]
+				},
+				{
+					"fileName": "c4505",
+					"referenceName": "Lesser Elder Dragon",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "boss" }
+					]
+				},
+				{
+					"fileName": "c4510",
+					"referenceName": "Ancient Dragon",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "boss" }
+					]
+				},
+				{
+					"fileName": "c4511",
+					"referenceName": "Lichdragon Fortissax",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "boss" }
+					]
+				},
+				{
+					"fileName": "c4520",
+					"referenceName": "Dragonlord Placidusax",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "boss" }
+					]
+				},
+				{
+					"fileName": "c4550",
+					"referenceName": "Monstrous Dog",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4560",
+					"referenceName": "Monstrous Crow",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4561",
+					"referenceName": "Monstrous Crow (Rotten)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4570",
+					"referenceName": "Wormface",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4580",
+					"referenceName": "Wormface (Large)",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "boss" }
+					]
+				},
+				{
+					"fileName": "c4600",
+					"referenceName": "Troll Knight",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4601",
+					"referenceName": "Troll Knight (Carian Blade)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4602",
+					"referenceName": "Troll Knight (Furry)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4603",
+					"referenceName": "Troll Knight (Club)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4604",
+					"referenceName": "Troll Knight (Covered Face, Club and Book)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4620",
+					"referenceName": "Astel, Stars of Darkness",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "boss" }
+					]
+				},
+				{
+					"fileName": "c4630",
+					"referenceName": "Runebear",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "boss" }
+					]
+				},
+				{
+					"fileName": "c4640",
+					"referenceName": "Ulcerated Tree Spirit",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "boss" }
+					]
+				},
+				{
+					"fileName": "c4650",
+					"referenceName": "Dragonkin Soldier",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "boss" }
+					]
+				},
+				{
+					"fileName": "c4660",
+					"referenceName": "Golem",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "boss" }
+					]
+				},
+				{
+					"fileName": "c4670",
+					"referenceName": "Ancestor Spirit",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "boss" }
+					]
+				},
+				{
+					"fileName": "c4680",
+					"referenceName": "Fallingstar Beast",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "boss" }
+					]
+				},
+				{
+					"fileName": "c4690",
+					"referenceName": "Grafted Scion",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "boss" }
+					]
+				},
+				{
+					"fileName": "c4710",
+					"referenceName": "God-Devouring Serpent / Rykard, Lord of Blasphemy",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "boss" }
+					]
+				},
+				{
+					"fileName": "c4711",
+					"referenceName": "Writhing Mass",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4720",
+					"referenceName": "Godfrey, First Elden Lord",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "boss" }
+					]
+				},
+				{
+					"fileName": "c4721",
+					"referenceName": "Hoarah Loux",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "boss" }
+					]
+				},
+				{
+					"fileName": "c4730",
+					"referenceName": "Starscourge Radahn",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "boss" }
+					]
+				},
+				{
+					"fileName": "c4740",
+					"referenceName": "Leonard",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "horse" }
+					]
+				},
+				{
+					"fileName": "c4750",
+					"referenceName": "Godrick the Grafted",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "boss" }
+					]
+				},
+				{
+					"fileName": "c4751",
+					"referenceName": "Godrick (Dummy)",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4760",
+					"referenceName": "Fire Giant",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "boss" }
+					]
+				},
+				{
+					"fileName": "c4770",
+					"referenceName": "Black Kindred",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "boss" }
+					]
+				},
+				{
+					"fileName": "c4800",
+					"referenceName": "Mohg, The Omen",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "boss" }
+					]
+				},
+				{
+					"fileName": "c4801",
+					"referenceName": "Mohg, The Omen",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "boss" }
+					]
+				},
+				{
+					"fileName": "c4810",
+					"referenceName": "Erdtree Avatar",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "boss" }
+					]
+				},
+				{
+					"fileName": "c4811",
+					"referenceName": "Erdtree Avatar (Rotten)",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "boss" }
+					]
+				},
+				{
+					"fileName": "c4820",
+					"referenceName": "Omenkiller",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "boss" }
+					]
+				},
+				{
+					"fileName": "c4910",
+					"referenceName": "Magma Wyrm",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "boss" }
+					]
+				},
+				{
+					"fileName": "c4911",
+					"referenceName": "Magma Wyrm (Large)",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "boss" }
+					]
+				},
+				{
+					"fileName": "c4950",
+					"referenceName": "Tibia Mariner",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "boss" }
+					]
+				},
+				{
+					"fileName": "c4960",
+					"referenceName": "Giant Skeleton",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c4980",
+					"referenceName": "Death Rite Bird",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "boss" }
+					]
+				},
+				{
+					"fileName": "c6000",
+					"referenceName": "Hawk",
+					
+					"tags": [
+						{ "tag": "fauna" },
+						{ "tag": "bird" }
+					]
+				},
+				{
+					"fileName": "c6001",
+					"referenceName": "Hawk",
+					
+					"tags": [
+						{ "tag": "fauna" },
+						{ "tag": "bird" }
+					]
+				},
+				{
+					"fileName": "c6010",
+					"referenceName": "Deer",
+					
+					"tags": [
+						{ "tag": "fauna" }
+					]
+				},
+				{
+					"fileName": "c6030",
+					"referenceName": "Bear",
+					
+					"tags": [
+						{ "tag": "fauna" }
+					]
+				},
+				{
+					"fileName": "c6031",
+					"referenceName": "Bear",
+					
+					"tags": [
+						{ "tag": "fauna" }
+					]
+				},
+				{
+					"fileName": "c6040",
+					"referenceName": "Owl",
+					
+					"tags": [
+						{ "tag": "fauna" }
+					]
+				},
+				{
+					"fileName": "c6050",
+					"referenceName": "Boar",
+					
+					"tags": [
+						{ "tag": "fauna" }
+					]
+				},
+				{
+					"fileName": "c6060",
+					"referenceName": "Ram",
+					
+					"tags": [
+						{ "tag": "fauna" }
+					]
+				},
+				{
+					"fileName": "c6070",
+					"referenceName": "Gull",
+					
+					"tags": [
+						{ "tag": "fauna" },
+						{ "tag": "bird" }
+					]
+				},
+				{
+					"fileName": "c6072",
+					"referenceName": "Gull",
+					
+					"tags": [
+						{ "tag": "fauna" },
+						{ "tag": "bird" }
+					]
+				},
+				{
+					"fileName": "c6080",
+					"referenceName": "Dragonfly (Small)",
+					
+					"tags": [
+						{ "tag": "fauna" }
+					]
+				},
+				{
+					"fileName": "c6081",
+					"referenceName": "Dragonfly (Medium)",
+					
+					"tags": [
+						{ "tag": "fauna" }
+					]
+				},
+				{
+					"fileName": "c6082",
+					"referenceName": "Dragonfly (Large)",
+					
+					"tags": [
+						{ "tag": "fauna" }
+					]
+				},
+				{
+					"fileName": "c6090",
+					"referenceName": "Turtle",
+					
+					"tags": [
+						{ "tag": "fauna" }
+					]
+				},
+				{
+					"fileName": "c6091",
+					"referenceName": "Miriel, Pastor of Vows",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c6100",
+					"referenceName": "Springhare",
+					
+					"tags": [
+						{ "tag": "fauna" }
+					]
+				},
+				{
+					"fileName": "c7000",
+					"referenceName": "Fallen Hawk Soldier",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c7100",
+					"referenceName": "Zamor Assailant",
+					
+					"tags": [
+						{ "tag": "creature" }
+					]
+				},
+				{
+					"fileName": "c8000",
+					"referenceName": "Torrent",
+					
+					"tags": [
+						{ "tag": "horse" }
+					]
+				},
+				{
+					"fileName": "c8100",
+					"referenceName": "Ballista",
+					
+					"tags": [
+						{ "tag": "trap" }
+					]
+				},
+				{
+					"fileName": "c8101",
+					"referenceName": "Giant Ballista",
+					
+					"tags": [
+                        { "tag": "trap" }
+					]
+				},
+				{
+					"fileName": "c8110",
+					"referenceName": "Dragon-faced Flamethrower",
+					
+					"tags": [
+                        { "tag": "trap" }
+					]
+				},
+				{
+					"fileName": "c8120",
+					"referenceName": "Merciless Chariot",
+					
+					"tags": [
+                        { "tag": "trap" }
+					]
+				},
+				{
+					"fileName": "c8900",
+					"referenceName": "Malenia, Blade of Miquella",
+					
+					"tags": [
+						{ "tag": "humanoid" },
+                        { "tag": "boss" }
+					]
+				},
+				{
+					"fileName": "c8901",
+					"referenceName": "Beast Clergyman",
+					
+					"tags": [
+						{ "tag": "creature" },
+                        { "tag": "boss" }
+					]
+				},
+				{
+					"fileName": "c8903",
+					"referenceName": "Rennala, Queen of the Full Moon",
+					
+					"tags": [
+						{ "tag": "humanoid" },
+                        { "tag": "boss" },
+                        { "tag": "spellcaster" }
+					]
+				},
+				{
+					"fileName": "c8904",
+					"referenceName": "Giant Aged Man with Ornate Cape",
+					
+					"tags": [
+						{ "tag": "creature" },
+                        { "tag": "humanoid" }
+					]
+				},
+				{
+					"fileName": "c8905",
+					"referenceName": "Mohg, Lord of Blood",
+					
+					"tags": [
+						{ "tag": "creature" },
+						{ "tag": "boss" }
+					]
+				},
+				{
+					"fileName": "c8906",
+					"referenceName": "Melina",
+					
+					"tags": [
+						{ "tag": "humanoid" }
+					]
+				},
+				{
+					"fileName": "c8907",
+					"referenceName": "Malformed Melina",
+					
+					"tags": [
+						{ "tag": "humanoid" }
+					]
+				}
             ],
             "objReferences": [
                 {
