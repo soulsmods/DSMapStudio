@@ -42,6 +42,7 @@ namespace StudioCore
 
         private NewProjectOptions _newProjectOptions = new NewProjectOptions();
         private SettingsMenu _settingsMenu = new();
+        private ObjectBrowser _ObjectBrowser;
 
         private static bool _initialLoadComplete = false;
         private static bool _firstframe = true;
@@ -86,6 +87,9 @@ namespace StudioCore
             _settingsMenu.ModelEditor = modelEditor;
             _settingsMenu.ParamEditor = paramEditor;
             _settingsMenu.TextEditor = textEditor;
+
+            _ObjectBrowser = new ObjectBrowser("ObjectBrowser", _assetLocator);
+            _ObjectBrowser.MsbEditor = msbEditor;
 
             Editor.AliasBank.SetAssetLocator(_assetLocator);
             ParamEditor.ParamBank.PrimaryBank.SetAssetLocator(_assetLocator);
@@ -833,7 +837,17 @@ namespace StudioCore
                     {
                         _settingsMenu.MenuOpenState = true;
                     }
-                    
+
+                    if (ImGui.MenuItem("Object Browser", KeyBindings.Current.Core_ObjectBrowser.HintText))
+                    {
+                        _ObjectBrowser.ClearCaches();
+
+                        if (_ObjectBrowser.MenuOpenState)
+                            _ObjectBrowser.MenuOpenState = false;
+                        else
+                            _ObjectBrowser.MenuOpenState = true;
+                    }
+
                     if (Resource.FlverResource.CaptureMaterialLayouts && ImGui.MenuItem("Dump Flver Layouts (Debug)", ""))
                     {
                         DumpFlverLayouts();
@@ -988,6 +1002,7 @@ namespace StudioCore
             }
 
             SettingsGUI();
+            ObjectBrowserGUI();
 
             ImGui.PopStyleVar();
             Tracy.TracyCZoneEnd(ctx);
@@ -1281,6 +1296,19 @@ namespace StudioCore
                 {
                     SaveAll();
                 }
+
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Core_ObjectBrowser))
+                {
+                    if (_focusedEditor == _editors[0])
+                    {
+                        _ObjectBrowser.ClearCaches();
+
+                        if (_ObjectBrowser.MenuOpenState)
+                            _ObjectBrowser.MenuOpenState = false;
+                        else
+                            _ObjectBrowser.MenuOpenState = true;
+                    }
+                }
             }
 
             ImGui.PopStyleVar(2);
@@ -1309,6 +1337,11 @@ namespace StudioCore
         public void SettingsGUI()
         {
             _settingsMenu.Display();
+        }
+
+        public void ObjectBrowserGUI()
+        {
+            _ObjectBrowser.OnGui();
         }
 
         public static float GetUIScale()

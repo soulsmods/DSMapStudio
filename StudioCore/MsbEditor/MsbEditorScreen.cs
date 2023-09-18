@@ -22,7 +22,7 @@ namespace StudioCore.MsbEditor
         
         public readonly AssetLocator AssetLocator;
         public Scene.RenderScene RenderScene = null;
-        private Selection _selection = new Selection();
+        public Selection _selection = new Selection();
         public ActionManager EditorActionManager = new ActionManager();
         private Editor.ProjectSettings _projectSettings = null;
 
@@ -182,6 +182,114 @@ namespace StudioCore.MsbEditor
             _selection.GotoTreeTarget = _selection.GetSingleSelection();
         }
 
+        public void SetObjectModelForSelection(string modelName, string modelType)
+        {
+            var actlist = new List<Action>();
+
+            var selected = _selection.GetFilteredSelection<Entity>();
+            foreach (var s in selected)
+            {
+                bool isValidObjectType = false;
+
+                if (modelType == "Chr")
+                {
+                    switch (AssetLocator.Type)
+                    {
+                        case GameType.DemonsSouls:
+                            if (s.WrappedObject is MSBD.Part.Enemy)
+                                isValidObjectType = true;
+                            break;
+                        case GameType.DarkSoulsPTDE:
+                        case GameType.DarkSoulsRemastered:
+                            if (s.WrappedObject is MSB1.Part.Enemy)
+                                isValidObjectType = true;
+                            break;
+                        case GameType.DarkSoulsIISOTFS:
+                            break;
+                        case GameType.DarkSoulsIII:
+                            if (s.WrappedObject is MSB3.Part.Enemy)
+                                isValidObjectType = true;
+                            break;
+                        case GameType.Bloodborne:
+                            if (s.WrappedObject is MSBB.Part.Enemy)
+                                isValidObjectType = true;
+                            break;
+                        case GameType.Sekiro:
+                            if (s.WrappedObject is MSBS.Part.Enemy) 
+                                isValidObjectType = true;
+                            break;
+                        case GameType.EldenRing:
+                            if (s.WrappedObject is MSBE.Part.Enemy)
+                                isValidObjectType = true;
+                            break;
+                        case GameType.ArmoredCoreVI:
+                            //TODO AC6
+                            break;
+                        default:
+                            throw new ArgumentException("type must be valid");
+                    }
+                }
+                if (modelType == "Obj")
+                {
+                    switch (AssetLocator.Type)
+                    {
+                        case GameType.DemonsSouls:
+                            if (s.WrappedObject is MSBD.Part.Object)
+                                isValidObjectType = true;
+                            break;
+                        case GameType.DarkSoulsPTDE:
+                        case GameType.DarkSoulsRemastered:
+                            if (s.WrappedObject is MSB1.Part.Object)
+                                isValidObjectType = true;
+                            break;
+                        case GameType.DarkSoulsIISOTFS:
+                            if (s.WrappedObject is MSB2.Part.Object)
+                                isValidObjectType = true;
+                            break;
+                        case GameType.DarkSoulsIII:
+                            if (s.WrappedObject is MSB3.Part.Object)
+                                isValidObjectType = true;
+                            break;
+                        case GameType.Bloodborne:
+                            if (s.WrappedObject is MSBB.Part.Object)
+                                isValidObjectType = true;
+                            break;
+                        case GameType.Sekiro:
+                            if (s.WrappedObject is MSBS.Part.Object)
+                                isValidObjectType = true;
+                            break;
+                        case GameType.EldenRing:
+                            if (s.WrappedObject is MSBE.Part.Asset)
+                                isValidObjectType = true;
+                            break;
+                        case GameType.ArmoredCoreVI:
+                            //TODO AC6
+                            break;
+                        default:
+                            throw new ArgumentException("type must be valid");
+                    }
+
+                    modelName = modelName.ToUpper(); // Make uppercase for Obj/Asset
+                }
+
+                if (isValidObjectType)
+                {
+                    actlist.Add(s.ChangeObjectProperty("ModelName", modelName));
+
+                    if (CFG.Current.ObjectBrowser_UpdateNameAndInstanceID)
+                    {
+                        // Update name and instance ID
+                    }
+                }
+            }
+
+            if (actlist.Any())
+            {
+                var action = new CompoundAction(actlist);
+                EditorActionManager.ExecuteAction(action);
+            }
+        }
+
         /// <summary>
         /// Reset the rotation of the selected object to 0, 0, 0
         /// </summary>
@@ -201,7 +309,6 @@ namespace StudioCore.MsbEditor
 
                 actlist.Add(s.GetUpdateTransformAction(newRot));
             }
-
 
             if (actlist.Any())
             {

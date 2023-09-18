@@ -755,6 +755,17 @@ namespace StudioCore.MsbEditor
                 return act;
             }
         }
+        public Action ChangeObjectProperty(string propTarget, string propValue)
+        {
+            var actions = new List<Action>();
+            actions.Add(GetPropertyChangeAction(propTarget, propValue));
+            var act = new CompoundAction(actions);
+            act.SetPostExecutionAction((undo) =>
+            {
+                UpdateRenderModel();
+            });
+            return act;
+        }
 
         /*
         private void DrawDispCopy()
@@ -1411,6 +1422,64 @@ namespace StudioCore.MsbEditor
                 e.Children.Add(((MapEntity)c).Serialize(idmap));
             }
             return e;
+        }
+
+        public Action GetUpdateTransformAction(Transform newt)
+        {
+            if (WrappedObject is Param.Row || WrappedObject is MergedParamRow)
+            {
+                var actions = new List<Action>();
+                float roty = newt.EulerRotation.Y * Utils.Rad2Deg - 180.0f;
+                actions.Add(GetPropertyChangeAction("PositionX", newt.Position.X));
+                actions.Add(GetPropertyChangeAction("PositionY", newt.Position.Y));
+                actions.Add(GetPropertyChangeAction("PositionZ", newt.Position.Z));
+                actions.Add(GetPropertyChangeAction("RotationX", newt.EulerRotation.X * Utils.Rad2Deg));
+                actions.Add(GetPropertyChangeAction("RotationY", roty));
+                actions.Add(GetPropertyChangeAction("RotationZ", newt.EulerRotation.Z * Utils.Rad2Deg));
+                var act = new CompoundAction(actions);
+                act.SetPostExecutionAction((undo) =>
+                {
+                    UpdateRenderModel();
+                });
+                return act;
+            }
+            else
+            {
+                var act = new PropertiesChangedAction(WrappedObject);
+                var prop = WrappedObject.GetType().GetProperty("Position");
+                act.AddPropertyChange(prop, newt.Position);
+                prop = WrappedObject.GetType().GetProperty("Rotation");
+                if (prop != null)
+                {
+                    if (IsRotationPropertyRadians("Rotation"))
+                    {
+                        if (IsRotationXZY("Rotation"))
+                        {
+                            act.AddPropertyChange(prop, newt.EulerRotationXZY);
+                        }
+                        else
+                        {
+                            act.AddPropertyChange(prop, newt.EulerRotation);
+                        }
+                    }
+                    else
+                    {
+                        if (IsRotationXZY("Rotation"))
+                        {
+                            act.AddPropertyChange(prop, newt.EulerRotationXZY * Utils.Rad2Deg);
+                        }
+                        else
+                        {
+                            act.AddPropertyChange(prop, newt.EulerRotation * Utils.Rad2Deg);
+                        }
+                    }
+                }
+                act.SetPostExecutionAction((undo) =>
+                {
+                    UpdateRenderModel();
+                });
+                return act;
+            }
         }
     }
 }
