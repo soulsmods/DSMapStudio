@@ -56,8 +56,6 @@ namespace StudioCore
 
             if (ImGui.Begin($@"Object Browser##{_id}"))
             {
-                ImGui.Checkbox("Update Name and Instance ID", ref CFG.Current.ObjectBrowser_UpdateNameAndInstanceID);
-
                 ImGui.Columns(2);
                 ImGui.BeginChild("AssetTypeList");
                 if (ImGui.Selectable("Chr", _selected == "Chr"))

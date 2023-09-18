@@ -224,9 +224,6 @@ namespace StudioCore
         public Vector3 GFX_Gizmo_Z_BaseColor = new Vector3(0.219f, 0.564f, 0.929f);
         public Vector3 GFX_Gizmo_Z_HighlightColor = new Vector3(0.407f, 0.690f, 1.0f);
 
-        // Object Browser settings
-        public bool ObjectBrowser_UpdateNameAndInstanceID = true;
-
         // Map Editor settings
         public bool Map_AlwaysListLoadedMaps = true;
         public float Map_ArbitraryRotation_X_Shift { get; set; } = 90.0f;

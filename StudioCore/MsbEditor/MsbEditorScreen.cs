@@ -269,17 +269,14 @@ namespace StudioCore.MsbEditor
                             throw new ArgumentException("type must be valid");
                     }
 
-                    modelName = modelName.ToUpper(); // Make uppercase for Obj/Asset
+                    if (modelName.Contains("aeg"))
+                        modelName = modelName.Replace("aeg", "AEG");
                 }
 
                 if (isValidObjectType)
                 {
+                    // Update model name last
                     actlist.Add(s.ChangeObjectProperty("ModelName", modelName));
-
-                    if (CFG.Current.ObjectBrowser_UpdateNameAndInstanceID)
-                    {
-                        // Update name and instance ID
-                    }
                 }
             }
 
