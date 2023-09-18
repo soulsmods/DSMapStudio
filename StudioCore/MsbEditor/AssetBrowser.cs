@@ -128,20 +128,14 @@ namespace StudioCore.MsbEditor
                         string referenceName = "";
                         List<string> tags = new List<string>();
 
-                        foreach (GameReference game in Assetdex.Static.GameReference)
+                        foreach (ChrReference entry in AssetdexUtils.GetCurrentGameAssetdex(_locator.Type).chrReferences)
                         {
-                            if (game.gameType == _locator.Type.ToString())
+                            if (chr == entry.fileName)
                             {
-                                foreach (ChrReference entry in game.chrReferences)
+                                referenceName = entry.referenceName;
+                                foreach (Tag tagEntry in entry.tags)
                                 {
-                                    if (chr == entry.fileName)
-                                    {
-                                        referenceName = entry.referenceName;
-                                        foreach (Tag tagEntry in entry.tags)
-                                        {
-                                            tags.Add(tagEntry.tag);
-                                        }
-                                    }
+                                    tags.Add(tagEntry.tag);
                                 }
                             }
                         }
@@ -175,20 +169,14 @@ namespace StudioCore.MsbEditor
                         string referenceName = "";
                         List<string> tags = new List<string>();
 
-                        foreach (GameReference game in Assetdex.Static.GameReference)
+                        foreach (ObjReference entry in AssetdexUtils.GetCurrentGameAssetdex(_locator.Type).objReferences)
                         {
-                            if (game.gameType == _locator.Type.ToString())
+                            if (obj == entry.fileName)
                             {
-                                foreach (ObjReference entry in game.objReferences)
+                                referenceName = entry.referenceName;
+                                foreach (Tag tagEntry in entry.tags)
                                 {
-                                    if (obj == entry.fileName)
-                                    {
-                                        referenceName = entry.referenceName;
-                                        foreach (Tag tagEntry in entry.tags)
-                                        {
-                                            tags.Add(tagEntry.tag);
-                                        }
-                                    }
+                                    tags.Add(tagEntry.tag);
                                 }
                             }
                         }
@@ -222,20 +210,14 @@ namespace StudioCore.MsbEditor
                         string referenceName = "";
                         List<string> tags = new List<string>();
 
-                        foreach (GameReference game in Assetdex.Static.GameReference)
+                        foreach (PartReference entry in AssetdexUtils.GetCurrentGameAssetdex(_locator.Type).partReferences)
                         {
-                            if (game.gameType == _locator.Type.ToString())
+                            if (part == entry.fileName)
                             {
-                                foreach (PartReference entry in game.partReferences)
+                                referenceName = entry.referenceName;
+                                foreach (Tag tagEntry in entry.tags)
                                 {
-                                    if (part == entry.fileName)
-                                    {
-                                        referenceName = entry.referenceName;
-                                        foreach (Tag tagEntry in entry.tags)
-                                        {
-                                            tags.Add(tagEntry.tag);
-                                        }
-                                    }
+                                    tags.Add(tagEntry.tag);
                                 }
                             }
                         }
@@ -271,20 +253,14 @@ namespace StudioCore.MsbEditor
                             string referenceName = "";
                             List<string> tags = new List<string>();
 
-                            foreach (GameReference game in Assetdex.Static.GameReference)
+                            foreach (MapPieceReference entry in AssetdexUtils.GetCurrentGameAssetdex(_locator.Type).mapPieceReferences)
                             {
-                                if (game.gameType == _locator.Type.ToString())
+                                if (model == entry.fileName)
                                 {
-                                    foreach (MapPieceReference entry in game.mapPieceReferences)
+                                    referenceName = entry.referenceName;
+                                    foreach (Tag tagEntry in entry.tags)
                                     {
-                                        if (model == entry.fileName)
-                                        {
-                                            referenceName = entry.referenceName;
-                                            foreach (Tag tagEntry in entry.tags)
-                                            {
-                                                tags.Add(tagEntry.tag);
-                                            }
-                                        }
+                                        tags.Add(tagEntry.tag);
                                     }
                                 }
                             }

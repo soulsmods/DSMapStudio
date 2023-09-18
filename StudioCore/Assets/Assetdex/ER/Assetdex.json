@@ -1,0 +1,94 @@
+{
+    "GameReference": [   
+        {
+            "gameType": "EldenRing",
+            
+            "chrReferences": [
+                {
+                    "fileName": "default",
+                    "referenceName": "Default",
+                    
+                    "tags": [
+                        { "tag": "default" },
+                        { "tag": "default" }
+                    ]
+                },
+                {
+                    "fileName": "c0000",
+                    "referenceName": "Player",
+                    
+                    "tags": [
+                        { "tag": "player" },
+                        { "tag": "human" }
+                    ]
+                }
+            ],
+            "objReferences": [
+                {
+                    "fileName": "default",
+                    "referenceName": "Default",
+                    
+                    "tags": [
+                        { "tag": "default" },
+                        { "tag": "default" }
+                    ]
+                },
+                {
+                    "fileName": "aeg001_003",
+                    "referenceName": "Grass",
+                    
+                    "tags": [
+                        { "tag": "grass" }
+                    ]
+                },
+                {
+                    "fileName": "aeg001_061",
+                    "referenceName": "Grass",
+                    
+                    "tags": [
+                        { "tag": "grass" }
+                    ]
+                },
+                {
+                    "fileName": "aeg217_239",
+                    "referenceName": "Broken Statue (Smashed Head)",
+                    
+                    "tags": [
+                        { "tag": "statue" }
+                    ]
+                }
+            ],
+            "partReferences": [
+                {
+                    "fileName": "default",
+                    "referenceName": "Default",
+                    
+                    "tags": [
+                        { "tag": "default" },
+                        { "tag": "default" }
+                    ]
+                }
+            ],
+            "mapPieceReferences": [
+                {
+                    "fileName": "default",
+                    "referenceName": "Default",
+                    
+                    "tags": [
+                        { "tag": "default" },
+                        { "tag": "default" }
+                    ]
+                },
+                {
+                    "fileName": "m10_00_00_00_000004",
+                    "referenceName": "Castle Rampart Section with Buttresses",
+                    
+                    "tags": [
+                        { "tag": "structure" },
+                        { "tag": "castle" }
+                    ]
+                }
+            ]
+        }
+    ]
+}

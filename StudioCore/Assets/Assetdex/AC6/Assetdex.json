@@ -1,0 +1,52 @@
+{
+    "GameReference": [  
+        {
+            "gameType": "AC6",
+            
+            "chrReferences": [
+                {
+                    "fileName": "default",
+                    "referenceName": "Default",
+                    
+                    "tags": [
+                        { "tag": "default" },
+                        { "tag": "default" }
+                    ]
+                }
+            ],
+            "objReferences": [
+                {
+                    "fileName": "default",
+                    "referenceName": "Default",
+                    
+                    "tags": [
+                        { "tag": "default" },
+                        { "tag": "default" }
+                    ]
+                }
+            ],
+            "partReferences": [
+                {
+                    "fileName": "default",
+                    "referenceName": "Default",
+                    
+                    "tags": [
+                        { "tag": "default" },
+                        { "tag": "default" }
+                    ]
+                }
+            ],
+            "mapPieceReferences": [
+                {
+                    "fileName": "default",
+                    "referenceName": "Default",
+                    
+                    "tags": [
+                        { "tag": "default" },
+                        { "tag": "default" }
+                    ]
+                }
+            ]
+        },
+    ]
+}
