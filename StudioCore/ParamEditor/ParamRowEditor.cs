@@ -16,6 +16,8 @@ using System.Text.RegularExpressions;
 using FSParam;
 using StudioCore;
 using StudioCore.Editor;
+using System.Security.Cryptography.X509Certificates;
+using Silk.NET.OpenGL;
 
 namespace StudioCore.ParamEditor
 {
@@ -485,6 +487,7 @@ namespace StudioCore.ParamEditor
                 col.Item2,
                 selection);
         }
+
         private bool PropEditorPropRow(ParamBank bank, object oldval, object compareval, object vanillaval, List<object> auxVals, ref int id, string fieldOffset, string internalName, FieldMetaData cellMeta, Type propType, PropertyInfo proprow, Param.Cell? nullableCell, Param.Row row, string activeParam, bool isPinned, Param.Column? col, ParamEditorSelectionState selection)
         {
             List<ParamRef> RefTypes = cellMeta?.RefTypes;
@@ -513,8 +516,15 @@ namespace StudioCore.ParamEditor
                 ImGui.Text(" ");
                 ImGui.SameLine();
             }
+
+            if (ImGui.Selectable("", false, ImGuiSelectableFlags.AllowItemOverlap)
+                || ImGui.IsItemClicked(ImGuiMouseButton.Right))
+            {
+                ImGui.OpenPopup("FieldContextMenu");
+            }
+            ImGui.SameLine();
+
             PropertyRowName(fieldOffset, ref internalName, cellMeta);
-            PropertyRowNameContextMenu(bank, internalName, cellMeta, activeParam, activeParam != null, isPinned, col, selection);
 
             EditorDecorations.ParamRefText(RefTypes, row);
             EditorDecorations.FmgRefText(FmgRef, row);
@@ -549,27 +559,158 @@ namespace StudioCore.ParamEditor
             if (isRef || matchDefault) //if diffVanilla, remove styling later
                 ImGui.PopStyleColor();
 
-            // Tooltip
-            if (ImGui.IsItemHovered(ImGuiHoveredFlags.DelayNormal | ImGuiHoveredFlags.NoSharedDelay))
+            // Field content menu UI
+            if (ImGui.BeginPopupContextItem("FieldContextMenu"))
             {
-                string str = $"Value Type: {propType.Name}";
+                float scale = MapStudioNew.GetUIScale();
+                ImGui.PushStyleVar(ImGuiStyleVar.CellPadding, new Vector2(4.0f, 8.0f) * scale);
+
+                string altName = cellMeta?.AltName;
+
+                string nameText = internalName;
+                if (!string.IsNullOrWhiteSpace(altName))
+                {
+                    nameText += $"  /  {altName}";
+                }
+                ImGui.TextColored(new Vector4(1.0f, 0.7f, 0.4f, 1.0f), Utils.ImGuiEscape(nameText, "", true));
+                ImGui.SameLine(600);
+                ImGui.Text("");
+
+                string fieldInfo = $"Value Type: {propType.Name}";
                 if (propType.IsValueType)
                 {
                     var min = propType.GetField("MinValue")?.GetValue(propType);
                     var max = propType.GetField("MaxValue")?.GetValue(propType);
                     if (min != null & max != null)
                     {
-                        str += $" (Min {min}, Max {max})";
+                        fieldInfo += $" (Min {min}, Max {max})";
                     }
+                    ImGui.BulletText(Utils.ImGuiEscape(fieldInfo));
                 }
                 if (Wiki != null)
                 {
-                    str += $"\n\n{Wiki}";
+                    ImGui.TextColored(new Vector4(0.8f, 0.8f, 1.0f, 1.0f), Utils.ImGuiEscape(Wiki));
                 }
-                ImGui.SetTooltip(str);
+                else
+                {
+                    ImGui.TextColored(new Vector4(1.0f, 1.0f, 1.0f, 0.7f), "Info regarding this field has not been written.");
+                }
+
+                ImGui.Spacing();
+                ImGui.Separator();
+                ImGui.Spacing();
+
+                if (ImGui.MenuItem("Add to Searchbar"))
+                {
+                    EditorCommandQueue.AddCommand($@"param/search/prop {internalName.Replace(" ", "\\s")} ");
+                }
+                if (activeParam != null && ImGui.MenuItem(isPinned ? "Unpin " : "Pin field"))
+                {
+                    if (!_paramEditor._projectSettings.PinnedFields.ContainsKey(activeParam))
+                        _paramEditor._projectSettings.PinnedFields.Add(activeParam, new List<string>());
+                    List<string> pinned = _paramEditor._projectSettings.PinnedFields[activeParam];
+                    if (isPinned)
+                        pinned.Remove(internalName);
+                    else if (!pinned.Contains(internalName))
+                        pinned.Add(internalName);
+                }
+
+                if (col != null && ImGui.MenuItem("Set compare column"))
+                {
+                    selection.SetCompareCol(col);
+                }
+
+                if (ParamEditorScreen.EditorMode && cellMeta != null)
+                {
+                    if (ImGui.BeginMenu("Add Reference"))
+                    {
+                        foreach (string p in bank.Params.Keys)
+                        {
+                            if (ImGui.MenuItem(p + "##add" + p))
+                            {
+                                if (cellMeta.RefTypes == null)
+                                    cellMeta.RefTypes = new List<ParamRef>();
+                                cellMeta.RefTypes.Add(new ParamRef(p));
+                            }
+                        }
+                        ImGui.EndMenu();
+                    }
+                    if (cellMeta.RefTypes != null && ImGui.BeginMenu("Remove Reference"))
+                    {
+                        foreach (ParamRef p in cellMeta.RefTypes)
+                        {
+                            if (ImGui.MenuItem(p.param + "##remove" + p.param))
+                            {
+                                cellMeta.RefTypes.Remove(p);
+                                if (cellMeta.RefTypes.Count == 0)
+                                    cellMeta.RefTypes = null;
+                                break;
+                            }
+                        }
+                        ImGui.EndMenu();
+                    }
+                    if (ImGui.MenuItem(cellMeta.IsBool ? "Remove bool toggle" : "Add bool toggle"))
+                        cellMeta.IsBool = !cellMeta.IsBool;
+                    if (cellMeta.Wiki == null && ImGui.MenuItem("Add wiki..."))
+                        cellMeta.Wiki = "Empty wiki...";
+                    if (cellMeta.Wiki != null && ImGui.MenuItem("Remove wiki"))
+                        cellMeta.Wiki = null;
+                }
+
+
+                if (VirtualRef != null)
+                    EditorDecorations.VirtualParamRefSelectables(bank, VirtualRef, oldval);
+                if (ExtRefs != null)
+                {
+                    foreach (ExtRef currentRef in ExtRefs)
+                    {
+                        List<string> matchedExtRefPath = currentRef.paths.Select((x) => (string)(string.Format(x, oldval))).ToList();
+                        AssetLocator al = ParamBank.PrimaryBank.AssetLocator;
+                        ExtRefItem(row, internalName, $"modded {currentRef.name}", matchedExtRefPath, al.GameModDirectory);
+                        ExtRefItem(row, internalName, $"vanilla {currentRef.name}", matchedExtRefPath, al.GameRootDirectory);
+                    }
+                }
+
+                if (ImGui.Selectable("Distribution in selection"))
+                {
+                    EditorCommandQueue.AddCommand($@"param/menu/distributionPopup/{internalName}");
+                }
+                if (ParamEditorScreen.EditorMode && ImGui.BeginMenu("Find rows with this value..."))
+                {
+                    foreach (KeyValuePair<string, Param> p in bank.Params)
+                    {
+                        int v = (int)oldval;
+                        Param.Row r = p.Value[v];
+                        if (r != null && ImGui.Selectable($@"{p.Key}: {Utils.ImGuiEscape(r.Name, "null")}"))
+                            EditorCommandQueue.AddCommand($@"param/select/-1/{p.Key}/{v}");
+                    }
+                    ImGui.EndMenu();
+                }
+
+                if (ImGui.CollapsingHeader("Mass edit", ImGuiTreeNodeFlags.SpanFullWidth))
+                {
+                    ImGui.Separator();
+                    if (ImGui.Selectable("Manually..."))
+                    {
+                        EditorCommandQueue.AddCommand($@"param/menu/massEditRegex/selection: {Regex.Escape(internalName)}: ");
+                    }
+                    if (ImGui.Selectable("Reset to vanilla..."))
+                    {
+                        EditorCommandQueue.AddCommand($@"param/menu/massEditRegex/selection && !added: {Regex.Escape(internalName)}: = vanilla;");
+                    }
+                    ImGui.Separator();
+                    string res = AutoFill.MassEditOpAutoFill();
+                    if (res != null)
+                    {
+                        EditorCommandQueue.AddCommand($@"param/menu/massEditRegex/selection: {Regex.Escape(internalName)}: " + res);
+                    }
+                }
+
+                ImGui.PopStyleVar();
+
+                ImGui.EndPopup();
             }
 
-            PropertyRowValueContextMenu(bank, row, internalName, VirtualRef, ExtRefs, oldval);
 
             if (CFG.Current.Param_HideReferenceRows == false && RefTypes != null)
                 EditorDecorations.ParamRefsSelectables(bank, RefTypes, row, oldval);
@@ -697,139 +838,6 @@ namespace StudioCore.ParamEditor
             }
         }
 
-        private void PropertyRowNameContextMenu(ParamBank bank, string internalName, FieldMetaData cellMeta, string activeParam, bool showPinOptions, bool isPinned, Param.Column col, ParamEditorSelectionState selection)
-        {
-            float scale = MapStudioNew.GetUIScale();
-            string altName = cellMeta?.AltName;
-            string shownName = internalName;
-
-            ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(0f, 10f) * scale);
-            if (ImGui.BeginPopupContextItem("rowName"))
-            {
-                if (!string.IsNullOrWhiteSpace(altName))
-                {
-                    if (CFG.Current.Param_MakeMetaNamesPrimary)
-                    {
-                        shownName = altName;
-                        ImGui.TextColored(new Vector4(1f, .7f, .4f, 1f), Utils.ImGuiEscape(internalName, "", true));
-                    }
-                    else
-                        ImGui.TextColored(new Vector4(1f, .7f, .4f, 1f), Utils.ImGuiEscape(altName, "", true));
-                    ImGui.Separator();
-                }
-                if (ImGui.MenuItem("Add to Searchbar"))
-                {
-                    EditorCommandQueue.AddCommand($@"param/search/prop {internalName.Replace(" ", "\\s")} ");
-                }
-                if (showPinOptions && ImGui.MenuItem((isPinned ? "Unpin " : "Pin " + shownName)))
-                {
-                    if (!_paramEditor._projectSettings.PinnedFields.ContainsKey(activeParam))
-                        _paramEditor._projectSettings.PinnedFields.Add(activeParam, new List<string>());
-                    List<string> pinned = _paramEditor._projectSettings.PinnedFields[activeParam];
-                    if (isPinned)
-                        pinned.Remove(internalName);
-                    else if (!pinned.Contains(internalName))
-                        pinned.Add(internalName);
-                }
-                if (col != null && ImGui.MenuItem("Compare field"))
-                {
-                    selection.SetCompareCol(col);
-                }
-                if (ParamEditorScreen.EditorMode && cellMeta != null)
-                {
-                    if (ImGui.BeginMenu("Add Reference"))
-                    {
-                        foreach (string p in bank.Params.Keys)
-                        {
-                            if (ImGui.MenuItem(p+"##add"+p))
-                            {
-                                if (cellMeta.RefTypes == null)
-                                    cellMeta.RefTypes = new List<ParamRef>();
-                                cellMeta.RefTypes.Add(new ParamRef(p));
-                            }
-                        }
-                        ImGui.EndMenu();
-                    }
-                    if (cellMeta.RefTypes != null && ImGui.BeginMenu("Remove Reference"))
-                    {
-                        foreach (ParamRef p in cellMeta.RefTypes)
-                        {
-                            if (ImGui.MenuItem(p.param+"##remove"+p.param))
-                            {
-                                cellMeta.RefTypes.Remove(p);
-                                if (cellMeta.RefTypes.Count == 0)
-                                    cellMeta.RefTypes = null;
-                                break;
-                            }
-                        }
-                        ImGui.EndMenu();
-                    }
-                    if (ImGui.MenuItem(cellMeta.IsBool ? "Remove bool toggle" : "Add bool toggle"))
-                        cellMeta.IsBool = !cellMeta.IsBool;
-                    if (cellMeta.Wiki == null && ImGui.MenuItem("Add wiki..."))
-                        cellMeta.Wiki = "Empty wiki...";
-                    if (cellMeta.Wiki != null && ImGui.MenuItem("Remove wiki"))
-                        cellMeta.Wiki = null;
-                }
-                ImGui.EndPopup();
-            }
-            ImGui.PopStyleVar();
-        }
-        private void PropertyRowValueContextMenu(ParamBank bank, Param.Row row, string internalName, string VirtualRef, List<ExtRef> ExtRefs, dynamic oldval)
-        {
-            if (ImGui.BeginPopupContextItem("quickMEdit"))
-            {
-                ImGui.TextColored(new Vector4(1.0f, 0.7f, 0.8f, 1.0f), "Param Field Context Menu");
-                ImGui.SameLine(600);
-                ImGui.Text("");
-                if (ImGui.CollapsingHeader("Mass edit", ImGuiTreeNodeFlags.SpanFullWidth))
-                {
-                    ImGui.Separator();
-                    if (ImGui.Selectable("Manually..."))
-                    {
-                        EditorCommandQueue.AddCommand($@"param/menu/massEditRegex/selection: {Regex.Escape(internalName)}: ");
-                    }
-                    if (ImGui.Selectable("Reset to vanilla..."))
-                    {
-                        EditorCommandQueue.AddCommand($@"param/menu/massEditRegex/selection && !added: {Regex.Escape(internalName)}: = vanilla;");
-                    }
-                    ImGui.Separator();
-                    string res = AutoFill.MassEditOpAutoFill();
-                    if (res != null)
-                    {
-                        EditorCommandQueue.AddCommand($@"param/menu/massEditRegex/selection: {Regex.Escape(internalName)}: " + res);
-                    }
-                }
-                if (VirtualRef != null)
-                    EditorDecorations.VirtualParamRefSelectables(bank, VirtualRef, oldval);
-                if (ExtRefs != null)
-                {
-                    foreach (ExtRef currentRef in ExtRefs)
-                    {
-                        List<string> matchedExtRefPath = currentRef.paths.Select((x) => (string)(string.Format(x, oldval))).ToList();
-                        AssetLocator al = ParamBank.PrimaryBank.AssetLocator;
-                        ExtRefItem(row, internalName, $"modded {currentRef.name}", matchedExtRefPath, al.GameModDirectory);
-                        ExtRefItem(row, internalName, $"vanilla {currentRef.name}", matchedExtRefPath, al.GameRootDirectory);
-                    }
-                }
-                if (ImGui.Selectable("View distribution..."))
-                {
-                    EditorCommandQueue.AddCommand($@"param/menu/distributionPopup/{internalName}");
-                }
-                if (ParamEditorScreen.EditorMode && ImGui.BeginMenu("Find rows with this value..."))
-                {
-                    foreach (KeyValuePair<string, Param> p in bank.Params)
-                    {
-                        int v = (int)oldval;
-                        Param.Row r = p.Value[v];
-                        if (r != null && ImGui.Selectable($@"{p.Key}: {Utils.ImGuiEscape(r.Name, "null")}"))
-                            EditorCommandQueue.AddCommand($@"param/select/-1/{p.Key}/{v}");
-                    }
-                    ImGui.EndMenu();
-                }
-                ImGui.EndPopup();
-            }
-        }
         private void ExtRefItem(Param.Row keyRow, string fieldKey, string menuText, List<string> matchedExtRefPath, string dir)
         {
             bool exist = CacheBank.GetCached(_paramEditor, keyRow, $"extRef{menuText}{fieldKey}", () => Path.Exists(Path.Join(dir, matchedExtRefPath[0])));
