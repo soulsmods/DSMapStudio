@@ -10,7 +10,7 @@
     <Field Def="s32 soundBreakSEId"></Field>
     <Field Def="s32 refDrawParamId"></Field>
     <Field Def="u8 hitCreateType"></Field>
-    <Field Def="u8 behaviorType"></Field>
+    <Field Def="s8 behaviorType"></Field>
     <Field Def="u8 collisionType"></Field>
     <Field Def="u8 rainBlockingType"></Field>
     <Field Def="s16 hp"></Field>
@@ -26,7 +26,7 @@
     <Field Def="s32 BreakAiSoundID"></Field>
     <Field Def="s8 breakItemLotType"></Field>
     <Field Def="u8 animBreakIdMax"></Field>
-    <Field Def="s8 breakBulletAttributeDamageType"></Field>
+    <Field Def="u8 breakBulletAttributeDamageType"></Field>
     <Field Def="u8 isBreakByPlayerCollide:1"></Field>
     <Field Def="u8 isBreakByEnemyCollide:1"></Field>
     <Field Def="u8 isBreak_ByChrRide:1"></Field>
@@ -43,7 +43,7 @@
     <Field Def="u8 isEnableRepick:1"></Field>
     <Field Def="u8 isBreakOnPickUp:1"></Field>
     <Field Def="u8 isBreakByHugeenemyCollide:1"></Field>
-    <Field Def="u8 navimeshFlag"></Field>
+    <Field Def="s8 navimeshFlag"></Field>
     <Field Def="u16 burnBulletInterval"></Field>
     <Field Def="f32 clothUpdateDist"></Field>
     <Field Def="f32 lifeTime_forRuntimeCreate"></Field>
@@ -75,7 +75,7 @@
     <Field Def="s32 burnBulletBehaviorId_3"></Field>
     <Field Def="f32 burnBulletDelayTime"></Field>
     <Field Def="u16 paintDecalTargetTextureSize"></Field>
-    <Field Def="u8 navimeshFlag_after"></Field>
+    <Field Def="s8 navimeshFlag_after"></Field>
     <Field Def="s8 camNearBehaviorType"></Field>
     <Field Def="u8 breakItemLotParamId"></Field>
     <Field Def="s8 UnkSbyte0xB1"></Field>

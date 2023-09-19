@@ -19,6 +19,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Assets\Paramdex\AC6\Meta\NewFolder\**" />
+    <EmbeddedResource Remove="Assets\Paramdex\AC6\Meta\NewFolder\**" />
+    <None Remove="Assets\Paramdex\AC6\Meta\NewFolder\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Assets\Fonts\forkawesome-webfont.ttf" />
     <None Remove="Assets\Fonts\NotoSansCJKtc-Light.otf" />
     <None Remove="Assets\Fonts\NotoSansCJKtc-Medium.otf" />
@@ -476,10 +482,6 @@
     <Compile Update="NewAnimSkeleton.cs">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Assets\Paramdex\AC6\Meta\NewFolder\" />
   </ItemGroup>
 
 </Project>

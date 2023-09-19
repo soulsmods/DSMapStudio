@@ -6,16 +6,16 @@
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <Field Def="u8 DrawDist_LvBegin = 21"></Field>
-    <Field Def="u8 DrawDist_LvEnd = 21"></Field>
+    <Field Def="u8 DrawDist_LvBegin"></Field>
+    <Field Def="u8 DrawDist_LvEnd"></Field>
     <Field Def="dummy8 reserve0[2]"></Field>
-    <Field Def="f32 DrawDist_ScaleBegin = 1"></Field>
-    <Field Def="f32 DrawDist_ScaleEnd = 1"></Field>
-    <Field Def="u8 ShadwDrawDist_LvBegin = 21"></Field>
-    <Field Def="u8 ShadwDrawDist_LvEnd = 21"></Field>
+    <Field Def="f32 DrawDist_ScaleBegin"></Field>
+    <Field Def="f32 DrawDist_ScaleEnd"></Field>
+    <Field Def="u8 ShadwDrawDist_LvBegin"></Field>
+    <Field Def="u8 ShadwDrawDist_LvEnd"></Field>
     <Field Def="dummy8 reserve1[2]"></Field>
-    <Field Def="f32 ShadwDrawDist_ScaleBegin = 1"></Field>
-    <Field Def="f32 ShadwDrawDist_ScaleEnd = 1"></Field>
+    <Field Def="f32 ShadwDrawDist_ScaleBegin"></Field>
+    <Field Def="f32 ShadwDrawDist_ScaleEnd"></Field>
     <Field Def="dummy8 reserve2[24]"></Field>
   </Fields>
 </PARAMDEF>
