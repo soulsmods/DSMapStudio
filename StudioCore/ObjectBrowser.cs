@@ -98,7 +98,7 @@ namespace StudioCore
                         "you can click on an entry within the Chr list to change the enemy to that type.\n" +
                         "\n" +
                         "If a Asset or Obj object is selected within the MSB view, \n" +
-                        "you can click on an entry within the AEG or Obj list to change the enemy to that type.\n"
+                        "you can click on an entry within the AEG or Obj list to change the object to that type.\n"
                         );
                     ImGui.EndPopup();
                 }
