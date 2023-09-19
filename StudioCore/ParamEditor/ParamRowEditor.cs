@@ -428,17 +428,12 @@ namespace StudioCore.ParamEditor
             string shownName = internalName;
 
             ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(0f, 10f) * scale);
+            string nameText = internalName;
             if (!string.IsNullOrWhiteSpace(altName))
             {
-                if (CFG.Current.Param_MakeMetaNamesPrimary)
-                {
-                    shownName = altName;
-                    ImGui.TextColored(new Vector4(1f, .7f, .4f, 1f), Utils.ImGuiEscape(internalName, "", true));
-                }
-                else
-                    ImGui.TextColored(new Vector4(1f, .7f, .4f, 1f), Utils.ImGuiEscape(altName, "", true));
-                ImGui.Separator();
+                nameText += $"  /  {altName}";
             }
+            ImGui.TextColored(new Vector4(1.0f, 0.7f, 0.4f, 1.0f), Utils.ImGuiEscape(nameText, "", true));
             
             string str = $"Value Type: {propType.Name}";
             if (propType.IsValueType)
@@ -454,6 +449,7 @@ namespace StudioCore.ParamEditor
             {
                 str += $"\n\n{Wiki}";
             }
+            
             ImGui.TextColored(new Vector4(.4f, .7f, 1f, 1f), str);
             ImGui.Separator();
 
