@@ -471,7 +471,7 @@ namespace StudioCore.ParamEditor
             {
                 selection.SetCompareCol(col);
             }
-            if (ImGui.Selectable("View distribution..."))
+            if (ImGui.Selectable("View distribution of selected rows..."))
             {
                 EditorCommandQueue.AddCommand($@"param/menu/distributionPopup/{internalName}");
             }
