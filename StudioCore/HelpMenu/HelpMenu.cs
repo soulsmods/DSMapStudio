@@ -47,7 +47,7 @@ namespace StudioCore.Help
             if (!MenuOpenState)
                 return;
 
-            ImGui.SetNextWindowSize(new Vector2(900.0f, 800.0f) * scale, ImGuiCond.FirstUseEver);
+            ImGui.SetNextWindowSize(new Vector2(600.0f, 600.0f) * scale, ImGuiCond.FirstUseEver);
             ImGui.PushStyleColor(ImGuiCol.WindowBg, new Vector4(0f, 0f, 0f, 0.98f));
             ImGui.PushStyleColor(ImGuiCol.TitleBgActive, new Vector4(0.25f, 0.25f, 0.25f, 1.0f));
             ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(10.0f, 10.0f) * scale);
@@ -83,7 +83,7 @@ namespace StudioCore.Help
                 ImGui.InputText($"Search", ref _inputStr_Core, 255);
 
                 // Selection Area
-                ImGui.BeginChild("HelpSectionList", new Vector2(300, 100));
+                ImGui.BeginChild("HelpSectionList", new Vector2(600, 100), true, ImGuiWindowFlags.NoScrollbar);
 
                 if (_inputStr_Core.ToLower() != _inputStrCache_Core.ToLower())
                 {
@@ -184,7 +184,7 @@ namespace StudioCore.Help
                 ImGui.InputText($"Search", ref _inputStr_Tutorial, 255);
 
                 // Selection Area
-                ImGui.BeginChild("HelpSectionList", new Vector2(300, 100));
+                ImGui.BeginChild("HelpSectionList", new Vector2(600, 100), true, ImGuiWindowFlags.NoScrollbar);
 
                 if (_inputStr_Tutorial.ToLower() != _inputStrCache_Tutorial.ToLower())
                 {
