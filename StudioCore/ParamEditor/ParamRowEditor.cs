@@ -434,7 +434,7 @@ namespace StudioCore.ParamEditor
                 nameText += $"  /  {altName}";
             }
             ImGui.TextColored(new Vector4(1.0f, 0.7f, 0.4f, 1.0f), Utils.ImGuiEscape(nameText, "", true));
-            
+            ImGui.Separator();
             string str = $"Value Type: {propType.Name}";
             if (propType.IsValueType)
             {
@@ -444,13 +444,13 @@ namespace StudioCore.ParamEditor
                 {
                     str += $" (Min {min}, Max {max})";
                 }
+                ImGui.TextColored(new Vector4(.4f, 1f, .7f, 1f), str);
             }
             if (Wiki != null)
             {
-                str += $"\n\n{Wiki}";
+                ImGui.TextColored(new Vector4(.4f, .7f, 1f, 1f), $"\n{Wiki}");
             }
             
-            ImGui.TextColored(new Vector4(.4f, .7f, 1f, 1f), str);
             ImGui.Separator();
 
             if (ImGui.MenuItem("Add to Searchbar"))
