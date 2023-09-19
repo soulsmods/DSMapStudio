@@ -1122,7 +1122,7 @@ namespace StudioCore.ParamEditor
         {
             if (param == null)
                 return;
-            if (!VanillaBank.Params.ContainsKey(param) && VanillaDiffCache != null && VanillaDiffCache.ContainsKey(param))
+            if (VanillaBank.Params.ContainsKey(param) && VanillaDiffCache != null && VanillaDiffCache.ContainsKey(param))
             {
                 var otherBankRows = VanillaBank.Params[param].Rows.Where(cell => cell.ID == row.ID).ToArray();
                 RefreshParamRowDiffCache(row, otherBankRows, VanillaDiffCache[param]);
