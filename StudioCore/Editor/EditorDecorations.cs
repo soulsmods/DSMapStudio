@@ -381,7 +381,7 @@ namespace StudioCore.Editor
             return result;
         }
 
-        public static bool PropertyRowRefsContextItems(ParamBank bank, List<ParamRef> reftypes, Param.Row context, dynamic oldval, ref object newval, ActionManager executor)
+        public static bool PropertyRowRefsContextItems(ParamBank bank, List<ParamRef> reftypes, Param.Row context, object oldval, ref object newval, ActionManager executor)
         {
             if (bank.Params == null)
                 return false;
@@ -424,12 +424,19 @@ namespace StudioCore.Editor
                             break;
                         if (ImGui.Selectable($@"({rt}){r.ID}: {r.Name}"))
                         {
-                            if (meta != null && meta.FixedOffset != 0)
-                                newval = (int)r.ID - meta.FixedOffset - rf.offset;
-                            else
-                                newval = (int)r.ID - rf.offset;
-                            _refContextCurrentAutoComplete = "";
-                            return true;
+                            try
+                            {
+                                if (meta != null && meta.FixedOffset != 0)
+                                    newval = Convert.ChangeType(r.ID - meta.FixedOffset - rf.offset, oldval.GetType());
+                                else
+                                    newval = Convert.ChangeType(r.ID - rf.offset, oldval.GetType());
+                                _refContextCurrentAutoComplete = "";
+                                return true;
+                            }
+                            catch (Exception e)
+                            {
+                                TaskLogs.AddLog("Unable to convert value into param field's type'", Microsoft.Extensions.Logging.LogLevel.Warning, TaskLogs.LogPriority.Normal, e);
+                            }
                         }
                         maxResultsPerRefType--;
                     }
