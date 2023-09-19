@@ -24,14 +24,12 @@ namespace StudioCore.Help
 
         // Core
         private string _selectedTitle_Core = null;
-        private string _selectedTags_Core = null;
         private List<string> _selectedContents_Core = null;
         private string _inputStr_Core = "";
         private string _inputStrCache_Core = "";
 
         // Tutorial
         private string _selectedTitle_Tutorial = null;
-        private string _selectedTags_Tutorial = null;
         private List<string> _selectedContents_Tutorial = null;
         private string _inputStr_Tutorial = "";
         private string _inputStrCache_Tutorial = "";
@@ -64,6 +62,7 @@ namespace StudioCore.Help
 
                 DisplayCore();
                 DisplayTutorials();
+                DisplayLinks();
                 DisplayCredits();
 
                 ImGui.PopItemWidth();
@@ -274,6 +273,55 @@ namespace StudioCore.Help
                 }
 
                 ImGui.Separator();
+                ImGui.EndTabItem();
+            }
+        }
+
+        private void DisplayLinks()
+        {
+            if (ImGui.BeginTabItem("Links"))
+            {
+                ImGui.Indent();
+
+                ImGui.Text("Below are a set of community links. Clicking them will take you to the associated URL.");
+
+                if (ImGui.Button("Modding Wiki"))
+                {
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = "http://soulsmodding.wikidot.com/",
+                        UseShellExecute = true
+                    });
+                }
+
+                if (ImGui.Button("Map ID Reference"))
+                {
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = "http://soulsmodding.wikidot.com/reference:map-list",
+                        UseShellExecute = true
+                    });
+                }
+
+                if (ImGui.Button("DSMapStudio Discord"))
+                {
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = "https://discord.gg/CKDBCUFhB3",
+                        UseShellExecute = true
+                    });
+                }
+
+                if (ImGui.Button("FromSoftware Modding Discord"))
+                {
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = "https://discord.gg/mT2JJjx",
+                        UseShellExecute = true
+                    });
+                }
+
+                ImGui.Unindent();
                 ImGui.EndTabItem();
             }
         }

@@ -854,42 +854,6 @@ namespace StudioCore
                         OpenHelpMenu();
                     }
 
-                    if (ImGui.MenuItem("Modding Wiki"))
-                    {
-                        Process.Start(new ProcessStartInfo
-                        {
-                            FileName = "http://soulsmodding.wikidot.com/",
-                            UseShellExecute = true
-                        });
-                    }
-
-                    if (ImGui.MenuItem("Map ID Reference"))
-                    {
-                        Process.Start(new ProcessStartInfo
-                        {
-                            FileName = "http://soulsmodding.wikidot.com/reference:map-list",
-                            UseShellExecute = true
-                        });
-                    }
-
-                    if (ImGui.MenuItem("DSMapStudio Discord"))
-                    {
-                        Process.Start(new ProcessStartInfo
-                        {
-                            FileName = "https://discord.gg/CKDBCUFhB3",
-                            UseShellExecute = true
-                        });
-                    }
-
-                    if (ImGui.MenuItem("FromSoftware Modding Discord"))
-                    {
-                        Process.Start(new ProcessStartInfo
-                        {
-                            FileName = "https://discord.gg/mT2JJjx",
-                            UseShellExecute = true
-                        });
-                    }
-
                     ImGui.EndMenu();
                 }
                 if (FeatureFlags.TestMenu)
