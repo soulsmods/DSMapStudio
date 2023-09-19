@@ -254,5 +254,43 @@ namespace StudioCore
                     throw new Exception("Game type not set");
             }
         }
+
+        public static bool MatchSearchInput(string inputStr, string fileName, string referenceName, List<string> tags)
+        {
+            bool match = false;
+
+            string curInput = inputStr.Trim();
+
+            if (curInput.Equals(""))
+            {
+                match = true; // If input is empty, show all
+                return match;
+            }
+
+            // Match: Filename
+            if (curInput == fileName)
+                match = true;
+
+            // Match: Reference Name
+            if (curInput == referenceName)
+                match = true;
+
+            // Match: Reference Segments
+            string[] refSegments = referenceName.Split(" ");
+            foreach (string refStr in refSegments)
+            {
+                if (curInput == refStr.Trim())
+                    match = true;
+            }
+
+            // Match: Tags
+            foreach (string tagStr in tags)
+            {
+                if (curInput == tagStr)
+                    match = true;
+            }
+
+            return match;
+        }
     }
 }

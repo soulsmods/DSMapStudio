@@ -90,12 +90,8 @@ namespace StudioCore
                 {
                     ImGui.Text(
                         "OVERVIEW\n" +
-                        "The Object Browser allows you to browse through all of the characters and objects/assets available.\n" +
-                        "The search is fuzzy, and includes pre-defined tags.\n" +
-                        "For example, typing in \"grass\" will show all objects tagged as \"grass\".\n" +
-                        "\n" +
-                        "Multiple filters may be chained together by adding a semi-colon between each statement.\n" +
-                        "This will acts as an OR statement.\n" +
+                        "The Object Browser allows you to browse through all of the available characters, assets and objects.\n" +
+                        "The search will filter the browser list by filename, reference name and tags.\n" +
                         "\n" +
                         "USAGE\n" +
                         "If a Enemy object is selected within the MSB view, \n" +
@@ -186,7 +182,7 @@ namespace StudioCore
                             }
                         }
 
-                        if (MatchInput(chr, referenceName, tagList))
+                        if (AssetdexUtils.MatchSearchInput(_searchStrInput, chr, referenceName, tagList))
                         {
                             if (ImGui.Selectable(fileName))
                             {
@@ -226,7 +222,7 @@ namespace StudioCore
                             }
                         }
 
-                        if (MatchInput(obj, referenceName, tagList))
+                        if (AssetdexUtils.MatchSearchInput(_searchStrInput, obj, referenceName, tagList))
                         {
                             if (ImGui.Selectable(fileName))
                             {
@@ -243,57 +239,6 @@ namespace StudioCore
                 ImGui.EndChild();
             }
             ImGui.End();
-        }
-        public bool MatchInput(string fileName, string referenceName, List<string> tags)
-        {
-            // Force input to lower so it matches more readily.
-            _searchStrInput = _searchStrInput.ToLower();
-
-            // Remove braces in referenceName, and force lower to match more readily.
-            referenceName = referenceName.Replace("(", "").Replace(")", "").ToLower();
-
-            bool match = false;
-
-            // Match input can be split via the ; delimiter
-            if (_searchStrInput.Contains(";"))
-                _searchStrList = _searchStrInput.Split(";").ToList();
-            else
-                _searchStrList = new List<string> { _searchStrInput };
-
-            match = MatchInputSegment(tags, _searchStrList);
-
-            // If referenceName has multiple word segments, break it up and check if input matches any of the segments
-            if (referenceName.Contains(" "))
-            {
-                List<string> refereceNameSegement = referenceName.Split(" ").ToList();
-
-                match = MatchInputSegment(refereceNameSegement, _searchStrList);
-            }
-
-            if (_searchStrList.Contains(fileName) || _searchStrList.Contains(referenceName))
-            {
-                match = true;
-            }
-
-            if (_searchStrInput == "")
-                match = true;
-
-            return match;
-        }
-        public bool MatchInputSegment(List<string> stringList, List<string> inputStringList)
-        {
-            bool match = false;
-
-            foreach (string str in stringList)
-            {
-                foreach (string entry in inputStringList)
-                {
-                    if (entry.Contains(str))
-                        match = true;
-                }
-            }
-
-            return match;
         }
 
         public void ChangeObjectModel(string modelName, string modelType)

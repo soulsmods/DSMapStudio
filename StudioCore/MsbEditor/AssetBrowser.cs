@@ -177,7 +177,7 @@ namespace StudioCore.MsbEditor
                             }
                         }
 
-                        if (MatchInput(chr, referenceName, tagList))
+                        if (AssetdexUtils.MatchSearchInput(_searchStrInput, chr, referenceName, tagList))
                         {
                             if (ImGui.Selectable(fileName))
                             {
@@ -216,7 +216,7 @@ namespace StudioCore.MsbEditor
                             }
                         }
 
-                        if (MatchInput(obj, referenceName, tagList))
+                        if (AssetdexUtils.MatchSearchInput(_searchStrInput, obj, referenceName, tagList))
                         {
                             if (ImGui.Selectable(fileName))
                             {
@@ -256,7 +256,7 @@ namespace StudioCore.MsbEditor
                             }
                         }
 
-                        if (MatchInput(part, referenceName, tagList))
+                        if (AssetdexUtils.MatchSearchInput(_searchStrInput, part, referenceName, tagList))
                         {
                             if (ImGui.Selectable(fileName))
                             {
@@ -297,7 +297,7 @@ namespace StudioCore.MsbEditor
                                 }
                             }
 
-                            if (MatchInput(model, referenceName, tagList))
+                            if (AssetdexUtils.MatchSearchInput(_searchStrInput, model, referenceName, tagList))
                             {
                                 if (ImGui.Selectable(fileName))
                                 {
@@ -314,58 +314,6 @@ namespace StudioCore.MsbEditor
                 ImGui.EndChild();
             }
             ImGui.End();
-        }
-
-        public bool MatchInput(string fileName, string referenceName, List<string> tags)
-        {
-            // Force input to lower so it matches more readily.
-            _searchStrInput = _searchStrInput.ToLower();
-
-            // Remove braces in referenceName, and force lower to match more readily.
-            referenceName = referenceName.Replace("(", "").Replace(")", "").ToLower();
-
-            bool match = false;
-
-            // Match input can be split via the ; delimiter
-            if (_searchStrInput.Contains(";"))
-                _searchStrList = _searchStrInput.Split(";").ToList();
-            else
-                _searchStrList = new List<string> { _searchStrInput };
-
-            match = MatchInputSegment(tags, _searchStrList);
-
-            // If referenceName has multiple word segments, break it up and check if input matches any of the segments
-            if (referenceName.Contains(" "))
-            {
-                List<string> refereceNameSegement = referenceName.Split(" ").ToList();
-
-                match = MatchInputSegment(refereceNameSegement, _searchStrList);
-            }
-
-            if (_searchStrList.Contains(fileName) || _searchStrList.Contains(referenceName))
-            {
-                match = true;
-            }
-
-            if (_searchStrInput == "")
-                match = true;
-
-            return match;
-        }
-        public bool MatchInputSegment(List<string> stringList, List<string> inputStringList)
-        {
-            bool match = false;
-
-            foreach (string str in stringList)
-            {
-                foreach (string entry in inputStringList)
-                {
-                    if (entry.Contains(str))
-                        match = true;
-                }
-            }
-
-            return match;
         }
     }
 }
