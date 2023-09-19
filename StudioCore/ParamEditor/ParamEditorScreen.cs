@@ -880,6 +880,8 @@ namespace StudioCore.ParamEditor
                 }
                 ImGui.EndMenu();
             }
+
+            /*
             if (ImGui.BeginMenu("Help"))
             {
                 if (ImGui.BeginMenu("Search and MassEdit"))
@@ -910,6 +912,7 @@ namespace StudioCore.ParamEditor
                 }
                 ImGui.EndMenu();
             }
+            */
 
             ParamUpgradeDisplay();
         }
