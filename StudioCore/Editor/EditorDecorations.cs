@@ -462,13 +462,14 @@ namespace StudioCore.Editor
         {
             if (ImGui.BeginChild("EnumList", new Vector2(0, ImGui.GetTextLineHeightWithSpacing() * Math.Min(7, en.values.Count))))
             {
-            try
+                try
                 {
                     foreach (KeyValuePair<string, string> option in en.values)
                     {
                         if (ImGui.Selectable($"{option.Key}: {option.Value}"))
                         {
                             newval = Convert.ChangeType(option.Key, oldval.GetType());
+                            ImGui.EndChild();
                             return true;
                         }
                     }
