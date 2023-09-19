@@ -1,0 +1,16 @@
+{
+    // NOTE: the recommended character length per line is 80.
+    // NOTE: each entry within Contents will automatically add a newline when parsed by DSMS.
+    
+    "Entries" : [
+        {
+            "Title": "Example Tutorial",
+            "Tags": [
+                "Elden Ring", "ER"
+            ],
+            "Contents": [
+                "Example tutorial here"
+            ]
+        }
+    ]
+}
