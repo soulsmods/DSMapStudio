@@ -1084,27 +1084,28 @@ namespace StudioCore.ParamEditor
         {
             if (ImGui.BeginPopup("distributionPopup"))
             {
-                ImGui.Text("Occurences in " + _statisticPopupParameter);
-                ImGui.Text("Count".PadLeft(9) + " Value");
-                ImGui.SameLine();
+                ImGui.Text($"Occurences of {_statisticPopupParameter}");
                 try
                 {
-                    if (ImGui.Button("Sort by value"))
+                    if (ImGui.Button("Sort (value)"))
                     {
                         _distributionOutput = _distributionOutput.OrderBy((g) => g.Item1);
-                        _statisticPopupOutput = String.Join('\n', _distributionOutput.Select((e) => e.Item2.ToString().PadLeft(9) + " " + e.Item1.ToParamEditorString() + " times"));
+                        _statisticPopupOutput = String.Join('\n', _distributionOutput.Select((e) => e.Item1.ToString().PadLeft(9) + ": " + e.Item2.ToParamEditorString() + " times"));
                     }
                     ImGui.SameLine();
-                    if (ImGui.Button("Sort by count"))
+                    if (ImGui.Button("Sort (count)"))
                     {
                         _distributionOutput = _distributionOutput.OrderByDescending((g) => g.Item2);
-                        _statisticPopupOutput = String.Join('\n', _distributionOutput.Select((e) => e.Item2.ToString().PadLeft(9) + " " + e.Item1.ToParamEditorString() + " times"));
+                        _statisticPopupOutput = String.Join('\n', _distributionOutput.Select((e) => e.Item1.ToString().PadLeft(9) + ": " + e.Item2.ToParamEditorString() + " times"));
                     }
                 }
                 catch (Exception e)
                 {
                     // Happily ignore exceptions. This is non-mutating code with no critical use.
                 }
+
+                ImGui.Separator();
+                ImGui.Text("Value".PadLeft(9) + "   Count");
                 ImGui.Separator();
                 ImGui.Text(_statisticPopupOutput);
                 ImGui.EndPopup();
