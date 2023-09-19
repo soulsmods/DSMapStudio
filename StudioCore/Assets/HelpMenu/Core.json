@@ -4,7 +4,7 @@
     
     "Entries" : [
         {
-            "Title": "Hints and Tips",
+            "Title": "Tips and Tricks",
             "Tags": [
                 "Tip", "Hint"
             ],
@@ -73,7 +73,285 @@
             ]
         },
         {
-            "Title": "Param Upgrade",
+            "Title": "Map Editor",
+            "Tags": [
+                "Feature"
+            ],
+            "Contents": [
+                "The Map Editor allows you to edit the map files used by the game, also known as MSB files.",
+                "",
+                "To edit a map:",
+                "- Enter the Map Editor tab",
+                "- Hover over the map you wish to edit in the Map Object List",
+                "- Right-click to bring up the context menu, select Load Map",
+                "",
+                "A simple explanation covering each of the high-level map object types:",
+                "",
+                "--- Event ---",
+                "Map objects that control map attributes or state.",
+                "",
+                "--- Light ---",
+                "Map objects that control the spot and directional lightning within a map.",
+                "",
+                "--- Part ---",
+                "Map objects are entities within the map that the player interacts with, or that shape the level.",
+                "",
+                "--- Region ---",
+                "Map objects that represent areas, either for detection or for placement."
+            ]
+        },
+        {
+            "Title": "Map Editor: Event",
+            "Tags": [
+                "Feature"
+            ],
+            "Contents": [
+                "Event map objects control various attributes or states within the map.",
+                "",
+                "A simple explanation covering each of the Event map object types.",
+                "Note that not all of the types are present within all of the games.",
+                "",
+                "--- Generator --- ",
+                "A set of attributes that determine the respawn state of a set of linked Enemies at a set of linked SpawnPoints.",
+                "",
+                "--- Navmesh --- ",
+                "Unknown.",
+                "",
+                "--- Mount --- ",
+                "A link between a Enemy rider and a Enemy mount.",
+                "Elden Ring only.",
+                "",
+                "--- ObjAct --- ",
+                "A set of attributes that determine the interaction state of an Asset or Object.",
+                "Typically used for levers, lifts and chests.",
+                "",
+                "--- Other --- ",
+                "Unknown.",
+                "",
+                "--- PatrolInfo --- ",
+                "A set of attributes that determine the patrol route used by a linked Enemy.",
+                "It itself links to individual PatrolRoute objects with the Region group.",
+                "",
+                "--- PlatoonInfo --- ",
+                "A set of attributes that determine the composition of a platoon group, and its formation shape and speed.",
+                "",
+                "--- PseudoMultiplayer --- ",
+                "A set of attributes used by a Enemy that should emulate the online invasion mechanics.",
+                "",
+                "--- SignPool --- ",
+                "A link between an Asset and a Summoning Pool region.",
+                "Elden Ring only.",
+                "",
+                "--- RetryPoint --- ",
+                "A link between a Statue of Marika and the retry Region.",
+                "Elden Ring only.",
+                "",
+                "--- Treasure --- ",
+                "A link between an Asset or Object and an ItemLot.",
+                "",
+                ""
+            ]
+        },
+        {
+            "Title": "Map Editor: Part",
+            "Tags": [
+                "Feature"
+            ],
+            "Contents": [
+                "Part map objects are entities within the map that the player interacts with, or that shape the level.",
+                "",
+                "A simple explanation covering each of the Part map object types.",
+                "Note that not all of the types are present within all of the games.",
+                "",
+                "--- Asset --- ",
+                "An in-game object of varying sizes, from clutter to cliffs.",
+                "",
+                "--- Collision --- ",
+                "A form of collision. Typically used to block player or enemy movement, but also used for detection,",
+                "such as for kill planes, or the generation of special footstep visual effects, such as in water or lava.",
+                "",
+                "--- ConnectCollision --- ",
+                "",
+                "",
+                "--- DummyAsset --- ",
+                "",
+                "",
+                "--- DummyEnemy --- ",
+                "",
+                "",
+                "--- Enemy --- ",
+                "",
+                "",
+                "--- MapPiece --- ",
+                "",
+                "",
+                "--- Player --- ",
+                "",
+                ""
+            ]
+        },
+        {
+            "Title": "Map Editor: Region",
+            "Tags": [
+                "Feature"
+            ],
+            "Contents": [
+                "Region map objects that represent areas, either for detection or for placement.",
+                "",
+                "A simple explanation covering each of the Region map object types.",
+                "Note that not all of the types are present within all of the games.",
+                "",
+                "--- AutoDrawGroupPoint --- ",
+                "",
+                "",
+                "--- BuddySummonPoint --- ",
+                "",
+                "",
+                "--- Connection --- ",
+                "",
+                "",
+                "--- Dummy --- ",
+                "",
+                "",
+                "--- EnvironmentMapEffectBox --- ",
+                "",
+                "",
+                "--- EnvironmentMapPoint --- ",
+                "",
+                "",
+                "--- EnvironmentMapOutput --- ",
+                "",
+                "",
+                "--- GroupDefeatReward --- ",
+                "",
+                "",
+                "--- HorseRideOverride --- ",
+                "",
+                "",
+                "--- Hitset --- ",
+                "",
+                "",
+                "--- FallPreventionRemoval --- ",
+                "",
+                "",
+                "--- FastTravelRestriction --- ",
+                "",
+                "",
+                "--- InvasionPoint --- ",
+                "",
+                "",
+                "--- MapPoint --- ",
+                "",
+                "",
+                "--- MapPointDiscoveryOverride --- ",
+                "",
+                "",
+                "--- MapPointParticipationOverride --- ",
+                "",
+                "",
+                "--- MapNameOverride --- ",
+                "",
+                "",
+                "--- Message --- ",
+                "",
+                "",
+                "--- MountJump --- ",
+                "",
+                "",
+                "--- MountJumpFall --- ",
+                "",
+                "",
+                "--- MufflingBox --- ",
+                "",
+                "",
+                "--- MufflingPlane --- ",
+                "",
+                "",
+                "--- MufflingPortal --- ",
+                "",
+                "",
+                "--- NavmeshCutting --- ",
+                "",
+                "",
+                "--- Other --- ",
+                "",
+                "",
+                "--- PatrolRoute --- ",
+                "",
+                "",
+                "--- PlayArea --- ",
+                "",
+                "",
+                "--- SFX --- ",
+                "",
+                "",
+                "--- Sound --- ",
+                "",
+                "",
+                "--- SoundRegion --- ",
+                "",
+                "",
+                "--- SpawnPoint --- ",
+                "",
+                "",
+                "--- WeatherCreateAssetPoint --- ",
+                "",
+                "",
+                "--- WeatherOverride --- ",
+                "",
+                "",
+                "--- WindArea --- ",
+                "",
+                "",
+                "--- WindSFX --- ",
+                "",
+                ""
+            ]
+        },
+        {
+            "Title": "Map Editor: Render Groups",
+            "Tags": [
+                "Feature"
+            ],
+            "Contents": [
+                "Render Groups are used by the game to determine what should render and what shouldn't.",
+                "They consist of Display Groups and Draw Groups.",
+                "When a Display Group is active, Map Objects with that Draw Group will render.",
+                "",
+                "If a Map Object uses the CollisionName field, they will inherit Draw Groups from the referenced Map Object.",
+                "CollisionName references will be targeted by DSMapStudio when using 'Set Selection'/'Get Selection' instead of your actual selection.",
+                "When a character walks on top of a piece of collision, they will use its DispGroups and DrawGroups.",
+                "",
+                "Color indicates which Render Groups selected Map Object is using.",
+                "Red = Selection uses this Display Group.",
+                "Green = Selection uses this Draw Group.",
+                "Yellow = Selection uses both."
+            ]
+        },
+        {
+            "Title": "Model Editor",
+            "Tags": [
+                "Feature"
+            ],
+            "Contents": [
+                "The Model Editor allows you to view the models used by the game.",
+                "Specifically, it covers Characters, Assets or Objects, Parts and MapPieces.",
+                "",
+                "Note, the Model Editor does NOT allow you to save changes to the models."
+            ]
+        },
+        {
+            "Title": "Param Editor",
+            "Tags": [
+                "Feature"
+            ],
+            "Contents": [
+                "The Param Editor allows you to edit the params used by the game.",
+                "Params are rows of data that determine almost everything related to the data side of a game."
+            ]
+        },
+        {
+            "Title": "Param Editor: Param Upgrade",
             "Tags": [
                 "Feature",
                 "Param"
@@ -89,7 +367,7 @@
             ]
         },
         {
-            "Title": "Mass Edit Commands",
+            "Title": "Param Editor: Mass Edit",
             "Tags": [
                 "Feature",
                 "Param"
@@ -155,7 +433,7 @@
             ]
         },
         {
-            "Title": "Search Bar",
+            "Title": "Param Editor: Search Bar",
             "Tags": [
                 "Feature",
                 "Param"
@@ -193,6 +471,15 @@
                 "name Dagger && idrange 10000 Infinity",
                 "-> This searches for all rows with a name containing Dagger and that have an id greater than 9999)",
                 ""
+            ]
+        },
+        {
+            "Title": "Text Editor",
+            "Tags": [
+                "Feature"
+            ],
+            "Contents": [
+                "The Text Editor allows you to edit the localization used by the game."
             ]
         }
     ]
