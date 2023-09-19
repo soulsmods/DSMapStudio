@@ -564,7 +564,7 @@
     <Field Def="f32 weaponCoolingDelay"></Field>
     <Field Def="f32 weaponOverheatedCoolingDelay"></Field>
     <Field Def="f32 UnkFloat0x59C"></Field>
-    <Field Def="s32 UnkInt0x5A0"></Field>
+    <Field Def="s32 inheritanceWeaponParamId"></Field>
     <Field Def="u16 UnkUshort0x5A4"></Field>
     <Field Def="u8 UnkByte0x5A6"></Field>
     <Field Def="u8 UnkByte0x5A7"></Field>
