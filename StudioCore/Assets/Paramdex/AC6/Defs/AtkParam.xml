@@ -266,8 +266,8 @@
     <Field Def="u8 UnkByte0x221"></Field>
     <Field Def="u16 UnkUshort0x222"></Field>
     <Field Def="s32 Unk0x224"></Field>
-    <Field Def="u16 UnkUshort0x228"></Field>
-    <Field Def="u16 UnkUshort0x22A"></Field>
+    <Field Def="u16 unkHitbox0x228"></Field>
+    <Field Def="u16 unkHitbox0x22A"></Field>
     <Field Def="u16 UnkUshort0x22C"></Field>
     <Field Def="u16 UnkUshort0x22E"></Field>
     <Field Def="u16 UnkUshort0x230"></Field>
