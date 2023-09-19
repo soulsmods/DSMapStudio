@@ -37,11 +37,45 @@ namespace StudioCore.MsbEditor
         private string _searchStrInputCache = "";
         private List<string> _searchStrList = new List<string>();
 
+        public Dictionary<string, ChrReference> chrReferenceDict = new Dictionary<string, ChrReference>();
+        public Dictionary<string, ObjReference> objReferenceDict = new Dictionary<string, ObjReference>();
+        public Dictionary<string, PartReference> partReferenceDict = new Dictionary<string, PartReference>();
+        public Dictionary<string, MapPieceReference> mapPieceReferenceDict = new Dictionary<string, MapPieceReference>();
+
         public AssetBrowser(AssetBrowserEventHandler handler, string id, AssetLocator locator)
         {
             _id = id;
             _locator = locator;
             _handler = handler;
+        }
+
+        public void UpdateReferenceDicts()
+        {
+            chrReferenceDict.Clear();
+            objReferenceDict.Clear();
+            partReferenceDict.Clear();
+            mapPieceReferenceDict.Clear();
+
+            foreach (ChrReference entry in AssetdexUtils.GetCurrentGameAssetdex(_locator.Type).chrReferences)
+            {
+                if (!chrReferenceDict.ContainsKey(entry.fileName))
+                    chrReferenceDict.Add(entry.fileName, entry);
+            }
+            foreach (ObjReference entry in AssetdexUtils.GetCurrentGameAssetdex(_locator.Type).objReferences)
+            {
+                if (!objReferenceDict.ContainsKey(entry.fileName))
+                    objReferenceDict.Add(entry.fileName, entry);
+            }
+            foreach (PartReference entry in AssetdexUtils.GetCurrentGameAssetdex(_locator.Type).partReferences)
+            {
+                if (!partReferenceDict.ContainsKey(entry.fileName))
+                    partReferenceDict.Add(entry.fileName, entry);
+            }
+            foreach (MapPieceReference entry in AssetdexUtils.GetCurrentGameAssetdex(_locator.Type).mapPieceReferences)
+            {
+                if (!mapPieceReferenceDict.ContainsKey(entry.fileName))
+                    mapPieceReferenceDict.Add(entry.fileName, entry);
+            }
         }
 
         public void ClearCaches()
@@ -126,37 +160,26 @@ namespace StudioCore.MsbEditor
                     }
                     foreach (var chr in _cacheFiltered)
                     {
+                        string fileName = $"{chr}";
                         string referenceName = "";
-                        string tagList = "";
-                        List<string> tags = new List<string>();
+                        List<string> tagList = new List<string>();
 
-                        foreach (ChrReference entry in AssetdexUtils.GetCurrentGameAssetdex(_locator.Type).chrReferences)
+                        if (chrReferenceDict.ContainsKey(chr))
                         {
-                            if (chr == entry.fileName)
-                            {
-                                referenceName = entry.referenceName;
-                                tagList = "{ ";
-                                foreach (string tagEntry in entry.tags)
-                                {
-                                    tags.Add(tagEntry);
-                                    tagList = tagList + tagEntry + " ";
-                                }
-                                tagList = tagList + "}";
-                            }
-                        }
-
-                        if (MatchInput(chr, referenceName, tags))
-                        {
-                            string fullName = $"{chr}";
-                            if (referenceName != "")
-                                fullName = fullName + $" <{referenceName}>";
+                            referenceName = chrReferenceDict[chr].referenceName;
+                            tagList = chrReferenceDict[chr].tags;
+                            fileName = fileName + $" <{referenceName}>";
 
                             if (CFG.Current.ObjectBrowser_ShowTagsInBrowser)
                             {
-                                fullName = fullName + " " + tagList;
+                                string tagString = String.Join(" ", tagList);
+                                fileName = $"{fileName} {{ {tagString} }}";
                             }
+                        }
 
-                            if (ImGui.Selectable(fullName))
+                        if (MatchInput(chr, referenceName, tagList))
+                        {
+                            if (ImGui.Selectable(fileName))
                             {
                             }
                             if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClicked(0))
@@ -176,37 +199,26 @@ namespace StudioCore.MsbEditor
                     }
                     foreach (var obj in _cacheFiltered)
                     {
+                        string fileName = $"{obj}";
                         string referenceName = "";
-                        string tagList = "";
-                        List<string> tags = new List<string>();
+                        List<string> tagList = new List<string>();
 
-                        foreach (ObjReference entry in AssetdexUtils.GetCurrentGameAssetdex(_locator.Type).objReferences)
+                        if (objReferenceDict.ContainsKey(obj))
                         {
-                            if (obj == entry.fileName)
-                            {
-                                referenceName = entry.referenceName;
-                                tagList = "{ ";
-                                foreach (string tagEntry in entry.tags)
-                                {
-                                    tags.Add(tagEntry);
-                                    tagList = tagList + tagEntry + " ";
-                                }
-                                tagList = tagList + "}";
-                            }
-                        }
-
-                        if (MatchInput(obj, referenceName, tags))
-                        {
-                            string fullName = $"{obj}";
-                            if (referenceName != "")
-                                fullName = fullName + $" <{referenceName}>";
+                            referenceName = objReferenceDict[obj].referenceName;
+                            tagList = objReferenceDict[obj].tags;
+                            fileName = fileName + $" <{referenceName}>";
 
                             if (CFG.Current.ObjectBrowser_ShowTagsInBrowser)
                             {
-                                fullName = fullName + " " + tagList;
+                                string tagString = String.Join(" ", tagList);
+                                fileName = $"{fileName} {{ {tagString} }}";
                             }
+                        }
 
-                            if (ImGui.Selectable(fullName))
+                        if (MatchInput(obj, referenceName, tagList))
+                        {
+                            if (ImGui.Selectable(fileName))
                             {
                             }
                             if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClicked(0))
@@ -227,37 +239,26 @@ namespace StudioCore.MsbEditor
 
                     foreach (var part in _cacheFiltered)
                     {
+                        string fileName = $"{part}";
                         string referenceName = "";
-                        string tagList = "";
-                        List<string> tags = new List<string>();
+                        List<string> tagList = new List<string>();
 
-                        foreach (PartReference entry in AssetdexUtils.GetCurrentGameAssetdex(_locator.Type).partReferences)
-                        {
-                            if (part == entry.fileName)
-                            {
-                                referenceName = entry.referenceName;
-                                tagList = "{ ";
-                                foreach (String tagEntry in entry.tags)
-                                {
-                                    tags.Add(tagEntry);
-                                    tagList = tagList + tagEntry + " ";
-                                }
-                                tagList = tagList + "}";
-                            }
-                        }
-
-                        if (MatchInput(part, referenceName, tags))
-                        {
-                            string fullName = $"{part}";
-                            if (referenceName != "")
-                                fullName = fullName + $" <{referenceName}>";
+                        if (partReferenceDict.ContainsKey(part))
+                        { 
+                            referenceName = partReferenceDict[part].referenceName;
+                            tagList = partReferenceDict[part].tags;
+                            fileName = fileName + $" <{referenceName}>";
 
                             if (CFG.Current.ObjectBrowser_ShowTagsInBrowser)
                             {
-                                fullName = fullName + " " + tagList;
+                                string tagString = String.Join(" ", tagList);
+                                fileName = $"{fileName} {{ {tagString} }}";
                             }
+                        }
 
-                            if (ImGui.Selectable(fullName))
+                        if (MatchInput(part, referenceName, tagList))
+                        {
+                            if (ImGui.Selectable(fileName))
                             {
                             }
                             if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClicked(0))
@@ -279,37 +280,26 @@ namespace StudioCore.MsbEditor
                         }
                         foreach (var model in _cacheFiltered)
                         {
+                            string fileName = $"{model}";
                             string referenceName = "";
-                            string tagList = "";
-                            List<string> tags = new List<string>();
+                            List<string> tagList = new List<string>();
 
-                            foreach (MapPieceReference entry in AssetdexUtils.GetCurrentGameAssetdex(_locator.Type).mapPieceReferences)
+                            if (mapPieceReferenceDict.ContainsKey(model))
                             {
-                                if (model == entry.fileName)
-                                {
-                                    referenceName = entry.referenceName;
-                                    tagList = "{ ";
-                                    foreach (string tagEntry in entry.tags)
-                                    {
-                                        tags.Add(tagEntry);
-                                        tagList = tagList + tagEntry + " ";
-                                    }
-                                    tagList = tagList + "}";
-                                }
-                            }
-
-                            if (MatchInput(model, referenceName, tags))
-                            {
-                                string fullName = $"{model}";
-                                if (referenceName != "")
-                                    fullName = fullName + $" <{referenceName}>";
+                                referenceName = mapPieceReferenceDict[model].referenceName;
+                                tagList = mapPieceReferenceDict[model].tags;
+                                fileName = fileName + $" <{referenceName}>";
 
                                 if (CFG.Current.ObjectBrowser_ShowTagsInBrowser)
                                 {
-                                    fullName = fullName + " " + tagList;
+                                    string tagString = String.Join(" ", tagList);
+                                    fileName = $"{fileName} {{ {tagString} }}";
                                 }
+                            }
 
-                                if (ImGui.Selectable(fullName))
+                            if (MatchInput(model, referenceName, tagList))
+                            {
+                                if (ImGui.Selectable(fileName))
                                 {
                                 }
                                 if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClicked(0))

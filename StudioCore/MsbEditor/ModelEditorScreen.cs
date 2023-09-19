@@ -296,6 +296,7 @@ namespace StudioCore.MsbEditor
             if (AssetLocator.Type != GameType.Undefined)
             {
                 _assetBrowser.ClearCaches();
+                _assetBrowser.UpdateReferenceDicts();
             }
         }
 

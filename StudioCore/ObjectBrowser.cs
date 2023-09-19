@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.ConstrainedExecution;
@@ -38,10 +39,30 @@ namespace StudioCore
 
         public MsbEditor.MsbEditorScreen MsbEditor;
 
+        public Dictionary<string, ChrReference> chrReferenceDict = new Dictionary<string, ChrReference>();
+        public Dictionary<string, ObjReference> objReferenceDict = new Dictionary<string, ObjReference>();
+
         public ObjectBrowser(string id, AssetLocator locator)
         {
             _id = id;
             _locator = locator;
+        }
+
+        public void UpdateReferenceDicts()
+        {
+            chrReferenceDict.Clear();
+            objReferenceDict.Clear();
+
+            foreach (ChrReference entry in AssetdexUtils.GetCurrentGameAssetdex(_locator.Type).chrReferences)
+            {
+                if(!chrReferenceDict.ContainsKey(entry.fileName))
+                    chrReferenceDict.Add(entry.fileName, entry);
+            }
+            foreach (ObjReference entry in AssetdexUtils.GetCurrentGameAssetdex(_locator.Type).objReferences)
+            {
+                if (!objReferenceDict.ContainsKey(entry.fileName))
+                    objReferenceDict.Add(entry.fileName, entry);
+            }
         }
 
         public void ClearCaches()
@@ -148,37 +169,26 @@ namespace StudioCore
                     }
                     foreach (var chr in _cacheFiltered)
                     {
+                        string fileName = $"{chr}";
                         string referenceName = "";
-                        string tagList = "";
-                        List<string> tags = new List<string>();
+                        List<string> tagList = new List<string>();
 
-                        foreach (ChrReference entry in AssetdexUtils.GetCurrentGameAssetdex(_locator.Type).chrReferences)
+                        if (chrReferenceDict.ContainsKey(chr))
                         {
-                            if (chr == entry.fileName)
+                            referenceName = chrReferenceDict[chr].referenceName;
+                            tagList = chrReferenceDict[chr].tags;
+                            fileName = fileName + $" <{referenceName}>";
+
+                            if (CFG.Current.ObjectBrowser_ShowTagsInBrowser)
                             {
-                                referenceName = entry.referenceName;
-                                tagList = "{ ";
-                                foreach (string tagEntry in entry.tags)
-                                {
-                                    tags.Add(tagEntry);
-                                    tagList = tagList + tagEntry + " ";
-                                }
-                                tagList = tagList + "}";
+                                string tagString = String.Join(" ", tagList);
+                                fileName = $"{fileName} {{ {tagString} }}";
                             }
                         }
 
-                        if(MatchInput(chr, referenceName, tags))
+                        if (MatchInput(chr, referenceName, tagList))
                         {
-                            string fullName = $"{chr}";
-                            if (referenceName != "")
-                                fullName = fullName + $" <{referenceName}>";
-
-                            if(CFG.Current.ObjectBrowser_ShowTagsInBrowser)
-                            {
-                                fullName = fullName + " " + tagList;
-                            }
-
-                            if (ImGui.Selectable(fullName))
+                            if (ImGui.Selectable(fileName))
                             {
                             }
                             if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClicked(0))
@@ -199,37 +209,26 @@ namespace StudioCore
 
                     foreach (var obj in _cacheFiltered)
                     {
+                        string fileName = $"{obj}";
                         string referenceName = "";
-                        string tagList = "";
-                        List<string> tags = new List<string>();
+                        List<string> tagList = new List<string>();
 
-                        foreach (ObjReference entry in AssetdexUtils.GetCurrentGameAssetdex(_locator.Type).objReferences)
-                        {
-                            if (obj == entry.fileName)
-                            {
-                                referenceName = entry.referenceName;
-                                tagList = "{ ";
-                                foreach (string tagEntry in entry.tags)
-                                {
-                                    tags.Add(tagEntry);
-                                    tagList = tagList + tagEntry + " ";
-                                }
-                                tagList = tagList + "}";
-                            }
-                        }
-
-                        if (MatchInput(obj, referenceName, tags))
-                        {
-                            string fullName = $"{obj}";
-                            if (referenceName != "")
-                                fullName = fullName + $" <{referenceName}>";
+                        if (objReferenceDict.ContainsKey(obj))
+                        { 
+                            referenceName = objReferenceDict[obj].referenceName;
+                            tagList = objReferenceDict[obj].tags;
+                            fileName = fileName + $" <{referenceName}>";
 
                             if (CFG.Current.ObjectBrowser_ShowTagsInBrowser)
                             {
-                                fullName = fullName + " " + tagList;
+                                string tagString = String.Join(" ", tagList);
+                                fileName = $"{fileName} {{ {tagString} }}";
                             }
+                        }
 
-                            if (ImGui.Selectable(fullName))
+                        if (MatchInput(obj, referenceName, tagList))
+                        {
+                            if (ImGui.Selectable(fileName))
                             {
                             }
                             if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClicked(0))

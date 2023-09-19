@@ -840,12 +840,7 @@ namespace StudioCore
 
                     if (ImGui.MenuItem("Object Browser", KeyBindings.Current.Core_ObjectBrowser.HintText))
                     {
-                        _ObjectBrowser.ClearCaches();
-
-                        if (_ObjectBrowser.MenuOpenState)
-                            _ObjectBrowser.MenuOpenState = false;
-                        else
-                            _ObjectBrowser.MenuOpenState = true;
+                        OpenObjectBrowser();
                     }
 
                     if (Resource.FlverResource.CaptureMaterialLayouts && ImGui.MenuItem("Dump Flver Layouts (Debug)", ""))
@@ -1301,12 +1296,7 @@ namespace StudioCore
                 {
                     if (_focusedEditor == _editors[0])
                     {
-                        _ObjectBrowser.ClearCaches();
-
-                        if (_ObjectBrowser.MenuOpenState)
-                            _ObjectBrowser.MenuOpenState = false;
-                        else
-                            _ObjectBrowser.MenuOpenState = true;
+                        OpenObjectBrowser();
                     }
                 }
             }
@@ -1348,6 +1338,20 @@ namespace StudioCore
         public void ObjectBrowserGUI()
         {
             _ObjectBrowser.OnGui();
+        }
+
+        public void OpenObjectBrowser()
+        {
+            if (_assetLocator.Type != GameType.Undefined)
+            {
+                _ObjectBrowser.UpdateReferenceDicts();
+                _ObjectBrowser.ClearCaches();
+
+                if (_ObjectBrowser.MenuOpenState)
+                    _ObjectBrowser.MenuOpenState = false;
+                else
+                    _ObjectBrowser.MenuOpenState = true;
+            }
         }
 
         public static float GetUIScale()
