@@ -286,7 +286,14 @@ namespace StudioCore.ParamEditor
                 {
                     ImGui.TableSetupColumn("rowCol", ImGuiTableColumnFlags.None, 1f);
                     if (compareCol != null)
+                    {
                         ImGui.TableSetupColumn("rowCol2", ImGuiTableColumnFlags.None, 0.4f);
+                        ImGui.TableSetupScrollFreeze(2, 1);
+                        if (ImGui.TableNextColumn())
+                            ImGui.Text("ID\t\tName");
+                        if (ImGui.TableNextColumn())
+                            ImGui.Text(compareCol.Def.InternalName);
+                    }
                     ImGui.PushID("pinned");
 
                     List<Param.Row> pinnedRowList = _paramEditor._projectSettings.PinnedRows.GetValueOrDefault(activeParam, new List<int>()).Select((id) => para[id]).ToList();
@@ -544,7 +551,8 @@ namespace StudioCore.ParamEditor
                     ImGui.PushID("compareCol_"+selectionCacheIndex);
                     ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, new Vector2(0, 0));
                     ParamEditorCommon.PropertyField(compareCol.ValueType, c.Value, ref newval, false);
-                    ParamEditorCommon.UpdateProperty(_propEditor.ContextActionManager, c, compareColProp, c.Value);
+                    if (ParamEditorCommon.UpdateProperty(_propEditor.ContextActionManager, c, compareColProp, c.Value) && !ParamBank.VanillaBank.IsLoadingParams)
+                        ParamBank.PrimaryBank.RefreshParamRowDiffs(r, activeParam);
                     ImGui.PopStyleVar();
                     ImGui.PopID();
                     lastCol = true;
