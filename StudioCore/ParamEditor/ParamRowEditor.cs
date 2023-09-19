@@ -435,14 +435,34 @@ namespace StudioCore.ParamEditor
             }
             ImGui.TextColored(new Vector4(1.0f, 0.7f, 0.4f, 1.0f), Utils.ImGuiEscape(nameText, "", true));
             ImGui.Separator();
-            string str = $"Value Type: {propType.Name}";
             if (propType.IsValueType)
             {
+                string str = $"Value Type: {propType.Name}";
                 var min = propType.GetField("MinValue")?.GetValue(propType);
                 var max = propType.GetField("MaxValue")?.GetValue(propType);
-                if (min != null & max != null)
+                if (min != null && max != null)
                 {
                     str += $" (Min {min}, Max {max})";
+                }
+                ImGui.TextColored(new Vector4(.4f, 1f, .7f, 1f), str);
+            }
+            else if (propType.IsArray && col != null)
+            {
+                string str = $"Array Type: {propType.Name}";
+                var length = col.Def.ArrayLength;
+                if (length > 0)
+                {
+                    str += $" (Length: {length})";
+                }
+                ImGui.TextColored(new Vector4(.4f, 1f, .7f, 1f), str);
+            }
+            else if (propType == typeof(string) && col != null)
+            {
+                string str = $"String Type: {propType.Name}";
+                var length = col.Def.ArrayLength;
+                if (length > 0)
+                {
+                    str += $" (Length: {length})";
                 }
                 ImGui.TextColored(new Vector4(.4f, 1f, .7f, 1f), str);
             }
