@@ -256,9 +256,16 @@ namespace StudioCore.ParamEditor
                     ImGui.Text(" ");
                     ImGui.SameLine();
                 }
-                PropertyRowName(fieldOffset, ref internalName, cellMeta);
-                if (ImGui.IsItemClicked(ImGuiMouseButton.Right))
+
+                if (ImGui.Selectable("", false, ImGuiSelectableFlags.AllowItemOverlap)
+                    || ImGui.IsItemClicked(ImGuiMouseButton.Right))
+                {
                     ImGui.OpenPopup("ParamRowCommonMenu");
+                }
+                ImGui.SameLine();
+
+                PropertyRowName(fieldOffset, ref internalName, cellMeta);
+
                 if (displayRefTypes || displayFmgRef || displayEnum)
                 {
                     ImGui.BeginGroup();
@@ -286,7 +293,6 @@ namespace StudioCore.ParamEditor
             
             if (ImGui.TableNextColumn())
             {
-                ImGui.SetNextItemWidth(-1);
                 if (conflict)
                     ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.25f, 0.2f, 0.2f, 1.0f));
                 else if (diffVanilla)
@@ -434,7 +440,6 @@ namespace StudioCore.ParamEditor
                 nameText += $"  /  {altName}";
             }
             ImGui.TextColored(new Vector4(1.0f, 0.7f, 0.4f, 1.0f), Utils.ImGuiEscape(nameText, "", true));
-            ImGui.Separator();
             if (propType.IsValueType)
             {
                 string str = $"Value Type: {propType.Name}";
@@ -466,11 +471,18 @@ namespace StudioCore.ParamEditor
                 }
                 ImGui.TextColored(new Vector4(.4f, 1f, .7f, 1f), str);
             }
+
+            ImGui.Separator();
+
             if (Wiki != null)
             {
-                ImGui.TextColored(new Vector4(.4f, .7f, 1f, 1f), $"\n{Wiki}");
+                ImGui.TextColored(new Vector4(.4f, .7f, 1f, 1f), $"{Wiki}");
             }
-            
+            else
+            {
+                ImGui.TextColored(new Vector4(1.0f, 1.0f, 1.0f, 0.7f), "Info regarding this field has not been written.");
+            }
+
             ImGui.Separator();
 
             if (ImGui.MenuItem("Add to Searchbar"))
@@ -491,7 +503,7 @@ namespace StudioCore.ParamEditor
             {
                 selection.SetCompareCol(col);
             }
-            if (ImGui.Selectable("View distribution of selected rows..."))
+            if (ImGui.Selectable("View value distribution in selected rows..."))
             {
                 EditorCommandQueue.AddCommand($@"param/menu/distributionPopup/{internalName}");
             }
