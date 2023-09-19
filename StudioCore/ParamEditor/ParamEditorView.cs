@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Numerics;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.IO;
 using System.Linq;
@@ -278,6 +279,7 @@ namespace StudioCore.ParamEditor
                 List<(HashSet<int>, HashSet<int>)> auxDiffCaches = ParamBank.AuxBanks.Select((bank, i) => (bank.Value.GetVanillaDiffRows(activeParam), bank.Value.GetPrimaryDiffRows(activeParam))).ToList();
 
                 Param.Column compareCol = _selection.GetCompareCol();
+                PropertyInfo compareColProp = typeof(Param.Cell).GetProperty("Value");
                 
                 ImGui.BeginChild("rows" + activeParam);
                 if (EditorDecorations.ImGuiTableStdColumns("rowList", compareCol == null ? 1 : 2, false))
@@ -299,7 +301,7 @@ namespace StudioCore.ParamEditor
                             {
                                 continue;
                             }
-                            lastCol = ParamView_RowList_Entry(selectionCachePins, i, activeParam, null, row, vanillaDiffCache, auxDiffCaches, decorator, ref scrollTo, false, true, compareCol);
+                            lastCol = ParamView_RowList_Entry(selectionCachePins, i, activeParam, null, row, vanillaDiffCache, auxDiffCaches, decorator, ref scrollTo, false, true, compareCol, compareColProp);
                         }
                         if (lastCol)
                             ImGui.Spacing();
@@ -335,13 +337,13 @@ namespace StudioCore.ParamEditor
                             Param.Row next = i + 1 < rows.Count ? rows[i + 1] : null;
                             if (prev != null && next != null && prev.ID + 1 != currentRow.ID && currentRow.ID + 1 == next.ID)
                                 EditorDecorations.ImguiTableSeparator();
-                            ParamView_RowList_Entry(selectionCache, i, activeParam, rows, currentRow, vanillaDiffCache, auxDiffCaches, decorator, ref scrollTo, doFocus, false, compareCol);
+                            ParamView_RowList_Entry(selectionCache, i, activeParam, rows, currentRow, vanillaDiffCache, auxDiffCaches, decorator, ref scrollTo, doFocus, false, compareCol, compareColProp);
                             if (prev != null && next != null && prev.ID + 1 == currentRow.ID && currentRow.ID + 1 != next.ID)
                                 EditorDecorations.ImguiTableSeparator();
                         }
                         else
                         {
-                            ParamView_RowList_Entry(selectionCache, i, activeParam, rows, currentRow, vanillaDiffCache, auxDiffCaches, decorator, ref scrollTo, doFocus, false, compareCol);
+                            ParamView_RowList_Entry(selectionCache, i, activeParam, rows, currentRow, vanillaDiffCache, auxDiffCaches, decorator, ref scrollTo, doFocus, false, compareCol, compareColProp);
                         }
                     }
                     if (doFocus)
@@ -518,7 +520,7 @@ namespace StudioCore.ParamEditor
             if (doFocus && _selection.GetActiveRow() == r)
                 scrollTo = ImGui.GetCursorPosY();
         }
-        private bool ParamView_RowList_Entry(bool[] selectionCache, int selectionCacheIndex, string activeParam, List<Param.Row> p, Param.Row r, HashSet<int> vanillaDiffCache, List<(HashSet<int>, HashSet<int>)> auxDiffCaches, IParamDecorator decorator, ref float scrollTo, bool doFocus, bool isPinned, Param.Column compareCol)
+        private bool ParamView_RowList_Entry(bool[] selectionCache, int selectionCacheIndex, string activeParam, List<Param.Row> p, Param.Row r, HashSet<int> vanillaDiffCache, List<(HashSet<int>, HashSet<int>)> auxDiffCaches, IParamDecorator decorator, ref float scrollTo, bool doFocus, bool isPinned, Param.Column compareCol, PropertyInfo compareColProp)
         {
             float scale = MapStudioNew.GetUIScale();
 
@@ -537,7 +539,14 @@ namespace StudioCore.ParamEditor
             {
                 if(ImGui.TableNextColumn())
                 {
-                    ImGui.TextUnformatted(r[compareCol].Value.ToParamEditorString());
+                    var c = r[compareCol];
+                    object newval = null;
+                    ImGui.PushID("compareCol_"+selectionCacheIndex);
+                    ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, new Vector2(0, 0));
+                    ParamEditorCommon.PropertyField(compareCol.ValueType, c.Value, ref newval, false);
+                    ParamEditorCommon.UpdateProperty(_propEditor.ContextActionManager, c, compareColProp, c.Value);
+                    ImGui.PopStyleVar();
+                    ImGui.PopID();
                     lastCol = true;
                 }
                 else
