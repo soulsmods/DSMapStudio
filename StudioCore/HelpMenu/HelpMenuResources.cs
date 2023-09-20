@@ -59,6 +59,28 @@ namespace StudioCore.HelpMenu
         }
     }
 
+    public class HelpGlossaryResource
+    {
+        public List<ResourceEntry> Entries { get; set; }
+
+        public static HelpGlossaryResource Static { get; }
+
+        static HelpGlossaryResource()
+        {
+
+            string json_filepath = AppContext.BaseDirectory + $"\\Assets\\HelpMenu\\Glossary.json";
+
+            if (File.Exists(json_filepath))
+            {
+                var options = new JsonSerializerOptions
+                {
+                    ReadCommentHandling = JsonCommentHandling.Skip,
+                };
+                Static = JsonSerializer.Deserialize<HelpGlossaryResource>(File.OpenRead(json_filepath), options);
+            }
+        }
+    }
+
     public class CreditMenuResource
     {
         public List<string> Text { get; set; }

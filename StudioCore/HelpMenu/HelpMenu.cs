@@ -34,6 +34,12 @@ namespace StudioCore.Help
         private string _inputStr_Tutorial = "";
         private string _inputStrCache_Tutorial = "";
 
+        // Glossary
+        private string _selectedTitle_Glossary = null;
+        private List<string> _selectedContents_Glossary = null;
+        private string _inputStr_Glossary = "";
+        private string _inputStrCache_Glossary = "";
+
         public HelpMenu(string id, AssetLocator locator)
         {
             _id = id;
@@ -62,6 +68,7 @@ namespace StudioCore.Help
 
                 DisplayCore();
                 DisplayTutorials();
+                DisplayGlossary();
                 DisplayLinks();
                 DisplayCredits();
 
@@ -265,6 +272,107 @@ namespace StudioCore.Help
 
                 if (_selectedContents_Tutorial != null)
                     coreTextSections = GetDisplayTextSections(_selectedContents_Tutorial);
+
+                foreach (string textSection in coreTextSections)
+                {
+                    //ImGui.Separator();
+                    ImGui.Text(textSection);
+                }
+
+                ImGui.Separator();
+                ImGui.EndTabItem();
+            }
+        }
+
+        private void DisplayGlossary()
+        {
+            if (ImGui.BeginTabItem("Glossary"))
+            {
+                // Search Area
+                ImGui.InputText($"Search", ref _inputStr_Glossary, 255);
+
+                // Selection Area
+                ImGui.BeginChild("HelpSectionList", new Vector2(600, 100), true, ImGuiWindowFlags.NoScrollbar);
+
+                if (_inputStr_Glossary.ToLower() != _inputStrCache_Glossary.ToLower())
+                {
+                    _inputStrCache_Glossary = _inputStr_Glossary.ToLower();
+                }
+
+                string inputStr = _inputStr_Glossary.ToLower();
+
+                foreach (ResourceEntry entry in HelpGlossaryResource.Static.Entries)
+                {
+                    string sectionName = entry.Title;
+                    List<string> contents = entry.Contents;
+                    List<string> tags = entry.Tags;
+
+                    // Section Title Segments
+                    List<string> sectionNameSegments = new List<string>();
+
+                    foreach (string segment in sectionName.Split(" ").ToList())
+                    {
+                        List<string> segmentParts = segment.Split(" ").ToList();
+                        foreach (string part in segmentParts)
+                        {
+                            sectionNameSegments.Add(part.ToLower());
+                        }
+                    }
+
+                    // Content Segments
+                    List<string> coreSegments = new List<string>();
+
+                    foreach (string segment in contents)
+                    {
+                        List<string> segmentParts = segment.Split(" ").ToList();
+                        foreach (string part in segmentParts)
+                        {
+                            coreSegments.Add(part.ToLower());
+                        }
+                    }
+
+                    // Tags
+                    List<string> tagList = new List<string>();
+
+                    foreach (string segment in tags)
+                    {
+                        tagList.Add(segment.ToLower());
+                    }
+
+                    // Only show if input matches any title or content segments, or if it is blank
+                    if (inputStr.ToLower() == "" || sectionNameSegments.Contains(inputStr) || coreSegments.Contains(inputStr) || tagList.Contains(inputStr))
+                    {
+                        if (ImGui.Selectable(sectionName))
+                        {
+
+                        }
+                        if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClicked(0))
+                        {
+                            _selectedTitle_Glossary = sectionName;
+                            _selectedContents_Glossary = contents;
+                        }
+                    }
+                }
+
+                ImGui.EndChild();
+
+                // Section Title
+                ImGui.Separator();
+
+                string titleText = "No title.";
+
+                if (_selectedTitle_Glossary != null)
+                    titleText = _selectedTitle_Glossary;
+
+                ImGui.Text(titleText);
+
+                ImGui.Separator();
+
+                // Section Contents
+                List<string> coreTextSections = new List<string> { "No term selected." };
+
+                if (_selectedContents_Glossary != null)
+                    coreTextSections = GetDisplayTextSections(_selectedContents_Glossary);
 
                 foreach (string textSection in coreTextSections)
                 {
