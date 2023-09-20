@@ -4,16 +4,30 @@ using System.Linq;
 using System.Text;
 using Veldrid;
 using ImGuiNET;
+using System.Reflection;
+using System.Diagnostics;
 
 namespace StudioCore.MsbEditor
 {
     public class SearchProperties
     {
         private Universe Universe = null;
-        public string PropertyName = "";
+        public PropertyInfo Property
+        {
+            get => _property;
+            set
+            {
+                if (value != null)
+                {
+                    _property = value;
+                    PropertyType = value.PropertyType;
+                }
+            }
+        }
 
-        private dynamic PropertyValue = null;
+        private PropertyInfo _property = null;
         private Type PropertyType = null;
+        private dynamic PropertyValue = null;
         private bool ValidType = false;
 
         private Dictionary<string, List<WeakReference<Entity>>> FoundObjects = new Dictionary<string, List<WeakReference<Entity>>>();
@@ -35,6 +49,11 @@ namespace StudioCore.MsbEditor
                 else if (PropertyType == typeof(byte) || PropertyType == typeof(byte[]))
                 {
                     PropertyValue = byte.TryParse(initialValue, out byte val) ? val : default;
+                    return true;
+                }
+                else if (PropertyType == typeof(sbyte) || PropertyType == typeof(sbyte[]))
+                {
+                    PropertyValue = sbyte.TryParse(initialValue, out sbyte val) ? val : default;
                     return true;
                 }
                 else if (PropertyType == typeof(char) || PropertyType == typeof(char[]))
@@ -87,6 +106,11 @@ namespace StudioCore.MsbEditor
                     PropertyValue = initialValue ?? "";
                     return true;
                 }
+                else if (PropertyType.IsEnum)
+                {
+                    PropertyValue = PropertyType.GetEnumValues().GetValue(0);
+                    return true;
+                }
             }
             return false;
         }
@@ -111,6 +135,15 @@ namespace StudioCore.MsbEditor
                 if (ImGui.InputInt("##valbyte", ref val) || searchFieldchanged == true)
                 {
                     PropertyValue = (byte)val;
+                    ret = true;
+                }
+            }
+            else if (PropertyType == typeof(sbyte) || PropertyType == typeof(sbyte[]))
+            {
+                int val = (int)PropertyValue;
+                if (ImGui.InputInt("##valsbyte", ref val) || searchFieldchanged == true)
+                {
+                    PropertyValue = (sbyte)val;
                     ret = true;
                 }
             }
@@ -204,6 +237,59 @@ namespace StudioCore.MsbEditor
                     ret = true;
                 }
             }
+            else if (PropertyType.IsEnum)
+            {
+                var enumVals = PropertyType.GetEnumValues();
+                var enumNames = PropertyType.GetEnumNames();
+                int[] intVals = new int[enumVals.Length];
+
+                if (searchFieldchanged == true)
+                {
+                    ret = true;
+                }
+
+                if (PropertyType.GetEnumUnderlyingType() == typeof(byte))
+                {
+                    for (var i = 0; i < enumVals.Length; i++)
+                        intVals[i] = (byte)enumVals.GetValue(i);
+
+                    if (Utils.EnumEditor(enumVals, enumNames, PropertyValue, out object val, intVals))
+                    {
+                        PropertyValue = val;
+                        ret = true;
+                    }
+                }
+                else if (PropertyType.GetEnumUnderlyingType() == typeof(int))
+                {
+                    for (var i = 0; i < enumVals.Length; i++)
+                        intVals[i] = (int)enumVals.GetValue(i);
+
+                    if (Utils.EnumEditor(enumVals, enumNames, PropertyValue, out object val, intVals))
+                    {
+                        PropertyValue = val;
+                        ret = true;
+                    }
+                }
+                else if (PropertyType.GetEnumUnderlyingType() == typeof(uint))
+                {
+                    for (var i = 0; i < enumVals.Length; i++)
+                        intVals[i] = (int)(uint)enumVals.GetValue(i);
+
+                    if (Utils.EnumEditor(enumVals, enumNames, PropertyValue, out object val, intVals))
+                    {
+                        PropertyValue = val;
+                        ret = true;
+                    }
+                }
+                else
+                {
+                    ImGui.Text("Enum underlying type not implemented");
+                }
+            }
+            else
+            {
+                ImGui.Text("Value type not implemented");
+            }
 
             ImGui.NextColumn();
             return ret;
@@ -211,45 +297,34 @@ namespace StudioCore.MsbEditor
 
         public void OnGui(string[] propSearchCmd = null)
         {
-            bool searchFieldChanged = false;
+            bool newSearch = false;
             bool selectFirstResult = false;
-            if (propSearchCmd != null && propSearchCmd.Length > 0)
+            if (propSearchCmd != null)
             {
                 ImGui.SetNextWindowFocus();
-                PropertyName = propSearchCmd[0];
-                PropertyType = Universe.GetPropertyType(PropertyName);
-                ValidType = InitializeSearchValue(propSearchCmd.Length > 1 ? propSearchCmd[1] : null);
-                searchFieldChanged = true;
+                ValidType = InitializeSearchValue();
+                newSearch = true;
                 selectFirstResult = propSearchCmd.Contains("selectFirstResult");
             }
 
-            if (InputTracker.GetKeyDown(KeyBindings.Current.Map_PropSearch))
-                ImGui.SetNextWindowFocus();
             if (ImGui.Begin("Search Properties"))
             {
-                ImGui.Text($"Search Properties By Name <{KeyBindings.Current.Map_PropSearch.HintText}>");
+                ImGui.Text($"To search properties, right click them in the property editor.");
                 ImGui.Separator();
                 ImGui.Columns(2);
-                ImGui.Text("Property Name");
-                ImGui.NextColumn();
 
-                if (InputTracker.GetKeyDown(KeyBindings.Current.Map_PropSearch))
-                    ImGui.SetKeyboardFocusHere();
+                if (Property != null && ValidType)
+                {
+                    ImGui.Text("Property Name");
+                    ImGui.NextColumn();
+                    ImGui.Text(Property.Name);
+                    ImGui.NextColumn();
 
-                if (ImGui.InputText("##value", ref PropertyName, 64))
-                {
-                    PropertyType = Universe.GetPropertyType(PropertyName);
-                    ValidType = InitializeSearchValue();
-                    searchFieldChanged = true;
-                }
-                ImGui.NextColumn();
-                if (PropertyType != null && ValidType)
-                {
                     ImGui.Text("Type");
                     ImGui.NextColumn();
                     ImGui.Text(PropertyType.Name);
                     ImGui.NextColumn();
-                    if (SearchValue(searchFieldChanged))
+                    if (SearchValue(newSearch))
                     {
                         FoundObjects.Clear();
                         foreach (var o in Universe.LoadedObjectContainers.Values)
@@ -264,31 +339,33 @@ namespace StudioCore.MsbEditor
                                 {
                                     if (ob is MapEntity e)
                                     {
+                                        var value = Utils.FindPropertyValue(Property, ob.WrappedObject);
+
+                                        if (value == null)
+                                        {
+                                            // Object does not contain target property.
+                                            continue;
+                                        }
+
                                         if (PropertyType.IsArray)
                                         {
-                                            //search through objects to find field matches (field is an array)
-                                            dynamic pArray = ob.GetPropertyValue(PropertyName);
-                                            if (pArray != null)
+                                            // Property is an array, scan through each index for value matches.
+                                            foreach (var p in (Array)value)
                                             {
-                                                foreach (var p in pArray)
+                                                if (p != null && p.Equals(PropertyValue))
                                                 {
-                                                    if (p != null && p.Equals(PropertyValue))
+                                                    if (!FoundObjects.ContainsKey(e.ContainingMap.Name))
                                                     {
-                                                        if (!FoundObjects.ContainsKey(e.ContainingMap.Name))
-                                                        {
-                                                            FoundObjects.Add(e.ContainingMap.Name, new List<WeakReference<Entity>>());
-                                                        }
-                                                        FoundObjects[e.ContainingMap.Name].Add(new WeakReference<Entity>(e));
-                                                        break;
+                                                        FoundObjects.Add(e.ContainingMap.Name, new List<WeakReference<Entity>>());
                                                     }
+                                                    FoundObjects[e.ContainingMap.Name].Add(new WeakReference<Entity>(e));
+                                                    break;
                                                 }
                                             }
                                         }
                                         else
                                         {
-                                            //search through objects to find field matches
-                                            var p = ob.GetPropertyValue(PropertyName);
-                                            if (p != null && p.Equals(PropertyValue))
+                                            if (value.Equals(PropertyValue))
                                             {
                                                 if (!FoundObjects.ContainsKey(e.ContainingMap.Name))
                                                 {

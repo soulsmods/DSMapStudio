@@ -1538,26 +1538,5 @@ namespace StudioCore.MsbEditor
         {
             ObjectContainer c = new ObjectContainer(this, name);
         }
-
-        public Type GetPropertyType(string name)
-        {
-            // TODO: needs to scan within structs too 
-            foreach (var m in LoadedObjectContainers)
-            {
-                if (m.Value == null)
-                {
-                    continue;
-                }
-                foreach (var o in m.Value.Objects)
-                {
-                    var p = o.GetProperty(name);
-                    if (p != null)
-                    {
-                        return p.PropertyType;
-                    }
-                }
-            }
-            return null;
-        }
     }
 }

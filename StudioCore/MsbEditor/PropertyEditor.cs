@@ -18,6 +18,7 @@ namespace StudioCore.MsbEditor
     public class PropertyEditor
     {
         public ActionManager ContextActionManager;
+        public PropertyInfo RequestedSearchProperty = null;
 
         private Dictionary<string, PropertyInfo[]> _propCache = new Dictionary<string, PropertyInfo[]>();
 
@@ -194,7 +195,7 @@ namespace StudioCore.MsbEditor
                     for (var i = 0; i < enumVals.Length; i++)
                         intVals[i] = (byte)enumVals.GetValue(i);
 
-                    if (EnumEditor(enumVals, enumNames, oldval, out object val, intVals))
+                    if (Utils.EnumEditor(enumVals, enumNames, oldval, out object val, intVals))
                     {
                         newval = val;
                         isChanged = true;
@@ -205,7 +206,7 @@ namespace StudioCore.MsbEditor
                     for (var i = 0; i < enumVals.Length; i++)
                         intVals[i] = (int)enumVals.GetValue(i);
 
-                    if (EnumEditor(enumVals, enumNames, oldval, out object val, intVals))
+                    if (Utils.EnumEditor(enumVals, enumNames, oldval, out object val, intVals))
                     {
                         newval = val;
                         isChanged = true;
@@ -216,7 +217,7 @@ namespace StudioCore.MsbEditor
                     for (var i = 0; i < enumVals.Length; i++)
                         intVals[i] = (int)(uint)enumVals.GetValue(i);
 
-                    if (EnumEditor(enumVals, enumNames, oldval, out object val, intVals))
+                    if (Utils.EnumEditor(enumVals, enumNames, oldval, out object val, intVals))
                     {
                         newval = val;
                         isChanged = true;
@@ -294,26 +295,6 @@ namespace StudioCore.MsbEditor
             }
 
             return (isChanged, isDeactivatedAfterEdit);
-        }
-
-
-        private bool EnumEditor(Array enumVals, string[] enumNames, object oldval, out object val, int[] intVals)
-        {
-            val = null;
-
-            for (var i = 0; i < enumNames.Length; i++)
-            {
-                enumNames[i] = $"{intVals[i]}: {enumNames[i]}";
-            }
-
-            int index = Array.IndexOf(enumVals, oldval);
-            if (ImGui.Combo("", ref index, enumNames, enumNames.Length))
-            {
-                val = enumVals.GetValue(index);
-                return true;
-            }
-
-            return false;
         }
 
         private void UpdateProperty(object prop, Entity selection, object obj, object newval,
@@ -552,6 +533,7 @@ namespace StudioCore.MsbEditor
             {
                 if (ImGui.Selectable($@"Search"))
                 {
+                    RequestedSearchProperty = propinfo;
                     EditorCommandQueue.AddCommand($@"map/propsearch/{propinfo.Name}");
                 }
                 ImGui.EndPopup();

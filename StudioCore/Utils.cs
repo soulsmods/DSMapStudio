@@ -794,9 +794,57 @@ namespace StudioCore
             return null;
         }
 
-        public static object GetPropertyValue(PropertyInfo prop, object obj)
+
+        public static PropertyInfo FindProperty(string prop, object obj, int classIndex = -1)
         {
-            return prop.GetValue(FindPropertyObject(prop, obj));
+            var proppy = obj.GetType().GetProperty(prop);
+            if (proppy != null)
+                return proppy;
+
+            foreach (var p in obj.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
+            {
+                if (p.PropertyType.IsNested)
+                {
+                    var pp = FindProperty(prop, p.GetValue(obj), classIndex);
+                    if (pp != null)
+                        return pp;
+                }
+                else if (p.PropertyType.IsArray)
+                {
+                    var pType = p.PropertyType.GetElementType();
+                    if (pType.IsNested)
+                    {
+                        Array array = (Array)p.GetValue(obj);
+                        if (classIndex != -1)
+                        {
+                            var pp = FindProperty(prop, array.GetValue(classIndex), classIndex);
+                            if (pp != null)
+                                return pp;
+                        }
+                        else
+                        {
+                            foreach (var arrayObj in array)
+                            {
+                                var pp = FindProperty(prop, arrayObj, classIndex);
+                                if (pp != null)
+                                    return pp;
+                            }
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+
+
+        public static object FindPropertyValue(PropertyInfo prop, object obj)
+        {
+            var propertyObj = FindPropertyObject(prop, obj);
+
+            if (propertyObj == null)
+                return null;
+
+            return prop.GetValue(propertyObj);
         }
 
         public static void ImGuiGenericHelpPopup(string buttonText, string imguiID, string displayText)
@@ -868,6 +916,26 @@ namespace StudioCore
                 }
             }
             return text;
+        }
+
+        public static bool EnumEditor(Array enumVals, string[] enumNames, object oldval, out object val, int[] intVals)
+        {
+            val = null;
+
+            for (var i = 0; i < enumNames.Length; i++)
+            {
+                enumNames[i] = $"{intVals[i]}: {enumNames[i]}";
+            }
+
+            int index = Array.IndexOf(enumVals, oldval);
+
+            if (ImGui.Combo("##", ref index, enumNames, enumNames.Length))
+            {
+                val = enumVals.GetValue(index);
+                return true;
+            }
+
+            return false;
         }
     }
 }

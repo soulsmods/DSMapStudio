@@ -998,6 +998,8 @@ namespace StudioCore.MsbEditor
                 if (initcmd[0] == "propsearch")
                 {
                     propSearchCmd = initcmd.Skip(1).ToArray();
+                    PropSearch.Property = PropEditor.RequestedSearchProperty;
+                    PropEditor.RequestedSearchProperty = null;
                 }
                 // Support loading maps through commands.
                 // Probably don't support unload here, as there may be unsaved changes.
