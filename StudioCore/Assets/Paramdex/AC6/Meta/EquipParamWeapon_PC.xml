@@ -2,6 +2,7 @@
 <PARAMMETA XmlVersion="0">
   <Field>
     <inheritanceWeaponParamId AltName="Weapon Inheritance" Refs="EquipParamWeapon" Wiki="Inherits fields from referenced weapon." />
+    <attackActionParamId AltName="Attack Action Param ID" Refs="AttackActionParam_PC" />
   </Field>
   <Self />
 </PARAMMETA>
