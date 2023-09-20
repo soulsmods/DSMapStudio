@@ -17,7 +17,7 @@
     <Field Def="u8 UnkByte0x10"></Field>
     <Field Def="u8 UnkByte0x11"></Field>
     <Field Def="s16 Unk0x12"></Field>
-    <Field Def="u8 UnkByte0x14"></Field>
+    <Field Def="u8 triggerActionType"></Field>
     <Field Def="u8 UnkByte0x15"></Field>
     <Field Def="u8 UnkByte0x16"></Field>
     <Field Def="u8 UnkByte0x17"></Field>
