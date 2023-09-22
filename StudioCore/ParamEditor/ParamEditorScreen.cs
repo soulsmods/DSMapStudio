@@ -172,16 +172,18 @@ namespace StudioCore.ParamEditor
         /// Whitelist of games and maximum param version to allow param upgrading.
         /// Used to restrict upgrading before DSMS properly supports it.
         /// </summary>
-        public readonly Dictionary<GameType, ulong> ParamUpgrade_HardWhitelist = new()
+        public readonly List<GameType> ParamUpgrade_SupportedGames = new()
         {
-            {GameType.EldenRing, 1_10_9_9999L},
-            {GameType.ArmoredCoreVI, 0_00_0_9999L},
+            GameType.EldenRing,
+            GameType.ArmoredCoreVI,
         };
+        private bool _paramUpgraderLoaded = false;
         public ulong ParamUpgradeVersionSoftWhitelist = 0;
         public List<(ulong, string, string)> ParamUpgradeEdits = null;
 
         private void LoadUpgraderData()
         {
+            _paramUpgraderLoaded = false;
             ParamUpgradeVersionSoftWhitelist = 0;
             ParamUpgradeEdits = null;
             try
@@ -203,6 +205,7 @@ namespace StudioCore.ParamEditor
                 }
                 ParamUpgradeVersionSoftWhitelist = versionWhitelist;
                 ParamUpgradeEdits = upgradeEdits;
+                _paramUpgraderLoaded = true;
             }
             catch(Exception e)
             {
@@ -213,33 +216,33 @@ namespace StudioCore.ParamEditor
 
         private void ParamUpgradeDisplay()
         {
-            // Param upgrading for Elden Ring
             if (ParamBank.IsDefsLoaded
                 && ParamBank.PrimaryBank.Params != null
                 && ParamBank.VanillaBank.Params != null
+                && ParamUpgrade_SupportedGames.Contains(ParamBank.PrimaryBank.AssetLocator.Type)
                 && !ParamBank.PrimaryBank.IsLoadingParams
                 && !ParamBank.VanillaBank.IsLoadingParams
                 && ParamBank.PrimaryBank.ParamVersion < ParamBank.VanillaBank.ParamVersion)
             {
-                if (ParamBank.VanillaBank.ParamVersion <= ParamUpgradeVersionSoftWhitelist && ParamUpgradeVersionSoftWhitelist != 0)
+                if (!_paramUpgraderLoaded)
+                {
+                    ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 0.3f, 0.3f, 1.0f));
+                    if (ImGui.BeginMenu("Upgrade Params"))
+                    {
+                        ImGui.PopStyleColor();
+                        ImGui.Text("Unable to obtain param upgrade information from assets folder.");
+                        ImGui.EndMenu();
+                    }
+                    else
+                    {
+                        ImGui.PopStyleColor();
+                    }
+                }
+                else if (ParamBank.VanillaBank.ParamVersion <= ParamUpgradeVersionSoftWhitelist)
                 {
                     ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.0f, 1f, 0f, 1.0f));
                     if (ImGui.Button("Upgrade Params"))
                     {
-                        if (!ParamUpgrade_HardWhitelist.TryGetValue(ParamBank.PrimaryBank.AssetLocator.Type, out ulong hardWhitelist))
-                        {
-                            // Unexpected game type
-                            PlatformUtils.Instance.MessageBox("You appear to be attempting to upgrade params for a different game than mapstudio is prepared for." +
-                            "\n\nMaptudio cannot guarantee this will be successful, and this may corrupt your data." +
-                            "\nEnsure you have correct paramdefs and backups.", "Param Upgrade Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        }
-                        else if (hardWhitelist < ParamUpgradeVersionSoftWhitelist)
-                        {
-                            // Unexpected game version
-                            PlatformUtils.Instance.MessageBox("You appear to be attempting to upgrade params for a different version than mapstudio is prepared for." +
-                            "\n\nMaptudio cannot guarantee this will be successful, and this may corrupt your data." +
-                            "\nEnsure you have correct paramdefs and backups.", "Param Upgrade Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        }
                         var message = PlatformUtils.Instance.MessageBox(
                             $@"Your mod is currently on regulation version {ParamBank.PrimaryBank.ParamVersion} while the game is on param version " +
                             $"{ParamBank.VanillaBank.ParamVersion}.\n\nWould you like to attempt to upgrade your mod's params to be based on the " +
