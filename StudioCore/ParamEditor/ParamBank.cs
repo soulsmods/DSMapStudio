@@ -114,15 +114,15 @@ namespace StudioCore.ParamEditor
         {
             if (type is GameType.DarkSoulsPTDE or GameType.Sekiro)
             {
-                return new FileNotFoundException($"Cannot locate param files. This game must be unpacked before modding, please use UXM Selective Unpacker.");
+                return new FileNotFoundException($"Cannot locate param files for {type}.\nThis game must be unpacked before modding, please use UXM Selective Unpacker.");
             }
             else if (type is GameType.DemonsSouls or GameType.Bloodborne)
             {
-                return new FileNotFoundException($"Cannot locate param files. Your game folder may be missing game files.");
+                return new FileNotFoundException($"Cannot locate param files for {type}.\nYour game folder may be missing game files.");
             }
             else
             {
-                return new FileNotFoundException($"Cannot locate param files. Your game folder may be missing game files, please verify game files through steam to restore them.");
+                return new FileNotFoundException($"Cannot locate param files for {type}.\nYour game folder may be missing game files, please verify game files through steam to restore them.");
             }
         }
 
