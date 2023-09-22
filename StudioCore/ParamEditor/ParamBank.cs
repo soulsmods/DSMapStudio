@@ -1960,69 +1960,6 @@ namespace StudioCore.ParamEditor
             return conflictingParams.Count > 0 ? ParamUpgradeResult.RowConflictsFound : ParamUpgradeResult.Success;
         }
 
-        public (List<string>, List<string>) RunUpgradeEdits(ulong startVersion, ulong endVersion)
-        {
-            // Temporary data could be moved somewhere static
-            (ulong, string, string)[] paramUpgradeTasks = new (ulong, string, string)[0];
-            if (AssetLocator.Type == GameType.EldenRing)
-            {
-                // Note these all use modified as any unmodified row already matches the target. This only fails if a mod pre-empts fromsoft's exact change.
-                paramUpgradeTasks = new (ulong, string, string)[]{
-                    (10701000L, "1.07 - (SwordArtsParam) Move swordArtsType to swordArtsTypeNew", "param SwordArtsParam: modified: swordArtsTypeNew: = field swordArtsType;"),
-                    (10701000L, "1.07 - (SwordArtsParam) Set swordArtsType to 0", "param SwordArtsParam: modified && !added: swordArtsType: = 0;"),
-                    (10701000L, "1.07 - (AtkParam PC/NPC) Set added finalAttackDamageRate refs to -1", "param AtkParam_(Pc|Npc): modified && added: finalDamageRateId: = -1;"),
-                    (10701000L, "1.07 - (AtkParam PC/NPC) Set not-added finalAttackDamageRate refs to vanilla", "param AtkParam_(Pc|Npc): modified && !added: finalDamageRateId: = vanillafield finalDamageRateId;"),
-                    (10701000L, "1.07 - (GameSystemCommonParam) Set reserved_124 to Vanilla v1.07 values", "param GameSystemCommonParam: modified && !added: reserved_124: = vanillafield reserved_124;"),
-                    (10701000L, "1.07 - (PlayerCommonParam) Set reserved41 to Vanilla v1.07 values", "param PlayerCommonParam: modified: reserved41: = vanillafield reserved41;"),
-                    (10701000L, "1.07 - (AssetEnvironmentGeometryParam) Set unkR1 to Vanilla v1.07 values", "param AssetEnvironmentGeometryParam: modified && !added: unkR1: = vanillafield unkR1;"),
-                    (10701000L, "1.07 - (AssetEnvironmentGeometryParam) Set unkR3 to Vanilla v1.07 values", "param AssetEnvironmentGeometryParam: modified && !added: unkR3: = vanillafield unkR3;"),
-                    (10701000L, "1.07 - (AssetEnvironmentGeometryParam) Set unkR4 to Vanilla v1.07 values", "param AssetEnvironmentGeometryParam: modified && !added: unkR4: = vanillafield unkR4;"),
-                    (10801000L, "1.08 - (BuddyParam) Set Unk1 to default value", "param BuddyParam: modified: Unk1: = 1410;"),
-                    (10801000L, "1.08 - (BuddyParam) Set Unk2 to default value", "param BuddyParam: modified: Unk2: = 1420;"),
-                    (10801000L, "1.08 - (BuddyParam) Set Unk11 to default value", "param BuddyParam: modified: Unk11: = 1400;"),
-                    (10900000L, "1.09 - (GameSystemCommonParam) Set reserved_124 to Vanilla v1.09 values", "param GameSystemCommonParam: id 0: reserved_124: = vanillafield reserved_124;"),
-                    //
-                    (11001000L, "1.10 - (EquipParamWeapon) Set unk1 to Vanilla v1.10 values", "param EquipParamWeapon: modified && !added: unk1: = vanillafield unk1;"),
-                    (11001000L, "1.10 - (ToughnessParam) Set unk1 to default value", "param ToughnessParam: added: unk1: = 1;"),
-                    (11001000L, "1.10 - (ToughnessParam) Set unk1 to Vanilla v1.10 values", "param ToughnessParam: modified && !added: unk1: = vanillafield unk1;"),
-                    (11001000L, "1.10 - (ToughnessParam) Set unk2 to Vanilla v1.10 values", "param ToughnessParam: modified && !added: unk2: = vanillafield unk2;"),
-                };
-            }
-            else if (AssetLocator.Type == GameType.ArmoredCoreVI)
-            {
-                throw new NotImplementedException();
-            }
-
-            List<string> performed = new List<string>();
-            List<string> unperformed = new List<string>();
-
-            bool hasFailed = false;
-            foreach (var (version, task, command) in paramUpgradeTasks)
-            {
-                // Don't bother updating modified cache between edits
-                if (version <= startVersion || version > endVersion)
-                    continue;
-
-                if (!hasFailed)
-                {
-                    try {
-                        var (result, actions) = MassParamEditRegex.PerformMassEdit(this, command, null);
-                        if (result.Type != MassEditResultType.SUCCESS)
-                            hasFailed = true;
-                    }
-                    catch (Exception e)
-                    {
-                        hasFailed = true;
-                    }
-                }
-                if (!hasFailed)
-                    performed.Add(task);
-                else
-                    unperformed.Add(task);
-            }
-            return (performed, unperformed);
-        }
-
         public string GetChrIDForEnemy(long enemyID)
         {
             var enemy = EnemyParam?[(int)enemyID];
