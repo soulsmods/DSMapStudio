@@ -539,7 +539,7 @@ namespace StudioCore
                 return adList;
             }
 
-            if (Type is GameType.DarkSoulsIII or GameType.DarkSoulsIISOTFS or GameType.Bloodborne)
+            if (Type is GameType.DarkSoulsIII)
             {
                 string path;
                 path = $@"map\{mapid}";

@@ -43,7 +43,7 @@ namespace StudioCore
 
         private NewProjectOptions _newProjectOptions = new NewProjectOptions();
         private SettingsMenu _settingsMenu = new();
-        private LightmapMenu _lightmapMenu;
+        private LightmapAtlasMenu _lightmapAtlas;
 
         private static bool _initialLoadComplete = false;
         private static bool _firstframe = true;
@@ -89,8 +89,8 @@ namespace StudioCore
             _settingsMenu.ParamEditor = paramEditor;
             _settingsMenu.TextEditor = textEditor;
 
-            _lightmapMenu = new LightmapMenu(_assetLocator);
-            _lightmapMenu.MsbEditor = msbEditor;
+            _lightmapAtlas = new LightmapAtlasMenu(_assetLocator);
+            _lightmapAtlas.MsbEditor = msbEditor;
 
             Editor.AliasBank.SetAssetLocator(_assetLocator);
             ParamEditor.ParamBank.PrimaryBank.SetAssetLocator(_assetLocator);
@@ -839,14 +839,6 @@ namespace StudioCore
                         _settingsMenu.MenuOpenState = true;
                     }
 
-                    if (_assetLocator.Type is GameType.Bloodborne or GameType.DarkSoulsIII or GameType.DarkSoulsIISOTFS)
-                    {
-                        if (ImGui.MenuItem("Lightmap Menu"))
-                        {
-                            ToggleLightMapMenu();
-                        }
-                    }
-
                     if (Resource.FlverResource.CaptureMaterialLayouts && ImGui.MenuItem("Dump Flver Layouts (Debug)", ""))
                     {
                         DumpFlverLayouts();
@@ -855,6 +847,18 @@ namespace StudioCore
                 }
 
                 _focusedEditor.DrawEditorMenu();
+
+                if (ImGui.BeginMenu("Tools"))
+                {
+                    if (_assetLocator.Type is GameType.DarkSoulsIII)
+                    {
+                        if (ImGui.MenuItem("Lightmap Atlas", KeyBindings.Current.Core_LightmapAtlas.HintText))
+                        {
+                            ToggleLightmapAtlas();
+                        }
+                    }
+                    ImGui.EndMenu();
+                }
 
                 if (ImGui.BeginMenu("Help"))
                 {
@@ -1001,7 +1005,7 @@ namespace StudioCore
             }
 
             SettingsGUI();
-            LightmapMenuGUI();
+            LightmapAtlasGUI();
 
             ImGui.PopStyleVar();
             Tracy.TracyCZoneEnd(ctx);
@@ -1296,11 +1300,11 @@ namespace StudioCore
                     SaveAll();
                 }
 
-                if (_assetLocator.Type is GameType.Bloodborne or GameType.DarkSoulsIII or GameType.DarkSoulsIISOTFS)
+                if (_assetLocator.Type is GameType.DarkSoulsIII)
                 {
-                    if (InputTracker.GetKeyDown(KeyBindings.Current.Core_LightmapMenu))
+                    if (InputTracker.GetKeyDown(KeyBindings.Current.Core_LightmapAtlas))
                     {
-                        ToggleLightMapMenu();
+                        ToggleLightmapAtlas();
                     }
                 }
             }
@@ -1333,19 +1337,19 @@ namespace StudioCore
             _settingsMenu.Display();
         }
 
-        public void LightmapMenuGUI()
+        public void LightmapAtlasGUI()
         {
-            _lightmapMenu.Display();
+            _lightmapAtlas.Display();
         }
 
-        public void ToggleLightMapMenu()
+        public void ToggleLightmapAtlas()
         {
-            _lightmapMenu.UpdateLightmapMenu();
+            _lightmapAtlas.UpdateLightmapAtlasMenu();
 
-            if (_lightmapMenu.MenuOpenState)
-                _lightmapMenu.MenuOpenState = false;
+            if (_lightmapAtlas.MenuOpenState)
+                _lightmapAtlas.MenuOpenState = false;
             else
-                _lightmapMenu.MenuOpenState = true;
+                _lightmapAtlas.MenuOpenState = true;
         }
 
         public static float GetUIScale()
