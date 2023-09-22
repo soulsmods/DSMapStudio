@@ -92,7 +92,7 @@
     <Field Def="u8 weaponCategory"></Field>
     <Field Def="u8 wepmotionCategory"></Field>
     <Field Def="u8 guardmotionCategory"></Field>
-    <Field Def="u8 atkMaterial"></Field>
+    <Field Def="u8 atkMaterial0xEA"></Field>
     <Field Def="u16 defMaterial"></Field>
     <Field Def="u8 correctType"></Field>
     <Field Def="u8 spAttribute"></Field>
@@ -229,13 +229,13 @@
     <Field Def="u8 Unk0x1B5"></Field>
     <Field Def="u8 Unk0x1B6"></Field>
     <Field Def="u8 UnkByte0x1B7"></Field>
-    <Field Def="u16 UnkUshort0x1B8"></Field>
-    <Field Def="u16 UnkUshort0x1BA"></Field>
-    <Field Def="f32 UnkFloat0x1BC"></Field>
+    <Field Def="u16 unkSpEffect0x1B8"></Field>
+    <Field Def="u16 unkSpEffect0x1BA"></Field>
+    <Field Def="f32 unkSpEffect0x1BC"></Field>
     <Field Def="s32 Unk0x1C0"></Field>
     <Field Def="s32 Unk0x1C4"></Field>
     <Field Def="s32 Unk0x1C8"></Field>
-    <Field Def="s32 UnkInt0x1CC"></Field>
+    <Field Def="s32 thrustersParamId"></Field>
     <Field Def="s32 Unk0x1D0"></Field>
     <Field Def="s32 residentSfxId_1"></Field>
     <Field Def="s32 residentSfxId_2"></Field>
@@ -319,8 +319,8 @@
     <Field Def="s32 energyLoad">
       <Description>EN Load of the part.</Description>
     </Field>
-    <Field Def="s32 UnkInt0x2D0"></Field>
-    <Field Def="s32 UnkInt0x2D4"></Field>
+    <Field Def="s32 menuTextID"></Field>
+    <Field Def="s32 unkItemID0x2D4"></Field>
     <Field Def="u16 UnkUshort0x2D8"></Field>
     <Field Def="u16 ammunitionCost">
       <Description>Cost per round fired. At the end of each mission, the total number of rounds fired is used to calculate ammunition expenses.</Description>
@@ -365,7 +365,9 @@
     <Field Def="s32 UnkInt0x358"></Field>
     <Field Def="s32 UnkInt0x35C"></Field>
     <Field Def="s32 UnkInt0x360"></Field>
-    <Field Def="s32 UnkInt0x364"></Field>
+    <Field Def="u16 Unk0x364"></Field>
+    <Field Def="u8 Unk0x366"></Field>
+    <Field Def="u8 unkSfxMaterial0x367"></Field>
     <Field Def="s32 UnkInt0x368"></Field>
     <Field Def="s32 UnkInt0x36C"></Field>
     <Field Def="s32 UnkInt0x370"></Field>

@@ -264,7 +264,7 @@
     <Field Def="s32 lockCamParamId"></Field>
     <Field Def="s32 energyLoad"></Field>
     <Field Def="s32 armorPoints"></Field>
-    <Field Def="s32 Unk0x1A0"></Field>
+    <Field Def="s32 menuTextID"></Field>
     <Field Def="s32 Unk0x1A4"></Field>
     <Field Def="s32 Unk0x1A8"></Field>
     <Field Def="s32 Unk0x1AC"></Field>
@@ -298,7 +298,7 @@
     <Field Def="f32 tetrapodHoverDrainRate"></Field>
     <Field Def="f32 tetrapodHoverQuickBoostVelocity"></Field>
     <Field Def="s32 Unk0x1FC"></Field>
-    <Field Def="u16 UnkUshort0x200"></Field>
+    <Field Def="u16 corporationTextureId"></Field>
     <Field Def="u16 UnkUshort0x202"></Field>
     <Field Def="s32 demonstrationVideoBinkId">
       <Description>Refers to the video filename in Game/movie/</Description>
