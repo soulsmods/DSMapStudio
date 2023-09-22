@@ -29,6 +29,7 @@
     <protectorParamId AltName="protectorParamId" Refs="EquipParamProtector" />
     <legPartBoosterParamId AltName="legPartBoosterParamId" Refs="EquipParamBooster" />
     <menuTextID AltName="menuTextID" FmgRef="Modern_MenuText" />
+    <equipmentMenuManageCategoryParamId AltName="equipmentMenuManageCategoryParamId" Refs="EquipmentMenuManageCategoryParam" />
   </Field>
   <Self />
 </PARAMMETA>
