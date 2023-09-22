@@ -47,6 +47,8 @@ namespace StudioCore.LightmapEditor
         private string wikiEntry_UVOffset = "Offsets the lightmap UVs.";
         private string wikiEntry_UVScale = "Scales the lightmap UVs.";
 
+        private string wikiEntry_SaveChanges = "Changes are saved automatically when switching between each .btab file.";
+
         public LightmapAtlasMenu(AssetLocator locator) 
         {
             _locator = locator;
@@ -109,6 +111,10 @@ namespace StudioCore.LightmapEditor
                         }
                         if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClicked(0))
                         {
+                            // Save previous file (if loaded)
+                            if(_selectedLightmapAtlasFile != null)
+                                SaveLightmapAtlasFile(_selectedLightmapAtlasFile, _currentLightmapAtlas, true);
+
                             _selectedLightmapAtlasFile = perMapLightmapAtlasDict[mapName];
                             LoadLightmapAtlasFile();
                         }
@@ -126,9 +132,14 @@ namespace StudioCore.LightmapEditor
                 ImGui.Separator();
 
                 // Entry Actions
-                if (_selectedLightmapAtlasFile != null && ImGui.Button("Save Changes"))
+                if (_selectedLightmapAtlasFile != null)
                 {
-                    SaveLightmapAtlasFile(_selectedLightmapAtlasFile, _currentLightmapAtlas);
+                    EditorDecorations.HelpIcon($"##wiki_save_changes", ref wikiEntry_SaveChanges, false);
+
+                    if (ImGui.Button("Save Changes"))
+                    {
+                        SaveLightmapAtlasFile(_selectedLightmapAtlasFile, _currentLightmapAtlas, false);
+                    }
                 }
 
                 ImGui.SameLine();
@@ -150,8 +161,6 @@ namespace StudioCore.LightmapEditor
                 // Entry Sections
                 if (_selectedLightmapAtlasFile != null)
                 {
-                    int index = 0;
-
                     if (_searchStrEntries != _searchStrEntriesCache)
                     {
                         _searchStrEntriesCache = _searchStrEntries;
@@ -159,7 +168,8 @@ namespace StudioCore.LightmapEditor
                         _atlasEntryDeleteIndexList.Clear();
                     }
 
-                    foreach (BTAB.Entry entry in _currentLightmapAtlas.Entries)
+                    // Done in reverse so "Add Entry" appears at the top
+                    for(int index = _currentLightmapAtlas.Entries.Count - 1; index > -1; index--)
                     {
                         var PartName = _currentLightmapAtlasCache.Entries[index].PartName;
                         var MaterialName = _currentLightmapAtlasCache.Entries[index].MaterialName;
@@ -169,64 +179,84 @@ namespace StudioCore.LightmapEditor
 
                         if (_searchStrEntries == "" || MatchSearchInput(_searchStrEntries, PartName))
                         {
-                            EditorDecorations.HelpIcon($"##wiki_part_{entry.PartName}{index}", ref wikiEntry_PartName, false);
+                            EditorDecorations.HelpIcon($"##wiki_partname_{index}", ref wikiEntry_PartName, false);
                             ImGui.SameLine();
                             ImGui.Text("Part Name    ");
                             ImGui.SameLine();
-                            if (ImGui.InputText($"##part_{entry.PartName}{index}", ref PartName, 255))
+                            if (ImGui.InputText($"##field_partname_{index}", ref PartName, 255))
                             {
                                 _currentLightmapAtlasCache.Entries[index].PartName = PartName;
                             }
 
+                            // Delete action
                             ImGui.SameLine();
                             if (ImGui.Button($"Delete Entry##delete_{index}"))
                             {
                                 _atlasEntryDeleteIndexList.Add(index);
                             }
 
-                            EditorDecorations.HelpIcon($"##wiki_part_{entry.MaterialName}{index}", ref wikiEntry_MaterialName, false);
+                            EditorDecorations.HelpIcon($"##wiki_matname_{index}", ref wikiEntry_MaterialName, false);
                             ImGui.SameLine();
                             ImGui.Text("Material Name");
                             ImGui.SameLine();
-                            if (ImGui.InputText($"##mat_{entry.MaterialName}{index}", ref MaterialName, 255)) ;
+                            if (ImGui.InputText($"##field_matname_{index}", ref MaterialName, 255)) ;
                             {
                                 _currentLightmapAtlasCache.Entries[index].MaterialName = MaterialName;
                             }
 
-                            EditorDecorations.HelpIcon($"##wiki_part_{entry.AtlasID}{index}", ref wikiEntry_AtlasID, false);
+                            // Dupe action
+                            ImGui.SameLine();
+                            if (ImGui.Button($"Duplicate Entry##dupe_{index}"))
+                            {
+                                AddLightmapAtlasEntry(_currentLightmapAtlasCache.Entries[index]);
+                            }
+
+                            EditorDecorations.HelpIcon($"##wiki_atlas_{index}", ref wikiEntry_AtlasID, false);
                             ImGui.SameLine();
                             ImGui.Text("Atlas ID     ");
                             ImGui.SameLine();
-                            if (ImGui.InputInt($"##atlas_{entry.AtlasID}{index}", ref AtlasID))
+                            if (ImGui.InputInt($"##field_atlas_{index}", ref AtlasID))
                             {
                                 _currentLightmapAtlasCache.Entries[index].AtlasID = AtlasID;
                             }
 
-                            EditorDecorations.HelpIcon($"##wiki_part_{entry.UVOffset}{index}", ref wikiEntry_UVOffset, false);
+                            EditorDecorations.HelpIcon($"##wiki_uv_offset_{index}", ref wikiEntry_UVOffset, false);
                             ImGui.SameLine();
                             ImGui.Text("UV Offset    ");
                             ImGui.SameLine();
-                            if (ImGui.InputFloat2($"##uv_offset_{entry.UVOffset}{index}", ref UVOffset))
+                            if (ImGui.InputFloat2($"##field_uv_offset_{index}", ref UVOffset))
                             {
                                 _currentLightmapAtlasCache.Entries[index].UVOffset = UVOffset;
                             }
 
-                            EditorDecorations.HelpIcon($"##wiki_part_{entry.UVScale}{index}", ref wikiEntry_UVScale, false);
+                            EditorDecorations.HelpIcon($"##wiki_uv_scale_{index}", ref wikiEntry_UVScale, false);
                             ImGui.SameLine();
                             ImGui.Text("UV Scale     ");
                             ImGui.SameLine();
-                            if (ImGui.InputFloat2($"##uv_scale_{entry.UVScale}{index}", ref UVScale))
+                            if (ImGui.InputFloat2($"##field_uv_scale_{index}", ref UVScale))
                             {
                                 _currentLightmapAtlasCache.Entries[index].UVScale = UVScale;
                             }
 
                             ImGui.Separator();
                         }
-
-                        index = index + 1;
                     }
 
-                    if(_atlasEntryDeleteIndexList.Count > 0)
+                    // Update Lightmap Atlas data from edit cache
+                    for (int index = _currentLightmapAtlas.Entries.Count - 1; index > -1; index--)
+                    {
+                        BTAB.Entry fileEntry = _currentLightmapAtlas.Entries[index];
+                        BTAB.Entry editCacheEntry = _currentLightmapAtlasCache.Entries[index];
+
+                        fileEntry.PartName = editCacheEntry.PartName;
+                        fileEntry.MaterialName = editCacheEntry.MaterialName;
+                        fileEntry.AtlasID = editCacheEntry.AtlasID;
+                        fileEntry.UVOffset = editCacheEntry.UVOffset;
+                        fileEntry.UVScale = editCacheEntry.UVScale;
+                    }
+
+                    // Delete entries is any are marked
+                    if (_atlasEntryDeleteIndexList.Count > 0)
                         DeleteMarkedLightmapAtlasEntries();
                 }
 
@@ -237,12 +267,36 @@ namespace StudioCore.LightmapEditor
             }
         }
 
-        public void AddLightmapAtlasEntry()
+        public void AddLightmapAtlasEntry(BTAB.Entry entry = null)
         {
-            BTAB.Entry newEntry = new BTAB.Entry();
-            BTAB.Entry newCachedEntry = new BTAB.Entry();
+            BTAB.Entry newEntry = null;
+            BTAB.Entry newCacheEntry = null;
+
+            // If it is a dupe, append _DUPE so it is obvious where it is
+            if (entry != null)
+            {
+                newEntry = new BTAB.Entry();
+                newEntry.PartName = entry.PartName + "_DUPE";
+                newEntry.MaterialName = entry.MaterialName;
+                newEntry.AtlasID = entry.AtlasID;
+                newEntry.UVOffset = entry.UVOffset;
+                newEntry.UVScale = entry.UVScale;
+
+                newCacheEntry = new BTAB.Entry();
+                newCacheEntry.PartName = entry.PartName + "_DUPE";
+                newCacheEntry.MaterialName = entry.MaterialName;
+                newCacheEntry.AtlasID = entry.AtlasID;
+                newCacheEntry.UVOffset = entry.UVOffset;
+                newCacheEntry.UVScale = entry.UVScale;
+            }
+            else
+            {
+                newEntry = new BTAB.Entry();
+                newCacheEntry = new BTAB.Entry();
+            }
+
             _currentLightmapAtlas.Entries.Add(newEntry);
-            _currentLightmapAtlasCache.Entries.Add(newCachedEntry);
+            _currentLightmapAtlasCache.Entries.Add(newCacheEntry);
         }
 
         public void DeleteMarkedLightmapAtlasEntries()
@@ -285,33 +339,8 @@ namespace StudioCore.LightmapEditor
             }
         }
 
-        public void SaveLightmapAtlasFile(AssetDescription currentAssetDescription, BTAB modifiedFile)
+        public void SaveLightmapAtlasFile(AssetDescription currentAssetDescription, BTAB modifiedFile, bool silent)
         {
-            int index = 0;
-
-            // Update real Lightmap Atlas data from edit Cache
-            foreach (BTAB.Entry entry in _currentLightmapAtlas.Entries)
-            {
-                BTAB.Entry editCacheEntry = _currentLightmapAtlasCache.Entries[index];
-
-                if (entry.PartName != editCacheEntry.PartName)
-                    entry.PartName = editCacheEntry.PartName;
-
-                if (entry.MaterialName != editCacheEntry.MaterialName)
-                    entry.MaterialName = editCacheEntry.MaterialName;
-
-                if (entry.AtlasID != editCacheEntry.AtlasID)
-                    entry.AtlasID = editCacheEntry.AtlasID;
-
-                if (entry.UVOffset != editCacheEntry.UVOffset)
-                    entry.UVOffset = editCacheEntry.UVOffset;
-
-                if (entry.UVScale != editCacheEntry.UVScale)
-                    entry.UVScale = editCacheEntry.UVScale;
-
-                index = index + 1;
-            }
-
             // If file was loaded from game root, make new copy in mod root
             if (currentAssetDescription.AssetPath.Contains(_locator.GameRootDirectory))
             {
@@ -321,7 +350,9 @@ namespace StudioCore.LightmapEditor
             try
             {
                 modifiedFile.Write(currentAssetDescription.AssetPath);
-                PlatformUtils.Instance.MessageBox($"{_selectedLightmapAtlasFile.AssetName} saved.", "Lightmap Atlas", MessageBoxButtons.OK);
+
+                if(!silent)
+                    PlatformUtils.Instance.MessageBox($"{_selectedLightmapAtlasFile.AssetName} saved.", "Lightmap Atlas", MessageBoxButtons.OK);
             }
             catch (Exception e)
             {
