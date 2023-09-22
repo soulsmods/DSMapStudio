@@ -19,6 +19,7 @@ using Veldrid.StartupUtilities;
 using StudioCore.Graphics;
 using StudioCore.Platform;
 using Vortice.Vulkan;
+using StudioCore.LightmapEditor;
 
 namespace StudioCore
 {
@@ -42,6 +43,7 @@ namespace StudioCore
 
         private NewProjectOptions _newProjectOptions = new NewProjectOptions();
         private SettingsMenu _settingsMenu = new();
+        private LightmapMenu _lightmapMenu;
 
         private static bool _initialLoadComplete = false;
         private static bool _firstframe = true;
@@ -86,6 +88,9 @@ namespace StudioCore
             _settingsMenu.ModelEditor = modelEditor;
             _settingsMenu.ParamEditor = paramEditor;
             _settingsMenu.TextEditor = textEditor;
+
+            _lightmapMenu = new LightmapMenu(_assetLocator);
+            _lightmapMenu.MsbEditor = msbEditor;
 
             Editor.AliasBank.SetAssetLocator(_assetLocator);
             ParamEditor.ParamBank.PrimaryBank.SetAssetLocator(_assetLocator);
@@ -833,7 +838,15 @@ namespace StudioCore
                     {
                         _settingsMenu.MenuOpenState = true;
                     }
-                    
+
+                    if (_assetLocator.Type is GameType.Bloodborne or GameType.DarkSoulsIII or GameType.DarkSoulsIISOTFS)
+                    {
+                        if (ImGui.MenuItem("Lightmap Menu"))
+                        {
+                            ToggleLightMapMenu();
+                        }
+                    }
+
                     if (Resource.FlverResource.CaptureMaterialLayouts && ImGui.MenuItem("Dump Flver Layouts (Debug)", ""))
                     {
                         DumpFlverLayouts();
@@ -988,6 +1001,7 @@ namespace StudioCore
             }
 
             SettingsGUI();
+            LightmapMenuGUI();
 
             ImGui.PopStyleVar();
             Tracy.TracyCZoneEnd(ctx);
@@ -1281,6 +1295,14 @@ namespace StudioCore
                 {
                     SaveAll();
                 }
+
+                if (_assetLocator.Type is GameType.Bloodborne or GameType.DarkSoulsIII or GameType.DarkSoulsIISOTFS)
+                {
+                    if (InputTracker.GetKeyDown(KeyBindings.Current.Core_LightmapMenu))
+                    {
+                        ToggleLightMapMenu();
+                    }
+                }
             }
 
             ImGui.PopStyleVar(2);
@@ -1309,6 +1331,21 @@ namespace StudioCore
         public void SettingsGUI()
         {
             _settingsMenu.Display();
+        }
+
+        public void LightmapMenuGUI()
+        {
+            _lightmapMenu.Display();
+        }
+
+        public void ToggleLightMapMenu()
+        {
+            _lightmapMenu.UpdateBTABList();
+
+            if (_lightmapMenu.MenuOpenState)
+                _lightmapMenu.MenuOpenState = false;
+            else
+                _lightmapMenu.MenuOpenState = true;
         }
 
         public static float GetUIScale()

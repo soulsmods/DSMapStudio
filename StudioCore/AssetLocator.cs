@@ -531,6 +531,57 @@ namespace StudioCore
             return adList;
         }
 
+        public List<AssetDescription> GetMapBTABs(string mapid, bool writemode = false)
+        {
+            List<AssetDescription> adList = new();
+            if (mapid.Length != 12)
+            {
+                return adList;
+            }
+
+            if (Type is GameType.DarkSoulsIII or GameType.DarkSoulsIISOTFS or GameType.Bloodborne)
+            {
+                string path;
+                path = $@"map\{mapid}";
+
+                List<string> files = new();
+
+                if (Directory.Exists($@"{GameRootDirectory}\{path}"))
+                {
+                    files.AddRange(Directory.GetFiles($@"{GameRootDirectory}\{path}", "*.btab").ToList());
+                    files.AddRange(Directory.GetFiles($@"{GameRootDirectory}\{path}", "*.btab.dcx").ToList());
+                }
+                if (Directory.Exists($@"{GameModDirectory}\{path}"))
+                {
+                    // Check for additional files the user has created.
+                    files.AddRange(Directory.GetFiles($@"{GameModDirectory}\{path}", "*.btab").ToList());
+                    files.AddRange(Directory.GetFiles($@"{GameModDirectory}\{path}", "*.btab.dcx").ToList());
+                    files = files.DistinctBy(f => f.Split("\\").Last()).ToList();
+                }
+
+                foreach (var file in files)
+                {
+                    AssetDescription ad = new();
+                    var fileName = file.Split("\\").Last();
+                    if (GameModDirectory != null && File.Exists($@"{GameModDirectory}\{path}\{fileName}") || (writemode && GameModDirectory != null))
+                    {
+                        ad.AssetPath = $@"{GameModDirectory}\{path}\{fileName}";
+                    }
+                    else if (File.Exists($@"{GameRootDirectory}\{path}\{fileName}"))
+                    {
+                        ad.AssetPath = $@"{GameRootDirectory}\{path}\{fileName}";
+                    }
+                    if (ad.AssetPath != null)
+                    {
+                        ad.AssetName = fileName;
+                        adList.Add(ad);
+                    }
+                }
+            }
+
+            return adList;
+        }
+
         public AssetDescription GetMapNVA(string mapid, bool writemode = false)
         {
             AssetDescription ad = new AssetDescription();
