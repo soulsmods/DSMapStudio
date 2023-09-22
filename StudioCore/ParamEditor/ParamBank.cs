@@ -110,6 +110,22 @@ namespace StudioCore.ParamEditor
             }
         }
 
+        private static FileNotFoundException CreateParamMissingException(GameType type)
+        {
+            if (type is GameType.DarkSoulsPTDE or GameType.Sekiro)
+            {
+                return new FileNotFoundException($"Cannot locate param files. This game must be unpacked before modding, please use UXM Selective Unpacker.");
+            }
+            else if (type is GameType.DemonsSouls or GameType.Bloodborne)
+            {
+                return new FileNotFoundException($"Cannot locate param files. Your game folder may be missing game files.");
+            }
+            else
+            {
+                return new FileNotFoundException($"Cannot locate param files. Your game folder may be missing game files, please verify game files through steam to restore them.");
+            }
+        }
+
         private static List<(string, PARAMDEF)> LoadParamdefs(AssetLocator assetLocator)
         {
             _paramdefs = new Dictionary<string, PARAMDEF>();
@@ -350,7 +366,7 @@ namespace StudioCore.ParamEditor
 
             if (!File.Exists(param))
             {
-                throw new FileNotFoundException("Could not find DES parambnds. Functionality will be limited.");
+                throw CreateParamMissingException(AssetLocator.Type);
             }
             LoadParamsDESFromFile(param);
 
@@ -400,9 +416,7 @@ namespace StudioCore.ParamEditor
             var mod = AssetLocator.GameModDirectory;
             if (!File.Exists($@"{dir}\\param\GameParam\GameParam.parambnd"))
             {
-                //MessageBox.Show("Could not find DS1 regulation file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                //return null;
-                throw new FileNotFoundException("Could not find DS1 parambnd. Functionality will be limited.");
+                throw CreateParamMissingException(AssetLocator.Type);
             }
             // Load params
             var param = $@"{mod}\param\GameParam\GameParam.parambnd";
@@ -456,9 +470,7 @@ namespace StudioCore.ParamEditor
             var mod = AssetLocator.GameModDirectory;
             if (!File.Exists($@"{dir}\\param\GameParam\GameParam.parambnd.dcx"))
             {
-                //MessageBox.Show("Could not find DS1 regulation file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                //return null;
-                throw new FileNotFoundException("Could not find DS1 parambnd. Functionality will be limited.");
+                throw CreateParamMissingException(AssetLocator.Type);
             }
 
             // Load params
@@ -513,9 +525,7 @@ namespace StudioCore.ParamEditor
             var mod = AssetLocator.GameModDirectory;
             if (!File.Exists($@"{dir}\\param\gameparam\gameparam.parambnd.dcx"))
             {
-                //MessageBox.Show("Could not find param file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                //return null;
-                throw new FileNotFoundException("Could not find param file. Functionality will be limited.");
+                throw CreateParamMissingException(AssetLocator.Type);
             }
 
             // Load params
@@ -592,9 +602,7 @@ namespace StudioCore.ParamEditor
             var mod = AssetLocator.GameModDirectory;
             if (!File.Exists($@"{dir}\enc_regulation.bnd.dcx"))
             {
-                //MessageBox.Show("Could not find DS2 regulation file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                //return null;
-                throw new FileNotFoundException("Could not find DS2 regulation file. Functionality will be limited.");
+                throw CreateParamMissingException(AssetLocator.Type);
             }
             if (!BND4.Is($@"{dir}\enc_regulation.bnd.dcx"))
             {
@@ -635,7 +643,7 @@ namespace StudioCore.ParamEditor
         {
             if (!File.Exists($@"{AssetLocator.GameRootDirectory}\enc_regulation.bnd.dcx"))
             {
-                throw new FileNotFoundException("Could not find Vanilla DS2 regulation file. Functionality will be limited.");
+                throw CreateParamMissingException(AssetLocator.Type);
             }
             if (!BND4.Is($@"{AssetLocator.GameRootDirectory}\enc_regulation.bnd.dcx"))
             {
@@ -737,9 +745,7 @@ namespace StudioCore.ParamEditor
             var mod = AssetLocator.GameModDirectory;
             if (!File.Exists($@"{dir}\Data0.bdt"))
             {
-                //MessageBox.Show("Could not find DS3 regulation file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                //return null;
-                throw new FileNotFoundException("Could not find DS3 regulation file. Functionality will be limited.");
+                throw CreateParamMissingException(AssetLocator.Type);
             }
 
             var vparam = $@"{dir}\Data0.bdt";
@@ -774,9 +780,7 @@ namespace StudioCore.ParamEditor
             var mod = AssetLocator.GameModDirectory;
             if (!File.Exists($@"{dir}\\regulation.bin"))
             {
-                //MessageBox.Show("Could not find param file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                //return null;
-                throw new FileNotFoundException("Could not find param file. Functionality will be limited.");
+                throw CreateParamMissingException(AssetLocator.Type);
             }
 
             // Load params
@@ -832,9 +836,7 @@ namespace StudioCore.ParamEditor
             var mod = AssetLocator.GameModDirectory;
             if (!File.Exists($@"{dir}\\regulation.bin"))
             {
-                //MessageBox.Show("Could not find param file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                //return null;
-                throw new FileNotFoundException("Could not find param file. Functionality will be limited.");
+                throw CreateParamMissingException(AssetLocator.Type);
             }
 
             // Load params
@@ -1149,7 +1151,8 @@ namespace StudioCore.ParamEditor
             var mod = AssetLocator.GameModDirectory;
             if (!File.Exists($@"{dir}\\param\GameParam\GameParam.parambnd"))
             {
-                PlatformUtils.Instance.MessageBox("Could not find DS1 param file. Cannot save.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                TaskLogs.AddLog("Cannot locate param files. Save failed.",
+                    Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High);
                 return;
             }
 
@@ -1194,7 +1197,8 @@ namespace StudioCore.ParamEditor
             var mod = AssetLocator.GameModDirectory;
             if (!File.Exists($@"{dir}\\param\GameParam\GameParam.parambnd.dcx"))
             {
-                PlatformUtils.Instance.MessageBox("Could not find DS1R param file. Cannot save.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                TaskLogs.AddLog("Cannot locate param files. Save failed.",
+                    Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High);
                 return;
             }
 
@@ -1240,7 +1244,8 @@ namespace StudioCore.ParamEditor
             var mod = AssetLocator.GameModDirectory;
             if (!File.Exists($@"{dir}\enc_regulation.bnd.dcx"))
             {
-                PlatformUtils.Instance.MessageBox("Could not find DS2 regulation file. Cannot save.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                TaskLogs.AddLog("Cannot locate param files. Save failed.",
+                    Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High);
                 return;
             }
 
@@ -1375,7 +1380,8 @@ namespace StudioCore.ParamEditor
             var mod = AssetLocator.GameModDirectory;
             if (!File.Exists($@"{dir}\Data0.bdt"))
             {
-                PlatformUtils.Instance.MessageBox("Could not find DS3 regulation file. Cannot save.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                TaskLogs.AddLog("Cannot locate param files. Save failed.",
+                    Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High);
                 return;
             }
 
@@ -1439,7 +1445,8 @@ namespace StudioCore.ParamEditor
             var mod = AssetLocator.GameModDirectory;
             if (!File.Exists($@"{dir}\\param\gameparam\gameparam.parambnd.dcx"))
             {
-                PlatformUtils.Instance.MessageBox("Could not find param file. Cannot save.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                TaskLogs.AddLog("Cannot locate param files. Save failed.",
+                    Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High);
                 return;
             }
 
@@ -1481,7 +1488,8 @@ namespace StudioCore.ParamEditor
 
             if (!File.Exists(param))
             {
-                PlatformUtils.Instance.MessageBox("Could not find param file. Cannot save.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                TaskLogs.AddLog("Cannot locate param files. Save failed.",
+                    Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High);
                 return;
             }
             using var paramBnd = BND3.Read(param);
@@ -1547,7 +1555,8 @@ namespace StudioCore.ParamEditor
             var mod = AssetLocator.GameModDirectory;
             if (!File.Exists($@"{dir}\\regulation.bin"))
             {
-                PlatformUtils.Instance.MessageBox("Could not find param file. Cannot save.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                TaskLogs.AddLog("Cannot locate param files. Save failed.",
+                    Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High);
                 return;
             }
 
@@ -1591,7 +1600,8 @@ namespace StudioCore.ParamEditor
             var mod = AssetLocator.GameModDirectory;
             if (!File.Exists($@"{dir}\\regulation.bin"))
             {
-                PlatformUtils.Instance.MessageBox("Could not find param file. Cannot save.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                TaskLogs.AddLog("Cannot locate param files. Save failed.",
+                    Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High);
                 return;
             }
 
