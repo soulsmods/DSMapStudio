@@ -1340,7 +1340,7 @@ namespace StudioCore
 
         public void ToggleLightMapMenu()
         {
-            _lightmapMenu.UpdateBTABList();
+            _lightmapMenu.UpdateLightmapMenu();
 
             if (_lightmapMenu.MenuOpenState)
                 _lightmapMenu.MenuOpenState = false;

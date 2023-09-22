@@ -3,6 +3,7 @@ using SoulsFormats;
 using StudioCore.Platform;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Reflection.Metadata;
@@ -22,27 +23,30 @@ namespace StudioCore.LightmapEditor
 
         private string _selected = null;
 
-        private BTAB currentBTAB;
-        private AssetDescription _selectedBtabAsset;
+        private BTAB _currentLightmapData;
 
         private List<string> mapList;
         List<AssetDescription> currentMapBtabList;
-        private Dictionary<string, AssetDescription> btabMapDict = new Dictionary<string, AssetDescription>();
+        private Dictionary<string, AssetDescription> perMapLightmapDict = new Dictionary<string, AssetDescription>();
 
-        private string _searchStr = "";
-        private string _searchStrCache = "";
+        private string _searchStrFilename = "";
+        private string _searchStrFilenameCache = "";
 
-        private List<BTAB.Entry> filteredEntries = new List<BTAB.Entry>();
+        private string _searchStrEntries = "";
+        private string _searchStrEntriesCache = "";
+        private AssetDescription _selectedLightmapFile;
+
+        private List<BTAB.Entry> _lightmapEntriesForDeletion = new List<BTAB.Entry>();
 
         public LightmapMenu(AssetLocator locator) 
         {
             _locator = locator;
         }
 
-        public void UpdateBTABList()
+        public void UpdateLightmapMenu()
         {
             mapList = _locator.GetFullMapList();
-            btabMapDict.Clear();
+            perMapLightmapDict.Clear();
 
             List<AssetDescription> btabList = new List<AssetDescription>();
 
@@ -52,7 +56,7 @@ namespace StudioCore.LightmapEditor
 
                 foreach (AssetDescription d in currentMapBtabList)
                 {
-                    btabMapDict.Add(d.AssetName, d);
+                    perMapLightmapDict.Add(d.AssetName, d);
                 }
             }
         }
@@ -74,75 +78,74 @@ namespace StudioCore.LightmapEditor
             if (ImGui.Begin("Lightmap Menu##Popup", ref MenuOpenState, ImGuiWindowFlags.NoDocking))
             {
                 ImGui.Columns(1);
-                ImGui.BeginChild("LightmapList", new Vector2(700, 100));
 
-                foreach (var m in btabMapDict.Keys)
+                // Filename Search
+                ImGui.InputText($"File Search", ref _searchStrFilename, 255);
+
+                if (_searchStrFilename != _searchStrFilenameCache)
                 {
-                    if (ImGui.Selectable(m, _selected == m))
+                    _searchStrFilenameCache = _searchStrFilename;
+                }
+
+                // Filename List
+                ImGui.BeginChild("LightmapList", new Vector2(630, 100));
+
+                foreach (var mapName in perMapLightmapDict.Keys)
+                {
+                    if (_searchStrFilename == "" || Regex.IsMatch(mapName, _searchStrFilename) || Regex.IsMatch(mapName, _searchStrFilename))
                     {
-                        _selected = m;
-                    }
-                    if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClicked(0))
-                    {
-                        _selectedBtabAsset = btabMapDict[m];
-                        currentBTAB = BTAB.Read($"{_selectedBtabAsset.AssetPath}");
+                        if (ImGui.Selectable(mapName, _selected == mapName))
+                        {
+                            _selected = mapName;
+                        }
+                        if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClicked(0))
+                        {
+                            _selectedLightmapFile = perMapLightmapDict[mapName];
+                            LoadLightmapFile();
+                        }
                     }
                 }
 
                 ImGui.EndChild();
 
-                ImGui.SameLine();
-                if (ImGui.Button("Save"))
-                {
-                    SaveBTAB(_selectedBtabAsset, currentBTAB);
-                    PlatformUtils.Instance.MessageBox($"{_selectedBtabAsset.AssetName} saved.", "Lightmap Menu", MessageBoxButtons.OK);
-                }
+                ImGui.Separator();
 
-                ImGui.InputText($"Search", ref _searchStr, 255);
+                // Entry Search
+                ImGui.InputText($"Entry Search", ref _searchStrEntries, 255);
 
                 ImGui.Separator();
+
+                // Entry Actions
+                if (ImGui.Button("Save Changes"))
+                {
+                    SaveLightmapFile(_selectedLightmapFile, _currentLightmapData);
+                }
+
+                ImGui.SameLine();
 
                 if (ImGui.Button("Add New Entry"))
                 {
-                    BTAB.Entry newEntry = new BTAB.Entry();
-                    currentBTAB.Entries.Add(newEntry);
+                    AddLightmapEntry();
                 }
 
                 ImGui.Separator();
 
-                // BTAB Edit Panel
-                if (_selectedBtabAsset != null)
+                // Entry Sections
+                if (_selectedLightmapFile != null)
                 {
                     int index = 0;
 
-                    if (_searchStr != _searchStrCache)
+                    if (_searchStrEntries != _searchStrEntriesCache)
                     {
-                        _searchStrCache = _searchStr;
+                        _searchStrEntriesCache = _searchStrEntries;
 
-                        filteredEntries.Clear(); // Clear this when the search term changes
+                        _lightmapEntriesForDeletion.Clear(); // Clear this when the search term changes
                     }
 
-                    List<BTAB.Entry> entriesforDelete = new List<BTAB.Entry>();
-
-                    foreach (BTAB.Entry entry in currentBTAB.Entries)
+                    foreach (BTAB.Entry entry in _currentLightmapData.Entries)
                     {
-                        bool match = false;
-
-                        if (Regex.IsMatch(entry.PartName, _searchStr) || Regex.IsMatch(entry.MaterialName, _searchStr))
+                        if (_searchStrEntries == "" || Regex.IsMatch(entry.PartName, _searchStrEntries) || Regex.IsMatch(entry.MaterialName, _searchStrEntries))
                         {
-                            match = true;
-                        }
-
-                        if (_searchStr == "")
-                        {
-                            match = true;
-                        }
-
-                        if (match)
-                        {
-                            if(!filteredEntries.Contains(entry))
-                                filteredEntries.Add(entry);
-
                             var PartName = entry.PartName;
                             var MaterialName = entry.MaterialName;
                             var AtlasID = entry.AtlasID;
@@ -150,53 +153,45 @@ namespace StudioCore.LightmapEditor
                             var UVScale = entry.UVScale;
 
                             ImGui.Text("Part Name    ");
-                            ImGui.SameLine(); ImGui.InputText($"##part_{entry.PartName}{index}", ref PartName, 255);
-
-                            ImGui.SameLine();
-                            if (ImGui.Button("Edit"))
+                            ImGui.SameLine(); 
+                            if(ImGui.InputText($"##part_{entry.PartName}{index}", ref PartName, 255))
                             {
-                                
+                                entry.PartName = PartName;
                             }
+
                             ImGui.SameLine();
                             if (ImGui.Button("Delete Entry"))
                             {
-                                entriesforDelete.Add(entry);
+                                if (!_lightmapEntriesForDeletion.Contains(entry))
+                                    _lightmapEntriesForDeletion.Add(entry);
                             }
 
                             ImGui.Text("Material Name");
-                            ImGui.SameLine(); ImGui.InputText($"##mat_{entry.MaterialName}{index}", ref MaterialName, 255);
-
-                            ImGui.SameLine();
-                            if (ImGui.Button("Edit"))
+                            ImGui.SameLine(); 
+                            if(ImGui.InputText($"##mat_{entry.MaterialName}{index}", ref MaterialName, 255));
                             {
-
+                                entry.MaterialName = MaterialName;
                             }
 
                             ImGui.Text("Atlas ID     ");
-                            ImGui.SameLine(); ImGui.InputInt($"##atlas_{entry.AtlasID}{index}", ref AtlasID, 255);
-
-                            ImGui.SameLine();
-                            if (ImGui.Button("Edit"))
+                            ImGui.SameLine(); 
+                            if(ImGui.InputInt($"##atlas_{entry.AtlasID}{index}", ref AtlasID, 255))
                             {
-
+                                entry.AtlasID = AtlasID;
                             }
 
                             ImGui.Text("UV Offset    ");
-                            ImGui.SameLine(); ImGui.InputFloat2($"##uv_offset_{entry.UVOffset}{index}", ref UVOffset);
-
-                            ImGui.SameLine();
-                            if (ImGui.Button("Edit"))
+                            ImGui.SameLine(); 
+                            if(ImGui.InputFloat2($"##uv_offset_{entry.UVOffset}{index}", ref UVOffset))
                             {
-
+                                entry.UVOffset = UVOffset;
                             }
 
                             ImGui.Text("UV Scale     ");
-                            ImGui.SameLine(); ImGui.InputFloat2($"##uv_scale_{entry.UVScale}{index}", ref UVScale);
-
-                            ImGui.SameLine();
-                            if (ImGui.Button("Edit"))
+                            ImGui.SameLine(); 
+                            if(ImGui.InputFloat2($"##uv_scale_{entry.UVScale}{index}", ref UVScale))
                             {
-
+                                entry.UVScale = UVScale;
                             }
 
                             ImGui.Separator();
@@ -205,19 +200,7 @@ namespace StudioCore.LightmapEditor
                         }
                     }
 
-                    if (currentBTAB.Entries.Count > 0 && entriesforDelete.Count > 0)
-                    {
-                        for (int i = currentBTAB.Entries.Count - 1; i > -1; i--)
-                        {
-                            for (int k = entriesforDelete.Count - 1; k > -1; k--)
-                            {
-                                if (currentBTAB.Entries[i] == entriesforDelete[k])
-                                {
-                                    currentBTAB.Entries.Remove(currentBTAB.Entries[i]);
-                                }
-                            }
-                        }
-                    }
+                    DeleteMarkedLightmapEntries();
                 }
 
                 ImGui.End();
@@ -227,7 +210,41 @@ namespace StudioCore.LightmapEditor
             }
         }
 
-        public void SaveBTAB(AssetDescription currentAssetDescription, BTAB modifiedFile)
+        public void AddLightmapEntry()
+        {
+            BTAB.Entry newEntry = new BTAB.Entry();
+            _currentLightmapData.Entries.Add(newEntry);
+        }
+
+        public void DeleteMarkedLightmapEntries()
+        {
+            if (_currentLightmapData.Entries.Count > 0 && _lightmapEntriesForDeletion.Count > 0)
+            {
+                for (int i = _currentLightmapData.Entries.Count - 1; i > -1; i--)
+                {
+                    for (int k = _lightmapEntriesForDeletion.Count - 1; k > -1; k--)
+                    {
+                        if (_currentLightmapData.Entries[i] == _lightmapEntriesForDeletion[k])
+                        {
+                            _currentLightmapData.Entries.Remove(_currentLightmapData.Entries[i]);
+                        }
+                    }
+                }
+            }
+        }
+
+        public void LoadLightmapFile()
+        {
+            try
+            {
+                _currentLightmapData = BTAB.Read($"{_selectedLightmapFile.AssetPath}");
+            }
+            catch (Exception e) when (e is DirectoryNotFoundException or FileNotFoundException)
+            {
+            }
+        }
+
+        public void SaveLightmapFile(AssetDescription currentAssetDescription, BTAB modifiedFile)
         {
             // If file was loaded from game root, make new copy in mod root
             if(currentAssetDescription.AssetPath.Contains(_locator.GameRootDirectory))
@@ -235,7 +252,14 @@ namespace StudioCore.LightmapEditor
                 currentAssetDescription.AssetPath = currentAssetDescription.AssetPath.Replace(_locator.GameRootDirectory, _locator.GameModDirectory);
             }
 
-            modifiedFile.Write(currentAssetDescription.AssetPath);
+            try
+            {
+                modifiedFile.Write(currentAssetDescription.AssetPath);
+                PlatformUtils.Instance.MessageBox($"{_selectedLightmapFile.AssetName} saved.", "Lightmap Menu", MessageBoxButtons.OK);
+            }
+            catch (Exception e)
+            {
+            }
         }
     }
 }
