@@ -336,7 +336,7 @@
     <Field Def="s32 Unk0x2FC"></Field>
     <Field Def="s32 Unk0x300"></Field>
     <Field Def="s32 Unk0x304"></Field>
-    <Field Def="s16 unkAnimation"></Field>
+    <Field Def="s16 unkAttackAnimation"></Field>
     <Field Def="s16 Unk0x30A"></Field>
     <Field Def="s16 Unk0x30C"></Field>
     <Field Def="s16 Unk0x30E"></Field>
@@ -564,7 +564,7 @@
     <Field Def="f32 weaponCoolingDelay"></Field>
     <Field Def="f32 weaponOverheatedCoolingDelay"></Field>
     <Field Def="f32 UnkFloat0x59C"></Field>
-    <Field Def="s32 UnkInt0x5A0"></Field>
+    <Field Def="s32 inheritanceWeaponParamId"></Field>
     <Field Def="u16 UnkUshort0x5A4"></Field>
     <Field Def="u8 UnkByte0x5A6"></Field>
     <Field Def="u8 UnkByte0x5A7"></Field>

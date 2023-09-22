@@ -87,6 +87,7 @@ namespace StudioCore
             public KeyBind Core_Redo = new(Key.Y, true);
             public KeyBind Core_Delete = new(Key.Delete);
             public KeyBind Core_Duplicate = new(Key.D, true);
+            public KeyBind Core_HelpMenu = new(Key.F2);
             public KeyBind Core_LightmapAtlas = new(Key.F3);
 
             // Viewport (Map & Model)

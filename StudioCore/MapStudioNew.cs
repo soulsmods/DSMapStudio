@@ -20,6 +20,7 @@ using StudioCore.Graphics;
 using StudioCore.Platform;
 using Vortice.Vulkan;
 using StudioCore.LightmapEditor;
+using StudioCore.Help;
 
 namespace StudioCore
 {
@@ -44,6 +45,7 @@ namespace StudioCore
         private NewProjectOptions _newProjectOptions = new NewProjectOptions();
         private SettingsMenu _settingsMenu = new();
         private LightmapAtlasMenu _lightmapAtlas;
+        private Help.HelpMenu _helpMenu;
 
         private static bool _initialLoadComplete = false;
         private static bool _firstframe = true;
@@ -91,6 +93,8 @@ namespace StudioCore
 
             _lightmapAtlas = new LightmapAtlasMenu(_assetLocator);
             _lightmapAtlas.MsbEditor = msbEditor;
+
+            _helpMenu = new Help.HelpMenu("HelpMenu", _assetLocator);
 
             Editor.AliasBank.SetAssetLocator(_assetLocator);
             ParamEditor.ParamBank.PrimaryBank.SetAssetLocator(_assetLocator);
@@ -143,7 +147,7 @@ namespace StudioCore
         /// <summary>
         /// Characters to load that FromSoft use, but aren't included in the ImGui Japanese glyph range.
         /// </summary>
-        private readonly char[] SpecialCharsJP = { '鉤', '梟', '倅', '…', '飴', '護', '戮', 'ā', 'ī', 'ū', 'ē', 'ō', 'Ā', 'Ē', 'Ī', 'Ō', 'Ū' };
+        private readonly char[] SpecialCharsJP = { '鉤', '梟', '倅', '…', '飴', '護', '戮', 'ā', 'ī', 'ū', 'ē', 'ō', 'Ā', 'Ē', 'Ī', 'Ō', 'Ū', '—' };
 
         private unsafe void SetupFonts()
         {
@@ -862,77 +866,11 @@ namespace StudioCore
 
                 if (ImGui.BeginMenu("Help"))
                 {
-                    if (ImGui.BeginMenu("About"))
+                    if (ImGui.MenuItem("Help Menu", KeyBindings.Current.Core_HelpMenu.HintText))
                     {
-                        ImGui.Text("Original Author:\n" +
-                                   "Katalash\n\n" +
-                                   "Core Development Team:\n" +
-                                   "Katalash\n" +
-                                   "Philiquaz\n" +
-                                   "King bore haha (george)\n\n" +
-                                   "Additional Contributors:\n" +
-                                   "Thefifthmatt\n" +
-                                   "Shadowth117\n" +
-                                   "Nordgaren\n" +
-                                   "ivi\n" +
-                                   "Vawser\n\n" +
-                                   "Special Thanks:\n" +
-                                   "TKGP\n" +
-                                   "Meowmaritus\n" +
-                                   "Radai\n" +
-                                   "Moonlight Ruin\n" +
-                                   "Evan (HalfGrownHollow)\n" +
-                                   "MyMaidisKitchenAid");
-                        ImGui.EndMenu();
+                        OpenHelpMenu();
                     }
 
-                    if (ImGui.BeginMenu("How to use"))
-                    {
-                        ImGui.Text("Usage of many features is assisted through the symbol (?).\nIn many cases, right clicking items will provide further information and options.");
-                        ImGui.EndMenu();
-                    }
-
-                    if (ImGui.BeginMenu("Camera Controls"))
-                    {
-                        ImGui.Text("Holding click on the viewport will enable camera controls.\nUse WASD to navigate.\nUse right click to rotate the camera.\nHold Shift to temporarily speed up and Ctrl to temporarily slow down.\nScroll the mouse wheel to adjust overall speed.");
-                        ImGui.EndMenu();
-                    }
-
-                    if (ImGui.MenuItem("Modding Wiki"))
-                    {
-                        Process.Start(new ProcessStartInfo
-                        {
-                            FileName = "http://soulsmodding.wikidot.com/",
-                            UseShellExecute = true
-                        });
-                    }
-
-                    if (ImGui.MenuItem("Map ID Reference"))
-                    {
-                        Process.Start(new ProcessStartInfo
-                        {
-                            FileName = "http://soulsmodding.wikidot.com/reference:map-list",
-                            UseShellExecute = true
-                        });
-                    }
-
-                    if (ImGui.MenuItem("DSMapStudio Discord"))
-                    {
-                        Process.Start(new ProcessStartInfo
-                        {
-                            FileName = "https://discord.gg/CKDBCUFhB3",
-                            UseShellExecute = true
-                        });
-                    }
-
-                    if (ImGui.MenuItem("FromSoftware Modding Discord"))
-                    {
-                        Process.Start(new ProcessStartInfo
-                        {
-                            FileName = "https://discord.gg/mT2JJjx",
-                            UseShellExecute = true
-                        });
-                    }
                     ImGui.EndMenu();
                 }
                 if (FeatureFlags.TestMenu)
@@ -1006,6 +944,7 @@ namespace StudioCore
 
             SettingsGUI();
             LightmapAtlasGUI();
+            HelpGUI();
 
             ImGui.PopStyleVar();
             Tracy.TracyCZoneEnd(ctx);
@@ -1300,12 +1239,18 @@ namespace StudioCore
                     SaveAll();
                 }
 
+
                 if (_assetLocator.Type is GameType.DarkSoulsIII)
                 {
                     if (InputTracker.GetKeyDown(KeyBindings.Current.Core_LightmapAtlas))
                     {
                         ToggleLightmapAtlas();
                     }
+                }
+              
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Core_HelpMenu))
+                {
+                    OpenHelpMenu();
                 }
             }
 
@@ -1335,6 +1280,18 @@ namespace StudioCore
         public void SettingsGUI()
         {
             _settingsMenu.Display();
+        }
+        public void HelpGUI()
+        {
+            _helpMenu.Display();
+        }
+
+        public void OpenHelpMenu()
+        {
+            if (_helpMenu.MenuOpenState)
+                _helpMenu.MenuOpenState = false;
+            else
+                _helpMenu.MenuOpenState = true;
         }
 
         public void LightmapAtlasGUI()

@@ -9,7 +9,7 @@
     <hitRadiusMax AltName="Hitbox Radius (max)" Wiki="Maximum radius of the hitbox, time hitbox changes from initial to max is determined by spreadTime. (If -1, radius is same as initial hitbox radius)." />
     <spreadTime AltName="Hitbox Radius Spread Time" Wiki="Amount of time (in seconds) it takes for hitbox radius to grow from hitRadius to hitRadiusMax." />
     <spEffectIDForShooter AltName="Shooter SpEffect ID" Wiki="SpEffect applied to owner of bullet." Refs="SpEffectParam" />
-    <HitBulletID AltName="Hit Bullet ID" Wiki="Bullet to generate when projectile expires." Refs="Bullet" />
+    <hitBulletID AltName="Hit Bullet ID" Wiki="Bullet to generate when projectile expires." Refs="Bullet" />
     <spEffectId0 AltName="Target SpEffect ID [0]" Wiki="SpEffect applied to hit targets." Refs="SpEffectParam" />
     <spEffectId1 AltName="Target SpEffect ID [1]" Wiki="SpEffect applied to hit targets." Refs="SpEffectParam" />
     <spEffectId2 AltName="Target SpEffect ID [2]" Wiki="SpEffect applied to hit targets." Refs="SpEffectParam" />
