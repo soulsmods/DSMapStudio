@@ -252,7 +252,7 @@
     <Field Def="u16 UnkUshort0x20A"></Field>
     <Field Def="u16 UnkUshort0x20C"></Field>
     <Field Def="u16 pulseInterferenceDamage">
-      <Description>Bonus damage dealt to pulse armor, pulse protection, and terminal armor core expansions. Doesn't affect shields, nor weapons that create pulse barrier assets</Description>
+      <Description>Bonus damage dealt to most sources of pulse armor and pulse barriers. Doesn't affect shields, nor weapons that create AEG-based pulse barriers.</Description>
     </Field>
     <Field Def="s32 weaponImpactDamage">
       <Description>ACS overload performance. This corresponds to immediate ACS strain, which resets within a short period.</Description>
@@ -266,8 +266,8 @@
     <Field Def="u8 UnkByte0x221"></Field>
     <Field Def="u16 UnkUshort0x222"></Field>
     <Field Def="s32 Unk0x224"></Field>
-    <Field Def="u16 UnkUshort0x228"></Field>
-    <Field Def="u16 UnkUshort0x22A"></Field>
+    <Field Def="u16 unkHitbox0x228"></Field>
+    <Field Def="u16 unkHitbox0x22A"></Field>
     <Field Def="u16 UnkUshort0x22C"></Field>
     <Field Def="u16 UnkUshort0x22E"></Field>
     <Field Def="u16 UnkUshort0x230"></Field>
@@ -383,10 +383,10 @@
     <Field Def="f32 UnkFloat0x340"></Field>
     <Field Def="s16 UnkShort0x344"></Field>
     <Field Def="s16 UnkShort0x346"></Field>
-    <Field Def="s16 directHitBonusDamageRate"></Field>
-    <Field Def="s16 UnkShort0x34A"></Field>
-    <Field Def="s16 UnkShort0x34C"></Field>
-    <Field Def="s16 UnkShort0x34E"></Field>
+    <Field Def="s16 directHitDamageRate_Kinetic"></Field>
+    <Field Def="s16 directHitDamageRate_Energy"></Field>
+    <Field Def="s16 directHitDamageRate_Explosive"></Field>
+    <Field Def="s16 directHitDamageRate_Coral"></Field>
     <Field Def="s16 UnkShort0x350"></Field>
     <Field Def="u8 UnkByte0x352"></Field>
     <Field Def="u8 UnkByte0x353"></Field>
