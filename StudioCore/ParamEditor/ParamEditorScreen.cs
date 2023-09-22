@@ -219,10 +219,9 @@ namespace StudioCore.ParamEditor
                 && ParamBank.VanillaBank.Params != null
                 && !ParamBank.PrimaryBank.IsLoadingParams
                 && !ParamBank.VanillaBank.IsLoadingParams
-                && ParamBank.PrimaryBank.ParamVersion < ParamBank.VanillaBank.ParamVersion
-                && ParamUpgradeVersionSoftWhitelist != 0)
+                && ParamBank.PrimaryBank.ParamVersion < ParamBank.VanillaBank.ParamVersion)
             {
-                if (ParamBank.VanillaBank.ParamVersion <= ParamUpgradeVersionSoftWhitelist)
+                if (ParamBank.VanillaBank.ParamVersion <= ParamUpgradeVersionSoftWhitelist && ParamUpgradeVersionSoftWhitelist != 0)
                 {
                     ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.0f, 1f, 0f, 1.0f));
                     if (ImGui.Button("Upgrade Params"))
