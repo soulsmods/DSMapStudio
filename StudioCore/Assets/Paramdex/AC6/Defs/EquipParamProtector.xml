@@ -81,7 +81,7 @@
     <Field Def="u8 equipModelCategory"></Field>
     <Field Def="u8 equipModelGender"></Field>
     <Field Def="u8 protectorCategory"></Field>
-    <Field Def="s8 rarity"></Field>
+    <Field Def="s8 unkSameAsWeaponParam0x2C8_Sbyte0xD8"></Field>
     <Field Def="u8 sortGroupId"></Field>
     <Field Def="u8 partsDmgType"></Field>
     <Field Def="u16 legType">
@@ -264,7 +264,7 @@
     <Field Def="s32 lockCamParamId"></Field>
     <Field Def="s32 energyLoad"></Field>
     <Field Def="s32 armorPoints"></Field>
-    <Field Def="s32 Unk0x1A0"></Field>
+    <Field Def="s32 menuTextID"></Field>
     <Field Def="s32 Unk0x1A4"></Field>
     <Field Def="s32 Unk0x1A8"></Field>
     <Field Def="s32 Unk0x1AC"></Field>
@@ -298,8 +298,8 @@
     <Field Def="f32 tetrapodHoverDrainRate"></Field>
     <Field Def="f32 tetrapodHoverQuickBoostVelocity"></Field>
     <Field Def="s32 Unk0x1FC"></Field>
-    <Field Def="u16 UnkUshort0x200"></Field>
-    <Field Def="u16 UnkUshort0x202"></Field>
+    <Field Def="u16 corporationTextureId"></Field>
+    <Field Def="u16 equipmentMenuManageCategoryParamId"></Field>
     <Field Def="s32 demonstrationVideoBinkId">
       <Description>Refers to the video filename in Game/movie/</Description>
     </Field>
@@ -366,20 +366,20 @@
     <Field Def="f32 jumpVelocityHorizontalTransferred">
       <Description>Amount of vertical jump velocity to transfer into horizontal velocity.</Description>
     </Field>
-    <Field Def="s32 Unk0x2B4"></Field>
-    <Field Def="s32 Unk0x2B8"></Field>
-    <Field Def="s32 Unk0x2BC"></Field>
+    <Field Def="f32 Unk0x2B4"></Field>
+    <Field Def="f32 Unk0x2B8"></Field>
+    <Field Def="f32 Unk0x2BC"></Field>
     <Field Def="f32 Unk0x2C0"></Field>
-    <Field Def="s32 Unk0x2C4"></Field>
-    <Field Def="s32 Unk0x2C8"></Field>
-    <Field Def="s32 Unk0x2CC"></Field>
+    <Field Def="f32 Unk0x2C4"></Field>
+    <Field Def="f32 Unk0x2C8"></Field>
+    <Field Def="f32 Unk0x2CC"></Field>
     <Field Def="f32 armsLoadLimit">
       <Description>Maximum weight arms can carry without compromising on stable operating performance. Higher values reduce recoil.</Description>
     </Field>
-    <Field Def="s32 Unk0x2D4"></Field>
-    <Field Def="s32 Unk0x2D8"></Field>
-    <Field Def="s32 Unk0x2DC"></Field>
-    <Field Def="s32 Unk0x2E0"></Field>
+    <Field Def="f32 Unk0x2D4"></Field>
+    <Field Def="f32 Unk0x2D8"></Field>
+    <Field Def="f32 Unk0x2DC"></Field>
+    <Field Def="f32 Unk0x2E0"></Field>
     <Field Def="f32 Unk0x2E4"></Field>
     <Field Def="f32 Unk0x2E8"></Field>
     <Field Def="f32 Unk0x2EC"></Field>
@@ -389,21 +389,21 @@
     <Field Def="f32 displayLegsJumpHeight">
       <Description>Only affects value in UI.</Description>
     </Field>
-    <Field Def="s32 Unk0x2F8"></Field>
-    <Field Def="s32 Unk0x2FC"></Field>
-    <Field Def="s32 Unk0x300"></Field>
-    <Field Def="s32 Unk0x304"></Field>
-    <Field Def="s32 Unk0x308"></Field>
-    <Field Def="s32 Unk0x30C"></Field>
-    <Field Def="s32 Unk0x310"></Field>
-    <Field Def="s32 Unk0x314"></Field>
-    <Field Def="s32 Unk0x318"></Field>
-    <Field Def="s32 Unk0x31C"></Field>
-    <Field Def="s32 Unk0x320"></Field>
-    <Field Def="s32 Unk0x324"></Field>
-    <Field Def="s32 Unk0x328"></Field>
-    <Field Def="s32 Unk0x32C"></Field>
-    <Field Def="s32 Unk0x330"></Field>
+    <Field Def="f32 Unk0x2F8"></Field>
+    <Field Def="f32 Unk0x2FC"></Field>
+    <Field Def="f32 Unk0x300"></Field>
+    <Field Def="f32 Unk0x304"></Field>
+    <Field Def="f32 Unk0x308"></Field>
+    <Field Def="f32 Unk0x30C"></Field>
+    <Field Def="f32 Unk0x310"></Field>
+    <Field Def="f32 Unk0x314"></Field>
+    <Field Def="f32 Unk0x318"></Field>
+    <Field Def="f32 Unk0x31C"></Field>
+    <Field Def="f32 Unk0x320"></Field>
+    <Field Def="f32 Unk0x324"></Field>
+    <Field Def="f32 Unk0x328"></Field>
+    <Field Def="f32 Unk0x32C"></Field>
+    <Field Def="f32 Unk0x330"></Field>
     <Field Def="s16 Unk0x334"></Field>
     <Field Def="u16 UnkUshort0x336"></Field>
     <Field Def="f32 scanDistance">

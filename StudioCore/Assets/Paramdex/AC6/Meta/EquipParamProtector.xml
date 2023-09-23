@@ -28,6 +28,8 @@
     <displayLegsJumpHeight AltName="Displayed Jump Height" Wiki=">Only affects value displayed in UI. Use jumpVelocityAcceleration for actual effects." />
     <protectorParamId AltName="protectorParamId" Refs="EquipParamProtector" />
     <legPartBoosterParamId AltName="legPartBoosterParamId" Refs="EquipParamBooster" />
+    <menuTextID AltName="menuTextID" FmgRef="Modern_MenuText" />
+    <equipmentMenuManageCategoryParamId AltName="equipmentMenuManageCategoryParamId" Refs="EquipmentMenuManageCategoryParam" />
   </Field>
   <Self />
 </PARAMMETA>
