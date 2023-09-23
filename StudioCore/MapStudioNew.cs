@@ -19,6 +19,7 @@ using Veldrid.StartupUtilities;
 using StudioCore.Graphics;
 using StudioCore.Platform;
 using Vortice.Vulkan;
+using StudioCore.LightmapEditor;
 using StudioCore.Help;
 
 namespace StudioCore
@@ -43,6 +44,7 @@ namespace StudioCore
 
         private NewProjectOptions _newProjectOptions = new NewProjectOptions();
         private SettingsMenu _settingsMenu = new();
+        private LightmapAtlasMenu _lightmapAtlas;
         private Help.HelpMenu _helpMenu;
 
         private static bool _initialLoadComplete = false;
@@ -88,6 +90,9 @@ namespace StudioCore
             _settingsMenu.ModelEditor = modelEditor;
             _settingsMenu.ParamEditor = paramEditor;
             _settingsMenu.TextEditor = textEditor;
+
+            _lightmapAtlas = new LightmapAtlasMenu(_assetLocator);
+            _lightmapAtlas.MsbEditor = msbEditor;
 
             _helpMenu = new Help.HelpMenu("HelpMenu", _assetLocator);
 
@@ -837,7 +842,7 @@ namespace StudioCore
                     {
                         _settingsMenu.MenuOpenState = true;
                     }
-                    
+
                     if (Resource.FlverResource.CaptureMaterialLayouts && ImGui.MenuItem("Dump Flver Layouts (Debug)", ""))
                     {
                         DumpFlverLayouts();
@@ -846,6 +851,18 @@ namespace StudioCore
                 }
 
                 _focusedEditor.DrawEditorMenu();
+
+                if (ImGui.BeginMenu("Tools"))
+                {
+                    if (_assetLocator.Type is GameType.DarkSoulsIII)
+                    {
+                        if (ImGui.MenuItem("Lightmap Atlas", KeyBindings.Current.Core_LightmapAtlas.HintText))
+                        {
+                            ToggleLightmapAtlas();
+                        }
+                    }
+                    ImGui.EndMenu();
+                }
 
                 if (ImGui.BeginMenu("Help"))
                 {
@@ -926,6 +943,7 @@ namespace StudioCore
             }
 
             SettingsGUI();
+            LightmapAtlasGUI();
             HelpGUI();
 
             ImGui.PopStyleVar();
@@ -1221,6 +1239,15 @@ namespace StudioCore
                     SaveAll();
                 }
 
+
+                if (_assetLocator.Type is GameType.DarkSoulsIII)
+                {
+                    if (InputTracker.GetKeyDown(KeyBindings.Current.Core_LightmapAtlas))
+                    {
+                        ToggleLightmapAtlas();
+                    }
+                }
+              
                 if (InputTracker.GetKeyDown(KeyBindings.Current.Core_HelpMenu))
                 {
                     OpenHelpMenu();
@@ -1265,6 +1292,21 @@ namespace StudioCore
                 _helpMenu.MenuOpenState = false;
             else
                 _helpMenu.MenuOpenState = true;
+        }
+
+        public void LightmapAtlasGUI()
+        {
+            _lightmapAtlas.Display();
+        }
+
+        public void ToggleLightmapAtlas()
+        {
+            _lightmapAtlas.UpdateLightmapAtlasMenu();
+
+            if (_lightmapAtlas.MenuOpenState)
+                _lightmapAtlas.MenuOpenState = false;
+            else
+                _lightmapAtlas.MenuOpenState = true;
         }
 
         public static float GetUIScale()
