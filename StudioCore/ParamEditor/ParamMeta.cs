@@ -560,21 +560,41 @@ namespace StudioCore.ParamEditor
         public string[] stageMaxVal;
         public string[] stageMaxGrowVal;
         public string[] adjPoint_maxGrowVal;
+        public string fcsMaxdist = null;
 
         internal CalcCorrectDefinition(string ccd)
         {
             string[] parts = ccd.Split(',');
-            int cclength = (parts.Length+1)/3;
-            stageMaxVal = new string[cclength];
-            stageMaxGrowVal = new string[cclength];
-            adjPoint_maxGrowVal = new string[cclength-1];
-            Array.Copy(parts, 0, stageMaxVal, 0, cclength);
-            Array.Copy(parts, cclength, stageMaxGrowVal, 0, cclength);
-            Array.Copy(parts, cclength*2, adjPoint_maxGrowVal, 0, cclength-1);
+            if (parts.Length == 11)
+            {
+                // FCS param curve
+                int cclength = 5;
+                stageMaxVal = new string[cclength];
+                stageMaxGrowVal = new string[cclength];
+                Array.Copy(parts, 0, stageMaxVal, 0, cclength);
+                Array.Copy(parts, cclength, stageMaxGrowVal, 0, cclength);
+                adjPoint_maxGrowVal = null;
+                fcsMaxdist = parts[10];
+            }
+            else
+            {
+                int cclength = (parts.Length + 1) / 3;
+                stageMaxVal = new string[cclength];
+                stageMaxGrowVal = new string[cclength];
+                adjPoint_maxGrowVal = new string[cclength - 1];
+                Array.Copy(parts, 0, stageMaxVal, 0, cclength);
+                Array.Copy(parts, cclength, stageMaxGrowVal, 0, cclength);
+                Array.Copy(parts, cclength * 2, adjPoint_maxGrowVal, 0, cclength - 1);
+            }
         }
         internal string getStringForm()
         {
-            return string.Join(',', stageMaxVal) + ',' + string.Join(',', stageMaxGrowVal) + ',' + string.Join(',', adjPoint_maxGrowVal);
+            var str = string.Join(',', stageMaxVal) + ',' + string.Join(',', stageMaxGrowVal) + ',';
+            if (adjPoint_maxGrowVal != null)
+                str += string.Join(',', adjPoint_maxGrowVal);
+            if (fcsMaxdist != null)
+                str += string.Join(',', fcsMaxdist);
+            return str;
         }
     }
 

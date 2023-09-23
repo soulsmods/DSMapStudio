@@ -122,14 +122,29 @@ namespace StudioCore.ParamEditor
         {
             float[] stageMaxVal = ccd.stageMaxVal.Select((x, i) => (float)row[x].Value.Value).ToArray();
             float[] stageMaxGrowVal = ccd.stageMaxGrowVal.Select((x, i) => (float)row[x].Value.Value).ToArray();
-            float[] adjPoint_maxGrowVal = ccd.adjPoint_maxGrowVal.Select((x, i) => (float)row[x].Value.Value).ToArray();
+            float[] adjPoint_maxGrowVal = null;
+
+            if (ccd.adjPoint_maxGrowVal != null)
+                adjPoint_maxGrowVal = ccd.adjPoint_maxGrowVal.Select((x, i) => (float)row[x].Value.Value).ToArray();
 
             int length = (int)(stageMaxVal[stageMaxVal.Length-1] - stageMaxVal[0] + 1);
             if (length <= 0 || length > 1000)
                 return (new float[0], 0, 0, 0);
+
+            if (ccd.fcsMaxdist != null)
+            {
+                length = (int)(float)row[ccd.fcsMaxdist].Value.Value;
+            }
+
             float[] values = new float[length];
             for (int i=0; i<values.Length; i++)
             {
+                if (ccd.fcsMaxdist != null && i >= stageMaxVal[4])
+                {
+                    values[i] = stageMaxGrowVal[4];
+                    continue;
+                }
+
                 float baseVal = i + stageMaxVal[0];
                 int band = 0;
                 while (band + 1 < stageMaxVal.Length && stageMaxVal[band + 1] < baseVal)
@@ -139,11 +154,32 @@ namespace StudioCore.ParamEditor
                 else
                 {
                     float adjValRate = stageMaxVal[band] == stageMaxVal[band+1] ? 0 : (baseVal - stageMaxVal[band]) / (stageMaxVal[band+1] - stageMaxVal[band]);
-                    float adjGrowValRate = adjPoint_maxGrowVal[band] >= 0 ? (float)Math.Pow(adjValRate, adjPoint_maxGrowVal[band]) : 1 - (float)Math.Pow(1 - adjValRate, -adjPoint_maxGrowVal[band]);
+
+                    float adjGrowValRate;
+                    if (adjPoint_maxGrowVal == null)
+                        adjGrowValRate = adjValRate;
+                    else
+                        adjGrowValRate = adjPoint_maxGrowVal[band] >= 0 ? (float)Math.Pow(adjValRate, adjPoint_maxGrowVal[band]) : 1 - (float)Math.Pow(1 - adjValRate, -adjPoint_maxGrowVal[band]);
+
                     values[i] = adjGrowValRate * (stageMaxGrowVal[band+1] - stageMaxGrowVal[band]) + stageMaxGrowVal[band];
                 }
             }
-            return (values, (int)stageMaxVal[0], stageMaxGrowVal[0], stageMaxGrowVal[stageMaxGrowVal.Length-1]);
+
+            float graphHeightFloor;
+            float graphHeightCeil;
+
+            if (ccd.fcsMaxdist == null)
+            {
+                graphHeightFloor = stageMaxGrowVal.Min() * -1.12f;
+                graphHeightCeil = stageMaxGrowVal.Max() * 1.12f;
+            }
+            else
+            {
+                graphHeightFloor = 0.0f * -1.05f;
+                graphHeightCeil = 1.0f * 1.05f;
+            }
+
+            return (values, (int)stageMaxVal[0], graphHeightFloor, graphHeightCeil);
         }
         public static (float[], float) getSoulCostData(SoulCostDefinition scd, Param.Row row)
         {
