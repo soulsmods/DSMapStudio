@@ -264,7 +264,7 @@
     <Field Def="s32 lockCamParamId"></Field>
     <Field Def="s32 energyLoad"></Field>
     <Field Def="s32 armorPoints"></Field>
-    <Field Def="s32 menuTextID"></Field>
+    <Field Def="s32 menuTextId"></Field>
     <Field Def="s32 Unk0x1A4"></Field>
     <Field Def="s32 Unk0x1A8"></Field>
     <Field Def="s32 Unk0x1AC"></Field>
