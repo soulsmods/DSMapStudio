@@ -607,7 +607,7 @@ namespace StudioCore.MsbEditor
 
                 if (_assetLocator.Type == GameType.DarkSoulsIISOTFS)
                 {
-                    var bdt = BXF4.Read(ad.AssetPath, ad.AssetPath[..^3] + "bdt");
+                    using var bdt = BXF4.Read(ad.AssetPath, ad.AssetPath[..^3] + "bdt");
                     var file = bdt.Files.Find(f => f.Name.EndsWith("light.btl.dcx"));
                     if (file == null)
                     {
@@ -617,8 +617,7 @@ namespace StudioCore.MsbEditor
                 }
                 else if (_assetLocator.Type == GameType.ArmoredCoreVI)
                 {
-                    //TODO AC6
-                    btl = BTL.Read(ad.AssetPath);
+                    throw new NotSupportedException("AC6 TODO: BTL");
                 }
                 else
                 {
@@ -737,7 +736,17 @@ namespace StudioCore.MsbEditor
                             chrsToLoad.Add(tasset);
                         }
                     }
-                    else if (model.Name.StartsWith("o") || model.Name.StartsWith("AEG"))
+                    else if (model.Name.StartsWith("o"))
+                    {
+                        asset = _assetLocator.GetObjModel(model.Name);
+                        objsToLoad.Add(asset);
+                        var tasset = _assetLocator.GetObjTexture(model.Name);
+                        if (tasset.AssetVirtualPath != null || tasset.AssetArchiveVirtualPath != null)
+                        {
+                            objsToLoad.Add(tasset);
+                        }
+                    }
+                    else if (model.Name.StartsWith("AEG"))
                     {
                         asset = _assetLocator.GetObjModel(model.Name);
                         objsToLoad.Add(asset);

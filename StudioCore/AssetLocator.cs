@@ -714,6 +714,11 @@ namespace StudioCore
             return  $@"Assets\MassEditScripts\{GetGameIDForDir()}";
         }
 
+    	public string GetUpgraderAssetsDir()
+        {
+            return  $@"{GetParamAssetsDir()}\Upgrader";
+        }
+
         public string GetGameOffsetsAssetsDir()
         {
             return  $@"Assets\GameOffsets\{GetGameIDForDir()}";
@@ -727,6 +732,11 @@ namespace StudioCore
         public string GetParamdefDir()
         {
             return $@"{GetParamAssetsDir()}\Defs";
+        }
+
+        public string GetTentativeParamTypePath()
+        {
+            return $@"{GetParamAssetsDir()}\Defs\TentativeParamType.csv";
         }
 
         public ulong[] GetParamdefPatches()
@@ -757,7 +767,7 @@ namespace StudioCore
         public string GetStrippedRowNamesPath(string paramName)
         {
             string dir = $@"{ProjectMiscDir}\Stripped Row Names";
-            return $@"{dir}\{paramName}.txt"; ;
+            return $@"{dir}\{paramName}.txt";
         }
 
         public PARAMDEF GetParamdefForParam(string paramType)
@@ -1202,43 +1212,117 @@ namespace StudioCore
             return l;
         }
 
+        private string GetChrTexturePath(string chrid)
+        {
+            if (Type is GameType.DemonsSouls)
+            {
+                return GetOverridenFilePath($@"chr\{chrid}\{chrid}.tpf");
+            }
+            else if (Type is GameType.DarkSoulsPTDE)
+            {
+                string path = GetOverridenFilePath($@"chr\{chrid}\{chrid}.tpf");
+                if (path != null)
+                {
+                    return path;
+                }
+                return GetOverridenFilePath($@"chr\{chrid}.chrbnd");
+            }
+            else if (Type is GameType.DarkSoulsRemastered)
+            {
+                // TODO: Some textures require getting chrtpfbhd from chrbnd, then using it with chrtpfbdt in chr folder.
+                return GetOverridenFilePath($@"chr\{chrid}.chrbnd");
+            }
+            else if (Type is GameType.Bloodborne)
+            {
+                return GetOverridenFilePath($@"chr\{chrid}_2.tpf.dcx");
+            }
+            else if (Type is GameType.DarkSoulsIII or GameType.Sekiro)
+            {
+                return GetOverridenFilePath($@"chr\{chrid}.texbnd.dcx");
+            }
+            else if (Type is GameType.EldenRing)
+            {
+                // TODO: Maybe add an option down the line to load lower quality
+                return GetOverridenFilePath($@"chr\{chrid}_h.texbnd.dcx");
+            }
+            else if (Type is GameType.ArmoredCoreVI)
+            {
+                // TODO AC6
+            }
+            return null;
+        }
+
         public AssetDescription GetChrTextures(string chrid)
         {
             AssetDescription ad = new AssetDescription();
             ad.AssetArchiveVirtualPath = null;
             ad.AssetPath = null;
-            if (Type == GameType.ArmoredCoreVI)
+            if (Type is GameType.DemonsSouls)
             {
-                //TODO AC6
-                // Apparently assets are used for CHR textures sometimes.
-            }
-            if (Type == GameType.EldenRing)
-            {
-                // Maybe add an option down the line to load lower quality
-                string path = GetOverridenFilePath($@"chr\{chrid}_h.texbnd.dcx");
-                if (path != null)
-                {
-                    ad.AssetPath = path;
-                    ad.AssetArchiveVirtualPath = $@"chr/{chrid}/tex";
-                }
-            }
-            if (Type == GameType.DarkSoulsIII || Type == GameType.Sekiro)
-            {
-                string path = GetOverridenFilePath($@"chr\{chrid}.texbnd.dcx");
-                if (path != null)
-                {
-                    ad.AssetPath = path;
-                    ad.AssetArchiveVirtualPath = $@"chr/{chrid}/tex";
-                }
-            }
-            if (Type == GameType.Bloodborne)
-            {
-                string path = GetOverridenFilePath($@"chr\{chrid}_2.tpf.dcx");
+                string path = GetChrTexturePath(chrid);
                 if (path != null)
                 {
                     ad.AssetPath = path;
                     ad.AssetVirtualPath = $@"chr/{chrid}/tex";
                 }
+            }
+            else if (Type is GameType.DarkSoulsPTDE)
+            {
+                string path = GetChrTexturePath(chrid);
+                if (path != null)
+                {
+                    ad.AssetPath = path;
+                    if (path.EndsWith(".chrbnd"))
+                    {
+                        ad.AssetArchiveVirtualPath = $@"chr/{chrid}/tex";
+                    }
+                    else
+                    {
+                        ad.AssetVirtualPath = $@"chr/{chrid}/tex";
+                    }
+                }
+            }
+            else if (Type is GameType.DarkSoulsRemastered)
+            {
+                // TODO: Some textures require getting chrtpfbhd from chrbnd, then using it with chrtpfbdt in chr folder.
+                string path = GetChrTexturePath(chrid);
+                if (path != null)
+                {
+                    ad = new AssetDescription();
+                    ad.AssetPath = path;
+                    ad.AssetVirtualPath = $@"chr/{chrid}/tex";
+                }
+            }
+            else if (Type is GameType.Bloodborne)
+            {
+                string path = GetChrTexturePath(chrid);
+                if (path != null)
+                {
+                    ad.AssetPath = path;
+                    ad.AssetVirtualPath = $@"chr/{chrid}/tex";
+                }
+            }
+            else if (Type is GameType.DarkSoulsIII or GameType.Sekiro)
+            {
+                string path = GetChrTexturePath(chrid);
+                if (path != null)
+                {
+                    ad.AssetPath = path;
+                    ad.AssetArchiveVirtualPath = $@"chr/{chrid}/tex";
+                }
+            }
+            else if (Type is GameType.EldenRing)
+            {
+                string path = GetChrTexturePath(chrid);
+                if (path != null)
+                {
+                    ad.AssetPath = path;
+                    ad.AssetArchiveVirtualPath = $@"chr/{chrid}/tex";
+                }
+            }
+            else if (Type is GameType.ArmoredCoreVI)
+            {
+                // TODO AC6
             }
             return ad;
         }
@@ -1466,6 +1550,28 @@ namespace StudioCore
             return ret;
         }
 
+        public AssetDescription GetObjTexture(string obj)
+        {
+            var ad = new AssetDescription();
+            ad.AssetPath = null;
+            ad.AssetArchiveVirtualPath = null;
+            string path = null;
+            if (Type == GameType.DarkSoulsPTDE)
+            {
+                path = GetOverridenFilePath($@"obj\{obj}.objbnd");
+            }
+            else if (Type is GameType.DemonsSouls or GameType.DarkSoulsRemastered or GameType.Bloodborne or GameType.DarkSoulsIII or GameType.Sekiro)
+            {
+                 path = GetOverridenFilePath($@"obj\{obj}.objbnd.dcx");
+            }
+            if (path != null)
+            {
+                ad.AssetPath = path;
+                ad.AssetArchiveVirtualPath = $@"obj/{obj}/tex";
+            }
+            return ad;
+        }
+
         public List<string> GetPartsModels()
         {
             try
@@ -1550,11 +1656,30 @@ namespace StudioCore
             ad.AssetPath = null;
             if (Type == GameType.ArmoredCoreVI)
             {
-                string path = GetOverridenFilePath($@"parts\{partsId}.partsbnd.dcx");
+                string path;
+                if (partsId.Substring(0, 2) == "wp")
+                {
+                    string id;
+                    if (partsId.EndsWith("_l"))
+                    {
+                        id = partsId[..^2].Split("_").Last();
+                        path = GetOverridenFilePath($@"parts\wp_{id}_l.tpf.dcx");
+                    }
+                    else
+                    {
+                        id = partsId.Split("_").Last();
+                        path = GetOverridenFilePath($@"parts\wp_{id}.tpf.dcx");
+                    }
+                }
+                else
+                {
+                    path = GetOverridenFilePath($@"parts\{partsId}_u.tpf.dcx");
+                }
+
                 if (path != null)
                 {
                     ad.AssetPath = path;
-                    ad.AssetArchiveVirtualPath = $@"parts/{partsId}/tex";
+                    ad.AssetVirtualPath = $@"parts/{partsId}/tex";
                 }
             } else if (Type == GameType.EldenRing)
             {
@@ -1792,22 +1917,7 @@ namespace StudioCore
                 else if (pathElements[i].Equals("tex"))
                 {
                     bndpath = "";
-                    if (Type == GameType.ArmoredCoreVI)
-                    {
-                        //TODO AC6
-                    }
-                    else if (Type == GameType.EldenRing)
-                    {
-                        return GetOverridenFilePath($@"chr\{chrid}_h.texbnd.dcx");
-                    }
-                    else if (Type == GameType.DarkSoulsIII || Type == GameType.Sekiro)
-                    {
-                        return GetOverridenFilePath($@"chr\{chrid}.texbnd.dcx");
-                    }
-                    else if (Type == GameType.Bloodborne)
-                    {
-                        return GetOverridenFilePath($@"chr\{chrid}_2.tpf.dcx");
-                    }
+                    return GetChrTexturePath(chrid);
                 }
             }
             else if (pathElements[i].Equals("obj"))
@@ -1815,7 +1925,7 @@ namespace StudioCore
                 i++;
                 var objid = pathElements[i];
                 i++;
-                if (pathElements[i].Equals("model"))
+                if (pathElements[i].Equals("model") || pathElements[i].Equals("tex"))
                 {
                     bndpath = "";
                     if (Type == GameType.DarkSoulsPTDE)
@@ -1893,14 +2003,29 @@ namespace StudioCore
                     else if (Type == GameType.EldenRing)
                     {
                         return GetOverridenFilePath($@"parts\{partsId}\{partsId}.partsbnd.dcx");
-                    } else if (Type == GameType.ArmoredCoreVI && pathElements[i].Equals("tex"))
+                    }
+                    else if (Type == GameType.ArmoredCoreVI && pathElements[i].Equals("tex"))
                     {
-                        string texAddition = "_u";
-                        if(partsId.Substring(0, 2) == "wp")
+                        string path;
+                        if (partsId.Substring(0, 2) == "wp")
                         {
-                            texAddition = "";
+                            string id;
+                            if (partsId.EndsWith("_l"))
+                            {
+                                id = partsId[..^2].Split("_").Last();
+                                path = GetOverridenFilePath($@"parts\wp_{id}_l.tpf.dcx");
+                            }
+                            else
+                            {
+                                id = partsId.Split("_").Last();
+                                path = GetOverridenFilePath($@"parts\wp_{id}.tpf.dcx");
+                            }
                         }
-                        return GetOverridenFilePath($@"parts\{partsId}{texAddition}.tpf.dcx");
+                        else
+                        {
+                            path = GetOverridenFilePath($@"parts\{partsId}_u.tpf.dcx");
+                        }
+                        return path;
                     }
                     return GetOverridenFilePath($@"parts\{partsId}.partsbnd.dcx");
                 }

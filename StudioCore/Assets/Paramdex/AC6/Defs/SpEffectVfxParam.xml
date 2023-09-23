@@ -1,12 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PARAMDEF XmlVersion="0">
+<PARAMDEF XmlVersion="3">
   <ParamType>SP_EFFECT_VFX_PARAM_ST</ParamType>
   <DataVersion>4</DataVersion>
   <BigEndian>False</BigEndian>
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <!-- <Field Def="dummy8 paramSize[196]" /> -->
     <Field Def="s32 midstSfxId"></Field>
     <Field Def="s32 midstSeId"></Field>
     <Field Def="s32 initSfxId"></Field>
@@ -72,7 +71,7 @@
     <Field Def="f32 materialParamTargetValue"></Field>
     <Field Def="f32 materialParamFadeTime"></Field>
     <Field Def="s16 footDecalMaterialOffsetOverwriteId"></Field>
-    <Field Def="s16 Unk0x98"></Field>
+    <Field Def="s16 Unk0x9A"></Field>
     <Field Def="f32 Unk0x9C"></Field>
     <Field Def="s32 Unk0xA0"></Field>
     <Field Def="s32 Unk0xA4"></Field>

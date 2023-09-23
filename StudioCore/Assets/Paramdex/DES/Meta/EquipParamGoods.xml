@@ -11,7 +11,7 @@
     <goodsCategory AltName="goodsCategory" />
     <pad_2 AltName="pad_2" />
     <goodsUseAnim AltName="goodsUseAnim" />
-    <behaviorId AltName="behaviorId" />
+    <behaviorId AltName="behaviorId" Refs="BehaviorParam" />/>
     <enable_live AltName="enable_live" />
     <enable_gray AltName="enable_gray" />
     <enable_white AltName="enable_white" />

@@ -266,7 +266,7 @@
       <SortID>1000</SortID>
       <UnkC8>下位優先度抑制（高⇔低）</UnkC8>
     </Field>
-    <Field Def="s32 phyisicalKey = -1">
+    <Field Def="s32 phyisicalKey_0 = -1">
       <DisplayName>パッド物理キー</DisplayName>
       <Enum>DefaultKeyAssignPadKey</Enum>
       <Description>パッド物理キー</Description>
@@ -277,7 +277,7 @@
       <UnkC0>PadItem</UnkC0>
       <UnkC8>パッドキー1</UnkC8>
     </Field>
-    <Field Def="u8 traitsType">
+    <Field Def="u8 traitsType_0">
       <DisplayName>押され方</DisplayName>
       <Enum>DefaultKeyAssignTraits</Enum>
       <Description>押され方</Description>
@@ -286,7 +286,7 @@
       <UnkC0>PadItem</UnkC0>
       <UnkC8>パッドキー1</UnkC8>
     </Field>
-    <Field Def="u8 a2dOperator">
+    <Field Def="u8 a2dOperator_0">
       <DisplayName>アナログ→デジタル変換方法</DisplayName>
       <Enum>DefaultKeyAssignA2DOperator</Enum>
       <Description>アナログ→デジタル変換方法</Description>
@@ -295,7 +295,7 @@
       <UnkC0>PadItem</UnkC0>
       <UnkC8>パッドキー1</UnkC8>
     </Field>
-    <Field Def="u8 applyTarget">
+    <Field Def="u8 applyTarget_0">
       <DisplayName>適用ターゲット</DisplayName>
       <Enum>DefaultKeyAssignApplyTarget</Enum>
       <Description>反映ターゲット</Description>
@@ -304,7 +304,7 @@
       <UnkC0>PadItem</UnkC0>
       <UnkC8>パッドキー1</UnkC8>
     </Field>
-    <Field Def="u8 isAnalog:1">
+    <Field Def="u8 isAnalog_0:1">
       <DisplayName>デジタル・アナログ</DisplayName>
       <Enum>DefaultKeyAssignDigitalAnalog</Enum>
       <Description>デジタルorアナログ</Description>
@@ -314,7 +314,7 @@
       <UnkC0>PadItem</UnkC0>
       <UnkC8>パッドキー1</UnkC8>
     </Field>
-    <Field Def="u8 enableWin64:1 = 1">
+    <Field Def="u8 enableWin64_0:1 = 1">
       <DisplayName>Win64</DisplayName>
       <Enum>BOOL_CIRCLECROSS_TYPE</Enum>
       <Description>Win64で使用されるか</Description>
@@ -324,7 +324,7 @@
       <UnkC0>PadItem</UnkC0>
       <UnkC8>パッドキー1</UnkC8>
     </Field>
-    <Field Def="u8 enablePS4:1 = 1">
+    <Field Def="u8 enablePS4_0:1 = 1">
       <DisplayName>PS4</DisplayName>
       <Enum>BOOL_CIRCLECROSS_TYPE</Enum>
       <Description>PS4で使用されるか</Description>
@@ -334,7 +334,7 @@
       <UnkC0>PadItem</UnkC0>
       <UnkC8>パッドキー1</UnkC8>
     </Field>
-    <Field Def="u8 enableXboxOne:1 = 1">
+    <Field Def="u8 enableXboxOne_0:1 = 1">
       <DisplayName>XboxOne</DisplayName>
       <Enum>BOOL_CIRCLECROSS_TYPE</Enum>
       <Description>XboxOneで使用されるか</Description>
@@ -344,7 +344,7 @@
       <UnkC0>PadItem</UnkC0>
       <UnkC8>パッドキー1</UnkC8>
     </Field>
-    <Field Def="f32 time1">
+    <Field Def="f32 time1_0">
       <DisplayName>時間</DisplayName>
       <Description>時間</Description>
       <Minimum>0</Minimum>
@@ -354,7 +354,7 @@
       <UnkC0>PadItem</UnkC0>
       <UnkC8>パッドキー1</UnkC8>
     </Field>
-    <Field Def="f32 time2">
+    <Field Def="f32 time2_0">
       <DisplayName>リピート用インターバル時間</DisplayName>
       <Description>リピート用インターバル時間</Description>
       <Minimum>0</Minimum>
@@ -364,7 +364,7 @@
       <UnkC0>PadItem</UnkC0>
       <UnkC8>パッドキー1</UnkC8>
     </Field>
-    <Field Def="f32 a2dThreshold = 0.5">
+    <Field Def="f32 a2dThreshold_0 = 0.5">
       <DisplayName>アナログ→デジタル変換閾値</DisplayName>
       <Description>アナログ→デジタル変換閾値</Description>
       <Minimum>0</Minimum>
@@ -374,7 +374,7 @@
       <UnkC0>PadItem</UnkC0>
       <UnkC8>パッドキー1</UnkC8>
     </Field>
-    <Field Def="s32 phyisicalKey = -1">
+    <Field Def="s32 phyisicalKey_1 = -1">
       <DisplayName>パッド物理キー</DisplayName>
       <Enum>DefaultKeyAssignPadKey</Enum>
       <Description>パッド物理キー</Description>
@@ -385,7 +385,7 @@
       <UnkC0>PadItem</UnkC0>
       <UnkC8>パッドキー2</UnkC8>
     </Field>
-    <Field Def="u8 traitsType">
+    <Field Def="u8 traitsType_1">
       <DisplayName>押され方</DisplayName>
       <Enum>DefaultKeyAssignTraits</Enum>
       <Description>押され方</Description>
@@ -394,7 +394,7 @@
       <UnkC0>PadItem</UnkC0>
       <UnkC8>パッドキー2</UnkC8>
     </Field>
-    <Field Def="u8 a2dOperator">
+    <Field Def="u8 a2dOperator_1">
       <DisplayName>アナログ→デジタル変換方法</DisplayName>
       <Enum>DefaultKeyAssignA2DOperator</Enum>
       <Description>アナログ→デジタル変換方法</Description>
@@ -403,7 +403,7 @@
       <UnkC0>PadItem</UnkC0>
       <UnkC8>パッドキー2</UnkC8>
     </Field>
-    <Field Def="u8 applyTarget">
+    <Field Def="u8 applyTarget_1">
       <DisplayName>適用ターゲット</DisplayName>
       <Enum>DefaultKeyAssignApplyTarget</Enum>
       <Description>反映ターゲット</Description>
@@ -412,7 +412,7 @@
       <UnkC0>PadItem</UnkC0>
       <UnkC8>パッドキー2</UnkC8>
     </Field>
-    <Field Def="u8 isAnalog:1">
+    <Field Def="u8 isAnalog_1:1">
       <DisplayName>デジタル・アナログ</DisplayName>
       <Enum>DefaultKeyAssignDigitalAnalog</Enum>
       <Description>デジタルorアナログ</Description>
@@ -422,7 +422,7 @@
       <UnkC0>PadItem</UnkC0>
       <UnkC8>パッドキー2</UnkC8>
     </Field>
-    <Field Def="u8 enableWin64:1 = 1">
+    <Field Def="u8 enableWin64_1:1 = 1">
       <DisplayName>Win64</DisplayName>
       <Enum>BOOL_CIRCLECROSS_TYPE</Enum>
       <Description>Win64で使用されるか</Description>
@@ -432,7 +432,7 @@
       <UnkC0>PadItem</UnkC0>
       <UnkC8>パッドキー2</UnkC8>
     </Field>
-    <Field Def="u8 enablePS4:1 = 1">
+    <Field Def="u8 enablePS4_1:1 = 1">
       <DisplayName>PS4</DisplayName>
       <Enum>BOOL_CIRCLECROSS_TYPE</Enum>
       <Description>PS4で使用されるか</Description>
@@ -442,7 +442,7 @@
       <UnkC0>PadItem</UnkC0>
       <UnkC8>パッドキー2</UnkC8>
     </Field>
-    <Field Def="u8 enableXboxOne:1 = 1">
+    <Field Def="u8 enableXboxOne_1:1 = 1">
       <DisplayName>XboxOne</DisplayName>
       <Enum>BOOL_CIRCLECROSS_TYPE</Enum>
       <Description>XboxOneで使用されるか</Description>
@@ -452,7 +452,7 @@
       <UnkC0>PadItem</UnkC0>
       <UnkC8>パッドキー2</UnkC8>
     </Field>
-    <Field Def="f32 time1">
+    <Field Def="f32 time1_1">
       <DisplayName>時間</DisplayName>
       <Description>時間</Description>
       <Minimum>0</Minimum>
@@ -462,7 +462,7 @@
       <UnkC0>PadItem</UnkC0>
       <UnkC8>パッドキー2</UnkC8>
     </Field>
-    <Field Def="f32 time2">
+    <Field Def="f32 time2_1">
       <DisplayName>リピート用インターバル時間</DisplayName>
       <Description>リピート用インターバル時間</Description>
       <Minimum>0</Minimum>
@@ -472,7 +472,7 @@
       <UnkC0>PadItem</UnkC0>
       <UnkC8>パッドキー2</UnkC8>
     </Field>
-    <Field Def="f32 a2dThreshold = 0.5">
+    <Field Def="f32 a2dThreshold_1 = 0.5">
       <DisplayName>アナログ→デジタル変換閾値</DisplayName>
       <Description>アナログ→デジタル変換閾値</Description>
       <Minimum>0</Minimum>
@@ -482,7 +482,7 @@
       <UnkC0>PadItem</UnkC0>
       <UnkC8>パッドキー2</UnkC8>
     </Field>
-    <Field Def="s32 phyisicalKey = -1">
+    <Field Def="s32 phyisicalKey_2 = -1">
       <DisplayName>パッド物理キー</DisplayName>
       <Enum>DefaultKeyAssignPadKey</Enum>
       <Description>パッド物理キー</Description>
@@ -493,7 +493,7 @@
       <UnkC0>PadItem</UnkC0>
       <UnkC8>パッドキー3</UnkC8>
     </Field>
-    <Field Def="u8 traitsType">
+    <Field Def="u8 traitsType_2">
       <DisplayName>押され方</DisplayName>
       <Enum>DefaultKeyAssignTraits</Enum>
       <Description>押され方</Description>
@@ -502,7 +502,7 @@
       <UnkC0>PadItem</UnkC0>
       <UnkC8>パッドキー3</UnkC8>
     </Field>
-    <Field Def="u8 a2dOperator">
+    <Field Def="u8 a2dOperator_2">
       <DisplayName>アナログ→デジタル変換方法</DisplayName>
       <Enum>DefaultKeyAssignA2DOperator</Enum>
       <Description>アナログ→デジタル変換方法</Description>
@@ -511,7 +511,7 @@
       <UnkC0>PadItem</UnkC0>
       <UnkC8>パッドキー3</UnkC8>
     </Field>
-    <Field Def="u8 applyTarget">
+    <Field Def="u8 applyTarget_2">
       <DisplayName>適用ターゲット</DisplayName>
       <Enum>DefaultKeyAssignApplyTarget</Enum>
       <Description>反映ターゲット</Description>
@@ -520,7 +520,7 @@
       <UnkC0>PadItem</UnkC0>
       <UnkC8>パッドキー3</UnkC8>
     </Field>
-    <Field Def="u8 isAnalog:1">
+    <Field Def="u8 isAnalog_2:1">
       <DisplayName>デジタル・アナログ</DisplayName>
       <Enum>DefaultKeyAssignDigitalAnalog</Enum>
       <Description>デジタルorアナログ</Description>
@@ -530,7 +530,7 @@
       <UnkC0>PadItem</UnkC0>
       <UnkC8>パッドキー3</UnkC8>
     </Field>
-    <Field Def="u8 enableWin64:1 = 1">
+    <Field Def="u8 enableWin64_2:1 = 1">
       <DisplayName>Win64</DisplayName>
       <Enum>BOOL_CIRCLECROSS_TYPE</Enum>
       <Description>Win64で使用されるか</Description>
@@ -540,7 +540,7 @@
       <UnkC0>PadItem</UnkC0>
       <UnkC8>パッドキー3</UnkC8>
     </Field>
-    <Field Def="u8 enablePS4:1 = 1">
+    <Field Def="u8 enablePS4_2:1 = 1">
       <DisplayName>PS4</DisplayName>
       <Enum>BOOL_CIRCLECROSS_TYPE</Enum>
       <Description>PS4で使用されるか</Description>
@@ -550,7 +550,7 @@
       <UnkC0>PadItem</UnkC0>
       <UnkC8>パッドキー3</UnkC8>
     </Field>
-    <Field Def="u8 enableXboxOne:1 = 1">
+    <Field Def="u8 enableXboxOne_2:1 = 1">
       <DisplayName>XboxOne</DisplayName>
       <Enum>BOOL_CIRCLECROSS_TYPE</Enum>
       <Description>XboxOneで使用されるか</Description>
@@ -560,7 +560,7 @@
       <UnkC0>PadItem</UnkC0>
       <UnkC8>パッドキー3</UnkC8>
     </Field>
-    <Field Def="f32 time1">
+    <Field Def="f32 time1_2">
       <DisplayName>時間</DisplayName>
       <Description>時間</Description>
       <Minimum>0</Minimum>
@@ -570,7 +570,7 @@
       <UnkC0>PadItem</UnkC0>
       <UnkC8>パッドキー3</UnkC8>
     </Field>
-    <Field Def="f32 time2">
+    <Field Def="f32 time2_2">
       <DisplayName>リピート用インターバル時間</DisplayName>
       <Description>リピート用インターバル時間</Description>
       <Minimum>0</Minimum>
@@ -580,7 +580,7 @@
       <UnkC0>PadItem</UnkC0>
       <UnkC8>パッドキー3</UnkC8>
     </Field>
-    <Field Def="f32 a2dThreshold = 0.5">
+    <Field Def="f32 a2dThreshold_2 = 0.5">
       <DisplayName>アナログ→デジタル変換閾値</DisplayName>
       <Description>アナログ→デジタル変換閾値</Description>
       <Minimum>0</Minimum>
@@ -590,7 +590,7 @@
       <UnkC0>PadItem</UnkC0>
       <UnkC8>パッドキー3</UnkC8>
     </Field>
-    <Field Def="s32 phyisicalKey = -1">
+    <Field Def="s32 phyisicalKey_3 = -1">
       <DisplayName>パッド物理キー</DisplayName>
       <Enum>DefaultKeyAssignPadKey</Enum>
       <Description>パッド物理キー</Description>
@@ -601,7 +601,7 @@
       <UnkC0>PadItem</UnkC0>
       <UnkC8>パッドキー4</UnkC8>
     </Field>
-    <Field Def="u8 traitsType">
+    <Field Def="u8 traitsType_3">
       <DisplayName>押され方</DisplayName>
       <Enum>DefaultKeyAssignTraits</Enum>
       <Description>押され方</Description>
@@ -610,7 +610,7 @@
       <UnkC0>PadItem</UnkC0>
       <UnkC8>パッドキー4</UnkC8>
     </Field>
-    <Field Def="u8 a2dOperator">
+    <Field Def="u8 a2dOperator_3">
       <DisplayName>アナログ→デジタル変換方法</DisplayName>
       <Enum>DefaultKeyAssignA2DOperator</Enum>
       <Description>アナログ→デジタル変換方法</Description>
@@ -619,7 +619,7 @@
       <UnkC0>PadItem</UnkC0>
       <UnkC8>パッドキー4</UnkC8>
     </Field>
-    <Field Def="u8 applyTarget">
+    <Field Def="u8 applyTarget_3">
       <DisplayName>適用ターゲット</DisplayName>
       <Enum>DefaultKeyAssignApplyTarget</Enum>
       <Description>反映ターゲット</Description>
@@ -628,7 +628,7 @@
       <UnkC0>PadItem</UnkC0>
       <UnkC8>パッドキー4</UnkC8>
     </Field>
-    <Field Def="u8 isAnalog:1">
+    <Field Def="u8 isAnalog_3:1">
       <DisplayName>デジタル・アナログ</DisplayName>
       <Enum>DefaultKeyAssignDigitalAnalog</Enum>
       <Description>デジタルorアナログ</Description>
@@ -638,7 +638,7 @@
       <UnkC0>PadItem</UnkC0>
       <UnkC8>パッドキー4</UnkC8>
     </Field>
-    <Field Def="u8 enableWin64:1 = 1">
+    <Field Def="u8 enableWin64_3:1 = 1">
       <DisplayName>Win64</DisplayName>
       <Enum>BOOL_CIRCLECROSS_TYPE</Enum>
       <Description>Win64で使用されるか</Description>
@@ -648,7 +648,7 @@
       <UnkC0>PadItem</UnkC0>
       <UnkC8>パッドキー4</UnkC8>
     </Field>
-    <Field Def="u8 enablePS4:1 = 1">
+    <Field Def="u8 enablePS4_3:1 = 1">
       <DisplayName>PS4</DisplayName>
       <Enum>BOOL_CIRCLECROSS_TYPE</Enum>
       <Description>PS4で使用されるか</Description>
@@ -658,7 +658,7 @@
       <UnkC0>PadItem</UnkC0>
       <UnkC8>パッドキー4</UnkC8>
     </Field>
-    <Field Def="u8 enableXboxOne:1 = 1">
+    <Field Def="u8 enableXboxOne_3:1 = 1">
       <DisplayName>XboxOne</DisplayName>
       <Enum>BOOL_CIRCLECROSS_TYPE</Enum>
       <Description>XboxOneで使用されるか</Description>
@@ -668,7 +668,7 @@
       <UnkC0>PadItem</UnkC0>
       <UnkC8>パッドキー4</UnkC8>
     </Field>
-    <Field Def="f32 time1">
+    <Field Def="f32 time1_3">
       <DisplayName>時間</DisplayName>
       <Description>時間</Description>
       <Minimum>0</Minimum>
@@ -678,7 +678,7 @@
       <UnkC0>PadItem</UnkC0>
       <UnkC8>パッドキー4</UnkC8>
     </Field>
-    <Field Def="f32 time2">
+    <Field Def="f32 time2_3">
       <DisplayName>リピート用インターバル時間</DisplayName>
       <Description>リピート用インターバル時間</Description>
       <Minimum>0</Minimum>
@@ -688,7 +688,7 @@
       <UnkC0>PadItem</UnkC0>
       <UnkC8>パッドキー4</UnkC8>
     </Field>
-    <Field Def="f32 a2dThreshold = 0.5">
+    <Field Def="f32 a2dThreshold_3 = 0.5">
       <DisplayName>アナログ→デジタル変換閾値</DisplayName>
       <Description>アナログ→デジタル変換閾値</Description>
       <Minimum>0</Minimum>
@@ -698,7 +698,7 @@
       <UnkC0>PadItem</UnkC0>
       <UnkC8>パッドキー4</UnkC8>
     </Field>
-    <Field Def="s32 phyisicalKey = -1">
+    <Field Def="s32 phyisicalKey_4 = -1">
       <DisplayName>PC物理キー</DisplayName>
       <Enum>DefaultKeyAssignPcKey</Enum>
       <Description>PC物理キー</Description>
@@ -709,7 +709,7 @@
       <UnkC0>PCItem</UnkC0>
       <UnkC8>PCキー1</UnkC8>
     </Field>
-    <Field Def="u8 traitsType">
+    <Field Def="u8 traitsType_4">
       <DisplayName>押され方</DisplayName>
       <Enum>DefaultKeyAssignTraits</Enum>
       <Description>押され方</Description>
@@ -718,7 +718,7 @@
       <UnkC0>PCItem</UnkC0>
       <UnkC8>PCキー1</UnkC8>
     </Field>
-    <Field Def="u8 a2dOperator">
+    <Field Def="u8 a2dOperator_4">
       <DisplayName>アナログ→デジタル変換方法</DisplayName>
       <Enum>DefaultKeyAssignA2DOperator</Enum>
       <Description>アナログ→デジタル変換方法</Description>
@@ -727,7 +727,7 @@
       <UnkC0>PCItem</UnkC0>
       <UnkC8>PCキー1</UnkC8>
     </Field>
-    <Field Def="u8 applyTarget">
+    <Field Def="u8 applyTarget_4">
       <DisplayName>適用ターゲット</DisplayName>
       <Enum>DefaultKeyAssignApplyTarget</Enum>
       <Description>反映ターゲット</Description>
@@ -736,7 +736,7 @@
       <UnkC0>PCItem</UnkC0>
       <UnkC8>PCキー1</UnkC8>
     </Field>
-    <Field Def="u8 isAnalog:1">
+    <Field Def="u8 isAnalog_4:1">
       <DisplayName>デジタル・アナログ</DisplayName>
       <Enum>DefaultKeyAssignDigitalAnalog</Enum>
       <Description>デジタルorアナログ</Description>
@@ -746,7 +746,7 @@
       <UnkC0>PCItem</UnkC0>
       <UnkC8>PCキー1</UnkC8>
     </Field>
-    <Field Def="u8 enableWin64:1 = 1">
+    <Field Def="u8 enableWin64_4:1 = 1">
       <DisplayName>Win64</DisplayName>
       <Enum>BOOL_CIRCLECROSS_TYPE</Enum>
       <Description>Win64で使用されるか</Description>
@@ -756,7 +756,7 @@
       <UnkC0>PCItem</UnkC0>
       <UnkC8>PCキー1</UnkC8>
     </Field>
-    <Field Def="u8 enablePS4:1 = 1">
+    <Field Def="u8 enablePS4_4:1 = 1">
       <DisplayName>PS4</DisplayName>
       <Enum>BOOL_CIRCLECROSS_TYPE</Enum>
       <Description>PS4で使用されるか</Description>
@@ -766,7 +766,7 @@
       <UnkC0>PCItem</UnkC0>
       <UnkC8>PCキー1</UnkC8>
     </Field>
-    <Field Def="u8 enableXboxOne:1 = 1">
+    <Field Def="u8 enableXboxOne_4:1 = 1">
       <DisplayName>XboxOne</DisplayName>
       <Enum>BOOL_CIRCLECROSS_TYPE</Enum>
       <Description>XboxOneで使用されるか</Description>
@@ -776,7 +776,7 @@
       <UnkC0>PCItem</UnkC0>
       <UnkC8>PCキー1</UnkC8>
     </Field>
-    <Field Def="f32 time1">
+    <Field Def="f32 time1_4">
       <DisplayName>時間</DisplayName>
       <Description>時間</Description>
       <Minimum>0</Minimum>
@@ -786,7 +786,7 @@
       <UnkC0>PCItem</UnkC0>
       <UnkC8>PCキー1</UnkC8>
     </Field>
-    <Field Def="f32 time2">
+    <Field Def="f32 time2_4">
       <DisplayName>リピート用インターバル時間</DisplayName>
       <Description>リピート用インターバル時間</Description>
       <Minimum>0</Minimum>
@@ -796,7 +796,7 @@
       <UnkC0>PCItem</UnkC0>
       <UnkC8>PCキー1</UnkC8>
     </Field>
-    <Field Def="f32 a2dThreshold = 0.5">
+    <Field Def="f32 a2dThreshold_4 = 0.5">
       <DisplayName>アナログ→デジタル変換閾値</DisplayName>
       <Description>アナログ→デジタル変換閾値</Description>
       <Minimum>0</Minimum>
@@ -806,7 +806,7 @@
       <UnkC0>PCItem</UnkC0>
       <UnkC8>PCキー1</UnkC8>
     </Field>
-    <Field Def="s32 phyisicalKey = -1">
+    <Field Def="s32 phyisicalKey_5 = -1">
       <DisplayName>PC物理キー</DisplayName>
       <Enum>DefaultKeyAssignPcKey</Enum>
       <Description>PC物理キー</Description>
@@ -817,7 +817,7 @@
       <UnkC0>PCItem</UnkC0>
       <UnkC8>PCキー2</UnkC8>
     </Field>
-    <Field Def="u8 traitsType">
+    <Field Def="u8 traitsType_5">
       <DisplayName>押され方</DisplayName>
       <Enum>DefaultKeyAssignTraits</Enum>
       <Description>押され方</Description>
@@ -826,7 +826,7 @@
       <UnkC0>PCItem</UnkC0>
       <UnkC8>PCキー2</UnkC8>
     </Field>
-    <Field Def="u8 a2dOperator">
+    <Field Def="u8 a2dOperator_5">
       <DisplayName>アナログ→デジタル変換方法</DisplayName>
       <Enum>DefaultKeyAssignA2DOperator</Enum>
       <Description>アナログ→デジタル変換方法</Description>
@@ -835,7 +835,7 @@
       <UnkC0>PCItem</UnkC0>
       <UnkC8>PCキー2</UnkC8>
     </Field>
-    <Field Def="u8 applyTarget">
+    <Field Def="u8 applyTarget_5">
       <DisplayName>適用ターゲット</DisplayName>
       <Enum>DefaultKeyAssignApplyTarget</Enum>
       <Description>反映ターゲット</Description>
@@ -844,7 +844,7 @@
       <UnkC0>PCItem</UnkC0>
       <UnkC8>PCキー2</UnkC8>
     </Field>
-    <Field Def="u8 isAnalog:1">
+    <Field Def="u8 isAnalog_5:1">
       <DisplayName>デジタル・アナログ</DisplayName>
       <Enum>DefaultKeyAssignDigitalAnalog</Enum>
       <Description>デジタルorアナログ</Description>
@@ -854,7 +854,7 @@
       <UnkC0>PCItem</UnkC0>
       <UnkC8>PCキー2</UnkC8>
     </Field>
-    <Field Def="u8 enableWin64:1 = 1">
+    <Field Def="u8 enableWin64_5:1 = 1">
       <DisplayName>Win64</DisplayName>
       <Enum>BOOL_CIRCLECROSS_TYPE</Enum>
       <Description>Win64で使用されるか</Description>
@@ -864,7 +864,7 @@
       <UnkC0>PCItem</UnkC0>
       <UnkC8>PCキー2</UnkC8>
     </Field>
-    <Field Def="u8 enablePS4:1 = 1">
+    <Field Def="u8 enablePS4_5:1 = 1">
       <DisplayName>PS4</DisplayName>
       <Enum>BOOL_CIRCLECROSS_TYPE</Enum>
       <Description>PS4で使用されるか</Description>
@@ -874,7 +874,7 @@
       <UnkC0>PCItem</UnkC0>
       <UnkC8>PCキー2</UnkC8>
     </Field>
-    <Field Def="u8 enableXboxOne:1 = 1">
+    <Field Def="u8 enableXboxOne_5:1 = 1">
       <DisplayName>XboxOne</DisplayName>
       <Enum>BOOL_CIRCLECROSS_TYPE</Enum>
       <Description>XboxOneで使用されるか</Description>
@@ -884,7 +884,7 @@
       <UnkC0>PCItem</UnkC0>
       <UnkC8>PCキー2</UnkC8>
     </Field>
-    <Field Def="f32 time1">
+    <Field Def="f32 time1_5">
       <DisplayName>時間</DisplayName>
       <Description>時間</Description>
       <Minimum>0</Minimum>
@@ -894,7 +894,7 @@
       <UnkC0>PCItem</UnkC0>
       <UnkC8>PCキー2</UnkC8>
     </Field>
-    <Field Def="f32 time2">
+    <Field Def="f32 time2_5">
       <DisplayName>リピート用インターバル時間</DisplayName>
       <Description>リピート用インターバル時間</Description>
       <Minimum>0</Minimum>
@@ -904,7 +904,7 @@
       <UnkC0>PCItem</UnkC0>
       <UnkC8>PCキー2</UnkC8>
     </Field>
-    <Field Def="f32 a2dThreshold = 0.5">
+    <Field Def="f32 a2dThreshold_5 = 0.5">
       <DisplayName>アナログ→デジタル変換閾値</DisplayName>
       <Description>アナログ→デジタル変換閾値</Description>
       <Minimum>0</Minimum>
@@ -914,7 +914,7 @@
       <UnkC0>PCItem</UnkC0>
       <UnkC8>PCキー2</UnkC8>
     </Field>
-    <Field Def="s32 phyisicalKey = -1">
+    <Field Def="s32 phyisicalKey_6 = -1">
       <DisplayName>PC物理キー</DisplayName>
       <Enum>DefaultKeyAssignPcKey</Enum>
       <Description>PC物理キー</Description>
@@ -925,7 +925,7 @@
       <UnkC0>PCItem</UnkC0>
       <UnkC8>PCキー3</UnkC8>
     </Field>
-    <Field Def="u8 traitsType">
+    <Field Def="u8 traitsType_6">
       <DisplayName>押され方</DisplayName>
       <Enum>DefaultKeyAssignTraits</Enum>
       <Description>押され方</Description>
@@ -934,7 +934,7 @@
       <UnkC0>PCItem</UnkC0>
       <UnkC8>PCキー3</UnkC8>
     </Field>
-    <Field Def="u8 a2dOperator">
+    <Field Def="u8 a2dOperator_6">
       <DisplayName>アナログ→デジタル変換方法</DisplayName>
       <Enum>DefaultKeyAssignA2DOperator</Enum>
       <Description>アナログ→デジタル変換方法</Description>
@@ -943,7 +943,7 @@
       <UnkC0>PCItem</UnkC0>
       <UnkC8>PCキー3</UnkC8>
     </Field>
-    <Field Def="u8 applyTarget">
+    <Field Def="u8 applyTarget_6">
       <DisplayName>適用ターゲット</DisplayName>
       <Enum>DefaultKeyAssignApplyTarget</Enum>
       <Description>反映ターゲット</Description>
@@ -952,7 +952,7 @@
       <UnkC0>PCItem</UnkC0>
       <UnkC8>PCキー3</UnkC8>
     </Field>
-    <Field Def="u8 isAnalog:1">
+    <Field Def="u8 isAnalog_6:1">
       <DisplayName>デジタル・アナログ</DisplayName>
       <Enum>DefaultKeyAssignDigitalAnalog</Enum>
       <Description>デジタルorアナログ</Description>
@@ -962,7 +962,7 @@
       <UnkC0>PCItem</UnkC0>
       <UnkC8>PCキー3</UnkC8>
     </Field>
-    <Field Def="u8 enableWin64:1 = 1">
+    <Field Def="u8 enableWin64_6:1 = 1">
       <DisplayName>Win64</DisplayName>
       <Enum>BOOL_CIRCLECROSS_TYPE</Enum>
       <Description>Win64で使用されるか</Description>
@@ -972,7 +972,7 @@
       <UnkC0>PCItem</UnkC0>
       <UnkC8>PCキー3</UnkC8>
     </Field>
-    <Field Def="u8 enablePS4:1 = 1">
+    <Field Def="u8 enablePS4_6:1 = 1">
       <DisplayName>PS4</DisplayName>
       <Enum>BOOL_CIRCLECROSS_TYPE</Enum>
       <Description>PS4で使用されるか</Description>
@@ -982,7 +982,7 @@
       <UnkC0>PCItem</UnkC0>
       <UnkC8>PCキー3</UnkC8>
     </Field>
-    <Field Def="u8 enableXboxOne:1 = 1">
+    <Field Def="u8 enableXboxOne_6:1 = 1">
       <DisplayName>XboxOne</DisplayName>
       <Enum>BOOL_CIRCLECROSS_TYPE</Enum>
       <Description>XboxOneで使用されるか</Description>
@@ -992,7 +992,7 @@
       <UnkC0>PCItem</UnkC0>
       <UnkC8>PCキー3</UnkC8>
     </Field>
-    <Field Def="f32 time1">
+    <Field Def="f32 time1_6">
       <DisplayName>時間</DisplayName>
       <Description>時間</Description>
       <Minimum>0</Minimum>
@@ -1002,7 +1002,7 @@
       <UnkC0>PCItem</UnkC0>
       <UnkC8>PCキー3</UnkC8>
     </Field>
-    <Field Def="f32 time2">
+    <Field Def="f32 time2_6">
       <DisplayName>リピート用インターバル時間</DisplayName>
       <Description>リピート用インターバル時間</Description>
       <Minimum>0</Minimum>
@@ -1012,7 +1012,7 @@
       <UnkC0>PCItem</UnkC0>
       <UnkC8>PCキー3</UnkC8>
     </Field>
-    <Field Def="f32 a2dThreshold = 0.5">
+    <Field Def="f32 a2dThreshold_6 = 0.5">
       <DisplayName>アナログ→デジタル変換閾値</DisplayName>
       <Description>アナログ→デジタル変換閾値</Description>
       <Minimum>0</Minimum>
@@ -1022,7 +1022,7 @@
       <UnkC0>PCItem</UnkC0>
       <UnkC8>PCキー3</UnkC8>
     </Field>
-    <Field Def="s32 phyisicalKey = -1">
+    <Field Def="s32 phyisicalKey_7 = -1">
       <DisplayName>PC物理キー</DisplayName>
       <Enum>DefaultKeyAssignPcKey</Enum>
       <Description>PC物理キー</Description>
@@ -1033,7 +1033,7 @@
       <UnkC0>PCItem</UnkC0>
       <UnkC8>PCキー4</UnkC8>
     </Field>
-    <Field Def="u8 traitsType">
+    <Field Def="u8 traitsType_7">
       <DisplayName>押され方</DisplayName>
       <Enum>DefaultKeyAssignTraits</Enum>
       <Description>押され方</Description>
@@ -1042,7 +1042,7 @@
       <UnkC0>PCItem</UnkC0>
       <UnkC8>PCキー4</UnkC8>
     </Field>
-    <Field Def="u8 a2dOperator">
+    <Field Def="u8 a2dOperator_7">
       <DisplayName>アナログ→デジタル変換方法</DisplayName>
       <Enum>DefaultKeyAssignA2DOperator</Enum>
       <Description>アナログ→デジタル変換方法</Description>
@@ -1051,7 +1051,7 @@
       <UnkC0>PCItem</UnkC0>
       <UnkC8>PCキー4</UnkC8>
     </Field>
-    <Field Def="u8 applyTarget">
+    <Field Def="u8 applyTarget_7">
       <DisplayName>適用ターゲット</DisplayName>
       <Enum>DefaultKeyAssignApplyTarget</Enum>
       <Description>反映ターゲット</Description>
@@ -1060,7 +1060,7 @@
       <UnkC0>PCItem</UnkC0>
       <UnkC8>PCキー4</UnkC8>
     </Field>
-    <Field Def="u8 isAnalog:1">
+    <Field Def="u8 isAnalog_7:1">
       <DisplayName>デジタル・アナログ</DisplayName>
       <Enum>DefaultKeyAssignDigitalAnalog</Enum>
       <Description>デジタルorアナログ</Description>
@@ -1070,7 +1070,7 @@
       <UnkC0>PCItem</UnkC0>
       <UnkC8>PCキー4</UnkC8>
     </Field>
-    <Field Def="u8 enableWin64:1 = 1">
+    <Field Def="u8 enableWin64_7:1 = 1">
       <DisplayName>Win64</DisplayName>
       <Enum>BOOL_CIRCLECROSS_TYPE</Enum>
       <Description>Win64で使用されるか</Description>
@@ -1080,7 +1080,7 @@
       <UnkC0>PCItem</UnkC0>
       <UnkC8>PCキー4</UnkC8>
     </Field>
-    <Field Def="u8 enablePS4:1 = 1">
+    <Field Def="u8 enablePS4_7:1 = 1">
       <DisplayName>PS4</DisplayName>
       <Enum>BOOL_CIRCLECROSS_TYPE</Enum>
       <Description>PS4で使用されるか</Description>
@@ -1090,7 +1090,7 @@
       <UnkC0>PCItem</UnkC0>
       <UnkC8>PCキー4</UnkC8>
     </Field>
-    <Field Def="u8 enableXboxOne:1 = 1">
+    <Field Def="u8 enableXboxOne_7:1 = 1">
       <DisplayName>XboxOne</DisplayName>
       <Enum>BOOL_CIRCLECROSS_TYPE</Enum>
       <Description>XboxOneで使用されるか</Description>
@@ -1100,7 +1100,7 @@
       <UnkC0>PCItem</UnkC0>
       <UnkC8>PCキー4</UnkC8>
     </Field>
-    <Field Def="f32 time1">
+    <Field Def="f32 time1_7">
       <DisplayName>時間</DisplayName>
       <Description>時間</Description>
       <Minimum>0</Minimum>
@@ -1110,7 +1110,7 @@
       <UnkC0>PCItem</UnkC0>
       <UnkC8>PCキー4</UnkC8>
     </Field>
-    <Field Def="f32 time2">
+    <Field Def="f32 time2_7">
       <DisplayName>リピート用インターバル時間</DisplayName>
       <Description>リピート用インターバル時間</Description>
       <Minimum>0</Minimum>
@@ -1120,7 +1120,7 @@
       <UnkC0>PCItem</UnkC0>
       <UnkC8>PCキー4</UnkC8>
     </Field>
-    <Field Def="f32 a2dThreshold = 0.5">
+    <Field Def="f32 a2dThreshold_7 = 0.5">
       <DisplayName>アナログ→デジタル変換閾値</DisplayName>
       <Description>アナログ→デジタル変換閾値</Description>
       <Minimum>0</Minimum>

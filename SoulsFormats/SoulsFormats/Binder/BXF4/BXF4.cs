@@ -9,7 +9,7 @@ namespace SoulsFormats
     /// <summary>
     /// A general-purpose headered file container used in DS2, DS3, and BB. Extensions: .*bhd (header) and .*bdt (data)
     /// </summary>
-    public class BXF4 : IBinder, IBXF4
+    public class BXF4 : MountedSoulsFile<BXF4>, IBinder, IBXF4
     {
         #region Public Is
         /// <summary>
@@ -70,10 +70,10 @@ namespace SoulsFormats
         public static BXF4 Read(Memory<byte> bhdBytes, string bdtPath)
         {
             using MemoryMappedFile dataFile = MemoryMappedFile.CreateFromFile(bdtPath, FileMode.Open, null, 0, MemoryMappedFileAccess.Read);
-            using IMappedMemoryOwner fsData = dataFile.CreateMemoryAccessor(0, 0, MemoryMappedFileAccess.Read);
+            IMappedMemoryOwner fsData = dataFile.CreateMemoryAccessor(0, 0, MemoryMappedFileAccess.Read);
             BinaryReaderEx bhdReader = new BinaryReaderEx(false, bhdBytes);
             BinaryReaderEx bdtReader = new BinaryReaderEx(false, fsData.Memory);
-            return new BXF4(bhdReader, bdtReader);
+            return new BXF4(bhdReader, bdtReader) {_mappedMemory = fsData };
         }
 
         /// <summary>
@@ -82,10 +82,10 @@ namespace SoulsFormats
         public static BXF4 Read(string bhdPath, Memory<byte> bdtBytes)
         {
             using MemoryMappedFile headerFile = MemoryMappedFile.CreateFromFile(bhdPath, FileMode.Open, null, 0, MemoryMappedFileAccess.Read);
-            using IMappedMemoryOwner fsHeader = headerFile.CreateMemoryAccessor(0, 0, MemoryMappedFileAccess.Read);
+            IMappedMemoryOwner fsHeader = headerFile.CreateMemoryAccessor(0, 0, MemoryMappedFileAccess.Read);
             BinaryReaderEx bhdReader = new BinaryReaderEx(false, fsHeader.Memory);
             BinaryReaderEx bdtReader = new BinaryReaderEx(false, bdtBytes);
-            return new BXF4(bhdReader, bdtReader);
+            return new BXF4(bhdReader, bdtReader) { _mappedMemory = fsHeader } ;
         }
 
         /// <summary>
@@ -95,11 +95,11 @@ namespace SoulsFormats
         {
             using MemoryMappedFile headerFile = MemoryMappedFile.CreateFromFile(bhdPath, FileMode.Open, null, 0, MemoryMappedFileAccess.Read),
                 dataFile = MemoryMappedFile.CreateFromFile(bdtPath, FileMode.Open, null, 0, MemoryMappedFileAccess.Read);
-            using IMappedMemoryOwner fsHeader = headerFile.CreateMemoryAccessor(0, 0, MemoryMappedFileAccess.Read),
+            IMappedMemoryOwner fsHeader = headerFile.CreateMemoryAccessor(0, 0, MemoryMappedFileAccess.Read),
                 fsData = dataFile.CreateMemoryAccessor(0, 0, MemoryMappedFileAccess.Read);
             BinaryReaderEx bhdReader = new BinaryReaderEx(false, fsHeader.Memory);
             BinaryReaderEx bdtReader = new BinaryReaderEx(false, fsData.Memory);
-            return new BXF4(bhdReader, bdtReader);
+            return new BXF4(bhdReader, bdtReader) { _mappedMemory = fsHeader };
         }
         #endregion
 
@@ -215,6 +215,9 @@ namespace SoulsFormats
         /// <summary>
         /// Creates an empty BXF4 formatted for DS3.
         /// </summary>
+
+        private IMappedMemoryOwner _mappedMemory = null;
+
         public BXF4()
         {
             Files = new List<BinderFile>();
@@ -401,8 +404,10 @@ namespace SoulsFormats
             }
         }
 
-        public void Dispose()
+        protected override void Dispose(bool disposing)
         {
+            _mappedMemory?.Dispose();
+            _mappedMemory = null;
         }
     }
 }

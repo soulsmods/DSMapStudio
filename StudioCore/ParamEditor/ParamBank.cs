@@ -36,9 +36,16 @@ namespace StudioCore.ParamEditor
         public static string ClipboardParam = null;
         public static List<Param.Row> ClipboardRows = new List<Param.Row>();
 
+        /// <summary>
+        /// Mapping from ParamType -> PARAMDEF.
+        /// </summary>
         private static Dictionary<string, PARAMDEF> _paramdefs = null;
-        private static Dictionary<string, Dictionary<ulong, PARAMDEF>> _patchParamdefs = null;
-
+        /// <summary>
+        /// Mapping from Param filename -> Manual ParamType.
+        /// This is for params with no usable ParamType at some particular game version.
+        /// By convention, ParamTypes ending in "_TENTATIVE" do not have official data to reference.
+        /// </summary>
+        private static Dictionary<string, string> _tentativeParamType = null;
 
         private Param EnemyParam = null;
         internal AssetLocator AssetLocator = null;
@@ -81,8 +88,8 @@ namespace StudioCore.ParamEditor
                     return null;
                 }
                 {
-                if (VanillaBank == this)
-                    return null;
+                    if (VanillaBank == this)
+                        return null;
                 }
                 return _vanillaDiffCache;
             }
@@ -96,8 +103,8 @@ namespace StudioCore.ParamEditor
                     return null;
                 }
                 {
-                if (PrimaryBank == this)
-                    return null;
+                    if (PrimaryBank == this)
+                        return null;
                 }
                 return _primaryDiffCache;
             }
@@ -106,32 +113,30 @@ namespace StudioCore.ParamEditor
         private static List<(string, PARAMDEF)> LoadParamdefs(AssetLocator assetLocator)
         {
             _paramdefs = new Dictionary<string, PARAMDEF>();
-            _patchParamdefs = new Dictionary<string, Dictionary<ulong, PARAMDEF>>();
+            _tentativeParamType = new Dictionary<string, string>();
             var dir = assetLocator.GetParamdefDir();
             var files = Directory.GetFiles(dir, "*.xml");
             List<(string, PARAMDEF)> defPairs = new List<(string, PARAMDEF)>();
             foreach (var f in files)
             {
-                var pdef = PARAMDEF.XmlDeserialize(f);
+                var pdef = PARAMDEF.XmlDeserialize(f, true);
                 _paramdefs.Add(pdef.ParamType, pdef);
                 defPairs.Add((f, pdef));
             }
 
-            // Load patch paramdefs
-            var patches = assetLocator.GetParamdefPatches();
-            foreach (var patch in patches)
+            var tentativeMappingPath = assetLocator.GetTentativeParamTypePath();
+            if (File.Exists(tentativeMappingPath))
             {
-                var pdir = assetLocator.GetParamdefPatchDir(patch);
-                var pfiles = Directory.GetFiles(pdir, "*.xml");
-                foreach (var f in pfiles)
+                // No proper CSV library is used currently, and all CSV parsing is in the context of param files.
+                // If a CSV library is introduced in DSMapStudio, use it here.
+                foreach (string line in File.ReadAllLines(tentativeMappingPath).Skip(1))
                 {
-                    var pdef = PARAMDEF.XmlDeserialize(f);
-                    defPairs.Add((f, pdef));
-                    if (!_patchParamdefs.ContainsKey(pdef.ParamType))
+                    string[] parts = line.Split(',');
+                    if (parts.Length != 2 || string.IsNullOrWhiteSpace(parts[0]) || string.IsNullOrWhiteSpace(parts[1]))
                     {
-                        _patchParamdefs[pdef.ParamType] = new Dictionary<ulong, PARAMDEF>();
+                        throw new FormatException($"Malformed line in {tentativeMappingPath}: {line}");
                     }
-                    _patchParamdefs[pdef.ParamType].Add(patch, pdef);
+                    _tentativeParamType[parts[0]] = parts[1];
                 }
             }
 
@@ -180,45 +185,12 @@ namespace StudioCore.ParamEditor
         }
 
         /// <summary>
-        /// Dictionary of param file names that contain no ParamType, and the ParamType to be assigned to them.
-        /// ParamType names ending in "_TENTATIVE" did not have official data to reference.
-        /// </summary>
-        public static Dictionary<string, string> TentativeParamType_AC6 = new()
-        {
-            {"EquipParamWeapon", "EquipParamWeapon_TENTATIVE"}, //
-            {"EquipParamProtector", "EQUIP_PARAM_PROTECTOR_ST"},
-            {"EquipParamAccessory", "EQUIP_PARAM_ACCESSORY_ST"},
-            {"ReinforceParamProtector", "REINFORCE_PARAM_PROTECTOR_ST"},
-            {"NpcParam", "NPC_PARAM_ST"},
-            {"NpcTransformParam", "NpcTransformParam_TENTATIVE"}, //
-            {"AtkParam_Npc", "ATK_PARAM_ST"},
-            {"WepAbsorpPosParam", "WEP_ABSORP_POS_PARAM_ST"},
-            {"DirectionCameraParam", "DIRECTION_CAMERA_PARAM_ST"},
-            {"MovementAcTypeParam", "MovementAcTypeParam_TENTATIVE"}, //
-            {"MovementRideObjParam", "MovementRideObjParam_TENTATIVE"}, //
-            {"MovementFlyEnemyParam", "MovementFlyEnemyParam_TENTATIVE"}, //
-            {"ChrModelParam", "CHR_MODEL_PARAM_ST"},
-            {"MissionParam", "MissionParam_TENTATIVE"}, //
-            {"MailParam", "MAIL_PARAM_ST"},
-            {"EquipParamBooster", "EquipParamBooster_TENTATIVE"}, //
-            {"EquipParamGenerator", "EquipParamGenerator_TENTATIVE"}, //
-            {"EquipParamFcs", "EquipParamFcs_TENTATIVE"}, //
-            {"RuntimeSoundParam_Npc", "RuntimeSoundParam_TENTATIVE"}, //
-            {"RuntimeSoundParam_Pc", "RuntimeSoundParam_TENTATIVE"}, //
-            {"CutsceneGparamTimeParam", "CUTSCENE_GPARAM_TIME_PARAM_ST"},
-            {"CutsceneTimezoneConvertParam", "CUTSCENE_TIMEZONE_CONVERT_PARAM_ST"},
-            {"CutsceneMapIdParam", "CUTSCENE_MAP_ID_PARAM_ST"},
-            {"MapAreaParam", "MapAreaParam_TENTATIVE"}, //
-            {"RuntimeSoundGlobalParam", "RuntimeSoundGlobalParam_TENTATIVE"}, //
-        };
-
-        /// <summary>
         /// Dictionary of param file names that were given a tentative ParamType, and the original ParamType it had.
         /// Used to later restore original ParamType on write (if possible).
         /// </summary>
         private Dictionary<string, string?> _usedTentativeParamTypes = null;
 
-        private void LoadParamFromBinder(IBinder parambnd, ref Dictionary<string, FSParam.Param> paramBank, out ulong version, bool checkVersion = false)
+        private void LoadParamFromBinder(IBinder parambnd, ref Dictionary<string, Param> paramBank, out ulong version, bool checkVersion = false)
         {
             bool success = ulong.TryParse(parambnd.Version, out version);
             if (checkVersion && !success)
@@ -240,17 +212,17 @@ namespace StudioCore.ParamEditor
                     continue;
                 }
 
-                FSParam.Param p;
+                Param p;
 
                 if (AssetLocator.Type == GameType.ArmoredCoreVI)
                 {
                     _usedTentativeParamTypes = new();
-                    p = FSParam.Param.ReadIgnoreCompression(f.Bytes);
-                    if (p.ParamType != null)
+                    p = Param.ReadIgnoreCompression(f.Bytes);
+                    if (!string.IsNullOrEmpty(p.ParamType))
                     {
-                        if (!_paramdefs.ContainsKey(p.ParamType) && !_patchParamdefs.ContainsKey(p.ParamType))
+                        if (!_paramdefs.ContainsKey(p.ParamType))
                         {
-                            if (TentativeParamType_AC6.TryGetValue(paramName, out string newParamType))
+                            if (_tentativeParamType.TryGetValue(paramName, out string newParamType))
                             {
                                 _usedTentativeParamTypes.Add(paramName, p.ParamType);
                                 p.ParamType = newParamType;
@@ -260,12 +232,13 @@ namespace StudioCore.ParamEditor
                             {
                                 TaskLogs.AddLog($"Couldn't find ParamDef for param {paramName} and no tentative ParamType exists.",
                                     Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High);
+                                continue;
                             }
                         }
                     }
                     else
                     {
-                        if (TentativeParamType_AC6.TryGetValue(paramName, out string newParamType))
+                        if (_tentativeParamType.TryGetValue(paramName, out string newParamType))
                         {
                             _usedTentativeParamTypes.Add(paramName, p.ParamType);
                             p.ParamType = newParamType;
@@ -275,13 +248,14 @@ namespace StudioCore.ParamEditor
                         {
                             TaskLogs.AddLog($"Couldn't read ParamType for {paramName} and no tentative ParamType exists.",
                                 Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High);
+                            continue;
                         }
                     }
                 }
                 else
                 {
-                    p = FSParam.Param.ReadIgnoreCompression(f.Bytes);
-                    if (!_paramdefs.ContainsKey(p.ParamType) && !_patchParamdefs.ContainsKey(p.ParamType))
+                    p = Param.ReadIgnoreCompression(f.Bytes);
+                    if (!_paramdefs.ContainsKey(p.ParamType ?? ""))
                     {
                         TaskLogs.AddLog($"Couldn't find ParamDef for param {paramName} with ParamType \"{p.ParamType}\".",
                             Microsoft.Extensions.Logging.LogLevel.Warning);
@@ -293,33 +267,17 @@ namespace StudioCore.ParamEditor
                 // it's an easy fixup
                 if (AssetLocator.Type == GameType.EldenRing &&
                     p.ParamType == "CHR_MODEL_PARAM_ST" &&
-                    _paramVersion == 10601000)
+                    version == 10601000)
                 {
                     p.FixupERChrModelParam();
                 }
 
-                // Lookup the correct paramdef based on the version
-                PARAMDEF def = null;
-                if (_patchParamdefs.ContainsKey(p.ParamType))
-                {
-                    var keys = _patchParamdefs[p.ParamType].Keys.OrderByDescending(e => e);
-                    foreach (var k in keys)
-                    {
-                        if (version >= k)
-                        {
-                            def = _patchParamdefs[p.ParamType][k];
-                            break;
-                        }
-                    }
-                }
-
-                // If no patched paramdef was found for this regulation version, fallback to vanilla defs
-                if (def == null)
-                    def = _paramdefs[p.ParamType];
-
+                if (p.ParamType == null)
+                    throw new Exception("Param type is unexpectedly null");
+                PARAMDEF def = _paramdefs[p.ParamType];
                 try
                 {
-                    p.ApplyParamdef(def);
+                    p.ApplyParamdef(def, version);
                     paramBank.Add(paramName, p);
                 }
                 catch(Exception e)
@@ -603,14 +561,19 @@ namespace StudioCore.ParamEditor
         /// <summary>
         /// Param name - FMGCategory map
         /// </summary>
-        public readonly static List<(string, TextEditor.FmgEntryCategory)> ParamToFmgCategoryList = new List<(string, FmgEntryCategory)>()
+        public readonly static List<(string, FmgEntryCategory)> ParamToFmgCategoryList = new List<(string, FmgEntryCategory)>()
         {
             ("EquipParamAccessory", FmgEntryCategory.Rings),
             ("EquipParamGoods",  FmgEntryCategory.Goods),
             ("EquipParamWeapon", FmgEntryCategory.Weapons),
             ("EquipParamProtector", FmgEntryCategory.Armor),
             ("EquipParamGem", FmgEntryCategory.Gem),
-            ("SwordArtsParam", FmgEntryCategory.SwordArts)
+            ("SwordArtsParam", FmgEntryCategory.SwordArts),
+            ("EquipParamGenerator", FmgEntryCategory.Generator),
+            ("EquipParamFcs", FmgEntryCategory.FCS),
+            ("EquipParamBooster", FmgEntryCategory.Booster),
+            ("ArchiveParam", FmgEntryCategory.Archive),
+            ("MissionParam", FmgEntryCategory.Mission),
         };
 
         private static List<string> GetLooseParamsInDir(string dir)
@@ -707,7 +670,7 @@ namespace StudioCore.ParamEditor
             {
                 EnemyParam = Param.Read(enemypath);
             }
-            if (EnemyParam != null)
+            if (EnemyParam is { ParamType: not null })
             {
                 try
                 {
@@ -1005,7 +968,7 @@ namespace StudioCore.ParamEditor
                     {
                         try
                         {
-                            new Editor.ActionManager().ExecuteAction(PrimaryBank.LoadParamDefaultNames());
+                            new ActionManager().ExecuteAction(PrimaryBank.LoadParamDefaultNames());
                             PrimaryBank.SaveParams(settings.UseLooseParams);
                         }
                         catch
@@ -1999,69 +1962,6 @@ namespace StudioCore.ParamEditor
             RefreshParamDiffCaches();
 
             return conflictingParams.Count > 0 ? ParamUpgradeResult.RowConflictsFound : ParamUpgradeResult.Success;
-        }
-
-        public (List<string>, List<string>) RunUpgradeEdits(ulong startVersion, ulong endVersion)
-        {
-            // Temporary data could be moved somewhere static
-            (ulong, string, string)[] paramUpgradeTasks = new (ulong, string, string)[0];
-            if (AssetLocator.Type == GameType.EldenRing)
-            {
-                // Note these all use modified as any unmodified row already matches the target. This only fails if a mod pre-empts fromsoft's exact change.
-                paramUpgradeTasks = new (ulong, string, string)[]{
-                    (10701000L, "1.07 - (SwordArtsParam) Move swordArtsType to swordArtsTypeNew", "param SwordArtsParam: modified: swordArtsTypeNew: = field swordArtsType;"),
-                    (10701000L, "1.07 - (SwordArtsParam) Set swordArtsType to 0", "param SwordArtsParam: modified && !added: swordArtsType: = 0;"),
-                    (10701000L, "1.07 - (AtkParam PC/NPC) Set added finalAttackDamageRate refs to -1", "param AtkParam_(Pc|Npc): modified && added: finalDamageRateId: = -1;"),
-                    (10701000L, "1.07 - (AtkParam PC/NPC) Set not-added finalAttackDamageRate refs to vanilla", "param AtkParam_(Pc|Npc): modified && !added: finalDamageRateId: = vanillafield finalDamageRateId;"),
-                    (10701000L, "1.07 - (GameSystemCommonParam) Set reserved_124 to Vanilla v1.07 values", "param GameSystemCommonParam: modified && !added: reserved_124: = vanillafield reserved_124;"),
-                    (10701000L, "1.07 - (PlayerCommonParam) Set reserved41 to Vanilla v1.07 values", "param PlayerCommonParam: modified: reserved41: = vanillafield reserved41;"),
-                    (10701000L, "1.07 - (AssetEnvironmentGeometryParam) Set unkR1 to Vanilla v1.07 values", "param AssetEnvironmentGeometryParam: modified && !added: unkR1: = vanillafield unkR1;"),
-                    (10701000L, "1.07 - (AssetEnvironmentGeometryParam) Set unkR3 to Vanilla v1.07 values", "param AssetEnvironmentGeometryParam: modified && !added: unkR3: = vanillafield unkR3;"),
-                    (10701000L, "1.07 - (AssetEnvironmentGeometryParam) Set unkR4 to Vanilla v1.07 values", "param AssetEnvironmentGeometryParam: modified && !added: unkR4: = vanillafield unkR4;"),
-                    (10801000L, "1.08 - (BuddyParam) Set Unk1 to default value", "param BuddyParam: modified: Unk1: = 1410;"),
-                    (10801000L, "1.08 - (BuddyParam) Set Unk2 to default value", "param BuddyParam: modified: Unk2: = 1420;"),
-                    (10801000L, "1.08 - (BuddyParam) Set Unk11 to default value", "param BuddyParam: modified: Unk11: = 1400;"),
-                    (10900000L, "1.09 - (GameSystemCommonParam) Set reserved_124 to Vanilla v1.09 values", "param GameSystemCommonParam: id 0: reserved_124: = vanillafield reserved_124;"),
-                    //
-                    (11001000L, "1.10 - (EquipParamWeapon) Set unk1 to Vanilla v1.10 values", "param EquipParamWeapon: modified && !added: unk1: = vanillafield unk1;"),
-                    (11001000L, "1.10 - (ToughnessParam) Set unk1 to default value", "param ToughnessParam: added: unk1: = 1;"),
-                    (11001000L, "1.10 - (ToughnessParam) Set unk1 to Vanilla v1.10 values", "param ToughnessParam: modified && !added: unk1: = vanillafield unk1;"),
-                    (11001000L, "1.10 - (ToughnessParam) Set unk2 to Vanilla v1.10 values", "param ToughnessParam: modified && !added: unk2: = vanillafield unk2;"),
-                };
-            }
-            else if (AssetLocator.Type == GameType.ArmoredCoreVI)
-            {
-                throw new NotImplementedException();
-            }
-
-            List<string> performed = new List<string>();
-            List<string> unperformed = new List<string>();
-
-            bool hasFailed = false;
-            foreach (var (version, task, command) in paramUpgradeTasks)
-            {
-                // Don't bother updating modified cache between edits
-                if (version <= startVersion || version > endVersion)
-                    continue;
-
-                if (!hasFailed)
-                {
-                    try {
-                        var (result, actions) = MassParamEditRegex.PerformMassEdit(this, command, null);
-                        if (result.Type != MassEditResultType.SUCCESS)
-                            hasFailed = true;
-                    }
-                    catch (Exception e)
-                    {
-                        hasFailed = true;
-                    }
-                }
-                if (!hasFailed)
-                    performed.Add(task);
-                else
-                    unperformed.Add(task);
-            }
-            return (performed, unperformed);
         }
 
         public string GetChrIDForEnemy(long enemyID)

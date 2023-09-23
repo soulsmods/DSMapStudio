@@ -1,20 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PARAMDEF XmlVersion="0">
+<PARAMDEF XmlVersion="3">
   <ParamType>NPC_THINK_PARAM_ST</ParamType>
   <DataVersion>9</DataVersion>
   <BigEndian>False</BigEndian>
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <!-- <Field Def="dummy8 paramSize[416]" /> -->
     <Field Def="s32 Unk0x00"></Field>
     <Field Def="s32 logicId"></Field>
     <Field Def="s32 battleGoalID"></Field>
     <Field Def="u16 searchEye_dist"></Field>
     <Field Def="u8 searchEye_angY"></Field>
-    <Field Def="u8 Unk0x09"></Field>
-    <Field Def="u8 Unk0x10"></Field>
-    <Field Def="u8 Unk0x11"></Field>
+    <Field Def="u8 UnkByte0x0F"></Field>
+    <Field Def="u8 UnkByte0x10"></Field>
+    <Field Def="u8 UnkByte0x11"></Field>
     <Field Def="u8 Unk0x12"></Field>
     <Field Def="u8 Unk0x13"></Field>
     <Field Def="f32 searchTargetLv1ForgetTime"></Field>
@@ -44,7 +43,7 @@
     <Field Def="u8 TeamAttackEffectivity"></Field>
     <Field Def="u8 eye_angX"></Field>
     <Field Def="u8 eye_angY"></Field>
-    <Field Def="u8 disableDark"></Field>
+    <Field Def="s8 disableDark"></Field>
     <Field Def="u8 caravanRole"></Field>
     <Field Def="u8 callHelp_CallValidMinDistTarget"></Field>
     <Field Def="u8 callHelp_CallValidRange"></Field>
@@ -54,17 +53,17 @@
     <Field Def="u8 goalAction_ToCaution"></Field>
     <Field Def="u8 ear_listenLevel"></Field>
     <Field Def="u8 callHelp_ReplyBehaviorType"></Field>
-    <Field Def="u8 disablePathMove"></Field>
+    <Field Def="s8 disablePathMove"></Field>
     <Field Def="u8 skipArrivalVisibleCheck"></Field>
     <Field Def="u8 thinkAttr_doAdmirer"></Field>
-    <Field Def="u8 enableNaviFlg_Edge:1 = 1"></Field>
-    <Field Def="u8 enableNaviFlg_LargeSpace:1 = 1"></Field>
-    <Field Def="u8 enableNaviFlg_Ladder:1 = 1"></Field>
-    <Field Def="u8 enableNaviFlg_Hole:1 = 1"></Field>
-    <Field Def="u8 enableNaviFlg_Door:1 = 1"></Field>
-    <Field Def="u8 enableNaviFlg_InSideWall:1 = 1"></Field>
-    <Field Def="u8 enableNaviFlg_Lava:1 = 1"></Field>
-    <Field Def="u8 enableNaviFlg_Edge_Ordinary:1 = 1"></Field>
+    <Field Def="u8 enableNaviFlg_Edge:1"></Field>
+    <Field Def="u8 enableNaviFlg_LargeSpace:1"></Field>
+    <Field Def="u8 enableNaviFlg_Ladder:1"></Field>
+    <Field Def="u8 enableNaviFlg_Hole:1"></Field>
+    <Field Def="u8 enableNaviFlg_Door:1"></Field>
+    <Field Def="u8 enableNaviFlg_InSideWall:1"></Field>
+    <Field Def="u8 enableNaviFlg_Lava:1"></Field>
+    <Field Def="u8 enableNaviFlg_Edge_Ordinary:1"></Field>
     <Field Def="u8 Unk0x65"></Field>
     <Field Def="u8 Unk0x66"></Field>
     <Field Def="u8 Unk0x67"></Field>
@@ -72,25 +71,34 @@
     <Field Def="s32 searchThreshold_Lv1toLv2"></Field>
     <Field Def="f32 platoonReplyTime"></Field>
     <Field Def="f32 platoonReplyAddRandomTime"></Field>
-    <Field Def="u8 searchEye_angX"></Field>
-    <Field Def="u8 isUpdateBattleSight"></Field>
-    <Field Def="u16 battleEye_updateDist"></Field>
-    <Field Def="u8 battleEye_updateAngX"></Field>
-    <Field Def="u8 battleEye_updateAngY"></Field>
-    <Field Def="u8 Unk0x7E"></Field>
-    <Field Def="u8 Unk0x7F"></Field>
-    <Field Def="s32 Unk0x80"></Field>
-    <Field Def="f32 Unk0x84"></Field>
-    <Field Def="f32 Unk0x88"></Field>
-    <Field Def="s32 Unk0x8C"></Field>
-    <Field Def="s32 Unk0x90"></Field>
-    <Field Def="s32 Unk0x94"></Field>
-    <Field Def="s32 Unk0x98"></Field>
-    <Field Def="s32 Unk0x9C"></Field>
-    <Field Def="f32 Unk0xA0"></Field>
-    <Field Def="s32 Unk0xA4"></Field>
+    <Field Def="f32 searchEye_angX"></Field>
+    <Field Def="f32 battleEye_updateAngX"></Field>
+    <Field Def="u8 UnkByte0x80"></Field>
+    <Field Def="u8 UnkByte0x81"></Field>
+    <Field Def="u8 Unk0x82"></Field>
+    <Field Def="u8 Unk0x83"></Field>
+    <Field Def="f32 UnkFloat0x84"></Field>
+    <Field Def="f32 UnkFloat0x88"></Field>
+    <Field Def="dummy8 Unk0x8C[1]"></Field>
+    <Field Def="s8 UnkSbyte0x8D"></Field>
+    <Field Def="u16 UnkUshort0x8E"></Field>
+    <Field Def="u16 UnkUshort0x90"></Field>
+    <Field Def="u8 Unk0x92"></Field>
+    <Field Def="u8 UnkByte0x93"></Field>
+    <Field Def="s32 UnkInt0x94"></Field>
+    <Field Def="dummy8 Unk0x98[1]"></Field>
+    <Field Def="s8 UnkSbyte0x99"></Field>
+    <Field Def="u8 Unk0x9A"></Field>
+    <Field Def="u8 Unk0x9B"></Field>
+    <Field Def="dummy8 Unk0x9C[3]"></Field>
+    <Field Def="u8 Unk0x9F"></Field>
+    <Field Def="f32 UnkFloat0xA0"></Field>
+    <Field Def="dummy8 Unk0xA4[1]"></Field>
+    <Field Def="s8 UnkSbyte0xA5"></Field>
+    <Field Def="s8 UnkSbyte0xA6"></Field>
+    <Field Def="u8 UnkByte0xA7"></Field>
     <Field Def="s32 Unk0xA8"></Field>
-    <Field Def="s32 Unk0xAC"></Field>
+    <Field Def="s32 UnkInt0xAC"></Field>
     <Field Def="s32 Unk0xB0"></Field>
     <Field Def="s32 Unk0xB4"></Field>
     <Field Def="s32 Unk0xB8"></Field>
@@ -101,21 +109,25 @@
     <Field Def="s32 Unk0xCC"></Field>
     <Field Def="s32 Unk0xD0"></Field>
     <Field Def="s32 Unk0xD4"></Field>
-    <Field Def="s32 Unk0xD8"></Field>
-    <Field Def="s32 Unk0xDC"></Field>
-    <Field Def="s32 Unk0xE0"></Field>
-    <Field Def="s32 Unk0xE4"></Field>
-    <Field Def="f32 Unk0xE8"></Field>
-    <Field Def="f32 Unk0xEC"></Field>
-    <Field Def="f32 Unk0xF0"></Field>
-    <Field Def="f32 Unk0xF4"></Field>
+    <Field Def="s32 UnkInt0xD8"></Field>
+    <Field Def="s32 UnkInt0xDC"></Field>
+    <Field Def="s32 UnkInt0xE0"></Field>
+    <Field Def="s32 UnkInt0xE4"></Field>
+    <Field Def="f32 UnkFloat0xE8"></Field>
+    <Field Def="f32 UnkFloat0xEC"></Field>
+    <Field Def="f32 UnkFloat0xF0"></Field>
+    <Field Def="f32 UnkFloat0xF4"></Field>
     <Field Def="s32 Unk0xF8"></Field>
     <Field Def="s32 Unk0xFC"></Field>
-    <Field Def="s32 Unk0x100"></Field>
-    <Field Def="s32 Unk0x104"></Field>
-    <Field Def="s32 Unk0x108"></Field>
-    <Field Def="s32 Unk0x10C"></Field>
-    <Field Def="s32 Unk0x110"></Field>
+    <Field Def="s16 UnkShort0x100"></Field>
+    <Field Def="s16 UnkShort0x102"></Field>
+    <Field Def="u16 UnkUshort0x104"></Field>
+    <Field Def="u8 UnkByte0x106"></Field>
+    <Field Def="u8 UnkByte0x107"></Field>
+    <Field Def="s32 UnkInt0x108"></Field>
+    <Field Def="s32 UnkInt0x10C"></Field>
+    <Field Def="s16 UnkShort0x110"></Field>
+    <Field Def="s16 UnkShort0x112"></Field>
     <Field Def="f32 Unk0x114"></Field>
     <Field Def="f32 Unk0x118"></Field>
     <Field Def="f32 Unk0x11C"></Field>
@@ -129,25 +141,31 @@
     <Field Def="s32 Unk0x13C"></Field>
     <Field Def="s32 Unk0x140"></Field>
     <Field Def="s32 Unk0x144"></Field>
-    <Field Def="s32 Unk0x148"></Field>
+    <Field Def="s16 UnkShort0x148"></Field>
+    <Field Def="u8 Unk0x14A"></Field>
+    <Field Def="u8 UnkByte0x14B"></Field>
     <Field Def="s32 Unk0x14C"></Field>
     <Field Def="f32 Unk0x150"></Field>
-    <Field Def="s32 Unk0x154"></Field>
+    <Field Def="f32 UnkFloat0x154"></Field>
     <Field Def="s32 Unk0x158"></Field>
     <Field Def="s32 Unk0x15C"></Field>
     <Field Def="s32 Unk0x160"></Field>
     <Field Def="s32 Unk0x164"></Field>
     <Field Def="s32 Unk0x168"></Field>
-    <Field Def="f32 Unk0x16C"></Field>
-    <Field Def="s32 Unk0x170"></Field>
+    <Field Def="f32 UnkFloat0x16C"></Field>
+    <Field Def="f32 UnkFloat0x170"></Field>
     <Field Def="f32 Unk0x174"></Field>
     <Field Def="f32 Unk0x178"></Field>
     <Field Def="f32 Unk0x17C"></Field>
     <Field Def="f32 Unk0x180"></Field>
     <Field Def="f32 Unk0x184"></Field>
     <Field Def="f32 Unk0x188"></Field>
-    <Field Def="s32 Unk0x18C"></Field>
-    <Field Def="s32 Unk0x190"></Field>
+    <Field Def="s16 UnkShort0x18C"></Field>
+    <Field Def="s16 UnkShort0x18E"></Field>
+    <Field Def="s8 UnkSbyte0x190"></Field>
+    <Field Def="u8 Unk0x191"></Field>
+    <Field Def="u8 Unk0x192"></Field>
+    <Field Def="u8 Unk0x193"></Field>
     <Field Def="f32 Unk0x194"></Field>
     <Field Def="s32 Unk0x198"></Field>
     <Field Def="s32 Unk0x19C"></Field>

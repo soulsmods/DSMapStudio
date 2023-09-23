@@ -413,7 +413,7 @@ namespace StudioCore.Editor
                     };
                 };
             }, ()=>CFG.Current.Param_AdvancedMassedit));
-            filterList.Add("auxprop", newCmd(new string[]{"parambank name", "field internalName", "field value (regex)"}, "Selects rows where the equivilent of that row in the given regulation or parambnd has a value for the given field that matches the given regex", (args, lenient)=>{
+            filterList.Add("auxprop", newCmd(new string[]{"parambank name", "field internalName", "field value (regex)"}, "Selects rows where the equivilent of that row in the given regulation or parambnd has a value for the given field that matches the given regex.\nCan be used to determine if an aux row exists.", (args, lenient)=>{
                 Regex rx = lenient ? new Regex(args[2], RegexOptions.IgnoreCase) : new Regex($@"^{args[2]}$");
                 string field = args[1].Replace(@"\s", " ");
                 ParamBank bank;
