@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <PARAMDEF XmlVersion="3">
   <ParamType>BUDGET_PARAM_ST</ParamType>
   <DataVersion>2</DataVersion>
@@ -23,7 +23,7 @@
     <Field Def="f32 vram_menu_tex"></Field>
     <Field Def="f32 vram_decal_rt"></Field>
     <Field Def="f32 vram_decal"></Field>
-    <Field Def="s32 Unk0x44"></Field>
+    <Field Def="f32 UnkFloat0x44"></Field>
     <Field Def="f32 vram_other_tex"></Field>
     <Field Def="f32 vram_other_mdl"></Field>
     <Field Def="f32 havok_anim"></Field>

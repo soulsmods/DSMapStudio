@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <PARAMDEF XmlVersion="3">
   <ParamType>NPC_PARAM_ST</ParamType>
   <DataVersion>12</DataVersion>
@@ -8,7 +8,7 @@
   <Fields>
     <Field Def="s32 Unk0x00"></Field>
     <Field Def="s32 behaviorVariationId"></Field>
-    <Field Def="s32 Unk0x08"></Field>
+    <Field Def="f32 UnkFloat0x08"></Field>
     <Field Def="s32 accountParamId"></Field>
     <Field Def="s32 modelId"></Field>
     <Field Def="f32 hitHeight"></Field>
