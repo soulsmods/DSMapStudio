@@ -610,8 +610,8 @@ namespace StudioCore
             {
                 SaveAll();
                 PlatformUtils.Instance.MessageBox(
-                    $"Your project was successfully saved to {_assetLocator.GameModDirectory} for manual recovery.\n" +
-                    "You must manually replace your projects with these recovery files should you wish to restore them.\n" +
+                    $"Attempted to save project files to {_assetLocator.GameModDirectory} for manual recovery.\n" +
+                    "You must manually replace your project files with these recovery files should you wish to restore them.\n" +
                     "Given the program has crashed, these files may be corrupt and you should backup your last good saved\n" +
                     "files before attempting to use these.",
                     "Saved recovery",

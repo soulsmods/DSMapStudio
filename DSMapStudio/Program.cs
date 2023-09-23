@@ -54,9 +54,12 @@ namespace DSMapStudio
             {
                 if (ex is AggregateException ae)
                 {
-                    ex = ae.Flatten();
+                    if (ae.InnerExceptions.Count == 1)
+                        ex = ae.InnerException;
+                    else
+                        ex = ae.Flatten();
                 }
-                log.Add(ex.Message);
+                log.Add($"{ex.Message}\n");
                 log.Add(ex.StackTrace);
                 ex = ex.InnerException;
                 log.Add("----------------------\n");
@@ -67,11 +70,11 @@ namespace DSMapStudio
         }
 
 
-        static string CrashLogPath = $"{Directory.GetCurrentDirectory()}\\Crash Logs";
+        static readonly string CrashLogPath = $"{Directory.GetCurrentDirectory()}\\Crash Logs";
         static void ExportCrashLog(List<string> exceptionInfo)
         {
             var time = $"{DateTime.Now:yyyy-M-dd--HH-mm-ss}";
-            exceptionInfo.Insert(0, $"DSMapStudio Version {_version}");
+            exceptionInfo.Insert(0, $"DSMapStudio Version {_version}\n");
             Directory.CreateDirectory($"{CrashLogPath}");
             var crashLogPath = $"{CrashLogPath}\\Log {time}.txt";
             File.WriteAllLines(crashLogPath, exceptionInfo);
