@@ -341,7 +341,7 @@
     <Field Def="f32 antiExplosiveDefense">
       <Description>Base value is 300. +1.0 = +10 ingame, +0.5 = +5, etc.</Description>
     </Field>
-    <Field Def="f32 UnkFloat0x270"></Field>
+    <Field Def="f32 antiCoralDefense"></Field>
     <Field Def="f32 UnkFloat0x274"></Field>
     <Field Def="f32 UnkFloat0x278"></Field>
     <Field Def="f32 UnkFloat0x27C"></Field>

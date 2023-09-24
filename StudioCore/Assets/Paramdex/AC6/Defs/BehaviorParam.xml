@@ -55,7 +55,7 @@
     <Field Def="u8 UnkByte0x64"></Field>
     <Field Def="u8 Unk0x65"></Field>
     <Field Def="s16 UnkShort0x66"></Field>
-    <Field Def="u16 UnkUshort0x68"></Field>
+    <Field Def="s16 UnkShort0x68"></Field>
     <Field Def="s16 Unk0x6A"></Field>
     <Field Def="f32 UnkFloat0x6C"></Field>
     <Field Def="s32 weaponChargedAmmunitionConsumption">
