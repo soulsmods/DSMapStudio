@@ -184,16 +184,17 @@ namespace StudioCore.MsbEditor
             _selection.GotoTreeTarget = _selection.GetSingleSelection();
         }
 
-        public void SetObjectModelForSelection(string modelName, string modelType)
+        public void SetObjectModelForSelection(string modelName, string assetType, string assetMapId)
         {
             var actlist = new List<Action>();
 
             var selected = _selection.GetFilteredSelection<Entity>();
+
             foreach (var s in selected)
             {
                 bool isValidObjectType = false;
 
-                if (modelType == "Chr")
+                if (assetType == "Chr")
                 {
                     switch (AssetLocator.Type)
                     {
@@ -231,7 +232,7 @@ namespace StudioCore.MsbEditor
                             throw new ArgumentException("Selected entity type must be Enemy");
                     }
                 }
-                if (modelType == "Obj")
+                if (assetType == "Obj")
                 {
                     switch (AssetLocator.Type)
                     {
@@ -270,11 +271,8 @@ namespace StudioCore.MsbEditor
                         default:
                             throw new ArgumentException("Selected entity type must be Object/Asset");
                     }
-
-                    if (modelName.Contains("aeg"))
-                        modelName = modelName.Replace("aeg", "AEG");
                 }
-                if (modelType.Contains("m"))
+                if (assetType == "MapPiece")
                 {
                     switch (AssetLocator.Type)
                     {
@@ -313,9 +311,17 @@ namespace StudioCore.MsbEditor
                         default:
                             throw new ArgumentException("Selected entity type must be MapPiece");
                     }
+                }
 
-                    if (modelName.Contains("aeg"))
-                        modelName = modelName.Replace("aeg", "AEG");
+                if (assetType == "MapPiece")
+                {
+                    string mapName = s.Parent.Name;
+                    if (mapName != assetMapId)
+                    {
+                        PlatformUtils.Instance.MessageBox($"Map Pieces are specific to each map.\nYou cannot change a Map Piece in {mapName} to a Map Piece from {assetMapId}.", "Object Browser", MessageBoxButtons.OK);
+
+                        isValidObjectType = false;
+                    }
                 }
 
                 if (isValidObjectType)
