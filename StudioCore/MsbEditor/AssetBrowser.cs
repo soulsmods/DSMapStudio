@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.ConstrainedExecution;
 using System.Text;
 using ImGuiNET;
+using SoulsFormats.KF4;
 using StudioCore.Assetdex;
 using Veldrid;
 
@@ -20,19 +22,15 @@ namespace StudioCore.MsbEditor
     {
         private string _id;
 
-        private List<string> _chrCache = new List<string>();
-        private List<string> _objCache = new List<string>();
-        private List<string> _partsCache = new List<string>();
-        private Dictionary<string, List<string>> _mapModelCache = new Dictionary<string, List<string>>();
-
-        private List<string> _cacheFiltered = new();
-
-        private AssetLocator _locator;
-
         private AssetBrowserEventHandler _handler;
 
-        private string _selected = null;
-        private string _selectedCache = null;
+        private List<string> _modelNameCache = new List<string>();
+        private Dictionary<string, List<string>> _mapModelNameCache = new Dictionary<string, List<string>>();
+
+        private AssetLocator _assetLocator;
+
+        private string _selectedAssetType = null;
+        private string _selectedAssetTypeCache = null;
 
         private string _searchStrInput = "";
         private string _searchStrInputCache = "";
@@ -42,77 +40,49 @@ namespace StudioCore.MsbEditor
         public AssetBrowser(AssetBrowserEventHandler handler, string id, AssetLocator locator, Assetdex.Assetdex assetdex)
         {
             _id = id;
-            _locator = locator;
+            _assetLocator = locator;
             _handler = handler;
             _assetdex = assetdex;
         }
 
-        public void ClearCaches()
+        public void OnProjectChanged()
         {
-            _chrCache = new List<string>();
-            _objCache = new List<string>();
-            _mapModelCache = new Dictionary<string, List<string>>();
-            var mapList = _locator.GetFullMapList();
-            foreach (var m in mapList)
+            if (_assetLocator.Type != GameType.Undefined)
             {
-                var adjm = _locator.GetAssetMapID(m);
-                if (!_mapModelCache.ContainsKey(adjm))
+                AssetdexUtil.UpdateAssetReferences(_assetdex.resourceDict[_assetLocator.Type].GameReference[0]);
+
+                _modelNameCache = new List<string>();
+                _mapModelNameCache = new Dictionary<string, List<string>>();
+                var mapList = _assetLocator.GetFullMapList();
+                foreach (var m in mapList)
                 {
-                    _mapModelCache.Add(adjm, null);
+                    var adjm = _assetLocator.GetAssetMapID(m);
+                    if (!_mapModelNameCache.ContainsKey(adjm))
+                    {
+                        _mapModelNameCache.Add(adjm, null);
+                    }
                 }
             }
         }
 
-        public void OnGui()
+        public void Display()
         {
             if (ImGui.Begin($@"Asset Browser##{_id}"))
             {
                 ImGui.Columns(2);
-                ImGui.BeginChild("AssetTypeList");
-                if (ImGui.Selectable("Chr", _selected == "Chr"))
-                {
-                    _chrCache = _locator.GetChrModels();
-                    _selected = "Chr";
-                }
-                string objLabel = "Obj";
-                if (_locator.Type is GameType.EldenRing or GameType.ArmoredCoreVI)
-                {
-                    objLabel = "Aeg";
-                }
-                if (ImGui.Selectable(objLabel, _selected == "Obj"))
-                {
-                    _objCache = _locator.GetObjModels();
-                    _selected = "Obj";
-                }
-                if (ImGui.Selectable("Parts", _selected == "Parts"))
-                {
-                    _partsCache = _locator.GetPartsModels();
-                    _selected = "Parts";
-                }
-                foreach (var m in _mapModelCache.Keys)
-                {
-                    if (ImGui.Selectable(m, _selected == m))
-                    {
-                        if (_mapModelCache[m] == null)
-                        {
-                            var modelList = _locator.GetMapModels(m);
-                            var cache = new List<string>();
-                            foreach (var model in modelList)
-                            {
-                                cache.Add(model.AssetName);
-                            }
-                            _mapModelCache[m] = cache;
-                        }
-                        _selected = m;
-                    }
-                }
-                ImGui.EndChild();
-                ImGui.NextColumn();
-                ImGui.BeginChild("AssetListSearch");
 
-                if (InputTracker.GetKeyDown(KeyBindings.Current.Map_PropSearch))
-                    ImGui.SetKeyboardFocusHere();
-                ImGui.InputText($"Search <{KeyBindings.Current.Map_PropSearch.HintText}>", ref _searchStrInput, 255);
+                // Asset Type List
+                ImGui.BeginChild("AssetTypeList");
+
+                DisplayAssetTypeSelectionList();
+
+                ImGui.EndChild();
+
+                // Asset List
+                ImGui.NextColumn();
+
+                ImGui.BeginChild("AssetListSearch");
+                ImGui.InputText($"Search", ref _searchStrInput, 255);
                 
                 ImGui.Spacing();
                 ImGui.Separator();
@@ -120,170 +90,156 @@ namespace StudioCore.MsbEditor
 
                 ImGui.BeginChild("AssetList");
 
-                if (_selected == "Chr")
-                {
-                    if (_searchStrInput != _searchStrInputCache || _selected != _selectedCache)
-                    {
-                        _cacheFiltered = _chrCache;
-                        _searchStrInputCache = _searchStrInput;
-                        _selectedCache = _selected;
-                    }
-                    foreach (var chr in _cacheFiltered)
-                    {
-                        string fileName = $"{chr}";
-                        string referenceName = "";
-                        List<string> tagList = new List<string>();
+                DisplayAssetSelectionList("Chr", AssetdexUtil.assetReferenceDict_Chr);
+                DisplayAssetSelectionList("Obj", AssetdexUtil.assetReferenceDict_Obj);
+                DisplayAssetSelectionList("Parts", AssetdexUtil.assetReferenceDict_Part);
+                DisplayAssetSelectionList("MapPiece", AssetdexUtil.assetReferenceDict_MapPiece);
 
-                        if (AssetdexUtil.assetReferenceDict_Chr.ContainsKey(chr))
-                        {
-                            referenceName = AssetdexUtil.assetReferenceDict_Chr[chr].referenceName;
-                            tagList = AssetdexUtil.assetReferenceDict_Chr[chr].tagList;
-                            fileName = fileName + $" <{referenceName}>";
-
-                            if (CFG.Current.ObjectBrowser_ShowTagsInBrowser)
-                            {
-                                string tagString = String.Join(" ", tagList);
-                                fileName = $"{fileName} {{ {tagString} }}";
-                            }
-                        }
-
-                        if (Utils.IsSearchFilterMatch(_searchStrInput, chr, referenceName, tagList))
-                        {
-                            if (ImGui.Selectable(fileName))
-                            {
-                            }
-                            if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClicked(0))
-                            {
-                                _handler.OnInstantiateChr(chr);
-                            }
-                        }
-                    }
-                }
-                else if (_selected == "Obj")
-                {
-                    if (_searchStrInput != _searchStrInputCache || _selected != _selectedCache)
-                    {
-                        _cacheFiltered = _objCache;
-                        _searchStrInputCache = _searchStrInput;
-                        _selectedCache = _selected;
-                    }
-                    foreach (var obj in _cacheFiltered)
-                    {
-                        string fileName = $"{obj}";
-                        string referenceName = "";
-                        List<string> tagList = new List<string>();
-
-                        if (AssetdexUtil.assetReferenceDict_Obj.ContainsKey(obj))
-                        {
-                            referenceName = AssetdexUtil.assetReferenceDict_Obj[obj].referenceName;
-                            tagList = AssetdexUtil.assetReferenceDict_Obj[obj].tagList;
-                            fileName = fileName + $" <{referenceName}>";
-
-                            if (CFG.Current.ObjectBrowser_ShowTagsInBrowser)
-                            {
-                                string tagString = String.Join(" ", tagList);
-                                fileName = $"{fileName} {{ {tagString} }}";
-                            }
-                        }
-
-                        if (Utils.IsSearchFilterMatch(_searchStrInput, obj, referenceName, tagList))
-                        {
-                            if (ImGui.Selectable(fileName))
-                            {
-                            }
-                            if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClicked(0))
-                            {
-                                _handler.OnInstantiateObj(obj);
-                            }
-                        }
-                    }
-                }
-                else if (_selected == "Parts")
-                {
-                    if (_searchStrInput != _searchStrInputCache || _selected != _selectedCache)
-                    {
-                        _cacheFiltered = _partsCache;
-                        _searchStrInputCache = _searchStrInput;
-                        _selectedCache = _selected;
-                    }
-
-                    foreach (var part in _cacheFiltered)
-                    {
-                        string fileName = $"{part}";
-                        string referenceName = "";
-                        List<string> tagList = new List<string>();
-
-                        if (AssetdexUtil.assetReferenceDict_Part.ContainsKey(part))
-                        { 
-                            referenceName = AssetdexUtil.assetReferenceDict_Part[part].referenceName;
-                            tagList = AssetdexUtil.assetReferenceDict_Part[part].tagList;
-                            fileName = fileName + $" <{referenceName}>";
-
-                            if (CFG.Current.ObjectBrowser_ShowTagsInBrowser)
-                            {
-                                string tagString = String.Join(" ", tagList);
-                                fileName = $"{fileName} {{ {tagString} }}";
-                            }
-                        }
-
-                        if (Utils.IsSearchFilterMatch(_searchStrInput, part, referenceName, tagList))
-                        {
-                            if (ImGui.Selectable(fileName))
-                            {
-                            }
-                            if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClicked(0))
-                            {
-                                _handler.OnInstantiateParts(part);
-                            }
-                        }
-                    }
-                }
-                else if (_selected != null && _selected.StartsWith("m"))
-                {
-                    if (_mapModelCache.ContainsKey(_selected))
-                    {
-                        if (_searchStrInput != _searchStrInputCache || _selected != _selectedCache)
-                        {
-                            _cacheFiltered = _mapModelCache[_selected];
-                            _searchStrInputCache = _searchStrInput;
-                            _selectedCache = _selected;
-                        }
-                        foreach (var model in _cacheFiltered)
-                        {
-                            string fileName = $"{model}";
-                            string referenceName = "";
-                            List<string> tagList = new List<string>();
-
-                            if (AssetdexUtil.assetReferenceDict_MapPiece.ContainsKey(model))
-                            {
-                                referenceName = AssetdexUtil.assetReferenceDict_MapPiece[model].referenceName;
-                                tagList = AssetdexUtil.assetReferenceDict_MapPiece[model].tagList;
-                                fileName = fileName + $" <{referenceName}>";
-
-                                if (CFG.Current.ObjectBrowser_ShowTagsInBrowser)
-                                {
-                                    string tagString = String.Join(" ", tagList);
-                                    fileName = $"{fileName} {{ {tagString} }}";
-                                }
-                            }
-
-                            if (Utils.IsSearchFilterMatch(_searchStrInput, model, referenceName, tagList))
-                            {
-                                if (ImGui.Selectable(fileName))
-                                {
-                                }
-                                if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClicked(0))
-                                {
-                                    _handler.OnInstantiateMapPiece(_selected, model);
-                                }
-                            }
-                        }
-                    }
-                }
                 ImGui.EndChild();
                 ImGui.EndChild();
             }
             ImGui.End();
+        }
+        public void DisplayAssetTypeSelectionList()
+        {
+            string objLabel = "Obj";
+
+            if (_assetLocator.Type is GameType.EldenRing or GameType.ArmoredCoreVI)
+                objLabel = "AEG";
+
+            if (ImGui.Selectable("Chr", _selectedAssetType == "Chr"))
+            {
+                _modelNameCache = _assetLocator.GetChrModels();
+                _selectedAssetType = "Chr";
+            }
+            if (ImGui.Selectable(objLabel, _selectedAssetType == "Obj"))
+            {
+                _modelNameCache = _assetLocator.GetObjModels();
+                _selectedAssetType = "Obj";
+            }
+            if (ImGui.Selectable("Parts", _selectedAssetType == "Parts"))
+            {
+                _modelNameCache = _assetLocator.GetPartsModels();
+                _selectedAssetType = "Parts";
+            }
+
+            foreach (var m in _mapModelNameCache.Keys)
+            {
+                if (ImGui.Selectable(m, _selectedAssetType == m))
+                {
+                    if (_mapModelNameCache[m] == null)
+                    {
+                        var modelList = _assetLocator.GetMapModels(m);
+                        var cache = new List<string>();
+                        foreach (var model in modelList)
+                        {
+                            cache.Add(model.AssetName);
+                        }
+                        _mapModelNameCache[m] = cache;
+                    }
+                    _selectedAssetType = m;
+                }
+            }
+        }
+
+        public void DisplayAssetSelectionList(string assetType, Dictionary<string, AssetReference> assetDict)
+        {
+            // Chr, Obj, Parts
+            if (_selectedAssetType == assetType)
+            {
+                if (_searchStrInput != _searchStrInputCache || _selectedAssetType != _selectedAssetTypeCache)
+                {
+                    _searchStrInputCache = _searchStrInput;
+                    _selectedAssetTypeCache = _selectedAssetType;
+                }
+                foreach (var name in _modelNameCache)
+                {
+                    string displayName = $"{name}";
+
+                    string referenceName = "";
+                    List<string> tagList = new List<string>();
+
+                    if (assetDict.ContainsKey(name))
+                    {
+                        displayName = displayName + $" <{assetDict[name].referenceName}>";
+
+                        if (CFG.Current.ObjectBrowser_ShowTagsInBrowser)
+                        {
+                            string tagString = string.Join(" ", assetDict[name].tagList);
+                            displayName = $"{displayName} {{ {tagString} }}";
+                        }
+
+                        referenceName = assetDict[name].referenceName;
+                        tagList = assetDict[name].tagList;
+                    }
+
+                    if (Utils.IsSearchFilterMatch(_searchStrInput, name, referenceName, tagList))
+                    {
+                        if (ImGui.Selectable(displayName))
+                        {
+                        }
+                        if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClicked(0))
+                        {
+                            if (_selectedAssetType == "Chr")
+                            {
+                                _handler.OnInstantiateChr(name);
+                            }
+                            if (_selectedAssetType == "Obj")
+                            {
+                                _handler.OnInstantiateObj(name);
+                            }
+                            if (_selectedAssetType == "Parts")
+                            {
+                                _handler.OnInstantiateParts(name);
+                            }
+                        }
+                    }
+                }
+            }
+            // MapPiece
+            else if (_selectedAssetType != null && _selectedAssetType.StartsWith("m"))
+            {
+                if (_mapModelNameCache.ContainsKey(_selectedAssetType))
+                {
+                    if (_searchStrInput != _searchStrInputCache || _selectedAssetType != _selectedAssetTypeCache)
+                    {
+                        _searchStrInputCache = _searchStrInput;
+                        _selectedAssetTypeCache = _selectedAssetType;
+                    }
+                    foreach (var name in _mapModelNameCache[_selectedAssetType])
+                    {
+                        string displayName = $"{name}";
+
+                        string referenceName = "";
+                        List<string> tagList = new List<string>();
+
+                        if (assetDict.ContainsKey(name))
+                        {
+                            displayName = displayName + $" <{assetDict[name].referenceName}>";
+
+                            if (CFG.Current.ObjectBrowser_ShowTagsInBrowser)
+                            {
+                                string tagString = String.Join(" ", assetDict[name].tagList);
+                                displayName = $"{displayName} {{ {tagString} }}";
+                            }
+
+                            referenceName = assetDict[name].referenceName;
+                            tagList = assetDict[name].tagList;
+                        }
+
+                        if (Utils.IsSearchFilterMatch(_searchStrInput, name, referenceName, tagList))
+                        {
+                            if (ImGui.Selectable(displayName))
+                            {
+                            }
+                            if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClicked(0))
+                            {
+                                _handler.OnInstantiateMapPiece(_selectedAssetType, name);
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

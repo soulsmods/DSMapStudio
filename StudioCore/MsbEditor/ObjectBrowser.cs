@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
+using System.Reflection.Metadata;
 using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -22,8 +23,6 @@ namespace StudioCore.MsbEditor
 
         private List<string> _modelNameCache = new List<string>();
         private Dictionary<string, List<string>> _mapModelNameCache = new Dictionary<string, List<string>>();
-
-        private List<string> _searchFilterCache = new();
 
         private AssetLocator _assetLocator;
 
@@ -52,7 +51,17 @@ namespace StudioCore.MsbEditor
             {
                 AssetdexUtil.UpdateAssetReferences(_assetdex.resourceDict[_assetLocator.Type].GameReference[0]);
                 _modelNameCache = new List<string>();
+
                 _mapModelNameCache = new Dictionary<string, List<string>>();
+                var mapList = _assetLocator.GetFullMapList();
+                foreach (var m in mapList)
+                {
+                    var adjm = _assetLocator.GetAssetMapID(m);
+                    if (!_mapModelNameCache.ContainsKey(adjm))
+                    {
+                        _mapModelNameCache.Add(adjm, null);
+                    }
+                }
             }
         }
 
@@ -91,9 +100,8 @@ namespace StudioCore.MsbEditor
                     ImGui.EndPopup();
                 }
 
-                if (ImGui.Checkbox("Show Tags", ref CFG.Current.ObjectBrowser_ShowTagsInBrowser))
-                {
-                }
+                ImGui.SameLine();
+                ImGui.Checkbox("Show Tags", ref CFG.Current.ObjectBrowser_ShowTagsInBrowser);
 
                 ImGui.Columns(2);
 
@@ -116,8 +124,9 @@ namespace StudioCore.MsbEditor
 
                 ImGui.BeginChild("AssetList");
 
-                DisplayAssetSelectionList("Chr", AssetdexUtil.assetReferenceDict_Obj);
+                DisplayAssetSelectionList("Chr", AssetdexUtil.assetReferenceDict_Chr);
                 DisplayAssetSelectionList("Obj", AssetdexUtil.assetReferenceDict_Obj);
+                DisplayAssetSelectionList("MapPiece", AssetdexUtil.assetReferenceDict_MapPiece);
 
                 ImGui.EndChild();
                 ImGui.EndChild();
@@ -164,6 +173,7 @@ namespace StudioCore.MsbEditor
 
         public void DisplayAssetSelectionList(string assetType, Dictionary<string, AssetReference> assetDict)
         {
+            // Chr, Obj, Parts
             if (_selectedAssetType == assetType)
             {
                 if (_searchStrInput != _searchStrInputCache || _selectedAssetType != _selectedAssetTypeCache)
@@ -200,6 +210,50 @@ namespace StudioCore.MsbEditor
                         if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClicked(0))
                         {
                             ChangeObjectModel(name, assetType);
+                        }
+                    }
+                }
+            }
+            // MapPiece
+            else if (_selectedAssetType != null && _selectedAssetType.StartsWith("m"))
+            {
+                if (_mapModelNameCache.ContainsKey(_selectedAssetType))
+                {
+                    if (_searchStrInput != _searchStrInputCache || _selectedAssetType != _selectedAssetTypeCache)
+                    {
+                        _searchStrInputCache = _searchStrInput;
+                        _selectedAssetTypeCache = _selectedAssetType;
+                    }
+                    foreach (var name in _mapModelNameCache[_selectedAssetType])
+                    {
+                        string displayName = $"{name}";
+
+                        string referenceName = "";
+                        List<string> tagList = new List<string>();
+
+                        if (assetDict.ContainsKey(name))
+                        {
+                            displayName = displayName + $" <{assetDict[name].referenceName}>";
+
+                            if (CFG.Current.ObjectBrowser_ShowTagsInBrowser)
+                            {
+                                string tagString = String.Join(" ", assetDict[name].tagList);
+                                displayName = $"{displayName} {{ {tagString} }}";
+                            }
+
+                            referenceName = assetDict[name].referenceName;
+                            tagList = assetDict[name].tagList;
+                        }
+
+                        if (Utils.IsSearchFilterMatch(_searchStrInput, name, referenceName, tagList))
+                        {
+                            if (ImGui.Selectable(displayName))
+                            {
+                            }
+                            if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClicked(0))
+                            {
+                                ChangeObjectModel(name, assetType);
+                            }
                         }
                     }
                 }

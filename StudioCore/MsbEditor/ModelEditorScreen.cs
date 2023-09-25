@@ -280,7 +280,7 @@ namespace StudioCore.MsbEditor
             //ImGui.Text(string.Format("Application average {0:F3} ms/frame ({1:F1} FPS)", 1000f / ImGui.GetIO().Framerate, ImGui.GetIO().Framerate));
 
             Viewport.OnGui();
-            _assetBrowser.OnGui();
+            _assetBrowser.Display();
             _sceneTree.OnGui();
             _propEditor.OnGui(_selection, "modeleditprop", Viewport.Width, Viewport.Height);
             ResourceManager.OnGuiDrawTasks(Viewport.Width, Viewport.Height);
@@ -295,8 +295,7 @@ namespace StudioCore.MsbEditor
         {
             if (AssetLocator.Type != GameType.Undefined)
             {
-                AssetdexUtil.UpdateAssetReferences(_assetdex.resourceDict[AssetLocator.Type].GameReference[0]);
-                _assetBrowser.ClearCaches();
+                _assetBrowser.OnProjectChanged();
             }
         }
 

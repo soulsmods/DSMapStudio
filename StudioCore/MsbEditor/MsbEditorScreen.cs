@@ -228,7 +228,7 @@ namespace StudioCore.MsbEditor
                             //TODO AC6
                             break;
                         default:
-                            throw new ArgumentException("type must be valid");
+                            throw new ArgumentException("Selected entity type must be Enemy");
                     }
                 }
                 if (modelType == "Obj")
@@ -268,7 +268,50 @@ namespace StudioCore.MsbEditor
                             //TODO AC6
                             break;
                         default:
-                            throw new ArgumentException("type must be valid");
+                            throw new ArgumentException("Selected entity type must be Object/Asset");
+                    }
+
+                    if (modelName.Contains("aeg"))
+                        modelName = modelName.Replace("aeg", "AEG");
+                }
+                if (modelType.Contains("m"))
+                {
+                    switch (AssetLocator.Type)
+                    {
+                        case GameType.DemonsSouls:
+                            if (s.WrappedObject is MSBD.Part.MapPiece)
+                                isValidObjectType = true;
+                            break;
+                        case GameType.DarkSoulsPTDE:
+                        case GameType.DarkSoulsRemastered:
+                            if (s.WrappedObject is MSB1.Part.MapPiece)
+                                isValidObjectType = true;
+                            break;
+                        case GameType.DarkSoulsIISOTFS:
+                            if (s.WrappedObject is MSB2.Part.MapPiece)
+                                isValidObjectType = true;
+                            break;
+                        case GameType.DarkSoulsIII:
+                            if (s.WrappedObject is MSB3.Part.MapPiece)
+                                isValidObjectType = true;
+                            break;
+                        case GameType.Bloodborne:
+                            if (s.WrappedObject is MSBB.Part.MapPiece)
+                                isValidObjectType = true;
+                            break;
+                        case GameType.Sekiro:
+                            if (s.WrappedObject is MSBS.Part.MapPiece)
+                                isValidObjectType = true;
+                            break;
+                        case GameType.EldenRing:
+                            if (s.WrappedObject is MSBE.Part.MapPiece)
+                                isValidObjectType = true;
+                            break;
+                        case GameType.ArmoredCoreVI:
+                            //TODO AC6
+                            break;
+                        default:
+                            throw new ArgumentException("Selected entity type must be MapPiece");
                     }
 
                     if (modelName.Contains("aeg"))
