@@ -846,11 +846,6 @@ namespace StudioCore
                         _settingsMenu.MenuOpenState = true;
                     }
 
-                    if (ImGui.MenuItem("Object Browser", KeyBindings.Current.Core_ObjectBrowser.HintText))
-                    {
-                        OpenObjectBrowser();
-                    }
-
                     if (Resource.FlverResource.CaptureMaterialLayouts && ImGui.MenuItem("Dump Flver Layouts (Debug)", ""))
                     {
                         DumpFlverLayouts();
@@ -859,6 +854,16 @@ namespace StudioCore
                 }
 
                 _focusedEditor.DrawEditorMenu();
+
+                if (ImGui.BeginMenu("Tools"))
+                {
+                    if (ImGui.MenuItem("Object Browser", KeyBindings.Current.Core_ObjectBrowser.HintText))
+                    {
+                        OpenObjectBrowser();
+                    }
+
+                    ImGui.EndMenu();
+                }
 
                 if (ImGui.BeginMenu("Help"))
                 {
