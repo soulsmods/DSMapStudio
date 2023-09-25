@@ -14,6 +14,7 @@ using Veldrid;
 using Veldrid.Utilities;
 using System.Drawing;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace StudioCore
 {
@@ -877,7 +878,7 @@ namespace StudioCore
         {
             bool match = false;
 
-            string curInput = inputStr.Trim();
+            string curInput = inputStr.Trim().ToLower();
 
             if (curInput.Equals(""))
             {
@@ -886,25 +887,49 @@ namespace StudioCore
             }
 
             // Match: Filename
-            if (curInput == fileName)
+            if (curInput == fileName.ToLower())
                 match = true;
 
             // Match: Reference Name
-            if (curInput == referenceName)
+            if (curInput == referenceName.ToLower())
                 match = true;
 
             // Match: Reference Segments
-            string[] refSegments = referenceName.Split(" ");
+            string[] refSegments = referenceName.ToLower().Split(" ");
             foreach (string refStr in refSegments)
             {
-                if (curInput == refStr.Trim())
+                string curString = refStr;
+
+                // Remove common brackets so the match ignores them
+                if (curString.Contains('('))
+                    curString = curString.Replace("(", "");
+
+                if (curString.Contains(')'))
+                    curString = curString.Replace(")", "");
+
+                if (curString.Contains('{'))
+                    curString = curString.Replace("{", "");
+
+                if (curString.Contains('}'))
+                    curString = curString.Replace("}", "");
+
+                if (curString.Contains('('))
+                    curString = curString.Replace("(", "");
+
+                if (curString.Contains('['))
+                    curString = curString.Replace("[", "");
+
+                if (curString.Contains(']'))
+                    curString = curString.Replace("]", "");
+
+                if (curInput == curString.Trim())
                     match = true;
             }
 
             // Match: Tags
             foreach (string tagStr in tags)
             {
-                if (curInput == tagStr)
+                if (curInput == tagStr.ToLower())
                     match = true;
             }
 
