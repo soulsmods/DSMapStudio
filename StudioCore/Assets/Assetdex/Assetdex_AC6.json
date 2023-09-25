@@ -5,13 +5,517 @@
             
             "chrList": [
                 {
-                    "id": "default",
-                    "referenceName": "Default",
-                    
-                    "tagList": [
-                        "default"
-                    ]
-                }
+					"id": "c0000",
+					"referenceName": "AC",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c3000",
+					"referenceName": "Light Guard Mech",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c3001",
+					"referenceName": "Medium Walker",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c3002",
+					"referenceName": "Heavy Walker",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c3020",
+					"referenceName": "Light MT",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c3050",
+					"referenceName": "PCA Subject Guard MT",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c3100",
+					"referenceName": "Xylem Wing Drone",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c3150",
+					"referenceName": "Juggernaut",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c3200",
+					"referenceName": "Ekdromoi",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c3250",
+					"referenceName": "Light Cavalry",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c3260",
+					"referenceName": "Heavy Cavalry",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c3300",
+					"referenceName": "Ghost",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c3400",
+					"referenceName": "BAWS Tetrapod MT",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c3500",
+					"referenceName": "Institute Drone",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c3600",
+					"referenceName": "RaD Tetrapod MT",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c3700",
+					"referenceName": "PCA Heavy MT",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c4000",
+					"referenceName": "Cataphract",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c4100",
+					"referenceName": "Balteus",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c4150",
+					"referenceName": "RaD TOYBOX",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c4200",
+					"referenceName": "Ayre (IB-07 SOL 644, no weapons)",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c4201",
+					"referenceName": "ALLMIND",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c4210",
+					"referenceName": "Ayre Clone (IB-07 SOL 644)",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c4250",
+					"referenceName": "IBIS CEL 240",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c4260",
+					"referenceName": "IBIS CEL 240 Drones",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c5000",
+					"referenceName": "Helicopter Drone",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c5010",
+					"referenceName": "Scavenger Drone",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c5020",
+					"referenceName": "Smart Cleaner",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c5100",
+					"referenceName": "Quadcopter",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c5101",
+					"referenceName": "Broken Helicopter",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c5120",
+					"referenceName": "Small Quadcopter",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c5150",
+					"referenceName": "Small Helicopter",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c5200",
+					"referenceName": "Artillery Vehicle",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c5250",
+					"referenceName": "Helianthus Machine",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c5300",
+					"referenceName": "Tiny Laser Drone",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c5500",
+					"referenceName": "Mealworm",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c6050",
+					"referenceName": "HC Helicopter",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c6100",
+					"referenceName": "Sea Spider",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c6101",
+					"referenceName": "Orb?",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c6250",
+					"referenceName": "Ice Worm",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c6350",
+					"referenceName": "Giant Mobile Cannon?",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c6400",
+					"referenceName": "Strider",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c6420",
+					"referenceName": "Strider Eye",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c7222",
+					"referenceName": "RaD Missile",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c7230",
+					"referenceName": "Artillery Shielded Cannon",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c7240",
+					"referenceName": "Artillery Cannon",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c7250",
+					"referenceName": "Artillery Gatling Cannon",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c7260",
+					"referenceName": "Artillery Missile Launcher",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c7261",
+					"referenceName": "Artillery Verticle Missile Launcher",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c7262",
+					"referenceName": "Artillery Horizontal Missile Launcher",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c7270",
+					"referenceName": "Artillery Rifle Cannon",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c7280",
+					"referenceName": "Artillery Laser Cannon",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c7290",
+					"referenceName": "Artillery Heavy Laser Cannon",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c7300",
+					"referenceName": "Artillery Pulse Cannon",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c7310",
+					"referenceName": "Artillery Heavy Plasma Cannon",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c7320",
+					"referenceName": "Artillery Dual Plasma Cannon",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c7390",
+					"referenceName": "Nepenthes",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c7400",
+					"referenceName": "Heavy Warship",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c7401",
+					"referenceName": "Mounted Cannon",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c7402",
+					"referenceName": "Mounted Turret",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c7403",
+					"referenceName": "Mounted Laser Turret",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c7410",
+					"referenceName": "PCA Laser Drone",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c8135",
+					"referenceName": "Enforcer",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c8145",
+					"referenceName": "Enforcer Flight Mode",
+					
+					"tags": [
+						"asset"
+					]
+				},
+				{
+					"id": "c9980",
+					"referenceName": "Dummy",
+					
+					"tags": [
+						"asset"
+					]
+				}
             ],
             "objList": [
                 {
