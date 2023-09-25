@@ -5,40 +5,2608 @@
             
             "chrList": [
                 {
-                    "fileName": "default",
+                    "id": "default",
                     "referenceName": "Default",
                     
-                    "tags": [
+                    "tagList": [
                         "default"
                     ]
                 }
             ],
             "objList": [
                 {
-                    "fileName": "default",
+                    "id": "default",
                     "referenceName": "Default",
                     
-                    "tags": [
+                    "tagList": [
                         "default"
                     ]
                 }
             ],
             "partList": [
                 {
-                    "fileName": "default",
-                    "referenceName": "Default",
-                    
-                    "tags": [
-                        "default"
-                    ]
-                }
+					"id": "am_m_1010",
+					"referenceName": "AR-011 MELANDER (BALAM)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "am_m_1011",
+					"referenceName": "AR-012 MELANDER C3 (BALAM)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "am_m_1080",
+					"referenceName": "AS-5000 SALAD (RAD)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "am_m_1400",
+					"referenceName": "AC-2000 TOOL ARM (RAD)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "am_m_1510",
+					"referenceName": "AC-2000 TOOL ARM Variant (RAD)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "am_m_2010",
+					"referenceName": "DF-AR-08 TIAN-QIANG (DAFENG)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "am_m_2210",
+					"referenceName": "DF-AR-09 TIAN-LAO (DAFENG)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "am_m_3010",
+					"referenceName": "NACHTREIHER/46E (SCHNEIDER)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "am_m_3310",
+					"referenceName": "NACHTREIHER/46E Variant (SCHNEIDER)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "am_m_4010",
+					"referenceName": "VP-46S (ARQUEBUS CORP)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "am_m_4210",
+					"referenceName": "VP-46D (ARQUEBUS CORP)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "am_m_5010",
+					"referenceName": "VE-46A (ARQUEBUS CORP)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "am_m_6010",
+					"referenceName": "04-101 MIND ALPHA (ALLMIND)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "am_m_7010",
+					"referenceName": "EL-TA-10 FIRMEZA (ELCANO FOUNDRY)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "am_m_8010",
+					"referenceName": "IB-C03A: HAL 826 (RUBICON RESEARCH INSTITUTE)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "am_m_8020",
+					"referenceName": "IA-CO1A: EPHEMERA (RUBICON RESEARCH INSTITUTE)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "am_m_8030",
+					"referenceName": "AA-J-123 BASHO (BAWS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "am_m_8031",
+					"referenceName": "AA-J-123/RC JAILBREAK (BAWS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "am_m_8040",
+					"referenceName": "AC-3000 WRECKER (RAD)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "am_m_8060",
+					"referenceName": "EL-PA-00 ALBA (ELCANO FOUNDRY)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "am_m_8350",
+					"referenceName": "AC-2000 TOOL ARM Variant (RAD)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "am_m_9400",
+					"referenceName": "AC-2000 TOOL ARM Damaged? (RAD)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "bd_m_1010",
+					"referenceName": "BD-011 MELANDER (BALAM)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "bd_m_1011",
+					"referenceName": "BD-012 MELANDER C3 (BALAM)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "bd_m_1080",
+					"referenceName": "CS-5000 MAIN DISH (RAD)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "bd_m_1400",
+					"referenceName": "CC-2000 ORBITER (RAD)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "bd_m_1510",
+					"referenceName": "CC-2000 ORBITER Variant (RAD)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "bd_m_2010",
+					"referenceName": "DF-BD-08 TIAN-QIANG (DAFENG)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "bd_m_3010",
+					"referenceName": "NACHTREIHER/40E (SCHNEIDER)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "bd_m_3011",
+					"referenceName": "NACHTREIHER/40E Damaged? (SCHNEIDER)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "bd_m_3310",
+					"referenceName": "NACHTREIHER/40E Variant (SCHNEIDER)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "bd_m_4010",
+					"referenceName": "VP-40S (ARQUEBUS CORP)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "bd_m_5010",
+					"referenceName": "VE-40A (ARQUEBUS CORP)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "bd_m_6010",
+					"referenceName": "07-061 MIND ALPHA (ALLMIND)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "bd_m_6110",
+					"referenceName": "07-061 MIND ALPHA Variant (ALLMIND)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "bd_m_7010",
+					"referenceName": "EL-TC-10 FIRMEZA (ELCANO FOUNDRY)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "bd_m_8010",
+					"referenceName": "IB-C03C: HAL 826 (RUBICON RESEARCH INSTITUTE)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "bd_m_8020",
+					"referenceName": "IA-C01C: EPHMERA (RUBICON RESEARCH INSTITUTE)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "bd_m_8030",
+					"referenceName": "AH-J-120 BASHO (BAWS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "bd_m_8031",
+					"referenceName": "AH-J-120/RC JAILBREAK (BAWS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "bd_m_8040",
+					"referenceName": "CC-3000 WRECKER (RAD)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "bd_m_8060",
+					"referenceName": "EL-PC-00 ALBA (ELCANO FOUNDRY)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "bd_m_8350",
+					"referenceName": "CC-2000 ORBITER (RAD)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "bd_m_9400",
+					"referenceName": "CC-2000 ORBITER Damaged? (RAD)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "bs_a_1010",
+					"referenceName": "BST-G2/P04 (FURLONG DYNAMICS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "bs_a_2010",
+					"referenceName": "BC-0600 12345 (RAD)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "bs_a_3010",
+					"referenceName": "ALULA/21E (SCHNEIDER)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "bs_a_4010",
+					"referenceName": "FLUEGEL (SCHNEIDER)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "bs_a_5010",
+					"referenceName": "BUERZEL/21D (SCHNEIDER)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "bs_a_6010",
+					"referenceName": "BST-G2/P06SPD (FURLONG DYNAMICS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "bs_a_7010",
+					"referenceName": "BC-0200 GRIDWALKER (RAD)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "bs_a_8010",
+					"referenceName": "IB-C03B: NGI 001 (RUBICON RESEARCH INSTITUTE)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "bs_a_8020",
+					"referenceName": "IA-C01B: GILLS (RUBICON RESEARCH INSTITUTE)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "bs_a_8030",
+					"referenceName": "AB-J-137 KIKAKU (BAWS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "bs_a_8031",
+					"referenceName": "AB-J-137 KIKAKU Variant (BAWS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "bs_a_8040",
+					"referenceName": "BC-0400 MULE (RAD)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "bs_a_9999",
+					"referenceName": "BST-G1/P10 (FURLONG DYNAMICS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "hd_m_1010",
+					"referenceName": "HD-011 MELANDER (BALAM)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "hd_m_1011",
+					"referenceName": "HD-012 MELANDER C3 (BALAM)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "hd_m_1080",
+					"referenceName": "HS-5000 APPETIZER (RAD)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "hd_m_1110",
+					"referenceName": "HD-033M VERRILL (BALAM)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "hd_m_1400",
+					"referenceName": "HC-2000 FINDER EYE (RAD)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "hd_m_1510",
+					"referenceName": "HC-2000 FINDER EYE Variant (RAD)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "hd_m_2010",
+					"referenceName": "DF-HD-08 TIAN-QIANG (DAFENG)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "hd_m_3010",
+					"referenceName": "NACHTREIHER/44E (SCHNEIDER)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "hd_m_3110",
+					"referenceName": "NACHTREIHER/44E Variant (SCHNEIDER)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "hd_m_3310",
+					"referenceName": "KASUAR/44Z (SCHNEIDER)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "hd_m_4010",
+					"referenceName": "VP-44S (ARQUEBUS CORP)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "hd_m_4110",
+					"referenceName": "VP-44D (ARQUEBUS CORP)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "hd_m_5010",
+					"referenceName": "VE-44A (ARQUEBUS CORP)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "hd_m_5110",
+					"referenceName": "20-081 MIND ALPHA (ALLMIND)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "hd_m_6010",
+					"referenceName": "20-081 MIND ALPHA Variant (ALLMIND)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "hd_m_6110",
+					"referenceName": "20-082 MIND BETA (ALLMIND)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "hd_m_7010",
+					"referenceName": "EL-TH-10 FIRMEZA (ELCANO FOUNDRY)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "hd_m_8010",
+					"referenceName": "IB-C03H: HAL 826 (RUBICON RESEARCH INSTITUTE)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "hd_m_8020",
+					"referenceName": "IA-C01H: EPHEMERA (RUBICON RESEARCH INSTITUTE)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "hd_m_8030",
+					"referenceName": "AH-J-124 BASHO (BAWS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "hd_m_8031",
+					"referenceName": "AH-J-124/RC JAILBREAK (BAWS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "hd_m_8040",
+					"referenceName": "HC-3000 WRECKER (RAD)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "hd_m_8060",
+					"referenceName": "EL-PH-00 ALBA (ELCANO FOUNDRY)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "hd_m_8150",
+					"referenceName": "HC-2000/BC SHADE EYE (RAD)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "hd_m_8350",
+					"referenceName": "HC-2000 FINDER EYE Variant (RAD)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "hd_m_9400",
+					"referenceName": "HC-2000 FINDER EYE Damaged? (RAD)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "lg_m_1010",
+					"referenceName": "LG-011 MELANDER (BALAM)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "lg_m_1011",
+					"referenceName": "LG-013 MELANDER C3 (BALAM)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "lg_m_1080",
+					"referenceName": "2S-5000 DESSERT (RAD)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "lg_m_1400",
+					"referenceName": "2C-2000 CRAWLER (RAD)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "lg_m_1410",
+					"referenceName": "LG-033M VERRILL (BALAM)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "lg_m_1510",
+					"referenceName": "LG-022T BORNEMISSZA (BALAM)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "lg_m_2010",
+					"referenceName": "DF-LG-08 TIAN-QIANG (DAFENG)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "lg_m_3010",
+					"referenceName": "NACHTREIHER/42E (SCHNEIDER)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "lg_m_3310",
+					"referenceName": "KASUAR/42Z (SCHNEIDER)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "lg_m_4010",
+					"referenceName": "VP-422 (ARQUEBUS CORP)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "lg_m_4410",
+					"referenceName": "VP-424 (ARQUEBUS CORP)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "lg_m_5010",
+					"referenceName": "VE-42A (ARQUEBUS CORP)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "lg_m_5510",
+					"referenceName": "VE-42B (ARQUEBUS CORP)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "lg_m_6010",
+					"referenceName": "06-041 MIND ALPHA (ALLMIND)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "lg_m_6320",
+					"referenceName": "06-042 MIND BETA (ALLMIND)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "lg_m_7010",
+					"referenceName": "EL-TL-10 (FIREMZA)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "lg_m_7510",
+					"referenceName": "EL-TL-11 (ELCANO FOUNDRY)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "lg_m_8010",
+					"referenceName": "IB-C03L: HAL 826 (RUBICON RESEARCH INSTITUTE)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "lg_m_8020",
+					"referenceName": "IA-C01L: EPHEMERA (RUBICON RESEARCH INSTITUTE)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "lg_m_8030",
+					"referenceName": "AL-J-121 BASHO (BAWS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "lg_m_8031",
+					"referenceName": "AL-J-121/RC JAILBREAK (BAWS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "lg_m_8040",
+					"referenceName": "2C-3000 WRECKER (RAD)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "lg_m_8060",
+					"referenceName": "EL-PL-00 ALBA (ELCANO FOUNDRY)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "lg_m_8350",
+					"referenceName": "RC-2000 SPRING CHICKEN (RAD)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "lg_m_9400",
+					"referenceName": "2C-2000 CRAWLER Damaged? (RAD)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_a_1410",
+					"referenceName": "LITTLE GEM Bazooka (MELINITE)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_a_1430",
+					"referenceName": "DF-BA-06 XUAN-GE Bazooka (DAFENG)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_a_2310",
+					"referenceName": "Vvc-760PR Plasma Rifle (VCPL)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_a_2410",
+					"referenceName": "Vvc-760PR Plasma Rifle Variant (VCPL)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_a_2420",
+					"referenceName": "Vvc-760PR Plasma Rifle Variant (VCPL)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_a_2510",
+					"referenceName": "VE-66LRB Laser Rifle (ARQUEBUS CORP)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_a_2610",
+					"referenceName": "WUERGER/66E Laser Shotgun (SCHNEIDER)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_a_2620",
+					"referenceName": "VP-66LS Laser Shotgun (ARQUEBUS CORP)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_a_2630",
+					"referenceName": "IA-C01W1: NEBULA Plasma Rifle (RUBICON RESEARCH INSTITUTE)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_a_2631",
+					"referenceName": "IA-C01W1: NB-REDSHIFT Coral Rifle (RUBICON RESEARCH INSTITUTE)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_a_2710",
+					"referenceName": "VP-66LH Laser Handgun (ARQUEBUS CORP)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_a_2720",
+					"referenceName": "VP-66LR Laser Rifle (ARQUEBUS CORP)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_a_2730",
+					"referenceName": "IB-C03W1: WLT 011 Coral Rifle (RUBICON RESEARCH INSTITUTE)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_a_2740",
+					"referenceName": "VE-66LRA Laser Rifle (ARQUEBUS CORP)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_a_2810",
+					"referenceName": "HI-16: GU-Q1 Pulse Gun (TAKIGAWA)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_a_2820",
+					"referenceName": "HI-18: GU-A2 Pulse Gun (TAKIGAWA)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_a_2910",
+					"referenceName": "WB-0000 BAD COOK Flamethrower (RAD)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_a_3010",
+					"referenceName": "44-141 JVLN ALPHA Detonating Bazooka (ALLMIND)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_a_3020",
+					"referenceName": "VP-66EG Stun Gun (ARQUEBUS CORP)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_a_3030",
+					"referenceName": "WS-5000 APERITIF Siege Missile Launcher (RAD)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_a_8960",
+					"referenceName": "FCS-G1/P01 (FURLONG DYNAMICS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_a_8961",
+					"referenceName": "FCS-G2/P05 (FURLONG DYNAMICS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_a_8962",
+					"referenceName": "FCS-G2/P10SLT (FURLONG DYNAMICS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_a_8963",
+					"referenceName": "FCS-G2/P12SML (FURLONG DYNAMICS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_a_8964",
+					"referenceName": "FC-006 ABBOT (BALAM)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_a_8965",
+					"referenceName": "FC-008 TALBOT (BALAM)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_a_8966",
+					"referenceName": "VE-21A (ARQUEBUS CORP)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_a_8967",
+					"referenceName": "VE-21B (ARQUEBUS CORP)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_a_8968",
+					"referenceName": "IA-C01F: OCELLUS (RUBICON RESEARCH INSTITUTE)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_a_8969",
+					"referenceName": "IB-C03F: WLT 001 (RUBICON RESEARCH INSTITUTE)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_a_8980",
+					"referenceName": "AG-J-098 JOSO (BAWS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_a_8981",
+					"referenceName": "DF-GN-02 LING-TAI (DAFENG)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_a_8982",
+					"referenceName": "DF-GN-06 MING-TANG (DAFENG)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_a_8983",
+					"referenceName": "VP-20S (ARQUEBUS CORP)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_a_8984",
+					"referenceName": "VP-20C (ARQUEBUS CORP)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_a_8985",
+					"referenceName": "AG-E-013 YABA (BAWS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_a_8986",
+					"referenceName": "VE-20A (ARQUEBUS CORP)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_a_8987",
+					"referenceName": "VE-20B (ARQUEBUS CORP)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_a_8988",
+					"referenceName": "IA-C01G: AORTA (RUBICON RESEARCH INSTITUTE)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_a_8989",
+					"referenceName": "IB-C03B: NGI 000 (RUBICON RESEARCH INSTITUTE)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_a_8990",
+					"referenceName": "AG-T-005 HOKUSHI (BAWS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_a_8991",
+					"referenceName": "DF-GN-08 SAN-TAI (DAFENG)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_a_8992",
+					"referenceName": "VP-20D (ARQUEBUS CORP)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_a_8993",
+					"referenceName": "VE-20C (ARQUEBUS CORP)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_e_0000",
+					"referenceName": "Generic Handgun",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_e_0010",
+					"referenceName": "Generic Rifle",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_e_0020",
+					"referenceName": "Generic SMG",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_e_0021",
+					"referenceName": "Generic SMG Variant",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_e_0030",
+					"referenceName": "Generic Shotgun",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_e_0031",
+					"referenceName": "Generic Shotgun Variant",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_e_0040",
+					"referenceName": "Generic Launcher",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_e_0050",
+					"referenceName": "Generic Unidentified",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_e_0051",
+					"referenceName": "Generic Unidentified Variant",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_e_0060",
+					"referenceName": "Generic Twin SMG",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_e_0100",
+					"referenceName": "Generic Twin Gatling Guns",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_e_0101",
+					"referenceName": "Generic Twin BR55",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_e_0110",
+					"referenceName": "Generic Lasergun",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_e_0120",
+					"referenceName": "Generic Gatling Gun",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_e_0150",
+					"referenceName": "Generic Assault Rifle",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_0010",
+					"referenceName": "PB-033m ASHMEAD Pile Bunker (BALAM)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_0211",
+					"referenceName": "HI-32: BU-TT/A Pulse Blade (TAKIGAWA)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_0221",
+					"referenceName": "Vvc-770LB Laser Blade (VCPL)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_0230",
+					"referenceName": "IB-C03W2: WLT 101 Coral Oscillator (RUBICON RESEARCH INSTITUTE)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_0241",
+					"referenceName": "VP-67LD Laser Dagger (ARQUEBUS CORP)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_0250",
+					"referenceName": "IA-C01W2: MOONLIGHT Light Wave Blade (RUBICON RESEARCH INSTITUTE)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_0251",
+					"referenceName": "IA-C01W2: ML-REDSHIFT Coral Oscillator (RUBICON RESEARCH INSTITUTE)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_0411",
+					"referenceName": "Vvc-774LS Laser Slicer (VCPL)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_0510",
+					"referenceName": "DF-ET09 TAI-YANG-SHOU Explosive Thrower (DAFENG)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_0610",
+					"referenceName": "VE-67LLA Laser Lance (ARQUEBUS CORP)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_0910",
+					"referenceName": "VP-67EB Stun Baton (ARQUEBUS CORP)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_1012",
+					"referenceName": "WB-0010 DOUBLE TROUBLE Chainsaw (RAD)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_1210",
+					"referenceName": "44-143 HMMR Plasma Thrower (ALLMIND)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_1310",
+					"referenceName": "DF-GR-07 GOU-CHEN Grenade Launcher (DAFENG)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_1320",
+					"referenceName": "DIZZY Grenade Launcher (MELINITE)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_1410",
+					"referenceName": "LITTLE GEM Bazooka (MELINITE)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_1420",
+					"referenceName": "MAGESTIC Bazooka (MELINITE)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_1430",
+					"referenceName": "DF-BA-06 XUAN-GE Bazooka (DAFENG)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_1510",
+					"referenceName": "WR-0777 SWEET SIXTEEN Shotgun (RAD)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_1520",
+					"referenceName": "SG-026 HALDEMAN Shotgun (BALAM)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_1530",
+					"referenceName": "SG-027 ZIMMERMAN Shotgun (BALAM)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_1610",
+					"referenceName": "MA-J-200 RANSETSU-RF Burst Rifle (BAWS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_1620",
+					"referenceName": "LR-036 CURTIS Linear Rifle (BALAM)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_1630",
+					"referenceName": "LR-037 HARRIS Linear Rifle (BALAM)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_1710",
+					"referenceName": "MA-J-201 RANSETSU-AR Burst Assault Rifle (BAWS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_1720",
+					"referenceName": "RF-024 TURNER Assault Rifle (BALAM)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_1730",
+					"referenceName": "RF-025 SCUDDER Assault Rifle (BALAM)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_1810",
+					"referenceName": "MA-E-210 ETSUJIN Burst Machine Gun (DAFENG)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_1820",
+					"referenceName": "MG-014 LUDLOW Machine Gun (BALAM)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_1830",
+					"referenceName": "DF-MG-02 CHANG-CHEN Machine Gun (DAFENG)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_1910",
+					"referenceName": "DF-GA-08 HU-BEN Gatling Gun (DAFENG)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_2010",
+					"referenceName": "EL-PW-00 VIENTO Needle Gun (ELCANO FOUNDRY)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_2020",
+					"referenceName": "MA-E-211 SAMPU Burst Handgun (BAWS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_2030",
+					"referenceName": "HG-003 COQUILLETT Handgun (BALAM)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_2040",
+					"referenceName": "HG-004 DUCKETT Handgun (BALAM)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_2110",
+					"referenceName": "MA-T-223 KYORIKU Jamming Bomb Launcher (BAWS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_2120",
+					"referenceName": "KYORAI Napalm Bomb Launcher (BAWS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_2130",
+					"referenceName": "WS-1200 THERAPIST Stun Bomb Launcher (RAD)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_2210",
+					"referenceName": "HML-G2/P19MLT-04 Missile Launcher (FURLONG DYNAMICS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_2220",
+					"referenceName": "HML-G3/P08SPL-06 Split Missile Launcher (FURLONG DYNAMICS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_2310",
+					"referenceName": "IRIDIUM Grenade Launcher (MELINITE)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_2420",
+					"referenceName": "44-142 KRSV Multi Energy Rifle (ALLMIND)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_2720",
+					"referenceName": "VP-66LR Laser Rifle (ARQUEBUS CORP)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_4010",
+					"referenceName": "EARSHOT Spread Bazooka (BALAM)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_4110",
+					"referenceName": "SB-033M MORLEY Spread Bazooka (BALAM)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_4210",
+					"referenceName": "Vvc-703PM Plasma Missile Launcher (VCPL)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_4211",
+					"referenceName": "Vvc-706PM Plasma Missile Launcher (VCPL)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_4220",
+					"referenceName": "Vvc-70PM Plasma Missile Launcher (VCPL)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_4230",
+					"referenceName": "BML-G3/P05ACT-02 Active Homing Missile Launcher (FURLONG DYNAMICS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_4231",
+					"referenceName": "BML-G3/P04ACT-01 Active Homing Missile Launcher (FURLONG DYNAMICS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_4240",
+					"referenceName": "IB-C03W3: NGI 006 Coral Missile Launcher (RUBICON RESEARCH INSTITUTE)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_4250",
+					"referenceName": "BML-G1/P07VTC-12 Verticle Missile Launcher (FURLONG DYNAMICS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_4251",
+					"referenceName": "BML-G1/P01VTC-04 Verticle Missile Launcher (FURLONG DYNAMICS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_4252",
+					"referenceName": "BML-G1/P03VTC-08 Verticle Missile Launcher (FURLONG DYNAMICS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_4260",
+					"referenceName": "45-091 JVLN BETA Detonating Missile Launcher (ALLMIND)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_4280",
+					"referenceName": "WS-5001 SOUP Scatter Missile Launcher (RAD)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_4290",
+					"referenceName": "BML-G2/P03MLT-06 Missile Launcher (FURLONG DYNAMICS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_4291",
+					"referenceName": "BML-G1/P20MLT-04 Missile Launcher (FURLONG DYNAMICS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_4292",
+					"referenceName": "BML-G2/P05MLT-10 Missile Launcher (FURLONG DYNAMICS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_4300",
+					"referenceName": "BML-G1/P32DUO-03 Dual Missile Launcher (FURLONG DYNAMICS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_4301",
+					"referenceName": "BML-G2/P08DUO-03 Dual Missile Launcher (FURLONG DYNAMICS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_4302",
+					"referenceName": "BML-G2/P17SPL-16 Split Missile Launcher (FURLONG DYNAMICS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_4303",
+					"referenceName": "BML-G1/P31DUO-02 Dual Missile Launcher (FURLONG DYNAMICS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_4310",
+					"referenceName": "BML-G2/P19SPL-12 Split Missile Launcher (FURLONG DYNAMICS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_4311",
+					"referenceName": "BML-G2/P16SPL-08 Split Missile Launcher (FURLONG DYNAMICS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_4320",
+					"referenceName": "BML-G1/P29CNT Container Missile Launcher (FURLONG DYNAMICS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_4330",
+					"referenceName": "EL-PW-01 TRUENO Needle Missile Launcher (ELCANO FOUNDRY)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_4340",
+					"referenceName": "WR-0999 DELIVERY BOY Cluster Missile Launcher (RAD)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_4350",
+					"referenceName": "IA-C01W3: AURORA Light Wave Cannon (RUBICON RESEARCH INSTITUTE)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_4410",
+					"referenceName": "SONGBIRDS Grenade Cannon (MELINITE)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_4510",
+					"referenceName": "FASAN/60E Plasma Cannon (SCHNEIDER)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_4610",
+					"referenceName": "VP-60LCS Laser Cannon (ARQUEBUS CORP)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_4710",
+					"referenceName": "VE-60LCA Laser Cannon (ARQUEBUS CORP)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_4810",
+					"referenceName": "KRANICH/60Z Pulse Cannon (SCHNEIDER)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_4820",
+					"referenceName": "EULE/60D Pulse Shield Launcher (SCHNEIDER)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_4830",
+					"referenceName": "VE-60SNA Stun Needle Launcher (ARQUEBUS CORP)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_4910",
+					"referenceName": "VP-61PB Pulse Buckler (ARQUEBUS CORP)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_4920",
+					"referenceName": "SI-24: SU-Q5 Pulse Shield (TAKIGAWA)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_4940",
+					"referenceName": "VP-61PS Pulse Shield (ARQUEBUS CORP)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_4950",
+					"referenceName": "SI-27: SU-R8 Pulse Shield (TAKIGAWA)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_4960",
+					"referenceName": "SI-29:SU-TT/C Pulse Buckler (TAKIGAWA)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_4970",
+					"referenceName": "IB-C03W4: NGI 028 Coral Shield (RUBICON RESEARCH INSTITUTE)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_4980",
+					"referenceName": "VE-61PSA Pulse Scutum (ARQUEBUS CORP)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_5010",
+					"referenceName": "VP-60LCD Diffuse Laser Cannon (ARQUEBUS CORP)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_5710",
+					"referenceName": "BO-044 HUXLEY Bullet Orbit (BALAM)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_5720",
+					"referenceName": "45-091 ORBT Laser Orbit (ALLMIND)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_5810",
+					"referenceName": "Vvc-700LD Laser Drone (VCPL)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_l_5820",
+					"referenceName": "VP-60LT Laser Turret (ARQUEBUS CORP)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_1310",
+					"referenceName": "DF-GR-07 GOU-CHEN Grenade Launcher (DAFENG)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_1320",
+					"referenceName": "DIZZY Grenade Launcher (MELINITE)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_1410",
+					"referenceName": "LITTLE GEM Bazooka (MELINITE)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_1420",
+					"referenceName": "MAGESTIC Bazooka (MELINITE)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_1430",
+					"referenceName": "DF-BA-06 XUAN-GE Bazooka (DAFENG)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_1510",
+					"referenceName": "WR-0777 SWEET SIXTEEN Shotgun (RAD)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_1520",
+					"referenceName": "SG-026 HALDEMAN Shotgun (BALAM)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_1530",
+					"referenceName": "SG-027 ZIMMERMAN Shotgun (BALAM)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_1610",
+					"referenceName": "MA-J-200 RANSETSU-RF Burst Rifle (BAWS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_1620",
+					"referenceName": "LR-036 CURTIS Linear Rifle (BALAM)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_1630",
+					"referenceName": "LR-037 HARRIS Linear Rifle (BALAM)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_1710",
+					"referenceName": "MA-J-201 RANSETSU-AR Burst Assault Rifle (BAWS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_1720",
+					"referenceName": "RF-024 TURNER Assault Rifle (BALAM)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_1730",
+					"referenceName": "RF-025 SCUDDER Assault Rifle (BALAM)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_1810",
+					"referenceName": "MA-E-210 ETSUJIN Burst Machine Gun (DAFENG)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_1820",
+					"referenceName": "MG-014 LUDLOW Machine Gun (BALAM)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_1830",
+					"referenceName": "DF-MG-02 CHANG-CHEN Machine Gun (DAFENG)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_1910",
+					"referenceName": "DF-GA-08 HU-BEN Gatling Gun (DAFENG)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_2010",
+					"referenceName": "EL-PW-00 VIENTO Needle Gun (ELCANO FOUNDRY)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_2020",
+					"referenceName": "MA-E-211 SAMPU Burst Handgun (BAWS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_2030",
+					"referenceName": "HG-003 COQUILLETT Handgun (BALAM)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_2040",
+					"referenceName": "HG-004 DUCKETT Handgun (BALAM)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_2110",
+					"referenceName": "MA-T-223 KYORIKU Jamming Bomb Launcher (BAWS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_2120",
+					"referenceName": "KYORAI Napalm Bomb Launcher (BAWS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_2130",
+					"referenceName": "WS-1200 THERAPIST Stun Bomb Launcher (RAD)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_2210",
+					"referenceName": "HML-G2/P19MLT-04 Missile Launcher (FURLONG DYNAMICS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_2220",
+					"referenceName": "HML-G3/P08SPL-06 Split Missile Launcher (FURLONG DYNAMICS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_2310",
+					"referenceName": "IRIDIUM Grenade Launcher (MELINITE)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_2420",
+					"referenceName": "44-142 KRSV Multi Energy Rifle (ALLMIND)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_4010",
+					"referenceName": "EARSHOT Spread Bazooka (BALAM)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_4110",
+					"referenceName": "SB-033M MORLEY Spread Bazooka (BALAM)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_4210",
+					"referenceName": "Vvc-703PM Plasma Missile Launcher (VCPL)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_4211",
+					"referenceName": "Vvc-706PM Plasma Missile Launcher (VCPL)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_4220",
+					"referenceName": "Vvc-70PM Plasma Missile Launcher (VCPL)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_4230",
+					"referenceName": "BML-G3/P05ACT-02 Active Homing Missile Launcher (FURLONG DYNAMICS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_4231",
+					"referenceName": "BML-G3/P04ACT-01 Active Homing Missile Launcher (FURLONG DYNAMICS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_4240",
+					"referenceName": "IB-C03W3: NGI 006 Coral Missile Launcher (RUBICON RESEARCH INSTITUTE)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_4250",
+					"referenceName": "BML-G1/P07VTC-12 Verticle Missile Launcher (FURLONG DYNAMICS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_4251",
+					"referenceName": "BML-G1/P01VTC-04 Verticle Missile Launcher (FURLONG DYNAMICS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_4252",
+					"referenceName": "BML-G1/P03VTC-08 Verticle Missile Launcher (FURLONG DYNAMICS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_4260",
+					"referenceName": "45-091 JVLN BETA Detonating Missile Launcher (ALLMIND)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_4280",
+					"referenceName": "WS-5001 SOUP Scatter Missile Launcher (RAD)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_4290",
+					"referenceName": "BML-G2/P03MLT-06 Missile Launcher (FURLONG DYNAMICS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_4291",
+					"referenceName": "BML-G1/P20MLT-04 Missile Launcher (FURLONG DYNAMICS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_4292",
+					"referenceName": "BML-G2/P05MLT-10 Missile Launcher (FURLONG DYNAMICS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_4300",
+					"referenceName": "BML-G1/P32DUO-03 Dual Missile Launcher (FURLONG DYNAMICS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_4301",
+					"referenceName": "BML-G2/P08DUO-03 Dual Missile Launcher (FURLONG DYNAMICS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_4302",
+					"referenceName": "BML-G2/P17SPL-16 Split Missile Launcher (FURLONG DYNAMICS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_4303",
+					"referenceName": "BML-G1/P31DUO-02 Dual Missile Launcher (FURLONG DYNAMICS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_4310",
+					"referenceName": "BML-G2/P19SPL-12 Split Missile Launcher (FURLONG DYNAMICS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_4311",
+					"referenceName": "BML-G2/P16SPL-08 Split Missile Launcher (FURLONG DYNAMICS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_4320",
+					"referenceName": "BML-G1/P29CNT Container Missile Launcher (FURLONG DYNAMICS)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_4330",
+					"referenceName": "EL-PW-01 TRUENO Needle Missile Launcher (ELCANO FOUNDRY)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_4340",
+					"referenceName": "WR-0999 DELIVERY BOY Cluster Missile Launcher (RAD)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_4350",
+					"referenceName": "IA-C01W3: AURORA Light Wave Cannon (RUBICON RESEARCH INSTITUTE)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_4410",
+					"referenceName": "SONGBIRDS Grenade Cannon (MELINITE)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_4510",
+					"referenceName": "FASAN/60E Plasma Cannon (SCHNEIDER)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_4610",
+					"referenceName": "VP-60LCS Laser Cannon (ARQUEBUS CORP)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_4710",
+					"referenceName": "VE-60LCA Laser Cannon (ARQUEBUS CORP)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_4810",
+					"referenceName": "KRANICH/60Z Pulse Cannon (SCHNEIDER)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_4820",
+					"referenceName": "EULE/60D Pulse Shield Launcher (SCHNEIDER)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_4830",
+					"referenceName": "VE-60SNA Stun Needle Launcher (ARQUEBUS CORP)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_5010",
+					"referenceName": "VP-60LCD Diffuse Laser Cannon (ARQUEBUS CORP)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_5710",
+					"referenceName": "BO-044 HUXLEY Bullet Orbit (BALAM)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_5720",
+					"referenceName": "45-091 ORBT Laser Orbit (ALLMIND)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_5810",
+					"referenceName": "Vvc-700LD Laser Drone (VCPL)",
+					
+					"tags": [
+						"part"
+					]
+				},
+				{
+					"id": "wp_r_5820",
+					"referenceName": "VP-60LT Laser Turret (ARQUEBUS CORP)",
+					
+					"tags": [
+						"part"
+					]
+				}
             ],
             "mapPieceList": [
                 {
-                    "fileName": "default",
+                    "id": "default",
                     "referenceName": "Default",
                     
-                    "tags": [
+                    "tagList": [
                         "default"
                     ]
                 }
