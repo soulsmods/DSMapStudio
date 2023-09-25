@@ -19,6 +19,8 @@ using Veldrid.StartupUtilities;
 using StudioCore.Graphics;
 using StudioCore.Platform;
 using Vortice.Vulkan;
+using StudioCore.MsbEditor;
+using StudioCore.Assetdex;
 
 namespace StudioCore
 {
@@ -39,6 +41,7 @@ namespace StudioCore
 
         private AssetLocator _assetLocator;
         private Editor.ProjectSettings _projectSettings = null;
+        private StudioCore.Assetdex.Assetdex _assetdex;
 
         private NewProjectOptions _newProjectOptions = new NewProjectOptions();
         private SettingsMenu _settingsMenu = new();
@@ -71,8 +74,11 @@ namespace StudioCore
             PlatformUtils.InitializeWindows(context.Window.SdlWindowHandle);
 
             _assetLocator = new AssetLocator();
+
+            _assetdex = new Assetdex.Assetdex();
+
             var msbEditor = new MsbEditor.MsbEditorScreen(_context.Window, _context.Device, _assetLocator);
-            var modelEditor = new MsbEditor.ModelEditorScreen(_context.Window, _context.Device, _assetLocator);
+            var modelEditor = new MsbEditor.ModelEditorScreen(_context.Window, _context.Device, _assetLocator, _assetdex);
             var paramEditor = new ParamEditor.ParamEditorScreen(_context.Window, _context.Device, _assetLocator);
             var textEditor = new TextEditor.TextEditorScreen(_context.Window, _context.Device, _assetLocator);
             _editors = new List<EditorScreen>()
@@ -88,7 +94,7 @@ namespace StudioCore
             _settingsMenu.ParamEditor = paramEditor;
             _settingsMenu.TextEditor = textEditor;
 
-            _ObjectBrowser = new ObjectBrowser("ObjectBrowser", _assetLocator);
+            _ObjectBrowser = new ObjectBrowser("ObjectBrowser", _assetLocator, _assetdex);
             _ObjectBrowser.MsbEditor = msbEditor;
 
             Editor.AliasBank.SetAssetLocator(_assetLocator);
@@ -374,6 +380,8 @@ namespace StudioCore
             {
                 editor.OnProjectChanged(_projectSettings);
             }
+
+            _ObjectBrowser.OnProjectChanged();
         }
 
         public void ApplyStyle()
@@ -1337,21 +1345,15 @@ namespace StudioCore
 
         public void ObjectBrowserGUI()
         {
-            _ObjectBrowser.OnGui();
+            _ObjectBrowser.Display();
         }
 
         public void OpenObjectBrowser()
         {
-            if (_assetLocator.Type != GameType.Undefined)
-            {
-                _ObjectBrowser.UpdateReferenceDicts();
-                _ObjectBrowser.ClearCaches();
-
-                if (_ObjectBrowser.MenuOpenState)
-                    _ObjectBrowser.MenuOpenState = false;
-                else
-                    _ObjectBrowser.MenuOpenState = true;
-            }
+            if (_ObjectBrowser.MenuOpenState)
+                _ObjectBrowser.MenuOpenState = false;
+            else
+                _ObjectBrowser.MenuOpenState = true;
         }
 
         public static float GetUIScale()

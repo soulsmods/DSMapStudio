@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ImGuiNET;
+using StudioCore.Assetdex;
 using Veldrid;
 
 namespace StudioCore.MsbEditor
@@ -35,47 +36,15 @@ namespace StudioCore.MsbEditor
 
         private string _searchStrInput = "";
         private string _searchStrInputCache = "";
-        private List<string> _searchStrList = new List<string>();
 
-        public Dictionary<string, ChrReference> chrReferenceDict = new Dictionary<string, ChrReference>();
-        public Dictionary<string, ObjReference> objReferenceDict = new Dictionary<string, ObjReference>();
-        public Dictionary<string, PartReference> partReferenceDict = new Dictionary<string, PartReference>();
-        public Dictionary<string, MapPieceReference> mapPieceReferenceDict = new Dictionary<string, MapPieceReference>();
+        private StudioCore.Assetdex.Assetdex _assetdex;
 
-        public AssetBrowser(AssetBrowserEventHandler handler, string id, AssetLocator locator)
+        public AssetBrowser(AssetBrowserEventHandler handler, string id, AssetLocator locator, Assetdex.Assetdex assetdex)
         {
             _id = id;
             _locator = locator;
             _handler = handler;
-        }
-
-        public void UpdateReferenceDicts()
-        {
-            chrReferenceDict.Clear();
-            objReferenceDict.Clear();
-            partReferenceDict.Clear();
-            mapPieceReferenceDict.Clear();
-
-            foreach (ChrReference entry in AssetdexUtils.GetCurrentGameAssetdex(_locator.Type).chrReferences)
-            {
-                if (!chrReferenceDict.ContainsKey(entry.fileName))
-                    chrReferenceDict.Add(entry.fileName, entry);
-            }
-            foreach (ObjReference entry in AssetdexUtils.GetCurrentGameAssetdex(_locator.Type).objReferences)
-            {
-                if (!objReferenceDict.ContainsKey(entry.fileName))
-                    objReferenceDict.Add(entry.fileName, entry);
-            }
-            foreach (PartReference entry in AssetdexUtils.GetCurrentGameAssetdex(_locator.Type).partReferences)
-            {
-                if (!partReferenceDict.ContainsKey(entry.fileName))
-                    partReferenceDict.Add(entry.fileName, entry);
-            }
-            foreach (MapPieceReference entry in AssetdexUtils.GetCurrentGameAssetdex(_locator.Type).mapPieceReferences)
-            {
-                if (!mapPieceReferenceDict.ContainsKey(entry.fileName))
-                    mapPieceReferenceDict.Add(entry.fileName, entry);
-            }
+            _assetdex = assetdex;
         }
 
         public void ClearCaches()
@@ -93,6 +62,7 @@ namespace StudioCore.MsbEditor
                 }
             }
         }
+
         public void OnGui()
         {
             if (ImGui.Begin($@"Asset Browser##{_id}"))
@@ -164,10 +134,10 @@ namespace StudioCore.MsbEditor
                         string referenceName = "";
                         List<string> tagList = new List<string>();
 
-                        if (chrReferenceDict.ContainsKey(chr))
+                        if (AssetdexUtil.assetReferenceDict_Chr.ContainsKey(chr))
                         {
-                            referenceName = chrReferenceDict[chr].referenceName;
-                            tagList = chrReferenceDict[chr].tags;
+                            referenceName = AssetdexUtil.assetReferenceDict_Chr[chr].referenceName;
+                            tagList = AssetdexUtil.assetReferenceDict_Chr[chr].tagList;
                             fileName = fileName + $" <{referenceName}>";
 
                             if (CFG.Current.ObjectBrowser_ShowTagsInBrowser)
@@ -177,7 +147,7 @@ namespace StudioCore.MsbEditor
                             }
                         }
 
-                        if (AssetdexUtils.MatchSearchInput(_searchStrInput, chr, referenceName, tagList))
+                        if (Utils.IsSearchFilterMatch(_searchStrInput, chr, referenceName, tagList))
                         {
                             if (ImGui.Selectable(fileName))
                             {
@@ -203,10 +173,10 @@ namespace StudioCore.MsbEditor
                         string referenceName = "";
                         List<string> tagList = new List<string>();
 
-                        if (objReferenceDict.ContainsKey(obj))
+                        if (AssetdexUtil.assetReferenceDict_Obj.ContainsKey(obj))
                         {
-                            referenceName = objReferenceDict[obj].referenceName;
-                            tagList = objReferenceDict[obj].tags;
+                            referenceName = AssetdexUtil.assetReferenceDict_Obj[obj].referenceName;
+                            tagList = AssetdexUtil.assetReferenceDict_Obj[obj].tagList;
                             fileName = fileName + $" <{referenceName}>";
 
                             if (CFG.Current.ObjectBrowser_ShowTagsInBrowser)
@@ -216,7 +186,7 @@ namespace StudioCore.MsbEditor
                             }
                         }
 
-                        if (AssetdexUtils.MatchSearchInput(_searchStrInput, obj, referenceName, tagList))
+                        if (Utils.IsSearchFilterMatch(_searchStrInput, obj, referenceName, tagList))
                         {
                             if (ImGui.Selectable(fileName))
                             {
@@ -243,10 +213,10 @@ namespace StudioCore.MsbEditor
                         string referenceName = "";
                         List<string> tagList = new List<string>();
 
-                        if (partReferenceDict.ContainsKey(part))
+                        if (AssetdexUtil.assetReferenceDict_Part.ContainsKey(part))
                         { 
-                            referenceName = partReferenceDict[part].referenceName;
-                            tagList = partReferenceDict[part].tags;
+                            referenceName = AssetdexUtil.assetReferenceDict_Part[part].referenceName;
+                            tagList = AssetdexUtil.assetReferenceDict_Part[part].tagList;
                             fileName = fileName + $" <{referenceName}>";
 
                             if (CFG.Current.ObjectBrowser_ShowTagsInBrowser)
@@ -256,7 +226,7 @@ namespace StudioCore.MsbEditor
                             }
                         }
 
-                        if (AssetdexUtils.MatchSearchInput(_searchStrInput, part, referenceName, tagList))
+                        if (Utils.IsSearchFilterMatch(_searchStrInput, part, referenceName, tagList))
                         {
                             if (ImGui.Selectable(fileName))
                             {
@@ -284,10 +254,10 @@ namespace StudioCore.MsbEditor
                             string referenceName = "";
                             List<string> tagList = new List<string>();
 
-                            if (mapPieceReferenceDict.ContainsKey(model))
+                            if (AssetdexUtil.assetReferenceDict_MapPiece.ContainsKey(model))
                             {
-                                referenceName = mapPieceReferenceDict[model].referenceName;
-                                tagList = mapPieceReferenceDict[model].tags;
+                                referenceName = AssetdexUtil.assetReferenceDict_MapPiece[model].referenceName;
+                                tagList = AssetdexUtil.assetReferenceDict_MapPiece[model].tagList;
                                 fileName = fileName + $" <{referenceName}>";
 
                                 if (CFG.Current.ObjectBrowser_ShowTagsInBrowser)
@@ -297,7 +267,7 @@ namespace StudioCore.MsbEditor
                                 }
                             }
 
-                            if (AssetdexUtils.MatchSearchInput(_searchStrInput, model, referenceName, tagList))
+                            if (Utils.IsSearchFilterMatch(_searchStrInput, model, referenceName, tagList))
                             {
                                 if (ImGui.Selectable(fileName))
                                 {

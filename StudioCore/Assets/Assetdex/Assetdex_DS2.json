@@ -3,7 +3,7 @@
         {
             "gameType": "DarkSoulsIISOTFS",
             
-            "chrReferences": [
+            "chrList": [
                 {
                     "fileName": "default",
                     "referenceName": "Default",
@@ -1645,7 +1645,7 @@
 					]
 				}
             ],
-            "objReferences": [
+            "objList": [
                 {
                     "fileName": "default",
                     "referenceName": "Default",
@@ -1655,7 +1655,7 @@
                     ]
                 }
             ],
-            "partReferences": [
+            "partList": [
                 {
                     "fileName": "default",
                     "referenceName": "Default",
@@ -1665,7 +1665,7 @@
                     ]
                 }
             ],
-            "mapPieceReferences": [
+            "mapPieceList": [
                 {
                     "fileName": "default",
                     "referenceName": "Default",

@@ -75,6 +75,8 @@ namespace StudioCore.MsbEditor
 
         private IModal _activeModal = null;
 
+        private StudioCore.Assetdex.Assetdex _assetdex;
+
         public MsbEditorScreen(Sdl2Window window, GraphicsDevice device, AssetLocator locator)
         {
             Rect = window.Bounds;

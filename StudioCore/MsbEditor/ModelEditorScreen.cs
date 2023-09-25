@@ -12,6 +12,7 @@ using StudioCore.Scene;
 using StudioCore.Editor;
 using ImGuiNET;
 using StudioCore.Gui;
+using StudioCore.Assetdex;
 
 namespace StudioCore.MsbEditor
 {
@@ -41,12 +42,15 @@ namespace StudioCore.MsbEditor
 
         private Task _loadingTask = null;
 
-        public ModelEditorScreen(Sdl2Window window, GraphicsDevice device, AssetLocator locator)
+        private StudioCore.Assetdex.Assetdex _assetdex;
+
+        public ModelEditorScreen(Sdl2Window window, GraphicsDevice device, AssetLocator locator, Assetdex.Assetdex assetdex)
         {
             Rect = window.Bounds;
             AssetLocator = locator;
             ResourceManager.Locator = AssetLocator;
             Window = window;
+            _assetdex = assetdex;
 
             if (device != null)
             {
@@ -63,7 +67,8 @@ namespace StudioCore.MsbEditor
 
             _sceneTree = new SceneTree(SceneTree.Configuration.ModelEditor, this, "modeledittree", _universe, _selection, EditorActionManager, Viewport, AssetLocator);
             _propEditor = new PropertyEditor(EditorActionManager);
-            _assetBrowser = new AssetBrowser(this, "modelEditorBrowser", AssetLocator);
+            _assetBrowser = new AssetBrowser(this, "modelEditorBrowser", AssetLocator, _assetdex);
+            _assetdex = assetdex;
         }
 
         private bool ViewportUsingKeyboard = false;
@@ -288,15 +293,10 @@ namespace StudioCore.MsbEditor
 
         public void OnProjectChanged(Editor.ProjectSettings newSettings)
         {
-            ReloadAssetBrowser();
-        }
-
-        public void ReloadAssetBrowser()
-        {
             if (AssetLocator.Type != GameType.Undefined)
             {
+                AssetdexUtil.UpdateAssetReferences(_assetdex.resourceDict[AssetLocator.Type].GameReference[0]);
                 _assetBrowser.ClearCaches();
-                _assetBrowser.UpdateReferenceDicts();
             }
         }
 

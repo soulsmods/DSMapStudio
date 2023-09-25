@@ -3,7 +3,7 @@
         {
             "gameType": "EldenRing",
             
-            "chrReferences": [
+            "chrList": [
                 {
                     "fileName": "default",
                     "referenceName": "Default",
@@ -2354,7 +2354,7 @@
 					]
 				}
             ],
-            "objReferences": [
+            "objList": [
                 {
                     "fileName": "default",
                     "referenceName": "Default",
@@ -35310,14 +35310,6 @@
 				{
 					"fileName": "aeg099_384",
 					"referenceName": "ID to 383, different tex",
-					
-					"tags": [
-						"asset"
-					]
-				},
-				{
-					"fileName": "aeg022_214",
-					"referenceName": "Painting of a place in Liurnia",
 					
 					"tags": [
 						"asset"
@@ -90380,7 +90372,7 @@
 					]
 				}
             ],
-            "partReferences": [
+            "partList": [
                 {
                     "fileName": "default",
                     "referenceName": "Default",
@@ -90390,7 +90382,7 @@
                     ]
                 }
             ],
-            "mapPieceReferences": [
+            "mapPieceList": [
                 {
                     "fileName": "default",
                     "referenceName": "Default",
