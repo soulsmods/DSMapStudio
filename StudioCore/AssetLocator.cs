@@ -714,6 +714,11 @@ namespace StudioCore
             return  $@"Assets\MassEditScripts\{GetGameIDForDir()}";
         }
 
+    	public string GetUpgraderAssetsDir()
+        {
+            return  $@"{GetParamAssetsDir()}\Upgrader";
+        }
+
         public string GetGameOffsetsAssetsDir()
         {
             return  $@"Assets\GameOffsets\{GetGameIDForDir()}";

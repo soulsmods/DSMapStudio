@@ -88,6 +88,7 @@ namespace StudioCore
             public KeyBind Core_Delete = new(Key.Delete);
             public KeyBind Core_Duplicate = new(Key.D, true);
             public KeyBind Core_ObjectBrowser = new(Key.F1);
+            public KeyBind Core_HelpMenu = new(Key.F2);
 
             // Viewport (Map & Model)
             public KeyBind Viewport_Cam_Forward = new(Key.W);

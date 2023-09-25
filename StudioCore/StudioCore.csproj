@@ -19,12 +19,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Assets\Paramdex\AC6\Meta\NewFolder\**" />
-    <EmbeddedResource Remove="Assets\Paramdex\AC6\Meta\NewFolder\**" />
-    <None Remove="Assets\Paramdex\AC6\Meta\NewFolder\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Remove="Assets\Fonts\forkawesome-webfont.ttf" />
     <None Remove="Assets\Fonts\NotoSansCJKtc-Light.otf" />
     <None Remove="Assets\Fonts\NotoSansCJKtc-Medium.otf" />
@@ -425,6 +419,8 @@
     <None Update="Assets\Aliases\**" CopyToOutputDirectory="PreserveNewest" />
     <None Update="Assets\MassEditScripts\**" CopyToOutputDirectory="PreserveNewest" />
     <None Update="Assets\GameOffsets\**" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="Assets\Upgrader\**" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="Assets\HelpMenu\**" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
   <ItemGroup>
