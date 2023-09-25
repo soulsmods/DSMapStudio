@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <PARAMDEF XmlVersion="3">
   <ParamType>ASSET_GEOMETORY_PARAM_ST</ParamType>
   <DataVersion>2</DataVersion>
@@ -115,8 +115,8 @@
     <Field Def="s32 repickReplacementActionButtonParamId"></Field>
     <Field Def="s32 repickReplacementItemLotParamId"></Field>
     <Field Def="f32 UnkFloat0x100"></Field>
-    <Field Def="s32 residentSeId0"></Field>
-    <Field Def="s32 residentSeId1"></Field>
+    <Field Def="f32 UnkFloat0x104"></Field>
+    <Field Def="f32 UnkFloat0x108"></Field>
     <Field Def="s32 residentSeId2"></Field>
     <Field Def="f32 residentSeId3"></Field>
     <Field Def="f32 UnkFloat0x114"></Field>
@@ -125,13 +125,13 @@
     <Field Def="u8 excludeActivateRatio_Xboxone_Legacy"></Field>
     <Field Def="u8 excludeActivateRatio_PS4_Grid"></Field>
     <Field Def="u8 excludeActivateRatio_PS4_Legacy"></Field>
-    <Field Def="s32 Unk0x120"></Field>
-    <Field Def="s32 Unk0x124"></Field>
-    <Field Def="s32 Unk0x128"></Field>
-    <Field Def="s32 Unk0x12C"></Field>
-    <Field Def="s32 Unk0x130"></Field>
-    <Field Def="s32 Unk0x134"></Field>
-    <Field Def="s32 Unk0x138"></Field>
+    <Field Def="f32 Unk0x120"></Field>
+    <Field Def="f32 Unk0x124"></Field>
+    <Field Def="f32 Unk0x128"></Field>
+    <Field Def="f32 Unk0x12C"></Field>
+    <Field Def="f32 Unk0x130"></Field>
+    <Field Def="f32 Unk0x134"></Field>
+    <Field Def="f32 Unk0x138"></Field>
     <Field Def="s32 Unk0x13C"></Field>
     <Field Def="s32 UnkInt0x140"></Field>
     <Field Def="s32 UnkInt0x144"></Field>

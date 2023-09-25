@@ -240,8 +240,8 @@
     <Field Def="u8 UnkByte0x1E5"></Field>
     <Field Def="u8 UnkByte0x1E6"></Field>
     <Field Def="u8 Unk0x1E7"></Field>
-    <Field Def="s32 Unk0x1E8"></Field>
-    <Field Def="s32 Unk0x1EC"></Field>
+    <Field Def="f32 Unk0x1E8"></Field>
+    <Field Def="f32 Unk0x1EC"></Field>
     <Field Def="f32 UnkFloat0x1F0"></Field>
     <Field Def="f32 UnkFloat0x1F4"></Field>
     <Field Def="f32 Unk0x1F8"></Field>
@@ -316,9 +316,9 @@
     <Field Def="u16 UnkUshort0x286"></Field>
     <Field Def="f32 Unk0x288"></Field>
     <Field Def="f32 Unk0x28C"></Field>
-    <Field Def="s32 Unk0x290"></Field>
-    <Field Def="s32 Unk0x294"></Field>
-    <Field Def="s32 Unk0x298"></Field>
+    <Field Def="f32 Unk0x290"></Field>
+    <Field Def="f32 Unk0x294"></Field>
+    <Field Def="f32 Unk0x298"></Field>
     <Field Def="s32 Unk0x29C"></Field>
     <Field Def="s32 Unk0x2A0"></Field>
     <Field Def="s32 Unk0x2A4"></Field>
@@ -332,9 +332,9 @@
     <Field Def="s32 Unk0x2C4"></Field>
     <Field Def="f32 Unk0x2C8"></Field>
     <Field Def="f32 Unk0x2CC"></Field>
-    <Field Def="s32 Unk0x2D0"></Field>
-    <Field Def="s32 Unk0x2D4"></Field>
-    <Field Def="s32 Unk0x2D8"></Field>
+    <Field Def="f32 Unk0x2D0"></Field>
+    <Field Def="f32 Unk0x2D4"></Field>
+    <Field Def="f32 Unk0x2D8"></Field>
     <Field Def="s32 Unk0x2DC"></Field>
     <Field Def="s32 Unk0x2E0"></Field>
     <Field Def="s32 Unk0x2E4"></Field>

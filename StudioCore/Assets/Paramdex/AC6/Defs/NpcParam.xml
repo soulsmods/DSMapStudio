@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMDEF XmlVersion="3">
   <ParamType>NPC_PARAM_ST</ParamType>
   <DataVersion>12</DataVersion>
@@ -569,7 +569,7 @@
     <Field Def="f32 UnkFloat0x638"></Field>
     <Field Def="f32 UnkFloat0x63C"></Field>
     <Field Def="f32 UnkFloat0x640"></Field>
-    <Field Def="s32 Unk0x644"></Field>
+    <Field Def="f32 Unk0x644"></Field>
     <Field Def="s32 UnkInt0x648"></Field>
     <Field Def="f32 UnkFloat0x64C"></Field>
     <Field Def="s32 Unk0x650"></Field>
@@ -630,7 +630,7 @@
     <Field Def="s32 Unk0x71C"></Field>
     <Field Def="s32 Unk0x720"></Field>
     <Field Def="f32 Unk0x724"></Field>
-    <Field Def="s32 Unk0x728"></Field>
+    <Field Def="f32 Unk0x728"></Field>
     <Field Def="s32 Unk0x72C"></Field>
     <Field Def="s32 Unk0x730"></Field>
     <Field Def="s32 Unk0x734"></Field>

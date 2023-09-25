@@ -288,7 +288,7 @@
     <Field Def="s32 Unk0x298"></Field>
     <Field Def="s32 Unk0x29C"></Field>
     <Field Def="s32 Unk0x2A0"></Field>
-    <Field Def="s32 Unk0x2A4"></Field>
+    <Field Def="f32 Unk0x2A4"></Field>
     <Field Def="s32 Unk0x2A8"></Field>
     <Field Def="s32 Unk0x2AC"></Field>
     <Field Def="f32 Unk0x2B0"></Field>
