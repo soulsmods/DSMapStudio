@@ -84,7 +84,7 @@
     <Field Def="s8 unkSameAsWeaponParam0x2C8_Sbyte0xD8"></Field>
     <Field Def="u8 sortGroupId"></Field>
     <Field Def="u8 partsDmgType"></Field>
-    <Field Def="u16 legType">
+    <Field Def="u16 legsType">
       <Description>Determines leg type and behavior, such as reverse joints, tetrapod, and tank legs.</Description>
     </Field>
     <Field Def="u8 isDeposit:1"></Field>
@@ -318,8 +318,8 @@
     <Field Def="f32 armsLoadLimit"></Field>
     <Field Def="s32 Unk0x23C"></Field>
     <Field Def="s32 armsMeleeSpecialization"></Field>
-    <Field Def="s32 legLoadLimit"></Field>
-    <Field Def="s32 legPartBoosterParamId">
+    <Field Def="s32 legsLoadLimit"></Field>
+    <Field Def="s32 legsPartBoosterParamId">
       <Description>Refers to EquipParamBooster</Description>
     </Field>
     <Field Def="s32 movementAcTypeParamId">

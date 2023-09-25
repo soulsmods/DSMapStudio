@@ -13,7 +13,7 @@
   </Enums>
   <Field>
     <knockbackParamId AltName="knockbackParamId" Refs="KnockbackParam" />
-    <legType AltName="Leg Type" Enum="LegTypeEnum" Wiki="Determines basic leg behavior. Value references are unknown." />
+    <legsType AltName="Legs Type" Enum="LegTypeEnum" Wiki="Determines basic leg behavior. Value references are unknown." />
     <thrusterParamId AltName="thrusterParamId" Refs="ThrustersParam_PC" />
     <weaponParamId AltName="Weapon Param ID" Refs="EquipParamWeapon" Wiki="Refers to EquipParamWeapon. Used to define scanner for with head parts, unknown usage with core parts."/>
     <quickBoostVelocity AltName="Quick boost velocity (&quot;Jump Distance&quot;)" Wiki="Referred to in-game as &quot;Jump Distance&quot;. Does not affect jump distance."/>
@@ -27,7 +27,7 @@
     <unkDisplayLegsJumpDistance AltName="Unk Displayed Jump Distance (no effect?)" Wiki="Seemingly does nothing. UI element for &quot;Jump Distance&quot; is governed by quickBoostVelocity." />
     <displayLegsJumpHeight AltName="Displayed Jump Height" Wiki=">Only affects value displayed in UI. Use jumpVelocityAcceleration for actual effects." />
     <protectorParamId AltName="protectorParamId" Refs="EquipParamProtector" />
-    <legPartBoosterParamId AltName="legPartBoosterParamId" Refs="EquipParamBooster" />
+    <legsPartBoosterParamId AltName="legPartBoosterParamId" Refs="EquipParamBooster" />
     <menuTextId AltName="MenuText ID" FmgRef="Modern_MenuText" />
     <equipmentMenuManageCategoryParamId AltName="equipmentMenuManageCategoryParamId" Refs="EquipmentMenuManageCategoryParam" />
     <armsLoadLimit AltName="Arms Load Limit" Wiki="Maximum weapon weight arms can handle before being overloaded." />
