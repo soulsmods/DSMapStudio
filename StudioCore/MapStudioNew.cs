@@ -19,9 +19,9 @@ using Veldrid.StartupUtilities;
 using StudioCore.Graphics;
 using StudioCore.Platform;
 using Vortice.Vulkan;
-using StudioCore.MsbEditor;
 using StudioCore.Assetdex;
 using StudioCore.Help;
+using StudioCore.AssetBrowser;
 
 namespace StudioCore
 {
@@ -46,7 +46,7 @@ namespace StudioCore
 
         private NewProjectOptions _newProjectOptions = new NewProjectOptions();
         private SettingsMenu _settingsMenu = new();
-        private ObjectBrowser _objectBrowser;
+        private AssetBrowser.AssetBrowser _assetBrowser;
         private Help.HelpMenu _helpMenu;
 
         private static bool _initialLoadComplete = false;
@@ -96,7 +96,7 @@ namespace StudioCore
             _settingsMenu.ParamEditor = paramEditor;
             _settingsMenu.TextEditor = textEditor;
 
-            _objectBrowser = new ObjectBrowser("ObjectBrowser", _assetLocator, _assetdex, msbEditor);
+            _assetBrowser = new AssetBrowser.AssetBrowser("AssetBrowser", _assetLocator, _assetdex, msbEditor);
 
             _helpMenu = new Help.HelpMenu("HelpMenu", _assetLocator);
 
@@ -385,7 +385,7 @@ namespace StudioCore
             }
 
             _assetdex.OnProjectChanged();
-            _objectBrowser.OnProjectChanged();
+            _assetBrowser.OnProjectChanged();
         }
 
         public void ApplyStyle()
@@ -863,7 +863,7 @@ namespace StudioCore
                 {
                     if (ImGui.MenuItem("Object Browser", KeyBindings.Current.Core_ObjectBrowser.HintText))
                     {
-                        _objectBrowser.ToggleMenuVisibility();
+                        _assetBrowser.ToggleMenuVisibility();
                     }
 
                     ImGui.EndMenu();
@@ -1248,7 +1248,7 @@ namespace StudioCore
                 {
                     if (_focusedEditor == _editors[0])
                     {
-                        _objectBrowser.ToggleMenuVisibility();
+                        _assetBrowser.ToggleMenuVisibility();
                     }
                 }
             }
@@ -1256,7 +1256,7 @@ namespace StudioCore
             // Force shut the Object Browser outside of MSB editor
             if(_focusedEditor != _editors[0])
             {
-                _objectBrowser.ToggleMenuVisibility();
+                _assetBrowser.CloseMenu();
 
                 if (InputTracker.GetKeyDown(KeyBindings.Current.Core_HelpMenu))
                 {
@@ -1306,7 +1306,7 @@ namespace StudioCore
 
         public void ObjectBrowserGUI()
         {
-            _objectBrowser.Display();
+            _assetBrowser.Display();
         }
 
         public static float GetUIScale()

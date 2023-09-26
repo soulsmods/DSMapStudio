@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace StudioCore.Assetdex
 {
+    /// <summary>
+    /// Class <c>AssetReference</c> is an entry contained within a <c>AssetReference</c> list within a <c>GameReference</c>.
+    /// </summary>
     public class AssetReference
     {
         public string id { get; set; }

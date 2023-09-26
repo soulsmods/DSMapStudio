@@ -18,7 +18,7 @@ namespace StudioCore.MsbEditor
         public void OnInstantiateMapPiece(string mapid, string modelid);
     }
 
-    public class AssetBrowser
+    public class ModelAssetBrowser
     {
         private string _id;
 
@@ -37,7 +37,7 @@ namespace StudioCore.MsbEditor
 
         private StudioCore.Assetdex.AssetdexCore _assetdex;
 
-        public AssetBrowser(AssetBrowserEventHandler handler, string id, AssetLocator locator, AssetdexCore assetdex)
+        public ModelAssetBrowser(AssetBrowserEventHandler handler, string id, AssetLocator locator, AssetdexCore assetdex)
         {
             _id = id;
             _assetLocator = locator;

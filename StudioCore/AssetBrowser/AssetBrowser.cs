@@ -7,13 +7,14 @@ using System.Text;
 using System.Text.RegularExpressions;
 using ImGuiNET;
 using StudioCore.Assetdex;
+using StudioCore.MsbEditor;
 
-namespace StudioCore.MsbEditor
+namespace StudioCore.AssetBrowser
 {
     /// <summary>
-    /// Class <c>ObjectBrowser</c> displays a dynamic selection list of all Chr, Obj/AEG, Part and MapPiece objects for the loaded <c>GameType</c>.
+    /// Class <c>AssetBrowser</c> displays a dynamic selection list of all Chr, Obj/AEG, Part and MapPiece objects for the loaded <c>GameType</c>.
     /// </summary>
-    public class ObjectBrowser
+    public class AssetBrowser
     {
         private string _id;
         private AssetLocator _assetLocator;
@@ -35,7 +36,7 @@ namespace StudioCore.MsbEditor
 
         private bool isMenuVisible = false;
 
-        public ObjectBrowser(string id, AssetLocator locator, AssetdexCore assetdex, MsbEditorScreen msbEditor)
+        public AssetBrowser(string id, AssetLocator locator, AssetdexCore assetdex, MsbEditorScreen msbEditor)
         {
             _id = id;
             _assetLocator = locator;
@@ -43,11 +44,25 @@ namespace StudioCore.MsbEditor
             _msbEditor = msbEditor;
         }
 
+        /// <summary>
+        /// Toggle the visibility of the Asset Browser.
+        /// </summary>
         public void ToggleMenuVisibility()
         {
             isMenuVisible = !isMenuVisible;
         }
 
+        /// <summary>
+        /// Hidethe Asset Browser.
+        /// </summary>
+        public void CloseMenu()
+        {
+            isMenuVisible = false;
+        }
+
+        /// <summary>
+        /// Update <c>_modelNameCache</c> and <c>_mapModelNameCache</c> when the project has changed.
+        /// </summary>
         public void OnProjectChanged()
         {
             if (_assetLocator.Type != GameType.Undefined)
@@ -69,6 +84,9 @@ namespace StudioCore.MsbEditor
             }
         }
 
+        /// <summary>
+        /// Display the Asset Browser window.
+        /// </summary>
         public void Display()
         {
             float scale = MapStudioNew.GetUIScale();
@@ -81,25 +99,29 @@ namespace StudioCore.MsbEditor
 
             ImGui.SetNextWindowSize(new Vector2(300.0f, 200.0f) * scale, ImGuiCond.FirstUseEver);
 
-            if (ImGui.Begin($@"Object Browser##{_id}"))
+            if (ImGui.Begin($@"Asset Browser##{_id}"))
             {
                 if (ImGui.Button("Help"))
                 {
-                    ImGui.OpenPopup("##ObjectBrowserHelp");
+                    ImGui.OpenPopup("##AssetBrowserHelp");
                 }
-                if (ImGui.BeginPopup("##ObjectBrowserHelp"))
+                if (ImGui.BeginPopup("##AssetBrowserHelp"))
                 {
                     ImGui.Text(
-                        "OVERVIEW\n" +
-                        "The Object Browser allows you to browse through all of the available characters, assets and objects.\n" +
+                        "--- OVERVIEW ---\n" +
+                        "The Asset Browser allows you to browse through all of the available characters, assets and objects and map pieces.\n" +
                         "The search will filter the browser list by filename, reference name and tags.\n" +
                         "\n" +
-                        "USAGE\n" +
-                        "If a Enemy object is selected within the MSB view, \n" +
+                        "--- USAGE ---\n" +
+                        "If a Enemy is selected within the MSB view, \n" +
                         "you can click on an entry within the Chr list to change the enemy to that type.\n" +
                         "\n" +
-                        "If a Asset or Obj object is selected within the MSB view, \n" +
-                        "you can click on an entry within the AEG or Obj list to change the object to that type.\n"
+                        "If a Asset or Obj is selected within the MSB view, \n" +
+                        "you can click on an entry within the AEG or Obj list to change the object to that type.\n" +
+                        "\n" +
+                        "If a Map Piece is selected within the MSB view, \n" +
+                        "you can click on an entry within the Map Piece list to change the object to that type.\n" +
+                        "Note, you cannot apply a Map Piece asset from a different map to that of the selected Map Piece."
                         );
                     ImGui.EndPopup();
                 }
@@ -138,6 +160,9 @@ namespace StudioCore.MsbEditor
             ImGui.End();
         }
 
+        /// <summary>
+        /// Display the asset category type selection list: Chr, Obj/AEG, Part and each map id for Map Pieces.
+        /// </summary>
         private void DisplayAssetTypeSelectionList()
         {
             string objLabel = "Obj";
@@ -161,9 +186,9 @@ namespace StudioCore.MsbEditor
             // Map-specific MapPieces
             foreach (string mapId in _mapModelNameCache.Keys)
             {
-                foreach(var obj in _msbEditor.Universe.LoadedObjectContainers)
+                foreach (var obj in _msbEditor.Universe.LoadedObjectContainers)
                 {
-                    if(obj.Value != null)
+                    if (obj.Value != null)
                     {
                         _loadedMaps.Add(obj.Key);
                     }
@@ -192,6 +217,9 @@ namespace StudioCore.MsbEditor
             }
         }
 
+        /// <summary>
+        /// Display the asset selection list for Chr, Obj/AEG and Parts.
+        /// </summary>
         private void DisplayAssetSelectionList(string assetType, Dictionary<string, AssetReference> assetDict)
         {
             if (_selectedAssetType == assetType)
@@ -240,6 +268,9 @@ namespace StudioCore.MsbEditor
                 }
             }
         }
+        /// <summary>
+        /// Display the asset selection list for Map Pieces.
+        /// </summary>
         private void DisplayMapAssetSelectionList(string assetType, Dictionary<string, AssetReference> assetDict)
         {
             if (_selectedAssetType == assetType)
@@ -266,7 +297,7 @@ namespace StudioCore.MsbEditor
 
                             if (CFG.Current.ObjectBrowser_ShowTagsInBrowser)
                             {
-                                string tagString = String.Join(" ", assetDict[name].tagList);
+                                string tagString = string.Join(" ", assetDict[name].tagList);
                                 displayName = $"{displayName} {{ {tagString} }}";
                             }
 

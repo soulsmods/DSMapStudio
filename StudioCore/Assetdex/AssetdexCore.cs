@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace StudioCore.Assetdex
 {
+    /// <summary>
+    /// Class <c>AssetdexCore</c> contains the <c>AssetReference</c> dictionaries that host the documentation for each asset.
+    /// </summary>
     public class AssetdexCore
     {
         private Dictionary<GameType, AssetdexResource> resourceDict = new Dictionary<GameType, AssetdexResource>();
@@ -33,6 +36,11 @@ namespace StudioCore.Assetdex
             resourceDict.Add(GameType.Sekiro, LoadAssetdexJSON("SDT"));
             resourceDict.Add(GameType.ArmoredCoreVI, LoadAssetdexJSON("AC6"));
         }
+
+        /// <summary>
+        /// Load a supported <c>GameType</c> JSON file.
+        /// </summary>
+        /// <returns>An AssetdexResource object with the serialized documentation.</returns>
         private AssetdexResource LoadAssetdexJSON(string gametype)
         {
             AssetdexResource resource = new AssetdexResource();
@@ -51,11 +59,17 @@ namespace StudioCore.Assetdex
             return resource;
         }
 
+        /// <summary>
+        /// Update the Assetdex when the project has changed.
+        /// </summary>
         public void OnProjectChanged()
         {
             UpdateAssetReferences(_locator.Type);
         }
 
+        /// <summary>
+        /// Update the <c>AssetReference</c> dictionaries to use serialized documentation suitable for the currently loaded <c>GameType</c>.
+        /// </summary>
         private void UpdateAssetReferences(GameType type)
         {
             GameReference game = resourceDict[type].GameReference[0];
@@ -87,21 +101,33 @@ namespace StudioCore.Assetdex
             }
         }
 
+        /// <returns>
+        /// The <c>AssetReference</c> dictionary for Chrs.
+        /// </returns>
         public Dictionary<string, AssetReference> GetChrReferences()
         {
             return chrRefs;
         }
 
+        /// <returns>
+        /// The <c>AssetReference</c> dictionary for Obj/AEGs.
+        /// </returns>
         public Dictionary<string, AssetReference> GetObjReferences()
         {
             return objRefs;
         }
 
+        /// <returns>
+        /// The <c>AssetReference</c> dictionary for Parts.
+        /// </returns>
         public Dictionary<string, AssetReference> GetPartReferences()
         {
             return partRefs;
         }
 
+        /// <returns>
+        /// The <c>AssetReference</c> dictionary for Map Pieces.
+        /// </returns>
         public Dictionary<string, AssetReference> GetMapPieceReferences()
         {
             return mapPieceRefs;

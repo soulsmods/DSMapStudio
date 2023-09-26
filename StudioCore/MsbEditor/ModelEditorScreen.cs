@@ -34,7 +34,7 @@ namespace StudioCore.MsbEditor
 
         private SceneTree _sceneTree;
         private PropertyEditor _propEditor;
-        private AssetBrowser _assetBrowser;
+        private ModelAssetBrowser _assetBrowser;
 
         private ResourceHandle<FlverResource> _flverhandle = null;
         private string _currentModel = null;
@@ -67,7 +67,7 @@ namespace StudioCore.MsbEditor
 
             _sceneTree = new SceneTree(SceneTree.Configuration.ModelEditor, this, "modeledittree", _universe, _selection, EditorActionManager, Viewport, AssetLocator);
             _propEditor = new PropertyEditor(EditorActionManager);
-            _assetBrowser = new AssetBrowser(this, "modelEditorBrowser", AssetLocator, _assetdex);
+            _assetBrowser = new ModelAssetBrowser(this, "modelEditorBrowser", AssetLocator, _assetdex);
             _assetdex = assetdex;
         }
 
