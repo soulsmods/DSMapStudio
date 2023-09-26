@@ -10,6 +10,9 @@ using StudioCore.Assetdex;
 
 namespace StudioCore.MsbEditor
 {
+    /// <summary>
+    /// Class <c>ObjectBrowser</c> displays a dynamic selection list of all Chr, Obj/AEG, Part and MapPiece objects for the loaded <c>GameType</c>.
+    /// </summary>
     public class ObjectBrowser
     {
         private string _id;

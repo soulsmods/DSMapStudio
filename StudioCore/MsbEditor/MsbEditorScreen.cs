@@ -11,6 +11,7 @@ using System.Numerics;
 using Veldrid;
 using Veldrid.Sdl2;
 using Veldrid.Utilities;
+using StudioCore.Assetdex;
 
 namespace StudioCore.MsbEditor
 {
@@ -75,7 +76,7 @@ namespace StudioCore.MsbEditor
 
         private IModal _activeModal = null;
 
-        private StudioCore.Assetdex.Assetdex _assetdex;
+        private AssetdexCore _assetdex;
 
         public MsbEditorScreen(Sdl2Window window, GraphicsDevice device, AssetLocator locator)
         {
