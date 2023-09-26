@@ -13,124 +13,74 @@ namespace StudioCore.Assetdex
     /// </summary>
     public class AssetdexCore
     {
-        private Dictionary<GameType, AssetdexResource> resourceDict = new Dictionary<GameType, AssetdexResource>();
+        private Dictionary<GameType, AssetContainer> assetContainers = new Dictionary<GameType, AssetContainer>();
 
-        private Dictionary<string, AssetReference> chrRefs = new Dictionary<string, AssetReference>();
-        private Dictionary<string, AssetReference> objRefs = new Dictionary<string, AssetReference>();
-        private Dictionary<string, AssetReference> partRefs = new Dictionary<string, AssetReference>();
-        private Dictionary<string, AssetReference> mapPieceRefs = new Dictionary<string, AssetReference>();
-
-        private AssetLocator _locator;
-
-        public AssetdexCore(AssetLocator locator)
+        public AssetdexCore()
         {
-            _locator = locator;
-
-            resourceDict.Add(GameType.DemonsSouls, LoadAssetdexJSON("DES"));
-            resourceDict.Add(GameType.DarkSoulsPTDE, LoadAssetdexJSON("DS1"));
-            resourceDict.Add(GameType.DarkSoulsRemastered, LoadAssetdexJSON("DS1R"));
-            resourceDict.Add(GameType.DarkSoulsIISOTFS, LoadAssetdexJSON("DS2"));
-            resourceDict.Add(GameType.Bloodborne, LoadAssetdexJSON("BB"));
-            resourceDict.Add(GameType.DarkSoulsIII, LoadAssetdexJSON("DS3"));
-            resourceDict.Add(GameType.EldenRing, LoadAssetdexJSON("ER"));
-            resourceDict.Add(GameType.Sekiro, LoadAssetdexJSON("SDT"));
-            resourceDict.Add(GameType.ArmoredCoreVI, LoadAssetdexJSON("AC6"));
+            assetContainers.Add(GameType.DemonsSouls, BuildAssetContainer("DES"));
+            assetContainers.Add(GameType.DarkSoulsPTDE, BuildAssetContainer("DS1"));
+            assetContainers.Add(GameType.DarkSoulsRemastered, BuildAssetContainer("DS1R"));
+            assetContainers.Add(GameType.DarkSoulsIISOTFS, BuildAssetContainer("DS2S"));
+            assetContainers.Add(GameType.Bloodborne, BuildAssetContainer("BB"));
+            assetContainers.Add(GameType.DarkSoulsIII, BuildAssetContainer("DS3"));
+            assetContainers.Add(GameType.Sekiro, BuildAssetContainer("SDT"));
+            assetContainers.Add(GameType.EldenRing, BuildAssetContainer("ER"));
+            assetContainers.Add(GameType.ArmoredCoreVI, BuildAssetContainer("AC6"));
         }
 
-        /// <summary>
-        /// Load a supported <c>GameType</c> JSON file.
-        /// </summary>
-        /// <returns>An AssetdexResource object with the serialized documentation.</returns>
-        private AssetdexResource LoadAssetdexJSON(string gametype)
+        private AssetContainer BuildAssetContainer(string gametype)
         {
-            AssetdexResource resource = new AssetdexResource();
+            AssetContainer container = new AssetContainer(gametype);
 
-            string json_filepath = AppContext.BaseDirectory + $"\\Assets\\Assetdex\\Assetdex_{gametype}.json";
+            return container;
+        }
 
-            if (File.Exists(json_filepath))
+        public Dictionary<string, AssetReference> GetChrEntriesForGametype(GameType gametype)
+        {
+            Dictionary<string, AssetReference> dict = new Dictionary<string, AssetReference>();
+
+            foreach(AssetReference entry in assetContainers[gametype].GetChrEntries())
             {
-                var options = new JsonSerializerOptions
-                {
-                    ReadCommentHandling = JsonCommentHandling.Skip,
-                };
-                resource = JsonSerializer.Deserialize<AssetdexResource>(File.OpenRead(json_filepath), options);
+                dict.Add(entry.id, entry);
             }
 
-            return resource;
+            return dict;
         }
 
-        /// <summary>
-        /// Update the Assetdex when the project has changed.
-        /// </summary>
-        public void OnProjectChanged()
+        public Dictionary<string, AssetReference> GetObjEntriesForGametype(GameType gametype)
         {
-            UpdateAssetReferences(_locator.Type);
-        }
+            Dictionary<string, AssetReference> dict = new Dictionary<string, AssetReference>();
 
-        /// <summary>
-        /// Update the <c>AssetReference</c> dictionaries to use serialized documentation suitable for the currently loaded <c>GameType</c>.
-        /// </summary>
-        private void UpdateAssetReferences(GameType type)
-        {
-            GameReference game = resourceDict[type].GameReference[0];
-
-            chrRefs.Clear();
-            objRefs.Clear();
-            partRefs.Clear();
-            mapPieceRefs.Clear();
-
-            foreach (AssetReference entry in game.chrList)
+            foreach (AssetReference entry in assetContainers[gametype].GetObjEntries())
             {
-                if (!chrRefs.ContainsKey(entry.id))
-                    chrRefs.Add(entry.id, entry);
+                dict.Add(entry.id, entry);
             }
-            foreach (AssetReference entry in game.objList)
+
+            return dict;
+        }
+
+        public Dictionary<string, AssetReference> GetPartEntriesForGametype(GameType gametype)
+        {
+            Dictionary<string, AssetReference> dict = new Dictionary<string, AssetReference>();
+
+            foreach (AssetReference entry in assetContainers[gametype].GetPartEntries())
             {
-                if (!objRefs.ContainsKey(entry.id))
-                    objRefs.Add(entry.id, entry);
+                dict.Add(entry.id, entry);
             }
-            foreach (AssetReference entry in game.partList)
+
+            return dict;
+        }
+
+        public Dictionary<string, AssetReference> GetMapPieceEntriesForGametype(GameType gametype)
+        {
+            Dictionary<string, AssetReference> dict = new Dictionary<string, AssetReference>();
+
+            foreach (AssetReference entry in assetContainers[gametype].GetMapPieceEntries())
             {
-                if (!partRefs.ContainsKey(entry.id))
-                    partRefs.Add(entry.id, entry);
+                dict.Add(entry.id, entry);
             }
-            foreach (AssetReference entry in game.mapPieceList)
-            {
-                if (!mapPieceRefs.ContainsKey(entry.id))
-                    mapPieceRefs.Add(entry.id, entry);
-            }
-        }
 
-        /// <returns>
-        /// The <c>AssetReference</c> dictionary for Chrs.
-        /// </returns>
-        public Dictionary<string, AssetReference> GetChrReferences()
-        {
-            return chrRefs;
-        }
-
-        /// <returns>
-        /// The <c>AssetReference</c> dictionary for Obj/AEGs.
-        /// </returns>
-        public Dictionary<string, AssetReference> GetObjReferences()
-        {
-            return objRefs;
-        }
-
-        /// <returns>
-        /// The <c>AssetReference</c> dictionary for Parts.
-        /// </returns>
-        public Dictionary<string, AssetReference> GetPartReferences()
-        {
-            return partRefs;
-        }
-
-        /// <returns>
-        /// The <c>AssetReference</c> dictionary for Map Pieces.
-        /// </returns>
-        public Dictionary<string, AssetReference> GetMapPieceReferences()
-        {
-            return mapPieceRefs;
+            return dict;
         }
     }
 }

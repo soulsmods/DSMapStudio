@@ -11,8 +11,8 @@ namespace StudioCore.Assetdex
     /// <summary>
     /// Class <c>AssetdexResource</c> is the root object filled by the JSON deserialization.
     /// </summary>
-    public class AssetdexResource
+    public class AssetResource
     {
-        public List<GameReference> GameReference { get; set; }
+        public List<AssetReference> list { get; set; }
     }
 }

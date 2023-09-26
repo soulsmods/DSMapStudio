@@ -12,7 +12,7 @@ namespace StudioCore.Assetdex
     public class AssetReference
     {
         public string id { get; set; }
-        public string referenceName { get; set; }
-        public List<string> tagList { get; set; }
+        public string name { get; set; }
+        public List<string> tags { get; set; }
     }
 }

@@ -76,8 +76,7 @@ namespace StudioCore
             PlatformUtils.InitializeWindows(context.Window.SdlWindowHandle);
 
             _assetLocator = new AssetLocator();
-
-            _assetdex = new Assetdex.AssetdexCore(_assetLocator);
+            _assetdex = new AssetdexCore();
 
             var msbEditor = new MsbEditor.MsbEditorScreen(_context.Window, _context.Device, _assetLocator);
             var modelEditor = new MsbEditor.ModelEditorScreen(_context.Window, _context.Device, _assetLocator, _assetdex);
@@ -384,7 +383,6 @@ namespace StudioCore
                 editor.OnProjectChanged(_projectSettings);
             }
 
-            _assetdex.OnProjectChanged();
             _assetBrowser.OnProjectChanged();
         }
 

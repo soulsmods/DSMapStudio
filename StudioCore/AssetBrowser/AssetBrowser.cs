@@ -150,9 +150,9 @@ namespace StudioCore.AssetBrowser
 
                 ImGui.BeginChild("AssetList");
 
-                DisplayAssetSelectionList("Chr", _assetdex.GetChrReferences());
-                DisplayAssetSelectionList("Obj", _assetdex.GetObjReferences());
-                DisplayMapAssetSelectionList("MapPiece", _assetdex.GetMapPieceReferences());
+                DisplayAssetSelectionList("Chr", _assetdex.GetChrEntriesForGametype(_assetLocator.Type));
+                DisplayAssetSelectionList("Obj", _assetdex.GetObjEntriesForGametype(_assetLocator.Type));
+                DisplayMapAssetSelectionList("MapPiece", _assetdex.GetMapPieceEntriesForGametype(_assetLocator.Type));
 
                 ImGui.EndChild();
                 ImGui.EndChild();
@@ -238,16 +238,16 @@ namespace StudioCore.AssetBrowser
 
                     if (assetDict.ContainsKey(name))
                     {
-                        displayName = displayName + $" <{assetDict[name].referenceName}>";
+                        displayName = displayName + $" <{assetDict[name].name}>";
 
                         if (CFG.Current.ObjectBrowser_ShowTagsInBrowser)
                         {
-                            string tagString = string.Join(" ", assetDict[name].tagList);
+                            string tagString = string.Join(" ", assetDict[name].tags);
                             displayName = $"{displayName} {{ {tagString} }}";
                         }
 
-                        referenceName = assetDict[name].referenceName;
-                        tagList = assetDict[name].tagList;
+                        referenceName = assetDict[name].name;
+                        tagList = assetDict[name].tags;
                     }
 
                     if (Utils.IsSearchFilterMatch(_searchInput, name, referenceName, tagList))
@@ -293,16 +293,16 @@ namespace StudioCore.AssetBrowser
 
                         if (assetDict.ContainsKey(name))
                         {
-                            displayName = displayName + $" <{assetDict[name].referenceName}>";
+                            displayName = displayName + $" <{assetDict[name].name}>";
 
                             if (CFG.Current.ObjectBrowser_ShowTagsInBrowser)
                             {
-                                string tagString = string.Join(" ", assetDict[name].tagList);
+                                string tagString = string.Join(" ", assetDict[name].tags);
                                 displayName = $"{displayName} {{ {tagString} }}";
                             }
 
-                            referenceName = assetDict[name].referenceName;
-                            tagList = assetDict[name].tagList;
+                            referenceName = assetDict[name].name;
+                            tagList = assetDict[name].tags;
                         }
 
                         if (Utils.IsSearchFilterMatch(_searchInput, name, referenceName, tagList))

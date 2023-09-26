@@ -90,10 +90,10 @@ namespace StudioCore.MsbEditor
 
                 ImGui.BeginChild("AssetList");
 
-                DisplayAssetSelectionList("Chr", _assetdex.GetChrReferences());
-                DisplayAssetSelectionList("Obj", _assetdex.GetObjReferences());
-                DisplayAssetSelectionList("Parts", _assetdex.GetPartReferences());
-                DisplayAssetSelectionList("MapPiece", _assetdex.GetMapPieceReferences());
+                DisplayAssetSelectionList("Chr", _assetdex.GetChrEntriesForGametype(_assetLocator.Type));
+                DisplayAssetSelectionList("Obj", _assetdex.GetObjEntriesForGametype(_assetLocator.Type));
+                DisplayAssetSelectionList("Parts", _assetdex.GetPartEntriesForGametype(_assetLocator.Type));
+                DisplayAssetSelectionList("MapPiece", _assetdex.GetMapPieceEntriesForGametype(_assetLocator.Type));
 
                 ImGui.EndChild();
                 ImGui.EndChild();
@@ -160,16 +160,16 @@ namespace StudioCore.MsbEditor
 
                     if (assetDict.ContainsKey(name))
                     {
-                        displayName = displayName + $" <{assetDict[name].referenceName}>";
+                        displayName = displayName + $" <{assetDict[name].name}>";
 
                         if (CFG.Current.ObjectBrowser_ShowTagsInBrowser)
                         {
-                            string tagString = string.Join(" ", assetDict[name].tagList);
+                            string tagString = string.Join(" ", assetDict[name].tags);
                             displayName = $"{displayName} {{ {tagString} }}";
                         }
 
-                        referenceName = assetDict[name].referenceName;
-                        tagList = assetDict[name].tagList;
+                        referenceName = assetDict[name].name;
+                        tagList = assetDict[name].tags;
                     }
 
                     if (Utils.IsSearchFilterMatch(_searchStrInput, name, referenceName, tagList))
@@ -214,16 +214,16 @@ namespace StudioCore.MsbEditor
 
                         if (assetDict.ContainsKey(name))
                         {
-                            displayName = displayName + $" <{assetDict[name].referenceName}>";
+                            displayName = displayName + $" <{assetDict[name].name}>";
 
                             if (CFG.Current.ObjectBrowser_ShowTagsInBrowser)
                             {
-                                string tagString = String.Join(" ", assetDict[name].tagList);
+                                string tagString = String.Join(" ", assetDict[name].tags);
                                 displayName = $"{displayName} {{ {tagString} }}";
                             }
 
-                            referenceName = assetDict[name].referenceName;
-                            tagList = assetDict[name].tagList;
+                            referenceName = assetDict[name].name;
+                            tagList = assetDict[name].tags;
                         }
 
                         if (Utils.IsSearchFilterMatch(_searchStrInput, name, referenceName, tagList))
