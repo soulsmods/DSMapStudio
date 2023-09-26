@@ -19,8 +19,8 @@
     <quickBoostVelocity AltName="Quick boost velocity (&quot;Jump Distance&quot;)" Wiki="Referred to in-game as &quot;Jump Distance&quot;. Does not affect jump distance."/>
     <movementAcTypeParamId AltName="movementAcTypeParamId" Refs="MovementAcTypeParam" />
     <chrActTurnParamId AltName="chrActTurnParamId" Refs="ChrActTurnParam" />
-    <quickBoostGroundedVerticalVelocity AltName="Quick Boost Vertical Velocity (on ground)" Wiki="Vertical velocity gained from quick boosting while on the ground." />
-    <boostingJumpHorizontalSpeedBonus AltName="Boost Jump Horizontal Speed Bonus" Wiki="When boosting then jumping, takes current speed and multiplies it by this value then adds it to current speed." />
+    <quickBoostVerticalVelocity_Grounded AltName="Quick Boost Vertical Velocity (on ground)" Wiki="Vertical velocity gained from quick boosting while on the ground." />
+    <boostModeJumpHorizontalSpeedBonus AltName="Boost Jump Horizontal Speed Bonus" Wiki="When boosting then jumping, takes current speed and multiplies it by this value then adds it to current speed." />
     <jumpVelocityVertical AltName="Jump Vertical Velocity" Wiki="Amount of vertical velocity when jumping." />
     <jumpVelocityAcceleration AltName="Jump Velocity Acceleration" Wiki="How quickly jump reaches max velocity and velocity ends. Interrupted by boosting." />
     <jumpVelocityHorizontalTransferred AltName="Jump Velocity Horizontal Transfer Rate" Wiki="Amount of vertical jump velocity to transfer into horizontal velocity." />

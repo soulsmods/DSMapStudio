@@ -350,10 +350,10 @@
     <Field Def="f32 UnkFloat0x288"></Field>
     <Field Def="s32 Unk0x28C"></Field>
     <Field Def="f32 UnkFloat0x290"></Field>
-    <Field Def="f32 quickBoostGroundedVerticalVelocity">
+    <Field Def="f32 quickBoostVerticalVelocity_Grounded">
       <Description>Height gained while quick boosting.</Description>
     </Field>
-    <Field Def="f32 boostingJumpHorizontalSpeedBonus">
+    <Field Def="f32 boostModeJumpHorizontalSpeedBonus">
       <Description>When boosting then jumping, takes current speed and multiplies it by this value then adds it to current speed.</Description>
     </Field>
     <Field Def="f32 jumpVelocityVertical"></Field>
