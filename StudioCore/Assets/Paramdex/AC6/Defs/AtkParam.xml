@@ -207,7 +207,7 @@
     <Field Def="u16 UnkUshort0x19A"></Field>
     <Field Def="f32 UnkFloat0x19C"></Field>
     <Field Def="f32 UnkFloat0x1A0"></Field>
-    <Field Def="f32 UnkFloat0x1A4"></Field>
+    <Field Def="f32 recoilVelocity_Grounded"></Field>
     <Field Def="u8 UnkByte0x1A8"></Field>
     <Field Def="u8 UnkByte0x1A9"></Field>
     <Field Def="u8 UnkByte0x1AA"></Field>
@@ -242,7 +242,7 @@
     <Field Def="u8 Unk0x1E7"></Field>
     <Field Def="f32 Unk0x1E8"></Field>
     <Field Def="f32 Unk0x1EC"></Field>
-    <Field Def="f32 UnkFloat0x1F0"></Field>
+    <Field Def="f32 recoilVelocity_Airborne"></Field>
     <Field Def="f32 UnkFloat0x1F4"></Field>
     <Field Def="f32 Unk0x1F8"></Field>
     <Field Def="f32 Unk0x1FC"></Field>

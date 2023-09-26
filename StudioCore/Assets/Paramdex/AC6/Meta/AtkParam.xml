@@ -2,6 +2,8 @@
 <PARAMMETA XmlVersion="0">
   <Field>
     <pulseInterferenceDamage Name="Pulse Armor Interference Damage" Wiki="Bonus damage dealt to pulse armor, pulse protection, and terminal armor core expansions. Doesn't affect shields, nor weapons that create pulse barrier assets."/>
+    <recoilVelocity_Grounded Name="Recoil Velocity (Grounded)" Wiki="Backwards velocity applied to the shooter when using a weapon on the ground. Applies conditionally, such as not applying when AC has tank legs."/>
+    <recoilVelocity_Airborne Name="Recoil Velocity (Airborne)" Wiki="Backwards velocity applied to the shooter when using a weapon in the air."/>
   </Field>
   <Self />
 </PARAMMETA>
