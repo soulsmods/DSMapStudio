@@ -42,11 +42,11 @@ namespace StudioCore
 
         private AssetLocator _assetLocator;
         private Editor.ProjectSettings _projectSettings = null;
-        private StudioCore.Assetdex.Assetdex _assetdex;
+        private AssetdexCore _assetdex;
 
         private NewProjectOptions _newProjectOptions = new NewProjectOptions();
         private SettingsMenu _settingsMenu = new();
-        private ObjectBrowser _ObjectBrowser;
+        private ObjectBrowser _objectBrowser;
         private Help.HelpMenu _helpMenu;
 
         private static bool _initialLoadComplete = false;
@@ -77,7 +77,7 @@ namespace StudioCore
 
             _assetLocator = new AssetLocator();
 
-            _assetdex = new Assetdex.Assetdex();
+            _assetdex = new Assetdex.AssetdexCore(_assetLocator);
 
             var msbEditor = new MsbEditor.MsbEditorScreen(_context.Window, _context.Device, _assetLocator);
             var modelEditor = new MsbEditor.ModelEditorScreen(_context.Window, _context.Device, _assetLocator, _assetdex);
@@ -96,8 +96,7 @@ namespace StudioCore
             _settingsMenu.ParamEditor = paramEditor;
             _settingsMenu.TextEditor = textEditor;
 
-            _ObjectBrowser = new ObjectBrowser("ObjectBrowser", _assetLocator, _assetdex);
-            _ObjectBrowser.MsbEditor = msbEditor;
+            _objectBrowser = new ObjectBrowser("ObjectBrowser", _assetLocator, _assetdex, msbEditor);
 
             _helpMenu = new Help.HelpMenu("HelpMenu", _assetLocator);
 
@@ -385,7 +384,8 @@ namespace StudioCore
                 editor.OnProjectChanged(_projectSettings);
             }
 
-            _ObjectBrowser.OnProjectChanged();
+            _assetdex.OnProjectChanged();
+            _objectBrowser.OnProjectChanged();
         }
 
         public void ApplyStyle()
@@ -863,7 +863,7 @@ namespace StudioCore
                 {
                     if (ImGui.MenuItem("Object Browser", KeyBindings.Current.Core_ObjectBrowser.HintText))
                     {
-                        OpenObjectBrowser();
+                        _objectBrowser.ToggleMenuVisibility();
                     }
 
                     ImGui.EndMenu();
@@ -1248,7 +1248,7 @@ namespace StudioCore
                 {
                     if (_focusedEditor == _editors[0])
                     {
-                        OpenObjectBrowser();
+                        _objectBrowser.ToggleMenuVisibility();
                     }
                 }
             }
@@ -1256,7 +1256,7 @@ namespace StudioCore
             // Force shut the Object Browser outside of MSB editor
             if(_focusedEditor != _editors[0])
             {
-                _ObjectBrowser.MenuOpenState = false;
+                _objectBrowser.ToggleMenuVisibility();
 
                 if (InputTracker.GetKeyDown(KeyBindings.Current.Core_HelpMenu))
                 {
@@ -1306,15 +1306,7 @@ namespace StudioCore
 
         public void ObjectBrowserGUI()
         {
-            _ObjectBrowser.Display();
-        }
-
-        public void OpenObjectBrowser()
-        {
-            if (_ObjectBrowser.MenuOpenState)
-                _ObjectBrowser.MenuOpenState = false;
-            else
-                _ObjectBrowser.MenuOpenState = true;
+            _objectBrowser.Display();
         }
 
         public static float GetUIScale()

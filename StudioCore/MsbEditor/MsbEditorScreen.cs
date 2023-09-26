@@ -326,7 +326,7 @@ namespace StudioCore.MsbEditor
 
                 if (isValidObjectType)
                 {
-                    // Update model name last
+                    // ModelName
                     actlist.Add(s.ChangeObjectProperty("ModelName", modelName));
                 }
             }

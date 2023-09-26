@@ -42,9 +42,9 @@ namespace StudioCore.MsbEditor
 
         private Task _loadingTask = null;
 
-        private StudioCore.Assetdex.Assetdex _assetdex;
+        private StudioCore.Assetdex.AssetdexCore _assetdex;
 
-        public ModelEditorScreen(Sdl2Window window, GraphicsDevice device, AssetLocator locator, Assetdex.Assetdex assetdex)
+        public ModelEditorScreen(Sdl2Window window, GraphicsDevice device, AssetLocator locator, Assetdex.AssetdexCore assetdex)
         {
             Rect = window.Bounds;
             AssetLocator = locator;

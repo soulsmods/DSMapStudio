@@ -35,9 +35,9 @@ namespace StudioCore.MsbEditor
         private string _searchStrInput = "";
         private string _searchStrInputCache = "";
 
-        private StudioCore.Assetdex.Assetdex _assetdex;
+        private StudioCore.Assetdex.AssetdexCore _assetdex;
 
-        public AssetBrowser(AssetBrowserEventHandler handler, string id, AssetLocator locator, Assetdex.Assetdex assetdex)
+        public AssetBrowser(AssetBrowserEventHandler handler, string id, AssetLocator locator, AssetdexCore assetdex)
         {
             _id = id;
             _assetLocator = locator;
@@ -49,7 +49,7 @@ namespace StudioCore.MsbEditor
         {
             if (_assetLocator.Type != GameType.Undefined)
             {
-                AssetdexUtil.UpdateAssetReferences(_assetdex.resourceDict[_assetLocator.Type].GameReference[0]);
+                
 
                 _modelNameCache = new List<string>();
                 _mapModelNameCache = new Dictionary<string, List<string>>();
@@ -90,17 +90,17 @@ namespace StudioCore.MsbEditor
 
                 ImGui.BeginChild("AssetList");
 
-                DisplayAssetSelectionList("Chr", AssetdexUtil.assetReferenceDict_Chr);
-                DisplayAssetSelectionList("Obj", AssetdexUtil.assetReferenceDict_Obj);
-                DisplayAssetSelectionList("Parts", AssetdexUtil.assetReferenceDict_Part);
-                DisplayAssetSelectionList("MapPiece", AssetdexUtil.assetReferenceDict_MapPiece);
+                DisplayAssetSelectionList("Chr", _assetdex.GetChrReferences());
+                DisplayAssetSelectionList("Obj", _assetdex.GetObjReferences());
+                DisplayAssetSelectionList("Parts", _assetdex.GetPartReferences());
+                DisplayAssetSelectionList("MapPiece", _assetdex.GetMapPieceReferences());
 
                 ImGui.EndChild();
                 ImGui.EndChild();
             }
             ImGui.End();
         }
-        public void DisplayAssetTypeSelectionList()
+        private void DisplayAssetTypeSelectionList()
         {
             string objLabel = "Obj";
 
@@ -141,8 +141,7 @@ namespace StudioCore.MsbEditor
                 }
             }
         }
-
-        public void DisplayAssetSelectionList(string assetType, Dictionary<string, AssetReference> assetDict)
+        private void DisplayAssetSelectionList(string assetType, Dictionary<string, AssetReference> assetDict)
         {
             // Chr, Obj, Parts
             if (_selectedAssetType == assetType)

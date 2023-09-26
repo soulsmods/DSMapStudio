@@ -3,64 +3,52 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
-using System.Reflection.Metadata;
-using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Text.RegularExpressions;
-using HKX2;
 using ImGuiNET;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using SoulsFormats;
-using SoulsFormats.KF4;
 using StudioCore.Assetdex;
-using StudioCore.Platform;
-using StudioCore.Scene;
-using Veldrid;
-using static SoulsFormats.ACB;
 
 namespace StudioCore.MsbEditor
 {
     public class ObjectBrowser
     {
         private string _id;
+        private AssetLocator _assetLocator;
+        private AssetdexCore _assetdex;
+        private MsbEditorScreen _msbEditor;
 
+        private List<string> _loadedMaps = new List<string>();
         private List<string> _modelNameCache = new List<string>();
         private Dictionary<string, List<string>> _mapModelNameCache = new Dictionary<string, List<string>>();
-
-        private AssetLocator _assetLocator;
 
         private string _selectedAssetType = null;
         private string _selectedAssetTypeCache = null;
 
-        private string _selectedAssetMapId = null;
+        private string _selectedAssetMapId = "";
         private string _selectedAssetMapIdCache = null;
 
-        private string _searchStrInput = "";
-        private string _searchStrInputCache = "";
+        private string _searchInput = "";
+        private string _searchInputCache = "";
 
-        public bool MenuOpenState = false;
+        private bool isMenuVisible = false;
 
-        public MsbEditorScreen MsbEditor;
-
-        private StudioCore.Assetdex.Assetdex _assetdex;
-
-        private List<string> _loadedMaps = new List<string>();
-
-        public ObjectBrowser(string id, AssetLocator locator, Assetdex.Assetdex assetdex)
+        public ObjectBrowser(string id, AssetLocator locator, AssetdexCore assetdex, MsbEditorScreen msbEditor)
         {
             _id = id;
             _assetLocator = locator;
             _assetdex = assetdex;
+            _msbEditor = msbEditor;
+        }
 
-            _selectedAssetMapId = "";
+        public void ToggleMenuVisibility()
+        {
+            isMenuVisible = !isMenuVisible;
         }
 
         public void OnProjectChanged()
         {
             if (_assetLocator.Type != GameType.Undefined)
             {
-                AssetdexUtil.UpdateAssetReferences(_assetdex.resourceDict[_assetLocator.Type].GameReference[0]);
-
                 _modelNameCache = new List<string>();
                 _mapModelNameCache = new Dictionary<string, List<string>>();
 
@@ -82,7 +70,7 @@ namespace StudioCore.MsbEditor
         {
             float scale = MapStudioNew.GetUIScale();
 
-            if (!MenuOpenState)
+            if (!isMenuVisible)
                 return;
 
             if (_assetLocator.Type == GameType.Undefined)
@@ -129,7 +117,7 @@ namespace StudioCore.MsbEditor
                 ImGui.NextColumn();
 
                 ImGui.BeginChild("AssetListSearch");
-                ImGui.InputText($"Search", ref _searchStrInput, 255);
+                ImGui.InputText($"Search", ref _searchInput, 255);
 
                 ImGui.Spacing();
                 ImGui.Separator();
@@ -137,9 +125,9 @@ namespace StudioCore.MsbEditor
 
                 ImGui.BeginChild("AssetList");
 
-                DisplayAssetSelectionList("Chr", AssetdexUtil.assetReferenceDict_Chr);
-                DisplayAssetSelectionList("Obj", AssetdexUtil.assetReferenceDict_Obj);
-                DisplayMapAssetSelectionList("MapPiece", AssetdexUtil.assetReferenceDict_MapPiece);
+                DisplayAssetSelectionList("Chr", _assetdex.GetChrReferences());
+                DisplayAssetSelectionList("Obj", _assetdex.GetObjReferences());
+                DisplayMapAssetSelectionList("MapPiece", _assetdex.GetMapPieceReferences());
 
                 ImGui.EndChild();
                 ImGui.EndChild();
@@ -147,7 +135,7 @@ namespace StudioCore.MsbEditor
             ImGui.End();
         }
 
-        public void DisplayAssetTypeSelectionList()
+        private void DisplayAssetTypeSelectionList()
         {
             string objLabel = "Obj";
 
@@ -170,7 +158,7 @@ namespace StudioCore.MsbEditor
             // Map-specific MapPieces
             foreach (string mapId in _mapModelNameCache.Keys)
             {
-                foreach(var obj in MsbEditor.Universe.LoadedObjectContainers)
+                foreach(var obj in _msbEditor.Universe.LoadedObjectContainers)
                 {
                     if(obj.Value != null)
                     {
@@ -201,13 +189,13 @@ namespace StudioCore.MsbEditor
             }
         }
 
-        public void DisplayAssetSelectionList(string assetType, Dictionary<string, AssetReference> assetDict)
+        private void DisplayAssetSelectionList(string assetType, Dictionary<string, AssetReference> assetDict)
         {
             if (_selectedAssetType == assetType)
             {
-                if (_searchStrInput != _searchStrInputCache || _selectedAssetType != _selectedAssetTypeCache)
+                if (_searchInput != _searchInputCache || _selectedAssetType != _selectedAssetTypeCache)
                 {
-                    _searchStrInputCache = _searchStrInput;
+                    _searchInputCache = _searchInput;
                     _selectedAssetTypeCache = _selectedAssetType;
                 }
                 foreach (string name in _modelNameCache)
@@ -231,7 +219,7 @@ namespace StudioCore.MsbEditor
                         tagList = assetDict[name].tagList;
                     }
 
-                    if (Utils.IsSearchFilterMatch(_searchStrInput, name, referenceName, tagList))
+                    if (Utils.IsSearchFilterMatch(_searchInput, name, referenceName, tagList))
                     {
                         if (ImGui.Selectable(displayName))
                         {
@@ -243,21 +231,21 @@ namespace StudioCore.MsbEditor
                             if (modelName.Contains("aeg"))
                                 modelName = modelName.Replace("aeg", "AEG");
 
-                            MsbEditor.SetObjectModelForSelection(modelName, assetType, "");
+                            _msbEditor.SetObjectModelForSelection(modelName, assetType, "");
                         }
                     }
                 }
             }
         }
-        public void DisplayMapAssetSelectionList(string assetType, Dictionary<string, AssetReference> assetDict)
+        private void DisplayMapAssetSelectionList(string assetType, Dictionary<string, AssetReference> assetDict)
         {
             if (_selectedAssetType == assetType)
             {
                 if (_mapModelNameCache.ContainsKey(_selectedAssetMapId))
                 {
-                    if (_searchStrInput != _searchStrInputCache || _selectedAssetType != _selectedAssetTypeCache || _selectedAssetMapId != _selectedAssetMapIdCache)
+                    if (_searchInput != _searchInputCache || _selectedAssetType != _selectedAssetTypeCache || _selectedAssetMapId != _selectedAssetMapIdCache)
                     {
-                        _searchStrInputCache = _searchStrInput;
+                        _searchInputCache = _searchInput;
                         _selectedAssetTypeCache = _selectedAssetType;
                         _selectedAssetMapIdCache = _selectedAssetMapId;
                     }
@@ -283,14 +271,14 @@ namespace StudioCore.MsbEditor
                             tagList = assetDict[name].tagList;
                         }
 
-                        if (Utils.IsSearchFilterMatch(_searchStrInput, name, referenceName, tagList))
+                        if (Utils.IsSearchFilterMatch(_searchInput, name, referenceName, tagList))
                         {
                             if (ImGui.Selectable(displayName))
                             {
                             }
                             if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClicked(0))
                             {
-                                MsbEditor.SetObjectModelForSelection(modelName, assetType, _selectedAssetMapId);
+                                _msbEditor.SetObjectModelForSelection(modelName, assetType, _selectedAssetMapId);
                             }
                         }
                     }
