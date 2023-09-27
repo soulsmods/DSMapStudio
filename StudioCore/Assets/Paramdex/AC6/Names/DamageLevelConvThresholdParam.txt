@@ -1,0 +1,45 @@
+0 AC
+30000000 Guard Mech
+30200000 Light MT
+30200100 Light MT
+30200101 Light MT
+30500000 Light MT - Sniper (PCA)
+31000000 Xylem Drone
+31500000 Juggernaut
+32000000 Ekdromoi
+32500000 Light Cavalry
+32500100 Light Cavalry
+32500400 Light Cavalry
+32500600 Light Cavalry
+32500700 Light Cavalry
+32501400 Light Cavalry
+32600000 Heavy Cavalry
+33000000 Light Cavalry #2
+33000100 Light cavalry #2
+34000000 Tetrapod
+34000001 Tetrapod
+34000100 Tetrapod
+34000200 Tetrapod
+35000000 Tank Drone
+36000000 Light MT
+37000000 PCA Weaponry
+37000300 PCA Weaponry
+40000000 Cataphract
+41000000 Balteus
+41500000 TOYBOX
+42000000 Ayre
+42010000 ALLMIND
+42500000 IBIS CEL 240
+50200000 Smart Cleaner
+51000000 Quadcopter
+51200000 Quadcopter - Small
+51500000 Helicopter - Small
+52000000 Generic Weaponry - APC
+52500000 Helianthus Machine (Bonewheel)
+53000000 Laser Drone - Tiny
+60500000 HC Helicopter
+60500010 HC Helicopter
+61000000 Sea Spider
+61000099 Sea Spider
+62500000 Ice Worm
+81350000 Enforcer
