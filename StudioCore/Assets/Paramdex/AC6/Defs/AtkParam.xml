@@ -229,7 +229,7 @@
     <Field Def="f32 unkHitboxModifier0x1D0"></Field>
     <Field Def="s32 UnkInt0x1D4"></Field>
     <Field Def="u8 UnkByte0x1D8"></Field>
-    <Field Def="s8 hitboxShape"></Field>
+    <Field Def="u8 hitboxShape"></Field>
     <Field Def="u8 UnkByte0x1DA"></Field>
     <Field Def="u8 UnkByte0x1DB"></Field>
     <Field Def="u16 UnkUshort0x1DC"></Field>
