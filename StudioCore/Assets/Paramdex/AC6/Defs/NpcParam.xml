@@ -508,8 +508,9 @@
     <Field Def="s32 UnkInt0x584"></Field>
     <Field Def="u8 UnkByte0x588"></Field>
     <Field Def="u8 Unk0x589"></Field>
-    <Field Def="u16 Unk0x58A"></Field>
-    <Field Def="s32 damageLevelConvThresholdParamID">
+    <Field Def="s8 UnkSbyte0x58A"></Field>
+    <Field Def="u8 UnkByte0x58B"></Field>
+    <Field Def="s32 damageLevelConvThresholdParamId">
       <Description>Refers to DamageLevelConvThresholdParam</Description>
     </Field>
     <Field Def="s32 Unk0x590"></Field>
