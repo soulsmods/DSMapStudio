@@ -18,14 +18,14 @@
     <Field Def="s32 spEffectId2"></Field>
     <Field Def="s32 spEffectId3"></Field>
     <Field Def="s32 spEffectId4"></Field>
-    <Field Def="u16 hit0_DmyPoly1"></Field>
-    <Field Def="u16 hit1_DmyPoly1"></Field>
-    <Field Def="u16 hit2_DmyPoly1"></Field>
-    <Field Def="u16 hit3_DmyPoly1"></Field>
-    <Field Def="u16 hit0_DmyPoly2"></Field>
-    <Field Def="u16 hit1_DmyPoly2"></Field>
-    <Field Def="u16 hit2_DmyPoly2"></Field>
-    <Field Def="u16 hit3_DmyPoly2"></Field>
+    <Field Def="s16 hit0_DmyPoly1"></Field>
+    <Field Def="s16 hit1_DmyPoly1"></Field>
+    <Field Def="s16 hit2_DmyPoly1"></Field>
+    <Field Def="s16 hit3_DmyPoly1"></Field>
+    <Field Def="s16 hit0_DmyPoly2"></Field>
+    <Field Def="s16 hit1_DmyPoly2"></Field>
+    <Field Def="s16 hit2_DmyPoly2"></Field>
+    <Field Def="s16 hit3_DmyPoly2"></Field>
     <Field Def="u16 blowingCorrection"></Field>
     <Field Def="u16 attackPower_Kinetic">
       <Description>Damage-dealing performance of the Kinetic type.Damage output can decrease due to factors such as attenuation over distance, or when ricocheting occurs.</Description>
@@ -247,7 +247,8 @@
     <Field Def="f32 Unk0x1F8"></Field>
     <Field Def="f32 Unk0x1FC"></Field>
     <Field Def="f32 Unk0x200"></Field>
-    <Field Def="s32 Unk0x204"></Field>
+    <Field Def="u16 UnkUshort0x204"></Field>
+    <Field Def="u16 UnkUshort0x206"></Field>
     <Field Def="u16 UnkUshort0x208"></Field>
     <Field Def="u16 UnkUshort0x20A"></Field>
     <Field Def="u16 UnkUshort0x20C"></Field>
