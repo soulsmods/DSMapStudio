@@ -41,7 +41,7 @@ namespace StudioCore.Assetdex
 
             foreach(AssetReference entry in assetContainers[gametype].GetChrEntries())
             {
-                if(!dict.ContainsKey(entry.id))
+                if(!dict.ContainsKey(entry.id.ToLower()))
                     dict.Add(entry.id.ToLower(), entry);
             }
 
@@ -54,7 +54,7 @@ namespace StudioCore.Assetdex
 
             foreach (AssetReference entry in assetContainers[gametype].GetObjEntries())
             {
-                if (!dict.ContainsKey(entry.id))
+                if (!dict.ContainsKey(entry.id.ToLower()))
                     dict.Add(entry.id.ToLower(), entry);
             }
 
@@ -67,7 +67,7 @@ namespace StudioCore.Assetdex
 
             foreach (AssetReference entry in assetContainers[gametype].GetPartEntries())
             {
-                if (!dict.ContainsKey(entry.id))
+                if (!dict.ContainsKey(entry.id.ToLower()))
                     dict.Add(entry.id.ToLower(), entry);
             }
 
@@ -80,7 +80,7 @@ namespace StudioCore.Assetdex
 
             foreach (AssetReference entry in assetContainers[gametype].GetMapPieceEntries())
             {
-                if (!dict.ContainsKey(entry.id))
+                if (!dict.ContainsKey(entry.id.ToLower()))
                     dict.Add(entry.id.ToLower(), entry);
             }
 

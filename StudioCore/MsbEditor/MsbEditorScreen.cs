@@ -329,6 +329,31 @@ namespace StudioCore.MsbEditor
                 {
                     // ModelName
                     actlist.Add(s.ChangeObjectProperty("ModelName", modelName));
+
+                    // Instance ID
+
+                    // Name
+
+                    // TODO: add functionality to update name and instance ID to new values
+                    /*
+                    foreach (var o in Universe.LoadedObjectContainers.Values)
+                    {
+                        if (o == null)
+                        {
+                            continue;
+                        }
+                        if (o is Map m)
+                        {
+                            foreach (var ob in m.Objects)
+                            {
+                                if (ob is MapEntity e)
+                                {
+                                    
+                                }
+                            }
+                        }
+                    }
+                    */
                 }
             }
 

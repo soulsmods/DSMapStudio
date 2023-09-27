@@ -893,6 +893,10 @@ namespace StudioCore
             }
             else if (Type == GameType.DarkSoulsIISOTFS)
             {
+                // TODO: add actual support for the map pieces
+                // Found in: "model/map/"
+                // Needs to open BXF4: {mapId}.mapbhd
+                // Within is list of flver: {id}.flv.dcx
                 var ad = new AssetDescription();
                 var name = mapid;
                 ad.AssetName = name;

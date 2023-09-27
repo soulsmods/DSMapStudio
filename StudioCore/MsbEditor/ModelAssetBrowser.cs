@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.ConstrainedExecution;
 using System.Text;
+using Google.Protobuf.WellKnownTypes;
 using ImGuiNET;
 using SoulsFormats.KF4;
 using StudioCore.Assetdex;
+using StudioCore.Platform;
 using Veldrid;
 
 namespace StudioCore.MsbEditor
@@ -32,6 +34,9 @@ namespace StudioCore.MsbEditor
         private string _selectedAssetType = null;
         private string _selectedAssetTypeCache = null;
 
+        private string _selectedAssetMapId = "";
+        private string _selectedAssetMapIdCache = null;
+
         private string _searchStrInput = "";
         private string _searchStrInputCache = "";
 
@@ -49,17 +54,18 @@ namespace StudioCore.MsbEditor
         {
             if (_assetLocator.Type != GameType.Undefined)
             {
-                
-
                 _modelNameCache = new List<string>();
                 _mapModelNameCache = new Dictionary<string, List<string>>();
-                var mapList = _assetLocator.GetFullMapList();
-                foreach (var m in mapList)
+
+                List<string> mapList = _assetLocator.GetFullMapList();
+
+                foreach (string mapId in mapList)
                 {
-                    var adjm = _assetLocator.GetAssetMapID(m);
-                    if (!_mapModelNameCache.ContainsKey(adjm))
+                    var assetMapId = _assetLocator.GetAssetMapID(mapId);
+
+                    if (!_mapModelNameCache.ContainsKey(assetMapId))
                     {
-                        _mapModelNameCache.Add(adjm, null);
+                        _mapModelNameCache.Add(assetMapId, null);
                     }
                 }
             }
@@ -93,7 +99,7 @@ namespace StudioCore.MsbEditor
                 DisplayAssetSelectionList("Chr", _assetdex.GetChrEntriesForGametype(_assetLocator.Type));
                 DisplayAssetSelectionList("Obj", _assetdex.GetObjEntriesForGametype(_assetLocator.Type));
                 DisplayAssetSelectionList("Parts", _assetdex.GetPartEntriesForGametype(_assetLocator.Type));
-                DisplayAssetSelectionList("MapPiece", _assetdex.GetMapPieceEntriesForGametype(_assetLocator.Type));
+                DisplayMapAssetSelectionList("MapPiece", _assetdex.GetMapPieceEntriesForGametype(_assetLocator.Type));
 
                 ImGui.EndChild();
                 ImGui.EndChild();
@@ -111,39 +117,54 @@ namespace StudioCore.MsbEditor
             {
                 _modelNameCache = _assetLocator.GetChrModels();
                 _selectedAssetType = "Chr";
+                _selectedAssetMapId = "";
             }
             if (ImGui.Selectable(objLabel, _selectedAssetType == "Obj"))
             {
                 _modelNameCache = _assetLocator.GetObjModels();
                 _selectedAssetType = "Obj";
+                _selectedAssetMapId = "";
             }
             if (ImGui.Selectable("Parts", _selectedAssetType == "Parts"))
             {
                 _modelNameCache = _assetLocator.GetPartsModels();
                 _selectedAssetType = "Parts";
+                _selectedAssetMapId = "";
             }
 
-            foreach (var m in _mapModelNameCache.Keys)
+            foreach (var mapId in _mapModelNameCache.Keys)
             {
-                if (ImGui.Selectable(m, _selectedAssetType == m))
+                string labelName = mapId;
+
+                if (Editor.AliasBank.MapNames.ContainsKey(mapId))
                 {
-                    if (_mapModelNameCache[m] == null)
+                    labelName = labelName + $" <{Editor.AliasBank.MapNames[mapId]}>";
+                }
+
+                if (ImGui.Selectable(labelName, _selectedAssetMapId == mapId))
+                {
+                    if (_mapModelNameCache[mapId] == null)
                     {
-                        var modelList = _assetLocator.GetMapModels(m);
+                        var modelList = _assetLocator.GetMapModels(mapId);
                         var cache = new List<string>();
                         foreach (var model in modelList)
                         {
                             cache.Add(model.AssetName);
                         }
-                        _mapModelNameCache[m] = cache;
+                        _mapModelNameCache[mapId] = cache;
                     }
-                    _selectedAssetType = m;
+
+                    _selectedAssetMapId = mapId;
+                    _selectedAssetType = "MapPiece";
                 }
             }
         }
+
+        /// <summary>
+        /// Display the asset selection list for Chr, Obj/AEG and Parts.
+        /// </summary>
         private void DisplayAssetSelectionList(string assetType, Dictionary<string, AssetReference> assetDict)
         {
-            // Chr, Obj, Parts
             if (_selectedAssetType == assetType)
             {
                 if (_searchStrInput != _searchStrInputCache || _selectedAssetType != _selectedAssetTypeCache)
@@ -195,19 +216,33 @@ namespace StudioCore.MsbEditor
                     }
                 }
             }
-            // MapPiece
-            else if (_selectedAssetType != null && _selectedAssetType.StartsWith("m"))
+        }
+
+        /// <summary>
+        /// Display the asset selection list for Map Pieces.
+        /// </summary>
+        private void DisplayMapAssetSelectionList(string assetType, Dictionary<string, AssetReference> assetDict)
+        {
+            if (_selectedAssetType == assetType)
             {
-                if (_mapModelNameCache.ContainsKey(_selectedAssetType))
+                if (_mapModelNameCache.ContainsKey(_selectedAssetMapId))
                 {
-                    if (_searchStrInput != _searchStrInputCache || _selectedAssetType != _selectedAssetTypeCache)
+                    if (_searchStrInput != _searchStrInputCache || _selectedAssetType != _selectedAssetTypeCache || _selectedAssetMapId != _selectedAssetMapIdCache)
                     {
                         _searchStrInputCache = _searchStrInput;
                         _selectedAssetTypeCache = _selectedAssetType;
+                        _selectedAssetMapIdCache = _selectedAssetMapId;
                     }
-                    foreach (var name in _mapModelNameCache[_selectedAssetType])
+                    foreach (string name in _mapModelNameCache[_selectedAssetMapId])
                     {
-                        string displayName = $"{name}";
+                        string modelName = name.Replace($"{_selectedAssetMapId}_", "m");
+                        string displayName = $"{modelName}";
+
+                        // Adjust the name to remove the A{mapId} section.
+                        if (_assetLocator.Type == GameType.DarkSoulsPTDE || _assetLocator.Type == GameType.DarkSoulsRemastered)
+                        {
+                            displayName = displayName.Replace($"A{_selectedAssetMapId.Substring(1, 2)}", "");
+                        }
 
                         string referenceName = "";
                         List<string> tagList = new List<string>();
@@ -218,7 +253,7 @@ namespace StudioCore.MsbEditor
 
                             if (CFG.Current.ObjectBrowser_ShowTagsInBrowser)
                             {
-                                string tagString = String.Join(" ", assetDict[name].tags);
+                                string tagString = string.Join(" ", assetDict[name].tags);
                                 displayName = $"{displayName} {{ {tagString} }}";
                             }
 
@@ -233,7 +268,7 @@ namespace StudioCore.MsbEditor
                             }
                             if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClicked(0))
                             {
-                                _handler.OnInstantiateMapPiece(_selectedAssetType, name);
+                                _handler.OnInstantiateMapPiece(_selectedAssetMapId, name);
                             }
                         }
                     }

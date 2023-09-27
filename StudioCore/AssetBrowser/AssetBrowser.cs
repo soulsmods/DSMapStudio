@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Text.RegularExpressions;
 using ImGuiNET;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using StudioCore.Assetdex;
 using StudioCore.MsbEditor;
 
@@ -174,11 +176,13 @@ namespace StudioCore.AssetBrowser
             {
                 _modelNameCache = _assetLocator.GetChrModels();
                 _selectedAssetType = "Chr";
+                _selectedAssetMapId = "";
             }
             if (ImGui.Selectable(objLabel, _selectedAssetType == "Obj"))
             {
                 _modelNameCache = _assetLocator.GetObjModels();
                 _selectedAssetType = "Obj";
+                _selectedAssetMapId = "";
             }
 
             _loadedMaps.Clear();
@@ -196,7 +200,14 @@ namespace StudioCore.AssetBrowser
 
                 if (_loadedMaps.Contains(mapId))
                 {
-                    if (ImGui.Selectable(mapId, _selectedAssetType == mapId))
+                    string labelName = mapId;
+
+                    if (Editor.AliasBank.MapNames.ContainsKey(mapId))
+                    {
+                        labelName = labelName + $" <{Editor.AliasBank.MapNames[mapId]}>";
+                    }
+
+                    if (ImGui.Selectable(labelName, _selectedAssetMapId == mapId))
                     {
                         if (_mapModelNameCache[mapId] == null)
                         {
@@ -286,6 +297,13 @@ namespace StudioCore.AssetBrowser
                     foreach (string name in _mapModelNameCache[_selectedAssetMapId])
                     {
                         string modelName = name.Replace($"{_selectedAssetMapId}_", "m");
+
+                        // Adjust the name to remove the A{mapId} section.
+                        if (_assetLocator.Type == GameType.DarkSoulsPTDE || _assetLocator.Type == GameType.DarkSoulsRemastered)
+                        {
+                            modelName = modelName.Replace($"A{_selectedAssetMapId.Substring(1, 2)}", "");
+                        }
+
                         string displayName = $"{modelName}";
 
                         string referenceName = "";
