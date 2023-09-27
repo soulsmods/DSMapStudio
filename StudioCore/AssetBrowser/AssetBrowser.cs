@@ -71,6 +71,8 @@ namespace StudioCore.AssetBrowser
             {
                 _modelNameCache = new List<string>();
                 _mapModelNameCache = new Dictionary<string, List<string>>();
+                _selectedAssetMapId = "";
+                _selectedAssetMapIdCache = null;
 
                 List<string> mapList = _assetLocator.GetFullMapList();
 
@@ -247,21 +249,23 @@ namespace StudioCore.AssetBrowser
                     string referenceName = "";
                     List<string> tagList = new List<string>();
 
-                    if (assetDict.ContainsKey(name))
+                    string lowercaseName = name.ToLower();
+
+                    if (assetDict.ContainsKey(lowercaseName))
                     {
-                        displayName = displayName + $" <{assetDict[name].name}>";
+                        displayName = displayName + $" <{assetDict[lowercaseName].name}>";
 
                         if (CFG.Current.ObjectBrowser_ShowTagsInBrowser)
                         {
-                            string tagString = string.Join(" ", assetDict[name].tags);
+                            string tagString = string.Join(" ", assetDict[lowercaseName].tags);
                             displayName = $"{displayName} {{ {tagString} }}";
                         }
 
-                        referenceName = assetDict[name].name;
-                        tagList = assetDict[name].tags;
+                        referenceName = assetDict[lowercaseName].name;
+                        tagList = assetDict[lowercaseName].tags;
                     }
 
-                    if (Utils.IsSearchFilterMatch(_searchInput, name, referenceName, tagList))
+                    if (Utils.IsSearchFilterMatch(_searchInput, lowercaseName, referenceName, tagList))
                     {
                         if (ImGui.Selectable(displayName))
                         {
@@ -309,18 +313,20 @@ namespace StudioCore.AssetBrowser
                         string referenceName = "";
                         List<string> tagList = new List<string>();
 
-                        if (assetDict.ContainsKey(name))
+                        string lowercaseName = name.ToLower();
+
+                        if (assetDict.ContainsKey(lowercaseName))
                         {
-                            displayName = displayName + $" <{assetDict[name].name}>";
+                            displayName = displayName + $" <{assetDict[lowercaseName].name}>";
 
                             if (CFG.Current.ObjectBrowser_ShowTagsInBrowser)
                             {
-                                string tagString = string.Join(" ", assetDict[name].tags);
+                                string tagString = string.Join(" ", assetDict[lowercaseName].tags);
                                 displayName = $"{displayName} {{ {tagString} }}";
                             }
 
-                            referenceName = assetDict[name].name;
-                            tagList = assetDict[name].tags;
+                            referenceName = assetDict[lowercaseName].name;
+                            tagList = assetDict[lowercaseName].tags;
                         }
 
                         if (Utils.IsSearchFilterMatch(_searchInput, name, referenceName, tagList))
