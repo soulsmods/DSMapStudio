@@ -14,18 +14,18 @@ using StudioCore.Resource;
 using SoulsFormats;
 using StudioCore.Scene;
 using StudioCore.Editor;
-using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Linq;
+using StudioCore.Platform;
 
 namespace StudioCore.MsbEditor
 {
-    [JsonSourceGenerationOptions(WriteIndented = true, 
+    [JsonSourceGenerationOptions(WriteIndented = true,
         GenerationMode = JsonSourceGenerationMode.Metadata, IncludeFields = true)]
     [JsonSerializable(typeof(List<BTL.Light>))]
     internal partial class BtlLightSerializerContext : JsonSerializerContext
     {
     }
-    
+
     /// <summary>
     /// A universe is a collection of loaded maps with methods to load, serialize,
     /// and unload individual maps.
@@ -67,7 +67,7 @@ namespace StudioCore.MsbEditor
             {
                 if (map.Value != null)
                 {
-                    i++;  
+                    i++;
                 }
             }
             return i;
@@ -151,7 +151,7 @@ namespace StudioCore.MsbEditor
 
         public RenderableProxy GetRegionDrawable(Map map, Entity obj)
         {
-            if (obj.WrappedObject is IMsbRegion r && r.Shape is MSB.Shape.Box )
+            if (obj.WrappedObject is IMsbRegion r && r.Shape is MSB.Shape.Box)
             {
                 var mesh = DebugPrimitiveRenderableProxy.GetBoxRegionProxy(_renderScene);
                 mesh.World = obj.GetWorldMatrix();
@@ -447,7 +447,7 @@ namespace StudioCore.MsbEditor
                     row.Name = "generator_" + row.ID.ToString();
                 }
 
-                
+
                 var mergedRow = new MergedParamRow();
                 mergedRow.AddRow("generator-loc", row);
                 generatorParams.Add(row.ID, mergedRow);
@@ -521,7 +521,7 @@ namespace StudioCore.MsbEditor
                     row.Name = "eventloc_" + row.ID.ToString();
                 }
                 eventLocationParams.Add(row.ID, row);
-                
+
                 var obj = new MapEntity(map, row, MapEntity.MapEntityType.DS2EventLocation);
                 map.AddObject(obj);
                 map.MapOffsetNode.AddChild(obj);
@@ -671,7 +671,7 @@ namespace StudioCore.MsbEditor
                         _dispGroupCount = 8; //?
                         break;
                     case GameType.ArmoredCoreVI:
-                        //TODO AC6
+                    //TODO AC6
                     default:
                         throw new Exception($"Error: Did not expect Gametype {_assetLocator.Type}");
                         //break;
@@ -723,13 +723,11 @@ namespace StudioCore.MsbEditor
                 foreach (var model in msb.Models.GetEntries())
                 {
                     AssetDescription asset;
-                    // map piece
                     if (model.Name.StartsWith("m"))
                     {
                         asset = _assetLocator.GetMapModel(amapid, _assetLocator.MapModelNameToAssetName(amapid, model.Name));
                         mappiecesToLoad.Add(asset);
                     }
-                    // character
                     else if (model.Name.StartsWith("c"))
                     {
                         asset = _assetLocator.GetChrModel(model.Name);
@@ -755,13 +753,11 @@ namespace StudioCore.MsbEditor
                         asset = _assetLocator.GetObjModel(model.Name);
                         objsToLoad.Add(asset);
                     }
-                    // collision
                     else if (model.Name.StartsWith("h"))
                     {
                         asset = _assetLocator.GetMapCollisionModel(amapid, _assetLocator.MapModelNameToAssetName(amapid, model.Name), false);
                         colsToLoad.Add(asset);
                     }
-                    // navigation
                     else if (_assetLocator.Type == GameType.ArmoredCoreVI)
                     {
                         //TODO AC6
@@ -1291,7 +1287,7 @@ namespace StudioCore.MsbEditor
                         var newLights = map.SerializeBtlLights(BTLs_w[i].AssetName);
 
                         // Only save BTL if it has been modified
-                        if (JsonSerializer.Serialize(btl.Lights, BtlLightSerializerContext.Default.ListLight) != 
+                        if (JsonSerializer.Serialize(btl.Lights, BtlLightSerializerContext.Default.ListLight) !=
                             JsonSerializer.Serialize(newLights, BtlLightSerializerContext.Default.ListLight))
                         {
                             btl.Lights = newLights;
@@ -1329,7 +1325,7 @@ namespace StudioCore.MsbEditor
                         var newLights = map.SerializeBtlLights(BTLs_w[i].AssetName);
 
                         // Only save BTL if it has been modified
-                        if (JsonSerializer.Serialize(btl.Lights, BtlLightSerializerContext.Default.ListLight) != 
+                        if (JsonSerializer.Serialize(btl.Lights, BtlLightSerializerContext.Default.ListLight) !=
                             JsonSerializer.Serialize(newLights, BtlLightSerializerContext.Default.ListLight))
                         {
                             btl.Lights = newLights;
@@ -1568,20 +1564,11 @@ namespace StudioCore.MsbEditor
 
         public void ExportMap(Map map)
         {
-
-            var browseDlg = new System.Windows.Forms.SaveFileDialog()
+            if (PlatformUtils.Instance.SaveFileDialog("Export Map To Json", new[] { "json" }, out string path))
             {
-                Title = "Export Map To Json",
-                FileName = map.Name + ".json",
-                Filter = "Json file (*.json) |*.JSON",
-                ValidateNames = true,
-            };
-
-            if (browseDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                using (var file = new StreamWriter(browseDlg.FileName))
+                using (var file = new StreamWriter(path))
                 {
-                    var json = JsonConvert.SerializeObject(map.SerializeHierarchy());
+                    var json = Newtonsoft.Json.JsonConvert.SerializeObject(map.SerializeHierarchy());
                     file.Write(json);
                 }
             }

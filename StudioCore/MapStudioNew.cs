@@ -48,7 +48,7 @@ namespace StudioCore
         private static bool _initialLoadComplete = false;
         private static bool _firstframe = true;
         public static bool FirstFrame = true;
-        
+
         // ImGui Debug windows
         private bool _showImGuiDemoWindow = false;
         private bool _showImGuiMetricsWindow = false;
@@ -59,13 +59,13 @@ namespace StudioCore
         {
             _version = version;
             _programTitle = $"Dark Souls Map Studio version {_version}";
-            
+
             // Hack to make sure dialogs work before the main window is created
             PlatformUtils.InitializeWindows(null);
             CFG.AttemptLoadOrDefault();
-            
+
             Environment.SetEnvironmentVariable("PATH", Environment.GetEnvironmentVariable("PATH") + Path.PathSeparator + "bin");
-            
+
             _context = context;
             _context.Initialize();
             _context.Window.Title = _programTitle;
@@ -555,7 +555,7 @@ namespace StudioCore
 
         private bool StealGameDllIfMissing(ProjectSettings settings, string dllName)
         {
-            dllName = dllName+".dll";
+            dllName = dllName + ".dll";
             if (File.Exists(Path.Join(Path.GetFullPath("."), dllName)))
                 return true;
             if (!File.Exists(Path.Join(settings.GameRoot, dllName)))
@@ -594,7 +594,7 @@ namespace StudioCore
                     CFG.Current.LastProjectFile = "";
                     CFG.Save();
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     PlatformUtils.Instance.MessageBox($"Unable to save config during crash recovery.\n" +
                         $"If you continue to crash on startup, delete config in AppData\\Local\\DSMapStudio\n\n" +
@@ -832,12 +832,12 @@ namespace StudioCore
                     {
                         SaveAll();
                     }
-                    
+
                     if (ImGui.MenuItem("Editor Settings"))
                     {
                         _settingsMenu.MenuOpenState = true;
                     }
-                    
+
                     if (Resource.FlverResource.CaptureMaterialLayouts && ImGui.MenuItem("Dump Flver Layouts (Debug)", ""))
                     {
                         DumpFlverLayouts();
@@ -1011,7 +1011,7 @@ namespace StudioCore
                 {
                     _standardProjectUIOpened = false;
                 }
-                
+
                 if (ImGui.BeginTabItem("Advanced"))
                 {
                     NewProject_NameGUI();
@@ -1188,7 +1188,7 @@ namespace StudioCore
                     commands = commandsplit.Skip(1).ToArray();
                     ImGui.SetNextWindowFocus();
                 }
-                
+
                 if (_context.Device == null)
                     ImGui.PushStyleColor(ImGuiCol.WindowBg, *ImGui.GetStyleColorVec4(ImGuiCol.WindowBg));
                 else

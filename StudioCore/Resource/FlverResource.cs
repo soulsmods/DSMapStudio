@@ -373,7 +373,7 @@ namespace StudioCore.Resource
             }
         }
 
-        private void ProcessMaterialTexture(FlverMaterial dest, string typename, string mpath, string mtd,
+        private void ProcessMaterialTexture(FlverMaterial dest, string texType, string mpath, string mtd, GameType gameType,
             out bool blend, out bool hasNormal2, out bool hasSpec2, out bool hasShininess2, out bool blendMask)
         {
             blend = false;

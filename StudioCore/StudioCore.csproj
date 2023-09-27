@@ -4,6 +4,7 @@
   <PropertyGroup>
     <TargetFramework>net7.0-windows</TargetFramework>
     <LangVersion>11</LangVersion>
+    <UserSecretsId>faa5a10d-c786-42f5-bca0-31bc8d975cb9</UserSecretsId>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -425,9 +426,11 @@
 
   <ItemGroup>
     <PackageReference Include="DotNext.IO" Version="4.12.4" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.1" />
     <PackageReference Include="Microsoft.Toolkit.HighPerformance" Version="7.1.2" />
     <PackageReference Include="NativeFileDialogSharp" Version="0.6.0-alpha" />
     <PackageReference Include="NativeLibraryLoader" Version="1.0.13" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Octokit" Version="7.0.0" />
     <PackageReference Include="ProcessMemoryUtilities.Net" Version="1.3.4" />
     <PackageReference Include="Silk.NET.OpenGL" Version="2.17.1" />
