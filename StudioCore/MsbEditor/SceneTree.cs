@@ -42,8 +42,6 @@ namespace StudioCore.MsbEditor
         private string _chaliceMapID = "m29_";
         private bool _chaliceLoadError = false;
 
-        private bool _GCNeedsCollection = false;
-
         private Dictionary<string, Dictionary<MapEntity.MapEntityType, Dictionary<Type, List<MapEntity>>>> _cachedTypeView = null;
 
         private bool _initiatedDragDrop = false;
@@ -581,7 +579,7 @@ namespace StudioCore.MsbEditor
             }
         }
 
-        private string  _mapNameSearchStr = "";
+        private string _mapNameSearchStr = "";
 
         public void OnGui()
         {
@@ -612,19 +610,33 @@ namespace StudioCore.MsbEditor
                 ImGui.PopStyleVar();
                 if (_configuration == Configuration.MapEditor)
                 {
+
+                    if (_assetLocator.Type is GameType.DarkSoulsIISOTFS)
+                    {
+                        if (ParamEditor.ParamBank.PrimaryBank.IsLoadingParams)
+                        {
+                            ImGui.NewLine();
+                            ImGui.Text("  Please wait for params to finish loading.");
+                            ImGui.End();
+                            ImGui.PopStyleColor();
+                            return;
+                        }
+                    }
+
                     ImGui.Spacing();
                     ImGui.Indent(30 * scale);
+
                     ImGui.AlignTextToFramePadding();
                     ImGui.Text("List Sorting Style:");
                     ImGui.SameLine();
                     ImGui.SetNextItemWidth(-1);
-                    
+
                     int mode = (int)_viewMode;
                     if (ImGui.Combo("##typecombo", ref mode, _viewModeStrings, _viewModeStrings.Length))
                     {
                         _viewMode = (ViewMode)mode;
                     }
-                    
+
                     ImGui.AlignTextToFramePadding();
                     ImGui.Text("Map ID Search:");
                     ImGui.SameLine();
@@ -635,7 +647,6 @@ namespace StudioCore.MsbEditor
                 }
 
                 ImGui.BeginChild("listtree");
-                Map pendingUnload = null;
                 if (_configuration == Configuration.MapEditor && _universe.LoadedObjectContainers.Count == 0)
                     ImGui.Text("This Editor requires game to be unpacked");
 
@@ -715,6 +726,21 @@ namespace StudioCore.MsbEditor
                                 }
                                 _universe.LoadMap(mapid, selected);
                             }
+                            if (_universe.GameType is GameType.EldenRing)
+                            {
+                                if (mapid.StartsWith("m60"))
+                                {
+                                    if (ImGui.Selectable("Load Related Maps"))
+                                    {
+                                        if (selected)
+                                        {
+                                            _selection.ClearSelection();
+                                        }
+                                        _universe.LoadMap(mapid, false);
+                                        _universe.LoadRelatedMaps(mapid, _universe.LoadedObjectContainers);
+                                    }
+                                }
+                            }
                         }
                         else if (map is Map m)
                         {
@@ -735,7 +761,10 @@ namespace StudioCore.MsbEditor
                             {
                                 _selection.ClearSelection();
                                 _editorActionManager.Clear();
-                                pendingUnload = m;
+                                _universe.UnloadContainer(m);
+                                GC.Collect();
+                                GC.WaitForPendingFinalizers();
+                                GC.Collect();
                             }
                             if (ImGui.Selectable("Export Map"))
                             {
@@ -751,6 +780,23 @@ namespace StudioCore.MsbEditor
                                 }
                             }
                         }
+                        if (_universe.GetLoadedMapCount() > 1)
+                        {
+                            if (ImGui.Selectable("Unload All Maps"))
+                            {
+                                var result = MessageBox.Show("Unload all maps?", "Confirm", MessageBoxButtons.YesNo);
+                                if (result == DialogResult.Yes)
+                                {
+                                    _selection.ClearSelection();
+                                    _editorActionManager.Clear();
+                                    _universe.UnloadAllMaps();
+                                    GC.Collect();
+                                    GC.WaitForPendingFinalizers();
+                                    GC.Collect();
+                                }
+                            }
+                        }
+
                         ImGui.EndPopup();
                     }
                     if (ImGui.IsItemClicked())
@@ -840,6 +886,7 @@ namespace StudioCore.MsbEditor
                 {
                     ChaliceDungeonImportButton();
                 }
+
                 ImGui.EndChild();
 
                 if (_dragDropSources.Count > 0)
@@ -859,15 +906,6 @@ namespace StudioCore.MsbEditor
                         _dragDropSources.Clear();
                         _dragDropDests.Clear();
                     }
-                }
-
-                if (pendingUnload != null)
-                {
-                    _universe.UnloadContainer(pendingUnload);
-                    GC.Collect();
-                    GC.WaitForPendingFinalizers();
-                    GC.Collect();
-                    _GCNeedsCollection = true;
                 }
             }
             else

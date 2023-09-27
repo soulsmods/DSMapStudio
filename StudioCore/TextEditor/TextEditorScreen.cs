@@ -264,11 +264,12 @@ namespace StudioCore.TextEditor
                 }
                 return;
             }
+
             var dsid = ImGui.GetID("DockSpace_TextEntries");
             ImGui.DockSpace(dsid, new Vector2(0, 0), ImGuiDockNodeFlags.None);
 
             ImGui.Begin("Text Categories");
-            foreach (var v in FMGBank.ActiveUITypes.ToArray())
+            foreach (var v in FMGBank.ActiveUITypes)
             {
                 if (v.Value)
                 {

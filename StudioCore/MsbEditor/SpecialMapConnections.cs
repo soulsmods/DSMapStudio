@@ -88,8 +88,9 @@ namespace StudioCore.MsbEditor
             GameType gameType,
             string mapid,
             IReadOnlyCollection<string> allMapIds,
-            List<byte[]> connectColMaps)
+            List<byte[]> connectColMaps = null)
         {
+            connectColMaps ??= new List<byte[]>();
             SortedDictionary<string, RelationType> relations = new SortedDictionary<string, RelationType>();
             if (!TryParseMap(mapid, out byte[] parts))
             {
@@ -304,8 +305,13 @@ namespace StudioCore.MsbEditor
                     };
                 }
             }
+            // Custom cases
+
             // Custom case, as this map is only ever loaded from m11_05/m19_00, so assumes the same origin.
-            dungeonOffsets["m11_71_00_00"] = dungeonOffsets["m11_05_00_00"];
+            if (dungeonOffsets.ContainsKey("m11_05_00_00"))
+            {
+                dungeonOffsets["m11_71_00_00"] = dungeonOffsets["m11_05_00_00"];
+            }
             // m60_00_00_99's origin matches m60_10_08_02
             dungeonOffsets["m60_00_00_00"] = new DungeonOffset
             {
@@ -313,14 +319,18 @@ namespace StudioCore.MsbEditor
                 TileZ = 32,
                 TileOffset = new Vector3(384, 0, 384),
             };
+
             // Colosseums are not connected to any maps, but their in-game map position in emevd matches the overworld colosseums
-            DungeonOffset leyndell = dungeonOffsets["m11_00_00_00"];
-            dungeonOffsets["m45_00_00_00"] = new DungeonOffset
+            if (dungeonOffsets.ContainsKey("m11_00_00_00"))
             {
-                TileX = leyndell.TileX,
-                TileZ = leyndell.TileZ,
-                TileOffset = leyndell.TileOffset + new Vector3(-359.44f, 32.74f, -492.72f),
-            };
+                DungeonOffset leyndell = dungeonOffsets["m11_00_00_00"];
+                dungeonOffsets["m45_00_00_00"] = new DungeonOffset
+                {
+                    TileX = leyndell.TileX,
+                    TileZ = leyndell.TileZ,
+                    TileOffset = leyndell.TileOffset + new Vector3(-359.44f, 32.74f, -492.72f),
+                };
+            }
             dungeonOffsets["m45_01_00_00"] = new DungeonOffset
             {
                 TileX = 47,

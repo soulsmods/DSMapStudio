@@ -296,9 +296,9 @@ namespace SoulsFormats
             public float Width { get; set; }
 
             /// <summary>
-            /// Unknown.
+            /// Distance from start before light appears.
             /// </summary>
-            public float UnkBC { get; set; }
+            public float LightStartCutoff { get; set; }
 
             /// <summary>
             /// Unknown; 4 bytes.
@@ -324,7 +324,7 @@ namespace SoulsFormats
             /// <summary>
             /// Unknown; not present before Sekiro.
             /// </summary>
-            public float UnkD0 { get; set; }
+            public float VolumeDensity { get; set; }
 
             /// <summary>
             /// Unknown; not present before Sekiro.
@@ -434,7 +434,7 @@ namespace SoulsFormats
                 UnkAC = br.ReadSingle();
                 br.AssertVarint(0);
                 Width = br.ReadSingle();
-                UnkBC = br.ReadSingle();
+                LightStartCutoff = br.ReadSingle();
                 EnableState_UnkC0 = br.ReadBytes(4);
                 EnableDist = br.ReadSingle();
 
@@ -442,7 +442,7 @@ namespace SoulsFormats
                 {
                     UnkC8 = br.ReadSingle();
                     UnkCC = br.ReadSingle();
-                    UnkD0 = br.ReadSingle();
+                    VolumeDensity = br.ReadSingle();
                     UnkD4 = br.ReadSingle();
                     UnkD8 = br.ReadSingle();
                     UnkDC = br.ReadInt32();
@@ -493,7 +493,7 @@ namespace SoulsFormats
                 bw.WriteSingle(UnkAC);
                 bw.WriteVarint(0);
                 bw.WriteSingle(Width);
-                bw.WriteSingle(UnkBC);
+                bw.WriteSingle(LightStartCutoff);
                 bw.WriteBytes(EnableState_UnkC0);
                 bw.WriteSingle(EnableDist);
 
@@ -501,7 +501,7 @@ namespace SoulsFormats
                 {
                     bw.WriteSingle(UnkC8);
                     bw.WriteSingle(UnkCC);
-                    bw.WriteSingle(UnkD0);
+                    bw.WriteSingle(VolumeDensity);
                     bw.WriteSingle(UnkD4);
                     bw.WriteSingle(UnkD8);
                     bw.WriteInt32(UnkDC);

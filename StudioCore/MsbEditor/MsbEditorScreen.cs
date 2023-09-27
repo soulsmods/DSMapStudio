@@ -970,13 +970,12 @@ namespace StudioCore.MsbEditor
             Viewport.OnGui();
 
             SceneTree.OnGui();
+            PropSearch.OnGui(propSearchCmd);
             if (MapStudioNew.FirstFrame)
             {
                 ImGui.SetNextWindowFocus();
             }
             PropEditor.OnGui(_selection, "mapeditprop", Viewport.Width, Viewport.Height);
-            DispGroupEditor.OnGui(Universe._dispGroupCount);
-            PropSearch.OnGui(propSearchCmd);
 
             // Not usable yet
             if (FeatureFlags.EnableNavmeshBuilder)
@@ -986,6 +985,8 @@ namespace StudioCore.MsbEditor
 
             ResourceManager.OnGuiDrawTasks(Viewport.Width, Viewport.Height);
             ResourceManager.OnGuiDrawResourceList();
+
+            DispGroupEditor.OnGui(Universe._dispGroupCount);
 
             if (_activeModal != null)
             {
@@ -1067,6 +1068,8 @@ namespace StudioCore.MsbEditor
         public void ReloadUniverse()
         {
             Universe.UnloadAllMaps();
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
             GC.Collect();
             Universe.PopulateMapList();
 
