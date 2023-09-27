@@ -287,8 +287,8 @@ namespace SoulsFormats
 
             internal virtual void GetIndices(MSB3 msb, Entries entries)
             {
-                PartIndex = MSB.FindIndex(entries.Parts, PartName);
-                PointIndex = MSB.FindIndex(entries.Regions, PointName);
+                PartIndex = MSB.FindIndex(this, entries.Parts, PartName);
+                PointIndex = MSB.FindIndex(this, entries.Regions, PointName);
             }
 
             /// <summary>
@@ -432,7 +432,7 @@ namespace SoulsFormats
                 internal override void GetIndices(MSB3 msb, Entries entries)
                 {
                     base.GetIndices(msb, entries);
-                    TreasurePartIndex = MSB.FindIndex(entries.Parts, TreasurePartName);
+                    TreasurePartIndex = MSB.FindIndex(this, entries.Parts, TreasurePartName);
                 }
             }
 
@@ -655,7 +655,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public ObjActState ObjActStateType { get; set; }
+                public ObjActState ObjActStateType { get; set; } = ObjActState.OneState;
 
                 /// <summary>
                 /// Unknown.
@@ -716,7 +716,7 @@ namespace SoulsFormats
                 internal override void GetIndices(MSB3 msb, Entries entries)
                 {
                     base.GetIndices(msb, entries);
-                    ObjActPartIndex = MSB.FindIndex(entries.Parts, ObjActPartName);
+                    ObjActPartIndex = MSB.FindIndex(this, entries.Parts, ObjActPartName);
                 }
             }
 
@@ -818,12 +818,12 @@ namespace SoulsFormats
                 /// <summary>
                 /// Player type to use while in pseudo world. 
                 /// </summary>
-                public PseudoPlayerChrType PlayerChrType { get; set; }
+                public PseudoPlayerChrType PlayerChrType { get; set; } = PseudoPlayerChrType.WhitePhantom;
 
                 /// <summary>
                 /// Determines which set of FMG entries to use in pseudo world.
                 /// </summary>
-                public PseudoMessageSetType MessageSetType { get; set; }
+                public PseudoMessageSetType MessageSetType { get; set; } = PseudoMessageSetType.Default;
 
                 /// <summary>
                 /// ID of FMG entry to display when trying to join pseudo world.
@@ -941,7 +941,7 @@ namespace SoulsFormats
                     base.GetIndices(msb, entries);
                     WalkPointIndices = new short[WalkPointNames.Length];
                     for (int i = 0; i < WalkPointNames.Length; i++)
-                        WalkPointIndices[i] = (short)MSB.FindIndex(entries.Regions, WalkPointNames[i]);
+                        WalkPointIndices[i] = (short)MSB.FindIndex(this, entries.Regions, WalkPointNames[i]);
                 }
             }
 

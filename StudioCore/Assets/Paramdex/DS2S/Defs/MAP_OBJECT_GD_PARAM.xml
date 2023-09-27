@@ -7,20 +7,41 @@
   <Version>201</Version>
   <Fields>
     <Field Def="s32 Unk00" />
-    <Field Def="s32 Unk00" />
-    <Field Def="s32 Unk01" />
-    <Field Def="s32 Unk02" />
+    <Field Def="u8 Unk01a" />
+    <Field Def="u8 Unk01b" />
+    <Field Def="u8 Unk01c" />
+    <Field Def="u8 Unk01d" />
+    <Field Def="u8 Unk02a" />
+    <Field Def="u8 Unk02b" />
+    <Field Def="u8 Unk02c" />
+    <Field Def="u8 Unk02d" />
     <Field Def="s32 Unk03" />
-    <Field Def="s32 Unk04" />
-    <Field Def="s32 Unk05" />
-    <Field Def="s32 Unk06" />
-    <Field Def="s32 Unk07" />
-    <Field Def="s32 Unk08" />
-    <Field Def="s32 Unk09" />
-    <Field Def="s32 Unk10" />
-    <Field Def="s32 Unk11" />
-    <Field Def="s32 Unk12" />
-    <Field Def="s32 Unk13" />
-    <Field Def="s32 Unk14" />
+    <Field Def="s32 sfx_id_1" />
+    <Field Def="s32 sfx_id_2" />
+    <Field Def="s32 sfx_id_3" />
+    <Field Def="s32 sfx_id_4" />
+    <Field Def="s32 sfx_id_5" />
+    <Field Def="s32 sfx_id_6" />
+    <Field Def="s32 sfx_id_7" />
+    <Field Def="u8 sfx_unknown_a_id_1" />
+    <Field Def="u8 sfx_unknown_a_id_2" />
+    <Field Def="u8 sfx_unknown_a_id_3" />
+    <Field Def="u8 sfx_unknown_a_id_4" />
+    <Field Def="u8 sfx_unknown_a_id_5" />
+    <Field Def="u8 sfx_unknown_a_id_6" />
+    <Field Def="u8 sfx_unknown_a_id_7" />
+    <Field Def="u8 sfx_dummy_poly_id_1" />
+    <Field Def="u8 sfx_dummy_poly_id_2" />
+    <Field Def="u8 sfx_dummy_poly_id_3" />
+    <Field Def="u8 sfx_dummy_poly_id_4" />
+    <Field Def="u8 sfx_dummy_poly_id_5" />
+    <Field Def="u8 sfx_dummy_poly_id_6" />
+    <Field Def="u8 sfx_dummy_poly_id_7" />
+    <Field Def="u8 Unk14c" />
+    <Field Def="u8 Unk14d" />
+    <Field Def="u8 Unk15a" />
+    <Field Def="u8 Unk15b" />
+    <Field Def="u8 Unk15c" />
+    <Field Def="u8 Unk15d" />
   </Fields>
 </PARAMDEF>

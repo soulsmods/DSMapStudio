@@ -6,10 +6,10 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="s32 weapon_motion_id" />
+    <Field Def="s32 item_id" />
     <Field Def="s32 weapon_model_id" />
     <Field Def="s32 weapon_reinforce_id" />
-    <Field Def="s32 action_category_id" />
+    <Field Def="s32 weapon_action_category_id" />
     <Field Def="s32 weapon_type_id" />
     <Field Def="s32 Unk00" />
     <Field Def="s16 str_requirement" />
@@ -37,7 +37,7 @@
     <Field Def="s32 player_damage_id_riposte_small" />
     <Field Def="s32 player_damage_id_riposte_medium" />
     <Field Def="s32 player_damage_id_riposte_large" />
-    <Field Def="f32 unknown_tae_field" />
+    <Field Def="f32 parry_frames_duration" />
     <Field Def="s32 Unk06" />
     <Field Def="s32 Unk07" />
     <Field Def="f32 damage_mult" />
@@ -56,6 +56,6 @@
     <Field Def="s16 casting_speed_menu" />
     <Field Def="f32 poise_damage_pvp" />
     <Field Def="f32 poise_damage_pve" />
-    <Field Def="f32 Unk08" />
+    <Field Def="f32 hyper_armor_poise_mult" />
   </Fields>
 </PARAMDEF>

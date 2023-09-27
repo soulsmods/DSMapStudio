@@ -88,7 +88,7 @@ atkElementCorrectId,Blowing Correction,AtkPhysCorrection,AtkMagCorrection,AtkFir
 AtkPhys,AtkMag,AtkFire,AtkThun,atkDark,AtkStam,AtkSuperArmor,AtkThrowEscape,AtkObj,-,
 GuardAtkRateCorrection,GuardBreakCorrection,GuardAtkRate,GuardBreakRate,GuardStaminaCutRate,GuardRate,GuardCutCancelRate,-,
 physSpCorrection,magSpCorrection,fireSpCorrection,thunSpCorrection,darkSpCorrection,-,
-ThrowTypeID,damageLevel,0x18B,pad1,damageLevelParameter,mapHitType,AtkAttribute,spAttribute,atkType,HitSourceType,ThrowFlag,disableGuard,disableStaminaAttack,disableHitSpEffect,IgnoreNotifyMissSwingForAI,IsArrowAtk,IsGhostAtk,isDisableNoDamage,opposeTarget,friendlyTarget,selfTarget,isChargeAtk,IsChargeAtk2,IsChargeAtk3,0x18A,0x195,isShareHitList,isCheckObjPenetration,regainableSlotId,deathCauseId,decalId1,decalId2,spawnAiSoundId,HitAiSoundId,RumbleId0,RumbleId1,RumbleId2,RumbleId3,repeatHitSfx,atkPowForSfxSe,atkDirForSfxSe,atkMaterial,atkSize,DefMaterial,DefSfxMaterial,defMaterialVal0,defMaterialVal1,defMaterialVal2,-,
+ThrowTypeID,damageLevel,0x18B,pad1,damageLevelParameter,mapHitType,AtkAttribute,spAttribute,atkType,HitSourceType,ThrowFlag,disableGuard,disableStaminaAttack,disableHitSpEffect,IgnoreNotifyMissSwingForAI,IsArrowAtk,IsGhostAtk,isDisableNoDamage,opposeTarget,friendlyTarget,selfTarget,isChargeAtk,IsChargeAtk2,IsChargeAtk3,0x18A_0,0x195,isShareHitList,isCheckObjPenetration,regainableSlotId,deathCauseId,decalId1,decalId2,spawnAiSoundId,HitAiSoundId,RumbleId0,RumbleId1,RumbleId2,RumbleId3,repeatHitSfx,atkPowForSfxSe,atkDirForSfxSe,atkMaterial,atkSize,DefMaterial,DefSfxMaterial,defMaterialVal0,defMaterialVal1,defMaterialVal2,-,
 Hit0_Radius,Hit0_DmyPoly1,Hit0_DmyPoly2,Hit0_hitType,Hit0_VfxId,Hit0_DummyPolyId0,Hit0_DummyPolyId1,hit0_Priority,Hit1_Radius,Hit1_DmyPoly1,Hit1_DmyPoly2,Hit1_hitType,Hit1_VfxId1,Hit1_DummyPolyId0,Hit1_DummyPolyId1,hit1_Priority,Hit2_Radius,Hit2_DmyPoly1,Hit2_DmyPoly2,Hit2_hitType,Hit2_VfxId,Hit2_DummyPolyId0,Hit2_DummyPolyId1,hit2_Priority,Hit3_Radius,Hit3_DmyPoly1,Hit3_DmyPoly2,Hit3_hitType,Hit3_VfxId,Hit3_DummyPolyId0,Hit3_DummyPolyId1,hit3_Priority,Hit4_Radius,Hit4_DmyPoly1,Hit4_DmyPoly2,Hit4_hitType,Hit4_VfxId,Hit4_DummyPolyId0,Hit4_DummyPolyId1,Hit5_Radius,Hit5_DmyPoly1,Hit5_DmyPoly2,Hit5_hitType,Hit5_VfxId,Hit5_DummyPolyId0,Hit5_DummyPolyId1,Hit6_Radius,Hit6_DmyPoly1,Hit6_DmyPoly2,Hit6_hitType,Hit6_VfxId,Hit6_DummyPolyId0,Hit6_DummyPolyId1,Hit7_Radius,Hit7_DmyPoly1,Hit7_DmyPoly2,Hit7_hitType,Hit7_VfxId,Hit7_DummyPolyId0,Hit7_DummyPolyId1,Hit8_Radius,Hit8_DmyPoly1,Hit8_DmyPoly2,Hit8_hitType,Hit9_Radius,Hit9_DmyPoly1,Hit9_DmyPoly2,Hit9_hitType,Hit10_Radius,Hit10_DmyPoly1,Hit10_DmyPoly2,Hit10_hitType,Hit11_Radius,Hit11_DmyPoly1,Hit11_DmyPoly2,Hit11_hitType,Hit12_Radius,Hit12_DmyPoly1,Hit12_DmyPoly2,Hit12_hitType,Hit13_Radius,Hit13_DmyPoly1,Hit13_DmyPoly2,Hit13_hitType,Hit14_Radius,Hit14_DmyPoly1,Hit14_DmyPoly2,Hit14_hitType,Hit15_Radius,Hit15_DmyPoly1,Hit15_DmyPoly2,Hit15_hitType,-" />
   <Field>
     <Hit0_Radius AltName="Hit 0: Radius" Wiki="Radius of sphere/capsule hitbox." />
@@ -169,8 +169,8 @@ Hit0_Radius,Hit0_DmyPoly1,Hit0_DmyPoly2,Hit0_hitType,Hit0_VfxId,Hit0_DummyPolyId
     <isChargeAtk AltName="Is Charge Attack" IsBool="" />
     <isShareHitList AltName="Is Hit List Shared" IsBool="" />
     <isCheckObjPenetration AltName="Is Object Penetration Checked" IsBool="" />
-	<_0x81 AltName="Unknown" />
-	<_0x81 AltName="Unknown" />
+	<_0x81_0 AltName="Unknown" />
+	<_0x81_1 AltName="Unknown" />
     <spawnAiSoundId AltName="Appear AI Sound ID" Refs="AiSoundParam"/>
 	<HitAiSoundId AltName="Hit AI Sound ID" Refs="AiSoundParam"/>
 	<Hit0_VfxId AltName="Blade Trail [0] VFX ID" />
@@ -255,12 +255,12 @@ Hit0_Radius,Hit0_DmyPoly1,Hit0_DmyPoly2,Hit0_hitType,Hit0_VfxId,Hit0_DummyPolyId
     <atkDark AltName="Damage: Dark" />
     <IsChargeAtk2 AltName="Unknown" IsBool="" />
     <IsChargeAtk3 AltName="Disable Parry" IsBool="" />
-	<_0x18A AltName="Disable 2H Bonus" IsBool="" Wiki="Does not factor in 1.5x STR bonus from 2H"/>
-	<_0x18A AltName="Unknown" />
-	<_0x18A AltName="Unknown" />
-	<_0x18A AltName="Unknown" />
-	<_0x18A AltName="Unknown" />
-	<_0x18A AltName="Unknown" />
+	<_0x18A_0 AltName="Disable 2H Bonus" IsBool="" Wiki="Does not factor in 1.5x STR bonus from 2H"/>
+	<_0x18A_1 AltName="Unknown" />
+	<_0x18A_2 AltName="Unknown" />
+	<_0x18A_3 AltName="Unknown" />
+	<_0x18A_4 AltName="Unknown" />
+	<_0x18A_5 AltName="Unknown" />
     <physSpCorrection AltName="Status Effect Correction" Wiki="Magnification correction is performed for the abnormal state attack power of special effects." />
     <magSpCorrection AltName="Attack Correction - By SpEffect Point" Wiki="Magnification correction is performed for the special effect ~ ~ attack power [point]." />
     <fireSpCorrection AltName="Attack Correction - By SpEffect Power" Wiki="Magnification is corrected for the special effect's attack power multiplier." />

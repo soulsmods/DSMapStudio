@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Linq;
 
 namespace StudioCore.Editor

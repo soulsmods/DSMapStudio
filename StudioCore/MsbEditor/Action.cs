@@ -343,9 +343,8 @@ namespace StudioCore.MsbEditor
             {
                 if (Clonables[i].MapID == null)
                 {
-#if DEBUG
-                    TaskManager.warningList.TryAdd("FailedDupeNoMapID"+Clonables[i].Name, $"DEBUG Failed to dupe {Clonables[i].Name}, as it had no defined MapID");
-#endif
+                    TaskLogs.AddLog($"Failed to dupe {Clonables[i].Name}, as it had no defined MapID",
+                        Microsoft.Extensions.Logging.LogLevel.Warning);
                     continue;
                 }
 
@@ -1058,116 +1057,106 @@ namespace StudioCore.MsbEditor
 
     public class ChangeMapObjectType : Action
     {
-        private Universe Universe;
-        private Queue<object> UndoQueue = new();
-        private List<MapEntity> ModifiedObjects = new();
-        private List<MapEntity> Entities = new();
-        private Type MsbType;
-        private string[] SourceTypes;
-        private string[] TargetTypes;
-        private bool SetSelection;
-        private string MsbParamstr;
+        private record MapObjectChange(object OldObject, object NewObject, MapEntity Entity);
+
+        private readonly Universe Universe;
+        private readonly List<MapEntity> Entities = new();
+        private readonly Type MsbType;
+        private readonly string[] OldTypes;
+        private readonly string[] NewTypes;
+        private readonly bool SetSelection;
+        private readonly string MsbParamstr;
+        private readonly List<MapObjectChange> MapObjectChanges = new();
 
         /// <summary>
         /// Change selected map objects from one type to another. Only works for map objects of the same overarching type, such as Parts or Regions.
         /// Data for properties absent in targeted type will be lost, but will be restored for undo/redo.
         /// </summary>
-        public ChangeMapObjectType(Universe univ, Type msbclass, List<MapEntity> selectedEnts, string[] sourceTypes, string[] targetTypes, string msbParamStr ,bool setSelection)
+        public ChangeMapObjectType(Universe universe, Type msbType, List<MapEntity> selectedEnts, string[] oldTypes, string[] newTypes, string msbParamStr, bool setSelection)
         {
 
-            Universe = univ;
-            MsbType = msbclass;
+            Universe = universe;
+            MsbType = msbType;
             Entities.AddRange(selectedEnts);
-            SourceTypes = sourceTypes;
-            TargetTypes = targetTypes;
+            OldTypes = oldTypes;
+            NewTypes = newTypes;
             SetSelection = setSelection;
             MsbParamstr = msbParamStr;
+
+            // Go through applicable map entities and create WrappedObject with the new type for each.
+            // Store entity, old obj, and new obj to be used when changing Entity's WrappedObject (including restoring the exact same objs in cases of undo/redo).
+            for (var iType = 0; iType < OldTypes.Length; iType++)
+            {
+                // Get desired types for the current game's MSB
+                Type sourceType = MsbType.GetNestedType(MsbParamstr).GetNestedType(OldTypes[iType]);
+                Type targetType = MsbType.GetNestedType(MsbParamstr).GetNestedType(NewTypes[iType]);
+                Type partType = MsbType.GetNestedType(MsbParamstr);
+
+                foreach (var ent in Entities)
+                {
+                    var currentType = ent.WrappedObject.GetType();
+                    if (currentType == sourceType)
+                    {
+                        var map = Universe.GetLoadedMap(ent.MapID);
+                        map.HasUnsavedChanges = true;
+
+                        var sourceObj = ent.WrappedObject;
+                        var targetObj = targetType.GetConstructor(Type.EmptyTypes).Invoke(Array.Empty<object>());
+
+                        // Go through properties of source type and set them to target type (if they exist under the same name)
+                        // Public set properties
+                        foreach (PropertyInfo property in sourceType.GetProperties().Where(p => p.CanWrite))
+                        {
+                            // Make sure target type has this property (DummyAssets are missing some properties)
+                            PropertyInfo targetProp = targetObj.GetType().GetProperty(property.Name);
+                            if (targetProp != null)
+                            {
+                                targetProp.SetValue(targetObj, property.GetValue(sourceObj, null), null);
+                            }
+                        }
+                        // Private set properties
+                        foreach (PropertyInfo property in sourceType.GetProperties().Where(p => !p.CanWrite))
+                        {
+                            // Make sure target type has this property (DummyAssets are missing some properties)
+                            PropertyInfo targetProp = targetObj.GetType().GetProperty(property.Name);
+                            if (targetProp != null)
+                            {
+                                PropertyInfo targetPropInner = targetProp.DeclaringType.GetProperty(property.Name);
+                                targetPropInner.SetValue(targetObj, property.GetValue(sourceObj, null), BindingFlags.NonPublic | BindingFlags.Instance, null, null, null);
+                            }
+                        }
+
+                        MapObjectChanges.Add(new MapObjectChange(sourceObj, targetObj, ent));
+                    }
+                }
+            }
         }
 
         public override ActionEvent Execute()
         {
-            for (var iTypes = 0; iTypes < SourceTypes.Length; iTypes++)
+            foreach (MapObjectChange mapChangeObj in MapObjectChanges)
             {
-                var sourceType = MsbType.GetNestedType(MsbParamstr).GetNestedType(SourceTypes[iTypes]); //get desired msbparam type for the current MSB
-                var targetType = MsbType.GetNestedType(MsbParamstr).GetNestedType(TargetTypes[iTypes]); //get desired msbparam type for the current MSB
-                var partType = MsbType.GetNestedType(MsbParamstr);
-
-                for (var i = 0; i < Entities.Count; i++)
-                {
-                    var ent = Entities[i];
-
-                    var currentType = ent.WrappedObject.GetType();
-                    if (currentType == sourceType)
-                    {
-                        var m = Universe.GetLoadedMap(ent.MapID);
-                        m.HasUnsavedChanges = true;
-                        UndoQueue.Enqueue(ent.DeepCopyObject(ent.WrappedObject)); //store backup of wrappedObj in queue for undoing
-
-                        var source = ent.WrappedObject;
-                        var target = targetType.GetConstructor(Type.EmptyTypes).Invoke(Array.Empty<object>());
-
-                        // Go through properties of source type and set them to target type (if they exist under the same name)
-                        foreach (PropertyInfo property in sourceType.GetProperties().Where(p => p.CanWrite)) //public set properties
-                        {
-                            var targetProp = target.GetType().GetProperty(property.Name);
-                            if (targetProp != null) //make sure target type has this property (happens for Assets vs DummyAssets)
-                            {
-                                targetProp.SetValue(target, property.GetValue(source, null), null); // Copy every (writable) value to/from dummy/nondummy. this may be too risky in the future!
-                            }
-                        }
-                        foreach (PropertyInfo property in sourceType.GetProperties().Where(p => !p.CanWrite)) //private set properties
-                        {
-                            var targetProp = target.GetType().GetProperty(property.Name);
-                            if (targetProp != null) //make sure target type has this property (happens for Assets vs DummyAssets)
-                            {
-                                var prop = targetProp.DeclaringType.GetProperty(property.Name);
-                                prop.SetValue(target, property.GetValue(source, null), BindingFlags.NonPublic | BindingFlags.Instance, null, null, null);
-                                // Pretty good chance this will explode in some circumstances!
-                            }
-                        }
-
-                        //assign new dummied/undummied wrappedObj to entity
-                        ent.WrappedObject = target;
-                        ModifiedObjects.Add(ent);
-                    }
-                }
+                // Assign new dummied/undummied wrappedObj to entity
+                mapChangeObj.Entity.WrappedObject = mapChangeObj.NewObject;
             }
 
-            //if (SetSelection) {}
             return ActionEvent.ObjectAddedRemoved;
         }
 
         public override ActionEvent Undo()
         {
-            for (var iTypes = 0; iTypes < SourceTypes.Length; iTypes++)
+            foreach (MapObjectChange mapChangeObj in MapObjectChanges)
             {
-                Type sourceType = MsbType.GetNestedType(MsbParamstr).GetNestedType(TargetTypes[iTypes]); //inverted for undo
-                //Type targetType = MsbType.GetNestedType(MsbParamstr).GetNestedType(SourceTypes[iTypes]); //inverted for undo
-
-                for (var i = 0; i < ModifiedObjects.Count; i++)
-                {
-                    var ent = ModifiedObjects[i];
-
-                    if (ent.Type == MapEntity.MapEntityType.Part)
-                    {
-                        var currentType = ent.WrappedObject.GetType();
-                        if (currentType == sourceType)
-                        {
-                            var m = Universe.GetLoadedMap(ent.MapID);
-                            m.HasUnsavedChanges = true;
-
-                            ent.WrappedObject = UndoQueue.Dequeue(); //retrieve backup object from queue
-                        }
-                    }
-                }
+                // Restore old, stored WrappedObject to entity.
+                mapChangeObj.Entity.WrappedObject = mapChangeObj.OldObject;
             }
 
             if (SetSelection)
             {
                 Universe.Selection.ClearSelection();
-                foreach (var d in Entities)
+                foreach (var ent in Entities)
                 {
-                    Universe.Selection.AddSelection(d);
+                    Universe.Selection.AddSelection(ent);
                 }
             }
             return ActionEvent.ObjectAddedRemoved;

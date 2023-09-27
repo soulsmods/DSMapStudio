@@ -10,10 +10,8 @@
     <Field Def="f32 Unk01" />
     <Field Def="f32 Unk02" />
     <Field Def="s32 Unk03" />
-    <Field Def="u16 Unk04" />
-    <Field Def="u16 Unk05" />
-    <Field Def="u16 Unk06" />
-    <Field Def="u16 Unk07" />
+    <Field Def="s32 Unk04" />
+    <Field Def="u32 Unk06" />
     <Field Def="f32 Unk08" />
     <Field Def="f32 Unk09" />
     <Field Def="f32 Unk10" />

@@ -24,10 +24,10 @@
 125010 Rupturing Hollow
 127000 Captive Undead
 127001 Captive Undead
-127010 Captive Undead
-127011 Captive Undead
+127010 Captive Undead (Ivory King DLC)
+127011 Captive Undead (Ivory King DLC)
 129000 Forest Spirit
-129010 Forest Spirit
+129010 Forest Spirit (Ivory King DLC)
 131000 Lindelt Cleric
 132000 Skeleton
 133000 Skeleton
@@ -65,7 +65,7 @@
 220000 Giant Acid Horn Beetle
 222000 Giant Basilisk
 223000 Mongrel Rat
-223500 Mongrel Rat (Royal Rat Authority)
+223500 Royal Rat Authority
 224000 Darksucker
 225000 UNKNOWN
 226000 Corpse Rat
@@ -77,12 +77,12 @@
 301000 Heide Knight
 302000 Undead Jailer
 303300 Flexile Sentry
-303310 Flexile Sentry
+303310 Flexile Sentry (Ivory King DLC)
 304000 Milfanito
 305000 Smelter Demon
 305001 Blue Smelter Demon
 306000 Alonne Captain
-306001 Alonne Captain
+306001 Alonne Captain (Old Iron King DLC)
 307000 Headless Vengarl
 307100 Headless Vengarl
 307110 Vengarl
@@ -99,7 +99,7 @@
 317000 Dragon Acolyte
 318000 The Pursuer
 319000 Alonne Knight
-319001 Alonne Knight
+319001 Alonne Knight (Old Iron King DLC)
 321000 Mimic
 321010 Mimic
 324000 Belfry Gargoyle
@@ -129,7 +129,7 @@
 514600 Vendrick (hollow)
 600000 Ancient Dragon
 601000 Flame Lizard
-601001 Flame Lizard
+601001 Flame Lizard (Old Iron King DLC)
 602000 Demon of Song
 603000 The Duke's Dear Freja
 603100 The Duke's Dear Freja
@@ -171,7 +171,7 @@
 681001 Sinh- the Slumbering Dragon
 682000 Elana- Squalid Queen
 683000 Imperfect
-684000 Vendrick
+684000 Vendrick (NPC)
 685000 Skeleton (Elana)
 686000 Small Undead Boar (Elana)
 687000 Velstadt (Elana)
@@ -217,9 +217,9 @@
 784000 Cromwell the Pardoner
 785000 Blue Sentinel Targray
 786000 Dyna & Tillo
-800000 UNKNOWN
-800001 UNKNOWN
-800002 UNKNOWN
-800003 UNKNOWN
+800000 Player-based NPC
+800001 Player-based NPC
+800002 Player-based NPC (DLC)
+800003 Player-based NPC (DLC)
 801000 UNKNOWN
 812000 Pilgrim Bellclaire

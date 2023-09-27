@@ -6,7 +6,7 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="f32 base_damage_mult" />
+   <Field Def="f32 base_damage_mult" />
     <Field Def="f32 Unk00" />
     <Field Def="f32 level_0_physical_scaling_str" />
     <Field Def="f32 level_0_physical_scaling_dex" />
@@ -16,7 +16,7 @@
     <Field Def="f32 level_0_dark_scaling" />
     <Field Def="f32 level_0_poison_scaling" />
     <Field Def="f32 level_0_bleed_scaling" />
-    <Field Def="f32 level_0_unk" />
+    <Field Def="f32 level_0_enchanted_scaling" />
     <Field Def="f32 level_1_physical_scaling_str" />
     <Field Def="f32 level_1_physical_scaling_dex" />
     <Field Def="f32 level_1_magic_scaling" />
@@ -25,7 +25,7 @@
     <Field Def="f32 level_1_dark_scaling" />
     <Field Def="f32 level_1_poison_scaling" />
     <Field Def="f32 level_1_bleed_scaling" />
-    <Field Def="f32 level_1_unk" />
+    <Field Def="f32 level_1_enchanted_scaling" />
     <Field Def="f32 level_2_physical_scaling_str" />
     <Field Def="f32 level_2_physical_scaling_dex" />
     <Field Def="f32 level_2_magic_scaling" />
@@ -34,7 +34,7 @@
     <Field Def="f32 level_2_dark_scaling" />
     <Field Def="f32 level_2_poison_scaling" />
     <Field Def="f32 level_2_bleed_scaling" />
-    <Field Def="f32 level_2_unk" />
+    <Field Def="f32 level_2_enchanted_scaling" />
     <Field Def="f32 level_3_physical_scaling_str" />
     <Field Def="f32 level_3_physical_scaling_dex" />
     <Field Def="f32 level_3_magic_scaling" />
@@ -43,7 +43,7 @@
     <Field Def="f32 level_3_dark_scaling" />
     <Field Def="f32 level_3_poison_scaling" />
     <Field Def="f32 level_3_bleed_scaling" />
-    <Field Def="f32 level_3_unk" />
+    <Field Def="f32 level_3_enchanted_scaling" />
     <Field Def="f32 level_4_physical_scaling_str" />
     <Field Def="f32 level_4_physical_scaling_dex" />
     <Field Def="f32 level_4_magic_scaling" />
@@ -52,7 +52,7 @@
     <Field Def="f32 level_4_dark_scaling" />
     <Field Def="f32 level_4_poison_scaling" />
     <Field Def="f32 level_4_bleed_scaling" />
-    <Field Def="f32 level_4_unk" />
+    <Field Def="f32 level_4_enchanted_scaling" />
     <Field Def="f32 level_5_physical_scaling_str" />
     <Field Def="f32 level_5_physical_scaling_dex" />
     <Field Def="f32 level_5_magic_scaling" />
@@ -61,7 +61,7 @@
     <Field Def="f32 level_5_dark_scaling" />
     <Field Def="f32 level_5_poison_scaling" />
     <Field Def="f32 level_5_bleed_scaling" />
-    <Field Def="f32 level_5_unk" />
+    <Field Def="f32 level_5_enchanted_scaling" />
     <Field Def="f32 level_6_physical_scaling_str" />
     <Field Def="f32 level_6_physical_scaling_dex" />
     <Field Def="f32 level_6_magic_scaling" />
@@ -70,7 +70,7 @@
     <Field Def="f32 level_6_dark_scaling" />
     <Field Def="f32 level_6_poison_scaling" />
     <Field Def="f32 level_6_bleed_scaling" />
-    <Field Def="f32 level_6_unk" />
+    <Field Def="f32 level_6_enchanted_scaling" />
     <Field Def="f32 level_7_physical_scaling_str" />
     <Field Def="f32 level_7_physical_scaling_dex" />
     <Field Def="f32 level_7_magic_scaling" />
@@ -79,7 +79,7 @@
     <Field Def="f32 level_7_dark_scaling" />
     <Field Def="f32 level_7_poison_scaling" />
     <Field Def="f32 level_7_bleed_scaling" />
-    <Field Def="f32 level_7_unk" />
+    <Field Def="f32 level_7_enchanted_scaling" />
     <Field Def="f32 level_8_physical_scaling_str" />
     <Field Def="f32 level_8_physical_scaling_dex" />
     <Field Def="f32 level_8_magic_scaling" />
@@ -88,7 +88,7 @@
     <Field Def="f32 level_8_dark_scaling" />
     <Field Def="f32 level_8_poison_scaling" />
     <Field Def="f32 level_8_bleed_scaling" />
-    <Field Def="f32 level_8_unk" />
+    <Field Def="f32 level_8_enchanted_scaling" />
     <Field Def="f32 level_9_physical_scaling_str" />
     <Field Def="f32 level_9_physical_scaling_dex" />
     <Field Def="f32 level_9_magic_scaling" />
@@ -97,7 +97,7 @@
     <Field Def="f32 level_9_dark_scaling" />
     <Field Def="f32 level_9_poison_scaling" />
     <Field Def="f32 level_9_bleed_scaling" />
-    <Field Def="f32 level_9_unk" />
+    <Field Def="f32 level_9_enchanted_scaling" />
     <Field Def="f32 level_10_physical_scaling_str" />
     <Field Def="f32 level_10_physical_scaling_dex" />
     <Field Def="f32 level_10_magic_scaling" />
@@ -106,6 +106,6 @@
     <Field Def="f32 level_10_dark_scaling" />
     <Field Def="f32 level_10_poison_scaling" />
     <Field Def="f32 level_10_bleed_scaling" />
-    <Field Def="f32 level_10_unk" />
+    <Field Def="f32 level_10_enchanted_scaling" />
   </Fields>
 </PARAMDEF>

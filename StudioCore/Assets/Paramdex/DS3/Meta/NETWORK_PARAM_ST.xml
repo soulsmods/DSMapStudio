@@ -6,21 +6,21 @@
     <signVerticalOffset AltName="Common - Sign Height Offset" Wiki="" />
     <maxSignPosCorrectionRange AltName="Common - Max Sign Position Correction Range" Wiki="" />
     <summonTimeoutTime AltName="Common - Summon Timeout Time" Wiki="" />
-    <pad AltName=""/>
+    <pad_0 AltName=""/>
     <signPuddleActiveMessageIntervalSec AltName="Summon Sign - Sign Puddle Active Message Interval" Wiki="" />
-    <keyGuideHeight AltName="Summon Sign - Key Guide Height" Wiki="" />
+    <keyGuideHeight_0 AltName="Summon Sign - Key Guide Height" Wiki="" />
     <reloadSignIntervalTime1 AltName="Summon Sign - Reload Sign Interval Time [1]" Wiki="" />
     <reloadSignIntervalTime2 AltName="Summon Sign - Reload Sign Interval Time [2]" Wiki="" />
-    <reloadSignTotalCount AltName="Summon Sign - Reload Sign Total Count" Wiki="Actually u8 is enough" />
-    <reloadSignCellCount AltName="Summon Sign - Reload Sign Cell Count" Wiki="Actually u8 is enough" />
+    <reloadSignTotalCount_0 AltName="Summon Sign - Reload Sign Total Count" Wiki="Actually u8 is enough" />
+    <reloadSignCellCount_0 AltName="Summon Sign - Reload Sign Cell Count" Wiki="Actually u8 is enough" />
     <updateSignIntervalTime AltName="Summon Sign - Update Sign Interval Time" Wiki="" />
-    <basicExclusiveRange AltName="Summon Sign - Basic Horizontal Drawing Range" Wiki="" />
-    <basicExclusiveHeight AltName="Summon Sign - Basic Vertical Drawing Height" Wiki="" />
+    <basicExclusiveRange_0 AltName="Summon Sign - Basic Horizontal Drawing Range" Wiki="" />
+    <basicExclusiveHeight_0 AltName="Summon Sign - Basic Vertical Drawing Height" Wiki="" />
     <previewChrWaitingTime AltName="Summon Sign - Preview Chr Waiting Time" Wiki="" />
-    <signVisibleRange AltName="Summon Sign - Sign Visible Range" Wiki="" />
-    <cellGroupHorizontalRange AltName="Summon Sign - Acquisition Cell Range (Horizontal)" Wiki="Actually u8 is enough" />
-    <cellGroupTopRange AltName="Summon Sign - Acquisition Cell Range (Top)" Wiki="Actually u8 is enough" />
-    <cellGroupBottomRange AltName="Summon Sign - Acquisition Cell Range (Bottom)" Wiki="Actually u8 is enough" />
+    <signVisibleRange_0 AltName="Summon Sign - Sign Visible Range" Wiki="" />
+    <cellGroupHorizontalRange_0 AltName="Summon Sign - Acquisition Cell Range (Horizontal)" Wiki="Actually u8 is enough" />
+    <cellGroupTopRange_0 AltName="Summon Sign - Acquisition Cell Range (Top)" Wiki="Actually u8 is enough" />
+    <cellGroupBottomRange_0 AltName="Summon Sign - Acquisition Cell Range (Bottom)" Wiki="Actually u8 is enough" />
     <minWhitePhantomLimitTimeScale AltName="Summon Sign - Min White Phantom Limit Time Scale" Wiki="" />
     <minSmallPhantomLimitTimeScale AltName="Summon Sign - Min Small Phantom Limit Time Scale" Wiki="" />
     <whiteKeywordLimitTimeScale AltName="Summon Sign - White Keyword Limit Time Scale" Wiki="" />
@@ -34,46 +34,46 @@
     <maxBreakInTargetListCount AltName="Intrusion - Max Intruder List Count" Wiki="" />
     <breakInRequestIntervalTimeSec AltName="Intrusion - Intruder Request Interval Time" Wiki="" />
     <breakInRequestTimeOutSec AltName="Intrusion - Intruder Request Timeout" Wiki="" />
-    <pad AltName=""/>
+    <pad_1 AltName=""/>
     <keyGuideRange AltName="Blood Message - Key Guide Horionztal Range" Wiki="" />
-    <keyGuideHeight AltName="Blood Message - Key Guide Vertical Range" Wiki="" />
-    <reloadSignTotalCount AltName="Blood Message - Reload Sign Total Count" Wiki="Actually u8 is enough" />
+    <keyGuideHeight_1 AltName="Blood Message - Key Guide Vertical Range" Wiki="" />
+    <reloadSignTotalCount_1 AltName="Blood Message - Reload Sign Total Count" Wiki="Actually u8 is enough" />
     <reloadNewSignCellCount AltName="Blood Message - Reload New Sign Cell Count" Wiki="Actually u8 is enough" />
     <reloadRandomSignCellCount AltName="Blood Message - Reload Random Sign Cell Count" Wiki="Actually u8 is enough" />
-    <maxSignTotalCount AltName="Blood Message - Max Sign Total Count" Wiki="Actually u16 is enough" />
-    <maxSignCellCount AltName="Blood Message - Max Sign Cell Count" Wiki="Actually u8 is enough" />
-    <basicExclusiveRange AltName="Blood Message - Basic Exclusive Range" Wiki="" />
-    <basicExclusiveHeight AltName="Blood Message - Basic Exclusive Height" Wiki="" />
-    <signVisibleRange AltName="Blood Message - Sign Visible Range" Wiki="" />
+    <maxSignTotalCount_0 AltName="Blood Message - Max Sign Total Count" Wiki="Actually u16 is enough" />
+    <maxSignCellCount_0 AltName="Blood Message - Max Sign Cell Count" Wiki="Actually u8 is enough" />
+    <basicExclusiveRange_1 AltName="Blood Message - Basic Exclusive Range" Wiki="" />
+    <basicExclusiveHeight_1 AltName="Blood Message - Basic Exclusive Height" Wiki="" />
+    <signVisibleRange_1 AltName="Blood Message - Sign Visible Range" Wiki="" />
     <maxWriteSignCount AltName="Blood Message - Max Write Sign Count" Wiki="Actually u8 is enough" />
     <maxReadSignCount AltName="Blood Message - Max Read Sign Count" Wiki="Actually u8 is enough" />
-    <reloadSignIntervalTime AltName="Blood Message - Reload Sign Interval Time" Wiki="" />
-    <cellGroupHorizontalRange AltName="Blood Message - Cell Group Horizontal Range" Wiki="Actually u8 is enough" />
-    <cellGroupTopRange AltName="Blood Message - Cell Group Top Range" Wiki="Actually u8 is enough" />
-    <cellGroupBottomRange AltName="Blood Message - Cell Group Bottom Range" Wiki="Actually u8 is enough" />
-    <lifeTime AltName="Blood Message - Lifetime" Wiki="Actually u16 is enough" />
-    <downloadSpan AltName="Blood Message - Download Span" Wiki="" />
+    <reloadSignIntervalTime_0 AltName="Blood Message - Reload Sign Interval Time" Wiki="" />
+    <cellGroupHorizontalRange_1 AltName="Blood Message - Cell Group Horizontal Range" Wiki="Actually u8 is enough" />
+    <cellGroupTopRange_1 AltName="Blood Message - Cell Group Top Range" Wiki="Actually u8 is enough" />
+    <cellGroupBottomRange_1 AltName="Blood Message - Cell Group Bottom Range" Wiki="Actually u8 is enough" />
+    <lifeTime_0 AltName="Blood Message - Lifetime" Wiki="Actually u16 is enough" />
+    <downloadSpan_0 AltName="Blood Message - Download Span" Wiki="" />
     <downloadEvaluationSpan AltName="Blood Message - Download Evaluation Span" Wiki="" />
-    <pad AltName=""/>
+    <pad_2 AltName=""/>
     <deadingGhostStartPosThreshold AltName="Bloodstain - Dead Ghost Start Position Threshold" Wiki="If the distance between the bloodstain position and the illusion start position is farther than this value, the server will not be registered." />
-    <keyGuideHeight AltName="Bloodstain - Key Guide Height" Wiki="" />
+    <keyGuideHeight_2 AltName="Bloodstain - Key Guide Height" Wiki="" />
     <keyGuideRangePlayer AltName="Bloodstain - Key Guide Range Player" Wiki="" />
     <keyGuideHeightPlayer AltName="Bloodstain - Key Guide Height Player" Wiki="" />
-    <reloadSignTotalCount AltName="Bloodstain - Reload Sign Total Count" Wiki="Actually u8 is enough" />
-    <reloadSignCellCount AltName="Bloodstain - Reload Sign Cell Count" Wiki="Actually u8 is enough" />
-    <maxSignTotalCount AltName="Bloodstain - Max Sign Total Count" Wiki="Actually u16 is enough" />
-    <maxSignCellCount AltName="Bloodstain - Max Sign Cell Count" Wiki="Actually u8 is enough" />
-    <reloadSignIntervalTime AltName="Bloodstain - Reload Sign Interval Time" Wiki="" />
-    <signVisibleRange AltName="Bloodstain - Sign Visible Range" Wiki="" />
-    <basicExclusiveRange AltName="Bloodstain - Basic Exclusive Range" Wiki="" />
-    <basicExclusiveHeight AltName="Bloodstain - Basic Exclusive Height" Wiki="" />
-    <cellGroupHorizontalRange AltName="Bloodstain - Cell Group Horizontal Range" Wiki="Actually u8 is enough" />
-    <cellGroupTopRange AltName="Bloodstain - Cell Group Top Range" Wiki="Actually u8 is enough" />
-    <cellGroupBottomRange AltName="Bloodstain - Cell Group Bottom Range" Wiki="Actually u8 is enough" />
-    <lifeTime AltName="Bloodstain - Lifetime" Wiki="Actually u16 is enough" />
+    <reloadSignTotalCount_2 AltName="Bloodstain - Reload Sign Total Count" Wiki="Actually u8 is enough" />
+    <reloadSignCellCount_1 AltName="Bloodstain - Reload Sign Cell Count" Wiki="Actually u8 is enough" />
+    <maxSignTotalCount_1 AltName="Bloodstain - Max Sign Total Count" Wiki="Actually u16 is enough" />
+    <maxSignCellCount_1 AltName="Bloodstain - Max Sign Cell Count" Wiki="Actually u8 is enough" />
+    <reloadSignIntervalTime_1 AltName="Bloodstain - Reload Sign Interval Time" Wiki="" />
+    <signVisibleRange_2 AltName="Bloodstain - Sign Visible Range" Wiki="" />
+    <basicExclusiveRange_2 AltName="Bloodstain - Basic Exclusive Range" Wiki="" />
+    <basicExclusiveHeight_2 AltName="Bloodstain - Basic Exclusive Height" Wiki="" />
+    <cellGroupHorizontalRange_2 AltName="Bloodstain - Cell Group Horizontal Range" Wiki="Actually u8 is enough" />
+    <cellGroupTopRange_2 AltName="Bloodstain - Cell Group Top Range" Wiki="Actually u8 is enough" />
+    <cellGroupBottomRange_2 AltName="Bloodstain - Cell Group Bottom Range" Wiki="Actually u8 is enough" />
+    <lifeTime_1 AltName="Bloodstain - Lifetime" Wiki="Actually u16 is enough" />
     <recordDeadingGhostTotalTime AltName="Bloodstain - Record Dead Ghost Total Time" Wiki="" />
     <recordDeadingGhostMinTime AltName="Bloodstain - Record Dead Ghost Min Time" Wiki="Death illusions less than this recording time will not register the server" />
-    <downloadSpan AltName="Bloodstain - Download Span" Wiki="" />
+    <downloadSpan_1 AltName="Bloodstain - Download Span" Wiki="" />
     <statueCreatableDistance AltName="Bloodstain - Statue Creatable Distance" Wiki="For open fields. When a stone statue is generated, it can be generated if the distance between the PC and the generation position is greater than or equal to this value." />
     <reloadGhostTotalCount AltName="Ghost - Reload Ghost Total Count" Wiki="Actually u8 is enough" />
     <reloadGhostCellCount AltName="Ghost - Reload Ghost Cell Count" Wiki="Actually u8 is enough" />
@@ -93,8 +93,8 @@
     <minReplayIntervalTime AltName="Ghost - Replay Interval Min Time" Wiki="" />
     <maxReplayIntervalTime AltName="Ghost - Replay Interval Max Time" Wiki="" />
     <reloadGhostIntervalTime AltName="Ghost - Reload Ghost Interval Time" Wiki="" />
-    <cellGroupHorizontalRange AltName="Ghost - Cell Group Horizontal Range" Wiki="Actually u8 is enough" />
-    <cellGroupTopRange AltName="Ghost - Cell Group Top Range" Wiki="Actually u8 is enough" />
+    <cellGroupHorizontalRange_3 AltName="Ghost - Cell Group Horizontal Range" Wiki="Actually u8 is enough" />
+    <cellGroupTopRange_3 AltName="Ghost - Cell Group Top Range" Wiki="Actually u8 is enough" />
     <replayBonfirePhantomParamIdForCodename AltName="Ghost - Replay Bonfire Phantom Param ID (CodeDisplayName)" Wiki="Phantom bonfire mode phantom parameter ID used when codename matches" />
     <replayBonfireModeRange AltName="Ghost - Replay Bonfire Mode Range" Wiki="" />
     <replayBonfirePhantomParamId AltName="Ghost - Replay Bonfire Phantom Param ID" Wiki="Phantom bonfire mode phantom parameter ID" />
@@ -149,15 +149,15 @@
     <pad11 AltName=""/>
     <VisitorListMax AltName="Visitor - Visitor List Max" Wiki="Actually u8 is enough" />
     <VisitorTimeOutTime AltName="Visitor - Visitor Time Out Time" Wiki="" />
-    <DownloadSpan AltName="Visitor - Download Span" Wiki="" />
+    <DownloadSpan_2 AltName="Visitor - Download Span" Wiki="" />
     <VisitorGuestRequestMessageIntervalSec AltName="Visitor - Visitor Guest Request Message Interval" Wiki="Display interval [seconds] of messages sent by visiting guests while searching for a destination" />
     <wanderGhostIntervalLifeTime AltName="Ghost Addition - Wandering Ghost Interval Lifetime" Wiki="Wandering illusion life" />
     <pad13 AltName=""/>
     <YellowMonkTimeOutTime AltName="Yellow Monk - Yellow Monk Timeout Time" Wiki="" />
     <YellowMonkDownloadSpan AltName="Yellow Monk - Yellow Monk Download Span" Wiki="" />
     <YellowMonkOverallFlowTimeOutTime AltName="Yellow Monk - Yellow Monk Overall Flow Time Out Time" Wiki="" />
-    <pad14 AltName=""/>
-    <pad14 AltName=""/>
+    <pad14_0 AltName=""/>
+    <pad14_1 AltName=""/>
   </Field>
   <Self Wiki="Network data"/>
 </PARAMMETA>

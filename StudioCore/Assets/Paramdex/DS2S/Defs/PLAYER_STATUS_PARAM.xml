@@ -6,10 +6,12 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="s32 body_type" />
+    <Field Def="u8 body_type" />
+    <Field Def="u8 hollowing_type" />
+    <Field Def="u16 body_build_type" />
     <Field Def="u16 soul_level" />
     <Field Def="u16 vigor" />
-    <Field Def="s32 unk00" />
+    <Field Def="s32 souls" />
     <Field Def="u16 endurance" />
     <Field Def="u16 attunement" />
     <Field Def="u16 vitality" />
@@ -93,6 +95,9 @@
     <Field Def="s32 gesture_6" />
     <Field Def="s32 gesture_7" />
     <Field Def="s32 gesture_8" />
-    <Field Def="s32 unk06" />
+    <Field Def="u8 covenant" />
+    <Field Def="u8 covenant_level" />
+    <Field Def="u8 unk06a" />
+    <Field Def="u8 unk06b" />
   </Fields>
 </PARAMDEF>

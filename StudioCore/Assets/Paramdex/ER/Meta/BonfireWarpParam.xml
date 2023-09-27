@@ -66,9 +66,9 @@
     <textType7 AltName="Text Type [7]" Wiki="Text type (place name, NPC name, ...)" Enum="WORLD_MAP_POINT_TEXT_TYPE" />
     <textType8 AltName="Text Type [8]" Wiki="Text type (place name, NPC name, ...)" Enum="WORLD_MAP_POINT_TEXT_TYPE" />
     <noIgnitionSfxDmypolyId_0 AltName="Bonfire Ignition - Dummy Poly ID [0]" Wiki="Damipoli ID that issues SFX before bonfire ignition" />
-    <noIgnitionSfxId_0 AltName="Bonfire Ignition - SFX ID [0]" Wiki="SFX ID issued before bonfire ignition. It goes out when ignited. In case of -1, SFX is not issued." />
+    <noIgnitionSfxId_0 AltName="Bonfire Ignition - SFX ID [0]" Wiki="SFX ID issued before bonfire ignition. It goes out when ignited. In case of -1, SFX is not issued." ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
     <noIgnitionSfxDmypolyId_1 AltName="Bonfire Ignition - Dummy Poly ID [1]" Wiki="Damipoli ID that issues SFX before bonfire ignition" />
-    <noIgnitionSfxId_1 AltName="Bonfire Ignition - SFX ID [1]" Wiki="SFX ID issued before bonfire ignition. It goes out when ignited. In case of -1, SFX is not issued." />
+    <noIgnitionSfxId_1 AltName="Bonfire Ignition - SFX ID [1]" Wiki="SFX ID issued before bonfire ignition. It goes out when ignited. In case of -1, SFX is not issued." ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
     <unkA8 AltName="unkA8" Wiki="" />
     <unkAC AltName="unkAC" Wiki="" />
     <unkB0 AltName="unkB0" Wiki="" />

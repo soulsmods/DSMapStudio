@@ -17,30 +17,30 @@
 50600601 [Grave Warden Agdayne] Elizabeth Mushroom
 50600602 [Grave Warden Agdayne] Dark Arrow
 50600603 [Grave Warden Agdayne] Dark Bolt
-70400000 [Laddersmith Gilligan - 1] Reinforced Club
-70400001 [Laddersmith Gilligan - 1] Claws
-70400002 [Laddersmith Gilligan - 1] Whip
-70400003 [Laddersmith Gilligan - 1] Wooden Shield
-70400004 [Laddersmith Gilligan - 2] Reinforced Club
-70400005 [Laddersmith Gilligan - 2] Claws
-70400006 [Laddersmith Gilligan - 2] Whip
-70400007 [Laddersmith Gilligan - 2] Wooden Shield
-70400200 [Laddersmith Gilligan - 1] Thief Mask
-70400201 [Laddersmith Gilligan - 1] Black Leather Armor
-70400202 [Laddersmith Gilligan - 1] Black Leather Gloves
-70400203 [Laddersmith Gilligan - 1] Black Leather Boots
-70400204 [Laddersmith Gilligan - 2] Thief Mask
-70400205 [Laddersmith Gilligan - 2] Black Leather Armor
-70400206 [Laddersmith Gilligan - 2] Black Leather Gloves
-70400207 [Laddersmith Gilligan - 2] Black Leather Boots
-70400500 [Laddersmith Gilligan - 1] Ladder Miniature
-70400501 [Laddersmith Gilligan - 2] Ladder Miniature
-70400600 [Laddersmith Gilligan - 1] Aromatic Ooze
-70400601 [Laddersmith Gilligan - 1] Lacerating Knife
-70400602 [Laddersmith Gilligan - 1] Bleeding Serum
-70400603 [Laddersmith Gilligan - 2] Aromatic Ooze
-70400604 [Laddersmith Gilligan - 2] Lacerating Knife
-70400605 [Laddersmith Gilligan - 2] Bleeding Serum
+70400000 [Laddersmith Gilligan - Earthen Peak] Reinforced Club
+70400001 [Laddersmith Gilligan - Earthen Peak] Claws
+70400002 [Laddersmith Gilligan - Earthen Peak] Whip
+70400003 [Laddersmith Gilligan - Earthen Peak] Wooden Shield
+70400004 [Laddersmith Gilligan - Majula] Reinforced Club
+70400005 [Laddersmith Gilligan - Majula] Claws
+70400006 [Laddersmith Gilligan - Majula] Whip
+70400007 [Laddersmith Gilligan - Majula] Wooden Shield
+70400200 [Laddersmith Gilligan - Earthen Peak] Thief Mask
+70400201 [Laddersmith Gilligan - Earthen Peak] Black Leather Armor
+70400202 [Laddersmith Gilligan - Earthen Peak] Black Leather Gloves
+70400203 [Laddersmith Gilligan - Earthen Peak] Black Leather Boots
+70400204 [Laddersmith Gilligan - Majula] Thief Mask
+70400205 [Laddersmith Gilligan - Majula] Black Leather Armor
+70400206 [Laddersmith Gilligan - Majula] Black Leather Gloves
+70400207 [Laddersmith Gilligan - Majula] Black Leather Boots
+70400500 [Laddersmith Gilligan - Earthen Peak] Ladder Miniature
+70400501 [Laddersmith Gilligan - Majula] Ladder Miniature
+70400600 [Laddersmith Gilligan - Earthen Peak] Aromatic Ooze
+70400601 [Laddersmith Gilligan - Earthen Peak] Lacerating Knife
+70400602 [Laddersmith Gilligan - Earthen Peak] Bleeding Serum
+70400603 [Laddersmith Gilligan - Majula] Aromatic Ooze
+70400604 [Laddersmith Gilligan - Majula] Lacerating Knife
+70400605 [Laddersmith Gilligan - Majula] Bleeding Serum
 72110000 [Chancellor Wellager] Flamberge
 72110001 [Chancellor Wellager] Lucerne
 72110002 [Chancellor Wellager - Looking Glass Knight] Black Flamestone Dagger
@@ -55,11 +55,11 @@
 72110102 [Chancellor Wellager - Looking Glass Knight] Bound Wooden Shield
 72110103 [Chancellor Wellager - Looking Glass Knight] Homunculus Wooden Shield
 72110104 [Chancellor Wellager - Looking Glass Knight] Transgressor's Leather Shield
-72110105 [Chancellor Wellager - Looking Glass Knight] Longsword
+72110105 [Chancellor Wellager - NG+2] Spirit Tree Shield
 72110300 [Chancellor Wellager - NG+2] Wrath of the Gods
 72110301 [Chancellor Wellager - NG+2] Bountiful Sunlight
 72110302 [Chancellor Wellager - NG+2] Great Chaos Fireball
-72110303 [Chancellor Wellager - NG+2] Spirit Tree Shield
+72110303 [Chancellor Wellager] Great Magic Barrier
 72110400 [Chancellor Wellager] Bracing Knuckle Ring+1
 72110600 [Chancellor Wellager] Old Radiant Lifegem
 72110601 [Chancellor Wellager] Wilted Dusk Herb
@@ -141,9 +141,9 @@
 75400300 [Merchant Hag Melentia] Soul Arrow
 75400301 [Merchant Hag Melentia] Heal
 75400500 [Merchant Hag Melentia] Lenigrast's Key
-75400600 [Merchant Hag Melentia] Lifegem
-75400601 【Yorozu Babaa】Shizukuishi
-75400602 [Merchant Hag Melentia] Radiant Lifegem
+75400600 [Merchant Hag Melentia - Forest of Fallen Giants] Lifegem
+75400601 [Merchant Hag Melentia - Majula] Lifegem
+75400602 [Merchant Hag Melentia - Lost Sinner] Radiant Lifegem
 75400603 [Merchant Hag Melentia] Amber Herb
 75400604 [Merchant Hag Melentia] Throwing Knife
 75400605 [Merchant Hag Melentia] Witching Urn
@@ -151,11 +151,11 @@
 75400607 [Merchant Hag Melentia] Human Effigy
 75400608 [Merchant Hag Melentia] Pharros' Lockstone
 75400609 [Merchant Hag Melentia] Brightbug
-75400610 [Merchant Hag Melentia] Brightbug
-75400611 [Merchant Hag Melentia] Brightbug
-75400612 [Merchant Hag Melentia] Brightbug
-75400613 [Merchant Hag Melentia] Brightbug
-75400614 [Merchant Hag Melentia] Brightbug
+75400610 [Merchant Hag Melentia - 1 Major Boss] Brightbug
+75400611 [Merchant Hag Melentia - 2 Major Bosses] Brightbug
+75400612 [Merchant Hag Melentia - 3 Major Bosses] Brightbug
+75400613 [Merchant Hag Melentia - 4 Major Bosses] Brightbug
+75400614 [Merchant Hag Melentia - 5 Major Bosses] Brightbug
 75400615 [Merchant Hag Melentia] Fragrant Branch of Yore
 75600600 [The Rat King] Common Fruit
 75600601 [The Rat King] Red Leech Troches
@@ -220,35 +220,35 @@
 76100256 [Maughlin the Armourer - Thorne Defenders] Throne Watcher Armor
 76100257 [Maughlin the Armourer - Thorne Defenders] Throne Watcher Gauntlets
 76100258 [Maughlin the Armourer - Thorne Defenders] Throne Watcher Leggings
-76100259 [Maughlin the Armourer - 15000 Souls- NG+3] Moon Butterfly Hat
-76100260 [Maughlin the Armourer - 15000 Souls- NG+2] Moon Butterfly Wings
-76100261 [Maughlin the Armourer - 15000 Souls- NG+2] Moon Butterfly Cuffs
-76100262 [Maughlin the Armourer - 15000 Souls- NG+2] Moon Butterfly Skirt
-76100263 [Maughlin the Armourer - Burnt Ivory King- 50 Loyce Souls] Ivory King Helm
-76100264 [Maughlin the Armourer - Burnt Ivory King- 50 Loyce Souls] Ivory King Armor
-76100265 [Maughlin the Armourer - Burnt Ivory King- 50 Loyce Souls] Ivory King Gauntlets
-76100266 [Maughlin the Armourer - Burnt Ivory King- 50 Loyce Souls] Ivory King Leggings
+76100259 [Maughlin the Armourer - 15000 Souls, NG+3] Moon Butterfly Hat
+76100260 [Maughlin the Armourer - 15000 Souls, NG+2] Moon Butterfly Wings
+76100261 [Maughlin the Armourer - 15000 Souls, NG+2] Moon Butterfly Cuffs
+76100262 [Maughlin the Armourer - 15000 Souls, NG+2] Moon Butterfly Skirt
+76100263 [Maughlin the Armourer - Burnt Ivory King, 50 Loyce Souls] Ivory King Helm
+76100264 [Maughlin the Armourer - Burnt Ivory King, 50 Loyce Souls] Ivory King Armor
+76100265 [Maughlin the Armourer - Burnt Ivory King, 50 Loyce Souls] Ivory King Gauntlets
+76100266 [Maughlin the Armourer - Burnt Ivory King, 50 Loyce Souls] Ivory King Leggings
 76200300 [Stone Trader Chloanne] Soul Appease
 76200301 [Stone Trader Chloanne] Dead Again
-76200600 [Stone Trader Chloanne] Bonfire Ascetic
-76200601 [Stone Trader Chloanne] Titanite Shard
-76200602 [Stone Trader Chloanne] Large Titanite Shard
-76200603 [Stone Trader Chloanne - Old Iron King] Titanite Shard
-76200604 [Stone Trader Chloanne - Old Iron King] Large Titanite Shard
-76200605 [Stone Trader Chloanne - Old Iron King] Titanite Chunk
-76200606 [Stone Trader Chloanne - Old Iron King] Twinkling Titanite
-76200607 [Stone Trader Chloanne - Old Iron King] Petrified Dragon Bone
-76200608 [Stone Trader Chloanne - Looking Glass Knight] Titanite Chunk
-76200609 [Stone Trader Chloanne - Looking Glass Knight] Titanite Slab
-76200610 [Stone Trader Chloanne - Looking Glass Knight] Twinkling Titanite
-76200611 [Stone Trader Chloanne - Looking Glass Knight] Petrified Dragon Bone
-76200612 [Stone Trader Chloanne - Velstadt] Titanite Slab
-76200613 [Stone Trader Chloanne - Shrine of Winter] Faintstone
-76200614 [Stone Trader Chloanne - Shrine of Winter] Boltstone
-76200615 [Stone Trader Chloanne - Shrine of Winter] Firedrake Stone
-76200616 [Stone Trader Chloanne - Shrine of Winter] Darknight Stone
-76200617 [Stone Trader Chloanne - Shrine of Winter] Poison Stone
-76200618 [Stone Trader Chloanne - Shrine of Winter] Bleed Stone
+76200600 [Stone Trader Chloanne] Titanite Shard
+76200601 [Stone Trader Chloanne - Old Iron King] Titanite Shard
+76200602 [Stone Trader Chloanne - Old Iron King] Large Titanite Shard
+76200603 [Stone Trader Chloanne - Looking Glass Knight] Large Titanite Shard
+76200604 [Stone Trader Chloanne - Velstadt] Titanite Chunk
+76200605 [Stone Trader Chloanne - Nashandra] Titanite Chunk
+76200606 [Stone Trader Chloanne - Velstadt] Titanite Slab
+76200607 [Stone Trader Chloanne - Velstadt] Twinkling Titanite
+76200608 [Stone Trader Chloanne - Velstadt] Petrified Dragon Bone
+76200609 [Stone Trader Chloanne - Velstadt] Faintstone
+76200610 [Stone Trader Chloanne - Velstadt] Boltstone
+76200611 [Stone Trader Chloanne - Velstadt] Firedrake Stone
+76200612 [Stone Trader Chloanne - Velstadt] Darknight Stone
+76200613 [Stone Trader Chloanne - Looking Glass Knight] Poison Stone
+76200614 [Stone Trader Chloanne - Looking Glass Knight] Bleed Stone
+76200615 [Stone Trader Chloanne - Velstadt] Raw Stone
+76200616 [Stone Trader Chloanne - Velstadt] Magic Stone
+76200617 [Stone Trader Chloanne - Velstadt] Old Mundane Stone
+76200618 [Stone Trader Chloanne] Bonfire Ascetic
 76300300 [Rosabeth of Melfia] Fireball
 76300301 [Rosabeth of Melfia] Fire Orb
 76300302 [Rosabeth of Melfia] Combustion
@@ -276,29 +276,29 @@
 76400603 [Blacksmith Lenigrast] Heavy Bolt
 76400604 [Blacksmith Lenigrast] Titanite Shard
 76400605 [Blacksmith Lenigrast] Repair Powder
-76430000 [Steady Hand McDuff] Royal Kite Shield
-76430001 [EX Blacksmith] Busted Sword
-76430002 [EX Blacksmith] Great Axe
-76430003 [EX Blacksmith] Winged Spear
-76430004 [EX blacksmith] size
-76430005 【BLACKSMITH】Longbow
-76430006 [BLACKSMITH] Light Crossbow
-76430007 [EX blacksmith] sword
-76430008 [EX Blacksmith] Busted Sword
-76430009 [EX Blacksmith] Great Axe
-76430010 [EX Blacksmith] Windspear
-76430011 [EX blacksmith] size
-76430012 【BLACKSMITH】Longbow
-76430013 [BLACKSMITH] Light Crossbow
-76430100 [EX Blacksmith] Cavalry Kite Shield
-76430102 [EX Blacksmith] Cavalry Kite Shield
+76430000 [Steady Hand McDuff] Uchigatana
+76430001 [Steady Hand McDuff] Bastard Sword
+76430002 [Steady Hand McDuff] Greataxe
+76430003 [Steady Hand McDuff] Winged Spear
+76430004 [Steady Hand McDuff] Scythe
+76430005 [Steady Hand McDuff] Long Bow
+76430006 [Steady Hand McDuff] Light Crossbow
+76430007 [Steady Hand McDuff - Unknown Event] Uchigatana
+76430008 [Steady Hand McDuff - Unknown Event] Bastard Sword
+76430009 [Steady Hand McDuff - Unknown Event] Greataxe
+76430010 [Steady Hand McDuff - Unknown Event] Winged Spear
+76430011 [Steady Hand McDuff - Unknown Event] Scythe
+76430012 [Steady Hand McDuff - Unknown Event] Long Bow
+76430013 [Steady Hand McDuff - Unknown Event] Light Crossbow
+76430100 [Steady Hand McDuff] Royal Kite Shield
+76430102 [Steady Hand McDuff - Unknown Event] Royal Kite Shield
 76430600 [Steady Hand McDuff] Wood Arrow
 76430601 [Steady Hand McDuff] Iron Arrow
 76430602 [Steady Hand McDuff] Wood Bolt
 76430603 [Steady Hand McDuff] Heavy Bolt
 76430604 [Steady Hand McDuff] Iron Greatarrow
-76430605 [Steady Hand McDuff] Repair Powder
-76430606 [EX blacksmith] light powder of repair
+76430605 [Steady Hand McDuff] Large Titanite Shard
+76430606 [Steady Hand McDuff] Repair Powder
 76600000 [Carhillion of the Fold] Sorcerer's Staff
 76600300 [Carhillion of the Fold] Soul Arrow
 76600301 [Carhillion of the Fold] Great Soul Arrow
@@ -329,9 +329,9 @@
 76800203 [Straid of Olaphis - 3 Forlorn] Leggings of the Forlorn
 76800300 [Straid of Olaphis] Homing Soul Arrow
 76800301 [Straid of Olaphis] Resplendent Life
-76800302 [Straid of Olaphis - Undead Crypt] Great Lightning Spear
+76800302 [Straid of Olaphis - Velstadt] Great Lightning Spear
 76800303 [Straid of Olaphis] Unveil
-76800304 [Straid of Olaphis - Undead Crypt] Sunlight Blade
+76800304 [Straid of Olaphis - Velstadt] Sunlight Blade
 76800305 [Straid of Olaphis] Lingering Flame
 76800306 [Straid of Olaphis] Flame Swathe
 76800307 [Straid of Olaphis] Dark Orb
@@ -342,6 +342,7 @@
 76800312 [Straid of Olaphis] Cast Light
 76800400 [Straid of Olaphis] Ring of Knowledge
 76800401 [Straid of Olaphis] Lingering Dragoncrest Ring
+76800402 [Straid of Olaphis] Agape Ring
 76800600 [Straid of Olaphis] Rouge Water
 76801000 [Straid of Olaphis - Soul of the Pursuer] Pursuer's Ultra Greatsword
 76801001 [Straid of Olaphis - Soul of the Pursuer] Pursuer's Greatshield
@@ -357,7 +358,7 @@
 76801011 [Straid of Olaphis - Executioner's Chariot Soul] Shield Crossbow
 76801012 [Straid of Olaphis - Skeleton Lord's Soul] Roaring Halberd
 76801013 [Straid of Olaphis - Skeleton Lord's Soul] Bone Scythe
-76801014 [Straid of Olaphis - Mytha- the Baneful Queen Soul] Mytha's Bent Blade
+76801014 [Straid of Olaphis - Mytha, the Baneful Queen Soul] Mytha's Bent Blade
 76801015 [Straid of Olaphis - Smelter Demon Soul] Smelter Sword
 76801016 [Straid of Olaphis - Demon of Song Soul] Spotted Whip
 76801017 [Straid of Olaphis - Belfry Gargoyle Soul] Gargoyle Bident
@@ -624,20 +625,20 @@
 77602119 [Weaponsmith Ornifex - Throne Defender Soul] Defender's Shield
 77602120 [Weaponsmith Ornifex - Throne Watcher Soul] Watcher Greatsword
 77602121 [Weaponsmith Ornifex - Throne Watcher Soul] Watcher's Shield
-77700200 Cat Boots
-77700400 【Cat】Silver Cat Ring
-77700401 Cat: Red-eyed ring
-77700402 【Cat】Ring to engrave the name
-77700403 Cat: Whisper ring
-77700404 Cat: Ring of evil eyes
-77700600 【Cat】Seven Colored Stones
-77700601 【Cat】Invitation Skeleton
-77700602 【Cat】Lloyd's Amulet
-77700603 [Cat] bone fragment of return
-77700604 【Cat】Seven Colored Stones
-77700605 【Cat】Invitation Skeleton
-77700606 【Cat】Lloyd's Amulet
-77700607 [Cat] bone fragment of return
+77700200 [Sweet Shalquoir - Royal Rat Authority, Royal Rat Vanguard] Flying Feline Boots
+77700400 [Sweet Shalquoir] Silvercat Ring
+77700401 [Sweet Shalquoir] Redeye ring
+77700402 [Sweet Shalquoir] Name-engraved Ring
+77700403 [Sweet Shalquoir] Ring of Whispers
+77700404 [Sweet Shalquoir] Ring of the Evil Eye
+77700600 [Sweet Shalquoir] Prism Stone
+77700601 [Sweet Shalquoir] Alluring Skull
+77700602 [Sweet Shalquoir] Lloyd's Talisman
+77700603 [Sweet Shalquoir] Homeward Bone
+77700604 [Sweet Shalquoir - Shrine of Winter] Prism Stone
+77700605 [Sweet Shalquoir - Shrine of Winter] Alluring Skull
+77700606 [Sweet Shalquoir - Shrine of Winter] Lloyd's Talisman
+77700607 [Sweet Shalquoir - Shrine of Winter] Homeward Bone
 78300000 [Titchy Gren] Great Scythe
 78300001 [Titchy Gren] Priest's Chime
 78300200 [Titchy Gren - Skeleton Lords] Bone Crown
@@ -655,7 +656,8 @@
 78300600 [Titchy Gren] Red Sign Soapstone
 78300601 [Titchy Gren] Silver Talisman
 78300602 [Titchy Gren] Hexing Urn
-78300603 [Titchy Gren] Cracked Red Eye Orb
+78300603 [Titchy Gren - NG+] Cracked Red Eye Orb
+78300604 [Titchy Gren] Cracked Red Eye Orb
 78400200 [Cromwell the Pardoner] White Priest Headpiece
 78400201 [Cromwell the Pardoner] White Priest Robe
 78400202 [Cromwell the Pardoner] White Priest Gloves
@@ -668,14 +670,14 @@
 78400305 [Cromwell the Pardoner] Heavenly Thunder
 78400306 [Cromwell the Pardoner] Perseverance
 78400307 [Cromwell the Pardoner] Scraps of Life
-78400308 [Cromwell the Pardoner] Great Heal
-78400309 [Cromwell the Pardoner] Replenishment
-78400310 [Cromwell the Pardoner] Caressing Prayer
-78400311 [Cromwell the Pardoner] Force
-78400312 [Cromwell the Pardoner] Emit Force
-78400313 [Cromwell the Pardoner] Heavenly Thunder
-78400314 [Cromwell the Pardoner] Perseverance
-78400315 [Cromwell the Pardoner] Scraps of Life
+78400308 [Cromwell the Pardoner - Unknown Event] Great Heal
+78400309 [Cromwell the Pardoner - Unknown Event] Replenishment
+78400310 [Cromwell the Pardoner - Unknown Event] Caressing Prayer
+78400311 [Cromwell the Pardoner - Unknown Event] Force
+78400312 [Cromwell the Pardoner - Unknown Event] Emit Force
+78400313 [Cromwell the Pardoner - Unknown Event] Heavenly Thunder
+78400314 [Cromwell the Pardoner - Unknown Event] Perseverance
+78400315 [Cromwell the Pardoner - Unknown Event] Scraps of Life
 78400400 [Cromwell the Pardoner] Poisonbite Ring
 78400401 [Cromwell the Pardoner] Bloodbite Ring
 78400402 [Cromwell the Pardoner] Cursebite Ring
@@ -687,4 +689,4 @@
 78500600 [Blue Sentinel Targray] Monastery Charm
 78500601 [Blue Sentinel Targray] Holy Water Urn
 78500602 [Blue Sentinel Targray] Boltstone
-78500603 [Blue Sentinel Targray] Cracked Blue Eye Orb
+78500603 [Blue Sentinel Targray - NG+] Cracked Blue Eye Orb

@@ -23,14 +23,14 @@
     <Field Def="f32 Unk12" />
     <Field Def="f32 Unk13" />
     <Field Def="u16 strength_requirement" />
-    <Field Def="u16 dexteroty_requirement" />
+    <Field Def="u16 dexterity_requirement" />
     <Field Def="u16 intelligence_requirement" />
     <Field Def="u16 faith_requirement" />
     <Field Def="f32 weight" />
     <Field Def="f32 durability" />
     <Field Def="u32 repair_cost" />
     <Field Def="f32 poise" />
-    <Field Def="s16 Unk14" />
+    <Field Def="s16 control_parameters_blend_weight" />
     <Field Def="s16 item_discovery" />
     <Field Def="s32 Unk15" />
     <Field Def="s32 Unk16" />

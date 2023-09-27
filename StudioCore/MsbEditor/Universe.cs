@@ -7,10 +7,11 @@ using System.Reflection;
 using System.Xml.Serialization;
 using System.Threading.Tasks;
 using System.Numerics;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using FSParam;
 using StudioCore.Resource;
 using SoulsFormats;
-using Newtonsoft.Json;
 using StudioCore.Scene;
 using StudioCore.Editor;
 using Newtonsoft.Json.Serialization;
@@ -18,6 +19,13 @@ using Newtonsoft.Json.Linq;
 
 namespace StudioCore.MsbEditor
 {
+    [JsonSourceGenerationOptions(WriteIndented = true, 
+        GenerationMode = JsonSourceGenerationMode.Metadata, IncludeFields = true)]
+    [JsonSerializable(typeof(List<BTL.Light>))]
+    internal partial class BtlLightSerializerContext : JsonSerializerContext
+    {
+    }
+    
     /// <summary>
     /// A universe is a collection of loaded maps with methods to load, serialize,
     /// and unload individual maps.
@@ -143,7 +151,7 @@ namespace StudioCore.MsbEditor
 
         public RenderableProxy GetRegionDrawable(Map map, Entity obj)
         {
-            if (obj.WrappedObject is IMsbRegion r && r.Shape is MSB.Shape.Box b)
+            if (obj.WrappedObject is IMsbRegion r && r.Shape is MSB.Shape.Box )
             {
                 var mesh = DebugPrimitiveRenderableProxy.GetBoxRegionProxy(_renderScene);
                 mesh.World = obj.GetWorldMatrix();
@@ -175,7 +183,32 @@ namespace StudioCore.MsbEditor
                 mesh.DrawFilter = RenderFilter.Region;
                 return mesh;
             }
-            return null;
+            else if (obj.WrappedObject is IMsbRegion r5 && r5.Shape is MSB.Shape.Composite co)
+            {
+                // Not fully implemented. Temporarily uses point region marker.
+                var mesh = DebugPrimitiveRenderableProxy.GetPointRegionProxy(_renderScene);
+                mesh.World = obj.GetWorldMatrix();
+                mesh.SetSelectable(obj);
+                mesh.DrawFilter = RenderFilter.Region;
+                return mesh;
+            }
+            else if (obj.WrappedObject is IMsbRegion r6 && r6.Shape is MSB.Shape.Rectangle re)
+            {
+                var mesh = DebugPrimitiveRenderableProxy.GetBoxRegionProxy(_renderScene);
+                mesh.World = obj.GetWorldMatrix();
+                mesh.SetSelectable(obj);
+                mesh.DrawFilter = RenderFilter.Region;
+                return mesh;
+            }
+            else if (obj.WrappedObject is IMsbRegion r7 && r7.Shape is MSB.Shape.Circle ci)
+            {
+                var mesh = DebugPrimitiveRenderableProxy.GetCylinderRegionProxy(_renderScene);
+                mesh.World = obj.GetWorldMatrix();
+                mesh.SetSelectable(obj);
+                mesh.DrawFilter = RenderFilter.Region;
+                return mesh;
+            }
+            throw new NotSupportedException($"No region model proxy was specified for {obj.WrappedObject.GetType()}");
         }
 
         public RenderableProxy GetLightDrawable(Map map, Entity obj)
@@ -216,6 +249,7 @@ namespace StudioCore.MsbEditor
             var mesh = DebugPrimitiveRenderableProxy.GetBoxRegionProxy(_renderScene);
             mesh.World = obj.GetWorldMatrix();
             obj.RenderSceneMesh = mesh;
+            mesh.DrawFilter = RenderFilter.Region;
             mesh.SetSelectable(obj);
             return mesh;
         }
@@ -251,12 +285,9 @@ namespace StudioCore.MsbEditor
             bool loadnav = false;
             bool loadflver = false;
             Scene.RenderFilter filt = Scene.RenderFilter.All;
+
             var amapid = _assetLocator.GetAssetMapID(map.Name);
-            // Special case for chalice dungeon assets
-            if (map.Name.StartsWith("m29"))
-            {
-                amapid = "m29_00_00_00";
-            }
+
             var job = ResourceManager.CreateNewJob($@"Loading mesh");
             if (modelname.ToLower().StartsWith("m"))
             {
@@ -320,6 +351,10 @@ namespace StudioCore.MsbEditor
                     }
                 }
                 return mesh;
+            }
+            else if (_assetLocator.Type == GameType.ArmoredCoreVI)
+            {
+                //TODO AC6
             }
             else if (loadnav && _assetLocator.Type != GameType.DarkSoulsIISOTFS)
             {
@@ -495,6 +530,7 @@ namespace StudioCore.MsbEditor
                 var mesh = DebugPrimitiveRenderableProxy.GetBoxRegionProxy(_renderScene);
                 mesh.World = obj.GetLocalTransform().WorldMatrix;
                 obj.RenderSceneMesh = mesh;
+                mesh.DrawFilter = RenderFilter.Region;
                 mesh.SetSelectable(obj);
             }
 
@@ -535,7 +571,7 @@ namespace StudioCore.MsbEditor
             }
         }
 
-        public void LoadRelatedMaps(string mapid, Dictionary<string, ObjectContainer> maps)
+        public void LoadRelatedMapsER(string mapid, Dictionary<string, ObjectContainer> maps)
         {
             var relatedMaps = SpecialMapConnections.GetRelatedMaps(GameType.EldenRing, mapid, maps.Keys);
             foreach (var map in relatedMaps)
@@ -551,7 +587,8 @@ namespace StudioCore.MsbEditor
                 && ParamEditor.ParamBank.VanillaBank.Params == null)
             {
                 // ParamBank must be loaded for DS2 maps
-                TaskManager.warningList.TryAdd("ds2-mapload-noparams", "DS2 maps cannot be loaded until params are loaded.");
+                TaskLogs.AddLog("Cannot load DS2 maps until params finish loading",
+                    Microsoft.Extensions.Logging.LogLevel.Warning);
                 return false;
             }
 
@@ -572,13 +609,17 @@ namespace StudioCore.MsbEditor
 
                 if (_assetLocator.Type == GameType.DarkSoulsIISOTFS)
                 {
-                    var bdt = BXF4.Read(ad.AssetPath, ad.AssetPath[..^3] + "bdt");
+                    using var bdt = BXF4.Read(ad.AssetPath, ad.AssetPath[..^3] + "bdt");
                     var file = bdt.Files.Find(f => f.Name.EndsWith("light.btl.dcx"));
                     if (file == null)
                     {
                         return null;
                     }
                     btl = BTL.Read(file.Bytes);
+                }
+                else if (_assetLocator.Type == GameType.ArmoredCoreVI)
+                {
+                    throw new NotSupportedException("AC6 TODO: BTL");
                 }
                 else
                 {
@@ -587,9 +628,10 @@ namespace StudioCore.MsbEditor
 
                 return btl;
             }
-            catch (InvalidDataException)
+            catch (InvalidDataException e)
             {
-                TaskManager.warningList.TryAdd($"{ad.AssetName} load", $"Failed to load {ad.AssetName}");
+                TaskLogs.AddLog($"Failed to load {ad.AssetName}",
+                    Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.Normal, e);
                 return null;
             }
         }
@@ -628,6 +670,8 @@ namespace StudioCore.MsbEditor
                     case GameType.EldenRing:
                         _dispGroupCount = 8; //?
                         break;
+                    case GameType.ArmoredCoreVI:
+                        //TODO AC6
                     default:
                         throw new Exception($"Error: Did not expect Gametype {_assetLocator.Type}");
                         //break;
@@ -650,6 +694,11 @@ namespace StudioCore.MsbEditor
                 else if (_assetLocator.Type == GameType.EldenRing)
                 {
                     msb = MSBE.Read(ad.AssetPath);
+                }
+                else if (_assetLocator.Type == GameType.ArmoredCoreVI)
+                {
+                    //TODO AC6
+                    return;
                 }
                 else if (_assetLocator.Type == GameType.DarkSoulsIISOTFS)
                 {
@@ -691,8 +740,17 @@ namespace StudioCore.MsbEditor
                             chrsToLoad.Add(tasset);
                         }
                     }
-                    // object model
-                    else if (model.Name.StartsWith("o") || model.Name.StartsWith("AEG"))
+                    else if (model.Name.StartsWith("o"))
+                    {
+                        asset = _assetLocator.GetObjModel(model.Name);
+                        objsToLoad.Add(asset);
+                        var tasset = _assetLocator.GetObjTexture(model.Name);
+                        if (tasset.AssetVirtualPath != null || tasset.AssetArchiveVirtualPath != null)
+                        {
+                            objsToLoad.Add(tasset);
+                        }
+                    }
+                    else if (model.Name.StartsWith("AEG"))
                     {
                         asset = _assetLocator.GetObjModel(model.Name);
                         objsToLoad.Add(asset);
@@ -704,6 +762,10 @@ namespace StudioCore.MsbEditor
                         colsToLoad.Add(asset);
                     }
                     // navigation
+                    else if (_assetLocator.Type == GameType.ArmoredCoreVI)
+                    {
+                        //TODO AC6
+                    }
                     else if (model.Name.StartsWith("n") && _assetLocator.Type != GameType.DarkSoulsIISOTFS && _assetLocator.Type != GameType.Bloodborne)
                     {
                         asset = _assetLocator.GetMapNVMModel(amapid, _assetLocator.MapModelNameToAssetName(amapid, model.Name));
@@ -921,6 +983,8 @@ namespace StudioCore.MsbEditor
             catch (Exception e)
             {
 #if DEBUG
+                TaskLogs.AddLog($"Map Load Failed (debug build)",
+                    Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High, e);
                 throw;
 #else
                 // Store async exception so it can be caught by crash handler.
@@ -968,9 +1032,8 @@ namespace StudioCore.MsbEditor
                             var entryExists = entityIDList.TryGetValue(entityID, out string name);
                             if (entryExists)
                             {
-                                var key = $"{obj.Name} Dupe EntityID";
-                                var value = $"Duplicate EntityID: `{entityID}` is being used by multiple regions; `{obj.PrettyName}` and `{name}`";
-                                TaskManager.warningList.TryAdd(key, value);
+                                TaskLogs.AddLog($"Duplicate EntityID: \"{entityID}\" is being used by multiple regions \"{obj.PrettyName}\" and \"{name}\"",
+                                    Microsoft.Extensions.Logging.LogLevel.Warning);
                             }
                             else
                             {
@@ -1184,6 +1247,10 @@ namespace StudioCore.MsbEditor
             {
                 return DCX.Type.DCX_DFLT_10000_44_9;
             }
+            else if (_assetLocator.Type == GameType.ArmoredCoreVI)
+            {
+                //TODO AC6
+            }
             else if (_assetLocator.Type == GameType.DarkSoulsIISOTFS)
             {
                 return DCX.Type.None;
@@ -1224,7 +1291,8 @@ namespace StudioCore.MsbEditor
                         var newLights = map.SerializeBtlLights(BTLs_w[i].AssetName);
 
                         // Only save BTL if it has been modified
-                        if (JsonConvert.SerializeObject(btl.Lights) != JsonConvert.SerializeObject(newLights))
+                        if (JsonSerializer.Serialize(btl.Lights, BtlLightSerializerContext.Default.ListLight) != 
+                            JsonSerializer.Serialize(newLights, BtlLightSerializerContext.Default.ListLight))
                         {
                             btl.Lights = newLights;
                             file.Bytes = btl.Write(DCX.Type.DCX_DFLT_10000_24_9);
@@ -1247,6 +1315,10 @@ namespace StudioCore.MsbEditor
                     }
                 }
             }
+            else if (_assetLocator.Type == GameType.ArmoredCoreVI)
+            {
+                //TODO AC6
+            }
             else
             {
                 for (var i = 0; i < BTLs.Count; i++)
@@ -1257,7 +1329,8 @@ namespace StudioCore.MsbEditor
                         var newLights = map.SerializeBtlLights(BTLs_w[i].AssetName);
 
                         // Only save BTL if it has been modified
-                        if (JsonConvert.SerializeObject(btl.Lights) != JsonConvert.SerializeObject(newLights))
+                        if (JsonSerializer.Serialize(btl.Lights, BtlLightSerializerContext.Default.ListLight) != 
+                            JsonSerializer.Serialize(newLights, BtlLightSerializerContext.Default.ListLight))
                         {
                             btl.Lights = newLights;
                             try
@@ -1301,6 +1374,11 @@ namespace StudioCore.MsbEditor
                     n.Layers = prev.Layers;
                     n.Routes = prev.Routes;
                     msb = n;
+                }
+                else if (_assetLocator.Type == GameType.ArmoredCoreVI)
+                {
+                    //TODO AC6
+                    return;
                 }
                 else if (_assetLocator.Type == GameType.DarkSoulsIISOTFS)
                 {
@@ -1361,7 +1439,7 @@ namespace StudioCore.MsbEditor
                 {
                     File.Delete(mapPath + ".temp");
                 }
-                
+
                 msb.Write(mapPath + ".temp", compressionType);
 
                 // Make a copy of the previous map
@@ -1385,14 +1463,12 @@ namespace StudioCore.MsbEditor
 
                 CheckDupeEntityIDs(map);
                 map.HasUnsavedChanges = false;
+                TaskLogs.AddLog($"Saved map {map.Name}");
             }
             catch (Exception e)
             {
                 throw new SavingFailedException(Path.GetFileName(map.Name), e);
             }
-            //var json = JsonConvert.SerializeObject(map.SerializeHierarchy());
-            //Utils.WriteStringWithBackup(_assetLocator.GameRootDirectory, _assetLocator.GameModDirectory,
-            //    $@"{Path.GetFileNameWithoutExtension(mapPath)}.json", json);
         }
 
         public void SaveAllMaps()

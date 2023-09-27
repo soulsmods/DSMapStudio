@@ -222,10 +222,27 @@
       <Maximum>999999</Maximum>
       <SortID>750</SortID>
     </Field>
-    <Field Def="dummy8 Reserve2[4]">
+    <Field Def="dummy8 Reserve2[4]" RemovedVersion="10801000">
       <DisplayName>リザーブ2</DisplayName>
       <Description>リザーブ２</Description>
       <SortID>1114</SortID>
     </Field>
+    <Field Def="u32 Unk1" FirstVersion="10801000" />
+    <Field Def="u32 Unk2" FirstVersion="10801000" />
+    <Field Def="s32 Unk3" FirstVersion="10801000" />
+    <Field Def="s32 Unk4" FirstVersion="10801000" />
+    <Field Def="s32 Unk5" FirstVersion="10801000" />
+    <Field Def="s32 Unk6" FirstVersion="10801000" />
+    <Field Def="s32 Unk7" FirstVersion="10801000" />
+    <Field Def="s32 Unk8" FirstVersion="10801000" />
+    <Field Def="s32 Unk9" FirstVersion="10801000" />
+    <Field Def="s32 Unk10" FirstVersion="10801000" />
+    <Field Def="u32 Unk11" FirstVersion="10801000" />
+    <Field Def="s32 Unk12" FirstVersion="10801000" />
+    <Field Def="s32 Unk13" FirstVersion="10801000" />
+    <Field Def="s32 Unk14" FirstVersion="10801000" />
+    <Field Def="s32 Unk15" FirstVersion="10801000" />
+    <Field Def="s32 Unk16" FirstVersion="10801000" />
+    <Field Def="u32 Unk17" FirstVersion="10801000" />
   </Fields>
 </PARAMDEF>

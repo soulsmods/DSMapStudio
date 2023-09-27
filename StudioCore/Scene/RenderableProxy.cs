@@ -14,6 +14,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Threading;
 using SoulsFormats;
+using Vortice.Vulkan;
 
 namespace StudioCore.Scene
 {
@@ -164,6 +165,14 @@ namespace StudioCore.Scene
 
         private ModelMarkerType _placeholderType;
         private RenderableProxy? _placeholderProxy = null;
+
+        /// <summary>
+        /// List of assets starting IDs that will always receive a model marker.
+        /// Contains speedtree AEGs, which currently do not render in DSMS.
+        /// Can be removed when speedtree rendering is functional.
+        /// </summary>
+        private static readonly HashSet<string> _speedtreeAegNames = new()
+            {"AEG801", "AEG805", "AEG810", "AEG811", "AEG813", "AEG814", "AEG815", "AEG816"};
 
         private int _renderable = -1;
         private int _selectionOutlineRenderable = -1;
@@ -479,13 +488,16 @@ namespace StudioCore.Scene
             ResourceLayout projViewCombinedLayout = StaticResourceCache.GetResourceLayout(
                 gd.ResourceFactory,
                 new ResourceLayoutDescription(
-                    new ResourceLayoutElementDescription("ViewProjection", ResourceKind.UniformBuffer,
-                        ShaderStages.Vertex)));
+                    new ResourceLayoutElementDescription("ViewProjection", VkDescriptorType.UniformBuffer,
+                        VkShaderStageFlags.Vertex)));
 
             ResourceLayout worldLayout = StaticResourceCache.GetResourceLayout(gd.ResourceFactory,
                 new ResourceLayoutDescription(
-                    new ResourceLayoutElementDescription("World", ResourceKind.UniformBuffer, ShaderStages.Vertex,
-                        ResourceLayoutElementOptions.DynamicBinding)));
+                    new ResourceLayoutElementDescription(
+                        "World", 
+                        VkDescriptorType.UniformBufferDynamic, 
+                        VkShaderStageFlags.Vertex,
+                        VkDescriptorBindingFlags.None)));
 
 
             VertexLayoutDescription[] mainVertexLayouts = new VertexLayoutDescription[]
@@ -506,13 +518,19 @@ namespace StudioCore.Scene
 
             ResourceLayout mainPerObjectLayout = StaticResourceCache.GetResourceLayout(gd.ResourceFactory,
                 new ResourceLayoutDescription(
-                    new ResourceLayoutElementDescription("WorldBuffer", ResourceKind.StructuredBufferReadWrite,
-                        ShaderStages.Vertex | ShaderStages.Fragment, ResourceLayoutElementOptions.None)));
+                    new ResourceLayoutElementDescription(
+                        "WorldBuffer", 
+                        VkDescriptorType.StorageBuffer,
+                        VkShaderStageFlags.Vertex | VkShaderStageFlags.Fragment, 
+                        VkDescriptorBindingFlags.None)));
 
             ResourceLayout texLayout = StaticResourceCache.GetResourceLayout(gd.ResourceFactory,
                 new ResourceLayoutDescription(
-                    new ResourceLayoutElementDescription("globalTextures", ResourceKind.TextureReadOnly,
-                        ShaderStages.Vertex | ShaderStages.Fragment, ResourceLayoutElementOptions.None)));
+                    new ResourceLayoutElementDescription(
+                        "globalTextures", 
+                        VkDescriptorType.SampledImage,
+                        VkShaderStageFlags.Vertex | VkShaderStageFlags.Fragment,
+                        VkDescriptorBindingFlags.None)));
 
             _perObjectResourceSet = StaticResourceCache.GetResourceSet(factory, new ResourceSetDescription(
                 mainPerObjectLayout,
@@ -570,7 +588,7 @@ namespace StudioCore.Scene
             meshcomp._indirectArgs.IndexCount = (uint)_meshProvider.IndexCount;
 
             // Rest of draw parameters
-            meshcomp._indexFormat = _meshProvider.Is32Bit ? IndexFormat.UInt32 : IndexFormat.UInt16;
+            meshcomp._indexFormat = _meshProvider.Is32Bit ? VkIndexType.Uint32 : VkIndexType.Uint16;
             meshcomp._objectResourceSet = _perObjectResourceSet;
             meshcomp._bufferIndex = geombuffer.BufferIndex;
 
@@ -617,7 +635,7 @@ namespace StudioCore.Scene
             {
                 pipelineDescription.RasterizerState = new RasterizerStateDescription(
                     cullMode: _meshProvider.SelectedUseBackface
-                        ? ((_meshProvider.CullMode == FaceCullMode.Front) ? FaceCullMode.Back : FaceCullMode.Front)
+                        ? ((_meshProvider.CullMode == VkCullModeFlags.Front) ? VkCullModeFlags.Back : VkCullModeFlags.Front)
                         : _meshProvider.CullMode,
                     fillMode: _meshProvider.FillMode,
                     frontFace: _meshProvider.FrontFace,
@@ -758,26 +776,41 @@ namespace StudioCore.Scene
                 }
             }
 
-            if (needsPlaceholder)
+            if (_placeholderType != ModelMarkerType.None)
             {
-                _placeholderProxy =
-                    DebugPrimitiveRenderableProxy.GetModelMarkerProxy(_renderablesSet, _placeholderType);
-                _placeholderProxy.World = World;
-                _placeholderProxy.Visible = Visible;
-                _placeholderProxy.DrawFilter = _drawfilter;
-                _placeholderProxy.DrawGroups = _drawgroups;
-                if (_selectable != null)
+                if (_meshProvider is FlverMeshProvider fProvider)
                 {
-                    _selectable.TryGetTarget(out var sel);
-                    if (sel != null)
+                    if (_speedtreeAegNames.FirstOrDefault(n => fProvider.MeshName.ToUpper().StartsWith(n)) != null)
                     {
-                        _placeholderProxy.SetSelectable(sel);
+                        if (fProvider.MeshName.ToUpper() != "AEG801_224")
+                        {
+                            // Non-rendering speedtree
+                            needsPlaceholder = true;
+                        }
                     }
                 }
 
-                if (_registered)
+                if (needsPlaceholder)
                 {
-                    _placeholderProxy.Register();
+                    _placeholderProxy =
+                        DebugPrimitiveRenderableProxy.GetModelMarkerProxy(_renderablesSet, _placeholderType);
+                    _placeholderProxy.World = World;
+                    _placeholderProxy.Visible = Visible;
+                    _placeholderProxy.DrawFilter = _drawfilter;
+                    _placeholderProxy.DrawGroups = _drawgroups;
+                    if (_selectable != null)
+                    {
+                        _selectable.TryGetTarget(out var sel);
+                        if (sel != null)
+                        {
+                            _placeholderProxy.SetSelectable(sel);
+                        }
+                    }
+
+                    if (_registered)
+                    {
+                        _placeholderProxy.Register();
+                    }
                 }
             }
         }
@@ -880,6 +913,8 @@ namespace StudioCore.Scene
 
     public class DebugPrimitiveRenderableProxy : RenderableProxy
     {
+        private static float _colorHueIncrement = 0;
+
         private MeshRenderables _renderablesSet;
 
         private IDbgPrim? _debugPrimitive;
@@ -896,6 +931,8 @@ namespace StudioCore.Scene
         private Matrix4x4 _world = Matrix4x4.Identity;
         private WeakReference<ISelectable> _selectable = null;
 
+        private bool _hasColorVariance = false;
+        private Color _initialColor = Color.Empty;
         private Color _baseColor = Color.Gray;
         public Color BaseColor
         {
@@ -903,6 +940,8 @@ namespace StudioCore.Scene
             set
             {
                 _baseColor = value;
+                if (_initialColor == Color.Empty)
+                    _initialColor = value;
                 ScheduleRenderableUpdate();
             }
         }
@@ -1037,8 +1076,13 @@ namespace StudioCore.Scene
         public DebugPrimitiveRenderableProxy(DebugPrimitiveRenderableProxy clone) : this(clone._renderablesSet, clone._debugPrimitive)
         {
             _drawfilter = clone.DrawFilter;
-            _baseColor = clone._baseColor;
+            _initialColor = clone._initialColor;
+            _baseColor = clone.BaseColor;
             _highlightedColor = clone._highlightedColor;
+            if (clone._hasColorVariance)
+            {
+                ApplyColorVariance(this);
+            }
         }
 
         public override void UnregisterAndRelease()
@@ -1090,10 +1134,16 @@ namespace StudioCore.Scene
             ResourceLayout projViewCombinedLayout = StaticResourceCache.GetResourceLayout(
                 gd.ResourceFactory,
                 new ResourceLayoutDescription(
-                    new ResourceLayoutElementDescription("ViewProjection", ResourceKind.UniformBuffer, ShaderStages.Vertex)));
+                    new ResourceLayoutElementDescription("ViewProjection", VkDescriptorType.UniformBuffer, VkShaderStageFlags.Vertex)));
 
-            ResourceLayout worldLayout = StaticResourceCache.GetResourceLayout(gd.ResourceFactory, new ResourceLayoutDescription(
-                new ResourceLayoutElementDescription("World", ResourceKind.UniformBuffer, ShaderStages.Vertex, ResourceLayoutElementOptions.DynamicBinding)));
+            ResourceLayout worldLayout = StaticResourceCache.GetResourceLayout(
+                gd.ResourceFactory, 
+                new ResourceLayoutDescription(
+                new ResourceLayoutElementDescription(
+                    "World", 
+                    VkDescriptorType.UniformBufferDynamic, 
+                    VkShaderStageFlags.Vertex,
+                    VkDescriptorBindingFlags.None)));
 
 
             VertexLayoutDescription[] mainVertexLayouts = new VertexLayoutDescription[]
@@ -1112,11 +1162,23 @@ namespace StudioCore.Scene
                 gd.ResourceFactory,
                 StaticResourceCache.PickingResultDescription);
 
-            ResourceLayout mainPerObjectLayout = StaticResourceCache.GetResourceLayout(gd.ResourceFactory, new ResourceLayoutDescription(
-                new ResourceLayoutElementDescription("WorldBuffer", ResourceKind.StructuredBufferReadWrite, ShaderStages.Vertex | ShaderStages.Fragment, ResourceLayoutElementOptions.None)));
+            ResourceLayout mainPerObjectLayout = StaticResourceCache.GetResourceLayout(
+                gd.ResourceFactory, 
+                new ResourceLayoutDescription(
+                new ResourceLayoutElementDescription(
+                    "WorldBuffer", 
+                    VkDescriptorType.StorageBuffer, 
+                    VkShaderStageFlags.Vertex | VkShaderStageFlags.Fragment, 
+                    VkDescriptorBindingFlags.None)));
 
-            ResourceLayout texLayout = StaticResourceCache.GetResourceLayout(gd.ResourceFactory, new ResourceLayoutDescription(
-                new ResourceLayoutElementDescription("globalTextures", ResourceKind.TextureReadOnly, ShaderStages.Vertex | ShaderStages.Fragment, ResourceLayoutElementOptions.None)));
+            ResourceLayout texLayout = StaticResourceCache.GetResourceLayout(
+                gd.ResourceFactory, 
+                new ResourceLayoutDescription(
+                new ResourceLayoutElementDescription(
+                    "globalTextures", 
+                    VkDescriptorType.SampledImage, 
+                    VkShaderStageFlags.Vertex | VkShaderStageFlags.Fragment, 
+                    VkDescriptorBindingFlags.None)));
 
             _perObjectResourceSet = StaticResourceCache.GetResourceSet(factory, new ResourceSetDescription(mainPerObjectLayout,
                 Renderer.UniformBufferAllocator._backingBuffer));
@@ -1169,7 +1231,7 @@ namespace StudioCore.Scene
             meshcomp._indirectArgs.IndexCount = geombuffer.IAllocationSize / (_debugPrimitive.Is32Bit ? 4u : 2u);
 
             // Rest of draw parameters
-            meshcomp._indexFormat = _debugPrimitive.Is32Bit ? IndexFormat.UInt32 : IndexFormat.UInt16;
+            meshcomp._indexFormat = _debugPrimitive.Is32Bit ? VkIndexType.Uint32 : VkIndexType.Uint16;
             meshcomp._objectResourceSet = _perObjectResourceSet;
             meshcomp._bufferIndex = geombuffer.BufferIndex;
 
@@ -1296,7 +1358,7 @@ namespace StudioCore.Scene
             _modelMarkerOther = new DbgPrimWireWallBox(Transform.Default, new Vector3(-0.3f, 0.0f, -0.3f), new Vector3(0.3f, 1.8f, 0.3f), Color.Firebrick);
             _pointLight = new DbgPrimWireSphere(Transform.Default, 1.0f, Color.Yellow, 6, 6);
             _spotLight = new DbgPrimWireSpotLight(Transform.Default, 1.0f, 1.0f, Color.Yellow);
-            _directionalLight = new DbgPrimWireSpheroidWithArrow(Transform.Default, 5.0f, Color.Yellow, 4, 2);
+            _directionalLight = new DbgPrimWireSpheroidWithArrow(Transform.Default, 5.0f, Color.Yellow, 4, 2, false, true);
         }
 
         public static DebugPrimitiveRenderableProxy GetBoxRegionProxy(RenderScene scene)
@@ -1304,6 +1366,7 @@ namespace StudioCore.Scene
             var r = new DebugPrimitiveRenderableProxy(scene.OpaqueRenderables, _regionBox);
             r.BaseColor = Color.Blue;
             r.HighlightedColor = Color.DarkViolet;
+            ApplyColorVariance(r);
             return r;
         }
 
@@ -1312,6 +1375,7 @@ namespace StudioCore.Scene
             var r = new DebugPrimitiveRenderableProxy(scene.OpaqueRenderables, _regionCylinder);
             r.BaseColor = Color.Blue;
             r.HighlightedColor = Color.DarkViolet;
+            ApplyColorVariance(r);
             return r;
         }
 
@@ -1320,6 +1384,7 @@ namespace StudioCore.Scene
             var r = new DebugPrimitiveRenderableProxy(scene.OpaqueRenderables, _regionSphere);
             r.BaseColor = Color.Blue;
             r.HighlightedColor = Color.DarkViolet;
+            ApplyColorVariance(r);
             return r;
         }
 
@@ -1391,6 +1456,7 @@ namespace StudioCore.Scene
             var r = new DebugPrimitiveRenderableProxy(scene.OpaqueRenderables, _pointLight);
             r.BaseColor = Color.YellowGreen;
             r.HighlightedColor = Color.Yellow;
+            ApplyColorVariance(r);
             return r;
         }
         public static DebugPrimitiveRenderableProxy GetSpotLightProxy(RenderScene scene)
@@ -1398,6 +1464,7 @@ namespace StudioCore.Scene
             var r = new DebugPrimitiveRenderableProxy(scene.OpaqueRenderables, _spotLight);
             r.BaseColor = Color.Goldenrod;
             r.HighlightedColor = Color.Violet;
+            ApplyColorVariance(r);
             return r;
         }
         public static DebugPrimitiveRenderableProxy GetDirectionalLightProxy(RenderScene scene)
@@ -1406,6 +1473,28 @@ namespace StudioCore.Scene
             r.BaseColor = Color.Cyan;
             r.HighlightedColor = Color.AliceBlue;
             return r;
+        }
+
+        private static void ApplyColorVariance(DebugPrimitiveRenderableProxy rend)
+        {
+            // Determines how much color varies per-increment.
+            const float incrementModifier = 0.721f;
+
+            rend._hasColorVariance = true;
+
+            var hsv = Utils.ColorToHSV(rend._initialColor);
+            var range = 360.0f * CFG.Current.GFX_Wireframe_Color_Variance / 2;
+            _colorHueIncrement += range * incrementModifier;
+            if (_colorHueIncrement > range)
+                _colorHueIncrement -= range * 2;
+
+            hsv.X += _colorHueIncrement;
+            if (hsv.X > 360.0f)
+                hsv.X -= 360.0f;
+            else if (hsv.X < 0.0f)
+                hsv.X += 360.0f;
+
+            rend.BaseColor = Utils.ColorFromHSV(hsv);
         }
     }
 

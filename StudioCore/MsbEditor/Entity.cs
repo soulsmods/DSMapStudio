@@ -306,7 +306,7 @@ namespace StudioCore.MsbEditor
             }
             if (WrappedObject is Param.Row row)
             {
-                var pp = row.Cells.FirstOrDefault(cell => cell.Def.InternalName == prop);
+                var pp = row.Columns.FirstOrDefault(cell => cell.Def.InternalName == prop);
                 if (pp != null)
                 {
                     return pp.GetValue(row);
@@ -362,7 +362,7 @@ namespace StudioCore.MsbEditor
             }
             if (WrappedObject is Param.Row row)
             {
-                var pp = row.Cells.FirstOrDefault(cell => cell.Def.InternalName == prop);
+                var pp = row.Columns.FirstOrDefault(cell => cell.Def.InternalName == prop);
                 if (pp != null)
                 {
                     return (T)pp.GetValue(row);
@@ -892,7 +892,8 @@ namespace StudioCore.MsbEditor
                         if (colNameStr != "")
                         {
                             // CollisionName referenced doesn't exist
-                            TaskManager.warningList.TryAdd($"{Name} colName", $"{Container?.Name}: {Name} refers to CollisionName `{colNameStr}` which doesn't exist.");
+                            TaskLogs.AddLog($"{Container?.Name}: {Name} references to CollisionName {colNameStr} which doesn't exist",
+                                Microsoft.Extensions.Logging.LogLevel.Warning);
                         }
                     }
                 }
@@ -1215,65 +1216,6 @@ namespace StudioCore.MsbEditor
             }
         }
 
-        /// <summary>
-        /// Checks if supplied model ID is on the list of models that will not render, and will use a model marker instead.
-        /// </summary>
-        [Obsolete("Current solution checks model submeshes")]
-        private static bool CheckIfModelMarker(string model)
-        { //keeping this around, just in case.
-            List<string> objModelMarkerList = new()
-            {
-            //DS1
-            "o1400",
-            "o1401",
-            "o1402",
-            "o1403",
-            "o1404",
-            "o1405",
-            "o1406",
-            "o1407",
-            "o1408",
-            "o1409",
-            "o1410",
-            "o1411",
-            "o1412",
-            "o1413",
-            "o1414",
-            "o1415",
-            "o1416",
-            "o1417",
-            "o1418",
-            "o1419",
-            "o1420",
-            "o1421",
-            //DS3
-            "o000400",
-            "o000401",
-            "o000402",
-            "o000499",
-            //ER
-            "AEG099_000",
-            "AEG099_001",
-            "AEG099_002",
-            "AEG099_003",
-            "AEG099_005",
-            };
-
-            var idStr = new string(model.Where(char.IsDigit).ToArray());
-            int id = 9999;
-            int.TryParse(idStr, out id);
-
-            if (model == "")
-            {
-                return true;
-            }
-            if (objModelMarkerList.Contains(model) || model.StartsWith("c") && id <= 1010)
-                return true;
-
-            return false;
-        }
-
-        private bool _canLoadPostLoad = true;
         public override void UpdateRenderModel()
         {
             if (Type == MapEntityType.DS2Generator)
@@ -1321,8 +1263,6 @@ namespace StudioCore.MsbEditor
                             _renderSceneMesh.Dispose();
                         }
 
-                        if (Universe.postLoad)
-                            _canLoadPostLoad = false;
                         CurrentModel = model;
 
                         // Get model
@@ -1398,6 +1338,14 @@ namespace StudioCore.MsbEditor
                 {
                     t.Scale = new Vector3(c.Radius, c.Height, c.Radius);
                 }
+                else if (shape != null && shape is MSB.Shape.Rectangle re)
+                {
+                    t.Scale = new Vector3(re.Width, 0.0f, re.Depth);
+                }
+                else if (shape != null && shape is MSB.Shape.Circle ci)
+                {
+                    t.Scale = new Vector3(ci.Radius, 0.0f, ci.Radius);
+                }
             }
             else if (Type == MapEntityType.Light)
             {
@@ -1445,6 +1393,11 @@ namespace StudioCore.MsbEditor
                     t.Scale.Z = (float)sz;
                 }
             }
+
+            // Prevent zero scale since it won't render
+            if (t.Scale == Vector3.Zero)
+                t.Scale = new Vector3(0.1f);
+
             return t;
         }
 

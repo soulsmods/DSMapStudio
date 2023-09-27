@@ -616,7 +616,7 @@ namespace SoulsFormats
 
             internal virtual void GetIndices(MSBS msb, Entries entries)
             {
-                ModelIndex = MSB.FindIndex(entries.Models, ModelName);
+                ModelIndex = MSB.FindIndex(this, entries.Models, ModelName);
             }
 
             /// <summary>
@@ -632,6 +632,16 @@ namespace SoulsFormats
             /// </summary>
             public class UnkStruct1
             {
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public uint[] DisplayGroups { get; private set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public uint[] DrawGroups { get; private set; }
+
                 /// <summary>
                 /// Unknown.
                 /// </summary>
@@ -652,7 +662,9 @@ namespace SoulsFormats
                 /// </summary>
                 public UnkStruct1()
                 {
-                    CollisionMask = new uint[48];
+                    DisplayGroups = new uint[8];
+                    DrawGroups = new uint[8];
+                    CollisionMask = new uint[32];
                     Condition1 = 0;
                     Condition2 = 0;
                 }
@@ -663,13 +675,17 @@ namespace SoulsFormats
                 public UnkStruct1 DeepCopy()
                 {
                     var unk1 = (UnkStruct1)MemberwiseClone();
+                    unk1.DisplayGroups = (uint[])DisplayGroups.Clone();
+                    unk1.DrawGroups = (uint[])DrawGroups.Clone();
                     unk1.CollisionMask = (uint[])CollisionMask.Clone();
                     return unk1;
                 }
 
                 internal UnkStruct1(BinaryReaderEx br)
                 {
-                    CollisionMask = br.ReadUInt32s(48);
+                    DisplayGroups = br.ReadUInt32s(8);
+                    DrawGroups = br.ReadUInt32s(8);
+                    CollisionMask = br.ReadUInt32s(32);
                     Condition1 = br.ReadByte();
                     Condition2 = br.ReadByte();
                     br.AssertInt16(0);
@@ -678,6 +694,8 @@ namespace SoulsFormats
 
                 internal void Write(BinaryWriterEx bw)
                 {
+                    bw.WriteUInt32s(DisplayGroups);
+                    bw.WriteUInt32s(DrawGroups);
                     bw.WriteUInt32s(CollisionMask);
                     bw.WriteByte(Condition1);
                     bw.WriteByte(Condition2);
@@ -1153,9 +1171,9 @@ namespace SoulsFormats
                 internal override void GetIndices(MSBS msb, Entries entries)
                 {
                     base.GetIndices(msb, entries);
-                    ObjPartIndex1 = MSB.FindIndex(entries.Parts, ObjPartName1);
-                    ObjPartIndex2 = MSB.FindIndex(entries.Parts, ObjPartName2);
-                    ObjPartIndex3 = MSB.FindIndex(entries.Parts, ObjPartName3);
+                    ObjPartIndex1 = MSB.FindIndex(this, entries.Parts, ObjPartName1);
+                    ObjPartIndex2 = MSB.FindIndex(this, entries.Parts, ObjPartName2);
+                    ObjPartIndex3 = MSB.FindIndex(this, entries.Parts, ObjPartName3);
                 }
             }
 
@@ -1406,7 +1424,7 @@ namespace SoulsFormats
                 internal override void GetIndices(MSBS msb, Entries entries)
                 {
                     base.GetIndices(msb, entries);
-                    CollisionPartIndex = MSB.FindIndex(entries.Parts, CollisionPartName);
+                    CollisionPartIndex = MSB.FindIndex(this, entries.Parts, CollisionPartName);
                 }
             }
 
@@ -1821,7 +1839,7 @@ namespace SoulsFormats
                 internal override void GetIndices(MSBS msb, Entries entries)
                 {
                     base.GetIndices(msb, entries);
-                    CollisionIndex = MSB.FindIndex(msb.Parts.Collisions, CollisionName);
+                    CollisionIndex = MSB.FindIndex(this, msb.Parts.Collisions, CollisionName);
                 }
             }
         }

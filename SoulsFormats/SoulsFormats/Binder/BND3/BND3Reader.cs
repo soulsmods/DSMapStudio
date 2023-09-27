@@ -1,4 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.IO.MemoryMappedFiles;
+using DotNext.IO.MemoryMappedFiles;
 
 namespace SoulsFormats
 {
@@ -22,18 +25,18 @@ namespace SoulsFormats
         /// </summary>
         public BND3Reader(string path)
         {
-            FileStream fs = File.OpenRead(path);
-            var br = new BinaryReaderEx(false, fs);
+            _mappedFile = MemoryMappedFile.CreateFromFile(path, FileMode.Open, null, 0, MemoryMappedFileAccess.Read);
+            _mappedAccessor = _mappedFile.CreateMemoryAccessor(0, 0, MemoryMappedFileAccess.Read);
+            var br = new BinaryReaderEx(false, _mappedAccessor.Memory);
             Read(br);
         }
 
         /// <summary>
         /// Reads a BND3 from the given bytes, decompressing if necessary.
         /// </summary>
-        public BND3Reader(byte[] bytes)
+        public BND3Reader(Memory<byte> bytes)
         {
-            var ms = new MemoryStream(bytes);
-            var br = new BinaryReaderEx(false, ms);
+            var br = new BinaryReaderEx(false, bytes);
             Read(br);
         }
 

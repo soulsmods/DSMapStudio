@@ -158,6 +158,10 @@ namespace StudioCore.MsbEditor
                     }
                 }
             }
+            else if (gameType == GameType.ArmoredCoreVI)
+            {
+                //TODO AC6
+            }
             Dictionary<string, string> colPatterns = new Dictionary<string, string>();
             foreach (byte[] connectParts in connectColMaps)
             {
@@ -199,6 +203,10 @@ namespace StudioCore.MsbEditor
                 else if (gameType == GameType.Bloodborne && connectParts[0] == 29)
                 {
                     continue;
+                }
+                else if (gameType == GameType.ArmoredCoreVI)
+                {
+                    //TODO AC6
                 }
                 colPatterns[connectMapId] = "^m" + string.Join("_", connectParts.Select(p => p == 0xFF ? @"\d\d" : $"{p:d2}")) + "$";
             }

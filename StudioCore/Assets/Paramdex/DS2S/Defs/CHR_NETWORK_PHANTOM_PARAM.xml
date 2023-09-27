@@ -20,18 +20,27 @@
     <Field Def="s32 dead_type_id" />
     <Field Def="f32 allotted_time" />
     <Field Def="f32 Unk05" />
-    <Field Def="s32 Unk06" />
-    <Field Def="s32 Unk07" />
-    <Field Def="s32 Unk08" />
+    <Field Def="u8 Unk06a" />
+    <Field Def="u8 Unk06b" />
+    <Field Def="u8 Unk06c" />
+    <Field Def="u8 Unk06d" />
+    <Field Def="u8 Unk07a" />
+    <Field Def="u8 Unk07b" />
+    <Field Def="u8 Unk07c" />
+    <Field Def="u8 Unk07d" />
+    <Field Def="u8 Unk08a" />
+    <Field Def="u8 Unk08b" />
+    <Field Def="u8 Unk08c" />
+    <Field Def="u8 Unk08d" />
     <Field Def="f32 Unk09" />
-    <Field Def="s32 Unk10" />
-    <Field Def="s32 Unk11" />
+    <Field Def="s32 Unk10a" />
+    <Field Def="s32 message_box_id" />
     <Field Def="f32 Unk12" />
     <Field Def="f32 Unk13" />
     <Field Def="f32 Unk14" />
-    <Field Def="s32 Unk15" />
-    <Field Def="s32 Unk16" />
-    <Field Def="s32 Unk17" />
+    <Field Def="s32 rank_1_color" />
+    <Field Def="s32 rank_2_color" />
+    <Field Def="s32 rank_3_color" />
     <Field Def="f32 Unk18" />
   </Fields>
 </PARAMDEF>

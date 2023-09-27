@@ -3,89 +3,189 @@ using System.Collections.Generic;
 using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms;
+using System.Linq;
+using System.Diagnostics;
 
 namespace StudioCore.Editor
 {
     public class TaskManager
     {
-        public static volatile ConcurrentDictionary<string, string> warningList = new ConcurrentDictionary<string, string>();
-        private static volatile ConcurrentDictionary<string, (bool, Task)> _liveTasks = new ConcurrentDictionary<string, (bool, Task)>();
-        private static int _anonIndex = 0;
-
-        public static bool Run(string taskId, bool wait, bool canRequeue, bool silentFail, System.Action action)
+        /// <summary>
+        /// Behavior of a LiveTask when the same task ID is already running.
+        /// </summary>
+        public enum RequeueType
         {
-            bool add = AddTask(taskId, silentFail, action);
+            // Don't requeue.
+            None,
 
-            if (!add)
-            {
-                if (wait)
-                {
-                    (bool, Task) t;
-                    if (_liveTasks.TryGetValue(taskId, out t))
-                    {
-                        t.Item2.Wait();
-                        return AddTask(taskId, silentFail, action);                        
-                    }
-                }
-                if (canRequeue)
-                {
-                    (bool, Task) t;
-                    if (_liveTasks.TryGetValue(taskId, out t))
-                    {
-                        if (t.Item1 == false)
-                            _liveTasks[taskId] = (true, t.Item2);
-                    }
-                    return true;
-                }
-            }
+            // Wait for already-active task to finish, then run this task.
+            WaitThenRequeue,
 
-            return true;
+            // Already-active task is told to run again after it finishes.
+            Repeat
         }
-        private static bool AddTask(string taskId, bool silentFail, System.Action action)
+
+        private static volatile ConcurrentDictionary<string, LiveTask> _liveTasks = new();
+
+        /// <summary>
+        /// Number of non-passive tasks that are currently running.
+        /// </summary>
+        public static int ActiveTaskNum { get; private set; } = 0;
+
+        public class LiveTask
         {
-            if (taskId == null)
+            /// <summary>
+            /// Unique identifier for task.
+            /// If more than one LiveTask with the same ID is run, RequeueType is checked.
+            /// </summary>
+            public readonly string TaskId;
+
+            /// <summary>
+            /// Behavior of a LiveTask when the same task ID is already running.
+            /// </summary>
+            public readonly RequeueType RequeueBehavior;
+            public readonly TaskLogs.LogPriority LogPriority;
+            public readonly Action TaskAction;
+
+            /// <summary>
+            /// If true, exceptions will be suppressed and logged.
+            /// </summary>
+            public readonly bool SilentFail;
+
+            public Task Task { get; private set; } = null;
+
+            /// <summary>
+            /// If true, task will run again after finishing.
+            /// </summary>
+            public bool HasScheduledRequeue = false;
+
+            /// <summary>
+            /// True for tasks that are intended to be running as long as DSMS is running.
+            /// </summary>
+            public bool PassiveTask = false;
+
+            public LiveTask() { }
+
+            public LiveTask(string taskId, RequeueType requeueType, bool silentFail, Action act)
             {
-                _anonIndex++;
-                taskId = Thread.CurrentThread.Name+":"+_anonIndex;
+                TaskId = taskId;
+                RequeueBehavior = requeueType;
+                SilentFail = silentFail;
+                LogPriority = TaskLogs.LogPriority.Normal;
+                TaskAction = act;
             }
 
-            Task t = new Task(() => {
-                try
+            public LiveTask(string taskId, RequeueType requeueType, bool silentFail, TaskLogs.LogPriority logPriority, Action act)
+            {
+                TaskId = taskId;
+                RequeueBehavior = requeueType;
+                SilentFail = silentFail;
+                LogPriority = logPriority;
+                TaskAction = act;
+            }
+
+            public void Run()
+            {
+                if (_liveTasks.TryGetValue(TaskId, out var oldLiveTask))
                 {
-                    action.Invoke();
-                }
-                catch (Exception e)
-                {
-                    if (silentFail)
+                    if (oldLiveTask.RequeueBehavior == RequeueType.WaitThenRequeue)
                     {
-                        warningList.TryAdd(taskId, ("An error has occurred in task " + taskId + ":\n" + e.Message).Replace("\0", "\\0"));
+                        oldLiveTask.Task.Wait();
+                    }
+                    else if (oldLiveTask.RequeueBehavior == RequeueType.Repeat)
+                    {
+                        oldLiveTask.HasScheduledRequeue = true;
+                        return;
                     }
                     else
                     {
-                        throw;
+                        return;
                     }
                 }
-                (bool, Task) old;
-                _liveTasks.TryRemove(taskId, out old);
-                if (old.Item1 == true)
-                    AddTask(taskId, silentFail, action);
-            });
-            bool add = _liveTasks.TryAdd(taskId, (false, t));
-            if (add)
-                t.Start();
-            return add;
+
+                if (!PassiveTask)
+                    ActiveTaskNum++;
+                _liveTasks[TaskId] = this;
+
+                CreateTask();
+                Task.Start();
+            }
+
+            private void CreateTask()
+            {
+                Task = new(() =>
+                {
+                    if (PassiveTask)
+                    {
+                        TaskLogs.AddLog($"Running passive task: {TaskId}",
+                            Microsoft.Extensions.Logging.LogLevel.Information, LogPriority);
+                    }
+
+                    try
+                    {
+                        TaskAction.Invoke();
+                        TaskLogs.AddLog($"Task Completed: {TaskId}",
+                            Microsoft.Extensions.Logging.LogLevel.Information, LogPriority);
+                    }
+                    catch (Exception e)
+                    {
+                        if (SilentFail)
+                        {
+                            TaskLogs.AddLog($"Task Failed: {TaskId}",
+                                Microsoft.Extensions.Logging.LogLevel.Error, LogPriority, e);
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+
+                    if (HasScheduledRequeue)
+                    {
+                        HasScheduledRequeue = false;
+                        CreateTask();
+                        Task.Start();
+                    }
+                    else
+                    {
+                        if (!PassiveTask)
+                            ActiveTaskNum--;
+                        _liveTasks.TryRemove(TaskId, out _);
+                    }
+                });
+            }
+        }
+
+        public static void Run(LiveTask liveTask)
+        {
+            liveTask.Run();
+        }
+
+        public static void RunPassiveTask(LiveTask liveTask)
+        {
+            liveTask.PassiveTask = true;
+            liveTask.Run();
         }
 
         public static void WaitAll()
         {
-            while (_liveTasks.Count > 0)
+            while (GetActiveTasks().Any())
             {
-                var e = _liveTasks.GetEnumerator();
+                var e = GetActiveTasks().GetEnumerator();
                 e.MoveNext();
-                e.Current.Value.Item2.Wait();
+                e.Current.Task.Wait();
             }
         }
+
+        public static IEnumerable<LiveTask> GetActiveTasks()
+        {
+            return _liveTasks.Values.ToList().Where(t => !t.PassiveTask);
+        }
+
+        /// <summary>
+        /// Number of active tasks. Dpes not include passive tasks.
+        /// </summary>
+        public static bool AnyActiveTasks() => ActiveTaskNum > 0;
 
         public static List<string> GetLiveThreads()
         {
@@ -97,7 +197,7 @@ namespace StudioCore.Editor
             // Allows exceptions in tasks to be caught by crash handler.
             foreach (var task in _liveTasks)
             {
-                var ex = task.Value.Item2.Exception;
+                var ex = task.Value.Task.Exception;
                 if (ex != null)
                 {
                     throw ex;

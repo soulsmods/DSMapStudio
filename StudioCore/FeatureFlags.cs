@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Windows.Forms;
 
 namespace StudioCore
 {
@@ -25,5 +24,7 @@ namespace StudioCore
 #endif
 
         public static bool EnablePartialParam = false;
+
+        public static bool AC6_MSB = false;
     }
 }

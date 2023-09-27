@@ -17,7 +17,9 @@ using System.ComponentModel.DataAnnotations;
 using StudioCore.MsbEditor;
 using StudioCore.Scene;
 using System.Data;
+using System.IO.MemoryMappedFiles;
 using System.Threading.Tasks.Dataflow;
+using DotNext.IO.MemoryMappedFiles;
 
 namespace StudioCore.Resource
 {
@@ -316,11 +318,12 @@ namespace StudioCore.Resource
                 return $@"aet/{aetid}/{Path.GetFileNameWithoutExtension(texpath)}";
             }
             // Parts texture reference
-            /*else if (texpath.Contains(@"\parts\"))
+            else if (texpath.Contains(@"\parts\"))
             {
-                var asset = AssetDatabase.LoadAssetAtPath<Texture2D>($@"Assets/{gamePath}/Parts/textures/{Path.GetFileNameWithoutExtension(path)}.dds");
-                return asset;
-            }*/
+                var splits = texpath.Split('\\');
+                var partsId = splits[splits.Length - 3];
+                return $@"parts/{partsId}/tex/{Path.GetFileNameWithoutExtension(texpath)}";
+            }
             return texpath;
         }
 
@@ -370,56 +373,6 @@ namespace StudioCore.Resource
             }
         }
 
-        public static FlverMaterial.TextureType GetTextureType(string type)
-        {
-            string paramNameCheck;
-            if (type == null)
-            {
-                paramNameCheck = "G_DIFFUSE";
-            }
-            else
-            {
-                paramNameCheck = type.ToUpper();
-            }
-            if (paramNameCheck == "G_DIFFUSETEXTURE2" || paramNameCheck == "G_DIFFUSE2" || paramNameCheck.Contains("ALBEDO_2"))
-            {
-                return FlverMaterial.TextureType.AlbedoTextureResource2;
-            }
-            else if (paramNameCheck == "G_DIFFUSETEXTURE" || paramNameCheck == "G_DIFFUSE" || paramNameCheck.Contains("ALBEDO"))
-            {
-                return FlverMaterial.TextureType.AlbedoTextureResource;
-            }
-            else if (paramNameCheck == "G_BUMPMAPTEXTURE2" || paramNameCheck == "G_BUMPMAP2" || paramNameCheck.Contains("NORMAL_2"))
-            {
-                return FlverMaterial.TextureType.NormalTextureResource2;
-            }
-            else if (paramNameCheck == "G_BUMPMAPTEXTURE" || paramNameCheck == "G_BUMPMAP" || paramNameCheck.Contains("NORMAL"))
-            {
-                return FlverMaterial.TextureType.NormalTextureResource;
-            }
-            else if (paramNameCheck == "G_SPECULARTEXTURE2" || paramNameCheck == "G_SPECULAR2" || paramNameCheck.Contains("SPECULAR_2"))
-            {
-                return FlverMaterial.TextureType.SpecularTextureResource2;
-            }
-            else if (paramNameCheck == "G_SPECULARTEXTURE" || paramNameCheck == "G_SPECULAR" || paramNameCheck.Contains("SPECULAR"))
-            {
-                return FlverMaterial.TextureType.SpecularTextureResource;
-            }
-            else if (paramNameCheck == "G_SHININESSTEXTURE2" || paramNameCheck == "G_SHININESS2" || paramNameCheck.Contains("SHININESS2"))
-            {
-                return FlverMaterial.TextureType.ShininessTextureResource2;
-            }
-            else if (paramNameCheck == "G_SHININESSTEXTURE" || paramNameCheck == "G_SHININESS" || paramNameCheck.Contains("SHININESS"))
-            {
-                return FlverMaterial.TextureType.ShininessTextureResource;
-            }
-            else if (paramNameCheck.Contains("BLENDMASK"))
-            {
-                return FlverMaterial.TextureType.BlendmaskTextureResource;
-            }
-            return FlverMaterial.TextureType.AlbedoTextureResource;
-        }
-
         private void ProcessMaterialTexture(FlverMaterial dest, string typename, string mpath, string mtd,
             out bool blend, out bool hasNormal2, out bool hasSpec2, out bool hasShininess2, out bool blendMask)
         {
@@ -429,32 +382,75 @@ namespace StudioCore.Resource
             hasSpec2 = false;
             hasShininess2 = false;
 
-            var type = GetTextureType(typename);
-
-            switch(type)
+            string paramNameCheck;
+            if (texType == null)
             {
-                case FlverMaterial.TextureType.AlbedoTextureResource2:
-                    blend = true;
-                    break;
-                case FlverMaterial.TextureType.NormalTextureResource2:
-                    blend = true;
-                    hasNormal2 = true;
-                    break;
-                case FlverMaterial.TextureType.SpecularTextureResource2:
-                    blend = true;
-                    hasSpec2 = true;
-                    break;
-                case FlverMaterial.TextureType.ShininessTextureResource2:
+                paramNameCheck = "G_DIFFUSE";
+            }
+            else
+            {
+                paramNameCheck = texType.ToUpper();
+            }
+            if (paramNameCheck == "G_DIFFUSETEXTURE2" || paramNameCheck == "G_DIFFUSE2" || paramNameCheck.Contains("ALBEDO_2"))
+            {
+                LookupTexture(FlverMaterial.TextureType.AlbedoTextureResource2, dest, texType, mpath, mtd);
+                blend = true;
+            }
+            else if (paramNameCheck == "G_DIFFUSETEXTURE" || paramNameCheck == "G_DIFFUSE" || paramNameCheck.Contains("ALBEDO"))
+            {
+                LookupTexture(FlverMaterial.TextureType.AlbedoTextureResource, dest, texType, mpath, mtd);
+            }
+            else if (paramNameCheck == "G_BUMPMAPTEXTURE2" || paramNameCheck == "G_BUMPMAP2" || paramNameCheck.Contains("NORMAL_2"))
+            {
+                LookupTexture(FlverMaterial.TextureType.NormalTextureResource2, dest, texType, mpath, mtd);
+                blend = true;
+                hasNormal2 = true;
+            }
+            else if (paramNameCheck == "G_BUMPMAPTEXTURE" || paramNameCheck == "G_BUMPMAP" || paramNameCheck.Contains("NORMAL"))
+            {
+                LookupTexture(FlverMaterial.TextureType.NormalTextureResource, dest, texType, mpath, mtd);
+            }
+            else if (paramNameCheck == "G_SPECULARTEXTURE2" || paramNameCheck == "G_SPECULAR2" || paramNameCheck.Contains("SPECULAR_2"))
+            {
+                if (gameType == GameType.DarkSoulsRemastered)
+                {
+                    LookupTexture(FlverMaterial.TextureType.ShininessTextureResource2, dest, texType, mpath, mtd);
                     blend = true;
                     hasShininess2 = true;
-                    break;
-                case FlverMaterial.TextureType.BlendmaskTextureResource:
-                    blendMask = true;
-                    break;
-                default:
-                    break;
+                }
+                else
+                {
+                    LookupTexture(FlverMaterial.TextureType.SpecularTextureResource2, dest, texType, mpath, mtd);
+                    blend = true;
+                    hasSpec2 = true;
+                }
             }
-            LookupTexture(type, dest, typename, mpath, mtd);
+            else if (paramNameCheck == "G_SPECULARTEXTURE" || paramNameCheck == "G_SPECULAR" || paramNameCheck.Contains("SPECULAR"))
+            {
+                if (gameType == GameType.DarkSoulsRemastered)
+                {
+                    LookupTexture(FlverMaterial.TextureType.ShininessTextureResource, dest, texType, mpath, mtd);
+                }
+                else
+                {
+                    LookupTexture(FlverMaterial.TextureType.SpecularTextureResource, dest, texType, mpath, mtd);
+                }
+            }
+            else if (paramNameCheck == "G_SHININESSTEXTURE2" || paramNameCheck == "G_SHININESS2" || paramNameCheck.Contains("SHININESS2"))
+            {
+                LookupTexture(FlverMaterial.TextureType.ShininessTextureResource2, dest, texType, mpath, mtd);
+                blend = true;
+                hasShininess2 = true;
+            }
+            else if (paramNameCheck == "G_SHININESSTEXTURE" || paramNameCheck == "G_SHININESS" || paramNameCheck.Contains("SHININESS"))
+            {
+                LookupTexture(FlverMaterial.TextureType.ShininessTextureResource, dest, texType, mpath, mtd);
+            }
+            else if (paramNameCheck.Contains("BLENDMASK"))
+            {
+                LookupTexture(FlverMaterial.TextureType.BlendmaskTextureResource, dest, texType, mpath, mtd);
+                blendMask = true;
+            }
         }
 
         unsafe private void ProcessMaterial(IFlverMaterial mat, FlverMaterial dest, GameType type)
@@ -498,6 +494,10 @@ namespace StudioCore.Resource
                     dest.SetHasIndexNoWeightTransform();
                 }
             }
+            else if (type == GameType.ArmoredCoreVI)
+            {
+                //TODO AC6
+            }
 
             if (!CFG.Current.EnableTexturing)
             {
@@ -517,7 +517,7 @@ namespace StudioCore.Resource
 
             foreach (var matparam in mat.Textures)
             {
-                ProcessMaterialTexture(dest, matparam.Type, matparam.Path, mat.MTD,
+                ProcessMaterialTexture(dest, matparam.Type, matparam.Path, mat.MTD, type,
                     out blend, out hasNormal2, out hasSpec2, out hasShininess2, out blendMask);
             }
 
@@ -580,7 +580,7 @@ namespace StudioCore.Resource
             {
                 string ttype = isUTF ? br.GetUTF16(textures[i].typeOffset) : br.GetShiftJIS(textures[i].typeOffset);
                 string tpath = isUTF ? br.GetUTF16(textures[i].pathOffset) : br.GetShiftJIS(textures[i].pathOffset);
-                ProcessMaterialTexture(dest, ttype, tpath, mtd,
+                ProcessMaterialTexture(dest, ttype, tpath, mtd, type,
                     out blend, out hasNormal2, out hasSpec2, out hasShininess2, out blendMask);
             }
 
@@ -623,15 +623,15 @@ namespace StudioCore.Resource
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void FillVertex(ref Vector3 dest, BinaryReaderEx br, FLVER.LayoutType type)
+        private unsafe void FillVertex(Vector3 *dest, BinaryReaderEx br, FLVER.LayoutType type)
         {
             if (type == FLVER.LayoutType.Float3)
             {
-                dest = br.ReadVector3();
+                *dest = br.ReadVector3();
             }
             else if (type == FLVER.LayoutType.Float4)
             {
-                dest = br.ReadVector3();
+                *dest = br.ReadVector3();
                 br.AssertSingle(0);
             }
             else
@@ -657,16 +657,16 @@ namespace StudioCore.Resource
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private unsafe void FillNormalSNorm8(sbyte* dest, BinaryReaderEx br, FLVER.LayoutType type, ref Vector3 n)
+        private unsafe void FillNormalSNorm8(sbyte* dest, BinaryReaderEx br, FLVER.LayoutType type, Vector3 *n)
         {
             int nw = 0;
             if (type == FLVER.LayoutType.Float3)
             {
-                n = br.ReadVector3();
+                *n = br.ReadVector3();
             }
             else if (type == FLVER.LayoutType.Float4)
             {
-                n = br.ReadVector3();
+                *n = br.ReadVector3();
                 float w = br.ReadSingle();
                 nw = (int)w;
                 if (w != nw)
@@ -674,46 +674,46 @@ namespace StudioCore.Resource
             }
             else if (type == FLVER.LayoutType.Byte4A)
             {
-                n = FLVER.Vertex.ReadByteNormXYZ(br);
+                *n = FLVER.Vertex.ReadByteNormXYZ(br);
                 nw = br.ReadByte();
             }
             else if (type == FLVER.LayoutType.Byte4B)
             {
-                n = FLVER.Vertex.ReadByteNormXYZ(br);
+                *n = FLVER.Vertex.ReadByteNormXYZ(br);
                 nw = br.ReadByte();
             }
             else if (type == FLVER.LayoutType.Short2toFloat2)
             {
                 nw = br.ReadByte();
-                n = FLVER.Vertex.ReadSByteNormZYX(br);
+                *n = FLVER.Vertex.ReadSByteNormZYX(br);
             }
             else if (type == FLVER.LayoutType.Byte4C)
             {
-                n = FLVER.Vertex.ReadByteNormXYZ(br);
+                *n = FLVER.Vertex.ReadByteNormXYZ(br);
                 nw = br.ReadByte();
             }
             else if (type == FLVER.LayoutType.Short4toFloat4A)
             {
-                n = FLVER.Vertex.ReadShortNormXYZ(br);
+                *n = FLVER.Vertex.ReadShortNormXYZ(br);
                 nw = br.ReadInt16();
             }
             else if (type == FLVER.LayoutType.Short4toFloat4B)
             {
                 //Normal = ReadUShortNormXYZ(br);
-                n = FLVER.Vertex.ReadFloat16NormXYZ(br);
+                *n = FLVER.Vertex.ReadFloat16NormXYZ(br);
                 nw = br.ReadInt16();
             }
             else if (type == FLVER.LayoutType.Byte4E)
             {
-                n = FLVER.Vertex.ReadByteNormXYZ(br);
+                *n = FLVER.Vertex.ReadByteNormXYZ(br);
                 nw = br.ReadByte();
             }
             else
                 throw new NotImplementedException($"Read not implemented for {type} normal.");
 
-            dest[0] = (sbyte)(n.X * 127.0f);
-            dest[1] = (sbyte)(n.Y * 127.0f);
-            dest[2] = (sbyte)(n.Z * 127.0f);
+            dest[0] = (sbyte)(n->X * 127.0f);
+            dest[1] = (sbyte)(n->Y * 127.0f);
+            dest[2] = (sbyte)(n->Z * 127.0f);
             dest[3] = (sbyte)nw;
         }
 
@@ -823,7 +823,7 @@ namespace StudioCore.Resource
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private unsafe void FillBinormalBitangentSNorm8(sbyte* destBinorm, sbyte* destBitan, ref Vector3 n, BinaryReaderEx br, FLVER.LayoutType type)
+        private unsafe void FillBinormalBitangentSNorm8(sbyte* destBinorm, sbyte* destBitan, Vector3* n, BinaryReaderEx br, FLVER.LayoutType type)
         {
             Vector4 tan;
             if (type == FLVER.LayoutType.Float4)
@@ -861,7 +861,7 @@ namespace StudioCore.Resource
             destBitan[2] = (sbyte)(t.Z * 127.0f);
             destBitan[3] = (sbyte)(tan.W * 127.0f);
 
-            var bn = Vector3.Cross(Vector3.Normalize(n), Vector3.Normalize(new Vector3(t.X, t.Y, t.Z))) * tan.W;
+            var bn = Vector3.Cross(Vector3.Normalize(*n), Vector3.Normalize(new Vector3(t.X, t.Y, t.Z))) * tan.W;
             destBinorm[0] = (sbyte)(bn.X * 127.0f);
             destBinorm[1] = (sbyte)(bn.Y * 127.0f);
             destBinorm[2] = (sbyte)(bn.Z * 127.0f);
@@ -941,12 +941,12 @@ namespace StudioCore.Resource
                             continue;
                         if (l.semantic == FLVER.LayoutSemantic.Position)
                         {
-                            FillVertex(ref (*v).Position, br, l.type);
+                            FillVertex(&(*v).Position, br, l.type);
                             posfilled = true;
                         }
                         else if (l.semantic == FLVER.LayoutSemantic.Normal)
                         {
-                            FillNormalSNorm8((*v).Normal, br, l.type, ref n);
+                            FillNormalSNorm8((*v).Normal, br, l.type, &n);
                         }
                         else
                         {
@@ -997,52 +997,54 @@ namespace StudioCore.Resource
             }
         }
 
-        unsafe private void FillVerticesStandard(BinaryReaderEx br, ref FlverVertexBuffer buffer, Span<FlverBufferLayoutMember> layouts, Span<Vector3> pickingVerts, IntPtr vertBuffer, float uvFactor)
+        private unsafe void FillVerticesStandard(BinaryReaderEx br, ref FlverVertexBuffer buffer,
+            Span<FlverBufferLayoutMember> layouts, Span<Vector3> pickingVerts, IntPtr vertBuffer, float uvFactor)
         {
-            Span<FlverLayout> verts = new Span<FlverLayout>(vertBuffer.ToPointer(), buffer.vertexCount);
             br.StepIn(buffer.bufferOffset);
+            FlverLayout* pverts = (FlverLayout*)vertBuffer;
+
             for (int i = 0; i < buffer.vertexCount; i++)
             {
-                fixed (FlverLayout* v = &verts[i])
+                FlverLayout* v = &pverts[i];
+                Vector3 n = Vector3.UnitX;
+                FillUVShortZero((*v).Uv1);
+                FillBinormalBitangentSNorm8Zero((*v).Binormal, (*v).Bitangent);
+                bool posfilled = false;
+                foreach (var l in layouts)
                 {
-                    Vector3 n = Vector3.UnitX;
-                    FillUVShortZero((*v).Uv1);
-                    FillBinormalBitangentSNorm8Zero((*v).Binormal, (*v).Bitangent);
-                    bool posfilled = false;
-                    foreach (var l in layouts)
+                    // ER meme
+                    if (l.unk00 == -2147483647)
+                        continue;
+                    if (l.semantic == FLVER.LayoutSemantic.Position)
                     {
-                        // ER meme
-                        if (l.unk00 == -2147483647)
-                            continue;
-                        if (l.semantic == FLVER.LayoutSemantic.Position)
-                        {
-                            FillVertex(ref (*v).Position, br, l.type);
-                            posfilled = true;
-                        }
-                        else if (l.semantic == FLVER.LayoutSemantic.Normal)
-                        {
-                            FillNormalSNorm8((*v).Normal, br, l.type, ref n);
-                        }
-                        else if (l.semantic == FLVER.LayoutSemantic.UV && l.index == 0)
-                        {
-                            bool hasv2;
-                            FillUVShort((*v).Uv1, br, l.type, uvFactor, false, out hasv2);
-                        }
-                        else if (l.semantic == FLVER.LayoutSemantic.Tangent && l.index == 0)
-                        {
-                            FillBinormalBitangentSNorm8((*v).Binormal, (*v).Bitangent, ref n, br, l.type);
-                        }
-                        else
-                        {
-                            EatVertex(br, l.type);
-                        }
+                        FillVertex(&(*v).Position, br, l.type);
+                        posfilled = true;
                     }
-                    if (!posfilled)
+                    else if (l.semantic == FLVER.LayoutSemantic.Normal)
                     {
-                        (*v).Position = new Vector3(0, 0, 0);
+                        FillNormalSNorm8((*v).Normal, br, l.type, &n);
                     }
-                    pickingVerts[i] = (*v).Position;
+                    else if (l.semantic == FLVER.LayoutSemantic.UV && l.index == 0)
+                    {
+                        bool hasv2;
+                        FillUVShort((*v).Uv1, br, l.type, uvFactor, false, out hasv2);
+                    }
+                    else if (l.semantic == FLVER.LayoutSemantic.Tangent && l.index == 0)
+                    {
+                        FillBinormalBitangentSNorm8((*v).Binormal, (*v).Bitangent, &n, br, l.type);
+                    }
+                    else
+                    {
+                        EatVertex(br, l.type);
+                    }
                 }
+
+                if (!posfilled)
+                {
+                    (*v).Position = new Vector3(0, 0, 0);
+                }
+
+                pickingVerts[i] = (*v).Position;
             }
             br.StepOut();
         }
@@ -1050,14 +1052,15 @@ namespace StudioCore.Resource
         unsafe private void FillVerticesStandard(FLVER2.Mesh mesh, Span<Vector3> pickingVerts, IntPtr vertBuffer)
         {
             Span<FlverLayout> verts = new Span<FlverLayout>(vertBuffer.ToPointer(), mesh.VertexCount);
-            for (int i = 0; i < mesh.VertexCount; i++)
+            fixed (FlverLayout* pverts = verts)
             {
-                var vert = mesh.Vertices[i];
-
-                verts[i] = new FlverLayout();
-                pickingVerts[i] = new Vector3(vert.Position.X, vert.Position.Y, vert.Position.Z);
-                fixed (FlverLayout* v = &verts[i])
+                for (int i = 0; i < mesh.VertexCount; i++)
                 {
+                    FlverLayout* v = &pverts[i];
+                    var vert = mesh.Vertices[i];
+
+                    verts[i] = new FlverLayout();
+                    pickingVerts[i] = new Vector3(vert.Position.X, vert.Position.Y, vert.Position.Z);
                     FillVertex(ref (*v).Position, ref vert);
                     FillNormalSNorm8((*v).Normal, ref vert);
                     if (vert.UVCount > 0)
@@ -1068,6 +1071,7 @@ namespace StudioCore.Resource
                     {
                         FillUVShortZero((*v).Uv1);
                     }
+
                     if (vert.TangentCount > 0)
                     {
                         FillBinormalBitangentSNorm8((*v).Binormal, (*v).Bitangent, ref vert, 0);
@@ -1083,14 +1087,15 @@ namespace StudioCore.Resource
         unsafe private void FillVerticesStandard(FLVER0.Mesh mesh, Span<Vector3> pickingVerts, IntPtr vertBuffer)
         {
             Span<FlverLayout> verts = new Span<FlverLayout>(vertBuffer.ToPointer(), mesh.Vertices.Count);
-            for (int i = 0; i < mesh.Vertices.Count; i++)
+            fixed (FlverLayout* pverts = verts)
             {
-                var vert = mesh.Vertices[i];
-
-                verts[i] = new FlverLayout();
-                pickingVerts[i] = new Vector3(vert.Position.X, vert.Position.Y, vert.Position.Z);
-                fixed (FlverLayout* v = &verts[i])
+                for (int i = 0; i < mesh.Vertices.Count; i++)
                 {
+                    FlverLayout* v = &pverts[i];
+                    var vert = mesh.Vertices[i];
+
+                    verts[i] = new FlverLayout();
+                    pickingVerts[i] = new Vector3(vert.Position.X, vert.Position.Y, vert.Position.Z);
                     FillVertex(ref (*v).Position, ref vert);
                     FillNormalSNorm8((*v).Normal, ref vert);
                     if (vert.UVCount > 0)
@@ -1101,6 +1106,7 @@ namespace StudioCore.Resource
                     {
                         FillUVShortZero((*v).Uv1);
                     }
+
                     if (vert.TangentCount > 0)
                     {
                         FillBinormalBitangentSNorm8((*v).Binormal, (*v).Bitangent, ref vert, 0);
@@ -1113,14 +1119,15 @@ namespace StudioCore.Resource
             }
         }
 
-        unsafe private void FillVerticesUV2(BinaryReaderEx br, ref FlverVertexBuffer buffer, Span<FlverBufferLayoutMember> layouts, Span<Vector3> pickingVerts, IntPtr vertBuffer, float uvFactor)
+        private unsafe void FillVerticesUV2(BinaryReaderEx br, ref FlverVertexBuffer buffer, Span<FlverBufferLayoutMember> layouts, Span<Vector3> pickingVerts, IntPtr vertBuffer, float uvFactor)
         {
             Span<FlverLayoutUV2> verts = new Span<FlverLayoutUV2>(vertBuffer.ToPointer(), buffer.vertexCount);
             br.StepIn(buffer.bufferOffset);
-            for (int i = 0; i < buffer.vertexCount; i++)
+            fixed (FlverLayoutUV2* pverts = verts)
             {
-                fixed (FlverLayoutUV2* v = &verts[i])
+                for (int i = 0; i < buffer.vertexCount; i++)
                 {
+                    FlverLayoutUV2* v = &pverts[i];
                     Vector3 n = Vector3.UnitX;
                     FillBinormalBitangentSNorm8Zero((*v).Binormal, (*v).Bitangent);
                     int uvsfilled = 0;
@@ -1131,11 +1138,11 @@ namespace StudioCore.Resource
                             continue;
                         if (l.semantic == FLVER.LayoutSemantic.Position)
                         {
-                            FillVertex(ref (*v).Position, br, l.type);
+                            FillVertex(&(*v).Position, br, l.type);
                         }
                         else if (l.semantic == FLVER.LayoutSemantic.Normal)
                         {
-                            FillNormalSNorm8((*v).Normal, br, l.type, ref n);
+                            FillNormalSNorm8((*v).Normal, br, l.type, &n);
                         }
                         else if (l.semantic == FLVER.LayoutSemantic.UV && uvsfilled < 2)
                         {
@@ -1145,30 +1152,33 @@ namespace StudioCore.Resource
                         }
                         else if (l.semantic == FLVER.LayoutSemantic.Tangent && l.index == 0)
                         {
-                            FillBinormalBitangentSNorm8((*v).Binormal, (*v).Bitangent, ref n, br, l.type);
+                            FillBinormalBitangentSNorm8((*v).Binormal, (*v).Bitangent, &n, br, l.type);
                         }
                         else
                         {
                             EatVertex(br, l.type);
                         }
                     }
+
                     pickingVerts[i] = (*v).Position;
                 }
             }
+
             br.StepOut();
         }
 
         unsafe private void FillVerticesUV2(FLVER2.Mesh mesh, Span<Vector3> pickingVerts, IntPtr vertBuffer)
         {
             Span<FlverLayoutUV2> verts = new Span<FlverLayoutUV2>(vertBuffer.ToPointer(), mesh.VertexCount);
-            for (int i = 0; i < mesh.VertexCount; i++)
+            fixed (FlverLayoutUV2* pverts = verts)
             {
-                var vert = mesh.Vertices[i];
-
-                verts[i] = new FlverLayoutUV2();
-                pickingVerts[i] = new Vector3(vert.Position.X, vert.Position.Y, vert.Position.Z);
-                fixed (FlverLayoutUV2* v = &verts[i])
+                for (int i = 0; i < mesh.VertexCount; i++)
                 {
+                    var vert = mesh.Vertices[i];
+
+                    verts[i] = new FlverLayoutUV2();
+                    pickingVerts[i] = new Vector3(vert.Position.X, vert.Position.Y, vert.Position.Z);
+                    FlverLayoutUV2* v = &pverts[i];
                     FillVertex(ref (*v).Position, ref vert);
                     FillNormalSNorm8((*v).Normal, ref vert);
                     FillUVShort((*v).Uv1, ref vert, 0);
@@ -1188,14 +1198,15 @@ namespace StudioCore.Resource
         unsafe private void FillVerticesUV2(FLVER0.Mesh mesh, Span<Vector3> pickingVerts, IntPtr vertBuffer)
         {
             Span<FlverLayoutUV2> verts = new Span<FlverLayoutUV2>(vertBuffer.ToPointer(), mesh.Vertices.Count);
-            for (int i = 0; i < mesh.Vertices.Count; i++)
+            fixed (FlverLayoutUV2* pverts = verts)
             {
-                var vert = mesh.Vertices[i];
-
-                verts[i] = new FlverLayoutUV2();
-                pickingVerts[i] = new Vector3(vert.Position.X, vert.Position.Y, vert.Position.Z);
-                fixed (FlverLayoutUV2* v = &verts[i])
+                for (int i = 0; i < mesh.Vertices.Count; i++)
                 {
+                    var vert = mesh.Vertices[i];
+
+                    verts[i] = new FlverLayoutUV2();
+                    pickingVerts[i] = new Vector3(vert.Position.X, vert.Position.Y, vert.Position.Z);
+                    FlverLayoutUV2* v = &pverts[i];
                     FillVertex(ref (*v).Position, ref vert);
                     FillNormalSNorm8((*v).Normal, ref vert);
                     FillUVShort((*v).Uv1, ref vert, 0);
@@ -1236,12 +1247,27 @@ namespace StudioCore.Resource
                 }
             }
 
-            //var MeshVertices = VerticesPool.Rent(mesh.VertexCount);
             var vSize = dest.Material.VertexSize;
-            var meshVertices = Marshal.AllocHGlobal(mesh.Vertices.Count * (int)vSize);
             dest.PickingVertices = Marshal.AllocHGlobal(mesh.Vertices.Count * sizeof(Vector3));
             var pvhandle = new Span<Vector3>(dest.PickingVertices.ToPointer(), mesh.Vertices.Count);
+            uint vbuffersize = (uint)mesh.Vertices.Count * (uint)vSize;
+            
+            dest.VertexCount = mesh.Vertices.Count;
 
+            dest.MeshFacesets = new List<FlverSubmesh.FlverSubmeshFaceSet>();
+
+            bool is32bit = false;//FlverDeS.Version > 0x20005 && mesh.Vertices.Count > 65535;
+            Span<ushort> fs16 = null;
+            Span<int> fs32 = null;
+            
+            var indices = mesh.Triangulate(FlverDeS.Header.Version).ToArray();
+            int indicesTotal = indices.Length;
+
+            dest.GeomBuffer = Scene.Renderer.GeometryBufferAllocator.Allocate(vbuffersize,
+                (uint)indicesTotal * (is32bit ? 4u : 2u), (int)vSize, 4);
+            var meshVertices = dest.GeomBuffer.MapVBuffer();
+            var meshIndices = dest.GeomBuffer.MapIBuffer();
+            
             if (dest.Material.LayoutType == MeshLayoutType.LayoutSky)
             {
                 FillVerticesNormalOnly(mesh, pvhandle, meshVertices);
@@ -1254,30 +1280,16 @@ namespace StudioCore.Resource
             {
                 FillVerticesStandard(mesh, pvhandle, meshVertices);
             }
-
-            dest.VertexCount = mesh.Vertices.Count;
-
-            dest.MeshFacesets = new List<FlverSubmesh.FlverSubmeshFaceSet>();
-
-            bool is32bit = false;//FlverDeS.Version > 0x20005 && mesh.Vertices.Count > 65535;
-            int indicesTotal = 0;
-            ushort[] fs16 = null;
-            int[] fs32 = null;
-
-            int idxoffset = 0;
+            
             if (mesh.VertexIndices.Count != 0)
             {
-                var indices = mesh.Triangulate(FlverDeS.Header.Version).ToArray();
-                uint buffersize = (uint)indices.Length * (is32bit ? 4u : 2u);
-
-                indicesTotal = indices.Length;
                 if (is32bit)
                 {
-                    fs32 = new int[indicesTotal];
+                    fs32 = new Span<int>(meshIndices.ToPointer(), indicesTotal);
                 }
                 else
                 {
-                    fs16 = new ushort[indicesTotal];
+                    fs16 = new Span<ushort>(meshIndices.ToPointer(), indicesTotal);
                 }
 
                 var newFaceSet = new FlverSubmesh.FlverSubmeshFaceSet()
@@ -1285,17 +1297,13 @@ namespace StudioCore.Resource
                     BackfaceCulling = true,
                     IsTriangleStrip = false,
                     //IndexBuffer = factory.CreateBuffer(new BufferDescription(buffersize, BufferUsage.IndexBuffer)),
-                    IndexOffset = idxoffset,
+                    IndexOffset = 0,
 
                     IndexCount = indices.Length,
                     Is32Bit = is32bit,
                     PickingIndicesCount = indices.Length,
                     //PickingIndices = Marshal.AllocHGlobal(indices.Length * 4),
                 };
-                fixed (void* iptr = indices)
-                {
-                    //Unsafe.CopyBlock(newFaceSet.PickingIndices.ToPointer(), iptr, (uint)indices.Length * 4);
-                }
 
                 if (is32bit)
                 {
@@ -1328,26 +1336,11 @@ namespace StudioCore.Resource
 
                 dest.MeshFacesets.Add(newFaceSet);
             }
+            
+            dest.GeomBuffer.UnmapVBuffer();
+            dest.GeomBuffer.UnmapIBuffer();
 
             dest.Bounds = BoundingBox.CreateFromPoints((Vector3*)dest.PickingVertices.ToPointer(), dest.VertexCount, 12, Quaternion.Identity, Vector3.Zero, Vector3.One);
-
-            uint vbuffersize = (uint)mesh.Vertices.Count * (uint)vSize;
-            dest.GeomBuffer = Scene.Renderer.GeometryBufferAllocator.Allocate(vbuffersize, (uint)indicesTotal * (is32bit ? 4u : 2u), (int)vSize, 4, (h) =>
-            {
-                h.FillVBuffer(meshVertices, vSize * (uint)mesh.Vertices.Count, () =>
-                {
-                    Marshal.FreeHGlobal(meshVertices);
-                });
-                if (is32bit)
-                {
-                    h.FillIBuffer(fs32);
-                }
-                else
-                {
-                    h.FillIBuffer(fs16);
-                }
-            });
-
             if (CaptureMaterialLayouts)
             {
                 lock (_matLayoutLock)
@@ -1362,15 +1355,32 @@ namespace StudioCore.Resource
 
         unsafe private void ProcessMesh(FLVER2.Mesh mesh, FlverSubmesh dest)
         {
-            var factory = Scene.Renderer.Factory;
-
             dest.Material = GPUMaterials[mesh.MaterialIndex];
 
             var vSize = dest.Material.VertexSize;
-            var meshVertices = Marshal.AllocHGlobal(mesh.VertexCount * (int)vSize);
             dest.PickingVertices = Marshal.AllocHGlobal(mesh.VertexCount * sizeof(Vector3));
             var pvhandle = new Span<Vector3>(dest.PickingVertices.ToPointer(), mesh.VertexCount);
 
+            dest.VertexCount = mesh.VertexCount;
+
+            dest.MeshFacesets = new List<FlverSubmesh.FlverSubmeshFaceSet>();
+            var facesets = mesh.FaceSets;
+
+            bool is32bit = Flver.Header.Version > 0x20005 && mesh.VertexCount > 65535;
+            int indicesTotal = 0;
+            Span<ushort> fs16 = null;
+            Span<int> fs32 = null;
+            foreach (var faceset in facesets)
+            {
+                indicesTotal += faceset.Indices.Length;
+            }
+            
+            uint vbuffersize = (uint)mesh.VertexCount * (uint)vSize;
+            dest.GeomBuffer = Scene.Renderer.GeometryBufferAllocator.Allocate(vbuffersize,
+                (uint)indicesTotal * (is32bit ? 4u : 2u), (int)vSize, 4);
+            var meshVertices = dest.GeomBuffer.MapVBuffer();
+            var meshIndices = dest.GeomBuffer.MapIBuffer();
+            
             if (dest.Material.LayoutType == MeshLayoutType.LayoutSky)
             {
                 FillVerticesNormalOnly(mesh, pvhandle, meshVertices);
@@ -1383,28 +1393,14 @@ namespace StudioCore.Resource
             {
                 FillVerticesStandard(mesh, pvhandle, meshVertices);
             }
-
-            dest.VertexCount = mesh.VertexCount;
-
-            dest.MeshFacesets = new List<FlverSubmesh.FlverSubmeshFaceSet>();
-            var facesets = mesh.FaceSets;
-            var fsUploadsPending = facesets.Count();
-
-            bool is32bit = Flver.Header.Version > 0x20005 && mesh.VertexCount > 65535;
-            int indicesTotal = 0;
-            ushort[] fs16 = null;
-            int[] fs32 = null;
-            foreach (var faceset in facesets)
-            {
-                indicesTotal += faceset.Indices.Length;
-            }
+            
             if (is32bit)
             {
-                fs32 = new int[indicesTotal];
+                fs32 = new Span<int>(meshIndices.ToPointer(), indicesTotal);
             }
             else
             {
-                fs16 = new ushort[indicesTotal];
+                fs16 = new Span<ushort>(meshIndices.ToPointer(), indicesTotal);
             }
 
             int idxoffset = 0;
@@ -1414,7 +1410,6 @@ namespace StudioCore.Resource
                     continue;
 
                 //At this point they use 32-bit faceset vertex indices
-                uint buffersize = (uint)faceset.IndicesCount * (is32bit ? 4u : 2u);
                 var newFaceSet = new FlverSubmesh.FlverSubmeshFaceSet()
                 {
                     BackfaceCulling = faceset.CullBackfaces,
@@ -1474,28 +1469,12 @@ namespace StudioCore.Resource
                 dest.MeshFacesets.Add(newFaceSet);
                 idxoffset += faceset.Indices.Length;
             }
+            
+            dest.GeomBuffer.UnmapVBuffer();
+            dest.GeomBuffer.UnmapIBuffer();
 
             dest.Bounds = BoundingBox.CreateFromPoints((Vector3*)dest.PickingVertices.ToPointer(), dest.VertexCount, 12, Quaternion.Identity, Vector3.Zero, Vector3.One);
-
-            uint vbuffersize = (uint)mesh.VertexCount * (uint)vSize;
-            dest.GeomBuffer = Scene.Renderer.GeometryBufferAllocator.Allocate(vbuffersize, (uint)indicesTotal * (is32bit ? 4u : 2u), (int)vSize, 4, (h) =>
-            {
-                h.FillVBuffer(meshVertices, vSize * (uint)mesh.VertexCount, () =>
-                {
-                    Marshal.FreeHGlobal(meshVertices);
-                });
-                if (is32bit)
-                {
-                    h.FillIBuffer(fs32);
-                }
-                else
-                {
-                    h.FillIBuffer(fs16);
-                }
-            });
-
-            facesets = null;
-
+            
             if (CaptureMaterialLayouts)
             {
                 lock (_matLayoutLock)
@@ -1549,8 +1528,6 @@ namespace StudioCore.Resource
             Span<FlverVertexBuffer> buffers, Span<FlverBufferLayout> layouts,
             Span<FlverFaceset> facesets, FlverSubmesh dest)
         {
-            var factory = Scene.Renderer.Factory;
-
             dest.Material = GPUMaterials[mesh.materialIndex];
 
             Span<int> facesetIndices = stackalloc int[mesh.facesetCount];
@@ -1571,10 +1548,23 @@ namespace StudioCore.Resource
             int vertexCount = mesh.vertexBufferCount > 0 ? buffers[vertexBufferIndices[0]].vertexCount : 0;
 
             var vSize = dest.Material.VertexSize;
-            var meshVertices = Marshal.AllocHGlobal(vertexCount * (int)vSize);
             dest.PickingVertices = Marshal.AllocHGlobal(vertexCount * sizeof(Vector3));
             var pvhandle = new Span<Vector3>(dest.PickingVertices.ToPointer(), vertexCount);
-
+            
+            bool is32bit = version > 0x20005 && vertexCount > 65535;
+            int indicesTotal = 0;
+            foreach (var fsidx in facesetIndices)
+            {
+                indicesTotal += facesets[fsidx].indexCount;
+                is32bit = is32bit || facesets[fsidx].indexSize != 16;
+            }
+            
+            uint vbuffersize = (uint)vertexCount * (uint)vSize;
+            dest.GeomBuffer = Renderer.GeometryBufferAllocator.Allocate(vbuffersize,
+                (uint)indicesTotal * (is32bit ? 4u : 2u), (int)vSize, 4);
+            var meshVertices = dest.GeomBuffer.MapVBuffer();
+            var meshIndices = dest.GeomBuffer.MapIBuffer();
+            
             foreach (var vbi in vertexBufferIndices)
             {
                 var vb = buffers[vbi];
@@ -1603,27 +1593,17 @@ namespace StudioCore.Resource
             }
 
             dest.VertexCount = vertexCount;
-
             dest.MeshFacesets = new List<FlverSubmesh.FlverSubmeshFaceSet>();
-            var fsUploadsPending = mesh.facesetCount;
-
-            bool is32bit = version > 0x20005 && vertexCount > 65535;
-            int indicesTotal = 0;
-            ushort[] fs16 = null;
-            int[] fs32 = null;
-            //foreach (var faceset in facesets)
-            foreach (var fsidx in facesetIndices)
-            {
-                indicesTotal += facesets[fsidx].indexCount;
-                is32bit = is32bit || facesets[fsidx].indexSize != 16;
-            }
+            
+            Span<ushort> fs16 = null;
+            Span<int> fs32 = null;
             if (is32bit)
             {
-                fs32 = new int[indicesTotal];
+                fs32 = new Span<int>(meshIndices.ToPointer(), indicesTotal);
             }
             else
             {
-                fs16 = new ushort[indicesTotal];
+                fs16 = new Span<ushort>(meshIndices.ToPointer(), indicesTotal);
             }
 
             int idxoffset = 0;
@@ -1634,7 +1614,6 @@ namespace StudioCore.Resource
                     continue;
 
                 //At this point they use 32-bit faceset vertex indices
-                uint buffersize = (uint)faceset.indexCount * (is32bit ? 4u : 2u);
                 var newFaceSet = new FlverSubmesh.FlverSubmeshFaceSet()
                 {
                     BackfaceCulling = faceset.cullBackfaces,
@@ -1696,27 +1675,11 @@ namespace StudioCore.Resource
                 dest.MeshFacesets.Add(newFaceSet);
                 idxoffset += faceset.indexCount;
             }
+            
+            dest.GeomBuffer.UnmapIBuffer();
+            dest.GeomBuffer.UnmapVBuffer();
 
             dest.Bounds = BoundingBox.CreateFromPoints((Vector3*)dest.PickingVertices.ToPointer(), dest.VertexCount, 12, Quaternion.Identity, Vector3.Zero, Vector3.One);
-
-            uint vbuffersize = (uint)vertexCount * (uint)vSize;
-            dest.GeomBuffer = Scene.Renderer.GeometryBufferAllocator.Allocate(vbuffersize, (uint)indicesTotal * (is32bit ? 4u : 2u), (int)vSize, 4, (h) =>
-            {
-                h.FillVBuffer(meshVertices, vSize * (uint)vertexCount, () =>
-                {
-                    Marshal.FreeHGlobal(meshVertices);
-                });
-                if (is32bit)
-                {
-                    h.FillIBuffer(fs32);
-                }
-                else
-                {
-                    h.FillIBuffer(fs16);
-                }
-            });
-
-            facesets = null;
 
             /*if (CaptureMaterialLayouts)
             {
@@ -2180,7 +2143,7 @@ namespace StudioCore.Resource
             return true;
         }
 
-        public bool _Load(byte[] bytes, AccessLevel al, GameType type)
+        public bool _Load(Memory<byte> bytes, AccessLevel al, GameType type)
         {
             bool ret;
             if (type == GameType.DemonsSouls)
@@ -2189,7 +2152,7 @@ namespace StudioCore.Resource
                 ret = LoadInternalDeS(al, type);
             }
             else
-            {
+            {   
                 if (al == AccessLevel.AccessGPUOptimizedOnly && type != GameType.DarkSoulsRemastered && type != GameType.DarkSoulsPTDE)
                 {
                     BinaryReaderEx br = new BinaryReaderEx(false, bytes);
@@ -2208,30 +2171,29 @@ namespace StudioCore.Resource
             return ret;
         }
 
-        public bool _Load(string file, AccessLevel al, GameType type)
+        public bool _Load(string path, AccessLevel al, GameType type)
         {
             bool ret;
             if (type == GameType.DemonsSouls)
             {
-                FlverDeS = FLVER0.Read(file);
+                FlverDeS = FLVER0.Read(path);
                 ret = LoadInternalDeS(al, type);
             }
             else
             {
                 if (al == AccessLevel.AccessGPUOptimizedOnly && type != GameType.DarkSoulsRemastered && type != GameType.DarkSoulsPTDE)
                 {
-                    using (FileStream stream = File.OpenRead(file))
-                    {
-                        BinaryReaderEx br = new BinaryReaderEx(false, stream);
-                        DCX.Type ctype;
-                        br = SFUtil.GetDecompressedBR(br, out ctype);
-                        ret = LoadInternalFast(br, type);
-                    }
+                    using var file = MemoryMappedFile.CreateFromFile(path, FileMode.Open, null, 0, MemoryMappedFileAccess.Read);
+                    using var accessor = file.CreateMemoryAccessor(0, 0, MemoryMappedFileAccess.Read);
+                    BinaryReaderEx br = new BinaryReaderEx(false, accessor.Memory);
+                    DCX.Type ctype;
+                    br = SFUtil.GetDecompressedBR(br, out ctype);
+                    ret = LoadInternalFast(br, type);
                 }
                 else
                 {
                     var cache = (al == AccessLevel.AccessGPUOptimizedOnly) ? GetCache() : null;
-                    Flver = FLVER2.Read(file, cache);
+                    Flver = FLVER2.Read(path, cache);
                     ret = LoadInternal(al, type);
                     ReleaseCache(cache);
                 }

@@ -10,53 +10,44 @@ namespace StudioCore.Editor
     {
         public static string MassEditHint =
         @"For help with regex or examples, consult the main help menu.
-Mass Edit Commands utilise Regex, and words surrounded by ! in commands indicate that a Regex expression may be used instead of plain text.
-All other words in capitals are parameters for the given command.
+Mass Edit Commands exist to make large batch-edits according to a simple scheme.
+Specific help with individual components of massedit can be found in the autofill menu by clicking the ?
+The autofill is a valuable tool to help understand massedits. Feel free to experiment, you can ctrl-z a massedit.
+
 A mass edit command is formed of selectors and an operation.
-There are multiple stages of selection, going from params, to rows, to cells (fields).
-Multiple selectors can be given for a single stage by separating them with &&.
+There are multiple stages of selection when making a param massedit, going from params, to rows, to cells (fields).
+Finally, an operation is applied to everything selected.
 
-Param selection is done through any of the following:
-    modified: to select params changed from vanilla
-    original: to select unmodified params
-    param !NAME!: to select params with a matching name
+A selector has a name, such as the row selector 'prop', and can have arguments, separated by spaces.
+In this case, prop expects the property name, and a value that the row should have to be selected.
+All rows which match this are kept, while everything else is discarded.
+This process repeats for each condition, and across each stage of selection.
+There exists a special case of selector, which combines both param and row selectors into one key word.
+Most commonly this is the 'selection' selector, which selects currently selected rows in the currently selected param.
+Unlike the search bar selections, selections in massedit apply stricter criteria, needing to match exactly.
 
-Row selection is done through any of the following:
-    modified: to select rows changed from vanilla
-    original: to select unmodified rows
-    id !VALUE!: to select rows with a matching ID
-    idrange MIN MAX: to select rows with an ID within the given bounds
-    name !NAME!: to select rows with a matching name
-    prop FIELD !VALUE!: to select rows who have a matching value for the given field
-    proprange FIELD MIN MAX: to select rows who have a value for the given field within the given bounds
-    propref FIELD !NAME!: to select rows that have a reference to another row with a matching name.
+An operation also has a name, though often this is a symbol, such as '+', and has arguments.
+An operation's arguments begin after the first space, but are actually separated with another : when there are multiple.
+This is because the argument may also have arguments itself, separated with spaces.
+For example, the argument 'field weight'. Instead of a fixed number, for each param, row and cell evaluated, a value to use is determined.
+In this case, the number to add depends on the row we're currently in, and retrieves a different weight value each row.
 
-An optional combined form of selecting both params and rows is given by the following:
-    selection: to select the param and rows in the active view's selection.
+The following is for advanced topics, and requires you to enable advanced options in the settings.
 
-Cell selection is done through the following:
-    !FIELD!: to select cells with a matching name
+Massedit can do more than modify final values of the currently loaded params.
+Afer selecting rows, it is possible to perform a row operation instead of selecting cells/fields.
+These operations act on rows instead, including copying them into clipboard, or pasting them into the current params.
+There exists also global operations, which require no selectors beforehand, such as clear to clear the clipboard.
+The clipboard only supports 1 param at a time, and can be selected from in the same manner as current UI selection.
 
-An operation is given by any of the following:
-    OP VALUE; to perform the operation OP with the given literal value
-    OP field NAME; to perform the operation OP with a value read from the given field of the row being modified.
+When an additional set of params (parambank) is loaded, aux selectors and arguments become available.
+With these, one can make a selection of not the currently loaded params, but from an auxilliary set.
+While it is not ideal to modify these with cell operations, they are useful for row operations, including passing rows between parambanks.
 
-The valid operations (OP) are:
-    = assigns the given value to the field
-    * multiplies by the given value and is invalid for names or arrays
-    / divides by the given value and is invalid for names or arrays
-    + adds the given value and is invalid for names or arrays
-    - subtracts the given value and is invalid for names or arrays
-    ref !NAME! searches for a row with a given name in a field supporting references and assigns it to that field
-    replace OLD:NEW replaces parts of the text matching OLD with NEW
-    replacex !OLD!:NEW replaces parts of the text matching the given regex OLD with NEW, where new may contain regex groups
-
-A complete command may look like the following examples:
-selection: throwAtkRate: = 30; (This selects from the current selection, the field throwAtkRate and makes its value 30)
-param EquipParamWeapon: name Dagger.*: throwAtkRate: * 2; (This selects from EquipParamWeapon all rows beginning with Dagger, and multiplies the values in throwAtkRate by 2)
-param EquipParamWeapon: prop weaponCategory 0: correctAgility: + field correctStrength; (This selects from EquipParamWeapon all rows whose weaponCategory is 0, and adds the row's correctStrength to its correctAgility)
-param EquipParamWeapon: id .*: name: replace Dark:Holy; (This selects from EquipParamWeapon ALL rows, and replaces all cases of Dark in their name with Holy
-param EquipParamWeapon: name Dagger.* && idrange 10000 Infinity: throwAtkRate: * 2; (This selects from EquipParamWeapon all rows beginning with Dagger and with an id higher than 9999, and multiplies the values in throwAtkRate by 2)";
+Massedit can also define variables for use, mostly in scripts. A variable's type is dictated when defined in a global operation.
+It can be an integer, floating point number, or a string.
+A variable's current value can be accessed using $name, and is usable in selector args, op args, and even the args of those op args.
+Sets of vars can be selected in the same manner as params, and can be modified with the same operations available to edit param fields.";
 
         public static string SearchBarHint =
 @"For help with regex or examples, consult the main help menu.
@@ -126,7 +117,7 @@ Some common tools for mapstudio include:
 
         public static bool AddImGuiHintButton(string id, ref string hint, bool canEdit = false, bool isRowHint = false)
         {
-            float scale = ImGuiRenderer.GetUIScale();
+            float scale = MapStudioNew.GetUIScale();
             bool ret = false;
             /*
             ImGui.TextColored(new Vector4(0.6f, 0.6f, 1.0f, 1.0f), "Help");
@@ -148,6 +139,8 @@ Some common tools for mapstudio include:
             if (isRowHint)
             {
                 ImGui.TextColored(new Vector4(0.6f, 0.6f, 1.0f, 1f), "?");
+                if (ImGui.IsItemClicked(ImGuiMouseButton.Left))
+                    ImGui.OpenPopup(id);
                 if (ImGui.BeginPopupContextItem(id))
                 {
                     if (ParamEditor.ParamEditorScreen.EditorMode && canEdit) //remove this, editor mode should be called earlier

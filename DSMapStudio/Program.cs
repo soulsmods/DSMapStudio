@@ -1,38 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Reflection;
 using StudioCore;
-using System.Windows.Forms;
 using System.Security.Permissions;
+using Microsoft.DotNet.PlatformAbstractions;
+using StudioCore.Graphics;
+using StudioCore.Platform;
 using Veldrid.Sdl2;
 
 namespace DSMapStudio
 {
     public static class Program
     {
-        public static string[] ARGS;
-
-        private static string _version = Application.ProductVersion;
+        private static string _version = "undefined";
 
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.ControlAppDomain)]
         static void Main(string[] args)
         {
             AppDomain currentDomain = AppDomain.CurrentDomain;
-            currentDomain.UnhandledException += new UnhandledExceptionEventHandler(CrashHandler);
-
-            //SDL_version version;
-            //Sdl2Native.SDL_GetVersion(&version);
-
-            Directory.SetCurrentDirectory(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location));
-
-            var mapStudio = new MapStudioNew();
+            currentDomain.UnhandledException += CrashHandler;
+            Directory.SetCurrentDirectory(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? throw new InvalidOperationException());
+            _version = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion ?? "undefined";
+            var mapStudio = new MapStudioNew(new VulkanGraphicsContext(), _version);
 #if !DEBUG
             try
             {
@@ -57,9 +54,12 @@ namespace DSMapStudio
             {
                 if (ex is AggregateException ae)
                 {
-                    ex = ae.Flatten();
+                    if (ae.InnerExceptions.Count == 1)
+                        ex = ae.InnerException;
+                    else
+                        ex = ae.Flatten();
                 }
-                log.Add(ex.Message);
+                log.Add($"{ex.Message}\n");
                 log.Add(ex.StackTrace);
                 ex = ex.InnerException;
                 log.Add("----------------------\n");
@@ -70,20 +70,20 @@ namespace DSMapStudio
         }
 
 
-        static string CrashLogPath = $"{Directory.GetCurrentDirectory()}\\Crash Logs";
+        static readonly string CrashLogPath = $"{Directory.GetCurrentDirectory()}\\Crash Logs";
         static void ExportCrashLog(List<string> exceptionInfo)
         {
             var time = $"{DateTime.Now:yyyy-M-dd--HH-mm-ss}";
-            exceptionInfo.Insert(0, $"DSMapStudio Version {_version}");
+            exceptionInfo.Insert(0, $"DSMapStudio Version {_version}\n");
             Directory.CreateDirectory($"{CrashLogPath}");
             var crashLogPath = $"{CrashLogPath}\\Log {time}.txt";
             File.WriteAllLines(crashLogPath, exceptionInfo);
 
             if (exceptionInfo.Count > 10)
-                MessageBox.Show($"DSMapStudio has run into an issue.\nCrash log has been generated at \"{crashLogPath}\".",
+                PlatformUtils.Instance.MessageBox($"DSMapStudio has run into an issue.\nCrash log has been generated at \"{crashLogPath}\".",
                     $"DSMapStudio Unhandled Error - {_version}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             else
-                MessageBox.Show($"DSMapStudio has run into an issue.\nCrash log has been generated at \"{crashLogPath}\".\n\nCrash Log:\n{string.Join("\n", exceptionInfo)}",
+                PlatformUtils.Instance.MessageBox($"DSMapStudio has run into an issue.\nCrash log has been generated at \"{crashLogPath}\".\n\nCrash Log:\n{string.Join("\n", exceptionInfo)}",
                     $"DSMapStudio Unhandled Error - {_version}", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 

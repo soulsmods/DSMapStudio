@@ -1,38 +1,38 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
   <Field>
-    <_0x00 AltName="Physical Correction: STR" IsBool="" />
-    <_0x00 AltName="Physical Correction: DEX" IsBool="" />
-    <_0x00 AltName="Physical Correction: INT" IsBool="" />
-    <_0x00 AltName="Physical Correction: FTH" IsBool="" />
-    <_0x00 AltName="Physical Correction: LCK" IsBool="" />
-	<_0x00 AltName="Magic Correction: STR" IsBool="" />
-    <_0x00 AltName="Magic Correction: DEX" IsBool="" />
-    <_0x00 AltName="Magic Correction: INT" IsBool="" />
-    <_0x00 AltName="Magic Correction: FTH" IsBool="" />
-    <_0x00 AltName="Magic Correction: LCK" IsBool="" />
-    <_0x00 AltName="Fire Correction: STR" IsBool="" />
-    <_0x00 AltName="Fire Correction: DEX" IsBool="" />
-    <_0x00 AltName="Fire Correction: INT" IsBool="" />
-    <_0x00 AltName="Fire Correction: FTH" IsBool="" />
-    <_0x00 AltName="Fire Correction: LCK" IsBool="" />
-    <_0x00 AltName="Lightning Correction: STR" IsBool="" />
-    <_0x00 AltName="Lightning Correction: DEX" IsBool="" />
-    <_0x00 AltName="Lightning Correction: INT" IsBool="" />
-    <_0x00 AltName="Lightning Correction: FTH" IsBool="" />
-    <_0x00 AltName="Lightning Correction: LCK" IsBool="" />
-    <_0x00 AltName="Dark Correction: STR" IsBool="" />
-    <_0x00 AltName="Dark Correction: DEX" IsBool="" />
-    <_0x00 AltName="Dark Correction: INT" IsBool="" />
-    <_0x00 AltName="Dark Correction: FTH" IsBool="" />
-    <_0x00 AltName="Dark Correction: LCK" IsBool="" />
-	<_0x00 AltName="Unk1" />
-	<_0x00 AltName="Unk2" />
-	<_0x00 AltName="Unk3" />
-	<_0x00 AltName="Unk4" />
-	<_0x00 AltName="Unk5" />
-	<_0x00 AltName="Unk6" />
-	<_0x00 AltName="Unk7" />
+    <_0x00_0 AltName="Physical Correction: STR" IsBool="" />
+    <_0x00_1 AltName="Physical Correction: DEX" IsBool="" />
+    <_0x00_2 AltName="Physical Correction: INT" IsBool="" />
+    <_0x00_3 AltName="Physical Correction: FTH" IsBool="" />
+    <_0x00_4 AltName="Physical Correction: LCK" IsBool="" />
+	<_0x00_5 AltName="Magic Correction: STR" IsBool="" />
+    <_0x00_6 AltName="Magic Correction: DEX" IsBool="" />
+    <_0x00_7 AltName="Magic Correction: INT" IsBool="" />
+    <_0x00_8 AltName="Magic Correction: FTH" IsBool="" />
+    <_0x00_9 AltName="Magic Correction: LCK" IsBool="" />
+    <_0x00_10 AltName="Fire Correction: STR" IsBool="" />
+    <_0x00_11 AltName="Fire Correction: DEX" IsBool="" />
+    <_0x00_12 AltName="Fire Correction: INT" IsBool="" />
+    <_0x00_13 AltName="Fire Correction: FTH" IsBool="" />
+    <_0x00_14 AltName="Fire Correction: LCK" IsBool="" />
+    <_0x00_15 AltName="Lightning Correction: STR" IsBool="" />
+    <_0x00_16 AltName="Lightning Correction: DEX" IsBool="" />
+    <_0x00_17 AltName="Lightning Correction: INT" IsBool="" />
+    <_0x00_18 AltName="Lightning Correction: FTH" IsBool="" />
+    <_0x00_19 AltName="Lightning Correction: LCK" IsBool="" />
+    <_0x00_20 AltName="Dark Correction: STR" IsBool="" />
+    <_0x00_21 AltName="Dark Correction: DEX" IsBool="" />
+    <_0x00_22 AltName="Dark Correction: INT" IsBool="" />
+    <_0x00_23 AltName="Dark Correction: FTH" IsBool="" />
+    <_0x00_24 AltName="Dark Correction: LCK" IsBool="" />
+	<_0x00_25 AltName="Unk1" />
+	<_0x00_26 AltName="Unk2" />
+	<_0x00_27 AltName="Unk3" />
+	<_0x00_28 AltName="Unk4" />
+	<_0x00_29 AltName="Unk5" />
+	<_0x00_30 AltName="Unk6" />
+	<_0x00_31 AltName="Unk7" />
 	<addRate0 AltName="Physical Replacement Correction: STR" />
     <addRate1 AltName="Physical Replacement Correction: DEX" />
     <addRate2 AltName="Physical Replacement Correction: INT" />

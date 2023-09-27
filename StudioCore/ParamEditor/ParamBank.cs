@@ -3,7 +3,6 @@ using System.Buffers;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
-using System.Windows.Forms;
 using SoulsFormats;
 using System.Linq;
 using System.Threading;
@@ -12,6 +11,8 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using FSParam;
 using StudioCore.Editor;
+using StudioCore.TextEditor;
+using StudioCore.Platform;
 
 namespace StudioCore.ParamEditor
 {
@@ -20,6 +21,13 @@ namespace StudioCore.ParamEditor
     /// </summary>
     public class ParamBank
     {
+        public enum RowGetType
+        {
+            AllRows = 0,
+            ModifiedRows = 1,
+            SelectedRows = 2
+        }
+
         public static ParamBank PrimaryBank = new ParamBank();
         public static ParamBank VanillaBank = new ParamBank();
         public static Dictionary<string, ParamBank> AuxBanks = new Dictionary<string, ParamBank>();
@@ -28,9 +36,16 @@ namespace StudioCore.ParamEditor
         public static string ClipboardParam = null;
         public static List<Param.Row> ClipboardRows = new List<Param.Row>();
 
+        /// <summary>
+        /// Mapping from ParamType -> PARAMDEF.
+        /// </summary>
         private static Dictionary<string, PARAMDEF> _paramdefs = null;
-        private static Dictionary<string, Dictionary<ulong, PARAMDEF>> _patchParamdefs = null;
-
+        /// <summary>
+        /// Mapping from Param filename -> Manual ParamType.
+        /// This is for params with no usable ParamType at some particular game version.
+        /// By convention, ParamTypes ending in "_TENTATIVE" do not have official data to reference.
+        /// </summary>
+        private static Dictionary<string, string> _tentativeParamType = null;
 
         private Param EnemyParam = null;
         internal AssetLocator AssetLocator = null;
@@ -38,6 +53,7 @@ namespace StudioCore.ParamEditor
         private Dictionary<string, Param> _params = null;
         private Dictionary<string, HashSet<int>> _vanillaDiffCache = null; //If param != vanillaparam
         private Dictionary<string, HashSet<int>> _primaryDiffCache = null; //If param != primaryparam
+        private Dictionary<string, List<string?>> _storedStrippedRowNames = null;
 
         private bool _pendingUpgrade = false;
 
@@ -72,8 +88,8 @@ namespace StudioCore.ParamEditor
                     return null;
                 }
                 {
-                if (VanillaBank == this)
-                    return null;
+                    if (VanillaBank == this)
+                        return null;
                 }
                 return _vanillaDiffCache;
             }
@@ -87,42 +103,56 @@ namespace StudioCore.ParamEditor
                     return null;
                 }
                 {
-                if (PrimaryBank == this)
-                    return null;
+                    if (PrimaryBank == this)
+                        return null;
                 }
                 return _primaryDiffCache;
+            }
+        }
+
+        private static FileNotFoundException CreateParamMissingException(GameType type)
+        {
+            if (type is GameType.DarkSoulsPTDE or GameType.Sekiro)
+            {
+                return new FileNotFoundException($"Cannot locate param files for {type}.\nThis game must be unpacked before modding, please use UXM Selective Unpacker.");
+            }
+            else if (type is GameType.DemonsSouls or GameType.Bloodborne)
+            {
+                return new FileNotFoundException($"Cannot locate param files for {type}.\nYour game folder may be missing game files.");
+            }
+            else
+            {
+                return new FileNotFoundException($"Cannot locate param files for {type}.\nYour game folder may be missing game files, please verify game files through steam to restore them.");
             }
         }
 
         private static List<(string, PARAMDEF)> LoadParamdefs(AssetLocator assetLocator)
         {
             _paramdefs = new Dictionary<string, PARAMDEF>();
-            _patchParamdefs = new Dictionary<string, Dictionary<ulong, PARAMDEF>>();
+            _tentativeParamType = new Dictionary<string, string>();
             var dir = assetLocator.GetParamdefDir();
             var files = Directory.GetFiles(dir, "*.xml");
             List<(string, PARAMDEF)> defPairs = new List<(string, PARAMDEF)>();
             foreach (var f in files)
             {
-                var pdef = PARAMDEF.XmlDeserialize(f);
+                var pdef = PARAMDEF.XmlDeserialize(f, true);
                 _paramdefs.Add(pdef.ParamType, pdef);
                 defPairs.Add((f, pdef));
             }
 
-            // Load patch paramdefs
-            var patches = assetLocator.GetParamdefPatches();
-            foreach (var patch in patches)
+            var tentativeMappingPath = assetLocator.GetTentativeParamTypePath();
+            if (File.Exists(tentativeMappingPath))
             {
-                var pdir = assetLocator.GetParamdefPatchDir(patch);
-                var pfiles = Directory.GetFiles(pdir, "*.xml");
-                foreach (var f in pfiles)
+                // No proper CSV library is used currently, and all CSV parsing is in the context of param files.
+                // If a CSV library is introduced in DSMapStudio, use it here.
+                foreach (string line in File.ReadAllLines(tentativeMappingPath).Skip(1))
                 {
-                    var pdef = PARAMDEF.XmlDeserialize(f);
-                    defPairs.Add((f, pdef));
-                    if (!_patchParamdefs.ContainsKey(pdef.ParamType))
+                    string[] parts = line.Split(',');
+                    if (parts.Length != 2 || string.IsNullOrWhiteSpace(parts[0]) || string.IsNullOrWhiteSpace(parts[1]))
                     {
-                        _patchParamdefs[pdef.ParamType] = new Dictionary<ulong, PARAMDEF>();
+                        throw new FormatException($"Malformed line in {tentativeMappingPath}: {line}");
                     }
-                    _patchParamdefs[pdef.ParamType].Add(patch, pdef);
+                    _tentativeParamType[parts[0]] = parts[1];
                 }
             }
 
@@ -153,13 +183,12 @@ namespace StudioCore.ParamEditor
                 if (!_params.ContainsKey(fName))
                     continue;
                 string names = File.ReadAllText(f);
-                (MassEditResult r, CompoundAction a) = MassParamEditCSV.PerformSingleMassEdit(this, names, fName, "Name", ' ', true, onlyAffectEmptyNames);
-                if (r.Type != MassEditResultType.SUCCESS)
-                {
-                    TaskManager.warningList.TryAdd($"ParamNameImportFail {fName}", $"Could not apply name files for {fName}");
-                    continue;
-                }
-                actions.Add(a);
+                (string result, CompoundAction action) = ParamIO.ApplySingleCSV(this, names, fName, "Name", ' ', true, onlyAffectEmptyNames);
+                if (action == null)
+                    TaskLogs.AddLog($"Could not apply name files for {fName}",
+                        Microsoft.Extensions.Logging.LogLevel.Warning);
+                else
+                    actions.Add(action);
             }
             return new CompoundAction(actions);
         }
@@ -171,7 +200,13 @@ namespace StudioCore.ParamEditor
             return child;
         }
 
-        private void LoadParamFromBinder(IBinder parambnd, ref Dictionary<string, FSParam.Param> paramBank, out ulong version, bool checkVersion = false)
+        /// <summary>
+        /// Dictionary of param file names that were given a tentative ParamType, and the original ParamType it had.
+        /// Used to later restore original ParamType on write (if possible).
+        /// </summary>
+        private Dictionary<string, string?> _usedTentativeParamTypes = null;
+
+        private void LoadParamFromBinder(IBinder parambnd, ref Dictionary<string, Param> paramBank, out ulong version, bool checkVersion = false)
         {
             bool success = ulong.TryParse(parambnd.Version, out version);
             if (checkVersion && !success)
@@ -180,64 +215,104 @@ namespace StudioCore.ParamEditor
             }
 
             // Load every param in the regulation
-            // _params = new Dictionary<string, PARAM>();
             foreach (var f in parambnd.Files)
             {
+                string paramName = Path.GetFileNameWithoutExtension(f.Name);
+
                 if (!f.Name.ToUpper().EndsWith(".PARAM"))
                 {
                     continue;
                 }
-                if (paramBank.ContainsKey(Path.GetFileNameWithoutExtension(f.Name)))
+                if (paramBank.ContainsKey(paramName))
                 {
                     continue;
                 }
-                if (f.Name.EndsWith("LoadBalancerParam.param") && AssetLocator.Type != GameType.EldenRing)
+
+                Param p;
+
+                if (AssetLocator.Type == GameType.ArmoredCoreVI)
                 {
-                    continue;
+                    _usedTentativeParamTypes = new();
+                    p = Param.ReadIgnoreCompression(f.Bytes);
+                    if (!string.IsNullOrEmpty(p.ParamType))
+                    {
+                        if (!_paramdefs.ContainsKey(p.ParamType))
+                        {
+                            if (_tentativeParamType.TryGetValue(paramName, out string newParamType))
+                            {
+                                _usedTentativeParamTypes.Add(paramName, p.ParamType);
+                                p.ParamType = newParamType;
+                                TaskLogs.AddLog($"Couldn't find ParamDef for {paramName}, but tentative ParamType \"{newParamType}\" exists.");
+                            }
+                            else
+                            {
+                                TaskLogs.AddLog($"Couldn't find ParamDef for param {paramName} and no tentative ParamType exists.",
+                                    Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High);
+                                continue;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (_tentativeParamType.TryGetValue(paramName, out string newParamType))
+                        {
+                            _usedTentativeParamTypes.Add(paramName, p.ParamType);
+                            p.ParamType = newParamType;
+                            TaskLogs.AddLog($"Couldn't read ParamType for {paramName}, but tentative ParamType \"{newParamType}\" exists.");
+                        }
+                        else
+                        {
+                            TaskLogs.AddLog($"Couldn't read ParamType for {paramName} and no tentative ParamType exists.",
+                                Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High);
+                            continue;
+                        }
+                    }
                 }
-                FSParam.Param p = FSParam.Param.Read(f.Bytes);
-                if (!_paramdefs.ContainsKey(p.ParamType) && !_patchParamdefs.ContainsKey(p.ParamType))
+                else
                 {
-                    continue;
+                    p = Param.ReadIgnoreCompression(f.Bytes);
+                    if (!_paramdefs.ContainsKey(p.ParamType ?? ""))
+                    {
+                        TaskLogs.AddLog($"Couldn't find ParamDef for param {paramName} with ParamType \"{p.ParamType}\".",
+                            Microsoft.Extensions.Logging.LogLevel.Warning);
+                        continue;
+                    }
                 }
 
                 // Try to fixup Elden Ring ChrModelParam for ER 1.06 because many have been saving botched params and
                 // it's an easy fixup
                 if (AssetLocator.Type == GameType.EldenRing &&
                     p.ParamType == "CHR_MODEL_PARAM_ST" &&
-                    _paramVersion == 10601000)
+                    version == 10601000)
                 {
                     p.FixupERChrModelParam();
                 }
 
-                // Lookup the correct paramdef based on the version
-                PARAMDEF def = null;
-                if (_patchParamdefs.ContainsKey(p.ParamType))
-                {
-                    var keys = _patchParamdefs[p.ParamType].Keys.OrderByDescending(e => e);
-                    foreach (var k in keys)
-                    {
-                        if (version >= k)
-                        {
-                            def = _patchParamdefs[p.ParamType][k];
-                            break;
-                        }
-                    }
-                }
-
-                // If no patched paramdef was found for this regulation version, fallback to vanilla defs
-                if (def == null)
-                    def = _paramdefs[p.ParamType];
-
+                if (p.ParamType == null)
+                    throw new Exception("Param type is unexpectedly null");
+                PARAMDEF def = _paramdefs[p.ParamType];
                 try
                 {
-                    p.ApplyParamdef(def);
-                    paramBank.Add(Path.GetFileNameWithoutExtension(f.Name), p);
+                    p.ApplyParamdef(def, version);
+                    paramBank.Add(paramName, p);
                 }
                 catch(Exception e)
                 {
                     var name = f.Name.Split("\\").Last();
-                    TaskManager.warningList.TryAdd($"{name} DefFail",$"Could not apply ParamDef for {name}");
+                    var message = $"Could not apply ParamDef for {name}";
+
+                    if (AssetLocator.Type == GameType.DarkSoulsRemastered &&
+                            name is "m99_ToneMapBank.param" or "m99_ToneCorrectBank.param" or "default_ToneCorrectBank.param")
+                    {
+                        // Known cases that don't affect standard modmaking
+                        TaskLogs.AddLog(message,
+                            Microsoft.Extensions.Logging.LogLevel.Warning, TaskLogs.LogPriority.Low);
+                    }
+                    else
+                    {
+                        TaskLogs.AddLog(message,
+                            Microsoft.Extensions.Logging.LogLevel.Warning, TaskLogs.LogPriority.Normal, e);
+                    }
                 }
             }
         }
@@ -291,7 +366,7 @@ namespace StudioCore.ParamEditor
 
             if (!File.Exists(param))
             {
-                throw new FileNotFoundException("Could not find DES parambnds. Functionality will be limited.");
+                throw CreateParamMissingException(AssetLocator.Type);
             }
             LoadParamsDESFromFile(param);
 
@@ -331,7 +406,8 @@ namespace StudioCore.ParamEditor
         }
         private void LoadParamsDESFromFile(string path)
         {
-            LoadParamFromBinder(BND3.Read(path), ref _params, out _paramVersion);
+            using var bnd = BND3.Read(path);
+            LoadParamFromBinder(bnd, ref _params, out _paramVersion);
         }
 
         private void LoadParamsDS1()
@@ -340,9 +416,7 @@ namespace StudioCore.ParamEditor
             var mod = AssetLocator.GameModDirectory;
             if (!File.Exists($@"{dir}\\param\GameParam\GameParam.parambnd"))
             {
-                //MessageBox.Show("Could not find DS1 regulation file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                //return null;
-                throw new FileNotFoundException("Could not find DS1 parambnd. Functionality will be limited.");
+                throw CreateParamMissingException(AssetLocator.Type);
             }
             // Load params
             var param = $@"{mod}\param\GameParam\GameParam.parambnd";
@@ -386,7 +460,8 @@ namespace StudioCore.ParamEditor
         }
         private void LoadParamsDS1FromFile(string path)
         {
-            LoadParamFromBinder(BND3.Read(path), ref _params, out _paramVersion);
+            using var bnd = BND3.Read(path);
+            LoadParamFromBinder(bnd, ref _params, out _paramVersion);
         }
 
         private void LoadParamsDS1R()
@@ -395,9 +470,7 @@ namespace StudioCore.ParamEditor
             var mod = AssetLocator.GameModDirectory;
             if (!File.Exists($@"{dir}\\param\GameParam\GameParam.parambnd.dcx"))
             {
-                //MessageBox.Show("Could not find DS1 regulation file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                //return null;
-                throw new FileNotFoundException("Could not find DS1 parambnd. Functionality will be limited.");
+                throw CreateParamMissingException(AssetLocator.Type);
             }
 
             // Load params
@@ -442,7 +515,8 @@ namespace StudioCore.ParamEditor
         }
         private void LoadParamsDS1RFromFile(string path)
         {
-            LoadParamFromBinder(BND3.Read(path), ref _params, out _paramVersion);
+            using var bnd = BND3.Read(path);
+            LoadParamFromBinder(bnd, ref _params, out _paramVersion);
         }
 
         private void LoadParamsBBSekiro()
@@ -451,9 +525,7 @@ namespace StudioCore.ParamEditor
             var mod = AssetLocator.GameModDirectory;
             if (!File.Exists($@"{dir}\\param\gameparam\gameparam.parambnd.dcx"))
             {
-                //MessageBox.Show("Could not find param file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                //return null;
-                throw new FileNotFoundException("Could not find param file. Functionality will be limited.");
+                throw CreateParamMissingException(AssetLocator.Type);
             }
 
             // Load params
@@ -470,7 +542,8 @@ namespace StudioCore.ParamEditor
         }
         private void LoadParamsBBSekiroFromFile(string path)
         {
-            LoadParamFromBinder(BND4.Read(path), ref _params, out _paramVersion);
+            using var bnd = BND4.Read(path);
+            LoadParamFromBinder(bnd, ref _params, out _paramVersion);
         }
 
         /// <summary>
@@ -495,29 +568,62 @@ namespace StudioCore.ParamEditor
             "treasureboxparam",
         };
 
-        private void LoadParamsDS2()
+        /// <summary>
+        /// Param name - FMGCategory map
+        /// </summary>
+        public readonly static List<(string, FmgEntryCategory)> ParamToFmgCategoryList = new List<(string, FmgEntryCategory)>()
+        {
+            ("EquipParamAccessory", FmgEntryCategory.Rings),
+            ("EquipParamGoods",  FmgEntryCategory.Goods),
+            ("EquipParamWeapon", FmgEntryCategory.Weapons),
+            ("EquipParamProtector", FmgEntryCategory.Armor),
+            ("EquipParamGem", FmgEntryCategory.Gem),
+            ("SwordArtsParam", FmgEntryCategory.SwordArts),
+            ("EquipParamGenerator", FmgEntryCategory.Generator),
+            ("EquipParamFcs", FmgEntryCategory.FCS),
+            ("EquipParamBooster", FmgEntryCategory.Booster),
+            ("ArchiveParam", FmgEntryCategory.Archive),
+            ("MissionParam", FmgEntryCategory.Mission),
+        };
+
+        private static List<string> GetLooseParamsInDir(string dir)
+        {
+            List<string> looseParams = new();
+            if (Directory.Exists($@"{dir}\Param"))
+            {
+                looseParams.AddRange(Directory.GetFileSystemEntries($@"{dir}\Param", @"*.param"));
+            }
+            return looseParams;
+        }
+
+        private void LoadParamsDS2(bool loose)
         {
             var dir = AssetLocator.GameRootDirectory;
             var mod = AssetLocator.GameModDirectory;
             if (!File.Exists($@"{dir}\enc_regulation.bnd.dcx"))
             {
-                //MessageBox.Show("Could not find DS2 regulation file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                //return null;
-                throw new FileNotFoundException("Could not find DS2 regulation file. Functionality will be limited.");
+                throw CreateParamMissingException(AssetLocator.Type);
             }
             if (!BND4.Is($@"{dir}\enc_regulation.bnd.dcx"))
             {
-                MessageBox.Show("Attempting to decrypt DS2 regulation file, else functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                PlatformUtils.Instance.MessageBox("Attempting to decrypt DS2 regulation file, else functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 //return;
             }
 
-            // Load loose params
-            List<string> scandir = new List<string>();
-            if (mod != null && Directory.Exists($@"{mod}\Param"))
+            // Load loose params (prioritizing ones in mod folder)
+            List<string> looseParams = GetLooseParamsInDir(mod);
+            if (Directory.Exists($@"{dir}\Param"))
             {
-                scandir.Add($@"{mod}\Param");
+                // Include any params in game folder that are not in mod folder
+                foreach (var path in Directory.GetFileSystemEntries($@"{dir}\Param", @"*.param"))
+                {
+                    if (looseParams.Find(e => Path.GetFileName(e) == Path.GetFileName(path)) == null)
+                    {
+                        // Project folder does not contain this loose param
+                        looseParams.Add(path);
+                    }
+                }
             }
-            scandir.Add($@"{dir}\Param");
 
             // Load reg params
             var param = $@"{mod}\enc_regulation.bnd.dcx";
@@ -530,52 +636,27 @@ namespace StudioCore.ParamEditor
             {
                 enemyFile = $@"{dir}\Param\EnemyParam.param";
             }
-            LoadParamsDS2FromFile(scandir, param, enemyFile);
+            LoadParamsDS2FromFile(looseParams, param, enemyFile, loose);
+            LoadExternalRowNames();
         }
-        private void LoadVParamsDS2()
+        private void LoadVParamsDS2(bool loose)
         {
             if (!File.Exists($@"{AssetLocator.GameRootDirectory}\enc_regulation.bnd.dcx"))
             {
-                throw new FileNotFoundException("Could not find Vanilla DS2 regulation file. Functionality will be limited.");
+                throw CreateParamMissingException(AssetLocator.Type);
             }
             if (!BND4.Is($@"{AssetLocator.GameRootDirectory}\enc_regulation.bnd.dcx"))
             {
-                MessageBox.Show("Attempting to decrypt DS2 regulation file, else functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                PlatformUtils.Instance.MessageBox("Attempting to decrypt DS2 regulation file, else functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             // Load loose params
-            List<string> scandir = new List<string>();
-            scandir.Add($@"{AssetLocator.GameRootDirectory}\Param");
+            var looseParams = GetLooseParamsInDir(AssetLocator.GameRootDirectory);
 
-            LoadParamsDS2FromFile(scandir, $@"{AssetLocator.GameRootDirectory}\enc_regulation.bnd.dcx", $@"{AssetLocator.GameRootDirectory}\Param\EnemyParam.param");
+            LoadParamsDS2FromFile(looseParams, $@"{AssetLocator.GameRootDirectory}\enc_regulation.bnd.dcx", $@"{AssetLocator.GameRootDirectory}\Param\EnemyParam.param", loose);
         }
-        private void LoadParamsDS2FromFile(List<string> loosedir, string path, string enemypath)
+        private void LoadParamsDS2FromFile(List<string> looseParams, string path, string enemypath, bool loose)
         {
-            foreach (var d in loosedir)
-            {
-                var paramfiles = Directory.GetFileSystemEntries(d, @"*.param");
-                foreach (var p in paramfiles)
-                {
-                    var name = Path.GetFileNameWithoutExtension(p);
-                    var lp = Param.Read(p);
-                    var fname = lp.ParamType;
-
-                    try
-                    {
-                        PARAMDEF def = AssetLocator.GetParamdefForParam(fname);
-                        lp.ApplyParamdef(def);
-                        if (!_params.ContainsKey(name))
-                        {
-                            _params.Add(name, lp);
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        TaskManager.warningList.TryAdd($"{fname} DefFail", $"Could not apply ParamDef for {fname}");
-                    }
-                }
-            }
-
             BND4 paramBnd;
             if (!BND4.Is(path))
             {
@@ -597,19 +678,65 @@ namespace StudioCore.ParamEditor
             {
                 EnemyParam = Param.Read(enemypath);
             }
-            if (EnemyParam != null)
+            if (EnemyParam is { ParamType: not null })
             {
-                PARAMDEF def = AssetLocator.GetParamdefForParam(EnemyParam.ParamType);
                 try
                 {
+                    PARAMDEF def = _paramdefs[EnemyParam.ParamType];
                     EnemyParam.ApplyParamdef(def);
                 }
                 catch (Exception e)
                 {
-                    TaskManager.warningList.TryAdd($"{EnemyParam.ParamType} DefFail", $"Could not apply ParamDef for {EnemyParam.ParamType}");
+                    TaskLogs.AddLog($"Could not apply ParamDef for {EnemyParam.ParamType}",
+                        Microsoft.Extensions.Logging.LogLevel.Warning, TaskLogs.LogPriority.Normal, e);
                 }
             }
             LoadParamFromBinder(paramBnd, ref _params, out _paramVersion);
+
+            foreach (var p in looseParams)
+            {
+                var name = Path.GetFileNameWithoutExtension(p);
+                var lp = Param.Read(p);
+                var fname = lp.ParamType;
+
+                try
+                {
+                    if (loose)
+                    {
+                        // Loose params: override params already loaded via regulation
+                        PARAMDEF def = _paramdefs[lp.ParamType];
+                        lp.ApplyParamdef(def);
+                        _params[name] = lp;
+                    }
+                    else
+                    {
+                        // Non-loose params: do not override params already loaded via regulation
+                        if (!_params.ContainsKey(name))
+                        {
+                            PARAMDEF def = _paramdefs[lp.ParamType];
+                            lp.ApplyParamdef(def);
+                            _params.Add(name, lp);
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    var message = $"Could not apply ParamDef for {fname}";
+                    if (AssetLocator.Type == GameType.DarkSoulsIISOTFS &&
+                        fname is "GENERATOR_DBG_LOCATION_PARAM")
+                    {
+                        // Known cases that don't affect standard modmaking
+                        TaskLogs.AddLog(message,
+                            Microsoft.Extensions.Logging.LogLevel.Warning, TaskLogs.LogPriority.Low);
+                    }
+                    else
+                    {
+                        TaskLogs.AddLog(message,
+                            Microsoft.Extensions.Logging.LogLevel.Warning, TaskLogs.LogPriority.Normal, e);
+                    }
+                }
+            }
+            paramBnd.Dispose();
         }
 
         private void LoadParamsDS3(bool loose)
@@ -618,9 +745,7 @@ namespace StudioCore.ParamEditor
             var mod = AssetLocator.GameModDirectory;
             if (!File.Exists($@"{dir}\Data0.bdt"))
             {
-                //MessageBox.Show("Could not find DS3 regulation file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                //return null;
-                throw new FileNotFoundException("Could not find DS3 regulation file. Functionality will be limited.");
+                throw CreateParamMissingException(AssetLocator.Type);
             }
 
             var vparam = $@"{dir}\Data0.bdt";
@@ -645,7 +770,7 @@ namespace StudioCore.ParamEditor
         }
         private void LoadParamsDS3FromFile(string path, bool isLoose)
         {
-            BND4 lparamBnd = isLoose ? BND4.Read(path) : SFUtil.DecryptDS3Regulation(path);
+            using var lparamBnd = isLoose ? BND4.Read(path) : SFUtil.DecryptDS3Regulation(path);
             LoadParamFromBinder(lparamBnd, ref _params, out _paramVersion);
         }
 
@@ -655,9 +780,7 @@ namespace StudioCore.ParamEditor
             var mod = AssetLocator.GameModDirectory;
             if (!File.Exists($@"{dir}\\regulation.bin"))
             {
-                //MessageBox.Show("Could not find param file. Functionality will be limited.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                //return null;
-                throw new FileNotFoundException("Could not find param file. Functionality will be limited.");
+                throw CreateParamMissingException(AssetLocator.Type);
             }
 
             // Load params
@@ -671,7 +794,7 @@ namespace StudioCore.ParamEditor
             param = $@"{mod}\regulation.bin";
             if (partial && File.Exists(param))
             {
-                BND4 pParamBnd = SFUtil.DecryptERRegulation(param);
+                using var pParamBnd = SFUtil.DecryptERRegulation(param);
                 Dictionary<string, Param> cParamBank = new Dictionary<string, Param>();
                 ulong v;
                 LoadParamFromBinder(pParamBnd, ref cParamBank, out v, true);
@@ -688,7 +811,7 @@ namespace StudioCore.ParamEditor
                         else
                         {
                             bRow.Name = row.Name;
-                            foreach (var field in bRow.Cells)
+                            foreach (var field in bRow.Columns)
                             {
                                 var cell = bRow[field];
                                 cell.Value = row[field].Value;
@@ -707,6 +830,32 @@ namespace StudioCore.ParamEditor
             LoadParamFromBinder(SFUtil.DecryptERRegulation(path), ref _params, out _paramVersion, true);
         }
 
+        private void LoadParamsAC6()
+        {
+            var dir = AssetLocator.GameRootDirectory;
+            var mod = AssetLocator.GameModDirectory;
+            if (!File.Exists($@"{dir}\\regulation.bin"))
+            {
+                throw CreateParamMissingException(AssetLocator.Type);
+            }
+
+            // Load params
+            var param = $@"{mod}\regulation.bin";
+            if (!File.Exists(param))
+            {
+                param = $@"{dir}\regulation.bin";
+            }
+            LoadParamsAC6FromFile(param);
+        }
+        private void LoadVParamsAC6()
+        {
+            LoadParamsAC6FromFile($@"{AssetLocator.GameRootDirectory}\regulation.bin");
+        }
+        private void LoadParamsAC6FromFile(string path)
+        {
+            LoadParamFromBinder(SFUtil.DecryptAC6Regulation(path), ref _params, out _paramVersion, true);
+        }
+
         //Some returns and repetition, but it keeps all threading and loading-flags visible inside this method
         public static void ReloadParams(ProjectSettings settings, NewProjectOptions options)
         {
@@ -715,6 +864,7 @@ namespace StudioCore.ParamEditor
 
             _paramdefs = new Dictionary<string, PARAMDEF>();
             IsDefsLoaded = false;
+            IsMetaLoaded = false;
 
             AuxBanks = new Dictionary<string, ParamBank>();
 
@@ -723,18 +873,17 @@ namespace StudioCore.ParamEditor
 
             CacheBank.ClearCaches();
 
-            TaskManager.Run("PB:LoadParams", true, false, false, () =>
+            TaskManager.Run(new("Param - Load Params", TaskManager.RequeueType.WaitThenRequeue, false, () =>
             {
                 if (PrimaryBank.AssetLocator.Type != GameType.Undefined)
                 {
                     List<(string, PARAMDEF)> defPairs = LoadParamdefs(locator);
                     IsDefsLoaded = true;
-                    TaskManager.Run("PB:LoadParamMeta", true, false, false, () =>
+                    TaskManager.Run(new("Param - Load Meta", TaskManager.RequeueType.WaitThenRequeue, false, () =>
                     {
-                        IsMetaLoaded = false;
                         LoadParamMeta(defPairs, locator);
                         IsMetaLoaded = true;
-                    });
+                    }));
                 }
                 if (locator.Type == GameType.DemonsSouls)
                 {
@@ -750,7 +899,7 @@ namespace StudioCore.ParamEditor
                 }
                 if (locator.Type == GameType.DarkSoulsIISOTFS)
                 {
-                    PrimaryBank.LoadParamsDS2();
+                    PrimaryBank.LoadParamsDS2(settings.UseLooseParams);
                 }
                 if (locator.Type == GameType.DarkSoulsIII)
                 {
@@ -764,13 +913,17 @@ namespace StudioCore.ParamEditor
                 {
                     PrimaryBank.LoadParamsER(settings.PartialParams);
                 }
+                if (locator.Type == GameType.ArmoredCoreVI)
+                {
+                    PrimaryBank.LoadParamsAC6();
+                }
 
                 PrimaryBank.ClearParamDiffCaches();
                 PrimaryBank.IsLoadingParams = false;
 
                 VanillaBank.IsLoadingParams = true;
                 VanillaBank._params = new Dictionary<string, Param>();
-                TaskManager.Run("PB:LoadVParams", true, false, false, () =>
+                TaskManager.Run(new("Param - Load Vanilla Params", TaskManager.RequeueType.WaitThenRequeue, false, () =>
                 {
                     if (locator.Type == GameType.DemonsSouls)
                     {
@@ -786,7 +939,7 @@ namespace StudioCore.ParamEditor
                     }
                     if (locator.Type == GameType.DarkSoulsIISOTFS)
                     {
-                        VanillaBank.LoadVParamsDS2();
+                        VanillaBank.LoadVParamsDS2(settings.UseLooseParams);
                     }
                     if (locator.Type == GameType.DarkSoulsIII)
                     {
@@ -800,10 +953,16 @@ namespace StudioCore.ParamEditor
                     {
                         VanillaBank.LoadVParamsER();
                     }
+                    if (locator.Type == GameType.ArmoredCoreVI)
+                    {
+                        VanillaBank.LoadVParamsAC6();
+                    }
                     VanillaBank.IsLoadingParams = false;
 
-                    TaskManager.Run("PB:RefreshDirtyCache", true, false, false, () => PrimaryBank.RefreshParamDiffCaches());
-                });
+                    TaskManager.Run(new("Param - Check Differences",
+                        TaskManager.RequeueType.WaitThenRequeue, false,
+                        () => PrimaryBank.RefreshParamDiffCaches()));
+                }));
 
                 if (options != null)
                 {
@@ -811,18 +970,19 @@ namespace StudioCore.ParamEditor
                     {
                         try
                         {
-                            new Editor.ActionManager().ExecuteAction(PrimaryBank.LoadParamDefaultNames());
+                            new ActionManager().ExecuteAction(PrimaryBank.LoadParamDefaultNames());
                             PrimaryBank.SaveParams(settings.UseLooseParams);
                         }
                         catch
                         {
-                            TaskManager.warningList.TryAdd($"ParamNameImportFail", $"Could not locate or apply name files for this game.");
+                            TaskLogs.AddLog($"Could not locate or apply name files",
+                                Microsoft.Extensions.Logging.LogLevel.Warning);
                         }
                     }
                 }
-            });
+            }));
         }
-        public static void LoadAuxBank(string path, string looseDir, string enemyPath)
+        public static void LoadAuxBank(string path, string looseDir, string enemyPath, ProjectSettings settings)
         {
             // Steal assetlocator
             AssetLocator locator = PrimaryBank.AssetLocator;
@@ -830,7 +990,11 @@ namespace StudioCore.ParamEditor
             newBank.SetAssetLocator(locator);
             newBank._params = new Dictionary<string, Param>();
             newBank.IsLoadingParams = true;
-            if (locator.Type == GameType.EldenRing)
+            if (locator.Type == GameType.ArmoredCoreVI)
+            {
+                newBank.LoadParamsAC6FromFile(path);
+            }
+            else if (locator.Type == GameType.EldenRing)
             {
                 newBank.LoadParamsERFromFile(path);
             }
@@ -848,7 +1012,8 @@ namespace StudioCore.ParamEditor
             }
             else if (locator.Type == GameType.DarkSoulsIISOTFS)
             {
-                newBank.LoadParamsDS2FromFile(new List<string>{looseDir}, path, enemyPath);
+                var looseParams = GetLooseParamsInDir(looseDir);
+                newBank.LoadParamsDS2FromFile(looseParams, path, enemyPath, settings.UseLooseParams);
             }
             else if (locator.Type == GameType.DarkSoulsRemastered)
             {
@@ -865,7 +1030,7 @@ namespace StudioCore.ParamEditor
             newBank.ClearParamDiffCaches();
             newBank.IsLoadingParams = false;
             newBank.RefreshParamDiffCaches();
-            AuxBanks[Path.GetFileName(Path.GetDirectoryName(path))] = newBank;
+            AuxBanks[Path.GetFileName(Path.GetDirectoryName(path)).Replace(' ', '_')] = newBank;
         }
 
 
@@ -986,7 +1151,8 @@ namespace StudioCore.ParamEditor
             var mod = AssetLocator.GameModDirectory;
             if (!File.Exists($@"{dir}\\param\GameParam\GameParam.parambnd"))
             {
-                MessageBox.Show("Could not find DS1 param file. Cannot save.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                TaskLogs.AddLog("Cannot locate param files. Save failed.",
+                    Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High);
                 return;
             }
 
@@ -996,7 +1162,7 @@ namespace StudioCore.ParamEditor
             {
                 param = $@"{dir}\param\GameParam\GameParam.parambnd";
             }
-            BND3 paramBnd = BND3.Read(param);
+            using var paramBnd = BND3.Read(param);
 
             // Replace params with edited ones
             foreach (var p in paramBnd.Files)
@@ -1013,15 +1179,15 @@ namespace StudioCore.ParamEditor
             {
                 foreach (var bnd in Directory.GetFiles($@"{AssetLocator.GameRootDirectory}\param\DrawParam", "*.parambnd"))
                 {
-                    paramBnd = BND3.Read(bnd);
-                    foreach (var p in paramBnd.Files)
+                    using var drawParamBnd = BND3.Read(bnd);
+                    foreach (var p in drawParamBnd.Files)
                     {
                         if (_params.ContainsKey(Path.GetFileNameWithoutExtension(p.Name)))
                         {
                             p.Bytes = _params[Path.GetFileNameWithoutExtension(p.Name)].Write();
                         }
                     }
-                    Utils.WriteWithBackup(dir, mod, @$"param\DrawParam\{Path.GetFileName(bnd)}", paramBnd);
+                    Utils.WriteWithBackup(dir, mod, @$"param\DrawParam\{Path.GetFileName(bnd)}", drawParamBnd);
                 }
             }
         }
@@ -1031,7 +1197,8 @@ namespace StudioCore.ParamEditor
             var mod = AssetLocator.GameModDirectory;
             if (!File.Exists($@"{dir}\\param\GameParam\GameParam.parambnd.dcx"))
             {
-                MessageBox.Show("Could not find DS1R param file. Cannot save.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                TaskLogs.AddLog("Cannot locate param files. Save failed.",
+                    Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High);
                 return;
             }
 
@@ -1041,7 +1208,7 @@ namespace StudioCore.ParamEditor
             {
                 param = $@"{dir}\param\GameParam\GameParam.parambnd.dcx";
             }
-            BND3 paramBnd = BND3.Read(param);
+            using var paramBnd = BND3.Read(param);
 
             // Replace params with edited ones
             foreach (var p in paramBnd.Files)
@@ -1058,15 +1225,15 @@ namespace StudioCore.ParamEditor
             {
                 foreach (var bnd in Directory.GetFiles($@"{AssetLocator.GameRootDirectory}\param\DrawParam", "*.parambnd.dcx"))
                 {
-                    paramBnd = BND3.Read(bnd);
-                    foreach (var p in paramBnd.Files)
+                    using var drawParamBnd = BND3.Read(bnd);
+                    foreach (var p in drawParamBnd.Files)
                     {
                         if (_params.ContainsKey(Path.GetFileNameWithoutExtension(p.Name)))
                         {
                             p.Bytes = _params[Path.GetFileNameWithoutExtension(p.Name)].Write();
                         }
                     }
-                    Utils.WriteWithBackup(dir, mod, @$"param\DrawParam\{Path.GetFileName(bnd)}", paramBnd);
+                    Utils.WriteWithBackup(dir, mod, @$"param\DrawParam\{Path.GetFileName(bnd)}", drawParamBnd);
                 }
             }
         }
@@ -1077,7 +1244,8 @@ namespace StudioCore.ParamEditor
             var mod = AssetLocator.GameModDirectory;
             if (!File.Exists($@"{dir}\enc_regulation.bnd.dcx"))
             {
-                MessageBox.Show("Could not find DS2 regulation file. Cannot save.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                TaskLogs.AddLog("Cannot locate param files. Save failed.",
+                    Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High);
                 return;
             }
 
@@ -1112,20 +1280,21 @@ namespace StudioCore.ParamEditor
                 paramBnd = BND4.Read(param);
             }
 
-            // If params aren't loose, replace params with edited ones
             if (!loose)
             {
-                // Replace params in paramBND, write remaining params loosely
+                // Save params non-loosely: Replace params regulation and write remaining params loosely.
+
                 if (paramBnd.Files.Find(e => e.Name.EndsWith(".param")) == null)
                 {
-                    if (MessageBox.Show("It appears that you are trying to save params non-loosely with an \"enc_regulation.bnd\" that has previously been saved loosely." +
-                        "\n\nWould you like to reinsert params into the bnd that were previously stripped out?", "DS2 de-loose param",
+                    if (PlatformUtils.Instance.MessageBox("It appears that you are trying to save params non-loosely with an \"enc_regulation.bnd\" that has previously been saved loosely." +
+                                                            "\n\nWould you like to reinsert params into the bnd that were previously stripped out?", "DS2 de-loose param",
                         MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
+                        paramBnd.Dispose();
                         param = $@"{dir}\enc_regulation.bnd.dcx";
                         if (!BND4.Is($@"{dir}\enc_regulation.bnd.dcx"))
                         {
-                            // Decrypt the file
+                            // Decrypt the file.
                             paramBnd = SFUtil.DecryptDS2Regulation(param);
 
                             // Since the file is encrypted, check for a backup. If it has none, then make one and write a decrypted one.
@@ -1141,26 +1310,41 @@ namespace StudioCore.ParamEditor
                         }
                     }
                 }
-
-                foreach (var p in _params)
+                try
                 {
-                    var bnd = paramBnd.Files.Find(e => Path.GetFileNameWithoutExtension(e.Name) == p.Key);
-                    if (bnd != null)
+                    // Strip and store row names before saving, as too many row names can cause DS2 to crash.
+                    StripRowNames();
+
+                    foreach (var p in _params)
                     {
-                        bnd.Bytes = p.Value.Write();
-                    }
-                    else
-                    {
-                        Utils.WriteWithBackup(dir, mod, $@"Param\{p.Key}.param", p.Value);
+                        var bnd = paramBnd.Files.Find(e => Path.GetFileNameWithoutExtension(e.Name) == p.Key);
+                        if (bnd != null)
+                        {
+                            // Regulation contains this param, overwrite it.
+                            bnd.Bytes = p.Value.Write();
+                        }
+                        else
+                        {
+                            // Regulation does not contain this param, write param loosely.
+                            Utils.WriteWithBackup(dir, mod, $@"Param\{p.Key}.param", p.Value);
+                        }
                     }
                 }
+                catch
+                {
+                    RestoreStrippedRowNames();
+                    throw;
+                }
+                RestoreStrippedRowNames();
             }
             else
             {
-                // strip all the params from the regulation
+                // Save params loosely: Strip params from regulation and write all params loosely.
+
                 List<BinderFile> newFiles = new List<BinderFile>();
                 foreach (var p in paramBnd.Files)
                 {
+                    // Strip params from regulation bnd
                     if (!p.Name.ToUpper().Contains(".PARAM"))
                     {
                         newFiles.Add(p);
@@ -1168,14 +1352,26 @@ namespace StudioCore.ParamEditor
                 }
                 paramBnd.Files = newFiles;
 
-                // Write all the params out loose
-                foreach (var p in _params)
+                try
                 {
-                    Utils.WriteWithBackup(dir, mod, $@"Param\{p.Key}.param", p.Value);
-                }
+                    // Strip and store row names before saving, as too many row names can cause DS2 to crash.
+                    StripRowNames();
 
+                    // Write params to loose files.
+                    foreach (var p in _params)
+                    {
+                        Utils.WriteWithBackup(dir, mod, $@"Param\{p.Key}.param", p.Value);
+                    }
+                }
+                catch
+                {
+                    RestoreStrippedRowNames();
+                    throw;
+                }
+                RestoreStrippedRowNames();
             }
             Utils.WriteWithBackup(dir, mod, @"enc_regulation.bnd.dcx", paramBnd);
+            paramBnd.Dispose();
         }
 
         private void SaveParamsDS3(bool loose)
@@ -1184,7 +1380,8 @@ namespace StudioCore.ParamEditor
             var mod = AssetLocator.GameModDirectory;
             if (!File.Exists($@"{dir}\Data0.bdt"))
             {
-                MessageBox.Show("Could not find DS3 regulation file. Cannot save.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                TaskLogs.AddLog("Cannot locate param files. Save failed.",
+                    Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High);
                 return;
             }
 
@@ -1248,7 +1445,8 @@ namespace StudioCore.ParamEditor
             var mod = AssetLocator.GameModDirectory;
             if (!File.Exists($@"{dir}\\param\gameparam\gameparam.parambnd.dcx"))
             {
-                MessageBox.Show("Could not find param file. Cannot save.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                TaskLogs.AddLog("Cannot locate param files. Save failed.",
+                    Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High);
                 return;
             }
 
@@ -1290,10 +1488,11 @@ namespace StudioCore.ParamEditor
 
             if (!File.Exists(param))
             {
-                MessageBox.Show("Could not find param file. Cannot save.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                TaskLogs.AddLog("Cannot locate param files. Save failed.",
+                    Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High);
                 return;
             }
-            BND3 paramBnd = BND3.Read(param);
+            using var paramBnd = BND3.Read(param);
 
             // Replace params with edited ones
             foreach (var p in paramBnd.Files)
@@ -1338,15 +1537,15 @@ namespace StudioCore.ParamEditor
                 }
                 foreach (var bnd in drawParambndPaths)
                 {
-                    paramBnd = BND3.Read(bnd);
-                    foreach (var p in paramBnd.Files)
+                    using var drawParamBnd = BND3.Read(bnd);
+                    foreach (var p in drawParamBnd.Files)
                     {
                         if (_params.ContainsKey(Path.GetFileNameWithoutExtension(p.Name)))
                         {
                             p.Bytes = _params[Path.GetFileNameWithoutExtension(p.Name)].Write();
                         }
                     }
-                    Utils.WriteWithBackup(dir, mod, @$"param\drawparam\{Path.GetFileName(bnd)}", paramBnd);
+                    Utils.WriteWithBackup(dir, mod, @$"param\drawparam\{Path.GetFileName(bnd)}", drawParamBnd);
                 }
             }
         }
@@ -1356,7 +1555,8 @@ namespace StudioCore.ParamEditor
             var mod = AssetLocator.GameModDirectory;
             if (!File.Exists($@"{dir}\\regulation.bin"))
             {
-                MessageBox.Show("Could not find param file. Cannot save.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                TaskLogs.AddLog("Cannot locate param files. Save failed.",
+                    Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High);
                 return;
             }
 
@@ -1394,6 +1594,54 @@ namespace StudioCore.ParamEditor
             Utils.WriteWithBackup(dir, mod, @"regulation.bin", paramBnd, GameType.EldenRing);
             _pendingUpgrade = false;
         }
+        private void SaveParamsAC6()
+        {
+            var dir = AssetLocator.GameRootDirectory;
+            var mod = AssetLocator.GameModDirectory;
+            if (!File.Exists($@"{dir}\\regulation.bin"))
+            {
+                TaskLogs.AddLog("Cannot locate param files. Save failed.",
+                    Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High);
+                return;
+            }
+
+            // Load params
+            var param = $@"{mod}\regulation.bin";
+            if (!File.Exists(param) || _pendingUpgrade)
+            {
+                param = $@"{dir}\regulation.bin";
+            }
+            BND4 paramBnd = SFUtil.DecryptAC6Regulation(param);
+
+            // Replace params with edited ones
+            foreach (var p in paramBnd.Files)
+            {
+                string paramName = Path.GetFileNameWithoutExtension(p.Name);
+                if (_params.TryGetValue(paramName, out Param paramFile))
+                {
+                    IReadOnlyList<Param.Row> backup = paramFile.Rows;
+                    if (AssetLocator.Type is GameType.ArmoredCoreVI)
+                    {
+                        if (_usedTentativeParamTypes.TryGetValue(paramName, out string? oldParamType))
+                        {
+                            // This param was given a tentative ParamType, return original ParamType if possible.
+                            oldParamType ??= "";
+                            string prevParamType = paramFile.ParamType;
+                            paramFile.ParamType = oldParamType;
+
+                            p.Bytes = paramFile.Write();
+                            paramFile.ParamType = prevParamType;
+                            paramFile.Rows = backup;
+                            continue;
+                        }
+                    }
+                    p.Bytes = paramFile.Write();
+                    paramFile.Rows = backup;
+                }
+            }
+            Utils.WriteWithBackup(dir, mod, @"regulation.bin", paramBnd, GameType.ArmoredCoreVI);
+            _pendingUpgrade = false;
+        }
 
         public void SaveParams(bool loose = false, bool partialParams = false)
         {
@@ -1428,6 +1676,10 @@ namespace StudioCore.ParamEditor
             if (AssetLocator.Type == GameType.EldenRing)
             {
                 SaveParamsER(partialParams);
+            }
+            if (AssetLocator.Type == GameType.ArmoredCoreVI)
+            {
+                SaveParamsAC6();
             }
         }
 
@@ -1664,7 +1916,20 @@ namespace StudioCore.ParamEditor
                 return ParamUpgradeResult.OldRegulationNotFound;
 
             // Load old vanilla regulation
-            BND4 oldVanillaParamBnd = SFUtil.DecryptERRegulation(oldVanillaParamPath);
+            BND4 oldVanillaParamBnd;
+            if (AssetLocator.Type == GameType.EldenRing)
+            {
+                oldVanillaParamBnd = SFUtil.DecryptERRegulation(oldVanillaParamPath);
+            }
+            else if (AssetLocator.Type == GameType.ArmoredCoreVI)
+            {
+                oldVanillaParamBnd = SFUtil.DecryptAC6Regulation(oldVanillaParamPath);
+            }
+            else
+            {
+                throw new NotImplementedException($"Param upgrading for game type {AssetLocator.Type} is not supported.");
+            }
+
             var oldVanillaParams = new Dictionary<string, Param>();
             ulong version;
             LoadParamFromBinder(oldVanillaParamBnd, ref oldVanillaParams, out version, true);
@@ -1703,61 +1968,6 @@ namespace StudioCore.ParamEditor
             RefreshParamDiffCaches();
 
             return conflictingParams.Count > 0 ? ParamUpgradeResult.RowConflictsFound : ParamUpgradeResult.Success;
-        }
-
-        public (List<string>, List<string>) RunUpgradeEdits(ulong startVersion, ulong endVersion)
-        {
-            // Temporary data could be moved somewhere static
-            (ulong, string, string)[] paramUpgradeTasks = new (ulong, string, string)[0];
-            if (AssetLocator.Type == GameType.EldenRing)
-            {
-                // Note these all use modified as any unmodified row already matches the target. This only fails if a mod pre-empts fromsoft's exact change.
-                paramUpgradeTasks = new (ulong, string, string)[]{
-                    (10701000l, "1.07 - (SwordArtsParam) Move swordArtsType to swordArtsTypeNew", "param SwordArtsParam: modified: swordArtsTypeNew: = field swordArtsType;"),
-                    (10701000l, "1.07 - (SwordArtsParam) Set swordArtsType to 0", "param SwordArtsParam: modified && !added: swordArtsType: = 0;"),
-                    (10701000l, "1.07 - (AtkParam PC/NPC) Set added finalAttackDamageRate refs to -1", "param AtkParam_(Pc|Npc): modified && added: finalDamageRateId: = -1;"),
-                    (10701000l, "1.07 - (AtkParam PC/NPC) Set not-added finalAttackDamageRate refs to vanilla", "param AtkParam_(Pc|Npc): modified && !added: finalDamageRateId: = vanillafield finalDamageRateId;"),
-                    (10701000l, "1.07 - (AssetEnvironmentGeometryParam) Set reserved_124 to Vanilla v1.07 values", "param GameSystemCommonParam: modified && !added: reserved_124: = vanillafield reserved_124;"),
-                    (10701000l, "1.07 - (AssetEnvironmentGeometryParam) Set reserved41 to Vanilla v1.07 values", "param PlayerCommonParam: modified: reserved41: = vanillafield reserved41;"),
-                    (10701000l, "1.07 - (AssetEnvironmentGeometryParam) Set Reserve_1 to Vanilla v1.07 values", "param AssetEnvironmentGeometryParam: modified: Reserve_1: = vanillafield Reserve_1;"),
-                    (10701000l, "1.07 - (AssetEnvironmentGeometryParam) Set Reserve_2 to Vanilla v1.07 values", "param AssetEnvironmentGeometryParam: modified: Reserve_2: = vanillafield Reserve_2;"),
-                    (10701000l, "1.07 - (AssetEnvironmentGeometryParam) Set Reserve_3 to Vanilla v1.07 values", "param AssetEnvironmentGeometryParam: modified: Reserve_3: = vanillafield Reserve_3;"),
-                    (10701000l, "1.07 - (AssetEnvironmentGeometryParam) Set Reserve_4 to Vanilla v1.07 values", "param AssetEnvironmentGeometryParam: modified: Reserve_4: = vanillafield Reserve_4;"),
-                    (10801000l, "1.08 - (BuddyParam) Set Unk1 to default value", "param BuddyParam: modified: Unk1: = 1410;"),
-                    (10801000l, "1.08 - (BuddyParam) Set Unk2 to default value", "param BuddyParam: modified: Unk2: = 1420;"),
-                    (10801000l, "1.08 - (BuddyParam) Set Unk11 to default value", "param BuddyParam: modified: Unk11: = 1400;"),
-                    (10900000l, "1.09 - (GameSystemCommonParam) Set reserved_124 to Vanilla v1.09 values", "param GameSystemCommonParam: id 0: reserved_124: = vanillafield reserved_124;")
-                };
-            }
-
-            List<string> performed = new List<string>();
-            List<string> unperformed = new List<string>();
-
-            bool hasFailed = false;
-            foreach (var (version, task, command) in paramUpgradeTasks)
-            {
-                // Don't bother updating modified cache between edits
-                if (version <= startVersion || version > endVersion)
-                    continue;
-
-                if (!hasFailed)
-                {
-                    try {
-                        var (result, actions) = MassParamEditRegex.PerformMassEdit(this, command, null);
-                        if (result.Type != MassEditResultType.SUCCESS)
-                            hasFailed = true;
-                    }
-                    catch (Exception e)
-                    {
-                        hasFailed = true;
-                    }
-                }
-                if (!hasFailed)
-                    performed.Add(task);
-                else
-                    unperformed.Add(task);
-            }
-            return (performed, unperformed);
         }
 
         public string GetChrIDForEnemy(long enemyID)
@@ -1800,6 +2010,82 @@ namespace StudioCore.ParamEditor
             if (allDiffs == null || !allDiffs.ContainsKey(param))
                 return EMPTYSET;
             return allDiffs[param];
+        }
+
+        /// <summary>
+        /// Loads row names from external files and applies them to params.
+        /// Uses indicies rather than IDs.
+        /// </summary>
+        private void LoadExternalRowNames()
+        {
+            int failCount = 0;
+            foreach (var p in _params)
+            {
+                var path = AssetLocator.GetStrippedRowNamesPath(p.Key);
+                if (File.Exists(path))
+                {
+                    var names = File.ReadAllLines(path);
+                    if (names.Length != p.Value.Rows.Count)
+                    {
+                        TaskLogs.AddLog($"External row names could not be applied to {p.Key}, row count does not match",
+                            Microsoft.Extensions.Logging.LogLevel.Warning, TaskLogs.LogPriority.Low);
+                        failCount++;
+                        continue;
+                    }
+
+                    for (var i = 0; i < names.Length; i++)
+                    {
+                        p.Value.Rows[i].Name = names[i];
+                    }
+                }
+            }
+            if (failCount > 0)
+            {
+                TaskLogs.AddLog($"External row names could not be applied to {failCount} params due to non-matching row counts.",
+                    Microsoft.Extensions.Logging.LogLevel.Warning);
+            }
+        }
+
+        /// <summary>
+        /// Strips row names from params, saves them to files, and stores them to be restored after saving params.
+        /// Should always be used in conjunction with RestoreStrippedRowNames().
+        /// </summary>
+        private void StripRowNames()
+        {
+            _storedStrippedRowNames = new();
+            foreach (var p in _params)
+            {
+                _storedStrippedRowNames.TryAdd(p.Key, new());
+                var list = _storedStrippedRowNames[p.Key];
+                foreach (var r in p.Value.Rows)
+                {
+                    list.Add(r.Name);
+                    r.Name = "";
+                }
+                var path = AssetLocator.GetStrippedRowNamesPath(p.Key);
+                Directory.CreateDirectory(Path.GetDirectoryName(path));
+                File.WriteAllLines(path, list);
+            }
+        }
+
+        /// <summary>
+        /// Restores stripped row names back to all params.
+        /// Should always be used in conjunction with StripRowNames().
+        /// </summary>
+        private void RestoreStrippedRowNames()
+        {
+            if (_storedStrippedRowNames == null)
+                throw new InvalidOperationException("No stripped row names have been stored.");
+
+            foreach (var p in _params)
+            {
+                var storedNames = _storedStrippedRowNames[p.Key];
+                for (var i = 0; i < p.Value.Rows.Count; i++)
+                {
+                    p.Value.Rows[i].Name = storedNames[i];
+                }
+            }
+            _storedStrippedRowNames = null;
         }
     }
 }

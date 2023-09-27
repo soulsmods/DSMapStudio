@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Silk.NET.SDL;
 using Veldrid;
 using Veldrid.Sdl2;
 
@@ -27,11 +28,14 @@ namespace StudioCore
 
         public Matrix4x4 WorldMatrixMOD = Matrix4x4.Identity;
 
+        private Sdl SDL;
+
         //private float ViewportAspectRatio => 1.0f * GFX.LastViewport.Width / GFX.LastViewport.Height;
 
         public WorldView(Rectangle bounds)
         {
             BoundingRect = bounds;
+            SDL = SdlProvider.SDL.Value;
         }
 
         public void UpdateBounds(Rectangle bounds)
@@ -232,7 +236,7 @@ namespace StudioCore
         private bool MousePressed = false;
         private Vector2 MousePressedPos = new Vector2();
 
-        public bool UpdateInput(Sdl2Window window, float dt)
+        public unsafe bool UpdateInput(Sdl2Window window, float dt)
         {
             if (DisableAllInput)
             {
@@ -281,9 +285,9 @@ namespace StudioCore
                 if (MousePressed)
                 {
                     mousePos = InputTracker.MousePosition;
-                    Sdl2Native.SDL_WarpMouseInWindow(window.SdlWindowHandle, (int)MousePressedPos.X, (int)MousePressedPos.Y);
-                    Sdl2Native.SDL_SetWindowGrab(window.SdlWindowHandle, false);
-                    Sdl2Native.SDL_ShowCursor(1);
+                    SDL.WarpMouseInWindow(window.SdlWindowHandle, (int)MousePressedPos.X, (int)MousePressedPos.Y);
+                    SDL.SetWindowGrab(window.SdlWindowHandle, SdlBool.False);
+                    SDL.ShowCursor(1);
                     MousePressed = false;
                 }
                 return false;
@@ -456,14 +460,14 @@ namespace StudioCore
                     {
                         MousePressed = true;
                         MousePressedPos = InputTracker.MousePosition;
-                        Sdl2Native.SDL_ShowCursor(0);
-                        Sdl2Native.SDL_SetWindowGrab(window.SdlWindowHandle, true);
+                        SDL.ShowCursor(0);
+                        SDL.SetWindowGrab(window.SdlWindowHandle, SdlBool.True);
                     }
                 }
                 else
                 {
                     Vector2 mouseDelta = MousePressedPos - InputTracker.MousePosition;
-                    Sdl2Native.SDL_WarpMouseInWindow(window.SdlWindowHandle, (int)MousePressedPos.X, (int)MousePressedPos.Y);
+                    SDL.WarpMouseInWindow(window.SdlWindowHandle, (int)MousePressedPos.X, (int)MousePressedPos.Y);
 
                     if (mouseDelta.LengthSquared() == 0)
                     {
@@ -517,9 +521,9 @@ namespace StudioCore
             {
                 if (MousePressed)
                 {
-                    Sdl2Native.SDL_WarpMouseInWindow(window.SdlWindowHandle, (int)MousePressedPos.X, (int)MousePressedPos.Y);
-                    Sdl2Native.SDL_SetWindowGrab(window.SdlWindowHandle, false);
-                    Sdl2Native.SDL_ShowCursor(1);
+                    SDL.WarpMouseInWindow(window.SdlWindowHandle, (int)MousePressedPos.X, (int)MousePressedPos.Y);
+                    SDL.SetWindowGrab(window.SdlWindowHandle, SdlBool.False);
+                    SDL.ShowCursor(1);
                     MousePressed = false;
                 }
                 if (IsOrbitCam)

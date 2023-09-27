@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Veldrid;
 using Veldrid.Utilities;
+using Vortice.Vulkan;
 
 namespace StudioCore.DebugPrimitives
 {
@@ -37,13 +38,13 @@ namespace StudioCore.DebugPrimitives
 
         public abstract SpecializationConstant[] SpecializationConstants { get; }
 
-        public abstract FaceCullMode CullMode { get; }
+        public abstract VkCullModeFlags CullMode { get; }
 
-        public abstract PolygonFillMode FillMode { get; }
+        public abstract VkPolygonMode FillMode { get; }
 
-        public virtual FrontFace FrontFace { get => FrontFace.CounterClockwise; }
+        public virtual VkFrontFace FrontFace { get => VkFrontFace.CounterClockwise; }
 
-        public abstract PrimitiveTopology Topology { get; }
+        public abstract VkPrimitiveTopology Topology { get; }
 
         // Mesh data
         public virtual bool Is32Bit { get => false; }

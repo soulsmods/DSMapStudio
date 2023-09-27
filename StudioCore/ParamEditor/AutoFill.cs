@@ -26,6 +26,10 @@ namespace StudioCore.ParamEditor
         }
         internal string Menu(bool enableComplexToggles, bool enableDefault, string suffix, string inheritedCommand, Func<string, string> subMenu)
         {
+            return Menu<object, object>(enableComplexToggles, null, enableDefault, suffix, inheritedCommand, subMenu);
+        }
+        internal string Menu<C, D>(bool enableComplexToggles, AutoFillSearchEngine<C, D> multiStageSE, bool enableDefault, string suffix, string inheritedCommand, Func<string, string> subMenu)
+        {
             int currentArgIndex = 0;
             if (enableComplexToggles)
             {
@@ -33,11 +37,15 @@ namespace StudioCore.ParamEditor
                 ImGui.SameLine();
                 ImGui.Checkbox("Add another condition?##meautoinputadditionalcondition"+id, ref _useAdditionalCondition);
             }
+            else if (multiStageSE != null)
+            {
+                ImGui.Checkbox("Add another condition?##meautoinputadditionalcondition"+id, ref _useAdditionalCondition);
+            }
             if (_useAdditionalCondition && _additionalCondition == null)
                 _additionalCondition = new AutoFillSearchEngine<A, B>(id+"0", engine);
             else if (!_useAdditionalCondition)
                 _additionalCondition = null;
-            foreach (var cmd in enableDefault ? engine.VisibleCommands().Append((null, engine.defaultFilter.args)).ToList() : engine.VisibleCommands())
+            foreach (var cmd in enableDefault ? engine.VisibleCommands().Append((null, engine.defaultFilter.args, engine.defaultFilter.wiki)).ToList() : engine.VisibleCommands())
             {
                 int[] argIndices = new int[cmd.Item2.Length];
                 bool valid = true;
@@ -49,12 +57,16 @@ namespace StudioCore.ParamEditor
                         valid = false;
                 }
                 string subResult = null;
+                string wiki = cmd.Item3;
+                UIHints.AddImGuiHintButton(cmd.Item1==null ? "hintdefault": "hint"+cmd.Item1, ref wiki, false, true);
                 if (subMenu != null || _additionalCondition != null)
                 {
                     if (ImGui.BeginMenu(cmd.Item1 == null ? "Default filter..." : cmd.Item1, valid))
                     {
                         string curResult = inheritedCommand + getCurrentStepText(valid, cmd.Item1, argIndices, _additionalCondition != null ? " && " : suffix);
-                        if (_additionalCondition != null)
+                        if (_useAdditionalCondition && multiStageSE != null)
+                            subResult = multiStageSE.Menu(enableComplexToggles, enableDefault, suffix, curResult, subMenu);
+                        else if (_additionalCondition != null)
                             subResult = _additionalCondition.Menu(enableComplexToggles, enableDefault, suffix, curResult, subMenu);
                         else
                             subResult = subMenu(curResult);
@@ -126,7 +138,7 @@ namespace StudioCore.ParamEditor
         {
             ImGui.SameLine();
             ImGui.Button($@"{ForkAwesome.CaretDown}");
-            if (ImGui.BeginPopupContextItem("##rsbautoinputoapopup", ImGuiPopupFlags.MouseButtonLeft))
+            if (ImGui.BeginPopupContextItem("##psbautoinputoapopup", ImGuiPopupFlags.MouseButtonLeft))
             {
                 ImGui.TextColored(HINTCOLOUR, "Select params...");
                 var result = autoFillPse.Menu(true, false, "", null, null);
@@ -171,7 +183,7 @@ namespace StudioCore.ParamEditor
             {
                 ImGui.PushID("paramrow");
                 ImGui.TextColored(HINTCOLOUR, "Select param and rows...");
-                string result1 = autoFillParse.Menu(false, false, ": ", null, (inheritedCommand) => 
+                string result1 = autoFillParse.Menu(false, autoFillRse, false, ": ", null, (inheritedCommand) => 
                 {
                     if (inheritedCommand != null)
                         ImGui.TextColored(AutoFill.PREVIEWCOLOUR, inheritedCommand);
@@ -277,6 +289,8 @@ namespace StudioCore.ParamEditor
                     if (string.IsNullOrEmpty(staticArgs[argIndices[i]]))
                         valid = false;
                 }
+                string wiki = cmd.Item3;
+                UIHints.AddImGuiHintButton(cmd.Item1, ref wiki, false, true);
                 if (subMenu != null)
                 {
                     if (ImGui.BeginMenu(cmd.Item1, valid))
@@ -325,7 +339,7 @@ namespace StudioCore.ParamEditor
             string result = null;
             foreach (var arg in oa.VisibleArguments())
             {
-                int[] argIndices = new int[arg.Item2.Length];
+                int[] argIndices = new int[arg.Item3.Length];
                 bool valid = true;
                 for (int i = 0; i < argIndices.Length; i++)
                 {
@@ -335,6 +349,8 @@ namespace StudioCore.ParamEditor
                         valid = false;
                 }
                 bool selected = false;
+                string wiki = arg.Item2;
+                UIHints.AddImGuiHintButton(arg.Item1, ref wiki, false, true);
                 if (ImGui.Selectable(arg.Item1, selected, valid ? ImGuiSelectableFlags.None : ImGuiSelectableFlags.Disabled))
                 {
                     result = arg.Item1;
@@ -348,7 +364,7 @@ namespace StudioCore.ParamEditor
                 {
                     if (i != 0)
                         ImGui.SameLine();
-                    ImGui.InputTextWithHint("##meautoinputoa"+argIndices[i], arg.Item2[i], ref staticArgs[argIndices[i]], 256);
+                    ImGui.InputTextWithHint("##meautoinputoa"+argIndices[i], arg.Item3[i], ref staticArgs[argIndices[i]], 256);
                     string var = AutoFill.MassEditAutoFillForVars(argIndices[i]);
                     if (var != null)
                         staticArgs[argIndices[i]] = var;

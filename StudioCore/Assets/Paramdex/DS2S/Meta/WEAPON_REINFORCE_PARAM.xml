@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
-  <Self Row0Dummy="" />
+  <Self Wiki="Defines parameters relating to weapon reinforcement." Row0Dummy="" />
   <Field>
     <damage_physical AltName="Damage: Physical" />
     <damage_magic AltName="Damage: Magic" />
@@ -59,7 +59,7 @@
     <infusion_mult_bleed AltName="Infusion Modifier %: Bleed" />
     <infusion_mult_raw AltName="Infusion Modifier %: Raw" />
     <infusion_mult_enchanted AltName="Infusion Modifier %: Enchanted" />
-    <infusion_mult_mundance AltName="Infusion Modifier %: Mundane" />
+    <infusion_mult_mundane AltName="Infusion Modifier %: Mundane" />
     <custom_attr_spec_param_id Def="s32 CustomAttrSpecParam ID" Refs="CustomAttrSpecParam" />
     <custom_attr_cost_param_id Def="s32 CustomAttrCostParam ID" Refs="CustomAttrCostParam" />
     <reinforce_cost_id Def="s32 Reinforce Cost ID" Refs="ReinforceCostParam" />

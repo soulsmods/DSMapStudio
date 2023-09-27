@@ -3,11 +3,11 @@ using SoulsFormats;
 using StudioCore.Editor;
 using StudioCore.Resource;
 using StudioCore.Scene;
+using StudioCore.Platform;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using System.Windows.Forms;
 using Veldrid;
 using Veldrid.Sdl2;
 using Veldrid.Utilities;
@@ -16,8 +16,12 @@ namespace StudioCore.MsbEditor
 {
     public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
     {
-        public AssetLocator AssetLocator = null;
-        public Scene.RenderScene RenderScene = new Scene.RenderScene();
+        public string EditorName => "Map Editor";
+        public string CommandEndpoint => "map";
+        public string SaveType => "Maps";
+        
+        public readonly AssetLocator AssetLocator;
+        public Scene.RenderScene RenderScene = null;
         private Selection _selection = new Selection();
         public ActionManager EditorActionManager = new ActionManager();
         private Editor.ProjectSettings _projectSettings = null;
@@ -67,7 +71,7 @@ namespace StudioCore.MsbEditor
         public Rectangle Rect;
 
         private Sdl2Window Window;
-        public Gui.Viewport Viewport;
+        public Gui.IViewport Viewport;
 
         private IModal _activeModal = null;
 
@@ -78,7 +82,16 @@ namespace StudioCore.MsbEditor
             ResourceManager.Locator = AssetLocator;
             Window = window;
 
-            Viewport = new Gui.Viewport("Mapeditvp", device, RenderScene, EditorActionManager, _selection, Rect.Width, Rect.Height);
+            if (device != null)
+            {
+                RenderScene = new RenderScene();
+                Viewport = new Gui.Viewport("Mapeditvp", device, RenderScene, EditorActionManager, _selection, Rect.Width, Rect.Height);
+                RenderScene.DrawFilter = CFG.Current.LastSceneFilter;
+            }
+            else
+            {
+                Viewport = new Gui.NullViewport("Mapeditvp", EditorActionManager, _selection, Rect.Width, Rect.Height);
+            }
             Universe = new Universe(AssetLocator, RenderScene, _selection);
 
             SceneTree = new SceneTree(SceneTree.Configuration.MapEditor, this, "mapedittree", Universe, _selection, EditorActionManager, Viewport, AssetLocator);
@@ -88,8 +101,6 @@ namespace StudioCore.MsbEditor
             NavMeshEditor = new NavmeshEditor(locator, RenderScene, _selection);
 
             EditorActionManager.AddEventHandler(SceneTree);
-
-            RenderScene.DrawFilter = CFG.Current.LastSceneFilter;
         }
 
         private bool ViewportUsingKeyboard = false;
@@ -178,7 +189,7 @@ namespace StudioCore.MsbEditor
         {
             var actlist = new List<Action>();
 
-            var selected = _selection.GetFilteredSelection<Entity>();
+            var selected = _selection.GetFilteredSelection<Entity>(o => o.HasTransform);
             foreach (var s in selected)
             {
                 var pos = s.GetLocalTransform().Position;
@@ -191,45 +202,68 @@ namespace StudioCore.MsbEditor
                 actlist.Add(s.GetUpdateTransformAction(newRot));
             }
 
-            var action = new CompoundAction(actlist);
-            EditorActionManager.ExecuteAction(action);
+
+            if (actlist.Any())
+            {
+                var action = new CompoundAction(actlist);
+                EditorActionManager.ExecuteAction(action);
+            }
         }
 
         /// <summary>
         /// Rotate the selected objects by a fixed amount on the specified axis
         /// </summary>
-        private void ArbitraryRotation_Selection(int axis_type)
+        private void ArbitraryRotation_Selection(Vector3 axis, bool pivot)
         {
             var actlist = new List<Action>();
+            var sels = _selection.GetFilteredSelection<Entity>((o) => o.HasTransform);
 
-            var selected = _selection.GetFilteredSelection<Entity>();
-            foreach (var s in selected)
+            // Get the center position of the selections
+            Vector3 accumPos = Vector3.Zero;
+            foreach (var sel in sels)
             {
-
-                var pos = s.GetLocalTransform().Position;
-
-                var rot_x = s.GetLocalTransform().EulerRotation.X;
-                var rot_y = s.GetLocalTransform().EulerRotation.Y;
-                var rot_z = s.GetLocalTransform().EulerRotation.Z;
-
-                if (axis_type == 0)
-                {
-                    float rad = ((float)Math.PI / 180) * CFG.Current.Map_ArbitraryRotation_X_Shift;
-                    rot_x = s.GetLocalTransform().EulerRotation.X + rad;
-                }
-                if (axis_type == 1)
-                {
-                    float rad = ((float)Math.PI / 180) * CFG.Current.Map_ArbitraryRotation_Y_Shift;
-                    rot_y = s.GetLocalTransform().EulerRotation.Y + rad;
-                }
-
-                Transform newRot = new Transform(pos, new Vector3(rot_x, rot_y, rot_z));
-
-                actlist.Add(s.GetUpdateTransformAction(newRot));
+                accumPos += sel.GetLocalTransform().Position;
             }
 
-            var action = new CompoundAction(actlist);
-            EditorActionManager.ExecuteAction(action);
+            Transform centerT = new(accumPos / (float)sels.Count, Vector3.Zero);
+
+            foreach (var s in sels)
+            {
+                var objT = s.GetLocalTransform();
+
+                float radianRotateAmount = 0.0f;
+                var rot_x = objT.EulerRotation.X;
+                var rot_y = objT.EulerRotation.Y;
+                var rot_z = objT.EulerRotation.Z;
+
+                Transform newPos = Transform.Default;
+
+                if (axis.X != 0)
+                {
+                    radianRotateAmount = ((float)Math.PI / 180) * CFG.Current.Map_ArbitraryRotation_X_Shift;
+                    rot_x = objT.EulerRotation.X + radianRotateAmount;
+                }
+                if (axis.Y != 0)
+                {
+                    radianRotateAmount = ((float)Math.PI / 180) * CFG.Current.Map_ArbitraryRotation_Y_Shift;
+                    rot_y = objT.EulerRotation.Y + radianRotateAmount;
+                }
+
+                if (pivot)
+                    newPos = Utils.RotateVectorAboutPoint(objT.Position, centerT.Position, axis, radianRotateAmount);
+                else
+                    newPos.Position = objT.Position;
+
+                newPos.EulerRotation = new Vector3(rot_x, rot_y, rot_z);
+
+                actlist.Add(s.GetUpdateTransformAction(newPos));
+            }
+
+            if (actlist.Any())
+            {
+                var action = new CompoundAction(actlist);
+                EditorActionManager.ExecuteAction(action);
+            }
         }
 
         /// <summary>
@@ -237,28 +271,54 @@ namespace StudioCore.MsbEditor
         /// </summary>
         private void MoveSelectionToCamera()
         {
-            var camdir = Vector3.Transform(Vector3.UnitZ, Viewport._worldView.CameraTransform.RotationMatrix);
-            var cam_pos = Viewport._worldView.CameraTransform.Position;
-            var new_pos = cam_pos + (camdir * CFG.Current.Map_MoveSelectionToCamera_Radius);
-
             var actlist = new List<Action>();
+            var sels = _selection.GetFilteredSelection<Entity>(o => o.HasTransform);
 
-            var selected = _selection.GetFilteredSelection<Entity>();
-            foreach (var s in selected)
+            var camdir = Vector3.Transform(Vector3.UnitZ, Viewport.WorldView.CameraTransform.RotationMatrix);
+            var cam_pos = Viewport.WorldView.CameraTransform.Position;
+            var target_pos = cam_pos + (camdir * CFG.Current.Map_MoveSelectionToCamera_Radius);
+
+            // Get the accumulated center position of all selections
+            Vector3 accumPos = Vector3.Zero;
+            foreach (var sel in sels)
             {
-                var rot = s.GetRootTransform().EulerRotation;
+                if (Gizmos.Origin == Gizmos.GizmosOrigin.BoundingBox && sel.RenderSceneMesh != null)
+                {
+                    // Use bounding box origin as center
+                    accumPos += sel.RenderSceneMesh.GetBounds().GetCenter();
+                }
+                else
+                {
+                    // Use actual position as center
+                    accumPos += sel.GetRootLocalTransform().Position;
+                }
+            }
+            Transform centerT = new(accumPos / (float)sels.Count, Vector3.Zero);
+
+            // Offset selection positions to place accumulated center in front of camera
+            foreach (var sel in sels)
+            {
+                var new_pos = target_pos;
+                var relativePos = centerT.Position - sel.GetRootLocalTransform().Position;
+                var rot = sel.GetRootTransform().EulerRotation;
 
                 // Offset the new position by the map's offset from the origin.
-                TransformNode node = (TransformNode) s.Container.RootObject.WrappedObject;
+                TransformNode node = (TransformNode)sel.Container.RootObject.WrappedObject;
                 new_pos -= node.Position;
+
+                // Offset position from center of every selected entity to maintain relative positions
+                new_pos -= relativePos;
 
                 Transform newPos = new Transform(new_pos, rot);
 
-                actlist.Add(s.GetUpdateTransformAction(newPos));
+                actlist.Add(sel.GetUpdateTransformAction(newPos));
             }
 
-            var action = new CompoundAction(actlist);
-            EditorActionManager.ExecuteAction(action);
+            if (actlist.Any())
+            {
+                var action = new CompoundAction(actlist);
+                EditorActionManager.ExecuteAction(action);
+            }
         }
         
         /// <summary>
@@ -352,6 +412,8 @@ namespace StudioCore.MsbEditor
                 case GameType.EldenRing:
                     msbclass = typeof(MSBE);
                     break;
+                case GameType.ArmoredCoreVI:
+                    //TODO AC6
                 default:
                     throw new ArgumentException("type must be valid");
             }
@@ -422,7 +484,7 @@ namespace StudioCore.MsbEditor
             }
         }
 
-        public override void DrawEditorMenu()
+        public void DrawEditorMenu()
         {
             if (ImGui.BeginMenu("Edit"))
             {
@@ -492,23 +554,31 @@ namespace StudioCore.MsbEditor
                     GotoSelection();
                 }
 
-                ImGui.Separator(); // Selection options goes below here
+                ImGui.Separator();
 
-                if (ImGui.MenuItem("Reset Rotation", KeyBindings.Current.Map_ResetRotation.HintText, false, _selection.IsSelection()))
+                if (ImGui.BeginMenu("Manipulate Selection"))
                 {
-                    ResetRotationSelection();
-                }
-                if (ImGui.MenuItem("Arbitrary Rotation: X", KeyBindings.Current.Map_ArbitraryRotationX.HintText, false, _selection.IsSelection()))
-                {
-                    ArbitraryRotation_Selection(0);
-                }
-                if (ImGui.MenuItem("Arbitrary Rotation: Y", KeyBindings.Current.Map_ArbitraryRotationY.HintText, false, _selection.IsSelection()))
-                {
-                    ArbitraryRotation_Selection(1);
-                }
-                if (ImGui.MenuItem("Move Selection to Camera", KeyBindings.Current.Map_MoveSelectionToCamera.HintText, false, _selection.IsSelection()))
-                {
-                    MoveSelectionToCamera();
+                    if (ImGui.MenuItem("Reset Rotation", KeyBindings.Current.Map_ResetRotation.HintText, false, _selection.IsSelection()))
+                    {
+                        ResetRotationSelection();
+                    }
+                    if (ImGui.MenuItem("Arbitrary Rotation: Roll", KeyBindings.Current.Map_ArbitraryRotation_Roll.HintText, false, _selection.IsSelection()))
+                    {
+                        ArbitraryRotation_Selection(new Vector3(1, 0, 0), false);
+                    }
+                    if (ImGui.MenuItem("Arbitrary Rotation: Yaw", KeyBindings.Current.Map_ArbitraryRotation_Yaw.HintText, false, _selection.IsSelection()))
+                    {
+                        ArbitraryRotation_Selection(new Vector3(0, 1, 0), false);
+                    }
+                    if (ImGui.MenuItem("Arbitrary Rotation: Yaw Pivot", KeyBindings.Current.Map_ArbitraryRotation_Yaw_Pivot.HintText, false, _selection.IsSelection()))
+                    {
+                        ArbitraryRotation_Selection(new Vector3(0, 1, 0), true);
+                    }
+                    if (ImGui.MenuItem("Move Selection to Camera", KeyBindings.Current.Map_MoveSelectionToCamera.HintText, false, _selection.IsSelection()))
+                    {
+                        MoveSelectionToCamera();
+                    }
+                    ImGui.EndMenu();
                 }
 
                 ImGui.EndMenu();
@@ -600,7 +670,7 @@ namespace StudioCore.MsbEditor
                 ImGui.EndMenu();
             }
 
-            if (ImGui.BeginMenu("Display"))
+            if (ImGui.BeginMenu("Display", RenderScene != null && Viewport != null))
             {
                 /*
                 // Does nothing at the moment. Maybe add to settings menu if this is ever implemented
@@ -757,7 +827,7 @@ namespace StudioCore.MsbEditor
 
         public void OnGUI(string[] initcmd)
         {
-            float scale = ImGuiRenderer.GetUIScale();
+            float scale = MapStudioNew.GetUIScale();
 
             // Docking setup
             //var vp = ImGui.GetMainViewport();
@@ -848,13 +918,17 @@ namespace StudioCore.MsbEditor
                 {
                     GotoSelection();
                 }
-                if (InputTracker.GetKeyDown(KeyBindings.Current.Map_ArbitraryRotationX))
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Map_ArbitraryRotation_Roll))
                 {
-                    ArbitraryRotation_Selection(0);
+                    ArbitraryRotation_Selection(new Vector3(1, 0, 0), false);
                 }
-                if (InputTracker.GetKeyDown(KeyBindings.Current.Map_ArbitraryRotationY))
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Map_ArbitraryRotation_Yaw))
                 {
-                    ArbitraryRotation_Selection(1);
+                    ArbitraryRotation_Selection(new Vector3(0, 1, 0), false);
+                }
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Map_ArbitraryRotation_Yaw_Pivot))
+                {
+                    ArbitraryRotation_Selection(new Vector3(0, 1, 0), true);
                 }
                 if (InputTracker.GetKeyDown(KeyBindings.Current.Map_Dummify) && _selection.IsSelection())
                 {
@@ -870,31 +944,45 @@ namespace StudioCore.MsbEditor
                 }
 
                 // Render settings
-                if (InputTracker.GetControlShortcut(Key.Number1))
+                if (RenderScene != null)
                 {
-                    RenderScene.DrawFilter = Scene.RenderFilter.MapPiece | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Region;
+                    if (InputTracker.GetControlShortcut(Key.Number1))
+                    {
+                        RenderScene.DrawFilter = Scene.RenderFilter.MapPiece | Scene.RenderFilter.Object |
+                                                 Scene.RenderFilter.Character | Scene.RenderFilter.Region;
+                    }
+                    else if (InputTracker.GetControlShortcut(Key.Number2))
+                    {
+                        RenderScene.DrawFilter = Scene.RenderFilter.Collision | Scene.RenderFilter.Object |
+                                                 Scene.RenderFilter.Character | Scene.RenderFilter.Region;
+                    }
+                    else if (InputTracker.GetControlShortcut(Key.Number3))
+                    {
+                        RenderScene.DrawFilter = Scene.RenderFilter.Collision | Scene.RenderFilter.Navmesh |
+                                                 Scene.RenderFilter.Object | Scene.RenderFilter.Character |
+                                                 Scene.RenderFilter.Region;
+                    }
+                    else if (InputTracker.GetControlShortcut(Key.Number4))
+                    {
+                        RenderScene.DrawFilter = Scene.RenderFilter.MapPiece | Scene.RenderFilter.Object |
+                                                 Scene.RenderFilter.Character | Scene.RenderFilter.Light;
+                    }
+                    else if (InputTracker.GetControlShortcut(Key.Number5))
+                    {
+                        RenderScene.DrawFilter = Scene.RenderFilter.Collision | Scene.RenderFilter.Object |
+                                                 Scene.RenderFilter.Character | Scene.RenderFilter.Light;
+                    }
+                    else if (InputTracker.GetControlShortcut(Key.Number6))
+                    {
+                        RenderScene.DrawFilter = Scene.RenderFilter.Collision | Scene.RenderFilter.Navmesh |
+                                                 Scene.RenderFilter.MapPiece | Scene.RenderFilter.Collision |
+                                                 Scene.RenderFilter.Navmesh | Scene.RenderFilter.Object |
+                                                 Scene.RenderFilter.Character | Scene.RenderFilter.Region |
+                                                 Scene.RenderFilter.Light;
+                    }
+
+                    CFG.Current.LastSceneFilter = RenderScene.DrawFilter;
                 }
-                else if (InputTracker.GetControlShortcut(Key.Number2))
-                {
-                    RenderScene.DrawFilter = Scene.RenderFilter.Collision | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Region;
-                }
-                else if (InputTracker.GetControlShortcut(Key.Number3))
-                {
-                    RenderScene.DrawFilter = Scene.RenderFilter.Collision | Scene.RenderFilter.Navmesh | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Region;
-                }
-                else if (InputTracker.GetControlShortcut(Key.Number4))
-                {
-                    RenderScene.DrawFilter = Scene.RenderFilter.MapPiece | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Light;
-                }
-                else if (InputTracker.GetControlShortcut(Key.Number5))
-                {
-                    RenderScene.DrawFilter = Scene.RenderFilter.Collision | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Light;
-                }
-                else if (InputTracker.GetControlShortcut(Key.Number6))
-                {
-                    RenderScene.DrawFilter = Scene.RenderFilter.Collision | Scene.RenderFilter.Navmesh | Scene.RenderFilter.MapPiece | Scene.RenderFilter.Collision | Scene.RenderFilter.Navmesh | Scene.RenderFilter.Object | Scene.RenderFilter.Character | Scene.RenderFilter.Region | Scene.RenderFilter.Light;
-                }
-                CFG.Current.LastSceneFilter = RenderScene.DrawFilter;
             }
 
             if (ImGui.BeginPopup("##DupeToTargetMapPopup"))
@@ -1004,7 +1092,8 @@ namespace StudioCore.MsbEditor
 
         public void Draw(GraphicsDevice device, CommandList cl)
         {
-            Viewport.Draw(device, cl);
+            if (Viewport != null)
+                Viewport.Draw(device, cl);
         }
 
         /// <summary>
@@ -1038,6 +1127,8 @@ namespace StudioCore.MsbEditor
                 case GameType.EldenRing:
                     msbclass = typeof(MSBE);
                     break;
+                case GameType.ArmoredCoreVI:
+                    //TODO AC6
                 default:
                     throw new ArgumentException("type must be valid");
             }
@@ -1058,12 +1149,19 @@ namespace StudioCore.MsbEditor
             var eventSubclasses = msbclass.Assembly.GetTypes().Where(type => type.IsSubclassOf(eventType) && !type.IsAbstract).ToList();
             _eventClasses = eventSubclasses.Select(x => (x.Name, x)).ToList();
         }
+        
+        public bool InputCaptured()
+        {
+            return Viewport.ViewportSelected;
+        }
 
-        public override void OnProjectChanged(Editor.ProjectSettings newSettings)
+        public void OnProjectChanged(Editor.ProjectSettings newSettings)
         {
             _projectSettings = newSettings;
             _selection.ClearSelection();
             EditorActionManager.Clear();
+            
+            ReloadUniverse();
         }
         public void ReloadUniverse()
         {
@@ -1072,28 +1170,55 @@ namespace StudioCore.MsbEditor
             GC.WaitForPendingFinalizers();
             GC.Collect();
             Universe.PopulateMapList();
-
-            if (AssetLocator.Type != GameType.Undefined)
+            
+            if (AssetLocator.Type == GameType.ArmoredCoreVI)
+            {
+                //TODO AC6
+            }
+            else if (AssetLocator.Type != GameType.Undefined)
             {
                 PopulateClassNames(AssetLocator.Type);
             }
         }
 
-        public override void Save()
+        public void HandleSaveException(SavingFailedException e)
         {
-            try
+            if (e.Wrapped is MSB.MissingReferenceException eRef)
             {
-                Universe.SaveAllMaps();
+                TaskLogs.AddLog(e.Message,
+                    Microsoft.Extensions.Logging.LogLevel.Error,TaskLogs.LogPriority.Normal, e.Wrapped);
+
+                var result = PlatformUtils.Instance.MessageBox($"{eRef.Message}\nSelect referring map entity?", "Failed to save map",
+                     MessageBoxButtons.YesNo,
+                     MessageBoxIcon.Error);
+                if (result == DialogResult.Yes)
+                {
+                    foreach (var map in Universe.LoadedObjectContainers.Where(e => e.Value != null))
+                    {
+                        foreach (var obj in map.Value.Objects)
+                        {
+                            if (obj.WrappedObject == eRef.Referrer)
+                            {
+                                _selection.ClearSelection();
+                                _selection.AddSelection(obj);
+                                FrameSelection();
+                                return;
+                            }
+                        }
+                    }
+
+                    TaskLogs.AddLog($"Unable to find map entity \"{eRef.Referrer.Name}\"",
+                        Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High);
+                }
             }
-            catch (SavingFailedException e)
+            else
             {
-                System.Windows.Forms.MessageBox.Show(e.Wrapped.Message, e.Message,
-                     System.Windows.Forms.MessageBoxButtons.OK,
-                     System.Windows.Forms.MessageBoxIcon.None);
+                TaskLogs.AddLog(e.Message,
+                    Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High, e.Wrapped);
             }
         }
 
-        public override void SaveAll()
+        public void Save()
         {
             try
             {
@@ -1101,9 +1226,19 @@ namespace StudioCore.MsbEditor
             }
             catch (SavingFailedException e)
             {
-                System.Windows.Forms.MessageBox.Show(e.Wrapped.Message, e.Message,
-                     System.Windows.Forms.MessageBoxButtons.OK,
-                     System.Windows.Forms.MessageBoxIcon.None);
+                HandleSaveException(e);
+            }
+        }
+
+        public void SaveAll()
+        {
+            try
+            {
+                Universe.SaveAllMaps();
+            }
+            catch (SavingFailedException e)
+            {
+                HandleSaveException(e);
             }
         }
 

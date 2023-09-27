@@ -1,9 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
-  <Self Row0Dummy="" />
+  <Self Wiki="Defines parameters related to player statistics in the menu. Note this does not affect the acutal stats for each level, only the display values." Row0Dummy="" />
   <Field>
     <stat_hp AltName="HP"/>
     <stat_stamina AltName="Stamina"/>
+    <stat_poise AltName="Poise"/>
     <stat_cast_tier AltName="Cast Tier"/>
     <stat_attunement_slots AltName="Attunement Slots"/>
     <stat_cast_speed AltName="Cast Speed"/>
@@ -25,7 +26,7 @@
     <stat_petrify_defence AltName="Resist: Petrify"/>
     <stat_curse_defence AltName="Resist: Curse"/>
     <stat_agility AltName="Agility"/>
-    <stat_mundane_bonus AltName="Bonus: Mundance"/>
+    <stat_mundane_bonus AltName="Bonus: Mundane"/>
     <stat_equip_load AltName="Max Equip Load"/>
   </Field>
 </PARAMMETA>

@@ -34,7 +34,7 @@
     <Field Def="f32 Unk14" />
     <Field Def="f32 Unk15" />
     <Field Def="f32 Unk16" />
-    <Field Def="u8 poise_break_handling" />
+    <Field Def="u8 damage_action_state" />
     <Field Def="u8 Unk17" />
     <Field Def="u16 Unk18" />
     <Field Def="f32 Unk19" />
@@ -48,7 +48,7 @@
     <Field Def="f32 Unk23" />
     <Field Def="f32 block_angle" />
     <Field Def="f32 parry_angle" />
-    <Field Def="f32 Unk24" />
+    <Field Def="f32 movement_speed_limit" />
     <Field Def="f32 Unk25" />
     <Field Def="f32 Unk26" />
     <Field Def="f32 Unk27" />
@@ -147,7 +147,10 @@
     <Field Def="f32 Unk103" />
     <Field Def="f32 Unk104" />
     <Field Def="f32 Unk105" />
-    <Field Def="s32 Unk106" />
+    <Field Def="u8 Unk106a" />
+    <Field Def="u8 Unk106b" />
+    <Field Def="u8 Unk106c" />
+    <Field Def="u8 Unk106d" />
     <Field Def="s32 Unk107" />
     <Field Def="f32 Unk108" />
     <Field Def="f32 Unk109" />
@@ -176,8 +179,8 @@
     <Field Def="f32 Unk127" />
     <Field Def="s32 Unk128" />
     <Field Def="s32 Unk129" />
-    <Field Def="s32 Unk130" />
     <Field Def="s32 equip_weapon_id" />
+    <Field Def="s32 Unk130" />
     <Field Def="f32 Unk131" />
     <Field Def="f32 Unk132" />
     <Field Def="f32 Unk133" />

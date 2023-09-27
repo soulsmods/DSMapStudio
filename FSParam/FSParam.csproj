@@ -7,6 +7,10 @@
     <LangVersion>11</LangVersion>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\SoulsFormats\SoulsFormats\SoulsFormats.csproj" />
     <ProjectReference Include="..\StudioUtils\StudioUtils.csproj" />

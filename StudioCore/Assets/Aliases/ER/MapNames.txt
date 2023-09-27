@@ -192,7 +192,7 @@ m60_38_51_00 Altus Plateau - Erdtree-Gazing Hill, Lux Ruins
 m60_39_50_00 Altus Plateau - Golden Lineage Evergaol
 m60_39_51_00 Altus Plateau - Altus Highway Junction
 m60_09_13_02 West Altus Plateau
-m60_18_26_01 Volano Manor Outskirts
+m60_18_26_01 Volcano Manor Outskirts
 m60_36_52_00 Mt. Gelmir - Craftsman's Shack, Hermit's Shack
 m60_36_53_00 Mt. Gelmir - Outside Volcano Manor
 m60_37_52_00 Mt. Gelmir - Seethewater River, Hermit Village, Wyndham Catacombs Entrance, Sage's Cave Entrance, Abductor Virgins Exit
@@ -370,7 +370,7 @@ m60_24_19_01 Aeonia Swamp; West Sellia
 m60_48_38_00 Caelid - West Aeonia Swamp
 m60_48_39_00 Caelid - Smoldering Wall, Abandoned Cave Entrance
 m60_49_38_00 Caelid - East Aeonia Swamp
-m60_49_39_00 Caelid - West Sellia, Sellia Crystal Tunnel Entrance
+m60_49_39_00 Caelid - West Sellia, Sellia Crystal Tunnel Entrance, Sellia Evergaol
 m60_25_18_01 Redmane Castle; Southwest Radahn Arena
 m60_50_36_00 Caelid - Impassable Greatbridge
 m60_50_37_00 Caelid - Far Southwest Radahn Arena, Aeonia Swamp Bank Southeast Cliffside

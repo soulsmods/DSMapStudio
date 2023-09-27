@@ -1,8 +1,43 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
-  <Self Row0Dummy="" />
+  <Self Wiki="Defines parameters related to player classes and gifts." Row0Dummy="" />
+  <Enums>
+    <Enum Name="PlayerStatusBodyType">
+      <Option Value="0" Name="Male"/>
+      <Option Value="1" Name="Female"/>
+    </Enum>
+    <Enum Name="PlayerStatusHollowType">
+      <Option Value="0" Name="Not Hollow" />
+      <Option Value="1" Name="Hollow" />
+      <Option Value="2" Name="Fully Hollow" />
+    </Enum>
+    <Enum Name="PlayerStatusBuildType">
+      <Option Value="0" Name="Average"/>
+      <Option Value="1" Name="Slim" />
+      <Option Value="2" Name="Very Slim"/>
+      <Option Value="3" Name="Large"/>
+      <Option Value="4" Name="Very Large"/>
+      <Option Value="5" Name="Large Upper Body"/>
+      <Option Value="6" Name="Large Lower Body"/>
+      <Option Value="7" Name="Big-Head"/>
+    </Enum>
+    <Enum Name="PlayerStatusCovenantType">
+      <Option Value="0" Name=" None"/>
+      <Option Value="1" Name=" Warriors of Sunlight"/>
+      <Option Value="2" Name=" Blue Sentinels"/>
+      <Option Value="3" Name=" Brotherhood of Blood"/>
+      <Option Value="4" Name=" Way of Blue"/>
+      <Option Value="5" Name=" Rat King"/>
+      <Option Value="6" Name=" Bell Keeper"/>
+      <Option Value="7" Name=" Dragon Remnants"/>
+      <Option Value="8" Name=" Company of Champions"/>
+      <Option Value="9" Name=" Pilgrims of Dark"/>
+    </Enum>
+  </Enums>
   <Field>
-    <body_type AltName="Body Type" />
+    <body_type AltName="Body Type" Enum="PlayerStatusBodyType"/>
+    <hollowing_type AltName="Hollowing Type" Enum="PlayerStatusHollowType"/>
+    <body_build_type AltName="Body Build Type" Enum="PlayerStatusBuildType"/>
     <soul_level AltName="Soul Level" />
     <vigor AltName="Vigor" />
     <endurance AltName="Endurance" />
@@ -44,16 +79,16 @@
     <spell_item_8 AltName="[8] Spell ID" Refs="SpellParam" />
     <spell_item_9 AltName="[9] Spell ID" Refs="SpellParam" />
     <spell_item_10 AltName="[10] Spell ID" Refs="SpellParam" />
-    <right_weapon_item_1 AltName="[1] Right Weapon ID" Refs="WeaponParam"/>
-    <right_weapon_item_2 AltName="[2] Right Weapon ID" Refs="WeaponParam"/>
-    <right_weapon_item_3 AltName="[3] Right Weapon ID" Refs="WeaponParam"/>
-    <left_weapon_item_1 AltName="[1] Left Weapon ID" Refs="WeaponParam"/>
-    <left_weapon_item_2 AltName="[2] Left Weapon ID" Refs="WeaponParam"/>
-    <left_weapon_item_3 AltName="[3] Left Weapon ID" Refs="WeaponParam"/>
-    <head_item AltName="Head Armor ID" Refs="ArmorParam"/>
-    <chest_item AltName="Chest Armor ID" Refs="ArmorParam"/>
-    <hands_item AltName="Hands Armor ID" Refs="ArmorParam"/>
-    <legs_item AltName="Legs Armor ID" Refs="ArmorParam"/>
+    <right_weapon_item_1 AltName="[1] Right Weapon ID" Refs="ItemParam"/>
+    <right_weapon_item_2 AltName="[2] Right Weapon ID" Refs="ItemParam"/>
+    <right_weapon_item_3 AltName="[3] Right Weapon ID" Refs="ItemParam"/>
+    <left_weapon_item_1 AltName="[1] Left Weapon ID" Refs="ItemParam"/>
+    <left_weapon_item_2 AltName="[2] Left Weapon ID" Refs="ItemParam"/>
+    <left_weapon_item_3 AltName="[3] Left Weapon ID" Refs="ItemParam"/>
+    <head_item AltName="Head Armor ID" Refs="ItemParam"/>
+    <chest_item AltName="Chest Armor ID" Refs="ItemParam"/>
+    <hands_item AltName="Hands Armor ID" Refs="ItemParam"/>
+    <legs_item AltName="Legs Armor ID" Refs="ItemParam"/>
     <ring_item_1 AltName="[1] Ring ID" Refs="RingParam"/>
     <ring_item_2 AltName="[2] Ring ID" Refs="RingParam"/>
     <ring_item_3 AltName="[3] Ring ID" Refs="RingParam"/>
@@ -83,5 +118,7 @@
     <gesture_6 AltName="[6] Gesture ID" Refs="ItemParam"/>
     <gesture_7 AltName="[7] Gesture ID" Refs="ItemParam"/>
     <gesture_8 AltName="[8] Gesture ID" Refs="ItemParam"/>
+    <covenant AltName="Covenant" Enum="PlayerStatusCovenantType"/>
+    <covenant_level AltName="Covenant Level"/>
   </Field>
 </PARAMMETA>

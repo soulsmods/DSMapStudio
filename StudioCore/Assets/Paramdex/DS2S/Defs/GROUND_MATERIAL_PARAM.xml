@@ -6,12 +6,18 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="s32 Unk00" />
+    <Field Def="s32 material_param_id" />
     <Field Def="s32 Unk01" />
     <Field Def="f32 move_speed_mult" />
     <Field Def="f32 turn_speed_mult" />
-    <Field Def="s32 Unk02" />
-    <Field Def="s32 Unk03" />
+    <Field Def="u8 Unk02a" />
+    <Field Def="u8 Unk02b" />
+    <Field Def="u8 Unk02c" />
+    <Field Def="u8 Unk02d" />
+    <Field Def="u8 Unk03a" />
+    <Field Def="u8 Unk03b" />
+    <Field Def="u8 Unk03c" />
+    <Field Def="u8 Unk03d" />
     <Field Def="s32 damage_id" />
     <Field Def="s32 Unk04" />
     <Field Def="f32 Unk05" />

@@ -18,11 +18,11 @@
 20 Water (Puddle)
 21 Water (ankle level)
 22 Water (knee)
-23 Poison Swamp (shallow)
+23 Poison Swamp (Blighttown) (shallow)
 24 Poison Swamp (deep)
 25 Poison Swamp (knee)
 26 Poison Swamp (about puddle)
-27 Water (waist or more)
+27 Lava
 28 Carpet
 29 Without -- なし
 34 木材

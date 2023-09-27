@@ -553,6 +553,93 @@
 35310410 Dark Dance [Child]
 35310420 Dark Dance [Child]
 35310421 Dark Dance [Child]
+40480000 Old Sun Ring
+40480010 Old Sun Ring [Child]
+40530000 Ring of Thorns
+40530010 Ring of Thorns [Child]
+50000010 Moon Butterfly Set
+51000000 Crown of the Old Iron King
+60405000 Dragon Head Stone
+60405001 Dragon Head Stone
+60405010 Dragon Head Stone
+60405011 Dragon Head Stone
+60405020 Dragon Head Stone
+60405030 Dragon Head Stone
+60406000 Dragon Torso Stone
+60406001 Dragon Torso Stone
+60406010 Dragon Torso Stone
+60406011 Dragon Torso Stone
+60430000 Flame Butterfly
+60470000 Hello Carving
+60480000 Thank You Carving
+60490000 I'm Sorry Carving
+60500000 Very Good! Carving
+60530000 Alluring Skull
+60530010 Alluring Skull [Child]
+60531000 Lloyd's Talisman
+60531010 Lloyd's Talisman [Child]
+60540000 Throwing Knife
+60550000 Witching Urn
+60550010 Witching Urn [Child]
+60550011 Witching Urn [Child]
+60560000 Lightning Urn
+60560010 Lightning Urn [Child]
+60560011 Lightning Urn [Child]
+60570000 Firebomb
+60570010 Firebomb [Child]
+60570011 Firebomb [Child]
+60575000 Black Firebomb
+60575010 Black Firebomb [Child]
+60575011 Black Firebomb [Child]
+60580000 Hexing Urn
+60580010 Hexing Urn [Child]
+60580011 Hexing Urn [Child]
+60590000 Poison Throwing Knife
+60595000 Dung Pie
+60595010 Dung Pie [Child]
+60600000 Lacerating Knife
+60610000 Corrosive Urn
+60610010 Corrosive Urn [Child]
+60610011 Corrosive Urn [Child]
+60620000 Holy Water Urn
+60620010 Holy Water Urn [Child]
+60620011 Holy Water Urn [Child]
+60760020 Wood Arrow
+60770020 Iron Arrow
+60780020 Magic Arrow
+60790020 Lightning Arrow
+60800020 Fire Arrow
+60810020 Dark Arrow
+60820020 Poison Arrow
+60830020 Lacerating Arrow
+60850020 Iron Greatarrow
+60870020 Lightning Greatarrow
+60880020 Fire Greatarrow
+60900020 Destructive Greatarrow
+60910000 Wood Bolt
+60910020 Wood Bolt
+60910040 Wood Bolt
+60910060 Wood Bolt
+60920000 Iron Bolt
+60920020 Iron Bolt
+60920040 Iron Bolt
+60920060 Iron Bolt
+60930000 Magic Bolt
+60930020 Magic Bolt
+60930040 Magic Bolt
+60930060 Magic Bolt
+60940000 Lightning Bolt
+60940020 Lightning Bolt
+60940040 Lightning Bolt
+60940060 Lightning Bolt
+60950000 Fire Bolt
+60950020 Fire Bolt
+60950040 Fire Bolt
+60950060 Fire Bolt
+60960000 Dark Bolt
+60960020 Dark Bolt
+60960040 Dark Bolt
+60960060 Dark Bolt
 71010000 [NPC] Soul Arrow
 71020000 [NPC] Great Soul Arrow
 71030000 [NPC] Heavy Soul Arrow

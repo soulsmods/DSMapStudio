@@ -190,15 +190,15 @@ namespace StudioCore
                     float arbitrary_rotation_y = CFG.Current.Map_ArbitraryRotation_Y_Shift;
                     float camera_radius_offset = CFG.Current.Map_MoveSelectionToCamera_Radius;
 
-                    if (ImGui.InputFloat("Rotation increment degrees: X", ref arbitrary_rotation_x))
+                    if (ImGui.InputFloat("Rotation increment degrees: Roll", ref arbitrary_rotation_x))
                     {
                         CFG.Current.Map_ArbitraryRotation_X_Shift = Math.Clamp(arbitrary_rotation_x, -180.0f, 180.0f);
                     }
-                    if (ImGui.InputFloat("Rotation increment degrees: Y", ref arbitrary_rotation_y))
+                    if (ImGui.InputFloat("Rotation increment degrees: Yaw", ref arbitrary_rotation_y))
                     {
                         CFG.Current.Map_ArbitraryRotation_Y_Shift = Math.Clamp(arbitrary_rotation_y, -180.0f, 180.0f); ;
                     }
-                    if (ImGui.InputFloat("Move selection to camera (offset distance)", ref camera_radius_offset))
+                    if (ImGui.DragFloat("Move selection to camera (offset distance)", ref camera_radius_offset))
                     {
                         CFG.Current.Map_MoveSelectionToCamera_Radius = camera_radius_offset;
                     }
@@ -216,37 +216,37 @@ namespace StudioCore
                     {
                         CFG.Current.GFX_Camera_FOV = cam_fov;
                     }
-                    if (ImGui.SliderFloat("Map max render distance", ref MsbEditor.Viewport.FarClip, 10.0f, 500000.0f))
+                    float farClip = CFG.Current.GFX_RenderDistance_Max;
+                    if (ImGui.SliderFloat("Map max render distance", ref farClip, 10.0f, 500000.0f))
                     {
-                        CFG.Current.GFX_RenderDistance_Max = MsbEditor.Viewport.FarClip;
+                        CFG.Current.GFX_RenderDistance_Max = farClip;
                     }
-                    if (ImGui.SliderFloat("Map camera speed (slow)", ref MsbEditor.Viewport._worldView.CameraMoveSpeed_Slow, 0.1f, 999.0f))
+                    if (ImGui.SliderFloat("Map camera speed (slow)", ref MsbEditor.Viewport.WorldView.CameraMoveSpeed_Slow, 0.1f, 999.0f))
                     {
-                        CFG.Current.GFX_Camera_MoveSpeed_Slow = MsbEditor.Viewport._worldView.CameraMoveSpeed_Slow;
+                        CFG.Current.GFX_Camera_MoveSpeed_Slow = MsbEditor.Viewport.WorldView.CameraMoveSpeed_Slow;
                     }
-                    if (ImGui.SliderFloat("Map camera speed (normal)", ref MsbEditor.Viewport._worldView.CameraMoveSpeed_Normal, 0.1f, 999.0f))
+                    if (ImGui.SliderFloat("Map camera speed (normal)", ref MsbEditor.Viewport.WorldView.CameraMoveSpeed_Normal, 0.1f, 999.0f))
                     {
-                        CFG.Current.GFX_Camera_MoveSpeed_Normal = MsbEditor.Viewport._worldView.CameraMoveSpeed_Normal;
+                        CFG.Current.GFX_Camera_MoveSpeed_Normal = MsbEditor.Viewport.WorldView.CameraMoveSpeed_Normal;
                     }
-                    if (ImGui.SliderFloat("Map camera speed (fast)", ref MsbEditor.Viewport._worldView.CameraMoveSpeed_Fast, 0.1f, 999.0f))
+                    if (ImGui.SliderFloat("Map camera speed (fast)", ref MsbEditor.Viewport.WorldView.CameraMoveSpeed_Fast, 0.1f, 999.0f))
                     {
-                        CFG.Current.GFX_Camera_MoveSpeed_Fast = MsbEditor.Viewport._worldView.CameraMoveSpeed_Fast;
+                        CFG.Current.GFX_Camera_MoveSpeed_Fast = MsbEditor.Viewport.WorldView.CameraMoveSpeed_Fast;
                     }
                     if (ImGui.Button("Reset##ViewportCamera"))
                     {
                         CFG.Current.GFX_Camera_FOV = CFG.Default.GFX_Camera_FOV;
 
-                        MsbEditor.Viewport.FarClip = CFG.Default.GFX_RenderDistance_Max;
-                        CFG.Current.GFX_RenderDistance_Max = MsbEditor.Viewport.FarClip;
+                        CFG.Current.GFX_RenderDistance_Max = CFG.Default.GFX_RenderDistance_Max;
 
-                        MsbEditor.Viewport._worldView.CameraMoveSpeed_Slow = CFG.Default.GFX_Camera_MoveSpeed_Slow;
-                        CFG.Current.GFX_Camera_MoveSpeed_Slow = MsbEditor.Viewport._worldView.CameraMoveSpeed_Slow;
+                        MsbEditor.Viewport.WorldView.CameraMoveSpeed_Slow = CFG.Default.GFX_Camera_MoveSpeed_Slow;
+                        CFG.Current.GFX_Camera_MoveSpeed_Slow = MsbEditor.Viewport.WorldView.CameraMoveSpeed_Slow;
 
-                        MsbEditor.Viewport._worldView.CameraMoveSpeed_Normal = CFG.Default.GFX_Camera_MoveSpeed_Normal;
-                        CFG.Current.GFX_Camera_MoveSpeed_Normal = MsbEditor.Viewport._worldView.CameraMoveSpeed_Normal;
+                        MsbEditor.Viewport.WorldView.CameraMoveSpeed_Normal = CFG.Default.GFX_Camera_MoveSpeed_Normal;
+                        CFG.Current.GFX_Camera_MoveSpeed_Normal = MsbEditor.Viewport.WorldView.CameraMoveSpeed_Normal;
 
-                        MsbEditor.Viewport._worldView.CameraMoveSpeed_Fast = CFG.Default.GFX_Camera_MoveSpeed_Fast;
-                        CFG.Current.GFX_Camera_MoveSpeed_Fast = MsbEditor.Viewport._worldView.CameraMoveSpeed_Fast;
+                        MsbEditor.Viewport.WorldView.CameraMoveSpeed_Fast = CFG.Default.GFX_Camera_MoveSpeed_Fast;
+                        CFG.Current.GFX_Camera_MoveSpeed_Fast = MsbEditor.Viewport.WorldView.CameraMoveSpeed_Fast;
                     }
                     ImGui.Unindent();
                 }
@@ -341,6 +341,13 @@ namespace StudioCore
                     ImGui.Unindent();
                 }
 
+                ImGui.Separator();
+
+                ImGui.SliderFloat("Wireframe color variance", ref CFG.Current.GFX_Wireframe_Color_Variance, 0.0f, 1.0f);
+                ImGui.SameLine();
+                if (ImGui.Button("Reset##WireframeColorVariance"))
+                    CFG.Current.GFX_Wireframe_Color_Variance = CFG.Default.GFX_Wireframe_Color_Variance;
+
                 ImGui.Unindent();
                 ImGui.EndTabItem();
             }
@@ -423,6 +430,7 @@ namespace StudioCore
                     CacheBank.ClearCaches();
                 }
                 ImGui.Checkbox("Disable row grouping", ref CFG.Current.Param_DisableRowGrouping);
+                ImGui.Checkbox("Disable line wrapping", ref CFG.Current.Param_DisableLineWrapping);
                 ImGui.Checkbox("Show advanced massedit options", ref CFG.Current.Param_AdvancedMassedit);
 
                 ImGui.Unindent();
@@ -475,15 +483,16 @@ namespace StudioCore
 
         public void Display()
         {
+            float scale = MapStudioNew.GetUIScale();
             if (!MenuOpenState)
                 return;
 
-            ImGui.SetNextWindowSize(new Vector2(900.0f, 800.0f), ImGuiCond.FirstUseEver);
+            ImGui.SetNextWindowSize(new Vector2(900.0f, 800.0f) * scale, ImGuiCond.FirstUseEver);
             ImGui.PushStyleColor(ImGuiCol.WindowBg, new Vector4(0f, 0f, 0f, 0.98f));
             ImGui.PushStyleColor(ImGuiCol.TitleBgActive, new Vector4(0.25f, 0.25f, 0.25f, 1.0f));
-            ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(10.0f, 10.0f));
-            ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(20.0f, 10.0f));
-            ImGui.PushStyleVar(ImGuiStyleVar.IndentSpacing, 20.0f);
+            ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(10.0f, 10.0f) * scale);
+            ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(20.0f, 10.0f) * scale);
+            ImGui.PushStyleVar(ImGuiStyleVar.IndentSpacing, 20.0f * scale);
 
             if (ImGui.Begin("Settings Menu##Popup", ref MenuOpenState, ImGuiWindowFlags.NoDocking))
             {

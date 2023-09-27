@@ -41,7 +41,10 @@
     <Field Def="s32 equip_weapon_id_3" />
     <Field Def="s32 equip_weapon_id_4" />
     <Field Def="s32 equip_weapon_id_5" />
-    <Field Def="s32 Unk17" />
+    <Field Def="s8 Unk17_1" />
+    <Field Def="s8 Unk17_2" />
+    <Field Def="s8 Unk17_3" />
+    <Field Def="s8 Unk17_4" />
     <Field Def="s8 Unk18" />
     <Field Def="s8 chr_round_damage_param_id" />
     <Field Def="s8 shield_block_level" />
@@ -73,11 +76,11 @@
     <Field Def="s32 Unk27" />
     <Field Def="s32 souls_held" />
     <Field Def="s32 Unk28" />
-    <Field Def="f32 aux_damage_mult" />
-    <Field Def="f32 final_damage_mult" />
-    <Field Def="f32 Unk29" />
-    <Field Def="f32 Unk30" />
-    <Field Def="f32 Unk31" />
+    <Field Def="f32 base_damage_mult" />
+    <Field Def="f32 vs_player_damage_mult" />
+    <Field Def="f32 vs_enemy_damage_mult" />
+    <Field Def="f32 vs_npc_damage_mult" />
+    <Field Def="f32 unknown_damage_mult" />
     <Field Def="s32 Unk32" />
     <Field Def="s32 Unk33" />
     <Field Def="s32 Unk34" />
@@ -110,7 +113,10 @@
     <Field Def="s32 stat_hp_ng6" />
     <Field Def="s32 stat_hp_ng7" />
     <Field Def="s32 name_text_id" />
-    <Field Def="s32 drops_awestone" />
-    <Field Def="s32 Unk47" />
+    <Field Def="s8 drops_awestone" />
+    <Field Def="u8 Unk47" />
+    <Field Def="u8 Unk48" />
+    <Field Def="u8 Unk49" />
+    <Field Def="s32 speffect_id" />
   </Fields>
 </PARAMDEF>

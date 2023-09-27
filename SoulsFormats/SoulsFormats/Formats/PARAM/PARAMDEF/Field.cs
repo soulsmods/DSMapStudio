@@ -199,6 +199,18 @@ namespace SoulsFormats
             private static readonly Regex bitSizeRx = new Regex(@"^\s*(?<name>.+?)\s*\:\s*(?<size>\d+)\s*$");
 
             /// <summary>
+            /// The first regulation version this field was introduced in, or 0 if the field has always existed. This
+            /// is not part of the binary paramdef format and only exists in XML paramdefs.
+            /// </summary>
+            public ulong FirstRegulationVersion { get; set; } = 0;
+
+            /// <summary>
+            /// The first regulation version that this field is removed from/no longer exists in, or 0 if the field is
+            /// never removed. This is not part of the binary paramdef format and only exists in XML paramdefs.
+            /// </summary>
+            public ulong RemovedRegulationVersion { get; set; } = 0;
+            
+            /// <summary>
             /// Creates a Field with placeholder values.
             /// </summary>
             public Field() : this(null, DefType.f32, "placeholder") { }
@@ -520,6 +532,18 @@ namespace SoulsFormats
                     bw.FillInt64($"UnkC0Offset{index}", writeSharedStringMaybe(UnkC0, false));
                     bw.FillInt64($"UnkC8Offset{index}", writeSharedStringMaybe(UnkC8, true));
                 }
+            }
+
+            /// <summary>
+            /// If the paramdef is version aware, this returns if this paramdef field is valid for a given regulation
+            /// version
+            /// </summary>
+            /// <param name="version">The regulation version to check</param>
+            /// <returns>True if the field is valid for this regulation version</returns>
+            public bool IsValidForRegulationVersion(ulong version)
+            {
+                return version >= FirstRegulationVersion && 
+                       (RemovedRegulationVersion == 0 || version < RemovedRegulationVersion);
             }
 
             private string MakeInternalName()

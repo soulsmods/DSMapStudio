@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <pulseInterferenceDamage Name="Pulse Armor Interference Damage" Wiki="Bonus damage dealt to pulse armor, pulse protection, and terminal armor core expansions. Doesn't affect shields, nor weapons that create pulse barrier assets."/>
+  </Field>
+  <Self />
+</PARAMMETA>

@@ -36,7 +36,7 @@
       <UnkC0>NET_COMMON_PARAM</UnkC0>
       <UnkC8>共通</UnkC8>
     </Field>
-    <Field Def="dummy8 pad[4]">
+    <Field Def="dummy8 pad_0[4]">
       <DisplayName>予約</DisplayName>
       <Maximum>999</Maximum>
       <Increment>1</Increment>
@@ -45,7 +45,7 @@
       <UnkC0>NET_COMMON_PARAM</UnkC0>
       <UnkC8>共通</UnkC8>
     </Field>
-    <Field Def="f32 keyGuideRange = 1">
+    <Field Def="f32 keyGuideRange_0 = 1">
       <DisplayName>キーガイド水平範囲[m]</DisplayName>
       <EditFlags>None</EditFlags>
       <Minimum>1</Minimum>
@@ -56,7 +56,7 @@
       <UnkC0>NET_SUMMON_SIGN_PARAM</UnkC0>
       <UnkC8>召喚サイン</UnkC8>
     </Field>
-    <Field Def="f32 keyGuideHeight = 1">
+    <Field Def="f32 keyGuideHeight_0 = 1">
       <DisplayName>キーガイド垂直範囲[m]</DisplayName>
       <EditFlags>None</EditFlags>
       <Minimum>1</Minimum>
@@ -89,7 +89,7 @@
       <UnkC0>NET_SUMMON_SIGN_PARAM</UnkC0>
       <UnkC8>召喚サイン</UnkC8>
     </Field>
-    <Field Def="u32 reloadSignTotalCount = 1">
+    <Field Def="u32 reloadSignTotalCount_0 = 1">
       <DisplayName>召喚サイン所持可能数上限(全体)</DisplayName>
       <Description>本当はu8くらいで十分</Description>
       <EditFlags>None</EditFlags>
@@ -100,7 +100,7 @@
       <UnkC0>NET_SUMMON_SIGN_PARAM</UnkC0>
       <UnkC8>召喚サイン</UnkC8>
     </Field>
-    <Field Def="u32 reloadSignCellCount = 1">
+    <Field Def="u32 reloadSignCellCount_0 = 1">
       <DisplayName>召喚サイン所持可能数上限(セル)</DisplayName>
       <Description>本当はu8くらいで十分</Description>
       <EditFlags>None</EditFlags>
@@ -122,7 +122,7 @@
       <UnkC0>NET_SUMMON_SIGN_PARAM</UnkC0>
       <UnkC8>召喚サイン</UnkC8>
     </Field>
-    <Field Def="f32 basicExclusiveRange = 1">
+    <Field Def="f32 basicExclusiveRange_0 = 1">
       <DisplayName>召喚サイン間描画排他水平範囲[m]</DisplayName>
       <EditFlags>None</EditFlags>
       <Minimum>0</Minimum>
@@ -133,7 +133,7 @@
       <UnkC0>NET_SUMMON_SIGN_PARAM</UnkC0>
       <UnkC8>召喚サイン</UnkC8>
     </Field>
-    <Field Def="f32 basicExclusiveHeight = 1">
+    <Field Def="f32 basicExclusiveHeight_0 = 1">
       <DisplayName>召喚サイン間描画排他垂直範囲[m]</DisplayName>
       <EditFlags>None</EditFlags>
       <Minimum>0</Minimum>
@@ -155,7 +155,7 @@
       <UnkC0>NET_SUMMON_SIGN_PARAM</UnkC0>
       <UnkC8>召喚サイン</UnkC8>
     </Field>
-    <Field Def="f32 signVisibleRange = 1">
+    <Field Def="f32 signVisibleRange_0 = 1">
       <DisplayName>召喚サインPC間描画距離[m]</DisplayName>
       <EditFlags>None</EditFlags>
       <Minimum>0</Minimum>
@@ -166,7 +166,7 @@
       <UnkC0>NET_SUMMON_SIGN_PARAM</UnkC0>
       <UnkC8>召喚サイン</UnkC8>
     </Field>
-    <Field Def="u32 cellGroupHorizontalRange = 1">
+    <Field Def="u32 cellGroupHorizontalRange_0 = 1">
       <DisplayName>召喚サイン取得セル範囲(水平)</DisplayName>
       <Description>本当はu8くらいで十分</Description>
       <EditFlags>None</EditFlags>
@@ -176,7 +176,7 @@
       <UnkC0>NET_SUMMON_SIGN_PARAM</UnkC0>
       <UnkC8>召喚サイン</UnkC8>
     </Field>
-    <Field Def="u32 cellGroupTopRange = 1">
+    <Field Def="u32 cellGroupTopRange_0 = 1">
       <DisplayName>召喚サイン取得セル範囲(上方向)</DisplayName>
       <Description>本当はu8くらいで十分</Description>
       <EditFlags>None</EditFlags>
@@ -186,7 +186,7 @@
       <UnkC0>NET_SUMMON_SIGN_PARAM</UnkC0>
       <UnkC8>召喚サイン</UnkC8>
     </Field>
-    <Field Def="u32 cellGroupBottomRange = 1">
+    <Field Def="u32 cellGroupBottomRange_0 = 1">
       <DisplayName>召喚サイン取得セル範囲(下方向)</DisplayName>
       <Description>本当はu8くらいで十分</Description>
       <EditFlags>None</EditFlags>
@@ -333,7 +333,7 @@
       <UnkC0>NET_BREAKIN_PARAM</UnkC0>
       <UnkC8>乱入</UnkC8>
     </Field>
-    <Field Def="dummy8 pad[4] = 1">
+    <Field Def="dummy8 pad_1[4] = 1">
       <DisplayName>予約</DisplayName>
       <Minimum>1</Minimum>
       <Maximum>1000</Maximum>
@@ -343,7 +343,7 @@
       <UnkC0>NET_BREAKIN_PARAM</UnkC0>
       <UnkC8>乱入</UnkC8>
     </Field>
-    <Field Def="f32 keyGuideRange = 1">
+    <Field Def="f32 keyGuideRange_1 = 1">
       <DisplayName>キーガイド水平範囲[m]</DisplayName>
       <EditFlags>None</EditFlags>
       <Minimum>0</Minimum>
@@ -354,7 +354,7 @@
       <UnkC0>NET_BLOOD_MESSAGE_PARAM</UnkC0>
       <UnkC8>血文字</UnkC8>
     </Field>
-    <Field Def="f32 keyGuideHeight = 1">
+    <Field Def="f32 keyGuideHeight_1 = 1">
       <DisplayName>キーガイド垂直範囲[m]</DisplayName>
       <EditFlags>None</EditFlags>
       <Minimum>0</Minimum>
@@ -365,7 +365,7 @@
       <UnkC0>NET_BLOOD_MESSAGE_PARAM</UnkC0>
       <UnkC8>血文字</UnkC8>
     </Field>
-    <Field Def="u32 reloadSignTotalCount = 1">
+    <Field Def="u32 reloadSignTotalCount_1 = 1">
       <DisplayName>血文字取得数(全体)</DisplayName>
       <Description>本当はu8くらいで十分</Description>
       <EditFlags>None</EditFlags>
@@ -398,7 +398,7 @@
       <UnkC0>NET_BLOOD_MESSAGE_PARAM</UnkC0>
       <UnkC8>血文字</UnkC8>
     </Field>
-    <Field Def="u32 maxSignTotalCount = 1">
+    <Field Def="u32 maxSignTotalCount_0 = 1">
       <DisplayName>血文字所持可能数上限(全体)</DisplayName>
       <Description>本当はu16くらいで十分</Description>
       <EditFlags>None</EditFlags>
@@ -409,7 +409,7 @@
       <UnkC0>NET_BLOOD_MESSAGE_PARAM</UnkC0>
       <UnkC8>血文字</UnkC8>
     </Field>
-    <Field Def="u32 maxSignCellCount = 1">
+    <Field Def="u32 maxSignCellCount_0 = 1">
       <DisplayName>血文字所持可能数上限(セル)</DisplayName>
       <Description>本当はu8くらいで十分</Description>
       <EditFlags>None</EditFlags>
@@ -420,7 +420,7 @@
       <UnkC0>NET_BLOOD_MESSAGE_PARAM</UnkC0>
       <UnkC8>血文字</UnkC8>
     </Field>
-    <Field Def="f32 basicExclusiveRange = 1">
+    <Field Def="f32 basicExclusiveRange_1 = 1">
       <DisplayName>血文字間描画排他水平範囲[m]</DisplayName>
       <EditFlags>None</EditFlags>
       <Minimum>0</Minimum>
@@ -431,7 +431,7 @@
       <UnkC0>NET_BLOOD_MESSAGE_PARAM</UnkC0>
       <UnkC8>血文字</UnkC8>
     </Field>
-    <Field Def="f32 basicExclusiveHeight = 1">
+    <Field Def="f32 basicExclusiveHeight_1 = 1">
       <DisplayName>血文字間描画排他垂直範囲[m]</DisplayName>
       <EditFlags>None</EditFlags>
       <Minimum>0</Minimum>
@@ -442,7 +442,7 @@
       <UnkC0>NET_BLOOD_MESSAGE_PARAM</UnkC0>
       <UnkC8>血文字</UnkC8>
     </Field>
-    <Field Def="f32 signVisibleRange = 1">
+    <Field Def="f32 signVisibleRange_1 = 1">
       <DisplayName>血文字PC間描画距離[m]</DisplayName>
       <EditFlags>None</EditFlags>
       <Minimum>0</Minimum>
@@ -473,7 +473,7 @@
       <UnkC0>NET_BLOOD_MESSAGE_PARAM</UnkC0>
       <UnkC8>血文字</UnkC8>
     </Field>
-    <Field Def="f32 reloadSignIntervalTime = 1">
+    <Field Def="f32 reloadSignIntervalTime_0 = 1">
       <DisplayName>血文字再取得待機時間[秒]</DisplayName>
       <EditFlags>None</EditFlags>
       <Minimum>0</Minimum>
@@ -484,7 +484,7 @@
       <UnkC0>NET_BLOOD_MESSAGE_PARAM</UnkC0>
       <UnkC8>血文字</UnkC8>
     </Field>
-    <Field Def="u32 cellGroupHorizontalRange = 1">
+    <Field Def="u32 cellGroupHorizontalRange_1 = 1">
       <DisplayName>血文字取得セル範囲(水平)</DisplayName>
       <Description>本当はu8くらいで十分</Description>
       <EditFlags>None</EditFlags>
@@ -494,7 +494,7 @@
       <UnkC0>NET_BLOOD_MESSAGE_PARAM</UnkC0>
       <UnkC8>血文字</UnkC8>
     </Field>
-    <Field Def="u32 cellGroupTopRange = 1">
+    <Field Def="u32 cellGroupTopRange_1 = 1">
       <DisplayName>血文字取得セル範囲(上方向)</DisplayName>
       <Description>本当はu8くらいで十分</Description>
       <EditFlags>None</EditFlags>
@@ -504,7 +504,7 @@
       <UnkC0>NET_BLOOD_MESSAGE_PARAM</UnkC0>
       <UnkC8>血文字</UnkC8>
     </Field>
-    <Field Def="u32 cellGroupBottomRange = 1">
+    <Field Def="u32 cellGroupBottomRange_1 = 1">
       <DisplayName>血文字取得セル範囲(下方向)</DisplayName>
       <Description>本当はu8くらいで十分</Description>
       <EditFlags>None</EditFlags>
@@ -514,7 +514,7 @@
       <UnkC0>NET_BLOOD_MESSAGE_PARAM</UnkC0>
       <UnkC8>血文字</UnkC8>
     </Field>
-    <Field Def="u32 lifeTime = 1">
+    <Field Def="u32 lifeTime_0 = 1">
       <DisplayName>血文字データ保持期間上限[秒]</DisplayName>
       <Description>本当はu16くらいで十分</Description>
       <EditFlags>None</EditFlags>
@@ -525,7 +525,7 @@
       <UnkC0>NET_BLOOD_MESSAGE_PARAM</UnkC0>
       <UnkC8>血文字</UnkC8>
     </Field>
-    <Field Def="f32 downloadSpan">
+    <Field Def="f32 downloadSpan_0">
       <DisplayName>血文字ダウンロード間隔</DisplayName>
       <EditFlags>None</EditFlags>
       <Minimum>0</Minimum>
@@ -547,7 +547,7 @@
       <UnkC0>NET_BLOOD_MESSAGE_PARAM</UnkC0>
       <UnkC8>血文字</UnkC8>
     </Field>
-    <Field Def="dummy8 pad[4] = 1">
+    <Field Def="dummy8 pad_2[4] = 1">
       <DisplayName>予約</DisplayName>
       <Minimum>1</Minimum>
       <Maximum>1800</Maximum>
@@ -557,7 +557,7 @@
       <UnkC0>NET_BLOOD_MESSAGE_PARAM</UnkC0>
       <UnkC8>血文字</UnkC8>
     </Field>
-    <Field Def="f32 keyGuideRange = 1">
+    <Field Def="f32 keyGuideRange_2 = 1">
       <DisplayName>キーガイド水平範囲[m]</DisplayName>
       <EditFlags>None</EditFlags>
       <Minimum>0</Minimum>
@@ -568,7 +568,7 @@
       <UnkC0>NET_BLOODSTAIN_PARAM</UnkC0>
       <UnkC8>血痕</UnkC8>
     </Field>
-    <Field Def="f32 keyGuideHeight = 1">
+    <Field Def="f32 keyGuideHeight_2 = 1">
       <DisplayName>キーガイド垂直範囲[m]</DisplayName>
       <EditFlags>None</EditFlags>
       <Minimum>0</Minimum>
@@ -601,7 +601,7 @@
       <UnkC0>NET_BLOODSTAIN_PARAM</UnkC0>
       <UnkC8>血痕</UnkC8>
     </Field>
-    <Field Def="u32 reloadSignTotalCount = 1">
+    <Field Def="u32 reloadSignTotalCount_2 = 1">
       <DisplayName>血痕取得数(全体)</DisplayName>
       <Description>本当はu8くらいで十分</Description>
       <EditFlags>None</EditFlags>
@@ -611,7 +611,7 @@
       <UnkC0>NET_BLOODSTAIN_PARAM</UnkC0>
       <UnkC8>血痕</UnkC8>
     </Field>
-    <Field Def="u32 reloadSignCellCount = 1">
+    <Field Def="u32 reloadSignCellCount_1 = 1">
       <DisplayName>血痕取得数(セル)</DisplayName>
       <Description>本当はu8くらいで十分</Description>
       <EditFlags>None</EditFlags>
@@ -621,7 +621,7 @@
       <UnkC0>NET_BLOODSTAIN_PARAM</UnkC0>
       <UnkC8>血痕</UnkC8>
     </Field>
-    <Field Def="u32 maxSignTotalCount = 1">
+    <Field Def="u32 maxSignTotalCount_1 = 1">
       <DisplayName>血痕所持可能数上限(全体)</DisplayName>
       <Description>本当はu16くらいで十分</Description>
       <EditFlags>None</EditFlags>
@@ -631,7 +631,7 @@
       <UnkC0>NET_BLOODSTAIN_PARAM</UnkC0>
       <UnkC8>血痕</UnkC8>
     </Field>
-    <Field Def="u32 maxSignCellCount = 1">
+    <Field Def="u32 maxSignCellCount_1 = 1">
       <DisplayName>血痕所持可能数上限(セル)</DisplayName>
       <Description>本当はu8くらいで十分</Description>
       <EditFlags>None</EditFlags>
@@ -641,7 +641,7 @@
       <UnkC0>NET_BLOODSTAIN_PARAM</UnkC0>
       <UnkC8>血痕</UnkC8>
     </Field>
-    <Field Def="f32 reloadSignIntervalTime = 1">
+    <Field Def="f32 reloadSignIntervalTime_1 = 1">
       <DisplayName>血痕再取得待機時間[秒]</DisplayName>
       <EditFlags>None</EditFlags>
       <Minimum>0</Minimum>
@@ -652,7 +652,7 @@
       <UnkC0>NET_BLOODSTAIN_PARAM</UnkC0>
       <UnkC8>血痕</UnkC8>
     </Field>
-    <Field Def="f32 signVisibleRange = 1">
+    <Field Def="f32 signVisibleRange_2 = 1">
       <DisplayName>血痕PC間描画距離[m]</DisplayName>
       <EditFlags>None</EditFlags>
       <Minimum>0</Minimum>
@@ -663,7 +663,7 @@
       <UnkC0>NET_BLOODSTAIN_PARAM</UnkC0>
       <UnkC8>血痕</UnkC8>
     </Field>
-    <Field Def="f32 basicExclusiveRange = 1">
+    <Field Def="f32 basicExclusiveRange_2 = 1">
       <DisplayName>血痕間描画排他水平範囲[m]</DisplayName>
       <EditFlags>None</EditFlags>
       <Minimum>0</Minimum>
@@ -674,7 +674,7 @@
       <UnkC0>NET_BLOODSTAIN_PARAM</UnkC0>
       <UnkC8>血痕</UnkC8>
     </Field>
-    <Field Def="f32 basicExclusiveHeight = 1">
+    <Field Def="f32 basicExclusiveHeight_2 = 1">
       <DisplayName>血痕間描画排他垂直範囲[m]</DisplayName>
       <EditFlags>None</EditFlags>
       <Minimum>0</Minimum>
@@ -685,7 +685,7 @@
       <UnkC0>NET_BLOODSTAIN_PARAM</UnkC0>
       <UnkC8>血痕</UnkC8>
     </Field>
-    <Field Def="u32 cellGroupHorizontalRange = 1">
+    <Field Def="u32 cellGroupHorizontalRange_2 = 1">
       <DisplayName>血痕取得セル範囲(水平)</DisplayName>
       <Description>本当はu8くらいで十分</Description>
       <EditFlags>None</EditFlags>
@@ -695,7 +695,7 @@
       <UnkC0>NET_BLOODSTAIN_PARAM</UnkC0>
       <UnkC8>血痕</UnkC8>
     </Field>
-    <Field Def="u32 cellGroupTopRange = 1">
+    <Field Def="u32 cellGroupTopRange_2 = 1">
       <DisplayName>血痕取得セル範囲(上方向)</DisplayName>
       <Description>本当はu8くらいで十分</Description>
       <EditFlags>None</EditFlags>
@@ -705,7 +705,7 @@
       <UnkC0>NET_BLOODSTAIN_PARAM</UnkC0>
       <UnkC8>血痕</UnkC8>
     </Field>
-    <Field Def="u32 cellGroupBottomRange = 1">
+    <Field Def="u32 cellGroupBottomRange_2 = 1">
       <DisplayName>血痕取得セル範囲(下方向)</DisplayName>
       <Description>本当はu8くらいで十分</Description>
       <EditFlags>None</EditFlags>
@@ -715,7 +715,7 @@
       <UnkC0>NET_BLOODSTAIN_PARAM</UnkC0>
       <UnkC8>血痕</UnkC8>
     </Field>
-    <Field Def="u32 lifeTime = 1">
+    <Field Def="u32 lifeTime_1 = 1">
       <DisplayName>血痕データ保持期間上限[秒]</DisplayName>
       <Description>本当はu16くらいで十分</Description>
       <EditFlags>None</EditFlags>
@@ -748,7 +748,7 @@
       <UnkC0>NET_BLOODSTAIN_PARAM</UnkC0>
       <UnkC8>血痕</UnkC8>
     </Field>
-    <Field Def="f32 downloadSpan">
+    <Field Def="f32 downloadSpan_1">
       <DisplayName>血痕ダウンロード間隔</DisplayName>
       <EditFlags>None</EditFlags>
       <Minimum>0</Minimum>
@@ -759,7 +759,7 @@
       <UnkC0>NET_BLOODSTAIN_PARAM</UnkC0>
       <UnkC8>血痕</UnkC8>
     </Field>
-    <Field Def="dummy8 pad[4]">
+    <Field Def="dummy8 pad_3[4]">
       <DisplayName>予約</DisplayName>
       <Maximum>10</Maximum>
       <Increment>1</Increment>
@@ -965,7 +965,7 @@
       <UnkC0>NET_GHOST_PARAM</UnkC0>
       <UnkC8>幻影</UnkC8>
     </Field>
-    <Field Def="u32 cellGroupHorizontalRange = 1">
+    <Field Def="u32 cellGroupHorizontalRange_3 = 1">
       <DisplayName>幻影取得セル範囲(水平)</DisplayName>
       <Description>本当はu8くらいで十分</Description>
       <EditFlags>None</EditFlags>
@@ -975,7 +975,7 @@
       <UnkC0>NET_GHOST_PARAM</UnkC0>
       <UnkC8>幻影</UnkC8>
     </Field>
-    <Field Def="u32 cellGroupTopRange = 1">
+    <Field Def="u32 cellGroupTopRange_3 = 1">
       <DisplayName>幻影取得セル範囲(上方向)</DisplayName>
       <Description>本当はu8くらいで十分</Description>
       <EditFlags>None</EditFlags>
@@ -985,7 +985,7 @@
       <UnkC0>NET_GHOST_PARAM</UnkC0>
       <UnkC8>幻影</UnkC8>
     </Field>
-    <Field Def="u32 cellGroupBottomRange = 1">
+    <Field Def="u32 cellGroupBottomRange_3 = 1">
       <DisplayName>幻影取得セル範囲(下方向)</DisplayName>
       <Description>本当はu8くらいで十分</Description>
       <EditFlags>None</EditFlags>
@@ -1595,7 +1595,7 @@
       <UnkC0>VISITOR</UnkC0>
       <UnkC8>訪問</UnkC8>
     </Field>
-    <Field Def="f32 DownloadSpan = 1">
+    <Field Def="f32 DownloadSpan_2 = 1">
       <DisplayName>訪問者リストダウンロード間隔</DisplayName>
       <EditFlags>None</EditFlags>
       <Minimum>0</Minimum>

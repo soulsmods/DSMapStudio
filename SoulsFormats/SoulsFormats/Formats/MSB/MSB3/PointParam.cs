@@ -507,7 +507,7 @@ namespace SoulsFormats
 
             internal virtual void GetIndices(MSB3 msb, Entries entries)
             {
-                ActivationPartIndex = MSB.FindIndex(entries.Parts, ActivationPartName);
+                ActivationPartIndex = MSB.FindIndex(this, entries.Parts, ActivationPartName);
             }
 
             /// <summary>
@@ -627,7 +627,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Type of sound in this region; determines mixing behavior like muffling.
                 /// </summary>
-                public SndType SoundType { get; set; }
+                public SndType SoundType { get; set; } = SndType.Environment;
 
                 /// <summary>
                 /// ID of the sound to play in this region, or 0 for child regions.
@@ -804,7 +804,7 @@ namespace SoulsFormats
                 internal override void GetIndices(MSB3 msb, Entries entries)
                 {
                     base.GetIndices(msb, entries);
-                    WindAreaIndex = MSB.FindIndex(entries.Regions, WindAreaName);
+                    WindAreaIndex = MSB.FindIndex(this, entries.Regions, WindAreaName);
                 }
             }
 

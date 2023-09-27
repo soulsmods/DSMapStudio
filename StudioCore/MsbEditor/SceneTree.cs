@@ -6,8 +6,8 @@ using System.Numerics;
 using System.Runtime.InteropServices;
 using ImGuiNET;
 using Veldrid;
-using System.Windows.Forms;
 using SoulsFormats;
+using StudioCore.Platform;
 
 namespace StudioCore.MsbEditor
 {
@@ -31,7 +31,7 @@ namespace StudioCore.MsbEditor
     {
         private Universe _universe;
         private ActionManager _editorActionManager;
-        private Gui.Viewport _viewport;
+        private Gui.IViewport _viewport;
         private AssetLocator _assetLocator;
         private Selection _selection;
 
@@ -84,7 +84,7 @@ namespace StudioCore.MsbEditor
 
         private Configuration _configuration;
 
-        public SceneTree(Configuration configuration, SceneTreeEventHandler handler, string id, Universe universe, Selection sel, ActionManager aman, Gui.Viewport vp, AssetLocator al)
+        public SceneTree(Configuration configuration, SceneTreeEventHandler handler, string id, Universe universe, Selection sel, ActionManager aman, Gui.IViewport vp, AssetLocator al)
         {
             _handler = handler;
             _id = id;
@@ -114,6 +114,10 @@ namespace StudioCore.MsbEditor
             if (_assetLocator.Type is GameType.Bloodborne or GameType.DarkSoulsIII or GameType.Sekiro or GameType.EldenRing)
             {
                 mapcache.Add(MapEntity.MapEntityType.Light, new Dictionary<Type, List<MapEntity>>());
+            }
+            else if (_assetLocator.Type is GameType.ArmoredCoreVI)
+            {
+                //TODO AC6
             }
             else if (_assetLocator.Type is GameType.DarkSoulsIISOTFS)
             {
@@ -190,7 +194,7 @@ namespace StudioCore.MsbEditor
         private ulong _mapEnt_ImGuiID = 0; // Needed to avoid issue with identical IDs during keyboard navigation. May be unecessary when ImGUI is updated.
         unsafe private void MapObjectSelectable(Entity e, bool visicon, bool hierarchial=false)
         {
-            float scale = ImGuiRenderer.GetUIScale();
+            float scale = MapStudioNew.GetUIScale();
             
             // Main selectable
             if (e is MapEntity me)
@@ -332,7 +336,7 @@ namespace StudioCore.MsbEditor
                 ImGui.SetItemAllowOverlap();
                 bool visible = e.EditorVisible;
                 ImGui.SameLine();
-                ImGui.SetCursorPosX(ImGui.GetWindowContentRegionMax().X - 18.0f * ImGuiRenderer.GetUIScale());
+                ImGui.SetCursorPosX(ImGui.GetWindowContentRegionMax().X - 18.0f * MapStudioNew.GetUIScale());
                 ImGui.PushStyleColor(ImGuiCol.Text, visible ? new Vector4(1.0f, 1.0f, 1.0f, 1.0f)
                     : new Vector4(0.6f, 0.6f, 0.6f, 1.0f));
                 ImGui.TextWrapped(visible ? ForkAwesome.Eye : ForkAwesome.EyeSlash);
@@ -377,7 +381,7 @@ namespace StudioCore.MsbEditor
                 {
                     // Select Range
                     var entList = e.Container.Objects;
-                    var i1 = entList.IndexOf((MapEntity)_selection.GetSelection().FirstOrDefault(fe => ((MapEntity)fe).Container == e.Container && fe != e.Container.RootObject));
+                    var i1 = entList.IndexOf((MapEntity)_selection.GetFilteredSelection<MapEntity>().FirstOrDefault(fe => ((MapEntity)fe).Container == e.Container && fe != e.Container.RootObject));
                     var i2 = entList.IndexOf((MapEntity)e);
 
                     if (i1 != -1 && i2 != -1)
@@ -510,6 +514,10 @@ namespace StudioCore.MsbEditor
                                         MapObjectSelectable(obj, true);
                                     }
                                 }
+                                else if (_assetLocator.Type is GameType.ArmoredCoreVI)
+                                {
+                                    //TODO AC6
+                                }
                                 else if (cats.Key == MapEntity.MapEntityType.Light)
                                 {
                                     foreach (var parent in map.BTLParents)
@@ -520,7 +528,7 @@ namespace StudioCore.MsbEditor
                                             ImGui.SetItemAllowOverlap();
                                             bool visible = parent.EditorVisible;
                                             ImGui.SameLine();
-                                            ImGui.SetCursorPosX(ImGui.GetWindowContentRegionMax().X - 18.0f * ImGuiRenderer.GetUIScale());
+                                            ImGui.SetCursorPosX(ImGui.GetWindowContentRegionMax().X - 18.0f * MapStudioNew.GetUIScale());
                                             ImGui.PushStyleColor(ImGuiCol.Text, visible ? new Vector4(1.0f, 1.0f, 1.0f, 1.0f)
                                                 : new Vector4(0.6f, 0.6f, 0.6f, 1.0f));
                                             ImGui.TextWrapped(visible ? ForkAwesome.Eye : ForkAwesome.EyeSlash);
@@ -541,7 +549,7 @@ namespace StudioCore.MsbEditor
                                             ImGui.SetItemAllowOverlap();
                                             bool visible = parent.EditorVisible;
                                             ImGui.SameLine();
-                                            ImGui.SetCursorPosX(ImGui.GetWindowContentRegionMax().X - 18.0f * ImGuiRenderer.GetUIScale());
+                                            ImGui.SetCursorPosX(ImGui.GetWindowContentRegionMax().X - 18.0f * MapStudioNew.GetUIScale());
                                             ImGui.PushStyleColor(ImGuiCol.Text, visible ? new Vector4(1.0f, 1.0f, 1.0f, 1.0f)
                                                 : new Vector4(0.6f, 0.6f, 0.6f, 1.0f));
                                             ImGui.TextWrapped(visible ? ForkAwesome.Eye : ForkAwesome.EyeSlash);
@@ -583,7 +591,7 @@ namespace StudioCore.MsbEditor
 
         public void OnGui()
         {
-            float scale = ImGuiRenderer.GetUIScale();
+            float scale = MapStudioNew.GetUIScale();
 
             ImGui.PushStyleColor(ImGuiCol.ChildBg, new Vector4(0.145f, 0.145f, 0.149f, 1.0f));
             if (_configuration == Configuration.MapEditor)
@@ -648,7 +656,25 @@ namespace StudioCore.MsbEditor
 
                 ImGui.BeginChild("listtree");
                 if (_configuration == Configuration.MapEditor && _universe.LoadedObjectContainers.Count == 0)
-                    ImGui.Text("This Editor requires game to be unpacked");
+                {
+                    if (_universe.GameType == GameType.Undefined)
+                    {
+                        ImGui.Text("No project loaded. File -> New Project");
+                    }
+                    else
+                    {
+                        ImGui.Text("This Editor requires unpacked game files. Use UXM");
+                    }
+                }
+
+                if (_configuration == Configuration.MapEditor && _assetLocator.Type == GameType.ArmoredCoreVI && FeatureFlags.AC6_MSB == false)
+                {
+                    ImGui.Indent();
+                    ImGui.Spacing();
+                    ImGui.Text("AC6 map editing is unsupported for now.");
+                    ImGui.Spacing();
+                    ImGui.BeginDisabled();
+                }
 
                 var orderedMaps = _universe.LoadedObjectContainers.OrderBy(k => k.Key);
 
@@ -699,10 +725,12 @@ namespace StudioCore.MsbEditor
                     if (metaName != "")
                     {
                         ImGui.SameLine();
-                        if (metaName.StartsWith("--")) //marked as normally unused (use red text)
+                        ImGui.PushTextWrapPos();
+                        if (metaName.StartsWith("--")) // Marked as normally unused (use red text)
                             ImGui.TextColored(new Vector4(1.0f, 0.0f, 0.0f, 1.0f), @$"<{metaName.Replace("--","")}>");
                         else
                             ImGui.TextColored(new Vector4(1.0f, 1.0f, 0.0f, 1.0f), @$"<{metaName}>");
+                        ImGui.PopTextWrapPos();
                     }
                     ImGui.EndGroup();
                     if (_selection.ShouldGoto(mapRoot) || _selection.ShouldGoto(mapRef))
@@ -737,9 +765,13 @@ namespace StudioCore.MsbEditor
                                             _selection.ClearSelection();
                                         }
                                         _universe.LoadMap(mapid, false);
-                                        _universe.LoadRelatedMaps(mapid, _universe.LoadedObjectContainers);
+                                        _universe.LoadRelatedMapsER(mapid, _universe.LoadedObjectContainers);
                                     }
                                 }
+                            }
+                            else if (_universe.GameType is GameType.ArmoredCoreVI)
+                            {
+                                //TODO AC6
                             }
                         }
                         else if (map is Map m)
@@ -752,9 +784,7 @@ namespace StudioCore.MsbEditor
                                 }
                                 catch (SavingFailedException e)
                                 {
-                                    System.Windows.Forms.MessageBox.Show(e.Wrapped.Message, e.Message,
-                                         System.Windows.Forms.MessageBoxButtons.OK,
-                                         System.Windows.Forms.MessageBoxIcon.None);
+                                    ((MsbEditorScreen)_handler).HandleSaveException(e);
                                 }
                             }
                             if (ImGui.Selectable("Unload Map"))
@@ -784,7 +814,7 @@ namespace StudioCore.MsbEditor
                         {
                             if (ImGui.Selectable("Unload All Maps"))
                             {
-                                var result = MessageBox.Show("Unload all maps?", "Confirm", MessageBoxButtons.YesNo);
+                                var result = PlatformUtils.Instance.MessageBox("Unload all maps?", "Confirm", MessageBoxButtons.YesNo);
                                 if (result == DialogResult.Yes)
                                 {
                                     _selection.ClearSelection();
@@ -885,6 +915,11 @@ namespace StudioCore.MsbEditor
                 if (_assetLocator.Type == GameType.Bloodborne && _configuration == Configuration.MapEditor)
                 {
                     ChaliceDungeonImportButton();
+                }
+
+                if (_configuration == Configuration.MapEditor && _assetLocator.Type == GameType.ArmoredCoreVI && FeatureFlags.AC6_MSB == false)
+                {
+                    ImGui.EndDisabled();
                 }
 
                 ImGui.EndChild();

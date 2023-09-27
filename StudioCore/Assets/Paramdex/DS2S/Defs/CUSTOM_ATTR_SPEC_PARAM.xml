@@ -6,7 +6,15 @@
   <Unicode>True</Unicode>
   <Version>201</Version>
   <Fields>
-    <Field Def="u32 bitset_allowed_infusions" >
-    </Field>
+    <Field Def="u32 allowed_infusion_basic:1" ></Field>
+    <Field Def="u32 allowed_infusion_fire:1" ></Field>
+    <Field Def="u32 allowed_infusion_magic:1" ></Field>
+    <Field Def="u32 allowed_infusion_lightning:1" ></Field>
+    <Field Def="u32 allowed_infusion_dark:1" ></Field>
+    <Field Def="u32 allowed_infusion_poison:1" ></Field>
+    <Field Def="u32 allowed_infusion_bleed:1" ></Field>
+    <Field Def="u32 allowed_infusion_raw:1" ></Field>
+    <Field Def="u32 allowed_infusion_enchanted:1" ></Field>
+    <Field Def="u32 allowed_infusion_mundane:23" ></Field>
   </Fields>
 </PARAMDEF>

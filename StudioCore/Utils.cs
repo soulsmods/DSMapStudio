@@ -5,12 +5,15 @@ using System.IO;
 using System.Numerics;
 using System.Reflection;
 using System.Text;
+using System.Linq;
 using ImGuiNET;
 using Microsoft.Win32;
 using SoulsFormats;
 using StudioCore.MsbEditor;
 using Veldrid;
 using Veldrid.Utilities;
+using System.Drawing;
+using System.Diagnostics;
 
 namespace StudioCore
 {
@@ -115,32 +118,52 @@ namespace StudioCore
             return temp2;
         }
 
-        /*public static Color HSLtoRGB(float H, float S, float L)
+        /// <summary>
+        /// Derived from https://stackoverflow.com/a/1626232
+        /// </summary>
+        public static Vector3 ColorToHSV(Color color)
         {
-            double r = 0;
-            double g = 0;
-            double b = 0;
-            if (L != 0f)
-            {
-                if (S != 0f)
-                {
-                    double temp2 = Utils.GetTemp2(H, S, L);
-                    double temp1 = 2 * (double)L - temp2;
-                    r = Utils.GetColorComponent(temp1, temp2, (double)H + 0.333333333333333);
-                    g = Utils.GetColorComponent(temp1, temp2, (double)H);
-                    b = Utils.GetColorComponent(temp1, temp2, (double)H - 0.333333333333333);
-                }
-                else
-                {
-                    double l = (double)L;
-                    b = l;
-                    g = l;
-                    r = l;
-                }
-            }
-            Color color = Color.FromNonPremultiplied(new Vector4((float)r, (float)g, (float)b, 1f));
-            return color;
-        }*/
+            int max = Math.Max(color.R, Math.Max(color.G, color.B));
+            int min = Math.Min(color.R, Math.Min(color.G, color.B));
+
+            var hue = color.GetHue();
+            var saturation = (max == 0) ? 0 : 1.0f - (1.0f * min / max);
+            var value = max / 255.0f;
+
+            return new Vector3(hue, saturation, value);
+        }
+
+        /// <summary>
+        /// Derived from https://stackoverflow.com/a/1626232
+        /// </summary>
+        public static Color ColorFromHSV(Vector3 hsv)
+        {
+            float hue = hsv.X;
+            float saturation = hsv.Y;
+            float value = hsv.Z;
+
+            int hi = Convert.ToInt32(Math.Floor(hue / 60)) % 6;
+            float f = hue / 60 - (float)Math.Floor(hue / 60);
+
+            value *= 255.0f;
+            int v = Convert.ToInt32(value);
+            int p = Convert.ToInt32(value * (1 - saturation));
+            int q = Convert.ToInt32(value * (1 - f * saturation));
+            int t = Convert.ToInt32(value * (1 - (1 - f) * saturation));
+
+            if (hi == 0)
+                return Color.FromArgb(255, v, t, p);
+            else if (hi == 1)
+                return Color.FromArgb(255, q, v, p);
+            else if (hi == 2)
+                return Color.FromArgb(255, p, v, t);
+            else if (hi == 3)
+                return Color.FromArgb(255, p, q, v);
+            else if (hi == 4)
+                return Color.FromArgb(255, t, p, v);
+            else
+                return Color.FromArgb(255, v, p, q);
+        }
 
         private static double MoveIntoRange(double temp3)
         {
@@ -258,9 +281,19 @@ namespace StudioCore
                 {
                     SFUtil.EncryptERRegulation(writepath + ".temp", bndER);
                 }
+                else if (gameType == GameType.ArmoredCoreVI && item is BND4 bndAC6)
+                {
+                    SFUtil.EncryptAC6Regulation(writepath + ".temp", bndAC6);
+                }
                 else
                 {
                     item.Write(writepath + ".temp");
+                }
+                
+                // Ugly but until I rethink the binder API we need to dispose it before touching the existing files
+                if (item is IDisposable d)
+                {
+                    d.Dispose();
                 }
 
                 if (File.Exists(writepath))
@@ -702,10 +735,19 @@ namespace StudioCore
 
         /// <summary>
         /// Replace # with fullwidth # to prevent ImGui from hiding text when detecting ## and ###.
+        /// Optionally replaces %, which is only an issue with certain imgui elements.
         /// </summary>
-        public static string ImGuiEscape(string str, string nullStr)
+        public static string ImGuiEscape(string str, string nullStr = "", bool percent = false)
         {
-            return str == null ? nullStr : str.Replace("#", "\xFF03"); //eastern block #
+            if (str == null) 
+                return nullStr;
+
+            str = str.Replace("#", "\xFF03"); // FF03 is eastern block #
+
+            if (percent)
+                str = str.Replace("%", "%%");
+
+            return str;
         }
 
         /// <summary>
@@ -721,7 +763,7 @@ namespace StudioCore
 
                 if (p.PropertyType.IsNested)
                 {
-                    var retObj = FindPropertyObject(prop, p.GetValue(obj));
+                    var retObj = FindPropertyObject(prop, p.GetValue(obj), classIndex);
                     if (retObj != null)
                         return retObj;
                 }
@@ -733,7 +775,7 @@ namespace StudioCore
                         Array array = (Array)p.GetValue(obj);
                         if (classIndex != -1)
                         {
-                            var retObj = FindPropertyObject(prop, array.GetValue(classIndex));
+                            var retObj = FindPropertyObject(prop, array.GetValue(classIndex), classIndex);
                             if (retObj != null)
                                 return retObj;
                         }
@@ -741,7 +783,7 @@ namespace StudioCore
                         {
                             foreach (var arrayObj in array)
                             {
-                                var retObj = FindPropertyObject(prop, arrayObj);
+                                var retObj = FindPropertyObject(prop, arrayObj, classIndex);
                                 if (retObj != null)
                                     return retObj;
                             }
@@ -779,6 +821,53 @@ namespace StudioCore
                     val = refval;
                 }
             }
+        }
+
+        /// <summary>
+        /// Inserts new lines into a string to make it fit in the specified UI width.
+        /// </summary>
+        public static string ImGui_WordWrapString(string text, float uiWidth, int maxLines = 3)
+        {
+            float textWidth = ImGui.CalcTextSize(text).X;
+
+            // Determine how many line breaks are needed
+            float rowNum = float.Ceiling(textWidth / uiWidth);
+            if (rowNum > maxLines)
+            {
+                rowNum = maxLines;
+            }
+
+            // Insert line breaks into text
+            for (float iRow = 1; iRow < rowNum; iRow++)
+            {
+                int pos_default = (int)(text.Length * (iRow / rowNum));
+                int pos_final;
+                int iPos = 0;
+                int sign = 1;
+                while (true)
+                {
+                    // Find position in string to insert new line without interrupting any words
+                    pos_final = pos_default + (iPos * sign);
+                    if (pos_final <= pos_default * 0.7f || pos_final >= pos_default * 1.3f)
+                    {
+                        // Couldn't find empty position within limited range, insert at fractional position instead.
+                        text = text.Insert(pos_default, "-\n ");
+                        break;
+                    }
+                    if (text[pos_final] is ' ' or '-')
+                    {
+                        text = text.Insert(pos_final, "\n");
+                        break;
+                    }
+
+                    sign *= -1;
+                    if (sign == -1)
+                    {
+                        iPos++;
+                    }
+                }
+            }
+            return text;
         }
     }
 }

@@ -11,8 +11,8 @@ namespace StudioCore.MsbEditor
     {
         private static AssetLocator AssetLocator = null;
 
-        private static Dictionary<string, MTD> _mtds = null;
-        private static Dictionary<string, MATBIN> _matbins = null;
+        private static Dictionary<string, MTD> _mtds = new();
+        private static Dictionary<string, MATBIN> _matbins = new();
 
         public static bool IsMatbin { get; private set; }
 
@@ -35,7 +35,7 @@ namespace StudioCore.MsbEditor
         public static void ReloadMtds()
         {
 
-            TaskManager.Run("MB:LoadMtds", true, false, false, () =>
+            TaskManager.Run(new("Resource - Load MTDs", TaskManager.RequeueType.WaitThenRequeue, false, () =>
             {
                 try
                 {
@@ -45,7 +45,7 @@ namespace StudioCore.MsbEditor
                         mtdBinder = BND4.Read(AssetLocator.GetAssetPath($@"mtd\allmaterialbnd.mtdbnd.dcx"));
                         IsMatbin = false;
                     }
-                    else if (AssetLocator.Type == GameType.EldenRing)
+                    else if (AssetLocator.Type is GameType.EldenRing or GameType.ArmoredCoreVI)
                     {
                         mtdBinder = BND4.Read(AssetLocator.GetAssetPath($@"material\allmaterial.matbinbnd.dcx"));
                         IsMatbin = true;
@@ -82,13 +82,14 @@ namespace StudioCore.MsbEditor
                             }
                         }
                     }
+                    mtdBinder.Dispose();
                 }
                 catch (Exception e) when (e is FileNotFoundException or DirectoryNotFoundException)
                 {
                     _mtds = new Dictionary<string, MTD>();
                     _matbins = new Dictionary<string, MATBIN>();
                 }
-            });
+            }));
         }
 
         public static void LoadMtds(AssetLocator l)

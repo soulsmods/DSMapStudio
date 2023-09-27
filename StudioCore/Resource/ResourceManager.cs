@@ -11,7 +11,6 @@ using System.Numerics;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks.Dataflow;
-using Accessibility;
 using SoulsFormats;
 using ImGuiNET;
 
@@ -109,6 +108,8 @@ namespace StudioCore.Resource
                 }
                 catch (Exception e)
                 {
+                    TaskLogs.AddLog($"Failed to load TPF \"{action._filePath}\": {e.Message}",
+                        Microsoft.Extensions.Logging.LogLevel.Warning, TaskLogs.LogPriority.Normal, e);
                     return new LoadTPFTextureResourceRequest[]{};
                 }
             }
@@ -133,16 +134,16 @@ namespace StudioCore.Resource
             public BinderReader Binder = null;
             public bool PopulateResourcesOnly = false;
             public HashSet<int> BinderLoadMask = null;
-            public List<Task> LoadingTasks = new List<Task>();
-            public List<int> TaskSizes = new List<int>();
-            public List<int> TaskProgress = new List<int>();
+            public List<Task> LoadingTasks = new();
+            public List<int> TaskSizes = new();
+            public List<int> TaskProgress = new();
             public int TotalSize = 0;
             public HashSet<string> AssetWhitelist = null;
             public ResourceType ResourceMask = ResourceType.All;
             public AccessLevel AccessLevel = AccessLevel.AccessGPUOptimizedOnly;
 
-            public List<Tuple<IResourceLoadPipeline, string, BinderFileHeader>> PendingResources = new List<Tuple<IResourceLoadPipeline, string, BinderFileHeader>>();
-            public List<Tuple<string, BinderFileHeader>> PendingTPFs = new List<Tuple<string, BinderFileHeader>>();
+            public List<Tuple<IResourceLoadPipeline, string, BinderFileHeader>> PendingResources = new();
+            public List<Tuple<string, BinderFileHeader>> PendingTPFs = new();
 
             public readonly object ProgressLock = new object();
 
@@ -238,31 +239,41 @@ namespace StudioCore.Resource
 
         private static void LoadBinderResources(LoadBinderResourcesAction action)
         {
-            action.ProcessBinder();
-            if (!action.PopulateResourcesOnly)
+            try
             {
-                bool doasync = (action.PendingResources.Count() + action.PendingTPFs.Count()) > 1;
-                int i = 0;
-                foreach (var p in action.PendingResources)
+                action.ProcessBinder();
+                if (!action.PopulateResourcesOnly)
                 {
-                    var f = action.Binder.ReadFile(p.Item3);
-                    p.Item1.LoadByteResourceBlock.Post(new LoadByteResourceRequest(p.Item2, f, action.AccessLevel, Locator.Type));
-                    action._job.IncrementEstimateTaskSize(1);
-                    i++;
-                }
-
-                foreach (var t in action.PendingTPFs)
-                {
-                    try
+                    bool doasync = (action.PendingResources.Count() + action.PendingTPFs.Count()) > 1;
+                    int i = 0;
+                    foreach (var p in action.PendingResources)
                     {
-                        TPF f = TPF.Read(action.Binder.ReadFile(t.Item2));
-                        action._job.AddLoadTPFResources(new LoadTPFResourcesAction(action._job, t.Item1, f, action.AccessLevel, ResourceManager.Locator.Type));
+                        var f = action.Binder.ReadFile(p.Item3);
+                        p.Item1.LoadByteResourceBlock.Post(new LoadByteResourceRequest(p.Item2, f, action.AccessLevel, Locator.Type));
+                        action._job.IncrementEstimateTaskSize(1);
+                        i++;
                     }
-                    catch  
-                    { 
+
+                    foreach (var t in action.PendingTPFs)
+                    {
+                        try
+                        {
+                            TPF f = TPF.Read(action.Binder.ReadFile(t.Item2));
+                            action._job.AddLoadTPFResources(new LoadTPFResourcesAction(action._job, t.Item1, f, action.AccessLevel, ResourceManager.Locator.Type));
+                        }
+                        catch(Exception e)
+                        {
+                            TaskLogs.AddLog($"Failed to load TPF \"{t.Item1}\"",
+                                Microsoft.Extensions.Logging.LogLevel.Warning, TaskLogs.LogPriority.Normal, e);
+                        }
+                        i++;
                     }
-                    i++;
                 }
+            }
+            catch(Exception e)
+            {
+                TaskLogs.AddLog($"Failed to load binder \"{action.BinderVirtualPath}\"",
+                    Microsoft.Extensions.Logging.LogLevel.Warning, TaskLogs.LogPriority.Normal, e);
             }
 
             action.PendingResources.Clear();
@@ -493,8 +504,8 @@ namespace StudioCore.Resource
                         if (path != null && File.Exists(path))
                         {
                             _job.AddLoadTPFResources(new LoadTPFResourcesAction(_job,
-                                Path.GetDirectoryName(r.Key).Replace('\\', '/'), 
-                                TPF.Read(path), AccessLevel.AccessGPUOptimizedOnly, Locator.Type));
+                                Path.GetDirectoryName(r.Key).Replace('\\', '/'),
+                                path, AccessLevel.AccessGPUOptimizedOnly, Locator.Type));
                         }
                     }
                 }
@@ -528,7 +539,6 @@ namespace StudioCore.Resource
                             _job.AddLoadTPFResources(new LoadTPFResourcesAction(_job,
                                 Path.GetDirectoryName(r.Key).Replace('\\', '/'), path,
                                 AccessLevel.AccessGPUOptimizedOnly, Locator.Type));
-                            
                         }
                     }
                 }
@@ -755,7 +765,8 @@ namespace StudioCore.Resource
             }
             else
             {
-                if (Scene.Renderer.GeometryBufferAllocator.HasStagingOrPending())
+                if (Scene.Renderer.GeometryBufferAllocator != null &&
+                    Scene.Renderer.GeometryBufferAllocator.HasStagingOrPending())
                 {
                     var ctx = Tracy.TracyCZoneN(1, "Flush Staging buffer");
                     Scene.Renderer.GeometryBufferAllocator.FlushStaging(true);
@@ -787,10 +798,9 @@ namespace StudioCore.Resource
         }
 
         private static bool TaskWindowOpen = true;
-        private static bool ResourceListWindowOpen = true;
         public static void OnGuiDrawTasks(float w, float h)
         {
-            float scale = ImGuiRenderer.GetUIScale();
+            float scale = MapStudioNew.GetUIScale();
             
             if (ActiveJobProgress.Count() > 0)
             {
@@ -824,7 +834,7 @@ namespace StudioCore.Resource
 
         public static void OnGuiDrawResourceList()
         {
-            if (!ImGui.Begin("Resource List", ref ResourceListWindowOpen))
+            if (!ImGui.Begin("Resource List"))
             {
                 ImGui.End();
                 return;

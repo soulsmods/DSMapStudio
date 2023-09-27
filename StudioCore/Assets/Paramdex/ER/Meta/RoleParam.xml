@@ -69,8 +69,8 @@
     <spEffectID7 AltName="SpEffect ID [7]" Wiki="Resident special effect 7" Refs="SpEffectParam"/>
     <spEffectID8 AltName="SpEffect ID [8]" Wiki="Resident special effect 8" Refs="SpEffectParam"/>
     <spEffectID9 AltName="SpEffect ID [9]" Wiki="Resident special effect 9" Refs="SpEffectParam"/>
-    <sosSignSfxId AltName="Summon Sign - SFX ID" Wiki="SOS sign SFX ID issued by another person" />
-    <mySosSignSfxId AltName="Personal Summon Sign - SFX ID" Wiki="SOS sign SFX ID issued by me" />
+    <sosSignSfxId AltName="Summon Sign - SFX ID" Wiki="SOS sign SFX ID issued by another person" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
+    <mySosSignSfxId AltName="Personal Summon Sign - SFX ID" Wiki="SOS sign SFX ID issued by me" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
     <summonStartAnimId AltName="Player Summon Start - Animation ID" Wiki="Anime ID to play when the player is summoned and the game starts" />
     <itemlotParamId AltName="Map Itemlot Param ID" Wiki="Acquisition reward item lottery parameter ID_for map (not -1)" Refs="ItemLotParam_map"/>
     <voiceChatGroup AltName="Voice Chat Group" Wiki="Voice chat group" Enum="VOICE_CHAT_GROUP_Type" />

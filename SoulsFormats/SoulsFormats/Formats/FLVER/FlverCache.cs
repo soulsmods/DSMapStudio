@@ -77,14 +77,6 @@ namespace SoulsFormats
             }
         }
 
-        internal int[] GetCachedIndices(int size)
-        {
-            return new int[size];
-            var loan = IndicesPool.Rent(size);
-            LoanedIndices.Add(loan);
-            return loan;
-        }
-
         public void ResetUsage()
         {
             for (int i = 0; i < VerticesArrayUsed.Count; i++)

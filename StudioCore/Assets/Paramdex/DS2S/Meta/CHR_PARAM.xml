@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
-  <Self Row0Dummy="" />
+  <Self Wiki="Defines paramters related to the player and humanoid characters." Row0Dummy="" />
   <Enums>
     <Enum Name="HitSfxEnum">
       <Option Value="1" Name="None" />
@@ -63,8 +63,10 @@
     <defence_curse AltName="Defence: Curse" Wiki="100 is equal to 100 percent of damage blocked."/>
     <defence_petrify AltName="Defence: Petrify" Wiki="100 is equal to 100 percent of damage blocked."/>
     <souls_held AltName="Souls Held"/>
-    <aux_damage_mult AltName="Aux Damage Multiplier"/>
-    <final_damage_mult AltName="Final Damage Multiplier"/>
+    <base_damage_mult AltName="Base Damage Multiplier"/>
+    <vs_player_damage_mult AltName="VS Player Damage Multiplier"/>
+    <vs_enemy_damage_mult AltName="VS Enemy Damage Multiplier"/>
+    <vs_npc_damage_mult AltName="VS NPC Damage Multiplier"/>
     <stat_posture AltName="Posture"/>
     <stat_posture_regen AltName="Posture Regeneration"/>
     <chr_full_body_sfx_param_id AltName="Full Body SFX ID" Refs="ChrFullyBodySfxParam"/>
@@ -84,5 +86,6 @@
     <stat_hp_ng7 AltName="HP - NG+7"/>
     <name_text_id AltName="Name Text ID"/>
     <drops_awestone AltName="Drops Awestone" IsBool=""/>
+    <speffect_id AltName="SpEffect ID"/>
   </Field>
 </PARAMMETA>
