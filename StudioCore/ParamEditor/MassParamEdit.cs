@@ -8,7 +8,6 @@ using FSParam;
 using ImGuiNET;
 using SoulsFormats;
 using StudioCore.Editor;
-using StudioCore.ParamEditor;
 
 namespace StudioCore.ParamEditor
 {

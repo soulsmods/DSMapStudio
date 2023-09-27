@@ -192,10 +192,10 @@ namespace StudioCore.MsbEditor
         }
 
         private ulong _mapEnt_ImGuiID = 0; // Needed to avoid issue with identical IDs during keyboard navigation. May be unecessary when ImGUI is updated.
-        unsafe private void MapObjectSelectable(Entity e, bool visicon, bool hierarchial=false)
+        unsafe private void MapObjectSelectable(Entity e, bool visicon, bool hierarchial = false)
         {
             float scale = MapStudioNew.GetUIScale();
-            
+
             // Main selectable
             if (e is MapEntity me)
             {
@@ -217,7 +217,7 @@ namespace StudioCore.MsbEditor
             if (hierarchial && e.Children.Count > 0)
             {
                 var treeflags = ImGuiTreeNodeFlags.OpenOnArrow | ImGuiTreeNodeFlags.SpanAvailWidth;
-                if ( _selection.GetSelection().Contains(e))
+                if (_selection.GetSelection().Contains(e))
                 {
                     treeflags |= ImGuiTreeNodeFlags.Selected;
                 }
@@ -233,7 +233,7 @@ namespace StudioCore.MsbEditor
             else
             {
                 _mapEnt_ImGuiID++;
-                if (ImGui.Selectable(padding + e.PrettyName+"##"+ _mapEnt_ImGuiID, _selection.GetSelection().Contains(e), ImGuiSelectableFlags.AllowDoubleClick | ImGuiSelectableFlags.AllowItemOverlap))
+                if (ImGui.Selectable(padding + e.PrettyName + "##" + _mapEnt_ImGuiID, _selection.GetSelection().Contains(e), ImGuiSelectableFlags.AllowDoubleClick | ImGuiSelectableFlags.AllowItemOverlap))
                 {
                     // If double clicked frame the selection in the viewport
                     if (ImGui.IsMouseDoubleClicked(0))
@@ -376,7 +376,7 @@ namespace StudioCore.MsbEditor
                         _selection.AddSelection(e);
                     }
                 }
-                else if (_selection.GetSelection().Count > 0 
+                else if (_selection.GetSelection().Count > 0
                     && (InputTracker.GetKey(Key.ShiftLeft) || InputTracker.GetKey(Key.ShiftRight)))
                 {
                     // Select Range
@@ -727,7 +727,7 @@ namespace StudioCore.MsbEditor
                         ImGui.SameLine();
                         ImGui.PushTextWrapPos();
                         if (metaName.StartsWith("--")) // Marked as normally unused (use red text)
-                            ImGui.TextColored(new Vector4(1.0f, 0.0f, 0.0f, 1.0f), @$"<{metaName.Replace("--","")}>");
+                            ImGui.TextColored(new Vector4(1.0f, 0.0f, 0.0f, 1.0f), @$"<{metaName.Replace("--", "")}>");
                         else
                             ImGui.TextColored(new Vector4(1.0f, 1.0f, 0.0f, 1.0f), @$"<{metaName}>");
                         ImGui.PopTextWrapPos();
@@ -795,6 +795,19 @@ namespace StudioCore.MsbEditor
                                 GC.Collect();
                                 GC.WaitForPendingFinalizers();
                                 GC.Collect();
+                            }
+                            if (ImGui.Selectable("Export Map"))
+                            {
+                                try
+                                {
+                                    _universe.ExportMap(m);
+                                }
+                                catch (SavingFailedException e)
+                                {
+                                    PlatformUtils.Instance.MessageBox(e.Wrapped.Message, e.Message,
+                                         MessageBoxButtons.OK,
+                                         MessageBoxIcon.None);
+                                }
                             }
                         }
                         if (_universe.GetLoadedMapCount() > 1)

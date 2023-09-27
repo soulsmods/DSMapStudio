@@ -1056,13 +1056,34 @@ namespace StudioCore.MsbEditor
         }
     }
 
+    public class ModelInfoExport
+    {
+        public string Name { get; set; }
+        public string Type { get; set; }
+        public string SibPath { get; set; }
+        public string RealPath { get; set; }
+        public string DCXPath { get; set; }
+
+    }
+
+    public class MapInfo
+    {
+        public string Name { get; set; }
+        public MapSerializationEntity SerializationEntity { get; set; } = null;
+        public Dictionary<string, ModelInfoExport> LoadedModels { get; set; } = null;
+        public Vector3 MapTransform { get; set; }
+    }
+
     public class MapSerializationEntity
     {
         public string Name { get; set; } = null;
         public int Msbidx { get; set; } = -1;
         public MapEntity.MapEntityType Type { get; set; }
+        public string TypeName { get; set; }
         public Transform Transform { get; set; }
+        public Vector3 EularRotation { get; set; }
         public List<MapSerializationEntity> Children { get; set; } = null;
+
 
         public bool ShouldSerializeChildren()
         {
@@ -1399,8 +1420,18 @@ namespace StudioCore.MsbEditor
             if (HasTransform)
             {
                 e.Transform = GetLocalTransform();
+
+                var eularrot = e.Transform.EulerRotation;
+
+                // radians to angles
+                eularrot.X = eularrot.X * 180 / (float)Math.PI;
+                eularrot.Y = eularrot.Y * 180 / (float)Math.PI;
+                eularrot.Z = eularrot.Z * 180 / (float)Math.PI;
+
+                e.EularRotation = eularrot;
             }
             e.Type = Type;
+            e.TypeName = Type.ToString();
             e.Children = new List<MapSerializationEntity>();
             if (idmap.ContainsKey(this))
             {

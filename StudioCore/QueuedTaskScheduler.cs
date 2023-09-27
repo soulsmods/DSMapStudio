@@ -6,12 +6,15 @@
 //
 //--------------------------------------------------------------------------
 
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
-namespace System.Threading.Tasks.Schedulers
+namespace StudioCore
 {
     /// <summary>
     /// Provides a TaskScheduler that provides control over priorities, fairness, and the underlying threads utilized.
@@ -39,8 +42,8 @@ namespace System.Threading.Tasks.Schedulers
             {
                 get
                 {
-                    var tasks = (_scheduler._targetScheduler != null) ?
-                        (IEnumerable<Task>)_scheduler._nonthreadsafeTaskQueue :
+                    var tasks = _scheduler._targetScheduler != null ?
+                        _scheduler._nonthreadsafeTaskQueue :
                         (IEnumerable<Task>)_scheduler._blockingTaskQueue;
                     return tasks.Where(t => t != null).ToList();
                 }
@@ -96,7 +99,7 @@ namespace System.Threading.Tasks.Schedulers
         // ***
 
         /// <summary>Initializes the scheduler.</summary>
-        public QueuedTaskScheduler() : this(TaskScheduler.Default, 0) { }
+        public QueuedTaskScheduler() : this(Default, 0) { }
 
         /// <summary>Initializes the scheduler.</summary>
         /// <param name="targetScheduler">The target underlying scheduler onto which this sceduler's work is queued.</param>
@@ -121,7 +124,7 @@ namespace System.Threading.Tasks.Schedulers
             // If 0, use the number of logical processors.  But make sure whatever value we pick
             // is not greater than the degree of parallelism allowed by the underlying scheduler.
             _concurrencyLevel = maxConcurrencyLevel != 0 ? maxConcurrencyLevel : Environment.ProcessorCount;
-            if (targetScheduler.MaximumConcurrencyLevel > 0 && 
+            if (targetScheduler.MaximumConcurrencyLevel > 0 &&
                 targetScheduler.MaximumConcurrencyLevel < _concurrencyLevel)
             {
                 _concurrencyLevel = targetScheduler.MaximumConcurrencyLevel;
@@ -257,8 +260,8 @@ namespace System.Threading.Tasks.Schedulers
         {
             get
             {
-                return (_targetScheduler != null ? 
-                    (IEnumerable<Task>)_nonthreadsafeTaskQueue : (IEnumerable<Task>)_blockingTaskQueue)
+                return (_targetScheduler != null ?
+                    _nonthreadsafeTaskQueue : (IEnumerable<Task>)_blockingTaskQueue)
                     .Where(t => t != null).Count();
             }
         }

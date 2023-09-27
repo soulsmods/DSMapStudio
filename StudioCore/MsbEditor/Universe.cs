@@ -14,16 +14,18 @@ using StudioCore.Resource;
 using SoulsFormats;
 using StudioCore.Scene;
 using StudioCore.Editor;
+using Newtonsoft.Json.Linq;
+using StudioCore.Platform;
 
 namespace StudioCore.MsbEditor
 {
-    [JsonSourceGenerationOptions(WriteIndented = true, 
+    [JsonSourceGenerationOptions(WriteIndented = true,
         GenerationMode = JsonSourceGenerationMode.Metadata, IncludeFields = true)]
     [JsonSerializable(typeof(List<BTL.Light>))]
     internal partial class BtlLightSerializerContext : JsonSerializerContext
     {
     }
-    
+
     /// <summary>
     /// A universe is a collection of loaded maps with methods to load, serialize,
     /// and unload individual maps.
@@ -65,7 +67,7 @@ namespace StudioCore.MsbEditor
             {
                 if (map.Value != null)
                 {
-                    i++;  
+                    i++;
                 }
             }
             return i;
@@ -149,7 +151,7 @@ namespace StudioCore.MsbEditor
 
         public RenderableProxy GetRegionDrawable(Map map, Entity obj)
         {
-            if (obj.WrappedObject is IMsbRegion r && r.Shape is MSB.Shape.Box )
+            if (obj.WrappedObject is IMsbRegion r && r.Shape is MSB.Shape.Box)
             {
                 var mesh = DebugPrimitiveRenderableProxy.GetBoxRegionProxy(_renderScene);
                 mesh.World = obj.GetWorldMatrix();
@@ -445,7 +447,7 @@ namespace StudioCore.MsbEditor
                     row.Name = "generator_" + row.ID.ToString();
                 }
 
-                
+
                 var mergedRow = new MergedParamRow();
                 mergedRow.AddRow("generator-loc", row);
                 generatorParams.Add(row.ID, mergedRow);
@@ -519,7 +521,7 @@ namespace StudioCore.MsbEditor
                     row.Name = "eventloc_" + row.ID.ToString();
                 }
                 eventLocationParams.Add(row.ID, row);
-                
+
                 var obj = new MapEntity(map, row, MapEntity.MapEntityType.DS2EventLocation);
                 map.AddObject(obj);
                 map.MapOffsetNode.AddChild(obj);
@@ -669,7 +671,7 @@ namespace StudioCore.MsbEditor
                         _dispGroupCount = 8; //?
                         break;
                     case GameType.ArmoredCoreVI:
-                        //TODO AC6
+                    //TODO AC6
                     default:
                         throw new Exception($"Error: Did not expect Gametype {_assetLocator.Type}");
                         //break;
@@ -1285,7 +1287,7 @@ namespace StudioCore.MsbEditor
                         var newLights = map.SerializeBtlLights(BTLs_w[i].AssetName);
 
                         // Only save BTL if it has been modified
-                        if (JsonSerializer.Serialize(btl.Lights, BtlLightSerializerContext.Default.ListLight) != 
+                        if (JsonSerializer.Serialize(btl.Lights, BtlLightSerializerContext.Default.ListLight) !=
                             JsonSerializer.Serialize(newLights, BtlLightSerializerContext.Default.ListLight))
                         {
                             btl.Lights = newLights;
@@ -1323,7 +1325,7 @@ namespace StudioCore.MsbEditor
                         var newLights = map.SerializeBtlLights(BTLs_w[i].AssetName);
 
                         // Only save BTL if it has been modified
-                        if (JsonSerializer.Serialize(btl.Lights, BtlLightSerializerContext.Default.ListLight) != 
+                        if (JsonSerializer.Serialize(btl.Lights, BtlLightSerializerContext.Default.ListLight) !=
                             JsonSerializer.Serialize(newLights, BtlLightSerializerContext.Default.ListLight))
                         {
                             btl.Lights = newLights;
@@ -1558,6 +1560,18 @@ namespace StudioCore.MsbEditor
                 }
             }
             return null;
+        }
+
+        public void ExportMap(Map map)
+        {
+            if (PlatformUtils.Instance.SaveFileDialog("Export Map To Json", new[] { "json" }, out string path))
+            {
+                using (var file = new StreamWriter(path))
+                {
+                    var json = Newtonsoft.Json.JsonConvert.SerializeObject(map.SerializeHierarchy());
+                    file.Write(json);
+                }
+            }
         }
     }
 }

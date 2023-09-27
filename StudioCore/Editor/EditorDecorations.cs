@@ -12,7 +12,6 @@ using System.Security;
 using System.Text.RegularExpressions;
 using FSParam;
 using StudioCore;
-using StudioCore.Editor;
 using StudioCore.ParamEditor;
 using StudioCore.TextEditor;
 

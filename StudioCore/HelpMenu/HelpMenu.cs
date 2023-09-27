@@ -120,10 +120,10 @@ namespace StudioCore.Help
                     // Content Segments
                     List<string> coreSegments = new List<string>();
 
-                    foreach(string segment in contents)
+                    foreach (string segment in contents)
                     {
                         List<string> segmentParts = segment.Split(" ").ToList();
-                        foreach(string part in segmentParts)
+                        foreach (string part in segmentParts)
                         {
                             coreSegments.Add(part.ToLower());
                         }
@@ -138,7 +138,7 @@ namespace StudioCore.Help
                     }
 
                     // Only show if input matches any title or content segments, or if it is blank
-                    if (inputStr.ToLower() == "" || sectionNameSegments.Contains(inputStr) || coreSegments.Contains(inputStr) || tagList.Contains(inputStr) )
+                    if (inputStr.ToLower() == "" || sectionNameSegments.Contains(inputStr) || coreSegments.Contains(inputStr) || tagList.Contains(inputStr))
                     {
                         if (ImGui.Selectable(sectionName))
                         {

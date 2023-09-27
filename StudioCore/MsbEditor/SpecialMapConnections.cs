@@ -14,6 +14,18 @@ namespace StudioCore.MsbEditor
     /// </summary>
     internal class SpecialMapConnections
     {
+        public static Vector3 GetEldenMapGlobalTransform(string mapid)
+        {
+            if (!TryInitializeEldenOffsets())
+            {
+                return new Vector3(0, 0, 0);
+            }
+            if (!TryParseMap(mapid, out byte[] target) || !ToEldenGlobalCoords(target, Vector3.Zero, 0, 0, out Vector3 targetGlobal))
+            {
+                return new Vector3(0, 0, 0);
+            }
+            return targetGlobal;
+        }
         public static Transform? GetEldenMapTransform(
             string mapid,
             IReadOnlyDictionary<string, ObjectContainer> loadedMaps)
@@ -26,9 +38,9 @@ namespace StudioCore.MsbEditor
             {
                 return null;
             }
-            (int originX, int originZ) = GetClosestTile(targetGlobal, 0, 0);
+            (int originTileX, int originTileZ) = GetClosestTile(targetGlobal, 0, 0);
             // Recenter target in terms of closest tile center, for maximum precision
-            if (!ToEldenGlobalCoords(target, Vector3.Zero, originX, originZ, out targetGlobal))
+            if (!ToEldenGlobalCoords(target, Vector3.Zero, originTileX, originTileZ, out targetGlobal))
             {
                 return null;
             }
@@ -41,7 +53,7 @@ namespace StudioCore.MsbEditor
                 if (entry.Value == null
                     || !entry.Value.RootObject.HasTransform
                     || !TryParseMap(entry.Key, out byte[] origin)
-                    || !ToEldenGlobalCoords(origin, Vector3.Zero, originX, originZ, out Vector3 originGlobal))
+                    || !ToEldenGlobalCoords(origin, Vector3.Zero, originTileX, originTileZ, out Vector3 originGlobal))
                 {
                     continue;
                 }

@@ -327,7 +327,7 @@ namespace StudioCore.Resource
             return texpath;
         }
 
-        private void LookupTexture(FlverMaterial.TextureType textureType, FlverMaterial dest, string type, string mpath, string mtd)
+        public static string FindTexturePath(string type, string mpath, string mtd)
         {
             var path = mpath;
             if (mpath == "")
@@ -340,7 +340,7 @@ namespace StudioCore.Resource
                         var tex = MtdBank.Matbins[mtdstring].Samplers.Find(x => (x.Type == type));
                         if (tex == null || tex.Path == "")
                         {
-                            return;
+                            return "";
                         }
                         path = tex.Path;
                     }
@@ -352,12 +352,18 @@ namespace StudioCore.Resource
                         var tex = MtdBank.Mtds[mtdstring].Textures.Find(x => (x.Type == type));
                         if (tex == null || !tex.Extended || tex.Path == "")
                         {
-                            return;
+                            return "";
                         }
                         path = tex.Path;
                     }
                 }
             }
+            return path;
+        }
+
+        private void LookupTexture(FlverMaterial.TextureType textureType, FlverMaterial dest, string type, string mpath, string mtd)
+        {
+            var path = FindTexturePath(type, mpath, mtd);
 
             if (!dest.TextureResourceFilled[(int)textureType])
             {

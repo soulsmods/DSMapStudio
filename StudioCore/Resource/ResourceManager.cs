@@ -5,7 +5,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Threading.Tasks.Schedulers;
 using System.Threading;
 using System.Numerics;
 using System.IO;
@@ -863,6 +862,18 @@ namespace StudioCore.Resource
             ImGui.Columns(1);
             ImGui.Separator();
             ImGui.End();
+        }
+
+        public static string GetModelPath(string modelName)
+        {
+            foreach (var item in ResourceDatabase)
+            {
+                if(item.Key.ToUpper().IndexOf(modelName.ToUpper()) >= 0)
+                {
+                    return item.Key;
+                }
+            }
+            return "";
         }
 
         public static void Shutdown()
