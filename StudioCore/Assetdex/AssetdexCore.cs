@@ -17,6 +17,7 @@ namespace StudioCore.Assetdex
 
         public AssetdexCore()
         {
+            assetContainers.Add(GameType.Undefined, BuildAssetContainer("DS1")); // Fallback for Undefined project
             assetContainers.Add(GameType.DemonsSouls, BuildAssetContainer("DES"));
             assetContainers.Add(GameType.DarkSoulsPTDE, BuildAssetContainer("DS1"));
             assetContainers.Add(GameType.DarkSoulsRemastered, BuildAssetContainer("DS1R"));
