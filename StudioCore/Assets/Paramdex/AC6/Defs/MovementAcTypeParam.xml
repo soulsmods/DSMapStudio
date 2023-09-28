@@ -152,7 +152,7 @@
     <Field Def="f32 UnkFloat0x23C"></Field>
     <Field Def="f32 UnkFloat0x240"></Field>
     <Field Def="f32 UnkFloat0x244"></Field>
-    <Field Def="f32 UnkFloat0x248"></Field>
+    <Field Def="f32 tankMaxWalkSpeed"></Field>
     <Field Def="f32 UnkFloat0x24C"></Field>
     <Field Def="f32 UnkFloat0x250"></Field>
     <Field Def="f32 UnkFloat0x254"></Field>

@@ -8,7 +8,7 @@
   <Fields>
     <Field Def="s32 Unk0x00"></Field>
     <Field Def="s16 Unk0x04"></Field>
-    <Field Def="u16 equipModelId"></Field>
+    <Field Def="u16 menuModelId"></Field>
     <Field Def="s32 UnkInt0x08"></Field>
     <Field Def="f32 weight"></Field>
     <Field Def="s32 energyCapacity"></Field>
@@ -54,10 +54,8 @@
     <Field Def="s32 Unk0x94"></Field>
     <Field Def="s32 Unk0x98"></Field>
     <Field Def="s32 Unk0x9C"></Field>
-    <Field Def="u16 boosterEmitterColor">
-      <Description>Also affects shield color.</Description>
-    </Field>
-    <Field Def="s8 UnkSbyte0xA2"></Field>
+    <Field Def="u16 Unk0xA1"></Field>
+    <Field Def="s8 colorSfxType"></Field>
     <Field Def="u8 Unk0xA3"></Field>
     <Field Def="s32 UnkInt0xA4"></Field>
     <Field Def="s32 Unk0xA8"></Field>

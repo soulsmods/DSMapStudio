@@ -224,8 +224,8 @@
     <Field Def="f32 hitboxLengthMin"></Field>
     <Field Def="f32 hitboxLengthMax"></Field>
     <Field Def="f32 hitboxLengthSpreadTime"></Field>
-    <Field Def="f32 unkHitboxSize0x1C8"></Field>
-    <Field Def="f32 UnkFloat0x1CC"></Field>
+    <Field Def="f32 hitboxRadiusMax"></Field>
+    <Field Def="f32 hitboxRadiusSpreadTime"></Field>
     <Field Def="f32 unkHitboxModifier0x1D0"></Field>
     <Field Def="s32 UnkInt0x1D4"></Field>
     <Field Def="u8 UnkByte0x1D8"></Field>
@@ -316,8 +316,8 @@
     <Field Def="u16 UnkUshort0x284"></Field>
     <Field Def="u16 UnkUshort0x286"></Field>
     <Field Def="f32 Unk0x288"></Field>
-    <Field Def="f32 Unk0x28C"></Field>
-    <Field Def="f32 Unk0x290"></Field>
+    <Field Def="f32 UnkFanHitbox0x28C"></Field>
+    <Field Def="f32 UnkFanHitbox0x290"></Field>
     <Field Def="f32 Unk0x294"></Field>
     <Field Def="f32 Unk0x298"></Field>
     <Field Def="s32 Unk0x29C"></Field>
@@ -348,7 +348,7 @@
     <Field Def="s32 Unk0x300"></Field>
     <Field Def="s32 Unk0x304"></Field>
     <Field Def="u8 UnkByte0x308"></Field>
-    <Field Def="u8 UnkByte0x309"></Field>
+    <Field Def="u8 fanHitboxAngle"></Field>
     <Field Def="u8 UnkByte0x30A"></Field>
     <Field Def="u8 UnkByte0x30B"></Field>
     <Field Def="u8 UnkByte0x30C"></Field>
