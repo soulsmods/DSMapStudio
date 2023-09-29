@@ -879,6 +879,8 @@ namespace StudioCore
             bool match = false;
 
             string curInput = inputStr.Trim().ToLower();
+            string lowerFileName = fileName.ToLower();
+            string lowerReferenceName = referenceName.ToLower();
 
             if (curInput.Equals(""))
             {
@@ -887,15 +889,15 @@ namespace StudioCore
             }
 
             // Match: Filename
-            if (curInput == fileName.ToLower())
+            if (curInput == lowerFileName)
                 match = true;
 
             // Match: Reference Name
-            if (curInput == referenceName.ToLower())
+            if (curInput == lowerReferenceName)
                 match = true;
 
             // Match: Reference Segments
-            string[] refSegments = referenceName.ToLower().Split(" ");
+            string[] refSegments = lowerReferenceName.Split(" ");
             foreach (string refStr in refSegments)
             {
                 string curString = refStr;
@@ -931,6 +933,21 @@ namespace StudioCore
             {
                 if (curInput == tagStr.ToLower())
                     match = true;
+            }
+
+            // Match: AEG Category
+            if (!curInput.Equals("") && curInput.All(char.IsDigit))
+            {
+                if (lowerFileName.Contains("aeg") && lowerFileName.Contains("_"))
+                {
+                    string[] parts = lowerFileName.Split("_");
+                    string aegCategory = parts[0].Replace("aeg", "");
+
+                    if (curInput == aegCategory)
+                    {
+                        match = true;
+                    }
+                }
             }
 
             return match;
