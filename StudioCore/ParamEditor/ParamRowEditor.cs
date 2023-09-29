@@ -81,7 +81,7 @@ namespace StudioCore.ParamEditor
                     vmatches.Count > i ? vmatches[i] : (PseudoColumn.None, null),
                     auxRows,
                     auxMatches.Select((x, j) => x.Count > i ? x[i] : (PseudoColumn.None, null)).ToList(),
-                    matches[i].Item2?.GetByteOffset().ToString("x"),
+                    OffsetTextOfColumn(matches[i].Item2),
                     ref imguiId, activeParam, true, selection);
                 }
             }
@@ -116,7 +116,7 @@ namespace StudioCore.ParamEditor
                     vmatches.Count > i ? vmatches[i] : (PseudoColumn.None, null),
                     auxRows,
                     auxMatches.Select((x, j) => x.Count > i ? x[i] : (PseudoColumn.None, null)).ToList(),
-                    matches[i].Item2?.GetByteOffset().ToString("x"),
+                    OffsetTextOfColumn(matches[i].Item2),
                     ref imguiId, activeParam, false, selection);
                     lastRowExists = true;
                 }
@@ -391,6 +391,17 @@ namespace StudioCore.ParamEditor
                 if (CFG.Current.Param_HideEnums == false && Enum != null)
                     EditorDecorations.EnumValueText(Enum.values, colVal.ToString());
             }
+        }
+        private static string OffsetTextOfColumn(Param.Column? col)
+        {
+            if (col == null)
+                return null;
+            if (col.Def.BitSize == -1)
+                return col.GetByteOffset().ToString("x");
+            uint offS = col.GetBitOffset();
+            if (col.Def.BitSize == 1)
+                return $"{col.GetByteOffset().ToString("x")} [{offS}]";
+            return $"{col.GetByteOffset().ToString("x")} [{offS}-{offS+col.Def.BitSize-1}]";
         }
 
         private static void PropertyRowName(string fieldOffset, ref string internalName, FieldMetaData cellMeta)
