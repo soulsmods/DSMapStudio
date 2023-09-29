@@ -1,0 +1,798 @@
+{
+    "Entries" : [
+        {
+            "Title": "Action Button",
+            "Tags": [
+                "Term"
+            ],
+            "Contents": [
+                "An in-game text prompt to interact with some object.",
+                "This may come from emevd waiting to interact with some specific region/object,",
+                "or built in with ObjActs. In DS3 onwards there is a param for it.",
+                "",
+                "Alternatively, such prompts can be created with a combination of ESD and params,",
+                "when there is dialogue/menuing involved after the prompt."
+            ]
+        },
+        {
+            "Title": "Animation",
+            "Tags": [
+                "Term"
+            ],
+            "Contents": [
+                "A mesh or skeleton positions for game entities, with frame-keyed events",
+                "added with TAE annotations.",
+                "",
+                "All animations have unique ids, and may be layered on top of each other,",
+                "as managed by behavior files.",
+                "Examples include sitting at a bonfire, using a weapon R1 attack,",
+                "taking damage, rolling, a door being opened, and an elevator moving."
+            ]
+        },
+        {
+            "Title": "Area",
+            "Tags": [
+                "Term"
+            ],
+            "Contents": [
+                "The displayed name of an area, which pops up when you step on",
+                "a collision marking the boundary.",
+                "",
+                "Maps will often contain multiple display names."
+            ]
+        },
+        {
+            "Title": "Asset",
+            "Tags": [
+                "Term",
+                "Object"
+            ],
+            "Contents": [
+                "An asset is a static entity within a map, typically named like AEG000500.",
+                "An asset may be destroyed in certain circumstances, as defined in asset params.",
+                "EMEVD can be used to activate or deactive assets, show animations and change states",
+                "not already handled with with ObjActs.",
+                "",
+                "Prior to Elden Ring, Assets were called Objects."
+            ]
+        },
+        {
+            "Title": "Attack",
+            "Tags": [
+                "Term"
+            ],
+            "Contents": [
+                "An action taken by a character, including the player,",
+                "which can apply damage and/or effects along with animation(s).",
+                "This is a type of behavior."
+            ]
+        },
+        {
+            "Title": "Behavior",
+            "Tags": [
+                "Term"
+            ],
+            "Contents": [
+                "Within Params and Time Action Events (TAE), behavior data is associated",
+                "with some action and its effects, such as speffects, stamina cost,",
+                "and various state changes.",
+                "",
+                "Within Havok Behavior files (HKX), behavior data is what manages",
+                "animations and state transitions for characters."
+            ]
+        },
+        {
+            "Title": "BDT",
+            "Tags": [
+                "Format",
+                "Archive"
+            ],
+            "Contents": [
+                "An archive of game data, compressed and sometimes encrypted.",
+                "Tools such as UXM and UDSFM can be used to dump their contents."
+            ]
+        },
+        {
+            "Title": "BHD",
+            "Tags": [
+                "Format",
+                "Archive"
+            ],
+            "Contents": [
+                "An archive of game data, compressed and sometimes encrypted.",
+                "Tools such as UXM and UDSFM can be used to dump their contents."
+            ]
+        },
+        {
+            "Title": "BND",
+            "Tags": [
+                "Format",
+                "Binder"
+            ],
+            "Contents": [
+                "An archive format called Binder that is used as a container for numerous game files.",
+                "",
+                "Tools such as WitchBND or Yabber can be used to unpack these files."
+            ]
+        },
+        {
+            "Title": "Bonfire",
+            "Tags": [
+                "Term",
+                "Grace"
+            ],
+            "Contents": [
+                "An in-game character you can interact with through ESD,",
+                "which has some special integration with spawn points, bonfire sitting,",
+                "and kindling/activation levels.",
+                "",
+                "Bonfires are registered in EMEVD.",
+                "Activating, naming, and warping between bonfires is defined in bonfire warp params."
+            ]
+        },
+        {
+            "Title": "Boss",
+            "Tags": [
+                "Term"
+            ],
+            "Contents": [
+                "A boss can differ from game to game, but is typically a non-respawning",
+                "enemy character with a named health bar and a custom arena.",
+                "",
+                "Fog gates, health bars, post-defeat actions, and item awards are typically",
+                "implemented within EMEVD, and cutscenes before or after are initialized from EMEVD.",
+                "",
+                "A boss's arena will utilise collision to setup a 'unstable' play region,",
+                "meaning that player position is not saved there."
+            ]
+        },
+        {
+            "Title": "Bullet",
+            "Tags": [
+                "Term",
+                "Projectile"
+            ],
+            "Contents": [
+                "A bullet is an in-game projectile that can apply some damage and/or effect if it hits.",
+                "In most cases bullets are used for typical projectile purposes",
+                "however there are esoteric cases such as the Perilous Symbol in Sekiro.",
+                "",
+                "Typically a bullet is invoked via TAE through the usage of a behavior,",
+                "but they can also be invoked through SpEffects and via EMEVD."
+            ]
+        },
+        {
+            "Title": "Character",
+            "Tags": [
+                "Term",
+                "Chr", "Human", "Player"
+            ],
+            "Contents": [
+                "A character (also refered to as Chr) refers to any entity under",
+                "the Enemy map object type.",
+                "",
+                "Character data is present in several formats and locations.",
+                "This includes models, textures, animations, behavior, AI, dialogue,",
+                "and some SFX/SE which are associated with the character directly."
+            ]
+        },
+        {
+            "Title": "Collision",
+            "Tags": [
+                "Term"
+            ],
+            "Contents": [
+                "An invisible polygonal surface in maps that is used by",
+                "the physics engine (Havok) for floors, walls, death planes,",
+                "and misc other interactions such as ledges in Sekiro.",
+                "",
+                "Is also referred to as a 'Hit'.",
+                "",
+                "AI navigation data (navmeshes) are associated with these.",
+                "They can be enabled and disabled using EMEVD scripting if",
+                "given an entity id."
+            ]
+        },
+        {
+            "Title": "Cutscne",
+            "Tags": [
+                "Term",
+                "MQB",
+                "Remo"
+            ],
+            "Contents": [
+                "A cutscene is a type of file, associated with the .MQB format,",
+                "but also referred to as 'remo' in various places."
+            ]
+        },
+        {
+            "Title": "DCX",
+            "Tags": [
+                "Format"
+            ],
+            "Contents": [
+                "A compression format used by most souls files.",
+                "In Sekiro and Armored Core VI, the compression makes use",
+                "of an external library called Oodle.",
+                "",
+                "It can be unpacked with tools such as WitchyBND or Yabber."
+            ]
+        },
+        {
+            "Title": "Debug Menu",
+            "Tags": [
+                "Term"
+            ],
+            "Contents": [
+                "An in-game menu which can be used to interact with game structures at a lower level.",
+                "Usually only present in alpha builds of games,",
+                "although some functionality may exist as unused code in the shipped game."
+            ]
+        },
+        {
+            "Title": "Draw Param",
+            "Tags": [
+                "Term"
+            ],
+            "Contents": [
+                "A type of param used for per-map rendering configuration (tone, light, shadows).",
+                "Different versions of draw params for a map can be activated with EMEVD."
+            ]
+        },
+        {
+            "Title": "DLSE",
+            "Tags": [
+                "Format",
+                "DS2", "DES"
+            ],
+            "Contents": [
+                "Generic serialization format.",
+                "Used for FFX and ESD in Demon's Souls.",
+                "Used for FFX in Dark Souls II."
+            ]
+        },
+        {
+            "Title": "Dummy Polygon",
+            "Tags": [
+                "Format",
+                "DummyPoly", "Dummy", "Poly"
+            ],
+            "Contents": [
+                "A pre-defined point within a model.",
+                "Associated with a numeric ID which is used to refer to the location",
+                "for hitboxes, visual effects, and much more.",
+                "",
+                "A dummy polygon can be a single location or multiple locations on a model.",
+                "",
+                "Can be referred to as a DummyPoly, Dummy or Poly."
+            ]
+        },
+        {
+            "Title": "EMEVD",
+            "Tags": [
+                "Format",
+                "Script",
+                "Event"
+            ],
+            "Contents": [
+                "EMEVD is an event scripting format used from Dark Souls I onwards.",
+                "It is responsible for managing the game state, which covers aspects such as",
+                "the appearance of enemies or objects, boss fights, invasions, etc.",
+                "",
+                "The format consists of a list of events, each of which contains a",
+                "list of bytecode-encoded instructions, which range from",
+                "general procedural tools (initializing other events, boolean operators)",
+                "to very specific (give item, check if player holding a light source).",
+                "",
+                "There is one common emevd script which is continually running while the game is loaded,",
+                "and per-map emevds which run while those specific maps are loaded.",
+                "",
+                "Note that Dark souls II uses ESD instead for events.",
+                "",
+                "Tools for editing EMEVD include DarkScript and SoulStruct (Dark Souls I only)",
+                "",
+                "Each function within EMEVD is called an Event.",
+                "An Event is a group of instructions which execute from top to bottom,",
+                "identified by a numerical id.",
+                "",
+                "Event 50 always runs first (preconstructor), then event 0 (constructor).",
+                "These events in turn initialize all other events in the file.",
+                "",
+                "Most events start with instructions which allow the event to lay dormant",
+                "until some condition is met - for some event flag to turn on,",
+                "or some enemy to be killed.",
+                "",
+                "Some events can be initialized multiple times with different parameters,",
+                "and all such invocations run in parallel.",
+                "",
+                "While events always execute instructions in order, they may skip instructions,",
+                "end early, or restart themselves.",
+                "",
+                "Events can be classified as automatically restarting on bonfire rest.",
+                "All events start anew after quitting and reloading the game."
+            ]
+        },
+        {
+            "Title": "Entity Id",
+            "Tags": [
+                "Term"
+            ],
+            "Contents": [
+                "A numerical identifier for any object, enemy, NPC, spawn point, map part,",
+                "collision, region, ObjAct, etc. in a map.",
+                "",
+                "Not all entities need to have entity ids,",
+                "and having an id does not do anything by itself.",
+                "",
+                "Typically an entity id is referred to in EMEVD or Params.",
+                "Entity ids are often prefixed by the map ids",
+                "For instance, most entity ids in Great Hollow (m13_02_00_00)",
+                "are 7-digit numbers like 132XXXX."
+            ]
+        },
+        {
+            "Title": "Entity Group Id",
+            "Tags": [
+                "Term"
+            ],
+            "Contents": [
+                "A secondary entity id which can be used to manage multiple entities at once,",
+                "in EMEVD instructions which support it"
+            ]
+        },
+        {
+            "Title": "ESD",
+            "Tags": [
+                "Format",
+                "Script"
+            ],
+            "Contents": [
+                "A state machine-based scripting format used from Dark Souls I onwards.",
+                "It is used in all games for dialogue scripting,",
+                "including for bonfires and similar interactable objects.",
+                "",
+                "In Dark Souls I it is used for chaining character actions performed in the game,",
+                "a role subsumed by Havok behavior files in subsequent games.",
+                "",
+                "In Dark Souls II it is used for event scripting, instead of EMEVD, and some AI scripting.",
+                "These state machines are pulled into the game from map data, usually MSB,",
+                "and associated with specific map entities while they are running.",
+                "",
+                "In Dark Souls II and onwards, state machines can call into other state machines in",
+                "the same ESD file like subroutines."
+            ]
+        },
+        {
+            "Title": "Event Flag",
+            "Tags": [
+                "Term",
+                "Flag"
+            ],
+            "Contents": [
+                "A numerical identifier with an on/off value.",
+                "These are used extensively to track the game world state.",
+                "",
+                "For example, in Dark Souls III, flag 9314 is used for Aldrich being killed.",
+                "Flag 53100010 is used for whether the settlement bone shard has been picked up.",
+                "Flag 13700003 is used for whether the Anor Londo bonfire has been reached.",
+                "The first is done from emevd, and the latter two are configured in params.",
+                "",
+                "Only certain ranges of flags are persistently saved - this is hardcoded in the exe.",
+                "Any flag ending in 5xxx is never saved.",
+                "",
+                "One final place event flags come from is events themselves,",
+                "when an event ends, either explicitly or from executing its final instruction,",
+                "a flag is turned on for that event id.",
+                "",
+                "If an event is instantiated multiple times in different slots,",
+                "event id + slot number is used instead."
+            ]
+        },
+        {
+            "Title": "Event Value",
+            "Tags": [
+                "Term",
+                "EMEVD"
+            ],
+            "Contents": [
+                "An EMEVD feature for encoding a small unsigned integer in event flags.",
+                "If <n> flags are used to store a value, <2^n> possible values can be stored,",
+                "with the least significant bit first.",
+                "",
+                "These are pretty finicky and only work for some hardcoded bit lengths,",
+                "and seemingly cannot be used with e.g. shop quantity flags despite using the same format."
+            ]
+        },
+        {
+            "Title": "FLVER",
+            "Tags": [
+                "Format",
+                "Model"
+            ],
+            "Contents": [
+                "A proprietary format used for rendering data.",
+                "It defines meshes, skeletons, and links to materials and textures.",
+                "Can be converted to/from the more blender/max friendly FBX format with custom tools."
+            ]
+        },
+        {
+            "Title": "FMG",
+            "Tags": [
+                "Format",
+                "Text",
+                "Localization",
+                "Localisation"
+            ],
+            "Contents": [
+                "A localisation format with strings keyed by integer ids.",
+                "This is used for all text which appears within the game."
+            ]
+        },
+        {
+            "Title": "Fog Gate",
+            "Tags": [
+                "Format",
+                "Boss",
+                "Fog",
+                "Wall"
+            ],
+            "Contents": [
+                "An object in maps which is solid and has corresponding opaque visual effect.",
+                "For the most part, these are all managed by EMEVD and have entity ids.",
+                "",
+                "Traversing them is implemented as an action button followed by a scripted animation.",
+                "They are also enabled at play region boundaries during invasions/co-op."
+            ]
+        },
+        {
+            "Title": "Graphics Param",
+            "Tags": [
+                "Format",
+                "GParam"
+            ],
+            "Contents": [
+                "A config format for per-map draw params used from Dark Souls II onwards.",
+                "In Dark Souls I, the same format was used for game params and draw params."
+            ]
+        },
+        {
+            "Title": "GFX",
+            "Tags": [
+                "Format",
+                "UI",
+                "Interface"
+            ],
+            "Contents": [
+                "An animation file that contains vector and raster graphics in a format",
+                "similar to the .SWF file format.",
+                "",
+                "Tools such as JPEXS Flash Decompiler can be used to edit these files."
+            ]
+        },
+        {
+            "Title": "Havok",
+            "Tags": [
+                "Term"
+            ],
+            "Contents": [
+                "A behavior system used to control all character animations.",
+                "Uses HKX behavior files and HKS Havok script files.",
+                "Used in Dark Souls 3, Bloodborne, and Sekiro. Also used in Dark Souls II cutscenes."
+            ]
+        },
+        {
+            "Title": "Item Lot",
+            "Tags": [
+                "Term"
+            ],
+            "Contents": [
+                "An entry in the ItemLot param that grants the player an item,",
+                "or a group of items."
+            ]
+        },
+        {
+            "Title": "Jump Table",
+            "Tags": [
+                "Format",
+                "TAE"
+            ],
+            "Contents": [
+                "A type of command within Time Action Events."
+            ]
+        },
+        {
+            "Title": "Lua",
+            "Tags": [
+                "Format",
+                "Script"
+            ],
+            "Contents": [
+                "A scripting language, used by all of the games for character and enemy AI.",
+                "In Dark Souls III, Bloodborne, Sekiro and Elden Ring, HKS is written in special form of Lua."
+            ]
+        },
+        {
+            "Title": "MSB",
+            "Tags": [
+                "Format"
+            ],
+            "Contents": [
+                "A map is contained with in a .MSB file.",
+                "The MSB format contains with position and some configuration of everything",
+                "which exists in the game world.",
+                "",
+                "Many of these things have entity ids, which allows in-game scripts to interact",
+                "with things by id.",
+                "",
+                "MSB names so far are structured like m30_01_00_00,",
+                "with the first two numbers as a unique area and block id,",
+                "and the last digit sometimes incrementing for different versions."
+            ]
+        },
+        {
+            "Title": "Navigation Mesh",
+            "Tags": [
+                "Term",
+                "Navmesh"
+            ],
+            "Contents": [
+                "Navigation mesh is a set of data about how enemies can navigate within",
+                "and between collisions, baked on top of the collision data."
+            ]
+        },
+        {
+            "Title": "NPC",
+            "Tags": [
+                "Term"
+            ],
+            "Contents": [
+                "NPC is an acronym for non-player character. It is used to refer to",
+                "all characters that are not the player themselves."
+            ]
+        },
+        {
+            "Title": "ObjAct",
+            "Tags": [
+                "Term",
+                "Object",
+                "Action"
+            ],
+            "Contents": [
+                "Object Action (ObjAct) is a container of object state, based on player interaction.",
+                "For instance, ObjAct entries are used to monitor the opening of doors and use of levers."
+            ]
+        },
+        {
+            "Title": "Object",
+            "Tags": [
+                "Term",
+                "Asset"
+            ],
+            "Contents": [
+                "An object is a static entity within a map, typically named like o000500.",
+                "An object may be destroyed in certain circumstances, as defined in object params.",
+                "EMEVD can be used to activate or deactive objects, show animations and change states",
+                "not already handled with with ObjActs.",
+                "",
+                "In Elden Ring and onwards, Objects are now called Assets."
+            ]
+        },
+        {
+            "Title": "Param",
+            "Tags": [
+                "Term"
+            ],
+            "Contents": [
+                "Used to refer to game params, which determine the behavior and properties",
+                "of many integer-keyed game objects and mechanisms."
+            ]
+        },
+        {
+            "Title": "Play Region",
+            "Tags": [
+                "Term"
+            ],
+            "Contents": [
+                "A property of collisions in MSB which defines what can happen when",
+                "the player stands on them.",
+                "",
+                "Some regions allow pvp invaders; others allow placing summon signs;",
+                "others are for boss fights and will create unstable collisions,",
+                "prevent reloading in the arena.",
+                "",
+                "Typically fog gates are put on play region boundaries while multiplayer is active.",
+                "",
+                "In Bloodborne onward this is handled in params, but Dark Souls I uses a special convention:",
+                "positive play region id for pvp/coop areas,",
+                "-1 for always unstable,",
+                "-2 for stable with no invasions,",
+                "<-10 for conditionally stable regions,",
+                "based on the value of the event flag at (region id)*-1 - 10"
+            ]
+        },
+        {
+            "Title": "QWC",
+            "Tags": [
+                "Term"
+            ],
+            "Contents": [
+                "A term used for world tendency-based shops in Demon's Souls."
+            ]
+        },
+        {
+            "Title": "Shop",
+            "Tags": [
+                "Term"
+            ],
+            "Contents": [
+                "A static list of items which can be purchased from an NPC.",
+                "Shop params define an id per sell slot,",
+                "and shop menus can be opened for all params in some range with an ESD command.",
+                "",
+                "Items are only eligible for shops if the game considers them purchasable by the player.",
+                "Generally when the item's param entry has a default buy price.",
+                "",
+                "Shop lineups can have prices overriding the default and event flags",
+                "for when the item shows up in the shop.",
+                "",
+                "The lineup also includes the quantity being sold:",
+                "-1 for infinite items, or the quantity plus an event flag otherwise."
+            ]
+        },
+        {
+            "Title": "Shop Event Flag",
+            "Tags": [
+                "Term",
+                "Flag",
+                "Shop"
+            ],
+            "Contents": [
+                "There are up to two of these per shop slot:",
+                "to track whether a fixed-quantity shop item has been sold, in all games,",
+                "and for items conditionally showing up in shops based on",
+                "the event flag in Bloodborne onwards.",
+                "",
+                "Visibility flags are used quite heavily in Dark Souls III,",
+                "where all items are in the Handmaid's shop from the start but",
+                "only show up depending on which ashes you hand in.",
+                "",
+                "It's also used for tomes/scrolls for the other NPCs.",
+                "The quantity event flag is the base of an event value storing how many",
+                "items have been sold - on/off in the case of quantity of 1."
+            ]
+        },
+        {
+            "Title": "Sound Effect",
+            "Tags": [
+                "Term",
+                "SE"
+            ],
+            "Contents": [
+                "A sound effect is an sound invoked via a param, TAE, Region, etc.",
+                "May be referred to as SE",
+                "",
+                "These can be used in many of the same circumstances as visual effects,",
+                "with a numerical id keying into a sound from FMOD Sample Bank (FSB)."
+            ]
+        },
+        {
+            "Title": "SpEffect",
+            "Tags": [
+                "Term",
+                "Effect"
+            ],
+            "Contents": [
+                "A status which causes some gameplay or cosmetic change in the player or enemies.",
+                "These can be instantaneous, timed to some fixed amount, or indefinite.",
+                "",
+                "Speffects can be set and cleared from wearing equipment, using an item,",
+                "being hit with an attack or bullet, from TAE, or from EMEVD.",
+                "",
+                "They may also have icons which show up near the HP bar.",
+                "Gameplay changes can happen from various fields in SpEffect params.",
+                "Many major speffects also include a StateInfo parameter."
+            ]
+        },
+        {
+            "Title": "State Info",
+            "Tags": [
+                "Term",
+                "StateInfo"
+            ],
+            "Contents": [
+                "A system for per-character state management tied in with Havok behavior files",
+                "in Bloodborne, Darksouls III, Sekiro and Elden Ring,",
+                "and EzState files in Demon's Souls and Dark Souls I.",
+                "",
+                "Referenced in params/TAE to trigger a status on player or enemies;",
+                "in that case, the id acts like a special command for",
+                "low-level behavior handlers to conditionally perform some action."
+            ]
+        },
+        {
+            "Title": "TAE",
+            "Tags": [
+                "Format"
+            ],
+            "Contents": [
+                "Time Action Events, or TAE, are the discrete events contained with .TAE files.",
+                "These events control numerous aspects of a character's animation and state within",
+                "specific frames during an animation.",
+                "Keyed by animation id per character.",
+                "",
+                ".TAE files can be edited with the DSAnimStudio tool."
+            ]
+        },
+        {
+            "Title": "Talk",
+            "Tags": [
+                "Term"
+            ],
+            "Contents": [
+                "Character speech, prompted through ESD command.",
+                "Talk ids are in the Talk param, which includes a reference to",
+                "an FMG text id and to an FMOD Sample Bank (FSB) audio id.",
+                "",
+                "In Elden Ring and Armored Core VI, the audio id is instead Wwise."
+            ]
+        },
+        {
+            "Title": "Team Type",
+            "Tags": [
+                "Term"
+            ],
+            "Contents": [
+                "Defines a characters' alignment (in NPC and multiplayer)",
+                "including who its AI will attack, who it can damage,",
+                "and who it can take damage from.",
+                "",
+                "This varies from game to game.",
+                "Look at existing NPC params to determine the best team type for a new NPC."
+            ]
+        },
+        {
+            "Title": "Unstable Collision",
+            "Tags": [
+                "Term"
+            ],
+            "Contents": [
+                "A term for a collision which doesn't save position.",
+                "",
+                "If you quit out on them, the game will restore you to wherever you were",
+                "before stepping on the unstable collision.",
+                "If there is no such location, you will be sent to that map's (or the previous map's)",
+                "default spawn point.",
+                "",
+                "This is implemented conditionally for some collisions through event flags."
+            ]
+        },
+        {
+            "Title": "Visual Effect",
+            "Tags": [
+                "Term",
+                "FXR", "FFX", "FX", "SFX", "VFX"
+            ],
+            "Contents": [
+                "A visual effect is an effect spawned via the particle system within the game.",
+                "",
+                "There are multiple terms used for a visual effect, such as:",
+                "FXR, FFX, FX, SFX and VFX",
+                "",
+                "Visual effects can produce sound.",
+                "",
+                "FFX is used in Dark Souls I",
+                "FXR is used in Dark Souls III and Elden Ring."
+            ]
+        },
+        {
+            "Title": "World Tendency",
+            "Tags": [
+                "Term"
+            ],
+            "Contents": [
+                "Used in Demon's Souls for various game states.",
+                "Only used in Dark Souls I only for gravelord game state."
+            ]
+        }
+    ]
+}
