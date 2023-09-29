@@ -451,7 +451,15 @@ namespace StudioCore.ParamEditor
                 nameText += $"  /  {altName}";
             }
             ImGui.TextColored(new Vector4(1.0f, 0.7f, 0.4f, 1.0f), Utils.ImGuiEscape(nameText, "", true));
-            if (propType.IsValueType)
+            if (col.Def.BitSize != -1)
+            {
+                string str = $"Bitfield Type within: {propType.Name}";
+                var min = 0;
+                var max = (2ul << (col.Def.BitSize - 1)) - 1;
+                str += $" (Min {min}, Max {max})";
+                ImGui.TextColored(new Vector4(.4f, 1f, .7f, 1f), str);
+            }
+            else if (propType.IsValueType)
             {
                 string str = $"Value Type: {propType.Name}";
                 var min = propType.GetField("MinValue")?.GetValue(propType);
