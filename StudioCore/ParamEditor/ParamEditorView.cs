@@ -499,6 +499,25 @@ namespace StudioCore.ParamEditor
 
             if (ImGui.BeginPopupContextItem(r.ID.ToString()))
             {
+                if (CFG.Current.Param_ShowHotkeysInContextMenu)
+                {
+                    if (ImGui.Selectable(@$"Copy selection ({KeyBindings.Current.Param_Copy.HintText})", false, _selection.RowSelectionExists() ? ImGuiSelectableFlags.None : ImGuiSelectableFlags.Disabled))
+                        _paramEditor.CopySelectionToClipboard(_selection);
+                    
+                    if (ImGui.Selectable(@$"Paste clipboard ({KeyBindings.Current.Param_Paste.HintText})", false, ParamBank.ClipboardRows.Any() ? ImGuiSelectableFlags.None : ImGuiSelectableFlags.Disabled))
+                    {
+                        EditorCommandQueue.AddCommand($@"param/menu/ctrlVPopup");
+                    }
+                    if (ImGui.Selectable(@$"Delete selection ({KeyBindings.Current.Core_Delete.HintText})", false, _selection.RowSelectionExists() ? ImGuiSelectableFlags.None : ImGuiSelectableFlags.Disabled))
+                    {
+                        _paramEditor.DeleteSelection(_selection);
+                    }
+                    if (ImGui.Selectable(@$"Duplicate selection ({KeyBindings.Current.Core_Duplicate.HintText})", false, _selection.RowSelectionExists() ? ImGuiSelectableFlags.None : ImGuiSelectableFlags.Disabled))
+                    {
+                        _paramEditor.DuplicateSelection(_selection);
+                    }
+                    ImGui.Separator();
+                }
                 if (decorator != null)
                     decorator.DecorateContextMenuItems(r);
                 if (ImGui.Selectable((isPinned ? "Unpin ":"Pin ")+r.ID))

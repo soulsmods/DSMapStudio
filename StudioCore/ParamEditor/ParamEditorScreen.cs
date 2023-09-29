@@ -916,11 +916,15 @@ namespace StudioCore.ParamEditor
 
         public void CopySelectionToClipboard()
         {
-            ParamBank.ClipboardParam = _activeView._selection.GetActiveParam();
+            CopySelectionToClipboard(_activeView._selection);
+        }
+        public void CopySelectionToClipboard(ParamEditorSelectionState selectionState)
+        {
+            ParamBank.ClipboardParam = selectionState.GetActiveParam();
             ParamBank.ClipboardRows.Clear();
             long baseValue = long.MaxValue;
-            _activeView._selection.SortSelection();
-            foreach (Param.Row r in _activeView._selection.GetSelectedRows())
+            selectionState.SortSelection();
+            foreach (Param.Row r in selectionState.GetSelectedRows())
             {
                 ParamBank.ClipboardRows.Add(new Param.Row(r));// make a clone
                 if (r.ID < baseValue)
@@ -946,8 +950,12 @@ namespace StudioCore.ParamEditor
 
         public void DeleteSelection()
         {
-            List<Param.Row> toRemove = new List<Param.Row>(_activeView._selection.GetSelectedRows());
-            var act = new DeleteParamsAction(ParamBank.PrimaryBank.Params[_activeView._selection.GetActiveParam()], toRemove);
+            DeleteSelection(_activeView._selection);
+        }
+        public void DeleteSelection(ParamEditorSelectionState selectionState)
+        {
+            List<Param.Row> toRemove = new List<Param.Row>(selectionState.GetSelectedRows());
+            var act = new DeleteParamsAction(ParamBank.PrimaryBank.Params[selectionState.GetActiveParam()], toRemove);
             EditorActionManager.ExecuteAction(act);
             _views.ForEach((view) =>
             {
@@ -958,8 +966,12 @@ namespace StudioCore.ParamEditor
 
         public void DuplicateSelection()
         {
-            Param param = ParamBank.PrimaryBank.Params[_activeView._selection.GetActiveParam()];
-            List<Param.Row> rows = _activeView._selection.GetSelectedRows();
+            DuplicateSelection(_activeView._selection);
+        }
+        public void DuplicateSelection(ParamEditorSelectionState selectionState)
+        {
+            Param param = ParamBank.PrimaryBank.Params[selectionState.GetActiveParam()];
+            List<Param.Row> rows = selectionState.GetSelectedRows();
             if (rows.Count == 0)
                 return;
 
