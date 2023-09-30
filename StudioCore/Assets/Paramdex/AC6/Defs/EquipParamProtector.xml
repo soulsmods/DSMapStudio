@@ -291,10 +291,10 @@
     <Field Def="f32 quickBoostVelocity">
       <Description>Referred to in-game as "Jump Distance". Does not affect jump distance.</Description>
     </Field>
-    <Field Def="s32 UnkInt0x1E4"></Field>
+    <Field Def="s32 firearmSpecialization"></Field>
     <Field Def="s32 attitudeStability"></Field>
     <Field Def="f32 UnkFloat0x1EC"></Field>
-    <Field Def="f32 armsRecoilControl"></Field>
+    <Field Def="f32 recoilControl"></Field>
     <Field Def="f32 tetrapodHoverDrainRate"></Field>
     <Field Def="f32 tetrapodHoverQuickBoostVelocity"></Field>
     <Field Def="s32 Unk0x1FC"></Field>
@@ -317,8 +317,8 @@
     <Field Def="f32 UnkFloat0x234"></Field>
     <Field Def="f32 armsLoadLimit"></Field>
     <Field Def="s32 Unk0x23C"></Field>
-    <Field Def="s32 armsMeleeSpecialization"></Field>
-    <Field Def="s32 legsLoadLimit"></Field>
+    <Field Def="s32 meleeSpecialization"></Field>
+    <Field Def="s32 loadLimit"></Field>
     <Field Def="s32 legsPartBoosterParamId">
       <Description>Refers to EquipParamBooster</Description>
     </Field>
@@ -381,10 +381,10 @@
     <Field Def="f32 Unk0x2E4"></Field>
     <Field Def="f32 Unk0x2E8"></Field>
     <Field Def="f32 Unk0x2EC"></Field>
-    <Field Def="f32 unkDisplayLegsJumpDistance">
+    <Field Def="f32 unkDisplayJumpDistance">
       <Description>Seemingly does nothing, and UI element for "Jump Distance" is governed by quickBoostVelocity.</Description>
     </Field>
-    <Field Def="f32 displayLegsJumpHeight">
+    <Field Def="f32 displayJumpHeight">
       <Description>Only affects value in UI.</Description>
     </Field>
     <Field Def="f32 Unk0x2F8"></Field>
