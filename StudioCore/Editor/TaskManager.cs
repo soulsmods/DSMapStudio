@@ -132,7 +132,7 @@ namespace StudioCore.Editor
                         if (SilentFail)
                         {
                             TaskLogs.AddLog($"Task Failed: {TaskId}",
-                                Microsoft.Extensions.Logging.LogLevel.Error, LogPriority, e);
+                                Microsoft.Extensions.Logging.LogLevel.Error, LogPriority, e.InnerException);
                         }
                         else
                         {
