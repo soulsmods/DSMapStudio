@@ -33,6 +33,8 @@
     <armsLoadLimit AltName="Arms Load Limit" Wiki="Maximum weapon weight arms can handle before being overloaded." />
     <armRecoilControl AltName="Recoil Control" Wiki="Affects how quickly weapon spread grows and shrinks while firing." />
     <armsMeleeSpecialization AltName="Melee Specialization" Wiki="Increases melee weapon damage. Minimum of 0 (+0% damage), maximum of 200 (+200% damage)." />
+    <systemRecovery AltName="System Recovery" Wiki="Actual effects of System Recovery stat, which increases resistance to status effects." />
+    <systemRecovery_Display AltName="System Recovery (Displayed)" Wiki="UI value of System Recovery stat. See systemRecovery for actual effects." />
   </Field>
   <Self />
 </PARAMMETA>

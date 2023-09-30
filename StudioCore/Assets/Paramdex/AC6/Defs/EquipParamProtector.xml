@@ -343,8 +343,8 @@
     </Field>
     <Field Def="f32 antiCoralDefense"></Field>
     <Field Def="f32 UnkFloat0x274"></Field>
-    <Field Def="f32 UnkFloat0x278"></Field>
-    <Field Def="f32 UnkFloat0x27C"></Field>
+    <Field Def="f32 systemRecovery_Display"></Field>
+    <Field Def="f32 systemRecovery"></Field>
     <Field Def="f32 UnkFloat0x280"></Field>
     <Field Def="s32 Unk0x284"></Field>
     <Field Def="f32 UnkFloat0x288"></Field>
