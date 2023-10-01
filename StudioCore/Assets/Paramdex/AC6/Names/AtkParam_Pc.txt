@@ -1,3 +1,11 @@
+709 Biped Legs: Assault Boost Crash
+712 Biped Legs: Kick
+729 Reverse Joint Legs: Assault Boost Crash
+732 Reverse Joint Legs: Kick
+749 Tetrapod Legs: Assault Boost Crash
+752 Tetrapod Legs: Kick
+769 Tank Legs: Assault Boost Crash
+772 Tank Legs: Kick
 10000000 MA-J-200 RANSETSU-RF [Burst Rifle]
 10000100 MA-J-200 RANSETSU-RF [Burst Rifle]
 10010000 LR-036 CURTIS [Linear Rifle]

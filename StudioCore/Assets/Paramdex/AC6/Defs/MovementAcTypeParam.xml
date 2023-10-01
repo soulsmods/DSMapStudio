@@ -152,8 +152,8 @@
     <Field Def="f32 UnkFloat0x23C"></Field>
     <Field Def="f32 UnkFloat0x240"></Field>
     <Field Def="f32 UnkFloat0x244"></Field>
-    <Field Def="f32 tankMaxWalkSpeed"></Field>
-    <Field Def="f32 UnkFloat0x24C"></Field>
+    <Field Def="f32 tankTravelSpeed_MaxVelocity_Walk"></Field>
+    <Field Def="f32 tankTravelSpeed_Acceleration_Walk"></Field>
     <Field Def="f32 UnkFloat0x250"></Field>
     <Field Def="f32 UnkFloat0x254"></Field>
     <Field Def="f32 UnkFloat0x258"></Field>
@@ -174,8 +174,8 @@
     <Field Def="s32 UnkInt0x294"></Field>
     <Field Def="f32 UnkFloat0x298"></Field>
     <Field Def="f32 UnkFloat0x29C"></Field>
-    <Field Def="f32 UnkFloat0x2A0"></Field>
-    <Field Def="f32 UnkFloat0x2A4"></Field>
+    <Field Def="f32 tankTravelSpeed_MaxVelocity_Boostmode"></Field>
+    <Field Def="f32 tankTravelSpeed_Acceleration_Boostmode"></Field>
     <Field Def="f32 UnkFloat0x2A8"></Field>
     <Field Def="f32 UnkFloat0x2AC"></Field>
     <Field Def="f32 UnkFloat0x2B0"></Field>

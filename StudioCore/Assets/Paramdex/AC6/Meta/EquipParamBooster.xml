@@ -2,6 +2,7 @@
 <PARAMMETA XmlVersion="0">
   <Field>
     <assaultBoostGraceTime AltName="Assault Boost (Grace Time)" Meta="Amount of time (in frames at 60fps) for assault boost to continue after losing all EN." />
+    <boostModeMovementVelocity AltName="Boost Mode: Movement Velocity" Meta="Movement velocity when boosting. Also used for tank leg High Speed Performance" />
   </Field>
   <Self />
 </PARAMMETA>
