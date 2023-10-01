@@ -59,7 +59,7 @@
     <Field Def="f32 quickBoostReloadTime">
       <Description>Reload time for Quick Boost.</Description>
     </Field>
-    <Field Def="f32 UnkFloat0x88"></Field>
+    <Field Def="f32 boostModeGravity"></Field>
     <Field Def="f32 UnkFloat0x8C"></Field>
     <Field Def="f32 UnkFloat0x90"></Field>
     <Field Def="s32 UnkInt0x94"></Field>
