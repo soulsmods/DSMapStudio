@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
   <Field>
+    <variationId AltName="Behavior Variation ID" Wiki="Used to link weapon with BehaviorParam, and from there projectiles/attacks. Corresponds with variationId in BehaviorParam." />
     <inheritanceWeaponParamId AltName="Weapon Inheritance" Refs="EquipParamWeapon" Wiki="Inherits fields from referenced weapon." />
     <attackActionParamId AltName="Attack Action Param ID" Refs="AttackActionParam_PC" />
     <thrustersParamId AltName="Attack Action Param ID" Refs="ThrustersParam_PC" />

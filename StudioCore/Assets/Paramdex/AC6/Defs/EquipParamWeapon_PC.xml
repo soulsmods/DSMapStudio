@@ -7,7 +7,7 @@
   <FormatVersion>203</FormatVersion>
   <Fields>
     <Field Def="s32 Unk0x00"></Field>
-    <Field Def="s32 behaviorJudgeId">
+    <Field Def="s32 variationId">
       <Description>Used to link BehaviorParam_PC entries to the weapon.</Description>
     </Field>
     <Field Def="s32 sortId"></Field>
