@@ -31,7 +31,7 @@
     <Field Def="f32 UnkFloat0x44"></Field>
     <Field Def="f32 UnkFloat0x48"></Field>
     <Field Def="f32 boostModeEnergyCost_Flying"></Field>
-    <Field Def="f32 upwardBoostEnergyCost">
+    <Field Def="f32 upwardThrustEnergyCost">
       <Description>EN consumed by ascending boost movement.</Description>
     </Field>
     <Field Def="s32 quickBoostEnergyCost">
@@ -51,7 +51,7 @@
       <Description>Only affects value in UI.</Description>
     </Field>
     <Field Def="f32 UnkFloat0x6C"></Field>
-    <Field Def="f32 UnkFloatBoostModeJumpVelocity0x70"></Field>
+    <Field Def="f32 upwardThrustMaxVelocity_BoostMode"></Field>
     <Field Def="f32 UnkFloatBoostModeJumpVelocity0x74"></Field>
     <Field Def="f32 upwardEnergyCost_BoostMode"></Field>
     <Field Def="s32 Unk0x7C"></Field>
@@ -83,12 +83,12 @@
     <Field Def="s32 Unk0xD4"></Field>
     <Field Def="s32 Unk0xD8"></Field>
     <Field Def="s32 Unk0xDC"></Field>
-    <Field Def="f32 UnkFloatBoostModeJumpVelocity0xE0"></Field>
-    <Field Def="f32 UnkFloatBoostModeJumpVelocity0xE4"></Field>
-    <Field Def="f32 UnkFloatBoostModeJumpVelocity0xE8"></Field>
+    <Field Def="f32 upwardThrustMaxVelocity_Walk"></Field>
+    <Field Def="f32 upwardThrustVelocity_Initial_Walk"></Field>
+    <Field Def="f32 upwardThrustVelocity_During_Walk"></Field>
     <Field Def="f32 UnkFloat0xEC"></Field>
     <Field Def="f32 UnkFloat0xF0"></Field>
-    <Field Def="f32 UnkFloat0xF4"></Field>
+    <Field Def="f32 walkFlightVelocity0xF4"></Field>
     <Field Def="f32 UnkFloat0xF8"></Field>
     <Field Def="f32 UnkFloat0xFC"></Field>
     <Field Def="f32 assaultBoostVelocity_Initial">
@@ -97,7 +97,7 @@
     <Field Def="f32 assaultBoostVelocity_During">
       <Description>Velocity after initial boost during an Assault Boost.</Description>
     </Field>
-    <Field Def="f32 UnkFloat0x108"></Field>
+    <Field Def="f32 assaultBoostGraceTime"></Field>
     <Field Def="f32 UnkFloat0x10C"></Field>
     <Field Def="f32 assaultBoostReloadTime">
       <Description>Duration after which Assault Boost will be available again.</Description>
@@ -116,7 +116,7 @@
     <Field Def="u16 meleeBoostEnergyCost_Initial"></Field>
     <Field Def="s16 Unk0x132"></Field>
     <Field Def="f32 meleeBoostEnergyCost_During"></Field>
-    <Field Def="f32 UnkFloat0x138"></Field>
+    <Field Def="f32 upwardThrust_BoostMode"></Field>
     <Field Def="f32 UnkFloat0x13C"></Field>
     <Field Def="f32 UnkFloat0x140"></Field>
     <Field Def="f32 quickBoostReloadIdealWeight">

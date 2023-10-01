@@ -1,5 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
-  <Field></Field>
+  <Field>
+    <assaultBoostGraceTime AltName="Assault Boost (Grace Time)" Meta="Amount of time (in frames at 60fps) for assault boost to continue after losing all EN." />
+  </Field>
   <Self />
 </PARAMMETA>
