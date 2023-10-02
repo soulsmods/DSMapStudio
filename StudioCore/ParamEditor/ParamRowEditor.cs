@@ -166,7 +166,7 @@ namespace StudioCore.ParamEditor
             else if (typ == typeof(float))
             {
                 float val = (float)oldval;
-                if (ImGui.InputFloat("##value", ref val, 0.1f))
+                if (ImGui.InputFloat("##value", ref val, 0.1f, 1.0f, "%.5g"))
                 {
                     newval = val;
                     _editedPropCache = newval;
