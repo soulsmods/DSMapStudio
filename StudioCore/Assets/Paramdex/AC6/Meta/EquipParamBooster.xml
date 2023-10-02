@@ -1,5 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
-  <Field></Field>
+  <Field>
+    <assaultBoostGraceTime AltName="Assault Boost (Grace Time)" Meta="Amount of time (in frames at 60fps) for assault boost to continue after losing all EN." />
+    <boostModeMovementVelocity AltName="Boost Mode: Movement Velocity" Meta="Movement velocity when boosting. Also used for tank leg High Speed Performance" />
+    <interiaChange_Grounded AltName="Interia Change (Grounded)" Meta="Amount of velocity changed from moving direction to facing direction.\nDoes not affect tank legs." />
+  </Field>
   <Self />
 </PARAMMETA>

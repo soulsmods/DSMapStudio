@@ -54,13 +54,13 @@
     <Field Def="s32 Unk0xA0"></Field>
     <Field Def="s32 Unk0xA4"></Field>
     <Field Def="s32 Unk0xA8"></Field>
-    <Field Def="s32 Unk0xAC"></Field>
+    <Field Def="f32 Unk0xAC"></Field>
     <Field Def="s32 Unk0xB0"></Field>
     <Field Def="s32 Unk0xB4"></Field>
-    <Field Def="s32 Unk0xB8"></Field>
+    <Field Def="f32 Unk0xB8"></Field>
     <Field Def="s32 Unk0xBC"></Field>
-    <Field Def="s32 Unk0xC0"></Field>
-    <Field Def="s32 Unk0xC4"></Field>
+    <Field Def="f32 Unk0xC0"></Field>
+    <Field Def="f32 Unk0xC4"></Field>
     <Field Def="s16 UnkShort0xC8"></Field>
     <Field Def="s16 UnkShort0xCA"></Field>
     <Field Def="s16 UnkShort0xCC"></Field>

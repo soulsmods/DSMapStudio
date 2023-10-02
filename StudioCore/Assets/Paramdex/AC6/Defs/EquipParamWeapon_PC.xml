@@ -7,7 +7,7 @@
   <FormatVersion>203</FormatVersion>
   <Fields>
     <Field Def="s32 Unk0x00"></Field>
-    <Field Def="s32 behaviorJudgeId">
+    <Field Def="s32 variationId">
       <Description>Used to link BehaviorParam_PC entries to the weapon.</Description>
     </Field>
     <Field Def="s32 sortId"></Field>
@@ -365,7 +365,7 @@
     <Field Def="s32 UnkInt0x358"></Field>
     <Field Def="s32 UnkInt0x35C"></Field>
     <Field Def="s32 UnkInt0x360"></Field>
-    <Field Def="u16 Unk0x364"></Field>
+    <Field Def="s16 Unk0x364"></Field>
     <Field Def="u8 Unk0x366"></Field>
     <Field Def="u8 unkSfxMaterial0x367"></Field>
     <Field Def="s32 UnkInt0x368"></Field>
@@ -451,12 +451,12 @@
     <Field Def="f32 UnkFloat0x444"></Field>
     <Field Def="s8 UnkSbyte0x448"></Field>
     <Field Def="u8 Unk0x449"></Field>
-    <Field Def="u16 UnkUshort0x44A"></Field>
-    <Field Def="u16 UnkUshort0x44C"></Field>
+    <Field Def="u16 unkCoreExpansion0x44A"></Field>
+    <Field Def="u16 unkCoreExpansion0x44C"></Field>
     <Field Def="u16 UnkUshort0x44E"></Field>
-    <Field Def="f32 UnkFloat0x450"></Field>
+    <Field Def="f32 unkCoreExpansion0x450"></Field>
     <Field Def="f32 UnkFloat0x454"></Field>
-    <Field Def="f32 UnkFloat0x458"></Field>
+    <Field Def="f32 coreExpansionCooldownTime"></Field>
     <Field Def="s32 chargingEnergyLoad">
       <Description>EN Load when charging. EN is reduced if this value exceeds supply.</Description>
     </Field>
@@ -542,7 +542,7 @@
     <Field Def="s32 UnkInt0x568"></Field>
     <Field Def="s32 UnkInt0x56C"></Field>
     <Field Def="f32 UnkFloat0x570"></Field>
-    <Field Def="s32 UnkInt0x574"></Field>
+    <Field Def="f32 UnkInt0x574"></Field>
     <Field Def="f32 initialGuardDamageMitigation_Kinetic">
       <Description>Ability to mitigate incoming Kinetic damage while performing an Initial Guard.</Description>
     </Field>
@@ -588,7 +588,7 @@
     <Field Def="s16 Unk0x5B6"></Field>
     <Field Def="s8 UnkSbyte0x5B8"></Field>
     <Field Def="u8 UnkByte0x5B9"></Field>
-    <Field Def="u16 UnkUshort0x5BA"></Field>
+    <Field Def="s16 UnkShort0x5BA"></Field>
     <Field Def="u8 UnkByte0x5BC"></Field>
     <Field Def="u8 UnkByte0x5BD"></Field>
     <Field Def="u8 UnkByte0x5BE"></Field>

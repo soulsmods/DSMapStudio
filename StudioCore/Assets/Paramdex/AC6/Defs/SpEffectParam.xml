@@ -58,8 +58,8 @@
     <Field Def="s32 insideDurability"></Field>
     <Field Def="s32 maxDurability"></Field>
     <Field Def="f32 staminaAttackRate"></Field>
-    <Field Def="s32 registStatus_Shock"></Field>
-    <Field Def="s32 registStatus_AcsFailure"></Field>
+    <Field Def="s32 registStatus_AcsAnomaly"></Field>
+    <Field Def="s32 registStatus_Stun"></Field>
     <Field Def="s32 registStatus_CameraDisruption"></Field>
     <Field Def="s32 registStatus_Unknown_Curse"></Field>
     <Field Def="f32 fallDamageRate"></Field>

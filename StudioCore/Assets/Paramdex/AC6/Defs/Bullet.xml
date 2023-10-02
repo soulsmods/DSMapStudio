@@ -38,7 +38,7 @@
     <Field Def="f32 hormingOffsetRange"></Field>
     <Field Def="s32 Unk0x60"></Field>
     <Field Def="f32 dmgHitRecordLifeTime"></Field>
-    <Field Def="s32 externalForce"></Field>
+    <Field Def="f32 UnkFloat0x68"></Field>
     <Field Def="f32 UnkFloat0x6C"></Field>
     <Field Def="s32 spEffectIDForShooter"></Field>
     <Field Def="s32 autoSearchNPCThinkID"></Field>
@@ -183,7 +183,7 @@
     <Field Def="f32 Unk0x1CC"></Field>
     <Field Def="s32 Unk0x1D0"></Field>
     <Field Def="s32 Unk0x1D4"></Field>
-    <Field Def="s32 UnkInt0x1D8"></Field>
+    <Field Def="s32 sfxId_Muzzle"></Field>
     <Field Def="s32 UnkInt0x1DC"></Field>
     <Field Def="s32 UnkInt0x1E0"></Field>
     <Field Def="s32 UnkInt0x1E4"></Field>

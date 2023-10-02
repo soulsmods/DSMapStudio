@@ -107,6 +107,33 @@
       <Option Value="10" Name="Staves" />
       <Option Value="11" Name="Chimes" />
     </Enum>
+    <Enum Name="PowerStanceEnum">
+      <Option Value="0" Name="Cannot be powerstanced" />
+      <Option Value="10" Name="Bare Fists" />
+      <Option Value="20" Name="Claws And Fist Weapons" />
+      <Option Value="30" Name="Daggers" />
+      <Option Value="40" Name="Thrusting Swords" />
+      <Option Value="50" Name="Curved Swords, Straight Swords, Katanas" />
+      <Option Value="55" Name="Bewitched Alonne Sword" />
+      <Option Value="60" Name="Twinblades" />
+      <Option Value="70" Name="Hammers" />
+      <Option Value="80" Name="Greatswords" />
+      <Option Value="85" Name="Majestic Greatsword" />
+      <Option Value="90" Name="Axes" />
+      <Option Value="100" Name="Ultra Greatswords / Curved Greatswords" />
+      <Option Value="110" Name="Greataxes" />
+      <Option Value="120" Name="Greathammers" />
+      <Option Value="130" Name="Reapers" />
+      <Option Value="140" Name="Polearms" />
+      <Option Value="150" Name="Spears" />
+      <Option Value="160" Name="Lances" />
+      <Option Value="170" Name="Whips" />
+      <Option Value="180" Name="Crossbows" />
+      <Option Value="190" Name="Repeating Crossbows" />
+      <Option Value="220" Name="Reeves Greatshield" />
+      <Option Value="230" Name="Orma Greatshield" />
+      <Option Value="240" Name="Work Hook" />
+    </Enum>
   </Enums>
   <Self Wiki="Defines parameters relating to weapon type and position." Row0Dummy="" />
   <Field>
@@ -152,5 +179,6 @@
     <guard_stamina_regen AltName="Guard Stamina Regeneration %" />
     <cast_speed AltName="Cast Speed" />
     <mundane_scaling_mult AltName="Mundane Scaling %" />
+    <powerstance_category AltName="Powerstance Category" Enum="PowerStanceEnum" Wiki="Determines weapon power stance compatability." />
   </Field>
 </PARAMMETA>

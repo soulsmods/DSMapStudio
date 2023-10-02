@@ -7,7 +7,7 @@
   <FormatVersion>203</FormatVersion>
   <Fields>
     <Field Def="s32 UnkInt0x00"></Field>
-    <Field Def="s32 UnkInt0x04"></Field>
+    <Field Def="f32 UnkFloat0x04"></Field>
     <Field Def="f32 UnkFloat0x08"></Field>
     <Field Def="s32 UnkInt0x0C"></Field>
     <Field Def="s32 UnkInt0x10"></Field>
@@ -102,14 +102,14 @@
     <Field Def="f32 UnkFloat0x174"></Field>
     <Field Def="f32 UnkFloat0x178"></Field>
     <Field Def="f32 UnkFloat0x17C"></Field>
-    <Field Def="s32 UnkInt0x180"></Field>
+    <Field Def="f32 UnkFloat0x180"></Field>
     <Field Def="f32 UnkFloat0x184"></Field>
     <Field Def="f32 UnkFloat0x188"></Field>
     <Field Def="s32 UnkInt0x18C"></Field>
     <Field Def="f32 UnkFloat0x190"></Field>
     <Field Def="f32 UnkFloat0x194"></Field>
     <Field Def="f32 UnkFloat0x198"></Field>
-    <Field Def="s32 UnkInt0x19C"></Field>
+    <Field Def="f32 UnkFloat0x19C"></Field>
     <Field Def="f32 UnkFloat0x1A0"></Field>
     <Field Def="s32 UnkInt0x1A4"></Field>
     <Field Def="f32 UnkFloat0x1A8"></Field>
