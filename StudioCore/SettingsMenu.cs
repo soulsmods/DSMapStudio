@@ -131,7 +131,7 @@ namespace StudioCore
                 }
                 else
                 {
-                    if (Editor.TaskManager.GetLiveThreads().Any())
+                    if (Editor.TaskManager.AnyActiveTasks())
                     {
                         ImGui.Text("Waiting for program tasks to finish...");
                     }
