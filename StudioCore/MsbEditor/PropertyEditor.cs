@@ -146,7 +146,7 @@ namespace StudioCore.MsbEditor
             else if (typ == typeof(float))
             {
                 float val = (float)oldval;
-                if (ImGui.DragFloat("##value", ref val, 0.1f))
+                if (ImGui.DragFloat("##value", ref val, 0.1f, float.MinValue, float.MaxValue, "%.5g"))
                 {
                     newval = val;
                     isChanged = true;
