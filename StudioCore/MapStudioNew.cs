@@ -43,7 +43,7 @@ namespace StudioCore
 
         private NewProjectOptions _newProjectOptions = new NewProjectOptions();
         private SettingsMenu _settingsMenu = new();
-        private Help.HelpMenu _helpMenu;
+        private HelpBrowser _helpBrowser;
 
         private static bool _initialLoadComplete = false;
         private static bool _firstframe = true;
@@ -89,7 +89,7 @@ namespace StudioCore
             _settingsMenu.ParamEditor = paramEditor;
             _settingsMenu.TextEditor = textEditor;
 
-            _helpMenu = new Help.HelpMenu("HelpMenu", _assetLocator);
+            _helpBrowser = new HelpBrowser("HelpBrowser", _assetLocator);
 
             Editor.AliasBank.SetAssetLocator(_assetLocator);
             ParamEditor.ParamBank.PrimaryBank.SetAssetLocator(_assetLocator);
@@ -851,7 +851,7 @@ namespace StudioCore
                 {
                     if (ImGui.MenuItem("Help Menu", KeyBindings.Current.Core_HelpMenu.HintText))
                     {
-                        OpenHelpMenu();
+                        _helpBrowser.ToggleMenuVisibility();
                     }
 
                     ImGui.EndMenu();
@@ -1223,7 +1223,7 @@ namespace StudioCore
 
                 if (InputTracker.GetKeyDown(KeyBindings.Current.Core_HelpMenu))
                 {
-                    OpenHelpMenu();
+                    _helpBrowser.ToggleMenuVisibility();
                 }
             }
 
@@ -1256,15 +1256,7 @@ namespace StudioCore
         }
         public void HelpGUI()
         {
-            _helpMenu.Display();
-        }
-
-        public void OpenHelpMenu()
-        {
-            if (_helpMenu.MenuOpenState)
-                _helpMenu.MenuOpenState = false;
-            else
-                _helpMenu.MenuOpenState = true;
+            _helpBrowser.Display();
         }
 
         public static float GetUIScale()
