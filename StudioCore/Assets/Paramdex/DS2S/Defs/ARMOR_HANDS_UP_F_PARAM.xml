@@ -7,9 +7,9 @@
   <Version>201</Version>
   <Fields>
     <Field Def="s8 Unk00" />
-    <Field Def="s8 Unk00" />
-    <Field Def="s8 Unk00" />
-    <Field Def="s8 Unk00" />
+    <Field Def="s8 Unk01" />
+    <Field Def="s8 Unk02" />
+    <Field Def="s8 Unk03" />
     <Field Def="s32 Unk04" />
     <Field Def="s32 Unk08" />
   </Fields>

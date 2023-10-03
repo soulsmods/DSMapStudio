@@ -635,6 +635,16 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                public uint[] DisplayGroups { get; private set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public uint[] DrawGroups { get; private set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
                 public uint[] CollisionMask { get; private set; }
 
                 /// <summary>
@@ -652,7 +662,9 @@ namespace SoulsFormats
                 /// </summary>
                 public UnkStruct1()
                 {
-                    CollisionMask = new uint[48];
+                    DisplayGroups = new uint[8];
+                    DrawGroups = new uint[8];
+                    CollisionMask = new uint[32];
                     Condition1 = 0;
                     Condition2 = 0;
                 }
@@ -663,13 +675,17 @@ namespace SoulsFormats
                 public UnkStruct1 DeepCopy()
                 {
                     var unk1 = (UnkStruct1)MemberwiseClone();
+                    unk1.DisplayGroups = (uint[])DisplayGroups.Clone();
+                    unk1.DrawGroups = (uint[])DrawGroups.Clone();
                     unk1.CollisionMask = (uint[])CollisionMask.Clone();
                     return unk1;
                 }
 
                 internal UnkStruct1(BinaryReaderEx br)
                 {
-                    CollisionMask = br.ReadUInt32s(48);
+                    DisplayGroups = br.ReadUInt32s(8);
+                    DrawGroups = br.ReadUInt32s(8);
+                    CollisionMask = br.ReadUInt32s(32);
                     Condition1 = br.ReadByte();
                     Condition2 = br.ReadByte();
                     br.AssertInt16(0);
@@ -678,6 +694,8 @@ namespace SoulsFormats
 
                 internal void Write(BinaryWriterEx bw)
                 {
+                    bw.WriteUInt32s(DisplayGroups);
+                    bw.WriteUInt32s(DrawGroups);
                     bw.WriteUInt32s(CollisionMask);
                     bw.WriteByte(Condition1);
                     bw.WriteByte(Condition2);

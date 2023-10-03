@@ -13,29 +13,35 @@
     <Field Def="s16 Unk01" />
     <Field Def="s16 Unk02" />
     <Field Def="s32 area_flag_id" />
-    <Field Def="s32 Unk03" />
+    <Field Def="s32 map_id" />
+    <Field Def="s16 Unk03" />
     <Field Def="s16 Unk04" />
     <Field Def="s16 Unk05" />
-    <Field Def="s16 Unk06" />
-    <Field Def="s16 Unk07" />
-    <Field Def="s32 Unk08" />
-    <Field Def="s16 Unk09" />
-    <Field Def="s16 Unk10" />
-    <Field Def="s32 Unk11" />
-    <Field Def="s32 Unk12" />
-    <Field Def="s32 Unk13" />
-    <Field Def="s32 Unk14" />
-    <Field Def="s32 Unk15" />
-    <Field Def="s32 Unk16" />
-    <Field Def="s32 Unk17" />
-    <Field Def="s32 Unk18" />
-    <Field Def="s32 Unk19" />
-    <Field Def="s32 Unk20" />
-    <Field Def="s32 Unk21" />
-    <Field Def="s32 Unk22" />
-    <Field Def="s32 Unk23" />
-    <Field Def="s32 Unk24" />
-    <Field Def="s32 Unk25" />
-    <Field Def="s32 Unk26" />
+    
+    <Field Def="f32 Unk06" />
+    
+    <Field Def="u8 Unk07" />
+    <Field Def="u8 Unk08" />
+    
+    <Field Def="f32 Unk09" />
+    
+    <Field Def="f32 Unk10" />
+    
+    <Field Def="s32 mimicry_map_object_1" />
+    <Field Def="s32 mimicry_map_object_2" />
+    <Field Def="s32 mimicry_map_object_3" />
+    <Field Def="s32 mimicry_map_object_4" />
+    <Field Def="s32 mimicry_map_object_5" />
+    
+    <Field Def="f32 Unk17" />
+    <Field Def="f32 Unk18" />
+    <Field Def="f32 Unk19" />
+    <Field Def="f32 Unk20" />
+    <Field Def="f32 Unk21" />
+    <Field Def="f32 Unk22" />
+    <Field Def="f32 Unk23" />
+    <Field Def="f32 Unk24" />
+    <Field Def="f32 Unk25" />
+    <Field Def="f32 Unk26" />
   </Fields>
 </PARAMDEF>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Silk.NET.SDL;
 using Veldrid;
 
@@ -142,6 +143,44 @@ public abstract unsafe class PlatformUtils
     public void SetClipboardText(string text)
     {
         SdlProvider.SDL.Value.SetClipboardText((byte*)((FixedUtf8String)text).StringPtr);
+    }
+
+    // Title arg is currently unusable. We should restore it back if at all possible.
+    public bool OpenFileDialog(string title, IReadOnlyList<string> filters, out string path)
+    {
+        NativeFileDialogSharp.DialogResult dialogResult = NativeFileDialogSharp.Dialog.FileOpen(CombineNdlFilters(filters, false));
+        path = dialogResult.Path;
+        return dialogResult.IsOk;
+    }
+
+    public bool OpenMultiFileDialog(string title, IReadOnlyList<string> filters, out IReadOnlyList<string> paths)
+    {
+        NativeFileDialogSharp.DialogResult dialogResult = NativeFileDialogSharp.Dialog.FileOpenMultiple(CombineNdlFilters(filters, false));
+        paths = dialogResult.Paths;
+        return dialogResult.IsOk;
+    }
+
+    public bool SaveFileDialog(string title, IReadOnlyList<string> filters, out string path)
+    {
+
+        NativeFileDialogSharp.DialogResult dialogResult = NativeFileDialogSharp.Dialog.FileSave(CombineNdlFilters(filters, true));
+        path = dialogResult.Path;
+        return dialogResult.IsOk;
+    }
+
+    public bool OpenFolderDialog(string title, out string path)
+    {
+        NativeFileDialogSharp.DialogResult dialogResult = NativeFileDialogSharp.Dialog.FolderPicker();
+        path = dialogResult.Path;
+        return dialogResult.IsOk;
+    }
+
+    private static string CombineNdlFilters(IReadOnlyList<string> filters, bool dropdown)
+    {
+        // Join with , for simultaneous selection and join with ; for dropdown alternatives.
+        // Because we don't have custom names explaining each dropdown alternative, it's less confusing to combine them together
+        // for file opening cases.
+        return filters.Count == 0 ? null : string.Join(dropdown ? ";" : ",", filters);
     }
 
     public void blah()

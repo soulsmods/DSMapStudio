@@ -24,5 +24,7 @@ namespace StudioCore
 #endif
 
         public static bool EnablePartialParam = false;
+
+        public static bool AC6_MSB = false;
     }
 }

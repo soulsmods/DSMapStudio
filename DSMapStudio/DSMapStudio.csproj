@@ -4,10 +4,10 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net7.0-windows</TargetFramework>
     <Authors>Katalash</Authors>
-    <Version>1.08.0</Version>
+    <Version>1.09.0</Version>
     <ApplicationIcon>icon.ico</ApplicationIcon>
-    <PackageVersion>1.08.0</PackageVersion>
-    <AssemblyVersion>1.08.0</AssemblyVersion>
+    <PackageVersion>1.09.0</PackageVersion>
+    <AssemblyVersion>1.09.0</AssemblyVersion>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <LangVersion>11</LangVersion>
     <IsPackable>false</IsPackable>
@@ -21,6 +21,7 @@
     <TrimmerRootAssembly Include="SoulsFormats" />
     <TrimmerRootAssembly Include="StudioCore" />
     <TrimmerRootAssembly Include="HKX2" />
+    <TrimmerRootAssembly Include="Octokit" />
   </ItemGroup>
   
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

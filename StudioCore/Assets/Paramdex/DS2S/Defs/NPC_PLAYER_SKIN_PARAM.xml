@@ -7,8 +7,17 @@
   <Version>201</Version>
   <Fields>
     <Field Def="s32 Unk00" />
-    <Field Def="f32 Unk01" />
-    <Field Def="f32 Unk02" />
-    <Field Def="f32 Unk03" />
+    <Field Def="u8 Unk01a" />
+    <Field Def="u8 Unk01b" />
+    <Field Def="u8 Unk01c" />
+    <Field Def="u8 Unk01d" />
+    <Field Def="u8 Unk02a" />
+    <Field Def="u8 Unk02b" />
+    <Field Def="u8 Unk02c" />
+    <Field Def="u8 Unk02d" />
+    <Field Def="u8 Unk03a" />
+    <Field Def="u8 Unk03b" />
+    <Field Def="u8 Unk03c" />
+    <Field Def="u8 Unk03d" />
   </Fields>
 </PARAMDEF>

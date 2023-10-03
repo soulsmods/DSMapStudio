@@ -228,13 +228,12 @@ namespace StudioCore.TextEditor
         private string _textCache = "";
         private FMG.Entry _entryCache = null;
 
-        public void PropEditorFMG(FMG.Entry entry, string name, float boxsize)
+        public void PropEditorFMG(FMG.Entry entry, string name)
         {
             ImGui.PushID(_fmgID);
             ImGui.AlignTextToFramePadding();
             ImGui.Text(name);
             ImGui.NextColumn();
-            ImGui.SetNextItemWidth(-1);
             var oldval = entry.Text;
 
             string val = (string)oldval;
@@ -242,21 +241,13 @@ namespace StudioCore.TextEditor
             {
                 val = "";
             }
-            if (boxsize > 0.0f)
+
+            float height = (20.0f + ImGui.CalcTextSize(val).Y) * MapStudioNew.GetUIScale();
+
+            if (ImGui.InputTextMultiline("##value", ref val, 2000, new Vector2(-1, height)))
             {
-                if (ImGui.InputTextMultiline("##value", ref val, 2000, new Vector2(-1, boxsize)))
-                {
-                    _textCache = val;
-                    _entryCache = entry;
-                }
-            }
-            else
-            {
-                if (ImGui.InputText("##value", ref val, 2000))
-                {
-                    _textCache = val;
-                    _entryCache = entry;
-                }
+                _textCache = val;
+                _entryCache = entry;
             }
 
             bool committed = ImGui.IsItemDeactivatedAfterEdit();

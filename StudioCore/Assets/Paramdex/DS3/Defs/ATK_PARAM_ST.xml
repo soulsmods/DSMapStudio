@@ -84,8 +84,8 @@
     <Field Def="u8 isChargeAtk:1" />
     <Field Def="u8 isShareHitList:1" />
     <Field Def="u8 isCheckObjPenetration:1" />
-    <Field Def="u8 0x81:1" />
-    <Field Def="u8 0x81:1" />
+    <Field Def="u8 0x81_0:1" />
+    <Field Def="u8 0x81_1:1" />
     <Field Def="u8 pad1" />
     <Field Def="u8 regainableSlotId" />
     <Field Def="s32 deathCauseId" />
@@ -179,12 +179,12 @@
     <Field Def="s16 atkDark" />
     <Field Def="u8 IsChargeAtk2:1" />
     <Field Def="u8 IsChargeAtk3:1 = 1" />
-    <Field Def="u8 0x18A:1" />
-    <Field Def="u8 0x18A:1" />
-    <Field Def="u8 0x18A:1" />
-    <Field Def="u8 0x18A:1" />
-    <Field Def="u8 0x18A:1" />
-    <Field Def="u8 0x18A:1" />
+    <Field Def="u8 0x18A_0:1" />
+    <Field Def="u8 0x18A_1:1" />
+    <Field Def="u8 0x18A_2:1" />
+    <Field Def="u8 0x18A_3:1" />
+    <Field Def="u8 0x18A_4:1" />
+    <Field Def="u8 0x18A_5:1" />
     <Field Def="u8 0x18B" />
     <Field Def="s16 physSpCorrection = 100" />
     <Field Def="s16 magSpCorrection = 100" />

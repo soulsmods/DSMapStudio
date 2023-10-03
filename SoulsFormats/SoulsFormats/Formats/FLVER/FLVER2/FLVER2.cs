@@ -146,7 +146,8 @@ namespace SoulsFormats
             // BB:  20013, 20014
             // DS3: 20013, 20014
             // SDT: 2001A, 20016 (test chr)
-            Header.Version = br.AssertInt32(0x20005, 0x20007, 0x20009, 0x2000B, 0x2000C, 0x2000D, 0x2000E, 0x2000F, 0x20010, 0x20013, 0x20014, 0x20016, 0x2001A);
+            // AC6: 2001B,
+            Header.Version = br.AssertInt32(0x20005, 0x20007, 0x20009, 0x2000B, 0x2000C, 0x2000D, 0x2000E, 0x2000F, 0x20010, 0x20013, 0x20014, 0x20016, 0x2001A, 0x2001B);
 
             int dataOffset = br.ReadInt32();
             br.ReadInt32(); // Data length
@@ -183,7 +184,7 @@ namespace SoulsFormats
             Header.Unk68 = br.AssertInt32(0, 1, 2, 3, 4);
             br.AssertInt32(0);
             br.AssertInt32(0);
-            br.AssertInt32(0);
+            br.AssertInt32(0, 0x10);
             br.AssertInt32(0);
             br.AssertInt32(0);
 

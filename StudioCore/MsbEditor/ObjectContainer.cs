@@ -749,6 +749,10 @@ namespace StudioCore.MsbEditor
             {
                 AddModelsER(msb);
             }
+            else if (game == GameType.ArmoredCoreVI)
+            {
+                //TODO AC6
+            }
         }
 
         /// <summary>

@@ -9,7 +9,7 @@
       <Option Value="4" Name="Legs" />
     </Enum>
   </Enums>
-  <Self Row0Dummy="" />
+  <Self Wiki="Defines parameters relating to equippable armor." Row0Dummy="" />
   <Field>
     <armor_set_id AltName="Armor ID" Wiki="The ID for this armor set. Do not forget this when creating custom armor." />
     <slot_category AltName="Slot Category" Enum="Slot" />
@@ -26,6 +26,7 @@
     <durability AltName="Durability" />
     <repair_cost AltName="Repair Cost" />
     <poise AltName="Poise" />
+    <control_parameters_blend_weight AltName="Blend Weight - Hands Up" />
     <item_discovery AltName="Additional Item Discovery" />
     <Unk15 AltName="Damage Effect SE or Material" Refs="DamageEffectMaterialParam,DamageEffectSeParam"/>
     <Unk17 AltName="Damage Effect SFX" Refs="DamageEffectSfxParam" />

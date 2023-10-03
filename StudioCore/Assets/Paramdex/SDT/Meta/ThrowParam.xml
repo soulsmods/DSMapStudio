@@ -6,7 +6,7 @@
     <isSkipWepCate IsBool="" />
     <isEnableThrowFollowingFeedback IsBool="" />
     <isEnableThrowFollowingFallAssist IsBool="" />
-    <throwKind Refs="ThrowKindParam(=0)" />
+    <throwKind Refs="ThrowKindParam" />
   </Field>
   <Self />
 </PARAMMETA>

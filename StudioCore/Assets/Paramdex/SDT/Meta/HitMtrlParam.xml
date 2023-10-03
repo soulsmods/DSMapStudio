@@ -1,21 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
   <Field>
-    <spEffectIdOnHit1_ClearCount_5 Refs="SpEffectParam(=0)" />
-    <spEffectIdOnHit0_ClearCount_7 Refs="SpEffectParam(=0)" />
-    <spEffectIdOnHit1_ClearCount_7 Refs="SpEffectParam(=0)" />
-    <spEffectIdOnHit1_ClearCount_3 Refs="SpEffectParam(=0)" />
-    <spEffectIdOnHit1_ClearCount_4 Refs="SpEffectParam(=0)" />
-    <spEffectIdOnHit1_ClearCount_2 Refs="SpEffectParam(=0)" />
-    <spEffectIdOnHit1_ClearCount_6 Refs="SpEffectParam(=0)" />
-    <spEffectIdOnHit0_ClearCount_8 Refs="SpEffectParam(=0)" />
-    <spEffectIdOnHit0_ClearCount_6 Refs="SpEffectParam(=0)" />
-    <spEffectIdOnHit0_ClearCount_2 Refs="SpEffectParam(=0)" />
-    <spEffectIdOnHit0_ClearCount_4 Refs="SpEffectParam(=0)" />
-    <spEffectIdOnHit0_ClearCount_5 Refs="SpEffectParam(=0)" />
-    <spEffectIdOnHit0_ClearCount_3 Refs="SpEffectParam(=0)" />
-    <spEffectIdOnHit1_ClearCount_8 Refs="SpEffectParam(=0)" />
-    <spEffectId_forWet Refs="SpEffectParam(=0)" />
+    <spEffectIdOnHit1_ClearCount_5 Refs="SpEffectParam" />
+    <spEffectIdOnHit0_ClearCount_7 Refs="SpEffectParam" />
+    <spEffectIdOnHit1_ClearCount_7 Refs="SpEffectParam" />
+    <spEffectIdOnHit1_ClearCount_3 Refs="SpEffectParam" />
+    <spEffectIdOnHit1_ClearCount_4 Refs="SpEffectParam" />
+    <spEffectIdOnHit1_ClearCount_2 Refs="SpEffectParam" />
+    <spEffectIdOnHit1_ClearCount_6 Refs="SpEffectParam" />
+    <spEffectIdOnHit0_ClearCount_8 Refs="SpEffectParam" />
+    <spEffectIdOnHit0_ClearCount_6 Refs="SpEffectParam" />
+    <spEffectIdOnHit0_ClearCount_2 Refs="SpEffectParam" />
+    <spEffectIdOnHit0_ClearCount_4 Refs="SpEffectParam" />
+    <spEffectIdOnHit0_ClearCount_5 Refs="SpEffectParam" />
+    <spEffectIdOnHit0_ClearCount_3 Refs="SpEffectParam" />
+    <spEffectIdOnHit1_ClearCount_8 Refs="SpEffectParam" />
+    <spEffectId_forWet Refs="SpEffectParam" />
   </Field>
   <Self />
 </PARAMMETA>

@@ -2429,7 +2429,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// 1 = Forbid riding torrent, 2 = Permit riding torrent
                 /// </summary>
-                public HorseRideOverrideType OverrideType { get; set; }
+                public HorseRideOverrideType OverrideType { get; set; } = HorseRideOverrideType.PreventRiding;
 
                 /// <summary>
                 /// Creates a HorseRideOverride with default values.

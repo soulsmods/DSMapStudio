@@ -405,10 +405,31 @@ namespace SoulsFormats
 
                 public enum HitFilterType : byte
                 {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+                    KillPlaneWithoutLanding = 1,
+                    KillPlaneWithoutCameraDetach = 2,
+                    DeathPlaneOnNextLanding = 3,
+                    DeathPlaneWithoutCameraDetach = 4,
+                    Unknown5 = 5,
+                    CameraDetach = 10,
+                    Unknown11 = 11,
+                    DrawGroupOnlyReflection = 20,
+                    MemoryBlockBoundedEnemy = 30,
+                    AreaBoundedEnemy = 31,
+                    WaterSurface = 40,
+                    Unknown50 = 50,
+                    Map = 100,
+                    Auto = 255,
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
                 }
 
                 public enum SfxAttachType : byte
                 {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+                    Position = 0,
+                    PositionAngle = 1,
+                    PositionYAxisAngle = 2,
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
                 }
 
                 private protected override PartType Type => PartType.Collision;
@@ -421,7 +442,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Modifies sounds while the player is touching this collision.
                 /// </summary>
-                public SoundSpace SoundSpaceReverb { get; set; }
+                public SoundSpace SoundSpaceReverb { get; set; } = SoundSpace.Outside;
 
                 /// <summary>
                 /// Unknown.
@@ -492,9 +513,9 @@ namespace SoulsFormats
                 public bool DelayMapNameDisplay { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// ID of tpf in model\map\envbnd to use for cubemaps.
                 /// </summary>
-                public short UnkT2E { get; set; }
+                public short CubeEnvID { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -531,34 +552,34 @@ namespace SoulsFormats
                 /// <summary>
                 /// Creates a Collision with default values.
                 /// </summary>
-                public Collision() : base("hXX_XXXX_XXXX") { }
+                public Collision() : base("hXX_XXXX_XXXX")
+                {
+                    NavmeshGroups = new uint[4];
+                }
 
                 internal Collision(BinaryReaderEx br) : base(br) { }
 
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
-                    UnkT00 = br.ReadInt32();
-                    UnkT04 = br.ReadInt32();
-                    UnkT08 = br.ReadInt32();
-                    UnkT0C = br.ReadInt32();
+                    NavmeshGroups = br.ReadUInt32s(4);
                     SoundSpaceReverb = br.ReadEnum8<SoundSpace>();
-                    SoundSpaceDelay = br.ReadByte();
-                    MemoryBlockID = br.ReadByte();
+                    SoundSpaceDelay = br.ReadEnum8<SoundSpace>();
+                    MemoryBlockID = br.ReadSByte();
                     FilterParamID = br.ReadByte();
-                    HitFilterID = br.ReadByte();
-                    AmbientSfxAttach = br.ReadByte();
+                    HitFilterID = br.ReadEnum8<HitFilterType>();
+                    AmbientSfxAttach = br.ReadEnum8<SfxAttachType>();
                     br.AssertByte(0);
-                    DisableInvasions = br.ReadByte();
-                    CameraSfxID = br.ReadInt32();
+                    DisableInvasions = br.ReadBoolean();
+                    AmbientSfxID = br.ReadInt32();
                     PlayerLightParamID = br.ReadInt32();
                     PlayAreaParamID = br.ReadInt32();
                     br.AssertInt16(0);
                     EnemyWallMemoryBlockA = br.ReadByte();
                     EnemyWallMemoryBlockB = br.ReadByte();
                     MapNameID = br.ReadInt32();
-                    DelayMapNameDisplay = br.ReadByte();
+                    DelayMapNameDisplay = br.ReadBoolean();
                     br.AssertByte(0);
-                    UnkT2E = br.ReadInt16();
+                    CubeEnvID = br.ReadInt16();
                     CameraExFollowParamID = br.ReadInt32();
                     br.AssertByte(0);
                     UnkT35 = br.ReadByte();
@@ -575,28 +596,25 @@ namespace SoulsFormats
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    bw.WriteInt32(UnkT00);
-                    bw.WriteInt32(UnkT04);
-                    bw.WriteInt32(UnkT08);
-                    bw.WriteInt32(UnkT0C);
+                    bw.WriteUInt32s(NavmeshGroups);
                     bw.WriteByte((byte)SoundSpaceReverb);
-                    bw.WriteByte(SoundSpaceDelay);
-                    bw.WriteByte(MemoryBlockID);
+                    bw.WriteByte((byte)SoundSpaceDelay);
+                    bw.WriteSByte(MemoryBlockID);
                     bw.WriteByte(FilterParamID);
-                    bw.WriteByte(HitFilterID);
-                    bw.WriteByte(AmbientSfxAttach);
+                    bw.WriteByte((byte)HitFilterID);
+                    bw.WriteByte((byte)AmbientSfxAttach);
                     bw.WriteByte(0);
-                    bw.WriteByte(DisableInvasions);
-                    bw.WriteInt32(CameraSfxID);
+                    bw.WriteBoolean(DisableInvasions);
+                    bw.WriteInt32(AmbientSfxID);
                     bw.WriteInt32(PlayerLightParamID);
                     bw.WriteInt32(PlayAreaParamID);
                     bw.WriteInt16(0);
                     bw.WriteByte(EnemyWallMemoryBlockA);
                     bw.WriteByte(EnemyWallMemoryBlockB);
                     bw.WriteInt32(MapNameID);
-                    bw.WriteByte(DelayMapNameDisplay);
+                    bw.WriteBoolean(DelayMapNameDisplay);
                     bw.WriteByte(0);
-                    bw.WriteInt16(UnkT2E);
+                    bw.WriteInt16(CubeEnvID);
                     bw.WriteInt32(CameraExFollowParamID);
                     bw.WriteByte(0);
                     bw.WriteByte(UnkT35);
@@ -627,25 +645,22 @@ namespace SoulsFormats
                 /// <summary>
                 /// Creates a Navmesh with default values.
                 /// </summary>
-                public Navmesh() : base("nXX_XXXX_XXXX") { }
+                public Navmesh() : base("nXX_XXXX_XXXX")
+                {
+                    NavmeshGroups= new uint[4];
+                }
 
                 internal Navmesh(BinaryReaderEx br) : base(br) { }
 
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
-                    UnkT00 = br.ReadInt32();
-                    UnkT04 = br.ReadInt32();
-                    UnkT08 = br.ReadInt32();
-                    UnkT0C = br.ReadInt32();
+                    NavmeshGroups = br.ReadUInt32s(4);
                     br.AssertPattern(0x10, 0x00);
                 }
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    bw.WriteInt32(UnkT00);
-                    bw.WriteInt32(UnkT04);
-                    bw.WriteInt32(UnkT08);
-                    bw.WriteInt32(UnkT0C);
+                    bw.WriteUInt32s(NavmeshGroups);
                     bw.WritePattern(0x10, 0x00);
                 }
             }

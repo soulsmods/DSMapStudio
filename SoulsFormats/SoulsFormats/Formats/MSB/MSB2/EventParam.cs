@@ -515,7 +515,7 @@ namespace SoulsFormats
                     Distance = br.ReadSingle();
                     HeightBase = br.ReadSingle();
                     HeightDensity = br.ReadSingle();
-                    IsUpper = br.ReadByte();
+                    IsUpper = br.ReadBoolean();
                     Alpha = br.ReadByte();
                     Contrast = br.ReadByte();
                     br.AssertPattern(0x11, 0x00);
@@ -531,7 +531,7 @@ namespace SoulsFormats
                     bw.WriteSingle(Distance);
                     bw.WriteSingle(HeightBase);
                     bw.WriteSingle(HeightDensity);
-                    bw.WriteByte(IsUpper);
+                    bw.WriteBoolean(IsUpper);
                     bw.WriteByte(Alpha);
                     bw.WriteByte(Contrast);
                     bw.WritePattern(0x11, 0x00);
