@@ -645,8 +645,9 @@ namespace SoulsFormats
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    bw.WriteInt32(DataID);
-                    bw.WriteInt32(TypeID);
+                    bw.WriteSByte(DataID);
+                    bw.WriteSByte(TypeID);
+                    bw.WriteInt16(0);
                     bw.WriteSingle(Angle);
                     bw.WriteSingle(Angle2);
                     bw.WritePattern(0x14, 0x00);
