@@ -1968,6 +1968,8 @@ namespace StudioCore.ParamEditor
 
         public string GetKeyForParam(Param param)
         {
+            if (Params == null)
+                return null;
             foreach (KeyValuePair<string, Param> pair in Params)
             {
                 if (param == pair.Value)
@@ -1978,6 +1980,8 @@ namespace StudioCore.ParamEditor
 
         public Param GetParamFromName(string param)
         {
+            if (Params == null)
+                return null;
             foreach (KeyValuePair<string, Param> pair in Params)
             {
                 if (param == pair.Key)
