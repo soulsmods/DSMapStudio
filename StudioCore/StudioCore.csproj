@@ -420,7 +420,7 @@
     <None Update="Assets\MassEditScripts\**" CopyToOutputDirectory="PreserveNewest" />
     <None Update="Assets\GameOffsets\**" CopyToOutputDirectory="PreserveNewest" />
     <None Update="Assets\Upgrader\**" CopyToOutputDirectory="PreserveNewest" />
-    <None Update="Assets\HelpMenu\**" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="Assets\Help\**" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
   <ItemGroup>
