@@ -1227,6 +1227,10 @@ namespace StudioCore
                 }
                 return GetOverridenFilePath($@"chr\{chrid}.chrbnd");
             }
+            else if (Type is GameType.DarkSoulsIISOTFS)
+            {
+                return GetOverridenFilePath($@"model\chr\{chrid}.texbnd");
+            }
             else if (Type is GameType.DarkSoulsRemastered)
             {
                 // TODO: Some textures require getting chrtpfbhd from chrbnd, then using it with chrtpfbdt in chr folder.
@@ -1285,6 +1289,16 @@ namespace StudioCore
             else if (Type is GameType.DarkSoulsRemastered)
             {
                 // TODO: Some textures require getting chrtpfbhd from chrbnd, then using it with chrtpfbdt in chr folder.
+                string path = GetChrTexturePath(chrid);
+                if (path != null)
+                {
+                    ad = new AssetDescription();
+                    ad.AssetPath = path;
+                    ad.AssetVirtualPath = $@"chr/{chrid}/tex";
+                }
+            }
+            else if (Type is GameType.DarkSoulsIISOTFS)
+            {
                 string path = GetChrTexturePath(chrid);
                 if (path != null)
                 {
