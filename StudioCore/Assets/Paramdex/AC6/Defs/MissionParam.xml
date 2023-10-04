@@ -14,7 +14,7 @@
     <Field Def="s8 UnkSbyte0x10"></Field>
     <Field Def="u8 Unk0x11"></Field>
     <Field Def="u16 UnkUshort0x12"></Field>
-    <Field Def="u8 UnkByte0x14"></Field>
+    <Field Def="s8 missionType"></Field>
     <Field Def="s8 UnkSbyte0x15"></Field>
     <Field Def="u8 Unk0x16"></Field>
     <Field Def="u8 Unk0x17"></Field>
