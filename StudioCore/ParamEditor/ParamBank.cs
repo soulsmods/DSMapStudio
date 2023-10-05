@@ -1916,6 +1916,10 @@ namespace StudioCore.ParamEditor
             if (!File.Exists(oldVanillaParamPath))
                 return ParamUpgradeResult.OldRegulationNotFound;
 
+            // Backup modded params
+            string modRegulationPath = $@"{AssetLocator.GameModDirectory}\regulation.bin";
+            File.Copy(modRegulationPath, $@"{modRegulationPath}.upgradebak", true);
+
             // Load old vanilla regulation
             BND4 oldVanillaParamBnd;
             if (AssetLocator.Type == GameType.EldenRing)

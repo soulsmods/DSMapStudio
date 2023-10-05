@@ -243,23 +243,19 @@ namespace StudioCore.ParamEditor
                     ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.0f, 1f, 0f, 1.0f));
                     if (ImGui.Button("Upgrade Params"))
                     {
+                        string oldVersionString = Utils.ParseRegulationVersion(ParamBank.PrimaryBank.ParamVersion);
+                        string newVersionString = Utils.ParseRegulationVersion(ParamBank.VanillaBank.ParamVersion);
                         var message = PlatformUtils.Instance.MessageBox(
-                            $@"Your mod is currently on regulation version {ParamBank.PrimaryBank.ParamVersion} while the game is on param version " +
-                            $"{ParamBank.VanillaBank.ParamVersion}.\n\nWould you like to attempt to upgrade your mod's params to be based on the " +
-                            "latest game version? Params will be upgraded by copying all rows that you modified to the new regulation, " +
-                            "overwriting exiting rows if needed.\n\nIf both you and the game update added a row with the same ID, the merge " +
-                            "will fail and there will be a log saying what rows you will need to manually change the ID of before trying " +
-                            "to merge again.\n\nIn order to perform this operation, you must specify the original regulation on the version " +
-                            $"that your current mod is based on (version {ParamBank.PrimaryBank.ParamVersion}).\n\nOnce done, the upgraded params will appear " +
-                            "in the param editor where you can view and save them. This operation is not undoable, but you can reload the project without " +
-                            "saving to revert to the un-upgraded params.\n\n" +
-                            "Would you like to continue?", "Regulation upgrade",
+                                $"Project regulation.bin version appears to be out of date vs game folder regulation. Upgrading is recommended since the game will typically not load out of date regulation." +
+                                $"\n\nUpgrading requires you to select a VANILLA REGULATION.BIN WITH THE SAME VERSION AS YOUR MOD ({oldVersionString})" +
+                                $"\n\nWould you like to proceed?",
+                                $"Regulation upgrade {oldVersionString} -> {newVersionString}",
                             MessageBoxButtons.OKCancel,
                             MessageBoxIcon.Information);
                         if (message == DialogResult.OK)
                         {
                             if (PlatformUtils.Instance.OpenFileDialog(
-                                $"Select regulation.bin for game version {ParamBank.PrimaryBank.ParamVersion}...",
+                                $"Select regulation.bin for game version ({oldVersionString})...",
                                 new[] { AssetLocator.RegulationBinFilter },
                                 out string path))
                             {
@@ -381,7 +377,6 @@ namespace StudioCore.ParamEditor
                     CacheBank.ClearCaches();
                     bank.RefreshParamDiffCaches();
                 }
-
 
                 var msgRes = PlatformUtils.Instance.MessageBox(
                     "Upgrade successful",
