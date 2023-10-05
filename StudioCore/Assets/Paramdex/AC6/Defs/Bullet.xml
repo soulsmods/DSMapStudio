@@ -114,8 +114,8 @@
     <Field Def="f32 UnkFloat0xE4"></Field>
     <Field Def="f32 UnkFloat0xE8"></Field>
     <Field Def="s16 UnkShort0xEC"></Field>
-    <Field Def="s16 UnkShort0xEE"></Field>
-    <Field Def="f32 UnkFloat0xF0"></Field>
+    <Field Def="s16 unkLoseHomingLineupTime"></Field>
+    <Field Def="f32 randomMoveAngle"></Field>
     <Field Def="f32 UnkFloat0xF4"></Field>
     <Field Def="u8 UnkByte0xF8"></Field>
     <Field Def="u8 UnkByte0xF9"></Field>
