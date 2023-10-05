@@ -281,7 +281,7 @@
     <Field Def="s8 UnkSbyte0x301"></Field>
     <Field Def="s8 UnkSbyte0x302"></Field>
     <Field Def="s8 UnkSbyte0x303"></Field>
-    <Field Def="f32 UnkFloat0x304"></Field>
+    <Field Def="f32 lifeDist"></Field>
     <Field Def="f32 UnkFloat0x308"></Field>
     <Field Def="f32 UnkFloat0x30C"></Field>
     <Field Def="f32 UnkFloat0x310"></Field>

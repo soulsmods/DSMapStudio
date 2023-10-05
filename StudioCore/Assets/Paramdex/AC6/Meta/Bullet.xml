@@ -16,6 +16,7 @@
     <spEffectId2 AltName="Target SpEffect ID [2]" Wiki="SpEffect applied to hit targets." Refs="SpEffectParam" />
     <spEffectId3 AltName="Target SpEffect ID [3]" Wiki="SpEffect applied to hit targets." Refs="SpEffectParam" />
     <spEffectId4 AltName="Target SpEffect ID [4]" Wiki="SpEffect applied to hit targets." Refs="SpEffectParam" />
+    <lifeDist AltName="Expire Distance" Wiki="Distance travelled before bullet expires." />
   </Field>
   <Self />
 </PARAMMETA>
