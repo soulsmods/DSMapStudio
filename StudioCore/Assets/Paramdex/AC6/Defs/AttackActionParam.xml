@@ -52,13 +52,13 @@
     <Field Def="s32 Unk0x34"></Field>
     <Field Def="u8 UnkByte0x38"></Field>
     <Field Def="u8 UnkByte0x39"></Field>
-    <Field Def="u8 UnkByte0x3A"></Field>
+    <Field Def="u8 unkShootWarning0x3A"></Field>
     <Field Def="s8 UnkSbyte0x3B"></Field>
     <Field Def="f32 UnkFloat0x3C"></Field>
     <Field Def="f32 UnkFloat0x40"></Field>
     <Field Def="s32 Unk0x44"></Field>
     <Field Def="s32 Unk0x48"></Field>
-    <Field Def="u8 UnkByte0x4C"></Field>
+    <Field Def="u8 unkShootWarning0x4C"></Field>
     <Field Def="u8 UnkByte0x4D"></Field>
     <Field Def="s16 Unk0x4E"></Field>
     <Field Def="s32 UnkInt0x50"></Field>
