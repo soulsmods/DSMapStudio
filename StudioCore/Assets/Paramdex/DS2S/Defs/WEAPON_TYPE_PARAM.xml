@@ -38,7 +38,7 @@
     <Field Def="u8 cast_type" />
     <Field Def="u8 weapon_category_name" />
     <Field Def="u8 swing_sound" />
-    <Field Def="s32 Unk02" />
+    <Field Def="s32 powerstance_category" />
     <Field Def="f32 Unk03" />
     <Field Def="f32 Unk04" />
     <Field Def="f32 Unk05" />

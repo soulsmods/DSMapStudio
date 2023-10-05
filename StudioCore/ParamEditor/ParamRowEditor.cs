@@ -122,11 +122,13 @@ namespace StudioCore.ParamEditor
                 }
             }
         }
-
+        
         public void PropEditorParamRow(ParamBank bank, Param.Row row, Param.Row vrow, List<(string, Param.Row)> auxRows, Param.Row crow, ref string propSearchString, string activeParam, bool isActiveView, ParamEditorSelectionState selection)
         {
             ParamMetaData meta = ParamMetaData.Get(row.Def);
             int imguiId = 0;
+            bool showParamCompare = auxRows.Count > 0;
+            bool showRowCompare = crow != null;
 
             PropEditorParamRow_Header(isActiveView, ref propSearchString);
 
@@ -134,14 +136,14 @@ namespace StudioCore.ParamEditor
             int columnCount = 2;
             if (CFG.Current.Param_ShowVanillaParams)
                 columnCount++;
-            if (crow != null)
+            if (showRowCompare)
                 columnCount++;
-            if (auxRows.Count > 0)
+            if (showParamCompare)
                 columnCount += auxRows.Count;
             if (EditorDecorations.ImGuiTableStdColumns("ParamFieldsT", columnCount, false))
             {
-                ImGui.TableSetupScrollFreeze(columnCount, auxRows.Count > 0 ? 3 : 2);
-                if (auxRows.Count > 0)
+                ImGui.TableSetupScrollFreeze(columnCount, showParamCompare ? 3 : 2);
+                if (showParamCompare)
                 {
                     ImGui.TableNextColumn();
                     if (ImGui.TableNextColumn())
@@ -176,7 +178,6 @@ namespace StudioCore.ParamEditor
             {
                 EditorDecorations.DrawCalcCorrectGraph(_paramEditor, meta, row);
             }
-            //ImGui.EndChild();
         }
 
         // Many parameter options, which may be simplified.

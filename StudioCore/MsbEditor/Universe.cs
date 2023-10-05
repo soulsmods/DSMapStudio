@@ -494,6 +494,11 @@ namespace StudioCore.MsbEditor
                         generatorObjs[row.ID].RenderSceneMesh = model;
                         model.SetSelectable(generatorObjs[row.ID]);
                         chrsToLoad.Add(asset);
+                        var tasset = _assetLocator.GetChrTextures($@"c{chrid}");
+                        if (tasset.AssetVirtualPath != null || tasset.AssetArchiveVirtualPath != null)
+                        {
+                            chrsToLoad.Add(tasset);
+                        }
                     }
                 }
             }

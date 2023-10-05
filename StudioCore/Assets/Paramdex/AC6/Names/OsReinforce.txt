@@ -13,5 +13,8 @@
 40 Melee Weapons - Drive Control Tuning
 50 Dirext Hit Modifier - Damage Tuning
 3010 Access Speed - Optimization
-1010 ACS - Dynamic Deflection Control Tuning
+1010 ACS - Dynamic Deflection Control Tuning - Kinetic
+1011 ACS - Dynamic Deflection Control Tuning - Energy
+1012 ACS - Dynamic Deflection Control Tuning - Explosive
+1013 ACS - Dynamic Deflection Control Tuning - Coral
 2020 Repair Kits - Optimization

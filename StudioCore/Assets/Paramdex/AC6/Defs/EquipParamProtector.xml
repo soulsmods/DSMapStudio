@@ -81,10 +81,10 @@
     <Field Def="u8 equipModelCategory"></Field>
     <Field Def="u8 equipModelGender"></Field>
     <Field Def="u8 protectorCategory"></Field>
-    <Field Def="s8 rarity"></Field>
+    <Field Def="s8 unkSameAsWeaponParam0x2C8_Sbyte0xD8"></Field>
     <Field Def="u8 sortGroupId"></Field>
     <Field Def="u8 partsDmgType"></Field>
-    <Field Def="u16 legType">
+    <Field Def="u16 legsType">
       <Description>Determines leg type and behavior, such as reverse joints, tetrapod, and tank legs.</Description>
     </Field>
     <Field Def="u8 isDeposit:1"></Field>
@@ -264,7 +264,7 @@
     <Field Def="s32 lockCamParamId"></Field>
     <Field Def="s32 energyLoad"></Field>
     <Field Def="s32 armorPoints"></Field>
-    <Field Def="s32 Unk0x1A0"></Field>
+    <Field Def="s32 menuTextId"></Field>
     <Field Def="s32 Unk0x1A4"></Field>
     <Field Def="s32 Unk0x1A8"></Field>
     <Field Def="s32 Unk0x1AC"></Field>
@@ -291,15 +291,15 @@
     <Field Def="f32 quickBoostVelocity">
       <Description>Referred to in-game as "Jump Distance". Does not affect jump distance.</Description>
     </Field>
-    <Field Def="s32 UnkInt0x1E4"></Field>
+    <Field Def="s32 firearmSpecialization"></Field>
     <Field Def="s32 attitudeStability"></Field>
     <Field Def="f32 UnkFloat0x1EC"></Field>
-    <Field Def="f32 UnkFloat0x1F0"></Field>
+    <Field Def="f32 recoilControl"></Field>
     <Field Def="f32 tetrapodHoverDrainRate"></Field>
     <Field Def="f32 tetrapodHoverQuickBoostVelocity"></Field>
     <Field Def="s32 Unk0x1FC"></Field>
-    <Field Def="u16 UnkUshort0x200"></Field>
-    <Field Def="u16 UnkUshort0x202"></Field>
+    <Field Def="u16 corporationTextureId"></Field>
+    <Field Def="u16 equipmentMenuManageCategoryParamId"></Field>
     <Field Def="s32 demonstrationVideoBinkId">
       <Description>Refers to the video filename in Game/movie/</Description>
     </Field>
@@ -315,11 +315,11 @@
     <Field Def="f32 UnkFloat0x22C"></Field>
     <Field Def="f32 UnkFloat0x230"></Field>
     <Field Def="f32 UnkFloat0x234"></Field>
-    <Field Def="f32 UnkFloat0x238"></Field>
+    <Field Def="f32 armsLoadLimit"></Field>
     <Field Def="s32 Unk0x23C"></Field>
-    <Field Def="s32 UnkInt0x240"></Field>
+    <Field Def="s32 meleeSpecialization"></Field>
     <Field Def="s32 loadLimit"></Field>
-    <Field Def="s32 legPartBoosterParamId">
+    <Field Def="s32 legsPartBoosterParamId">
       <Description>Refers to EquipParamBooster</Description>
     </Field>
     <Field Def="s32 movementAcTypeParamId">
@@ -341,19 +341,19 @@
     <Field Def="f32 antiExplosiveDefense">
       <Description>Base value is 300. +1.0 = +10 ingame, +0.5 = +5, etc.</Description>
     </Field>
-    <Field Def="f32 UnkFloat0x270"></Field>
+    <Field Def="f32 antiCoralDefense"></Field>
     <Field Def="f32 UnkFloat0x274"></Field>
-    <Field Def="f32 UnkFloat0x278"></Field>
-    <Field Def="f32 UnkFloat0x27C"></Field>
+    <Field Def="f32 systemRecovery_Display"></Field>
+    <Field Def="f32 systemRecovery"></Field>
     <Field Def="f32 UnkFloat0x280"></Field>
     <Field Def="s32 Unk0x284"></Field>
     <Field Def="f32 UnkFloat0x288"></Field>
     <Field Def="s32 Unk0x28C"></Field>
     <Field Def="f32 UnkFloat0x290"></Field>
-    <Field Def="f32 quickBoostGroundedVerticalVelocity">
+    <Field Def="f32 quickBoostVerticalVelocity_Grounded">
       <Description>Height gained while quick boosting.</Description>
     </Field>
-    <Field Def="f32 boostingJumpHorizontalSpeedBonus">
+    <Field Def="f32 boostModeJumpHorizontalSpeedBonus">
       <Description>When boosting then jumping, takes current speed and multiplies it by this value then adds it to current speed.</Description>
     </Field>
     <Field Def="f32 jumpVelocityVertical"></Field>
@@ -366,44 +366,42 @@
     <Field Def="f32 jumpVelocityHorizontalTransferred">
       <Description>Amount of vertical jump velocity to transfer into horizontal velocity.</Description>
     </Field>
-    <Field Def="s32 Unk0x2B4"></Field>
-    <Field Def="s32 Unk0x2B8"></Field>
-    <Field Def="s32 Unk0x2BC"></Field>
+    <Field Def="f32 Unk0x2B4"></Field>
+    <Field Def="f32 Unk0x2B8"></Field>
+    <Field Def="f32 Unk0x2BC"></Field>
     <Field Def="f32 Unk0x2C0"></Field>
-    <Field Def="s32 Unk0x2C4"></Field>
-    <Field Def="s32 Unk0x2C8"></Field>
-    <Field Def="s32 Unk0x2CC"></Field>
-    <Field Def="f32 armsLoadLimit">
-      <Description>Maximum weight arms can carry without compromising on stable operating performance. Higher values reduce recoil.</Description>
-    </Field>
-    <Field Def="s32 Unk0x2D4"></Field>
-    <Field Def="s32 Unk0x2D8"></Field>
-    <Field Def="s32 Unk0x2DC"></Field>
-    <Field Def="s32 Unk0x2E0"></Field>
+    <Field Def="f32 Unk0x2C4"></Field>
+    <Field Def="f32 Unk0x2C8"></Field>
+    <Field Def="f32 Unk0x2CC"></Field>
+    <Field Def="f32 Unk0x2D0"></Field>
+    <Field Def="f32 Unk0x2D4"></Field>
+    <Field Def="f32 Unk0x2D8"></Field>
+    <Field Def="f32 Unk0x2DC"></Field>
+    <Field Def="f32 Unk0x2E0"></Field>
     <Field Def="f32 Unk0x2E4"></Field>
     <Field Def="f32 Unk0x2E8"></Field>
     <Field Def="f32 Unk0x2EC"></Field>
-    <Field Def="f32 unkDisplayLegsJumpDistance">
+    <Field Def="f32 unkDisplayJumpDistance">
       <Description>Seemingly does nothing, and UI element for "Jump Distance" is governed by quickBoostVelocity.</Description>
     </Field>
-    <Field Def="f32 displayLegsJumpHeight">
+    <Field Def="f32 displayJumpHeight">
       <Description>Only affects value in UI.</Description>
     </Field>
-    <Field Def="s32 Unk0x2F8"></Field>
-    <Field Def="s32 Unk0x2FC"></Field>
-    <Field Def="s32 Unk0x300"></Field>
-    <Field Def="s32 Unk0x304"></Field>
-    <Field Def="s32 Unk0x308"></Field>
-    <Field Def="s32 Unk0x30C"></Field>
-    <Field Def="s32 Unk0x310"></Field>
-    <Field Def="s32 Unk0x314"></Field>
-    <Field Def="s32 Unk0x318"></Field>
-    <Field Def="s32 Unk0x31C"></Field>
-    <Field Def="s32 Unk0x320"></Field>
-    <Field Def="s32 Unk0x324"></Field>
-    <Field Def="s32 Unk0x328"></Field>
-    <Field Def="s32 Unk0x32C"></Field>
-    <Field Def="s32 Unk0x330"></Field>
+    <Field Def="f32 Unk0x2F8"></Field>
+    <Field Def="f32 Unk0x2FC"></Field>
+    <Field Def="f32 Unk0x300"></Field>
+    <Field Def="f32 Unk0x304"></Field>
+    <Field Def="f32 Unk0x308"></Field>
+    <Field Def="f32 Unk0x30C"></Field>
+    <Field Def="f32 Unk0x310"></Field>
+    <Field Def="f32 Unk0x314"></Field>
+    <Field Def="f32 Unk0x318"></Field>
+    <Field Def="f32 Unk0x31C"></Field>
+    <Field Def="f32 Unk0x320"></Field>
+    <Field Def="f32 Unk0x324"></Field>
+    <Field Def="f32 Unk0x328"></Field>
+    <Field Def="f32 Unk0x32C"></Field>
+    <Field Def="f32 Unk0x330"></Field>
     <Field Def="s16 Unk0x334"></Field>
     <Field Def="u16 UnkUshort0x336"></Field>
     <Field Def="f32 scanDistance">
@@ -421,9 +419,9 @@
     <Field Def="u8 Unk0x346"></Field>
     <Field Def="u8 Unk0x347"></Field>
     <Field Def="f32 UnkFloat0x348"></Field>
-    <Field Def="f32 UnkFloat0x34C"></Field>
+    <Field Def="f32 walkAnimationSpeedMultiplier"></Field>
     <Field Def="s32 UnkInt0x350"></Field>
-    <Field Def="s32 Unk0x354"></Field>
+    <Field Def="f32 Unk0x354"></Field>
     <Field Def="f32 UnkFloat0x358"></Field>
     <Field Def="f32 UnkFloat0x35C"></Field>
     <Field Def="f32 UnkFloat0x360"></Field>

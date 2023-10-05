@@ -1,7 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
+  <Enums>
+    <Enum Name="ATKPARAM_HIT_CREATE_TYPE" type="u8">
+      <Option Value="0" Name="Connect between DummyPolys" />
+      <Option Value="1" Name="Extend same direction as DummyPoly 1" />
+      <Option Value="2" Name="Fan" />
+    </Enum>
+  </Enums>
   <Field>
     <pulseInterferenceDamage Name="Pulse Armor Interference Damage" Wiki="Bonus damage dealt to pulse armor, pulse protection, and terminal armor core expansions. Doesn't affect shields, nor weapons that create pulse barrier assets."/>
+    <recoilVelocity_Grounded Name="Recoil Velocity (Grounded)" Wiki="Backwards velocity applied to the shooter when using a weapon on the ground. Applies conditionally, such as not applying when AC has tank legs."/>
+    <recoilVelocity_Airborne Name="Recoil Velocity (Airborne)" Wiki="Backwards velocity applied to the shooter when using a weapon in the air."/>
+    <hitboxShape Name="Hitbox Shape" Enum ="ATKPARAM_HIT_CREATE_TYPE" Wiki="Backwards velocity applied to the shooter when using a weapon in the air."/>
   </Field>
   <Self />
 </PARAMMETA>

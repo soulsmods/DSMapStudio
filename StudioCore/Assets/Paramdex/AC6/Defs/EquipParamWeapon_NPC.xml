@@ -7,7 +7,7 @@
   <FormatVersion>203</FormatVersion>
   <Fields>
     <Field Def="s32 Unk0x00"></Field>
-    <Field Def="s32 behaviorJudgeId"></Field>
+    <Field Def="s32 variationId"></Field>
     <Field Def="s32 sortId"></Field>
     <Field Def="s32 wanderingEquipId"></Field>
     <Field Def="f32 weight"></Field>
@@ -212,7 +212,10 @@
     <Field Def="u16 wepType"></Field>
     <Field Def="s32 Unk0x1A8"></Field>
     <Field Def="s32 Unk0x1AC"></Field>
-    <Field Def="s32 Unk0x1B0"></Field>
+    <Field Def="s8 Unk0x1B0"></Field>
+    <Field Def="s8 Unk0x1B1"></Field>
+    <Field Def="s8 Unk0x1B2"></Field>
+    <Field Def="s8 Unk0x1B3"></Field>
     <Field Def="s32 Unk0x1B4"></Field>
     <Field Def="s32 Unk0x1B8"></Field>
     <Field Def="s32 Unk0x1BC"></Field>
@@ -285,14 +288,14 @@
     <Field Def="s32 Unk0x298"></Field>
     <Field Def="s32 Unk0x29C"></Field>
     <Field Def="s32 Unk0x2A0"></Field>
-    <Field Def="s32 Unk0x2A4"></Field>
+    <Field Def="f32 Unk0x2A4"></Field>
     <Field Def="s32 Unk0x2A8"></Field>
     <Field Def="s32 Unk0x2AC"></Field>
     <Field Def="f32 Unk0x2B0"></Field>
     <Field Def="f32 Unk0x2B4"></Field>
     <Field Def="f32 Unk0x2B8"></Field>
     <Field Def="f32 Unk0x2BC"></Field>
-    <Field Def="s32 Unk0x2C0"></Field>
+    <Field Def="f32 UnkFloat0x2C0"></Field>
     <Field Def="s32 Unk0x2C4"></Field>
     <Field Def="s32 Unk0x2C8"></Field>
     <Field Def="s32 Unk0x2CC"></Field>

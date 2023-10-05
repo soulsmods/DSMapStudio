@@ -48,7 +48,7 @@
     <Field Def="s32 UnkInt0x9C"></Field>
     <Field Def="s32 UnkInt0xA0"></Field>
     <Field Def="s32 UnkInt0xA4"></Field>
-    <Field Def="s32 npcPlayerThinkId"></Field>
+    <Field Def="s32 acDesignId"></Field>
     <Field Def="s32 Unk0xAC"></Field>
     <Field Def="s32 Unk0xB0"></Field>
     <Field Def="s32 Unk0xB4"></Field>

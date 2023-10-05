@@ -21,6 +21,7 @@
     <TrimmerRootAssembly Include="SoulsFormats" />
     <TrimmerRootAssembly Include="StudioCore" />
     <TrimmerRootAssembly Include="HKX2" />
+    <TrimmerRootAssembly Include="Octokit" />
   </ItemGroup>
   
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

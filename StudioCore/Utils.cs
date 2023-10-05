@@ -869,5 +869,16 @@ namespace StudioCore
             }
             return text;
         }
+
+        /// <summary>
+        /// Generates display format for ImGui float input.
+        /// Made to display trailing zeroes even if value is an integer,
+        /// and limit number of decimals to appropriate values.
+        /// </summary>
+        public static string ImGui_InputFloatFormat(float f)
+        {
+            var split = f.ToString("F6").TrimEnd('0').Split('.');
+            return $"%.{Math.Clamp(split[1].Length, 3, 6)}f";
+        }
     }
 }
