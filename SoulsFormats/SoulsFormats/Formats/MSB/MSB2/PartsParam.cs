@@ -153,7 +153,22 @@ namespace SoulsFormats
             /// <summary>
             /// Unknown; possibly nvm groups.
             /// </summary>
-            public uint[] UnkGroups { get; private set; }
+            public int Unk44 { get; set; }
+
+            /// <summary>
+            /// Unknown; possibly nvm groups.
+            /// </summary>
+            public int Unk48 { get; set; }
+
+            /// <summary>
+            /// Unknown; possibly nvm groups.
+            /// </summary>
+            public int Unk4C { get; set; }
+
+            /// <summary>
+            /// Unknown; possibly nvm groups.
+            /// </summary>
+            public int Unk50 { get; set; }
 
             /// <summary>
             /// Not confirmed; determines when the part is visible.
@@ -181,7 +196,6 @@ namespace SoulsFormats
                 Scale = Vector3.One;
                 DrawGroups = new uint[4] {
                     0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF };
-                UnkGroups = new uint[4];
                 DispGroups = new uint[4] {
                     0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF };
             }
@@ -193,7 +207,6 @@ namespace SoulsFormats
             {
                 var part = (Part)MemberwiseClone();
                 part.DrawGroups = (uint[])DrawGroups.Clone();
-                part.UnkGroups = (uint[])UnkGroups.Clone();
                 part.DispGroups = (uint[])DispGroups.Clone();
                 DeepCopyTo(part);
                 return part;
@@ -215,7 +228,10 @@ namespace SoulsFormats
                 Rotation = br.ReadVector3();
                 Scale = br.ReadVector3();
                 DrawGroups = br.ReadUInt32s(4);
-                UnkGroups = br.ReadUInt32s(4);
+                Unk44 = br.ReadInt32();
+                Unk48 = br.ReadInt32();
+                Unk4C = br.ReadInt32();
+                Unk50 = br.ReadInt32();
                 DispGroups = br.ReadUInt32s(4);
                 Unk64 = br.ReadInt32();
                 br.AssertInt32(0);
@@ -254,7 +270,10 @@ namespace SoulsFormats
                 bw.WriteVector3(Rotation);
                 bw.WriteVector3(Scale);
                 bw.WriteUInt32s(DrawGroups);
-                bw.WriteUInt32s(UnkGroups);
+                bw.WriteInt32(Unk44);
+                bw.WriteInt32(Unk48);
+                bw.WriteInt32(Unk4C);
+                bw.WriteInt32(Unk50);
                 bw.WriteUInt32s(DispGroups);
                 bw.WriteInt32(Unk64);
                 bw.WriteInt32(0);
@@ -395,64 +414,50 @@ namespace SoulsFormats
                 public enum SoundSpace : byte
                 {
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-                    Outside = 0,
-                    SmallRoom = 1,
-                    MediumRoom = 2,
-                    LargeRoom = 3,
-                    ExtraLargeRoom = 4
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-                }
-
-                public enum HitFilterType : byte
-                {
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-                    KillPlaneWithoutLanding = 1,
-                    KillPlaneWithoutCameraDetach = 2,
-                    DeathPlaneOnNextLanding = 3,
-                    DeathPlaneWithoutCameraDetach = 4,
-                    Unknown5 = 5,
-                    CameraDetach = 10,
-                    Unknown11 = 11,
-                    DrawGroupOnlyReflection = 20,
-                    MemoryBlockBoundedEnemy = 30,
-                    AreaBoundedEnemy = 31,
-                    WaterSurface = 40,
-                    Unknown50 = 50,
-                    Map = 100,
-                    Auto = 255,
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-                }
-
-                public enum SfxAttachType : byte
-                {
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-                    Position = 0,
-                    PositionAngle = 1,
-                    PositionYAxisAngle = 2,
+                    NoReverb = 0,
+                    SmallReverb = 1,
+                    MiddleReverb = 2,
+                    LargeReverb = 3,
+                    ExtraLargeReverb = 4
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
                 }
 
                 private protected override PartType Type => PartType.Collision;
 
                 /// <summary>
-                /// Used for loading.
+                /// Unknown.
                 /// </summary>
-                public uint[] NavmeshGroups { get; set; }
+                public int UnkT00 { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public int UnkT04 { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public int UnkT08 { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public int UnkT0C { get; set; }
 
                 /// <summary>
                 /// Modifies sounds while the player is touching this collision.
                 /// </summary>
-                public SoundSpace SoundSpaceReverb { get; set; } = SoundSpace.Outside;
+                public SoundSpace SoundSpaceType { get; set; } = SoundSpace.NoReverb;
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public SoundSpace SoundSpaceDelay { get; set; }
+                public byte UnkT11 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public sbyte MemoryBlockID { get; set; }
+                public byte UnkT12 { get; set; }
 
                 /// <summary>
                 /// Refers to ID of fltparam to determine visual effects.
@@ -462,22 +467,22 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public HitFilterType HitFilterID { get; set; }
+                public byte HitFilterID { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public SfxAttachType AmbientSfxAttach { get; set; }
+                public byte UnkT15 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public bool DisableInvasions { get; set; }
+                public byte UnkT17 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int AmbientSfxID { get; set; }
+                public int CameraSfxID { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -487,19 +492,19 @@ namespace SoulsFormats
 
                 /// <summary>
                 /// Unknown.
-                /// </summary>
+                /// </summary>                
                 [MSBParamReference(ParamName = "PlayAreaParam")]
                 public int PlayAreaParamID { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public byte EnemyWallMemoryBlockA { get; set; }
+                public byte UnkT26 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public byte EnemyWallMemoryBlockB { get; set; }
+                public byte UnkT27 { get; set; }
 
                 /// <summary>
                 /// ID of tpf in menu\tex\icon\mapname to use for area name banner.
@@ -510,7 +515,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public bool DelayMapNameDisplay { get; set; }
+                public byte UnkT2C { get; set; }
 
                 /// <summary>
                 /// ID of tpf in model\map\envbnd to use for cubemaps.
@@ -552,32 +557,32 @@ namespace SoulsFormats
                 /// <summary>
                 /// Creates a Collision with default values.
                 /// </summary>
-                public Collision() : base("hXX_XXXX_XXXX")
-                {
-                    NavmeshGroups = new uint[4];
-                }
+                public Collision() : base("hXX_XXXX_XXXX") { }
 
                 internal Collision(BinaryReaderEx br) : base(br) { }
 
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
-                    NavmeshGroups = br.ReadUInt32s(4);
-                    SoundSpaceReverb = br.ReadEnum8<SoundSpace>();
-                    SoundSpaceDelay = br.ReadEnum8<SoundSpace>();
-                    MemoryBlockID = br.ReadSByte();
+                    UnkT00 = br.ReadInt32();
+                    UnkT04 = br.ReadInt32();
+                    UnkT08 = br.ReadInt32();
+                    UnkT0C = br.ReadInt32();
+                    SoundSpaceType = br.ReadEnum8<SoundSpace>();
+                    UnkT11 = br.ReadByte();
+                    UnkT12 = br.ReadByte();
                     FilterParamID = br.ReadByte();
-                    HitFilterID = br.ReadEnum8<HitFilterType>();
-                    AmbientSfxAttach = br.ReadEnum8<SfxAttachType>();
+                    HitFilterID = br.ReadByte();
+                    UnkT15 = br.ReadByte();
                     br.AssertByte(0);
-                    DisableInvasions = br.ReadBoolean();
-                    AmbientSfxID = br.ReadInt32();
+                    UnkT17 = br.ReadByte();
+                    CameraSfxID = br.ReadInt32();
                     PlayerLightParamID = br.ReadInt32();
                     PlayAreaParamID = br.ReadInt32();
                     br.AssertInt16(0);
-                    EnemyWallMemoryBlockA = br.ReadByte();
-                    EnemyWallMemoryBlockB = br.ReadByte();
+                    UnkT26 = br.ReadByte();
+                    UnkT27 = br.ReadByte();
                     MapNameID = br.ReadInt32();
-                    DelayMapNameDisplay = br.ReadBoolean();
+                    UnkT2C = br.ReadByte();
                     br.AssertByte(0);
                     CubeEnvID = br.ReadInt16();
                     CameraExFollowParamID = br.ReadInt32();
@@ -596,23 +601,26 @@ namespace SoulsFormats
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    bw.WriteUInt32s(NavmeshGroups);
-                    bw.WriteByte((byte)SoundSpaceReverb);
-                    bw.WriteByte((byte)SoundSpaceDelay);
-                    bw.WriteSByte(MemoryBlockID);
+                    bw.WriteInt32(UnkT00);
+                    bw.WriteInt32(UnkT04);
+                    bw.WriteInt32(UnkT08);
+                    bw.WriteInt32(UnkT0C);
+                    bw.WriteByte((byte)SoundSpaceType);
+                    bw.WriteByte(UnkT11);
+                    bw.WriteByte(UnkT12);
                     bw.WriteByte(FilterParamID);
-                    bw.WriteByte((byte)HitFilterID);
-                    bw.WriteByte((byte)AmbientSfxAttach);
+                    bw.WriteByte(HitFilterID);
+                    bw.WriteByte(UnkT15);
                     bw.WriteByte(0);
-                    bw.WriteBoolean(DisableInvasions);
-                    bw.WriteInt32(AmbientSfxID);
+                    bw.WriteByte(UnkT17);
+                    bw.WriteInt32(CameraSfxID);
                     bw.WriteInt32(PlayerLightParamID);
                     bw.WriteInt32(PlayAreaParamID);
                     bw.WriteInt16(0);
-                    bw.WriteByte(EnemyWallMemoryBlockA);
-                    bw.WriteByte(EnemyWallMemoryBlockB);
+                    bw.WriteByte(UnkT26);
+                    bw.WriteByte(UnkT27);
                     bw.WriteInt32(MapNameID);
-                    bw.WriteBoolean(DelayMapNameDisplay);
+                    bw.WriteByte(UnkT2C);
                     bw.WriteByte(0);
                     bw.WriteInt16(CubeEnvID);
                     bw.WriteInt32(CameraExFollowParamID);
@@ -638,29 +646,47 @@ namespace SoulsFormats
                 private protected override PartType Type => PartType.Navmesh;
 
                 /// <summary>
-                /// Unknown.
+                /// Unknown; possibly nvm groups.
                 /// </summary>
-                public uint[] NavmeshGroups { get; set; }
+                public int UnkT00 { get; set; }
+
+                /// <summary>
+                /// Unknown; possibly nvm groups.
+                /// </summary>
+                public int UnkT04 { get; set; }
+
+                /// <summary>
+                /// Unknown; possibly nvm groups.
+                /// </summary>
+                public int UnkT08 { get; set; }
+
+                /// <summary>
+                /// Unknown; possibly nvm groups.
+                /// </summary>
+                public int UnkT0C { get; set; }
 
                 /// <summary>
                 /// Creates a Navmesh with default values.
                 /// </summary>
-                public Navmesh() : base("nXX_XXXX_XXXX")
-                {
-                    NavmeshGroups= new uint[4];
-                }
+                public Navmesh() : base("nXX_XXXX_XXXX") { }
 
                 internal Navmesh(BinaryReaderEx br) : base(br) { }
 
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
-                    NavmeshGroups = br.ReadUInt32s(4);
+                    UnkT00 = br.ReadInt32();
+                    UnkT04 = br.ReadInt32();
+                    UnkT08 = br.ReadInt32();
+                    UnkT0C = br.ReadInt32();
                     br.AssertPattern(0x10, 0x00);
                 }
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    bw.WriteUInt32s(NavmeshGroups);
+                    bw.WriteInt32(UnkT00);
+                    bw.WriteInt32(UnkT04);
+                    bw.WriteInt32(UnkT08);
+                    bw.WriteInt32(UnkT0C);
                     bw.WritePattern(0x10, 0x00);
                 }
             }

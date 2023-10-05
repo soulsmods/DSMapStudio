@@ -183,7 +183,7 @@ namespace SoulsFormats
             /// <summary>
             /// Unknown.
             /// </summary>
-            public short UniqueID { get; set; }
+            public short Unk0E { get; set; }
 
             /// <summary>
             /// Location of the region.
@@ -220,7 +220,7 @@ namespace SoulsFormats
                 br.AssertByte((byte)Type);
                 MSB.ShapeType shapeType = (MSB.ShapeType)br.ReadByte();
                 br.ReadInt16(); // ID
-                UniqueID = br.ReadInt16();
+                Unk0E = br.ReadInt16();
                 Position = br.ReadVector3();
                 Rotation = br.ReadVector3();
                 long unkOffsetA = br.ReadVarint();
@@ -284,7 +284,7 @@ namespace SoulsFormats
                 bw.WriteByte((byte)Type);
                 bw.WriteByte((byte)Shape.Type);
                 bw.WriteInt16((short)id);
-                bw.WriteInt16(UniqueID);
+                bw.WriteInt16(Unk0E);
                 bw.WriteVector3(Position);
                 bw.WriteVector3(Rotation);
                 bw.ReserveVarint("UnkOffsetA");
@@ -377,17 +377,17 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public Color DiffuseColor { get; set; }
+                public Color ColorT04 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public Color SpecularColor { get; set; }
+                public Color ColorT08 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public float ShadowIntensity { get; set; }
+                public float UnkT0C { get; set; }
 
                 /// <summary>
                 /// Creates a Light with default values.
@@ -399,9 +399,9 @@ namespace SoulsFormats
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
                     UnkT00 = br.ReadInt32();
-                    DiffuseColor = br.ReadRGBA();
-                    SpecularColor = br.ReadRGBA();
-                    ShadowIntensity = br.ReadSingle();
+                    ColorT04 = br.ReadRGBA();
+                    ColorT08 = br.ReadRGBA();
+                    UnkT0C = br.ReadSingle();
                     br.AssertPattern(0x10, 0x00);
                     if (br.VarintLong)
                         br.AssertInt32(0);
@@ -410,9 +410,9 @@ namespace SoulsFormats
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
                     bw.WriteInt32(UnkT00);
-                    bw.WriteRGBA(DiffuseColor);
-                    bw.WriteRGBA(SpecularColor);
-                    bw.WriteSingle(ShadowIntensity);
+                    bw.WriteRGBA(ColorT04);
+                    bw.WriteRGBA(ColorT08);
+                    bw.WriteSingle(UnkT0C);
                     bw.WritePattern(0x10, 0x00);
                     if (bw.VarintLong)
                         bw.WriteInt32(0);
@@ -446,7 +446,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown; possibly sound type.
                 /// </summary>
-                public int SoundType { get; set; }
+                public int UnkT00 { get; set; }
 
                 /// <summary>
                 /// ID of the sound to play.
@@ -456,7 +456,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int EventSoundID { get; set; }
+                public int UnkT08 { get; set; }
 
                 /// <summary>
                 /// Creates a Sound with default values.
@@ -467,17 +467,17 @@ namespace SoulsFormats
 
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
-                    SoundType = br.ReadInt32();
+                    UnkT00 = br.ReadInt32();
                     SoundID = br.ReadInt32();
-                    EventSoundID = br.ReadInt32();
+                    UnkT08 = br.ReadInt32();
                     br.AssertPattern(0x14, 0x00);
                 }
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    bw.WriteInt32(SoundType);
+                    bw.WriteInt32(UnkT00);
                     bw.WriteInt32(SoundID);
-                    bw.WriteInt32(EventSoundID);
+                    bw.WriteInt32(UnkT08);
                     bw.WritePattern(0x14, 0x00);
                 }
             }
@@ -498,7 +498,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int EventEffectID { get; set; }
+                public int UnkT04 { get; set; }
 
                 /// <summary>
                 /// Creates an SFX with default values.
@@ -510,14 +510,14 @@ namespace SoulsFormats
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
                     EffectID = br.ReadInt32();
-                    EventEffectID = br.ReadInt32();
+                    UnkT04 = br.ReadInt32();
                     br.AssertPattern(0x18, 0x00);
                 }
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
                     bw.WriteInt32(EffectID);
-                    bw.WriteInt32(EventEffectID);
+                    bw.WriteInt32(UnkT04);
                     bw.WritePattern(0x18, 0x00);
                 }
             }
@@ -538,27 +538,27 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public float Priority { get; set; }
+                public float UnkT04 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public float MinSpeed { get; set; }
+                public float UnkT08 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public float MaxSpeed { get; set; }
+                public float UnkT0C { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public float Frequency { get; set; }
+                public float UnkT10 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public float DecayStartDist { get; set; }
+                public float UnkT14 { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -575,11 +575,11 @@ namespace SoulsFormats
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
                     UnkT00 = br.ReadInt32();
-                    Priority = br.ReadSingle();
-                    MinSpeed = br.ReadSingle();
-                    MaxSpeed = br.ReadSingle();
-                    Frequency = br.ReadSingle();
-                    DecayStartDist = br.ReadSingle();
+                    UnkT04 = br.ReadSingle();
+                    UnkT08 = br.ReadSingle();
+                    UnkT0C = br.ReadSingle();
+                    UnkT10 = br.ReadSingle();
+                    UnkT14 = br.ReadSingle();
                     UnkT18 = br.ReadSingle();
                     br.AssertInt32(0);
                 }
@@ -587,11 +587,11 @@ namespace SoulsFormats
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
                     bw.WriteInt32(UnkT00);
-                    bw.WriteSingle(Priority);
-                    bw.WriteSingle(MinSpeed);
-                    bw.WriteSingle(MaxSpeed);
-                    bw.WriteSingle(Frequency);
-                    bw.WriteSingle(DecayStartDist);
+                    bw.WriteSingle(UnkT04);
+                    bw.WriteSingle(UnkT08);
+                    bw.WriteSingle(UnkT0C);
+                    bw.WriteSingle(UnkT10);
+                    bw.WriteSingle(UnkT14);
                     bw.WriteSingle(UnkT18);
                     bw.WriteInt32(0);
                 }
@@ -608,22 +608,17 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public sbyte DataID { get; set; }
+                public int UnkT00 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public sbyte TypeID { get; set; }
+                public float UnkT04 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public float Angle { get; set; }
-
-                /// <summary>
-                /// Unknown.
-                /// </summary>
-                public float Angle2 { get; set; }
+                public float UnkT08 { get; set; }
 
                 /// <summary>
                 /// Creates an EnvLight with default values.
@@ -634,22 +629,17 @@ namespace SoulsFormats
 
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
-                    DataID = br.ReadSByte();
-                    TypeID = br.ReadSByte();
-                    br.AssertInt16(0);
-                    Angle = br.ReadSingle();
-                    Angle2 = br.ReadSingle();
-                    // These correspond to various lighting and color values, but none are used.
+                    UnkT00 = br.ReadInt32();
+                    UnkT04 = br.ReadSingle();
+                    UnkT08 = br.ReadSingle();
                     br.AssertPattern(0x14, 0x00);
                 }
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    bw.WriteSByte(DataID);
-                    bw.WriteSByte(TypeID);
-                    bw.WriteInt16(0);
-                    bw.WriteSingle(Angle);
-                    bw.WriteSingle(Angle2);
+                    bw.WriteInt32(UnkT00);
+                    bw.WriteSingle(UnkT04);
+                    bw.WriteSingle(UnkT08);
                     bw.WritePattern(0x14, 0x00);
                 }
             }
