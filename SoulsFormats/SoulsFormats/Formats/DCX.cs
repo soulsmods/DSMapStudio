@@ -15,11 +15,8 @@ namespace SoulsFormats
         {
             if (br.Length < 4)
                 return false;
-
-            byte b0 = br.GetByte(0);
-            byte b1 = br.GetByte(1);
             string magic = br.GetASCII(0, 4);
-            return magic == "DCP\0" || magic == "DCX\0" || b0 == 0x78 && (b1 == 0x01 || b1 == 0x5E || b1 == 0x9C || b1 == 0xDA);
+            return magic == "DCP\0" || magic == "DCX\0";
         }
 
         /// <summary>
