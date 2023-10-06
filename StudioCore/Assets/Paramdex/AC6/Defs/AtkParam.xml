@@ -230,7 +230,14 @@
     <Field Def="s32 UnkInt0x1D4"></Field>
     <Field Def="u8 UnkByte0x1D8"></Field>
     <Field Def="u8 hitboxShape"></Field>
-    <Field Def="u8 UnkByte0x1DA"></Field>
+    <Field Def="u8 UnkFlag0x1DA_0:1"></Field>
+    <Field Def="u8 UnkFlag0x1DA_1:1"></Field>
+    <Field Def="u8 UnkFlag0x1DA_2:1"></Field>
+    <Field Def="u8 UnkFlag0x1DA_3:1"></Field>
+    <Field Def="u8 UnkFlag0x1DA_4:1"></Field>
+    <Field Def="u8 UnkFlag0x1DA_5:1"></Field>
+    <Field Def="u8 UnkFlag0x1DA_6:1"></Field>
+    <Field Def="u8 weightAffectsDamage:1"></Field>
     <Field Def="u8 UnkByte0x1DB"></Field>
     <Field Def="u16 UnkUshort0x1DC"></Field>
     <Field Def="u8 Unk0x1DE"></Field>
