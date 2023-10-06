@@ -1059,7 +1059,7 @@ namespace StudioCore.ParamEditor
                 _primaryDiffCache = PrimaryBank._vanillaDiffCache;
             else if (this != PrimaryBank)
                 _primaryDiffCache = GetParamDiff(PrimaryBank);
-            CacheBank.ClearCaches();
+            UICache.ClearCaches();
         }
         private Dictionary<string, HashSet<int>> GetParamDiff(ParamBank otherBank)
         {
