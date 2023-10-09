@@ -166,7 +166,7 @@ namespace StudioCore.ParamEditor
             else if (typ == typeof(float))
             {
                 float val = (float)oldval;
-                if (ImGui.InputFloat("##value", ref val, 0.1f))
+                if (ImGui.InputFloat("##value", ref val, 0.1f, 1.0f, Utils.ImGui_InputFloatFormat(val)))
                 {
                     newval = val;
                     _editedPropCache = newval;
@@ -419,6 +419,7 @@ namespace StudioCore.ParamEditor
             {
                 ImGui.Separator();
                 ImGui.NewLine();
+                ImGui.Indent();
                 var ccd = meta.CalcCorrectDef;
                 var scd = meta.SoulCostDef;
                 float[] values;
@@ -428,19 +429,20 @@ namespace StudioCore.ParamEditor
                 if (scd != null && scd.cost_row == row.ID)
                 {
                     (values, maxY) = CacheBank.GetCached(_paramEditor, row, "soulCostData", () => ParamUtils.getSoulCostData(scd, row));
-                    ImGui.PlotLines("##graph", ref values[0], values.Length, 0, "", 0, maxY, new Vector2(ImGui.GetColumnWidth(-1), ImGui.GetColumnWidth(-1)*0.5625f));
+                    ImGui.PlotLines("##graph", ref values[0], values.Length, 0, "", 0, maxY, new Vector2(ImGui.GetColumnWidth(-1) - 30.0f, ImGui.GetColumnWidth(-1) * 0.5625f - 30.0f));
                 
                 }
                 else if (ccd != null)
                 {
                     (values, xOffset, minY, maxY) = CacheBank.GetCached(_paramEditor, row, "calcCorrectData", () => ParamUtils.getCalcCorrectedData(ccd, row));
-                    ImGui.PlotLines("##graph", ref values[0], values.Length, 0, xOffset == 0 ? "" : $@"Note: add {xOffset} to x coordinate", minY, maxY, new Vector2(ImGui.GetColumnWidth(-1), ImGui.GetColumnWidth(-1)*0.5625f));
+                    ImGui.PlotLines("##graph", ref values[0], values.Length, 0, xOffset == 0 ? "" : $@"Note: add {xOffset} to x coordinate", minY, maxY, new Vector2(ImGui.GetColumnWidth(-1) - 30f, ImGui.GetColumnWidth(-1) * 0.5625f - 30f));
                 }
             }
             catch (Exception e)
             {
                 ImGui.TextUnformatted("Unable to draw graph");
             }
+            ImGui.NewLine();
         }
 
         // Many parameter options, which may be simplified.
@@ -489,7 +491,7 @@ namespace StudioCore.ParamEditor
         {
             List<ParamRef> RefTypes = cellMeta?.RefTypes;
             string VirtualRef = cellMeta?.VirtualRef;
-            string FmgRef = cellMeta?.FmgRef;
+            List<FMGRef> FmgRef = cellMeta?.FmgRef;
             ParamEnum Enum = cellMeta?.EnumType;
             string Wiki = cellMeta?.Wiki;
             bool IsBool = cellMeta?.IsBool ?? false;
@@ -517,7 +519,7 @@ namespace StudioCore.ParamEditor
             PropertyRowNameContextMenu(bank, internalName, cellMeta, activeParam, activeParam != null, isPinned, col, selection);
 
             EditorDecorations.ParamRefText(RefTypes, row);
-            EditorDecorations.FmgRefText(FmgRef);
+            EditorDecorations.FmgRefText(FmgRef, row);
             EditorDecorations.EnumNameText(Enum == null ? null : Enum.name);
 
             //PropertyRowMetaDefContextMenu();
@@ -574,14 +576,13 @@ namespace StudioCore.ParamEditor
             if (CFG.Current.Param_HideReferenceRows == false && RefTypes != null)
                 EditorDecorations.ParamRefsSelectables(bank, RefTypes, row, oldval);
             if (CFG.Current.Param_HideReferenceRows == false && FmgRef != null)
-                EditorDecorations.FmgRefSelectable(FmgRef, oldval);
+                EditorDecorations.FmgRefSelectable(_paramEditor, FmgRef, row, oldval);
             if (CFG.Current.Param_HideEnums == false && Enum != null)
                 EditorDecorations.EnumValueText(Enum.values, oldval.ToString());
 
             if (CFG.Current.Param_HideReferenceRows == false || CFG.Current.Param_HideEnums == false)
             {
-                var fmgInfo = TextEditor.FMGBank.FmgInfoBank.Find((x) => x.Name == FmgRef);
-                if (EditorDecorations.ParamRefEnumContextMenu(bank, oldval, ref newval, RefTypes, row, fmgInfo, Enum, ContextActionManager))
+                if (EditorDecorations.ParamRefEnumContextMenu(bank, oldval, ref newval, RefTypes, row, FmgRef, Enum, ContextActionManager))
                 {
                     changed = true;
                     committed = true;
@@ -643,7 +644,7 @@ namespace StudioCore.ParamEditor
             return true;
         }
 
-        private static void AdditionalColumnValue(object colVal, Type propType, ParamBank bank, List<ParamRef> RefTypes, string FmgRef, Param.Row context, ParamEnum Enum, string imguiSuffix)
+        private void AdditionalColumnValue(object colVal, Type propType, ParamBank bank, List<ParamRef> RefTypes, List<FMGRef> FmgRef, Param.Row context, ParamEnum Enum, string imguiSuffix)
         {
             if (colVal == null)
                 ImGui.TextUnformatted("");
@@ -658,7 +659,7 @@ namespace StudioCore.ParamEditor
                 if (CFG.Current.Param_HideReferenceRows == false && RefTypes != null)
                     EditorDecorations.ParamRefsSelectables(bank, RefTypes, context, colVal);
                 if (CFG.Current.Param_HideReferenceRows == false && FmgRef != null)
-                    EditorDecorations.FmgRefSelectable(FmgRef, colVal);
+                    EditorDecorations.FmgRefSelectable(_paramEditor, FmgRef, context, colVal);
                 if (CFG.Current.Param_HideEnums == false && Enum != null)
                     EditorDecorations.EnumValueText(Enum.values, colVal.ToString());
             }

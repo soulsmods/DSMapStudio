@@ -1219,7 +1219,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Determines if enemy think will use dark and pitch dark eye distances.
                 /// </summary>
-                public MapVisibilityTypeEnum MapVisibilityType { get; set; }
+                public MapVisibilityTypeEnum MapVisibilityType { get; set; } = MapVisibilityTypeEnum.Good;
 
                 /// <summary>
                 /// If set, disables a bonfire when any enemy is on the collision.

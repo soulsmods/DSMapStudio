@@ -2,14 +2,14 @@
 <PARAMMETA XmlVersion="0">
   <Field>
     <alreadyGotFlagId Wiki="Event Flag that is turned on when this Item is obtained, prevents the Item from being obtained again" />
-    <resourceItemCategory01 Wiki="Determines which ResourceItem will be dropped" Refs="ResourceItemParam(=0)" />
-    <resourceItemCategory02 Wiki="Determines which ResourceItem will be dropped" Refs="ResourceItemParam(=0)" />
-    <resourceItemCategory03 Wiki="Determines which ResourceItem will be dropped" Refs="ResourceItemParam(=0)" />
-    <resourceItemCategory04 Wiki="Determines which ResourceItem will be dropped" Refs="ResourceItemParam(=0)" />
-    <resourceItemCategory05 Wiki="Determines which ResourceItem will be dropped" Refs="ResourceItemParam(=0)" />
-    <resourceItemCategory06 Wiki="Determines which ResourceItem will be dropped" Refs="ResourceItemParam(=0)" />
-    <resourceItemCategory07 Wiki="Determines which ResourceItem will be dropped" Refs="ResourceItemParam(=0)" />
-    <resourceItemCategory08 Wiki="Determines which ResourceItem will be dropped" Refs="ResourceItemParam(=0)" />
+    <resourceItemCategory01 Wiki="Determines which ResourceItem will be dropped" Refs="ResourceItemParam" />
+    <resourceItemCategory02 Wiki="Determines which ResourceItem will be dropped" Refs="ResourceItemParam" />
+    <resourceItemCategory03 Wiki="Determines which ResourceItem will be dropped" Refs="ResourceItemParam" />
+    <resourceItemCategory04 Wiki="Determines which ResourceItem will be dropped" Refs="ResourceItemParam" />
+    <resourceItemCategory05 Wiki="Determines which ResourceItem will be dropped" Refs="ResourceItemParam" />
+    <resourceItemCategory06 Wiki="Determines which ResourceItem will be dropped" Refs="ResourceItemParam" />
+    <resourceItemCategory07 Wiki="Determines which ResourceItem will be dropped" Refs="ResourceItemParam" />
+    <resourceItemCategory08 Wiki="Determines which ResourceItem will be dropped" Refs="ResourceItemParam" />
     <isAddLottery Wiki="Items will not drop unless stateInfo 345 is active" IsBool="" />
     <lotBasePoint01 Wiki="Drop rate of resourceItemCategory01" />
     <lotBasePoint02 Wiki="Drop rate of resourceItemCategory02" />

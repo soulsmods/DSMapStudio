@@ -23,9 +23,9 @@
     <Field Def="u8 Unk07" />
     <Field Def="u8 Unk08" />
     
-    <Field Def="f32 Unk05" />
+    <Field Def="f32 Unk09" />
     
-    <Field Def="f32 Unk06" />
+    <Field Def="f32 Unk10" />
     
     <Field Def="s32 mimicry_map_object_1" />
     <Field Def="s32 mimicry_map_object_2" />

@@ -172,29 +172,73 @@ namespace StudioCore.ParamEditor
         /// Whitelist of games and maximum param version to allow param upgrading.
         /// Used to restrict upgrading before DSMS properly supports it.
         /// </summary>
-        public readonly Dictionary<GameType, ulong> ParamUpgrade_Whitelist = new()
+        public readonly List<GameType> ParamUpgrade_SupportedGames = new()
         {
-            {GameType.EldenRing, 1_10_9_9999L},
-            {GameType.ArmoredCoreVI, 0_00_0_9999L},
+            GameType.EldenRing,
+            GameType.ArmoredCoreVI,
         };
+        private bool _paramUpgraderLoaded = false;
+        public ulong ParamUpgradeVersionSoftWhitelist = 0;
+        public List<(ulong, string, string)> ParamUpgradeEdits = null;
+
+        private void LoadUpgraderData()
+        {
+            _paramUpgraderLoaded = false;
+            ParamUpgradeVersionSoftWhitelist = 0;
+            ParamUpgradeEdits = null;
+            try
+            {
+                string baseDir = AssetLocator.GetUpgraderAssetsDir();
+                string wlFile = Path.Join(AssetLocator.GetUpgraderAssetsDir(), "version.txt");
+                string massEditFile = Path.Join(AssetLocator.GetUpgraderAssetsDir(), "massedit.txt");
+                if (!File.Exists(wlFile) || !File.Exists(massEditFile))
+                    return;
+                ulong versionWhitelist = ulong.Parse(File.ReadAllText(wlFile).Replace("_", "").Replace("L", ""));
+
+                string[] parts = File.ReadAllLines(massEditFile);
+                if (parts.Length % 3 != 0)
+                    throw new Exception("Wrong number of lines in upgrader massedit file");
+                List<(ulong, string, string)> upgradeEdits = new List<(ulong, string, string)>();
+                for (int i=0; i<parts.Length; i+=3)
+                {
+                    upgradeEdits.Add((ulong.Parse(parts[i].Replace("_", "").Replace("L", "")), parts[i+1], parts[i+2]));
+                }
+                ParamUpgradeVersionSoftWhitelist = versionWhitelist;
+                ParamUpgradeEdits = upgradeEdits;
+                _paramUpgraderLoaded = true;
+            }
+            catch(Exception e)
+            {
+                TaskLogs.AddLog($"Error loading upgrader data.",
+                Microsoft.Extensions.Logging.LogLevel.Warning, TaskLogs.LogPriority.Normal, e);
+            }
+        }
 
         private void ParamUpgradeDisplay()
         {
-            // Param upgrading for Elden Ring
             if (ParamBank.IsDefsLoaded
                 && ParamBank.PrimaryBank.Params != null
                 && ParamBank.VanillaBank.Params != null
+                && ParamUpgrade_SupportedGames.Contains(ParamBank.PrimaryBank.AssetLocator.Type)
                 && !ParamBank.PrimaryBank.IsLoadingParams
                 && !ParamBank.VanillaBank.IsLoadingParams
                 && ParamBank.PrimaryBank.ParamVersion < ParamBank.VanillaBank.ParamVersion)
             {
-                if (!ParamUpgrade_Whitelist.TryGetValue(ParamBank.PrimaryBank.AssetLocator.Type, out ulong versionThreshold))
+                if (!_paramUpgraderLoaded)
                 {
-                    // Unsupported game type.
-                    return;
+                    ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 0.3f, 0.3f, 1.0f));
+                    if (ImGui.BeginMenu("Upgrade Params"))
+                    {
+                        ImGui.PopStyleColor();
+                        ImGui.Text("Unable to obtain param upgrade information from assets folder.");
+                        ImGui.EndMenu();
+                    }
+                    else
+                    {
+                        ImGui.PopStyleColor();
+                    }
                 }
-
-                if (ParamBank.VanillaBank.ParamVersion <= versionThreshold)
+                else if (ParamBank.VanillaBank.ParamVersion <= ParamUpgradeVersionSoftWhitelist)
                 {
                     ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.0f, 1f, 0f, 1.0f));
                     if (ImGui.Button("Upgrade Params"))
@@ -324,7 +368,7 @@ namespace StudioCore.ParamEditor
                     MessageBoxIcon.Information);
                 if (msgUpgradeEdits == DialogResult.Yes)
                 {
-                    var (success, fail) = bank.RunUpgradeEdits(oldVersion, newVersion);
+                    var (success, fail) = RunUpgradeEdits(oldVersion, newVersion);
                     if (success.Count > 0 || fail.Count > 0)
                         PlatformUtils.Instance.MessageBox(
                             (success.Count > 0 ? "Successfully performed the following edits:\n" + String.Join('\n', success) : "") +
@@ -347,6 +391,41 @@ namespace StudioCore.ParamEditor
             }
 
             EditorActionManager.Clear();
+        }
+
+        private (List<string>, List<string>) RunUpgradeEdits(ulong startVersion, ulong endVersion)
+        {
+            if (ParamUpgradeEdits == null)
+                throw new NotImplementedException();
+
+            List<string> performed = new List<string>();
+            List<string> unperformed = new List<string>();
+
+            bool hasFailed = false;
+            foreach (var (version, task, command) in ParamUpgradeEdits)
+            {
+                // Don't bother updating modified cache between edits
+                if (version <= startVersion || version > endVersion)
+                    continue;
+
+                if (!hasFailed)
+                {
+                    try {
+                        var (result, actions) = MassParamEditRegex.PerformMassEdit(ParamBank.PrimaryBank, command, null);
+                        if (result.Type != MassEditResultType.SUCCESS)
+                            hasFailed = true;
+                    }
+                    catch (Exception e)
+                    {
+                        hasFailed = true;
+                    }
+                }
+                if (!hasFailed)
+                    performed.Add(task);
+                else
+                    unperformed.Add(task);
+            }
+            return (performed, unperformed);
         }
 
         private void ParamUndo()
@@ -744,25 +823,33 @@ namespace StudioCore.ParamEditor
             {
                 if (ImGui.BeginMenu("Hot Reload Params"))
                 {
-
-                    ImGui.TextColored(new Vector4(1.0f, 1.0f, 0.0f, 1.0f), "WARNING: Hot Reloader only works for existing row entries.\nGame must be restarted for new rows and modified row IDs.");
-                    ImGui.Separator();
-
-                    bool canHotReload = ParamReloader.CanReloadMemoryParams(ParamBank.PrimaryBank, _projectSettings);
-
-                    if (ImGui.MenuItem("Current Param", KeyBindings.Current.Param_HotReload.HintText, false, canHotReload))
+                    if (!ParamReloader.GameIsSupported(_projectSettings.GameType))
                     {
-                        ParamReloader.ReloadMemoryParams(ParamBank.PrimaryBank, ParamBank.PrimaryBank.AssetLocator, new string[] { _activeView._selection.getActiveParam() });
+                        ImGui.TextColored(new Vector4(1.0f, 0.75f, 0.25f, 1.0f),
+                            "Param hot reloading is not supported for this game at the moment.");
                     }
-                    if (ImGui.MenuItem("All Params", KeyBindings.Current.Param_HotReloadAll.HintText, false, canHotReload))
+                    else
                     {
-                        ParamReloader.ReloadMemoryParams(ParamBank.PrimaryBank, ParamBank.PrimaryBank.AssetLocator, ParamBank.PrimaryBank.Params.Keys.ToArray());
-                    }
-                    foreach (string param in ParamReloader.GetReloadableParams(ParamBank.PrimaryBank.AssetLocator))
-                    {
-                        if (ImGui.MenuItem(param, "", false, canHotReload))
+                        ImGui.TextColored(new Vector4(1.0f, 1.0f, 0.0f, 1.0f),
+                            "WARNING: Hot Reloader only works for existing row entries.\nGame must be restarted for new rows and modified row IDs.");
+                        ImGui.Separator();
+
+                        bool canHotReload = ParamReloader.CanReloadMemoryParams(ParamBank.PrimaryBank, _projectSettings);
+
+                        if (ImGui.MenuItem("Current Param", KeyBindings.Current.Param_HotReload.HintText, false, canHotReload))
                         {
-                            ParamReloader.ReloadMemoryParams(ParamBank.PrimaryBank, ParamBank.PrimaryBank.AssetLocator, new string[] { param });
+                            ParamReloader.ReloadMemoryParams(ParamBank.PrimaryBank, ParamBank.PrimaryBank.AssetLocator, new string[] { _activeView._selection.getActiveParam() });
+                        }
+                        if (ImGui.MenuItem("All Params", KeyBindings.Current.Param_HotReloadAll.HintText, false, canHotReload))
+                        {
+                            ParamReloader.ReloadMemoryParams(ParamBank.PrimaryBank, ParamBank.PrimaryBank.AssetLocator, ParamBank.PrimaryBank.Params.Keys.ToArray());
+                        }
+                        foreach (string param in ParamReloader.GetReloadableParams(ParamBank.PrimaryBank.AssetLocator))
+                        {
+                            if (ImGui.MenuItem(param, "", false, canHotReload))
+                            {
+                                ParamReloader.ReloadMemoryParams(ParamBank.PrimaryBank, ParamBank.PrimaryBank.AssetLocator, new string[] { param });
+                            }
                         }
                     }
                     ImGui.EndMenu();
@@ -872,6 +959,8 @@ namespace StudioCore.ParamEditor
                 }
                 ImGui.EndMenu();
             }
+
+            /*
             if (ImGui.BeginMenu("Help"))
             {
                 if (ImGui.BeginMenu("Search and MassEdit"))
@@ -902,6 +991,7 @@ namespace StudioCore.ParamEditor
                 }
                 ImGui.EndMenu();
             }
+            */
 
             ParamUpgradeDisplay();
         }
@@ -1491,7 +1581,8 @@ namespace StudioCore.ParamEditor
             {
                 dec.Value.ClearDecoratorCache();
             }
-            MassEditScript.ReloadScripts();
+            TaskManager.Run(new("Param - Load MassEdit Scripts", TaskManager.RequeueType.Repeat, true, ()=>MassEditScript.ReloadScripts()));
+            TaskManager.Run(new("Param - Load Upgrader Data", TaskManager.RequeueType.Repeat, true, ()=>LoadUpgraderData()));
         }
 
         public void Save()
@@ -2094,6 +2185,7 @@ namespace StudioCore.ParamEditor
 
                         List<Param.Row> pinnedRowList = _paramEditor._projectSettings.PinnedRows.GetValueOrDefault(activeParam, new List<int>()).Select((id) => para[id]).ToList();
                         bool[] selectionCachePins = _selection.getSelectionCache(pinnedRowList, "pinned");
+                        bool lineBreaks = !CFG.Current.Param_DisableLineWrapping;
                         if (pinnedRowList.Count != 0)
                         {
                             for (int i=0; i<pinnedRowList.Count(); i++)
@@ -2103,7 +2195,7 @@ namespace StudioCore.ParamEditor
                                 {
                                     continue;
                                 }
-                                RowColumnEntry(selectionCachePins, i, activeParam, null, row, vanillaDiffCache, auxDiffCaches, decorator, ref scrollTo, false, true, compareCol);
+                                RowColumnEntry(selectionCachePins, i, activeParam, null, row, vanillaDiffCache, auxDiffCaches, decorator, ref scrollTo, false, true, compareCol, lineBreaks);
                             }
 
                             ImGui.Spacing();
@@ -2140,13 +2232,13 @@ namespace StudioCore.ParamEditor
                                 Param.Row next = i + 1 < rows.Count ? rows[i + 1] : null;
                                 if (prev != null && next != null && prev.ID + 1 != currentRow.ID && currentRow.ID + 1 == next.ID)
                                     EditorDecorations.ImguiTableSeparator();
-                                RowColumnEntry(selectionCache, i, activeParam, rows, currentRow, vanillaDiffCache, auxDiffCaches, decorator, ref scrollTo, doFocus, false, compareCol);
+                                RowColumnEntry(selectionCache, i, activeParam, rows, currentRow, vanillaDiffCache, auxDiffCaches, decorator, ref scrollTo, doFocus, false, compareCol, lineBreaks);
                                 if (prev != null && next != null && prev.ID + 1 == currentRow.ID && currentRow.ID + 1 != next.ID)
                                     EditorDecorations.ImguiTableSeparator();
                             }
                             else
                             {
-                                RowColumnEntry(selectionCache, i, activeParam, rows, currentRow, vanillaDiffCache, auxDiffCaches, decorator, ref scrollTo, doFocus, false, compareCol);
+                                RowColumnEntry(selectionCache, i, activeParam, rows, currentRow, vanillaDiffCache, auxDiffCaches, decorator, ref scrollTo, doFocus, false, compareCol, lineBreaks);
                             }
                         }
                         if (doFocus)
@@ -2181,7 +2273,7 @@ namespace StudioCore.ParamEditor
             }
         }
 
-        private void RowColumnEntry(bool[] selectionCache, int selectionCacheIndex, string activeParam, List<Param.Row> p, Param.Row r, HashSet<int> vanillaDiffCache, List<(HashSet<int>, HashSet<int>)> auxDiffCaches, IParamDecorator decorator, ref float scrollTo, bool doFocus, bool isPinned, Param.Column compareCol)
+        private void RowColumnEntry(bool[] selectionCache, int selectionCacheIndex, string activeParam, List<Param.Row> p, Param.Row r, HashSet<int> vanillaDiffCache, List<(HashSet<int>, HashSet<int>)> auxDiffCaches, IParamDecorator decorator, ref float scrollTo, bool doFocus, bool isPinned, Param.Column compareCol, bool lineBreaks)
         {
             float scale = MapStudioNew.GetUIScale();
 
@@ -2232,15 +2324,15 @@ namespace StudioCore.ParamEditor
             }
 
             string label = $@"{r.ID} {Utils.ImGuiEscape(r.Name, "")}";
-            label = Utils.ImGui_WordWrapString(label, ImGui.GetColumnWidth());
+            label = Utils.ImGui_WordWrapString(label, ImGui.GetColumnWidth(), lineBreaks ? 3 : 1);
             if (ImGui.Selectable($@"{label}##{selectionCacheIndex}", selected))
             {
                 _focusRows = true;
-                if (InputTracker.GetKey(Key.LControl))
+                if (InputTracker.GetKey(Key.LControl) || InputTracker.GetKey(Key.RControl))
                 {
                     _selection.toggleRowInSelection(r);
                 }
-                else if (p != null && InputTracker.GetKey(Key.LShift) && _selection.getActiveRow() != null)
+                else if (p != null && (InputTracker.GetKey(Key.LShift) || InputTracker.GetKey(Key.RShift)) && _selection.getActiveRow() != null)
                 {
                     _selection.cleanSelectedRows();
                     int start = p.IndexOf(_selection.getActiveRow());

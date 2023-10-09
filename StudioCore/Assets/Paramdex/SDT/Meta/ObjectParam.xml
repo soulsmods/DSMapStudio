@@ -3,7 +3,7 @@
   <Field>
     <isAddRigidImpulse_ByDamage IsBool="" />
     <isDisableEnvMapCapture IsBool="" />
-    <BreakAiSoundID Refs="AiSoundParam(=0)" />
+    <BreakAiSoundID Refs="AiSoundParam" />
     <isEnableWallJump IsBool="" />
     <isBreakByPlayerCollide IsBool="" />
     <isMoveObj IsBool="" />
@@ -18,14 +18,14 @@
     <isDamageCover IsBool="" />
     <isAttackBacklash IsBool="" />
     <isBreakByEnemyCollide IsBool="" />
-    <SpecialEffectId_InsideHit Refs="SpEffectParam(=0)" />
+    <SpecialEffectId_InsideHit Refs="SpEffectParam" />
     <isUserPhysicForChrCollide IsBool="" />
     <isBreak_ByChrRide IsBool="" />
-    <burnBulletBehaviorId_1 Refs="BehaviorParam(=0)" />
-    <burnBulletBehaviorId_2 Refs="BehaviorParam(=0)" />
-    <burnBulletBehaviorId_3 Refs="BehaviorParam(=0)" />
-    <burnBulletBehaviorId Refs="BehaviorParam(=0)" />
-    <breakBulletBehaviorId Refs="BehaviorParam(=0)" />
+    <burnBulletBehaviorId_1 Refs="BehaviorParam" />
+    <burnBulletBehaviorId_2 Refs="BehaviorParam" />
+    <burnBulletBehaviorId_3 Refs="BehaviorParam" />
+    <burnBulletBehaviorId Refs="BehaviorParam" />
+    <breakBulletBehaviorId Refs="BehaviorParam" />
   </Field>
   <Self />
 </PARAMMETA>

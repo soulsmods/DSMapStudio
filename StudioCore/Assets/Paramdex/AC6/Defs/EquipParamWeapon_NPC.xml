@@ -1,14 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PARAMDEF XmlVersion="0">
+<PARAMDEF XmlVersion="3">
   <ParamType>EQUIP_PARAM_WEAPON_ST</ParamType>
   <DataVersion>7</DataVersion>
   <BigEndian>False</BigEndian>
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <!-- <Field Def="dummy8 paramSize[1104]" /> -->
     <Field Def="s32 Unk0x00"></Field>
-    <Field Def="s32 behaviorJudgeId"></Field>
+    <Field Def="s32 variationId"></Field>
     <Field Def="s32 sortId"></Field>
     <Field Def="s32 wanderingEquipId"></Field>
     <Field Def="f32 weight"></Field>
@@ -21,16 +20,16 @@
     <Field Def="s32 corretMagic"></Field>
     <Field Def="s32 corretFaith"></Field>
     <Field Def="f32 damageMitigation_Kinetic">
-        <Description>Ability to mitigate incoming Kinetic damage while performing a regular guard.</Description>
+      <Description>Ability to mitigate incoming Kinetic damage while performing a regular guard.</Description>
     </Field>
     <Field Def="f32 damageMitigation_Energy">
-        <Description>Ability to mitigate incoming Energy damage while performing a regular guard.</Description>
+      <Description>Ability to mitigate incoming Energy damage while performing a regular guard.</Description>
     </Field>
     <Field Def="f32 damageMitigation_Explosive">
-        <Description>Ability to mitigate incoming Explosive damage while performing a regular guard.</Description>
+      <Description>Ability to mitigate incoming Explosive damage while performing a regular guard.</Description>
     </Field>
     <Field Def="f32 damageMitigation_Coral">
-        <Description>Ability to mitigate incoming Coral damage while performing a regular guard.</Description>
+      <Description>Ability to mitigate incoming Coral damage while performing a regular guard.</Description>
     </Field>
     <Field Def="s32 spEffectBehaviorId0"></Field>
     <Field Def="s32 spEffectBehaviorId1"></Field>
@@ -56,7 +55,7 @@
     <Field Def="s32 originEquipWep14"></Field>
     <Field Def="s32 originEquipWep15"></Field>
     <Field Def="f32 meleeConsecutiveHits">
-        <Description>Number of chain attacks possible with additional inputs.</Description>
+      <Description>Number of chain attacks possible with additional inputs.</Description>
     </Field>
     <Field Def="f32 weakB_DamageRate"></Field>
     <Field Def="f32 weakC_DamageRate"></Field>
@@ -114,7 +113,7 @@
     <Field Def="u8 guardResist_AcsFailure"></Field>
     <Field Def="u8 guardResist_CameraDisruption"></Field>
     <Field Def="u8 guardResist_Curse_Unknown"></Field>
-    <Field Def="u8 isDurabilityDivergence"></Field> 
+    <Field Def="u8 isDurabilityDivergence"></Field>
     <Field Def="u8 rightHandEquipable:1"></Field>
     <Field Def="u8 leftHandEquipable:1"></Field>
     <Field Def="u8 bothHandEquipable:1"></Field>
@@ -199,9 +198,9 @@
     <Field Def="u8 correctType_Poison"></Field>
     <Field Def="u8 sortGroupId"></Field>
     <Field Def="u8 atkAttribute2"></Field>
-    <Field Def="s8 Unk0x190"></Field>
-    <Field Def="s8 Unk0x191"></Field>
-    <Field Def="u8 Unk0x192"></Field>
+    <Field Def="s8 Unk0x192"></Field>
+    <Field Def="s8 Unk0x193"></Field>
+    <Field Def="u8 Unk0x194"></Field>
     <Field Def="u8 properLuck"></Field>
     <Field Def="s8 freezeGuardResist"></Field>
     <Field Def="u8 autoReplenishType"></Field>
@@ -213,7 +212,10 @@
     <Field Def="u16 wepType"></Field>
     <Field Def="s32 Unk0x1A8"></Field>
     <Field Def="s32 Unk0x1AC"></Field>
-    <Field Def="s32 Unk0x1B0"></Field>
+    <Field Def="s8 Unk0x1B0"></Field>
+    <Field Def="s8 Unk0x1B1"></Field>
+    <Field Def="s8 Unk0x1B2"></Field>
+    <Field Def="s8 Unk0x1B3"></Field>
     <Field Def="s32 Unk0x1B4"></Field>
     <Field Def="s32 Unk0x1B8"></Field>
     <Field Def="s32 Unk0x1BC"></Field>
@@ -286,14 +288,14 @@
     <Field Def="s32 Unk0x298"></Field>
     <Field Def="s32 Unk0x29C"></Field>
     <Field Def="s32 Unk0x2A0"></Field>
-    <Field Def="s32 Unk0x2A4"></Field>
+    <Field Def="f32 Unk0x2A4"></Field>
     <Field Def="s32 Unk0x2A8"></Field>
     <Field Def="s32 Unk0x2AC"></Field>
     <Field Def="f32 Unk0x2B0"></Field>
     <Field Def="f32 Unk0x2B4"></Field>
     <Field Def="f32 Unk0x2B8"></Field>
     <Field Def="f32 Unk0x2BC"></Field>
-    <Field Def="s32 Unk0x2C0"></Field>
+    <Field Def="f32 UnkFloat0x2C0"></Field>
     <Field Def="s32 Unk0x2C4"></Field>
     <Field Def="s32 Unk0x2C8"></Field>
     <Field Def="s32 Unk0x2CC"></Field>

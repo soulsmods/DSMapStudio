@@ -133,6 +133,15 @@ namespace SoulsFormats
                     field.FirstRegulationVersion = firstVersion;
                     field.RemovedRegulationVersion = removedVersion;
                 }
+
+                // Check same name, and if version aware, check they aren't replacing eachother
+                bool matchingFieldTest(Field ifield) => string.Equals(field.InternalName, ifield.InternalName)
+                    && (!versionAware || (
+                        (field.RemovedRegulationVersion == 0 || field.RemovedRegulationVersion > ifield.FirstRegulationVersion)
+                        && (ifield.RemovedRegulationVersion == 0 || field.FirstRegulationVersion < ifield.RemovedRegulationVersion)));
+                Field field2 = def.Fields.Find(matchingFieldTest);
+                if (field2 != null)
+                    throw new Exception("Repeated field name found in paramdef: " + def.ParamType + ", name: " + field.InternalName);
                 
                 return field;
             }

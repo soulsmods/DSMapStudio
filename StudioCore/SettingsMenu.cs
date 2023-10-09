@@ -131,7 +131,7 @@ namespace StudioCore
                 }
                 else
                 {
-                    if (Editor.TaskManager.GetLiveThreads().Any())
+                    if (Editor.TaskManager.AnyActiveTasks())
                     {
                         ImGui.Text("Waiting for program tasks to finish...");
                     }
@@ -430,6 +430,7 @@ namespace StudioCore
                     CacheBank.ClearCaches();
                 }
                 ImGui.Checkbox("Disable row grouping", ref CFG.Current.Param_DisableRowGrouping);
+                ImGui.Checkbox("Disable line wrapping", ref CFG.Current.Param_DisableLineWrapping);
                 ImGui.Checkbox("Show advanced massedit options", ref CFG.Current.Param_AdvancedMassedit);
 
                 ImGui.Unindent();

@@ -9,7 +9,7 @@
     <isVisibleDeadChr IsBool="" />
     <isMidstFullbody IsBool="" />
     <isFullBodyTransformProtectorId IsBool="" />
-    <phantomParamOverwriteId Refs="PhantomParam(=0)" />
+    <phantomParamOverwriteId Refs="PhantomParam" />
   </Field>
   <Self />
 </PARAMMETA>

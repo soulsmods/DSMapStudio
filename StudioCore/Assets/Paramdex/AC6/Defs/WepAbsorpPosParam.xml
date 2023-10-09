@@ -1,12 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PARAMDEF XmlVersion="0">
+<PARAMDEF XmlVersion="3">
   <ParamType>WEP_ABSORP_POS_PARAM_ST</ParamType>
   <DataVersion>3</DataVersion>
   <BigEndian>False</BigEndian>
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <!-- <Field Def="dummy8 paramSize[132]" /> -->
     <Field Def="s32 Unk0x00"></Field>
     <Field Def="u8 hangPosType"></Field>
     <Field Def="u8 isSkeletonBind"></Field>
@@ -71,8 +70,8 @@
     <Field Def="s16 Unk0x5E"></Field>
     <Field Def="s16 Unk0x60"></Field>
     <Field Def="s16 Unk0x62"></Field>
-    <Field Def="s16 Unk0x64"></Field>
-    <Field Def="s16 Unk0x66"></Field>
+    <Field Def="s16 UnkShort0x64"></Field>
+    <Field Def="s16 UnkShort0x66"></Field>
     <Field Def="s16 Unk0x68"></Field>
     <Field Def="s16 Unk0x6A"></Field>
     <Field Def="s32 Unk0x6C"></Field>

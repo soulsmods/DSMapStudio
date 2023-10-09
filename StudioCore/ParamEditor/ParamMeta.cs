@@ -370,7 +370,7 @@ namespace StudioCore.ParamEditor
         /// <summary>
         /// Name of an FMG that a Field may refer to.
         /// </summary>
-        public string FmgRef {get; set;}
+        public List<FMGRef> FmgRef {get; set;}
 
         /// <summary>
         /// Set of generally acceptable values, named
@@ -434,7 +434,7 @@ namespace StudioCore.ParamEditor
                 VirtualRef = VRef.InnerText;
             XmlAttribute FMGRef = fieldMeta.Attributes["FmgRef"];
             if (FMGRef != null)
-                FmgRef = FMGRef.InnerText;
+                FmgRef = FMGRef.InnerText.Split(",").Select((x) => new FMGRef(x)).ToList();;
             XmlAttribute Enum = fieldMeta.Attributes["Enum"];
             if (Enum != null)
                 EnumType = parent.enums.GetValueOrDefault(Enum.InnerText, null);
@@ -458,7 +458,7 @@ namespace StudioCore.ParamEditor
                 return;
             ParamMetaData.SetStringListXmlProperty("Refs", RefTypes, (x) => x.getStringForm(), null, _parent._xml, "PARAMMETA", "Field", field);
             ParamMetaData.SetStringXmlProperty("VRef", VirtualRef, false, _parent._xml, "PARAMMETA", "Field", field);
-            ParamMetaData.SetStringXmlProperty("FmgRef", FmgRef, false, _parent._xml, "PARAMMETA", "Field", field);
+            ParamMetaData.SetStringListXmlProperty("FmgRef", FmgRef, (x) => x.getStringForm(), null, _parent._xml, "PARAMMETA", "Field", field);
             ParamMetaData.SetEnumXmlProperty("Enum", EnumType, _parent._xml, "PARAMMETA", "Field", field);
             ParamMetaData.SetStringXmlProperty("AltName", AltName, false, _parent._xml, "PARAMMETA", "Field", field);
             ParamMetaData.SetStringXmlProperty("Wiki", Wiki, true, _parent._xml, "PARAMMETA", "Field", field);
@@ -510,7 +510,30 @@ namespace StudioCore.ParamEditor
 
         internal string getStringForm()
         {
-            return param+'('+conditionField+'='+conditionValue+')';
+            return conditionField != null ? param+'('+conditionField+'='+conditionValue+')' : param;
+        }
+    }
+    public class FMGRef
+    {
+        public string fmg;
+        public string conditionField;
+        public int conditionValue;
+
+        internal FMGRef(string refString)
+        {
+            string[] conditionSplit = refString.Split('(', 2, StringSplitOptions.TrimEntries);
+            fmg = conditionSplit[0];
+            if (conditionSplit.Length > 1 && conditionSplit[1].EndsWith(')'))
+            {
+                string[] condition = conditionSplit[1].Substring(0, conditionSplit[1].Length-1).Split('=', 2, StringSplitOptions.TrimEntries);
+                conditionField = condition[0];
+                conditionValue = int.Parse(condition[1]);
+            }
+        }
+
+        internal string getStringForm()
+        {
+            return conditionField != null ? fmg+'('+conditionField+'='+conditionValue+')' : fmg;
         }
     }
 
@@ -537,21 +560,41 @@ namespace StudioCore.ParamEditor
         public string[] stageMaxVal;
         public string[] stageMaxGrowVal;
         public string[] adjPoint_maxGrowVal;
+        public string fcsMaxdist = null;
 
         internal CalcCorrectDefinition(string ccd)
         {
             string[] parts = ccd.Split(',');
-            int cclength = (parts.Length+1)/3;
-            stageMaxVal = new string[cclength];
-            stageMaxGrowVal = new string[cclength];
-            adjPoint_maxGrowVal = new string[cclength-1];
-            Array.Copy(parts, 0, stageMaxVal, 0, cclength);
-            Array.Copy(parts, cclength, stageMaxGrowVal, 0, cclength);
-            Array.Copy(parts, cclength*2, adjPoint_maxGrowVal, 0, cclength-1);
+            if (parts.Length == 11)
+            {
+                // FCS param curve
+                int cclength = 5;
+                stageMaxVal = new string[cclength];
+                stageMaxGrowVal = new string[cclength];
+                Array.Copy(parts, 0, stageMaxVal, 0, cclength);
+                Array.Copy(parts, cclength, stageMaxGrowVal, 0, cclength);
+                adjPoint_maxGrowVal = null;
+                fcsMaxdist = parts[10];
+            }
+            else
+            {
+                int cclength = (parts.Length + 1) / 3;
+                stageMaxVal = new string[cclength];
+                stageMaxGrowVal = new string[cclength];
+                adjPoint_maxGrowVal = new string[cclength - 1];
+                Array.Copy(parts, 0, stageMaxVal, 0, cclength);
+                Array.Copy(parts, cclength, stageMaxGrowVal, 0, cclength);
+                Array.Copy(parts, cclength * 2, adjPoint_maxGrowVal, 0, cclength - 1);
+            }
         }
         internal string getStringForm()
         {
-            return string.Join(',', stageMaxVal) + ',' + string.Join(',', stageMaxGrowVal) + ',' + string.Join(',', adjPoint_maxGrowVal);
+            var str = string.Join(',', stageMaxVal) + ',' + string.Join(',', stageMaxGrowVal) + ',';
+            if (adjPoint_maxGrowVal != null)
+                str += string.Join(',', adjPoint_maxGrowVal);
+            if (fcsMaxdist != null)
+                str += string.Join(',', fcsMaxdist);
+            return str;
         }
     }
 

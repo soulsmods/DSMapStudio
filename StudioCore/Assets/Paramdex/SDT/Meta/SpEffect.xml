@@ -119,7 +119,7 @@
     <vitalSpotChangeRate Wiki="Alters the damage multiplier defined in Jumptable 42" />
     <normalSpotChangeRate Wiki="Alters the damage multiplier defined in Jumptable 59" />
     <maxHpChangeRate />
-    <behaviorId Wiki="Spawns the behavior referenced, requires stateInfo 275" Refs="BehaviorParam(=0),BehaviorParam_PC(=0)" />
+    <behaviorId Wiki="Spawns the behavior referenced, requires stateInfo 275" Refs="BehaviorParam,BehaviorParam_PC" />
     <changeHpRate Wiki="Adds or removes Hp by a percent over the duration of the effect" />
     <changeHpPoint Wiki="Adds or removes Hp by a flat amount over the duration of the effect" />
     <changeMpRate Wiki="Adds or removes Fp/Mp by a percent over the duration of the effect" />
@@ -143,7 +143,7 @@
     <soul Wiki="Adds or removes Sen from the player over the duration of the effect" />
     <animIdOffset Wiki="Changes the animation category used, only for Npc's" />
     <haveSoulRate Wiki="Increases the amount of Sen dropped by enemies, only works when applied to enemies" />
-    <targetPriority Wiki="The higher the priority the more likely enemies are to target you" />
+    <targetPriority Wiki="Chance for an enemy to switch aggro targets to/away the effect's owner. Values range from -1 to 1. +1 = 100% chance to target owner instead of current target, -1 = 100% chance to target somebody else instead of current target (effect owner)." />
     <sightSearchEnemyCut />
     <aroundSightPointAddRate />
     <mapVisibilityOverrideGood />
@@ -159,9 +159,9 @@
     <soulStealRate />
     <lifeReductionRate />
     <hpRecoverRate Wiki="Alters the Hp change in changeHpRate and changeHpPoint fields" />
-    <replaceSpEffectId Wiki="Applies speffect once the parent effect's duration has expired" Refs="SpEffectParam(=0)" />
-    <cycleOccurrenceSpEffectId Wiki="Applies speffect when the parent effect is active" Refs="SpEffectParam(=0)" />
-    <atkOccurrenceSpEffectId Wiki="Applies speffect when an attack connects, only one can be applied at any given time and only works with stateInfo 152, 153, 62, and 64" Refs="SpEffectParam(=0)" />
+    <replaceSpEffectId Wiki="Applies speffect once the parent effect's duration has expired" Refs="SpEffectParam" />
+    <cycleOccurrenceSpEffectId Wiki="Applies speffect when the parent effect is active" Refs="SpEffectParam" />
+    <atkOccurrenceSpEffectId Wiki="Applies speffect when an attack connects, only one can be applied at any given time and only works with stateInfo 152, 153, 62, and 64" Refs="SpEffectParam" />
     <guardDefFlickPowerRate />
     <guardStaminaCutRate />
     <eyeAngUpper_Perceive Wiki="Alters the upwards vision angle during a Combat AI state" />
@@ -269,25 +269,25 @@
     <effectTargetSelfTarget IsBool="" />
     <changeTeamType Wiki="Changes the team type of the enemy" Enum="SP_EFFECT_CHANGE_TEAM_TYPE" />
     <dmypolyId Wiki="Defines a dummypoly for a bullet to spawn from" />
-    <vfxId Wiki="Spawns a vfx that is defined in SpEffectVfxParam" Refs="SpEffectVfxParam(=0)" />
-    <accumuOverFireId Wiki="Applies speffect when the Accumulation value has reached or exceeded the value defined in accumuOverVal, only works with stateInfo 303-311" Refs="SpEffectParam(=0)" />
+    <vfxId Wiki="Spawns a vfx that is defined in SpEffectVfxParam" Refs="SpEffectVfxParam" />
+    <accumuOverFireId Wiki="Applies speffect when the Accumulation value has reached or exceeded the value defined in accumuOverVal, only works with stateInfo 303-311" Refs="SpEffectParam" />
     <accumuOverVal Wiki="Defines the value that needs to be met or exceeded in order to apply the speffect in accumuOverFireId, only works with stateInfo 303-311" />
-    <accumuUnderFireId Wiki="Applies speffect when the Accumulation value is below the value defined in accumuUnderVal, only works with stateInfo 303-311" Refs="SpEffectParam(=0)" />
+    <accumuUnderFireId Wiki="Applies speffect when the Accumulation value is below the value defined in accumuUnderVal, only works with stateInfo 303-311" Refs="SpEffectParam" />
     <accumuUnderVal Wiki="Defines the value that needs to be less than the current Accumulation value in order to apply the speffect in accumuUnderFireId, only works with stateInfo 303-311" />
     <accumuVal Wiki="Adds to the current Accumulation value when this effect is active, only works with stateInfo 303-311" />
     <hearingSearchEnemyCut />
     <eyeAngLeft_Perceive Wiki="Alters the vision angle to the left during a Combat AI state" />
     <eyeAngRight_Perceive Wiki="Alters the vision angle to the right during a Combat AI state" />
     <addDeceasedLv />
-    <vfxId1 Wiki="Spawns a vfx that is defined in SpEffectVfxParam" Refs="SpEffectVfxParam(=0)" />
-    <vfxId2 Wiki="Spawns a vfx that is defined in SpEffectVfxParam" Refs="SpEffectVfxParam(=0)" />
-    <vfxId3 Wiki="Spawns a vfx that is defined in SpEffectVfxParam" Refs="SpEffectVfxParam(=0)" />
-    <vfxId4 Wiki="Spawns a vfx that is defined in SpEffectVfxParam" Refs="SpEffectVfxParam(=0)" />
-    <vfxId5 Wiki="Spawns a vfx that is defined in SpEffectVfxParam" Refs="SpEffectVfxParam(=0)" />
-    <vfxId6 Wiki="Spawns a vfx that is defined in SpEffectVfxParam" Refs="SpEffectVfxParam(=0)" />
-    <vfxId7 Wiki="Spawns a vfx that is defined in SpEffectVfxParam" Refs="SpEffectVfxParam(=0)" />
+    <vfxId1 Wiki="Spawns a vfx that is defined in SpEffectVfxParam" Refs="SpEffectVfxParam" />
+    <vfxId2 Wiki="Spawns a vfx that is defined in SpEffectVfxParam" Refs="SpEffectVfxParam" />
+    <vfxId3 Wiki="Spawns a vfx that is defined in SpEffectVfxParam" Refs="SpEffectVfxParam" />
+    <vfxId4 Wiki="Spawns a vfx that is defined in SpEffectVfxParam" Refs="SpEffectVfxParam" />
+    <vfxId5 Wiki="Spawns a vfx that is defined in SpEffectVfxParam" Refs="SpEffectVfxParam" />
+    <vfxId6 Wiki="Spawns a vfx that is defined in SpEffectVfxParam" Refs="SpEffectVfxParam" />
+    <vfxId7 Wiki="Spawns a vfx that is defined in SpEffectVfxParam" Refs="SpEffectVfxParam" />
     <registFreeze Wiki="Applies Shock build-up, only works with stateInfo 260" />
-    <AppearAiSoundId Wiki="Spawns an AI sound when the effect is active" Refs="AiSoundParam(=0)" />
+    <AppearAiSoundId Wiki="Spawns an AI sound when the effect is active" Refs="AiSoundParam" />
     <addFootEffectSfxId />
     <postEffectType />
     <isForceVisibleFootEffect IsBool="" />
@@ -395,7 +395,7 @@
     <changeMpEstusFlaskPoint Wiki="Alters Mp change by a flat amount, the change rate can be adjusted by changeHpEstusFlaskCorrectRate" />
     <changeHpEstusFlaskCorrectRate Wiki="Alters the Hp change of the changeHpEstusFlaskRate and changeHpEstusFlaskPoint fields" />
     <changeMpEstusFlaskCorrectRate Wiki="Alters the Mp change of the changeMpEstusFlaskRate and changeMpEstusFlaskPoint fields" />
-    <applyIdOnGetSoul Wiki="Applies speffect when enemies die, requires stateInfo 199 and the enemy must drop Souls" Refs="SpEffectParam(=0)" />
+    <applyIdOnGetSoul Wiki="Applies speffect when enemies die, requires stateInfo 199 and the enemy must drop Souls" Refs="SpEffectParam" />
     <extendLifeRate Wiki="Increases the duration of speffects with isExtendSpEffectLife enabled" />
     <contractLifeRate Wiki="Decreases the duration of speffects with isContractSpEffectLife enabled" />
     <addBehaviorJudgeId_add />
@@ -448,12 +448,12 @@
     <attackHitParryStaminaAttackRate Wiki="Mikiri Counter posture damage multiplier" />
     <maxHpIncrease Wiki="Alters max Hp by a flat amount" />
     <maxSpIncrease Wiki="Alters max Posture by a flat amount" />
-    <counterSpEffectId Wiki="SpEffect that will be applied to the attacker when hit with a hitbox that has the same counterSpEffectCondition as the one in this effect" Refs="SpEffectParam(=0)" />
+    <counterSpEffectId Wiki="SpEffect that will be applied to the attacker when hit with a hitbox that has the same counterSpEffectCondition as the one in this effect" Refs="SpEffectParam" />
     <counterSpEffectCondition Wiki="Defines the condition that is required in order trigger the speffect in counterSpEffectId on the attacker" />
     <teamOffenseEffectivity Wiki="Overwrites an enemies teamAttackEffectivity value" />
     <unlockThresholdCamouflage />
     <camouflageHitPartsGroup />
-    <chrWireVariationNo Wiki="Enables grappling to chr if effect is active. Disabled if set to -1" Refs="WireVariationParam(=0)" />
+    <chrWireVariationNo Wiki="Enables grappling to chr if effect is active. Disabled if set to -1" Refs="WireVariationParam" />
     <chrWireTargetDmypolyId Wiki="Spawns a grapple UI symbol on the specified dummypoly" />
     <chrWireLandingPointDmypolyId />
     <behaviorRefId Wiki="References hks script directly to perform various actions" />

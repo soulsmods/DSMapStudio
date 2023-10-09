@@ -17,29 +17,29 @@
     <magGuardCutRate Wiki="Percentage of magic damage this weapon can block" />
     <fireGuardCutRate Wiki="Percentage of fire damage this weapon can block" />
     <thunGuardCutRate Wiki="Percentage of lightning damage this weapon can block" />
-    <spEffectBehaviorId0 Wiki="Applies speffect when this weapon hits another character" Refs="SpEffectParam(=0)" />
-    <spEffectBehaviorId1 Wiki="Applies speffect when this weapon hits another character" Refs="SpEffectParam(=0)" />
-    <spEffectBehaviorId2 Wiki="Applies speffect when this weapon hits another character" Refs="SpEffectParam(=0)" />
-    <residentSpEffectId Wiki="Applies this speffect to the player when this weapon is equipped" Refs="SpEffectParam(=0)" />
-    <residentSpEffectId1 Wiki="Applies this speffect to the player when this weapon is equipped" Refs="SpEffectParam(=0)" />
-    <residentSpEffectId2 Wiki="Applies this speffect to the player when this weapon is equipped" Refs="SpEffectParam(=0)" />
-    <materialSetId Wiki="Materials used to obtain this item in a shop" Refs="EquipMtrlSetParam(=0)" />
-    <originEquipWep Wiki="Logic used to automatically upgrade this weapon using ReinforceParamWeapon" Refs="EquipParamWeapon(=0)" />
-    <originEquipWep1 Wiki="Logic used to automatically upgrade this weapon using ReinforceParamWeapon" Refs="EquipParamWeapon(=0)" />
-    <originEquipWep2 Wiki="Logic used to automatically upgrade this weapon using ReinforceParamWeapon" Refs="EquipParamWeapon(=0)" />
-    <originEquipWep3 Wiki="Logic used to automatically upgrade this weapon using ReinforceParamWeapon" Refs="EquipParamWeapon(=0)" />
-    <originEquipWep4 Wiki="Logic used to automatically upgrade this weapon using ReinforceParamWeapon" Refs="EquipParamWeapon(=0)" />
-    <originEquipWep5 Wiki="Logic used to automatically upgrade this weapon using ReinforceParamWeapon" Refs="EquipParamWeapon(=0)" />
-    <originEquipWep6 Wiki="Logic used to automatically upgrade this weapon using ReinforceParamWeapon" Refs="EquipParamWeapon(=0)" />
-    <originEquipWep7 Wiki="Logic used to automatically upgrade this weapon using ReinforceParamWeapon" Refs="EquipParamWeapon(=0)" />
-    <originEquipWep8 Wiki="Logic used to automatically upgrade this weapon using ReinforceParamWeapon" Refs="EquipParamWeapon(=0)" />
-    <originEquipWep9 Wiki="Logic used to automatically upgrade this weapon using ReinforceParamWeapon" Refs="EquipParamWeapon(=0)" />
-    <originEquipWep10 Wiki="Logic used to automatically upgrade this weapon using ReinforceParamWeapon" Refs="EquipParamWeapon(=0)" />
-    <originEquipWep11 Wiki="Logic used to automatically upgrade this weapon using ReinforceParamWeapon" Refs="EquipParamWeapon(=0)" />
-    <originEquipWep12 Wiki="Logic used to automatically upgrade this weapon using ReinforceParamWeapon" Refs="EquipParamWeapon(=0)" />
-    <originEquipWep13 Wiki="Logic used to automatically upgrade this weapon using ReinforceParamWeapon" Refs="EquipParamWeapon(=0)" />
-    <originEquipWep14 Wiki="Logic used to automatically upgrade this weapon using ReinforceParamWeapon" Refs="EquipParamWeapon(=0)" />
-    <originEquipWep15 Wiki="Logic used to automatically upgrade this weapon using ReinforceParamWeapon" Refs="EquipParamWeapon(=0)" />
+    <spEffectBehaviorId0 Wiki="Applies speffect when this weapon hits another character" Refs="SpEffectParam" />
+    <spEffectBehaviorId1 Wiki="Applies speffect when this weapon hits another character" Refs="SpEffectParam" />
+    <spEffectBehaviorId2 Wiki="Applies speffect when this weapon hits another character" Refs="SpEffectParam" />
+    <residentSpEffectId Wiki="Applies this speffect to the player when this weapon is equipped" Refs="SpEffectParam" />
+    <residentSpEffectId1 Wiki="Applies this speffect to the player when this weapon is equipped" Refs="SpEffectParam" />
+    <residentSpEffectId2 Wiki="Applies this speffect to the player when this weapon is equipped" Refs="SpEffectParam" />
+    <materialSetId Wiki="Materials used to obtain this item in a shop" Refs="EquipMtrlSetParam" />
+    <originEquipWep Wiki="Logic used to automatically upgrade this weapon using ReinforceParamWeapon" Refs="EquipParamWeapon" />
+    <originEquipWep1 Wiki="Logic used to automatically upgrade this weapon using ReinforceParamWeapon" Refs="EquipParamWeapon" />
+    <originEquipWep2 Wiki="Logic used to automatically upgrade this weapon using ReinforceParamWeapon" Refs="EquipParamWeapon" />
+    <originEquipWep3 Wiki="Logic used to automatically upgrade this weapon using ReinforceParamWeapon" Refs="EquipParamWeapon" />
+    <originEquipWep4 Wiki="Logic used to automatically upgrade this weapon using ReinforceParamWeapon" Refs="EquipParamWeapon" />
+    <originEquipWep5 Wiki="Logic used to automatically upgrade this weapon using ReinforceParamWeapon" Refs="EquipParamWeapon" />
+    <originEquipWep6 Wiki="Logic used to automatically upgrade this weapon using ReinforceParamWeapon" Refs="EquipParamWeapon" />
+    <originEquipWep7 Wiki="Logic used to automatically upgrade this weapon using ReinforceParamWeapon" Refs="EquipParamWeapon" />
+    <originEquipWep8 Wiki="Logic used to automatically upgrade this weapon using ReinforceParamWeapon" Refs="EquipParamWeapon" />
+    <originEquipWep9 Wiki="Logic used to automatically upgrade this weapon using ReinforceParamWeapon" Refs="EquipParamWeapon" />
+    <originEquipWep10 Wiki="Logic used to automatically upgrade this weapon using ReinforceParamWeapon" Refs="EquipParamWeapon" />
+    <originEquipWep11 Wiki="Logic used to automatically upgrade this weapon using ReinforceParamWeapon" Refs="EquipParamWeapon" />
+    <originEquipWep12 Wiki="Logic used to automatically upgrade this weapon using ReinforceParamWeapon" Refs="EquipParamWeapon" />
+    <originEquipWep13 Wiki="Logic used to automatically upgrade this weapon using ReinforceParamWeapon" Refs="EquipParamWeapon" />
+    <originEquipWep14 Wiki="Logic used to automatically upgrade this weapon using ReinforceParamWeapon" Refs="EquipParamWeapon" />
+    <originEquipWep15 Wiki="Logic used to automatically upgrade this weapon using ReinforceParamWeapon" Refs="EquipParamWeapon" />
     <weakA_DamageRate Wiki="Multiplies this weapons damage against Npc's with isWeakA enabled" />
     <weakB_DamageRate Wiki="Multiplies this weapons damage against Npc's with isWeakB enabled" />
     <weakC_DamageRate Wiki="Multiplies this weapons damage against Npc's with isWeakC enabled" />
@@ -74,7 +74,7 @@
     <guardMotionCategory />
     <atkMaterial />
     <defSeMaterial1 />
-    <correctType_Physics Wiki="Defines the scaling curve for physical damage" Refs="CalcCorrectGraph(=0)" />
+    <correctType_Physics Wiki="Defines the scaling curve for physical damage" Refs="CalcCorrectGraph" />
     <spAttribute />
     <spAtkcategory />
     <wepmotionOneHandId />
@@ -169,17 +169,17 @@
     <isEnableEmergencyStep IsBool="" />
     <invisibleOnRemo />
     <pad2 />
-    <correctType_Magic Wiki="Defines the scaling curve for magic damage" Refs="CalcCorrectGraph(=0)" />
-    <correctType_Fire Wiki="Defines the scaling curve for fire damage" Refs="CalcCorrectGraph(=0)" />
-    <correctType_Thunder Wiki="Defines the scaling curve for lightning damage" Refs="CalcCorrectGraph(=0)" />
+    <correctType_Magic Wiki="Defines the scaling curve for magic damage" Refs="CalcCorrectGraph" />
+    <correctType_Fire Wiki="Defines the scaling curve for fire damage" Refs="CalcCorrectGraph" />
+    <correctType_Thunder Wiki="Defines the scaling curve for lightning damage" Refs="CalcCorrectGraph" />
     <weakE_DamageRate Wiki="Multiplies this weapons damage against Npc's with isWeakE enabled" />
     <weakF_DamageRate Wiki="Multiplies this weapons damage against Npc's with isWeakF enabled" />
     <darkGuardCutRate Wiki="Percentage of dark damage this weapon can block" />
     <attackBaseDark Wiki="Base dark damage" />
-    <correctType_Dark Wiki="Defines the scaling curve for dark damage" Refs="CalcCorrectGraph(=0)" />
-    <correctType_Poison Wiki="Defines the scaling curve for Poison build-up" Refs="CalcCorrectGraph(=0)" />
+    <correctType_Dark Wiki="Defines the scaling curve for dark damage" Refs="CalcCorrectGraph" />
+    <correctType_Poison Wiki="Defines the scaling curve for Poison build-up" Refs="CalcCorrectGraph" />
     <swordArtsId />
-    <correctType_Blood Wiki="Defines the scaling curve for Burn build-up" Refs="CalcCorrectGraph(=0)" />
+    <correctType_Blood Wiki="Defines the scaling curve for Burn build-up" Refs="CalcCorrectGraph" />
     <properLuck Wiki="Luck requirment" />
     <freezeGuardResist Wiki="Percentage of Shock build-up this weapon can block" />
     <autoReplenishType />
@@ -232,7 +232,7 @@
     <attainmentWepStatusMag />
     <attainmentWepStatusFai />
     <attainmentWepStatusLuc />
-    <attackElementCorrectId Wiki="Detemines what damage type each stat can scale" Refs="AttackElementCorrectParam(=0)" />
+    <attackElementCorrectId Wiki="Detemines what damage type each stat can scale" Refs="AttackElementCorrectParam" />
     <saleValue />
     <reinforceShopCategory />
     <maxArrowQuantity />
@@ -254,7 +254,7 @@
     <resourceItemB Wiki="Amount of Resource Item B consumed by this weapon (Unused Emblem)" />
     <resourceItemC Wiki="Amount of Resource Item C consumed by this weapon (Unused Emblem)" />
     <itemUIDisplayType />
-    <actionUnlockParamId Refs="ActionUnlockParam(=0)" />
+    <actionUnlockParamId Refs="ActionUnlockParam" />
     <firstGetEventFlagId Wiki="Event flag that is set on when this weapon is first obtained" />
     <poisonJustGuardResist Wiki="Percentage of Poison build-up that can be deflected" />
     <diseaseJustGuardResist Wiki="Percentage of Terror build-up that can be deflected" />

@@ -494,6 +494,11 @@ namespace StudioCore.MsbEditor
                         generatorObjs[row.ID].RenderSceneMesh = model;
                         model.SetSelectable(generatorObjs[row.ID]);
                         chrsToLoad.Add(asset);
+                        var tasset = _assetLocator.GetChrTextures($@"c{chrid}");
+                        if (tasset.AssetVirtualPath != null || tasset.AssetArchiveVirtualPath != null)
+                        {
+                            chrsToLoad.Add(tasset);
+                        }
                     }
                 }
             }
@@ -736,7 +741,17 @@ namespace StudioCore.MsbEditor
                             chrsToLoad.Add(tasset);
                         }
                     }
-                    else if (model.Name.StartsWith("o") || model.Name.StartsWith("AEG"))
+                    else if (model.Name.StartsWith("o"))
+                    {
+                        asset = _assetLocator.GetObjModel(model.Name);
+                        objsToLoad.Add(asset);
+                        var tasset = _assetLocator.GetObjTexture(model.Name);
+                        if (tasset.AssetVirtualPath != null || tasset.AssetArchiveVirtualPath != null)
+                        {
+                            objsToLoad.Add(tasset);
+                        }
+                    }
+                    else if (model.Name.StartsWith("AEG"))
                     {
                         asset = _assetLocator.GetObjModel(model.Name);
                         objsToLoad.Add(asset);

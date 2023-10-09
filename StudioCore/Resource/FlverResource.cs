@@ -406,7 +406,7 @@ namespace StudioCore.Resource
             }
             else if (paramNameCheck == "G_SPECULARTEXTURE2" || paramNameCheck == "G_SPECULAR2" || paramNameCheck.Contains("SPECULAR_2"))
             {
-                if (gameType == GameType.DarkSoulsRemastered)
+                if (gameType is GameType.DarkSoulsRemastered or GameType.DarkSoulsIISOTFS)
                 {
                     LookupTexture(FlverMaterial.TextureType.ShininessTextureResource2, dest, texType, mpath, mtd);
                     blend = true;
@@ -421,7 +421,7 @@ namespace StudioCore.Resource
             }
             else if (paramNameCheck == "G_SPECULARTEXTURE" || paramNameCheck == "G_SPECULAR" || paramNameCheck.Contains("SPECULAR"))
             {
-                if (gameType == GameType.DarkSoulsRemastered)
+                if (gameType is GameType.DarkSoulsRemastered or GameType.DarkSoulsIISOTFS)
                 {
                     LookupTexture(FlverMaterial.TextureType.ShininessTextureResource, dest, texType, mpath, mtd);
                 }

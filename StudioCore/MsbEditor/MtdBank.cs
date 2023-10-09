@@ -45,14 +45,10 @@ namespace StudioCore.MsbEditor
                         mtdBinder = BND4.Read(AssetLocator.GetAssetPath($@"mtd\allmaterialbnd.mtdbnd.dcx"));
                         IsMatbin = false;
                     }
-                    else if (AssetLocator.Type == GameType.EldenRing)
+                    else if (AssetLocator.Type is GameType.EldenRing or GameType.ArmoredCoreVI)
                     {
                         mtdBinder = BND4.Read(AssetLocator.GetAssetPath($@"material\allmaterial.matbinbnd.dcx"));
                         IsMatbin = true;
-                    }
-                    else if (AssetLocator.Type == GameType.ArmoredCoreVI)
-                    {
-                        //TODO AC6
                     }
 
                     if (mtdBinder == null)

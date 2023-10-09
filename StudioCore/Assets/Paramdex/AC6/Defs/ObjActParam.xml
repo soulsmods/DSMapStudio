@@ -1,12 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PARAMDEF XmlVersion="0">
+<PARAMDEF XmlVersion="3">
   <ParamType>OBJ_ACT_PARAM_ST</ParamType>
   <DataVersion>2</DataVersion>
   <BigEndian>False</BigEndian>
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <!-- <Field Def="dummy8 paramSize[48]" /> -->
     <Field Def="s32 actionEnableMsgId"></Field>
     <Field Def="s32 actionFailedMsgId"></Field>
     <Field Def="u32 spQualifiedPassEventFlag"></Field>
@@ -24,7 +23,7 @@
     <Field Def="u8 validObjAngle"></Field>
     <Field Def="u8 chrSorbType"></Field>
     <Field Def="u8 eventKickTiming"></Field>
-    <Field Def="dummy8 padding1[2]" />
+    <Field Def="dummy8 padding1[2]"></Field>
     <Field Def="s32 actionButtonParamId"></Field>
     <Field Def="f32 enableTreasureDelaySec"></Field>
   </Fields>
