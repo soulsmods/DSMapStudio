@@ -311,6 +311,15 @@ namespace StudioCore.ParamEditor
                     MessageBoxIcon.Error);
                 return;
             }
+            if (result == ParamBank.ParamUpgradeResult.OldRegulationMatchesCurrent)
+            {
+                PlatformUtils.Instance.MessageBox(
+                    "The version of the vanilla regulation you selected appears to match your mod.\nMake sure you provide the vanilla regulation the mod is based on.",
+                    "Old vanilla regulation incorrect",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return;
+            }
 
             if (result == ParamBank.ParamUpgradeResult.RowConflictsFound)
             {
