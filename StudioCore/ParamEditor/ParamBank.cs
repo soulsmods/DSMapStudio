@@ -1807,7 +1807,7 @@ namespace StudioCore.ParamEditor
 
             if (editOperations.All((kvp) => kvp.Value.All((eo) => eo == EditOperation.Match)))
             {
-                return source;
+                return oldVanilla;
             }
 
             Param dest = new Param(newVanilla);
@@ -1958,7 +1958,7 @@ namespace StudioCore.ParamEditor
                 // Otherwise try to upgrade
                 var conflicts = new HashSet<int>();
                 var res = UpgradeParam(Params[k], oldVanillaParams[k], vanillaBank.Params[k], conflicts);
-                if (res != Params[k])
+                if (res != oldVanillaParams[k])
                     anyUpgrades = true;
                 updatedParams.Add(k, res);
 
