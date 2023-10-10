@@ -124,7 +124,7 @@
     <Field Def="s32 Unk0xFC"></Field>
     <Field Def="f32 UnkFloat0x100"></Field>
     <Field Def="f32 UnkFloat0x104"></Field>
-    <Field Def="f32 UnkFloat0x108"></Field>
+    <Field Def="f32 hitChrProximityDistance"></Field>
     <Field Def="s32 bulletShotgunParamId_1"></Field>
     <Field Def="f32 UnkFloat0x110"></Field>
     <Field Def="s32 bulletShotgunParamId_2"></Field>

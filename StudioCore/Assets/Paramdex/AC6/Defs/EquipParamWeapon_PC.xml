@@ -422,7 +422,14 @@
     <Field Def="f32 UnkFloat0x3FC"></Field>
     <Field Def="s16 Unk0x400"></Field>
     <Field Def="u8 Unk0x402"></Field>
-    <Field Def="u8 UnkByte0x403"></Field>
+    <Field Def="u8 isMeleeSpecialization:1"></Field>
+    <Field Def="u8 isEnergyFirearmSpecialization:1"></Field>
+    <Field Def="u8 unkIsSpecializationType_3:1"></Field>
+    <Field Def="u8 unkIsSpecializationType_4:1"></Field>
+    <Field Def="u8 unkIsSpecializationType_5:1"></Field>
+    <Field Def="u8 unkIsSpecializationType_6:1"></Field>
+    <Field Def="u8 unkIsSpecializationType_7:1"></Field>
+    <Field Def="u8 unkIsSpecializationType_8:1"></Field>
     <Field Def="f32 UnkFloat0x404"></Field>
     <Field Def="s32 Unk0x408"></Field>
     <Field Def="u16 corporationTextureId">
