@@ -216,7 +216,7 @@
     <Field Def="f32 UnkFloat0x1B0"></Field>
     <Field Def="s8 UnkSbyte0x1B4"></Field>
     <Field Def="u8 UnkByte0x1B5"></Field>
-    <Field Def="u16 UnkUshort0x1B6"></Field>
+    <Field Def="u16 attackPower_Dark"></Field>
     <Field Def="s8 UnkSbyte0x1B8"></Field>
     <Field Def="u8 UnkByte0x1B9"></Field>
     <Field Def="u8 UnkByte0x1BA"></Field>
@@ -395,7 +395,7 @@
     <Field Def="s16 directHitDamageRate_Energy"></Field>
     <Field Def="s16 directHitDamageRate_Explosive"></Field>
     <Field Def="s16 directHitDamageRate_Coral"></Field>
-    <Field Def="s16 UnkShort0x350"></Field>
+    <Field Def="s16 directHitDamageRate_Dark"></Field>
     <Field Def="u8 UnkByte0x352"></Field>
     <Field Def="u8 UnkByte0x353"></Field>
     <Field Def="s32 hitEffectSfxParamId">

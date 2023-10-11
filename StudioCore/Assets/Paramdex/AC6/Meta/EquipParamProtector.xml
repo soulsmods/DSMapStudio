@@ -35,6 +35,8 @@
     <armsMeleeSpecialization AltName="Melee Specialization" Wiki="Increases melee weapon damage. Minimum of 0 (+0% damage), maximum of 200 (+200% damage)." />
     <systemRecovery AltName="System Recovery" Wiki="Actual effects of System Recovery stat, which increases resistance to status effects." />
     <systemRecovery_Display AltName="System Recovery (Displayed)" Wiki="UI value of System Recovery stat. See systemRecovery for actual effects." />
+    <babyBoostSlowWalkVelocity_Grounded Name="Baby Boost Slow Walk Velocity (Grounded)" Wiki="Velocity when baby boost state is active, which replaces walk animations (requires SpEffect 9080)." />
+    <babyBoostWalkVelocity_Grounded Name="Baby Boost Walk Velocity (Grounded)" Wiki="Velocity when baby boost state is active, which replaces walk animations (requires SpEffect 9080)." />
   </Field>
   <Self />
 </PARAMMETA>
