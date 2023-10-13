@@ -293,8 +293,8 @@
 354 Vvc-700LD (Left)
 355 VP-60LT
 356 VP-60LT (Left)
-357 EULE/60D
-358 EULE/60D (Left)
+357 EULE/60D [Pulse Shield Launcher]
+358 EULE/60D [Pulse Shield Launcher] (Left)
 359 VE-60SNA
 360 VE-60SNA (Left)
 363 VP-61PB

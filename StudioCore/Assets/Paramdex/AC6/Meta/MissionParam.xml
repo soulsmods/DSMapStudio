@@ -10,7 +10,8 @@
   </Enums>
   <Field>
     <forcedLoadoutCharaInitParamID AltName="Forced Loadout (CharaInitParam ID)" Refs="CharaInitParam" />
-    <missionType AltName="Mission Type" Enum ="MISSION_TYPE"/> 
+    <missionType AltName="Mission Type" Enum ="MISSION_TYPE"/>
+    <missionBriefingMovieId AltName="Mission Briefing Movie ID" Wiki="ID of .bk2 video file to play for mission briefing."/> 
   </Field>
   <Self />
 </PARAMMETA>
