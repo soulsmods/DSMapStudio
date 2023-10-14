@@ -9,7 +9,6 @@
 268 Melee Boost locked-on Speed (Weight)
 269 Melee Boost Speed (Weight)
 272 Tank Walk Speed (Weight)
-273 
 274 Tank Walk Max Velocity (Weight)
 275 Tank Interia Change Ability (Weight)
 276 Tank Drift Speed (Weight)
@@ -20,4 +19,3 @@
 282 Tetrapod Hover Speed (Weight)
 283 Unknown Boost Component (Weight)
 322 Successive Quick Boost Recovery Time (Unknown)
-322 Unknown Quick Boost Recovery Time
