@@ -2,4 +2,4 @@
 ##Once the additional regulation is loaded, its name should appear in both the menu and at the top of the field list.
 ##Ensure all mods are updated to the same patch.
 newvar regulationFolderName:mod;
-auxparam $regulationFolderName .*: modified: paste;
+auxparam $regulationFolderName .*: modified && unique ID: paste;
