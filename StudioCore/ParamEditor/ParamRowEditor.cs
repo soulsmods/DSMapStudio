@@ -142,7 +142,9 @@ namespace StudioCore.ParamEditor
                 columnCount += auxRows.Count;
             if (EditorDecorations.ImGuiTableStdColumns("ParamFieldsT", columnCount, false))
             {
-                ImGui.TableSetupScrollFreeze(columnCount, showParamCompare ? 3 : 2);
+                List<string> pinnedFields = _paramEditor._projectSettings.PinnedFields.GetValueOrDefault(activeParam, null);
+
+                ImGui.TableSetupScrollFreeze(columnCount, (showParamCompare ? 3 : 2) + (1+pinnedFields?.Count ?? 0));
                 if (showParamCompare)
                 {
                     ImGui.TableNextColumn();
@@ -164,7 +166,6 @@ namespace StudioCore.ParamEditor
                 List<(PseudoColumn, Param.Column)> vcols = UICache.GetCached(_paramEditor, vrow, "vFieldFilter", () => cols.Select((x, i) => x.GetAs(ParamBank.VanillaBank.GetParamFromName(activeParam))).ToList());
                 List<List<(PseudoColumn, Param.Column)>> auxCols = UICache.GetCached(_paramEditor, auxRows, "auxFieldFilter", () => auxRows.Select((r, i) => cols.Select((c, j) => c.GetAs(ParamBank.AuxBanks[r.Item1].GetParamFromName(activeParam))).ToList()).ToList());
 
-                List<string> pinnedFields = _paramEditor._projectSettings.PinnedFields.GetValueOrDefault(activeParam, null);
                 if (pinnedFields?.Count > 0)
                 {
                     PropEditorParamRow_PinnedFields(pinnedFields, bank, row, vrow, auxRows, crow, cols, vcols, auxCols, ref imguiId, activeParam, selection);

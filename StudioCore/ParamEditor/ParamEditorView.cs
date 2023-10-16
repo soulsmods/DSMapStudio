@@ -284,19 +284,24 @@ namespace StudioCore.ParamEditor
                 ImGui.BeginChild("rows" + activeParam);
                 if (EditorDecorations.ImGuiTableStdColumns("rowList", compareCol == null ? 1 : 2, false))
                 {
+                    List<Param.Row> pinnedRowList = _paramEditor._projectSettings.PinnedRows.GetValueOrDefault(activeParam, new List<int>()).Select((id) => para[id]).ToList();
+
                     ImGui.TableSetupColumn("rowCol", ImGuiTableColumnFlags.None, 1f);
                     if (compareCol != null)
                     {
                         ImGui.TableSetupColumn("rowCol2", ImGuiTableColumnFlags.None, 0.4f);
-                        ImGui.TableSetupScrollFreeze(2, 1);
+                        ImGui.TableSetupScrollFreeze(2, 1 + pinnedRowList.Count);
                         if (ImGui.TableNextColumn())
                             ImGui.Text("ID\t\tName");
                         if (ImGui.TableNextColumn())
                             ImGui.Text(compareCol.Def.InternalName);
                     }
+                    else
+                    {
+                        ImGui.TableSetupScrollFreeze(1, pinnedRowList.Count);
+                    }
                     ImGui.PushID("pinned");
 
-                    List<Param.Row> pinnedRowList = _paramEditor._projectSettings.PinnedRows.GetValueOrDefault(activeParam, new List<int>()).Select((id) => para[id]).ToList();
                     bool[] selectionCachePins = _selection.GetSelectionCache(pinnedRowList, "pinned");
                     if (pinnedRowList.Count != 0)
                     {
