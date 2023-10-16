@@ -39,8 +39,8 @@
     <Field Def="u32 Unk40" />
     <Field Def="u32 Unk44" />
     <Field Def="u16 Unk48" />
-    <Field Def="u16 Map Object Bonfire ID" />
-    <Field Def="f32 Leash Distance" />
+    <Field Def="u16 MapObjectBonfireID" />
+    <Field Def="f32 LeashDistance" />
     <Field Def="u32 LocationEventID6" />
     <Field Def="u32 LocationEventID7" />
     <Field Def="u32 AIThinkID" >

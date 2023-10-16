@@ -9,7 +9,7 @@
     <Field Def="f32 Distance" />
     <Field Def="f32 Angle" />
     <Field Def="s32 EventFlagId = -1" />
-    <Field Def="s16 Coefficient.1000" />
+    <Field Def="s16 Coefficient" />
     <Field Def="s8 CultState1" />
     <Field Def="s8 CultState2" />
     <Field Def="dummy8 pad1[16]" />

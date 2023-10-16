@@ -25,7 +25,7 @@
     <Field Def="s16 Hit1_DmyPoly2 = -1" />
     <Field Def="s16 Hit2_DmyPoly2 = -1" />
     <Field Def="s16 Hit3_DmyPoly2 = -1" />
-    <Field Def="s16 Blowing Correction" />
+    <Field Def="s16 BlowingCorrection" />
     <Field Def="s16 AtkPhysCorrection = 100" />
     <Field Def="s16 AtkMagCorrection = 100" />
     <Field Def="s16 AtkFireCorrection = 100" />
