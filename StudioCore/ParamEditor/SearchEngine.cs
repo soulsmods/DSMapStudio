@@ -299,7 +299,7 @@ namespace StudioCore.Editor
             }));
             filterList.Add("prop", newCmd(new string[]{"field internalName", "field value (regex)"}, "Selects rows where the specified field has a value that matches the given regex", (args, lenient)=>{
                 Regex rx = lenient ? new Regex(args[1], RegexOptions.IgnoreCase) : new Regex($@"^{args[1]}$");
-                string field = args[0].Replace(@"\s", " ");
+                string field = args[0];
                 return noContext((row)=>{
                         Param.Cell? cq = row[field];
                         if (cq == null) throw new Exception();
@@ -309,7 +309,7 @@ namespace StudioCore.Editor
                 });
             }));
             filterList.Add("proprange", newCmd(new string[]{"field internalName", "field value minimum (inclusive)", "field value maximum (inclusive)"}, "Selects rows where the specified field has a value that falls in the given numerical range", (args, lenient)=>{
-                string field = args[0].Replace(@"\s", " ");
+                string field = args[0];
                 double floor = double.Parse(args[1]);
                 double ceil = double.Parse(args[2]);
                 return noContext((row)=>
@@ -321,7 +321,7 @@ namespace StudioCore.Editor
             }));
             filterList.Add("propref", newCmd(new string[]{"field internalName", "referenced row name (regex)"}, "Selects rows where the specified field that references another param has a value referencing a row whose name matches the given regex", (args, lenient)=>{
                 Regex rx = lenient ? new Regex(args[1], RegexOptions.IgnoreCase) : new Regex($@"^{args[1]}$");
-                string field = args[0].Replace(@"\s", " ");
+                string field = args[0];
                 return (context)=>{
                     List<ParamRef> validFields = FieldMetaData.Get(context.Item2.AppliedParamdef.Fields.Find((f)=>f.InternalName.Equals(field))).RefTypes.FindAll((p)=>bank.Params.ContainsKey(p.param));
                     return (row)=>
@@ -340,7 +340,7 @@ namespace StudioCore.Editor
                 };
             }, ()=>CFG.Current.Param_AdvancedMassedit));
             filterList.Add("propwhere", newCmd(new string[]{"field internalName", "cell/field selector"}, "Selects rows where the specified field appears when the given cell/field search is given", (args, lenient)=>{
-                string field = args[0].Replace(@"\s", " ");
+                string field = args[0];
                 return (context)=>{
                     string paramName = context.Item1.GetKeyForParam(context.Item2);
                     var cols = context.Item2.Columns;
@@ -382,7 +382,7 @@ namespace StudioCore.Editor
             }, ()=>CFG.Current.Param_AdvancedMassedit));
             filterList.Add("vanillaprop", newCmd(new string[]{"field internalName", "field value (regex)"}, "Selects rows where the vanilla equivilent of that row has a value for the given field that matches the given regex", (args, lenient)=>{
                 Regex rx = lenient ? new Regex(args[1], RegexOptions.IgnoreCase) : new Regex($@"^{args[1]}$");
-                string field = args[0].Replace(@"\s", " ");
+                string field = args[0];
                 return (param) => {
                     Param vparam = ParamBank.VanillaBank.GetParamFromName(param.Item1.GetKeyForParam(param.Item2));
                     return (row)=>{
@@ -398,7 +398,7 @@ namespace StudioCore.Editor
                 };
             }, ()=>CFG.Current.Param_AdvancedMassedit));
             filterList.Add("vanillaproprange", newCmd(new string[]{"field internalName", "field value minimum (inclusive)", "field value maximum (inclusive)"}, "Selects rows where the vanilla equivilent of that row has a value for the given field that falls in the given numerical range", (args, lenient)=>{
-                string field = args[0].Replace(@"\s", " ");
+                string field = args[0];
                 double floor = double.Parse(args[1]);
                 double ceil = double.Parse(args[2]);
                 return (param) => {
@@ -415,7 +415,7 @@ namespace StudioCore.Editor
             }, ()=>CFG.Current.Param_AdvancedMassedit));
             filterList.Add("auxprop", newCmd(new string[]{"parambank name", "field internalName", "field value (regex)"}, "Selects rows where the equivilent of that row in the given regulation or parambnd has a value for the given field that matches the given regex.\nCan be used to determine if an aux row exists.", (args, lenient)=>{
                 Regex rx = lenient ? new Regex(args[2], RegexOptions.IgnoreCase) : new Regex($@"^{args[2]}$");
-                string field = args[1].Replace(@"\s", " ");
+                string field = args[1];
                 ParamBank bank;
                 if (!ParamBank.AuxBanks.TryGetValue(args[0], out bank))
                     throw new Exception("Unable to find auxbank "+args[0]);
@@ -434,7 +434,7 @@ namespace StudioCore.Editor
                 };
             }, ()=>ParamBank.AuxBanks.Count > 0 && CFG.Current.Param_AdvancedMassedit));
             filterList.Add("auxproprange", newCmd(new string[]{"parambank name", "field internalName", "field value minimum (inclusive)", "field value maximum (inclusive)"},  "Selects rows where the equivilent of that row in the given regulation or parambnd has a value for the given field that falls in the given range", (args, lenient)=>{
-                string field = args[0].Replace(@"\s", " ");
+                string field = args[0];
                 double floor = double.Parse(args[1]);
                 double ceil = double.Parse(args[2]);
                 ParamBank bank;
@@ -453,9 +453,9 @@ namespace StudioCore.Editor
                 };
             }, ()=>ParamBank.AuxBanks.Count > 0 && CFG.Current.Param_AdvancedMassedit));
             filterList.Add("semijoin", newCmd(new string[]{"this field internalName", "other param", "other param field internalName", "other param row search"}, "Selects all rows where the value of a given field is any of the values in the second given field found in the given param using the given row selector", (args, lenient)=>{
-                string thisField = args[0].Replace(@"\s", " ");
+                string thisField = args[0];
                 string otherParam = args[1];
-                string otherField = args[2].Replace(@"\s", " ");
+                string otherField = args[2];
                 string otherSearchTerm = args[3];
                 Param otherParamReal;
                 if (!ParamBank.PrimaryBank.Params.TryGetValue(otherParam, out otherParamReal))
