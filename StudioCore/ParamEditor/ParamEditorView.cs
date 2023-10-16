@@ -281,7 +281,7 @@ namespace StudioCore.ParamEditor
                 Param.Column compareCol = _selection.GetCompareCol();
                 PropertyInfo compareColProp = typeof(Param.Cell).GetProperty("Value");
                 
-                ImGui.BeginChild("rows" + activeParam);
+                //ImGui.BeginChild("rows" + activeParam);
                 if (EditorDecorations.ImGuiTableStdColumns("rowList", compareCol == null ? 1 : 2, false))
                 {
                     List<Param.Row> pinnedRowList = _paramEditor._projectSettings.PinnedRows.GetValueOrDefault(activeParam, new List<int>()).Select((id) => para[id]).ToList();
@@ -362,7 +362,7 @@ namespace StudioCore.ParamEditor
                         ImGui.SetScrollFromPosY(scrollTo - ImGui.GetScrollY());
                     ImGui.EndTable();
                 }
-                ImGui.EndChild();
+                //ImGui.EndChild();
             }
         }
         private void ParamView_FieldList(bool isActiveView, string activeParam, Param.Row activeRow)
