@@ -63,12 +63,19 @@ namespace StudioCore.ParamEditor
 
         public static void ReloadScripts()
         {
+            var cdir = ParamBank.PrimaryBank.AssetLocator.GetScriptAssetsCommonDir();
             var dir = ParamBank.PrimaryBank.AssetLocator.GetScriptAssetsDir();
+            scriptList = new List<MassEditScript>();
+            LoadScriptsFromDir(cdir);
+            LoadScriptsFromDir(dir);
+        }
+        private static void LoadScriptsFromDir(string dir)
+        {
             try
             {
                 if (Directory.Exists(dir))
                 {
-                    scriptList = Directory.GetFiles(dir).Select((x) =>
+                    scriptList.AddRange(Directory.GetFiles(dir).Select((x) =>
                     {
                         string name = x;
                         try
@@ -82,20 +89,15 @@ namespace StudioCore.ParamEditor
                                 Microsoft.Extensions.Logging.LogLevel.Warning, TaskLogs.LogPriority.Normal, e);
                             return null;
                         }
-                    }).ToList();
-                }
-                else
-                {
-                    scriptList = new List<MassEditScript>();
+                    }));
                 }
             }
             catch(Exception e)
             {
                 TaskLogs.AddLog($"Error loading mass edit scripts in {dir}",
                     Microsoft.Extensions.Logging.LogLevel.Warning, TaskLogs.LogPriority.Normal, e);
-                scriptList = new List<MassEditScript>();
             }
-        }
+        } 
 
         public static void EditorScreenMenuItems(ref string _currentMEditRegexInput)
         {

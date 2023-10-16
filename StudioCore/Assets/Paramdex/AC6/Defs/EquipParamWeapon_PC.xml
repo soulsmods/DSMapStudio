@@ -394,8 +394,8 @@
     <Field Def="f32 chargeTime">
       <Description>Time it takes to complete charging, for weapons that support charging.</Description>
     </Field>
-    <Field Def="f32 UnkFloat0x3A4"></Field>
-    <Field Def="f32 UnkFloat0x3A8"></Field>
+    <Field Def="f32 partialChargeDrainDelay"></Field>
+    <Field Def="f32 partialChargeFullDrainTime"></Field>
     <Field Def="s32 UnkInt0x3AC"></Field>
     <Field Def="s32 UnkInt0x3B0"></Field>
     <Field Def="f32 Unk0x3B4"></Field>
@@ -451,7 +451,7 @@
     <Field Def="f32 UnkFloat0x444"></Field>
     <Field Def="s8 UnkSbyte0x448"></Field>
     <Field Def="u8 Unk0x449"></Field>
-    <Field Def="u16 unkCoreExpansion0x44A"></Field>
+    <Field Def="u16 coreExpansionEffect_Display"></Field>
     <Field Def="u16 unkCoreExpansion0x44C"></Field>
     <Field Def="u16 UnkUshort0x44E"></Field>
     <Field Def="f32 unkCoreExpansion0x450"></Field>
@@ -533,7 +533,7 @@
     <Field Def="u8 Unk0x54E"></Field>
     <Field Def="u8 Unk0x54F"></Field>
     <Field Def="f32 UnkFloat0x550"></Field>
-    <Field Def="s32 UnkInt0x554"></Field>
+    <Field Def="s32 projectedBarrierHealth"></Field>
     <Field Def="f32 UnkFloat0x558"></Field>
     <Field Def="u16 UnkUshort0x55C"></Field>
     <Field Def="u16 UnkUshort0x55E"></Field>

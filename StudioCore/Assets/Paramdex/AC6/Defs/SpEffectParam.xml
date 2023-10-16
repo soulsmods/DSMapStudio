@@ -342,7 +342,7 @@
     <Field Def="s32 UnkInt0x35C"></Field>
     <Field Def="s32 UnkInt0x360"></Field>
     <Field Def="f32 UnkFloat0x364"></Field>
-    <Field Def="f32 UnkFloat0x368"></Field>
+    <Field Def="f32 damageCutRate_Impact"></Field>
     <Field Def="f32 UnkFloat0x36C"></Field>
     <Field Def="f32 UnkFloat0x370"></Field>
     <Field Def="f32 Unk0x374"></Field>

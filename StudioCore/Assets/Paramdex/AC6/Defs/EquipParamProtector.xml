@@ -369,7 +369,7 @@
     <Field Def="f32 Unk0x2B4"></Field>
     <Field Def="f32 Unk0x2B8"></Field>
     <Field Def="f32 Unk0x2BC"></Field>
-    <Field Def="f32 Unk0x2C0"></Field>
+    <Field Def="f32 unkAttitudeStability"></Field>
     <Field Def="f32 Unk0x2C4"></Field>
     <Field Def="f32 Unk0x2C8"></Field>
     <Field Def="f32 Unk0x2CC"></Field>

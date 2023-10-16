@@ -255,7 +255,7 @@
     <Field Def="u16 pulseInterferenceDamage">
       <Description>Bonus damage dealt to most sources of pulse armor and pulse barriers. Doesn't affect shields, nor weapons that create AEG-based pulse barriers.</Description>
     </Field>
-    <Field Def="s32 weaponImpactDamage">
+    <Field Def="s32 impactDamage">
       <Description>ACS overload performance. This corresponds to immediate ACS strain, which resets within a short period.</Description>
     </Field>
     <Field Def="s32 UnkInt0x214"></Field>
@@ -370,7 +370,7 @@
     <Field Def="s32 UnkInt0x328"></Field>
     <Field Def="u8 Unk0x32C"></Field>
     <Field Def="u8 UnkByte0x32D"></Field>
-    <Field Def="u16 UnkUshort0x32E"></Field>
+    <Field Def="u16 attack_Object"></Field>
     <Field Def="u8 UnkByte0x330"></Field>
     <Field Def="s8 UnkSbyte0x331"></Field>
     <Field Def="s16 UnkShort0x332"></Field>
@@ -451,7 +451,7 @@
     <Field Def="s32 UnkInt0x3D0"></Field>
     <Field Def="f32 UnkFloat0x3D4"></Field>
     <Field Def="f32 UnkFloat0x3D8"></Field>
-    <Field Def="s32 weaponChargedAccumulativeImpact">
+    <Field Def="s32 accumulativeImpactDamage">
       <Description>Accumulative ACS overload performance for charge attacks. This corresponds to sustained ACS strain, which is alleviated over time.</Description>
     </Field>
     <Field Def="s32 sfxModelParamId">

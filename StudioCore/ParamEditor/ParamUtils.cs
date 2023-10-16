@@ -127,8 +127,8 @@ namespace StudioCore.ParamEditor
             if (ccd.adjPoint_maxGrowVal != null)
                 adjPoint_maxGrowVal = ccd.adjPoint_maxGrowVal.Select((x, i) => (float)row[x].Value.Value).ToArray();
 
-            int length = (int)(stageMaxVal[stageMaxVal.Length-1] - stageMaxVal[0] + 1);
-            if (length <= 0 || length > 1000)
+            int length = (int)(stageMaxVal[stageMaxVal.Length - 1] - stageMaxVal[0] + 1);
+            if (length <= 0 || length > 1000000)
                 return (new float[0], 0, 0, 0);
 
             if (ccd.fcsMaxdist != null)
