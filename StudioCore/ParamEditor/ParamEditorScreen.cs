@@ -646,6 +646,26 @@ namespace StudioCore.ParamEditor
                         ImGui.EndMenu();
                     }
 
+                    if (ImGui.BeginMenu("All params"))
+                    {
+                        if (ImGui.MenuItem("Export all params to file"))
+                        {
+                            if (PlatformUtils.Instance.OpenFolderDialog("Choose CSV directory", out string path))
+                            {
+                                foreach (var param in ParamBank.PrimaryBank.Params)
+                                {
+                                    var rows = param.Value.Rows;
+                                    TryWriteFile(
+                                        $@"{path}\{param.Key}.csv",
+                                        ParamIO.GenerateCSV(rows,
+                                            param.Value,
+                                            CFG.Current.Param_Export_Delimiter[0]));
+                                }
+                            }
+                        }
+                        ImGui.EndMenu();
+                    }
+
                     ImGui.EndMenu();
                 }
 
@@ -1283,7 +1303,7 @@ namespace StudioCore.ParamEditor
             if (InputTracker.GetKeyDown(KeyBindings.Current.Param_ImportCSV))
                 EditorCommandQueue.AddCommand($@"param/menu/massEditCSVImport");
             if (InputTracker.GetKeyDown(KeyBindings.Current.Param_ExportCSV))
-                EditorCommandQueue.AddCommand($@"param/menu/massEditCSVExport");
+                EditorCommandQueue.AddCommand($@"param/menu/massEditCSVExport/{ParamBank.RowGetType.AllRows}");
 
             // Parse commands
             bool doFocus = false;
