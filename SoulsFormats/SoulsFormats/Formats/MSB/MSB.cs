@@ -83,6 +83,8 @@ namespace SoulsFormats
         {
             if (index == -1)
                 return null;
+            else if (index >= list.Count)
+                return null;
             else
                 return list[index].Name;
         }
