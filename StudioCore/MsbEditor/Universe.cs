@@ -1282,7 +1282,7 @@ namespace StudioCore.MsbEditor
             {
                 for (var i = 0; i < BTLs.Count; i++)
                 {
-                    var bdt = BXF4.Read(BTLs[i].AssetPath, BTLs[i].AssetPath[..^3] + "bdt");
+                    using var bdt = BXF4.Read(BTLs[i].AssetPath, BTLs[i].AssetPath[..^3] + "bdt");
                     var file = bdt.Files.Find(f => f.Name.EndsWith("light.btl.dcx"));
                     var btl = BTL.Read(file.Bytes);
                     if (btl != null)
@@ -1295,21 +1295,9 @@ namespace StudioCore.MsbEditor
                         {
                             btl.Lights = newLights;
                             file.Bytes = btl.Write(DCX.Type.DCX_DFLT_10000_24_9);
-                            try
-                            {
-                                var bdtPath = BTLs_w[i].AssetPath[..^3] + "bdt";
+                            var bdtPath = BTLs_w[i].AssetPath[..^3] + "bdt";
 
-                                if (!File.Exists(BTLs_w[i].AssetPath + ".bak") && File.Exists(BTLs_w[i].AssetPath))
-                                    File.Copy(BTLs_w[i].AssetPath, BTLs_w[i].AssetPath + ".bak", true);
-                                if (!File.Exists(bdtPath + ".bak") && File.Exists(bdtPath))
-                                    File.Copy(bdtPath, bdtPath + ".bak", true);
-
-                                bdt.Write(BTLs_w[i].AssetPath, bdtPath);
-                            }
-                            catch (Exception e)
-                            {
-                                throw new SavingFailedException(Path.GetFileName(map.Name), e);
-                            }
+                            Utils.WriteWithBackup(_assetLocator, Utils.GetLocalAssetPath(_assetLocator, bdtPath), bdt, Utils.GetLocalAssetPath(_assetLocator, BTLs_w[i].AssetPath));
                         }
                     }
                 }
@@ -1332,16 +1320,8 @@ namespace StudioCore.MsbEditor
                             JsonSerializer.Serialize(newLights, BtlLightSerializerContext.Default.ListLight))
                         {
                             btl.Lights = newLights;
-                            try
-                            {
-                                if (!File.Exists(BTLs_w[i].AssetPath + ".bak") && File.Exists(BTLs_w[i].AssetPath))
-                                    File.Copy(BTLs_w[i].AssetPath, BTLs_w[i].AssetPath + ".bak", true);
-                                btl.Write(BTLs_w[i].AssetPath, compressionType);
-                            }
-                            catch (Exception e)
-                            {
-                                throw new SavingFailedException(Path.GetFileName(map.Name), e);
-                            }
+
+                            Utils.WriteWithBackup(_assetLocator, Utils.GetLocalAssetPath(_assetLocator, BTLs_w[i].AssetPath), btl);
                         }
                     }
                 }

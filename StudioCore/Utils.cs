@@ -245,7 +245,28 @@ namespace StudioCore
             return fileName;
         }
 
-        public static void WriteWithBackup<T>(string gamedir, string moddir, string assetpath, T item, GameType gameType = GameType.Undefined) where T : SoulsFile<T>, new()
+        public static string GetLocalAssetPath(AssetLocator assetLocator, string assetPath)
+        {
+            if (assetPath.StartsWith(assetLocator.GameRootDirectory))
+            {
+                return assetPath.Replace(assetLocator.GameModDirectory, "");
+            }
+            else if (assetPath.StartsWith(assetLocator.GameRootDirectory))
+            {
+                return assetPath.Replace(assetLocator.GameRootDirectory, "");
+            }
+            else
+            {
+                throw new DirectoryNotFoundException($"Asset path did not start with game or project directory: {assetPath}");
+            }
+        }
+
+        public static void WriteWithBackup<T>(AssetLocator assetLocator, string assetPath, T item, params object[] writeparms) where T : SoulsFile<T>, new()
+        {
+            WriteWithBackup(assetLocator.GameRootDirectory, assetLocator.GameModDirectory, assetPath, item, assetLocator.Type, writeparms);
+        }
+
+        public static void WriteWithBackup<T>(string gamedir, string moddir, string assetpath, T item, GameType gameType = GameType.Undefined, params object[] writeparms) where T : SoulsFile<T>, new()
         {
             var assetgamepath = $@"{gamedir}\{assetpath}";
             var assetmodpath = $@"{moddir}\{assetpath}";
@@ -284,6 +305,40 @@ namespace StudioCore
                 else if (gameType == GameType.ArmoredCoreVI && item is BND4 bndAC6)
                 {
                     SFUtil.EncryptAC6Regulation(writepath + ".temp", bndAC6);
+                }
+                else if (item is BXF3 or BXF4)
+                {
+                    string bhdPath = $@"{moddir}\{(string)writeparms[0]}";
+                    if (item is BXF3 bxf3)
+                    {
+                        bxf3.Write(bhdPath + ".temp", writepath + ".temp");
+
+                        // Ugly but until I rethink the binder API we need to dispose it before touching the existing files
+                        bxf3.Dispose();
+                    }
+                    else if (item is BXF4 bxf4)
+                    {
+                        bxf4.Write(bhdPath + ".temp", writepath + ".temp");
+
+                        // Ugly but until I rethink the binder API we need to dispose it before touching the existing files
+                        bxf4.Dispose();
+                    }
+
+                    if (File.Exists(writepath))
+                    {
+                        File.Copy(writepath, writepath + ".prev", true);
+                        File.Delete(writepath);
+                    }
+                    if (File.Exists(bhdPath))
+                    {
+                        File.Copy(bhdPath, bhdPath + ".prev", true);
+                        File.Delete(bhdPath);
+                    }
+
+                    File.Move(writepath + ".temp", writepath);
+                    File.Move(bhdPath + ".temp", bhdPath);
+
+                    return;
                 }
                 else
                 {
