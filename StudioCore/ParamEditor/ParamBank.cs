@@ -1706,6 +1706,7 @@ namespace StudioCore.ParamEditor
             RowConflictsFound = -1,
             OldRegulationNotFound = -2,
             OldRegulationVersionMismatch = -3,
+            OldRegulationMatchesCurrent = -4,
         }
 
         private enum EditOperation
@@ -1818,6 +1819,11 @@ namespace StudioCore.ParamEditor
                     editOperations.Add(entry.Key, new List<EditOperation>());
                 foreach (var k in editOperations.Values)
                     editOperations[entry.Key].Add(EditOperation.Add);
+            }
+
+            if (editOperations.All((kvp) => kvp.Value.All((eo) => eo == EditOperation.Match)))
+            {
+                return oldVanilla;
             }
 
             Param dest = new Param(newVanilla);
@@ -1955,6 +1961,7 @@ namespace StudioCore.ParamEditor
 
             var updatedParams = new Dictionary<string, Param>();
             // Now we must diff everything to try and find changed/added rows for each param
+            bool anyUpgrades = false;
             foreach (var k in vanillaBank.Params.Keys)
             {
                 // If the param is completely new, just take it
@@ -1967,11 +1974,15 @@ namespace StudioCore.ParamEditor
                 // Otherwise try to upgrade
                 var conflicts = new HashSet<int>();
                 var res = UpgradeParam(Params[k], oldVanillaParams[k], vanillaBank.Params[k], conflicts);
+                if (res != oldVanillaParams[k])
+                    anyUpgrades = true;
                 updatedParams.Add(k, res);
 
                 if (conflicts.Count > 0)
                     conflictingParams.Add(k, conflicts);
             }
+            if (!anyUpgrades)
+                return ParamUpgradeResult.OldRegulationMatchesCurrent;
 
             ulong oldVersion = _paramVersion;
 
