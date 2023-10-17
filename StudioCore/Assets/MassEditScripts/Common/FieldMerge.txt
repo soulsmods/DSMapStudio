@@ -3,4 +3,5 @@
 ##Ensure all mods are updated to the same patch.
 ##Ensure the game folder contains vanilla params.
 newvar regulationFolderName:mod;
-auxparam $regulationFolderName .*: modified && unique ID: paste;
+auxparam $regulationFolderName .*: !conflicts && unique ID: paste;
+param .*: conflicts && unique ID: !modified && auxmodified $regulationFolderName: = aux $regulationFolderName;
