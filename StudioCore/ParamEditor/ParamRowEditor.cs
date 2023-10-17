@@ -312,24 +312,23 @@ namespace StudioCore.ParamEditor
                 columnCount += auxRows.Count;
             if (EditorDecorations.ImGuiTableStdColumns("ParamFieldsT", columnCount, false))
             {
-                ImGui.TableNextColumn();
-                if (showParamCompare)
+                bool showCompareHeader = showParamCompare || showRowCompare;
+                if (showCompareHeader)
+                    ImGui.TableNextColumn();
+                if (showCompareHeader && ImGui.TableNextColumn())
                     ImGui.Text("Current");
-                ImGui.TableNextColumn();
                 if (CFG.Current.Param_ShowVanillaParams)
                 {
-                    if (showParamCompare)
+                    if (showCompareHeader && ImGui.TableNextColumn())
                         ImGui.Text("Vanilla");
-                    ImGui.TableNextColumn();
                 }
                 foreach ((string name, Param.Row r) in auxRows)
                 {
-                    if (showParamCompare)
+                    if (showCompareHeader && ImGui.TableNextColumn())
                         ImGui.Text(name);
-                    ImGui.TableNextColumn();
                 }
-                if (showRowCompare)
-                    ImGui.TableNextColumn();
+                if (showCompareHeader && showRowCompare && ImGui.TableNextColumn())
+                    ImGui.Text($@"Row {crow.ID}");
 
                 // This should be rewritten somehow it's super ugly
                 ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.8f, 0.8f, 1.0f, 1.0f));
