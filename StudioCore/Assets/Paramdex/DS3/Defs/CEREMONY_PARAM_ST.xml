@@ -8,11 +8,11 @@
   <Fields>
     <Field Def="s32 EventLayerID" />
     <Field Def="s32 MapStudioLayerID" />
-    <Field Def="s16 GparamID[Up]" />
-    <Field Def="s16 GparamID[Low]" />
-    <Field Def="s32 Point CloudID" />
+    <Field Def="s16 GparamIDUp" />
+    <Field Def="s16 GparamIDLow" />
+    <Field Def="s32 PointCloudID" />
     <Field Def="s32 GI_TextureID" />
-    <Field Def="s32 Light GroupID" />
+    <Field Def="s32 LightGroupID" />
     <Field Def="u8 IsReload" />
     <Field Def="u8 IsDisableOnline" />
     <Field Def="dummy8 pad1[10]" />

@@ -12,6 +12,7 @@ namespace SoulsFormats
         private static class XmlSerializer
         {
             public const int CURRENT_XML_VERSION = 3;
+            private static Regex FIELD_NAME_VALIDATOR = new Regex("^\\w+$");
 
             public static PARAMDEF Deserialize(XmlDocument xml, bool versionAware)
             {
@@ -134,6 +135,8 @@ namespace SoulsFormats
                     field.RemovedRegulationVersion = removedVersion;
                 }
 
+                if (!FIELD_NAME_VALIDATOR.IsMatch(internalName))
+                    throw new Exception("Disallowed field name found in paramdef: " + def.ParamType + ", name: " + field.InternalName);
                 // Check same name, and if version aware, check they aren't replacing eachother
                 bool matchingFieldTest(Field ifield) => string.Equals(field.InternalName, ifield.InternalName)
                     && (!versionAware || (
