@@ -11,11 +11,15 @@
     <spreadTime AltName="Hitbox Radius Spread Time" Wiki="Amount of time (in seconds) it takes for hitbox radius to grow from hitRadius to hitRadiusMax." />
     <spEffectIDForShooter AltName="Shooter SpEffect ID" Wiki="SpEffect applied to owner of bullet." Refs="SpEffectParam" />
     <hitBulletID AltName="Hit Bullet ID" Wiki="Bullet to generate when projectile expires." Refs="Bullet" />
+    <intervalCreateBulletId  AltName="Interval Bullet ID" Wiki="Bullet to generate on interval." Refs="Bullet" />
     <spEffectId0 AltName="Target SpEffect ID [0]" Wiki="SpEffect applied to hit targets." Refs="SpEffectParam" />
     <spEffectId1 AltName="Target SpEffect ID [1]" Wiki="SpEffect applied to hit targets." Refs="SpEffectParam" />
     <spEffectId2 AltName="Target SpEffect ID [2]" Wiki="SpEffect applied to hit targets." Refs="SpEffectParam" />
     <spEffectId3 AltName="Target SpEffect ID [3]" Wiki="SpEffect applied to hit targets." Refs="SpEffectParam" />
     <spEffectId4 AltName="Target SpEffect ID [4]" Wiki="SpEffect applied to hit targets." Refs="SpEffectParam" />
+    <lifeDist AltName="Expire Distance" Wiki="Distance travelled before bullet expires." />
+    <hitChrProximityDistance AltName="Hit Character Proximity Distance" Wiki="Distance to an enemy for bullet to expire." />
+    <assetCreationAssetId AltName="Created Asset (Asset ID)" Refs="AssetEnvironmentGeometryParam" Wiki="ID of asset to spawn." />
   </Field>
   <Self />
 </PARAMMETA>

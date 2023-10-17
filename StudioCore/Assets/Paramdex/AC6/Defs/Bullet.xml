@@ -114,8 +114,8 @@
     <Field Def="f32 UnkFloat0xE4"></Field>
     <Field Def="f32 UnkFloat0xE8"></Field>
     <Field Def="s16 UnkShort0xEC"></Field>
-    <Field Def="s16 UnkShort0xEE"></Field>
-    <Field Def="f32 UnkFloat0xF0"></Field>
+    <Field Def="s16 unkLoseHomingLineupTime"></Field>
+    <Field Def="f32 randomMoveAngle"></Field>
     <Field Def="f32 UnkFloat0xF4"></Field>
     <Field Def="u8 UnkByte0xF8"></Field>
     <Field Def="u8 UnkByte0xF9"></Field>
@@ -124,7 +124,7 @@
     <Field Def="s32 Unk0xFC"></Field>
     <Field Def="f32 UnkFloat0x100"></Field>
     <Field Def="f32 UnkFloat0x104"></Field>
-    <Field Def="f32 UnkFloat0x108"></Field>
+    <Field Def="f32 hitChrProximityDistance"></Field>
     <Field Def="s32 bulletShotgunParamId_1"></Field>
     <Field Def="f32 UnkFloat0x110"></Field>
     <Field Def="s32 bulletShotgunParamId_2"></Field>
@@ -281,7 +281,7 @@
     <Field Def="s8 UnkSbyte0x301"></Field>
     <Field Def="s8 UnkSbyte0x302"></Field>
     <Field Def="s8 UnkSbyte0x303"></Field>
-    <Field Def="f32 UnkFloat0x304"></Field>
+    <Field Def="f32 lifeDist"></Field>
     <Field Def="f32 UnkFloat0x308"></Field>
     <Field Def="f32 UnkFloat0x30C"></Field>
     <Field Def="f32 UnkFloat0x310"></Field>

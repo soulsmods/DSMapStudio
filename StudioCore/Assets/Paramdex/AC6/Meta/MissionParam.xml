@@ -1,7 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
+  <Enums>
+    <Enum Name="MISSION_TYPE" type="s8">
+      <Option Value="0" Name="Story" />
+      <Option Value="1" Name="Free Exploration" />
+      <Option Value="2" Name="AC TEST" />
+      <Option Value="3" Name="Training" />
+    </Enum>
+  </Enums>
   <Field>
-    <forcedLoadoutCharaInitParamID AltName="Forced Loadout (CharaInitParam ID)" Refs="CharaInitParam" /> 
+    <forcedLoadoutCharaInitParamID AltName="Forced Loadout (CharaInitParam ID)" Refs="CharaInitParam" />
+    <missionType AltName="Mission Type" Enum ="MISSION_TYPE"/>
+    <missionBriefingMovieId AltName="Mission Briefing Movie ID" Wiki="ID of .bk2 video file to play for mission briefing."/> 
   </Field>
   <Self />
 </PARAMMETA>

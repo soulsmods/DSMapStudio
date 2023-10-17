@@ -466,7 +466,7 @@
 910002036 Weapon Test AC Orbit
 910002037 Weapon Test AC 700LD
 910002038 Weapon Test AC 60LT
-910002039 Weapon Test AC Eule/60D
+910002039 Weapon Test AC EULE/60D [Pulse Shield Launcher]
 910002040 Weapon Test AC 60SNA
 910002999 Invalid Assembly
 910003000 Weapon Test AC 61PB
@@ -574,7 +574,7 @@
 920002036 Weapon Test AC Reverse Joint Orbit
 920002037 Weapon Test AC Reverse Joint 700LD
 920002038 Weapon Test AC Reverse Joint 60LT
-920002039 Weapon Test AC Reverse Joint Eule/60D
+920002039 Weapon Test AC Reverse Joint EULE/60D [Pulse Shield Launcher]
 920002040 Weapon Test AC Reverse Joint 60SNA
 920002999 Invalid Assembly
 920003000 Weapon Test AC Reverse Joint 61PB
@@ -682,7 +682,7 @@
 930002036 Weapon Test AC Tetrapod Orbit
 930002037 Weapon Test AC Tetrapod 700LD
 930002038 Weapon Test AC Tetrapod 60LT
-930002039 Weapon Test AC Tetrapod Eule/60D
+930002039 Weapon Test AC Tetrapod EULE/60D [Pulse Shield Launcher]
 930002040 Weapon Test AC Tetrapod 60SNA
 930002999 Invalid Assembly
 930003000 Weapon Test AC Tetrapod 61PB
@@ -790,7 +790,7 @@
 940002036 Weapon Test AC Tank Orbit
 940002037 Weapon Test AC Tank 700LD
 940002038 Weapon Test AC Tank 60LT
-940002039 Weapon Test AC Tank Eule/60D
+940002039 Weapon Test AC Tank EULE/60D [Pulse Shield Launcher]
 940002040 Weapon Test AC Tank 60SNA
 940002999 Invalid Assembly
 940003000 Weapon Test AC Tank 61PB

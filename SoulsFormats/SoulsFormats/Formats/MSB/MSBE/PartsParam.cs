@@ -218,19 +218,15 @@ namespace SoulsFormats
             public uint EntityID { get; set; }
 
             /// <summary>
-            /// Unknown.
+            /// Enables use of PartsDrawParamID. If false, asset param is used instead.
             /// </summary>
-            public byte UnkE04 { get; set; }
+            public byte isUsePartsDrawParamID { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
-            public byte LodParamID { get; set; }
-
-            /// <summary>
-            /// Unknown.
-            /// </summary>
-            public byte UnkE09 { get; set; }
+            [MSBParamReference(ParamName = "PartsDrawParam")]
+            public short PartsDrawParamID { get; set; }
 
             /// <summary>
             /// Unknown.
@@ -472,12 +468,11 @@ namespace SoulsFormats
             private void ReadEntityData(BinaryReaderEx br)
             {
                 EntityID = br.ReadUInt32();
-                UnkE04 = br.ReadByte();
+                isUsePartsDrawParamID = br.ReadByte();
                 br.AssertByte(0);
                 br.AssertByte(0);
                 br.AssertByte(0); // Former lantern ID
-                LodParamID = br.ReadByte();
-                UnkE09 = br.ReadByte();
+                PartsDrawParamID = br.ReadInt16();
                 IsPointLightShadowSrc = br.ReadSByte(); // Seems to be 0 or -1
                 UnkE0B = br.ReadByte();
                 IsShadowSrc = br.ReadBoolean();
@@ -665,12 +660,11 @@ namespace SoulsFormats
             private void WriteEntityData(BinaryWriterEx bw)
             {
                 bw.WriteUInt32(EntityID);
-                bw.WriteByte(UnkE04);
+                bw.WriteByte(isUsePartsDrawParamID);
                 bw.WriteByte(0);
                 bw.WriteByte(0);
                 bw.WriteByte(0);
-                bw.WriteByte(LodParamID);
-                bw.WriteByte(UnkE09);
+                bw.WriteInt16(PartsDrawParamID);
                 bw.WriteSByte(IsPointLightShadowSrc);
                 bw.WriteByte(UnkE0B);
                 bw.WriteBoolean(IsShadowSrc);

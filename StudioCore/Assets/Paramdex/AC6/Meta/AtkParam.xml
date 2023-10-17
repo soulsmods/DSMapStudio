@@ -12,6 +12,15 @@
     <recoilVelocity_Grounded Name="Recoil Velocity (Grounded)" Wiki="Backwards velocity applied to the shooter when using a weapon on the ground. Applies conditionally, such as not applying when AC has tank legs."/>
     <recoilVelocity_Airborne Name="Recoil Velocity (Airborne)" Wiki="Backwards velocity applied to the shooter when using a weapon in the air."/>
     <hitboxShape Name="Hitbox Shape" Enum ="ATKPARAM_HIT_CREATE_TYPE" Wiki="Backwards velocity applied to the shooter when using a weapon in the air."/>
+    <attack_Object Name="Attack damage (Object)" Wiki="Base object damage. Responsible for damage dealt to assets, including EULE/60D [Pulse Shield Launcher] barriers."/>
+    <UnkFlag0x1DA_0 Name="" IsBool=""/>
+    <UnkFlag0x1DA_1 Name="" IsBool=""/>
+    <UnkFlag0x1DA_2 Name="" IsBool=""/>
+    <UnkFlag0x1DA_3 Name="" IsBool=""/>
+    <UnkFlag0x1DA_4 Name="" IsBool=""/>
+    <UnkFlag0x1DA_5 Name="" IsBool=""/>
+    <UnkFlag0x1DA_6 Name="" IsBool=""/>
+    <weightAffectsDamage Name="Weight Affects damage" Wiki="If attack damage scales with weight according to calcCorrectGraph 280" IsBool=""/>
   </Field>
   <Self />
 </PARAMMETA>
