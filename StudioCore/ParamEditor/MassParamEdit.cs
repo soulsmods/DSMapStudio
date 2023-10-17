@@ -316,14 +316,14 @@ namespace StudioCore.ParamEditor
         }
         private MassEditResult ExecParamRowStage(List<EditorAction> partialActions)
         {
-            Param activeParam = bank.Params[context.getActiveParam()];
+            Param activeParam = bank.Params[context.GetActiveParam()];
             var paramArgFunc = paramArgFuncs.Select((func, i) => func(0, activeParam)); // technically invalid for clipboard
             int rowEditCount = -1;
             foreach ((MassEditRowSource source, Param.Row row) in ParamAndRowSearchEngine.parse.Search(context, paramRowSelector, false, false))
             {
                 rowEditCount++;
                 var rowArgFunc = paramArgFunc.Select((rowFunc, i) => rowFunc(rowEditCount, row)).ToArray();
-                string paramname = source == MassEditRowSource.Selection ? context.getActiveParam() : ParamBank.ClipboardParam;
+                string paramname = source == MassEditRowSource.Selection ? context.GetActiveParam() : ParamBank.ClipboardParam;
                 var res = rowOpOrCellStageFunc(rowArgFunc, paramname, row, partialActions);
                 if (res.Type != MassEditResultType.SUCCESS)
                     return res;

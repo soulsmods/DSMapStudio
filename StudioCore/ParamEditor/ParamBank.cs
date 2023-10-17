@@ -871,7 +871,7 @@ namespace StudioCore.ParamEditor
             PrimaryBank._params = new Dictionary<string, Param>();
             PrimaryBank.IsLoadingParams = true;
 
-            CacheBank.ClearCaches();
+            UICache.ClearCaches();
 
             TaskManager.Run(new("Param - Load Params", TaskManager.RequeueType.WaitThenRequeue, false, () =>
             {
@@ -961,7 +961,7 @@ namespace StudioCore.ParamEditor
 
                     TaskManager.Run(new("Param - Check Differences",
                         TaskManager.RequeueType.WaitThenRequeue, false,
-                        () => PrimaryBank.RefreshParamDiffCaches()));
+                        () => RefreshAllParamDiffCaches(true)));
                 }));
 
                 if (options != null)
@@ -1029,7 +1029,7 @@ namespace StudioCore.ParamEditor
             }
             newBank.ClearParamDiffCaches();
             newBank.IsLoadingParams = false;
-            newBank.RefreshParamDiffCaches();
+            newBank.RefreshParamDiffCaches(true);
             AuxBanks[Path.GetFileName(Path.GetDirectoryName(path)).Replace(' ', '_')] = newBank;
         }
 
@@ -1044,13 +1044,22 @@ namespace StudioCore.ParamEditor
                 _primaryDiffCache.Add(param, new HashSet<int>());
             }
         }
-        public void RefreshParamDiffCaches()
+        public static void RefreshAllParamDiffCaches(bool checkAuxVanillaDiff)
         {
-            if (this != VanillaBank)
+            PrimaryBank.RefreshParamDiffCaches(true);
+            foreach (var bank in AuxBanks)
+                bank.Value.RefreshParamDiffCaches(checkAuxVanillaDiff);
+            UICache.ClearCaches();
+        }
+        public void RefreshParamDiffCaches(bool checkVanillaDiff)
+        {
+            if (this != VanillaBank && checkVanillaDiff)
                 _vanillaDiffCache = GetParamDiff(VanillaBank);
-            if (this != PrimaryBank)
+            if (this == VanillaBank && PrimaryBank._vanillaDiffCache != null)
+                _primaryDiffCache = PrimaryBank._vanillaDiffCache;
+            else if (this != PrimaryBank)
                 _primaryDiffCache = GetParamDiff(PrimaryBank);
-            CacheBank.ClearCaches();
+            UICache.ClearCaches();
         }
         private Dictionary<string, HashSet<int>> GetParamDiff(ParamBank otherBank)
         {
@@ -1112,17 +1121,24 @@ namespace StudioCore.ParamEditor
                 cache.Remove(row.ID);
         }
 
-        public void RefreshParamRowVanillaDiff(Param.Row row, string param)
+        public void RefreshParamRowDiffs(Param.Row row, string param)
         {
             if (param == null)
                 return;
-            if (!VanillaBank.Params.ContainsKey(param) || VanillaDiffCache == null || !VanillaDiffCache.ContainsKey(param))
-                return; // Don't try for now
-            var otherBankRows = VanillaBank.Params[param].Rows.Where(cell => cell.ID == row.ID).ToArray();
-            if (IsChanged(row, otherBankRows))
-                VanillaDiffCache[param].Add(row.ID);
-            else
-                VanillaDiffCache[param].Remove(row.ID);
+            if (VanillaBank.Params.ContainsKey(param) && VanillaDiffCache != null && VanillaDiffCache.ContainsKey(param))
+            {
+                var otherBankRows = VanillaBank.Params[param].Rows.Where(cell => cell.ID == row.ID).ToArray();
+                RefreshParamRowDiffCache(row, otherBankRows, VanillaDiffCache[param]);
+            }
+            if (this != PrimaryBank)
+                return;
+            foreach (ParamBank aux in AuxBanks.Values)
+            {
+                if (!aux.Params.ContainsKey(param) || aux.PrimaryDiffCache == null || !aux.PrimaryDiffCache.ContainsKey(param))
+                    continue; // Don't try for now
+                var otherBankRows = aux.Params[param].Rows.Where(cell => cell.ID == row.ID).ToArray();
+                RefreshParamRowDiffCache(row, otherBankRows, aux.PrimaryDiffCache[param]);
+            }
         }
 
         private static bool IsChanged(Param.Row row, ReadOnlySpan<Param.Row> vanillaRows)
@@ -1965,8 +1981,8 @@ namespace StudioCore.ParamEditor
             _pendingUpgrade = true;
 
             // Refresh dirty cache
-            CacheBank.ClearCaches();
-            RefreshParamDiffCaches();
+            UICache.ClearCaches();
+            RefreshAllParamDiffCaches(false);
 
             return conflictingParams.Count > 0 ? ParamUpgradeResult.RowConflictsFound : ParamUpgradeResult.Success;
         }

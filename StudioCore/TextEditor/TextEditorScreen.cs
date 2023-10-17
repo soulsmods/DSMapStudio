@@ -46,7 +46,7 @@ namespace StudioCore.TextEditor
 
         private void ClearTextEditorCache()
         {
-            CacheBank.ClearCaches();
+            UICache.ClearCaches();
             _entryLabelCache = null;
             _EntryLabelCacheFiltered = null;
             _activeFmgInfo = null;
@@ -309,7 +309,7 @@ namespace StudioCore.TextEditor
             }
             if (_activeFmgInfo != null)
             {
-                _entryLabelCache = CacheBank.GetCached(this, "FMGEntryCache", () =>
+                _entryLabelCache = UICache.GetCached(this, "FMGEntryCache", () =>
                 {
                     return _activeFmgInfo.GetPatchedEntries();
                 });
@@ -317,7 +317,7 @@ namespace StudioCore.TextEditor
 
             // Needed to ensure EntryGroup is still valid after undo/redo actions while also maintaining highlight-duped-row functionality.
             // It's a bit dumb and probably overthinking things.
-            _clearEntryGroup = CacheBank.GetCached(this, "FMGClearEntryGroup", () =>
+            _clearEntryGroup = UICache.GetCached(this, "FMGClearEntryGroup", () =>
             {
                 if (_clearEntryGroup)
                     return false;
@@ -330,7 +330,7 @@ namespace StudioCore.TextEditor
                 {
                     _activeEntryGroup = null;
                 }
-                CacheBank.RemoveCache(this, "FMGClearEntryGroup");
+                UICache.RemoveCache(this, "FMGClearEntryGroup");
             }
 
             ImGui.End();

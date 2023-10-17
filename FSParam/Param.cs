@@ -537,6 +537,14 @@ namespace FSParam
             {
                 return _byteOffset;
             }
+            
+            /// <summary>
+            /// Gets the bit offset of the data for this bitfield in the raw byte data for the row.
+            /// </summary>
+            public uint GetBitOffset()
+            {
+                return _bitOffset;
+            }
         }
         
         /// <summary>
