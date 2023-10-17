@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using static SoulsFormats.FLVER;
 
 namespace SoulsFormats
 {
@@ -59,6 +60,36 @@ namespace SoulsFormats
                     member.Write(bw, structOffset);
                     structOffset += member.Size;
                 }
+            }
+
+            /// <summary>
+            /// Dark Souls Remastered may place tangent layoutMembers for vertex arrays where there aren't any. We need to fix this for them to read correctly.
+            /// </summary>
+            public bool DarkSoulsRemasteredFix()
+            {
+                int normalIndex = -1;
+                for (int i = 0; i < this.Count; i++)
+                {
+                    var lyt = this[i];
+                    switch (lyt.Semantic)
+                    {
+                        case FLVER.LayoutSemantic.Normal:
+                            normalIndex = i;
+                            break;
+                        case FLVER.LayoutSemantic.Tangent:
+                            RemoveAt(i);
+                            return true;
+                    }
+                }
+                //If there's no normal, this probably shouldn't go in either.
+                if (normalIndex == -1)
+                {
+                    return false;
+                }
+
+                LayoutMember tangentLayout = new LayoutMember(LayoutType.Byte4C, LayoutSemantic.Tangent, 0, 0);
+                Insert(normalIndex + 1, tangentLayout);
+                return true;
             }
         }
     }
