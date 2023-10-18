@@ -1,170 +1,182 @@
-﻿using System;
+﻿using StudioCore.Scene;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace StudioCore.MsbEditor
+namespace StudioCore.MsbEditor;
+
+public class Selection
 {
-    public class Selection
+    private readonly HashSet<ISelectable> _selected = new();
+
+    // State for SceneTree auto-scroll, as these are set at the same time as selections or using selections.
+    // This is processed by SceneTree and cleared as soon as the goto is complete, or no goto target was found.
+    //
+    // More advanced functionality could be added to expand TreeNodes to show the entity, but this requires
+    // tracking even more state in SceneTree, as well as path-from-root metadata for an entity. This should
+    // probably be split out of Selection at that point (IGotoTarget, perhaps).
+    public ISelectable GotoTreeTarget { get; set; }
+
+    public bool IsSelection()
     {
-        private HashSet<Scene.ISelectable> _selected = new HashSet<Scene.ISelectable>();
+        return _selected.Count > 0;
+    }
 
-        public bool IsSelection()
+    public bool IsFilteredSelection<T>() where T : ISelectable
+    {
+        return GetFilteredSelection<T>().Count > 0;
+    }
+
+    public bool IsFilteredSelection<T>(Func<T, bool> filt) where T : ISelectable
+    {
+        return GetFilteredSelection(filt).Count > 0;
+    }
+
+    public bool IsSingleSelection()
+    {
+        return _selected.Count == 1;
+    }
+
+    public bool IsMultiSelection()
+    {
+        return _selected.Count > 1;
+    }
+
+    public bool IsSingleFilteredSelection<T>() where T : ISelectable
+    {
+        return GetFilteredSelection<T>().Count == 1;
+    }
+
+    public bool IsSingleFilteredSelection<T>(Func<T, bool> filt) where T : ISelectable
+    {
+        return GetFilteredSelection(filt).Count == 1;
+    }
+
+    public ISelectable GetSingleSelection()
+    {
+        if (IsSingleSelection())
         {
-            return _selected.Count > 0;
+            return _selected.First();
         }
 
-        public bool IsFilteredSelection<T>() where T : Scene.ISelectable
+        return null;
+    }
+
+    public T GetSingleFilteredSelection<T>() where T : ISelectable
+    {
+        HashSet<T> filt = GetFilteredSelection<T>();
+        if (filt.Count() == 1)
         {
-            return GetFilteredSelection<T>().Count > 0;
+            return filt.First();
         }
 
-        public bool IsFilteredSelection<T>(Func<T, bool> filt) where T : Scene.ISelectable
+        return default;
+    }
+
+    public T GetSingleFilteredSelection<T>(Func<T, bool> filt) where T : ISelectable
+    {
+        HashSet<T> f = GetFilteredSelection(filt);
+        if (f.Count() == 1)
         {
-            return GetFilteredSelection<T>(filt).Count > 0;
+            return f.First();
         }
 
-        public bool IsSingleSelection()
-        {
-            return _selected.Count == 1;
-        }
+        return default;
+    }
 
-        public bool IsMultiSelection()
-        {
-            return _selected.Count > 1;
-        }
+    public HashSet<ISelectable> GetSelection()
+    {
+        return _selected;
+    }
 
-        public bool IsSingleFilteredSelection<T>() where T : Scene.ISelectable
+    public HashSet<T> GetFilteredSelection<T>() where T : ISelectable
+    {
+        HashSet<T> filtered = new();
+        foreach (ISelectable sel in _selected)
         {
-            return GetFilteredSelection<T>().Count == 1;
-        }
-
-        public bool IsSingleFilteredSelection<T>(Func<T, bool> filt) where T : Scene.ISelectable
-        {
-            return GetFilteredSelection<T>(filt).Count == 1;
-        }
-
-        public Scene.ISelectable GetSingleSelection()
-        {
-            if (IsSingleSelection())
+            if (sel is T filsel)
             {
-                return _selected.First();
-            }
-            return null;
-        }
-
-        public T GetSingleFilteredSelection<T>() where T : Scene.ISelectable
-        {
-            var filt = GetFilteredSelection<T>();
-            if (filt.Count() == 1)
-            {
-                return filt.First();
-            }
-            return default(T);
-        }
-
-        public T GetSingleFilteredSelection<T>(Func<T, bool> filt) where T : Scene.ISelectable
-        {
-            var f = GetFilteredSelection<T>(filt);
-            if (f.Count() == 1)
-            {
-                return f.First();
-            }
-            return default(T);
-        }
-
-        public HashSet<Scene.ISelectable> GetSelection()
-        {
-            return _selected;
-        }
-
-        public HashSet<T> GetFilteredSelection<T>() where T : Scene.ISelectable
-        {
-            var filtered = new HashSet<T>();
-            foreach (var sel in _selected)
-            {
-                if (sel is T filsel)
-                {
-                    filtered.Add(filsel);
-                }
-            }
-            return filtered;
-        }
-
-        public HashSet<T> GetFilteredSelection<T>(Func<T, bool> filt) where T : Scene.ISelectable
-        {
-            var filtered = new HashSet<T>();
-            foreach (var sel in _selected)
-            {
-                if (sel is T filsel && filt.Invoke(filsel))
-                {
-                    filtered.Add(filsel);
-                }
-            }
-            return filtered;
-        }
-
-        public void ClearSelection()
-        {
-            foreach (var sel in _selected)
-            {
-                sel.OnDeselected();
-            }
-            _selected.Clear();
-        }
-
-        public void AddSelection(Scene.ISelectable selected)
-        {
-            if (selected != null)
-            {
-                selected.OnSelected();
-                _selected.Add(selected);
+                filtered.Add(filsel);
             }
         }
 
-        public void AddSelection(List<Scene.ISelectable> selected)
+        return filtered;
+    }
+
+    public HashSet<T> GetFilteredSelection<T>(Func<T, bool> filt) where T : ISelectable
+    {
+        HashSet<T> filtered = new();
+        foreach (ISelectable sel in _selected)
         {
-            foreach (var sel in selected)
+            if (sel is T filsel && filt.Invoke(filsel))
             {
-                if (sel != null)
-                {
-                    sel.OnSelected();
-                    _selected.Add(sel);
-                }
+                filtered.Add(filsel);
             }
         }
 
-        public void RemoveSelection(Scene.ISelectable selected)
+        return filtered;
+    }
+
+    public void ClearSelection()
+    {
+        foreach (ISelectable sel in _selected)
         {
-            if (selected != null)
-            {
-                selected.OnDeselected();
-                _selected.Remove(selected);
-            }
-        }
-        public bool IsSelected(Scene.ISelectable selected)
-        {
-            foreach (var sel in _selected)
-            {
-                if (sel == selected)
-                {
-                    return true;
-                }
-            }
-            return false;
+            sel.OnDeselected();
         }
 
-        // State for SceneTree auto-scroll, as these are set at the same time as selections or using selections.
-        // This is processed by SceneTree and cleared as soon as the goto is complete, or no goto target was found.
-        //
-        // More advanced functionality could be added to expand TreeNodes to show the entity, but this requires
-        // tracking even more state in SceneTree, as well as path-from-root metadata for an entity. This should
-        // probably be split out of Selection at that point (IGotoTarget, perhaps).
-        public Scene.ISelectable GotoTreeTarget { get; set; }
+        _selected.Clear();
+    }
 
-        public bool ShouldGoto(Scene.ISelectable selected) => selected != null && selected.Equals(GotoTreeTarget);
+    public void AddSelection(ISelectable selected)
+    {
+        if (selected != null)
+        {
+            selected.OnSelected();
+            _selected.Add(selected);
+        }
+    }
 
-        public void ClearGotoTarget() => GotoTreeTarget = null;
+    public void AddSelection(List<ISelectable> selected)
+    {
+        foreach (ISelectable sel in selected)
+        {
+            if (sel != null)
+            {
+                sel.OnSelected();
+                _selected.Add(sel);
+            }
+        }
+    }
+
+    public void RemoveSelection(ISelectable selected)
+    {
+        if (selected != null)
+        {
+            selected.OnDeselected();
+            _selected.Remove(selected);
+        }
+    }
+
+    public bool IsSelected(ISelectable selected)
+    {
+        foreach (ISelectable sel in _selected)
+        {
+            if (sel == selected)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public bool ShouldGoto(ISelectable selected)
+    {
+        return selected != null && selected.Equals(GotoTreeTarget);
+    }
+
+    public void ClearGotoTarget()
+    {
+        GotoTreeTarget = null;
     }
 }

@@ -1,28 +1,25 @@
-﻿using System;
+﻿using SoulsFormats;
 using System.Collections.Generic;
-using System.Text;
-using SoulsFormats;
 
-namespace StudioCore.MsbEditor
+namespace StudioCore.MsbEditor;
+
+/// <summary>
+///     Navigation context for a map. Stores all the meta navigation information for a DS1
+///     map (i.e. mcg and mcp stuff).
+/// </summary>
+public class MapNavigationDS1
 {
-    /// <summary>
-    /// Navigation context for a map. Stores all the meta navigation information for a DS1
-    /// map (i.e. mcg and mcp stuff).
-    /// </summary>
-    public class MapNavigationDS1
+    public MapNavigationDS1(ObjectContainer map, MCP mcp, MCG mcg)
     {
-        public ObjectContainer Map { get; private set; } = null;
+        Map = map;
 
-        public List<NavRegion> Regions { get; private set; } = null;
-
-        public MapNavigationDS1(ObjectContainer map, MCP mcp, MCG mcg)
+        foreach (MCP.Room r in mcp.Rooms)
         {
-            Map = map;
-
-            foreach (var r in mcp.Rooms)
-            {
-                Regions.Add(new NavRegion(Map, r));
-            }
+            Regions.Add(new NavRegion(Map, r));
         }
     }
+
+    public ObjectContainer Map { get; }
+
+    public List<NavRegion> Regions { get; } = null;
 }

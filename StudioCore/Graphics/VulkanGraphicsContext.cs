@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using StudioCore.Editor;
+using StudioCore.Scene;
+using System.Collections.Generic;
 using System.Diagnostics;
-using StudioCore.Editor;
 using Veldrid;
 using Veldrid.Sdl2;
 using Veldrid.StartupUtilities;
@@ -10,29 +11,26 @@ namespace StudioCore.Graphics;
 
 public class VulkanGraphicsContext : IGraphicsContext
 {
-    public static RenderDoc RenderDocManager;
     private const bool UseRenderdoc = false;
-    
-    private VulkanImGuiRenderer _imGuiRenderer;
-    public IImguiRenderer ImguiRenderer => _imGuiRenderer;
-    
-    private Sdl2Window _window;
-    public Sdl2Window Window => _window;
+    public static RenderDoc RenderDocManager;
+    private readonly bool _colorSrgb = false;
     private GraphicsDevice _gd;
-    public GraphicsDevice Device => _gd;
-    
+
+    private VulkanImGuiRenderer _imGuiRenderer;
+
+    private Sdl2Window _window;
+    private bool _windowMoved = true;
+
+    private bool _windowResized = true;
+
     // Window framebuffer
     private Texture MainWindowColorTexture;
     private Framebuffer MainWindowFramebuffer;
     private ResourceSet MainWindowResourceSet;
-    
-    private bool _windowResized = true;
-    private bool _windowMoved = true;
-    private bool _colorSrgb = false;
 
-    public VulkanGraphicsContext()
-    {
-    }
+    public IImguiRenderer ImguiRenderer => _imGuiRenderer;
+    public Sdl2Window Window => _window;
+    public GraphicsDevice Device => _gd;
 
     public void Initialize()
     {
@@ -42,15 +40,15 @@ public class VulkanGraphicsContext : IGraphicsContext
             RenderDocManager.OverlayEnabled = false;
         }
 
-        WindowCreateInfo windowCI = new WindowCreateInfo
+        WindowCreateInfo windowCI = new()
         {
             X = CFG.Current.GFX_Display_X,
             Y = CFG.Current.GFX_Display_Y,
             WindowWidth = CFG.Current.GFX_Display_Width,
             WindowHeight = CFG.Current.GFX_Display_Height,
-            WindowInitialState = WindowState.Maximized,
+            WindowInitialState = WindowState.Maximized
         };
-        GraphicsDeviceOptions gdOptions = new GraphicsDeviceOptions(false, VkFormat.D32Sfloat, true, true, true, _colorSrgb);
+        GraphicsDeviceOptions gdOptions = new(false, VkFormat.D32Sfloat, true, true, true, _colorSrgb);
 
 #if DEBUG
         gdOptions.Debug = true;
@@ -62,46 +60,26 @@ public class VulkanGraphicsContext : IGraphicsContext
             out _window,
             out _gd);
         _window.Resized += () => _windowResized = true;
-        _window.Moved += (p) => _windowMoved = true;
-        
-        Scene.Renderer.Initialize(_gd);
-        
-        var factory = _gd.ResourceFactory;
-        _imGuiRenderer = new VulkanImGuiRenderer(_gd, _gd.SwapchainFramebuffer.OutputDescription, CFG.Current.GFX_Display_Width,
-            CFG.Current.GFX_Display_Height, ColorSpaceHandling.Legacy);
-    }
-    
-    private void RecreateWindowFramebuffers(CommandList cl)
-    {
-        MainWindowColorTexture?.Dispose();
-        MainWindowFramebuffer?.Dispose();
-        MainWindowResourceSet?.Dispose();
+        _window.Moved += p => _windowMoved = true;
 
-        var factory = _gd.ResourceFactory;
-        TextureDescription mainColorDesc = TextureDescription.Texture2D(
-            _gd.SwapchainFramebuffer.Width,
-            _gd.SwapchainFramebuffer.Height,
-            1,
-            1,
-            VkFormat.R8G8B8A8Unorm,
-            VkImageUsageFlags.ColorAttachment | VkImageUsageFlags.Sampled,
-            VkImageCreateFlags.None,
-            VkImageTiling.Optimal,
-            VkSampleCountFlags.Count1);
-        MainWindowColorTexture = factory.CreateTexture(ref mainColorDesc);
-        MainWindowFramebuffer = factory.CreateFramebuffer(new FramebufferDescription(null, MainWindowColorTexture));
+        Renderer.Initialize(_gd);
+
+        ResourceFactory factory = _gd.ResourceFactory;
+        _imGuiRenderer = new VulkanImGuiRenderer(_gd, _gd.SwapchainFramebuffer.OutputDescription,
+            CFG.Current.GFX_Display_Width,
+            CFG.Current.GFX_Display_Height, ColorSpaceHandling.Legacy);
     }
 
     public void Draw(List<EditorScreen> editors, EditorScreen focusedEditor)
     {
         Debug.Assert(_window.Exists);
-        int width = _window.Width;
-        int height = _window.Height;
-        int x = _window.X;
-        int y = _window.Y;
+        var width = _window.Width;
+        var height = _window.Height;
+        var x = _window.X;
+        var y = _window.Y;
 
         _gd.NextFrame();
-        
+
         if (_windowResized)
         {
             _windowResized = false;
@@ -114,10 +92,11 @@ public class VulkanGraphicsContext : IGraphicsContext
             cl.Name = "WindowResize";
             RecreateWindowFramebuffers(cl);
             _imGuiRenderer.WindowResized(width, height);
-            foreach (var editor in editors)
+            foreach (EditorScreen editor in editors)
             {
                 editor.EditorResized(_window, _gd);
             }
+
             _gd.SubmitCommands(cl);
         }
 
@@ -128,7 +107,7 @@ public class VulkanGraphicsContext : IGraphicsContext
             CFG.Current.GFX_Display_Y = y;
         }
 
-        var mainWindowCommandList = _gd.ResourceFactory.CreateCommandList(QueueType.Graphics);
+        CommandList mainWindowCommandList = _gd.ResourceFactory.CreateCommandList(QueueType.Graphics);
         mainWindowCommandList.Name = "MainWindow";
         mainWindowCommandList.SetFramebuffer(_gd.SwapchainFramebuffer);
         mainWindowCommandList.ClearColorTarget(0, new RgbaFloat(0.176f, 0.176f, 0.188f, 1.0f));
@@ -136,12 +115,12 @@ public class VulkanGraphicsContext : IGraphicsContext
         mainWindowCommandList.SetFullViewport(0);
 
         focusedEditor.Draw(_gd, mainWindowCommandList);
-        var fence = Scene.Renderer.Frame(mainWindowCommandList, false);
+        Fence fence = Renderer.Frame(mainWindowCommandList, false);
         mainWindowCommandList.SetFullViewport(0);
         mainWindowCommandList.SetFullScissorRects();
         _imGuiRenderer.Render(_gd, mainWindowCommandList);
         _gd.SubmitCommands(mainWindowCommandList, fence);
-        Scene.Renderer.SubmitPostDrawCommandLists();
+        Renderer.SubmitPostDrawCommandLists();
 
         _gd.SwapBuffers();
     }
@@ -153,5 +132,26 @@ public class VulkanGraphicsContext : IGraphicsContext
         MainWindowFramebuffer?.Dispose();
         MainWindowResourceSet?.Dispose();
         _gd?.Dispose();
+    }
+
+    private void RecreateWindowFramebuffers(CommandList cl)
+    {
+        MainWindowColorTexture?.Dispose();
+        MainWindowFramebuffer?.Dispose();
+        MainWindowResourceSet?.Dispose();
+
+        ResourceFactory factory = _gd.ResourceFactory;
+        TextureDescription mainColorDesc = TextureDescription.Texture2D(
+            _gd.SwapchainFramebuffer.Width,
+            _gd.SwapchainFramebuffer.Height,
+            1,
+            1,
+            VkFormat.R8G8B8A8Unorm,
+            VkImageUsageFlags.ColorAttachment | VkImageUsageFlags.Sampled,
+            VkImageCreateFlags.None,
+            VkImageTiling.Optimal,
+            VkSampleCountFlags.Count1);
+        MainWindowColorTexture = factory.CreateTexture(ref mainColorDesc);
+        MainWindowFramebuffer = factory.CreateFramebuffer(new FramebufferDescription(null, MainWindowColorTexture));
     }
 }

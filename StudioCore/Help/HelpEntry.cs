@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace StudioCore.Help
+namespace StudioCore.Help;
+
+public class HelpEntry
 {
-    public class HelpEntry
-    {
-        public string Title { get; set; }
-        public List<string> Tags { get; set; }
-        public List<string> Contents { get; set; }
-    }
+    public string Title { get; set; }
+    public List<string> Tags { get; set; }
+    public List<string> Contents { get; set; }
 }

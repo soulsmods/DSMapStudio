@@ -1,46 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Numerics;
 
-namespace StudioCore.DebugPrimitives
+namespace StudioCore.DebugPrimitives;
+
+public class DbgPrimWireRay : DbgPrimWire
 {
-    public class DbgPrimWireRay : DbgPrimWire
+    private readonly DbgPrimGeometryData GeometryData;
+
+    public DbgPrimWireRay(Transform location, Vector3 start, Vector3 end, Color color)
     {
+        NameColor = color;
 
-        public void UpdateTransform(Transform newTransform)
+
+        if (GeometryData != null)
         {
+            SetBuffers(GeometryData.GeomBuffer);
         }
-
-        private DbgPrimGeometryData GeometryData = null;
-
-        public DbgPrimWireRay(Transform location, Vector3 start, Vector3 end, Color color)
+        else
         {
-            NameColor = color;
+            // 3 Letters of below names: 
+            // [T]op/[B]ottom, [F]ront/[B]ack, [L]eft/[R]ight
 
+            // Top Face
+            AddLine(start, end, color);
 
-            if (GeometryData != null)
-            {
-                SetBuffers(GeometryData.GeomBuffer);
-            }
-            else
-            {
-                // 3 Letters of below names: 
-                // [T]op/[B]ottom, [F]ront/[B]ack, [L]eft/[R]ight
+            //FinalizeBuffers(true);
 
-                // Top Face
-                AddLine(start, end, color);
-
-                //FinalizeBuffers(true);
-
-                GeometryData = new DbgPrimGeometryData()
-                {
-                    GeomBuffer = GeometryBuffer
-                };
-            }
+            GeometryData = new DbgPrimGeometryData { GeomBuffer = GeometryBuffer };
         }
+    }
+
+    public void UpdateTransform(Transform newTransform)
+    {
     }
 }

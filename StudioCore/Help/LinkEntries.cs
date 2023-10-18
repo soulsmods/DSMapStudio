@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace StudioCore.Help
+namespace StudioCore.Help;
+
+public class LinkEntries
 {
-    public class LinkEntries
-    {
-        public List<LinkEntry> Links { get; set; }
-    }
+    public List<LinkEntry> Links { get; set; }
 }

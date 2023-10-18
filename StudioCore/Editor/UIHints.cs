@@ -1,14 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Numerics;
 using ImGuiNET;
+using StudioCore.ParamEditor;
+using System.Numerics;
 
-namespace StudioCore.Editor
+namespace StudioCore.Editor;
+
+public class UIHints
 {
-    public class UIHints
-    {
-        public static string MassEditHint =
+    public static string MassEditHint =
         @"For help with regex or examples, consult the main help menu.
 Mass Edit Commands exist to make large batch-edits according to a simple scheme.
 Specific help with individual components of massedit can be found in the autofill menu by clicking the ?
@@ -49,8 +47,8 @@ It can be an integer, floating point number, or a string.
 A variable's current value can be accessed using $name, and is usable in selector args, op args, and even the args of those op args.
 Sets of vars can be selected in the same manner as params, and can be modified with the same operations available to edit param fields.";
 
-        public static string SearchBarHint =
-@"For help with regex or examples, consult the main help menu.
+    public static string SearchBarHint =
+        @"For help with regex or examples, consult the main help menu.
 This searchbar utilise Regex, and words surrounded by ! in commands indicate that a Regex expression may be used instead of plain text.
 All other words in capitals are parameters for the given command.
 Regex searches are case-insensitive and the searched term may appear anywhere in the target rows. To specify an exact match, surround the text with ^ and $ (eg. ^10$) or use a range variant.
@@ -73,19 +71,21 @@ name Dagger (This searches for all rows with a name containing Dagger. This incl
 propref originEquipWep0 Dagger (This searches for all rows whose field originEquipWep0 refers to a row with a name containing Dagger, following the same rules above.
 name Dagger && idrange 10000 Infinity (This searches for all rows with a name containing Dagger and that have an id greater than 9999)";
 
-        public static string MassEditExamples = @"A complete MassEdit command may look like the following examples:
+    public static string MassEditExamples = @"A complete MassEdit command may look like the following examples:
 selection: throwAtkRate: = 30; (This selects from the current selection, the field throwAtkRate and makes its value 30)
 param EquipParamWeapon: name Dagger.*: throwAtkRate: * 2; (This selects from EquipParamWeapon all rows beginning with Dagger, and multiplies the values in throwAtkRate by 2)
 param EquipParamWeapon: prop weaponCategory 0: correctAgility: + field correctStrength; (This selects from EquipParamWeapon all rows whose weaponCategory is 0, and adds the row's correctStrength to its correctAgility)
 param EquipParamWeapon: id .*: name: replace Dark:Holy; (This selects from EquipParamWeapon ALL rows, and replaces all cases of Dark in their name with Holy
 param EquipParamWeapon: name Dagger.* && idrange 10000 Infinity: throwAtkRate: * 2; (This selects from EquipParamWeapon all rows beginning with Dagger and with an id higher than 9999, and multiplies the values in throwAtkRate by 2)";
-        public static string SearchExamples = @"A complete search may look like the following examples:
+
+    public static string SearchExamples = @"A complete search may look like the following examples:
 id 10000 (This searches for all rows with an id containing 10000. This includes 10000, 1000010, 210000)
 name Dagger (This searches for all rows with a name containing Dagger. This includes Blood Dagger, Sharp daggers and daggerfall)
 propref originEquipWep0 Dagger (This searches for all rows whose field originEquipWep0 refers to a row with a name containing Dagger, following the same rules above.
 name Dagger && idrange 10000 Infinity (This searches for all rows with a name containing Dagger and that have an id greater than 9999)";
 
-        public static string RegexCheatSheet = @"Regex is a common way to write an expression that 'matches' strings or words, finding occurances within a passage of text.
+    public static string RegexCheatSheet =
+        @"Regex is a common way to write an expression that 'matches' strings or words, finding occurances within a passage of text.
 
 For letters and numbers, regex matches only those explicit characters and nothing else. This means searching for dog, you will only match when 'dog' is found.
 Regex also has many meta-characters, and most symbols have some meaning. For example, * means 'any number of the previous character'.
@@ -115,68 +115,82 @@ Some common tools for mapstudio include:
 ^[^-] (match anything that doesn't begin with -)
 ^2\d\d$ (match any number from 200 to 299)";
 
-        public static bool AddImGuiHintButton(string id, ref string hint, bool canEdit = false, bool isRowHint = false)
+    public static bool AddImGuiHintButton(string id, ref string hint, bool canEdit = false, bool isRowHint = false)
+    {
+        var scale = MapStudioNew.GetUIScale();
+        var ret = false;
+        /*
+        ImGui.TextColored(new Vector4(0.6f, 0.6f, 1.0f, 1.0f), "Help");
+        if (ImGui.BeginPopupContextItem(id))
         {
-            float scale = MapStudioNew.GetUIScale();
-            bool ret = false;
-            /*
-            ImGui.TextColored(new Vector4(0.6f, 0.6f, 1.0f, 1.0f), "Help");
-            if (ImGui.BeginPopupContextItem(id))
+            if (ParamEditor.ParamEditorScreen.EditorMode && canEdit) //remove this, editor mode should be called earlier
             {
-                if (ParamEditor.ParamEditorScreen.EditorMode && canEdit) //remove this, editor mode should be called earlier
-                {
-                    ImGui.InputTextMultiline("", ref hint, 8196, new Vector2(720, 480));
-                    if (ImGui.IsItemDeactivatedAfterEdit())
-                        ret = true;
-                }
-                else
-                    ImGui.Text(hint);
-                ImGui.EndPopup();
-            }
-            */
-
-            // Even worse of a hack than it was before. eat my shorts (all of this should be redone)
-            if (isRowHint)
-            {
-                ImGui.TextColored(new Vector4(0.6f, 0.6f, 1.0f, 1f), "?");
-                if (ImGui.IsItemClicked(ImGuiMouseButton.Left))
-                    ImGui.OpenPopup(id);
-                if (ImGui.BeginPopupContextItem(id))
-                {
-                    if (ParamEditor.ParamEditorScreen.EditorMode && canEdit) //remove this, editor mode should be called earlier
-                    {
-                        ImGui.InputTextMultiline("", ref hint, 8196, new Vector2(720, 480) * scale);
-                        if (ImGui.IsItemDeactivatedAfterEdit())
-                            ret = true;
-                    }
-                    else
-                        ImGui.Text(hint);
-                    ImGui.EndPopup();
-                }
-                ImGui.SameLine();
+                ImGui.InputTextMultiline("", ref hint, 8196, new Vector2(720, 480));
+                if (ImGui.IsItemDeactivatedAfterEdit())
+                    ret = true;
             }
             else
-            {
-                ImGui.SameLine(0, 20f);
-                if (ImGui.Button("Help"))
-                {
-                    ImGui.OpenPopup("##ParamHelp");
-                }
-                if (ImGui.BeginPopup("##ParamHelp"))
-                {
-
-                    if (ParamEditor.ParamEditorScreen.EditorMode && canEdit) //remove this, editor mode should be called earlier
-                    {
-                        ImGui.InputTextMultiline("", ref hint, 8196, new Vector2(720, 480) * scale);
-                        if (ImGui.IsItemDeactivatedAfterEdit())
-                            ret = true;
-                    }
-                    else
-                        ImGui.Text(hint);
-                    ImGui.EndPopup();
-                }
-            }
-            return ret;
+                ImGui.Text(hint);
+            ImGui.EndPopup();
         }
+        */
+
+        // Even worse of a hack than it was before. eat my shorts (all of this should be redone)
+        if (isRowHint)
+        {
+            ImGui.TextColored(new Vector4(0.6f, 0.6f, 1.0f, 1f), "?");
+            if (ImGui.IsItemClicked(ImGuiMouseButton.Left))
+            {
+                ImGui.OpenPopup(id);
+            }
+
+            if (ImGui.BeginPopupContextItem(id))
+            {
+                if (ParamEditorScreen.EditorMode && canEdit) //remove this, editor mode should be called earlier
+                {
+                    ImGui.InputTextMultiline("", ref hint, 8196, new Vector2(720, 480) * scale);
+                    if (ImGui.IsItemDeactivatedAfterEdit())
+                    {
+                        ret = true;
+                    }
+                }
+                else
+                {
+                    ImGui.Text(hint);
+                }
+
+                ImGui.EndPopup();
+            }
+
+            ImGui.SameLine();
+        }
+        else
+        {
+            ImGui.SameLine(0, 20f);
+            if (ImGui.Button("Help"))
+            {
+                ImGui.OpenPopup("##ParamHelp");
+            }
+
+            if (ImGui.BeginPopup("##ParamHelp"))
+            {
+                if (ParamEditorScreen.EditorMode && canEdit) //remove this, editor mode should be called earlier
+                {
+                    ImGui.InputTextMultiline("", ref hint, 8196, new Vector2(720, 480) * scale);
+                    if (ImGui.IsItemDeactivatedAfterEdit())
+                    {
+                        ret = true;
+                    }
+                }
+                else
+                {
+                    ImGui.Text(hint);
+                }
+
+                ImGui.EndPopup();
+            }
+        }
+
+        return ret;
     }
 }
