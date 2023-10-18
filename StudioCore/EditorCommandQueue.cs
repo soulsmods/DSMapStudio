@@ -1,29 +1,26 @@
-﻿using System;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Text;
-using System.Collections.Concurrent;
 using System.Linq;
 
-namespace StudioCore
+namespace StudioCore;
+
+public static class EditorCommandQueue
 {
-    public static class EditorCommandQueue
+    private static readonly ConcurrentQueue<string[]> QueuedCommands = new();
+
+    public static void AddCommand(string cmd)
     {
-        private static ConcurrentQueue<string[]> QueuedCommands = new ConcurrentQueue<string[]>();
+        QueuedCommands.Enqueue(cmd.Split("/"));
+    }
 
-        public static void AddCommand(string cmd)
-        {
-            QueuedCommands.Enqueue(cmd.Split("/"));
-        }
+    public static void AddCommand(IEnumerable<string> cmd)
+    {
+        QueuedCommands.Enqueue(cmd.ToArray());
+    }
 
-        public static void AddCommand(IEnumerable<string> cmd)
-        {
-            QueuedCommands.Enqueue(cmd.ToArray());
-        }
-
-        public static string[] GetNextCommand()
-        {
-            QueuedCommands.TryDequeue(out string[] cmd);
-            return cmd;
-        }
+    public static string[] GetNextCommand()
+    {
+        QueuedCommands.TryDequeue(out var cmd);
+        return cmd;
     }
 }

@@ -1,23 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using NativeFileDialogSharp;
 using Silk.NET.SDL;
+using System;
+using System.Collections.Generic;
 using Veldrid;
 
 namespace StudioCore.Platform;
 
 /// <summary>
-/// Trying to match Winforms version of this
+///     Trying to match Winforms version of this
 /// </summary>
 public enum MessageBoxButtons
 {
     OK,
     OKCancel,
     YesNoCancel,
-    YesNo,
+    YesNo
 }
 
 /// <summary>
-/// Also trying to match Winforms version of this
+///     Also trying to match Winforms version of this
 /// </summary>
 [Flags]
 public enum MessageBoxIcon
@@ -25,7 +26,7 @@ public enum MessageBoxIcon
     None,
     Error = MessageBoxFlags.Error,
     Warning = MessageBoxFlags.Warning,
-    Information = MessageBoxFlags.Information,
+    Information = MessageBoxFlags.Information
 }
 
 public enum DialogResult
@@ -34,36 +35,37 @@ public enum DialogResult
     OK = 1,
     Cancel = 2,
     Yes = 3,
-    No = 4,
+    No = 4
 }
 
 /// <summary>
-/// Helper to abstract away some platform specific things to make things like a native Linux build
-/// maybe more feasible in the future.
+///     Helper to abstract away some platform specific things to make things like a native Linux build
+///     maybe more feasible in the future.
 /// </summary>
 public abstract unsafe class PlatformUtils
 {
-    public static PlatformUtils Instance { get; private set; }
-
-    private Window* _sdlWindow;
+    private readonly Window* _sdlWindow;
 
     protected PlatformUtils(Window* window)
     {
         _sdlWindow = window;
     }
 
+    public static PlatformUtils Instance { get; private set; }
+
     public static void InitializeWindows(Window* window)
     {
         Instance = new WindowsPlatformUtils(window);
     }
 
-    public DialogResult MessageBox(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon = MessageBoxIcon.None)
+    public DialogResult MessageBox(string text, string caption, MessageBoxButtons buttons,
+        MessageBoxIcon icon = MessageBoxIcon.None)
     {
-        string[] buttonNames = new string[3];
-        DialogResult[] buttonResults = new DialogResult[3];
+        var buttonNames = new string[3];
+        var buttonResults = new DialogResult[3];
         int buttonCount;
-        int returnID = -1;
-        int escapeID = -1;
+        var returnID = -1;
+        var escapeID = -1;
         switch (buttons)
         {
             case MessageBoxButtons.OK:
@@ -106,12 +108,12 @@ public abstract unsafe class PlatformUtils
         }
 
         MessageBoxButtonData* buttonData = stackalloc MessageBoxButtonData[buttonCount];
-        for (int i = 0; i < buttonCount; i++)
+        for (var i = 0; i < buttonCount; i++)
         {
             MessageBoxButtonFlags buttonflags = 0;
             buttonflags |= i == returnID ? MessageBoxButtonFlags.ReturnkeyDefault : 0;
             buttonflags |= i == escapeID ? MessageBoxButtonFlags.EscapekeyDefault : 0;
-            buttonData[i] = new MessageBoxButtonData()
+            buttonData[i] = new MessageBoxButtonData
             {
                 Flags = (uint)buttonflags,
                 Buttonid = (int)buttonResults[i],
@@ -119,7 +121,7 @@ public abstract unsafe class PlatformUtils
             };
         }
 
-        var messageBoxData = new MessageBoxData()
+        var messageBoxData = new MessageBoxData
         {
             Flags = (uint)icon,
             Window = _sdlWindow,
@@ -127,11 +129,11 @@ public abstract unsafe class PlatformUtils
             Message = (byte*)((FixedUtf8String)text).StringPtr,
             Numbuttons = buttonCount,
             Buttons = buttonData,
-            ColorScheme = null,
+            ColorScheme = null
         };
 
-        int clickedButton = 0;
-        int result = SdlProvider.SDL.Value.ShowMessageBox(&messageBoxData, ref clickedButton);
+        var clickedButton = 0;
+        var result = SdlProvider.SDL.Value.ShowMessageBox(&messageBoxData, ref clickedButton);
         if (result == 0)
         {
             return (DialogResult)clickedButton;
@@ -148,29 +150,29 @@ public abstract unsafe class PlatformUtils
     // Title arg is currently unusable. We should restore it back if at all possible.
     public bool OpenFileDialog(string title, IReadOnlyList<string> filters, out string path)
     {
-        NativeFileDialogSharp.DialogResult dialogResult = NativeFileDialogSharp.Dialog.FileOpen(CombineNdlFilters(filters, false));
+        NativeFileDialogSharp.DialogResult dialogResult = Dialog.FileOpen(CombineNdlFilters(filters, false));
         path = dialogResult.Path;
         return dialogResult.IsOk;
     }
 
     public bool OpenMultiFileDialog(string title, IReadOnlyList<string> filters, out IReadOnlyList<string> paths)
     {
-        NativeFileDialogSharp.DialogResult dialogResult = NativeFileDialogSharp.Dialog.FileOpenMultiple(CombineNdlFilters(filters, false));
+        NativeFileDialogSharp.DialogResult
+            dialogResult = Dialog.FileOpenMultiple(CombineNdlFilters(filters, false));
         paths = dialogResult.Paths;
         return dialogResult.IsOk;
     }
 
     public bool SaveFileDialog(string title, IReadOnlyList<string> filters, out string path)
     {
-
-        NativeFileDialogSharp.DialogResult dialogResult = NativeFileDialogSharp.Dialog.FileSave(CombineNdlFilters(filters, true));
+        NativeFileDialogSharp.DialogResult dialogResult = Dialog.FileSave(CombineNdlFilters(filters, true));
         path = dialogResult.Path;
         return dialogResult.IsOk;
     }
 
     public bool OpenFolderDialog(string title, out string path)
     {
-        NativeFileDialogSharp.DialogResult dialogResult = NativeFileDialogSharp.Dialog.FolderPicker();
+        NativeFileDialogSharp.DialogResult dialogResult = Dialog.FolderPicker();
         path = dialogResult.Path;
         return dialogResult.IsOk;
     }
@@ -185,6 +187,5 @@ public abstract unsafe class PlatformUtils
 
     public void blah()
     {
-        
     }
 }

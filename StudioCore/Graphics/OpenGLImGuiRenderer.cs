@@ -1,41 +1,42 @@
-﻿using System;
+﻿using ImGuiNET;
+using Silk.NET.OpenGL;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Numerics;
 using System.Reflection;
-using System.Runtime.CompilerServices;
-using ImGuiNET;
-using Silk.NET.OpenGL;
 using Veldrid;
 
 namespace StudioCore.Graphics;
 
 public unsafe class OpenGLImGuiRenderer : IImguiRenderer
 {
-    private GL GL;
     private readonly Assembly _assembly;
-    private ColorSpaceHandling _colorSpaceHandling;
-    
-    private bool _controlDown;
-    private bool _shiftDown;
+    private readonly uint _indexBuffer;
+    private readonly Vector2 _scaleFactor = Vector2.One;
+    private readonly uint _shader;
+    private readonly int _shaderFontTextureLocation;
+    private readonly int _shaderProjectionMatrixLocation;
+    private readonly uint _vertexBuffer;
+    private readonly GL GL;
     private bool _altDown;
+    private ColorSpaceHandling _colorSpaceHandling;
+
+    private bool _controlDown;
+
+    private int _firstFrame = 0;
+    private uint _fontTexture;
+
+    private bool _frameBegun;
+    private uint _indexBufferSize;
+    private bool _shiftDown;
 
     private uint _vertexArray;
-    private uint _vertexBuffer;
     private uint _vertexBufferSize;
-    private uint _indexBuffer;
-    private uint _indexBufferSize;
-    private uint _fontTexture;
-    private uint _shader;
-    private int _shaderFontTextureLocation;
-    private int _shaderProjectionMatrixLocation;
-    
-    private int _windowWidth;
     private int _windowHeight;
-    private Vector2 _scaleFactor = Vector2.One;
-    
-    private bool _frameBegun;
-    
+
+    private int _windowWidth;
+
     public OpenGLImGuiRenderer(GL gl, int width, int height, ColorSpaceHandling colorSpaceHandling)
     {
         GL = gl;
@@ -43,16 +44,16 @@ public unsafe class OpenGLImGuiRenderer : IImguiRenderer
         _colorSpaceHandling = colorSpaceHandling;
         _windowWidth = width;
         _windowHeight = height;
-        
-        IntPtr context = ImGui.CreateContext();
+
+        var context = ImGui.CreateContext();
         ImGui.SetCurrentContext(context);
 
-        var io = ImGui.GetIO();
+        ImGuiIOPtr io = ImGui.GetIO();
         io.ConfigFlags |= ImGuiConfigFlags.DockingEnable;
         io.BackendFlags |= ImGuiBackendFlags.RendererHasVtxOffset;
 
         ImGui.GetIO().Fonts.AddFontDefault();
-        
+
         SetOpenTKKeyMappings();
 
         SetPerFrameImGuiData(1f / 60f);
@@ -63,7 +64,7 @@ public unsafe class OpenGLImGuiRenderer : IImguiRenderer
         _vertexBuffer = GL.GenBuffer();
         _indexBuffer = GL.GenBuffer();
 
-        string vertexSource = @"#version 330 core
+        var vertexSource = @"#version 330 core
 layout(location = 0) in vec2 in_position;
 layout(location = 1) in vec2 in_texCoord;
 layout(location = 2) in vec4 in_color;
@@ -76,8 +77,8 @@ void main()
     color = in_color;
     texCoord = in_texCoord;
 }";
-        
-        string fragmentSource = @"#version 330 core
+
+        var fragmentSource = @"#version 330 core
 uniform sampler2D in_fontTexture;
 in vec4 color;
 in vec2 texCoord;
@@ -91,23 +92,71 @@ void main()
         _shaderProjectionMatrixLocation = GL.GetUniformLocation(_shader, "projection_matrix");
         _shaderFontTextureLocation = GL.GetUniformLocation(_shader, "in_fontTexture");
     }
-    
+
+    public void OnSetupDone()
+    {
+        ImGui.NewFrame();
+        _frameBegun = true;
+    }
+
+    public void RecreateFontDeviceTexture()
+    {
+        ImGuiIOPtr io = ImGui.GetIO();
+        // Build
+        io.Fonts.GetTexDataAsRGBA32(out byte* pixels, out var width, out var height, out var bytesPerPixel);
+
+        var mips = (uint)Math.Floor(Math.Log(Math.Max(width, height), 2));
+        GL.ActiveTexture(TextureUnit.Texture0);
+        _fontTexture = GL.GenTexture();
+        GL.BindTexture(TextureTarget.Texture2D, _fontTexture);
+        GL.TexStorage2D(TextureTarget.Texture2D, mips, SizedInternalFormat.Rgba8, (uint)width, (uint)height);
+        GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, (uint)width, (uint)height, PixelFormat.Bgra,
+            PixelType.UnsignedByte, pixels);
+        GL.GenerateTextureMipmap(_fontTexture);
+        GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);
+        GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
+        GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMaxLevel, mips - 1);
+        GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter,
+            (int)TextureMagFilter.Linear);
+        GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter,
+            (int)TextureMinFilter.Linear);
+
+        // Store our identifier
+        io.Fonts.SetTexID((IntPtr)_fontTexture);
+        io.Fonts.ClearTexData();
+    }
+
+    /// <summary>
+    ///     Updates ImGui input and IO configuration state.
+    /// </summary>
+    public void Update(float deltaSeconds, InputSnapshot snapshot, Action updateFontAction)
+    {
+        BeginUpdate(deltaSeconds);
+        if (updateFontAction != null)
+        {
+            updateFontAction.Invoke();
+        }
+
+        UpdateImGuiInput(snapshot);
+        EndUpdate();
+    }
+
     private uint CreateProgram(string name, string vertexSource, string fragmentSource)
     {
-        uint program = GL.CreateProgram();
+        var program = GL.CreateProgram();
 
-        uint vertex = CompileShader(name, ShaderType.VertexShader, vertexSource);
-        uint fragment = CompileShader(name, ShaderType.FragmentShader, fragmentSource);
+        var vertex = CompileShader(name, ShaderType.VertexShader, vertexSource);
+        var fragment = CompileShader(name, ShaderType.FragmentShader, fragmentSource);
 
         GL.AttachShader(program, vertex);
         GL.AttachShader(program, fragment);
 
         GL.LinkProgram(program);
 
-        GL.GetProgram(program, GLEnum.LinkStatus, out int success);
+        GL.GetProgram(program, GLEnum.LinkStatus, out var success);
         if (success == 0)
         {
-            string info = GL.GetProgramInfoLog(program);
+            var info = GL.GetProgramInfoLog(program);
             Debug.WriteLine($"GL.LinkProgram had info log [{name}]:\n{info}");
         }
 
@@ -122,25 +171,19 @@ void main()
 
     private uint CompileShader(string name, ShaderType type, string source)
     {
-        uint shader = GL.CreateShader(type);
+        var shader = GL.CreateShader(type);
 
         GL.ShaderSource(shader, source);
         GL.CompileShader(shader);
 
-        GL.GetShader(shader, GLEnum.CompileStatus, out int success);
+        GL.GetShader(shader, GLEnum.CompileStatus, out var success);
         if (success == 0)
         {
-            string info = GL.GetShaderInfoLog(shader);
+            var info = GL.GetShaderInfoLog(shader);
             Debug.WriteLine($"GL.CompileShader for shader '{name}' [{type}] had info log:\n{info}");
         }
 
         return shader;
-    }
-    
-    public void OnSetupDone()
-    {
-        ImGui.NewFrame();
-        _frameBegun = true;
     }
 
     public void WindowResized(int width, int height)
@@ -148,33 +191,9 @@ void main()
         _windowWidth = width;
         _windowHeight = height;
     }
-    
-    public void RecreateFontDeviceTexture()
-    {
-        ImGuiIOPtr io = ImGui.GetIO();
-        // Build
-        io.Fonts.GetTexDataAsRGBA32(out byte* pixels, out int width, out int height, out int bytesPerPixel);
 
-        uint mips = (uint)Math.Floor(Math.Log(Math.Max(width, height), 2));
-        GL.ActiveTexture(TextureUnit.Texture0);
-        _fontTexture = GL.GenTexture();
-        GL.BindTexture(TextureTarget.Texture2D, _fontTexture);
-        GL.TexStorage2D(TextureTarget.Texture2D, mips, SizedInternalFormat.Rgba8, (uint)width, (uint)height);
-        GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, (uint)width, (uint)height, PixelFormat.Bgra, PixelType.UnsignedByte, pixels);
-        GL.GenerateTextureMipmap(_fontTexture);
-        GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);
-        GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
-        GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMaxLevel, mips - 1);
-        GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
-        GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
-
-        // Store our identifier
-        io.Fonts.SetTexID((IntPtr)_fontTexture);
-        io.Fonts.ClearTexData();
-    }
-    
     /// <summary>
-    /// Renders the ImGui draw list data.
+    ///     Renders the ImGui draw list data.
     /// </summary>
     public void Render()
     {
@@ -185,22 +204,10 @@ void main()
             RenderImDrawData(ImGui.GetDrawData());
         }
     }
-    
-    /// <summary>
-    /// Updates ImGui input and IO configuration state.
-    /// </summary>
-    public void Update(float deltaSeconds, InputSnapshot snapshot, Action updateFontAction)
-    {
-        BeginUpdate(deltaSeconds);
-        if (updateFontAction != null)
-            updateFontAction.Invoke();
-        UpdateImGuiInput(snapshot);
-        EndUpdate();
-    }
 
     /// <summary>
-    /// Called before we handle the input in <see cref="Update(float, InputSnapshot)"/>.
-    /// This render ImGui and update the state.
+    ///     Called before we handle the input in <see cref="Update(float, InputSnapshot)" />.
+    ///     This render ImGui and update the state.
     /// </summary>
     protected void BeginUpdate(float deltaSeconds)
     {
@@ -213,20 +220,20 @@ void main()
     }
 
     /// <summary>
-    /// Called at the end of <see cref="Update(float, InputSnapshot)"/>.
-    /// This tells ImGui that we are on the next frame.
+    ///     Called at the end of <see cref="Update(float, InputSnapshot)" />.
+    ///     This tells ImGui that we are on the next frame.
     /// </summary>
     protected void EndUpdate()
     {
         _frameBegun = true;
         ImGui.NewFrame();
     }
-    
+
     /// <summary>
-    /// Sets per-frame data based on the associated window.
-    /// This is called by Update(float).
+    ///     Sets per-frame data based on the associated window.
+    ///     This is called by Update(float).
     /// </summary>
-    private unsafe void SetPerFrameImGuiData(float deltaSeconds)
+    private void SetPerFrameImGuiData(float deltaSeconds)
     {
         ImGuiIOPtr io = ImGui.GetIO();
         io.DisplaySize = new Vector2(
@@ -235,16 +242,16 @@ void main()
         io.DisplayFramebufferScale = _scaleFactor;
         io.DeltaTime = deltaSeconds; // DeltaTime is in seconds.
     }
-    
-    private unsafe void UpdateImGuiInput(InputSnapshot snapshot)
+
+    private void UpdateImGuiInput(InputSnapshot snapshot)
     {
         ImGuiIOPtr io = ImGui.GetIO();
 
         // Determine if any of the mouse buttons were pressed during this snapshot period, even if they are no longer held.
-        bool leftPressed = false;
-        bool middlePressed = false;
-        bool rightPressed = false;
-        for (int i = 0; i < snapshot.MouseEvents.Count; i++)
+        var leftPressed = false;
+        var middlePressed = false;
+        var rightPressed = false;
+        for (var i = 0; i < snapshot.MouseEvents.Count; i++)
         {
             MouseEvent me = snapshot.MouseEvents[i];
             if (me.Down)
@@ -271,14 +278,14 @@ void main()
         io.MouseWheel = snapshot.WheelDelta;
 
         IReadOnlyList<char> keyCharPresses = snapshot.KeyCharPresses;
-        for (int i = 0; i < keyCharPresses.Count; i++)
+        for (var i = 0; i < keyCharPresses.Count; i++)
         {
-            char c = keyCharPresses[i];
+            var c = keyCharPresses[i];
             ImGui.GetIO().AddInputCharacter(c);
         }
 
         IReadOnlyList<KeyEvent> keyEvents = snapshot.KeyEvents;
-        for (int i = 0; i < keyEvents.Count; i++)
+        for (var i = 0; i < keyEvents.Count; i++)
         {
             KeyEvent keyEvent = keyEvents[i];
             io.KeysDown[(int)keyEvent.Key] = keyEvent.Down;
@@ -286,10 +293,12 @@ void main()
             {
                 _controlDown = keyEvent.Down;
             }
+
             if (keyEvent.Key == Key.ShiftLeft || keyEvent.Key == Key.ShiftRight)
             {
                 _shiftDown = keyEvent.Down;
             }
+
             if (keyEvent.Key == Key.AltLeft || keyEvent.Key == Key.AltRight)
             {
                 _altDown = keyEvent.Down;
@@ -301,7 +310,7 @@ void main()
         io.KeyShift = _shiftDown;
     }
 
-    private static unsafe void SetOpenTKKeyMappings()
+    private static void SetOpenTKKeyMappings()
     {
         ImGuiIOPtr io = ImGui.GetIO();
         io.KeyMap[(int)ImGuiKey.Tab] = (int)Key.Tab;
@@ -333,11 +342,13 @@ void main()
         {
             return;
         }
-        
-        int framebufferWidth = (int) (draw_data.DisplaySize.X * draw_data.FramebufferScale.X);
-        int framebufferHeight = (int) (draw_data.DisplaySize.Y * draw_data.FramebufferScale.Y);
+
+        var framebufferWidth = (int)(draw_data.DisplaySize.X * draw_data.FramebufferScale.X);
+        var framebufferHeight = (int)(draw_data.DisplaySize.Y * draw_data.FramebufferScale.Y);
         if (framebufferWidth <= 0 || framebufferHeight <= 0)
+        {
             return;
+        }
 
         GL.Enable(GLEnum.Blend);
         GL.Enable(GLEnum.ScissorTest);
@@ -346,20 +357,18 @@ void main()
         GL.Disable(EnableCap.CullFace);
         GL.Disable(EnableCap.DepthTest);
         GL.Disable(EnableCap.StencilTest);
-        
+
         // Setup orthographic projection matrix into our constant buffer
         ImGuiIOPtr io = ImGui.GetIO();
         GL.Viewport(0, 0, (uint)framebufferWidth, (uint)framebufferHeight);
-        float L = draw_data.DisplayPos.X;
-        float R = draw_data.DisplayPos.X + draw_data.DisplaySize.X;
-        float T = draw_data.DisplayPos.Y;
-        float B = draw_data.DisplayPos.Y + draw_data.DisplaySize.Y;
-        float* mvp = stackalloc float[]
+        var L = draw_data.DisplayPos.X;
+        var R = draw_data.DisplayPos.X + draw_data.DisplaySize.X;
+        var T = draw_data.DisplayPos.Y;
+        var B = draw_data.DisplayPos.Y + draw_data.DisplaySize.Y;
+        var mvp = stackalloc float[]
         {
-            2.0f / (R - L),    0.0f,              0.0f,  0.0f,
-            0.0f,              2.0f / (T - B),    0.0f,  0.0f,
-            0.0f,              0.0f,              -1.0f, 0.0f,
-            (R + L) / (L - R), (T + B) / (B -T ), 0.0f,  1.0f
+            2.0f / (R - L), 0.0f, 0.0f, 0.0f, 0.0f, 2.0f / (T - B), 0.0f, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f,
+            (R + L) / (L - R), (T + B) / (B - T), 0.0f, 1.0f
         };
         GL.UseProgram(_shader);
         GL.UniformMatrix4(_shaderProjectionMatrixLocation, false, new Span<float>(mvp, 16));
@@ -368,22 +377,22 @@ void main()
 
         _vertexArray = GL.GenVertexArray();
         GL.BindVertexArray(_vertexArray);
-        
+
         GL.BindBuffer(GLEnum.ArrayBuffer, _vertexBuffer);
         GL.BindBuffer(GLEnum.ElementArrayBuffer, _indexBuffer);
         GL.EnableVertexAttribArray(0);
         GL.EnableVertexAttribArray(1);
         GL.EnableVertexAttribArray(2);
-        uint stride = (uint)sizeof(ImDrawVert);
+        var stride = (uint)sizeof(ImDrawVert);
         GL.VertexAttribPointer(0, 2, VertexAttribPointerType.Float, false, stride, (void*)0);
         GL.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, stride, (void*)8);
         GL.VertexAttribPointer(2, 4, VertexAttribPointerType.UnsignedByte, true, stride, (void*)16);
 
-        var clipOffset = draw_data.DisplayPos;
-        var clipScale = draw_data.FramebufferScale;
+        Vector2 clipOffset = draw_data.DisplayPos;
+        Vector2 clipScale = draw_data.FramebufferScale;
 
         // Render command lists
-        for (int n = 0; n < draw_data.CmdListsCount; n++)
+        for (var n = 0; n < draw_data.CmdListsCount; n++)
         {
             ImDrawListPtr cmd_list = draw_data.CmdListsRange[n];
 
@@ -392,49 +401,45 @@ void main()
             GL.BufferData(GLEnum.ElementArrayBuffer, (nuint)(cmd_list.IdxBuffer.Size * sizeof(ushort)),
                 (void*)cmd_list.IdxBuffer.Data, GLEnum.StreamDraw);
 
-            for (int cmd_i = 0; cmd_i < cmd_list.CmdBuffer.Size; cmd_i++)
+            for (var cmd_i = 0; cmd_i < cmd_list.CmdBuffer.Size; cmd_i++)
             {
                 ImDrawCmdPtr pcmd = cmd_list.CmdBuffer[cmd_i];
                 if (pcmd.UserCallback != IntPtr.Zero)
                 {
                     throw new NotImplementedException();
                 }
-                else
-                {
-                    Vector4 clipRect;
-                    clipRect.X = (pcmd.ClipRect.X - clipOffset.X) * clipScale.X;
-                    clipRect.Y = (pcmd.ClipRect.Y - clipOffset.Y) * clipScale.Y;
-                    clipRect.Z = (pcmd.ClipRect.Z - clipOffset.X) * clipScale.X;
-                    clipRect.W = (pcmd.ClipRect.W - clipOffset.Y) * clipScale.Y;
 
-                    if (clipRect.X < framebufferWidth && clipRect.Y < framebufferHeight && clipRect.Z >= 0.0f &&
-                        clipRect.W >= 0.0f)
+                Vector4 clipRect;
+                clipRect.X = (pcmd.ClipRect.X - clipOffset.X) * clipScale.X;
+                clipRect.Y = (pcmd.ClipRect.Y - clipOffset.Y) * clipScale.Y;
+                clipRect.Z = (pcmd.ClipRect.Z - clipOffset.X) * clipScale.X;
+                clipRect.W = (pcmd.ClipRect.W - clipOffset.Y) * clipScale.Y;
+
+                if (clipRect.X < framebufferWidth && clipRect.Y < framebufferHeight && clipRect.Z >= 0.0f &&
+                    clipRect.W >= 0.0f)
+                {
+                    GL.Scissor((int)clipRect.X, framebufferHeight - (int)clipRect.W,
+                        (uint)(clipRect.Z - clipRect.X), (uint)(clipRect.W - clipRect.Y));
+
+                    GL.ActiveTexture(TextureUnit.Texture0);
+                    GL.BindTexture(TextureTarget.Texture2D, (uint)pcmd.TextureId);
+
+                    if ((io.BackendFlags & ImGuiBackendFlags.RendererHasVtxOffset) != 0)
                     {
-                        GL.Scissor((int)clipRect.X, framebufferHeight - (int)clipRect.W,
-                            (uint)(clipRect.Z - clipRect.X), (uint)(clipRect.W - clipRect.Y));
-                        
-                        GL.ActiveTexture(TextureUnit.Texture0);
-                        GL.BindTexture(TextureTarget.Texture2D, (uint)pcmd.TextureId);
-                        
-                        if ((io.BackendFlags & ImGuiBackendFlags.RendererHasVtxOffset) != 0)
-                        {
-                            GL.DrawElementsBaseVertex(PrimitiveType.Triangles, pcmd.ElemCount,
-                                DrawElementsType.UnsignedShort, (void*)(pcmd.IdxOffset * sizeof(ushort)),
-                                (int)pcmd.VtxOffset);
-                        }
-                        else
-                        {
-                            GL.DrawElements(PrimitiveType.Triangles, pcmd.ElemCount, DrawElementsType.UnsignedShort,
-                                (void*)(pcmd.IdxOffset * sizeof(ushort)));
-                        }
+                        GL.DrawElementsBaseVertex(PrimitiveType.Triangles, pcmd.ElemCount,
+                            DrawElementsType.UnsignedShort, (void*)(pcmd.IdxOffset * sizeof(ushort)),
+                            (int)pcmd.VtxOffset);
+                    }
+                    else
+                    {
+                        GL.DrawElements(PrimitiveType.Triangles, pcmd.ElemCount, DrawElementsType.UnsignedShort,
+                            (void*)(pcmd.IdxOffset * sizeof(ushort)));
                     }
                 }
             }
         }
-        
+
         GL.DeleteVertexArray(_vertexArray);
         _vertexArray = 0;
     }
-    
-    private int _firstFrame = 0;
 }

@@ -1,53 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.IO;
-using SoulsFormats;
+﻿using SoulsFormats;
 using StudioCore.Editor;
+using System;
+using System.Collections.Generic;
+using System.IO;
 
-namespace StudioCore.MsbEditor
+namespace StudioCore.MsbEditor;
+
+public class MtdBank
 {
-    public class MtdBank
+    private static AssetLocator AssetLocator;
+
+    private static Dictionary<string, MTD> _mtds = new();
+    private static Dictionary<string, MATBIN> _matbins = new();
+
+    public static bool IsMatbin { get; private set; }
+
+    public static IReadOnlyDictionary<string, MTD> Mtds => _mtds;
+
+    public static IReadOnlyDictionary<string, MATBIN> Matbins => _matbins;
+
+    public static void ReloadMtds()
     {
-        private static AssetLocator AssetLocator = null;
-
-        private static Dictionary<string, MTD> _mtds = new();
-        private static Dictionary<string, MATBIN> _matbins = new();
-
-        public static bool IsMatbin { get; private set; }
-
-        public static IReadOnlyDictionary<string, MTD> Mtds
-        {
-            get
-            {
-                return _mtds;
-            }
-        }
-
-        public static IReadOnlyDictionary<string, MATBIN> Matbins
-        {
-            get
-            {
-                return _matbins;
-            }
-        }
-
-        public static void ReloadMtds()
-        {
-
-            TaskManager.Run(new("Resource - Load MTDs", TaskManager.RequeueType.WaitThenRequeue, false, () =>
+        TaskManager.Run(new TaskManager.LiveTask("Resource - Load MTDs", TaskManager.RequeueType.WaitThenRequeue,
+            false, () =>
             {
                 try
                 {
                     IBinder mtdBinder = null;
                     if (AssetLocator.Type == GameType.DarkSoulsIII || AssetLocator.Type == GameType.Sekiro)
                     {
-                        mtdBinder = BND4.Read(AssetLocator.GetAssetPath($@"mtd\allmaterialbnd.mtdbnd.dcx"));
+                        mtdBinder = BND4.Read(AssetLocator.GetAssetPath(@"mtd\allmaterialbnd.mtdbnd.dcx"));
                         IsMatbin = false;
                     }
                     else if (AssetLocator.Type is GameType.EldenRing or GameType.ArmoredCoreVI)
                     {
-                        mtdBinder = BND4.Read(AssetLocator.GetAssetPath($@"material\allmaterial.matbinbnd.dcx"));
+                        mtdBinder = BND4.Read(AssetLocator.GetAssetPath(@"material\allmaterial.matbinbnd.dcx"));
                         IsMatbin = true;
                     }
 
@@ -59,7 +46,7 @@ namespace StudioCore.MsbEditor
                     if (IsMatbin)
                     {
                         _matbins = new Dictionary<string, MATBIN>();
-                        foreach (var f in mtdBinder.Files)
+                        foreach (BinderFile f in mtdBinder.Files)
                         {
                             var matname = Path.GetFileNameWithoutExtension(f.Name);
                             // Because *certain* mods contain duplicate entries for the same material
@@ -72,7 +59,7 @@ namespace StudioCore.MsbEditor
                     else
                     {
                         _mtds = new Dictionary<string, MTD>();
-                        foreach (var f in mtdBinder.Files)
+                        foreach (BinderFile f in mtdBinder.Files)
                         {
                             var mtdname = Path.GetFileNameWithoutExtension(f.Name);
                             // Because *certain* mods contain duplicate entries for the same material
@@ -82,6 +69,7 @@ namespace StudioCore.MsbEditor
                             }
                         }
                     }
+
                     mtdBinder.Dispose();
                 }
                 catch (Exception e) when (e is FileNotFoundException or DirectoryNotFoundException)
@@ -90,18 +78,17 @@ namespace StudioCore.MsbEditor
                     _matbins = new Dictionary<string, MATBIN>();
                 }
             }));
-        }
+    }
 
-        public static void LoadMtds(AssetLocator l)
+    public static void LoadMtds(AssetLocator l)
+    {
+        AssetLocator = l;
+
+        if (AssetLocator.Type == GameType.Undefined)
         {
-            AssetLocator = l;
-
-            if (AssetLocator.Type == GameType.Undefined)
-            {
-                return;
-            }
-
-            ReloadMtds();
+            return;
         }
+
+        ReloadMtds();
     }
 }

@@ -1,49 +1,48 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿namespace StudioCore.Scene;
 
-namespace StudioCore.Scene
+public class DrawGroup
 {
-    public class DrawGroup
+    public DrawGroup()
     {
-        public bool AlwaysVisible { get; set; } = true;
-        public uint[] RenderGroups { get; set; } = null;
+        AlwaysVisible = true;
+    }
 
-        public DrawGroup()
+    public DrawGroup(uint[] groups)
+    {
+        AlwaysVisible = false;
+        RenderGroups = groups;
+    }
+
+    public bool AlwaysVisible { get; set; } = true;
+    public uint[] RenderGroups { get; set; }
+
+    public bool IsInDisplayGroup(DrawGroup disp)
+    {
+        if (AlwaysVisible || disp.AlwaysVisible || RenderGroups == null)
         {
-            AlwaysVisible = true;
+            return true;
         }
 
-        public DrawGroup(uint[] groups)
-        {
-            AlwaysVisible = false;
-            RenderGroups = groups;
-        }
+        var isAllZero = true;
 
-        public bool IsInDisplayGroup(DrawGroup disp)
+        for (var i = 0; i < RenderGroups.Length && i < disp.RenderGroups.Length; i++)
         {
-            if (AlwaysVisible || disp.AlwaysVisible || RenderGroups == null)
+            if ((RenderGroups[i] & disp.RenderGroups[i]) != 0)
             {
                 return true;
             }
-            bool isAllZero = true;
 
-            for (int i = 0; i < RenderGroups.Length && i < disp.RenderGroups.Length; i++)
+            if (RenderGroups[i] != 0)
             {
-                if ((RenderGroups[i] & disp.RenderGroups[i]) != 0)
-                {
-                    return true;
-                }
-                if (RenderGroups[i] != 0)
-                {
-                    isAllZero = false;
-                }
+                isAllZero = false;
             }
-            if (isAllZero)
-            {
-                return true;
-            }
-            return false;
         }
+
+        if (isAllZero)
+        {
+            return true;
+        }
+
+        return false;
     }
 }
