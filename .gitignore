@@ -343,7 +343,6 @@ ASALocalRun/
 # Compiled Dynamic libraries
 *.so
 *.dylib
-*.dll
 
 # Fortran module files
 *.mod
@@ -358,7 +357,6 @@ ASALocalRun/
 # Executables
 *.exe
 *.out
-*.app
 
 # CMake artifacts
 build
