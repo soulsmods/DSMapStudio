@@ -14,8 +14,9 @@
     <DebugType>embedded</DebugType>
   </PropertyGroup>
 
+
   <ItemGroup>
-    <ProjectReference Include="..\SoulsFormats\SoulsFormats\SoulsFormats.csproj" />
+    <ProjectReference Include="..\..\Studio.Core\SoulsFormats\SoulsFormats\SoulsFormats.csproj" />
   </ItemGroup>
 
 </Project>

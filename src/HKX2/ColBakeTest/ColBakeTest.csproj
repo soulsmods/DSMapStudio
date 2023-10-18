@@ -21,8 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Studio.Core\SoulsFormats\SoulsFormats\SoulsFormats.csproj" />
     <ProjectReference Include="..\HKX2\HKX2.csproj" />
-    <ProjectReference Include="..\SoulsFormats\SoulsFormats\SoulsFormats.csproj" />
   </ItemGroup>
 
 </Project>

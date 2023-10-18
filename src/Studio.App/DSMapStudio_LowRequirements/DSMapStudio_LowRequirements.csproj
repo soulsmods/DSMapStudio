@@ -1,5 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
         <TargetFramework>net7.0-windows</TargetFramework>
@@ -36,8 +35,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\StudioCore\StudioCore.csproj" />
-        <ProjectReference Include="..\Veldrid.SDL2\Veldrid.SDL2.csproj" />
+        <ProjectReference Include="..\..\StudioCore\StudioCore.csproj" />
+        <ProjectReference Include="..\..\Veldrid\Veldrid.SDL2\Veldrid.SDL2.csproj" />
     </ItemGroup>
     
 </Project>

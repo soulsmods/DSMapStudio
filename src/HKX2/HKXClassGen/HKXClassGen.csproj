@@ -6,8 +6,9 @@
     <LangVersion>11</LangVersion>
   </PropertyGroup>
 
+
   <ItemGroup>
-    <ProjectReference Include="..\SoulsFormats\SoulsFormats\SoulsFormats.csproj" />
+    <ProjectReference Include="..\..\Studio.Core\SoulsFormats\SoulsFormats\SoulsFormats.csproj" />
   </ItemGroup>
 
 </Project>
