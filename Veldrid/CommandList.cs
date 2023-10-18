@@ -846,7 +846,7 @@ namespace Veldrid
         private void DrawCore(uint vertexCount, uint instanceCount, uint vertexStart, uint instanceStart)
         {
             PreDrawCommand();
-            vkCmdDraw(_cb, (int)vertexCount, (int)instanceCount, vertexStart, instanceStart);
+            vkCmdDraw(_cb, vertexCount, instanceCount, vertexStart, instanceStart);
         }
         
         /// <summary>
@@ -886,7 +886,7 @@ namespace Veldrid
         private void DrawIndexedCore(uint indexCount, uint instanceCount, uint indexStart, int vertexOffset, uint instanceStart)
         {
             PreDrawCommand();
-            vkCmdDrawIndexed(_cb, (int)indexCount, (int)instanceCount, indexStart, vertexOffset, instanceStart);
+            vkCmdDrawIndexed(_cb, indexCount, instanceCount, indexStart, vertexOffset, instanceStart);
         }
         
         /// <summary>
@@ -920,7 +920,7 @@ namespace Veldrid
         private void DrawIndirectCore(DeviceBuffer indirectBuffer, uint offset, uint drawCount, uint stride)
         {
             PreDrawCommand();
-            vkCmdDrawIndirect(_cb, indirectBuffer.Buffer, offset, (int)drawCount, stride);
+            vkCmdDrawIndirect(_cb, indirectBuffer.Buffer, offset, drawCount, stride);
         }
         
         /// <summary>
@@ -955,7 +955,7 @@ namespace Veldrid
         private void DrawIndexedIndirectCore(DeviceBuffer indirectBuffer, uint offset, uint drawCount, uint stride)
         {
             PreDrawCommand();
-            vkCmdDrawIndexedIndirect(_cb, indirectBuffer.Buffer, offset, (int)drawCount, stride);
+            vkCmdDrawIndexedIndirect(_cb, indirectBuffer.Buffer, offset, drawCount, stride);
         }
         
         [Conditional("VALIDATE_USAGE")]
@@ -1492,8 +1492,8 @@ namespace Veldrid
 
             VkImage deviceImage = texture.OptimalDeviceImage;
 
-            int blitCount = (int)texture.MipLevels - 1;
-            VkImageBlit* regions = stackalloc VkImageBlit[blitCount];
+            uint blitCount = texture.MipLevels - 1;
+            VkImageBlit* regions = stackalloc VkImageBlit[(int)blitCount];
 
             for (uint level = 1; level < texture.MipLevels; level++)
             {
@@ -1776,9 +1776,9 @@ namespace Veldrid
             int setCount = resourceSets.Length;
             VkDescriptorSet* descriptorSets = stackalloc VkDescriptorSet[setCount];
             uint* dynamicOffsets = stackalloc uint[pipeline.DynamicOffsetsCount];
-            int currentBatchCount = 0;
+            uint currentBatchCount = 0;
             uint currentBatchFirstSet = 0;
-            int currentBatchDynamicOffsetCount = 0;
+            uint currentBatchDynamicOffsetCount = 0;
 
             for (uint currentSlot = 0; currentSlot < resourceSets.Length; currentSlot++)
             {

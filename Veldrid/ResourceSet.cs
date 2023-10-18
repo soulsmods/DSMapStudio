@@ -37,7 +37,7 @@ namespace Veldrid
             var vkLayout = description.Layout;
 
             BindableResource[] boundResources = description.BoundResources;
-            int descriptorWriteCount = vkLayout.Description.Elements.Length;
+            uint descriptorWriteCount = (uint)vkLayout.Description.Elements.Length;
 
             uint desccount = 0;
             foreach (var e in vkLayout.Description.Elements)
