@@ -391,7 +391,7 @@
     <Field Def="f32 reloadTime">
       <Description>Time from start to completion of reload.</Description>
     </Field>
-    <Field Def="f32 chargeTime">
+    <Field Def="f32 chargeTime_Level1">
       <Description>Time it takes to complete charging, for weapons that support charging.</Description>
     </Field>
     <Field Def="f32 partialChargeDrainDelay"></Field>
@@ -430,7 +430,7 @@
     <Field Def="u8 unkIsSpecializationType_6:1"></Field>
     <Field Def="u8 unkIsSpecializationType_7:1"></Field>
     <Field Def="u8 unkIsSpecializationType_8:1"></Field>
-    <Field Def="f32 UnkFloat0x404"></Field>
+    <Field Def="f32 chargeTime_Level2"></Field>
     <Field Def="s32 Unk0x408"></Field>
     <Field Def="u16 corporationTextureId">
       <Description>Determines which corporation icon is used for the weapon.</Description>

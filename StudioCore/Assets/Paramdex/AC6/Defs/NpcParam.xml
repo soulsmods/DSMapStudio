@@ -360,7 +360,7 @@
     <Field Def="s32 Unk0x38C"></Field>
     <Field Def="f32 Unk0x390"></Field>
     <Field Def="f32 Unk0x394"></Field>
-    <Field Def="s32 UnkInt0x398"></Field>
+    <Field Def="s32 npcEquipPartsParamId"></Field>
     <Field Def="f32 UnkFloat0x39C"></Field>
     <Field Def="s32 UnkInt0x3A0"></Field>
     <Field Def="f32 Unk0x3A4"></Field>
