@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Runtime.InteropServices;
-using System.Numerics;
+﻿using System.Runtime.InteropServices;
 
-namespace StudioCore.Scene
+namespace StudioCore.Scene;
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct PickingResult
 {
-    [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public unsafe struct PickingResult
-    {
-        public uint depth;
-        uint padding;
-        public ulong entityID;
-    }
+    public uint depth;
+    private uint padding;
+    public ulong entityID;
 }

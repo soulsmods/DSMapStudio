@@ -1,116 +1,124 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
-using System.Threading.Tasks.Dataflow;
-using SoulsFormats;
-using Veldrid;
+﻿using SoulsFormats;
+using StudioCore.Scene;
+using System;
 
-namespace StudioCore.Resource
+namespace StudioCore.Resource;
+
+public class TextureResource : IResource, IDisposable
 {
-    public class TextureResource : IResource, IDisposable
+    private readonly int TPFIndex;
+
+    public TextureResource()
     {
-        public TPF Texture { get; private set; } = null;
-        private int TPFIndex = 0;
+        throw new Exception("Created wrong");
+    }
 
-        public Scene.TexturePool.TextureHandle GPUTexture { get; private set; } = null;
+    public TextureResource(TPF tex, int index)
+    {
+        Texture = tex;
+        TPFIndex = index;
+    }
 
-        public TextureResource()
+    public TPF Texture { get; private set; }
+
+    public TexturePool.TextureHandle GPUTexture { get; private set; }
+
+    public bool _LoadTexture(AccessLevel al)
+    {
+        if (TexturePool.TextureHandle.IsTPFCube(Texture.Textures[TPFIndex], Texture.Platform))
         {
-            throw new Exception("Created wrong");
+            GPUTexture = Renderer.GlobalCubeTexturePool.AllocateTextureDescriptor();
+        }
+        else
+        {
+            GPUTexture = Renderer.GlobalTexturePool.AllocateTextureDescriptor();
         }
 
-        public TextureResource(TPF tex, int index)
+        if (GPUTexture == null)
         {
-            Texture = tex;
-            TPFIndex = index;
+            if (FeatureFlags.StrictResourceChecking)
+            {
+                throw new Exception("Unable to allocate texture descriptor");
+            }
+
+            return false;
         }
 
-        public bool _LoadTexture(AccessLevel al)
+        if (Texture.Platform == TPF.TPFPlatform.PC || Texture.Platform == TPF.TPFPlatform.PS3)
         {
-            if (Scene.TexturePool.TextureHandle.IsTPFCube(Texture.Textures[TPFIndex], Texture.Platform))
+            Renderer.AddLowPriorityBackgroundUploadTask((d, cl) =>
             {
-                GPUTexture = Scene.Renderer.GlobalCubeTexturePool.AllocateTextureDescriptor();
-            }
-            else
-            {
-                GPUTexture = Scene.Renderer.GlobalTexturePool.AllocateTextureDescriptor();
-            }
-            if (GPUTexture == null)
-            {
-                if (FeatureFlags.StrictResourceChecking)
-                    throw new Exception("Unable to allocate texture descriptor");
-                return false;
-            }
-            if (Texture.Platform == TPF.TPFPlatform.PC || Texture.Platform == TPF.TPFPlatform.PS3)
-            {
-                Scene.Renderer.AddLowPriorityBackgroundUploadTask((d, cl) =>
+                if (GPUTexture == null)
                 {
-                    if (GPUTexture == null)
-                        return;
-                    
-                    GPUTexture.FillWithTPF(d, cl, Texture.Platform, Texture.Textures[TPFIndex], Texture.Textures[TPFIndex].Name);
-                    Texture = null;
-                });
-            }
-            else if (Texture.Platform == TPF.TPFPlatform.PS4)
-            {
-                Scene.Renderer.AddLowPriorityBackgroundUploadTask((d, cl) =>
-                {
-                    if (GPUTexture == null)
-                        return;
-                    
-                    GPUTexture.FillWithPS4TPF(d, cl, Texture.Platform, Texture.Textures[TPFIndex], Texture.Textures[TPFIndex].Name);
-                    Texture = null;
-                });
-            }
-            return true;
-        }
-
-        #region IDisposable Support
-        private bool disposedValue = false; // To detect redundant calls
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
-                    // TODO: dispose managed state (managed objects).
+                    return;
                 }
 
-                GPUTexture?.Dispose();
-                GPUTexture = null;
-
-                disposedValue = true;
-            }
+                GPUTexture.FillWithTPF(d, cl, Texture.Platform, Texture.Textures[TPFIndex],
+                    Texture.Textures[TPFIndex].Name);
+                Texture = null;
+            });
         }
-
-        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
-        ~TextureResource()
+        else if (Texture.Platform == TPF.TPFPlatform.PS4)
         {
-            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-            Dispose(false);
+            Renderer.AddLowPriorityBackgroundUploadTask((d, cl) =>
+            {
+                if (GPUTexture == null)
+                {
+                    return;
+                }
+
+                GPUTexture.FillWithPS4TPF(d, cl, Texture.Platform, Texture.Textures[TPFIndex],
+                    Texture.Textures[TPFIndex].Name);
+                Texture = null;
+            });
         }
 
-        // This code added to correctly implement the disposable pattern.
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        bool IResource._Load(Memory<byte> bytes, AccessLevel al, GameType type)
-        {
-            return _LoadTexture(al);
-        }
-
-        bool IResource._Load(string file, AccessLevel al, GameType type)
-        {
-            return _LoadTexture(al);
-        }
-        #endregion
+        return true;
     }
+
+    #region IDisposable Support
+
+    private bool disposedValue; // To detect redundant calls
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!disposedValue)
+        {
+            if (disposing)
+            {
+                // TODO: dispose managed state (managed objects).
+            }
+
+            GPUTexture?.Dispose();
+            GPUTexture = null;
+
+            disposedValue = true;
+        }
+    }
+
+    // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
+    ~TextureResource()
+    {
+        // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+        Dispose(false);
+    }
+
+    // This code added to correctly implement the disposable pattern.
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    bool IResource._Load(Memory<byte> bytes, AccessLevel al, GameType type)
+    {
+        return _LoadTexture(al);
+    }
+
+    bool IResource._Load(string file, AccessLevel al, GameType type)
+    {
+        return _LoadTexture(al);
+    }
+
+    #endregion
 }

@@ -1,271 +1,271 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Reflection;
-using System.Numerics;
-using System.Drawing;
-using SoulsFormats;
+﻿using FSParam;
 using ImGuiNET;
-using System.Net.Http.Headers;
-using System.Security;
+using Microsoft.Extensions.Logging;
+using SoulsFormats;
 using StudioCore.Editor;
-using FSParam;
+using StudioCore.ParamEditor;
+using StudioCore.Scene;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Numerics;
+using System.Reflection;
 
-namespace StudioCore.MsbEditor
+namespace StudioCore.MsbEditor;
+
+public class PropertyEditor
 {
-    public class PropertyEditor
+    private readonly string[] _lightTypes = { "Spot", "Directional", "Point" };
+
+    private readonly Dictionary<string, PropertyInfo[]> _propCache = new();
+
+    private readonly string[] _regionShapes =
     {
-        public ActionManager ContextActionManager;
+        "Point", "Sphere", "Cylinder", "Box", "Composite", "Rectangle", "Circle"
+    };
 
-        private Dictionary<string, PropertyInfo[]> _propCache = new Dictionary<string, PropertyInfo[]>();
+    private object _changingObject;
+    private object _changingPropery;
+    private Action _lastUncommittedAction;
 
-        private object _changingObject = null;
-        private object _changingPropery = null;
-        private Action _lastUncommittedAction = null;
+    public ActionManager ContextActionManager;
 
-        public PropertyEditor(ActionManager manager)
+    public PropertyEditor(ActionManager manager)
+    {
+        ContextActionManager = manager;
+    }
+
+    private (bool, bool) PropertyRow(Type typ, object oldval, out object newval, PropertyInfo prop)
+    {
+        ImGui.SetNextItemWidth(-1);
+
+        newval = null;
+        var isChanged = false;
+        if (typ == typeof(long))
         {
-            ContextActionManager = manager;
+            var val = (long)oldval;
+            var strval = $@"{val}";
+            if (ImGui.InputText("##value", ref strval, 99))
+            {
+                var res = long.TryParse(strval, out val);
+                if (res)
+                {
+                    newval = val;
+                    isChanged = true;
+                }
+            }
         }
-
-        private (bool, bool) PropertyRow(Type typ, object oldval, out object newval, PropertyInfo prop)
+        else if (typ == typeof(int))
         {
-            ImGui.SetNextItemWidth(-1);
-
-            newval = null;
-            bool isChanged = false;
-            if (typ == typeof(long))
+            var val = (int)oldval;
+            if (ImGui.InputInt("##value", ref val))
             {
-                long val = (long)oldval;
-                string strval = $@"{val}";
-                if (ImGui.InputText("##value", ref strval, 99))
-                {
-                    var res = long.TryParse(strval, out val);
-                    if (res)
-                    {
-                        newval = val;
-                        isChanged = true;
-                    }
-                }
+                newval = val;
+                isChanged = true;
             }
-            else if (typ == typeof(int))
+        }
+        else if (typ == typeof(uint))
+        {
+            var val = (uint)oldval;
+            var strval = $@"{val}";
+            if (ImGui.InputText("##value", ref strval, 16))
             {
-                int val = (int)oldval;
-                if (ImGui.InputInt("##value", ref val))
+                var res = uint.TryParse(strval, out val);
+                if (res)
                 {
                     newval = val;
                     isChanged = true;
                 }
             }
-            else if (typ == typeof(uint))
+        }
+        else if (typ == typeof(short))
+        {
+            int val = (short)oldval;
+            if (ImGui.InputInt("##value", ref val))
             {
-                uint val = (uint)oldval;
-                string strval = $@"{val}";
-                if (ImGui.InputText("##value", ref strval, 16))
-                {
-                    var res = uint.TryParse(strval, out val);
-                    if (res)
-                    {
-                        newval = val;
-                        isChanged = true;
-                    }
-                }
+                newval = (short)val;
+                isChanged = true;
             }
-            else if (typ == typeof(short))
+        }
+        else if (typ == typeof(ushort))
+        {
+            var val = (ushort)oldval;
+            var strval = $@"{val}";
+            if (ImGui.InputText("##value", ref strval, 5))
             {
-                int val = (short)oldval;
-                if (ImGui.InputInt("##value", ref val))
+                var res = ushort.TryParse(strval, out val);
+                if (res)
                 {
-                    newval = (short)val;
+                    newval = val;
                     isChanged = true;
                 }
             }
-            else if (typ == typeof(ushort))
+        }
+        else if (typ == typeof(sbyte))
+        {
+            int val = (sbyte)oldval;
+            if (ImGui.InputInt("##value", ref val))
             {
-                ushort val = (ushort)oldval;
-                string strval = $@"{val}";
-                if (ImGui.InputText("##value", ref strval, 5))
-                {
-                    var res = ushort.TryParse(strval, out val);
-                    if (res)
-                    {
-                        newval = val;
-                        isChanged = true;
-                    }
-                }
+                newval = (sbyte)val;
+                isChanged = true;
             }
-            else if (typ == typeof(sbyte))
+        }
+        else if (typ == typeof(byte))
+        {
+            var val = (byte)oldval;
+            var strval = $@"{val}";
+            if (ImGui.InputText("##value", ref strval, 3))
             {
-                int val = (sbyte)oldval;
-                if (ImGui.InputInt("##value", ref val))
+                var res = byte.TryParse(strval, out val);
+                if (res)
                 {
-                    newval = (sbyte)val;
+                    newval = val;
                     isChanged = true;
                 }
             }
-            else if (typ == typeof(byte))
+            /*
+            // TODO: Set Next Unique Value
+            // (needs prop search to scan through structs)
+            if (obj != null && ImGui.BeginPopupContextItem(propname))
             {
-                byte val = (byte)oldval;
-                string strval = $@"{val}";
-                if (ImGui.InputText("##value", ref strval, 3))
+                if (ImGui.Selectable("Set Next Unique Value"))
                 {
-                    var res = byte.TryParse(strval, out val);
-                    if (res)
-                    {
-                        newval = val;
-                        isChanged = true;
-                    }
-                }
-                /*
-                // TODO: Set Next Unique Value
-                // (needs prop search to scan through structs)
-                if (obj != null && ImGui.BeginPopupContextItem(propname))
-                {
-                    if (ImGui.Selectable("Set Next Unique Value"))
-                    {
-                        newval = obj.Container.GetNextUnique(propname, val);
-                        _forceCommit = true;
-                        ImGui.EndPopup();
-                        edited = true;
-                    }
+                    newval = obj.Container.GetNextUnique(propname, val);
+                    _forceCommit = true;
                     ImGui.EndPopup();
+                    edited = true;
                 }
-                */
+                ImGui.EndPopup();
             }
-            else if (typ == typeof(bool))
+            */
+        }
+        else if (typ == typeof(bool))
+        {
+            var val = (bool)oldval;
+            if (ImGui.Checkbox("##value", ref val))
             {
-                bool val = (bool)oldval;
-                if (ImGui.Checkbox("##value", ref val))
-                {
-                    newval = val;
-                    isChanged = true;
-                }
+                newval = val;
+                isChanged = true;
             }
-            else if (typ == typeof(float))
+        }
+        else if (typ == typeof(float))
+        {
+            var val = (float)oldval;
+            if (ImGui.DragFloat("##value", ref val, 0.1f, float.MinValue, float.MaxValue,
+                    Utils.ImGui_InputFloatFormat(val)))
             {
-                float val = (float)oldval;
-                if (ImGui.DragFloat("##value", ref val, 0.1f, float.MinValue, float.MaxValue, Utils.ImGui_InputFloatFormat(val)))
-                {
-                    newval = val;
-                    isChanged = true;
-                }
+                newval = val;
+                isChanged = true;
             }
-            else if (typ == typeof(string))
+        }
+        else if (typ == typeof(string))
+        {
+            var val = (string)oldval;
+            if (val == null)
             {
-                string val = (string)oldval;
-                if (val == null)
-                {
-                    val = "";
-                }
-                if (ImGui.InputText("##value", ref val, 99))
-                {
-                    newval = val;
-                    isChanged = true;
-                }
+                val = "";
             }
-            else if (typ == typeof(Vector2))
-            {
-                Vector2 val = (Vector2)oldval;
-                if (ImGui.DragFloat2("##value", ref val, 0.1f))
-                {
-                    newval = val;
-                    isChanged = true;
-                }
-            }
-            else if (typ == typeof(Vector3))
-            {
-                Vector3 val = (Vector3)oldval;
-                if (ImGui.DragFloat3("##value", ref val, 0.1f))
-                {
-                    newval = val;
-                    isChanged = true;
-                }
-            }
-            else if (typ.BaseType == typeof(Enum))
-            {
-                var enumVals = typ.GetEnumValues();
-                var enumNames = typ.GetEnumNames();
-                int[] intVals = new int[enumVals.Length];
 
-                if (typ.GetEnumUnderlyingType() == typeof(byte))
-                {
-                    for (var i = 0; i < enumVals.Length; i++)
-                        intVals[i] = (byte)enumVals.GetValue(i);
+            if (ImGui.InputText("##value", ref val, 99))
+            {
+                newval = val;
+                isChanged = true;
+            }
+        }
+        else if (typ == typeof(Vector2))
+        {
+            var val = (Vector2)oldval;
+            if (ImGui.DragFloat2("##value", ref val, 0.1f))
+            {
+                newval = val;
+                isChanged = true;
+            }
+        }
+        else if (typ == typeof(Vector3))
+        {
+            var val = (Vector3)oldval;
+            if (ImGui.DragFloat3("##value", ref val, 0.1f))
+            {
+                newval = val;
+                isChanged = true;
+            }
+        }
+        else if (typ.BaseType == typeof(Enum))
+        {
+            Array enumVals = typ.GetEnumValues();
+            var enumNames = typ.GetEnumNames();
+            var intVals = new int[enumVals.Length];
 
-                    if (EnumEditor(enumVals, enumNames, oldval, out object val, intVals))
+            if (typ.GetEnumUnderlyingType() == typeof(byte))
+            {
+                for (var i = 0; i < enumVals.Length; i++)
+                {
+                    intVals[i] = (byte)enumVals.GetValue(i);
+                }
+
+                if (EnumEditor(enumVals, enumNames, oldval, out var val, intVals))
+                {
+                    newval = val;
+                    isChanged = true;
+                }
+            }
+            else if (typ.GetEnumUnderlyingType() == typeof(int))
+            {
+                for (var i = 0; i < enumVals.Length; i++)
+                {
+                    intVals[i] = (int)enumVals.GetValue(i);
+                }
+
+                if (EnumEditor(enumVals, enumNames, oldval, out var val, intVals))
+                {
+                    newval = val;
+                    isChanged = true;
+                }
+            }
+            else if (typ.GetEnumUnderlyingType() == typeof(uint))
+            {
+                for (var i = 0; i < enumVals.Length; i++)
+                {
+                    intVals[i] = (int)(uint)enumVals.GetValue(i);
+                }
+
+                if (EnumEditor(enumVals, enumNames, oldval, out var val, intVals))
+                {
+                    newval = val;
+                    isChanged = true;
+                }
+            }
+            else
+            {
+                ImGui.Text("ImplementMe");
+            }
+        }
+        else if (typ == typeof(Color))
+        {
+            var att = prop?.GetCustomAttribute<SupportsAlphaAttribute>();
+            if (att != null)
+            {
+                if (att.Supports == false)
+                {
+                    var color = (Color)oldval;
+                    Vector3 val = new(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f);
+                    if (ImGui.ColorEdit3("##value", ref val))
                     {
-                        newval = val;
-                        isChanged = true;
-                    }
-                }
-                else if (typ.GetEnumUnderlyingType() == typeof(int))
-                {
-                    for (var i = 0; i < enumVals.Length; i++)
-                        intVals[i] = (int)enumVals.GetValue(i);
-
-                    if (EnumEditor(enumVals, enumNames, oldval, out object val, intVals))
-                    {
-                        newval = val;
-                        isChanged = true;
-                    }
-                }
-                else if (typ.GetEnumUnderlyingType() == typeof(uint))
-                {
-                    for (var i = 0; i < enumVals.Length; i++)
-                        intVals[i] = (int)(uint)enumVals.GetValue(i);
-
-                    if (EnumEditor(enumVals, enumNames, oldval, out object val, intVals))
-                    {
-                        newval = val;
+                        Color newColor = Color.FromArgb((int)(val.X * 255.0f), (int)(val.Y * 255.0f),
+                            (int)(val.Z * 255.0f));
+                        newval = newColor;
                         isChanged = true;
                     }
                 }
                 else
                 {
-                    ImGui.Text("ImplementMe");
-                }
-            }
-            else if (typ == typeof(Color))
-            {
-                var att = prop?.GetCustomAttribute<SupportsAlphaAttribute>();
-                if (att != null)
-                {
-                    if (att.Supports == false)
-                    {
-                        var color = (Color)oldval;
-                        Vector3 val = new(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f);
-                        if (ImGui.ColorEdit3("##value", ref val))
-                        {
-                            Color newColor = Color.FromArgb((int)(val.X * 255.0f), (int)(val.Y * 255.0f), (int)(val.Z * 255.0f));
-                            newval = newColor;
-                            isChanged = true;
-                        }
-                    }
-                    else
-                    {
-                        var color = (Color)oldval;
-                        Vector4 val = new(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f);
-                        if (ImGui.ColorEdit4("##value", ref val))
-                        {
-                            Color newColor = Color.FromArgb((int)(val.W * 255.0f), (int)(val.X * 255.0f), (int)(val.Y * 255.0f), (int)(val.Z * 255.0f));
-                            newval = newColor;
-                            isChanged = true;
-                        }
-                    }
-                }
-                else
-                {
-                    // SoulsFormats does not define if alpha should be exposed. Expose alpha by default.
-                    TaskLogs.AddLog($"Color property in \"{prop.DeclaringType}\" does not declare if it supports Alpha. Alpha will be exposed by default",
-                        Microsoft.Extensions.Logging.LogLevel.Warning, TaskLogs.LogPriority.Low);
-
                     var color = (Color)oldval;
                     Vector4 val = new(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f);
                     if (ImGui.ColorEdit4("##value", ref val))
                     {
-                        Color newColor = Color.FromArgb((int)(val.W * 255.0f), (int)(val.X * 255.0f), (int)(val.Y * 255.0f), (int)(val.Z * 255.0f));
+                        Color newColor = Color.FromArgb((int)(val.W * 255.0f), (int)(val.X * 255.0f),
+                            (int)(val.Y * 255.0f), (int)(val.Z * 255.0f));
                         newval = newColor;
                         isChanged = true;
                     }
@@ -273,612 +273,587 @@ namespace StudioCore.MsbEditor
             }
             else
             {
-                ImGui.Text("ImplementMe");
-            }
-            bool isDeactivatedAfterEdit = ImGui.IsItemDeactivatedAfterEdit() || !ImGui.IsAnyItemActive();
+                // SoulsFormats does not define if alpha should be exposed. Expose alpha by default.
+                TaskLogs.AddLog(
+                    $"Color property in \"{prop.DeclaringType}\" does not declare if it supports Alpha. Alpha will be exposed by default",
+                    LogLevel.Warning, TaskLogs.LogPriority.Low);
 
-            // Tooltip
-            if (ImGui.IsItemHovered(ImGuiHoveredFlags.DelayNormal | ImGuiHoveredFlags.NoSharedDelay))
-            {
-                string str = $"Value Type: {typ.Name}";
-                if (typ.IsValueType)
+                var color = (Color)oldval;
+                Vector4 val = new(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f);
+                if (ImGui.ColorEdit4("##value", ref val))
                 {
-                    var min = typ.GetField("MinValue")?.GetValue(typ);
-                    var max = typ.GetField("MaxValue")?.GetValue(typ);
-                    if (min != null & max != null)
-                    {
-                        str += $" (Min {min}, Max {max})";
-                    }
+                    Color newColor = Color.FromArgb((int)(val.W * 255.0f), (int)(val.X * 255.0f),
+                        (int)(val.Y * 255.0f), (int)(val.Z * 255.0f));
+                    newval = newColor;
+                    isChanged = true;
                 }
-                ImGui.SetTooltip(str);
-            }
-
-            return (isChanged, isDeactivatedAfterEdit);
-        }
-
-
-        private bool EnumEditor(Array enumVals, string[] enumNames, object oldval, out object val, int[] intVals)
-        {
-            val = null;
-
-            for (var i = 0; i < enumNames.Length; i++)
-            {
-                enumNames[i] = $"{intVals[i]}: {enumNames[i]}";
-            }
-
-            int index = Array.IndexOf(enumVals, oldval);
-            if (ImGui.Combo("", ref index, enumNames, enumNames.Length))
-            {
-                val = enumVals.GetValue(index);
-                return true;
-            }
-
-            return false;
-        }
-
-        private void UpdateProperty(object prop, Entity selection, object obj, object newval,
-            bool changed, bool committed, int arrayindex = -1)
-        {
-            // TODO2: strip this out in favor of other ChangeProperty
-            if (changed)
-            {
-                ChangeProperty(prop, selection, obj, newval, ref committed, arrayindex);
-            }
-            if (committed)
-            {
-                CommitProperty(selection, false);
             }
         }
-
-        private void ChangeProperty(object prop, Entity selection, object obj, object newval,
-            ref bool committed, int arrayindex = -1)
+        else
         {
-            if (prop == _changingPropery && _lastUncommittedAction != null && ContextActionManager.PeekUndoAction() == _lastUncommittedAction)
-            {
-                ContextActionManager.UndoAction();
-            }
-            else
-            {
-                _lastUncommittedAction = null;
-            }
+            ImGui.Text("ImplementMe");
+        }
 
-            if (_changingObject != null && selection != null && selection.WrappedObject != _changingObject)
+        var isDeactivatedAfterEdit = ImGui.IsItemDeactivatedAfterEdit() || !ImGui.IsAnyItemActive();
+
+        // Tooltip
+        if (ImGui.IsItemHovered(ImGuiHoveredFlags.DelayNormal | ImGuiHoveredFlags.NoSharedDelay))
+        {
+            var str = $"Value Type: {typ.Name}";
+            if (typ.IsValueType)
             {
-                committed = true;
-            }
-            else
-            {
-                PropertiesChangedAction action;
-                if (arrayindex != -1)
+                var min = typ.GetField("MinValue")?.GetValue(typ);
+                var max = typ.GetField("MaxValue")?.GetValue(typ);
+                if ((min != null) & (max != null))
                 {
-                    action = new PropertiesChangedAction((PropertyInfo)prop, arrayindex, obj, newval);
-                }
-                else
-                {
-                    action = new PropertiesChangedAction((PropertyInfo)prop, obj, newval);
-                }
-                ContextActionManager.ExecuteAction(action);
-
-                _lastUncommittedAction = action;
-                _changingPropery = prop;
-                _changingObject = selection != null ? selection.WrappedObject : obj;
-            }
-        }
-        private void CommitProperty(Entity selection, bool destroyRenderModel)
-        {
-            // Invalidate name cache
-            if (selection != null)
-            {
-                selection.Name = null;
-            }
-
-            // Undo and redo the last action with a rendering update
-            if (_lastUncommittedAction != null && ContextActionManager.PeekUndoAction() == _lastUncommittedAction)
-            {
-                if (_lastUncommittedAction is PropertiesChangedAction a)
-                {
-                    // Kinda a hack to prevent a jumping glitch
-                    a.SetPostExecutionAction(null);
-                    ContextActionManager.UndoAction();
-                    if (selection != null)
-                    {
-                        a.SetPostExecutionAction((undo) =>
-                        {
-                            if (destroyRenderModel)
-                            {
-                                if (selection.RenderSceneMesh != null)
-                                {
-                                    selection.RenderSceneMesh.Dispose();
-                                    selection.RenderSceneMesh = null;
-                                }
-                            }
-                            selection.UpdateRenderModel();
-                        });
-                    }
-                    ContextActionManager.ExecuteAction(a);
+                    str += $" (Min {min}, Max {max})";
                 }
             }
 
+            ImGui.SetTooltip(str);
+        }
+
+        return (isChanged, isDeactivatedAfterEdit);
+    }
+
+
+    private bool EnumEditor(Array enumVals, string[] enumNames, object oldval, out object val, int[] intVals)
+    {
+        val = null;
+
+        for (var i = 0; i < enumNames.Length; i++)
+        {
+            enumNames[i] = $"{intVals[i]}: {enumNames[i]}";
+        }
+
+        var index = Array.IndexOf(enumVals, oldval);
+        if (ImGui.Combo("", ref index, enumNames, enumNames.Length))
+        {
+            val = enumVals.GetValue(index);
+            return true;
+        }
+
+        return false;
+    }
+
+    private void UpdateProperty(object prop, Entity selection, object obj, object newval,
+        bool changed, bool committed, int arrayindex = -1)
+    {
+        // TODO2: strip this out in favor of other ChangeProperty
+        if (changed)
+        {
+            ChangeProperty(prop, selection, obj, newval, ref committed, arrayindex);
+        }
+
+        if (committed)
+        {
+            CommitProperty(selection, false);
+        }
+    }
+
+    private void ChangeProperty(object prop, Entity selection, object obj, object newval,
+        ref bool committed, int arrayindex = -1)
+    {
+        if (prop == _changingPropery && _lastUncommittedAction != null &&
+            ContextActionManager.PeekUndoAction() == _lastUncommittedAction)
+        {
+            ContextActionManager.UndoAction();
+        }
+        else
+        {
             _lastUncommittedAction = null;
-            _changingPropery = null;
-            _changingObject = null;
         }
 
-
-        /// <summary>
-        /// Handles changing a property's value for any number of entities.
-        /// </summary>
-        /// <param name="arrayindex">Index of the targeted value in an array of values.</param>
-        /// <param name="classIndex">Index of the targeted class in an array of classes.</param>
-        private void UpdateProperty(object prop, HashSet<Entity> selection, object newval,
-            bool changed, bool committed, int arrayindex, int classIndex)
+        if (_changingObject != null && selection != null && selection.WrappedObject != _changingObject)
         {
-            if (changed)
-            {
-                ChangePropertyMultiple(prop, selection, newval, ref committed, arrayindex, classIndex);
-            }
-            if (committed)
-            {
-                if (_lastUncommittedAction != null && ContextActionManager.PeekUndoAction() == _lastUncommittedAction)
-                {
-                    if (_lastUncommittedAction is MultipleEntityPropertyChangeAction a)
-                    {
-                        ContextActionManager.UndoAction();
-                        a.UpdateRenderModel = true; // Update render model on commit execution, and update on undo/redo.
-                        ContextActionManager.ExecuteAction(a);
-                    }
-                    _lastUncommittedAction = null;
-                    _changingPropery = null;
-                    _changingObject = null;
-                }
-            }
+            committed = true;
         }
-
-        /// <summary>
-        /// Change a property's value for any number of entities.
-        /// </summary>
-        /// <param name="arrayindex">Index of the targeted value in an array of values.</param>
-        /// <param name="classIndex">Index of the targeted class in an array of classes.</param>
-        private void ChangePropertyMultiple(object prop, HashSet<Entity> ents, object newval, ref bool committed, int arrayindex = -1, int classIndex = -1)
+        else
         {
-            if (prop == _changingPropery && _lastUncommittedAction != null && ContextActionManager.PeekUndoAction() == _lastUncommittedAction)
+            PropertiesChangedAction action;
+            if (arrayindex != -1)
             {
-                ContextActionManager.UndoAction();
+                action = new PropertiesChangedAction((PropertyInfo)prop, arrayindex, obj, newval);
             }
             else
             {
-                _lastUncommittedAction = null;
+                action = new PropertiesChangedAction((PropertyInfo)prop, obj, newval);
             }
-            MultipleEntityPropertyChangeAction action;
-            foreach (var selection in ents)
-            {
-                if (selection != null && _changingObject != null && !ents.SetEquals((HashSet<Entity>)_changingObject))
-                {
-                    committed = true;
-                    return;
-                }
 
-            }
-            action = new MultipleEntityPropertyChangeAction((PropertyInfo)prop, ents, newval, arrayindex, classIndex);
             ContextActionManager.ExecuteAction(action);
 
             _lastUncommittedAction = action;
             _changingPropery = prop;
-            _changingObject = ents;
+            _changingObject = selection != null ? selection.WrappedObject : obj;
+        }
+    }
+
+    private void CommitProperty(Entity selection, bool destroyRenderModel)
+    {
+        // Invalidate name cache
+        if (selection != null)
+        {
+            selection.Name = null;
         }
 
-        private void PropEditorParamRow(Entity selection)
+        // Undo and redo the last action with a rendering update
+        if (_lastUncommittedAction != null && ContextActionManager.PeekUndoAction() == _lastUncommittedAction)
         {
-            IReadOnlyList<Param.Cell> cells = new List<Param.Cell>();
-            if (selection.WrappedObject is Param.Row row)
+            if (_lastUncommittedAction is PropertiesChangedAction a)
             {
-                cells = row.Cells;
+                // Kinda a hack to prevent a jumping glitch
+                a.SetPostExecutionAction(null);
+                ContextActionManager.UndoAction();
+                if (selection != null)
+                {
+                    a.SetPostExecutionAction(undo =>
+                    {
+                        if (destroyRenderModel)
+                        {
+                            if (selection.RenderSceneMesh != null)
+                            {
+                                selection.RenderSceneMesh.Dispose();
+                                selection.RenderSceneMesh = null;
+                            }
+                        }
 
+                        selection.UpdateRenderModel();
+                    });
+                }
+
+                ContextActionManager.ExecuteAction(a);
             }
-            else if (selection.WrappedObject is MergedParamRow mrow)
+        }
+
+        _lastUncommittedAction = null;
+        _changingPropery = null;
+        _changingObject = null;
+    }
+
+
+    /// <summary>
+    ///     Handles changing a property's value for any number of entities.
+    /// </summary>
+    /// <param name="arrayindex">Index of the targeted value in an array of values.</param>
+    /// <param name="classIndex">Index of the targeted class in an array of classes.</param>
+    private void UpdateProperty(object prop, HashSet<Entity> selection, object newval,
+        bool changed, bool committed, int arrayindex, int classIndex)
+    {
+        if (changed)
+        {
+            ChangePropertyMultiple(prop, selection, newval, ref committed, arrayindex, classIndex);
+        }
+
+        if (committed)
+        {
+            if (_lastUncommittedAction != null && ContextActionManager.PeekUndoAction() == _lastUncommittedAction)
             {
-                cells = mrow.CellHandles;
+                if (_lastUncommittedAction is MultipleEntityPropertyChangeAction a)
+                {
+                    ContextActionManager.UndoAction();
+                    a.UpdateRenderModel = true; // Update render model on commit execution, and update on undo/redo.
+                    ContextActionManager.ExecuteAction(a);
+                }
+
+                _lastUncommittedAction = null;
+                _changingPropery = null;
+                _changingObject = null;
             }
+        }
+    }
+
+    /// <summary>
+    ///     Change a property's value for any number of entities.
+    /// </summary>
+    /// <param name="arrayindex">Index of the targeted value in an array of values.</param>
+    /// <param name="classIndex">Index of the targeted class in an array of classes.</param>
+    private void ChangePropertyMultiple(object prop, HashSet<Entity> ents, object newval, ref bool committed,
+        int arrayindex = -1, int classIndex = -1)
+    {
+        if (prop == _changingPropery && _lastUncommittedAction != null &&
+            ContextActionManager.PeekUndoAction() == _lastUncommittedAction)
+        {
+            ContextActionManager.UndoAction();
+        }
+        else
+        {
+            _lastUncommittedAction = null;
+        }
+
+        MultipleEntityPropertyChangeAction action;
+        foreach (Entity selection in ents)
+        {
+            if (selection != null && _changingObject != null && !ents.SetEquals((HashSet<Entity>)_changingObject))
+            {
+                committed = true;
+                return;
+            }
+        }
+
+        action = new MultipleEntityPropertyChangeAction((PropertyInfo)prop, ents, newval, arrayindex, classIndex);
+        ContextActionManager.ExecuteAction(action);
+
+        _lastUncommittedAction = action;
+        _changingPropery = prop;
+        _changingObject = ents;
+    }
+
+    private void PropEditorParamRow(Entity selection)
+    {
+        IReadOnlyList<Param.Cell> cells = new List<Param.Cell>();
+        if (selection.WrappedObject is Param.Row row)
+        {
+            cells = row.Cells;
+        }
+        else if (selection.WrappedObject is MergedParamRow mrow)
+        {
+            cells = mrow.CellHandles;
+        }
+
+        ImGui.Columns(2);
+        ImGui.Separator();
+        var id = 0;
+
+        // This should be rewritten somehow it's super ugly
+        PropertyInfo nameProp = selection.WrappedObject.GetType().GetProperty("Name");
+        PropertyInfo idProp = selection.WrappedObject.GetType().GetProperty("ID");
+        PropEditorPropInfoRow(selection.WrappedObject, nameProp, "Name", ref id, selection);
+        PropEditorPropInfoRow(selection.WrappedObject, idProp, "ID", ref id, selection);
+
+        foreach (Param.Cell cell in cells)
+        {
+            PropEditorPropCellRow(cell, ref id, selection);
+        }
+
+        ImGui.Columns(1);
+    }
+
+    public void PropEditorParamRow(Param.Row row)
+    {
+        ImGui.Columns(2);
+        ImGui.Separator();
+        var id = 0;
+
+        // This should be rewritten somehow it's super ugly
+        ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.8f, 0.8f, 0.8f, 1.0f));
+        PropertyInfo nameProp = row.GetType().GetProperty("Name");
+        PropertyInfo idProp = row.GetType().GetProperty("ID");
+        PropEditorPropInfoRow(row, nameProp, "Name", ref id, null);
+        PropEditorPropInfoRow(row, idProp, "ID", ref id, null);
+        ImGui.PopStyleColor();
+
+        foreach (Param.Column cell in row.Columns)
+        {
+            PropEditorPropCellRow(row[cell], ref id, null);
+        }
+
+        ImGui.Columns(1);
+    }
+
+    // Many parameter options, which may be simplified.
+    private void PropEditorPropInfoRow(object rowOrWrappedObject, PropertyInfo prop, string visualName, ref int id,
+        Entity nullableSelection)
+    {
+        PropEditorPropRow(prop.GetValue(rowOrWrappedObject), ref id, visualName, prop.PropertyType, null, null,
+            prop, rowOrWrappedObject, nullableSelection);
+    }
+
+    private void PropEditorPropCellRow(Param.Cell cell, ref int id, Entity nullableSelection)
+    {
+        PropEditorPropRow(cell.Value, ref id, cell.Def.InternalName, cell.Value.GetType(), null,
+            cell.Def.InternalName, cell.GetType().GetProperty("Value"), cell, nullableSelection);
+    }
+
+    private void PropEditorPropRow(object oldval, ref int id, string visualName, Type propType,
+        Entity nullableEntity, string nullableName, PropertyInfo proprow, object paramRowOrCell,
+        Entity nullableSelection)
+    {
+        ImGui.PushID(id);
+        ImGui.AlignTextToFramePadding();
+        ImGui.Text(visualName);
+        ImGui.NextColumn();
+        ImGui.SetNextItemWidth(-1);
+
+        object newval;
+        // Property Editor UI
+        (bool, bool) propEditResults = PropertyRow(propType, oldval, out newval, proprow);
+        var changed = propEditResults.Item1;
+        var committed = propEditResults.Item2;
+        UpdateProperty(proprow, nullableSelection, paramRowOrCell, newval, changed, committed);
+        ImGui.NextColumn();
+        ImGui.PopID();
+        id++;
+    }
+
+
+    private void PropertyContextMenu(object obj, PropertyInfo propinfo)
+    {
+        if (ImGui.BeginPopupContextItem(propinfo.Name))
+        {
+            if (ImGui.Selectable(@"Search"))
+            {
+                EditorCommandQueue.AddCommand($@"map/propsearch/{propinfo.Name}");
+            }
+
+            ImGui.EndPopup();
+        }
+    }
+
+    private bool ParamRefRow(PropertyInfo propinfo, object val, ref object newObj)
+    {
+        List<MSBParamReference> attributes = propinfo.GetCustomAttributes<MSBParamReference>().ToList();
+        if (attributes.Any())
+        {
+            List<ParamRef> refs = new();
+            foreach (MSBParamReference att in attributes)
+            {
+                refs.Add(new ParamRef(att.ParamName));
+            }
+
+            ImGui.NextColumn();
+
+            EditorDecorations.ParamRefText(refs, null);
+            ImGui.NextColumn();
+            EditorDecorations.ParamRefsSelectables(ParamBank.PrimaryBank, refs, null, val);
+            EditorDecorations.ParamRefEnumQuickLink(ParamBank.PrimaryBank, val, refs, null, null, null);
+            var opened = EditorDecorations.ParamRefEnumContextMenuItems(ParamBank.PrimaryBank, val, ref newObj,
+                refs, null, null, null, null);
+            return opened;
+        }
+
+        return false;
+    }
+
+    private void PropEditorFlverLayout(Entity selection, FLVER2.BufferLayout layout)
+    {
+        foreach (FLVER.LayoutMember l in layout)
+        {
+            ImGui.Text(l.Semantic.ToString());
+            ImGui.NextColumn();
+            ImGui.Text(l.Type.ToString());
+            ImGui.NextColumn();
+        }
+    }
+
+    private void PropEditorGeneric(Selection selection, HashSet<Entity> entSelection, object target = null,
+        bool decorate = true, int classIndex = -1)
+    {
+        var scale = MapStudioNew.GetUIScale();
+        Entity firstEnt = entSelection.First();
+        var obj = target == null ? firstEnt.WrappedObject : target;
+        Type type = obj.GetType();
+        if (!_propCache.ContainsKey(type.FullName))
+        {
+            PropertyInfo[] props = type.GetProperties(BindingFlags.Instance | BindingFlags.Public);
+            props = props.OrderBy(p => p.MetadataToken).ToArray();
+            _propCache.Add(type.FullName, props);
+        }
+
+        PropertyInfo[] properties = _propCache[type.FullName];
+
+        if (decorate)
+        {
             ImGui.Columns(2);
             ImGui.Separator();
-            int id = 0;
-
-            // This should be rewritten somehow it's super ugly
-            var nameProp = selection.WrappedObject.GetType().GetProperty("Name");
-            var idProp = selection.WrappedObject.GetType().GetProperty("ID");
-            PropEditorPropInfoRow(selection.WrappedObject, nameProp, "Name", ref id, selection);
-            PropEditorPropInfoRow(selection.WrappedObject, idProp, "ID", ref id, selection);
-
-            foreach (var cell in cells)
-            {
-                PropEditorPropCellRow(cell, ref id, selection);
-            }
-            ImGui.Columns(1);
-        }
-
-        public void PropEditorParamRow(Param.Row row)
-        {
-            ImGui.Columns(2);
-            ImGui.Separator();
-            int id = 0;
-
-            // This should be rewritten somehow it's super ugly
-            ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.8f, 0.8f, 0.8f, 1.0f));
-            var nameProp = row.GetType().GetProperty("Name");
-            var idProp = row.GetType().GetProperty("ID");
-            PropEditorPropInfoRow(row, nameProp, "Name", ref id, null);
-            PropEditorPropInfoRow(row, idProp, "ID", ref id, null);
-            ImGui.PopStyleColor();
-
-            foreach (var cell in row.Columns)
-            {
-                PropEditorPropCellRow(row[cell], ref id, null);
-            }
-            ImGui.Columns(1);
-        }
-
-        // Many parameter options, which may be simplified.
-        private void PropEditorPropInfoRow(object rowOrWrappedObject, PropertyInfo prop, string visualName, ref int id, Entity nullableSelection)
-        {
-            PropEditorPropRow(prop.GetValue(rowOrWrappedObject), ref id, visualName, prop.PropertyType, null, null, prop, rowOrWrappedObject, nullableSelection);
-        }
-        private void PropEditorPropCellRow(Param.Cell cell, ref int id, Entity nullableSelection)
-        {
-            PropEditorPropRow(cell.Value, ref id, cell.Def.InternalName, cell.Value.GetType(), null, cell.Def.InternalName, cell.GetType().GetProperty("Value"), cell, nullableSelection);
-        }
-        private void PropEditorPropRow(object oldval, ref int id, string visualName, Type propType, Entity nullableEntity, string nullableName, PropertyInfo proprow, object paramRowOrCell, Entity nullableSelection)
-        {
-            ImGui.PushID(id);
-            ImGui.AlignTextToFramePadding();
-            ImGui.Text(visualName);
+            ImGui.Text("Object Type");
             ImGui.NextColumn();
-            ImGui.SetNextItemWidth(-1);
-
-            object newval;
-            // Property Editor UI
-            (bool, bool) propEditResults = PropertyRow(propType, oldval, out newval, proprow);
-            bool changed = propEditResults.Item1;
-            bool committed = propEditResults.Item2;
-            UpdateProperty(proprow, nullableSelection, paramRowOrCell, newval, changed, committed);
+            ImGui.Text(type.Name);
             ImGui.NextColumn();
-            ImGui.PopID();
-            id++;
         }
 
-
-        private void PropertyContextMenu(object obj, PropertyInfo propinfo)
+        // Custom editors
+        if (type == typeof(FLVER2.BufferLayout))
         {
-            if (ImGui.BeginPopupContextItem(propinfo.Name))
+            if (entSelection.Count() == 1)
             {
-                if (ImGui.Selectable($@"Search"))
-                {
-                    EditorCommandQueue.AddCommand($@"map/propsearch/{propinfo.Name}");
-                }
-                ImGui.EndPopup();
-            }
-        }
-        private bool ParamRefRow(PropertyInfo propinfo, object val, ref object newObj)
-        {
-            List<MSBParamReference> attributes = propinfo.GetCustomAttributes<MSBParamReference>().ToList();
-            if (attributes.Any())
-            {
-                List<ParamEditor.ParamRef> refs = new List<ParamEditor.ParamRef>();
-                foreach (var att in attributes)
-                {
-                    refs.Add(new ParamEditor.ParamRef(att.ParamName));
-                }
-                ImGui.NextColumn();
-                    
-                Editor.EditorDecorations.ParamRefText(refs, null);
-                ImGui.NextColumn();
-                Editor.EditorDecorations.ParamRefsSelectables(ParamEditor.ParamBank.PrimaryBank, refs, null, val);
-                Editor.EditorDecorations.ParamRefEnumQuickLink(ParamEditor.ParamBank.PrimaryBank, val, refs, null, null, null);
-                var opened = Editor.EditorDecorations.ParamRefEnumContextMenuItems(ParamEditor.ParamBank.PrimaryBank, val, ref newObj, refs, null, null, null, null);
-                return opened;
-            }
-            return false;
-        }
-
-        private void PropEditorFlverLayout(Entity selection, FLVER2.BufferLayout layout)
-        {
-            foreach (var l in layout)
-            {
-                ImGui.Text(l.Semantic.ToString());
-                ImGui.NextColumn();
-                ImGui.Text(l.Type.ToString());
-                ImGui.NextColumn();
-            }
-        }
-
-        internal enum RegionShape
-        {
-            Point,
-            Sphere,
-            Cylinder,
-            Box,
-            Composite,
-            Rectangle,
-            Circle,
-        }
-
-        private string[] _regionShapes =
-        {
-            "Point",
-            "Sphere",
-            "Cylinder",
-            "Box",
-            "Composite",
-            "Rectangle",
-            "Circle",
-        };
-
-        internal enum LightType
-        {
-            Spot,
-            Directional,
-            Point,
-        }
-
-        private string[] _lightTypes =
-        {
-            "Spot",
-            "Directional",
-            "Point",
-        };
-
-        private void PropEditorGeneric(Selection selection, HashSet<Entity> entSelection, object target = null, bool decorate = true, int classIndex = -1)
-        {
-            float scale = MapStudioNew.GetUIScale();
-            var firstEnt = entSelection.First();
-            var obj = (target == null) ? firstEnt.WrappedObject : target;
-            var type = obj.GetType();
-            if (!_propCache.ContainsKey(type.FullName))
-            {
-                var props = type.GetProperties(BindingFlags.Instance | BindingFlags.Public);
-                props = props.OrderBy(p => p.MetadataToken).ToArray();
-                _propCache.Add(type.FullName, props);
-            }
-            var properties = _propCache[type.FullName];
-
-            if (decorate)
-            {
-                ImGui.Columns(2);
-                ImGui.Separator();
-                ImGui.Text("Object Type");
-                ImGui.NextColumn();
-                ImGui.Text(type.Name);
-                ImGui.NextColumn();
-            }
-
-            // Custom editors
-            if (type == typeof(FLVER2.BufferLayout))
-            {
-                if (entSelection.Count() == 1)
-                    PropEditorFlverLayout(firstEnt, (FLVER2.BufferLayout)obj);
-                else
-                    ImGui.Text("Cannot edit multiples of this object at once.");
+                PropEditorFlverLayout(firstEnt, (FLVER2.BufferLayout)obj);
             }
             else
             {
-                int id = 0;
-                foreach (var prop in properties)
+                ImGui.Text("Cannot edit multiples of this object at once.");
+            }
+        }
+        else
+        {
+            var id = 0;
+            foreach (PropertyInfo prop in properties)
+            {
+                if (!prop.CanWrite && !prop.PropertyType.IsArray)
                 {
-                    if (!prop.CanWrite && !prop.PropertyType.IsArray)
-                    {
-                        continue;
-                    }
+                    continue;
+                }
 
-                    if (prop.GetCustomAttribute<HideProperty>() != null)
-                    {
-                        continue;
-                    }
+                if (prop.GetCustomAttribute<HideProperty>() != null)
+                {
+                    continue;
+                }
 
-                    ImGui.PushID(id);
-                    ImGui.AlignTextToFramePadding();
-                    var typ = prop.PropertyType;
+                ImGui.PushID(id);
+                ImGui.AlignTextToFramePadding();
+                Type typ = prop.PropertyType;
 
-                    if (typ.IsArray)
+                if (typ.IsArray)
+                {
+                    var a = (Array)prop.GetValue(obj);
+                    for (var i = 0; i < a.Length; i++)
                     {
-                        Array a = (Array)prop.GetValue(obj);
-                        for (int i = 0; i < a.Length; i++)
+                        ImGui.PushID(i);
+
+                        Type arrtyp = typ.GetElementType();
+                        if (arrtyp.IsClass && arrtyp != typeof(string) && !arrtyp.IsArray)
                         {
-                            ImGui.PushID(i);
-
-                            var arrtyp = typ.GetElementType();
-                            if (arrtyp.IsClass && arrtyp != typeof(string) && !arrtyp.IsArray)
+                            var open = ImGui.TreeNodeEx($@"{prop.Name}[{i}]", ImGuiTreeNodeFlags.DefaultOpen);
+                            ImGui.NextColumn();
+                            ImGui.SetNextItemWidth(-1);
+                            var o = a.GetValue(i);
+                            ImGui.Text(o.GetType().Name);
+                            ImGui.NextColumn();
+                            if (open)
                             {
-                                bool open = ImGui.TreeNodeEx($@"{prop.Name}[{i}]", ImGuiTreeNodeFlags.DefaultOpen);
-                                ImGui.NextColumn();
-                                ImGui.SetNextItemWidth(-1);
-                                var o = a.GetValue(i);
-                                ImGui.Text(o.GetType().Name);
-                                ImGui.NextColumn();
-                                if (open)
-                                {
-                                    PropEditorGeneric(selection, entSelection, o, false, i);
-                                    ImGui.TreePop();
-                                }
-                                ImGui.PopID();
+                                PropEditorGeneric(selection, entSelection, o, false, i);
+                                ImGui.TreePop();
                             }
-                            else
-                            {
-                                ImGui.Text($@"{prop.Name}[{i}]");
-                                ImGui.NextColumn();
-                                ImGui.SetNextItemWidth(-1);
-                                var oldval = a.GetValue(i);
-                                object newval = null;
 
-                                // Property Editor UI
-                                (bool, bool) propEditResults = PropertyRow(typ.GetElementType(), oldval, out newval, prop);
-                                bool changed = propEditResults.Item1;
-                                bool committed = propEditResults.Item2;
-                                PropertyContextMenu(obj, prop);
-                                if (ImGui.IsItemActive() && !ImGui.IsWindowFocused())
-                                {
-                                    ImGui.SetItemDefaultFocus();
-                                }
-                                if (ParamRefRow(prop, oldval, ref newval))
-                                {
-                                    changed = true;
-                                    committed = true;
-                                }
-                                UpdateProperty(prop, entSelection, newval, changed, committed, i, classIndex);
-
-                                ImGui.NextColumn();
-                                ImGui.PopID();
-                            }
+                            ImGui.PopID();
                         }
-                        ImGui.PopID();
-                    }
-                    else if (typ.IsGenericType && typ.GetGenericTypeDefinition() == typeof(List<>))
-                    {
-                        object l = prop.GetValue(obj);
-                        PropertyInfo itemprop = l.GetType().GetProperty("Item");
-                        int count = (int)l.GetType().GetProperty("Count").GetValue(l);
-                        for (int i = 0; i < count; i++)
+                        else
                         {
-                            ImGui.PushID(i);
+                            ImGui.Text($@"{prop.Name}[{i}]");
+                            ImGui.NextColumn();
+                            ImGui.SetNextItemWidth(-1);
+                            var oldval = a.GetValue(i);
+                            object newval = null;
 
-                            var arrtyp = typ.GetGenericArguments()[0];
-                            if (arrtyp.IsClass && arrtyp != typeof(string) && !arrtyp.IsArray)
+                            // Property Editor UI
+                            (bool, bool) propEditResults =
+                                PropertyRow(typ.GetElementType(), oldval, out newval, prop);
+                            var changed = propEditResults.Item1;
+                            var committed = propEditResults.Item2;
+                            PropertyContextMenu(obj, prop);
+                            if (ImGui.IsItemActive() && !ImGui.IsWindowFocused())
                             {
-                                bool open = ImGui.TreeNodeEx($@"{prop.Name}[{i}]", ImGuiTreeNodeFlags.DefaultOpen);
-                                ImGui.NextColumn();
-                                ImGui.SetNextItemWidth(-1);
-                                var o = itemprop.GetValue(l, new object[] { i });
-                                ImGui.Text(o.GetType().Name);
-                                ImGui.NextColumn();
-                                if (open)
-                                {
-                                    PropEditorGeneric(selection, entSelection, o, false);
-                                    ImGui.TreePop();
-                                }
-                                ImGui.PopID();
+                                ImGui.SetItemDefaultFocus();
                             }
-                            else
+
+                            if (ParamRefRow(prop, oldval, ref newval))
                             {
-                                ImGui.Text($@"{prop.Name}[{i}]");
-                                ImGui.NextColumn();
-                                ImGui.SetNextItemWidth(-1);
-                                var oldval = itemprop.GetValue(l, new object[] { i });
-                                object newval = null;
-
-                                // Property Editor UI
-                                (bool, bool) propEditResults = PropertyRow(arrtyp, oldval, out newval, prop);
-                                bool changed = propEditResults.Item1;
-                                bool committed = propEditResults.Item2;
-                                PropertyContextMenu(obj, prop);
-                                if (ImGui.IsItemActive() && !ImGui.IsWindowFocused())
-                                {
-                                    ImGui.SetItemDefaultFocus();
-                                }
-                                if (ParamRefRow(prop, oldval, ref newval))
-                                {
-                                    changed = true;
-                                    committed = true;
-                                }
-                                UpdateProperty(prop, entSelection, newval, changed, committed, i, classIndex);
-
-                                ImGui.NextColumn();
-                                ImGui.PopID();
+                                changed = true;
+                                committed = true;
                             }
+
+                            UpdateProperty(prop, entSelection, newval, changed, committed, i, classIndex);
+
+                            ImGui.NextColumn();
+                            ImGui.PopID();
                         }
-                        ImGui.PopID();
                     }
-                    else if (typ.IsClass && typ == typeof(MSB.Shape))
+
+                    ImGui.PopID();
+                }
+                else if (typ.IsGenericType && typ.GetGenericTypeDefinition() == typeof(List<>))
+                {
+                    var l = prop.GetValue(obj);
+                    PropertyInfo itemprop = l.GetType().GetProperty("Item");
+                    var count = (int)l.GetType().GetProperty("Count").GetValue(l);
+                    for (var i = 0; i < count; i++)
                     {
-                        bool open = ImGui.TreeNodeEx(prop.Name, ImGuiTreeNodeFlags.DefaultOpen);
-                        ImGui.NextColumn();
-                        ImGui.SetNextItemWidth(-1);
-                        var o = prop.GetValue(obj);
-                        var shapetype = Enum.Parse<RegionShape>(o.GetType().Name);
-                        int shap = (int)shapetype;
+                        ImGui.PushID(i);
 
-                        if (entSelection.Count == 1)
+                        Type arrtyp = typ.GetGenericArguments()[0];
+                        if (arrtyp.IsClass && arrtyp != typeof(string) && !arrtyp.IsArray)
                         {
-                            if (ImGui.Combo("##shapecombo", ref shap, _regionShapes, _regionShapes.Length))
+                            var open = ImGui.TreeNodeEx($@"{prop.Name}[{i}]", ImGuiTreeNodeFlags.DefaultOpen);
+                            ImGui.NextColumn();
+                            ImGui.SetNextItemWidth(-1);
+                            var o = itemprop.GetValue(l, new object[] { i });
+                            ImGui.Text(o.GetType().Name);
+                            ImGui.NextColumn();
+                            if (open)
                             {
-                                MSB.Shape newshape;
-                                switch ((RegionShape)shap)
-                                {
-                                    case RegionShape.Box:
-                                        newshape = new MSB.Shape.Box();
-                                        break;
-                                    case RegionShape.Point:
-                                        newshape = new MSB.Shape.Point();
-                                        break;
-                                    case RegionShape.Cylinder:
-                                        newshape = new MSB.Shape.Cylinder();
-                                        break;
-                                    case RegionShape.Sphere:
-                                        newshape = new MSB.Shape.Sphere();
-                                        break;
-                                    case RegionShape.Composite:
-                                        newshape = new MSB.Shape.Composite();
-                                        break;
-                                    case RegionShape.Rectangle:
-                                        newshape = new MSB.Shape.Rectangle();
-                                        break;
-                                    case RegionShape.Circle:
-                                        newshape = new MSB.Shape.Circle();
-                                        break;
-                                    default:
-                                        throw new Exception("Invalid shape");
-                                }
-                                var action = new PropertiesChangedAction((PropertyInfo)prop, obj, newshape);
-                                action.SetPostExecutionAction((undo) =>
-                                {
-                                    bool selected = false;
-                                    if (firstEnt.RenderSceneMesh != null)
-                                    {
-                                        selected = firstEnt.RenderSceneMesh.RenderSelectionOutline;
-                                        firstEnt.RenderSceneMesh.Dispose();
-                                        firstEnt.RenderSceneMesh = null;
-                                    }
-
-                                    firstEnt.UpdateRenderModel();
-                                    firstEnt.RenderSceneMesh.RenderSelectionOutline = selected;
-                                });
-                                ContextActionManager.ExecuteAction(action);
+                                PropEditorGeneric(selection, entSelection, o, false);
+                                ImGui.TreePop();
                             }
+
+                            ImGui.PopID();
                         }
-                        ImGui.NextColumn();
-                        if (open)
+                        else
                         {
-                            PropEditorGeneric(selection, entSelection, o, false);
-                            ImGui.TreePop();
-                        }
-                        ImGui.PopID();
-                    }
-                    else if (typ == typeof(BTL.LightType))
-                    {
-                        bool open = ImGui.TreeNodeEx(prop.Name, ImGuiTreeNodeFlags.DefaultOpen);
-                        ImGui.NextColumn();
-                        ImGui.SetNextItemWidth(-1);
-                        var o = prop.GetValue(obj);
-                        var enumTypes = Enum.Parse<LightType>(o.ToString());
-                        int thisType = (int)enumTypes;
-                        if (ImGui.Combo("##lightTypecombo", ref thisType, _lightTypes, _lightTypes.Length))
-                        {
-                            BTL.LightType newLight;
-                            switch ((LightType)thisType)
+                            ImGui.Text($@"{prop.Name}[{i}]");
+                            ImGui.NextColumn();
+                            ImGui.SetNextItemWidth(-1);
+                            var oldval = itemprop.GetValue(l, new object[] { i });
+                            object newval = null;
+
+                            // Property Editor UI
+                            (bool, bool) propEditResults = PropertyRow(arrtyp, oldval, out newval, prop);
+                            var changed = propEditResults.Item1;
+                            var committed = propEditResults.Item2;
+                            PropertyContextMenu(obj, prop);
+                            if (ImGui.IsItemActive() && !ImGui.IsWindowFocused())
                             {
-                                case LightType.Directional:
-                                    newLight = BTL.LightType.Directional;
+                                ImGui.SetItemDefaultFocus();
+                            }
+
+                            if (ParamRefRow(prop, oldval, ref newval))
+                            {
+                                changed = true;
+                                committed = true;
+                            }
+
+                            UpdateProperty(prop, entSelection, newval, changed, committed, i, classIndex);
+
+                            ImGui.NextColumn();
+                            ImGui.PopID();
+                        }
+                    }
+
+                    ImGui.PopID();
+                }
+                else if (typ.IsClass && typ == typeof(MSB.Shape))
+                {
+                    var open = ImGui.TreeNodeEx(prop.Name, ImGuiTreeNodeFlags.DefaultOpen);
+                    ImGui.NextColumn();
+                    ImGui.SetNextItemWidth(-1);
+                    var o = prop.GetValue(obj);
+                    var shapetype = Enum.Parse<RegionShape>(o.GetType().Name);
+                    var shap = (int)shapetype;
+
+                    if (entSelection.Count == 1)
+                    {
+                        if (ImGui.Combo("##shapecombo", ref shap, _regionShapes, _regionShapes.Length))
+                        {
+                            MSB.Shape newshape;
+                            switch ((RegionShape)shap)
+                            {
+                                case RegionShape.Box:
+                                    newshape = new MSB.Shape.Box();
                                     break;
-                                case LightType.Point:
-                                    newLight = BTL.LightType.Point;
+                                case RegionShape.Point:
+                                    newshape = new MSB.Shape.Point();
                                     break;
-                                case LightType.Spot:
-                                    newLight = BTL.LightType.Spot;
+                                case RegionShape.Cylinder:
+                                    newshape = new MSB.Shape.Cylinder();
+                                    break;
+                                case RegionShape.Sphere:
+                                    newshape = new MSB.Shape.Sphere();
+                                    break;
+                                case RegionShape.Composite:
+                                    newshape = new MSB.Shape.Composite();
+                                    break;
+                                case RegionShape.Rectangle:
+                                    newshape = new MSB.Shape.Rectangle();
+                                    break;
+                                case RegionShape.Circle:
+                                    newshape = new MSB.Shape.Circle();
                                     break;
                                 default:
-                                    throw new Exception("Invalid BTL LightType");
+                                    throw new Exception("Invalid shape");
                             }
-                            var action = new PropertiesChangedAction((PropertyInfo)prop, obj, newLight);
-                            action.SetPostExecutionAction((undo) =>
+
+                            PropertiesChangedAction action = new(prop, obj, newshape);
+                            action.SetPostExecutionAction(undo =>
                             {
-                                bool selected = false;
+                                var selected = false;
                                 if (firstEnt.RenderSceneMesh != null)
                                 {
                                     selected = firstEnt.RenderSceneMesh.RenderSelectionOutline;
@@ -890,221 +865,304 @@ namespace StudioCore.MsbEditor
                                 firstEnt.RenderSceneMesh.RenderSelectionOutline = selected;
                             });
                             ContextActionManager.ExecuteAction(action);
-
-                            ContextActionManager.ExecuteAction(action);
                         }
-                        ImGui.NextColumn();
-                        if (open)
-                        {
-                            PropEditorGeneric(selection, entSelection, o, false);
-                            ImGui.TreePop();
-                        }
-                        ImGui.PopID();
                     }
-                    else if (typ.IsClass && typ != typeof(string) && !typ.IsArray)
+
+                    ImGui.NextColumn();
+                    if (open)
                     {
-                        bool open = ImGui.TreeNodeEx(prop.Name, ImGuiTreeNodeFlags.DefaultOpen);
-                        ImGui.NextColumn();
-                        ImGui.SetNextItemWidth(-1);
-                        var o = prop.GetValue(obj);
-                        ImGui.Text(o.GetType().Name);
-                        ImGui.NextColumn();
-                        if (open)
-                        {
-                            PropEditorGeneric(selection, entSelection, o, false);
-                            ImGui.TreePop();
-                        }
-                        ImGui.PopID();
+                        PropEditorGeneric(selection, entSelection, o, false);
+                        ImGui.TreePop();
                     }
-                    else
-                    {
-                        ImGui.Text(prop.Name);
-                        ImGui.NextColumn();
-                        ImGui.SetNextItemWidth(-1);
-                        var oldval = prop.GetValue(obj);
-                        object newval = null;
 
-                        // Property Editor UI
-                        (bool, bool) propEditResults = PropertyRow(typ, oldval, out newval, prop);
-                        bool changed = propEditResults.Item1;
-                        bool committed = propEditResults.Item2;
-                        PropertyContextMenu(obj, prop);
-                        if (ImGui.IsItemActive() && !ImGui.IsWindowFocused())
-                        {
-                            ImGui.SetItemDefaultFocus();
-                        }
-                        if (ParamRefRow(prop, oldval, ref newval))
-                        {
-                            changed = true;
-                            committed = true;
-                        }
-                        UpdateProperty(prop, entSelection, newval, changed, committed, -1, classIndex);
-
-                        ImGui.NextColumn();
-                        ImGui.PopID();
-                    }
-                    id++;
+                    ImGui.PopID();
                 }
-            }
-
-            var refID = 0; // ID for ImGui distinction
-            if (decorate && entSelection.Count == 1)
-            {
-                ImGui.Columns(1);
-                if (firstEnt.References != null)
+                else if (typ == typeof(BTL.LightType))
                 {
-                    ImGui.NewLine();
-                    ImGui.Text("References: ");
-                    ImGui.Indent(10 * scale);
-                    foreach (var m in firstEnt.References)
+                    var open = ImGui.TreeNodeEx(prop.Name, ImGuiTreeNodeFlags.DefaultOpen);
+                    ImGui.NextColumn();
+                    ImGui.SetNextItemWidth(-1);
+                    var o = prop.GetValue(obj);
+                    var enumTypes = Enum.Parse<LightType>(o.ToString());
+                    var thisType = (int)enumTypes;
+                    if (ImGui.Combo("##lightTypecombo", ref thisType, _lightTypes, _lightTypes.Length))
                     {
-                        foreach (var n in m.Value)
+                        BTL.LightType newLight;
+                        switch ((LightType)thisType)
                         {
-                            if (n is Entity e)
-                            {
-                                var nameWithType = e.PrettyName.Insert(2, e.WrappedObject.GetType().Name + " - ");
-                                if (ImGui.Button(nameWithType + "##MSBRefTo" + refID))
-                                {
-                                    selection.ClearSelection();
-                                    selection.AddSelection(e);
-                                }
-                            }
-                            else if (n is ObjectContainerReference r)
-                            {
-                                // Try to select the map's RootObject if it is loaded, and the reference otherwise.
-                                // It's not the end of the world if we choose the wrong one, as SceneTree can use either,
-                                // but only the RootObject has the TransformNode and Viewport integration.
-                                string mapid = r.Name;
-                                string prettyName = $"{ForkAwesome.Cube} {mapid}";
-                                if (Editor.AliasBank.MapNames != null && Editor.AliasBank.MapNames.TryGetValue(mapid, out string metaName))
-                                {
-                                    prettyName += $" <{metaName.Replace("--", "")}>";
-                                }
-                                if (ImGui.Button(prettyName + "##MSBRefTo" + refID))
-                                {
-                                    Scene.ISelectable rootTarget = r.GetSelectionTarget();
-                                    selection.ClearSelection();
-                                    selection.AddSelection(rootTarget);
-                                    // For this type of connection, jump to the object in the list to actually load the map
-                                    // (is this desirable in other cases?). It could be possible to have a Load context menu
-                                    // here, but that should be shared with SceneTree.
-                                    selection.GotoTreeTarget = rootTarget;
-                                }
-
-                                if (ImGui.BeginPopupContextItem())
-                                {
-                                    var map = firstEnt.Universe.GetLoadedMap(mapid);
-                                    if (map == null)
-                                    {
-                                        if (ImGui.Selectable("Load Map"))
-                                        {
-                                            firstEnt.Universe.LoadMap(mapid);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        if (ImGui.Selectable("Unload Map"))
-                                        {
-                                            firstEnt.Universe.UnloadContainer(map);
-                                        }
-                                    }
-                                    ImGui.EndPopup();
-                                }
-                            }
-                            refID++;
+                            case LightType.Directional:
+                                newLight = BTL.LightType.Directional;
+                                break;
+                            case LightType.Point:
+                                newLight = BTL.LightType.Point;
+                                break;
+                            case LightType.Spot:
+                                newLight = BTL.LightType.Spot;
+                                break;
+                            default:
+                                throw new Exception("Invalid BTL LightType");
                         }
+
+                        PropertiesChangedAction action = new(prop, obj, newLight);
+                        action.SetPostExecutionAction(undo =>
+                        {
+                            var selected = false;
+                            if (firstEnt.RenderSceneMesh != null)
+                            {
+                                selected = firstEnt.RenderSceneMesh.RenderSelectionOutline;
+                                firstEnt.RenderSceneMesh.Dispose();
+                                firstEnt.RenderSceneMesh = null;
+                            }
+
+                            firstEnt.UpdateRenderModel();
+                            firstEnt.RenderSceneMesh.RenderSelectionOutline = selected;
+                        });
+                        ContextActionManager.ExecuteAction(action);
+
+                        ContextActionManager.ExecuteAction(action);
                     }
-                }
-                ImGui.Unindent(10 * scale);
-                ImGui.NewLine();
-                ImGui.Text("Objects referencing this object:");
-                ImGui.Indent(10 * scale);
-                foreach (var m in firstEnt.GetReferencingObjects())
-                {
-                    var nameWithType = m.PrettyName.Insert(2, m.WrappedObject.GetType().Name + " - ");
-                    if (ImGui.Button(nameWithType + "##MSBRefBy" + refID))
+
+                    ImGui.NextColumn();
+                    if (open)
                     {
-                        selection.ClearSelection();
-                        selection.AddSelection(m);
+                        PropEditorGeneric(selection, entSelection, o, false);
+                        ImGui.TreePop();
                     }
-                    refID++;
+
+                    ImGui.PopID();
                 }
-                ImGui.Unindent(10 * scale);
+                else if (typ.IsClass && typ != typeof(string) && !typ.IsArray)
+                {
+                    var open = ImGui.TreeNodeEx(prop.Name, ImGuiTreeNodeFlags.DefaultOpen);
+                    ImGui.NextColumn();
+                    ImGui.SetNextItemWidth(-1);
+                    var o = prop.GetValue(obj);
+                    ImGui.Text(o.GetType().Name);
+                    ImGui.NextColumn();
+                    if (open)
+                    {
+                        PropEditorGeneric(selection, entSelection, o, false);
+                        ImGui.TreePop();
+                    }
+
+                    ImGui.PopID();
+                }
+                else
+                {
+                    ImGui.Text(prop.Name);
+                    ImGui.NextColumn();
+                    ImGui.SetNextItemWidth(-1);
+                    var oldval = prop.GetValue(obj);
+                    object newval = null;
+
+                    // Property Editor UI
+                    (bool, bool) propEditResults = PropertyRow(typ, oldval, out newval, prop);
+                    var changed = propEditResults.Item1;
+                    var committed = propEditResults.Item2;
+                    PropertyContextMenu(obj, prop);
+                    if (ImGui.IsItemActive() && !ImGui.IsWindowFocused())
+                    {
+                        ImGui.SetItemDefaultFocus();
+                    }
+
+                    if (ParamRefRow(prop, oldval, ref newval))
+                    {
+                        changed = true;
+                        committed = true;
+                    }
+
+                    UpdateProperty(prop, entSelection, newval, changed, committed, -1, classIndex);
+
+                    ImGui.NextColumn();
+                    ImGui.PopID();
+                }
+
+                id++;
             }
         }
 
-        public void OnGui(Selection selection, string id, float w, float h)
+        var refID = 0; // ID for ImGui distinction
+        if (decorate && entSelection.Count == 1)
         {
-            float scale = MapStudioNew.GetUIScale();
-            var entSelection = selection.GetFilteredSelection<Entity>();
-
-            ImGui.PushStyleColor(ImGuiCol.ChildBg, new Vector4(0.145f, 0.145f, 0.149f, 1.0f));
-            ImGui.SetNextWindowSize(new Vector2(350, h - 80) * scale, ImGuiCond.FirstUseEver);
-            ImGui.SetNextWindowPos(new Vector2(w - 370, 20) * scale, ImGuiCond.FirstUseEver);
-            ImGui.Begin($@"Properties##{id}");
-            ImGui.BeginChild("propedit");
-            if (entSelection.Count > 1)
+            ImGui.Columns(1);
+            if (firstEnt.References != null)
             {
-                var firstEnt = entSelection.First();
-                if (entSelection.All(e => e.WrappedObject.GetType() == firstEnt.WrappedObject.GetType()))
+                ImGui.NewLine();
+                ImGui.Text("References: ");
+                ImGui.Indent(10 * scale);
+                foreach (KeyValuePair<string, object[]> m in firstEnt.References)
                 {
-                    if (firstEnt.WrappedObject is Param.Row prow || firstEnt.WrappedObject is MergedParamRow)
+                    foreach (var n in m.Value)
                     {
-                        ImGui.Text("Cannot edit multiples of this object at once.");
-                        ImGui.EndChild();
-                        ImGui.End();
-                        ImGui.PopStyleColor();
-                        return;
-                    }
-                    else
-                    {
-                        ImGui.TextColored(new Vector4(0.5f, 1.0f, 0.0f, 1.0f), " Editing Multiple Objects.\n Changes will be applied to all selected objects.");
-                        ImGui.Separator();
-                        ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.0f, 0.5f, 0.0f, 0.1f));
-                        ImGui.BeginChild("MSB_EditingMultipleObjsChild");
-                        PropEditorGeneric(selection, entSelection);
-                        ImGui.PopStyleColor();
-                        ImGui.EndChild();
-                    }
-                }
-                else
-                {
-                    ImGui.Text("Not all selected objects are the same type.");
-                    ImGui.EndChild();
-                    ImGui.End();
-                    ImGui.PopStyleColor();
-                    return;
-                }
+                        if (n is Entity e)
+                        {
+                            var nameWithType = e.PrettyName.Insert(2, e.WrappedObject.GetType().Name + " - ");
+                            if (ImGui.Button(nameWithType + "##MSBRefTo" + refID))
+                            {
+                                selection.ClearSelection();
+                                selection.AddSelection(e);
+                            }
+                        }
+                        else if (n is ObjectContainerReference r)
+                        {
+                            // Try to select the map's RootObject if it is loaded, and the reference otherwise.
+                            // It's not the end of the world if we choose the wrong one, as SceneTree can use either,
+                            // but only the RootObject has the TransformNode and Viewport integration.
+                            var mapid = r.Name;
+                            var prettyName = $"{ForkAwesome.Cube} {mapid}";
+                            if (AliasBank.MapNames != null &&
+                                AliasBank.MapNames.TryGetValue(mapid, out var metaName))
+                            {
+                                prettyName += $" <{metaName.Replace("--", "")}>";
+                            }
 
+                            if (ImGui.Button(prettyName + "##MSBRefTo" + refID))
+                            {
+                                ISelectable rootTarget = r.GetSelectionTarget();
+                                selection.ClearSelection();
+                                selection.AddSelection(rootTarget);
+                                // For this type of connection, jump to the object in the list to actually load the map
+                                // (is this desirable in other cases?). It could be possible to have a Load context menu
+                                // here, but that should be shared with SceneTree.
+                                selection.GotoTreeTarget = rootTarget;
+                            }
+
+                            if (ImGui.BeginPopupContextItem())
+                            {
+                                Map map = firstEnt.Universe.GetLoadedMap(mapid);
+                                if (map == null)
+                                {
+                                    if (ImGui.Selectable("Load Map"))
+                                    {
+                                        firstEnt.Universe.LoadMap(mapid);
+                                    }
+                                }
+                                else
+                                {
+                                    if (ImGui.Selectable("Unload Map"))
+                                    {
+                                        firstEnt.Universe.UnloadContainer(map);
+                                    }
+                                }
+
+                                ImGui.EndPopup();
+                            }
+                        }
+
+                        refID++;
+                    }
+                }
             }
-            else if (entSelection.Any())
+
+            ImGui.Unindent(10 * scale);
+            ImGui.NewLine();
+            ImGui.Text("Objects referencing this object:");
+            ImGui.Indent(10 * scale);
+            foreach (Entity m in firstEnt.GetReferencingObjects())
             {
-                var firstEnt = entSelection.First();
-                ImGui.Text($" Map: {firstEnt.Container.Name}");
-                if (firstEnt.WrappedObject == null)
+                var nameWithType = m.PrettyName.Insert(2, m.WrappedObject.GetType().Name + " - ");
+                if (ImGui.Button(nameWithType + "##MSBRefBy" + refID))
                 {
-                    ImGui.Text("Select a map object to edit its properties.");
+                    selection.ClearSelection();
+                    selection.AddSelection(m);
+                }
+
+                refID++;
+            }
+
+            ImGui.Unindent(10 * scale);
+        }
+    }
+
+    public void OnGui(Selection selection, string id, float w, float h)
+    {
+        var scale = MapStudioNew.GetUIScale();
+        HashSet<Entity> entSelection = selection.GetFilteredSelection<Entity>();
+
+        ImGui.PushStyleColor(ImGuiCol.ChildBg, new Vector4(0.145f, 0.145f, 0.149f, 1.0f));
+        ImGui.SetNextWindowSize(new Vector2(350, h - 80) * scale, ImGuiCond.FirstUseEver);
+        ImGui.SetNextWindowPos(new Vector2(w - 370, 20) * scale, ImGuiCond.FirstUseEver);
+        ImGui.Begin($@"Properties##{id}");
+        ImGui.BeginChild("propedit");
+        if (entSelection.Count > 1)
+        {
+            Entity firstEnt = entSelection.First();
+            if (entSelection.All(e => e.WrappedObject.GetType() == firstEnt.WrappedObject.GetType()))
+            {
+                if (firstEnt.WrappedObject is Param.Row prow || firstEnt.WrappedObject is MergedParamRow)
+                {
+                    ImGui.Text("Cannot edit multiples of this object at once.");
                     ImGui.EndChild();
                     ImGui.End();
                     ImGui.PopStyleColor();
                     return;
                 }
-                else if (firstEnt.WrappedObject is Param.Row prow || firstEnt.WrappedObject is MergedParamRow)
-                {
-                    PropEditorParamRow(firstEnt);
-                }
-                else
-                {
-                    PropEditorGeneric(selection, entSelection);
-                }
+
+                ImGui.TextColored(new Vector4(0.5f, 1.0f, 0.0f, 1.0f),
+                    " Editing Multiple Objects.\n Changes will be applied to all selected objects.");
+                ImGui.Separator();
+                ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.0f, 0.5f, 0.0f, 0.1f));
+                ImGui.BeginChild("MSB_EditingMultipleObjsChild");
+                PropEditorGeneric(selection, entSelection);
+                ImGui.PopStyleColor();
+                ImGui.EndChild();
             }
             else
             {
-                ImGui.Text("Select a map object to edit its properties.");
+                ImGui.Text("Not all selected objects are the same type.");
+                ImGui.EndChild();
+                ImGui.End();
+                ImGui.PopStyleColor();
+                return;
             }
-            ImGui.EndChild();
-            ImGui.End();
-            ImGui.PopStyleColor();
         }
+        else if (entSelection.Any())
+        {
+            Entity firstEnt = entSelection.First();
+            ImGui.Text($" Map: {firstEnt.Container.Name}");
+            if (firstEnt.WrappedObject == null)
+            {
+                ImGui.Text("Select a map object to edit its properties.");
+                ImGui.EndChild();
+                ImGui.End();
+                ImGui.PopStyleColor();
+                return;
+            }
+
+            if (firstEnt.WrappedObject is Param.Row prow || firstEnt.WrappedObject is MergedParamRow)
+            {
+                PropEditorParamRow(firstEnt);
+            }
+            else
+            {
+                PropEditorGeneric(selection, entSelection);
+            }
+        }
+        else
+        {
+            ImGui.Text("Select a map object to edit its properties.");
+        }
+
+        ImGui.EndChild();
+        ImGui.End();
+        ImGui.PopStyleColor();
+    }
+
+    internal enum RegionShape
+    {
+        Point,
+        Sphere,
+        Cylinder,
+        Box,
+        Composite,
+        Rectangle,
+        Circle
+    }
+
+    internal enum LightType
+    {
+        Spot,
+        Directional,
+        Point
     }
 }

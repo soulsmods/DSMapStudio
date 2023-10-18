@@ -1,19 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace StudioCore.MsbEditor
+namespace StudioCore.MsbEditor;
+
+public class SavingFailedException : Exception
 {
-    public class SavingFailedException : Exception
-    {
-        public string Filename;
-        public Exception Wrapped;
+    public string Filename;
+    public Exception Wrapped;
 
-        public SavingFailedException(string fname, Exception wrapped)
-            : base($@"Failed to save file {fname}")
-        {
-            Filename = fname;
-            Wrapped = wrapped;
-        }
+    public SavingFailedException(string fname, Exception wrapped)
+        : base($@"Failed to save file {fname}")
+    {
+        Filename = fname;
+        Wrapped = wrapped;
     }
 }

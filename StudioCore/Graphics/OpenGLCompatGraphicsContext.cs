@@ -1,43 +1,40 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
+﻿using Silk.NET.OpenGL;
+using Silk.NET.SDL;
 using StudioCore.Editor;
+using System.Collections.Generic;
+using System.Diagnostics;
 using Veldrid;
 using Veldrid.Sdl2;
 using Veldrid.StartupUtilities;
-using Silk.NET.OpenGL;
-using Silk.NET.SDL;
 
 namespace StudioCore.Graphics;
 
 public unsafe class OpenGLCompatGraphicsContext : IGraphicsContext
 {
+    private bool _colorSrgb = false;
+    private SdlContext _context;
     private OpenGLImGuiRenderer _imGuiRenderer;
-    public IImguiRenderer ImguiRenderer => _imGuiRenderer;
-    
-    private Sdl2Window _window;
-    public Sdl2Window Window => _window;
-    public GraphicsDevice Device => null;
+
+    private bool _windowMoved = true;
+    private bool _windowResized = true;
+    private GL GL;
 
     private Sdl SDL;
-    private SdlContext _context;
-    private GL GL;
-    private bool _windowResized = true;
-    private bool _windowMoved = true;
-    private bool _colorSrgb = false;
 
-    public OpenGLCompatGraphicsContext()
-    {
-    }
+    public IImguiRenderer ImguiRenderer => _imGuiRenderer;
+    public Sdl2Window Window { get; private set; }
+
+    public GraphicsDevice Device => null;
 
     public void Initialize()
     {
-        WindowCreateInfo windowCI = new WindowCreateInfo
+        WindowCreateInfo windowCI = new()
         {
             X = CFG.Current.GFX_Display_X,
             Y = CFG.Current.GFX_Display_Y,
             WindowWidth = CFG.Current.GFX_Display_Width,
             WindowHeight = CFG.Current.GFX_Display_Height,
-            WindowInitialState = WindowState.Maximized,
+            WindowInitialState = WindowState.Maximized
         };
 
         SdlProvider.InitFlags = Sdl.InitVideo;
@@ -57,12 +54,12 @@ public unsafe class OpenGLCompatGraphicsContext : IGraphicsContext
         SDL.GLSetAttribute(GLattr.ContextProfileMask, (int)GLprofile.Core);
         SDL.GLSetAttribute(GLattr.ContextFlags, (int)ContextFlagMask.ForwardCompatibleBit);
         SDL.GLSetAttribute(GLattr.ShareWithCurrentContext, 0);
-        
-        _window = VeldridStartup.CreateWindow(windowCI);
-        _window.Resized += () => _windowResized = true;
-        _window.Moved += (p) => _windowMoved = true;
 
-        _context = new SdlContext(SDL, _window.SdlWindowHandle);
+        Window = VeldridStartup.CreateWindow(windowCI);
+        Window.Resized += () => _windowResized = true;
+        Window.Moved += p => _windowMoved = true;
+
+        _context = new SdlContext(SDL, Window.SdlWindowHandle);
         _context.Create(
             (GLattr.ContextMajorVersion, 3),
             (GLattr.ContextMinorVersion, 3),
@@ -77,32 +74,28 @@ public unsafe class OpenGLCompatGraphicsContext : IGraphicsContext
         _imGuiRenderer = new OpenGLImGuiRenderer(GL, CFG.Current.GFX_Display_Width, CFG.Current.GFX_Display_Height,
             ColorSpaceHandling.Legacy);
     }
-    
-    private void RecreateWindowFramebuffers()
-    {
-    }
 
     public void Draw(List<EditorScreen> editors, EditorScreen focusedEditor)
     {
-        Debug.Assert(_window.Exists);
-        int width = _window.Width;
-        int height = _window.Height;
-        int x = _window.X;
-        int y = _window.Y;
-        
+        Debug.Assert(Window.Exists);
+        var width = Window.Width;
+        var height = Window.Height;
+        var x = Window.X;
+        var y = Window.Y;
+
         if (_windowResized)
         {
             _windowResized = false;
 
             CFG.Current.GFX_Display_Width = width;
             CFG.Current.GFX_Display_Height = height;
-            
+
             RecreateWindowFramebuffers();
-            
+
             _imGuiRenderer.WindowResized(width, height);
-            foreach (var editor in editors)
+            foreach (EditorScreen editor in editors)
             {
-                editor.EditorResized(_window, null);
+                editor.EditorResized(Window, null);
             }
         }
 
@@ -112,10 +105,11 @@ public unsafe class OpenGLCompatGraphicsContext : IGraphicsContext
             CFG.Current.GFX_Display_X = x;
             CFG.Current.GFX_Display_Y = y;
         }
-        
+
         GL.Viewport(0, 0, (uint)width, (uint)height);
         GL.ClearColor(0.176f, 0.176f, 0.188f, 1.0f);
-        GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit | ClearBufferMask.StencilBufferBit);
+        GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit |
+                 ClearBufferMask.StencilBufferBit);
         _imGuiRenderer.Render();
         _context.SwapBuffers();
     }
@@ -123,5 +117,9 @@ public unsafe class OpenGLCompatGraphicsContext : IGraphicsContext
     public void Dispose()
     {
         //_imGuiRenderer?.Dispose();
+    }
+
+    private void RecreateWindowFramebuffers()
+    {
     }
 }

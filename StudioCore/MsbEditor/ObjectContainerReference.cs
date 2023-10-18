@@ -1,48 +1,51 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using StudioCore.Scene;
 
-namespace StudioCore.MsbEditor
+namespace StudioCore.MsbEditor;
+
+/// <summary>
+///     Reference to a top-level container entity, regardless of whether it is loaded or not.
+/// </summary>
+public class ObjectContainerReference : ISelectable
 {
-    /// <summary>
-    /// Reference to a top-level container entity, regardless of whether it is loaded or not.
-    /// </summary>
-    public class ObjectContainerReference : Scene.ISelectable
+    private readonly Universe Universe;
+
+    public ObjectContainerReference(string name, Universe universe)
     {
-        public string Name { get; set; }
+        Name = name;
+        Universe = universe;
+    }
 
-        private Universe Universe;
+    public string Name { get; set; }
 
-        public ObjectContainerReference(string name, Universe universe)
+    public void OnSelected()
+    {
+        // No visual change from selection
+    }
+
+    public void OnDeselected()
+    {
+        // No visual change from selection
+    }
+
+    public ISelectable GetSelectionTarget()
+    {
+        if (Universe != null
+            && Universe.LoadedObjectContainers.TryGetValue(Name, out ObjectContainer container)
+            && container?.RootObject != null)
         {
-            Name = name;
-            Universe = universe;
+            return container.RootObject;
         }
 
-        public Scene.ISelectable GetSelectionTarget()
-        {
-            if (Universe != null
-                && Universe.LoadedObjectContainers.TryGetValue(Name, out ObjectContainer container)
-                && container?.RootObject != null)
-            {
-                return container.RootObject;
-            }
-            return this;
-        }
+        return this;
+    }
 
-        public void OnSelected()
-        {
-            // No visual change from selection
-        }
+    public override int GetHashCode()
+    {
+        return Name.GetHashCode();
+    }
 
-        public void OnDeselected()
-        {
-            // No visual change from selection
-        }
-
-        public override int GetHashCode() => Name.GetHashCode();
-        public override bool Equals(object obj) => obj is ObjectContainerReference o && Name.Equals(o.Name);
+    public override bool Equals(object obj)
+    {
+        return obj is ObjectContainerReference o && Name.Equals(o.Name);
     }
 }

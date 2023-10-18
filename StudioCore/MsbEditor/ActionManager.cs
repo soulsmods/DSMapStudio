@@ -1,108 +1,109 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace StudioCore.MsbEditor
+namespace StudioCore.MsbEditor;
+
+[Flags]
+public enum ActionEvent
 {
-    [Flags]
-    public enum ActionEvent
-    {
-        NoEvent = 0,
+    NoEvent = 0,
 
-        // An object was added or removed from a scene
-        ObjectAddedRemoved = 1,
+    // An object was added or removed from a scene
+    ObjectAddedRemoved = 1
+}
+
+/// <summary>
+///     Interface for objects that may react to events caused by actions that
+///     happen. Useful for invalidating caches that various editors may have.
+/// </summary>
+public interface IActionEventHandler
+{
+    public void OnActionEvent(ActionEvent evt);
+}
+
+/// <summary>
+///     Manages undo and redo for an editor context
+/// </summary>
+public class ActionManager
+{
+    private readonly List<IActionEventHandler> _eventHandlers = new();
+    private readonly Stack<Action> RedoStack = new();
+
+    private readonly Stack<Action> UndoStack = new();
+
+    public void AddEventHandler(IActionEventHandler handler)
+    {
+        _eventHandlers.Add(handler);
     }
 
-    /// <summary>
-    /// Interface for objects that may react to events caused by actions that
-    /// happen. Useful for invalidating caches that various editors may have.
-    /// </summary>
-    public interface IActionEventHandler
+    private void NotifyHandlers(ActionEvent evt)
     {
-        public void OnActionEvent(ActionEvent evt);
+        if (evt == ActionEvent.NoEvent)
+        {
+            return;
+        }
+
+        foreach (IActionEventHandler handler in _eventHandlers)
+        {
+            handler.OnActionEvent(evt);
+        }
     }
 
-    /// <summary>
-    /// Manages undo and redo for an editor context
-    /// </summary>
-    public class ActionManager
+    public void ExecuteAction(Action a)
     {
-        private List<IActionEventHandler> _eventHandlers = new List<IActionEventHandler>();
+        NotifyHandlers(a.Execute());
+        UndoStack.Push(a);
+        RedoStack.Clear();
+    }
 
-        private Stack<Action> UndoStack = new Stack<Action>();
-        private Stack<Action> RedoStack = new Stack<Action>();
-
-        public void AddEventHandler(IActionEventHandler handler)
+    public Action PeekUndoAction()
+    {
+        if (UndoStack.Count() == 0)
         {
-            _eventHandlers.Add(handler);
+            return null;
         }
 
-        private void NotifyHandlers(ActionEvent evt)
+        return UndoStack.Peek();
+    }
+
+    public void UndoAction()
+    {
+        if (UndoStack.Count() == 0)
         {
-            if (evt == ActionEvent.NoEvent)
-            {
-                return;
-            }
-            foreach (var handler in _eventHandlers)
-            {
-                handler.OnActionEvent(evt);
-            }
+            return;
         }
 
-        public void ExecuteAction(Action a)
+        Action a = UndoStack.Pop();
+        NotifyHandlers(a.Undo());
+        RedoStack.Push(a);
+    }
+
+    public void RedoAction()
+    {
+        if (RedoStack.Count() == 0)
         {
-            NotifyHandlers(a.Execute());
-            UndoStack.Push(a);
-            RedoStack.Clear();
+            return;
         }
 
-        public Action PeekUndoAction()
-        {
-            if (UndoStack.Count() == 0)
-            {
-                return null;
-            }
-            return UndoStack.Peek();
-        }
+        Action a = RedoStack.Pop();
+        NotifyHandlers(a.Execute());
+        UndoStack.Push(a);
+    }
 
-        public void UndoAction()
-        {
-            if (UndoStack.Count() == 0)
-            {
-                return;
-            }
-            var a = UndoStack.Pop();
-            NotifyHandlers(a.Undo());
-            RedoStack.Push(a);
-        }
+    public bool CanUndo()
+    {
+        return UndoStack.Count() > 0;
+    }
 
-        public void RedoAction()
-        {
-            if (RedoStack.Count() == 0)
-            {
-                return;
-            }
-            var a = RedoStack.Pop();
-            NotifyHandlers(a.Execute());
-            UndoStack.Push(a);
-        }
+    public bool CanRedo()
+    {
+        return RedoStack.Count() > 0;
+    }
 
-        public bool CanUndo()
-        {
-            return UndoStack.Count() > 0;
-        }
-
-        public bool CanRedo()
-        {
-            return RedoStack.Count() > 0;
-        }
-
-        public void Clear()
-        {
-            UndoStack.Clear();
-            RedoStack.Clear();
-        }
+    public void Clear()
+    {
+        UndoStack.Clear();
+        RedoStack.Clear();
     }
 }

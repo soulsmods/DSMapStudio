@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿namespace StudioCore.Scene;
 
-namespace StudioCore.Scene
+/// <summary>
+///     Simple interface for a modal dialogue
+/// </summary>
+internal interface IModal
 {
-    /// <summary>
-    /// Simple interface for a modal dialogue
-    /// </summary>
-    interface IModal
-    {
-        public bool IsClosed { get; }
-        public void OpenModal();
-        public void OnGui();
-    }
+    public bool IsClosed { get; }
+    public void OpenModal();
+    public void OnGui();
 }
