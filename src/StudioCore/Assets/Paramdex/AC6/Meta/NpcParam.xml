@@ -2,6 +2,7 @@
 <PARAMMETA XmlVersion="0">
   <Field>
     <damageLevelConvThresholdParamId Refs="DamageLevelConvThresholdParam" />
+    <npcEquipPartsParamId Refs="NpcEquipPartsParam" />
   </Field>
   <Self />
 </PARAMMETA>

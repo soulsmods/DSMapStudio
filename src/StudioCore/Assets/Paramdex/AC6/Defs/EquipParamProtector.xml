@@ -403,7 +403,7 @@
     <Field Def="f32 Unk0x32C"></Field>
     <Field Def="f32 Unk0x330"></Field>
     <Field Def="s16 Unk0x334"></Field>
-    <Field Def="u16 UnkUshort0x336"></Field>
+    <Field Def="u16 scanAngle"></Field>
     <Field Def="f32 scanDistance">
       <Description>Range within which scanning can detect enemies or part containers.</Description>
     </Field>
