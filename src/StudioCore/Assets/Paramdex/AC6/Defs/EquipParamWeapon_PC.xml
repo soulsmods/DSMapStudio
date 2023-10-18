@@ -306,7 +306,7 @@
       <Description>Total number of rounds that can be fired.</Description>
     </Field>
     <Field Def="s32 Unk0x2AC"></Field>
-    <Field Def="f32 UnkFloat0x2B0"></Field>
+    <Field Def="f32 homingRequiredDist"></Field>
     <Field Def="f32 UnkFloat0x2B4"></Field>
     <Field Def="f32 UnkFloat0x2B8"></Field>
     <Field Def="f32 UnkFloat0x2BC"></Field>

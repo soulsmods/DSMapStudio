@@ -43,7 +43,7 @@
     <Field Def="f32 missileLockCorrection"></Field>
     <Field Def="f32 multiLockCorrection"></Field>
     <Field Def="s32 inheritanceFcsParamId"></Field>
-    <Field Def="f32 UnkFloat0x90"></Field>
+    <Field Def="f32 targetTrackingCorrection"></Field>
     <Field Def="f32 UnkFloat0x94"></Field>
     <Field Def="f32 aimAssistInputTargetDist_Stage0"></Field>
     <Field Def="f32 aimAssistInputTargetDist_Stage1"></Field>

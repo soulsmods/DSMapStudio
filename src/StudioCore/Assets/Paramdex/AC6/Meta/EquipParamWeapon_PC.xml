@@ -19,6 +19,7 @@
     <unkIsSpecializationType_6 AltName="" IsBool="" />
     <unkIsSpecializationType_7 AltName="" IsBool="" />
     <unkIsSpecializationType_8 AltName="" IsBool="" />
+    <homingRequiredDist AltName="Homing: Required Distance" Wiki="Maximum distance to target when firing for homing to function." />
   </Field>
   <Self />
 </PARAMMETA>

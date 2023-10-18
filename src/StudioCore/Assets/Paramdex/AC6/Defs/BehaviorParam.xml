@@ -46,10 +46,10 @@
     <Field Def="f32 UnkFloat0x48"></Field>
     <Field Def="f32 UnkFloat0x4C"></Field>
     <Field Def="u8 weaponBulletNum"></Field>
-    <Field Def="u8 weaponBurstFireAmount"></Field>
+    <Field Def="u8 burstFireAmount"></Field>
     <Field Def="s16 UnkShort0x52"></Field>
-    <Field Def="f32 UnkFloat0x54"></Field>
-    <Field Def="f32 rateOfFire"></Field>
+    <Field Def="f32 burstFireInterval"></Field>
+    <Field Def="f32 rapidFireInterval"></Field>
     <Field Def="f32 UnkFloat0x5C"></Field>
     <Field Def="f32 UnkFloat0x60"></Field>
     <Field Def="u8 UnkByte0x64"></Field>

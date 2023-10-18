@@ -37,6 +37,8 @@
     <systemRecovery_Display AltName="System Recovery (Displayed)" Wiki="UI value of System Recovery stat. See systemRecovery for actual effects." />
     <babyBoostSlowWalkVelocity_Grounded Name="Baby Boost Slow Walk Velocity (Grounded)" Wiki="Velocity when baby boost state is active, which replaces walk animations (requires SpEffect 9080)." />
     <babyBoostWalkVelocity_Grounded Name="Baby Boost Walk Velocity (Grounded)" Wiki="Velocity when baby boost state is active, which replaces walk animations (requires SpEffect 9080)." />
+    <legsBrakingCorrection AltName="Grounded Deceleration Multiplier" Wiki="Affects velocity lost during grounded deceleration." />
+    <backWeaponHeightAdjustment AltName="Back Weapon Height Adjustment" Wiki="Affects how high back weapons are placed, larger values are higher. Values range from 0 to 2." />
   </Field>
   <Self />
 </PARAMMETA>
