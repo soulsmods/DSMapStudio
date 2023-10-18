@@ -172,7 +172,7 @@ namespace Veldrid
             }
 
             _currentImageIndex = 0;
-            int surfaceFormatCount = 0;
+            uint surfaceFormatCount = 0;
             result = vkGetPhysicalDeviceSurfaceFormatsKHR(_gd.PhysicalDevice, _surface, &surfaceFormatCount, null);
             CheckResult(result);
             VkSurfaceFormatKHR[] formats = new VkSurfaceFormatKHR[surfaceFormatCount];
@@ -210,7 +210,7 @@ namespace Veldrid
                 }
             }
 
-            int presentModeCount = 0;
+            uint presentModeCount = 0;
             result = vkGetPhysicalDeviceSurfacePresentModesKHR(_gd.PhysicalDevice, _surface, &presentModeCount, null);
             CheckResult(result);
             VkPresentModeKHR[] presentModes = new VkPresentModeKHR[presentModeCount];

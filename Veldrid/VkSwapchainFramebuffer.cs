@@ -85,7 +85,7 @@ namespace Veldrid
             _desiredHeight = height;
 
             // Get the images
-            int scImageCount = 0;
+            uint scImageCount = 0;
             VkResult result = vkGetSwapchainImagesKHR(_gd.Device, deviceSwapchain, &scImageCount, null);
             CheckResult(result);
             if (_scImages == null)
@@ -93,7 +93,7 @@ namespace Veldrid
                 _scImages = new VkImage[(int)scImageCount];
             }
             fixed (VkImage* pscImages = _scImages)
-            result = vkGetSwapchainImagesKHR(_gd.Device, deviceSwapchain, &scImageCount, pscImages);
+                result = vkGetSwapchainImagesKHR(_gd.Device, deviceSwapchain, &scImageCount, pscImages);
             CheckResult(result);
 
             _scImageFormat = surfaceFormat.format;

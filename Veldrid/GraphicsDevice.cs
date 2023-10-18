@@ -138,8 +138,8 @@ namespace Veldrid
                     VkFence* fences = stackalloc VkFence[WaitFences.Count];
                     for (int i = 0; i < WaitFences.Count; i++)
                         fences[i] = WaitFences[i];
-                    vkWaitForFences(device._device, WaitFences.Count, fences, VkBool32.True, UInt64.MaxValue);
-                    vkResetFences(device._device, WaitFences.Count, fences);
+                    vkWaitForFences(device._device, (uint)WaitFences.Count, fences, VkBool32.True, UInt64.MaxValue);
+                    vkResetFences(device._device, (uint)WaitFences.Count, fences);
                     foreach (var fence in WaitFences)
                         device._availableSubmissionFences.Enqueue(fence);
                     WaitFences.Clear();
@@ -205,10 +205,10 @@ namespace Veldrid
 
             var allocatorInfo = new VmaAllocatorCreateInfo
             {
-                PhysicalDevice = _physicalDevice,
-                Device = _device,
-                Instance = _instance,
-                VulkanApiVersion = Vortice.Vulkan.VkVersion.Version_1_3
+                physicalDevice = _physicalDevice,
+                device = _device,
+                instance = _instance,
+                vulkanApiVersion = VkVersion.Version_1_3
             };
             var result = Vma.vmaCreateAllocator(&allocatorInfo, out _vmaAllocator);
             CheckResult(result);
@@ -524,7 +524,7 @@ namespace Veldrid
                 fencesPtr[i] = fences[i].DeviceFence;
             }
 
-            VkResult result = vkWaitForFences(_device, fenceCount, fencesPtr, waitAll, nanosecondTimeout);
+            VkResult result = vkWaitForFences(_device, (uint)fenceCount, fencesPtr, waitAll, nanosecondTimeout);
             return result == VkResult.Success;
         }
 
@@ -1741,7 +1741,7 @@ namespace Veldrid
 
         private void CreatePhysicalDevice()
         {
-            int deviceCount = 0;
+            uint deviceCount = 0;
             vkEnumeratePhysicalDevices(_instance, &deviceCount, null);
             if (deviceCount == 0)
             {
@@ -1830,22 +1830,22 @@ namespace Veldrid
         private void CreateLogicalDevice(VkSurfaceKHR surface, bool preferStandardClipY, VulkanDeviceOptions options)
         {
             // Queue selection logic is largely taken from granite
-            int count = 0;
+            uint count = 0;
             vkGetPhysicalDeviceQueueFamilyProperties2(_physicalDevice, &count, null);
-            VkQueueFamilyProperties2* props = stackalloc VkQueueFamilyProperties2[count];
+            VkQueueFamilyProperties2* props = stackalloc VkQueueFamilyProperties2[(int)count];
             for (uint i = 0; i < count; i++)
             {
                 props[i] = new VkQueueFamilyProperties2();
             }
             vkGetPhysicalDeviceQueueFamilyProperties2(_physicalDevice, &count, props);
-            int queueFamilyCount = count;
+            uint queueFamilyCount = count;
 
             _queueFamilyIndices = new uint[(int)QueueType.QueueTypeCount];
             _queueIndices = new uint[(int)QueueType.QueueTypeCount];
             _queues = new VkQueue[(int)QueueType.QueueTypeCount];
 
-            var offsets = stackalloc uint[queueFamilyCount];
-            var priorities = stackalloc float[queueFamilyCount * (int)QueueType.QueueTypeCount];
+            var offsets = stackalloc uint[(int)queueFamilyCount];
+            var priorities = stackalloc float[(int)queueFamilyCount * (int)QueueType.QueueTypeCount];
             bool FindQueue(VkQueueFlags required, VkQueueFlags ignored, float priority, ref uint family, ref uint index)
             {
                 for (uint i = 0; i < queueFamilyCount; i++)
@@ -1905,7 +1905,7 @@ namespace Veldrid
                 _queueIndices[(int)QueueType.Transfer] = _queueIndices[(int)QueueType.Compute];
             }
 
-            var queueCreateInfos = stackalloc VkDeviceQueueCreateInfo[queueFamilyCount];
+            var queueCreateInfos = stackalloc VkDeviceQueueCreateInfo[(int)queueFamilyCount];
             
             uint queueCreateInfosCount = 0;
             for (uint i = 0; i < queueFamilyCount; i++)
@@ -1964,11 +1964,11 @@ namespace Veldrid
             deviceFeatures11.pNext = &deviceFeatures12;
             deviceFeatures12.pNext = &deviceFeatures13;
 
-            int propertyCount = 0;
-            VkResult result = vkEnumerateDeviceExtensionProperties(_physicalDevice, (sbyte*)null, &propertyCount, null);
+            uint propertyCount = 0;
+            VkResult result = vkEnumerateDeviceExtensionProperties(_physicalDevice, null, &propertyCount, null);
             CheckResult(result);
             VkExtensionProperties* properties = stackalloc VkExtensionProperties[(int)propertyCount];
-            result = vkEnumerateDeviceExtensionProperties(_physicalDevice, (sbyte*)null, &propertyCount, properties);
+            result = vkEnumerateDeviceExtensionProperties(_physicalDevice, null, &propertyCount, properties);
             CheckResult(result);
 
             HashSet<string> requiredInstanceExtensions = new HashSet<string>(options.DeviceExtensions ?? Array.Empty<string>());
@@ -2207,7 +2207,7 @@ namespace Veldrid
             }
             vkLoadInstanceOnly(testInstance);
 
-            int physicalDeviceCount = 0;
+            uint physicalDeviceCount = 0;
             result = vkEnumeratePhysicalDevices(testInstance, &physicalDeviceCount, null);
             if (result != VkResult.Success || physicalDeviceCount == 0)
             {

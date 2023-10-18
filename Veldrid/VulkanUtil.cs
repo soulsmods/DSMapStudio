@@ -35,7 +35,7 @@ namespace Veldrid
 
         public static string[] EnumerateInstanceLayers()
         {
-            int propCount = 0;
+            uint propCount = 0;
             VkResult result = vkEnumerateInstanceLayerProperties(&propCount, null);
             CheckResult(result);
             if (propCount == 0)
@@ -68,7 +68,7 @@ namespace Veldrid
                 return Array.Empty<string>();
             }
 
-            int propCount = 0;
+            uint propCount = 0;
             VkResult result = vkEnumerateInstanceExtensionProperties(null, &propCount, null);
             if (result != VkResult.Success)
             {
@@ -102,7 +102,7 @@ namespace Veldrid
         {
             try
             {
-                int propCount;
+                uint propCount;
                 vkEnumerateInstanceExtensionProperties(null, &propCount, null);
                 return true;
             }
