@@ -113,9 +113,9 @@
     <Field Def="f32 UnkFloat0xE0"></Field>
     <Field Def="f32 UnkFloat0xE4"></Field>
     <Field Def="f32 UnkFloat0xE8"></Field>
-    <Field Def="s16 UnkShort0xEC"></Field>
+    <Field Def="s16 randomMoveAngle_Horizontal"></Field>
     <Field Def="s16 unkLoseHomingLineupTime"></Field>
-    <Field Def="f32 randomMoveAngle"></Field>
+    <Field Def="f32 unkRandomMoveAngleCondition"></Field>
     <Field Def="f32 UnkFloat0xF4"></Field>
     <Field Def="u8 UnkByte0xF8"></Field>
     <Field Def="u8 UnkByte0xF9"></Field>
@@ -132,7 +132,7 @@
     <Field Def="s32 UnkInt0x11C"></Field>
     <Field Def="f32 UnkFloat0x120"></Field>
     <Field Def="f32 UnkFloat0x124"></Field>
-    <Field Def="s16 UnkShort0x128"></Field>
+    <Field Def="s16 randomMoveAngle_Vertical"></Field>
     <Field Def="u8 UnkByte0x12A"></Field>
     <Field Def="u8 UnkByte0x12B"></Field>
     <Field Def="s32 UnkInt0x12C"></Field>
