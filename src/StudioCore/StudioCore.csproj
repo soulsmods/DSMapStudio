@@ -284,7 +284,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="..\Lib\SDL2.dll" Link="SDL2.dll">
+    <Content Include="..\..\lib\SDL2.dll" Link="SDL2.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\Shaders\Collision.frag.spv">
@@ -389,7 +389,7 @@
     <Content Include="Assets\Shaders\SimpleFlver.vert.spv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\Lib\libveldrid-spirv.dll" Link="libveldrid-spirv.dll">
+    <Content Include="..\..\lib\libveldrid-spirv.dll" Link="libveldrid-spirv.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\Shaders\SimpleFlver_selected.frag.spv">
@@ -404,12 +404,12 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)' == 'Debug'">
-    <Content Include="..\Lib\cimgui.dll" Link="cimgui.dll">
+    <Content Include="..\..\lib\cimgui.dll" Link="cimgui.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup Condition="'$(Configuration)' == 'Release'">
-    <Content Include="..\Lib\rel\cimgui.dll" Link="cimgui.dll">
+    <Content Include="..\..\lib\rel\cimgui.dll" Link="cimgui.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -439,20 +439,20 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SoapstoneLib\SoapstoneLib\SoapstoneLib.csproj" />
-    <ProjectReference Include="..\FSParam\FSParam.csproj" />
-    <ProjectReference Include="..\HKX2\HKX2.csproj" />
-    <ProjectReference Include="..\SoulsFormats\SoulsFormats\SoulsFormats.csproj" />
-    <ProjectReference Include="..\Veldrid.RenderDoc\Veldrid.RenderDoc.csproj" />
-    <ProjectReference Include="..\Veldrid.SDL2\Veldrid.SDL2.csproj" />
-    <ProjectReference Include="..\Veldrid.SPIRV\Veldrid.SPIRV.csproj" />
-    <ProjectReference Include="..\Veldrid.StartupUtilities\Veldrid.StartupUtilities.csproj" />
-    <ProjectReference Include="..\Veldrid.Utilities\Veldrid.Utilities.csproj" />
-    <ProjectReference Include="..\Veldrid\Veldrid.csproj" />
+    <ProjectReference Include="..\Studio.Core\FSParam\FSParam.csproj" />
+    <ProjectReference Include="..\HKX2\HKX2\HKX2.csproj" />
+    <ProjectReference Include="..\Studio.Core\SoulsFormats\SoulsFormats\SoulsFormats.csproj" />
+    <ProjectReference Include="..\Veldrid\Veldrid.RenderDoc\Veldrid.RenderDoc.csproj" />
+    <ProjectReference Include="..\Veldrid\Veldrid.SDL2\Veldrid.SDL2.csproj" />
+    <ProjectReference Include="..\Veldrid\Veldrid.SPIRV\Veldrid.SPIRV.csproj" />
+    <ProjectReference Include="..\Veldrid\Veldrid.StartupUtilities\Veldrid.StartupUtilities.csproj" />
+    <ProjectReference Include="..\Veldrid\Veldrid.Utilities\Veldrid.Utilities.csproj" />
+    <ProjectReference Include="..\Veldrid\Veldrid\Veldrid.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Reference Include="ImGui.NET">
-      <HintPath>..\Lib\ImGui.NET.dll</HintPath>
+      <HintPath>..\..\lib\ImGui.NET.dll</HintPath>
     </Reference>
   </ItemGroup>
 
@@ -463,7 +463,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="..\Lib\NavGen.dll" Link="NavGen.dll">
+    <Content Include="..\..\lib\NavGen.dll" Link="NavGen.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
