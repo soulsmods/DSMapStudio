@@ -617,8 +617,8 @@ namespace SoulsFormats
                 internal override void GetIndices(MSBS msb, Entries entries)
                 {
                     base.GetIndices(msb, entries);
-                    SpawnRegionIndices = MSB.FindIndices(entries.Regions, SpawnRegionNames);
-                    SpawnPartIndices = MSB.FindIndices(entries.Parts, SpawnPartNames);
+                    SpawnRegionIndices = MSB.FindIndices(this, entries.Regions, SpawnRegionNames);
+                    SpawnPartIndices = MSB.FindIndices(this, entries.Parts, SpawnPartNames);
                 }
             }
 
@@ -973,7 +973,7 @@ namespace SoulsFormats
                 internal override void GetIndices(MSBS msb, Entries entries)
                 {
                     base.GetIndices(msb, entries);
-                    GroupPartIndices = MSB.FindIndices(entries.Parts, GroupPartNames);
+                    GroupPartIndices = MSB.FindIndices(this, entries.Parts, GroupPartNames);
                 }
             }
 
@@ -1153,7 +1153,7 @@ namespace SoulsFormats
                 internal override void GetIndices(MSBS msb, Entries entries)
                 {
                     base.GetIndices(msb, entries);
-                    Event21PartIndices = MSB.FindIndices(entries.Parts, Event21PartNames);
+                    Event21PartIndices = MSB.FindIndices(this, entries.Parts, Event21PartNames);
                 }
             }
 
@@ -1262,7 +1262,7 @@ namespace SoulsFormats
                 internal override void GetIndices(MSBS msb, Entries entries)
                 {
                     base.GetIndices(msb, entries);
-                    EnemyIndices = MSB.FindIndices(msb.Parts.Enemies, EnemyNames);
+                    EnemyIndices = MSB.FindIndices(this, msb.Parts.Enemies, EnemyNames);
                 }
             }
 

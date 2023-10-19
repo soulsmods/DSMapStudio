@@ -141,5 +141,13 @@ namespace SoulsFormats
                 indices[i] = FindIndex(list, names[i]);
             return indices;
         }
+
+        internal static int[] FindIndices<T>(IMsbEntry referrer, List<T> list, string[] names) where T : IMsbEntry
+        {
+            var indices = new int[names.Length];
+            for (int i = 0; i < names.Length; i++)
+                indices[i] = FindIndex(referrer, list, names[i]);
+            return indices;
+        }
     }
 }

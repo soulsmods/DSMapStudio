@@ -3157,7 +3157,7 @@ namespace SoulsFormats
                 internal override void GetIndices(MSBE msb, Entries entries)
                 {
                     base.GetIndices(msb, entries);
-                    UnkPartIndices = MSB.FindIndices(entries.Parts, UnkPartNames);
+                    UnkPartIndices = MSB.FindIndices(this, entries.Parts, UnkPartNames);
                 }
             }
         }
