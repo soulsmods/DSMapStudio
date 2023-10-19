@@ -273,9 +273,9 @@
     <Field Def="u8 UnkByte0x1B2"></Field>
     <Field Def="u8 UnkByte0x1B3"></Field>
     <Field Def="f32 UnkFloat0x1B4"></Field>
-    <Field Def="s32 UnkInt0x1B8"></Field>
-    <Field Def="s32 UnkInt0x1BC"></Field>
-    <Field Def="f32 UnkFloat0x1C0"></Field>
+    <Field Def="s32 energyCapacity"></Field>
+    <Field Def="s32 energyOutput"></Field>
+    <Field Def="f32 energyRechargeDelay"></Field>
     <Field Def="s32 thrusterParamId">
       <Description>Refers to ThrustersParam_PC.</Description>
     </Field>
