@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SoulsFormats\SoulsFormats\SoulsFormats.csproj" />
-    <ProjectReference Include="..\StudioUtils\StudioUtils.csproj" />
+    <ProjectReference Include="..\Andre.Core\Andre.Core.csproj" />
   </ItemGroup>
 
 </Project>

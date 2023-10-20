@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace StudioUtils;
+namespace Andre.Core;
 
 internal static class StudioEncoding
 {

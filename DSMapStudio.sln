@@ -4,7 +4,7 @@ VisualStudioVersion = 17.1.32414.318
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudioCore", "src\StudioCore\StudioCore.csproj", "{593D78AF-7DE5-449D-93F5-43E83D0D171B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoulsFormats", "src\Studio.Core\SoulsFormats\SoulsFormats\SoulsFormats.csproj", "{22C664BD-877B-44DF-8ECF-2808522469A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoulsFormats", "src\Andre\SoulsFormats\SoulsFormats\SoulsFormats.csproj", "{22C664BD-877B-44DF-8ECF-2808522469A8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DSMapStudio", "src\Studio.App\DSMapStudio\DSMapStudio.csproj", "{116FFEC2-6183-4A8C-A4D6-DB03C39FFA18}"
 EndProject
@@ -30,13 +30,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HKX2ReadWrite", "src\HKX2\H
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ColBakeTest", "src\HKX2\ColBakeTest\ColBakeTest.csproj", "{1C7196EE-88C0-42BA-A4F5-5DDBF872E743}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FSParam", "src\Studio.Core\FSParam\FSParam.csproj", "{56C072EE-4011-4A0E-9B72-25A1A47969A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Andre.Formats", "src\Andre\Andre.Formats\Andre.Formats.csproj", "{56C072EE-4011-4A0E-9B72-25A1A47969A0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudioUtils", "src\Studio.Core\StudioUtils\StudioUtils.csproj", "{AD901915-1F68-4774-8D9C-5BD443F933F6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Andre.Core", "src\Andre\Andre.Core\Andre.Core.csproj", "{AD901915-1F68-4774-8D9C-5BD443F933F6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoapstoneLib", "src\SoapstoneLib\SoapstoneLib\SoapstoneLib.csproj", "{DEFFEB30-C8AD-4D0E-AE19-39D8452B9568}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSMapStudio_LowRequirements", "src\Studio.App\DSMapStudio_LowRequirements\DSMapStudio_LowRequirements.csproj", "{C85F2BC2-5867-46D6-BE35-CFDAE8F44130}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Andre.IO", "src\Andre\Andre.IO\Andre.IO.csproj", "{9E5E426C-567D-45F3-9198-5280A4569B80}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -120,6 +122,10 @@ Global
 		{C85F2BC2-5867-46D6-BE35-CFDAE8F44130}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C85F2BC2-5867-46D6-BE35-CFDAE8F44130}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C85F2BC2-5867-46D6-BE35-CFDAE8F44130}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E5E426C-567D-45F3-9198-5280A4569B80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E5E426C-567D-45F3-9198-5280A4569B80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E5E426C-567D-45F3-9198-5280A4569B80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E5E426C-567D-45F3-9198-5280A4569B80}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
