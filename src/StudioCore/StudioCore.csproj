@@ -439,9 +439,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SoapstoneLib\SoapstoneLib\SoapstoneLib.csproj" />
-    <ProjectReference Include="..\Studio.Core\FSParam\FSParam.csproj" />
+    <ProjectReference Include="..\Andre\Andre.Formats\Andre.Formats.csproj" />
     <ProjectReference Include="..\HKX2\HKX2\HKX2.csproj" />
-    <ProjectReference Include="..\Studio.Core\SoulsFormats\SoulsFormats\SoulsFormats.csproj" />
+    <ProjectReference Include="..\Andre\SoulsFormats\SoulsFormats\SoulsFormats.csproj" />
     <ProjectReference Include="..\Veldrid\Veldrid.RenderDoc\Veldrid.RenderDoc.csproj" />
     <ProjectReference Include="..\Veldrid\Veldrid.SDL2\Veldrid.SDL2.csproj" />
     <ProjectReference Include="..\Veldrid\Veldrid.SPIRV\Veldrid.SPIRV.csproj" />

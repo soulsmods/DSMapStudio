@@ -16,7 +16,7 @@
 
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Studio.Core\SoulsFormats\SoulsFormats\SoulsFormats.csproj" />
+    <ProjectReference Include="..\..\Andre\SoulsFormats\SoulsFormats\SoulsFormats.csproj" />
   </ItemGroup>
 
 </Project>

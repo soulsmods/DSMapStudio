@@ -4,7 +4,7 @@ name: Mirror SoulsFormats (beta)
 on:
   push:
     paths:
-      - '/src/Studio.Core/SoulsFormats/**'
+      - '/src/Andre/SoulsFormats/**'
 jobs:
   split:
     runs-on: ubuntu-latest

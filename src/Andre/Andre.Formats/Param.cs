@@ -1,7 +1,7 @@
 ﻿using SoulsFormats;
-using StudioUtils;
+using Andre.Core;
 
-namespace FSParam;
+namespace Andre.Formats;
 
 /// <summary>
 ///     An alternative to the SoulsFormats param class that's designed to be faster to read/write and be
