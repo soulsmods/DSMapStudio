@@ -9,6 +9,8 @@
     <thrustersParamId AltName="Attack Action Param ID" Refs="ThrustersParam_PC" />
     <menuTextID AltName="menuTextID" FmgRef="Modern_MenuText" />
     <equipmentMenuManageCategoryParamId AltName="equipmentMenuManageCategoryParamId" Refs="EquipmentMenuManageCategoryParam" />
+    <chargeTime_Level1 AltName="Charge Time (Level 1)" Wiki="Amount of time (in seconds) it takes to fully charge to level 1." />
+    <chargeTime_Level2 AltName="Charge Time (Level 2)" Wiki="Amount of time (in seconds) it takes to fully charge to level 2, for when weapon permits charging past level 1." />
     <isMeleeSpecialization AltName="Melee Specialization" IsBool="" Wiki="Damage benefits from Melee Specialization modifiers." />
     <isEnergyFirearmSpecialization AltName="Energy Firearm Specialization" IsBool="" Wiki="Damage benefits from Energy Firearm Specialization modifiers." />
     <unkIsSpecializationType_3 AltName="" IsBool="" />
@@ -17,6 +19,7 @@
     <unkIsSpecializationType_6 AltName="" IsBool="" />
     <unkIsSpecializationType_7 AltName="" IsBool="" />
     <unkIsSpecializationType_8 AltName="" IsBool="" />
+    <homingRequiredDist AltName="Homing: Required Distance" Wiki="Maximum distance to target when firing for homing to function." />
   </Field>
   <Self />
 </PARAMMETA>

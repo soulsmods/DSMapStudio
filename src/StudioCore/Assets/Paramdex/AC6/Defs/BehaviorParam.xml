@@ -46,10 +46,10 @@
     <Field Def="f32 UnkFloat0x48"></Field>
     <Field Def="f32 UnkFloat0x4C"></Field>
     <Field Def="u8 weaponBulletNum"></Field>
-    <Field Def="u8 weaponBurstFireAmount"></Field>
+    <Field Def="u8 burstFireAmount"></Field>
     <Field Def="s16 UnkShort0x52"></Field>
-    <Field Def="f32 UnkFloat0x54"></Field>
-    <Field Def="f32 rateOfFire"></Field>
+    <Field Def="f32 burstFireInterval"></Field>
+    <Field Def="f32 rapidFireInterval"></Field>
     <Field Def="f32 UnkFloat0x5C"></Field>
     <Field Def="f32 UnkFloat0x60"></Field>
     <Field Def="u8 UnkByte0x64"></Field>
@@ -74,14 +74,14 @@
     <Field Def="s16 Unk0x7E"></Field>
     <Field Def="s32 Unk0x80"></Field>
     <Field Def="s32 Unk0x84"></Field>
-    <Field Def="s32 bulletShotgunParamIdA">
+    <Field Def="s32 bulletShotgunParamId1">
       <Description>References BulletShotgunParam</Description>
     </Field>
-    <Field Def="f32 unkBulletSpread"></Field>
+    <Field Def="f32 unkBulletSpreadFocalDist"></Field>
     <Field Def="f32 weaponAttackHeatBuildup">
       <Description>Heat buildup when attacking. Overheat occurs when value exceeds maximum tolerance.</Description>
     </Field>
-    <Field Def="s32 bulletShotgunParamIdB">
+    <Field Def="s32 bulletShotgunParamId2">
       <Description>References BulletShotgunParam</Description>
     </Field>
     <Field Def="f32 UnkFloat0x98"></Field>
