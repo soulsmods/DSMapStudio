@@ -321,7 +321,7 @@
     <Field Def="s16 Unk0x2FA"></Field>
     <Field Def="u8 UnkByte0x2FC"></Field>
     <Field Def="s8 UnkSbyte0x2FD"></Field>
-    <Field Def="u16 UnkUshort0x2FE"></Field>
+    <Field Def="u16 npcMaterialParamReference"></Field>
     <Field Def="s32 UnkInt0x300"></Field>
     <Field Def="s32 Unk0x304"></Field>
     <Field Def="f32 Unk0x308"></Field>
