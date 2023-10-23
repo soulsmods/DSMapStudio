@@ -96,8 +96,8 @@
     <Field Def="u8 bulletSfxDeleteType_byHit"></Field>
     <Field Def="u8 bulletSfxDeleteType_byLifeDead"></Field>
     <Field Def="f32 targetYOffsetRange"></Field>
-    <Field Def="f32 shootAngleYMaxRandom"></Field>
-    <Field Def="f32 shootAngleXMaxRandom"></Field>
+    <Field Def="f32 shootAngleHorizontalMaxRandom"></Field>
+    <Field Def="f32 shootAngleVerticalMaxRandom"></Field>
     <Field Def="s32 intervalCreateBulletId"></Field>
     <Field Def="f32 intervalCreateTimeMin"></Field>
     <Field Def="f32 intervalCreateTimeMax"></Field>
