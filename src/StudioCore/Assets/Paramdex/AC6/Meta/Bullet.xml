@@ -1,5 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
+  <Enums>
+    <Enum Name="BULLET_LAUNCH_CONDITION_TYPE">
+      <Option Value="0" Name="Always" />
+      <Option Value="1" Name="Hit Water" />
+      <Option Value="2" Name="Hit Water or Swamp" />
+      <Option Value="3" Name="Didn't hit Enemy" />/>
+      <Option Value="4" Name="Hit Enemy" />
+      <Option Value="254" Name="Expired" />
+      <Option Value="255" Name="Hit Ground or Enemy" />
+    </Enum>
+  </Enums>
   <Field>
     <atkId_Bullet AltName="AtkParam ID" Wiki="References AtkParam. Used to apply the damage characteristics to a project." Refs="AtkParam_Pc,AtkParam_Npc" />
     <sfxId_Bullet AltName="Projectile FFX ID" Wiki="Visual effect for projectile in transit." ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
@@ -11,6 +22,7 @@
     <spreadTime AltName="Hitbox Radius Spread Time" Wiki="Amount of time (in seconds) it takes for hitbox radius to grow from hitRadius to hitRadiusMax." />
     <spEffectIDForShooter AltName="Shooter SpEffect ID" Wiki="SpEffect applied to owner of bullet." Refs="SpEffectParam" />
     <hitBulletID AltName="Hit Bullet ID" Wiki="Bullet to generate when projectile expires." Refs="Bullet" />
+    <launchConditionType AltName="Hit Bullet Condition" Enum="BULLET_LAUNCH_CONDITION_TYPE" Wiki="Conditions required for HitBulletID to generate." />
     <intervalCreateBulletId  AltName="Interval Bullet ID" Wiki="Bullet to generate on interval." Refs="Bullet" />
     <spEffectId0 AltName="Target SpEffect ID [0]" Wiki="SpEffect applied to hit targets." Refs="SpEffectParam" />
     <spEffectId1 AltName="Target SpEffect ID [1]" Wiki="SpEffect applied to hit targets." Refs="SpEffectParam" />
@@ -19,7 +31,7 @@
     <spEffectId4 AltName="Target SpEffect ID [4]" Wiki="SpEffect applied to hit targets." Refs="SpEffectParam" />
     <lifeDist AltName="Expire Distance" Wiki="Distance travelled before bullet expires." />
     <hitChrProximityDistance AltName="Hit Character Proximity Distance" Wiki="Distance to an enemy for bullet to expire." />
-    <assetCreationAssetId AltName="Created Asset (Asset ID)" Refs="AssetEnvironmentGeometryParam" Wiki="ID of asset to spawn." />
+    <assetCreationAssetId AltName="Asset Created (Asset ID)" Refs="AssetEnvironmentGeometryParam" Wiki="ID of asset to spawn." />
   </Field>
   <Self />
 </PARAMMETA>
