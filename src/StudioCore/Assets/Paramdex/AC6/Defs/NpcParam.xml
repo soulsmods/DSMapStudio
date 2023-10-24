@@ -260,7 +260,7 @@
     <Field Def="s8 clothOffLodLevel"></Field>
     <Field Def="u8 UnkByte0x22D"></Field>
     <Field Def="s16 estusFlaskRecoveryParamId"></Field>
-    <Field Def="s32 s32"></Field>
+    <Field Def="s32 Unk0x230"></Field>
     <Field Def="u16 estusFlaskLotPoint"></Field>
     <Field Def="u16 hpEstusFlaskLotPoint"></Field>
     <Field Def="u16 mpEstusFlaskLotPoint"></Field>
@@ -361,7 +361,7 @@
     <Field Def="f32 Unk0x390"></Field>
     <Field Def="f32 Unk0x394"></Field>
     <Field Def="s32 npcEquipPartsParamId"></Field>
-    <Field Def="f32 UnkFloat0x39C"></Field>
+    <Field Def="f32 maxLockonDistOverride"></Field>
     <Field Def="s32 UnkInt0x3A0"></Field>
     <Field Def="f32 Unk0x3A4"></Field>
     <Field Def="f32 Unk0x3A8"></Field>
@@ -387,17 +387,17 @@
     <Field Def="u8 Unk0x3E6"></Field>
     <Field Def="u8 Unk0x3E7"></Field>
     <Field Def="f32 Unk0x3E8"></Field>
-    <Field Def="s16 UnkShort0x3EC"></Field>
-    <Field Def="s16 UnkShort0x3EE"></Field>
-    <Field Def="f32 UnkFloat0x3F0"></Field>
-    <Field Def="u16 UnkUshort0x3F4"></Field>
+    <Field Def="s16 pulseArmorHp"></Field>
+    <Field Def="s16 pulseArmorRegen"></Field>
+    <Field Def="f32 pulseArmorRegenDelay"></Field>
+    <Field Def="u16 unkPulseArmorDepletedRegen"></Field>
     <Field Def="u8 UnkByte0x3F6"></Field>
     <Field Def="u8 Unk0x3F7"></Field>
-    <Field Def="f32 Unk0x3F8"></Field>
-    <Field Def="f32 Unk0x3FC"></Field>
-    <Field Def="f32 Unk0x400"></Field>
-    <Field Def="f32 Unk0x404"></Field>
-    <Field Def="f32 Unk0x408"></Field>
+    <Field Def="f32 pulseArmorGuardCutRate_Kinetic"></Field>
+    <Field Def="f32 pulseArmorGuardCutRate_Energy"></Field>
+    <Field Def="f32 pulseArmorGuardCutRate_Explosive"></Field>
+    <Field Def="f32 pulseArmorGuardCutRate_Coral"></Field>
+    <Field Def="f32 pulseArmorGuardCutRate_Dark"></Field>
     <Field Def="f32 Unk0x40C"></Field>
     <Field Def="f32 Unk0x410"></Field>
     <Field Def="f32 Unk0x414"></Field>
@@ -513,7 +513,7 @@
     <Field Def="s32 damageLevelConvThresholdParamId">
       <Description>Refers to DamageLevelConvThresholdParam</Description>
     </Field>
-    <Field Def="s32 Unk0x590"></Field>
+    <Field Def="s32 shieldPartHp"></Field>
     <Field Def="s32 Unk0x594"></Field>
     <Field Def="f32 Unk0x598"></Field>
     <Field Def="f32 Unk0x59C"></Field>
@@ -630,7 +630,7 @@
     <Field Def="s32 Unk0x718"></Field>
     <Field Def="s32 Unk0x71C"></Field>
     <Field Def="s32 Unk0x720"></Field>
-    <Field Def="f32 Unk0x724"></Field>
+    <Field Def="f32 shieldPartGuardCutRate_Impact"></Field>
     <Field Def="f32 Unk0x728"></Field>
     <Field Def="s32 Unk0x72C"></Field>
     <Field Def="s32 Unk0x730"></Field>

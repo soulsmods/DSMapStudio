@@ -242,7 +242,7 @@
     <Field Def="u16 UnkUshort0x1DC"></Field>
     <Field Def="u8 Unk0x1DE"></Field>
     <Field Def="u8 wwise_ShootSeCategoryId"></Field>
-    <Field Def="s32 UnkInt0x1E0"></Field>
+    <Field Def="s32 unkShootSoundModifier"></Field>
     <Field Def="u8 UnkByte0x1E4"></Field>
     <Field Def="u8 UnkByte0x1E5"></Field>
     <Field Def="u8 UnkByte0x1E6"></Field>
