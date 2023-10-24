@@ -285,18 +285,15 @@ namespace SoulsFormats
             /// </summary>
             public byte UnkA0 { get; set; }
 
-
             /// <summary>
             /// Unknown.
             /// </summary>
             public byte UnkA1 { get; set; }
 
-
             /// <summary>
             /// Unknown.
             /// </summary>
             public byte UnkA2 { get; set; }
-
 
             /// <summary>
             /// Unknown.
