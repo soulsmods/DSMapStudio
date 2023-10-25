@@ -454,8 +454,8 @@
     <Field Def="f32 UnkFloat0x3C0"></Field>
     <Field Def="f32 UnkFloat0x3C4"></Field>
     <Field Def="f32 UnkFloat0x3C8"></Field>
-    <Field Def="s32 UnkInt0x3CC"></Field>
-    <Field Def="s32 UnkInt0x3D0"></Field>
+    <Field Def="s32 pulseShieldInterferenceImpactDamage"></Field>
+    <Field Def="s32 pulseShieldInterferenceAccumlativeImpactDamage"></Field>
     <Field Def="f32 UnkFloat0x3D4"></Field>
     <Field Def="f32 UnkFloat0x3D8"></Field>
     <Field Def="s32 accumulativeImpactDamage">

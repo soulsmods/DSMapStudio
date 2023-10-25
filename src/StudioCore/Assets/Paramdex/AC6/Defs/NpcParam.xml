@@ -216,15 +216,15 @@
     <Field Def="s32 TentativePlayerId"></Field>
     <Field Def="s32 basicToughnessValue"></Field>
     <Field Def="f32 gameSystemParamCorrection"></Field>
-    <Field Def="f32 damageCutRate_Kinetic"></Field>
-    <Field Def="f32 slashDamageCutRate"></Field>
-    <Field Def="f32 blowDamageCutRate"></Field>
-    <Field Def="f32 thrustDamageCutRate"></Field>
-    <Field Def="f32 damageCutRate_Energy"></Field>
-    <Field Def="f32 damageCutRate_Explosive"></Field>
-    <Field Def="f32 damageCutRate_Coral"></Field>
-    <Field Def="f32 darkDamageCutRate"></Field>
-    <Field Def="f32 darkGuardCutRate"></Field>
+    <Field Def="f32 unkDamageCutRate_Kinetic"></Field>
+    <Field Def="f32 unkSlashDamageCutRate"></Field>
+    <Field Def="f32 unkBlowDamageCutRate"></Field>
+    <Field Def="f32 unkThrustDamageCutRate"></Field>
+    <Field Def="f32 unkDamageCutRate_Energy"></Field>
+    <Field Def="f32 unkDamageCutRate_Explosive"></Field>
+    <Field Def="f32 unkDamageCutRate_Coral"></Field>
+    <Field Def="f32 unkDarkDamageCutRate"></Field>
+    <Field Def="f32 unkDarkGuardCutRate"></Field>
     <Field Def="s8 clothUpdateOffset"></Field>
     <Field Def="u8 npcPlayerWeightType"></Field>
     <Field Def="s16 normalChangeModelId"></Field>
@@ -509,7 +509,7 @@
     <Field Def="u8 UnkByte0x588"></Field>
     <Field Def="u8 Unk0x589"></Field>
     <Field Def="s8 UnkSbyte0x58A"></Field>
-    <Field Def="u8 UnkByte0x58B"></Field>
+    <Field Def="u8 showStabilityBar"></Field>
     <Field Def="s32 damageLevelConvThresholdParamId">
       <Description>Refers to DamageLevelConvThresholdParam</Description>
     </Field>
@@ -589,9 +589,9 @@
     <Field Def="s8 UnkSbyte0x67A"></Field>
     <Field Def="s8 UnkSbyte0x67B"></Field>
     <Field Def="f32 Unk0x67C"></Field>
-    <Field Def="f32 Unk0x680"></Field>
-    <Field Def="f32 Unk0x684"></Field>
-    <Field Def="f32 Unk0x688"></Field>
+    <Field Def="f32 damageReductionRate_Kinetic"></Field>
+    <Field Def="f32 damageReductionRate_Energy"></Field>
+    <Field Def="f32 damageReductionRate_Explosive"></Field>
     <Field Def="s32 Unk0x68C"></Field>
     <Field Def="s32 Unk0x690"></Field>
     <Field Def="f32 Unk0x694"></Field>
