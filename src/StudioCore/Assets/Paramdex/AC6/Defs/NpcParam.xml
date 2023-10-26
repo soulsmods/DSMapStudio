@@ -579,7 +579,7 @@
     <Field Def="u16 UnkUshort0x65A"></Field>
     <Field Def="u16 Unk0x65C"></Field>
     <Field Def="s16 UnkShort0x65E"></Field>
-    <Field Def="f32 Unk0x660"></Field>
+    <Field Def="f32 pulseArmorDamageReductionRate_Impact"></Field>
     <Field Def="f32 Unk0x664"></Field>
     <Field Def="f32 Unk0x668"></Field>
     <Field Def="f32 Unk0x66C"></Field>
