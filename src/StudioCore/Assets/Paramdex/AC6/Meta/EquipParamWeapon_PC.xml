@@ -22,6 +22,10 @@
     <homingRequiredDist AltName="Homing: Required Distance" Wiki="Maximum distance to target when firing for homing to function." />
     <pulseArmorRadius AltName="Pulse Armor: Radius" Wiki="Size of effective pulse armor (see pulseArmorVisualRadius for visual radius)." />
     <pulseArmorVisualRadius AltName="Pulse Armor: Visual Radius" Wiki="Size of pulse armor visuals (see pulseArmorRadius for effective radius)." />
+    <shieldGuardFacingAngleHorizontalOffset AltName="Pulse Shield: Deployment Angle Offset (Horizontal)" Wiki="Horizontal offset for shield guard facing angle.\nPositive values = angle right, negative values = angle left." />
+    <shieldGuardFacingAngleVerticalOffset AltName="Pulse Shield: Deployment Angle Offset (Vertical)" Wiki="Vertical offset for shield guard facing angle.\nPositive values = angle up, negative values = angle down." />
+    <shieldGuardAngleHorizontal AltName="Pulse Shield: Deployment Range (Horizontal)" Wiki="Horizontal guard angle of shields. Value displayed in UI as Deployment Range (times 2)." />
+    <shieldGuardAngleVertical AltName="Pulse Shield: Deployment Range (Vertical)" Wiki="Vertical guard angle of shields." />
   </Field>
   <Self />
 </PARAMMETA>

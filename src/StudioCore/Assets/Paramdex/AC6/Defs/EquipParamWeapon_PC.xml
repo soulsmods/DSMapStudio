@@ -378,10 +378,10 @@
     <Field Def="s32 UnkInt0x388"></Field>
     <Field Def="u8 UnkByte0x38C"></Field>
     <Field Def="u8 Unk0x38D"></Field>
-    <Field Def="s16 UnkShort0x38E"></Field>
-    <Field Def="s16 UnkShort0x390"></Field>
-    <Field Def="s16 UnkShort0x392"></Field>
-    <Field Def="s16 UnkShort0x394"></Field>
+    <Field Def="s16 shieldGuardFacingAngleHorizontalOffset"></Field>
+    <Field Def="s16 shieldGuardFacingAngleVerticalOffset"></Field>
+    <Field Def="s16 shieldGuardAngleHorizontal"></Field>
+    <Field Def="s16 shieldGuardAngleVertical"></Field>
     <Field Def="s16 Unk0x396"></Field>
     <Field Def="s32 attackActionParamId">
       <Description>References the AttackActionParam_PC</Description>
