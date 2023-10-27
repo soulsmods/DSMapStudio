@@ -73,8 +73,8 @@
     <Field Def="u8 isPenetrateObj:1"></Field>
     <Field Def="dummy8 pad:6"></Field>
     <Field Def="u8 launchConditionType"></Field>
-    <Field Def="u8 FollowType:3"></Field>
-    <Field Def="u8 EmittePosType:3"></Field>
+    <Field Def="u8 followType:3"></Field>
+    <Field Def="u8 emittePosType:3"></Field>
     <Field Def="u8 isAttackSFX:1"></Field>
     <Field Def="u8 isEndlessHit:1"></Field>
     <Field Def="u8 isPenetrateMap:1"></Field>

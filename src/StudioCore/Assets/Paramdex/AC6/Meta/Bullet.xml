@@ -10,6 +10,15 @@
       <Option Value="254" Name="Expired" />
       <Option Value="255" Name="Hit Ground or Enemy" />
     </Enum>
+    <Enum Name="BULLET_EMITTE_POS_TYPE" type="u8">
+      <Option Value="0" Name="Standard" />
+      <Option Value="1" Name="Random location around origin" />
+      <Option Value="2" Name="Slightly higherslightly higher elevation (used by white dragon breath and other ground crawling bullets)" />
+      <Option Value="3" Name="Nearest enemy origin" />
+      <Option Value="4" Name="Random location around nearest enemy" />
+      <Option Value="5" Name="Shooting (?)" />
+      <Option Value="6" Name="Aim straight up" />
+    </Enum>
   </Enums>
   <Field>
     <atkId_Bullet AltName="AtkParam ID" Wiki="References AtkParam. Used to apply the damage characteristics to a project." Refs="AtkParam_Pc,AtkParam_Npc" />
@@ -23,6 +32,7 @@
     <spEffectIDForShooter AltName="Shooter SpEffect ID" Wiki="SpEffect applied to owner of bullet." Refs="SpEffectParam" />
     <hitBulletID AltName="Hit Bullet ID" Wiki="Bullet to generate when projectile expires." Refs="Bullet" />
     <launchConditionType AltName="Hit Bullet Condition" Enum="BULLET_LAUNCH_CONDITION_TYPE" Wiki="Conditions required for HitBulletID to generate." />
+    <emittePosType AltName="Bullet Emit Position" Enum="BULLET_EMITTE_POS_TYPE" Wiki="Where bullet appears when created." />
     <intervalCreateBulletId  AltName="Interval Bullet ID" Wiki="Bullet to generate on interval." Refs="Bullet" />
     <spEffectId0 AltName="Target SpEffect ID [0]" Wiki="SpEffect applied to hit targets." Refs="SpEffectParam" />
     <spEffectId1 AltName="Target SpEffect ID [1]" Wiki="SpEffect applied to hit targets." Refs="SpEffectParam" />

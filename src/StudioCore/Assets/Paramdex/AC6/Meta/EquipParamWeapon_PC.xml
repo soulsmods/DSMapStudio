@@ -20,6 +20,8 @@
     <unkIsSpecializationType_7 AltName="" IsBool="" />
     <unkIsSpecializationType_8 AltName="" IsBool="" />
     <homingRequiredDist AltName="Homing: Required Distance" Wiki="Maximum distance to target when firing for homing to function." />
+    <pulseArmorRadius AltName="Pulse Armor: Radius" Wiki="Size of effective pulse armor (see pulseArmorVisualRadius for visual radius)." />
+    <pulseArmorVisualRadius AltName="Pulse Armor: Visual Radius" Wiki="Size of pulse armor visuals (see pulseArmorRadius for effective radius)." />
   </Field>
   <Self />
 </PARAMMETA>
