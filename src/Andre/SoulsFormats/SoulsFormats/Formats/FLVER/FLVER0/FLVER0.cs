@@ -39,17 +39,19 @@ namespace SoulsFormats
             return magic == "FLVER\0" && version >= 0x00000 && version < 0x20000;
         }
 
+        /// <summary>
+        /// Compute the full transform for a bone.
+        /// </summary>
+        /// <param name="index">The index of the bone to compute the full transform of.</param>
+        /// <returns>A matrix representing the world transform of the bone.</returns>
         public Matrix4x4 ComputeBoneWorldMatrix(int index)
         {
             var bone = Bones[index];
-            Matrix4x4 matrix = Bones[index].ComputeLocalTransform();
-            if (bone.ParentIndex != -1)
+            Matrix4x4 matrix = bone.ComputeLocalTransform();
+            while (bone.ParentIndex != -1)
             {
-                do
-                {
-                    bone = Bones[bone.ParentIndex];
-                    matrix *= Bones[index].ComputeLocalTransform();
-                } while (bone.ParentIndex != -1);
+                bone = Bones[bone.ParentIndex];
+                matrix *= bone.ComputeLocalTransform();
             }
 
             return matrix;
