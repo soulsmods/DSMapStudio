@@ -55,7 +55,7 @@ public class MapStudioNew
     /// </summary>
     private readonly char[] SpecialCharsJP =
     {
-        '鉤', '梟', '倅', '…', '飴', '護', '戮', 'ā', 'ī', 'ū', 'ē', 'ō', 'Ā', 'Ē', 'Ī', 'Ō', 'Ū', '—'
+        '鉤', '梟', '倅', '…', '飴', '護', '戮', 'ā', 'ī', 'ū', 'ē', 'ō', 'Ā', 'Ē', 'Ī', 'Ō', 'Ū', '—', '薄', '靄'
     };
 
     private EditorScreen _focusedEditor;
