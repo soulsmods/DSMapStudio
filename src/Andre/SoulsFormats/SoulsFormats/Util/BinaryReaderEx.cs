@@ -117,6 +117,7 @@ namespace SoulsFormats
         /// </summary>
         private T AssertValue<T>(T value, string typeName, string valueFormat, T[] options) where T : IEquatable<T>
         {
+#if DEBUG
             foreach (T option in options)
                 if (value.Equals(option))
                     return value;
@@ -124,6 +125,7 @@ namespace SoulsFormats
             string strValue = string.Format(valueFormat, value);
             string strOptions = string.Join(", ", options.Select(o => string.Format(valueFormat, o)));
             throw new InvalidDataException($"Read {typeName}: {strValue} | Expected: {strOptions} | Ending position: 0x{Position:X}");
+#endif
         }
 
         /// <summary>
