@@ -126,6 +126,7 @@ namespace SoulsFormats
             string strOptions = string.Join(", ", options.Select(o => string.Format(valueFormat, o)));
             throw new InvalidDataException($"Read {typeName}: {strValue} | Expected: {strOptions} | Ending position: 0x{Position:X}");
 #endif
+            return value;
         }
 
         /// <summary>
