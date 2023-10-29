@@ -830,18 +830,18 @@
 81101 Fascination disabled
 81111 all valid
 90000 All disabled
-90001 Poison & Bleeding & Plague Ineffective
+90001 Poison & Bleeding & Toxic disabled
 90010 Poison & Bleeding & Curse disabled
-90011 Poison & bleeding disabled
-90100 Poison & Plague & Curse Ineffective
-90101 Poison & plague invalid
+90011 Poison & Toxic disabled
+90100 Poison & Toxic & Curse disabled
+90101 Poison & Bleed disabled
 90110 Poison & Curse disabled
-90111 Poison ineffective
-91000 Bleeding & plague & curse disabled
-91001 Bleeding & plague invalid
+90111 Poison disabled
+91000 Bleeding & Toxic & curse disabled
+91001 Bleeding & Toxic disabled
 91010 Bleeding & Curse disabled
 91011 Bleeding disabled
-91100 Plague & Curse Invalid
-91101 Plague invalid
+91100 Toxic & Curse disabled
+91101 Toxic disabled
 91110 Curse disabled
 91111 all valid
