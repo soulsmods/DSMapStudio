@@ -796,9 +796,11 @@ namespace SoulsFormats
             TValue value = readValue();
             if (!Enum.IsDefined(typeof(TEnum), value))
             {
+#if DEBUG
                 string strValue = string.Format(valueFormat, value);
                 throw new InvalidDataException(string.Format(
                     "Read Byte not present in enum: {0}", strValue));
+#endif
             }
             return (TEnum)(object)value;
         }
