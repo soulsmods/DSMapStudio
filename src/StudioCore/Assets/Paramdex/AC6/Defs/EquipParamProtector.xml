@@ -361,7 +361,7 @@
       <Description>How quickly jump reaches max velocity and velocity ends. Interrupted by boosting.</Description>
     </Field>
     <Field Def="f32 UnkFloat0x2A4"></Field>
-    <Field Def="f32 UnkFloat0x2A8"></Field>
+    <Field Def="f32 jumpVelocityHorizontal"></Field>
     <Field Def="f32 UnkFloat0x2AC"></Field>
     <Field Def="f32 jumpVelocityHorizontalTransferred">
       <Description>Amount of vertical jump velocity to transfer into horizontal velocity.</Description>
