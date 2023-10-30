@@ -56,6 +56,14 @@
     <lifeDist AltName="Expire Distance" Wiki="Distance travelled before bullet expires." />
     <hitChrProximityDistance AltName="Hit Character Proximity Distance" Wiki="Distance to an enemy for bullet to expire." />
     <assetCreationAssetId AltName="Asset Created (Asset ID)" Refs="AssetEnvironmentGeometryParam" Wiki="ID of asset to spawn." />
+    <UnkFlag0x48_0 AltName="" IsBool="" Wiki="" />
+    <UnkFlag0x48_1 AltName="" IsBool="" Wiki="" />
+    <enableCreateAsset AltName="" IsBool="" Wiki="" />
+    <UnkFlag0x48_3 AltName="" IsBool="" Wiki="" />
+    <UnkFlag0x48_4 AltName="" IsBool="" Wiki="" />
+    <UnkFlag0x48_5 AltName="" IsBool="" Wiki="" />
+    <UnkFlag0x48_6 AltName="" IsBool="" Wiki="" />
+    <UnkFlag0x48_7 AltName="" IsBool="" Wiki="" />
   </Field>
   <Self />
 </PARAMMETA>

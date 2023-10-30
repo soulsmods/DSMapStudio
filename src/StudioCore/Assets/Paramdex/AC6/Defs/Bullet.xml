@@ -26,7 +26,14 @@
     <Field Def="f32 minVelocity"></Field>
     <Field Def="f32 accelTime"></Field>
     <Field Def="f32 homingBeginDist"></Field>
-    <Field Def="u8 UnkByte0x48"></Field>
+    <Field Def="u8 UnkFlag0x48_0:1"></Field>
+    <Field Def="u8 UnkFlag0x48_1:1"></Field>
+    <Field Def="u8 unkCanCreateAsset:1"></Field>
+    <Field Def="u8 UnkFlag0x48_3:1"></Field>
+    <Field Def="u8 UnkFlag0x48_4:1"></Field>
+    <Field Def="u8 UnkFlag0x48_5:1"></Field>
+    <Field Def="u8 UnkFlag0x48_6:1"></Field>
+    <Field Def="u8 UnkFlag0x48_7:1"></Field>
     <Field Def="u8 UnkByte0x49"></Field>
     <Field Def="s16 UnkShort0x4A"></Field>
     <Field Def="f32 hitRadius"></Field>
