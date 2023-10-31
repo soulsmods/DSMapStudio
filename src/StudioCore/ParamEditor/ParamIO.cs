@@ -184,6 +184,7 @@ public class ParamIO
                 csvLines[0] = ""; //skip column label row
             }
 
+            Dictionary<int, int> idCounts = new();
             var changeCount = 0;
             List<EditorAction> actions = new();
             foreach (var csvLine in csvLines)
@@ -200,16 +201,41 @@ public class ParamIO
                 }
 
                 var id = int.Parse(csvs[0]);
+
+                // Track how many times this ID has been defined for the purposes of handing dupe ID row names.
+                idCounts.TryAdd(id, 0);
+                var idCount = idCounts[id] = idCounts[id] + 1;
+                var idIteration = 1;
+
                 var value = csvs[1];
-                Param.Row? row = p[id];
+                Param.Row? row = null;
+                for (var i = 0; i < p.Rows.Count; i++)
+                {
+                    if (p.Rows[i].ID == id)
+                    {
+                        if (idIteration == idCount)
+                        {
+                            row = p.Rows[i];
+                            break;
+                        }
+                        else
+                        {
+                            // This is a dupe row and this name is meant for a different row, keep iterating to find the next row with this ID.
+                            idIteration++;
+                        }
+                    }
+                }
+
                 if (row == null)
                 {
                     if (ignoreMissingRows)
                     {
                         continue;
                     }
-
-                    return ($@"Could not locate row {id}", null);
+                    if (idIteration <= 1)
+                        return ($@"Could not locate row {id}", null);
+                    else
+                        return ($@"Could not locate row {id}, iteration {idIteration}", null);
                 }
 
                 if (field.Equals("Name"))
