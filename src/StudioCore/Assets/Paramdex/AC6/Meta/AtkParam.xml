@@ -49,8 +49,8 @@
     <pulseInterferenceDamage Name="Pulse Armor Interference Damage" Wiki="Bonus damage dealt to pulse armor, pulse protection, and terminal armor core expansions.\nDoesn't affect pulse shields, nor weapons that create pulse barrier assets."/>
     <pulseShieldInterferenceImpactDamage Name="Pulse Shield Interference: Impact Damage" Wiki="Bonus impact damage dealt to opponents with pulse shields.\nDoesn't affect pulse armor or pulse protection."/>
     <pulseShieldInterferenceAccumlativeImpactDamage Name="Pulse Shield Interference: Accumulative Impact Damage" Wiki="Bonus accumulative impact damage dealt to opponents with pulse shields.\nUses pulseShieldInterferenceImpactDamage for base impact damage.\nDoesn't affect pulse armor or pulse protection."/>
-    <recoilVelocity_Grounded Name="Recoil Velocity (Grounded)" Wiki="Backwards velocity applied to the shooter when using a weapon on the ground. Applies conditionally, such as not applying when AC has tank legs."/>
-    <recoilVelocity_Airborne Name="Recoil Velocity (Airborne)" Wiki="Backwards velocity applied to the shooter when using a weapon in the air."/>
+    <recoilKnockbackVelocity_Grounded Name="Recoil Knockback (Grounded)" Wiki="Backwards velocity applied to the shooter when using a weapon on the ground.\nApplies conditionally, such as not applying when AC has tank legs."/>
+    <recoilKnockbackVelocity_Airborne Name="Recoil Knockback (Airborne)" Wiki="Backwards velocity applied to the shooter when using a weapon in the air."/>
     <hitboxShape Name="Hitbox Shape" Enum ="ATKPARAM_HIT_CREATE_TYPE" Wiki="Backwards velocity applied to the shooter when using a weapon in the air."/>
     <attack_Object Name="Attack Damage (Object)" Wiki="Base object damage. Responsible for damage dealt to assets, including EULE/60D [Pulse Shield Launcher] barriers."/>
     <UnkFlag0x1DA_0 Name="" IsBool=""/>
