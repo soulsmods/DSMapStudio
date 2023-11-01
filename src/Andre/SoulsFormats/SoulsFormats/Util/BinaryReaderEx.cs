@@ -797,14 +797,14 @@ namespace SoulsFormats
         private TEnum ReadEnum<TEnum, TValue>(Func<TValue> readValue, string valueFormat)
         {
             TValue value = readValue();
+#if DEBUG
             if (!Enum.IsDefined(typeof(TEnum), value))
             {
-#if DEBUG
                 string strValue = string.Format(valueFormat, value);
                 throw new InvalidDataException(string.Format(
                     "Read Byte not present in enum: {0}", strValue));
-#endif
             }
+#endif
             return (TEnum)(object)value;
         }
 
