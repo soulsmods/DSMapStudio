@@ -18,7 +18,7 @@ namespace StudioCore.ParamEditor
         {
             string str = "";
             str += $@"ID{separator}Name{separator}";
-            foreach (var f in param.AppliedParamdef.Fields)
+            foreach (PARAMDEF.Field? f in param.AppliedParamdef.Fields.FindAll(f => f.IsValidForRegulationVersion(ParamBank.PrimaryBank.ParamVersion)))
             {
                  str += $@"{f.InternalName}{separator}";
             }
@@ -69,7 +69,7 @@ namespace StudioCore.ParamEditor
                 Param p = bank.Params[param];
                 if (p == null)
                     return ("No Param selected", null);
-                int csvLength = p.AppliedParamdef.Fields.Count + 2;// Include ID and name
+                int csvLength = p.AppliedParamdef.Fields.FindAll(f => f.IsValidForRegulationVersion(bank.ParamVersion)).Count + 2;// Include ID and name
                 string[] csvLines = csvString.Split("\n");
                 if (csvLines[0].StartsWith($@"ID{separator}Name"))
                     csvLines[0] = ""; //skip column label row
