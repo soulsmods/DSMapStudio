@@ -708,24 +708,28 @@ public class Map : ObjectContainer
         foreach (KeyValuePair<string, IMsbModel> mk in LoadedModels.OrderBy(q => q.Key))
         {
             var m = mk.Key;
-            if (m.StartsWith("m"))
+            if (m.ToLower().StartsWith("m"))
             {
                 AddModelER(msb, new MSBE.Model.MapPiece { Name = m }, m);
+                continue;
             }
 
-            if (m.StartsWith("h"))
+            if (m.ToLower().StartsWith("h"))
             {
                 AddModelER(msb, new MSBE.Model.Collision { Name = m }, m);
+                continue;
             }
 
-            if (m.StartsWith("AEG"))
+            if (m.ToLower().StartsWith("aeg"))
             {
                 AddModelER(msb, new MSBE.Model.Asset { Name = m }, m);
+                continue;
             }
 
-            if (m.StartsWith("c"))
+            if (m.ToLower().StartsWith("c"))
             {
                 AddModelER(msb, new MSBE.Model.Enemy { Name = m }, m);
+                continue;
             }
         }
     }
