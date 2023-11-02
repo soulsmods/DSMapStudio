@@ -151,21 +151,55 @@ namespace StudioCore.ParamEditor
                 }
                 int changeCount = 0;
                 List<EditorAction> actions = new List<EditorAction>();
+
+                Dictionary<int, int> idCounts = new();
+
                 foreach (string csvLine in csvLines)
                 {
                     if (csvLine.Trim().Equals(""))
+                    {
                         continue;
+                    }
                     string[] csvs = csvLine.Trim().Split(separator, 2);
                     if (csvs.Length != 2 && !(csvs.Length==3 && csvs[2].Trim().Equals("")))
                         return ("CSV has wrong number of values", null);
+
                     int id = int.Parse(csvs[0]);
+
+                    // Track how many times this ID has been defined for the purposes of handing dupe ID row names.
+                    idCounts.TryAdd(id, 0);
+                    var idCount = idCounts[id] = idCounts[id] + 1;
+                    var idIteration = 1;
+
                     string value = csvs[1];
-                    Param.Row? row = p[id];
+                    Param.Row? row = null;
+                    for (var i = 0; i < p.Rows.Count; i++)
+                    {
+                        if (p.Rows[i].ID == id)
+                        {
+                            if (idIteration == idCount)
+                            {
+                                row = p.Rows[i];
+                                break;
+                            }
+                            else
+                            {
+                                // This is a dupe row and this name is meant for a different row, keep iterating to find the next row with this ID.
+                                idIteration++;
+                            }
+                        }
+                    }
+
                     if (row == null)
                     {
                         if (ignoreMissingRows)
+                        {
                             continue;
-                        return ($@"Could not locate row {id}", null);
+                        }
+                        if (idIteration <= 1)
+                            return ($@"Could not locate row {id}", null);
+                        else
+                            return ($@"Could not locate row {id}, iteration {idIteration}", null);
                     }
                     if (field.Equals("Name"))
                     {
