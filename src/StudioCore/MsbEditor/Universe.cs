@@ -676,6 +676,13 @@ public class Universe
 
     public async void LoadMapAsync(string mapid, bool selectOnLoad = false)
     {
+        if (LoadedObjectContainers[mapid] != null)
+        {
+            TaskLogs.AddLog($"Map \"{mapid}\" is already loaded",
+                LogLevel.Debug, TaskLogs.LogPriority.Low);
+            return;
+        }
+
         try
         {
             postLoad = false;
