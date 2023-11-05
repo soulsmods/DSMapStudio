@@ -28,6 +28,9 @@ public class TextEditorScreen : EditorScreen
 
     private string _searchFilter = "";
     private string _searchFilterCached = "";
+    private string _fmgSearchAllString = "";
+    private bool _fmgSearchAllActive = false;
+    private List<FMGBank.FMGInfo> _filteredFmgInfo = new();
     public ActionManager EditorActionManager = new();
 
     public TextEditorScreen(Sdl2Window window, GraphicsDevice device, AssetLocator locator)
@@ -242,6 +245,8 @@ public class TextEditorScreen : EditorScreen
     public void OnProjectChanged(ProjectSettings newSettings)
     {
         _projectSettings = newSettings;
+        _fmgSearchAllString = "";
+        _filteredFmgInfo.Clear();
         ClearTextEditorCache();
         ResetActionManager();
         FMGBank.ReloadFMGs(_projectSettings.LastFmgLanguageUsed);
@@ -403,13 +408,19 @@ public class TextEditorScreen : EditorScreen
 
     private void CategoryListUI(FmgUICategory uiType, bool doFocus)
     {
-        foreach (FMGBank.FMGInfo info in FMGBank.FmgInfoBank)
+        List<FMGBank.FMGInfo> infos;
+        if (_fmgSearchAllActive)
+            infos = _filteredFmgInfo;
+        else
+            infos = FMGBank.FmgInfoBank;
+
+        foreach (var info in infos)
         {
             if (info.PatchParent == null
                 && info.UICategory == uiType
                 && info.EntryType is FmgEntryTextType.Title or FmgEntryTextType.TextBody)
             {
-                var displayName = "";
+                string displayName;
                 if (CFG.Current.FMG_ShowOriginalNames)
                 {
                     displayName = info.FileName;
@@ -471,6 +482,50 @@ public class TextEditorScreen : EditorScreen
         ImGui.DockSpace(dsid, new Vector2(0, 0), ImGuiDockNodeFlags.None);
 
         ImGui.Begin("Text Categories");
+        ImGui.Indent();
+        ImGui.InputText("##SearchAllFmgsInput", ref _fmgSearchAllString, 255);
+        ImGui.Unindent();
+        ImGui.SameLine();
+
+        if (_fmgSearchAllString == "")
+        {
+            _fmgSearchAllActive = false;
+            ImGui.BeginDisabled();
+        }
+        if (ImGui.Button("Search All FMGs##FmgSearchAll"))
+        {
+            _fmgSearchAllActive = true;
+            _filteredFmgInfo.Clear();
+            foreach (var info in FMGBank.FmgInfoBank)
+            {
+                if (info.PatchParent == null)
+                {
+                    foreach (var entry in info.GetPatchedEntries())
+                    {
+                        if ((entry.Text != null && entry.Text.Contains(_fmgSearchAllString, StringComparison.CurrentCultureIgnoreCase))
+                            || entry.ID.ToString().Contains(_fmgSearchAllString))
+                        {
+                            _filteredFmgInfo.Add(info);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        if (_fmgSearchAllString == "")
+        {
+            ImGui.EndDisabled();
+        }
+
+        ImGui.SameLine();
+        if (ImGui.Button("Reset##FmgSearchAll"))
+        {
+            _fmgSearchAllActive = false;
+            _fmgSearchAllString = "";
+            _filteredFmgInfo.Clear();
+        }
+        ImGui.Separator();
+
         foreach (KeyValuePair<FmgUICategory, bool> v in FMGBank.ActiveUITypes)
         {
             if (v.Value)
@@ -656,6 +711,8 @@ public class TextEditorScreen : EditorScreen
     private void ChangeLanguage(string path)
     {
         _projectSettings.LastFmgLanguageUsed = path;
+        _fmgSearchAllString = "";
+        _filteredFmgInfo.Clear();
         ClearTextEditorCache();
         ResetActionManager();
         FMGBank.ReloadFMGs(path);
