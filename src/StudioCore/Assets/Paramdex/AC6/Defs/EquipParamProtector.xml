@@ -312,8 +312,8 @@
     <Field Def="s32 Unk0x220"></Field>
     <Field Def="s32 Unk0x224"></Field>
     <Field Def="s32 Unk0x228"></Field>
-    <Field Def="f32 UnkFloat0x22C"></Field>
-    <Field Def="f32 UnkFloat0x230"></Field>
+    <Field Def="f32 recoilKnockbackVelocityCorrection_Grounded"></Field>
+    <Field Def="f32 recoilKnockbackVelocityCorrection_Airborne"></Field>
     <Field Def="f32 UnkFloat0x234"></Field>
     <Field Def="f32 armsLoadLimit"></Field>
     <Field Def="s32 Unk0x23C"></Field>
@@ -361,7 +361,7 @@
       <Description>How quickly jump reaches max velocity and velocity ends. Interrupted by boosting.</Description>
     </Field>
     <Field Def="f32 UnkFloat0x2A4"></Field>
-    <Field Def="f32 UnkFloat0x2A8"></Field>
+    <Field Def="f32 jumpVelocityHorizontal"></Field>
     <Field Def="f32 UnkFloat0x2AC"></Field>
     <Field Def="f32 jumpVelocityHorizontalTransferred">
       <Description>Amount of vertical jump velocity to transfer into horizontal velocity.</Description>

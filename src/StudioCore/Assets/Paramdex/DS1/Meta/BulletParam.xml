@@ -17,12 +17,12 @@
       <Option Value="7" Name="Petrification" />
       <Option Value="8" Name="Crystal" />
     </Enum>
-    <Enum Name="LaunchCondition">
-      <Option Value="0" Name="life duration ended or hit ground/enemy" />
-      <Option Value="1" Name="?" />
-      <Option Value="2" Name="hit water" />
-      <Option Value="254" Name="hit death collision (fall death only?)" />
-      <Option Value="255" Name="hit ground or enemy" />
+    <Enum Name="BULLET_LAUNCH_CONDITION_TYPE">
+      <Option Value="0" Name="Always" />
+      <Option Value="1" Name="Hit Water" />
+      <Option Value="2" Name="Hit Water or Swamp" />
+      <Option Value="254" Name="Expired" />
+      <Option Value="255" Name="Hit Ground or Enemy" />
     </Enum>
 	<Enum Name="FollowType">
       <Option Value="0" Name="normal" />
@@ -31,7 +31,7 @@
       <Option Value="3" Name="rapidly approach and stop at dist &amp; ignores velocity &amp; ignores lockShootLimitAng" />
       <Option Value="4" Name="slide off of world collision" />
 	</Enum>
-    <Enum Name="EmitterPositionType">
+    <Enum Name="BULLET_EMITTE_POS_TYPE">
       <Option Value="1" Name="random locations around origin (used by firestorm)" />
       <Option Value="2" Name="slightly higher elevation (used by white dragon breath and other ground crawling bullets)" />
       <Option Value="3" Name="nearest enemy origin within a certain distance (unused)" />
@@ -96,9 +96,9 @@
     <Material_AttackType />
     <Material_AttackMaterial />
     <Material_Size />
-    <launchConditionType Enum="LaunchCondition" Wiki="Condition required for generating hitBulletID" />
+    <launchConditionType Enum="BULLET_LAUNCH_CONDITION_TYPE" Wiki="Condition required for generating hitBulletID" />
     <FollowType Enum="FollowType" Wiki="Misc effects on how bullets behave." />
-    <EmittePosType Enum="EmitterPositionType" Wiki="Affects bullet generation locations (needs info and verification)" />
+    <EmittePosType Enum="BULLET_EMITTE_POS_TYPE" Wiki="Affects bullet generation locations (needs info and verification)" />
     <isAttackSFX IsBool="" Wiki="Determines if bullets that hit targets will be stuck in them. Used by arrows and throwing knives." />
     <isEndlessHit IsBool="" />
     <isPenetrateMap IsBool="" Wiki="Determines if bullets ignore map collision." />

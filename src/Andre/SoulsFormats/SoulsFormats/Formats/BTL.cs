@@ -281,9 +281,24 @@ namespace SoulsFormats
             public float NearClip { get; set; }
 
             /// <summary>
-            /// Unknown; 4 bytes.
+            /// Unknown.
             /// </summary>
-            public byte[] UnkA0 { get; set; }
+            public byte UnkA0 { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public byte UnkA1 { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public byte UnkA2 { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public bool ShadowModelCullFlip { get; set; }
 
             /// <summary>
             /// Unknown.
@@ -388,7 +403,10 @@ namespace SoulsFormats
                 Unk84 = new byte[4];
                 Unk98 = 1;
                 NearClip = 1;
-                UnkA0 = new byte[4] { 1, 0, 2, 1 };
+                UnkA0 = 1;
+                UnkA1 = 0;
+                UnkA2 = 2;
+                ShadowModelCullFlip = true;
                 Sharpness = 1;
                 EnableState_UnkC0 = new byte[4];
             }
@@ -402,7 +420,6 @@ namespace SoulsFormats
                 clone.Unk00 = (byte[])Unk00.Clone();
                 clone.Unk64 = (byte[])Unk64.Clone();
                 clone.Unk84 = (byte[])Unk84.Clone();
-                clone.UnkA0 = (byte[])UnkA0.Clone();
                 clone.EnableState_UnkC0 = (byte[])EnableState_UnkC0.Clone();
                 return clone;
             }
@@ -443,7 +460,10 @@ namespace SoulsFormats
                 br.AssertInt32(0);
                 Unk98 = br.ReadSingle();
                 NearClip = br.ReadSingle();
-                UnkA0 = br.ReadBytes(4);
+                UnkA0 = br.ReadByte();
+                UnkA1 = br.ReadByte();
+                UnkA2 = br.ReadByte();
+                ShadowModelCullFlip = br.ReadBoolean();
                 Sharpness = br.ReadSingle();
                 br.AssertInt32(0);
                 UnkAC = br.ReadSingle();
@@ -510,7 +530,10 @@ namespace SoulsFormats
                 bw.WriteInt32(0);
                 bw.WriteSingle(Unk98);
                 bw.WriteSingle(NearClip);
-                bw.WriteBytes(UnkA0);
+                bw.WriteByte(UnkA0);
+                bw.WriteByte(UnkA1);
+                bw.WriteByte(UnkA2);
+                bw.WriteBoolean(ShadowModelCullFlip);
                 bw.WriteSingle(Sharpness);
                 bw.WriteInt32(0);
                 bw.WriteSingle(UnkAC);

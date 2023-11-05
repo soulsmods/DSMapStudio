@@ -28,5 +28,13 @@
     <LocationEventID9 AltName="Location Event ID [9]" Wiki="An event ID used by ESD or hardcoded logic. Used for location based events, often for an NPC to move from one place to another." />
     <ItemLotID1 AltName="Itemlot ID" Wiki="Typically the itemlot entry that acts as a drop table for this entity." />
     <GraveEventID AltName="Grave Event ID" Wiki="Flag to be set when the entity is dead and requires a gravestone for the player character to interact with." />
+    <Unk48_0 AltName="" IsBool="" Wiki="" />
+    <Unk48_1 AltName="" IsBool="" Wiki="" />
+    <Unk48_2 AltName="" IsBool="" Wiki="" />
+    <Unk48_3 AltName="" IsBool="" Wiki="" />
+    <Unk48_4 AltName="" IsBool="" Wiki="" />
+    <Unk48_5 AltName="" IsBool="" Wiki="" />
+    <Unk48_6 AltName="" IsBool="" Wiki="" />
+    <Unk48_7 AltName="" IsBool="" Wiki="" />
   </Field>
 </PARAMMETA>

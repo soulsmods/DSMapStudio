@@ -11,7 +11,8 @@
     <Field Def="s32 common_param_id" />
     <Field Def="s32 move_param_id" />
     <Field Def="s32 npc_player_status_param_id" />
-    <Field Def="u16 Unk00" />
+    <Field Def="u8 Unk00_1" />
+    <Field Def="u8 Unk00_2" />
     <Field Def="u16 Unk01" />
     <Field Def="s32 Unk02" />
     <Field Def="s32 body_hit_sfx1" />

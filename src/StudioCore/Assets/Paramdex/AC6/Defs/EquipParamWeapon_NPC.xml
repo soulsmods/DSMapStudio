@@ -54,9 +54,7 @@
     <Field Def="s32 originEquipWep13"></Field>
     <Field Def="s32 originEquipWep14"></Field>
     <Field Def="s32 originEquipWep15"></Field>
-    <Field Def="f32 meleeConsecutiveHits">
-      <Description>Number of chain attacks possible with additional inputs.</Description>
-    </Field>
+    <Field Def="f32 shieldPart_DamageRate"></Field>
     <Field Def="f32 weakB_DamageRate"></Field>
     <Field Def="f32 weakC_DamageRate"></Field>
     <Field Def="f32 weakD_DamageRate"></Field>
