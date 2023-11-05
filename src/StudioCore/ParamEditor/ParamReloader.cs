@@ -225,6 +225,9 @@ internal class ParamReloader
         var RowId = 0;
         var rowPtr = 0;
 
+        // Track how many times this ID has been defined for the purposes of handing dupe ID row names.
+        Dictionary<int, Queue<Param.Row>> rowDictionary = GetRowQueueDictionary(param);
+
         for (var i = 0; i < RowCount; i++)
         {
             memoryHandler.ReadProcessMemory(BaseDataPtr, ref RowId);
@@ -239,10 +242,14 @@ internal class ParamReloader
 
             BaseDataPtr += offsets.rowHeaderSize;
 
-            Param.Row row = param[RowId];
-            if (row != null)
+            if (rowDictionary.TryGetValue(RowId, out Queue<Param.Row> queue)
+                && queue.TryDequeue(out Param.Row row))
             {
                 WriteMemoryRow(row, DataSectionPtr, memoryHandler);
+            }
+            else
+            {
+                throw new InvalidOperationException("Param row in memory cannot be found in editor. Restart game to resolve.");
             }
         }
     }
@@ -520,6 +527,22 @@ internal class ParamReloader
         }
 
         return offs.paramOffsets.Keys.ToArray();
+    }
+
+    /// <summary>
+    /// Returns dictionary of Row ID keys corresponding with Queue of rows, for the purpose of handling duplicate row IDs.
+    /// </summary>
+    private static Dictionary<int, Queue<Param.Row>> GetRowQueueDictionary(Param param)
+    {
+        Dictionary<int, Queue<Param.Row>> rows = new();
+
+        foreach (var row in param.Rows)
+        {
+            rows.TryAdd(row.ID, new());
+            rows[row.ID].Enqueue(row);
+        }
+
+        return rows;
     }
 }
 
