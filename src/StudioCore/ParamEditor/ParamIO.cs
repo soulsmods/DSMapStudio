@@ -13,7 +13,7 @@ public class ParamIO
     {
         var str = "";
         str += $@"ID{separator}Name{separator}";
-        foreach (PARAMDEF.Field? f in param.AppliedParamdef.Fields)
+        foreach (PARAMDEF.Field? f in param.AppliedParamdef.Fields.FindAll(f => f.IsValidForRegulationVersion(ParamBank.PrimaryBank.ParamVersion)))
         {
             str += $@"{f.InternalName}{separator}";
         }
@@ -76,7 +76,7 @@ public class ParamIO
             return ("No Param selected", null);
         }
 
-        var csvLength = p.AppliedParamdef.Fields.Count + 2; // Include ID and name
+        var csvLength = p.AppliedParamdef.Fields.FindAll(f => f.IsValidForRegulationVersion(bank.ParamVersion)).Count + 2; // Include ID and name
         var csvLines = csvString.Split("\n");
         if (csvLines[0].StartsWith($@"ID{separator}Name"))
         {
