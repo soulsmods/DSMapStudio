@@ -320,13 +320,15 @@ public class ParamRowEditor
                 ImGui.SameLine();
             }
 
-            ImGui.Selectable("", false, ImGuiSelectableFlags.AllowItemOverlap);
-            if (ImGui.IsItemClicked(ImGuiMouseButton.Right))
+            if (col != null)
             {
-                ImGui.OpenPopup("ParamRowCommonMenu");
+                ImGui.Selectable("", false, ImGuiSelectableFlags.AllowItemOverlap);
+                if (ImGui.IsItemClicked(ImGuiMouseButton.Right))
+                {
+                    ImGui.OpenPopup("ParamRowCommonMenu");
+                }
+                ImGui.SameLine();
             }
-
-            ImGui.SameLine();
 
             PropertyRowName(fieldOffset, ref internalName, cellMeta);
 
@@ -349,7 +351,7 @@ public class ParamRowEditor
                 }
 
                 ImGui.EndGroup();
-                if (ImGui.IsItemClicked(ImGuiMouseButton.Right))
+                if (col != null && ImGui.IsItemClicked(ImGuiMouseButton.Right))
                 {
                     ImGui.OpenPopup("ParamRowCommonMenu");
                 }
@@ -399,7 +401,7 @@ public class ParamRowEditor
                 ImGui.PopStyleColor();
             }
 
-            if (ImGui.IsItemClicked(ImGuiMouseButton.Right))
+            if (col != null && ImGui.IsItemClicked(ImGuiMouseButton.Right))
             {
                 ImGui.OpenPopup("ParamRowCommonMenu");
             }
@@ -424,7 +426,7 @@ public class ParamRowEditor
 
                 ImGui.EndGroup();
                 EditorDecorations.ParamRefEnumQuickLink(bank, oldval, RefTypes, row, FmgRef, Enum);
-                if (ImGui.IsItemClicked(ImGuiMouseButton.Right))
+                if (col != null && ImGui.IsItemClicked(ImGuiMouseButton.Right))
                 {
                     ImGui.OpenPopup("ParamRowCommonMenu");
                 }
