@@ -649,7 +649,8 @@ public class PropertyEditor
 
     private void PropEditorGeneric(Selection selection, HashSet<Entity> entSelection, object target = null,
         bool decorate = true, int classIndex = -1)
-    {var scale = MapStudioNew.GetUIScale();
+    {
+        var scale = MapStudioNew.GetUIScale();
         Entity firstEnt = entSelection.First();
         var obj = target == null ? firstEnt.WrappedObject : target;
         Type type = obj.GetType();
@@ -990,6 +991,7 @@ public class PropertyEditor
                     ImGui.NextColumn();
                     ImGui.PopID();
                 }
+
                 id++;
             }
         }
