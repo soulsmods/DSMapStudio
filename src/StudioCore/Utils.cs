@@ -1015,37 +1015,43 @@ public static class Utils
             str += $" (Min {min}, Max {max})";
             ImGui.TextColored(new Vector4(.4f, 1f, .7f, 1f), str);
         }
-        else if (propType.IsValueType)
+        else
         {
-            var str = $"Value Type: {propType.Name}";
-            var min = propType.GetField("MinValue")?.GetValue(propType);
-            var max = propType.GetField("MaxValue")?.GetValue(propType);
-            if (min != null && max != null)
+            if (propType.IsArray)
             {
-                str += $" (Min {min}, Max {max})";
+                var str = $"Array Type: {propType.Name}";
+                if (arrayLength > 0)
+                {
+                    str += $" (Length: {arrayLength})";
+                }
+
+                propType = propType.GetElementType();
+
+                ImGui.TextColored(new Vector4(.4f, 1f, .7f, 1f), str);
             }
 
-            ImGui.TextColored(new Vector4(.4f, 1f, .7f, 1f), str);
-        }
-        else if (propType.IsArray)
-        {
-            var str = $"Array Type: {propType.Name}";
-            if (arrayLength > 0)
+            if (propType.IsValueType)
             {
-                str += $" (Length: {arrayLength})";
-            }
+                var str = $"Value Type: {propType.Name}";
+                var min = propType.GetField("MinValue")?.GetValue(propType);
+                var max = propType.GetField("MaxValue")?.GetValue(propType);
+                if (min != null && max != null)
+                {
+                    str += $" (Min {min}, Max {max})";
+                }
 
-            ImGui.TextColored(new Vector4(.4f, 1f, .7f, 1f), str);
-        }
-        else if (propType == typeof(string))
-        {
-            var str = $"String Type: {propType.Name}";
-            if (arrayLength > 0)
+                ImGui.TextColored(new Vector4(.4f, 1f, .7f, 1f), str);
+            }
+            else if (propType == typeof(string))
             {
-                str += $" (Length: {arrayLength})";
-            }
+                var str = $"String Type: {propType.Name}";
+                if (arrayLength > 0)
+                {
+                    str += $" (Length: {arrayLength})";
+                }
 
-            ImGui.TextColored(new Vector4(.4f, 1f, .7f, 1f), str);
+                ImGui.TextColored(new Vector4(.4f, 1f, .7f, 1f), str);
+            }
         }
 
         ImGui.Separator();
