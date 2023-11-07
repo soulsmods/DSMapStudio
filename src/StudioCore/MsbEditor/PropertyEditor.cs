@@ -595,7 +595,7 @@ public class PropertyEditor
         {
             Utils.ImGui_DisplayPropertyInfo(prop);
 
-            if (ImGui.Button(@"Search##PropSearch"))
+            if (ImGui.Selectable(@"Search##PropSearch"))
             {
                 EditorCommandQueue.AddCommand($@"map/propsearch/{prop.Name}");
             }
