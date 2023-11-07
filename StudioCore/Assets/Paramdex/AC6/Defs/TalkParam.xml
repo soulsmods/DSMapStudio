@@ -19,7 +19,7 @@
     <Field Def="f32 msgId_female"></Field>
     <Field Def="s16 UnkShort0x2C"></Field>
     <Field Def="s16 UnkShort0x2E"></Field>
-    <Field Def="s32 lipSyncStart"></Field>
+    <Field Def="s32 characterNameTextId"></Field>
     <Field Def="s32 UnkInt0x34"></Field>
     <Field Def="f32 timeout"></Field>
     <Field Def="s32 talkAnimationId"></Field>

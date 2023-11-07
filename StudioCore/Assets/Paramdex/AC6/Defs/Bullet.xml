@@ -26,7 +26,14 @@
     <Field Def="f32 minVelocity"></Field>
     <Field Def="f32 accelTime"></Field>
     <Field Def="f32 homingBeginDist"></Field>
-    <Field Def="u8 UnkByte0x48"></Field>
+    <Field Def="u8 UnkFlag0x48_0:1"></Field>
+    <Field Def="u8 UnkFlag0x48_1:1"></Field>
+    <Field Def="u8 unkCanCreateAsset:1"></Field>
+    <Field Def="u8 UnkFlag0x48_3:1"></Field>
+    <Field Def="u8 UnkFlag0x48_4:1"></Field>
+    <Field Def="u8 UnkFlag0x48_5:1"></Field>
+    <Field Def="u8 UnkFlag0x48_6:1"></Field>
+    <Field Def="u8 UnkFlag0x48_7:1"></Field>
     <Field Def="u8 UnkByte0x49"></Field>
     <Field Def="s16 UnkShort0x4A"></Field>
     <Field Def="f32 hitRadius"></Field>
@@ -73,8 +80,8 @@
     <Field Def="u8 isPenetrateObj:1"></Field>
     <Field Def="dummy8 pad:6"></Field>
     <Field Def="u8 launchConditionType"></Field>
-    <Field Def="u8 FollowType:3"></Field>
-    <Field Def="u8 EmittePosType:3"></Field>
+    <Field Def="u8 Unk0xAA_2_3:3"></Field>
+    <Field Def="u8 emittePosType:3"></Field>
     <Field Def="u8 isAttackSFX:1"></Field>
     <Field Def="u8 isEndlessHit:1"></Field>
     <Field Def="u8 isPenetrateMap:1"></Field>
@@ -96,8 +103,8 @@
     <Field Def="u8 bulletSfxDeleteType_byHit"></Field>
     <Field Def="u8 bulletSfxDeleteType_byLifeDead"></Field>
     <Field Def="f32 targetYOffsetRange"></Field>
-    <Field Def="f32 shootAngleYMaxRandom"></Field>
-    <Field Def="f32 shootAngleXMaxRandom"></Field>
+    <Field Def="f32 shootAngleHorizontalMaxRandom"></Field>
+    <Field Def="f32 shootAngleVerticalMaxRandom"></Field>
     <Field Def="s32 intervalCreateBulletId"></Field>
     <Field Def="f32 intervalCreateTimeMin"></Field>
     <Field Def="f32 intervalCreateTimeMax"></Field>
@@ -105,7 +112,7 @@
     <Field Def="f32 intervalCreateWaitTime"></Field>
     <Field Def="s8 sfxPostureType"></Field>
     <Field Def="u8 UnkByte0xD1"></Field>
-    <Field Def="u8 UnkByte0xD2"></Field>
+    <Field Def="u8 unkBulletFollowType0xD2"></Field>
     <Field Def="u8 UnkByte0xD3"></Field>
     <Field Def="s32 Unk0xD4"></Field>
     <Field Def="s32 assetCreationAssetId"></Field>
@@ -113,9 +120,9 @@
     <Field Def="f32 UnkFloat0xE0"></Field>
     <Field Def="f32 UnkFloat0xE4"></Field>
     <Field Def="f32 UnkFloat0xE8"></Field>
-    <Field Def="s16 UnkShort0xEC"></Field>
+    <Field Def="s16 randomMoveAngle_Horizontal"></Field>
     <Field Def="s16 unkLoseHomingLineupTime"></Field>
-    <Field Def="f32 randomMoveAngle"></Field>
+    <Field Def="f32 unkRandomMoveAngleCondition"></Field>
     <Field Def="f32 UnkFloat0xF4"></Field>
     <Field Def="u8 UnkByte0xF8"></Field>
     <Field Def="u8 UnkByte0xF9"></Field>
@@ -124,7 +131,7 @@
     <Field Def="s32 Unk0xFC"></Field>
     <Field Def="f32 UnkFloat0x100"></Field>
     <Field Def="f32 UnkFloat0x104"></Field>
-    <Field Def="f32 UnkFloat0x108"></Field>
+    <Field Def="f32 hitChrProximityDistance"></Field>
     <Field Def="s32 bulletShotgunParamId_1"></Field>
     <Field Def="f32 UnkFloat0x110"></Field>
     <Field Def="s32 bulletShotgunParamId_2"></Field>
@@ -132,7 +139,7 @@
     <Field Def="s32 UnkInt0x11C"></Field>
     <Field Def="f32 UnkFloat0x120"></Field>
     <Field Def="f32 UnkFloat0x124"></Field>
-    <Field Def="s16 UnkShort0x128"></Field>
+    <Field Def="s16 randomMoveAngle_Vertical"></Field>
     <Field Def="u8 UnkByte0x12A"></Field>
     <Field Def="u8 UnkByte0x12B"></Field>
     <Field Def="s32 UnkInt0x12C"></Field>
@@ -230,7 +237,7 @@
     <Field Def="f32 UnkFloat0x274"></Field>
     <Field Def="u8 UnkByte0x278"></Field>
     <Field Def="u8 UnkByte0x279"></Field>
-    <Field Def="u8 UnkByte0x27A"></Field>
+    <Field Def="u8 followType"></Field>
     <Field Def="s8 UnkSbyte0x27B"></Field>
     <Field Def="s32 UnkInt0x27C"></Field>
     <Field Def="f32 UnkFloat0x280"></Field>

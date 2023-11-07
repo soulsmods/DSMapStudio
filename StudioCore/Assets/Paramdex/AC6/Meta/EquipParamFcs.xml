@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
   <Field>
+    <targetTrackingCorrection AltName="Target Tracking Multiplier" Wiki="Affects Target Tracking stat, which affects aim assist ability."/>
     <aimAssistMaxDist AltName="Aim Assist: Max Distance (Red Lock)" Wiki="Determines maximum distance before aim assist will no longer occur."/>
     <aimAssistInputTargetDist_Stage0 AltName="Aim Assist: Input Target Distance (Stage 0)" Wiki="Determines which target distance ranges will use which aim assist values."/>
     <aimAssistInputTargetDist_Stage1 AltName="Aim Assist: Input Target Distance (Stage 1)" Wiki="Determines which target distance ranges will use which aim assist values."/>

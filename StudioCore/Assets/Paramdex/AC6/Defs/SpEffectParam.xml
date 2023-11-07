@@ -324,12 +324,12 @@
     <Field Def="f32 UnkFloat0x314"></Field>
     <Field Def="f32 UnkFloat0x318"></Field>
     <Field Def="f32 UnkFloat0x31C"></Field>
-    <Field Def="f32 UnkFloat0x320"></Field>
-    <Field Def="f32 UnkFloat0x324"></Field>
-    <Field Def="f32 UnkFloat0x328"></Field>
-    <Field Def="f32 UnkFloat0x32C"></Field>
-    <Field Def="s32 UnkInt0x330"></Field>
-    <Field Def="f32 UnkFloat0x334"></Field>
+    <Field Def="f32 energyCapacityRate"></Field>
+    <Field Def="f32 energySupplyEfficiencyRate"></Field>
+    <Field Def="f32 energyCostRate"></Field>
+    <Field Def="f32 changeEnergyRate"></Field>
+    <Field Def="s32 changeEnergyPoint"></Field>
+    <Field Def="f32 energyPostRecoverySupplyRate"></Field>
     <Field Def="s32 Unk0x338"></Field>
     <Field Def="f32 Unk0x33C"></Field>
     <Field Def="f32 Unk0x340"></Field>
@@ -351,7 +351,7 @@
     <Field Def="f32 UnkFloat0x380"></Field>
     <Field Def="f32 UnkFloat0x384"></Field>
     <Field Def="f32 UnkFloat0x388"></Field>
-    <Field Def="f32 UnkFloat0x38C"></Field>
+    <Field Def="f32 attackRate_Impact"></Field>
     <Field Def="s32 Unk0x390"></Field>
     <Field Def="s32 Unk0x394"></Field>
     <Field Def="s32 Unk0x398"></Field>
