@@ -593,7 +593,7 @@ public class PropertyEditor
 
         if (ImGui.BeginPopup("MsbPropContextMenu"))
         {
-            Utils.ImGui_DisplayPropertyInfo(prop);
+            EditorDecorations.ImGui_DisplayPropertyInfo(prop);
 
             if (ImGui.Selectable(@"Search##PropSearch"))
             {
@@ -624,7 +624,7 @@ public class PropertyEditor
 
             if (ImGui.BeginPopupContextItem($"{propinfo.Name}EnumContextMenu"))
             {
-                Utils.ImGui_DisplayPropertyInfo(propinfo);
+                EditorDecorations.ImGui_DisplayPropertyInfo(propinfo);
 
                 var opened = EditorDecorations.ParamRefEnumContextMenuItems(ParamBank.PrimaryBank, val, ref newObj,
                     refs, null, null, null, null);
