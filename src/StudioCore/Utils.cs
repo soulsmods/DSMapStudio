@@ -289,7 +289,7 @@ public static class Utils
 
     public static string GetLocalAssetPath(AssetLocator assetLocator, string assetPath)
     {
-        if (assetPath.StartsWith(assetLocator.GameRootDirectory))
+        if (assetPath.StartsWith(assetLocator.GameModDirectory))
         {
             return assetPath.Replace(assetLocator.GameModDirectory, "");
         }
