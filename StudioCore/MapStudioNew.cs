@@ -582,6 +582,26 @@ namespace StudioCore
             }
         }
 
+        public void CrashRecoverySaveAll()
+        {
+            foreach (var editor in _editors)
+            {
+                try
+                {
+                    editor.SaveAll();
+                }
+                catch (Exception e)
+                {
+                    PlatformUtils.Instance.MessageBox($"Unable to save {editor.EditorName} during crash recovery.\n" +
+                        $"Crash recovery saving will continue after this error message." +
+                        $"{e.Message} {e.StackTrace}",
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                }
+            }
+        }
+
         // Saves modded files to a recovery directory in the mod folder on crash
         public void AttemptSaveOnCrash()
         {
@@ -608,7 +628,7 @@ namespace StudioCore
             bool success = _assetLocator.CreateRecoveryProject();
             if (success)
             {
-                SaveAll();
+                CrashRecoverySaveAll();
                 PlatformUtils.Instance.MessageBox(
                     $"Attempted to save project files to {_assetLocator.GameModDirectory} for manual recovery.\n" +
                     "You must manually replace your project files with these recovery files should you wish to restore them.\n" +
