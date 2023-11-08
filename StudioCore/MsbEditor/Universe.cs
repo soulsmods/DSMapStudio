@@ -1275,56 +1275,64 @@ namespace StudioCore.MsbEditor
         /// </summary>
         public void SaveBTL(Map map)
         {
-            var BTLs = _assetLocator.GetMapBTLs(map.Name);
-            var BTLs_w = _assetLocator.GetMapBTLs(map.Name, true);
-            DCX.Type compressionType = GetCompressionType();
-            if (_assetLocator.Type == GameType.DarkSoulsIISOTFS)
+            try
             {
-                for (var i = 0; i < BTLs.Count; i++)
+                var BTLs = _assetLocator.GetMapBTLs(map.Name);
+                var BTLs_w = _assetLocator.GetMapBTLs(map.Name, true);
+                DCX.Type compressionType = GetCompressionType();
+                if (_assetLocator.Type == GameType.DarkSoulsIISOTFS)
                 {
-                    using var bdt = BXF4.Read(BTLs[i].AssetPath, BTLs[i].AssetPath[..^3] + "bdt");
-                    var file = bdt.Files.Find(f => f.Name.EndsWith("light.btl.dcx"));
-                    var btl = BTL.Read(file.Bytes);
-                    if (btl != null)
+                    for (var i = 0; i < BTLs.Count; i++)
                     {
-                        var newLights = map.SerializeBtlLights(BTLs_w[i].AssetName);
-
-                        // Only save BTL if it has been modified
-                        if (JsonSerializer.Serialize(btl.Lights, BtlLightSerializerContext.Default.ListLight) != 
-                            JsonSerializer.Serialize(newLights, BtlLightSerializerContext.Default.ListLight))
+                        using var bdt = BXF4.Read(BTLs[i].AssetPath, BTLs[i].AssetPath[..^3] + "bdt");
+                        var file = bdt.Files.Find(f => f.Name.EndsWith("light.btl.dcx"));
+                        var btl = BTL.Read(file.Bytes);
+                        if (btl != null)
                         {
-                            btl.Lights = newLights;
-                            file.Bytes = btl.Write(DCX.Type.DCX_DFLT_10000_24_9);
-                            var bdtPath = BTLs_w[i].AssetPath[..^3] + "bdt";
+                            var newLights = map.SerializeBtlLights(BTLs_w[i].AssetName);
 
-                            Utils.WriteWithBackup(_assetLocator, Utils.GetLocalAssetPath(_assetLocator, bdtPath), bdt, Utils.GetLocalAssetPath(_assetLocator, BTLs_w[i].AssetPath));
+                            // Only save BTL if it has been modified
+                            if (JsonSerializer.Serialize(btl.Lights, BtlLightSerializerContext.Default.ListLight) !=
+                                JsonSerializer.Serialize(newLights, BtlLightSerializerContext.Default.ListLight))
+                            {
+                                btl.Lights = newLights;
+                                file.Bytes = btl.Write(DCX.Type.DCX_DFLT_10000_24_9);
+                                var bdtPath = BTLs_w[i].AssetPath[..^3] + "bdt";
+
+                                Utils.WriteWithBackup(_assetLocator, Utils.GetLocalAssetPath(_assetLocator, bdtPath), bdt, Utils.GetLocalAssetPath(_assetLocator, BTLs_w[i].AssetPath));
+                            }
+                        }
+                    }
+                }
+                else if (_assetLocator.Type == GameType.ArmoredCoreVI)
+                {
+                    //TODO AC6
+                }
+                else
+                {
+                    for (var i = 0; i < BTLs.Count; i++)
+                    {
+                        var btl = ReturnBTL(BTLs[i]);
+                        if (btl != null)
+                        {
+                            var newLights = map.SerializeBtlLights(BTLs_w[i].AssetName);
+
+                            // Only save BTL if it has been modified
+                            if (JsonSerializer.Serialize(btl.Lights, BtlLightSerializerContext.Default.ListLight) !=
+                                JsonSerializer.Serialize(newLights, BtlLightSerializerContext.Default.ListLight))
+                            {
+                                btl.Lights = newLights;
+
+                                Utils.WriteWithBackup(_assetLocator, Utils.GetLocalAssetPath(_assetLocator, BTLs_w[i].AssetPath), btl);
+                            }
                         }
                     }
                 }
             }
-            else if (_assetLocator.Type == GameType.ArmoredCoreVI)
+            catch (Exception e)
             {
-                //TODO AC6
-            }
-            else
-            {
-                for (var i = 0; i < BTLs.Count; i++)
-                {
-                    var btl = ReturnBTL(BTLs[i]);
-                    if (btl != null)
-                    {
-                        var newLights = map.SerializeBtlLights(BTLs_w[i].AssetName);
-
-                        // Only save BTL if it has been modified
-                        if (JsonSerializer.Serialize(btl.Lights, BtlLightSerializerContext.Default.ListLight) != 
-                            JsonSerializer.Serialize(newLights, BtlLightSerializerContext.Default.ListLight))
-                        {
-                            btl.Lights = newLights;
-
-                            Utils.WriteWithBackup(_assetLocator, Utils.GetLocalAssetPath(_assetLocator, BTLs_w[i].AssetPath), btl);
-                        }
-                    }
-                }
+                TaskLogs.AddLog($"Failed to save BTL lights for {map.Name}",
+                    Microsoft.Extensions.Logging.LogLevel.Error, TaskLogs.LogPriority.High, e);
             }
         }
 
