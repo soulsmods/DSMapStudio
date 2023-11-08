@@ -282,7 +282,7 @@ namespace StudioCore
                 }
 
                 // Make a backup of the original file if a mod path doesn't exist
-                if (!File.Exists($@"{assetgamepath}.bak") && File.Exists(assetgamepath))
+                if (moddir == null && !File.Exists($@"{assetgamepath}.bak") && File.Exists(assetgamepath))
                 {
                     File.Copy(assetgamepath, $@"{assetgamepath}.bak", true);
                 }
