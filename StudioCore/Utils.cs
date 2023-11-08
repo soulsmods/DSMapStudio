@@ -247,7 +247,7 @@ namespace StudioCore
 
         public static string GetLocalAssetPath(AssetLocator assetLocator, string assetPath)
         {
-            if (assetPath.StartsWith(assetLocator.GameRootDirectory))
+            if (assetPath.StartsWith(assetLocator.GameModDirectory))
             {
                 return assetPath.Replace(assetLocator.GameModDirectory, "");
             }
@@ -282,7 +282,7 @@ namespace StudioCore
                 }
 
                 // Make a backup of the original file if a mod path doesn't exist
-                if (moddir == null && !File.Exists($@"{assetgamepath}.bak") && File.Exists(assetgamepath))
+                if (!File.Exists($@"{assetgamepath}.bak") && File.Exists(assetgamepath))
                 {
                     File.Copy(assetgamepath, $@"{assetgamepath}.bak", true);
                 }
