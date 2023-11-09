@@ -70,7 +70,7 @@
     <Field Def="s8 damageDamp_Knockback"></Field>
     <Field Def="s8 shootAngleXZ"></Field>
     <Field Def="u8 lockShootLimitAng"></Field>
-    <Field Def="u8 UnkByte0xA2"></Field>
+    <Field Def="u8 chrPenetrateType"></Field>
     <Field Def="u8 prevVelocityDirRate"></Field>
     <Field Def="u8 atkAttribute"></Field>
     <Field Def="u8 spAttribute"></Field>

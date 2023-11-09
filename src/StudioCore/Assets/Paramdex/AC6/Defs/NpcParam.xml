@@ -583,7 +583,9 @@
     <Field Def="f32 Unk0x664"></Field>
     <Field Def="f32 Unk0x668"></Field>
     <Field Def="f32 Unk0x66C"></Field>
-    <Field Def="s32 Unk0x670"></Field>
+    <Field Def="u8 penetrateDefense"></Field>
+    <Field Def="u8 Unk0x671"></Field>
+    <Field Def="u16 Unk0x672"></Field>
     <Field Def="s32 Unk0x674"></Field>
     <Field Def="u16 Unk0x678"></Field>
     <Field Def="s8 UnkSbyte0x67A"></Field>
