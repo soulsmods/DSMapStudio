@@ -56,6 +56,8 @@
 7970 Destroy Artillery Installations
 7980 Destroy the Tester AC
 7990 Eliminate the Enforcement Squads
+9001 Garage
+9100 AC Test
 9200 Beginner Training 1: Basic Controls
 9201 Beginner Training 2: Combat Fundamentals
 9202 Intermediate Support 1: Assembling an AC
