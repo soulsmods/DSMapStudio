@@ -247,7 +247,7 @@
     <faceIconId AltName="Face Icon ID" Wiki="NPC face image ID (0 invalid value (default)). Specify the ID of the face image to be displayed in the Sign browsing menu, Kick menu, etc. If it is an invalid value, the dress-up model is displayed." />
     <deactivateDist AltName="Deactivation Distance" Wiki="Distance at which the character is deactivated (valid only for open placement characters)" />
     <chrActivateConditionParamId AltName="Chr Activate Condition Param ID" Wiki="Character appearance condition parameter ID" Refs="ChrActivateConditionParam" />
-    <footIkErrorHeightLimit AltName="Foot IK Apperance Height Limit" Wiki="FootIK Appearance up / down limit" />
+    <footIkErrorHeightLimit AltName="Foot IK Appearance Height Limit" Wiki="FootIK Appearance up / down limit" />
     <humanityLotId AltName="Humanity Lot ID" Wiki="Specify the lottery ID of human nature to be acquired at the time of death" />
     <spEffectID0 AltName="SpEffect ID [0]" Wiki="Resident special effect 0" Refs="SpEffectParam"/>
     <spEffectID1 AltName="SpEffect ID [1]" Wiki="Resident special effect 1" Refs="SpEffectParam"/>

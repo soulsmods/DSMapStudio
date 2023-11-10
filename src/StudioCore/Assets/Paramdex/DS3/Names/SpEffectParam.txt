@@ -1032,7 +1032,7 @@
 11466 Curse-rotted Greatwood - Sac
 11467 Curse-rotted Greatwood - Sac
 11500 Deacons of the Deep - Curse Bullet
-11501 Deacons of the Deep - Curse Apperance
+11501 Deacons of the Deep - Curse Appearance
 11502 Deacons of the Deep -
 11503 Deacons of the Deep -
 11504 Deacons of the Deep -

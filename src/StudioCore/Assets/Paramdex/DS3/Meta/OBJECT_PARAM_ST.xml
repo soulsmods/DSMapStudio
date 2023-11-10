@@ -22,7 +22,7 @@
     <isPenetrationBulletHit AltName="Is Penetrated by Bullet" Wiki="Will the penetrating bullet hit (0 not hit, 1 hit)" IsBool="" />
     <isChrHit AltName="Is Character Hit" Wiki="Does the character win (0 not hit, 1 hit)" IsBool="" />
     <isAttackBacklash AltName="Cause Weapon Bounce" Wiki="Do you play the attack (0 do not play, 1 play)" IsBool="" />
-    <isDisableBreakForFirstAppear AltName="Is Disable Destruction on First Apperance" Wiki="Broken at the initial appearance of the player (0 ru, 1 no)" IsBool="" />
+    <isDisableBreakForFirstAppear AltName="Is Disable Destruction on First Appearance" Wiki="Broken at the initial appearance of the player (0 ru, 1 no)" IsBool="" />
     <isLadder AltName="Is Ladder" Wiki="Is it a ladder (0 different, 1 yes)" IsBool="" />
     <isAnimPauseOnRemoPlay AltName="Is Animation Paused in Cutscene" Wiki="Do you want to stop the animation during the poly play (0 not, 1 do)" IsBool="" />
     <isDamageNoHit AltName="Is Damage No Hit" Wiki="No damage (0 hit, 1 not hit)" IsBool="" />
