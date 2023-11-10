@@ -121,6 +121,7 @@ public class ParamEditorView
                     {
                         _paramEditor._projectSettings.PinnedParams.Remove(paramKey);
                     }
+                    EditorDecorations.PinListReorderOptions(_paramEditor._projectSettings.PinnedParams, paramKey);
 
                     ImGui.EndPopup();
                 }
@@ -666,11 +667,6 @@ public class ParamEditorView
                 ImGui.Separator();
             }
 
-            if (decorator != null)
-            {
-                decorator.DecorateContextMenuItems(r);
-            }
-
             if (ImGui.Selectable((isPinned ? "Unpin " : "Pin ") + r.ID))
             {
                 if (!_paramEditor._projectSettings.PinnedRows.ContainsKey(activeParam))
@@ -687,6 +683,16 @@ public class ParamEditorView
                 {
                     pinned.Add(r.ID);
                 }
+            }
+            if (isPinned)
+            {
+                EditorDecorations.PinListReorderOptions(_paramEditor._projectSettings.PinnedRows[activeParam], r.ID);
+            }
+            ImGui.Separator();
+
+            if (decorator != null)
+            {
+                decorator.DecorateContextMenuItems(r);
             }
 
             if (ImGui.Selectable("Compare..."))
