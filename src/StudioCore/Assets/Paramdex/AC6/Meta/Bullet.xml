@@ -53,7 +53,8 @@
     <chrPenetrateType AltName="Penetration Type (characters)" Enum="BULLET_CHARA_PENETRATE_TYPE" Wiki="Which characters bullets will penetrate through. See NpcParam penetrateDefense." />
     <emittePosType AltName="Emit Position" Enum="BULLET_EMITTE_POS_TYPE" Wiki="Where bullet appears when created." />
     <followType AltName="Follow Type" Enum="BULLET_FOLLOW_TYPE" Wiki="Affects bullet position and behavior." />
-    <intervalCreateBulletId  AltName="Interval Bullet ID" Wiki="Bullet to generate on interval." Refs="Bullet" />
+    <intervalCreateBulletId  AltName="Interval Create (Bullet ID)" Wiki="Bullet ID to generate for Interval Create Bullet." Refs="Bullet" />
+    <intervalCreateShootMax  AltName="Interval Create (Bullet Shoot Max)" Wiki="Maximum number of times Interval Create Bullet can be generated." />
     <spEffectId0 AltName="Target SpEffect ID [0]" Wiki="SpEffect applied to hit targets." Refs="SpEffectParam" />
     <spEffectId1 AltName="Target SpEffect ID [1]" Wiki="SpEffect applied to hit targets." Refs="SpEffectParam" />
     <spEffectId2 AltName="Target SpEffect ID [2]" Wiki="SpEffect applied to hit targets." Refs="SpEffectParam" />

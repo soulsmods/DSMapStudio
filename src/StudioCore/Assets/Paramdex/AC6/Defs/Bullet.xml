@@ -202,7 +202,7 @@
     <Field Def="f32 UnkFloat0x1F8"></Field>
     <Field Def="f32 UnkFloat0x1FC"></Field>
     <Field Def="f32 Unk0x200"></Field>
-    <Field Def="u16 UnkUshort0x204"></Field>
+    <Field Def="u16 intervalCreateShootMax"></Field>
     <Field Def="s16 UnkShort0x206"></Field>
     <Field Def="f32 Unk0x208"></Field>
     <Field Def="f32 Unk0x20C"></Field>
