@@ -4,7 +4,6 @@ using StudioCore.Editor;
 using StudioCore.Platform;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Numerics;
 using System.Reflection;
