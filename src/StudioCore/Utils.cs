@@ -987,4 +987,22 @@ public static class Utils
         var split = f.ToString("F6").TrimEnd('0').Split('.');
         return $"%.{Math.Clamp(split[1].Length, 3, 6)}f";
     }
+
+    /// <summary>
+    ///     Returns string representing version of param or regulation.
+    /// </summary>
+    public static string ParseParamVersion(ulong version)
+    {
+        string verStr = version.ToString();
+        if (verStr.Length == 7 || verStr.Length == 8)
+        {
+            char major = verStr[0];
+            string minor = verStr[1..3];
+            char patch = verStr[3];
+            string rev = verStr[4..];
+            return $"{major}.{minor}.{patch}.{rev}";
+        }
+
+        return "Unknown version format";
+    }
 }
