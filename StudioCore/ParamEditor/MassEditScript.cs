@@ -27,7 +27,7 @@ namespace StudioCore.ParamEditor
 {
     public class MassEditScript
     {
-        static List<MassEditScript> scriptList;
+        static List<MassEditScript> scriptList = new List<MassEditScript>();
 
         string name;
         List<string> preamble;
