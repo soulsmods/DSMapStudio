@@ -1084,7 +1084,7 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
         {
             Vector3 new_pos = target_pos;
             Vector3 relativePos = centerT.Position - sel.GetRootLocalTransform().Position;
-            Vector3 rot = sel.GetRootTransform().EulerRotation;
+            Vector3 rot = sel.GetRootLocalTransform().EulerRotation;
 
             // Offset the new position by the map's offset from the origin.
             var node = (TransformNode)sel.Container.RootObject.WrappedObject;
