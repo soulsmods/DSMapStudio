@@ -1,21 +1,24 @@
-260 Grounded Boost Speed (Weight)
-261 Aerial Boost Speed (Weight)
-262 Boostmode Upwards Boost Max Velocity (Weight)
-263 Quick Boost Speed (Weight)
-264 Quick Boost Initial Speed (Weight)
-265 Standing Upwards Boost Max Velocity (Weight)
-266 Initial Assault Boost Speed (Weight)
-267 Max Assault Boost Speed (Weight)
-268 Melee Boost locked-on Speed (Weight)
-269 Melee Boost Speed (Weight)
-272 Tank Walk Speed (Weight)
-274 Tank Walk Max Velocity (Weight)
-275 Tank Interia Change Ability (Weight)
-276 Tank Drift Speed (Weight)
-277 Tank Walk Speed (Weight)
-278 Accumulative Attitude Recovery Drain Time (Weight)
-280 Kick Weight Damage Adjustment (Weight)
-281 Unknown Weight Bonus (Weight)
-282 Tetrapod Hover Speed (Weight)
-283 Unknown Boost Component (Weight)
-322 Successive Quick Boost Recovery Time (Unknown)
+260 WEIGHT - Grounded Boost Speed
+261 WEIGHT - Aerial Boost Speed
+262 WEIGHT - Upwards Boost Max Speed (Boost)
+263 WEIGHT - Quick Boost Speed
+264 WEIGHT - Quick Boost Initial Speed
+265 WEIGHT - Upwards Boost Max Speed (Non-Boost)
+266 WEIGHT - Assault Boost Initial Speed
+267 WEIGHT - Assault Boost Max Speed
+268 WEIGHT - Melee Boost Speed (Locked On)
+269 WEIGHT - Melee Boost Speed
+270 WEIGHT - UNK
+271 WEIGHT - UNK
+272 WEIGHT - UNK
+273 WEIGHT - UNK
+274 WEIGHT - Tank Walk Max Speed
+275 WEIGHT - Tank Inertia Change Ability
+276 WEIGHT - Tank Drift Speed
+277 WEIGHT - Tank Walk Speed
+278 WEIGHT - Accumulative Attitude Recovery Drain Time
+280 WEIGHT - Kick Damage Adjustment
+281 WEIGHT - Unknown Weight Bonus
+282 WEIGHT - Tetrapod Hover Speed
+283 WEIGHT - Unknown Boost Component
+322 UNKNOWN - Successive Quick Boost Recovery Time
