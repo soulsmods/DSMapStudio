@@ -13,6 +13,6 @@
     <Field Def="f32 RotationY" />
     <Field Def="f32 RotationZ" />
     <Field Def="u32 LocUnk18" />
-    <Field Def="u32 LocUnk1C" />
+    <Field Def="u32 UnkInheritInstanceParamId" />
   </Fields>
 </PARAMDEF>

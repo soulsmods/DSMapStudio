@@ -1,3 +1,4 @@
+28000 Lava Damage
 2010100 [Blaidd the Half-Wolf]
 2010105 [Blaidd the Half-Wolf]
 2010110 [Blaidd the Half-Wolf]

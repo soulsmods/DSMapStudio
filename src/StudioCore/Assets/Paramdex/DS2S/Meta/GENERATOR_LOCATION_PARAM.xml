@@ -9,6 +9,6 @@
     <RotationY AltName="Rotation: Y" />
     <RotationZ AltName="Rotation: Z" />
     <LocUnk18 AltName="Unknown" />
-    <LocUnk1C AltName="Unknown" />
+    <UnkInheritInstanceParamId AltName="UnkInheritInstanceParamId" Wiki="References InstanceParamIds and seemingly inherits data such as drawgroups." />
   </Field>
 </PARAMMETA>

@@ -5,6 +5,7 @@
 4 Wood
 5 Dirt
 6 Ore
+7 Lava
 8 Scarlet Tree
 11 Iron Grate
 12 Scarlet Mushroom
@@ -14,3 +15,4 @@
 24 Poison Swamp
 44 Rain Dirt
 46 Scarlet Swamp
+49 Lake of Rot
