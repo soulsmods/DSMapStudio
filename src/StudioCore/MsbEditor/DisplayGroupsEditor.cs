@@ -296,12 +296,12 @@ public class DisplayGroupsEditor
                 }
             }
 
-            if (sels.Count > 1)
-            {
-                ImGui.PopStyleColor();
-            }
-
             ImGui.EndChild();
+        }
+
+        if (sels.Count > 1)
+        {
+            ImGui.PopStyleColor();
         }
 
         ImGui.PopStyleVar();
