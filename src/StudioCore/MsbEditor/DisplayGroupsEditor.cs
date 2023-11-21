@@ -45,11 +45,6 @@ public class DisplayGroupsEditor
         {
             ImGui.SetNextWindowFocus();
         }
-
-        if (sels.Count > 1)
-        {
-            ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.0f, 0.5f, 0.0f, 0.1f));
-        }
         ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(4.0f, 2.0f) * scale);
         if (ImGui.Begin("Render Groups") && _scene != null)
         {
@@ -187,11 +182,27 @@ public class DisplayGroupsEditor
                 ImGui.EndPopup();
             }
 
-            string affectedEntsStr = string.Join(", ", sels.Select(s => s.RenderGroupRefName != "" ? s.RenderGroupRefName : s.Name));
-            ImGui.Text($"Targets: {Utils.ImGui_WordWrapString(affectedEntsStr, ImGui.GetWindowWidth(), 99)}");
-            
+
+            void DisplayTargetEntities()
+            {
+                string affectedEntsStr = string.Join(", ", sels.Select(s => s.RenderGroupRefName != "" ? s.RenderGroupRefName : s.Name));
+                ImGui.Text($"Targets: {Utils.ImGui_WordWrapString(affectedEntsStr, ImGui.GetWindowWidth(), 99)}");
+            }
+
+            if (sels.Count <= 5)
+            {
+                DisplayTargetEntities();
+            }
+            else
+            {
+                if (ImGui.CollapsingHeader("Targets##DisplayGroup"))
+                {
+                    DisplayTargetEntities();
+                }
+            }
+
             ImGui.Separator();
-            ImGui.BeginChild("##DispTicks");
+            ImGui.BeginChild("##DispTicks", new Vector2(), false, ImGuiWindowFlags.AlwaysVerticalScrollbar);
             for (var g = 0; g < dg.RenderGroups.Length; g++)
             {
                 // Row (groups)
@@ -298,12 +309,6 @@ public class DisplayGroupsEditor
 
             ImGui.EndChild();
         }
-
-        if (sels.Count > 1)
-        {
-            ImGui.PopStyleColor();
-        }
-
         ImGui.PopStyleVar();
         ImGui.End();
     }
