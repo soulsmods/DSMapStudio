@@ -103,6 +103,7 @@ public class KeyBindings
         public KeyBind Map_RenderGroup_GiveDraw = new();
         public KeyBind Map_RenderGroup_HideAll = new();
         public KeyBind Map_RenderGroup_ShowAll = new(Key.R, true);
+        public KeyBind Map_RenderGroup_SelectHighlights = new();
         public KeyBind Map_ResetRotation = new(Key.L);
         public KeyBind Map_UnDummify = new(Key.Period, false, false, true);
         public KeyBind Map_UnhideAll = new(Key.H, false, true);

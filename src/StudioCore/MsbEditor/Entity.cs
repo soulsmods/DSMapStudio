@@ -73,7 +73,7 @@ public class Entity : ISelectable, IDisposable
         get => _renderSceneMesh;
     }
 
-    [XmlIgnore] public bool UseDrawGroups { set; get; } = true;
+    [XmlIgnore] public bool HasRenderGroups { get; private set; } = true;
 
     [XmlIgnore]
     public virtual string Name
@@ -111,6 +111,8 @@ public class Entity : ISelectable, IDisposable
     }
 
     [XmlIgnore] public virtual string PrettyName => Name;
+
+    [XmlIgnore] public string RenderGroupRefName { get; private set; }
 
     [XmlIgnore] public uint[] Drawgroups { get; set; }
 
@@ -794,23 +796,6 @@ public class Entity : ISelectable, IDisposable
         }
     }
 
-    /*
-    private void DrawDispCopy()
-    {
-        //maybe a Sekiro/Elden Ring thing? Probably not, but maybe.
-        FakeDispgroups = Dispgroups;
-        if (Name[0] == 'h') //todo2 temporary shitty collision check
-        {
-            for (var i = 0; i < Dispgroups.Length; i++)
-            {
-                //i'm actually setting the entity's field by doing this, which I should not.
-                if (Dispgroups[i] == 0)
-                    FakeDispgroups[i] = Drawgroups[i];
-            }
-        }
-    }
-    */
-
     /// <summary>
     ///     Updates entity's DrawGroups/DispGroups. Uses CollisionName DrawGroups if possible.
     /// </summary>
@@ -818,32 +803,21 @@ public class Entity : ISelectable, IDisposable
     {
         string colNameStr = null;
         string[] partNameArray = null;
+        RenderGroupRefName = "";
 
         object renderStruct = null;
         PropertyInfo myDrawProp = WrappedObject.GetType().GetProperty("DrawGroups");
         PropertyInfo myDispProp = WrappedObject.GetType().GetProperty("DispGroups");
 
-        List<PropertyInfo> myDrawPropList = new();
-        List<PropertyInfo> myDispPropList = new();
         if (myDrawProp == null)
         {
-            //Couldn't find DrawGroups. Check if this is post DS3 and drawgroups are in Unk1 struct.
+            // Couldn't find DrawGroups. Check if this is post DS3 and drawgroups are in Unk1 struct.
             PropertyInfo renderGroups = WrappedObject.GetType().GetProperty("Unk1");
             if (renderGroups != null)
             {
-                //Found Unk1, this is post DS3
                 renderStruct = renderGroups.GetValue(WrappedObject);
                 myDrawProp = renderStruct.GetType().GetProperty("DrawGroups");
                 myDispProp = renderStruct.GetType().GetProperty("DisplayGroups");
-                /*
-                myDrawPropList.Add(renderStruct.GetType().GetProperty("DrawGroups1"));
-                myDrawPropList.Add(renderStruct.GetType().GetProperty("DrawGroups2"));
-                //myDrawPropList.Add(renderStruct.GetType().GetProperty("DrawGroups3"));
-                myDispPropList.Add(renderStruct.GetType().GetProperty("DisplayGroups1"));
-                myDispPropList.Add(renderStruct.GetType().GetProperty("DisplayGroups2"));
-                //myDispPropList.Add(renderStruct.GetType().GetProperty("DisplayGroups3"));
-                myDrawProp = myDrawPropList[0]; //just a temp thing to make sure the block after next passes
-                */
             }
         }
 
@@ -888,39 +862,22 @@ public class Entity : ISelectable, IDisposable
             if (colNameStr != null && colNameStr != "")
             {
                 // CollisionName field is not empty
+                RenderGroupRefName = colNameStr;
+
                 Entity colNameEnt = Container.GetObjectByName(colNameStr); // Get entity referenced by collisionName
                 if (colNameEnt != null)
                 {
-                    //get DrawGroups from CollisionName reference
+                    // Get DrawGroups from CollisionName reference
                     PropertyInfo renderGroups_col = colNameEnt.WrappedObject.GetType().GetProperty("Unk1");
                     if (renderGroups_col != null)
                     {
-                        //This is post DS3 and drawgroups are in Unk1 struct.
+                        // This is post DS3 and drawgroups are in Unk1 struct.
                         var renderStruct_col = renderGroups_col.GetValue(colNameEnt.WrappedObject);
 
                         Drawgroups = (uint[])renderStruct_col.GetType().GetProperty("DrawGroups")
                             .GetValue(renderStruct_col);
                         Dispgroups = (uint[])renderStruct_col.GetType().GetProperty("DisplayGroups")
                             .GetValue(renderStruct_col);
-                        /*
-                        int groupCount = Universe._dispGroupCount;
-                        Drawgroups = new uint[groupCount];
-                        var i = 0;
-                        foreach (var e in myDrawPropList)
-                        {
-                            var array = (uint[])e.GetValue(renderStruct_col);
-                            array.CopyTo(Drawgroups, i);
-                            i += array.Length;
-                        }
-                        Dispgroups = new uint[groupCount];
-                        i = 0;
-                        foreach (var e in myDispPropList)
-                        {
-                            var array = (uint[])e.GetValue(renderStruct_col);
-                            array.CopyTo(Dispgroups, i);
-                            i += array.Length;
-                        }
-                        */
                     }
                     else
                     {
@@ -929,8 +886,6 @@ public class Entity : ISelectable, IDisposable
                         Dispgroups = (uint[])colNameEnt.WrappedObject.GetType().GetProperty("DispGroups")
                             .GetValue(colNameEnt.WrappedObject);
                     }
-
-                    //DrawDispCopy();
                     return;
                 }
 
@@ -954,44 +909,15 @@ public class Entity : ISelectable, IDisposable
             {
                 Drawgroups = (uint[])myDrawProp.GetValue(renderStruct);
                 Dispgroups = (uint[])myDispProp.GetValue(renderStruct);
-                /*
-                int groupCount = Universe._dispGroupCount;
-                Drawgroups = new uint[groupCount]; //drawgroup
-                var i = 0;
-                foreach (var e in myDrawPropList)
-                {
-                    var array = (uint[])e.GetValue(renderStruct);
-                    array.CopyTo(Drawgroups, i);
-                    i += array.Length;
-                }
-                Dispgroups = new uint[groupCount];
-                i = 0;
-                foreach (var e in myDispPropList)
-                {
-                    var array = (uint[])e.GetValue(renderStruct);
-                    array.CopyTo(Dispgroups, i);
-                    i += array.Length;
-                }
-                */
             }
             else
             {
                 Drawgroups = (uint[])myDrawProp.GetValue(WrappedObject);
                 Dispgroups = (uint[])myDispProp.GetValue(WrappedObject);
             }
-            //DrawDispCopy();
+            return;
         }
-    }
-
-    private void RefreshDrawgroups()
-    {
-        //I doubt this needs to be separate from UpdateDispDrawGroups.
-        if (UseDrawGroups && RenderSceneMesh != null)
-        {
-            UpdateDispDrawGroups();
-            RenderSceneMesh.DrawGroups.AlwaysVisible = false;
-            RenderSceneMesh.DrawGroups.RenderGroups = Drawgroups;
-        }
+        HasRenderGroups = false;
     }
 
     public virtual void UpdateRenderModel()
@@ -1022,8 +948,13 @@ public class Entity : ISelectable, IDisposable
             }
         }
 
-        //DrawGroup management
-        RefreshDrawgroups();
+        // Render Group management
+        if (HasRenderGroups != false && RenderSceneMesh != null)
+        {
+            UpdateDispDrawGroups();
+            RenderSceneMesh.DrawGroups.AlwaysVisible = false;
+            RenderSceneMesh.DrawGroups.RenderGroups = Drawgroups;
+        }
 
 
         if (RenderSceneMesh != null)
