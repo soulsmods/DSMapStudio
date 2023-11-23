@@ -19,7 +19,7 @@
     <yesNoDialogMessageId Wiki="Message ID to display when cast? (needs verification) See opmeMenuType." />
     <limitCancelSpEffectId />
     <sortId Wiki="Used for the sort order of magic in menus." />
-    <refId Refs="Bullet,SpEffectParam" Wiki="ID of Bullet Parameter or Special Effect Parameter to use for the spell. See refCategory to set reference category to Special Effect or Bullet." />
+    <refId Refs="Bullet(refCategory=1),SpEffectParam(refCategory=2)" Wiki="ID of Bullet Parameter or Special Effect Parameter to use for the spell. See refCategory to set reference category to Special Effect or Bullet." />
     <mp />
     <stamina Wiki="Never used. Subtracts the amount specified from the player's stamina when the spell is used (or marked &quot;used&quot; in the TAE)." />
     <iconId />
