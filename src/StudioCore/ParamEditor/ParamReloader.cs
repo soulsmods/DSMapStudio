@@ -97,7 +97,7 @@ internal class ParamReloader
                 param == "ThrowParam" && offsets.paramOffsets.ContainsKey(param))
             {
                 tasks.Add(new Task(() =>
-                    WriteMemoryDS1ThrowParam(offsets, bank.Params[param], offsets.paramOffsets[param], handler)));
+                    WriteMemoryPARAM(offsets, bank.Params[param], offsets.paramOffsets[param], handler, 0x41C0)));
             }
             else if (param != null && offsets.paramOffsets.ContainsKey(param))
             {
@@ -182,25 +182,20 @@ internal class ParamReloader
     }
 
     private static void WriteMemoryPARAM(GameOffsets offsets, Param param, int paramOffset,
-        SoulsMemoryHandler memoryHandler)
+        SoulsMemoryHandler memoryHandler, int paramBaseExtraOffset = 0)
     {
-        if (memoryHandler.TryFindOffsetFromAOB("ParamBase", offsets.ParamBaseAobPattern, out int paramBase))
+        if (offsets.ParamBaseAobPattern != null)
         {
-            var soloParamRepositoryPtr = IntPtr.Add(memoryHandler.GetBaseAddress(), paramBase);
-            var BasePtr = memoryHandler.GetParamPtr(soloParamRepositoryPtr, offsets, paramOffset);
-            WriteMemoryPARAM(offsets, param, BasePtr, memoryHandler);
+            if (memoryHandler.TryFindOffsetFromAOB("ParamBase", offsets.ParamBaseAobPattern, out int paramBase))
+            {
+                var soloParamRepositoryPtr = IntPtr.Add(memoryHandler.GetBaseAddress(), paramBase + paramBaseExtraOffset);
+                var BasePtr = memoryHandler.GetParamPtr(soloParamRepositoryPtr, offsets, paramOffset);
+                WriteMemoryPARAM(offsets, param, BasePtr, memoryHandler);
+            }
         }
-    }
-
-    /// <summary>
-    /// Write DS1 throw param to memory, which requires an additional offset.
-    /// </summary>
-    private static void WriteMemoryDS1ThrowParam(GameOffsets offsets, Param param, int paramOffset,
-        SoulsMemoryHandler memoryHandler)
-    {
-        if (memoryHandler.TryFindOffsetFromAOB("ParamBase", offsets.ParamBaseAobPattern, out int paramBase))
+        else
         {
-            var soloParamRepositoryPtr = IntPtr.Add(memoryHandler.GetBaseAddress(), paramBase + 0x41C0);
+            var soloParamRepositoryPtr = IntPtr.Add(memoryHandler.GetBaseAddress(), offsets.ParamBaseOffset + paramBaseExtraOffset);
             var BasePtr = memoryHandler.GetParamPtr(soloParamRepositoryPtr, offsets, paramOffset);
             WriteMemoryPARAM(offsets, param, BasePtr, memoryHandler);
         }
@@ -546,7 +541,13 @@ internal class GameOffsets
     internal string exeName;
     internal bool Is64Bit;
     internal Dictionary<string, int> itemGibOffsets;
-    internal string ParamBaseAobPattern;
+
+    // Hard offset for param base. Unused if ParamBase AOB is set.
+    internal int ParamBaseOffset = 0;
+
+    // AOB for param base offset. If null, ParamBaseOffset will be used instead.
+    internal string? ParamBaseAobPattern;
+
     internal int paramCountOffset;
     internal int paramDataOffset;
     internal int[] paramInnerPath;
@@ -560,8 +561,13 @@ internal class GameOffsets
         var dir = loc.GetGameOffsetsAssetsDir();
         Dictionary<string, string> basicData = GetOffsetFile(dir + "/CoreOffsets.txt");
         exeName = basicData["exeName"];
-        //paramBase = int.Parse(basicData["paramBase"].Substring(2), NumberStyles.HexNumber);
-        ParamBaseAobPattern = basicData["paramBaseAOB"];
+
+        if (basicData.TryGetValue("paramBase", out var paramBaseStr))
+        {
+            ParamBaseOffset = int.Parse(paramBaseStr.Substring(2), NumberStyles.HexNumber);
+        }
+        basicData.TryGetValue("paramBaseAOB", out ParamBaseAobPattern);
+
         var innerpath = basicData["paramInnerPath"].Split("/");
         paramInnerPath = new int[innerpath.Length];
         for (var i = 0; i < innerpath.Length; i++)
@@ -581,19 +587,8 @@ internal class GameOffsets
         coreOffsets = basicData;
     }
 
-    internal GameOffsets(string exe, string paramBaseAobPat, int[] path, int paramCountOff, int paramDataOff, int rowPointerOff,
-        int rowHeadSize, Dictionary<string, int> pOffs, Dictionary<string, int> eOffs)
-    {
-        exeName = exe;
-        ParamBaseAobPattern = paramBaseAobPat;
-        paramInnerPath = path;
-        paramCountOffset = paramCountOff;
-        paramDataOffset = paramDataOff;
-        rowPointerOffset = rowPointerOff;
-        rowHeaderSize = rowHeadSize;
-        paramOffsets = pOffs;
-        itemGibOffsets = eOffs;
-    }
+    internal GameOffsets()
+    { }
 
     private static Dictionary<string, int> GetOffsetsIntFile(string dir)
     {
@@ -679,6 +674,10 @@ public class SoulsMemoryHandler
         return NativeWrapper.WriteProcessMemoryArray(memoryHandle, baseAddress, buffer);
     }
 
+    /// <summary>
+    /// Finds and caches offset that matches provided AOB pattern.
+    /// </summary>
+    /// <returns>True if offset was found; otherwise false.</returns>
     public bool TryFindOffsetFromAOB(string offsetName, string aobPattern, out int outOffset)
     {
         if (_processOffsets.TryGetValue(offsetName, out outOffset))
