@@ -76,6 +76,7 @@ internal class ParamReloader
                 if (processArray.Any())
                 {
                     SoulsMemoryHandler memoryHandler = new(processArray.First());
+
                     ReloadMemoryParamsThreads(bank, offsets, paramNames, memoryHandler);
                     memoryHandler.Terminate();
                 }
@@ -240,7 +241,7 @@ internal class ParamReloader
             }
             else
             {
-                throw new InvalidOperationException("Param row in memory cannot be found in editor. Restart game to resolve.");
+                throw new InvalidOperationException("Param row in memory cannot be found in editor. Try saving params and restarting game.");
             }
         }
     }
@@ -539,10 +540,7 @@ internal class ParamReloader
 
 internal class GameOffsets
 {
-    internal record OffsetInfo(string ProcessKey, GameType GameType, GameOffsets Offsets);
-
     internal static Dictionary<GameType, GameOffsets> GameOffsetBank = new();
-    internal static Dictionary<string, OffsetInfo> OffsetInfoBank = new();
 
     internal Dictionary<string, string> coreOffsets;
     internal string exeName;
@@ -625,9 +623,12 @@ internal class GameOffsets
 
 public class SoulsMemoryHandler
 {
+    // Outer dict: key = process ID. Inner dict: key = arbitrary id, value = memory offset.
+    internal static Dictionary<long, Dictionary<string, int>> ProcessOffsetBank = new();
+
     private readonly Process gameProcess;
+    private readonly Dictionary<string, int> _processOffsets;
     public IntPtr memoryHandle;
-    public Dictionary<string, int> OffsetBank = new();
 
     public SoulsMemoryHandler(Process gameProcess)
     {
@@ -635,6 +636,12 @@ public class SoulsMemoryHandler
         memoryHandle = NativeWrapper.OpenProcess(
             ProcessAccessFlags.CreateThread | ProcessAccessFlags.ReadWrite | ProcessAccessFlags.Execute |
             ProcessAccessFlags.VirtualMemoryOperation, gameProcess.Id);
+
+        if (!ProcessOffsetBank.TryGetValue(gameProcess.Id, out _processOffsets))
+        {
+            _processOffsets = new();
+            ProcessOffsetBank.Add(gameProcess.Id, _processOffsets);
+        }
     }
 
     public IntPtr GetBaseAddress()
@@ -674,7 +681,7 @@ public class SoulsMemoryHandler
 
     public bool TryFindOffsetFromAOB(string offsetName, string aobPattern, out int outOffset)
     {
-        if (OffsetBank.TryGetValue(offsetName, out outOffset))
+        if (_processOffsets.TryGetValue(offsetName, out outOffset))
         {
             return true;
         }
@@ -704,9 +711,9 @@ public class SoulsMemoryHandler
 
                 if (matched)
                 {
-                    // Match has been found. Set out variable and add to OffsetBank.
+                    // Match has been found. Set out variable and add to process offsets.
                     outOffset = offset;
-                    OffsetBank.Add(offsetName, offset);
+                    _processOffsets.Add(offsetName, offset);
                     TaskLogs.AddLog($"Found AOB in memory for {offsetName}. Offset: 0x{offset:X2}", LogLevel.Debug);
                     return true;
                 }
@@ -717,7 +724,7 @@ public class SoulsMemoryHandler
         return false;
     }
 
-    internal void GenerateAobPattern(string str, out byte[] pattern, out bool[] wildcard)
+    private void GenerateAobPattern(string str, out byte[] pattern, out bool[] wildcard)
     {
         string[] split = str.Split(",");
         pattern = new byte[split.Length];
