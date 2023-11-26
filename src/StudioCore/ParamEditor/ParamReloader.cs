@@ -93,9 +93,10 @@ internal class ParamReloader
         List<Task> tasks = new();
         foreach (var param in paramNames)
         {
-            if ((offsets.type == GameType.DarkSoulsPTDE || offsets.type == GameType.DarkSoulsRemastered) &&
+            if ((offsets.type is GameType.DarkSoulsPTDE or GameType.DarkSoulsRemastered) &&
                 param == "ThrowParam" && offsets.paramOffsets.ContainsKey(param))
             {
+                // DS1 ThrowParam requires an additional offset.
                 tasks.Add(new Task(() =>
                     WriteMemoryPARAM(offsets, bank.Params[param], offsets.paramOffsets[param], handler, 0x41C0)));
             }
@@ -731,7 +732,7 @@ public class SoulsMemoryHandler
 
         for (var i = 0; i < split.Length; i++)
         {
-            string byteStr = split[i];
+            string byteStr = split[i].Replace("0x", "");
 
             if (byteStr == "??")
                 wildcard[i] = true;
