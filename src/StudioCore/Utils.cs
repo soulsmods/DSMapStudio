@@ -987,4 +987,9 @@ public static class Utils
         var split = f.ToString("F6").TrimEnd('0').Split('.');
         return $"%.{Math.Clamp(split[1].Length, 3, 6)}f";
     }
+
+    public static int ParseHexFromString(string str)
+    {
+        return int.Parse(str.Replace("0x", ""), System.Globalization.NumberStyles.HexNumber);
+    }
 }
