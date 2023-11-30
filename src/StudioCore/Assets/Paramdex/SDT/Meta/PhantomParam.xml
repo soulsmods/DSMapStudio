@@ -5,5 +5,5 @@
     <isEdgeSubtract IsBool="" />
     <isFrontSubtract IsBool="" />
   </Field>
-  <Self />
+  <Self Wiki="Defines the color and transparency of phantom visual effects" />
 </PARAMMETA>

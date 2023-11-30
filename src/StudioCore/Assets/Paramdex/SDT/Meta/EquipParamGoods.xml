@@ -19,6 +19,42 @@
       <Option Value="3" Name="Common (No Color)" />
       <Option Value="4" Name="Rare (Purple)" />
     </Enum>
+	<Enum Name="GOODS_USE_ANIM" type="u8">
+	  <Option Value="0" Name="Drinking Healing Gourd" />
+	  <Option Value="1" Name="Drinking Green Mossy Gourd" />
+	  <Option Value="2" Name="Drinking Withered Red Gourd" />
+	  <Option Value="3" Name="Drinking Mollted Purple Gourd" />
+	  <Option Value="4" Name="Dumping Five-Color Rice" />
+	  <Option Value="10" Name="Out of Healing Gourds" />
+	  <Option Value="11" Name="Out of Green Mossy Gourds" />
+	  <Option Value="12" Name="Out of Withered Red Gourds" />
+	  <Option Value="13" Name="Out of Mollted Purple Gourds" />
+	  <Option Value="14" Name="Out of Five-Color Rice" />
+	  <Option Value="20" Name="Pellet/Divine Grass" />
+	  <Option Value="22" Name="Red Lump" />
+	  <Option Value="30" Name="Rice/Fine Snow/Status Cure Powders" />
+	  <Option Value="34" Name="Eel Liver/Contact Medicine" />
+	  <Option Value="40" Name="Ako's Sugar/Spiritfall" />
+	  <Option Value="41" Name="Yashariku's Sugar/Spiritfall" />
+	  <Option Value="42" Name="Ungo's Sugar/Spiritfall" />
+	  <Option Value="43" Name="Gokan's Sugar/Spiritfall" />
+	  <Option Value="44" Name="Gaichiin's Sugar/Spiritfall" />
+	  <Option Value="45" Name="Divine Confetti" />
+	  <Option Value="50" Name="Mibu Balloons" />
+	  <Option Value="60" Name="Coin Purses" />
+	  <Option Value="70" Name="Ceramic Shard" />
+	  <Option Value="71" Name="Fistful of Ash/Oil" />
+	  <Option Value="80" Name="Ceremonial Tanto" />
+	  <Option Value="82" Name="Bite Down/Hidden Tooth" />
+	  <Option Value="83" Name="Nightjar Monocular" />
+	  <Option Value="84" Name="Snap Seed" />
+	  <Option Value="85" Name="Illusive Hall Bell" />
+	  <Option Value="86" Name="Jizo Statue's/Bell Demon/Dragon's Blood Droplet" />
+	  <Option Value="87" Name="Homeward Idol" />
+	  <Option Value="88" Name="Sweet Rice Ball" />
+	  <Option Value="89" Name="Persimmon/Taro Persimmon" />
+	  <Option Value="255" Name="No use animation" />
+	</Enum>
   </Enums>
   <Field>
     <refId_default Wiki="Defines what Bullet or SpEffects will be invoked when the item is used" Refs="Bullet(refCategory=1),SpEffectParam(refCategory=2)" />
@@ -44,7 +80,7 @@
     <refCategory Wiki="Determines what param is referenced when this item is used" Enum="BEHAVIOR_REF_TYPE" />
     <spEffectCategory />
     <goodsCategory />
-    <goodsUseAnim Wiki="Defines the animation used when the item is used" />
+    <goodsUseAnim Enum="GOODS_USE_ANIM" Wiki="Defines the animation used when the item is used" />
     <opmeMenuType Wiki="What menu type does this item open if it opens a menu at all?" />
     <useLimitCategory />
     <replaceCategory />
@@ -98,13 +134,13 @@
     <fireSfxId Wiki="Sfx spawned when the item's effect is triggered" />
     <effectSfxId Wiki="Sfx spawned after the item's effect has been triggered" />
     <enable_LoadOfCinder IsBool="" />
-    <isBonfireWarpItem IsBool="" />
+    <isBonfireWarpItem Wiki="When set to TRUE, if the status change type 'warp prohibition' is applied, remove the function that makes the item unusable." IsBool="" />
     <enable_Ladder Wiki="Item can be used while on a ladder" IsBool="" />
-    <isUseMultiPlayPreparation IsBool="" />
+    <isUseMultiPlayPreparation Wiki="Session probability - whether items can be used during initial synchronization" IsBool="" />
     <canMultiUse IsBool="" />
-    <isUseRefId1ForEnchant IsBool="" />
-    <isWarpProhibited IsBool="" />
-    <isUseMultiPenaltyOnly IsBool="" />
+    <isUseRefId1ForEnchant Wiki="Enchant with left hand and both hands? If true, use call ID 1" IsBool="" />
+    <isWarpProhibited Wiki="When this is TRUE, if the status change type 'warp prohibited' is applied, the item will be unusable." IsBool="" />
+    <isUseMultiPenaltyOnly Wiki="Flag to allow determining whether an item is only available when a client disconnection penalty is occurring" IsBool="" />
     <suppleType />
     <autoReplenishType />
     <isDrop Wiki="Can this item be dropped?" IsBool="" />

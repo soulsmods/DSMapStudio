@@ -280,7 +280,7 @@
     <partsAtkParamId6 Wiki="Attack parameter ID to refer to when damage hits part 6" />
     <partsAtkParamId7 Wiki="Attack parameter ID to refer to when damage hits part 7" />
     <partsAtkParamId8 Wiki="Attack parameter ID to refer to when damage hits part 8" />
-    <phantomShaderId />
+    <phantomShaderId Wiki="Applies this PhantomParam row to the Npc" Refs="PhantomParam" />
     <multiPlayCorrectionParamId />
     <maxAnklePitchAngle />
     <resist_freeze Wiki="Base Shock resistance" />
@@ -374,9 +374,9 @@
     <attriADamageCutRate Wiki="Resistance to Attribute A damage" />
     <attriBDamageCutRate Wiki="Resistance to Attribute B damage" />
     <attriCDamageCutRate Wiki="Resistance to Attribute C damage" />
-    <damageDropSoul />
-    <damageDropItemLotId_1 Refs="ItemLotParam" />
-    <damageDropItemLotId_2 Refs="ItemLotParam" />
+    <damageDropSoul Wiki="Amount of Sen dropped when hit with Golden Vortex" />
+    <damageDropItemLotId_1 Wiki="ItemLot rolled when hit with Golden Vortex" Refs="ItemLotParam" />
+    <damageDropItemLotId_2 Wiki="ItemLot rolled when hit with Golden Vortex" Refs="ItemLotParam" />
     <camDitherFadeMinDist />
     <camDitherFadeMaxDist />
     <lifeCountItemLotId />
@@ -385,7 +385,7 @@
     <offsetSeID />
     <ninsatsuResourceItemLotId_1 Wiki="Resource Item dropped when the Npc recieves ninsatsu damage (deathblows)" Refs="ResourceItemLotParam" />
     <ninsatsuResourceItemLotId_2 Wiki="Resource Item dropped when the Npc recieves ninsatsu damage (deathblows)" Refs="ResourceItemLotParam" />
-    <growthDopingSpEffectID Wiki="Area Scaking, when the player doesn't have Kuro's Charm and is not in NG+ the speffects Id is offset by 700" Refs="SpEffectParam" />
+    <growthDopingSpEffectID Wiki="Area Scaling, when the player doesn't have Kuro's Charm and is not in NG+ the speffects Id is offset by 700" Refs="SpEffectParam" />
   </Field>
   <Self Wiki="Default Npc stats" AlternativeOrder="behaviorVariationId,nameId,-,
 getSoul,damageDropSoul,skillPoint,-,
