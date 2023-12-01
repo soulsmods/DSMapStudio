@@ -336,18 +336,10 @@ public static class TaskLogs
 
         public LogPriority Priority = LogPriority.Normal;
 
-        public LogEntry(string message, LogLevel level)
-        {
-            Message = message;
-            Level = level;
-        }
-
-        public LogEntry(string message, LogLevel level, LogPriority priority)
-        {
-            Message = message;
-            Level = level;
-            Priority = priority;
-        }
+        /// <summary>
+        ///     Time which log was created
+        /// </summary>
+        public DateTime LogTime;
 
         /// <summary>
         ///     Log message with additional formatting and info.
@@ -361,9 +353,25 @@ public static class TaskLogs
                 {
                     mes += $" x{MessageCount}";
                 }
+                mes = $"[{LogTime.Hour}:{LogTime.Minute}] {mes}";
 
                 return mes;
             }
+        }
+
+        public LogEntry(string message, LogLevel level)
+        {
+            Message = message;
+            Level = level;
+            LogTime = DateTime.Now;
+        }
+
+        public LogEntry(string message, LogLevel level, LogPriority priority)
+        {
+            Message = message;
+            Level = level;
+            Priority = priority;
+            LogTime = DateTime.Now;
         }
     }
 }
