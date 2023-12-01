@@ -17,8 +17,8 @@
     <soulParamIdForWepEnchant />
     <playCategory />
     <playPriority />
-    <existEffectForLarge IsBool="" />
-    <existEffectForSoul IsBool="" Wiki="Offsets FFX ID for &quot;large&quot; enemies" />
+    <existEffectForLarge IsBool="" Wiki="Offsets FFX ID for &quot;large&quot; enemies" />
+    <existEffectForSoul IsBool="" />
     <effectInvisibleAtCamouflage IsBool="" />
     <useCamouflage IsBool="" />
     <invisibleAtFriendCamouflage IsBool="" />
