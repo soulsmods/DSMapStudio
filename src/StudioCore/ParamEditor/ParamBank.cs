@@ -232,7 +232,7 @@ public class ParamBank
         }
     }
 
-    public CompoundAction LoadParamDefaultNames(string param = null, bool onlyAffectEmptyNames = false)
+    public CompoundAction LoadParamDefaultNames(string param = null, bool onlyAffectEmptyNames = false, bool onlyAffectVanillaNames = false)
     {
         var dir = AssetLocator.GetParamNamesDir();
         var files = param == null
@@ -249,7 +249,7 @@ public class ParamBank
 
             var names = File.ReadAllText(f);
             (var result, CompoundAction action) =
-                ParamIO.ApplySingleCSV(this, names, fName, "Name", ' ', true, onlyAffectEmptyNames);
+                ParamIO.ApplySingleCSV(this, names, fName, "Name", ' ', true, onlyAffectEmptyNames, onlyAffectVanillaNames);
             if (action == null)
             {
                 TaskLogs.AddLog($"Could not apply name files for {fName}",
