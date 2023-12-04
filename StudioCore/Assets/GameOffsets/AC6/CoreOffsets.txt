@@ -1,7 +1,0 @@
-exeName:armoredcore6.exe
-paramBase:0x4DC8550
-paramInnerPath:0x80/0x80
-paramCountOffset:0xA
-paramDataOffset:0x40
-rowPointerOffset:0x8
-rowHeaderSize:0x18
