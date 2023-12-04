@@ -678,7 +678,8 @@ public class MEGlobalOperation : MEOperation<ParamEditorSelectionState, bool>
             ParamBank.ClipboardParam = null;
             ParamBank.ClipboardRows.Clear();
             return true;
-        }));
+        }
+        ));
         operations.Add("newvar", (new[] { "variable name", "value" },
             "Creates a variable with the given value, and the type of that value", (selectionState, args) =>
             {
@@ -698,12 +699,14 @@ public class MEGlobalOperation : MEOperation<ParamEditorSelectionState, bool>
                 }
 
                 return true;
-            }));
+            }
+        ));
         operations.Add("clearvars", (new string[0], "Deletes all variables", (selectionState, args) =>
         {
             MassParamEdit.massEditVars.Clear();
             return true;
-        }));
+        }
+        ));
     }
 }
 
@@ -739,7 +742,8 @@ public class MERowOperation : MEOperation<(string, Param.Row), (Param, Param.Row
 
                 ParamBank.ClipboardRows.Add(new Param.Row(row, p));
                 return (p, null);
-            }));
+            }
+        ));
         operations.Add("copyN", (new[] { "count" },
             "Adds the selected rows into clipboard the given number of times. If the clipboard param is different, the clipboard is emptied first",
             (paramAndRow, args) =>
@@ -771,7 +775,8 @@ public class MERowOperation : MEOperation<(string, Param.Row), (Param, Param.Row
                 }
 
                 return (p, null);
-            }));
+            }
+        ));
         operations.Add("paste", (new string[0],
             "Adds the selected rows to the primary regulation or parambnd in the selected param",
             (paramAndRow, args) =>
@@ -790,7 +795,8 @@ public class MERowOperation : MEOperation<(string, Param.Row), (Param, Param.Row
 
                 Param p = ParamBank.PrimaryBank.Params[paramKey];
                 return (p, new Param.Row(row, p));
-            }));
+            }
+        ));
     }
 }
 
@@ -838,7 +844,8 @@ public class MEValueOperation : MEOperation<object, object>
                 {
                     return ((v - opp2) * opp1) + opp2;
                 });
-            }));
+            }
+        ));
         operations.Add("replace",
             (new[] { "text to replace", "new text" },
                 "Interprets the selected values as text and replaces all occurances of the text to replace with the new text",
@@ -849,7 +856,8 @@ public class MEValueOperation : MEOperation<object, object>
             {
                 Regex rx = new(args[0]);
                 return MassParamEdit.WithDynamicOf(ctx, v => rx.Replace(v, args[1]));
-            }));
+            }
+        ));
         operations.Add("max",
             (new[] { "number" }, "Returns the larger of the current value and number",
                 (ctx, args) => MassParamEdit.WithDynamicOf(ctx, v => Math.Max(v, double.Parse(args[0])))));
