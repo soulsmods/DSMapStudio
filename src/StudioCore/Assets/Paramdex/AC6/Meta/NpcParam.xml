@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+  <Field>
+    <damageLevelConvThresholdParamId AltName="DamageLevelConvThresholdParam ID" Refs="DamageLevelConvThresholdParam" />
+    <npcEquipPartsParamId AltName="NpcEquipPartsParam ID" Refs="NpcEquipPartsParam" />
+    <npcMaterialParamReference AltName="NpcMaterialParam Reference" Wiki="Affects NPC design, such as paint.\nReferences rows in NpcMaterialParam. Rows references seem to be Character ID + this field." />
+    <showStabilityBar AltName="Show Stability Bar" Wiki="If stability bar should appear in UI." IsBool="" />
+  </Field>
+  <Self />
+</PARAMMETA>
