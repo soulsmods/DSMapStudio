@@ -1,0 +1,1057 @@
+10000000 51-016 GA
+10001000 51-016 GA
+10001010 51-016 GA
+10100000 Coldcall
+10101000 Coldcall
+10200000 Sulla
+10201000 Sulla
+10300000 51-002 K
+10301000 51-002 K
+10310000 51-003 K
+10311000 51-003 K
+10400000 Rokumonsen
+10400001 Rokumonsen
+10500000 V.IV Rusty
+10501000 V.IV Rusty
+10501100 V.IV Rusty
+10501200 V.IV Rusty
+10600000 51-101 R
+10601000 51-101 R
+10601001 51-101 R
+10601003 51-101 R
+10601004 51-101 R
+10700000 V.II Snail
+10701000 V.II Snail
+10701001 V.II Snail
+10800000 V.V Hawkins
+10801000 V.V Hawkins
+10900000 V.VIII Pater
+10901000 V.VIII Pater
+11000000 "Honest" Brute
+11001000 "Honest" Brute
+11100000 51-015 GA
+11101000 51-015 GA
+11200000 "Cinder" Carla
+11201000 "Cinder" Carla
+11201001 "Cinder" Carla
+11300000 51-201 W
+11301000 51-201 W
+11400000 G5 Iguazu
+11400010 G5 Iguazu
+11401000 G5 Iguazu
+11401010 G5 Iguazu
+11401020 G5 Iguazu
+11401030 G5 Iguazu
+11500000 G4 Volta
+11501000 G4 Volta
+11600000 G1 Michigan
+11601001 G1 Michigan
+11700000 Index Dunham
+11701000 Index Dunham
+11800000 Little Ziyi
+11801000 Little Ziyi
+11900000 Middle Flatwell
+11901000 Middle Flatwell
+11901001 Middle Flatwell
+12000000 V.I Freud
+12001000 V.I Freud
+12001100 V.I Freud
+12100000 "Chatty" Stick
+12100010 "Chatty" Stick
+12101000 "Chatty" Stick
+12101100 "Chatty" Stick
+12101200 "Chatty" Stick
+12500000 Ayre
+12501000 Ayre
+12600000 51-011 AL
+12600001 51-011 AL
+12601000 51-011 AL
+12700000 51-012 AL
+12701000 51-012 AL
+20000000 G2 Nile
+20001000 G2 Nile
+20100000 G3 Wu Huahai
+20101001 G3 Wu Huahai
+20200000 G6 Red
+20201000 G6 Red
+20300000 51-013 BE
+20400000 V.VII Swinburne
+20401000 V.VII Swinburne
+20500000 V.VI Maeterlinck
+20501000 V.VI Maeterlinck
+20600000 V.III O'Keeffe
+20601000 V.III O'Keeffe
+20700000 Ring Freddie
+20701000 Ring Freddie
+20800000 Thumb Dolmayan
+20801000 Thumb Dolmayan
+20900000 "Invincible" Rummy
+20901000 "Invincible" Rummy
+21000000 51-014 BE
+21100000 Nosaac
+21101000 Nosaac
+21200000 Chartreuse
+21201000 Chartreuse
+21300000 King
+21301000 King
+21400000 51-001 K
+30000000 Guard Mech
+30000001 Guard Mech
+30000010 Guard Mech
+30000100 Guard Mech
+30000101 Guard Mech
+30000200 Guard Mech
+30000201 Guard Mech
+30001002 Guard Mech
+30001003 Guard Mech
+30001004 Guard Mech
+30001006 Guard Mech
+30001008 Guard Mech
+30001009 Guard Mech
+30001011 Guard Mech
+30001012 Guard Mech
+30001014 Guard Mech
+30001017 Guard Mech
+30001018 Guard Mech
+30001019 Guard Mech
+30001020 Guard Mech
+30001021 Guard Mech
+30001022 Guard Mech
+30001023 Guard Mech
+30001024 Guard Mech
+30001025 Guard Mech
+30001026 Guard Mech
+30001029 Guard Mech
+30001030 Guard Mech
+30001031 Guard Mech
+30001032 Guard Mech
+30001090 Guard Mech
+30001100 Guard Mech
+30001101 Guard Mech
+30001102 Guard Mech
+30001200 Guard Mech
+30001203 Guard Mech
+30001204 Guard Mech
+30001205 Guard Mech
+30001290 Guard Mech
+30001300 Guard Mech
+30001390 Guard Mech
+30010000 Generic Weaponry - Unknown
+30010001 Generic Weaponry - Unknown
+30010002 Generic Weaponry - Unknown
+30010003 Generic Weaponry - Unknown
+30011000 Generic Weaponry - Unknown
+30020000 Generic Weaponry - Unknown
+30020001 Generic Weaponry - Unknown
+30020002 Generic Weaponry - Unknown
+30020003 Generic Weaponry - Unknown
+30021000 Generic Weaponry - Unknown
+30200000 Light MT
+30200001 Light MT
+30200002 Light MT
+30200003 Light MT
+30200090 Light MT
+30200091 Light MT
+30200092 Light MT
+30200100 Light MT
+30200101 Light MT
+30200102 Light MT
+30200103 Light MT
+30200104 Light MT
+30200200 Light MT
+30200201 Light MT
+30200202 Light MT
+30200203 Light MT
+30200300 Light MT
+30200301 Light MT
+30200302 Light MT
+30200303 Light MT
+30200400 Light MT
+30200401 Light MT
+30200402 Light MT
+30200403 Light MT
+30200404 Light MT
+30200500 Light MT
+30200501 Light MT
+30200502 Light MT
+30200503 Light MT
+30200504 Light MT
+30200600 Light MT
+30200601 Light MT
+30200602 Light MT
+30200603 Light MT
+30200700 Light MT
+30200701 Light MT
+30200702 Light MT
+30200703 Light MT
+30200800 Light MT
+30200801 Light MT
+30200802 Light MT
+30200803 Light MT
+30200810 Light MT
+30200811 Light MT
+30200812 Light MT
+30200813 Light MT
+30200820 Light MT
+30200821 Light MT
+30200822 Light MT
+30200823 Light MT
+30200830 Light MT
+30200831 Light MT
+30200832 Light MT
+30200833 Light MT
+30201000 Light MT
+30201001 Light MT
+30201002 Light MT
+30201003 Light MT
+30201004 Light MT
+30201005 Light MT
+30201006 Light MT
+30201018 Light MT
+30201019 Light MT
+30201026 Light MT
+30201027 Light MT
+30201028 Light MT
+30201031 Light MT
+30201032 Light MT
+30201038 Light MT
+30201039 Light MT
+30201040 Light MT
+30201041 Light MT
+30201043 Light MT
+30201051 Light MT
+30201100 Light MT
+30201101 Light MT
+30201102 Light MT
+30201103 Light MT
+30201104 Light MT
+30201105 Light MT
+30201106 Light MT
+30201109 Light MT
+30201115 Light MT
+30201117 Light MT
+30201125 Light MT
+30201126 Light MT
+30201127 Light MT
+30201128 Light MT
+30201129 Light MT
+30201130 Light MT
+30201131 Light MT
+30201132 Light MT
+30201134 Light MT
+30201135 Light MT
+30201136 Light MT
+30201137 Light MT
+30201138 Light MT
+30201139 Light MT
+30201140 Light MT
+30201141 Light MT
+30201200 Light MT
+30201201 Light MT
+30201202 Light MT
+30201203 Light MT
+30201205 Light MT
+30201206 Light MT
+30201207 Light MT
+30201208 Light MT
+30201209 Light MT
+30201210 Light MT
+30201211 Light MT
+30201213 Light MT
+30201214 Light MT
+30201215 Light MT
+30201216 Light MT
+30201217 Light MT
+30201300 Light MT
+30201301 Light MT
+30201304 Light MT
+30201307 Light MT
+30201308 Light MT
+30201309 Light MT
+30201311 Light MT
+30201400 Light MT
+30201401 Light MT
+30201402 Light MT
+30201403 Light MT
+30201404 Light MT
+30201405 Light MT
+30201406 Light MT
+30201407 Light MT
+30201408 Light MT
+30201409 Light MT
+30201410 Light MT
+30201411 Light MT
+30201412 Light MT
+30201413 Light MT
+30201414 Light MT
+30201415 Light MT
+30201416 Light MT
+30201417 Light MT
+30201418 Light MT
+30201419 Light MT
+30201420 Light MT
+30201421 Light MT
+30201422 Light MT
+30201423 Light MT
+30201424 Light MT
+30201500 Light MT
+30201501 Light MT
+30201502 Light MT
+30201503 Light MT
+30201504 Light MT
+30201505 Light MT
+30201506 Light MT
+30201512 Light MT
+30201513 Light MT
+30201514 Light MT
+30201518 Light MT
+30201519 Light MT
+30201520 Light MT
+30201521 Light MT
+30201522 Light MT
+30201523 Light MT
+30201524 Light MT
+30201525 Light MT
+30201526 Light MT
+30201527 Light MT
+30201528 Light MT
+30201529 Light MT
+30201530 Light MT
+30201531 Light MT
+30201532 Light MT
+30201533 Light MT
+30201534 Light MT
+30201535 Light MT
+30201536 Light MT
+30201601 Light MT
+30201602 Light MT
+30201603 Light MT
+30201700 Light MT
+30201800 Light MT
+30201801 Light MT
+30201802 Light MT
+30201804 Light MT
+30201805 Light MT
+30201810 Light MT
+30201811 Light MT
+30201812 Light MT
+30201813 Light MT
+30201814 Light MT
+30201822 Light MT
+30201830 Light MT
+30201831 Light MT
+30201832 Light MT
+30201833 Light MT
+30201834 Light MT
+30201835 Light MT
+30201900 Light MT
+30201901 Light MT
+30201902 Light MT
+30201903 Light MT
+30201904 Light MT
+30201905 Light MT
+30201906 Light MT
+30201907 Light MT
+30201908 Light MT
+30201909 Light MT
+30201991 Light MT
+30201992 Light MT
+30204000 Light MT
+30204001 Light MT
+30204100 Light MT
+30204101 Light MT
+30204200 Light MT
+30204300 Light MT
+30500000 Light MT - Sniper (PCA)
+30500001 Light MT - Sniper (PCA)
+30500002 Light MT - Sniper (PCA)
+30500003 Light MT - Sniper (PCA)
+30500004 Light MT - Sniper (PCA)
+30500100 Light MT - Sniper (PCA)
+30500101 Light MT - Sniper (PCA)
+30500102 Light MT - Sniper (PCA)
+30500103 Light MT - Sniper (PCA)
+30500200 Light MT - Sniper (PCA)
+30500201 Light MT - Sniper (PCA)
+30500202 Light MT - Sniper (PCA)
+30500203 Light MT - Sniper (PCA)
+30500300 Light MT - Sniper (PCA)
+30500301 Light MT - Sniper (PCA)
+30500302 Light MT - Sniper (PCA)
+30500303 Light MT - Sniper (PCA)
+30500400 Light MT - Sniper (PCA)
+30500401 Light MT - Sniper (PCA)
+30500402 Light MT - Sniper (PCA)
+30500403 Light MT - Sniper (PCA)
+30501000 Light MT - Sniper (PCA)
+30501002 Light MT - Sniper (PCA)
+30501020 Light MT - Sniper (PCA)
+30501030 Light MT - Sniper (PCA)
+30501031 Light MT - Sniper (PCA)
+30501032 Light MT - Sniper (PCA)
+30501033 Light MT - Sniper (PCA)
+30501034 Light MT - Sniper (PCA)
+30501037 Light MT - Sniper (PCA)
+30501040 Light MT - Sniper (PCA)
+30501041 Light MT - Sniper (PCA)
+30501042 Light MT - Sniper (PCA)
+30501043 Light MT - Sniper (PCA)
+30501044 Light MT - Sniper (PCA)
+30501045 Light MT - Sniper (PCA)
+30501046 Light MT - Sniper (PCA)
+30501048 Light MT - Sniper (PCA)
+30501049 Light MT - Sniper (PCA)
+30501051 Light MT - Sniper (PCA)
+30501052 Light MT - Sniper (PCA)
+30501053 Light MT - Sniper (PCA)
+30501054 Light MT - Sniper (PCA)
+30501055 Light MT - Sniper (PCA)
+30501056 Light MT - Sniper (PCA)
+30501057 Light MT - Sniper (PCA)
+30501058 Light MT - Sniper (PCA)
+30501101 Light MT - Sniper (PCA)
+30501102 Light MT - Sniper (PCA)
+30501200 Light MT - Sniper (PCA)
+30501202 Light MT - Sniper (PCA)
+30501203 Light MT - Sniper (PCA)
+30501204 Light MT - Sniper (PCA)
+30501205 Light MT - Sniper (PCA)
+30501206 Light MT - Sniper (PCA)
+30501208 Light MT - Sniper (PCA)
+30501209 Light MT - Sniper (PCA)
+30501210 Light MT - Sniper (PCA)
+30501211 Light MT - Sniper (PCA)
+30501213 Light MT - Sniper (PCA)
+30501214 Light MT - Sniper (PCA)
+30501215 Light MT - Sniper (PCA)
+30501216 Light MT - Sniper (PCA)
+30501300 Light MT - Sniper (PCA)
+30501301 Light MT - Sniper (PCA)
+30501303 Light MT - Sniper (PCA)
+30501304 Light MT - Sniper (PCA)
+30501305 Light MT - Sniper (PCA)
+30501306 Light MT - Sniper (PCA)
+30501400 Light MT - Sniper (PCA)
+30501401 Light MT - Sniper (PCA)
+30501402 Light MT - Sniper (PCA)
+30501403 Light MT - Sniper (PCA)
+30501404 Light MT - Sniper (PCA)
+30501405 Light MT - Sniper (PCA)
+30501406 Light MT - Sniper (PCA)
+30501407 Light MT - Sniper (PCA)
+30501408 Light MT - Sniper (PCA)
+30501901 Light MT - Sniper (PCA)
+30501904 Light MT - Sniper (PCA)
+30501905 Light MT - Sniper (PCA)
+31000000 Xylem Drone
+31000001 Xylem Drone
+31000100 Xylem Drone
+31000101 Xylem Drone
+31001005 Xylem Drone
+31001006 Xylem Drone
+31001102 Xylem Drone
+31001103 Xylem Drone
+31500000 Juggernaut - Mobile Artillery Platform
+31501010 Juggernaut - Mobile Artillery Platform
+31501011 Juggernaut - Mobile Artillery Platform
+32000000 Ekdromoi - Elite Craft
+32000001 Ekdromoi - Elite Craft
+32000002 Ekdromoi - Elite Craft
+32000100 Ekdromoi - Elite Craft
+32000101 Ekdromoi - Elite Craft
+32000102 Ekdromoi - Elite Craft
+32000200 Ekdromoi - Elite Craft
+32000201 Ekdromoi - Elite Craft
+32000202 Ekdromoi - Elite Craft
+32001001 Ekdromoi - Elite Craft
+32001100 Ekdromoi - Elite Craft
+32001200 Ekdromoi - Elite Craft
+32001201 Ekdromoi - Elite Craft
+32500000 Light Cavalry - Bipedal Mech
+32500001 Light Cavalry - Bipedal Mech
+32500005 Light Cavalry - Bipedal Mech
+32500100 Light Cavalry - Bipedal Mech
+32500103 Light Cavalry - Bipedal Mech
+32500400 Light Cavalry - Bipedal Mech
+32500401 Light Cavalry - Bipedal Mech
+32500600 Light Cavalry - Bipedal Mech
+32500700 Light Cavalry - Bipedal Mech
+32500910 Light Cavalry - Bipedal Mech
+32501000 Light Cavalry - Bipedal Mech
+32501007 Light Cavalry - Bipedal Mech
+32501008 Light Cavalry - Bipedal Mech
+32501101 Light Cavalry - Bipedal Mech
+32501102 Light Cavalry - Bipedal Mech
+32501103 Light Cavalry - Bipedal Mech
+32501104 Light Cavalry - Bipedal Mech
+32501105 Light Cavalry - Bipedal Mech
+32501106 Light Cavalry - Bipedal Mech
+32501107 Light Cavalry - Bipedal Mech
+32501108 Light Cavalry - Bipedal Mech
+32501109 Light Cavalry - Bipedal Mech
+32501200 Light Cavalry - Bipedal Mech
+32501400 Light Cavalry - Bipedal Mech
+32501401 Light Cavalry - Bipedal Mech
+32501402 Light Cavalry - Bipedal Mech
+32501403 Light Cavalry - Bipedal Mech
+32501404 Light Cavalry - Bipedal Mech
+32501408 Light Cavalry - Bipedal Mech
+32501411 Light Cavalry - Bipedal Mech
+32501412 Light Cavalry - Bipedal Mech
+32501413 Light Cavalry - Bipedal Mech
+32501414 Light Cavalry - Bipedal Mech
+32501415 Light Cavalry - Bipedal Mech
+32501416 Light Cavalry - Bipedal Mech
+32501417 Light Cavalry - Bipedal Mech
+32501418 Light Cavalry - Bipedal Mech
+32501419 Light Cavalry - Bipedal Mech
+32501420 Light Cavalry - Bipedal Mech
+32501421 Light Cavalry - Bipedal Mech
+32501422 Light Cavalry - Bipedal Mech
+32501425 Light Cavalry - Bipedal Mech
+32501426 Light Cavalry - Bipedal Mech
+32501600 Light Cavalry - Bipedal Mech
+32501602 Light Cavalry - Bipedal Mech
+32501603 Light Cavalry - Bipedal Mech
+32501700 Light Cavalry - Bipedal Mech
+32501701 Light Cavalry - Bipedal Mech
+32600000 Heavy Cavalry - Bipedal Mech
+32600001 Heavy Cavalry - Bipedal Mech
+32600100 Heavy Cavalry - Bipedal Mech
+32600101 Heavy Cavalry - Bipedal Mech
+32600300 Heavy Cavalry - Bipedal Mech
+32600301 Heavy Cavalry - Bipedal Mech
+32601000 Heavy Cavalry - Bipedal Mech
+32601002 Heavy Cavalry - Bipedal Mech
+32601100 Heavy Cavalry - Bipedal Mech
+32601101 Heavy Cavalry - Bipedal Mech
+32601200 Heavy Cavalry - Bipedal Mech
+32601300 Heavy Cavalry - Bipedal Mech
+32601301 Heavy Cavalry - Bipedal Mech
+33000000 Light Cavalry #2 - Bipedal Mech
+33000100 Light Cavalry #2 - Bipedal Mech
+33000200 Light Cavalry #2 - Bipedal Mech
+33001000 Light Cavalry #2 - Bipedal Mech
+33001001 Light Cavalry #2 - Bipedal Mech
+33001003 Light Cavalry #2 - Bipedal Mech
+33001005 Light Cavalry #2 - Bipedal Mech
+33001006 Light Cavalry #2 - Bipedal Mech
+33001007 Light Cavalry #2 - Bipedal Mech
+33001008 Light Cavalry #2 - Bipedal Mech
+33001100 Light Cavalry #2 - Bipedal Mech
+33001200 Light Cavalry #2 - Bipedal Mech
+34000000 Tetrapod MT (BAWS)
+34000001 Tetrapod MT (BAWS)
+34000002 Tetrapod MT (BAWS)
+34000003 Tetrapod MT (BAWS)
+34000004 Tetrapod MT (BAWS)
+34000005 Tetrapod MT (BAWS)
+34000100 Tetrapod MT (BAWS)
+34000101 Tetrapod MT (BAWS)
+34000102 Tetrapod MT (BAWS)
+34000103 Tetrapod MT (BAWS)
+34000104 Tetrapod MT (BAWS)
+34000105 Tetrapod MT (BAWS)
+34000200 Tetrapod MT (BAWS)
+34000201 Tetrapod MT (BAWS)
+34000202 Tetrapod MT (BAWS)
+34000203 Tetrapod MT (BAWS)
+34000300 Tetrapod MT (BAWS)
+34000301 Tetrapod MT (BAWS)
+34000302 Tetrapod MT (BAWS)
+34000303 Tetrapod MT (BAWS)
+34000304 Tetrapod MT (BAWS)
+34000305 Tetrapod MT (BAWS)
+34001000 Tetrapod MT (BAWS)
+34001001 Tetrapod MT (BAWS)
+34001020 Tetrapod MT (BAWS)
+34001023 Tetrapod MT (BAWS)
+34001025 Tetrapod MT (BAWS)
+34001027 Tetrapod MT (BAWS)
+34001029 Tetrapod MT (BAWS)
+34001031 Tetrapod MT (BAWS)
+34001105 Tetrapod MT (BAWS)
+34001107 Tetrapod MT (BAWS)
+34001108 Tetrapod MT (BAWS)
+34001109 Tetrapod MT (BAWS)
+34001200 Tetrapod MT (BAWS)
+34001201 Tetrapod MT (BAWS)
+34001202 Tetrapod MT (BAWS)
+34001203 Tetrapod MT (BAWS)
+34001204 Tetrapod MT (BAWS)
+34001206 Tetrapod MT (BAWS)
+34001208 Tetrapod MT (BAWS)
+34001209 Tetrapod MT (BAWS)
+34001300 Tetrapod MT (BAWS)
+34001304 Tetrapod MT (BAWS)
+34001305 Tetrapod MT (BAWS)
+34001800 Tetrapod MT (BAWS)
+34001801 Tetrapod MT (BAWS)
+34001802 Tetrapod MT (BAWS)
+34001803 Tetrapod MT (BAWS)
+34004000 Tetrapod MT (BAWS)
+34004100 Tetrapod MT (BAWS)
+35000000 Tank Drone (Institute)
+35000100 Tank Drone (Institute)
+35000200 Tank Drone (Institute)
+35001002 Tank Drone (Institute)
+35001004 Tank Drone (Institute)
+35001006 Tank Drone (Institute)
+35001200 Tank Drone (Institute)
+35001201 Tank Drone (Institute)
+35001202 Tank Drone (Institute)
+36000000 Light MT - Unknown
+36000100 Light MT - Unknown
+36000190 Light MT - Unknown
+36000200 Light MT - Unknown
+36000290 Light MT - Unknown
+36000300 Light MT - Unknown
+36001000 Light MT - Unknown
+36001001 Light MT - Unknown
+36001002 Light MT - Unknown
+36001003 Light MT - Unknown
+36001004 Light MT - Unknown
+36001005 Light MT - Unknown
+36001007 Light MT - Unknown
+36001009 Light MT - Unknown
+36001010 Light MT - Unknown
+36001011 Light MT - Unknown
+36001012 Light MT - Unknown
+36001013 Light MT - Unknown
+36001014 Light MT - Unknown
+36001015 Light MT - Unknown
+36001016 Light MT - Unknown
+36001017 Light MT - Unknown
+36001018 Light MT - Unknown
+36001019 Light MT - Unknown
+36001020 Light MT - Unknown
+36001100 Light MT - Unknown
+36001101 Light MT - Unknown
+36001102 Light MT - Unknown
+36001103 Light MT - Unknown
+36001104 Light MT - Unknown
+36001105 Light MT - Unknown
+36001106 Light MT - Unknown
+36001107 Light MT - Unknown
+36001108 Light MT - Unknown
+36001109 Light MT - Unknown
+36001200 Light MT - Unknown
+36001201 Light MT - Unknown
+36001202 Light MT - Unknown
+36001203 Light MT - Unknown
+36001204 Light MT - Unknown
+36001205 Light MT - Unknown
+36001208 Light MT - Unknown
+36001209 Light MT - Unknown
+36001210 Light MT - Unknown
+36001211 Light MT - Unknown
+36001212 Light MT - Unknown
+36001213 Light MT - Unknown
+36001214 Light MT - Unknown
+36001215 Light MT - Unknown
+36001216 Light MT - Unknown
+36001290 Light MT - Unknown
+36001291 Light MT - Unknown
+36001300 Light MT - Unknown
+36001301 Light MT - Unknown
+36001302 Light MT - Unknown
+36001303 Light MT - Unknown
+37000000 PCA Weaponry - Unknown
+37000100 PCA Weaponry - Unknown
+37000200 PCA Weaponry - Unknown
+37000300 PCA Weaponry - Unknown
+37001000 PCA Weaponry - Unknown
+37001001 PCA Weaponry - Unknown
+37001002 PCA Weaponry - Unknown
+37001003 PCA Weaponry - Unknown
+37001004 PCA Weaponry - Unknown
+37001005 PCA Weaponry - Unknown
+37001006 PCA Weaponry - Unknown
+37001010 PCA Weaponry - Unknown
+37001020 PCA Weaponry - Unknown
+37001030 PCA Weaponry - Unknown
+37001031 PCA Weaponry - Unknown
+37001032 PCA Weaponry - Unknown
+37001040 PCA Weaponry - Unknown
+37001050 PCA Weaponry - Unknown
+37001051 PCA Weaponry - Unknown
+37001090 PCA Weaponry - Unknown
+37001100 PCA Weaponry - Unknown
+37001101 PCA Weaponry - Unknown
+37001102 PCA Weaponry - Unknown
+37001104 PCA Weaponry - Unknown
+37001105 PCA Weaponry - Unknown
+37001106 PCA Weaponry - Unknown
+37001107 PCA Weaponry - Unknown
+37001108 PCA Weaponry - Unknown
+37001110 PCA Weaponry - Unknown
+37001120 PCA Weaponry - Unknown
+37001121 PCA Weaponry - Unknown
+37001130 PCA Weaponry - Unknown
+37001131 PCA Weaponry - Unknown
+37001132 PCA Weaponry - Unknown
+37001190 PCA Weaponry - Unknown
+37001200 PCA Weaponry - Unknown
+37001201 PCA Weaponry - Unknown
+37001202 PCA Weaponry - Unknown
+37001203 PCA Weaponry - Unknown
+37001204 PCA Weaponry - Unknown
+37001205 PCA Weaponry - Unknown
+37001206 PCA Weaponry - Unknown
+37001207 PCA Weaponry - Unknown
+37001208 PCA Weaponry - Unknown
+37001210 PCA Weaponry - Unknown
+37001220 PCA Weaponry - Unknown
+37001230 PCA Weaponry - Unknown
+37001240 PCA Weaponry - Unknown
+37001290 PCA Weaponry - Unknown
+37001300 PCA Weaponry - Unknown
+37001301 PCA Weaponry - Unknown
+37001302 PCA Weaponry - Unknown
+37001303 PCA Weaponry - Unknown
+40000100 Cataphract
+41000000 Balteus
+41000100 Balteus
+41000200 Balteus
+41500000 TOYBOX Mech
+41500001 TOYBOX Mech
+41500100 TOYBOX Mech
+41500101 TOYBOX Mech
+41500102 TOYBOX Mech
+41500103 TOYBOX Mech
+41500200 TOYBOX Mech
+41500500 TOYBOX Mech
+41501000 TOYBOX Mech
+41501001 TOYBOX Mech
+41501002 TOYBOX Mech
+41501003 TOYBOX Mech
+41501004 TOYBOX Mech
+41501005 TOYBOX Mech
+41501006 TOYBOX Mech
+41501007 TOYBOX Mech
+41501008 TOYBOX Mech
+41501009 TOYBOX Mech
+41501010 TOYBOX Mech
+42000000 Ayre
+42010000 ALLMIND
+42100000 Unknown
+42500000 IBIS CEL 240
+42600000 IBIS CEL 240 Drones
+50000000 Copter Drone
+50000001 Copter Drone
+50000200 Copter Drone
+50000201 Copter Drone
+50001000 Copter Drone
+50001001 Copter Drone
+50001002 Copter Drone
+50001003 Copter Drone
+50001004 Copter Drone
+50001005 Copter Drone
+50001011 Copter Drone
+50001015 Copter Drone
+50001018 Copter Drone
+50001020 Copter Drone
+50001200 Copter Drone
+50001205 Copter Drone
+50001800 Copter Drone
+50100000 Generic Weaponry - Unknown
+50100001 Generic Weaponry - Unknown
+50100002 Generic Weaponry - Unknown
+50100100 Generic Weaponry - Unknown
+50100101 Generic Weaponry - Unknown
+50100102 Generic Weaponry - Unknown
+50100200 Generic Weaponry - Unknown
+50100201 Generic Weaponry - Unknown
+50100300 Generic Weaponry - Unknown
+50100301 Generic Weaponry - Unknown
+50101001 Generic Weaponry - Unknown
+50101002 Generic Weaponry - Unknown
+50101003 Generic Weaponry - Unknown
+50101004 Generic Weaponry - Unknown
+50101200 Generic Weaponry - Unknown
+50101201 Generic Weaponry - Unknown
+50101202 Generic Weaponry - Unknown
+50101203 Generic Weaponry - Unknown
+50101204 Generic Weaponry - Unknown
+50101210 Generic Weaponry - Unknown
+50101220 Generic Weaponry - Unknown
+50101300 Generic Weaponry - Unknown
+50101304 Generic Weaponry - Unknown
+50200000 Smart Cleaner
+50201000 Smart Cleaner
+50201001 Smart Cleaner
+51000000 Quadcopter
+51000100 Quadcopter
+51000101 Quadcopter
+51000102 Quadcopter
+51000103 Quadcopter
+51001000 Quadcopter
+51001001 Quadcopter
+51001002 Quadcopter
+51001003 Quadcopter
+51001004 Quadcopter
+51001105 Quadcopter
+51010000 Quadcopter
+51011000 Unknown
+51011001 Unknown
+51011002 Unknown
+51200000 Quadcopter - Small
+51200010 Quadcopter - Small
+51200011 Quadcopter - Small
+51200012 Quadcopter - Small
+51200013 Quadcopter - Small
+51200900 Quadcopter - Small
+51201000 Quadcopter - Small
+51201101 Quadcopter - Small
+51201102 Quadcopter - Small
+51201104 Quadcopter - Small
+51201105 Quadcopter - Small
+51201108 Quadcopter - Small
+51201109 Quadcopter - Small
+51201110 Quadcopter - Small
+51201111 Quadcopter - Small
+51201112 Quadcopter - Small
+51201113 Quadcopter - Small
+51201114 Quadcopter - Small
+51201115 Quadcopter - Small
+51201116 Quadcopter - Small
+51201117 Quadcopter - Small
+51201118 Quadcopter - Small
+51201119 Quadcopter - Small
+51201120 Quadcopter - Small
+51500000 Helicopter - Small
+51500001 Helicopter - Small
+51500200 Helicopter - Small
+51500201 Helicopter - Small
+51501001 Helicopter - Small
+51501002 Helicopter - Small
+51501013 Helicopter - Small
+51501017 Helicopter - Small
+51501018 Helicopter - Small
+51501021 Helicopter - Small
+51501100 Helicopter - Small
+52000000 Generic Weaponry - APC
+52001001 Generic Weaponry - APC
+52001099 Generic Weaponry - APC
+52500000 Helianthus Machine (Bonewheel)
+52501000 Helianthus Machine (Bonewheel)
+52501001 Helianthus Machine (Bonewheel)
+53000000 Laser Drone - Tiny
+53000999 Laser Drone - Tiny
+53001000 Laser Drone - Tiny
+53001001 Laser Drone - Tiny
+53001002 Laser Drone - Tiny
+53001003 Laser Drone - Tiny
+53001004 Laser Drone - Tiny
+53001005 Laser Drone - Tiny
+53001006 Laser Drone - Tiny
+53001007 Laser Drone - Tiny
+53001008 Laser Drone - Tiny
+53001900 Laser Drone - Tiny
+55000000 Bloodworm
+55001000 Bloodworm
+55001001 Bloodworm
+55001002 Bloodworm
+55001003 Bloodworm
+55001010 Bloodworm
+60500000 HC Helicopter
+60500100 HC Helicopter
+60501000 HC Helicopter
+60501010 HC Helicopter
+60501100 HC Helicopter
+61000000 Sea Spider
+61000099 Sea Spider
+61010000 Orb
+61010099 Orb
+62500000 Ice Worm
+62501000 Ice Worm
+64000000 Strider #1
+64200000 Strider #2
+72300000 Artillery - Shielded Cannon
+72300001 Artillery - Shielded Cannon
+72301003 Artillery - Shielded Cannon
+72301005 Artillery - Shielded Cannon
+72301006 Artillery - Shielded Cannon
+72301008 Artillery - Shielded Cannon
+72301009 Artillery - Shielded Cannon
+72301010 Artillery - Shielded Cannon
+72309000 Artillery - Shielded Cannon
+72400000 Artillery - Cannon
+72400001 Artillery - Cannon
+72401001 Artillery - Cannon
+72401002 Artillery - Cannon
+72401003 Artillery - Cannon
+72401004 Artillery - Cannon
+72409000 Artillery - Cannon
+72500000 Artillery - Four Gatling Guns
+72500001 Artillery - Four Gatling Guns
+72501000 Artillery - Four Gatling Guns
+72501001 Artillery - Four Gatling Guns
+72501005 Artillery - Four Gatling Guns
+72501006 Artillery - Four Gatling Guns
+72501007 Artillery - Four Gatling Guns
+72501009 Artillery - Four Gatling Guns
+72501013 Artillery - Four Gatling Guns
+72501016 Artillery - Four Gatling Guns
+72509000 Artillery - Four Gatling Guns
+72600000 Artillery - Angled Missile Array
+72600001 Artillery - Angled Missile Array
+72601001 Artillery - Angled Missile Array
+72601004 Artillery - Angled Missile Array
+72601005 Artillery - Angled Missile Array
+72601006 Artillery - Angled Missile Array
+72601007 Artillery - Angled Missile Array
+72609000 Artillery - Angled Missile Array
+72610000 Artillery - Vertical Missile Array
+72610001 Artillery - Vertical Missile Array
+72610100 Artillery - Vertical Missile Array
+72611001 Artillery - Vertical Missile Array
+72611003 Artillery - Vertical Missile Array
+72611005 Artillery - Vertical Missile Array
+72611008 Artillery - Vertical Missile Array
+72611009 Artillery - Vertical Missile Array
+72611010 Artillery - Vertical Missile Array
+72611011 Artillery - Vertical Missile Array
+72611012 Artillery - Vertical Missile Array
+72619000 Artillery - Vertical Missile Array
+72620000 Artillery - Frontal Missile Array
+72620001 Artillery - Frontal Missile Array
+72621000 Artillery - Frontal Missile Array
+72629000 Artillery - Frontal Missile Array
+72700000 Artillery - Autocannon
+72700001 Artillery - Autocannon
+72701001 Artillery - Autocannon
+72701003 Artillery - Autocannon
+72701004 Artillery - Autocannon
+72701005 Artillery - Autocannon
+72701006 Artillery - Autocannon
+72709000 Artillery - Autocannon
+72800000 Artillery - Laser Cannon
+72800001 Artillery - Laser Cannon
+72801000 Artillery - Laser Cannon
+72801001 Artillery - Laser Cannon
+72809000 Artillery - Laser Cannon
+72900000 Artillery - Watchpoint Delta
+72900001 Artillery - Watchpoint Delta
+72901001 Artillery - Watchpoint Delta
+72901002 Artillery - Watchpoint Delta
+72909000 Artillery - Watchpoint Delta
+73000000 Artillery - Pulse Gun
+73000001 Artillery - Pulse Gun
+73001000 Artillery - Pulse Gun
+73009000 Artillery - Pulse Gun
+73100000 Artillery - Plasma Gun
+73100001 Artillery - Plasma Gun
+73101000 Artillery - Plasma Gun
+73109000 Artillery - Plasma Gun
+73200000 Artillery - Three-Barrelled Cannon
+73200001 Artillery - Three-Barrelled Cannon
+73201000 Artillery - Three-Barrelled Cannon
+73201001 Artillery - Three-Barrelled Cannon
+73201002 Artillery - Three-Barrelled Cannon
+73209000 Artillery - Three-Barrelled Cannon
+73900000 Nepenthes
+74000000 Heavy Warship
+74001000 Heavy Warship
+74001001 Heavy Warship
+74001002 Heavy Warship
+74001003 Heavy Warship
+74001004 Heavy Warship
+74001005 Heavy Warship
+74010000 Warship Mount - Cannon
+74011000 Warship Mount - Cannon
+74011001 Warship Mount - Cannon
+74011002 Warship Mount - Cannon
+74011003 Warship Mount - Cannon
+74020000 Warship Mount - Turret
+74021000 Warship Mount - Turret
+74021002 Warship Mount - Turret
+74021003 Warship Mount - Turret
+74021004 Warship Mount - Turret
+74021005 Warship Mount - Turret
+74021006 Warship Mount - Turret
+74021007 Warship Mount - Turret
+74030000 Warship Mount - Laser
+74031000 Warship Mount - Laser
+74031001 Warship Mount - Laser
+74031002 Warship Mount - Laser
+74100000 Laser Drone - Medium
+74100001 Laser Drone - Medium
+74100002 Laser Drone - Medium
+74100003 Laser Drone - Medium
+74101001 Laser Drone - Medium
+74101002 Laser Drone - Medium
+74101003 Laser Drone - Medium
+74101006 Laser Drone - Medium
+74101007 Laser Drone - Medium
+74101010 Laser Drone - Medium
+81350000 Enforcer
+81450000 Enforcer (Pre-boss)
+94000000 Emplacement - Cannon (Placeholder)
+94000010 Emplacement - Cannon (Placeholder)
+94000011 Emplacement - Cannon (Placeholder)
+94000012 Emplacement - Cannon (Placeholder)
+94000013 Emplacement - Cannon (Placeholder)
+94000014 Emplacement - Cannon (Placeholder)
+94000015 Emplacement - Cannon (Placeholder)
+94000100 Emplacement - Cannon (Placeholder)
+94000200 Emplacement - Cannon (Placeholder)
+94000201 Emplacement - Cannon (Placeholder)
+94000202 Emplacement - Cannon (Placeholder)
+94000203 Emplacement - Cannon (Placeholder)
+94000300 Emplacement - Cannon (Placeholder)
+94000400 Emplacement - Cannon (Placeholder)
+94000401 Emplacement - Cannon (Placeholder)
+94000402 Emplacement - Cannon (Placeholder)
+94000403 Emplacement - Cannon (Placeholder)
+94000404 Emplacement - Cannon (Placeholder)
+94000405 Emplacement - Cannon (Placeholder)
+94000406 Emplacement - Cannon (Placeholder)
+94000407 Emplacement - Cannon (Placeholder)
+94000408 Emplacement - Cannon (Placeholder)
+94000409 Emplacement - Cannon (Placeholder)
+94000410 Emplacement - Cannon (Placeholder)
+94010000 Emplacement - Cannon (Placeholder)
+94010010 Emplacement - Cannon (Placeholder)
+94010100 Emplacement - Cannon (Placeholder)
+94010200 Emplacement - Cannon (Placeholder)
+94010201 Emplacement - Cannon (Placeholder)
+94010202 Emplacement - Cannon (Placeholder)
+94010300 Emplacement - Cannon (Placeholder)
+94010400 Emplacement - Cannon (Placeholder)
+94010401 Emplacement - Cannon (Placeholder)
+94100000 Emplacement - Railgun (Placeholder)
+94100100 Emplacement - Railgun (Placeholder)
+94100101 Emplacement - Railgun (Placeholder)
+94100200 Emplacement - Railgun (Placeholder)
+94100201 Emplacement - Railgun (Placeholder)
+94100202 Emplacement - Railgun (Placeholder)
+94100203 Emplacement - Railgun (Placeholder)
+94100300 Emplacement - Railgun (Placeholder)
+94100400 Emplacement - Railgun (Placeholder)
+94100401 Emplacement - Railgun (Placeholder)
+94100402 Emplacement - Railgun (Placeholder)
+94110000 Emplacement - Railgun (Placeholder)
+94110100 Emplacement - Railgun (Placeholder)
+94110101 Emplacement - Railgun (Placeholder)
+94110200 Emplacement - Railgun (Placeholder)
+94110210 Emplacement - Railgun (Placeholder)
+94110300 Emplacement - Railgun (Placeholder)
+94200000 Emplacement - Missle Array (Placeholder)
+94200100 Emplacement - Missle Array (Placeholder)
+94200200 Emplacement - Missle Array (Placeholder)
+94200300 Emplacement - Missle Array (Placeholder)
+94200400 Emplacement - Missle Array (Placeholder)
+94200500 Emplacement - Missle Array (Placeholder)
+95000000 Emplacement - Missle Array (Placeholder)
+95000010 Emplacement - Missle Array (Placeholder)
+95000100 Emplacement - Missle Array (Placeholder)
+95000110 Emplacement - Missle Array (Placeholder)
+95000200 Emplacement - Missle Array (Placeholder)
+95000210 Emplacement - Missle Array (Placeholder)
+95000300 Emplacement - Missle Array (Placeholder)
+95000310 Emplacement - Missle Array (Placeholder)
+95000400 Emplacement - Missle Array (Placeholder)
+95000410 Emplacement - Missle Array (Placeholder)
+95000500 Emplacement - Missle Array (Placeholder)
+95000510 Emplacement - Missle Array (Placeholder)

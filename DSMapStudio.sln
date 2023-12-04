@@ -2,43 +2,43 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32414.318
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudioCore", "StudioCore\StudioCore.csproj", "{593D78AF-7DE5-449D-93F5-43E83D0D171B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudioCore", "src\StudioCore\StudioCore.csproj", "{593D78AF-7DE5-449D-93F5-43E83D0D171B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoulsFormats", "SoulsFormats\SoulsFormats\SoulsFormats.csproj", "{22C664BD-877B-44DF-8ECF-2808522469A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoulsFormats", "src\Andre\SoulsFormats\SoulsFormats\SoulsFormats.csproj", "{22C664BD-877B-44DF-8ECF-2808522469A8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DSMapStudio", "DSMapStudio\DSMapStudio.csproj", "{116FFEC2-6183-4A8C-A4D6-DB03C39FFA18}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DSMapStudio", "src\Studio.App\DSMapStudio\DSMapStudio.csproj", "{116FFEC2-6183-4A8C-A4D6-DB03C39FFA18}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Veldrid", "Veldrid\Veldrid.csproj", "{E22C07F4-D305-4093-B44B-2A9914DF06A4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Veldrid", "src\Veldrid\Veldrid\Veldrid.csproj", "{E22C07F4-D305-4093-B44B-2A9914DF06A4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Veldrid.RenderDoc", "Veldrid.RenderDoc\Veldrid.RenderDoc.csproj", "{6E8C5B37-C0EA-4BDB-8E33-D4A1F86139C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Veldrid.RenderDoc", "src\Veldrid\Veldrid.RenderDoc\Veldrid.RenderDoc.csproj", "{6E8C5B37-C0EA-4BDB-8E33-D4A1F86139C4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Veldrid.SDL2", "Veldrid.SDL2\Veldrid.SDL2.csproj", "{EBCA436B-24F5-4E0D-B32F-5E7EE0D061F6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Veldrid.SDL2", "src\Veldrid\Veldrid.SDL2\Veldrid.SDL2.csproj", "{EBCA436B-24F5-4E0D-B32F-5E7EE0D061F6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Veldrid.StartupUtilities", "Veldrid.StartupUtilities\Veldrid.StartupUtilities.csproj", "{7ED94989-2CE2-454E-97C0-59837B24A61F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Veldrid.StartupUtilities", "src\Veldrid\Veldrid.StartupUtilities\Veldrid.StartupUtilities.csproj", "{7ED94989-2CE2-454E-97C0-59837B24A61F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Veldrid.Utilities", "Veldrid.Utilities\Veldrid.Utilities.csproj", "{F14604E6-9FBB-4F47-AFD8-7DB112924AF4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Veldrid.Utilities", "src\Veldrid\Veldrid.Utilities\Veldrid.Utilities.csproj", "{F14604E6-9FBB-4F47-AFD8-7DB112924AF4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Veldrid.SPIRV", "Veldrid.SPIRV\Veldrid.SPIRV.csproj", "{CEFBD024-2E4E-4B74-ACB5-2D17B7F4C17F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Veldrid.SPIRV", "src\Veldrid\Veldrid.SPIRV\Veldrid.SPIRV.csproj", "{CEFBD024-2E4E-4B74-ACB5-2D17B7F4C17F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Veldrid.SPIRV.VariantCompiler", "Veldrid.SPIRV.VariantCompiler\Veldrid.SPIRV.VariantCompiler.csproj", "{2A3A911A-7573-4A5B-A83B-92164B349BEA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Veldrid.SPIRV.VariantCompiler", "src\Veldrid\Veldrid.SPIRV.VariantCompiler\Veldrid.SPIRV.VariantCompiler.csproj", "{2A3A911A-7573-4A5B-A83B-92164B349BEA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HKXClassGen", "HKXClassGen\HKXClassGen.csproj", "{A4B1F813-C85F-4E3A-97C2-743301D1AC22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HKXClassGen", "src\HKX2\HKXClassGen\HKXClassGen.csproj", "{A4B1F813-C85F-4E3A-97C2-743301D1AC22}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HKX2", "HKX2\HKX2.csproj", "{1CE3370D-8B5B-4782-B29C-606AE92E361F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HKX2", "src\HKX2\HKX2\HKX2.csproj", "{1CE3370D-8B5B-4782-B29C-606AE92E361F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HKX2ReadWrite", "HKX2ReadWrite\HKX2ReadWrite.csproj", "{7917FEE7-8E84-4692-93EC-5811D8BFBDBD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HKX2ReadWrite", "src\HKX2\HKX2ReadWrite\HKX2ReadWrite.csproj", "{7917FEE7-8E84-4692-93EC-5811D8BFBDBD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ColBakeTest", "ColBakeTest\ColBakeTest.csproj", "{1C7196EE-88C0-42BA-A4F5-5DDBF872E743}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ColBakeTest", "src\HKX2\ColBakeTest\ColBakeTest.csproj", "{1C7196EE-88C0-42BA-A4F5-5DDBF872E743}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AddChr", "AddChr\AddChr.csproj", "{FDB935B7-8888-41B1-BC75-9F2C15080192}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Andre.Formats", "src\Andre\Andre.Formats\Andre.Formats.csproj", "{56C072EE-4011-4A0E-9B72-25A1A47969A0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FSParam", "FSParam\FSParam.csproj", "{56C072EE-4011-4A0E-9B72-25A1A47969A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Andre.Core", "src\Andre\Andre.Core\Andre.Core.csproj", "{AD901915-1F68-4774-8D9C-5BD443F933F6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudioUtils", "StudioUtils\StudioUtils.csproj", "{AD901915-1F68-4774-8D9C-5BD443F933F6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoapstoneLib", "src\SoapstoneLib\SoapstoneLib\SoapstoneLib.csproj", "{DEFFEB30-C8AD-4D0E-AE19-39D8452B9568}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoapstoneLib", "SoapstoneLib\SoapstoneLib\SoapstoneLib.csproj", "{DEFFEB30-C8AD-4D0E-AE19-39D8452B9568}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSMapStudio_LowRequirements", "src\Studio.App\DSMapStudio_LowRequirements\DSMapStudio_LowRequirements.csproj", "{C85F2BC2-5867-46D6-BE35-CFDAE8F44130}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSMapStudio_LowRequirements", "DSMapStudio_LowRequirements\DSMapStudio_LowRequirements.csproj", "{C85F2BC2-5867-46D6-BE35-CFDAE8F44130}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Andre.IO", "src\Andre\Andre.IO\Andre.IO.csproj", "{9E5E426C-567D-45F3-9198-5280A4569B80}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -122,6 +122,10 @@ Global
 		{C85F2BC2-5867-46D6-BE35-CFDAE8F44130}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C85F2BC2-5867-46D6-BE35-CFDAE8F44130}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C85F2BC2-5867-46D6-BE35-CFDAE8F44130}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E5E426C-567D-45F3-9198-5280A4569B80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E5E426C-567D-45F3-9198-5280A4569B80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E5E426C-567D-45F3-9198-5280A4569B80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E5E426C-567D-45F3-9198-5280A4569B80}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

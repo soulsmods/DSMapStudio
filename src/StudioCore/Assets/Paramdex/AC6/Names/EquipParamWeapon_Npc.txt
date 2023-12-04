@@ -1,0 +1,346 @@
+30000000 Guard Mech
+30000100 Guard Mech
+30000200 Guard Mech
+30000300 Guard Mech
+30002000 Guard Mech
+30003100 Guard Mech
+30200000 Light MT
+30200100 Light MT
+30200200 Light MT
+30200300 Light MT
+30200400 Light MT
+30200500 Light MT
+30200600 Light MT
+30200700 Light MT
+30200800 Light MT
+30200900 Light MT
+30201000 Light MT
+30201100 Light MT
+30201200 Light MT
+30201300 Light MT
+30201400 Light MT
+30201900 Light MT
+30202000 Light MT
+30202100 Light MT
+30202900 Light MT
+30203100 Light MT
+31000100 Xylem Drone
+31000200 Xylem Drone
+31000300 Xylem Drone
+31000400 Xylem Drone
+31000500 Xylem Drone
+31000600 Xylem Drone
+31000700 Xylem Drone
+31000800 Xylem Drone
+31000900 Xylem Drone
+31001000 Xylem Drone
+31001100 Xylem Drone
+31001200 Xylem Drone
+31001500 Xylem Drone
+31001600 Xylem Drone
+31001700 Xylem Drone
+31001800 Xylem Drone
+31001900 Xylem Drone
+31002000 Xylem Drone
+31002100 Xylem Drone
+31002200 Xylem Drone
+31002300 Xylem Drone
+31002900 Xylem Drone
+31003000 Xylem Drone
+31003100 Xylem Drone
+32000000 Ekdromoi - Elite Craft
+32000200 Ekdromoi - Elite Craft
+32000300 Ekdromoi - Elite Craft
+32000400 Ekdromoi - Elite Craft
+32000600 Ekdromoi - Elite Craft
+32000700 Ekdromoi - Elite Craft
+32000800 Ekdromoi - Elite Craft
+32001000 Ekdromoi - Elite Craft
+32001100 Ekdromoi - Elite Craft
+32001300 Ekdromoi - Elite Craft
+32001500 Ekdromoi - Elite Craft
+32001700 Ekdromoi - Elite Craft
+32001800 Ekdromoi - Elite Craft
+32001900 Ekdromoi - Elite Craft
+32002100 Ekdromoi - Elite Craft
+32002400 Ekdromoi - Elite Craft
+32002500 Ekdromoi - Elite Craft
+32002600 Ekdromoi - Elite Craft
+32002700 Ekdromoi - Elite Craft
+32002800 Ekdromoi - Elite Craft
+32002900 Ekdromoi - Elite Craft
+32003000 Ekdromoi - Elite Craft
+32003100 Ekdromoi - Elite Craft
+32500000 Light Cavalry - Bipedal Mech
+32500100 Light Cavalry - Bipedal Mech
+32500200 Light Cavalry - Bipedal Mech
+32500300 Light Cavalry - Bipedal Mech
+32500400 Light Cavalry - Bipedal Mech
+32500500 Light Cavalry - Bipedal Mech
+32500600 Light Cavalry - Bipedal Mech
+32500700 Light Cavalry - Bipedal Mech
+32500800 Light Cavalry - Bipedal Mech
+32503100 Light Cavalry - Bipedal Mech
+33000000 Light Cavalry #2 - Bipedal Mech
+33000100 Light Cavalry #2 - Bipedal Mech
+33000200 Light Cavalry #2 - Bipedal Mech
+33000300 Light Cavalry #2 - Bipedal Mech
+33000400 Light Cavalry #2 - Bipedal Mech
+33000500 Light Cavalry #2 - Bipedal Mech
+33002000 Light Cavalry #2 - Bipedal Mech
+33003100 Light Cavalry #2 - Bipedal Mech
+34000000 Tetrapod MT (BAWS)
+34000100 Tetrapod MT (BAWS)
+34000200 Tetrapod MT (BAWS)
+34000300 Tetrapod MT (BAWS)
+34000400 Tetrapod MT (BAWS)
+34000500 Tetrapod MT (BAWS)
+34000600 Tetrapod MT (BAWS)
+34000700 Tetrapod MT (BAWS)
+34000800 Tetrapod MT (BAWS)
+34000900 Tetrapod MT (BAWS)
+34001000 Tetrapod MT (BAWS)
+34001500 Tetrapod MT (BAWS)
+34002000 Tetrapod MT (BAWS)
+34002100 Tetrapod MT (BAWS)
+34003100 Tetrapod MT (BAWS)
+40000000 Cataphract
+40000100 Cataphract
+40000200 Cataphract
+40000300 Cataphract
+40000400 Cataphract
+40000500 Cataphract
+40000600 Cataphract
+40000700 Cataphract
+40000800 Cataphract
+40000900 Cataphract
+40001000 Cataphract
+40001100 Cataphract
+40001200 Cataphract
+40001300 Cataphract
+40001400 Cataphract
+40001500 Cataphract
+40001600 Cataphract
+40001700 Cataphract
+40001800 Cataphract
+40001900 Cataphract
+40002000 Cataphract
+40002100 Cataphract
+40002200 Cataphract
+40002300 Cataphract
+40002500 Cataphract
+40002600 Cataphract
+40002700 Cataphract
+40002800 Cataphract
+40003100 Cataphract
+41500000 TOYBOX Mech
+41500100 TOYBOX Mech
+41500200 TOYBOX Mech
+41500300 TOYBOX Mech
+41500400 TOYBOX Mech
+41502000 TOYBOX Mech
+41503100 TOYBOX Mech
+42000000 Ayre
+42000100 Ayre
+42000200 Ayre
+42000300 Ayre
+42000400 Ayre
+42000500 Ayre
+42000600 Ayre
+42001000 Ayre
+42001100 Ayre
+42001200 Ayre
+42001300 Ayre
+42001400 Ayre
+42001600 Ayre
+42001700 Ayre
+42001900 Ayre
+42002100 Ayre
+42002200 Ayre
+42002400 Ayre
+42002800 Ayre
+42003000 Ayre
+42003100 Ayre
+51500100 Helicopter - Small
+51500200 Helicopter - Small
+51500300 Helicopter - Small
+51500400 Helicopter - Small
+51503100 Helicopter - Small
+52500000 Helianthus Machine (Bonewheel)
+52500100 Helianthus Machine (Bonewheel)
+52500200 Helianthus Machine (Bonewheel)
+52500300 Helianthus Machine (Bonewheel)
+52500400 Helianthus Machine (Bonewheel)
+52500500 Helianthus Machine (Bonewheel)
+52500600 Helianthus Machine (Bonewheel)
+52500700 Helianthus Machine (Bonewheel)
+52500800 Helianthus Machine (Bonewheel)
+52500900 Helianthus Machine (Bonewheel)
+52501000 Helianthus Machine (Bonewheel)
+52501100 Helianthus Machine (Bonewheel)
+52501200 Helianthus Machine (Bonewheel)
+52501300 Helianthus Machine (Bonewheel)
+52501400 Helianthus Machine (Bonewheel)
+52501500 Helianthus Machine (Bonewheel)
+52501600 Helianthus Machine (Bonewheel)
+52501700 Helianthus Machine (Bonewheel)
+52501800 Helianthus Machine (Bonewheel)
+52501900 Helianthus Machine (Bonewheel)
+52502000 Helianthus Machine (Bonewheel)
+52502100 Helianthus Machine (Bonewheel)
+52502200 Helianthus Machine (Bonewheel)
+52502300 Helianthus Machine (Bonewheel)
+52503100 Helianthus Machine (Bonewheel)
+55000000 Bloodworm
+55000100 Bloodworm
+55000200 Bloodworm
+55000300 Bloodworm
+55000400 Bloodworm
+55000500 Bloodworm
+55000600 Bloodworm
+55000700 Bloodworm
+55000800 Bloodworm
+55000900 Bloodworm
+55001000 Bloodworm
+55003100 Bloodworm
+60500000 HC Helicopter
+60500100 HC Helicopter
+60500200 HC Helicopter
+60500300 HC Helicopter
+60500400 HC Helicopter
+60501100 HC Helicopter
+60501200 HC Helicopter
+60501500 HC Helicopter
+60501600 HC Helicopter
+60501700 HC Helicopter
+60501800 HC Helicopter
+60502000 HC Helicopter
+60502100 HC Helicopter
+60502500 HC Helicopter
+60502600 HC Helicopter
+60503100 HC Helicopter
+61000000 Sea Spider
+61000100 Sea Spider
+61000200 Sea Spider
+61000300 Sea Spider
+61000400 Sea Spider
+61000500 Sea Spider
+61000600 Sea Spider
+61000700 Sea Spider
+61000800 Sea Spider
+61000900 Sea Spider
+61001000 Sea Spider
+61001100 Sea Spider
+61001200 Sea Spider
+61001300 Sea Spider
+61001400 Sea Spider
+61001500 Sea Spider
+61001600 Sea Spider
+61001700 Sea Spider
+61001800 Sea Spider
+61002000 Sea Spider
+61002200 Sea Spider
+61002300 Sea Spider
+61002400 Sea Spider
+61002500 Sea Spider
+61002600 Sea Spider
+61002700 Sea Spider
+61002800 Sea Spider
+61002900 Sea Spider
+61003000 Sea Spider
+61003100 Sea Spider
+61010000 Orb
+61010100 Orb
+61010200 Orb
+61012000 Orb
+61012100 Orb
+61012200 Orb
+61013100 Orb
+62500000 Ice Worm
+62500100 Ice Worm
+62502000 Ice Worm
+62502100 Ice Worm
+62502200 Ice Worm
+63500000 Ice Worm
+63510000 Unknown
+63520000 Unknown
+74010000 Warship Mount - Cannon
+74020000 Warship Mount - Turret
+81450000 Enforcer (Pre-boss)
+81450100 Enforcer (Pre-boss)
+81450200 Enforcer (Pre-boss)
+81450300 Enforcer (Pre-boss)
+81450400 Enforcer (Pre-boss)
+81450500 Enforcer (Pre-boss)
+81450600 Enforcer (Pre-boss)
+81450700 Enforcer (Pre-boss)
+81450800 Enforcer (Pre-boss)
+81450900 Enforcer (Pre-boss)
+81451000 Enforcer (Pre-boss)
+81451100 Enforcer (Pre-boss)
+81451200 Enforcer (Pre-boss)
+81451300 Enforcer (Pre-boss)
+81452000 Enforcer (Pre-boss)
+81452900 Enforcer (Pre-boss)
+81453000 Enforcer (Pre-boss)
+81453100 Enforcer (Pre-boss)
+85350000 Strider Eye
+85351000 Strider Eye
+85351100 Strider Eye
+85351200 Strider Eye
+85351300 Strider Eye
+85352100 Strider Eye
+85352200 Strider Eye
+85360000 Strider Foot
+85361000 Strider Foot
+85362100 Strider Foot
+94000000 Emplacement - Cannon (Placeholder)
+94000100 Emplacement - Cannon (Placeholder)
+94000200 Emplacement - Cannon (Placeholder)
+94000300 Emplacement - Cannon (Placeholder)
+94000400 Emplacement - Cannon (Placeholder)
+94000500 Emplacement - Cannon (Placeholder)
+94000600 Emplacement - Cannon (Placeholder)
+94000700 Emplacement - Cannon (Placeholder)
+94000800 Emplacement - Cannon (Placeholder)
+94000900 Emplacement - Cannon (Placeholder)
+94010000 Emplacement - Cannon (Placeholder)
+94010100 Emplacement - Cannon (Placeholder)
+94010200 Emplacement - Cannon (Placeholder)
+94010300 Emplacement - Cannon (Placeholder)
+94010400 Emplacement - Cannon (Placeholder)
+94010500 Emplacement - Cannon (Placeholder)
+94010600 Emplacement - Cannon (Placeholder)
+94010700 Emplacement - Cannon (Placeholder)
+94010800 Emplacement - Cannon (Placeholder)
+94010900 Emplacement - Cannon (Placeholder)
+94100000 Emplacement - Railgun (Placeholder)
+94100100 Emplacement - Railgun (Placeholder)
+94100200 Emplacement - Railgun (Placeholder)
+94100300 Emplacement - Railgun (Placeholder)
+94100400 Emplacement - Railgun (Placeholder)
+94100500 Emplacement - Railgun (Placeholder)
+94100600 Emplacement - Railgun (Placeholder)
+94100700 Emplacement - Railgun (Placeholder)
+94100800 Emplacement - Railgun (Placeholder)
+94100900 Emplacement - Railgun (Placeholder)
+94110000 Emplacement - Railgun (Placeholder)
+94110100 Emplacement - Railgun (Placeholder)
+94110200 Emplacement - Railgun (Placeholder)
+94110300 Emplacement - Railgun (Placeholder)
+94110400 Emplacement - Railgun (Placeholder)
+94110500 Emplacement - Railgun (Placeholder)
+94110600 Emplacement - Railgun (Placeholder)
+94110700 Emplacement - Railgun (Placeholder)
+94110800 Emplacement - Railgun (Placeholder)
+94110900 Emplacement - Railgun (Placeholder)
+94200000 Emplacement - Missle Array (Placeholder)
+94200100 Emplacement - Missle Array (Placeholder)
+94200200 Emplacement - Missle Array (Placeholder)
+94200300 Emplacement - Missle Array (Placeholder)
+94200400 Emplacement - Missle Array (Placeholder)
+94200500 Emplacement - Missle Array (Placeholder)
+94200600 Emplacement - Missle Array (Placeholder)
+94200700 Emplacement - Missle Array (Placeholder)
+94200800 Emplacement - Missle Array (Placeholder)
+94200900 Emplacement - Missle Array (Placeholder)
