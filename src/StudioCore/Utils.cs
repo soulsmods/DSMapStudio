@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Numerics;
 using System.Reflection;
 using System.Text;
@@ -985,6 +986,6 @@ public static class Utils
     public static string ImGui_InputFloatFormat(float f)
     {
         var split = f.ToString("F6").TrimEnd('0').Split('.');
-        return $"%.{Math.Clamp(split[1].Length, 3, 6)}f";
+        return $"%.{Math.Clamp(split.Last().Length, 3, 6)}f";
     }
 }
