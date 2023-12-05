@@ -145,7 +145,7 @@ public class ParamEditorCommon
         else if (typ == typeof(float))
         {
             var val = (float)oldval;
-            if (ImGui.InputFloat("##value", ref val, 0.1f))
+            if (ImGui.InputFloat("##value", ref val, 0.1f, 1.0f, Utils.ImGui_InputFloatFormat(val)))
             {
                 newval = val;
                 _editedPropCache = newval;
