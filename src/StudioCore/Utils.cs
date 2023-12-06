@@ -1083,4 +1083,9 @@ public static class Utils
             }
         }
     }
+
+    public static int ParseHexFromString(string str)
+    {
+        return int.Parse(str.Replace("0x", ""), System.Globalization.NumberStyles.HexNumber);
+    }
 }

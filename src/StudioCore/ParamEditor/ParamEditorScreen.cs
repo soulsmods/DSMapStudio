@@ -574,10 +574,10 @@ public class ParamEditorScreen : EditorScreen
                         ParamReloader.CanReloadMemoryParams(ParamBank.PrimaryBank, _projectSettings);
 
                     if (ImGui.MenuItem("Current Param", KeyBindings.Current.Param_HotReload.HintText, false,
-                            canHotReload))
+                            canHotReload && _activeView._selection.GetActiveParam() != null))
                     {
-                        ParamReloader.ReloadMemoryParams(ParamBank.PrimaryBank, ParamBank.PrimaryBank.AssetLocator,
-                            new[] { _activeView._selection.GetActiveParam() });
+                        ParamReloader.ReloadMemoryParam(ParamBank.PrimaryBank, ParamBank.PrimaryBank.AssetLocator,
+                            _activeView._selection.GetActiveParam());
                     }
 
                     if (ImGui.MenuItem("All Params", KeyBindings.Current.Param_HotReloadAll.HintText, false,
@@ -857,10 +857,11 @@ public class ParamEditorScreen : EditorScreen
                 ParamReloader.ReloadMemoryParams(ParamBank.PrimaryBank, ParamBank.PrimaryBank.AssetLocator,
                     ParamBank.PrimaryBank.Params.Keys.ToArray());
             }
-            else if (InputTracker.GetKeyDown(KeyBindings.Current.Param_HotReload))
+            else if (InputTracker.GetKeyDown(KeyBindings.Current.Param_HotReload) &&
+                _activeView._selection.GetActiveParam() != null)
             {
-                ParamReloader.ReloadMemoryParams(ParamBank.PrimaryBank, ParamBank.PrimaryBank.AssetLocator,
-                    new[] { _activeView._selection.GetActiveParam() });
+                ParamReloader.ReloadMemoryParam(ParamBank.PrimaryBank, ParamBank.PrimaryBank.AssetLocator,
+                    _activeView._selection.GetActiveParam());
             }
         }
 
