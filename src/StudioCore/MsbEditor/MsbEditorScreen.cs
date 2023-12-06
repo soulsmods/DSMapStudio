@@ -1057,9 +1057,9 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
         List<Action> actlist = new();
         HashSet<Entity> sels = _selection.GetFilteredSelection<Entity>(o => o.HasTransform);
 
-        Vector3 camdir = Vector3.Transform(Vector3.UnitZ, Viewport.WorldView.CameraTransform.RotationMatrix);
-        Vector3 cam_pos = Viewport.WorldView.CameraTransform.Position;
-        Vector3 target_pos = cam_pos + (camdir * CFG.Current.Map_MoveSelectionToCamera_Radius);
+        Vector3 camDir = Vector3.Transform(Vector3.UnitZ, Viewport.WorldView.CameraTransform.RotationMatrix);
+        Vector3 camPos = Viewport.WorldView.CameraTransform.Position;
+        Vector3 targetCamPos = camPos + (camDir * CFG.Current.Map_MoveSelectionToCamera_Radius);
 
         // Get the accumulated center position of all selections
         Vector3 accumPos = Vector3.Zero;
@@ -1082,20 +1082,22 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
         // Offset selection positions to place accumulated center in front of camera
         foreach (Entity sel in sels)
         {
-            Vector3 new_pos = target_pos;
-            Vector3 relativePos = centerT.Position - sel.GetRootLocalTransform().Position;
-            Vector3 rot = sel.GetRootTransform().EulerRotation;
+            Transform localT = sel.GetLocalTransform();
+            Transform rootT = sel.GetRootTransform();
+            
+            // Get new localized position by applying reversed root offsets to target camera position.  
+            Vector3 newPos = Vector3.Transform(targetCamPos, Quaternion.Inverse(rootT.Rotation)) 
+                             - Vector3.Transform(rootT.Position, Quaternion.Inverse(rootT.Rotation));
+            
+            // Offset from center of multiple selections.
+            Vector3 localCenter = Vector3.Transform(centerT.Position, Quaternion.Inverse(rootT.Rotation))
+                                      - Vector3.Transform(rootT.Position, Quaternion.Inverse(rootT.Rotation));
+            Vector3 offsetFromCenter = localCenter - localT.Position;
+            newPos -= offsetFromCenter;
+            
+            Transform newT = new(newPos, localT.EulerRotation);
 
-            // Offset the new position by the map's offset from the origin.
-            var node = (TransformNode)sel.Container.RootObject.WrappedObject;
-            new_pos -= node.Position;
-
-            // Offset position from center of every selected entity to maintain relative positions
-            new_pos -= relativePos;
-
-            Transform newPos = new(new_pos, rot);
-
-            actlist.Add(sel.GetUpdateTransformAction(newPos));
+            actlist.Add(sel.GetUpdateTransformAction(newT));
         }
 
         if (actlist.Any())
