@@ -817,27 +817,6 @@ public class SceneTree : IActionEventHandler
 
                             _universe.LoadMap(mapid, selected);
                         }
-
-                        if (_universe.GameType is GameType.EldenRing)
-                        {
-                            if (mapid.StartsWith("m60"))
-                            {
-                                if (ImGui.Selectable("Load Related Maps"))
-                                {
-                                    if (selected)
-                                    {
-                                        _selection.ClearSelection();
-                                    }
-
-                                    _universe.LoadMap(mapid);
-                                    _universe.LoadRelatedMapsER(mapid, _universe.LoadedObjectContainers);
-                                }
-                            }
-                        }
-                        else if (_universe.GameType is GameType.ArmoredCoreVI)
-                        {
-                            //TODO AC6
-                        }
                     }
                     else if (map is Map m)
                     {
@@ -862,6 +841,27 @@ public class SceneTree : IActionEventHandler
                             GC.WaitForPendingFinalizers();
                             GC.Collect();
                         }
+                    }
+
+                    if (_universe.GameType is GameType.EldenRing)
+                    {
+                        if (mapid.StartsWith("m60"))
+                        {
+                            if (ImGui.Selectable("Load Related Maps"))
+                            {
+                                if (selected)
+                                {
+                                    _selection.ClearSelection();
+                                }
+
+                                _universe.LoadMap(mapid);
+                                _universe.LoadRelatedMapsER(mapid, _universe.LoadedObjectContainers);
+                            }
+                        }
+                    }
+                    else if (_universe.GameType is GameType.ArmoredCoreVI)
+                    {
+                        //TODO AC6
                     }
 
                     if (_universe.GetLoadedMapCount() > 1)
