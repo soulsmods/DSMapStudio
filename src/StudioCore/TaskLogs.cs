@@ -40,6 +40,11 @@ public static class TaskLogs
     private static volatile HashSet<string> _warningList = new();
 
     private static volatile LogEntry _lastLogEntry;
+#if DEBUG
+    private static bool _showDebugLogs = true;
+# else
+    private static bool _showDebugLogs = false;
+#endif
 
     /// <summary>
     ///     Multiply text color values. Mult transitions from 0 to 1 during transition timer.
@@ -58,6 +63,11 @@ public static class TaskLogs
     public static void AddLog(string text, LogLevel level = LogLevel.Information,
         LogPriority priority = LogPriority.Normal, Exception ex = null)
     {
+        if (level == LogLevel.Debug && !_showDebugLogs)
+        {
+            return;
+        }
+
         Task.Run(() =>
         {
             var lockTaken = false;
@@ -193,6 +203,9 @@ public static class TaskLogs
                     AddLog("Log cleared");
                 }
 
+                ImGui.SameLine();
+                ImGui.Checkbox("Log debug messages", ref _showDebugLogs);
+
                 ImGui.BeginChild("##LogItems");
                 ImGui.Spacing();
                 for (var i = 0; i < _log.Count; i++)
@@ -323,18 +336,10 @@ public static class TaskLogs
 
         public LogPriority Priority = LogPriority.Normal;
 
-        public LogEntry(string message, LogLevel level)
-        {
-            Message = message;
-            Level = level;
-        }
-
-        public LogEntry(string message, LogLevel level, LogPriority priority)
-        {
-            Message = message;
-            Level = level;
-            Priority = priority;
-        }
+        /// <summary>
+        ///     Time which log was created
+        /// </summary>
+        public DateTime LogTime;
 
         /// <summary>
         ///     Log message with additional formatting and info.
@@ -348,9 +353,25 @@ public static class TaskLogs
                 {
                     mes += $" x{MessageCount}";
                 }
+                mes = $"[{LogTime.Hour}:{LogTime.Minute}] {mes}";
 
                 return mes;
             }
+        }
+
+        public LogEntry(string message, LogLevel level)
+        {
+            Message = message;
+            Level = level;
+            LogTime = DateTime.Now;
+        }
+
+        public LogEntry(string message, LogLevel level, LogPriority priority)
+        {
+            Message = message;
+            Level = level;
+            Priority = priority;
+            LogTime = DateTime.Now;
         }
     }
 }

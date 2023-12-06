@@ -188,8 +188,12 @@ public class TaskManager
                 {
                     if (SilentFail)
                     {
+                        if (e.InnerException != null)
+                        {
+                            e = e.InnerException;
+                        }
                         TaskLogs.AddLog($"Task Failed: {TaskId}",
-                            LogLevel.Error, LogPriority, e.InnerException);
+                            LogLevel.Error, LogPriority, e);
                     }
                     else
                     {
