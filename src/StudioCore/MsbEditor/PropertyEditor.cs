@@ -30,6 +30,7 @@ public class PropertyEditor
     private Action _lastUncommittedAction;
 
     public ActionManager ContextActionManager;
+    public PropertyInfo RequestedSearchProperty = null;
 
     public PropertyEditor(ActionManager manager)
     {
@@ -204,7 +205,7 @@ public class PropertyEditor
                     intVals[i] = (byte)enumVals.GetValue(i);
                 }
 
-                if (EnumEditor(enumVals, enumNames, oldval, out var val, intVals))
+                if (Utils.EnumEditor(enumVals, enumNames, oldval, out var val, intVals))
                 {
                     newval = val;
                     isChanged = true;
@@ -217,7 +218,7 @@ public class PropertyEditor
                     intVals[i] = (int)enumVals.GetValue(i);
                 }
 
-                if (EnumEditor(enumVals, enumNames, oldval, out var val, intVals))
+                if (Utils.EnumEditor(enumVals, enumNames, oldval, out var val, intVals))
                 {
                     newval = val;
                     isChanged = true;
@@ -230,7 +231,7 @@ public class PropertyEditor
                     intVals[i] = (int)(uint)enumVals.GetValue(i);
                 }
 
-                if (EnumEditor(enumVals, enumNames, oldval, out var val, intVals))
+                if (Utils.EnumEditor(enumVals, enumNames, oldval, out var val, intVals))
                 {
                     newval = val;
                     isChanged = true;
@@ -297,26 +298,6 @@ public class PropertyEditor
         var isDeactivatedAfterEdit = ImGui.IsItemDeactivatedAfterEdit() || !ImGui.IsAnyItemActive();
 
         return (isChanged, isDeactivatedAfterEdit);
-    }
-
-
-    private bool EnumEditor(Array enumVals, string[] enumNames, object oldval, out object val, int[] intVals)
-    {
-        val = null;
-
-        for (var i = 0; i < enumNames.Length; i++)
-        {
-            enumNames[i] = $"{intVals[i]}: {enumNames[i]}";
-        }
-
-        var index = Array.IndexOf(enumVals, oldval);
-        if (ImGui.Combo("", ref index, enumNames, enumNames.Length))
-        {
-            val = enumVals.GetValue(index);
-            return true;
-        }
-
-        return false;
     }
 
     private void UpdateProperty(object prop, Entity selection, object obj, object newval,
@@ -584,7 +565,7 @@ public class PropertyEditor
     /// <summary>
     /// Displays property context menu.
     /// </summary>
-    private static void DisplayPropContextMenu(PropertyInfo prop, object obj)
+    private void DisplayPropContextMenu(PropertyInfo prop, object obj)
     {
         if (ImGui.IsItemClicked(ImGuiMouseButton.Right))
         {
@@ -597,6 +578,7 @@ public class PropertyEditor
 
             if (ImGui.Selectable(@"Search##PropSearch"))
             {
+                RequestedSearchProperty = prop;
                 EditorCommandQueue.AddCommand($@"map/propsearch/{prop.Name}");
             }
 
