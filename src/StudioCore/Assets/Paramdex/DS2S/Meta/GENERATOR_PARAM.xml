@@ -7,7 +7,7 @@
     <AggroGroup AltName="Aggression Group" Wiki="Used to group entities together so they become aggressive at the same trigger and sometimes used with aggro boundaries." />
     <DeathEventID AltName="Death Event ID" />
     <GeneratorRegistParam AltName="Generator Registeration ID" Wiki="ParamStudio can't deep link because of the way the generatorregistparam files are named to include the map designation at the end." />
-    <ApperanceEventID AltName="Apperance Event ID" />
+    <AppearanceEventID AltName="Appearance Event ID" Wiki="Used in ESD. 1 through to 7 are used to determine NG+ appearance." />
     <PreviousHostileEventID1 AltName="Hostile Memory Event ID [1]" />
     <PreviousHostileEventID2 AltName="Hostile Memory Event ID [2]" />
     <LocationEventID1 AltName="Location Event ID [1]" Wiki="An event ID used by ESD or hardcoded logic. Used for location based events, often for an NPC to move from one place to another." />

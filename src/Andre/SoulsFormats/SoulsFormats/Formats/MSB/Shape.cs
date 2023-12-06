@@ -399,9 +399,10 @@ namespace SoulsFormats
                     private int RegionIndex;
 
                     /// <summary>
-                    /// Unknown.
+                    /// Makes this shape add or subtract the composite region's currently defined shape.
+                    /// 0 = add? 2 = subtract?
                     /// </summary>
-                    public int Unk04 { get; set; }
+                    public int unkShapeSubtractType { get; set; }
 
                     /// <summary>
                     /// Creates a Child with default values.
@@ -411,7 +412,7 @@ namespace SoulsFormats
                     internal Child(BinaryReaderEx br)
                     {
                         RegionIndex = br.ReadInt32();
-                        Unk04 = br.ReadInt32();
+                        unkShapeSubtractType = br.ReadInt32();
                     }
 
                     /// <summary>
@@ -419,13 +420,13 @@ namespace SoulsFormats
                     /// </summary>
                     public Child DeepCopy()
                     {
-                        return new Child() { RegionName = RegionName, Unk04 = Unk04 };
+                        return new Child() { RegionName = RegionName, unkShapeSubtractType = unkShapeSubtractType };
                     }
 
                     internal void Write(BinaryWriterEx bw)
                     {
                         bw.WriteInt32(RegionIndex);
-                        bw.WriteInt32(Unk04);
+                        bw.WriteInt32(unkShapeSubtractType);
                     }
 
                     internal void GetNames<T>(List<T> regions) where T : IMsbRegion

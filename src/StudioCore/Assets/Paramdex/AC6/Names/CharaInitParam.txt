@@ -192,124 +192,14 @@
 8000300 Test AC White Tetrapod
 8000400 Test AC Green Orange camo tank
 9000000 Invalid Assembly
+9970000 Invalid Assembly
+9970100 Invalid Assembly
+9970200 Invalid Assembly
 9900007 Invalid Assembly Gun pile
 9900008 Invalid Assembly Gun pile
 9900009 Invalid Assembly Gun pile
 9900010 Invalid Assembly Gun pile
 9900011 Test AC Reverse Joint
-9970000 Invalid Assembly
-9970100 Invalid Assembly
-9970200 Invalid Assembly
-10000000 NIGHTFALL (Raven)
-10001010 NIGHTFALL (Raven)
-10009000 NIGHTFALL (Raven)
-10100000 DEADSLED (Coldcall)
-10200000 ENTANGLE (Sulla)
-10300000 MIND BETA (51-002 K)
-10310000 MIND GAMMA (51-003 K)
-10400000 SHINOBI (Rokumonsen)
-10500000 STEEL HAZE (V.IV Rusty)
-10501000 STEEL HAZE (V.IV Rusty)
-10501100 STEEL HAZE (V.IV Rusty)
-10509000 STEEL HAZE (V.IV Rusty)
-10600000 STEEL HAZE ORTUS (V.IV Rusty)
-10609000 STEEL HAZE ORTUS (V.IV Rusty)
-10700000 OPEN FAITH (V.II Snail)
-10710000 OPEN FAITH (V.II Snail)
-10800000 RECONFIG (V.V Hawkins)
-10900000 DUAL NATURE (V.VIII Pater)
-11000000 MILK TOOTH ("Honest" Brute)
-11100000 INSTITUTE (51-015 GA)
-11200000 FULL COURSE ("Cinder" Carla)
-11300000 IB-C03 (HAL 826 (51-201 W)
-11301000 IB-C03 (HAL 826 (51-201 W)
-11400000 HEAD BRINGER (G5 Iguazu)
-11409000 TENDERFOOT
-11410000 HEAD BRINGER (G5 Iguazu, Allmind upgraded)
-11500000 CANNON HEAD (G4 Volta)
-11600000 LIGER TAIL (G1 Michigan)
-11700000 BURN PICKAXE (Index Dunham)
-11800000 YUE YU (Little Ziyi)
-11900000 TSUBASA (Middle Flatwell)
-12000000 LOCKSMITH (V.I Freud)
-12100000 CIRCUS ("Chatty" Stick)
-12200000 ALLMIND (Secondary AC Back units)
-12300000 ALLMIND (Secondary AC Arm units)
-12400000 ALLMIND
-12500000 ECHO (Ayre)
-12509000 ECHO (Ayre)
-12600000 TRAINER (51-011 AL)
-12600001 TRAINER (51-011 AL)
-12600002 TRAINER (51-011 AL)
-12600003 TRAINER (51-011 AL)
-12700000 TESTER (Dafeng Student Pilot)
-20000000 DEEP DOWN (G2 Nile)
-20100000 LI LONG (G3 Wu Huahai)
-20200000 HERMIT (G6 Red)
-20300000 CORPORATION (51-013 BE)
-20400000 GUIDANCE (V.VII Swinburne)
-20500000 INFECTION (V.VI Maeterlinck)
-20600000 BARREN FLOWER (V.III O'Keeffe)
-20700000 CANDLE RING (Ring Freddie)
-20800000 ASTGHIK (Thumb Dolmayan)
-20809000 ASTGHIK (Thumb Dolmayan)
-20900000 MAD STOMP ("Invincible" Rummy)
-21000000 RUBICONIAN (51-014 BE)
-21100000 BITTER PROMISE (Nosaac)
-21200000 UMBER OX (Chartreuse)
-21300000 ASTER CROWN (King)
-21400000 MIND ALPHA (51-001 K)
-29000000 Test AC White tank
-29000010 Unnamed AC - G7 Hakra
-29000020 Unnamed AC - Monkey Gordo
-29000030 Unnamed AC - Thomas Kirk
-29000040 Test AC Wrecker
-29000050 Invalid Assembly
-30000000 Escape AC - JAILBREAK
-30000020 Illegal Entry AC - LOADER 4
-31000000 Alea Iacta Est Ending AC
-31000010 Alea Iacta Est Ending AC
-31000020 Alea Iacta Est Ending AC
-31000030 Alea Iacta Est Ending AC
-31000040 Alea Iacta Est Ending AC
-31000050 Alea Iacta Est Ending AC
-40000000 Test AC
-40000001 Test AC
-40000002 Test AC
-40000003 Test AC
-40000004 Test AC
-40000100 Test AC
-40000101 Test AC
-40000200 Test AC
-40000300 Test AC
-40000400 Test AC
-40000402 Test AC
-40001000 Test AC Loader
-40001100 Test AC Tetrapod
-40001200 Test AC Reverse Joint
-45500000 Test AC Loader
-45500010 Test AC
-45500020 Test AC Purple Green
-45500030 Test AC Burgundy
-45500040 Test AC Green
-45500050 Test AC
-45501000 Test AC Orange tank
-46000000 Test AC
-46000001 Test AC Tetrapod
-49000000 Test AC Loader
-49000001 Test AC Loader
-49000002 Test AC Loader
-50000000 Training AC - Beginner Training 1
-50100000 Training AC - Beginner Training 2
-50200000 Training AC - Intermediate Support 1
-50300000 Training AC - Intermediate Support 2
-50400000 Training AC - Intermediate Support 3
-50500000 Training AC - Intermediate Support 4
-50600000 Training AC - Advanced Mercenary Certification
-52000000 Test AC Loader
-60000000 Test AC Melander
-60100000 Test AC Loader
-60200000 Test AC Jailbreak Basho
 70000000 Test AC Tian-Qiang
 70000001 Test AC VE
 70000010 Test AC Nachtreiher
@@ -368,6 +258,116 @@
 90020000 Test AC Loader
 99900000 Test AC
 99900100 Test AC
+40000000 Test AC
+40000001 Test AC
+40000002 Test AC
+40000003 Test AC
+40000004 Test AC
+40000100 Test AC
+40000101 Test AC
+40000400 Test AC
+40000402 Test AC
+40000200 Test AC
+40000300 Test AC
+40001000 Test AC Loader
+40001100 Test AC Tetrapod
+40001200 Test AC Reverse Joint
+45500000 Test AC Loader
+45500010 Test AC
+45500020 Test AC Purple Green
+45500030 Test AC Burgundy
+45500040 Test AC Green
+45500050 Test AC
+45501000 Test AC Orange tank
+46000000 Test AC
+46000001 Test AC Tetrapod
+49000000 Test AC Loader
+49000001 Test AC Loader
+49000002 Test AC Loader
+10000000 NIGHTFALL (Raven)
+10001010 NIGHTFALL (Raven)
+10009000 NIGHTFALL (Raven)
+10100000 DEADSLED (Coldcall)
+10200000 ENTANGLE (Sulla)
+10300000 MIND BETA (51-002 K/Kate Markson)
+10310000 MIND GAMMA (51-003 K/ALLMIND)
+10400000 SHINOBI (Rokumonsen)
+10500000 STEEL HAZE (V.IV Rusty)
+10501000 STEEL HAZE (V.IV Rusty)
+10501100 STEEL HAZE (V.IV Rusty)
+10509000 STEEL HAZE (V.IV Rusty)
+10600000 STEEL HAZE ORTUS (V.IV Rusty)
+10609000 STEEL HAZE ORTUS (V.IV Rusty)
+10700000 OPEN FAITH (V.II Snail)
+10710000 OPEN FAITH (V.II Snail - Ice Worm)
+10800000 RECONFIG (V.V Hawkins)
+10900000 DUAL NATURE (V.VIII Pater)
+11000000 MILK TOOTH ("Honest" Brute)
+11100000 INSTITUTE (51-015 GA)/EPHEMERA (Enforcement System)
+11200000 FULL COURSE ("Cinder" Carla)
+11300000 IB-C03: HAL 826 (51-201 W/Handler Walter)
+11301000 IB-C03: HAL 826 (51-201 W/Handler Walter)
+11400000 HEAD BRINGER (G5 Iguazu)
+11409000 TENDERFOOT (G13 Raven)
+11410000 HEAD BRINGER (G5 Iguazu - ALLMIND)
+11500000 CANNON HEAD (G4 Volta)
+11600000 LIGER TAIL (G1 Michigan)
+11700000 BURN PICKAXE (Index Dunham)
+11800000 YUE YU (Little Ziyi)
+11900000 TSUBASA (Middle Flatwell)
+12000000 LOCKSMITH (V.I Freud)
+12100000 CIRCUS ("Chatty" Stick)
+12200000 ALLMIND Helper (Back Weapons)
+12300000 ALLMIND Helper (Arm Weapons)
+12400000 ALLMIND Helper (Arm and Back Weapons)
+12500000 ECHO (Ayre)
+12509000 ECHO (Ayre)
+12600000 TRAINER (51-011 AL) - Standard
+12600001 TRAINER (51-011 AL) - Camera Disruption
+12600002 TRAINER (51-011 AL) - Shock
+12600003 TRAINER (51-011 AL) - ACS Failure
+12700000 TESTER (Dafeng Student Pilot)
+20000000 DEEP DOWN (G2 Nile)
+20100000 LI LONG (G3 Wu Huahai)
+20200000 HERMIT (G6 Red)
+20300000 CORPORATION (51-013 BE)
+20400000 GUIDANCE (V.VII Swinburne)
+20500000 INFECTION (V.VI Maeterlinck)
+20600000 BARREN FLOWER (V.III O'Keeffe)
+20700000 CANDLE RING (Ring Freddie)
+20800000 ASTGHIK (Thumb Dolmayan)
+20809000 ASTGHIK (Thumb Dolmayan)
+20900000 MAD STOMP ("Invincible" Rummy)
+21000000 RUBICONIAN (51-014 BE)
+21100000 BITTER PROMISE (Nosaac)
+21200000 UMBER OX (Chartreuse)
+21300000 ASTER CROWN (King)
+21400000 MIND ALPHA (51-001 K)
+29000000 Test AC White tank
+29000010 Unnamed AC - G7 Hakra
+29000020 Unnamed AC - Monkey Gordo
+29000030 Unnamed AC - Thomas Kirk
+29000040 Test AC Wrecker
+29000050 Invalid Assembly
+30000000 Escape AC - JAILBREAK
+30000020 Illegal Entry AC - LOADER 4
+31000000 Alea Iacta Est Ending AC - Damaged LOADER 4
+31000010 Alea Iacta Est Ending AC - Reverse Joint
+31000020 Alea Iacta Est Ending AC - Tetrapod
+31000030 Alea Iacta Est Ending AC - Biped (Arquebus)
+31000040 Alea Iacta Est Ending AC - Tank
+31000050 Alea Iacta Est Ending AC - Biped (Heavy)
+50000000 Training AC - Beginner Training 1 (Biped- Balam)
+50100000 Training AC - Beginner Training 2 (Biped- Arquebus)
+50200000 Training AC - Intermediate Support 1 (Biped- Schneider)
+50300000 Training AC - Intermediate Support 2 (Reverse Joint- RaD)
+50400000 Training AC - Intermediate Support 3 (Tetrapod- Balam)
+50500000 Training AC - Intermediate Support 4 (Tank- Balam)
+50600000 Training AC - Advanced Mercenary Certification
+52000000 Test AC Loader
+60000000 Test AC Melander
+60100000 Test AC Loader
+60200000 Test AC Jailbreak Basho
 909999999 Invalid Assembly
 910000000 Weapon Test AC Gou-Chen
 910000001 Weapon Test AC Dizzy
@@ -466,7 +466,7 @@
 910002036 Weapon Test AC Orbit
 910002037 Weapon Test AC 700LD
 910002038 Weapon Test AC 60LT
-910002039 Weapon Test AC EULE/60D [Pulse Shield Launcher]
+910002039 Weapon Test AC Eule/60D
 910002040 Weapon Test AC 60SNA
 910002999 Invalid Assembly
 910003000 Weapon Test AC 61PB
@@ -574,7 +574,7 @@
 920002036 Weapon Test AC Reverse Joint Orbit
 920002037 Weapon Test AC Reverse Joint 700LD
 920002038 Weapon Test AC Reverse Joint 60LT
-920002039 Weapon Test AC Reverse Joint EULE/60D [Pulse Shield Launcher]
+920002039 Weapon Test AC Reverse Joint Eule/60D
 920002040 Weapon Test AC Reverse Joint 60SNA
 920002999 Invalid Assembly
 920003000 Weapon Test AC Reverse Joint 61PB
@@ -682,7 +682,7 @@
 930002036 Weapon Test AC Tetrapod Orbit
 930002037 Weapon Test AC Tetrapod 700LD
 930002038 Weapon Test AC Tetrapod 60LT
-930002039 Weapon Test AC Tetrapod EULE/60D [Pulse Shield Launcher]
+930002039 Weapon Test AC Tetrapod Eule/60D
 930002040 Weapon Test AC Tetrapod 60SNA
 930002999 Invalid Assembly
 930003000 Weapon Test AC Tetrapod 61PB
@@ -790,7 +790,7 @@
 940002036 Weapon Test AC Tank Orbit
 940002037 Weapon Test AC Tank 700LD
 940002038 Weapon Test AC Tank 60LT
-940002039 Weapon Test AC Tank EULE/60D [Pulse Shield Launcher]
+940002039 Weapon Test AC Tank Eule/60D
 940002040 Weapon Test AC Tank 60SNA
 940002999 Invalid Assembly
 940003000 Weapon Test AC Tank 61PB

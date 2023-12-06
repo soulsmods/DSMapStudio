@@ -378,7 +378,7 @@
     <Field Def="f32 Unk0x2D8"></Field>
     <Field Def="f32 Unk0x2DC"></Field>
     <Field Def="f32 Unk0x2E0"></Field>
-    <Field Def="f32 Unk0x2E4"></Field>
+    <Field Def="f32 unkLoadLimit"></Field>
     <Field Def="f32 Unk0x2E8"></Field>
     <Field Def="f32 Unk0x2EC"></Field>
     <Field Def="f32 unkDisplayJumpDistance">

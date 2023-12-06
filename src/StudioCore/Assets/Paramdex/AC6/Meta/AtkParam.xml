@@ -61,6 +61,14 @@
     <UnkFlag0x1DA_5 Name="" IsBool=""/>
     <UnkFlag0x1DA_6 Name="" IsBool=""/>
     <weightAffectsDamage Name="Weight Affects Damage" Wiki="Attack damage scales with weight according to calcCorrectGraph 280" IsBool=""/>
+    <UnkFlag0x1DB_0 Name="" IsBool=""/>
+    <UnkFlag0x1DB_1 Name="" IsBool=""/>
+    <UnkFlag0x1DB_2 Name="" IsBool=""/>
+    <UnkFlag0x1DB_3 Name="" IsBool=""/>
+    <UnkFlag0x1DB_4 Name="" IsBool=""/>
+    <useImpactRate Name="Use Impact Rate" Wiki="Determines if impact damage will be affected by SpEffect param." IsBool=""/>
+    <UnkFlag0x1DB_6 Name="" IsBool=""/>
+    <UnkFlag0x1DB_7 Name="" IsBool=""/>
     <wwise_ShootSeCategoryId Name="Shoot Sound" Enum="ATKPARAM_SHOOT_SE_CATEGORY" Refs="WwiseValueToStrParam_Switch_ShootSeCategory" Wiki="Sound to produce when attack is initiated.\nReferences Row ID in WwiseValueToStrParam_Switch_ShootSeCategory." />
   </Field>
   <Self />

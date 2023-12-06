@@ -9,7 +9,7 @@
     <isCamHit IsBool="" Wiki="Determines if camera collides with object" />
     <isBreakByPlayerCollide IsBool="" Wiki="Determines if player collision can break the object (needs verification)" />
     <isAnimBreak IsBool="" Wiki="Determines if object should use an animation when broken" />
-    <isPenetrationBulletHit IsBool="" Wiki="If Bullet with isPenetrate will collide with the object (needs verification)" />
+    <isPenetrationBulletHit IsBool="" Wiki="If Bullet with isPenetrate will collide with the object." />
     <isChrHit IsBool="" Wiki="Determines if characters will collide with the object and if character attacks can hit the object" />
     <isAttackBacklash IsBool="" Wiki="Determines if attacks can deflect off of the object (attacks can deflect anyway if object is invincible)" />
     <isDisableBreakForFirstAppear IsBool="" Wiki="Determines if the object will break when the game is loaded if the player collides with the object upon spawning" />

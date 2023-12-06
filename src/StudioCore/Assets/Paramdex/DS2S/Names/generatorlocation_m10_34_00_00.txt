@@ -1,5 +1,5 @@
-285 [GEN:285] Corpse Rat
-286 [GEN:286] Corpse Rat
+285 [GEN:285] Corpse Rat (Rat King)
+286 [GEN:286] Corpse Rat (Rat King)
 640 [GEN:640] Rhoy the Explorer
 641 [GEN:641] Rhoy the Explorer
 850 [GEN:850] Corpse Rat

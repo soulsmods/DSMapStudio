@@ -135,7 +135,7 @@
     <Field Def="f32 Unk0x234"></Field>
     <Field Def="f32 Unk0x238"></Field>
     <Field Def="s32 Unk0x23C"></Field>
-    <Field Def="f32 Unk0x240"></Field>
+    <Field Def="f32 photoModeRadius"></Field>
     <Field Def="f32 Unk0x244"></Field>
     <Field Def="s32 Unk0x248"></Field>
     <Field Def="f32 UnkFloat0x24C"></Field>
