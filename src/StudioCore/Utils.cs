@@ -1006,4 +1006,81 @@ public static class Utils
 
         return "Unknown version format";
     }
+
+    public static void EntitySelectionHandler(Selection selection, Entity entity, bool itemSelected, bool isItemFocused)
+    {
+        // Up/Down arrow mass selection
+        var arrowKeySelect = false;
+        if (isItemFocused && (InputTracker.GetKey(Key.Up) || InputTracker.GetKey(Key.Down)))
+        {
+            itemSelected = true;
+            arrowKeySelect = true;
+        }
+
+        if (itemSelected)
+        {
+            if (arrowKeySelect)
+            {
+                if (InputTracker.GetKey(Key.ControlLeft)
+                    || InputTracker.GetKey(Key.ControlRight)
+                    || InputTracker.GetKey(Key.ShiftLeft)
+                    || InputTracker.GetKey(Key.ShiftRight))
+                {
+                    selection.AddSelection(entity);
+                }
+                else
+                {
+                    selection.ClearSelection();
+                    selection.AddSelection(entity);
+                }
+            }
+            else if (InputTracker.GetKey(Key.ControlLeft) || InputTracker.GetKey(Key.ControlRight))
+            {
+                // Toggle Selection
+                if (selection.GetSelection().Contains(entity))
+                {
+                    selection.RemoveSelection(entity);
+                }
+                else
+                {
+                    selection.AddSelection(entity);
+                }
+            }
+            else if (selection.GetSelection().Count > 0
+                     && (InputTracker.GetKey(Key.ShiftLeft) || InputTracker.GetKey(Key.ShiftRight)))
+            {
+                // Select Range
+                List<Entity> entList = entity.Container.Objects;
+                var i1 = entList.IndexOf(selection.GetFilteredSelection<MapEntity>()
+                    .FirstOrDefault(fe => fe.Container == entity.Container && fe != entity.Container.RootObject));
+                var i2 = entList.IndexOf((MapEntity)entity);
+
+                if (i1 != -1 && i2 != -1)
+                {
+                    var iStart = i1;
+                    var iEnd = i2;
+                    if (i2 < i1)
+                    {
+                        iStart = i2;
+                        iEnd = i1;
+                    }
+
+                    for (var i = iStart; i <= iEnd; i++)
+                    {
+                        selection.AddSelection(entList[i]);
+                    }
+                }
+                else
+                {
+                    selection.AddSelection(entity);
+                }
+            }
+            else
+            {
+                // Exclusive Selection
+                selection.ClearSelection();
+                selection.AddSelection(entity);
+            }
+        }
+    }
 }
