@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Numerics;
 using System.Reflection;
 using System.Text;
@@ -986,5 +987,82 @@ public static class Utils
     {
         var split = f.ToString("F6").TrimEnd('0').Split('.');
         return $"%.{Math.Clamp(split[1].Length, 3, 6)}f";
+    }
+
+    public static void EntitySelectionHandler(Selection selection, Entity e, bool selected, bool IsItemFocused)
+    {
+        // Up/Down arrow mass selection
+        var arrowKeySelect = false;
+        if (IsItemFocused && (InputTracker.GetKey(Key.Up) || InputTracker.GetKey(Key.Down)))
+        {
+            selected = true;
+            arrowKeySelect = true;
+        }
+
+        if (selected)
+        {
+            if (arrowKeySelect)
+            {
+                if (InputTracker.GetKey(Key.ControlLeft)
+                    || InputTracker.GetKey(Key.ControlRight)
+                    || InputTracker.GetKey(Key.ShiftLeft)
+                    || InputTracker.GetKey(Key.ShiftRight))
+                {
+                    selection.AddSelection(e);
+                }
+                else
+                {
+                    selection.ClearSelection();
+                    selection.AddSelection(e);
+                }
+            }
+            else if (InputTracker.GetKey(Key.ControlLeft) || InputTracker.GetKey(Key.ControlRight))
+            {
+                // Toggle Selection
+                if (selection.GetSelection().Contains(e))
+                {
+                    selection.RemoveSelection(e);
+                }
+                else
+                {
+                    selection.AddSelection(e);
+                }
+            }
+            else if (selection.GetSelection().Count > 0
+                     && (InputTracker.GetKey(Key.ShiftLeft) || InputTracker.GetKey(Key.ShiftRight)))
+            {
+                // Select Range
+                List<Entity> entList = e.Container.Objects;
+                var i1 = entList.IndexOf(selection.GetFilteredSelection<MapEntity>()
+                    .FirstOrDefault(fe => fe.Container == e.Container && fe != e.Container.RootObject));
+                var i2 = entList.IndexOf((MapEntity)e);
+
+                if (i1 != -1 && i2 != -1)
+                {
+                    var iStart = i1;
+                    var iEnd = i2;
+                    if (i2 < i1)
+                    {
+                        iStart = i2;
+                        iEnd = i1;
+                    }
+
+                    for (var i = iStart; i <= iEnd; i++)
+                    {
+                        selection.AddSelection(entList[i]);
+                    }
+                }
+                else
+                {
+                    selection.AddSelection(e);
+                }
+            }
+            else
+            {
+                // Exclusive Selection
+                selection.ClearSelection();
+                selection.AddSelection(e);
+            }
+        }
     }
 }

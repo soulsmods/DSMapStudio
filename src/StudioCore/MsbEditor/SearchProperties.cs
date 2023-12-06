@@ -349,22 +349,14 @@ public class SearchProperties
                                     selectFirstResult = false;
                                 }
 
-                                // TODO: We may want to frame the result on double-click.
-                                // Is there a good way to use dependency inversion to handle selection/frame/goto together?
+                                bool itemFocused = ImGui.IsItemFocused();
+                                bool selected = false;
                                 if (ImGui.Selectable(obj.Name, Universe.Selection.GetSelection().Contains(obj),
                                         ImGuiSelectableFlags.AllowDoubleClick))
                                 {
-                                    if (InputTracker.GetKey(Key.ControlLeft) ||
-                                        InputTracker.GetKey(Key.ControlRight))
-                                    {
-                                        Universe.Selection.AddSelection(obj);
-                                    }
-                                    else
-                                    {
-                                        Universe.Selection.ClearSelection();
-                                        Universe.Selection.AddSelection(obj);
-                                    }
+                                    selected = true;
                                 }
+                                Utils.EntitySelectionHandler(Universe.Selection, obj, selected, itemFocused);
                             }
                         }
 
