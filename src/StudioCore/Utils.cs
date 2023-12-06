@@ -989,17 +989,17 @@ public static class Utils
         return $"%.{Math.Clamp(split[1].Length, 3, 6)}f";
     }
 
-    public static void EntitySelectionHandler(Selection selection, Entity e, bool selected, bool IsItemFocused)
+    public static void EntitySelectionHandler(Selection selection, Entity entity, bool itemSelected, bool isItemFocused)
     {
         // Up/Down arrow mass selection
         var arrowKeySelect = false;
-        if (IsItemFocused && (InputTracker.GetKey(Key.Up) || InputTracker.GetKey(Key.Down)))
+        if (isItemFocused && (InputTracker.GetKey(Key.Up) || InputTracker.GetKey(Key.Down)))
         {
-            selected = true;
+            itemSelected = true;
             arrowKeySelect = true;
         }
 
-        if (selected)
+        if (itemSelected)
         {
             if (arrowKeySelect)
             {
@@ -1008,34 +1008,34 @@ public static class Utils
                     || InputTracker.GetKey(Key.ShiftLeft)
                     || InputTracker.GetKey(Key.ShiftRight))
                 {
-                    selection.AddSelection(e);
+                    selection.AddSelection(entity);
                 }
                 else
                 {
                     selection.ClearSelection();
-                    selection.AddSelection(e);
+                    selection.AddSelection(entity);
                 }
             }
             else if (InputTracker.GetKey(Key.ControlLeft) || InputTracker.GetKey(Key.ControlRight))
             {
                 // Toggle Selection
-                if (selection.GetSelection().Contains(e))
+                if (selection.GetSelection().Contains(entity))
                 {
-                    selection.RemoveSelection(e);
+                    selection.RemoveSelection(entity);
                 }
                 else
                 {
-                    selection.AddSelection(e);
+                    selection.AddSelection(entity);
                 }
             }
             else if (selection.GetSelection().Count > 0
                      && (InputTracker.GetKey(Key.ShiftLeft) || InputTracker.GetKey(Key.ShiftRight)))
             {
                 // Select Range
-                List<Entity> entList = e.Container.Objects;
+                List<Entity> entList = entity.Container.Objects;
                 var i1 = entList.IndexOf(selection.GetFilteredSelection<MapEntity>()
-                    .FirstOrDefault(fe => fe.Container == e.Container && fe != e.Container.RootObject));
-                var i2 = entList.IndexOf((MapEntity)e);
+                    .FirstOrDefault(fe => fe.Container == entity.Container && fe != entity.Container.RootObject));
+                var i2 = entList.IndexOf((MapEntity)entity);
 
                 if (i1 != -1 && i2 != -1)
                 {
@@ -1054,14 +1054,14 @@ public static class Utils
                 }
                 else
                 {
-                    selection.AddSelection(e);
+                    selection.AddSelection(entity);
                 }
             }
             else
             {
                 // Exclusive Selection
                 selection.ClearSelection();
-                selection.AddSelection(e);
+                selection.AddSelection(entity);
             }
         }
     }
