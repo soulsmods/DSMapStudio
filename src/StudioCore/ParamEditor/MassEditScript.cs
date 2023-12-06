@@ -9,7 +9,7 @@ namespace StudioCore.ParamEditor;
 
 public class MassEditScript
 {
-    private static List<MassEditScript> scriptList;
+    private static List<MassEditScript> scriptList = new List<MassEditScript>();
     private readonly List<string[]> args;
 
     private readonly string name;
