@@ -8,5 +8,5 @@
     <isEnableThrowFollowingFallAssist IsBool="" />
     <throwKind Refs="ThrowKindParam" />
   </Field>
-  <Self />
+  <Self Wiki="Responsible for syncing animations of two characters together for things like grabs and deathblows" />
 </PARAMMETA>
