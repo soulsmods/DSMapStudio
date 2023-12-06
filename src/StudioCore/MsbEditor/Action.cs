@@ -162,7 +162,7 @@ public class ArrayPropertyCopyAction : Action
         }
     }
 
-    public ArrayPropertyCopyAction(Array source, List<Array> targetList)
+    public ArrayPropertyCopyAction(Array source, IEnumerable<Array> targetList)
     {
         foreach (Array target in targetList)
         {
