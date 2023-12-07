@@ -620,11 +620,11 @@ public class Universe
     public bool LoadMap(string mapid, bool selectOnLoad = false)
     {
         if (_assetLocator.Type == GameType.DarkSoulsIISOTFS
-            && ParamBank.VanillaBank.Params == null)
+            && ParamBank.PrimaryBank.Params == null)
         {
             // ParamBank must be loaded for DS2 maps
-            TaskLogs.AddLog("Cannot load DS2 maps until params finish loading",
-                LogLevel.Warning);
+            TaskLogs.AddLog("Cannot load DS2 maps when params are not loaded.",
+                LogLevel.Warning, TaskLogs.LogPriority.High);
             return false;
         }
 

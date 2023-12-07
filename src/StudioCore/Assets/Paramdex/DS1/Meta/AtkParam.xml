@@ -106,5 +106,24 @@
     <isArrowAtk IsBool="" />
     <isGhostAtk IsBool="" Wiki="true = attacks can harm new londo ghosts" />
     <isDisableNoDamage IsBool="" />
-  </Field>
+  </Field> 
+  <Self Wiki="Governs hitboxes and damage of attacks" AlternativeOrder="
+hit0_Radius,hit1_Radius,hit2_Radius,hit3_Radius,-,
+hit0_hitType,hit1_hitType,hit2_hitType,hit3_hitType,-,
+hti0_Priority,hti1_Priority,hti2_Priority,hti3_Priority,-,
+hit0_DmyPoly1,hit1_DmyPoly1,hit2_DmyPoly1,hit3_DmyPoly1,-,
+hit0_DmyPoly2,hit1_DmyPoly2,hit2_DmyPoly2,hit3_DmyPoly2,-,
+knockbackDist,hitStopTime,blowingCorrection,-,
+spEffectId0,spEffectId1,spEffectId2,spEffectId3,spEffectId4,-,
+atkPhysCorrection,atkMagCorrection,atkFireCorrection,atkThunCorrection,atkStamCorrection,atkSuperArmorCorrection,-,
+atkThrowEscapeCorrection,guardAtkRateCorrection,guardBreakCorrection,-,
+atkPhys,atkMag,atkFire,atkThun,atkStam,atkSuperArmor,-,
+atkThrowEscape,guardAtkRate,guardBreakRate,-,
+dmgLevel,atkObj,-,
+guardCutCancelRate,guardStaminaCutRate,guardRate,-,
+throwTypeId,throwFlag,throwDamageAttribute,-,
+mapHitType,guardRangeType,hitSourceType,-,
+atkAttribute,spAttribute,spAttributeVariationValue,atkType,atkMaterial,atkSize,-,
+defMaterial,defSfxMaterial,-,
+disableStaminaAttack,disableHitSpEffect,disableGuard,-," />
 </PARAMMETA>

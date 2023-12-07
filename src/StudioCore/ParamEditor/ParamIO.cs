@@ -163,11 +163,38 @@ public class ParamIO
     }
 
     public static (string, CompoundAction?) ApplySingleCSV(ParamBank bank, string csvString, string param,
-        string field, char separator, bool ignoreMissingRows, bool onlyAffectEmptyNames = false)
+        string field, char separator, bool ignoreMissingRows, bool onlyAffectEmptyNames = false, bool onlyAffectVanillaNames = false)
     {
+        bool getVanillaRow = onlyAffectVanillaNames;
         try
         {
+            Param.Row? FindRow(Param p, int id, int idCount, out int iteration)
+            {
+                iteration = 1;
+                for (var i = 0; i < p.Rows.Count; i++)
+                {
+                    if (p.Rows[i].ID == id)
+                    {
+                        if (iteration == idCount)
+                        {
+                            return p.Rows[i];
+                        }
+                        else
+                        {
+                            // This is a dupe row and this name is meant for a different row, keep iterating to find the next row with this ID.
+                            iteration++;
+                        }
+                    }
+                }
+                return null;
+            }
+
             Param p = bank.Params[param];
+            Param? p_vanilla = null;
+            if (getVanillaRow)
+            {
+                p_vanilla = ParamBank.VanillaBank.Params[param];
+            }
             if (p == null)
             {
                 return ("No Param selected", null);
@@ -205,25 +232,14 @@ public class ParamIO
                 // Track how many times this ID has been defined for the purposes of handing dupe ID row names.
                 idCounts.TryAdd(id, 0);
                 var idCount = idCounts[id] = idCounts[id] + 1;
-                var idIteration = 1;
 
                 var value = csvs[1];
-                Param.Row? row = null;
-                for (var i = 0; i < p.Rows.Count; i++)
+
+                Param.Row? row = FindRow(p, id, idCount, out int idIteration);
+                Param.Row? row_vanilla = null;
+                if (getVanillaRow)
                 {
-                    if (p.Rows[i].ID == id)
-                    {
-                        if (idIteration == idCount)
-                        {
-                            row = p.Rows[i];
-                            break;
-                        }
-                        else
-                        {
-                            // This is a dupe row and this name is meant for a different row, keep iterating to find the next row with this ID.
-                            idIteration++;
-                        }
-                    }
+                    row_vanilla = FindRow(p_vanilla, id, idCount, out int idIteration_Vanilla);
                 }
 
                 if (row == null)
@@ -240,9 +256,20 @@ public class ParamIO
 
                 if (field.Equals("Name"))
                 {
-                    // 'onlyAffectEmptyNames' argument check is exclusively relevant for "Import Row Names" function at the moment.
-                    if (!value.Equals(row.Name) &&
-                        (onlyAffectEmptyNames == false || string.IsNullOrEmpty(row.Name)))
+                    if (value.Equals(row.Name))
+                    {
+                        continue;
+                    }
+
+                    // 'onlyAffectEmptyNames' and 'onlyAffectVanillaNames' are only used by "Import Row Names" function at the moment.
+                    if (onlyAffectVanillaNames)
+                    {
+                        if (row_vanilla != null && row.Name == row_vanilla.Name)
+                        {
+                            actions.Add(new PropertiesChangedAction(row.GetType().GetProperty("Name"), -1, row, value));
+                        }
+                    }
+                    else if (onlyAffectEmptyNames == false || string.IsNullOrEmpty(row.Name))
                     {
                         actions.Add(new PropertiesChangedAction(row.GetType().GetProperty("Name"), -1, row, value));
                     }

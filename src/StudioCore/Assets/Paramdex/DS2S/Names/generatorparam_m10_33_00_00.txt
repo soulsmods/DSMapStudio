@@ -1,7 +1,7 @@
 245 [GEN:245] Lonesome Gavlan
 246 [GEN:246] Lonesome Gavlan
-285 [GEN:285] Corpse Rat
-286 [GEN:286] Corpse Rat
+285 [GEN:285] Corpse Rat (Rat King)
+286 [GEN:286] Corpse Rat (Rat King)
 630 [GEN:630] Bowman Guthry
 631 [GEN:631] Bowman Guthry
 852 [GEN:852] Royal Rat Authority

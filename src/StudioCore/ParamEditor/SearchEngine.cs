@@ -726,6 +726,22 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
                         };
                     };
                 }, () => CFG.Current.Param_AdvancedMassedit));
+        filterList.Add("unique", newCmd(new string[] { "field" }, "Selects all rows where the value in the given field is unique", (args, lenient) =>
+        {
+            string field = args[0].Replace(@"\s", " ");
+            return (param) =>
+            {
+                var col = param.Item2.GetCol(field);
+                if (!col.IsColumnValid())
+                    throw new Exception("Could not find field " + field);
+                var distribution = ParamUtils.GetParamValueDistribution(param.Item2.Rows, col);
+                var setOfDuped = distribution.Where((entry, linqi) => entry.Item2 > 1).Select((entry, linqi) => entry.Item1).ToHashSet();
+                return (row) =>
+                {
+                    return !setOfDuped.Contains(row.Get(col));
+                };
+            };
+        }, () => CFG.Current.Param_AdvancedMassedit));
         defaultFilter = newCmd(new[] { "row ID or Name (regex)" },
             "Selects rows where either the ID or Name matches the given regex, except in strict/massedit mode",
             (args, lenient) =>

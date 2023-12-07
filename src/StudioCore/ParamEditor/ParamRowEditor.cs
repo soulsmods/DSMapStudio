@@ -320,13 +320,15 @@ public class ParamRowEditor
                 ImGui.SameLine();
             }
 
-            if (ImGui.Selectable("", false, ImGuiSelectableFlags.AllowItemOverlap)
-                || ImGui.IsItemClicked(ImGuiMouseButton.Right))
+            if (col != null)
             {
-                ImGui.OpenPopup("ParamRowCommonMenu");
+                ImGui.Selectable("", false, ImGuiSelectableFlags.AllowItemOverlap);
+                if (ImGui.IsItemClicked(ImGuiMouseButton.Right))
+                {
+                    ImGui.OpenPopup("ParamRowCommonMenu");
+                }
+                ImGui.SameLine();
             }
-
-            ImGui.SameLine();
 
             PropertyRowName(fieldOffset, ref internalName, cellMeta);
 
@@ -349,7 +351,7 @@ public class ParamRowEditor
                 }
 
                 ImGui.EndGroup();
-                if (ImGui.IsItemClicked(ImGuiMouseButton.Right))
+                if (col != null && ImGui.IsItemClicked(ImGuiMouseButton.Right))
                 {
                     ImGui.OpenPopup("ParamRowCommonMenu");
                 }
@@ -399,7 +401,7 @@ public class ParamRowEditor
                 ImGui.PopStyleColor();
             }
 
-            if (ImGui.IsItemClicked(ImGuiMouseButton.Right))
+            if (col != null && ImGui.IsItemClicked(ImGuiMouseButton.Right))
             {
                 ImGui.OpenPopup("ParamRowCommonMenu");
             }
@@ -424,7 +426,7 @@ public class ParamRowEditor
 
                 ImGui.EndGroup();
                 EditorDecorations.ParamRefEnumQuickLink(bank, oldval, RefTypes, row, FmgRef, Enum);
-                if (ImGui.IsItemClicked(ImGuiMouseButton.Right))
+                if (col != null && ImGui.IsItemClicked(ImGuiMouseButton.Right))
                 {
                     ImGui.OpenPopup("ParamRowCommonMenu");
                 }
@@ -616,57 +618,8 @@ public class ParamRowEditor
         var shownName = internalName;
 
         ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(0f, 10f) * scale);
-        var nameText = internalName;
-        if (!string.IsNullOrWhiteSpace(altName))
-        {
-            nameText += $"  /  {altName}";
-        }
 
-        ImGui.TextColored(new Vector4(1.0f, 0.7f, 0.4f, 1.0f), Utils.ImGuiEscape(nameText, "", true));
-        if (col.Def.BitSize != -1)
-        {
-            var str = $"Bitfield Type within: {propType.Name}";
-            var min = 0;
-            var max = (2ul << (col.Def.BitSize - 1)) - 1;
-            str += $" (Min {min}, Max {max})";
-            ImGui.TextColored(new Vector4(.4f, 1f, .7f, 1f), str);
-        }
-        else if (propType.IsValueType)
-        {
-            var str = $"Value Type: {propType.Name}";
-            var min = propType.GetField("MinValue")?.GetValue(propType);
-            var max = propType.GetField("MaxValue")?.GetValue(propType);
-            if (min != null && max != null)
-            {
-                str += $" (Min {min}, Max {max})";
-            }
-
-            ImGui.TextColored(new Vector4(.4f, 1f, .7f, 1f), str);
-        }
-        else if (propType.IsArray && col != null)
-        {
-            var str = $"Array Type: {propType.Name}";
-            var length = col.Def.ArrayLength;
-            if (length > 0)
-            {
-                str += $" (Length: {length})";
-            }
-
-            ImGui.TextColored(new Vector4(.4f, 1f, .7f, 1f), str);
-        }
-        else if (propType == typeof(string) && col != null)
-        {
-            var str = $"String Type: {propType.Name}";
-            var length = col.Def.ArrayLength;
-            if (length > 0)
-            {
-                str += $" (Length: {length})";
-            }
-
-            ImGui.TextColored(new Vector4(.4f, 1f, .7f, 1f), str);
-        }
-
-        ImGui.Separator();
+        EditorDecorations.ImGui_DisplayPropertyInfo(propType, internalName, altName, col.Def.ArrayLength, col.Def.BitSize);
 
         if (Wiki != null)
         {

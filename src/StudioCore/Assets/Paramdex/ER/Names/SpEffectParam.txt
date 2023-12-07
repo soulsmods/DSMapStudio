@@ -1174,7 +1174,9 @@
 90200 NPC: Enable Charm
 99002 Animation Offset +1m - Unknown
 99402 Animation Offset +1m - Unknown
-100002 HKS - Sword Arts - Dashing
+100000 HKS - Slow Walk
+100001 HKS - Walking
+100002 HKS - Dashing
 100020 HKS - Out of Stamina
 100050 HKS - Sword Arts - One Shot Combo End
 100051 HKS - Sword Arts - One Shot Combo End
@@ -3243,6 +3245,8 @@
 511079 Ruptured Crystal Tear [Chain]
 511080 Ruptured Crystal Tear [Chain]
 511081 Ruptured Crystal Tear [Chain]
+530007 HKS - Goods Stamina Cost (Throwing Knife, Wraith Calling Bell)
+530012 HKS - Goods Stamina Cost (Throw, Aromatics, others)
 1413000 [Sorcery] Terra Magicus
 1414000 [Sorcery] Starlight
 1436000 [Sorcery] Rennala's Full Moon

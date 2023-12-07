@@ -42,6 +42,26 @@ public class ParamEditorView
 
     private void ParamView_ParamList_Header(bool isActiveView)
     {
+        if (ParamBank.PrimaryBank.ParamVersion != 0)
+        {
+            ImGui.Text($"Param version {Utils.ParseParamVersion(ParamBank.PrimaryBank.ParamVersion)}");
+
+            if (_paramEditor.ParamUpgradeVersionSoftWhitelist != 0)
+            {
+                if (ParamBank.PrimaryBank.ParamVersion < ParamBank.VanillaBank.ParamVersion
+                    || _paramEditor.ParamUpgradeVersionSoftWhitelist > ParamBank.PrimaryBank.ParamVersion)
+                {
+                    ImGui.SameLine();
+                    ImGui.Text("(out of date)");
+                }
+                else if (_paramEditor.ParamUpgradeVersionSoftWhitelist < ParamBank.PrimaryBank.ParamVersion)
+                {
+                    ImGui.SameLine();
+                    ImGui.Text("(unsupported version)");
+                }
+            }
+        }
+
         if (isActiveView && InputTracker.GetKeyDown(KeyBindings.Current.Param_SearchParam))
         {
             ImGui.SetKeyboardFocusHere();
