@@ -281,6 +281,49 @@ public class CFG
         }
     }
 
+    /// <summary>
+    /// Inserts a RecentProject to the top of the list of recent projects.
+    /// Updates LastProjectFile and removes any project dupes in the list.
+    /// </summary>
+    public static void AddMostRecentProject(RecentProject proj)
+    {
+        foreach (var otherProj in Current.RecentProjects.ToArray())
+        {
+            if (proj.IsSameProjectLocation(otherProj))
+            {
+                Current.RecentProjects.Remove(otherProj);
+            }
+        }
+
+        Current.RecentProjects.Insert(0, proj);
+
+        if (Current.RecentProjects.Count > MAX_RECENT_PROJECTS)
+        {
+            Current.RecentProjects.RemoveAt(Current.RecentProjects.Count - 1);
+        }
+
+        Current.LastProjectFile = proj.ProjectFile;
+
+        CFG.Save();
+    }
+
+    /// <summary>
+    /// Removes a RecentProject from the list of recent projects.
+    /// Also removes any dupes.
+    /// </summary>
+    public static void RemoveRecentProject(RecentProject proj)
+    {
+        foreach (var otherProj in Current.RecentProjects.ToArray())
+        {
+            if (proj.IsSameProjectLocation(otherProj))
+            {
+                Current.RecentProjects.Remove(otherProj);
+            }
+        }
+
+        CFG.Save();
+    }
+
     public class RecentProject
     {
         // JsonExtensionData stores info in config file not present in class in order to retain settings between versions.
@@ -291,6 +334,15 @@ public class CFG
         public string Name { get; set; }
         public string ProjectFile { get; set; }
         public GameType GameType { get; set; }
+
+        public bool IsSameProjectLocation(RecentProject otherProject)
+        {
+            if (ProjectFile == otherProject.ProjectFile)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 
     public class RenderFilterPreset

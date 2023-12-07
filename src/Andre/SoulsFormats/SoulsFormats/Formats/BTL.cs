@@ -251,9 +251,9 @@ namespace SoulsFormats
             public float FlickerBrightnessMult { get; set; }
 
             /// <summary>
-            /// Unknown.
+            /// Referenced by map events. Only used in DS2.
             /// </summary>
-            public int Unk80 { get; set; }
+            public int EventID { get; set; }
 
             /// <summary>
             /// Unknown; 4 bytes.
@@ -399,7 +399,7 @@ namespace SoulsFormats
                 Unk64 = new byte[4] { 0, 0, 0, 1 };
                 ShadowColor = Color.FromArgb(100, 0, 0, 0);
                 FlickerBrightnessMult = 1;
-                Unk80 = -1;
+                EventID = -1;
                 Unk84 = new byte[4];
                 Unk98 = 1;
                 NearClip = 1;
@@ -452,7 +452,7 @@ namespace SoulsFormats
                 FlickerIntervalMin = br.ReadSingle();
                 FlickerIntervalMax = br.ReadSingle();
                 FlickerBrightnessMult = br.ReadSingle();
-                Unk80 = br.ReadInt32();
+                EventID = br.ReadInt32();
                 Unk84 = br.ReadBytes(4);
                 Unk88 = br.ReadSingle();
                 br.AssertInt32(0);
@@ -522,7 +522,7 @@ namespace SoulsFormats
                 bw.WriteSingle(FlickerIntervalMin);
                 bw.WriteSingle(FlickerIntervalMax);
                 bw.WriteSingle(FlickerBrightnessMult);
-                bw.WriteInt32(Unk80);
+                bw.WriteInt32(EventID);
                 bw.WriteBytes(Unk84);
                 bw.WriteSingle(Unk88);
                 bw.WriteInt32(0);

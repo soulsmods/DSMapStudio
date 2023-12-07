@@ -20,8 +20,8 @@
     <Field Def="u8 Unk0D" />
     <Field Def="u8 Unk0E" />
     <Field Def="u8 Unk0F" />
-    <Field Def="u32 ApperanceEventID" >
-      <Description>Used in ESD. 1 through to 7 are used to determine NG+ apperance.</Description>
+    <Field Def="u32 AppearanceEventID" >
+      <Description>Used in ESD. 1 through to 7 are used to determine NG+ appearance.</Description>
     </Field>
     <Field Def="u32 PreviousHostileEventID1" >
       <Description>Used in ESD. Determines if Previous Hostile state is active.</Description>

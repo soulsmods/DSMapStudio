@@ -351,7 +351,7 @@
     <Field Def="f32 UnkFloat0x380"></Field>
     <Field Def="f32 UnkFloat0x384"></Field>
     <Field Def="f32 UnkFloat0x388"></Field>
-    <Field Def="f32 UnkFloat0x38C"></Field>
+    <Field Def="f32 attackRate_Impact"></Field>
     <Field Def="s32 Unk0x390"></Field>
     <Field Def="s32 Unk0x394"></Field>
     <Field Def="s32 Unk0x398"></Field>

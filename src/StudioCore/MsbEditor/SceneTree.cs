@@ -377,73 +377,9 @@ public class SceneTree : IActionEventHandler
             }
         }
 
-        // If the visibility icon wasn't clicked actually perform the selection
-        if (doSelect)
-        {
-            if (arrowKeySelect)
-            {
-                if (InputTracker.GetKey(Key.ControlLeft) || InputTracker.GetKey(Key.ControlRight)
-                                                         || InputTracker.GetKey(Key.ShiftLeft) ||
-                                                         InputTracker.GetKey(Key.ShiftRight))
-                {
-                    _selection.AddSelection(e);
-                }
-                else
-                {
-                    _selection.ClearSelection();
-                    _selection.AddSelection(e);
-                }
-            }
-            else if (InputTracker.GetKey(Key.ControlLeft) || InputTracker.GetKey(Key.ControlRight))
-            {
-                // Toggle Selection
-                if (_selection.GetSelection().Contains(e))
-                {
-                    _selection.RemoveSelection(e);
-                }
-                else
-                {
-                    _selection.AddSelection(e);
-                }
-            }
-            else if (_selection.GetSelection().Count > 0
-                     && (InputTracker.GetKey(Key.ShiftLeft) || InputTracker.GetKey(Key.ShiftRight)))
-            {
-                // Select Range
-                List<Entity> entList = e.Container.Objects;
-                var i1 = entList.IndexOf(_selection.GetFilteredSelection<MapEntity>()
-                    .FirstOrDefault(fe => fe.Container == e.Container && fe != e.Container.RootObject));
-                var i2 = entList.IndexOf((MapEntity)e);
-
-                if (i1 != -1 && i2 != -1)
-                {
-                    var iStart = i1;
-                    var iEnd = i2;
-                    if (i2 < i1)
-                    {
-                        iStart = i2;
-                        iEnd = i1;
-                    }
-
-                    for (var i = iStart; i <= iEnd; i++)
-                    {
-                        _selection.AddSelection(entList[i]);
-                    }
-                }
-                else
-                {
-                    _selection.AddSelection(e);
-                }
-            }
-            else
-            {
-                // Exclusive Selection
-                _selection.ClearSelection();
-                _selection.AddSelection(e);
-            }
-        }
-
-
+        // If the visibility icon wasn't clicked, perform the selection
+        Utils.EntitySelectionHandler(_selection, e, doSelect, arrowKeySelect);
+        
         // Invisible item to be a drag drop target between nodes
         if (_pendingDragDrop)
         {
@@ -817,27 +753,6 @@ public class SceneTree : IActionEventHandler
 
                             _universe.LoadMap(mapid, selected);
                         }
-
-                        if (_universe.GameType is GameType.EldenRing)
-                        {
-                            if (mapid.StartsWith("m60"))
-                            {
-                                if (ImGui.Selectable("Load Related Maps"))
-                                {
-                                    if (selected)
-                                    {
-                                        _selection.ClearSelection();
-                                    }
-
-                                    _universe.LoadMap(mapid);
-                                    _universe.LoadRelatedMapsER(mapid, _universe.LoadedObjectContainers);
-                                }
-                            }
-                        }
-                        else if (_universe.GameType is GameType.ArmoredCoreVI)
-                        {
-                            //TODO AC6
-                        }
                     }
                     else if (map is Map m)
                     {
@@ -862,6 +777,27 @@ public class SceneTree : IActionEventHandler
                             GC.WaitForPendingFinalizers();
                             GC.Collect();
                         }
+                    }
+
+                    if (_universe.GameType is GameType.EldenRing)
+                    {
+                        if (mapid.StartsWith("m60"))
+                        {
+                            if (ImGui.Selectable("Load Related Maps"))
+                            {
+                                if (selected)
+                                {
+                                    _selection.ClearSelection();
+                                }
+
+                                _universe.LoadMap(mapid);
+                                _universe.LoadRelatedMapsER(mapid, _universe.LoadedObjectContainers);
+                            }
+                        }
+                    }
+                    else if (_universe.GameType is GameType.ArmoredCoreVI)
+                    {
+                        //TODO AC6
                     }
 
                     if (_universe.GetLoadedMapCount() > 1)

@@ -3,12 +3,12 @@
   <Enums>
     <Enum Name="BULLET_LAUNCH_CONDITION_TYPE">
       <Option Value="0" Name="Always" />
-      <Option Value="1" Name="Hit Water" />
-      <Option Value="2" Name="Hit Water or Swamp" />
-      <Option Value="3" Name="Didn't hit Enemy" />/>
-      <Option Value="4" Name="Hit Enemy" />
+      <Option Value="1" Name="Hit water" />
+      <Option Value="2" Name="Hit water or swamp" />
+      <Option Value="3" Name="Didn't hit enemy" />/>
+      <Option Value="4" Name="Hit enemy" />
       <Option Value="254" Name="Expired" />
-      <Option Value="255" Name="Hit Ground or Enemy" />
+      <Option Value="255" Name="Hit ground or enemy" />
     </Enum>
     <Enum Name="BULLET_EMITTE_POS_TYPE" type="u8">
       <Option Value="0" Name="Standard" />
@@ -18,7 +18,7 @@
       <Option Value="4" Name="Random location around nearest enemy" />
       <Option Value="5" Name="Shooting (?)" />
       <Option Value="6" Name="Aim straight up" />
-    </Enum>""
+    </Enum>
     <Enum Name="BULLET_FOLLOW_TYPE" type="u8">
       <Option Value="0" Name="Do not follow" />
       <Option Value="1" Name="Follow shooter" />
@@ -31,6 +31,11 @@
       <Option Value="8" Name="Follow ground" />
       <Option Value="9" Name="Follow parent bullet (except for direction)" />
       <Option Value="10" Name="Follow parent bullet position" />
+    </Enum>
+    <Enum Name="BULLET_CHARA_PENETRATE_TYPE" type="u8">
+      <Option Value="0" Name="No characters" />
+      <Option Value="1" Name="Low penetrate defense" />
+      <Option Value="2" Name="All characters" />
     </Enum>
   </Enums>
   <Field>
@@ -45,9 +50,11 @@
     <spEffectIDForShooter AltName="Shooter SpEffect ID" Wiki="SpEffect applied to owner of bullet." Refs="SpEffectParam" />
     <hitBulletID AltName="Hit Bullet ID" Wiki="Bullet to generate when projectile expires." Refs="Bullet" />
     <launchConditionType AltName="Hit Bullet Condition" Enum="BULLET_LAUNCH_CONDITION_TYPE" Wiki="Conditions required for HitBulletID to generate." />
+    <chrPenetrateType AltName="Penetration Type (characters)" Enum="BULLET_CHARA_PENETRATE_TYPE" Wiki="Which characters bullets will penetrate through. See NpcParam penetrateDefense." />
     <emittePosType AltName="Emit Position" Enum="BULLET_EMITTE_POS_TYPE" Wiki="Where bullet appears when created." />
     <followType AltName="Follow Type" Enum="BULLET_FOLLOW_TYPE" Wiki="Affects bullet position and behavior." />
-    <intervalCreateBulletId  AltName="Interval Bullet ID" Wiki="Bullet to generate on interval." Refs="Bullet" />
+    <intervalCreateBulletId  AltName="Interval Create (Bullet ID)" Wiki="Bullet ID to generate for Interval Create Bullet." Refs="Bullet" />
+    <intervalCreateShootMax  AltName="Interval Create (Bullet Shoot Max)" Wiki="Maximum number of times Interval Create Bullet can be generated." />
     <spEffectId0 AltName="Target SpEffect ID [0]" Wiki="SpEffect applied to hit targets." Refs="SpEffectParam" />
     <spEffectId1 AltName="Target SpEffect ID [1]" Wiki="SpEffect applied to hit targets." Refs="SpEffectParam" />
     <spEffectId2 AltName="Target SpEffect ID [2]" Wiki="SpEffect applied to hit targets." Refs="SpEffectParam" />

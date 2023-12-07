@@ -238,7 +238,14 @@
     <Field Def="u8 UnkFlag0x1DA_5:1"></Field>
     <Field Def="u8 UnkFlag0x1DA_6:1"></Field>
     <Field Def="u8 weightAffectsDamage:1"></Field>
-    <Field Def="u8 UnkByte0x1DB"></Field>
+    <Field Def="u8 UnkFlag0x1DB_0:1"></Field>
+    <Field Def="u8 UnkFlag0x1DB_1:1"></Field>
+    <Field Def="u8 UnkFlag0x1DB_2:1"></Field>
+    <Field Def="u8 UnkFlag0x1DB_3:1"></Field>
+    <Field Def="u8 UnkFlag0x1DB_4:1"></Field>
+    <Field Def="u8 useImpactRate:1"></Field>
+    <Field Def="u8 UnkFlag0x1DB_6:1"></Field>
+    <Field Def="u8 UnkFlag0x1DB_7:1"></Field>
     <Field Def="u16 UnkUshort0x1DC"></Field>
     <Field Def="u8 Unk0x1DE"></Field>
     <Field Def="u8 wwise_ShootSeCategoryId"></Field>

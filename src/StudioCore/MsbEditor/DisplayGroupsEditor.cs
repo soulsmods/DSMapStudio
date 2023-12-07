@@ -12,7 +12,7 @@ public class DisplayGroupsEditor
 
     private readonly RenderScene _scene;
     private readonly Selection _selection;
-    public List<string> HighlightedGroups = new();
+    public readonly HashSet<string> HighlightedGroups = new();
 
     public DisplayGroupsEditor(RenderScene scene, Selection sel, ActionManager manager)
     {
@@ -24,33 +24,27 @@ public class DisplayGroupsEditor
     public void OnGui(int dispCount)
     {
         var scale = MapStudioNew.GetUIScale();
+        ImGui.SetNextWindowSize(new Vector2(100, 100) * scale);
 
         uint[] sdrawgroups = null;
         uint[] sdispgroups = null;
-        var sel = _selection.GetSingleFilteredSelection<Entity>();
-        if (sel != null)
+        var sels = _selection.GetFilteredSelection<Entity>(e => e.HasRenderGroups);
+        if (sels.Any())
         {
-            if (sel.UseDrawGroups)
-            {
-                sdrawgroups = sel.Drawgroups; // Will be CollisionName values (if reference is valid)
-            }
-
-            sdispgroups = sel.Dispgroups;
+            sdrawgroups = sels.First().Drawgroups;
+            sdispgroups = sels.First().Dispgroups;
         }
-
-
-        ImGui.SetNextWindowSize(new Vector2(100, 100) * scale);
 
         if (InputTracker.GetKeyDown(KeyBindings.Current.Map_RenderGroup_GetDisp)
             || InputTracker.GetKeyDown(KeyBindings.Current.Map_RenderGroup_GetDraw)
             || InputTracker.GetKeyDown(KeyBindings.Current.Map_RenderGroup_GiveDisp)
             || InputTracker.GetKeyDown(KeyBindings.Current.Map_RenderGroup_GiveDraw)
             || InputTracker.GetKeyDown(KeyBindings.Current.Map_RenderGroup_ShowAll)
-            || InputTracker.GetKeyDown(KeyBindings.Current.Map_RenderGroup_HideAll))
+            || InputTracker.GetKeyDown(KeyBindings.Current.Map_RenderGroup_HideAll)
+            || InputTracker.GetKeyDown(KeyBindings.Current.Map_RenderGroup_SelectHighlights))
         {
             ImGui.SetNextWindowFocus();
         }
-
         ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(4.0f, 2.0f) * scale);
         if (ImGui.Begin("Render Groups") && _scene != null)
         {
@@ -117,7 +111,8 @@ public class DisplayGroupsEditor
                 || (InputTracker.GetKeyDown(KeyBindings.Current.Map_RenderGroup_GiveDraw)
                     && sdispgroups != null))
             {
-                ArrayPropertyCopyAction action = new(dg.RenderGroups, sel.Drawgroups);
+                IEnumerable<uint[]> selDrawGroups = sels.Select(s => s.Drawgroups);
+                ArrayPropertyCopyAction action = new(dg.RenderGroups, selDrawGroups);
                 _actionManager.ExecuteAction(action);
             }
 
@@ -126,7 +121,8 @@ public class DisplayGroupsEditor
                 || (InputTracker.GetKeyDown(KeyBindings.Current.Map_RenderGroup_GiveDisp)
                     && sdispgroups != null))
             {
-                ArrayPropertyCopyAction action = new(dg.RenderGroups, sel.Dispgroups);
+                IEnumerable<uint[]> selDispGroups = sels.Select(s => s.Dispgroups);
+                ArrayPropertyCopyAction action = new(dg.RenderGroups, selDispGroups);
                 _actionManager.ExecuteAction(action);
             }
 
@@ -135,13 +131,20 @@ public class DisplayGroupsEditor
                 ImGui.EndDisabled();
             }
 
-
             ImGui.SameLine(0.0f, 12.0f * scale);
             if (!HighlightedGroups.Any())
             {
                 ImGui.BeginDisabled();
             }
 
+            bool selectHighlightsOperation = false;
+            if (ImGui.Button("Select Highlights")
+                || InputTracker.GetKeyDown(KeyBindings.Current.Map_RenderGroup_SelectHighlights))
+            {
+                selectHighlightsOperation = true;
+            }
+
+            ImGui.SameLine(0.0f, 8.0f * scale);
             if (ImGui.Button("Clear Highlights"))
             {
                 HighlightedGroups.Clear();
@@ -175,12 +178,31 @@ public class DisplayGroupsEditor
                     "Green = Selection uses this Draw Group.\n" +
                     "Yellow = Selection uses both.\n" +
                     "\n" +
-                    "POTENTIALLY INACCURATE FOR SEKIRO / ELDEN RING!");
+                    "(Note: there are unknown differences in Sekiro/ER/AC6)");
                 ImGui.EndPopup();
             }
 
+
+            void DisplayTargetEntities()
+            {
+                string affectedEntsStr = string.Join(", ", sels.Select(s => s.RenderGroupRefName != "" ? s.RenderGroupRefName : s.Name));
+                ImGui.Text($"Targets: {Utils.ImGui_WordWrapString(affectedEntsStr, ImGui.GetWindowWidth(), 99)}");
+            }
+
+            if (sels.Count <= 5)
+            {
+                DisplayTargetEntities();
+            }
+            else
+            {
+                if (ImGui.CollapsingHeader("Targets##DisplayGroup"))
+                {
+                    DisplayTargetEntities();
+                }
+            }
+
             ImGui.Separator();
-            ImGui.BeginChild("##DispTicks");
+            ImGui.BeginChild("##DispTicks", new Vector2(), false, ImGuiWindowFlags.AlwaysVerticalScrollbar);
             for (var g = 0; g < dg.RenderGroups.Length; g++)
             {
                 // Row (groups)
@@ -195,6 +217,19 @@ public class DisplayGroupsEditor
                 for (var i = 0; i < 32; i++)
                 {
                     // Column
+                    var cellKey = $"{g}_{i}";
+                    if (selectHighlightsOperation)
+                    {
+                        if (HighlightedGroups.Contains(cellKey))
+                        {
+                            dg.RenderGroups[g] |= 1u << i;
+                        }
+                        else
+                        {
+                            dg.RenderGroups[g] &= ~(1u << i);
+                        }
+                    }
+
                     var check = ((dg.RenderGroups[g] >> i) & 0x1) > 0;
 
                     // Add spacing every 4 columns
@@ -230,8 +265,6 @@ public class DisplayGroupsEditor
                         ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.4f, 0.06f, 0.06f, 1.0f));
                         ImGui.PushStyleColor(ImGuiCol.CheckMark, new Vector4(1.0f, 0.2f, 0.2f, 1.0f));
                     }
-
-                    var cellKey = $"{g}_{i}";
                     if (HighlightedGroups.Contains(cellKey))
                     {
                         ImGui.PushStyleColor(ImGuiCol.Border, new Vector4(1.0f, 0.2f, 0.2f, 1.0f));
@@ -276,7 +309,6 @@ public class DisplayGroupsEditor
 
             ImGui.EndChild();
         }
-
         ImGui.PopStyleVar();
         ImGui.End();
     }

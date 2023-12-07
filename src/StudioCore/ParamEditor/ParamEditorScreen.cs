@@ -153,6 +153,8 @@ public class ParamEditorScreen : EditorScreen
     private string _mEditCSVResult = "";
     private string _mEditRegexResult = "";
     private bool _paramUpgraderLoaded;
+    private bool _rowNameImporter_EmptyOnly = false;
+    private bool _rowNameImporter_VanillaOnly = true;
 
     internal ProjectSettings _projectSettings;
     private string _statisticPopupOutput = "";
@@ -447,48 +449,42 @@ public class ParamEditorScreen : EditorScreen
 
             if (ImGui.BeginMenu("Import row names"))
             {
+                ImGui.Checkbox("Only replace unmodified row names", ref _rowNameImporter_VanillaOnly);
+                if (_rowNameImporter_VanillaOnly)
+                {
+                    ImGui.BeginDisabled();
+                    ImGui.Checkbox("Only replace empty row names", ref _rowNameImporter_EmptyOnly);
+                    ImGui.EndDisabled();
+                }
+                else
+                {
+                    ImGui.Checkbox("Only replace empty row names", ref _rowNameImporter_EmptyOnly);
+                }
+
                 void ImportRowNames(bool currentParamOnly, string title)
                 {
                     const string importRowQuestion =
-                        "Would you like to replace row names with default names defined within DSMapStudio?\n\nSelect \"Yes\" to replace all names, \"No\" to only replace empty names, \"Cancel\" to abort.";
+                        "Would you like to replace row names with default names defined within DSMapStudio?";
                     var currentParam = currentParamOnly ? _activeView._selection.GetActiveParam() : null;
                     DialogResult question = PlatformUtils.Instance.MessageBox(importRowQuestion, title,
-                        MessageBoxButtons.YesNoCancel, MessageBoxIcon.Information);
-                    switch (question)
+                        MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+                    if (question == DialogResult.OK)
                     {
-                        case DialogResult.Yes:
-                            EditorActionManager.ExecuteAction(
-                                ParamBank.PrimaryBank.LoadParamDefaultNames(currentParam));
-                            break;
-                        case DialogResult.No:
-                            EditorActionManager.ExecuteAction(
-                                ParamBank.PrimaryBank.LoadParamDefaultNames(currentParam, true));
-                            break;
+                        EditorActionManager.ExecuteAction(ParamBank.PrimaryBank.
+                            LoadParamDefaultNames(currentParam, _rowNameImporter_EmptyOnly, _rowNameImporter_VanillaOnly));
                     }
                 }
 
                 if (ImGui.MenuItem("All", "", false, ParamBank.PrimaryBank.Params != null))
                 {
-                    try
-                    {
-                        ImportRowNames(false, "Replace all row names?");
-                    }
-                    catch
-                    {
-                    }
+                    ImportRowNames(false, "Replace row names?");
                 }
 
                 if (ImGui.MenuItem("Current Param", "", false,
                         ParamBank.PrimaryBank.Params != null && _activeView._selection.ActiveParamExists()))
                 {
-                    try
-                    {
-                        ImportRowNames(true,
-                            $"Replace all row names in {_activeView._selection.GetActiveParam()}?");
-                    }
-                    catch
-                    {
-                    }
+                    ImportRowNames(true,
+                        $"Replace row names in {_activeView._selection.GetActiveParam()}?");
                 }
 
                 ImGui.EndMenu();
@@ -578,10 +574,10 @@ public class ParamEditorScreen : EditorScreen
                         ParamReloader.CanReloadMemoryParams(ParamBank.PrimaryBank, _projectSettings);
 
                     if (ImGui.MenuItem("Current Param", KeyBindings.Current.Param_HotReload.HintText, false,
-                            canHotReload))
+                            canHotReload && _activeView._selection.GetActiveParam() != null))
                     {
-                        ParamReloader.ReloadMemoryParams(ParamBank.PrimaryBank, ParamBank.PrimaryBank.AssetLocator,
-                            new[] { _activeView._selection.GetActiveParam() });
+                        ParamReloader.ReloadMemoryParam(ParamBank.PrimaryBank, ParamBank.PrimaryBank.AssetLocator,
+                            _activeView._selection.GetActiveParam());
                     }
 
                     if (ImGui.MenuItem("All Params", KeyBindings.Current.Param_HotReloadAll.HintText, false,
@@ -861,10 +857,11 @@ public class ParamEditorScreen : EditorScreen
                 ParamReloader.ReloadMemoryParams(ParamBank.PrimaryBank, ParamBank.PrimaryBank.AssetLocator,
                     ParamBank.PrimaryBank.Params.Keys.ToArray());
             }
-            else if (InputTracker.GetKeyDown(KeyBindings.Current.Param_HotReload))
+            else if (InputTracker.GetKeyDown(KeyBindings.Current.Param_HotReload) &&
+                _activeView._selection.GetActiveParam() != null)
             {
-                ParamReloader.ReloadMemoryParams(ParamBank.PrimaryBank, ParamBank.PrimaryBank.AssetLocator,
-                    new[] { _activeView._selection.GetActiveParam() });
+                ParamReloader.ReloadMemoryParam(ParamBank.PrimaryBank, ParamBank.PrimaryBank.AssetLocator,
+                    _activeView._selection.GetActiveParam());
             }
         }
 

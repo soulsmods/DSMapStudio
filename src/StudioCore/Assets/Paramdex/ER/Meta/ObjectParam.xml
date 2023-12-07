@@ -19,10 +19,10 @@
     <isCamHit AltName="Is Camera Hit" Wiki="Does the camera hit (0 not hit, 1 hit)" />
     <isBreakByPlayerCollide AltName="Is Broken by Player Collision" Wiki="Broken when the player touches (0 no, 1)" />
     <isAnimBreak AltName="Is Animated Destruction" Wiki="Is it animation destruction (0 physical destruction, 1 animation destruction)" />
-    <isPenetrationBulletHit AltName="Is Penetrated by Bullet" Wiki="Will the penetrating bullet hit (0 not hit, 1 hit)" />
+    <isPenetrationBulletHit AltName="Is Hit by Penetrating Bullets" Wiki="Will the penetrating bullet hit (0 not hit, 1 hit)" />
     <isChrHit AltName="Is Character Hit" Wiki="Does the character win (0 not hit, 1 hit)" />
     <isAttackBacklash AltName="Is Attack Backlash" Wiki="Do you play the attack (0 do not play, 1 play)" />
-    <isDisableBreakForFirstAppear AltName="Is Disable Destruction on First Apperance" Wiki="Broken at the initial appearance of the player (0 ru, 1 no)" />
+    <isDisableBreakForFirstAppear AltName="Is Disable Destruction on First Appearance" Wiki="Broken at the initial appearance of the player (0 ru, 1 no)" />
     <isLadder AltName="Is Ladder" Wiki="Is it a ladder (0 different, 1 yes)" />
     <isAnimPauseOnRemoPlay AltName="Is Animation Paused in Cutscene" Wiki="Do you want to stop the animation during the poly play (0 not, 1 do)" />
     <isDamageNoHit AltName="Is Damage No Hit" Wiki="No damage (0 hit, 1 not hit)" />

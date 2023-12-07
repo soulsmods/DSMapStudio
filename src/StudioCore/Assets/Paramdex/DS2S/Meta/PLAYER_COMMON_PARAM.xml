@@ -21,11 +21,11 @@
     <pvp_backstab_damage_mult AltName="PvP Backstab Damage Rate" />
     <pvp_riposte_damage_mult AltName="PvP Riposte Damage Rate" />
     <pvp_guardbreak_damage_mult AltName="PvP Guard Break Stab Damage Rate" />
-    <shield_letter_scaling_S_guard_mult AltName="Shield Guard Bonus (S Scaling)" Wiki="Affects guard %s gained via scaling for this scaling letter."/>
-    <shield_letter_scaling_A_guard_mult AltName="Shield Guard Bonus (A Scaling)" Wiki="Affects guard %s gained via scaling for this scaling letter."/>
-    <shield_letter_scaling_B_guard_mult AltName="Shield Guard Bonus (B Scaling)" Wiki="Affects guard %s gained via scaling for this scaling letter."/>
-    <shield_letter_scaling_C_guard_mult AltName="Shield Guard Bonus (C Scaling)" Wiki="Affects guard %s gained via scaling for this scaling letter."/>
-    <shield_letter_scaling_D_guard_mult AltName="Shield Guard Bonus (D Scaling)" Wiki="Affects guard %s gained via scaling for this scaling letter."/>
-    <shield_letter_scaling_E_guard_mult AltName="Shield Guard Bonus (E Scaling)" Wiki="Affects guard %s gained via scaling for this scaling letter."/>
+    <shield_letter_scaling_S_guard_mult AltName="Shield Guard Bonus (S Scaling)" Wiki="Affects guard percents gained via scaling for this scaling letter."/>
+    <shield_letter_scaling_A_guard_mult AltName="Shield Guard Bonus (A Scaling)" Wiki="Affects guard percents gained via scaling for this scaling letter."/>
+    <shield_letter_scaling_B_guard_mult AltName="Shield Guard Bonus (B Scaling)" Wiki="Affects guard percents gained via scaling for this scaling letter."/>
+    <shield_letter_scaling_C_guard_mult AltName="Shield Guard Bonus (C Scaling)" Wiki="Affects guard percents gained via scaling for this scaling letter."/>
+    <shield_letter_scaling_D_guard_mult AltName="Shield Guard Bonus (D Scaling)" Wiki="Affects guard percents gained via scaling for this scaling letter."/>
+    <shield_letter_scaling_E_guard_mult AltName="Shield Guard Bonus (E Scaling)" Wiki="Affects guard percents gained via scaling for this scaling letter."/>
   </Field>
 </PARAMMETA>
