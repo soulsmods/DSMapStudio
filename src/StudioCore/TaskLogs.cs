@@ -353,7 +353,7 @@ public static class TaskLogs
                 {
                     mes += $" x{MessageCount}";
                 }
-                mes = $"[{LogTime.Hour}:{LogTime.Minute}] {mes}";
+                mes = $"[{LogTime.Hour:D2}:{LogTime.Minute:D2}] {mes}";
 
                 return mes;
             }
