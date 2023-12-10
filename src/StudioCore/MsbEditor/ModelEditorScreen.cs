@@ -323,7 +323,7 @@ public class ModelEditorScreen : EditorScreen, AssetBrowserEventHandler, SceneTr
 
         if (_renderMesh != null)
         {
-            //RenderScene.RemoveObject(_renderMesh);
+            _renderMesh.Dispose();
         }
 
         _renderMesh = MeshRenderableProxy.MeshRenderableFromFlverResource(
