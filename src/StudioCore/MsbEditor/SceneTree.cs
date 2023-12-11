@@ -4,8 +4,10 @@ using StudioCore.Gui;
 using StudioCore.ParamEditor;
 using StudioCore.Platform;
 using StudioCore.Scene;
+using StudioCore.Utilities;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.InteropServices;
@@ -753,9 +755,12 @@ public class SceneTree : IActionEventHandler
 
                             _universe.LoadMap(mapid, selected);
                         }
+                        GenerateMCGMCP(orderedMaps, mapid);
                     }
                     else if (map is Map m)
                     {
+                        GenerateMCGMCP(orderedMaps, mapid);
+
                         if (ImGui.Selectable("Save Map"))
                         {
                             try
@@ -953,5 +958,49 @@ public class SceneTree : IActionEventHandler
         ImGui.End();
         ImGui.PopStyleColor();
         _selection.ClearGotoTarget();
+    }
+
+    private void GenerateMCGMCP(IOrderedEnumerable<KeyValuePair<string, ObjectContainer>> orderedMaps, string mapid)
+    {
+        if (_assetLocator.Type == GameType.DemonsSouls)
+        {
+            if(mapid != "m03_01_00_99" && !mapid.StartsWith("m99"))
+            {
+                var areaId = mapid.Substring(0, 3);
+                if (ImGui.Selectable($"Regenerate MCP and MCG for {areaId}"))
+                {
+                    List<string> areaDirectories = new List<string>();
+                    foreach (var orderMap in orderedMaps)
+                    {
+                        if (orderMap.Key.StartsWith(areaId) && orderMap.Key != "m03_01_00_99")
+                        {
+                            areaDirectories.Add(Path.Combine(_assetLocator.GameRootDirectory, "map", orderMap.Key));
+                        }
+                    }
+                    SoulsMapMetadataGenerator.GenerateMCGMCP(areaDirectories, _assetLocator, toBigEndian: true);
+                }
+            }
+            else
+            {
+                if (ImGui.Selectable($"Regenerate MCP and MCG for {mapid}"))
+                {
+                    List<string> areaDirectories = new List<string>
+                    {
+                        Path.Combine(_assetLocator.GameRootDirectory, "map", mapid)
+                    };
+                    SoulsMapMetadataGenerator.GenerateMCGMCP(areaDirectories, _assetLocator, toBigEndian: true);
+                }
+            }
+        } else if (_assetLocator.Type is GameType.DarkSoulsPTDE or GameType.DarkSoulsRemastered)
+        {
+            if (ImGui.Selectable($"Regenerate MCP and MCG for {mapid}"))
+            {
+                List<string> areaDirectories = new List<string>
+                {
+                    Path.Combine(_assetLocator.GameRootDirectory, "map", mapid)
+                };
+                SoulsMapMetadataGenerator.GenerateMCGMCP(areaDirectories, _assetLocator, toBigEndian: false);
+            }
+        }
     }
 }
