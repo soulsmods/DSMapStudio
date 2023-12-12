@@ -1619,27 +1619,4 @@ public class Universe
     {
         ObjectContainer c = new(this, name);
     }
-
-    public Type GetPropertyType(string name)
-    {
-        // TODO: needs to scan within structs too 
-        foreach (KeyValuePair<string, ObjectContainer> m in LoadedObjectContainers)
-        {
-            if (m.Value == null)
-            {
-                continue;
-            }
-
-            foreach (Entity o in m.Value.Objects)
-            {
-                PropertyInfo p = o.GetProperty(name);
-                if (p != null)
-                {
-                    return p.PropertyType;
-                }
-            }
-        }
-
-        return null;
-    }
 }

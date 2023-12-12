@@ -761,6 +761,8 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
             if (initcmd[0] == "propsearch")
             {
                 propSearchCmd = initcmd.Skip(1).ToArray();
+                PropSearch.Property = PropEditor.RequestedSearchProperty;
+                PropEditor.RequestedSearchProperty = null;
             }
 
             // Support loading maps through commands.
