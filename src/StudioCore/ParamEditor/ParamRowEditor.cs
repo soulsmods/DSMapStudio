@@ -65,11 +65,12 @@ public class ParamRowEditor
         ImGui.Spacing();
     }
 
-    private void PropEditorParamRow_PinnedFields(List<string> pinnedFields, ParamBank bank, Param.Row row,
+    private void PropEditorParamRow_PinnedFields(List<string> pinList, ParamBank bank, Param.Row row,
         Param.Row vrow, List<(string, Param.Row)> auxRows, Param.Row crow, List<(PseudoColumn, Param.Column)> cols,
         List<(PseudoColumn, Param.Column)> vcols, List<List<(PseudoColumn, Param.Column)>> auxCols, ref int imguiId,
         string activeParam, ParamEditorSelectionState selection)
     {
+        List<string> pinnedFields = new List<string>(pinList);
         foreach (var field in pinnedFields)
         {
             List<(PseudoColumn, Param.Column)> matches =
@@ -633,27 +634,35 @@ public class ParamRowEditor
 
         ImGui.Separator();
 
+        if (showPinOptions)
+        {
+            if (ImGui.MenuItem(isPinned ? "Unpin " : "Pin " + shownName))
+            {
+                if (!_paramEditor._projectSettings.PinnedFields.ContainsKey(activeParam))
+                {
+                    _paramEditor._projectSettings.PinnedFields.Add(activeParam, new List<string>());
+                }
+
+                List<string> pinned = _paramEditor._projectSettings.PinnedFields[activeParam];
+                if (isPinned)
+                {
+                    pinned.Remove(internalName);
+                }
+                else if (!pinned.Contains(internalName))
+                {
+                    pinned.Add(internalName);
+                }
+            }
+            if (isPinned)
+            {
+                EditorDecorations.PinListReorderOptions(_paramEditor._projectSettings.PinnedFields[activeParam], internalName);
+            }
+            ImGui.Separator();
+        }
+
         if (ImGui.MenuItem("Add to Searchbar"))
         {
             EditorCommandQueue.AddCommand($@"param/search/prop {internalName.Replace(" ", "\\s")} ");
-        }
-
-        if (showPinOptions && ImGui.MenuItem(isPinned ? "Unpin " : "Pin " + shownName))
-        {
-            if (!_paramEditor._projectSettings.PinnedFields.ContainsKey(activeParam))
-            {
-                _paramEditor._projectSettings.PinnedFields.Add(activeParam, new List<string>());
-            }
-
-            List<string> pinned = _paramEditor._projectSettings.PinnedFields[activeParam];
-            if (isPinned)
-            {
-                pinned.Remove(internalName);
-            }
-            else if (!pinned.Contains(internalName))
-            {
-                pinned.Add(internalName);
-            }
         }
 
         if (col != null && ImGui.MenuItem("Compare field"))

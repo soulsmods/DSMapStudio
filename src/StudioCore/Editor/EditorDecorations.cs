@@ -830,6 +830,23 @@ public class EditorDecorations
         return v;
     }
 
+    public static void PinListReorderOptions<T>(List<T> sourceListToModify, T currentElement)
+    {
+        int indexOfPin = sourceListToModify.IndexOf(currentElement);
+        if (indexOfPin > 0 && ImGui.Selectable("Move pin up"))
+        {
+            T prevKey = sourceListToModify[indexOfPin - 1];
+            sourceListToModify[indexOfPin] = prevKey;
+            sourceListToModify[indexOfPin - 1] = currentElement;
+        }
+        if (indexOfPin >= 0 && indexOfPin < sourceListToModify.Count - 1 && ImGui.Selectable("Move pin down"))
+        {
+            T nextKey = sourceListToModify[indexOfPin + 1];
+            sourceListToModify[indexOfPin] = nextKey;
+            sourceListToModify[indexOfPin + 1] = currentElement;
+        }
+    }
+
     /// <summary>
     ///     Displays information about the provided property.
     /// </summary>
