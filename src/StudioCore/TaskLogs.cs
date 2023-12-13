@@ -82,7 +82,10 @@ public static class TaskLogs
                     if (lastLog.Message == text)
                     {
                         lastLog.MessageCount++;
-                        ResetColorTimer();
+                        if (priority != LogPriority.Low)
+                        {
+                            ResetColorTimer();
+                        }
                         return;
                     }
                 }
