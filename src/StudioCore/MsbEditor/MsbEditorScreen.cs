@@ -6,8 +6,10 @@ using StudioCore.Gui;
 using StudioCore.Platform;
 using StudioCore.Resource;
 using StudioCore.Scene;
+using StudioCore.Utilities;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Numerics;
 using Veldrid;
@@ -558,6 +560,22 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
                 }
 
                 ImGui.EndMenu();
+            }
+
+            ImGui.EndMenu();
+        }
+
+        if (ImGui.BeginMenu("Tools"))
+        {
+            if (AssetLocator.Type is GameType.DemonsSouls or
+                GameType.DarkSoulsPTDE or GameType.DarkSoulsRemastered)
+            {
+                if (ImGui.BeginMenu("Regenerate MCP and MCG"))
+                {
+                    GenerateMCGMCP(Universe.LoadedObjectContainers);
+
+                    ImGui.EndMenu();
+                }
             }
 
             ImGui.EndMenu();
@@ -1398,6 +1416,64 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
         {
             TaskLogs.AddLog(e.Message,
                 LogLevel.Error, TaskLogs.LogPriority.High, e.Wrapped);
+        }
+    }
+
+    private void GenerateMCGMCP(Dictionary<string, ObjectContainer> orderedMaps)
+    {
+        if (ImGui.BeginCombo("Regenerate MCP and MCG", "Maps"))
+        {
+            HashSet<string> idCache = new();
+            foreach (var map in orderedMaps)
+            {
+                string mapid = map.Key;
+                if (AssetLocator.Type is GameType.DemonsSouls)
+                {
+                    if (mapid != "m03_01_00_99" && !mapid.StartsWith("m99"))
+                    {
+                        var areaId = mapid.Substring(0, 3);
+                        if (idCache.Contains(areaId))
+                            continue;
+                        idCache.Add(areaId);
+
+                        if (ImGui.Selectable($"{areaId}"))
+                        {
+                            List<string> areaDirectories = new List<string>();
+                            foreach (var orderMap in orderedMaps)
+                            {
+                                if (orderMap.Key.StartsWith(areaId) && orderMap.Key != "m03_01_00_99")
+                                {
+                                    areaDirectories.Add(Path.Combine(AssetLocator.GameRootDirectory, "map", orderMap.Key));
+                                }
+                            }
+                            SoulsMapMetadataGenerator.GenerateMCGMCP(areaDirectories, AssetLocator, toBigEndian: true);
+                        }
+                    }
+                    else
+                    {
+                        if (ImGui.Selectable($"{mapid}"))
+                        {
+                            List<string> areaDirectories = new List<string>
+                            {
+                                Path.Combine(AssetLocator.GameRootDirectory, "map", mapid)
+                            };
+                            SoulsMapMetadataGenerator.GenerateMCGMCP(areaDirectories, AssetLocator, toBigEndian: true);
+                        }
+                    }
+                }
+                else if (AssetLocator.Type is GameType.DarkSoulsPTDE or GameType.DarkSoulsRemastered)
+                {
+                    if (ImGui.Selectable($"{mapid}"))
+                    {
+                        List<string> areaDirectories = new List<string>
+                        {
+                            Path.Combine(AssetLocator.GameRootDirectory, "map", mapid)
+                        };
+                        SoulsMapMetadataGenerator.GenerateMCGMCP(areaDirectories, AssetLocator, toBigEndian: false);
+                    }
+                }
+            }
+            ImGui.EndCombo();
         }
     }
 }
