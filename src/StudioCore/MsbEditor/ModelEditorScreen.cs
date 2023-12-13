@@ -19,6 +19,7 @@ public class ModelEditorScreen : EditorScreen, AssetBrowserEventHandler, SceneTr
 {
     private readonly AssetBrowser _assetBrowser;
     private readonly PropertyEditor _propEditor;
+    private readonly PropertyCache _propCache = new();
 
     private readonly SceneTree _sceneTree;
     private readonly Selection _selection = new();
@@ -62,7 +63,7 @@ public class ModelEditorScreen : EditorScreen, AssetBrowserEventHandler, SceneTr
 
         _sceneTree = new SceneTree(SceneTree.Configuration.ModelEditor, this, "modeledittree", _universe,
             _selection, EditorActionManager, Viewport, AssetLocator);
-        _propEditor = new PropertyEditor(EditorActionManager);
+        _propEditor = new PropertyEditor(EditorActionManager, _propCache);
         _assetBrowser = new AssetBrowser(this, "modelEditorBrowser", AssetLocator);
     }
 

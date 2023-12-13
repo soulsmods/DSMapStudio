@@ -10,6 +10,8 @@ public class SearchProperties
 {
     private readonly Dictionary<string, List<WeakReference<Entity>>> FoundObjects = new();
     private readonly Universe Universe;
+    private readonly PropertyCache _propCache;
+
     public PropertyInfo Property
     {
         get => _property;
@@ -28,9 +30,10 @@ public class SearchProperties
     private dynamic PropertyValue = null;
     private bool ValidType = false;
 
-    public SearchProperties(Universe universe)
+    public SearchProperties(Universe universe, PropertyCache propCache)
     {
         Universe = universe;
+        _propCache = propCache;
     }
 
     public bool InitializeSearchValue(string initialValue = null)
@@ -319,7 +322,41 @@ public class SearchProperties
 
         if (ImGui.Begin("Search Properties"))
         {
-            ImGui.Text($"Right click a field to search.");
+            ImGui.Text("To search, select an entity in the map");
+            ImGui.SameLine();
+            if (ImGui.Button("Help##PropSearchHelpMenu"))
+            { 
+                ImGui.OpenPopup("##PropSearchHelpPopup");
+            }
+            if (ImGui.BeginPopup("##PropSearchHelpPopup"))
+            {
+                ImGui.Text($"After selecting an entity, right click a field in Property Editor or use dropdown menu below.");
+                ImGui.EndPopup();
+            }
+
+            // propcache
+            var selection = Universe.Selection.GetSingleFilteredSelection<Entity>();
+            if (selection != null)
+            {
+                ImGui.Spacing();
+                ImGui.Text($"Type: {selection.WrappedObject.GetType().Name}");
+                if (ImGui.BeginCombo("##SearchPropCombo", "Select property..."))
+                {
+                    var props = _propCache.GetCachedFields(selection.WrappedObject);
+                    foreach (var prop in props)
+                    {
+                        if (ImGui.Selectable(prop.Name))
+                        {
+                            Property = prop;
+                            ValidType = InitializeSearchValue();
+                            newSearch = true;
+                            break;
+                        }
+                    }
+                    ImGui.EndCombo();
+                }
+            }
+
             ImGui.Separator();
             ImGui.Columns(2);
 
