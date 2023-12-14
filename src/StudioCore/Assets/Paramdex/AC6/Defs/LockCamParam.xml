@@ -89,7 +89,7 @@
     <Field Def="f32 UnkFloat0x138"></Field>
     <Field Def="f32 UnkFloat0x13C"></Field>
     <Field Def="f32 UnkFloat0x140"></Field>
-    <Field Def="f32 playerRenderDist"></Field>
+    <Field Def="f32 chrRenderDist"></Field>
     <Field Def="f32 UnkFloat0x148"></Field>
     <Field Def="f32 UnkFloat0x14C"></Field>
     <Field Def="f32 UnkFloat0x150"></Field>
