@@ -552,6 +552,7 @@
 4300 Enemy: Fade after death
 4301 Enemy: Fade after death (boss)
 4302 Enemy: Fade after death (blue)
+4600 Wet (Rain)
 5250 Enemy: Golden Eyes (Bonus Runes)
 5255 Enemy: Golden Eyes Failed (No Reroll)
 5261 Enemy: Golden Eyes Chance (0.5%)
@@ -1214,6 +1215,7 @@
 100640 HKS - Unk Toughness Increase
 100660 HKS - Sword Arts - Loop
 100670 HKS - Sword Arts - Loop
+100690 Resting at Grace
 100700 HKS - Sword Arts - Half Loop
 100710 HKS - Sword Arts Rolling Self Trans
 100720 HKS - Rolling Damage Count Unk

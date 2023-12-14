@@ -1,5 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
-  <Field></Field>
+  <Field>
+    <playerRenderDist AltName="Player Render Distance" Wiki="Distance between camera and player before making player invisible." />
+  </Field>
   <Self />
 </PARAMMETA>
