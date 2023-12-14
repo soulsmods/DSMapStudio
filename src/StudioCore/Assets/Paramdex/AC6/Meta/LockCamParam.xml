@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
   <Field>
-      <chrRenderDist AltName="Character Render Distance" Wiki="Distance between camera and characters before making the character invisible." />
+    <chrRenderDist AltName="Character Render Distance" Wiki="Distance between camera and characters before making the character invisible." />
+    <ascentCamTrailAmount AltName="Ascent Camera Trail Amount" Wiki="Affects how much camera trails behind character as they ascend." />
   </Field>
   <Self />
 </PARAMMETA>
