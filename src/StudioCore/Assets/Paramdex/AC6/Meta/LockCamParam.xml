@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
   <Field>
-      <chrRenderDist AltName="Character Render Distance" Wiki="Distance between camera and player before making player invisible." />
+      <chrRenderDist AltName="Character Render Distance" Wiki="Distance between camera and characters before making the character invisible." />
   </Field>
   <Self />
 </PARAMMETA>
