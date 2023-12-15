@@ -21,9 +21,9 @@
 281 WEIGHT - Unknown Weight Bonus
 282 WEIGHT - Tetrapod Hover Speed
 283 WEIGHT - Unknown Boost Component
-320 ARM WEIGHT - Quick Boost Recovery Time
-321 ARM WEIGHT - Quick Boost EN Cost
-322 ARM WEIGHT - Quick Boost Duration
-323 ARM WEIGHT - EN Load
-324 ARM WEIGHT LIMIT - EN Recovery Delay
-325 ARM WEIGHT LIMIT - EN Depleted Recovery Delay
+320 ARM LOAD - Quick Boost Recovery Time
+321 ARM LOAD - Quick Boost EN Cost
+322 ARM LOAD - Quick Boost Duration
+323 UNKNOWN - EN Load
+324 ARM LOAD LIMIT - EN Recovery Delay
+325 ARM LOAD LIMIT - EN Depleted Recovery Delay
