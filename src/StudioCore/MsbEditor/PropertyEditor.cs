@@ -18,7 +18,7 @@ public class PropertyEditor
 {
     private readonly string[] _lightTypes = { "Spot", "Directional", "Point" };
 
-    private readonly Dictionary<string, PropertyInfo[]> _propCache = new();
+    private readonly PropertyCache _propCache;
 
     private readonly string[] _regionShapes =
     {
@@ -32,9 +32,10 @@ public class PropertyEditor
     public ActionManager ContextActionManager;
     public PropertyInfo RequestedSearchProperty = null;
 
-    public PropertyEditor(ActionManager manager)
+    public PropertyEditor(ActionManager manager, PropertyCache propCache)
     {
         ContextActionManager = manager;
+        _propCache = propCache;
     }
 
     private (bool, bool) PropertyRow(Type typ, object oldval, out object newval, PropertyInfo prop)
@@ -636,14 +637,8 @@ public class PropertyEditor
         Entity firstEnt = entSelection.First();
         var obj = target == null ? firstEnt.WrappedObject : target;
         Type type = obj.GetType();
-        if (!_propCache.ContainsKey(type.FullName))
-        {
-            PropertyInfo[] props = type.GetProperties(BindingFlags.Instance | BindingFlags.Public);
-            props = props.OrderBy(p => p.MetadataToken).ToArray();
-            _propCache.Add(type.FullName, props);
-        }
 
-        PropertyInfo[] properties = _propCache[type.FullName];
+        PropertyInfo[] properties = _propCache.GetCachedProperties(type);
 
         if (decorate)
         {

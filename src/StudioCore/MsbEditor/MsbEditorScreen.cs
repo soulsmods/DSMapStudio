@@ -49,6 +49,7 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
     public NavmeshEditor NavMeshEditor;
     public PropertyEditor PropEditor;
     public SearchProperties PropSearch;
+    private readonly PropertyCache _propCache = new();
 
     public Rectangle Rect;
     public RenderScene RenderScene;
@@ -86,9 +87,9 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
 
         SceneTree = new SceneTree(SceneTree.Configuration.MapEditor, this, "mapedittree", Universe, _selection,
             EditorActionManager, Viewport, AssetLocator);
-        PropEditor = new PropertyEditor(EditorActionManager);
+        PropEditor = new PropertyEditor(EditorActionManager, _propCache);
         DispGroupEditor = new DisplayGroupsEditor(RenderScene, _selection, EditorActionManager);
-        PropSearch = new SearchProperties(Universe);
+        PropSearch = new SearchProperties(Universe, _propCache);
         NavMeshEditor = new NavmeshEditor(locator, RenderScene, _selection);
 
         EditorActionManager.AddEventHandler(SceneTree);
