@@ -43,7 +43,7 @@ namespace SoulsFormats
         protected override void Read(BinaryReaderEx br)
         {
             br.AssertASCII("F2TR");
-            BigEndian = br.AssertByte(0, 0xFF) == 0xFF;
+            BigEndian = br.AssertByte([0, 0xFF]) == 0xFF;
             br.BigEndian = BigEndian;
             br.AssertByte(0);
             br.AssertInt16(1);

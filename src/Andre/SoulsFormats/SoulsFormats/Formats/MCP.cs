@@ -38,7 +38,7 @@ namespace SoulsFormats
         protected override void Read(BinaryReaderEx br)
         {
             br.BigEndian = true;
-            BigEndian = br.AssertInt32(2, 0x2000000) == 2;
+            BigEndian = br.AssertInt32([2, 0x2000000]) == 2;
             br.BigEndian = BigEndian;
             Unk04 = br.ReadInt32();
             int roomCount = br.ReadInt32();

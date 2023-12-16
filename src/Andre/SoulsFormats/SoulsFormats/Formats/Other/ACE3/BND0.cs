@@ -64,8 +64,8 @@ namespace SoulsFormats.ACE3
                 fileCount = br.ReadInt32();
                 br.AssertInt32(0);
 
-                Flag1 = br.AssertByte(0, 0x20);
-                Flag2 = br.AssertByte(0, 0x08);
+                Flag1 = br.AssertByte([0, ]);
+                Flag2 = br.AssertByte([0, 0x08]);
                 br.AssertByte(3);
                 br.AssertByte(0);
 

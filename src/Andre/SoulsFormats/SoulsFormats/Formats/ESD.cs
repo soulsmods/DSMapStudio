@@ -73,11 +73,11 @@ namespace SoulsFormats
         {
             br.BigEndian = false;
 
-            string magic = br.AssertASCII("fSSL", "fsSL");
+            string magic = br.AssertASCII(["fSSL", "fsSL"]);
             LongFormat = magic == "fsSL";
 
             br.AssertInt32(1);
-            DarkSoulsCount = br.AssertInt32(1, 2, 3);
+            DarkSoulsCount = br.AssertInt32([1, 2, 3]);
             br.AssertInt32(DarkSoulsCount);
             br.AssertInt32(0x54);
             int dataSize = br.ReadInt32();
@@ -778,7 +778,7 @@ namespace SoulsFormats
 
             internal CommandCall(BinaryReaderEx br, bool longFormat, long dataStart)
             {
-                CommandBank = br.AssertInt32(1, 5, 6, 7);
+                CommandBank = br.AssertInt32([1, 5, 6, 7]);
                 CommandID = br.ReadInt32();
                 long argsOffset = ReadVarint(br, longFormat);
                 long argsCount = ReadVarint(br, longFormat);

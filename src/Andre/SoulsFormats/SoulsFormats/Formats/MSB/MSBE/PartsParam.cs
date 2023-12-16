@@ -1187,7 +1187,7 @@ namespace SoulsFormats
 
                 internal UnkStruct8(BinaryReaderEx br)
                 {
-                    Unk00 = br.AssertInt32(0, 1);
+                    Unk00 = br.AssertInt32([0, 1]);
                     br.AssertInt32(0);
                     br.AssertInt32(0);
                     br.AssertInt32(0);
@@ -1312,7 +1312,7 @@ namespace SoulsFormats
                     Unk04 = br.ReadInt32();
                     br.AssertInt32(0);
                     Unk0C = br.ReadInt32();
-                    Unk10 = br.AssertInt32(0, 1);
+                    Unk10 = br.AssertInt32([0, 1]);
                     Unk14 = br.ReadInt32();
                     br.AssertInt32(0);
                     br.AssertInt32(0);
@@ -2064,7 +2064,7 @@ namespace SoulsFormats
                     UnkT1C = br.ReadInt32();
                     PlayRegionID = br.ReadInt32();
                     UnkT24 = br.ReadInt16();
-                    UnkT26 = br.AssertInt16(0, 1);
+                    UnkT26 = br.AssertInt16([0, 1]);
                     br.AssertInt32(0);
                     br.AssertInt32(-1);
                     UnkT30 = br.ReadInt32();
@@ -2078,7 +2078,7 @@ namespace SoulsFormats
                     UnkT40 = br.ReadSingle();
                     br.AssertInt32(0);
                     EnableFastTravelEventFlagID = br.ReadUInt32();
-                    UnkT4C = br.AssertInt16(0, 1);
+                    UnkT4C = br.AssertInt16([0, 1]);
                     UnkT4E = br.ReadInt16();
                 }
 
@@ -3046,7 +3046,7 @@ namespace SoulsFormats
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
                     br.AssertInt16(0);
-                    UnkT02 = br.AssertInt16(0, 1);
+                    UnkT02 = br.AssertInt16([0, 1]);
                     br.AssertInt32(0);
                     br.AssertInt32(0);
                     br.AssertInt32(0);

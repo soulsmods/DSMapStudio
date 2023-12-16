@@ -94,13 +94,13 @@ namespace SoulsFormats
         {
             br.AssertASCII("EVD\0");
             bool bigEndian = br.ReadBoolean();
-            bool is64Bit = br.AssertSByte(0, -1) == -1;
+            bool is64Bit = br.AssertSByte([0, -1]) == -1;
             bool unk06 = br.ReadBoolean();
-            bool unk07 = br.AssertSByte(0, -1) == -1;
+            bool unk07 = br.AssertSByte([0, -1]) == -1;
             br.BigEndian = bigEndian;
             br.VarintLong = is64Bit;
 
-            int version = br.AssertInt32(0xCC, 0xCD);
+            int version = br.AssertInt32([0xCC, 0xCD]);
             br.ReadInt32(); // File size
 
             if (!bigEndian && !is64Bit && !unk06 && !unk07 && version == 0xCC)

@@ -93,7 +93,7 @@ namespace SoulsFormats
 
             int fileCount = br.ReadInt32();
             br.ReadInt32(); // End of file headers, not including padding before data
-            bnd.Unk18 = br.AssertInt32(0, unchecked((int)0x80000000));
+            bnd.Unk18 = br.AssertInt32([0, unchecked((int)0x80000000)]);
             br.AssertInt32(0);
 
             var fileHeaders = new List<BinderFileHeader>(fileCount);

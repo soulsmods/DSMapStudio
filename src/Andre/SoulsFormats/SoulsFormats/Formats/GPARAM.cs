@@ -75,7 +75,7 @@ namespace SoulsFormats
             br.BigEndian = false;
 
             // Don't @ me.
-            if (br.AssertASCII("filt", "f\0i\0") == "f\0i\0")
+            if (br.AssertASCII(["filt", "f\0i\0"]) == "f\0i\0")
                 br.AssertASCII("l\0t\0");
             Game = br.ReadEnum32<GPGame>();
             br.AssertByte(0);
@@ -84,7 +84,7 @@ namespace SoulsFormats
             int groupCount = br.ReadInt32();
             Unk14 = br.ReadInt32();
             // Header size or group header headers offset, you decide
-            br.AssertInt32(0x40, 0x50, 0x54);
+            br.AssertInt32([0x40, 0x50, 0x54]);
 
             Offsets offsets = default;
             offsets.GroupHeaders = br.ReadInt32();

@@ -66,8 +66,8 @@ namespace SoulsFormats
             br.ReadInt32(); // Data length
             int fileCount = br.ReadInt32();
             br.Skip(1); // Platform
-            Flag2 = br.AssertByte(0, 1, 2, 3);
-            Encoding = br.AssertByte(0, 1, 2);
+            Flag2 = br.AssertByte([0, 1, 2, 3]);
+            Encoding = br.AssertByte([0, 1, 2]);
             br.AssertByte(0);
 
             Textures = new List<Texture>(fileCount);
@@ -196,7 +196,7 @@ namespace SoulsFormats
                 Format = br.ReadByte();
                 Type = br.ReadEnum8<TexType>();
                 Mipmaps = br.ReadByte();
-                Flags1 = br.AssertByte(0, 1, 2, 3);
+                Flags1 = br.AssertByte([0, 1, 2, 3]);
 
                 if (platform != TPFPlatform.PC)
                 {
@@ -212,17 +212,17 @@ namespace SoulsFormats
                     {
                         Header.Unk1 = br.ReadInt32();
                         if (flag2 != 0)
-                            Header.Unk2 = br.AssertInt32(0, 0x69E0, 0xAAE4);
+                            Header.Unk2 = br.AssertInt32([0, 0x69E0, 0xAAE4]);
                     }
                     else if (platform == TPFPlatform.PS4 || platform == TPFPlatform.Xbone)
                     {
-                        Header.TextureCount = br.AssertInt32(1, 6);
+                        Header.TextureCount = br.AssertInt32([1, 6]);
                         Header.Unk2 = br.AssertInt32(0xD);
                     }
                 }
 
                 uint nameOffset = br.ReadUInt32();
-                bool hasFloatStruct = br.AssertInt32(0, 1) == 1;
+                bool hasFloatStruct = br.AssertInt32([0, 1]) == 1;
 
                 if (platform == TPFPlatform.PS4 || platform == TPFPlatform.Xbone)
                     Header.DXGIFormat = br.ReadInt32();

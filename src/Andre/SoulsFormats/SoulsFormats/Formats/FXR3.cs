@@ -352,7 +352,7 @@ namespace SoulsFormats
                 br.AssertInt32(0);
                 Unk08 = br.ReadInt32();
                 br.AssertInt32(0);
-                Unk10 = br.AssertInt32(0x100FFFC, 0x100FFFD);
+                Unk10 = br.AssertInt32([0x100FFFC, 0x100FFFD]);
                 br.AssertInt32(0);
                 br.AssertInt32(1);
                 br.AssertInt32(0);
@@ -362,7 +362,7 @@ namespace SoulsFormats
                 br.AssertInt32(0);
                 br.AssertInt32(0);
                 br.AssertInt32(0);
-                Unk38 = br.AssertInt32(0x100FFFC, 0x100FFFD);
+                Unk38 = br.AssertInt32([0x100FFFC, 0x100FFFD]);
                 br.AssertInt32(0);
                 br.AssertInt32(1);
                 br.AssertInt32(0);

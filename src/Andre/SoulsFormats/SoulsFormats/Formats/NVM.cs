@@ -40,7 +40,7 @@ namespace SoulsFormats
         protected override void Read(BinaryReaderEx br)
         {
             br.BigEndian = false;
-            BigEndian = br.AssertInt32(1, 0x1000000) != 1;
+            BigEndian = br.AssertInt32([1, 0x1000000]) != 1;
             br.BigEndian = BigEndian;
 
             int vertexCount = br.ReadInt32();

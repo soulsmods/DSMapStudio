@@ -57,7 +57,7 @@ namespace SoulsFormats
         {
             br.BigEndian = false;
 
-            string magic = br.AssertASCII("fSSL", "fsSL");
+            string magic = br.AssertASCII(["fSSL", "fsSL"]);
             LongFormat = magic == "fsSL";
             br.VarintLong = LongFormat;
 

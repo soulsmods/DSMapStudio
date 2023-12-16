@@ -485,7 +485,7 @@ namespace SoulsFormats
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
                     EffectID = br.ReadInt32();
-                    StartDisabled = br.AssertInt32(0, 1) == 1;
+                    StartDisabled = br.AssertInt32([0, 1]) == 1;
                 }
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)

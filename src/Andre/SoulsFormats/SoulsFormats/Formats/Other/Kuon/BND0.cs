@@ -38,7 +38,7 @@ namespace SoulsFormats.Kuon
             br.BigEndian = false;
 
             br.AssertASCII("BND\0");
-            Unk04 = br.AssertInt32(0xC8, 0xCA);
+            Unk04 = br.AssertInt32([0xC8, 0xCA]);
             int fileSize = br.ReadInt32();
             int fileCount = br.ReadInt32();
 

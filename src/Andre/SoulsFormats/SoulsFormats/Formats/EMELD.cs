@@ -51,7 +51,7 @@ namespace SoulsFormats
         {
             br.AssertASCII("ELD\0");
             bool bigEndian = br.ReadBoolean();
-            bool is64Bit = br.AssertSByte(0, -1) == -1;
+            bool is64Bit = br.AssertSByte([0, -1]) == -1;
             br.AssertByte(0);
             br.AssertByte(0);
             br.BigEndian = bigEndian;
