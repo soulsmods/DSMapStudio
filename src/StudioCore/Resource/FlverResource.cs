@@ -269,7 +269,6 @@ public class FlverResource : IResource, IDisposable
             paramNameCheck = texType.ToUpper();
         }
 
-        var isGDif2 = paramNameCheck == "G_DIFFUSE_2";
         if (paramNameCheck == "G_DIFFUSETEXTURE2" || paramNameCheck == "G_DIFFUSE2" || paramNameCheck == "G_DIFFUSE_2" ||
             paramNameCheck.Contains("ALBEDO_2"))
         {
