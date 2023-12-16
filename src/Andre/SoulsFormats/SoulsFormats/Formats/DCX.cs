@@ -286,7 +286,8 @@ namespace SoulsFormats
             if (egdtSize != 0x24 + chunkCount * 0x10)
                 throw new InvalidDataException("Unexpected EgdT size in EDGE DCX.");
 
-            byte[] decompressed = new byte[uncompressedSize];
+            //Ghetto fix for Wulf's old DeS repacker
+            byte[] decompressed = new byte[uncompressedSize + 0x100000];
             using (MemoryStream dcmpStream = new MemoryStream(decompressed))
             {
                 for (int i = 0; i < chunkCount; i++)
