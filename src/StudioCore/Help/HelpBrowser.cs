@@ -8,7 +8,7 @@ namespace StudioCore.Help;
 
 public class HelpBrowser
 {
-    private readonly Helpdex _helpdex;
+    private readonly HelpDex _helpDex;
 
     // Article
     private readonly string _inputStr_Article = "";
@@ -37,7 +37,7 @@ public class HelpBrowser
         _id = id;
         _locator = locator;
 
-        _helpdex = new Helpdex();
+        _helpDex = new HelpDex();
     }
 
     public void ToggleMenuVisibility()
@@ -67,11 +67,11 @@ public class HelpBrowser
             ImGui.PushStyleColor(ImGuiCol.Header, new Vector4(0.3f, 0.3f, 0.6f, 0.4f));
             ImGui.PushItemWidth(300f);
 
-            DisplayHelpSection("Article", _helpdex.GetArticles(), _inputStr_Article, _inputStrCache_Article,
+            DisplayHelpSection("Article", _helpDex.GetArticles(), _inputStr_Article, _inputStrCache_Article,
                 "Articles", "No title.", "No article selected.");
-            DisplayHelpSection("Tutorial", _helpdex.GetTutorials(), _inputStr_Tutorial, _inputStrCache_Tutorial,
+            DisplayHelpSection("Tutorial", _helpDex.GetTutorials(), _inputStr_Tutorial, _inputStrCache_Tutorial,
                 "Tutorials", "No title.", "No tutorial selected.");
-            DisplayHelpSection("Glossary", _helpdex.GetGlossaryEntries(), _inputStr_Glossary,
+            DisplayHelpSection("Glossary", _helpDex.GetGlossaryEntries(), _inputStr_Glossary,
                 _inputStrCache_Glossary, "Glossary", "No title.", "No term selected.");
             DisplayLinks();
             DisplayCredits();
@@ -225,7 +225,7 @@ public class HelpBrowser
 
             ImGui.Text("Below are a set of community links. Clicking them will take you to the associated URL.");
 
-            foreach (LinkEntry entry in _helpdex.GetLinks())
+            foreach (LinkEntry entry in _helpDex.GetLinks())
             {
                 if (ImGui.Button($"{entry.Title}"))
                 {
@@ -244,7 +244,7 @@ public class HelpBrowser
         {
             ImGui.Indent();
 
-            ImGui.Text(GetDisplayText(_helpdex.GetCredits().Text));
+            ImGui.Text(GetDisplayText(_helpDex.GetCredits().Text));
 
             ImGui.Unindent();
             ImGui.EndTabItem();
