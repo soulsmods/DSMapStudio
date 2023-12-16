@@ -1,6 +1,14 @@
 ﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace StudioCore.Help;
+
+[JsonSourceGenerationOptions(WriteIndented = true,
+    GenerationMode = JsonSourceGenerationMode.Metadata, IncludeFields = true)]
+[JsonSerializable(typeof(HelpEntry))]
+internal partial class HelpEntrySerializerContext : JsonSerializerContext
+{
+}
 
 public class HelpEntry
 {
