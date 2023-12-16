@@ -653,7 +653,7 @@
 5441 White Dragon Sheath Invincible SFX Display 1
 5442 White Dragon Sheath @ Invincible SFX Display 2
 5443 White Dragon Sheath Invincible SFX Display 3
-5444 Kagerou Ryu HP Recovery
+5444 Moonlight Butterfly landed HP recovery
 5445 MP Infinity for NPC
 5446 NPC stamina recovery is fast
 5447 Hellkite HP Recovery
