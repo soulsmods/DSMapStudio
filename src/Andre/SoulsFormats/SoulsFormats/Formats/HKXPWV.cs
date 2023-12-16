@@ -77,7 +77,7 @@ namespace SoulsFormats
         protected override void Read(BinaryReaderEx br)
         {
             // Value should be 1 in either endianness
-            int versionCheck = br.AssertInt32(1, 0x1000000);
+            int versionCheck = br.AssertInt32([1, 0x1000000]);
             if (versionCheck == 0x1000000)
             {
                 BigEndian = true;
@@ -107,7 +107,7 @@ namespace SoulsFormats
                 throw new System.IO.InvalidDataException("Invalid struct sizes found in HKXPWV file.");
             }
 
-            UnkC = br.AssertUInt32(0, 1, 2, 5);
+            UnkC = br.AssertUInt32([0, 1, 2, 5]);
 
             for (int i = 0; i < 4; i++)
                 br.AssertInt32(0);

@@ -375,7 +375,7 @@ namespace HKX2
             _header.Magic1 = br.AssertUInt32(0x10C0C010);
             //Header.UserTag = br.AssertInt32(0);
             _header.UserTag = br.ReadInt32();
-            _header.Version = br.AssertInt32(0x05, 0x08, 0x0B);
+            _header.Version = br.AssertInt32([0x05, 0x08, 0x0B]);
             if (_header.Version == 0x05)
             {
                 _variation = HKXVariation.HKXDeS;
@@ -388,9 +388,9 @@ namespace HKX2
             {
                 _variation = HKXVariation.HKXDS3;
             }
-            _header.PointerSize = br.AssertByte(4, 8);
-            _header.Endian = br.AssertByte(0, 1);
-            _header.PaddingOption = br.AssertByte(0, 1);
+            _header.PointerSize = br.AssertByte([4, 8]);
+            _header.Endian = br.AssertByte([0, 1]);
+            _header.PaddingOption = br.AssertByte([0, 1]);
             _header.BaseClass = br.AssertByte(1); // ?
             _header.SectionCount = br.AssertInt32(3); // Always 3 sections pretty sure
             _header.ContentsSectionIndex = br.ReadInt32();

@@ -511,7 +511,7 @@ public class Param : SoulsFile<Param>
     protected override void Read(BinaryReaderEx br)
     {
         br.Position = 0x2C;
-        br.BigEndian = BigEndian = br.AssertByte(0, 0xFF) == 0xFF;
+        br.BigEndian = BigEndian = br.AssertByte([0, 0xFF]) == 0xFF;
         Format2D = (FormatFlags1)br.ReadByte();
         Format2E = (FormatFlags2)br.ReadByte();
         ParamdefFormatVersion = br.ReadByte();
@@ -523,7 +523,7 @@ public class Param : SoulsFile<Param>
         if ((Format2D.HasFlag(FormatFlags1.Flag01) && Format2D.HasFlag(FormatFlags1.IntDataOffset)) ||
             Format2D.HasFlag(FormatFlags1.LongDataOffset))
         {
-            br.AssertInt16(0);
+            br.AssertInt16([0]);
         }
         else
         {

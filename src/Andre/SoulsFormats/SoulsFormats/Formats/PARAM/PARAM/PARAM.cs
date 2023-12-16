@@ -66,7 +66,7 @@ namespace SoulsFormats
         protected override void Read(BinaryReaderEx br)
         {
             br.Position = 0x2C;
-            br.BigEndian = BigEndian = br.AssertByte(0, 0xFF) == 0xFF;
+            br.BigEndian = BigEndian = br.AssertByte([0, 0xFF]) == 0xFF;
             Format2D = (FormatFlags1)br.ReadByte();
             Format2E = (FormatFlags2)br.ReadByte();
             ParamdefFormatVersion = br.ReadByte();

@@ -42,9 +42,9 @@ namespace SoulsFormats
         protected override void Read(BinaryReaderEx br)
         {
             br.AssertASCII("MQB ");
-            br.BigEndian = BigEndian = br.AssertSByte(0, -1) == -1;
+            br.BigEndian = BigEndian = br.AssertSByte([0, -1]) == -1;
             br.AssertByte(0);
-            sbyte longFormat = br.AssertSByte(0, -1);
+            sbyte longFormat = br.AssertSByte([0, -1]);
             br.AssertByte(0);
             Version = br.ReadEnum32<MQBVersion>();
             int headerSize = br.ReadInt32();

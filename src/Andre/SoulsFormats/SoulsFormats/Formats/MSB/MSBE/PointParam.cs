@@ -1210,7 +1210,7 @@ namespace SoulsFormats
                 {
                     MessageID = br.ReadInt16();
                     UnkT02 = br.ReadInt16();
-                    Hidden = br.AssertInt32(0, 1) == 1;
+                    Hidden = br.AssertInt32([0, 1]) == 1;
                     UnkT08 = br.ReadInt32();
                     MessageSfxID = br.ReadInt32();
                     EnableEventFlagID = br.ReadUInt32();

@@ -80,7 +80,7 @@ namespace SoulsFormats
                 int typeOffset = br.ReadInt32();
                 Scale = br.ReadVector2();
 
-                Unk10 = br.AssertByte(0, 1, 2);
+                Unk10 = br.AssertByte([0, 1, 2]);
                 Unk11 = br.ReadBoolean();
                 br.AssertByte(0);
                 br.AssertByte(0);

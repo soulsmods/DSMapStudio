@@ -46,14 +46,14 @@ namespace SoulsFormats
         {
             bool bigEndian = br.BigEndian = br.GetBoolean(0x10);
 
-            int unk00 = br.AssertInt32(2, 3);
-            int unk04 = br.AssertInt32(0, 1);
+            int unk00 = br.AssertInt32([2, 3]);
+            int unk04 = br.AssertInt32([0, 1]);
             int groupCount = br.ReadInt32();
             int dataLength = br.ReadInt32();
             br.AssertBoolean(bigEndian);
             br.AssertPattern(3, 0x00);
-            int groupSize = br.AssertInt32(0x40, 0x48, 0x98);
-            int probeSize = br.AssertInt32(0x1C, 0x48);
+            int groupSize = br.AssertInt32([0x40, 0x48, 0x98]);
+            int probeSize = br.AssertInt32([0x1C, 0x48]);
             Unk1C = br.ReadVector3();
             Unk28 = br.ReadVector3();
             br.AssertInt64(0);

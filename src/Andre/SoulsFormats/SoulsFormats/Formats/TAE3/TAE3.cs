@@ -292,7 +292,7 @@ namespace SoulsFormats
 
                     br.StepIn(animFileOffset);
                     {
-                        AnimFileReference = br.AssertInt64(0, 1) == 1;
+                        AnimFileReference = br.AssertInt64([0, 1]) == 1;
                         br.AssertInt64(br.Position + 8);
                         long animFileNameOffset = br.ReadInt64();
                         AnimFileUnk18 = br.ReadInt32();

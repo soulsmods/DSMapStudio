@@ -312,7 +312,7 @@ namespace SoulsFormats
                 int nameRefCount = br.ReadInt32();
                 MapNodesIndex = br.ReadInt16();
                 MapNodeCount = br.ReadInt16();
-                Unk4C = br.AssertInt32(0, 1) == 1;
+                Unk4C = br.AssertInt32([0, 1]) == 1;
 
                 if (version < 4)
                 {

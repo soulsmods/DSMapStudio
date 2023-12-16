@@ -270,7 +270,7 @@ namespace SoulsFormats
             br.ReadBoolean(); // BitBigEndian
             br.AssertByte(0);
             br.AssertInt32(0);
-            br.AssertInt64(0x30, 0x40); // Header size, pretty sure 0x40 is just a mistake
+            br.AssertInt64([0x30, 0x40]); // Header size, pretty sure 0x40 is just a mistake
             br.ReadFixStr(8); // Version
             br.AssertInt64(0);
             br.AssertInt64(0);
@@ -300,7 +300,7 @@ namespace SoulsFormats
 
             bxf.Unicode = br.ReadBoolean();
             bxf.Format = Binder.ReadFormat(br, bxf.BitBigEndian);
-            bxf.Extended = br.AssertByte(0, 4);
+            bxf.Extended = br.AssertByte([0, 4]);
             br.AssertByte(0);
 
             if (fileHeaderSize != Binder.GetBND4FileHeaderSize(bxf.Format))

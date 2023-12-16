@@ -36,7 +36,7 @@ namespace SoulsFormats.Other
         {
             br.BigEndian = true;
             br.AssertASCII("MDL4");
-            Version = br.AssertInt32(0x40001, 0x40002);
+            Version = br.AssertInt32([0x40001, 0x40002]);
             int dataStart = br.ReadInt32();
             br.ReadInt32(); // Data length
             int dummyCount = br.ReadInt32();
@@ -212,7 +212,7 @@ namespace SoulsFormats.Other
 
             internal Mesh(BinaryReaderEx br, int dataStart, int version)
             {
-                VertexFormat = br.AssertByte(0, 1, 2);
+                VertexFormat = br.AssertByte([0, 1, 2]);
                 MaterialIndex = br.ReadByte();
                 Unk02 = br.ReadBoolean();
                 Unk03 = br.ReadBoolean();

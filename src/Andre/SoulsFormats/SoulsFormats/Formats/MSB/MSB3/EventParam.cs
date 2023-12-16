@@ -912,7 +912,7 @@ namespace SoulsFormats
 
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
-                    UnkT00 = br.AssertInt32(0, 1, 2, 5);
+                    UnkT00 = br.AssertInt32([0, 1, 2, 5]);
                     br.AssertInt32(0);
                     br.AssertInt32(0);
                     br.AssertInt32(0);

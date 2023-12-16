@@ -238,7 +238,7 @@ namespace SoulsFormats
                     br.AssertInt32(0x1C); // Sequence size
                     int pointCount = br.ReadInt32();
                     ValueType = br.ReadEnum32<DataType>();
-                    PointType = br.AssertInt32(1, 2);
+                    PointType = br.AssertInt32([1, 2]);
                     br.AssertInt32(PointType == 1 ? 0x10 : 0x18); // Point size
                     int pointsOffset = br.ReadInt32();
                     int valueOffset = br.ReadInt32();
