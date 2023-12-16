@@ -8,10 +8,10 @@
 267 WEIGHT - Assault Boost Max Speed
 268 WEIGHT - Melee Boost Speed (Locked On)
 269 WEIGHT - Melee Boost Speed
-270 WEIGHT - UNK
-271 WEIGHT - UNK
-272 WEIGHT - UNK
-273 WEIGHT - UNK
+270 WEIGHT - Unknown
+271 WEIGHT - Unknown
+272 WEIGHT - Unknown
+273 WEIGHT - Unknown
 274 WEIGHT - Tank Walk Max Speed
 275 WEIGHT - Tank Inertia Change Ability
 276 WEIGHT - Tank Drift Speed
@@ -21,4 +21,13 @@
 281 WEIGHT - Unknown Weight Bonus
 282 WEIGHT - Tetrapod Hover Speed
 283 WEIGHT - Unknown Boost Component
-322 UNKNOWN - Successive Quick Boost Recovery Time
+310 ANGLE OF MOVEMENT INTERTIA VS DIRECTION - Boost Mode Speed
+320 ARM LOAD - Quick Boost Recovery Time
+321 ARM LOAD - Quick Boost EN Cost
+322 ARM LOAD - Quick Boost Duration
+323 UNKNOWN - EN Load
+324 ARM LOAD LIMIT - EN Recovery Delay
+325 ARM LOAD LIMIT - EN Depleted Recovery Delay
+982 MELEE SPECIALIZATION - Melee Weapon Damage
+991 ENERGY FIREARM SPECIALIZATION - Weapon Charge Speed
+992 ENERGY FIREARM SPECIALIZATION - Energy Weapon Damage

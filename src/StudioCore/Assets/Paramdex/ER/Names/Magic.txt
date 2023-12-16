@@ -45,9 +45,9 @@
 4610 [Sor] Night Shard
 4620 [Sor] Night Comet
 4630 [Sor] Thops's Barrier
-4640 [Sor] Carian Retaliation - 1
-4641 [Sor] Carian Retaliation - 2
-4642 [Sor] Carian Retaliation - 3
+4640 [Sor] Carian Retaliation
+4641 [Sor] Carian Retaliation (Unused 1)
+4642 [Sor] Carian Retaliation (Unused 2)
 4650 [Sor] Eternal Darkness
 4660 [Sor] Unseen Blade
 4670 [Sor] Unseen Form
@@ -71,18 +71,18 @@
 5100 [Sor] Oracle Bubbles
 5110 [Sor] Great Oracular Bubble
 6000 [Inc] Catch Flame
-6001 [Inc] O, Flame!
+6001 [Inc] O' Flame!
 6010 [Inc] Flame Sling
-6020 [Inc] Flame, Fall Upon Them
-6030 [Inc] Whirl, O Flame!
-6040 [Inc] Flame, Cleanse Me
-6050 [Inc] Flame, Grant Me Strength
-6060 [Inc] Flame, Protect Me
+6020 [Inc] Flame Fall Upon Them
+6030 [Inc] Whirl O' Flame
+6040 [Inc] Flame Cleanse Me
+6050 [Inc] Flame Grant Me Strength
+6060 [Inc] Flame Protect Me
 6100 [Inc] Giantsflame Take Thee
 6110 [Inc] Flame Of The Fell God
-6120 [Inc] Burn, O Flame!
+6120 [Inc] Burn O' Flame!
 6210 [Inc] Black Flame
-6220 [Inc] Surge, O Flame!
+6220 [Inc] Surge O' Flame
 6230 [Inc] Scouring Black Flame
 6240 [Inc] Black Flame Ritual
 6250 [Inc] Black Flame Blade
@@ -160,7 +160,7 @@
 7220 [Inc] Poison Mist
 7230 [Inc] Poison Armament
 7240 [Inc] Scarlet Aeonia
-7300 [Inc] Inescapable Frenzy
+7300 [Inc] Inescapable Frenzy 
 7310 [Inc] The Flame Of Frenzy
 7311 [Inc] Unendurable Frenzy
 7320 [Inc] Frenzied Burst
@@ -171,85 +171,86 @@
 7530 [Inc] Black Blade
 7900 [Inc] Fire's Deadly Sin
 7903 [Inc] Golden Light Fortification
-8000 [Inc] Stonesword Key
+8000 [Inc] Briars Of Sin
 8001 [Inc] Briars Of Punishment
 53010 [Npc][Inc] Catch Flame
 53011 [Npc][Inc] Bloodflame Blade
-53012 [Npc][Inc] Swarm Of Flies - 1
+53012 [Npc][Inc] Swarm Of Flies 1
 53040 [Npc][Inc] Lightning Strike
 53041 [Npc][Inc] Fortissax's Lightning Spear
 53042 [Npc][Inc] Vyke's Dragonbolt
 53043 [Npc][Inc] The Flame Of Frenzy
 53044 [Npc][Inc] Frenzied Burst
-53045 [Npc][Inc] Howl Of Shabriri
-53110 [Npc][Inc] Wrath Of Gold
-53111 [Npc][Inc] Golden Vow
-53120 [Npc][Sor] Magic Glintblade
+53045 [Npc][Inc] Howl Of Shabriri (Variant)
+53110 [Npc][Inc] Wrath Of Gold 1
+53111 [Npc][Inc] Golden Vow 1
+53120 [Npc][Sor] Magic Glintblade 1
 53160 [Npc][Sor] Glintstone Cometshard
 53161 [Npc][Sor] Founding Rain Of Stars
 53162 [Npc][Sor] Shattering Crystal
 53163 [Npc][Sor] Crystal Release
-53180 [Npc][Inc] Inescapable Frenzy
-53181 [Npc][Inc] Unendurable Frenzy
-53182 [Npc][Inc] Unendurable Frenzy
-53183 [Npc][Inc] Howl Of Shabriri
+53180 [Npc][Inc] Inescapable Frenzy (Variant)
+53181 [Npc][Inc] Unendurable Frenzy (Variant)
+53182 [Npc][Inc] Unendurable Frenzy (Variant)
+53183 [Npc][Inc] Howl Of Shabriri (Variant)
 53190 [Npc][Inc] Litany Of Proper Death
-53191 [Npc][Inc] Beast Claw
+53191 [Npc][Inc] Beast Claw 1
 53192 [Npc][Inc] Discus Of Light
-53210 [Npc][Inc] Wrath Of Gold
+53210 [Npc][Inc] Wrath Of Gold 2
 53240 [Npc][Sor] Comet
 53241 [Npc][Sor] Comet Azur
 53242 [Npc][Sor] Carian Phalanx
 53243 [Npc][Inc] Black Flame Ritual
-53244 [Npc][Inc] Triple Rings Of Light
+53244 [Npc][Inc] Triple Rings Of Light 1
 53245 [Npc][Inc] Law Of Causality
 53246 [Npc][Sor] Rykard's Rancor
 53247 [Npc][Inc] Bloodboon
 53248 [Npc][Inc] Scarlet Aeonia
 53250 [Npc][Sor] Glintstone Pebble
-53251 [Npc][Sor] Magic Downpour
+53251 [Npc][Sor] Magic Downpour 1
 53252 [Npc][Sor] Scholar's Armament
 53260 [Npc][Inc] Protection Of The Erdtree
-53261 [Npc][Inc] Golden Vow
+53261 [Npc][Inc] Golden Vow 2
 53270 [Npc][Inc] Agheel's Flame
 53271 [Npc][Inc] Greyoll's Roar
 53290 [Npc][Sor] Rancorcall
 53291 [Npc][Sor] Fia's Mist
 53330 [Npc][Sor] Great Glintstone Shard
-53350 [Npc][Inc] Triple Rings Of Light
+53350 [Npc][Inc] Triple Rings Of Light 2
 53390 [Npc][Sor] Collapsing Stars
 53510 [Npc][Inc] Heal
-53520 [Npc][Sor] Loretta's Mastery
-53521 [Npc][Sor] Loretta's Greatbow
+53520 [Npc][Sor] Loretta's Greatbow 1
+53521 [Npc][Sor] Loretta's Greatbow 2
 53522 [Npc][Sor] Greatblade Phalanx
-53523 [Npc][Sor] Magic Downpour
-53524 [Npc][Sor] Carian Slicer
-53560 [Npc][Inc] O'flame!
+53523 [Npc][Sor] Magic Downpour 2
+53524 [Npc][Sor] Carian Slicer 1
+53560 [Npc][Inc] O' Flame!
 53561 [Npc][Inc] Flame Of The Fell God
-53590 [Npc][Sor] Carian Greatsword
-53610 [Npc][Sor] Carian Slicer
+53590 [Npc][Sor] Carian Piercer
+53610 [Npc][Sor] Carian Slicer 2
 53630 [Npc][Inc] Great Heal
 53720 [Npc][Inc] Poison Mist
-53750 [Npc][Sor] Glintblade Phalanx
-53751 [Npc][Sor] Magic Glintblade
-53770 [Npc][Inc] Swarm Of Flies - 2
-53800 [Npc][Sor] Great Glintstone Shard
+53750 [Npc][Sor] Carian Phalanx
+53751 [Npc][Sor] Magic Glintblade 2
+53760 [Npc][Inc] Tibia's Summons
+53770 [Npc][Sor] Great Glintstone Shard
+53800 [Npc][Sor] Crystal Burst
 53801 [Npc][Sor] Stars Of Ruin
-53802 [Npc][Sor] Ambush Shard
-53803 [Npc][Sor] Night Comet
-53804 [Npc][Sor] Ambush Shard
-53805 [Npc][Sor] Night Comet
+53802 [Npc][Sor] Ambush Shard 1
+53803 [Npc][Sor] Night Comet 1
+53804 [Npc][Sor] Ambush Shard 2
+53805 [Npc][Sor] Night Comet 2 
 53820 [Npc][Inc] Catch Flame
-53821 [Npc][Inc] Burn O'flame!
-53822 [Npc][Inc] Surge O'flame!
-53830 [Npc][Inc] Whirl O'flame!
+53821 [Npc][Inc] Burn O' Flame!
+53822 [Npc][Inc] Surge O' Flame!
+53830 [Npc][Inc] Whirl O` Flame!
 53850 [Npc][Sor] Glintstone Icecrag
 53851 [Npc][Sor] Freezing Mist
 53852 [Npc][Sor] Briars Of Sin
 53860 [Npc][Sor] Bloodflame Talons
-53861 [Npc][Inc] Swarm Of Flies - 3
-53900 [Npc][Inc] Pest Threads
-53910 [Npc][Sor] Bestial Sling
-53911 [Npc][Inc] Beast Claw
+53861 [Npc][Sor] Swarm Of Flies 2
+53900 [Npc][Sor] Pest Threads
+53910 [Npc][Inc] Bestial Sling
+53911 [Npc][Inc] Beast Claw 2
 53912 [Npc][Inc] Gurranq's Beast Claw
-999999999 [Inc] Golden Lightning Fortification
+999999999 [Npc][Inc] Golden Lightning Fortification

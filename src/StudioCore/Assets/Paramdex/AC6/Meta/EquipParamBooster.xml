@@ -3,7 +3,6 @@
   <Field>
     <assaultBoostGraceTime AltName="Assault Boost (Grace Time)" Wiki="Amount of time (in frames at 60fps) for assault boost to continue after losing all EN." />
     <boostModeMovementVelocity AltName="Boost Mode: Movement Velocity" Wiki="Movement velocity when boosting. Also used for tank leg High Speed Performance" />
-    <interiaChange_Grounded AltName="Interia Change (Grounded)" Wiki="Amount of velocity changed from moving direction to facing direction.\nDoes not affect tank legs." />
     <inheritanceBoosterParamId AltName="Booster Inheritance" Refs="EquipParamBooster" Wiki="Inherits fields from referenced booster." />
   </Field>
   <Self />
