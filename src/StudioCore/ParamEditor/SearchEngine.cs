@@ -12,8 +12,32 @@ namespace StudioCore.Editor;
 /* Restricted characters: colon, space, forward slash, ampersand, exclamation mark
  *
  */
-internal class SearchEngine<A, B>
+internal abstract class TypelessSearchEngine
 {
+    private static Dictionary<Type, List<(TypelessSearchEngine, Type)>> searchEngines = new();
+    internal static void AddSearchEngine<I, O>(SearchEngine<I, O> engine)
+    {
+        if (searchEngines.ContainsKey(typeof(I)))
+            searchEngines.Add(typeof(I), new());
+        searchEngines[typeof(I)].Add((engine, typeof(O)));
+    }
+    internal static List<(TypelessSearchEngine, Type)> GetSearchEngines(Type t)
+    {
+        return searchEngines[t];
+    }
+    internal static List<(HalfTypedSearchEngine<I>, Type)> GetHalfTypedSearchEngines<I>()
+    {
+        return searchEngines[typeof(I)].Select((x, i) => ((HalfTypedSearchEngine<I>)x.Item1, x.Item2)).ToList();
+    }
+    public abstract List<(string, string[], string)> VisibleCommands(bool includeDefault);
+    public abstract List<(string, string[])> AllCommands();
+}
+internal abstract class HalfTypedSearchEngine<I> : TypelessSearchEngine
+{
+}
+internal class SearchEngine<A, B> : HalfTypedSearchEngine<A>
+{
+
     internal SearchEngineCommand<A, B> defaultFilter;
 
     internal Dictionary<string, SearchEngineCommand<A, B>> filterList = new();
@@ -22,6 +46,7 @@ internal class SearchEngine<A, B>
     public SearchEngine()
     {
         Setup();
+        AddSearchEngine(this);
     }
 
     protected void addExistsFilter()
@@ -79,7 +104,7 @@ internal class SearchEngine<A, B>
         return options;
     }
 
-    public List<(string, string[], string)> VisibleCommands()
+    public override List<(string, string[], string)> VisibleCommands(bool includeDefault)
     {
         List<(string, string[], string)> options = new();
         foreach (var op in filterList.Keys)
@@ -90,11 +115,13 @@ internal class SearchEngine<A, B>
                 options.Add((op, cmd.args, cmd.wiki));
             }
         }
+        if (includeDefault)
+            options.Add((null, defaultFilter.args, defaultFilter.wiki));
 
         return options;
     }
 
-    public List<(string, string[])> AllCommands()
+    public override List<(string, string[])> AllCommands()
     {
         List<(string, string[])> options = new();
         foreach (var op in filterList.Keys)

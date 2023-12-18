@@ -8,16 +8,16 @@ using System.Numerics;
 
 namespace StudioCore.ParamEditor;
 
-internal class AutoFillSearchEngine<A, B>
+internal class AutoFillSearchEngine
 {
     private readonly string[] _autoFillArgs;
-    private readonly SearchEngine<A, B> engine;
+    private readonly TypelessSearchEngine engine;
     private readonly string id;
-    private AutoFillSearchEngine<A, B> _additionalCondition;
+    private AutoFillSearchEngine _additionalCondition;
     private bool _autoFillNotToggle;
     private bool _useAdditionalCondition;
 
-    internal AutoFillSearchEngine(string id, SearchEngine<A, B> searchEngine)
+    internal AutoFillSearchEngine(string id, TypelessSearchEngine searchEngine)
     {
         this.id = id;
         engine = searchEngine;
@@ -30,10 +30,10 @@ internal class AutoFillSearchEngine<A, B>
     internal string Menu(bool enableComplexToggles, bool enableDefault, string suffix, string inheritedCommand,
         Func<string, string> subMenu)
     {
-        return Menu<object, object>(enableComplexToggles, null, enableDefault, suffix, inheritedCommand, subMenu);
+        return Menu(enableComplexToggles, null, enableDefault, suffix, inheritedCommand, subMenu);
     }
 
-    internal string Menu<C, D>(bool enableComplexToggles, AutoFillSearchEngine<C, D> multiStageSE,
+    internal string Menu(bool enableComplexToggles, AutoFillSearchEngine multiStageSE,
         bool enableDefault, string suffix, string inheritedCommand, Func<string, string> subMenu)
     {
         var currentArgIndex = 0;
@@ -52,17 +52,14 @@ internal class AutoFillSearchEngine<A, B>
 
         if (_useAdditionalCondition && _additionalCondition == null)
         {
-            _additionalCondition = new AutoFillSearchEngine<A, B>(id + "0", engine);
+            _additionalCondition = new AutoFillSearchEngine(id + "0", engine);
         }
         else if (!_useAdditionalCondition)
         {
             _additionalCondition = null;
         }
 
-        foreach ((string, string[], string) cmd in enableDefault
-                     ? engine.VisibleCommands().Append((null, engine.defaultFilter.args, engine.defaultFilter.wiki))
-                         .ToList()
-                     : engine.VisibleCommands())
+        foreach ((string, string[], string) cmd in engine.VisibleCommands(enableDefault))
         {
             var argIndices = new int[cmd.Item2.Length];
             var valid = true;
@@ -177,18 +174,18 @@ internal class AutoFillSearchEngine<A, B>
 internal class AutoFill
 {
     // Type hell. Can't omit the type.
-    private static readonly AutoFillSearchEngine<ParamEditorSelectionState, (MassEditRowSource, Param.Row)>
+    private static readonly AutoFillSearchEngine
         autoFillParse = new("parse", ParamAndRowSearchEngine.parse);
 
-    private static readonly AutoFillSearchEngine<bool, string> autoFillVse = new("vse", VarSearchEngine.vse);
+    private static readonly AutoFillSearchEngine autoFillVse = new("vse", VarSearchEngine.vse);
 
-    private static readonly AutoFillSearchEngine<bool, (ParamBank, Param)> autoFillPse =
+    private static readonly AutoFillSearchEngine autoFillPse =
         new("pse", ParamSearchEngine.pse);
 
-    private static readonly AutoFillSearchEngine<(ParamBank, Param), Param.Row> autoFillRse =
+    private static readonly AutoFillSearchEngine autoFillRse =
         new("rse", RowSearchEngine.rse);
 
-    private static readonly AutoFillSearchEngine<(string, Param.Row), (PseudoColumn, Param.Column)> autoFillCse =
+    private static readonly AutoFillSearchEngine autoFillCse =
         new("cse", CellSearchEngine.cse);
 
     private static string[] _autoFillArgsGop = Enumerable
