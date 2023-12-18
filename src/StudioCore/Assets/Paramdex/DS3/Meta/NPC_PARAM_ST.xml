@@ -65,6 +65,10 @@
       <Option Value="1" Name="Medium" />
 	  <Option Value="2" Name="Heavy" />
     </Enum>
+    <Enum Name="ATK_PARAM_PARTSDMGTYPE" type="u8">
+      <Option Value="0" Name="Arrows" />
+      <Option Value="1" Name="All attacks" />
+    </Enum>
   </Enums>
   <Field>
     <behaviorVariationId AltName="Behavior Variation ID" Wiki="Variation ID used when calculating the action ID." />
@@ -175,7 +179,7 @@
 	<lockDist AltName="Lock-on Distance" Wiki="Lock-on distance [m]" />
 	<material AltName="Material SE - Weak Spot" />
 	<materialSfx AltName="Material SFX - Weak Spot" />
-	<partsDamageType AltName="Parts Damage Type" Wiki="Set the attack type to apply site damage" Enum="ATK_PARAM_PARTSDMGTYPE" />
+	<partsDamageType AltName="Parts Damage Type" Wiki="Determines if weak parts (such as the head) will be affected by all attacks or just arrow attacks.\nHeadshot animation will be used for weak part attacks if it exists." Enum="ATK_PARAM_PARTSDMGTYPE" />
 	<maxUndurationAng AltName="Max Undulation Angle" />
 	<guardLevel AltName="Guard Level" Wiki="Determines guard hit anim used depending on incoming damageLevel." />
 	<burnsfxType AltName="Burn SFX Type" Enum="NPC_BURN_TYPE" />
