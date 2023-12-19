@@ -310,10 +310,15 @@
     <Field Def="s32 UnkInt0x344"></Field>
     <Field Def="f32 UnkFloat0x348"></Field>
     <Field Def="s32 Unk0x34C"></Field>
-    <Field Def="s32 Unk0x350"></Field>
-    <Field Def="s32 Unk0x354"></Field>
-    <Field Def="s32 Unk0x358"></Field>
-    <Field Def="s32 Unk0x35C"></Field>
+    <Field Def="f32 Unk0x350"></Field>
+    <Field Def="f32 Unk0x354"></Field>
+    <Field Def="f32 Unk0x358"></Field>
+    <Field Def="f32 Unk0x35C"></Field>
     <Field Def="s32 Unk0x360"></Field>
+    <Field Def="s32 Unk0x364" FirstVersion="10500262"></Field>
+    <Field Def="s32 Unk0x368" FirstVersion="10500262"></Field>
+    <Field Def="s32 Unk0x36C" FirstVersion="10500262"></Field>
+    <Field Def="s32 Unk0x370" FirstVersion="10500262"></Field>
+    <Field Def="s32 Unk0x374" FirstVersion="10500262"></Field>
   </Fields>
 </PARAMDEF>
