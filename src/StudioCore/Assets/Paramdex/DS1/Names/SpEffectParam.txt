@@ -802,10 +802,10 @@
 7413 NG+ Scaling - Izalith
 7414 NG+ Scaling - Duke's Archives / Deep Izalith / DLC
 7415 NG+ Scaling - Kiln of the First Flame / DLC
-7500 Multi doping_White alone
-7501 Multi doping_White two people
-7510 [DLC] SA Multi Doping _ White Alone _ c4100 Only
-7511 [DLC] SA multi doping _ White 2 people _ c4100 only
+7500 Multiplayer boss scaling (1 summon)
+7501 Multiplayer boss scaling (2 summons)
+7510 Multiplayer Artorias poise scaling (1 summon)
+7511 Multiplayer Artorias poise scaling (2 summons)
 7600 NPC doping (actual damage 0.5 times)
 7601 For NPC doping (actual damage 1.5 times)
 7602 For NPC doping (actual damage twice)
