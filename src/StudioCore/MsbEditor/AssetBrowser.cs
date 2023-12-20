@@ -57,6 +57,11 @@ public class AssetBrowser
     {
         if (ImGui.Begin($@"Asset Browser##{_id}"))
         {
+            if (MapStudioNew.LowRequirementsMode)
+            {
+                ImGui.BeginDisabled();
+            }
+
             ImGui.Columns(2);
             ImGui.BeginChild("AssetTypeList");
             if (ImGui.Selectable("Chr", _selected == "Chr"))
@@ -222,8 +227,14 @@ public class AssetBrowser
 
             ImGui.EndChild();
             ImGui.EndChild();
-        }
 
+            if (MapStudioNew.LowRequirementsMode)
+            {
+                ImGui.EndDisabled();
+            }
+        }
+        
         ImGui.End();
+
     }
 }
