@@ -36,6 +36,8 @@ public class MapStudioNew
     private static bool _firstframe = true;
     public static bool FirstFrame = true;
 
+    public static bool LowRequirementsMode;
+
     private readonly AssetLocator _assetLocator;
 
     private readonly IGraphicsContext _context;

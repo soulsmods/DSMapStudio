@@ -600,6 +600,16 @@ public class SceneTree : IActionEventHandler
             }
 
             ImGui.PopStyleVar();
+
+            if (MapStudioNew.LowRequirementsMode)
+            {
+                ImGui.NewLine();
+                ImGui.Text("  This editor is not available in low requirements mode.");
+                ImGui.End();
+                ImGui.PopStyleColor();
+                return;
+            }
+
             if (_configuration == Configuration.MapEditor)
             {
                 if (_assetLocator.Type is GameType.DarkSoulsIISOTFS)
