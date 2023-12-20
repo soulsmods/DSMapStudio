@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
         <TargetFramework>net8.0-windows</TargetFramework>
@@ -20,6 +20,7 @@
         <TrimmerRootAssembly Include="SoulsFormats" />
         <TrimmerRootAssembly Include="StudioCore" />
         <TrimmerRootAssembly Include="HKX2" />
+        <TrimmerRootAssembly Include="Octokit" />
     </ItemGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
