@@ -2166,7 +2166,11 @@ public class ParamBank
         if (!File.Exists(oldVanillaParamPath))
         {
             return ParamUpgradeResult.OldRegulationNotFound;
-        }
+        }    
+        
+        // Backup modded params
+        string modRegulationPath = $@"{AssetLocator.GameModDirectory}\regulation.bin";
+        File.Copy(modRegulationPath, $@"{modRegulationPath}.upgrade.bak", true);
 
         // Load old vanilla regulation
         BND4 oldVanillaParamBnd;
