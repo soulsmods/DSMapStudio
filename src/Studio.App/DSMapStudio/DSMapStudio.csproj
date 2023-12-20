@@ -4,10 +4,10 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
     <Authors>Katalash</Authors>
-    <Version>1.09.0</Version>
+    <Version>1.10.0</Version>
     <ApplicationIcon>icon.ico</ApplicationIcon>
-    <PackageVersion>1.09.0</PackageVersion>
-    <AssemblyVersion>1.09.0</AssemblyVersion>
+    <PackageVersion>1.10.0</PackageVersion>
+    <AssemblyVersion>1.10.0</AssemblyVersion>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <LangVersion>12</LangVersion>
     <IsPackable>false</IsPackable>
