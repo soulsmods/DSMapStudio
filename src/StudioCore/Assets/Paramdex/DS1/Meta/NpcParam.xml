@@ -15,6 +15,10 @@
       <Option Value="1" Name="White" />
       <Option Value="2" Name="Red" />
     </Enum>
+    <Enum Name="ATK_PARAM_PARTSDMGTYPE" type="u8">
+      <Option Value="0" Name="Arrows" />
+      <Option Value="1" Name="All attacks" />
+    </Enum>
   </Enums>
   <Field>
     <behaviorVariationId VRef="BehaviorVariation" Wiki="Determines which BehaviorParam this enemy uses for attacks" />
@@ -75,6 +79,7 @@
     <partsDamageRate7 />
     <partsDamageRate8 />
     <weakPartsDamageRate />
+    <partsDamageType Enum="ATK_PARAM_PARTSDMGTYPE" Wiki="Determines if weak parts (such as the head) will be affected by all attacks or just arrow attacks.\nHeadshot animation will be used for weak part attacks if it exists."/>
     <superArmorRecoverCorrection Wiki="Change to poise recovery rate. Only the Chained Prisoner uses a non-zero value in vanilla(-0.2)." />
     <superArmorBrakeKnockbackDist Wiki="Stagger knockback distance when NPC's poise is broken." />
     <stamina Wiki="Maximum stamina. Used for non c0000 enemies blocking in DS1" />
@@ -124,7 +129,6 @@
     <materialSfx />
     <material_Weak />
     <materialSfx_Weak />
-    <partsDamageType />
     <maxUndurationAng Wiki="Maximum angle enemies can rotate vertically while on slopes. Requires isUnduration" />
     <guardLevel />
     <burnSfxType />
