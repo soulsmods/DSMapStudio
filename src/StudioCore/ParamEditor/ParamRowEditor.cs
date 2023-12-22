@@ -321,15 +321,13 @@ public class ParamRowEditor
                 ImGui.SameLine();
             }
 
-            if (col != null)
+            ImGui.Selectable("", false, ImGuiSelectableFlags.AllowItemOverlap);
+            if (ImGui.IsItemClicked(ImGuiMouseButton.Right))
             {
-                ImGui.Selectable("", false, ImGuiSelectableFlags.AllowItemOverlap);
-                if (ImGui.IsItemClicked(ImGuiMouseButton.Right))
-                {
-                    ImGui.OpenPopup("ParamRowCommonMenu");
-                }
-                ImGui.SameLine();
+                ImGui.OpenPopup("ParamRowCommonMenu");
             }
+
+            ImGui.SameLine();
 
             PropertyRowName(fieldOffset, ref internalName, cellMeta);
 
@@ -352,7 +350,7 @@ public class ParamRowEditor
                 }
 
                 ImGui.EndGroup();
-                if (col != null && ImGui.IsItemClicked(ImGuiMouseButton.Right))
+                if (ImGui.IsItemClicked(ImGuiMouseButton.Right))
                 {
                     ImGui.OpenPopup("ParamRowCommonMenu");
                 }
@@ -402,7 +400,7 @@ public class ParamRowEditor
                 ImGui.PopStyleColor();
             }
 
-            if (col != null && ImGui.IsItemClicked(ImGuiMouseButton.Right))
+            if (ImGui.IsItemClicked(ImGuiMouseButton.Right))
             {
                 ImGui.OpenPopup("ParamRowCommonMenu");
             }
@@ -427,7 +425,7 @@ public class ParamRowEditor
 
                 ImGui.EndGroup();
                 EditorDecorations.ParamRefEnumQuickLink(bank, oldval, RefTypes, row, FmgRef, Enum);
-                if (col != null && ImGui.IsItemClicked(ImGuiMouseButton.Right))
+                if (ImGui.IsItemClicked(ImGuiMouseButton.Right))
                 {
                     ImGui.OpenPopup("ParamRowCommonMenu");
                 }
@@ -616,27 +614,33 @@ public class ParamRowEditor
     {
         var scale = MapStudioNew.GetUIScale();
         var altName = cellMeta?.AltName;
-        var shownName = internalName;
 
         ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(0f, 10f) * scale);
 
-        EditorDecorations.ImGui_DisplayPropertyInfo(propType, internalName, altName, col.Def.ArrayLength, col.Def.BitSize);
-
-        if (Wiki != null)
+        if (col != null)
         {
-            ImGui.TextColored(new Vector4(.4f, .7f, 1f, 1f), $"{Wiki}");
+            EditorDecorations.ImGui_DisplayPropertyInfo(propType, internalName, altName, col.Def.ArrayLength, col.Def.BitSize);
+            if (Wiki != null)
+            {
+                ImGui.TextColored(new Vector4(.4f, .7f, 1f, 1f), $"{Wiki}");
+            }
+            else
+            {
+                ImGui.TextColored(new Vector4(1.0f, 1.0f, 1.0f, 0.7f),
+                    "Info regarding this field has not been written.");
+            }
         }
         else
         {
-            ImGui.TextColored(new Vector4(1.0f, 1.0f, 1.0f, 0.7f),
-                "Info regarding this field has not been written.");
+            // Headers
+            ImGui.TextColored(new Vector4(1.0f, 0.7f, 0.4f, 1.0f), Utils.ImGuiEscape(internalName, "", true));
         }
 
         ImGui.Separator();
 
         if (showPinOptions)
         {
-            if (ImGui.MenuItem(isPinned ? "Unpin " : "Pin " + shownName))
+            if (ImGui.MenuItem(isPinned ? "Unpin " : "Pin " + internalName))
             {
                 if (!_paramEditor._projectSettings.PinnedFields.ContainsKey(activeParam))
                 {
@@ -662,7 +666,15 @@ public class ParamRowEditor
 
         if (ImGui.MenuItem("Add to Searchbar"))
         {
-            EditorCommandQueue.AddCommand($@"param/search/prop {internalName.Replace(" ", "\\s")} ");
+            if (col != null)
+            {
+                EditorCommandQueue.AddCommand($@"param/search/prop {internalName.Replace(" ", "\\s")} ");
+            }
+            else
+            {
+                // Headers
+                EditorCommandQueue.AddCommand($@"param/search/{internalName.Replace(" ", "\\s")} ");
+            }
         }
 
         if (col != null && ImGui.MenuItem("Compare field"))
