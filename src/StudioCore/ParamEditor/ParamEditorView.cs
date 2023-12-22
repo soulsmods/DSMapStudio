@@ -592,7 +592,12 @@ public class ParamEditorView
 
         if (_paramEditor.GotoSelectedRow && !isPinned)
         {
-            if (_selection.GetActiveRow().ID == r.ID)
+            var activeRow = _selection.GetActiveRow();
+            if (activeRow == null)
+            {
+                _paramEditor.GotoSelectedRow = false;
+            }
+            else if (activeRow.ID == r.ID)
             {
                 ImGui.SetScrollHereY();
                 _paramEditor.GotoSelectedRow = false;

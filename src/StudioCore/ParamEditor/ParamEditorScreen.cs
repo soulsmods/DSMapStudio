@@ -890,6 +890,11 @@ public class ParamEditorScreen : EditorScreen
                 if (initcmd.Length > 2 && ParamBank.PrimaryBank.Params.ContainsKey(initcmd[2]))
                 {
                     doFocus = initcmd[0] == "select";
+                    if (!doFocus)
+                    {
+                        GotoSelectedRow = true;
+                    }
+
                     ParamEditorView viewToMofidy = _activeView;
                     if (initcmd[1].Equals("new"))
                     {
