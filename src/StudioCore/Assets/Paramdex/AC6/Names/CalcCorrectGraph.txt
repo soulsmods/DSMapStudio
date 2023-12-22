@@ -1,3 +1,4 @@
+224 WEIGHT - Fortaleza Grounded Boost Speed
 260 WEIGHT - Grounded Boost Speed
 261 WEIGHT - Aerial Boost Speed
 262 WEIGHT - Upwards Boost Max Speed (Boost)
