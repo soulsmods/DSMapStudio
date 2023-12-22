@@ -76,6 +76,10 @@
     <UnkFlag0x48_6 IsBool="" />
     <UnkFlag0x48_7 IsBool="" />
     <homingType AltName="Homing Type" Enum="BULLET_HOMING_TYPE" />
+    <recoilShootAngleHorizontalStart AltName="Horizontal Shoot Angle: 0% Recoil" Wiki="Defines maximum angle of shoot direction during sustained fire.\nAngle will transition from start value to end value as recoil increases." />
+    <recoilShootAngleHorizontalEnd AltName="Horizontal Shoot Angle: 100% Recoil" Wiki="Defines maximum angle of shoot direction during sustained fire.\nAngle will transition from start value to end value as recoil increases." />
+    <recoilShootAngleVerticallStart AltName="Vertical Shoot Angle: 0% Recoil" Wiki="Defines maximum angle of shoot direction during sustained fire.\nAngle will transition from start value to end value as recoil increases." />
+    <recoilShootAngleVerticalEnd AltName="Vertical Shoot Angle: 100% Recoil" Wiki="Defines maximum angle of shoot direction during sustained fire.\nAngle will transition from start value to end value as recoil increases." />
   </Field>
   <Self />
 </PARAMMETA>
