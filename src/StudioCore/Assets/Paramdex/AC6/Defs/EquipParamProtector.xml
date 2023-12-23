@@ -413,7 +413,7 @@
     <Field Def="u8 UnkByte0x340"></Field>
     <Field Def="u8 Unk0x341"></Field>
     <Field Def="u8 Unk0x342"></Field>
-    <Field Def="u8 UnkByte0x343"></Field>
+    <Field Def="u8 altCalcCorrectType"></Field>
     <Field Def="u8 UnkByte0x344"></Field>
     <Field Def="u8 Unk0x345"></Field>
     <Field Def="u8 Unk0x346"></Field>
