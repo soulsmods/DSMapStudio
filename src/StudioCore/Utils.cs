@@ -1072,7 +1072,8 @@ public static class Utils
         return "Unknown version format";
     }
 
-    public static void EntitySelectionHandler(Selection selection, Entity entity, bool itemSelected, bool isItemFocused)
+    public static void EntitySelectionHandler(Selection selection, Entity entity,
+        bool itemSelected, bool isItemFocused, List<WeakReference<Entity>> filteredEntityList = null)
     {
         // Up/Down arrow mass selection
         var arrowKeySelect = false;
@@ -1115,7 +1116,23 @@ public static class Utils
                      && (InputTracker.GetKey(Key.ShiftLeft) || InputTracker.GetKey(Key.ShiftRight)))
             {
                 // Select Range
-                List<Entity> entList = entity.Container.Objects;
+                List<Entity> entList;
+                if (filteredEntityList != null)
+                {
+                    entList = new();
+                    foreach (WeakReference<Entity> ent in filteredEntityList)
+                    {
+                        if (ent.TryGetTarget(out Entity e))
+                        {
+                            entList.Add(e);
+                        }
+                    }
+                }
+                else
+                {
+                    entList = entity.Container.Objects;
+                }
+
                 var i1 = entList.IndexOf(selection.GetFilteredSelection<MapEntity>()
                     .FirstOrDefault(fe => fe.Container == entity.Container && fe != entity.Container.RootObject));
                 var i2 = entList.IndexOf((MapEntity)entity);

@@ -461,7 +461,7 @@ public class SearchProperties
                                 {
                                     selected = true;
                                 }
-                                Utils.EntitySelectionHandler(Universe.Selection, obj, selected, itemFocused);
+                                Utils.EntitySelectionHandler(Universe.Selection, obj, selected, itemFocused, f.Value);
                             }
                         }
 
