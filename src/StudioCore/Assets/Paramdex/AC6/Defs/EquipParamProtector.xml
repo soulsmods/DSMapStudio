@@ -271,7 +271,7 @@
     <Field Def="u8 Unk0x1B0"></Field>
     <Field Def="u8 UnkByte0x1B1"></Field>
     <Field Def="u8 UnkByte0x1B2"></Field>
-    <Field Def="u8 UnkByte0x1B3"></Field>
+    <Field Def="u8 legsAnimOffset"></Field>
     <Field Def="f32 UnkFloat0x1B4"></Field>
     <Field Def="s32 energyCapacity"></Field>
     <Field Def="s32 energyOutput"></Field>
@@ -413,7 +413,7 @@
     <Field Def="u8 UnkByte0x340"></Field>
     <Field Def="u8 Unk0x341"></Field>
     <Field Def="u8 Unk0x342"></Field>
-    <Field Def="u8 UnkByte0x343"></Field>
+    <Field Def="u8 altCalcCorrectType"></Field>
     <Field Def="u8 UnkByte0x344"></Field>
     <Field Def="u8 Unk0x345"></Field>
     <Field Def="u8 Unk0x346"></Field>

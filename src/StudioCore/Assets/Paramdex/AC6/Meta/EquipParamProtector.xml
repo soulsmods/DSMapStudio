@@ -42,6 +42,8 @@
     <recoilKnockbackVelocityCorrection_Grounded AltName="Recoil Knockback % (Grounded)" Wiki="Multiplier of backwards velocity applied to the shooter when using a weapon on the ground.\nApplies conditionally, such as not applying when AC has tank legs."/>
     <recoilKnockbackVelocityCorrection_Airborne AltName="Recoil Knockback % (Airborne)" Wiki="Multiplier of backwards velocity applied to the shooter when using a weapon in the air."/>
     <backWeaponHeightAdjustment AltName="Back Weapon Height Adjustment" Wiki="Affects how high back weapons are placed, larger values are higher. Values range from 0 to 2." />
+    <legsAnimOffset AltName="Legs Animation Offset" Wiki="TAE ID used for overriding animations.\nValue of 1 utilizes TAE a010, 3 uses a030, etc.\nUsed with Lammergeier for hovering and assault boost animations." />
+    <altCalcCorrectType Wiki="Affects which CalcCorrects are used for various actions.\nExample: value of 2 on tank legs utilizes 22X calcCorrects instead of 27X for movement." />
   </Field>
   <Self />
 </PARAMMETA>
