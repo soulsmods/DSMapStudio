@@ -469,8 +469,8 @@
     <Field Def="s32 Unk0x464"></Field>
     <Field Def="s32 Unk0x468"></Field>
     <Field Def="s32 Unk0x46C"></Field>
-    <Field Def="f32 UnkFloat0x470"></Field>
-    <Field Def="f32 UnkFloat0x474"></Field>
+    <Field Def="f32 shoulderShootDelay"></Field>
+    <Field Def="f32 shoulderChargedShootDelay"></Field>
     <Field Def="f32 UnkFloat0x478"></Field>
     <Field Def="f32 UnkFloat0x47C"></Field>
     <Field Def="f32 UnkFloat0x480"></Field>
