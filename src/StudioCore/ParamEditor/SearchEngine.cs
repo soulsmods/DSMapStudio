@@ -31,6 +31,7 @@ internal abstract class TypelessSearchEngine
     }
     public abstract List<(string, string[], string)> VisibleCommands(bool includeDefault);
     public abstract List<(string, string[])> AllCommands();
+    public abstract List<string> AvailableCommandsForHelpText();
 }
 internal abstract class HalfTypedSearchEngine<I> : TypelessSearchEngine
 {
@@ -84,7 +85,7 @@ internal class SearchEngine<A, B> : HalfTypedSearchEngine<A>
         return filterList.ContainsKey(command.Split(" ")[0]);
     }
 
-    public List<string> AvailableCommandsForHelpText()
+    public override List<string> AvailableCommandsForHelpText()
     {
         List<string> options = new();
         foreach (var op in filterList.Keys)
