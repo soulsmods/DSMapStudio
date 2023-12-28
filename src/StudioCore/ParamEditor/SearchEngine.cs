@@ -17,7 +17,7 @@ internal abstract class TypelessSearchEngine
     private static Dictionary<Type, List<(TypelessSearchEngine, Type)>> searchEngines = new();
     internal static void AddSearchEngine<I, O>(SearchEngine<I, O> engine)
     {
-        if (searchEngines.ContainsKey(typeof(I)))
+        if (!searchEngines.ContainsKey(typeof(I)))
             searchEngines.Add(typeof(I), new());
         searchEngines[typeof(I)].Add((engine, typeof(O)));
     }
