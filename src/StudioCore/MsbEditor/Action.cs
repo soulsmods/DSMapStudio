@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using SoulsFormats;
+using SoulsFormats.Util;
 using StudioCore.Scene;
 using System;
 using System.Collections.Generic;
@@ -234,7 +235,7 @@ public class MultipleEntityPropertyChangeAction : Action
         ChangedEnts = changedEnts;
         foreach (Entity o in changedEnts)
         {
-            var propObj = Utils.FindPropertyObject(prop, o.WrappedObject, classIndex);
+            var propObj = PropFinderUtil.FindPropertyObject(prop, o.WrappedObject, classIndex, false);
             var change = new PropertyChange
             {
                 ChangedObj = propObj, Property = prop, NewValue = newval, ArrayIndex = index

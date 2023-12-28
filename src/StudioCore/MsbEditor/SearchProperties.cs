@@ -1,4 +1,5 @@
 ﻿using ImGuiNET;
+using SoulsFormats.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +30,7 @@ public class SearchProperties
     private Type PropertyType = null;
     private dynamic PropertyValue = null;
     private bool ValidType = false;
+    private bool _propSearchMatchNameOnly = true;
 
     public SearchProperties(Universe universe, PropertyCache propCache)
     {
@@ -339,7 +341,13 @@ public class SearchProperties
             if (selection != null)
             {
                 ImGui.Spacing();
-                ImGui.Text($"Type: {selection.WrappedObject.GetType().Name}");
+                ImGui.Text($"Property: {selection.WrappedObject.GetType().Name}");
+
+                if (ImGui.Checkbox("Only check property name in search", ref _propSearchMatchNameOnly))
+                {
+                    newSearch = true;
+                }
+
                 if (ImGui.BeginCombo("##SearchPropCombo", "Select property..."))
                 {
                     var props = _propCache.GetCachedFields(selection.WrappedObject);
@@ -387,7 +395,7 @@ public class SearchProperties
                             {
                                 if (ob is MapEntity e)
                                 {
-                                    var value = Utils.FindPropertyValue(Property, ob.WrappedObject);
+                                    var value = PropFinderUtil.FindPropertyValue(Property, ob.WrappedObject, _propSearchMatchNameOnly);
 
                                     if (value == null)
                                     {
