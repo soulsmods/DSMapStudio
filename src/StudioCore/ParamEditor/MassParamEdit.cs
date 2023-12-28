@@ -590,11 +590,24 @@ public class MassParamEditOther
     }
 }
 
-public class MEOperation<T, O>
+internal class MEOperationDef<T, O>
 {
-    internal Dictionary<string, (string[], string, Func<T, string[], O>)> operations = new();
+    internal string[] argNames;
+    internal string wiki;
+    internal Func<T, string[], O> function;
+    internal MEOperationDef(string[] args, string tooltip, Func<T, string[], O> func)
+    {
+        argNames = args;
+        wiki = tooltip;
+        function = func;
+    }
+}
 
-    internal MEOperation()
+public class MEOperationType<T, O>
+{
+    internal Dictionary<string, MEOperationDef<T, O>> operations = new();
+
+    internal MEOperationType()
     {
         Setup();
     }
@@ -613,27 +626,35 @@ public class MEOperation<T, O>
         List<(string, string[], string)> options = new();
         foreach (var op in operations.Keys)
         {
-            options.Add((op, operations[op].Item1, operations[op].Item2));
+            options.Add((op, operations[op].argNames, operations[op].wiki));
         }
 
         return options;
     }
+    internal MEOperationDef<T, O> newCmd(string[] args, string wiki, Func<T, string[], O> func)
+    {
+        return new MEOperationDef<T, O>(args, wiki, func);
+    }
+    internal MEOperationDef<T, O> newCmd(string wiki, Func<T, string[], O> func)
+    {
+        return new MEOperationDef<T, O>(Array.Empty<string>(), wiki, func);
+    }
 }
 
-public class MEGlobalOperation : MEOperation<ParamEditorSelectionState, bool>
+public class MEGlobalOperation : MEOperationType<ParamEditorSelectionState, bool>
 {
     public static MEGlobalOperation globalOps = new();
 
     internal override void Setup()
     {
-        operations.Add("clear", (new string[0], "Clears clipboard param and rows", (selectionState, args) =>
+        operations.Add("clear", newCmd(new string[0], "Clears clipboard param and rows", (selectionState, args) =>
         {
             ParamBank.ClipboardParam = null;
             ParamBank.ClipboardRows.Clear();
             return true;
         }
         ));
-        operations.Add("newvar", (new[] { "variable name", "value" },
+        operations.Add("newvar", newCmd(new[] { "variable name", "value" },
             "Creates a variable with the given value, and the type of that value", (selectionState, args) =>
             {
                 int asInt;
@@ -654,7 +675,7 @@ public class MEGlobalOperation : MEOperation<ParamEditorSelectionState, bool>
                 return true;
             }
         ));
-        operations.Add("clearvars", (new string[0], "Deletes all variables", (selectionState, args) =>
+        operations.Add("clearvars", newCmd(new string[0], "Deletes all variables", (selectionState, args) =>
         {
             MassParamEdit.massEditVars.Clear();
             return true;
@@ -663,13 +684,13 @@ public class MEGlobalOperation : MEOperation<ParamEditorSelectionState, bool>
     }
 }
 
-public class MERowOperation : MEOperation<(string, Param.Row), (Param, Param.Row)>
+public class MERowOperation : MEOperationType<(string, Param.Row), (Param, Param.Row)>
 {
     public static MERowOperation rowOps = new();
 
     internal override void Setup()
     {
-        operations.Add("copy", (new string[0],
+        operations.Add("copy", newCmd(new string[0],
             "Adds the selected rows into clipboard. If the clipboard param is different, the clipboard is emptied first",
             (paramAndRow, args) =>
             {
@@ -697,7 +718,7 @@ public class MERowOperation : MEOperation<(string, Param.Row), (Param, Param.Row
                 return (p, null);
             }
         ));
-        operations.Add("copyN", (new[] { "count" },
+        operations.Add("copyN", newCmd(new[] { "count" },
             "Adds the selected rows into clipboard the given number of times. If the clipboard param is different, the clipboard is emptied first",
             (paramAndRow, args) =>
             {
@@ -730,7 +751,7 @@ public class MERowOperation : MEOperation<(string, Param.Row), (Param, Param.Row
                 return (p, null);
             }
         ));
-        operations.Add("paste", (new string[0],
+        operations.Add("paste", newCmd(new string[0],
             "Adds the selected rows to the primary regulation or parambnd in the selected param",
             (paramAndRow, args) =>
             {
@@ -753,17 +774,17 @@ public class MERowOperation : MEOperation<(string, Param.Row), (Param, Param.Row
     }
 }
 
-public class MEValueOperation : MEOperation<object, object>
+public class MEValueOperation : MEOperationType<object, object>
 {
     public static MEValueOperation valueOps = new();
 
     internal override void Setup()
     {
         operations.Add("=",
-            (new[] { "number or text" },
+            newCmd(new[] { "number or text" },
                 "Assigns the given value to the selected values. Will attempt conversion to the value's data type",
                 (ctx, args) => MassParamEdit.WithDynamicOf(ctx, v => args[0])));
-        operations.Add("+", (new[] { "number or text" },
+        operations.Add("+", newCmd(new[] { "number or text" },
             "Adds the number to the selected values, or appends text if that is the data type of the values",
             (ctx, args) => MassParamEdit.WithDynamicOf(ctx, v =>
             {
@@ -776,18 +797,18 @@ public class MEValueOperation : MEOperation<object, object>
                 return v + args[0];
             })));
         operations.Add("-",
-            (new[] { "number" }, "Subtracts the number from the selected values",
+            newCmd(new[] { "number" }, "Subtracts the number from the selected values",
                 (ctx, args) => MassParamEdit.WithDynamicOf(ctx, v => v - double.Parse(args[0]))));
         operations.Add("*",
-            (new[] { "number" }, "Multiplies selected values by the number",
+            newCmd(new[] { "number" }, "Multiplies selected values by the number",
                 (ctx, args) => MassParamEdit.WithDynamicOf(ctx, v => v * double.Parse(args[0]))));
         operations.Add("/",
-            (new[] { "number" }, "Divides the selected values by the number",
+            newCmd(new[] { "number" }, "Divides the selected values by the number",
                 (ctx, args) => MassParamEdit.WithDynamicOf(ctx, v => v / double.Parse(args[0]))));
         operations.Add("%",
-            (new[] { "number" }, "Gives the remainder when the selected values are divided by the number",
+            newCmd(new[] { "number" }, "Gives the remainder when the selected values are divided by the number",
                 (ctx, args) => MassParamEdit.WithDynamicOf(ctx, v => v % double.Parse(args[0]))));
-        operations.Add("scale", (new[] { "factor number", "center number" },
+        operations.Add("scale", newCmd(new[] { "factor number", "center number" },
             "Multiplies the difference between the selected values and the center number by the factor number",
             (ctx, args) =>
             {
@@ -800,10 +821,10 @@ public class MEValueOperation : MEOperation<object, object>
             }
         ));
         operations.Add("replace",
-            (new[] { "text to replace", "new text" },
+            newCmd(new[] { "text to replace", "new text" },
                 "Interprets the selected values as text and replaces all occurances of the text to replace with the new text",
                 (ctx, args) => MassParamEdit.WithDynamicOf(ctx, v => v.Replace(args[0], args[1]))));
-        operations.Add("replacex", (new[] { "text to replace (regex)", "new text (w/ groups)" },
+        operations.Add("replacex", newCmd(new[] { "text to replace (regex)", "new text (w/ groups)" },
             "Interprets the selected values as text and replaces all occurances of the given regex with the replacement, supporting regex groups",
             (ctx, args) =>
             {
@@ -812,10 +833,10 @@ public class MEValueOperation : MEOperation<object, object>
             }
         ));
         operations.Add("max",
-            (new[] { "number" }, "Returns the larger of the current value and number",
+            newCmd(new[] { "number" }, "Returns the larger of the current value and number",
                 (ctx, args) => MassParamEdit.WithDynamicOf(ctx, v => Math.Max(v, double.Parse(args[0])))));
         operations.Add("min",
-            (new[] { "number" }, "Returns the smaller of the current value and number",
+            newCmd(new[] { "number" }, "Returns the smaller of the current value and number",
                 (ctx, args) => MassParamEdit.WithDynamicOf(ctx, v => Math.Min(v, double.Parse(args[0])))));
     }
 }

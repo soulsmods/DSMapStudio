@@ -391,7 +391,7 @@ internal class AutoFill
         return MassEditAutoFillForOperation(MEValueOperation.valueOps, ref _autoFillArgsCop, ";", null);
     }
 
-    private static string MassEditAutoFillForOperation<A, B>(MEOperation<A, B> ops, ref string[] staticArgs,
+    private static string MassEditAutoFillForOperation<A, B>(MEOperationType<A, B> ops, ref string[] staticArgs,
         string suffix, Func<string> subMenu)
     {
         var currentArgIndex = 0;
