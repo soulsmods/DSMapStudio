@@ -30,7 +30,7 @@ public static class PropFinderUtil
         {
             if (onlyCheckPropName)
             {
-                if (p.Name == prop.Name)
+                if (p.Name.ToLower() == prop.Name.ToLower())
                     return new PropData(p, obj);
             }
             else
@@ -79,7 +79,7 @@ public static class PropFinderUtil
     /// <returns>PropertyInfo if found, otherwise null.</returns>
     public static PropertyInfo? FindProperty(string prop, object obj, int classIndex = -1)
     {
-        var proppy = obj.GetType().GetProperty(prop);
+        var proppy = obj.GetType().GetProperty(prop, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Public);
         if (proppy != null)
             return proppy;
 
