@@ -34,8 +34,12 @@ namespace SoulsFormats
             {
                 return Layers;
             }
+            internal override bool CheckEntry(BinaryReaderEx br)
+            {
+                return true;
+            }
 
-            internal override Layer ReadEntry(BinaryReaderEx br)
+            internal override Layer ReadEntry(BinaryReaderEx br, int Version)
             {
                 return Layers.EchoAdd(new Layer(br));
             }

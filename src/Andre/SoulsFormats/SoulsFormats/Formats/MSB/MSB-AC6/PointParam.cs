@@ -12,18 +12,29 @@ namespace SoulsFormats
 {
     public partial class MSB_AC6
     {
-        internal enum RegionType : uint
+        internal enum RegionType : int
         {
+            None = 0,
             EntryPoint = 1,
             EnvMapPoint = 2,
+            Unk3 = 3,
             Sound = 4,
             SFX = 5,
             WindSFX = 6,
+            Unk7 = 7,
             ReturnPoint = 8,
             Message = 9,
+            Unk10 = 10,
+            Unk11 = 11,
+            Unk12 = 12,
             FallReturnPoint = 13,
+            Unk14 = 14,
+            Unk15 = 15,
+            Unk16 = 16,
             EnvMapEffectBox = 17,
             WindPlacement = 18,
+            Unk19 = 19,
+            Unk20 = 20,
             Connection = 21,
             SourceWaypoint = 22,
             StaticWaypoint = 23,
@@ -60,7 +71,7 @@ namespace SoulsFormats
             CutscenePlayback = 54,
             FallPreventionWallRemoval = 55,
             BigJump = 56,
-            Other = 0xFFFFFFFF,
+            Other = -1,
         }
 
         /// <summary>
@@ -315,7 +326,31 @@ namespace SoulsFormats
             }
             IReadOnlyList<IMsbRegion> IMsbParam<IMsbRegion>.GetEntries() => GetEntries();
 
-            internal override Region ReadEntry(BinaryReaderEx br)
+            internal override bool CheckEntry(BinaryReaderEx br)
+            {
+                RegionType type = br.GetEnum32<RegionType>(br.Position + 8);
+
+                switch (type)
+                {
+                    case RegionType.None:
+                    case RegionType.Unk3:
+                    case RegionType.Unk7:
+                    case RegionType.Unk10:
+                    case RegionType.Unk11:
+                    case RegionType.Unk12:
+                    case RegionType.Unk14:
+                    case RegionType.Unk15:
+                    case RegionType.Unk16:
+                    case RegionType.Unk19:
+                    case RegionType.Unk20:
+                        return false;
+
+                    default:
+                        return true;
+                }
+            }
+
+            internal override Region ReadEntry(BinaryReaderEx br, int Version)
             {
                 RegionType type = br.GetEnum32<RegionType>(br.Position + 8);
                 switch (type)

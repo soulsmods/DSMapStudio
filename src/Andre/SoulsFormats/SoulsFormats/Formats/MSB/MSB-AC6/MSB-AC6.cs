@@ -194,13 +194,17 @@ namespace SoulsFormats
                 foreach (long offset in entryOffsets)
                 {
                     br.Position = offset;
-                    entries.Add(ReadEntry(br));
+
+                    if(CheckEntry(br))
+                        entries.Add(ReadEntry(br, Version));
                 }
                 br.Position = nextParamOffset;
                 return entries;
             }
 
-            internal abstract T ReadEntry(BinaryReaderEx br);
+            internal abstract bool CheckEntry(BinaryReaderEx br);
+
+            internal abstract T ReadEntry(BinaryReaderEx br, int Version);
 
             internal virtual void Write(BinaryWriterEx bw, List<T> entries)
             {

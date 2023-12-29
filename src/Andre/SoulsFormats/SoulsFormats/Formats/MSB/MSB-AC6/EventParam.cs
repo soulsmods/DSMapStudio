@@ -138,7 +138,27 @@ namespace SoulsFormats
             }
             IReadOnlyList<IMsbEvent> IMsbParam<IMsbEvent>.GetEntries() => GetEntries();
 
-            internal override Event ReadEntry(BinaryReaderEx br)
+            internal override bool CheckEntry(BinaryReaderEx br)
+            {
+                EventType type = br.GetEnum32<EventType>(br.Position + 0xC);
+
+                switch (type)
+                {
+                    case EventType.Treasure:
+                    case EventType.Generator:
+                    case EventType.MapOffset:
+                    case EventType.PlatoonInfo:
+                    case EventType.PatrolRoute:
+                    case EventType.MapGimmick:
+                    case EventType.Other:
+                        return true;
+
+                    default:
+                        return false;
+                }
+            }
+
+            internal override Event ReadEntry(BinaryReaderEx br, int Version)
             {
                 EventType type = br.GetEnum32<EventType>(br.Position + 0xC);
                 switch (type)

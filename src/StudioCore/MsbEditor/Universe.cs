@@ -651,10 +651,6 @@ public class Universe
 
                 btl = BTL.Read(file.Bytes);
             }
-            else if (_assetLocator.Type == GameType.ArmoredCoreVI)
-            {
-                throw new NotSupportedException("AC6 TODO: BTL");
-            }
             else
             {
                 btl = BTL.Read(ad.AssetPath);
