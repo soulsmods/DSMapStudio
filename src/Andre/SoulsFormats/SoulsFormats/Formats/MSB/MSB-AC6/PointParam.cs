@@ -1757,7 +1757,7 @@ namespace SoulsFormats
             public class WwiseEnvironmentSound : Region
             {
                 private protected override RegionType Type => RegionType.WwiseEnvironmentSound;
-                private protected override bool HasTypeData => false;
+                private protected override bool HasTypeData => true;
 
                 /// <summary>
                 /// Unknown.
@@ -1797,7 +1797,7 @@ namespace SoulsFormats
             public class CharacterFollowing : Region
             {
                 private protected override RegionType Type => RegionType.CharacterFollowing;
-                private protected override bool HasTypeData => false;
+                private protected override bool HasTypeData => true;
 
                 /// <summary>
                 /// Unknown.
@@ -1877,7 +1877,7 @@ namespace SoulsFormats
             public class NavmeshCostControl : Region
             {
                 private protected override RegionType Type => RegionType.NavmeshCostControl;
-                private protected override bool HasTypeData => false;
+                private protected override bool HasTypeData => true;
 
                 /// <summary>
                 /// Unknown.
@@ -1908,7 +1908,7 @@ namespace SoulsFormats
             public class ArenaControl : Region
             {
                 private protected override RegionType Type => RegionType.ArenaControl;
-                private protected override bool HasTypeData => false;
+                private protected override bool HasTypeData => true;
 
                 /// <summary>
                 /// Unknown.
@@ -1939,7 +1939,7 @@ namespace SoulsFormats
             public class ArenaAppearance : Region
             {
                 private protected override RegionType Type => RegionType.WwiseEnvironmentSound;
-                private protected override bool HasTypeData => false;
+                private protected override bool HasTypeData => true;
 
                 /// <summary>
                 /// Unknown.
@@ -1970,7 +1970,7 @@ namespace SoulsFormats
             public class GarageCamera : Region
             {
                 private protected override RegionType Type => RegionType.GarageCamera;
-                private protected override bool HasTypeData => false;
+                private protected override bool HasTypeData => true;
 
                 /// <summary>
                 /// Unknown.
@@ -2010,7 +2010,7 @@ namespace SoulsFormats
             public class CutscenePlayback : Region
             {
                 private protected override RegionType Type => RegionType.CutscenePlayback;
-                private protected override bool HasTypeData => false;
+                private protected override bool HasTypeData => true;
 
                 /// <summary>
                 /// Unknown.
@@ -2043,7 +2043,7 @@ namespace SoulsFormats
             public class FallPreventionWallRemoval : Region
             {
                 private protected override RegionType Type => RegionType.FallPreventionWallRemoval;
-                private protected override bool HasTypeData => false;
+                private protected override bool HasTypeData => true;
 
                 /// <summary>
                 /// Creates an FallPreventionWallRemoval with default values.
@@ -2071,7 +2071,7 @@ namespace SoulsFormats
             public class BigJump : Region
             {
                 private protected override RegionType Type => RegionType.BigJump;
-                private protected override bool HasTypeData => false;
+                private protected override bool HasTypeData => true;
 
                 /// <summary>
                 /// Unknown.

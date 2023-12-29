@@ -386,10 +386,6 @@ public class FlverResource : IResource, IDisposable
                 dest.SetHasIndexNoWeightTransform();
             }
         }
-        else if (type == GameType.ArmoredCoreVI)
-        {
-            //TODO AC6
-        }
 
         if (!CFG.Current.EnableTexturing)
         {

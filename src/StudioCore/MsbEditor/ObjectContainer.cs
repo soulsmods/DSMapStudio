@@ -519,6 +519,39 @@ public class Map : ObjectContainer
         m.Models.Add(model);
     }
 
+    private void AddModelAC6(IMsb m, MSB_AC6.Model model, string name)
+    {
+        if (LoadedModels[name] != null)
+        {
+            m.Models.Add(LoadedModels[name]);
+            return;
+        }
+
+        model.Name = name;
+        if (model is MSB_AC6.Model.MapPiece)
+        {
+            model.SibPath = $@"N:\FNR\data\Model\map\{Name}\sib\{name}.sib";
+        }
+        else if (model is MSB_AC6.Model.Asset)
+        {
+            model.SibPath = $@"N:\FNR\data\Asset\Environment\geometry\{name.Substring(0, 6)}\{name}\sib\{name}.sib";
+        }
+        else if (model is MSB_AC6.Model.Enemy)
+        {
+            model.SibPath = $@"N:\FNR\data\Model\chr\{name}\sib\{name}.sib";
+        }
+        else if (model is MSB_AC6.Model.Collision)
+        {
+            model.SibPath = $@"N:\FNR\data\Model\map\{Name}\hkt\{name}.hkt";
+        }
+        else if (model is MSB_AC6.Model.Player)
+        {
+            model.SibPath = $@"N:\FNR\data\Model\chr\{name}\sib\{name}.sib";
+        }
+
+        m.Models.Add(model);
+    }
+
     private void AddModel<T>(IMsb m, string name) where T : IMsbModel, new()
     {
         var model = new T();
@@ -734,6 +767,37 @@ public class Map : ObjectContainer
         }
     }
 
+    private void AddModelsAC6(IMsb msb)
+    {
+        foreach (KeyValuePair<string, IMsbModel> mk in LoadedModels.OrderBy(q => q.Key))
+        {
+            var m = mk.Key;
+            if (m.ToLower().StartsWith("m"))
+            {
+                AddModelAC6(msb, new MSB_AC6.Model.MapPiece { Name = m }, m);
+                continue;
+            }
+
+            if (m.ToLower().StartsWith("h"))
+            {
+                AddModelAC6(msb, new MSB_AC6.Model.Collision { Name = m }, m);
+                continue;
+            }
+
+            if (m.ToLower().StartsWith("aeg"))
+            {
+                AddModelAC6(msb, new MSB_AC6.Model.Asset { Name = m }, m);
+                continue;
+            }
+
+            if (m.ToLower().StartsWith("c"))
+            {
+                AddModelAC6(msb, new MSB_AC6.Model.Enemy { Name = m }, m);
+                continue;
+            }
+        }
+    }
+
     public void SerializeToMSB(IMsb msb, GameType game)
     {
         foreach (Entity m in Objects)
@@ -786,7 +850,7 @@ public class Map : ObjectContainer
         }
         else if (game == GameType.ArmoredCoreVI)
         {
-            //TODO AC6
+            AddModelsAC6(msb);
         }
     }
 

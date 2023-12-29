@@ -1226,7 +1226,8 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
                 msbclass = typeof(MSBE);
                 break;
             case GameType.ArmoredCoreVI:
-            //TODO AC6
+                msbclass = typeof(MSB_AC6);
+                break;
             default:
                 throw new ArgumentException("type must be valid");
         }
@@ -1338,7 +1339,8 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
                 msbclass = typeof(MSBE);
                 break;
             case GameType.ArmoredCoreVI:
-            //TODO AC6
+                msbclass = typeof(MSB_AC6);
+                break;
             default:
                 throw new ArgumentException("type must be valid");
         }
@@ -1371,11 +1373,7 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
         GC.Collect();
         Universe.PopulateMapList();
 
-        if (AssetLocator.Type == GameType.ArmoredCoreVI)
-        {
-            //TODO AC6
-        }
-        else if (AssetLocator.Type != GameType.Undefined)
+        if (AssetLocator.Type != GameType.Undefined)
         {
             PopulateClassNames(AssetLocator.Type);
         }

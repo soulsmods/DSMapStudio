@@ -245,7 +245,15 @@ public class AssetLocator
 
         if (game == GameType.ArmoredCoreVI)
         {
-            //TODO AC6
+            if (!Directory.Exists($@"{gamepath}\map"))
+            {
+                return false;
+            }
+
+            if (!Directory.Exists($@"{gamepath}\asset"))
+            {
+                return false;
+            }
         }
 
         return true;
@@ -512,10 +520,10 @@ public class AssetLocator
                 adList.Add(ad2);
             }
         }
-        else if (Type is GameType.Bloodborne or GameType.DarkSoulsIII or GameType.Sekiro or GameType.EldenRing)
+        else if (Type is GameType.Bloodborne or GameType.DarkSoulsIII or GameType.Sekiro or GameType.EldenRing or GameType.ArmoredCoreVI)
         {
             string path;
-            if (Type is GameType.EldenRing)
+            if (Type is GameType.EldenRing or GameType.ArmoredCoreVI)
             {
                 path = $@"map\{mapid[..3]}\{mapid}";
             }
@@ -560,10 +568,6 @@ public class AssetLocator
                     adList.Add(ad);
                 }
             }
-        }
-        else if (Type is GameType.ArmoredCoreVI)
-        {
-            //TODO AC6
         }
 
         return adList;
@@ -999,7 +1003,23 @@ public class AssetLocator
         }
         else if (Type == GameType.ArmoredCoreVI)
         {
-            //TODO AC6
+            var mapPath = GameRootDirectory + $@"\map\{mapid[..3]}\{mapid}";
+            if (!Directory.Exists(mapPath))
+            {
+                return ret;
+            }
+
+            List<string> mapfiles = Directory.GetFileSystemEntries(mapPath, @"*.mapbnd.dcx").ToList();
+            foreach (var f in mapfiles)
+            {
+                AssetDescription ad = new();
+                ad.AssetPath = f;
+                var name = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(f));
+                ad.AssetName = name;
+                ad.AssetArchiveVirtualPath = $@"map/{mapid}/model/{name}";
+                ad.AssetVirtualPath = $@"map/{mapid}/model/{name}/{name}.flver";
+                ret.Add(ad);
+            }
         }
         else
         {
@@ -1043,11 +1063,6 @@ public class AssetLocator
             return modelname;
         }
 
-        if (Type == GameType.ArmoredCoreVI)
-        {
-            //TODO AC6
-        }
-
         return $@"{mapid}_{modelname.Substring(1)}";
     }
 
@@ -1058,7 +1073,7 @@ public class AssetLocator
     /// <returns>The map ID for the purpose of asset storage</returns>
     public string GetAssetMapID(string mapid)
     {
-        if (Type is GameType.EldenRing)
+        if (Type is GameType.EldenRing or GameType.ArmoredCoreVI)
         {
             return mapid;
         }
@@ -1082,10 +1097,6 @@ public class AssetLocator
                 // Special case for chalice dungeon assets
                 return "m29_00_00_00";
             }
-        }
-        else if (Type is GameType.ArmoredCoreVI)
-        {
-            //TODO AC6
         }
 
         // Default
@@ -1113,7 +1124,7 @@ public class AssetLocator
         }
         else if (Type == GameType.ArmoredCoreVI)
         {
-            //TODO AC6
+            ret.AssetPath = GetAssetPath($@"map\{mapid[..3]}\{mapid}\{model}.mapbnd.dcx");
         }
         else
         {
@@ -1125,10 +1136,6 @@ public class AssetLocator
         {
             ret.AssetArchiveVirtualPath = $@"map/{mapid}/model";
             ret.AssetVirtualPath = $@"map/{mapid}/model/{model}.flv.dcx";
-        }
-        else if (Type is GameType.ArmoredCoreVI)
-        {
-            //TODO AC6
         }
         else
         {
@@ -1187,11 +1194,6 @@ public class AssetLocator
                 ret.AssetVirtualPath = $@"map/{mapid}/hit/lo/l{model.Substring(1)}.hkx.dcx";
                 ret.AssetArchiveVirtualPath = $@"map/{mapid}/hit/lo";
             }
-        }
-        else if (Type == GameType.ArmoredCoreVI)
-        {
-            //TODO AC6
-            GetNullAsset();
         }
         else
         {
@@ -1299,10 +1301,6 @@ public class AssetLocator
                     l.Add(tex.Name);
                 }
             }
-        }
-        else if (Type == GameType.ArmoredCoreVI)
-        {
-            //TODO AC6
         }
 
         return l;
@@ -1457,11 +1455,6 @@ public class AssetLocator
             ret.AssetArchiveVirtualPath = $@"map/{mapid}/nav";
             ret.AssetVirtualPath = $@"map/{mapid}/nav/{model}.nvm";
         }
-        else if (Type == GameType.ArmoredCoreVI)
-        {
-            //TODO AC6
-            return GetNullAsset();
-        }
         else
         {
             return GetNullAsset();
@@ -1507,10 +1500,6 @@ public class AssetLocator
             {
                 modelDir = @"\model\chr";
                 modelExt = ".bnd";
-            }
-            else if (Type == GameType.ArmoredCoreVI)
-            {
-                //TODO AC6
             }
 
             if (Type == GameType.DemonsSouls)
@@ -1914,10 +1903,6 @@ public class AssetLocator
                     bndpath = "";
                     return GetAssetPath($@"map\{mid}\{mid}_{pathElements[i]}.tpf.dcx");
                 }
-                else if (Type == GameType.ArmoredCoreVI)
-                {
-                    //TODO AC6
-                }
                 else
                 {
                     var mid = pathElements[i];
@@ -1971,7 +1956,7 @@ public class AssetLocator
 
                     if (Type == GameType.ArmoredCoreVI)
                     {
-                        //TODO AC6
+                        return GetAssetPath($@"map\{mapid.Substring(0, 3)}\{mapid}\{pathElements[i]}.mapbnd.dcx");
                     }
 
                     return GetAssetPath($@"map\{mapid}\{pathElements[i]}.mapbnd.dcx");
@@ -2005,11 +1990,6 @@ public class AssetLocator
                         return GetAssetPath($@"map\{mapid}\h{mapid.Substring(1)}.hkxbhd");
                     }
 
-                    if (Type == GameType.ArmoredCoreVI)
-                    {
-                        //TODO AC6
-                    }
-
                     bndpath = "";
                     return null;
                 }
@@ -2041,11 +2021,6 @@ public class AssetLocator
                     {
                         bndpath = "";
                         return GetAssetPath($@"map\{mapid}\{mapid}.nvmhktbnd.dcx");
-                    }
-
-                    if (Type == GameType.ArmoredCoreVI)
-                    {
-                        //TODO AC6
                     }
 
                     bndpath = "";
