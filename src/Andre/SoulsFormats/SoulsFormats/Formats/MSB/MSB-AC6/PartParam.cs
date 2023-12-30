@@ -23,7 +23,34 @@ namespace SoulsFormats
             DummyEnemy = 10,
             ConnectCollision = 11,
             Invalid = 12,
-            Asset = 13
+            Asset = 13,
+            Unknown_14 = 14,
+            Unknown_15 = 15,
+            Unknown_16 = 16,
+            Unknown_17 = 17,
+            Unknown_18 = 18,
+            Unknown_19 = 19,
+            Unknown_20 = 20,
+            Unknown_21 = 21,
+            Unknown_22 = 22,
+            Unknown_23 = 23,
+            Unknown_24 = 24,
+            Unknown_25 = 25,
+            Unknown_26 = 26,
+            Unknown_27 = 27,
+            Unknown_28 = 28,
+            Unknown_29 = 29,
+            Unknown_30 = 30,
+            Unknown_31 = 31,
+            Unknown_32 = 32,
+            Unknown_33 = 33,
+            Unknown_34 = 34,
+            Unknown_35 = 35,
+            Unknown_36 = 36,
+            Unknown_37 = 37,
+            Unknown_38 = 38,
+            Unknown_39 = 39,
+            Unknown_40 = 40,
         }
 
         /// <summary>
@@ -193,6 +220,33 @@ namespace SoulsFormats
                     case PartType.Protoboss:
                     case PartType.Navmesh:
                     case PartType.Invalid:
+                    case PartType.Unknown_14:
+                    case PartType.Unknown_15:
+                    case PartType.Unknown_16:
+                    case PartType.Unknown_17:
+                    case PartType.Unknown_18:
+                    case PartType.Unknown_19:
+                    case PartType.Unknown_20:
+                    case PartType.Unknown_21:
+                    case PartType.Unknown_22:
+                    case PartType.Unknown_23:
+                    case PartType.Unknown_24:
+                    case PartType.Unknown_25:
+                    case PartType.Unknown_26:
+                    case PartType.Unknown_27:
+                    case PartType.Unknown_28:
+                    case PartType.Unknown_29:
+                    case PartType.Unknown_30:
+                    case PartType.Unknown_31:
+                    case PartType.Unknown_32:
+                    case PartType.Unknown_33:
+                    case PartType.Unknown_34:
+                    case PartType.Unknown_35:
+                    case PartType.Unknown_36:
+                    case PartType.Unknown_37:
+                    case PartType.Unknown_38:
+                    case PartType.Unknown_39:
+                    case PartType.Unknown_40:
                         return null;
 
                     default:
@@ -902,6 +956,31 @@ namespace SoulsFormats
                 public short Unk26 { get; set; }
 
                 /// <summary>
+                /// Unknown.
+                /// </summary>
+                public int Unk28 { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public int Unk2C { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public int Unk30 { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public int Unk34 { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public int Unk38 { get; set; }
+
+                /// <summary>
                 /// Creates an UnkStruct2 with default values.
                 /// </summary>
                 public UnkStruct58()
@@ -925,7 +1004,11 @@ namespace SoulsFormats
                     DispGroups = br.ReadUInt32s(8);
                     Unk24 = br.ReadInt16();
                     Unk26 = br.ReadInt16();
-                    br.AssertPattern(0x20, 0x00);
+                    Unk28 = br.ReadInt32();
+                    Unk2C = br.ReadInt32();
+                    Unk30 = br.ReadInt32();
+                    Unk34 = br.ReadInt32();
+                    Unk38 = br.ReadInt32();
                 }
 
                 internal void Write(BinaryWriterEx bw)
@@ -934,7 +1017,11 @@ namespace SoulsFormats
                     bw.WriteUInt32s(DispGroups);
                     bw.WriteInt16(Unk24);
                     bw.WriteInt16(Unk26);
-                    bw.WritePattern(0x20, 0x00);
+                    bw.WriteInt32(Unk28);
+                    bw.WriteInt32(Unk2C);
+                    bw.WriteInt32(Unk30);
+                    bw.WriteInt32(Unk34);
+                    bw.WriteInt32(Unk38);
                 }
             }
 
@@ -2444,7 +2531,8 @@ namespace SoulsFormats
                     Unk22 = 22,
                     Unk23 = 23,
                     Unk24 = 24,
-                    Unk29 = 29
+                    Unk29 = 29,
+                    Other = 255
                 }
 
                 private protected override PartType Type => PartType.Collision;
@@ -2942,6 +3030,16 @@ namespace SoulsFormats
                 public byte[] MapID { get; private set; }
 
                 /// <summary>
+                /// Unknown.
+                /// </summary>
+                public int Unk0C { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public int Unk10 { get; set; }
+
+                /// <summary>
                 /// Creates a ConnectCollision with default values.
                 /// </summary>
                 public ConnectCollision() : base("hXXXXXX_XXXX")
@@ -2971,8 +3069,8 @@ namespace SoulsFormats
                 {
                     CollisionIndex = br.ReadInt32();
                     MapID = br.ReadBytes(4);
-                    br.AssertInt32(0);
-                    br.AssertInt32(0);
+                    Unk0C = br.ReadInt32();
+                    Unk10 = br.ReadInt32();
                 }
                 private protected override void ReadUnkOffsetT50(BinaryReaderEx br) => UnkStruct50 = new UnkStruct50(br);
                 private protected override void ReadUnkOffsetT58(BinaryReaderEx br) => UnkStruct58 = new UnkStruct58(br);
@@ -2984,8 +3082,8 @@ namespace SoulsFormats
                 {
                     bw.WriteInt32(CollisionIndex);
                     bw.WriteBytes(MapID);
-                    bw.WriteInt32(0);
-                    bw.WriteInt32(0);
+                    bw.WriteInt32(Unk0C);
+                    bw.WriteInt32(Unk10);
                 }
                 private protected override void WriteUnkOffsetT50(BinaryWriterEx bw) => UnkStruct50.Write(bw);
                 private protected override void WriteUnkOffsetT58(BinaryWriterEx bw) => UnkStruct58.Write(bw);
@@ -3601,6 +3699,36 @@ namespace SoulsFormats
                     /// <summary>
                     /// Unknown.
                     /// </summary>
+                    public byte Unk09 { get; set; }
+
+                    /// <summary>
+                    /// Unknown.
+                    /// </summary>
+                    public short Unk0B { get; set; }
+
+                    /// <summary>
+                    /// Unknown.
+                    /// </summary>
+                    public int Unk18 { get; set; }
+
+                    /// <summary>
+                    /// Unknown.
+                    /// </summary>
+                    public int Unk1C { get; set; }
+
+                    /// <summary>
+                    /// Unknown.
+                    /// </summary>
+                    public int Unk20 { get; set; }
+
+                    /// <summary>
+                    /// Unknown.
+                    /// </summary>
+                    public int Unk24 { get; set; }
+
+                    /// <summary>
+                    /// Unknown.
+                    /// </summary>
                     public int Unk28 { get; set; }
 
                     /// <summary>
@@ -3636,15 +3764,15 @@ namespace SoulsFormats
                         Unk00 = br.ReadInt32();
                         Unk04 = br.ReadSingle();
                         Unk08 = br.ReadByte();
-                        br.AssertByte(0); // 09
-                        br.AssertInt16(0); // 0B
+                        Unk09 = br.ReadByte();
+                        Unk0B = br.ReadInt16();
 
                         br.AssertInt32(0); // 10
                         br.AssertInt32(0); // 14
-                        br.AssertInt32(0); // 18
-                        br.AssertInt32(0); // 1C
-                        br.AssertInt32(0); // 20
-                        br.AssertInt32(0); // 24
+                        Unk18 = br.ReadInt32();
+                        Unk1C = br.ReadInt32();
+                        Unk20 = br.ReadInt32();
+                        Unk24 = br.ReadInt32();
                         Unk28 = br.ReadInt32();
                         br.AssertInt32(0); // 2C
                         Unk30 = br.ReadInt32();
@@ -3659,15 +3787,15 @@ namespace SoulsFormats
                         bw.WriteInt32(Unk00);
                         bw.WriteSingle(Unk04);
                         bw.WriteByte(Unk08);
-                        bw.WriteByte(0);
-                        bw.WriteInt16(0);
+                        bw.WriteByte(Unk09);
+                        bw.WriteInt16(Unk0B);
 
                         bw.WriteInt32(0); // 10
                         bw.WriteInt32(0); // 14
-                        bw.WriteInt32(0); // 18
-                        bw.WriteInt32(0); // 1C
-                        bw.WriteInt32(0); // 20
-                        bw.WriteInt32(0); // 24
+                        bw.WriteInt32(Unk18);
+                        bw.WriteInt32(Unk1C);
+                        bw.WriteInt32(Unk20);
+                        bw.WriteInt32(Unk24);
                         bw.WriteInt32(Unk28);
                         bw.WriteInt32(0); // 2C
                         bw.WriteInt32(Unk30);

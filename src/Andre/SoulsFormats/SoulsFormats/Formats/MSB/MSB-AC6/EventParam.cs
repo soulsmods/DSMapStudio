@@ -7,7 +7,7 @@ namespace SoulsFormats
 {
     public partial class MSB_AC6
     {
-        internal enum EventType : uint
+        internal enum EventType : int
         {
             Light = 0,
             Sound = 1,
@@ -34,7 +34,7 @@ namespace SoulsFormats
             StrategyRoute = 22,
             PatrolRoutePermanent = 23,
             MapGimmick = 24,
-            Other = 0xFFFFFFFF,
+            Other = -1,
         }
 
         /// <summary>
@@ -148,7 +148,7 @@ namespace SoulsFormats
                     case EventType.Generator:
                     case EventType.MapOffset:
                     case EventType.PlatoonInfo:
-                    case EventType.PatrolRoute:
+                    case EventType.PatrolInfo:
                     case EventType.MapGimmick:
                     case EventType.Other:
                         return true;
@@ -175,7 +175,7 @@ namespace SoulsFormats
                     case EventType.PlatoonInfo:
                         return PlatoonInfo.EchoAdd(new Event.PlatoonInfo(br));
 
-                    case EventType.PatrolRoute:
+                    case EventType.PatrolInfo:
                         return PatrolInfo.EchoAdd(new Event.PatrolInfo(br));
 
                     case EventType.MapGimmick:
@@ -271,7 +271,7 @@ namespace SoulsFormats
                 long start = br.Position;
                 long nameOffset = br.ReadInt64();
                 EventID = br.ReadInt32();
-                br.AssertUInt32((uint)Type);
+                br.AssertInt32((int)Type);
                 br.ReadInt32(); // ID
                 br.AssertInt32(0);
                 long entityDataOffset = br.ReadInt64();

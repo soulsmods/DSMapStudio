@@ -343,6 +343,7 @@ namespace SoulsFormats
                     case RegionType.Unk16:
                     case RegionType.Unk19:
                     case RegionType.Unk20:
+                    case RegionType.JumpEdgeRestriction:
                         return false;
 
                     default:
