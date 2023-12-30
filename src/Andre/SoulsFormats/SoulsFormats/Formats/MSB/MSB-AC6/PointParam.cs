@@ -344,6 +344,8 @@ namespace SoulsFormats
                     case RegionType.Unk19:
                     case RegionType.Unk20:
                     case RegionType.JumpEdgeRestriction:
+                    case RegionType.NaviGeneration:
+                    case RegionType.TopdownView:
                         return false;
 
                     default:
@@ -660,8 +662,6 @@ namespace SoulsFormats
                     throw new InvalidDataException($"Unexpected {nameof(FormOffset)} 0x{FormOffset:X} in type {GetType()}.");
                 if (CommonOffset == 0)
                     throw new InvalidDataException($"{nameof(CommonOffset)} must not be 0 in type {GetType()}.");
-                if (HasTypeData ^ TypeOffset != 0)
-                    throw new InvalidDataException($"Unexpected {nameof(TypeOffset)} 0x{TypeOffset:X} in type {GetType()}.");
                 if (Struct98Offset == 0)
                     throw new InvalidDataException($"{nameof(Struct98Offset)} must not be 0 in type {GetType()}.");
 
@@ -2135,12 +2135,27 @@ namespace SoulsFormats
             }
 
             /// <summary>
-            /// Most likely an unused region.
+            /// Other.
             /// </summary>
             public class Other : Region
             {
                 private protected override RegionType Type => RegionType.Other;
-                private protected override bool HasTypeData => false;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public int Unk00 { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public int Unk04 { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public int Unk08 { get; set; }
 
                 /// <summary>
                 /// Creates an Other with default values.
@@ -2148,6 +2163,20 @@ namespace SoulsFormats
                 public Other() : base($"{nameof(Region)}: {nameof(Other)}") { }
 
                 internal Other(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                    Unk00 = br.ReadInt32();
+                    Unk04 = br.ReadInt32();
+                    Unk08 = br.ReadInt32();
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                    bw.WriteInt32(Unk00);
+                    bw.WriteInt32(Unk04);
+                    bw.WriteInt32(Unk08);
+                }
             }
         }
     }

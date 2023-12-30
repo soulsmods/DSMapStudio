@@ -2478,6 +2478,7 @@ namespace SoulsFormats
                     Unk23 = 23,
                     Unk24 = 24,
                     Unk29 = 29,
+                    Unk30 = 30,
                     Other = 255
                 }
 
