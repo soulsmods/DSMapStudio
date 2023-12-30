@@ -195,7 +195,9 @@ namespace SoulsFormats
                 {
                     br.Position = offset;
 
-                    if(CheckEntry(br))
+                    // CheckEntry will eventually be removed
+                    // Currently it filters out the unmapped Part/Model/Region/Event types
+                    if (CheckEntry(br))
                         entries.Add(ReadEntry(br, Version));
                 }
                 br.Position = nextParamOffset;

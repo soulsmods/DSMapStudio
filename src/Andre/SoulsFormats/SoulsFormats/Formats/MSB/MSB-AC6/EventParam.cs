@@ -383,11 +383,13 @@ namespace SoulsFormats
                 /// <summary>
                 /// Itemlot given by the treasure.
                 /// </summary>
+                [MSBParamReference(ParamName = "ItemLotParam")]
                 public int ItemLotParamId { get; set; }
 
                 /// <summary>
                 /// Unknown. Potentially is 2nd Itemlot.
                 /// </summary>
+
                 public int UnkT14 { get; set; }
 
                 /// <summary>
@@ -433,6 +435,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [MSBParamReference(ParamName = "ActionButtonParam")]
                 public int ActionButtonParamId { get; set; }
 
                 /// <summary>

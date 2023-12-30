@@ -1883,6 +1883,11 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                public byte Unk57 { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
                 public int Unk58 { get; set; }
 
                 /// <summary>
@@ -2253,7 +2258,7 @@ namespace SoulsFormats
                     Unk54 = br.ReadByte();
                     Unk55 = br.ReadByte();
                     Unk56 = br.ReadByte();
-                    br.AssertByte(0);
+                    Unk57 = br.ReadByte();
                     Unk58 = br.ReadInt32();
 
                     Unk5C = br.ReadInt32();
@@ -2307,7 +2312,7 @@ namespace SoulsFormats
                     bw.WriteByte(Unk54);
                     bw.WriteByte(Unk55);
                     bw.WriteByte(Unk56);
-                    bw.WriteByte(0);
+                    bw.WriteByte(Unk57);
                     bw.WriteInt32(Unk58);
                     bw.WriteInt32(Unk5C);
                     bw.WriteInt32(Unk60);
@@ -2477,6 +2482,7 @@ namespace SoulsFormats
                     Unk22 = 22,
                     Unk23 = 23,
                     Unk24 = 24,
+                    Unk28 = 28,
                     Unk29 = 29,
                     Unk30 = 30,
                     Other = 255

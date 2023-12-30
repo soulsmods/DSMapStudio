@@ -346,6 +346,8 @@ namespace SoulsFormats
                     case RegionType.JumpEdgeRestriction:
                     case RegionType.NaviGeneration:
                     case RegionType.TopdownView:
+                    case RegionType.AiInformationSharing:
+                    case RegionType.WindPlacement:
                         return false;
 
                     default:
@@ -440,6 +442,8 @@ namespace SoulsFormats
         {
             private protected abstract RegionType Type { get; }
             private protected abstract bool HasTypeData { get; }
+
+            public int RegionTypeValue { get; set; }
 
             /// <summary>
             /// The shape of the region.
@@ -631,7 +635,7 @@ namespace SoulsFormats
                 long start = br.Position;
                 NameOffset = br.ReadInt64();
 
-                br.AssertUInt32((uint)Type);
+                RegionTypeValue = br.ReadInt32();
                 br.ReadInt32(); // ID
 
                 MSB.ShapeType shapeType = br.ReadEnum32<MSB.ShapeType>();
@@ -727,7 +731,7 @@ namespace SoulsFormats
                 long start = bw.Position;
 
                 bw.ReserveInt64("NameOffset");
-                bw.WriteUInt32((uint)Type);
+                bw.WriteInt32(RegionTypeValue);
                 bw.WriteInt32(id);
                 bw.WriteUInt32((uint)Shape.Type);
                 bw.WriteVector3(Position);
@@ -1801,7 +1805,7 @@ namespace SoulsFormats
                 public byte UnkT00 { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// Unknown. May be: WwiseValuetoStrParam_RuntimeReflectTextTyre or WwiseValuetoStrParam_Material
                 /// </summary>
                 public byte UnkT01 { get; set; }
 
@@ -2112,6 +2116,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [MSBParamReference(ParamName = "JumpSpecifyAltParam")]
                 public int JumpSpecifyAltParamID { get; set; }
 
                 /// <summary>
