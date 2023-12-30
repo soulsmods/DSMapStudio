@@ -23,34 +23,7 @@ namespace SoulsFormats
             DummyEnemy = 10,
             ConnectCollision = 11,
             Invalid = 12,
-            Asset = 13,
-            Unknown_14 = 14,
-            Unknown_15 = 15,
-            Unknown_16 = 16,
-            Unknown_17 = 17,
-            Unknown_18 = 18,
-            Unknown_19 = 19,
-            Unknown_20 = 20,
-            Unknown_21 = 21,
-            Unknown_22 = 22,
-            Unknown_23 = 23,
-            Unknown_24 = 24,
-            Unknown_25 = 25,
-            Unknown_26 = 26,
-            Unknown_27 = 27,
-            Unknown_28 = 28,
-            Unknown_29 = 29,
-            Unknown_30 = 30,
-            Unknown_31 = 31,
-            Unknown_32 = 32,
-            Unknown_33 = 33,
-            Unknown_34 = 34,
-            Unknown_35 = 35,
-            Unknown_36 = 36,
-            Unknown_37 = 37,
-            Unknown_38 = 38,
-            Unknown_39 = 39,
-            Unknown_40 = 40,
+            Asset = 13
         }
 
         /// <summary>
@@ -164,7 +137,7 @@ namespace SoulsFormats
 
             internal override bool CheckEntry(BinaryReaderEx br)
             {
-                PartType type = br.GetEnum32<PartType>(br.Position + 12);
+                PartType type = br.GetEnum32<PartType>(br.Position + 8);
 
                 switch (type)
                 {
@@ -185,7 +158,7 @@ namespace SoulsFormats
 
             internal override Part ReadEntry(BinaryReaderEx br, int Version)
             {
-                PartType type = br.GetEnum32<PartType>(br.Position + 12);
+                PartType type = br.GetEnum32<PartType>(br.Position + 8);
 
                 switch (type)
                 {
@@ -220,33 +193,6 @@ namespace SoulsFormats
                     case PartType.Protoboss:
                     case PartType.Navmesh:
                     case PartType.Invalid:
-                    case PartType.Unknown_14:
-                    case PartType.Unknown_15:
-                    case PartType.Unknown_16:
-                    case PartType.Unknown_17:
-                    case PartType.Unknown_18:
-                    case PartType.Unknown_19:
-                    case PartType.Unknown_20:
-                    case PartType.Unknown_21:
-                    case PartType.Unknown_22:
-                    case PartType.Unknown_23:
-                    case PartType.Unknown_24:
-                    case PartType.Unknown_25:
-                    case PartType.Unknown_26:
-                    case PartType.Unknown_27:
-                    case PartType.Unknown_28:
-                    case PartType.Unknown_29:
-                    case PartType.Unknown_30:
-                    case PartType.Unknown_31:
-                    case PartType.Unknown_32:
-                    case PartType.Unknown_33:
-                    case PartType.Unknown_34:
-                    case PartType.Unknown_35:
-                    case PartType.Unknown_36:
-                    case PartType.Unknown_37:
-                    case PartType.Unknown_38:
-                    case PartType.Unknown_39:
-                    case PartType.Unknown_40:
                         return null;
 
                     default:
@@ -618,7 +564,7 @@ namespace SoulsFormats
                 bw.WriteVector3(Scale);
                 bw.WriteInt32(UnkT44);
                 bw.WriteInt32(-1); // unk48
-                bw.WriteInt32(0); // unk4c
+                bw.WriteInt32(1); // unk4c
 
                 bw.ReserveInt64("UnkOffsetT50");
                 bw.ReserveInt64("UnkOffsetT58");
