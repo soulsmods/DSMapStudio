@@ -616,6 +616,66 @@ namespace SoulsFormats
                 public float UnkT18 { get; set; }
 
                 /// <summary>
+                /// Unknown.
+                /// </summary>
+                public int UnkTE0 { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public int UnkTE4 { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public int UnkTE8 { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public int UnkTEC { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public int UnkTF0 { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public int UnkTF4 { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public int UnkTF8 { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public int UnkTFC { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public int UnkT100 { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public int UnkT104 { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public int UnkT108 { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public int UnkT10C { get; set; }
+
+                /// <summary>
                 /// Points that enemies may be spawned at.
                 /// </summary>
                 [MSBReference(ReferenceType = typeof(Region))]
@@ -662,11 +722,23 @@ namespace SoulsFormats
                     UnkT13 = br.ReadByte();
                     UnkT14 = br.ReadSingle();
                     UnkT18 = br.ReadSingle();
-                    br.AssertPattern(0x14, 0x00);
-                    SpawnRegionIndices = br.ReadInt32s(8);
-                    br.AssertPattern(0x10, 0x00);
-                    SpawnPartIndices = br.ReadInt32s(32);
-                    br.AssertPattern(0x30, 0x00);
+                    br.AssertPattern(0x14, 0x00); // 2C
+                    SpawnRegionIndices = br.ReadInt32s(8); // 4C
+                    br.AssertPattern(0x10, 0x00); // 5C
+                    SpawnPartIndices = br.ReadInt32s(32); // DC
+
+                    UnkTE0 = br.ReadInt32(); 
+                    UnkTE4 = br.ReadInt32(); 
+                    UnkTE8 = br.ReadInt32(); 
+                    UnkTEC = br.ReadInt32(); 
+                    UnkTF0 = br.ReadInt32();
+                    UnkTF4 = br.ReadInt32();
+                    UnkTF8 = br.ReadInt32();
+                    UnkTFC = br.ReadInt32();
+                    UnkT100 = br.ReadInt32();
+                    UnkT104 = br.ReadInt32();
+                    UnkT108 = br.ReadInt32();
+                    UnkT10C = br.ReadInt32();
                 }
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
@@ -688,7 +760,19 @@ namespace SoulsFormats
                     bw.WriteInt32s(SpawnRegionIndices);
                     bw.WritePattern(0x10, 0x00);
                     bw.WriteInt32s(SpawnPartIndices);
-                    bw.WritePattern(0x30, 0x00);
+
+                    bw.WriteInt32(UnkTE0);
+                    bw.WriteInt32(UnkTE4);
+                    bw.WriteInt32(UnkTE8);
+                    bw.WriteInt32(UnkTEC);
+                    bw.WriteInt32(UnkTF0);
+                    bw.WriteInt32(UnkTF4);
+                    bw.WriteInt32(UnkTF8);
+                    bw.WriteInt32(UnkTFC);
+                    bw.WriteInt32(UnkT100);
+                    bw.WriteInt32(UnkT104);
+                    bw.WriteInt32(UnkT108);
+                    bw.WriteInt32(UnkT10C);
                 }
 
                 internal override void GetNames(MSB_AC6 msb, Entries entries)
