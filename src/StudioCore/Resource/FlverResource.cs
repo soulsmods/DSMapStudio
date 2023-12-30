@@ -599,6 +599,12 @@ public class FlverResource : IResource, IDisposable
             *n = FLVER.Vertex.ReadByteNormXYZ(br);
             nw = br.ReadByte();
         }
+        // TODO: add ShortBoneIndices
+        else if (type == FLVER.LayoutType.ShortBoneIndices)
+        {
+            *n = FLVER.Vertex.ReadShortNormXYZ(br);
+            nw = br.ReadInt16();
+        }
         else
         {
             throw new NotImplementedException($"Read not implemented for {type} normal.");
