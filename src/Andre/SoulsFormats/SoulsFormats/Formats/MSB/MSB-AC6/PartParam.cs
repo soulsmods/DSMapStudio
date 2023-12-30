@@ -1913,12 +1913,12 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public long UnkEnemyOffset70 { get; set; }
+                private long UnkEnemyOffset70 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public long UnkEnemyOffset78 { get; set; }
+                private long UnkEnemyOffset78 { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -2229,8 +2229,8 @@ namespace SoulsFormats
 
                     Unk00 = br.ReadInt32();
                     Unk04 = br.ReadInt32();
-                    NPCParamID = br.ReadInt32();
                     ThinkParamID = br.ReadInt32();
+                    NPCParamID = br.ReadInt32();
                     TalkID = br.ReadInt32();
                     Unk14 = br.ReadInt16();
                     Unk16 = br.ReadInt16();
@@ -3280,22 +3280,22 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public long UnkAssetOffset60 { get; set; }
+                private long UnkAssetOffset60 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public long UnkAssetOffset68 { get; set; }
+                private long UnkAssetOffset68 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public long UnkAssetOffset70 { get; set; }
+                private long UnkAssetOffset70 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public long UnkAssetOffset78 { get; set; }
+                private long UnkAssetOffset78 { get; set; }
 
                 /// <summary>
                 /// Unknown.

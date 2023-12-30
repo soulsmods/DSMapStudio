@@ -59,7 +59,7 @@ namespace SoulsFormats
             /// <summary>
             /// Unknown.
             /// </summary>
-            public long NameOffset { get; set; }
+            private long NameOffset { get; set; }
 
             /// <summary>
             /// Unknown.

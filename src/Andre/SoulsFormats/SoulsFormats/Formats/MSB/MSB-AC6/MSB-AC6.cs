@@ -195,7 +195,6 @@ namespace SoulsFormats
                 {
                     br.Position = offset;
 
-                    // This is likely the cause of the Entity issue
                     if(CheckEntry(br))
                         entries.Add(ReadEntry(br, Version));
                 }

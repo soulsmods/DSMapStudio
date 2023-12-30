@@ -464,12 +464,12 @@ namespace SoulsFormats
             /// <summary>
             /// Unknown.
             /// </summary>
-            public long IndexListOffset30 { get; set; }
+            private long IndexListOffset30 { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
-            public long IndexListOffset38 { get; set; }
+            private long IndexListOffset38 { get; set; }
 
             /// <summary>
             /// Unknown.
@@ -494,27 +494,27 @@ namespace SoulsFormats
             /// <summary>
             /// Unknown.
             /// </summary>
-            public long NameOffset { get; set; }
+            private long NameOffset { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
-            public long FormOffset { get; set; }
+            private long FormOffset { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
-            public long CommonOffset { get; set; }
+            private long CommonOffset { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
-            public long TypeOffset { get; set; }
+            private long TypeOffset { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
-            public long Struct98Offset { get; set; }
+            private long Struct98Offset { get; set; }
 
             /// <summary>
             /// Unknown.
@@ -1301,7 +1301,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public long Unk18Offset { get; set; }
+                private long Unk18Offset { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -1414,7 +1414,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public long Unk18Offset { get; set; }
+                private long Unk18Offset { get; set; }
 
                 /// <summary>
                 /// Unknown.
