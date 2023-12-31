@@ -197,14 +197,12 @@ namespace SoulsFormats
 
                     // CheckEntry will eventually be removed
                     // Currently it filters out the unmapped Part/Model/Region/Event types
-                    if (CheckEntry(br))
-                        entries.Add(ReadEntry(br, Version));
+                    //if (CheckEntry(br))
+                    entries.Add(ReadEntry(br, Version));
                 }
                 br.Position = nextParamOffset;
                 return entries;
             }
-
-            internal abstract bool CheckEntry(BinaryReaderEx br);
 
             internal abstract T ReadEntry(BinaryReaderEx br, int Version);
 

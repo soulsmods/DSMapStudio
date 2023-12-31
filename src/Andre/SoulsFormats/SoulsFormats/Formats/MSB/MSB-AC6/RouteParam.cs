@@ -35,11 +35,6 @@ namespace SoulsFormats
                 return Routes;
             }
 
-            internal override bool CheckEntry(BinaryReaderEx br)
-            {
-                return true;
-            }
-
             internal override Route ReadEntry(BinaryReaderEx br, int Version)
             {
                 return Routes.EchoAdd(new Route(br));

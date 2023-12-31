@@ -19,16 +19,16 @@ namespace SoulsFormats
             ObjAct = 7,
             ReturnPoint = 8,
             MapOffset = 9,
-            //EventType = 10,
-            //EventType = 11,
+            Unknown_10 = 10,
+            Unknown_11 = 11,
             NpcEntryPoint = 12,
             WindSfx = 13,
             PatrolInfo = 14,
             PlatoonInfo = 15,
-            //EventType = 16,
-            //EventType = 17,
-            //EventType = 18,
-            //EventType = 19,
+            Unknown_16 = 16,
+            Unknown_17 = 17,
+            Unknown_18 = 18,
+            Unknown_19 = 19,
             PatrolRoute = 20,
             Riding = 21,
             StrategyRoute = 22,
@@ -73,6 +73,101 @@ namespace SoulsFormats
             public List<Event.MapGimmick> MapGimmicks { get; set; }
 
             /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Event.Light> Lights { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Event.Sound> Sounds { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Event.Sfx> Sfxs { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Event.MapWindSfx> MapWindSfxs { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Event.Message> Messages { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Event.ObjAct> ObjActs { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Event.ReturnPoint> ReturnPoints { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Event.Unknown_10> Unknown_10s { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Event.Unknown_11> Unknown_11s { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Event.NpcEntryPoint> NpcEntryPoints { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Event.WindSfx> WindSfxs { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Event.Unknown_16> Unknown_16s { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Event.Unknown_17> Unknown_17s { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Event.Unknown_18> Unknown_18s { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Event.Unknown_19> Unknown_19s { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Event.PatrolRoute> PatrolRoutes { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Event.Riding> Ridings { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Event.StrategyRoute> StrategyRoutes { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Event.PatrolRoutePermanent> PatrolRoutePermanents { get; set; }
+
+            /// <summary>
             /// Other events in the MSB.
             /// </summary>
             public List<Event.Other> Others { get; set; }
@@ -89,6 +184,26 @@ namespace SoulsFormats
                 PatrolInfo = new List<Event.PatrolInfo>();
                 MapGimmicks = new List<Event.MapGimmick>();
                 Others = new List<Event.Other>();
+
+                Lights = new List<Event.Light>();
+                Sounds = new List<Event.Sound>();
+                Sfxs = new List<Event.Sfx>();
+                MapWindSfxs = new List<Event.MapWindSfx>();
+                Messages = new List<Event.Message>();
+                ObjActs = new List<Event.ObjAct>();
+                ReturnPoints = new List<Event.ReturnPoint>();
+                Unknown_10s = new List<Event.Unknown_10>();
+                Unknown_11s = new List<Event.Unknown_11>();
+                NpcEntryPoints = new List<Event.NpcEntryPoint>();
+                WindSfxs = new List<Event.WindSfx>();
+                Unknown_16s = new List<Event.Unknown_16>();
+                Unknown_17s = new List<Event.Unknown_17>();
+                Unknown_18s = new List<Event.Unknown_18>();
+                Unknown_19s = new List<Event.Unknown_19>();
+                PatrolRoutes = new List<Event.PatrolRoute>();
+                Ridings = new List<Event.Riding>();
+                StrategyRoutes = new List<Event.StrategyRoute>();
+                PatrolRoutePermanents = new List<Event.PatrolRoutePermanent>();
             }
 
             /// <summary>
@@ -116,6 +231,63 @@ namespace SoulsFormats
                     case Event.MapGimmick e:
                         MapGimmicks.Add(e);
                         break;
+                    case Event.Light e:
+                        Lights.Add(e);
+                        break;
+                    case Event.Sound e:
+                        Sounds.Add(e);
+                        break;
+                    case Event.Sfx e:
+                        Sfxs.Add(e);
+                        break;
+                    case Event.MapWindSfx e:
+                        MapWindSfxs.Add(e);
+                        break;
+                    case Event.Message e:
+                        Messages.Add(e);
+                        break;
+                    case Event.ObjAct e:
+                        ObjActs.Add(e);
+                        break;
+                    case Event.ReturnPoint e:
+                        ReturnPoints.Add(e);
+                        break;
+                    case Event.Unknown_10 e:
+                        Unknown_10s.Add(e);
+                        break;
+                    case Event.Unknown_11 e:
+                        Unknown_11s.Add(e);
+                        break;
+                    case Event.NpcEntryPoint e:
+                        NpcEntryPoints.Add(e);
+                        break;
+                    case Event.WindSfx e:
+                        WindSfxs.Add(e);
+                        break;
+                    case Event.Unknown_16 e:
+                        Unknown_16s.Add(e);
+                        break;
+                    case Event.Unknown_17 e:
+                        Unknown_17s.Add(e);
+                        break;
+                    case Event.Unknown_18 e:
+                        Unknown_18s.Add(e);
+                        break;
+                    case Event.Unknown_19 e:
+                        Unknown_19s.Add(e);
+                        break;
+                    case Event.PatrolRoute e:
+                        PatrolRoutes.Add(e);
+                        break;
+                    case Event.Riding e:
+                        Ridings.Add(e);
+                        break;
+                    case Event.StrategyRoute e:
+                        StrategyRoutes.Add(e);
+                        break;
+                    case Event.PatrolRoutePermanent e:
+                        PatrolRoutePermanents.Add(e);
+                        break;
                     case Event.Other e:
                         Others.Add(e);
                         break;
@@ -134,29 +306,12 @@ namespace SoulsFormats
             {
                 return SFUtil.ConcatAll<Event>(
                 Treasures, Generators, MapOffsets, PlatoonInfo,
-                    PatrolInfo, MapGimmicks, Others);
+                    PatrolInfo, MapGimmicks,
+                    Lights, Sounds, Sfxs, MapWindSfxs, Messages, ObjActs, ReturnPoints, Unknown_10s, Unknown_11s, NpcEntryPoints,
+                    WindSfxs, Unknown_16s, Unknown_17s, Unknown_18s, Unknown_19s, PatrolRoutes, Ridings, StrategyRoutes, PatrolRoutePermanents,
+                    Others);
             }
             IReadOnlyList<IMsbEvent> IMsbParam<IMsbEvent>.GetEntries() => GetEntries();
-
-            internal override bool CheckEntry(BinaryReaderEx br)
-            {
-                EventType type = br.GetEnum32<EventType>(br.Position + 0xC);
-
-                switch (type)
-                {
-                    case EventType.Treasure:
-                    case EventType.Generator:
-                    case EventType.MapOffset:
-                    case EventType.PlatoonInfo:
-                    case EventType.PatrolInfo:
-                    case EventType.MapGimmick:
-                    case EventType.Other:
-                        return true;
-
-                    default:
-                        return false;
-                }
-            }
 
             internal override Event ReadEntry(BinaryReaderEx br, int Version)
             {
@@ -180,6 +335,63 @@ namespace SoulsFormats
 
                     case EventType.MapGimmick:
                         return MapGimmicks.EchoAdd(new Event.MapGimmick(br));
+
+                    case EventType.Light:
+                        return Lights.EchoAdd(new Event.Light(br));
+
+                    case EventType.Sound:
+                        return Sounds.EchoAdd(new Event.Sound(br));
+
+                    case EventType.Sfx:
+                        return Sfxs.EchoAdd(new Event.Sfx(br));
+
+                    case EventType.MapWindSfx:
+                        return MapWindSfxs.EchoAdd(new Event.MapWindSfx(br));
+
+                    case EventType.Message:
+                        return Messages.EchoAdd(new Event.Message(br));
+
+                    case EventType.ObjAct:
+                        return ObjActs.EchoAdd(new Event.ObjAct(br));
+
+                    case EventType.ReturnPoint:
+                        return ReturnPoints.EchoAdd(new Event.ReturnPoint(br));
+
+                    case EventType.Unknown_10:
+                        return Unknown_10s.EchoAdd(new Event.Unknown_10(br));
+
+                    case EventType.Unknown_11:
+                        return Unknown_11s.EchoAdd(new Event.Unknown_11(br));
+
+                    case EventType.NpcEntryPoint:
+                        return NpcEntryPoints.EchoAdd(new Event.NpcEntryPoint(br));
+
+                    case EventType.WindSfx:
+                        return WindSfxs.EchoAdd(new Event.WindSfx(br));
+
+                    case EventType.Unknown_16:
+                        return Unknown_16s.EchoAdd(new Event.Unknown_16(br));
+
+                    case EventType.Unknown_17:
+                        return Unknown_17s.EchoAdd(new Event.Unknown_17(br));
+
+                    case EventType.Unknown_18:
+                        return Unknown_18s.EchoAdd(new Event.Unknown_18(br));
+
+                    case EventType.Unknown_19:
+                        return Unknown_19s.EchoAdd(new Event.Unknown_19(br));
+
+                    case EventType.PatrolRoute:
+                        return PatrolRoutes.EchoAdd(new Event.PatrolRoute(br));
+
+                    case EventType.Riding:
+                        return Ridings.EchoAdd(new Event.Riding(br));
+
+                    case EventType.StrategyRoute:
+                        return StrategyRoutes.EchoAdd(new Event.StrategyRoute(br));
+
+                    case EventType.PatrolRoutePermanent:
+                        return PatrolRoutePermanents.EchoAdd(new Event.PatrolRoutePermanent(br));
 
                     case EventType.Other:
                         return Others.EchoAdd(new Event.Other(br));
@@ -1082,6 +1294,462 @@ namespace SoulsFormats
                     PointIndicesT28 = new short[PointNamesT28.Length];
                     for (int i = 0; i < PointNamesT28.Length; i++)
                         PointIndicesT28[i] = (short)MSB.FindIndex(this, entries.Regions, PointNamesT28[i]);
+                }
+            }
+
+            /// <summary>
+            /// Unknown
+            /// </summary>
+            public class Light : Event
+            {
+                private protected override EventType Type => EventType.Light;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates a Light with default values.
+                /// </summary>
+                public Light() : base($"{nameof(Event)}: {nameof(Light)}") { }
+
+                internal Light(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                }
+            }
+
+            /// <summary>
+            /// Unknown
+            /// </summary>
+            public class Sound : Event
+            {
+                private protected override EventType Type => EventType.Sound;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates a Sound with default values.
+                /// </summary>
+                public Sound() : base($"{nameof(Event)}: {nameof(Sound)}") { }
+
+                internal Sound(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                }
+            }
+
+            /// <summary>
+            /// Unknown
+            /// </summary>
+            public class Sfx : Event
+            {
+                private protected override EventType Type => EventType.Sfx;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates a Sfx with default values.
+                /// </summary>
+                public Sfx() : base($"{nameof(Event)}: {nameof(Sfx)}") { }
+
+                internal Sfx(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                }
+            }
+
+            /// <summary>
+            /// Unknown
+            /// </summary>
+            public class MapWindSfx : Event
+            {
+                private protected override EventType Type => EventType.MapWindSfx;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates a MapWindSfx with default values.
+                /// </summary>
+                public MapWindSfx() : base($"{nameof(Event)}: {nameof(MapWindSfx)}") { }
+
+                internal MapWindSfx(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                }
+            }
+
+            /// <summary>
+            /// Unknown
+            /// </summary>
+            public class Message : Event
+            {
+                private protected override EventType Type => EventType.Message;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates a Message with default values.
+                /// </summary>
+                public Message() : base($"{nameof(Event)}: {nameof(Message)}") { }
+
+                internal Message(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                }
+            }
+
+            /// <summary>
+            /// Unknown
+            /// </summary>
+            public class ObjAct : Event
+            {
+                private protected override EventType Type => EventType.ObjAct;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates a ObjAct with default values.
+                /// </summary>
+                public ObjAct() : base($"{nameof(Event)}: {nameof(ObjAct)}") { }
+
+                internal ObjAct(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                }
+            }
+
+            /// <summary>
+            /// Unknown
+            /// </summary>
+            public class ReturnPoint : Event
+            {
+                private protected override EventType Type => EventType.ReturnPoint;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates a ReturnPoint with default values.
+                /// </summary>
+                public ReturnPoint() : base($"{nameof(Event)}: {nameof(ReturnPoint)}") { }
+
+                internal ReturnPoint(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                }
+            }
+
+            /// <summary>
+            /// Unknown
+            /// </summary>
+            public class Unknown_10 : Event
+            {
+                private protected override EventType Type => EventType.Unknown_10;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates a Unknown_10 with default values.
+                /// </summary>
+                public Unknown_10() : base($"{nameof(Event)}: {nameof(Unknown_10)}") { }
+
+                internal Unknown_10(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                }
+            }
+
+            /// <summary>
+            /// Unknown
+            /// </summary>
+            public class Unknown_11 : Event
+            {
+                private protected override EventType Type => EventType.Unknown_11;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates a Light with default values.
+                /// </summary>
+                public Unknown_11() : base($"{nameof(Event)}: {nameof(Unknown_11)}") { }
+
+                internal Unknown_11(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                }
+            }
+
+            /// <summary>
+            /// Unknown
+            /// </summary>
+            public class NpcEntryPoint : Event
+            {
+                private protected override EventType Type => EventType.NpcEntryPoint;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates a NpcEntryPoint with default values.
+                /// </summary>
+                public NpcEntryPoint() : base($"{nameof(Event)}: {nameof(NpcEntryPoint)}") { }
+
+                internal NpcEntryPoint(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                }
+            }
+
+            /// <summary>
+            /// Unknown
+            /// </summary>
+            public class WindSfx : Event
+            {
+                private protected override EventType Type => EventType.WindSfx;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates a WindSfx with default values.
+                /// </summary>
+                public WindSfx() : base($"{nameof(Event)}: {nameof(WindSfx)}") { }
+
+                internal WindSfx(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                }
+            }
+
+            /// <summary>
+            /// Unknown
+            /// </summary>
+            public class Unknown_16 : Event
+            {
+                private protected override EventType Type => EventType.Light;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates a Unknown_16 with default values.
+                /// </summary>
+                public Unknown_16() : base($"{nameof(Event)}: {nameof(Unknown_16)}") { }
+
+                internal Unknown_16(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                }
+            }
+
+            /// <summary>
+            /// Unknown
+            /// </summary>
+            public class Unknown_17 : Event
+            {
+                private protected override EventType Type => EventType.Unknown_17;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates a Unknown_17 with default values.
+                /// </summary>
+                public Unknown_17() : base($"{nameof(Event)}: {nameof(Unknown_17)}") { }
+
+                internal Unknown_17(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                }
+            }
+
+            /// <summary>
+            /// Unknown
+            /// </summary>
+            public class Unknown_18 : Event
+            {
+                private protected override EventType Type => EventType.Unknown_18;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates a Unknown_18 with default values.
+                /// </summary>
+                public Unknown_18() : base($"{nameof(Event)}: {nameof(Unknown_18)}") { }
+
+                internal Unknown_18(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                }
+            }
+
+            /// <summary>
+            /// Unknown
+            /// </summary>
+            public class Unknown_19 : Event
+            {
+                private protected override EventType Type => EventType.Unknown_19;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates a Unknown_19 with default values.
+                /// </summary>
+                public Unknown_19() : base($"{nameof(Event)}: {nameof(Unknown_19)}") { }
+
+                internal Unknown_19(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                }
+            }
+
+            /// <summary>
+            /// Unknown
+            /// </summary>
+            public class PatrolRoute : Event
+            {
+                private protected override EventType Type => EventType.PatrolRoute;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates a PatrolRoute with default values.
+                /// </summary>
+                public PatrolRoute() : base($"{nameof(Event)}: {nameof(PatrolRoute)}") { }
+
+                internal PatrolRoute(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                }
+            }
+
+            /// <summary>
+            /// Unknown
+            /// </summary>
+            public class Riding : Event
+            {
+                private protected override EventType Type => EventType.Riding;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates a Riding with default values.
+                /// </summary>
+                public Riding() : base($"{nameof(Event)}: {nameof(Riding)}") { }
+
+                internal Riding(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                }
+            }
+
+            /// <summary>
+            /// Unknown
+            /// </summary>
+            public class StrategyRoute : Event
+            {
+                private protected override EventType Type => EventType.StrategyRoute;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates a StrategyRoute with default values.
+                /// </summary>
+                public StrategyRoute() : base($"{nameof(Event)}: {nameof(StrategyRoute)}") { }
+
+                internal StrategyRoute(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                }
+            }
+
+            /// <summary>
+            /// Unknown
+            /// </summary>
+            public class PatrolRoutePermanent : Event
+            {
+                private protected override EventType Type => EventType.PatrolRoutePermanent;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates a PatrolRoutePermanent with default values.
+                /// </summary>
+                public PatrolRoutePermanent() : base($"{nameof(Event)}: {nameof(PatrolRoutePermanent)}") { }
+
+                internal PatrolRoutePermanent(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
                 }
             }
 

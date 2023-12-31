@@ -6,7 +6,6 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
-using static SoulsFormats.MSBE.Event;
 
 namespace SoulsFormats
 {
@@ -17,24 +16,24 @@ namespace SoulsFormats
             None = 0,
             EntryPoint = 1,
             EnvMapPoint = 2,
-            Unk3 = 3,
+            Unknown_3 = 3,
             Sound = 4,
             SFX = 5,
             WindSFX = 6,
-            Unk7 = 7,
+            Unknown_7 = 7,
             ReturnPoint = 8,
             Message = 9,
-            Unk10 = 10,
-            Unk11 = 11,
-            Unk12 = 12,
+            Unknown_10 = 10,
+            Unknown_11 = 11,
+            Unknown_12 = 12,
             FallReturnPoint = 13,
-            Unk14 = 14,
-            Unk15 = 15,
-            Unk16 = 16,
+            Unknown_14 = 14,
+            Unknown_15 = 15,
+            Unknown_16 = 16,
             EnvMapEffectBox = 17,
             WindPlacement = 18,
-            Unk19 = 19,
-            Unk20 = 20,
+            Unknown_19 = 19,
+            Unknown_20 = 20,
             Connection = 21,
             SourceWaypoint = 22,
             StaticWaypoint = 23,
@@ -196,6 +195,176 @@ namespace SoulsFormats
             public List<Region.Other> Others { get; set; }
 
             /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Region.Unknown_3> Unknown_3s { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Region.Unknown_7> Unknown_7s { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Region.ReturnPoint> ReturnPoints { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Region.Message> Messages { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Region.Unknown_10> Unknown_10s { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Region.Unknown_11> Unknown_11s { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Region.Unknown_12> Unknown_12s { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Region.FallReturnPoint> FallReturnPoints { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Region.Unknown_14> Unknown_14s { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Region.Unknown_15> Unknown_15s { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Region.Unknown_16> Unknown_16s { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Region.WindPlacement> WindPlacements { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Region.Unknown_19> Unknown_19s { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Region.Unknown_20> Unknown_20s { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Region.Connection> Connections { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Region.SourceWaypoint> SourceWaypoints { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Region.StaticWaypoint> StaticWaypoints { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Region.MapGridLayerConnection> MapGridLayerConnections { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Region.EnemySpawnPoint> EnemySpawnPoints { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Region.BuddySummonPoint> BuddySummonPoints { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Region.RollingAssetGeneration> RollingAssetGenerations { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Region.MufflingPlane> MufflingPlanes { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Region.ElectroMagneticStorm> ElectroMagneticStorms { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Region.AiInformationSharing> AiInformationSharings { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Region.WaveSimulation> WaveSimulations { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Region.Cover> Covers { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Region.MissionPlacement> MissionPlacements { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Region.NaviVolumeResolution> NaviVolumeResolutions { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Region.MiniArea> MiniAreas { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Region.ConnectionBorder> ConnectionBorders { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Region.NaviGeneration> NaviGenerations { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Region.TopdownView> TopdownViews { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Region.NaviCvCancel> NaviCvCancels { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Region.JumpEdgeRestriction> JumpEdgeRestrictions { get; set; }
+
+            /// <summary>
             /// Creates an empty PointParam with the default version.
             /// </summary>
             public PointParam() : base(73, "POINT_PARAM_ST")
@@ -222,6 +391,42 @@ namespace SoulsFormats
                 CutscenePlaybacks = new List<Region.CutscenePlayback>();
                 FallPreventionWallRemovals = new List<Region.FallPreventionWallRemoval>();
                 BigJumps = new List<Region.BigJump>();
+
+                Unknown_3s = new List<Region.Unknown_3>();
+                Unknown_7s = new List<Region.Unknown_7>();
+                ReturnPoints = new List<Region.ReturnPoint>();
+                Messages = new List<Region.Message>();
+                Unknown_10s = new List<Region.Unknown_10>();
+                Unknown_11s = new List<Region.Unknown_11>();
+                Unknown_12s = new List<Region.Unknown_12>();
+                FallReturnPoints = new List<Region.FallReturnPoint>();
+                Unknown_14s = new List<Region.Unknown_14>();
+                Unknown_15s = new List<Region.Unknown_15>();
+                Unknown_16s = new List<Region.Unknown_16>();
+                WindPlacements = new List<Region.WindPlacement>();
+                Unknown_19s = new List<Region.Unknown_19>();
+                Unknown_20s = new List<Region.Unknown_20>();
+                Connections = new List<Region.Connection>();
+                SourceWaypoints = new List<Region.SourceWaypoint>();
+                StaticWaypoints = new List<Region.StaticWaypoint>();
+                MapGridLayerConnections = new List<Region.MapGridLayerConnection>();
+                EnemySpawnPoints = new List<Region.EnemySpawnPoint>();
+                BuddySummonPoints = new List<Region.BuddySummonPoint>();
+                RollingAssetGenerations = new List<Region.RollingAssetGeneration>();
+                MufflingPlanes = new List<Region.MufflingPlane>();
+                ElectroMagneticStorms = new List<Region.ElectroMagneticStorm>();
+                AiInformationSharings = new List<Region.AiInformationSharing>();
+                WaveSimulations = new List<Region.WaveSimulation>();
+                Covers = new List<Region.Cover>();
+                MissionPlacements = new List<Region.MissionPlacement>();
+                NaviVolumeResolutions = new List<Region.NaviVolumeResolution>();
+                MiniAreas = new List<Region.MiniArea>();
+                ConnectionBorders = new List<Region.ConnectionBorder>();
+                NaviGenerations = new List<Region.NaviGeneration>();
+                TopdownViews = new List<Region.TopdownView>();
+                NaviCvCancels = new List<Region.NaviCvCancel>();
+                JumpEdgeRestrictions = new List<Region.JumpEdgeRestriction>();
+
                 Others = new List<Region.Other>();
             }
 
@@ -298,6 +503,108 @@ namespace SoulsFormats
                     case Region.BigJump r:
                         BigJumps.Add(r);
                         break;
+                    case Region.Unknown_3 r:
+                        Unknown_3s.Add(r);
+                        break;
+                    case Region.Unknown_7 r:
+                        Unknown_7s.Add(r);
+                        break;
+                    case Region.ReturnPoint r:
+                        ReturnPoints.Add(r);
+                        break;
+                    case Region.Message r:
+                        Messages.Add(r);
+                        break;
+                    case Region.Unknown_10 r:
+                        Unknown_10s.Add(r);
+                        break;
+                    case Region.Unknown_11 r:
+                        Unknown_11s.Add(r);
+                        break;
+                    case Region.Unknown_12 r:
+                        Unknown_12s.Add(r);
+                        break;
+                    case Region.FallReturnPoint r:
+                        FallReturnPoints.Add(r);
+                        break;
+                    case Region.Unknown_14 r:
+                        Unknown_14s.Add(r);
+                        break;
+                    case Region.Unknown_15 r:
+                        Unknown_15s.Add(r);
+                        break;
+                    case Region.Unknown_16 r:
+                        Unknown_16s.Add(r);
+                        break;
+                    case Region.WindPlacement r:
+                        WindPlacements.Add(r);
+                        break;
+                    case Region.Unknown_19 r:
+                        Unknown_19s.Add(r);
+                        break;
+                    case Region.Unknown_20 r:
+                        Unknown_20s.Add(r);
+                        break;
+                    case Region.Connection r:
+                        Connections.Add(r);
+                        break;
+                    case Region.SourceWaypoint r:
+                        SourceWaypoints.Add(r);
+                        break;
+                    case Region.StaticWaypoint r:
+                        StaticWaypoints.Add(r);
+                        break;
+                    case Region.MapGridLayerConnection r:
+                        MapGridLayerConnections.Add(r);
+                        break;
+                    case Region.EnemySpawnPoint r:
+                        EnemySpawnPoints.Add(r);
+                        break;
+                    case Region.BuddySummonPoint r:
+                        BuddySummonPoints.Add(r);
+                        break;
+                    case Region.RollingAssetGeneration r:
+                        RollingAssetGenerations.Add(r);
+                        break;
+                    case Region.MufflingPlane r:
+                        MufflingPlanes.Add(r);
+                        break;
+                    case Region.ElectroMagneticStorm r:
+                        ElectroMagneticStorms.Add(r);
+                        break;
+                    case Region.AiInformationSharing r:
+                        AiInformationSharings.Add(r);
+                        break;
+                    case Region.WaveSimulation r:
+                        WaveSimulations.Add(r);
+                        break;
+                    case Region.Cover r:
+                        Covers.Add(r);
+                        break;
+                    case Region.MissionPlacement r:
+                        MissionPlacements.Add(r);
+                        break;
+                    case Region.NaviVolumeResolution r:
+                        NaviVolumeResolutions.Add(r);
+                        break;
+                    case Region.MiniArea r:
+                        MiniAreas.Add(r);
+                        break;
+                    case Region.ConnectionBorder r:
+                        ConnectionBorders.Add(r);
+                        break;
+                    case Region.NaviGeneration r:
+                        NaviGenerations.Add(r);
+                        break;
+                    case Region.TopdownView r:
+                        TopdownViews.Add(r);
+                        break;
+                    case Region.NaviCvCancel r:
+                        NaviCvCancels.Add(r);
+                        break;
+                    case Region.JumpEdgeRestriction r:
+                        JumpEdgeRestrictions.Add(r);
+                        break;
                     case Region.Other r:
                         Others.Add(r);
                         break;
@@ -320,40 +627,18 @@ namespace SoulsFormats
                     MufflingPortals, SoundOverrides, Patrols,
                     FeMapDisplays, OperationalAreas, AiTargets, WwiseEnvironmentSounds,
                     CharacterFollowings, NavmeshCostControls, ArenaControls,
-                    ArenaAppearances, GarageCameras, CutscenePlaybacks, FallPreventionWallRemovals, BigJumps, 
+                    ArenaAppearances, GarageCameras, CutscenePlaybacks, FallPreventionWallRemovals, BigJumps,
+
+                    Unknown_3s, Unknown_7s, ReturnPoints, Messages, Unknown_10s, Unknown_11s, Unknown_12s, FallReturnPoints,
+                    Unknown_14s, Unknown_15s, Unknown_16s, WindPlacements, Unknown_19s, Unknown_20s, Connections,
+                    SourceWaypoints, StaticWaypoints, MapGridLayerConnections, EnemySpawnPoints, BuddySummonPoints, RollingAssetGenerations,
+                    MufflingPlanes, ElectroMagneticStorms, AiInformationSharings, WaveSimulations, Covers, MissionPlacements,
+                    NaviVolumeResolutions, MiniAreas, ConnectionBorders, NaviGenerations, TopdownViews, NaviCvCancels, JumpEdgeRestrictions,
+
                     Others
                 );
             }
             IReadOnlyList<IMsbRegion> IMsbParam<IMsbRegion>.GetEntries() => GetEntries();
-
-            internal override bool CheckEntry(BinaryReaderEx br)
-            {
-                RegionType type = br.GetEnum32<RegionType>(br.Position + 8);
-
-                switch (type)
-                {
-                    case RegionType.None:
-                    case RegionType.Unk3:
-                    case RegionType.Unk7:
-                    case RegionType.Unk10:
-                    case RegionType.Unk11:
-                    case RegionType.Unk12:
-                    case RegionType.Unk14:
-                    case RegionType.Unk15:
-                    case RegionType.Unk16:
-                    case RegionType.Unk19:
-                    case RegionType.Unk20:
-                    case RegionType.JumpEdgeRestriction:
-                    case RegionType.NaviGeneration:
-                    case RegionType.TopdownView:
-                    case RegionType.AiInformationSharing:
-                    case RegionType.WindPlacement:
-                        return false;
-
-                    default:
-                        return true;
-                }
-            }
 
             internal override Region ReadEntry(BinaryReaderEx br, int Version)
             {
@@ -425,6 +710,108 @@ namespace SoulsFormats
 
                     case RegionType.BigJump:
                         return BigJumps.EchoAdd(new Region.BigJump(br));
+
+                    case RegionType.Unknown_3:
+                        return Unknown_3s.EchoAdd(new Region.Unknown_3(br));
+
+                    case RegionType.Unknown_7:
+                        return Unknown_7s.EchoAdd(new Region.Unknown_7(br));
+
+                    case RegionType.ReturnPoint:
+                        return ReturnPoints.EchoAdd(new Region.ReturnPoint(br));
+
+                    case RegionType.Message:
+                        return Messages.EchoAdd(new Region.Message(br));
+
+                    case RegionType.Unknown_10:
+                        return Unknown_10s.EchoAdd(new Region.Unknown_10(br));
+
+                    case RegionType.Unknown_11:
+                        return Unknown_11s.EchoAdd(new Region.Unknown_11(br));
+
+                    case RegionType.Unknown_12:
+                        return Unknown_12s.EchoAdd(new Region.Unknown_12(br));
+
+                    case RegionType.FallReturnPoint:
+                        return FallReturnPoints.EchoAdd(new Region.FallReturnPoint(br));
+
+                    case RegionType.Unknown_14:
+                        return Unknown_14s.EchoAdd(new Region.Unknown_14(br));
+
+                    case RegionType.Unknown_15:
+                        return Unknown_15s.EchoAdd(new Region.Unknown_15(br));
+
+                    case RegionType.Unknown_16:
+                        return Unknown_16s.EchoAdd(new Region.Unknown_16(br));
+
+                    case RegionType.WindPlacement:
+                        return WindPlacements.EchoAdd(new Region.WindPlacement(br));
+
+                    case RegionType.Unknown_19:
+                        return Unknown_19s.EchoAdd(new Region.Unknown_19(br));
+
+                    case RegionType.Unknown_20:
+                        return Unknown_20s.EchoAdd(new Region.Unknown_20(br));
+
+                    case RegionType.Connection:
+                        return Connections.EchoAdd(new Region.Connection(br));
+
+                    case RegionType.SourceWaypoint:
+                        return SourceWaypoints.EchoAdd(new Region.SourceWaypoint(br));
+
+                    case RegionType.StaticWaypoint:
+                        return StaticWaypoints.EchoAdd(new Region.StaticWaypoint(br));
+
+                    case RegionType.MapGridLayerConnection:
+                        return MapGridLayerConnections.EchoAdd(new Region.MapGridLayerConnection(br));
+
+                    case RegionType.EnemySpawnPoint:
+                        return EnemySpawnPoints.EchoAdd(new Region.EnemySpawnPoint(br));
+
+                    case RegionType.BuddySummonPoint:
+                        return BuddySummonPoints.EchoAdd(new Region.BuddySummonPoint(br));
+
+                    case RegionType.RollingAssetGeneration:
+                        return RollingAssetGenerations.EchoAdd(new Region.RollingAssetGeneration(br));
+
+                    case RegionType.MufflingPlane:
+                        return MufflingPlanes.EchoAdd(new Region.MufflingPlane(br));
+
+                    case RegionType.ElectroMagneticStorm:
+                        return ElectroMagneticStorms.EchoAdd(new Region.ElectroMagneticStorm(br));
+
+                    case RegionType.AiInformationSharing:
+                        return AiInformationSharings.EchoAdd(new Region.AiInformationSharing(br));
+
+                    case RegionType.WaveSimulation:
+                        return WaveSimulations.EchoAdd(new Region.WaveSimulation(br));
+
+                    case RegionType.Cover:
+                        return Covers.EchoAdd(new Region.Cover(br));
+
+                    case RegionType.MissionPlacement:
+                        return MissionPlacements.EchoAdd(new Region.MissionPlacement(br));
+
+                    case RegionType.NaviVolumeResolution:
+                        return NaviVolumeResolutions.EchoAdd(new Region.NaviVolumeResolution(br));
+
+                    case RegionType.MiniArea:
+                        return MiniAreas.EchoAdd(new Region.MiniArea(br));
+
+                    case RegionType.ConnectionBorder:
+                        return ConnectionBorders.EchoAdd(new Region.ConnectionBorder(br));
+
+                    case RegionType.NaviGeneration:
+                        return NaviGenerations.EchoAdd(new Region.NaviGeneration(br));
+
+                    case RegionType.TopdownView:
+                        return TopdownViews.EchoAdd(new Region.TopdownView(br));
+
+                    case RegionType.NaviCvCancel:
+                        return NaviCvCancels.EchoAdd(new Region.NaviCvCancel(br));
+
+                    case RegionType.JumpEdgeRestriction:
+                        return JumpEdgeRestrictions.EchoAdd(new Region.JumpEdgeRestriction(br));
 
                     case RegionType.Other:
                         return Others.EchoAdd(new Region.Other(br));
@@ -2136,6 +2523,822 @@ namespace SoulsFormats
                 {
                     bw.WriteInt32(JumpSpecifyAltParamID);
                     bw.WriteInt32(0);
+                }
+            }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public class Unknown_3 : Region
+            {
+                private protected override RegionType Type => RegionType.Unknown_3;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates an Unknown_3 with default values.
+                /// </summary>
+                public Unknown_3() : base($"{nameof(Region)}: {nameof(Unknown_3)}") { }
+
+                internal Unknown_3(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                }
+            }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public class Unknown_7 : Region
+            {
+                private protected override RegionType Type => RegionType.Unknown_7;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates an Unknown_7 with default values.
+                /// </summary>
+                public Unknown_7() : base($"{nameof(Region)}: {nameof(Unknown_7)}") { }
+
+                internal Unknown_7(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                }
+            }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public class ReturnPoint : Region
+            {
+                private protected override RegionType Type => RegionType.ReturnPoint;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates an ReturnPoint with default values.
+                /// </summary>
+                public ReturnPoint() : base($"{nameof(Region)}: {nameof(ReturnPoint)}") { }
+
+                internal ReturnPoint(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                }
+            }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public class Message : Region
+            {
+                private protected override RegionType Type => RegionType.Message;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates an Message with default values.
+                /// </summary>
+                public Message() : base($"{nameof(Region)}: {nameof(Message)}") { }
+
+                internal Message(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                }
+            }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public class Unknown_10 : Region
+            {
+                private protected override RegionType Type => RegionType.Unknown_10;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates an Unknown_10 with default values.
+                /// </summary>
+                public Unknown_10() : base($"{nameof(Region)}: {nameof(Unknown_10)}") { }
+
+                internal Unknown_10(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                }
+            }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public class Unknown_11 : Region
+            {
+                private protected override RegionType Type => RegionType.Unknown_11;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates an Unknown_11 with default values.
+                /// </summary>
+                public Unknown_11() : base($"{nameof(Region)}: {nameof(Unknown_11)}") { }
+
+                internal Unknown_11(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                }
+            }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public class Unknown_12 : Region
+            {
+                private protected override RegionType Type => RegionType.Unknown_12;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates an Unknown_12 with default values.
+                /// </summary>
+                public Unknown_12() : base($"{nameof(Region)}: {nameof(Unknown_12)}") { }
+
+                internal Unknown_12(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                }
+            }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public class FallReturnPoint : Region
+            {
+                private protected override RegionType Type => RegionType.FallReturnPoint;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates an FallReturnPoint with default values.
+                /// </summary>
+                public FallReturnPoint() : base($"{nameof(Region)}: {nameof(FallReturnPoint)}") { }
+
+                internal FallReturnPoint(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                }
+            }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public class Unknown_14 : Region
+            {
+                private protected override RegionType Type => RegionType.Unknown_14;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates an Unknown_14 with default values.
+                /// </summary>
+                public Unknown_14() : base($"{nameof(Region)}: {nameof(Unknown_14)}") { }
+
+                internal Unknown_14(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                }
+            }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public class Unknown_15 : Region
+            {
+                private protected override RegionType Type => RegionType.Unknown_15;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates an Unknown_15 with default values.
+                /// </summary>
+                public Unknown_15() : base($"{nameof(Region)}: {nameof(Unknown_15)}") { }
+
+                internal Unknown_15(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                }
+            }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public class Unknown_16 : Region
+            {
+                private protected override RegionType Type => RegionType.Unknown_16;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates an Unknown_16 with default values.
+                /// </summary>
+                public Unknown_16() : base($"{nameof(Region)}: {nameof(Unknown_16)}") { }
+
+                internal Unknown_16(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                }
+            }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public class WindPlacement : Region
+            {
+                private protected override RegionType Type => RegionType.WindPlacement;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates an WindPlacement with default values.
+                /// </summary>
+                public WindPlacement() : base($"{nameof(Region)}: {nameof(WindPlacement)}") { }
+
+                internal WindPlacement(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                }
+            }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public class Unknown_19 : Region
+            {
+                private protected override RegionType Type => RegionType.Unknown_19;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates an Unknown_19 with default values.
+                /// </summary>
+                public Unknown_19() : base($"{nameof(Region)}: {nameof(Unknown_19)}") { }
+
+                internal Unknown_19(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                }
+            }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public class Unknown_20 : Region
+            {
+                private protected override RegionType Type => RegionType.Unknown_20;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates an Unknown_20 with default values.
+                /// </summary>
+                public Unknown_20() : base($"{nameof(Region)}: {nameof(Unknown_20)}") { }
+
+                internal Unknown_20(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                }
+            }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public class Connection : Region
+            {
+                private protected override RegionType Type => RegionType.Connection;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates an Connection with default values.
+                /// </summary>
+                public Connection() : base($"{nameof(Region)}: {nameof(Connection)}") { }
+
+                internal Connection(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                }
+            }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public class SourceWaypoint : Region
+            {
+                private protected override RegionType Type => RegionType.SourceWaypoint;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates an SourceWaypoint with default values.
+                /// </summary>
+                public SourceWaypoint() : base($"{nameof(Region)}: {nameof(SourceWaypoint)}") { }
+
+                internal SourceWaypoint(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                }
+            }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public class StaticWaypoint : Region
+            {
+                private protected override RegionType Type => RegionType.StaticWaypoint;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates an StaticWaypoint with default values.
+                /// </summary>
+                public StaticWaypoint() : base($"{nameof(Region)}: {nameof(StaticWaypoint)}") { }
+
+                internal StaticWaypoint(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                }
+            }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public class MapGridLayerConnection : Region
+            {
+                private protected override RegionType Type => RegionType.MapGridLayerConnection;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates an MapGridLayerConnection with default values.
+                /// </summary>
+                public MapGridLayerConnection() : base($"{nameof(Region)}: {nameof(MapGridLayerConnection)}") { }
+
+                internal MapGridLayerConnection(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                }
+            }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public class EnemySpawnPoint : Region
+            {
+                private protected override RegionType Type => RegionType.EnemySpawnPoint;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates an EnemySpawnPoint with default values.
+                /// </summary>
+                public EnemySpawnPoint() : base($"{nameof(Region)}: {nameof(EnemySpawnPoint)}") { }
+
+                internal EnemySpawnPoint(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                }
+            }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public class BuddySummonPoint : Region
+            {
+                private protected override RegionType Type => RegionType.BuddySummonPoint;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates an BuddySummonPoint with default values.
+                /// </summary>
+                public BuddySummonPoint() : base($"{nameof(Region)}: {nameof(BuddySummonPoint)}") { }
+
+                internal BuddySummonPoint(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                }
+            }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public class RollingAssetGeneration : Region
+            {
+                private protected override RegionType Type => RegionType.RollingAssetGeneration;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates an RollingAssetGeneration with default values.
+                /// </summary>
+                public RollingAssetGeneration() : base($"{nameof(Region)}: {nameof(RollingAssetGeneration)}") { }
+
+                internal RollingAssetGeneration(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                }
+            }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public class MufflingPlane : Region
+            {
+                private protected override RegionType Type => RegionType.MufflingPlane;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates an MufflingPlane with default values.
+                /// </summary>
+                public MufflingPlane() : base($"{nameof(Region)}: {nameof(MufflingPlane)}") { }
+
+                internal MufflingPlane(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                }
+            }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public class ElectroMagneticStorm : Region
+            {
+                private protected override RegionType Type => RegionType.ElectroMagneticStorm;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates an ElectroMagneticStorm with default values.
+                /// </summary>
+                public ElectroMagneticStorm() : base($"{nameof(Region)}: {nameof(ElectroMagneticStorm)}") { }
+
+                internal ElectroMagneticStorm(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                }
+            }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public class AiInformationSharing : Region
+            {
+                private protected override RegionType Type => RegionType.AiInformationSharing;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates an AiInformationSharing with default values.
+                /// </summary>
+                public AiInformationSharing() : base($"{nameof(Region)}: {nameof(AiInformationSharing)}") { }
+
+                internal AiInformationSharing(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                }
+            }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public class WaveSimulation : Region
+            {
+                private protected override RegionType Type => RegionType.WaveSimulation;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates an WaveSimulation with default values.
+                /// </summary>
+                public WaveSimulation() : base($"{nameof(Region)}: {nameof(WaveSimulation)}") { }
+
+                internal WaveSimulation(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                }
+            }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public class Cover : Region
+            {
+                private protected override RegionType Type => RegionType.Cover;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates an Cover with default values.
+                /// </summary>
+                public Cover() : base($"{nameof(Region)}: {nameof(Cover)}") { }
+
+                internal Cover(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                }
+            }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public class MissionPlacement : Region
+            {
+                private protected override RegionType Type => RegionType.MissionPlacement;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates an MissionPlacement with default values.
+                /// </summary>
+                public MissionPlacement() : base($"{nameof(Region)}: {nameof(MissionPlacement)}") { }
+
+                internal MissionPlacement(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                }
+            }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public class NaviVolumeResolution : Region
+            {
+                private protected override RegionType Type => RegionType.NaviVolumeResolution;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates an NaviVolumeResolution with default values.
+                /// </summary>
+                public NaviVolumeResolution() : base($"{nameof(Region)}: {nameof(NaviVolumeResolution)}") { }
+
+                internal NaviVolumeResolution(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                }
+            }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public class MiniArea : Region
+            {
+                private protected override RegionType Type => RegionType.MiniArea;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates an MiniArea with default values.
+                /// </summary>
+                public MiniArea() : base($"{nameof(Region)}: {nameof(MiniArea)}") { }
+
+                internal MiniArea(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                }
+            }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public class ConnectionBorder : Region
+            {
+                private protected override RegionType Type => RegionType.ConnectionBorder;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates an ConnectionBorder with default values.
+                /// </summary>
+                public ConnectionBorder() : base($"{nameof(Region)}: {nameof(ConnectionBorder)}") { }
+
+                internal ConnectionBorder(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                }
+            }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public class NaviGeneration : Region
+            {
+                private protected override RegionType Type => RegionType.NaviGeneration;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates an NaviGeneration with default values.
+                /// </summary>
+                public NaviGeneration() : base($"{nameof(Region)}: {nameof(NaviGeneration)}") { }
+
+                internal NaviGeneration(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                }
+            }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public class TopdownView : Region
+            {
+                private protected override RegionType Type => RegionType.TopdownView;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates an TopdownView with default values.
+                /// </summary>
+                public TopdownView() : base($"{nameof(Region)}: {nameof(TopdownView)}") { }
+
+                internal TopdownView(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                }
+            }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public class NaviCvCancel : Region
+            {
+                private protected override RegionType Type => RegionType.NaviCvCancel;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates an NaviCvCancel with default values.
+                /// </summary>
+                public NaviCvCancel() : base($"{nameof(Region)}: {nameof(NaviCvCancel)}") { }
+
+                internal NaviCvCancel(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                }
+            }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public class JumpEdgeRestriction : Region
+            {
+                private protected override RegionType Type => RegionType.JumpEdgeRestriction;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates an JumpEdgeRestriction with default values.
+                /// </summary>
+                public JumpEdgeRestriction() : base($"{nameof(Region)}: {nameof(JumpEdgeRestriction)}") { }
+
+                internal JumpEdgeRestriction(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
                 }
             }
 

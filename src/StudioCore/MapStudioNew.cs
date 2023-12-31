@@ -925,6 +925,11 @@ public class MapStudioNew
                         MSBReadWrite.Run(_assetLocator);
                     }
 
+                    if (ImGui.MenuItem("MSB_AC6 Read/Write Test"))
+                    {
+                        MSB_AC6_Read_Write.Run(_assetLocator);
+                    }
+
                     if (ImGui.MenuItem("BTL read/write test"))
                     {
                         BTLReadWrite.Run(_assetLocator);
