@@ -2871,18 +2871,40 @@ namespace SoulsFormats
                 private protected override bool HasTypeData => true;
 
                 /// <summary>
+                /// Map ID this connection targets.
+                /// </summary>
+                public sbyte[] TargetMapID { get; private set; }
+
+                /// <summary>
                 /// Creates an Connection with default values.
                 /// </summary>
-                public Connection() : base($"{nameof(Region)}: {nameof(Connection)}") { }
+                public Connection() : base($"{nameof(Region)}: {nameof(Connection)}") 
+                {
+                    TargetMapID = new sbyte[4];
+                }
+
+                private protected override void DeepCopyTo(Region region)
+                {
+                    var connect = (Connection)region;
+                    connect.TargetMapID = (sbyte[])TargetMapID.Clone();
+                }
 
                 internal Connection(BinaryReaderEx br) : base(br) { }
 
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
+                    TargetMapID = br.ReadSBytes(4);
+                    br.AssertInt32(0);
+                    br.AssertInt32(0);
+                    br.AssertInt32(0);
                 }
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
+                    bw.WriteSBytes(TargetMapID);
+                    bw.WriteUInt32(0);
+                    bw.WriteUInt32(0);
+                    bw.WriteUInt32(0);
                 }
             }
 

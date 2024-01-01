@@ -19,7 +19,7 @@ namespace SoulsFormats
             ObjAct = 7,
             ReturnPoint = 8,
             MapOffset = 9,
-            Unknown_10 = 10,
+            Navmesh = 10,
             Unknown_11 = 11,
             NpcEntryPoint = 12,
             WindSfx = 13,
@@ -110,7 +110,7 @@ namespace SoulsFormats
             /// <summary>
             /// Unknown.
             /// </summary>
-            public List<Event.Unknown_10> Unknown_10s { get; set; }
+            public List<Event.Navmesh> Navmeshes { get; set; }
 
             /// <summary>
             /// Unknown.
@@ -192,7 +192,7 @@ namespace SoulsFormats
                 Messages = new List<Event.Message>();
                 ObjActs = new List<Event.ObjAct>();
                 ReturnPoints = new List<Event.ReturnPoint>();
-                Unknown_10s = new List<Event.Unknown_10>();
+                Navmeshes = new List<Event.Navmesh>();
                 Unknown_11s = new List<Event.Unknown_11>();
                 NpcEntryPoints = new List<Event.NpcEntryPoint>();
                 WindSfxs = new List<Event.WindSfx>();
@@ -252,8 +252,8 @@ namespace SoulsFormats
                     case Event.ReturnPoint e:
                         ReturnPoints.Add(e);
                         break;
-                    case Event.Unknown_10 e:
-                        Unknown_10s.Add(e);
+                    case Event.Navmesh e:
+                        Navmeshes.Add(e);
                         break;
                     case Event.Unknown_11 e:
                         Unknown_11s.Add(e);
@@ -307,7 +307,7 @@ namespace SoulsFormats
                 return SFUtil.ConcatAll<Event>(
                 Treasures, Generators, MapOffsets, PlatoonInfo,
                     PatrolInfo, MapGimmicks,
-                    Lights, Sounds, Sfxs, MapWindSfxs, Messages, ObjActs, ReturnPoints, Unknown_10s, Unknown_11s, NpcEntryPoints,
+                    Lights, Sounds, Sfxs, MapWindSfxs, Messages, ObjActs, ReturnPoints, Navmeshes, Unknown_11s, NpcEntryPoints,
                     WindSfxs, Unknown_16s, Unknown_17s, Unknown_18s, Unknown_19s, PatrolRoutes, Ridings, StrategyRoutes, PatrolRoutePermanents,
                     Others);
             }
@@ -357,8 +357,8 @@ namespace SoulsFormats
                     case EventType.ReturnPoint:
                         return ReturnPoints.EchoAdd(new Event.ReturnPoint(br));
 
-                    case EventType.Unknown_10:
-                        return Unknown_10s.EchoAdd(new Event.Unknown_10(br));
+                    case EventType.Navmesh:
+                        return Navmeshes.EchoAdd(new Event.Navmesh(br));
 
                     case EventType.Unknown_11:
                         return Unknown_11s.EchoAdd(new Event.Unknown_11(br));
@@ -1426,18 +1426,70 @@ namespace SoulsFormats
                 private protected override bool HasTypeData => true;
 
                 /// <summary>
+                /// Unknown why objacts need an extra entity ID.
+                /// </summary>
+                [MSBEntityReference]
+                public uint ObjActEntityID { get; set; }
+
+                /// <summary>
+                /// The part to be interacted with.
+                /// </summary>
+                private int ObjActPartIndex;
+
+                /// <summary>
+                /// A row in ObjActParam.
+                /// </summary>
+                [MSBParamReference(ParamName = "ObjActParam")]
+                public int ObjActID { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public byte StateType { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public uint EventFlagID { get; set; }
+
+                /// <summary>
                 /// Creates a ObjAct with default values.
                 /// </summary>
-                public ObjAct() : base($"{nameof(Event)}: {nameof(ObjAct)}") { }
+                public ObjAct() : base($"{nameof(Event)}: {nameof(ObjAct)}") 
+                {
+                    ObjActEntityID = 0;
+                    ObjActID = -1;
+                    EventFlagID = 0;
+                }
 
                 internal ObjAct(BinaryReaderEx br) : base(br) { }
 
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
+                    ObjActEntityID = br.ReadUInt32();
+                    ObjActPartIndex = br.ReadInt32();
+                    ObjActID = br.ReadInt32();
+                    StateType = br.ReadByte();
+                    br.AssertByte(0);
+                    br.AssertInt16(0);
+                    EventFlagID = br.ReadUInt32();
+                    br.AssertInt32(0);
+                    br.AssertInt32(0);
+                    br.AssertInt32(0);
                 }
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
+                    bw.WriteUInt32(ObjActEntityID);
+                    bw.WriteInt32(ObjActPartIndex);
+                    bw.WriteInt32(ObjActID);
+                    bw.WriteByte(StateType);
+                    bw.WriteByte(0);
+                    bw.WriteInt16(0);
+                    bw.WriteUInt32(EventFlagID);
+                    bw.WriteInt32(0);
+                    bw.WriteInt32(0);
+                    bw.WriteInt32(0);
                 }
             }
 
@@ -1468,17 +1520,17 @@ namespace SoulsFormats
             /// <summary>
             /// Unknown
             /// </summary>
-            public class Unknown_10 : Event
+            public class Navmesh : Event
             {
-                private protected override EventType Type => EventType.Unknown_10;
+                private protected override EventType Type => EventType.Navmesh;
                 private protected override bool HasTypeData => true;
 
                 /// <summary>
                 /// Creates a Unknown_10 with default values.
                 /// </summary>
-                public Unknown_10() : base($"{nameof(Event)}: {nameof(Unknown_10)}") { }
+                public Navmesh() : base($"{nameof(Event)}: {nameof(Navmesh)}") { }
 
-                internal Unknown_10(BinaryReaderEx br) : base(br) { }
+                internal Navmesh(BinaryReaderEx br) : base(br) { }
 
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
