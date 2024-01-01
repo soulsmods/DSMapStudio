@@ -3370,22 +3370,7 @@ namespace SoulsFormats
             public class Other : Region
             {
                 private protected override RegionType Type => RegionType.Other;
-                private protected override bool HasTypeData => true;
-
-                /// <summary>
-                /// Unknown.
-                /// </summary>
-                public int Unk00 { get; set; }
-
-                /// <summary>
-                /// Unknown.
-                /// </summary>
-                public int Unk04 { get; set; }
-
-                /// <summary>
-                /// Unknown.
-                /// </summary>
-                public int Unk08 { get; set; }
+                private protected override bool HasTypeData => false;
 
                 /// <summary>
                 /// Creates an Other with default values.
@@ -3393,20 +3378,6 @@ namespace SoulsFormats
                 public Other() : base($"{nameof(Region)}: {nameof(Other)}") { }
 
                 internal Other(BinaryReaderEx br) : base(br) { }
-
-                private protected override void ReadTypeData(BinaryReaderEx br)
-                {
-                    Unk00 = br.ReadInt32();
-                    Unk04 = br.ReadInt32();
-                    Unk08 = br.ReadInt32();
-                }
-
-                private protected override void WriteTypeData(BinaryWriterEx bw)
-                {
-                    bw.WriteInt32(Unk00);
-                    bw.WriteInt32(Unk04);
-                    bw.WriteInt32(Unk08);
-                }
             }
         }
     }

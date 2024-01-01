@@ -3316,22 +3316,9 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int PartIndex30 { get; set; }
-
-                /// <summary>
-                /// Unknown.
-                /// </summary>
-                public int PartIndex34 { get; set; }
-
-                /// <summary>
-                /// Unknown.
-                /// </summary>
-                public int PartIndex38 { get; set; }
-
-                /// <summary>
-                /// Unknown.
-                /// </summary>
-                public int PartIndex3C { get; set; }
+                [MSBReference(ReferenceType = typeof(Part))]
+                public string[] UnkPartNames { get; private set; }
+                private int[] UnkPartIndices { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -4132,6 +4119,8 @@ namespace SoulsFormats
                     UnkAssetStruct68 = new AssetUnkStruct68();
                     UnkAssetStruct70 = new AssetUnkStruct70();
                     UnkAssetStruct78 = new AssetUnkStruct78();
+
+                    UnkPartNames = new string[4];
                 }
 
                 private protected override void DeepCopyTo(Part part)
@@ -4150,6 +4139,8 @@ namespace SoulsFormats
                     asset.UnkAssetStruct68 = UnkAssetStruct68.DeepCopy();
                     asset.UnkAssetStruct70 = UnkAssetStruct70.DeepCopy();
                     asset.UnkAssetStruct78 = UnkAssetStruct78.DeepCopy();
+
+                    UnkPartNames = (string[])UnkPartNames.Clone();
                 }
 
                 internal Asset(BinaryReaderEx br) : base(br) { }
@@ -4178,10 +4169,7 @@ namespace SoulsFormats
                     Unk24 = br.ReadInt32();
                     Unk28 = br.ReadInt32();
                     Unk2C = br.ReadInt32();
-                    PartIndex30 = br.ReadInt32();
-                    PartIndex34 = br.ReadInt32();
-                    PartIndex38 = br.ReadInt32();
-                    PartIndex3C = br.ReadInt32();
+                    UnkPartIndices = br.ReadInt32s(4);
                     Unk40 = br.ReadInt32();
                     Unk44 = br.ReadInt32();
                     Unk48 = br.ReadInt32();
@@ -4266,10 +4254,7 @@ namespace SoulsFormats
                     bw.WriteInt32(Unk24);
                     bw.WriteInt32(Unk28);
                     bw.WriteInt32(Unk2C);
-                    bw.WriteInt32(PartIndex30);
-                    bw.WriteInt32(PartIndex34);
-                    bw.WriteInt32(PartIndex38);
-                    bw.WriteInt32(PartIndex3C);
+                    bw.WriteInt32s(UnkPartIndices);
                     bw.WriteInt32(Unk40);
                     bw.WriteInt32(Unk44);
                     bw.WriteInt32(Unk48);
@@ -4329,9 +4314,6 @@ namespace SoulsFormats
                 private protected override void WriteUnkOffsetT90(BinaryWriterEx bw) => UnkStruct90.Write(bw);
                 private protected override void WriteUnkOffsetT98(BinaryWriterEx bw) => UnkStruct98.Write(bw);
                 private protected override void WriteUnkOffsetTA0(BinaryWriterEx bw) => UnkStructA0.Write(bw);
-
-                // Restore once part indices field is properly found
-                /*
                 internal override void GetNames(MSB_AC6 msb, Entries entries)
                 {
                     base.GetNames(msb, entries);
@@ -4343,7 +4325,6 @@ namespace SoulsFormats
                     base.GetIndices(msb, entries);
                     UnkPartIndices = MSB.FindIndices(this, entries.Parts, UnkPartNames);
                 }
-                */
             }
 
             /// <summary>

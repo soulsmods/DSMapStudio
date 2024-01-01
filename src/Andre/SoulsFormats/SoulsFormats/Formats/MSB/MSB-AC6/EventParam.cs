@@ -575,7 +575,6 @@ namespace SoulsFormats
             {
                 return $"{Type} {Name}";
             }
-
             
             /// <summary>
             /// A pick-uppable item.
