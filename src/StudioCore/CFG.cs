@@ -35,31 +35,36 @@ public class CFG
 #pragma warning disable IDE0051
     [JsonExtensionData] public IDictionary<string, JsonElement> AdditionalData;
 #pragma warning restore IDE0051
+
+    // Settings: System
     public bool EnableCheckProgramUpdate = true;
-
-    public bool EnableEldenRingAutoMapOffset = true;
+    public bool ShowUITooltips = true;
+    public float UIScale = 1.0f;
     public bool EnableSoapstone = true;
-
-    public bool EnableTexturing = false;
-    public bool FMG_NoFmgPatching = false;
-    public bool FMG_NoGroupedFmgEntries = false;
-
-    // FMG Editor settings
-    public bool FMG_ShowOriginalNames = false;
-
-    // Font settings
     public bool FontChinese = false;
     public bool FontCyrillic = false;
     public bool FontKorean = false;
     public bool FontThai = false;
     public bool FontVietnamese = false;
 
+    // Settings: Map Editor
+    public bool EnableTexturing = false;
+    public bool Map_AlwaysListLoadedMaps = true;
+    public bool EnableEldenRingAutoMapOffset = true;
+
+    public float Map_MoveSelectionToCamera_Radius = 3.0f;
+    public float GFX_Camera_FOV { get; set; } = 60.0f;
+    public float GFX_Camera_MoveSpeed_Slow { get; set; } = 1.0f;
+    public float GFX_Camera_MoveSpeed_Normal { get; set; } = 20.0f;
+    public float GFX_Camera_MoveSpeed_Fast { get; set; } = 200.0f;
+    public float GFX_RenderDistance_Max { get; set; } = 50000.0f;
+    public float Map_ArbitraryRotation_X_Shift { get; set; } = 90.0f;
+    public float Map_ArbitraryRotation_Y_Shift { get; set; } = 90.0f;
+
     public uint GFX_Limit_Buffer_Flver_Bone = 65536;
     public uint GFX_Limit_Buffer_Indirect_Draw = 50000;
-
     public int GFX_Limit_Renderables = 50000;
 
-    // Renderable Coloring
     public float GFX_Wireframe_Color_Variance = 0.11f;
 
     public Vector3 GFX_Renderable_Box_BaseColor = Utils.GetDecimalColor(Color.Blue);
@@ -109,37 +114,6 @@ public class CFG
 
     public Vector3 GFX_Gizmo_Z_BaseColor = new(0.219f, 0.564f, 0.929f);
     public Vector3 GFX_Gizmo_Z_HighlightColor = new(0.407f, 0.690f, 1.0f);
-
-    // Map Editor settings
-    public bool Map_AlwaysListLoadedMaps = true;
-    public float Map_MoveSelectionToCamera_Radius = 3.0f;
-    public bool Param_AdvancedMassedit = false;
-    public bool Param_AllowFieldReorder = true;
-    public bool Param_AlphabeticalParams = true;
-    public bool Param_DisableLineWrapping = false;
-    public bool Param_DisableRowGrouping = false;
-    public bool Param_HideEnums = false;
-    public bool Param_HideReferenceRows = false;
-
-    // Param settings
-    public bool Param_MakeMetaNamesPrimary = true;
-    public bool Param_PasteAfterSelection = false;
-    public bool Param_ShowFieldOffsets = false;
-    public bool Param_ShowHotkeysInContextMenu = true;
-    public bool Param_ShowSecondaryNames = true;
-    public bool Param_ShowVanillaParams = true;
-    public bool UI_CompactParams = false;
-
-    // UI settings
-    public float UIScale = 1.0f;
-    public static CFG Current { get; private set; }
-    public static CFG Default { get; } = new();
-
-    public string LastProjectFile { get; set; } = "";
-    public List<RecentProject> RecentProjects { get; set; } = new();
-
-    public GameType Game_Type { get; set; } = GameType.Undefined;
-
     public RenderFilter LastSceneFilter { get; set; } = RenderFilter.All ^ RenderFilter.Light;
 
     public RenderFilterPreset SceneFilter_Preset_01 { get; set; } = new("Map",
@@ -160,19 +134,43 @@ public class CFG
 
     public RenderFilterPreset SceneFilter_Preset_06 { get; set; } = new("All", RenderFilter.All);
 
+    // Settings: Model Editor
+
+    // Settings: Param Editor
+    public bool Param_AdvancedMassedit = false;
+    public bool Param_AllowFieldReorder = true;
+    public bool Param_AlphabeticalParams = true;
+    public bool Param_DisableLineWrapping = false;
+    public bool Param_DisableRowGrouping = false;
+    public bool Param_HideEnums = false;
+    public bool Param_HideReferenceRows = false;
+    public bool Param_MakeMetaNamesPrimary = true;
+    public bool Param_PasteAfterSelection = false;
+    public bool Param_ShowFieldOffsets = false;
+    public bool Param_ShowHotkeysInContextMenu = true;
+    public bool Param_ShowSecondaryNames = true;
+    public bool Param_ShowVanillaParams = true;
+    public bool UI_CompactParams = false;
+
+    // Settings: Text Editor
+    public bool FMG_NoFmgPatching = false;
+    public bool FMG_NoGroupedFmgEntries = false;
+    public bool FMG_ShowOriginalNames = false;
+
+    // CFG
+    public static CFG Current { get; private set; }
+    public static CFG Default { get; } = new();
+
+    public string LastProjectFile { get; set; } = "";
+    public List<RecentProject> RecentProjects { get; set; } = new();
+
+    public GameType Game_Type { get; set; } = GameType.Undefined;
+
     public int GFX_Display_Width { get; set; } = 1920;
     public int GFX_Display_Height { get; set; } = 1057;
 
     public int GFX_Display_X { get; set; } = 0;
     public int GFX_Display_Y { get; set; } = 23;
-
-    public float GFX_Camera_FOV { get; set; } = 60.0f;
-    public float GFX_Camera_MoveSpeed_Slow { get; set; } = 1.0f;
-    public float GFX_Camera_MoveSpeed_Normal { get; set; } = 20.0f;
-    public float GFX_Camera_MoveSpeed_Fast { get; set; } = 200.0f;
-    public float GFX_RenderDistance_Max { get; set; } = 50000.0f;
-    public float Map_ArbitraryRotation_X_Shift { get; set; } = 90.0f;
-    public float Map_ArbitraryRotation_Y_Shift { get; set; } = 90.0f;
 
     public string Param_Export_Delimiter
     {
