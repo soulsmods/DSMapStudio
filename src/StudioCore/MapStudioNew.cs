@@ -24,6 +24,8 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using Veldrid;
 using Veldrid.Sdl2;
+using StudioCore.Assetdex;
+using StudioCore.AssetBrowser;
 
 namespace StudioCore;
 
@@ -48,6 +50,10 @@ public class MapStudioNew
     private readonly NewProjectOptions _newProjectOptions = new();
     private readonly string _programTitle;
     private readonly SettingsMenu _settingsMenu = new();
+
+
+    private AssetdexCore _assetdex;
+    private AssetBrowser.AssetBrowser _assetBrowser;
 
     private readonly SoapstoneService _soapstoneService;
     private readonly string _version;
@@ -89,8 +95,10 @@ public class MapStudioNew
         PlatformUtils.InitializeWindows(context.Window.SdlWindowHandle);
 
         _assetLocator = new AssetLocator();
-        MsbEditorScreen msbEditor = new(_context.Window, _context.Device, _assetLocator);
-        ModelEditorScreen modelEditor = new(_context.Window, _context.Device, _assetLocator);
+        _assetdex = new AssetdexCore();
+
+        MsbEditorScreen msbEditor = new(_context.Window, _context.Device, _assetLocator, _assetdex);
+        ModelEditorScreen modelEditor = new(_context.Window, _context.Device, _assetLocator, _assetdex);
         ParamEditorScreen paramEditor = new(_context.Window, _context.Device, _assetLocator);
         TextEditorScreen textEditor = new(_context.Window, _context.Device, _assetLocator);
         _editors = new List<EditorScreen> { msbEditor, modelEditor, paramEditor, textEditor };
@@ -102,6 +110,8 @@ public class MapStudioNew
         _settingsMenu.ModelEditor = modelEditor;
         _settingsMenu.ParamEditor = paramEditor;
         _settingsMenu.TextEditor = textEditor;
+
+        _assetBrowser = new AssetBrowser.AssetBrowser("AssetBrowser", _assetLocator, _assetdex, msbEditor);
 
         _helpBrowser = new HelpBrowser("HelpBrowser", _assetLocator);
 
@@ -406,6 +416,8 @@ public class MapStudioNew
         {
             editor.OnProjectChanged(_projectSettings);
         }
+
+        _assetBrowser.OnProjectChanged();
     }
 
     public unsafe void ApplyStyle()
@@ -899,6 +911,16 @@ public class MapStudioNew
 
             _focusedEditor.DrawEditorMenu();
 
+            if (ImGui.BeginMenu("Tools"))
+            {
+                if (ImGui.MenuItem("Asset Browser", KeyBindings.Current.Core_AssetBrowser.HintText))
+                {
+                    _assetBrowser.ToggleMenuVisibility();
+                }
+
+                ImGui.EndMenu();
+            }
+
             if (ImGui.BeginMenu("Help"))
             {
                 if (ImGui.MenuItem("Help Menu", KeyBindings.Current.Core_HelpMenu.HintText))
@@ -999,6 +1021,7 @@ public class MapStudioNew
 
         SettingsGUI();
         HelpGUI();
+        AssetBrowserGUI();
 
         ImGui.PopStyleVar(1);
         Tracy.TracyCZoneEnd(ctx);
@@ -1352,6 +1375,20 @@ public class MapStudioNew
             {
                 _helpBrowser.ToggleMenuVisibility();
             }
+
+            if (InputTracker.GetKeyDown(KeyBindings.Current.Core_AssetBrowser))
+            {
+                if (_focusedEditor == _editors[0])
+                {
+                    _assetBrowser.ToggleMenuVisibility();
+                }
+            }
+
+            // Force shut the Asset Browser outside of MSB editor
+            if (_focusedEditor != _editors[0])
+            {
+                _assetBrowser.CloseMenu();
+            }
         }
 
         ImGui.PopStyleVar(2);
@@ -1386,6 +1423,10 @@ public class MapStudioNew
     public void HelpGUI()
     {
         _helpBrowser.Display();
+    }
+    public void AssetBrowserGUI()
+    {
+        _assetBrowser.Display();
     }
 
     public static float GetUIScale()

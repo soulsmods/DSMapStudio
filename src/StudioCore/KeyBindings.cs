@@ -80,6 +80,7 @@ public class KeyBindings
         // Core
         public KeyBind Core_Delete = new(Key.Delete);
         public KeyBind Core_Duplicate = new(Key.D, true);
+        public KeyBind Core_AssetBrowser = new(Key.F1);
         public KeyBind Core_HelpMenu = new(Key.F2);
         public KeyBind Core_Redo = new(Key.Y, true);
         public KeyBind Core_SaveAllEditors = new();

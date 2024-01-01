@@ -11,15 +11,18 @@ using Veldrid;
 using Veldrid.Sdl2;
 using Veldrid.Utilities;
 using Viewport = StudioCore.Gui.Viewport;
+using StudioCore.Assetdex;
 
 namespace StudioCore.MsbEditor;
 
 public class ModelEditorScreen : EditorScreen, AssetBrowserEventHandler, SceneTreeEventHandler,
     IResourceEventListener
 {
-    private readonly AssetBrowser _assetBrowser;
     private readonly PropertyEditor _propEditor;
     private readonly PropertyCache _propCache = new();
+
+    private ModelAssetBrowser _assetBrowser;
+    private StudioCore.Assetdex.AssetdexCore _assetdex;
 
     private readonly SceneTree _sceneTree;
     private readonly Selection _selection = new();
@@ -41,12 +44,13 @@ public class ModelEditorScreen : EditorScreen, AssetBrowserEventHandler, SceneTr
     private bool ViewportUsingKeyboard;
     private Sdl2Window Window;
 
-    public ModelEditorScreen(Sdl2Window window, GraphicsDevice device, AssetLocator locator)
+    public ModelEditorScreen(Sdl2Window window, GraphicsDevice device, AssetLocator locator, AssetdexCore assetdex)
     {
         Rect = window.Bounds;
         AssetLocator = locator;
         ResourceManager.Locator = AssetLocator;
         Window = window;
+        _assetdex = assetdex;
 
         if (device != null)
         {
@@ -64,7 +68,8 @@ public class ModelEditorScreen : EditorScreen, AssetBrowserEventHandler, SceneTr
         _sceneTree = new SceneTree(SceneTree.Configuration.ModelEditor, this, "modeledittree", _universe,
             _selection, EditorActionManager, Viewport, AssetLocator);
         _propEditor = new PropertyEditor(EditorActionManager, _propCache);
-        _assetBrowser = new AssetBrowser(this, "modelEditorBrowser", AssetLocator);
+        _assetBrowser = new ModelAssetBrowser(this, "modelEditorBrowser", AssetLocator, _assetdex);
+        _assetdex = assetdex;
     }
 
     public void OnInstantiateChr(string chrid)
@@ -224,7 +229,7 @@ public class ModelEditorScreen : EditorScreen, AssetBrowserEventHandler, SceneTr
         //ImGui.Text(string.Format("Application average {0:F3} ms/frame ({1:F1} FPS)", 1000f / ImGui.GetIO().Framerate, ImGui.GetIO().Framerate));
 
         Viewport.OnGui();
-        _assetBrowser.OnGui();
+        _assetBrowser.Display();
         _sceneTree.OnGui();
         _propEditor.OnGui(_selection, "modeleditprop", Viewport.Width, Viewport.Height);
         ResourceManager.OnGuiDrawTasks(Viewport.Width, Viewport.Height);
@@ -237,7 +242,10 @@ public class ModelEditorScreen : EditorScreen, AssetBrowserEventHandler, SceneTr
 
     public void OnProjectChanged(ProjectSettings newSettings)
     {
-        ReloadAssetBrowser();
+        if (AssetLocator.Type != GameType.Undefined)
+        {
+            _assetBrowser.OnProjectChanged();
+        }
     }
 
     public void Save()
@@ -358,13 +366,5 @@ public class ModelEditorScreen : EditorScreen, AssetBrowserEventHandler, SceneTr
         }
 
         ResourceManager.AddResourceListener<FlverResource>(asset.AssetVirtualPath, this, AccessLevel.AccessFull);
-    }
-
-    public void ReloadAssetBrowser()
-    {
-        if (AssetLocator.Type != GameType.Undefined)
-        {
-            _assetBrowser.ClearCaches();
-        }
     }
 }

@@ -41,6 +41,17 @@ public class CFG
     public bool ShowUITooltips = true;
     public float UIScale = 1.0f;
     public bool EnableSoapstone = true;
+    public bool EnableTexturing = false;
+    public bool FMG_NoFmgPatching = false;
+    public bool FMG_NoGroupedFmgEntries = false;
+
+    // FMG Editor settings
+    public bool FMG_ShowOriginalNames = false;
+
+    // Asset Browser settings
+    public bool AssetBrowser_ShowTagsInBrowser = true;
+
+    // Font settings
     public bool FontChinese = false;
     public bool FontCyrillic = false;
     public bool FontKorean = false;
