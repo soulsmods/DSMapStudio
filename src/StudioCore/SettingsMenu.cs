@@ -408,6 +408,59 @@ public class SettingsMenu
                 Utils.ImGui_InputUint("FLVER Bone buffer", ref CFG.Current.GFX_Limit_Buffer_Flver_Bone);
             }
 
+            if (ImGui.CollapsingHeader("Grid"))
+            {
+                if (CFG.Current.ShowUITooltips)
+                {
+                    ShowHelpMarker("Enable the viewport grid when in the Map Editor.");
+                    ImGui.SameLine();
+                }
+                ImGui.Checkbox("Enable viewport grid", ref CFG.Current.Map_EnableViewportGrid);
+
+                if (CFG.Current.ShowUITooltips)
+                {
+                    ShowHelpMarker("The overall maximum size of the grid.\nThe grid will only update upon restarting DSMS after changing this value.");
+                    ImGui.SameLine();
+                }
+                ImGui.SliderInt("Grid size", ref CFG.Current.Map_ViewportGrid_TotalSize, 100, 1000);
+
+                if (CFG.Current.ShowUITooltips)
+                {
+                    ShowHelpMarker("The increment size of the grid.");
+                    ImGui.SameLine();
+                }
+                ImGui.SliderInt("Grid increment", ref CFG.Current.Map_ViewportGrid_IncrementSize, 1, 100);
+
+                if (CFG.Current.ShowUITooltips)
+                {
+                    ShowHelpMarker("The height at which the grid sits.");
+                    ImGui.SameLine();
+                }
+                ImGui.SliderFloat("Grid height", ref CFG.Current.Map_ViewportGrid_GridHeight, -1000, 1000);
+
+                if (CFG.Current.ShowUITooltips)
+                {
+                    ShowHelpMarker("The amount to lower or raise the viewport grid height via the shortcuts.");
+                    ImGui.SameLine();
+                }
+                ImGui.SliderFloat("Grid height increment", ref CFG.Current.Map_ViewportGrid_ShortcutIncrement, 0.1f, 100);
+
+                ImGui.ColorEdit3("Grid color", ref CFG.Current.GFX_Viewport_Grid_Color);
+
+                if (CFG.Current.ShowUITooltips)
+                {
+                    ShowHelpMarker("Resets all of the values within this section to their default values.");
+                    ImGui.SameLine();
+                }
+                if (ImGui.Button("Reset"))
+                {
+                    CFG.Current.GFX_Viewport_Grid_Color = Utils.GetDecimalColor(Color.Red);
+                    CFG.Current.Map_ViewportGrid_TotalSize = 1000;
+                    CFG.Current.Map_ViewportGrid_IncrementSize = 10;
+                    CFG.Current.Map_ViewportGrid_GridHeight = 0;
+                }
+            }
+
             if (ImGui.CollapsingHeader("Wireframes"))
             {
                 if (CFG.Current.ShowUITooltips)

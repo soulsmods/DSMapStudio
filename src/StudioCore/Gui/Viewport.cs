@@ -29,6 +29,9 @@ public class Viewport : IViewport
     //private DebugPrimitives.DbgPrimGizmoTranslate TranslateGizmo = null;
     private readonly Gizmos _gizmos;
 
+
+    private readonly ViewGrid _viewGrid;
+
     private readonly DbgPrimWire _rayDebug = null;
 
     private readonly RenderScene _renderScene;
@@ -98,6 +101,10 @@ public class Viewport : IViewport
             cl.SetViewport(0, _renderViewport);
             cl.ClearDepthStencil(0);
         });
+
+
+        // Create view grid
+        _viewGrid = new ViewGrid(_renderScene.OpaqueRenderables);
 
         // Create gizmos
         _gizmos = new Gizmos(_actionManager, _selection, _renderScene.OverlayRenderables);
@@ -198,6 +205,7 @@ public class Viewport : IViewport
         _cursorY = (int)pos.Y; // - Y;
 
         _gizmos.Update(ray, _canInteract && MouseInViewport());
+        _viewGrid.Update(ray);
 
         var kbbusy = false;
 
@@ -273,6 +281,8 @@ public class Viewport : IViewport
         }
 
         _gizmos.CameraPosition = WorldView.CameraTransform.Position;
+
+        _viewGrid.CameraPosition = WorldView.CameraTransform.Position;
     }
 
     public void SetEnvMap(uint index)

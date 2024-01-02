@@ -622,6 +622,22 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
                 EditorActionManager.RedoAction();
             }
 
+            // Viewport Grid
+            if (InputTracker.GetKeyDown(KeyBindings.Current.Map_ViewportGrid_Lower))
+            {
+                var height = CFG.Current.Map_ViewportGrid_GridHeight;
+                var increment = CFG.Current.Map_ViewportGrid_ShortcutIncrement;
+                height = height - increment;
+                CFG.Current.Map_ViewportGrid_GridHeight = height;
+            }
+            if (InputTracker.GetKeyDown(KeyBindings.Current.Map_ViewportGrid_Raise))
+            {
+                var height = CFG.Current.Map_ViewportGrid_GridHeight;
+                var increment = CFG.Current.Map_ViewportGrid_ShortcutIncrement;
+                height = height + increment;
+                CFG.Current.Map_ViewportGrid_GridHeight = height;
+            }
+
             if (InputTracker.GetKeyDown(KeyBindings.Current.Core_Duplicate) && _selection.IsSelection())
             {
                 CloneMapObjectsAction action = new(Universe, RenderScene,

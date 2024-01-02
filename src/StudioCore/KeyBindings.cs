@@ -107,6 +107,9 @@ public class KeyBindings
         public KeyBind Map_UnDummify = new(Key.Period, false, false, true);
         public KeyBind Map_UnhideAll = new(Key.H, false, true);
 
+        public KeyBind Map_ViewportGrid_Lower = new(Key.Q, true);
+        public KeyBind Map_ViewportGrid_Raise = new(Key.E, true);
+
         // Param
         public KeyBind Param_Copy = new(Key.C, true);
         public KeyBind Param_ExportCSV = new();

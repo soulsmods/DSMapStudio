@@ -117,6 +117,8 @@ public class MeshRenderables : Renderables
 
     public void CullRenderables(BoundingFrustum frustum)
     {
+        // TODO: ViewGrid needs to ignore the camera frustrum culling during rendering
+
         for (var i = 0; i < SYSTEM_SIZE; i++)
         {
             if (!cVisible[i]._valid)
@@ -139,6 +141,7 @@ public class MeshRenderables : Renderables
     public void ProcessSceneVisibility(RenderFilter filter, DrawGroup dispGroup)
     {
         var alwaysVis = dispGroup != null ? dispGroup.AlwaysVisible : true;
+
         for (var i = 0; i < SYSTEM_SIZE; i++)
         {
             if (cCulled[i])
