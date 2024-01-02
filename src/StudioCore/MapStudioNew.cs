@@ -497,12 +497,6 @@ public class MapStudioNew
             return false;
         }
 
-        if (gameType is GameType.ArmoredCoreVI)
-        {
-            //TODO AC6
-            return false;
-        }
-
         TaskLogs.AddLog(
             $"The files for {gameType} do not appear to be fully unpacked. Functionality will be limited. Please use UXM selective unpacker to unpack game files",
             LogLevel.Warning);
@@ -929,6 +923,11 @@ public class MapStudioNew
                     if (ImGui.MenuItem("MSBE read/write test"))
                     {
                         MSBReadWrite.Run(_assetLocator);
+                    }
+
+                    if (ImGui.MenuItem("MSB_AC6 Read/Write Test"))
+                    {
+                        MSB_AC6_Read_Write.Run(_assetLocator);
                     }
 
                     if (ImGui.MenuItem("BTL read/write test"))

@@ -128,13 +128,9 @@ public class SceneTree : IActionEventHandler
         mapcache.Add(MapEntity.MapEntityType.Region, new Dictionary<Type, List<MapEntity>>());
         mapcache.Add(MapEntity.MapEntityType.Event, new Dictionary<Type, List<MapEntity>>());
         if (_assetLocator.Type is GameType.Bloodborne or GameType.DarkSoulsIII or GameType.Sekiro
-            or GameType.EldenRing)
+            or GameType.EldenRing or GameType.ArmoredCoreVI)
         {
             mapcache.Add(MapEntity.MapEntityType.Light, new Dictionary<Type, List<MapEntity>>());
-        }
-        else if (_assetLocator.Type is GameType.ArmoredCoreVI)
-        {
-            //TODO AC6
         }
         else if (_assetLocator.Type is GameType.DarkSoulsIISOTFS)
         {
@@ -487,10 +483,6 @@ public class SceneTree : IActionEventHandler
                                 {
                                     MapObjectSelectable(obj, true);
                                 }
-                            }
-                            else if (_assetLocator.Type is GameType.ArmoredCoreVI)
-                            {
-                                //TODO AC6
                             }
                             else if (cats.Key == MapEntity.MapEntityType.Light)
                             {
