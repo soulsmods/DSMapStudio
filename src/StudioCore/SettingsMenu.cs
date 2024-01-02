@@ -220,6 +220,13 @@ public class SettingsMenu
             {
                 if (CFG.Current.ShowUITooltips)
                 {
+                    ShowHelpMarker("Enabling this option will cause entities outside of the camera frustrum to be culled.\n\nDisable this if working with the grid.");
+                    ImGui.SameLine();
+                }
+                ImGui.Checkbox("Enable frustrum culling", ref CFG.Current.EnableFrustrumCulling);
+
+                if (CFG.Current.ShowUITooltips)
+                {
                     ShowHelpMarker("Enabling this option will allow DSMS to render the textures of models within the viewport.\n\nNote, this feature is in an alpha state.");
                     ImGui.SameLine();
                 }
@@ -433,10 +440,10 @@ public class SettingsMenu
 
                 if (CFG.Current.ShowUITooltips)
                 {
-                    ShowHelpMarker("The height at which the grid sits.");
+                    ShowHelpMarker("The height at which the horizontal grid sits.");
                     ImGui.SameLine();
                 }
-                ImGui.SliderFloat("Grid height", ref CFG.Current.Map_ViewportGrid_GridHeight, -1000, 1000);
+                ImGui.SliderFloat("Grid height", ref CFG.Current.Map_ViewportGrid_Offset, -1000, 1000);
 
                 if (CFG.Current.ShowUITooltips)
                 {
@@ -457,7 +464,7 @@ public class SettingsMenu
                     CFG.Current.GFX_Viewport_Grid_Color = Utils.GetDecimalColor(Color.Red);
                     CFG.Current.Map_ViewportGrid_TotalSize = 1000;
                     CFG.Current.Map_ViewportGrid_IncrementSize = 10;
-                    CFG.Current.Map_ViewportGrid_GridHeight = 0;
+                    CFG.Current.Map_ViewportGrid_Offset = 0;
                 }
             }
 

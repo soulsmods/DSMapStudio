@@ -131,6 +131,10 @@ public class MeshRenderables : Renderables
             {
                 cCulled[i] = !cVisible[i]._valid || !cVisible[i]._visible;
             }
+            else if (!CFG.Current.EnableFrustrumCulling)
+            {
+                cCulled[i] = false;
+            }
             else
             {
                 cCulled[i] = true;

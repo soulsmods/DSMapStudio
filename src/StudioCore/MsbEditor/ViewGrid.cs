@@ -14,20 +14,17 @@ namespace StudioCore.MsbEditor;
 
 public class ViewGrid
 {
-    private DbgPrimWireGrid ViewportGridPrim;
-    private DebugPrimitiveRenderableProxy ViewportGridProxy;
+    private DbgPrimWireGrid WireGrid;
 
-    // TODO: this needs to ignore the camera frustrum culling during rendering
+    private DebugPrimitiveRenderableProxy ViewportGrid;
 
     public ViewGrid(MeshRenderables renderlist)
     {
-        ViewportGridPrim = new DbgPrimWireGrid(Color.Red, Color.Red, CFG.Current.Map_ViewportGrid_TotalSize, CFG.Current.Map_ViewportGrid_IncrementSize);
+        WireGrid = new DbgPrimWireGrid(Color.Red, Color.Red, CFG.Current.Map_ViewportGrid_TotalSize, CFG.Current.Map_ViewportGrid_IncrementSize);
 
-        ViewportGridProxy = new DebugPrimitiveRenderableProxy(renderlist, ViewportGridPrim);
-        ViewportGridProxy.BaseColor = GetViewGridColor(CFG.Current.GFX_Viewport_Grid_Color);
+        ViewportGrid = new DebugPrimitiveRenderableProxy(renderlist, WireGrid);
+        ViewportGrid.BaseColor = GetViewGridColor(CFG.Current.GFX_Viewport_Grid_Color);
     }
-
-    public Vector3 CameraPosition { get; set; }
 
     private Color GetViewGridColor(Vector3 color)
     {
@@ -38,13 +35,13 @@ public class ViewGrid
     {
         if (CFG.Current.Map_EnableViewportGrid)
         {
-            ViewportGridProxy.BaseColor = GetViewGridColor(CFG.Current.GFX_Viewport_Grid_Color);
-            ViewportGridProxy.Visible = true;
-            ViewportGridProxy.World = new Transform(0, CFG.Current.Map_ViewportGrid_GridHeight, 0, 0, 0, 0).WorldMatrix;
+            ViewportGrid.BaseColor = GetViewGridColor(CFG.Current.GFX_Viewport_Grid_Color);
+            ViewportGrid.Visible = true;
+            ViewportGrid.World = new Transform(0, CFG.Current.Map_ViewportGrid_Offset, 0, 0, 0, 0).WorldMatrix;
         }
         else
         {
-            ViewportGridProxy.Visible = false;
+            ViewportGrid.Visible = false;
         }
     }
 }

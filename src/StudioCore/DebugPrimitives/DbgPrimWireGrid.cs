@@ -1,12 +1,8 @@
-﻿using StudioCore.MsbEditor;
-using StudioCore.Scene;
+﻿using StudioCore.Scene;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.Numerics;
-using Veldrid.Utilities;
-using Vortice.Vulkan;
 
 namespace StudioCore.DebugPrimitives;
 

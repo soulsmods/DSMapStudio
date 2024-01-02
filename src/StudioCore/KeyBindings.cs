@@ -106,7 +106,6 @@ public class KeyBindings
         public KeyBind Map_ResetRotation = new(Key.L);
         public KeyBind Map_UnDummify = new(Key.Period, false, false, true);
         public KeyBind Map_UnhideAll = new(Key.H, false, true);
-
         public KeyBind Map_ViewportGrid_Lower = new(Key.Q, true);
         public KeyBind Map_ViewportGrid_Raise = new(Key.E, true);
 
