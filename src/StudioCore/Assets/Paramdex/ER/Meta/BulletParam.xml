@@ -59,7 +59,7 @@
         <Option Value="2" Name="Higher elevation" />
         <Option Value="3" Name="Nearby enemy origin. If no enemies, targets bullet origin." />
         <Option Value="4" Name="Nearest enemy + randomCreateRadius" />
-        <Option Value="5" Name="Unknown" />
+        <Option Value="5" Name="Parent bullet (instead of hit location)" />
         <Option Value="6" Name="Above and behind target" />
     </Enum>
     <Enum Name="DMG_CALC_SIDE_TYPE" type="u8">
