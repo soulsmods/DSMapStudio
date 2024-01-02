@@ -1,24 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Numerics;
-using System.Text;
-using System.Text.RegularExpressions;
 using ImGuiNET;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using StudioCore.Assetdex;
-using StudioCore.MsbEditor;
+using StudioCore.Scene;
+using Veldrid;
 
-namespace StudioCore.AssetBrowser
+namespace StudioCore.MsbEditor
 {
-    /// <summary>
-    /// Class <c>AssetBrowser</c> displays a dynamic selection list of all Chr, Obj/AEG, Part and MapPiece objects for the loaded <c>GameType</c>.
-    /// </summary>
-    public class AssetBrowser
+    public class MsbAssetBrowser
     {
-        private string _id;
+        private readonly ActionManager _actionManager;
+
+        private readonly RenderScene _scene;
+        private readonly Selection _selection;
+
         private AssetLocator _assetLocator;
         private AssetdexCore _assetdex;
         private MsbEditorScreen _msbEditor;
@@ -36,36 +31,23 @@ namespace StudioCore.AssetBrowser
         private string _searchInput = "";
         private string _searchInputCache = "";
 
-        private bool isMenuVisible = false;
+        private bool disableListGeneration = false;
 
-        public AssetBrowser(string id, AssetLocator locator, AssetdexCore assetdex, MsbEditorScreen msbEditor)
+        public MsbAssetBrowser(RenderScene scene, Selection sel, ActionManager manager, AssetLocator locator, AssetdexCore assetdex, MsbEditorScreen editor)
         {
-            _id = id;
+            _scene = scene;
+            _selection = sel;
+            _actionManager = manager;
+
             _assetLocator = locator;
             _assetdex = assetdex;
-            _msbEditor = msbEditor;
-        }
-
-        /// <summary>
-        /// Toggle the visibility of the Asset Browser.
-        /// </summary>
-        public void ToggleMenuVisibility()
-        {
-            isMenuVisible = !isMenuVisible;
-        }
-
-        /// <summary>
-        /// Hidethe Asset Browser.
-        /// </summary>
-        public void CloseMenu()
-        {
-            isMenuVisible = false;
+            _msbEditor = editor;
         }
 
         /// <summary>
         /// Update <c>_modelNameCache</c> and <c>_mapModelNameCache</c> when the project has changed.
         /// </summary>
-        public void OnProjectChanged()
+        public void UpdateBrowserCache()
         {
             if (_assetLocator.Type != GameType.Undefined)
             {
@@ -76,14 +58,12 @@ namespace StudioCore.AssetBrowser
 
                 List<string> mapList = _assetLocator.GetFullMapList();
 
-                foreach (string mapId in mapList)
+                foreach (var mapId in mapList)
                 {
                     var assetMapId = _assetLocator.GetAssetMapID(mapId);
 
                     if (!_mapModelNameCache.ContainsKey(assetMapId))
-                    {
                         _mapModelNameCache.Add(assetMapId, null);
-                    }
                 }
             }
         }
@@ -91,32 +71,31 @@ namespace StudioCore.AssetBrowser
         /// <summary>
         /// Display the Asset Browser window.
         /// </summary>
-        public void Display()
+        public void OnGui()
         {
-            float scale = MapStudioNew.GetUIScale();
-
-            if (!isMenuVisible)
-                return;
+            var scale = MapStudioNew.GetUIScale();
 
             if (_assetLocator.Type == GameType.Undefined)
                 return;
 
+            // Disable the list generation if using the camera panning to prevent visual lag
+            if(InputTracker.GetMouseButton(MouseButton.Right))
+                disableListGeneration = true;
+            else
+                disableListGeneration = false;
+
             ImGui.SetNextWindowSize(new Vector2(300.0f, 200.0f) * scale, ImGuiCond.FirstUseEver);
 
-            if (ImGui.Begin($@"Asset Browser##{_id}"))
+            if (ImGui.Begin($@"Asset Browser##MsbAssetBrowser"))
             {
                 if (ImGui.Button("Help"))
-                {
                     ImGui.OpenPopup("##AssetBrowserHelp");
-                }
                 if (ImGui.BeginPopup("##AssetBrowserHelp"))
                 {
                     ImGui.Text(
-                        "--- OVERVIEW ---\n" +
                         "The Asset Browser allows you to browse through all of the available characters, assets and objects and map pieces.\n" +
                         "The search will filter the browser list by filename, reference name and tags.\n" +
                         "\n" +
-                        "--- USAGE ---\n" +
                         "If a Enemy is selected within the MSB view, \n" +
                         "you can click on an entry within the Chr list to change the enemy to that type.\n" +
                         "\n" +
@@ -138,7 +117,8 @@ namespace StudioCore.AssetBrowser
                 // Asset Type List
                 ImGui.BeginChild("AssetTypeList");
 
-                DisplayAssetTypeSelectionList();
+                if(!disableListGeneration)
+                    DisplayAssetTypeSelectionList();
 
                 ImGui.EndChild();
 
@@ -154,9 +134,12 @@ namespace StudioCore.AssetBrowser
 
                 ImGui.BeginChild("AssetList");
 
-                DisplayAssetSelectionList("Chr", _assetdex.GetChrEntriesForGametype(_assetLocator.Type));
-                DisplayAssetSelectionList("Obj", _assetdex.GetObjEntriesForGametype(_assetLocator.Type));
-                DisplayMapAssetSelectionList("MapPiece", _assetdex.GetMapPieceEntriesForGametype(_assetLocator.Type));
+                if (!disableListGeneration)
+                {
+                    DisplayAssetSelectionList("Chr", _assetdex.GetChrEntriesForGametype(_assetLocator.Type));
+                    DisplayAssetSelectionList("Obj", _assetdex.GetObjEntriesForGametype(_assetLocator.Type));
+                    DisplayMapAssetSelectionList("MapPiece", _assetdex.GetMapPieceEntriesForGametype(_assetLocator.Type));
+                }
 
                 ImGui.EndChild();
                 ImGui.EndChild();
@@ -169,7 +152,7 @@ namespace StudioCore.AssetBrowser
         /// </summary>
         private void DisplayAssetTypeSelectionList()
         {
-            string objLabel = "Obj";
+            var objLabel = "Obj";
 
             if (_assetLocator.Type is GameType.EldenRing or GameType.ArmoredCoreVI)
                 objLabel = "AEG";
@@ -190,36 +173,28 @@ namespace StudioCore.AssetBrowser
             _loadedMaps.Clear();
 
             // Map-specific MapPieces
-            foreach (string mapId in _mapModelNameCache.Keys)
+            foreach (var mapId in _mapModelNameCache.Keys)
             {
                 foreach (var obj in _msbEditor.Universe.LoadedObjectContainers)
-                {
                     if (obj.Value != null)
-                    {
                         _loadedMaps.Add(obj.Key);
-                    }
-                }
 
                 if (_loadedMaps.Contains(mapId))
                 {
-                    string labelName = mapId;
+                    var labelName = mapId;
 
                     if (Editor.AliasBank.MapNames.ContainsKey(mapId))
-                    {
                         labelName = labelName + $" <{Editor.AliasBank.MapNames[mapId]}>";
-                    }
 
                     if (ImGui.Selectable(labelName, _selectedAssetMapId == mapId))
                     {
                         if (_mapModelNameCache[mapId] == null)
                         {
                             List<AssetDescription> modelList = _assetLocator.GetMapModels(mapId);
-                            List<string> cache = new List<string>();
+                            var cache = new List<string>();
 
                             foreach (AssetDescription model in modelList)
-                            {
                                 cache.Add(model.AssetName);
-                            }
                             _mapModelNameCache[mapId] = cache;
                         }
 
@@ -242,14 +217,14 @@ namespace StudioCore.AssetBrowser
                     _searchInputCache = _searchInput;
                     _selectedAssetTypeCache = _selectedAssetType;
                 }
-                foreach (string name in _modelNameCache)
+                foreach (var name in _modelNameCache)
                 {
-                    string displayName = $"{name}";
+                    var displayName = $"{name}";
 
-                    string referenceName = "";
-                    List<string> tagList = new List<string>();
+                    var referenceName = "";
+                    var tagList = new List<string>();
 
-                    string lowercaseName = name.ToLower();
+                    var lowercaseName = name.ToLower();
 
                     if (assetDict.ContainsKey(lowercaseName))
                     {
@@ -257,7 +232,7 @@ namespace StudioCore.AssetBrowser
 
                         if (CFG.Current.AssetBrowser_ShowTagsInBrowser)
                         {
-                            string tagString = string.Join(" ", assetDict[lowercaseName].tags);
+                            var tagString = string.Join(" ", assetDict[lowercaseName].tags);
                             displayName = $"{displayName} {{ {tagString} }}";
                         }
 
@@ -272,7 +247,7 @@ namespace StudioCore.AssetBrowser
                         }
                         if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClicked(0))
                         {
-                            string modelName = name;
+                            var modelName = name;
 
                             if (modelName.Contains("aeg"))
                                 modelName = modelName.Replace("aeg", "AEG");
@@ -289,7 +264,6 @@ namespace StudioCore.AssetBrowser
         private void DisplayMapAssetSelectionList(string assetType, Dictionary<string, AssetReference> assetDict)
         {
             if (_selectedAssetType == assetType)
-            {
                 if (_mapModelNameCache.ContainsKey(_selectedAssetMapId))
                 {
                     if (_searchInput != _searchInputCache || _selectedAssetType != _selectedAssetTypeCache || _selectedAssetMapId != _selectedAssetMapIdCache)
@@ -298,22 +272,20 @@ namespace StudioCore.AssetBrowser
                         _selectedAssetTypeCache = _selectedAssetType;
                         _selectedAssetMapIdCache = _selectedAssetMapId;
                     }
-                    foreach (string name in _mapModelNameCache[_selectedAssetMapId])
+                    foreach (var name in _mapModelNameCache[_selectedAssetMapId])
                     {
-                        string modelName = name.Replace($"{_selectedAssetMapId}_", "m");
+                        var modelName = name.Replace($"{_selectedAssetMapId}_", "m");
 
                         // Adjust the name to remove the A{mapId} section.
                         if (_assetLocator.Type == GameType.DarkSoulsPTDE || _assetLocator.Type == GameType.DarkSoulsRemastered)
-                        {
                             modelName = modelName.Replace($"A{_selectedAssetMapId.Substring(1, 2)}", "");
-                        }
 
-                        string displayName = $"{modelName}";
+                        var displayName = $"{modelName}";
 
-                        string referenceName = "";
-                        List<string> tagList = new List<string>();
+                        var referenceName = "";
+                        var tagList = new List<string>();
 
-                        string lowercaseName = name.ToLower();
+                        var lowercaseName = name.ToLower();
 
                         if (assetDict.ContainsKey(lowercaseName))
                         {
@@ -321,7 +293,7 @@ namespace StudioCore.AssetBrowser
 
                             if (CFG.Current.AssetBrowser_ShowTagsInBrowser)
                             {
-                                string tagString = string.Join(" ", assetDict[lowercaseName].tags);
+                                var tagString = string.Join(" ", assetDict[lowercaseName].tags);
                                 displayName = $"{displayName} {{ {tagString} }}";
                             }
 
@@ -335,13 +307,10 @@ namespace StudioCore.AssetBrowser
                             {
                             }
                             if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClicked(0))
-                            {
                                 _msbEditor.SetObjectModelForSelection(modelName, assetType, _selectedAssetMapId);
-                            }
                         }
                     }
                 }
-            }
         }
     }
 }

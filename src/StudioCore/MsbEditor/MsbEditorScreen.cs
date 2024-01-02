@@ -46,6 +46,7 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
 
     public bool CtrlHeld;
     public DisplayGroupsEditor DispGroupEditor;
+    public MsbAssetBrowser AssetBrowser;
     public ActionManager EditorActionManager = new();
 
     private bool GCNeedsCollection;
@@ -96,6 +97,7 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
         DispGroupEditor = new DisplayGroupsEditor(RenderScene, _selection, EditorActionManager);
         PropSearch = new SearchProperties(Universe, _propCache);
         NavMeshEditor = new NavmeshEditor(locator, RenderScene, _selection);
+        AssetBrowser = new MsbAssetBrowser(RenderScene, _selection, EditorActionManager, AssetLocator, _assetdex, this);
 
         EditorActionManager.AddEventHandler(SceneTree);
     }
@@ -935,6 +937,7 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
         ResourceManager.OnGuiDrawResourceList();
 
         DispGroupEditor.OnGui(Universe._dispGroupCount);
+        AssetBrowser.OnGui();
 
         if (_activeModal != null)
         {
@@ -969,6 +972,7 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
         _projectSettings = newSettings;
         _selection.ClearSelection();
         EditorActionManager.Clear();
+        AssetBrowser.UpdateBrowserCache();
 
         ReloadUniverse();
     }
