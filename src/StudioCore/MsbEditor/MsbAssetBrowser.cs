@@ -111,6 +111,8 @@ namespace StudioCore.MsbEditor
 
                 ImGui.SameLine();
                 ImGui.Checkbox("Show Tags", ref CFG.Current.AssetBrowser_ShowTagsInBrowser);
+                ImGui.SameLine();
+                ImGui.Checkbox("Update Selected Name", ref CFG.Current.AssetBrowser_UpdateSelectionName);
 
                 ImGui.Columns(2);
 

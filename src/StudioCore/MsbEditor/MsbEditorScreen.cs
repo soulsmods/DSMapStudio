@@ -17,6 +17,7 @@ using Veldrid.Sdl2;
 using Veldrid.Utilities;
 using Viewport = StudioCore.Gui.Viewport;
 using StudioCore.Assetdex;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace StudioCore.MsbEditor;
 
@@ -1099,7 +1100,8 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
                             isValidObjectType = true;
                         break;
                     case GameType.ArmoredCoreVI:
-                        //TODO AC6
+                        if (s.WrappedObject is MSB_AC6.Part.Enemy)
+                            isValidObjectType = true;
                         break;
                     default:
                         throw new ArgumentException("Selected entity type must be Enemy");
@@ -1139,7 +1141,8 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
                             isValidObjectType = true;
                         break;
                     case GameType.ArmoredCoreVI:
-                        //TODO AC6
+                        if (s.WrappedObject is MSB_AC6.Part.Asset)
+                            isValidObjectType = true;
                         break;
                     default:
                         throw new ArgumentException("Selected entity type must be Object/Asset");
@@ -1179,7 +1182,8 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
                             isValidObjectType = true;
                         break;
                     case GameType.ArmoredCoreVI:
-                        //TODO AC6
+                        if (s.WrappedObject is MSB_AC6.Part.MapPiece)
+                            isValidObjectType = true;
                         break;
                     default:
                         throw new ArgumentException("Selected entity type must be MapPiece");
@@ -1202,30 +1206,15 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
                 // ModelName
                 actlist.Add(s.ChangeObjectProperty("ModelName", modelName));
 
-                // Instance ID
-
                 // Name
-
-                // TODO: add functionality to update name and instance ID to new values
-                /*
-                foreach (var o in Universe.LoadedObjectContainers.Values)
+                if (CFG.Current.AssetBrowser_UpdateSelectionName)
                 {
-                    if (o == null)
-                    {
-                        continue;
-                    }
-                    if (o is Map m)
-                    {
-                        foreach (var ob in m.Objects)
-                        {
-                            if (ob is MapEntity e)
-                            {
-
-                            }
-                        }
-                    }
+                    string name = GetUniqueNameString(modelName);
+                    s.Name = name;
+                    actlist.Add(s.ChangeObjectProperty("Name", name));
                 }
-                */
+
+                // Instance ID
             }
         }
 
@@ -1234,6 +1223,77 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
             var action = new CompoundAction(actlist);
             EditorActionManager.ExecuteAction(action);
         }
+    }
+
+    public string GetUniqueNameString(string modelName)
+    {
+        int postfix = 0;
+        string baseName = $"{modelName}_0000";
+
+        List<string> names = new List<string>();
+
+        // Collect names
+        foreach (var o in Universe.LoadedObjectContainers.Values)
+        {
+            if (o == null)
+            {
+                continue;
+            }
+            if (o is Map m)
+            {
+                foreach (var ob in m.Objects)
+                {
+                    if (ob is MapEntity e)
+                    {
+                        names.Add(ob.Name);
+                    }
+                }
+            }
+        }
+
+        bool validName = false;
+        while (!validName)
+        {
+            bool matchesName = false;
+
+            foreach (string name in names)
+            {
+                // Name already exists
+                if (name == baseName)
+                {
+                    // Increment postfix number by 1
+                    int old_value = postfix;
+                    postfix = postfix + 1;
+
+                    // Replace baseName postfix number
+                    baseName = baseName.Replace($"{PadNameString(old_value)}", $"{PadNameString(postfix)}");
+
+                    matchesName = true;
+                }
+            }
+
+            // If it does not match any name during 1 full iteration, then it must be valid
+            if (!matchesName)
+            {
+                validName = true;
+            }
+        }
+
+        return baseName;
+    }
+
+    public string PadNameString(int value)
+    {
+        if(value < 10)
+            return $"000{value}";
+
+        if (value >= 10 && value < 100)
+            return $"00{value}";
+
+        if (value >= 100 && value < 1000)
+            return $"0{value}";
+
+        return $"{value}";
     }
 
     /// <summary>
