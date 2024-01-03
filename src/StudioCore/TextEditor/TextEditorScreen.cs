@@ -395,6 +395,8 @@ public class TextEditorScreen : EditorScreen
                     }
                 }
 
+                matches = matches.OrderBy(e => e.ID).ToList();
+
                 _EntryLabelCacheFiltered = matches;
                 _searchFilterCached = _searchFilter;
                 doFocus = true;
