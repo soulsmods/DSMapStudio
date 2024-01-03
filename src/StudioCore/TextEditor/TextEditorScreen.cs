@@ -518,6 +518,7 @@ public class TextEditorScreen : EditorScreen
                     }
                 }
             }
+            _filteredFmgInfo = _filteredFmgInfo.Distinct().ToList();
         }
         if (_fmgSearchAllString == "")
         {
