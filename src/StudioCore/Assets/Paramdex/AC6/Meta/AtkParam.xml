@@ -46,30 +46,32 @@
     </Enum>
   </Enums>
   <Field>
-    <pulseInterferenceDamage Name="Pulse Armor Interference Damage" Wiki="Bonus damage dealt to pulse armor, pulse protection, and terminal armor core expansions.\nDoesn't affect pulse shields, nor weapons that create pulse barrier assets."/>
-    <pulseShieldInterferenceImpactDamage Name="Pulse Shield Interference: Impact Damage" Wiki="Bonus impact damage dealt to opponents with pulse shields.\nDoesn't affect pulse armor or pulse protection."/>
-    <pulseShieldInterferenceAccumlativeImpactDamage Name="Pulse Shield Interference: Accumulative Impact Damage" Wiki="Bonus accumulative impact damage dealt to opponents with pulse shields.\nUses pulseShieldInterferenceImpactDamage for base impact damage.\nDoesn't affect pulse armor or pulse protection."/>
-    <recoilKnockbackVelocity_Grounded Name="Recoil Knockback (Grounded)" Wiki="Backwards velocity applied to the shooter when using a weapon on the ground.\nApplies conditionally, such as not applying when AC has tank legs."/>
-    <recoilKnockbackVelocity_Airborne Name="Recoil Knockback (Airborne)" Wiki="Backwards velocity applied to the shooter when using a weapon in the air."/>
-    <hitboxShape Name="Hitbox Shape" Enum ="ATKPARAM_HIT_CREATE_TYPE" Wiki="Backwards velocity applied to the shooter when using a weapon in the air."/>
-    <attack_Object Name="Attack Damage (Object)" Wiki="Base object damage. Responsible for damage dealt to assets, including EULE/60D [Pulse Shield Launcher] barriers."/>
-    <UnkFlag0x1DA_0 Name="" IsBool=""/>
-    <UnkFlag0x1DA_1 Name="" IsBool=""/>
-    <UnkFlag0x1DA_2 Name="" IsBool=""/>
-    <UnkFlag0x1DA_3 Name="" IsBool=""/>
-    <UnkFlag0x1DA_4 Name="" IsBool=""/>
-    <UnkFlag0x1DA_5 Name="" IsBool=""/>
-    <UnkFlag0x1DA_6 Name="" IsBool=""/>
-    <weightAffectsDamage Name="Weight Affects Damage" Wiki="Attack damage scales with weight according to calcCorrectGraph 280" IsBool=""/>
-    <UnkFlag0x1DB_0 Name="" IsBool=""/>
-    <UnkFlag0x1DB_1 Name="" IsBool=""/>
-    <UnkFlag0x1DB_2 Name="" IsBool=""/>
-    <UnkFlag0x1DB_3 Name="" IsBool=""/>
-    <UnkFlag0x1DB_4 Name="" IsBool=""/>
-    <useImpactRate Name="Use Impact Rate" Wiki="Determines if impact damage will be affected by SpEffect param." IsBool=""/>
-    <UnkFlag0x1DB_6 Name="" IsBool=""/>
-    <UnkFlag0x1DB_7 Name="" IsBool=""/>
-    <wwise_ShootSeCategoryId Name="Shoot Sound" Enum="ATKPARAM_SHOOT_SE_CATEGORY" Refs="WwiseValueToStrParam_Switch_ShootSeCategory" Wiki="Sound to produce when attack is initiated.\nReferences Row ID in WwiseValueToStrParam_Switch_ShootSeCategory." />
+    <pulseInterferenceDamage AltName="Pulse Armor Interference Damage" Wiki="Bonus damage dealt to pulse armor, pulse protection, and terminal armor core expansions.\nDoesn't affect pulse shields, nor weapons that create pulse barrier assets."/>
+    <pulseShieldInterferenceImpactDamage AltName="Pulse Shield Interference: Impact Damage" Wiki="Bonus impact damage dealt to opponents with pulse shields.\nDoesn't affect pulse armor or pulse protection."/>
+    <pulseShieldInterferenceAccumlativeImpactDamage AltName="Pulse Shield Interference: Accumulative Impact Damage" Wiki="Bonus accumulative impact damage dealt to opponents with pulse shields.\nUses pulseShieldInterferenceImpactDamage for base impact damage.\nDoesn't affect pulse armor or pulse protection."/>
+    <recoilKnockbackVelocity_Grounded AltName="Recoil Knockback (Grounded)" Wiki="Backwards velocity applied to the shooter when using a weapon on the ground.\nApplies conditionally, such as not applying when AC has tank legs."/>
+    <recoilKnockbackVelocity_Airborne AltName="Recoil Knockback (Airborne)" Wiki="Backwards velocity applied to the shooter when using a weapon in the air."/>
+    <hitboxShape AltName="Hitbox Shape" Enum ="ATKPARAM_HIT_CREATE_TYPE" Wiki="Backwards velocity applied to the shooter when using a weapon in the air."/>
+    <attack_Object AltName="Attack Damage (Object)" Wiki="Base object damage. Responsible for damage dealt to assets, including EULE/60D [Pulse Shield Launcher] barriers."/>
+    <UnkFlag0x1DA_0 IsBool=""/>
+    <UnkFlag0x1DA_1 IsBool=""/>
+    <UnkFlag0x1DA_2 IsBool=""/>
+    <UnkFlag0x1DA_3 IsBool=""/>
+    <nonStaggerAttacksCauseKnockback AltName="Non-Stagger Attacks Cause Knockback" IsBool="" Wiki="Makes non-staggering attacks knockback enemies, utilizing nonStaggerKnockbackDist."/>
+    <nonStaggerKnockbackDist AltName="Knockback Distance (non-staggered)" Wiki="Distance enemies will move when hit by this attack (and that attack does not stagger).\nRequires nonStaggerAttacksCauseKnockback"/>
+    <staggerKnockbackDist AltName="Knockback Distance (staggered)" Wiki="Distance enemies will move when staggered by this attack."/>
+    <UnkFlag0x1DA_5 IsBool=""/>
+    <UnkFlag0x1DA_6 IsBool=""/>
+    <weightAffectsDamage AltName="Weight Affects Damage" Wiki="Attack damage scales with weight according to calcCorrectGraph 280" IsBool=""/>
+    <UnkFlag0x1DB_0 IsBool=""/>
+    <UnkFlag0x1DB_1 IsBool=""/>
+    <UnkFlag0x1DB_2 IsBool=""/>
+    <UnkFlag0x1DB_3 IsBool=""/>
+    <UnkFlag0x1DB_4 IsBool=""/>
+    <useImpactRate AltName="Use Impact Rate" Wiki="Determines if impact damage will be affected by SpEffect param." IsBool=""/>
+    <UnkFlag0x1DB_6 IsBool=""/>
+    <UnkFlag0x1DB_7 IsBool=""/>
+    <wwise_ShootSeCategoryId AltName="Shoot Sound" Enum="ATKPARAM_SHOOT_SE_CATEGORY" Refs="WwiseValueToStrParam_Switch_ShootSeCategory" Wiki="Sound to produce when attack is initiated.\nReferences Row ID in WwiseValueToStrParam_Switch_ShootSeCategory." />
   </Field>
   <Self />
 </PARAMMETA>
