@@ -445,6 +445,11 @@ public class TextEditorScreen : EditorScreen
                 {
                     ClearTextEditorCache();
                     _activeFmgInfo = info;
+                    if (_fmgSearchAllActive)
+                    {
+                        _searchFilter = _fmgSearchAllString;
+                        _searchFilterCached = "";
+                }
                 }
 
                 if (doFocus && info == _activeFmgInfo)
