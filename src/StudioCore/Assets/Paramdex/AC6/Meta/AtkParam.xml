@@ -44,6 +44,25 @@
       <Option Value="34" Name="Melee" />
       <Option Value="100" Name="SpWeapon" />
     </Enum>
+    <Enum Name="WEP_MATERIAL_ATK" type="u8">
+      <Option Value="0" Name="Standard" />
+      <Option Value="1" Name="Kinetic" />
+      <Option Value="2" Name="Energy" />
+      <Option Value="3" Name="Explosive" />
+      <Option Value="4" Name="Ice" />
+      <Option Value="5" Name="Green" />
+      <Option Value="6" Name="None" />
+      <Option Value="7" Name="Dmy1" />
+      <Option Value="8" Name="Dmy2" />
+      <Option Value="9" Name="Dmy3" />
+      <Option Value="10" Name="Dmy4" />
+      <Option Value="11" Name="Coral" />
+      <Option Value="12" Name="Assault Armor" />
+      <Option Value="20" Name="Pulse" />
+      <Option Value="21" Name="Laser" />
+      <Option Value="22" Name="Plasma" />
+      <Option Value="255" Name="None" />
+    </Enum>
   </Enums>
   <Field>
     <pulseInterferenceDamage Name="Pulse Armor Interference Damage" Wiki="Bonus damage dealt to pulse armor, pulse protection, and terminal armor core expansions.\nDoesn't affect pulse shields, nor weapons that create pulse barrier assets."/>
@@ -70,6 +89,7 @@
     <UnkFlag0x1DB_6 Name="" IsBool=""/>
     <UnkFlag0x1DB_7 Name="" IsBool=""/>
     <wwise_ShootSeCategoryId Name="Shoot Sound" Enum="ATKPARAM_SHOOT_SE_CATEGORY" Refs="WwiseValueToStrParam_Switch_ShootSeCategory" Wiki="Sound to produce when attack is initiated.\nReferences Row ID in WwiseValueToStrParam_Switch_ShootSeCategory." />
+    <atkType Enum="WEP_MATERIAL_ATK"/>
   </Field>
   <Self />
 </PARAMMETA>

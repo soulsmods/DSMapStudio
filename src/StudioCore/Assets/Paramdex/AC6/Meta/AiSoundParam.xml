@@ -1,5 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
-  <Field></Field>
+  <Enums>
+    <Enum Name="AI_SOUND_RANK" type="u8">
+      <Option Value="0" Name="Normal Sound" />
+      <Option Value="1" Name="Important Sound" />
+      <Option Value="2" Name="Threat Sound" />
+      <Option Value="3" Name="Auditory Hallucination" />
+      <Option Value="4" Name="Soul Coin" />
+      <Option Value="5" Name="Soul Coin (Immortality)" />
+      <Option Value="6" Name="Soul Coin (Beast Type)" />
+      <Option Value="7" Name="Weak Soul Coin" />
+      <Option Value="8" Name="Behavior ID Reference" />
+    </Enum>
+    
+    <Enum Name="AI_SOUND_RATE_TYPE" type="u8">
+      <Option Value="0" Name="Direct Sound" />
+      <Option Value="1" Name="Moving Sound" />
+      <Option Value="2" Name="Attack Sound" />
+    </Enum>
+  </Enums>
+  <Field>
+    <type Enum="AI_SOUND_RATE_TYPE" />
+    <rank Enum="AI_SOUND_RANK" />
+  </Field>
   <Self />
 </PARAMMETA>

@@ -1,5 +1,39 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
-  <Field></Field>
+  <Enums>
+    <Enum Name="ACTION_BUTTON_REGION_TYPE" type="u8">
+      <Option Value="0" Name="Cylinder" />
+      <Option Value="1" Name="Square Pillar" />
+      <Option Value="2" Name="Capsule Pillar" />
+    </Enum> 
+    <Enum Name="ACTION_BUTTON_ANGLE_CHECK_TYPE" type="u8">
+      <Option Value="0" Name="Point" />
+      <Option Value="1" Name="Line" />
+    </Enum> 
+    <Enum Name="ACTION_BUTTON_TEXT_BOX_TYPE" type="u8">
+      <Option Value="0" Name="Action Button" />
+    </Enum>
+    <Enum Name="ACTION_BUTTON_EXEC_CIRCLE" type="u8">
+      <Option Value="0" Name="No" />
+      <Option Value="1" Name="Yes" />
+    </Enum>
+    <Enum Name="ACTION_BUTTON_ICON_ID" type="s32">
+      <Option Value="1" Name="Default" />
+      <Option Value="2" Name="Hacking Level 1" />
+      <Option Value="3" Name="Supply" />
+      <Option Value="4" Name="Container" />
+      <Option Value="5" Name="Hacking Level 2" />
+      <Option Value="6" Name="Hacking Level 3" />
+    </Enum>
+  </Enums>
+  
+  <Field>
+    <textId FmgRef="Event"/>
+    <regionType Enum="ACTION_BUTTON_REGION_TYPE" />
+    <angleCheckType Enum="ACTION_BUTTON_ANGLE_CHECK_TYPE" />
+    <textBoxType Enum="ACTION_BUTTON_TEXT_BOX_TYPE" />
+    <useExecCircle Enum="ACTION_BUTTON_EXEC_CIRCLE" />
+    <actionButtonIconId Enum="ACTION_BUTTON_ICON_ID" />
+  </Field>
   <Self />
 </PARAMMETA>
