@@ -3,6 +3,7 @@ using SoulsFormats;
 using StudioCore.Editor;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using Veldrid;
 using Veldrid.Sdl2;
@@ -449,7 +450,7 @@ public class TextEditorScreen : EditorScreen
                     {
                         _searchFilter = _fmgSearchAllString;
                         _searchFilterCached = "";
-                }
+                    }
                 }
 
                 if (doFocus && info == _activeFmgInfo)
@@ -507,12 +508,19 @@ public class TextEditorScreen : EditorScreen
             {
                 if (info.PatchParent == null)
                 {
-                    foreach (var entry in info.GetPatchedEntries())
+                    foreach (var entry in info.GetPatchedEntries(false))
                     {
                         if ((entry.Text != null && entry.Text.Contains(_fmgSearchAllString, StringComparison.CurrentCultureIgnoreCase))
                             || entry.ID.ToString().Contains(_fmgSearchAllString))
                         {
-                            _filteredFmgInfo.Add(info);
+                            if (info.EntryType is not FmgEntryTextType.Title and not FmgEntryTextType.TextBody)
+                            {
+                                _filteredFmgInfo.Add(info.GetTitleFmgInfo());
+                            }
+                            else
+                            {
+                                _filteredFmgInfo.Add(info);
+                            }
                             break;
                         }
                     }
