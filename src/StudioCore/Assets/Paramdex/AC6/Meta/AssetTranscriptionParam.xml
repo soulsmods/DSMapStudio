@@ -26,10 +26,10 @@
     
   </Enums>
   <Field>
-    <assetEnvironmentGeometryParamID Refs="AssetEnvironmentGeometryParam" />
-    <assetSlodTexSizeType Enum="ASSET_SLOD_TEX_SIZE_TYPE" />
-    <assetSlodCapDirNumType Enum="ASSET_SLOD_CAP_DIR_NUM_TYPE" />
-    <assetSlodCapAngleType Enum="ASSET_SLOD_CAP_ANGLE_TYPE" />
+    <assetEnvironmentGeometryParamID AltName="Asset Environment Geometry Param ID" Refs="AssetEnvironmentGeometryParam" />
+    <assetSlodTexSizeType AltName="Asset SLOD Texture Size" Enum="ASSET_SLOD_TEX_SIZE_TYPE" />
+    <assetSlodCapDirNumType AltName="Asset SLOD Directions" Enum="ASSET_SLOD_CAP_DIR_NUM_TYPE" />
+    <assetSlodCapAngleType AltName="Asset SLOD Angle Cap"  Enum="ASSET_SLOD_CAP_ANGLE_TYPE" />
   </Field>
   <Self />
 </PARAMMETA>

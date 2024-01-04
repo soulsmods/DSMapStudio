@@ -60,6 +60,7 @@
     <weaponAttackHeatBuildup AltName="Heat Build-up on Attack" />
     <channelAttackHeatBuildup AltName="Heat Build-up on Channeled Attack" />
     <heatBuildup AltName="Heat Build-up" />
+    <burstFireAmount AltName="Burst Fire Amount" />
   </Field>
   <Self />
 </PARAMMETA>
