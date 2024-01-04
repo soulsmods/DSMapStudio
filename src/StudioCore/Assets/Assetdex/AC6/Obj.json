@@ -7,6 +7,1018 @@
             "tags": [
                 "default"
             ]
+        },
+        {
+            "id": "AEG000_100",
+            "name": "Interaction Box",
+            
+            "tags": [
+                "asset",
+                "dummy"
+            ]
+        },
+        {
+            "id": "AEG000_500",
+            "name": "Cube",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG000_520",
+            "name": "AC Test Lights",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG000_521",
+            "name": "AC Test Lights",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG000_900",
+            "name": "AC Test Room",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG000_920",
+            "name": "AC Test Room Details",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG000_930",
+            "name": "Blank",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG000_950",
+            "name": "AC Test Room",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG000_980",
+            "name": "AC Test Room",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG000_985",
+            "name": "AC Test Room",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG008_020",
+            "name": "Shipping Containers",
+            
+            "tags": [
+                "asset",
+                "clutter"
+            ]
+        },
+        {
+            "id": "AEG008_030",
+            "name": "Wrecked MT",
+            
+            "tags": [
+                "asset",
+                "clutter"
+            ]
+        },
+        {
+            "id": "AEG010_034",
+            "name": "Rock Slab",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG010_040",
+            "name": "Rock Slab",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG010_050",
+            "name": "Rock Slab",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG010_051",
+            "name": "Rock Slab",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG010_340",
+            "name": "Snow Mound",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG010_350",
+            "name": "Shattered Ground",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG010_360",
+            "name": "Shattered Dirt",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG010_361",
+            "name": "Shattered Dirt",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG010_362",
+            "name": "Shattered Dirt",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG010_363",
+            "name": "Shattered Dirt",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG010_370",
+            "name": "Dirt",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG013_130",
+            "name": "Tower with Stairs",
+            
+            "tags": [
+                "asset",
+                "building"
+            ]
+        },
+        {
+            "id": "AEG013_140",
+            "name": "Energy Pylon",
+            
+            "tags": [
+                "asset",
+                "building"
+            ]
+        },
+        {
+            "id": "AEG013_150",
+            "name": "Industrial Building",
+            
+            "tags": [
+                "asset",
+                "building"
+            ]
+        },
+        {
+            "id": "AEG013_151",
+            "name": "Industrial Building",
+            
+            "tags": [
+                "asset",
+                "building"
+            ]
+        },
+        {
+            "id": "AEG013_152",
+            "name": "Industrial Building Facade",
+            
+            "tags": [
+                "asset",
+                "building"
+            ]
+        },
+        {
+            "id": "AEG013_153",
+            "name": "Industrial Building Facade",
+            
+            "tags": [
+                "asset",
+                "building"
+            ]
+        },
+        {
+            "id": "AEG013_155",
+            "name": "LOD - Industrial Building",
+            
+            "tags": [
+                "asset",
+                "LOD"
+            ]
+        },
+        {
+            "id": "AEG013_156",
+            "name": "LOD - Industrial Building",
+            
+            "tags": [
+                "asset",
+                "LOD"
+            ]
+        },
+        {
+            "id": "AEG013_157",
+            "name": "LOD - Industrial Building Facade",
+            
+            "tags": [
+                "asset",
+                "LOD"
+            ]
+        },
+        {
+            "id": "AEG013_160",
+            "name": "Searchlight",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG013_161",
+            "name": "Searchlight",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG013_170",
+            "name": "Flat-roof Building",
+            
+            "tags": [
+                "asset",
+                "building"
+            ]
+        },
+        {
+            "id": "AEG013_180",
+            "name": "Storage Tanks",
+            
+            "tags": [
+                "asset",
+                "clutter"
+            ]
+        },
+        {
+            "id": "AEG013_181",
+            "name": "Storage Tansk",
+            
+            "tags": [
+                "asset",
+                "clutter"
+            ]
+        },
+        {
+            "id": "AEG013_318",
+            "name": "Transformer Array",
+            
+            "tags": [
+                "asset",
+                "building"
+            ]
+        },
+        {
+            "id": "AEG013_320",
+            "name": "Interaction Box",
+            
+            "tags": [
+                "asset",
+                "dummy"
+            ]
+        },
+        {
+            "id": "AEG013_408",
+            "name": "Industrial Struct",
+            
+            "tags": [
+                "asset",
+                "structure"
+            ]
+        },
+        {
+            "id": "AEG013_409",
+            "name": "Flat Platform with Ramps",
+            
+            "tags": [
+                "asset",
+                "building"
+            ]
+        },
+        {
+            "id": "AEG013_410",
+            "name": "Flat Platform",
+            
+            "tags": [
+                "asset",
+                "building"
+            ]
+        },
+        {
+            "id": "AEG013_411",
+            "name": "Flat Platforms",
+            
+            "tags": [
+                "asset",
+                "building"
+            ]
+        },
+        {
+            "id": "AEG013_412",
+            "name": "Habitation Block",
+            
+            "tags": [
+                "asset",
+                "building"
+            ]
+        },
+        {
+            "id": "AEG013_413",
+            "name": "Long Habitation Block",
+            
+            "tags": [
+                "asset",
+                "building"
+            ]
+        },
+        {
+            "id": "AEG013_414",
+            "name": "Habitation Block with Heli-platform",
+            
+            "tags": [
+                "asset",
+                "building"
+            ]
+        },
+        {
+            "id": "AEG013_415",
+            "name": "Habitation Block",
+            
+            "tags": [
+                "asset",
+                "building"
+            ]
+        },
+        {
+            "id": "AEG013_416",
+            "name": "Civilian Hall",
+            
+            "tags": [
+                "asset",
+                "building"
+            ]
+        },
+        {
+            "id": "AEG013_417",
+            "name": "Radar Globe",
+            
+            "tags": [
+                "asset",
+                "building"
+            ]
+        },
+        {
+            "id": "AEG013_418",
+            "name": "Radar Dish",
+            
+            "tags": [
+                "asset",
+                "building"
+            ]
+        },
+        {
+            "id": "AEG013_420",
+            "name": "Grid 135 Wall",
+            
+            "tags": [
+                "asset",
+                "structure"
+            ]
+        },
+        {
+            "id": "AEG013_421",
+            "name": "Grid 135 Wall",
+            
+            "tags": [
+                "asset",
+                "structure"
+            ]
+        },
+        {
+            "id": "AEG013_422",
+            "name": "Snow Drift",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG013_423",
+            "name": "Snow Drift",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG013_424",
+            "name": "Snow Drift",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG013_425",
+            "name": "Square Stepped Structure",
+            
+            "tags": [
+                "asset",
+                "structure"
+            ]
+        },
+        {
+            "id": "AEG013_426",
+            "name": "quare Stepped Structure",
+            
+            "tags": [
+                "asset",
+                "structure"
+            ]
+        },
+        {
+            "id": "AEG013_427",
+            "name": "Block",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG013_430",
+            "name": "Flat-roof Building",
+            
+            "tags": [
+                "asset",
+                "building"
+            ]
+        },
+        {
+            "id": "AEG013_440",
+            "name": "Flat Platform with Channels",
+            
+            "tags": [
+                "asset",
+                "structure"
+            ]
+        },
+        {
+            "id": "AEG013_500",
+            "name": "Building Base Structure",
+            
+            "tags": [
+                "asset",
+                "Structure"
+            ]
+        },
+        {
+            "id": "AEG013_501",
+            "name": "Covered Storage Tanks",
+            
+            "tags": [
+                "asset",
+                "structure"
+            ]
+        },
+        {
+            "id": "AEG013_502",
+            "name": "Covered Containers",
+            
+            "tags": [
+                "asset",
+                "clutter"
+            ]
+        },
+        {
+            "id": "AEG013_503",
+            "name": "Container Building Base Structure",
+            
+            "tags": [
+                "asset",
+                "structure"
+            ]
+        },
+        {
+            "id": "AEG013_504",
+            "name": "Draped Heli-copter",
+            
+            "tags": [
+                "asset",
+                "clutter"
+            ]
+        },
+        {
+            "id": "AEG013_505",
+            "name": "Draped Tank",
+            
+            "tags": [
+                "asset",
+                "clutter"
+            ]
+        },
+        {
+            "id": "AEG013_506",
+            "name": "Draped Quadcopter",
+            
+            "tags": [
+                "asset",
+                "clutter"
+            ]
+        },
+        {
+            "id": "AEG013_507",
+            "name": "Vehicle Engine Section",
+            
+            "tags": [
+                "asset",
+                "clutter"
+            ]
+        },
+        {
+            "id": "AEG013_508",
+            "name": "Tracked Vehicle Platform",
+            
+            "tags": [
+                "asset",
+                "clutter"
+            ]
+        },
+        {
+            "id": "AEG013_509",
+            "name": "Tracked Vehicle Platform",
+            
+            "tags": [
+                "asset",
+                "clutter"
+            ]
+        },
+        {
+            "id": "AEG013_510",
+            "name": "Platform Section",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG013_511",
+            "name": "Platform Intersection",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG013_512",
+            "name": "Platform Section Cap",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG013_513",
+            "name": "Complex Entrance Door",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG013_514",
+            "name": "Building Base Structure",
+            
+            "tags": [
+                "asset",
+                "structure"
+            ]
+        },
+        {
+            "id": "AEG013_515",
+            "name": "Industrial Conveyor Base Structure",
+            
+            "tags": [
+                "asset",
+                "structure"
+            ]
+        },
+        {
+            "id": "AEG013_516",
+            "name": "Industrial Conveyor Base Structure",
+            
+            "tags": [
+                "asset",
+                "structure"
+            ]
+        },
+        {
+            "id": "AEG013_517",
+            "name": "Tracked Vehicle Platform",
+            
+            "tags": [
+                "asset",
+                "clutter"
+            ]
+        },
+        {
+            "id": "AEG013_518",
+            "name": "Covered Container",
+            
+            "tags": [
+                "asset",
+                "clutter"
+            ]
+        },
+        {
+            "id": "AEG013_519",
+            "name": "Covered Container",
+            
+            "tags": [
+                "asset",
+                "clutter"
+            ]
+        },
+        {
+            "id": "AEG013_520",
+            "name": "Complex Entrance Door",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG013_521",
+            "name": "Industrial Engine Section",
+            
+            "tags": [
+                "asset",
+                "clutter"
+            ]
+        },
+        {
+            "id": "AEG013_522",
+            "name": "Pipeworks",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG013_523",
+            "name": "Passage Inner Structure",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG013_524",
+            "name": "Pipeworks",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG013_525",
+            "name": "Spotlight",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG013_526",
+            "name": "Access Tower",
+            
+            "tags": [
+                "asset",
+                "building"
+            ]
+        },
+        {
+            "id": "AEG013_527",
+            "name": "Container Outpost",
+            
+            "tags": [
+                "asset",
+                "clutter"
+            ]
+        },
+        {
+            "id": "AEG013_528",
+            "name": "LOD - Industrial Facade",
+            
+            "tags": [
+                "asset",
+                "LOD"
+            ]
+        },
+        {
+            "id": "AEG013_530",
+            "name": "Complex Entrance Door",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG013_531",
+            "name": "LOD - Complex Entrance Door",
+            
+            "tags": [
+                "asset",
+                "LOD"
+            ]
+        },
+        {
+            "id": "AEG013_532",
+            "name": "Grid 135 Sectioned Floor - Exposed",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG013_533",
+            "name": "Grid 135 Section Floor - Covered",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG013_534",
+            "name": "Channeled Platform",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG013_535",
+            "name": "Habitation Building Facade",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG013_540",
+            "name": "Wrecked MT",
+            
+            "tags": [
+                "asset",
+                "enemy"
+            ]
+        },
+        {
+            "id": "AEG013_545",
+            "name": "Defensive Auto-cannon",
+            
+            "tags": [
+                "asset",
+                "weapon"
+            ]
+        },
+        {
+            "id": "AEG013_590",
+            "name": "Wire-suspended Lift",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG013_591",
+            "name": "Hanger Doors",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG013_592",
+            "name": "Hanger Shaft Section - Lower",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG013_593",
+            "name": "Hanger Shaft Section - Upper",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG013_594",
+            "name": "Industrial Door",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG013_596",
+            "name": "Industrial Door",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG013_600",
+            "name": "Grid 135 Hanger Structure Section",
+            
+            "tags": [
+                "asset",
+                "structure"
+            ]
+        },
+        {
+            "id": "AEG013_601",
+            "name": "Grid 135 Access Channel Edging",
+            
+            "tags": [
+                "asset",
+                "structure"
+            ]
+        },
+        {
+            "id": "AEG013_602",
+            "name": "Grid 135 Access Channel Upper Section",
+            
+            "tags": [
+                "asset",
+                "structure"
+            ]
+        },
+        {
+            "id": "AEG013_603",
+            "name": "Grid 135 Access Channel Lower Section",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG013_610",
+            "name": "Grid 135 Access Channel Section",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG013_611",
+            "name": "Grid 135 Access Channel Damaged Section",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG013_620",
+            "name": "Passageway",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG013_621",
+            "name": "Hanger Inner Section",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG013_622",
+            "name": "Hanger Inner Section",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG013_623",
+            "name": "Hanger Inner Section",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG013_625",
+            "name": "Complex Passage Tunnel with Corner",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG013_626",
+            "name": "Complex Passage Tunnel",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG013_628",
+            "name": "Complex Inner Hall Section",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG013_629",
+            "name": "Complex Passage Tunnel with Corner",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG013_630",
+            "name": "Hanger Runway Flat",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "TODO",
+            "name": "TODO",
+            
+            "tags": [
+                "asset"
+            ]
         }
     ]
 }
