@@ -584,6 +584,9 @@
     <pulseShieldInterferenceAccumlativeImpactDamage AltName="Pulse Shield Interference: Accumulative Impact Damage" Wiki="Bonus accumulative impact damage dealt to opponents with pulse shields.\nUses pulseShieldInterferenceImpactDamage for base impact damage.\nDoesn't affect pulse armor or pulse protection."/>
     <accumulativeImpactDamage AltName="Accumulative Impact Damage" />
     <sfxModelParamId AltName="SFX Model Param ID" />
+    <nonStaggerAttacksCauseKnockback AltName="Non-Stagger Attacks Cause Knockback" IsBool="" Wiki="Makes non-staggering attacks knockback enemies, utilizing nonStaggerKnockbackDist."/>
+    <nonStaggerKnockbackDist AltName="Knockback Distance (non-staggered)" Wiki="Distance enemies will move when hit by this attack (and that attack does not stagger).\nRequires nonStaggerAttacksCauseKnockback"/>
+    <staggerKnockbackDist AltName="Knockback Distance (staggered)" Wiki="Distance enemies will move when staggered by this attack."/>
   </Field>
   <Self />
 </PARAMMETA>

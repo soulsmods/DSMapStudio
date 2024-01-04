@@ -11,13 +11,13 @@
       <Option Value="255" Name="Hit ground or enemy" />
     </Enum>
     <Enum Name="BULLET_EMITTE_POS_TYPE" type="u8">
-      <Option Value="0" Name="From shooter dummy poly" />
-      <Option Value="1" Name="From random location around shooter" />
-      <Option Value="2" Name="From above shooter dummy poly" />
-      <Option Value="3" Name="From nearest target enemy origin" />
-      <Option Value="4" Name="From random location around nearest target enemy origin" />
-      <Option Value="5" Name="From shooter dummy poly position when shooting" />
-      <Option Value="6" Name="From global Y-axis direction of shooter dummy poly" />
+      <Option Value="0" Name="Default" />
+      <Option Value="1" Name="Shooter + randomCreateRadius" />
+      <Option Value="2" Name="Higher elevation" />
+      <Option Value="3" Name="Nearby enemy origin. If no enemies, targets bullet origin." />
+      <Option Value="4" Name="Nearest enemy + randomCreateRadius" />
+      <Option Value="5" Name="Parent bullet (instead of hit location)" />
+      <Option Value="6" Name="Aim straight up" />
     </Enum>
     <Enum Name="BULLET_FOLLOW_TYPE" type="u8">
       <Option Value="0" Name="Do not follow" />
