@@ -1684,6 +1684,34 @@ public class AssetLocator
         return ad;
     }
 
+    public AssetDescription GetAetTexture(string aetid)
+    {
+        AssetDescription ad = new();
+        ad.AssetPath = null;
+        ad.AssetArchiveVirtualPath = null;
+        string path;
+        if (Type == GameType.EldenRing)
+        {
+            path = GetOverridenFilePath($@"asset\aet\{aetid.Substring(3, 6)}\{aetid}.tpf.dcx");
+        }
+        else if (Type is GameType.ArmoredCoreVI)
+        {
+            path = GetOverridenFilePath($@"\asset\environment\texture\{aetid}.tpf.dcx");
+        }
+        else
+        {
+            throw new NotSupportedException();
+        }
+
+        if (path != null)
+        {
+            ad.AssetPath = path;
+            ad.AssetArchiveVirtualPath = $@"aet/{aetid}/tex";
+        }
+
+        return ad;
+    }
+
     public List<string> GetPartsModels()
     {
         try
