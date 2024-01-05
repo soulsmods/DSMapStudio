@@ -9,7 +9,7 @@
             ]
         },
         {
-            "id": "AEG000_100",
+            "id": "aeg000_100",
             "name": "Interaction Box",
             
             "tags": [
@@ -18,7 +18,7 @@
             ]
         },
         {
-            "id": "AEG000_500",
+            "id": "aeg000_500",
             "name": "Cube",
             
             "tags": [
@@ -26,7 +26,7 @@
             ]
         },
         {
-            "id": "AEG000_520",
+            "id": "aeg000_520",
             "name": "AC Test Lights",
             
             "tags": [
@@ -34,7 +34,7 @@
             ]
         },
         {
-            "id": "AEG000_521",
+            "id": "aeg000_521",
             "name": "AC Test Lights",
             
             "tags": [
@@ -42,7 +42,7 @@
             ]
         },
         {
-            "id": "AEG000_900",
+            "id": "aeg000_900",
             "name": "AC Test Room",
             
             "tags": [
@@ -50,7 +50,7 @@
             ]
         },
         {
-            "id": "AEG000_920",
+            "id": "aeg000_920",
             "name": "AC Test Room Details",
             
             "tags": [
@@ -58,7 +58,7 @@
             ]
         },
         {
-            "id": "AEG000_930",
+            "id": "aeg000_930",
             "name": "Blank",
             
             "tags": [
@@ -66,7 +66,7 @@
             ]
         },
         {
-            "id": "AEG000_950",
+            "id": "aeg000_950",
             "name": "AC Test Room",
             
             "tags": [
@@ -74,7 +74,7 @@
             ]
         },
         {
-            "id": "AEG000_980",
+            "id": "aeg000_980",
             "name": "AC Test Room",
             
             "tags": [
@@ -82,7 +82,7 @@
             ]
         },
         {
-            "id": "AEG000_985",
+            "id": "aeg000_985",
             "name": "AC Test Room",
             
             "tags": [
@@ -90,7 +90,7 @@
             ]
         },
         {
-            "id": "AEG008_020",
+            "id": "aeg008_020",
             "name": "Shipping Containers",
             
             "tags": [
@@ -99,7 +99,7 @@
             ]
         },
         {
-            "id": "AEG008_030",
+            "id": "aeg008_030",
             "name": "Wrecked MT",
             
             "tags": [
@@ -108,7 +108,7 @@
             ]
         },
         {
-            "id": "AEG010_034",
+            "id": "aeg010_034",
             "name": "Rock Slab",
             
             "tags": [
@@ -116,7 +116,7 @@
             ]
         },
         {
-            "id": "AEG010_040",
+            "id": "aeg010_040",
             "name": "Rock Slab",
             
             "tags": [
@@ -124,7 +124,7 @@
             ]
         },
         {
-            "id": "AEG010_050",
+            "id": "aeg010_050",
             "name": "Rock Slab",
             
             "tags": [
@@ -132,7 +132,7 @@
             ]
         },
         {
-            "id": "AEG010_051",
+            "id": "aeg010_051",
             "name": "Rock Slab",
             
             "tags": [
@@ -140,7 +140,7 @@
             ]
         },
         {
-            "id": "AEG010_340",
+            "id": "aeg010_340",
             "name": "Snow Mound",
             
             "tags": [
@@ -148,7 +148,7 @@
             ]
         },
         {
-            "id": "AEG010_350",
+            "id": "aeg010_350",
             "name": "Shattered Ground",
             
             "tags": [
@@ -156,7 +156,7 @@
             ]
         },
         {
-            "id": "AEG010_360",
+            "id": "aeg010_360",
             "name": "Shattered Dirt",
             
             "tags": [
@@ -164,7 +164,7 @@
             ]
         },
         {
-            "id": "AEG010_361",
+            "id": "aeg010_361",
             "name": "Shattered Dirt",
             
             "tags": [
@@ -172,7 +172,7 @@
             ]
         },
         {
-            "id": "AEG010_362",
+            "id": "aeg010_362",
             "name": "Shattered Dirt",
             
             "tags": [
@@ -180,7 +180,7 @@
             ]
         },
         {
-            "id": "AEG010_363",
+            "id": "aeg010_363",
             "name": "Shattered Dirt",
             
             "tags": [
@@ -188,7 +188,7 @@
             ]
         },
         {
-            "id": "AEG010_370",
+            "id": "aeg010_370",
             "name": "Dirt",
             
             "tags": [
@@ -196,7 +196,7 @@
             ]
         },
         {
-            "id": "AEG013_130",
+            "id": "aeg013_130",
             "name": "Tower with Stairs",
             
             "tags": [
@@ -205,7 +205,7 @@
             ]
         },
         {
-            "id": "AEG013_140",
+            "id": "aeg013_140",
             "name": "Energy Pylon",
             
             "tags": [
@@ -214,7 +214,7 @@
             ]
         },
         {
-            "id": "AEG013_150",
+            "id": "aeg013_150",
             "name": "Industrial Building",
             
             "tags": [
@@ -223,7 +223,7 @@
             ]
         },
         {
-            "id": "AEG013_151",
+            "id": "aeg013_151",
             "name": "Industrial Building",
             
             "tags": [
@@ -232,7 +232,7 @@
             ]
         },
         {
-            "id": "AEG013_152",
+            "id": "aeg013_152",
             "name": "Industrial Building Facade",
             
             "tags": [
@@ -241,7 +241,7 @@
             ]
         },
         {
-            "id": "AEG013_153",
+            "id": "aeg013_153",
             "name": "Industrial Building Facade",
             
             "tags": [
@@ -250,7 +250,7 @@
             ]
         },
         {
-            "id": "AEG013_155",
+            "id": "aeg013_155",
             "name": "LOD - Industrial Building",
             
             "tags": [
@@ -259,7 +259,7 @@
             ]
         },
         {
-            "id": "AEG013_156",
+            "id": "aeg013_156",
             "name": "LOD - Industrial Building",
             
             "tags": [
@@ -268,7 +268,7 @@
             ]
         },
         {
-            "id": "AEG013_157",
+            "id": "aeg013_157",
             "name": "LOD - Industrial Building Facade",
             
             "tags": [
@@ -277,7 +277,7 @@
             ]
         },
         {
-            "id": "AEG013_160",
+            "id": "aeg013_160",
             "name": "Searchlight",
             
             "tags": [
@@ -285,7 +285,7 @@
             ]
         },
         {
-            "id": "AEG013_161",
+            "id": "aeg013_161",
             "name": "Searchlight",
             
             "tags": [
@@ -293,7 +293,7 @@
             ]
         },
         {
-            "id": "AEG013_170",
+            "id": "aeg013_170",
             "name": "Flat-roof Building",
             
             "tags": [
@@ -302,7 +302,7 @@
             ]
         },
         {
-            "id": "AEG013_180",
+            "id": "aeg013_180",
             "name": "Storage Tanks",
             
             "tags": [
@@ -311,7 +311,7 @@
             ]
         },
         {
-            "id": "AEG013_181",
+            "id": "aeg013_181",
             "name": "Storage Tansk",
             
             "tags": [
@@ -320,7 +320,7 @@
             ]
         },
         {
-            "id": "AEG013_318",
+            "id": "aeg013_318",
             "name": "Transformer Array",
             
             "tags": [
@@ -329,7 +329,7 @@
             ]
         },
         {
-            "id": "AEG013_320",
+            "id": "aeg013_320",
             "name": "Interaction Box",
             
             "tags": [
@@ -338,7 +338,7 @@
             ]
         },
         {
-            "id": "AEG013_408",
+            "id": "aeg013_408",
             "name": "Industrial Struct",
             
             "tags": [
@@ -347,7 +347,7 @@
             ]
         },
         {
-            "id": "AEG013_409",
+            "id": "aeg013_409",
             "name": "Flat Platform with Ramps",
             
             "tags": [
@@ -356,7 +356,7 @@
             ]
         },
         {
-            "id": "AEG013_410",
+            "id": "aeg013_410",
             "name": "Flat Platform",
             
             "tags": [
@@ -365,7 +365,7 @@
             ]
         },
         {
-            "id": "AEG013_411",
+            "id": "aeg013_411",
             "name": "Flat Platforms",
             
             "tags": [
@@ -374,7 +374,7 @@
             ]
         },
         {
-            "id": "AEG013_412",
+            "id": "aeg013_412",
             "name": "Habitation Block",
             
             "tags": [
@@ -383,7 +383,7 @@
             ]
         },
         {
-            "id": "AEG013_413",
+            "id": "aeg013_413",
             "name": "Long Habitation Block",
             
             "tags": [
@@ -392,7 +392,7 @@
             ]
         },
         {
-            "id": "AEG013_414",
+            "id": "aeg013_414",
             "name": "Habitation Block with Heli-platform",
             
             "tags": [
@@ -401,7 +401,7 @@
             ]
         },
         {
-            "id": "AEG013_415",
+            "id": "aeg013_415",
             "name": "Habitation Block",
             
             "tags": [
@@ -410,7 +410,7 @@
             ]
         },
         {
-            "id": "AEG013_416",
+            "id": "aeg013_416",
             "name": "Civilian Hall",
             
             "tags": [
@@ -419,7 +419,7 @@
             ]
         },
         {
-            "id": "AEG013_417",
+            "id": "aeg013_417",
             "name": "Radar Globe",
             
             "tags": [
@@ -428,7 +428,7 @@
             ]
         },
         {
-            "id": "AEG013_418",
+            "id": "aeg013_418",
             "name": "Radar Dish",
             
             "tags": [
@@ -437,7 +437,7 @@
             ]
         },
         {
-            "id": "AEG013_420",
+            "id": "aeg013_420",
             "name": "Grid 135 Wall",
             
             "tags": [
@@ -446,7 +446,7 @@
             ]
         },
         {
-            "id": "AEG013_421",
+            "id": "aeg013_421",
             "name": "Grid 135 Wall",
             
             "tags": [
@@ -455,7 +455,7 @@
             ]
         },
         {
-            "id": "AEG013_422",
+            "id": "aeg013_422",
             "name": "Snow Drift",
             
             "tags": [
@@ -463,7 +463,7 @@
             ]
         },
         {
-            "id": "AEG013_423",
+            "id": "aeg013_423",
             "name": "Snow Drift",
             
             "tags": [
@@ -471,7 +471,7 @@
             ]
         },
         {
-            "id": "AEG013_424",
+            "id": "aeg013_424",
             "name": "Snow Drift",
             
             "tags": [
@@ -479,7 +479,7 @@
             ]
         },
         {
-            "id": "AEG013_425",
+            "id": "aeg013_425",
             "name": "Square Stepped Structure",
             
             "tags": [
@@ -488,7 +488,7 @@
             ]
         },
         {
-            "id": "AEG013_426",
+            "id": "aeg013_426",
             "name": "quare Stepped Structure",
             
             "tags": [
@@ -497,7 +497,7 @@
             ]
         },
         {
-            "id": "AEG013_427",
+            "id": "aeg013_427",
             "name": "Block",
             
             "tags": [
@@ -505,7 +505,7 @@
             ]
         },
         {
-            "id": "AEG013_430",
+            "id": "aeg013_430",
             "name": "Flat-roof Building",
             
             "tags": [
@@ -514,7 +514,7 @@
             ]
         },
         {
-            "id": "AEG013_440",
+            "id": "aeg013_440",
             "name": "Flat Platform with Channels",
             
             "tags": [
@@ -523,7 +523,7 @@
             ]
         },
         {
-            "id": "AEG013_500",
+            "id": "aeg013_500",
             "name": "Building Base Structure",
             
             "tags": [
@@ -532,7 +532,7 @@
             ]
         },
         {
-            "id": "AEG013_501",
+            "id": "aeg013_501",
             "name": "Covered Storage Tanks",
             
             "tags": [
@@ -541,7 +541,7 @@
             ]
         },
         {
-            "id": "AEG013_502",
+            "id": "aeg013_502",
             "name": "Covered Containers",
             
             "tags": [
@@ -550,7 +550,7 @@
             ]
         },
         {
-            "id": "AEG013_503",
+            "id": "aeg013_503",
             "name": "Container Building Base Structure",
             
             "tags": [
@@ -559,7 +559,7 @@
             ]
         },
         {
-            "id": "AEG013_504",
+            "id": "aeg013_504",
             "name": "Draped Heli-copter",
             
             "tags": [
@@ -568,7 +568,7 @@
             ]
         },
         {
-            "id": "AEG013_505",
+            "id": "aeg013_505",
             "name": "Draped Tank",
             
             "tags": [
@@ -577,7 +577,7 @@
             ]
         },
         {
-            "id": "AEG013_506",
+            "id": "aeg013_506",
             "name": "Draped Quadcopter",
             
             "tags": [
@@ -586,7 +586,7 @@
             ]
         },
         {
-            "id": "AEG013_507",
+            "id": "aeg013_507",
             "name": "Vehicle Engine Section",
             
             "tags": [
@@ -595,7 +595,7 @@
             ]
         },
         {
-            "id": "AEG013_508",
+            "id": "aeg013_508",
             "name": "Tracked Vehicle Platform",
             
             "tags": [
@@ -604,7 +604,7 @@
             ]
         },
         {
-            "id": "AEG013_509",
+            "id": "aeg013_509",
             "name": "Tracked Vehicle Platform",
             
             "tags": [
@@ -613,7 +613,7 @@
             ]
         },
         {
-            "id": "AEG013_510",
+            "id": "aeg013_510",
             "name": "Platform Section",
             
             "tags": [
@@ -621,7 +621,7 @@
             ]
         },
         {
-            "id": "AEG013_511",
+            "id": "aeg013_511",
             "name": "Platform Intersection",
             
             "tags": [
@@ -629,7 +629,7 @@
             ]
         },
         {
-            "id": "AEG013_512",
+            "id": "aeg013_512",
             "name": "Platform Section Cap",
             
             "tags": [
@@ -637,7 +637,7 @@
             ]
         },
         {
-            "id": "AEG013_513",
+            "id": "aeg013_513",
             "name": "Complex Entrance Door",
             
             "tags": [
@@ -645,7 +645,7 @@
             ]
         },
         {
-            "id": "AEG013_514",
+            "id": "aeg013_514",
             "name": "Building Base Structure",
             
             "tags": [
@@ -654,7 +654,7 @@
             ]
         },
         {
-            "id": "AEG013_515",
+            "id": "aeg013_515",
             "name": "Industrial Conveyor Base Structure",
             
             "tags": [
@@ -663,7 +663,7 @@
             ]
         },
         {
-            "id": "AEG013_516",
+            "id": "aeg013_516",
             "name": "Industrial Conveyor Base Structure",
             
             "tags": [
@@ -672,7 +672,7 @@
             ]
         },
         {
-            "id": "AEG013_517",
+            "id": "aeg013_517",
             "name": "Tracked Vehicle Platform",
             
             "tags": [
@@ -681,7 +681,7 @@
             ]
         },
         {
-            "id": "AEG013_518",
+            "id": "aeg013_518",
             "name": "Covered Container",
             
             "tags": [
@@ -690,7 +690,7 @@
             ]
         },
         {
-            "id": "AEG013_519",
+            "id": "aeg013_519",
             "name": "Covered Container",
             
             "tags": [
@@ -699,7 +699,7 @@
             ]
         },
         {
-            "id": "AEG013_520",
+            "id": "aeg013_520",
             "name": "Complex Entrance Door",
             
             "tags": [
@@ -707,7 +707,7 @@
             ]
         },
         {
-            "id": "AEG013_521",
+            "id": "aeg013_521",
             "name": "Industrial Engine Section",
             
             "tags": [
@@ -716,7 +716,7 @@
             ]
         },
         {
-            "id": "AEG013_522",
+            "id": "aeg013_522",
             "name": "Pipeworks",
             
             "tags": [
@@ -724,7 +724,7 @@
             ]
         },
         {
-            "id": "AEG013_523",
+            "id": "aeg013_523",
             "name": "Passage Inner Structure",
             
             "tags": [
@@ -732,7 +732,7 @@
             ]
         },
         {
-            "id": "AEG013_524",
+            "id": "aeg013_524",
             "name": "Pipeworks",
             
             "tags": [
@@ -740,7 +740,7 @@
             ]
         },
         {
-            "id": "AEG013_525",
+            "id": "aeg013_525",
             "name": "Spotlight",
             
             "tags": [
@@ -748,7 +748,7 @@
             ]
         },
         {
-            "id": "AEG013_526",
+            "id": "aeg013_526",
             "name": "Access Tower",
             
             "tags": [
@@ -757,7 +757,7 @@
             ]
         },
         {
-            "id": "AEG013_527",
+            "id": "aeg013_527",
             "name": "Container Outpost",
             
             "tags": [
@@ -766,7 +766,7 @@
             ]
         },
         {
-            "id": "AEG013_528",
+            "id": "aeg013_528",
             "name": "LOD - Industrial Facade",
             
             "tags": [
@@ -775,7 +775,7 @@
             ]
         },
         {
-            "id": "AEG013_530",
+            "id": "aeg013_530",
             "name": "Complex Entrance Door",
             
             "tags": [
@@ -783,7 +783,7 @@
             ]
         },
         {
-            "id": "AEG013_531",
+            "id": "aeg013_531",
             "name": "LOD - Complex Entrance Door",
             
             "tags": [
@@ -792,7 +792,7 @@
             ]
         },
         {
-            "id": "AEG013_532",
+            "id": "aeg013_532",
             "name": "Grid 135 Sectioned Floor - Exposed",
             
             "tags": [
@@ -800,7 +800,7 @@
             ]
         },
         {
-            "id": "AEG013_533",
+            "id": "aeg013_533",
             "name": "Grid 135 Section Floor - Covered",
             
             "tags": [
@@ -808,7 +808,7 @@
             ]
         },
         {
-            "id": "AEG013_534",
+            "id": "aeg013_534",
             "name": "Channeled Platform",
             
             "tags": [
@@ -816,7 +816,7 @@
             ]
         },
         {
-            "id": "AEG013_535",
+            "id": "aeg013_535",
             "name": "Habitation Building Facade",
             
             "tags": [
@@ -824,7 +824,7 @@
             ]
         },
         {
-            "id": "AEG013_540",
+            "id": "aeg013_540",
             "name": "Wrecked MT",
             
             "tags": [
@@ -833,7 +833,7 @@
             ]
         },
         {
-            "id": "AEG013_545",
+            "id": "aeg013_545",
             "name": "Defensive Auto-cannon",
             
             "tags": [
@@ -842,7 +842,7 @@
             ]
         },
         {
-            "id": "AEG013_590",
+            "id": "aeg013_590",
             "name": "Wire-suspended Lift",
             
             "tags": [
@@ -850,7 +850,7 @@
             ]
         },
         {
-            "id": "AEG013_591",
+            "id": "aeg013_591",
             "name": "Hanger Doors",
             
             "tags": [
@@ -858,7 +858,7 @@
             ]
         },
         {
-            "id": "AEG013_592",
+            "id": "aeg013_592",
             "name": "Hanger Shaft Section - Lower",
             
             "tags": [
@@ -866,7 +866,7 @@
             ]
         },
         {
-            "id": "AEG013_593",
+            "id": "aeg013_593",
             "name": "Hanger Shaft Section - Upper",
             
             "tags": [
@@ -874,7 +874,7 @@
             ]
         },
         {
-            "id": "AEG013_594",
+            "id": "aeg013_594",
             "name": "Industrial Door",
             
             "tags": [
@@ -882,7 +882,7 @@
             ]
         },
         {
-            "id": "AEG013_596",
+            "id": "aeg013_596",
             "name": "Industrial Door",
             
             "tags": [
@@ -890,7 +890,7 @@
             ]
         },
         {
-            "id": "AEG013_600",
+            "id": "aeg013_600",
             "name": "Grid 135 Hanger Structure Section",
             
             "tags": [
@@ -899,7 +899,7 @@
             ]
         },
         {
-            "id": "AEG013_601",
+            "id": "aeg013_601",
             "name": "Grid 135 Access Channel Edging",
             
             "tags": [
@@ -908,7 +908,7 @@
             ]
         },
         {
-            "id": "AEG013_602",
+            "id": "aeg013_602",
             "name": "Grid 135 Access Channel Upper Section",
             
             "tags": [
@@ -917,7 +917,7 @@
             ]
         },
         {
-            "id": "AEG013_603",
+            "id": "aeg013_603",
             "name": "Grid 135 Access Channel Lower Section",
             
             "tags": [
@@ -925,7 +925,7 @@
             ]
         },
         {
-            "id": "AEG013_610",
+            "id": "aeg013_610",
             "name": "Grid 135 Access Channel Section",
             
             "tags": [
@@ -933,7 +933,7 @@
             ]
         },
         {
-            "id": "AEG013_611",
+            "id": "aeg013_611",
             "name": "Grid 135 Access Channel Damaged Section",
             
             "tags": [
@@ -941,7 +941,7 @@
             ]
         },
         {
-            "id": "AEG013_620",
+            "id": "aeg013_620",
             "name": "Passageway",
             
             "tags": [
@@ -949,7 +949,7 @@
             ]
         },
         {
-            "id": "AEG013_621",
+            "id": "aeg013_621",
             "name": "Hanger Inner Section",
             
             "tags": [
@@ -957,7 +957,7 @@
             ]
         },
         {
-            "id": "AEG013_622",
+            "id": "aeg013_622",
             "name": "Hanger Inner Section",
             
             "tags": [
@@ -965,7 +965,7 @@
             ]
         },
         {
-            "id": "AEG013_623",
+            "id": "aeg013_623",
             "name": "Hanger Inner Section",
             
             "tags": [
@@ -973,7 +973,7 @@
             ]
         },
         {
-            "id": "AEG013_625",
+            "id": "aeg013_625",
             "name": "Complex Passage Tunnel with Corner",
             
             "tags": [
@@ -981,7 +981,7 @@
             ]
         },
         {
-            "id": "AEG013_626",
+            "id": "aeg013_626",
             "name": "Complex Passage Tunnel",
             
             "tags": [
@@ -989,7 +989,7 @@
             ]
         },
         {
-            "id": "AEG013_628",
+            "id": "aeg013_628",
             "name": "Complex Inner Hall Section",
             
             "tags": [
@@ -997,7 +997,7 @@
             ]
         },
         {
-            "id": "AEG013_629",
+            "id": "aeg013_629",
             "name": "Complex Passage Tunnel with Corner",
             
             "tags": [
@@ -1005,7 +1005,7 @@
             ]
         },
         {
-            "id": "AEG013_630",
+            "id": "aeg013_630",
             "name": "Hanger Runway Flat",
             
             "tags": [
@@ -1013,7 +1013,7 @@
             ]
         },
         {
-            "id": "AEG015_200",
+            "id": "aeg015_200",
             "name": "Strider Laser Cannon",
             
             "tags": [
@@ -1021,7 +1021,7 @@
             ]
         },
         {
-            "id": "AEG015_201",
+            "id": "aeg015_201",
             "name": "Strider Body Section",
             
             "tags": [
@@ -1029,7 +1029,7 @@
             ]
         },
         {
-            "id": "AEG015_202",
+            "id": "aeg015_202",
             "name": "Strider Remnants Ground Patch",
             
             "tags": [
@@ -1037,7 +1037,7 @@
             ]
         },
         {
-            "id": "AEG015_203",
+            "id": "aeg015_203",
             "name": "Strider Steel Structure Sections",
             
             "tags": [
@@ -1045,7 +1045,7 @@
             ]
         },
         {
-            "id": "AEG015_210",
+            "id": "aeg015_210",
             "name": "Strider Booster Section",
             
             "tags": [
@@ -1053,7 +1053,7 @@
             ]
         },
         {
-            "id": "AEG015_211",
+            "id": "aeg015_211",
             "name": "Strider Actuation Section",
             
             "tags": [
@@ -1061,7 +1061,7 @@
             ]
         },
         {
-            "id": "AEG015_212",
+            "id": "aeg015_212",
             "name": "Strider Actuation Section",
             
             "tags": [
@@ -1069,7 +1069,7 @@
             ]
         },
         {
-            "id": "AEG015_214",
+            "id": "aeg015_214",
             "name": "Strider Actuation Section Detail",
             
             "tags": [
@@ -1077,7 +1077,7 @@
             ]
         },
         {
-            "id": "AEG015_215",
+            "id": "aeg015_215",
             "name": "Strider Section Detail",
             
             "tags": [
@@ -1085,7 +1085,7 @@
             ]
         },
         {
-            "id": "AEG015_216",
+            "id": "aeg015_216",
             "name": "Strider Section Detail",
             
             "tags": [
@@ -1093,7 +1093,7 @@
             ]
         },
         {
-            "id": "AEG015_220",
+            "id": "aeg015_220",
             "name": "Damanged Strider Back Section",
             
             "tags": [
@@ -1101,7 +1101,7 @@
             ]
         },
         {
-            "id": "AEG015_221",
+            "id": "aeg015_221",
             "name": "Damanged Strider Section",
             
             "tags": [
@@ -1109,8 +1109,432 @@
             ]
         },
         {
-            "id": "AEG015_222",
+            "id": "aeg015_222",
             "name": "Damanged Strider",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG016_010",
+            "name": "Wrecked AC",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG020_100",
+            "name": "Snowy Rockface (Angled)",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG020_101",
+            "name": "Snowy Rockface (Angled)",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG020_102",
+            "name": "Snowy Rockface Corner with Flat Top",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "AEG020_103",
+            "name": "Snowy Rockface (Rectangle)",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "TODO",
+            "name": "TODO",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "TODO",
+            "name": "TODO",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "TODO",
+            "name": "TODO",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "TODO",
+            "name": "TODO",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "TODO",
+            "name": "TODO",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "TODO",
+            "name": "TODO",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "TODO",
+            "name": "TODO",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "TODO",
+            "name": "TODO",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "TODO",
+            "name": "TODO",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "TODO",
+            "name": "TODO",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "TODO",
+            "name": "TODO",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "TODO",
+            "name": "TODO",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "TODO",
+            "name": "TODO",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "TODO",
+            "name": "TODO",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "TODO",
+            "name": "TODO",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "TODO",
+            "name": "TODO",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "TODO",
+            "name": "TODO",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "TODO",
+            "name": "TODO",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "TODO",
+            "name": "TODO",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "TODO",
+            "name": "TODO",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "TODO",
+            "name": "TODO",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "TODO",
+            "name": "TODO",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "TODO",
+            "name": "TODO",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "TODO",
+            "name": "TODO",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "TODO",
+            "name": "TODO",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "TODO",
+            "name": "TODO",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "TODO",
+            "name": "TODO",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "TODO",
+            "name": "TODO",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "TODO",
+            "name": "TODO",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "TODO",
+            "name": "TODO",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "TODO",
+            "name": "TODO",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "TODO",
+            "name": "TODO",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "TODO",
+            "name": "TODO",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "TODO",
+            "name": "TODO",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "TODO",
+            "name": "TODO",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "TODO",
+            "name": "TODO",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "TODO",
+            "name": "TODO",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "TODO",
+            "name": "TODO",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "TODO",
+            "name": "TODO",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "TODO",
+            "name": "TODO",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "TODO",
+            "name": "TODO",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "TODO",
+            "name": "TODO",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "TODO",
+            "name": "TODO",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "TODO",
+            "name": "TODO",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "TODO",
+            "name": "TODO",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "TODO",
+            "name": "TODO",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "TODO",
+            "name": "TODO",
+            
+            "tags": [
+                "asset"
+            ]
+        },
+        {
+            "id": "TODO",
+            "name": "TODO",
             
             "tags": [
                 "asset"
