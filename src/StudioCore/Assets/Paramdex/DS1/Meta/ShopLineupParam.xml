@@ -2,7 +2,7 @@
 <PARAMMETA XmlVersion="0" >
   <Enums>
     <Enum Name="ShopType">
-      <Option Value="1" Name="Normal shop" />
+      <Option Value="0" Name="Normal shop" />
       <Option Value="2" Name="Attunement menu" />
 	</Enum>
     <Enum Name="EquipType">
