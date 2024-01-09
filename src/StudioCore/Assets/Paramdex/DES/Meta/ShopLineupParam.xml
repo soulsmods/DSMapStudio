@@ -22,7 +22,7 @@
     <shopType AltName="shopType" Enum="SHOP_LINEUP_SHOPTYPE" />
     <equipType AltName="equipType" Enum="SHOP_LINEUP_EQUIPTYPE" />
     <pad_0 AltName="pad_0" />
-    <equipId AltName="equipId" />
+    <equipId AltName="equipId" Refs="EquipParamWeapon(equipType=0),EquipParamProtector(equipType=1),EquipParamAccessory(equipType=2),EquipParamGoods(equipType=3),Magic(equipType=4),Magic(equipType=5)" />
     <value AltName="value" />
     <mtrlId AltName="mtrlId" Refs="EquipMtrlSetParam" />
     <eventFlag AltName="eventFlag" />
