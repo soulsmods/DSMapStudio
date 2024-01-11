@@ -1,6 +1,7 @@
 ﻿using Andre.Formats;
 using ImGuiNET;
 using StudioCore.Editor;
+using StudioCore.Editor.MassEdit;
 using StudioCore.Platform;
 using System;
 using System.Collections.Generic;

@@ -3,6 +3,7 @@ using ImGuiNET;
 using Microsoft.Extensions.Logging;
 using SoulsFormats;
 using StudioCore.Editor;
+using StudioCore.Editor.MassEdit;
 using StudioCore.MsbEditor;
 using StudioCore.Platform;
 using StudioCore.TextEditor;

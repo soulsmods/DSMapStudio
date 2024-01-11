@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using SoulsFormats;
 using StudioCore.ParamEditor;
 using StudioCore.TextEditor;
+using StudioCore.Editor.MassEdit;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
