@@ -1,12 +1,13 @@
 #nullable enable
 using Andre.Formats;
 using StudioCore.Editor;
+using StudioCore.ParamEditor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace StudioCore.ParamEditor;
+namespace StudioCore.Editor.MassEdit;
 
 public enum MassEditResultType
 {

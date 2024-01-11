@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace StudioCore.Editor;
+namespace StudioCore.Editor.MassEdit;
 
 /* Restricted characters: colon, space, forward slash, ampersand, exclamation mark
  *

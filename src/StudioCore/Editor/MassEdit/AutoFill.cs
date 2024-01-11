@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 
-namespace StudioCore.ParamEditor;
+namespace StudioCore.Editor.MassEdit;
 
 internal class AutoFillSearchEngine
 {
