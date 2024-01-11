@@ -83,6 +83,7 @@ public class ParamBank
         ("EquipParamGoods", FmgEntryCategory.Goods),
         ("EquipParamWeapon", FmgEntryCategory.Weapons),
         ("EquipParamProtector", FmgEntryCategory.Armor),
+        ("Magic", FmgEntryCategory.Spells),
         ("EquipParamGem", FmgEntryCategory.Gem),
         ("SwordArtsParam", FmgEntryCategory.SwordArts),
         ("EquipParamGenerator", FmgEntryCategory.Generator),

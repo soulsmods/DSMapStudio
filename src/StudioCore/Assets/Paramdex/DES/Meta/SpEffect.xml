@@ -109,4 +109,5 @@
     <pad6 AltName="pad6" />
   </Field>
   <Self />
+  <Self Row0Dummy="" />
 </PARAMMETA>
