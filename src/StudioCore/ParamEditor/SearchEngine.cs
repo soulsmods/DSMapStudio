@@ -25,18 +25,12 @@ internal abstract class TypelessSearchEngine
     {
         return searchEngines[t];
     }
-    internal static List<(HalfTypedSearchEngine<I>, Type)> GetHalfTypedSearchEngines<I>()
-    {
-        return searchEngines[typeof(I)].Select((x, i) => ((HalfTypedSearchEngine<I>)x.Item1, x.Item2)).ToList();
-    }
     public abstract List<(string, string[], string)> VisibleCommands(bool includeDefault);
     public abstract List<(string, string[])> AllCommands();
     public abstract List<string> AvailableCommandsForHelpText();
+    public abstract List<(TypelessSearchEngine, Type)> NextSearchEngines();
 }
-internal abstract class HalfTypedSearchEngine<I> : TypelessSearchEngine
-{
-}
-internal class SearchEngine<A, B> : HalfTypedSearchEngine<A>
+internal class SearchEngine<A, B> : TypelessSearchEngine
 {
 
     internal SearchEngineCommand<A, B> defaultFilter;
@@ -214,6 +208,11 @@ internal class SearchEngine<A, B> : HalfTypedSearchEngine<A>
         }
 
         return liveSet;
+    }
+
+    public override List<(TypelessSearchEngine, Type)> NextSearchEngines()
+    {
+        return GetSearchEngines(typeof(B));
     }
 }
 
