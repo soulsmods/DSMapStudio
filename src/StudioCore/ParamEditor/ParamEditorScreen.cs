@@ -34,6 +34,59 @@ public interface IParamDecorator
     public void ClearDecoratorCache();
 }
 
+public static class ParamRowIdFinder
+{
+    private static int _searchID = 0;
+    private static int _searchIndex = -1;
+
+    public static void Display()
+    {
+        if (ImGui.BeginMenu("Search all params for row ID"))
+        {
+            ImGui.InputInt("ID##RowSearcher", ref _searchID);
+            ImGui.InputInt("Index (-1 = any)", ref _searchIndex);
+            if (ImGui.Button("Search##RowSearcher"))
+            {
+                var output = FindRowsByID(_searchID, _searchIndex);
+                if (output.Count > 0)
+                {
+                    string message = $"Found row ID {_searchID} in the following params:\n";
+                    foreach (var line in output)
+                    {
+                        message += $"{line}\n";
+                    }
+                    TaskLogs.AddLog(message,
+                        LogLevel.Information, TaskLogs.LogPriority.High);
+                }
+                else
+                {
+                    TaskLogs.AddLog("No row IDs found",
+                        LogLevel.Information, TaskLogs.LogPriority.High);
+                }
+            }
+            ImGui.EndMenu();
+        }
+    }
+
+    public static List<string> FindRowsByID(int id, int index)
+    {
+        List<string> output = new();
+        foreach (var p in ParamBank.PrimaryBank.Params)
+        {
+            for (var i = 0; i < p.Value.Rows.Count; i++)
+            {
+                var r = p.Value.Rows[i];
+                if (r.ID == id
+                    && (index == -1 || index == i))
+                {
+                    output.Add(p.Key);
+                }
+            }
+        }
+        return output;
+    }
+}
+
 public class FMGItemParamDecorator : IParamDecorator
 {
     private static readonly Vector4 FMGLINKCOLOUR = new(1.0f, 1.0f, 0.0f, 1.0f);
@@ -753,6 +806,13 @@ public class ParamEditorScreen : EditorScreen
         */
 
         ParamUpgradeDisplay();
+
+        if (ImGui.BeginMenu("Tools"))
+        {
+            ParamRowIdFinder.Display();
+
+            ImGui.EndMenu();
+        }
     }
 
     public void OnGUI(string[] initcmd)
