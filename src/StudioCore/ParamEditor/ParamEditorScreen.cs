@@ -37,7 +37,9 @@ public interface IParamDecorator
 public static class ParamRowIdFinder
 {
     private static int _searchID = 0;
+    private static int _cachedSearchID = 0;
     private static int _searchIndex = -1;
+    private static List<string> _paramResults = new();
 
     public static void Display()
     {
@@ -47,28 +49,42 @@ public static class ParamRowIdFinder
             ImGui.InputInt("Index (-1 = any)", ref _searchIndex);
             if (ImGui.Button("Search##RowSearcher"))
             {
-                var output = FindRowsByID(_searchID, _searchIndex);
-                if (output.Count > 0)
+                _cachedSearchID = _searchID;
+                _paramResults = GetParamsWithRowID(_searchID, _searchIndex);
+                if (_paramResults.Count > 0)
                 {
                     string message = $"Found row ID {_searchID} in the following params:\n";
-                    foreach (var line in output)
+                    foreach (var line in _paramResults)
                     {
-                        message += $"{line}\n";
+                        message += $"  {line}\n";
                     }
                     TaskLogs.AddLog(message,
-                        LogLevel.Information, TaskLogs.LogPriority.High);
+                        LogLevel.Information, TaskLogs.LogPriority.Low);
                 }
                 else
                 {
-                    TaskLogs.AddLog("No row IDs found",
+                    TaskLogs.AddLog($"No params found with row ID {_searchID}",
                         LogLevel.Information, TaskLogs.LogPriority.High);
                 }
             }
+
+            if (_paramResults.Count > 0)
+            {
+                ImGui.TextDisabled($"ID {_cachedSearchID}: {_paramResults.Count} matches");
+                foreach (string paramName in _paramResults)
+                {
+                    if (ImGui.Selectable($"{paramName}##RowSearcher"))
+                    {
+                        EditorCommandQueue.AddCommand($@"param/select/-1/{paramName}/{_cachedSearchID}");
+                    }
+                }
+            }
+
             ImGui.EndMenu();
         }
     }
 
-    public static List<string> FindRowsByID(int id, int index)
+    public static List<string> GetParamsWithRowID(int id, int index)
     {
         List<string> output = new();
         foreach (var p in ParamBank.PrimaryBank.Params)
@@ -80,6 +96,7 @@ public static class ParamRowIdFinder
                     && (index == -1 || index == i))
                 {
                     output.Add(p.Key);
+                    break;
                 }
             }
         }
