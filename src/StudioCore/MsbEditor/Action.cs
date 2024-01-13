@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using SoulsFormats;
-using SoulsFormats.Util;
 using StudioCore.Scene;
+using StudioCore.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace SoulsFormats.Util;
+namespace StudioCore.Utilities;
 public static class PropFinderUtil
 {
     /// <summary>
