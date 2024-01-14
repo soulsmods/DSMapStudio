@@ -117,8 +117,6 @@ public class MeshRenderables : Renderables
 
     public void CullRenderables(BoundingFrustum frustum)
     {
-        // TODO: ViewGrid needs to ignore the camera frustrum culling during rendering
-
         for (var i = 0; i < SYSTEM_SIZE; i++)
         {
             if (!cVisible[i]._valid)
@@ -128,11 +126,20 @@ public class MeshRenderables : Renderables
 
             ContainmentType intersect = frustum.Contains(ref cBounds[i]);
 
-            if (!CFG.Current.EnableFrustrumCulling)
+            /* if (!CFG.Current.EnableFrustrumCulling)
             {
                 cCulled[i] = !cVisible[i]._valid || !cVisible[i]._visible;
             }
             else if (intersect == ContainmentType.Contains || intersect == ContainmentType.Intersects)
+            {
+                cCulled[i] = !cVisible[i]._valid || !cVisible[i]._visible;
+            }
+            else
+            {
+                cCulled[i] = true;
+            } */
+            
+            if (intersect == ContainmentType.Contains || intersect == ContainmentType.Intersects)
             {
                 cCulled[i] = !cVisible[i]._valid || !cVisible[i]._visible;
             }

@@ -415,7 +415,7 @@ public class SettingsMenu
                 Utils.ImGui_InputUint("FLVER Bone buffer", ref CFG.Current.GFX_Limit_Buffer_Flver_Bone);
             }
 
-            if (ImGui.CollapsingHeader("Grid"))
+            /* if (ImGui.CollapsingHeader("Grid"))
             {
                 if (CFG.Current.ShowUITooltips)
                 {
@@ -466,7 +466,7 @@ public class SettingsMenu
                     CFG.Current.Map_ViewportGrid_IncrementSize = 10;
                     CFG.Current.Map_ViewportGrid_Offset = 0;
                 }
-            }
+            } */
 
             if (ImGui.CollapsingHeader("Wireframes"))
             {

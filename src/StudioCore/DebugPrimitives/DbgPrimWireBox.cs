@@ -74,7 +74,7 @@ public class DbgPrimWireBox : DbgPrimWire
             Lines.Add((bbr, tbr));
 
             // Diagonal Lines
-            AddLine(bfl, tfr, color);
+           /*  AddLine(bfl, tfr, color);
             Lines.Add((bfl, tfr));
             AddLine(tfl, bfr, color);
             Lines.Add((tfl, bfr));
@@ -97,7 +97,7 @@ public class DbgPrimWireBox : DbgPrimWire
             AddLine(bfl, bbr, color);
             Lines.Add((bfl, bbr));
             AddLine(bfr, bbl, color);
-            Lines.Add((bfr, bbl));
+            Lines.Add((bfr, bbl)); */
 
             //FinalizeBuffers(true);
 
