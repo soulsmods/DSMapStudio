@@ -11,7 +11,6 @@ using Veldrid;
 using Veldrid.Sdl2;
 using Veldrid.Utilities;
 using Viewport = StudioCore.Gui.Viewport;
-using StudioCore.Assetdex;
 
 namespace StudioCore.MsbEditor;
 
@@ -22,7 +21,6 @@ public class ModelEditorScreen : EditorScreen, AssetBrowserEventHandler, SceneTr
     private readonly PropertyCache _propCache = new();
 
     private ModelAssetBrowser _assetBrowser;
-    private StudioCore.Assetdex.AssetdexCore _assetdex;
 
     private readonly SceneTree _sceneTree;
     private readonly Selection _selection = new();
@@ -44,13 +42,12 @@ public class ModelEditorScreen : EditorScreen, AssetBrowserEventHandler, SceneTr
     private bool ViewportUsingKeyboard;
     private Sdl2Window Window;
 
-    public ModelEditorScreen(Sdl2Window window, GraphicsDevice device, AssetLocator locator, AssetdexCore assetdex)
+    public ModelEditorScreen(Sdl2Window window, GraphicsDevice device, AssetLocator locator)
     {
         Rect = window.Bounds;
         AssetLocator = locator;
         ResourceManager.Locator = AssetLocator;
         Window = window;
-        _assetdex = assetdex;
 
         if (device != null)
         {
@@ -68,8 +65,7 @@ public class ModelEditorScreen : EditorScreen, AssetBrowserEventHandler, SceneTr
         _sceneTree = new SceneTree(SceneTree.Configuration.ModelEditor, this, "modeledittree", _universe,
             _selection, EditorActionManager, Viewport, AssetLocator);
         _propEditor = new PropertyEditor(EditorActionManager, _propCache);
-        _assetBrowser = new ModelAssetBrowser(this, "modelEditorBrowser", AssetLocator, _assetdex);
-        _assetdex = assetdex;
+        _assetBrowser = new ModelAssetBrowser(this, "modelEditorBrowser", AssetLocator);
     }
 
     public void OnInstantiateChr(string chrid)

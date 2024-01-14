@@ -16,7 +16,6 @@ using Veldrid;
 using Veldrid.Sdl2;
 using Veldrid.Utilities;
 using Viewport = StudioCore.Gui.Viewport;
-using StudioCore.Assetdex;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace StudioCore.MsbEditor;
@@ -31,8 +30,6 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
     public readonly AssetLocator AssetLocator;
 
     private IModal _activeModal;
-
-    private AssetdexCore _assetdex;
 
     private int _createEntityMapIndex;
     private (string, ObjectContainer) _dupeSelectionTargetedMap = ("None", null);
@@ -71,7 +68,7 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
 
     private Sdl2Window Window;
 
-    public MsbEditorScreen(Sdl2Window window, GraphicsDevice device, AssetLocator locator, AssetdexCore _assetdex)
+    public MsbEditorScreen(Sdl2Window window, GraphicsDevice device, AssetLocator locator)
     {
         Rect = window.Bounds;
         AssetLocator = locator;
@@ -98,7 +95,7 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
         DispGroupEditor = new DisplayGroupsEditor(RenderScene, _selection, EditorActionManager);
         PropSearch = new SearchProperties(Universe, _propCache);
         NavMeshEditor = new NavmeshEditor(locator, RenderScene, _selection);
-        AssetBrowser = new MsbAssetBrowser(RenderScene, _selection, EditorActionManager, AssetLocator, _assetdex, this);
+        AssetBrowser = new MsbAssetBrowser(RenderScene, AssetLocator, this);
 
         EditorActionManager.AddEventHandler(SceneTree);
     }
@@ -1207,12 +1204,9 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
                 actlist.Add(s.ChangeObjectProperty("ModelName", modelName));
 
                 // Name
-                if (CFG.Current.AssetBrowser_UpdateSelectionName)
-                {
-                    string name = GetUniqueNameString(modelName);
-                    s.Name = name;
-                    actlist.Add(s.ChangeObjectProperty("Name", name));
-                }
+                string name = GetUniqueNameString(modelName);
+                s.Name = name;
+                actlist.Add(s.ChangeObjectProperty("Name", name));
 
                 // Instance ID
             }

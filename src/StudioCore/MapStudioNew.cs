@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using Octokit;
 using SoapstoneLib;
 using SoulsFormats;
+using StudioCore.Aliases;
 using StudioCore.Editor;
 using StudioCore.Graphics;
 using StudioCore.Help;
@@ -24,7 +25,6 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using Veldrid;
 using Veldrid.Sdl2;
-using StudioCore.Assetdex;
 
 namespace StudioCore;
 
@@ -49,9 +49,6 @@ public class MapStudioNew
     private readonly NewProjectOptions _newProjectOptions = new();
     private readonly string _programTitle;
     private readonly SettingsMenu _settingsMenu = new();
-
-
-    private AssetdexCore _assetdex;
 
     private readonly SoapstoneService _soapstoneService;
     private readonly string _version;
@@ -93,10 +90,9 @@ public class MapStudioNew
         PlatformUtils.InitializeWindows(context.Window.SdlWindowHandle);
 
         _assetLocator = new AssetLocator();
-        _assetdex = new AssetdexCore();
 
-        MsbEditorScreen msbEditor = new(_context.Window, _context.Device, _assetLocator, _assetdex);
-        ModelEditorScreen modelEditor = new(_context.Window, _context.Device, _assetLocator, _assetdex);
+        MsbEditorScreen msbEditor = new(_context.Window, _context.Device, _assetLocator);
+        ModelEditorScreen modelEditor = new(_context.Window, _context.Device, _assetLocator);
         ParamEditorScreen paramEditor = new(_context.Window, _context.Device, _assetLocator);
         TextEditorScreen textEditor = new(_context.Window, _context.Device, _assetLocator);
         _editors = new List<EditorScreen> { msbEditor, modelEditor, paramEditor, textEditor };
@@ -112,6 +108,7 @@ public class MapStudioNew
         _helpBrowser = new HelpBrowser("HelpBrowser", _assetLocator);
 
         AliasBank.SetAssetLocator(_assetLocator);
+        ModelAliasBank.SetAssetLocator(_assetLocator);
         ParamBank.PrimaryBank.SetAssetLocator(_assetLocator);
         ParamBank.VanillaBank.SetAssetLocator(_assetLocator);
         FMGBank.SetAssetLocator(_assetLocator);
@@ -405,6 +402,7 @@ public class MapStudioNew
         _settingsMenu.ProjSettings = _projectSettings;
 
         AliasBank.ReloadAliases();
+        ModelAliasBank.ReloadAliasBank();
         ParamBank.ReloadParams(newsettings, options);
         MtdBank.ReloadMtds();
 

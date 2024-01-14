@@ -50,7 +50,6 @@ public class CFG
 
     // Asset Browser settings
     public bool AssetBrowser_ShowTagsInBrowser = true;
-    public bool AssetBrowser_UpdateSelectionName = true;
 
     // Font settings
     public bool FontChinese = false;
