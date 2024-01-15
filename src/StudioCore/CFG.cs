@@ -53,7 +53,7 @@ public class CFG
     public bool Map_AlwaysListLoadedMaps = true;
     public bool EnableEldenRingAutoMapOffset = true;
 
-    public bool Map_EnableViewportGrid = true;
+    public bool Map_EnableViewportGrid = false;
     public int Map_ViewportGridType = 0;
     public Vector3 GFX_Viewport_Grid_Color = Utils.GetDecimalColor(Color.Red);
     public int Map_ViewportGrid_TotalSize = 1000;

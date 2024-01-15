@@ -100,7 +100,10 @@ public class Viewport : IViewport
 
 
         // Create view grid
-        _viewGrid = new ViewGrid(_renderScene.OpaqueRenderables);
+        if (FeatureFlags.ViewportGrid)
+        {
+            _viewGrid = new ViewGrid(_renderScene.OpaqueRenderables);
+        }
 
         // Create gizmos
         _gizmos = new Gizmos(_actionManager, _selection, _renderScene.OverlayRenderables);
@@ -201,7 +204,10 @@ public class Viewport : IViewport
         _cursorY = (int)pos.Y; // - Y;
 
         _gizmos.Update(ray, _canInteract && MouseInViewport());
-        _viewGrid.Update(ray);
+        if (FeatureFlags.ViewportGrid)
+        {
+            _viewGrid.Update(ray);
+        }
 
         var kbbusy = false;
 

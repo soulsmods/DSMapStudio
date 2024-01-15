@@ -22,4 +22,6 @@ public static class FeatureFlags
     public static bool EnablePartialParam = false;
 
     public static bool AC6_MSB = false;
+
+    public static bool ViewportGrid = false;
 }
