@@ -75,4 +75,5 @@
     <pad8 AltName="pad8" />
   </Field>
   <Self />
+  <Self Row0Dummy="" />
 </PARAMMETA>

@@ -125,6 +125,20 @@ public class MeshRenderables : Renderables
             }
 
             ContainmentType intersect = frustum.Contains(ref cBounds[i]);
+
+            /* if (!CFG.Current.EnableFrustrumCulling)
+            {
+                cCulled[i] = !cVisible[i]._valid || !cVisible[i]._visible;
+            }
+            else if (intersect == ContainmentType.Contains || intersect == ContainmentType.Intersects)
+            {
+                cCulled[i] = !cVisible[i]._valid || !cVisible[i]._visible;
+            }
+            else
+            {
+                cCulled[i] = true;
+            } */
+            
             if (intersect == ContainmentType.Contains || intersect == ContainmentType.Intersects)
             {
                 cCulled[i] = !cVisible[i]._valid || !cVisible[i]._visible;
@@ -139,6 +153,7 @@ public class MeshRenderables : Renderables
     public void ProcessSceneVisibility(RenderFilter filter, DrawGroup dispGroup)
     {
         var alwaysVis = dispGroup != null ? dispGroup.AlwaysVisible : true;
+
         for (var i = 0; i < SYSTEM_SIZE; i++)
         {
             if (cCulled[i])

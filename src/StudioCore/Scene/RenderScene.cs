@@ -88,7 +88,9 @@ public class RenderScene
         SceneRenderPipeline pipeline)
     {
         Tracy.___tracy_c_zone_context ctx = Tracy.TracyCZoneNC(1, "Cull", 0xFF00FF00);
+
         OpaqueRenderables.CullRenderables(frustum);
+
         OpaqueRenderables.ProcessSceneVisibility(DrawFilter, DisplayGroup);
         Tracy.TracyCZoneEnd(ctx);
 

@@ -935,6 +935,11 @@ public class MapStudioNew
                         BTLReadWrite.Run(_assetLocator);
                     }
 
+                    if (ImGui.MenuItem("Insert unique rows IDs into params"))
+                    {
+                        ParamUniqueRowFinder.Run();
+                    }
+
                     ImGui.EndMenu();
                 }
 

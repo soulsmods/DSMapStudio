@@ -36,5 +36,6 @@
     <Unk48_5 AltName="" IsBool="" Wiki="" />
     <Unk48_6 AltName="" IsBool="" Wiki="" />
     <Unk48_7 AltName="" IsBool="" Wiki="" />
+    <ModelMask AltName="Model Mask" Wiki="Determines which model masks to use. Also decides which model mask set to use in color params." />
   </Field>
 </PARAMMETA>
