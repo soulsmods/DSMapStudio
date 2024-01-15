@@ -223,7 +223,7 @@ public class SettingsMenu
                     ShowHelpMarker("Enabling this option will cause entities outside of the camera frustrum to be culled.\n\nDisable this if working with the grid.");
                     ImGui.SameLine();
                 }
-                ImGui.Checkbox("Enable frustrum culling", ref CFG.Current.EnableFrustrumCulling);
+                //ImGui.Checkbox("Enable frustum culling", ref CFG.Current.EnableFrustrumCulling);
 
                 if (CFG.Current.ShowUITooltips)
                 {

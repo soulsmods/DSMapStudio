@@ -48,7 +48,7 @@ public class CFG
     public bool FontVietnamese = false;
 
     // Settings: Map Editor
-    public bool EnableFrustrumCulling = false;
+    //public bool EnableFrustrumCulling = true;
     public bool EnableTexturing = false;
     public bool Map_AlwaysListLoadedMaps = true;
     public bool EnableEldenRingAutoMapOffset = true;
