@@ -223,7 +223,7 @@ public class SettingsMenu
                     ShowHelpMarker("Enabling this option will cause entities outside of the camera frustrum to be culled.\n\nDisable this if working with the grid.");
                     ImGui.SameLine();
                 }
-                ImGui.Checkbox("Enable frustrum culling", ref CFG.Current.EnableFrustrumCulling);
+                //ImGui.Checkbox("Enable frustum culling", ref CFG.Current.EnableFrustrumCulling);
 
                 if (CFG.Current.ShowUITooltips)
                 {
@@ -415,58 +415,61 @@ public class SettingsMenu
                 Utils.ImGui_InputUint("FLVER Bone buffer", ref CFG.Current.GFX_Limit_Buffer_Flver_Bone);
             }
 
-            /* if (ImGui.CollapsingHeader("Grid"))
+            if (FeatureFlags.ViewportGrid)
             {
-                if (CFG.Current.ShowUITooltips)
+                if (ImGui.CollapsingHeader("Grid"))
                 {
-                    ShowHelpMarker("Enable the viewport grid when in the Map Editor.");
-                    ImGui.SameLine();
-                }
-                ImGui.Checkbox("Enable viewport grid", ref CFG.Current.Map_EnableViewportGrid);
+                    if (CFG.Current.ShowUITooltips)
+                    {
+                        ShowHelpMarker("Enable the viewport grid when in the Map Editor.");
+                        ImGui.SameLine();
+                    }
+                    ImGui.Checkbox("Enable viewport grid", ref CFG.Current.Map_EnableViewportGrid);
 
-                if (CFG.Current.ShowUITooltips)
-                {
-                    ShowHelpMarker("The overall maximum size of the grid.\nThe grid will only update upon restarting DSMS after changing this value.");
-                    ImGui.SameLine();
-                }
-                ImGui.SliderInt("Grid size", ref CFG.Current.Map_ViewportGrid_TotalSize, 100, 1000);
+                    if (CFG.Current.ShowUITooltips)
+                    {
+                        ShowHelpMarker("The overall maximum size of the grid.\nThe grid will only update upon restarting DSMS after changing this value.");
+                        ImGui.SameLine();
+                    }
+                    ImGui.SliderInt("Grid size", ref CFG.Current.Map_ViewportGrid_TotalSize, 100, 1000);
 
-                if (CFG.Current.ShowUITooltips)
-                {
-                    ShowHelpMarker("The increment size of the grid.");
-                    ImGui.SameLine();
-                }
-                ImGui.SliderInt("Grid increment", ref CFG.Current.Map_ViewportGrid_IncrementSize, 1, 100);
+                    if (CFG.Current.ShowUITooltips)
+                    {
+                        ShowHelpMarker("The increment size of the grid.");
+                        ImGui.SameLine();
+                    }
+                    ImGui.SliderInt("Grid increment", ref CFG.Current.Map_ViewportGrid_IncrementSize, 1, 100);
 
-                if (CFG.Current.ShowUITooltips)
-                {
-                    ShowHelpMarker("The height at which the horizontal grid sits.");
-                    ImGui.SameLine();
-                }
-                ImGui.SliderFloat("Grid height", ref CFG.Current.Map_ViewportGrid_Offset, -1000, 1000);
+                    if (CFG.Current.ShowUITooltips)
+                    {
+                        ShowHelpMarker("The height at which the horizontal grid sits.");
+                        ImGui.SameLine();
+                    }
+                    ImGui.SliderFloat("Grid height", ref CFG.Current.Map_ViewportGrid_Offset, -1000, 1000);
 
-                if (CFG.Current.ShowUITooltips)
-                {
-                    ShowHelpMarker("The amount to lower or raise the viewport grid height via the shortcuts.");
-                    ImGui.SameLine();
-                }
-                ImGui.SliderFloat("Grid height increment", ref CFG.Current.Map_ViewportGrid_ShortcutIncrement, 0.1f, 100);
+                    if (CFG.Current.ShowUITooltips)
+                    {
+                        ShowHelpMarker("The amount to lower or raise the viewport grid height via the shortcuts.");
+                        ImGui.SameLine();
+                    }
+                    ImGui.SliderFloat("Grid height increment", ref CFG.Current.Map_ViewportGrid_ShortcutIncrement, 0.1f, 100);
 
-                ImGui.ColorEdit3("Grid color", ref CFG.Current.GFX_Viewport_Grid_Color);
+                    ImGui.ColorEdit3("Grid color", ref CFG.Current.GFX_Viewport_Grid_Color);
 
-                if (CFG.Current.ShowUITooltips)
-                {
-                    ShowHelpMarker("Resets all of the values within this section to their default values.");
-                    ImGui.SameLine();
+                    if (CFG.Current.ShowUITooltips)
+                    {
+                        ShowHelpMarker("Resets all of the values within this section to their default values.");
+                        ImGui.SameLine();
+                    }
+                    if (ImGui.Button("Reset"))
+                    {
+                        CFG.Current.GFX_Viewport_Grid_Color = Utils.GetDecimalColor(Color.Red);
+                        CFG.Current.Map_ViewportGrid_TotalSize = 1000;
+                        CFG.Current.Map_ViewportGrid_IncrementSize = 10;
+                        CFG.Current.Map_ViewportGrid_Offset = 0;
+                    }
                 }
-                if (ImGui.Button("Reset"))
-                {
-                    CFG.Current.GFX_Viewport_Grid_Color = Utils.GetDecimalColor(Color.Red);
-                    CFG.Current.Map_ViewportGrid_TotalSize = 1000;
-                    CFG.Current.Map_ViewportGrid_IncrementSize = 10;
-                    CFG.Current.Map_ViewportGrid_Offset = 0;
-                }
-            } */
+            }
 
             if (ImGui.CollapsingHeader("Wireframes"))
             {
