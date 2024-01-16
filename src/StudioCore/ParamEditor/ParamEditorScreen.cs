@@ -2070,7 +2070,8 @@ public class ParamEditorScreen : EditorScreen
         var result = PlatformUtils.Instance.SaveFileDialog(
             "Choose CSV file", new[] { AssetLocator.CsvFilter, AssetLocator.TxtFilter }, out path);
 
-        if (!path.ToLower().EndsWith(".csv")) path += ".csv";
+        if (result && !path.ToLower().EndsWith(".csv"))
+            path += ".csv";
 
         return result;
     }
