@@ -530,21 +530,16 @@ public class WorldView
             }
             else
             {
+                int windowX = 0;
+                int windowY = 0;
                 Vector2 mouseDelta = MousePressedPos - InputTracker.MousePosition;
                 SDL.WarpMouseInWindow(window.SdlWindowHandle, (int)MousePressedPos.X, (int)MousePressedPos.Y);
 
-                if (mouseDelta.LengthSquared() == 0)
-                {
-                    // Prevents a meme
-                    //oldWheel = currentWheel;
-                    return true;
-                }
+                SDL.GetWindowPosition(window.SdlWindowHandle, ref windowX, ref windowY);
+                SDL.WarpMouseGlobal(windowX + (int)MousePressedPos.X, windowY + (int)MousePressedPos.Y);
 
-                //Mouse.SetPosition(game.ClientBounds.X + game.ClientBounds.Width / 2, game.ClientBounds.Y + game.ClientBounds.Height / 2);
-
-
-                var camH = mouseDelta.X * 1 * CameraTurnSpeedMouse * 0.0160f;
-                var camV = mouseDelta.Y * -1 * CameraTurnSpeedMouse * 0.0160f;
+                var camH = mouseDelta.X * 1 * CameraTurnSpeedMouse * CFG.Current.GFX_Camera_Sensitivity;
+                var camV = mouseDelta.Y * -1 * CameraTurnSpeedMouse * CFG.Current.GFX_Camera_Sensitivity;
 
                 if (IsOrbitCam && !isMoveLightKeyPressed)
                 {
