@@ -1455,6 +1455,7 @@ namespace SoulsFormats
                 /// The name of the associated collision part.
                 /// </summary>
                 [MSBReference(ReferenceType = typeof(Collision))]
+                [NoRenderGroupInheritence()]
                 public string CollisionName { get; set; }
                 private int CollisionIndex;
 
