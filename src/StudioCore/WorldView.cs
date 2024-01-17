@@ -258,12 +258,6 @@ public class WorldView
         mousePos = new Vector2(Utils.Lerp(oldMouse.X, InputTracker.MousePosition.X, clampedLerpF),
             Utils.Lerp(oldMouse.Y, InputTracker.MousePosition.Y, clampedLerpF));
 
-
-        //KeyboardState keyboard = DBG.EnableKeyboardInput ? Keyboard.GetState() : DBG.DisabledKeyboardState;
-        //int currentWheel = mouse.ScrollWheelValue;
-
-        //bool mouseInWindow = MapStudio.Active && mousePos.X >= game.ClientBounds.Left && mousePos.X < game.ClientBounds.Right && mousePos.Y > game.ClientBounds.Top && mousePos.Y < game.ClientBounds.Bottom;
-
         currentClickType = MouseClickType.None;
 
         if (InputTracker.GetMouseButton(MouseButton.Left))
@@ -533,7 +527,6 @@ public class WorldView
                 int windowX = 0;
                 int windowY = 0;
                 Vector2 mouseDelta = MousePressedPos - InputTracker.MousePosition;
-                SDL.WarpMouseInWindow(window.SdlWindowHandle, (int)MousePressedPos.X, (int)MousePressedPos.Y);
 
                 SDL.GetWindowPosition(window.SdlWindowHandle, ref windowX, ref windowY);
                 SDL.WarpMouseGlobal(windowX + (int)MousePressedPos.X, windowY + (int)MousePressedPos.Y);
@@ -554,7 +547,6 @@ public class WorldView
                     }
 
                     RotateCameraOrbit(camH, camV, Utils.PiOver2);
-                    //PointCameraToModel();
                 }
                 else if (isMoveLightKeyPressed)
                 {
@@ -569,12 +561,6 @@ public class WorldView
                     CameraTransform.EulerRotation = eu;
                 }
             }
-
-
-            //CameraTransform.Rotation.Z -= (float)Math.Cos(MathHelper.PiOver2 - CameraTransform.Rotation.Y) * camV;
-
-            //RotateCamera(mouseDelta.Y * -0.01f * (float)moveMult, 0, 0, moveMult);
-            //RotateCamera(0, mouseDelta.X * 0.01f * (float)moveMult, 0, moveMult);
         }
         else
         {
@@ -590,12 +576,6 @@ public class WorldView
             {
                 RotateCameraOrbit(0, 0, Utils.PiOver2);
             }
-
-            if (oldMouseClickL)
-            {
-                //Mouse.SetPosition((int)oldMouse.X, (int)oldMouse.Y);
-            }
-            //game.IsMouseVisible = true;
         }
 
 

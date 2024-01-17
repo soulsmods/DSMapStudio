@@ -297,6 +297,8 @@ public class SettingsMenu
                 }
                 if (ImGui.Button("Reset##ViewportCamera"))
                 {
+                    CFG.Current.GFX_Camera_Sensitivity = CFG.Default.GFX_Camera_Sensitivity;
+
                     CFG.Current.GFX_Camera_FOV = CFG.Default.GFX_Camera_FOV;
 
                     CFG.Current.GFX_RenderDistance_Max = CFG.Default.GFX_RenderDistance_Max;
@@ -309,6 +311,18 @@ public class SettingsMenu
 
                     MsbEditor.Viewport.WorldView.CameraMoveSpeed_Fast = CFG.Default.GFX_Camera_MoveSpeed_Fast;
                     CFG.Current.GFX_Camera_MoveSpeed_Fast = MsbEditor.Viewport.WorldView.CameraMoveSpeed_Fast;
+                }
+
+                var cam_sensitivity = CFG.Current.GFX_Camera_Sensitivity;
+
+                if (CFG.Current.ShowUITooltips)
+                {
+                    ShowHelpMarker("Mouse sensitivty for turning the camera.");
+                    ImGui.SameLine();
+                }
+                if (ImGui.SliderFloat("Camera sensitivity", ref cam_sensitivity, 0.0f, 0.1f))
+                {
+                    CFG.Current.GFX_Camera_Sensitivity = cam_sensitivity;
                 }
 
                 var cam_fov = CFG.Current.GFX_Camera_FOV;
