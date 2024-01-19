@@ -1368,6 +1368,15 @@ public static class FMGBank
                     AssetLocator.GameModDirectory, itemMsgPathDest.AssetPath, bnd3);
                 Utils.WriteWithBackup(AssetLocator.GameRootDirectory,
                     AssetLocator.GameModDirectory, menuMsgPathDest.AssetPath, (BND3)fmgBinderMenu);
+                if (AssetLocator.Type is GameType.DemonsSouls)
+                {
+                    bnd3.Compression = DCX.Type.None;
+                    ((BND3)fmgBinderMenu).Compression = DCX.Type.None;
+                    Utils.WriteWithBackup(AssetLocator.GameRootDirectory,
+                        AssetLocator.GameModDirectory, itemMsgPathDest.AssetPath, bnd3);
+                    Utils.WriteWithBackup(AssetLocator.GameRootDirectory,
+                        AssetLocator.GameModDirectory, menuMsgPathDest.AssetPath, (BND3)fmgBinderMenu);
+                }
             }
             else if (fmgBinderItem is BND4 bnd4)
             {
