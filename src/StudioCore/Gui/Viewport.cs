@@ -134,6 +134,25 @@ public class Viewport : IViewport
     {
         if (ImGui.Begin($@"Viewport##{_vpid}", ImGuiWindowFlags.NoBackground | ImGuiWindowFlags.NoNav))
         {
+            if (!ViewportSelected)
+            {
+                if (ImGui.Button("Controls##ViewportControls"))
+                {
+                    ImGui.OpenPopup("Viewport Controls");
+                }
+                if (ImGui.BeginPopup("Viewport Controls"))
+                {
+                    ImGui.Text($"Hold right click in viewport to activate camera mode");
+                    ImGui.Text($"Forward: {KeyBindings.Current.Viewport_Cam_Forward.HintText}\n" +
+                        $"Left: {KeyBindings.Current.Viewport_Cam_Left.HintText}\n" +
+                        $"Back: {KeyBindings.Current.Viewport_Cam_Back.HintText}\n" +
+                        $"Right: {KeyBindings.Current.Viewport_Cam_Right.HintText}\n" +
+                        $"Up: {KeyBindings.Current.Viewport_Cam_Up.HintText}\n" +
+                        $"Down: {KeyBindings.Current.Viewport_Cam_Down.HintText}");
+                    ImGui.EndPopup();
+                }
+            }
+
             Vector2 p = ImGui.GetWindowPos();
             Vector2 s = ImGui.GetWindowSize();
             Rectangle newvp = new((int)p.X, (int)p.Y + 3, (int)s.X, (int)s.Y - 3);
