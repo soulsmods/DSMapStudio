@@ -148,7 +148,10 @@ public class Viewport : IViewport
                         $"Back: {KeyBindings.Current.Viewport_Cam_Back.HintText}\n" +
                         $"Right: {KeyBindings.Current.Viewport_Cam_Right.HintText}\n" +
                         $"Up: {KeyBindings.Current.Viewport_Cam_Up.HintText}\n" +
-                        $"Down: {KeyBindings.Current.Viewport_Cam_Down.HintText}");
+                        $"Down: {KeyBindings.Current.Viewport_Cam_Down.HintText}\n" +
+                        $"Fast cam: Shift\n" +
+                        $"Slow cam: Ctrl\n" +
+                        $"Tweak speed: Mouse wheel");
                     ImGui.EndPopup();
                 }
             }
