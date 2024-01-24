@@ -202,7 +202,7 @@ public class DisplayGroupsEditor
             }
 
             ImGui.Separator();
-            ImGui.BeginChild("##DispTicks", new Vector2(), 0, ImGuiWindowFlags.AlwaysVerticalScrollbar);
+            ImGui.BeginChild("##DispTicks", new Vector2(), 0);
             for (var g = 0; g < dg.RenderGroups.Length; g++)
             {
                 // Row (groups)
