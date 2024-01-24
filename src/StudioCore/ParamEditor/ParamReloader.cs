@@ -110,7 +110,7 @@ internal class ParamReloader
         {
             if (!offsets.paramOffsets.TryGetValue(param, out var pOffset) || param == null)
             {
-                TaskLogs.AddLog($"Hot reload: cannot find param offset for {param}", LogLevel.Warning, TaskLogs.LogPriority.Normal);
+                TaskLogs.AddLog($"Hot reload: Cannot find param offset for {param}", LogLevel.Warning, TaskLogs.LogPriority.Normal);
                 continue;
             }
 
@@ -119,7 +119,7 @@ internal class ParamReloader
             {
                 // DS1 ThrowParam requires an additional offset.
                 tasks.Add(new Task(() =>
-                    WriteMemoryPARAM(offsets, bank.Params[param], pOffset, handler, IntPtr.Add(soloParamRepositoryPtr, 0x41C0))));
+                    WriteMemoryPARAM(offsets, bank.Params[param], pOffset, handler, IntPtr.Add(soloParamRepositoryPtr, 0x10))));
             }
             else
             {
