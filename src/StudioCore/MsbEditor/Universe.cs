@@ -1010,12 +1010,7 @@ public class Universe
             // Real bad hack
             EnvMapTextures = _assetLocator.GetEnvMapTextureNames(amapid);
 
-            if (_assetLocator.Type == GameType.DarkSoulsPTDE)
-            {
-                ResourceManager.ScheduleUDSMFRefresh();
-            }
-
-            ResourceManager.ScheduleUnloadedTexturesRefresh();
+            ScheduleTextureRefresh();
 
             // After everything loads, do some additional checks:
             await Task.WhenAll(tasks);
@@ -1600,8 +1595,13 @@ public class Universe
         }
     }
 
-    public void LoadFlver(string name, FLVER2 flver)
+    public void ScheduleTextureRefresh()
     {
-        ObjectContainer c = new(this, name);
+        if (GameType == GameType.DarkSoulsPTDE)
+        {
+            ResourceManager.ScheduleUDSMFRefresh();
+        }
+
+        ResourceManager.ScheduleUnloadedTexturesRefresh();
     }
 }

@@ -1140,6 +1140,11 @@ public class MapEntity : Entity
                     {
                         OnSelected();
                     }
+
+                    if (Universe.postLoad)
+                    {
+                        Universe.ScheduleTextureRefresh();
+                    }
                 }
             }
         }
