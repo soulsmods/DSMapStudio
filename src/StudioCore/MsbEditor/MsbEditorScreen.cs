@@ -127,14 +127,18 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
                     var pointObj = map.GetObjectByName(region);
                     if (pointObj == null)
                         continue;
-                    var pos = pointObj.GetRootLocalTransform().Position;
-                    pos.Y += _verticalOffset;
 
-                    points.Add(pos);
+                    points.Add(ApplyVerticalOffset(pointObj.GetRootLocalTransform().Position));
                 }
             }
 
             return points.Count > 0;
+        }
+
+        private static Vector3 ApplyVerticalOffset(Vector3 vec)
+        {
+            vec.Y += _verticalOffset;
+            return vec;
         }
 
         /// <summary>
@@ -165,7 +169,7 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
                             bool endAtStart = MSBD_Enemy.PointMoveType == 0;
                             bool moveRandomly = MSBD_Enemy.PointMoveType == 2;
                             var chain = universe.GetPatrolLineDrawable(patrolEntity, drawEntity,
-                                points, [patrolEntity.GetRootLocalTransform().Position], endAtStart, moveRandomly);
+                                points, [ApplyVerticalOffset(patrolEntity.GetRootLocalTransform().Position)], endAtStart, moveRandomly);
 
                             drawEntity.RenderSceneMesh = chain;
                         }
@@ -179,7 +183,7 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
                             bool endAtStart = MSB1_Enemy.PointMoveType == 0;
                             bool moveRandomly = MSB1_Enemy.PointMoveType == 2;
                             var chain = universe.GetPatrolLineDrawable(patrolEntity, drawEntity,
-                                points, [patrolEntity.GetRootLocalTransform().Position], endAtStart, moveRandomly);
+                                points, [ApplyVerticalOffset(patrolEntity.GetRootLocalTransform().Position)], endAtStart, moveRandomly);
 
                             drawEntity.RenderSceneMesh = chain;
                         }
@@ -195,7 +199,7 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
                             bool endAtStart = false;
                             bool moveRandomly = false;
                             var chain = universe.GetPatrolLineDrawable(patrolEntity, drawEntity,
-                                points, [patrolEntity.GetRootLocalTransform().Position], endAtStart, moveRandomly);
+                                points, [ApplyVerticalOffset(patrolEntity.GetRootLocalTransform().Position)], endAtStart, moveRandomly);
 
                             drawEntity.RenderSceneMesh = chain;
                         }
@@ -213,9 +217,7 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
                                     if (ene.WalkRouteName != patrolEntity.Name)
                                         continue;
 
-                                    var pos = ent.GetRootLocalTransform().Position;
-                                    pos.Y += _verticalOffset;
-                                    enemies.Add(pos);
+                                    enemies.Add(ApplyVerticalOffset(ent.GetRootLocalTransform().Position));
                                 }
                             }
 
@@ -240,9 +242,7 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
                                     if (ene.WalkRouteName != patrolEntity.Name)
                                         continue;
 
-                                    var pos = ent.GetRootLocalTransform().Position;
-                                    pos.Y += _verticalOffset;
-                                    enemies.Add(pos);
+                                    enemies.Add(ApplyVerticalOffset(ent.GetRootLocalTransform().Position));
                                 }
                             }
 
@@ -267,9 +267,7 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
                                     if (ene.WalkRouteName != patrolEntity.Name)
                                         continue;
 
-                                    var pos = ent.GetRootLocalTransform().Position;
-                                    pos.Y += _verticalOffset;
-                                    enemies.Add(pos);
+                                    enemies.Add(ApplyVerticalOffset(ent.GetRootLocalTransform().Position));
                                 }
                             }
 
