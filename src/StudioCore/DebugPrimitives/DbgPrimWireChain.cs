@@ -36,6 +36,14 @@ public class DbgPrimWireChain : DbgPrimWire
                         AddLine(points[i], points[i2]);
                     }
                 }
+
+                foreach (var looseStartPos in looseStartingPoints)
+                {
+                    for (var i = 0; i < points.Count; i++)
+                    {
+                        AddLine(looseStartPos, points[i]);
+                    }
+                }
             }
             else
             {
@@ -50,10 +58,11 @@ public class DbgPrimWireChain : DbgPrimWire
 
                 if (endAtStart)
                     AddLine(lastPoint, points[0], color);
-            }
-            foreach (var looseStartPos in looseStartingPoints)
-            {
-                AddLine(looseStartPos, points[0]);
+
+                foreach (var looseStartPos in looseStartingPoints)
+                {
+                    AddLine(looseStartPos, points[0]);
+                }
             }
 
             GeometryData = new DbgPrimGeometryData { GeomBuffer = GeometryBuffer };
