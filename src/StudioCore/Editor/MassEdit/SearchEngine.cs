@@ -274,7 +274,7 @@ internal class MultiStageSearchEngine<A, B, C, D> : SearchEngine<A, B>
 }
 
 internal class ParamAndRowSearchEngine : MultiStageSearchEngine<ParamEditorSelectionState, (MassEditRowSource,
-    Param.Row), (ParamBank, Param), Param.Row>
+    Param.Row), (ParamBank, Param), (string, Param.Row)>
 {
     public static SearchEngine<ParamEditorSelectionState, (MassEditRowSource, Param.Row)> parse =
         new ParamAndRowSearchEngine();
@@ -301,9 +301,9 @@ internal class ParamAndRowSearchEngine : MultiStageSearchEngine<ParamEditorSelec
                 exampleItem.Item1 == MassEditRowSource.Selection
                     ? state.GetActiveParam()
                     : ParamBank.ClipboardParam]);
-        sourceListGetterForMultiStage = row => row.Item2;
+        sourceListGetterForMultiStage = row => (null, row.Item2);
         searchEngineForMultiStage = RowSearchEngine.rse;
-        resultRetrieverForMultiStage = (row, exampleItem) => (exampleItem.Item1, row);
+        resultRetrieverForMultiStage = (row, exampleItem) => (exampleItem.Item1, row.Item2);
     }
 }
 
@@ -379,7 +379,7 @@ internal class ParamSearchEngine : SearchEngine<bool, (ParamBank, Param)>
     }
 }
 
-internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
+internal class RowSearchEngine : SearchEngine<(ParamBank, Param), (string, Param.Row)>
 {
     public static RowSearchEngine rse = new(ParamBank.PrimaryBank);
     private readonly ParamBank bank;
@@ -392,13 +392,17 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
     internal override void Setup()
     {
         name = "row";
-        unpacker = param => new List<Param.Row>(param.Item2.Rows);
+        unpacker = param =>
+        {
+            string name = param.Item1.GetKeyForParam(param.Item2);
+            return param.Item2.Rows.Select((x, i) => (name, x)).ToList();
+        };
         filterList.Add("modified", newCmd(new string[0],
             "Selects rows which do not match the vanilla version, or are added. Ignores row name", noArgs(context =>
                 {
                     var paramName = context.Item1.GetKeyForParam(context.Item2);
                     HashSet<int> cache = context.Item1.GetVanillaDiffRows(paramName);
-                    return row => cache.Contains(row.ID);
+                    return row => cache.Contains(row.Item2.ID);
                 }
             )));
         filterList.Add("added", newCmd(new string[0], "Selects rows where the ID is not found in the vanilla param",
@@ -411,7 +415,7 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
                     }
 
                     Param vanilParam = ParamBank.VanillaBank.Params[paramName];
-                    return row => vanilParam[row.ID] == null;
+                    return row => vanilParam[row.Item2.ID] == null;
                 }
             )));
         filterList.Add("mergeable", newCmd(new string[0],
@@ -428,8 +432,8 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
                     List<(HashSet<int>, HashSet<int>)> auxCaches = ParamBank.AuxBanks.Select(x =>
                         (x.Value.GetPrimaryDiffRows(paramName), x.Value.GetVanillaDiffRows(paramName))).ToList();
                     return row =>
-                        !pCache.Contains(row.ID) &&
-                        auxCaches.Where(x => x.Item2.Contains(row.ID) && x.Item1.Contains(row.ID)).Count() == 1;
+                        !pCache.Contains(row.Item2.ID) &&
+                        auxCaches.Where(x => x.Item2.Contains(row.Item2.ID) && x.Item1.Contains(row.Item2.ID)).Count() == 1;
                 }
             ), () => ParamBank.AuxBanks.Count > 0));
         filterList.Add("conflicts", newCmd(new string[0],
@@ -441,28 +445,28 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
                     List<(HashSet<int>, HashSet<int>)> auxCaches = ParamBank.AuxBanks.Select(x =>
                         (x.Value.GetPrimaryDiffRows(paramName), x.Value.GetVanillaDiffRows(paramName))).ToList();
                     return row =>
-                        (pCache.Contains(row.ID) ? 1 : 0) + auxCaches
-                            .Where(x => x.Item2.Contains(row.ID) && x.Item1.Contains(row.ID)).Count() > 1;
+                        (pCache.Contains(row.Item2.ID) ? 1 : 0) + auxCaches
+                            .Where(x => x.Item2.Contains(row.Item2.ID) && x.Item1.Contains(row.Item2.ID)).Count() > 1;
                 }
             ), () => ParamBank.AuxBanks.Count > 0));
         filterList.Add("id", newCmd(new[] { "row id (regex)" }, "Selects rows whose ID matches the given regex",
             (args, lenient) =>
             {
                 Regex rx = lenient ? new Regex(args[0].ToLower()) : new Regex($@"^{args[0]}$");
-                return noContext(row => rx.IsMatch(row.ID.ToString()));
+                return noContext(row => rx.IsMatch(row.Item2.ID.ToString()));
             }));
         filterList.Add("idrange", newCmd(new[] { "row id minimum (inclusive)", "row id maximum (inclusive)" },
             "Selects rows whose ID falls in the given numerical range", (args, lenient) =>
             {
                 var floor = double.Parse(args[0]);
                 var ceil = double.Parse(args[1]);
-                return noContext(row => row.ID >= floor && row.ID <= ceil);
+                return noContext(row => row.Item2.ID >= floor && row.Item2.ID <= ceil);
             }));
         filterList.Add("name", newCmd(new[] { "row name (regex)" },
             "Selects rows whose Name matches the given regex", (args, lenient) =>
             {
                 Regex rx = lenient ? new Regex(args[0], RegexOptions.IgnoreCase) : new Regex($@"^{args[0]}$");
-                return noContext(row => rx.IsMatch(row.Name == null ? "" : row.Name));
+                return noContext(row => rx.IsMatch(row.Item2.Name == null ? "" : row.Item2.Name));
             }));
         filterList.Add("prop", newCmd(new[] { "field internalName", "field value (regex)" },
             "Selects rows where the specified field has a value that matches the given regex", (args, lenient) =>
@@ -471,7 +475,7 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
                 var field = args[0];
                 return noContext(row =>
                 {
-                    Param.Cell? cq = row[field];
+                    Param.Cell? cq = row.Item2[field];
                     if (cq == null)
                     {
                         throw new Exception();
@@ -492,7 +496,7 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
                 var ceil = double.Parse(args[2]);
                 return noContext(row =>
                 {
-                    Param.Cell? c = row[field];
+                    Param.Cell? c = row.Item2[field];
                     if (c == null)
                     {
                         throw new Exception();
@@ -514,7 +518,7 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
                         .FindAll(p => bank.Params.ContainsKey(p.param));
                     return row =>
                     {
-                        Param.Cell? c = row[field];
+                        Param.Cell? c = row.Item2[field];
                         if (c == null)
                         {
                             throw new Exception();
@@ -546,7 +550,7 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
                     (PseudoColumn, Param.Column) testCol = context.Item2.GetCol(field);
                     return row =>
                     {
-                        (string paramName, Param.Row row) cseSearchContext = (paramName, row);
+                        (string paramName, Param.Row row) cseSearchContext = (paramName, row.Item2);
                         List<(PseudoColumn, Param.Column)> res = CellSearchEngine.cse.Search(cseSearchContext,
                             new List<(PseudoColumn, Param.Column)> { testCol }, args[1], lenient, false);
                         return res.Contains(testCol);
@@ -586,12 +590,12 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
 
                     return row =>
                     {
-                        if (!_cache.ContainsKey(row.ID))
+                        if (!_cache.ContainsKey(row.Item2.ID))
                         {
                             return false;
                         }
 
-                        FMG.Entry e = _cache[row.ID];
+                        FMG.Entry e = _cache[row.Item2.ID];
                         return e != null && rx.IsMatch(e.Text ?? "");
                     };
                 };
@@ -607,7 +611,7 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
                     Param vparam = ParamBank.VanillaBank.GetParamFromName(param.Item1.GetKeyForParam(param.Item2));
                     return row =>
                     {
-                        Param.Row vrow = vparam[row.ID];
+                        Param.Row vrow = vparam[row.Item2.ID];
                         if (vrow == null)
                         {
                             return false;
@@ -638,7 +642,7 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
                     Param vparam = ParamBank.VanillaBank.GetParamFromName(param.Item1.GetKeyForParam(param.Item2));
                     return row =>
                     {
-                        Param.Row vrow = vparam[row.ID];
+                        Param.Row vrow = vparam[row.Item2.ID];
                         if (vrow == null)
                         {
                             return false;
@@ -671,7 +675,7 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
                     Param vparam = bank.GetParamFromName(param.Item1.GetKeyForParam(param.Item2));
                     return row =>
                     {
-                        Param.Row vrow = vparam[row.ID];
+                        Param.Row vrow = vparam[row.Item2.ID];
                         if (vrow == null)
                         {
                             return false;
@@ -712,7 +716,7 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
                     Param vparam = bank.GetParamFromName(param.Item1.GetKeyForParam(param.Item2));
                     return row =>
                     {
-                        Param.Row vrow = vparam[row.ID];
+                        Param.Row vrow = vparam[row.Item2.ID];
                         Param.Cell? c = vrow[field];
                         if (c == null)
                         {
@@ -743,7 +747,7 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
                         throw new Exception("Could not find param " + otherParam);
                     }
 
-                    List<Param.Row> rows = rse.Search((ParamBank.PrimaryBank, otherParamReal), otherSearchTerm,
+                    List<(string, Param.Row)> rows = rse.Search((ParamBank.PrimaryBank, otherParamReal), otherSearchTerm,
                         lenient, false);
                     (PseudoColumn, Param.Column) otherFieldReal = otherParamReal.GetCol(otherField);
                     if (!otherFieldReal.IsColumnValid())
@@ -751,7 +755,7 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
                         throw new Exception("Could not find field " + otherField);
                     }
 
-                    HashSet<string> possibleValues = rows.Select(x => x.Get(otherFieldReal).ToParamEditorString())
+                    HashSet<string> possibleValues = rows.Select(x => x.Item2.Get(otherFieldReal).ToParamEditorString())
                         .Distinct().ToHashSet();
                     return param =>
                     {
@@ -763,7 +767,7 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
 
                         return row =>
                         {
-                            var toFind = row.Get(thisFieldReal).ToParamEditorString();
+                            var toFind = row.Item2.Get(thisFieldReal).ToParamEditorString();
                             return possibleValues.Contains(toFind);
                         };
                     };
@@ -780,7 +784,7 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
                 var setOfDuped = distribution.Where((entry, linqi) => entry.Item2 > 1).Select((entry, linqi) => entry.Item1).ToHashSet();
                 return (row) =>
                 {
-                    return !setOfDuped.Contains(row.Get(col));
+                    return !setOfDuped.Contains(row.Item2.Get(col));
                 };
             };
         }, () => CFG.Current.Param_AdvancedMassedit));
@@ -810,7 +814,7 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
 
                     if (category == FmgEntryCategory.None || !FMGBank.IsLoaded)
                     {
-                        return row => rx.IsMatch(row.Name ?? "") || rx.IsMatch(row.ID.ToString());
+                        return row => rx.IsMatch(row.Item2.Name ?? "") || rx.IsMatch(row.Item2.ID.ToString());
                     }
 
                     List<FMG.Entry> fmgEntries = FMGBank.GetFmgEntriesByCategory(category, false);
@@ -822,17 +826,17 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
 
                     return row =>
                     {
-                        if (rx.IsMatch(row.Name ?? "") || rx.IsMatch(row.ID.ToString()))
+                        if (rx.IsMatch(row.Item2.Name ?? "") || rx.IsMatch(row.Item2.ID.ToString()))
                         {
                             return true;
                         }
 
-                        if (!_cache.ContainsKey(row.ID))
+                        if (!_cache.ContainsKey(row.Item2.ID))
                         {
                             return false;
                         }
 
-                        FMG.Entry e = _cache[row.ID];
+                        FMG.Entry e = _cache[row.Item2.ID];
                         return e != null && rx.IsMatch(e.Text ?? "");
                     };
                 };
