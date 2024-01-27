@@ -33,14 +33,16 @@ public abstract class METypelessOperation
     }
     internal static METypelessOperation GetEditOperation(Type t)
     {
-        return editOperations[t];
+        return editOperations.GetValueOrDefault(t);
     }
 
     internal abstract Dictionary<string, METypelessOperationDef> AllCommands();
+    internal abstract string NameForHelpTexts();
 }
 public class MEOperation<T, O> : METypelessOperation
 {
     internal Dictionary<string, METypelessOperationDef> operations = new();
+    internal string name = "[Unnamed operation type]";
 
     internal MEOperation()
     {
@@ -78,6 +80,11 @@ public class MEOperation<T, O> : METypelessOperation
     {
         return new MEOperationDef<T, O>(Array.Empty<string>(), wiki, func);
     }
+
+    internal override string NameForHelpTexts()
+    {
+        return name;
+    }
 }
 
 public class MEGlobalOperation : MEOperation<ParamEditorSelectionState, bool>
@@ -86,6 +93,7 @@ public class MEGlobalOperation : MEOperation<ParamEditorSelectionState, bool>
 
     internal override void Setup()
     {
+        name = "global";
         operations.Add("clear", newCmd(new string[0], "Clears clipboard param and rows", (selectionState, args) =>
         {
             ParamBank.ClipboardParam = null;
@@ -129,6 +137,7 @@ public class MERowOperation : MEOperation<(string, Param.Row), (Param, Param.Row
 
     internal override void Setup()
     {
+        name = "row";
         operations.Add("copy", newCmd(new string[0],
             "Adds the selected rows into clipboard. If the clipboard param is different, the clipboard is emptied first",
             (paramAndRow, args) =>
@@ -219,6 +228,7 @@ public class MEValueOperation : MEOperation<object, object>
 
     internal override void Setup()
     {
+        name = "value";
         operations.Add("=",
             newCmd(new[] { "number or text" },
                 "Assigns the given value to the selected values. Will attempt conversion to the value's data type",

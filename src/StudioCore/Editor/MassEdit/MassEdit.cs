@@ -190,20 +190,20 @@ public class MassParamEditRegex
                 }
                 else if (VarSearchEngine.vse.HandlesCommand(primaryFilter.Split(" ", 2)[0]))
                 {
-                    (result, actions) = ParseFilterStep(currentLine, command, "variable", VarSearchEngine.vse, ref currentEditData.varStageInfo, "var operation", (currentLine, restOfStages) =>
+                    (result, actions) = ParseFilterStep(currentLine, command, VarSearchEngine.vse, ref currentEditData.varStageInfo, (currentLine, restOfStages) =>
                     {
                         return currentEditData.ParseVarOpStep(currentLine, restOfStages);
                     });
                 }
                 else if (ParamAndRowSearchEngine.parse.HandlesCommand(primaryFilter.Split(" ", 2)[0]))
                 {
-                    (result, actions) = ParseFilterStep(currentLine, command, "paramrow", ParamAndRowSearchEngine.parse, ref currentEditData.paramRowStageInfo, "cell filter or row operation", (currentLine, restOfStages) =>
+                    (result, actions) = ParseFilterStep(currentLine, command, ParamAndRowSearchEngine.parse, ref currentEditData.paramRowStageInfo, (currentLine, restOfStages) =>
                     {
                         if (MERowOperation.rowOps.HandlesCommand(restOfStages.Trim().Split(" ", 2)[0]))
                         {
                             return currentEditData.ParseRowOpStep(currentLine, restOfStages);
                         }
-                        return ParseFilterStep(currentLine, restOfStages, "cell/property", CellSearchEngine.cse, ref currentEditData.cellStageInfo, "operation to perform", (currentLine, restOfStages) =>
+                        return ParseFilterStep(currentLine, restOfStages, CellSearchEngine.cse, ref currentEditData.cellStageInfo, (currentLine, restOfStages) =>
                         {
                             currentEditData.rowOpOrCellStageFunc = currentEditData.ExecCellStage;
                             return currentEditData.ParseCellOpStep(currentLine, restOfStages);
@@ -212,15 +212,15 @@ public class MassParamEditRegex
                 }
                 else
                 {
-                    (result, actions) = ParseFilterStep(currentLine, command, "param", ParamSearchEngine.pse, ref currentEditData.paramStageInfo, "row filter", (currentLine, restOfStages) =>
+                    (result, actions) = ParseFilterStep(currentLine, command, ParamSearchEngine.pse, ref currentEditData.paramStageInfo, (currentLine, restOfStages) =>
                     {
-                        return ParseFilterStep(currentLine, restOfStages, "row", RowSearchEngine.rse, ref currentEditData.rowStageInfo, "cell filter or row operation", (currentLine, restOfStages) =>
+                        return ParseFilterStep(currentLine, restOfStages, RowSearchEngine.rse, ref currentEditData.rowStageInfo, (currentLine, restOfStages) =>
                         {
                             if (MERowOperation.rowOps.HandlesCommand(restOfStages.Trim().Split(" ", 2)[0]))
                             {
                                 return currentEditData.ParseRowOpStep(currentLine, restOfStages);
                             }
-                            return ParseFilterStep(currentLine, restOfStages, "cell/property", CellSearchEngine.cse, ref currentEditData.cellStageInfo, "operation to perform", (currentLine, restOfStages) =>
+                            return ParseFilterStep(currentLine, restOfStages, CellSearchEngine.cse, ref currentEditData.cellStageInfo, (currentLine, restOfStages) =>
                             {
                                 currentEditData.rowOpOrCellStageFunc = currentEditData.ExecCellStage;
                                 return currentEditData.ParseCellOpStep(currentLine, restOfStages);
@@ -246,14 +246,23 @@ public class MassParamEditRegex
         }
     }
 
-    private static (MassEditResult, List<EditorAction>) ParseFilterStep(int currentLine, string restOfStages, string stageName, TypelessSearchEngine expectedSearchEngine, ref MEFilterStage target, string expectedNextStageName, Func<int, string, (MassEditResult, List<EditorAction>)> nextStageFunc)
+    private static (MassEditResult, List<EditorAction>) ParseFilterStep(int currentLine, string restOfStages, TypelessSearchEngine expectedSearchEngine, ref MEFilterStage target, Func<int, string, (MassEditResult, List<EditorAction>)> nextStageFunc)
     {
         var stage = restOfStages.Split(":", 2);
+        string stageName = expectedSearchEngine.NameForHelpTexts();
         target = new MEFilterStage(stage[0], currentLine, stageName, expectedSearchEngine);
 
         if (stage.Length < 2)
         {
-            return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find {expectedNextStageName}. Check your colon placement. (line {currentLine})"), null);
+            var esList = expectedSearchEngine.NextSearchEngines();
+            var eo = expectedSearchEngine.NextOperation();
+            if (esList.Any() && eo != null)
+                return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find {esList.Last().Item1.NameForHelpTexts()} filter or {eo.NameForHelpTexts()} operation to perform. Check your colon placement. (line {currentLine})"), null);
+            if (esList.Any())
+                return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find {esList.Last().Item1.NameForHelpTexts()} filter. Check your colon placement. (line {currentLine})"), null);
+            if (eo != null)
+                return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find {eo.NameForHelpTexts()} operation to perform. Check your colon placement. (line {currentLine})"), null);
+            return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Could not find next stage to perform (no suggestions found). Check your colon placement. (line {currentLine})"), null);
         }
 
         return nextStageFunc(currentLine, stage[1]);

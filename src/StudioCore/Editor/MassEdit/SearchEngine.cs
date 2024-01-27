@@ -29,6 +29,8 @@ internal abstract class TypelessSearchEngine
     public abstract List<(string, string[])> AllCommands();
     public abstract List<string> AvailableCommandsForHelpText();
     public abstract List<(TypelessSearchEngine, Type)> NextSearchEngines();
+    public abstract METypelessOperation NextOperation();
+    public abstract string NameForHelpTexts();
 }
 internal class SearchEngine<A, B> : TypelessSearchEngine
 {
@@ -37,6 +39,7 @@ internal class SearchEngine<A, B> : TypelessSearchEngine
 
     internal Dictionary<string, SearchEngineCommand<A, B>> filterList = new();
     internal Func<A, List<B>> unpacker;
+    internal string name = "[unnamed search engine]";
 
     public SearchEngine()
     {
@@ -214,6 +217,15 @@ internal class SearchEngine<A, B> : TypelessSearchEngine
     {
         return GetSearchEngines(typeof(B));
     }
+    public override METypelessOperation NextOperation()
+    {
+        return METypelessOperation.GetEditOperation(typeof(B));
+    }
+
+    public override string NameForHelpTexts()
+    {
+        return name;
+    }
 }
 
 internal class SearchEngineCommand<A, B>
@@ -269,6 +281,7 @@ internal class ParamAndRowSearchEngine : MultiStageSearchEngine<ParamEditorSelec
 
     internal override void Setup()
     {
+        name = "paramrow";
         unpacker = selection =>
         {
             List<(MassEditRowSource, Param.Row)> list = new();
@@ -312,6 +325,7 @@ internal class ParamSearchEngine : SearchEngine<bool, (ParamBank, Param)>
 
     internal override void Setup()
     {
+        name = "param";
         unpacker = dummy =>
             ParamBank.AuxBanks.Select((aux, i) => aux.Value.Params.Select((x, i) => (aux.Value, x.Value)))
                 .Aggregate(bank.Params.Values.Select((x, i) => (bank, x)), (o, n) => o.Concat(n)).ToList();
@@ -377,6 +391,7 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
 
     internal override void Setup()
     {
+        name = "row";
         unpacker = param => new List<Param.Row>(param.Item2.Rows);
         filterList.Add("modified", newCmd(new string[0],
             "Selects rows which do not match the vanilla version, or are added. Ignores row name", noArgs(context =>
@@ -831,6 +846,7 @@ internal class CellSearchEngine : SearchEngine<(string, Param.Row), (PseudoColum
 
     internal override void Setup()
     {
+        name = "cell/property";
         unpacker = row =>
         {
             List<(PseudoColumn, Param.Column)> list = new();
@@ -971,6 +987,7 @@ internal class VarSearchEngine : SearchEngine<bool, string>
 
     internal override void Setup()
     {
+        name = "variable";
         unpacker = dummy =>
         {
             return MassParamEdit.massEditVars.Keys.ToList();
