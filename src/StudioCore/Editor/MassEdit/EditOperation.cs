@@ -26,6 +26,16 @@ internal class MEOperationDef<T, O> : METypelessOperationDef
 }
 public abstract class METypelessOperation
 {
+    private static Dictionary<Type, METypelessOperation> editOperations = new();
+    internal static void AddEditOperation<I, O>(MEOperation<I, O> engine)
+    {
+        editOperations[typeof(I)] = engine;
+    }
+    internal static METypelessOperation GetEditOperation(Type t)
+    {
+        return editOperations[t];
+    }
+
     internal abstract Dictionary<string, METypelessOperationDef> AllCommands();
 }
 public class MEOperation<T, O> : METypelessOperation
