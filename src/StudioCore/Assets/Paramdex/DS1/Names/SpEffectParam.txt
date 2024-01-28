@@ -306,7 +306,7 @@
 3224 [Item] Homeward Bone - Warp D
 3225 [Item] Homeward Bone - Warp E
 3226 [Item] Darksign
-3230 Resurrection Stone [Resurrection effect] -- 復活石【復活効果】
+3230 Unused - Restore Humanity
 3231 [Item] Humanity
 3240 [Item] Binoculars
 3250 Pledge discarded -- 誓約破棄
