@@ -440,7 +440,7 @@ public class ParamEditorView
 
                 List<Param.Row> rows = UICache.GetCached(_paramEditor, (_viewIndex, activeParam),
                     () => RowSearchEngine.rse.Search((ParamBank.PrimaryBank, para),
-                        _selection.GetCurrentRowSearchString(), true, true));
+                        _selection.GetCurrentRowSearchString(), true, true).Select((x, i) => x.Item2).ToList());
 
                 var enableGrouping = !CFG.Current.Param_DisableRowGrouping && ParamMetaData
                     .Get(ParamBank.PrimaryBank.Params[activeParam].AppliedParamdef).ConsecutiveIDs;

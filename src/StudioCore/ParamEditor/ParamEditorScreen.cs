@@ -787,7 +787,7 @@ public class ParamEditorScreen : EditorScreen
                              () => RowSearchEngine.rse.Search(
                                  (ParamBank.PrimaryBank,
                                      ParamBank.PrimaryBank.Params[_activeView._selection.GetActiveParam()]),
-                                 _activeView._selection.GetCurrentRowSearchString(), true, true)))
+                                 _activeView._selection.GetCurrentRowSearchString(), true, true).Select((x, i) => x.Item2)))
 
                 {
                     _activeView._selection.AddRowToSelection(row);

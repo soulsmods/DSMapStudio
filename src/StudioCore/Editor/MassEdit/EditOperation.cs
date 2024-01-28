@@ -505,9 +505,9 @@ public class MEOperationArgument
                     throw new Exception($@"Cannot average field {field[0]}");
                 }
 
-                List<Param.Row>? rows =
+                List<(string, Param.Row)>? rows =
                     RowSearchEngine.rse.Search((ParamBank.PrimaryBank, param), field[1], false, false);
-                IEnumerable<object> vals = rows.Select((row, i) => row.Get(col));
+                IEnumerable<object> vals = rows.Select((row, i) => row.Item2.Get(col));
                 var avg = vals.Average(val => Convert.ToDouble(val));
                 return (j, row) => (k, c) => avg.ToString();
             }, () => CFG.Current.Param_AdvancedMassedit));
@@ -521,9 +521,9 @@ public class MEOperationArgument
                     throw new Exception($@"Could not locate field {field[0]}");
                 }
 
-                List<Param.Row>? rows =
+                List<(string, Param.Row)>? rows =
                     RowSearchEngine.rse.Search((ParamBank.PrimaryBank, param), field[1], false, false);
-                IEnumerable<object> vals = rows.Select((row, i) => row.Get(col));
+                IEnumerable<object> vals = rows.Select((row, i) => row.Item2.Get(col));
                 var avg = vals.OrderBy(val => Convert.ToDouble(val)).ElementAt(vals.Count() / 2);
                 return (j, row) => (k, c) => avg.ToParamEditorString();
             }, () => CFG.Current.Param_AdvancedMassedit));
@@ -537,9 +537,9 @@ public class MEOperationArgument
                     throw new Exception($@"Could not locate field {field[0]}");
                 }
 
-                List<Param.Row>? rows =
+                List<(string, Param.Row)>? rows =
                     RowSearchEngine.rse.Search((ParamBank.PrimaryBank, param), field[1], false, false);
-                var avg = ParamUtils.GetParamValueDistribution(rows, col).OrderByDescending(g => g.Item2)
+                var avg = ParamUtils.GetParamValueDistribution(rows.Select((x, i) => x.Item2), col).OrderByDescending(g => g.Item2)
                     .First().Item1;
                 return (j, row) => (k, c) => avg.ToParamEditorString();
             }, () => CFG.Current.Param_AdvancedMassedit));
@@ -553,9 +553,9 @@ public class MEOperationArgument
                     throw new Exception($@"Could not locate field {field[0]}");
                 }
 
-                List<Param.Row>? rows =
+                List<(string, Param.Row)>? rows =
                     RowSearchEngine.rse.Search((ParamBank.PrimaryBank, param), field[1], false, false);
-                var min = rows.Min(r => r[field[0]].Value.Value);
+                var min = rows.Min(r => r.Item2[field[0]].Value.Value);
                 return (j, row) => (k, c) => min.ToParamEditorString();
             }, () => CFG.Current.Param_AdvancedMassedit));
         argumentGetters.Add("max", newGetter(new[] { "field internalName", "row selector" },
@@ -568,9 +568,9 @@ public class MEOperationArgument
                     throw new Exception($@"Could not locate field {field[0]}");
                 }
 
-                List<Param.Row>? rows =
+                List<(string, Param.Row)>? rows =
                     RowSearchEngine.rse.Search((ParamBank.PrimaryBank, param), field[1], false, false);
-                var max = rows.Max(r => r[field[0]].Value.Value);
+                var max = rows.Max(r => r.Item2[field[0]].Value.Value);
                 return (j, row) => (k, c) => max.ToParamEditorString();
             }, () => CFG.Current.Param_AdvancedMassedit));
         argumentGetters.Add("random", newGetter(
@@ -615,9 +615,9 @@ public class MEOperationArgument
             paramFieldRowSelector =>
             {
                 Param srcParam = ParamBank.PrimaryBank.Params[paramFieldRowSelector[0]];
-                List<Param.Row> srcRows = RowSearchEngine.rse.Search((ParamBank.PrimaryBank, srcParam),
+                List<(string, Param.Row)> srcRows = RowSearchEngine.rse.Search((ParamBank.PrimaryBank, srcParam),
                     paramFieldRowSelector[2], false, false);
-                var values = srcRows.Select((r, i) => r[paramFieldRowSelector[1]].Value.Value).ToArray();
+                var values = srcRows.Select((r, i) => r.Item2[paramFieldRowSelector[1]].Value.Value).ToArray();
                 return (i, param) =>
                     (j, row) => (k, c) => values[Random.Shared.NextInt64(values.Length)].ToString();
             }, () => CFG.Current.Param_AdvancedMassedit));
