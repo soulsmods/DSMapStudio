@@ -2,7 +2,7 @@
 99 ----- ↓ From here for item -----
 100 [Common Items] Name
 101 [Common Items] Description
-102 [Common items] Summary
+102 [Common items] Detailed Description
 103 [Common Items] Item Weight
 104 [Common Items] Sort ID in category
 104 [Common items] Sort ID in category
