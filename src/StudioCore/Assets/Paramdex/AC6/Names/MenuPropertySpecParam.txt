@@ -1,8 +1,8 @@
 ﻿0 ----
 99 ----- ↓ From here for item -----
 100 [Common Items] Name
-101 [Common Items] Item description
-102 [Common items] Poop
+101 [Common Items] Description
+102 [Common items] Summary
 103 [Common Items] Item Weight
 104 [Common Items] Sort ID in category
 104 [Common items] Sort ID in category
@@ -12,20 +12,20 @@
 107 [Common Items] Company
 108 [Common Items] Menu Management Category
 110 [Common Items] Number of Items in Possession
-111 [Common Items] Item_Max_Holdings
-112 [Common Items] Item_Warehouse_Maximum_Holder
-113 [Common Items] Item_Maximum_Warehouse_Value
+111 [Common Items] Item Max Holdings
+112 [Common Items] Item Warehouse Maximum Holder
+113 [Common Items] Item Maximum Warehouse Value
 120 [Common Items] Required souls for all items
 121 [Common Items] Souls acquired from items
 122 [Common Items] Consumed EN
 123 [Common Items] Category Name
 124 [Common Items] EN Output
 1000 [Tool] Consumption Type when used
-1900 [Weapon] Attribute_Icon
+1900 [Weapon] Attribute Icon
 1901 [Weapon] Fire Type Icon
-1902 [Weapon] Reload Type_icon
-1903 [Weapon] Condition_Icon
-1904 [Weapon] Characteristics_icon
+1902 [Weapon] Reload Type icon
+1903 [Weapon] Condition Icon
+1904 [Weapon] Characteristics icon
 1970 [Weapon] Attack Performance After Charge (Child Bullet)
 1971 [Weapon] Impact Performance After Charge (Child Bullet)
 1972 [Weapon] Accumulated impact performance after charge (child bullet)
@@ -138,22 +138,22 @@
 3001 [Armor] Defense: Physical
 3002 [Armor] Defense: EN
 3003 [Armor] Ammo Recovery Item Capacity
-3010 [Armor] KE Resistant Armor
-3011 [Armor] TE resistance armor
-3012 [Armor] CE armor resistance
+3010 [Armor] Anti-Kinetic Defense
+3011 [Armor] Anti-Energy Defense
+3012 [Armor] Anti-Explosive Defense
 3013 [Armor] Stability Performance (text specified on layout side)
-3050 [HEAD] KE armor resistance
-3051 [HEAD] TE resistance armor
-3052 [HEAD] CE armor
-3060 [CORE] KE armor
-3061 [CORE] TE-resistant armor
-3062 [CORE] CE armor
-3070 [ARM] KE resistance armor
-3071 [ARM] TE resistance armor
-3072 [ARM] CE armor
-3080 [LEG] KE armor
-3081 [LEG] TE armor
-3082 [LEG] CE armor
+3050 [HEAD] Anti-Kinetic Defense
+3051 [HEAD] Anti-Energy Defense
+3052 [HEAD] Anti-Explosive Defense
+3060 [CORE] Anti-Kinetic Defense
+3061 [CORE] Anti-Energy Defense
+3062 [CORE] Anti-Explosive Defense
+3070 [ARM] Anti-Kinetic Defense
+3071 [ARM] Anti-Energy Defense
+3072 [ARM] Anti-Explosive Defense
+3080 [LEG] Anti-Kinetic Defense
+3081 [LEG] Anti-Energy Defense
+3082 [LEG] Anti-Explosive Defense
 3100 [HEAD] Stability calculation performance
 3101 [HEAD] System Restoration Performance
 3102 [HEAD] Camera Performance
@@ -372,12 +372,17 @@
 80003 [Result] Income: Total Special Additions
 80004 [Result] Income: Special Subtraction Total
 80010 [Result] Income: Special addition 0
+80011 [Result] Income: Special addition 1
+80012 [Result] Income: Special addition 2
 80013 [Result] Income: special addition 3
 80014 [Result] Income: special addition 4
 80019 [Result] Income: total
 80020 [Result] Expenses: Repair
 80021 [Result] Expenses: ammunition
+80030 [Result] Cost: Special subtraction 0
 80031 [Result] Cost: Special subtraction 1
+80032 [Result] Cost: Special subtraction 2
+80033 [Result] Cost: Special subtraction 3
 80034 [Result] Cost: Special subtraction 4
 80039 [Result] Expenses: total
 80040 [Result] Company Contribution 0
@@ -389,21 +394,23 @@
 80090 [Result] Income and Expenses: Total
 80999 ----- ↑ Up to here for mission result -----
 90000 [Game Options] Lock-on Auto Switch
-90001 [Game Option] Controller Vibration
-90002 [Game Option] Boost Control
+90001 [Game Options] Controller Vibration
+90002 [Game Options] Boost Control
 90003 [Game Options] Assault Boost Operation
 90004 [Game Options] Limiter Release Operation
 90005 [Game Options] Auto Purge
-90010 [Camera Option] Camera Control Up and Down
-90011 [Camera Options] Camera operation left/right
-90013 [Camera Option] Camera Speed
+90010 [Camera Options] Camera Control up/down
+90011 [Camera Options] Camera Conrol left/right
+90012 [Camera Options] Camera Up/Down Reset
+90013 [Camera Options] Camera Speed
 90020 [Display Options] Subtitle display
-90022 [Display Options] HUD Color (Button)
+90022 [Display Options] HUD Color (button)
 90023 [Display Options] HUD Layout (button)
 90024 [Display Options] HDR
 90025 [Display Options] Brightness Adjustment (button)
-90030 [Sound option] BGM volume
-90031 [Sound option] SE volume
+90026 [Display Options] Image quality Adjustment (button)
+90030 [Sound Options] BGM volume
+90031 [Sound Options] SE volume
 90032 [Acoustic Options] Voice volume
 90032 [Acoustic Options] Overall volume
 90033 [Acoustic Options] Volume
@@ -411,12 +418,12 @@
 90050 [Picture quality adjustment] HDR brightness
 90051 [Picture quality adjustment] HDR maximum brightness
 90052 [Picture Quality Adjustment] HDR Saturation
-90090 [Button Setting] Button Assignment
+90090 [Button Settings] Button Assignment
 90091 [Button Settings] Detailed Button Assignment Settings (Button)
 90100 [Input Device Settings] Target Device for Operation Guide
-90101 [Input Device Setting] Mouse Sensitivity
-90102 [Input Device Setting] Mouse Left/Right
-90103 [Input device setting] Mouse operation up/down
+90101 [Input Device Settings] Mouse Sensitivity
+90102 [Input Device Settings] Mouse Left/Right
+90103 [Input device Settings] Mouse operation up/down
 90104 [Input device settings] Key settings
 90130 [Network Settings] Matching Region Selection
 90131 [Network Settings] Voice Chat
@@ -471,6 +478,7 @@
 100011 [Photo mode] Contrast[Photo mode] Contrast
 100012 [Photo mode] Color Scale R
 100013 [Photo mode] Color Scale G
+100014 [Photo mode] Color Scale B
 100015 [Photo mode] Color Shift R
 100016 [Photo mode] Color Shift G
 100017 [Photo mode] Color shift B
@@ -487,9 +495,9 @@
 100028 [Photo mode] Bloom: Threshold
 100029 [Bloom] Saturation
 100030 [Bloom] Smoothness
-110000 [ENEMY SETTING] Enemy Pattern
-110001 [ENEMY SETTING] AI
-120000 [ENEMY SETTING] Number of people
+110000 [ENEMY Settings] Enemy Pattern
+110001 [ENEMY Settings] AI
+120000 [ENEMY Settings] Number of people
 120001 [Room Settings] Rules
 120002 [Room Settings] Time Limit
 120003 [Room Settings] Map
