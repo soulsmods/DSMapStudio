@@ -1,5 +1,5 @@
 ﻿using Andre.Formats;
-using ImGuiNET;
+using static Andre.Native.ImGuiBindings;
 using StudioCore.Editor;
 using System;
 using System.Collections.Generic;
@@ -431,7 +431,7 @@ internal class AutoFill
                     : null;
             }
 
-            ImGui.Indent();
+            ImGui.Indent(0);
             for (var i = 0; i < argIndices.Length; i++)
             {
                 if (i != 0)
@@ -456,7 +456,7 @@ internal class AutoFill
                 }
             }
 
-            ImGui.Unindent();
+            ImGui.Unindent(0);
             if (result != null && valid)
             {
                 var argText = argIndices.Length > 0 ? staticArgs[argIndices[0]] : null;
@@ -507,7 +507,7 @@ internal class AutoFill
                 return arg.Item1 + argText;
             }
 
-            ImGui.Indent();
+            ImGui.Indent(0);
             for (var i = 0; i < argIndices.Length; i++)
             {
                 if (i != 0)
@@ -524,7 +524,7 @@ internal class AutoFill
                 }
             }
 
-            ImGui.Unindent();
+            ImGui.Unindent(0);
         }
 
         if (MassParamEdit.massEditVars.Count != 0)

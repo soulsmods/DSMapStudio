@@ -1,5 +1,5 @@
 ﻿using Andre.Formats;
-using ImGuiNET;
+using static Andre.Native.ImGuiBindings;
 using Microsoft.Extensions.Logging;
 using SoulsFormats;
 using StudioCore.Editor;
@@ -131,9 +131,9 @@ public class FMGItemParamDecorator : IParamDecorator
         if (entry != null)
         {
             ImGui.SameLine();
-            ImGui.PushStyleColor(ImGuiCol.Text, FMGLINKCOLOUR);
+            ImGui.PushStyleColorVec4(ImGuiCol.Text, FMGLINKCOLOUR);
             ImGui.TextUnformatted($@" <{entry.Text}>");
-            ImGui.PopStyleColor();
+            ImGui.PopStyleColor(1);
         }
     }
 
@@ -522,7 +522,7 @@ public class ParamEditorScreen : EditorScreen
                 ImGui.Checkbox("Only replace unmodified row names", ref _rowNameImporter_VanillaOnly);
                 if (_rowNameImporter_VanillaOnly)
                 {
-                    ImGui.BeginDisabled();
+                    ImGui.BeginDisabled(true);
                     ImGui.Checkbox("Only replace empty row names", ref _rowNameImporter_EmptyOnly);
                     ImGui.EndDisabled();
                 }
@@ -832,7 +832,7 @@ public class ParamEditorScreen : EditorScreen
         }
     }
 
-    public void OnGUI(string[] initcmd)
+    public unsafe void OnGUI(string[] initcmd)
     {
         var scale = MapStudioNew.GetUIScale();
 
@@ -1076,15 +1076,15 @@ public class ParamEditorScreen : EditorScreen
 
         if (CFG.Current.UI_CompactParams)
         {
-            ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, new Vector2(1.0f, 1.0f) * scale);
-            ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(5.0f, 1.0f) * scale);
-            ImGui.PushStyleVar(ImGuiStyleVar.CellPadding, new Vector2(5.0f, 1.0f) * scale);
+            ImGui.PushStyleVarVec2(ImGuiStyleVar.FramePadding, new Vector2(1.0f, 1.0f) * scale);
+            ImGui.PushStyleVarVec2(ImGuiStyleVar.ItemSpacing, new Vector2(5.0f, 1.0f) * scale);
+            ImGui.PushStyleVarVec2(ImGuiStyleVar.CellPadding, new Vector2(5.0f, 1.0f) * scale);
         }
         else
         {
-            ImGuiStylePtr style = ImGui.GetStyle();
-            ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing,
-                (style.ItemSpacing * scale) - (new Vector2(3.5f, 0f) * scale));
+            ImGuiStyle *style = ImGui.GetStyle();
+            ImGui.PushStyleVarVec2(ImGuiStyleVar.ItemSpacing,
+                (style->ItemSpacing * scale) - (new Vector2(3.5f, 0f) * scale));
         }
 
         if (CountViews() == 1)
@@ -1093,7 +1093,7 @@ public class ParamEditorScreen : EditorScreen
         }
         else
         {
-            ImGui.DockSpace(ImGui.GetID("DockSpace_ParamEditorViews"));
+            ImGui.DockSpace(ImGui.GetID("DockSpace_ParamEditorViews"), default, 0, null);
             foreach (ParamEditorView view in _views)
             {
                 if (view == null)
@@ -1137,7 +1137,7 @@ public class ParamEditorScreen : EditorScreen
         }
         else
         {
-            ImGui.PopStyleVar();
+            ImGui.PopStyleVar(1);
         }
     }
 
@@ -1270,21 +1270,21 @@ public class ParamEditorScreen : EditorScreen
         {
             if (!_paramUpgraderLoaded)
             {
-                ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 0.3f, 0.3f, 1.0f));
+                ImGui.PushStyleColorVec4(ImGuiCol.Text, new Vector4(1.0f, 0.3f, 0.3f, 1.0f));
                 if (ImGui.BeginMenu("Upgrade Params"))
                 {
-                    ImGui.PopStyleColor();
+                    ImGui.PopStyleColor(1);
                     ImGui.Text("Unable to obtain param upgrade information from assets folder.");
                     ImGui.EndMenu();
                 }
                 else
                 {
-                    ImGui.PopStyleColor();
+                    ImGui.PopStyleColor(1);
                 }
             }
             else if (ParamBank.VanillaBank.ParamVersion <= ParamUpgradeVersionSoftWhitelist)
             {
-                ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.0f, 1f, 0f, 1.0f));
+                ImGui.PushStyleColorVec4(ImGuiCol.Text, new Vector4(0.0f, 1f, 0f, 1.0f));
                 if (ImGui.Button("Upgrade Params"))
                 {
                     string oldVersionString = Utils.ParseRegulationVersion(ParamBank.PrimaryBank.ParamVersion);
@@ -1308,21 +1308,21 @@ public class ParamEditorScreen : EditorScreen
                     }
                 }
 
-                ImGui.PopStyleColor();
+                ImGui.PopStyleColor(1);
             }
             else
             {
-                ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 0.3f, 0.3f, 1.0f));
+                ImGui.PushStyleColorVec4(ImGuiCol.Text, new Vector4(1.0f, 0.3f, 0.3f, 1.0f));
                 if (ImGui.BeginMenu("Upgrade Params"))
                 {
-                    ImGui.PopStyleColor();
+                    ImGui.PopStyleColor(1);
                     ImGui.Text(
                         "Param version unsupported, DSMapStudio must be updated first.\nDownload update if available, wait for update otherwise.");
                     ImGui.EndMenu();
                 }
                 else
                 {
-                    ImGui.PopStyleColor();
+                    ImGui.PopStyleColor(1);
                 }
             }
         }

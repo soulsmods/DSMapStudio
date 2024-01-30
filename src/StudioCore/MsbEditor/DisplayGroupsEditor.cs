@@ -1,4 +1,4 @@
-﻿using ImGuiNET;
+﻿using static Andre.Native.ImGuiBindings;
 using StudioCore.Scene;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,10 +21,10 @@ public class DisplayGroupsEditor
         _actionManager = manager;
     }
 
-    public void OnGui(int dispCount)
+    public unsafe void OnGui(int dispCount)
     {
         var scale = MapStudioNew.GetUIScale();
-        ImGui.SetNextWindowSize(new Vector2(100, 100) * scale);
+        ImGui.SetNextWindowSize(new Vector2(100, 100) * scale, 0);
 
         uint[] sdrawgroups = null;
         uint[] sdispgroups = null;
@@ -45,7 +45,7 @@ public class DisplayGroupsEditor
         {
             ImGui.SetNextWindowFocus();
         }
-        ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(4.0f, 2.0f) * scale);
+        ImGui.PushStyleVarVec2(ImGuiStyleVar.ItemSpacing, new Vector2(4.0f, 2.0f) * scale);
         if (ImGui.Begin("Render Groups") && _scene != null)
         {
             DrawGroup dg = _scene.DisplayGroup;
@@ -82,7 +82,7 @@ public class DisplayGroupsEditor
             ImGui.SameLine(0.0f, 12.0f * scale);
             if (sdispgroups == null)
             {
-                ImGui.BeginDisabled();
+                ImGui.BeginDisabled(true);
             }
 
             if (ImGui.Button($"Get Disp <{KeyBindings.Current.Map_RenderGroup_GetDisp.HintText}>")
@@ -134,7 +134,7 @@ public class DisplayGroupsEditor
             ImGui.SameLine(0.0f, 12.0f * scale);
             if (!HighlightedGroups.Any())
             {
-                ImGui.BeginDisabled();
+                ImGui.BeginDisabled(true);
             }
 
             bool selectHighlightsOperation = false;
@@ -202,7 +202,7 @@ public class DisplayGroupsEditor
             }
 
             ImGui.Separator();
-            ImGui.BeginChild("##DispTicks", new Vector2(), false, ImGuiWindowFlags.AlwaysVerticalScrollbar);
+            ImGui.BeginChild("##DispTicks", new Vector2(), 0, ImGuiWindowFlags.AlwaysVerticalScrollbar);
             for (var g = 0; g < dg.RenderGroups.Length; g++)
             {
                 // Row (groups)
@@ -248,26 +248,26 @@ public class DisplayGroupsEditor
                     {
                         // Selection dispgroup and drawgroup is ticked
                         // Yellow
-                        ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.4f, 0.4f, 0.06f, 1.0f));
-                        ImGui.PushStyleColor(ImGuiCol.CheckMark, new Vector4(1f, 1f, 0.02f, 1.0f));
+                        ImGui.PushStyleColorVec4(ImGuiCol.FrameBg, new Vector4(0.4f, 0.4f, 0.06f, 1.0f));
+                        ImGui.PushStyleColorVec4(ImGuiCol.CheckMark, new Vector4(1f, 1f, 0.02f, 1.0f));
                     }
                     else if (drawActive)
                     {
                         // Selection drawgroup is ticked
                         // Green
-                        ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.02f, 0.3f, 0.02f, 1.0f));
-                        ImGui.PushStyleColor(ImGuiCol.CheckMark, new Vector4(0.2f, 1.0f, 0.2f, 1.0f));
+                        ImGui.PushStyleColorVec4(ImGuiCol.FrameBg, new Vector4(0.02f, 0.3f, 0.02f, 1.0f));
+                        ImGui.PushStyleColorVec4(ImGuiCol.CheckMark, new Vector4(0.2f, 1.0f, 0.2f, 1.0f));
                     }
                     else if (dispActive)
                     {
                         // Selection dispGroup is ticked
                         // Red
-                        ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.4f, 0.06f, 0.06f, 1.0f));
-                        ImGui.PushStyleColor(ImGuiCol.CheckMark, new Vector4(1.0f, 0.2f, 0.2f, 1.0f));
+                        ImGui.PushStyleColorVec4(ImGuiCol.FrameBg, new Vector4(0.4f, 0.06f, 0.06f, 1.0f));
+                        ImGui.PushStyleColorVec4(ImGuiCol.CheckMark, new Vector4(1.0f, 0.2f, 0.2f, 1.0f));
                     }
                     if (HighlightedGroups.Contains(cellKey))
                     {
-                        ImGui.PushStyleColor(ImGuiCol.Border, new Vector4(1.0f, 0.2f, 0.2f, 1.0f));
+                        ImGui.PushStyleColorVec4(ImGuiCol.Border, new Vector4(1.0f, 0.2f, 0.2f, 1.0f));
                     }
 
                     if (ImGui.Checkbox($@"##cell_{cellKey}", ref check))
@@ -287,7 +287,7 @@ public class DisplayGroupsEditor
                         ImGui.PopStyleColor(1);
                     }
 
-                    if (ImGui.IsItemHovered() && ImGui.IsMouseClicked(ImGuiMouseButton.Right))
+                    if (ImGui.IsItemHovered(0) && ImGui.IsMouseDoubleClickedNil(ImGuiMouseButton.Right))
                     {
                         // Toggle render group highlights
                         if (HighlightedGroups.Contains(cellKey))
@@ -309,7 +309,7 @@ public class DisplayGroupsEditor
 
             ImGui.EndChild();
         }
-        ImGui.PopStyleVar();
+        ImGui.PopStyleVar(1);
         ImGui.End();
     }
 }

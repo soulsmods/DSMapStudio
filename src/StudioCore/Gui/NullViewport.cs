@@ -1,4 +1,4 @@
-﻿using ImGuiNET;
+﻿using static Andre.Native.ImGuiBindings;
 using StudioCore.MsbEditor;
 using System.Numerics;
 using Veldrid;
@@ -10,7 +10,7 @@ namespace StudioCore.Gui;
 /// <summary>
 ///     A null viewport that doesn't actually do anything
 /// </summary>
-public class NullViewport : IViewport
+public unsafe class NullViewport : IViewport
 {
     private readonly string _vpid = "";
 
@@ -38,8 +38,9 @@ public class NullViewport : IViewport
     {
         if (ImGui.Begin($@"Viewport##{_vpid}", ImGuiWindowFlags.NoBackground | ImGuiWindowFlags.NoNav))
         {
-            Vector2 p = ImGui.GetWindowPos();
-            Vector2 s = ImGui.GetWindowSize();
+            Vector2 p, s;
+            ImGui.GetWindowPos(&p);
+            ImGui.GetWindowSize(&s);
             var newvp = new Rectangle((int)p.X, (int)p.Y + 3, (int)s.X, (int)s.Y - 3);
             ResizeViewport(null, newvp);
             ImGui.Text("Disabled...");

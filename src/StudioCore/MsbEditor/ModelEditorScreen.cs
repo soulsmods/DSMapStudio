@@ -1,4 +1,4 @@
-﻿using ImGuiNET;
+﻿using static Andre.Native.ImGuiBindings;
 using StudioCore.Editor;
 using StudioCore.Gui;
 using StudioCore.Resource;
@@ -120,7 +120,7 @@ public class ModelEditorScreen : EditorScreen, AssetBrowserEventHandler, SceneTr
     {
     }
 
-    public void OnGUI(string[] commands)
+    public unsafe void OnGUI(string[] commands)
     {
         var scale = MapStudioNew.GetUIScale();
         // Docking setup
@@ -129,10 +129,10 @@ public class ModelEditorScreen : EditorScreen, AssetBrowserEventHandler, SceneTr
         Vector2 winp = ImGui.GetWindowPos();
         winp.Y += 20.0f * scale;
         wins.Y -= 20.0f * scale;
-        ImGui.SetNextWindowPos(winp);
-        ImGui.SetNextWindowSize(wins);
+        ImGui.SetNextWindowPos(winp, 0, default);
+        ImGui.SetNextWindowSize(wins, 0);
         var dsid = ImGui.GetID("DockSpace_ModelEdit");
-        ImGui.DockSpace(dsid, new Vector2(0, 0));
+        ImGui.DockSpace(dsid, new Vector2(0, 0), 0, null);
 
         // Keyboard shortcuts
         if (EditorActionManager.CanUndo() && InputTracker.GetKeyDown(KeyBindings.Current.Core_Undo))
@@ -145,7 +145,7 @@ public class ModelEditorScreen : EditorScreen, AssetBrowserEventHandler, SceneTr
             EditorActionManager.RedoAction();
         }
 
-        if (!ViewportUsingKeyboard && !ImGui.GetIO().WantCaptureKeyboard)
+        if (!ViewportUsingKeyboard && !ImGui.GetIO()->WantCaptureKeyboard)
         {
             if (InputTracker.GetKeyDown(KeyBindings.Current.Viewport_TranslateMode))
             {
@@ -217,7 +217,7 @@ public class ModelEditorScreen : EditorScreen, AssetBrowserEventHandler, SceneTr
         }
 
         ImGui.SetNextWindowSize(new Vector2(300, 500) * scale, ImGuiCond.FirstUseEver);
-        ImGui.SetNextWindowPos(new Vector2(20, 20) * scale, ImGuiCond.FirstUseEver);
+        ImGui.SetNextWindowPos(new Vector2(20, 20) * scale, ImGuiCond.FirstUseEver, default);
 
         Vector3 clear_color = new(114f / 255f, 144f / 255f, 154f / 255f);
         //ImGui.Text($@"Viewport size: {Viewport.Width}x{Viewport.Height}");

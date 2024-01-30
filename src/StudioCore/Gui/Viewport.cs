@@ -1,4 +1,4 @@
-﻿using ImGuiNET;
+﻿using static Andre.Native.ImGuiBindings;
 using StudioCore.DebugPrimitives;
 using StudioCore.MsbEditor;
 using StudioCore.Resource;
@@ -18,7 +18,7 @@ namespace StudioCore.Gui;
 ///     transform
 ///     the view within a virtual canvas, or it can be manually configured for say rendering thumbnails
 /// </summary>
-public class Viewport : IViewport
+public unsafe class Viewport : IViewport
 {
     private readonly ActionManager _actionManager;
 
@@ -134,13 +134,14 @@ public class Viewport : IViewport
     {
         if (ImGui.Begin($@"Viewport##{_vpid}", ImGuiWindowFlags.NoBackground | ImGuiWindowFlags.NoNav))
         {
-            Vector2 p = ImGui.GetWindowPos();
-            Vector2 s = ImGui.GetWindowSize();
+            Vector2 p, s;
+            ImGui.GetWindowPos(&p);
+            ImGui.GetWindowSize(&s);
             Rectangle newvp = new((int)p.X, (int)p.Y + 3, (int)s.X, (int)s.Y - 3);
             ResizeViewport(_device, newvp);
             if (InputTracker.GetMouseButtonDown(MouseButton.Right) && MouseInViewport())
             {
-                ImGui.SetWindowFocus();
+                ImGui.SetWindowFocusNil();
                 ViewportSelected = true;
             }
             else if (!InputTracker.GetMouseButton(MouseButton.Right))
@@ -148,7 +149,7 @@ public class Viewport : IViewport
                 ViewportSelected = false;
             }
 
-            _canInteract = ImGui.IsWindowFocused();
+            _canInteract = ImGui.IsWindowFocused(0);
             _vpvisible = true;
             Matrix4x4 proj = Matrix4x4.Transpose(_projectionMat);
             Matrix4x4 view = Matrix4x4.Transpose(WorldView.CameraTransform.CameraViewMatrixLH);

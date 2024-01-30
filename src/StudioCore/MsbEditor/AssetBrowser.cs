@@ -1,4 +1,4 @@
-﻿using ImGuiNET;
+﻿using static Andre.Native.ImGuiBindings;
 using System.Collections.Generic;
 
 namespace StudioCore.MsbEditor;
@@ -53,16 +53,16 @@ public class AssetBrowser
         }
     }
 
-    public void OnGui()
+    public unsafe void OnGui()
     {
         if (ImGui.Begin($@"Asset Browser##{_id}"))
         {
             if (MapStudioNew.LowRequirementsMode)
             {
-                ImGui.BeginDisabled();
+                ImGui.BeginDisabled(true);
             }
 
-            ImGui.Columns(2);
+            ImGui.Columns(2, null, true);
             ImGui.BeginChild("AssetTypeList");
             if (ImGui.Selectable("Chr", _selected == "Chr"))
             {
@@ -114,7 +114,7 @@ public class AssetBrowser
 
             if (InputTracker.GetKeyDown(KeyBindings.Current.Map_PropSearch))
             {
-                ImGui.SetKeyboardFocusHere();
+                ImGui.SetKeyboardFocusHere(0);
             }
 
             ImGui.InputText($"Search <{KeyBindings.Current.Map_PropSearch.HintText}>", ref _searchStr, 255);
@@ -142,7 +142,7 @@ public class AssetBrowser
                         {
                         }
 
-                        if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClicked(0))
+                        if (ImGui.IsItemClicked(ImGuiMouseButton.Left) && ImGui.IsMouseDoubleClickedNil(0))
                         {
                             _handler.OnInstantiateChr(chr);
                         }
@@ -166,7 +166,7 @@ public class AssetBrowser
                         {
                         }
 
-                        if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClicked(0))
+                        if (ImGui.IsItemClicked(ImGuiMouseButton.Left) && ImGui.IsMouseDoubleClickedNil(0))
                         {
                             _handler.OnInstantiateObj(obj);
                         }
@@ -190,7 +190,7 @@ public class AssetBrowser
                         {
                         }
 
-                        if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClicked(0))
+                        if (ImGui.IsItemClicked(ImGuiMouseButton.Left) && ImGui.IsMouseDoubleClickedNil(0))
                         {
                             _handler.OnInstantiateParts(part);
                         }
@@ -216,7 +216,7 @@ public class AssetBrowser
                             {
                             }
 
-                            if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClicked(0))
+                            if (ImGui.IsItemClicked(ImGuiMouseButton.Left) && ImGui.IsMouseDoubleClickedNil(0))
                             {
                                 _handler.OnInstantiateMapPiece(_selected, model);
                             }

@@ -1,4 +1,4 @@
-﻿using ImGuiNET;
+﻿using static Andre.Native.ImGuiBindings;
 using StudioCore.DebugPrimitives;
 using StudioCore.Scene;
 using System;

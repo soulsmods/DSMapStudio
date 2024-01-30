@@ -1,4 +1,4 @@
-﻿using ImGuiNET;
+﻿using static Andre.Native.ImGuiBindings;
 using StudioCore.DebugPrimitives;
 using StudioCore.Scene;
 using System;
@@ -565,7 +565,7 @@ public class Gizmos
         }
     }
 
-    public void DebugGui()
+    public unsafe void DebugGui()
     {
         ImGui.Begin("GizmosDebug");
         ImGui.Text($@"Axis: {DebugAxis}");

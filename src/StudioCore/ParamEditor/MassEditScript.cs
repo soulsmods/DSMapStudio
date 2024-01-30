@@ -1,4 +1,4 @@
-﻿using ImGuiNET;
+﻿using static Andre.Native.ImGuiBindings;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;

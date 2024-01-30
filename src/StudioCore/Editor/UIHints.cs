@@ -1,4 +1,4 @@
-using ImGuiNET;
+using static Andre.Native.ImGuiBindings;
 using StudioCore.ParamEditor;
 using System.Numerics;
 

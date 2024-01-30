@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <DefaultItemExcludes>$(DefaultItemExcludes);bindgen\**;native\**;cmake-*\**</DefaultItemExcludes>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    </PropertyGroup>
+    
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+    
+    <ItemGroup>
+      <PackageReference Include="bottlenoselabs.C2CS.Runtime" Version="2023.11.22" />
+    </ItemGroup>
+
+</Project>

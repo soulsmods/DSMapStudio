@@ -1,4 +1,4 @@
-﻿using ImGuiNET;
+﻿using static Andre.Native.ImGuiBindings;
 using StudioCore.MsbEditor;
 using System.Numerics;
 
@@ -32,9 +32,9 @@ internal class CreatePrefabModal : IModal
     {
         var scale = MapStudioNew.GetUIScale();
 
-        ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 7.0f * scale);
-        ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 1.0f);
-        ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(14.0f, 8.0f) * scale);
+        ImGui.PushStyleVarFloat(ImGuiStyleVar.WindowRounding, 7.0f * scale);
+        ImGui.PushStyleVarFloat(ImGuiStyleVar.WindowBorderSize, 1.0f);
+        ImGui.PushStyleVarVec2(ImGuiStyleVar.WindowPadding, new Vector2(14.0f, 8.0f) * scale);
         if (ImGui.BeginPopupModal("Create Prefab", ref _open, ImGuiWindowFlags.AlwaysAutoResize))
         {
             ImGui.AlignTextToFramePadding();

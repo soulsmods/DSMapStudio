@@ -1,5 +1,5 @@
 ﻿using Andre.Formats;
-using ImGuiNET;
+using static Andre.Native.ImGuiBindings;
 using StudioCore.Editor;
 using StudioCore.Platform;
 using System;
@@ -64,7 +64,7 @@ public class ParamEditorView
 
         if (isActiveView && InputTracker.GetKeyDown(KeyBindings.Current.Param_SearchParam))
         {
-            ImGui.SetKeyboardFocusHere();
+            ImGui.SetKeyboardFocusHere(0);
         }
 
         ImGui.InputText($"Search <{KeyBindings.Current.Param_SearchParam.HintText}>",
@@ -217,11 +217,11 @@ public class ParamEditorView
             ImGui.Indent(15.0f * scale);
             if (primary != null ? primary.Any() : false)
             {
-                ImGui.PushStyleColor(ImGuiCol.Text, PRIMARYCHANGEDCOLOUR);
+                ImGui.PushStyleColorVec4(ImGuiCol.Text, PRIMARYCHANGEDCOLOUR);
             }
             else
             {
-                ImGui.PushStyleColor(ImGuiCol.Text, ALLVANILLACOLOUR);
+                ImGui.PushStyleColorVec4(ImGuiCol.Text, ALLVANILLACOLOUR);
             }
 
             if (ImGui.Selectable($"{paramKey}", paramKey == _selection.GetActiveParam()))
@@ -230,7 +230,7 @@ public class ParamEditorView
                 EditorCommandQueue.AddCommand($@"param/view/{_viewIndex}/{paramKey}");
             }
 
-            ImGui.PopStyleColor();
+            ImGui.PopStyleColor(1);
 
             if (doFocus && paramKey == _selection.GetActiveParam())
             {
@@ -267,7 +267,7 @@ public class ParamEditorView
 
         if (doFocus)
         {
-            ImGui.SetScrollFromPosY(scrollTo - ImGui.GetScrollY());
+            ImGui.SetScrollFromPosYFloat(scrollTo - ImGui.GetScrollY(), 0.5f);
         }
     }
 
@@ -297,7 +297,7 @@ public class ParamEditorView
         if (ImGui.BeginPopup("gotoParamRow"))
         {
             var gotorow = 0;
-            ImGui.SetKeyboardFocusHere();
+            ImGui.SetKeyboardFocusHere(0);
             ImGui.InputInt("Goto Row ID", ref gotorow);
             if (ImGui.IsItemDeactivatedAfterEdit())
             {
@@ -311,7 +311,7 @@ public class ParamEditorView
         //Row ID/name search
         if (isActiveView && InputTracker.GetKeyDown(KeyBindings.Current.Param_SearchRow))
         {
-            ImGui.SetKeyboardFocusHere();
+            ImGui.SetKeyboardFocusHere(0);
         }
 
         ImGui.InputText($"Search <{KeyBindings.Current.Param_SearchRow.HintText}>",
@@ -476,7 +476,7 @@ public class ParamEditorView
 
                 if (doFocus)
                 {
-                    ImGui.SetScrollFromPosY(scrollTo - ImGui.GetScrollY());
+                    ImGui.SetScrollFromPosYFloat(scrollTo - ImGui.GetScrollY(), 0);
                 }
 
                 ImGui.EndTable();
@@ -556,22 +556,22 @@ public class ParamEditorView
                 .Where(cache => cache.Item1.Contains(r.ID) && cache.Item2.Contains(r.ID)).Count() > 1;
             if (auxDiffVanilla && auxDiffPrimaryAndVanilla)
             {
-                ImGui.PushStyleColor(ImGuiCol.Text, AUXCONFLICTCOLOUR);
+                ImGui.PushStyleColorVec4(ImGuiCol.Text, AUXCONFLICTCOLOUR);
             }
             else
             {
-                ImGui.PushStyleColor(ImGuiCol.Text, PRIMARYCHANGEDCOLOUR);
+                ImGui.PushStyleColorVec4(ImGuiCol.Text, PRIMARYCHANGEDCOLOUR);
             }
         }
         else
         {
             if (auxDiffVanilla)
             {
-                ImGui.PushStyleColor(ImGuiCol.Text, AUXADDEDCOLOUR);
+                ImGui.PushStyleColorVec4(ImGuiCol.Text, AUXADDEDCOLOUR);
             }
             else
             {
-                ImGui.PushStyleColor(ImGuiCol.Text, ALLVANILLACOLOUR);
+                ImGui.PushStyleColorVec4(ImGuiCol.Text, ALLVANILLACOLOUR);
             }
         }
 
@@ -586,7 +586,7 @@ public class ParamEditorView
                 selected = true;
                 _selection.SetActiveRow(r, true);
                 _gotoParamRow = -1;
-                ImGui.SetScrollHereY();
+                ImGui.SetScrollHereY(0.5f);
             }
         }
 
@@ -599,13 +599,13 @@ public class ParamEditorView
             }
             else if (activeRow.ID == r.ID)
             {
-                ImGui.SetScrollHereY();
+                ImGui.SetScrollHereY(0.5f);
                 _paramEditor.GotoSelectedRow = false;
             }
         }
 
         var label = $@"{r.ID} {Utils.ImGuiEscape(r.Name)}";
-        label = Utils.ImGui_WordWrapString(label, ImGui.GetColumnWidth(),
+        label = Utils.ImGui_WordWrapString(label, ImGui.GetColumnWidth(-1),
             CFG.Current.Param_DisableLineWrapping ? 1 : 3);
         if (ImGui.Selectable($@"{label}##{selectionCacheIndex}", selected))
         {
@@ -653,7 +653,7 @@ public class ParamEditorView
             _arrowKeyPressed = false;
         }
 
-        ImGui.PopStyleColor();
+        ImGui.PopStyleColor(1);
 
         if (ImGui.BeginPopupContextItem(r.ID.ToString()))
         {
@@ -756,7 +756,7 @@ public class ParamEditorView
         if (CFG.Current.UI_CompactParams)
         {
             // ItemSpacing only affects clickable area for selectables in tables. Add additional height to prevent gaps between selectables.
-            ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(5.0f, 2.0f) * scale);
+            ImGui.PushStyleVarVec2(ImGuiStyleVar.ItemSpacing, new Vector2(5.0f, 2.0f) * scale);
         }
 
         var lastCol = false;
@@ -774,7 +774,7 @@ public class ParamEditorView
                 Param.Cell c = r[compareCol];
                 object newval = null;
                 ImGui.PushID("compareCol_" + selectionCacheIndex);
-                ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, new Vector2(0, 0));
+                ImGui.PushStyleVarVec2(ImGuiStyleVar.FramePadding, new Vector2(0, 0));
                 ParamEditorCommon.PropertyField(compareCol.ValueType, c.Value, ref newval, false);
                 if (ParamEditorCommon.UpdateProperty(_propEditor.ContextActionManager, c, compareColProp,
                         c.Value) && !ParamBank.VanillaBank.IsLoadingParams)
@@ -782,7 +782,7 @@ public class ParamEditorView
                     ParamBank.PrimaryBank.RefreshParamRowDiffs(r, activeParam);
                 }
 
-                ImGui.PopStyleVar();
+                ImGui.PopStyleVar(1);
                 ImGui.PopID();
                 lastCol = true;
             }
@@ -794,7 +794,7 @@ public class ParamEditorView
 
         if (CFG.Current.UI_CompactParams)
         {
-            ImGui.PopStyleVar();
+            ImGui.PopStyleVar(1);
         }
 
         return lastCol;

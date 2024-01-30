@@ -1,5 +1,5 @@
 ﻿using Andre.Formats;
-using ImGuiNET;
+using static Andre.Native.ImGuiBindings;
 using Microsoft.Extensions.Logging;
 using ProcessMemoryUtilities.Managed;
 using ProcessMemoryUtilities.Native;
@@ -157,7 +157,7 @@ internal class ParamReloader
         if (param == "EquipParamGoods")
         {
             var itemsNum = numberOfItemsToGive.ToString();
-            ImGui.Indent();
+            ImGui.Indent(0);
             ImGui.Text("Number of Spawned Items");
             ImGui.SameLine();
             if (ImGui.InputText("##Number of Spawned Items", ref itemsNum, 2))
@@ -182,7 +182,7 @@ internal class ParamReloader
             }
         }
 
-        ImGui.Unindent();
+        ImGui.Unindent(0);
     }
 
     private static void GiveItem(GameOffsets offsets, List<Param.Row> rowsToGib, string studioParamType,
