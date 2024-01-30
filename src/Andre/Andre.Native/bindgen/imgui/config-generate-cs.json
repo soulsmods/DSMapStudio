@@ -3,7 +3,7 @@
   "outputFileDirectory": "../../Generated",
   "namespaceName": "Andre.Native",
   "className": "ImGuiBindings",
-  "libraryName": "AndreNative",
+  "libraryName": "AndreNative.dll",
   "headerCodeRegionFilePath": "./header.cs",
   "mappedNames": [
     { "source": "ImWchar", "target": "ushort" },

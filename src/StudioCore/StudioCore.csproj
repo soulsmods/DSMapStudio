@@ -404,12 +404,12 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)' == 'Debug'">
-    <Content Include="..\..\lib\cimgui.dll" Link="cimgui.dll">
+    <Content Include="..\..\lib\AndreNative.dll" Link="AndreNative.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup Condition="'$(Configuration)' == 'Release'">
-    <Content Include="..\..\lib\rel\cimgui.dll" Link="cimgui.dll">
+    <Content Include="..\..\lib\rel\AndreNative.dll" Link="AndreNative.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
