@@ -6,11 +6,11 @@
   <Unicode>True</Unicode>
   <FormatVersion>203</FormatVersion>
   <Fields>
-    <Field Def="s32 CaptionTextID"></Field>
+    <Field Def="s32 captionTextID"></Field>
     <Field Def="s32 UnkInt0x04"></Field>
     <Field Def="s32 UnkInt0x08"></Field>
     <Field Def="s8 compareType"></Field>
-    <Field Def="u8 UnkByte0x0D"></Field>
+    <Field Def="u8 formatType"></Field>
     <Field Def="u16 UnkUshort0x0E"></Field>
     <Field Def="s32 Unk0x10"></Field>
     <Field Def="s32 Unk0x14"></Field>
@@ -31,7 +31,7 @@
     <Field Def="s32 UnkInt0x38"></Field>
     <Field Def="s32 UnkInt0x3C"></Field>
     <Field Def="s32 UnkInt0x40"></Field>
-    <Field Def="u16 UnkUshort0x44"></Field>
+    <Field Def="u16 extractTargetType"></Field>
     <Field Def="u8 UnkByte0x46"></Field>
     <Field Def="u8 UnkByte0x47"></Field>
     <Field Def="s32 UnkInt0x48"></Field>
