@@ -59,10 +59,10 @@ public class AssetBrowser
         {
             if (MapStudioNew.LowRequirementsMode)
             {
-                ImGui.BeginDisabled(true);
+                ImGui.BeginDisabled();
             }
 
-            ImGui.Columns(2, null, true);
+            ImGui.Columns(2);
             ImGui.BeginChild("AssetTypeList");
             if (ImGui.Selectable("Chr", _selected == "Chr"))
             {
@@ -114,7 +114,7 @@ public class AssetBrowser
 
             if (InputTracker.GetKeyDown(KeyBindings.Current.Map_PropSearch))
             {
-                ImGui.SetKeyboardFocusHere(0);
+                ImGui.SetKeyboardFocusHere();
             }
 
             ImGui.InputText($"Search <{KeyBindings.Current.Map_PropSearch.HintText}>", ref _searchStr, 255);

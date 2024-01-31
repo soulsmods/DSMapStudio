@@ -82,7 +82,7 @@ public class DisplayGroupsEditor
             ImGui.SameLine(0.0f, 12.0f * scale);
             if (sdispgroups == null)
             {
-                ImGui.BeginDisabled(true);
+                ImGui.BeginDisabled();
             }
 
             if (ImGui.Button($"Get Disp <{KeyBindings.Current.Map_RenderGroup_GetDisp.HintText}>")
@@ -134,7 +134,7 @@ public class DisplayGroupsEditor
             ImGui.SameLine(0.0f, 12.0f * scale);
             if (!HighlightedGroups.Any())
             {
-                ImGui.BeginDisabled(true);
+                ImGui.BeginDisabled();
             }
 
             bool selectHighlightsOperation = false;

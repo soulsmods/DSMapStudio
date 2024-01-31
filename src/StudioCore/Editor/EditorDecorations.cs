@@ -717,7 +717,7 @@ public unsafe class EditorDecorations
         {
             ImGui.Separator();
             ImGui.NewLine();
-            ImGui.Indent(0.0f);
+            ImGui.Indent();
             CalcCorrectDefinition ccd = meta.CalcCorrectDef;
             SoulCostDefinition scd = meta.SoulCostDef;
             float[] values;

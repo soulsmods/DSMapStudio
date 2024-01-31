@@ -11,7 +11,7 @@
     </PropertyGroup>
     
     <ItemGroup>
-      <PackageReference Include="bottlenoselabs.C2CS.Runtime" Version="2023.11.22" />
+      <ProjectReference Include="..\C2CS.Runtime\C2CS.Runtime.csproj" />
     </ItemGroup>
 
 </Project>

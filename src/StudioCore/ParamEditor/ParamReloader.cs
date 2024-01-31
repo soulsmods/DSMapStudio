@@ -157,7 +157,7 @@ internal class ParamReloader
         if (param == "EquipParamGoods")
         {
             var itemsNum = numberOfItemsToGive.ToString();
-            ImGui.Indent(0);
+            ImGui.Indent();
             ImGui.Text("Number of Spawned Items");
             ImGui.SameLine();
             if (ImGui.InputText("##Number of Spawned Items", ref itemsNum, 2))
@@ -182,7 +182,7 @@ internal class ParamReloader
             }
         }
 
-        ImGui.Unindent(0);
+        ImGui.Unindent();
     }
 
     private static void GiveItem(GameOffsets offsets, List<Param.Row> rowsToGib, string studioParamType,

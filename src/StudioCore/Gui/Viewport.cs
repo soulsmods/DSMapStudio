@@ -134,9 +134,8 @@ public unsafe class Viewport : IViewport
     {
         if (ImGui.Begin($@"Viewport##{_vpid}", ImGuiWindowFlags.NoBackground | ImGuiWindowFlags.NoNav))
         {
-            Vector2 p, s;
-            ImGui.GetWindowPos(&p);
-            ImGui.GetWindowSize(&s);
+            Vector2 p = ImGui.GetWindowPos();
+            Vector2 s = ImGui.GetWindowSize();
             Rectangle newvp = new((int)p.X, (int)p.Y + 3, (int)s.X, (int)s.Y - 3);
             ResizeViewport(_device, newvp);
             if (InputTracker.GetMouseButtonDown(MouseButton.Right) && MouseInViewport())

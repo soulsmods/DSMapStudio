@@ -37,6 +37,16 @@ public static unsafe partial class ImGuiBindings
             open = cOpen;
         }
         
+        public static void Indent()
+        {
+            Indent(0.0f);
+        }
+        
+        public static void Unindent()
+        {
+            Unindent(0.0f);
+        }
+        
         public static void PushID(string strId)
         {
             using var cId = (CString)strId;
@@ -63,7 +73,7 @@ public static unsafe partial class ImGuiBindings
         public static void TextUnformatted(string text, string? textEnd=null)
         {
             using var cText = (CString)text;
-            using var cTextEnd = (CString)textEnd!;
+            using var cTextEnd = (CString)textEnd;
             TextUnformatted(cText, cTextEnd);
         }
         
@@ -336,7 +346,7 @@ public static unsafe partial class ImGuiBindings
             int stride=sizeof(float))
         {
             using var cLabel = (CString)label;
-            using var cOverlayText = (CString)overlayText!;
+            using var cOverlayText = (CString)overlayText;
             fixed (float* pValues = values)
                 PlotLinesFloatPtr(cLabel, pValues, values.Length, valuesOffset, cOverlayText, scaleMin, 
                     scaleMax, graphSize, stride);
@@ -465,6 +475,26 @@ public static unsafe partial class ImGuiBindings
             var result = BeginChildStr(cId, size, childFlags, windowFlags);
             return result;
         }
+        
+        public static void SetNextWindowPos(Vector2 pos)
+        {
+            SetNextWindowPos(pos, 0, default);
+        }
+        
+        public static void SetNextWindowSize(Vector2 pos)
+        {
+            SetNextWindowSize(pos, 0);
+        }
+        
+        public static void SetScrollHereX()
+        {
+            SetScrollHereX(0.5f);
+        }
+        
+        public static void SetScrollHereY()
+        {
+            SetScrollHereY(0.5f);
+        }
 
         public static bool Selectable(string label, bool selected=false, ImGuiSelectableFlags flags=0, Vector2 size=default)
         {
@@ -497,7 +527,7 @@ public static unsafe partial class ImGuiBindings
         
         public static bool BeginPopupContextItem(string? strId=null, ImGuiPopupFlags flags=ImGuiPopupFlags.MouseButtonRight)
         {
-            using var cId = (CString)strId!;
+            using var cId = (CString)strId;
             var result = BeginPopupContextItem(cId, flags);
             return result;
         }
@@ -517,7 +547,7 @@ public static unsafe partial class ImGuiBindings
 
         public static void Columns(int count=1, string? strId=null, bool border=true)
         {
-            using var cId = (CString)strId!;
+            using var cId = (CString)strId;
             Columns(count, cId, border);
         }
         
@@ -534,6 +564,21 @@ public static unsafe partial class ImGuiBindings
             var result = AcceptDragDropPayload(cType, flags);
             return result;
         }
+        
+        public static void BeginDisabled()
+        {
+            BeginDisabled(true);
+        }
+        
+        public static void SetKeyboardFocusHere()
+        {
+            SetKeyboardFocusHere(0);
+        }
+        
+        public static bool IsItemClicked()
+        {
+            return IsItemClicked(0);
+        }
 
         public static bool BeginMenu(string label, bool enabled=true)
         {
@@ -545,7 +590,7 @@ public static unsafe partial class ImGuiBindings
         public static bool MenuItem(string label, string? shortcut=null, bool selected=false, bool enabled=true)
         {
             using var cLabel = (CString)label;
-            using var cShortcut = (CString)shortcut!;
+            using var cShortcut = (CString)shortcut;
             var res = MenuItemBool(cLabel, cShortcut, selected, enabled);
             return res;
         }
@@ -603,7 +648,7 @@ public static unsafe partial class ImGuiBindings
         
         public static void ProgressBar(float fraction, Vector2 sizeArg, string? overlay=null)
         {
-            using var cOverlay = (CString)overlay!;
+            using var cOverlay = (CString)overlay;
             ProgressBar(fraction, sizeArg, cOverlay);
         }
 

@@ -156,7 +156,7 @@ public class HelpBrowser
                     {
                     }
 
-                    if (ImGui.IsItemClicked(0) && ImGui.IsMouseDoubleClickedNil(0))
+                    if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClickedNil(0))
                     {
                         switch (sectionType)
                         {
@@ -221,7 +221,7 @@ public class HelpBrowser
     {
         if (ImGui.BeginTabItem("Links"))
         {
-            ImGui.Indent(0);
+            ImGui.Indent();
 
             ImGui.Text("Below are a set of community links. Clicking them will take you to the associated URL.");
 
@@ -233,7 +233,7 @@ public class HelpBrowser
                 }
             }
 
-            ImGui.Unindent(0);
+            ImGui.Unindent();
             ImGui.EndTabItem();
         }
     }
@@ -242,11 +242,11 @@ public class HelpBrowser
     {
         if (ImGui.BeginTabItem("Credits"))
         {
-            ImGui.Indent(0);
+            ImGui.Indent();
 
             ImGui.Text(GetDisplayText(_helpDex.GetCredits().Text));
 
-            ImGui.Unindent(0);
+            ImGui.Unindent();
             ImGui.EndTabItem();
         }
     }

@@ -634,7 +634,7 @@ public class SettingsMenu
                 SettingsRenderFilterPresetEditor(CFG.Current.SceneFilter_Preset_06);
             }
 
-            ImGui.Unindent(0);
+            ImGui.Unindent();
             ImGui.EndTabItem();
         }
     }
@@ -915,7 +915,7 @@ public class SettingsMenu
         ImGui.PushID($"{preset.Name}##PresetEdit");
         if (ImGui.CollapsingHeader($"{preset.Name}##Header"))
         {
-            ImGui.Indent(0);
+            ImGui.Indent();
             var nameInput = preset.Name;
             ImGui.InputText("Preset Name", ref nameInput, 32);
             if (ImGui.IsItemDeactivatedAfterEdit())
@@ -944,7 +944,7 @@ public class SettingsMenu
                 }
             }
 
-            ImGui.Unindent(0);
+            ImGui.Unindent();
         }
 
         ImGui.PopID();

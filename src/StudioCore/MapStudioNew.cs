@@ -183,7 +183,7 @@ public class MapStudioNew
             cfg->GlyphMinAdvanceX = 5.0f;
             cfg->OversampleH = 5;
             cfg->OversampleV = 5;
-            ImFontAtlasAddFontFromMemoryTTF(fonts, fontEnNative.ToPointer(), fontIcon.Length, 14.0f * scale, cfg,
+            ImFontAtlasAddFontFromMemoryTTF(fonts, fontEnNative.ToPointer(), fontEn.Length, 14.0f * scale, cfg,
                 ImFontAtlasGetGlyphRangesDefault(fonts));
         }
 
@@ -743,8 +743,8 @@ public class MapStudioNew
         ctx = Tracy.TracyCZoneN(1, "Style");
         ApplyStyle();
         ImGuiViewport* vp = ImGui.GetMainViewport();
-        ImGui.SetNextWindowPos(vp->Pos, 0, default);
-        ImGui.SetNextWindowSize(vp->Size, 0);
+        ImGui.SetNextWindowPos(vp->Pos);
+        ImGui.SetNextWindowSize(vp->Size);
         ImGui.PushStyleVarFloat(ImGuiStyleVar.WindowRounding, 0.0f);
         ImGui.PushStyleVarFloat(ImGuiStyleVar.WindowBorderSize, 0.0f);
         ImGui.PushStyleVarVec2(ImGuiStyleVar.WindowPadding, new Vector2(0.0f, 0.0f));
@@ -1190,7 +1190,7 @@ public class MapStudioNew
 
             if (_newProjectOptions.settings.GameType == GameType.Undefined)
             {
-                ImGui.BeginDisabled(true);
+                ImGui.BeginDisabled();
             }
 
             if (ImGui.Button("Create", new Vector2(120, 0) * scale))

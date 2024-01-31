@@ -522,7 +522,7 @@ public class ParamEditorScreen : EditorScreen
                 ImGui.Checkbox("Only replace unmodified row names", ref _rowNameImporter_VanillaOnly);
                 if (_rowNameImporter_VanillaOnly)
                 {
-                    ImGui.BeginDisabled(true);
+                    ImGui.BeginDisabled();
                     ImGui.Checkbox("Only replace empty row names", ref _rowNameImporter_EmptyOnly);
                     ImGui.EndDisabled();
                 }

@@ -131,8 +131,8 @@ public unsafe class TextEditorScreen : EditorScreen
         Vector2 winp = ImGui.GetWindowPos();
         winp.Y += 20.0f * scale;
         wins.Y -= 20.0f * scale;
-        ImGui.SetNextWindowPos(winp, 0, default);
-        ImGui.SetNextWindowSize(wins, 0);
+        ImGui.SetNextWindowPos(winp);
+        ImGui.SetNextWindowSize(wins);
 
         if (!ImGui.IsAnyItemActive() && FMGBank.IsLoaded)
         {
@@ -455,7 +455,7 @@ public unsafe class TextEditorScreen : EditorScreen
 
                 if (doFocus && info == _activeFmgInfo)
                 {
-                    ImGui.SetScrollHereY(0.5f);
+                    ImGui.SetScrollHereY();
                 }
             }
         }
@@ -490,15 +490,15 @@ public unsafe class TextEditorScreen : EditorScreen
         ImGui.DockSpace(dsid, new Vector2(0, 0), ImGuiDockNodeFlags.None, null);
 
         ImGui.Begin("Text Categories");
-        ImGui.Indent(0);
+        ImGui.Indent();
         ImGui.InputText("##SearchAllFmgsInput", ref _fmgSearchAllString, 255);
-        ImGui.Unindent(0);
+        ImGui.Unindent();
         ImGui.SameLine();
 
         if (_fmgSearchAllString == "")
         {
             _fmgSearchAllActive = false;
-            ImGui.BeginDisabled(true);
+            ImGui.BeginDisabled();
         }
         if (ImGui.Button("Search All FMGs##FmgSearchAll"))
         {
@@ -597,7 +597,7 @@ public unsafe class TextEditorScreen : EditorScreen
         // Search
         if (InputTracker.GetKeyDown(KeyBindings.Current.TextFMG_Search))
         {
-            ImGui.SetKeyboardFocusHere(0);
+            ImGui.SetKeyboardFocusHere();
         }
 
         ImGui.InputText($"Search <{KeyBindings.Current.TextFMG_Search.HintText}>", ref _searchFilter, 255);
@@ -649,7 +649,7 @@ public unsafe class TextEditorScreen : EditorScreen
 
                 if (doFocus && _activeEntryGroup?.ID == r.ID)
                 {
-                    ImGui.SetScrollHereY(0.5f);
+                    ImGui.SetScrollHereY();
                     doFocus = false;
                 }
 

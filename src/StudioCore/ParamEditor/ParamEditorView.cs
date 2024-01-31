@@ -64,7 +64,7 @@ public class ParamEditorView
 
         if (isActiveView && InputTracker.GetKeyDown(KeyBindings.Current.Param_SearchParam))
         {
-            ImGui.SetKeyboardFocusHere(0);
+            ImGui.SetKeyboardFocusHere();
         }
 
         ImGui.InputText($"Search <{KeyBindings.Current.Param_SearchParam.HintText}>",
@@ -297,7 +297,7 @@ public class ParamEditorView
         if (ImGui.BeginPopup("gotoParamRow"))
         {
             var gotorow = 0;
-            ImGui.SetKeyboardFocusHere(0);
+            ImGui.SetKeyboardFocusHere();
             ImGui.InputInt("Goto Row ID", ref gotorow);
             if (ImGui.IsItemDeactivatedAfterEdit())
             {
@@ -311,7 +311,7 @@ public class ParamEditorView
         //Row ID/name search
         if (isActiveView && InputTracker.GetKeyDown(KeyBindings.Current.Param_SearchRow))
         {
-            ImGui.SetKeyboardFocusHere(0);
+            ImGui.SetKeyboardFocusHere();
         }
 
         ImGui.InputText($"Search <{KeyBindings.Current.Param_SearchRow.HintText}>",
@@ -586,7 +586,7 @@ public class ParamEditorView
                 selected = true;
                 _selection.SetActiveRow(r, true);
                 _gotoParamRow = -1;
-                ImGui.SetScrollHereY(0.5f);
+                ImGui.SetScrollHereY();
             }
         }
 
@@ -599,7 +599,7 @@ public class ParamEditorView
             }
             else if (activeRow.ID == r.ID)
             {
-                ImGui.SetScrollHereY(0.5f);
+                ImGui.SetScrollHereY();
                 _paramEditor.GotoSelectedRow = false;
             }
         }

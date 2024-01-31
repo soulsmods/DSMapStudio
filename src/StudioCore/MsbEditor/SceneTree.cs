@@ -268,7 +268,7 @@ public class SceneTree : IActionEventHandler
             }
         }
 
-        if (ImGui.IsItemClicked(0))
+        if (ImGui.IsItemClicked())
         {
             _pendingClick = e;
         }
@@ -313,7 +313,7 @@ public class SceneTree : IActionEventHandler
         if (_selection.ShouldGoto(e))
         {
             // By default, this places the item at 50% in the frame. Use 0 to place it on top.
-            ImGui.SetScrollHereY(0.5f);
+            ImGui.SetScrollHereY();
             _selection.ClearGotoTarget();
         }
 
@@ -368,7 +368,7 @@ public class SceneTree : IActionEventHandler
                 : new Vector4(0.6f, 0.6f, 0.6f, 1.0f));
             ImGui.TextWrapped(visible ? ForkAwesome.Eye : ForkAwesome.EyeSlash);
             ImGui.PopStyleColor(1);
-            if (ImGui.IsItemClicked(0))
+            if (ImGui.IsItemClicked())
             {
                 e.EditorVisible = !e.EditorVisible;
                 doSelect = false;
@@ -502,7 +502,7 @@ public class SceneTree : IActionEventHandler
                                             : new Vector4(0.6f, 0.6f, 0.6f, 1.0f));
                                         ImGui.TextWrapped(visible ? ForkAwesome.Eye : ForkAwesome.EyeSlash);
                                         ImGui.PopStyleColor(1);
-                                        if (ImGui.IsItemClicked(0))
+                                        if (ImGui.IsItemClicked())
                                         {
                                             // Hide/Unhide all lights within this BTL.
                                             parent.EditorVisible = !parent.EditorVisible;
@@ -527,7 +527,7 @@ public class SceneTree : IActionEventHandler
                                             : new Vector4(0.6f, 0.6f, 0.6f, 1.0f));
                                         ImGui.TextWrapped(visible ? ForkAwesome.Eye : ForkAwesome.EyeSlash);
                                         ImGui.PopStyleColor(1);
-                                        if (ImGui.IsItemClicked(0))
+                                        if (ImGui.IsItemClicked())
                                         {
                                             // Hide/Unhide all lights within this BTL.
                                             parent.EditorVisible = !parent.EditorVisible;
@@ -655,11 +655,11 @@ public class SceneTree : IActionEventHandler
             if (_configuration == Configuration.MapEditor && _assetLocator.Type == GameType.ArmoredCoreVI &&
                 FeatureFlags.AC6_MSB == false)
             {
-                ImGui.Indent(0);
+                ImGui.Indent();
                 ImGui.Spacing();
                 ImGui.Text("AC6 map editing is unsupported for now.");
                 ImGui.Spacing();
-                ImGui.BeginDisabled(true);
+                ImGui.BeginDisabled();
             }
 
             IOrderedEnumerable<KeyValuePair<string, ObjectContainer>> orderedMaps =
@@ -734,13 +734,13 @@ public class SceneTree : IActionEventHandler
                 ImGui.EndGroup();
                 if (_selection.ShouldGoto(mapRoot) || _selection.ShouldGoto(mapRef))
                 {
-                    ImGui.SetScrollHereY(0.5f);
+                    ImGui.SetScrollHereY();
                     _selection.ClearGotoTarget();
                 }
 
                 if (nodeopen)
                 {
-                    ImGui.Indent(0); //TreeNodeEx fails to indent as it is inside a group / indentation is reset
+                    ImGui.Indent(); //TreeNodeEx fails to indent as it is inside a group / indentation is reset
                 }
 
                 // Right click context menu
@@ -825,7 +825,7 @@ public class SceneTree : IActionEventHandler
                     ImGui.EndPopup();
                 }
 
-                if (ImGui.IsItemClicked(0))
+                if (ImGui.IsItemClicked())
                 {
                     _pendingClick = selectTarget;
                 }

@@ -38,9 +38,8 @@ public unsafe class NullViewport : IViewport
     {
         if (ImGui.Begin($@"Viewport##{_vpid}", ImGuiWindowFlags.NoBackground | ImGuiWindowFlags.NoNav))
         {
-            Vector2 p, s;
-            ImGui.GetWindowPos(&p);
-            ImGui.GetWindowSize(&s);
+            Vector2 p = ImGui.GetWindowPos();
+            Vector2 s = ImGui.GetWindowSize();
             var newvp = new Rectangle((int)p.X, (int)p.Y + 3, (int)s.X, (int)s.Y - 3);
             ResizeViewport(null, newvp);
             ImGui.Text("Disabled...");

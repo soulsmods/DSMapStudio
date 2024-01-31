@@ -213,9 +213,9 @@ public static class TaskLogs
                 ImGui.Spacing();
                 for (var i = 0; i < _log.Count; i++)
                 {
-                    ImGui.Indent(0);
+                    ImGui.Indent();
                     ImGui.TextColored(PickColor(_log[i].Level), _log[i].FormattedMessage);
-                    ImGui.Unindent(0);
+                    ImGui.Unindent();
                 }
 
                 if (_scrollToEnd)

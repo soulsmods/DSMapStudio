@@ -644,8 +644,8 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
         Vector2 winp = ImGui.GetWindowPos();
         winp.Y += 20.0f * scale;
         wins.Y -= 20.0f * scale;
-        ImGui.SetNextWindowPos(winp, 0, default);
-        ImGui.SetNextWindowSize(wins, 0);
+        ImGui.SetNextWindowPos(winp);
+        ImGui.SetNextWindowSize(wins);
         ImGui.PushStyleVarFloat(ImGuiStyleVar.WindowRounding, 0.0f);
         ImGui.PushStyleVarFloat(ImGuiStyleVar.WindowBorderSize, 0.0f);
         ImGui.PushStyleVarVec2(ImGuiStyleVar.WindowPadding, new Vector2(0.0f, 0.0f));

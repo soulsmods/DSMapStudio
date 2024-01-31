@@ -129,8 +129,8 @@ public class ModelEditorScreen : EditorScreen, AssetBrowserEventHandler, SceneTr
         Vector2 winp = ImGui.GetWindowPos();
         winp.Y += 20.0f * scale;
         wins.Y -= 20.0f * scale;
-        ImGui.SetNextWindowPos(winp, 0, default);
-        ImGui.SetNextWindowSize(wins, 0);
+        ImGui.SetNextWindowPos(winp);
+        ImGui.SetNextWindowSize(wins);
         var dsid = ImGui.GetID("DockSpace_ModelEdit");
         ImGui.DockSpace(dsid, new Vector2(0, 0), 0, null);
 
