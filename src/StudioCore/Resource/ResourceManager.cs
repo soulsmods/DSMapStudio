@@ -1,4 +1,4 @@
-﻿using ImGuiNET;
+﻿using static Andre.Native.ImGuiBindings;
 using Microsoft.Extensions.Logging;
 using SoulsFormats;
 using StudioCore.Scene;
@@ -392,7 +392,7 @@ public static class ResourceManager
     {
         var scale = MapStudioNew.GetUIScale();
 
-        if (ActiveJobProgress.Count() > 0)
+        if (ActiveJobProgress.Count > 0)
         {
             ImGui.SetNextWindowSize(new Vector2(400, 310) * scale);
             ImGui.SetNextWindowPos(new Vector2(w - (100 * scale), h - (300 * scale)));
@@ -424,7 +424,7 @@ public static class ResourceManager
         }
     }
 
-    public static void OnGuiDrawResourceList()
+    public static unsafe void OnGuiDrawResourceList()
     {
         if (!ImGui.Begin("Resource List"))
         {

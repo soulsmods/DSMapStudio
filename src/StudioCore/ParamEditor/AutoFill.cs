@@ -1,5 +1,5 @@
 ﻿using Andre.Formats;
-using ImGuiNET;
+using static Andre.Native.ImGuiBindings;
 using StudioCore.Editor;
 using System;
 using System.Collections.Generic;

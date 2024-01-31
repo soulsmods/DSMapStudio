@@ -1,5 +1,5 @@
 ﻿using Andre.Formats;
-using ImGuiNET;
+using static Andre.Native.ImGuiBindings;
 using SoulsFormats;
 using StudioCore.Editor;
 using System;
@@ -56,12 +56,12 @@ public class ParamRowEditor
     private void PropEditorParamRow_RowFields(ParamBank bank, Param.Row row, Param.Row vrow,
         List<(string, Param.Row)> auxRows, Param.Row crow, ref int imguiId, ParamEditorSelectionState selection)
     {
-        ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.8f, 0.8f, 1.0f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.Text, new Vector4(0.8f, 0.8f, 1.0f, 1.0f));
         PropertyInfo nameProp = row.GetType().GetProperty("Name");
         PropertyInfo idProp = row.GetType().GetProperty("ID");
         PropEditorPropInfoRow(bank, row, vrow, auxRows, crow, nameProp, "Name", ref imguiId, selection);
         PropEditorPropInfoRow(bank, row, vrow, auxRows, crow, idProp, "ID", ref imguiId, selection);
-        ImGui.PopStyleColor();
+        ImGui.PopStyleColor(1);
         ImGui.Spacing();
     }
 
@@ -321,7 +321,7 @@ public class ParamRowEditor
                 ImGui.SameLine();
             }
 
-            ImGui.Selectable("", false, ImGuiSelectableFlags.AllowItemOverlap);
+            ImGui.Selectable("", false, ImGuiSelectableFlags.AllowOverlap);
             if (ImGui.IsItemClicked(ImGuiMouseButton.Right))
             {
                 ImGui.OpenPopup("ParamRowCommonMenu");
@@ -376,20 +376,20 @@ public class ParamRowEditor
         {
             if (conflict)
             {
-                ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.25f, 0.2f, 0.2f, 1.0f));
+                ImGui.PushStyleColorVec4(ImGuiCol.FrameBg, new Vector4(0.25f, 0.2f, 0.2f, 1.0f));
             }
             else if (diffVanilla)
             {
-                ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.2f, 0.22f, 0.2f, 1.0f));
+                ImGui.PushStyleColorVec4(ImGuiCol.FrameBg, new Vector4(0.2f, 0.22f, 0.2f, 1.0f));
             }
 
             if (isRef)
             {
-                ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 0.5f, 1.0f, 1.0f));
+                ImGui.PushStyleColorVec4(ImGuiCol.Text, new Vector4(1.0f, 0.5f, 1.0f, 1.0f));
             }
             else if (matchDefault)
             {
-                ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.75f, 0.75f, 0.75f, 1.0f));
+                ImGui.PushStyleColorVec4(ImGuiCol.Text, new Vector4(0.75f, 0.75f, 0.75f, 1.0f));
             }
 
             // Property Editor UI
@@ -397,7 +397,7 @@ public class ParamRowEditor
 
             if (isRef || matchDefault) //if diffVanilla, remove styling later
             {
-                ImGui.PopStyleColor();
+                ImGui.PopStyleColor(1);
             }
 
             if (ImGui.IsItemClicked(ImGuiMouseButton.Right))
@@ -433,15 +433,15 @@ public class ParamRowEditor
 
             if (conflict || diffVanilla)
             {
-                ImGui.PopStyleColor();
+                ImGui.PopStyleColor(1);
             }
         }
 
-        ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.180f, 0.180f, 0.196f, 1.0f));
-        ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.9f, 0.9f, 0.9f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.FrameBg, new Vector4(0.180f, 0.180f, 0.196f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.Text, new Vector4(0.9f, 0.9f, 0.9f, 1.0f));
         if (conflict)
         {
-            ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.25f, 0.2f, 0.2f, 1.0f));
+            ImGui.PushStyleColorVec4(ImGuiCol.FrameBg, new Vector4(0.25f, 0.2f, 0.2f, 1.0f));
         }
 
         if (CFG.Current.Param_ShowVanillaParams && ImGui.TableNextColumn())
@@ -455,33 +455,33 @@ public class ParamRowEditor
             {
                 if (!conflict && diffAuxVanilla[i])
                 {
-                    ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.2f, 0.2f, 0.35f, 1.0f));
+                    ImGui.PushStyleColorVec4(ImGuiCol.FrameBg, new Vector4(0.2f, 0.2f, 0.35f, 1.0f));
                 }
 
                 AdditionalColumnValue(auxVals[i], propType, bank, RefTypes, FmgRef, row, Enum, i.ToString());
                 if (!conflict && diffAuxVanilla[i])
                 {
-                    ImGui.PopStyleColor();
+                    ImGui.PopStyleColor(1);
                 }
             }
         }
 
         if (conflict)
         {
-            ImGui.PopStyleColor();
+            ImGui.PopStyleColor(1);
         }
 
         if (compareval != null && ImGui.TableNextColumn())
         {
             if (diffCompare)
             {
-                ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.2f, 0.2f, 0.35f, 1.0f));
+                ImGui.PushStyleColorVec4(ImGuiCol.FrameBg, new Vector4(0.2f, 0.2f, 0.35f, 1.0f));
             }
 
             AdditionalColumnValue(compareval, propType, bank, RefTypes, FmgRef, row, Enum, "compRow");
             if (diffCompare)
             {
-                ImGui.PopStyleColor();
+                ImGui.PopStyleColor(1);
             }
         }
 
@@ -615,7 +615,7 @@ public class ParamRowEditor
         var scale = MapStudioNew.GetUIScale();
         var altName = cellMeta?.AltName;
 
-        ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(0f, 10f) * scale);
+        ImGui.PushStyleVarVec2(ImGuiStyleVar.ItemSpacing, new Vector2(0f, 10f) * scale);
 
         if (col != null)
         {
@@ -742,7 +742,7 @@ public class ParamRowEditor
             }
         }
 
-        ImGui.PopStyleVar();
+        ImGui.PopStyleVar(1);
     }
 
     private void PropertyRowValueContextMenuItems(ParamBank bank, Param.Row row, string internalName,
@@ -752,23 +752,23 @@ public class ParamRowEditor
         if (VirtualRef != null || ExtRefs != null)
         {
             ImGui.Separator();
-            ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 0.75f, 1.0f, 1.0f));
+            ImGui.PushStyleColorVec4(ImGuiCol.Text, new Vector4(1.0f, 0.75f, 1.0f, 1.0f));
             EditorDecorations.VirtualParamRefSelectables(bank, VirtualRef, oldval, row, internalName, ExtRefs,
                 _paramEditor);
-            ImGui.PopStyleColor();
+            ImGui.PopStyleColor(1);
         }
 
         if (RefTypes != null || FmgRef != null || Enum != null)
         {
             ImGui.Separator();
-            ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 0.75f, 0.75f, 1.0f));
+            ImGui.PushStyleColorVec4(ImGuiCol.Text, new Vector4(1.0f, 0.75f, 0.75f, 1.0f));
             if (EditorDecorations.ParamRefEnumContextMenuItems(bank, oldval, ref newval, RefTypes, row, FmgRef,
                     Enum, ContextActionManager))
             {
                 ParamEditorCommon.SetLastPropertyManual(newval);
             }
 
-            ImGui.PopStyleColor();
+            ImGui.PopStyleColor(1);
         }
 
         ImGui.Separator();

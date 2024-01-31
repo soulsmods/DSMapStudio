@@ -1,6 +1,4 @@
-//using Microsoft.Xna.Framework;
-
-using ImGuiNET;
+using static Andre.Native.ImGuiBindings;
 using Microsoft.Win32;
 using SoulsFormats;
 using StudioCore.MsbEditor;
