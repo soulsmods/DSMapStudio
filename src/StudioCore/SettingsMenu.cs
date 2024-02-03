@@ -1,4 +1,4 @@
-﻿using ImGuiNET;
+﻿using static Andre.Native.ImGuiBindings;
 using SoapstoneLib;
 using StudioCore.Editor;
 using StudioCore.MsbEditor;
@@ -212,7 +212,7 @@ public class SettingsMenu
         }
     }
 
-    private void DisplaySettings_MapEditor()
+    private unsafe void DisplaySettings_MapEditor()
     {
         if (ImGui.BeginTabItem("Map Editor"))
         {
@@ -866,16 +866,16 @@ public class SettingsMenu
         }
 
         ImGui.SetNextWindowSize(new Vector2(900.0f, 800.0f) * scale, ImGuiCond.FirstUseEver);
-        ImGui.PushStyleColor(ImGuiCol.WindowBg, new Vector4(0f, 0f, 0f, 0.98f));
-        ImGui.PushStyleColor(ImGuiCol.TitleBgActive, new Vector4(0.25f, 0.25f, 0.25f, 1.0f));
-        ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(10.0f, 10.0f) * scale);
-        ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(20.0f, 10.0f) * scale);
-        ImGui.PushStyleVar(ImGuiStyleVar.IndentSpacing, 20.0f * scale);
+        ImGui.PushStyleColorVec4(ImGuiCol.WindowBg, new Vector4(0f, 0f, 0f, 0.98f));
+        ImGui.PushStyleColorVec4(ImGuiCol.TitleBgActive, new Vector4(0.25f, 0.25f, 0.25f, 1.0f));
+        ImGui.PushStyleVarVec2(ImGuiStyleVar.WindowPadding, new Vector2(10.0f, 10.0f) * scale);
+        ImGui.PushStyleVarVec2(ImGuiStyleVar.ItemSpacing, new Vector2(20.0f, 10.0f) * scale);
+        ImGui.PushStyleVarFloat(ImGuiStyleVar.IndentSpacing, 20.0f * scale);
 
         if (ImGui.Begin("Settings Menu##Popup", ref MenuOpenState, ImGuiWindowFlags.NoDocking))
         {
             ImGui.BeginTabBar("#SettingsMenuTabBar");
-            ImGui.PushStyleColor(ImGuiCol.Header, new Vector4(0.3f, 0.3f, 0.6f, 0.4f));
+            ImGui.PushStyleColorVec4(ImGuiCol.Header, new Vector4(0.3f, 0.3f, 0.6f, 0.4f));
             ImGui.PushItemWidth(300f);
 
             // Settings Order
@@ -887,7 +887,7 @@ public class SettingsMenu
             DisplaySettings_Keybinds();
 
             ImGui.PopItemWidth();
-            ImGui.PopStyleColor();
+            ImGui.PopStyleColor(1);
             ImGui.EndTabBar();
         }
 
@@ -900,7 +900,7 @@ public class SettingsMenu
     public void ShowHelpMarker(string desc)
     {
         ImGui.TextDisabled("(?)");
-        if(ImGui.IsItemHovered())
+        if(ImGui.IsItemHovered(0))
         {
             ImGui.BeginTooltip();
             ImGui.PushTextWrapPos(450.0f);

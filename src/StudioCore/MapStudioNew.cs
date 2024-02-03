@@ -1,4 +1,4 @@
-﻿using ImGuiNET;
+﻿using static Andre.Native.ImGuiBindings;
 using Microsoft.Extensions.Logging;
 using Octokit;
 using SoapstoneLib;
@@ -114,12 +114,12 @@ public class MapStudioNew
         FMGBank.SetAssetLocator(_assetLocator);
         MtdBank.LoadMtds(_assetLocator);
 
-        ImGui.GetIO().ConfigFlags |= ImGuiConfigFlags.NavEnableKeyboard;
+        ImGui.GetIO()->ConfigFlags |= ImGuiConfigFlags.NavEnableKeyboard;
         SetupFonts();
         _context.ImguiRenderer.OnSetupDone();
 
-        ImGuiStylePtr style = ImGui.GetStyle();
-        style.TabBorderSize = 0;
+        ImGuiStyle* style = ImGui.GetStyle();
+        style->TabBorderSize = 0;
 
         if (CFG.Current.LastProjectFile != null && CFG.Current.LastProjectFile != "")
         {
@@ -160,93 +160,88 @@ public class MapStudioNew
 
     private unsafe void SetupFonts()
     {
-        ImFontAtlasPtr fonts = ImGui.GetIO().Fonts;
+        ImFontAtlas* fonts = ImGui.GetIO()->Fonts;
         var fileEn = Path.Combine(AppContext.BaseDirectory, @"Assets\Fonts\RobotoMono-Light.ttf");
         var fontEn = File.ReadAllBytes(fileEn);
-        var fontEnNative = ImGui.MemAlloc((uint)fontEn.Length);
+        var fontEnNative = new IntPtr(ImGui.MemAlloc(fontEn.Length));
         Marshal.Copy(fontEn, 0, fontEnNative, fontEn.Length);
         var fileOther = Path.Combine(AppContext.BaseDirectory, @"Assets\Fonts\NotoSansCJKtc-Light.otf");
         var fontOther = File.ReadAllBytes(fileOther);
-        var fontOtherNative = ImGui.MemAlloc((uint)fontOther.Length);
+        var fontOtherNative = new IntPtr(ImGui.MemAlloc(fontOther.Length));
         Marshal.Copy(fontOther, 0, fontOtherNative, fontOther.Length);
         var fileIcon = Path.Combine(AppContext.BaseDirectory, @"Assets\Fonts\forkawesome-webfont.ttf");
         var fontIcon = File.ReadAllBytes(fileIcon);
-        var fontIconNative = ImGui.MemAlloc((uint)fontIcon.Length);
+        var fontIconNative = new IntPtr(ImGui.MemAlloc(fontIcon.Length));
         Marshal.Copy(fontIcon, 0, fontIconNative, fontIcon.Length);
-        fonts.Clear();
+        ImFontAtlasClear(fonts);
 
         var scale = GetUIScale();
 
         // English fonts
         {
-            ImFontConfig* ptr = ImGuiNative.ImFontConfig_ImFontConfig();
-            ImFontConfigPtr cfg = new(ptr);
-            cfg.GlyphMinAdvanceX = 5.0f;
-            cfg.OversampleH = 5;
-            cfg.OversampleV = 5;
-            fonts.AddFontFromMemoryTTF(fontEnNative, fontIcon.Length, 14.0f * scale, cfg,
-                fonts.GetGlyphRangesDefault());
+            ImFontConfig* cfg = ImFontConfigImFontConfig();
+            cfg->GlyphMinAdvanceX = 5.0f;
+            cfg->OversampleH = 5;
+            cfg->OversampleV = 5;
+            ImFontAtlasAddFontFromMemoryTTF(fonts, fontEnNative.ToPointer(), fontEn.Length, 14.0f * scale, cfg,
+                ImFontAtlasGetGlyphRangesDefault(fonts));
         }
 
         // Other language fonts
         {
-            ImFontConfig* ptr = ImGuiNative.ImFontConfig_ImFontConfig();
-            ImFontConfigPtr cfg = new(ptr);
-            cfg.MergeMode = true;
-            cfg.GlyphMinAdvanceX = 7.0f;
-            cfg.OversampleH = 5;
-            cfg.OversampleV = 5;
+            ImFontConfig* cfg = ImFontConfigImFontConfig();
+            cfg->MergeMode = true;
+            cfg->GlyphMinAdvanceX = 7.0f;
+            cfg->OversampleH = 5;
+            cfg->OversampleV = 5;
 
-            ImFontGlyphRangesBuilderPtr glyphRanges =
-                new(ImGuiNative.ImFontGlyphRangesBuilder_ImFontGlyphRangesBuilder());
-            glyphRanges.AddRanges(fonts.GetGlyphRangesJapanese());
-            Array.ForEach(SpecialCharsJP, c => glyphRanges.AddChar(c));
+            ImFontGlyphRangesBuilder* glyphRanges = ImFontGlyphRangesBuilderImFontGlyphRangesBuilder();
+            ImFontGlyphRangesBuilderAddRanges(glyphRanges, ImFontAtlasGetGlyphRangesJapanese(fonts));
+            Array.ForEach(SpecialCharsJP, c => ImFontGlyphRangesBuilderAddChar(glyphRanges, c));
 
             if (CFG.Current.FontChinese)
             {
-                glyphRanges.AddRanges(fonts.GetGlyphRangesChineseFull());
+                ImFontGlyphRangesBuilderAddRanges(glyphRanges, ImFontAtlasGetGlyphRangesChineseFull(fonts));
             }
 
             if (CFG.Current.FontKorean)
             {
-                glyphRanges.AddRanges(fonts.GetGlyphRangesKorean());
+                ImFontGlyphRangesBuilderAddRanges(glyphRanges, ImFontAtlasGetGlyphRangesKorean(fonts));
             }
 
             if (CFG.Current.FontThai)
             {
-                glyphRanges.AddRanges(fonts.GetGlyphRangesThai());
+                ImFontGlyphRangesBuilderAddRanges(glyphRanges, ImFontAtlasGetGlyphRangesThai(fonts));
             }
 
             if (CFG.Current.FontVietnamese)
             {
-                glyphRanges.AddRanges(fonts.GetGlyphRangesVietnamese());
+                ImFontGlyphRangesBuilderAddRanges(glyphRanges, ImFontAtlasGetGlyphRangesVietnamese(fonts));
             }
 
             if (CFG.Current.FontCyrillic)
             {
-                glyphRanges.AddRanges(fonts.GetGlyphRangesCyrillic());
+                ImFontGlyphRangesBuilderAddRanges(glyphRanges, ImFontAtlasGetGlyphRangesCyrillic(fonts));
             }
 
-            glyphRanges.BuildRanges(out ImVector glyphRange);
-            fonts.AddFontFromMemoryTTF(fontOtherNative, fontOther.Length, 16.0f * scale, cfg, glyphRange.Data);
-            glyphRanges.Destroy();
+            ImVectorImWchar glyphRange;
+            ImFontGlyphRangesBuilderBuildRanges(glyphRanges, &glyphRange);
+            ImFontAtlasAddFontFromMemoryTTF(fonts, fontOtherNative.ToPointer(), fontOther.Length, 16.0f * scale, cfg, glyphRange.Data);
+            ImFontGlyphRangesBuilderDestroy(glyphRanges);
         }
 
         // Icon fonts
         {
             ushort[] ranges = { ForkAwesome.IconMin, ForkAwesome.IconMax, 0 };
-            ImFontConfig* ptr = ImGuiNative.ImFontConfig_ImFontConfig();
-            ImFontConfigPtr cfg = new(ptr);
-            cfg.MergeMode = true;
-            cfg.GlyphMinAdvanceX = 12.0f;
-            cfg.OversampleH = 5;
-            cfg.OversampleV = 5;
-            ImFontGlyphRangesBuilder b = new();
+            ImFontConfig* cfg = ImFontConfigImFontConfig();
+            cfg->MergeMode = true;
+            cfg->GlyphMinAdvanceX = 12.0f;
+            cfg->OversampleH = 5;
+            cfg->OversampleV = 5;
 
             fixed (ushort* r = ranges)
             {
-                ImFontPtr f = fonts.AddFontFromMemoryTTF(fontIconNative, fontIcon.Length, 16.0f * scale, cfg,
-                    (IntPtr)r);
+                ImFontAtlasAddFontFromMemoryTTF(fonts, fontIconNative.ToPointer(), fontIcon.Length, 16.0f * scale, cfg, r);
             }
         }
 
@@ -412,52 +407,52 @@ public class MapStudioNew
         }
     }
 
-    public void ApplyStyle()
+    public unsafe void ApplyStyle()
     {
         var scale = GetUIScale();
-        ImGuiStylePtr style = ImGui.GetStyle();
+        ImGuiStyle *style = ImGui.GetStyle();
 
         // Colors
-        ImGui.PushStyleColor(ImGuiCol.WindowBg, new Vector4(0.176f, 0.176f, 0.188f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.WindowBg, new Vector4(0.176f, 0.176f, 0.188f, 1.0f));
         //ImGui.PushStyleColor(ImGuiCol.ChildBg, new Vector4(0.145f, 0.145f, 0.149f, 1.0f));
-        ImGui.PushStyleColor(ImGuiCol.PopupBg, new Vector4(0.106f, 0.106f, 0.110f, 1.0f));
-        ImGui.PushStyleColor(ImGuiCol.Border, new Vector4(0.247f, 0.247f, 0.275f, 1.0f));
-        ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.200f, 0.200f, 0.216f, 1.0f));
-        ImGui.PushStyleColor(ImGuiCol.FrameBgHovered, new Vector4(0.247f, 0.247f, 0.275f, 1.0f));
-        ImGui.PushStyleColor(ImGuiCol.FrameBgActive, new Vector4(0.200f, 0.200f, 0.216f, 1.0f));
-        ImGui.PushStyleColor(ImGuiCol.TitleBg, new Vector4(0.176f, 0.176f, 0.188f, 1.0f));
-        ImGui.PushStyleColor(ImGuiCol.TitleBgActive, new Vector4(0.176f, 0.176f, 0.188f, 1.0f));
-        ImGui.PushStyleColor(ImGuiCol.MenuBarBg, new Vector4(0.176f, 0.176f, 0.188f, 1.0f));
-        ImGui.PushStyleColor(ImGuiCol.ScrollbarBg, new Vector4(0.243f, 0.243f, 0.249f, 1.0f));
-        ImGui.PushStyleColor(ImGuiCol.ScrollbarGrab, new Vector4(0.408f, 0.408f, 0.408f, 1.0f));
-        ImGui.PushStyleColor(ImGuiCol.ScrollbarGrabHovered, new Vector4(0.635f, 0.635f, 0.635f, 1.0f));
-        ImGui.PushStyleColor(ImGuiCol.ScrollbarGrabActive, new Vector4(1.000f, 1.000f, 1.000f, 1.0f));
-        ImGui.PushStyleColor(ImGuiCol.CheckMark, new Vector4(1.000f, 1.000f, 1.000f, 1.0f));
-        ImGui.PushStyleColor(ImGuiCol.SliderGrab, new Vector4(0.635f, 0.635f, 0.635f, 1.0f));
-        ImGui.PushStyleColor(ImGuiCol.SliderGrabActive, new Vector4(1.000f, 1.000f, 1.000f, 1.0f));
-        ImGui.PushStyleColor(ImGuiCol.Button, new Vector4(0.176f, 0.176f, 0.188f, 1.0f));
-        ImGui.PushStyleColor(ImGuiCol.ButtonHovered, new Vector4(0.247f, 0.247f, 0.275f, 1.0f));
-        ImGui.PushStyleColor(ImGuiCol.ButtonActive, new Vector4(0.200f, 0.600f, 1.000f, 1.0f));
-        ImGui.PushStyleColor(ImGuiCol.Header, new Vector4(0.000f, 0.478f, 0.800f, 1.0f));
-        ImGui.PushStyleColor(ImGuiCol.HeaderHovered, new Vector4(0.247f, 0.247f, 0.275f, 1.0f));
-        ImGui.PushStyleColor(ImGuiCol.HeaderActive, new Vector4(0.161f, 0.550f, 0.939f, 1.0f));
-        ImGui.PushStyleColor(ImGuiCol.Tab, new Vector4(0.176f, 0.176f, 0.188f, 1.0f));
-        ImGui.PushStyleColor(ImGuiCol.TabHovered, new Vector4(0.110f, 0.592f, 0.918f, 1.0f));
-        ImGui.PushStyleColor(ImGuiCol.TabActive, new Vector4(0.200f, 0.600f, 1.000f, 1.0f));
-        ImGui.PushStyleColor(ImGuiCol.TabUnfocused, new Vector4(0.176f, 0.176f, 0.188f, 1.0f));
-        ImGui.PushStyleColor(ImGuiCol.TabUnfocusedActive, new Vector4(0.247f, 0.247f, 0.275f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.PopupBg, new Vector4(0.106f, 0.106f, 0.110f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.Border, new Vector4(0.247f, 0.247f, 0.275f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.FrameBg, new Vector4(0.200f, 0.200f, 0.216f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.FrameBgHovered, new Vector4(0.247f, 0.247f, 0.275f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.FrameBgActive, new Vector4(0.200f, 0.200f, 0.216f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.TitleBg, new Vector4(0.176f, 0.176f, 0.188f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.TitleBgActive, new Vector4(0.176f, 0.176f, 0.188f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.MenuBarBg, new Vector4(0.176f, 0.176f, 0.188f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.ScrollbarBg, new Vector4(0.243f, 0.243f, 0.249f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.ScrollbarGrab, new Vector4(0.408f, 0.408f, 0.408f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.ScrollbarGrabHovered, new Vector4(0.635f, 0.635f, 0.635f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.ScrollbarGrabActive, new Vector4(1.000f, 1.000f, 1.000f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.CheckMark, new Vector4(1.000f, 1.000f, 1.000f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.SliderGrab, new Vector4(0.635f, 0.635f, 0.635f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.SliderGrabActive, new Vector4(1.000f, 1.000f, 1.000f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.Button, new Vector4(0.176f, 0.176f, 0.188f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.ButtonHovered, new Vector4(0.247f, 0.247f, 0.275f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.ButtonActive, new Vector4(0.200f, 0.600f, 1.000f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.Header, new Vector4(0.000f, 0.478f, 0.800f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.HeaderHovered, new Vector4(0.247f, 0.247f, 0.275f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.HeaderActive, new Vector4(0.161f, 0.550f, 0.939f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.Tab, new Vector4(0.176f, 0.176f, 0.188f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.TabHovered, new Vector4(0.110f, 0.592f, 0.918f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.TabActive, new Vector4(0.200f, 0.600f, 1.000f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.TabUnfocused, new Vector4(0.176f, 0.176f, 0.188f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.TabUnfocusedActive, new Vector4(0.247f, 0.247f, 0.275f, 1.0f));
 
         // Sizes
-        ImGui.PushStyleVar(ImGuiStyleVar.FrameBorderSize, 1.0f);
-        ImGui.PushStyleVar(ImGuiStyleVar.TabRounding, 0.0f);
-        ImGui.PushStyleVar(ImGuiStyleVar.ScrollbarRounding, 0.0f);
-        ImGui.PushStyleVar(ImGuiStyleVar.ScrollbarSize, 16.0f * scale);
-        ImGui.PushStyleVar(ImGuiStyleVar.WindowMinSize, new Vector2(100f, 100f) * scale);
-        ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, style.FramePadding * scale);
-        ImGui.PushStyleVar(ImGuiStyleVar.CellPadding, style.CellPadding * scale);
-        ImGui.PushStyleVar(ImGuiStyleVar.IndentSpacing, style.IndentSpacing * scale);
-        ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, style.ItemSpacing * scale);
-        ImGui.PushStyleVar(ImGuiStyleVar.ItemInnerSpacing, style.ItemInnerSpacing * scale);
+        ImGui.PushStyleVarFloat(ImGuiStyleVar.FrameBorderSize, 1.0f);
+        ImGui.PushStyleVarFloat(ImGuiStyleVar.TabRounding, 0.0f);
+        ImGui.PushStyleVarFloat(ImGuiStyleVar.ScrollbarRounding, 0.0f);
+        ImGui.PushStyleVarFloat(ImGuiStyleVar.ScrollbarSize, 16.0f * scale);
+        ImGui.PushStyleVarVec2(ImGuiStyleVar.WindowMinSize, new Vector2(100f, 100f) * scale);
+        ImGui.PushStyleVarVec2(ImGuiStyleVar.FramePadding, style->FramePadding * scale);
+        ImGui.PushStyleVarVec2(ImGuiStyleVar.CellPadding, style->CellPadding * scale);
+        ImGui.PushStyleVarFloat(ImGuiStyleVar.IndentSpacing, style->IndentSpacing * scale);
+        ImGui.PushStyleVarVec2(ImGuiStyleVar.ItemSpacing, style->ItemSpacing * scale);
+        ImGui.PushStyleVarVec2(ImGuiStyleVar.ItemInnerSpacing, style->ItemInnerSpacing * scale);
     }
 
     public void UnapplyStyle()
@@ -671,7 +666,7 @@ public class MapStudioNew
         }
     }
 
-    private void NewProject_NameGUI()
+    private unsafe void NewProject_NameGUI()
     {
         ImGui.AlignTextToFramePadding();
         ImGui.Text("Project Name:      ");
@@ -747,24 +742,24 @@ public class MapStudioNew
 
         ctx = Tracy.TracyCZoneN(1, "Style");
         ApplyStyle();
-        ImGuiViewportPtr vp = ImGui.GetMainViewport();
-        ImGui.SetNextWindowPos(vp.Pos);
-        ImGui.SetNextWindowSize(vp.Size);
-        ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 0.0f);
-        ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 0.0f);
-        ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(0.0f, 0.0f));
+        ImGuiViewport* vp = ImGui.GetMainViewport();
+        ImGui.SetNextWindowPos(vp->Pos);
+        ImGui.SetNextWindowSize(vp->Size);
+        ImGui.PushStyleVarFloat(ImGuiStyleVar.WindowRounding, 0.0f);
+        ImGui.PushStyleVarFloat(ImGuiStyleVar.WindowBorderSize, 0.0f);
+        ImGui.PushStyleVarVec2(ImGuiStyleVar.WindowPadding, new Vector2(0.0f, 0.0f));
         ImGuiWindowFlags flags = ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoCollapse |
                                  ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoMove;
         flags |= ImGuiWindowFlags.NoDocking | ImGuiWindowFlags.MenuBar;
         flags |= ImGuiWindowFlags.NoBringToFrontOnFocus | ImGuiWindowFlags.NoNavFocus;
         flags |= ImGuiWindowFlags.NoBackground;
-        ImGui.PushStyleColor(ImGuiCol.WindowBg, new Vector4(0.0f, 0.0f, 0.0f, 0.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.WindowBg, new Vector4(0.0f, 0.0f, 0.0f, 0.0f));
         if (ImGui.Begin("DockSpace_W", flags))
         {
         }
 
         var dsid = ImGui.GetID("DockSpace");
-        ImGui.DockSpace(dsid, new Vector2(0, 0), ImGuiDockNodeFlags.NoSplit);
+        ImGui.DockSpace(dsid, new Vector2(0, 0), ImGuiDockNodeFlags.NoDockingSplit, null);
         ImGui.PopStyleVar(1);
         ImGui.End();
         ImGui.PopStyleColor(1);
@@ -772,7 +767,7 @@ public class MapStudioNew
 
         ctx = Tracy.TracyCZoneN(1, "Menu");
         var newProject = false;
-        ImGui.PushStyleVar(ImGuiStyleVar.FrameBorderSize, 0.0f);
+        ImGui.PushStyleVarFloat(ImGuiStyleVar.FrameBorderSize, 0.0f);
 
         if (ImGui.BeginMainMenuBar())
         {
@@ -971,7 +966,7 @@ public class MapStudioNew
 
             if (_programUpdateAvailable)
             {
-                ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.0f, 1.0f, 0.0f, 1.0f));
+                ImGui.PushStyleColorVec4(ImGuiCol.Text, new Vector4(0.0f, 1.0f, 0.0f, 1.0f));
                 if (ImGui.Button("Update Available"))
                 {
                     Process myProcess = new();
@@ -980,7 +975,7 @@ public class MapStudioNew
                     myProcess.Start();
                 }
 
-                ImGui.PopStyleColor();
+                ImGui.PopStyleColor(1);
             }
 
             if (ImGui.BeginMenu("Tasks", TaskManager.GetLiveThreads().Count > 0))
@@ -1001,13 +996,13 @@ public class MapStudioNew
         SettingsGUI();
         HelpGUI();
 
-        ImGui.PopStyleVar();
+        ImGui.PopStyleVar(1);
         Tracy.TracyCZoneEnd(ctx);
 
         var open = true;
-        ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 7.0f);
-        ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 1.0f);
-        ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(14.0f, 8.0f) * scale);
+        ImGui.PushStyleVarFloat(ImGuiStyleVar.WindowRounding, 7.0f);
+        ImGui.PushStyleVarFloat(ImGuiStyleVar.WindowBorderSize, 1.0f);
+        ImGui.PushStyleVarVec2(ImGuiStyleVar.WindowPadding, new Vector2(14.0f, 8.0f) * scale);
 
         // ImGui Debug windows
         if (_showImGuiDemoWindow)
@@ -1027,7 +1022,7 @@ public class MapStudioNew
 
         if (_showImGuiStackToolWindow)
         {
-            ImGui.ShowStackToolWindow(ref _showImGuiStackToolWindow);
+            ImGui.ShowIDStackToolWindow(ref _showImGuiStackToolWindow);
         }
 
         // New project modal
@@ -1251,8 +1246,7 @@ public class MapStudioNew
                     }
                 }
 
-                if (validated && (_newProjectOptions.settings.ProjectName == null ||
-                                  _newProjectOptions.settings.ProjectName == ""))
+                if (validated && string.IsNullOrEmpty(_newProjectOptions.settings.ProjectName))
                 {
                     PlatformUtils.Instance.MessageBox("You must specify a project name.", "Error",
                         MessageBoxButtons.OK);
@@ -1312,14 +1306,14 @@ public class MapStudioNew
 
             if (_context.Device == null)
             {
-                ImGui.PushStyleColor(ImGuiCol.WindowBg, *ImGui.GetStyleColorVec4(ImGuiCol.WindowBg));
+                ImGui.PushStyleColorVec4(ImGuiCol.WindowBg, *ImGui.GetStyleColorVec4(ImGuiCol.WindowBg));
             }
             else
             {
-                ImGui.PushStyleColor(ImGuiCol.WindowBg, new Vector4(0.0f, 0.0f, 0.0f, 0.0f));
+                ImGui.PushStyleColorVec4(ImGuiCol.WindowBg, new Vector4(0.0f, 0.0f, 0.0f, 0.0f));
             }
 
-            ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(0.0f, 0.0f));
+            ImGui.PushStyleVarVec2(ImGuiStyleVar.WindowPadding, new Vector2(0.0f, 0.0f));
             if (ImGui.Begin(editor.EditorName))
             {
                 ImGui.PopStyleColor(1);

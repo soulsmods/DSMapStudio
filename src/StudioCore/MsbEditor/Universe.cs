@@ -688,10 +688,10 @@ public class Universe
 
     public async void LoadMapAsync(string mapid, bool selectOnLoad = false)
     {
-        if (LoadedObjectContainers[mapid] != null)
+        if (LoadedObjectContainers.TryGetValue(mapid, out var m) && m != null)
         {
             TaskLogs.AddLog($"Map \"{mapid}\" is already loaded",
-                LogLevel.Debug, TaskLogs.LogPriority.Low);
+                LogLevel.Information, TaskLogs.LogPriority.Normal);
             return;
         }
 
@@ -1030,12 +1030,7 @@ public class Universe
             // Real bad hack
             EnvMapTextures = _assetLocator.GetEnvMapTextureNames(amapid);
 
-            if (_assetLocator.Type == GameType.DarkSoulsPTDE)
-            {
-                ResourceManager.ScheduleUDSMFRefresh();
-            }
-
-            ResourceManager.ScheduleUnloadedTexturesRefresh();
+            ScheduleTextureRefresh();
 
             // After everything loads, do some additional checks:
             await Task.WhenAll(tasks);
@@ -1620,8 +1615,13 @@ public class Universe
         }
     }
 
-    public void LoadFlver(string name, FLVER2 flver)
+    public void ScheduleTextureRefresh()
     {
-        ObjectContainer c = new(this, name);
+        if (GameType == GameType.DarkSoulsPTDE)
+        {
+            ResourceManager.ScheduleUDSMFRefresh();
+        }
+
+        ResourceManager.ScheduleUnloadedTexturesRefresh();
     }
 }

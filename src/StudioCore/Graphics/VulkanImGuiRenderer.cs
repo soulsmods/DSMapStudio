@@ -1,4 +1,5 @@
-﻿using ImGuiNET;
+﻿using Silk.NET.SDL;
+using static Andre.Native.ImGuiBindings;
 using StudioCore.Scene;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,8 @@ using System.Numerics;
 using System.Reflection;
 using Veldrid;
 using Vortice.Vulkan;
+using Renderer = StudioCore.Scene.Renderer;
+using Texture = Veldrid.Texture;
 
 namespace StudioCore.Graphics;
 
@@ -14,7 +17,7 @@ namespace StudioCore.Graphics;
 ///     Can render draw lists produced by ImGui.
 ///     Also provides functions for updating ImGui input.
 /// </summary>
-public class VulkanImGuiRenderer : IImguiRenderer, IDisposable
+public unsafe class VulkanImGuiRenderer : IImguiRenderer, IDisposable
 {
     private readonly Assembly _assembly;
 
@@ -89,16 +92,15 @@ public class VulkanImGuiRenderer : IImguiRenderer, IDisposable
 
         _fontTexture = Renderer.GlobalTexturePool.AllocateTextureDescriptor();
 
-        var context = ImGui.CreateContext();
+        var context = ImGui.CreateContext(null);
         ImGui.SetCurrentContext(context);
 
-        ImGuiIOPtr io = ImGui.GetIO();
-        io.ConfigFlags |= ImGuiConfigFlags.DockingEnable;
+        ImGuiIO* io = ImGui.GetIO();
+        io->ConfigFlags |= ImGuiConfigFlags.DockingEnable;
 
-        ImGui.GetIO().Fonts.AddFontDefault();
+        ImFontAtlasAddFontDefault(io->Fonts, null);
 
         CreateDeviceResources(gd, outputDescription);
-        SetOpenTKKeyMappings();
 
         SetPerFrameImGuiData(1f / 60f);
     }
@@ -358,16 +360,17 @@ public class VulkanImGuiRenderer : IImguiRenderer, IDisposable
     /// <summary>
     ///     Recreates the device texture used to render text.
     /// </summary>
-    public unsafe void RecreateFontDeviceTexture(GraphicsDevice gd)
+    public void RecreateFontDeviceTexture(GraphicsDevice gd)
     {
-        ImGuiIOPtr io = ImGui.GetIO();
+        ImGuiIO *io = ImGui.GetIO();
         // Build
-        io.Fonts.GetTexDataAsRGBA32(out byte* pixels, out var width, out var height, out var bytesPerPixel);
+        ulong* pixels;
+        int width, height, bytesPerPixel;
+        ImFontAtlasGetTexDataAsRGBA32(io->Fonts, &pixels, &width, &height, &bytesPerPixel);
 
         // Store our identifier
-        io.Fonts.SetTexID((IntPtr)_fontTexture.TexHandle);
+        ImFontAtlasSetTexID(io->Fonts, ((IntPtr)_fontTexture.TexHandle).ToPointer());
 
-        //_fontTexture?.Dispose();
         Texture tex = gd.ResourceFactory.CreateTexture(TextureDescription.Texture2D(
             (uint)width,
             (uint)height,
@@ -392,10 +395,7 @@ public class VulkanImGuiRenderer : IImguiRenderer, IDisposable
             0);
         _fontTexture.FillWithGPUTexture(tex);
 
-        //_fontTextureResourceSet?.Dispose();
-        //_fontTextureResourceSet = gd.ResourceFactory.CreateResourceSet(new ResourceSetDescription(_textureLayout, _fontTexture));
-
-        io.Fonts.ClearTexData();
+        ImFontAtlasClearTexData(io->Fonts);
     }
 
     /// <summary>
@@ -441,17 +441,17 @@ public class VulkanImGuiRenderer : IImguiRenderer, IDisposable
     /// </summary>
     private void SetPerFrameImGuiData(float deltaSeconds)
     {
-        ImGuiIOPtr io = ImGui.GetIO();
-        io.DisplaySize = new Vector2(
+        ImGuiIO *io = ImGui.GetIO();
+        io->DisplaySize = new Vector2(
             _windowWidth / _scaleFactor.X,
             _windowHeight / _scaleFactor.Y);
-        io.DisplayFramebufferScale = _scaleFactor;
-        io.DeltaTime = deltaSeconds; // DeltaTime is in seconds.
+        io->DisplayFramebufferScale = _scaleFactor;
+        io->DeltaTime = deltaSeconds; // DeltaTime is in seconds.
     }
 
     private void UpdateImGuiInput(InputSnapshot snapshot)
     {
-        ImGuiIOPtr io = ImGui.GetIO();
+        ImGuiIO *io = ImGui.GetIO();
 
         // Determine if any of the mouse buttons were pressed during this snapshot period, even if they are no longer held.
         var leftPressed = false;
@@ -477,24 +477,26 @@ public class VulkanImGuiRenderer : IImguiRenderer, IDisposable
             }
         }
 
-        io.MouseDown[0] = leftPressed || snapshot.IsMouseDown(MouseButton.Left);
-        io.MouseDown[1] = rightPressed || snapshot.IsMouseDown(MouseButton.Right);
-        io.MouseDown[2] = middlePressed || snapshot.IsMouseDown(MouseButton.Middle);
-        io.MousePos = snapshot.MousePosition;
-        io.MouseWheel = snapshot.WheelDelta;
+        io->MouseDown[0] = leftPressed || snapshot.IsMouseDown(MouseButton.Left);
+        io->MouseDown[1] = rightPressed || snapshot.IsMouseDown(MouseButton.Right);
+        io->MouseDown[2] = middlePressed || snapshot.IsMouseDown(MouseButton.Middle);
+        io->MousePos = snapshot.MousePosition;
+        io->MouseWheel = snapshot.WheelDelta;
 
         IReadOnlyList<char> keyCharPresses = snapshot.KeyCharPresses;
         for (var i = 0; i < keyCharPresses.Count; i++)
         {
             var c = keyCharPresses[i];
-            ImGui.GetIO().AddInputCharacter(c);
+            
+            //ImGui.GetIO().AddInputCharacter(c);
+            ImGuiIOAddInputCharacterUTF16(io, c);
         }
 
         IReadOnlyList<KeyEvent> keyEvents = snapshot.KeyEvents;
         for (var i = 0; i < keyEvents.Count; i++)
         {
             KeyEvent keyEvent = keyEvents[i];
-            io.KeysDown[(int)keyEvent.Key] = keyEvent.Down;
+            ImGuiIOAddKeyEvent(io, SDLKeyToImGuiKey(keyEvent.Key), keyEvent.Down);
             if (keyEvent.Key == Key.ControlLeft || keyEvent.Key == Key.ControlRight)
             {
                 _controlDown = keyEvent.Down;
@@ -511,38 +513,140 @@ public class VulkanImGuiRenderer : IImguiRenderer, IDisposable
             }
         }
 
-        io.KeyCtrl = _controlDown;
-        io.KeyAlt = _altDown;
-        io.KeyShift = _shiftDown;
+        io->KeyCtrl = _controlDown;
+        io->KeyAlt = _altDown;
+        io->KeyShift = _shiftDown;
     }
 
-    private static void SetOpenTKKeyMappings()
+    private static ImGuiKey SDLKeyToImGuiKey(Key key)
     {
-        ImGuiIOPtr io = ImGui.GetIO();
-        io.KeyMap[(int)ImGuiKey.Tab] = (int)Key.Tab;
-        io.KeyMap[(int)ImGuiKey.LeftArrow] = (int)Key.Left;
-        io.KeyMap[(int)ImGuiKey.RightArrow] = (int)Key.Right;
-        io.KeyMap[(int)ImGuiKey.UpArrow] = (int)Key.Up;
-        io.KeyMap[(int)ImGuiKey.DownArrow] = (int)Key.Down;
-        io.KeyMap[(int)ImGuiKey.PageUp] = (int)Key.PageUp;
-        io.KeyMap[(int)ImGuiKey.PageDown] = (int)Key.PageDown;
-        io.KeyMap[(int)ImGuiKey.Home] = (int)Key.Home;
-        io.KeyMap[(int)ImGuiKey.End] = (int)Key.End;
-        io.KeyMap[(int)ImGuiKey.Delete] = (int)Key.Delete;
-        io.KeyMap[(int)ImGuiKey.Backspace] = (int)Key.BackSpace;
-        io.KeyMap[(int)ImGuiKey.Enter] = (int)Key.Enter;
-        io.KeyMap[(int)ImGuiKey.KeypadEnter] = (int)Key.KeypadEnter;
-        io.KeyMap[(int)ImGuiKey.Escape] = (int)Key.Escape;
-        io.KeyMap[(int)ImGuiKey.A] = (int)Key.A;
-        io.KeyMap[(int)ImGuiKey.C] = (int)Key.C;
-        io.KeyMap[(int)ImGuiKey.V] = (int)Key.V;
-        io.KeyMap[(int)ImGuiKey.X] = (int)Key.X;
-        io.KeyMap[(int)ImGuiKey.Y] = (int)Key.Y;
-        io.KeyMap[(int)ImGuiKey.Z] = (int)Key.Z;
-        io.KeyMap[(int)ImGuiKey.Space] = (int)Key.Space;
+        switch (key)
+        {
+            case Key.Tab: return ImGuiKey.Tab;
+            case Key.Left: return ImGuiKey.LeftArrow;
+            case Key.Right: return ImGuiKey.RightArrow;
+            case Key.Up: return ImGuiKey.UpArrow;
+            case Key.Down: return ImGuiKey.DownArrow;
+            case Key.PageUp: return ImGuiKey.PageUp;
+            case Key.PageDown: return ImGuiKey.PageDown;
+            case Key.Home: return ImGuiKey.Home;
+            case Key.End: return ImGuiKey.End;
+            case Key.Insert: return ImGuiKey.Insert;
+            case Key.Delete: return ImGuiKey.Delete;
+            case Key.BackSpace: return ImGuiKey.Backspace;
+            case Key.Space: return ImGuiKey.Space;
+            case Key.Enter: return ImGuiKey.Enter;
+            case Key.Escape: return ImGuiKey.Escape;
+            case Key.Quote: return ImGuiKey.Apostrophe;
+            case Key.Comma: return ImGuiKey.Comma;
+            case Key.Minus: return ImGuiKey.Minus;
+            case Key.Period: return ImGuiKey.Period;
+            case Key.Slash: return ImGuiKey.Slash;
+            case Key.Semicolon: return ImGuiKey.Semicolon;
+            //case Key.Equal: return ImGuiKey.Equal;
+            case Key.BracketLeft: return ImGuiKey.LeftBracket;
+            case Key.BackSlash: return ImGuiKey.Backslash;
+            case Key.BracketRight: return ImGuiKey.RightBracket;
+            case Key.Grave: return ImGuiKey.GraveAccent;
+            case Key.CapsLock: return ImGuiKey.CapsLock;
+            case Key.ScrollLock: return ImGuiKey.ScrollLock;
+            case Key.NumLock: return ImGuiKey.NumLock;
+            case Key.PrintScreen: return ImGuiKey.PrintScreen;
+            case Key.Pause: return ImGuiKey.Pause;
+            case Key.Keypad0: return ImGuiKey.Keypad0;
+            case Key.Keypad1: return ImGuiKey.Keypad1;
+            case Key.Keypad2: return ImGuiKey.Keypad2;
+            case Key.Keypad3: return ImGuiKey.Keypad3;
+            case Key.Keypad4: return ImGuiKey.Keypad4;
+            case Key.Keypad5: return ImGuiKey.Keypad5;
+            case Key.Keypad6: return ImGuiKey.Keypad6;
+            case Key.Keypad7: return ImGuiKey.Keypad7;
+            case Key.Keypad8: return ImGuiKey.Keypad8;
+            case Key.Keypad9: return ImGuiKey.Keypad9;
+            case Key.KeypadPeriod: return ImGuiKey.KeypadDecimal;
+            case Key.KeypadDivide: return ImGuiKey.KeypadDivide;
+            case Key.KeypadMultiply: return ImGuiKey.KeypadMultiply;
+            case Key.KeypadMinus: return ImGuiKey.KeypadSubtract;
+            case Key.Plus: return ImGuiKey.KeypadAdd;
+            case Key.KeypadEnter: return ImGuiKey.KeypadEnter;
+            //case Key.KeypadEqual: return ImGuiKey.KeypadEqual;
+            case Key.ControlLeft: return ImGuiKey.LeftCtrl;
+            case Key.ShiftLeft: return ImGuiKey.LeftShift;
+            case Key.AltLeft: return ImGuiKey.LeftAlt;
+            case Key.WinLeft: return ImGuiKey.LeftSuper;
+            case Key.ControlRight: return ImGuiKey.RightCtrl;
+            case Key.ShiftRight: return ImGuiKey.RightShift;
+            case Key.AltRight: return ImGuiKey.RightAlt;
+            case Key.WinRight: return ImGuiKey.RightSuper;
+            case Key.Menu: return ImGuiKey.Menu;
+            case Key.Number0: return ImGuiKey._0;
+            case Key.Number1: return ImGuiKey._1;
+            case Key.Number2: return ImGuiKey._2;
+            case Key.Number3: return ImGuiKey._3;
+            case Key.Number4: return ImGuiKey._4;
+            case Key.Number5: return ImGuiKey._5;
+            case Key.Number6: return ImGuiKey._6;
+            case Key.Number7: return ImGuiKey._7;
+            case Key.Number8: return ImGuiKey._8;
+            case Key.Number9: return ImGuiKey._9;
+            case Key.A: return ImGuiKey.A;
+            case Key.B: return ImGuiKey.B;
+            case Key.C: return ImGuiKey.C;
+            case Key.D: return ImGuiKey.D;
+            case Key.E: return ImGuiKey.E;
+            case Key.F: return ImGuiKey.F;
+            case Key.G: return ImGuiKey.G;
+            case Key.H: return ImGuiKey.H;
+            case Key.I: return ImGuiKey.I;
+            case Key.J: return ImGuiKey.J;
+            case Key.K: return ImGuiKey.K;
+            case Key.L: return ImGuiKey.L;
+            case Key.M: return ImGuiKey.M;
+            case Key.N: return ImGuiKey.N;
+            case Key.O: return ImGuiKey.O;
+            case Key.P: return ImGuiKey.P;
+            case Key.Q: return ImGuiKey.Q;
+            case Key.R: return ImGuiKey.R;
+            case Key.S: return ImGuiKey.S;
+            case Key.T: return ImGuiKey.T;
+            case Key.U: return ImGuiKey.U;
+            case Key.V: return ImGuiKey.V;
+            case Key.W: return ImGuiKey.W;
+            case Key.X: return ImGuiKey.X;
+            case Key.Y: return ImGuiKey.Y;
+            case Key.Z: return ImGuiKey.Z;
+            case Key.F1: return ImGuiKey.F1;
+            case Key.F2: return ImGuiKey.F2;
+            case Key.F3: return ImGuiKey.F3;
+            case Key.F4: return ImGuiKey.F4;
+            case Key.F5: return ImGuiKey.F5;
+            case Key.F6: return ImGuiKey.F6;
+            case Key.F7: return ImGuiKey.F7;
+            case Key.F8: return ImGuiKey.F8;
+            case Key.F9: return ImGuiKey.F9;
+            case Key.F10: return ImGuiKey.F10;
+            case Key.F11: return ImGuiKey.F11;
+            case Key.F12: return ImGuiKey.F12;
+            case Key.F13: return ImGuiKey.F13;
+            case Key.F14: return ImGuiKey.F14;
+            case Key.F15: return ImGuiKey.F15;
+            case Key.F16: return ImGuiKey.F16;
+            case Key.F17: return ImGuiKey.F17;
+            case Key.F18: return ImGuiKey.F18;
+            case Key.F19: return ImGuiKey.F19;
+            case Key.F20: return ImGuiKey.F20;
+            case Key.F21: return ImGuiKey.F21;
+            case Key.F22: return ImGuiKey.F22;
+            case Key.F23: return ImGuiKey.F23;
+            case Key.F24: return ImGuiKey.F24;
+            //case Key.AC.BACK: return ImGuiKey.AppBack;
+            //case Key.AC.FORWARD: return ImGuiKey.AppForward;
+        }
+
+        return ImGuiKey.None;
     }
 
-    private unsafe void RenderImDrawData(ImDrawDataPtr draw_data, GraphicsDevice gd, CommandList cl)
+    private void RenderImDrawData(ImDrawData *draw_data, GraphicsDevice gd, CommandList cl)
     {
         if (_firstFrame < 30)
         {
@@ -553,12 +657,12 @@ public class VulkanImGuiRenderer : IImguiRenderer, IDisposable
         uint vertexOffsetInVertices = 0;
         uint indexOffsetInElements = 0;
 
-        if (draw_data.CmdListsCount == 0)
+        if (draw_data->CmdListsCount == 0)
         {
             return;
         }
 
-        var totalVBSize = (uint)(draw_data.TotalVtxCount * sizeof(ImDrawVert));
+        var totalVBSize = (uint)(draw_data->TotalVtxCount * sizeof(ImDrawVert));
         if (totalVBSize > _vertexBuffer.SizeInBytes)
         {
             _vertexBuffer.Dispose();
@@ -569,7 +673,7 @@ public class VulkanImGuiRenderer : IImguiRenderer, IDisposable
                     0));
         }
 
-        var totalIBSize = (uint)(draw_data.TotalIdxCount * sizeof(ushort));
+        var totalIBSize = (uint)(draw_data->TotalIdxCount * sizeof(ushort));
         if (totalIBSize > _indexBuffer.SizeInBytes)
         {
             _indexBuffer.Dispose();
@@ -580,27 +684,27 @@ public class VulkanImGuiRenderer : IImguiRenderer, IDisposable
                     0));
         }
 
-        for (var i = 0; i < draw_data.CmdListsCount; i++)
+        for (var i = 0; i < draw_data->CmdListsCount; i++)
         {
-            ImDrawListPtr cmd_list = draw_data.CmdListsRange[i];
+            ImDrawList *cmd_list = draw_data->CmdLists.Data[i];
 
             cl.UpdateBuffer(
                 _vertexBuffer,
                 vertexOffsetInVertices * (uint)sizeof(ImDrawVert),
-                cmd_list.VtxBuffer.Data,
-                (uint)(cmd_list.VtxBuffer.Size * sizeof(ImDrawVert)));
+                new IntPtr(cmd_list->VtxBuffer.Data),
+                (uint)(cmd_list->VtxBuffer.Size * sizeof(ImDrawVert)));
 
             cl.UpdateBuffer(
                 _indexBuffer,
                 indexOffsetInElements * sizeof(ushort),
-                cmd_list.IdxBuffer.Data,
-                (uint)(cmd_list.IdxBuffer.Size * sizeof(ushort)));
+                new IntPtr(cmd_list->IdxBuffer.Data),
+                (uint)(cmd_list->IdxBuffer.Size * sizeof(ushort)));
 
-            vertexOffsetInVertices += (uint)cmd_list.VtxBuffer.Size;
-            indexOffsetInElements += (uint)cmd_list.IdxBuffer.Size;
+            vertexOffsetInVertices += (uint)cmd_list->VtxBuffer.Size;
+            indexOffsetInElements += (uint)cmd_list->IdxBuffer.Size;
         }
 
-        if (draw_data.CmdListsCount > 0)
+        if (draw_data->CmdListsCount > 0)
         {
             cl.Barrier(VkPipelineStageFlags2.Transfer,
                 VkAccessFlags2.TransferWrite,
@@ -610,12 +714,12 @@ public class VulkanImGuiRenderer : IImguiRenderer, IDisposable
 
         // Setup orthographic projection matrix into our constant buffer
         {
-            ImGuiIOPtr io = ImGui.GetIO();
+            ImGuiIO *io = ImGui.GetIO();
 
             var mvp = Matrix4x4.CreateOrthographicOffCenter(
                 0f,
-                io.DisplaySize.X,
-                io.DisplaySize.Y,
+                io->DisplaySize.X,
+                io->DisplaySize.Y,
                 0.0f,
                 -1.0f,
                 1.0f);
@@ -628,18 +732,18 @@ public class VulkanImGuiRenderer : IImguiRenderer, IDisposable
         cl.SetPipeline(_pipeline);
         cl.SetGraphicsResourceSet(0, _mainResourceSet);
 
-        draw_data.ScaleClipRects(ImGui.GetIO().DisplayFramebufferScale);
+        ImDrawDataScaleClipRects(draw_data, ImGui.GetIO()->DisplayFramebufferScale);
 
         // Render command lists
         var vtx_offset = 0;
         var idx_offset = 0;
-        for (var n = 0; n < draw_data.CmdListsCount; n++)
+        for (var n = 0; n < draw_data->CmdListsCount; n++)
         {
-            ImDrawListPtr cmd_list = draw_data.CmdListsRange[n];
-            for (var cmd_i = 0; cmd_i < cmd_list.CmdBuffer.Size; cmd_i++)
+            ImDrawList *cmd_list = draw_data->CmdLists.Data[n];
+            for (var cmd_i = 0; cmd_i < cmd_list->CmdBuffer.Size; cmd_i++)
             {
-                ImDrawCmdPtr pcmd = cmd_list.CmdBuffer[cmd_i];
-                if (pcmd.UserCallback != IntPtr.Zero)
+                ImDrawCmd *pcmd = &cmd_list->CmdBuffer.Data[cmd_i];
+                if (pcmd->UserCallback.Data.Pointer != null)
                 {
                     throw new NotImplementedException();
                 }
@@ -660,17 +764,17 @@ public class VulkanImGuiRenderer : IImguiRenderer, IDisposable
 
                 cl.SetScissorRect(
                     0,
-                    (uint)Math.Max(pcmd.ClipRect.X, 0),
-                    (uint)Math.Max(pcmd.ClipRect.Y, 0),
-                    (uint)(pcmd.ClipRect.Z - pcmd.ClipRect.X),
-                    (uint)(pcmd.ClipRect.W - pcmd.ClipRect.Y));
+                    (uint)Math.Max(pcmd->ClipRect.X, 0),
+                    (uint)Math.Max(pcmd->ClipRect.Y, 0),
+                    (uint)(pcmd->ClipRect.Z - pcmd->ClipRect.X),
+                    (uint)(pcmd->ClipRect.W - pcmd->ClipRect.Y));
 
-                cl.DrawIndexed(pcmd.ElemCount, 1, (uint)idx_offset + pcmd.IdxOffset, vtx_offset,
-                    (uint)pcmd.TextureId);
+                cl.DrawIndexed(pcmd->ElemCount, 1, (uint)idx_offset + pcmd->IdxOffset, vtx_offset,
+                    (uint)pcmd->TextureId.Data);
             }
 
-            idx_offset += cmd_list.IdxBuffer.Size;
-            vtx_offset += cmd_list.VtxBuffer.Size;
+            idx_offset += cmd_list->IdxBuffer.Size;
+            vtx_offset += cmd_list->VtxBuffer.Size;
         }
     }
 
