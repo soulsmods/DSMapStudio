@@ -362,7 +362,7 @@ public class MassParamEditRegex
         }
         catch (Exception e)
         {
-            return (new MassEditResult(MassEditResultType.OPERATIONERROR, @$"Error on line {currentLine}" + '\n' + e.ToString()), null);
+            return (new MassEditResult(MassEditResultType.OPERATIONERROR, @$"Error on line {currentLine}" + '\n' + e.GetBaseException().ToString()), null);
         }
 
         return (new MassEditResult(MassEditResultType.SUCCESS, $@"{partialActions.Count} cells affected"),
@@ -486,7 +486,7 @@ public class MassParamEditRegex
         (Param? p2, Param.Row? rs) = ((Param? p2, Param.Row? rs))genericFunc((paramname, row), rowArgValues);
         if (p2 == null)
         {
-            return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {rowOperationInfo} {String.Join(' ', rowArgValues)} on row (line {currentLine})");
+            return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {rowOperationInfo.command} {String.Join(' ', rowArgValues)} on row (line {currentLine})");
         }
 
         if (rs != null)
@@ -527,30 +527,30 @@ public class MassParamEditRegex
         }
         catch (FormatException e)
         {
-            errHelper = "Type is not correct";
+            errHelper = "Type is not correct. Check the operation arguments result in usable values.";
         }
         catch (InvalidCastException e)
         {
-            errHelper = "Cannot cast to correct type";
+            errHelper = "Cannot cast to correct type. Check the operation arguments result in usable values.";
         }
         catch (Exception e)
         {
-            errHelper = "Unknown error";
+            errHelper = $@"Unknown error ({e.Message})";
         }
 
         if (res == null && col.Item1 == PseudoColumn.ID)
         {
-            return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {cellOperationInfo} {String.Join(' ', cellArgValues)} on ID ({errHelper}) (line {currentLine})");
+            return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {cellOperationInfo.command} {String.Join(' ', cellArgValues)} on ID ({errHelper}) (line {currentLine})");
         }
 
         if (res == null && col.Item1 == PseudoColumn.Name)
         {
-            return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {cellOperationInfo} {String.Join(' ', cellArgValues)} on Name ({errHelper}) (line {currentLine})");
+            return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {cellOperationInfo.command} {String.Join(' ', cellArgValues)} on Name ({errHelper}) (line {currentLine})");
         }
 
         if (res == null)
         {
-            return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {cellOperationInfo} {String.Join(' ', cellArgValues)} on field {col.Item2.Def.InternalName} ({errHelper}) (line {currentLine})");
+            return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {cellOperationInfo.command} {String.Join(' ', cellArgValues)} on field {col.Item2.Def.InternalName} ({errHelper}) (line {currentLine})");
         }
 
         partialActions.AppendParamEditAction(row, col, res);
