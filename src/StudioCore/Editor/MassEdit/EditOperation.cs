@@ -24,7 +24,7 @@ internal class MEOperationDef<T, O> : METypelessOperationDef
         function = func as Func<object, string[], object>;
     }
 }
-public abstract class METypelessOperation
+internal abstract class METypelessOperation
 {
     private static Dictionary<Type, METypelessOperation> editOperations = new();
     internal static void AddEditOperation<I, O>(MEOperation<I, O> engine)
@@ -39,7 +39,7 @@ public abstract class METypelessOperation
     internal abstract Dictionary<string, METypelessOperationDef> AllCommands();
     internal abstract string NameForHelpTexts();
 }
-public class MEOperation<T, O> : METypelessOperation
+internal class MEOperation<T, O> : METypelessOperation
 {
     internal Dictionary<string, METypelessOperationDef> operations = new();
     internal string name = "[Unnamed operation type]";
@@ -62,7 +62,7 @@ public class MEOperation<T, O> : METypelessOperation
         return operations;
     }
 
-    public List<(string, string[], string)> AvailableCommands()
+    internal List<(string, string[], string)> AvailableCommands()
     {
         List<(string, string[], string)> options = new();
         foreach (var op in operations.Keys)
@@ -87,9 +87,9 @@ public class MEOperation<T, O> : METypelessOperation
     }
 }
 
-public class MEGlobalOperation : MEOperation<ParamEditorSelectionState, bool>
+internal class MEGlobalOperation : MEOperation<ParamEditorSelectionState, bool>
 {
-    public static MEGlobalOperation globalOps = new();
+    internal static MEGlobalOperation globalOps = new();
 
     internal override void Setup()
     {
@@ -131,7 +131,7 @@ public class MEGlobalOperation : MEOperation<ParamEditorSelectionState, bool>
     }
 }
 
-public class MERowOperation : MEOperation<(string, Param.Row), (Param, Param.Row)>
+internal class MERowOperation : MEOperation<(string, Param.Row), (Param, Param.Row)>
 {
     public static MERowOperation rowOps = new();
 
@@ -222,7 +222,7 @@ public class MERowOperation : MEOperation<(string, Param.Row), (Param, Param.Row
     }
 }
 
-public class MEValueOperation : MEOperation<object, object>
+internal class MEValueOperation : MEOperation<object, object>
 {
     public static MEValueOperation valueOps = new();
 
@@ -290,9 +290,9 @@ public class MEValueOperation : MEOperation<object, object>
     }
 }
 
-public class MEOperationArgument
+internal class MEOperationArgument
 {
-    public static MEOperationArgument arg = new();
+    internal static MEOperationArgument arg = new();
     private readonly Dictionary<string, OperationArgumentGetter> argumentGetters = new();
     private OperationArgumentGetter defaultGetter;
 
@@ -651,7 +651,7 @@ public class MEOperationArgument
             }, () => CFG.Current.Param_AdvancedMassedit));
     }
 
-    public List<(string, string[])> AllArguments()
+    internal List<(string, string[])> AllArguments()
     {
         List<(string, string[])> options = new();
         foreach (var op in argumentGetters.Keys)
@@ -662,7 +662,7 @@ public class MEOperationArgument
         return options;
     }
 
-    public List<(string, string, string[])> VisibleArguments()
+    internal List<(string, string, string[])> VisibleArguments()
     {
         List<(string, string, string[])> options = new();
         foreach (var op in argumentGetters.Keys)
@@ -729,12 +729,12 @@ public class MEOperationArgument
 
 internal class OperationArgumentGetter
 {
-    public string[] args;
+    internal string[] args;
 
     internal Func<string[], object> func;
 
     internal Func<bool> shouldShow;
-    public string wiki;
+    internal string wiki;
 
     internal OperationArgumentGetter(string[] args, string wiki,
         Func<string[], object>
@@ -749,7 +749,7 @@ internal class OperationArgumentGetter
 
 
 }
-public static class OAGFuncExtension
+internal static class OAGFuncExtension
 {
     /*internal static object tryFold(this Func<object, object> func, object newContextInput)
     {
@@ -758,7 +758,7 @@ public static class OAGFuncExtension
             return func(newContextInput);
         return func;
     }*/
-    public static object tryFoldAsFunc(this object maybeFunc, int editIndex, object newContextInput)
+    internal static object tryFoldAsFunc(this object maybeFunc, int editIndex, object newContextInput)
     {
         if (maybeFunc is not Delegate)
             return maybeFunc;
@@ -768,7 +768,7 @@ public static class OAGFuncExtension
             return func.DynamicInvoke(editIndex, newContextInput);
         return func;
     }
-    public static object assertCompleteContextOrThrow(this object maybeFunc, int editIndex)
+    internal static object assertCompleteContextOrThrow(this object maybeFunc, int editIndex)
     {
         if (maybeFunc is Delegate)
         {

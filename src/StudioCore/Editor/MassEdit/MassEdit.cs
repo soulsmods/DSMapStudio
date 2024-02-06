@@ -30,13 +30,13 @@ public class MassEditResult
 
 internal class MEParseException : Exception
 {
-    public MEParseException(string? message, int line) : base($@"{message} (line {line})")
+    internal MEParseException(string? message, int line) : base($@"{message} (line {line})")
     {
     }
 }
 internal class MEOperationException : Exception
 {
-    public MEOperationException(string? message) : base(message)
+    internal MEOperationException(string? message) : base(message)
     {
     }
 }
@@ -85,7 +85,7 @@ internal class MECommand
 
 public static class MassParamEdit
 {
-    public static Dictionary<string, object> massEditVars = new();
+    internal static Dictionary<string, object> massEditVars = new();
 
     internal static object WithDynamicOf(object instance, Func<dynamic, object> dynamicFunc)
     {
@@ -106,7 +106,7 @@ public static class MassParamEdit
         }
     }
 
-    public static void AppendParamEditAction(this List<EditorAction> actions, Param.Row row,
+    internal static void AppendParamEditAction(this List<EditorAction> actions, Param.Row row,
         (PseudoColumn, Param.Column) col, object newval)
     {
         if (col.Item1 == PseudoColumn.ID)

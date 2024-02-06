@@ -25,12 +25,12 @@ internal abstract class TypelessSearchEngine
     {
         return searchEngines[t];
     }
-    public abstract List<(string, string[], string)> VisibleCommands(bool includeDefault);
-    public abstract List<(string, string[])> AllCommands();
-    public abstract List<string> AvailableCommandsForHelpText();
-    public abstract List<(TypelessSearchEngine, Type)> NextSearchEngines();
-    public abstract METypelessOperation NextOperation();
-    public abstract string NameForHelpTexts();
+    internal abstract List<(string, string[], string)> VisibleCommands(bool includeDefault);
+    internal abstract List<(string, string[])> AllCommands();
+    internal abstract List<string> AvailableCommandsForHelpText();
+    internal abstract List<(TypelessSearchEngine, Type)> NextSearchEngines();
+    internal abstract METypelessOperation NextOperation();
+    internal abstract string NameForHelpTexts();
 }
 internal class SearchEngine<A, B> : TypelessSearchEngine
 {
@@ -41,7 +41,7 @@ internal class SearchEngine<A, B> : TypelessSearchEngine
     internal Func<A, List<B>> unpacker;
     internal string name = "[unnamed search engine]";
 
-    public SearchEngine()
+    internal SearchEngine()
     {
         Setup();
         AddSearchEngine(this);
@@ -72,7 +72,7 @@ internal class SearchEngine<A, B> : TypelessSearchEngine
         return new SearchEngineCommand<A, B>(args, wiki, func, shouldShow);
     }
 
-    public bool HandlesCommand(string command)
+    internal bool HandlesCommand(string command)
     {
         if (command.Length > 0 && command.StartsWith('!'))
         {
@@ -82,7 +82,7 @@ internal class SearchEngine<A, B> : TypelessSearchEngine
         return filterList.ContainsKey(command.Split(" ")[0]);
     }
 
-    public override List<string> AvailableCommandsForHelpText()
+    internal override List<string> AvailableCommandsForHelpText()
     {
         List<string> options = new();
         foreach (var op in filterList.Keys)
@@ -102,7 +102,7 @@ internal class SearchEngine<A, B> : TypelessSearchEngine
         return options;
     }
 
-    public override List<(string, string[], string)> VisibleCommands(bool includeDefault)
+    internal override List<(string, string[], string)> VisibleCommands(bool includeDefault)
     {
         List<(string, string[], string)> options = new();
         foreach (var op in filterList.Keys)
@@ -119,7 +119,7 @@ internal class SearchEngine<A, B> : TypelessSearchEngine
         return options;
     }
 
-    public override List<(string, string[])> AllCommands()
+    internal override List<(string, string[])> AllCommands()
     {
         List<(string, string[])> options = new();
         foreach (var op in filterList.Keys)
@@ -213,16 +213,16 @@ internal class SearchEngine<A, B> : TypelessSearchEngine
         return liveSet;
     }
 
-    public override List<(TypelessSearchEngine, Type)> NextSearchEngines()
+    internal override List<(TypelessSearchEngine, Type)> NextSearchEngines()
     {
         return GetSearchEngines(typeof(B));
     }
-    public override METypelessOperation NextOperation()
+    internal override METypelessOperation NextOperation()
     {
         return METypelessOperation.GetEditOperation(typeof(B));
     }
 
-    public override string NameForHelpTexts()
+    internal override string NameForHelpTexts()
     {
         return name;
     }
@@ -230,10 +230,10 @@ internal class SearchEngine<A, B> : TypelessSearchEngine
 
 internal class SearchEngineCommand<A, B>
 {
-    public string[] args;
+    internal string[] args;
     internal Func<string[], bool, Func<A, Func<B, bool>>> func;
     internal Func<bool> shouldShow;
-    public string wiki;
+    internal string wiki;
 
     internal SearchEngineCommand(string[] args, string wiki, Func<string[], bool, Func<A, Func<B, bool>>> func,
         Func<bool> shouldShow)
