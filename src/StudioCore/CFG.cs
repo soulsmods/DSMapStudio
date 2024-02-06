@@ -73,6 +73,8 @@ public class CFG
     public float Map_ArbitraryRotation_X_Shift { get; set; } = 90.0f;
     public float Map_ArbitraryRotation_Y_Shift { get; set; } = 90.0f;
 
+    public float GFX_Framerate_Limit_Unfocused = 20.0f;
+    public float GFX_Framerate_Limit = 60.0f;
     public uint GFX_Limit_Buffer_Flver_Bone = 65536;
     public uint GFX_Limit_Buffer_Indirect_Draw = 50000;
     public int GFX_Limit_Renderables = 50000;

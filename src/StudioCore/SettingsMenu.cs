@@ -220,10 +220,17 @@ public class SettingsMenu
             {
                 if (CFG.Current.ShowUITooltips)
                 {
-                    ShowHelpMarker("Enabling this option will cause entities outside of the camera frustrum to be culled.\n\nDisable this if working with the grid.");
+                    ShowHelpMarker("Viewport FPS when window is focused.");
                     ImGui.SameLine();
                 }
-                //ImGui.Checkbox("Enable frustum culling", ref CFG.Current.EnableFrustrumCulling);
+                ImGui.DragFloat("Frame Limit", ref CFG.Current.GFX_Framerate_Limit, 1.0f, 5.0f, 300.0f);
+
+                if (CFG.Current.ShowUITooltips)
+                {
+                    ShowHelpMarker("Viewport FPS when window is not focused.");
+                    ImGui.SameLine();
+                }
+                ImGui.DragFloat("Frame Limit (Unfocused)", ref CFG.Current.GFX_Framerate_Limit_Unfocused, 1.0f, 1.0f, 60.0f);
 
                 if (CFG.Current.ShowUITooltips)
                 {
