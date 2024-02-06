@@ -34,6 +34,12 @@ internal class MEParseException : Exception
     {
     }
 }
+internal class MEOperationException : Exception
+{
+    public MEOperationException(string? message) : base(message)
+    {
+    }
+}
 
 internal struct MEFilterStage
 {
@@ -533,24 +539,33 @@ public class MassParamEditRegex
         {
             errHelper = "Cannot cast to correct type. Check the operation arguments result in usable values.";
         }
+        catch (MEOperationException e)
+        {
+            errHelper = e.Message;
+        }
         catch (Exception e)
         {
             errHelper = $@"Unknown error ({e.Message})";
         }
+        string errorValue = null;
+        if (res == null)
+        {
+            errorValue = cellArgValues.Length > 0 && cellArgValues[0] is not Delegate ? String.Join(' ', cellArgValues) : "[Undetermined value]";
+        }
 
         if (res == null && col.Item1 == PseudoColumn.ID)
         {
-            return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {cellOperationInfo.command} {String.Join(' ', cellArgValues)} on ID ({errHelper}) (line {currentLine})");
+            return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {cellOperationInfo.command} {errorValue} on ID ({errHelper}) (line {currentLine})");
         }
 
         if (res == null && col.Item1 == PseudoColumn.Name)
         {
-            return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {cellOperationInfo.command} {String.Join(' ', cellArgValues)} on Name ({errHelper}) (line {currentLine})");
+            return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {cellOperationInfo.command} {errorValue} on Name ({errHelper}) (line {currentLine})");
         }
 
         if (res == null)
         {
-            return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {cellOperationInfo.command} {String.Join(' ', cellArgValues)} on field {col.Item2.Def.InternalName} ({errHelper}) (line {currentLine})");
+            return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {cellOperationInfo.command} {errorValue} on field {col.Item2.Def.InternalName} ({errHelper}) (line {currentLine})");
         }
 
         partialActions.AppendParamEditAction(row, col, res);

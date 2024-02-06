@@ -772,7 +772,7 @@ public static class OAGFuncExtension
     public static object assertCompleteContextOrThrow(this object maybeFunc)
     {
         if (maybeFunc is Delegate)
-            throw new Exception("Argument getter did not have enough context to complete.");
+            throw new MEOperationException("Argument getter did not have enough context to determine the value to use.");
         return maybeFunc;
     }
 }
