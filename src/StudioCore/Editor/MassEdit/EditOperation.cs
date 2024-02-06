@@ -300,9 +300,20 @@ public class MEOperationArgument
     {
         Setup();
     }
-
-    private OperationArgumentGetter newGetter(string[] args, string wiki,
-        Func<string[], Func<int, Param, Func<int, Param.Row, Func<int, (PseudoColumn, Param.Column), string>>>>
+    private OperationArgumentGetter newGetter<P>(string[] args, string wiki,
+        Func<string[], Func<int, P, object>>
+            func, Func<bool> shouldShow = null)
+    {
+        return new OperationArgumentGetter(args, wiki, func, shouldShow);
+    }
+    private OperationArgumentGetter newGetter<P, R>(string[] args, string wiki,
+        Func<string[], Func<int, P, Func<int, R, object>>>
+            func, Func<bool> shouldShow = null)
+    {
+        return new OperationArgumentGetter(args, wiki, func, shouldShow);
+    }
+    private OperationArgumentGetter newGetter<P, R, C>(string[] args, string wiki,
+        Func<string[], Func<int, P, Func<int, R, Func<int, C, object>>>>
             func, Func<bool> shouldShow = null)
     {
         return new OperationArgumentGetter(args, wiki, func, shouldShow);
@@ -310,14 +321,14 @@ public class MEOperationArgument
 
     private void Setup()
     {
-        defaultGetter = newGetter(new string[0], "Gives the specified value",
+        defaultGetter = newGetter<Param, Param.Row, (PseudoColumn, Param.Column)>(new string[0], "Gives the specified value",
             value => (i, param) => (j, row) => (k, col) => value[0]);
-        argumentGetters.Add("self", newGetter(new string[0], "Gives the value of the currently selected value",
+        argumentGetters.Add("self", newGetter<Param, Param.Row, (PseudoColumn, Param.Column)>(new string[0], "Gives the value of the currently selected value",
             empty => (i, param) => (j, row) => (k, col) =>
             {
                 return row.Get(col).ToParamEditorString();
             }));
-        argumentGetters.Add("field", newGetter(new[] { "field internalName" },
+        argumentGetters.Add("field", newGetter<Param, Param.Row, (PseudoColumn, Param.Column)>(new[] { "field internalName" },
             "Gives the value of the given cell/field for the currently selected row and param", field =>
                 (i, param) =>
                 {
@@ -333,7 +344,7 @@ public class MEOperationArgument
                         return (k, c) => v;
                     };
                 }));
-        argumentGetters.Add("vanilla", newGetter(new string[0],
+        argumentGetters.Add("vanilla", newGetter<Param, Param.Row, (PseudoColumn, Param.Column)>(new string[0],
             "Gives the value of the equivalent cell/field in the vanilla regulation or parambnd for the currently selected cell/field, row and param.\nWill fail if a row does not have a vanilla equivilent. Consider using && !added",
             empty =>
             {
@@ -367,7 +378,7 @@ public class MEOperationArgument
                     };
                 };
             }));
-        argumentGetters.Add("aux", newGetter(new[] { "parambank name" },
+        argumentGetters.Add("aux", newGetter<Param, Param.Row, (PseudoColumn, Param.Column)>(new[] { "parambank name" },
             "Gives the value of the equivalent cell/field in the specified regulation or parambnd for the currently selected cell/field, row and param.\nWill fail if a row does not have an aux equivilent. Consider using && auxprop ID .*",
             bankName =>
             {
@@ -406,7 +417,7 @@ public class MEOperationArgument
                     };
                 };
             }, () => ParamBank.AuxBanks.Count > 0));
-        argumentGetters.Add("vanillafield", newGetter(new[] { "field internalName" },
+        argumentGetters.Add("vanillafield", newGetter<Param, Param.Row, (PseudoColumn, Param.Column)>(new[] { "field internalName" },
             "Gives the value of the specified cell/field in the vanilla regulation or parambnd for the currently selected row and param.\nWill fail if a row does not have a vanilla equivilent. Consider using && !added",
             field => (i, param) =>
             {
@@ -435,7 +446,7 @@ public class MEOperationArgument
                     return (k, c) => v;
                 };
             }));
-        argumentGetters.Add("auxfield", newGetter(new[] { "parambank name", "field internalName" },
+        argumentGetters.Add("auxfield", newGetter<Param, Param.Row, (PseudoColumn, Param.Column)>(new[] { "parambank name", "field internalName" },
             "Gives the value of the specified cell/field in the specified regulation or parambnd for the currently selected row and param.\nWill fail if a row does not have an aux equivilent. Consider using && auxprop ID .*",
             bankAndField =>
             {
@@ -473,7 +484,7 @@ public class MEOperationArgument
                     };
                 };
             }, () => ParamBank.AuxBanks.Count > 0));
-        argumentGetters.Add("paramlookup", newGetter(new[] { "param name", "row id", "field name" },
+        argumentGetters.Add("paramlookup", newGetter<Param, Param.Row, (PseudoColumn, Param.Column)>(new[] { "param name", "row id", "field name" },
             "Returns the specific value specified by the exact param, row and field.", address =>
             {
                 Param param = ParamBank.PrimaryBank.Params[address[0]];
@@ -489,7 +500,7 @@ public class MEOperationArgument
                 var value = row.Get(field).ToParamEditorString();
                 return (i, param) => (j, row) => (k, col) => value;
             }, () => CFG.Current.Param_AdvancedMassedit));
-        argumentGetters.Add("average", newGetter(new[] { "field internalName", "row selector" },
+        argumentGetters.Add("average", newGetter<Param, Param.Row, (PseudoColumn, Param.Column)>(new[] { "field internalName", "row selector" },
             "Gives the mean value of the cells/fields found using the given selector, for the currently selected param",
             field => (i, param) =>
             {
@@ -511,7 +522,7 @@ public class MEOperationArgument
                 var avg = vals.Average(val => Convert.ToDouble(val));
                 return (j, row) => (k, c) => avg.ToString();
             }, () => CFG.Current.Param_AdvancedMassedit));
-        argumentGetters.Add("median", newGetter(new[] { "field internalName", "row selector" },
+        argumentGetters.Add("median", newGetter<Param, Param.Row, (PseudoColumn, Param.Column)>(new[] { "field internalName", "row selector" },
             "Gives the median value of the cells/fields found using the given selector, for the currently selected param",
             field => (i, param) =>
             {
@@ -527,7 +538,7 @@ public class MEOperationArgument
                 var avg = vals.OrderBy(val => Convert.ToDouble(val)).ElementAt(vals.Count() / 2);
                 return (j, row) => (k, c) => avg.ToParamEditorString();
             }, () => CFG.Current.Param_AdvancedMassedit));
-        argumentGetters.Add("mode", newGetter(new[] { "field internalName", "row selector" },
+        argumentGetters.Add("mode", newGetter<Param, Param.Row, (PseudoColumn, Param.Column)>(new[] { "field internalName", "row selector" },
             "Gives the most common value of the cells/fields found using the given selector, for the currently selected param",
             field => (i, param) =>
             {
@@ -543,7 +554,7 @@ public class MEOperationArgument
                     .First().Item1;
                 return (j, row) => (k, c) => avg.ToParamEditorString();
             }, () => CFG.Current.Param_AdvancedMassedit));
-        argumentGetters.Add("min", newGetter(new[] { "field internalName", "row selector" },
+        argumentGetters.Add("min", newGetter<Param, Param.Row, (PseudoColumn, Param.Column)>(new[] { "field internalName", "row selector" },
             "Gives the smallest value from the cells/fields found using the given param, row selector and field",
             field => (i, param) =>
             {
@@ -558,7 +569,7 @@ public class MEOperationArgument
                 var min = rows.Min(r => r.Item2[field[0]].Value.Value);
                 return (j, row) => (k, c) => min.ToParamEditorString();
             }, () => CFG.Current.Param_AdvancedMassedit));
-        argumentGetters.Add("max", newGetter(new[] { "field internalName", "row selector" },
+        argumentGetters.Add("max", newGetter<Param, Param.Row, (PseudoColumn, Param.Column)>(new[] { "field internalName", "row selector" },
             "Gives the largest value from the cells/fields found using the given param, row selector and field",
             field => (i, param) =>
             {
@@ -573,7 +584,7 @@ public class MEOperationArgument
                 var max = rows.Max(r => r.Item2[field[0]].Value.Value);
                 return (j, row) => (k, c) => max.ToParamEditorString();
             }, () => CFG.Current.Param_AdvancedMassedit));
-        argumentGetters.Add("random", newGetter(
+        argumentGetters.Add("random", newGetter<Param, Param.Row, (PseudoColumn, Param.Column)>(
             new[] { "minimum number (inclusive)", "maximum number (exclusive)" },
             "Gives a random decimal number between the given values for each selected value", minAndMax =>
             {
@@ -592,7 +603,7 @@ public class MEOperationArgument
                 var range = max - min;
                 return (i, param) => (j, row) => (k, c) => ((Random.Shared.NextDouble() * range) + min).ToString();
             }, () => CFG.Current.Param_AdvancedMassedit));
-        argumentGetters.Add("randint", newGetter(
+        argumentGetters.Add("randint", newGetter<Param, Param.Row, (PseudoColumn, Param.Column)>(
             new[] { "minimum integer (inclusive)", "maximum integer (inclusive)" },
             "Gives a random integer between the given values for each selected value", minAndMax =>
             {
@@ -610,7 +621,7 @@ public class MEOperationArgument
 
                 return (i, param) => (j, row) => (k, c) => Random.Shared.NextInt64(min, max + 1).ToString();
             }, () => CFG.Current.Param_AdvancedMassedit));
-        argumentGetters.Add("randFrom", newGetter(new[] { "param name", "field internalName", "row selector" },
+        argumentGetters.Add("randFrom", newGetter<Param, Param.Row, (PseudoColumn, Param.Column)>(new[] { "param name", "field internalName", "row selector" },
             "Gives a random value from the cells/fields found using the given param, row selector and field, for each selected value",
             paramFieldRowSelector =>
             {
@@ -621,19 +632,19 @@ public class MEOperationArgument
                 return (i, param) =>
                     (j, row) => (k, c) => values[Random.Shared.NextInt64(values.Length)].ToString();
             }, () => CFG.Current.Param_AdvancedMassedit));
-        argumentGetters.Add("paramIndex", newGetter(new string[0],
+        argumentGetters.Add("paramIndex", newGetter<Param, Param.Row, (PseudoColumn, Param.Column)>(new string[0],
             "Gives an integer for the current selected param, beginning at 0 and increasing by 1 for each param selected",
             empty => (i, param) => (j, row) => (k, col) =>
             {
                 return i.ToParamEditorString();
             }, () => CFG.Current.Param_AdvancedMassedit));
-        argumentGetters.Add("rowIndex", newGetter(new string[0],
+        argumentGetters.Add("rowIndex", newGetter<Param, Param.Row, (PseudoColumn, Param.Column)>(new string[0],
             "Gives an integer for the current selected row, beginning at 0 and increasing by 1 for each row selected",
             empty => (i, param) => (j, row) => (k, col) =>
             {
                 return j.ToParamEditorString();
             }, () => CFG.Current.Param_AdvancedMassedit));
-        argumentGetters.Add("fieldIndex", newGetter(new string[0],
+        argumentGetters.Add("fieldIndex", newGetter<Param, Param.Row, (PseudoColumn, Param.Column)>(new string[0],
             "Gives an integer for the current selected cell/field, beginning at 0 and increasing by 1 for each cell/field selected",
             empty => (i, param) => (j, row) => (k, col) =>
             {
@@ -667,27 +678,23 @@ public class MEOperationArgument
         return options;
     }
 
-    internal Func<int, Param, Func<int, Param.Row, Func<int, (PseudoColumn, Param.Column), string>>>[]
-        getContextualArguments(int argumentCount, string opData)
+    internal object[] getContextualArguments(int argumentCount, string opData)
     {
         var opArgs = opData == null ? new string[0] : opData.Split(':', argumentCount);
-        var contextualArgs =
-            new Func<int, Param, Func<int, Param.Row, Func<int, (PseudoColumn, Param.Column), string>>>[opArgs
-                .Length];
+        var contextualArgs = new object[opArgs.Length];
         for (var i = 0; i < opArgs.Length; i++)
         {
-            contextualArgs[i] = getContextualArgument(opArgs[i]);
+            contextualArgs[i] = getContextualArgumentFromArgs(opArgs[i]);
         }
 
         return contextualArgs;
     }
 
-    internal Func<int, Param, Func<int, Param.Row, Func<int, (PseudoColumn, Param.Column), string>>>
-        getContextualArgument(string opArg)
+    internal object getContextualArgumentFromArgs(string opArg)
     {
         if (opArg.StartsWith('"') && opArg.EndsWith('"'))
         {
-            return (i, p) => (j, r) => (k, c) => opArg.Substring(1, opArg.Length - 2);
+            return opArg.Substring(1, opArg.Length - 2);
         }
 
         if (opArg.StartsWith('$'))
@@ -725,19 +732,47 @@ internal class OperationArgumentGetter
 {
     public string[] args;
 
-    internal Func<string[], Func<int, Param, Func<int, Param.Row, Func<int, (PseudoColumn, Param.Column), string>>>>
-        func;
+    internal Func<string[], object> func;
 
     internal Func<bool> shouldShow;
     public string wiki;
 
     internal OperationArgumentGetter(string[] args, string wiki,
-        Func<string[], Func<int, Param, Func<int, Param.Row, Func<int, (PseudoColumn, Param.Column), string>>>>
+        Func<string[], object>
             func, Func<bool> shouldShow)
     {
         this.args = args;
         this.wiki = wiki;
         this.func = func;
         this.shouldShow = shouldShow;
+    }
+
+
+
+}
+public static class OAGFuncExtension
+{
+    /*internal static object tryFold(this Func<object, object> func, object newContextInput)
+    {
+        Type t = newContextInput.GetType();
+        if (func.Method.GetParameters()[0].ParameterType == t)
+            return func(newContextInput);
+        return func;
+    }*/
+    public static object tryFoldAsFunc(this object maybeFunc, int editIndex, object newContextInput)
+    {
+        if (maybeFunc is not Delegate)
+            return maybeFunc;
+        Delegate func = (Delegate)maybeFunc;
+        var parameters = func.Method.GetParameters();
+        if (parameters.Length == 2 && parameters[0].ParameterType == typeof(int) && parameters[1].ParameterType == newContextInput.GetType())
+            return func.DynamicInvoke(editIndex, newContextInput);
+        return func;
+    }
+    public static object assertCompleteContextOrThrow(this object maybeFunc)
+    {
+        if (maybeFunc is Delegate)
+            throw new Exception("Argument getter did not have enough context to complete.");
+        return maybeFunc;
     }
 }
