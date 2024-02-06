@@ -377,8 +377,7 @@ public class MassParamEditRegex
 
     private MassEditResult ExecGlobalOp(int currentLine)
     {
-        var globalArgValues = paramArgFuncs.Select(f => f.assertCompleteContextOrThrow().ToParamEditorString())
-            .ToArray();
+        var globalArgValues = paramArgFuncs.Select(f => f.assertCompleteContextOrThrow(0).ToParamEditorString()).ToArray();
         var result = (bool)genericFunc(context, globalArgValues);
         if (!result)
         {
@@ -405,7 +404,7 @@ public class MassParamEditRegex
 
     private MassEditResult ExecVarOpStage(int currentLine, string var, object[] args)
     {
-        MassParamEdit.massEditVars[var] = genericFunc(MassParamEdit.massEditVars[var], args.Select((x, i) => x.assertCompleteContextOrThrow().ToParamEditorString()).ToArray());
+        MassParamEdit.massEditVars[var] = genericFunc(MassParamEdit.massEditVars[var], args.Select((x, i) => x.assertCompleteContextOrThrow(i).ToParamEditorString()).ToArray());
         var result = true; // Anything that practicably can go wrong 
         if (!result)
         {
@@ -488,7 +487,7 @@ public class MassParamEditRegex
     private MassEditResult ExecRowOp(int currentLine, object[] rowArgFunc, string paramname,
         Param.Row row, List<EditorAction> partialActions)
     {
-        var rowArgValues = rowArgFunc.Select((argV, i) => argV.assertCompleteContextOrThrow().ToParamEditorString()).ToArray();
+        var rowArgValues = rowArgFunc.Select((argV, i) => argV.assertCompleteContextOrThrow(i).ToParamEditorString()).ToArray();
         (Param? p2, Param.Row? rs) = ((Param? p2, Param.Row? rs))genericFunc((paramname, row), rowArgValues);
         if (p2 == null)
         {
@@ -529,7 +528,7 @@ public class MassParamEditRegex
         string errHelper = null;
         try
         {
-            res = genericFunc(row.Get(col), cellArgValues.Select((x, i) => x.assertCompleteContextOrThrow().ToParamEditorString()).ToArray());
+            res = genericFunc(row.Get(col), cellArgValues.Select((x, i) => x.assertCompleteContextOrThrow(i).ToParamEditorString()).ToArray());
         }
         catch (FormatException e)
         {
