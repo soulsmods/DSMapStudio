@@ -98,20 +98,69 @@ public unsafe class TextEditorScreen : EditorScreen
 
         if (ImGui.BeginMenu("Import/Export", FMGBank.IsLoaded))
         {
-            if (ImGui.MenuItem("Import Files", KeyBindings.Current.TextFMG_Import.HintText))
+            if (ImGui.BeginMenu("Merge"))
             {
-                if (FMGBank.ImportFMGs())
+                ImGui.TextColored(new Vector4(0.75f, 0.75f, 0.75f, 1.0f),
+                    "Import: text will be merged with currently loaded text");
+
+                if (ImGui.MenuItem("Import text files and merge"))
                 {
-                    ClearTextEditorCache();
-                    ResetActionManager();
+                    if (FMGBank.FmgExporter.ImportFmgTxt(true))
+                    {
+                        ClearTextEditorCache();
+                        ResetActionManager();
+                    }
                 }
+
+                ImGui.TextColored(new Vector4(0.75f, 0.75f, 0.75f, 1.0f),
+                    "Export: only modded text (different than vanilla) will be exported");
+                if (ImGui.MenuItem("Export modded text to text files"))
+                {
+                    FMGBank.FmgExporter.ExportFmgTxt(true);
+                }
+
+                ImGui.EndMenu();
             }
 
-            if (ImGui.MenuItem("Export All Text", KeyBindings.Current.TextFMG_ExportAll.HintText))
+            if (ImGui.BeginMenu("All"))
             {
-                FMGBank.ExportFMGs();
-            }
+                ImGui.TextColored(new Vector4(0.75f, 0.75f, 0.75f, 1.0f),
+                    "Import: text replaces currently loaded text entirely");
 
+                if (ImGui.MenuItem("Import text files and replace"))
+                {
+                    if (FMGBank.FmgExporter.ImportFmgTxt(false))
+                    {
+                        ClearTextEditorCache();
+                        ResetActionManager();
+                    }
+                }
+
+                ImGui.TextColored(new Vector4(0.75f, 0.75f, 0.75f, 1.0f),
+                    "Export: all text will be exported");
+                if (ImGui.MenuItem("Export all text to text files"))
+                {
+                    FMGBank.FmgExporter.ExportFmgTxt(false);
+                }
+
+                if (ImGui.BeginMenu("Legacy"))
+                {
+                    ImGui.TextColored(new Vector4(0.75f, 0.75f, 0.75f, 1.0f),
+                        "Old version of text import/export system.\n" +
+                        "Import: text replaces currently loaded text entirely.");
+                    if (ImGui.MenuItem("Import json"))
+                    {
+                        if (FMGBank.FmgExporter.ImportFmgJson(false))
+                        {
+                            ClearTextEditorCache();
+                            ResetActionManager();
+                        }
+                    }
+
+                    ImGui.EndMenu();
+                }
+                ImGui.EndMenu();
+            }
             ImGui.EndMenu();
         }
     }
@@ -155,20 +204,6 @@ public unsafe class TextEditorScreen : EditorScreen
             if (InputTracker.GetKeyDown(KeyBindings.Current.Core_Duplicate) && _activeEntryGroup != null)
             {
                 DuplicateFMGEntries(_activeEntryGroup);
-            }
-
-            if (InputTracker.GetKeyDown(KeyBindings.Current.TextFMG_Import))
-            {
-                if (FMGBank.ImportFMGs())
-                {
-                    ClearTextEditorCache();
-                    ResetActionManager();
-                }
-            }
-
-            if (InputTracker.GetKeyDown(KeyBindings.Current.TextFMG_ExportAll))
-            {
-                FMGBank.ExportFMGs();
             }
         }
 
