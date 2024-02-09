@@ -1,6 +1,7 @@
 ﻿using System.Collections.Specialized;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace Andre.Native;
 using bottlenoselabs.C2CS.Runtime;
@@ -216,6 +217,7 @@ public static unsafe partial class ImGuiBindings
         public static bool InputText(string label, ref string buf, int bufSize, ImGuiInputTextFlags flags=0)
         {
             var cBuf = stackalloc byte[bufSize];
+            Encoding.UTF8.GetBytes(buf.AsSpan(), new Span<byte>(cBuf, bufSize));
             var cBufString = new CString(cBuf);
             using var cLabel = (CString)label;
             var result = InputText(cLabel, cBufString, bufSize, flags, new ImGuiInputTextCallback(), null);
@@ -226,6 +228,7 @@ public static unsafe partial class ImGuiBindings
         public static bool InputTextMultiline(string label, ref string buf, int bufSize, Vector2 size=default, ImGuiInputTextFlags flags=0)
         {
             var cBuf = stackalloc byte[bufSize];
+            Encoding.UTF8.GetBytes(buf.AsSpan(), new Span<byte>(cBuf, bufSize));
             var cBufString = new CString(cBuf);
             using var cLabel = (CString)label;
             var result = InputTextMultiline(cLabel, cBufString, bufSize, size, flags, new ImGuiInputTextCallback(), null);
@@ -236,9 +239,10 @@ public static unsafe partial class ImGuiBindings
         public static bool InputTextWithHint(string label, string hint, ref string buf, int bufSize)
         {
             var cBuf = stackalloc byte[bufSize];
+            Encoding.UTF8.GetBytes(buf.AsSpan(), new Span<byte>(cBuf, bufSize));
             var cBufString = new CString(cBuf);
             using var cLabel = (CString)label;
-            using var cHint = (CString)label;
+            using var cHint = (CString)hint;
             var result = InputTextWithHint(cLabel, cHint, cBufString, bufSize, 0, new ImGuiInputTextCallback(), null);
             buf = cBufString.ToString();
             return result;
