@@ -146,7 +146,7 @@
     <useRagdollCamHit IsBool="" Wiki="Causes camera to collide with enemy" />
     <disableClothRigidHit IsBool="" />
     <useRagdoll IsBool="" Wiki="If ragdoll is used for character to character collision. If false, hitRadius and hitHeight are used instead" />
-    <isDemon IsBool="" Wiki="If enemy will be affected by weapons with antiDemonDamageRate (anti-demon damage)." />
+    <isDemon IsBool="" AltName="Weak to Anti Demon AUX damage" Wiki="If enemy will be affected by weapons utilizing antiDemonDamageRate." />
     <isGhost IsBool="" Wiki="True if the entity is a ghost" />
     <isNoDamageMotion IsBool="" />
     <isUnduration IsBool="" Wiki="If true, enemies will rotate vertically on slopes. Rotation angle determines by maxUndurationAng" />
@@ -171,10 +171,10 @@
     <disableRespawn IsBool="" Wiki="If true, enemies will not reset position and behavior when the player rests at a bonfire." />
     <isMoveAnimWait IsBool="" />
     <isCrowd IsBool="" />
-    <isWeakSaint IsBool="" Wiki="If enemy will be affected by weapons with antSaintDamageRate (holy damage)." />
-    <isWeakA IsBool="" Wiki="If enemy will be affected by weapons with antWeakA_DamageRate (occult damage)." />
-    <isWeakB IsBool="" Wiki="If enemy will be affected by weapons with antWeakB_DamageRate (anti-darkwraith damage)." />
+    <isWeakSaint IsBool="" AltName="Weak to Divine AUX damage" Wiki="If enemy will be affected by weapons utilizing antSaintDamageRate." />
+    <isWeakA IsBool="" AltName="Weak to Occult AUX damage" Wiki="If enemy will be affected by weapons utilizing antWeakA_DamageRate." />
+    <isWeakB IsBool="" AltName="Weak to Anti Dark AUX damage" Wiki="If enemy will be affected by weapons utilizing antWeakB_DamageRate." />
     <vowType />
-    <disableInitializeDead IsBool="" Wiki="If true, dead enemies will be alive again when the game is reset without respawning enemies (such as quitting to menu)" />
+    <disableInitializeDead IsBool="" AltName="Disable spawning as dead" Wiki="If true, dead enemies will be alive again when the game is reset without respawning enemies (such as quitting to menu)" />
   </Field>
 </PARAMMETA>

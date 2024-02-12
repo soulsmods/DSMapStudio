@@ -32,8 +32,9 @@
     <equipPartBooster AltName="Equipped Part: Booster" Refs="EquipParamBooster" />
     <equipPartGenerator AltName="Equipped Part: Generator" Refs="EquipParamGenerator" />
     <equipPartFcs AltName="Equipped Part: FCS" Refs="EquipParamFcs" />
-    <equipPartCoreExpansion AltName="Equipped Part: Core Expansion" />
-    <repairKitAmount AltName="Repair Kit Amount" />
+    <equipPartCoreExpansion AltName="Equipped Part: Core Expansion" Refs="EquipParamWeapon" />
+    <equippedItemId AltName="Repair Kit Item ID" Refs="EquipParamGoods" />
+    <equippedItemNum AltName="Repair Kit Item Amount" />
   </Field>
   <Self />
 </PARAMMETA>

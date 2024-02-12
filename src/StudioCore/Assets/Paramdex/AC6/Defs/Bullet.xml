@@ -155,8 +155,8 @@
     <Field Def="f32 UnkFloat0x154"></Field>
     <Field Def="f32 UnkFloat0x158"></Field>
     <Field Def="f32 UnkFloat0x15C"></Field>
-    <Field Def="f32 UnkFloat0x160"></Field>
-    <Field Def="f32 UnkFloat0x164"></Field>
+    <Field Def="f32 unkHitRadius"></Field>
+    <Field Def="f32 unkHitRadiusMax"></Field>
     <Field Def="f32 UnkFloat0x168"></Field>
     <Field Def="f32 UnkFloat0x16C"></Field>
     <Field Def="f32 UnkFloat0x170"></Field>
@@ -276,7 +276,7 @@
     <Field Def="s8 UnkSbyte0x2D7"></Field>
     <Field Def="f32 UnkFloat0x2D8"></Field>
     <Field Def="f32 UnkFloat0x2DC"></Field>
-    <Field Def="f32 UnkFloat0x2E0"></Field>
+    <Field Def="f32 lifeHitDist"></Field>
     <Field Def="s32 UnkInt0x2E4"></Field>
     <Field Def="f32 Unk0x2E8"></Field>
     <Field Def="f32 Unk0x2EC"></Field>

@@ -23,7 +23,7 @@
     <knockbackDamp AltName="knockbackDamp" />
     <shootAngleXZ AltName="shootAngleXZ" />
     <lockShootLimitAng AltName="lockShootLimitAng" />
-    <pad2 AltName="pad2" />
+    <pad2 />
     <hormingStopRange AltName="hormingStopRange" />
     <initVellocity AltName="initVellocity" />
     <accelInRange AltName="accelInRange" />
@@ -37,13 +37,13 @@
     <hitRadiusMax AltName="hitRadiusMax" />
     <spreadTime AltName="spreadTime" />
     <expDelay AltName="expDelay" />
-    <isPenetrate AltName="isPenetrate" />
+    <isPenetrate IsBool="" AltName="isPenetrate" />
     <Material_AttackType AltName="Material_AttackType" />
     <Material_AttackMaterial AltName="Material_AttackMaterial" />
     <Material_Size AltName="Material_Size" />
-    <isPenetrateMap AltName="isPenetrateMap" />
-    <isHitBothTeam AltName="isHitBothTeam" />
-    <pad4 AltName="pad4" />
+    <isPenetrateMap IsBool="" AltName="isPenetrateMap" />
+    <isHitBothTeam IsBool="" AltName="isHitBothTeam" />
+    <pad4 />
     <hormingOffsetRange AltName="hormingOffsetRange" />
     <spEffectIDForShooter AltName="spEffectIDForShooter" />
     <autoSearchNPCThinkID AltName="autoSearchNPCThinkID" />
@@ -53,7 +53,7 @@
     <spEffectId2 AltName="spEffectId2" Refs="SpEffectParam"/>
     <spEffectId3 AltName="spEffectId3" Refs="SpEffectParam"/>
     <spEffectId4 AltName="spEffectId4" Refs="SpEffectParam"/>
-    <pad5 AltName="pad5" />
+    <pad5 />
   </Field>
   <Self />
 </PARAMMETA>
