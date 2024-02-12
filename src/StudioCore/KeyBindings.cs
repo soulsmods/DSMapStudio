@@ -126,8 +126,6 @@ public class KeyBindings
         public KeyBind Param_SelectAll = new(Key.A, true);
 
         // Text FMG
-        public KeyBind TextFMG_ExportAll = new();
-        public KeyBind TextFMG_Import = new();
         public KeyBind TextFMG_Search = new(Key.F, true);
 
         // Viewport
