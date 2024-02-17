@@ -474,7 +474,8 @@
     <attack_Object AltName="Attack Damage (Object)" Wiki="Base object damage. Responsible for damage dealt to assets, including EULE/60D [Pulse Shield Launcher] barriers."/>
     <UnkFlag0x1DB_6 AltName="" IsBool=""/>
     <UnkFlag0x1DB_7 AltName="" IsBool=""/>
-    <damageLevelConvParamId AltName="Damage Level Conversion Param ID" />
+    <damageLevelConvParamId1 AltName="Damage Level Conversion Param ID" />
+    <damageLevelConvParamId2 AltName="Damage Level Conversion Param ID" />
     <impactDamage AltName="Damage: Impact" />
     <hit0_FanHitboxLength AltName="Hit 0: Fan Hitbox Length" />
     <hit1_FanHitboxLength AltName="Hit 1: Fan Hitbox Length" />
@@ -587,6 +588,7 @@
     <nonStaggerAttacksCauseKnockback AltName="Non-Stagger Attacks Cause Knockback" IsBool="" Wiki="Makes non-staggering attacks knockback enemies, utilizing nonStaggerKnockbackDist."/>
     <nonStaggerKnockbackDist AltName="Knockback Distance (non-staggered)" Wiki="Distance enemies will move when hit by this attack (and that attack does not stagger).\nRequires nonStaggerAttacksCauseKnockback"/>
     <staggerKnockbackDist AltName="Knockback Distance (staggered)" Wiki="Distance enemies will move when staggered by this attack."/>
+    <staggerExtensionNumMax AltName="Stagger Extension: Maximum Amount" Wiki="Number of times this attack will extend an existing stagger."/>
   </Field>
   <Self />
 </PARAMMETA>

@@ -1,0 +1,13 @@
+{
+  "inputFilePath": "imgui_bindgen.h",
+  "userIncludeDirectories": [
+    "../../native/third_party/cimgui"
+  ],
+  "platforms": {
+    "x86_64-pc-windows-msvc": {}
+  },
+  "opaqueTypeNames": [
+    "ImGuiDockNode",
+    "ImGuiStackLevelInfo"
+  ]
+}

@@ -1,4 +1,4 @@
-﻿using ImGuiNET;
+﻿using static Andre.Native.ImGuiBindings;
 using SoulsFormats;
 using StudioCore.Editor;
 using System;
@@ -228,7 +228,7 @@ public class PropertyEditor
         ImGui.Separator();
     }
 
-    public void PropEditorFMG(FMG.Entry entry, string name)
+    public unsafe void PropEditorFMG(FMG.Entry entry, string name)
     {
         ImGui.PushID(_fmgID);
         ImGui.AlignTextToFramePadding();

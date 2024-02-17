@@ -48,12 +48,12 @@ public class CFG
     public bool FontVietnamese = false;
 
     // Settings: Map Editor
-    public bool EnableFrustrumCulling = false;
+    //public bool EnableFrustrumCulling = true;
     public bool EnableTexturing = false;
     public bool Map_AlwaysListLoadedMaps = true;
     public bool EnableEldenRingAutoMapOffset = true;
 
-    public bool Map_EnableViewportGrid = true;
+    public bool Map_EnableViewportGrid = false;
     public int Map_ViewportGridType = 0;
     public Vector3 GFX_Viewport_Grid_Color = Utils.GetDecimalColor(Color.Red);
     public int Map_ViewportGrid_TotalSize = 1000;
@@ -68,6 +68,7 @@ public class CFG
     public float GFX_Camera_MoveSpeed_Slow { get; set; } = 1.0f;
     public float GFX_Camera_MoveSpeed_Normal { get; set; } = 20.0f;
     public float GFX_Camera_MoveSpeed_Fast { get; set; } = 200.0f;
+    public float GFX_Camera_Sensitivity { get; set; } = 0.0160f;
     public float GFX_RenderDistance_Max { get; set; } = 50000.0f;
     public float Map_ArbitraryRotation_X_Shift { get; set; } = 90.0f;
     public float Map_ArbitraryRotation_Y_Shift { get; set; } = 90.0f;

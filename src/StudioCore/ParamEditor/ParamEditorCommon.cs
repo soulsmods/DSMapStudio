@@ -1,4 +1,4 @@
-﻿using ImGuiNET;
+﻿using static Andre.Native.ImGuiBindings;
 using Microsoft.Extensions.Logging;
 using StudioCore.Editor;
 using System;
@@ -155,7 +155,7 @@ public class ParamEditorCommon
         else if (typ == typeof(double))
         {
             var val = (double)oldval;
-            if (ImGui.InputScalar("##value", ImGuiDataType.Double, new IntPtr(&val)))
+            if (ImGui.InputDouble("##value", ref val, 0.1, 1.0))
             {
                 newval = val;
                 _editedPropCache = newval;

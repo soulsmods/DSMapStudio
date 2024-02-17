@@ -1,4 +1,4 @@
-﻿using ImGuiNET;
+﻿using static Andre.Native.ImGuiBindings;
 using StudioCore.DebugPrimitives;
 using StudioCore.MsbEditor;
 using StudioCore.Resource;
@@ -18,7 +18,7 @@ namespace StudioCore.Gui;
 ///     transform
 ///     the view within a virtual canvas, or it can be manually configured for say rendering thumbnails
 /// </summary>
-public class Viewport : IViewport
+public unsafe class Viewport : IViewport
 {
     private readonly ActionManager _actionManager;
 
@@ -100,7 +100,10 @@ public class Viewport : IViewport
 
 
         // Create view grid
-        _viewGrid = new ViewGrid(_renderScene.OpaqueRenderables);
+        if (FeatureFlags.ViewportGrid)
+        {
+            _viewGrid = new ViewGrid(_renderScene.OpaqueRenderables);
+        }
 
         // Create gizmos
         _gizmos = new Gizmos(_actionManager, _selection, _renderScene.OverlayRenderables);
@@ -137,7 +140,7 @@ public class Viewport : IViewport
             ResizeViewport(_device, newvp);
             if (InputTracker.GetMouseButtonDown(MouseButton.Right) && MouseInViewport())
             {
-                ImGui.SetWindowFocus();
+                ImGui.SetWindowFocusNil();
                 ViewportSelected = true;
             }
             else if (!InputTracker.GetMouseButton(MouseButton.Right))
@@ -145,7 +148,7 @@ public class Viewport : IViewport
                 ViewportSelected = false;
             }
 
-            _canInteract = ImGui.IsWindowFocused();
+            _canInteract = ImGui.IsWindowFocused(0);
             _vpvisible = true;
             Matrix4x4 proj = Matrix4x4.Transpose(_projectionMat);
             Matrix4x4 view = Matrix4x4.Transpose(WorldView.CameraTransform.CameraViewMatrixLH);
@@ -201,7 +204,10 @@ public class Viewport : IViewport
         _cursorY = (int)pos.Y; // - Y;
 
         _gizmos.Update(ray, _canInteract && MouseInViewport());
-        _viewGrid.Update(ray);
+        if (FeatureFlags.ViewportGrid)
+        {
+            _viewGrid.Update(ray);
+        }
 
         var kbbusy = false;
 

@@ -1,4 +1,4 @@
-﻿using ImGuiNET;
+﻿using static Andre.Native.ImGuiBindings;
 using SoapstoneLib;
 using StudioCore.Editor;
 using StudioCore.MsbEditor;
@@ -212,7 +212,7 @@ public class SettingsMenu
         }
     }
 
-    private void DisplaySettings_MapEditor()
+    private unsafe void DisplaySettings_MapEditor()
     {
         if (ImGui.BeginTabItem("Map Editor"))
         {
@@ -223,7 +223,7 @@ public class SettingsMenu
                     ShowHelpMarker("Enabling this option will cause entities outside of the camera frustrum to be culled.\n\nDisable this if working with the grid.");
                     ImGui.SameLine();
                 }
-                ImGui.Checkbox("Enable frustrum culling", ref CFG.Current.EnableFrustrumCulling);
+                //ImGui.Checkbox("Enable frustum culling", ref CFG.Current.EnableFrustrumCulling);
 
                 if (CFG.Current.ShowUITooltips)
                 {
@@ -297,6 +297,8 @@ public class SettingsMenu
                 }
                 if (ImGui.Button("Reset##ViewportCamera"))
                 {
+                    CFG.Current.GFX_Camera_Sensitivity = CFG.Default.GFX_Camera_Sensitivity;
+
                     CFG.Current.GFX_Camera_FOV = CFG.Default.GFX_Camera_FOV;
 
                     CFG.Current.GFX_RenderDistance_Max = CFG.Default.GFX_RenderDistance_Max;
@@ -309,6 +311,18 @@ public class SettingsMenu
 
                     MsbEditor.Viewport.WorldView.CameraMoveSpeed_Fast = CFG.Default.GFX_Camera_MoveSpeed_Fast;
                     CFG.Current.GFX_Camera_MoveSpeed_Fast = MsbEditor.Viewport.WorldView.CameraMoveSpeed_Fast;
+                }
+
+                var cam_sensitivity = CFG.Current.GFX_Camera_Sensitivity;
+
+                if (CFG.Current.ShowUITooltips)
+                {
+                    ShowHelpMarker("Mouse sensitivty for turning the camera.");
+                    ImGui.SameLine();
+                }
+                if (ImGui.SliderFloat("Camera sensitivity", ref cam_sensitivity, 0.0f, 0.1f))
+                {
+                    CFG.Current.GFX_Camera_Sensitivity = cam_sensitivity;
                 }
 
                 var cam_fov = CFG.Current.GFX_Camera_FOV;
@@ -415,58 +429,61 @@ public class SettingsMenu
                 Utils.ImGui_InputUint("FLVER Bone buffer", ref CFG.Current.GFX_Limit_Buffer_Flver_Bone);
             }
 
-            /* if (ImGui.CollapsingHeader("Grid"))
+            if (FeatureFlags.ViewportGrid)
             {
-                if (CFG.Current.ShowUITooltips)
+                if (ImGui.CollapsingHeader("Grid"))
                 {
-                    ShowHelpMarker("Enable the viewport grid when in the Map Editor.");
-                    ImGui.SameLine();
-                }
-                ImGui.Checkbox("Enable viewport grid", ref CFG.Current.Map_EnableViewportGrid);
+                    if (CFG.Current.ShowUITooltips)
+                    {
+                        ShowHelpMarker("Enable the viewport grid when in the Map Editor.");
+                        ImGui.SameLine();
+                    }
+                    ImGui.Checkbox("Enable viewport grid", ref CFG.Current.Map_EnableViewportGrid);
 
-                if (CFG.Current.ShowUITooltips)
-                {
-                    ShowHelpMarker("The overall maximum size of the grid.\nThe grid will only update upon restarting DSMS after changing this value.");
-                    ImGui.SameLine();
-                }
-                ImGui.SliderInt("Grid size", ref CFG.Current.Map_ViewportGrid_TotalSize, 100, 1000);
+                    if (CFG.Current.ShowUITooltips)
+                    {
+                        ShowHelpMarker("The overall maximum size of the grid.\nThe grid will only update upon restarting DSMS after changing this value.");
+                        ImGui.SameLine();
+                    }
+                    ImGui.SliderInt("Grid size", ref CFG.Current.Map_ViewportGrid_TotalSize, 100, 1000);
 
-                if (CFG.Current.ShowUITooltips)
-                {
-                    ShowHelpMarker("The increment size of the grid.");
-                    ImGui.SameLine();
-                }
-                ImGui.SliderInt("Grid increment", ref CFG.Current.Map_ViewportGrid_IncrementSize, 1, 100);
+                    if (CFG.Current.ShowUITooltips)
+                    {
+                        ShowHelpMarker("The increment size of the grid.");
+                        ImGui.SameLine();
+                    }
+                    ImGui.SliderInt("Grid increment", ref CFG.Current.Map_ViewportGrid_IncrementSize, 1, 100);
 
-                if (CFG.Current.ShowUITooltips)
-                {
-                    ShowHelpMarker("The height at which the horizontal grid sits.");
-                    ImGui.SameLine();
-                }
-                ImGui.SliderFloat("Grid height", ref CFG.Current.Map_ViewportGrid_Offset, -1000, 1000);
+                    if (CFG.Current.ShowUITooltips)
+                    {
+                        ShowHelpMarker("The height at which the horizontal grid sits.");
+                        ImGui.SameLine();
+                    }
+                    ImGui.SliderFloat("Grid height", ref CFG.Current.Map_ViewportGrid_Offset, -1000, 1000);
 
-                if (CFG.Current.ShowUITooltips)
-                {
-                    ShowHelpMarker("The amount to lower or raise the viewport grid height via the shortcuts.");
-                    ImGui.SameLine();
-                }
-                ImGui.SliderFloat("Grid height increment", ref CFG.Current.Map_ViewportGrid_ShortcutIncrement, 0.1f, 100);
+                    if (CFG.Current.ShowUITooltips)
+                    {
+                        ShowHelpMarker("The amount to lower or raise the viewport grid height via the shortcuts.");
+                        ImGui.SameLine();
+                    }
+                    ImGui.SliderFloat("Grid height increment", ref CFG.Current.Map_ViewportGrid_ShortcutIncrement, 0.1f, 100);
 
-                ImGui.ColorEdit3("Grid color", ref CFG.Current.GFX_Viewport_Grid_Color);
+                    ImGui.ColorEdit3("Grid color", ref CFG.Current.GFX_Viewport_Grid_Color);
 
-                if (CFG.Current.ShowUITooltips)
-                {
-                    ShowHelpMarker("Resets all of the values within this section to their default values.");
-                    ImGui.SameLine();
+                    if (CFG.Current.ShowUITooltips)
+                    {
+                        ShowHelpMarker("Resets all of the values within this section to their default values.");
+                        ImGui.SameLine();
+                    }
+                    if (ImGui.Button("Reset"))
+                    {
+                        CFG.Current.GFX_Viewport_Grid_Color = Utils.GetDecimalColor(Color.Red);
+                        CFG.Current.Map_ViewportGrid_TotalSize = 1000;
+                        CFG.Current.Map_ViewportGrid_IncrementSize = 10;
+                        CFG.Current.Map_ViewportGrid_Offset = 0;
+                    }
                 }
-                if (ImGui.Button("Reset"))
-                {
-                    CFG.Current.GFX_Viewport_Grid_Color = Utils.GetDecimalColor(Color.Red);
-                    CFG.Current.Map_ViewportGrid_TotalSize = 1000;
-                    CFG.Current.Map_ViewportGrid_IncrementSize = 10;
-                    CFG.Current.Map_ViewportGrid_Offset = 0;
-                }
-            } */
+            }
 
             if (ImGui.CollapsingHeader("Wireframes"))
             {
@@ -849,16 +866,16 @@ public class SettingsMenu
         }
 
         ImGui.SetNextWindowSize(new Vector2(900.0f, 800.0f) * scale, ImGuiCond.FirstUseEver);
-        ImGui.PushStyleColor(ImGuiCol.WindowBg, new Vector4(0f, 0f, 0f, 0.98f));
-        ImGui.PushStyleColor(ImGuiCol.TitleBgActive, new Vector4(0.25f, 0.25f, 0.25f, 1.0f));
-        ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(10.0f, 10.0f) * scale);
-        ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(20.0f, 10.0f) * scale);
-        ImGui.PushStyleVar(ImGuiStyleVar.IndentSpacing, 20.0f * scale);
+        ImGui.PushStyleColorVec4(ImGuiCol.WindowBg, new Vector4(0f, 0f, 0f, 0.98f));
+        ImGui.PushStyleColorVec4(ImGuiCol.TitleBgActive, new Vector4(0.25f, 0.25f, 0.25f, 1.0f));
+        ImGui.PushStyleVarVec2(ImGuiStyleVar.WindowPadding, new Vector2(10.0f, 10.0f) * scale);
+        ImGui.PushStyleVarVec2(ImGuiStyleVar.ItemSpacing, new Vector2(20.0f, 10.0f) * scale);
+        ImGui.PushStyleVarFloat(ImGuiStyleVar.IndentSpacing, 20.0f * scale);
 
         if (ImGui.Begin("Settings Menu##Popup", ref MenuOpenState, ImGuiWindowFlags.NoDocking))
         {
             ImGui.BeginTabBar("#SettingsMenuTabBar");
-            ImGui.PushStyleColor(ImGuiCol.Header, new Vector4(0.3f, 0.3f, 0.6f, 0.4f));
+            ImGui.PushStyleColorVec4(ImGuiCol.Header, new Vector4(0.3f, 0.3f, 0.6f, 0.4f));
             ImGui.PushItemWidth(300f);
 
             // Settings Order
@@ -870,7 +887,7 @@ public class SettingsMenu
             DisplaySettings_Keybinds();
 
             ImGui.PopItemWidth();
-            ImGui.PopStyleColor();
+            ImGui.PopStyleColor(1);
             ImGui.EndTabBar();
         }
 
@@ -883,7 +900,7 @@ public class SettingsMenu
     public void ShowHelpMarker(string desc)
     {
         ImGui.TextDisabled("(?)");
-        if(ImGui.IsItemHovered())
+        if(ImGui.IsItemHovered(0))
         {
             ImGui.BeginTooltip();
             ImGui.PushTextWrapPos(450.0f);
