@@ -14,8 +14,10 @@ namespace SoulsFormats
     /// <summary>
     /// An extended reader for binary data supporting big and little endianness, value assertions, and arrays.
     /// </summary>
-    public sealed class BinaryReaderEx
+    public class BinaryReaderEx
     {
+        public static bool IsFlexible { get; set; }
+
         private Stack<long> _steps;
         private Memory<byte> _memory;
 
@@ -117,6 +119,11 @@ namespace SoulsFormats
         /// </summary>
         private T AssertValue<T>(T value, string typeName, string valueFormat, T option) where T : IEquatable<T>
         {
+            if(IsFlexible)
+            {
+                return value;
+            }
+
             if (value.Equals(option))
                 return value;
 
@@ -130,6 +137,11 @@ namespace SoulsFormats
         /// </summary>
         private T AssertValue<T>(T value, string typeName, string valueFormat, ReadOnlySpan<T> options) where T : IEquatable<T>
         {
+            if (IsFlexible)
+            {
+                return value;
+            }
+
             foreach (T option in options)
                 if (value.Equals(option))
                     return value;

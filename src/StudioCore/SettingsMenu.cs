@@ -80,7 +80,7 @@ public class SettingsMenu
                 ImGui.SameLine();
                 ShowHelpMarker("Enable this if you are attempting to mod files that are 'encrypted'.");
 
-                DCX.IsFlexible = CFG.Current.System_FlexibleDCX;
+                BinaryReaderEx.IsFlexible = CFG.Current.System_FlexibleDCX;
             }
 
             if (ImGui.CollapsingHeader("Soapstone Server"))

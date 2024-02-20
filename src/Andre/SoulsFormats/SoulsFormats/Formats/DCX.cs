@@ -11,8 +11,6 @@ namespace SoulsFormats
     /// </summary>
     public static class DCX
     {
-        public static bool IsFlexible { get; set; }
-
         internal static bool Is(BinaryReaderEx br)
         {
             if (br.Length < 4)
@@ -166,24 +164,12 @@ namespace SoulsFormats
             br.AssertASCII("DCP\0");
             br.AssertASCII("DFLT");
 
-            if (IsFlexible)
-            {
-                br.ReadInt32();
-                br.ReadInt32();
-                br.ReadInt32();
-                br.ReadInt32();
-                br.ReadInt32();
-                br.ReadInt32();
-            }
-            else
-            {
-                br.AssertInt32(0x20);
-                br.AssertInt32(0x9000000);
-                br.AssertInt32(0);
-                br.AssertInt32(0);
-                br.AssertInt32(0);
-                br.AssertInt32(0x00010100);
-            }
+            br.AssertInt32(0x20);
+            br.AssertInt32(0x9000000);
+            br.AssertInt32(0);
+            br.AssertInt32(0);
+            br.AssertInt32(0);
+            br.AssertInt32(0x00010100);
 
             br.AssertASCII("DCS\0");
             int uncompressedSize = br.ReadInt32();
@@ -192,15 +178,7 @@ namespace SoulsFormats
             byte[] decompressed = SFUtil.ReadZlib(br, compressedSize);
 
             br.AssertASCII("DCA\0");
-
-            if (IsFlexible)
-            {
-                br.ReadInt32();
-            }
-            else
-            {
-                br.AssertInt32(8);
-            }
+            br.AssertInt32(8);
 
             return decompressed;
         }
@@ -209,38 +187,17 @@ namespace SoulsFormats
         {
             br.AssertASCII("DCP\0");
             br.AssertASCII("EDGE");
-
-            if (IsFlexible)
-            {
-                br.ReadInt32();
-                br.ReadInt32();
-                br.ReadInt32();
-                br.ReadInt32();
-                br.ReadInt32();
-                br.ReadInt32();
-            }
-            else
-            {
-                br.AssertInt32(0x20);
-                br.AssertInt32(0x9000000);
-                br.AssertInt32(0x10000);
-                br.AssertInt32(0x0);
-                br.AssertInt32(0x0);
-                br.AssertInt32(0x00100100);
-            }
+            br.AssertInt32(0x20);
+            br.AssertInt32(0x9000000);
+            br.AssertInt32(0x10000);
+            br.AssertInt32(0x0);
+            br.AssertInt32(0x0);
+            br.AssertInt32(0x00100100);
 
             br.AssertASCII("DCS\0");
             int uncompressedSize = br.ReadInt32();
             int compressedSize = br.ReadInt32();
-
-            if (IsFlexible)
-            {
-                br.ReadInt32();
-            }
-            else
-            {
-                br.AssertInt32(0);
-            }
+            br.AssertInt32(0);
 
             long dataStart = br.Position;
             br.Skip(compressedSize);
@@ -249,33 +206,14 @@ namespace SoulsFormats
             int dcaSize = br.ReadInt32();
             // ???
             br.AssertASCII("EgdT");
-
-            if (IsFlexible)
-            {
-                br.ReadInt32();
-                br.ReadInt32();
-                br.ReadInt32();
-                br.ReadInt32();
-            }
-            else
-            {
-                br.AssertInt32(0x00010000);
-                br.AssertInt32(0x20);
-                br.AssertInt32(0x10);
-                br.AssertInt32(0x10000);
-            }
+            br.AssertInt32(0x00010000);
+            br.AssertInt32(0x20);
+            br.AssertInt32(0x10);
+            br.AssertInt32(0x10000);
 
             int egdtSize = br.ReadInt32();
             int chunkCount = br.ReadInt32();
-
-            if (IsFlexible)
-            {
-                br.ReadInt32();
-            }
-            else
-            {
-                br.AssertInt32(0x100000);
-            }
+            br.AssertInt32(0x100000);
 
             if (egdtSize != 0x20 + chunkCount * 0x10)
                 throw new InvalidDataException("Unexpected EgdT size in EDGE DCX.");
@@ -285,14 +223,7 @@ namespace SoulsFormats
             {
                 for (int i = 0; i < chunkCount; i++)
                 {
-                    if (IsFlexible)
-                    {
-                        br.ReadInt32();
-                    }
-                    else
-                    {
-                        br.AssertInt32(0);
-                    }
+                    br.AssertInt32(0);
 
                     int offset = br.ReadInt32();
                     int size = br.ReadInt32();
@@ -320,20 +251,11 @@ namespace SoulsFormats
         {
             br.AssertASCII("DCX\0");
 
-            if (IsFlexible)
-            {
-                br.ReadInt32();
-                br.ReadInt32();
-                br.ReadInt32();
-                br.ReadInt32();
-            }
-            else
-            {
-                br.AssertInt32(0x10000);
-                br.AssertInt32(0x18);
-                br.AssertInt32(0x24);
-                br.AssertInt32(0x24);
-            }
+            br.AssertInt32(0x10000);
+            br.AssertInt32(0x18);
+            br.AssertInt32(0x24);
+            br.AssertInt32(0x24);
+
             int unk1 = br.ReadInt32();
 
             br.AssertASCII("DCS\0");
@@ -343,24 +265,12 @@ namespace SoulsFormats
             br.AssertASCII("DCP\0");
             br.AssertASCII("EDGE");
 
-            if (IsFlexible)
-            {
-                br.ReadInt32();
-                br.ReadInt32();
-                br.ReadInt32();
-                br.ReadInt32();
-                br.ReadInt32();
-                br.ReadInt32();
-            }
-            else
-            {
-                br.AssertInt32(0x20);
-                br.AssertInt32(0x9000000);
-                br.AssertInt32(0x10000);
-                br.AssertInt32(0x0);
-                br.AssertInt32(0x0);
-                br.AssertInt32(0x00100100);
-            }
+            br.AssertInt32(0x20);
+            br.AssertInt32(0x9000000);
+            br.AssertInt32(0x10000);
+            br.AssertInt32(0x0);
+            br.AssertInt32(0x0);
+            br.AssertInt32(0x00100100);
 
             long dcaStart = br.Position;
             br.AssertASCII("DCA\0");
@@ -368,34 +278,17 @@ namespace SoulsFormats
             // ???
             br.AssertASCII("EgdT");
 
-            if (IsFlexible)
-            {
-                br.ReadInt32();
-                br.ReadInt32();
-                br.ReadInt32();
-                br.ReadInt32();
-            }
-            else
-            {
-                br.AssertInt32(0x00010100);
-                br.AssertInt32(0x24);
-                br.AssertInt32(0x10);
-                br.AssertInt32(0x10000);
-            }
+            br.AssertInt32(0x00010100);
+            br.AssertInt32(0x24);
+            br.AssertInt32(0x10);
+            br.AssertInt32(0x10000);
 
             // Uncompressed size of last block
             int trailingUncompressedSize = br.AssertInt32([uncompressedSize % 0x10000, 0x10000]);
             int egdtSize = br.ReadInt32();
             int chunkCount = br.ReadInt32();
 
-            if (IsFlexible)
-            {
-                br.ReadInt32();
-            }
-            else
-            {
-                br.AssertInt32(0x100000);
-            }
+            br.AssertInt32(0x100000);
 
             if (unk1 != 0x50 + chunkCount * 0x10)
                 throw new InvalidDataException("Unexpected unk1 value in EDGE DCX.");
@@ -441,22 +334,11 @@ namespace SoulsFormats
 
             br.AssertASCII("DCX\0");
 
-            if (IsFlexible)
-            {
-                br.ReadInt32();
-                br.ReadInt32();
-                br.ReadInt32();
-                br.ReadInt32();
-                br.ReadInt32();
-            }
-            else
-            {
-                br.AssertInt32(unk04);
-                br.AssertInt32(0x18);
-                br.AssertInt32(0x24);
-                br.AssertInt32(unk10);
-                br.AssertInt32(unk14);
-            }
+            br.AssertInt32(unk04);
+            br.AssertInt32(0x18);
+            br.AssertInt32(0x24);
+            br.AssertInt32(unk10);
+            br.AssertInt32(unk14);
 
             br.AssertASCII("DCS\0");
             int uncompressedSize = br.ReadInt32();
@@ -465,38 +347,20 @@ namespace SoulsFormats
             br.AssertASCII("DCP\0");
             br.AssertASCII("DFLT");
 
-            if (IsFlexible)
-            {
-                br.ReadInt32();
-                br.ReadByte();
-                br.ReadByte();
-                br.ReadByte();
-                br.ReadByte();
-                br.ReadInt32();
-                br.ReadByte();
-                br.ReadByte();
-                br.ReadByte();
-                br.ReadByte();
-                br.ReadInt32();
-                br.ReadInt32();
-            }
-            else
-            {
-                br.AssertInt32(0x20);
-                br.AssertByte(unk30);
-                br.AssertByte(0);
-                br.AssertByte(0);
-                br.AssertByte(0);
-                br.AssertInt32(0x0);
-                br.AssertByte(unk38);
-                br.AssertByte(0);
-                br.AssertByte(0);
-                br.AssertByte(0);
-                br.AssertInt32(0x0);
+            br.AssertInt32(0x20);
+            br.AssertByte(unk30);
+            br.AssertByte(0);
+            br.AssertByte(0);
+            br.AssertByte(0);
+            br.AssertInt32(0x0);
+            br.AssertByte(unk38);
+            br.AssertByte(0);
+            br.AssertByte(0);
+            br.AssertByte(0);
+            br.AssertInt32(0x0);
 
-                // These look suspiciously like flags
-                br.AssertInt32(0x00010100);
-            }
+            // These look suspiciously like flags
+            br.AssertInt32(0x00010100);
 
             br.AssertASCII("DCA\0");
             int compressedHeaderLength = br.ReadInt32();
@@ -508,70 +372,30 @@ namespace SoulsFormats
         {
             br.AssertASCII("DCX\0");
 
-            if (IsFlexible)
-            {
-                br.ReadInt32();
-                br.ReadInt32();
-                br.ReadInt32();
-                br.ReadInt32();
-                br.ReadInt32();
-            }
-            else
-            {
-                br.AssertInt32(0x11000);
-                br.AssertInt32(0x18);
-                br.AssertInt32(0x24);
-                br.AssertInt32(0x44);
-                br.AssertInt32(0x4C);
-            }
+            br.AssertInt32(0x11000);
+            br.AssertInt32(0x18);
+            br.AssertInt32(0x24);
+            br.AssertInt32(0x44);
+            br.AssertInt32(0x4C);
 
             br.AssertASCII("DCS\0");
             uint uncompressedSize = br.ReadUInt32();
             uint compressedSize = br.ReadUInt32();
             br.AssertASCII("DCP\0");
             br.AssertASCII("KRAK");
-
-            if (IsFlexible)
-            {
-                br.ReadInt32();
-            }
-            else
-            {
-                br.AssertInt32(0x20);
-            }
+            br.AssertInt32(0x20);
 
             br.AssertByte(compressionLevel);
-
-            if (IsFlexible)
-            {
-                br.ReadByte();
-                br.ReadByte();
-                br.ReadByte();
-                br.ReadInt32();
-                br.ReadInt32();
-                br.ReadInt32();
-                br.ReadInt32();
-            }
-            else
-            {
-                br.AssertByte(0);
-                br.AssertByte(0);
-                br.AssertByte(0);
-                br.AssertInt32(0);
-                br.AssertInt32(0);
-                br.AssertInt32(0);
-                br.AssertInt32(0x10100);
-            }
+            
+            br.AssertByte(0);
+            br.AssertByte(0);
+            br.AssertByte(0);
+            br.AssertInt32(0);
+            br.AssertInt32(0);
+            br.AssertInt32(0);
+            br.AssertInt32(0x10100);
             br.AssertASCII("DCA\0");
-
-            if (IsFlexible)
-            {
-                br.ReadInt32();
-            }
-            else
-            {
-                br.AssertInt32(8);
-            }
+            br.AssertInt32(8);
 
             var compressed = br.ReadSpanView<byte>((int)compressedSize);
 
