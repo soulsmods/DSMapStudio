@@ -65,7 +65,7 @@ public class ModelEditorScreen : EditorScreen, AssetBrowserEventHandler, SceneTr
         _sceneTree = new SceneTree(SceneTree.Configuration.ModelEditor, this, "modeledittree", _universe,
             _selection, EditorActionManager, Viewport, AssetLocator);
         _propEditor = new PropertyEditor(EditorActionManager, _propCache);
-        _assetBrowser = new ModelAssetBrowser(this, "modelEditorBrowser", AssetLocator);
+        _assetBrowser = new ModelAssetBrowser(this, "modelEditorBrowser");
     }
 
     public void OnInstantiateChr(string chrid)

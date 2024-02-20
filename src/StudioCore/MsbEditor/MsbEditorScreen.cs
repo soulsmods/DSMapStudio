@@ -95,7 +95,7 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
         DispGroupEditor = new DisplayGroupsEditor(RenderScene, _selection, EditorActionManager);
         PropSearch = new SearchProperties(Universe, _propCache);
         NavMeshEditor = new NavmeshEditor(locator, RenderScene, _selection);
-        AssetBrowser = new MsbAssetBrowser(RenderScene, AssetLocator, this);
+        AssetBrowser = new MsbAssetBrowser(Universe, RenderScene, _selection, EditorActionManager, this, Viewport);
 
         EditorActionManager.AddEventHandler(SceneTree);
     }
@@ -970,7 +970,6 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
         _projectSettings = newSettings;
         _selection.ClearSelection();
         EditorActionManager.Clear();
-        AssetBrowser.UpdateBrowserCache();
 
         ReloadUniverse();
     }

@@ -58,6 +58,14 @@ public class CFG
     public bool FontThai = false;
     public bool FontVietnamese = false;
 
+    public bool AliasBank_EditorMode = false;
+    public bool AssetBrowser_ShowTagsInBrowser = true;
+    public bool AssetBrowser_ShowLowDetailParts = false;
+    public bool MapAliases_ShowMapAliasEditList = false;
+    public bool MapAliases_ShowUnusedNames = false;
+    public bool MapAliases_ShowTagsInBrowser = true;
+    public bool MapAliases_ShowAliasAddition = false;
+
     // Settings: Map Editor
     //public bool EnableFrustrumCulling = true;
     public bool EnableTexturing = false;

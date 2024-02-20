@@ -9,6 +9,11 @@ using System.Text.RegularExpressions;
 
 namespace StudioCore;
 
+public static class Locator
+{
+    public static AssetLocator AssetLocator { get; set; }
+}
+
 /// <summary>
 ///     Generic asset description for a generic game asset
 /// </summary>

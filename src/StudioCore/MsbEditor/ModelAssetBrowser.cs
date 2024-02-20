@@ -1,240 +1,412 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.ConstrainedExecution;
-using System.Text;
-using Google.Protobuf.WellKnownTypes;
 using ImGuiNET;
-using SoulsFormats.KF4;
-using StudioCore.Aliases;
-using StudioCore.Editor;
-using StudioCore.Platform;
+using Octokit;
+using StudioCore.Banks;
+using StudioCore.Banks.AliasBank;
 using StudioCore.Utilities;
-using Veldrid;
 
-namespace StudioCore.MsbEditor
+namespace StudioCore.MsbEditor;
+
+public enum SelectedCategoryType
 {
-    public interface AssetBrowserEventHandler
+    None,
+    Character,
+    Object,
+    Part,
+    MapPiece
+}
+
+public interface AssetBrowserEventHandler
+{
+    public void OnInstantiateChr(string chrid);
+    public void OnInstantiateObj(string objid);
+    public void OnInstantiateParts(string objid);
+    public void OnInstantiateMapPiece(string mapid, string modelid);
+}
+
+public class ModelAssetBrowser
+{
+    private string _id;
+
+    private AssetBrowserEventHandler _handler;
+
+    private List<string> _modelNameCache = new List<string>();
+    private Dictionary<string, List<string>> _mapModelNameCache = new Dictionary<string, List<string>>();
+
+    private SelectedCategoryType _selectedAssetType = SelectedCategoryType.None;
+    private SelectedCategoryType _selectedAssetTypeCache = SelectedCategoryType.None;
+
+    private string _selectedAssetMapId = "";
+    private string _selectedAssetMapIdCache = null;
+
+    private string _searchStrInput = "";
+    private string _searchStrInputCache = "";
+
+    private string _refUpdateId = "";
+    private string _refUpdateName = "";
+    private string _refUpdateTags = "";
+
+    private string _selectedName;
+
+    public ModelAssetBrowser(AssetBrowserEventHandler handler, string id)
     {
-        public void OnInstantiateChr(string chrid);
-        public void OnInstantiateObj(string objid);
-        public void OnInstantiateParts(string objid);
-        public void OnInstantiateMapPiece(string mapid, string modelid);
+        _id = id;
+        _handler = handler;
+
+        _selectedName = null;
     }
 
-    public class ModelAssetBrowser
+    public string GetSelectedCategoryNameForAliasBank()
     {
-        private string _id;
+        string category = "None";
 
-        private AssetBrowserEventHandler _handler;
-
-        private List<string> _modelNameCache = new List<string>();
-        private Dictionary<string, List<string>> _mapModelNameCache = new Dictionary<string, List<string>>();
-
-        private AssetLocator _assetLocator;
-
-        private string _selectedAssetType = null;
-        private string _selectedAssetTypeCache = null;
-
-        private string _selectedAssetMapId = "";
-        private string _selectedAssetMapIdCache = null;
-
-        private string _searchStrInput = "";
-        private string _searchStrInputCache = "";
-
-        private string _refUpdateId = "";
-        private string _refUpdateName = "";
-        private string _refUpdateTags = "";
-
-        private string _selectedName;
-
-        private bool reloadModelAlias = false;
-
-        public ModelAssetBrowser(AssetBrowserEventHandler handler, string id, AssetLocator locator)
+        switch (_selectedAssetType)
         {
-            _id = id;
-            _assetLocator = locator;
-            _handler = handler;
-
-            _selectedName = null;
+            case SelectedCategoryType.Character:
+                category = "Chr";
+                break;
+            case SelectedCategoryType.Object:
+                category = "Obj";
+                break;
+            case SelectedCategoryType.Part:
+                category = "Part";
+                break;
+            case SelectedCategoryType.MapPiece:
+                category = "MapPiece";
+                break;
         }
 
-        public void OnProjectChanged()
+        return category;
+    }
+
+    public void OnProjectChanged()
+    {
+        if (Locator.AssetLocator.Type != GameType.Undefined)
         {
-            if (_assetLocator.Type != GameType.Undefined)
+            _modelNameCache = new List<string>();
+            _mapModelNameCache = new Dictionary<string, List<string>>();
+            _selectedAssetMapId = "";
+            _selectedAssetMapIdCache = null;
+
+            List<string> mapList = Locator.AssetLocator.GetFullMapList();
+
+            foreach (string mapId in mapList)
             {
-                _modelNameCache = new List<string>();
-                _mapModelNameCache = new Dictionary<string, List<string>>();
-                _selectedAssetMapId = "";
-                _selectedAssetMapIdCache = null;
+                var assetMapId = Locator.AssetLocator.GetAssetMapID(mapId);
 
-                List<string> mapList = _assetLocator.GetFullMapList();
-
-                foreach (string mapId in mapList)
+                if (!_mapModelNameCache.ContainsKey(assetMapId))
                 {
-                    var assetMapId = _assetLocator.GetAssetMapID(mapId);
-
-                    if (!_mapModelNameCache.ContainsKey(assetMapId))
-                    {
-                        _mapModelNameCache.Add(assetMapId, null);
-                    }
+                    _mapModelNameCache.Add(assetMapId, null);
                 }
             }
         }
+    }
 
-        public void Display()
+    public void Display()
+    {
+        if (Locator.AssetLocator.Type == GameType.Undefined)
         {
-            if (_assetLocator.Type == GameType.Undefined)
-                return;
-
-            if (ModelAliasBank.IsLoadingAliases)
-                return;
-
-            if (ImGui.Begin($@"Asset Browser##{_id}"))
-            {
-                if (ImGui.Button("Help"))
-                    ImGui.OpenPopup("##AssetBrowserHelp");
-                if (ImGui.BeginPopup("##AssetBrowserHelp"))
-                {
-                    ImGui.Text(
-                        "The Asset Browser allows you to browse through all of the available characters, assets and objects and map pieces.\n" +
-                        "The search will filter the browser list by filename, reference name and tags.\n" +
-                        "\n" +
-                        "If a Enemy is selected within the MSB view, \n" +
-                        "you can click on an entry within the Chr list to change the enemy to that type.\n" +
-                        "\n" +
-                        "If a Asset or Obj is selected within the MSB view, \n" +
-                        "you can click on an entry within the AEG or Obj list to change the object to that type.\n" +
-                        "\n" +
-                        "If a Map Piece is selected within the MSB view, \n" +
-                        "you can click on an entry within the Map Piece list to change the object to that type.\n" +
-                        "Note, you cannot apply a Map Piece asset from a different map to that of the selected Map Piece."
-                        );
-                    ImGui.EndPopup();
-                }
-
-                ImGui.SameLine();
-                ImGui.Checkbox("Show Tags", ref CFG.Current.AssetBrowser_ShowTagsInBrowser);
-
-                ImGui.Columns(2);
-
-                // Asset Type List
-                ImGui.BeginChild("AssetTypeList");
-
-                DisplayAssetTypeSelectionList();
-
-                ImGui.EndChild();
-
-                // Asset List
-                ImGui.NextColumn();
-
-                ImGui.BeginChild("AssetListSearch");
-                ImGui.InputText($"Search", ref _searchStrInput, 255);
-
-                ImGui.Spacing();
-                ImGui.Separator();
-                ImGui.Spacing();
-
-                ImGui.BeginChild("AssetList");
-
-                DisplayAssetSelectionList("Chr", ModelAliasBank._loadedAliasBank.GetChrEntries());
-                DisplayAssetSelectionList("Obj", ModelAliasBank._loadedAliasBank.GetObjEntries());
-                DisplayAssetSelectionList("Part", ModelAliasBank._loadedAliasBank.GetPartEntries());
-                DisplayMapAssetSelectionList("MapPiece", ModelAliasBank._loadedAliasBank.GetMapPieceEntries());
-
-                ImGui.EndChild();
-                ImGui.EndChild();
-            }
-            ImGui.End();
-
-            if (reloadModelAlias)
-            {
-                reloadModelAlias = false;
-                ModelAliasBank.ReloadAliasBank();
-            }
+            return;
         }
-        private void DisplayAssetTypeSelectionList()
+
+        if (ModelAliasBank.Bank.IsLoadingAliases)
         {
-            string objLabel = "Obj";
+            return;
+        }
 
-            if (_assetLocator.Type is GameType.EldenRing or GameType.ArmoredCoreVI)
-                objLabel = "AEG";
+        if (ImGui.Begin($@"Asset Browser##{_id}"))
+        {
+            ImGui.Columns(2);
 
-            if (ImGui.Selectable("Chr", _selectedAssetType == "Chr"))
+            // Asset Type List
+            ImGui.BeginChild("AssetTypeList");
+
+            DisplayAssetTypeSelectionList();
+
+            ImGui.EndChild();
+
+            // Asset List
+            ImGui.NextColumn();
+
+            ImGui.BeginChild("AssetListSearch");
+            ImGui.InputText($"Search", ref _searchStrInput, 255);
+
+            ImGui.SameLine();
+            ImguiUtils.ShowHelpMarker("Separate terms are split via the + character.");
+
+            ImGui.Spacing();
+            ImGui.Separator();
+            ImGui.Spacing();
+
+            ImGui.Checkbox("Show tags", ref CFG.Current.AssetBrowser_ShowTagsInBrowser);
+            ImguiUtils.ShowHelpMarker("Show the tags for each entry within the browser list as part of their displayed name.");
+
+            if (_selectedAssetType == SelectedCategoryType.Part)
             {
-                _modelNameCache = _assetLocator.GetChrModels();
-                _selectedAssetType = "Chr";
-                _selectedAssetMapId = "";
+                ImGui.Checkbox("Show low detail models", ref CFG.Current.AssetBrowser_ShowLowDetailParts);
+                ImguiUtils.ShowHelpMarker("Show the low detail part models in this list.");
             }
-            if (ImGui.Selectable(objLabel, _selectedAssetType == "Obj"))
-            {
-                _modelNameCache = _assetLocator.GetObjModels();
-                _selectedAssetType = "Obj";
-                _selectedAssetMapId = "";
-            }
-            if (ImGui.Selectable("Part", _selectedAssetType == "Part"))
-            {
-                _modelNameCache = _assetLocator.GetPartsModels();
-                _selectedAssetType = "Part";
-                _selectedAssetMapId = "";
-            }
 
-            foreach (var mapId in _mapModelNameCache.Keys)
-            {
-                string labelName = mapId;
+            ImGui.BeginChild("AssetList");
 
-                if (AliasBank.MapNames.ContainsKey(mapId))
+            DisplayAssetSelectionList(SelectedCategoryType.Character, ModelAliasBank.Bank.AliasNames.GetEntries("Characters"));
+            DisplayAssetSelectionList(SelectedCategoryType.Object, ModelAliasBank.Bank.AliasNames.GetEntries("Objects"));
+            DisplayAssetSelectionList(SelectedCategoryType.Part, ModelAliasBank.Bank.AliasNames.GetEntries("Parts"));
+            DisplayMapAssetSelectionList(SelectedCategoryType.MapPiece, ModelAliasBank.Bank.AliasNames.GetEntries("MapPieces"));
+
+            ImGui.EndChild();
+            ImGui.EndChild();
+        }
+        ImGui.End();
+
+        if (ModelAliasBank.Bank.mayReloadAliasBank)
+        {
+            ModelAliasBank.Bank.mayReloadAliasBank = false;
+            ModelAliasBank.Bank.ReloadAliasBank();
+        }
+    }
+    private void DisplayAssetTypeSelectionList()
+    {
+        var objLabel = "Obj";
+
+        if (Locator.AssetLocator.Type is GameType.EldenRing or GameType.ArmoredCoreVI)
+        {
+            objLabel = "AEG";
+        }
+
+        if (ImGui.Selectable("Chr", _selectedAssetType == SelectedCategoryType.Character))
+        {
+            _modelNameCache = Locator.AssetLocator.GetChrModels();
+            _selectedAssetType = SelectedCategoryType.Character;
+            _selectedAssetMapId = "";
+        }
+        if (ImGui.Selectable(objLabel, _selectedAssetType == SelectedCategoryType.Object))
+        {
+            _modelNameCache = Locator.AssetLocator.GetObjModels();
+            _selectedAssetType = SelectedCategoryType.Object;
+            _selectedAssetMapId = "";
+        }
+        if (ImGui.Selectable("Part", _selectedAssetType == SelectedCategoryType.Part))
+        {
+            _modelNameCache = Locator.AssetLocator.GetPartsModels();
+            _selectedAssetType = SelectedCategoryType.Part;
+            _selectedAssetMapId = "";
+        }
+
+        foreach (var mapId in _mapModelNameCache.Keys)
+        {
+            var labelName = mapId;
+
+            if (MapAliasBank.Bank.MapNames != null)
+            {
+                if (MapAliasBank.Bank.MapNames.ContainsKey(mapId))
                 {
-                    labelName = labelName + $" <{AliasBank.MapNames[mapId]}>";
+                    labelName = labelName + $" <{MapAliasBank.Bank.MapNames[mapId]}>";
                 }
 
                 if (ImGui.Selectable(labelName, _selectedAssetMapId == mapId))
                 {
                     if (_mapModelNameCache[mapId] == null)
                     {
-                        var modelList = _assetLocator.GetMapModels(mapId);
+                        var modelList = Locator.AssetLocator.GetMapModels(mapId);
                         var cache = new List<string>();
                         foreach (var model in modelList)
                         {
                             cache.Add(model.AssetName);
                         }
+
                         _mapModelNameCache[mapId] = cache;
                     }
 
                     _selectedAssetMapId = mapId;
-                    _selectedAssetType = "MapPiece";
+                    _selectedAssetType = SelectedCategoryType.MapPiece;
                 }
             }
         }
+    }
 
-        /// <summary>
-        /// Display the asset selection list for Chr, Obj/AEG and Parts.
-        /// </summary>
-        private void DisplayAssetSelectionList(string assetType, List<ModelAliasReference> referenceList)
+    /// <summary>
+    /// Display the asset selection list for Chr, Obj/AEG and Parts.
+    /// </summary>
+    private void DisplayAssetSelectionList(SelectedCategoryType assetType, List<AliasReference> referenceList)
+    {
+        var referenceDict = new Dictionary<string, AliasReference>();
+
+        foreach (AliasReference v in referenceList)
         {
-            Dictionary<string, ModelAliasReference> referenceDict = new Dictionary<string, ModelAliasReference>();
-
-            foreach (ModelAliasReference v in referenceList)
+            if (!referenceDict.ContainsKey(v.id))
             {
-                if (!referenceDict.ContainsKey(v.id))
-                    referenceDict.Add(v.id, v);
+                referenceDict.Add(v.id, v);
             }
+        }
 
-            if (_selectedAssetType == assetType)
+        if (_selectedAssetType == assetType)
+        {
+            if (_searchStrInput != _searchStrInputCache || _selectedAssetType != _selectedAssetTypeCache)
             {
-                if (_searchStrInput != _searchStrInputCache || _selectedAssetType != _selectedAssetTypeCache)
+                _searchStrInputCache = _searchStrInput;
+                _selectedAssetTypeCache = _selectedAssetType;
+            }
+            foreach (var name in _modelNameCache)
+            {
+                var displayedName = $"{name}";
+                var lowerName = name.ToLower();
+
+                var refID = $"{name}";
+                var refName = "";
+                var refTagList = new List<string>();
+
+                if (referenceDict.ContainsKey(lowerName))
+                {
+                    displayedName = displayedName + $" <{referenceDict[lowerName].name}>";
+
+                    if (CFG.Current.AssetBrowser_ShowTagsInBrowser)
+                    {
+                        var tagString = string.Join(" ", referenceDict[lowerName].tags);
+                        displayedName = $"{displayedName} {{ {tagString} }}";
+                    }
+
+                    refID = referenceDict[lowerName].id;
+                    refName = referenceDict[lowerName].name;
+                    refTagList = referenceDict[lowerName].tags;
+                }
+
+                if (!CFG.Current.AssetBrowser_ShowLowDetailParts)
+                {
+                    if (_selectedAssetType == SelectedCategoryType.Part)
+                    {
+                        if (name.Substring(name.Length - 2) == "_l")
+                        {
+                            continue; // Skip this entry if it is a low detail entry
+                        }
+                    }
+                }
+
+                if (SearchFilters.IsSearchMatch(_searchStrInput, lowerName, refName, refTagList, true, false, true))
+                {
+                    if (ImGui.Selectable(displayedName))
+                    {
+                        _selectedName = refID;
+
+                        _refUpdateId = refID;
+                        _refUpdateName = refName;
+
+                        if (refTagList.Count > 0)
+                        {
+                            var tagStr = refTagList[0];
+                            foreach (var entry in refTagList.Skip(1))
+                            {
+                                tagStr = $"{tagStr},{entry}";
+                            }
+                            _refUpdateTags = tagStr;
+                        }
+                        else
+                        {
+                            _refUpdateTags = "";
+                        }
+                    }
+
+                    if (_selectedName == refID)
+                    {
+                        if (ImGui.BeginPopupContextItem($"{refID}##context"))
+                        {
+                            if (ImGui.InputText($"Name", ref _refUpdateName, 255))
+                            {
+
+                            }
+
+                            if (ImGui.InputText($"Tags", ref _refUpdateTags, 255))
+                            {
+
+                            }
+
+                            if (ImGui.Button("Update"))
+                            {
+                                ModelAliasBank.Bank.AddToLocalAliasBank(GetSelectedCategoryNameForAliasBank(), _refUpdateId, _refUpdateName, _refUpdateTags);
+                                ImGui.CloseCurrentPopup();
+                                ModelAliasBank.Bank.mayReloadAliasBank = true;
+                            }
+
+                            ImGui.SameLine();
+                            if (ImGui.Button("Restore Default"))
+                            {
+                                ModelAliasBank.Bank.RemoveFromLocalAliasBank(GetSelectedCategoryNameForAliasBank(), _refUpdateId);
+                                ImGui.CloseCurrentPopup();
+                                ModelAliasBank.Bank.mayReloadAliasBank = true;
+                            }
+
+                            ImGui.EndPopup();
+                        }
+                    }
+
+                    if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClicked(0))
+                    {
+                        // TODO: fix issue with DS2 loading
+                        if (Locator.AssetLocator.Type != GameType.DarkSoulsIISOTFS)
+                        {
+                            if (_selectedAssetType == SelectedCategoryType.Character)
+                            {
+                                _handler.OnInstantiateChr(name);
+                            }
+
+                            if (_selectedAssetType == SelectedCategoryType.Object)
+                            {
+                                _handler.OnInstantiateObj(name);
+                            }
+
+                            if (_selectedAssetType == SelectedCategoryType.Part)
+                            {
+                                _handler.OnInstantiateParts(name);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Display the asset selection list for Map Pieces.
+    /// </summary>
+    private void DisplayMapAssetSelectionList(SelectedCategoryType assetType, List<AliasReference> referenceList)
+    {
+        var referenceDict = new Dictionary<string, AliasReference>();
+
+        foreach (AliasReference v in referenceList)
+        {
+            if (!referenceDict.ContainsKey(v.id))
+            {
+                referenceDict.Add(v.id, v);
+            }
+        }
+
+        if (_selectedAssetType == assetType)
+        {
+            if (_mapModelNameCache.ContainsKey(_selectedAssetMapId))
+            {
+                if (_searchStrInput != _searchStrInputCache || _selectedAssetType != _selectedAssetTypeCache || _selectedAssetMapId != _selectedAssetMapIdCache)
                 {
                     _searchStrInputCache = _searchStrInput;
                     _selectedAssetTypeCache = _selectedAssetType;
+                    _selectedAssetMapIdCache = _selectedAssetMapId;
                 }
-                foreach (var name in _modelNameCache)
+                foreach (var name in _mapModelNameCache[_selectedAssetMapId])
                 {
-                    var displayedName = $"{name}";
+                    var modelName = name.Replace($"{_selectedAssetMapId}_", "m");
+
+                    var displayedName = $"{modelName}";
                     var lowerName = name.ToLower();
 
                     var refID = $"{name}";
                     var refName = "";
                     var refTagList = new List<string>();
+
+                    // Adjust the name to remove the A{mapId} section.
+                    if (Locator.AssetLocator.Type == GameType.DarkSoulsPTDE || Locator.AssetLocator.Type == GameType.DarkSoulsRemastered)
+                    {
+                        displayedName = displayedName.Replace($"A{_selectedAssetMapId.Substring(1, 2)}", "");
+                    }
 
                     if (referenceDict.ContainsKey(lowerName))
                     {
@@ -242,7 +414,7 @@ namespace StudioCore.MsbEditor
 
                         if (CFG.Current.AssetBrowser_ShowTagsInBrowser)
                         {
-                            string tagString = string.Join(" ", referenceDict[lowerName].tags);
+                            var tagString = string.Join(" ", referenceDict[lowerName].tags);
                             displayedName = $"{displayedName} {{ {tagString} }}";
                         }
 
@@ -251,7 +423,7 @@ namespace StudioCore.MsbEditor
                         refTagList = referenceDict[lowerName].tags;
                     }
 
-                    if (Utils.IsSearchFilterMatch(_searchStrInput, lowerName, refName, refTagList))
+                    if (SearchFilters.IsSearchMatch(_searchStrInput, lowerName, refName, refTagList, true, false, true))
                     {
                         if (ImGui.Selectable(displayedName))
                         {
@@ -262,11 +434,12 @@ namespace StudioCore.MsbEditor
 
                             if (refTagList.Count > 0)
                             {
-                                string tagStr = refTagList[0];
-                                foreach (string entry in refTagList.Skip(1))
+                                var tagStr = refTagList[0];
+                                foreach (var entry in refTagList.Skip(1))
                                 {
                                     tagStr = $"{tagStr},{entry}";
                                 }
+
                                 _refUpdateTags = tagStr;
                             }
                             else
@@ -291,17 +464,17 @@ namespace StudioCore.MsbEditor
 
                                 if (ImGui.Button("Update"))
                                 {
-                                    ModelAliasBank.AddToLocalAliasBank(assetType, _refUpdateId, _refUpdateName, _refUpdateTags);
+                                    ModelAliasBank.Bank.AddToLocalAliasBank(GetSelectedCategoryNameForAliasBank(), _refUpdateId, _refUpdateName, _refUpdateTags);
                                     ImGui.CloseCurrentPopup();
-                                    reloadModelAlias = true;
+                                    ModelAliasBank.Bank.mayReloadAliasBank = true;
                                 }
 
                                 ImGui.SameLine();
                                 if (ImGui.Button("Restore Default"))
                                 {
-                                    ModelAliasBank.RemoveFromLocalAliasBank(assetType, _refUpdateId);
+                                    ModelAliasBank.Bank.RemoveFromLocalAliasBank(GetSelectedCategoryNameForAliasBank(), _refUpdateId);
                                     ImGui.CloseCurrentPopup();
-                                    reloadModelAlias = true;
+                                    ModelAliasBank.Bank.mayReloadAliasBank = true;
                                 }
 
                                 ImGui.EndPopup();
@@ -310,137 +483,8 @@ namespace StudioCore.MsbEditor
 
                         if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClicked(0))
                         {
-                            if (_selectedAssetType == "Chr")
-                            {
-                                _handler.OnInstantiateChr(name);
-                            }
-                            if (_selectedAssetType == "Obj")
-                            {
-                                _handler.OnInstantiateObj(name);
-                            }
-                            if (_selectedAssetType == "Part")
-                            {
-                                _handler.OnInstantiateParts(name);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Display the asset selection list for Map Pieces.
-        /// </summary>
-        private void DisplayMapAssetSelectionList(string assetType, List<ModelAliasReference> referenceList)
-        {
-            Dictionary<string, ModelAliasReference> referenceDict = new Dictionary<string, ModelAliasReference>();
-
-            foreach (ModelAliasReference v in referenceList)
-            {
-                if (!referenceDict.ContainsKey(v.id))
-                    referenceDict.Add(v.id, v);
-            }
-
-            if (_selectedAssetType == assetType)
-            {
-                if (_mapModelNameCache.ContainsKey(_selectedAssetMapId))
-                {
-                    if (_searchStrInput != _searchStrInputCache || _selectedAssetType != _selectedAssetTypeCache || _selectedAssetMapId != _selectedAssetMapIdCache)
-                    {
-                        _searchStrInputCache = _searchStrInput;
-                        _selectedAssetTypeCache = _selectedAssetType;
-                        _selectedAssetMapIdCache = _selectedAssetMapId;
-                    }
-                    foreach (string name in _mapModelNameCache[_selectedAssetMapId])
-                    {
-                        string modelName = name.Replace($"{_selectedAssetMapId}_", "m");
-
-                        var displayedName = $"{modelName}";
-                        var lowerName = name.ToLower();
-
-                        var refID = $"{name}";
-                        var refName = "";
-                        var refTagList = new List<string>();
-
-                        // Adjust the name to remove the A{mapId} section.
-                        if (_assetLocator.Type == GameType.DarkSoulsPTDE || _assetLocator.Type == GameType.DarkSoulsRemastered)
-                        {
-                            displayedName = displayedName.Replace($"A{_selectedAssetMapId.Substring(1, 2)}", "");
-                        }
-
-                        if (referenceDict.ContainsKey(lowerName))
-                        {
-                            displayedName = displayedName + $" <{referenceDict[lowerName].name}>";
-
-                            if (CFG.Current.AssetBrowser_ShowTagsInBrowser)
-                            {
-                                string tagString = string.Join(" ", referenceDict[lowerName].tags);
-                                displayedName = $"{displayedName} {{ {tagString} }}";
-                            }
-
-                            refID = referenceDict[lowerName].id;
-                            refName = referenceDict[lowerName].name;
-                            refTagList = referenceDict[lowerName].tags;
-                        }
-
-                        if (Utils.IsSearchFilterMatch(_searchStrInput, lowerName, refName, refTagList))
-                        {
-                            if (ImGui.Selectable(displayedName))
-                            {
-                                _selectedName = refID;
-
-                                _refUpdateId = refID;
-                                _refUpdateName = refName;
-
-                                if (refTagList.Count > 0)
-                                {
-                                    string tagStr = refTagList[0];
-                                    foreach (string entry in refTagList.Skip(1))
-                                    {
-                                        tagStr = $"{tagStr},{entry}";
-                                    }
-                                    _refUpdateTags = tagStr;
-                                }
-                                else
-                                {
-                                    _refUpdateTags = "";
-                                }
-                            }
-
-                            if (_selectedName == refID)
-                            {
-                                if (ImGui.BeginPopupContextItem($"{refID}##context"))
-                                {
-                                    if (ImGui.InputText($"Name", ref _refUpdateName, 255))
-                                    {
-
-                                    }
-
-                                    if (ImGui.InputText($"Tags", ref _refUpdateTags, 255))
-                                    {
-
-                                    }
-
-                                    if (ImGui.Button("Update"))
-                                    {
-                                        ModelAliasBank.AddToLocalAliasBank(assetType, _refUpdateId, _refUpdateName, _refUpdateTags);
-                                        ImGui.CloseCurrentPopup();
-                                        reloadModelAlias = true;
-                                    }
-
-                                    ImGui.SameLine();
-                                    if (ImGui.Button("Restore Default"))
-                                    {
-                                        ModelAliasBank.RemoveFromLocalAliasBank(assetType, _refUpdateId);
-                                        ImGui.CloseCurrentPopup();
-                                        reloadModelAlias = true;
-                                    }
-
-                                    ImGui.EndPopup();
-                                }
-                            }
-
-                            if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClicked(0))
+                            // TODO: fix issue with DS2 loading
+                            if (Locator.AssetLocator.Type != GameType.DarkSoulsIISOTFS)
                             {
                                 _handler.OnInstantiateMapPiece(_selectedAssetMapId, name);
                             }

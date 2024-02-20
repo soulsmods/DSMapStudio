@@ -1,4 +1,8 @@
-﻿using static Andre.Native.ImGuiBindings;
+
+using static Andre.Native.ImGuiBindings;
+
+using ImGuiNET;
+using StudioCore.Banks;
 using StudioCore.Editor;
 using StudioCore.Gui;
 using StudioCore.ParamEditor;
@@ -676,9 +680,9 @@ public class SceneTree : IActionEventHandler
                     continue;
                 }
 
-                if (AliasBank.MapNames != null && AliasBank.MapNames.ContainsKey(mapid))
+                if (MapAliasBank.Bank.MapNames != null && MapAliasBank.Bank.MapNames.ContainsKey(mapid))
                 {
-                    metaName = AliasBank.MapNames[mapid];
+                    metaName = MapAliasBank.Bank.MapNames[mapid];
                 }
 
                 // Map name search filter

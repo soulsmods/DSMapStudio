@@ -5,6 +5,7 @@ using StudioCore.MsbEditor;
 using StudioCore.ParamEditor;
 using StudioCore.Scene;
 using StudioCore.TextEditor;
+using StudioCore.Utilities;
 using System;
 using System.Diagnostics;
 using System.Drawing;
@@ -135,6 +136,12 @@ public class SettingsMenu
                 {
                     FontRebuildRequest = true;
                 }
+            }
+
+            if (ImGui.CollapsingHeader("Resources", ImGuiTreeNodeFlags.DefaultOpen))
+            {
+                ImGui.Checkbox("Alias Banks - Editor Mode", ref CFG.Current.AliasBank_EditorMode);
+                ImguiUtils.ShowHelpMarker("If enabled, editing the name and tags for alias banks will commit the changes to the DSMS base version instead of the mod-specific version.");
             }
 
             if (ImGui.CollapsingHeader("Project", ImGuiTreeNodeFlags.DefaultOpen))
