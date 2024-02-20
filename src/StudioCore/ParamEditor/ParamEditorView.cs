@@ -72,7 +72,7 @@ public class ParamEditorView
         var resAutoParam = AutoFill.ParamSearchBarAutoFill();
         if (resAutoParam != null)
         {
-            _selection.SetCurrentRowSearchString(resAutoParam);
+            _selection.SetCurrentParamSearchString(resAutoParam);
         }
 
         if (!_selection.currentParamSearchString.Equals(lastParamSearch))
