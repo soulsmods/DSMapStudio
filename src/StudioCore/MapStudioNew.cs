@@ -822,11 +822,14 @@ public class MapStudioNew
                             }
                             else
                             {
-                                TaskLogs.AddLog(
-                                    $"Project.json at \"{p.ProjectFile}\" does not exist.\nRemoving project from recent projects list.",
-                                    LogLevel.Warning, TaskLogs.LogPriority.High);
-                                CFG.RemoveRecentProject(p);
-                                CFG.Save();
+                                DialogResult result = PlatformUtils.Instance.MessageBox(
+                                    $"Project file at \"{p.ProjectFile}\" does not exist.\n\n" +
+                                    $"Remove project from list of recent projects?",
+                                    $"Project.json cannot be found", MessageBoxButtons.YesNo);
+                                if (result == DialogResult.Yes)
+                                {
+                                    CFG.RemoveRecentProject(p);
+                                }
                             }
                         }
 
@@ -835,7 +838,6 @@ public class MapStudioNew
                             if (ImGui.Selectable("Remove from list"))
                             {
                                 CFG.RemoveRecentProject(p);
-                                CFG.Save();
                             }
 
                             ImGui.EndPopup();
