@@ -153,10 +153,10 @@
 2008 [Griggs of Vinheim] Bellowing Dragoncrest Ring
 2009 [Griggs of Vinheim] Lingering Dragoncrest Ring
 2010 [Griggs of Vinheim] Sorcerer's Catalyst
-2020 [Griggs of Vinheim] Homing Soulmass
-2021 [Griggs of Vinheim] Soul Spear
-2100 [Griggs of Vinheim - Initial] Soul Arrow
-2101 [Griggs of Vinheim - Initial] Heavy Soul Arrow
+2020 [Griggs - Logan left Firelink] Homing Soulmass
+2021 [Griggs - Logan left Firelink] Soul Spear
+2100 [Rickert of Vinheim] Soul Arrow
+2101 [Rickert of Vinheim] Heavy Soul Arrow
 2102 [Rickert of Vinheim] Sorcerer's Catalyst
 2200 [Dusk of Oolacile] Hidden Weapon
 2201 [Dusk of Oolacile] Hidden Body
@@ -209,17 +209,17 @@
 4406 [Oswald of Carim] Poisonbite Ring
 4407 [Oswald of Carim] Ring of Sacrifice
 4408 [Oswald of Carim] Homeward Bone
-5000 [Griggs of Vinheim - Logan in DA] Soul Arrow
-5001 [Griggs of Vinheim - Logan in DA] Great Soul Arrow
-5002 [Griggs of Vinheim - Logan in DA] Heavy Soul Arrow
-5003 [Griggs of Vinheim - Logan in DA] Great Heavy Soul Arrow
-5004 [Griggs of Vinheim - Logan in DA] Homing Soulmass
-5005 [Griggs of Vinheim - Logan in DA] Soul Spear
-5006 [Griggs of Vinheim - Logan in DA] Magic Weapon
-5007 [Griggs of Vinheim - Logan in DA] Magic Shield
-5020 [Griggs of Vinheim - Logan in DA] Homing Crystal Soulmass
-5021 [Griggs of Vinheim - Logan in DA] Crystal Soul Spear
-5022 [Griggs of Vinheim - Logan in DA] Crystal Magic Weapon
+5000 [Big Hat Logan] Soul Arrow
+5001 [Big Hat Logan] Great Soul Arrow
+5002 [Big Hat Logan] Heavy Soul Arrow
+5003 [Big Hat Logan] Great Heavy Soul Arrow
+5004 [Big Hat Logan] Homing Soulmass
+5005 [Big Hat Logan] Soul Spear
+5006 [Big Hat Logan] Magic Weapon
+5007 [Big Hat Logan] Magic Shield
+5020 [Big Hat Logan - Dukes] Homing Crystal Soulmass
+5021 [Big Hat Logan - Dukes] Crystal Soul Spear
+5022 [Big Hat Logan - Dukes] Crystal Magic Weapon
 5300 [Crestfallen Merchant] Green Blossom
 5301 [Crestfallen Merchant] Black Firebomb
 5302 [Crestfallen Merchant] Titanite Shard

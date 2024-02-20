@@ -327,13 +327,14 @@ public class MapStudioNew
 
             // Limit frame rate when window isn't focused unless we are profiling
             var focused = Tracy.EnableTracy ? true : _context.Window.Focused;
+
             if (!focused)
             {
-                _desiredFrameLengthSeconds = 1.0 / 20.0f;
+                _desiredFrameLengthSeconds = 1.0 / CFG.Current.GFX_Framerate_Limit_Unfocused;
             }
             else
             {
-                _desiredFrameLengthSeconds = 1.0 / 60.0f;
+                _desiredFrameLengthSeconds = 1.0 / CFG.Current.GFX_Framerate_Limit;
             }
 
             var currentFrameTicks = sw.ElapsedTicks;
@@ -773,6 +774,7 @@ public class MapStudioNew
         {
             if (ImGui.BeginMenu("File"))
             {
+
                 if (ImGui.MenuItem("Enable Texturing (alpha)", "", CFG.Current.EnableTexturing))
                 {
                     CFG.Current.EnableTexturing = !CFG.Current.EnableTexturing;
@@ -820,11 +822,14 @@ public class MapStudioNew
                             }
                             else
                             {
-                                TaskLogs.AddLog(
-                                    $"Project.json at \"{p.ProjectFile}\" does not exist.\nRemoving project from recent projects list.",
-                                    LogLevel.Warning, TaskLogs.LogPriority.High);
-                                CFG.RemoveRecentProject(p);
-                                CFG.Save();
+                                DialogResult result = PlatformUtils.Instance.MessageBox(
+                                    $"Project file at \"{p.ProjectFile}\" does not exist.\n\n" +
+                                    $"Remove project from list of recent projects?",
+                                    $"Project.json cannot be found", MessageBoxButtons.YesNo);
+                                if (result == DialogResult.Yes)
+                                {
+                                    CFG.RemoveRecentProject(p);
+                                }
                             }
                         }
 
@@ -833,7 +838,6 @@ public class MapStudioNew
                             if (ImGui.Selectable("Remove from list"))
                             {
                                 CFG.RemoveRecentProject(p);
-                                CFG.Save();
                             }
 
                             ImGui.EndPopup();

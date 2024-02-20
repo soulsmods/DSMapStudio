@@ -191,15 +191,9 @@ internal class AutoFill
     private static readonly AutoFillSearchEngine<(string, Param.Row), (PseudoColumn, Param.Column)> autoFillCse =
         new("cse", CellSearchEngine.cse);
 
-    private static string[] _autoFillArgsGop = Enumerable
-        .Repeat("", MEGlobalOperation.globalOps.AvailableCommands().Sum(x => x.Item2.Length)).ToArray();
-
-    private static string[] _autoFillArgsRop = Enumerable
-        .Repeat("", MERowOperation.rowOps.AvailableCommands().Sum(x => x.Item2.Length)).ToArray();
-
-    private static string[] _autoFillArgsCop = Enumerable
-        .Repeat("", MEValueOperation.valueOps.AvailableCommands().Sum(x => x.Item2.Length)).ToArray();
-
+    private static string[] _autoFillArgsGop = Enumerable.Repeat("", MEGlobalOperation.globalOps.AvailableCommands(true).Sum((x) => x.Item2.Length)).ToArray();
+    private static string[] _autoFillArgsRop = Enumerable.Repeat("", MERowOperation.rowOps.AvailableCommands(true).Sum((x) => x.Item2.Length)).ToArray();
+    private static string[] _autoFillArgsCop = Enumerable.Repeat("", MEValueOperation.valueOps.AvailableCommands(true).Sum((x) => x.Item2.Length)).ToArray();
     private static string[] _autoFillArgsOa =
         Enumerable.Repeat("", MEOperationArgument.arg.AllArguments().Sum(x => x.Item2.Length)).ToArray();
 

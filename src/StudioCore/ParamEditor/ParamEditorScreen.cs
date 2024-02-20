@@ -178,27 +178,6 @@ public class ParamEditorScreen : EditorScreen
 
     internal ParamEditorView _activeView;
 
-    private string[] _autoFillArgsCop = Enumerable
-        .Repeat("", MEValueOperation.valueOps.AvailableCommands().Sum(x => x.Item2.Length)).ToArray();
-
-    private string[] _autoFillArgsCse =
-        Enumerable.Repeat("", CellSearchEngine.cse.AllCommands().Sum(x => x.Item2.Length)).ToArray();
-
-    private string[] _autoFillArgsOa =
-        Enumerable.Repeat("", MEOperationArgument.arg.AllArguments().Sum(x => x.Item2.Length)).ToArray();
-
-    private string[] _autoFillArgsParse = Enumerable
-        .Repeat("", ParamAndRowSearchEngine.parse.AllCommands().Sum(x => x.Item2.Length)).ToArray();
-
-    private string[] _autoFillArgsPse =
-        Enumerable.Repeat("", ParamSearchEngine.pse.AllCommands().Sum(x => x.Item2.Length)).ToArray();
-
-    private string[] _autoFillArgsRop = Enumerable
-        .Repeat("", MERowOperation.rowOps.AvailableCommands().Sum(x => x.Item2.Length)).ToArray();
-
-    private string[] _autoFillArgsRse =
-        Enumerable.Repeat("", RowSearchEngine.rse.AllCommands().Sum(x => x.Item2.Length)).ToArray();
-
     // Clipboard vars
     private long _clipboardBaseRow;
     private string _currentCtrlVOffset = "0";
@@ -972,10 +951,10 @@ public class ParamEditorScreen : EditorScreen
                         GotoSelectedRow = true;
                     }
 
-                    ParamEditorView viewToMofidy = _activeView;
+                    ParamEditorView viewToModify = _activeView;
                     if (initcmd[1].Equals("new"))
                     {
-                        viewToMofidy = AddView();
+                        viewToModify = AddView();
                     }
                     else
                     {
@@ -983,16 +962,16 @@ public class ParamEditorScreen : EditorScreen
                         var parsable = int.TryParse(initcmd[1], out cmdIndex);
                         if (parsable && cmdIndex >= 0 && cmdIndex < _views.Count)
                         {
-                            viewToMofidy = _views[cmdIndex];
+                            viewToModify = _views[cmdIndex];
                         }
                     }
 
-                    _activeView = viewToMofidy;
-                    viewToMofidy._selection.SetActiveParam(initcmd[2]);
+                    _activeView = viewToModify;
+                    viewToModify._selection.SetActiveParam(initcmd[2]);
                     if (initcmd.Length > 3)
                     {
-                        viewToMofidy._selection.SetActiveRow(null, doFocus);
-                        Param p = ParamBank.PrimaryBank.Params[viewToMofidy._selection.GetActiveParam()];
+                        viewToModify._selection.SetActiveRow(null, doFocus);
+                        Param p = ParamBank.PrimaryBank.Params[viewToModify._selection.GetActiveParam()];
                         int id;
                         var parsed = int.TryParse(initcmd[3], out id);
                         if (parsed)
@@ -1000,7 +979,7 @@ public class ParamEditorScreen : EditorScreen
                             Param.Row r = p.Rows.FirstOrDefault(r => r.ID == id);
                             if (r != null)
                             {
-                                viewToMofidy._selection.SetActiveRow(r, doFocus);
+                                viewToModify._selection.SetActiveRow(r, doFocus);
                             }
                         }
                     }

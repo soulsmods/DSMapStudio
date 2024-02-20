@@ -126,6 +126,11 @@ public class ParamEditorSelectionState
         _paramStates[_activeParam].selectionCacheDirty = true;
     }
 
+    public void SetCurrentParamSearchString(string s)
+    {
+        currentParamSearchString = s;
+    }
+
     public void SetCurrentPropSearchString(string s)
     {
         if (_activeParam == null)
