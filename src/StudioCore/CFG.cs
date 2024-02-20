@@ -47,7 +47,7 @@ public class CFG
     public bool FontThai = false;
     public bool FontVietnamese = false;
 
-    public bool System_FlexibleDCX = true;
+    public bool System_FlexibleFormats = true;
 
     // Settings: Map Editor
     //public bool EnableFrustrumCulling = true;

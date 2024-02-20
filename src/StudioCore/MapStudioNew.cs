@@ -91,7 +91,7 @@ public class MapStudioNew
         _assetLocator = new AssetLocator();
 
         // Flexible DCX
-        BinaryReaderEx.IsFlexible = CFG.Current.System_FlexibleDCX;
+        BinaryReaderEx.IsFlexible = CFG.Current.System_FlexibleFormats;
 
         MsbEditorScreen msbEditor = new(_context.Window, _context.Device, _assetLocator);
         ModelEditorScreen modelEditor = new(_context.Window, _context.Device, _assetLocator);
