@@ -89,6 +89,10 @@ public class MapStudioNew
         PlatformUtils.InitializeWindows(context.Window.SdlWindowHandle);
 
         _assetLocator = new AssetLocator();
+
+        // Flexible DCX
+        DCX.IsFlexible = CFG.Current.System_FlexibleDCX;
+
         MsbEditorScreen msbEditor = new(_context.Window, _context.Device, _assetLocator);
         ModelEditorScreen modelEditor = new(_context.Window, _context.Device, _assetLocator);
         ParamEditorScreen paramEditor = new(_context.Window, _context.Device, _assetLocator);

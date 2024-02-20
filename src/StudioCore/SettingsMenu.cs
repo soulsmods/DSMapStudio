@@ -11,6 +11,7 @@ using System.Drawing;
 using System.Numerics;
 using System.Reflection;
 using Veldrid;
+using SoulsFormats;
 
 namespace StudioCore;
 
@@ -71,6 +72,15 @@ public class SettingsMenu
                     CFG.Current.UIScale = CFG.Default.UIScale;
                     FontRebuildRequest = true;
                 }
+            }
+
+            if (ImGui.CollapsingHeader("Formats"))
+            {
+                ImGui.Checkbox("Flexible DCX", ref CFG.Current.System_FlexibleDCX);
+                ImGui.SameLine();
+                ShowHelpMarker("Enable this if you are attempting to mod files that are 'encrypted'.");
+
+                DCX.IsFlexible = CFG.Current.System_FlexibleDCX;
             }
 
             if (ImGui.CollapsingHeader("Soapstone Server"))
