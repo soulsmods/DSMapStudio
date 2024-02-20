@@ -8,6 +8,7 @@ using System.Linq;
 using System.Numerics;
 using System.Reflection;
 using Veldrid;
+using Octokit;
 
 namespace StudioCore.ParamEditor;
 
@@ -24,6 +25,8 @@ public class ParamEditorView
     private bool _focusRows;
     private int _gotoParamRow = -1;
     private bool _mapParamView;
+    private bool _eventParamView;
+    private bool _gConfigParamView;
 
     internal ParamEditorScreen _paramEditor;
 
@@ -98,6 +101,21 @@ public class ParamEditorView
             // DS2 has map params, add UI element to toggle viewing map params and GameParams.
             if (ImGui.Checkbox("Edit Map Params", ref _mapParamView))
             {
+                UICache.ClearCaches();
+            }
+
+            ImGui.Separator();
+        }
+        else if (ParamBank.PrimaryBank.AssetLocator.Type is GameType.EldenRing || ParamBank.PrimaryBank.AssetLocator.Type is GameType.ArmoredCoreVI)
+        {
+            if (ImGui.Checkbox("Edit Event Params", ref _eventParamView))
+            {
+                _gConfigParamView = false;
+                UICache.ClearCaches();
+            }
+            if (ImGui.Checkbox("Edit Graphics Config Params", ref _gConfigParamView))
+            {
+                _eventParamView = false;
                 UICache.ClearCaches();
             }
 
@@ -186,6 +204,26 @@ public class ParamEditorView
                 else
                 {
                     keyList = keyList.FindAll(p => !ParamBank.DS2MapParamlist.Contains(p.Split('_')[0]));
+                }
+            }
+            else if (ParamBank.PrimaryBank.AssetLocator.Type is GameType.EldenRing || ParamBank.PrimaryBank.AssetLocator.Type is GameType.ArmoredCoreVI)
+            {
+                if (_eventParamView)
+                {
+                    keyList = keyList.FindAll(p => p.StartsWith("EFID"));
+                }
+                else
+                {
+                    keyList = keyList.FindAll(p => !p.StartsWith("EFID"));
+                }
+
+                if (_gConfigParamView)
+                {
+                    keyList = keyList.FindAll(p => p.StartsWith("Gconfig"));
+                }
+                else
+                {
+                    keyList = keyList.FindAll(p => !p.StartsWith("Gconfig"));
                 }
             }
 
