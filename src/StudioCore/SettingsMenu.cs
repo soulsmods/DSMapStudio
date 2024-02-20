@@ -264,6 +264,13 @@ public class SettingsMenu
                 }
             }
 
+            // Scene View
+            if (ImGui.CollapsingHeader("Scene View"))
+            {
+                ImGui.Checkbox("Display character names", ref CFG.Current.MapEditor_Show_Character_Names_in_Scene_Tree);
+                ImguiUtils.ShowHelpMarker("Characters names will be displayed within the scene view list.");
+            }
+
             if (ImGui.CollapsingHeader("Selection"))
             {
                 var arbitrary_rotation_x = CFG.Current.Map_ArbitraryRotation_X_Shift;

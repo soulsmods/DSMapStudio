@@ -67,7 +67,9 @@ public class CFG
     public bool MapAliases_ShowAliasAddition = false;
 
     // Settings: Map Editor
-    //public bool EnableFrustrumCulling = true;
+    public bool MapEditor_Show_Character_Names_in_Scene_Tree = true;
+
+    public bool EnableFrustrumCulling = false;
     public bool EnableTexturing = false;
     public bool Map_AlwaysListLoadedMaps = true;
     public bool EnableEldenRingAutoMapOffset = true;
