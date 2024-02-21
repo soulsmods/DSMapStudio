@@ -278,7 +278,7 @@ public class MassParamEditRegex
 
         var meOpDef = operation.AllCommands()[target.command];
         (argNameTarget, funcTarget) = (meOpDef.argNames, meOpDef.function);
-        ExecParamOperationArguments(currentLine, target.arguments);
+        paramArgFuncs = MEOperationArgument.arg.getContextualArguments(argNames.Length, target.arguments);
         if (argNameTarget.Length != paramArgFuncs.Length)
         {
             return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Invalid number of arguments for operation {globalOperationInfo.command} (line {currentLine})"), null);
@@ -298,11 +298,6 @@ public class MassParamEditRegex
             return SandboxMassEditExecution(currentLine, partials => ExecParamRowStage(currentLine, partials));
         else
             return SandboxMassEditExecution(currentLine, partials => ExecParamStage(currentLine, partials));
-    }
-
-    private void ExecParamOperationArguments(int currentLine, string opargs)
-    {
-        paramArgFuncs = MEOperationArgument.arg.getContextualArguments(argNames.Length, opargs);
     }
 
     private (MassEditResult, List<EditorAction>) SandboxMassEditExecution(int currentLine,
