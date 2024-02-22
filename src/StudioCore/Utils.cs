@@ -1091,6 +1091,7 @@ public static class Utils
         //throw new NotImplementedException($"{vec}");
 
         return vec;
+    }
 
     /// <summary>
     /// Returns true is the input string (whole or part) matches a filename, reference name or tag.
