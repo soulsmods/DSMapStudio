@@ -496,8 +496,15 @@ public class ParamBank
 
     private void LoadParamsDESFromFile(string path)
     {
-        using BND3 bnd = BND3.Read(path);
-        LoadParamFromBinder(bnd, ref _params, out _paramVersion);
+        try
+        {
+            using var bnd = BND3.Read(path);
+            LoadParamFromBinder(bnd, ref _params, out _paramVersion);
+        }
+        catch
+        {
+            PlatformUtils.Instance.MessageBox($"Param Load failed: {path}\nTry enabling 'Flexible DCX'.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
     }
 
     private void LoadParamsDS1()
@@ -557,8 +564,15 @@ public class ParamBank
 
     private void LoadParamsDS1FromFile(string path)
     {
-        using BND3 bnd = BND3.Read(path);
-        LoadParamFromBinder(bnd, ref _params, out _paramVersion);
+        try
+        {
+            using var bnd = BND3.Read(path);
+            LoadParamFromBinder(bnd, ref _params, out _paramVersion);
+        }
+        catch
+        {
+            PlatformUtils.Instance.MessageBox($"Param Load failed: {path}\nTry enabling 'Flexible DCX'.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
     }
 
     private void LoadParamsDS1R()
@@ -618,8 +632,15 @@ public class ParamBank
 
     private void LoadParamsDS1RFromFile(string path)
     {
-        using BND3 bnd = BND3.Read(path);
-        LoadParamFromBinder(bnd, ref _params, out _paramVersion);
+        try
+        {
+            using var bnd = BND3.Read(path);
+            LoadParamFromBinder(bnd, ref _params, out _paramVersion);
+        }
+        catch
+        {
+            PlatformUtils.Instance.MessageBox($"Param Load failed: {path}\nTry enabling 'Flexible DCX'.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
     }
 
     private void LoadParamsBBSekiro()
@@ -648,8 +669,15 @@ public class ParamBank
 
     private void LoadParamsBBSekiroFromFile(string path)
     {
-        using BND4 bnd = BND4.Read(path);
-        LoadParamFromBinder(bnd, ref _params, out _paramVersion);
+        try
+        {
+            using var bnd = BND4.Read(path);
+            LoadParamFromBinder(bnd, ref _params, out _paramVersion);
+        }
+        catch
+        {
+            PlatformUtils.Instance.MessageBox($"Param Load failed: {path}\nTry enabling 'Flexible DCX'.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
     }
 
     private static List<string> GetLooseParamsInDir(string dir)
@@ -735,15 +763,28 @@ public class ParamBank
 
     private void LoadParamsDS2FromFile(List<string> looseParams, string path, string enemypath, bool loose)
     {
-        BND4 paramBnd;
+        BND4 paramBnd = null;
         if (!BND4.Is(path))
         {
-            paramBnd = SFUtil.DecryptDS2Regulation(path);
+            try
+            {
+                paramBnd = SFUtil.DecryptDS2Regulation(path);
+            }
+            catch
+            {
+                PlatformUtils.Instance.MessageBox($"Param Load failed: {path}\nTry enabling 'Flexible DCX'.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
-        // No need to decrypt
         else
         {
-            paramBnd = BND4.Read(path);
+            try
+            {
+                paramBnd = BND4.Read(path);
+            }
+            catch
+            {
+                PlatformUtils.Instance.MessageBox($"Param Load failed: {path}\nTry enabling 'Flexible DCX'.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         BinderFile bndfile = paramBnd.Files.Find(x => Path.GetFileName(x.Name) == "EnemyParam.param");
@@ -855,8 +896,15 @@ public class ParamBank
 
     private void LoadParamsDS3FromFile(string path, bool isLoose)
     {
-        using BND4 lparamBnd = isLoose ? BND4.Read(path) : SFUtil.DecryptDS3Regulation(path);
-        LoadParamFromBinder(lparamBnd, ref _params, out _paramVersion);
+        try
+        {
+            using BND4 lparamBnd = isLoose ? BND4.Read(path) : SFUtil.DecryptDS3Regulation(path);
+            LoadParamFromBinder(lparamBnd, ref _params, out _paramVersion);
+        }
+        catch
+        {
+            PlatformUtils.Instance.MessageBox($"Param Load failed: {path}\nTry enabling 'Flexible DCX'.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
     }
 
     private void LoadParamsER(bool partial)
@@ -949,13 +997,27 @@ public class ParamBank
     {
         if (encrypted)
         {
-            using BND4 bnd = SFUtil.DecryptERRegulation(path);
-            LoadParamFromBinder(bnd, ref _params, out _paramVersion, true);
+            try
+            {
+                using BND4 bnd = SFUtil.DecryptERRegulation(path);
+                LoadParamFromBinder(bnd, ref _params, out _paramVersion, true);
+            }
+            catch
+            {
+                PlatformUtils.Instance.MessageBox($"Param Load failed: {path}\nTry enabling 'Flexible DCX'.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
         else
         {
-            using BND4 bnd = BND4.Read(path);
-            LoadParamFromBinder(bnd, ref _params, out _, false);
+            try
+            {
+                using var bnd = BND4.Read(path);
+                LoadParamFromBinder(bnd, ref _params, out _, false);
+            }
+            catch
+            {
+                PlatformUtils.Instance.MessageBox($"Param Load failed: {path}\nTry enabling 'Flexible DCX'.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
     }
 
@@ -1035,13 +1097,27 @@ public class ParamBank
     {
         if (encrypted)
         {
-            using BND4 bnd = SFUtil.DecryptAC6Regulation(path);
-            LoadParamFromBinder(bnd, ref _params, out _paramVersion, true);
+            try
+            {
+                using BND4 bnd = SFUtil.DecryptAC6Regulation(path);
+                LoadParamFromBinder(bnd, ref _params, out _paramVersion, true);
+            }
+            catch
+            {
+                PlatformUtils.Instance.MessageBox($"Param Load failed: {path}\nTry enabling 'Flexible DCX'.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
         else
         {
-            using BND4 bnd = BND4.Read(path);
-            LoadParamFromBinder(bnd, ref _params, out _, false);
+            try
+            {
+                using var bnd = BND4.Read(path);
+                LoadParamFromBinder(bnd, ref _params, out _, false);
+            }
+            catch 
+            {
+                PlatformUtils.Instance.MessageBox($"Param Load failed: {path}\nTry enabling 'Flexible DCX'.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
     }
 
