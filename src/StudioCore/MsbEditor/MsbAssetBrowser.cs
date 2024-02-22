@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using ImGuiNET;
 using Microsoft.Toolkit.HighPerformance;
 using Octokit;
 using SoulsFormats;
@@ -12,6 +11,7 @@ using StudioCore.Gui;
 using StudioCore.Platform;
 using StudioCore.Scene;
 using StudioCore.Utilities;
+using static Andre.Native.ImGuiBindings;
 
 namespace StudioCore.MsbEditor;
 
@@ -207,7 +207,7 @@ public class MsbAssetBrowser
         if (updateScrollPosition)
         {
             updateScrollPosition = false;
-            ImGui.SetScrollY(_currentScrollY);
+            ImGui.SetScrollFromPosYFloat(_currentScrollY, 0.5f);
         }
 
         var referenceDict = new Dictionary<string, AliasReference>();
@@ -311,7 +311,7 @@ public class MsbAssetBrowser
                         }
                     }
 
-                    if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClicked(0))
+                    if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClickedNil(0))
                     {
                         var modelName = name;
 
@@ -440,7 +440,7 @@ public class MsbAssetBrowser
                             }
                         }
 
-                        if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClicked(0))
+                        if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClickedNil(0))
                         {
                             SetObjectModelForSelection(modelName, assetType, _selectedAssetMapId);
                         }

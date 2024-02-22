@@ -1,5 +1,4 @@
 using static Andre.Native.ImGuiBindings;
-using ImGuiNET;
 using SoulsFormats;
 using StudioCore.Banks;
 using StudioCore.Editor;

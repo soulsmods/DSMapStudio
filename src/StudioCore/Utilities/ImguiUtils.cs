@@ -1,9 +1,9 @@
-﻿using ImGuiNET;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Andre.Native.ImGuiBindings;
 
 namespace StudioCore.Utilities;
 public static class ImguiUtils
@@ -26,7 +26,7 @@ public static class ImguiUtils
         {
             ImGui.SameLine();
             ImGui.TextDisabled("(?)");
-            if (ImGui.IsItemHovered())
+            if (ImGui.IsItemHovered(0))
             {
                 ImGui.BeginTooltip();
                 ImGui.PushTextWrapPos(450.0f);
@@ -41,7 +41,7 @@ public static class ImguiUtils
     {
         if (CFG.Current.ShowUITooltips)
         {
-            if (ImGui.IsItemHovered())
+            if (ImGui.IsItemHovered(0))
             {
                 ImGui.BeginTooltip();
                 ImGui.PushTextWrapPos(450.0f);

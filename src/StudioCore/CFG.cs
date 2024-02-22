@@ -42,14 +42,6 @@ public class CFG
     public float UIScale = 1.0f;
     public bool EnableSoapstone = true;
     public bool EnableTexturing = false;
-    public bool FMG_NoFmgPatching = false;
-    public bool FMG_NoGroupedFmgEntries = false;
-
-    // FMG Editor settings
-    public bool FMG_ShowOriginalNames = false;
-
-    // Asset Browser settings
-    public bool AssetBrowser_ShowTagsInBrowser = true;
 
     // Font settings
     public bool FontChinese = false;
@@ -59,6 +51,7 @@ public class CFG
     public bool FontVietnamese = false;
 
     public bool AliasBank_EditorMode = false;
+
     public bool AssetBrowser_ShowTagsInBrowser = true;
     public bool AssetBrowser_ShowLowDetailParts = false;
     public bool MapAliases_ShowMapAliasEditList = false;
@@ -70,7 +63,6 @@ public class CFG
     public bool MapEditor_Show_Character_Names_in_Scene_Tree = true;
 
     public bool EnableFrustrumCulling = false;
-    public bool EnableTexturing = false;
     public bool Map_AlwaysListLoadedMaps = true;
     public bool EnableEldenRingAutoMapOffset = true;
 

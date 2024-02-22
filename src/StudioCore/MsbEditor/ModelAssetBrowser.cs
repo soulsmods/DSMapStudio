@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using ImGuiNET;
 using Octokit;
 using StudioCore.Banks;
 using StudioCore.Banks.AliasBank;
 using StudioCore.Utilities;
+using static Andre.Native.ImGuiBindings;
 
 namespace StudioCore.MsbEditor;
 
@@ -15,14 +15,6 @@ public enum SelectedCategoryType
     Object,
     Part,
     MapPiece
-}
-
-public interface AssetBrowserEventHandler
-{
-    public void OnInstantiateChr(string chrid);
-    public void OnInstantiateObj(string objid);
-    public void OnInstantiateParts(string objid);
-    public void OnInstantiateMapPiece(string mapid, string modelid);
 }
 
 public class ModelAssetBrowser
@@ -340,7 +332,7 @@ public class ModelAssetBrowser
                         }
                     }
 
-                    if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClicked(0))
+                    if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClickedNil(0))
                     {
                         // TODO: fix issue with DS2 loading
                         if (Locator.AssetLocator.Type != GameType.DarkSoulsIISOTFS)
@@ -481,7 +473,7 @@ public class ModelAssetBrowser
                             }
                         }
 
-                        if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClicked(0))
+                        if (ImGui.IsItemClicked() && ImGui.IsMouseDoubleClickedNil(0))
                         {
                             // TODO: fix issue with DS2 loading
                             if (Locator.AssetLocator.Type != GameType.DarkSoulsIISOTFS)
