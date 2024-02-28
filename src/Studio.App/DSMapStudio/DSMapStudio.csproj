@@ -2,14 +2,14 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net7.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows</TargetFramework>
     <Authors>Katalash</Authors>
-    <Version>1.09.0</Version>
+    <Version>1.10.0</Version>
     <ApplicationIcon>icon.ico</ApplicationIcon>
-    <PackageVersion>1.09.0</PackageVersion>
-    <AssemblyVersion>1.09.0</AssemblyVersion>
+    <PackageVersion>1.10.0</PackageVersion>
+    <AssemblyVersion>1.10.0</AssemblyVersion>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-    <LangVersion>11</LangVersion>
+    <LangVersion>12</LangVersion>
     <IsPackable>false</IsPackable>
     <SelfContained>true</SelfContained>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>

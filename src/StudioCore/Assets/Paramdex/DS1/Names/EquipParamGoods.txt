@@ -13,22 +13,22 @@
 116 Black Eye Orb -
 117 Darksign
 118 Purple Coward's Crystal
-200 Estus Flask
-201 Estus Flask - Drained
-202 Estus Flask +1
-203 Estus Flask +1 - Drained
-204 Estus Flask +2
-205 Estus Flask +2 - Drained
-206 Estus Flask +3
-207 Estus Flask +3 - Drained
-208 Estus Flask +4
-209 Estus Flask +4 - Drained
-210 Estus Flask +5
-211 Estus Flask +5 - Drained
-212 Estus Flask +6
-213 Estus Flask +6 - Drained
-214 Estus Flask +7
-215 Estus Flask +7 - Drained
+200 Estus Flask - Drained
+201 Estus Flask
+202 Estus Flask +1 - Drained
+203 Estus Flask +1
+204 Estus Flask +2 - Drained
+205 Estus Flask +2
+206 Estus Flask +3 - Drained
+207 Estus Flask +3
+208 Estus Flask +4 - Drained
+209 Estus Flask +4
+210 Estus Flask +5 - Drained
+211 Estus Flask +5
+212 Estus Flask +6 - Drained
+213 Estus Flask +6
+214 Estus Flask +7 - Drained
+215 Estus Flask +7
 220 Silver Pendant
 230 Elizabeth's Mushroom
 240 Divine Blessing

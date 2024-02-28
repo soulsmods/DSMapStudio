@@ -1,4 +1,4 @@
-﻿using ImGuiNET;
+﻿using static Andre.Native.ImGuiBindings;
 using Microsoft.Extensions.Logging;
 using SoulsFormats;
 using StudioCore.Scene;
@@ -392,7 +392,7 @@ public static class ResourceManager
     {
         var scale = MapStudioNew.GetUIScale();
 
-        if (ActiveJobProgress.Count() > 0)
+        if (ActiveJobProgress.Count > 0)
         {
             ImGui.SetNextWindowSize(new Vector2(400, 310) * scale);
             ImGui.SetNextWindowPos(new Vector2(w - (100 * scale), h - (300 * scale)));
@@ -424,7 +424,7 @@ public static class ResourceManager
         }
     }
 
-    public static void OnGuiDrawResourceList()
+    public static unsafe void OnGuiDrawResourceList()
     {
         if (!ImGui.Begin("Resource List"))
         {
@@ -895,12 +895,13 @@ public static class ResourceManager
                         var aetid = splits[1];
                         var aetname = splits[2];
                         var fullaetid = aetname.Substring(0, 10);
-                        path =
-                            $@"{Locator.GameRootDirectory}\asset\aet\{aetid.Substring(0, 6)}\{fullaetid}.tpf.dcx";
+
                         if (assetTpfs.Contains(fullaetid))
                         {
                             continue;
                         }
+
+                        path = Locator.GetAetTexture(fullaetid).AssetPath;
 
                         assetTpfs.Add(fullaetid);
                     }

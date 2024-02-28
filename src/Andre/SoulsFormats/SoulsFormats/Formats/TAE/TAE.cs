@@ -131,19 +131,19 @@ namespace SoulsFormats
 
             br.AssertASCII("TAE ");
 
-            bool isBigEndian = br.AssertByte(0, 1) == 1;
+            bool isBigEndian = br.AssertByte([0, 1]) == 1;
             br.BigEndian = isBigEndian;
 
             br.AssertByte(0);
             br.AssertByte(0);
 
-            bool is64Bit = br.AssertByte(0, 0xFF) == 0xFF;
+            bool is64Bit = br.AssertByte([0, 0xFF]) == 0xFF;
             br.VarintLong = is64Bit;
 
             // 0x1000B: DeS, DS1(R)
             // 0x1000C: DS2, DS2 SOTFS, BB, DS3
             // 0x1000D: SDT
-            int version = br.AssertInt32(0x1000B, 0x1000C, 0x1000D);
+            int version = br.AssertInt32([0x1000B, 0x1000C, 0x1000D]);
 
             if (version == 0x1000B && !is64Bit)
             {
@@ -634,7 +634,7 @@ namespace SoulsFormats
 
                     br.StepIn(animFileOffset);
                     {
-                        AnimFileReference = br.AssertVarint(0, 1) == 1;
+                        AnimFileReference = br.AssertVarint([0, 1]) == 1;
                         br.AssertVarint(br.Position + (br.VarintLong ? 8 : 4));
                         long animFileNameOffset = br.ReadVarint();
 
@@ -1365,7 +1365,7 @@ namespace SoulsFormats
                     //{
                     //    parametersOffset = br.AssertVarint(br.Position + (br.VarintLong ? 8 : 4));
                     //}
-                    br.AssertVarint(br.Position + (br.VarintLong ? 8 : 4), 0);
+                    br.AssertVarint([br.Position + (br.VarintLong ? 8 : 4), 0]);
                     parametersOffset = br.Position;
                 }
                 br.StepOut();

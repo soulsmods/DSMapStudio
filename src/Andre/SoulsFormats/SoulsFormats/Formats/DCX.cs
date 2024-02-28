@@ -223,7 +223,7 @@ namespace SoulsFormats
                     br.AssertInt32(0);
                     int offset = br.ReadInt32();
                     int size = br.ReadInt32();
-                    bool compressed = br.AssertInt32(0, 1) == 1;
+                    bool compressed = br.AssertInt32([0, 1]) == 1;
 
                     byte[] chunk = br.GetBytes(dataStart + offset, size);
 
@@ -275,7 +275,7 @@ namespace SoulsFormats
             br.AssertInt32(0x10);
             br.AssertInt32(0x10000);
             // Uncompressed size of last block
-            int trailingUncompressedSize = br.AssertInt32(uncompressedSize % 0x10000, 0x10000);
+            int trailingUncompressedSize = br.AssertInt32([uncompressedSize % 0x10000, 0x10000]);
             int egdtSize = br.ReadInt32();
             int chunkCount = br.ReadInt32();
             br.AssertInt32(0x100000);
@@ -294,7 +294,7 @@ namespace SoulsFormats
                     br.AssertInt32(0);
                     int offset = br.ReadInt32();
                     int size = br.ReadInt32();
-                    bool compressed = br.AssertInt32(0, 1) == 1;
+                    bool compressed = br.AssertInt32([0, 1]) == 1;
 
                     byte[] chunk = br.GetBytes(dcaStart + dcaSize + offset, size);
 

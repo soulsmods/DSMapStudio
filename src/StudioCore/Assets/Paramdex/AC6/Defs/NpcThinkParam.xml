@@ -108,7 +108,8 @@
     <Field Def="s32 Unk0xC8"></Field>
     <Field Def="s32 Unk0xCC"></Field>
     <Field Def="s32 Unk0xD0"></Field>
-    <Field Def="s32 Unk0xD4"></Field>
+    <Field Def="s16 Unk0xD4"></Field>
+    <Field Def="s16 UnkShort0xD6"></Field>
     <Field Def="s32 UnkInt0xD8"></Field>
     <Field Def="s32 UnkInt0xDC"></Field>
     <Field Def="s32 UnkInt0xE0"></Field>

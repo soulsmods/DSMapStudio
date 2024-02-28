@@ -911,6 +911,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// ID in GrassTypeParam determining properties of dynamic grass on a map piece.
                 /// </summary>
+                [MSBParamReference(ParamName = "GrassTypeParam")]
                 public int GrassTypeParamID { get; set; }
 
                 /// <summary>
@@ -1230,11 +1231,13 @@ namespace SoulsFormats
                 /// <summary>
                 /// An ID in NPCThinkParam that determines the enemy's AI characteristics.
                 /// </summary>
+                [MSBParamReference(ParamName = "NpcThinkParam")]
                 public int ThinkParamID { get; set; }
 
                 /// <summary>
                 /// An ID in NPCParam that determines a variety of enemy properties.
                 /// </summary>
+                [MSBParamReference(ParamName = "NpcParam")]
                 public int NPCParamID { get; set; }
 
                 /// <summary>
@@ -1250,6 +1253,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// An ID in CharaInitParam that determines a human's inventory and stats.
                 /// </summary>
+                [MSBParamReference(ParamName = "CharaInitParam")]
                 public int CharaInitID { get; set; }
 
                 /// <summary>
@@ -1262,7 +1266,9 @@ namespace SoulsFormats
                 /// <summary>
                 /// References which PatrolInfo index to use for patrol information.
                 /// </summary>
-                public short PatrolIndex { get; set; }
+                [MSBReference(ReferenceType = typeof(Event.PatrolInfo))]
+                public string WalkRouteName { get; set; }
+                private short WalkRouteIndex;
 
                 /// <summary>
                 /// Enum that refers to an animation ID to use.
@@ -1344,7 +1350,7 @@ namespace SoulsFormats
                     PlatoonID = br.ReadInt16();
                     CharaInitID = br.ReadInt32();
                     CollisionPartIndex = br.ReadInt32();
-                    PatrolIndex = br.ReadInt16();
+                    WalkRouteIndex = br.ReadInt16();
                     InitAnimIDType = br.ReadInt16();
                     UnkT24 = br.ReadInt32();
                     br.AssertPattern(0x10, 0xFF);
@@ -1385,7 +1391,7 @@ namespace SoulsFormats
                     bw.WriteInt16(PlatoonID);
                     bw.WriteInt32(CharaInitID);
                     bw.WriteInt32(CollisionPartIndex);
-                    bw.WriteInt16(PatrolIndex);
+                    bw.WriteInt16(WalkRouteIndex);
                     bw.WriteInt16(InitAnimIDType);
                     bw.WriteInt32(UnkT24);
                     bw.WritePattern(0x10, 0xFF);
@@ -1419,12 +1425,14 @@ namespace SoulsFormats
                 {
                     base.GetNames(msb, entries);
                     CollisionPartName = MSB.FindName(entries.Parts, CollisionPartIndex);
+                    WalkRouteName = MSB.FindName(msb.Events.PatrolInfo, WalkRouteIndex);
                 }
 
                 internal override void GetIndices(MSBS msb, Entries entries)
                 {
                     base.GetIndices(msb, entries);
                     CollisionPartIndex = MSB.FindIndex(this, entries.Parts, CollisionPartName);
+                    WalkRouteIndex = (short)MSB.FindIndex(this, msb.Events.PatrolInfo, WalkRouteName);
                 }
             }
 
@@ -1588,6 +1596,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Alters camera properties while on this collision.
                 /// </summary>
+                [MSBParamReference(ParamName = "LockCamParam")]
                 public short LockCamParamID { get; set; }
 
                 /// <summary>
@@ -1784,6 +1793,7 @@ namespace SoulsFormats
                 /// The collision part to attach to.
                 /// </summary>
                 [MSBReference(ReferenceType = typeof(Collision))]
+                [NoRenderGroupInheritence()]
                 public string CollisionName { get; set; }
                 private int CollisionIndex;
 

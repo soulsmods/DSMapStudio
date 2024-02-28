@@ -1,4 +1,4 @@
-﻿using ImGuiNET;
+﻿using static Andre.Native.ImGuiBindings;
 using Microsoft.Extensions.Logging;
 using StudioCore.Platform;
 using System;
@@ -82,7 +82,10 @@ public static class TaskLogs
                     if (lastLog.Message == text)
                     {
                         lastLog.MessageCount++;
-                        ResetColorTimer();
+                        if (priority != LogPriority.Low)
+                        {
+                            ResetColorTimer();
+                        }
                         return;
                     }
                 }
@@ -149,10 +152,10 @@ public static class TaskLogs
         // Warning List
         if (_warningList.Count > 0)
         {
-            ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 0f, 0f, 1.0f));
+            ImGui.PushStyleColorVec4(ImGuiCol.Text, new Vector4(1.0f, 0f, 0f, 1.0f));
             if (ImGui.BeginMenu("!! WARNINGS!! "))
             {
-                ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 1.0f, 1.0f, 1.0f));
+                ImGui.PushStyleColorVec4(ImGuiCol.Text, new Vector4(1.0f, 1.0f, 1.0f, 1.0f));
                 ImGui.Text("Click warnings to remove them from list");
                 if (ImGui.Button("Remove All Warnings"))
                 {
@@ -169,11 +172,11 @@ public static class TaskLogs
                     }
                 }
 
-                ImGui.PopStyleColor();
+                ImGui.PopStyleColor(1);
                 ImGui.EndMenu();
             }
 
-            ImGui.PopStyleColor();
+            ImGui.PopStyleColor(1);
         }
 
         // Logger
@@ -190,10 +193,10 @@ public static class TaskLogs
 
         if (_loggerWindowOpen)
         {
-            ImGui.PushStyleColor(ImGuiCol.WindowBg, new Vector4(0f, 0f, 0f, 0.98f));
-            ImGui.PushStyleColor(ImGuiCol.TitleBg, new Vector4(0.1f, 0.1f, 0.1f, 1.0f));
-            ImGui.PushStyleColor(ImGuiCol.TitleBgActive, new Vector4(0.25f, 0.25f, 0.25f, 1.0f));
-            ImGui.PushStyleColor(ImGuiCol.ChildBg, new Vector4(0.1f, 0.1f, 0.1f, 0.98f));
+            ImGui.PushStyleColorVec4(ImGuiCol.WindowBg, new Vector4(0f, 0f, 0f, 0.98f));
+            ImGui.PushStyleColorVec4(ImGuiCol.TitleBg, new Vector4(0.1f, 0.1f, 0.1f, 1.0f));
+            ImGui.PushStyleColorVec4(ImGuiCol.TitleBgActive, new Vector4(0.25f, 0.25f, 0.25f, 1.0f));
+            ImGui.PushStyleColorVec4(ImGuiCol.ChildBg, new Vector4(0.1f, 0.1f, 0.1f, 0.98f));
             if (ImGui.Begin("Logger##TaskLogger", ref _loggerWindowOpen, ImGuiWindowFlags.NoDocking))
             {
                 if (ImGui.Button("Clear##TaskLogger"))
@@ -217,7 +220,7 @@ public static class TaskLogs
 
                 if (_scrollToEnd)
                 {
-                    ImGui.SetScrollHereY();
+                    ImGui.SetScrollHereY(0.5f);
                     _scrollToEnd = false;
                 }
 

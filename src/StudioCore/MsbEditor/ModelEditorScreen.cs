@@ -1,4 +1,4 @@
-﻿using ImGuiNET;
+﻿using static Andre.Native.ImGuiBindings;
 using StudioCore.Editor;
 using StudioCore.Gui;
 using StudioCore.Resource;
@@ -19,6 +19,7 @@ public class ModelEditorScreen : EditorScreen, AssetBrowserEventHandler, SceneTr
 {
     private readonly AssetBrowser _assetBrowser;
     private readonly PropertyEditor _propEditor;
+    private readonly PropertyCache _propCache = new();
 
     private readonly SceneTree _sceneTree;
     private readonly Selection _selection = new();
@@ -62,7 +63,7 @@ public class ModelEditorScreen : EditorScreen, AssetBrowserEventHandler, SceneTr
 
         _sceneTree = new SceneTree(SceneTree.Configuration.ModelEditor, this, "modeledittree", _universe,
             _selection, EditorActionManager, Viewport, AssetLocator);
-        _propEditor = new PropertyEditor(EditorActionManager);
+        _propEditor = new PropertyEditor(EditorActionManager, _propCache);
         _assetBrowser = new AssetBrowser(this, "modelEditorBrowser", AssetLocator);
     }
 
@@ -119,7 +120,7 @@ public class ModelEditorScreen : EditorScreen, AssetBrowserEventHandler, SceneTr
     {
     }
 
-    public void OnGUI(string[] commands)
+    public unsafe void OnGUI(string[] commands)
     {
         var scale = MapStudioNew.GetUIScale();
         // Docking setup
@@ -131,7 +132,7 @@ public class ModelEditorScreen : EditorScreen, AssetBrowserEventHandler, SceneTr
         ImGui.SetNextWindowPos(winp);
         ImGui.SetNextWindowSize(wins);
         var dsid = ImGui.GetID("DockSpace_ModelEdit");
-        ImGui.DockSpace(dsid, new Vector2(0, 0));
+        ImGui.DockSpace(dsid, new Vector2(0, 0), 0, null);
 
         // Keyboard shortcuts
         if (EditorActionManager.CanUndo() && InputTracker.GetKeyDown(KeyBindings.Current.Core_Undo))
@@ -144,7 +145,7 @@ public class ModelEditorScreen : EditorScreen, AssetBrowserEventHandler, SceneTr
             EditorActionManager.RedoAction();
         }
 
-        if (!ViewportUsingKeyboard && !ImGui.GetIO().WantCaptureKeyboard)
+        if (!ViewportUsingKeyboard && !ImGui.GetIO()->WantCaptureKeyboard)
         {
             if (InputTracker.GetKeyDown(KeyBindings.Current.Viewport_TranslateMode))
             {
@@ -216,7 +217,7 @@ public class ModelEditorScreen : EditorScreen, AssetBrowserEventHandler, SceneTr
         }
 
         ImGui.SetNextWindowSize(new Vector2(300, 500) * scale, ImGuiCond.FirstUseEver);
-        ImGui.SetNextWindowPos(new Vector2(20, 20) * scale, ImGuiCond.FirstUseEver);
+        ImGui.SetNextWindowPos(new Vector2(20, 20) * scale, ImGuiCond.FirstUseEver, default);
 
         Vector3 clear_color = new(114f / 255f, 144f / 255f, 154f / 255f);
         //ImGui.Text($@"Viewport size: {Viewport.Width}x{Viewport.Height}");

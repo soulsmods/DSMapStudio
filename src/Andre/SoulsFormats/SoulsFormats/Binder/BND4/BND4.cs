@@ -118,7 +118,7 @@ namespace SoulsFormats
 
             bnd.Unicode = br.ReadBoolean();
             bnd.Format = Binder.ReadFormat(br, bnd.BitBigEndian);
-            bnd.Extended = br.AssertByte(0, 1, 4, 0x80);
+            bnd.Extended = br.AssertByte([0, 1, 4, 0x80]);
             br.AssertByte(0);
 
             br.AssertInt32(0);

@@ -507,7 +507,7 @@ namespace SoulsFormats
                     internal UnknownA(BinaryReaderEx br)
                     {
                         Unk00 = br.ReadInt32();
-                        short unk04 = br.AssertInt16(0, 1);
+                        short unk04 = br.AssertInt16([0, 1]);
                         if (unk04 == 1)
                             SubUnknown = new UnknownB(br);
                     }

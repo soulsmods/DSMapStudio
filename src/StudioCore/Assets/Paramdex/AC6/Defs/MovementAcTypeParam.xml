@@ -47,7 +47,7 @@
     <Field Def="s32 UnkInt0x98"></Field>
     <Field Def="f32 UnkFloat0x9C"></Field>
     <Field Def="f32 UnkFloat0xA0"></Field>
-    <Field Def="f32 interiaChange_Grounded"></Field>
+    <Field Def="f32 inertiaChange_Grounded"></Field>
     <Field Def="f32 UnkFloat0xA8"></Field>
     <Field Def="f32 UnkFloat0xAC"></Field>
     <Field Def="f32 UnkFloat0xB0"></Field>

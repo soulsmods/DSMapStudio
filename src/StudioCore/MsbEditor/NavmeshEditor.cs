@@ -1,6 +1,6 @@
 ﻿using HKX2;
 using HKX2.Builders;
-using ImGuiNET;
+using static Andre.Native.ImGuiBindings;
 using SoulsFormats;
 using StudioCore.Resource;
 using StudioCore.Scene;
@@ -41,7 +41,7 @@ public class NavmeshEditor
         _selection = sel;
     }
 
-    public void OnGui(GameType game)
+    public unsafe void OnGui(GameType game)
     {
         if (ImGui.Begin("Navmesh Build"))
         {

@@ -1,6 +1,4 @@
-//using Microsoft.Xna.Framework;
-
-using ImGuiNET;
+using static Andre.Native.ImGuiBindings;
 using Microsoft.Win32;
 using SoulsFormats;
 using StudioCore.MsbEditor;
@@ -844,109 +842,6 @@ public static class Utils
         return str;
     }
 
-    /// <summary>
-    ///     Search an object's properties and return whichever object has the targeted property.
-    /// </summary>
-    /// <returns>Object that has the property, otherwise null.</returns>
-    public static object FindPropertyObject(PropertyInfo prop, object obj, int classIndex = -1)
-    {
-        foreach (PropertyInfo p in obj.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
-        {
-            if (p.MetadataToken == prop.MetadataToken)
-            {
-                return obj;
-            }
-
-            if (p.PropertyType.IsNested)
-            {
-                var retObj = FindPropertyObject(prop, p.GetValue(obj), classIndex);
-                if (retObj != null)
-                {
-                    return retObj;
-                }
-            }
-            else if (p.PropertyType.IsArray)
-            {
-                Type pType = p.PropertyType.GetElementType();
-                if (pType.IsNested)
-                {
-                    var array = (Array)p.GetValue(obj);
-                    if (classIndex != -1)
-                    {
-                        var retObj = FindPropertyObject(prop, array.GetValue(classIndex), classIndex);
-                        if (retObj != null)
-                        {
-                            return retObj;
-                        }
-                    }
-                    else
-                    {
-                        foreach (var arrayObj in array)
-                        {
-                            var retObj = FindPropertyObject(prop, arrayObj, classIndex);
-                            if (retObj != null)
-                            {
-                                return retObj;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        return null;
-    }
-    public static PropertyInfo FindProperty(string prop, object obj, int classIndex = -1)
-    {
-        var proppy = obj.GetType().GetProperty(prop);
-        if (proppy != null)
-            return proppy;
-
-        foreach (var p in obj.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
-        {
-            if (p.PropertyType.IsNested)
-            {
-                var pp = FindProperty(prop, p.GetValue(obj), classIndex);
-                if (pp != null)
-                    return pp;
-            }
-            else if (p.PropertyType.IsArray)
-            {
-                var pType = p.PropertyType.GetElementType();
-                if (pType.IsNested)
-                {
-                    Array array = (Array)p.GetValue(obj);
-                    if (classIndex != -1)
-                    {
-                        var pp = FindProperty(prop, array.GetValue(classIndex), classIndex);
-                        if (pp != null)
-                            return pp;
-                    }
-                    else
-                    {
-                        foreach (var arrayObj in array)
-                        {
-                            var pp = FindProperty(prop, arrayObj, classIndex);
-                            if (pp != null)
-                                return pp;
-                        }
-                    }
-                }
-            }
-        }
-        return null;
-    }
-
-    public static object FindPropertyValue(PropertyInfo prop, object obj)
-    {
-        var propertyObj = FindPropertyObject(prop, obj);
-
-        if (propertyObj == null)
-            return null;
-
-        return prop.GetValue(propertyObj);
-    }
-
     public static bool EnumEditor(Array enumVals, string[] enumNames, object oldval, out object val, int[] intVals)
     {
         val = null;
@@ -1072,7 +967,8 @@ public static class Utils
         return "Unknown version format";
     }
 
-    public static void EntitySelectionHandler(Selection selection, Entity entity, bool itemSelected, bool isItemFocused)
+    public static void EntitySelectionHandler(Selection selection, Entity entity,
+        bool itemSelected, bool isItemFocused, List<WeakReference<Entity>> filteredEntityList = null)
     {
         // Up/Down arrow mass selection
         var arrowKeySelect = false;
@@ -1115,7 +1011,23 @@ public static class Utils
                      && (InputTracker.GetKey(Key.ShiftLeft) || InputTracker.GetKey(Key.ShiftRight)))
             {
                 // Select Range
-                List<Entity> entList = entity.Container.Objects;
+                List<Entity> entList;
+                if (filteredEntityList != null)
+                {
+                    entList = new();
+                    foreach (WeakReference<Entity> ent in filteredEntityList)
+                    {
+                        if (ent.TryGetTarget(out Entity e))
+                        {
+                            entList.Add(e);
+                        }
+                    }
+                }
+                else
+                {
+                    entList = entity.Container.Objects;
+                }
+
                 var i1 = entList.IndexOf(selection.GetFilteredSelection<MapEntity>()
                     .FirstOrDefault(fe => fe.Container == entity.Container && fe != entity.Container.RootObject));
                 var i2 = entList.IndexOf((MapEntity)entity);
@@ -1152,5 +1064,32 @@ public static class Utils
     public static int ParseHexFromString(string str)
     {
         return int.Parse(str.Replace("0x", ""), System.Globalization.NumberStyles.HexNumber);
+    }
+
+    public static string ParseRegulationVersion(ulong version)
+    {
+        string verStr = version.ToString();
+        if (verStr.Length != 8)
+        {
+            return "Unknown Version";
+        }
+        char major = verStr[0];
+        string minor = verStr[1..3];
+        char patch = verStr[3];
+        string rev = verStr[4..];
+
+        return $"{major}.{minor}.{patch}.{rev}";
+    }
+
+    public static Vector3 GetDecimalColor(Color color)
+    {
+        float r = Convert.ToSingle(color.R);
+        float g = Convert.ToSingle(color.G);
+        float b = Convert.ToSingle(color.B);
+        Vector3 vec = new Vector3((r / 255), (g / 255), (b / 255));
+
+        //throw new NotImplementedException($"{vec}");
+
+        return vec;
     }
 }

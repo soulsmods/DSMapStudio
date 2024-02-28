@@ -1,4 +1,4 @@
-﻿using ImGuiNET;
+﻿using static Andre.Native.ImGuiBindings;
 using StudioCore.MsbEditor;
 using System.Numerics;
 using Veldrid;
@@ -10,7 +10,7 @@ namespace StudioCore.Gui;
 /// <summary>
 ///     A null viewport that doesn't actually do anything
 /// </summary>
-public class NullViewport : IViewport
+public unsafe class NullViewport : IViewport
 {
     private readonly string _vpid = "";
 

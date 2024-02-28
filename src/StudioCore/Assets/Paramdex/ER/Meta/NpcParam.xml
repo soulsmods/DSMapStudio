@@ -187,7 +187,8 @@
         <Option Value="255" Name="Type 255" />
     </Enum>
     <Enum Name="ATK_PARAM_PARTSDMGTYPE" type="u8">
-      <Option Value="0" Name="Type 0" />
+        <Option Value="0" Name="Arrows" />
+        <Option Value="1" Name="All attacks" />
     </Enum>
     <Enum Name="VOW_TYPE" type="u8">
         <Option Value="0" Name="Type 0" />
@@ -336,7 +337,7 @@
     <lockDist AltName="Lock Distance" Wiki="Lock-on distance [m]" />
     <materialSe_Weak1 AltName="Weak Point - SE Material" Wiki="Determines the SE that sounds when the weak point is damaged. 1" Enum="WEP_MATERIAL_DEF" />
     <materialSfx_Weak1 AltName="Weak Point - SFX Material" Wiki="Determines the SFX that occurs when the weak point is damaged. 1" Enum="WEP_MATERIAL_DEF_SFX" />
-    <partsDamageType AltName="Parts Damage - Attack Type" Wiki="Set the attack type to apply site damage" Enum="ATK_PARAM_PARTSDMGTYPE" />
+    <partsDamageType AltName="Parts Damage - Attack Type" Wiki="Determines if weak parts (such as the head) will be affected by all attacks or just arrow attacks.\nHeadshot animation will be used for weak part attacks if it exists." Enum="ATK_PARAM_PARTSDMGTYPE" />
     <vowType AltName="Vow Type" Wiki="Pledge type" Enum="VOW_TYPE" />
     <guardLevel AltName="Guard Level" Wiki="When guarding, which guard motion will the enemy attack? Decide" />
     <burnSfxType AltName="Burn SFX Type" Wiki="SFX type at the time of combustion" Enum="NPC_BURN_TYPE" />

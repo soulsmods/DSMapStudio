@@ -1,5 +1,5 @@
 ﻿using Andre.Formats;
-using ImGuiNET;
+using static Andre.Native.ImGuiBindings;
 using Microsoft.Extensions.Logging;
 using SoulsFormats;
 using StudioCore.Editor;
@@ -35,6 +35,76 @@ public interface IParamDecorator
     public void ClearDecoratorCache();
 }
 
+public static class ParamRowIdFinder
+{
+    private static int _searchID = 0;
+    private static int _cachedSearchID = 0;
+    private static int _searchIndex = -1;
+    private static List<string> _paramResults = new();
+
+    public static void Display()
+    {
+        if (ImGui.BeginMenu("Search all params for row ID"))
+        {
+            ImGui.InputInt("ID##RowSearcher", ref _searchID);
+            ImGui.InputInt("Index (-1 = any)", ref _searchIndex);
+            if (ImGui.Button("Search##RowSearcher"))
+            {
+                _cachedSearchID = _searchID;
+                _paramResults = GetParamsWithRowID(_searchID, _searchIndex);
+                if (_paramResults.Count > 0)
+                {
+                    string message = $"Found row ID {_searchID} in the following params:\n";
+                    foreach (var line in _paramResults)
+                    {
+                        message += $"  {line}\n";
+                    }
+                    TaskLogs.AddLog(message,
+                        LogLevel.Information, TaskLogs.LogPriority.Low);
+                }
+                else
+                {
+                    TaskLogs.AddLog($"No params found with row ID {_searchID}",
+                        LogLevel.Information, TaskLogs.LogPriority.High);
+                }
+            }
+
+            if (_paramResults.Count > 0)
+            {
+                ImGui.TextDisabled($"ID {_cachedSearchID}: {_paramResults.Count} matches");
+                foreach (string paramName in _paramResults)
+                {
+                    if (ImGui.Selectable($"{paramName}##RowSearcher"))
+                    {
+                        EditorCommandQueue.AddCommand($@"param/select/-1/{paramName}/{_cachedSearchID}");
+                    }
+                }
+            }
+
+            ImGui.EndMenu();
+        }
+    }
+
+    public static List<string> GetParamsWithRowID(int id, int index)
+    {
+        List<string> output = new();
+        foreach (var p in ParamBank.PrimaryBank.Params)
+        {
+            for (var i = 0; i < p.Value.Rows.Count; i++)
+            {
+                var r = p.Value.Rows[i];
+                if (r.ID == id
+                    && (index == -1 || index == i))
+                {
+                    output.Add(p.Key);
+                    break;
+                }
+            }
+        }
+        return output;
+    }
+}
+
 public class FMGItemParamDecorator : IParamDecorator
 {
     private static readonly Vector4 FMGLINKCOLOUR = new(1.0f, 1.0f, 0.0f, 1.0f);
@@ -62,9 +132,9 @@ public class FMGItemParamDecorator : IParamDecorator
         if (entry != null)
         {
             ImGui.SameLine();
-            ImGui.PushStyleColor(ImGuiCol.Text, FMGLINKCOLOUR);
+            ImGui.PushStyleColorVec4(ImGuiCol.Text, FMGLINKCOLOUR);
             ImGui.TextUnformatted($@" <{entry.Text}>");
-            ImGui.PopStyleColor();
+            ImGui.PopStyleColor(1);
         }
     }
 
@@ -733,9 +803,16 @@ public class ParamEditorScreen : EditorScreen
         */
 
         ParamUpgradeDisplay();
+
+        if (ImGui.BeginMenu("Tools"))
+        {
+            ParamRowIdFinder.Display();
+
+            ImGui.EndMenu();
+        }
     }
 
-    public void OnGUI(string[] initcmd)
+    public unsafe void OnGUI(string[] initcmd)
     {
         var scale = MapStudioNew.GetUIScale();
 
@@ -870,10 +947,15 @@ public class ParamEditorScreen : EditorScreen
                 if (initcmd.Length > 2 && ParamBank.PrimaryBank.Params.ContainsKey(initcmd[2]))
                 {
                     doFocus = initcmd[0] == "select";
-                    ParamEditorView viewToMofidy = _activeView;
+                    if (!doFocus)
+                    {
+                        GotoSelectedRow = true;
+                    }
+
+                    ParamEditorView viewToModify = _activeView;
                     if (initcmd[1].Equals("new"))
                     {
-                        viewToMofidy = AddView();
+                        viewToModify = AddView();
                     }
                     else
                     {
@@ -881,16 +963,16 @@ public class ParamEditorScreen : EditorScreen
                         var parsable = int.TryParse(initcmd[1], out cmdIndex);
                         if (parsable && cmdIndex >= 0 && cmdIndex < _views.Count)
                         {
-                            viewToMofidy = _views[cmdIndex];
+                            viewToModify = _views[cmdIndex];
                         }
                     }
 
-                    _activeView = viewToMofidy;
-                    viewToMofidy._selection.SetActiveParam(initcmd[2]);
+                    _activeView = viewToModify;
+                    viewToModify._selection.SetActiveParam(initcmd[2]);
                     if (initcmd.Length > 3)
                     {
-                        viewToMofidy._selection.SetActiveRow(null, doFocus);
-                        Param p = ParamBank.PrimaryBank.Params[viewToMofidy._selection.GetActiveParam()];
+                        viewToModify._selection.SetActiveRow(null, doFocus);
+                        Param p = ParamBank.PrimaryBank.Params[viewToModify._selection.GetActiveParam()];
                         int id;
                         var parsed = int.TryParse(initcmd[3], out id);
                         if (parsed)
@@ -898,7 +980,7 @@ public class ParamEditorScreen : EditorScreen
                             Param.Row r = p.Rows.FirstOrDefault(r => r.ID == id);
                             if (r != null)
                             {
-                                viewToMofidy._selection.SetActiveRow(r, doFocus);
+                                viewToModify._selection.SetActiveRow(r, doFocus);
                             }
                         }
                     }
@@ -974,15 +1056,15 @@ public class ParamEditorScreen : EditorScreen
 
         if (CFG.Current.UI_CompactParams)
         {
-            ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, new Vector2(1.0f, 1.0f) * scale);
-            ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(5.0f, 1.0f) * scale);
-            ImGui.PushStyleVar(ImGuiStyleVar.CellPadding, new Vector2(5.0f, 1.0f) * scale);
+            ImGui.PushStyleVarVec2(ImGuiStyleVar.FramePadding, new Vector2(1.0f, 1.0f) * scale);
+            ImGui.PushStyleVarVec2(ImGuiStyleVar.ItemSpacing, new Vector2(5.0f, 1.0f) * scale);
+            ImGui.PushStyleVarVec2(ImGuiStyleVar.CellPadding, new Vector2(5.0f, 1.0f) * scale);
         }
         else
         {
-            ImGuiStylePtr style = ImGui.GetStyle();
-            ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing,
-                (style.ItemSpacing * scale) - (new Vector2(3.5f, 0f) * scale));
+            ImGuiStyle *style = ImGui.GetStyle();
+            ImGui.PushStyleVarVec2(ImGuiStyleVar.ItemSpacing,
+                (style->ItemSpacing * scale) - (new Vector2(3.5f, 0f) * scale));
         }
 
         if (CountViews() == 1)
@@ -991,7 +1073,7 @@ public class ParamEditorScreen : EditorScreen
         }
         else
         {
-            ImGui.DockSpace(ImGui.GetID("DockSpace_ParamEditorViews"));
+            ImGui.DockSpace(ImGui.GetID("DockSpace_ParamEditorViews"), default, 0, null);
             foreach (ParamEditorView view in _views)
             {
                 if (view == null)
@@ -1035,7 +1117,7 @@ public class ParamEditorScreen : EditorScreen
         }
         else
         {
-            ImGui.PopStyleVar();
+            ImGui.PopStyleVar(1);
         }
     }
 
@@ -1168,34 +1250,30 @@ public class ParamEditorScreen : EditorScreen
         {
             if (!_paramUpgraderLoaded)
             {
-                ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 0.3f, 0.3f, 1.0f));
+                ImGui.PushStyleColorVec4(ImGuiCol.Text, new Vector4(1.0f, 0.3f, 0.3f, 1.0f));
                 if (ImGui.BeginMenu("Upgrade Params"))
                 {
-                    ImGui.PopStyleColor();
+                    ImGui.PopStyleColor(1);
                     ImGui.Text("Unable to obtain param upgrade information from assets folder.");
                     ImGui.EndMenu();
                 }
                 else
                 {
-                    ImGui.PopStyleColor();
+                    ImGui.PopStyleColor(1);
                 }
             }
             else if (ParamBank.VanillaBank.ParamVersion <= ParamUpgradeVersionSoftWhitelist)
             {
-                ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.0f, 1f, 0f, 1.0f));
+                ImGui.PushStyleColorVec4(ImGuiCol.Text, new Vector4(0.0f, 1f, 0f, 1.0f));
                 if (ImGui.Button("Upgrade Params"))
                 {
-                    DialogResult message = PlatformUtils.Instance.MessageBox(
-                        $@"Your mod is currently on regulation version {ParamBank.PrimaryBank.ParamVersion} while the game is on param version " +
-                        $"{ParamBank.VanillaBank.ParamVersion}.\n\nWould you like to attempt to upgrade your mod's params to be based on the " +
-                        "latest game version? Params will be upgraded by copying all rows that you modified to the new regulation, " +
-                        "overwriting exiting rows if needed.\n\nIf both you and the game update added a row with the same ID, the merge " +
-                        "will fail and there will be a log saying what rows you will need to manually change the ID of before trying " +
-                        "to merge again.\n\nIn order to perform this operation, you must specify the original regulation on the version " +
-                        $"that your current mod is based on (version {ParamBank.PrimaryBank.ParamVersion}).\n\nOnce done, the upgraded params will appear " +
-                        "in the param editor where you can view and save them. This operation is not undoable, but you can reload the project without " +
-                        "saving to revert to the un-upgraded params.\n\n" +
-                        "Would you like to continue?", "Regulation upgrade",
+                    string oldVersionString = Utils.ParseRegulationVersion(ParamBank.PrimaryBank.ParamVersion);
+                    string newVersionString = Utils.ParseRegulationVersion(ParamBank.VanillaBank.ParamVersion);
+                    var message = PlatformUtils.Instance.MessageBox(
+                            $"Project regulation.bin version appears to be out of date vs game folder regulation. Upgrading is recommended since the game will typically not load out of date regulation." +
+                            $"\n\nUpgrading requires you to select a VANILLA REGULATION.BIN WITH THE SAME VERSION AS YOUR MOD ({oldVersionString})" +
+                            $"\n\nWould you like to proceed?",
+                            $"Regulation upgrade {oldVersionString} -> {newVersionString}",
                         MessageBoxButtons.OKCancel,
                         MessageBoxIcon.Information);
                     if (message == DialogResult.OK)
@@ -1210,21 +1288,21 @@ public class ParamEditorScreen : EditorScreen
                     }
                 }
 
-                ImGui.PopStyleColor();
+                ImGui.PopStyleColor(1);
             }
             else
             {
-                ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 0.3f, 0.3f, 1.0f));
+                ImGui.PushStyleColorVec4(ImGuiCol.Text, new Vector4(1.0f, 0.3f, 0.3f, 1.0f));
                 if (ImGui.BeginMenu("Upgrade Params"))
                 {
-                    ImGui.PopStyleColor();
+                    ImGui.PopStyleColor(1);
                     ImGui.Text(
                         "Param version unsupported, DSMapStudio must be updated first.\nDownload update if available, wait for update otherwise.");
                     ImGui.EndMenu();
                 }
                 else
                 {
-                    ImGui.PopStyleColor();
+                    ImGui.PopStyleColor(1);
                 }
             }
         }
@@ -1969,8 +2047,13 @@ public class ParamEditorScreen : EditorScreen
 
     private static bool SaveCsvDialog(out string path)
     {
-        return PlatformUtils.Instance.SaveFileDialog(
+        var result = PlatformUtils.Instance.SaveFileDialog(
             "Choose CSV file", new[] { AssetLocator.CsvFilter, AssetLocator.TxtFilter }, out path);
+
+        if (result && !path.ToLower().EndsWith(".csv"))
+            path += ".csv";
+
+        return result;
     }
 
     private static bool OpenCsvDialog(out string path)

@@ -1,4 +1,4 @@
-﻿using ImGuiNET;
+﻿using static Andre.Native.ImGuiBindings;
 using Microsoft.Extensions.Logging;
 using SoulsFormats;
 using StudioCore.Editor;
@@ -6,8 +6,10 @@ using StudioCore.Gui;
 using StudioCore.Platform;
 using StudioCore.Resource;
 using StudioCore.Scene;
+using StudioCore.Utilities;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Numerics;
 using Veldrid;
@@ -49,6 +51,7 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
     public NavmeshEditor NavMeshEditor;
     public PropertyEditor PropEditor;
     public SearchProperties PropSearch;
+    private readonly PropertyCache _propCache = new();
 
     public Rectangle Rect;
     public RenderScene RenderScene;
@@ -86,9 +89,9 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
 
         SceneTree = new SceneTree(SceneTree.Configuration.MapEditor, this, "mapedittree", Universe, _selection,
             EditorActionManager, Viewport, AssetLocator);
-        PropEditor = new PropertyEditor(EditorActionManager);
+        PropEditor = new PropertyEditor(EditorActionManager, _propCache);
         DispGroupEditor = new DisplayGroupsEditor(RenderScene, _selection, EditorActionManager);
-        PropSearch = new SearchProperties(Universe);
+        PropSearch = new SearchProperties(Universe, _propCache);
         NavMeshEditor = new NavmeshEditor(locator, RenderScene, _selection);
 
         EditorActionManager.AddEventHandler(SceneTree);
@@ -287,9 +290,20 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
                 {
                     _createEntityMapIndex = 0;
                 }
-
-                ImGui.Combo("Target Map", ref _createEntityMapIndex, loadedMaps.Select(e => e.Name).ToArray(),
-                    loadedMaps.Count());
+                
+                if (ImGui.BeginCombo("Target Map", loadedMaps.ElementAt(_createEntityMapIndex).Name))
+                {
+                    int i = 0;
+                    foreach (var m in loadedMaps)
+                    {
+                        if (ImGui.Selectable(m.Name))
+                        {
+                            _createEntityMapIndex = i;
+                        }
+                        i++;
+                    }
+                    ImGui.EndCombo();
+                }
 
                 var map = (Map)loadedMaps.ElementAt(_createEntityMapIndex);
 
@@ -562,9 +576,65 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
 
             ImGui.EndMenu();
         }
+
+        if (ImGui.BeginMenu("Tools"))
+        {
+            var loadedMaps = Universe.LoadedObjectContainers.Values.Where(x => x != null);
+            if (ImGui.MenuItem("Check loaded maps for duplicate Entity IDs", loadedMaps.Any()))
+            {
+                HashSet<uint> vals = new();
+                string badVals = "";
+                foreach (var loadedMap in loadedMaps)
+                {
+                    foreach (var e in loadedMap?.Objects)
+                    {
+                        var val = PropFinderUtil.FindPropertyValue("EntityID", e.WrappedObject);
+                        if (val == null)
+                            continue;
+
+                        uint entUint;
+                        if (val is int entInt)
+                            entUint = (uint)entInt;
+                        else
+                            entUint = (uint)val;
+
+                        if (entUint == 0 || entUint == uint.MaxValue)
+                            continue;
+                        if (!vals.Add(entUint))
+                            badVals += $"   Duplicate entity ID: {entUint}\n";
+                    }
+                }
+                if (badVals != "")
+                {
+                    TaskLogs.AddLog("Duplicate entity IDs found across loaded maps (see logger)", LogLevel.Information, TaskLogs.LogPriority.High);
+                    TaskLogs.AddLog("Duplicate entity IDs found:\n" + badVals[..^1], LogLevel.Information, TaskLogs.LogPriority.Low);
+                }
+                else
+                {
+                    TaskLogs.AddLog("No duplicate entity IDs found", LogLevel.Information, TaskLogs.LogPriority.Normal);
+                }
+            }
+
+            if (AssetLocator.Type is GameType.DemonsSouls or
+                GameType.DarkSoulsPTDE or GameType.DarkSoulsRemastered)
+            {
+                if (ImGui.BeginMenu("Regenerate MCP and MCG"))
+                {
+                    GenerateMCGMCP(Universe.LoadedObjectContainers);
+
+                    ImGui.EndMenu();
+                }
+            }
+            else
+            {
+                ImGui.Text("No tools available");
+            }
+
+            ImGui.EndMenu();
+        }
     }
 
-    public void OnGUI(string[] initcmd)
+    public unsafe void OnGUI(string[] initcmd)
     {
         var scale = MapStudioNew.GetUIScale();
 
@@ -576,10 +646,10 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
         wins.Y -= 20.0f * scale;
         ImGui.SetNextWindowPos(winp);
         ImGui.SetNextWindowSize(wins);
-        ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 0.0f);
-        ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 0.0f);
-        ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(0.0f, 0.0f));
-        ImGui.PushStyleVar(ImGuiStyleVar.ChildBorderSize, 0.0f);
+        ImGui.PushStyleVarFloat(ImGuiStyleVar.WindowRounding, 0.0f);
+        ImGui.PushStyleVarFloat(ImGuiStyleVar.WindowBorderSize, 0.0f);
+        ImGui.PushStyleVarVec2(ImGuiStyleVar.WindowPadding, new Vector2(0.0f, 0.0f));
+        ImGui.PushStyleVarFloat(ImGuiStyleVar.ChildBorderSize, 0.0f);
         ImGuiWindowFlags flags = ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoCollapse |
                                  ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoMove;
         flags |= ImGuiWindowFlags.MenuBar | ImGuiWindowFlags.NoDocking;
@@ -588,11 +658,13 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
         //ImGui.Begin("DockSpace_MapEdit", flags);
         ImGui.PopStyleVar(4);
         var dsid = ImGui.GetID("DockSpace_MapEdit");
-        ImGui.DockSpace(dsid, new Vector2(0, 0));
+        ImGui.DockSpace(dsid, new Vector2(0, 0), 0, null);
 
         // Keyboard shortcuts
         if (!ViewportUsingKeyboard && !ImGui.IsAnyItemActive())
         {
+            /* var type = CFG.Current.Map_ViewportGridType; */
+
             if (EditorActionManager.CanUndo() && InputTracker.GetKeyDown(KeyBindings.Current.Core_Undo))
             {
                 EditorActionManager.UndoAction();
@@ -602,6 +674,22 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
             {
                 EditorActionManager.RedoAction();
             }
+
+            // Viewport Grid
+            /* if (InputTracker.GetKeyDown(KeyBindings.Current.Map_ViewportGrid_Lower))
+            {
+                var offset = CFG.Current.Map_ViewportGrid_Offset;
+                var increment = CFG.Current.Map_ViewportGrid_ShortcutIncrement;
+                offset = offset - increment;
+                CFG.Current.Map_ViewportGrid_Offset = offset;
+            }
+            if (InputTracker.GetKeyDown(KeyBindings.Current.Map_ViewportGrid_Raise))
+            {
+                var offset = CFG.Current.Map_ViewportGrid_Offset;
+                var increment = CFG.Current.Map_ViewportGrid_ShortcutIncrement;
+                offset = offset + increment;
+                CFG.Current.Map_ViewportGrid_Offset = offset;
+            } */
 
             if (InputTracker.GetKeyDown(KeyBindings.Current.Core_Duplicate) && _selection.IsSelection())
             {
@@ -817,7 +905,7 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
         }
 
         ImGui.SetNextWindowSize(new Vector2(300, 500) * scale, ImGuiCond.FirstUseEver);
-        ImGui.SetNextWindowPos(new Vector2(20, 20) * scale, ImGuiCond.FirstUseEver);
+        ImGui.SetNextWindowPos(new Vector2(20, 20) * scale, ImGuiCond.FirstUseEver, default);
 
         Vector3 clear_color = new(114f / 255f, 144f / 255f, 154f / 255f);
         //ImGui.Text($@"Viewport size: {Viewport.Width}x{Viewport.Height}");
@@ -1207,7 +1295,8 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
                 msbclass = typeof(MSBE);
                 break;
             case GameType.ArmoredCoreVI:
-            //TODO AC6
+                msbclass = typeof(MSB_AC6);
+                break;
             default:
                 throw new ArgumentException("type must be valid");
         }
@@ -1319,7 +1408,8 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
                 msbclass = typeof(MSBE);
                 break;
             case GameType.ArmoredCoreVI:
-            //TODO AC6
+                msbclass = typeof(MSB_AC6);
+                break;
             default:
                 throw new ArgumentException("type must be valid");
         }
@@ -1352,11 +1442,7 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
         GC.Collect();
         Universe.PopulateMapList();
 
-        if (AssetLocator.Type == GameType.ArmoredCoreVI)
-        {
-            //TODO AC6
-        }
-        else if (AssetLocator.Type != GameType.Undefined)
+        if (AssetLocator.Type != GameType.Undefined)
         {
             PopulateClassNames(AssetLocator.Type);
         }
@@ -1398,6 +1484,64 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
         {
             TaskLogs.AddLog(e.Message,
                 LogLevel.Error, TaskLogs.LogPriority.High, e.Wrapped);
+        }
+    }
+
+    private void GenerateMCGMCP(Dictionary<string, ObjectContainer> orderedMaps)
+    {
+        if (ImGui.BeginCombo("Regenerate MCP and MCG", "Maps"))
+        {
+            HashSet<string> idCache = new();
+            foreach (var map in orderedMaps)
+            {
+                string mapid = map.Key;
+                if (AssetLocator.Type is GameType.DemonsSouls)
+                {
+                    if (mapid != "m03_01_00_99" && !mapid.StartsWith("m99"))
+                    {
+                        var areaId = mapid.Substring(0, 3);
+                        if (idCache.Contains(areaId))
+                            continue;
+                        idCache.Add(areaId);
+
+                        if (ImGui.Selectable($"{areaId}"))
+                        {
+                            List<string> areaDirectories = new List<string>();
+                            foreach (var orderMap in orderedMaps)
+                            {
+                                if (orderMap.Key.StartsWith(areaId) && orderMap.Key != "m03_01_00_99")
+                                {
+                                    areaDirectories.Add(Path.Combine(AssetLocator.GameRootDirectory, "map", orderMap.Key));
+                                }
+                            }
+                            SoulsMapMetadataGenerator.GenerateMCGMCP(areaDirectories, AssetLocator, toBigEndian: true);
+                        }
+                    }
+                    else
+                    {
+                        if (ImGui.Selectable($"{mapid}"))
+                        {
+                            List<string> areaDirectories = new List<string>
+                            {
+                                Path.Combine(AssetLocator.GameRootDirectory, "map", mapid)
+                            };
+                            SoulsMapMetadataGenerator.GenerateMCGMCP(areaDirectories, AssetLocator, toBigEndian: true);
+                        }
+                    }
+                }
+                else if (AssetLocator.Type is GameType.DarkSoulsPTDE or GameType.DarkSoulsRemastered)
+                {
+                    if (ImGui.Selectable($"{mapid}"))
+                    {
+                        List<string> areaDirectories = new List<string>
+                        {
+                            Path.Combine(AssetLocator.GameRootDirectory, "map", mapid)
+                        };
+                        SoulsMapMetadataGenerator.GenerateMCGMCP(areaDirectories, AssetLocator, toBigEndian: false);
+                    }
+                }
+            }
+            ImGui.EndCombo();
         }
     }
 }

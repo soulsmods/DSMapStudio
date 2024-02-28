@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using SoulsFormats;
 using StudioCore.Scene;
+using StudioCore.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -234,7 +235,7 @@ public class MultipleEntityPropertyChangeAction : Action
         ChangedEnts = changedEnts;
         foreach (Entity o in changedEnts)
         {
-            var propObj = Utils.FindPropertyObject(prop, o.WrappedObject, classIndex);
+            var propObj = PropFinderUtil.FindPropertyObject(prop, o.WrappedObject, classIndex, false);
             var change = new PropertyChange
             {
                 ChangedObj = propObj, Property = prop, NewValue = newval, ArrayIndex = index
@@ -448,7 +449,15 @@ public class CloneMapObjectsAction : Action
                     mapPartEntities[m].Add(newobj);
                 }
 
-                m.Objects.Insert(m.Objects.IndexOf(Clonables[i]) + 1, newobj);
+                if (TargetMap == null)
+                {
+                    m.Objects.Insert(m.Objects.IndexOf(Clonables[i]) + 1, newobj);
+                }
+                else
+                {
+                    m.Objects.Add(newobj);
+                }
+
                 if (TargetBTL != null && newobj.WrappedObject is BTL.Light)
                 {
                     TargetBTL.AddChild(newobj);

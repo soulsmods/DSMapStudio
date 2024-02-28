@@ -28,4 +28,5 @@
     <isInvisibleWeapon IsBool="" Wiki="Makes right weapon invisible (hidden weapon sorcery)" />
     <isSilence IsBool="" Wiki="Makes effect owner produce no sound (Hush sorcery, Slumbering Dragoncrest Ring)" />
   </Field>
+  <Self Row0Dummy="" />
 </PARAMMETA>

@@ -11,7 +11,7 @@
     <Field Def="f32 hit1_Radius"></Field>
     <Field Def="f32 hit2_Radius"></Field>
     <Field Def="f32 hit3_Radius"></Field>
-    <Field Def="f32 knockbackDist"></Field>
+    <Field Def="f32 staggerKnockbackDist"></Field>
     <Field Def="f32 hitStopTime"></Field>
     <Field Def="s32 spEffectId0"></Field>
     <Field Def="s32 spEffectId1"></Field>
@@ -234,7 +234,7 @@
     <Field Def="u8 UnkFlag0x1DA_1:1"></Field>
     <Field Def="u8 UnkFlag0x1DA_2:1"></Field>
     <Field Def="u8 UnkFlag0x1DA_3:1"></Field>
-    <Field Def="u8 UnkFlag0x1DA_4:1"></Field>
+    <Field Def="u8 nonStaggerAttacksCauseKnockback:1"></Field>
     <Field Def="u8 UnkFlag0x1DA_5:1"></Field>
     <Field Def="u8 UnkFlag0x1DA_6:1"></Field>
     <Field Def="u8 weightAffectsDamage:1"></Field>
@@ -272,14 +272,12 @@
     <Field Def="s32 impactDamage">
       <Description>ACS overload performance. This corresponds to immediate ACS strain, which resets within a short period.</Description>
     </Field>
-    <Field Def="s32 UnkInt0x214"></Field>
-    <Field Def="s32 damageLevelConvParamId">
-      <Description>Refers to DamageLevelConvParam</Description>
-    </Field>
+    <Field Def="s32 damageLevelConvParamId1"></Field>
+    <Field Def="s32 damageLevelConvParamId2"></Field>
     <Field Def="s32 UnkInt0x21C"></Field>
     <Field Def="u8 UnkByte0x220"></Field>
     <Field Def="u8 UnkByte0x221"></Field>
-    <Field Def="u16 UnkUshort0x222"></Field>
+    <Field Def="u16 staggerExtensionNumMax"></Field>
     <Field Def="s32 Unk0x224"></Field>
     <Field Def="u16 hit0_FanHitboxLength"></Field>
     <Field Def="u16 hit1_FanHitboxLength"></Field>
@@ -471,7 +469,7 @@
     <Field Def="s32 sfxModelParamId">
       <Description>Refers to SfxModelParam.</Description>
     </Field>
-    <Field Def="f32 UnkFloat0x3E4"></Field>
+    <Field Def="f32 nonStaggerKnockbackDist"></Field>
     <Field Def="s32 padRumbleIdC">
       <Description>Refers to PadRumble.</Description>
     </Field>

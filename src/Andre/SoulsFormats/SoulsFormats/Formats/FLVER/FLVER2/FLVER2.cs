@@ -134,7 +134,7 @@ namespace SoulsFormats
 
             Header = new FLVER2Header();
             br.AssertASCII("FLVER\0");
-            Header.BigEndian = br.AssertASCII("L\0", "B\0") == "B\0";
+            Header.BigEndian = br.AssertASCII(["L\0", "B\0"]) == "B\0";
             br.BigEndian = Header.BigEndian;
 
             // Gundam Unicorn: 0x20005, 0x2000E
@@ -147,7 +147,8 @@ namespace SoulsFormats
             // DS3: 20013, 20014
             // SDT: 2001A, 20016 (test chr)
             // AC6: 2001B,
-            Header.Version = br.AssertInt32(0x20005, 0x20007, 0x20009, 0x2000B, 0x2000C, 0x2000D, 0x2000E, 0x2000F, 0x20010, 0x20013, 0x20014, 0x20016, 0x2001A, 0x2001B);
+            Header.Version = br.AssertInt32([0x20005, 0x20007, 0x20009, 0x2000B, 0x2000C, 0x2000D, 0x2000E, 0x2000F, 
+                0x20010, 0x20013, 0x20014, 0x20016, 0x2001A, 0x2001B]);
 
             int dataOffset = br.ReadInt32();
             br.ReadInt32(); // Data length
@@ -163,7 +164,7 @@ namespace SoulsFormats
             br.ReadInt32(); // Face count not including motion blur meshes or degenerate faces
             br.ReadInt32(); // Total face count
 
-            int vertexIndicesSize = br.AssertByte(0, 8, 16, 32);
+            int vertexIndicesSize = br.AssertByte([0, 8, 16, 32]);
             Header.Unicode = br.ReadBoolean();
             Header.Unk4A = br.ReadBoolean();
             br.AssertByte(0);
@@ -181,10 +182,10 @@ namespace SoulsFormats
 
             br.AssertInt32(0);
             br.AssertInt32(0);
-            Header.Unk68 = br.AssertInt32(0, 1, 2, 3, 4);
+            Header.Unk68 = br.AssertInt32([0, 1, 2, 3, 4]);
             br.AssertInt32(0);
             br.AssertInt32(0);
-            br.AssertInt32(0, 0x10);
+            br.AssertInt32([0, 0x10]);
             br.AssertInt32(0);
             br.AssertInt32(0);
 

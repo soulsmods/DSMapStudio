@@ -38,7 +38,7 @@ namespace SoulsFormats
             br.AssertByte(0);
             br.AssertByte(0);
             br.AssertByte(0);
-            br.VarintLong = LongFormat = br.AssertInt32(0x1C, 0x28) == 0x28; // Entry size
+            br.VarintLong = LongFormat = br.AssertInt32([0x1C, 0x28]) == 0x28; // Entry size
             br.AssertPattern(0x24, 0x00);
 
             long stringsStart = br.Position;

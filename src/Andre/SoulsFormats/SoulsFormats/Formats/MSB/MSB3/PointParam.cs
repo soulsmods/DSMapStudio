@@ -728,7 +728,7 @@ namespace SoulsFormats
                     br.AssertInt32(-1);
                     br.AssertInt32(-1);
                     br.AssertInt32(-1);
-                    StartDisabled = br.AssertInt32(0, 1) == 1;
+                    StartDisabled = br.AssertInt32([0, 1]) == 1;
                 }
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
@@ -887,7 +887,7 @@ namespace SoulsFormats
                 {
                     MessageID = br.ReadInt16();
                     UnkT02 = br.ReadInt16();
-                    Hidden = br.AssertInt32(0, 1) == 1;
+                    Hidden = br.AssertInt32([0, 1]) == 1;
                 }
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)

@@ -1,4 +1,4 @@
-﻿using ImGuiNET;
+﻿using static Andre.Native.ImGuiBindings;
 using Silk.NET.OpenGL;
 using System;
 using System.Collections.Generic;
@@ -45,16 +45,16 @@ public unsafe class OpenGLImGuiRenderer : IImguiRenderer
         _windowWidth = width;
         _windowHeight = height;
 
-        var context = ImGui.CreateContext();
+        var context = ImGui.CreateContext(null);
         ImGui.SetCurrentContext(context);
 
-        ImGuiIOPtr io = ImGui.GetIO();
-        io.ConfigFlags |= ImGuiConfigFlags.DockingEnable;
-        io.BackendFlags |= ImGuiBackendFlags.RendererHasVtxOffset;
+        ImGuiIO *io = ImGui.GetIO();
+        io->ConfigFlags |= ImGuiConfigFlags.DockingEnable;
+        io->BackendFlags |= ImGuiBackendFlags.RendererHasVtxOffset;
 
-        ImGui.GetIO().Fonts.AddFontDefault();
+        ImFontAtlasAddFontDefault(io->Fonts, null);
 
-        SetOpenTKKeyMappings();
+        //SetOpenTKKeyMappings();
 
         SetPerFrameImGuiData(1f / 60f);
 
@@ -64,29 +64,33 @@ public unsafe class OpenGLImGuiRenderer : IImguiRenderer
         _vertexBuffer = GL.GenBuffer();
         _indexBuffer = GL.GenBuffer();
 
-        var vertexSource = @"#version 330 core
-layout(location = 0) in vec2 in_position;
-layout(location = 1) in vec2 in_texCoord;
-layout(location = 2) in vec4 in_color;
-uniform mat4 projection_matrix;
-out vec4 color;
-out vec2 texCoord;
-void main()
-{
-    gl_Position = projection_matrix * vec4(in_position, 0, 1);
-    color = in_color;
-    texCoord = in_texCoord;
-}";
+        var vertexSource = """
+                           #version 330 core
+                           layout(location = 0) in vec2 in_position;
+                           layout(location = 1) in vec2 in_texCoord;
+                           layout(location = 2) in vec4 in_color;
+                           uniform mat4 projection_matrix;
+                           out vec4 color;
+                           out vec2 texCoord;
+                           void main()
+                           {
+                               gl_Position = projection_matrix * vec4(in_position, 0, 1);
+                               color = in_color;
+                               texCoord = in_texCoord;
+                           }
+                           """;
 
-        var fragmentSource = @"#version 330 core
-uniform sampler2D in_fontTexture;
-in vec4 color;
-in vec2 texCoord;
-layout (location = 0) out vec4 outputColor;
-void main()
-{
-    outputColor = color * texture(in_fontTexture, texCoord);
-}";
+        var fragmentSource = """
+                             #version 330 core
+                             uniform sampler2D in_fontTexture;
+                             in vec4 color;
+                             in vec2 texCoord;
+                             layout (location = 0) out vec4 outputColor;
+                             void main()
+                             {
+                                 outputColor = color * texture(in_fontTexture, texCoord);
+                             }
+                             """;
 
         _shader = CreateProgram("ImGui", vertexSource, fragmentSource);
         _shaderProjectionMatrixLocation = GL.GetUniformLocation(_shader, "projection_matrix");
@@ -101,9 +105,11 @@ void main()
 
     public void RecreateFontDeviceTexture()
     {
-        ImGuiIOPtr io = ImGui.GetIO();
+        ImGuiIO *io = ImGui.GetIO();
         // Build
-        io.Fonts.GetTexDataAsRGBA32(out byte* pixels, out var width, out var height, out var bytesPerPixel);
+        ulong* pixels;
+        int width, height, bytesPerPixel;
+        ImFontAtlasGetTexDataAsRGBA32(io->Fonts, &pixels, &width, &height, &bytesPerPixel);
 
         var mips = (uint)Math.Floor(Math.Log(Math.Max(width, height), 2));
         GL.ActiveTexture(TextureUnit.Texture0);
@@ -122,8 +128,8 @@ void main()
             (int)TextureMinFilter.Linear);
 
         // Store our identifier
-        io.Fonts.SetTexID((IntPtr)_fontTexture);
-        io.Fonts.ClearTexData();
+        ImFontAtlasSetTexID(io->Fonts, ((IntPtr)_fontTexture).ToPointer());
+        ImFontAtlasClearTexData(io->Fonts);
     }
 
     /// <summary>
@@ -235,17 +241,17 @@ void main()
     /// </summary>
     private void SetPerFrameImGuiData(float deltaSeconds)
     {
-        ImGuiIOPtr io = ImGui.GetIO();
-        io.DisplaySize = new Vector2(
+        ImGuiIO *io = ImGui.GetIO();
+        io->DisplaySize = new Vector2(
             _windowWidth / _scaleFactor.X,
             _windowHeight / _scaleFactor.Y);
-        io.DisplayFramebufferScale = _scaleFactor;
-        io.DeltaTime = deltaSeconds; // DeltaTime is in seconds.
+        io->DisplayFramebufferScale = _scaleFactor;
+        io->DeltaTime = deltaSeconds; // DeltaTime is in seconds.
     }
 
     private void UpdateImGuiInput(InputSnapshot snapshot)
     {
-        ImGuiIOPtr io = ImGui.GetIO();
+        ImGuiIO *io = ImGui.GetIO();
 
         // Determine if any of the mouse buttons were pressed during this snapshot period, even if they are no longer held.
         var leftPressed = false;
@@ -271,24 +277,24 @@ void main()
             }
         }
 
-        io.MouseDown[0] = leftPressed || snapshot.IsMouseDown(MouseButton.Left);
-        io.MouseDown[1] = rightPressed || snapshot.IsMouseDown(MouseButton.Right);
-        io.MouseDown[2] = middlePressed || snapshot.IsMouseDown(MouseButton.Middle);
-        io.MousePos = snapshot.MousePosition;
-        io.MouseWheel = snapshot.WheelDelta;
+        io->MouseDown[0] = leftPressed || snapshot.IsMouseDown(MouseButton.Left);
+        io->MouseDown[1] = rightPressed || snapshot.IsMouseDown(MouseButton.Right);
+        io->MouseDown[2] = middlePressed || snapshot.IsMouseDown(MouseButton.Middle);
+        io->MousePos = snapshot.MousePosition;
+        io->MouseWheel = snapshot.WheelDelta;
 
         IReadOnlyList<char> keyCharPresses = snapshot.KeyCharPresses;
         for (var i = 0; i < keyCharPresses.Count; i++)
         {
             var c = keyCharPresses[i];
-            ImGui.GetIO().AddInputCharacter(c);
+            ImGuiIOAddInputCharacterUTF16(io, c);
         }
 
         IReadOnlyList<KeyEvent> keyEvents = snapshot.KeyEvents;
         for (var i = 0; i < keyEvents.Count; i++)
         {
             KeyEvent keyEvent = keyEvents[i];
-            io.KeysDown[(int)keyEvent.Key] = keyEvent.Down;
+            ImGuiIOAddKeyEvent(io, SDLKeyToImGuiKey(keyEvent.Key), keyEvent.Down);
             if (keyEvent.Key == Key.ControlLeft || keyEvent.Key == Key.ControlRight)
             {
                 _controlDown = keyEvent.Down;
@@ -305,46 +311,148 @@ void main()
             }
         }
 
-        io.KeyCtrl = _controlDown;
-        io.KeyAlt = _altDown;
-        io.KeyShift = _shiftDown;
+        io->KeyCtrl = _controlDown;
+        io->KeyAlt = _altDown;
+        io->KeyShift = _shiftDown;
     }
 
-    private static void SetOpenTKKeyMappings()
+    private static ImGuiKey SDLKeyToImGuiKey(Key key)
     {
-        ImGuiIOPtr io = ImGui.GetIO();
-        io.KeyMap[(int)ImGuiKey.Tab] = (int)Key.Tab;
-        io.KeyMap[(int)ImGuiKey.LeftArrow] = (int)Key.Left;
-        io.KeyMap[(int)ImGuiKey.RightArrow] = (int)Key.Right;
-        io.KeyMap[(int)ImGuiKey.UpArrow] = (int)Key.Up;
-        io.KeyMap[(int)ImGuiKey.DownArrow] = (int)Key.Down;
-        io.KeyMap[(int)ImGuiKey.PageUp] = (int)Key.PageUp;
-        io.KeyMap[(int)ImGuiKey.PageDown] = (int)Key.PageDown;
-        io.KeyMap[(int)ImGuiKey.Home] = (int)Key.Home;
-        io.KeyMap[(int)ImGuiKey.End] = (int)Key.End;
-        io.KeyMap[(int)ImGuiKey.Delete] = (int)Key.Delete;
-        io.KeyMap[(int)ImGuiKey.Backspace] = (int)Key.BackSpace;
-        io.KeyMap[(int)ImGuiKey.Enter] = (int)Key.Enter;
-        io.KeyMap[(int)ImGuiKey.KeypadEnter] = (int)Key.KeypadEnter;
-        io.KeyMap[(int)ImGuiKey.Escape] = (int)Key.Escape;
-        io.KeyMap[(int)ImGuiKey.A] = (int)Key.A;
-        io.KeyMap[(int)ImGuiKey.C] = (int)Key.C;
-        io.KeyMap[(int)ImGuiKey.V] = (int)Key.V;
-        io.KeyMap[(int)ImGuiKey.X] = (int)Key.X;
-        io.KeyMap[(int)ImGuiKey.Y] = (int)Key.Y;
-        io.KeyMap[(int)ImGuiKey.Z] = (int)Key.Z;
-        io.KeyMap[(int)ImGuiKey.Space] = (int)Key.Space;
+        switch (key)
+        {
+            case Key.Tab: return ImGuiKey.Tab;
+            case Key.Left: return ImGuiKey.LeftArrow;
+            case Key.Right: return ImGuiKey.RightArrow;
+            case Key.Up: return ImGuiKey.UpArrow;
+            case Key.Down: return ImGuiKey.DownArrow;
+            case Key.PageUp: return ImGuiKey.PageUp;
+            case Key.PageDown: return ImGuiKey.PageDown;
+            case Key.Home: return ImGuiKey.Home;
+            case Key.End: return ImGuiKey.End;
+            case Key.Insert: return ImGuiKey.Insert;
+            case Key.Delete: return ImGuiKey.Delete;
+            case Key.BackSpace: return ImGuiKey.Backspace;
+            case Key.Space: return ImGuiKey.Space;
+            case Key.Enter: return ImGuiKey.Enter;
+            case Key.Escape: return ImGuiKey.Escape;
+            case Key.Quote: return ImGuiKey.Apostrophe;
+            case Key.Comma: return ImGuiKey.Comma;
+            case Key.Minus: return ImGuiKey.Minus;
+            case Key.Period: return ImGuiKey.Period;
+            case Key.Slash: return ImGuiKey.Slash;
+            case Key.Semicolon: return ImGuiKey.Semicolon;
+            //case Key.Equal: return ImGuiKey.Equal;
+            case Key.BracketLeft: return ImGuiKey.LeftBracket;
+            case Key.BackSlash: return ImGuiKey.Backslash;
+            case Key.BracketRight: return ImGuiKey.RightBracket;
+            case Key.Grave: return ImGuiKey.GraveAccent;
+            case Key.CapsLock: return ImGuiKey.CapsLock;
+            case Key.ScrollLock: return ImGuiKey.ScrollLock;
+            case Key.NumLock: return ImGuiKey.NumLock;
+            case Key.PrintScreen: return ImGuiKey.PrintScreen;
+            case Key.Pause: return ImGuiKey.Pause;
+            case Key.Keypad0: return ImGuiKey.Keypad0;
+            case Key.Keypad1: return ImGuiKey.Keypad1;
+            case Key.Keypad2: return ImGuiKey.Keypad2;
+            case Key.Keypad3: return ImGuiKey.Keypad3;
+            case Key.Keypad4: return ImGuiKey.Keypad4;
+            case Key.Keypad5: return ImGuiKey.Keypad5;
+            case Key.Keypad6: return ImGuiKey.Keypad6;
+            case Key.Keypad7: return ImGuiKey.Keypad7;
+            case Key.Keypad8: return ImGuiKey.Keypad8;
+            case Key.Keypad9: return ImGuiKey.Keypad9;
+            case Key.KeypadPeriod: return ImGuiKey.KeypadDecimal;
+            case Key.KeypadDivide: return ImGuiKey.KeypadDivide;
+            case Key.KeypadMultiply: return ImGuiKey.KeypadMultiply;
+            case Key.KeypadMinus: return ImGuiKey.KeypadSubtract;
+            case Key.Plus: return ImGuiKey.KeypadAdd;
+            case Key.KeypadEnter: return ImGuiKey.KeypadEnter;
+            //case Key.KeypadEqual: return ImGuiKey.KeypadEqual;
+            case Key.ControlLeft: return ImGuiKey.LeftCtrl;
+            case Key.ShiftLeft: return ImGuiKey.LeftShift;
+            case Key.AltLeft: return ImGuiKey.LeftAlt;
+            case Key.WinLeft: return ImGuiKey.LeftSuper;
+            case Key.ControlRight: return ImGuiKey.RightCtrl;
+            case Key.ShiftRight: return ImGuiKey.RightShift;
+            case Key.AltRight: return ImGuiKey.RightAlt;
+            case Key.WinRight: return ImGuiKey.RightSuper;
+            case Key.Menu: return ImGuiKey.Menu;
+            case Key.Number0: return ImGuiKey._0;
+            case Key.Number1: return ImGuiKey._1;
+            case Key.Number2: return ImGuiKey._2;
+            case Key.Number3: return ImGuiKey._3;
+            case Key.Number4: return ImGuiKey._4;
+            case Key.Number5: return ImGuiKey._5;
+            case Key.Number6: return ImGuiKey._6;
+            case Key.Number7: return ImGuiKey._7;
+            case Key.Number8: return ImGuiKey._8;
+            case Key.Number9: return ImGuiKey._9;
+            case Key.A: return ImGuiKey.A;
+            case Key.B: return ImGuiKey.B;
+            case Key.C: return ImGuiKey.C;
+            case Key.D: return ImGuiKey.D;
+            case Key.E: return ImGuiKey.E;
+            case Key.F: return ImGuiKey.F;
+            case Key.G: return ImGuiKey.G;
+            case Key.H: return ImGuiKey.H;
+            case Key.I: return ImGuiKey.I;
+            case Key.J: return ImGuiKey.J;
+            case Key.K: return ImGuiKey.K;
+            case Key.L: return ImGuiKey.L;
+            case Key.M: return ImGuiKey.M;
+            case Key.N: return ImGuiKey.N;
+            case Key.O: return ImGuiKey.O;
+            case Key.P: return ImGuiKey.P;
+            case Key.Q: return ImGuiKey.Q;
+            case Key.R: return ImGuiKey.R;
+            case Key.S: return ImGuiKey.S;
+            case Key.T: return ImGuiKey.T;
+            case Key.U: return ImGuiKey.U;
+            case Key.V: return ImGuiKey.V;
+            case Key.W: return ImGuiKey.W;
+            case Key.X: return ImGuiKey.X;
+            case Key.Y: return ImGuiKey.Y;
+            case Key.Z: return ImGuiKey.Z;
+            case Key.F1: return ImGuiKey.F1;
+            case Key.F2: return ImGuiKey.F2;
+            case Key.F3: return ImGuiKey.F3;
+            case Key.F4: return ImGuiKey.F4;
+            case Key.F5: return ImGuiKey.F5;
+            case Key.F6: return ImGuiKey.F6;
+            case Key.F7: return ImGuiKey.F7;
+            case Key.F8: return ImGuiKey.F8;
+            case Key.F9: return ImGuiKey.F9;
+            case Key.F10: return ImGuiKey.F10;
+            case Key.F11: return ImGuiKey.F11;
+            case Key.F12: return ImGuiKey.F12;
+            case Key.F13: return ImGuiKey.F13;
+            case Key.F14: return ImGuiKey.F14;
+            case Key.F15: return ImGuiKey.F15;
+            case Key.F16: return ImGuiKey.F16;
+            case Key.F17: return ImGuiKey.F17;
+            case Key.F18: return ImGuiKey.F18;
+            case Key.F19: return ImGuiKey.F19;
+            case Key.F20: return ImGuiKey.F20;
+            case Key.F21: return ImGuiKey.F21;
+            case Key.F22: return ImGuiKey.F22;
+            case Key.F23: return ImGuiKey.F23;
+            case Key.F24: return ImGuiKey.F24;
+            //case Key.AC.BACK: return ImGuiKey.AppBack;
+            //case Key.AC.FORWARD: return ImGuiKey.AppForward;
+        }
+
+        return ImGuiKey.None;
     }
 
-    private void RenderImDrawData(ImDrawDataPtr draw_data)
+    private void RenderImDrawData(ImDrawData *draw_data)
     {
-        if (draw_data.CmdListsCount == 0)
+        if (draw_data->CmdListsCount == 0)
         {
             return;
         }
 
-        var framebufferWidth = (int)(draw_data.DisplaySize.X * draw_data.FramebufferScale.X);
-        var framebufferHeight = (int)(draw_data.DisplaySize.Y * draw_data.FramebufferScale.Y);
+        var framebufferWidth = (int)(draw_data->DisplaySize.X * draw_data->FramebufferScale.X);
+        var framebufferHeight = (int)(draw_data->DisplaySize.Y * draw_data->FramebufferScale.Y);
         if (framebufferWidth <= 0 || framebufferHeight <= 0)
         {
             return;
@@ -359,12 +467,12 @@ void main()
         GL.Disable(EnableCap.StencilTest);
 
         // Setup orthographic projection matrix into our constant buffer
-        ImGuiIOPtr io = ImGui.GetIO();
+        ImGuiIO *io = ImGui.GetIO();
         GL.Viewport(0, 0, (uint)framebufferWidth, (uint)framebufferHeight);
-        var L = draw_data.DisplayPos.X;
-        var R = draw_data.DisplayPos.X + draw_data.DisplaySize.X;
-        var T = draw_data.DisplayPos.Y;
-        var B = draw_data.DisplayPos.Y + draw_data.DisplaySize.Y;
+        var L = draw_data->DisplayPos.X;
+        var R = draw_data->DisplayPos.X + draw_data->DisplaySize.X;
+        var T = draw_data->DisplayPos.Y;
+        var B = draw_data->DisplayPos.Y + draw_data->DisplaySize.Y;
         var mvp = stackalloc float[]
         {
             2.0f / (R - L), 0.0f, 0.0f, 0.0f, 0.0f, 2.0f / (T - B), 0.0f, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f,
@@ -388,32 +496,32 @@ void main()
         GL.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, stride, (void*)8);
         GL.VertexAttribPointer(2, 4, VertexAttribPointerType.UnsignedByte, true, stride, (void*)16);
 
-        Vector2 clipOffset = draw_data.DisplayPos;
-        Vector2 clipScale = draw_data.FramebufferScale;
+        Vector2 clipOffset = draw_data->DisplayPos;
+        Vector2 clipScale = draw_data->FramebufferScale;
 
         // Render command lists
-        for (var n = 0; n < draw_data.CmdListsCount; n++)
+        for (var n = 0; n < draw_data->CmdListsCount; n++)
         {
-            ImDrawListPtr cmd_list = draw_data.CmdListsRange[n];
+            ImDrawList *cmd_list = draw_data->CmdLists.Data[n];
 
-            GL.BufferData(GLEnum.ArrayBuffer, (nuint)(cmd_list.VtxBuffer.Size * sizeof(ImDrawVert)),
-                (void*)cmd_list.VtxBuffer.Data, GLEnum.StreamDraw);
-            GL.BufferData(GLEnum.ElementArrayBuffer, (nuint)(cmd_list.IdxBuffer.Size * sizeof(ushort)),
-                (void*)cmd_list.IdxBuffer.Data, GLEnum.StreamDraw);
+            GL.BufferData(GLEnum.ArrayBuffer, (nuint)(cmd_list->VtxBuffer.Size * sizeof(ImDrawVert)),
+                (void*)cmd_list->VtxBuffer.Data, GLEnum.StreamDraw);
+            GL.BufferData(GLEnum.ElementArrayBuffer, (nuint)(cmd_list->IdxBuffer.Size * sizeof(ushort)),
+                (void*)cmd_list->IdxBuffer.Data, GLEnum.StreamDraw);
 
-            for (var cmd_i = 0; cmd_i < cmd_list.CmdBuffer.Size; cmd_i++)
+            for (var cmd_i = 0; cmd_i < cmd_list->CmdBuffer.Size; cmd_i++)
             {
-                ImDrawCmdPtr pcmd = cmd_list.CmdBuffer[cmd_i];
-                if (pcmd.UserCallback != IntPtr.Zero)
+                ImDrawCmd *pcmd = &cmd_list->CmdBuffer.Data[cmd_i];
+                if (pcmd->UserCallback.Data.Pointer != null)
                 {
                     throw new NotImplementedException();
                 }
 
                 Vector4 clipRect;
-                clipRect.X = (pcmd.ClipRect.X - clipOffset.X) * clipScale.X;
-                clipRect.Y = (pcmd.ClipRect.Y - clipOffset.Y) * clipScale.Y;
-                clipRect.Z = (pcmd.ClipRect.Z - clipOffset.X) * clipScale.X;
-                clipRect.W = (pcmd.ClipRect.W - clipOffset.Y) * clipScale.Y;
+                clipRect.X = (pcmd->ClipRect.X - clipOffset.X) * clipScale.X;
+                clipRect.Y = (pcmd->ClipRect.Y - clipOffset.Y) * clipScale.Y;
+                clipRect.Z = (pcmd->ClipRect.Z - clipOffset.X) * clipScale.X;
+                clipRect.W = (pcmd->ClipRect.W - clipOffset.Y) * clipScale.Y;
 
                 if (clipRect.X < framebufferWidth && clipRect.Y < framebufferHeight && clipRect.Z >= 0.0f &&
                     clipRect.W >= 0.0f)
@@ -422,18 +530,18 @@ void main()
                         (uint)(clipRect.Z - clipRect.X), (uint)(clipRect.W - clipRect.Y));
 
                     GL.ActiveTexture(TextureUnit.Texture0);
-                    GL.BindTexture(TextureTarget.Texture2D, (uint)pcmd.TextureId);
+                    GL.BindTexture(TextureTarget.Texture2D, (uint)pcmd->TextureId.Data);
 
-                    if ((io.BackendFlags & ImGuiBackendFlags.RendererHasVtxOffset) != 0)
+                    if ((io->BackendFlags & ImGuiBackendFlags.RendererHasVtxOffset) != 0)
                     {
-                        GL.DrawElementsBaseVertex(PrimitiveType.Triangles, pcmd.ElemCount,
-                            DrawElementsType.UnsignedShort, (void*)(pcmd.IdxOffset * sizeof(ushort)),
-                            (int)pcmd.VtxOffset);
+                        GL.DrawElementsBaseVertex(PrimitiveType.Triangles, pcmd->ElemCount,
+                            DrawElementsType.UnsignedShort, (void*)(pcmd->IdxOffset * sizeof(ushort)),
+                            (int)pcmd->VtxOffset);
                     }
                     else
                     {
-                        GL.DrawElements(PrimitiveType.Triangles, pcmd.ElemCount, DrawElementsType.UnsignedShort,
-                            (void*)(pcmd.IdxOffset * sizeof(ushort)));
+                        GL.DrawElements(PrimitiveType.Triangles, pcmd->ElemCount, DrawElementsType.UnsignedShort,
+                            (void*)(pcmd->IdxOffset * sizeof(ushort)));
                     }
                 }
             }

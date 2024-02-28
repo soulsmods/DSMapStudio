@@ -76,7 +76,7 @@
     <Field Def="u32 Unk7C" />
     <Field Def="f32 Unk80" />
     <Field Def="u8 Unk84" />
-    <Field Def="u8 Unk85" />
+    <Field Def="u8 ModelMask" />
     <Field Def="u8 Unk86" />
     <Field Def="u8 Unk87" />
     <Field Def="u32 ItemLotID1" >

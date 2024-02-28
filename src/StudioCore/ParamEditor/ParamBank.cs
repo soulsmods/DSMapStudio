@@ -84,6 +84,7 @@ public class ParamBank
         ("EquipParamGoods", FmgEntryCategory.Goods),
         ("EquipParamWeapon", FmgEntryCategory.Weapons),
         ("EquipParamProtector", FmgEntryCategory.Armor),
+        ("Magic", FmgEntryCategory.Spells),
         ("EquipParamGem", FmgEntryCategory.Gem),
         ("SwordArtsParam", FmgEntryCategory.SwordArts),
         ("EquipParamGenerator", FmgEntryCategory.Generator),
@@ -311,7 +312,8 @@ public class ParamBank
                             _usedTentativeParamTypes.Add(paramName, p.ParamType);
                             p.ParamType = newParamType;
                             TaskLogs.AddLog(
-                                $"Couldn't find ParamDef for {paramName}, but tentative ParamType \"{newParamType}\" exists.");
+                                $"Couldn't find ParamDef for {paramName}, but tentative ParamType \"{newParamType}\" exists.",
+                                LogLevel.Debug);
                         }
                         else
                         {
@@ -329,7 +331,8 @@ public class ParamBank
                         _usedTentativeParamTypes.Add(paramName, p.ParamType);
                         p.ParamType = newParamType;
                         TaskLogs.AddLog(
-                            $"Couldn't read ParamType for {paramName}, but tentative ParamType \"{newParamType}\" exists.");
+                            $"Couldn't read ParamType for {paramName}, but tentative ParamType \"{newParamType}\" exists.",
+                            LogLevel.Debug);
                     }
                     else
                     {
@@ -903,16 +906,41 @@ public class ParamBank
                 }
             }
         }
+
+        string sysParam = AssetLocator.GetAssetPath(@"param\systemparam\systemparam.parambnd.dcx");
+        if (File.Exists(sysParam))
+        {
+            LoadParamsERFromFile(sysParam, false);
+        }
+        else
+        {
+            TaskLogs.AddLog("Systemparam could not be found. These require an unpacked game to modify.", LogLevel.Information, TaskLogs.LogPriority.Normal);
+        }
     }
 
     private void LoadVParamsER()
     {
         LoadParamsERFromFile($@"{AssetLocator.GameRootDirectory}\regulation.bin");
+
+        var sysParam = $@"{AssetLocator.GameRootDirectory}\param\systemparam\systemparam.parambnd.dcx";
+        if (File.Exists(sysParam))
+        {
+            LoadParamsERFromFile(sysParam, false);
+        }
     }
 
-    private void LoadParamsERFromFile(string path)
+    private void LoadParamsERFromFile(string path, bool encrypted = true)
     {
-        LoadParamFromBinder(SFUtil.DecryptERRegulation(path), ref _params, out _paramVersion, true);
+        if (encrypted)
+        {
+            using BND4 bnd = SFUtil.DecryptERRegulation(path);
+            LoadParamFromBinder(bnd, ref _params, out _paramVersion, true);
+        }
+        else
+        {
+            using BND4 bnd = BND4.Read(path);
+            LoadParamFromBinder(bnd, ref _params, out _, false);
+        }
     }
 
     private void LoadParamsAC6()
@@ -931,17 +959,74 @@ public class ParamBank
             param = $@"{dir}\regulation.bin";
         }
 
-        LoadParamsAC6FromFile(param);
+        LoadParamsAC6FromFile(param, true);
+
+        string sysParam = AssetLocator.GetAssetPath(@"param\systemparam\systemparam.parambnd.dcx");
+        if (File.Exists(sysParam))
+        {
+            LoadParamsAC6FromFile(sysParam, false);
+        }
+        else
+        {
+            TaskLogs.AddLog("Systemparam could not be found. These require an unpacked game to modify.", LogLevel.Information, TaskLogs.LogPriority.Normal);
+        }
+
+        string graphicsConfigParam = AssetLocator.GetAssetPath(@"param\graphicsconfig\graphicsconfig.parambnd.dcx");
+        if (File.Exists(graphicsConfigParam))
+        {
+            LoadParamsAC6FromFile(graphicsConfigParam, false);
+        }
+        else
+        {
+            TaskLogs.AddLog("Graphicsconfig could not be found. These require an unpacked game to modify.", LogLevel.Information, TaskLogs.LogPriority.Normal);
+        }
+
+        string eventParam = AssetLocator.GetAssetPath(@"param\eventparam\eventparam.parambnd.dcx");
+        if (File.Exists(eventParam))
+        {
+            LoadParamsAC6FromFile(eventParam, false);
+        }
+        else
+        {
+            TaskLogs.AddLog("Eventparam could not be found. These require an unpacked game to modify.", LogLevel.Information, TaskLogs.LogPriority.Normal);
+        }
     }
 
     private void LoadVParamsAC6()
     {
         LoadParamsAC6FromFile($@"{AssetLocator.GameRootDirectory}\regulation.bin");
+
+        var sysParam = $@"{AssetLocator.GameRootDirectory}\param\systemparam\systemparam.parambnd.dcx";
+        if (File.Exists(sysParam))
+        {
+            LoadParamsAC6FromFile(sysParam, false);
+        }
+
+        var graphicsConfigParam = $@"{AssetLocator.GameRootDirectory}\param\graphicsconfig\graphicsconfig.parambnd.dcx";
+        if (File.Exists(graphicsConfigParam))
+        {
+            LoadParamsAC6FromFile(graphicsConfigParam, false);
+        }
+
+        var eventParam = $@"{AssetLocator.GameRootDirectory}\param\eventparam\eventparam.parambnd.dcx";
+        if (File.Exists(eventParam))
+        {
+            LoadParamsAC6FromFile(eventParam, false);
+        }
     }
 
-    private void LoadParamsAC6FromFile(string path)
+    private void LoadParamsAC6FromFile(string path, bool encrypted = true)
     {
-        LoadParamFromBinder(SFUtil.DecryptAC6Regulation(path), ref _params, out _paramVersion, true);
+        if (encrypted)
+        {
+            using BND4 bnd = SFUtil.DecryptAC6Regulation(path);
+            LoadParamFromBinder(bnd, ref _params, out _paramVersion, true);
+        }
+        else
+        {
+            using BND4 bnd = BND4.Read(path);
+            LoadParamFromBinder(bnd, ref _params, out _, false);
+        }
     }
 
     //Some returns and repetition, but it keeps all threading and loading-flags visible inside this method
@@ -1753,6 +1838,37 @@ public class ParamBank
 
     private void SaveParamsER(bool partial)
     {
+        void OverwriteParamsER(BND4 paramBnd)
+        {
+            // Replace params with edited ones
+            foreach (BinderFile p in paramBnd.Files)
+            {
+                if (_params.ContainsKey(Path.GetFileNameWithoutExtension(p.Name)))
+                {
+                    Param paramFile = _params[Path.GetFileNameWithoutExtension(p.Name)];
+                    IReadOnlyList<Param.Row> backup = paramFile.Rows;
+                    List<Param.Row> changed = new();
+                    if (partial)
+                    {
+                        TaskManager.WaitAll(); //wait on dirtycache update
+                        HashSet<int> dirtyCache = _vanillaDiffCache[Path.GetFileNameWithoutExtension(p.Name)];
+                        foreach (Param.Row row in paramFile.Rows)
+                        {
+                            if (dirtyCache.Contains(row.ID))
+                            {
+                                changed.Add(row);
+                            }
+                        }
+
+                        paramFile.Rows = changed;
+                    }
+
+                    p.Bytes = paramFile.Write();
+                    paramFile.Rows = backup;
+                }
+            }
+        }
+
         var dir = AssetLocator.GameRootDirectory;
         var mod = AssetLocator.GameModDirectory;
         if (!File.Exists($@"{dir}\\regulation.bin"))
@@ -1769,42 +1885,54 @@ public class ParamBank
             param = $@"{dir}\regulation.bin";
         }
 
-        BND4 paramBnd = SFUtil.DecryptERRegulation(param);
+        BND4 regParams = SFUtil.DecryptERRegulation(param);
+        OverwriteParamsER(regParams);
+        Utils.WriteWithBackup(dir, mod, @"regulation.bin", regParams, GameType.EldenRing);
 
-        // Replace params with edited ones
-        foreach (BinderFile p in paramBnd.Files)
+        string sysParam = AssetLocator.GetAssetPath(@"param\systemparam\systemparam.parambnd.dcx");
+        if (File.Exists(sysParam))
         {
-            if (_params.ContainsKey(Path.GetFileNameWithoutExtension(p.Name)))
-            {
-                Param paramFile = _params[Path.GetFileNameWithoutExtension(p.Name)];
-                IReadOnlyList<Param.Row> backup = paramFile.Rows;
-                List<Param.Row> changed = new();
-                if (partial)
-                {
-                    TaskManager.WaitAll(); //wait on dirtycache update
-                    HashSet<int> dirtyCache = _vanillaDiffCache[Path.GetFileNameWithoutExtension(p.Name)];
-                    foreach (Param.Row row in paramFile.Rows)
-                    {
-                        if (dirtyCache.Contains(row.ID))
-                        {
-                            changed.Add(row);
-                        }
-                    }
-
-                    paramFile.Rows = changed;
-                }
-
-                p.Bytes = paramFile.Write();
-                paramFile.Rows = backup;
-            }
+            using BND4 sysParams = BND4.Read(sysParam);
+            OverwriteParamsER(sysParams);
+            Utils.WriteWithBackup(dir, mod, @"param\systemparam\systemparam.parambnd.dcx", sysParams);
         }
 
-        Utils.WriteWithBackup(dir, mod, @"regulation.bin", paramBnd, GameType.EldenRing);
         _pendingUpgrade = false;
     }
 
     private void SaveParamsAC6()
     {
+        void OverwriteParamsAC6(BND4 paramBnd)
+        {
+            // Replace params with edited ones
+            foreach (BinderFile p in paramBnd.Files)
+            {
+                var paramName = Path.GetFileNameWithoutExtension(p.Name);
+                if (_params.TryGetValue(paramName, out Param paramFile))
+                {
+                    IReadOnlyList<Param.Row> backup = paramFile.Rows;
+                    if (AssetLocator.Type is GameType.ArmoredCoreVI)
+                    {
+                        if (_usedTentativeParamTypes.TryGetValue(paramName, out var oldParamType))
+                        {
+                            // This param was given a tentative ParamType, return original ParamType if possible.
+                            oldParamType ??= "";
+                            var prevParamType = paramFile.ParamType;
+                            paramFile.ParamType = oldParamType;
+
+                            p.Bytes = paramFile.Write();
+                            paramFile.ParamType = prevParamType;
+                            paramFile.Rows = backup;
+                            continue;
+                        }
+                    }
+
+                    p.Bytes = paramFile.Write();
+                    paramFile.Rows = backup;
+                }
+            }
+        }
+
         var dir = AssetLocator.GameRootDirectory;
         var mod = AssetLocator.GameModDirectory;
         if (!File.Exists($@"{dir}\\regulation.bin"))
@@ -1821,37 +1949,34 @@ public class ParamBank
             param = $@"{dir}\regulation.bin";
         }
 
-        BND4 paramBnd = SFUtil.DecryptAC6Regulation(param);
+        BND4 regParams = SFUtil.DecryptAC6Regulation(param);
+        OverwriteParamsAC6(regParams);
+        Utils.WriteWithBackup(dir, mod, @"regulation.bin", regParams, GameType.ArmoredCoreVI);
 
-        // Replace params with edited ones
-        foreach (BinderFile p in paramBnd.Files)
+        string sysParam = AssetLocator.GetAssetPath(@"param\systemparam\systemparam.parambnd.dcx");
+        if (File.Exists(sysParam))
         {
-            var paramName = Path.GetFileNameWithoutExtension(p.Name);
-            if (_params.TryGetValue(paramName, out Param paramFile))
-            {
-                IReadOnlyList<Param.Row> backup = paramFile.Rows;
-                if (AssetLocator.Type is GameType.ArmoredCoreVI)
-                {
-                    if (_usedTentativeParamTypes.TryGetValue(paramName, out var oldParamType))
-                    {
-                        // This param was given a tentative ParamType, return original ParamType if possible.
-                        oldParamType ??= "";
-                        var prevParamType = paramFile.ParamType;
-                        paramFile.ParamType = oldParamType;
-
-                        p.Bytes = paramFile.Write();
-                        paramFile.ParamType = prevParamType;
-                        paramFile.Rows = backup;
-                        continue;
-                    }
-                }
-
-                p.Bytes = paramFile.Write();
-                paramFile.Rows = backup;
-            }
+            using BND4 sysParams = BND4.Read(sysParam);
+            OverwriteParamsAC6(sysParams);
+            Utils.WriteWithBackup(dir, mod, @"param\systemparam\systemparam.parambnd.dcx", sysParams);
         }
 
-        Utils.WriteWithBackup(dir, mod, @"regulation.bin", paramBnd, GameType.ArmoredCoreVI);
+        string graphicsConfigParam = AssetLocator.GetAssetPath(@"param\graphicsconfig\graphicsconfig.parambnd.dcx");
+        if (File.Exists(graphicsConfigParam))
+        {
+            using BND4 graphicsConfigParams = BND4.Read(graphicsConfigParam);
+            OverwriteParamsAC6(graphicsConfigParams);
+            Utils.WriteWithBackup(dir, mod, @"param\graphicsconfig\graphicsconfig.parambnd.dcx", graphicsConfigParams);
+        }
+
+        string eventParam = AssetLocator.GetAssetPath(@"param\eventparam\eventparam.parambnd.dcx");
+        if (File.Exists(eventParam))
+        {
+            using BND4 eventParams = BND4.Read(eventParam);
+            OverwriteParamsAC6(eventParams);
+            Utils.WriteWithBackup(dir, mod, @"param\eventparam\eventparam.parambnd.dcx", eventParams);
+        }
+
         _pendingUpgrade = false;
     }
 
@@ -2167,7 +2292,11 @@ public class ParamBank
         if (!File.Exists(oldVanillaParamPath))
         {
             return ParamUpgradeResult.OldRegulationNotFound;
-        }
+        }    
+        
+        // Backup modded params
+        string modRegulationPath = $@"{AssetLocator.GameModDirectory}\regulation.bin";
+        File.Copy(modRegulationPath, $@"{modRegulationPath}.upgrade.bak", true);
 
         // Load old vanilla regulation
         BND4 oldVanillaParamBnd;

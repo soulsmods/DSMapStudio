@@ -34,10 +34,6 @@ public class HavokCollisionResource : IResource, IDisposable
             var des = new PackFileDeserializer();
             Hkx2 = (hkRootLevelContainer)des.Deserialize(br);
         }
-        else if (type == GameType.ArmoredCoreVI)
-        {
-            //TODO AC6
-        }
         else
         {
             Hkx = HKX.Read(bytes);
@@ -46,10 +42,6 @@ public class HavokCollisionResource : IResource, IDisposable
         if (type == GameType.DarkSoulsIISOTFS || type == GameType.DarkSoulsIII || type == GameType.Bloodborne)
         {
             FrontFace = VkFrontFace.Clockwise;
-        }
-        else if (type == GameType.ArmoredCoreVI)
-        {
-            //TODO AC6
         }
         else
         {
@@ -61,10 +53,6 @@ public class HavokCollisionResource : IResource, IDisposable
             return LoadInternalNew(al);
         }
 
-        if (type == GameType.ArmoredCoreVI)
-        {
-            //TODO AC6
-        }
 
         return LoadInternal(al);
     }
@@ -83,10 +71,6 @@ public class HavokCollisionResource : IResource, IDisposable
             var des = new PackFileDeserializer();
             Hkx2 = (hkRootLevelContainer)des.Deserialize(br);
         }
-        else if (type == GameType.ArmoredCoreVI)
-        {
-            //TODO AC6
-        }
         else
         {
             Hkx = HKX.Read(file);
@@ -96,10 +80,6 @@ public class HavokCollisionResource : IResource, IDisposable
         {
             FrontFace = VkFrontFace.Clockwise;
         }
-        else if (type == GameType.ArmoredCoreVI)
-        {
-            //TODO AC6
-        }
         else
         {
             FrontFace = VkFrontFace.CounterClockwise;
@@ -108,11 +88,6 @@ public class HavokCollisionResource : IResource, IDisposable
         if (type == GameType.DarkSoulsIII)
         {
             return LoadInternalNew(al);
-        }
-
-        if (type == GameType.ArmoredCoreVI)
-        {
-            //TODO AC6
         }
 
         return LoadInternal(al);

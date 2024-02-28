@@ -4,6 +4,7 @@ using StudioCore.Editor;
 using StudioCore.ParamEditor;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -14,14 +15,16 @@ internal abstract class METypelessOperationDef
     internal string[] argNames;
     internal string wiki;
     internal Func<object, string[], object> function;
+    internal Func<bool> shouldShow;
 }
 internal class MEOperationDef<T, O> : METypelessOperationDef
 {
-    internal MEOperationDef(string[] args, string tooltip, Func<T, string[], O> func)
+    internal MEOperationDef(string[] args, string tooltip, Func<T, string[], O> func, Func<bool> show = null)
     {
         argNames = args;
         wiki = tooltip;
         function = func as Func<object, string[], object>;
+        shouldShow = show;
     }
 }
 internal abstract class METypelessOperation
@@ -61,24 +64,13 @@ internal class MEOperation<T, O> : METypelessOperation
     {
         return operations;
     }
-
-    internal List<(string, string[], string)> AvailableCommands()
+    internal MEOperationDef<T, O> newCmd(string[] args, string wiki, Func<T, string[], O> func, Func<bool> show = null)
     {
-        List<(string, string[], string)> options = new();
-        foreach (var op in operations.Keys)
-        {
-            options.Add((op, operations[op].argNames, operations[op].wiki));
-        }
-
-        return options;
+        return new MEOperationDef<T, O>(args, wiki, func, show);
     }
-    internal MEOperationDef<T, O> newCmd(string[] args, string wiki, Func<T, string[], O> func)
+    internal MEOperationDef<T, O> newCmd(string wiki, Func<T, string[], O> func, Func<bool> show)
     {
-        return new MEOperationDef<T, O>(args, wiki, func);
-    }
-    internal MEOperationDef<T, O> newCmd(string wiki, Func<T, string[], O> func)
-    {
-        return new MEOperationDef<T, O>(Array.Empty<string>(), wiki, func);
+        return new MEOperationDef<T, O>(Array.Empty<string>(), wiki, func, show);
     }
 
     internal override string NameForHelpTexts()
@@ -99,8 +91,7 @@ internal class MEGlobalOperation : MEOperation<ParamEditorSelectionState, bool>
             ParamBank.ClipboardParam = null;
             ParamBank.ClipboardRows.Clear();
             return true;
-        }
-        ));
+        }));
         operations.Add("newvar", newCmd(new[] { "variable name", "value" },
             "Creates a variable with the given value, and the type of that value", (selectionState, args) =>
             {
@@ -120,14 +111,12 @@ internal class MEGlobalOperation : MEOperation<ParamEditorSelectionState, bool>
                 }
 
                 return true;
-            }
-        ));
+            }, () => CFG.Current.Param_AdvancedMassedit));
         operations.Add("clearvars", newCmd(new string[0], "Deletes all variables", (selectionState, args) =>
         {
             MassParamEdit.massEditVars.Clear();
             return true;
-        }
-        ));
+        }, () => CFG.Current.Param_AdvancedMassedit));
     }
 }
 
@@ -197,8 +186,7 @@ internal class MERowOperation : MEOperation<(string, Param.Row), (Param, Param.R
                 }
 
                 return (p, null);
-            }
-        ));
+            }, () => CFG.Current.Param_AdvancedMassedit));
         operations.Add("paste", newCmd(new string[0],
             "Adds the selected rows to the primary regulation or parambnd in the selected param",
             (paramAndRow, args) =>
@@ -256,7 +244,7 @@ internal class MEValueOperation : MEOperation<object, object>
                 (ctx, args) => MassParamEdit.WithDynamicOf(ctx, v => v / double.Parse(args[0]))));
         operations.Add("%",
             newCmd(new[] { "number" }, "Gives the remainder when the selected values are divided by the number",
-                (ctx, args) => MassParamEdit.WithDynamicOf(ctx, v => v % double.Parse(args[0]))));
+                (ctx, args) => MassParamEdit.WithDynamicOf(ctx, v => v % double.Parse(args[0])), () => CFG.Current.Param_AdvancedMassedit));
         operations.Add("scale", newCmd(new[] { "factor number", "center number" },
             "Multiplies the difference between the selected values and the center number by the factor number",
             (ctx, args) =>
@@ -279,14 +267,13 @@ internal class MEValueOperation : MEOperation<object, object>
             {
                 Regex rx = new(args[0]);
                 return MassParamEdit.WithDynamicOf(ctx, v => rx.Replace(v, args[1]));
-            }
-        ));
+            }, () => CFG.Current.Param_AdvancedMassedit));
         operations.Add("max",
             newCmd(new[] { "number" }, "Returns the larger of the current value and number",
-                (ctx, args) => MassParamEdit.WithDynamicOf(ctx, v => Math.Max(v, double.Parse(args[0])))));
+                (ctx, args) => MassParamEdit.WithDynamicOf(ctx, v => Math.Max(v, double.Parse(args[0]))), () => CFG.Current.Param_AdvancedMassedit));
         operations.Add("min",
             newCmd(new[] { "number" }, "Returns the smaller of the current value and number",
-                (ctx, args) => MassParamEdit.WithDynamicOf(ctx, v => Math.Min(v, double.Parse(args[0])))));
+                (ctx, args) => MassParamEdit.WithDynamicOf(ctx, v => Math.Min(v, double.Parse(args[0]))), () => CFG.Current.Param_AdvancedMassedit));
     }
 }
 

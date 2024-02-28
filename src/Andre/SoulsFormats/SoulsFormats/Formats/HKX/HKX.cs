@@ -56,7 +56,7 @@ namespace SoulsFormats
             Header.Magic1 = br.AssertUInt32(0x10C0C010);
             //Header.UserTag = br.AssertInt32(0);
             Header.UserTag = br.ReadInt32();
-            Header.Version = br.AssertInt32(0x05, 0x08, 0x0B);
+            Header.Version = br.AssertInt32([0x05, 0x08, 0x0B]);
             if (Header.Version == 0x05)
             {
                 Variation = HKXVariation.HKXDeS;
@@ -65,9 +65,9 @@ namespace SoulsFormats
             {
                 Variation = HKXVariation.HKXDS1;
             }
-            Header.PointerSize = br.AssertByte(4, 8);
-            Header.Endian = br.AssertByte(0, 1);
-            Header.PaddingOption = br.AssertByte(0, 1);
+            Header.PointerSize = br.AssertByte([4, 8]);
+            Header.Endian = br.AssertByte([0, 1]);
+            Header.PaddingOption = br.AssertByte([0, 1]);
             Header.BaseClass = br.AssertByte(1); // ?
             Header.SectionCount = br.AssertInt32(3); // Always 3 sections pretty sure
             Header.ContentsSectionIndex = br.ReadInt32();

@@ -1,4 +1,4 @@
-﻿using ImGuiNET;
+﻿using static Andre.Native.ImGuiBindings;
 using Microsoft.Extensions.Logging;
 using Octokit;
 using SoapstoneLib;
@@ -36,6 +36,8 @@ public class MapStudioNew
     private static bool _firstframe = true;
     public static bool FirstFrame = true;
 
+    public static bool LowRequirementsMode;
+
     private readonly AssetLocator _assetLocator;
 
     private readonly IGraphicsContext _context;
@@ -53,10 +55,7 @@ public class MapStudioNew
     /// <summary>
     ///     Characters to load that FromSoft use, but aren't included in the ImGui Japanese glyph range.
     /// </summary>
-    private readonly char[] SpecialCharsJP =
-    {
-        '鉤', '梟', '倅', '…', '飴', '護', '戮', 'ā', 'ī', 'ū', 'ē', 'ō', 'Ā', 'Ē', 'Ī', 'Ō', 'Ū', '—', '薄', '靄'
-    };
+    private const string _extraGlyphs = "⇒⑮⑭⑲⑳⑥⑤㎏⑯②①⑨⑦⑰―㌃’㌦㌧㌻㍉㍊㍍㍑㍗㍻㍼㍽㍾⑫㌶Ⅱ※⑱⑧⑩⑪㊤㊦㊧㊨●㌍⑬㌣“”•㎎←↑→↓蜘蛛牢墟壷熔吊塵屍♀彷徨徘徊吠祀…騙眷嘘穢擲罠邂逅涜扁罹脆蠢繍蝕袂鍮鴉嘴檻娼腑賤鍔囁祓縋歪躯仇啜繋痺搦壺覗咆哮夥隕蹂躙詛哭捩嘯蕩舐嗜僻裔贄抉鉈叩膂迸厭鉾誂呆跪攫滲唸躊躇∞靭棘篝㌔㌘㌢㌫③④瑕疵■頬髭痣埃窩枷戮僥濘侘噛呻怯碌懺吼縷爺餞誑邁儂儚憑糞眩瞞讐澹軛鶯瀉鋤蝋⇔磔ΩⅠ賽渠瞑蛆澱揶揄篭贖帷冑熾斃屠謳烙痒爛褪鑽矮傅虔瘴躱泄瘤蟲燻滓蝙蝠楔剥膿簒矜拗欒炸烽譚謐咬佇蜥蜴噺嵌掴僭貶朧峙棍鋲鬨薔薇滾洩髯剃Ⅲ™竄–誅掻愴鼠涎蛭蛾贔屓鎚鉤芒傀儡αβγ礫♂○鍾囮踵誹囃碍鄙賎掟娑弩蜀靄蛙轢嗟贅Ⅳ齧咎奢頚燐填鏃△□謬諌憺媚垢宸憫蝿蟇嚢─悶櫃咳狗艱倅箪淤飴梟曰仄呟吽刎鬘睨鈷屏汞翡籃蝉箒猩埒閂癪皺憚杞甕弑祟狐貉撓褄★祠廠燼衒狸酩酊殲鹵閾謗—한국어體简Руский언변경최종사용자라이선스계약개인정보처리방침데터에관동의페지넘기택실행닫하다거절變權隱擇關语变终户许协议隐游戏换页选择执关闭ęŻŃŚżźńПарметыязЛИЦЕНЗОСГАШКЧЫМЬВТФДоглшнбпьвдхЯю猜諜聘站腿恫賁戈絨毯攪倶洒掩頸懣愾啼狽捌頷轍輜儘淘餐廓撹飄坩堝屹鬣孕痾衾聳嘶疼蠅茹朦鹸閨闢竦焉斂蛹蜃孵蟻癌瘡蠍鋏讒姦仗拵跋扈鮫笏錨銛撻⟪⟫ภาษ​ไทย禿驟咥慟糺麾藉蠱奸躾吝嗇孺濾滸訝煽蛸‐恍隧臍蟷螂蜷œ„업트년월일본을신중게읽으십시오귀가당임또는서비접근나를것은술된모든조건그고참급통해부루구속되로함미합니러두않우마재항제과집단소송포있며외역주들적습독특됩세내및확유럽연호북남칭와멀티플레온면전문콘텐츠운드능련위액입판매아여대명권른품존떤식도키추혹삭공요금청차프션규칙음징될수달룹상충체결립따치같취뒤안완히준할법성령만후견야코등록넷디털못작반영컬컴퓨웨랫폼크웃됨했간점직배타양불널버별예범느허락복목분석설파셈블발생물저알렵벗회폐래텍픽진화템열산더장없족효각써무런책즉료환받량새메승필획득럼철교줄혀향칠격증익원현려져색출활걸쳐누평찬킬표검토감때론퇴훼손욕쾌란노골괴롭협박퍼학킹편밀광력뜨팸류봇뮬움순올네워끊밖었바담닙황팩질형태천애묵롯므강축쟁패큼까백민초험망멸휴벌총높테심탈병엄앞울엇닌탕겠뿐냄납긴날찍름번케팅념엔캘섭랑클카갖쿄옹탁머잔너캔르객갱컨롤짜릴홈살펴벨델브뉴밍센랭글균맞춥랍돕응답벤링좋탐률채턴웹믿옵난람떠곳낼閱讀們您處豁歐澳稱雙說內屬售會產刪絕銷另發點參當效區齡對號續數腦經據獨譯圖找碼衍檔沒滿隨仍繼兌值賺賬戶圍佔稅做聲譽歸擔查佈雖猥褻擾勵攬假僱聯亂喊寫垃圾缺礙斷幫贏證贊輕濟潛兩址份釋簽遞餘啟你窗瀏舉營估獎趨聊辨隸竊请细阅读访问们务处约这节为则适于详见亚订进并网络发线载书电该权产删确绝张贴费结销规说间冲类缔签实决过显获时经达辖龄监护须对册续连联损运设备统帐拥话转让补带况复个业编译汇试图寻码创标计范围它尝饰义软币拟档财识现满毁负责暂还购买无继视邮应紧货专门兑价际认响赚赎额赠赁员账开弃频项广传赔偿资归错误论违审储报虽辑从给诽谤伤秽亵骚扰胁滥动诈种揽输坛领导陈坏优势骗仿维难击败帮赢赛卖师东证质赞荐颁样减强竞仅测诺长严伙惩罚润轻坚众调构济诉讼团纠纷讯别组较两亲阶级针释预递题记录营赋圣县杂夺启扫忆侦浏览阐顶沟态评术奖兴闻趋检顾绍单织丢链齐异ćĘĆĄŁąłśŹЙЭУЖБЮЩХжфцчщэъЪเลือนกดํิรปีมับ่ข้ตงใหสธแผูชจุคณถึะพวญโซศฐฏ์ๆ็ฉฑฎฟฮฝฆฌฤฯฒ鎗≪≫隘髑髏";
 
     private EditorScreen _focusedEditor;
 
@@ -112,12 +111,12 @@ public class MapStudioNew
         FMGBank.SetAssetLocator(_assetLocator);
         MtdBank.LoadMtds(_assetLocator);
 
-        ImGui.GetIO().ConfigFlags |= ImGuiConfigFlags.NavEnableKeyboard;
+        ImGui.GetIO()->ConfigFlags |= ImGuiConfigFlags.NavEnableKeyboard;
         SetupFonts();
         _context.ImguiRenderer.OnSetupDone();
 
-        ImGuiStylePtr style = ImGui.GetStyle();
-        style.TabBorderSize = 0;
+        ImGuiStyle* style = ImGui.GetStyle();
+        style->TabBorderSize = 0;
 
         if (CFG.Current.LastProjectFile != null && CFG.Current.LastProjectFile != "")
         {
@@ -158,93 +157,91 @@ public class MapStudioNew
 
     private unsafe void SetupFonts()
     {
-        ImFontAtlasPtr fonts = ImGui.GetIO().Fonts;
+        ImFontAtlas* fonts = ImGui.GetIO()->Fonts;
         var fileEn = Path.Combine(AppContext.BaseDirectory, @"Assets\Fonts\RobotoMono-Light.ttf");
         var fontEn = File.ReadAllBytes(fileEn);
-        var fontEnNative = ImGui.MemAlloc((uint)fontEn.Length);
+        var fontEnNative = new IntPtr(ImGui.MemAlloc(fontEn.Length));
         Marshal.Copy(fontEn, 0, fontEnNative, fontEn.Length);
         var fileOther = Path.Combine(AppContext.BaseDirectory, @"Assets\Fonts\NotoSansCJKtc-Light.otf");
         var fontOther = File.ReadAllBytes(fileOther);
-        var fontOtherNative = ImGui.MemAlloc((uint)fontOther.Length);
+        var fontOtherNative = new IntPtr(ImGui.MemAlloc(fontOther.Length));
         Marshal.Copy(fontOther, 0, fontOtherNative, fontOther.Length);
         var fileIcon = Path.Combine(AppContext.BaseDirectory, @"Assets\Fonts\forkawesome-webfont.ttf");
         var fontIcon = File.ReadAllBytes(fileIcon);
-        var fontIconNative = ImGui.MemAlloc((uint)fontIcon.Length);
+        var fontIconNative = new IntPtr(ImGui.MemAlloc(fontIcon.Length));
         Marshal.Copy(fontIcon, 0, fontIconNative, fontIcon.Length);
-        fonts.Clear();
+        ImFontAtlasClear(fonts);
 
         var scale = GetUIScale();
 
         // English fonts
         {
-            ImFontConfig* ptr = ImGuiNative.ImFontConfig_ImFontConfig();
-            ImFontConfigPtr cfg = new(ptr);
-            cfg.GlyphMinAdvanceX = 5.0f;
-            cfg.OversampleH = 5;
-            cfg.OversampleV = 5;
-            fonts.AddFontFromMemoryTTF(fontEnNative, fontIcon.Length, 14.0f * scale, cfg,
-                fonts.GetGlyphRangesDefault());
+            ImFontConfig* cfg = ImFontConfigImFontConfig();
+            cfg->GlyphMinAdvanceX = 5.0f;
+            cfg->OversampleH = 5;
+            cfg->OversampleV = 5;
+            ImFontAtlasAddFontFromMemoryTTF(fonts, fontEnNative.ToPointer(), fontEn.Length, 14.0f * scale, cfg,
+                ImFontAtlasGetGlyphRangesDefault(fonts));
         }
 
         // Other language fonts
         {
-            ImFontConfig* ptr = ImGuiNative.ImFontConfig_ImFontConfig();
-            ImFontConfigPtr cfg = new(ptr);
-            cfg.MergeMode = true;
-            cfg.GlyphMinAdvanceX = 7.0f;
-            cfg.OversampleH = 5;
-            cfg.OversampleV = 5;
+            ImFontConfig* cfg = ImFontConfigImFontConfig();
+            cfg->MergeMode = true;
+            cfg->GlyphMinAdvanceX = 7.0f;
+            cfg->OversampleH = 5;
+            cfg->OversampleV = 5;
 
-            ImFontGlyphRangesBuilderPtr glyphRanges =
-                new(ImGuiNative.ImFontGlyphRangesBuilder_ImFontGlyphRangesBuilder());
-            glyphRanges.AddRanges(fonts.GetGlyphRangesJapanese());
-            Array.ForEach(SpecialCharsJP, c => glyphRanges.AddChar(c));
+            ImFontGlyphRangesBuilder* glyphRanges = ImFontGlyphRangesBuilderImFontGlyphRangesBuilder();
+            ImFontGlyphRangesBuilderAddRanges(glyphRanges, ImFontAtlasGetGlyphRangesJapanese(fonts));
+            foreach (var c in _extraGlyphs)
+            {
+                ImFontGlyphRangesBuilderAddChar(glyphRanges, c);
+            }
 
             if (CFG.Current.FontChinese)
             {
-                glyphRanges.AddRanges(fonts.GetGlyphRangesChineseFull());
+                ImFontGlyphRangesBuilderAddRanges(glyphRanges, ImFontAtlasGetGlyphRangesChineseFull(fonts));
             }
 
             if (CFG.Current.FontKorean)
             {
-                glyphRanges.AddRanges(fonts.GetGlyphRangesKorean());
+                ImFontGlyphRangesBuilderAddRanges(glyphRanges, ImFontAtlasGetGlyphRangesKorean(fonts));
             }
 
             if (CFG.Current.FontThai)
             {
-                glyphRanges.AddRanges(fonts.GetGlyphRangesThai());
+                ImFontGlyphRangesBuilderAddRanges(glyphRanges, ImFontAtlasGetGlyphRangesThai(fonts));
             }
 
             if (CFG.Current.FontVietnamese)
             {
-                glyphRanges.AddRanges(fonts.GetGlyphRangesVietnamese());
+                ImFontGlyphRangesBuilderAddRanges(glyphRanges, ImFontAtlasGetGlyphRangesVietnamese(fonts));
             }
 
             if (CFG.Current.FontCyrillic)
             {
-                glyphRanges.AddRanges(fonts.GetGlyphRangesCyrillic());
+                ImFontGlyphRangesBuilderAddRanges(glyphRanges, ImFontAtlasGetGlyphRangesCyrillic(fonts));
             }
 
-            glyphRanges.BuildRanges(out ImVector glyphRange);
-            fonts.AddFontFromMemoryTTF(fontOtherNative, fontOther.Length, 16.0f * scale, cfg, glyphRange.Data);
-            glyphRanges.Destroy();
+            ImVectorImWchar glyphRange;
+            ImFontGlyphRangesBuilderBuildRanges(glyphRanges, &glyphRange);
+            ImFontAtlasAddFontFromMemoryTTF(fonts, fontOtherNative.ToPointer(), fontOther.Length, 16.0f * scale, cfg, glyphRange.Data);
+            ImFontGlyphRangesBuilderDestroy(glyphRanges);
         }
 
         // Icon fonts
         {
             ushort[] ranges = { ForkAwesome.IconMin, ForkAwesome.IconMax, 0 };
-            ImFontConfig* ptr = ImGuiNative.ImFontConfig_ImFontConfig();
-            ImFontConfigPtr cfg = new(ptr);
-            cfg.MergeMode = true;
-            cfg.GlyphMinAdvanceX = 12.0f;
-            cfg.OversampleH = 5;
-            cfg.OversampleV = 5;
-            ImFontGlyphRangesBuilder b = new();
+            ImFontConfig* cfg = ImFontConfigImFontConfig();
+            cfg->MergeMode = true;
+            cfg->GlyphMinAdvanceX = 12.0f;
+            cfg->OversampleH = 5;
+            cfg->OversampleV = 5;
 
             fixed (ushort* r = ranges)
             {
-                ImFontPtr f = fonts.AddFontFromMemoryTTF(fontIconNative, fontIcon.Length, 16.0f * scale, cfg,
-                    (IntPtr)r);
+                ImFontAtlasAddFontFromMemoryTTF(fonts, fontIconNative.ToPointer(), fontIcon.Length, 16.0f * scale, cfg, r);
             }
         }
 
@@ -330,13 +327,14 @@ public class MapStudioNew
 
             // Limit frame rate when window isn't focused unless we are profiling
             var focused = Tracy.EnableTracy ? true : _context.Window.Focused;
+
             if (!focused)
             {
-                _desiredFrameLengthSeconds = 1.0 / 20.0f;
+                _desiredFrameLengthSeconds = 1.0 / CFG.Current.GFX_Framerate_Limit_Unfocused;
             }
             else
             {
-                _desiredFrameLengthSeconds = 1.0 / 60.0f;
+                _desiredFrameLengthSeconds = 1.0 / CFG.Current.GFX_Framerate_Limit;
             }
 
             var currentFrameTicks = sw.ElapsedTicks;
@@ -410,52 +408,52 @@ public class MapStudioNew
         }
     }
 
-    public void ApplyStyle()
+    public unsafe void ApplyStyle()
     {
         var scale = GetUIScale();
-        ImGuiStylePtr style = ImGui.GetStyle();
+        ImGuiStyle *style = ImGui.GetStyle();
 
         // Colors
-        ImGui.PushStyleColor(ImGuiCol.WindowBg, new Vector4(0.176f, 0.176f, 0.188f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.WindowBg, new Vector4(0.176f, 0.176f, 0.188f, 1.0f));
         //ImGui.PushStyleColor(ImGuiCol.ChildBg, new Vector4(0.145f, 0.145f, 0.149f, 1.0f));
-        ImGui.PushStyleColor(ImGuiCol.PopupBg, new Vector4(0.106f, 0.106f, 0.110f, 1.0f));
-        ImGui.PushStyleColor(ImGuiCol.Border, new Vector4(0.247f, 0.247f, 0.275f, 1.0f));
-        ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0.200f, 0.200f, 0.216f, 1.0f));
-        ImGui.PushStyleColor(ImGuiCol.FrameBgHovered, new Vector4(0.247f, 0.247f, 0.275f, 1.0f));
-        ImGui.PushStyleColor(ImGuiCol.FrameBgActive, new Vector4(0.200f, 0.200f, 0.216f, 1.0f));
-        ImGui.PushStyleColor(ImGuiCol.TitleBg, new Vector4(0.176f, 0.176f, 0.188f, 1.0f));
-        ImGui.PushStyleColor(ImGuiCol.TitleBgActive, new Vector4(0.176f, 0.176f, 0.188f, 1.0f));
-        ImGui.PushStyleColor(ImGuiCol.MenuBarBg, new Vector4(0.176f, 0.176f, 0.188f, 1.0f));
-        ImGui.PushStyleColor(ImGuiCol.ScrollbarBg, new Vector4(0.243f, 0.243f, 0.249f, 1.0f));
-        ImGui.PushStyleColor(ImGuiCol.ScrollbarGrab, new Vector4(0.408f, 0.408f, 0.408f, 1.0f));
-        ImGui.PushStyleColor(ImGuiCol.ScrollbarGrabHovered, new Vector4(0.635f, 0.635f, 0.635f, 1.0f));
-        ImGui.PushStyleColor(ImGuiCol.ScrollbarGrabActive, new Vector4(1.000f, 1.000f, 1.000f, 1.0f));
-        ImGui.PushStyleColor(ImGuiCol.CheckMark, new Vector4(1.000f, 1.000f, 1.000f, 1.0f));
-        ImGui.PushStyleColor(ImGuiCol.SliderGrab, new Vector4(0.635f, 0.635f, 0.635f, 1.0f));
-        ImGui.PushStyleColor(ImGuiCol.SliderGrabActive, new Vector4(1.000f, 1.000f, 1.000f, 1.0f));
-        ImGui.PushStyleColor(ImGuiCol.Button, new Vector4(0.176f, 0.176f, 0.188f, 1.0f));
-        ImGui.PushStyleColor(ImGuiCol.ButtonHovered, new Vector4(0.247f, 0.247f, 0.275f, 1.0f));
-        ImGui.PushStyleColor(ImGuiCol.ButtonActive, new Vector4(0.200f, 0.600f, 1.000f, 1.0f));
-        ImGui.PushStyleColor(ImGuiCol.Header, new Vector4(0.000f, 0.478f, 0.800f, 1.0f));
-        ImGui.PushStyleColor(ImGuiCol.HeaderHovered, new Vector4(0.247f, 0.247f, 0.275f, 1.0f));
-        ImGui.PushStyleColor(ImGuiCol.HeaderActive, new Vector4(0.161f, 0.550f, 0.939f, 1.0f));
-        ImGui.PushStyleColor(ImGuiCol.Tab, new Vector4(0.176f, 0.176f, 0.188f, 1.0f));
-        ImGui.PushStyleColor(ImGuiCol.TabHovered, new Vector4(0.110f, 0.592f, 0.918f, 1.0f));
-        ImGui.PushStyleColor(ImGuiCol.TabActive, new Vector4(0.200f, 0.600f, 1.000f, 1.0f));
-        ImGui.PushStyleColor(ImGuiCol.TabUnfocused, new Vector4(0.176f, 0.176f, 0.188f, 1.0f));
-        ImGui.PushStyleColor(ImGuiCol.TabUnfocusedActive, new Vector4(0.247f, 0.247f, 0.275f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.PopupBg, new Vector4(0.106f, 0.106f, 0.110f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.Border, new Vector4(0.247f, 0.247f, 0.275f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.FrameBg, new Vector4(0.200f, 0.200f, 0.216f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.FrameBgHovered, new Vector4(0.247f, 0.247f, 0.275f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.FrameBgActive, new Vector4(0.200f, 0.200f, 0.216f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.TitleBg, new Vector4(0.176f, 0.176f, 0.188f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.TitleBgActive, new Vector4(0.176f, 0.176f, 0.188f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.MenuBarBg, new Vector4(0.176f, 0.176f, 0.188f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.ScrollbarBg, new Vector4(0.243f, 0.243f, 0.249f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.ScrollbarGrab, new Vector4(0.408f, 0.408f, 0.408f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.ScrollbarGrabHovered, new Vector4(0.635f, 0.635f, 0.635f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.ScrollbarGrabActive, new Vector4(1.000f, 1.000f, 1.000f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.CheckMark, new Vector4(1.000f, 1.000f, 1.000f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.SliderGrab, new Vector4(0.635f, 0.635f, 0.635f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.SliderGrabActive, new Vector4(1.000f, 1.000f, 1.000f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.Button, new Vector4(0.176f, 0.176f, 0.188f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.ButtonHovered, new Vector4(0.247f, 0.247f, 0.275f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.ButtonActive, new Vector4(0.200f, 0.600f, 1.000f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.Header, new Vector4(0.000f, 0.478f, 0.800f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.HeaderHovered, new Vector4(0.247f, 0.247f, 0.275f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.HeaderActive, new Vector4(0.161f, 0.550f, 0.939f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.Tab, new Vector4(0.176f, 0.176f, 0.188f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.TabHovered, new Vector4(0.110f, 0.592f, 0.918f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.TabActive, new Vector4(0.200f, 0.600f, 1.000f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.TabUnfocused, new Vector4(0.176f, 0.176f, 0.188f, 1.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.TabUnfocusedActive, new Vector4(0.247f, 0.247f, 0.275f, 1.0f));
 
         // Sizes
-        ImGui.PushStyleVar(ImGuiStyleVar.FrameBorderSize, 1.0f);
-        ImGui.PushStyleVar(ImGuiStyleVar.TabRounding, 0.0f);
-        ImGui.PushStyleVar(ImGuiStyleVar.ScrollbarRounding, 0.0f);
-        ImGui.PushStyleVar(ImGuiStyleVar.ScrollbarSize, 16.0f * scale);
-        ImGui.PushStyleVar(ImGuiStyleVar.WindowMinSize, new Vector2(100f, 100f) * scale);
-        ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, style.FramePadding * scale);
-        ImGui.PushStyleVar(ImGuiStyleVar.CellPadding, style.CellPadding * scale);
-        ImGui.PushStyleVar(ImGuiStyleVar.IndentSpacing, style.IndentSpacing * scale);
-        ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, style.ItemSpacing * scale);
-        ImGui.PushStyleVar(ImGuiStyleVar.ItemInnerSpacing, style.ItemInnerSpacing * scale);
+        ImGui.PushStyleVarFloat(ImGuiStyleVar.FrameBorderSize, 1.0f);
+        ImGui.PushStyleVarFloat(ImGuiStyleVar.TabRounding, 0.0f);
+        ImGui.PushStyleVarFloat(ImGuiStyleVar.ScrollbarRounding, 0.0f);
+        ImGui.PushStyleVarFloat(ImGuiStyleVar.ScrollbarSize, 16.0f * scale);
+        ImGui.PushStyleVarVec2(ImGuiStyleVar.WindowMinSize, new Vector2(100f, 100f) * scale);
+        ImGui.PushStyleVarVec2(ImGuiStyleVar.FramePadding, style->FramePadding * scale);
+        ImGui.PushStyleVarVec2(ImGuiStyleVar.CellPadding, style->CellPadding * scale);
+        ImGui.PushStyleVarFloat(ImGuiStyleVar.IndentSpacing, style->IndentSpacing * scale);
+        ImGui.PushStyleVarVec2(ImGuiStyleVar.ItemSpacing, style->ItemSpacing * scale);
+        ImGui.PushStyleVarVec2(ImGuiStyleVar.ItemInnerSpacing, style->ItemInnerSpacing * scale);
     }
 
     public void UnapplyStyle()
@@ -492,12 +490,6 @@ public class MapStudioNew
             TaskLogs.AddLog(
                 $"The files for {gameType} do not appear to be unpacked. Please use UDSFM for DS1:PTDE and UXM for DS2 to unpack game files",
                 LogLevel.Error, TaskLogs.LogPriority.High);
-            return false;
-        }
-
-        if (gameType is GameType.ArmoredCoreVI)
-        {
-            //TODO AC6
             return false;
         }
 
@@ -675,7 +667,7 @@ public class MapStudioNew
         }
     }
 
-    private void NewProject_NameGUI()
+    private unsafe void NewProject_NameGUI()
     {
         ImGui.AlignTextToFramePadding();
         ImGui.Text("Project Name:      ");
@@ -751,24 +743,24 @@ public class MapStudioNew
 
         ctx = Tracy.TracyCZoneN(1, "Style");
         ApplyStyle();
-        ImGuiViewportPtr vp = ImGui.GetMainViewport();
-        ImGui.SetNextWindowPos(vp.Pos);
-        ImGui.SetNextWindowSize(vp.Size);
-        ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 0.0f);
-        ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 0.0f);
-        ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(0.0f, 0.0f));
+        ImGuiViewport* vp = ImGui.GetMainViewport();
+        ImGui.SetNextWindowPos(vp->Pos);
+        ImGui.SetNextWindowSize(vp->Size);
+        ImGui.PushStyleVarFloat(ImGuiStyleVar.WindowRounding, 0.0f);
+        ImGui.PushStyleVarFloat(ImGuiStyleVar.WindowBorderSize, 0.0f);
+        ImGui.PushStyleVarVec2(ImGuiStyleVar.WindowPadding, new Vector2(0.0f, 0.0f));
         ImGuiWindowFlags flags = ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoCollapse |
                                  ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoMove;
         flags |= ImGuiWindowFlags.NoDocking | ImGuiWindowFlags.MenuBar;
         flags |= ImGuiWindowFlags.NoBringToFrontOnFocus | ImGuiWindowFlags.NoNavFocus;
         flags |= ImGuiWindowFlags.NoBackground;
-        ImGui.PushStyleColor(ImGuiCol.WindowBg, new Vector4(0.0f, 0.0f, 0.0f, 0.0f));
+        ImGui.PushStyleColorVec4(ImGuiCol.WindowBg, new Vector4(0.0f, 0.0f, 0.0f, 0.0f));
         if (ImGui.Begin("DockSpace_W", flags))
         {
         }
 
         var dsid = ImGui.GetID("DockSpace");
-        ImGui.DockSpace(dsid, new Vector2(0, 0), ImGuiDockNodeFlags.NoSplit);
+        ImGui.DockSpace(dsid, new Vector2(0, 0), ImGuiDockNodeFlags.NoDockingSplit, null);
         ImGui.PopStyleVar(1);
         ImGui.End();
         ImGui.PopStyleColor(1);
@@ -776,12 +768,13 @@ public class MapStudioNew
 
         ctx = Tracy.TracyCZoneN(1, "Menu");
         var newProject = false;
-        ImGui.PushStyleVar(ImGuiStyleVar.FrameBorderSize, 0.0f);
+        ImGui.PushStyleVarFloat(ImGuiStyleVar.FrameBorderSize, 0.0f);
 
         if (ImGui.BeginMainMenuBar())
         {
             if (ImGui.BeginMenu("File"))
             {
+
                 if (ImGui.MenuItem("Enable Texturing (alpha)", "", CFG.Current.EnableTexturing))
                 {
                     CFG.Current.EnableTexturing = !CFG.Current.EnableTexturing;
@@ -829,11 +822,14 @@ public class MapStudioNew
                             }
                             else
                             {
-                                TaskLogs.AddLog(
-                                    $"Project.json at \"{p.ProjectFile}\" does not exist.\nRemoving project from recent projects list.",
-                                    LogLevel.Warning, TaskLogs.LogPriority.High);
-                                CFG.RemoveRecentProject(p);
-                                CFG.Save();
+                                DialogResult result = PlatformUtils.Instance.MessageBox(
+                                    $"Project file at \"{p.ProjectFile}\" does not exist.\n\n" +
+                                    $"Remove project from list of recent projects?",
+                                    $"Project.json cannot be found", MessageBoxButtons.YesNo);
+                                if (result == DialogResult.Yes)
+                                {
+                                    CFG.RemoveRecentProject(p);
+                                }
                             }
                         }
 
@@ -842,7 +838,6 @@ public class MapStudioNew
                             if (ImGui.Selectable("Remove from list"))
                             {
                                 CFG.RemoveRecentProject(p);
-                                CFG.Save();
                             }
 
                             ImGui.EndPopup();
@@ -929,9 +924,19 @@ public class MapStudioNew
                         MSBReadWrite.Run(_assetLocator);
                     }
 
+                    if (ImGui.MenuItem("MSB_AC6 Read/Write Test"))
+                    {
+                        MSB_AC6_Read_Write.Run(_assetLocator);
+                    }
+
                     if (ImGui.MenuItem("BTL read/write test"))
                     {
                         BTLReadWrite.Run(_assetLocator);
+                    }
+
+                    if (ImGui.MenuItem("Insert unique rows IDs into params"))
+                    {
+                        ParamUniqueRowFinder.Run();
                     }
 
                     ImGui.EndMenu();
@@ -965,7 +970,7 @@ public class MapStudioNew
 
             if (_programUpdateAvailable)
             {
-                ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.0f, 1.0f, 0.0f, 1.0f));
+                ImGui.PushStyleColorVec4(ImGuiCol.Text, new Vector4(0.0f, 1.0f, 0.0f, 1.0f));
                 if (ImGui.Button("Update Available"))
                 {
                     Process myProcess = new();
@@ -974,7 +979,7 @@ public class MapStudioNew
                     myProcess.Start();
                 }
 
-                ImGui.PopStyleColor();
+                ImGui.PopStyleColor(1);
             }
 
             if (ImGui.BeginMenu("Tasks", TaskManager.GetLiveThreads().Count > 0))
@@ -995,13 +1000,13 @@ public class MapStudioNew
         SettingsGUI();
         HelpGUI();
 
-        ImGui.PopStyleVar();
+        ImGui.PopStyleVar(1);
         Tracy.TracyCZoneEnd(ctx);
 
         var open = true;
-        ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 7.0f);
-        ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 1.0f);
-        ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(14.0f, 8.0f) * scale);
+        ImGui.PushStyleVarFloat(ImGuiStyleVar.WindowRounding, 7.0f);
+        ImGui.PushStyleVarFloat(ImGuiStyleVar.WindowBorderSize, 1.0f);
+        ImGui.PushStyleVarVec2(ImGuiStyleVar.WindowPadding, new Vector2(14.0f, 8.0f) * scale);
 
         // ImGui Debug windows
         if (_showImGuiDemoWindow)
@@ -1021,7 +1026,7 @@ public class MapStudioNew
 
         if (_showImGuiStackToolWindow)
         {
-            ImGui.ShowStackToolWindow(ref _showImGuiStackToolWindow);
+            ImGui.ShowIDStackToolWindow(ref _showImGuiStackToolWindow);
         }
 
         // New project modal
@@ -1245,8 +1250,7 @@ public class MapStudioNew
                     }
                 }
 
-                if (validated && (_newProjectOptions.settings.ProjectName == null ||
-                                  _newProjectOptions.settings.ProjectName == ""))
+                if (validated && string.IsNullOrEmpty(_newProjectOptions.settings.ProjectName))
                 {
                     PlatformUtils.Instance.MessageBox("You must specify a project name.", "Error",
                         MessageBoxButtons.OK);
@@ -1306,14 +1310,14 @@ public class MapStudioNew
 
             if (_context.Device == null)
             {
-                ImGui.PushStyleColor(ImGuiCol.WindowBg, *ImGui.GetStyleColorVec4(ImGuiCol.WindowBg));
+                ImGui.PushStyleColorVec4(ImGuiCol.WindowBg, *ImGui.GetStyleColorVec4(ImGuiCol.WindowBg));
             }
             else
             {
-                ImGui.PushStyleColor(ImGuiCol.WindowBg, new Vector4(0.0f, 0.0f, 0.0f, 0.0f));
+                ImGui.PushStyleColorVec4(ImGuiCol.WindowBg, new Vector4(0.0f, 0.0f, 0.0f, 0.0f));
             }
 
-            ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(0.0f, 0.0f));
+            ImGui.PushStyleVarVec2(ImGuiStyleVar.WindowPadding, new Vector2(0.0f, 0.0f));
             if (ImGui.Begin(editor.EditorName))
             {
                 ImGui.PopStyleColor(1);

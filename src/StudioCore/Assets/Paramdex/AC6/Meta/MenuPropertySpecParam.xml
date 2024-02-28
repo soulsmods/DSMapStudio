@@ -2,13 +2,97 @@
 <PARAMMETA XmlVersion="0">
   <Enums>
     <Enum Name="MENU_PROPERTY_CMP_TYPE" type="s8">
-      <Option Value="0" Name="None" />
-      <Option Value="1" Name="Higher values are better" />
-      <Option Value="2" Name="Lower values are better" />
+        <Option Value="0" Name="None" />
+        <Option Value="1" Name="Higher values are better" />
+        <Option Value="2" Name="Lower values are better" />
+    </Enum>
+    <Enum Name="MENU_PROPERTY_FORMAT_TYPE" type="u8">
+        <Option Value="0" Name="None" />
+        <Option Value="1" Name="Numeric" />
+        <Option Value="2" Name="0 or less than 0 is - (hyphen)" />
+        <Option Value="3" Name="(1.0 - scaling)x100 as an integer" />
+        <Option Value="4" Name="Less than 0 is - (hyphen)" />
+        <Option Value="8" Name="Currency" />
+        <Option Value="9" Name="Round down to the nearest whole number" />
+        <Option Value="10" Name="Display up to one decimal place" />
+        <Option Value="11" Name="Display up to two decimal places" />
+        <Option Value="12" Name="Display up to three decimal places" />
+        <Option Value="13" Name="Arena points" />
+        <Option Value="20" Name="Convert to (10 - scaling)x100 displayed to one decimal place" />
+        <Option Value="21" Name="Convert to (10 - scaling)x100 displayed to second decimal place" />
+        <Option Value="30" Name="Icon (PartsSpec)" />
+        <Option Value="80" Name="Display resolution specification in window size" />
+        <Option Value="81" Name="HDR Maximum Brightness Value" />
+        <Option Value="90" Name="Consumption Type" />
+        <Option Value="100" Name="[Decal] Application target" />
+        <Option Value="105" Name="[Auto Assemble] Legs used" />
+        <Option Value="106" Name="[Auto Ascend] Ascend Tendency" />
+        <Option Value="110" Name="[Language] Text" />
+        <Option Value="111" Name="[Language] Voice" />
+        <Option Value="125" Name="[Gender] Gender" />
+        <Option Value="130" Name="[Option] ON/OFF" />
+        <Option Value="131" Name="[Option] Normal Reverse" />
+        <Option Value="132" Name="[Option] Button Settings Preset/Custom" />
+        <Option Value="133" Name="[Option] HUD Display Type" />
+        <Option Value="134" Name="[Option] Boost Operation Type" />
+        <Option Value="135" Name="[Option] Assault Boost Operation Type" />
+        <Option Value="136" Name="[Option] Limiter Release Operation Type" />
+        <Option Value="137" Name="[Option] Target Device for Operation Guide" />
+        <Option Value="138" Name="[Option] Screen Mode" />
+        <Option Value="139" Name="[Option] HUD Layout" />
+        <Option Value="140" Name="[Option] Use/Unuse" />
+        <Option Value="141" Name="[Option] Agree or Disagree" />
+        <Option Value="145" Name="[Option] Matching region" />
+        <Option Value="146" Name="[Option] Other Player Names" />
+        <Option Value="147" Name="[Option] Title startup settings" />
+        <Option Value="148" Name="[Option] Ray Tracing Function" />
+        <Option Value="149" Name="[Option] FPS limit" />
+        <Option Value="150" Name="[Graphics Quality] Low/Medium/High/Maximum/Custom" />
+        <Option Value="151" Name="[Grass Quality] OFF/Low/Medium/High/Maximum" />
+        <Option Value="152" Name="[Grass Quality] OFF/Low/Medium/High/High" />
+        <Option Value="153" Name="[Grass Quality] OFF/Medium/High/Maximum" />
+        <Option Value="154" Name="[Grass Quality] Low/Medium/High/Maximum" />
+        <Option Value="155" Name="[Grass Quality] Low/Medium/High" />
+        <Option Value="156" Name="[Glass Quality] AA (OFF/LOW/HIGH)" />
+        <Option Value="157" Name="[Grass Quality] Reflection (Low/High/Max)" />
+        <Option Value="158" Name="[Grass Quality] Water Surface (Low/High)" />
+        <Option Value="159" Name="[Option] Performance Settings" />
+        <Option Value="200" Name="[Photo Mode] Blur Type" />
+        <Option Value="220" Name="[Canned Chat] Canned Text" />
+        <Option Value="230" Name="[Room Settings] Number of people" />
+        <Option Value="231" Name="[Room Settings] Rules" />
+        <Option Value="232" Name="[Room Settings] Time Limit" />
+        <Option Value="233" Name="[Room Settings] Map" />
+        <Option Value="234" Name="[Room Settings] Team Participation Method" />
+        <Option Value="239" Name="[Online Arena] Competitive Mode" />
+        <Option Value="240" Name="Report Category" />
+        <Option Value="241" Name="Reason for Reporting" />
+        <Option Value="235" Name="[Room Settings] Publication Format" />
+        <Option Value="250" Name="[Parameter Display] Attribute KE/TE/CE/SP" />
+        <Option Value="251" Name="[Parameter Display] Size S/M/L/XL" />
+        <Option Value="252" Name="[Parameter Display] Firing Type S/B/F/T" />
+        <Option Value="255" Name="[AC Test] Enemy Pattern A/B/C" />
+    </Enum>
+    <Enum Name="MENU_PROPERTY_EXTRACT_TARGET_TYPE" type="u16">
+        <Option Value="0" Name="None" />
+        <Option Value="1" Name="Weapons" />
+        <Option Value="2" Name="Armor" />
+        <Option Value="3" Name="Booster" />
+        <Option Value="4" Name="FCS" />
+        <Option Value="5" Name="Generator" />
+        <Option Value="6" Name="Action param" />
+        <Option Value="7" Name="Attack param" />
+        <Option Value="8" Name="Bullet param" />
+        <Option Value="100" Name="Child Bullet param" />
+        <Option Value="101" Name="Child Bullet Attack param" />
+        <Option Value="110" Name="Grandchild bullet param" />
+        <Option Value="111" Name="Grandchild bullet attack param" />
     </Enum>
   </Enums>
   <Field>
-    <compareType Name="Compare Type" Enum="MENU_PROPERTY_CMP_TYPE" Wiki="Determines if a lower or higher value is considered beneficial when two values in UI are compared.\nExample: When comparing weapon stats (beneficial comparisons is blue, non-beneficial is red)." />
+    <compareType AltName="Comparison Type" Enum="MENU_PROPERTY_CMP_TYPE" Wiki="Determines if a lower or higher value is considered beneficial when two values in UI are compared.\nExample: When comparing weapon stats (beneficial comparisons is blue, non-beneficial is red)." />
+    <extractTargetType AltName="Value Extract Target" Enum="MENU_PROPERTY_EXTRACT_TARGET_TYPE" Wiki="Determines where to obtain values for stats,\nsuch as checking a child bullet for damage rather than a parent bullet. " />
+    <formatType AltName="Format" Enum="MENU_PROPERTY_FORMAT_TYPE" />
   </Field>
   <Self />
 </PARAMMETA>

@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
-using System.Reflection;
-using StudioCore;
-using System.Security.Permissions;
+﻿using StudioCore;
 using StudioCore.Graphics;
 using StudioCore.Platform;
-using Veldrid.Sdl2;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Reflection;
 
 namespace DSMapStudio_LowRequirements
 {
@@ -28,6 +23,7 @@ namespace DSMapStudio_LowRequirements
             currentDomain.UnhandledException += CrashHandler;
             Directory.SetCurrentDirectory(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? throw new InvalidOperationException());
             _version = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion ?? "undefined";
+            MapStudioNew.LowRequirementsMode = true;
             var mapStudio = new MapStudioNew(new OpenGLCompatGraphicsContext(), _version);
 #if !DEBUG
             try

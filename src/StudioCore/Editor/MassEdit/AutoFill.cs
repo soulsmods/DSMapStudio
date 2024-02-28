@@ -1,6 +1,6 @@
 ﻿using Andre.Formats;
-using ImGuiNET;
 using StudioCore.Editor;
+using static Andre.Native.ImGuiBindings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -173,9 +173,7 @@ internal class AutoFillSearchEngine
 
 internal class AutoFill
 {
-    // Type hell. Can't omit the type.
-    private static readonly AutoFillSearchEngine
-        autoFillParse = new("parse", ParamAndRowSearchEngine.parse);
+    private static readonly AutoFillSearchEngine autoFillParse = new("parse", ParamAndRowSearchEngine.parse);
 
     private static readonly AutoFillSearchEngine autoFillVse = new("vse", VarSearchEngine.vse);
 
@@ -188,15 +186,9 @@ internal class AutoFill
     private static readonly AutoFillSearchEngine autoFillCse =
         new("cse", CellSearchEngine.cse);
 
-    private static string[] _autoFillArgsGop = Enumerable
-        .Repeat("", MEGlobalOperation.globalOps.AvailableCommands().Sum(x => x.Item2.Length)).ToArray();
-
-    private static string[] _autoFillArgsRop = Enumerable
-        .Repeat("", MERowOperation.rowOps.AvailableCommands().Sum(x => x.Item2.Length)).ToArray();
-
-    private static string[] _autoFillArgsCop = Enumerable
-        .Repeat("", MEValueOperation.valueOps.AvailableCommands().Sum(x => x.Item2.Length)).ToArray();
-
+    private static string[] _autoFillArgsGop = Enumerable.Repeat("", MEGlobalOperation.globalOps.AllCommands().Sum((x) => x.Value.argNames.Length)).ToArray();
+    private static string[] _autoFillArgsRop = Enumerable.Repeat("", MERowOperation.rowOps.AllCommands().Sum((x) => x.Value.argNames.Length)).ToArray();
+    private static string[] _autoFillArgsCop = Enumerable.Repeat("", MEValueOperation.valueOps.AllCommands().Sum((x) => x.Value.argNames.Length)).ToArray();
     private static string[] _autoFillArgsOa =
         Enumerable.Repeat("", MEOperationArgument.arg.AllArguments().Sum(x => x.Item2.Length)).ToArray();
 
@@ -396,9 +388,11 @@ internal class AutoFill
     {
         var currentArgIndex = 0;
         string result = null;
-        foreach ((string, string[], string) cmd in ops.AvailableCommands())
+        foreach (KeyValuePair<string, METypelessOperationDef> cmd in ops.AllCommands())
         {
-            var argIndices = new int[cmd.Item2.Length];
+            string cmdName = cmd.Key;
+            METypelessOperationDef cmdData = cmd.Value;
+            var argIndices = new int[cmdData.argNames.Length];
             var valid = true;
             for (var i = 0; i < argIndices.Length; i++)
             {
@@ -409,12 +403,14 @@ internal class AutoFill
                     valid = false;
                 }
             }
+            if (cmdData.shouldShow != null && !cmdData.shouldShow())
+                continue;
 
-            var wiki = cmd.Item3;
-            UIHints.AddImGuiHintButton(cmd.Item1, ref wiki, false, true);
+            var wiki = cmdData.wiki;
+            UIHints.AddImGuiHintButton(cmdName, ref wiki, false, true);
             if (subMenu != null)
             {
-                if (ImGui.BeginMenu(cmd.Item1, valid))
+                if (ImGui.BeginMenu(cmdName, valid))
                 {
                     result = subMenu();
                     ImGui.EndMenu();
@@ -422,7 +418,7 @@ internal class AutoFill
             }
             else
             {
-                result = ImGui.Selectable(cmd.Item1, false,
+                result = ImGui.Selectable(cmdName, false,
                     valid ? ImGuiSelectableFlags.None : ImGuiSelectableFlags.Disabled)
                     ? suffix
                     : null;
@@ -436,7 +432,7 @@ internal class AutoFill
                     ImGui.SameLine();
                 }
 
-                ImGui.InputTextWithHint("##meautoinputop" + argIndices[i], cmd.Item2[i],
+                ImGui.InputTextWithHint("##meautoinputop" + argIndices[i], cmdData.argNames[i],
                     ref staticArgs[argIndices[i]], 256);
                 ImGui.SameLine();
                 ImGui.Button($@"{ForkAwesome.CaretDown}");
@@ -462,7 +458,7 @@ internal class AutoFill
                     argText += ":" + staticArgs[argIndices[i]];
                 }
 
-                result = cmd.Item1 + (argText != null ? " " + argText + result : result);
+                result = cmdName + (argText != null ? " " + argText + result : result);
                 return result;
             }
         }

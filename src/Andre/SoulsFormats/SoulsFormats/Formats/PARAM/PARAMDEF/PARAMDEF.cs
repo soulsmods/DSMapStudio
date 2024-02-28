@@ -79,10 +79,10 @@ namespace SoulsFormats
             br.VarintLong = FormatVersion >= 200;
 
             br.ReadInt32(); // File size
-            short headerSize = br.AssertInt16(0x30, 0xFF);
+            short headerSize = br.AssertInt16([0x30, 0xFF]);
             DataVersion = br.ReadInt16();
             short fieldCount = br.ReadInt16();
-            short fieldSize = br.AssertInt16(0x48, 0x68, 0x6C, 0x88, 0x8C, 0xAC, 0xB0, 0xD0);
+            short fieldSize = br.AssertInt16([0x48, 0x68, 0x6C, 0x88, 0x8C, 0xAC, 0xB0, 0xD0]);
 
             if (FormatVersion >= 202)
             {
@@ -106,9 +106,9 @@ namespace SoulsFormats
                 ParamType = br.ReadFixStr(0x20);
             }
 
-            br.AssertSByte(0, -1); // Big-endian
+            br.AssertSByte([0, -1]); // Big-endian
             Unicode = br.ReadBoolean();
-            br.AssertInt16(101, 102, 103, 104, 106, 201, 202, 203); // Format version
+            br.AssertInt16([101, 102, 103, 104, 106, 201, 202, 203]); // Format version
             if (FormatVersion >= 200)
                 br.AssertInt64(0x38);
 

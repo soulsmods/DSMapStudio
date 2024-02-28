@@ -1374,6 +1374,7 @@ namespace SoulsFormats
                 /// The collision which will load another map.
                 /// </summary>
                 [MSBReference(ReferenceType = typeof(Collision))]
+                [NoRenderGroupInheritence()]
                 public string CollisionName { get; set; }
                 private int CollisionIndex;
 

@@ -34,7 +34,7 @@
     <Field Def="u8 isAnimBreak:1"></Field>
     <Field Def="u8 isDamageCover:1"></Field>
     <Field Def="u8 isAttackBacklash:1"></Field>
-    <Field Def="dummy8 Reserve_2:1"></Field>
+    <Field Def="u8 UnkFlag0x3B_7:1"></Field>
     <Field Def="u8 isLadder:1"></Field>
     <Field Def="u8 isMoveObj:1"></Field>
     <Field Def="u8 isSkydomeFlag:1"></Field>

@@ -313,7 +313,7 @@ namespace SoulsFormats
         public static byte[] ReadZlib(BinaryReaderEx br, int compressedSize)
         {
             br.AssertByte(0x78);
-            br.AssertByte(0x01, 0x5E, 0x9C, 0xDA);
+            br.AssertByte([0x01, 0x5E, 0x9C, 0xDA]);
             byte[] compressed = br.ReadBytes(compressedSize - 2);
 
             using (var decompressedStream = new MemoryStream())

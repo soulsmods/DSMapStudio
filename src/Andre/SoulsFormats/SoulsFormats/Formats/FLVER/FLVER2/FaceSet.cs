@@ -110,7 +110,7 @@ namespace SoulsFormats
                 {
                     br.ReadInt32(); // Indices length
                     br.AssertInt32(0);
-                    indexSize = br.AssertInt32(0, 16, 32);
+                    indexSize = br.AssertInt32([0, 16, 32]);
                     br.AssertInt32(0);
                 }
 

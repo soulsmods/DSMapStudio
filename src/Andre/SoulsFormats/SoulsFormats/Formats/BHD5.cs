@@ -70,7 +70,7 @@ namespace SoulsFormats
             Format = game;
 
             br.AssertASCII("BHD5");
-            BigEndian = br.AssertSByte(0, -1) == 0;
+            BigEndian = br.AssertSByte([0, -1]) == 0;
             br.BigEndian = BigEndian;
             Unk05 = br.ReadBoolean();
             br.AssertByte(0);

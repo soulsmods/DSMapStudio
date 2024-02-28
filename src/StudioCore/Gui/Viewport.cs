@@ -1,4 +1,4 @@
-﻿using ImGuiNET;
+﻿using static Andre.Native.ImGuiBindings;
 using StudioCore.DebugPrimitives;
 using StudioCore.MsbEditor;
 using StudioCore.Resource;
@@ -18,7 +18,7 @@ namespace StudioCore.Gui;
 ///     transform
 ///     the view within a virtual canvas, or it can be manually configured for say rendering thumbnails
 /// </summary>
-public class Viewport : IViewport
+public unsafe class Viewport : IViewport
 {
     private readonly ActionManager _actionManager;
 
@@ -28,6 +28,8 @@ public class Viewport : IViewport
 
     //private DebugPrimitives.DbgPrimGizmoTranslate TranslateGizmo = null;
     private readonly Gizmos _gizmos;
+
+    private readonly ViewGrid _viewGrid;
 
     private readonly DbgPrimWire _rayDebug = null;
 
@@ -51,8 +53,6 @@ public class Viewport : IViewport
     private bool _vpvisible;
     private bool DebugRayCastDraw = false;
 
-    private DbgPrimWireGrid ViewportGrid;
-
     public int X;
     public int Y;
 
@@ -73,7 +73,6 @@ public class Viewport : IViewport
 
         WorldView = new WorldView(new Rectangle(0, 0, Width, Height));
         _viewPipeline = new SceneRenderPipeline(scene, device, width, height);
-        ViewportGrid = new DbgPrimWireGrid(Color.Green, Color.DarkGreen, 50, 5.0f);
 
         _projectionMat = Utils.CreatePerspective(device, false,
             CFG.Current.GFX_Camera_FOV * (float)Math.PI / 180.0f, width / (float)height, NearClip, FarClip);
@@ -98,6 +97,13 @@ public class Viewport : IViewport
             cl.SetViewport(0, _renderViewport);
             cl.ClearDepthStencil(0);
         });
+
+
+        // Create view grid
+        if (FeatureFlags.ViewportGrid)
+        {
+            _viewGrid = new ViewGrid(_renderScene.OpaqueRenderables);
+        }
 
         // Create gizmos
         _gizmos = new Gizmos(_actionManager, _selection, _renderScene.OverlayRenderables);
@@ -128,13 +134,35 @@ public class Viewport : IViewport
     {
         if (ImGui.Begin($@"Viewport##{_vpid}", ImGuiWindowFlags.NoBackground | ImGuiWindowFlags.NoNav))
         {
+            if (!ViewportSelected)
+            {
+                if (ImGui.Button("Controls##ViewportControls"))
+                {
+                    ImGui.OpenPopup("Viewport Controls");
+                }
+                if (ImGui.BeginPopup("Viewport Controls"))
+                {
+                    ImGui.Text($"Hold right click in viewport to activate camera mode");
+                    ImGui.Text($"Forward: {KeyBindings.Current.Viewport_Cam_Forward.HintText}\n" +
+                        $"Left: {KeyBindings.Current.Viewport_Cam_Left.HintText}\n" +
+                        $"Back: {KeyBindings.Current.Viewport_Cam_Back.HintText}\n" +
+                        $"Right: {KeyBindings.Current.Viewport_Cam_Right.HintText}\n" +
+                        $"Up: {KeyBindings.Current.Viewport_Cam_Up.HintText}\n" +
+                        $"Down: {KeyBindings.Current.Viewport_Cam_Down.HintText}\n" +
+                        $"Fast cam: Shift\n" +
+                        $"Slow cam: Ctrl\n" +
+                        $"Tweak speed: Mouse wheel");
+                    ImGui.EndPopup();
+                }
+            }
+
             Vector2 p = ImGui.GetWindowPos();
             Vector2 s = ImGui.GetWindowSize();
             Rectangle newvp = new((int)p.X, (int)p.Y + 3, (int)s.X, (int)s.Y - 3);
             ResizeViewport(_device, newvp);
             if (InputTracker.GetMouseButtonDown(MouseButton.Right) && MouseInViewport())
             {
-                ImGui.SetWindowFocus();
+                ImGui.SetWindowFocusNil();
                 ViewportSelected = true;
             }
             else if (!InputTracker.GetMouseButton(MouseButton.Right))
@@ -142,7 +170,7 @@ public class Viewport : IViewport
                 ViewportSelected = false;
             }
 
-            _canInteract = ImGui.IsWindowFocused();
+            _canInteract = ImGui.IsWindowFocused(0);
             _vpvisible = true;
             Matrix4x4 proj = Matrix4x4.Transpose(_projectionMat);
             Matrix4x4 view = Matrix4x4.Transpose(WorldView.CameraTransform.CameraViewMatrixLH);
@@ -198,6 +226,10 @@ public class Viewport : IViewport
         _cursorY = (int)pos.Y; // - Y;
 
         _gizmos.Update(ray, _canInteract && MouseInViewport());
+        if (FeatureFlags.ViewportGrid)
+        {
+            _viewGrid.Update(ray);
+        }
 
         var kbbusy = false;
 

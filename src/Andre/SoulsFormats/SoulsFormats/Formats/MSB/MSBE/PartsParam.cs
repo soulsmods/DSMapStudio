@@ -153,12 +153,23 @@ namespace SoulsFormats
         /// </summary>
         public abstract class Part : Entry, IMsbPart
         {
-            public enum UnkEnabledStateType : int
+            public enum GameEditionDisableType : int
             {
-                Default = 0,
-                Disabled = 1,
-                Unk2 = 2,
-                Unk3 = 3,
+                NeverDisable = 0,
+
+                /// <summary>
+                /// Disabled if Localize.PkgEdition byte ptr [rcx+0B73h] == 1.
+                /// The value is 1 in all released versions of Elden Ring.
+                /// </summary>
+                DisableInRelease = 1,
+
+                /// <summary>
+                /// Disabled if Localize.PkgEdition byte ptr [rcx+0B73h] == 2.
+                /// The value is 1 in all released versions of Elden Ring.
+                /// </summary>
+                DisableInPkgEditionFlag2 = 2,
+
+                DisableInNetworkTest = 3,
             }
             private protected abstract PartType Type { get; }
             private protected abstract bool HasUnk1 { get; }
@@ -205,7 +216,7 @@ namespace SoulsFormats
             /// <summary>
             /// 1 disables the part, 2 and 3 are unknown.
             /// </summary>
-            public UnkEnabledStateType UnkEnabledState { get; set; } = UnkEnabledStateType.Default;
+            public GameEditionDisableType GameEditionDisable { get; set; } = GameEditionDisableType.NeverDisable;
 
             /// <summary>
             /// Very speculative
@@ -353,7 +364,7 @@ namespace SoulsFormats
                 Position = br.ReadVector3();
                 Rotation = br.ReadVector3();
                 Scale = br.ReadVector3();
-                UnkEnabledState = br.ReadEnum32<UnkEnabledStateType>();
+                GameEditionDisable = br.ReadEnum32<GameEditionDisableType>();
                 MapStudioLayer = br.ReadUInt32();
                 br.AssertInt32(0);
                 long unkOffset1 = br.ReadInt64();
@@ -535,7 +546,7 @@ namespace SoulsFormats
                 bw.WriteVector3(Position);
                 bw.WriteVector3(Rotation);
                 bw.WriteVector3(Scale);
-                bw.WriteInt32((int)UnkEnabledState);
+                bw.WriteInt32((int)GameEditionDisable);
                 bw.WriteUInt32(MapStudioLayer);
                 bw.WriteInt32(0);
                 bw.ReserveInt64("UnkOffset1");
@@ -1187,7 +1198,7 @@ namespace SoulsFormats
 
                 internal UnkStruct8(BinaryReaderEx br)
                 {
-                    Unk00 = br.AssertInt32(0, 1);
+                    Unk00 = br.AssertInt32([0, 1]);
                     br.AssertInt32(0);
                     br.AssertInt32(0);
                     br.AssertInt32(0);
@@ -1312,7 +1323,7 @@ namespace SoulsFormats
                     Unk04 = br.ReadInt32();
                     br.AssertInt32(0);
                     Unk0C = br.ReadInt32();
-                    Unk10 = br.AssertInt32(0, 1);
+                    Unk10 = br.AssertInt32([0, 1]);
                     Unk14 = br.ReadInt32();
                     br.AssertInt32(0);
                     br.AssertInt32(0);
@@ -2064,7 +2075,7 @@ namespace SoulsFormats
                     UnkT1C = br.ReadInt32();
                     PlayRegionID = br.ReadInt32();
                     UnkT24 = br.ReadInt16();
-                    UnkT26 = br.AssertInt16(0, 1);
+                    UnkT26 = br.AssertInt16([0, 1]);
                     br.AssertInt32(0);
                     br.AssertInt32(-1);
                     UnkT30 = br.ReadInt32();
@@ -2078,7 +2089,7 @@ namespace SoulsFormats
                     UnkT40 = br.ReadSingle();
                     br.AssertInt32(0);
                     EnableFastTravelEventFlagID = br.ReadUInt32();
-                    UnkT4C = br.AssertInt16(0, 1);
+                    UnkT4C = br.AssertInt16([0, 1]);
                     UnkT4E = br.ReadInt16();
                 }
 
@@ -2285,6 +2296,7 @@ namespace SoulsFormats
                 /// The collision part to attach to.
                 /// </summary>
                 [MSBReference(ReferenceType = typeof(Collision))]
+                [NoRenderGroupInheritence()]
                 public string CollisionName { get; set; }
                 private int CollisionIndex;
 
@@ -3046,7 +3058,7 @@ namespace SoulsFormats
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
                     br.AssertInt16(0);
-                    UnkT02 = br.AssertInt16(0, 1);
+                    UnkT02 = br.AssertInt16([0, 1]);
                     br.AssertInt32(0);
                     br.AssertInt32(0);
                     br.AssertInt32(0);

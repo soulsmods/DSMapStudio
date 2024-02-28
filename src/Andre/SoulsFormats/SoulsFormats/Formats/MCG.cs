@@ -55,7 +55,7 @@ namespace SoulsFormats
         protected override void Read(BinaryReaderEx br)
         {
             br.BigEndian = true;
-            BigEndian = br.AssertInt32(1, 0x1000000) == 1;
+            BigEndian = br.AssertInt32([1, 0x1000000]) == 1;
             br.BigEndian = BigEndian;
             Unk04 = br.ReadInt32();
             int nodeCount = br.ReadInt32();

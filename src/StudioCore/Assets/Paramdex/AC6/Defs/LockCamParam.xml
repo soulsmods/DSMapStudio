@@ -85,11 +85,11 @@
     <Field Def="f32 UnkFloat0x128"></Field>
     <Field Def="f32 UnkFloat0x12C"></Field>
     <Field Def="f32 UnkFloat0x130"></Field>
-    <Field Def="f32 UnkFloat0x134"></Field>
+    <Field Def="f32 ascentCamUpDistMax"></Field>
     <Field Def="f32 UnkFloat0x138"></Field>
-    <Field Def="f32 UnkFloat0x13C"></Field>
+    <Field Def="f32 ascentCamTrailAmount"></Field>
     <Field Def="f32 UnkFloat0x140"></Field>
-    <Field Def="f32 UnkFloat0x144"></Field>
+    <Field Def="f32 chrRenderDist"></Field>
     <Field Def="f32 UnkFloat0x148"></Field>
     <Field Def="f32 UnkFloat0x14C"></Field>
     <Field Def="f32 UnkFloat0x150"></Field>

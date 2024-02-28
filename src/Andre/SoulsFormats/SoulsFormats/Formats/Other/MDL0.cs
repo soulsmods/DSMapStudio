@@ -217,7 +217,7 @@ namespace SoulsFormats.Other
             internal Mesh(BinaryReaderEx br)
             {
                 MaterialIndex = br.ReadByte();
-                Unk01 = br.AssertByte(0, 1, 2);
+                Unk01 = br.AssertByte([0, 1, 2]);
                 VertexCount = br.ReadInt16();
                 IndexCount = br.ReadInt32();
                 StartVertex = br.ReadInt32();
