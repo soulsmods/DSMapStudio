@@ -293,7 +293,7 @@ public class MassParamEditRegex
         //hacks for now
         if (globalOperationInfo.command != null)
             return SandboxMassEditExecution(() => ExecGlobalOp());
-        if (varOperationInfo.command != null)
+        if (varStageInfo.command != null)
             return SandboxMassEditExecution(() => ExecVarStage());
 
         if (paramRowStageInfo.command != null)
@@ -326,8 +326,16 @@ public class MassParamEditRegex
             //determine next stage
             MEFilterStage nextInfo = new();
             SearchEngine<B, object> nextStage = null;
+            string opStageName = null;
+            MEOperationStage opInfo = new();
+            var contextObjects = new Dictionary<Type, object>(); //TODO move this
+            contextObjects.Add(typeof(B), currentObject);
             //exec it
-            MassEditResult res = ExecStage(nextInfo, nextStage, currentObject, newArgFuncs);
+            MassEditResult res;
+            if (opInfo.command != null)
+                res = ExecOp(opInfo, opStageName, newArgFuncs, contextObjects, (x) => x, (x) => true); //TODO fix funcs passed in
+            else
+                res = ExecStage(nextInfo, nextStage, currentObject, newArgFuncs);
             if (res.Type != MassEditResultType.SUCCESS)
             {
                 return res;
@@ -444,7 +452,16 @@ public class MassParamEditRegex
 
         return new MassEditResult(MassEditResultType.SUCCESS, "");
     }
-
+    private MassEditResult ExecOp(MEOperationStage opInfo, string opName, IEnumerable<object> argFuncs, Dictionary<Type, object> contextObjects, Func<Dictionary<Type, object>, object> trueContextObjectGetter, Func<object, bool> resultValidator)
+    {
+        var argValues = argFuncs.Select(f => f.assertCompleteContextOrThrow(0).ToParamEditorString()).ToArray();
+        var opResults = genericFunc(trueContextObjectGetter(contextObjects), argValues);
+        if (!resultValidator(opResults))
+        {
+            return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Error performing {opName} operation {opInfo.command} (line {_currentLine})");
+        }
+        return new MassEditResult(MassEditResultType.SUCCESS, "");
+    }
     private MassEditResult ExecGlobalOp()
     {
         var globalArgValues = paramArgFuncs.Select(f => f.assertCompleteContextOrThrow(0).ToParamEditorString()).ToArray();
@@ -458,7 +475,8 @@ public class MassParamEditRegex
     }
     private MassEditResult ExecVarOp(string var, object[] args)
     {
-        MassParamEdit.massEditVars[var] = genericFunc(MassParamEdit.massEditVars[var], args.Select((x, i) => x.assertCompleteContextOrThrow(i).ToParamEditorString()).ToArray());
+        var varArgValues = args.Select((x, i) => x.assertCompleteContextOrThrow(i).ToParamEditorString()).ToArray();
+        MassParamEdit.massEditVars[var] = genericFunc(MassParamEdit.massEditVars[var], varArgValues);
         var result = true; // Anything that practicably can go wrong 
         if (!result)
         {
