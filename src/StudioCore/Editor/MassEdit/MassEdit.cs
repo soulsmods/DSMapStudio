@@ -78,11 +78,6 @@ internal struct MEOperationStage
         return arguments.Split(':', count);
     }
 }
-internal class MECommand
-{
-    List<MEFilterStage> filters = new();
-    MEOperationStage operation;
-}
 
 public static class MassParamEdit
 {
@@ -150,6 +145,10 @@ public class MassParamEditRegex
     private object[] paramArgFuncs;
     private string[] argNames;
 
+    //TODO use these
+    List<MEFilterStage> filters = new();
+    MEOperationStage operation;
+
     private MEOperationStage globalOperationInfo;
     private MEOperationStage varOperationInfo;
     private MEOperationStage rowOperationInfo;
@@ -183,57 +182,12 @@ public class MassParamEditRegex
                     command = command.Substring(0, command.Length - 1);
                 }
 
-                MassEditResult result = null;
-
                 MassParamEditRegex currentEditData = new();
                 currentEditData._currentLine = currentLine;
                 currentEditData.bank = bank;
                 currentEditData.context = context;
 
-                var primaryFilter = command.Split(':', 2)[0].Trim();
-
-                if (MEGlobalOperation.globalOps.HandlesCommand(primaryFilter.Split(" ", 2)[0]))
-                {
-                    result = currentEditData.ParseOpStep(command, "global", MEGlobalOperation.globalOps, ref currentEditData.globalOperationInfo, ref currentEditData.argNames, ref currentEditData.genericFunc);
-                }
-                else if (VarSearchEngine.vse.HandlesCommand(primaryFilter.Split(" ", 2)[0]))
-                {
-                    result = currentEditData.ParseFilterStep(command, VarSearchEngine.vse, ref currentEditData.varStageInfo, (restOfStages) =>
-                    {
-                        return currentEditData.ParseOpStep(restOfStages, "var", MEValueOperation.valueOps, ref currentEditData.varOperationInfo, ref currentEditData.argNames, ref currentEditData.genericFunc);
-                    });
-                }
-                else if (ParamAndRowSearchEngine.parse.HandlesCommand(primaryFilter.Split(" ", 2)[0]))
-                {
-                    result = currentEditData.ParseFilterStep(command, ParamAndRowSearchEngine.parse, ref currentEditData.paramRowStageInfo, (restOfStages) =>
-                    {
-                        if (MERowOperation.rowOps.HandlesCommand(restOfStages.Trim().Split(" ", 2)[0]))
-                        {
-                            return currentEditData.ParseOpStep(restOfStages, "row", MERowOperation.rowOps, ref currentEditData.rowOperationInfo, ref currentEditData.argNames, ref currentEditData.genericFunc);
-                        }
-                        return currentEditData.ParseFilterStep(restOfStages, CellSearchEngine.cse, ref currentEditData.cellStageInfo, (restOfStages) =>
-                        {
-                            return currentEditData.ParseOpStep(restOfStages, "cell/property", MEValueOperation.valueOps, ref currentEditData.cellOperationInfo, ref currentEditData.argNames, ref currentEditData.genericFunc);
-                        });
-                    });
-                }
-                else
-                {
-                    result = currentEditData.ParseFilterStep(command, ParamSearchEngine.pse, ref currentEditData.paramStageInfo, (restOfStages) =>
-                    {
-                        return currentEditData.ParseFilterStep(restOfStages, RowSearchEngine.rse, ref currentEditData.rowStageInfo, (restOfStages) =>
-                        {
-                            if (MERowOperation.rowOps.HandlesCommand(restOfStages.Trim().Split(" ", 2)[0]))
-                            {
-                                return currentEditData.ParseOpStep(restOfStages, "row", MERowOperation.rowOps, ref currentEditData.rowOperationInfo, ref currentEditData.argNames, ref currentEditData.genericFunc);
-                            }
-                            return currentEditData.ParseFilterStep(restOfStages, CellSearchEngine.cse, ref currentEditData.cellStageInfo, (restOfStages) =>
-                            {
-                                return currentEditData.ParseOpStep(restOfStages, "cell/property", MEValueOperation.valueOps, ref currentEditData.cellOperationInfo, ref currentEditData.argNames, ref currentEditData.genericFunc);
-                            });
-                        });
-                    });
-                }
+                MassEditResult result = currentEditData.ParseAndExecCommand(command);
 
                 if (result.Type != MassEditResultType.SUCCESS)
                 {
@@ -251,6 +205,54 @@ public class MassParamEditRegex
         catch (Exception e)
         {
             return (new MassEditResult(MassEditResultType.PARSEERROR, e.ToString()), null);
+        }
+    }
+
+    private MassEditResult ParseAndExecCommand(string command)
+    {
+        var primaryFilter = command.Split(':', 2)[0].Trim();
+
+        if (MEGlobalOperation.globalOps.HandlesCommand(primaryFilter.Split(" ", 2)[0]))
+        {
+            return ParseOpStep(command, "global", MEGlobalOperation.globalOps, ref globalOperationInfo, ref argNames, ref genericFunc);
+        }
+        else if (VarSearchEngine.vse.HandlesCommand(primaryFilter.Split(" ", 2)[0]))
+        {
+            return ParseFilterStep(command, VarSearchEngine.vse, ref varStageInfo, (restOfStages) =>
+            {
+                return ParseOpStep(restOfStages, "var", MEValueOperation.valueOps, ref varOperationInfo, ref argNames, ref genericFunc);
+            });
+        }
+        else if (ParamAndRowSearchEngine.parse.HandlesCommand(primaryFilter.Split(" ", 2)[0]))
+        {
+            return ParseFilterStep(command, ParamAndRowSearchEngine.parse, ref paramRowStageInfo, (restOfStages) =>
+            {
+                if (MERowOperation.rowOps.HandlesCommand(restOfStages.Trim().Split(" ", 2)[0]))
+                {
+                    return ParseOpStep(restOfStages, "row", MERowOperation.rowOps, ref rowOperationInfo, ref argNames, ref genericFunc);
+                }
+                return ParseFilterStep(restOfStages, CellSearchEngine.cse, ref cellStageInfo, (restOfStages) =>
+                {
+                    return ParseOpStep(restOfStages, "cell/property", MEValueOperation.valueOps, ref cellOperationInfo, ref argNames, ref genericFunc);
+                });
+            });
+        }
+        else
+        {
+            return ParseFilterStep(command, ParamSearchEngine.pse, ref paramStageInfo, (restOfStages) =>
+            {
+                return ParseFilterStep(restOfStages, RowSearchEngine.rse, ref rowStageInfo, (restOfStages) =>
+                {
+                    if (MERowOperation.rowOps.HandlesCommand(restOfStages.Trim().Split(" ", 2)[0]))
+                    {
+                        return ParseOpStep(restOfStages, "row", MERowOperation.rowOps, ref rowOperationInfo, ref argNames, ref genericFunc);
+                    }
+                    return ParseFilterStep(restOfStages, CellSearchEngine.cse, ref cellStageInfo, (restOfStages) =>
+                    {
+                        return ParseOpStep(restOfStages, "cell/property", MEValueOperation.valueOps, ref cellOperationInfo, ref argNames, ref genericFunc);
+                    });
+                });
+            });
         }
     }
 
