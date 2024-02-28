@@ -313,7 +313,7 @@ public class MassParamEditRegex
         }
     }
 
-    private MassEditResult ExecStage<A, B>(List<EditorAction> partialActions, MEFilterStage info, SearchEngine<A, B> engine, A contextObject, IEnumerable<object> argFuncs)
+    private MassEditResult ExecStage<A, B>(MEFilterStage info, SearchEngine<A, B> engine, A contextObject, IEnumerable<object> argFuncs)
     {
         var editCount = -1;
         foreach (B currentObject in engine.Search(contextObject, info.command, false, false))
@@ -321,8 +321,11 @@ public class MassParamEditRegex
             editCount++;
             //add context
             IEnumerable<object> newArgFuncs = argFuncs.Select((func, i) => func.tryFoldAsFunc(editCount, currentObject));
-            //try exec stuff
-            MassEditResult res = null;//ExecVarOp(varName, varArgs);
+            //determine next stage
+            MEFilterStage nextInfo = new();
+            SearchEngine<B, object> nextStage = null;
+            //exec it
+            MassEditResult res = ExecStage(nextInfo, nextStage, currentObject, newArgFuncs);
             if (res.Type != MassEditResultType.SUCCESS)
             {
                 return res;
@@ -361,9 +364,9 @@ public class MassParamEditRegex
                 paramArgFunc.Select((rowFunc, i) => rowFunc.tryFoldAsFunc(rowEditCount, row)).ToArray();
             MassEditResult res;
             if (rowOperationInfo.command != null)
-                res = ExecRowOp(rowArgFunc, paramname, row);
+                res = ExecRowOp(rowArgFunc, (paramname, row));
             else if (cellStageInfo.command != null)
-                res = ExecCellStage(rowArgFunc, paramname, row);
+                res = ExecCellStage(rowArgFunc, (paramname, row));
             else
                 throw new MEParseException("No row op or cell stage was parsed", _currentLine);
             if (res.Type != MassEditResultType.SUCCESS)
@@ -376,15 +379,15 @@ public class MassParamEditRegex
     }
 
     private MassEditResult ExecCellStage(object[] rowArgFunc,
-        string paramname, Param.Row row)
+        (string, Param.Row) row)
     {
         var cellEditCount = -1;
-        foreach ((PseudoColumn, Param.Column) col in CellSearchEngine.cse.Search((paramname, row), cellStageInfo.command,
+        foreach ((PseudoColumn, Param.Column) col in CellSearchEngine.cse.Search(row, cellStageInfo.command,
                      false, false))
         {
             cellEditCount++;
             var cellArgValues = rowArgFunc.Select((argV, i) => argV.tryFoldAsFunc(cellEditCount, col)).ToArray();
-            MassEditResult res = ExecCellOp(cellArgValues, paramname, row, col);
+            MassEditResult res = ExecCellOp(cellArgValues, row, col);
             if (res.Type != MassEditResultType.SUCCESS)
             {
                 return res;
@@ -426,9 +429,9 @@ public class MassParamEditRegex
 
             MassEditResult res;
             if (rowOperationInfo.command != null)
-                res = ExecRowOp(rowArgFunc, paramname, row);
+                res = ExecRowOp(rowArgFunc, (paramname, row));
             else if (cellStageInfo.command != null)
-                res = ExecCellStage(rowArgFunc, paramname, row);
+                res = ExecCellStage(rowArgFunc, (paramname, row));
             else
                 throw new MEParseException("No row op or cell stage was parsed", _currentLine);
             if (res.Type != MassEditResultType.SUCCESS)
@@ -463,11 +466,10 @@ public class MassParamEditRegex
         return new MassEditResult(MassEditResultType.SUCCESS, "");
     }
 
-    private MassEditResult ExecRowOp(object[] rowArgFunc, string paramname,
-        Param.Row row)
+    private MassEditResult ExecRowOp(object[] rowArgFunc, (string, Param.Row) row)
     {
         var rowArgValues = rowArgFunc.Select((argV, i) => argV.assertCompleteContextOrThrow(i).ToParamEditorString()).ToArray();
-        (Param? p2, Param.Row? rs) = ((Param? p2, Param.Row? rs))genericFunc((paramname, row), rowArgValues);
+        (Param? p2, Param.Row? rs) = ((Param? p2, Param.Row? rs))genericFunc(row, rowArgValues);
         if (p2 == null)
         {
             return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Could not perform operation {rowOperationInfo.command} {String.Join(' ', rowArgValues)} on row (line {_currentLine})");
@@ -481,9 +483,10 @@ public class MassParamEditRegex
         return new MassEditResult(MassEditResultType.SUCCESS, "");
     }
 
-    private MassEditResult ExecCellOp(object[] cellArgValues, string paramname, Param.Row row,
+    private MassEditResult ExecCellOp(object[] cellArgValues, (string, Param.Row) nameAndRow,
         (PseudoColumn, Param.Column) col)
     {
+        (string paramName, Param.Row row) = nameAndRow;
         object res = null;
         string errHelper = null;
         try
