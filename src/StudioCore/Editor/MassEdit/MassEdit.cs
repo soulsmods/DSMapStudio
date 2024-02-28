@@ -313,50 +313,21 @@ public class MassParamEditRegex
             partialActions);
     }
 
-    private MassEditResult ExecVarStage()
+    private MassEditResult ExecStage<A, B>(List<EditorAction> partialActions, MEFilterStage info, SearchEngine<A, B> engine, A contextObject, IEnumerable<object> argFuncs)
     {
-        var varArgs = paramArgFuncs;
-        foreach (var varName in VarSearchEngine.vse.Search(false, varStageInfo.command, false, false))
+        var editCount = -1;
+        foreach (B currentObject in engine.Search(contextObject, info.command, false, false))
         {
-            MassEditResult res = ExecVarOp(varName, varArgs);
+            editCount++;
+            //add context
+            IEnumerable<object> newArgFuncs = argFuncs.Select((func, i) => func.tryFoldAsFunc(editCount, currentObject));
+            //try exec stuff
+            MassEditResult res = null;//ExecVarOp(varName, varArgs);
             if (res.Type != MassEditResultType.SUCCESS)
             {
                 return res;
             }
         }
-
-        return new MassEditResult(MassEditResultType.SUCCESS, "");
-    }
-
-    private MassEditResult ExecParamRowStage(List<EditorAction> partialActions)
-    {
-        Param activeParam = bank.Params[context.GetActiveParam()];
-        IEnumerable<object> paramArgFunc =
-            paramArgFuncs.Select((func, i) => func.tryFoldAsFunc(0, activeParam)); // technically invalid for clipboard
-        var rowEditCount = -1;
-        foreach ((MassEditRowSource source, Param.Row row) in ParamAndRowSearchEngine.parse.Search(context,
-                     paramRowStageInfo.command, false, false))
-        {
-            rowEditCount++;
-            object[] rowArgFunc =
-                paramArgFunc.Select((rowFunc, i) => rowFunc.tryFoldAsFunc(rowEditCount, row)).ToArray();
-            var paramname = source == MassEditRowSource.Selection
-                ? context.GetActiveParam()
-                : ParamBank.ClipboardParam;
-
-            MassEditResult res;
-            if (rowOperationInfo.command != null)
-                res = ExecRowOp(rowArgFunc, paramname, row, partialActions);
-            else if (cellStageInfo.command != null)
-                res = ExecCellStage(rowArgFunc, paramname, row, partialActions);
-            else
-                throw new MEParseException("No row op or cell stage was parsed", _currentLine);
-            if (res.Type != MassEditResultType.SUCCESS)
-            {
-                return res;
-            }
-        }
-
         return new MassEditResult(MassEditResultType.SUCCESS, "");
     }
 
@@ -369,13 +340,7 @@ public class MassParamEditRegex
             paramEditCount++;
             IEnumerable<object> paramArgFunc =
                 paramArgFuncs.Select((func, i) => func.tryFoldAsFunc(paramEditCount, p));
-            if (argNames.Length != paramArgFuncs.Length)
-            {
-                return new MassEditResult(MassEditResultType.PARSEERROR, $@"Invalid number of arguments for operation {operationForPrint} (line {_currentLine})");
-            }
-
-            var paramname = b.GetKeyForParam(p);
-            MassEditResult res = ExecRowStage(paramArgFunc, paramname, b, p, partialActions);
+            MassEditResult res = ExecRowStage(paramArgFunc, b.GetKeyForParam(p), b, p, partialActions);
             if (res.Type != MassEditResultType.SUCCESS)
             {
                 return res;
@@ -420,6 +385,52 @@ public class MassParamEditRegex
             cellEditCount++;
             var cellArgValues = rowArgFunc.Select((argV, i) => argV.tryFoldAsFunc(cellEditCount, col)).ToArray();
             MassEditResult res = ExecCellOp(cellArgValues, paramname, row, col, partialActions);
+            if (res.Type != MassEditResultType.SUCCESS)
+            {
+                return res;
+            }
+        }
+
+        return new MassEditResult(MassEditResultType.SUCCESS, "");
+    }
+    private MassEditResult ExecVarStage()
+    {
+        var varArgs = paramArgFuncs;
+        foreach (var varName in VarSearchEngine.vse.Search(false, varStageInfo.command, false, false))
+        {
+            MassEditResult res = ExecVarOp(varName, varArgs);
+            if (res.Type != MassEditResultType.SUCCESS)
+            {
+                return res;
+            }
+        }
+
+        return new MassEditResult(MassEditResultType.SUCCESS, "");
+    }
+
+    private MassEditResult ExecParamRowStage(List<EditorAction> partialActions)
+    {
+        Param activeParam = bank.Params[context.GetActiveParam()];
+        IEnumerable<object> paramArgFunc =
+            paramArgFuncs.Select((func, i) => func.tryFoldAsFunc(0, activeParam)); // technically invalid for clipboard
+        var rowEditCount = -1;
+        foreach ((MassEditRowSource source, Param.Row row) in ParamAndRowSearchEngine.parse.Search(context,
+                     paramRowStageInfo.command, false, false))
+        {
+            rowEditCount++;
+            object[] rowArgFunc =
+                paramArgFunc.Select((rowFunc, i) => rowFunc.tryFoldAsFunc(rowEditCount, row)).ToArray();
+            var paramname = source == MassEditRowSource.Selection
+                ? context.GetActiveParam()
+                : ParamBank.ClipboardParam;
+
+            MassEditResult res;
+            if (rowOperationInfo.command != null)
+                res = ExecRowOp(rowArgFunc, paramname, row, partialActions);
+            else if (cellStageInfo.command != null)
+                res = ExecCellStage(rowArgFunc, paramname, row, partialActions);
+            else
+                throw new MEParseException("No row op or cell stage was parsed", _currentLine);
             if (res.Type != MassEditResultType.SUCCESS)
             {
                 return res;
