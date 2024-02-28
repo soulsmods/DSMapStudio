@@ -144,9 +144,6 @@ public class MassParamEditRegex
     private ParamBank bank;
     private ParamEditorSelectionState context;
     private Func<object, string[], object> genericFunc;
-
-    private Func<int, object[], string, Param.Row, List<EditorAction>,
-        MassEditResult> rowOpOrCellStageFunc;
     private object[] paramArgFuncs;
     private string[] argNames;
 
@@ -283,21 +280,19 @@ public class MassParamEditRegex
         {
             return (new MassEditResult(MassEditResultType.PARSEERROR, $@"Invalid number of arguments for operation {globalOperationInfo.command} (line {currentLine})"), null);
         }
+
+
         //hacks for now
         if (globalOperationInfo.command != null)
             return SandboxMassEditExecution(currentLine, partials => ExecGlobalOp(currentLine));
         if (varOperationInfo.command != null)
             return SandboxMassEditExecution(currentLine, partials => ExecVarStage(currentLine));
 
-        if (cellStageInfo.command != null)
-            rowOpOrCellStageFunc = ExecCellStage;
-        else
-            rowOpOrCellStageFunc = ExecRowOp;
-
         if (paramRowStageInfo.command != null)
             return SandboxMassEditExecution(currentLine, partials => ExecParamRowStage(currentLine, partials));
-        else
+        if (paramStageInfo.command != null)
             return SandboxMassEditExecution(currentLine, partials => ExecParamStage(currentLine, partials));
+        throw new MEParseException("No initial stage or op was parsed", currentLine);
     }
 
     private (MassEditResult, List<EditorAction>) SandboxMassEditExecution(int currentLine,
@@ -371,7 +366,14 @@ public class MassParamEditRegex
             var paramname = source == MassEditRowSource.Selection
                 ? context.GetActiveParam()
                 : ParamBank.ClipboardParam;
-            MassEditResult res = rowOpOrCellStageFunc(currentLine, rowArgFunc, paramname, row, partialActions);
+
+            MassEditResult res;
+            if (rowOperationInfo.command != null)
+                res = ExecRowOp(currentLine, rowArgFunc, paramname, row, partialActions);
+            else if (cellStageInfo.command != null)
+                res = ExecCellStage(currentLine, rowArgFunc, paramname, row, partialActions);
+            else
+                throw new MEParseException("No row op or cell stage was parsed", currentLine);
             if (res.Type != MassEditResultType.SUCCESS)
             {
                 return res;
@@ -416,7 +418,13 @@ public class MassParamEditRegex
             rowEditCount++;
             object[] rowArgFunc =
                 paramArgFunc.Select((rowFunc, i) => rowFunc.tryFoldAsFunc(rowEditCount, row)).ToArray();
-            MassEditResult res = rowOpOrCellStageFunc(currentLine, rowArgFunc, paramname, row, partialActions);
+            MassEditResult res;
+            if (rowOperationInfo.command != null)
+                res = ExecRowOp(currentLine, rowArgFunc, paramname, row, partialActions);
+            else if (cellStageInfo.command != null)
+                res = ExecCellStage(currentLine, rowArgFunc, paramname, row, partialActions);
+            else
+                throw new MEParseException("No row op or cell stage was parsed", currentLine);
             if (res.Type != MassEditResultType.SUCCESS)
             {
                 return res;
