@@ -16,6 +16,7 @@ using Veldrid;
 using Veldrid.Sdl2;
 using Veldrid.Utilities;
 using Viewport = StudioCore.Gui.Viewport;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace StudioCore.MsbEditor;
 
@@ -24,7 +25,7 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
     private const int RECENT_FILES_MAX = 32;
 
     private static readonly object _lock_PauseUpdate = new();
-    private readonly Selection _selection = new();
+    public Selection _selection = new Selection();
 
     public readonly AssetLocator AssetLocator;
 
@@ -43,6 +44,7 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
 
     public bool CtrlHeld;
     public DisplayGroupsEditor DispGroupEditor;
+    public MsbAssetBrowser AssetBrowser;
     public ActionManager EditorActionManager = new();
 
     private bool GCNeedsCollection;
@@ -93,9 +95,211 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
         DispGroupEditor = new DisplayGroupsEditor(RenderScene, _selection, EditorActionManager);
         PropSearch = new SearchProperties(Universe, _propCache);
         NavMeshEditor = new NavmeshEditor(locator, RenderScene, _selection);
+        AssetBrowser = new MsbAssetBrowser(Universe, RenderScene, _selection, EditorActionManager, this, Viewport);
 
         EditorActionManager.AddEventHandler(SceneTree);
     }
+
+
+    /// <summary>
+    ///     Handles rendering walk / patrol routes.
+    /// </summary>
+    public static class PatrolDrawManager
+    {
+        private static readonly HashSet<WeakReference<Entity>> _drawEntities = new();
+        private record DrawEntity;
+
+        private const float _verticalOffset = 0.8f;
+
+        private static Entity GetDrawEntity(ObjectContainer map)
+        {
+            Entity e = new(map, new DrawEntity());
+            map.AddObject(e);
+            _drawEntities.Add(new WeakReference<Entity>(e));
+            return e;
+        }
+
+        private static bool GetPoints(string[] regionNames, ObjectContainer map, out List<Vector3> points)
+        {
+            points = [];
+
+            foreach (var region in regionNames)
+            {
+                if (!string.IsNullOrWhiteSpace(region))
+                {
+                    var pointObj = map.GetObjectByName(region);
+                    if (pointObj == null)
+                        continue;
+
+                    points.Add(ApplyVerticalOffset(pointObj.GetRootLocalTransform().Position));
+                }
+            }
+
+            return points.Count > 0;
+        }
+
+        private static Vector3 ApplyVerticalOffset(Vector3 vec)
+        {
+            vec.Y += _verticalOffset;
+            return vec;
+        }
+
+        /// <summary>
+        ///     Generates the renderable walk routes for all loaded maps.
+        /// </summary>
+        public static void Generate(Universe universe)
+        {
+            Clear();
+
+            if (universe.GameType is GameType.ArmoredCoreVI)
+            {
+                TaskLogs.AddLog("Unsupported game type for this tool.",
+                    LogLevel.Information, TaskLogs.LogPriority.High);
+                return;
+            }
+
+            var loadedMaps = universe.LoadedObjectContainers.Values.Where(x => x != null);
+            foreach (var map in loadedMaps)
+            {
+                foreach (var patrolEntity in map.Objects.ToList())
+                {
+                    if (patrolEntity.WrappedObject is MSBD.Part.EnemyBase MSBD_Enemy)
+                    {
+                        if (GetPoints(MSBD_Enemy.MovePointNames, map, out List<Vector3> points))
+                        {
+                            Entity drawEntity = GetDrawEntity(map);
+
+                            bool endAtStart = MSBD_Enemy.PointMoveType == 0;
+                            bool moveRandomly = MSBD_Enemy.PointMoveType == 2;
+                            var chain = universe.GetPatrolLineDrawable(patrolEntity, drawEntity,
+                                points, [ApplyVerticalOffset(patrolEntity.GetRootLocalTransform().Position)], endAtStart, moveRandomly);
+
+                            drawEntity.RenderSceneMesh = chain;
+                        }
+                    }
+                    else if (patrolEntity.WrappedObject is MSB1.Part.EnemyBase MSB1_Enemy)
+                    {
+                        if (GetPoints(MSB1_Enemy.MovePointNames, map, out List<Vector3> points))
+                        {
+                            Entity drawEntity = GetDrawEntity(map);
+
+                            bool endAtStart = MSB1_Enemy.PointMoveType == 0;
+                            bool moveRandomly = MSB1_Enemy.PointMoveType == 2;
+                            var chain = universe.GetPatrolLineDrawable(patrolEntity, drawEntity,
+                                points, [ApplyVerticalOffset(patrolEntity.GetRootLocalTransform().Position)], endAtStart, moveRandomly);
+
+                            drawEntity.RenderSceneMesh = chain;
+                        }
+                    }
+                    // DS2 stores walk routes in ESD AI
+                    else if (patrolEntity.WrappedObject is MSBB.Part.EnemyBase MSBB_Enemy)
+                    {
+                        if (GetPoints(MSBB_Enemy.MovePointNames, map, out List<Vector3> points))
+                        {
+                            Entity drawEntity = GetDrawEntity(map);
+
+                            // BB move type is probably in an unk somewhere.
+                            bool endAtStart = false;
+                            bool moveRandomly = false;
+                            var chain = universe.GetPatrolLineDrawable(patrolEntity, drawEntity,
+                                points, [ApplyVerticalOffset(patrolEntity.GetRootLocalTransform().Position)], endAtStart, moveRandomly);
+
+                            drawEntity.RenderSceneMesh = chain;
+                        }
+                    }
+                    else if (patrolEntity.WrappedObject is MSB3.Event.PatrolInfo MSB3_Patrol)
+                    {
+                        if (GetPoints(MSB3_Patrol.WalkPointNames, map, out List<Vector3> points))
+                        {
+                            Entity drawEntity = GetDrawEntity(map);
+                            List<Vector3> enemies = new();
+                            foreach (var ent in map.Objects)
+                            {
+                                if (ent.WrappedObject is MSB3.Part.EnemyBase ene)
+                                {
+                                    if (ene.WalkRouteName != patrolEntity.Name)
+                                        continue;
+
+                                    enemies.Add(ApplyVerticalOffset(ent.GetRootLocalTransform().Position));
+                                }
+                            }
+
+                            bool endAtStart = MSB3_Patrol.PatrolType == 0;
+                            bool moveRandomly = MSB3_Patrol.PatrolType == 2;
+                            var chain = universe.GetPatrolLineDrawable(patrolEntity, drawEntity,
+                                points, enemies, endAtStart, moveRandomly);
+
+                            drawEntity.RenderSceneMesh = chain;
+                        }
+                    }
+                    else if (patrolEntity.WrappedObject is MSBS.Event.PatrolInfo MSBS_Patrol)
+                    {
+                        if (GetPoints(MSBS_Patrol.WalkRegionNames, map, out List<Vector3> points))
+                        {
+                            Entity drawEntity = GetDrawEntity(map);
+                            List<Vector3> enemies = new();
+                            foreach (var ent in map.Objects)
+                            {
+                                if (ent.WrappedObject is MSBS.Part.EnemyBase ene)
+                                {
+                                    if (ene.WalkRouteName != patrolEntity.Name)
+                                        continue;
+
+                                    enemies.Add(ApplyVerticalOffset(ent.GetRootLocalTransform().Position));
+                                }
+                            }
+
+                            bool endAtStart = MSBS_Patrol.PatrolType == 0;
+                            bool moveRandomly = MSBS_Patrol.PatrolType == 2;
+                            var chain = universe.GetPatrolLineDrawable(patrolEntity, drawEntity,
+                                points, enemies, endAtStart, moveRandomly);
+
+                            drawEntity.RenderSceneMesh = chain;
+                        }
+                    }
+                    else if (patrolEntity.WrappedObject is MSBE.Event.PatrolInfo MSBE_Patrol)
+                    {
+                        if (GetPoints(MSBE_Patrol.WalkRegionNames, map, out List<Vector3> points))
+                        {
+                            Entity drawEntity = GetDrawEntity(map);
+                            List<Vector3> enemies = new();
+                            foreach (var ent in map.Objects)
+                            {
+                                if (ent.WrappedObject is MSBE.Part.EnemyBase ene)
+                                {
+                                    if (ene.WalkRouteName != patrolEntity.Name)
+                                        continue;
+
+                                    enemies.Add(ApplyVerticalOffset(ent.GetRootLocalTransform().Position));
+                                }
+                            }
+
+                            bool endAtStart = MSBE_Patrol.PatrolType == 0;
+                            bool moveRandomly = MSBE_Patrol.PatrolType == 2;
+                            var chain = universe.GetPatrolLineDrawable(patrolEntity, drawEntity,
+                                points, enemies, endAtStart, moveRandomly);
+
+                            drawEntity.RenderSceneMesh = chain;
+                        }
+                    }
+                }
+            }
+        }
+
+        public static void Clear()
+        {
+            foreach (var weakEnt in _drawEntities)
+            {
+                if (weakEnt.TryGetTarget(out var ent))
+                {
+                    ent.Container?.Objects.Remove(ent);
+                    ent.Dispose();
+                }
+            }
+            _drawEntities.Clear();
+        }
+    }
+
 
     private bool PauseUpdate
     {
@@ -580,6 +784,24 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
         if (ImGui.BeginMenu("Tools"))
         {
             var loadedMaps = Universe.LoadedObjectContainers.Values.Where(x => x != null);
+
+            if (AssetLocator.Type is not GameType.DarkSoulsIISOTFS)
+            {
+                if (ImGui.BeginMenu("Render enemy patrol routes"))
+                {
+                    if (ImGui.MenuItem("Render##PatrolRoutes", KeyBindings.Current.Map_RenderEnemyPatrolRoutes.HintText,
+                    false, loadedMaps.Any()))
+                    {
+                        PatrolDrawManager.Generate(Universe);
+                    }
+                    if (ImGui.MenuItem("Clear##PatrolRoutes"))
+                    {
+                        PatrolDrawManager.Clear();
+                    }
+                    ImGui.EndMenu();
+                }
+            }
+
             if (ImGui.MenuItem("Check loaded maps for duplicate Entity IDs", loadedMaps.Any()))
             {
                 HashSet<uint> vals = new();
@@ -624,10 +846,6 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
 
                     ImGui.EndMenu();
                 }
-            }
-            else
-            {
-                ImGui.Text("No tools available");
             }
 
             ImGui.EndMenu();
@@ -794,6 +1012,11 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
                 MoveSelectionToCamera();
             }
 
+            if (InputTracker.GetKeyDown(KeyBindings.Current.Map_RenderEnemyPatrolRoutes))
+            {
+                PatrolDrawManager.Generate(Universe);
+            }
+
             // Render settings
             if (RenderScene != null)
             {
@@ -932,6 +1155,7 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
         ResourceManager.OnGuiDrawResourceList();
 
         DispGroupEditor.OnGui(Universe._dispGroupCount);
+        AssetBrowser.OnGui();
 
         if (_activeModal != null)
         {
@@ -1048,6 +1272,241 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
     private void GotoSelection()
     {
         _selection.GotoTreeTarget = _selection.GetSingleSelection();
+    }
+
+    public void SetObjectModelForSelection(string modelName, string assetType, string assetMapId)
+    {
+        var actlist = new List<Action>();
+
+        var selected = _selection.GetFilteredSelection<Entity>();
+
+        foreach (var s in selected)
+        {
+            bool isValidObjectType = false;
+
+            if (assetType == "Chr")
+            {
+                switch (AssetLocator.Type)
+                {
+                    case GameType.DemonsSouls:
+                        if (s.WrappedObject is MSBD.Part.Enemy)
+                            isValidObjectType = true;
+                        break;
+                    case GameType.DarkSoulsPTDE:
+                    case GameType.DarkSoulsRemastered:
+                        if (s.WrappedObject is MSB1.Part.Enemy)
+                            isValidObjectType = true;
+                        break;
+                    case GameType.DarkSoulsIISOTFS:
+                        break;
+                    case GameType.DarkSoulsIII:
+                        if (s.WrappedObject is MSB3.Part.Enemy)
+                            isValidObjectType = true;
+                        break;
+                    case GameType.Bloodborne:
+                        if (s.WrappedObject is MSBB.Part.Enemy)
+                            isValidObjectType = true;
+                        break;
+                    case GameType.Sekiro:
+                        if (s.WrappedObject is MSBS.Part.Enemy)
+                            isValidObjectType = true;
+                        break;
+                    case GameType.EldenRing:
+                        if (s.WrappedObject is MSBE.Part.Enemy)
+                            isValidObjectType = true;
+                        break;
+                    case GameType.ArmoredCoreVI:
+                        if (s.WrappedObject is MSB_AC6.Part.Enemy)
+                            isValidObjectType = true;
+                        break;
+                    default:
+                        throw new ArgumentException("Selected entity type must be Enemy");
+                }
+            }
+            if (assetType == "Obj")
+            {
+                switch (AssetLocator.Type)
+                {
+                    case GameType.DemonsSouls:
+                        if (s.WrappedObject is MSBD.Part.Object)
+                            isValidObjectType = true;
+                        break;
+                    case GameType.DarkSoulsPTDE:
+                    case GameType.DarkSoulsRemastered:
+                        if (s.WrappedObject is MSB1.Part.Object)
+                            isValidObjectType = true;
+                        break;
+                    case GameType.DarkSoulsIISOTFS:
+                        if (s.WrappedObject is MSB2.Part.Object)
+                            isValidObjectType = true;
+                        break;
+                    case GameType.DarkSoulsIII:
+                        if (s.WrappedObject is MSB3.Part.Object)
+                            isValidObjectType = true;
+                        break;
+                    case GameType.Bloodborne:
+                        if (s.WrappedObject is MSBB.Part.Object)
+                            isValidObjectType = true;
+                        break;
+                    case GameType.Sekiro:
+                        if (s.WrappedObject is MSBS.Part.Object)
+                            isValidObjectType = true;
+                        break;
+                    case GameType.EldenRing:
+                        if (s.WrappedObject is MSBE.Part.Asset)
+                            isValidObjectType = true;
+                        break;
+                    case GameType.ArmoredCoreVI:
+                        if (s.WrappedObject is MSB_AC6.Part.Asset)
+                            isValidObjectType = true;
+                        break;
+                    default:
+                        throw new ArgumentException("Selected entity type must be Object/Asset");
+                }
+            }
+            if (assetType == "MapPiece")
+            {
+                switch (AssetLocator.Type)
+                {
+                    case GameType.DemonsSouls:
+                        if (s.WrappedObject is MSBD.Part.MapPiece)
+                            isValidObjectType = true;
+                        break;
+                    case GameType.DarkSoulsPTDE:
+                    case GameType.DarkSoulsRemastered:
+                        if (s.WrappedObject is MSB1.Part.MapPiece)
+                            isValidObjectType = true;
+                        break;
+                    case GameType.DarkSoulsIISOTFS:
+                        if (s.WrappedObject is MSB2.Part.MapPiece)
+                            isValidObjectType = true;
+                        break;
+                    case GameType.DarkSoulsIII:
+                        if (s.WrappedObject is MSB3.Part.MapPiece)
+                            isValidObjectType = true;
+                        break;
+                    case GameType.Bloodborne:
+                        if (s.WrappedObject is MSBB.Part.MapPiece)
+                            isValidObjectType = true;
+                        break;
+                    case GameType.Sekiro:
+                        if (s.WrappedObject is MSBS.Part.MapPiece)
+                            isValidObjectType = true;
+                        break;
+                    case GameType.EldenRing:
+                        if (s.WrappedObject is MSBE.Part.MapPiece)
+                            isValidObjectType = true;
+                        break;
+                    case GameType.ArmoredCoreVI:
+                        if (s.WrappedObject is MSB_AC6.Part.MapPiece)
+                            isValidObjectType = true;
+                        break;
+                    default:
+                        throw new ArgumentException("Selected entity type must be MapPiece");
+                }
+            }
+
+            if (assetType == "MapPiece")
+            {
+                string mapName = s.Parent.Name;
+                if (mapName != assetMapId)
+                {
+                    PlatformUtils.Instance.MessageBox($"Map Pieces are specific to each map.\nYou cannot change a Map Piece in {mapName} to a Map Piece from {assetMapId}.", "Object Browser", MessageBoxButtons.OK);
+
+                    isValidObjectType = false;
+                }
+            }
+
+            if (isValidObjectType)
+            {
+                // ModelName
+                actlist.Add(s.ChangeObjectProperty("ModelName", modelName));
+
+                // Name
+                string name = GetUniqueNameString(modelName);
+                s.Name = name;
+                actlist.Add(s.ChangeObjectProperty("Name", name));
+
+                // Instance ID
+            }
+        }
+
+        if (actlist.Any())
+        {
+            var action = new CompoundAction(actlist);
+            EditorActionManager.ExecuteAction(action);
+        }
+    }
+
+    public string GetUniqueNameString(string modelName)
+    {
+        int postfix = 0;
+        string baseName = $"{modelName}_0000";
+
+        List<string> names = new List<string>();
+
+        // Collect names
+        foreach (var o in Universe.LoadedObjectContainers.Values)
+        {
+            if (o == null)
+            {
+                continue;
+            }
+            if (o is Map m)
+            {
+                foreach (var ob in m.Objects)
+                {
+                    if (ob is MapEntity e)
+                    {
+                        names.Add(ob.Name);
+                    }
+                }
+            }
+        }
+
+        bool validName = false;
+        while (!validName)
+        {
+            bool matchesName = false;
+
+            foreach (string name in names)
+            {
+                // Name already exists
+                if (name == baseName)
+                {
+                    // Increment postfix number by 1
+                    int old_value = postfix;
+                    postfix = postfix + 1;
+
+                    // Replace baseName postfix number
+                    baseName = baseName.Replace($"{PadNameString(old_value)}", $"{PadNameString(postfix)}");
+
+                    matchesName = true;
+                }
+            }
+
+            // If it does not match any name during 1 full iteration, then it must be valid
+            if (!matchesName)
+            {
+                validName = true;
+            }
+        }
+
+        return baseName;
+    }
+
+    public string PadNameString(int value)
+    {
+        if(value < 10)
+            return $"000{value}";
+
+        if (value >= 10 && value < 100)
+            return $"00{value}";
+
+        if (value >= 100 && value < 1000)
+            return $"0{value}";
+
+        return $"{value}";
     }
 
     /// <summary>

@@ -3,6 +3,8 @@ using Microsoft.Extensions.Logging;
 using Octokit;
 using SoapstoneLib;
 using SoulsFormats;
+using StudioCore.Banks;
+using StudioCore.Banks.AliasBank;
 using StudioCore.Editor;
 using StudioCore.Graphics;
 using StudioCore.Help;
@@ -89,6 +91,12 @@ public class MapStudioNew
         PlatformUtils.InitializeWindows(context.Window.SdlWindowHandle);
 
         _assetLocator = new AssetLocator();
+        Locator.AssetLocator = _assetLocator; // Yeah, I'm not passing this as a parameter anymore :P
+
+        // Banks
+        ModelAliasBank.Bank = new AliasBank(AliasType.Model);
+        MapAliasBank.Bank = new AliasBank(AliasType.Map);
+
         MsbEditorScreen msbEditor = new(_context.Window, _context.Device, _assetLocator);
         ModelEditorScreen modelEditor = new(_context.Window, _context.Device, _assetLocator);
         ParamEditorScreen paramEditor = new(_context.Window, _context.Device, _assetLocator);
@@ -105,7 +113,6 @@ public class MapStudioNew
 
         _helpBrowser = new HelpBrowser("HelpBrowser", _assetLocator);
 
-        AliasBank.SetAssetLocator(_assetLocator);
         ParamBank.PrimaryBank.SetAssetLocator(_assetLocator);
         ParamBank.VanillaBank.SetAssetLocator(_assetLocator);
         FMGBank.SetAssetLocator(_assetLocator);
@@ -398,7 +405,10 @@ public class MapStudioNew
         _assetLocator.SetFromProjectSettings(newsettings, moddir);
         _settingsMenu.ProjSettings = _projectSettings;
 
-        AliasBank.ReloadAliases();
+        // Banks
+        ModelAliasBank.Bank.ReloadAliasBank();
+        MapAliasBank.Bank.ReloadAliasBank();
+
         ParamBank.ReloadParams(newsettings, options);
         MtdBank.ReloadMtds();
 
@@ -406,6 +416,8 @@ public class MapStudioNew
         {
             editor.OnProjectChanged(_projectSettings);
         }
+
+        
     }
 
     public unsafe void ApplyStyle()

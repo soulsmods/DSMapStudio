@@ -5,6 +5,7 @@ using StudioCore.MsbEditor;
 using StudioCore.ParamEditor;
 using StudioCore.Scene;
 using StudioCore.TextEditor;
+using StudioCore.Utilities;
 using System;
 using System.Diagnostics;
 using System.Drawing;
@@ -137,6 +138,12 @@ public class SettingsMenu
                 }
             }
 
+            if (ImGui.CollapsingHeader("Resources", ImGuiTreeNodeFlags.DefaultOpen))
+            {
+                ImGui.Checkbox("Alias Banks - Editor Mode", ref CFG.Current.AliasBank_EditorMode);
+                ImguiUtils.ShowHelpMarker("If enabled, editing the name and tags for alias banks will commit the changes to the DSMS base version instead of the mod-specific version.");
+            }
+
             if (ImGui.CollapsingHeader("Project", ImGuiTreeNodeFlags.DefaultOpen))
             {
                 if (ProjSettings == null || ProjSettings.ProjectName == null)
@@ -255,6 +262,13 @@ public class SettingsMenu
                     }
                     ImGui.Checkbox("Enable Elden Ring auto map offset", ref CFG.Current.EnableEldenRingAutoMapOffset);
                 }
+            }
+
+            // Scene View
+            if (ImGui.CollapsingHeader("Scene View"))
+            {
+                ImGui.Checkbox("Display character names", ref CFG.Current.MapEditor_Show_Character_Names_in_Scene_Tree);
+                ImguiUtils.ShowHelpMarker("Characters names will be displayed within the scene view list.");
             }
 
             if (ImGui.CollapsingHeader("Selection"))
