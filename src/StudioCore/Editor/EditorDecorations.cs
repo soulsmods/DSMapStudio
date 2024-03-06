@@ -556,7 +556,7 @@ public unsafe class EditorDecorations
 
                 ParamMetaData meta = ParamMetaData.Get(bank.Params[rt].AppliedParamdef);
                 var maxResultsPerRefType = 15 / reftypes.Count;
-                List<(string, Param.Row)> rows = RowSearchEngine.rse.Search((bank, bank.Params[rt]),
+                List<Tuple<string, Param.Row>> rows = RowSearchEngine.rse.Search((bank, bank.Params[rt]),
                     _refContextCurrentAutoComplete, true, true);
                 foreach ((string param, Param.Row r) in rows)
                 {

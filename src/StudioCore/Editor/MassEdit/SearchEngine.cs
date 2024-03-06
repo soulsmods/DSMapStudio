@@ -1,4 +1,5 @@
 using Andre.Formats;
+using Microsoft.Toolkit.HighPerformance;
 using Org.BouncyCastle.Tls;
 using SoulsFormats;
 using StudioCore.ParamEditor;
@@ -6,6 +7,7 @@ using StudioCore.TextEditor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 
 namespace StudioCore.Editor.MassEdit;
@@ -16,7 +18,7 @@ namespace StudioCore.Editor.MassEdit;
 internal abstract class TypelessSearchEngine
 {
     private static Dictionary<Type, List<(TypelessSearchEngine, Type)>> searchEngines = new();
-    internal static void AddSearchEngine<I, O>(SearchEngine<I, O> engine)
+    internal static void AddSearchEngine<I, O>(SearchEngine<I, O> engine) where O : class
     {
         if (!searchEngines.ContainsKey(typeof(I)))
             searchEngines.Add(typeof(I), new());
@@ -36,9 +38,8 @@ internal abstract class TypelessSearchEngine
     internal abstract Type getElementType();
     public abstract IEnumerable<object> SearchNoType(object container, string command, bool lenient, bool failureAllOrNone);
 }
-internal class SearchEngine<A, B> : TypelessSearchEngine
+internal class SearchEngine<A, B> : TypelessSearchEngine where B : class
 {
-
     internal SearchEngineCommand<A, B> defaultFilter;
 
     internal Dictionary<string, SearchEngineCommand<A, B>> filterList = new();
@@ -266,7 +267,7 @@ internal class SearchEngineCommand<A, B>
 /*
  *  Handles conversion to a secondary searchengine which handles && conditions and conversion back to the anticipated type
  */
-internal class MultiStageSearchEngine<A, B, C, D> : SearchEngine<A, B>
+internal class MultiStageSearchEngine<A, B, C, D> : SearchEngine<A, B> where B : class where D : class
 {
     internal Func<A, B, C> contextGetterForMultiStage;
     internal Func<D, B, B> resultRetrieverForMultiStage;
@@ -291,10 +292,10 @@ internal class MultiStageSearchEngine<A, B, C, D> : SearchEngine<A, B>
     }
 }
 
-internal class ParamAndRowSearchEngine : MultiStageSearchEngine<ParamEditorSelectionState, (MassEditRowSource,
-    Param.Row), (ParamBank, Param), (string, Param.Row)>
+internal class ParamAndRowSearchEngine : MultiStageSearchEngine<ParamEditorSelectionState, Tuple<MassEditRowSource,
+    Param.Row>, (ParamBank, Param), Tuple<string, Param.Row>>
 {
-    public static SearchEngine<ParamEditorSelectionState, (MassEditRowSource, Param.Row)> parse =
+    public static SearchEngine<ParamEditorSelectionState, Tuple<MassEditRowSource, Param.Row>> parse =
         new ParamAndRowSearchEngine();
 
     internal override void Setup()
@@ -302,9 +303,9 @@ internal class ParamAndRowSearchEngine : MultiStageSearchEngine<ParamEditorSelec
         name = "paramrow";
         unpacker = selection =>
         {
-            List<(MassEditRowSource, Param.Row)> list = new();
-            list.AddRange(selection.GetSelectedRows().Select((x, i) => (MassEditRowSource.Selection, x)));
-            list.AddRange(ParamBank.ClipboardRows.Select((x, i) => (MassEditRowSource.Clipboard, x)));
+            List<Tuple<MassEditRowSource, Param.Row>> list = new();
+            list.AddRange(selection.GetSelectedRows().Select((x, i) => Tuple.Create(MassEditRowSource.Selection, x)));
+            list.AddRange(ParamBank.ClipboardRows.Select((x, i) => Tuple.Create(MassEditRowSource.Clipboard, x)));
             return list;
         };
         filterList.Add("selection",
@@ -319,9 +320,9 @@ internal class ParamAndRowSearchEngine : MultiStageSearchEngine<ParamEditorSelec
                 exampleItem.Item1 == MassEditRowSource.Selection
                     ? state.GetActiveParam()
                     : ParamBank.ClipboardParam]);
-        sourceListGetterForMultiStage = row => (null, row.Item2);
+        sourceListGetterForMultiStage = row => Tuple.Create<string, Param.Row>(null, row.Item2);
         searchEngineForMultiStage = RowSearchEngine.rse;
-        resultRetrieverForMultiStage = (row, exampleItem) => (exampleItem.Item1, row.Item2);
+        resultRetrieverForMultiStage = (row, exampleItem) => Tuple.Create(exampleItem.Item1, row.Item2);
     }
 }
 
@@ -331,7 +332,7 @@ internal enum MassEditRowSource
     Clipboard
 }
 
-internal class ParamSearchEngine : SearchEngine<bool, (ParamBank, Param)>
+internal class ParamSearchEngine : SearchEngine<bool, Tuple<ParamBank, Param>>
 {
     public static ParamSearchEngine pse = new(ParamBank.PrimaryBank);
     private readonly ParamBank bank;
@@ -346,7 +347,7 @@ internal class ParamSearchEngine : SearchEngine<bool, (ParamBank, Param)>
         name = "param";
         unpacker = dummy =>
             ParamBank.AuxBanks.Select((aux, i) => aux.Value.Params.Select((x, i) => (aux.Value, x.Value)))
-                .Aggregate(bank.Params.Values.Select((x, i) => (bank, x)), (o, n) => o.Concat(n)).ToList();
+                .Aggregate(bank.Params.Values.Select((x, i) => (bank, x)), (o, n) => o.Concat(n)).Select((x, i) => Tuple.Create(x.bank, x.x)).ToList();
         filterList.Add("modified", newCmd(new string[0],
             "Selects params where any rows do not match the vanilla version, or where any are added. Ignores row names",
             noArgs(noContext(param =>
@@ -397,7 +398,7 @@ internal class ParamSearchEngine : SearchEngine<bool, (ParamBank, Param)>
     }
 }
 
-internal class RowSearchEngine : SearchEngine<(ParamBank, Param), (string, Param.Row)>
+internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Tuple<string, Param.Row>>
 {
     public static RowSearchEngine rse = new(ParamBank.PrimaryBank);
     private readonly ParamBank bank;
@@ -413,7 +414,7 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), (string, Param
         unpacker = param =>
         {
             string name = param.Item1.GetKeyForParam(param.Item2);
-            return param.Item2.Rows.Select((x, i) => (name, x)).ToList();
+            return param.Item2.Rows.Select((x, i) => Tuple.Create(name, x)).ToList();
         };
         filterList.Add("modified", newCmd(new string[0],
             "Selects rows which do not match the vanilla version, or are added. Ignores row name", noArgs(context =>
@@ -565,12 +566,13 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), (string, Param
                 {
                     var paramName = context.Item1.GetKeyForParam(context.Item2);
                     IReadOnlyList<Param.Column> cols = context.Item2.Columns;
-                    (PseudoColumn, Param.Column) testCol = context.Item2.GetCol(field);
+                    var vtup = context.Item2.GetCol(field);
+                    Tuple<PseudoColumn, Param.Column> testCol = Tuple.Create(vtup.Item1, vtup.Item2);
                     return row =>
                     {
                         (string paramName, Param.Row row) cseSearchContext = (paramName, row.Item2);
-                        List<(PseudoColumn, Param.Column)> res = CellSearchEngine.cse.Search(cseSearchContext,
-                            new List<(PseudoColumn, Param.Column)> { testCol }, args[1], lenient, false);
+                        List<Tuple<PseudoColumn, Param.Column>> res = CellSearchEngine.cse.Search(cseSearchContext,
+                            new List<Tuple<PseudoColumn, Param.Column>> { testCol }, args[1], lenient, false);
                         return res.Contains(testCol);
                     };
                 };
@@ -765,7 +767,7 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), (string, Param
                         throw new Exception("Could not find param " + otherParam);
                     }
 
-                    List<(string, Param.Row)> rows = rse.Search((ParamBank.PrimaryBank, otherParamReal), otherSearchTerm,
+                    List<Tuple<string, Param.Row>> rows = rse.Search((ParamBank.PrimaryBank, otherParamReal), otherSearchTerm,
                         lenient, false);
                     (PseudoColumn, Param.Column) otherFieldReal = otherParamReal.GetCol(otherField);
                     if (!otherFieldReal.IsColumnValid())
@@ -862,7 +864,7 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), (string, Param
     }
 }
 
-internal class CellSearchEngine : SearchEngine<(string, Param.Row), (PseudoColumn, Param.Column)>
+internal class CellSearchEngine : SearchEngine<(string, Param.Row), Tuple<PseudoColumn, Param.Column>>
 {
     public static CellSearchEngine cse = new();
 
@@ -871,10 +873,10 @@ internal class CellSearchEngine : SearchEngine<(string, Param.Row), (PseudoColum
         name = "cell/property";
         unpacker = row =>
         {
-            List<(PseudoColumn, Param.Column)> list = new();
-            list.Add((PseudoColumn.ID, null));
-            list.Add((PseudoColumn.Name, null));
-            list.AddRange(row.Item2.Columns.Select((cell, i) => (PseudoColumn.None, cell)));
+            List<Tuple<PseudoColumn, Param.Column>> list = new();
+            list.Add(Tuple.Create<PseudoColumn, Param.Column>(PseudoColumn.ID, null));
+            list.Add(Tuple.Create<PseudoColumn, Param.Column>(PseudoColumn.Name, null));
+            list.AddRange(row.Item2.Columns.Select((cell, i) => Tuple.Create(PseudoColumn.None, cell)));
             return list;
         };
         defaultFilter = newCmd(new[] { "field internalName (regex)" },
@@ -935,10 +937,10 @@ internal class CellSearchEngine : SearchEngine<(string, Param.Row), (PseudoColum
 
                 return col =>
                 {
-                    (PseudoColumn, Param.Column) vcol = col.GetAs(vParam);
-                    var valA = row.Item2.Get(col);
+                    (PseudoColumn, Param.Column) vcol = (col.Item1, col.Item2).GetAs(vParam);
+                    var valA = row.Item2.Get((col.Item1, col.Item2));
                     var valB = r.Get(vcol);
-                    return ParamUtils.IsValueDiff(ref valA, ref valB, col.GetColumnType());
+                    return ParamUtils.IsValueDiff(ref valA, ref valB, (col.Item1, col.Item2).GetColumnType());
                 };
             }));
         filterList.Add("auxmodified", newCmd(new[] { "parambank name" },
@@ -984,11 +986,11 @@ internal class CellSearchEngine : SearchEngine<(string, Param.Row), (PseudoColum
 
                     return col =>
                     {
-                        (PseudoColumn, Param.Column) auxcol = col.GetAs(auxParam);
-                        (PseudoColumn, Param.Column) vcol = col.GetAs(vParam);
+                        (PseudoColumn, Param.Column) auxcol = (col.Item1, col.Item2).GetAs(auxParam);
+                        (PseudoColumn, Param.Column) vcol = (col.Item1, col.Item2).GetAs(vParam);
                         var valA = r.Get(auxcol);
                         var valB = r2.Get(vcol);
-                        return ParamUtils.IsValueDiff(ref valA, ref valB, col.GetColumnType());
+                        return ParamUtils.IsValueDiff(ref valA, ref valB, (col.Item1, col.Item2).GetColumnType());
                     };
                 };
             }, () => ParamBank.AuxBanks.Count > 0));
@@ -998,7 +1000,7 @@ internal class CellSearchEngine : SearchEngine<(string, Param.Row), (PseudoColum
             {
                 Regex r = new('^' + args[0] + '$',
                     lenient ? RegexOptions.IgnoreCase : RegexOptions.None); //Leniency rules break from the norm
-                return row => col => r.IsMatch(col.GetColumnSfType());
+                return row => col => r.IsMatch((col.Item1, col.Item2).GetColumnSfType());
             }, () => CFG.Current.Param_AdvancedMassedit));
     }
 }

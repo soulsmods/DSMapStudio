@@ -390,12 +390,12 @@ public class MassParamEditRegex
         (string, Param.Row) row)
     {
         var cellEditCount = -1;
-        foreach ((PseudoColumn, Param.Column) col in CellSearchEngine.cse.Search(row, cellStageInfo.command,
+        foreach (Tuple<PseudoColumn, Param.Column> col in CellSearchEngine.cse.Search(row, cellStageInfo.command,
                      false, false))
         {
             cellEditCount++;
             var cellArgValues = rowArgFunc.Select((argV, i) => argV.tryFoldAsFunc(cellEditCount, col)).ToArray();
-            MassEditResult res = ExecCellOp(cellArgValues, row, col);
+            MassEditResult res = ExecCellOp(cellArgValues, row, (col.Item1, col.Item2));
             if (res.Type != MassEditResultType.SUCCESS)
             {
                 return res;

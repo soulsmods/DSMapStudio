@@ -206,7 +206,7 @@ public class ParamRowEditor
 
             var search = propSearchString;
             List<(PseudoColumn, Param.Column)> cols = UICache.GetCached(_paramEditor, row, "fieldFilter",
-                () => CellSearchEngine.cse.Search((activeParam, row), search, true, true));
+                () => CellSearchEngine.cse.Search((activeParam, row), search, true, true).Select(x => (x.Item1, x.Item2)).ToList());
             List<(PseudoColumn, Param.Column)> vcols = UICache.GetCached(_paramEditor, vrow, "vFieldFilter",
                 () => cols.Select((x, i) => x.GetAs(ParamBank.VanillaBank.GetParamFromName(activeParam))).ToList());
             List<List<(PseudoColumn, Param.Column)>> auxCols = UICache.GetCached(_paramEditor, auxRows,
