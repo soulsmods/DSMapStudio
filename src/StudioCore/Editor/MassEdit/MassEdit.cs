@@ -313,24 +313,24 @@ public class MassParamEditRegex
         }
     }
 
-    private MassEditResult ExecStage<A, B>(MEFilterStage info, SearchEngine<A, B> engine, A contextObject, IEnumerable<object> argFuncs, Dictionary<Type, object> contextObjects)
+    private MassEditResult ExecStage(MEFilterStage info, TypelessSearchEngine engine, object contextObject, IEnumerable<object> argFuncs, Dictionary<Type, object> contextObjects)
     {
         var editCount = -1;
-        foreach (B currentObject in engine.Search(contextObject, info.command, false, false))
+        foreach (object currentObject in engine.SearchNoType(contextObject, info.command, false, false))
         {
             editCount++;
             //add context
             IEnumerable<object> newArgFuncs = argFuncs.Select((func, i) => func.tryFoldAsFunc(editCount, currentObject));
             //determine next stage
             MEFilterStage nextInfo = new();
-            SearchEngine<B, object> nextStage = null;
+            TypelessSearchEngine nextStage = null;
             string opStageName = null;
             MEOperationStage opInfo = new();
-            contextObjects[typeof(B)] = currentObject;
+            contextObjects[engine.getElementType()] = currentObject;
             //exec it
             MassEditResult res;
             if (opInfo.command != null)
-                res = ExecOp(opInfo, opStageName, newArgFuncs, contextObjects);
+                res = ExecOp(opInfo, opStageName, newArgFuncs, contextObjects, METypelessOperation.GetEditOperation(engine.getElementType()));
             else
                 res = ExecStage(nextInfo, nextStage, currentObject, newArgFuncs, contextObjects);
             if (res.Type != MassEditResultType.SUCCESS)

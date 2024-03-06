@@ -188,7 +188,7 @@ internal class AutoFill
 
     private static string[] _autoFillArgsGop = Enumerable.Repeat("", MEGlobalOperation.globalOps.AllCommands().Sum((x) => x.Value.argNames.Length)).ToArray();
     private static string[] _autoFillArgsRop = Enumerable.Repeat("", MERowOperation.rowOps.AllCommands().Sum((x) => x.Value.argNames.Length)).ToArray();
-    private static string[] _autoFillArgsCop = Enumerable.Repeat("", MEValueOperation.valueOps.AllCommands().Sum((x) => x.Value.argNames.Length)).ToArray();
+    private static string[] _autoFillArgsCop = Enumerable.Repeat("", MECellOperation.cellOps.AllCommands().Sum((x) => x.Value.argNames.Length)).ToArray();
     private static string[] _autoFillArgsOa =
         Enumerable.Repeat("", MEOperationArgument.arg.AllArguments().Sum(x => x.Item2.Length)).ToArray();
 
@@ -267,7 +267,7 @@ internal class AutoFill
                     }
 
                     ImGui.TextColored(HINTCOLOUR, "Select field operation...");
-                    return MassEditAutoFillForOperation(MEValueOperation.valueOps, ref _autoFillArgsCop, ";", null);
+                    return MassEditAutoFillForOperation(MECellOperation.cellOps, ref _autoFillArgsCop, ";", null);
                 });
                 ImGui.Separator();
                 ImGui.TextColored(HINTCOLOUR, "Select row operation...");
@@ -307,7 +307,7 @@ internal class AutoFill
                         }
 
                         ImGui.TextColored(HINTCOLOUR, "Select field operation...");
-                        return MassEditAutoFillForOperation(MEValueOperation.valueOps, ref _autoFillArgsCop, ";",
+                        return MassEditAutoFillForOperation(MECellOperation.cellOps, ref _autoFillArgsCop, ";",
                             null);
                     });
                     string res2 = null;
@@ -350,7 +350,7 @@ internal class AutoFill
                         }
 
                         ImGui.TextColored(HINTCOLOUR, "Select value operation...");
-                        return MassEditAutoFillForOperation(MEValueOperation.valueOps, ref _autoFillArgsCop, ";",
+                        return MassEditAutoFillForOperation(MECellOperation.cellOps, ref _autoFillArgsCop, ";",
                             null);
                     });
                 }
@@ -380,7 +380,7 @@ internal class AutoFill
 
     public static string MassEditOpAutoFill()
     {
-        return MassEditAutoFillForOperation(MEValueOperation.valueOps, ref _autoFillArgsCop, ";", null);
+        return MassEditAutoFillForOperation(MECellOperation.cellOps, ref _autoFillArgsCop, ";", null);
     }
 
     private static string MassEditAutoFillForOperation<A, B>(MEOperation<A, B> ops, ref string[] staticArgs,

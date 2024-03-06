@@ -1,4 +1,5 @@
 using Andre.Formats;
+using Org.BouncyCastle.Tls;
 using SoulsFormats;
 using StudioCore.ParamEditor;
 using StudioCore.TextEditor;
@@ -31,6 +32,9 @@ internal abstract class TypelessSearchEngine
     internal abstract List<(TypelessSearchEngine, Type)> NextSearchEngines();
     internal abstract METypelessOperation NextOperation();
     internal abstract string NameForHelpTexts();
+    internal abstract Type getContainerType();
+    internal abstract Type getElementType();
+    public abstract List<object> SearchNoType(object container, string command, bool lenient, bool failureAllOrNone);
 }
 internal class SearchEngine<A, B> : TypelessSearchEngine
 {
@@ -134,7 +138,10 @@ internal class SearchEngine<A, B> : TypelessSearchEngine
 
         return options;
     }
-
+    public override List<object> SearchNoType(object container, string command, bool lenient, bool failureAllOrNone)
+    {
+        return Search((A)container, command, lenient, failureAllOrNone) as List<object>;
+    }
     public List<B> Search(A param, string command, bool lenient, bool failureAllOrNone)
     {
         return Search(param, unpacker(param), command, lenient, failureAllOrNone);
@@ -225,6 +232,16 @@ internal class SearchEngine<A, B> : TypelessSearchEngine
     internal override string NameForHelpTexts()
     {
         return name;
+    }
+
+    internal override Type getContainerType()
+    {
+        return typeof(A);
+    }
+
+    internal override Type getElementType()
+    {
+        return typeof(B);
     }
 }
 
