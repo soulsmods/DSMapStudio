@@ -10,6 +10,8 @@ public static unsafe partial class ImGuiBindings
 {
     public static unsafe partial class ImGui
     {
+        private const int STACKALLOCMAX = 4096;
+
         public static void ShowDemoWindow(ref bool open)
         {
             CBool cOpen = open;
@@ -216,20 +218,35 @@ public static unsafe partial class ImGuiBindings
         
         public static bool InputText(string label, ref string buf, int bufSize, ImGuiInputTextFlags flags=0)
         {
-            var cBuf = stackalloc byte[bufSize];
-            Encoding.UTF8.GetBytes(buf.AsSpan(), new Span<byte>(cBuf, bufSize));
-            var cBufString = new CString(cBuf);
+            CString cBufString;
+            if (bufSize <= STACKALLOCMAX)
+            {
+                var cBuf = stackalloc byte[bufSize];
+                Encoding.UTF8.GetBytes(buf.AsSpan(), new Span<byte>(cBuf, bufSize));
+                cBufString = new CString(cBuf);
+            }
+            else
+            {
+                cBufString = new CString(buf);
+            }
             using var cLabel = (CString)label;
             var result = InputText(cLabel, cBufString, bufSize, flags, new ImGuiInputTextCallback(), null);
             buf = cBufString.ToString();
             return result;
         }
-        
         public static bool InputTextMultiline(string label, ref string buf, int bufSize, Vector2 size=default, ImGuiInputTextFlags flags=0)
         {
-            var cBuf = stackalloc byte[bufSize];
-            Encoding.UTF8.GetBytes(buf.AsSpan(), new Span<byte>(cBuf, bufSize));
-            var cBufString = new CString(cBuf);
+            CString cBufString;
+            if (bufSize <= STACKALLOCMAX)
+            {
+                var cBuf = stackalloc byte[bufSize];
+                Encoding.UTF8.GetBytes(buf.AsSpan(), new Span<byte>(cBuf, bufSize));
+                cBufString = new CString(cBuf);
+            }
+            else
+            {
+                cBufString = new CString(buf);
+            }
             using var cLabel = (CString)label;
             var result = InputTextMultiline(cLabel, cBufString, bufSize, size, flags, new ImGuiInputTextCallback(), null);
             buf = cBufString.ToString();
@@ -238,9 +255,17 @@ public static unsafe partial class ImGuiBindings
         
         public static bool InputTextWithHint(string label, string hint, ref string buf, int bufSize)
         {
-            var cBuf = stackalloc byte[bufSize];
-            Encoding.UTF8.GetBytes(buf.AsSpan(), new Span<byte>(cBuf, bufSize));
-            var cBufString = new CString(cBuf);
+            CString cBufString;
+            if (bufSize <= STACKALLOCMAX)
+            {
+                var cBuf = stackalloc byte[bufSize];
+                Encoding.UTF8.GetBytes(buf.AsSpan(), new Span<byte>(cBuf, bufSize));
+                cBufString = new CString(cBuf);
+            }
+            else
+            {
+                cBufString = new CString(buf);
+            }
             using var cLabel = (CString)label;
             using var cHint = (CString)hint;
             var result = InputTextWithHint(cLabel, cHint, cBufString, bufSize, 0, new ImGuiInputTextCallback(), null);
