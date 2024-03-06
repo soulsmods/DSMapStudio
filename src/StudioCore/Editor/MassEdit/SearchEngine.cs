@@ -34,7 +34,7 @@ internal abstract class TypelessSearchEngine
     internal abstract string NameForHelpTexts();
     internal abstract Type getContainerType();
     internal abstract Type getElementType();
-    public abstract List<object> SearchNoType(object container, string command, bool lenient, bool failureAllOrNone);
+    public abstract IEnumerable<object> SearchNoType(object container, string command, bool lenient, bool failureAllOrNone);
 }
 internal class SearchEngine<A, B> : TypelessSearchEngine
 {
@@ -138,9 +138,10 @@ internal class SearchEngine<A, B> : TypelessSearchEngine
 
         return options;
     }
-    public override List<object> SearchNoType(object container, string command, bool lenient, bool failureAllOrNone)
+    public override IEnumerable<object> SearchNoType(object container, string command, bool lenient, bool failureAllOrNone)
     {
-        return Search((A)container, command, lenient, failureAllOrNone) as List<object>;
+        List<B> res = Search((A)container, command, lenient, failureAllOrNone);
+        return (IEnumerable<B>)res;
     }
     public List<B> Search(A param, string command, bool lenient, bool failureAllOrNone)
     {

@@ -297,7 +297,8 @@ public class MassParamEditRegex
         if (paramRowStageInfo.command != null)
             return SandboxMassEditExecution(() => ExecParamRowStage());
         if (paramStageInfo.command != null)
-            return SandboxMassEditExecution(() => ExecParamStage());
+            return SandboxMassEditExecution(() => ExecStage(paramStageInfo, ParamSearchEngine.pse, true, paramArgFuncs, new Dictionary<Type, object>() { { typeof(bool), true } }));
+        //return SandboxMassEditExecution(() => ExecParamStage());
         throw new MEParseException("No initial stage or op was parsed", _currentLine);
     }
 
