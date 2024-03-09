@@ -1957,9 +1957,9 @@ namespace SoulsFormats
                 public float UnkT14 { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// ID of location text to display when stepping onto this collision.
                 /// </summary>
-                public int UnkT18 { get; set; }
+                public int LocationTextID { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -2071,7 +2071,7 @@ namespace SoulsFormats
                     br.AssertInt32(0);
                     br.AssertInt32(0);
                     UnkT14 = br.ReadSingle();
-                    UnkT18 = br.ReadInt32();
+                    LocationTextID = br.ReadInt32();
                     UnkT1C = br.ReadInt32();
                     PlayRegionID = br.ReadInt32();
                     UnkT24 = br.ReadInt16();
@@ -2112,7 +2112,7 @@ namespace SoulsFormats
                     bw.WriteInt32(0);
                     bw.WriteInt32(0);
                     bw.WriteSingle(UnkT14);
-                    bw.WriteInt32(UnkT18);
+                    bw.WriteInt32(LocationTextID);
                     bw.WriteInt32(UnkT1C);
                     bw.WriteInt32(PlayRegionID);
                     bw.WriteInt16(UnkT24);
