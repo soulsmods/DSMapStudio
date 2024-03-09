@@ -60,6 +60,8 @@ public class CFG
     public bool MapAliases_ShowAliasAddition = false;
 
     // Settings: Map Editor
+    public bool Viewport_Enable_Selection_Outline = false;
+
     public bool MapEditor_Show_Character_Names_in_Scene_Tree = true;
 
     public bool EnableFrustrumCulling = false;

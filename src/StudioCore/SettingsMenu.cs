@@ -277,6 +277,9 @@ public class SettingsMenu
                 var arbitrary_rotation_y = CFG.Current.Map_ArbitraryRotation_Y_Shift;
                 var camera_radius_offset = CFG.Current.Map_MoveSelectionToCamera_Radius;
 
+                ImGui.Checkbox("Enable selection outline", ref CFG.Current.Viewport_Enable_Selection_Outline);
+                ImguiUtils.ShowHoverTooltip("Enable the selection outline around map entities.");
+
                 if (CFG.Current.ShowUITooltips)
                 {
                     ShowHelpMarker("Set the angle increment amount used by Arbitary Rotation in the X-axis.");

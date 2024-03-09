@@ -52,6 +52,36 @@ public static class ImguiUtils
         }
     }
 
+    public static void ShowHoverTooltip(string desc)
+    {
+        if (CFG.Current.ShowUITooltips)
+        {
+            if (ImGui.IsItemHovered(0))
+            {
+                ImGui.BeginTooltip();
+                ImGui.PushTextWrapPos(450.0f);
+                ImGui.TextUnformatted(desc);
+                ImGui.PopTextWrapPos();
+                ImGui.EndTooltip();
+            }
+        }
+    }
+
+    public static void ShowWideHoverTooltip(string desc)
+    {
+        if (CFG.Current.ShowUITooltips)
+        {
+            if (ImGui.IsItemHovered(0))
+            {
+                ImGui.BeginTooltip();
+                ImGui.PushTextWrapPos(800.0f);
+                ImGui.TextUnformatted(desc);
+                ImGui.PopTextWrapPos();
+                ImGui.EndTooltip();
+            }
+        }
+    }
+
     public static string GetKeybindHint(string hint)
     {
         if (hint == "")
