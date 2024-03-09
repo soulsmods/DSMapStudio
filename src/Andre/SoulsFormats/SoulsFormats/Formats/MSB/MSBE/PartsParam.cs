@@ -1295,9 +1295,9 @@ namespace SoulsFormats
                 public int Unk10 { get; set; }
 
                 /// <summary>
-                /// Unknown.
+                /// Unknown culling behaviour field for extreme height differences. Values 0000 - 10000.
                 /// </summary>
-                public int Unk14 { get; set; }
+                public int CullingHeightBehavior { get; set; }
 
                 /// <summary>
                 /// Creates an UnkStruct7 with default values.
@@ -1324,7 +1324,7 @@ namespace SoulsFormats
                     br.AssertInt32(0);
                     Unk0C = br.ReadInt32();
                     Unk10 = br.AssertInt32([0, 1]);
-                    Unk14 = br.ReadInt32();
+                    CullingHeightBehavior = br.ReadInt32();
                     br.AssertInt32(0);
                     br.AssertInt32(0);
                 }
@@ -1336,7 +1336,7 @@ namespace SoulsFormats
                     bw.WriteInt32(0);
                     bw.WriteInt32(Unk0C);
                     bw.WriteInt32(Unk10);
-                    bw.WriteInt32(Unk14);
+                    bw.WriteInt32(CullingHeightBehavior);
                     bw.WriteInt32(0);
                     bw.WriteInt32(0);
                 }
