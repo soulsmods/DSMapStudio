@@ -288,6 +288,7 @@ internal class ParamReloader
                     bitSizeTotal = 16; break;
                 case PARAMDEF.DefType.u32:
                 case PARAMDEF.DefType.s32:
+                case PARAMDEF.DefType.b32:
                     bitSizeTotal = 32; break;
                 //Only handly non-array dummy8 bitfields. Not that we should expect array bitfields.
                 case PARAMDEF.DefType.dummy8:
@@ -338,7 +339,7 @@ internal class ParamReloader
             return sizeof(float);
         }
 
-        if (displayType == PARAMDEF.DefType.s32)
+        if (displayType == PARAMDEF.DefType.s32 || displayType == PARAMDEF.DefType.b32)
         {
             var valueRead = 0;
             memoryHandler.ReadProcessMemory(CellDataPtr, ref valueRead);
@@ -381,6 +382,19 @@ internal class ParamReloader
         }
 
         if (displayType == PARAMDEF.DefType.u32)
+        {
+            uint valueRead = 0;
+            memoryHandler.ReadProcessMemory(CellDataPtr, ref valueRead);
+
+            var value = Convert.ToUInt32(cell.Value);
+            if (valueRead != value)
+            {
+                memoryHandler.WriteProcessMemory(CellDataPtr, ref value);
+            }
+
+            return sizeof(uint);
+        }
+        if (displayType == PARAMDEF.DefType.b32)
         {
             uint valueRead = 0;
             memoryHandler.ReadProcessMemory(CellDataPtr, ref valueRead);
