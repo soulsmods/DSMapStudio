@@ -290,7 +290,7 @@ internal class ParamReloader
                 case PARAMDEF.DefType.s32:
                 case PARAMDEF.DefType.b32:
                     bitSizeTotal = 32; break;
-                //Only handly non-array dummy8 bitfields. Not that we should expect array bitfields.
+                //Only handle non-array dummy8 bitfields. Not that we should expect array bitfields.
                 case PARAMDEF.DefType.dummy8:
                     bitSizeTotal = 8; break;
                 default:
@@ -325,7 +325,7 @@ internal class ParamReloader
             return sizeof(double);
         }
 
-        if (displayType == PARAMDEF.DefType.f32)
+        if (displayType == PARAMDEF.DefType.f32 || displayType == PARAMDEF.DefType.angle32)
         {
             var valueRead = 0f;
             memoryHandler.ReadProcessMemory(CellDataPtr, ref valueRead);
