@@ -394,19 +394,6 @@ internal class ParamReloader
 
             return sizeof(uint);
         }
-        if (displayType == PARAMDEF.DefType.b32)
-        {
-            uint valueRead = 0;
-            memoryHandler.ReadProcessMemory(CellDataPtr, ref valueRead);
-
-            var value = Convert.ToUInt32(cell.Value);
-            if (valueRead != value)
-            {
-                memoryHandler.WriteProcessMemory(CellDataPtr, ref value);
-            }
-
-            return sizeof(uint);
-        }
 
         if (displayType == PARAMDEF.DefType.u16)
         {
