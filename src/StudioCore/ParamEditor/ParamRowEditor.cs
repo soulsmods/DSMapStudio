@@ -152,78 +152,81 @@ public class ParamRowEditor
         var imguiId = 0;
         var showParamCompare = auxRows.Count > 0;
         var showRowCompare = crow != null;
-
-        PropEditorParamRow_Header(isActiveView, ref propSearchString);
-
-        //ImGui.BeginChild("Param Fields");
-        var columnCount = 2;
-        if (CFG.Current.Param_ShowVanillaParams)
+        float fieldDataHeight = meta.CalcCorrectDef != null || meta.SoulCostDef != null ? ImGui.GetWindowHeight() * 3/5f : -1;
+        if (ImGui.BeginChild("regularFieldData", new Vector2(-1, fieldDataHeight), ImGuiChildFlags.AlwaysAutoResize))
         {
-            columnCount++;
-        }
+            PropEditorParamRow_Header(isActiveView, ref propSearchString);
 
-        if (showRowCompare)
-        {
-            columnCount++;
-        }
+            //ImGui.BeginChild("Param Fields");
+            var columnCount = 2;
+            if (CFG.Current.Param_ShowVanillaParams)
+            {
+                columnCount++;
+            }
 
-        if (showParamCompare)
-        {
-            columnCount += auxRows.Count;
-        }
+            if (showRowCompare)
+            {
+                columnCount++;
+            }
 
-        if (EditorDecorations.ImGuiTableStdColumns("ParamFieldsT", columnCount, false))
-        {
-            List<string> pinnedFields =
-                _paramEditor._projectSettings.PinnedFields.GetValueOrDefault(activeParam, null);
-
-            ImGui.TableSetupScrollFreeze(columnCount, (showParamCompare ? 3 : 2) + (1 + pinnedFields?.Count ?? 0));
             if (showParamCompare)
             {
-                ImGui.TableNextColumn();
-                if (ImGui.TableNextColumn())
-                {
-                    ImGui.Text("Current");
-                }
+                columnCount += auxRows.Count;
+            }
+            if (EditorDecorations.ImGuiTableStdColumns("ParamFieldsT", columnCount, false))
+            {
+                List<string> pinnedFields =
+                    _paramEditor._projectSettings.PinnedFields.GetValueOrDefault(activeParam, null);
 
-                if (CFG.Current.Param_ShowVanillaParams && ImGui.TableNextColumn())
+                ImGui.TableSetupScrollFreeze(columnCount, (showParamCompare ? 3 : 2) + (1 + pinnedFields?.Count ?? 0));
+                if (showParamCompare)
                 {
-                    ImGui.Text("Vanilla");
-                }
-
-                foreach ((var name, Param.Row r) in auxRows)
-                {
+                    ImGui.TableNextColumn();
                     if (ImGui.TableNextColumn())
                     {
-                        ImGui.Text(name);
+                        ImGui.Text("Current");
+                    }
+
+                    if (CFG.Current.Param_ShowVanillaParams && ImGui.TableNextColumn())
+                    {
+                        ImGui.Text("Vanilla");
+                    }
+
+                    foreach ((var name, Param.Row r) in auxRows)
+                    {
+                        if (ImGui.TableNextColumn())
+                        {
+                            ImGui.Text(name);
+                        }
                     }
                 }
-            }
 
-            PropEditorParamRow_RowFields(bank, row, vrow, auxRows, crow, ref imguiId, selection);
-            EditorDecorations.ImguiTableSeparator();
-
-            var search = propSearchString;
-            List<(PseudoColumn, Param.Column)> cols = UICache.GetCached(_paramEditor, row, "fieldFilter",
-                () => CellSearchEngine.cse.Search((activeParam, row), search, true, true));
-            List<(PseudoColumn, Param.Column)> vcols = UICache.GetCached(_paramEditor, vrow, "vFieldFilter",
-                () => cols.Select((x, i) => x.GetAs(ParamBank.VanillaBank.GetParamFromName(activeParam))).ToList());
-            List<List<(PseudoColumn, Param.Column)>> auxCols = UICache.GetCached(_paramEditor, auxRows,
-                "auxFieldFilter",
-                () => auxRows.Select((r, i) =>
-                    cols.Select((c, j) => c.GetAs(ParamBank.AuxBanks[r.Item1].GetParamFromName(activeParam)))
-                        .ToList()).ToList());
-
-            if (pinnedFields?.Count > 0)
-            {
-                PropEditorParamRow_PinnedFields(pinnedFields, bank, row, vrow, auxRows, crow, cols, vcols, auxCols,
-                    ref imguiId, activeParam, selection);
+                PropEditorParamRow_RowFields(bank, row, vrow, auxRows, crow, ref imguiId, selection);
                 EditorDecorations.ImguiTableSeparator();
-            }
 
-            PropEditorParamRow_MainFields(meta, bank, row, vrow, auxRows, crow, cols, vcols, auxCols, ref imguiId,
-                activeParam, selection);
-            ImGui.EndTable();
+                var search = propSearchString;
+                List<(PseudoColumn, Param.Column)> cols = UICache.GetCached(_paramEditor, row, "fieldFilter",
+                    () => CellSearchEngine.cse.Search((activeParam, row), search, true, true));
+                List<(PseudoColumn, Param.Column)> vcols = UICache.GetCached(_paramEditor, vrow, "vFieldFilter",
+                    () => cols.Select((x, i) => x.GetAs(ParamBank.VanillaBank.GetParamFromName(activeParam))).ToList());
+                List<List<(PseudoColumn, Param.Column)>> auxCols = UICache.GetCached(_paramEditor, auxRows,
+                    "auxFieldFilter",
+                    () => auxRows.Select((r, i) =>
+                        cols.Select((c, j) => c.GetAs(ParamBank.AuxBanks[r.Item1].GetParamFromName(activeParam)))
+                            .ToList()).ToList());
+
+                if (pinnedFields?.Count > 0)
+                {
+                    PropEditorParamRow_PinnedFields(pinnedFields, bank, row, vrow, auxRows, crow, cols, vcols, auxCols,
+                        ref imguiId, activeParam, selection);
+                    EditorDecorations.ImguiTableSeparator();
+                }
+
+                PropEditorParamRow_MainFields(meta, bank, row, vrow, auxRows, crow, cols, vcols, auxCols, ref imguiId,
+                    activeParam, selection);
+                ImGui.EndTable();
+            }
+            ImGui.EndChild();
         }
 
         if (meta.CalcCorrectDef != null || meta.SoulCostDef != null)
