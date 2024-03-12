@@ -1642,6 +1642,7 @@ public class ParamEditorScreen : EditorScreen
 
         _clipboardBaseRow = baseValue;
         _currentCtrlVValue = _clipboardBaseRow.ToString();
+        _currentCtrlVOffset = "0";
     }
 
     private static void DelimiterInputText()
