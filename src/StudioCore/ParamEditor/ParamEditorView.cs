@@ -514,7 +514,7 @@ public class ParamEditorView
 
                 if (doFocus)
                 {
-                    ImGui.SetScrollFromPosYFloat(scrollTo - ImGui.GetScrollY(), 0);
+                    ImGui.SetScrollFromPosYFloat(scrollTo - ImGui.GetScrollY(), 0.33f);
                 }
 
                 ImGui.EndTable();
