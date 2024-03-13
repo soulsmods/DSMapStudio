@@ -286,9 +286,7 @@ namespace SoulsFormats
             if (egdtSize != 0x24 + chunkCount * 0x10)
                 throw new InvalidDataException("Unexpected EgdT size in EDGE DCX.");
 
-            //Ghetto fix for Wulf's old DeS repacker
-            byte[] decompressed = new byte[uncompressedSize + 0x100000];
-            using (MemoryStream dcmpStream = new MemoryStream(decompressed))
+            using (MemoryStream dcmpStream = new MemoryStream(uncompressedSize))
             {
                 for (int i = 0; i < chunkCount; i++)
                 {
@@ -310,9 +308,8 @@ namespace SoulsFormats
                         dcmpStream.Write(chunk, 0, chunk.Length);
                     }
                 }
+                return dcmpStream.GetBytes();
             }
-
-            return decompressed;
         }
 
         private static byte[] DecompressDCXDFLT(BinaryReaderEx br, Type type)

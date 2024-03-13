@@ -613,5 +613,18 @@ namespace SoulsFormats
             }
             return ms.ToArray();
         }
+
+        /// <summary>
+        /// Returns the backing buffer, or if the buffer had to be expanded, gets an array of the correct size.
+        /// Old DCX tools would specify decompressedSize incorrectly, so a MemoryStream may expand beyond it's specified capacity.
+        /// This method truncates the bytes if this is the case, ensuring DCX decompression can't be the cause for further array-index errors (or lack thereof)
+        /// </summary>
+        internal static byte[] GetBytes(this MemoryStream stream)
+        {
+            byte[] buf = stream.GetBuffer();
+            if (buf.Length != stream.Length)
+                return stream.ToArray();
+            return buf;
+        }
     }
 }
