@@ -56,6 +56,9 @@ A: DSTools worked well for the creation of many mods, and is still actively used
 
 By far the biggest issue though is how heavyweight Unity is and how bad performance is when importing assets. All the Dark Souls assets have to be imported into Unity which takes a large amount of space and imports themselves can take 10s of minutes for a map. All these lead me to decide to make an editor from scratch that is A) heavily focused on the Souls games and have the user interface designed for editing them and B) has super fast load times by loading the game assets directly with no intermediate conversions needing to be stored. Map Studio still lacks some of the more advanced features supported by DSTools + Unity, but currently the core experience is much nicer to use with loading times for maps being measured in seconds rather than minutes.
 
+## Troubleshooting
+* **Unable to load DLL 'cimgui' or one of its dependencies** - Make sure you followed [requirements](#requirements) section and have correct version of dependencies. If you are starting the project outside of visualstudio (like in Rider), you need to copy `Lib/rel/cimgui.dll` into your build folder.
+
 ## Credits
 * Katalash - Project lead and original author
 * philiquaz - Primary maintainer of integrated param editor
