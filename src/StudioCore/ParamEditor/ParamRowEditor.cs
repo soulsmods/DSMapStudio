@@ -2,6 +2,7 @@
 using static Andre.Native.ImGuiBindings;
 using SoulsFormats;
 using StudioCore.Editor;
+using StudioCore.Editor.MassEdit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
