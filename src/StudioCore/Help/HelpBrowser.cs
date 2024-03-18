@@ -54,7 +54,7 @@ public class HelpBrowser
             return;
         }
 
-        ImGui.SetNextWindowSize(new Vector2(600.0f, 600.0f) * scale, ImGuiCond.FirstUseEver);
+        ImGui.SetNextWindowSize(new Vector2(600.0f, 650.0f) * scale, ImGuiCond.FirstUseEver);
         ImGui.PushStyleColorVec4(ImGuiCol.WindowBg, new Vector4(0f, 0f, 0f, 0.98f));
         ImGui.PushStyleColorVec4(ImGuiCol.TitleBgActive, new Vector4(0.25f, 0.25f, 0.25f, 1.0f));
         ImGui.PushStyleVarVec2(ImGuiStyleVar.WindowPadding, new Vector2(10.0f, 10.0f) * scale);
@@ -101,7 +101,7 @@ public class HelpBrowser
             ImGui.InputText("Search", ref inputStr, 255);
 
             // Selection Area
-            ImGui.BeginChild($"{title}SectionList", new Vector2(600, 100), ImGuiChildFlags.Border, ImGuiWindowFlags.NoScrollbar);
+            ImGui.BeginChild($"{title}SectionList", new Vector2(-1, 125), ImGuiChildFlags.Border);
 
             if (inputStr.ToLower() != inputStrCache.ToLower())
             {
@@ -175,9 +175,9 @@ public class HelpBrowser
             }
 
             ImGui.EndChild();
+            ImGui.BeginChild($"{title}SectionText", new Vector2(-1, -1), ImGuiChildFlags.None, ImGuiWindowFlags.HorizontalScrollbar);
 
             ImGui.Separator();
-
             switch (sectionType)
             {
                 case "Article":
@@ -190,8 +190,9 @@ public class HelpBrowser
                     DisplayHelpSection(_selectedEntry_Glossary, noSelection_Title, noSelection_Body);
                     break;
             }
-
             ImGui.Separator();
+
+            ImGui.EndChild();
             ImGui.EndTabItem();
         }
     }
