@@ -13,6 +13,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Veldrid;
 using Veldrid.Utilities;
+using static SoulsFormats.FLVER;
 
 namespace StudioCore.Resource;
 
@@ -255,13 +256,8 @@ public class FlverResource : IResource, IDisposable
 
     private void ProcessMaterialTexture(FlverMaterial dest, string texType, string mpath, string mtd,
         GameType gameType,
-        out bool blend, out bool hasNormal2, out bool hasSpec2, out bool hasShininess2, out bool blendMask)
+        ref bool blend, ref bool hasNormal2, ref bool hasSpec2, ref bool hasShininess2, ref bool blendMask)
     {
-        blend = false;
-        blendMask = false;
-        hasNormal2 = false;
-        hasSpec2 = false;
-        hasShininess2 = false;
 
         string paramNameCheck;
         if (texType == null)
@@ -273,7 +269,7 @@ public class FlverResource : IResource, IDisposable
             paramNameCheck = texType.ToUpper();
         }
 
-        if (paramNameCheck == "G_DIFFUSETEXTURE2" || paramNameCheck == "G_DIFFUSE2" ||
+        if (paramNameCheck == "G_DIFFUSETEXTURE2" || paramNameCheck == "G_DIFFUSE2" || paramNameCheck == "G_DIFFUSE_2" ||
             paramNameCheck.Contains("ALBEDO_2"))
         {
             LookupTexture(FlverMaterial.TextureType.AlbedoTextureResource2, dest, texType, mpath, mtd);
@@ -284,7 +280,7 @@ public class FlverResource : IResource, IDisposable
         {
             LookupTexture(FlverMaterial.TextureType.AlbedoTextureResource, dest, texType, mpath, mtd);
         }
-        else if (paramNameCheck == "G_BUMPMAPTEXTURE2" || paramNameCheck == "G_BUMPMAP2" ||
+        else if (paramNameCheck == "G_BUMPMAPTEXTURE2" || paramNameCheck == "G_BUMPMAP2" || paramNameCheck == "G_BUMPMAP_2" ||
                  paramNameCheck.Contains("NORMAL_2"))
         {
             LookupTexture(FlverMaterial.TextureType.NormalTextureResource2, dest, texType, mpath, mtd);
@@ -296,7 +292,7 @@ public class FlverResource : IResource, IDisposable
         {
             LookupTexture(FlverMaterial.TextureType.NormalTextureResource, dest, texType, mpath, mtd);
         }
-        else if (paramNameCheck == "G_SPECULARTEXTURE2" || paramNameCheck == "G_SPECULAR2" ||
+        else if (paramNameCheck == "G_SPECULARTEXTURE2" || paramNameCheck == "G_SPECULAR2" || paramNameCheck == "G_SPECULAR_2" ||
                  paramNameCheck.Contains("SPECULAR_2"))
         {
             if (gameType is GameType.DarkSoulsRemastered or GameType.DarkSoulsIISOTFS)
@@ -406,7 +402,7 @@ public class FlverResource : IResource, IDisposable
         foreach (IFlverTexture? matparam in mat.Textures)
         {
             ProcessMaterialTexture(dest, matparam.Type, matparam.Path, mat.MTD, type,
-                out blend, out hasNormal2, out hasSpec2, out hasShininess2, out blendMask);
+                ref blend, ref hasNormal2, ref hasSpec2, ref hasShininess2, ref blendMask);
         }
 
         if (blendMask)
@@ -470,7 +466,7 @@ public class FlverResource : IResource, IDisposable
             var ttype = isUTF ? br.GetUTF16(textures[i].typeOffset) : br.GetShiftJIS(textures[i].typeOffset);
             var tpath = isUTF ? br.GetUTF16(textures[i].pathOffset) : br.GetShiftJIS(textures[i].pathOffset);
             ProcessMaterialTexture(dest, ttype, tpath, mtd, type,
-                out blend, out hasNormal2, out hasSpec2, out hasShininess2, out blendMask);
+                ref blend, ref hasNormal2, ref hasSpec2, ref hasShininess2, ref blendMask);
         }
 
         if (blendMask)
@@ -533,6 +529,55 @@ public class FlverResource : IResource, IDisposable
         //{
         //    Debugger.Break();
         //}
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private unsafe void FillVertexColor(byte* dest, ref FLVER.Vertex v)
+    {
+        dest[0] = (byte)(v.Colors[0].R * 255);
+        dest[1] = (byte)(v.Colors[0].G * 255);
+        dest[2] = (byte)(v.Colors[0].B * 255);
+        dest[3] = (byte)(v.Colors[0].A * 255);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private unsafe void FillVertexColorDefault(byte* dest)
+    {
+        dest[0] = 255;
+        dest[1] = 255;
+        dest[2] = 255;
+        dest[3] = 255;
+    }
+
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private unsafe void FillVertexColor(byte* dest, BinaryReaderEx br, FLVER.LayoutType type)
+    {
+        if (type == LayoutType.Float4)
+        {
+            dest[0] = (byte)(br.ReadSingle() * 255);
+            dest[1] = (byte)(br.ReadSingle() * 255);
+            dest[2] = (byte)(br.ReadSingle() * 255);
+            dest[3] = (byte)(br.ReadSingle() * 255);
+        }
+        else if (type == LayoutType.Byte4A)
+        {
+            // Definitely RGBA in DeS
+            dest[0] = br.ReadByte();
+            dest[1] = br.ReadByte();
+            dest[2] = br.ReadByte();
+            dest[3] = br.ReadByte();
+        }
+        else if (type == LayoutType.Byte4C)
+        {
+            // Definitely RGBA in DS1
+            dest[0] = br.ReadByte();
+            dest[1] = br.ReadByte();
+            dest[2] = br.ReadByte();
+            dest[3] = br.ReadByte();
+        }
+        else
+            throw new NotImplementedException($"Read not implemented for {type} color.");
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -918,6 +963,7 @@ public class FlverResource : IResource, IDisposable
             FillUVShortZero((*v).Uv1);
             FillBinormalBitangentSNorm8Zero((*v).Binormal, (*v).Bitangent);
             var posfilled = false;
+            var colorFilled = false;
             foreach (FlverBufferLayoutMember l in layouts)
             {
                 // ER meme
@@ -944,6 +990,11 @@ public class FlverResource : IResource, IDisposable
                 {
                     FillBinormalBitangentSNorm8((*v).Binormal, (*v).Bitangent, &n, br, l.type);
                 }
+                else if (l.semantic == FLVER.LayoutSemantic.VertexColor && l.index == 0)
+                {
+                    FillVertexColor((*v).Color, br, l.type);
+                    colorFilled = true;
+                }
                 else
                 {
                     EatVertex(br, l.type);
@@ -953,6 +1004,10 @@ public class FlverResource : IResource, IDisposable
             if (!posfilled)
             {
                 (*v).Position = new Vector3(0, 0, 0);
+            }
+            if (!colorFilled)
+            {
+                FillVertexColorDefault((*v).Color);
             }
 
             pickingVerts[i] = (*v).Position;
@@ -992,6 +1047,15 @@ public class FlverResource : IResource, IDisposable
                 {
                     FillBinormalBitangentSNorm8Zero((*v).Binormal, (*v).Bitangent);
                 }
+
+                if (vert.Colors?.Count > 0)
+                {
+                    FillVertexColor((*v).Color, ref vert);
+                }
+                else
+                {
+                    FillVertexColorDefault((*v).Color);
+                }
             }
         }
     }
@@ -1027,6 +1091,15 @@ public class FlverResource : IResource, IDisposable
                 {
                     FillBinormalBitangentSNorm8Zero((*v).Binormal, (*v).Bitangent);
                 }
+
+                if (vert.Colors?.Count > 0)
+                {
+                    FillVertexColor((*v).Color, ref vert);
+                }
+                else
+                {
+                    FillVertexColorDefault((*v).Color);
+                }
             }
         }
     }
@@ -1044,6 +1117,7 @@ public class FlverResource : IResource, IDisposable
                 Vector3 n = Vector3.UnitX;
                 FillBinormalBitangentSNorm8Zero((*v).Binormal, (*v).Bitangent);
                 var uvsfilled = 0;
+                var colorFilled = false;
                 foreach (FlverBufferLayoutMember l in layouts)
                 {
                     // ER meme
@@ -1070,6 +1144,11 @@ public class FlverResource : IResource, IDisposable
                     {
                         FillBinormalBitangentSNorm8((*v).Binormal, (*v).Bitangent, &n, br, l.type);
                     }
+                    else if (l.semantic == FLVER.LayoutSemantic.VertexColor && l.index == 0)
+                    {
+                        FillVertexColor((*v).Color, br, l.type);
+                        colorFilled = true;
+                    }
                     else
                     {
                         EatVertex(br, l.type);
@@ -1077,6 +1156,10 @@ public class FlverResource : IResource, IDisposable
                 }
 
                 pickingVerts[i] = (*v).Position;
+                if (!colorFilled)
+                {
+                    FillVertexColorDefault((*v).Color);
+                }
             }
         }
 
@@ -1107,6 +1190,14 @@ public class FlverResource : IResource, IDisposable
                 {
                     FillBinormalBitangentSNorm8Zero((*v).Binormal, (*v).Bitangent);
                 }
+                if (vert.Colors?.Count > 0)
+                {
+                    FillVertexColor((*v).Color, ref vert);
+                }
+                else
+                {
+                    FillVertexColorDefault((*v).Color);
+                }
             }
         }
     }
@@ -1134,6 +1225,15 @@ public class FlverResource : IResource, IDisposable
                 else
                 {
                     FillBinormalBitangentSNorm8Zero((*v).Binormal, (*v).Bitangent);
+                }
+
+                if (vert.Colors?.Count > 0)
+                {
+                    FillVertexColor((*v).Color, ref vert);
+                }
+                else
+                {
+                    FillVertexColorDefault((*v).Color);
                 }
             }
         }
