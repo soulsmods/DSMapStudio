@@ -18,7 +18,7 @@ namespace StudioCore.Editor.MassEdit;
 internal abstract class TypelessSearchEngine
 {
     private static Dictionary<Type, List<(TypelessSearchEngine, Type)>> searchEngines = new();
-    internal static void AddSearchEngine<I, O>(SearchEngine<I, O> engine) where O : class
+    internal static void AddSearchEngine<I, O, F>(SearchEngine<I, O, F> engine)
     {
         if (!searchEngines.ContainsKey(typeof(I)))
             searchEngines.Add(typeof(I), new());
@@ -36,14 +36,14 @@ internal abstract class TypelessSearchEngine
     internal abstract string NameForHelpTexts();
     internal abstract Type getContainerType();
     internal abstract Type getElementType();
-    public abstract IEnumerable<object> SearchNoType(object container, string command, bool lenient, bool failureAllOrNone);
+    public abstract IEnumerable<(object, object)> SearchNoType(object container, string command, bool lenient, bool failureAllOrNone);
 }
-internal class SearchEngine<A, B> : TypelessSearchEngine where B : class
+internal class SearchEngine<C, O, F> : TypelessSearchEngine
 {
-    internal SearchEngineCommand<A, B> defaultFilter;
+    internal SearchEngineCommand<C, (O, F)> defaultFilter;
 
-    internal Dictionary<string, SearchEngineCommand<A, B>> filterList = new();
-    internal Func<A, List<B>> unpacker;
+    internal Dictionary<string, SearchEngineCommand<C, (O, F)>> filterList = new();
+    internal Func<C, List<(O, F)>> unpacker;
     internal string name = "[unnamed search engine]";
 
     internal SearchEngine()
@@ -57,12 +57,12 @@ internal class SearchEngine<A, B> : TypelessSearchEngine where B : class
         filterList.Add("exists", newCmd(new string[0], "Selects all elements", noArgs(noContext(B => true))));
     }
 
-    protected Func<string[], bool, Func<A, Func<B, bool>>> noArgs(Func<A, Func<B, bool>> func)
+    protected Func<string[], bool, Func<C, Func<(O, F), bool>>> noArgs(Func<C, Func<(O, F), bool>> func)
     {
         return (args, lenient) => func;
     }
 
-    protected Func<A, Func<B, bool>> noContext(Func<B, bool> func)
+    protected Func<C, Func<(O, F), bool>> noContext(Func<(O, F), bool> func)
     {
         return context => func;
     }
@@ -71,10 +71,10 @@ internal class SearchEngine<A, B> : TypelessSearchEngine where B : class
     {
     }
 
-    internal SearchEngineCommand<A, B> newCmd(string[] args, string wiki,
-        Func<string[], bool, Func<A, Func<B, bool>>> func, Func<bool> shouldShow = null)
+    internal SearchEngineCommand<C, (O, F)> newCmd(string[] args, string wiki,
+        Func<string[], bool, Func<C, Func<(O, F), bool>>> func, Func<bool> shouldShow = null)
     {
-        return new SearchEngineCommand<A, B>(args, wiki, func, shouldShow);
+        return new SearchEngineCommand<C, (O, F)>(args, wiki, func, shouldShow);
     }
 
     internal bool HandlesCommand(string command)
@@ -92,7 +92,7 @@ internal class SearchEngine<A, B> : TypelessSearchEngine where B : class
         List<string> options = new();
         foreach (var op in filterList.Keys)
         {
-            SearchEngineCommand<A, B> cmd = filterList[op];
+            SearchEngineCommand<C, (O, F)> cmd = filterList[op];
             if (cmd.shouldShow == null || cmd.shouldShow())
             {
                 options.Add(op + "(" + filterList[op].args.Length + " args)");
@@ -112,7 +112,7 @@ internal class SearchEngine<A, B> : TypelessSearchEngine where B : class
         List<(string, string[], string)> options = new();
         foreach (var op in filterList.Keys)
         {
-            SearchEngineCommand<A, B> cmd = filterList[op];
+            SearchEngineCommand<C, (O, F)> cmd = filterList[op];
             if (cmd.shouldShow == null || cmd.shouldShow())
             {
                 options.Add((op, cmd.args, cmd.wiki));
@@ -139,21 +139,21 @@ internal class SearchEngine<A, B> : TypelessSearchEngine where B : class
 
         return options;
     }
-    public override IEnumerable<object> SearchNoType(object container, string command, bool lenient, bool failureAllOrNone)
+    public override IEnumerable<(object, object)> SearchNoType(object container, string command, bool lenient, bool failureAllOrNone)
     {
-        List<B> res = Search((A)container, command, lenient, failureAllOrNone);
-        return (IEnumerable<B>)res;
+        List<(O, F)> res = Search((C)container, command, lenient, failureAllOrNone);
+        return (IEnumerable<(object, object)>)res;
     }
-    public List<B> Search(A param, string command, bool lenient, bool failureAllOrNone)
+    public List<(O, F)> Search(C param, string command, bool lenient, bool failureAllOrNone)
     {
         return Search(param, unpacker(param), command, lenient, failureAllOrNone);
     }
 
-    public virtual List<B> Search(A context, List<B> sourceSet, string command, bool lenient, bool failureAllOrNone)
+    public virtual List<(O, F)> Search(C context, List<(O, F)> sourceSet, string command, bool lenient, bool failureAllOrNone)
     {
         //assumes unpacking doesn't fail
         var conditions = command.Split("&&", StringSplitOptions.TrimEntries);
-        List<B> liveSet = sourceSet;
+        List<(O, F)> liveSet = sourceSet;
 
         try
         {
@@ -167,7 +167,7 @@ internal class SearchEngine<A, B> : TypelessSearchEngine where B : class
 
                 var cmd = condition.Split(' ', 2);
 
-                SearchEngineCommand<A, B> selectedCommand;
+                SearchEngineCommand<C, (O, F)> selectedCommand;
                 int argC;
                 string[] args;
                 var not = false;
@@ -200,10 +200,10 @@ internal class SearchEngine<A, B> : TypelessSearchEngine where B : class
                     }
                 }
 
-                Func<A, Func<B, bool>> filter = selectedCommand.func(args, lenient);
-                Func<B, bool> criteria = filter(context);
-                List<B> newRows = new();
-                foreach (B row in liveSet)
+                Func<C, Func<(O, F), bool>> filter = selectedCommand.func(args, lenient);
+                Func<(O, F), bool> criteria = filter(context);
+                List<(O, F)> newRows = new();
+                foreach ((O, F) row in liveSet)
                 {
                     if (not ^ criteria(row))
                     {
@@ -216,7 +216,7 @@ internal class SearchEngine<A, B> : TypelessSearchEngine where B : class
         }
         catch (Exception e)
         {
-            liveSet = failureAllOrNone ? sourceSet : new List<B>();
+            liveSet = failureAllOrNone ? sourceSet : new List<(O, F)>();
         }
 
         return liveSet;
@@ -224,11 +224,11 @@ internal class SearchEngine<A, B> : TypelessSearchEngine where B : class
 
     internal override List<(TypelessSearchEngine, Type)> NextSearchEngines()
     {
-        return GetSearchEngines(typeof(B));
+        return GetSearchEngines(typeof((O, F)));
     }
     internal override METypelessOperation NextOperation()
     {
-        return METypelessOperation.GetEditOperation(typeof(B));
+        return METypelessOperation.GetEditOperation(typeof((O, F)));
     }
 
     internal override string NameForHelpTexts()
@@ -238,12 +238,12 @@ internal class SearchEngine<A, B> : TypelessSearchEngine where B : class
 
     internal override Type getContainerType()
     {
-        return typeof(A);
+        return typeof(C);
     }
 
     internal override Type getElementType()
     {
-        return typeof(B);
+        return typeof((O, F));
     }
 }
 
@@ -267,35 +267,35 @@ internal class SearchEngineCommand<A, B>
 /*
  *  Handles conversion to a secondary searchengine which handles && conditions and conversion back to the anticipated type
  */
-internal class MultiStageSearchEngine<A, B, C, D> : SearchEngine<A, B> where B : class where D : class
+internal class MultiStageSearchEngine<C1, O1, F1, C2, O2, F2> : SearchEngine<C1, O1, F1>
 {
-    internal Func<A, B, C> contextGetterForMultiStage;
-    internal Func<D, B, B> resultRetrieverForMultiStage;
-    internal SearchEngine<C, D> searchEngineForMultiStage;
-    internal Func<B, D> sourceListGetterForMultiStage;
+    internal Func<C1, (O1, F1), C2> contextGetterForMultiStage;
+    internal Func<(O2, F2), (O1, F1), (O1, F1)> resultRetrieverForMultiStage;
+    internal SearchEngine<C2, O2, F2> searchEngineForMultiStage;
+    internal Func<(O1, F1), (O2, F2)> sourceListGetterForMultiStage;
 
-    public override List<B> Search(A context, List<B> sourceSet, string command, bool lenient,
+    public override List<(O1, F1)> Search(C1 context, List<(O1, F1)> sourceSet, string command, bool lenient,
         bool failureAllOrNone)
     {
         var conditions = command.Split("&&", 2, StringSplitOptions.TrimEntries);
-        List<B> stage1list = base.Search(context, sourceSet, conditions[0], lenient, failureAllOrNone);
+        List<(O1, F1)> stage1list = base.Search(context, sourceSet, conditions[0], lenient, failureAllOrNone);
         if (conditions.Length == 1)
         {
             return stage1list;
         }
 
-        B exampleItem = stage1list.FirstOrDefault();
-        List<D> stage2list = searchEngineForMultiStage.Search(contextGetterForMultiStage(context, exampleItem),
+        (O1, F1) exampleItem = stage1list.FirstOrDefault();
+        List<(O2, F2)> stage2list = searchEngineForMultiStage.Search(contextGetterForMultiStage(context, exampleItem),
             stage1list.Select(x => sourceListGetterForMultiStage(x)).ToList(), conditions[1], lenient,
             failureAllOrNone);
         return stage2list.Select(x => resultRetrieverForMultiStage(x, exampleItem)).ToList();
     }
 }
 
-internal class ParamAndRowSearchEngine : MultiStageSearchEngine<ParamEditorSelectionState, Tuple<MassEditRowSource,
-    Param.Row>, (ParamBank, Param), Tuple<string, Param.Row>>
+internal class ParamAndRowSearchEngine : MultiStageSearchEngine<ParamEditorSelectionState, MassEditRowSource,
+    Param.Row, (ParamBank, Param), string, Param.Row>
 {
-    public static SearchEngine<ParamEditorSelectionState, Tuple<MassEditRowSource, Param.Row>> parse =
+    public static SearchEngine<ParamEditorSelectionState, MassEditRowSource, Param.Row> parse =
         new ParamAndRowSearchEngine();
 
     internal override void Setup()
@@ -303,9 +303,9 @@ internal class ParamAndRowSearchEngine : MultiStageSearchEngine<ParamEditorSelec
         name = "paramrow";
         unpacker = selection =>
         {
-            List<Tuple<MassEditRowSource, Param.Row>> list = new();
-            list.AddRange(selection.GetSelectedRows().Select((x, i) => Tuple.Create(MassEditRowSource.Selection, x)));
-            list.AddRange(ParamBank.ClipboardRows.Select((x, i) => Tuple.Create(MassEditRowSource.Clipboard, x)));
+            List<(MassEditRowSource, Param.Row)> list = new();
+            list.AddRange(selection.GetSelectedRows().Select((x, i) => (MassEditRowSource.Selection, x)));
+            list.AddRange(ParamBank.ClipboardRows.Select((x, i) => (MassEditRowSource.Clipboard, x)));
             return list;
         };
         filterList.Add("selection",
@@ -320,9 +320,9 @@ internal class ParamAndRowSearchEngine : MultiStageSearchEngine<ParamEditorSelec
                 exampleItem.Item1 == MassEditRowSource.Selection
                     ? state.GetActiveParam()
                     : ParamBank.ClipboardParam]);
-        sourceListGetterForMultiStage = row => Tuple.Create<string, Param.Row>(null, row.Item2);
+        sourceListGetterForMultiStage = row => (null, row.Item2);
         searchEngineForMultiStage = RowSearchEngine.rse;
-        resultRetrieverForMultiStage = (row, exampleItem) => Tuple.Create(exampleItem.Item1, row.Item2);
+        resultRetrieverForMultiStage = (row, exampleItem) => (exampleItem.Item1, row.Item2);
     }
 }
 
@@ -332,7 +332,7 @@ internal enum MassEditRowSource
     Clipboard
 }
 
-internal class ParamSearchEngine : SearchEngine<bool, Tuple<ParamBank, Param>>
+internal class ParamSearchEngine : SearchEngine<bool, ParamBank, Param>
 {
     public static ParamSearchEngine pse = new(ParamBank.PrimaryBank);
     private readonly ParamBank bank;
@@ -347,7 +347,7 @@ internal class ParamSearchEngine : SearchEngine<bool, Tuple<ParamBank, Param>>
         name = "param";
         unpacker = dummy =>
             ParamBank.AuxBanks.Select((aux, i) => aux.Value.Params.Select((x, i) => (aux.Value, x.Value)))
-                .Aggregate(bank.Params.Values.Select((x, i) => (bank, x)), (o, n) => o.Concat(n)).Select((x, i) => Tuple.Create(x.bank, x.x)).ToList();
+                .Aggregate(bank.Params.Values.Select((x, i) => (bank, x)), (o, n) => o.Concat(n)).Select((x, i) => (x.bank, x.x)).ToList();
         filterList.Add("modified", newCmd(new string[0],
             "Selects params where any rows do not match the vanilla version, or where any are added. Ignores row names",
             noArgs(noContext(param =>
@@ -398,7 +398,7 @@ internal class ParamSearchEngine : SearchEngine<bool, Tuple<ParamBank, Param>>
     }
 }
 
-internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Tuple<string, Param.Row>>
+internal class RowSearchEngine : SearchEngine<(ParamBank, Param), string, Param.Row>
 {
     public static RowSearchEngine rse = new(ParamBank.PrimaryBank);
     private readonly ParamBank bank;
@@ -414,7 +414,7 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Tuple<string, 
         unpacker = param =>
         {
             string name = param.Item1.GetKeyForParam(param.Item2);
-            return param.Item2.Rows.Select((x, i) => Tuple.Create(name, x)).ToList();
+            return param.Item2.Rows.Select((x, i) => (name, x)).ToList();
         };
         filterList.Add("modified", newCmd(new string[0],
             "Selects rows which do not match the vanilla version, or are added. Ignores row name", noArgs(context =>
@@ -567,12 +567,12 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Tuple<string, 
                     var paramName = context.Item1.GetKeyForParam(context.Item2);
                     IReadOnlyList<Param.Column> cols = context.Item2.Columns;
                     var vtup = context.Item2.GetCol(field);
-                    Tuple<PseudoColumn, Param.Column> testCol = Tuple.Create(vtup.Item1, vtup.Item2);
+                    (PseudoColumn, Param.Column) testCol = (vtup.Item1, vtup.Item2);
                     return row =>
                     {
                         (string paramName, Param.Row row) cseSearchContext = (paramName, row.Item2);
-                        List<Tuple<PseudoColumn, Param.Column>> res = CellSearchEngine.cse.Search(cseSearchContext,
-                            new List<Tuple<PseudoColumn, Param.Column>> { testCol }, args[1], lenient, false);
+                        List<(PseudoColumn, Param.Column)> res = CellSearchEngine.cse.Search(cseSearchContext,
+                            new List<(PseudoColumn, Param.Column)> { testCol }, args[1], lenient, false);
                         return res.Contains(testCol);
                     };
                 };
@@ -767,7 +767,7 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Tuple<string, 
                         throw new Exception("Could not find param " + otherParam);
                     }
 
-                    List<Tuple<string, Param.Row>> rows = rse.Search((ParamBank.PrimaryBank, otherParamReal), otherSearchTerm,
+                    List<(string, Param.Row)> rows = rse.Search((ParamBank.PrimaryBank, otherParamReal), otherSearchTerm,
                         lenient, false);
                     (PseudoColumn, Param.Column) otherFieldReal = otherParamReal.GetCol(otherField);
                     if (!otherFieldReal.IsColumnValid())
@@ -864,7 +864,7 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Tuple<string, 
     }
 }
 
-internal class CellSearchEngine : SearchEngine<(string, Param.Row), Tuple<PseudoColumn, Param.Column>>
+internal class CellSearchEngine : SearchEngine<(string, Param.Row), PseudoColumn, Param.Column>
 {
     public static CellSearchEngine cse = new();
 
@@ -873,10 +873,10 @@ internal class CellSearchEngine : SearchEngine<(string, Param.Row), Tuple<Pseudo
         name = "cell/property";
         unpacker = row =>
         {
-            List<Tuple<PseudoColumn, Param.Column>> list = new();
-            list.Add(Tuple.Create<PseudoColumn, Param.Column>(PseudoColumn.ID, null));
-            list.Add(Tuple.Create<PseudoColumn, Param.Column>(PseudoColumn.Name, null));
-            list.AddRange(row.Item2.Columns.Select((cell, i) => Tuple.Create(PseudoColumn.None, cell)));
+            List<(PseudoColumn, Param.Column)> list = new();
+            list.Add((PseudoColumn.ID, null));
+            list.Add((PseudoColumn.Name, null));
+            list.AddRange(row.Item2.Columns.Select((cell, i) => (PseudoColumn.None, cell)));
             return list;
         };
         defaultFilter = newCmd(new[] { "field internalName (regex)" },
@@ -1005,7 +1005,7 @@ internal class CellSearchEngine : SearchEngine<(string, Param.Row), Tuple<Pseudo
     }
 }
 
-internal class VarSearchEngine : SearchEngine<bool, string>
+internal class VarSearchEngine : SearchEngine<bool, bool, string>
 {
     public static VarSearchEngine vse = new();
 
@@ -1014,7 +1014,7 @@ internal class VarSearchEngine : SearchEngine<bool, string>
         name = "variable";
         unpacker = dummy =>
         {
-            return MassParamEdit.massEditVars.Keys.ToList();
+            return MassParamEdit.massEditVars.Keys.Select(x => (true, x)).ToList();
         };
         filterList.Add("vars", newCmd(new[] { "variable names (regex)" },
             "Selects variables whose name matches the given regex", (args, lenient) =>
@@ -1025,7 +1025,7 @@ internal class VarSearchEngine : SearchEngine<bool, string>
                 }
 
                 Regex rx = lenient ? new Regex(args[0], RegexOptions.IgnoreCase) : new Regex($@"^{args[0]}$");
-                return noContext(name => rx.IsMatch(name));
+                return noContext(bname => rx.IsMatch(bname.Item2));
             }));
     }
 }

@@ -390,7 +390,7 @@ public class MassParamEditRegex
         (string, Param.Row) row)
     {
         var cellEditCount = -1;
-        foreach (Tuple<PseudoColumn, Param.Column> col in CellSearchEngine.cse.Search(row, cellStageInfo.command,
+        foreach ((PseudoColumn, Param.Column) col in CellSearchEngine.cse.Search(row, cellStageInfo.command,
                      false, false))
         {
             cellEditCount++;
@@ -409,7 +409,7 @@ public class MassParamEditRegex
         var varArgs = paramArgFuncs;
         foreach (var varName in VarSearchEngine.vse.Search(false, varStageInfo.command, false, false))
         {
-            MassEditResult res = ExecVarOp(varName, varArgs);
+            MassEditResult res = ExecVarOp(varName.Item2, varArgs);
             if (res.Type != MassEditResultType.SUCCESS)
             {
                 return res;

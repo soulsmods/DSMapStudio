@@ -578,7 +578,7 @@ internal class MEOperationArgument
                     throw new MEOperationException($@"Cannot average field {field[0]}");
                 }
 
-                List<Tuple<string, Param.Row>>? rows =
+                List<(string, Param.Row)>? rows =
                     RowSearchEngine.rse.Search((ParamBank.PrimaryBank, param), field[1], false, false);
                 IEnumerable<object> vals = rows.Select((row, i) => row.Item2.Get(col));
                 var avg = vals.Average(val => Convert.ToDouble(val));
@@ -594,7 +594,7 @@ internal class MEOperationArgument
                     throw new MEOperationException($@"Could not locate field {field[0]}");
                 }
 
-                List<Tuple<string, Param.Row>>? rows =
+                List<(string, Param.Row)>? rows =
                     RowSearchEngine.rse.Search((ParamBank.PrimaryBank, param), field[1], false, false);
                 IEnumerable<object> vals = rows.Select((row, i) => row.Item2.Get(col));
                 var avg = vals.OrderBy(val => Convert.ToDouble(val)).ElementAt(vals.Count() / 2);
@@ -610,7 +610,7 @@ internal class MEOperationArgument
                     throw new MEOperationException($@"Could not locate field {field[0]}");
                 }
 
-                List<Tuple<string, Param.Row>>? rows =
+                List<(string, Param.Row)>? rows =
                     RowSearchEngine.rse.Search((ParamBank.PrimaryBank, param), field[1], false, false);
                 var avg = ParamUtils.GetParamValueDistribution(rows.Select((x, i) => x.Item2), col).OrderByDescending(g => g.Item2)
                     .First().Item1;
@@ -626,7 +626,7 @@ internal class MEOperationArgument
                     throw new MEOperationException($@"Could not locate field {field[0]}");
                 }
 
-                List<Tuple<string, Param.Row>>? rows =
+                List<(string, Param.Row)>? rows =
                     RowSearchEngine.rse.Search((ParamBank.PrimaryBank, param), field[1], false, false);
                 var min = rows.Min(r => r.Item2[field[0]].Value.Value);
                 return min.ToParamEditorString();
@@ -641,7 +641,7 @@ internal class MEOperationArgument
                     throw new MEOperationException($@"Could not locate field {field[0]}");
                 }
 
-                List<Tuple<string, Param.Row>>? rows =
+                List<(string, Param.Row)>? rows =
                     RowSearchEngine.rse.Search((ParamBank.PrimaryBank, param), field[1], false, false);
                 var max = rows.Max(r => r.Item2[field[0]].Value.Value);
                 return max.ToParamEditorString();
@@ -688,7 +688,7 @@ internal class MEOperationArgument
             paramFieldRowSelector =>
             {
                 Param srcParam = ParamBank.PrimaryBank.Params[paramFieldRowSelector[0]];
-                List<Tuple<string, Param.Row>> srcRows = RowSearchEngine.rse.Search((ParamBank.PrimaryBank, srcParam),
+                List<(string, Param.Row)> srcRows = RowSearchEngine.rse.Search((ParamBank.PrimaryBank, srcParam),
                     paramFieldRowSelector[2], false, false);
                 var values = srcRows.Select((r, i) => r.Item2[paramFieldRowSelector[1]].Value.Value).ToArray();
                 return (i, c) => values[Random.Shared.NextInt64(values.Length)].ToString();
