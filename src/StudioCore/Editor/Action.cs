@@ -252,6 +252,11 @@ public class AddParamsAction : EditorAction
         Removed.Clear();
         return ActionEvent.NoEvent;
     }
+
+    public List<Param.Row> GetResultantRows()
+    {
+        return Clones;
+    }
 }
 
 public class DeleteParamsAction : EditorAction
