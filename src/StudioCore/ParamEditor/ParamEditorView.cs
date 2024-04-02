@@ -161,7 +161,7 @@ public class ParamEditorView
         List<string> paramKeyList = UICache.GetCached(_paramEditor, _viewIndex, () =>
         {
             List<(ParamBank, Param)> list =
-                ParamSearchEngine.pse.Search(true, _selection.currentParamSearchString, true, true);
+                ParamSearchEngine.pse.Search((true, true), _selection.currentParamSearchString, true, true);
             List<string> keyList = list.Where(param => param.Item1 == ParamBank.PrimaryBank)
                 .Select(param => ParamBank.PrimaryBank.GetKeyForParam(param.Item2)).ToList();
 

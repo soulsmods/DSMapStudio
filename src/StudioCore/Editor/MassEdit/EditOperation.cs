@@ -43,9 +43,10 @@ internal abstract class METypelessOperation
 
     internal abstract Dictionary<string, METypelessOperationDef> AllCommands();
     internal abstract string NameForHelpTexts();
-    internal abstract object getTrueValue(Dictionary<Type, object> contextObjects);
+    internal abstract object getTrueValue(Dictionary<Type, (object, object)> contextObjects);
     internal abstract bool validateResult(object res);
-    internal abstract void useResult(List<EditorAction> actionList, Dictionary<Type, object> contextObjects, object res);
+    internal abstract void useResult(List<EditorAction> actionList, Dictionary<Type, (object, object)> contextObjects, object res);
+    internal abstract bool HandlesCommand(string command);
 }
 internal abstract class MEOperation<T, O> : METypelessOperation
 {
@@ -55,13 +56,14 @@ internal abstract class MEOperation<T, O> : METypelessOperation
     internal MEOperation()
     {
         Setup();
+        AddEditOperation(this);
     }
 
     internal virtual void Setup()
     {
     }
 
-    internal bool HandlesCommand(string command)
+    internal override bool HandlesCommand(string command)
     {
         return operations.ContainsKey(command);
     }
@@ -124,7 +126,7 @@ internal class MEGlobalOperation : MEOperation<ParamEditorSelectionState, bool>
         }, () => CFG.Current.Param_AdvancedMassedit));
     }
 
-    internal override object getTrueValue(Dictionary<Type, object> contextObjects)
+    internal override object getTrueValue(Dictionary<Type, (object, object)> contextObjects)
     {
         return true; //Global op technically has no context / uses the dummy context of boolean
     }
@@ -134,7 +136,7 @@ internal class MEGlobalOperation : MEOperation<ParamEditorSelectionState, bool>
         return true;
     }
 
-    internal override void useResult(List<EditorAction> actionList, Dictionary<Type, object> contextObjects, object res)
+    internal override void useResult(List<EditorAction> actionList, Dictionary<Type, (object, object)> contextObjects, object res)
     {
         return; //Global ops, for now, don't use actions and simply execute effects themselves
     }
@@ -229,7 +231,7 @@ internal class MERowOperation : MEOperation<(string, Param.Row), (Param, Param.R
         ));
     }
 
-    internal override object getTrueValue(Dictionary<Type, object> contextObjects)
+    internal override object getTrueValue(Dictionary<Type, (object, object)> contextObjects)
     {
         return contextObjects[typeof((string, Param.Row))];
     }
@@ -244,14 +246,14 @@ internal class MERowOperation : MEOperation<(string, Param.Row), (Param, Param.R
         return true;
     }
 
-    internal override void useResult(List<EditorAction> actionList, Dictionary<Type, object> contextObjects, object res)
+    internal override void useResult(List<EditorAction> actionList, Dictionary<Type, (object, object)> contextObjects, object res)
     {
         (Param p2, Param.Row rs) = ((Param, Param.Row))res;
         actionList.Add(new AddParamsAction(p2, "FromMassEdit", new List<Param.Row> { rs }, false, true));
     }
 }
 
-internal abstract class MEValueOperation : MEOperation<object, object>
+internal abstract class MEValueOperation<T> : MEOperation<T, object>
 {
     internal override void Setup()
     {
@@ -322,33 +324,33 @@ internal abstract class MEValueOperation : MEOperation<object, object>
         return true;
     }
 }
-internal class MECellOperation : MEValueOperation
+internal class MECellOperation : MEValueOperation<(PseudoColumn, Param.Column)>
 {
     public static MECellOperation cellOps = new();
-    internal override object getTrueValue(Dictionary<Type, object> contextObjects)
+    internal override object getTrueValue(Dictionary<Type, (object, object)> contextObjects)
     {
         (string param, Param.Row row) = ((string, Param.Row))contextObjects[typeof((string, Param.Row))];
         (PseudoColumn, Param.Column) col = ((PseudoColumn, Param.Column))contextObjects[typeof((PseudoColumn, Param.Column))];
         return row.Get(col);
     }
-    internal override void useResult(List<EditorAction> actionList, Dictionary<Type, object> contextObjects, object res)
+    internal override void useResult(List<EditorAction> actionList, Dictionary<Type, (object, object)> contextObjects, object res)
     {
         (string param, Param.Row row) = ((string, Param.Row))contextObjects[typeof((string, Param.Row))];
         (PseudoColumn, Param.Column) col = ((PseudoColumn, Param.Column))contextObjects[typeof((PseudoColumn, Param.Column))];
         actionList.AppendParamEditAction(row, col, res);
     }
 }
-internal class MEVarOperation : MEValueOperation
+internal class MEVarOperation : MEValueOperation<string>
 {
     public static MEVarOperation varOps = new();
-    internal override object getTrueValue(Dictionary<Type, object> contextObjects)
+    internal override object getTrueValue(Dictionary<Type, (object, object)> contextObjects)
     {
-        return MassParamEdit.massEditVars[(string)contextObjects[typeof(string)]];
+        return MassParamEdit.massEditVars[(string)contextObjects[typeof(string)].Item2];
     }
 
-    internal override void useResult(List<EditorAction> actionList, Dictionary<Type, object> contextObjects, object res)
+    internal override void useResult(List<EditorAction> actionList, Dictionary<Type, (object, object)> contextObjects, object res)
     {
-        MassParamEdit.massEditVars[(string)contextObjects[typeof(string)]] = res;
+        MassParamEdit.massEditVars[(string)contextObjects[typeof(string)].Item2] = res;
     }
 }
 
@@ -820,7 +822,7 @@ internal static class OAGFuncExtension
             return func(newContextInput);
         return func;
     }*/
-    internal static object tryFoldAsFunc(this object maybeFunc, int editIndex, object newContextInput)
+    internal static object tryFoldAsFunc(this object maybeFunc, int editIndex, (object, object) newContextInput)
     {
         if (maybeFunc is not Delegate)
             return maybeFunc;
