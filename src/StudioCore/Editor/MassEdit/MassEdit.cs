@@ -278,15 +278,15 @@ public class MassParamEditRegex
         {
             return new MassEditResult(MassEditResultType.PARSEERROR, $@"Invalid number of arguments for operation {this.operation.command} (line {_currentLine})");
         }
-
-        var contextObjects = new Dictionary<Type, (object, object)>() { { typeof(bool), (true, true)} };
+        var currentObj = (true, true);
+        var contextObjects = new Dictionary<Type, (object, object)>() { { typeof(bool), currentObj} };
 
         if (filters.Count == 0)
-            return SandboxMassEditExecution(() => ExecOp(this.operation, this.operation.command, argFuncs, contextObjects, operation));
+            return SandboxMassEditExecution(() => ExecOp(this.operation, this.operation.command, argFuncs, currentObj, contextObjects, operation));
         else
         {
             MEFilterStage baseFilter = filters.Dequeue();
-            return SandboxMassEditExecution(() => ExecStage(baseFilter, baseFilter.engine, (true, true), argFuncs, contextObjects));
+            return SandboxMassEditExecution(() => ExecStage(baseFilter, baseFilter.engine, currentObj, contextObjects, argFuncs));
         }
         throw new MEParseException("No initial stage or op was parsed", _currentLine);
     }
@@ -303,7 +303,7 @@ public class MassParamEditRegex
         }
     }
 
-    private MassEditResult ExecStage(MEFilterStage info, TypelessSearchEngine engine, (object, object) contextObject, IEnumerable<object> argFuncs, Dictionary<Type, (object, object)> contextObjects)
+    private MassEditResult ExecStage(MEFilterStage info, TypelessSearchEngine engine, (object, object) contextObject, Dictionary<Type, (object, object)> contextObjects, IEnumerable<object> argFuncs)
     {
         var editCount = -1;
         foreach ((object, object) currentObject in engine.SearchNoType(contextObject, info.command, false, false))
@@ -317,11 +317,11 @@ public class MassParamEditRegex
             MassEditResult res;
 
             if (filters.Count == 0)
-                res = ExecOp(operation, operation.command, argFuncs, contextObjects, operation.operation);
+                res = ExecOp(operation, operation.command, argFuncs, currentObject, contextObjects, operation.operation);
             else
             {
                 MEFilterStage nextFilterFilter = filters.Dequeue();
-                res = ExecStage(nextFilterFilter, nextFilterFilter.engine, currentObject, newArgFuncs, contextObjects);
+                res = ExecStage(nextFilterFilter, nextFilterFilter.engine, currentObject, contextObjects, newArgFuncs);
             }
             if (res.Type != MassEditResultType.SUCCESS)
             {
@@ -330,10 +330,10 @@ public class MassParamEditRegex
         }
         return new MassEditResult(MassEditResultType.SUCCESS, "");
     }
-    private MassEditResult ExecOp(MEOperationStage opInfo, string opName, IEnumerable<object> argFuncs, Dictionary<Type, (object, object)> contextObjects, METypelessOperation opType)
+    private MassEditResult ExecOp(MEOperationStage opInfo, string opName, IEnumerable<object> argFuncs, (object, object) currentObject, Dictionary<Type, (object, object)> contextObjects, METypelessOperation opType)
     {
         var argValues = argFuncs.Select(f => f.assertCompleteContextOrThrow(0).ToParamEditorString()).ToArray();
-        var opResults = parsedOp.function(opType.getTrueValue(contextObjects), argValues);
+        var opResults = parsedOp.function(opType.getTrueValue(currentObject, contextObjects), argValues);
         if (!opType.validateResult(opResults))
         {
             return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Error performing {opName} operation {opInfo.command} (line {_currentLine})");

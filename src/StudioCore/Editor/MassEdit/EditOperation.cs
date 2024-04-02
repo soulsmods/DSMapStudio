@@ -19,22 +19,22 @@ internal abstract class METypelessOperationDef
     internal Func<object, string[], object> function;
     internal Func<bool> shouldShow;
 }
-internal class MEOperationDef<T, O> : METypelessOperationDef
+internal class MEOperationDef<I, O> : METypelessOperationDef
 {
-    internal MEOperationDef(string[] args, string tooltip, Func<T, string[], O> func, Func<bool> show = null)
+    internal MEOperationDef(string[] args, string tooltip, Func<I, string[], O> func, Func<bool> show = null)
     {
         argNames = args;
         wiki = tooltip;
-        function = func as Func<object, string[], object>;
+        function = (x, str) => func((I)x, str); //Shitty wrapping perf loss
         shouldShow = show;
     }
 }
 internal abstract class METypelessOperation
 {
     private static Dictionary<Type, METypelessOperation> editOperations = new();
-    internal static void AddEditOperation<I, O>(MEOperation<I, O> engine)
+    internal static void AddEditOperation<R, I, O>(MEOperation<R, I, O> engine)
     {
-        editOperations[typeof(I)] = engine;
+        editOperations[typeof(R)] = engine;
     }
     internal static METypelessOperation GetEditOperation(Type t)
     {
@@ -43,12 +43,12 @@ internal abstract class METypelessOperation
 
     internal abstract Dictionary<string, METypelessOperationDef> AllCommands();
     internal abstract string NameForHelpTexts();
-    internal abstract object getTrueValue(Dictionary<Type, (object, object)> contextObjects);
+    internal abstract object getTrueValue((object, object) currentObject, Dictionary<Type, (object, object)> contextObjects);
     internal abstract bool validateResult(object res);
-    internal abstract void useResult(List<EditorAction> actionList, Dictionary<Type, (object, object)> contextObjects, object res);
+    internal abstract void UseResult(List<EditorAction> actionList, (object, object) currentObject, Dictionary<Type, (object, object)> contextObjects, object res);
     internal abstract bool HandlesCommand(string command);
 }
-internal abstract class MEOperation<T, O> : METypelessOperation
+internal abstract class MEOperation<R, I, O> : METypelessOperation
 {
     internal Dictionary<string, METypelessOperationDef> operations = new();
     internal string name = "[Unnamed operation type]";
@@ -71,13 +71,13 @@ internal abstract class MEOperation<T, O> : METypelessOperation
     {
         return operations;
     }
-    internal MEOperationDef<T, O> newCmd(string[] args, string wiki, Func<T, string[], O> func, Func<bool> show = null)
+    internal MEOperationDef<I, O> newCmd(string[] args, string wiki, Func<I, string[], O> func, Func<bool> show = null)
     {
-        return new MEOperationDef<T, O>(args, wiki, func, show);
+        return new MEOperationDef<I, O>(args, wiki, func, show);
     }
-    internal MEOperationDef<T, O> newCmd(string wiki, Func<T, string[], O> func, Func<bool> show)
+    internal MEOperationDef<I, O> newCmd(string wiki, Func<I, string[], O> func, Func<bool> show)
     {
-        return new MEOperationDef<T, O>(Array.Empty<string>(), wiki, func, show);
+        return new MEOperationDef<I, O>(Array.Empty<string>(), wiki, func, show);
     }
 
     internal override string NameForHelpTexts()
@@ -86,7 +86,7 @@ internal abstract class MEOperation<T, O> : METypelessOperation
     }
 }
 
-internal class MEGlobalOperation : MEOperation<ParamEditorSelectionState, bool>
+internal class MEGlobalOperation : MEOperation<(bool, bool), bool, bool>
 {
     internal static MEGlobalOperation globalOps = new();
 
@@ -126,7 +126,7 @@ internal class MEGlobalOperation : MEOperation<ParamEditorSelectionState, bool>
         }, () => CFG.Current.Param_AdvancedMassedit));
     }
 
-    internal override object getTrueValue(Dictionary<Type, (object, object)> contextObjects)
+    internal override object getTrueValue((object, object) currentObject, Dictionary<Type, (object, object)> contextObjects)
     {
         return true; //Global op technically has no context / uses the dummy context of boolean
     }
@@ -136,13 +136,13 @@ internal class MEGlobalOperation : MEOperation<ParamEditorSelectionState, bool>
         return true;
     }
 
-    internal override void useResult(List<EditorAction> actionList, Dictionary<Type, (object, object)> contextObjects, object res)
+    internal override void UseResult(List<EditorAction> actionList, (object, object) currentObject, Dictionary<Type, (object, object)> contextObjects, object res)
     {
         return; //Global ops, for now, don't use actions and simply execute effects themselves
     }
 }
 
-internal class MERowOperation : MEOperation<(string, Param.Row), (Param, Param.Row)>
+internal class MERowOperation : MEOperation<(string, Param.Row), (string, Param.Row), (Param, Param.Row)>
 {
     public static MERowOperation rowOps = new();
 
@@ -231,9 +231,9 @@ internal class MERowOperation : MEOperation<(string, Param.Row), (Param, Param.R
         ));
     }
 
-    internal override object getTrueValue(Dictionary<Type, (object, object)> contextObjects)
+    internal override object getTrueValue((object, object) currentObject, Dictionary<Type, (object, object)> contextObjects)
     {
-        return contextObjects[typeof((string, Param.Row))];
+        return currentObject;
     }
 
     internal override bool validateResult(object res)
@@ -246,14 +246,14 @@ internal class MERowOperation : MEOperation<(string, Param.Row), (Param, Param.R
         return true;
     }
 
-    internal override void useResult(List<EditorAction> actionList, Dictionary<Type, (object, object)> contextObjects, object res)
+    internal override void UseResult(List<EditorAction> actionList, (object, object) currentObject, Dictionary<Type, (object, object)> contextObjects, object res)
     {
         (Param p2, Param.Row rs) = ((Param, Param.Row))res;
         actionList.Add(new AddParamsAction(p2, "FromMassEdit", new List<Param.Row> { rs }, false, true));
     }
 }
 
-internal abstract class MEValueOperation<T> : MEOperation<T, object>
+internal abstract class MEValueOperation<R> : MEOperation<R, object, object>
 {
     internal override void Setup()
     {
@@ -327,30 +327,30 @@ internal abstract class MEValueOperation<T> : MEOperation<T, object>
 internal class MECellOperation : MEValueOperation<(PseudoColumn, Param.Column)>
 {
     public static MECellOperation cellOps = new();
-    internal override object getTrueValue(Dictionary<Type, (object, object)> contextObjects)
+    internal override object getTrueValue((object, object) currentObject, Dictionary<Type, (object, object)> contextObjects)
     {
         (string param, Param.Row row) = ((string, Param.Row))contextObjects[typeof((string, Param.Row))];
-        (PseudoColumn, Param.Column) col = ((PseudoColumn, Param.Column))contextObjects[typeof((PseudoColumn, Param.Column))];
+        (PseudoColumn, Param.Column) col = ((PseudoColumn, Param.Column))currentObject;
         return row.Get(col);
     }
-    internal override void useResult(List<EditorAction> actionList, Dictionary<Type, (object, object)> contextObjects, object res)
+    internal override void UseResult(List<EditorAction> actionList, (object, object) currentObject, Dictionary<Type, (object, object)> contextObjects, object res)
     {
         (string param, Param.Row row) = ((string, Param.Row))contextObjects[typeof((string, Param.Row))];
-        (PseudoColumn, Param.Column) col = ((PseudoColumn, Param.Column))contextObjects[typeof((PseudoColumn, Param.Column))];
+        (PseudoColumn, Param.Column) col = ((PseudoColumn, Param.Column))currentObject;
         actionList.AppendParamEditAction(row, col, res);
     }
 }
 internal class MEVarOperation : MEValueOperation<string>
 {
     public static MEVarOperation varOps = new();
-    internal override object getTrueValue(Dictionary<Type, (object, object)> contextObjects)
+    internal override object getTrueValue((object, object) currentObject, Dictionary<Type, (object, object)> contextObjects)
     {
-        return MassParamEdit.massEditVars[(string)contextObjects[typeof(string)].Item2];
+        return MassParamEdit.massEditVars[(string)currentObject.Item2];
     }
 
-    internal override void useResult(List<EditorAction> actionList, Dictionary<Type, (object, object)> contextObjects, object res)
+    internal override void UseResult(List<EditorAction> actionList, (object, object) currentObject, Dictionary<Type, (object, object)> contextObjects, object res)
     {
-        MassParamEdit.massEditVars[(string)contextObjects[typeof(string)].Item2] = res;
+        MassParamEdit.massEditVars[(string)currentObject.Item2] = res;
     }
 }
 
