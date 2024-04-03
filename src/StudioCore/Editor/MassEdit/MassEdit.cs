@@ -150,7 +150,7 @@ public class MassParamEditRegex
     private object[] argFuncs;
     METypelessOperationDef parsedOp;
 
-    Queue<MEFilterStage> filters = new();
+    List<MEFilterStage> filters = new();
     MEOperationStage operation;
 
     internal static ParamEditorSelectionState totalHackPleaseKillme = null;
@@ -183,7 +183,7 @@ public class MassParamEditRegex
                 currentEditData.context = context;
                 totalHackPleaseKillme = context;
 
-                MassEditResult result = currentEditData.ParseAndExecCommand(command);
+                MassEditResult result = currentEditData.ParseCommand(command);
 
                 if (result.Type != MassEditResultType.SUCCESS)
                 {
@@ -203,8 +203,7 @@ public class MassParamEditRegex
             return (new MassEditResult(MassEditResultType.PARSEERROR, e.ToString()), null);
         }
     }
-
-    private MassEditResult ParseAndExecCommand(string command)
+    private MassEditResult ParseCommand(string command)
     {
         var stage = command.Split(":", 2);
 
@@ -234,7 +233,7 @@ public class MassParamEditRegex
     {
         var stage = stageText.Split(":", 2);
         string stageName = expectedSearchEngine.NameForHelpTexts();
-        filters.Enqueue(new MEFilterStage(stage[0], _currentLine, stageName, expectedSearchEngine));
+        filters.Add(new MEFilterStage(stage[0], _currentLine, stageName, expectedSearchEngine));
 
         if (stage.Length < 2)
         {
@@ -285,8 +284,9 @@ public class MassParamEditRegex
             return SandboxMassEditExecution(() => ExecOp(this.operation, this.operation.command, argFuncs, currentObj, contextObjects, operation));
         else
         {
-            MEFilterStage baseFilter = filters.Dequeue();
-            return SandboxMassEditExecution(() => ExecStage(baseFilter, baseFilter.engine, currentObj, contextObjects, argFuncs));
+            int filterDepth = 0;
+            MEFilterStage baseFilter = filters[filterDepth];
+            return SandboxMassEditExecution(() => ExecStage(baseFilter, baseFilter.engine, filterDepth, currentObj, contextObjects, argFuncs));
         }
         throw new MEParseException("No initial stage or op was parsed", _currentLine);
     }
@@ -303,9 +303,10 @@ public class MassParamEditRegex
         }
     }
 
-    private MassEditResult ExecStage(MEFilterStage info, TypelessSearchEngine engine, (object, object) contextObject, Dictionary<Type, (object, object)> contextObjects, IEnumerable<object> argFuncs)
+    private MassEditResult ExecStage(MEFilterStage info, TypelessSearchEngine engine, int filterDepth, (object, object) contextObject, Dictionary<Type, (object, object)> contextObjects, IEnumerable<object> argFuncs)
     {
         var editCount = -1;
+        filterDepth++;
         foreach ((object, object) currentObject in engine.SearchNoType(contextObject, info.command, false, false))
         {
             editCount++;
@@ -316,29 +317,30 @@ public class MassParamEditRegex
             //exec it
             MassEditResult res;
 
-            if (filters.Count == 0)
+            if (filterDepth == filters.Count)
                 res = ExecOp(operation, operation.command, argFuncs, currentObject, contextObjects, operation.operation);
             else
             {
-                MEFilterStage nextFilterFilter = filters.Dequeue();
-                res = ExecStage(nextFilterFilter, nextFilterFilter.engine, currentObject, contextObjects, newArgFuncs);
+                MEFilterStage nextFilter = filters[filterDepth];
+                res = ExecStage(nextFilter, nextFilter.engine, filterDepth, currentObject, contextObjects, newArgFuncs);
             }
             if (res.Type != MassEditResultType.SUCCESS)
             {
                 return res;
             }
         }
+
         return new MassEditResult(MassEditResultType.SUCCESS, "");
     }
     private MassEditResult ExecOp(MEOperationStage opInfo, string opName, IEnumerable<object> argFuncs, (object, object) currentObject, Dictionary<Type, (object, object)> contextObjects, METypelessOperation opType)
     {
         var argValues = argFuncs.Select(f => f.assertCompleteContextOrThrow(0).ToParamEditorString()).ToArray();
-        var opResults = parsedOp.function(opType.getTrueValue(currentObject, contextObjects), argValues);
-        if (!opType.validateResult(opResults))
+        var opResult = parsedOp.function(opType.getTrueValue(currentObject, contextObjects), argValues);
+        if (!opType.validateResult(opResult))
         {
             return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Error performing {opName} operation {opInfo.command} (line {_currentLine})");
         }
-        _partialActions.Add(null);//TODO using opType
+        opType.UseResult(_partialActions, currentObject, contextObjects, opResult);
         return new MassEditResult(MassEditResultType.SUCCESS, "");
     }
 }
