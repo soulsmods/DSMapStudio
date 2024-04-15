@@ -76,10 +76,6 @@ internal abstract class MEOperation<R, I, O> : METypelessOperation
     {
         operations.Add(command, new MEOperationDef<R, I, O>(args, wiki, func, show));
     }
-    internal void NewCmd(string command, string wiki, Func<object, I, string[], O> func, Func<bool> show = null)
-    {
-        NewCmd(command, Array.Empty<string>(), wiki, func, show);
-    }
 
     internal override string NameForHelpTexts()
     {
@@ -94,13 +90,13 @@ internal class MEGlobalOperation : MEOperation<(bool, bool), bool, bool>
     internal override void Setup()
     {
         name = "global";
-        NewCmd("clear", new string[0], "Clears clipboard param and rows", (dummy, selectionState, args) =>
+        NewCmd("clear", [], "Clears clipboard param and rows", (dummy, selectionState, args) =>
         {
             ParamBank.ClipboardParam = null;
             ParamBank.ClipboardRows.Clear();
             return true;
         });
-        NewCmd("newvar", new[] { "variable name", "value" },
+        NewCmd("newvar", ["variable name", "value"],
             "Creates a variable with the given value, and the type of that value", (dummy, selectionState, args) =>
             {
                 int asInt;
@@ -120,7 +116,7 @@ internal class MEGlobalOperation : MEOperation<(bool, bool), bool, bool>
 
                 return true;
             }, () => CFG.Current.Param_AdvancedMassedit);
-        NewCmd("clearvars", new string[0], "Deletes all variables", (dummy, selectionState, args) =>
+        NewCmd("clearvars", [], "Deletes all variables", (dummy, selectionState, args) =>
         {
             MassParamEdit.massEditVars.Clear();
             return true;
@@ -153,7 +149,7 @@ internal class MERowOperation : MEOperation<(string, Param.Row), (string, Param.
     internal override void Setup()
     {
         name = "row";
-        NewCmd("copy", new string[0],
+        NewCmd("copy", [],
             "Adds the selected rows into clipboard. If the clipboard param is different, the clipboard is emptied first",
             (param, rowPair, args) =>
             {
@@ -181,7 +177,7 @@ internal class MERowOperation : MEOperation<(string, Param.Row), (string, Param.
                 return (p, null);
             }
         );
-        NewCmd("copyN", new[] { "count" },
+        NewCmd("copyN", ["count"],
             "Adds the selected rows into clipboard the given number of times. If the clipboard param is different, the clipboard is emptied first",
             (param, rowPair, args) =>
             {
@@ -213,7 +209,7 @@ internal class MERowOperation : MEOperation<(string, Param.Row), (string, Param.
 
                 return (p, null);
             }, () => CFG.Current.Param_AdvancedMassedit);
-        NewCmd("paste", new string[0],
+        NewCmd("paste", [],
             "Adds the selected rows to the primary regulation or parambnd in the selected param",
             (param, rowPair, args) =>
             {
@@ -267,10 +263,10 @@ internal abstract class MEValueOperation<R> : MEOperation<R, object, object>
     {
         name = "value";
         NewCmd("=",
-            new[] { "number or text" },
+            ["number or text"],
                 "Assigns the given value to the selected values. Will attempt conversion to the value's data type",
                 (ctx, value, args) => MassParamEdit.WithDynamicOf(value, v => args[0]));
-        NewCmd("+", new[] { "number or text" },
+        NewCmd("+", ["number or text"],
             "Adds the number to the selected values, or appends text if that is the data type of the values",
             (ctx, value, args) => MassParamEdit.WithDynamicOf(value, v =>
             {
@@ -283,18 +279,18 @@ internal abstract class MEValueOperation<R> : MEOperation<R, object, object>
                 return v + args[0];
             }));
         NewCmd("-",
-            new[] { "number" }, "Subtracts the number from the selected values",
+            ["number"], "Subtracts the number from the selected values",
                 (ctx, value, args) => MassParamEdit.WithDynamicOf(value, v => v - double.Parse(args[0])));
         NewCmd("*",
-            new[] { "number" }, "Multiplies selected values by the number",
+            ["number"], "Multiplies selected values by the number",
                 (ctx, value, args) => MassParamEdit.WithDynamicOf(value, v => v * double.Parse(args[0])));
         NewCmd("/",
-            new[] { "number" }, "Divides the selected values by the number",
+            ["number"], "Divides the selected values by the number",
                 (ctx, value, args) => MassParamEdit.WithDynamicOf(value, v => v / double.Parse(args[0])));
         NewCmd("%",
-            new[] { "number" }, "Gives the remainder when the selected values are divided by the number",
+            ["number"], "Gives the remainder when the selected values are divided by the number",
                 (ctx, value, args) => MassParamEdit.WithDynamicOf(value, v => v % double.Parse(args[0])), () => CFG.Current.Param_AdvancedMassedit);
-        NewCmd("scale", new[] { "factor number", "center number" },
+        NewCmd("scale", ["factor number", "center number"],
             "Multiplies the difference between the selected values and the center number by the factor number",
             (value, ctx, args) =>
             {
@@ -310,7 +306,7 @@ internal abstract class MEValueOperation<R> : MEOperation<R, object, object>
             new[] { "text to replace", "new text" },
                 "Interprets the selected values as text and replaces all occurances of the text to replace with the new text",
                 (ctx, value, args) => MassParamEdit.WithDynamicOf(value, v => v.Replace(args[0], args[1])));
-        NewCmd("replacex", new[] { "text to replace (regex)", "new text (w/ groups)" },
+        NewCmd("replacex", ["text to replace (regex)", "new text (w/ groups)"],
             "Interprets the selected values as text and replaces all occurances of the given regex with the replacement, supporting regex groups",
             (ctx, value, args) =>
             {
@@ -318,10 +314,10 @@ internal abstract class MEValueOperation<R> : MEOperation<R, object, object>
                 return MassParamEdit.WithDynamicOf(value, v => rx.Replace(v, args[1]));
             }, () => CFG.Current.Param_AdvancedMassedit);
         NewCmd("max",
-            new[] { "number" }, "Returns the larger of the current value and number",
+            ["number"], "Returns the larger of the current value and number",
                 (ctx, value, args) => MassParamEdit.WithDynamicOf(value, v => Math.Max(v, double.Parse(args[0]))), () => CFG.Current.Param_AdvancedMassedit);
         NewCmd("min",
-            new[] { "number" }, "Returns the smaller of the current value and number",
+            ["number"], "Returns the smaller of the current value and number",
                 (ctx, value, args) => MassParamEdit.WithDynamicOf(value, v => Math.Min(v, double.Parse(args[0]))), () => CFG.Current.Param_AdvancedMassedit);
     }
 
@@ -403,14 +399,14 @@ internal class MEOperationArgument
 
     private void Setup()
     {
-        defaultGetter = newGetter<bool>(new string[0], "Gives the specified value",
+        defaultGetter = newGetter<bool>([], "Gives the specified value",
             value => (i, c) => value[0]);
         argumentGetters.Add("self", newGetter<Param.Row, (PseudoColumn, Param.Column)>(new string[0], "Gives the value of the currently selected value",
             empty => (j, row) => (k, col) =>
             {
                 return row.Get(col).ToParamEditorString();
             }));
-        argumentGetters.Add("field", newGetter<Param, Param.Row>(new[] { "field internalName" },
+        argumentGetters.Add("field", newGetter<Param, Param.Row>(["field internalName"],
             "Gives the value of the given cell/field for the currently selected row and param", field =>
                 (i, param) =>
                 {
@@ -426,7 +422,7 @@ internal class MEOperationArgument
                         return v;
                     };
                 }));
-        argumentGetters.Add("vanilla", newGetter<Param, Param.Row, (PseudoColumn, Param.Column)>(new string[0],
+        argumentGetters.Add("vanilla", newGetter<Param, Param.Row, (PseudoColumn, Param.Column)>([],
             "Gives the value of the equivalent cell/field in the vanilla regulation or parambnd for the currently selected cell/field, row and param.\nWill fail if a row does not have a vanilla equivilent. Consider using && !added",
             empty =>
             {
@@ -460,7 +456,7 @@ internal class MEOperationArgument
                     };
                 };
             }));
-        argumentGetters.Add("aux", newGetter<Param, Param.Row, (PseudoColumn, Param.Column)>(new[] { "parambank name" },
+        argumentGetters.Add("aux", newGetter<Param, Param.Row, (PseudoColumn, Param.Column)>(["parambank name"],
             "Gives the value of the equivalent cell/field in the specified regulation or parambnd for the currently selected cell/field, row and param.\nWill fail if a row does not have an aux equivilent. Consider using && auxprop ID .*",
             bankName =>
             {
@@ -499,7 +495,7 @@ internal class MEOperationArgument
                     };
                 };
             }, () => ParamBank.AuxBanks.Count > 0));
-        argumentGetters.Add("vanillafield", newGetter<Param, Param.Row>(new[] { "field internalName" },
+        argumentGetters.Add("vanillafield", newGetter<Param, Param.Row>(["field internalName"],
             "Gives the value of the specified cell/field in the vanilla regulation or parambnd for the currently selected row and param.\nWill fail if a row does not have a vanilla equivilent. Consider using && !added",
             field => (i, param) =>
             {
@@ -528,7 +524,7 @@ internal class MEOperationArgument
                     return v;
                 };
             }));
-        argumentGetters.Add("auxfield", newGetter<Param, Param.Row>(new[] { "parambank name", "field internalName" },
+        argumentGetters.Add("auxfield", newGetter<Param, Param.Row>(["parambank name", "field internalName"],
             "Gives the value of the specified cell/field in the specified regulation or parambnd for the currently selected row and param.\nWill fail if a row does not have an aux equivilent. Consider using && auxprop ID .*",
             bankAndField =>
             {
@@ -566,7 +562,7 @@ internal class MEOperationArgument
                     };
                 };
             }, () => ParamBank.AuxBanks.Count > 0));
-        argumentGetters.Add("paramlookup", newGetter<bool>(new[] { "param name", "row id", "field name" },
+        argumentGetters.Add("paramlookup", newGetter<bool>(["param name", "row id", "field name"],
             "Returns the specific value specified by the exact param, row and field.", address =>
             {
                 Param param = ParamBank.PrimaryBank.Params[address[0]];
@@ -582,7 +578,7 @@ internal class MEOperationArgument
                 var value = row.Get(field).ToParamEditorString();
                 return (i, c) => value;
             }, () => CFG.Current.Param_AdvancedMassedit));
-        argumentGetters.Add("average", newGetter<Param>(new[] { "field internalName", "row selector" },
+        argumentGetters.Add("average", newGetter<Param>(["field internalName", "row selector"],
             "Gives the mean value of the cells/fields found using the given selector, for the currently selected param",
             field => (i, param) =>
             {
@@ -604,7 +600,7 @@ internal class MEOperationArgument
                 var avg = vals.Average(val => Convert.ToDouble(val));
                 return avg.ToString();
             }, () => CFG.Current.Param_AdvancedMassedit));
-        argumentGetters.Add("median", newGetter<Param>(new[] { "field internalName", "row selector" },
+        argumentGetters.Add("median", newGetter<Param>(["field internalName", "row selector"],
             "Gives the median value of the cells/fields found using the given selector, for the currently selected param",
             field => (i, param) =>
             {
@@ -620,7 +616,7 @@ internal class MEOperationArgument
                 var avg = vals.OrderBy(val => Convert.ToDouble(val)).ElementAt(vals.Count() / 2);
                 return avg.ToParamEditorString();
             }, () => CFG.Current.Param_AdvancedMassedit));
-        argumentGetters.Add("mode", newGetter<Param>(new[] { "field internalName", "row selector" },
+        argumentGetters.Add("mode", newGetter<Param>(["field internalName", "row selector"],
             "Gives the most common value of the cells/fields found using the given selector, for the currently selected param",
             field => (i, param) =>
             {
@@ -636,7 +632,7 @@ internal class MEOperationArgument
                     .First().Item1;
                 return avg.ToParamEditorString();
             }, () => CFG.Current.Param_AdvancedMassedit));
-        argumentGetters.Add("min", newGetter<Param>(new[] { "field internalName", "row selector" },
+        argumentGetters.Add("min", newGetter<Param>(["field internalName", "row selector"],
             "Gives the smallest value from the cells/fields found using the given param, row selector and field",
             field => (i, param) =>
             {
@@ -651,7 +647,7 @@ internal class MEOperationArgument
                 var min = rows.Min(r => r.Item2[field[0]].Value.Value);
                 return min.ToParamEditorString();
             }, () => CFG.Current.Param_AdvancedMassedit));
-        argumentGetters.Add("max", newGetter<Param>(new[] { "field internalName", "row selector" },
+        argumentGetters.Add("max", newGetter<Param>(["field internalName", "row selector"],
             "Gives the largest value from the cells/fields found using the given param, row selector and field",
             field => (i, param) =>
             {
@@ -667,7 +663,7 @@ internal class MEOperationArgument
                 return max.ToParamEditorString();
             }, () => CFG.Current.Param_AdvancedMassedit));
         argumentGetters.Add("random", newGetter<bool>(
-            new[] { "minimum number (inclusive)", "maximum number (exclusive)" },
+            ["minimum number (inclusive)", "maximum number (exclusive)"],
             "Gives a random decimal number between the given values for each selected value", minAndMax =>
             {
                 double min;
@@ -686,7 +682,7 @@ internal class MEOperationArgument
                 return (i, c) => ((Random.Shared.NextDouble() * range) + min).ToString();
             }, () => CFG.Current.Param_AdvancedMassedit));
         argumentGetters.Add("randint", newGetter<bool>(
-            new[] { "minimum integer (inclusive)", "maximum integer (inclusive)" },
+            ["minimum integer (inclusive)", "maximum integer (inclusive)"],
             "Gives a random integer between the given values for each selected value", minAndMax =>
             {
                 int min;
@@ -703,7 +699,7 @@ internal class MEOperationArgument
 
                 return (i, c) => Random.Shared.NextInt64(min, max + 1).ToString();
             }, () => CFG.Current.Param_AdvancedMassedit));
-        argumentGetters.Add("randFrom", newGetter<bool>(new[] { "param name", "field internalName", "row selector" },
+        argumentGetters.Add("randFrom", newGetter<bool>(["param name", "field internalName", "row selector"],
             "Gives a random value from the cells/fields found using the given param, row selector and field, for each selected value",
             paramFieldRowSelector =>
             {
@@ -713,19 +709,19 @@ internal class MEOperationArgument
                 var values = srcRows.Select((r, i) => r.Item2[paramFieldRowSelector[1]].Value.Value).ToArray();
                 return (i, c) => values[Random.Shared.NextInt64(values.Length)].ToString();
             }, () => CFG.Current.Param_AdvancedMassedit));
-        argumentGetters.Add("paramIndex", newGetter<Param>(new string[0],
+        argumentGetters.Add("paramIndex", newGetter<Param>([],
             "Gives an integer for the current selected param, beginning at 0 and increasing by 1 for each param selected",
             empty => (i, param) =>
             {
                 return i.ToParamEditorString();
             }, () => CFG.Current.Param_AdvancedMassedit));
-        argumentGetters.Add("rowIndex", newGetter<Param.Row>(new string[0],
+        argumentGetters.Add("rowIndex", newGetter<Param.Row>([],
             "Gives an integer for the current selected row, beginning at 0 and increasing by 1 for each row selected",
             empty => (j, row) =>
             {
                 return j.ToParamEditorString();
             }, () => CFG.Current.Param_AdvancedMassedit));
-        argumentGetters.Add("fieldIndex", newGetter<(PseudoColumn, Param.Column)>(new string[0],
+        argumentGetters.Add("fieldIndex", newGetter<(PseudoColumn, Param.Column)>([],
             "Gives an integer for the current selected cell/field, beginning at 0 and increasing by 1 for each cell/field selected",
             empty => (k, col) =>
             {
@@ -761,7 +757,7 @@ internal class MEOperationArgument
 
     internal object[] getContextualArguments(int argumentCount, string opData)
     {
-        var opArgs = opData == null ? new string[0] : opData.Split(':', argumentCount);
+        var opArgs = opData == null ? [] : opData.Split(':', argumentCount);
         var contextualArgs = new object[opArgs.Length];
         for (var i = 0; i < opArgs.Length; i++)
         {
@@ -787,7 +783,7 @@ internal class MEOperationArgument
         if (argumentGetters.ContainsKey(arg[0].Trim()))
         {
             OperationArgumentGetter getter = argumentGetters[arg[0]];
-            var opArgArgs = arg.Length > 1 ? arg[1].Split(" ", getter.args.Length) : new string[0];
+            var opArgArgs = arg.Length > 1 ? arg[1].Split(" ", getter.args.Length) : [];
             if (opArgArgs.Length != getter.args.Length)
             {
                 throw new MEOperationException(
@@ -805,7 +801,7 @@ internal class MEOperationArgument
             return getter.func(opArgArgs);
         }
 
-        return defaultGetter.func(new[] { opArg });
+        return defaultGetter.func([opArg]);
     }
 }
 
