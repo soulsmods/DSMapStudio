@@ -18,23 +18,20 @@ namespace StudioCore.Editor.MassEdit;
 internal abstract class TypelessSearchEngine
 {
     private static Dictionary<Type, List<(TypelessSearchEngine, Type)>> searchEngines = new();
-    internal static void AddSearchEngine<CO, CF, EO, EF>(SearchEngine<CO, CF, EO, EF> engine)
+    internal static void AddSearchEngine<TContextObject, TContextField, TElementObject, TElementField>(SearchEngine<TContextObject, TContextField, TElementObject, TElementField> engine)
     {
-        if (!searchEngines.ContainsKey(typeof((CO, CF))))
-            searchEngines.Add(typeof((CO, CF)), new());
-        searchEngines[typeof((CO, CF))].Add((engine, typeof((EO, EF))));
+        if (!searchEngines.ContainsKey(typeof((TContextObject, TContextField))))
+            searchEngines.Add(typeof((TContextObject, TContextField)), new());
+        searchEngines[typeof((TContextObject, TContextField))].Add((engine, typeof((TElementObject, TElementField))));
     }
-    internal static List<(TypelessSearchEngine, Type)> GetSearchEngines(Type t)
+    internal static List<(TypelessSearchEngine, Type)> GetSearchEngines(Type t) //Type t is expected to be (TContextObject, TContextField)
     {
-        var list = searchEngines.GetValueOrDefault(t);
-        if (list == null)
-            list = new List<(TypelessSearchEngine, Type)>();
-        return list;
+        return searchEngines.GetValueOrDefault(t) ?? ([]);
     }
     internal abstract List<(string, string[], string)> VisibleCommands(bool includeDefault);
     internal abstract List<(string, string[])> AllCommands();
     internal abstract List<string> AvailableCommandsForHelpText();
-    internal abstract List<(TypelessSearchEngine, Type)> NextSearchEngines();
+    internal abstract List<(TypelessSearchEngine, Type)> NextSearchEngines(); //Type t is expected to be (TContextObject, TContextField)
     internal abstract METypelessOperation NextOperation();
     internal abstract string NameForHelpTexts();
     internal abstract Type getContainerType();
@@ -42,12 +39,12 @@ internal abstract class TypelessSearchEngine
     public abstract IEnumerable<(object, object)> SearchNoType((object, object) container, string command, bool lenient, bool failureAllOrNone);
     internal abstract bool HandlesCommand(string command);
 }
-internal class SearchEngine<CO, CF, EO, EF> : TypelessSearchEngine
+internal class SearchEngine<TContextObject, TContextField, TElementObject, TElementField> : TypelessSearchEngine
 {
-    internal SearchEngineCommand<(CO, CF), (EO, EF)> defaultFilter;
+    internal SearchEngineCommand<(TContextObject, TContextField), (TElementObject, TElementField)> defaultFilter;
 
-    internal Dictionary<string, SearchEngineCommand<(CO, CF), (EO, EF)>> filterList = new();
-    internal Func<(CO, CF), List<(EO, EF)>> unpacker;
+    internal Dictionary<string, SearchEngineCommand<(TContextObject, TContextField), (TElementObject, TElementField)>> filterList = new();
+    internal Func<(TContextObject, TContextField), List<(TElementObject, TElementField)>> unpacker;
     internal string name = "[unnamed search engine]";
 
     internal SearchEngine()
@@ -61,12 +58,12 @@ internal class SearchEngine<CO, CF, EO, EF> : TypelessSearchEngine
         filterList.Add("exists", newCmd([], "Selects all elements", noArgs(noContext(b => true))));
     }
 
-    protected Func<string[], bool, Func<(CO, CF), Func<(EO, EF), bool>>> noArgs(Func<(CO, CF), Func<(EO, EF), bool>> func)
+    protected Func<string[], bool, Func<(TContextObject, TContextField), Func<(TElementObject, TElementField), bool>>> noArgs(Func<(TContextObject, TContextField), Func<(TElementObject, TElementField), bool>> func)
     {
         return (args, lenient) => func;
     }
 
-    protected Func<(CO, CF), Func<(EO, EF), bool>> noContext(Func<(EO, EF), bool> func)
+    protected Func<(TContextObject, TContextField), Func<(TElementObject, TElementField), bool>> noContext(Func<(TElementObject, TElementField), bool> func)
     {
         return context => func;
     }
@@ -75,10 +72,10 @@ internal class SearchEngine<CO, CF, EO, EF> : TypelessSearchEngine
     {
     }
 
-    internal SearchEngineCommand<(CO, CF), (EO, EF)> newCmd(string[] args, string wiki,
-        Func<string[], bool, Func<(CO, CF), Func<(EO, EF), bool>>> func, Func<bool> shouldShow = null)
+    internal SearchEngineCommand<(TContextObject, TContextField), (TElementObject, TElementField)> newCmd(string[] args, string wiki,
+        Func<string[], bool, Func<(TContextObject, TContextField), Func<(TElementObject, TElementField), bool>>> func, Func<bool> shouldShow = null)
     {
-        return new SearchEngineCommand<(CO, CF), (EO, EF)>(args, wiki, func, shouldShow);
+        return new SearchEngineCommand<(TContextObject, TContextField), (TElementObject, TElementField)>(args, wiki, func, shouldShow);
     }
 
     internal override bool HandlesCommand(string command)
@@ -96,7 +93,7 @@ internal class SearchEngine<CO, CF, EO, EF> : TypelessSearchEngine
         List<string> options = new();
         foreach (var op in filterList.Keys)
         {
-            SearchEngineCommand<(CO, CF), (EO, EF)> cmd = filterList[op];
+            SearchEngineCommand<(TContextObject, TContextField), (TElementObject, TElementField)> cmd = filterList[op];
             if (cmd.shouldShow == null || cmd.shouldShow())
             {
                 options.Add(op + "(" + filterList[op].args.Length + " args)");
@@ -116,7 +113,7 @@ internal class SearchEngine<CO, CF, EO, EF> : TypelessSearchEngine
         List<(string, string[], string)> options = new();
         foreach (var op in filterList.Keys)
         {
-            SearchEngineCommand<(CO, CF), (EO, EF)> cmd = filterList[op];
+            SearchEngineCommand<(TContextObject, TContextField), (TElementObject, TElementField)> cmd = filterList[op];
             if (cmd.shouldShow == null || cmd.shouldShow())
             {
                 options.Add((op, cmd.args, cmd.wiki));
@@ -145,19 +142,19 @@ internal class SearchEngine<CO, CF, EO, EF> : TypelessSearchEngine
     }
     public override IEnumerable<(object, object)> SearchNoType((object, object) container, string command, bool lenient, bool failureAllOrNone)
     {
-        List<(EO, EF)> res = Search(((CO, CF))container, command, lenient, failureAllOrNone);
+        List<(TElementObject, TElementField)> res = Search(((TContextObject, TContextField))container, command, lenient, failureAllOrNone);
         return res.Select((x) => ((object)x.Item1, (object)x.Item2));
     }
-    public List<(EO, EF)> Search((CO, CF) param, string command, bool lenient, bool failureAllOrNone)
+    public List<(TElementObject, TElementField)> Search((TContextObject, TContextField) param, string command, bool lenient, bool failureAllOrNone)
     {
         return Search(param, unpacker(param), command, lenient, failureAllOrNone);
     }
 
-    public virtual List<(EO, EF)> Search((CO, CF) context, List<(EO, EF)> sourceSet, string command, bool lenient, bool failureAllOrNone)
+    public virtual List<(TElementObject, TElementField)> Search((TContextObject, TContextField) context, List<(TElementObject, TElementField)> sourceSet, string command, bool lenient, bool failureAllOrNone)
     {
         //assumes unpacking doesn't fail
         var conditions = command.Split("&&", StringSplitOptions.TrimEntries);
-        List<(EO, EF)> liveSet = sourceSet;
+        List<(TElementObject, TElementField)> liveSet = sourceSet;
 
         try
         {
@@ -171,7 +168,7 @@ internal class SearchEngine<CO, CF, EO, EF> : TypelessSearchEngine
 
                 var cmd = condition.Split(' ', 2);
 
-                SearchEngineCommand<(CO, CF), (EO, EF)> selectedCommand;
+                SearchEngineCommand<(TContextObject, TContextField), (TElementObject, TElementField)> selectedCommand;
                 int argC;
                 string[] args;
                 var not = false;
@@ -186,7 +183,7 @@ internal class SearchEngine<CO, CF, EO, EF> : TypelessSearchEngine
                     selectedCommand = filterList[cmd[0]];
                     argC = selectedCommand.args.Length;
                     args = cmd.Length == 1
-                        ? new string[0]
+                        ? []
                         : cmd[1].Split(' ', argC, StringSplitOptions.TrimEntries);
                 }
                 else
@@ -204,10 +201,10 @@ internal class SearchEngine<CO, CF, EO, EF> : TypelessSearchEngine
                     }
                 }
 
-                Func<(CO, CF), Func<(EO, EF), bool>> filter = selectedCommand.func(args, lenient);
-                Func<(EO, EF), bool> criteria = filter(context);
-                List<(EO, EF)> newRows = new();
-                foreach ((EO, EF) row in liveSet)
+                Func<(TContextObject, TContextField), Func<(TElementObject, TElementField), bool>> filter = selectedCommand.func(args, lenient);
+                Func<(TElementObject, TElementField), bool> criteria = filter(context);
+                List<(TElementObject, TElementField)> newRows = new();
+                foreach ((TElementObject, TElementField) row in liveSet)
                 {
                     if (not ^ criteria(row))
                     {
@@ -220,7 +217,7 @@ internal class SearchEngine<CO, CF, EO, EF> : TypelessSearchEngine
         }
         catch (Exception e)
         {
-            liveSet = failureAllOrNone ? sourceSet : new List<(EO, EF)>();
+            liveSet = failureAllOrNone ? sourceSet : [];
         }
 
         return liveSet;
@@ -228,11 +225,11 @@ internal class SearchEngine<CO, CF, EO, EF> : TypelessSearchEngine
 
     internal override List<(TypelessSearchEngine, Type)> NextSearchEngines()
     {
-        return GetSearchEngines(typeof((EO, EF)));
+        return GetSearchEngines(typeof((TElementObject, TElementField)));
     }
     internal override METypelessOperation NextOperation()
     {
-        return METypelessOperation.GetEditOperation(typeof((EO, EF)));
+        return METypelessOperation.GetEditOperation(typeof((TElementObject, TElementField)));
     }
 
     internal override string NameForHelpTexts()
@@ -242,12 +239,12 @@ internal class SearchEngine<CO, CF, EO, EF> : TypelessSearchEngine
 
     internal override Type getContainerType()
     {
-        return typeof((CO, CF));
+        return typeof((TContextObject, TContextField));
     }
 
     internal override Type getElementType()
     {
-        return typeof((EO, EF));
+        return typeof((TElementObject, TElementField));
     }
 }
 

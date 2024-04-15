@@ -19,22 +19,22 @@ internal abstract class METypelessOperationDef
     internal Func<object, object, string[], object> function;
     internal Func<bool> shouldShow;
 }
-internal class MEOperationDef<R, I, O> : METypelessOperationDef
+internal class MEOperationDef<TMECategory, TInput, TOutput> : METypelessOperationDef
 {
-    internal MEOperationDef(string[] args, string tooltip, Func<object, I, string[], O> func, Func<bool> show = null)
+    internal MEOperationDef(string[] args, string tooltip, Func<object, TInput, string[], TOutput> func, Func<bool> show = null)
     {
         argNames = args;
         wiki = tooltip;
-        function = (o, f, str) => func(o, (I)f, str); //Shitty wrapping perf loss
+        function = (o, f, str) => func(o, (TInput)f, str); //Shitty wrapping perf loss
         shouldShow = show;
     }
 }
 internal abstract class METypelessOperation
 {
     private static Dictionary<Type, METypelessOperation> editOperations = new();
-    internal static void AddEditOperation<R, I, O>(MEOperation<R, I, O> engine)
+    internal static void AddEditOperation<TMECategory, TInput, TOutput>(MEOperation<TMECategory, TInput, TOutput> engine)
     {
-        editOperations[typeof(R)] = engine;
+        editOperations[typeof(TMECategory)] = engine;
     }
     internal static METypelessOperation GetEditOperation(Type t)
     {
@@ -49,7 +49,7 @@ internal abstract class METypelessOperation
     internal abstract void UseResult(List<EditorAction> actionList, (object, object) currentObject, Dictionary<Type, (object, object)> contextObjects, object context, object res);
     internal abstract bool HandlesCommand(string command);
 }
-internal abstract class MEOperation<R, I, O> : METypelessOperation
+internal abstract class MEOperation<TMECategory, TInput, TOutput> : METypelessOperation
 {
     internal Dictionary<string, METypelessOperationDef> operations = new();
     internal string name = "[Unnamed operation type]";
@@ -72,9 +72,9 @@ internal abstract class MEOperation<R, I, O> : METypelessOperation
     {
         return operations;
     }
-    internal void NewCmd(string command, string[] args, string wiki, Func<object, I, string[], O> func, Func<bool> show = null)
+    internal void NewCmd(string command, string[] args, string wiki, Func<object, TInput, string[], TOutput> func, Func<bool> show = null)
     {
-        operations.Add(command, new MEOperationDef<R, I, O>(args, wiki, func, show));
+        operations.Add(command, new MEOperationDef<TMECategory, TInput, TOutput>(args, wiki, func, show));
     }
 
     internal override string NameForHelpTexts()
@@ -257,7 +257,7 @@ internal class MERowOperation : MEOperation<(string, Param.Row), (string, Param.
     }
 }
 
-internal abstract class MEValueOperation<R> : MEOperation<R, object, object>
+internal abstract class MEValueOperation<TMECategory> : MEOperation<TMECategory, object, object>
 {
     internal override void Setup()
     {
@@ -378,20 +378,20 @@ internal class MEOperationArgument
     {
         Setup();
     }
-    private OperationArgumentGetter newGetter<P>(string[] args, string wiki,
-        Func<string[], Func<int, P, object>>
+    private OperationArgumentGetter newGetter<TContextInput1>(string[] args, string wiki,
+        Func<string[], Func<int, TContextInput1, object>>
             func, Func<bool> shouldShow = null)
     {
         return new OperationArgumentGetter(args, wiki, func, shouldShow);
     }
-    private OperationArgumentGetter newGetter<P, R>(string[] args, string wiki,
-        Func<string[], Func<int, P, Func<int, R, object>>>
+    private OperationArgumentGetter newGetter<TContextInput1, TContextInput2>(string[] args, string wiki,
+        Func<string[], Func<int, TContextInput1, Func<int, TContextInput2, object>>>
             func, Func<bool> shouldShow = null)
     {
         return new OperationArgumentGetter(args, wiki, func, shouldShow);
     }
-    private OperationArgumentGetter newGetter<P, R, C>(string[] args, string wiki,
-        Func<string[], Func<int, P, Func<int, R, Func<int, C, object>>>>
+    private OperationArgumentGetter newGetter<TContextInput1, TContextInput2, TContextInput3>(string[] args, string wiki,
+        Func<string[], Func<int, TContextInput1, Func<int, TContextInput2, Func<int, TContextInput3, object>>>>
             func, Func<bool> shouldShow = null)
     {
         return new OperationArgumentGetter(args, wiki, func, shouldShow);
