@@ -335,12 +335,13 @@ public class MassParamEditRegex
     private MassEditResult ExecOp(MEOperationStage opInfo, string opName, IEnumerable<object> argFuncs, (object, object) currentObject, Dictionary<Type, (object, object)> contextObjects, METypelessOperation opType)
     {
         var argValues = argFuncs.Select(f => f.assertCompleteContextOrThrow(0).ToParamEditorString()).ToArray();
-        var opResult = parsedOp.function(opType.getTrueValue(currentObject, contextObjects), argValues);
+        object ctxObj = opType.getTrueObj(currentObject, contextObjects);
+        var opResult = parsedOp.function(ctxObj, opType.getTrueValue(currentObject, contextObjects), argValues);//TODO NOTNULL IT
         if (!opType.validateResult(opResult))
         {
             return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Error performing {opName} operation {opInfo.command} (line {_currentLine})");
         }
-        opType.UseResult(_partialActions, currentObject, contextObjects, opResult);
+        opType.UseResult(_partialActions, currentObject, contextObjects, ctxObj, opResult);
         return new MassEditResult(MassEditResultType.SUCCESS, "");
     }
 }

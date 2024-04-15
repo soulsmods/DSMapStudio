@@ -16,16 +16,16 @@ internal abstract class METypelessOperationDef
 {
     internal string[] argNames;
     internal string wiki;
-    internal Func<object, string[], object> function;
+    internal Func<object, object, string[], object> function;
     internal Func<bool> shouldShow;
 }
-internal class MEOperationDef<I, O> : METypelessOperationDef
+internal class MEOperationDef<R, I, O> : METypelessOperationDef
 {
-    internal MEOperationDef(string[] args, string tooltip, Func<I, string[], O> func, Func<bool> show = null)
+    internal MEOperationDef(string[] args, string tooltip, Func<object, I, string[], O> func, Func<bool> show = null)
     {
         argNames = args;
         wiki = tooltip;
-        function = (x, str) => func((I)x, str); //Shitty wrapping perf loss
+        function = (o, f, str) => func(o, (I)f, str); //Shitty wrapping perf loss
         shouldShow = show;
     }
 }
@@ -43,9 +43,10 @@ internal abstract class METypelessOperation
 
     internal abstract Dictionary<string, METypelessOperationDef> AllCommands();
     internal abstract string NameForHelpTexts();
+    internal abstract object getTrueObj((object, object) currentObject, Dictionary<Type, (object, object)> contextObjects);
     internal abstract object getTrueValue((object, object) currentObject, Dictionary<Type, (object, object)> contextObjects);
     internal abstract bool validateResult(object res);
-    internal abstract void UseResult(List<EditorAction> actionList, (object, object) currentObject, Dictionary<Type, (object, object)> contextObjects, object res);
+    internal abstract void UseResult(List<EditorAction> actionList, (object, object) currentObject, Dictionary<Type, (object, object)> contextObjects, object context, object res);
     internal abstract bool HandlesCommand(string command);
 }
 internal abstract class MEOperation<R, I, O> : METypelessOperation
@@ -71,13 +72,13 @@ internal abstract class MEOperation<R, I, O> : METypelessOperation
     {
         return operations;
     }
-    internal MEOperationDef<I, O> newCmd(string[] args, string wiki, Func<I, string[], O> func, Func<bool> show = null)
+    internal void NewCmd(string command, string[] args, string wiki, Func<object, I, string[], O> func, Func<bool> show = null)
     {
-        return new MEOperationDef<I, O>(args, wiki, func, show);
+        operations.Add(command, new MEOperationDef<R, I, O>(args, wiki, func, show));
     }
-    internal MEOperationDef<I, O> newCmd(string wiki, Func<I, string[], O> func, Func<bool> show)
+    internal void NewCmd(string command, string wiki, Func<object, I, string[], O> func, Func<bool> show = null)
     {
-        return new MEOperationDef<I, O>(Array.Empty<string>(), wiki, func, show);
+        NewCmd(command, Array.Empty<string>(), wiki, func, show);
     }
 
     internal override string NameForHelpTexts()
@@ -93,14 +94,14 @@ internal class MEGlobalOperation : MEOperation<(bool, bool), bool, bool>
     internal override void Setup()
     {
         name = "global";
-        operations.Add("clear", newCmd(new string[0], "Clears clipboard param and rows", (selectionState, args) =>
+        NewCmd("clear", new string[0], "Clears clipboard param and rows", (dummy, selectionState, args) =>
         {
             ParamBank.ClipboardParam = null;
             ParamBank.ClipboardRows.Clear();
             return true;
-        }));
-        operations.Add("newvar", newCmd(new[] { "variable name", "value" },
-            "Creates a variable with the given value, and the type of that value", (selectionState, args) =>
+        });
+        NewCmd("newvar", new[] { "variable name", "value" },
+            "Creates a variable with the given value, and the type of that value", (dummy, selectionState, args) =>
             {
                 int asInt;
                 double asDouble;
@@ -118,14 +119,17 @@ internal class MEGlobalOperation : MEOperation<(bool, bool), bool, bool>
                 }
 
                 return true;
-            }, () => CFG.Current.Param_AdvancedMassedit));
-        operations.Add("clearvars", newCmd(new string[0], "Deletes all variables", (selectionState, args) =>
+            }, () => CFG.Current.Param_AdvancedMassedit);
+        NewCmd("clearvars", new string[0], "Deletes all variables", (dummy, selectionState, args) =>
         {
             MassParamEdit.massEditVars.Clear();
             return true;
-        }, () => CFG.Current.Param_AdvancedMassedit));
+        }, () => CFG.Current.Param_AdvancedMassedit);
     }
-
+    internal override object getTrueObj((object, object) currentObject, Dictionary<Type, (object, object)> contextObjects)
+    {
+        return true; //Global op technically has no context / uses the dummy context of boolean
+    }
     internal override object getTrueValue((object, object) currentObject, Dictionary<Type, (object, object)> contextObjects)
     {
         return true; //Global op technically has no context / uses the dummy context of boolean
@@ -136,7 +140,7 @@ internal class MEGlobalOperation : MEOperation<(bool, bool), bool, bool>
         return true;
     }
 
-    internal override void UseResult(List<EditorAction> actionList, (object, object) currentObject, Dictionary<Type, (object, object)> contextObjects, object res)
+    internal override void UseResult(List<EditorAction> actionList, (object, object) currentObject, Dictionary<Type, (object, object)> contextObjects, object obj, object res)
     {
         return; //Global ops, for now, don't use actions and simply execute effects themselves
     }
@@ -149,12 +153,12 @@ internal class MERowOperation : MEOperation<(string, Param.Row), (string, Param.
     internal override void Setup()
     {
         name = "row";
-        operations.Add("copy", newCmd(new string[0],
+        NewCmd("copy", new string[0],
             "Adds the selected rows into clipboard. If the clipboard param is different, the clipboard is emptied first",
-            (paramAndRow, args) =>
+            (param, rowPair, args) =>
             {
-                var paramKey = paramAndRow.Item1;
-                Param.Row row = paramAndRow.Item2;
+                var paramKey = (string)param;
+                Param.Row row = rowPair.Item2;
                 if (paramKey == null)
                 {
                     throw new MEOperationException(@"Could not locate param");
@@ -176,13 +180,13 @@ internal class MERowOperation : MEOperation<(string, Param.Row), (string, Param.
                 ParamBank.ClipboardRows.Add(new Param.Row(row, p));
                 return (p, null);
             }
-        ));
-        operations.Add("copyN", newCmd(new[] { "count" },
+        );
+        NewCmd("copyN", new[] { "count" },
             "Adds the selected rows into clipboard the given number of times. If the clipboard param is different, the clipboard is emptied first",
-            (paramAndRow, args) =>
+            (param, rowPair, args) =>
             {
-                var paramKey = paramAndRow.Item1;
-                Param.Row row = paramAndRow.Item2;
+                var paramKey = (string)param;
+                Param.Row row = rowPair.Item2;
                 if (paramKey == null)
                 {
                     throw new MEOperationException(@"Could not locate param");
@@ -208,13 +212,13 @@ internal class MERowOperation : MEOperation<(string, Param.Row), (string, Param.
                 }
 
                 return (p, null);
-            }, () => CFG.Current.Param_AdvancedMassedit));
-        operations.Add("paste", newCmd(new string[0],
+            }, () => CFG.Current.Param_AdvancedMassedit);
+        NewCmd("paste", new string[0],
             "Adds the selected rows to the primary regulation or parambnd in the selected param",
-            (paramAndRow, args) =>
+            (param, rowPair, args) =>
             {
-                var paramKey = paramAndRow.Item1;
-                Param.Row row = paramAndRow.Item2;
+                var paramKey = (string)param;
+                Param.Row row = rowPair.Item2;
                 if (paramKey == null)
                 {
                     throw new MEOperationException(@"Could not locate param");
@@ -228,12 +232,15 @@ internal class MERowOperation : MEOperation<(string, Param.Row), (string, Param.
                 Param p = ParamBank.PrimaryBank.Params[paramKey];
                 return (p, new Param.Row(row, p));
             }
-        ));
+        );
     }
-
+    internal override object getTrueObj((object, object) currentObject, Dictionary<Type, (object, object)> contextObjects)
+    {
+        return currentObject.Item1;
+    }
     internal override object getTrueValue((object, object) currentObject, Dictionary<Type, (object, object)> contextObjects)
     {
-        return currentObject;
+        return currentObject.Item2;
     }
 
     internal override bool validateResult(object res)
@@ -246,8 +253,9 @@ internal class MERowOperation : MEOperation<(string, Param.Row), (string, Param.
         return true;
     }
 
-    internal override void UseResult(List<EditorAction> actionList, (object, object) currentObject, Dictionary<Type, (object, object)> contextObjects, object res)
+    internal override void UseResult(List<EditorAction> actionList, (object, object) currentObject, Dictionary<Type, (object, object)> contextObjects, object obj, object res)
     {
+        //use Param from result as this may be different to original Param obj
         (Param p2, Param.Row rs) = ((Param, Param.Row))res;
         actionList.Add(new AddParamsAction(p2, "FromMassEdit", new List<Param.Row> { rs }, false, true));
     }
@@ -258,13 +266,13 @@ internal abstract class MEValueOperation<R> : MEOperation<R, object, object>
     internal override void Setup()
     {
         name = "value";
-        operations.Add("=",
-            newCmd(new[] { "number or text" },
+        NewCmd("=",
+            new[] { "number or text" },
                 "Assigns the given value to the selected values. Will attempt conversion to the value's data type",
-                (ctx, args) => MassParamEdit.WithDynamicOf(ctx, v => args[0])));
-        operations.Add("+", newCmd(new[] { "number or text" },
+                (ctx, value, args) => MassParamEdit.WithDynamicOf(value, v => args[0]));
+        NewCmd("+", new[] { "number or text" },
             "Adds the number to the selected values, or appends text if that is the data type of the values",
-            (ctx, args) => MassParamEdit.WithDynamicOf(ctx, v =>
+            (ctx, value, args) => MassParamEdit.WithDynamicOf(value, v =>
             {
                 double val;
                 if (double.TryParse(args[0], out val))
@@ -273,48 +281,48 @@ internal abstract class MEValueOperation<R> : MEOperation<R, object, object>
                 }
 
                 return v + args[0];
-            })));
-        operations.Add("-",
-            newCmd(new[] { "number" }, "Subtracts the number from the selected values",
-                (ctx, args) => MassParamEdit.WithDynamicOf(ctx, v => v - double.Parse(args[0]))));
-        operations.Add("*",
-            newCmd(new[] { "number" }, "Multiplies selected values by the number",
-                (ctx, args) => MassParamEdit.WithDynamicOf(ctx, v => v * double.Parse(args[0]))));
-        operations.Add("/",
-            newCmd(new[] { "number" }, "Divides the selected values by the number",
-                (ctx, args) => MassParamEdit.WithDynamicOf(ctx, v => v / double.Parse(args[0]))));
-        operations.Add("%",
-            newCmd(new[] { "number" }, "Gives the remainder when the selected values are divided by the number",
-                (ctx, args) => MassParamEdit.WithDynamicOf(ctx, v => v % double.Parse(args[0])), () => CFG.Current.Param_AdvancedMassedit));
-        operations.Add("scale", newCmd(new[] { "factor number", "center number" },
+            }));
+        NewCmd("-",
+            new[] { "number" }, "Subtracts the number from the selected values",
+                (ctx, value, args) => MassParamEdit.WithDynamicOf(value, v => v - double.Parse(args[0])));
+        NewCmd("*",
+            new[] { "number" }, "Multiplies selected values by the number",
+                (ctx, value, args) => MassParamEdit.WithDynamicOf(value, v => v * double.Parse(args[0])));
+        NewCmd("/",
+            new[] { "number" }, "Divides the selected values by the number",
+                (ctx, value, args) => MassParamEdit.WithDynamicOf(value, v => v / double.Parse(args[0])));
+        NewCmd("%",
+            new[] { "number" }, "Gives the remainder when the selected values are divided by the number",
+                (ctx, value, args) => MassParamEdit.WithDynamicOf(value, v => v % double.Parse(args[0])), () => CFG.Current.Param_AdvancedMassedit);
+        NewCmd("scale", new[] { "factor number", "center number" },
             "Multiplies the difference between the selected values and the center number by the factor number",
-            (ctx, args) =>
+            (value, ctx, args) =>
             {
                 var opp1 = double.Parse(args[0]);
                 var opp2 = double.Parse(args[1]);
-                return MassParamEdit.WithDynamicOf(ctx, v =>
+                return MassParamEdit.WithDynamicOf(value, v =>
                 {
                     return ((v - opp2) * opp1) + opp2;
                 });
             }
-        ));
-        operations.Add("replace",
-            newCmd(new[] { "text to replace", "new text" },
+        );
+        NewCmd("replace",
+            new[] { "text to replace", "new text" },
                 "Interprets the selected values as text and replaces all occurances of the text to replace with the new text",
-                (ctx, args) => MassParamEdit.WithDynamicOf(ctx, v => v.Replace(args[0], args[1]))));
-        operations.Add("replacex", newCmd(new[] { "text to replace (regex)", "new text (w/ groups)" },
+                (ctx, value, args) => MassParamEdit.WithDynamicOf(value, v => v.Replace(args[0], args[1])));
+        NewCmd("replacex", new[] { "text to replace (regex)", "new text (w/ groups)" },
             "Interprets the selected values as text and replaces all occurances of the given regex with the replacement, supporting regex groups",
-            (ctx, args) =>
+            (ctx, value, args) =>
             {
                 Regex rx = new(args[0]);
-                return MassParamEdit.WithDynamicOf(ctx, v => rx.Replace(v, args[1]));
-            }, () => CFG.Current.Param_AdvancedMassedit));
-        operations.Add("max",
-            newCmd(new[] { "number" }, "Returns the larger of the current value and number",
-                (ctx, args) => MassParamEdit.WithDynamicOf(ctx, v => Math.Max(v, double.Parse(args[0]))), () => CFG.Current.Param_AdvancedMassedit));
-        operations.Add("min",
-            newCmd(new[] { "number" }, "Returns the smaller of the current value and number",
-                (ctx, args) => MassParamEdit.WithDynamicOf(ctx, v => Math.Min(v, double.Parse(args[0]))), () => CFG.Current.Param_AdvancedMassedit));
+                return MassParamEdit.WithDynamicOf(value, v => rx.Replace(v, args[1]));
+            }, () => CFG.Current.Param_AdvancedMassedit);
+        NewCmd("max",
+            new[] { "number" }, "Returns the larger of the current value and number",
+                (ctx, value, args) => MassParamEdit.WithDynamicOf(value, v => Math.Max(v, double.Parse(args[0]))), () => CFG.Current.Param_AdvancedMassedit);
+        NewCmd("min",
+            new[] { "number" }, "Returns the smaller of the current value and number",
+                (ctx, value, args) => MassParamEdit.WithDynamicOf(value, v => Math.Min(v, double.Parse(args[0]))), () => CFG.Current.Param_AdvancedMassedit);
     }
 
     internal override bool validateResult(object res)
@@ -327,15 +335,20 @@ internal abstract class MEValueOperation<R> : MEOperation<R, object, object>
 internal class MECellOperation : MEValueOperation<(PseudoColumn, Param.Column)>
 {
     public static MECellOperation cellOps = new();
+    internal override object getTrueObj((object, object) currentObject, Dictionary<Type, (object, object)> contextObjects)
+    {
+        (string param, Param.Row row) = ((string, Param.Row))contextObjects[typeof((string, Param.Row))];
+        return currentObject;
+    }
     internal override object getTrueValue((object, object) currentObject, Dictionary<Type, (object, object)> contextObjects)
     {
         (string param, Param.Row row) = ((string, Param.Row))contextObjects[typeof((string, Param.Row))];
         (PseudoColumn, Param.Column) col = ((PseudoColumn, Param.Column))currentObject;
         return row.Get(col);
     }
-    internal override void UseResult(List<EditorAction> actionList, (object, object) currentObject, Dictionary<Type, (object, object)> contextObjects, object res)
+    internal override void UseResult(List<EditorAction> actionList, (object, object) currentObject, Dictionary<Type, (object, object)> contextObjects, object obj, object res)
     {
-        (string param, Param.Row row) = ((string, Param.Row))contextObjects[typeof((string, Param.Row))];
+        Param.Row row = (Param.Row) obj;
         (PseudoColumn, Param.Column) col = ((PseudoColumn, Param.Column))currentObject;
         actionList.AppendParamEditAction(row, col, res);
     }
@@ -343,12 +356,17 @@ internal class MECellOperation : MEValueOperation<(PseudoColumn, Param.Column)>
 internal class MEVarOperation : MEValueOperation<string>
 {
     public static MEVarOperation varOps = new();
+    
+    internal override object getTrueObj((object, object) currentObject, Dictionary<Type, (object, object)> contextObjects)
+    {
+        return (string)currentObject.Item2;
+    }
     internal override object getTrueValue((object, object) currentObject, Dictionary<Type, (object, object)> contextObjects)
     {
         return MassParamEdit.massEditVars[(string)currentObject.Item2];
     }
 
-    internal override void UseResult(List<EditorAction> actionList, (object, object) currentObject, Dictionary<Type, (object, object)> contextObjects, object res)
+    internal override void UseResult(List<EditorAction> actionList, (object, object) currentObject, Dictionary<Type, (object, object)> contextObjects, object obj, object res)
     {
         MassParamEdit.massEditVars[(string)currentObject.Item2] = res;
     }
