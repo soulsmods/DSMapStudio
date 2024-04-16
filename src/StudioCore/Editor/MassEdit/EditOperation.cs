@@ -25,7 +25,7 @@ internal class MEOperationDef<TMECategory, TInput, TOutput> : METypelessOperatio
     {
         argNames = args;
         wiki = tooltip;
-        function = (f, str) => func((TInput)f, str); //Shitty wrapping perf loss
+        function = (f, str) => func((TInput)f, str); //Shitty wrapping perf loss. Also fails to cast tuples which are in use all over.
         shouldShow = show;
     }
 }
@@ -227,7 +227,7 @@ internal class MERowOperation : MEOperation<(string, Param.Row), (string, Param.
     }
     internal override object GetElementValue((object, object) currentObject, Dictionary<Type, (object, object)> contextObjects)
     {
-        return currentObject.Item2;
+        return currentObject;
     }
 
     internal override bool ValidateResult(object res)
