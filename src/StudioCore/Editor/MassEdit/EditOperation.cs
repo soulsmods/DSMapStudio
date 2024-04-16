@@ -16,23 +16,30 @@ internal abstract class METypelessOperationDef
 {
     internal string[] argNames;
     internal string wiki;
-    internal Func<object, string[], object> function;
+    internal Func<object, object, string[], object> function;
     internal Func<bool> shouldShow;
 }
-internal class MEOperationDef<TMECategory, TInput, TOutput> : METypelessOperationDef
+internal class MEOperationDef<TMECategory, TInputObject, TInputValue, TOutput> : METypelessOperationDef
 {
-    internal MEOperationDef(string[] args, string tooltip, Func<TInput, string[], TOutput> func, Func<bool> show = null)
+    internal MEOperationDef(string[] args, string tooltip, Func<TInputValue, string[], TOutput> func, Func<bool> show = null)
     {
         argNames = args;
         wiki = tooltip;
-        function = (f, str) => func((TInput)f, str); //Shitty wrapping perf loss. Also fails to cast tuples which are in use all over.
+        function = (dummy, v, str) => func((TInputValue)v, str); //Shitty wrapping perf loss.
+        shouldShow = show;
+    }
+    internal MEOperationDef(string[] args, string tooltip, Func<TInputObject, TInputValue, string[], TOutput> func, Func<bool> show = null)
+    {
+        argNames = args;
+        wiki = tooltip;
+        function = (o, v, str) => func((TInputObject) o, (TInputValue)v, str); //Shitty wrapping perf loss.
         shouldShow = show;
     }
 }
 internal abstract class METypelessOperation
 {
     private static Dictionary<Type, METypelessOperation> editOperations = new();
-    internal static void AddEditOperation<TMECategory, TInput, TOutput>(MEOperation<TMECategory, TInput, TOutput> engine)
+    internal static void AddEditOperation<TMECategory, TInputObject, TInputValue, TOutput>(MEOperation<TMECategory, TInputObject, TInputValue, TOutput> engine)
     {
         editOperations[typeof(TMECategory)] = engine;
     }
@@ -48,7 +55,7 @@ internal abstract class METypelessOperation
     internal abstract void UseResult(List<EditorAction> actionList, (object, object) currentObject, Dictionary<Type, (object, object)> contextObjects, object res);
     internal abstract bool HandlesCommand(string command);
 }
-internal abstract class MEOperation<TMECategory, TInput, TOutput> : METypelessOperation
+internal abstract class MEOperation<TMECategory, TInputObject, TInputValue, TOutput> : METypelessOperation
 {
     internal Dictionary<string, METypelessOperationDef> operations = new();
     internal string name = "[Unnamed operation type]";
@@ -71,9 +78,13 @@ internal abstract class MEOperation<TMECategory, TInput, TOutput> : METypelessOp
     {
         return operations;
     }
-    internal void NewCmd(string command, string[] args, string wiki, Func<TInput, string[], TOutput> func, Func<bool> show = null)
+    internal void NewCmd(string command, string[] args, string wiki, Func<TInputValue, string[], TOutput> func, Func<bool> show = null)
     {
-        operations.Add(command, new MEOperationDef<TMECategory, TInput, TOutput>(args, wiki, func, show));
+        operations.Add(command, new MEOperationDef<TMECategory, TInputObject, TInputValue, TOutput>(args, wiki, func, show));
+    }
+    internal void NewCmd(string command, string[] args, string wiki, Func<TInputObject, TInputValue, string[], TOutput> func, Func<bool> show = null)
+    {
+        operations.Add(command, new MEOperationDef<TMECategory, TInputObject, TInputValue, TOutput>(args, wiki, func, show));
     }
 
     internal override string NameForHelpTexts()
@@ -82,7 +93,7 @@ internal abstract class MEOperation<TMECategory, TInput, TOutput> : METypelessOp
     }
 }
 
-internal class MEGlobalOperation : MEOperation<(bool, bool), bool, bool>
+internal class MEGlobalOperation : MEOperation<(bool, bool), bool, bool, bool>
 {
     internal static MEGlobalOperation globalOps = new();
 
@@ -137,7 +148,7 @@ internal class MEGlobalOperation : MEOperation<(bool, bool), bool, bool>
     }
 }
 
-internal class MERowOperation : MEOperation<(string, Param.Row), (string, Param.Row), (Param, Param.Row)>
+internal class MERowOperation : MEOperation<(string, Param.Row), string, Param.Row, (Param, Param.Row)> //technically we're still using string as the containing object in place of Param
 {
     public static MERowOperation rowOps = new();
 
@@ -146,10 +157,8 @@ internal class MERowOperation : MEOperation<(string, Param.Row), (string, Param.
         name = "row";
         NewCmd("copy", [],
             "Adds the selected rows into clipboard. If the clipboard param is different, the clipboard is emptied first",
-            (paramAndRow, args) =>
+            (paramKey, row, args) =>
             {
-                var paramKey = paramAndRow.Item1;
-                Param.Row row = paramAndRow.Item2;
                 if (paramKey == null)
                 {
                     throw new MEOperationException(@"Could not locate param");
@@ -174,10 +183,8 @@ internal class MERowOperation : MEOperation<(string, Param.Row), (string, Param.
         );
         NewCmd("copyN", ["count"],
             "Adds the selected rows into clipboard the given number of times. If the clipboard param is different, the clipboard is emptied first",
-            (paramAndRow, args) =>
+            (paramKey, row, args) =>
             {
-                var paramKey = paramAndRow.Item1;
-                Param.Row row = paramAndRow.Item2;
                 if (paramKey == null)
                 {
                     throw new MEOperationException(@"Could not locate param");
@@ -206,10 +213,8 @@ internal class MERowOperation : MEOperation<(string, Param.Row), (string, Param.
             }, () => CFG.Current.Param_AdvancedMassedit);
         NewCmd("paste", [],
             "Adds the selected rows to the primary regulation or parambnd in the selected param",
-            (paramAndRow, args) =>
+            (paramKey, row, args) =>
             {
-                var paramKey = paramAndRow.Item1;
-                Param.Row row = paramAndRow.Item2;
                 if (paramKey == null)
                 {
                     throw new MEOperationException(@"Could not locate param");
@@ -227,7 +232,7 @@ internal class MERowOperation : MEOperation<(string, Param.Row), (string, Param.
     }
     internal override object GetElementValue((object, object) currentObject, Dictionary<Type, (object, object)> contextObjects)
     {
-        return currentObject;
+        return currentObject.Item2;
     }
 
     internal override bool ValidateResult(object res)
@@ -248,7 +253,7 @@ internal class MERowOperation : MEOperation<(string, Param.Row), (string, Param.
     }
 }
 
-internal abstract class MEValueOperation<TMECategory> : MEOperation<TMECategory, object, object>
+internal abstract class MEValueOperation<TMECategory> : MEOperation<TMECategory, TMECategory, object, object>
 {
     internal override void Setup()
     {

@@ -335,7 +335,7 @@ public class MassParamEditRegex
     private MassEditResult ExecOp(MEOperationStage opInfo, string opName, IEnumerable<object> argFuncs, (object, object) currentObject, Dictionary<Type, (object, object)> contextObjects, METypelessOperation opType)
     {
         var argValues = argFuncs.Select(f => f.assertCompleteContextOrThrow(_currentLine).ToParamEditorString()).ToArray();
-        var opResult = parsedOp.function(opType.GetElementValue(currentObject, contextObjects), argValues);
+        var opResult = parsedOp.function(currentObject.Item1, opType.GetElementValue(currentObject, contextObjects), argValues);
         if (!opType.ValidateResult(opResult))
         {
             return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Error performing {opName} operation {opInfo.command} (line {_currentLine})");
