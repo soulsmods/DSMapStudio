@@ -43,9 +43,8 @@ internal abstract class METypelessOperation
 
     internal abstract Dictionary<string, METypelessOperationDef> AllCommands();
     internal abstract string NameForHelpTexts();
-    internal abstract object getTrueObj((object, object) currentObject, Dictionary<Type, (object, object)> contextObjects);
-    internal abstract object getTrueValue((object, object) currentObject, Dictionary<Type, (object, object)> contextObjects);
-    internal abstract bool validateResult(object res);
+    internal abstract object GetElementValue((object, object) currentObject, Dictionary<Type, (object, object)> contextObjects);
+    internal abstract bool ValidateResult(object res);
     internal abstract void UseResult(List<EditorAction> actionList, (object, object) currentObject, Dictionary<Type, (object, object)> contextObjects, object res);
     internal abstract bool HandlesCommand(string command);
 }
@@ -122,16 +121,12 @@ internal class MEGlobalOperation : MEOperation<(bool, bool), bool, bool>
             return true;
         }, () => CFG.Current.Param_AdvancedMassedit);
     }
-    internal override object getTrueObj((object, object) currentObject, Dictionary<Type, (object, object)> contextObjects)
-    {
-        return true; //Global op technically has no context / uses the dummy context of boolean
-    }
-    internal override object getTrueValue((object, object) currentObject, Dictionary<Type, (object, object)> contextObjects)
+    internal override object GetElementValue((object, object) currentObject, Dictionary<Type, (object, object)> contextObjects)
     {
         return true; //Global op technically has no context / uses the dummy context of boolean
     }
 
-    internal override bool validateResult(object res)
+    internal override bool ValidateResult(object res)
     {
         return true;
     }
@@ -230,16 +225,12 @@ internal class MERowOperation : MEOperation<(string, Param.Row), (string, Param.
             }
         );
     }
-    internal override object getTrueObj((object, object) currentObject, Dictionary<Type, (object, object)> contextObjects)
-    {
-        return currentObject.Item1;
-    }
-    internal override object getTrueValue((object, object) currentObject, Dictionary<Type, (object, object)> contextObjects)
+    internal override object GetElementValue((object, object) currentObject, Dictionary<Type, (object, object)> contextObjects)
     {
         return currentObject.Item2;
     }
 
-    internal override bool validateResult(object res)
+    internal override bool ValidateResult(object res)
     {
         if (res.GetType() != typeof((Param, Param.Row)))
             return false;
@@ -321,7 +312,7 @@ internal abstract class MEValueOperation<TMECategory> : MEOperation<TMECategory,
                 (value, args) => MassParamEdit.WithDynamicOf(value, v => Math.Min(v, double.Parse(args[0]))), () => CFG.Current.Param_AdvancedMassedit);
     }
 
-    internal override bool validateResult(object res)
+    internal override bool ValidateResult(object res)
     {
         if (res == null)
             return false;
@@ -331,12 +322,7 @@ internal abstract class MEValueOperation<TMECategory> : MEOperation<TMECategory,
 internal class MECellOperation : MEValueOperation<(PseudoColumn, Param.Column)>
 {
     public static MECellOperation cellOps = new();
-    internal override object getTrueObj((object, object) currentObject, Dictionary<Type, (object, object)> contextObjects)
-    {
-        (string param, Param.Row row) = ((string, Param.Row))contextObjects[typeof((string, Param.Row))];
-        return currentObject;
-    }
-    internal override object getTrueValue((object, object) currentObject, Dictionary<Type, (object, object)> contextObjects)
+    internal override object GetElementValue((object, object) currentObject, Dictionary<Type, (object, object)> contextObjects)
     {
         (string param, Param.Row row) = ((string, Param.Row))contextObjects[typeof((string, Param.Row))];
         (PseudoColumn, Param.Column) col = ((PseudoColumn, Param.Column))currentObject;
@@ -352,12 +338,7 @@ internal class MECellOperation : MEValueOperation<(PseudoColumn, Param.Column)>
 internal class MEVarOperation : MEValueOperation<string>
 {
     public static MEVarOperation varOps = new();
-    
-    internal override object getTrueObj((object, object) currentObject, Dictionary<Type, (object, object)> contextObjects)
-    {
-        return (string)currentObject.Item2;
-    }
-    internal override object getTrueValue((object, object) currentObject, Dictionary<Type, (object, object)> contextObjects)
+    internal override object GetElementValue((object, object) currentObject, Dictionary<Type, (object, object)> contextObjects)
     {
         return MassParamEdit.massEditVars[(string)currentObject.Item2];
     }
