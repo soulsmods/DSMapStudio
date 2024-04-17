@@ -416,7 +416,7 @@ internal class AutoFill
         return MassEditAutoFillForOperation(MECellOperation.cellOps, ref _autoFillArgsCop, ";", null);
     }
 
-    private static string MassEditAutoFillForOperation<R, A, B>(MEOperation<R, A, B> ops, ref string[] staticArgs,
+    private static string MassEditAutoFillForOperation<R, IO, IF, B>(MEOperation<R, IO, IF, B> ops, ref string[] staticArgs,
         string suffix, Func<string> subMenu)
     {
         var currentArgIndex = 0;
