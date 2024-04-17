@@ -307,6 +307,11 @@ public class MassParamEditRegex
     {
         var editCount = -1;
         filterDepth++;
+        var contexts = engine.GetStaticContextItems();
+        foreach (var context in contexts)
+        {
+            argFuncs = argFuncs.Select((func, i) => func.tryFoldAsFunc(editCount, context.Item2));
+        }
         foreach ((object, object) currentObject in engine.SearchNoType(contextObject, info.command, false, false))
         {
             editCount++;

@@ -38,6 +38,10 @@ internal abstract class TypelessSearchEngine
     internal abstract Type getElementType();
     public abstract IEnumerable<(object, object)> SearchNoType((object, object) container, string command, bool lenient, bool failureAllOrNone);
     internal abstract bool HandlesCommand(string command);
+    internal virtual IEnumerable<(Type, (object, object))> GetStaticContextItems()
+    {
+        return [];
+    }
 }
 internal class SearchEngine<TContextObject, TContextField, TElementObject, TElementField> : TypelessSearchEngine
 {
@@ -280,6 +284,10 @@ internal class ParamRowSelectionSearchEngine : SearchEngine<bool, bool, string, 
             "Selects param rows selected in the current param window",
             noArgs(noContext(param => true))));
     }
+    internal override IEnumerable<(Type, (object, object))> GetStaticContextItems()
+    {
+        return [(typeof((ParamBank, Param)), (ParamBank.PrimaryBank, ParamBank.PrimaryBank.Params[MassParamEditRegex.totalHackPleaseKillme.GetActiveParam()]))];
+    }
 }
 internal class ParamRowClipBoardSearchEngine : SearchEngine<bool, bool, string, Param.Row>
 {
@@ -295,6 +303,10 @@ internal class ParamRowClipBoardSearchEngine : SearchEngine<bool, bool, string, 
         filterList.Add("clipboard", newCmd([],
             "Selects param rows copied in the clipboard",
             noArgs(noContext(param => true))));
+    }
+    internal override IEnumerable<(Type, (object, object))> GetStaticContextItems()
+    {
+        return [(typeof((ParamBank, Param)), (ParamBank.PrimaryBank, ParamBank.PrimaryBank.Params[ParamBank.ClipboardParam]))];
     }
 }
 
