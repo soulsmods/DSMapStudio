@@ -385,18 +385,18 @@ internal class MEOperationArgument
 
     private void Setup()
     {
-        defaultGetter = newGetter<bool>([], "Gives the specified value",
+        defaultGetter = newGetter<(bool, bool)>([], "Gives the specified value",
             value => (i, c) => value[0]);
-        argumentGetters.Add("self", newGetter<Param.Row, (PseudoColumn, Param.Column)>(new string[0], "Gives the value of the currently selected value",
+        argumentGetters.Add("self", newGetter<(string, Param.Row), (PseudoColumn, Param.Column)>([], "Gives the value of the currently selected value",
             empty => (j, row) => (k, col) =>
             {
-                return row.Get(col).ToParamEditorString();
+                return row.Item2.Get(col).ToParamEditorString();
             }));
-        argumentGetters.Add("field", newGetter<Param, Param.Row>(["field internalName"],
+        argumentGetters.Add("field", newGetter<(ParamBank, Param), (string, Param.Row)>(["field internalName"],
             "Gives the value of the given cell/field for the currently selected row and param", field =>
                 (i, param) =>
                 {
-                    (PseudoColumn, Param.Column) col = param.GetCol(field[0]);
+                    (PseudoColumn, Param.Column) col = param.Item2.GetCol(field[0]);
                     if (!col.IsColumnValid())
                     {
                         throw new MEOperationException($@"Could not locate field {field[0]}");
@@ -404,30 +404,30 @@ internal class MEOperationArgument
 
                     return (j, row) =>
                     {
-                        var v = row.Get(col).ToParamEditorString();
+                        var v = row.Item2.Get(col).ToParamEditorString();
                         return v;
                     };
                 }));
-        argumentGetters.Add("vanilla", newGetter<Param, Param.Row, (PseudoColumn, Param.Column)>([],
+        argumentGetters.Add("vanilla", newGetter<(ParamBank, Param), (string, Param.Row), (PseudoColumn, Param.Column)>([],
             "Gives the value of the equivalent cell/field in the vanilla regulation or parambnd for the currently selected cell/field, row and param.\nWill fail if a row does not have a vanilla equivilent. Consider using && !added",
             empty =>
             {
                 ParamBank bank = ParamBank.VanillaBank;
                 return (i, param) =>
                 {
-                    var paramName = ParamBank.PrimaryBank.GetKeyForParam(param);
+                    var paramName = ParamBank.PrimaryBank.GetKeyForParam(param.Item2);
                     if (!bank.Params.ContainsKey(paramName))
                     {
-                        throw new MEOperationException($@"Could not locate vanilla param for {param.ParamType}");
+                        throw new MEOperationException($@"Could not locate vanilla param for {param.Item2.ParamType}");
                     }
 
                     Param vParam = bank.Params[paramName];
                     return (j, row) =>
                     {
-                        Param.Row vRow = vParam?[row.ID];
+                        Param.Row vRow = vParam?[row.Item2.ID];
                         if (vRow == null)
                         {
-                            throw new MEOperationException($@"Could not locate vanilla row {row.ID}");
+                            throw new MEOperationException($@"Could not locate vanilla row {row.Item2.ID}");
                         }
 
                         return (k, col) =>
@@ -442,7 +442,7 @@ internal class MEOperationArgument
                     };
                 };
             }));
-        argumentGetters.Add("aux", newGetter<Param, Param.Row, (PseudoColumn, Param.Column)>(["parambank name"],
+        argumentGetters.Add("aux", newGetter<(ParamBank, Param), (string, Param.Row), (PseudoColumn, Param.Column)>(["parambank name"],
             "Gives the value of the equivalent cell/field in the specified regulation or parambnd for the currently selected cell/field, row and param.\nWill fail if a row does not have an aux equivilent. Consider using && auxprop ID .*",
             bankName =>
             {
@@ -454,19 +454,19 @@ internal class MEOperationArgument
                 ParamBank bank = ParamBank.AuxBanks[bankName[0]];
                 return (i, param) =>
                 {
-                    var paramName = ParamBank.PrimaryBank.GetKeyForParam(param);
+                    var paramName = ParamBank.PrimaryBank.GetKeyForParam(param.Item2);
                     if (!bank.Params.ContainsKey(paramName))
                     {
-                        throw new MEOperationException($@"Could not locate aux param for {param.ParamType}");
+                        throw new MEOperationException($@"Could not locate aux param for {param.Item2.ParamType}");
                     }
 
                     Param vParam = bank.Params[paramName];
                     return (j, row) =>
                     {
-                        Param.Row vRow = vParam?[row.ID];
+                        Param.Row vRow = vParam?[row.Item2.ID];
                         if (vRow == null)
                         {
-                            throw new MEOperationException($@"Could not locate aux row {row.ID}");
+                            throw new MEOperationException($@"Could not locate aux row {row.Item2.ID}");
                         }
 
                         return (k, col) =>
@@ -481,15 +481,15 @@ internal class MEOperationArgument
                     };
                 };
             }, () => ParamBank.AuxBanks.Count > 0));
-        argumentGetters.Add("vanillafield", newGetter<Param, Param.Row>(["field internalName"],
+        argumentGetters.Add("vanillafield", newGetter<(ParamBank, Param), (string, Param.Row)>(["field internalName"],
             "Gives the value of the specified cell/field in the vanilla regulation or parambnd for the currently selected row and param.\nWill fail if a row does not have a vanilla equivilent. Consider using && !added",
             field => (i, param) =>
             {
-                var paramName = ParamBank.PrimaryBank.GetKeyForParam(param);
+                var paramName = ParamBank.PrimaryBank.GetKeyForParam(param.Item2);
                 Param? vParam = ParamBank.VanillaBank.GetParamFromName(paramName);
                 if (vParam == null)
                 {
-                    throw new MEOperationException($@"Could not locate vanilla param for {param.ParamType}");
+                    throw new MEOperationException($@"Could not locate vanilla param for {param.Item2.ParamType}");
                 }
 
                 (PseudoColumn, Param.Column) col = vParam.GetCol(field[0]);
@@ -500,17 +500,17 @@ internal class MEOperationArgument
 
                 return (j, row) =>
                 {
-                    Param.Row vRow = vParam?[row.ID];
+                    Param.Row vRow = vParam?[row.Item2.ID];
                     if (vRow == null)
                     {
-                        throw new MEOperationException($@"Could not locate vanilla row {row.ID}");
+                        throw new MEOperationException($@"Could not locate vanilla row {row.Item2.ID}");
                     }
 
                     var v = vRow.Get(col).ToParamEditorString();
                     return v;
                 };
             }));
-        argumentGetters.Add("auxfield", newGetter<Param, Param.Row>(["parambank name", "field internalName"],
+        argumentGetters.Add("auxfield", newGetter<(ParamBank, Param), (string, Param.Row)>(["parambank name", "field internalName"],
             "Gives the value of the specified cell/field in the specified regulation or parambnd for the currently selected row and param.\nWill fail if a row does not have an aux equivilent. Consider using && auxprop ID .*",
             bankAndField =>
             {
@@ -522,10 +522,10 @@ internal class MEOperationArgument
                 ParamBank bank = ParamBank.AuxBanks[bankAndField[0]];
                 return (i, param) =>
                 {
-                    var paramName = ParamBank.PrimaryBank.GetKeyForParam(param);
+                    var paramName = ParamBank.PrimaryBank.GetKeyForParam(param.Item2);
                     if (!bank.Params.ContainsKey(paramName))
                     {
-                        throw new MEOperationException($@"Could not locate aux param for {param.ParamType}");
+                        throw new MEOperationException($@"Could not locate aux param for {param.Item2.ParamType}");
                     }
 
                     Param vParam = bank.Params[paramName];
@@ -537,10 +537,10 @@ internal class MEOperationArgument
 
                     return (j, row) =>
                     {
-                        Param.Row vRow = vParam?[row.ID];
+                        Param.Row vRow = vParam?[row.Item2.ID];
                         if (vRow == null)
                         {
-                            throw new MEOperationException($@"Could not locate aux row {row.ID}");
+                            throw new MEOperationException($@"Could not locate aux row {row.Item2.ID}");
                         }
 
                         var v = vRow.Get(col).ToParamEditorString();
@@ -548,7 +548,7 @@ internal class MEOperationArgument
                     };
                 };
             }, () => ParamBank.AuxBanks.Count > 0));
-        argumentGetters.Add("paramlookup", newGetter<bool>(["param name", "row id", "field name"],
+        argumentGetters.Add("paramlookup", newGetter<(bool, bool)>(["param name", "row id", "field name"],
             "Returns the specific value specified by the exact param, row and field.", address =>
             {
                 Param param = ParamBank.PrimaryBank.Params[address[0]];
@@ -564,11 +564,11 @@ internal class MEOperationArgument
                 var value = row.Get(field).ToParamEditorString();
                 return (i, c) => value;
             }, () => CFG.Current.Param_AdvancedMassedit));
-        argumentGetters.Add("average", newGetter<Param>(["field internalName", "row selector"],
+        argumentGetters.Add("average", newGetter<(ParamBank, Param)>(["field internalName", "row selector"],
             "Gives the mean value of the cells/fields found using the given selector, for the currently selected param",
             field => (i, param) =>
             {
-                (PseudoColumn, Param.Column) col = param.GetCol(field[0]);
+                (PseudoColumn, Param.Column) col = param.Item2.GetCol(field[0]);
                 if (!col.IsColumnValid())
                 {
                     throw new MEOperationException($@"Could not locate field {field[0]}");
@@ -581,74 +581,74 @@ internal class MEOperationArgument
                 }
 
                 List<(string, Param.Row)>? rows =
-                    RowSearchEngine.rse.Search((ParamBank.PrimaryBank, param), field[1], false, false);
+                    RowSearchEngine.rse.Search(param, field[1], false, false);
                 IEnumerable<object> vals = rows.Select((row, i) => row.Item2.Get(col));
                 var avg = vals.Average(val => Convert.ToDouble(val));
                 return avg.ToString();
             }, () => CFG.Current.Param_AdvancedMassedit));
-        argumentGetters.Add("median", newGetter<Param>(["field internalName", "row selector"],
+        argumentGetters.Add("median", newGetter<(ParamBank, Param)>(["field internalName", "row selector"],
             "Gives the median value of the cells/fields found using the given selector, for the currently selected param",
             field => (i, param) =>
             {
-                (PseudoColumn, Param.Column) col = param.GetCol(field[0]);
+                (PseudoColumn, Param.Column) col = param.Item2.GetCol(field[0]);
                 if (!col.IsColumnValid())
                 {
                     throw new MEOperationException($@"Could not locate field {field[0]}");
                 }
 
                 List<(string, Param.Row)>? rows =
-                    RowSearchEngine.rse.Search((ParamBank.PrimaryBank, param), field[1], false, false);
+                    RowSearchEngine.rse.Search(param, field[1], false, false);
                 IEnumerable<object> vals = rows.Select((row, i) => row.Item2.Get(col));
                 var avg = vals.OrderBy(val => Convert.ToDouble(val)).ElementAt(vals.Count() / 2);
                 return avg.ToParamEditorString();
             }, () => CFG.Current.Param_AdvancedMassedit));
-        argumentGetters.Add("mode", newGetter<Param>(["field internalName", "row selector"],
+        argumentGetters.Add("mode", newGetter<(ParamBank, Param)>(["field internalName", "row selector"],
             "Gives the most common value of the cells/fields found using the given selector, for the currently selected param",
             field => (i, param) =>
             {
-                (PseudoColumn, Param.Column) col = param.GetCol(field[0]);
+                (PseudoColumn, Param.Column) col = param.Item2.GetCol(field[0]);
                 if (!col.IsColumnValid())
                 {
                     throw new MEOperationException($@"Could not locate field {field[0]}");
                 }
 
                 List<(string, Param.Row)>? rows =
-                    RowSearchEngine.rse.Search((ParamBank.PrimaryBank, param), field[1], false, false);
+                    RowSearchEngine.rse.Search(param, field[1], false, false);
                 var avg = ParamUtils.GetParamValueDistribution(rows.Select((x, i) => x.Item2), col).OrderByDescending(g => g.Item2)
                     .First().Item1;
                 return avg.ToParamEditorString();
             }, () => CFG.Current.Param_AdvancedMassedit));
-        argumentGetters.Add("min", newGetter<Param>(["field internalName", "row selector"],
+        argumentGetters.Add("min", newGetter<(ParamBank, Param)>(["field internalName", "row selector"],
             "Gives the smallest value from the cells/fields found using the given param, row selector and field",
             field => (i, param) =>
             {
-                (PseudoColumn, Param.Column) col = param.GetCol(field[0]);
+                (PseudoColumn, Param.Column) col = param.Item2.GetCol(field[0]);
                 if (!col.IsColumnValid())
                 {
                     throw new MEOperationException($@"Could not locate field {field[0]}");
                 }
 
                 List<(string, Param.Row)>? rows =
-                    RowSearchEngine.rse.Search((ParamBank.PrimaryBank, param), field[1], false, false);
+                    RowSearchEngine.rse.Search(param, field[1], false, false);
                 var min = rows.Min(r => r.Item2[field[0]].Value.Value);
                 return min.ToParamEditorString();
             }, () => CFG.Current.Param_AdvancedMassedit));
-        argumentGetters.Add("max", newGetter<Param>(["field internalName", "row selector"],
+        argumentGetters.Add("max", newGetter<(ParamBank, Param)>(["field internalName", "row selector"],
             "Gives the largest value from the cells/fields found using the given param, row selector and field",
             field => (i, param) =>
             {
-                (PseudoColumn, Param.Column) col = param.GetCol(field[0]);
+                (PseudoColumn, Param.Column) col = param.Item2.GetCol(field[0]);
                 if (!col.IsColumnValid())
                 {
                     throw new MEOperationException($@"Could not locate field {field[0]}");
                 }
 
                 List<(string, Param.Row)>? rows =
-                    RowSearchEngine.rse.Search((ParamBank.PrimaryBank, param), field[1], false, false);
+                    RowSearchEngine.rse.Search(param, field[1], false, false);
                 var max = rows.Max(r => r.Item2[field[0]].Value.Value);
                 return max.ToParamEditorString();
             }, () => CFG.Current.Param_AdvancedMassedit));
-        argumentGetters.Add("random", newGetter<bool>(
+        argumentGetters.Add("random", newGetter<(bool, bool)>(
             ["minimum number (inclusive)", "maximum number (exclusive)"],
             "Gives a random decimal number between the given values for each selected value", minAndMax =>
             {
@@ -667,7 +667,7 @@ internal class MEOperationArgument
                 var range = max - min;
                 return (i, c) => ((Random.Shared.NextDouble() * range) + min).ToString();
             }, () => CFG.Current.Param_AdvancedMassedit));
-        argumentGetters.Add("randint", newGetter<bool>(
+        argumentGetters.Add("randint", newGetter<(bool, bool)>(
             ["minimum integer (inclusive)", "maximum integer (inclusive)"],
             "Gives a random integer between the given values for each selected value", minAndMax =>
             {
@@ -685,7 +685,7 @@ internal class MEOperationArgument
 
                 return (i, c) => Random.Shared.NextInt64(min, max + 1).ToString();
             }, () => CFG.Current.Param_AdvancedMassedit));
-        argumentGetters.Add("randFrom", newGetter<bool>(["param name", "field internalName", "row selector"],
+        argumentGetters.Add("randFrom", newGetter<(bool, bool)>(["param name", "field internalName", "row selector"],
             "Gives a random value from the cells/fields found using the given param, row selector and field, for each selected value",
             paramFieldRowSelector =>
             {
@@ -695,13 +695,13 @@ internal class MEOperationArgument
                 var values = srcRows.Select((r, i) => r.Item2[paramFieldRowSelector[1]].Value.Value).ToArray();
                 return (i, c) => values[Random.Shared.NextInt64(values.Length)].ToString();
             }, () => CFG.Current.Param_AdvancedMassedit));
-        argumentGetters.Add("paramIndex", newGetter<Param>([],
+        argumentGetters.Add("paramIndex", newGetter<(ParamBank, Param)>([],
             "Gives an integer for the current selected param, beginning at 0 and increasing by 1 for each param selected",
             empty => (i, param) =>
             {
                 return i.ToParamEditorString();
             }, () => CFG.Current.Param_AdvancedMassedit));
-        argumentGetters.Add("rowIndex", newGetter<Param.Row>([],
+        argumentGetters.Add("rowIndex", newGetter<(string, Param.Row)>([],
             "Gives an integer for the current selected row, beginning at 0 and increasing by 1 for each row selected",
             empty => (j, row) =>
             {
