@@ -17,24 +17,26 @@ internal class AutoFillSearchEngine
     private bool _autoFillNotToggle;
     private bool _useAdditionalCondition;
 
-    internal AutoFillSearchEngine(string id, SearchEngine searchEngine)
+    internal AutoFillSearchEngine(SearchEngine searchEngine)
     {
-        this.id = id;
+        AutoFill._imguiID++;
+        id = "e" + AutoFill._imguiID;
         engine = searchEngine;
         _autoFillArgs = Enumerable.Repeat("", engine.AllCommands().Sum(x => x.Item2.Length)).ToArray();
         _autoFillNotToggle = false;
         _useAdditionalCondition = false;
         _additionalCondition = null;
     }
-
-    internal string Menu(bool enableComplexToggles, bool enableDefault, string suffix, string inheritedCommand,
-        Func<string, string> subMenu)
+    private AutoFillSearchEngine(AutoFillSearchEngine parentEngine)
     {
-        return Menu(enableComplexToggles, null, enableDefault, suffix, inheritedCommand, subMenu);
+        id = parentEngine.id + "+";
+        engine = parentEngine.engine;
+        _autoFillArgs = Enumerable.Repeat("", engine.AllCommands().Sum(x => x.Item2.Length)).ToArray();
+        _autoFillNotToggle = false;
+        _useAdditionalCondition = false;
+        _additionalCondition = null;
     }
-
-    internal string Menu(bool enableComplexToggles, AutoFillSearchEngine multiStageSE,
-        bool enableDefault, string suffix, string inheritedCommand, Func<string, string> subMenu)
+    internal string Menu(bool enableComplexToggles, bool enableDefault, string suffix, string inheritedCommand, Func<string, string> subMenu)
     {
         var currentArgIndex = 0;
         if (enableComplexToggles)
@@ -44,15 +46,10 @@ internal class AutoFillSearchEngine
             ImGui.Checkbox("Add another condition?##meautoinputadditionalcondition" + id,
                 ref _useAdditionalCondition);
         }
-        else if (multiStageSE != null)
-        {
-            ImGui.Checkbox("Add another condition?##meautoinputadditionalcondition" + id,
-                ref _useAdditionalCondition);
-        }
 
         if (_useAdditionalCondition && _additionalCondition == null)
         {
-            _additionalCondition = new AutoFillSearchEngine(id + "0", engine);
+            _additionalCondition = new AutoFillSearchEngine(this);
         }
         else if (!_useAdditionalCondition)
         {
@@ -83,12 +80,7 @@ internal class AutoFillSearchEngine
                 {
                     var curResult = inheritedCommand + getCurrentStepText(valid, cmd.Item1, argIndices,
                         _additionalCondition != null ? " && " : suffix);
-                    if (_useAdditionalCondition && multiStageSE != null)
-                    {
-                        subResult = multiStageSE.Menu(enableComplexToggles, enableDefault, suffix, curResult,
-                            subMenu);
-                    }
-                    else if (_additionalCondition != null)
+                    if (_additionalCondition != null)
                     {
                         subResult = _additionalCondition.Menu(enableComplexToggles, enableDefault, suffix,
                             curResult, subMenu);
@@ -177,15 +169,16 @@ internal class AutoFillOperation
     private readonly METypelessOperation op;
     private readonly string id;
 
-    internal AutoFillOperation(string id, METypelessOperation operation)
+    internal AutoFillOperation(METypelessOperation operation)
     {
-        this.id = id;
+        AutoFill._imguiID++;
+        id = "e" + AutoFill._imguiID;
         op = operation;
         _autoFillArgs = Enumerable.Repeat("", op.AllCommands().Sum(x => x.Value.argNames.Length)).ToArray();
 
     }
 
-    internal string MassEditAutoFillForOperation(string suffix, Func<string> subMenu)
+    internal string Menu(string suffix, Func<string> subMenu)
     {
         var currentArgIndex = 0;
         string result = null;
@@ -270,17 +263,18 @@ internal class AutoFillOperation
 
 internal class AutoFill
 {
-    private static readonly AutoFillSearchEngine autoFillPrsse = new("prsse", SearchEngine.paramRowSelection);
-    private static readonly AutoFillSearchEngine autoFillPrcse = new("prcse", SearchEngine.paramRowClipboard);
-    private static readonly AutoFillSearchEngine autoFillPse = new("pse", SearchEngine.paramRowSelection);
-    private static readonly AutoFillSearchEngine autoFillRse = new("rse", SearchEngine.row);
-    private static readonly AutoFillSearchEngine autoFillCse = new("cse", SearchEngine.cell);
-    private static readonly AutoFillSearchEngine autoFillVse = new("vse", SearchEngine.var);
+    internal static int _imguiID = 0;
+    private static readonly AutoFillSearchEngine autoFillPrsse = new(SearchEngine.paramRowSelection);
+    private static readonly AutoFillSearchEngine autoFillPrcse = new(SearchEngine.paramRowClipboard);
+    private static readonly AutoFillSearchEngine autoFillPse = new(SearchEngine.paramRowSelection);
+    private static readonly AutoFillSearchEngine autoFillRse = new(SearchEngine.row);
+    private static readonly AutoFillSearchEngine autoFillCse = new(SearchEngine.cell);
+    private static readonly AutoFillSearchEngine autoFillVse = new(SearchEngine.var);
 
-    private static readonly AutoFillOperation autoFillGo = new("go", METypelessOperation.global);
-    private static readonly AutoFillOperation autoFillRo = new("ro", METypelessOperation.row);
-    private static readonly AutoFillOperation autoFillCo = new("co", METypelessOperation.cell);
-    private static readonly AutoFillOperation autoFillVo = new("vo", METypelessOperation.var);
+    private static readonly AutoFillOperation autoFillGo = new(METypelessOperation.global);
+    private static readonly AutoFillOperation autoFillRo = new(METypelessOperation.row);
+    private static readonly AutoFillOperation autoFillCo = new(METypelessOperation.cell);
+    private static readonly AutoFillOperation autoFillVo = new(METypelessOperation.var);
 
     private static string[] _autoFillArgsOa = Enumerable.Repeat("", MEOperationArgument.arg.AllArguments().Sum(x => x.Item2.Length) + 1).ToArray();
 
@@ -342,7 +336,7 @@ internal class AutoFill
             /*special case*/
             ImGui.PushID("paramrowselection");
             ImGui.TextColored(HINTCOLOUR, "Select param and rows...");
-            var result0 = autoFillPrsse.Menu(false, autoFillRse, false, ": ", null, inheritedCommand =>
+            var result0 = autoFillPrsse.Menu(false, false, ": ", null, inheritedCommand =>
             {
                 if (inheritedCommand != null)
                 {
@@ -358,11 +352,11 @@ internal class AutoFill
                     }
 
                     ImGui.TextColored(HINTCOLOUR, "Select field operation...");
-                    return autoFillCo.MassEditAutoFillForOperation(";", null);
+                    return autoFillCo.Menu(";", null);
                 });
                 ImGui.Separator();
                 ImGui.TextColored(HINTCOLOUR, "Select row operation...");
-                var res2 = autoFillRo.MassEditAutoFillForOperation(";", null);
+                var res2 = autoFillRo.Menu(";", null);
                 if (res1 != null)
                 {
                     return res1;
@@ -372,7 +366,7 @@ internal class AutoFill
             });
             ImGui.PopID();
             ImGui.PushID("paramrowclipboard");
-            var result1 = autoFillPrcse.Menu(false, autoFillRse, false, ": ", null, inheritedCommand =>
+            var result1 = autoFillPrcse.Menu(false, false, ": ", null, inheritedCommand =>
             {
                 if (inheritedCommand != null)
                 {
@@ -388,11 +382,11 @@ internal class AutoFill
                     }
 
                     ImGui.TextColored(HINTCOLOUR, "Select field operation...");
-                    return autoFillCo.MassEditAutoFillForOperation(";", null);
+                    return autoFillCo.Menu(";", null);
                 });
                 ImGui.Separator();
                 ImGui.TextColored(HINTCOLOUR, "Select row operation...");
-                var res2 = autoFillRo.MassEditAutoFillForOperation(";", null);
+                var res2 = autoFillRo.Menu(";", null);
                 if (res1 != null)
                 {
                     return res1;
@@ -429,14 +423,14 @@ internal class AutoFill
                         }
 
                         ImGui.TextColored(HINTCOLOUR, "Select field operation...");
-                        return autoFillCo.MassEditAutoFillForOperation(";", null);
+                        return autoFillCo.Menu(";", null);
                     });
                     string res2 = null;
                     if (CFG.Current.Param_AdvancedMassedit)
                     {
                         ImGui.Separator();
                         ImGui.TextColored(HINTCOLOUR, "Select row operation...");
-                        res2 = autoFillRo.MassEditAutoFillForOperation(";", null);
+                        res2 = autoFillRo.Menu(";", null);
                     }
 
                     if (res1 != null)
@@ -455,7 +449,7 @@ internal class AutoFill
                 ImGui.Separator();
                 ImGui.PushID("globalop");
                 ImGui.TextColored(HINTCOLOUR, "Select global operation...");
-                result3 = autoFillGo.MassEditAutoFillForOperation(";", null);
+                result3 = autoFillGo.Menu(";", null);
                 ImGui.PopID();
                 if (MassParamEdit.massEditVars.Count != 0)
                 {
@@ -470,7 +464,7 @@ internal class AutoFill
                         }
 
                         ImGui.TextColored(HINTCOLOUR, "Select value operation...");
-                        return autoFillVo.MassEditAutoFillForOperation(";", null);
+                        return autoFillVo.Menu(";", null);
                     });
                 }
             }
@@ -499,7 +493,7 @@ internal class AutoFill
 
     public static string MassEditOpAutoFill()
     {
-        return autoFillCo.MassEditAutoFillForOperation(";", null);
+        return autoFillCo.Menu(";", null);
     }
 
     internal static string MassEditAutoFillForArguments()
