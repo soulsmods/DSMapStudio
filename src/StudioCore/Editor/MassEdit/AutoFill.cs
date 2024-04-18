@@ -171,6 +171,103 @@ internal class AutoFillSearchEngine
     }
 }
 
+internal class AutoFillOperation
+{
+    private readonly string[] _autoFillArgs;
+    private readonly METypelessOperation op;
+    private readonly string id;
+
+    internal AutoFillOperation(string id, METypelessOperation operation)
+    {
+        this.id = id;
+        op = operation;
+        _autoFillArgs = Enumerable.Repeat("", op.AllCommands().Sum(x => x.Value.argNames.Length)).ToArray();
+
+    }
+
+    internal string MassEditAutoFillForOperation(string suffix, Func<string> subMenu)
+    {
+        var currentArgIndex = 0;
+        string result = null;
+        foreach (KeyValuePair<string, METypelessOperationDef> cmd in op.AllCommands())
+        {
+            string cmdName = cmd.Key;
+            METypelessOperationDef cmdData = cmd.Value;
+            var argIndices = new int[cmdData.argNames.Length];
+            var valid = true;
+            for (var i = 0; i < argIndices.Length; i++)
+            {
+                argIndices[i] = currentArgIndex;
+                currentArgIndex++;
+                if (string.IsNullOrEmpty(_autoFillArgs[argIndices[i]]))
+                {
+                    valid = false;
+                }
+            }
+            if (cmdData.shouldShow != null && !cmdData.shouldShow())
+                continue;
+
+            var wiki = cmdData.wiki;
+            UIHints.AddImGuiHintButton(cmdName, ref wiki, false, true);
+            if (subMenu != null)
+            {
+                if (ImGui.BeginMenu(cmdName, valid))
+                {
+                    result = subMenu();
+                    ImGui.EndMenu();
+                }
+            }
+            else
+            {
+                result = ImGui.Selectable(cmdName, false,
+                    valid ? ImGuiSelectableFlags.None : ImGuiSelectableFlags.Disabled)
+                    ? suffix
+                    : null;
+            }
+
+            ImGui.Indent();
+            for (var i = 0; i < argIndices.Length; i++)
+            {
+                if (i != 0)
+                {
+                    ImGui.SameLine();
+                }
+
+                ImGui.InputTextWithHint("##meautoinputop" + argIndices[i], cmdData.argNames[i],
+                    ref _autoFillArgs[argIndices[i]], 256);
+                ImGui.SameLine();
+                ImGui.Button($@"{ForkAwesome.CaretDown}");
+                if (ImGui.BeginPopupContextItem("##meautoinputoapopup" + argIndices[i],
+                        ImGuiPopupFlags.MouseButtonLeft))
+                {
+                    var opargResult = AutoFill.MassEditAutoFillForArguments();
+                    if (opargResult != null)
+                    {
+                        _autoFillArgs[argIndices[i]] = opargResult;
+                    }
+
+                    ImGui.EndPopup();
+                }
+            }
+
+            ImGui.Unindent();
+            if (result != null && valid)
+            {
+                var argText = argIndices.Length > 0 ? _autoFillArgs[argIndices[0]] : null;
+                for (var i = 1; i < argIndices.Length; i++)
+                {
+                    argText += ":" + _autoFillArgs[argIndices[i]];
+                }
+
+                result = cmdName + (argText != null ? " " + argText + result : result);
+                return result;
+            }
+        }
+
+        return result;
+    }
+}
+
 internal class AutoFill
 {
     private static readonly AutoFillSearchEngine autoFillPrsse = new("prsse", SearchEngine.paramRowSelection);
@@ -180,11 +277,12 @@ internal class AutoFill
     private static readonly AutoFillSearchEngine autoFillCse = new("cse", SearchEngine.cell);
     private static readonly AutoFillSearchEngine autoFillVse = new("vse", SearchEngine.var);
 
-    private static string[] _autoFillArgsGop = Enumerable.Repeat("", METypelessOperation.global.AllCommands().Sum((x) => x.Value.argNames.Length)).ToArray();
-    private static string[] _autoFillArgsRop = Enumerable.Repeat("", METypelessOperation.row.AllCommands().Sum((x) => x.Value.argNames.Length)).ToArray();
-    private static string[] _autoFillArgsCop = Enumerable.Repeat("", METypelessOperation.cell.AllCommands().Sum((x) => x.Value.argNames.Length)).ToArray();
-    private static string[] _autoFillArgsOa =
-        Enumerable.Repeat("", MEOperationArgument.arg.AllArguments().Sum(x => x.Item2.Length)).ToArray();
+    private static readonly AutoFillOperation autoFillGo = new("go", METypelessOperation.global);
+    private static readonly AutoFillOperation autoFillRo = new("ro", METypelessOperation.row);
+    private static readonly AutoFillOperation autoFillCo = new("co", METypelessOperation.cell);
+    private static readonly AutoFillOperation autoFillVo = new("vo", METypelessOperation.var);
+
+    private static string[] _autoFillArgsOa = Enumerable.Repeat("", MEOperationArgument.arg.AllArguments().Sum(x => x.Item2.Length)).ToArray();
 
     private static string _literalArg = "";
 
@@ -262,11 +360,11 @@ internal class AutoFill
                     }
 
                     ImGui.TextColored(HINTCOLOUR, "Select field operation...");
-                    return MassEditAutoFillForOperation(METypelessOperation.cell, ref _autoFillArgsCop, ";", null);
+                    return autoFillCo.MassEditAutoFillForOperation(";", null);
                 });
                 ImGui.Separator();
                 ImGui.TextColored(HINTCOLOUR, "Select row operation...");
-                var res2 = MassEditAutoFillForOperation(METypelessOperation.row, ref _autoFillArgsRop, ";", null);
+                var res2 = autoFillRo.MassEditAutoFillForOperation(";", null);
                 if (res1 != null)
                 {
                     return res1;
@@ -292,11 +390,11 @@ internal class AutoFill
                     }
 
                     ImGui.TextColored(HINTCOLOUR, "Select field operation...");
-                    return MassEditAutoFillForOperation(METypelessOperation.cell, ref _autoFillArgsCop, ";", null);
+                    return autoFillCo.MassEditAutoFillForOperation(";", null);
                 });
                 ImGui.Separator();
                 ImGui.TextColored(HINTCOLOUR, "Select row operation...");
-                var res2 = MassEditAutoFillForOperation(METypelessOperation.row, ref _autoFillArgsRop, ";", null);
+                var res2 = autoFillRo.MassEditAutoFillForOperation(";", null);
                 if (res1 != null)
                 {
                     return res1;
@@ -333,15 +431,14 @@ internal class AutoFill
                         }
 
                         ImGui.TextColored(HINTCOLOUR, "Select field operation...");
-                        return MassEditAutoFillForOperation(METypelessOperation.cell, ref _autoFillArgsCop, ";",
-                            null);
+                        return autoFillCo.MassEditAutoFillForOperation(";", null);
                     });
                     string res2 = null;
                     if (CFG.Current.Param_AdvancedMassedit)
                     {
                         ImGui.Separator();
                         ImGui.TextColored(HINTCOLOUR, "Select row operation...");
-                        res2 = MassEditAutoFillForOperation(METypelessOperation.row, ref _autoFillArgsRop, ";", null);
+                        res2 = autoFillRo.MassEditAutoFillForOperation(";", null);
                     }
 
                     if (res1 != null)
@@ -360,8 +457,7 @@ internal class AutoFill
                 ImGui.Separator();
                 ImGui.PushID("globalop");
                 ImGui.TextColored(HINTCOLOUR, "Select global operation...");
-                result3 = MassEditAutoFillForOperation(METypelessOperation.global, ref _autoFillArgsGop, ";",
-                    null);
+                result3 = autoFillGo.MassEditAutoFillForOperation(";", null);
                 ImGui.PopID();
                 if (MassParamEdit.massEditVars.Count != 0)
                 {
@@ -376,8 +472,7 @@ internal class AutoFill
                         }
 
                         ImGui.TextColored(HINTCOLOUR, "Select value operation...");
-                        return MassEditAutoFillForOperation(METypelessOperation.cell, ref _autoFillArgsCop, ";",
-                            null);
+                        return autoFillVo.MassEditAutoFillForOperation(";", null);
                     });
                 }
             }
@@ -406,97 +501,14 @@ internal class AutoFill
 
     public static string MassEditOpAutoFill()
     {
-        return MassEditAutoFillForOperation(METypelessOperation.cell, ref _autoFillArgsCop, ";", null);
+        return autoFillCo.MassEditAutoFillForOperation(";", null);
     }
 
-    private static string MassEditAutoFillForOperation<R, IO, IF, B>(MEOperation<R, IO, IF, B> ops, ref string[] staticArgs,
-        string suffix, Func<string> subMenu)
+    internal static string MassEditAutoFillForArguments()
     {
         var currentArgIndex = 0;
         string result = null;
-        foreach (KeyValuePair<string, METypelessOperationDef> cmd in ops.AllCommands())
-        {
-            string cmdName = cmd.Key;
-            METypelessOperationDef cmdData = cmd.Value;
-            var argIndices = new int[cmdData.argNames.Length];
-            var valid = true;
-            for (var i = 0; i < argIndices.Length; i++)
-            {
-                argIndices[i] = currentArgIndex;
-                currentArgIndex++;
-                if (string.IsNullOrEmpty(staticArgs[argIndices[i]]))
-                {
-                    valid = false;
-                }
-            }
-            if (cmdData.shouldShow != null && !cmdData.shouldShow())
-                continue;
-
-            var wiki = cmdData.wiki;
-            UIHints.AddImGuiHintButton(cmdName, ref wiki, false, true);
-            if (subMenu != null)
-            {
-                if (ImGui.BeginMenu(cmdName, valid))
-                {
-                    result = subMenu();
-                    ImGui.EndMenu();
-                }
-            }
-            else
-            {
-                result = ImGui.Selectable(cmdName, false,
-                    valid ? ImGuiSelectableFlags.None : ImGuiSelectableFlags.Disabled)
-                    ? suffix
-                    : null;
-            }
-
-            ImGui.Indent();
-            for (var i = 0; i < argIndices.Length; i++)
-            {
-                if (i != 0)
-                {
-                    ImGui.SameLine();
-                }
-
-                ImGui.InputTextWithHint("##meautoinputop" + argIndices[i], cmdData.argNames[i],
-                    ref staticArgs[argIndices[i]], 256);
-                ImGui.SameLine();
-                ImGui.Button($@"{ForkAwesome.CaretDown}");
-                if (ImGui.BeginPopupContextItem("##meautoinputoapopup" + argIndices[i],
-                        ImGuiPopupFlags.MouseButtonLeft))
-                {
-                    var opargResult = MassEditAutoFillForArguments(MEOperationArgument.arg, ref _autoFillArgsOa);
-                    if (opargResult != null)
-                    {
-                        staticArgs[argIndices[i]] = opargResult;
-                    }
-
-                    ImGui.EndPopup();
-                }
-            }
-
-            ImGui.Unindent();
-            if (result != null && valid)
-            {
-                var argText = argIndices.Length > 0 ? staticArgs[argIndices[0]] : null;
-                for (var i = 1; i < argIndices.Length; i++)
-                {
-                    argText += ":" + staticArgs[argIndices[i]];
-                }
-
-                result = cmdName + (argText != null ? " " + argText + result : result);
-                return result;
-            }
-        }
-
-        return result;
-    }
-
-    private static string MassEditAutoFillForArguments(MEOperationArgument oa, ref string[] staticArgs)
-    {
-        var currentArgIndex = 0;
-        string result = null;
-        foreach ((string, string, string[]) arg in oa.VisibleArguments())
+        foreach ((string, string, string[]) arg in MEOperationArgument.arg.VisibleArguments())
         {
             var argIndices = new int[arg.Item3.Length];
             var valid = true;
@@ -504,7 +516,7 @@ internal class AutoFill
             {
                 argIndices[i] = currentArgIndex;
                 currentArgIndex++;
-                if (string.IsNullOrEmpty(staticArgs[argIndices[i]]))
+                if (string.IsNullOrEmpty(_autoFillArgsOa[argIndices[i]]))
                 {
                     valid = false;
                 }
@@ -520,7 +532,7 @@ internal class AutoFill
                 var argText = "";
                 for (var i = 0; i < argIndices.Length; i++)
                 {
-                    argText += " " + staticArgs[argIndices[i]];
+                    argText += " " + _autoFillArgsOa[argIndices[i]];
                 }
 
                 return arg.Item1 + argText;
@@ -535,11 +547,11 @@ internal class AutoFill
                 }
 
                 ImGui.InputTextWithHint("##meautoinputoa" + argIndices[i], arg.Item3[i],
-                    ref staticArgs[argIndices[i]], 256);
+                    ref _autoFillArgsOa[argIndices[i]], 256);
                 var var = MassEditAutoFillForVars(argIndices[i]);
                 if (var != null)
                 {
-                    staticArgs[argIndices[i]] = var;
+                    _autoFillArgsOa[argIndices[i]] = var;
                 }
             }
 
