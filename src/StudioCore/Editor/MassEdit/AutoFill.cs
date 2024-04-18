@@ -282,9 +282,7 @@ internal class AutoFill
     private static readonly AutoFillOperation autoFillCo = new("co", METypelessOperation.cell);
     private static readonly AutoFillOperation autoFillVo = new("vo", METypelessOperation.var);
 
-    private static string[] _autoFillArgsOa = Enumerable.Repeat("", MEOperationArgument.arg.AllArguments().Sum(x => x.Item2.Length)).ToArray();
-
-    private static string _literalArg = "";
+    private static string[] _autoFillArgsOa = Enumerable.Repeat("", MEOperationArgument.arg.AllArguments().Sum(x => x.Item2.Length) + 1).ToArray();
 
     internal static Vector4 HINTCOLOUR = new(0.3f, 0.5f, 1.0f, 1.0f);
     internal static Vector4 PREVIEWCOLOUR = new(0.65f, 0.75f, 0.65f, 1.0f);
@@ -574,10 +572,10 @@ internal class AutoFill
         ImGui.Separator();
         if (ImGui.Selectable("Exactly..."))
         {
-            result = '"' + _literalArg + '"';
+            result = '"' + _autoFillArgsOa[_autoFillArgsOa.Length-1] + '"';
         }
 
-        ImGui.InputTextWithHint("##meautoinputoaExact", "literal value...", ref _literalArg, 256);
+        ImGui.InputTextWithHint("##meautoinputoaExact", "literal value...", ref _autoFillArgsOa[_autoFillArgsOa.Length-1], 256);
         return result;
     }
 
