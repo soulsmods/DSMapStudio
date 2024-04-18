@@ -173,19 +173,12 @@ internal class AutoFillSearchEngine
 
 internal class AutoFill
 {
-    private static readonly AutoFillSearchEngine autoFillPrsse = new("prsse", ParamRowSelectionSearchEngine.prsse);
-    private static readonly AutoFillSearchEngine autoFillPrcse = new("prcse", ParamRowClipBoardSearchEngine.prcse);
-
-    private static readonly AutoFillSearchEngine autoFillVse = new("vse", VarSearchEngine.vse);
-
-    private static readonly AutoFillSearchEngine autoFillPse =
-        new("pse", ParamRowSelectionSearchEngine.prsse);
-
-    private static readonly AutoFillSearchEngine autoFillRse =
-        new("rse", RowSearchEngine.rse);
-
-    private static readonly AutoFillSearchEngine autoFillCse =
-        new("cse", CellSearchEngine.cse);
+    private static readonly AutoFillSearchEngine autoFillPrsse = new("prsse", TypelessSearchEngine.paramRowSelection);
+    private static readonly AutoFillSearchEngine autoFillPrcse = new("prcse", TypelessSearchEngine.paramRowClipboard);
+    private static readonly AutoFillSearchEngine autoFillPse = new("pse", TypelessSearchEngine.paramRowSelection);
+    private static readonly AutoFillSearchEngine autoFillRse = new("rse", TypelessSearchEngine.row);
+    private static readonly AutoFillSearchEngine autoFillCse = new("cse", TypelessSearchEngine.cell);
+    private static readonly AutoFillSearchEngine autoFillVse = new("vse", TypelessSearchEngine.var);
 
     private static string[] _autoFillArgsGop = Enumerable.Repeat("", MEGlobalOperation.globalOps.AllCommands().Sum((x) => x.Value.argNames.Length)).ToArray();
     private static string[] _autoFillArgsRop = Enumerable.Repeat("", MERowOperation.rowOps.AllCommands().Sum((x) => x.Value.argNames.Length)).ToArray();

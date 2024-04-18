@@ -556,7 +556,7 @@ public unsafe class EditorDecorations
 
                 ParamMetaData meta = ParamMetaData.Get(bank.Params[rt].AppliedParamdef);
                 var maxResultsPerRefType = 15 / reftypes.Count;
-                List<(string, Param.Row)> rows = RowSearchEngine.rse.Search((bank, bank.Params[rt]),
+                List<(string, Param.Row)> rows = TypelessSearchEngine.row.Search((bank, bank.Params[rt]),
                     _refContextCurrentAutoComplete, true, true);
                 foreach ((string param, Param.Row r) in rows)
                 {
@@ -792,7 +792,7 @@ public unsafe class EditorDecorations
         var searchTerm = pref.conditionField != null
             ? $@"prop {fieldName} ^{currentID}$ && prop {pref.conditionField} ^{pref.conditionValue}$"
             : $@"prop {fieldName} ^{currentID}$";
-        return RowSearchEngine.rse.Search((bank, bank.Params[paramName]), searchTerm, false, false).Select((x, i) => x.Item2).ToList();
+        return TypelessSearchEngine.row.Search((bank, bank.Params[paramName]), searchTerm, false, false).Select((x, i) => x.Item2).ToList();
     }
 
     public static bool ImguiTableSeparator()

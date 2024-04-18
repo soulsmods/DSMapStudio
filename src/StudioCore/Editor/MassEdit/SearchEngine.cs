@@ -17,6 +17,14 @@ namespace StudioCore.Editor.MassEdit;
  */
 internal abstract class TypelessSearchEngine
 {
+    // Listing engines here so they are initialised always
+    public static ParamRowSelectionSearchEngine paramRowSelection = new();
+    public static ParamRowClipBoardSearchEngine paramRowClipboard = new();
+    public static ParamSearchEngine param = new(ParamBank.PrimaryBank);
+    public static RowSearchEngine row = new(ParamBank.PrimaryBank);
+    public static CellSearchEngine cell = new();
+    public static VarSearchEngine var = new();
+
     private static Dictionary<Type, List<(TypelessSearchEngine, Type)>> searchEngines = new();
     internal static void AddSearchEngine<TContextObject, TContextField, TElementObject, TElementField>(SearchEngine<TContextObject, TContextField, TElementObject, TElementField> engine)
     {
@@ -271,8 +279,6 @@ internal class SearchEngineCommand<A, B>
 
 internal class ParamRowSelectionSearchEngine : SearchEngine<bool, bool, string, Param.Row>
 {
-    public static ParamRowSelectionSearchEngine prsse = new();
-
     internal override void Setup()
     {
         name = "selection";
@@ -291,8 +297,6 @@ internal class ParamRowSelectionSearchEngine : SearchEngine<bool, bool, string, 
 }
 internal class ParamRowClipBoardSearchEngine : SearchEngine<bool, bool, string, Param.Row>
 {
-    public static ParamRowClipBoardSearchEngine prcse = new();
-
     internal override void Setup()
     {
         name = "clipboard";
@@ -312,10 +316,8 @@ internal class ParamRowClipBoardSearchEngine : SearchEngine<bool, bool, string, 
 
 internal class ParamSearchEngine : SearchEngine<bool, bool, ParamBank, Param>
 {
-    public static ParamSearchEngine pse = new(ParamBank.PrimaryBank);
     private readonly ParamBank bank;
-
-    private ParamSearchEngine(ParamBank bank)
+    internal ParamSearchEngine(ParamBank bank)
     {
         this.bank = bank;
     }
@@ -378,10 +380,9 @@ internal class ParamSearchEngine : SearchEngine<bool, bool, ParamBank, Param>
 
 internal class RowSearchEngine : SearchEngine<ParamBank, Param, string, Param.Row>
 {
-    public static RowSearchEngine rse = new(ParamBank.PrimaryBank);
     private readonly ParamBank bank;
 
-    private RowSearchEngine(ParamBank bank)
+    internal RowSearchEngine(ParamBank bank)
     {
         this.bank = bank;
     }
@@ -549,7 +550,7 @@ internal class RowSearchEngine : SearchEngine<ParamBank, Param, string, Param.Ro
                     return row =>
                     {
                         (string paramName, Param.Row row) cseSearchContext = (paramName, row.Item2);
-                        List<(PseudoColumn, Param.Column)> res = CellSearchEngine.cse.Search(cseSearchContext,
+                        List<(PseudoColumn, Param.Column)> res = cell.Search(cseSearchContext,
                             new List<(PseudoColumn, Param.Column)> { testCol }, args[1], lenient, false);
                         return res.Contains(testCol);
                     };
@@ -743,7 +744,7 @@ internal class RowSearchEngine : SearchEngine<ParamBank, Param, string, Param.Ro
                         throw new Exception("Could not find param " + otherParam);
                     }
 
-                    List<(string, Param.Row)> rows = rse.Search((ParamBank.PrimaryBank, otherParamReal), otherSearchTerm,
+                    List<(string, Param.Row)> rows = row.Search((ParamBank.PrimaryBank, otherParamReal), otherSearchTerm,
                         lenient, false);
                     (PseudoColumn, Param.Column) otherFieldReal = otherParamReal.GetCol(otherField);
                     if (!otherFieldReal.IsColumnValid())
@@ -842,7 +843,6 @@ internal class RowSearchEngine : SearchEngine<ParamBank, Param, string, Param.Ro
 
 internal class CellSearchEngine : SearchEngine<string, Param.Row, PseudoColumn, Param.Column>
 {
-    public static CellSearchEngine cse = new();
 
     internal override void Setup()
     {
@@ -983,8 +983,6 @@ internal class CellSearchEngine : SearchEngine<string, Param.Row, PseudoColumn, 
 
 internal class VarSearchEngine : SearchEngine<bool, bool, bool, string>
 {
-    public static VarSearchEngine vse = new();
-
     internal override void Setup()
     {
         name = "variable";
