@@ -222,8 +222,10 @@ public static unsafe partial class ImGuiBindings
             if (bufSize <= STACKALLOCMAX)
             {
                 var cBuf = stackalloc byte[bufSize];
-                Encoding.UTF8.GetBytes(buf.AsSpan(), new Span<byte>(cBuf, bufSize));
-                cBufString = new CString(cBuf);
+                if (Encoding.UTF8.TryGetBytes(buf.AsSpan(), new Span<byte>(cBuf, bufSize), out int bw))
+                    cBufString = new CString(cBuf);
+                else
+                    cBufString = new CString(buf);
             }
             else
             {
@@ -240,8 +242,10 @@ public static unsafe partial class ImGuiBindings
             if (bufSize <= STACKALLOCMAX)
             {
                 var cBuf = stackalloc byte[bufSize];
-                Encoding.UTF8.GetBytes(buf.AsSpan(), new Span<byte>(cBuf, bufSize));
-                cBufString = new CString(cBuf);
+                if (Encoding.UTF8.TryGetBytes(buf.AsSpan(), new Span<byte>(cBuf, bufSize), out int bw))
+                    cBufString = new CString(cBuf);
+                else
+                    cBufString = new CString(buf);
             }
             else
             {
@@ -259,8 +263,10 @@ public static unsafe partial class ImGuiBindings
             if (bufSize <= STACKALLOCMAX)
             {
                 var cBuf = stackalloc byte[bufSize];
-                Encoding.UTF8.GetBytes(buf.AsSpan(), new Span<byte>(cBuf, bufSize));
-                cBufString = new CString(cBuf);
+                if (Encoding.UTF8.TryGetBytes(buf.AsSpan(), new Span<byte>(cBuf, bufSize), out int bw))
+                    cBufString = new CString(cBuf);
+                else
+                    cBufString = new CString(buf);
             }
             else
             {
