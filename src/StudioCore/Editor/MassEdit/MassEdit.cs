@@ -214,7 +214,7 @@ public class MassParamEditRegex
         var op = METypelessOperation.GetEditOperation(currentType);
         // Try run an operation
         if (op != null && op.HandlesCommand(firstStageKeyword))
-            return ParseOpStep(stage[1], op.NameForHelpTexts(), op);
+            return ParseOpStep(command, op.NameForHelpTexts(), op);
 
         var nextStage = SearchEngine.GetSearchEngines(currentType);
         // Try out each defined search engine for the current type
