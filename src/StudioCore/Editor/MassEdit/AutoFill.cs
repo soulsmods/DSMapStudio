@@ -11,13 +11,13 @@ namespace StudioCore.Editor.MassEdit;
 internal class AutoFillSearchEngine
 {
     private readonly string[] _autoFillArgs;
-    private readonly TypelessSearchEngine engine;
+    private readonly SearchEngine engine;
     private readonly string id;
     private AutoFillSearchEngine _additionalCondition;
     private bool _autoFillNotToggle;
     private bool _useAdditionalCondition;
 
-    internal AutoFillSearchEngine(string id, TypelessSearchEngine searchEngine)
+    internal AutoFillSearchEngine(string id, SearchEngine searchEngine)
     {
         this.id = id;
         engine = searchEngine;
@@ -173,12 +173,12 @@ internal class AutoFillSearchEngine
 
 internal class AutoFill
 {
-    private static readonly AutoFillSearchEngine autoFillPrsse = new("prsse", TypelessSearchEngine.paramRowSelection);
-    private static readonly AutoFillSearchEngine autoFillPrcse = new("prcse", TypelessSearchEngine.paramRowClipboard);
-    private static readonly AutoFillSearchEngine autoFillPse = new("pse", TypelessSearchEngine.paramRowSelection);
-    private static readonly AutoFillSearchEngine autoFillRse = new("rse", TypelessSearchEngine.row);
-    private static readonly AutoFillSearchEngine autoFillCse = new("cse", TypelessSearchEngine.cell);
-    private static readonly AutoFillSearchEngine autoFillVse = new("vse", TypelessSearchEngine.var);
+    private static readonly AutoFillSearchEngine autoFillPrsse = new("prsse", SearchEngine.paramRowSelection);
+    private static readonly AutoFillSearchEngine autoFillPrcse = new("prcse", SearchEngine.paramRowClipboard);
+    private static readonly AutoFillSearchEngine autoFillPse = new("pse", SearchEngine.paramRowSelection);
+    private static readonly AutoFillSearchEngine autoFillRse = new("rse", SearchEngine.row);
+    private static readonly AutoFillSearchEngine autoFillCse = new("cse", SearchEngine.cell);
+    private static readonly AutoFillSearchEngine autoFillVse = new("vse", SearchEngine.var);
 
     private static string[] _autoFillArgsGop = Enumerable.Repeat("", MEGlobalOperation.globalOps.AllCommands().Sum((x) => x.Value.argNames.Length)).ToArray();
     private static string[] _autoFillArgsRop = Enumerable.Repeat("", MERowOperation.rowOps.AllCommands().Sum((x) => x.Value.argNames.Length)).ToArray();

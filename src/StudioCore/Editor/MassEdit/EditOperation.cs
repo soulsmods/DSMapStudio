@@ -580,7 +580,7 @@ internal class MEOperationArgument
                 }
 
                 List<(string, Param.Row)>? rows =
-                    TypelessSearchEngine.row.Search((paramB, paramP), field[1], false, false);
+                    SearchEngine.row.Search((paramB, paramP), field[1], false, false);
                 IEnumerable<object> vals = rows.Select((row, i) => row.Item2.Get(col));
                 var avg = vals.Average(val => Convert.ToDouble(val));
                 return avg.ToString();
@@ -596,7 +596,7 @@ internal class MEOperationArgument
                 }
 
                 List<(string, Param.Row)>? rows =
-                    TypelessSearchEngine.row.Search((paramB, paramP), field[1], false, false);
+                    SearchEngine.row.Search((paramB, paramP), field[1], false, false);
                 IEnumerable<object> vals = rows.Select((row, i) => row.Item2.Get(col));
                 var avg = vals.OrderBy(val => Convert.ToDouble(val)).ElementAt(vals.Count() / 2);
                 return avg.ToParamEditorString();
@@ -612,7 +612,7 @@ internal class MEOperationArgument
                 }
 
                 List<(string, Param.Row)>? rows =
-                    TypelessSearchEngine.row.Search((paramB, paramP), field[1], false, false);
+                    SearchEngine.row.Search((paramB, paramP), field[1], false, false);
                 var avg = ParamUtils.GetParamValueDistribution(rows.Select((x, i) => x.Item2), col).OrderByDescending(g => g.Item2)
                     .First().Item1;
                 return avg.ToParamEditorString();
@@ -628,7 +628,7 @@ internal class MEOperationArgument
                 }
 
                 List<(string, Param.Row)>? rows =
-                    TypelessSearchEngine.row.Search((paramB, paramP), field[1], false, false);
+                    SearchEngine.row.Search((paramB, paramP), field[1], false, false);
                 var min = rows.Min(r => r.Item2[field[0]].Value.Value);
                 return min.ToParamEditorString();
             }, () => CFG.Current.Param_AdvancedMassedit));
@@ -643,7 +643,7 @@ internal class MEOperationArgument
                 }
 
                 List<(string, Param.Row)>? rows =
-                    TypelessSearchEngine.row.Search((paramB, paramP), field[1], false, false);
+                    SearchEngine.row.Search((paramB, paramP), field[1], false, false);
                 var max = rows.Max(r => r.Item2[field[0]].Value.Value);
                 return max.ToParamEditorString();
             }, () => CFG.Current.Param_AdvancedMassedit));
@@ -689,7 +689,7 @@ internal class MEOperationArgument
             paramFieldRowSelector =>
             {
                 Param srcParam = ParamBank.PrimaryBank.Params[paramFieldRowSelector[0]];
-                List<(string, Param.Row)> srcRows = TypelessSearchEngine.row.Search((ParamBank.PrimaryBank, srcParam),
+                List<(string, Param.Row)> srcRows = SearchEngine.row.Search((ParamBank.PrimaryBank, srcParam),
                     paramFieldRowSelector[2], false, false);
                 var values = srcRows.Select((r, i) => r.Item2[paramFieldRowSelector[1]].Value.Value).ToArray();
                 return (i, c, c2) => values[Random.Shared.NextInt64(values.Length)].ToString();

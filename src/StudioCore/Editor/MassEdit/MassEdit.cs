@@ -46,9 +46,9 @@ internal class MEOperationException : Exception
 internal struct MEFilterStage
 {
     internal string command;
-    internal TypelessSearchEngine engine;
+    internal SearchEngine engine;
     // No arguments because this is handled separately in SearchEngine
-    internal MEFilterStage(string toParse, int line, string stageName, TypelessSearchEngine stageEngine)
+    internal MEFilterStage(string toParse, int line, string stageName, SearchEngine stageEngine)
     {
         command = toParse.Trim();
         if (command.Equals(""))
@@ -216,9 +216,9 @@ public class MassParamEditRegex
         if (op != null && op.HandlesCommand(firstStageKeyword))
             return ParseOpStep(stage[1], op.NameForHelpTexts(), op);
 
-        var nextStage = TypelessSearchEngine.GetSearchEngines(currentType);
+        var nextStage = SearchEngine.GetSearchEngines(currentType);
         // Try out each defined search engine for the current type
-        foreach ((TypelessSearchEngine engine, Type t) in nextStage)
+        foreach ((SearchEngine engine, Type t) in nextStage)
         {
             if (engine.HandlesCommand(firstStageKeyword))
             {
@@ -229,7 +229,7 @@ public class MassParamEditRegex
         return ParseFilterStep(command, nextStage.Last().Item1);
     }
 
-    private MassEditResult ParseFilterStep(string stageText, TypelessSearchEngine expectedSearchEngine)
+    private MassEditResult ParseFilterStep(string stageText, SearchEngine expectedSearchEngine)
     {
         var stage = stageText.Split(":", 2);
         string stageName = expectedSearchEngine.NameForHelpTexts();
@@ -257,9 +257,9 @@ public class MassParamEditRegex
         if (op != null && op.HandlesCommand(nextStageKeyword))
             return ParseOpStep(stage[1], op.NameForHelpTexts(), op);
 
-        var nextStage = TypelessSearchEngine.GetSearchEngines(currentType);
+        var nextStage = SearchEngine.GetSearchEngines(currentType);
         // Try out each defined search engine for the current type
-        foreach ((TypelessSearchEngine engine, Type t) in nextStage)
+        foreach ((SearchEngine engine, Type t) in nextStage)
         {
             if (engine.HandlesCommand(nextStageKeyword))
                 return ParseFilterStep(restOfStages, engine);
@@ -303,7 +303,7 @@ public class MassParamEditRegex
         }
     }
 
-    private MassEditResult ExecStage(MEFilterStage info, TypelessSearchEngine engine, int filterDepth, (object, object) contextObject, Dictionary<Type, (object, object)> contextObjects, IEnumerable<object> argFuncs)
+    private MassEditResult ExecStage(MEFilterStage info, SearchEngine engine, int filterDepth, (object, object) contextObject, Dictionary<Type, (object, object)> contextObjects, IEnumerable<object> argFuncs)
     {
         var editCount = -1;
         filterDepth++;

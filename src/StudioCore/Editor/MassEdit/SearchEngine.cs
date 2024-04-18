@@ -15,7 +15,7 @@ namespace StudioCore.Editor.MassEdit;
 /* Restricted characters: colon, space, forward slash, ampersand, exclamation mark
  *
  */
-internal abstract class TypelessSearchEngine
+internal abstract class SearchEngine
 {
     // Listing engines here so they are initialised always
     public static ParamRowSelectionSearchEngine paramRowSelection = new();
@@ -25,21 +25,21 @@ internal abstract class TypelessSearchEngine
     public static CellSearchEngine cell = new();
     public static VarSearchEngine var = new();
 
-    private static Dictionary<Type, List<(TypelessSearchEngine, Type)>> searchEngines = new();
-    internal static void AddSearchEngine<TContextObject, TContextField, TElementObject, TElementField>(SearchEngine<TContextObject, TContextField, TElementObject, TElementField> engine)
+    private static Dictionary<Type, List<(SearchEngine, Type)>> searchEngines = new();
+    internal static void AddSearchEngine<TContextObject, TContextField, TElementObject, TElementField>(TypedSearchEngine<TContextObject, TContextField, TElementObject, TElementField> engine)
     {
         if (!searchEngines.ContainsKey(typeof((TContextObject, TContextField))))
             searchEngines.Add(typeof((TContextObject, TContextField)), new());
         searchEngines[typeof((TContextObject, TContextField))].Add((engine, typeof((TElementObject, TElementField))));
     }
-    internal static List<(TypelessSearchEngine, Type)> GetSearchEngines(Type t) //Type t is expected to be (TContextObject, TContextField)
+    internal static List<(SearchEngine, Type)> GetSearchEngines(Type t) //Type t is expected to be (TContextObject, TContextField)
     {
         return searchEngines.GetValueOrDefault(t) ?? ([]);
     }
     internal abstract List<(string, string[], string)> VisibleCommands(bool includeDefault);
     internal abstract List<(string, string[])> AllCommands();
     internal abstract List<string> AvailableCommandsForHelpText();
-    internal abstract List<(TypelessSearchEngine, Type)> NextSearchEngines(); //Type t is expected to be (TContextObject, TContextField)
+    internal abstract List<(SearchEngine, Type)> NextSearchEngines(); //Type t is expected to be (TContextObject, TContextField)
     internal abstract METypelessOperation NextOperation();
     internal abstract string NameForHelpTexts();
     internal abstract Type getContainerType();
@@ -51,7 +51,7 @@ internal abstract class TypelessSearchEngine
         return [];
     }
 }
-internal class SearchEngine<TContextObject, TContextField, TElementObject, TElementField> : TypelessSearchEngine
+internal class TypedSearchEngine<TContextObject, TContextField, TElementObject, TElementField> : SearchEngine
 {
     internal SearchEngineCommand<(TContextObject, TContextField), (TElementObject, TElementField)> defaultFilter;
 
@@ -59,7 +59,7 @@ internal class SearchEngine<TContextObject, TContextField, TElementObject, TElem
     internal Func<(TContextObject, TContextField), List<(TElementObject, TElementField)>> unpacker;
     internal string name = "[unnamed search engine]";
 
-    internal SearchEngine()
+    internal TypedSearchEngine()
     {
         Setup();
         AddSearchEngine(this);
@@ -235,7 +235,7 @@ internal class SearchEngine<TContextObject, TContextField, TElementObject, TElem
         return liveSet;
     }
 
-    internal override List<(TypelessSearchEngine, Type)> NextSearchEngines()
+    internal override List<(SearchEngine, Type)> NextSearchEngines()
     {
         return GetSearchEngines(typeof((TElementObject, TElementField)));
     }
@@ -277,7 +277,7 @@ internal class SearchEngineCommand<A, B>
     }
 }
 
-internal class ParamRowSelectionSearchEngine : SearchEngine<bool, bool, string, Param.Row>
+internal class ParamRowSelectionSearchEngine : TypedSearchEngine<bool, bool, string, Param.Row>
 {
     internal override void Setup()
     {
@@ -295,7 +295,7 @@ internal class ParamRowSelectionSearchEngine : SearchEngine<bool, bool, string, 
         return [(typeof((ParamBank, Param)), (ParamBank.PrimaryBank, ParamBank.PrimaryBank.Params[MassParamEditRegex.totalHackPleaseKillme.GetActiveParam()]))];
     }
 }
-internal class ParamRowClipBoardSearchEngine : SearchEngine<bool, bool, string, Param.Row>
+internal class ParamRowClipBoardSearchEngine : TypedSearchEngine<bool, bool, string, Param.Row>
 {
     internal override void Setup()
     {
@@ -314,7 +314,7 @@ internal class ParamRowClipBoardSearchEngine : SearchEngine<bool, bool, string, 
     }
 }
 
-internal class ParamSearchEngine : SearchEngine<bool, bool, ParamBank, Param>
+internal class ParamSearchEngine : TypedSearchEngine<bool, bool, ParamBank, Param>
 {
     private readonly ParamBank bank;
     internal ParamSearchEngine(ParamBank bank)
@@ -378,7 +378,7 @@ internal class ParamSearchEngine : SearchEngine<bool, bool, ParamBank, Param>
     }
 }
 
-internal class RowSearchEngine : SearchEngine<ParamBank, Param, string, Param.Row>
+internal class RowSearchEngine : TypedSearchEngine<ParamBank, Param, string, Param.Row>
 {
     private readonly ParamBank bank;
 
@@ -841,7 +841,7 @@ internal class RowSearchEngine : SearchEngine<ParamBank, Param, string, Param.Ro
     }
 }
 
-internal class CellSearchEngine : SearchEngine<string, Param.Row, PseudoColumn, Param.Column>
+internal class CellSearchEngine : TypedSearchEngine<string, Param.Row, PseudoColumn, Param.Column>
 {
 
     internal override void Setup()
@@ -981,7 +981,7 @@ internal class CellSearchEngine : SearchEngine<string, Param.Row, PseudoColumn, 
     }
 }
 
-internal class VarSearchEngine : SearchEngine<bool, bool, bool, string>
+internal class VarSearchEngine : TypedSearchEngine<bool, bool, bool, string>
 {
     internal override void Setup()
     {

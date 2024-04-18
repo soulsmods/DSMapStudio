@@ -840,7 +840,7 @@ public class ParamEditorScreen : EditorScreen
                 ParamBank.ClipboardParam = _activeView._selection.GetActiveParam();
                 foreach (Param.Row row in UICache.GetCached(this,
                              (_activeView._viewIndex, _activeView._selection.GetActiveParam()),
-                             () => TypelessSearchEngine.row.Search(
+                             () => SearchEngine.row.Search(
                                  (ParamBank.PrimaryBank,
                                      ParamBank.PrimaryBank.Params[_activeView._selection.GetActiveParam()]),
                                  _activeView._selection.GetCurrentRowSearchString(), true, true).Select((x, i) => x.Item2)))
