@@ -166,10 +166,10 @@ internal class AutoFillSearchEngine
 internal class AutoFillOperation
 {
     private readonly string[] _autoFillArgs;
-    private readonly METypelessOperation op;
+    private readonly OperationCategory op;
     private readonly string id;
 
-    internal AutoFillOperation(METypelessOperation operation)
+    internal AutoFillOperation(OperationCategory operation)
     {
         AutoFill._imguiID++;
         id = "e" + AutoFill._imguiID;
@@ -271,12 +271,12 @@ internal class AutoFill
     private static readonly AutoFillSearchEngine autoFillCse = new(SearchEngine.cell);
     private static readonly AutoFillSearchEngine autoFillVse = new(SearchEngine.var);
 
-    private static readonly AutoFillOperation autoFillGo = new(METypelessOperation.global);
-    private static readonly AutoFillOperation autoFillRo = new(METypelessOperation.row);
-    private static readonly AutoFillOperation autoFillCo = new(METypelessOperation.cell);
-    private static readonly AutoFillOperation autoFillVo = new(METypelessOperation.var);
+    private static readonly AutoFillOperation autoFillGo = new(OperationCategory.global);
+    private static readonly AutoFillOperation autoFillRo = new(OperationCategory.row);
+    private static readonly AutoFillOperation autoFillCo = new(OperationCategory.cell);
+    private static readonly AutoFillOperation autoFillVo = new(OperationCategory.var);
 
-    private static string[] _autoFillArgsOa = Enumerable.Repeat("", MEOperationArgument.arg.AllArguments().Sum(x => x.Item2.Length) + 1).ToArray();
+    private static string[] _autoFillArgsOa = Enumerable.Repeat("", OperationArguments.arg.AllArguments().Sum(x => x.Item2.Length) + 1).ToArray();
 
     internal static Vector4 HINTCOLOUR = new(0.3f, 0.5f, 1.0f, 1.0f);
     internal static Vector4 PREVIEWCOLOUR = new(0.65f, 0.75f, 0.65f, 1.0f);
@@ -500,7 +500,7 @@ internal class AutoFill
     {
         var currentArgIndex = 0;
         string result = null;
-        foreach ((string, string, string[]) arg in MEOperationArgument.arg.VisibleArguments())
+        foreach ((string, string, string[]) arg in OperationArguments.arg.VisibleArguments())
         {
             var argIndices = new int[arg.Item3.Length];
             var valid = true;

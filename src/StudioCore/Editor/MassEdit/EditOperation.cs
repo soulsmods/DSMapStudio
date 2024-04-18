@@ -36,15 +36,15 @@ internal class MEOperationDef<TMECategory, TInputObject, TInputValue, TOutput> :
         shouldShow = show;
     }
 }
-internal abstract class METypelessOperation
+internal abstract class OperationCategory
 {
-    private static Dictionary<Type, METypelessOperation> editOperations;
+    private static Dictionary<Type, OperationCategory> editOperations;
 
     internal static MEGlobalOperation global;
     internal static MERowOperation row;
     internal static MECellOperation cell;
     internal static MEVarOperation var;
-    static METypelessOperation()
+    static OperationCategory()
     {
         editOperations = new();
         global = new();
@@ -53,11 +53,11 @@ internal abstract class METypelessOperation
         var = new();
     }
 
-    internal static void AddEditOperation<TMECategory, TInputObject, TInputValue, TOutput>(MEOperation<TMECategory, TInputObject, TInputValue, TOutput> engine)
+    internal static void AddEditOperation<TMECategory, TInputObject, TInputValue, TOutput>(TypedOperationCategory<TMECategory, TInputObject, TInputValue, TOutput> engine)
     {
         editOperations[typeof(TMECategory)] = engine;
     }
-    internal static METypelessOperation GetEditOperation(Type t)
+    internal static OperationCategory GetEditOperation(Type t)
     {
         return editOperations.GetValueOrDefault(t);
     }
@@ -69,12 +69,12 @@ internal abstract class METypelessOperation
     internal abstract void UseResult(List<EditorAction> actionList, (object, object) currentObject, Dictionary<Type, (object, object)> contextObjects, object res);
     internal abstract bool HandlesCommand(string command);
 }
-internal abstract class MEOperation<TMECategory, TInputObject, TInputValue, TOutput> : METypelessOperation
+internal abstract class TypedOperationCategory<TMECategory, TInputObject, TInputValue, TOutput> : OperationCategory
 {
     internal Dictionary<string, METypelessOperationDef> operations = new();
     internal string name = "[Unnamed operation type]";
 
-    internal MEOperation()
+    internal TypedOperationCategory()
     {
         Setup();
         AddEditOperation(this);
@@ -107,7 +107,7 @@ internal abstract class MEOperation<TMECategory, TInputObject, TInputValue, TOut
     }
 }
 
-internal class MEGlobalOperation : MEOperation<(bool, bool), bool, bool, bool>
+internal class MEGlobalOperation : TypedOperationCategory<(bool, bool), bool, bool, bool>
 {
     internal override void Setup()
     {
@@ -160,7 +160,7 @@ internal class MEGlobalOperation : MEOperation<(bool, bool), bool, bool, bool>
     }
 }
 
-internal class MERowOperation : MEOperation<(string, Param.Row), string, Param.Row, (Param, Param.Row)> //technically we're still using string as the containing object in place of Param
+internal class MERowOperation : TypedOperationCategory<(string, Param.Row), string, Param.Row, (Param, Param.Row)> //technically we're still using string as the containing object in place of Param
 {
     internal override void Setup()
     {
@@ -265,7 +265,7 @@ internal class MERowOperation : MEOperation<(string, Param.Row), string, Param.R
     }
 }
 
-internal abstract class MEValueOperation<TMECategory> : MEOperation<TMECategory, TMECategory, object, object>
+internal abstract class MEValueOperation<TMECategory> : TypedOperationCategory<TMECategory, TMECategory, object, object>
 {
     internal override void Setup()
     {
@@ -370,13 +370,13 @@ internal enum ResultValidity
     ERROR
 }
 
-internal class MEOperationArgument
+internal class OperationArguments
 {
-    internal static MEOperationArgument arg = new();
+    internal static OperationArguments arg = new();
     private readonly Dictionary<string, OperationArgumentGetter> argumentGetters = new();
     private OperationArgumentGetter defaultGetter;
 
-    private MEOperationArgument()
+    private OperationArguments()
     {
         Setup();
     }

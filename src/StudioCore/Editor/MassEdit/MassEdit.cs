@@ -62,8 +62,8 @@ internal struct MEOperationStage
 {
     internal string command;
     internal string arguments;
-    internal METypelessOperation operation;
-    internal MEOperationStage(string toParse, int line, string stageName, METypelessOperation operationType)
+    internal OperationCategory operation;
+    internal MEOperationStage(string toParse, int line, string stageName, OperationCategory operationType)
     {
         var stage = toParse.TrimStart().Split(' ', 2);
         command = stage[0].Trim();
@@ -211,7 +211,7 @@ public class MassParamEditRegex
         string firstStage = stage[0];
         string firstStageKeyword = firstStage.Trim().Split(" ", 2)[0];
 
-        var op = METypelessOperation.GetEditOperation(currentType);
+        var op = OperationCategory.GetEditOperation(currentType);
         // Try run an operation
         if (op != null && op.HandlesCommand(firstStageKeyword))
             return ParseOpStep(command, op.NameForHelpTexts(), op);
@@ -252,7 +252,7 @@ public class MassParamEditRegex
         string restOfStages = stage[1];
         string nextStageKeyword = restOfStages.Trim().Split(" ", 2)[0];
 
-        var op = METypelessOperation.GetEditOperation(currentType);
+        var op = OperationCategory.GetEditOperation(currentType);
         // Try run an operation
         if (op != null && op.HandlesCommand(nextStageKeyword))
             return ParseOpStep(stage[1], op.NameForHelpTexts(), op);
@@ -267,12 +267,12 @@ public class MassParamEditRegex
         //Assume it's default search of last search option
         return ParseFilterStep(restOfStages, nextStage.Last().Item1);
     }
-    private MassEditResult ParseOpStep(string stageText, string stageName, METypelessOperation operation)
+    private MassEditResult ParseOpStep(string stageText, string stageName, OperationCategory operation)
     {
         this.operation = new MEOperationStage(stageText, _currentLine, stageName, operation);
 
         parsedOp = operation.AllCommands()[this.operation.command];
-        argFuncs = MEOperationArgument.arg.getContextualArguments(parsedOp.argNames.Length, this.operation.arguments);
+        argFuncs = OperationArguments.arg.getContextualArguments(parsedOp.argNames.Length, this.operation.arguments);
         if (parsedOp.argNames.Length != argFuncs.Length)
         {
             return new MassEditResult(MassEditResultType.PARSEERROR, $@"Invalid number of arguments for operation {this.operation.command} (line {_currentLine})");
@@ -337,7 +337,7 @@ public class MassParamEditRegex
 
         return new MassEditResult(MassEditResultType.SUCCESS, "");
     }
-    private MassEditResult ExecOp(MEOperationStage opInfo, string opName, IEnumerable<object> argFuncs, (object, object) currentObject, Dictionary<Type, (object, object)> contextObjects, METypelessOperation opType)
+    private MassEditResult ExecOp(MEOperationStage opInfo, string opName, IEnumerable<object> argFuncs, (object, object) currentObject, Dictionary<Type, (object, object)> contextObjects, OperationCategory opType)
     {
         var argValues = argFuncs.Select(f => f.assertCompleteContextOrThrow(_currentLine).ToParamEditorString()).ToArray();
         var opResult = parsedOp.function(currentObject.Item1, opType.GetElementValue(currentObject, contextObjects), argValues);

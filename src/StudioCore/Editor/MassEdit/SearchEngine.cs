@@ -50,7 +50,7 @@ internal abstract class SearchEngine
     internal abstract List<(string, string[])> AllCommands();
     internal abstract List<string> AvailableCommandsForHelpText();
     internal abstract List<(SearchEngine, Type)> NextSearchEngines(); //Type t is expected to be (TContextObject, TContextField)
-    internal abstract METypelessOperation NextOperation();
+    internal abstract OperationCategory NextOperation();
     internal abstract string NameForHelpTexts();
     internal abstract Type getContainerType();
     internal abstract Type getElementType();
@@ -249,9 +249,9 @@ internal class TypedSearchEngine<TContextObject, TContextField, TElementObject, 
     {
         return GetSearchEngines(typeof((TElementObject, TElementField)));
     }
-    internal override METypelessOperation NextOperation()
+    internal override OperationCategory NextOperation()
     {
-        return METypelessOperation.GetEditOperation(typeof((TElementObject, TElementField)));
+        return OperationCategory.GetEditOperation(typeof((TElementObject, TElementField)));
     }
 
     internal override string NameForHelpTexts()
