@@ -180,9 +180,9 @@ internal class AutoFill
     private static readonly AutoFillSearchEngine autoFillCse = new("cse", SearchEngine.cell);
     private static readonly AutoFillSearchEngine autoFillVse = new("vse", SearchEngine.var);
 
-    private static string[] _autoFillArgsGop = Enumerable.Repeat("", MEGlobalOperation.globalOps.AllCommands().Sum((x) => x.Value.argNames.Length)).ToArray();
-    private static string[] _autoFillArgsRop = Enumerable.Repeat("", MERowOperation.rowOps.AllCommands().Sum((x) => x.Value.argNames.Length)).ToArray();
-    private static string[] _autoFillArgsCop = Enumerable.Repeat("", MECellOperation.cellOps.AllCommands().Sum((x) => x.Value.argNames.Length)).ToArray();
+    private static string[] _autoFillArgsGop = Enumerable.Repeat("", METypelessOperation.global.AllCommands().Sum((x) => x.Value.argNames.Length)).ToArray();
+    private static string[] _autoFillArgsRop = Enumerable.Repeat("", METypelessOperation.row.AllCommands().Sum((x) => x.Value.argNames.Length)).ToArray();
+    private static string[] _autoFillArgsCop = Enumerable.Repeat("", METypelessOperation.cell.AllCommands().Sum((x) => x.Value.argNames.Length)).ToArray();
     private static string[] _autoFillArgsOa =
         Enumerable.Repeat("", MEOperationArgument.arg.AllArguments().Sum(x => x.Item2.Length)).ToArray();
 
@@ -262,11 +262,11 @@ internal class AutoFill
                     }
 
                     ImGui.TextColored(HINTCOLOUR, "Select field operation...");
-                    return MassEditAutoFillForOperation(MECellOperation.cellOps, ref _autoFillArgsCop, ";", null);
+                    return MassEditAutoFillForOperation(METypelessOperation.cell, ref _autoFillArgsCop, ";", null);
                 });
                 ImGui.Separator();
                 ImGui.TextColored(HINTCOLOUR, "Select row operation...");
-                var res2 = MassEditAutoFillForOperation(MERowOperation.rowOps, ref _autoFillArgsRop, ";", null);
+                var res2 = MassEditAutoFillForOperation(METypelessOperation.row, ref _autoFillArgsRop, ";", null);
                 if (res1 != null)
                 {
                     return res1;
@@ -292,11 +292,11 @@ internal class AutoFill
                     }
 
                     ImGui.TextColored(HINTCOLOUR, "Select field operation...");
-                    return MassEditAutoFillForOperation(MECellOperation.cellOps, ref _autoFillArgsCop, ";", null);
+                    return MassEditAutoFillForOperation(METypelessOperation.cell, ref _autoFillArgsCop, ";", null);
                 });
                 ImGui.Separator();
                 ImGui.TextColored(HINTCOLOUR, "Select row operation...");
-                var res2 = MassEditAutoFillForOperation(MERowOperation.rowOps, ref _autoFillArgsRop, ";", null);
+                var res2 = MassEditAutoFillForOperation(METypelessOperation.row, ref _autoFillArgsRop, ";", null);
                 if (res1 != null)
                 {
                     return res1;
@@ -333,7 +333,7 @@ internal class AutoFill
                         }
 
                         ImGui.TextColored(HINTCOLOUR, "Select field operation...");
-                        return MassEditAutoFillForOperation(MECellOperation.cellOps, ref _autoFillArgsCop, ";",
+                        return MassEditAutoFillForOperation(METypelessOperation.cell, ref _autoFillArgsCop, ";",
                             null);
                     });
                     string res2 = null;
@@ -341,7 +341,7 @@ internal class AutoFill
                     {
                         ImGui.Separator();
                         ImGui.TextColored(HINTCOLOUR, "Select row operation...");
-                        res2 = MassEditAutoFillForOperation(MERowOperation.rowOps, ref _autoFillArgsRop, ";", null);
+                        res2 = MassEditAutoFillForOperation(METypelessOperation.row, ref _autoFillArgsRop, ";", null);
                     }
 
                     if (res1 != null)
@@ -360,7 +360,7 @@ internal class AutoFill
                 ImGui.Separator();
                 ImGui.PushID("globalop");
                 ImGui.TextColored(HINTCOLOUR, "Select global operation...");
-                result3 = MassEditAutoFillForOperation(MEGlobalOperation.globalOps, ref _autoFillArgsGop, ";",
+                result3 = MassEditAutoFillForOperation(METypelessOperation.global, ref _autoFillArgsGop, ";",
                     null);
                 ImGui.PopID();
                 if (MassParamEdit.massEditVars.Count != 0)
@@ -376,7 +376,7 @@ internal class AutoFill
                         }
 
                         ImGui.TextColored(HINTCOLOUR, "Select value operation...");
-                        return MassEditAutoFillForOperation(MECellOperation.cellOps, ref _autoFillArgsCop, ";",
+                        return MassEditAutoFillForOperation(METypelessOperation.cell, ref _autoFillArgsCop, ";",
                             null);
                     });
                 }
@@ -406,7 +406,7 @@ internal class AutoFill
 
     public static string MassEditOpAutoFill()
     {
-        return MassEditAutoFillForOperation(MECellOperation.cellOps, ref _autoFillArgsCop, ";", null);
+        return MassEditAutoFillForOperation(METypelessOperation.cell, ref _autoFillArgsCop, ";", null);
     }
 
     private static string MassEditAutoFillForOperation<R, IO, IF, B>(MEOperation<R, IO, IF, B> ops, ref string[] staticArgs,

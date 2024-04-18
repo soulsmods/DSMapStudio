@@ -38,7 +38,21 @@ internal class MEOperationDef<TMECategory, TInputObject, TInputValue, TOutput> :
 }
 internal abstract class METypelessOperation
 {
-    private static Dictionary<Type, METypelessOperation> editOperations = new();
+    private static Dictionary<Type, METypelessOperation> editOperations;
+
+    internal static MEGlobalOperation global;
+    internal static MERowOperation row;
+    internal static MECellOperation cell;
+    internal static MEVarOperation var;
+    static METypelessOperation()
+    {
+        editOperations = new();
+        global = new();
+        row = new();
+        cell = new();
+        var = new();
+    }
+
     internal static void AddEditOperation<TMECategory, TInputObject, TInputValue, TOutput>(MEOperation<TMECategory, TInputObject, TInputValue, TOutput> engine)
     {
         editOperations[typeof(TMECategory)] = engine;
@@ -95,8 +109,6 @@ internal abstract class MEOperation<TMECategory, TInputObject, TInputValue, TOut
 
 internal class MEGlobalOperation : MEOperation<(bool, bool), bool, bool, bool>
 {
-    internal static MEGlobalOperation globalOps = new();
-
     internal override void Setup()
     {
         name = "global";
@@ -150,8 +162,6 @@ internal class MEGlobalOperation : MEOperation<(bool, bool), bool, bool, bool>
 
 internal class MERowOperation : MEOperation<(string, Param.Row), string, Param.Row, (Param, Param.Row)> //technically we're still using string as the containing object in place of Param
 {
-    public static MERowOperation rowOps = new();
-
     internal override void Setup()
     {
         name = "row";
@@ -325,7 +335,6 @@ internal abstract class MEValueOperation<TMECategory> : MEOperation<TMECategory,
 }
 internal class MECellOperation : MEValueOperation<(PseudoColumn, Param.Column)>
 {
-    public static MECellOperation cellOps = new();
     internal override object GetElementValue((object, object) currentObject, Dictionary<Type, (object, object)> contextObjects)
     {
         (string param, Param.Row row) = ((string, Param.Row))contextObjects[typeof((string, Param.Row))];
@@ -341,7 +350,6 @@ internal class MECellOperation : MEValueOperation<(PseudoColumn, Param.Column)>
 }
 internal class MEVarOperation : MEValueOperation<string>
 {
-    public static MEVarOperation varOps = new();
     internal override object GetElementValue((object, object) currentObject, Dictionary<Type, (object, object)> contextObjects)
     {
         return MassParamEdit.massEditVars[(string)currentObject.Item2];

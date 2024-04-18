@@ -18,14 +18,24 @@ namespace StudioCore.Editor.MassEdit;
 internal abstract class SearchEngine
 {
 
-    private static Dictionary<Type, List<(SearchEngine, Type)>> searchEngines = new();
+    private static Dictionary<Type, List<(SearchEngine, Type)>> searchEngines;
     // Listing engines here so they are initialised always
-    public static ParamRowSelectionSearchEngine paramRowSelection = new();
-    public static ParamRowClipBoardSearchEngine paramRowClipboard = new();
-    public static ParamSearchEngine param = new(ParamBank.PrimaryBank);
-    public static RowSearchEngine row = new(ParamBank.PrimaryBank);
-    public static CellSearchEngine cell = new();
-    public static VarSearchEngine var = new();
+    public static ParamRowSelectionSearchEngine paramRowSelection;
+    public static ParamRowClipBoardSearchEngine paramRowClipboard;
+    public static ParamSearchEngine param;
+    public static RowSearchEngine row;
+    public static CellSearchEngine cell;
+    public static VarSearchEngine var;
+    static SearchEngine(){
+        searchEngines = new();
+        paramRowSelection = new();
+        paramRowClipboard = new();
+        param = new(ParamBank.PrimaryBank);
+        row = new(ParamBank.PrimaryBank);
+        cell = new();
+        var = new();
+    }
+
     internal static void AddSearchEngine<TContextObject, TContextField, TElementObject, TElementField>(TypedSearchEngine<TContextObject, TContextField, TElementObject, TElementField> engine)
     {
         if (!searchEngines.ContainsKey(typeof((TContextObject, TContextField))))
