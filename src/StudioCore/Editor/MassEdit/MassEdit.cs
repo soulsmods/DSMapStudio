@@ -341,11 +341,15 @@ public class MassParamEditRegex
     {
         var argValues = argFuncs.Select(f => f.assertCompleteContextOrThrow(_currentLine).ToParamEditorString()).ToArray();
         var opResult = parsedOp.function(currentObject.Item1, opType.GetElementValue(currentObject, contextObjects), argValues);
-        if (!opType.ValidateResult(opResult))
+        ResultValidity res = opType.ValidateResult(opResult);
+        if (res == ResultValidity.ERROR)
         {
             return new MassEditResult(MassEditResultType.OPERATIONERROR, $@"Error performing {opName} operation {opInfo.command} (line {_currentLine})");
         }
-        opType.UseResult(_partialActions, currentObject, contextObjects, opResult);
+        if (res == ResultValidity.OK)
+        {
+            opType.UseResult(_partialActions, currentObject, contextObjects, opResult);
+        }
         return new MassEditResult(MassEditResultType.SUCCESS, "");
     }
 }

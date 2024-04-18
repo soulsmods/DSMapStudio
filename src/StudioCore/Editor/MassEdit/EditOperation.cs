@@ -65,7 +65,7 @@ internal abstract class METypelessOperation
     internal abstract Dictionary<string, METypelessOperationDef> AllCommands();
     internal abstract string NameForHelpTexts();
     internal abstract object GetElementValue((object, object) currentObject, Dictionary<Type, (object, object)> contextObjects);
-    internal abstract bool ValidateResult(object res);
+    internal abstract ResultValidity ValidateResult(object res);
     internal abstract void UseResult(List<EditorAction> actionList, (object, object) currentObject, Dictionary<Type, (object, object)> contextObjects, object res);
     internal abstract bool HandlesCommand(string command);
 }
@@ -149,9 +149,9 @@ internal class MEGlobalOperation : MEOperation<(bool, bool), bool, bool, bool>
         return true; //Global op technically has no context / uses the dummy context of boolean
     }
 
-    internal override bool ValidateResult(object res)
+    internal override ResultValidity ValidateResult(object res)
     {
-        return true;
+        return ResultValidity.SKIP; //Glocal ops don't do anything with the resulting obj
     }
 
     internal override void UseResult(List<EditorAction> actionList, (object, object) currentObject, Dictionary<Type, (object, object)> contextObjects, object res)
@@ -245,14 +245,16 @@ internal class MERowOperation : MEOperation<(string, Param.Row), string, Param.R
         return currentObject.Item2;
     }
 
-    internal override bool ValidateResult(object res)
+    internal override ResultValidity ValidateResult(object res)
     {
         if (res.GetType() != typeof((Param, Param.Row)))
-            return false;
+            return ResultValidity.ERROR;
         (Param, Param.Row) r2 = ((Param, Param.Row))res;
         if (r2.Item1 == null)
-            return false;
-        return true;
+            return ResultValidity.ERROR;
+        if (r2.Item2 == null)
+            return ResultValidity.SKIP;
+        return ResultValidity.OK;
     }
 
     internal override void UseResult(List<EditorAction> actionList, (object, object) currentObject, Dictionary<Type, (object, object)> contextObjects, object res)
@@ -326,11 +328,11 @@ internal abstract class MEValueOperation<TMECategory> : MEOperation<TMECategory,
                 (value, args) => MassParamEdit.WithDynamicOf(value, v => Math.Min(v, double.Parse(args[0]))), () => CFG.Current.Param_AdvancedMassedit);
     }
 
-    internal override bool ValidateResult(object res)
+    internal override ResultValidity ValidateResult(object res)
     {
         if (res == null)
-            return false;
-        return true;
+            return ResultValidity.ERROR;
+        return ResultValidity.OK;
     }
 }
 internal class MECellOperation : MEValueOperation<(PseudoColumn, Param.Column)>
@@ -359,6 +361,13 @@ internal class MEVarOperation : MEValueOperation<string>
     {
         MassParamEdit.massEditVars[(string)currentObject.Item2] = res;
     }
+}
+
+internal enum ResultValidity
+{
+    OK,
+    SKIP,
+    ERROR
 }
 
 internal class MEOperationArgument
@@ -816,10 +825,8 @@ internal class OperationArgumentGetter
         this.func = func;
         this.shouldShow = shouldShow;
     }
-
-
-
 }
+
 internal static class OAGFuncExtension
 {
     /*internal static object tryFold(this Func<object, object> func, object newContextInput)
@@ -848,8 +855,8 @@ internal static class OAGFuncExtension
             Delegate func = (Delegate)maybeFunc;
             var parameters = func.Method.GetParameters();
             /* bool is provided as a special context argument for no context */
-            if (parameters.Length == 2 && parameters[0].ParameterType == typeof(int) && parameters[1].ParameterType == typeof(bool))
-                return assertCompleteContextOrThrow(func.DynamicInvoke(editIndex, false), editIndex);
+            if (parameters.Length == 3 && parameters[0].ParameterType == typeof(int) && parameters[1].ParameterType == typeof(bool) && parameters[2].ParameterType == typeof(bool))
+                return assertCompleteContextOrThrow(func.DynamicInvoke(editIndex, false, false), editIndex);
             else
                 throw new MEOperationException("Argument getter did not have enough context to determine the value to use.");
         }
