@@ -350,7 +350,7 @@ internal class MECellOperation : MEValueOperation<(PseudoColumn, Param.Column)>
         actionList.AppendParamEditAction(row, col, res);
     }
 }
-internal class MEVarOperation : MEValueOperation<string>
+internal class MEVarOperation : MEValueOperation<(bool, string)>
 {
     internal override object GetElementValue((object, object) currentObject, Dictionary<Type, (object, object)> contextObjects)
     {
