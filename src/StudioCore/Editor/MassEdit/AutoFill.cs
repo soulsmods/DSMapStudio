@@ -16,11 +16,12 @@ internal class AutoFillSearchEngine
     private readonly string[] _autoFillArgs;
     private readonly SearchEngine engine;
     private readonly string id;
+    internal string displayedCategory;
     private AutoFillSearchEngine _additionalCondition;
     private bool _autoFillNotToggle;
     private bool _useAdditionalCondition;
 
-    internal AutoFillSearchEngine(SearchEngine searchEngine)
+    internal AutoFillSearchEngine(SearchEngine searchEngine, string dispCat)
     {
         AutoFill._imguiID++;
         id = "e" + AutoFill._imguiID;
@@ -29,6 +30,7 @@ internal class AutoFillSearchEngine
         _autoFillNotToggle = false;
         _useAdditionalCondition = false;
         _additionalCondition = null;
+        displayedCategory = dispCat;
         AutoFill.autoFillersSE[searchEngine] = this;
     }
     private AutoFillSearchEngine(AutoFillSearchEngine parentEngine)
@@ -39,6 +41,7 @@ internal class AutoFillSearchEngine
         _autoFillNotToggle = false;
         _useAdditionalCondition = false;
         _additionalCondition = null;
+        displayedCategory = $@"where {parentEngine.displayedCategory} also";
     }
     internal string Menu(bool enableComplexToggles, bool enableDefault, string suffix, string inheritedCommand, bool terminal)
     {
@@ -139,7 +142,7 @@ internal class AutoFillSearchEngine
         foreach (AutoFillSearchEngine afse in afses)
         {
             ImGui.Separator();
-            ImGui.TextColored(AutoFill.HINTCOLOUR, "Select fields...");
+            ImGui.TextColored(AutoFill.HINTCOLOUR, @$"Select {afse.displayedCategory}...");
             res1 = afse.Menu(true, true, ": ", inheritedCommand, false);
             if (res1 != null)
             {
@@ -150,7 +153,7 @@ internal class AutoFillSearchEngine
         if (afo != null)
         {
             ImGui.Separator();
-            ImGui.TextColored(AutoFill.HINTCOLOUR, "Select row operation...");
+            ImGui.TextColored(AutoFill.HINTCOLOUR, @$"Select {afo.displayedCategory} operation...");
             var res2 = afo.Menu(";");
             if (res2 != null)
             {
@@ -212,13 +215,15 @@ internal class AutoFillOperation
     private readonly string[] _autoFillArgs;
     private readonly OperationCategory op;
     private readonly string id;
+    internal string displayedCategory;
 
-    internal AutoFillOperation(OperationCategory operation)
+    internal AutoFillOperation(OperationCategory operation, string dispCat)
     {
         AutoFill._imguiID++;
         id = "e" + AutoFill._imguiID;
         op = operation;
         _autoFillArgs = Enumerable.Repeat("", op.AllCommands().Sum(x => x.Value.argNames.Length)).ToArray();
+        displayedCategory = dispCat;
         AutoFill.autoFillersO[operation] = this;
     }
 
@@ -300,17 +305,17 @@ internal class AutoFill
 
     static AutoFill()
     {
-        autoFillPrsse = new(SearchEngine.paramRowSelection);
-        autoFillPrcse = new(SearchEngine.paramRowClipboard);
-        autoFillPse = new(SearchEngine.param);
-        autoFillRse = new(SearchEngine.row);
-        autoFillCse = new(SearchEngine.cell);
-        autoFillVse = new(SearchEngine.var);
+        autoFillPrsse = new(SearchEngine.paramRowSelection, "param and rows");
+        autoFillPrcse = new(SearchEngine.paramRowClipboard, "param and rows");
+        autoFillPse = new(SearchEngine.param, "params");
+        autoFillRse = new(SearchEngine.row, "rows");
+        autoFillCse = new(SearchEngine.cell, "cells");
+        autoFillVse = new(SearchEngine.var, "variables");
 
-        autoFillGo = new(OperationCategory.global);
-        autoFillRo = new(OperationCategory.row);
-        autoFillCo = new(OperationCategory.cell);
-        autoFillVo = new(OperationCategory.var);
+        autoFillGo = new(OperationCategory.global, "global");
+        autoFillRo = new(OperationCategory.row, "row");
+        autoFillCo = new(OperationCategory.cell, "cell");
+        autoFillVo = new(OperationCategory.var, "variable");
     }
     private static readonly AutoFillSearchEngine autoFillPrsse;
     private static readonly AutoFillSearchEngine autoFillPrcse;
