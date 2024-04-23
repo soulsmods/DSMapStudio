@@ -61,6 +61,7 @@
     <channelAttackHeatBuildup AltName="Heat Build-up on Channeled Attack" />
     <heatBuildup AltName="Heat Build-up" />
     <burstFireAmount AltName="Burst Fire Amount" />
+    <unkFiringAngle Wiki="Affects projectile firing angle" />
   </Field>
   <Self Row0Dummy="" />
 </PARAMMETA>
