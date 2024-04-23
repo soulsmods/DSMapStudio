@@ -971,7 +971,9 @@ public class ParamEditorScreen : EditorScreen
                     viewToModify._selection.SetActiveParam(initcmd[2]);
                     if (initcmd.Length > 3)
                     {
-                        viewToModify._selection.SetActiveRow(null, doFocus);
+                        bool onlyAddToSelection = initcmd.Length > 4 && initcmd[4] == "addOnly";
+                        if (!onlyAddToSelection)
+                            viewToModify._selection.SetActiveRow(null, doFocus);
                         Param p = ParamBank.PrimaryBank.Params[viewToModify._selection.GetActiveParam()];
                         int id;
                         var parsed = int.TryParse(initcmd[3], out id);
@@ -980,7 +982,10 @@ public class ParamEditorScreen : EditorScreen
                             Param.Row r = p.Rows.FirstOrDefault(r => r.ID == id);
                             if (r != null)
                             {
-                                viewToModify._selection.SetActiveRow(r, doFocus);
+                                if (onlyAddToSelection)
+                                    viewToModify._selection.AddRowToSelection(r);
+                                else
+                                    viewToModify._selection.SetActiveRow(r, doFocus);
                             }
                         }
                     }
@@ -1643,6 +1648,7 @@ public class ParamEditorScreen : EditorScreen
 
         _clipboardBaseRow = baseValue;
         _currentCtrlVValue = _clipboardBaseRow.ToString();
+        _currentCtrlVOffset = "0";
     }
 
     private static void DelimiterInputText()
@@ -1904,6 +1910,7 @@ public class ParamEditorScreen : EditorScreen
             try
             {
                 long offset = 0;
+                ImGui.Checkbox("Select new rows after paste", ref CFG.Current.Param_PasteThenSelect);
                 ImGui.Checkbox("Paste after selection", ref CFG.Current.Param_PasteAfterSelection);
                 var insertIndex = -1;
                 if (CFG.Current.Param_PasteAfterSelection)
@@ -1971,10 +1978,25 @@ public class ParamEditorScreen : EditorScreen
                         // Do a clever thing by reversing order, making ID order incremental and resulting in row insertion being in the correct order because of the static index.
                         rowsToInsert.Reverse();
                     }
-
-                    EditorActionManager.ExecuteAction(new AddParamsAction(
+                    var paramAction = new AddParamsAction(
                         ParamBank.PrimaryBank.Params[ParamBank.ClipboardParam], "legacystring", rowsToInsert, false,
-                        false, insertIndex));
+                        false, insertIndex);
+                    EditorActionManager.ExecuteAction(paramAction);
+
+                    // Selection management
+                    if (CFG.Current.Param_PasteThenSelect)
+                    {
+                        var res = paramAction.GetResultantRows();
+                        if (res.Count > 0)
+                        {
+                            _activeView._selection.SetActiveRow(res[0], true);
+                            foreach (Param.Row r in res)
+                            {
+                                _activeView._selection.AddRowToSelection(r);
+                            }
+                            EditorCommandQueue.AddCommand($@"param/select/-1/{_activeView._selection.GetActiveParam()}/{res[0].ID}/addOnly");
+                        }
+                    }
                     ImGui.CloseCurrentPopup();
                 }
             }

@@ -282,7 +282,7 @@ public static partial class FMGBank
                             var currentEntry = info.Fmg.Entries.Find(e => e.ID == entry.ID);
                             if (currentEntry == null)
                             {
-                                fmg.Entries.Add(entry);
+                                info.Fmg.Entries.Add(entry);
                             }
                             else if (currentEntry.Text != entry.Text)
                             {
@@ -387,7 +387,16 @@ public static partial class FMGBank
                     for (var i = 1; i < file.Length; i++)
                     {
                         var line = file[i];
-                        if (line.StartsWith(_entrySeparator) || i + 1 == file.Length)
+                        if (i + 1 == file.Length)
+                        {
+                            text.Add(line);
+                            string str = string.Join("\r\n", text);
+                            while (entryIds.Count > 0)
+                            {
+                                fmg.Entries.Add(new(entryIds.Dequeue(), str));
+                            }
+                        }
+                        else if (line.StartsWith(_entrySeparator))
                         {
                             if (text.Count > 0)
                             {
@@ -397,9 +406,6 @@ public static partial class FMGBank
                                 {
                                     fmg.Entries.Add(new(entryIds.Dequeue(), str));
                                 }
-
-                                if (i + 1 == file.Length)
-                                    break;
 
                                 try
                                 {

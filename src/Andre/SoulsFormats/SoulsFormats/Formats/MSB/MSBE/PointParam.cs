@@ -488,9 +488,9 @@ namespace SoulsFormats
             public Vector3 Rotation { get; set; }
 
             /// <summary>
-            /// Unknown.
+            /// Presumed ID for regions. Unique per map / incremented per region.
             /// </summary>
-            public int Unk2C { get; set; }
+            public int RegionID { get; set; }
 
             /// <summary>
             /// Unknown.
@@ -579,7 +579,7 @@ namespace SoulsFormats
                 MSB.ShapeType shapeType = br.ReadEnum32<MSB.ShapeType>();
                 Position = br.ReadVector3();
                 Rotation = br.ReadVector3();
-                Unk2C = br.ReadInt32();
+                RegionID = br.ReadInt32();
                 long baseDataOffset1 = br.ReadInt64();
                 long baseDataOffset2 = br.ReadInt64();
                 Unk40 = br.ReadInt32();
@@ -662,7 +662,7 @@ namespace SoulsFormats
                 bw.WriteUInt32((uint)Shape.Type);
                 bw.WriteVector3(Position);
                 bw.WriteVector3(Rotation);
-                bw.WriteInt32(Unk2C);
+                bw.WriteInt32(RegionID);
                 bw.ReserveInt64("BaseDataOffset1");
                 bw.ReserveInt64("BaseDataOffset2");
                 bw.WriteInt32(Unk40);
@@ -2356,9 +2356,9 @@ namespace SoulsFormats
                 private protected override bool HasTypeData => true;
 
                 /// <summary>
-                /// Unknown.
+                /// FMG id to use for popup titlecards. Negative values apply when entering, Positive values apply on map load.
                 /// </summary>
-                public int UnkT00 { get; set; }
+                public int TextID { get; set; }
 
                 /// <summary>
                 /// Creates a MapNameOverride with default values.
@@ -2369,13 +2369,13 @@ namespace SoulsFormats
 
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
-                    UnkT00 = br.ReadInt32();
+                    TextID = br.ReadInt32();
                     br.AssertInt32(0);
                 }
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    bw.WriteInt32(UnkT00);
+                    bw.WriteInt32(TextID);
                     bw.WriteInt32(0);
                 }
             }

@@ -41,15 +41,30 @@ public class CFG
     public bool ShowUITooltips = true;
     public float UIScale = 1.0f;
     public bool EnableSoapstone = true;
+    public bool EnableTexturing = false;
+
+    // Font settings
     public bool FontChinese = false;
     public bool FontCyrillic = false;
     public bool FontKorean = false;
     public bool FontThai = false;
     public bool FontVietnamese = false;
 
+    public bool AliasBank_EditorMode = false;
+
+    public bool AssetBrowser_ShowTagsInBrowser = true;
+    public bool AssetBrowser_ShowLowDetailParts = false;
+    public bool MapAliases_ShowMapAliasEditList = false;
+    public bool MapAliases_ShowUnusedNames = false;
+    public bool MapAliases_ShowTagsInBrowser = true;
+    public bool MapAliases_ShowAliasAddition = false;
+
     // Settings: Map Editor
-    //public bool EnableFrustrumCulling = true;
-    public bool EnableTexturing = false;
+    public bool Viewport_Enable_Selection_Outline = false;
+
+    public bool MapEditor_Show_Character_Names_in_Scene_Tree = true;
+
+    public bool EnableFrustrumCulling = false;
     public bool Map_AlwaysListLoadedMaps = true;
     public bool EnableEldenRingAutoMapOffset = true;
 
@@ -160,6 +175,7 @@ public class CFG
     public bool Param_HideReferenceRows = false;
     public bool Param_MakeMetaNamesPrimary = true;
     public bool Param_PasteAfterSelection = false;
+    public bool Param_PasteThenSelect = true;
     public bool Param_ShowFieldOffsets = false;
     public bool Param_ShowHotkeysInContextMenu = true;
     public bool Param_ShowSecondaryNames = true;

@@ -5,6 +5,7 @@ using StudioCore.MsbEditor;
 using StudioCore.ParamEditor;
 using StudioCore.Scene;
 using StudioCore.TextEditor;
+using StudioCore.Utilities;
 using System;
 using System.Diagnostics;
 using System.Drawing;
@@ -137,6 +138,12 @@ public class SettingsMenu
                 }
             }
 
+            if (ImGui.CollapsingHeader("Resources", ImGuiTreeNodeFlags.DefaultOpen))
+            {
+                ImGui.Checkbox("Alias Banks - Editor Mode", ref CFG.Current.AliasBank_EditorMode);
+                ImguiUtils.ShowHelpMarker("If enabled, editing the name and tags for alias banks will commit the changes to the DSMS base version instead of the mod-specific version.");
+            }
+
             if (ImGui.CollapsingHeader("Project", ImGuiTreeNodeFlags.DefaultOpen))
             {
                 if (ProjSettings == null || ProjSettings.ProjectName == null)
@@ -257,11 +264,21 @@ public class SettingsMenu
                 }
             }
 
+            // Scene View
+            if (ImGui.CollapsingHeader("Scene View"))
+            {
+                ImGui.Checkbox("Display character names", ref CFG.Current.MapEditor_Show_Character_Names_in_Scene_Tree);
+                ImguiUtils.ShowHelpMarker("Characters names will be displayed within the scene view list.");
+            }
+
             if (ImGui.CollapsingHeader("Selection"))
             {
                 var arbitrary_rotation_x = CFG.Current.Map_ArbitraryRotation_X_Shift;
                 var arbitrary_rotation_y = CFG.Current.Map_ArbitraryRotation_Y_Shift;
                 var camera_radius_offset = CFG.Current.Map_MoveSelectionToCamera_Radius;
+
+                ImGui.Checkbox("Enable selection outline", ref CFG.Current.Viewport_Enable_Selection_Outline);
+                ImguiUtils.ShowHoverTooltip("Enable the selection outline around map entities.");
 
                 if (CFG.Current.ShowUITooltips)
                 {

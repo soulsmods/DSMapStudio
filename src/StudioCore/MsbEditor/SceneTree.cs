@@ -1,4 +1,6 @@
-﻿using static Andre.Native.ImGuiBindings;
+using static Andre.Native.ImGuiBindings;
+using SoulsFormats;
+using StudioCore.Banks;
 using StudioCore.Editor;
 using StudioCore.Gui;
 using StudioCore.ParamEditor;
@@ -90,6 +92,8 @@ public class SceneTree : IActionEventHandler
 
     private ViewMode _viewMode = ViewMode.ObjectType;
 
+    private Dictionary<string, string> _chrAliasCache;
+
     public SceneTree(Configuration configuration, SceneTreeEventHandler handler, string id, Universe universe,
         Selection sel, ActionManager aman, IViewport vp, AssetLocator al)
     {
@@ -101,10 +105,13 @@ public class SceneTree : IActionEventHandler
         _viewport = vp;
         _assetLocator = al;
         _configuration = configuration;
+
         if (_configuration == Configuration.ModelEditor)
         {
             _viewMode = ViewMode.Hierarchy;
         }
+
+        _chrAliasCache = null;
     }
 
     public void OnActionEvent(ActionEvent evt)
@@ -253,7 +260,10 @@ public class SceneTree : IActionEventHandler
         else
         {
             _mapEnt_ImGuiID++;
-            if (ImGui.Selectable(padding + e.PrettyName + "##" + _mapEnt_ImGuiID,
+            string name = e.PrettyName;
+            string aliasedName = GetModelAliasName(name, e);
+
+            if (ImGui.Selectable(padding + aliasedName + "##" + _mapEnt_ImGuiID,
                     _selection.GetSelection().Contains(e),
                     ImGuiSelectableFlags.AllowDoubleClick | ImGuiSelectableFlags.AllowOverlap))
             {
@@ -676,9 +686,9 @@ public class SceneTree : IActionEventHandler
                     continue;
                 }
 
-                if (AliasBank.MapNames != null && AliasBank.MapNames.ContainsKey(mapid))
+                if (MapAliasBank.Bank.MapNames != null && MapAliasBank.Bank.MapNames.ContainsKey(mapid))
                 {
-                    metaName = AliasBank.MapNames[mapid];
+                    metaName = MapAliasBank.Bank.MapNames[mapid];
                 }
 
                 // Map name search filter
@@ -957,5 +967,59 @@ public class SceneTree : IActionEventHandler
         ImGui.End();
         ImGui.PopStyleColor(1);
         _selection.ClearGotoTarget();
+    }
+
+    public string GetModelAliasName(string name, Entity e)
+    {
+        string result = name;
+
+        var modelName = e.GetPropertyValue<string>("ModelName");
+
+        if (modelName == null)
+            modelName = "";
+
+        if (CFG.Current.MapEditor_Show_Character_Names_in_Scene_Tree)
+        {
+            if (IsPartEnemy(e))
+            {
+                if (_chrAliasCache != null && _chrAliasCache.ContainsKey(modelName))
+                {
+                    result = $"{name} {_chrAliasCache[modelName]}";
+                }
+                else
+                {
+                    foreach (var entry in ModelAliasBank.Bank.AliasNames.GetEntries("Characters"))
+                    {
+                        if (modelName == entry.id)
+                        {
+                            result = $" {{ {entry.name} }}";
+
+                            if (_chrAliasCache == null)
+                            {
+                                _chrAliasCache = new Dictionary<string, string>();
+                            }
+
+                            if (!_chrAliasCache.ContainsKey(entry.id))
+                            {
+                                _chrAliasCache.Add(modelName, result);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
+
+    public bool IsPartEnemy(Entity e)
+    {
+        return e.WrappedObject is MSB1.Part.Enemy ||
+            e.WrappedObject is MSB3.Part.Enemy ||
+            e.WrappedObject is MSBB.Part.Enemy ||
+            e.WrappedObject is MSBD.Part.Enemy ||
+            e.WrappedObject is MSBE.Part.Enemy ||
+            e.WrappedObject is MSBS.Part.Enemy ||
+            e.WrappedObject is MSB_AC6.Part.Enemy ? true : false;
     }
 }

@@ -678,7 +678,7 @@ public unsafe class EditorDecorations
                     {
                         if (ImGui.BeginMenu($@"in {fieldName}"))
                         {
-                            List<Param.Row> rows = UICache.GetCached(screen, (bank, currentParam, currentID, pref),
+                            List<Param.Row> rows = UICache.GetCached(screen, (bank, currentParam, currentID, paramitems.Key, fieldName),
                                 () => ParamRefReverseLookupRowItems(bank, paramitems.Key, fieldName, currentID,
                                     pref));
                             foreach (Param.Row row in rows)
@@ -714,39 +714,38 @@ public unsafe class EditorDecorations
 
     public static void DrawCalcCorrectGraph(EditorScreen screen, ParamMetaData meta, Param.Row row)
     {
-        try
+        if (ImGui.BeginChild("graph", new Vector2(-1, -1), ImGuiChildFlags.AlwaysUseWindowPadding))
         {
-            ImGui.Separator();
-            ImGui.NewLine();
-            ImGui.Indent();
-            CalcCorrectDefinition ccd = meta.CalcCorrectDef;
-            SoulCostDefinition scd = meta.SoulCostDef;
-            float[] values;
-            int xOffset;
-            float minY;
-            float maxY;
-            if (scd != null && scd.cost_row == row.ID)
+            try
             {
-                (values, maxY) = UICache.GetCached(screen, row, "soulCostData",
-                    () => ParamUtils.getSoulCostData(scd, row));
-                ImGui.PlotLines("##graph", values, 0, "", 0, maxY,
-                    new Vector2(ImGui.GetColumnWidth(-1) - 30.0f, (ImGui.GetColumnWidth(-1) * 0.5625f) - 30.0f));
+                CalcCorrectDefinition ccd = meta.CalcCorrectDef;
+                SoulCostDefinition scd = meta.SoulCostDef;
+                float[] values;
+                int xOffset;
+                float minY;
+                float maxY;
+                if (scd != null && scd.cost_row == row.ID)
+                {
+                    (values, maxY) = UICache.GetCached(screen, row, "soulCostData",
+                        () => ParamUtils.getSoulCostData(scd, row));
+                    ImGui.PlotLines("##graph", values, 0, "", 0, maxY,
+                        new Vector2(-1, -1));
+                }
+                else if (ccd != null)
+                {
+                    (values, xOffset, minY, maxY) = UICache.GetCached(screen, row, "calcCorrectData",
+                        () => ParamUtils.getCalcCorrectedData(ccd, row));
+                    ImGui.PlotLines("##graph", values, 0,
+                        xOffset == 0 ? "" : $@"Note: add {xOffset} to x coordinate", minY, maxY,
+                        new Vector2(-1, -1));
+                }
             }
-            else if (ccd != null)
+            catch (Exception e)
             {
-                (values, xOffset, minY, maxY) = UICache.GetCached(screen, row, "calcCorrectData",
-                    () => ParamUtils.getCalcCorrectedData(ccd, row));
-                ImGui.PlotLines("##graph", values, 0,
-                    xOffset == 0 ? "" : $@"Note: add {xOffset} to x coordinate", minY, maxY,
-                    new Vector2(ImGui.GetColumnWidth(-1) - 30f, (ImGui.GetColumnWidth(-1) * 0.5625f) - 30f));
+                ImGui.TextUnformatted("Unable to draw graph");
             }
+            ImGui.EndChild();
         }
-        catch (Exception e)
-        {
-            ImGui.TextUnformatted("Unable to draw graph");
-        }
-
-        ImGui.NewLine();
     }
 
     private static Dictionary<string, List<(string, ParamRef)>> ParamRefReverseLookupFieldItems(ParamBank bank,

@@ -80,6 +80,7 @@ public class KeyBindings
         // Core
         public KeyBind Core_Delete = new(Key.Delete);
         public KeyBind Core_Duplicate = new(Key.D, true);
+        public KeyBind Core_AssetBrowser = new(Key.F1);
         public KeyBind Core_HelpMenu = new(Key.F2);
         public KeyBind Core_Redo = new(Key.Y, true);
         public KeyBind Core_SaveAllEditors = new();
@@ -106,6 +107,7 @@ public class KeyBindings
         public KeyBind Map_ResetRotation = new(Key.L);
         public KeyBind Map_UnDummify = new(Key.Period, false, false, true);
         public KeyBind Map_UnhideAll = new(Key.H, false, true);
+        public KeyBind Map_RenderEnemyPatrolRoutes = new(Key.P, true);
         public KeyBind Map_ViewportGrid_Lower = new(Key.Q, true);
         public KeyBind Map_ViewportGrid_Raise = new(Key.E, true);
 
