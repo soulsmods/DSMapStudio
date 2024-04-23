@@ -321,9 +321,27 @@
     <weaponOverheatedCoolingDelay AltName="Overheated Weapon Cooling Delay" />
     <inheritanceWeaponParamId AltName="Weapon Inheritance" Refs="EquipParamWeapon" Wiki="Inherits fields from referenced weapon." />
     <menuShootCount AltName="Displayed Shoot Count" />
+    <menuChargeStateCategory AltName="Display Charged State Category" Wiki="Whether to show base charge or full charge values in menu. Value 100 for regular weapons, 110 for two stage weapons. Unknown if this value is derived or just an enum.">
     <demonstrationVideoBinkId AltName="Demostration Video Bink ID" Wiki="Refers to the video filename in Game/movie/" />
     <pulseArmorRadius AltName="Pulse Armor: Radius" Wiki="Size of effective pulse armor (see pulseArmorVisualRadius for visual radius)." />
     <pulseArmorVisualRadius AltName="Pulse Armor: Visual Radius" Wiki="Size of pulse armor visuals (see pulseArmorRadius for effective radius)." />
+    <menuChargeTimeType Wiki="Determines if a weapon reports its Full Charge Time in the menu for weapons with multiple charge stages. No gameplay effect." />
+    <menuSecondaryChargedBlastRadius Wiki="Determines if a weapon reports Charged Blast Radius from secondary bullets, such as on-impact explosions. No gameplay effect." />
+    <menuSecondaryAttackPower Wiki="Determines if a weapon reports Attack Power from secondary bullets, such as on-impact explosions. No gameplay effect.." />
+    <menuSecondaryDamageField Wiki="Determines if a weapon reports multiple ticks of damage from its secondary bullets, such as plasma AoE fields. No gameplay effect.." />
+    <menuSecondaryDirectHitAdjustment Wiki="Determines if a weapon reports Direct Hit Adjustment from its secondary bullets, such as plasma AoE fields. No gameplay effect.." />
+    <menuSecondaryImpact Wiki="Determines if a weapon reports Impact from its secondary bullets, such as plasma AoE fields. No gameplay effect.." />
+    <menuSecondaryAccumulativeImpact Wiki="Determines if a weapon reports Accumulative Impact from its secondary bullets, such as plasma AoE fields. No gameplay effect.." />
+    <menuSecondaryBlastRadius Wiki="Determines if a weapon reports Blast Radius from its secondary bullets, such as on-impact explosions. No gameplay effect.." />
+    <unkSecondaryDamageField Wiki="Appears to relate to the same information as menuSecondaryDamageField. Why two fields do this is unknown but both seem required.." />
+    <menuSecondaryChargedAttackPower Wiki="Determines if a weapon reports Charged Attack Power from secondary bullets, such as a laser shotgun explosion. No gameplay effect.." />
+    <menuSecondaryChargedDamageField Wiki="Determines if a weapon reports multiple ticks of damage from its secondary charged bullets, such as plasma AoE fields. No gameplay effect.." />
+    <unkSecondaryChargedDamageField Wiki="Appears to relate to the same information as menuSecondaryChargedDamageField. Why two fields do this is unknown but both seem required.." />
+    <menuSecondaryChargedImpact Wiki="Determines if a weapon reports Charged Impact from secondary bullets, such as on-impact explosions. No gameplay effect.." />
+    <menuSecondaryChargedAccumulativeImpact Wiki="Determines if a weapon reports Charged Accumulative Impact from secondary bullets, such as on-impact explosions. No gameplay effect.." />
+    <menuBurstFire Wiki="Determines if a weapon's standard fire reports its burst fire count to the menu, causing its displayed Attack Power, Impact, and Accumulative Impact to display said burst fire count. No gameplay effect.." />
+    <menuChargedBurstFire Wiki="Determines if a weapon's charge fire reports its burst fire to the menu, causing its displayed Chg Attack Power, Chg Impact, and Chg Accum Impact to display said burst fire count. No gameplay effect.." />
+
   </Field>
   <Self />
 </PARAMMETA>

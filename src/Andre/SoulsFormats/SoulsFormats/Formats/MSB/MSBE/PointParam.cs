@@ -2356,9 +2356,9 @@ namespace SoulsFormats
                 private protected override bool HasTypeData => true;
 
                 /// <summary>
-                /// Unknown.
+                /// FMG id to use for popup titlecards. Negative values apply when entering, Positive values apply on map load.
                 /// </summary>
-                public int UnkT00 { get; set; }
+                public int TextID { get; set; }
 
                 /// <summary>
                 /// Creates a MapNameOverride with default values.
@@ -2369,13 +2369,13 @@ namespace SoulsFormats
 
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
-                    UnkT00 = br.ReadInt32();
+                    TextID = br.ReadInt32();
                     br.AssertInt32(0);
                 }
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    bw.WriteInt32(UnkT00);
+                    bw.WriteInt32(TextID);
                     bw.WriteInt32(0);
                 }
             }
