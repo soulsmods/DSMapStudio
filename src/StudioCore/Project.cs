@@ -1,334 +1,209 @@
-﻿using SoulsFormats;
+﻿using Silk.NET.OpenGL;
+using SoulsFormats;
 using StudioCore.Editor;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text.RegularExpressions;
 
 namespace StudioCore;
 
-public static class Locator
-{
-    public static AssetLocator AssetLocator { get; set; }
-}
-
 /// <summary>
-///     Generic asset description for a generic game asset
+///     Exposes an interface to retrieve game assets from the various souls games.
 /// </summary>
-public class AssetDescription
+public class Project
 {
-    public string AssetArchiveVirtualPath;
+    /* Temporary */
+    public static Project GameProject { get; set; }
+    public static Project ActiveProject { get; set; }
+
+    public readonly GameType Type;
+
+    public readonly Project ParentProject;
 
     /// <summary>
-    ///     Where applicable, the numeric asset ID. Usually applies to chrs, objs, and various map pieces
+    ///     The root directory where all the assets are
     /// </summary>
-    public int AssetID;
-
-    /// <summary>
-    ///     Pretty UI friendly name for an asset. Usually the file name without an extention i.e. c1234
-    /// </summary>
-    public string AssetName;
-
-    /// <summary>
-    ///     Absolute path of where the full asset is located. If this asset exists in a mod override directory,
-    ///     then this path points to that instead of the base game asset.
-    /// </summary>
-    public string AssetPath;
-
-    /// <summary>
-    ///     Virtual friendly path for this asset to use with the resource manager
-    /// </summary>
-    public string AssetVirtualPath;
-
-    public override int GetHashCode()
-    {
-        if (AssetVirtualPath != null)
-        {
-            return AssetVirtualPath.GetHashCode();
-        }
-
-        if (AssetPath != null)
-        {
-            return AssetPath.GetHashCode();
-        }
-
-        return base.GetHashCode();
-    }
-
-    public override bool Equals(object obj)
-    {
-        if (obj is AssetDescription ad)
-        {
-            if (AssetVirtualPath != null)
-            {
-                return AssetVirtualPath.Equals(ad.AssetVirtualPath);
-            }
-
-            if (AssetPath != null)
-            {
-                return AssetPath.Equals(ad.AssetPath);
-            }
-        }
-
-        return base.Equals(obj);
-    }
-}
-
-/// <summary>
-///     Exposes an interface to retrieve game assets from the various souls games. Also allows layering
-///     of an additional mod directory on top of the game assets.
-/// </summary>
-public class AssetLocator
-{
-    public static readonly string GameExecutableFilter;
-    public static readonly string ProjectJsonFilter;
-    public static readonly string RegulationBinFilter;
-    public static readonly string Data0Filter;
-    public static readonly string ParamBndDcxFilter;
-    public static readonly string ParamBndFilter;
-    public static readonly string EncRegulationFilter;
-    public static readonly string ParamLooseFilter;
-    public static readonly string CsvFilter;
-    public static readonly string TxtFilter;
-    public static readonly string FmgJsonFilter;
-
-    private List<string> FullMapList;
-
-    static AssetLocator()
-    {
-        // These patterns are meant to be passed directly into PlatformUtils.
-        // Everything about their handling should be done there.
-
-        // Game Executable (.EXE, EBOOT.BIN)|*.EXE*;*EBOOT.BIN*
-        // Windows executable (*.EXE)|*.EXE*
-        // Playstation executable (*.BIN)|*.BIN*
-        GameExecutableFilter = "exe,bin";
-        // Project file (project.json)|PROJECT.JSON
-        ProjectJsonFilter = "json";
-        // Regulation file (regulation.bin)|REGULATION.BIN
-        RegulationBinFilter = "bin";
-        // Data file (Data0.bdt)|DATA0.BDT
-        Data0Filter = "bdt";
-        // ParamBndDcx (gameparam.parambnd.dcx)|GAMEPARAM.PARAMBND.DCX
-        ParamBndDcxFilter = "parambnd.dcx";
-        // ParamBnd (gameparam.parambnd)|GAMEPARAM.PARAMBND
-        ParamBndFilter = "parambnd";
-        // Enc_RegBndDcx (enc_regulation.bnd.dcx)|ENC_REGULATION.BND.DCX
-        EncRegulationFilter = "bnd.dcx";
-        // Loose Param file (*.Param)|*.Param
-        ParamLooseFilter = "param";
-        // CSV file (*.csv)|*.csv
-        CsvFilter = "csv";
-        // Text file (*.txt)|*.txt
-        TxtFilter = "txt";
-        // Exported FMGs (*.fmg.json)|*.fmg.json
-        FmgJsonFilter = "fmg.json";
-        // All file filter is implicitly added by NFD. Ideally this is used explicitly.
-        // All files|*.*
-    }
-
-    public GameType Type { get; private set; } = GameType.Undefined;
-
-    /// <summary>
-    ///     The game interroot where all the game assets are
-    /// </summary>
-    public string GameRootDirectory { get; private set; }
-
-    /// <summary>
-    ///     An optional override mod directory where modded files are stored
-    /// </summary>
-    public string GameModDirectory { get; private set; }
+    public readonly string RootDirectory;
 
     /// <summary>
     ///     Directory where misc DSMapStudio files associated with a project are stored.
     /// </summary>
-    public string ProjectMiscDir => @$"{GameModDirectory}\DSMapStudio";
+    public string ProjectMiscDir => @$"{RootDirectory}\DSMapStudio";
 
-    public string GetAssetPath(string relpath)
-    {
-        if (GameModDirectory != null)
-        {
-            var modpath = $@"{GameModDirectory}\{relpath}";
-            if (File.Exists(modpath))
-            {
-                return modpath;
-            }
-        }
-
-        return $@"{GameRootDirectory}\{relpath}";
-    }
-
-    public GameType GetGameTypeForExePath(string exePath)
-    {
-        var type = GameType.Undefined;
-        if (exePath.ToLower().Contains("darksouls.exe"))
-        {
-            type = GameType.DarkSoulsPTDE;
-        }
-        else if (exePath.ToLower().Contains("darksoulsremastered.exe"))
-        {
-            type = GameType.DarkSoulsRemastered;
-        }
-        else if (exePath.ToLower().Contains("darksoulsii.exe"))
-        {
-            type = GameType.DarkSoulsIISOTFS;
-        }
-        else if (exePath.ToLower().Contains("darksoulsiii.exe"))
-        {
-            type = GameType.DarkSoulsIII;
-        }
-        else if (exePath.ToLower().Contains("eboot.bin"))
-        {
-            var path = Path.GetDirectoryName(exePath);
-            if (Directory.Exists($@"{path}\dvdroot_ps4"))
-            {
-                type = GameType.Bloodborne;
-            }
-            else
-            {
-                type = GameType.DemonsSouls;
-            }
-        }
-        else if (exePath.ToLower().Contains("sekiro.exe"))
-        {
-            type = GameType.Sekiro;
-        }
-        else if (exePath.ToLower().Contains("eldenring.exe"))
-        {
-            type = GameType.EldenRing;
-        }
-        else if (exePath.ToLower().Contains("armoredcore6.exe"))
-        {
-            type = GameType.ArmoredCoreVI;
-        }
-
-        return type;
-    }
-
-    public bool CheckFilesExpanded(string gamepath, GameType game)
-    {
-        if (game == GameType.EldenRing)
-        {
-            if (!Directory.Exists($@"{gamepath}\map"))
-            {
-                return false;
-            }
-
-            if (!Directory.Exists($@"{gamepath}\asset"))
-            {
-                return false;
-            }
-        }
-
-        if (game is GameType.DarkSoulsPTDE or GameType.DarkSoulsIII or GameType.Sekiro)
-        {
-            if (!Directory.Exists($@"{gamepath}\map"))
-            {
-                return false;
-            }
-
-            if (!Directory.Exists($@"{gamepath}\obj"))
-            {
-                return false;
-            }
-        }
-
-        if (game == GameType.DarkSoulsIISOTFS)
-        {
-            if (!Directory.Exists($@"{gamepath}\map"))
-            {
-                return false;
-            }
-
-            if (!Directory.Exists($@"{gamepath}\model\obj"))
-            {
-                return false;
-            }
-        }
-
-        if (game == GameType.ArmoredCoreVI)
-        {
-            if (!Directory.Exists($@"{gamepath}\map"))
-            {
-                return false;
-            }
-
-            if (!Directory.Exists($@"{gamepath}\asset"))
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public void SetModProjectDirectory(string dir)
-    {
-        GameModDirectory = dir;
-    }
-
-    public void SetFromProjectSettings(ProjectSettings settings, string moddir)
+    private List<string> MapList;
+    
+    /// <summary>
+    ///     Creates a project based in a single folder with no parent. This is for Game or DSMS files.
+    /// </summary>
+    public Project(ProjectSettings settings)
     {
         Type = settings.GameType;
-        GameRootDirectory = settings.GameRoot;
-        GameModDirectory = moddir;
-        FullMapList = null;
+        RootDirectory = settings.GameRoot;
+        ParentProject = null;
+    }
+    /// <summary>
+    ///     Creates a project based in a folder with no explicit parent project, with a new ParentProject for the game directory. This is for a mod.
+    /// </summary>
+    public Project(ProjectSettings settings, string moddir)
+    {
+        Type = settings.GameType;
+        RootDirectory = moddir;
+        ParentProject = new Project(settings);
+    }
+    /// <summary>
+    ///     Creates a project based in a folder with an explicit parent project. This is for an addon or fork of a mod.
+    /// </summary>
+    public Project(string moddir, Project parent)
+    {
+        Type = parent.Type;
+        RootDirectory = moddir;
+        ParentProject = parent;
     }
 
-    public bool CreateRecoveryProject()
+    /// <summary>
+    ///     Creates a project based on an existing one for recovery purposes
+    /// </summary>
+    public Project(Project parent)
     {
-        if (GameRootDirectory == null || GameModDirectory == null)
+        var time = DateTime.Now.ToString("dd-MM-yyyy-(hh-mm-ss)", CultureInfo.InvariantCulture);
+        Type = parent.Type;
+        RootDirectory = parent.RootDirectory + $@"\recovery\{time}";
+        ParentProject = parent.ParentProject;
+        if (!Directory.Exists(RootDirectory))
         {
-            return false;
+            Directory.CreateDirectory(RootDirectory);
         }
+    }
 
+    public Project CreateRecoveryProject()
+    {
         try
         {
-            var time = DateTime.Now.ToString("dd-MM-yyyy-(hh-mm-ss)", CultureInfo.InvariantCulture);
-            GameModDirectory = GameModDirectory + $@"\recovery\{time}";
-            if (!Directory.Exists(GameModDirectory))
-            {
-                Directory.CreateDirectory(GameModDirectory);
-            }
-
-            return true;
+            return new Project(this);
         }
         catch (Exception e)
         {
-            return false;
+            return this;
         }
+    }
+
+    private string GetFileNameWithoutExtensions(string path)
+    {
+        return Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(path));
+    }
+
+    public string GetAssetPath(string relpath)
+    {
+        if (File.Exists($@"{RootDirectory}\{relpath}"))
+        {
+            return $@"{RootDirectory}\{relpath}";
+        }
+        if (ParentProject != null)
+        {
+            return ParentProject.GetAssetPath(relpath);
+        }
+        return null;
+    }
+    public string GetProjectFilePath(string relpath)
+    {
+        if (ParentProject == null)
+        {
+            return $@"Assets/{relpath}";
+        }
+        string path = $@"{ProjectMiscDir}/{relpath}";
+        if (File.Exists(path))
+        {
+            return path;
+        }
+        else
+        {
+            return ParentProject.GetProjectFilePath(relpath);
+        }
+    }
+    
+    public (int, string) GetAssetPathFromOptions(IEnumerable<string> relpaths)
+    {
+        int i = 0;
+        foreach (string relpath in relpaths)
+        {
+            var path = $@"{RootDirectory}\{relpath}";
+            if (File.Exists(path))
+            {
+                return (i, path);
+            }
+            i++;
+        }
+        if (ParentProject != null)
+        {
+            return ParentProject.GetAssetPathFromOptions(relpaths);
+        }
+        return (-1, null);
     }
 
     public bool FileExists(string relpath)
     {
-        if (GameModDirectory != null && File.Exists($@"{GameModDirectory}\{relpath}"))
+        if (ParentProject != null && ParentProject.FileExists(relpath))
         {
             return true;
         }
 
-        if (File.Exists($@"{GameRootDirectory}\{relpath}"))
+        if (File.Exists($@"{RootDirectory}\{relpath}"))
         {
             return true;
         }
 
         return false;
     }
-
-    public string GetOverridenFilePath(string relpath)
+    public IEnumerable<string> GetAllFiles(string relpath, string[] extensionPatterns, bool distinct = true, bool subDirectories = false)
     {
-        if (GameModDirectory != null && File.Exists($@"{GameModDirectory}\{relpath}"))
+        List<string> files = new();
+        string rpath = $@"{RootDirectory}\{relpath}";
+        if (Directory.Exists(rpath))
         {
-            return $@"{GameModDirectory}\{relpath}";
+            foreach (string pattern in extensionPatterns)
+            {
+                files.AddRange(Directory.GetFiles(rpath, pattern, subDirectories ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly));
+            }
         }
-
-        if (File.Exists($@"{GameRootDirectory}\{relpath}"))
+        if (ParentProject != null)
         {
-            return $@"{GameRootDirectory}\{relpath}";
+            files.AddRange(ParentProject.GetAllFiles(relpath, extensionPatterns, subDirectories));
         }
-
-        return null;
+        if (distinct)
+        {
+            // WARNING DistinctBy doesn't guarantee preference by order, though implementations do
+            return files.DistinctBy(GetFileNameWithoutExtensions);
+        }
+        else
+        {
+            return files;
+        }
+    }
+    public IEnumerable<string> GetAllSubDirs(string relpath, bool distinct = true, bool subDirectories = false)
+    {
+        List<string> dirs = new();
+        string rpath = $@"{RootDirectory}\{relpath}";
+        if (Directory.Exists(rpath))
+        {
+            dirs.AddRange(Directory.GetDirectories(rpath, "*", subDirectories ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly));
+        }
+        if (ParentProject != null)
+        {
+            dirs.AddRange(ParentProject.GetAllSubDirs(relpath, subDirectories));
+        }
+        if (distinct)
+        {
+            // WARNING DistinctBy doesn't guarantee preference by order, though implementations do
+            return dirs.DistinctBy(Path.GetFileName);
+        }
+        else
+        {
+            return dirs;
+        }
     }
 
     /// <summary>
@@ -338,14 +213,10 @@ public class AssetLocator
     /// <returns></returns>
     public List<string> GetFullMapList()
     {
-        if (GameRootDirectory == null)
-        {
-            return null;
-        }
 
-        if (FullMapList != null)
+        if (MapList != null)
         {
-            return FullMapList;
+            return MapList;
         }
 
         try
@@ -355,54 +226,32 @@ public class AssetLocator
             // DS2 has its own structure for msbs, where they are all inside individual folders
             if (Type == GameType.DarkSoulsIISOTFS)
             {
-                List<string> maps = Directory.GetFileSystemEntries(GameRootDirectory + @"\map", @"m*").ToList();
-                if (GameModDirectory != null)
+                foreach (var map in GetAllFiles(@"map", [@"m*"]))
                 {
-                    if (Directory.Exists(GameModDirectory + @"\map"))
-                    {
-                        maps.AddRange(Directory.GetFileSystemEntries(GameModDirectory + @"\map", @"m*").ToList());
-                    }
-                }
-
-                foreach (var map in maps)
-                {
-                    mapSet.Add(Path.GetFileNameWithoutExtension($@"{map}.blah"));
+                    mapSet.Add(Path.GetFileName(map));
                 }
             }
             else
             {
-                List<string> msbFiles = Directory
-                    .GetFileSystemEntries(GameRootDirectory + @"\map\MapStudio\", @"*.msb")
-                    .Select(Path.GetFileNameWithoutExtension).ToList();
-                msbFiles.AddRange(Directory
-                    .GetFileSystemEntries(GameRootDirectory + @"\map\MapStudio\", @"*.msb.dcx")
-                    .Select(Path.GetFileNameWithoutExtension).Select(Path.GetFileNameWithoutExtension).ToList());
-                if (GameModDirectory != null && Directory.Exists(GameModDirectory + @"\map\MapStudio\"))
+                foreach (var msb in GetAllFiles(@"map\MapStudio\", [@"*.msb", @"*.msb.dcx"]))
                 {
-                    msbFiles.AddRange(Directory
-                        .GetFileSystemEntries(GameModDirectory + @"\map\MapStudio\", @"*.msb")
-                        .Select(Path.GetFileNameWithoutExtension).ToList());
-                    msbFiles.AddRange(Directory
-                        .GetFileSystemEntries(GameModDirectory + @"\map\MapStudio\", @"*.msb.dcx")
-                        .Select(Path.GetFileNameWithoutExtension).Select(Path.GetFileNameWithoutExtension)
-                        .ToList());
-                }
-
-                foreach (var msb in msbFiles)
-                {
-                    mapSet.Add(msb);
+                    mapSet.Add(GetFileNameWithoutExtensions(msb));
                 }
             }
-
             Regex mapRegex = new(@"^m\d{2}_\d{2}_\d{2}_\d{2}$");
             List<string> mapList = mapSet.Where(x => mapRegex.IsMatch(x)).ToList();
             mapList.Sort();
-            FullMapList = mapList;
-            return FullMapList;
+            MapList = mapList;
+            return MapList;
         }
         catch (DirectoryNotFoundException e)
         {
             // Game is likely not UXM unpacked
+            if (ParentProject != null)
+            {
+                MapList = ParentProject.GetFullMapList();
+                return MapList;
+            }
             return new List<string>();
         }
     }
@@ -450,29 +299,18 @@ public class AssetLocator
             backupPath = $@"\map\MapStudio\{mapid}.msb";
         }
 
-        if ((GameModDirectory != null && File.Exists($@"{GameModDirectory}\{preferredPath}")) ||
-            (writemode && GameModDirectory != null))
+        if (writemode)
         {
-            ad.AssetPath = $@"{GameModDirectory}\{preferredPath}";
+            ad.AssetPath = $@"{RootDirectory}\{preferredPath}";
         }
-        else if ((GameModDirectory != null && File.Exists($@"{GameModDirectory}\{backupPath}")) ||
-                 (writemode && GameModDirectory != null))
+        else
         {
-            ad.AssetPath = $@"{GameModDirectory}\{backupPath}";
-        }
-        else if (File.Exists($@"{GameRootDirectory}\{preferredPath}"))
-        {
-            ad.AssetPath = $@"{GameRootDirectory}\{preferredPath}";
-        }
-        else if (File.Exists($@"{GameRootDirectory}\{backupPath}"))
-        {
-            ad.AssetPath = $@"{GameRootDirectory}\{backupPath}";
+            ad.AssetPath = GetAssetPathFromOptions([preferredPath, backupPath]).Item2;
         }
 
         ad.AssetName = mapid;
         return ad;
     }
-
 
     public List<AssetDescription> GetMapBTLs(string mapid, bool writemode = false)
     {
@@ -488,14 +326,13 @@ public class AssetLocator
             AssetDescription ad = new();
             var path = $@"model\map\g{mapid[1..]}.gibhd";
 
-            if ((GameModDirectory != null && File.Exists($@"{GameModDirectory}\{path}")) ||
-                (writemode && GameModDirectory != null))
+            if (writemode)
             {
-                ad.AssetPath = $@"{GameModDirectory}\{path}";
+                ad.AssetPath = $@"{RootDirectory}\{path}";
             }
-            else if (File.Exists($@"{GameRootDirectory}\{path}"))
+            else
             {
-                ad.AssetPath = $@"{GameRootDirectory}\{path}";
+                ad.AssetPath = GetAssetPath(path);
             }
 
             if (ad.AssetPath != null)
@@ -508,14 +345,13 @@ public class AssetLocator
             AssetDescription ad2 = new();
             path = $@"model_lq\map\g{mapid[1..]}.gibhd";
 
-            if ((GameModDirectory != null && File.Exists($@"{GameModDirectory}\{path}")) ||
-                (writemode && GameModDirectory != null))
+            if (writemode)
             {
-                ad2.AssetPath = $@"{GameModDirectory}\{path}";
+                ad2.AssetPath = $@"{RootDirectory}\{path}";
             }
-            else if (File.Exists($@"{GameRootDirectory}\{path}"))
+            else
             {
-                ad2.AssetPath = $@"{GameRootDirectory}\{path}";
+                ad2.AssetPath = GetAssetPath(path);
             }
 
             if (ad2.AssetPath != null)
@@ -539,32 +375,19 @@ public class AssetLocator
 
             List<string> files = new();
 
-            if (Directory.Exists($@"{GameRootDirectory}\{path}"))
-            {
-                files.AddRange(Directory.GetFiles($@"{GameRootDirectory}\{path}", "*.btl").ToList());
-                files.AddRange(Directory.GetFiles($@"{GameRootDirectory}\{path}", "*.btl.dcx").ToList());
-            }
-
-            if (Directory.Exists($@"{GameModDirectory}\{path}"))
-            {
-                // Check for additional BTLs the user has created.
-                files.AddRange(Directory.GetFiles($@"{GameModDirectory}\{path}", "*.btl").ToList());
-                files.AddRange(Directory.GetFiles($@"{GameModDirectory}\{path}", "*.btl.dcx").ToList());
-                files = files.DistinctBy(f => f.Split("\\").Last()).ToList();
-            }
+            files = GetAllFiles(path, ["*.btl", "*.btl.dcx"]).ToList();
 
             foreach (var file in files)
             {
                 AssetDescription ad = new();
                 var fileName = file.Split("\\").Last();
-                if ((GameModDirectory != null && File.Exists($@"{GameModDirectory}\{path}\{fileName}")) ||
-                    (writemode && GameModDirectory != null))
+                if (writemode)
                 {
-                    ad.AssetPath = $@"{GameModDirectory}\{path}\{fileName}";
+                    ad.AssetPath = $@"{RootDirectory}\{path}\{fileName}";
                 }
-                else if (File.Exists($@"{GameRootDirectory}\{path}\{fileName}"))
+                else
                 {
-                    ad.AssetPath = $@"{GameRootDirectory}\{path}\{fileName}";
+                     ad.AssetPath = GetAssetPath($@"{path}\{fileName}");
                 }
 
                 if (ad.AssetPath != null)
@@ -577,7 +400,6 @@ public class AssetLocator
 
         return adList;
     }
-
     public AssetDescription GetMapNVA(string mapid, bool writemode = false)
     {
         AssetDescription ad = new();
@@ -591,36 +413,37 @@ public class AssetLocator
         if (Type == GameType.Bloodborne && mapid.StartsWith("m29"))
         {
             var path = $@"\map\{mapid.Substring(0, 9)}_00\{mapid}";
-            if ((GameModDirectory != null && File.Exists($@"{GameModDirectory}\{path}.nva.dcx")) ||
-                (writemode && GameModDirectory != null && Type != GameType.DarkSoulsPTDE))
+            if (writemode)
             {
-                ad.AssetPath = $@"{GameModDirectory}\{path}.nva.dcx";
+                ad.AssetPath = $@"{RootDirectory}\{path}.nva.dcx";
             }
-            else if (File.Exists($@"{GameRootDirectory}\{path}.nva.dcx"))
+            else
             {
-                ad.AssetPath = $@"{GameRootDirectory}\{path}.nva.dcx";
+                ad.AssetPath = GetAssetPath($@"{path}.nva.dcx");
+            }
+        }
+        else if (Type == GameType.DarkSoulsPTDE)
+        {
+            var path = $@"\map\{mapid}\{mapid}";
+            if (writemode)
+            {
+                ad.AssetPath = $@"{RootDirectory}\{path}.nva";
+            }
+            else
+            {
+                ad.AssetPath = GetAssetPathFromOptions([$@"{path}.nva", $@"{path}.nva.dcx"]).Item2;
             }
         }
         else
         {
             var path = $@"\map\{mapid}\{mapid}";
-            if ((GameModDirectory != null && File.Exists($@"{GameModDirectory}\{path}.nva.dcx")) ||
-                (writemode && GameModDirectory != null && Type != GameType.DarkSoulsPTDE))
+            if (writemode)
             {
-                ad.AssetPath = $@"{GameModDirectory}\{path}.nva.dcx";
+                ad.AssetPath = $@"{RootDirectory}\{path}.nva.dcx";
             }
-            else if (File.Exists($@"{GameRootDirectory}\{path}.nva.dcx"))
+            else
             {
-                ad.AssetPath = $@"{GameRootDirectory}\{path}.nva.dcx";
-            }
-            else if ((GameModDirectory != null && File.Exists($@"{GameModDirectory}\{path}.nva")) ||
-                     (writemode && GameModDirectory != null))
-            {
-                ad.AssetPath = $@"{GameModDirectory}\{path}.nva";
-            }
-            else if (File.Exists($@"{GameRootDirectory}\{path}.nva"))
-            {
-                ad.AssetPath = $@"{GameRootDirectory}\{path}.nva";
+                ad.AssetPath = GetAssetPathFromOptions([$@"{path}.nva.dcx", $@"{path}.nva"]).Item2;
             }
         }
 
@@ -640,23 +463,22 @@ public class AssetLocator
         {
             if (Type == GameType.DemonsSouls)
             {
-                folders = Directory.GetDirectories(GameRootDirectory + @"\msg").ToList();
+                folders = GetAllSubDirs(@"\msg").ToList();
                 // Japanese uses root directory
-                if (File.Exists(GameRootDirectory + @"\msg\menu.msgbnd.dcx") ||
-                    File.Exists(GameRootDirectory + @"\msg\item.msgbnd.dcx"))
+                if (FileExists(@"\msg\menu.msgbnd.dcx") || FileExists(@"\msg\item.msgbnd.dcx"))
                 {
                     dict.Add("Japanese", "");
                 }
             }
             else if (Type == GameType.DarkSoulsIISOTFS)
             {
-                folders = Directory.GetDirectories(GameRootDirectory + @"\menu\text").ToList();
+                folders = GetAllSubDirs(@"\menu\text").ToList();
             }
             else
             {
                 // Exclude folders that don't have typical msgbnds
-                folders = Directory.GetDirectories(GameRootDirectory + @"\msg")
-                    .Where(x => !"common,as,eu,jp,na,uk,japanese".Contains(x.Split("\\").Last())).ToList();
+                folders = GetAllSubDirs(@"\msg")
+                    .Where(x => !"common,as,eu,jp,na,uk,japanese".Contains(Path.GetFileName(x))).ToList();
             }
 
             foreach (var path in folders)
@@ -670,7 +492,6 @@ public class AssetLocator
 
         return dict;
     }
-
     /// <summary>
     ///     Get path of item.msgbnd (english by default)
     /// </summary>
@@ -695,7 +516,7 @@ public class AssetLocator
         {
             path = $@"msg\{langFolder}\{msgBndType}.msgbnd.dcx";
             // Demon's Souls has msgbnds directly in the msg folder
-            if (!File.Exists($@"{GameRootDirectory}\{path}"))
+            if (!FileExists(path))
             {
                 path = $@"msg\{msgBndType}.msgbnd.dcx";
             }
@@ -712,10 +533,6 @@ public class AssetLocator
         {
             // DS2 does not have an msgbnd but loose fmg files instead
             path = $@"menu\text\{langFolder}";
-            AssetDescription ad2 = new();
-            ad2.AssetPath = writemode ? path : $@"{GameRootDirectory}\{path}";
-            //TODO: doesn't support project files
-            return ad2;
         }
         else if (Type == GameType.DarkSoulsIII)
         {
@@ -725,120 +542,67 @@ public class AssetLocator
         if (writemode)
         {
             ad.AssetPath = path;
-            return ad;
         }
-
-        if ((GameModDirectory != null && File.Exists($@"{GameModDirectory}\{path}")) ||
-            (writemode && GameModDirectory != null))
+        else
         {
-            ad.AssetPath = $@"{GameModDirectory}\{path}";
-        }
-        else if (File.Exists($@"{GameRootDirectory}\{path}"))
-        {
-            ad.AssetPath = $@"{GameRootDirectory}\{path}";
+            ad.AssetPath = GetAssetPath(path);
         }
 
         return ad;
     }
 
-    public string GetGameIDForDir()
-    {
-        switch (Type)
-        {
-            case GameType.DemonsSouls:
-                return "DES";
-            case GameType.DarkSoulsPTDE:
-                return "DS1";
-            case GameType.DarkSoulsRemastered:
-                return "DS1R";
-            case GameType.DarkSoulsIISOTFS:
-                return "DS2S";
-            case GameType.Bloodborne:
-                return "BB";
-            case GameType.DarkSoulsIII:
-                return "DS3";
-            case GameType.Sekiro:
-                return "SDT";
-            case GameType.EldenRing:
-                return "ER";
-            case GameType.ArmoredCoreVI:
-                return "AC6";
-            default:
-                throw new Exception("Game type not set");
-        }
-    }
-
     public string GetAliasAssetsDir()
     {
-        return $@"Assets\Aliases\{GetGameIDForDir()}";
+        return GetProjectFilePath($@"Aliases");
     }
 
-
-    public string GetScriptAssetsCommonDir()
+    public string GetParamdexDir()
     {
-        return @"Assets\MassEditScripts\Common";
+        return $@"Paramdex\{AssetUtils.GetGameIDForDir(Type)}";
     }
-
-    public string GetScriptAssetsDir()
-    {
-        return $@"Assets\MassEditScripts\{GetGameIDForDir()}";
-    }
-
-    public string GetUpgraderAssetsDir()
-    {
-        return $@"{GetParamAssetsDir()}\Upgrader";
-    }
-
-    public string GetGameOffsetsAssetsDir()
-    {
-        return $@"Assets\GameOffsets\{GetGameIDForDir()}";
-    }
-
-    public string GetParamAssetsDir()
-    {
-        return $@"Assets\Paramdex\{GetGameIDForDir()}";
-    }
-
-    public string GetParamdefDir()
-    {
-        return $@"{GetParamAssetsDir()}\Defs";
-    }
-
-    public string GetTentativeParamTypePath()
-    {
-        return $@"{GetParamAssetsDir()}\Defs\TentativeParamType.csv";
-    }
-
-    public ulong[] GetParamdefPatches()
-    {
-        if (Directory.Exists($@"{GetParamAssetsDir()}\DefsPatch"))
-        {
-            var entries = Directory.GetFileSystemEntries($@"{GetParamAssetsDir()}\DefsPatch");
-            return entries.Select(e => ulong.Parse(Path.GetFileNameWithoutExtension(e))).ToArray();
-        }
-
-        return new ulong[] { };
-    }
-
-    public string GetParamdefPatchDir(ulong patch)
-    {
-        return $@"{GetParamAssetsDir()}\DefsPatch\{patch}";
-    }
-
     public string GetParammetaDir()
     {
-        return $@"{GetParamAssetsDir()}\Meta";
-    }
-
-    public string GetParamNamesDir()
-    {
-        return $@"{GetParamAssetsDir()}\Names";
+        return GetProjectFilePath($@"{GetParamdexDir()}\Meta");
     }
 
     public string GetStrippedRowNamesPath(string paramName)
     {
-        var dir = $@"{ProjectMiscDir}\Stripped Row Names";
-        return $@"{dir}\{paramName}.txt";
+        return GetProjectFilePath($@"Stripped Row Names\{paramName}.txt");
+    }
+
+    public string GetScriptAssetsCommonDir()
+    {
+        return GetProjectFilePath($@"MassEditScripts\Common");
+    }
+
+    public string GetScriptAssetsDir()
+    {
+        return GetProjectFilePath($@"MassEditScripts\{AssetUtils.GetGameIDForDir(Type)}");
+    }
+
+    public string GetUpgraderAssetsDir()
+    {
+        return GetProjectFilePath($@"{GetParamdexDir()}\Upgrader");
+    }
+
+    public string GetGameOffsetsAssetsDir()
+    {
+        return GetProjectFilePath($@"GameOffsets\{AssetUtils.GetGameIDForDir(Type)}");
+    }
+
+    public string GetParamdefDir()
+    {
+        return GetProjectFilePath($@"{GetParamdexDir()}\Defs");
+    }
+
+    public string GetTentativeParamTypePath()
+    {
+        return GetProjectFilePath($@"{GetParamdexDir()}\Defs\TentativeParamType.csv");
+    }
+
+    public string GetParamNamesDir()
+    {
+        return GetProjectFilePath($@"{GetParamdexDir()}\Names");
     }
 
     public PARAMDEF GetParamdefForParam(string paramType)
@@ -851,14 +615,13 @@ public class AssetLocator
     {
         AssetDescription ad = new();
         var path = $@"Param\generatorparam_{mapid}";
-        if ((GameModDirectory != null && File.Exists($@"{GameModDirectory}\{path}.param")) ||
-            (writemode && GameModDirectory != null))
+        if (writemode)
         {
-            ad.AssetPath = $@"{GameModDirectory}\{path}.param";
+            ad.AssetPath = $@"{RootDirectory}\{path}.param";
         }
-        else if (File.Exists($@"{GameRootDirectory}\{path}.param"))
+        else
         {
-            ad.AssetPath = $@"{GameRootDirectory}\{path}.param";
+            ad.AssetPath = GetAssetPath($@"{path}.param");
         }
 
         ad.AssetName = mapid + "_generators";
@@ -869,14 +632,13 @@ public class AssetLocator
     {
         AssetDescription ad = new();
         var path = $@"Param\generatorlocation_{mapid}";
-        if ((GameModDirectory != null && File.Exists($@"{GameModDirectory}\{path}.param")) ||
-            (writemode && GameModDirectory != null))
+        if (writemode)
         {
-            ad.AssetPath = $@"{GameModDirectory}\{path}.param";
+            ad.AssetPath = $@"{RootDirectory}\{path}.param";
         }
-        else if (File.Exists($@"{GameRootDirectory}\{path}.param"))
+        else
         {
-            ad.AssetPath = $@"{GameRootDirectory}\{path}.param";
+            ad.AssetPath = GetAssetPath($@"{path}.param");
         }
 
         ad.AssetName = mapid + "_generator_locations";
@@ -887,14 +649,13 @@ public class AssetLocator
     {
         AssetDescription ad = new();
         var path = $@"Param\generatorregistparam_{mapid}";
-        if ((GameModDirectory != null && File.Exists($@"{GameModDirectory}\{path}.param")) ||
-            (writemode && GameModDirectory != null))
+        if (writemode)
         {
-            ad.AssetPath = $@"{GameModDirectory}\{path}.param";
+            ad.AssetPath = $@"{RootDirectory}\{path}.param";
         }
-        else if (File.Exists($@"{GameRootDirectory}\{path}.param"))
+        else
         {
-            ad.AssetPath = $@"{GameRootDirectory}\{path}.param";
+            ad.AssetPath = GetAssetPath($@"{path}.param");
         }
 
         ad.AssetName = mapid + "_generator_registrations";
@@ -905,14 +666,13 @@ public class AssetLocator
     {
         AssetDescription ad = new();
         var path = $@"Param\eventparam_{mapid}";
-        if ((GameModDirectory != null && File.Exists($@"{GameModDirectory}\{path}.param")) ||
-            (writemode && GameModDirectory != null))
+        if (writemode)
         {
-            ad.AssetPath = $@"{GameModDirectory}\{path}.param";
+            ad.AssetPath = $@"{RootDirectory}\{path}.param";
         }
-        else if (File.Exists($@"{GameRootDirectory}\{path}.param"))
+        else
         {
-            ad.AssetPath = $@"{GameRootDirectory}\{path}.param";
+            ad.AssetPath = GetAssetPath($@"{path}.param");
         }
 
         ad.AssetName = mapid + "_event_params";
@@ -923,14 +683,13 @@ public class AssetLocator
     {
         AssetDescription ad = new();
         var path = $@"Param\eventlocation_{mapid}";
-        if ((GameModDirectory != null && File.Exists($@"{GameModDirectory}\{path}.param")) ||
-            (writemode && GameModDirectory != null))
+        if (writemode)
         {
-            ad.AssetPath = $@"{GameModDirectory}\{path}.param";
+            ad.AssetPath = $@"{RootDirectory}\{path}.param";
         }
-        else if (File.Exists($@"{GameRootDirectory}\{path}.param"))
+        else
         {
-            ad.AssetPath = $@"{GameRootDirectory}\{path}.param";
+            ad.AssetPath = GetAssetPath($@"{path}.param");
         }
 
         ad.AssetName = mapid + "_event_locations";
@@ -941,37 +700,28 @@ public class AssetLocator
     {
         AssetDescription ad = new();
         var path = $@"Param\mapobjectinstanceparam_{mapid}";
-        if ((GameModDirectory != null && File.Exists($@"{GameModDirectory}\{path}.param")) ||
-            (writemode && GameModDirectory != null))
+        if (writemode)
         {
-            ad.AssetPath = $@"{GameModDirectory}\{path}.param";
+            ad.AssetPath = $@"{RootDirectory}\{path}.param";
         }
-        else if (File.Exists($@"{GameRootDirectory}\{path}.param"))
+        else
         {
-            ad.AssetPath = $@"{GameRootDirectory}\{path}.param";
+            ad.AssetPath = GetAssetPath($@"{path}.param");
         }
 
         ad.AssetName = mapid + "_object_instance_params";
         return ad;
     }
-
     public List<AssetDescription> GetMapModels(string mapid)
     {
         List<AssetDescription> ret = new();
         if (Type == GameType.DarkSoulsIII || Type == GameType.Sekiro)
         {
-            if (!Directory.Exists(GameRootDirectory + $@"\map\{mapid}\"))
-            {
-                return ret;
-            }
-
-            List<string> mapfiles = Directory
-                .GetFileSystemEntries(GameRootDirectory + $@"\map\{mapid}\", @"*.mapbnd.dcx").ToList();
-            foreach (var f in mapfiles)
+            foreach (var f in GetAllFiles($@"\map\{mapid}\", [@"*.mapbnd.dcx"]))
             {
                 AssetDescription ad = new();
                 ad.AssetPath = f;
-                var name = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(f));
+                var name = GetFileNameWithoutExtensions(f);
                 ad.AssetName = name;
                 ad.AssetArchiveVirtualPath = $@"map/{mapid}/model/{name}";
                 ad.AssetVirtualPath = $@"map/{mapid}/model/{name}/{name}.flver";
@@ -988,18 +738,12 @@ public class AssetLocator
         }
         else if (Type == GameType.EldenRing)
         {
-            var mapPath = GameRootDirectory + $@"\map\{mapid[..3]}\{mapid}";
-            if (!Directory.Exists(mapPath))
-            {
-                return ret;
-            }
-
-            List<string> mapfiles = Directory.GetFileSystemEntries(mapPath, @"*.mapbnd.dcx").ToList();
-            foreach (var f in mapfiles)
+            var mapPath = RootDirectory + $@"\map\{mapid[..3]}\{mapid}";
+            foreach (var f in GetAllFiles(mapPath, [@"*.mapbnd.dcx"]))
             {
                 AssetDescription ad = new();
                 ad.AssetPath = f;
-                var name = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(f));
+                var name = GetFileNameWithoutExtensions(f);
                 ad.AssetName = name;
                 ad.AssetArchiveVirtualPath = $@"map/{mapid}/model/{name}";
                 ad.AssetVirtualPath = $@"map/{mapid}/model/{name}/{name}.flver";
@@ -1008,18 +752,12 @@ public class AssetLocator
         }
         else if (Type == GameType.ArmoredCoreVI)
         {
-            var mapPath = GameRootDirectory + $@"\map\{mapid[..3]}\{mapid}";
-            if (!Directory.Exists(mapPath))
-            {
-                return ret;
-            }
-
-            List<string> mapfiles = Directory.GetFileSystemEntries(mapPath, @"*.mapbnd.dcx").ToList();
-            foreach (var f in mapfiles)
+            var mapPath = RootDirectory + $@"\map\{mapid[..3]}\{mapid}";
+            foreach (var f in GetAllFiles(mapPath, [@"*.mapbnd.dcx"]))
             {
                 AssetDescription ad = new();
                 ad.AssetPath = f;
-                var name = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(f));
+                var name = GetFileNameWithoutExtensions(f);
                 ad.AssetName = name;
                 ad.AssetArchiveVirtualPath = $@"map/{mapid}/model/{name}";
                 ad.AssetVirtualPath = $@"map/{mapid}/model/{name}/{name}.flver";
@@ -1028,19 +766,19 @@ public class AssetLocator
         }
         else
         {
-            if (!Directory.Exists(GameRootDirectory + $@"\map\{mapid}\"))
+            if (!Directory.Exists(RootDirectory + $@"\map\{mapid}\"))
             {
                 return ret;
             }
 
             var ext = Type == GameType.DarkSoulsPTDE ? @"*.flver" : @"*.flver.dcx";
-            List<string> mapfiles = Directory.GetFileSystemEntries(GameRootDirectory + $@"\map\{mapid}\", ext)
+            List<string> mapfiles = Directory.GetFileSystemEntries(RootDirectory + $@"\map\{mapid}\", ext)
                 .ToList();
             foreach (var f in mapfiles)
             {
                 AssetDescription ad = new();
                 ad.AssetPath = f;
-                var name = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(f));
+                var name = GetFileNameWithoutExtensions(f);
                 ad.AssetName = name;
                 // ad.AssetArchiveVirtualPath = $@"map/{mapid}/model/{name}";
                 ad.AssetVirtualPath = $@"map/{mapid}/model/{name}/{name}.flver";
@@ -1050,7 +788,6 @@ public class AssetLocator
 
         return ret;
     }
-
     public string MapModelNameToAssetName(string mapid, string modelname)
     {
         if (Type == GameType.DarkSoulsPTDE || Type == GameType.DarkSoulsRemastered)
@@ -1107,7 +844,6 @@ public class AssetLocator
         // Default
         return mapid.Substring(0, 6) + "_00_00";
     }
-
     public AssetDescription GetMapModel(string mapid, string model)
     {
         AssetDescription ret = new();
@@ -1202,7 +938,7 @@ public class AssetLocator
         }
         else
         {
-            return GetNullAsset();
+            return AssetLocator.GetNullAsset();
         }
 
         return ret;
@@ -1234,7 +970,7 @@ public class AssetLocator
         else if (Type == GameType.DemonsSouls)
         {
             var mid = mapid.Substring(0, 3);
-            var paths = Directory.GetFileSystemEntries($@"{GameRootDirectory}\map\{mid}\", "*.tpf.dcx");
+            var paths = Directory.GetFileSystemEntries($@"{RootDirectory}\map\{mid}\", "*.tpf.dcx");
             foreach (var path in paths)
             {
                 AssetDescription ad = new();
@@ -1291,7 +1027,6 @@ public class AssetLocator
 
         return ads;
     }
-
     public List<string> GetEnvMapTextureNames(string mapid)
     {
         List<string> l = new();
@@ -1315,50 +1050,50 @@ public class AssetLocator
     {
         if (Type is GameType.DemonsSouls)
         {
-            return GetOverridenFilePath($@"chr\{chrid}\{chrid}.tpf");
+            return GetAssetPath($@"chr\{chrid}\{chrid}.tpf");
         }
 
         if (Type is GameType.DarkSoulsPTDE)
         {
-            var path = GetOverridenFilePath($@"chr\{chrid}\{chrid}.tpf");
+            var path = GetAssetPath($@"chr\{chrid}\{chrid}.tpf");
             if (path != null)
             {
                 return path;
             }
 
-            return GetOverridenFilePath($@"chr\{chrid}.chrbnd");
+            return GetAssetPath($@"chr\{chrid}.chrbnd");
         }
 
         if (Type is GameType.DarkSoulsIISOTFS)
         {
-            return GetOverridenFilePath($@"model\chr\{chrid}.texbnd");
+            return GetAssetPath($@"model\chr\{chrid}.texbnd");
         }
 
         if (Type is GameType.DarkSoulsRemastered)
         {
             // TODO: Some textures require getting chrtpfbhd from chrbnd, then using it with chrtpfbdt in chr folder.
-            return GetOverridenFilePath($@"chr\{chrid}.chrbnd");
+            return GetAssetPath($@"chr\{chrid}.chrbnd");
         }
 
         if (Type is GameType.Bloodborne)
         {
-            return GetOverridenFilePath($@"chr\{chrid}_2.tpf.dcx");
+            return GetAssetPath($@"chr\{chrid}_2.tpf.dcx");
         }
 
         if (Type is GameType.DarkSoulsIII or GameType.Sekiro)
         {
-            return GetOverridenFilePath($@"chr\{chrid}.texbnd.dcx");
+            return GetAssetPath($@"chr\{chrid}.texbnd.dcx");
         }
 
         if (Type is GameType.EldenRing)
         {
             // TODO: Maybe add an option down the line to load lower quality
-            return GetOverridenFilePath($@"chr\{chrid}_h.texbnd.dcx");
+            return GetAssetPath($@"chr\{chrid}_h.texbnd.dcx");
         }
 
         if (Type is GameType.ArmoredCoreVI)
         {
-            return GetOverridenFilePath($@"chr\{chrid}.texbnd.dcx");
+            return GetAssetPath($@"chr\{chrid}.texbnd.dcx");
         }
 
         return null;
@@ -1445,7 +1180,6 @@ public class AssetLocator
 
         return ad;
     }
-
     public AssetDescription GetMapNVMModel(string mapid, string model)
     {
         AssetDescription ret = new();
@@ -1458,7 +1192,7 @@ public class AssetLocator
         }
         else
         {
-            return GetNullAsset();
+            return AssetLocator.GetNullAsset();
         }
 
         return ret;
@@ -1505,40 +1239,19 @@ public class AssetLocator
 
             if (Type == GameType.DemonsSouls)
             {
-                var chrdirs = Directory.GetDirectories(GameRootDirectory + modelDir);
-                foreach (var f in chrdirs)
+                foreach (var f in GetAllSubDirs(modelDir).Select(Path.GetFileName).Where(x => x.StartsWith("c")))
                 {
-                    var name = Path.GetFileNameWithoutExtension(f + ".dummy");
-                    if (name.StartsWith("c"))
-                    {
-                        ret.Add(name);
-                    }
+                    ret.Add(f);
                 }
 
                 return ret;
             }
 
-            List<string> chrfiles = Directory.GetFileSystemEntries(GameRootDirectory + modelDir, $@"*{modelExt}")
-                .ToList();
-            foreach (var f in chrfiles)
+            foreach (var f in GetAllFiles(modelDir, [$@"*{modelExt}"]))
             {
-                var name = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(f));
+                var name = GetFileNameWithoutExtensions(f);
                 ret.Add(name);
                 chrs.Add(name);
-            }
-
-            if (GameModDirectory != null && Directory.Exists(GameModDirectory + modelDir))
-            {
-                chrfiles = Directory.GetFileSystemEntries(GameModDirectory + modelDir, $@"*{modelExt}").ToList();
-                foreach (var f in chrfiles)
-                {
-                    var name = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(f));
-                    if (!chrs.Contains(name))
-                    {
-                        ret.Add(name);
-                        chrs.Add(name);
-                    }
-                }
             }
 
             return ret;
@@ -1549,7 +1262,6 @@ public class AssetLocator
             return new List<string>();
         }
     }
-
     public AssetDescription GetChrModel(string chr)
     {
         AssetDescription ret = new();
@@ -1602,35 +1314,20 @@ public class AssetLocator
             List<string> searchDirs = new();
             if (Type == GameType.EldenRing)
             {
-                searchDirs = Directory.GetFileSystemEntries(GameRootDirectory + modelDir, @"aeg*").ToList();
+                searchDirs = GetAllSubDirs(modelDir).Where(x => GetFileNameWithoutExtensions(x).StartsWith("aeg")).ToList();
             }
             else
             {
-                searchDirs.Add(GameRootDirectory + modelDir);
+                searchDirs.Add(GetAssetPath(modelDir));
             }
 
             foreach (var searchDir in searchDirs)
             {
-                List<string> objfiles = Directory.GetFileSystemEntries(searchDir, $@"*{modelExt}").ToList();
-                foreach (var f in objfiles)
+                foreach (var f in GetAllFiles(searchDir, [$@"*{modelExt}"]))
                 {
-                    var name = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(f));
+                    var name = GetFileNameWithoutExtensions(f);
                     ret.Add(name);
                     objs.Add(name);
-                }
-
-                if (GameModDirectory != null && Directory.Exists(searchDir))
-                {
-                    objfiles = Directory.GetFileSystemEntries(searchDir, $@"*{modelExt}").ToList();
-                    foreach (var f in objfiles)
-                    {
-                        var name = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(f));
-                        if (!objs.Contains(name))
-                        {
-                            ret.Add(name);
-                            objs.Add(name);
-                        }
-                    }
                 }
             }
 
@@ -1672,12 +1369,12 @@ public class AssetLocator
         string path = null;
         if (Type == GameType.DarkSoulsPTDE)
         {
-            path = GetOverridenFilePath($@"obj\{obj}.objbnd");
+            path = GetAssetPath($@"obj\{obj}.objbnd");
         }
         else if (Type is GameType.DemonsSouls or GameType.DarkSoulsRemastered or GameType.Bloodborne
                  or GameType.DarkSoulsIII or GameType.Sekiro)
         {
-            path = GetOverridenFilePath($@"obj\{obj}.objbnd.dcx");
+            path = GetAssetPath($@"obj\{obj}.objbnd.dcx");
         }
 
         if (path != null)
@@ -1697,11 +1394,11 @@ public class AssetLocator
         string path;
         if (Type == GameType.EldenRing)
         {
-            path = GetOverridenFilePath($@"asset\aet\{aetid.Substring(0, 6)}\{aetid}.tpf.dcx");
+            path = GetAssetPath($@"asset\aet\{aetid.Substring(0, 6)}\{aetid}.tpf.dcx");
         }
         else if (Type is GameType.ArmoredCoreVI)
         {
-            path = GetOverridenFilePath($@"\asset\environment\texture\{aetid}.tpf.dcx");
+            path = GetAssetPath($@"\asset\environment\texture\{aetid}.tpf.dcx");
         }
         else
         {
@@ -1716,7 +1413,6 @@ public class AssetLocator
 
         return ad;
     }
-
     public List<string> GetPartsModels()
     {
         try
@@ -1734,41 +1430,26 @@ public class AssetLocator
             {
                 modelDir = @"\model\parts";
                 modelExt = ".bnd";
-                var partsGatheredFiles =
-                    Directory.GetFiles(GameRootDirectory + modelDir, "*", SearchOption.AllDirectories);
+                var partsGatheredFiles = GetAllFiles(modelDir, ["*"], true, true);
+                    Directory.GetFiles(RootDirectory + modelDir, "*", SearchOption.AllDirectories);
                 foreach (var f in partsGatheredFiles)
                 {
                     if (!f.EndsWith("common.commonbnd.dcx") && !f.EndsWith("common_cloth.commonbnd.dcx") &&
                         !f.EndsWith("facepreset.bnd"))
                     {
-                        ret.Add(Path.GetFileNameWithoutExtension(f));
+                        ret.Add(GetFileNameWithoutExtensions(f));
                     }
                 }
 
                 return ret;
             }
 
-            List<string> partsFiles = Directory.GetFileSystemEntries(GameRootDirectory + modelDir, $@"*{modelExt}")
-                .ToList();
+            List<string> partsFiles = GetAllFiles(modelDir, [$@"*{modelExt}"]).ToList();
             foreach (var f in partsFiles)
             {
-                var name = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(f));
+                var name = GetFileNameWithoutExtensions(f);
                 ret.Add(name);
                 parts.Add(name);
-            }
-
-            if (GameModDirectory != null && Directory.Exists(GameModDirectory + modelDir))
-            {
-                partsFiles = Directory.GetFileSystemEntries(GameModDirectory + modelDir, $@"*{modelExt}").ToList();
-                foreach (var f in partsFiles)
-                {
-                    var name = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(f));
-                    if (!parts.Contains(name))
-                    {
-                        ret.Add(name);
-                        parts.Add(name);
-                    }
-                }
             }
 
             return ret;
@@ -1815,17 +1496,17 @@ public class AssetLocator
                 if (partsId.EndsWith("_l"))
                 {
                     id = partsId[..^2].Split("_").Last();
-                    path = GetOverridenFilePath($@"parts\wp_{id}_l.tpf.dcx");
+                    path = GetAssetPath($@"parts\wp_{id}_l.tpf.dcx");
                 }
                 else
                 {
                     id = partsId.Split("_").Last();
-                    path = GetOverridenFilePath($@"parts\wp_{id}.tpf.dcx");
+                    path = GetAssetPath($@"parts\wp_{id}.tpf.dcx");
                 }
             }
             else
             {
-                path = GetOverridenFilePath($@"parts\{partsId}_u.tpf.dcx");
+                path = GetAssetPath($@"parts\{partsId}_u.tpf.dcx");
             }
 
             if (path != null)
@@ -1837,7 +1518,7 @@ public class AssetLocator
         else if (Type == GameType.EldenRing)
         {
             // Maybe add an option down the line to load lower quality
-            var path = GetOverridenFilePath($@"parts\{partsId}.partsbnd.dcx");
+            var path = GetAssetPath($@"parts\{partsId}.partsbnd.dcx");
             if (path != null)
             {
                 ad.AssetPath = path;
@@ -1846,7 +1527,7 @@ public class AssetLocator
         }
         else if (Type == GameType.DarkSoulsIII || Type == GameType.Sekiro)
         {
-            var path = GetOverridenFilePath($@"parts\{partsId}.partsbnd.dcx");
+            var path = GetAssetPath($@"parts\{partsId}.partsbnd.dcx");
             if (path != null)
             {
                 ad.AssetPath = path;
@@ -1855,7 +1536,7 @@ public class AssetLocator
         }
         else if (Type == GameType.Bloodborne)
         {
-            var path = GetOverridenFilePath($@"parts\{partsId}.partsbnd.dcx");
+            var path = GetAssetPath($@"parts\{partsId}.partsbnd.dcx");
             if (path != null)
             {
                 ad.AssetPath = path;
@@ -1864,7 +1545,7 @@ public class AssetLocator
         }
         else if (Type == GameType.DarkSoulsPTDE)
         {
-            var path = GetOverridenFilePath($@"parts\{partsId}.partsbnd");
+            var path = GetAssetPath($@"parts\{partsId}.partsbnd");
             if (path != null)
             {
                 ad.AssetPath = path;
@@ -1873,7 +1554,7 @@ public class AssetLocator
         }
         else if (Type == GameType.DemonsSouls)
         {
-            var path = GetOverridenFilePath($@"parts\{partsId}.partsbnd.dcx");
+            var path = GetAssetPath($@"parts\{partsId}.partsbnd.dcx");
             if (path != null)
             {
                 ad.AssetPath = path;
@@ -1884,7 +1565,7 @@ public class AssetLocator
         return ad;
     }
 
-    public static AssetDescription GetNullAsset()
+    public AssetDescription GetNullAsset()
     {
         AssetDescription ret = new();
         ret.AssetPath = "null";
@@ -2067,20 +1748,20 @@ public class AssetLocator
                 bndpath = "";
                 if (Type == GameType.DarkSoulsPTDE)
                 {
-                    return GetOverridenFilePath($@"chr\{chrid}.chrbnd");
+                    return GetAssetPath($@"chr\{chrid}.chrbnd");
                 }
 
                 if (Type == GameType.DarkSoulsIISOTFS)
                 {
-                    return GetOverridenFilePath($@"model\chr\{chrid}.bnd");
+                    return GetAssetPath($@"model\chr\{chrid}.bnd");
                 }
 
                 if (Type == GameType.DemonsSouls)
                 {
-                    return GetOverridenFilePath($@"chr\{chrid}\{chrid}.chrbnd.dcx");
+                    return GetAssetPath($@"chr\{chrid}\{chrid}.chrbnd.dcx");
                 }
 
-                return GetOverridenFilePath($@"chr\{chrid}.chrbnd.dcx");
+                return GetAssetPath($@"chr\{chrid}.chrbnd.dcx");
             }
 
             if (pathElements[i].Equals("tex"))
@@ -2099,12 +1780,12 @@ public class AssetLocator
                 bndpath = "";
                 if (Type == GameType.DarkSoulsPTDE)
                 {
-                    return GetOverridenFilePath($@"obj\{objid}.objbnd");
+                    return GetAssetPath($@"obj\{objid}.objbnd");
                 }
 
                 if (Type == GameType.DarkSoulsIISOTFS)
                 {
-                    return GetOverridenFilePath($@"model\obj\{objid}.bnd");
+                    return GetAssetPath($@"model\obj\{objid}.bnd");
                 }
 
                 if (Type == GameType.EldenRing)
@@ -2112,7 +1793,7 @@ public class AssetLocator
                     // Derive subfolder path from model name (all vanilla AEG are within subfolders)
                     if (objid.Length >= 6)
                     {
-                        return GetOverridenFilePath($@"asset\aeg\{objid.Substring(0, 6)}\{objid}.geombnd.dcx");
+                        return GetAssetPath($@"asset\aeg\{objid.Substring(0, 6)}\{objid}.geombnd.dcx");
                     }
 
                     return null;
@@ -2122,13 +1803,13 @@ public class AssetLocator
                 {
                     if (objid.Length >= 6)
                     {
-                        return GetOverridenFilePath($@"asset\environment\geometry\{objid}.geombnd.dcx");
+                        return GetAssetPath($@"asset\environment\geometry\{objid}.geombnd.dcx");
                     }
 
                     return null;
                 }
 
-                return GetOverridenFilePath($@"obj\{objid}.objbnd.dcx");
+                return GetAssetPath($@"obj\{objid}.objbnd.dcx");
             }
         }
         else if (pathElements[i].Equals("parts"))
@@ -2141,7 +1822,7 @@ public class AssetLocator
                 bndpath = "";
                 if (Type == GameType.DarkSoulsPTDE || Type == GameType.DarkSoulsRemastered)
                 {
-                    return GetOverridenFilePath($@"parts\{partsId}.partsbnd");
+                    return GetAssetPath($@"parts\{partsId}.partsbnd");
                 }
 
                 if (Type == GameType.DarkSoulsIISOTFS)
@@ -2177,12 +1858,12 @@ public class AssetLocator
                             break;
                     }
 
-                    return GetOverridenFilePath($@"model\parts\{partType}\{partsId}.bnd");
+                    return GetAssetPath($@"model\parts\{partType}\{partsId}.bnd");
                 }
 
                 if (Type == GameType.EldenRing)
                 {
-                    return GetOverridenFilePath($@"parts\{partsId}\{partsId}.partsbnd.dcx");
+                    return GetAssetPath($@"parts\{partsId}\{partsId}.partsbnd.dcx");
                 }
 
                 if (Type == GameType.ArmoredCoreVI && pathElements[i].Equals("tex"))
@@ -2194,42 +1875,27 @@ public class AssetLocator
                         if (partsId.EndsWith("_l"))
                         {
                             id = partsId[..^2].Split("_").Last();
-                            path = GetOverridenFilePath($@"parts\wp_{id}_l.tpf.dcx");
+                            path = GetAssetPath($@"parts\wp_{id}_l.tpf.dcx");
                         }
                         else
                         {
                             id = partsId.Split("_").Last();
-                            path = GetOverridenFilePath($@"parts\wp_{id}.tpf.dcx");
+                            path = GetAssetPath($@"parts\wp_{id}.tpf.dcx");
                         }
                     }
                     else
                     {
-                        path = GetOverridenFilePath($@"parts\{partsId}_u.tpf.dcx");
+                        path = GetAssetPath($@"parts\{partsId}_u.tpf.dcx");
                     }
 
                     return path;
                 }
 
-                return GetOverridenFilePath($@"parts\{partsId}.partsbnd.dcx");
+                return GetAssetPath($@"parts\{partsId}.partsbnd.dcx");
             }
         }
 
         bndpath = virtualPath;
         return null;
-    }
-
-    public string GetBinderVirtualPath(string virtualPathToBinder, string binderFilePath)
-    {
-        var filename = Path.GetFileNameWithoutExtension($@"{binderFilePath}.blah");
-        if (filename.Length > 0)
-        {
-            filename = $@"{virtualPathToBinder}/{filename}";
-        }
-        else
-        {
-            filename = virtualPathToBinder;
-        }
-
-        return filename;
     }
 }

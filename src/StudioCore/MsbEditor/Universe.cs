@@ -352,7 +352,7 @@ public class Universe
         }
         else
         {
-            asset = _assetLocator.GetNullAsset();
+            asset = AssetUtils.GetNullAsset();
         }
 
         ModelMarkerType modelMarkerType =
