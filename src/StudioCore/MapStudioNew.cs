@@ -110,8 +110,6 @@ public class MapStudioNew
 
         _helpBrowser = new HelpBrowser("HelpBrowser");
 
-        MtdBank.LoadMtds();
-
         ImGui.GetIO()->ConfigFlags |= ImGuiConfigFlags.NavEnableKeyboard;
         SetupFonts();
         _context.ImguiRenderer.OnSetupDone();

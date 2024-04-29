@@ -17,7 +17,6 @@ namespace StudioCore;
 public class Project
 {
     /* Temporary */
-    public static Project GameProject { get; set; }
     public static Project ActiveProject { get; set; }
 
     public readonly GameType Type;

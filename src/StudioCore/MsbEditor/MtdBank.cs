@@ -78,14 +78,4 @@ public class MtdBank
                 }
             }));
     }
-
-    public static void LoadMtds()
-    {
-        if (Locator.AssetLocator.Type == GameType.Undefined)
-        {
-            return;
-        }
-
-        ReloadMtds();
-    }
 }
