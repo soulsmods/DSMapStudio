@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0" >
+  <Enums>
+    <Enum Name="NPC_THINK_GOAL_ACTION">
+      <Option Value="0" Name="Do nothing" />
+      <Option Value="1" Name="Turn to face target" />
+      <Option Value="2" Name="Walk to target" />
+      <Option Value="3" Name="Run to target" />
+      <Option Value="4" Name="Arbitrary goal ID (goalId fields)" />
+    </Enum>
+  </Enums>
+  <Field>
+    <eye_dist AltName="See enemy distance" Wiki="Distance to target within vision angles before using goalId_ToFind (or attacking if target is within battleStartDist)" />
+    <ear_dist AltName="Hear enemy distance" Wiki="Distance to target noise before using goalId_ToCaution" />
+    <goalId_ToCaution AltName="Heard enemy - Arbitrary goal ID" Wiki="Goal ID to use when seeing an enemy\nRequires goalAction_caution value 4" />
+    <goalId_ToFind AltName="Saw enemy - Arbitrary goal ID" Wiki="Goal ID to use when seeing an enemy\nRequires goalAction_ToFind value 4" />
+    <goalAction_ToCaution AltName="Heard enemy action" Enum="NPC_THINK_GOAL_ACTION" Wiki="Action to take when hearing an enemy" />
+    <goalAction_ToFind AltName="Saw enemy action" Enum="NPC_THINK_GOAL_ACTION" Wiki="Action to take when seeing an enemy if enemy is further than battleStartDist " />
+    <BattleStartDist AltName="Battle distance" Wiki="Required distance to target (when target has been noticed) before activating battle AI" />
+    <teamAttackEffectivity AltName="Team attack effectivity" Wiki="Affects how a group of enemies will be less aggressive.\nEach aggro'd enemy adds this value to a pool, then checks that total value (in order from closest to furthest from target).\nDepending on the value, different AI roles will be given which can affects aggressiveness (if AI checks role. Most enemies that check role use thinkAttr_doAdmirer)\nTotal values thresholds:\n0-100 = ROLE_TYPE_Attack\n101-200 = ROLE_TYPE_Torimaki\n200+ = ROLE_TYPE_Kankyaku." />
+    <thinkAttr_doAdmirer AltName="Obey team attack effectivity" Wiki="Allow this enemy to be less aggressive in groups of enemies, according to teamAttackEffectivity and AI roles.\nRequires enemy AI to use Common_Battle_Activate." />
+  </Field>
+</PARAMMETA>

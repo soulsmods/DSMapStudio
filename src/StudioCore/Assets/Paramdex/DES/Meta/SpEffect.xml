@@ -1,0 +1,184 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMMETA XmlVersion="0">
+    <Enums>
+      <Enum Name="SP_EFFECT_TYPE">
+        <Option Value="0" Name="SP_EFFECT_TYPE_NONE" />
+        <Option Value="1" Name="SP_EFFECT_TYPE_FIRE" />
+        <Option Value="2" Name="SP_EFFECT_TYPE_POIZON" />
+        <Option Value="3" Name="SP_EFFECT_TYPE_LEECH" />
+        <Option Value="4" Name="SP_EFFECT_TYPE_SPOIL" />
+        <Option Value="5" Name="SP_EFFECT_TYPE_ILLNESS" />
+        <Option Value="6" Name="SP_EFFECT_TYPE_BLOOD" />
+        <Option Value="7" Name="SP_EFFECT_TYPE_CAMOUFLAGE" />
+        <Option Value="8" Name="SP_EFFECT_TYPE_HIDDEN" />
+        <Option Value="9" Name="SP_EFFECT_TYPE_MASOCHIST" />
+        <Option Value="10" Name="SP_EFFECT_TYPE_RECOVER_POZON" />
+        <Option Value="11" Name="SP_EFFECT_TYPE_RECOVER_ILLNESS" />
+        <Option Value="12" Name="SP_EFFECT_TYPE_RECOVER_BLOOD" />
+        <Option Value="13" Name="SP_EFFECT_TYPE_RECOVER_ALL" />
+        <Option Value="14" Name="SP_EFFECT_TYPE_SOUL_STEAL" />
+        <Option Value="15" Name="SP_EFFECT_TYPE_ZOOM" />
+        <Option Value="16" Name="SP_EFFECT_TYPE_WARP" />
+        <Option Value="17" Name="SP_EFFECT_TYPE_DEMONS_SOUL" />
+        <Option Value="18" Name="SP_EFFECT_TYPE_BLACK_DISPERSE" />
+        <Option Value="19" Name="SP_EFFECT_TYPE_TOUGH_GHOST" />
+        <Option Value="20" Name="SP_EFFECT_TYPE_WHITE_REQUEST" />
+        <Option Value="21" Name="SP_EFFECT_TYPE_BLACK_REQUEST" />
+        <Option Value="22" Name="SP_EFFECT_TYPE_CHANGE_BLACK" />
+        <Option Value="23" Name="SP_EFFECT_TYPE_REVIVE" />
+        <Option Value="24" Name="SP_EFFECT_TYPE_FORBID_USEMAGIC" />
+        <Option Value="25" Name="SP_EFFECT_TYPE_MIRACLE_DIRAY" />
+        <Option Value="26" Name="SP_EFFECT_TYPE_WHETSTONE" />
+        <Option Value="27" Name="SP_EFFECT_TYPE_SUSPENDED_REVIVE" />
+        <Option Value="28" Name="SP_EFFECT_TYPE_ENCHANT_WEAPON" />
+        <Option Value="29" Name="SP_EFFECT_TYPE_ENCHANT_ARMOR" />
+        <Option Value="30" Name="SP_EFFECT_TYPE_WIRE_WRAPED" />
+        <Option Value="31" Name="SP_EFFECT_TYPE_GHOST_PARAM_CHANGE" />
+        <Option Value="32" Name="SP_EFFECT_TYPE_PARALYSIS" />
+        <Option Value="33" Name="SP_EFFECT_TYPE_FLY_CROWD" />
+        <Option Value="34" Name="SP_EFFECT_TYPE_FIREMAN_STAGE_1" />
+        <Option Value="35" Name="SP_EFFECT_TYPE_FIREMAN_STAGE_2" />
+        <Option Value="36" Name="SP_EFFECT_TYPE_FIREMAN_STAGE_3" />
+        <Option Value="37" Name="SP_EFFECT_TYPE_FIREMAN_STAGE_4" />
+        <Option Value="38" Name="SP_EFFECT_TYPE_HALLUCINATION" />
+        <Option Value="39" Name="SP_EFFECT_TYPE_SOULCOIN" />
+        <Option Value="40" Name="SP_EFFECT_TYPE_TOUGH_SHIELD" />
+        <Option Value="41" Name="SP_EFFECT_TYPE_ANTIFIRE_SHIELD" />
+        <Option Value="42" Name="SP_EFFECT_TYPE_HP_RECOVERY" />
+        <Option Value="43" Name="SP_EFFECT_TYPE_FORCE_GHOST_STAGE1" />
+        <Option Value="44" Name="SP_EFFECT_TYPE_FORCE_GHOST_STAGE2" />
+        <Option Value="45" Name="SP_EFFECT_TYPE_FORCE_GHOST_STAGE3" />
+        <Option Value="46" Name="SP_EFFECT_TYPE_PHEROMONE" />
+        <Option Value="47" Name="SP_EFFECT_TYPE_CAT_LANDING" />
+        <Option Value="48" Name="SP_EFFECT_TYPE_PINCH_ATTACKPOWER_UP" />
+        <Option Value="49" Name="SP_EFFECT_TYPE_PINCH_DEFENSIBILITY_UP" />
+        <Option Value="50" Name="SP_EFFECT_TYPE_REGENERATE" />
+        <Option Value="51" Name="SP_EFFECT_TYPE_TORCH" />
+        <Option Value="52" Name="SP_EFFECT_TYPE_WEAK_REGENERATE" />
+        <Option Value="53" Name="SP_EFFECT_TYPE_WEAK_CAMOUFLAGE" />
+        <Option Value="54" Name="SP_EFFECT_TYPE_WEAK_HIDDEN" />
+        <Option Value="55" Name="SP_EFFECT_TYPE_HINT_BLOOD_SIGN" />
+        <Option Value="56" Name="SP_EFFECT_TYPE_LEECH_FOOT" />
+        <Option Value="57" Name="SP_EFFECT_TYPE_YELLOW_CLOAK" />
+        <Option Value="58" Name="SP_EFFECT_TYPE_POINT_LIGHT" />
+        <Option Value="59" Name="SP_EFFECT_TYPE_BLOOD_SIGN_ESTIMATION" />
+        <Option Value="60" Name="SP_EFFECT_TYPE_ENCHANT_WEAPON_REGULAR" />
+        <Option Value="61" Name="SP_EFFECT_TYPE_ENCHANT_WEAPON_LARGE" />
+        <Option Value="62" Name="SP_EFFECT_TYPE_ENCHANT_WEAPON_FIRE" />
+        <Option Value="63" Name="SP_EFFECT_TYPE_ENCHANT_WEAPON_FIRE_LARGE" />
+        <Option Value="64" Name="SP_EFFECT_TYPE_ENCHANT_WEAPON_MAGIC" />
+        <Option Value="65" Name="SP_EFFECT_TYPE_CHIMERA_POWER_UP"/>
+        <Option Value="66" Name="SP_EFFECT_TYPE_ITEM_DROP_RATE" />
+      </Enum>
+    </Enums>
+  <Field>
+    <iconId AltName="iconId" />
+    <stateInfo AltName="stateInfo" />
+    <effectTargetSelf AltName="effectTargetSelf" />
+    <effectTargetFriend AltName="effectTargetFriend" />
+    <effectTargetEnemy AltName="effectTargetEnemy" />
+    <effectTargetPlayer AltName="effectTargetPlayer" />
+    <effectTargetAI AltName="effectTargetAI" />
+    <effectTargetLive AltName="effectTargetLive" />
+    <effectTargetGhost AltName="effectTargetGhost" />
+    <effectTargetWhiteGhost AltName="effectTargetWhiteGhost" />
+    <effectTargetBlackGhost AltName="effectTargetBlackGhost" />
+    <effectTargetAttacker AltName="effectTargetAttacker" />
+    <dispIconNonactive AltName="dispIconNonactive" />
+    <pad1 AltName="pad1" />
+    <bAdjustMagicAblity AltName="bAdjustMagicAblity" />
+    <bAdjustFaithAblity AltName="bAdjustFaithAblity" />
+    <bGameClearBonus AltName="bGameClearBonus" />
+    <conditionHp AltName="conditionHp" />
+    <effectEndurance AltName="effectEndurance" />
+    <motionInterval AltName="motionInterval" />
+    <maxHpRate AltName="maxHpRate" />
+    <maxMpRate AltName="maxMpRate" />
+    <maxStaminaRate AltName="maxStaminaRate" />
+    <wepParamChange AltName="wepParamChange" />
+    <magParamChange AltName="magParamChange" />
+    <miracleParamChange AltName="miracleParamChange" />
+    <clearSoul AltName="clearSoul" />
+    <pad2 AltName="pad2" />
+    <physicsDamageCutRate AltName="physicsDamageCutRate" />
+    <magicDamageCutRate AltName="magicDamageCutRate" />
+    <fireDamageCutRate AltName="fireDamageCutRate" />
+    <physicsAttackRate AltName="physicsAttackRate" />
+    <magicAttackRate AltName="magicAttackRate" />
+    <fireAttackRate AltName="fireAttackRate" />
+    <physicsAttackPowerRate AltName="physicsAttackPowerRate" />
+    <magicAttackPowerRate AltName="magicAttackPowerRate" />
+    <fireAttackPowerRate AltName="fireAttackPowerRate" />
+    <physicsAttackPower AltName="physicsAttackPower" />
+    <magicAttackPower AltName="magicAttackPower" />
+    <fireAttackPower AltName="fireAttackPower" />
+    <physicsDiffenceRate AltName="physicsDiffenceRate" />
+    <magicDiffenceRate AltName="magicDiffenceRate" />
+    <fireDiffenceRate AltName="fireDiffenceRate" />
+    <physicsDiffence AltName="physicsDiffence" />
+    <magicDiffence AltName="magicDiffence" />
+    <fireDiffence AltName="fireDiffence" />
+    <NoGuardDamageRate AltName="NoGuardDamageRate" />
+    <vitalSpotChangeRate AltName="vitalSpotChangeRate" />
+    <normalSpotChangeRate AltName="normalSpotChangeRate" />
+    <maxHpChangeRate AltName="maxHpChangeRate" />
+    <changeHpRate AltName="changeHpRate" />
+    <changeHpPoint AltName="changeHpPoint" />
+    <changeMpRate AltName="changeMpRate" />
+    <changeMpPoint AltName="changeMpPoint" />
+    <mpRecoverChangeSpeed AltName="mpRecoverChangeSpeed" />
+    <changeStaminaRate AltName="changeStaminaRate" />
+    <changeStaminaPoint AltName="changeStaminaPoint" />
+    <staminaRecoverChangeSpeed AltName="staminaRecoverChangeSpeed" />
+    <magicEffectTimeChange AltName="magicEffectTimeChange" />
+    <insideDurability AltName="insideDurability" />
+    <maxDurability AltName="maxDurability" />
+    <staminaAttackRate AltName="staminaAttackRate" />
+    <pad4 AltName="pad4" />
+    <poizonAttackPower AltName="poizonAttackPower" />
+    <registIllness AltName="registIllness" />
+    <registBlood AltName="registBlood" />
+    <fallDamageRate AltName="fallDamageRate" />
+    <soulRate AltName="soulRate" />
+    <equipWeightChangeRate AltName="equipWeightChangeRate" />
+    <allItemWeightChangeRate AltName="allItemWeightChangeRate" />
+    <soul AltName="soul" />
+    <haveSoulRate AltName="haveSoulRate" />
+    <targetPriority AltName="targetPriority" Wiki="Chance for an enemy to switch aggro targets to/away the effect's owner. Values range from -1 to 1. +1 = 100% chance to target owner instead of current target, -1 = 100% chance to target somebody else instead of current target (effect owner)." />
+    <sightSearchEnemyCut AltName="sightSearchEnemyCut" />
+    <hearingSearchEnemyCut AltName="hearingSearchEnemyCut" />
+    <requestSOS AltName="requestSOS" />
+    <requestBlackSOS AltName="requestBlackSOS" />
+    <requestForceJoinBlackSOS AltName="requestForceJoinBlackSOS" />
+    <requestKickSession AltName="requestKickSession" />
+    <requestLeaveSession AltName="requestLeaveSession" />
+    <noDead AltName="noDead" />
+    <bCurrHPIndependeMaxHP AltName="bCurrHPIndependeMaxHP" />
+    <changeMagicSlot AltName="changeMagicSlot" />
+    <changeMiracleSlot AltName="changeMiracleSlot" />
+    <moveType AltName="moveType" />
+    <pad5 AltName="pad5" />
+    <registPoizonChangeRate AltName="registPoizonChangeRate" />
+    <registIllnessChangeRate AltName="registIllnessChangeRate" />
+    <registBloodChangeRate AltName="registBloodChangeRate" />
+    <soulStealRate AltName="soulStealRate" />
+    <corrosionIgnore AltName="corrosionIgnore" />
+    <sightSearchCutIgnore AltName="sightSearchCutIgnore" />
+    <hearingSearchCutIgnore AltName="hearingSearchCutIgnore" />
+    <antiMagicIgnore AltName="antiMagicIgnore" />
+    <forgedTargetIgnore AltName="forgedTargetIgnore" />
+    <pad11 AltName="pad11" />
+    <lifeReductionType AltName="lifeReductionType" />
+    <lifeReductionRate AltName="lifeReductionRate" />
+    <hpRecoverRate AltName="hpRecoverRate" />
+    <disablePoison AltName="disablePoison" />
+    <disableDisease AltName="disableDisease" />
+    <disableBlood AltName="disableBlood" />
+    <pad7 AltName="pad7" />
+    <priority AltName="priority" />
+    <category AltName="category" />
+    <pad6 AltName="pad6" />
+  </Field>
+  <Self />
+  <Self Row0Dummy="" />
+</PARAMMETA>

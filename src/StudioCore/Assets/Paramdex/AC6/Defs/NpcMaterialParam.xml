@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PARAMDEF XmlVersion="3">
+  <ParamType>NPC_MATERIAL_PARAM_ST</ParamType>
+  <DataVersion>2</DataVersion>
+  <BigEndian>False</BigEndian>
+  <Unicode>True</Unicode>
+  <FormatVersion>203</FormatVersion>
+  <Fields>
+    <Field Def="s32 Unk0x00"></Field>
+    <Field Def="s32 materialExParamId">
+      <Description>References MaterialExParam</Description>
+    </Field>
+    <Field Def="f32 colorRed"></Field>
+    <Field Def="f32 colorGreen"></Field>
+    <Field Def="f32 colorBlue"></Field>
+    <Field Def="f32 colorAlpha"></Field>
+    <Field Def="s32 Unk0x18"></Field>
+  </Fields>
+</PARAMDEF>

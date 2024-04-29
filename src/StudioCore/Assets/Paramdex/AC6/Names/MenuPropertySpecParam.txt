@@ -1,0 +1,519 @@
+﻿0 ----
+99 ----- ↓ From here for item -----
+100 [Common Items] Name
+101 [Common Items] Description
+102 [Common items] Detailed Description
+103 [Common Items] Item Weight
+104 [Common Items] Sort ID in category
+104 [Common items] Sort ID in category
+105 [Common Items] Item Order (for sorting)
+105 [Common Items] Order of Acquisition
+106 [Common Items] Initial Sort Order (for sorting)
+107 [Common Items] Company
+108 [Common Items] Menu Management Category
+110 [Common Items] Number of Items in Possession
+111 [Common Items] Item Max Holdings
+112 [Common Items] Item Warehouse Maximum Holder
+113 [Common Items] Item Maximum Warehouse Value
+120 [Common Items] Required souls for all items
+121 [Common Items] Souls acquired from items
+122 [Common Items] Consumed EN
+123 [Common Items] Category Name
+124 [Common Items] EN Output
+1000 [Tool] Consumption Type when used
+1900 [Weapon] Attribute Icon
+1901 [Weapon] Fire Type Icon
+1902 [Weapon] Reload Type icon
+1903 [Weapon] Condition Icon
+1904 [Weapon] Characteristics icon
+1970 [Weapon] Attack Performance After Charge (Child Bullet)
+1971 [Weapon] Impact Performance After Charge (Child Bullet)
+1972 [Weapon] Accumulated impact performance after charge (child bullet)
+1973 [Weapon] Second stage of attack performance after charge (child bullet)
+1974 [Weapon] Second stage of impact performance after charge (child bullet)
+1975 [Weapon] Second stage of impact accumulation performance after charge (child bullet)
+1976 [Weapon] Post-charge attack performance (grandchild bullet)
+1977 [Weapon] Impact performance after charge (grandchild bullet)
+1978 [Weapon] Accumulated impact performance after charge (Sun Bullet)
+1979 [Weapon] Second stage of attack performance after charge (Sun Bullet)
+1980 [Weapon] Second stage of impact performance after charge (Sun Bullet)
+1981 [Weapon] Second stage of impact accumulation performance after charge (Sun Bullet)
+1982 [Weapon] Attack performance after charge (great-grandson bullet)
+1983 [Weapon] Impact performance after charge (great-grandson bullet)
+1984 [Weapon] Accumulated impact performance after charge (great-grandson bullet)
+1985 [Weapon] Second stage of attack performance after charge (great-grandson bullet)
+1986 [Weapon] Second stage of impact performance after charge (great-grandson bullet)
+1987 [Weapon] Second stage of shock accumulation performance after charge (great-grandson bullet)
+1990 [Weapon] Critical adequacy after charge
+1991 [Weapon] PA interference after charging
+1992 [Weapon] Explosion range after charge
+1993 [Weapon] Range Limit After Charge
+1994 [Weapon] Charge attack duration
+2000 [Weapon] Ammunition capacity
+2001 [Weapon] Magazine ammunition capacity
+2002 [Weapon] Lock-on distance
+2003 [Weapon] Defense
+2004 [Weapon] Melee Suitability
+2005 [Weapon] Size
+2006 [Weapon] attributes
+2008 [Weapon] Charge Multiplier
+2009 [Weapon] Impact value
+2010 [Weapon] Residual Impact
+2011 [Weapon] Continuous fire performance
+2012 [Weapon] Magazine Reload
+2013 [Weapon] PA Interference (FNR-32348 Compatible Weak-Strong Unified Version)
+2014 [Weapon] PA Penetration
+2015 [Weapon] EN Load During Charging
+2016 [Weapon] Reload Type
+2017 [Weapon] Critical Appropriateness
+2018 [Weapon] Attack Performance After Charge
+2019 [Weapon] Impact Performance After Charge
+2020 [Weapon] Maximum Charge Time
+2021 [Weapon] Cooling Performance
+2022 [Weapon] Explosion range
+2023 [Weapon] Range Limit
+2024 [Weapon] Bullet Cost
+2025 [Weapon] Impact Force (Child Bullet)
+2026 [Weapon] Impact Force (grandchild bullet)
+2027 [Weapon] Residual Impact (Child Bullet)
+2028 [Weapon] Residual Impact (grandchild bullet)
+2029 [Weapon] Explosive range (child bullet)
+2030 [Weapon] Explosive Range (grandchild bullet)
+2031 [Weapon] Critical Hit (Child Bullet)
+2032 [Weapon] Critical Appropriateness (grandchild bullet)
+2034 [Weapon] Shock Accumulation Performance After Charge
+2035 [Weapon] Second Level of Attack Performance After Charge
+2036 [Weapon] Second level of impact performance after charge
+2038 [Weapon] Second stage charge time
+2039 [Weapon] Number of rounds consumed when charging
+2040 [Weapon] Ammo Consumption at 2nd Charge
+2041 [Weapon] Heat Value Increase
+2042 [Weapon] Charged Attack Heat Value Increase
+2043 [Weapon] Two-Stage Charge Attack Heat Value Increase
+2044 [Weapon] Emergency Cooling Performance
+2045 [Weapon] PA Interference
+2046 [Weapon] Attack Duration
+2047 [Weapon] Ammo Consumption
+2048 [Weapon] Number of Fighting Combo
+2050 [Blade] EN consumption for acceleration
+2051 [Blade] Range
+2052 [Blade] Stepping Performance
+2060 [Shield] Guard range
+2061 [Shield] Output
+2062 [Shield] Impact resistance performance
+2063 [Shield] Initial Output Performance
+2064 [Shield] Initial output maintenance time
+2065 [Shield] Endurance Performance
+2066 [Shield] Cooling performance
+2067 [Shield] Emergency Cooling Performance
+2068 [Shield] Heat Generation During Deployment
+2069 [Shield] Initial Output Impact Resistance Performance
+2070 [Shield] Scutum Attack Reduction
+2071 [Shield] Scutum impact reduction
+2072 [Shield] Scutum Idle Attack Reduction
+2073 [Shield] Reduced impact during Scutum idle
+2074 [Shield] Scutum Idle Duration
+2090 [Ranged Attack] Attack Performance
+2091 [Fighting attack] attack performance
+2092 [Fighting attack] impact value
+2093 [Fighting Attack] Residual Impact
+2094 [Assault Armor] Attack Performance
+2100 [Weapon] Enhancement Level (for sorting)
+2110 [Weapon] Strong Combat Attack Performance
+2111 [Weapon] Strong Fighting Attack Critical Suitability
+2112 [Weapon] Strong Fighting Attack Impact Performance
+2113 [Weapon] Strong Fighting Attack Impact Accumulation Performance
+2114 [Weapon] Strong Fighting Attack PA Interference
+2115 [Weapon] Strong fighting attack ammunition consumption
+2116 [Weapon] Strong Combat Attack Heat Value Increase
+2200 [Assault Drive] Number of Uses
+2201 [Assault Drive] Impact Force
+2202 [Assault DRIVE] area of effect
+2203 [Assault Drive] Guaranteed Performance Distance
+2204 [Assault Drive] Endurance Performance
+2205 [Assault Drive] Duration
+2206 [Assault Drive] Critical Suitability
+2207 [Assault Drive] Residual Impact
+3000 [Armor] AP
+3001 [Armor] Defense: Physical
+3002 [Armor] Defense: EN
+3003 [Armor] Ammo Recovery Item Capacity
+3010 [Armor] Anti-Kinetic Defense
+3011 [Armor] Anti-Energy Defense
+3012 [Armor] Anti-Explosive Defense
+3013 [Armor] Stability Performance (text specified on layout side)
+3050 [HEAD] Anti-Kinetic Defense
+3051 [HEAD] Anti-Energy Defense
+3052 [HEAD] Anti-Explosive Defense
+3060 [CORE] Anti-Kinetic Defense
+3061 [CORE] Anti-Energy Defense
+3062 [CORE] Anti-Explosive Defense
+3070 [ARM] Anti-Kinetic Defense
+3071 [ARM] Anti-Energy Defense
+3072 [ARM] Anti-Explosive Defense
+3080 [LEG] Anti-Kinetic Defense
+3081 [LEG] Anti-Energy Defense
+3082 [LEG] Anti-Explosive Defense
+3100 [HEAD] Stability calculation performance
+3101 [HEAD] System Restoration Performance
+3102 [HEAD] Camera Performance
+3103 [HEAD] Scan Angle
+3104 [HEAD] Scan Distance
+3105 [HEAD] Scan Hardness Time
+3106 [HEAD] Scan Wait Time
+3200 [CORE] Booster EN Transfer Efficiency
+3201 [CORE] Stability Performance
+3203 [CORE] Generator Output Transfer Performance
+3204 [CORE] Radiator Performance
+3300 [ARM] Arm Loading Capacity
+3301 [ARM] Recoil Control
+3302 [ARM] Shooting Motion Performance
+3303 [ARM] Fighting Adequacy
+3400 [LEG] Maximum Load Capacity (Unused)
+3401 [LEG] Stability Performance
+3402 [LEG] leg loading capacity
+3403 [LEG] Braking Performance
+3404 [LEG] Walking Performance
+3405 [LEG] leg motion performance
+3406 [LEG] Jumping performance
+3450 [LEG] Running performance
+3451 [LEG] High-Speed Running Performance
+3501 [GEN] Capacitor Capacity
+3502 [GEN] Cooling Performance
+3503 [GEN] Emergency Cooling Performance
+3504 [GEN] Emergency EN Recovery Rate
+3505 [GEN] EN Weapon Suitability
+3600 [FCS] Missile Lock Performance
+3601 [FCS] Secondary Lock Distance
+3602 [FCS] Secondary Lock Performance
+3603 [FCS] Multi-lock adequacy
+3604 [FCS] Assist Appropriate Short Distance
+3605 [FCS] Assist Appropriate Medium Distance
+3606 [FCS] Assist Appropriate Long Range
+3700 [Booster] Cruise Thrust (tanks are a separate text)
+3701 [Booster] Ascent Thrust
+3702 [Booster] Ascent Consumption EN
+3703 [Booster] QB Acceleration Performance
+3704 [Booster] QB injection time
+3705 [Booster] QB Consumption EN
+3706 [Booster] QB Reload Time
+3707 [Booster] Assault Boost Performance
+3708 [Booster] Assault Boost Consumption EN
+3709 [Booster] QB Load Capacity
+3710 [Booster] Fighting Attack Acceleration Performance
+3711 [Booster] Fighting Attack Acceleration Consumed EN
+10000 [Bullet] Initial velocity
+10001 [Bullet] Maximum speed
+10002 [Bullet] EN consumption when firing
+10003 [Bullet] Guidance performance
+10004 [Bullet] Simultaneous fire rate
+10005 [Bullet] Number of consecutive fires
+10006 [Bullet] Reload time
+10007 [Bullet] Bullet collection performance (non-missile)
+10008 [Bullet] Maximum number of locks
+10009 [Bullet] Firing Recoil
+10010 [Bullet] Guaranteed Range
+10011 [Bullet] Effective range
+10012 [Bullet] EN consumption after firing
+10013 [Bullet] Guidance performance (if available)
+10014 [Bullet] Bullet velocity
+10015 [Bullet] Bullet collection performance (missile)
+10016 [Bullet] Missile lock time
+10017 [Bullet] Guidance performance (small bullets)
+10018 [Bullet] Guidance performance after charging
+10019 [Bullet] Effective range after charge
+11000 [Attack] Physical Attack Power
+19900 [For PG] Number of Possessions for Sorting (Warehouse/Inventory: Number of Possessions Auto-Detected)
+19998 ----- ↑ Up to here for items -----
+19999 ----- ↓ From here for player status -----
+20000 [PC Basic] Name
+20001 [PC Basic] Souls possessed
+20002 [PC Basic] Gender
+20007 [PC Basic] PC load capacity
+20006 [PC] Maximum loading capacity
+20005 [PC] Gross weight
+20008 [PC] Live ammunition defense
+20009 [PC] EN protection
+20010 [PC] Movement speed
+20011 [PC] Total EN consumption
+20012 [PC] EN supply
+20013 [PC] Total AP of armor
+20014 [PC] Loading status
+20015 [PC] EN consumption status
+20016 [PC] Arm loading status
+20050 [Body] Gross Weight
+20051 [Body] AP
+20052 [Body] Anti-Kinetic Defense
+20053 [Body] Anti-Energy Defense
+20054 [Body] Anti-Explosive Defense
+20055 [Body] Stability performance when exposed to bullets
+20056 [Body] Stability recovery compensation
+20057 [Body] Lock-on performance
+20058 [Body] EN capacity
+20059 [Body] EN Recovery Performance
+20060 [Body] Speed performance
+20061 [Body] Succession capability
+20062 [Body] Repair Cost
+20063 [Body] QB Consumption EN
+20064 [Body] Total arm loading
+20065 [Body] Maximum arm loading capacity
+20066 [Body] QB speed performance
+20067 [Body] QB reload time
+20068 [Body] Defense performance
+20069 [Body] EN Supply Delay
+20100 [PC] AC Name
+20110 [PC] Mercenary Rank
+20111 [PC] Arena Rank
+20150 [PC] Play Time
+20190 [PC] Number of weapon parts in your possession
+20191 [PC] Number of Frame parts
+20192 [PC] Number of interior parts in your possession
+20200 [PC] OS enhancement points in your possession
+20210 [PC] Arena points held
+21000 [Configuration] R-ARM UNIT part Name
+21001 [Configuration] L-ARM UNIT part name
+21001 [Configuration] R-ARM UNIT part name
+21002 [Configuration] R-BACK UNIT part Name
+21000 [Configuration] L-ARM UNIT part Name
+21001 [Configuration] L-ARM UNIT part Name
+21003 [Configuration] L-BACK UNIT part Name
+21004 [Configuration] R-BACK UNIT part Name
+21005 [Configuration] R-BACK UNIT part Name
+21006 [Configuration] R-BACK UNIT part Name
+21004 [Configuration] HEAD part Name
+21005 [Configuration] HEAD part Name
+21006 [Configuration] HEAD part Name
+21007 [Configuration] HEAD part Name
+21005 [Configuration] CORE part Name
+21005 [Configuration] CORE part Name
+21006 [Configuration] ARMS part Name
+21007 [Configuration] LEG parts Name
+21008 [Configuration] BOOSTER part Name
+21009 [Configuration] FCS part Name
+21010 [Configuration] GENERATOR part Name
+21011 [Configuration] EXPANSION part Name
+21100 [Configuration] AC NAME[Aircraft] AC NAME
+29900 [PC] Insufficient EN output
+29901 [PC] Loading limit exceeded
+29902 [PC] Arm loading limit exceeded
+29903 [PC] Unavailable data included
+29999 ----- ↑ Up to here for player status -----
+30000 [Image] Creation Date
+30001 [Image] Creator
+30002 [Image] UgcID
+30010 [Image] Number of pieces used
+40000 ----- ↓ From here for decal setting -----
+40001 [Decal] Base point position: X
+40002 [Decal] Base point position: Y
+40003 [Decal] Base point position: Z
+40004 [Decal] Angle of base point: X
+40005 [Decal] Angle of base point: Y
+40006 [Decal] Correction of application direction: X
+40007 [Decal] Apply orientation correction: Y
+40008 [Decal] Image angle: Z
+40009 [Decal] Image position: X
+40010 [Decal] Image position: Y
+40011 [Decal] Image size: X
+40012 [Decal] Image size: Y
+40013 [Decal] Image invert: left/right
+40014 [Decal] Attach target
+40015 [Decal] Attachment limit distance
+40100 [Decal] Number of images used
+40199 ----- ↑ Up to here for decal setting -----
+50000 ----- ↓ From here for OS enhancement -----
+50001 [OS Reinforcement] Live Ammo Reinforcement
+50002 [OS Enhancement] Enhanced EN Bullets
+50003 [OS Enhancement] Enhanced Explosive Ammunition
+50004 [OS Enhancement] Enhanced Fighting
+50005 [OS Enhancement] Critical damage enhancement
+50100 [OS Enhancement] All-attribute damage reduction
+50201 [OS Enhancement] Increased Recovery
+50300 [OS Enhancement] Enhanced hacking performance
+50400 [OS Enhancement] Overload sortie + manual purge ban lifted
+50401 [OS Enhancement] Kicking ban lifted
+50402 [OS Enhancement] Weapon Hunger Lifting
+50403 [OS Enhancement] Free Aim Lifting
+50404 [OS Enhancement] Quick Turn Lifted
+50500 [OS Enhancement] Assault Armor
+50501 [OS Enhancement] Tracking Barrier
+50502 [OS Enhancement] Installation Barrier
+50503 [OS Enhancement] Emergency Barrier
+50999 ----- ↑ Up to here for OS enhancement -----
+59000 ----- ↓ From here for auto-assembly -----
+59001 [Auto Assembly] Leg Type
+59002 [Auto Assembly] Assembly Tendency
+59050 [Auto Assembly] Excess Loading
+59051 [Auto Assembly] Excess EN
+59999 ----- ↑ Up to here for auto-assembly -----
+60000 ----- ↓ From here for nameplate -----
+60001 [Name Plate] frame
+60002 [Name Plate Background
+60003 [Name Plate Background
+60004 [Name Plate Color] Pilot's Name
+60005 [Name Plate Color] Aircraft Name
+60006 [Name Plate Color] Online ID
+60050 [Name Plate] Required Points
+60999 ----- ↑ Up to here for name plate -----
+79000 ----- ↓ From here for arena -----
+79001 [Arena] Opponent: Rank
+79002 [Arena] Opponent: Pilot Name (for menu)
+79003 [Arena] Opponent: Aircraft Name (for menu)
+79004 [Arena] Opponent: Profile
+79005 [Arena] Earned Amount
+79006 [Arena] OS Enhancement Points Earned
+79007 [Arena] Opponent: Pilot Name (for FE)
+79008 [Arena] Opponent: Aircraft Name (for FE)
+79900 [Arena] Result: Duration of the match
+79901 [Arena] Result: Reward Amount
+79999 ----- ↑ Up to here for Arena -----
+80000 ----- ↓ From here for mission result -----
+80001 [Result] Income: basic reward
+80002 [Result] Income: Acquisitions
+80003 [Result] Income: Total Special Additions
+80004 [Result] Income: Special Subtraction Total
+80010 [Result] Income: Special addition 0
+80011 [Result] Income: Special addition 1
+80012 [Result] Income: Special addition 2
+80013 [Result] Income: special addition 3
+80014 [Result] Income: special addition 4
+80019 [Result] Income: total
+80020 [Result] Expenses: Repair
+80021 [Result] Expenses: ammunition
+80030 [Result] Cost: Special subtraction 0
+80031 [Result] Cost: Special subtraction 1
+80032 [Result] Cost: Special subtraction 2
+80033 [Result] Cost: Special subtraction 3
+80034 [Result] Cost: Special subtraction 4
+80039 [Result] Expenses: total
+80040 [Result] Company Contribution 0
+80041 [Result] Company Contribution 1
+80042 [Result] Company Contribution 2
+80043 [Result] Company Contribution 3
+80044 [Result] Company Contribution 4
+80050 [Result] Experience gained
+80090 [Result] Income and Expenses: Total
+80999 ----- ↑ Up to here for mission result -----
+90000 [Game Options] Lock-on Auto Switch
+90001 [Game Options] Controller Vibration
+90002 [Game Options] Boost Control
+90003 [Game Options] Assault Boost Operation
+90004 [Game Options] Limiter Release Operation
+90005 [Game Options] Auto Purge
+90010 [Camera Options] Camera Control up/down
+90011 [Camera Options] Camera Conrol left/right
+90012 [Camera Options] Camera Up/Down Reset
+90013 [Camera Options] Camera Speed
+90020 [Display Options] Subtitle display
+90022 [Display Options] HUD Color (button)
+90023 [Display Options] HUD Layout (button)
+90024 [Display Options] HDR
+90025 [Display Options] Brightness Adjustment (button)
+90026 [Display Options] Image quality Adjustment (button)
+90030 [Sound Options] BGM volume
+90031 [Sound Options] SE volume
+90032 [Acoustic Options] Voice volume
+90032 [Acoustic Options] Overall volume
+90033 [Acoustic Options] Volume
+90040 [Brightness adjustment] SDR brightness
+90050 [Picture quality adjustment] HDR brightness
+90051 [Picture quality adjustment] HDR maximum brightness
+90052 [Picture Quality Adjustment] HDR Saturation
+90090 [Button Settings] Button Assignment
+90091 [Button Settings] Detailed Button Assignment Settings (Button)
+90100 [Input Device Settings] Target Device for Operation Guide
+90101 [Input Device Settings] Mouse Sensitivity
+90102 [Input Device Settings] Mouse Left/Right
+90103 [Input device Settings] Mouse operation up/down
+90104 [Input device settings] Key settings
+90130 [Network Settings] Matching Region Selection
+90131 [Network Settings] Voice Chat
+90132 [Network Settings] Player Name Display
+90133 [Network Settings] Title Activation Settings
+90134 [Network Settings] Data Usage Agreement
+90135 [Network Settings] Software Terms of Use
+90136 [Network Settings] Privacy Policy
+90150 [Language Settings] Text
+90151 [Language Settings] Voice
+90200 [Graphics Settings] Screen Mode
+90201 [Graphics Settings] Screen Resolution
+90202 [Graphics Settings] Auto Drawing Adjustment
+90203 [Graphics Settings] Quality Settings
+90204 [Graphics Settings] Advanced Settings (button)
+90205 [Graphics Settings] Performance Settings
+90206 [Graphics Settings] Ray Tracing Function (PS5/Scarlett)
+90207 [Graphics Settings] FPS Limit
+90208 [Graphics Settings] Vsync
+90210 [Graphics Details] Texture Quality
+90211 [Graphics Details] Antialiasing Application
+90212 [Graphic Details] SSAO
+90213 [Graphic Details] Depth of Field
+90214 [Graphic Details] Motion Blur
+90215 [Graphic Details] Shadow Quality
+90216 [Graphic Details] Lighting Quality
+90217 [Graphic Details] Quality of Effects
+90218 [Graphic Details] Quality of Volumetric Fog
+90219 [Graphic Details] Quality of Reflection Representation
+90220 [Graphic Details] Water Surface Quality
+90221 [Graphic Details] Shader Quality
+90222 [Graphic Details] Ray Tracing Quality
+92000 [Tuning] Close Range Lock Appropriateness
+92001 [Tuning] Long Range Lock Appropriateness
+92002 [Tuning] Missile Lock Appropriateness
+92003 [Tuning] EN attack output
+92004 [Tuning] Armor Performance
+92005 [Tuning] EN capacity
+92006 [Tuning] Stealth appropriateness
+92007 [Tuning] Loading
+100000 [Photo mode] View angle
+100001 [Photo mode] Tilt
+100002 [Photo mode] Proximity intensity
+100003 [Photo mode] Far intensity
+100004 [Photo mode] Focal length
+100005 [Photo mode] F value
+100006 [Photo mode] Aperture value
+100007 [Photo mode] Exposure
+100008 [Photo mode] Hue
+100009 [Photo mode] Brightness
+100010 [Photo mode] Saturation[Photo mode] Saturation
+100011 [Photo mode] Contrast[Photo mode] Contrast
+100012 [Photo mode] Color Scale R
+100013 [Photo mode] Color Scale G
+100014 [Photo mode] Color Scale B
+100015 [Photo mode] Color Shift R
+100016 [Photo mode] Color Shift G
+100017 [Photo mode] Color shift B
+100018 [Photo mode] Flash level
+100019 [Photo mode] Blur Smoothness
+100020 [Photo mode] Degree of luminescence composition
+100021 [Photo mode] Blur
+100022 [Photo mode] Intensity
+100023 [Photo mode] Blur Range
+100024 [Photo mode] Camera Blur Horizontal
+100025 [Photo mode] Camera Blur Vertical
+100026 [Photo mode] Camera blur depth direction
+100027 [Photo mode] Bloom: Brightness
+100028 [Photo mode] Bloom: Threshold
+100029 [Bloom] Saturation
+100030 [Bloom] Smoothness
+110000 [ENEMY Settings] Enemy Pattern
+110001 [ENEMY Settings] AI
+120000 [ENEMY Settings] Number of people
+120001 [Room Settings] Rules
+120002 [Room Settings] Time Limit
+120003 [Room Settings] Map
+120004 [Room Settings] Team participation Method
+120005 [Room Settings] Public Method
+120006 [Room Settings] Keyword
+120090 [Room Search] Create Room Button
+120091 [Room Search] Room Search Button
+120092 [Room Search] Change Room Settings Button
+120100 [Room Search] Host ID/Keyword
+120101 [Room Search] Number of current room members
+180000 [Matchup History] Matchup Mode
+180001 [Matchup History] Matchup Rules
+180002 [Matchup History] Matchup Date
+190000 [Report] Category
+190001 [Report] Reason 1
+190002 [Report] Reason 2
+190003 [Report] Reason 3
+190010 [Report] button

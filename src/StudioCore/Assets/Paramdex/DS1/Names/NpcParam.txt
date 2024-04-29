@@ -1,0 +1,556 @@
+0 Do not erase-can't erase
+1 Atarisawari data (copy and paste recommended)-Unobtrusive data (copy and paste recommended)
+10 Treasure Test 1
+11 Treasure Test 2
+12 Treasure Test 3
+21 For fire damage test
+200 DS2 for easy logic test
+500 DS2 Proto @ Knight who loves ladder
+501 DS2 Proto: A Big Prisoner Helping a Friend
+502 Skeleton test to talk
+503 Skeleton for coffin throwing (large)
+510 DS2 Test @ Knight Assumed
+511 Skeleton_Sword Parry
+514 Wyvern Bird Control
+520 DS2Test for upstream
+521 DS2Test Friend for Kawakami
+522 DS2Test Kawakami 2
+540 For automatic patrol (running)-For automatic patrol (running)
+541 Automatic patrol (walking)-For automatic patrol (walking)
+550 DS2 test wandering for automatic test (Watanabe management)
+551 DS2 test wandering reserve for automatic test (Watanabe management)
+1000 DS2 Return Test Knight_Sword
+1003 DS2 {4 end} NPC closing the gate
+6000 Knight Solaire
+6001 Knight Solaire
+6002 Knight Solaire
+6003 Knight Solaire
+6004 Knight Solaire
+6010 Lady of the Darkling
+6020 Oscar Knight of Astora
+6021 Oscar Knight of Astora
+6030 Big Hat Logan
+6031 Big Hat Logan
+6032 Big Hat Logan
+6040 Griggs of Vinheim
+6041 Griggs of Vinheim
+6050 Dusk of Oolacile
+6060 Gray Saint
+6070 Rhea of Thorolund
+6080 Petrus of Thorolund
+6090 Nico of Thorolund
+6091 Nico of Thorolund (Hollow)
+6100 Vince of Thorolund
+6101 Vince of Thorolund (Hollow)
+6130 Griggs of Vinheim - Undead Burg
+6131 Griggs of Vinheim (Hollow) - Blighttown
+6170 Quelana of Izalith
+6180 Ingward
+6220 Blacksmith Rickert
+6250 Crestfallen Merchant
+6260 Marvellous Chester
+6270 Crestfallen Warrior
+6271 Crestfallen Warrior (Hollow) - The Depths
+6280 Siegmeyer of Catarina
+6281 Siegmeyer of Catarina
+6282 Siegmeyer of Catarina
+6283 Siegmeyer of Catarina
+6284 Siegmeyer of Catarina
+6290 Sieglinde of Catarina
+6291 Sieglinde of Catarina - Great Hollow
+6300 Knight Lautrec
+6301 Knight Lautrec
+6310 Shiva of the East
+6311 Shiva of the East (Invaded)
+6320 Patches
+6321 Patches
+6350 絵師エレーアミス
+6370 Oswald of Carim
+6390 Black Knight Tarkus
+6400 ベルカ騎士
+6410 魔女マロース
+6420 Shiva's Bodyguard
+6421 Shiva's Bodyguard (Invaded)
+6490 Lautrec Bodyguard 1
+6500 Lautrec Bodyguard 2
+6510 Iron Tarkus
+6511 Iron Tarkus
+6520 Witch Beatrice
+6521 Witch Beatrice
+6530 Maneater Mildred
+6531 Maneater Mildred
+6540 Knight Solaire
+6541 Knight Solaire
+6542 Knight Solaire
+6543 Knight Solaire
+6544 Knight Solaire
+6550 Paladin Leeroy
+6551 Paladin Leeroy
+6560 Knight Kirk
+6561 Knight Kirk
+6562 Knight Kirk
+6570 King Jeremiah
+6580 Havel the Rock
+6590 Knight Lautrec
+6591 Knight Lautrec
+6600 Prince Ricard
+6610 Crystal Knight
+6620 Daughter of Chaos
+6640 Dark Moon Sword (Heavy Knight)
+6650 Dark Moon Sword (Light Knight)
+6700 Dusk of Oolacile
+6740 Lord's Blade Ciaran
+6801 Forest Hunter - Bandit
+6802 Forest Hunter - Knight
+6803 Forest Hunter - Hunter
+6804 Forest Hunter - Cleric
+6805 Forest Hunter - Sorcerer
+6806 Forest Hunter - Thief
+6810 Tutorial Prisoner 1
+6811 Tutorial Prisoner 2
+7100 Castle 2_Vagrant NPC_Warrior
+7110 Castle 1 ・ First half_Vagrant NPC_Voyeur
+7111 Castle 1st & 2nd half_Vagrant NPC_Voyeur
+7120 Painting world_Vagrant NPC_Wanderer
+7130 Moriwaba- first half_Vagrant NPC_Hunter
+7131 Moriwaba- latter half_Vagrant NPC_Hunter
+7140 Cemetery 1_Vagrant NPC_Cleric
+7150 Cemetery 2_Vagrant NPC_Cleric
+7160 Underground Lake_Vagrant NPC_Dragon Newt
+7170 Kagemachi_Vagrant NPC_Wanderer
+7180 Closed city- first half_Vagrant NPC_Sorcerer
+7190 Royal Castle 1_Vagrant NPC_Warrior
+7200 Royal Castle 2_Vagrant NPC_Knight
+7210 Abyss_Vagrant NPC_Bandit
+7220 Crystal Tower_Vagrant NPC_Sorcerer
+7230 Great tomb_Vagrant NPC_Not possessed
+7240 Tutorial_Vagrant NPC_What You Don't Have
+10100 NPC Conversation Test 1 (garbled NPC in pot)
+10101 NPC Conversation Test 2
+100000 Bonfire
+120000 Rat [Lvl 4]
+120100 Small Rat [Lvl 2]
+120101 Small Rat [Lvl 3]
+120102 Small Rat [Lvl 4]
+120103 Small Rat [Lvl 14]
+120104 Small Rat [Lvl 4] - Gravelorded
+120200 Giant Rat [Lvl 4]
+120300 Plague Rat [Lvl 14]
+206000 Infested Ghoul [Lvl 8]
+206001 Infested Ghoul [Lvl 8]
+206002 Infested Ghoul [Lvl 8]
+206003 Infested Ghoul [Lvl 8] - Gravelorded
+206004 Infested Ghoul [Lvl 8] - Gravelorded
+206005 Infested Ghoul [Lvl 8] - Gravelorded
+223000 Stray Demon [Lvl 14]
+223100 Firesage Demon [Lvl 13]
+223200 Asylum Demon [Lvl 1]
+224000 Capra Demon [Lvl 3]
+224001 Capra Demon [Lvl 11]
+224002 Capra Demon [Lvl 11] - Gravelorded
+225000 Taurus Demon [Lvl 2]
+225002 Taurus Demon [Lvl 13]
+225003 Taurus Demon [Lvl 15]
+226000 Batwing Demon [Lvl 10]
+226001 Batwing Demon [Lvl 11]
+227000 Mushroom Parent [Lvl 11]
+227001 Mushroom Parent [Lvl 12]
+227002 Mushroom Parent [Lvl 11] - Gravelorded
+228000 Mushroom Child [Lvl 11]
+228001 Mushroom Child [Lvl 12]
+228002 Mushroom Child [Lvl 11] - Gravelorded
+230000 Prowling Demon [Lvl 7]
+230001 Prowling Demon [Lvl 3]
+230002 Prowling Demon [Lvl 9]
+230003 Prowling Demon [Lvl 9]
+230004 Prowling Demon [Lvl 10]
+230005 Prowling Demon [Lvl 14]
+231000 Crow Demon [Lvl 14]
+232000 Iron Golem [Lvl 9]
+233000 Demonic Foliage [Lvl 5]
+233001 Demonic Foliage [Lvl 11]
+236000 Smough [Lvl 10]
+236001 Smough [Lvl 10]
+237000 Channeler [Lvl 3]
+237001 Channeler [Lvl 14]
+237002 Channeler [Lvl 4]
+237003 Channeler [Lvl 14] - Gravelorded
+238000 Stone Knight [Lvl 5]
+238001 Stone Knight [Lvl 11]
+238002 Stone Knight [Lvl 5] - Gravelorded
+239000 Darkwraith [Lvl 11]
+239003 Darkwraith [Lvl 11] - Gravelorded
+240000 Painting Guardian [Lvl 10]
+241000 Silver Knight [Lvl 10]
+241003 Silver Knight [Lvl 10]
+241004 Silver Knight [Lvl 10]
+241005 Silver Knight [Lvl 10] - Gravelorded
+241006 Silver Knight [Lvl 10] - Gravelorded
+243000 Demonic Statue [Lvl 13]
+243001 Demonic Statue [Lvl 14]
+250000 Hollow [Lvl 2]
+250001 Hollow [Lvl 2]
+250010 Hollow [Lvl 14]
+250011 Hollow [Lvl 14]
+250012 Hollow [Lvl 14]
+250020 Hollow [Lvl 1]
+250021 Hollow [Lvl 1]
+250022 Hollow [Lvl 1]
+250023 Hollow [Lvl 7]
+250024 Hollow [Lvl 7]
+250025 Hollow [Lvl 7]
+250030 Hollow [Lvl 4]
+250031 Hollow [Lvl 4]
+250032 Hollow [Lvl 4] - Gravelorded
+250033 Hollow [Lvl 4] - Gravelorded
+250040 Hollow [Lvl 3]
+250050 Hollow [Lvl 3]
+250051 Hollow [Lvl 3]
+250052 Hollow [Lvl 3]
+250053 Hollow [Lvl 3] - Gravelorded
+251000 Undead Merchant [Lvl 2]
+251001 Undead Merchant [Lvl 2]
+252000 Undead Assassin [Lvl 3]
+252001 Undead Assassin [Lvl 3] - Gravelorded
+253002 Blowdart Hollow [Lvl 8]
+254000 Hollow Warrior [Lvl 2]
+254001 Hollow Warrior [Lvl 2]
+254002 Hollow Warrior [Lvl 2]
+254010 Hollow Warrior [Lvl 2]
+254011 Hollow Warrior [Lvl 2]
+254012 Hollow Warrior [Lvl 2]
+254013 Hollow Warrior [Lvl 2] - Gravelorded
+254014 Hollow Warrior [Lvl 2] - Gravelorded
+255000 Hollow Soldier [Lvl 2]
+255001 Hollow Soldier [Lvl 2]
+255002 Hollow Soldier [Lvl 2]
+255010 Hollow Soldier [Lvl 2]
+255030 Hollow Soldier [Lvl 3]
+255031 Hollow Soldier [Lvl 7]
+255032 Hollow Soldier [Lvl 7]
+255040 Hollow Soldier [Lvl 3]
+255041 Hollow Soldier [Lvl 3]
+255042 Hollow Soldier [Lvl 3]
+255043 Hollow Soldier [Lvl 3] - Gravelorded
+255044 Hollow Soldier [Lvl 3] - Gravelorded
+256000 Balder Knight [Lvl 3]
+256001 Balder Knight [Lvl 3]
+256002 Balder Knight [Lvl 4]
+256003 Balder Knight [Lvl 3] - Gravelorded
+256004 Balder Knight [Lvl 3] - Gravelorded
+256010 Balder Knight [Lvl 9]
+256011 Balder Knight [Lvl 9]
+256012 Balder Knight [Lvl 9]
+256013 Balder Knight [Lvl 9] - Gravelorded
+256014 Balder Knight [Lvl 9] - Gravelorded
+257000 Heavy Knight [Lvl 3]
+257001 Heavy Knight [Lvl 3]
+257002 Heavy Knight [Lvl 3] - Gravelorded
+257010 Heavy Knight [Lvl 9]
+257011 Heavy Knight [Lvl 9]
+257012 Heavy Knight [Lvl 9] - Gravelorded
+257020 Heavy Knight [Lvl 14]
+257021 Heavy Knight [Lvl 14]
+257022 Heavy Knight [Lvl 14] - Gravelorded
+264000 Andre of Astora [Lvl 3]
+265000 Necromancer [Lvl 7]
+266000 Butcher [Lvl 4]
+266001 Butcher [Lvl 4] - Gravelorded
+267000 Ghost (Male) [Lvl 7]
+268000 Ghost (Female) [Lvl 7]
+269000 Serpent Soldier [Lvl 9]
+269001 Serpent Soldier [Lvl 14]
+269002 Serpent Soldier [Lvl 14]
+269003 Serpent Soldier [Lvl 11]
+269004 Serpent Soldier [Lvl 9] - Gravelorded
+270000 Serpent Mage [Lvl 9]
+270001 Serpent Mage [Lvl 14]
+270002 Serpent Mage [Lvl 9] - Gravelorded
+271000 Crystal Golem [Lvl 14]
+271001 Crystal Golem [Lvl 5]
+271002 Crystal Golem [Lvl 14] - Gravelorded
+271100 Crystal Golem (Gold) [Lvl 5]
+271101 Crystal Golem (Gold) [Lvl 14]
+273000 Priscilla [Lvl 14]
+273100 Priscilla's Tail [Lvl 14]
+275000 Anastacia of Astora [Lvl 2]
+278000 Mimic [Lvl 9]
+278010 Mimic [Lvl 10]
+278011 Mimic [Lvl 10]
+278012 Mimic [Lvl 10]
+278013 Mimic [Lvl 10]
+278020 Mimic [Lvl 14]
+278021 Mimic [Lvl 14]
+278030 Mimic [Lvl 14]
+278031 Mimic [Lvl 14]
+279000 Black Knight [Lvl 4]
+279001 Black Knight [Lvl 5]
+279010 Black Knight [Lvl 7]
+279020 Black Knight [Lvl 9]
+279030 Black Knight [Lvl 14]
+279050 Black Knight [Lvl 15]
+279051 Black Knight [Lvl 15]
+279052 Black Knight [Lvl 15]
+279053 Black Knight [Lvl 15]
+279060 Black Knight [Lvl 15] - Gravelorded
+279061 Black Knight [Lvl 15] - Gravelorded
+279062 Black Knight [Lvl 15] - Gravelorded
+279063 Black Knight [Lvl 15] - Gravelorded
+279070 Black Knight [Lvl 10]
+279100 Black Knight (Ghost) [Lvl 15]
+280000 Crystal Hollow [Lvl 14]
+280001 Crystal Hollow [Lvl 14]
+281000 Infested Barbarian (Club) [Lvl 8]
+281001 Infested Barbarian (Club) [Lvl 8] - Gravelorded
+281100 Infested Barbarian (Boulder) [Lvl 8]
+281101 Infested Barbarian (Boulder) [Lvl 8] - Gravelorded
+283010 Hollow Phalanx [Lvl 14]
+284000 Engorged Hollow [Lvl 14]
+284001 Engorged Hollow [Lvl 14]
+284002 Engorged Hollow [Lvl 14]
+284003 Engorged Hollow [Lvl 14] - Gravelorded
+284004 Engorged Hollow [Lvl 14] - Gravelorded
+286000 Giant [Lvl 9]
+286001 Giant [Lvl 10]
+286002 Giant [Lvl 9]
+287000 Royal Sentinel [Lvl 10]
+287001 Royal Sentinel [Lvl 10] - Gravelorded
+287010 Royal Sentinel [Lvl 10]
+287011 Royal Sentinel [Lvl 10] - Gravelorded
+290000 Skeleton [Lvl 6]
+290001 Skeleton [Lvl 6]
+290002 Skeleton [Lvl 6]
+290010 Skeleton [Lvl 7]
+290011 Skeleton [Lvl 7]
+290012 Skeleton [Lvl 7]
+290013 Skeleton [Lvl 7] - Gravelorded
+290014 Skeleton [Lvl 7] - Gravelorded
+290020 Skeleton [Lvl 7]
+290021 Skeleton [Lvl 7]
+290022 Skeleton [Lvl 7]
+290030 Skeleton [Lvl 8]
+290031 Skeleton [Lvl 8]
+290032 Skeleton [Lvl 8]
+291000 Giant Skeleton [Lvl 6]
+291001 Giant Skeleton [Lvl 7]
+291002 Giant Skeleton [Lvl 7]
+291010 Giant Skeleton [Lvl 12]
+291011 Giant Skeleton [Lvl 12]
+291012 Giant Skeleton [Lvl 8]
+291013 Giant Skeleton [Lvl 12]
+291014 Giant Skeleton [Lvl 12]
+291015 Giant Skeleton [Lvl 12] - Gravelorded
+292000 Vamos [Lvl 7]
+292002 Vamos [Lvl 7]
+293000 Bonewheel Skeleton [Lvl 7]
+293001 Bonewheel Skeleton [Lvl 14]
+293002 Bonewheel Skeleton [Lvl 14] - Gravelorded
+293003 Bonewheel Skeleton [Lvl 7] - Gravelorded
+294000 Skeleton Baby [Lvl 12]
+295000 Skeleton Beast [Lvl 12]
+295001 Skeleton Beast [Lvl 12] - Gravelorded
+296000 Bone Tower [Lvl 12]
+309000 Mosquito [Lvl 8]
+320000 Slime [Lvl 4]
+321000 Egg Carrier [Lvl 8]
+321001 Egg Carrier [Lvl 8]
+322000 Chaos Bug [Lvl 8]
+323000 Moonlight Butterfly [Lvl 5]
+323001 Moonlight Butterfly [Lvl 14]
+324000 Chaos Eater [Lvl 14]
+324001 Chaos Eater [Lvl 14] - Gravelorded
+325000 Maneater Clam [Lvl 14]
+325001 Maneater Clam [Lvl 14]
+327000 Basilisk [Lvl 4]
+327001 Basilisk [Lvl 12]
+330000 Crystal Lizard [Lvl 12]
+330010 Crystal Lizard [Lvl 14]
+330020 Crystal Lizard [Lvl 14]
+330030 Crystal Lizard [Lvl 7]
+330040 Crystal Lizard [Lvl 5]
+330050 Crystal Lizard [Lvl 12]
+330060 Crystal Lizard [Lvl 2]
+330070 Crystal Lizard [Lvl 14]
+332000 Pinwheel [Lvl 7]
+332001 Pinwheel [Lvl 7]
+332002 Pinwheel [Lvl 12]
+333000 Pisaca [Lvl 14]
+333001 Pisaca [Lvl 14]
+333002 Pisaca [Lvl 14]
+333003 Pisaca [Lvl 14] - Gravelorded
+334000 Undead Attack Dog [Lvl 3]
+334001 Undead Attack Dog [Lvl 4]
+334002 Undead Attack Dog [Lvl 5]
+334003 Undead Attack Dog [Lvl 3]
+334100 Flaming Attack Dog [Lvl 8]
+335000 Walking Tree [Lvl 5]
+337000 Tree Lizard [Lvl 5]
+338000 Leech [Lvl 8]
+339000 Burrower [Lvl 13]
+339001 Burrower [Lvl 13]
+339002 Burrower [Lvl 13]
+339003 Burrower [Lvl 13]
+340000 Cragspider [Lvl 8]
+341000 Frog-Ray [Lvl 5]
+341001 Frog-Ray [Lvl 11]
+342000 Undead Dragon [Lvl 14]
+342001 Undead Dragon
+342002 Undead Dragon [Lvl 11]
+342100 Undead Dragon Legs [Lvl 14]
+342101 Undead Dragon Legs [Lvl 14]
+342200 Undead Dragon Wing [Lvl 14]
+343000 Hellkite Drake [Lvl 3]
+343100 Hellkite Drake's Tail [Lvl 3]
+345000 Stone Dragon [Lvl 12]
+345100 Stone Dragon's Tail [Lvl 12]
+346000 Armored Tusk [Lvl 3]
+346100 Armored Tusk - Reinforced [Lvl 14]
+347000 Sanctuary Guardian (Old) [Lvl 14]
+347100 Sanctuary Guardian [Lvl 14]
+347101 Sanctuary Guardian [Lvl 14]
+347200 Sanctuary Guardian's Tail [Lvl 14]
+348000 Chaos Bug [Lvl 13]
+348001 Chaos Bug [Lvl 13]
+349000 Item Vagrant [Lvl 1]
+349001 Item Vagrant [Lvl 2]
+349002 Item Vagrant [Lvl 3]
+349003 Item Vagrant [Lvl 4]
+349004 Item Vagrant [Lvl 5]
+349005 Item Vagrant [Lvl 6]
+349006 Item Vagrant [Lvl 7]
+349007 Item Vagrant [Lvl 8]
+349008 Item Vagrant [Lvl 9]
+349009 Item Vagrant [Lvl 10]
+349010 Item Vagrant [Lvl 11]
+349011 Item Vagrant [Lvl 12]
+349012 Item Vagrant [Lvl 13]
+349013 Item Vagrant [Lvl 14]
+349014 Item Vagrant [Lvl 15]
+349050 Item Vagrant [Lvl 1] - Gravelorded
+349051 Item Vagrant [Lvl 2] - Gravelorded
+349052 Item Vagrant [Lvl 3] - Gravelorded
+349053 Item Vagrant [Lvl 4] - Gravelorded
+349054 Item Vagrant [Lvl 5] - Gravelorded
+349055 Item Vagrant [Lvl 6] - Gravelorded
+349056 Item Vagrant [Lvl 7] - Gravelorded
+349057 Item Vagrant [Lvl 8] - Gravelorded
+349058 Item Vagrant [Lvl 9] - Gravelorded
+349059 Item Vagrant [Lvl 10] - Gravelorded
+349060 Item Vagrant [Lvl 11] - Gravelorded
+349061 Item Vagrant [Lvl 12] - Gravelorded
+349062 Item Vagrant [Lvl 13] - Gravelorded
+349063 Item Vagrant [Lvl 14] - Gravelorded
+349064 Item Vagrant [Lvl 15] - Gravelorded
+349100 Humanity Vagrant - 1 [Lvl 1]
+349101 Humanity Vagrant - 1 [Lvl 2]
+349102 Humanity Vagrant - 1 [Lvl 3]
+349103 Humanity Vagrant - 1 [Lvl 4]
+349104 Humanity Vagrant - 1 [Lvl 5]
+349105 Humanity Vagrant - 1 [Lvl 6]
+349106 Humanity Vagrant - 1 [Lvl 7]
+349107 Humanity Vagrant - 1 [Lvl 8]
+349108 Humanity Vagrant - 1 [Lvl 9]
+349109 Humanity Vagrant - 1 [Lvl 10]
+349110 Humanity Vagrant - 1 [Lvl 11]
+349111 Humanity Vagrant - 1 [Lvl 12]
+349112 Humanity Vagrant - 1 [Lvl 13]
+349113 Humanity Vagrant - 1 [Lvl 14]
+349114 Humanity Vagrant - 1 [Lvl 15]
+349200 Humanity Vagrant - 2 [Lvl 1] - Gravelorded
+349201 Humanity Vagrant - 2 [Lvl 2] - Gravelorded
+349202 Humanity Vagrant - 2 [Lvl 3] - Gravelorded
+349203 Humanity Vagrant - 2 [Lvl 4] - Gravelorded
+349204 Humanity Vagrant - 2 [Lvl 5] - Gravelorded
+349205 Humanity Vagrant - 2 [Lvl 6] - Gravelorded
+349206 Humanity Vagrant - 2 [Lvl 7] - Gravelorded
+349207 Humanity Vagrant - 2 [Lvl 8] - Gravelorded
+349208 Humanity Vagrant - 2 [Lvl 9] - Gravelorded
+349209 Humanity Vagrant - 2 [Lvl 10] - Gravelorded
+349210 Humanity Vagrant - 2 [Lvl 11] - Gravelorded
+349211 Humanity Vagrant - 2 [Lvl 12] - Gravelorded
+349212 Humanity Vagrant - 2 [Lvl 13] - Gravelorded
+349213 Humanity Vagrant - 2 [Lvl 14] - Gravelorded
+349214 Humanity Vagrant - 2 [Lvl 15] - Gravelorded
+350000 Mass Of Souls [Lvl 11]
+350100 Wisp [Lvl 11]
+350101 Wisp [Lvl 7]
+351000 Giant Crow [Lvl 2]
+352000 Drake
+352002 Drake [Lvl 11]
+352005 Drake [Lvl 11]
+353000 Hydra [Lvl 12]
+353001 Hydra [Lvl 5]
+353100 Hydra's Head [Lvl 12]
+353101 Hydra's Head [Lvl 5]
+409000 Marvellous Chester [Lvl 14]
+409010 Marvellous Chester [Lvl 14] - Gravelorded
+410000 Knight Artorias [Lvl 14]
+411000 Hawkeye Gough [Lvl 14]
+412000 Stone Guardian [Lvl 14]
+412001 Stone Guardian [Lvl 14] - Gravelorded
+413000 Scarecrow [Lvl 14]
+413001 Scarecrow [Lvl 14]
+413002 Scarecrow [Lvl 14]
+413003 Scarecrow [Lvl 14]
+413004 Scarecrow [Lvl 14] - Gravelorded
+413010 Scarecrow [Lvl 14]
+413011 Scarecrow [Lvl 14]
+413012 Scarecrow [Lvl 14]
+413013 Scarecrow [Lvl 14]
+413014 Scarecrow [Lvl 14] - Gravelorded
+414000 Elizabeth
+415000 Bloathead [Lvl 14]
+415001 Bloathead [Lvl 14] - Gravelorded
+415020 Bloathead [Lvl 14]
+416000 Bloathead Sorcerer [Lvl 14]
+416001 Bloathead Sorcerer [Lvl 14] - Gravelorded
+416010 Bloathead Sorcerer [Lvl 14]
+416020 Bloathead Sorcerer [Lvl 14]
+417000 Humanity Phantom (Large) [Lvl 14]
+417100 Humanity Phantom (Medium) [Lvl 14]
+417200 Humanity Phantom (Small) [Lvl 14]
+418000 Chained Prisoner [Lvl 14]
+418001 Chained Prisoner [Lvl 14] - Gravelorded
+419000 Undead Attack Dog (DLC) [Lvl 14]
+450000 Manus Father of the Abyss [Lvl 14]
+451000 Kalameet [Lvl 15]
+451001 Kalameet [Lvl 15]
+451100 Kalameet's Tail [Lvl 14]
+452000 Great Grey Wolf Sif (DLC) [Lvl 14]
+452010 Great Grey Wolf Sif (DLC) [Lvl 14]
+453100 Alvina (DLC) [Lvl 11]
+520000 Centipede Demon [Lvl 13]
+520100 Centipede Demon's Arm [Lvl 13]
+520200 Centipede Demon's Tail [Lvl 13]
+521000 Great Grey Wolf Sif [Lvl 11]
+522000 Gravelord Nito [Lvl 12]
+523000 Bed Of Chaos [Lvl 14]
+523100 Bed Of Chaos (Moving)
+524000 Parasitic Wall Hugger [Lvl 8]
+525000 Ceaseless Discharge [Lvl 13]
+526000 Gaping Dragon [Lvl 8]
+526100 Gaping Dragon's Tail [Lvl 8]
+527000 Dragonslayer Ornstein [Lvl 10]
+527100 Dragonslayer Ornstein (Giant) [Lvl 10]
+528000 Chaos Witch Quelaag [Lvl 8]
+529000 Seath the Scaleless [Lvl 14]
+529001 Seath the Scaleless [Lvl 14]
+529100 Seath's Tail [Lvl 14]
+531000 Gwynevere [Lvl 10]
+532000 Gwyndolin [Lvl 10]
+533000 Kingseeker Frampt [Lvl 2]
+533001 Darkstalker Kaathe [Lvl 11]
+534000 The Fair Lady [Lvl 8]
+535000 Gargoyle [Lvl 3]
+535001 Gargoyle [Lvl 3]
+535100 Gargoyle [Anor Londo] [Lvl 10]
+535200 Gargoyle's Tail [Lvl 3]
+535300 Gargoyle's Tail [Anor Londo] [Lvl 10]
+535301 Gargoyle's Tail [Anor Londo] [Lvl 10]
+536000 Great Feline [Lvl 11]
+536100 Alvina [Lvl 11]
+537000 Gwyn Lord of Cinder [Lvl 15]
+539000 Four Kings [Lvl 11]
+539001 Four Kings [Lvl 11]
+540000 Bed of Chaos Arm [Lvl 14]
+540100 Bed of Chaos Worm [Lvl 14]
