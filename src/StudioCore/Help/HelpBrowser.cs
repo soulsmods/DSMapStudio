@@ -25,17 +25,15 @@ public class HelpBrowser
 
     private readonly string textSectionSplitter = "[-----]";
     private string _id;
-    private AssetLocator _locator;
     private HelpEntry _selectedEntry_Article;
     private HelpEntry _selectedEntry_Glossary;
     private HelpEntry _selectedEntry_Tutorial;
 
     private bool MenuOpenState;
 
-    public HelpBrowser(string id, AssetLocator locator)
+    public HelpBrowser(string id)
     {
         _id = id;
-        _locator = locator;
 
         _helpDex = new HelpDex();
     }

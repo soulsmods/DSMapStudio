@@ -938,7 +938,7 @@ public class Project
         }
         else
         {
-            return AssetLocator.GetNullAsset();
+            return AssetUtils.GetNullAsset();
         }
 
         return ret;
@@ -1192,7 +1192,7 @@ public class Project
         }
         else
         {
-            return AssetLocator.GetNullAsset();
+            return AssetUtils.GetNullAsset();
         }
 
         return ret;

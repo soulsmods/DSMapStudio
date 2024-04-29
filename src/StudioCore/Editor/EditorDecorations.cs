@@ -379,7 +379,7 @@ public unsafe class EditorDecorations
             {
                 List<string> matchedExtRefPath =
                     currentRef.paths.Select(x => string.Format(x, searchValue)).ToList();
-                AssetLocator al = ParamBank.PrimaryBank.AssetLocator;
+                AssetLocator al = Locator.AssetLocator;
                 ExtRefItem(context, fieldName, $"modded {currentRef.name}", matchedExtRefPath, al.GameModDirectory,
                     cacheOwner);
                 ExtRefItem(context, fieldName, $"vanilla {currentRef.name}", matchedExtRefPath,

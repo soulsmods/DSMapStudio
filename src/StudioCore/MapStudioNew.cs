@@ -40,8 +40,6 @@ public class MapStudioNew
 
     public static bool LowRequirementsMode;
 
-    private readonly AssetLocator _assetLocator;
-
     private readonly IGraphicsContext _context;
 
     private readonly List<EditorScreen> _editors;
@@ -90,33 +88,29 @@ public class MapStudioNew
         _context.Window.Title = _programTitle;
         PlatformUtils.InitializeWindows(context.Window.SdlWindowHandle);
 
-        _assetLocator = new AssetLocator();
-        Locator.AssetLocator = _assetLocator; // Yeah, I'm not passing this as a parameter anymore :P
+        Locator.AssetLocator = new AssetLocator();
 
         // Banks
         ModelAliasBank.Bank = new AliasBank(AliasType.Model);
         MapAliasBank.Bank = new AliasBank(AliasType.Map);
 
-        MsbEditorScreen msbEditor = new(_context.Window, _context.Device, _assetLocator);
-        ModelEditorScreen modelEditor = new(_context.Window, _context.Device, _assetLocator);
-        ParamEditorScreen paramEditor = new(_context.Window, _context.Device, _assetLocator);
-        TextEditorScreen textEditor = new(_context.Window, _context.Device, _assetLocator);
+        MsbEditorScreen msbEditor = new(_context.Window, _context.Device);
+        ModelEditorScreen modelEditor = new(_context.Window, _context.Device);
+        ParamEditorScreen paramEditor = new(_context.Window, _context.Device);
+        TextEditorScreen textEditor = new(_context.Window, _context.Device);
         _editors = new List<EditorScreen> { msbEditor, modelEditor, paramEditor, textEditor };
         _focusedEditor = msbEditor;
 
-        _soapstoneService = new SoapstoneService(_version, _assetLocator, msbEditor);
+        _soapstoneService = new SoapstoneService(_version, msbEditor);
 
         _settingsMenu.MsbEditor = msbEditor;
         _settingsMenu.ModelEditor = modelEditor;
         _settingsMenu.ParamEditor = paramEditor;
         _settingsMenu.TextEditor = textEditor;
 
-        _helpBrowser = new HelpBrowser("HelpBrowser", _assetLocator);
+        _helpBrowser = new HelpBrowser("HelpBrowser");
 
-        ParamBank.PrimaryBank.SetAssetLocator(_assetLocator);
-        ParamBank.VanillaBank.SetAssetLocator(_assetLocator);
-        FMGBank.SetAssetLocator(_assetLocator);
-        MtdBank.LoadMtds(_assetLocator);
+        MtdBank.LoadMtds();
 
         ImGui.GetIO()->ConfigFlags |= ImGuiConfigFlags.NavEnableKeyboard;
         SetupFonts();
@@ -402,7 +396,7 @@ public class MapStudioNew
     private void ChangeProjectSettings(ProjectSettings newsettings, string moddir, NewProjectOptions options)
     {
         _projectSettings = newsettings;
-        _assetLocator.SetFromProjectSettings(newsettings, moddir);
+        Locator.AssetLocator.SetFromProjectSettings(newsettings, moddir);
         _settingsMenu.ProjSettings = _projectSettings;
 
         // Banks
@@ -654,12 +648,12 @@ public class MapStudioNew
             }
         }
 
-        var success = _assetLocator.CreateRecoveryProject();
+        var success = Locator.AssetLocator.CreateRecoveryProject();
         if (success)
         {
             SaveAll();
             PlatformUtils.Instance.MessageBox(
-                $"Attempted to save project files to {_assetLocator.GameModDirectory} for manual recovery.\n" +
+                $"Attempted to save project files to {Locator.AssetLocator.GameModDirectory} for manual recovery.\n" +
                 "You must manually replace your project files with these recovery files should you wish to restore them.\n" +
                 "Given the program has crashed, these files may be corrupt and you should backup your last good saved\n" +
                 "files before attempting to use these.",
@@ -866,13 +860,13 @@ public class MapStudioNew
                 {
                     if (ImGui.MenuItem("Open Project Folder", "", false, !TaskManager.AnyActiveTasks()))
                     {
-                        var projectPath = _assetLocator.GameModDirectory;
+                        var projectPath = Locator.AssetLocator.GameModDirectory;
                         Process.Start("explorer.exe", projectPath);
                     }
 
                     if (ImGui.MenuItem("Open Game Folder", "", false, !TaskManager.AnyActiveTasks()))
                     {
-                        var gamePath = _assetLocator.GameRootDirectory;
+                        var gamePath = Locator.AssetLocator.GameRootDirectory;
                         Process.Start("explorer.exe", gamePath);
                     }
 
@@ -933,17 +927,17 @@ public class MapStudioNew
 
                     if (ImGui.MenuItem("MSBE read/write test"))
                     {
-                        MSBReadWrite.Run(_assetLocator);
+                        MSBReadWrite.Run(Locator.AssetLocator);
                     }
 
                     if (ImGui.MenuItem("MSB_AC6 Read/Write Test"))
                     {
-                        MSB_AC6_Read_Write.Run(_assetLocator);
+                        MSB_AC6_Read_Write.Run(Locator.AssetLocator);
                     }
 
                     if (ImGui.MenuItem("BTL read/write test"))
                     {
-                        BTLReadWrite.Run(_assetLocator);
+                        BTLReadWrite.Run(Locator.AssetLocator);
                     }
 
                     if (ImGui.MenuItem("Insert unique rows IDs into params"))

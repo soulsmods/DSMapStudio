@@ -84,7 +84,7 @@ public class ParamEditorView
             lastParamSearch = _selection.currentParamSearchString;
         }
 
-        if (ParamBank.PrimaryBank.AssetLocator.Type is GameType.DemonsSouls
+        if (Locator.AssetLocator.Type is GameType.DemonsSouls
             or GameType.DarkSoulsPTDE
             or GameType.DarkSoulsRemastered)
         {
@@ -96,7 +96,7 @@ public class ParamEditorView
 
             ImGui.Separator();
         }
-        else if (ParamBank.PrimaryBank.AssetLocator.Type is GameType.DarkSoulsIISOTFS)
+        else if (Locator.AssetLocator.Type is GameType.DarkSoulsIISOTFS)
         {
             // DS2 has map params, add UI element to toggle viewing map params and GameParams.
             if (ImGui.Checkbox("Edit Map Params", ref _mapParamView))
@@ -106,7 +106,7 @@ public class ParamEditorView
 
             ImGui.Separator();
         }
-        else if (ParamBank.PrimaryBank.AssetLocator.Type is GameType.EldenRing || ParamBank.PrimaryBank.AssetLocator.Type is GameType.ArmoredCoreVI)
+        else if (Locator.AssetLocator.Type is GameType.EldenRing || Locator.AssetLocator.Type is GameType.ArmoredCoreVI)
         {
             if (ImGui.Checkbox("Edit Event Params", ref _eventParamView))
             {
@@ -182,7 +182,7 @@ public class ParamEditorView
             List<string> keyList = list.Where(param => param.Item1 == ParamBank.PrimaryBank)
                 .Select(param => ParamBank.PrimaryBank.GetKeyForParam(param.Item2)).ToList();
 
-            if (ParamBank.PrimaryBank.AssetLocator.Type is GameType.DemonsSouls
+            if (Locator.AssetLocator.Type is GameType.DemonsSouls
                 or GameType.DarkSoulsPTDE
                 or GameType.DarkSoulsRemastered)
             {
@@ -195,7 +195,7 @@ public class ParamEditorView
                     keyList = keyList.FindAll(p => !p.EndsWith("Bank"));
                 }
             }
-            else if (ParamBank.PrimaryBank.AssetLocator.Type is GameType.DarkSoulsIISOTFS)
+            else if (Locator.AssetLocator.Type is GameType.DarkSoulsIISOTFS)
             {
                 if (_mapParamView)
                 {
@@ -206,7 +206,7 @@ public class ParamEditorView
                     keyList = keyList.FindAll(p => !ParamBank.DS2MapParamlist.Contains(p.Split('_')[0]));
                 }
             }
-            else if (ParamBank.PrimaryBank.AssetLocator.Type is GameType.EldenRing || ParamBank.PrimaryBank.AssetLocator.Type is GameType.ArmoredCoreVI)
+            else if (Locator.AssetLocator.Type is GameType.EldenRing || Locator.AssetLocator.Type is GameType.ArmoredCoreVI)
             {
                 if (_eventParamView)
                 {

@@ -15,7 +15,6 @@ namespace StudioCore.MsbEditor;
 /// </summary>
 public class NavmeshEditor
 {
-    private readonly AssetLocator _locator;
     private readonly MeshRenderableProxy _previewMesh = null;
     private readonly Selection _selection;
     private readonly int icount = 0;
@@ -34,9 +33,8 @@ public class NavmeshEditor
     private int MinRegionArea = 3;
     private float SlopeAngle = 30.0f;
 
-    public NavmeshEditor(AssetLocator locator, RenderScene scene, Selection sel)
+    public NavmeshEditor(RenderScene scene, Selection sel)
     {
-        _locator = locator;
         _scene = scene;
         _selection = sel;
     }
@@ -121,7 +119,7 @@ public class NavmeshEditor
                         _previewMesh.World = mrp.World;
 
                         // Do a test save
-                        var path = $@"{_locator.GameModDirectory}\navout\test.hkx";
+                        var path = $@"{Locator.AssetLocator.GameModDirectory}\navout\test.hkx";
                         using (FileStream s2 = File.Create(path))
                         {
                             BinaryWriterEx bw = new(false, s2);

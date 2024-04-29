@@ -13,9 +13,6 @@ namespace StudioCore.TextEditor;
 public unsafe class TextEditorScreen : EditorScreen
 {
     private readonly PropertyEditor _propEditor;
-
-    public readonly AssetLocator AssetLocator;
-
     private FMGBank.EntryGroup _activeEntryGroup;
     private FMGBank.FMGInfo _activeFmgInfo;
     private int _activeIDCache = -1;
@@ -34,9 +31,8 @@ public unsafe class TextEditorScreen : EditorScreen
     private List<FMGBank.FMGInfo> _filteredFmgInfo = new();
     public ActionManager EditorActionManager = new();
 
-    public TextEditorScreen(Sdl2Window window, GraphicsDevice device, AssetLocator locator)
+    public TextEditorScreen(Sdl2Window window, GraphicsDevice device)
     {
-        AssetLocator = locator;
         _propEditor = new PropertyEditor(EditorActionManager);
     }
 
@@ -77,7 +73,7 @@ public unsafe class TextEditorScreen : EditorScreen
 
         if (ImGui.BeginMenu("Text Language", !FMGBank.IsLoading))
         {
-            Dictionary<string, string> folders = FMGBank.AssetLocator.GetMsgLanguages();
+            Dictionary<string, string> folders = Locator.AssetLocator.GetMsgLanguages();
             if (folders.Count == 0)
             {
                 ImGui.TextColored(new Vector4(1.0f, 0.0f, 0.0f, 1.0f), "Cannot find language folders.");
@@ -167,7 +163,7 @@ public unsafe class TextEditorScreen : EditorScreen
 
     public void OnGUI(string[] initcmd)
     {
-        if (FMGBank.AssetLocator == null)
+        if (Locator.AssetLocator == null)
         {
             return;
         }

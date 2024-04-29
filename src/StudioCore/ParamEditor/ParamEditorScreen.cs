@@ -168,8 +168,6 @@ public class ParamEditorScreen : EditorScreen
 {
     public static bool EditorMode;
 
-    public readonly AssetLocator AssetLocator;
-
     /// <summary>
     ///     Whitelist of games and maximum param version to allow param upgrading.
     ///     Used to restrict upgrading before DSMS properly supports it.
@@ -216,9 +214,8 @@ public class ParamEditorScreen : EditorScreen
     public List<(ulong, string, string)> ParamUpgradeEdits;
     public ulong ParamUpgradeVersionSoftWhitelist;
 
-    public ParamEditorScreen(Sdl2Window window, GraphicsDevice device, AssetLocator locator)
+    public ParamEditorScreen(Sdl2Window window, GraphicsDevice device)
     {
-        AssetLocator = locator;
         _views = new List<ParamEditorView>();
         _views.Add(new ParamEditorView(this, 0));
         _activeView = _views[0];
@@ -286,7 +283,7 @@ public class ParamEditorScreen : EditorScreen
             {
                 if (ImGui.Selectable("Open Scripts Folder"))
                 {
-                    Process.Start("explorer.exe", AssetLocator.GetScriptAssetsDir());
+                    Process.Start("explorer.exe", Locator.AssetLocator.GetScriptAssetsDir());
                 }
 
                 if (ImGui.Selectable("Reload Scripts"))
@@ -625,23 +622,23 @@ public class ParamEditorScreen : EditorScreen
                     if (ImGui.MenuItem("Current Param", KeyBindings.Current.Param_HotReload.HintText, false,
                             canHotReload && _activeView._selection.GetActiveParam() != null))
                     {
-                        ParamReloader.ReloadMemoryParam(ParamBank.PrimaryBank, ParamBank.PrimaryBank.AssetLocator,
+                        ParamReloader.ReloadMemoryParam(ParamBank.PrimaryBank, Locator.AssetLocator,
                             _activeView._selection.GetActiveParam());
                     }
 
                     if (ImGui.MenuItem("All Params", KeyBindings.Current.Param_HotReloadAll.HintText, false,
                             canHotReload))
                     {
-                        ParamReloader.ReloadMemoryParams(ParamBank.PrimaryBank, ParamBank.PrimaryBank.AssetLocator,
+                        ParamReloader.ReloadMemoryParams(ParamBank.PrimaryBank, Locator.AssetLocator,
                             ParamBank.PrimaryBank.Params.Keys.ToArray());
                     }
 
-                    foreach (var param in ParamReloader.GetReloadableParams(ParamBank.PrimaryBank.AssetLocator))
+                    foreach (var param in ParamReloader.GetReloadableParams(Locator.AssetLocator))
                     {
                         if (ImGui.MenuItem(param, "", false, canHotReload))
                         {
                             ParamReloader.ReloadMemoryParams(ParamBank.PrimaryBank,
-                                ParamBank.PrimaryBank.AssetLocator, new[] { param });
+                                Locator.AssetLocator, new[] { param });
                         }
                     }
                 }
@@ -652,7 +649,7 @@ public class ParamEditorScreen : EditorScreen
             var activeParam = _activeView._selection.GetActiveParam();
             if (activeParam != null && _projectSettings.GameType == GameType.DarkSoulsIII)
             {
-                ParamReloader.GiveItemMenu(ParamBank.PrimaryBank.AssetLocator,
+                ParamReloader.GiveItemMenu(Locator.AssetLocator,
                     _activeView._selection.GetSelectedRows(), _activeView._selection.GetActiveParam());
             }
 
@@ -910,13 +907,13 @@ public class ParamEditorScreen : EditorScreen
         {
             if (InputTracker.GetKeyDown(KeyBindings.Current.Param_HotReloadAll))
             {
-                ParamReloader.ReloadMemoryParams(ParamBank.PrimaryBank, ParamBank.PrimaryBank.AssetLocator,
+                ParamReloader.ReloadMemoryParams(ParamBank.PrimaryBank, Locator.AssetLocator,
                     ParamBank.PrimaryBank.Params.Keys.ToArray());
             }
             else if (InputTracker.GetKeyDown(KeyBindings.Current.Param_HotReload) &&
                 _activeView._selection.GetActiveParam() != null)
             {
-                ParamReloader.ReloadMemoryParam(ParamBank.PrimaryBank, ParamBank.PrimaryBank.AssetLocator,
+                ParamReloader.ReloadMemoryParam(ParamBank.PrimaryBank, Locator.AssetLocator,
                     _activeView._selection.GetActiveParam());
             }
         }
@@ -1208,9 +1205,9 @@ public class ParamEditorScreen : EditorScreen
         ParamUpgradeEdits = null;
         try
         {
-            var baseDir = AssetLocator.GetUpgraderAssetsDir();
-            var wlFile = Path.Join(AssetLocator.GetUpgraderAssetsDir(), "version.txt");
-            var massEditFile = Path.Join(AssetLocator.GetUpgraderAssetsDir(), "massedit.txt");
+            var baseDir = Locator.AssetLocator.GetUpgraderAssetsDir();
+            var wlFile = Path.Join(Locator.AssetLocator.GetUpgraderAssetsDir(), "version.txt");
+            var massEditFile = Path.Join(Locator.AssetLocator.GetUpgraderAssetsDir(), "massedit.txt");
             if (!File.Exists(wlFile) || !File.Exists(massEditFile))
             {
                 return;
@@ -1247,7 +1244,7 @@ public class ParamEditorScreen : EditorScreen
         if (ParamBank.IsDefsLoaded
             && ParamBank.PrimaryBank.Params != null
             && ParamBank.VanillaBank.Params != null
-            && ParamUpgrade_SupportedGames.Contains(ParamBank.PrimaryBank.AssetLocator.Type)
+            && ParamUpgrade_SupportedGames.Contains(Locator.AssetLocator.Type)
             && !ParamBank.PrimaryBank.IsLoadingParams
             && !ParamBank.VanillaBank.IsLoadingParams
             && ParamBank.PrimaryBank.ParamVersion < ParamBank.VanillaBank.ParamVersion)
@@ -1352,7 +1349,7 @@ public class ParamEditorScreen : EditorScreen
         if (result == ParamBank.ParamUpgradeResult.RowConflictsFound)
         {
             // If there's row conflicts write a conflict log
-            var logPath = $@"{bank.AssetLocator.GameModDirectory}\regulationUpgradeLog.txt";
+            var logPath = $@"{Locator.AssetLocator.GameModDirectory}\regulationUpgradeLog.txt";
             if (File.Exists(logPath))
             {
                 File.Delete(logPath);

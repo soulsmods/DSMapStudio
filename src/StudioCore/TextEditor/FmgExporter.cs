@@ -49,7 +49,7 @@ public static partial class FMGBank
         {
             Dictionary<FmgIDType, FMG> fmgs = new();
             IBinder fmgBinder;
-            if (AssetLocator.Type is GameType.DemonsSouls or GameType.DarkSoulsPTDE
+            if (Locator.AssetLocator.Type is GameType.DemonsSouls or GameType.DarkSoulsPTDE
                 or GameType.DarkSoulsRemastered)
             {
                 fmgBinder = BND3.Read(msgBndPath);
@@ -79,17 +79,17 @@ public static partial class FMGBank
                 return;
             }
 
-            if (moddedOnly && AssetLocator.GameModDirectory == AssetLocator.GameRootDirectory)
+            if (moddedOnly && Locator.AssetLocator.GameModDirectory == Locator.AssetLocator.GameRootDirectory)
             {
                 TaskLogs.AddLog("Error: Game directory is identical to mod directory. Cannot export modded files without vanilla FMGs to compare to.",
                     LogLevel.Warning, TaskLogs.LogPriority.High);
                 return;
             }
 
-            var itemPath = AssetLocator.GetItemMsgbnd(LanguageFolder).AssetPath;
-            var menuPath = AssetLocator.GetMenuMsgbnd(LanguageFolder).AssetPath;
-            var itemPath_Vanilla = itemPath.Replace(AssetLocator.GameModDirectory, AssetLocator.GameRootDirectory);
-            var menuPath_Vanilla = menuPath.Replace(AssetLocator.GameModDirectory, AssetLocator.GameRootDirectory);
+            var itemPath = Locator.AssetLocator.GetItemMsgbnd(LanguageFolder).AssetPath;
+            var menuPath = Locator.AssetLocator.GetMenuMsgbnd(LanguageFolder).AssetPath;
+            var itemPath_Vanilla = itemPath.Replace(Locator.AssetLocator.GameModDirectory, Locator.AssetLocator.GameRootDirectory);
+            var menuPath_Vanilla = menuPath.Replace(Locator.AssetLocator.GameModDirectory, Locator.AssetLocator.GameRootDirectory);
 
             Dictionary<FmgIDType, FMG> fmgs_vanilla = new();
             fmgs_vanilla.AddAll(GetFmgs(itemPath_Vanilla));
@@ -209,7 +209,7 @@ public static partial class FMGBank
             }
 
             var filecount = 0;
-            if (AssetLocator.Type == GameType.DarkSoulsIISOTFS)
+            if (Locator.AssetLocator.Type == GameType.DarkSoulsIISOTFS)
             {
                 Directory.CreateDirectory(path);
 

@@ -32,8 +32,6 @@ public class ModelEditorScreen : EditorScreen, AssetBrowserEventHandler, SceneTr
 
     private Task _loadingTask;
     private MeshRenderableProxy _renderMesh;
-
-    public AssetLocator AssetLocator;
     public ActionManager EditorActionManager = new();
     public Rectangle Rect;
     public RenderScene RenderScene;
@@ -42,11 +40,9 @@ public class ModelEditorScreen : EditorScreen, AssetBrowserEventHandler, SceneTr
     private bool ViewportUsingKeyboard;
     private Sdl2Window Window;
 
-    public ModelEditorScreen(Sdl2Window window, GraphicsDevice device, AssetLocator locator)
+    public ModelEditorScreen(Sdl2Window window, GraphicsDevice device)
     {
         Rect = window.Bounds;
-        AssetLocator = locator;
-        ResourceManager.Locator = AssetLocator;
         Window = window;
 
         if (device != null)
@@ -60,10 +56,10 @@ public class ModelEditorScreen : EditorScreen, AssetBrowserEventHandler, SceneTr
             Viewport = new NullViewport("Modeleditvp", EditorActionManager, _selection, Rect.Width, Rect.Height);
         }
 
-        _universe = new Universe(AssetLocator, RenderScene, _selection);
+        _universe = new Universe(RenderScene, _selection);
 
         _sceneTree = new SceneTree(SceneTree.Configuration.ModelEditor, this, "modeledittree", _universe,
-            _selection, EditorActionManager, Viewport, AssetLocator);
+            _selection, EditorActionManager, Viewport);
         _propEditor = new PropertyEditor(EditorActionManager, _propCache);
         _assetBrowser = new ModelAssetBrowser(this, "modelEditorBrowser");
     }
@@ -238,7 +234,7 @@ public class ModelEditorScreen : EditorScreen, AssetBrowserEventHandler, SceneTr
 
     public void OnProjectChanged(ProjectSettings newSettings)
     {
-        if (AssetLocator.Type != GameType.Undefined)
+        if (Locator.AssetLocator.Type != GameType.Undefined)
         {
             _assetBrowser.OnProjectChanged();
         }
@@ -304,25 +300,25 @@ public class ModelEditorScreen : EditorScreen, AssetBrowserEventHandler, SceneTr
         switch (modelType)
         {
             case ModelEditorModelType.Character:
-                asset = AssetLocator.GetChrModel(modelid);
-                assettex = AssetLocator.GetChrTextures(modelid);
+                asset = Locator.AssetLocator.GetChrModel(modelid);
+                assettex = Locator.AssetLocator.GetChrTextures(modelid);
                 break;
             case ModelEditorModelType.Object:
-                asset = AssetLocator.GetObjModel(modelid);
-                assettex = AssetLocator.GetObjTexture(modelid);
+                asset = Locator.AssetLocator.GetObjModel(modelid);
+                assettex = Locator.AssetLocator.GetObjTexture(modelid);
                 break;
             case ModelEditorModelType.Parts:
-                asset = AssetLocator.GetPartsModel(modelid);
-                assettex = AssetLocator.GetPartTextures(modelid);
+                asset = Locator.AssetLocator.GetPartsModel(modelid);
+                assettex = Locator.AssetLocator.GetPartTextures(modelid);
                 break;
             case ModelEditorModelType.MapPiece:
-                asset = AssetLocator.GetMapModel(mapid, modelid);
-                assettex = AssetLocator.GetNullAsset();
+                asset = Locator.AssetLocator.GetMapModel(mapid, modelid);
+                assettex = AssetUtils.GetNullAsset();
                 break;
             default:
                 //Uh oh
-                asset = AssetLocator.GetNullAsset();
-                assettex = AssetLocator.GetNullAsset();
+                asset = AssetUtils.GetNullAsset();
+                assettex = AssetUtils.GetNullAsset();
                 break;
         }
 

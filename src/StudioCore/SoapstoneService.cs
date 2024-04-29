@@ -45,16 +45,13 @@ public class SoapstoneService : SoapstoneServiceV1
 
     private static readonly Dictionary<KeyNamespace, MapEntity.MapEntityType> revMapNamespaces =
         mapNamespaces.ToDictionary(e => e.Value, e => e.Key);
-
-    private readonly AssetLocator assetLocator;
     private readonly MsbEditorScreen msbEditor;
 
     private readonly string version;
 
-    public SoapstoneService(string version, AssetLocator assetLocator, MsbEditorScreen msbEditor)
+    public SoapstoneService(string version, MsbEditorScreen msbEditor)
     {
         this.version = version;
-        this.assetLocator = assetLocator;
         this.msbEditor = msbEditor;
     }
 
@@ -65,13 +62,13 @@ public class SoapstoneService : SoapstoneServiceV1
             Id = "DSMapStudio", Version = version, ServerPath = Process.GetCurrentProcess().MainModule?.FileName
         };
 
-        if (assetLocator.GameModDirectory != null
-            && gameMapping.TryGetValue(assetLocator.Type, out FromSoftGame gameType))
+        if (Locator.AssetLocator.GameModDirectory != null
+            && gameMapping.TryGetValue(Locator.AssetLocator.Type, out FromSoftGame gameType))
         {
             EditorResource projectResource = new()
             {
                 Type = EditorResourceType.Project,
-                ProjectJsonPath = Path.Combine(assetLocator.GameModDirectory, "project.json"),
+                ProjectJsonPath = Path.Combine(Locator.AssetLocator.GameModDirectory, "project.json"),
                 Game = gameType
             };
             response.Resources.Add(projectResource);
@@ -271,7 +268,7 @@ public class SoapstoneService : SoapstoneServiceV1
         RequestedProperties properties)
     {
         List<SoulsObject> results = new();
-        if (!gameMapping.TryGetValue(assetLocator.Type, out FromSoftGame game) || resource.Game != game)
+        if (!gameMapping.TryGetValue(Locator.AssetLocator.Type, out FromSoftGame game) || resource.Game != game)
         {
             return results;
         }
@@ -397,7 +394,7 @@ public class SoapstoneService : SoapstoneServiceV1
         SearchOptions options)
     {
         List<SoulsObject> results = new();
-        if (!gameMapping.TryGetValue(assetLocator.Type, out FromSoftGame game) || resource.Game != game)
+        if (!gameMapping.TryGetValue(Locator.AssetLocator.Type, out FromSoftGame game) || resource.Game != game)
         {
             return results;
         }
@@ -571,7 +568,7 @@ public class SoapstoneService : SoapstoneServiceV1
     {
         // At the moment, only loading maps is supported.
         // This could be extended to switching FMG language, or adding a param view, or opening a model to view.
-        if (!gameMapping.TryGetValue(assetLocator.Type, out FromSoftGame game) || resource.Game != game)
+        if (!gameMapping.TryGetValue(Locator.AssetLocator.Type, out FromSoftGame game) || resource.Game != game)
         {
             return;
         }
@@ -588,7 +585,7 @@ public class SoapstoneService : SoapstoneServiceV1
         EditorResource resource,
         SoulsKey key)
     {
-        if (!gameMapping.TryGetValue(assetLocator.Type, out FromSoftGame game) || resource.Game != game)
+        if (!gameMapping.TryGetValue(Locator.AssetLocator.Type, out FromSoftGame game) || resource.Game != game)
         {
             return;
         }
@@ -655,7 +652,7 @@ public class SoapstoneService : SoapstoneServiceV1
     {
         // At the moment, just map properties, since there are some multi-keyed things like entity groups
         // Params are also possible; FMG might require a new command
-        if (!gameMapping.TryGetValue(assetLocator.Type, out FromSoftGame game) || resource.Game != game)
+        if (!gameMapping.TryGetValue(Locator.AssetLocator.Type, out FromSoftGame game) || resource.Game != game)
         {
             return;
         }
