@@ -685,8 +685,8 @@ public class ParamEditorScreen : EditorScreen
             {
                 string[] allParamTypes =
                 {
-                    AssetLocator.RegulationBinFilter, AssetLocator.Data0Filter, AssetLocator.ParamBndDcxFilter,
-                    AssetLocator.ParamBndFilter, AssetLocator.EncRegulationFilter
+                    AssetUtils.RegulationBinFilter, AssetUtils.Data0Filter, AssetUtils.ParamBndDcxFilter,
+                    AssetUtils.ParamBndFilter, AssetUtils.EncRegulationFilter
                 };
                 try
                 {
@@ -727,7 +727,7 @@ public class ParamEditorScreen : EditorScreen
                                     MessageBoxIcon.Information);
                                 if (PlatformUtils.Instance.OpenFileDialog(
                                         "Select file containing enemyparam",
-                                        new[] { AssetLocator.ParamLooseFilter }, out var enemyPath))
+                                        new[] { AssetUtils.ParamLooseFilter }, out var enemyPath))
                                 {
                                     ParamBank.LoadAuxBank(path, folder, enemyPath, _projectSettings);
                                 }
@@ -1284,7 +1284,7 @@ public class ParamEditorScreen : EditorScreen
                     {
                         if (PlatformUtils.Instance.OpenFileDialog(
                                 $"Select regulation.bin for game version {ParamBank.PrimaryBank.ParamVersion}...",
-                                new[] { AssetLocator.RegulationBinFilter },
+                                new[] { AssetUtils.RegulationBinFilter },
                                 out var path))
                         {
                             UpgradeRegulation(ParamBank.PrimaryBank, ParamBank.VanillaBank, path);
@@ -2069,7 +2069,7 @@ public class ParamEditorScreen : EditorScreen
     private static bool SaveCsvDialog(out string path)
     {
         var result = PlatformUtils.Instance.SaveFileDialog(
-            "Choose CSV file", new[] { AssetLocator.CsvFilter, AssetLocator.TxtFilter }, out path);
+            "Choose CSV file", new[] { AssetUtils.CsvFilter, AssetUtils.TxtFilter }, out path);
 
         if (result && !path.ToLower().EndsWith(".csv"))
             path += ".csv";
@@ -2080,7 +2080,7 @@ public class ParamEditorScreen : EditorScreen
     private static bool OpenCsvDialog(out string path)
     {
         return PlatformUtils.Instance.OpenFileDialog(
-            "Choose CSV file", new[] { AssetLocator.CsvFilter, AssetLocator.TxtFilter }, out path);
+            "Choose CSV file", new[] { AssetUtils.CsvFilter, AssetUtils.TxtFilter }, out path);
     }
 
     private static bool ReadCsvDialog(out string csv)

@@ -558,7 +558,7 @@ public static class ResourceManager
                 }
 
                 var binderpath = f.Name;
-                var filevirtpath = Locator.GetBinderVirtualPath(BinderVirtualPath, binderpath);
+                var filevirtpath = AssetUtils.GetBinderVirtualPath(BinderVirtualPath, binderpath);
                 if (AssetWhitelist != null && !AssetWhitelist.Contains(filevirtpath))
                 {
                     continue;

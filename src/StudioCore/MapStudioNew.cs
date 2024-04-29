@@ -476,7 +476,7 @@ public class MapStudioNew
 
     private void DumpFlverLayouts()
     {
-        if (PlatformUtils.Instance.SaveFileDialog("Save Flver layout dump", new[] { AssetLocator.TxtFilter },
+        if (PlatformUtils.Instance.SaveFileDialog("Save Flver layout dump", new[] { AssetUtils.TxtFilter },
                 out var path))
         {
             using (StreamWriter file = new(path))
@@ -527,11 +527,11 @@ public class MapStudioNew
             {
                 if (PlatformUtils.Instance.OpenFileDialog(
                         $"Select executable for {settings.GameType}...",
-                        new[] { AssetLocator.GameExecutableFilter },
+                        new[] { AssetUtils.GameExecutableFilter },
                         out var path))
                 {
                     settings.GameRoot = path;
-                    GameType gametype = _assetLocator.GetGameTypeForExePath(settings.GameRoot);
+                    GameType gametype = AssetUtils.GetGameTypeForExePath(settings.GameRoot);
                     if (gametype == settings.GameType)
                     {
                         success = true;
@@ -559,7 +559,7 @@ public class MapStudioNew
 
         if (success)
         {
-            if (!_assetLocator.CheckFilesExpanded(settings.GameRoot, settings.GameType))
+            if (!AssetUtils.CheckFilesExpanded(settings.GameRoot, settings.GameType))
             {
                 if (!GameNotUnpackedWarning(settings.GameType))
                 {
@@ -801,7 +801,7 @@ public class MapStudioNew
                 {
                     if (PlatformUtils.Instance.OpenFileDialog(
                             "Choose the project json file",
-                            new[] { AssetLocator.ProjectJsonFilter },
+                            new[] { AssetUtils.ProjectJsonFilter },
                             out var path))
                     {
                         ProjectSettings settings = ProjectSettings.Deserialize(path);
@@ -1083,7 +1083,7 @@ public class MapStudioNew
                         _newProjectOptions.settings.GameRoot = gname;
                     }
 
-                    _newProjectOptions.settings.GameType = _assetLocator.GetGameTypeForExePath(gname);
+                    _newProjectOptions.settings.GameType = AssetUtils.GetGameTypeForExePath(gname);
 
                     if (_newProjectOptions.settings.GameType == GameType.Bloodborne)
                     {
@@ -1096,11 +1096,11 @@ public class MapStudioNew
                 {
                     if (PlatformUtils.Instance.OpenFileDialog(
                             "Select executable for the game you want to mod...",
-                            new[] { AssetLocator.GameExecutableFilter },
+                            new[] { AssetUtils.GameExecutableFilter },
                             out var path))
                     {
                         _newProjectOptions.settings.GameRoot = Path.GetDirectoryName(path);
-                        _newProjectOptions.settings.GameType = _assetLocator.GetGameTypeForExePath(path);
+                        _newProjectOptions.settings.GameType = AssetUtils.GetGameTypeForExePath(path);
 
                         if (_newProjectOptions.settings.GameType == GameType.Bloodborne)
                         {
@@ -1270,7 +1270,7 @@ public class MapStudioNew
                 }
 
                 var gameroot = _newProjectOptions.settings.GameRoot;
-                if (!_assetLocator.CheckFilesExpanded(gameroot, _newProjectOptions.settings.GameType))
+                if (!AssetUtils.CheckFilesExpanded(gameroot, _newProjectOptions.settings.GameType))
                 {
                     if (!GameNotUnpackedWarning(_newProjectOptions.settings.GameType))
                     {

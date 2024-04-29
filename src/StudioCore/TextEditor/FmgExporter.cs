@@ -309,7 +309,7 @@ public static partial class FMGBank
         public static bool ImportFmgJson(bool merge)
         {
             if (!PlatformUtils.Instance.OpenMultiFileDialog("Choose Files to Import",
-                    new[] { AssetLocator.FmgJsonFilter }, out IReadOnlyList<string> files))
+                    new[] { AssetUtils.FmgJsonFilter }, out IReadOnlyList<string> files))
             {
                 return false;
             }
@@ -352,7 +352,7 @@ public static partial class FMGBank
         public static bool ImportFmgTxt(bool merge)
         {
             if (!PlatformUtils.Instance.OpenMultiFileDialog("Choose Files to Import",
-                    new[] { AssetLocator.TxtFilter }, out IReadOnlyList<string> files))
+                    new[] { AssetUtils.TxtFilter }, out IReadOnlyList<string> files))
             {
                 return false;
             }
