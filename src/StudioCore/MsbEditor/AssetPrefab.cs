@@ -244,7 +244,7 @@ namespace StudioCore.MsbEditor
         {
             try
             {
-                AssetPrefab prefab = JsonSerializer.Deserialize<AssetPrefab>(File.ReadAllText(path));
+                AssetPrefab prefab = JsonSerializer.Deserialize(File.ReadAllText(path), AssetPrefabSerializerContext.Default.AssetPrefab);
 
                 MSBE pseudoMap = MSBE.Read(prefab.AssetContainerBytes);
                 foreach (var asset in pseudoMap.Parts.Assets)

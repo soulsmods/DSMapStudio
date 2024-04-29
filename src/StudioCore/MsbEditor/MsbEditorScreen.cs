@@ -358,8 +358,7 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
 
     private void ImportAssetPrefab(Map targetMap)
     {
-        PlatformUtils.Instance.OpenFileDialog("Open Prefab Json", ["json","*.json"], out string fileName);
-
+        PlatformUtils.Instance.OpenFileDialog("Open Prefab Json", ["json"], out string fileName);
         if (!string.IsNullOrEmpty(fileName))
         {
             _selectedAssetPrefab = AssetPrefab.ImportJson(fileName);
@@ -385,9 +384,13 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
         }
         else
         {
-            PlatformUtils.Instance.SaveFileDialog("Save Asset Prefab", ["json","*.json"], out string fileName);
+            PlatformUtils.Instance.SaveFileDialog("Save Asset Prefab", ["json"], out string fileName);
             if (!string.IsNullOrEmpty(fileName))
             {
+                if (!fileName.EndsWith(".json"))
+                {
+                    fileName += ".json";
+                }
                 prefab.PrefabName = System.IO.Path.GetFileNameWithoutExtension(fileName);
                 prefab.Write(fileName);
             }
@@ -633,7 +636,8 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
                 {
                     if (ImGui.BeginMenu("Asset Prefabs"))
                     {
-                        ImGui.TextColored(new Vector4(1.0f, 1.0f, 0.8f, 1.0f), "Import/Export multiple assets at once\nSupports Assets and Regions (Other)");
+                        ImGui.TextColored(new Vector4(1.0f, 1.0f, 0.8f, 1.0f), "Import/Export multiple assets at once");
+                        ImGui.TextColored(new Vector4(1.0f, 0.0f, 0.0f, 1.0f), "Only Supports Assets and Regions (Other)");
                         ImGui.Separator();
                         if (ImGui.MenuItem("Export Selection", KeyBindings.Current.Map_AssetPrefabExport.HintText, false, _selection.IsSelection()))
                         {
