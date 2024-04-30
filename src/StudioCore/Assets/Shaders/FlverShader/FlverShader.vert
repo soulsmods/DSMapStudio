@@ -70,7 +70,7 @@ void main()
 	fsin_view = normalize(sceneparam.eye.xyz - (w * vec4(position, 1)).xyz);
 	fsin_mat = idata[gl_InstanceIndex].materialID.x;
 	fsin_entityid = idata[gl_InstanceIndex].materialID.w;
-	
+	fsin_color = vec4(color) / 255.0;
 	vec3 T = normalize(mat3(w) * vec3(bitangent));
 	vec3 B = normalize(mat3(w) * vec3(binormal));
 	vec3 N = normalize(mat3(w) * vec3(normal));
