@@ -12,7 +12,7 @@ DS Map Studio is a standalone integrated modding tool for modern FromSoft games,
 ![msb-editor-screenshot](https://user-images.githubusercontent.com/44953920/209740902-ab75c7fb-e281-4833-aeab-4c2ea41da815.png)
 
 ## Requirements
-* Windows 7/8/8.1/10/11 (64-bit only)
+* Windows 7/8/8.1/10/11 (64-bit only). Linux installations may function with correct wine/proton version and configuration.
 * Visual C++ Redistributable x64 - INSTALL THIS IF THE PROGRAM CRASHES ON STARTUP (https://aka.ms/vs/16/release/vc_redist.x64.exe)
 * A .NET installation is no longer required for DSMapStudio.
 * For the Map editor, A Vulkan 1.3 compatible graphics card with up to date graphics drivers: NVIDIA Maxwell (900 series) and newer or AMD Polaris (Radeon 400 series) and newer. Windows 7 drivers do not support these features, and you will have to use the low requirements exe.
