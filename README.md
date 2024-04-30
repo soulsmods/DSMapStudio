@@ -14,12 +14,10 @@ DS Map Studio is a standalone integrated modding tool for modern FromSoft games,
 ## Requirements
 * Windows 7/8/8.1/10/11 (64-bit only)
 * Visual C++ Redistributable x64 - INSTALL THIS IF THE PROGRAM CRASHES ON STARTUP (https://aka.ms/vs/16/release/vc_redist.x64.exe)
-* For the error message "You must install or update .NET to run this application", use these exact download links. It is not enough to install the default .NET runtime.
-  * Microsoft .NET Core 7.0 **Desktop** Runtime (https://aka.ms/dotnet/7.0/windowsdesktop-runtime-win-x64.exe)
-  * Microsoft .NET Core 7.0 ASP.NET Core Runtime (https://aka.ms/dotnet/7.0/aspnetcore-runtime-win-x64.exe)
-* A Vulkan 1.3 compatible graphics card with up to date graphics drivers: NVIDIA Maxwell (900 series) and newer or AMD Polaris (Radeon 400 series) and newer
-* Intel GPUs currently don't seem to be working properly. At the moment you will need a dedicated NVIDIA or AMD GPU
-* A 4GB (8GB recommended) of VRAM if modding DS3/BB/Sekiro/ER maps due to huge map sizes
+* A .NET installation is no longer required for DSMapStudio.
+* For the Map editor, A Vulkan 1.3 compatible graphics card with up to date graphics drivers: NVIDIA Maxwell (900 series) and newer or AMD Polaris (Radeon 400 series) and newer. Windows 7 drivers do not support these features, and you will have to use the low requirements exe.
+* For the Map editor, Intel GPUs currently don't seem to be working properly. At the moment you will need a dedicated NVIDIA or AMD GPU. For the Param and Text editors, you can use the low requirements exe.
+* A 4GB (8GB recommended) of VRAM if modding DS3/BB/Sekiro/ER/AC6 maps due to huge map sizes
 
 ## Basic usage instructions
 ### Game instructions
@@ -31,6 +29,7 @@ DS Map Studio is a standalone integrated modding tool for modern FromSoft games,
 * **Bloodborne**: Any valid full game dump should work out of the box. Note that some dumps will have the base game (1.0) and the patch as separate, so the patch should be merged on top of the base game before use with map studio. You're on your own for installing mods to console at the moment.
 * **Sekiro**: Use UXM to extract game files.
 * **Elden Ring**: Use UXM Selective Unpack (https://github.com/Nordgaren/UXM-Selective-Unpack) to extract the game files. It's recommended to unpack everything, but at least the `map`, `asset`, `chr`, and `msg` directories are needed for basic editor usage.
+* **Armored Core 6**: Use UXM Selective Unpack (https://github.com/Nordgaren/UXM-Selective-Unpack) to extract the game files. It's recommended to unpack everything, but at least the `msg` directory is needed for basic editor usage, until map support is added.
 
 ### Mod projects
 Map studio operates on top of something I call mod projects. These are typically stored in a separate directory from the base game, and all modifies files will be saved there instead of overwriting the base game files. The intended workflow is to install mod engine for your respective game and set the modoverridedirectory in modengine.ini to your mod project directory. This way you don't have to modify base game files (and work on multiple mod projects at a time) and you can easily distribute a mod by zipping up the project directory and uploading it.
@@ -39,6 +38,7 @@ Map studio operates on top of something I call mod projects. These are typically
 * **Dark Souls Remastered**: Cannot render map collision in the viewport at this time.
 * **Sekiro**: Cannot render map collision and navmesh in the viewport at this time.
 * **Elden Ring**: Cannot render map collision and navmesh in the viewport at this time.
+* **Armored Core 6**: Cannot open maps at this time.
 
 ## FAQ
 
