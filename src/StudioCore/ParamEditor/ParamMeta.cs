@@ -397,15 +397,15 @@ public class ParamMetaData
         }
 
         XmlDocument mxml = new();
-        //try
-        //{
+        try
+        {
         mxml.Load(path);
         return new ParamMetaData(mxml, path, def);
-        //}
-        //catch
-        //{
-        //    return new ParamMetaData(def, path);
-        //}
+        }
+        catch
+        {
+            return new ParamMetaData(def, path);
+        }
     }
 
     internal static string FixName(string internalName)
