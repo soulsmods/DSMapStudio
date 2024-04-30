@@ -626,6 +626,11 @@ public class MapStudioNew
 
     public void SaveAll()
     {
+        if (_projectSettings != null && _projectSettings.ProjectName != null)
+        {
+            // Danger zone assuming on lastProjectFile
+            _projectSettings.Serialize(CFG.Current.LastProjectFile);
+        }
         foreach (EditorScreen editor in _editors)
         {
             editor.SaveAll();
