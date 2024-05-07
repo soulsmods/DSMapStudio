@@ -56,9 +56,9 @@ public class ProjectAssetLocator
     {
         if (ParentAssetLocator == null)
         {
-            return $@"Assets/{relpath}";
+            return $@"Assets\{relpath}";
         }
-        string path = $@"{ProjectMiscDir}/{relpath}";
+        string path = $@"{ProjectMiscDir}\{relpath}";
         if (File.Exists(path))
         {
             return path;
@@ -102,7 +102,7 @@ public class ProjectAssetLocator
 
         return false;
     }
-    public IEnumerable<string> GetAllFiles(string relpath, string[] extensionPatterns, bool distinct = true, bool subDirectories = false)
+    public IEnumerable<string> GetAllAssets(string relpath, string[] extensionPatterns, bool distinct = true, bool subDirectories = false)
     {
         List<string> files = new();
         string rpath = $@"{RootDirectory}\{relpath}";
@@ -115,7 +115,42 @@ public class ProjectAssetLocator
         }
         if (ParentAssetLocator != null)
         {
-            files.AddRange(ParentAssetLocator.GetAllFiles(relpath, extensionPatterns, subDirectories));
+            files.AddRange(ParentAssetLocator.GetAllAssets(relpath, extensionPatterns, distinct, subDirectories));
+        }
+        if (distinct)
+        {
+            // WARNING DistinctBy doesn't guarantee preference by order, though implementations do
+            return files.DistinctBy(GetFileNameWithoutExtensions);
+        }
+        else
+        {
+            return files;
+        }
+    }
+    public IEnumerable<string> GetAllProjectFiles(string relpath, string[] extensionPatterns, bool distinct = true, bool subDirectories = false)
+    {
+        List<string> files = new();
+        string rpath;
+        if (ParentAssetLocator == null)
+        {
+            rpath = $@"Assets\{relpath}";
+            foreach (string pattern in extensionPatterns)
+            {
+                files.AddRange(Directory.GetFiles(rpath, pattern, subDirectories ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly));
+            }
+            return files;
+        }
+        rpath = $@"{RootDirectory}\{ProjectMiscDir}\{relpath}";
+        if (Directory.Exists(rpath))
+        {
+            foreach (string pattern in extensionPatterns)
+            {
+                files.AddRange(Directory.GetFiles(rpath, pattern, subDirectories ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly));
+            }
+        }
+        if (ParentAssetLocator != null)
+        {
+            files.AddRange(ParentAssetLocator.GetAllProjectFiles(relpath, extensionPatterns, distinct, subDirectories));
         }
         if (distinct)
         {
@@ -170,14 +205,14 @@ public class ProjectAssetLocator
             // DS2 has its own structure for msbs, where they are all inside individual folders
             if (Type == GameType.DarkSoulsIISOTFS)
             {
-                foreach (var map in GetAllFiles(@"map", [@"m*"]))
+                foreach (var map in GetAllAssets(@"map", [@"*.msb"], true, true))
                 {
-                    mapSet.Add(Path.GetFileName(map));
+                    mapSet.Add(Path.GetFileNameWithoutExtension(map));
                 }
             }
             else
             {
-                foreach (var msb in GetAllFiles(@"map\MapStudio\", [@"*.msb", @"*.msb.dcx"]))
+                foreach (var msb in GetAllAssets(@"map\MapStudio\", [@"*.msb", @"*.msb.dcx"]))
                 {
                     mapSet.Add(GetFileNameWithoutExtensions(msb));
                 }
@@ -319,7 +354,7 @@ public class ProjectAssetLocator
 
             List<string> files = new();
 
-            files = GetAllFiles(path, ["*.btl", "*.btl.dcx"]).ToList();
+            files = GetAllAssets(path, ["*.btl", "*.btl.dcx"]).ToList();
 
             foreach (var file in files)
             {
@@ -504,10 +539,6 @@ public class ProjectAssetLocator
     {
         return $@"Paramdex\{AssetUtils.GetGameIDForDir(Type)}";
     }
-    public string GetParammetaDir()
-    {
-        return GetProjectFilePath($@"{GetParamdexDir()}\Meta");
-    }
 
     public string GetStrippedRowNamesPath(string paramName)
     {
@@ -534,24 +565,10 @@ public class ProjectAssetLocator
         return GetProjectFilePath($@"GameOffsets\{AssetUtils.GetGameIDForDir(Type)}");
     }
 
-    public string GetParamdefDir()
-    {
-        return GetProjectFilePath($@"{GetParamdexDir()}\Defs");
-    }
-
-    public string GetTentativeParamTypePath()
-    {
-        return GetProjectFilePath($@"{GetParamdexDir()}\Defs\TentativeParamType.csv");
-    }
-
-    public string GetParamNamesDir()
-    {
-        return GetProjectFilePath($@"{GetParamdexDir()}\Names");
-    }
-
     public PARAMDEF GetParamdefForParam(string paramType)
     {
-        PARAMDEF pd = PARAMDEF.XmlDeserialize($@"{GetParamdefDir()}\{paramType}.xml");
+        //This is ds2 only and really ds2 should be using parambank params not its own copies
+        PARAMDEF pd = PARAMDEF.XmlDeserialize($@"{GetParamdexDir()}\{AssetUtils.GetGameIDForDir(Type)}\Defs\{paramType}.xml");
         return pd;
     }
 
@@ -661,7 +678,7 @@ public class ProjectAssetLocator
         List<AssetDescription> ret = new();
         if (Type == GameType.DarkSoulsIII || Type == GameType.Sekiro)
         {
-            foreach (var f in GetAllFiles($@"\map\{mapid}\", [@"*.mapbnd.dcx"]))
+            foreach (var f in GetAllAssets($@"\map\{mapid}\", [@"*.mapbnd.dcx"]))
             {
                 AssetDescription ad = new();
                 ad.AssetPath = f;
@@ -683,7 +700,7 @@ public class ProjectAssetLocator
         else if (Type == GameType.EldenRing)
         {
             var mapPath = RootDirectory + $@"\map\{mapid[..3]}\{mapid}";
-            foreach (var f in GetAllFiles(mapPath, [@"*.mapbnd.dcx"]))
+            foreach (var f in GetAllAssets(mapPath, [@"*.mapbnd.dcx"]))
             {
                 AssetDescription ad = new();
                 ad.AssetPath = f;
@@ -697,7 +714,7 @@ public class ProjectAssetLocator
         else if (Type == GameType.ArmoredCoreVI)
         {
             var mapPath = RootDirectory + $@"\map\{mapid[..3]}\{mapid}";
-            foreach (var f in GetAllFiles(mapPath, [@"*.mapbnd.dcx"]))
+            foreach (var f in GetAllAssets(mapPath, [@"*.mapbnd.dcx"]))
             {
                 AssetDescription ad = new();
                 ad.AssetPath = f;
@@ -1191,7 +1208,7 @@ public class ProjectAssetLocator
                 return ret;
             }
 
-            foreach (var f in GetAllFiles(modelDir, [$@"*{modelExt}"]))
+            foreach (var f in GetAllAssets(modelDir, [$@"*{modelExt}"]))
             {
                 var name = GetFileNameWithoutExtensions(f);
                 ret.Add(name);
@@ -1267,7 +1284,7 @@ public class ProjectAssetLocator
 
             foreach (var searchDir in searchDirs)
             {
-                foreach (var f in GetAllFiles(searchDir, [$@"*{modelExt}"]))
+                foreach (var f in GetAllAssets(searchDir, [$@"*{modelExt}"]))
                 {
                     var name = GetFileNameWithoutExtensions(f);
                     ret.Add(name);
@@ -1374,7 +1391,7 @@ public class ProjectAssetLocator
             {
                 modelDir = @"\model\parts";
                 modelExt = ".bnd";
-                var partsGatheredFiles = GetAllFiles(modelDir, ["*"], true, true);
+                var partsGatheredFiles = GetAllAssets(modelDir, ["*"], true, true);
                     Directory.GetFiles(RootDirectory + modelDir, "*", SearchOption.AllDirectories);
                 foreach (var f in partsGatheredFiles)
                 {
@@ -1388,7 +1405,7 @@ public class ProjectAssetLocator
                 return ret;
             }
 
-            List<string> partsFiles = GetAllFiles(modelDir, [$@"*{modelExt}"]).ToList();
+            List<string> partsFiles = GetAllAssets(modelDir, [$@"*{modelExt}"]).ToList();
             foreach (var f in partsFiles)
             {
                 var name = GetFileNameWithoutExtensions(f);

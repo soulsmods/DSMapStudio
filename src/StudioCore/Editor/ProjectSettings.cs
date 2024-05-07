@@ -39,8 +39,6 @@ public class ProjectSettings
     /// </summary>
     public bool UseLooseParams { get; set; } = false;
 
-    public bool PartialParams { get; set; } = false;
-
     // FMG editor
     public string LastFmgLanguageUsed { get; set; } = "";
 

@@ -112,7 +112,7 @@ public class ParamBank
 
     private Dictionary<string, HashSet<int>> _vanillaDiffCache; //If param != vanillaparam
 
-    private Param EnemyParam;
+    private Param EnemyParam => _params["EnemyParam"];
 
     public static bool IsDefsLoaded { get; private set; }
     public static bool IsMetaLoaded { get; private set; }
@@ -193,8 +193,7 @@ public class ParamBank
     {
         _paramdefs = new Dictionary<string, PARAMDEF>();
         _tentativeParamType = new Dictionary<string, string>();
-        var dir = Locator.AssetLocator.GetParamdefDir();
-        var files = Directory.GetFiles(dir, "*.xml");
+        var files = Locator.ActiveProject.AssetLocator.GetAllProjectFiles($@"Paramdex\{AssetUtils.GetGameIDForDir(Locator.ActiveProject.Type)}\Defs", ["*.xml"], true, false);
         List<(string, PARAMDEF)> defPairs = new();
         foreach (var f in files)
         {
@@ -203,7 +202,7 @@ public class ParamBank
             defPairs.Add((f, pdef));
         }
 
-        var tentativeMappingPath = Locator.AssetLocator.GetTentativeParamTypePath();
+        var tentativeMappingPath = Locator.ActiveProject.AssetLocator.GetProjectFilePath($@"{Locator.ActiveProject.AssetLocator.GetParamdexDir()}\Defs\TentativeParamType.csv");
         if (File.Exists(tentativeMappingPath))
         {
             // No proper CSV library is used currently, and all CSV parsing is in the context of param files.
@@ -225,7 +224,8 @@ public class ParamBank
 
     public static void LoadParamMeta(List<(string, PARAMDEF)> defPairs)
     {
-        var mdir = Locator.AssetLocator.GetParammetaDir();
+        //This way of tying stuff together still sucks
+        var mdir = Locator.ActiveProject.AssetLocator.GetProjectFilePath($@"{Locator.ActiveProject.AssetLocator.GetParamdexDir()}\Meta");
         foreach ((var f, PARAMDEF pdef) in defPairs)
         {
             var fName = f.Substring(f.LastIndexOf('\\') + 1);
@@ -235,10 +235,9 @@ public class ParamBank
 
     public CompoundAction LoadParamDefaultNames(string param = null, bool onlyAffectEmptyNames = false, bool onlyAffectVanillaNames = false)
     {
-        var dir = Locator.AssetLocator.GetParamNamesDir();
         var files = param == null
-            ? Directory.GetFiles(dir, "*.txt")
-            : new[] { Path.Combine(dir, $"{param}.txt") };
+            ? Locator.ActiveProject.AssetLocator.GetAllProjectFiles($@"{Locator.ActiveProject.AssetLocator.GetParamdexDir()}\Names", ["*.txt"], true)
+            : new[] { Locator.ActiveProject.AssetLocator.GetProjectFilePath($@"{Locator.ActiveProject.AssetLocator.GetParamdexDir()}\Names\{param}.txt") };
         List<EditorAction> actions = new();
         foreach (var f in files)
         {
@@ -395,101 +394,35 @@ public class ParamBank
             }
         }
     }
-
-    /// <summary>
-    ///     Checks for DeS paramBNDs and returns the name of the parambnd with the highest priority.
-    /// </summary>
-    private string GetDesGameparamName(string rootDirectory)
-    {
-        var name = "";
-        name = "gameparamna.parambnd.dcx";
-        if (File.Exists($@"{rootDirectory}\param\gameparam\{name}"))
-        {
-            return name;
-        }
-
-        name = "gameparamna.parambnd";
-        if (File.Exists($@"{rootDirectory}\param\gameparam\{name}"))
-        {
-            return name;
-        }
-
-        name = "gameparam.parambnd.dcx";
-        if (File.Exists($@"{rootDirectory}\param\gameparam\{name}"))
-        {
-            return name;
-        }
-
-        name = "gameparam.parambnd";
-        if (File.Exists($@"{rootDirectory}\param\gameparam\{name}"))
-        {
-            return name;
-        }
-
-        return "";
-    }
-
     private void LoadParamsDES()
     {
-        var dir = Locator.AssetLocator.GameRootDirectory;
-        var mod = Locator.AssetLocator.GameModDirectory;
-
-        var paramBinderName = GetDesGameparamName(mod);
-        if (paramBinderName == "")
-        {
-            paramBinderName = GetDesGameparamName(dir);
-        }
-
-        // Load params
-        var param = $@"{mod}\param\gameparam\{paramBinderName}";
-        if (!File.Exists(param))
-        {
-            param = $@"{dir}\param\gameparam\{paramBinderName}";
-        }
-
-        if (!File.Exists(param))
+        var param = Locator.ActiveProject.AssetLocator.GetAssetPathFromOptions([@$"\param\gameparam\gameparamna.parambnd.dcx", @$"\param\gameparam\gameparamna.parambnd", @$"\param\gameparam\gameparam.parambnd.dcx", @$"\param\gameparam\gameparam.parambnd"]).Item2;
+        if (param == null)
         {
             throw CreateParamMissingException(Locator.AssetLocator.Type);
         }
-
         LoadParamsDESFromFile(param);
 
-        //DrawParam
-        Dictionary<string, string> drawparams = new();
-        if (Directory.Exists($@"{dir}\param\drawparam"))
+        var drawparams = Locator.ActiveProject.AssetLocator.GetAllAssets($@"\param\drawparam", ["*.parambnd.dcx", "*.parambnd"]);
+        foreach (string drawparam in drawparams)
         {
-            foreach (var p in Directory.GetFiles($@"{dir}\param\drawparam", "*.parambnd.dcx"))
-            {
-                drawparams[Path.GetFileNameWithoutExtension(p)] = p;
-            }
-        }
-
-        if (Directory.Exists($@"{mod}\param\drawparam"))
-        {
-            foreach (var p in Directory.GetFiles($@"{mod}\param\drawparam", "*.parambnd.dcx"))
-            {
-                drawparams[Path.GetFileNameWithoutExtension(p)] = p;
-            }
-        }
-
-        foreach (KeyValuePair<string, string> drawparam in drawparams)
-        {
-            LoadParamsDESFromFile(drawparam.Value);
+            LoadParamsDESFromFile(drawparam);
         }
     }
 
     private void LoadVParamsDES()
     {
-        var paramBinderName = GetDesGameparamName(Locator.AssetLocator.GameRootDirectory);
-
-        LoadParamsDESFromFile($@"{Locator.AssetLocator.GameRootDirectory}\param\gameparam\{paramBinderName}");
-        if (Directory.Exists($@"{Locator.AssetLocator.GameRootDirectory}\param\drawparam"))
+        var param = Locator.ActiveProject.ParentProject.AssetLocator.GetAssetPathFromOptions([@$"\param\gameparam\gameparamna.parambnd.dcx", @$"\param\gameparam\gameparamna.parambnd", @$"\param\gameparam\gameparam.parambnd.dcx", @$"\param\gameparam\gameparam.parambnd"]).Item2;
+        if (param == null)
         {
-            foreach (var p in Directory.GetFiles($@"{Locator.AssetLocator.GameRootDirectory}\param\drawparam",
-                         "*.parambnd.dcx"))
-            {
-                LoadParamsDS1FromFile(p);
-            }
+            throw CreateParamMissingException(Locator.AssetLocator.Type);
+        }
+        LoadParamsDESFromFile(param);
+
+        var drawparams = Locator.ActiveProject.ParentProject.AssetLocator.GetAllAssets($@"\param\drawparam", ["*.parambnd.dcx", "*.parambnd"]);
+        foreach (string drawparam in drawparams)
+        {
+            LoadParamsDESFromFile(drawparam);
         }
     }
 
@@ -501,56 +434,33 @@ public class ParamBank
 
     private void LoadParamsDS1()
     {
-        var dir = Locator.AssetLocator.GameRootDirectory;
-        var mod = Locator.AssetLocator.GameModDirectory;
-        if (!File.Exists($@"{dir}\\param\GameParam\GameParam.parambnd"))
+        var param = Locator.ActiveProject.AssetLocator.GetAssetPath($@"param\GameParam\GameParam.parambnd");
+        if (param == null)
         {
             throw CreateParamMissingException(Locator.AssetLocator.Type);
         }
-
-        // Load params
-        var param = $@"{mod}\param\GameParam\GameParam.parambnd";
-        if (!File.Exists(param))
-        {
-            param = $@"{dir}\param\GameParam\GameParam.parambnd";
-        }
-
         LoadParamsDS1FromFile(param);
 
-        //DrawParam
-        Dictionary<string, string> drawparams = new();
-        if (Directory.Exists($@"{dir}\param\DrawParam"))
+        var drawparams = Locator.ActiveProject.AssetLocator.GetAllAssets($@"param\DrawParam", ["*.parambnd"]);
+        foreach (string drawparam in drawparams)
         {
-            foreach (var p in Directory.GetFiles($@"{dir}\param\DrawParam", "*.parambnd"))
-            {
-                drawparams[Path.GetFileNameWithoutExtension(p)] = p;
-            }
-        }
-
-        if (Directory.Exists($@"{mod}\param\DrawParam"))
-        {
-            foreach (var p in Directory.GetFiles($@"{mod}\param\DrawParam", "*.parambnd"))
-            {
-                drawparams[Path.GetFileNameWithoutExtension(p)] = p;
-            }
-        }
-
-        foreach (KeyValuePair<string, string> drawparam in drawparams)
-        {
-            LoadParamsDS1FromFile(drawparam.Value);
+            LoadParamsDS1FromFile(drawparam);
         }
     }
 
     private void LoadVParamsDS1()
     {
-        LoadParamsDS1FromFile($@"{Locator.AssetLocator.GameRootDirectory}\param\GameParam\GameParam.parambnd");
-        if (Directory.Exists($@"{Locator.AssetLocator.GameRootDirectory}\param\DrawParam"))
+        var param = Locator.ActiveProject.ParentProject.AssetLocator.GetAssetPath($@"param\GameParam\GameParam.parambnd");
+        if (param == null)
         {
-            foreach (var p in Directory.GetFiles($@"{Locator.AssetLocator.GameRootDirectory}\param\DrawParam",
-                         "*.parambnd"))
-            {
-                LoadParamsDS1FromFile(p);
-            }
+            throw CreateParamMissingException(Locator.AssetLocator.Type);
+        }
+        LoadParamsDS1FromFile(param);
+
+        var drawparams = Locator.ActiveProject.ParentProject.AssetLocator.GetAllAssets($@"param\DrawParam", ["*.parambnd"]);
+        foreach (string drawparam in drawparams)
+        {
+            LoadParamsDS1FromFile(drawparam);
         }
     }
 
@@ -562,56 +472,33 @@ public class ParamBank
 
     private void LoadParamsDS1R()
     {
-        var dir = Locator.AssetLocator.GameRootDirectory;
-        var mod = Locator.AssetLocator.GameModDirectory;
-        if (!File.Exists($@"{dir}\\param\GameParam\GameParam.parambnd.dcx"))
+        var param = Locator.ActiveProject.AssetLocator.GetAssetPath($@"param\GameParam\GameParam.parambnd.dcx");
+        if (param == null)
         {
             throw CreateParamMissingException(Locator.AssetLocator.Type);
         }
-
-        // Load params
-        var param = $@"{mod}\param\GameParam\GameParam.parambnd.dcx";
-        if (!File.Exists(param))
-        {
-            param = $@"{dir}\param\GameParam\GameParam.parambnd.dcx";
-        }
-
         LoadParamsDS1RFromFile(param);
 
-        //DrawParam
-        Dictionary<string, string> drawparams = new();
-        if (Directory.Exists($@"{dir}\param\DrawParam"))
+        var drawparams = Locator.ActiveProject.AssetLocator.GetAllAssets($@"param\DrawParam", ["*.parambnd.dcx"]);
+        foreach (string drawparam in drawparams)
         {
-            foreach (var p in Directory.GetFiles($@"{dir}\param\DrawParam", "*.parambnd.dcx"))
-            {
-                drawparams[Path.GetFileNameWithoutExtension(p)] = p;
-            }
-        }
-
-        if (Directory.Exists($@"{mod}\param\DrawParam"))
-        {
-            foreach (var p in Directory.GetFiles($@"{mod}\param\DrawParam", "*.parambnd.dcx"))
-            {
-                drawparams[Path.GetFileNameWithoutExtension(p)] = p;
-            }
-        }
-
-        foreach (KeyValuePair<string, string> drawparam in drawparams)
-        {
-            LoadParamsDS1RFromFile(drawparam.Value);
+            LoadParamsDS1RFromFile(drawparam);
         }
     }
 
     private void LoadVParamsDS1R()
     {
-        LoadParamsDS1RFromFile($@"{Locator.AssetLocator.GameRootDirectory}\param\GameParam\GameParam.parambnd.dcx");
-        if (Directory.Exists($@"{Locator.AssetLocator.GameRootDirectory}\param\DrawParam"))
+        var param = Locator.ActiveProject.ParentProject.AssetLocator.GetAssetPath($@"param\GameParam\GameParam.parambnd.dcx");
+        if (param == null)
         {
-            foreach (var p in Directory.GetFiles($@"{Locator.AssetLocator.GameRootDirectory}\param\DrawParam",
-                         "*.parambnd.dcx"))
-            {
-                LoadParamsDS1FromFile(p);
-            }
+            throw CreateParamMissingException(Locator.AssetLocator.Type);
+        }
+        LoadParamsDS1RFromFile(param);
+
+        var drawparams = Locator.ActiveProject.ParentProject.AssetLocator.GetAllAssets($@"param\DrawParam", ["*.parambnd.dcx"]);
+        foreach (string drawparam in drawparams)
+        {
+            LoadParamsDS1RFromFile(drawparam);
         }
     }
 
@@ -623,26 +510,22 @@ public class ParamBank
 
     private void LoadParamsBBSekiro()
     {
-        var dir = Locator.AssetLocator.GameRootDirectory;
-        var mod = Locator.AssetLocator.GameModDirectory;
-        if (!File.Exists($@"{dir}\\param\gameparam\gameparam.parambnd.dcx"))
+        var param = Locator.ActiveProject.AssetLocator.GetAssetPath($@"param\gameparam\gameparam.parambnd.dcx");
+        if (param == null)
         {
             throw CreateParamMissingException(Locator.AssetLocator.Type);
         }
-
-        // Load params
-        var param = $@"{mod}\param\gameparam\gameparam.parambnd.dcx";
-        if (!File.Exists(param))
-        {
-            param = $@"{dir}\param\gameparam\gameparam.parambnd.dcx";
-        }
-
         LoadParamsBBSekiroFromFile(param);
     }
 
     private void LoadVParamsBBSekiro()
     {
-        LoadParamsBBSekiroFromFile($@"{Locator.AssetLocator.GameRootDirectory}\param\gameparam\gameparam.parambnd.dcx");
+        var param = Locator.ActiveProject.ParentProject.AssetLocator.GetAssetPath($@"param\gameparam\gameparam.parambnd.dcx");
+        if (param == null)
+        {
+            throw CreateParamMissingException(Locator.AssetLocator.Type);
+        }
+        LoadParamsBBSekiroFromFile(param);
     }
 
     private void LoadParamsBBSekiroFromFile(string path)
@@ -664,75 +547,28 @@ public class ParamBank
 
     private void LoadParamsDS2(bool loose)
     {
-        var dir = Locator.AssetLocator.GameRootDirectory;
-        var mod = Locator.AssetLocator.GameModDirectory;
-        if (!File.Exists($@"{dir}\enc_regulation.bnd.dcx"))
+        var param = Locator.ActiveProject.AssetLocator.GetAssetPath($@"enc_regulation.bnd.dcx");
+        if (param == null)
         {
             throw CreateParamMissingException(Locator.AssetLocator.Type);
         }
-
-        if (!BND4.Is($@"{dir}\enc_regulation.bnd.dcx"))
-        {
-            PlatformUtils.Instance.MessageBox(
-                "Attempting to decrypt DS2 regulation file, else functionality will be limited.", "",
-                MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //return;
-        }
-
-        // Load loose params (prioritizing ones in mod folder)
-        List<string> looseParams = GetLooseParamsInDir(mod);
-        if (Directory.Exists($@"{dir}\Param"))
-        {
-            // Include any params in game folder that are not in mod folder
-            foreach (var path in Directory.GetFileSystemEntries($@"{dir}\Param", @"*.param"))
-            {
-                if (looseParams.Find(e => Path.GetFileName(e) == Path.GetFileName(path)) == null)
-                {
-                    // Project folder does not contain this loose param
-                    looseParams.Add(path);
-                }
-            }
-        }
-
-        // Load reg params
-        var param = $@"{mod}\enc_regulation.bnd.dcx";
-        if (!File.Exists(param))
-        {
-            param = $@"{dir}\enc_regulation.bnd.dcx";
-        }
-
-        var enemyFile = $@"{mod}\Param\EnemyParam.param";
-        if (!File.Exists(enemyFile))
-        {
-            enemyFile = $@"{dir}\Param\EnemyParam.param";
-        }
-
-        LoadParamsDS2FromFile(looseParams, param, enemyFile, loose);
+        var looseParams = Locator.ActiveProject.AssetLocator.GetAllAssets($@"Param", [$@"*.param"]);
+        LoadParamsDS2FromFile(looseParams, param, loose);
         LoadExternalRowNames();
     }
 
     private void LoadVParamsDS2(bool loose)
     {
-        if (!File.Exists($@"{Locator.AssetLocator.GameRootDirectory}\enc_regulation.bnd.dcx"))
+        var param = Locator.ActiveProject.ParentProject.AssetLocator.GetAssetPath($@"enc_regulation.bnd.dcx");
+        if (param == null)
         {
             throw CreateParamMissingException(Locator.AssetLocator.Type);
         }
-
-        if (!BND4.Is($@"{Locator.AssetLocator.GameRootDirectory}\enc_regulation.bnd.dcx"))
-        {
-            PlatformUtils.Instance.MessageBox(
-                "Attempting to decrypt DS2 regulation file, else functionality will be limited.", "",
-                MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-
-        // Load loose params
-        List<string> looseParams = GetLooseParamsInDir(Locator.AssetLocator.GameRootDirectory);
-
-        LoadParamsDS2FromFile(looseParams, $@"{Locator.AssetLocator.GameRootDirectory}\enc_regulation.bnd.dcx",
-            $@"{Locator.AssetLocator.GameRootDirectory}\Param\EnemyParam.param", loose);
+        var looseParams = Locator.ActiveProject.ParentProject.AssetLocator.GetAllAssets($@"Param", [$@"*.param"]);
+        LoadParamsDS2FromFile(looseParams, param, loose);
     }
 
-    private void LoadParamsDS2FromFile(List<string> looseParams, string path, string enemypath, bool loose)
+    private void LoadParamsDS2FromFile(IEnumerable<string> looseParams, string path, bool loose)
     {
         BND4 paramBnd;
         if (!BND4.Is(path))
@@ -743,32 +579,6 @@ public class ParamBank
         else
         {
             paramBnd = BND4.Read(path);
-        }
-
-        BinderFile bndfile = paramBnd.Files.Find(x => Path.GetFileName(x.Name) == "EnemyParam.param");
-        if (bndfile != null)
-        {
-            EnemyParam = Param.Read(bndfile.Bytes);
-        }
-
-        // Otherwise the param is a loose param
-        if (File.Exists(enemypath))
-        {
-            EnemyParam = Param.Read(enemypath);
-        }
-
-        if (EnemyParam is { ParamType: not null })
-        {
-            try
-            {
-                PARAMDEF def = _paramdefs[EnemyParam.ParamType];
-                EnemyParam.ApplyParamdef(def);
-            }
-            catch (Exception e)
-            {
-                TaskLogs.AddLog($"Could not apply ParamDef for {EnemyParam.ParamType}",
-                    LogLevel.Warning, TaskLogs.LogPriority.Normal, e);
-            }
         }
 
         LoadParamFromBinder(paramBnd, ref _params, out _paramVersion);
@@ -822,34 +632,48 @@ public class ParamBank
 
     private void LoadParamsDS3(bool loose)
     {
-        var dir = Locator.AssetLocator.GameRootDirectory;
-        var mod = Locator.AssetLocator.GameModDirectory;
-        if (!File.Exists($@"{dir}\Data0.bdt"))
+        string param;
+        bool looseFile;
+        if (loose)
         {
-            throw CreateParamMissingException(Locator.AssetLocator.Type);
-        }
-
-        var vparam = $@"{dir}\Data0.bdt";
-        // Load loose params if they exist
-        if (loose && File.Exists($@"{mod}\\param\gameparam\gameparam_dlc2.parambnd.dcx"))
-        {
-            LoadParamsDS3FromFile($@"{mod}\param\gameparam\gameparam_dlc2.parambnd.dcx", true);
+            var p = Locator.ActiveProject.AssetLocator.GetAssetPathFromOptions([$@"param\gameparam\gameparam_dlc2.parambnd.dcx", $@"Data0.bdt"]);
+            looseFile = p.Item1 == 0;
+            param = p.Item2;
         }
         else
         {
-            var param = $@"{mod}\Data0.bdt";
-            if (!File.Exists(param))
-            {
-                param = vparam;
-            }
-
-            LoadParamsDS3FromFile(param, false);
+            var p = Locator.ActiveProject.AssetLocator.GetAssetPathFromOptions([$@"Data0.bdt", $@"param\gameparam\gameparam_dlc2.parambnd.dcx"]);
+            looseFile = p.Item1 != 1;
+            param = p.Item2;
         }
+        if (param == null)
+        {
+            throw CreateParamMissingException(Locator.AssetLocator.Type);
+        }
+        LoadParamsDS3FromFile(param, looseFile);
     }
 
-    private void LoadVParamsDS3()
+    private void LoadVParamsDS3(bool loose = false)
     {
-        LoadParamsDS3FromFile($@"{Locator.AssetLocator.GameRootDirectory}\Data0.bdt", false);
+        string param;
+        bool looseFile;
+        if (loose)
+        {
+            var p = Locator.ActiveProject.ParentProject.AssetLocator.GetAssetPathFromOptions([$@"param\gameparam\gameparam_dlc2.parambnd.dcx", $@"Data0.bdt"]);
+            looseFile = p.Item1 == 0;
+            param = p.Item2;
+        }
+        else
+        {
+            var p = Locator.ActiveProject.ParentProject.AssetLocator.GetAssetPathFromOptions([$@"Data0.bdt", $@"param\gameparam\gameparam_dlc2.parambnd.dcx"]);
+            looseFile = p.Item1 != 1;
+            param = p.Item2;
+        }
+        if (param == null)
+        {
+            throw CreateParamMissingException(Locator.AssetLocator.Type);
+        }
+        LoadParamsDS3FromFile(param, looseFile);
     }
 
     private void LoadParamsDS3FromFile(string path, bool isLoose)
@@ -858,55 +682,16 @@ public class ParamBank
         LoadParamFromBinder(lparamBnd, ref _params, out _paramVersion);
     }
 
-    private void LoadParamsER(bool partial)
+    private void LoadParamsER()
     {
-        var dir = Locator.AssetLocator.GameRootDirectory;
-        var mod = Locator.AssetLocator.GameModDirectory;
-        if (!File.Exists($@"{dir}\\regulation.bin"))
+        var param = Locator.ActiveProject.AssetLocator.GetAssetPath($@"regulation.bin");
+        if (param == null)
         {
             throw CreateParamMissingException(Locator.AssetLocator.Type);
         }
-
-        // Load params
-        var param = $@"{mod}\regulation.bin";
-        if (!File.Exists(param) || partial)
-        {
-            param = $@"{dir}\regulation.bin";
-        }
-
         LoadParamsERFromFile(param);
 
-        param = $@"{mod}\regulation.bin";
-        if (partial && File.Exists(param))
-        {
-            using BND4 pParamBnd = SFUtil.DecryptERRegulation(param);
-            Dictionary<string, Param> cParamBank = new();
-            ulong v;
-            LoadParamFromBinder(pParamBnd, ref cParamBank, out v, true);
-            foreach (KeyValuePair<string, Param> pair in cParamBank)
-            {
-                Param baseParam = _params[pair.Key];
-                foreach (Param.Row row in pair.Value.Rows)
-                {
-                    Param.Row bRow = baseParam[row.ID];
-                    if (bRow == null)
-                    {
-                        baseParam.AddRow(row);
-                    }
-                    else
-                    {
-                        bRow.Name = row.Name;
-                        foreach (Param.Column field in bRow.Columns)
-                        {
-                            Param.Cell cell = bRow[field];
-                            cell.Value = row[field].Value;
-                        }
-                    }
-                }
-            }
-        }
-
-        string sysParam = Locator.AssetLocator.GetAssetPath(@"param\systemparam\systemparam.parambnd.dcx");
+        string sysParam = Locator.ActiveProject.AssetLocator.GetAssetPath(@"param\systemparam\systemparam.parambnd.dcx");
         if (File.Exists(sysParam))
         {
             LoadParamsERFromFile(sysParam, false);
@@ -916,7 +701,7 @@ public class ParamBank
             TaskLogs.AddLog("Systemparam could not be found. These require an unpacked game to modify.", LogLevel.Information, TaskLogs.LogPriority.Normal);
         }
 
-        var eventParam = Locator.AssetLocator.GetAssetPath(@"param\eventparam\eventparam.parambnd.dcx");
+        var eventParam = Locator.ActiveProject.AssetLocator.GetAssetPath(@"param\eventparam\eventparam.parambnd.dcx");
         if (File.Exists(eventParam))
         {
             LoadParamsERFromFile(eventParam, false);
@@ -929,18 +714,31 @@ public class ParamBank
 
     private void LoadVParamsER()
     {
-        LoadParamsERFromFile($@"{Locator.AssetLocator.GameRootDirectory}\regulation.bin");
+        var param = Locator.ActiveProject.ParentProject.AssetLocator.GetAssetPath($@"regulation.bin");
+        if (param == null)
+        {
+            throw CreateParamMissingException(Locator.AssetLocator.Type);
+        }
+        LoadParamsERFromFile(param);
 
-        var sysParam = $@"{Locator.AssetLocator.GameRootDirectory}\param\systemparam\systemparam.parambnd.dcx";
-        if (File.Exists(sysParam))
+        string sysParam = Locator.ActiveProject.ParentProject.AssetLocator.GetAssetPath(@"param\systemparam\systemparam.parambnd.dcx");
+        if (sysParam != null)
         {
             LoadParamsERFromFile(sysParam, false);
         }
+        else
+        {
+            TaskLogs.AddLog("Systemparam could not be found. These require an unpacked game to modify.", LogLevel.Information, TaskLogs.LogPriority.Normal);
+        }
 
-        var eventParam = $@"{Locator.AssetLocator.GameRootDirectory}\param\eventparam\eventparam.parambnd.dcx";
-        if (File.Exists(eventParam))
+        var eventParam = Locator.ActiveProject.ParentProject.AssetLocator.GetAssetPath(@"param\eventparam\eventparam.parambnd.dcx");
+        if (eventParam != null)
         {
             LoadParamsERFromFile(eventParam, false);
+        }
+        else
+        {
+            TaskLogs.AddLog("Eventparam could not be found. These require an unpacked game to modify.", LogLevel.Information, TaskLogs.LogPriority.Normal);
         }
     }
 
@@ -960,24 +758,15 @@ public class ParamBank
 
     private void LoadParamsAC6()
     {
-        var dir = Locator.AssetLocator.GameRootDirectory;
-        var mod = Locator.AssetLocator.GameModDirectory;
-        if (!File.Exists($@"{dir}\\regulation.bin"))
+        var param = Locator.ActiveProject.AssetLocator.GetAssetPath($@"regulation.bin");
+        if (param == null)
         {
             throw CreateParamMissingException(Locator.AssetLocator.Type);
         }
-
-        // Load params
-        var param = $@"{mod}\regulation.bin";
-        if (!File.Exists(param))
-        {
-            param = $@"{dir}\regulation.bin";
-        }
-
         LoadParamsAC6FromFile(param, true);
 
-        string sysParam = Locator.AssetLocator.GetAssetPath(@"param\systemparam\systemparam.parambnd.dcx");
-        if (File.Exists(sysParam))
+        string sysParam = Locator.ActiveProject.AssetLocator.GetAssetPath(@"param\systemparam\systemparam.parambnd.dcx");
+        if (sysParam != null)
         {
             LoadParamsAC6FromFile(sysParam, false);
         }
@@ -986,8 +775,8 @@ public class ParamBank
             TaskLogs.AddLog("Systemparam could not be found. These require an unpacked game to modify.", LogLevel.Information, TaskLogs.LogPriority.Normal);
         }
 
-        string graphicsConfigParam = Locator.AssetLocator.GetAssetPath(@"param\graphicsconfig\graphicsconfig.parambnd.dcx");
-        if (File.Exists(graphicsConfigParam))
+        string graphicsConfigParam = Locator.ActiveProject.AssetLocator.GetAssetPath(@"param\graphicsconfig\graphicsconfig.parambnd.dcx");
+        if (graphicsConfigParam != null)
         {
             LoadParamsAC6FromFile(graphicsConfigParam, false);
         }
@@ -996,8 +785,8 @@ public class ParamBank
             TaskLogs.AddLog("Graphicsconfig could not be found. These require an unpacked game to modify.", LogLevel.Information, TaskLogs.LogPriority.Normal);
         }
 
-        string eventParam = Locator.AssetLocator.GetAssetPath(@"param\eventparam\eventparam.parambnd.dcx");
-        if (File.Exists(eventParam))
+        string eventParam = Locator.ActiveProject.AssetLocator.GetAssetPath(@"param\eventparam\eventparam.parambnd.dcx");
+        if (eventParam != null)
         {
             LoadParamsAC6FromFile(eventParam, false);
         }
@@ -1009,24 +798,41 @@ public class ParamBank
 
     private void LoadVParamsAC6()
     {
-        LoadParamsAC6FromFile($@"{Locator.AssetLocator.GameRootDirectory}\regulation.bin");
+        var param = Locator.ActiveProject.ParentProject.AssetLocator.GetAssetPath($@"regulation.bin");
+        if (param == null)
+        {
+            throw CreateParamMissingException(Locator.AssetLocator.Type);
+        }
+        LoadParamsAC6FromFile(param, true);
 
-        var sysParam = $@"{Locator.AssetLocator.GameRootDirectory}\param\systemparam\systemparam.parambnd.dcx";
-        if (File.Exists(sysParam))
+        string sysParam = Locator.ActiveProject.ParentProject.AssetLocator.GetAssetPath(@"param\systemparam\systemparam.parambnd.dcx");
+        if (sysParam != null)
         {
             LoadParamsAC6FromFile(sysParam, false);
         }
+        else
+        {
+            TaskLogs.AddLog("Systemparam could not be found. These require an unpacked game to modify.", LogLevel.Information, TaskLogs.LogPriority.Normal);
+        }
 
-        var graphicsConfigParam = $@"{Locator.AssetLocator.GameRootDirectory}\param\graphicsconfig\graphicsconfig.parambnd.dcx";
-        if (File.Exists(graphicsConfigParam))
+        string graphicsConfigParam = Locator.ActiveProject.ParentProject.AssetLocator.GetAssetPath(@"param\graphicsconfig\graphicsconfig.parambnd.dcx");
+        if (graphicsConfigParam != null)
         {
             LoadParamsAC6FromFile(graphicsConfigParam, false);
         }
+        else
+        {
+            TaskLogs.AddLog("Graphicsconfig could not be found. These require an unpacked game to modify.", LogLevel.Information, TaskLogs.LogPriority.Normal);
+        }
 
-        var eventParam = $@"{Locator.AssetLocator.GameRootDirectory}\param\eventparam\eventparam.parambnd.dcx";
-        if (File.Exists(eventParam))
+        string eventParam = Locator.ActiveProject.ParentProject.AssetLocator.GetAssetPath(@"param\eventparam\eventparam.parambnd.dcx");
+        if (eventParam != null)
         {
             LoadParamsAC6FromFile(eventParam, false);
+        }
+        else
+        {
+            TaskLogs.AddLog("Eventparam could not be found. These require an unpacked game to modify.", LogLevel.Information, TaskLogs.LogPriority.Normal);
         }
     }
 
@@ -1108,7 +914,7 @@ public class ParamBank
 
                 if (locator.Type == GameType.EldenRing)
                 {
-                    PrimaryBank.LoadParamsER(settings.PartialParams);
+                    PrimaryBank.LoadParamsER();
                 }
 
                 if (locator.Type == GameType.ArmoredCoreVI)
@@ -1190,7 +996,7 @@ public class ParamBank
             }));
     }
 
-    public static void LoadAuxBank(string path, string looseDir, string enemyPath, ProjectSettings settings)
+    public static void LoadAuxBank(string path, string looseDir, ProjectSettings settings)
     {
         // Steal assetlocator
         AssetLocator locator = Locator.AssetLocator;
@@ -1220,7 +1026,7 @@ public class ParamBank
         else if (locator.Type == GameType.DarkSoulsIISOTFS)
         {
             List<string> looseParams = GetLooseParamsInDir(looseDir);
-            newBank.LoadParamsDS2FromFile(looseParams, path, enemyPath, settings.UseLooseParams);
+            newBank.LoadParamsDS2FromFile(looseParams, path, settings.UseLooseParams);
         }
         else if (locator.Type == GameType.DarkSoulsRemastered)
         {
@@ -1413,20 +1219,13 @@ public class ParamBank
     {
         var dir = Locator.AssetLocator.GameRootDirectory;
         var mod = Locator.AssetLocator.GameModDirectory;
-        if (!File.Exists($@"{dir}\\param\GameParam\GameParam.parambnd"))
+        var param = Locator.ActiveProject.AssetLocator.GetAssetPath($@"param\GameParam\GameParam.parambnd");
+        if (param == null)
         {
             TaskLogs.AddLog("Cannot locate param files. Save failed.",
                 LogLevel.Error, TaskLogs.LogPriority.High);
             return;
         }
-
-        // Load params
-        var param = $@"{mod}\param\GameParam\GameParam.parambnd";
-        if (!File.Exists(param))
-        {
-            param = $@"{dir}\param\GameParam\GameParam.parambnd";
-        }
-
         using BND3 paramBnd = BND3.Read(param);
 
         // Replace params with edited ones
@@ -1441,22 +1240,18 @@ public class ParamBank
         Utils.WriteWithBackup(dir, mod, @"param\GameParam\GameParam.parambnd", paramBnd);
 
         // Drawparam
-        if (Directory.Exists($@"{Locator.AssetLocator.GameRootDirectory}\param\DrawParam"))
+        foreach (var bnd in Locator.ActiveProject.AssetLocator.GetAllAssets($@"param\DrawParam", [$@"*.parambnd"]))
         {
-            foreach (var bnd in Directory.GetFiles($@"{Locator.AssetLocator.GameRootDirectory}\param\DrawParam",
-                         "*.parambnd"))
+            using BND3 drawParamBnd = BND3.Read(bnd);
+            foreach (BinderFile p in drawParamBnd.Files)
             {
-                using BND3 drawParamBnd = BND3.Read(bnd);
-                foreach (BinderFile p in drawParamBnd.Files)
+                if (_params.ContainsKey(Path.GetFileNameWithoutExtension(p.Name)))
                 {
-                    if (_params.ContainsKey(Path.GetFileNameWithoutExtension(p.Name)))
-                    {
-                        p.Bytes = _params[Path.GetFileNameWithoutExtension(p.Name)].Write();
-                    }
+                    p.Bytes = _params[Path.GetFileNameWithoutExtension(p.Name)].Write();
                 }
-
-                Utils.WriteWithBackup(dir, mod, @$"param\DrawParam\{Path.GetFileName(bnd)}", drawParamBnd);
             }
+
+            Utils.WriteWithBackup(dir, mod, @$"param\DrawParam\{Path.GetFileName(bnd)}", drawParamBnd);
         }
     }
 
@@ -1464,20 +1259,13 @@ public class ParamBank
     {
         var dir = Locator.AssetLocator.GameRootDirectory;
         var mod = Locator.AssetLocator.GameModDirectory;
-        if (!File.Exists($@"{dir}\\param\GameParam\GameParam.parambnd.dcx"))
+        var param = Locator.ActiveProject.AssetLocator.GetAssetPath($@"param\GameParam\GameParam.parambnd.dcx");
+        if (param == null)
         {
             TaskLogs.AddLog("Cannot locate param files. Save failed.",
                 LogLevel.Error, TaskLogs.LogPriority.High);
             return;
         }
-
-        // Load params
-        var param = $@"{mod}\param\GameParam\GameParam.parambnd.dcx";
-        if (!File.Exists(param))
-        {
-            param = $@"{dir}\param\GameParam\GameParam.parambnd.dcx";
-        }
-
         using BND3 paramBnd = BND3.Read(param);
 
         // Replace params with edited ones
@@ -1492,22 +1280,18 @@ public class ParamBank
         Utils.WriteWithBackup(dir, mod, @"param\GameParam\GameParam.parambnd.dcx", paramBnd);
 
         // Drawparam
-        if (Directory.Exists($@"{Locator.AssetLocator.GameRootDirectory}\param\DrawParam"))
+        foreach (var bnd in Locator.ActiveProject.AssetLocator.GetAllAssets($@"param\DrawParam", ["*.parambnd.dcx"]))
         {
-            foreach (var bnd in Directory.GetFiles($@"{Locator.AssetLocator.GameRootDirectory}\param\DrawParam",
-                         "*.parambnd.dcx"))
+            using BND3 drawParamBnd = BND3.Read(bnd);
+            foreach (BinderFile p in drawParamBnd.Files)
             {
-                using BND3 drawParamBnd = BND3.Read(bnd);
-                foreach (BinderFile p in drawParamBnd.Files)
+                if (_params.ContainsKey(Path.GetFileNameWithoutExtension(p.Name)))
                 {
-                    if (_params.ContainsKey(Path.GetFileNameWithoutExtension(p.Name)))
-                    {
-                        p.Bytes = _params[Path.GetFileNameWithoutExtension(p.Name)].Write();
-                    }
+                    p.Bytes = _params[Path.GetFileNameWithoutExtension(p.Name)].Write();
                 }
-
-                Utils.WriteWithBackup(dir, mod, @$"param\DrawParam\{Path.GetFileName(bnd)}", drawParamBnd);
             }
+
+            Utils.WriteWithBackup(dir, mod, @$"param\DrawParam\{Path.GetFileName(bnd)}", drawParamBnd);
         }
     }
 
@@ -1515,7 +1299,8 @@ public class ParamBank
     {
         var dir = Locator.AssetLocator.GameRootDirectory;
         var mod = Locator.AssetLocator.GameModDirectory;
-        if (!File.Exists($@"{dir}\enc_regulation.bnd.dcx"))
+        var param = Locator.ActiveProject.AssetLocator.GetAssetPath($@"enc_regulation.bnd.dcx");
+        if (param == null)
         {
             TaskLogs.AddLog("Cannot locate param files. Save failed.",
                 LogLevel.Error, TaskLogs.LogPriority.High);
@@ -1523,31 +1308,20 @@ public class ParamBank
         }
 
         // Load params
-        var param = $@"{mod}\enc_regulation.bnd.dcx";
         BND4 paramBnd;
-        if (!File.Exists(param))
+        if (!BND4.Is(param))
         {
-            // If there is no mod file, check the base file. Decrypt it if you have to.
-            param = $@"{dir}\enc_regulation.bnd.dcx";
-            if (!BND4.Is($@"{dir}\enc_regulation.bnd.dcx"))
-            {
-                // Decrypt the file
-                paramBnd = SFUtil.DecryptDS2Regulation(param);
+            // Decrypt the file
+            paramBnd = SFUtil.DecryptDS2Regulation(param);
 
-                // Since the file is encrypted, check for a backup. If it has none, then make one and write a decrypted one.
-                if (!File.Exists($@"{param}.bak"))
-                {
-                    File.Copy(param, $@"{param}.bak", true);
-                    paramBnd.Write(param);
-                }
-            }
-            // No need to decrypt
-            else
+            // Since the file is encrypted, check for a backup. If it has none, then make one and write a decrypted one.
+            if (!File.Exists($@"{param}.bak"))
             {
-                paramBnd = BND4.Read(param);
+                File.Copy(param, $@"{param}.bak", true);
+                paramBnd.Write(param);
             }
         }
-        // Mod file exists, use that.
+        // No need to decrypt
         else
         {
             paramBnd = BND4.Read(param);
@@ -1658,20 +1432,26 @@ public class ParamBank
     {
         var dir = Locator.AssetLocator.GameRootDirectory;
         var mod = Locator.AssetLocator.GameModDirectory;
-        if (!File.Exists($@"{dir}\Data0.bdt"))
+        string param;
+        bool looseFile;
+        if (loose)
+        {
+            var p = Locator.ActiveProject.AssetLocator.GetAssetPathFromOptions([$@"param\gameparam\gameparam_dlc2.parambnd.dcx", $@"Data0.bdt"]);
+            looseFile = p.Item1 == 0;
+            param = p.Item2;
+        }
+        else
+        {
+            var p = Locator.ActiveProject.AssetLocator.GetAssetPathFromOptions([$@"Data0.bdt", $@"param\gameparam\gameparam_dlc2.parambnd.dcx"]);
+            looseFile = p.Item1 != 1;
+            param = p.Item2;
+        }
+        if (param == null)
         {
             TaskLogs.AddLog("Cannot locate param files. Save failed.",
                 LogLevel.Error, TaskLogs.LogPriority.High);
             return;
         }
-
-        // Load params
-        var param = $@"{mod}\Data0.bdt";
-        if (!File.Exists(param))
-        {
-            param = $@"{dir}\Data0.bdt";
-        }
-
         BND4 paramBnd = SFUtil.DecryptDS3Regulation(param);
 
         // Replace params with edited ones
@@ -1703,21 +1483,7 @@ public class ParamBank
                 Unicode = true,
                 Files = paramBnd.Files.Where(f => f.Name.EndsWith(".param")).ToList()
             };
-
-            /*BND4 stayBND = new BND4
-            {
-                BigEndian = false,
-                Compression = DCX.Type.DCX_DFLT_10000_44_9,
-                Extended = 0x04,
-                Unk04 = false,
-                Unk05 = false,
-                Format = Binder.Format.Compression | Binder.Format.Flag6 | Binder.Format.LongOffsets | Binder.Format.Names1,
-                Unicode = true,
-                Files = paramBnd.Files.Where(f => f.Name.EndsWith(".stayparam")).ToList()
-            };*/
-
             Utils.WriteWithBackup(dir, mod, @"param\gameparam\gameparam_dlc2.parambnd.dcx", paramBND);
-            //Utils.WriteWithBackup(dir, mod, @"param\stayparam\stayparam.parambnd.dcx", stayBND);
         }
     }
 
@@ -1725,20 +1491,13 @@ public class ParamBank
     {
         var dir = Locator.AssetLocator.GameRootDirectory;
         var mod = Locator.AssetLocator.GameModDirectory;
-        if (!File.Exists($@"{dir}\\param\gameparam\gameparam.parambnd.dcx"))
+        var param = Locator.ActiveProject.AssetLocator.GetAssetPath($@"param\gameparam\gameparam.parambnd.dcx");
+        if (param == null)
         {
             TaskLogs.AddLog("Cannot locate param files. Save failed.",
                 LogLevel.Error, TaskLogs.LogPriority.High);
             return;
         }
-
-        // Load params
-        var param = $@"{mod}\param\gameparam\gameparam.parambnd.dcx";
-        if (!File.Exists(param))
-        {
-            param = $@"{dir}\param\gameparam\gameparam.parambnd.dcx";
-        }
-
         BND4 paramBnd = BND4.Read(param);
 
         // Replace params with edited ones
@@ -1757,21 +1516,9 @@ public class ParamBank
     {
         var dir = Locator.AssetLocator.GameRootDirectory;
         var mod = Locator.AssetLocator.GameModDirectory;
+        var param = Locator.ActiveProject.ParentProject.AssetLocator.GetAssetPathFromOptions([@$"\param\gameparam\gameparamna.parambnd.dcx", @$"\param\gameparam\gameparamna.parambnd", @$"\param\gameparam\gameparam.parambnd.dcx", @$"\param\gameparam\gameparam.parambnd"]).Item2;
 
-        var paramBinderName = GetDesGameparamName(mod);
-        if (paramBinderName == "")
-        {
-            paramBinderName = GetDesGameparamName(dir);
-        }
-
-        // Load params
-        var param = $@"{mod}\param\gameparam\{paramBinderName}";
-        if (!File.Exists(param))
-        {
-            param = $@"{dir}\param\gameparam\{paramBinderName}";
-        }
-
-        if (!File.Exists(param))
+        if (param == null)
         {
             TaskLogs.AddLog("Cannot locate param files. Save failed.",
                 LogLevel.Error, TaskLogs.LogPriority.High);
@@ -1811,39 +1558,23 @@ public class ParamBank
         Utils.WriteWithBackup(dir, mod, @"param\gameparam\gameparam.parambnd", paramBnd);
 
         // Drawparam
-        List<string> drawParambndPaths = new();
-        if (Directory.Exists($@"{Locator.AssetLocator.GameRootDirectory}\param\drawparam"))
+        var drawparambnds = Locator.ActiveProject.AssetLocator.GetAllAssets($@"param\drawparam", ["*.parambnd.dcx", "*.parambnd"]);
+        foreach (var bnd in drawparambnds)
         {
-            foreach (var bnd in Directory.GetFiles($@"{Locator.AssetLocator.GameRootDirectory}\param\drawparam",
-                         "*.parambnd.dcx"))
+            using BND3 drawParamBnd = BND3.Read(bnd);
+            foreach (BinderFile p in drawParamBnd.Files)
             {
-                drawParambndPaths.Add(bnd);
-            }
-
-            // Also save decompressed parambnds because DeS debug uses them.
-            foreach (var bnd in Directory.GetFiles($@"{Locator.AssetLocator.GameRootDirectory}\param\drawparam",
-                         "*.parambnd"))
-            {
-                drawParambndPaths.Add(bnd);
-            }
-
-            foreach (var bnd in drawParambndPaths)
-            {
-                using BND3 drawParamBnd = BND3.Read(bnd);
-                foreach (BinderFile p in drawParamBnd.Files)
+                if (_params.ContainsKey(Path.GetFileNameWithoutExtension(p.Name)))
                 {
-                    if (_params.ContainsKey(Path.GetFileNameWithoutExtension(p.Name)))
-                    {
-                        p.Bytes = _params[Path.GetFileNameWithoutExtension(p.Name)].Write();
-                    }
+                    p.Bytes = _params[Path.GetFileNameWithoutExtension(p.Name)].Write();
                 }
-
-                Utils.WriteWithBackup(dir, mod, @$"param\drawparam\{Path.GetFileName(bnd)}", drawParamBnd);
             }
+
+            Utils.WriteWithBackup(dir, mod, @$"param\drawparam\{Path.GetFileName(bnd)}", drawParamBnd);
         }
     }
 
-    private void SaveParamsER(bool partial)
+    private void SaveParamsER()
     {
         void OverwriteParamsER(BND4 paramBnd)
         {
@@ -1853,59 +1584,34 @@ public class ParamBank
                 if (_params.ContainsKey(Path.GetFileNameWithoutExtension(p.Name)))
                 {
                     Param paramFile = _params[Path.GetFileNameWithoutExtension(p.Name)];
-                    IReadOnlyList<Param.Row> backup = paramFile.Rows;
-                    List<Param.Row> changed = new();
-                    if (partial)
-                    {
-                        TaskManager.WaitAll(); //wait on dirtycache update
-                        HashSet<int> dirtyCache = _vanillaDiffCache[Path.GetFileNameWithoutExtension(p.Name)];
-                        foreach (Param.Row row in paramFile.Rows)
-                        {
-                            if (dirtyCache.Contains(row.ID))
-                            {
-                                changed.Add(row);
-                            }
-                        }
-
-                        paramFile.Rows = changed;
-                    }
-
                     p.Bytes = paramFile.Write();
-                    paramFile.Rows = backup;
                 }
             }
         }
 
         var dir = Locator.AssetLocator.GameRootDirectory;
         var mod = Locator.AssetLocator.GameModDirectory;
-        if (!File.Exists($@"{dir}\\regulation.bin"))
+        var param = Locator.ActiveProject.AssetLocator.GetAssetPath($@"regulation.bin");
+        if (param == null)
         {
             TaskLogs.AddLog("Cannot locate param files. Save failed.",
                 LogLevel.Error, TaskLogs.LogPriority.High);
             return;
         }
-
-        // Load params
-        var param = $@"{mod}\regulation.bin";
-        if (!File.Exists(param) || _pendingUpgrade)
-        {
-            param = $@"{dir}\regulation.bin";
-        }
-
         BND4 regParams = SFUtil.DecryptERRegulation(param);
         OverwriteParamsER(regParams);
         Utils.WriteWithBackup(dir, mod, @"regulation.bin", regParams, GameType.EldenRing);
 
-        string sysParam = Locator.AssetLocator.GetAssetPath(@"param\systemparam\systemparam.parambnd.dcx");
-        if (File.Exists(sysParam))
+        string sysParam = Locator.ActiveProject.AssetLocator.GetAssetPath(@"param\systemparam\systemparam.parambnd.dcx");
+        if (sysParam != null)
         {
             using BND4 sysParams = BND4.Read(sysParam);
             OverwriteParamsER(sysParams);
             Utils.WriteWithBackup(dir, mod, @"param\systemparam\systemparam.parambnd.dcx", sysParams);
         }
 
-        var eventParam = Locator.AssetLocator.GetAssetPath(@"param\eventparam\eventparam.parambnd.dcx");
-        if (File.Exists(eventParam))
+        var eventParam = Locator.ActiveProject.AssetLocator.GetAssetPath(@"param\eventparam\eventparam.parambnd.dcx");
+        if (sysParam != null)
         {
             using var eventParams = BND4.Read(eventParam);
             OverwriteParamsER(eventParams);
@@ -1950,42 +1656,35 @@ public class ParamBank
 
         var dir = Locator.AssetLocator.GameRootDirectory;
         var mod = Locator.AssetLocator.GameModDirectory;
-        if (!File.Exists($@"{dir}\\regulation.bin"))
+        var param = Locator.ActiveProject.AssetLocator.GetAssetPath($@"regulation.bin");
+        if (param == null)
         {
             TaskLogs.AddLog("Cannot locate param files. Save failed.",
                 LogLevel.Error, TaskLogs.LogPriority.High);
             return;
         }
-
-        // Load params
-        var param = $@"{mod}\regulation.bin";
-        if (!File.Exists(param) || _pendingUpgrade)
-        {
-            param = $@"{dir}\regulation.bin";
-        }
-
         BND4 regParams = SFUtil.DecryptAC6Regulation(param);
         OverwriteParamsAC6(regParams);
         Utils.WriteWithBackup(dir, mod, @"regulation.bin", regParams, GameType.ArmoredCoreVI);
 
-        string sysParam = Locator.AssetLocator.GetAssetPath(@"param\systemparam\systemparam.parambnd.dcx");
-        if (File.Exists(sysParam))
+        string sysParam = Locator.ActiveProject.AssetLocator.GetAssetPath(@"param\systemparam\systemparam.parambnd.dcx");
+        if (sysParam != null)
         {
             using BND4 sysParams = BND4.Read(sysParam);
             OverwriteParamsAC6(sysParams);
             Utils.WriteWithBackup(dir, mod, @"param\systemparam\systemparam.parambnd.dcx", sysParams);
         }
 
-        string graphicsConfigParam = Locator.AssetLocator.GetAssetPath(@"param\graphicsconfig\graphicsconfig.parambnd.dcx");
-        if (File.Exists(graphicsConfigParam))
+        string graphicsConfigParam = Locator.ActiveProject.AssetLocator.GetAssetPath(@"param\graphicsconfig\graphicsconfig.parambnd.dcx");
+        if (graphicsConfigParam != null)
         {
             using BND4 graphicsConfigParams = BND4.Read(graphicsConfigParam);
             OverwriteParamsAC6(graphicsConfigParams);
             Utils.WriteWithBackup(dir, mod, @"param\graphicsconfig\graphicsconfig.parambnd.dcx", graphicsConfigParams);
         }
 
-        string eventParam = Locator.AssetLocator.GetAssetPath(@"param\eventparam\eventparam.parambnd.dcx");
-        if (File.Exists(eventParam))
+        string eventParam = Locator.ActiveProject.AssetLocator.GetAssetPath(@"param\eventparam\eventparam.parambnd.dcx");
+        if (eventParam != null)
         {
             using BND4 eventParams = BND4.Read(eventParam);
             OverwriteParamsAC6(eventParams);
@@ -1995,7 +1694,7 @@ public class ParamBank
         _pendingUpgrade = false;
     }
 
-    public void SaveParams(bool loose = false, bool partialParams = false)
+    public void SaveParams(bool loose = false)
     {
         if (_params == null)
         {
@@ -2034,7 +1733,7 @@ public class ParamBank
 
         if (Locator.AssetLocator.Type == GameType.EldenRing)
         {
-            SaveParamsER(partialParams);
+            SaveParamsER();
         }
 
         if (Locator.AssetLocator.Type == GameType.ArmoredCoreVI)

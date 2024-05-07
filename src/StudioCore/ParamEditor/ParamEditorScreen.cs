@@ -692,7 +692,7 @@ public class ParamEditorScreen : EditorScreen
                         if (PlatformUtils.Instance.OpenFileDialog("Select file containing params", allParamTypes,
                                 out var path))
                         {
-                            ParamBank.LoadAuxBank(path, null, null, _projectSettings);
+                            ParamBank.LoadAuxBank(path, null, _projectSettings);
                         }
                     }
                     else
@@ -709,25 +709,15 @@ public class ParamEditorScreen : EditorScreen
                                 out var folder))
                         {
                             PlatformUtils.Instance.MessageBox(
-                                "Second, select the non-loose parambnd or regulation",
+                                "Second, select the non-loose parambnd or encrypted regulation",
                                 "Select regulation",
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Information);
                             if (PlatformUtils.Instance.OpenFileDialog(
-                                    "Select file containing remaining, non-loose params", allParamTypes,
+                                    "Select file containing remaining, non-loose params / encrypted regulation", allParamTypes,
                                     out var path))
                             {
-                                PlatformUtils.Instance.MessageBox(
-                                    "Finally, select the file containing enemyparam",
-                                    "Select enemyparam",
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Information);
-                                if (PlatformUtils.Instance.OpenFileDialog(
-                                        "Select file containing enemyparam",
-                                        new[] { AssetUtils.ParamLooseFilter }, out var enemyPath))
-                                {
-                                    ParamBank.LoadAuxBank(path, folder, enemyPath, _projectSettings);
-                                }
+                                ParamBank.LoadAuxBank(path, folder, _projectSettings);
                             }
                         }
                     }
@@ -1150,7 +1140,7 @@ public class ParamEditorScreen : EditorScreen
         {
             if (_projectSettings != null)
             {
-                ParamBank.PrimaryBank.SaveParams(_projectSettings.UseLooseParams, _projectSettings.PartialParams);
+                ParamBank.PrimaryBank.SaveParams(_projectSettings.UseLooseParams);
                 TaskLogs.AddLog("Saved params");
             }
         }
@@ -1172,7 +1162,7 @@ public class ParamEditorScreen : EditorScreen
         {
             if (_projectSettings != null)
             {
-                ParamBank.PrimaryBank.SaveParams(_projectSettings.UseLooseParams, _projectSettings.PartialParams);
+                ParamBank.PrimaryBank.SaveParams(_projectSettings.UseLooseParams);
                 TaskLogs.AddLog("Saved params");
             }
         }

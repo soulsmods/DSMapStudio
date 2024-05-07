@@ -140,14 +140,6 @@ public class AssetLocator
 
     public string GetGameOffsetsAssetsDir() => Locator.ActiveProject.AssetLocator.GetGameOffsetsAssetsDir();
 
-    public string GetParamdefDir() => Locator.ActiveProject.AssetLocator.GetParamdefDir();
-
-    public string GetTentativeParamTypePath() => Locator.ActiveProject.AssetLocator.GetTentativeParamTypePath();
-
-    public string GetParammetaDir() => Locator.ActiveProject.AssetLocator.GetParammetaDir();
-
-    public string GetParamNamesDir() => Locator.ActiveProject.AssetLocator.GetParamNamesDir();
-
     public string GetStrippedRowNamesPath(string paramName) => Locator.ActiveProject.AssetLocator.GetStrippedRowNamesPath(paramName);
 
     public PARAMDEF GetParamdefForParam(string paramType) => Locator.ActiveProject.AssetLocator.GetParamdefForParam(paramType);

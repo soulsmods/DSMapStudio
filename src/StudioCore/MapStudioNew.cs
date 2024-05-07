@@ -1161,25 +1161,6 @@ public class MapStudioNew
                     _newProjectOptions.settings.UseLooseParams = looseparams;
                 }
             }
-            else if (FeatureFlags.EnablePartialParam && _newProjectOptions.settings.GameType == GameType.EldenRing)
-            {
-                ImGui.NewLine();
-                ImGui.AlignTextToFramePadding();
-                ImGui.Text(@"Save partial regulation:  ");
-                ImGui.SameLine();
-                Utils.ImGuiGenericHelpPopup("TODO (disbababled)", "##Help_PartialParam",
-                    "TODO: why does this setting exist separately from loose params?");
-                ImGui.SameLine();
-                var partialReg = _newProjectOptions.settings.PartialParams;
-                if (ImGui.Checkbox("##partialparams", ref partialReg))
-                {
-                    _newProjectOptions.settings.PartialParams = partialReg;
-                }
-
-                ImGui.SameLine();
-                ImGui.TextUnformatted(
-                    "Warning: partial params require merging before use in game.\nRow names on unchanged rows will be forgotten between saves");
-            }
             else if (_newProjectOptions.settings.GameType is GameType.ArmoredCoreVI)
             {
                 //TODO AC6
