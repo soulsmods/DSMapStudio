@@ -680,46 +680,19 @@ public class ParamEditorScreen : EditorScreen
             // Only support ER for now
             if (ImGui.MenuItem("Load Params for comparison...", null, false))
             {
-                string[] allParamTypes =
-                {
-                    AssetUtils.RegulationBinFilter, AssetUtils.Data0Filter, AssetUtils.ParamBndDcxFilter,
-                    AssetUtils.ParamBndFilter, AssetUtils.EncRegulationFilter
-                };
                 try
                 {
-                    if (_projectSettings.GameType != GameType.DarkSoulsIISOTFS)
+                    // NativeFileDialog doesn't show the title currently, so manual dialogs are required for now.
+                    PlatformUtils.Instance.MessageBox(
+                        "To compare params, select the mod or project folder containing them.\n" +
+                        "If you have loose params, ensure they are in the correct folder and you select the mod folder that contains the param folder.",
+                        "Select loose params",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                    if (PlatformUtils.Instance.OpenFolderDialog("Select mod or project folder",
+                            out var folder))
                     {
-                        if (PlatformUtils.Instance.OpenFileDialog("Select file containing params", allParamTypes,
-                                out var path))
-                        {
-                            ParamBank.LoadAuxBank(path, null, _projectSettings);
-                        }
-                    }
-                    else
-                    {
-                        // NativeFileDialog doesn't show the title currently, so manual dialogs are required for now.
-                        PlatformUtils.Instance.MessageBox(
-                            "To compare DS2 params, select the file locations of alternative params, including\n" +
-                            "the loose params folder, the non-loose parambnd or regulation, and the loose enemy param.\n\n" +
-                            "First, select the loose params folder.",
-                            "Select loose params",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Information);
-                        if (PlatformUtils.Instance.OpenFolderDialog("Select folder for looseparams",
-                                out var folder))
-                        {
-                            PlatformUtils.Instance.MessageBox(
-                                "Second, select the non-loose parambnd or encrypted regulation",
-                                "Select regulation",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Information);
-                            if (PlatformUtils.Instance.OpenFileDialog(
-                                    "Select file containing remaining, non-loose params / encrypted regulation", allParamTypes,
-                                    out var path))
-                            {
-                                ParamBank.LoadAuxBank(path, folder, _projectSettings);
-                            }
-                        }
+                        ParamBank.LoadAuxBank(folder, _projectSettings);
                     }
                 }
                 catch (Exception e)

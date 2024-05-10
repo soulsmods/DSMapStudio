@@ -811,11 +811,10 @@ public class ParamBank
             }));
     }
 
-    public static void LoadAuxBank(string path, string looseDir, ProjectSettings settings)
+    public static void LoadAuxBank(string dir, ProjectSettings settings)
     {
         // skip the meme and just treat as project
-        // TODO fix menus to select folder
-        Project siblingVirtualProject = new Project(Path.GetDirectoryName(path), Locator.ActiveProject.ParentProject);
+        Project siblingVirtualProject = new Project(dir, Locator.ActiveProject.ParentProject);
         ParamBank newBank = siblingVirtualProject.ParamBank;
         newBank._params = new Dictionary<string, Param>();
         newBank.IsLoadingParams = true;
@@ -825,7 +824,7 @@ public class ParamBank
         newBank.ClearParamDiffCaches();
         newBank.IsLoadingParams = false;
         newBank.RefreshParamDiffCaches(true);
-        AuxBanks[Path.GetFileName(Path.GetDirectoryName(path)).Replace(' ', '_')] = newBank;
+        AuxBanks[Path.GetFileName(dir).Replace(' ', '_')] = newBank;
     }
 
 
