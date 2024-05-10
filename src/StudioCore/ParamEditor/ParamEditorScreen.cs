@@ -683,16 +683,28 @@ public class ParamEditorScreen : EditorScreen
                 try
                 {
                     // NativeFileDialog doesn't show the title currently, so manual dialogs are required for now.
-                    PlatformUtils.Instance.MessageBox(
-                        "To compare params, select the mod or project folder containing them.\n" +
-                        "If you have loose params, ensure they are in the correct folder and you select the mod folder that contains the param folder.",
-                        "Select loose params",
-                        MessageBoxButtons.OK,
+                    var res = PlatformUtils.Instance.MessageBox(
+                        "To compare params, you can select the mod/project folder containing them, or the project.json in that folder.\n" +
+                        "If you load from folder, Project settings such as usage of looseParams will be inferred from your current project.\n" +
+                        "If you are selecting a folder and have loose params, ensure you select the mod/project folder that CONTAINS the param folder.\n\n" +
+                        "Would you like to select a folder?",
+                        "Select folder?",
+                        MessageBoxButtons.YesNo,
                         MessageBoxIcon.Information);
-                    if (PlatformUtils.Instance.OpenFolderDialog("Select mod or project folder",
-                            out var folder))
+                    if (res == DialogResult.Yes)
                     {
-                        ParamBank.LoadAuxBank(folder, _projectSettings);
+                        if (PlatformUtils.Instance.OpenFolderDialog("Select mod or project folder",
+                                out var folder))
+                        {
+                            ParamBank.LoadAuxBank(folder);
+                        }
+                    }
+                    else if (res == DialogResult.No)
+                    {
+                        if (PlatformUtils.Instance.OpenFileDialog("Select project.json", [AssetUtils.ProjectJsonFilter], out var file))
+                        {
+                            ParamBank.LoadAuxBank(Path.GetDirectoryName(file), ProjectSettings.Deserialize(file));
+                        }
                     }
                 }
                 catch (Exception e)

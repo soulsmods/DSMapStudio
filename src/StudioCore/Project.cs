@@ -49,9 +49,16 @@ public class Project
     /// <summary>
     ///     Creates a project based in a folder with an explicit parent project. This is for an addon or fork of a mod.
     /// </summary>
-    public Project(string moddir, Project parent)
+    public Project(string moddir, Project parent, ProjectSettings settings = null)
     {
-        Settings = parent.Settings.CopyAndAssumeFromModDir(moddir);
+        if (settings == null)
+        {
+            Settings = parent.Settings.CopyAndAssumeFromModDir(moddir);
+        }
+        else
+        {
+            Settings = settings;
+        }
         Type = parent.Type;
         AssetLocator = new(this, moddir);
         ParentProject = parent;

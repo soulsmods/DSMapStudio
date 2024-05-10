@@ -811,10 +811,10 @@ public class ParamBank
             }));
     }
 
-    public static void LoadAuxBank(string dir, ProjectSettings settings)
+    public static void LoadAuxBank(string dir, ProjectSettings settings = null)
     {
         // skip the meme and just treat as project
-        Project siblingVirtualProject = new Project(dir, Locator.ActiveProject.ParentProject);
+        Project siblingVirtualProject = new Project(dir, Locator.ActiveProject.ParentProject, settings);
         ParamBank newBank = siblingVirtualProject.ParamBank;
         newBank._params = new Dictionary<string, Param>();
         newBank.IsLoadingParams = true;
