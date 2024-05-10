@@ -275,13 +275,8 @@ internal enum MassEditRowSource
 
 internal class ParamSearchEngine : SearchEngine<bool, (ParamBank, Param)>
 {
-    public static ParamSearchEngine pse = new(ParamBank.PrimaryBank);
-    private readonly ParamBank bank;
-
-    private ParamSearchEngine(ParamBank bank)
-    {
-        this.bank = bank;
-    }
+    public static ParamSearchEngine pse = new();
+    private ParamBank bank => ParamBank.PrimaryBank;
 
     internal override void Setup()
     {
@@ -340,13 +335,8 @@ internal class ParamSearchEngine : SearchEngine<bool, (ParamBank, Param)>
 
 internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
 {
-    public static RowSearchEngine rse = new(ParamBank.PrimaryBank);
-    private readonly ParamBank bank;
-
-    private RowSearchEngine(ParamBank bank)
-    {
-        this.bank = bank;
-    }
+    public static RowSearchEngine rse = new();
+    private ParamBank bank => ParamBank.PrimaryBank;
 
     internal override void Setup()
     {

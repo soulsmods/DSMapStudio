@@ -92,11 +92,6 @@ public class AssetLocator
 
     public string GetAssetPath(string relpath) => Locator.ActiveProject.AssetLocator.GetAssetPath(relpath);
 
-    public void SetFromProjectSettings(ProjectSettings settings, string moddir)
-    {
-        Locator.ActiveProject = new Project(settings, moddir);
-    }
-
     public bool CreateRecoveryProject() => Locator.ActiveProject.CreateRecoveryProject() != null;
 
     /// <summary>

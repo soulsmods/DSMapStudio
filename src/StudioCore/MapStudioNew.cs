@@ -394,7 +394,7 @@ public class MapStudioNew
     private void ChangeProjectSettings(ProjectSettings newsettings, string moddir, NewProjectOptions options)
     {
         _projectSettings = newsettings;
-        Locator.AssetLocator.SetFromProjectSettings(newsettings, moddir);
+        Locator.ActiveProject = new Project(newsettings, moddir);
         _settingsMenu.ProjSettings = _projectSettings;
 
         // Banks

@@ -33,8 +33,8 @@ public class ParamBank
         SelectedRows = 2
     }
 
-    public static ParamBank PrimaryBank = new();
-    public static ParamBank VanillaBank = new();
+    public static ParamBank PrimaryBank => Locator.ActiveProject.ParamBank;
+    public static ParamBank VanillaBank => Locator.ActiveProject.ParentProject.ParamBank;
     public static Dictionary<string, ParamBank> AuxBanks = new();
 
 
@@ -95,6 +95,8 @@ public class ParamBank
     };
 
     private static readonly HashSet<int> EMPTYSET = new();
+
+    public Project Project;
 
     private Dictionary<string, Param> _params;
 
@@ -171,6 +173,11 @@ public class ParamBank
         }
     }
 
+    public ParamBank(Project owner)
+    {
+        Project = owner;
+    }
+
     private static FileNotFoundException CreateParamMissingException(GameType type)
     {
         if (type is GameType.DarkSoulsPTDE or GameType.Sekiro)
@@ -189,6 +196,7 @@ public class ParamBank
             $"Cannot locate param files for {type}.\nYour game folder may be missing game files, please verify game files through steam to restore them.");
     }
 
+    //TODO unstatic, use current project
     private static List<(string, PARAMDEF)> LoadParamdefs()
     {
         _paramdefs = new Dictionary<string, PARAMDEF>();
@@ -221,7 +229,7 @@ public class ParamBank
 
         return defPairs;
     }
-
+    //TODO unstatic, use current project
     public static void LoadParamMeta(List<(string, PARAMDEF)> defPairs)
     {
         //This way of tying stuff together still sucks
@@ -236,8 +244,8 @@ public class ParamBank
     public CompoundAction LoadParamDefaultNames(string param = null, bool onlyAffectEmptyNames = false, bool onlyAffectVanillaNames = false)
     {
         var files = param == null
-            ? Locator.ActiveProject.AssetLocator.GetAllProjectFiles($@"{Locator.ActiveProject.AssetLocator.GetParamdexDir()}\Names", ["*.txt"], true)
-            : new[] { Locator.ActiveProject.AssetLocator.GetProjectFilePath($@"{Locator.ActiveProject.AssetLocator.GetParamdexDir()}\Names\{param}.txt") };
+            ? Project.AssetLocator.GetAllProjectFiles($@"{Project.AssetLocator.GetParamdexDir()}\Names", ["*.txt"], true)
+            : new[] { Project.AssetLocator.GetProjectFilePath($@"{Project.AssetLocator.GetParamdexDir()}\Names\{param}.txt") };
         List<EditorAction> actions = new();
         foreach (var f in files)
         {
@@ -297,7 +305,7 @@ public class ParamBank
 
             Param p;
 
-            if (Locator.AssetLocator.Type == GameType.ArmoredCoreVI)
+            if (Project.Type == GameType.ArmoredCoreVI)
             {
                 _usedTentativeParamTypes = new Dictionary<string, string>();
                 p = Param.ReadIgnoreCompression(f.Bytes);
@@ -355,7 +363,7 @@ public class ParamBank
 
             // Try to fixup Elden Ring ChrModelParam for ER 1.06 because many have been saving botched params and
             // it's an easy fixup
-            if (Locator.AssetLocator.Type == GameType.EldenRing &&
+            if (Project.Type == GameType.EldenRing &&
                 p.ParamType == "CHR_MODEL_PARAM_ST" &&
                 version == 10601000)
             {
@@ -378,7 +386,7 @@ public class ParamBank
                 var name = f.Name.Split("\\").Last();
                 var message = $"Could not apply ParamDef for {name}";
 
-                if (Locator.AssetLocator.Type == GameType.DarkSoulsRemastered &&
+                if (Project.Type == GameType.DarkSoulsRemastered &&
                     name is "m99_ToneMapBank.param" or "m99_ToneCorrectBank.param"
                         or "default_ToneCorrectBank.param")
                 {
@@ -396,30 +404,14 @@ public class ParamBank
     }
     private void LoadParamsDES()
     {
-        var param = Locator.ActiveProject.AssetLocator.GetAssetPathFromOptions([@$"\param\gameparam\gameparamna.parambnd.dcx", @$"\param\gameparam\gameparamna.parambnd", @$"\param\gameparam\gameparam.parambnd.dcx", @$"\param\gameparam\gameparam.parambnd"]).Item2;
+        var param = Project.AssetLocator.GetAssetPathFromOptions([@$"\param\gameparam\gameparamna.parambnd.dcx", @$"\param\gameparam\gameparamna.parambnd", @$"\param\gameparam\gameparam.parambnd.dcx", @$"\param\gameparam\gameparam.parambnd"]).Item2;
         if (param == null)
         {
-            throw CreateParamMissingException(Locator.AssetLocator.Type);
+            throw CreateParamMissingException(Project.Type);
         }
         LoadParamsDESFromFile(param);
 
-        var drawparams = Locator.ActiveProject.AssetLocator.GetAllAssets($@"\param\drawparam", ["*.parambnd.dcx", "*.parambnd"]);
-        foreach (string drawparam in drawparams)
-        {
-            LoadParamsDESFromFile(drawparam);
-        }
-    }
-
-    private void LoadVParamsDES()
-    {
-        var param = Locator.ActiveProject.ParentProject.AssetLocator.GetAssetPathFromOptions([@$"\param\gameparam\gameparamna.parambnd.dcx", @$"\param\gameparam\gameparamna.parambnd", @$"\param\gameparam\gameparam.parambnd.dcx", @$"\param\gameparam\gameparam.parambnd"]).Item2;
-        if (param == null)
-        {
-            throw CreateParamMissingException(Locator.AssetLocator.Type);
-        }
-        LoadParamsDESFromFile(param);
-
-        var drawparams = Locator.ActiveProject.ParentProject.AssetLocator.GetAllAssets($@"\param\drawparam", ["*.parambnd.dcx", "*.parambnd"]);
+        var drawparams = Project.AssetLocator.GetAllAssets($@"\param\drawparam", ["*.parambnd.dcx", "*.parambnd"]);
         foreach (string drawparam in drawparams)
         {
             LoadParamsDESFromFile(drawparam);
@@ -434,30 +426,14 @@ public class ParamBank
 
     private void LoadParamsDS1()
     {
-        var param = Locator.ActiveProject.AssetLocator.GetAssetPath($@"param\GameParam\GameParam.parambnd");
+        var param = Project.AssetLocator.GetAssetPath($@"param\GameParam\GameParam.parambnd");
         if (param == null)
         {
-            throw CreateParamMissingException(Locator.AssetLocator.Type);
+            throw CreateParamMissingException(Project.Type);
         }
         LoadParamsDS1FromFile(param);
 
-        var drawparams = Locator.ActiveProject.AssetLocator.GetAllAssets($@"param\DrawParam", ["*.parambnd"]);
-        foreach (string drawparam in drawparams)
-        {
-            LoadParamsDS1FromFile(drawparam);
-        }
-    }
-
-    private void LoadVParamsDS1()
-    {
-        var param = Locator.ActiveProject.ParentProject.AssetLocator.GetAssetPath($@"param\GameParam\GameParam.parambnd");
-        if (param == null)
-        {
-            throw CreateParamMissingException(Locator.AssetLocator.Type);
-        }
-        LoadParamsDS1FromFile(param);
-
-        var drawparams = Locator.ActiveProject.ParentProject.AssetLocator.GetAllAssets($@"param\DrawParam", ["*.parambnd"]);
+        var drawparams = Project.AssetLocator.GetAllAssets($@"param\DrawParam", ["*.parambnd"]);
         foreach (string drawparam in drawparams)
         {
             LoadParamsDS1FromFile(drawparam);
@@ -472,30 +448,14 @@ public class ParamBank
 
     private void LoadParamsDS1R()
     {
-        var param = Locator.ActiveProject.AssetLocator.GetAssetPath($@"param\GameParam\GameParam.parambnd.dcx");
+        var param = Project.AssetLocator.GetAssetPath($@"param\GameParam\GameParam.parambnd.dcx");
         if (param == null)
         {
-            throw CreateParamMissingException(Locator.AssetLocator.Type);
+            throw CreateParamMissingException(Project.Type);
         }
         LoadParamsDS1RFromFile(param);
 
-        var drawparams = Locator.ActiveProject.AssetLocator.GetAllAssets($@"param\DrawParam", ["*.parambnd.dcx"]);
-        foreach (string drawparam in drawparams)
-        {
-            LoadParamsDS1RFromFile(drawparam);
-        }
-    }
-
-    private void LoadVParamsDS1R()
-    {
-        var param = Locator.ActiveProject.ParentProject.AssetLocator.GetAssetPath($@"param\GameParam\GameParam.parambnd.dcx");
-        if (param == null)
-        {
-            throw CreateParamMissingException(Locator.AssetLocator.Type);
-        }
-        LoadParamsDS1RFromFile(param);
-
-        var drawparams = Locator.ActiveProject.ParentProject.AssetLocator.GetAllAssets($@"param\DrawParam", ["*.parambnd.dcx"]);
+        var drawparams = Project.AssetLocator.GetAllAssets($@"param\DrawParam", ["*.parambnd.dcx"]);
         foreach (string drawparam in drawparams)
         {
             LoadParamsDS1RFromFile(drawparam);
@@ -510,20 +470,10 @@ public class ParamBank
 
     private void LoadParamsBBSekiro()
     {
-        var param = Locator.ActiveProject.AssetLocator.GetAssetPath($@"param\gameparam\gameparam.parambnd.dcx");
+        var param = Project.AssetLocator.GetAssetPath($@"param\gameparam\gameparam.parambnd.dcx");
         if (param == null)
         {
-            throw CreateParamMissingException(Locator.AssetLocator.Type);
-        }
-        LoadParamsBBSekiroFromFile(param);
-    }
-
-    private void LoadVParamsBBSekiro()
-    {
-        var param = Locator.ActiveProject.ParentProject.AssetLocator.GetAssetPath($@"param\gameparam\gameparam.parambnd.dcx");
-        if (param == null)
-        {
-            throw CreateParamMissingException(Locator.AssetLocator.Type);
+            throw CreateParamMissingException(Project.Type);
         }
         LoadParamsBBSekiroFromFile(param);
     }
@@ -547,25 +497,14 @@ public class ParamBank
 
     private void LoadParamsDS2(bool loose)
     {
-        var param = Locator.ActiveProject.AssetLocator.GetAssetPath($@"enc_regulation.bnd.dcx");
+        var param = Project.AssetLocator.GetAssetPath($@"enc_regulation.bnd.dcx");
         if (param == null)
         {
-            throw CreateParamMissingException(Locator.AssetLocator.Type);
+            throw CreateParamMissingException(Project.Type);
         }
-        var looseParams = Locator.ActiveProject.AssetLocator.GetAllAssets($@"Param", [$@"*.param"]);
+        var looseParams = Project.AssetLocator.GetAllAssets($@"Param", [$@"*.param"]);
         LoadParamsDS2FromFile(looseParams, param, loose);
         LoadExternalRowNames();
-    }
-
-    private void LoadVParamsDS2(bool loose)
-    {
-        var param = Locator.ActiveProject.ParentProject.AssetLocator.GetAssetPath($@"enc_regulation.bnd.dcx");
-        if (param == null)
-        {
-            throw CreateParamMissingException(Locator.AssetLocator.Type);
-        }
-        var looseParams = Locator.ActiveProject.ParentProject.AssetLocator.GetAllAssets($@"Param", [$@"*.param"]);
-        LoadParamsDS2FromFile(looseParams, param, loose);
     }
 
     private void LoadParamsDS2FromFile(IEnumerable<string> looseParams, string path, bool loose)
@@ -612,7 +551,7 @@ public class ParamBank
             catch (Exception e)
             {
                 var message = $"Could not apply ParamDef for {fname}";
-                if (Locator.AssetLocator.Type == GameType.DarkSoulsIISOTFS &&
+                if (Project.Type == GameType.DarkSoulsIISOTFS &&
                     fname is "GENERATOR_DBG_LOCATION_PARAM")
                 {
                     // Known cases that don't affect standard modmaking
@@ -636,42 +575,19 @@ public class ParamBank
         bool looseFile;
         if (loose)
         {
-            var p = Locator.ActiveProject.AssetLocator.GetAssetPathFromOptions([$@"param\gameparam\gameparam_dlc2.parambnd.dcx", $@"Data0.bdt"]);
+            var p = Project.AssetLocator.GetAssetPathFromOptions([$@"param\gameparam\gameparam_dlc2.parambnd.dcx", $@"Data0.bdt"]);
             looseFile = p.Item1 == 0;
             param = p.Item2;
         }
         else
         {
-            var p = Locator.ActiveProject.AssetLocator.GetAssetPathFromOptions([$@"Data0.bdt", $@"param\gameparam\gameparam_dlc2.parambnd.dcx"]);
-            looseFile = p.Item1 != 1;
+            var p = Project.AssetLocator.GetAssetPathFromOptions([$@"Data0.bdt", $@"param\gameparam\gameparam_dlc2.parambnd.dcx"]);
+            looseFile = p.Item1 == 1;
             param = p.Item2;
         }
         if (param == null)
         {
-            throw CreateParamMissingException(Locator.AssetLocator.Type);
-        }
-        LoadParamsDS3FromFile(param, looseFile);
-    }
-
-    private void LoadVParamsDS3(bool loose = false)
-    {
-        string param;
-        bool looseFile;
-        if (loose)
-        {
-            var p = Locator.ActiveProject.ParentProject.AssetLocator.GetAssetPathFromOptions([$@"param\gameparam\gameparam_dlc2.parambnd.dcx", $@"Data0.bdt"]);
-            looseFile = p.Item1 == 0;
-            param = p.Item2;
-        }
-        else
-        {
-            var p = Locator.ActiveProject.ParentProject.AssetLocator.GetAssetPathFromOptions([$@"Data0.bdt", $@"param\gameparam\gameparam_dlc2.parambnd.dcx"]);
-            looseFile = p.Item1 != 1;
-            param = p.Item2;
-        }
-        if (param == null)
-        {
-            throw CreateParamMissingException(Locator.AssetLocator.Type);
+            throw CreateParamMissingException(Project.Type);
         }
         LoadParamsDS3FromFile(param, looseFile);
     }
@@ -684,14 +600,14 @@ public class ParamBank
 
     private void LoadParamsER()
     {
-        var param = Locator.ActiveProject.AssetLocator.GetAssetPath($@"regulation.bin");
+        var param = Project.AssetLocator.GetAssetPath($@"regulation.bin");
         if (param == null)
         {
-            throw CreateParamMissingException(Locator.AssetLocator.Type);
+            throw CreateParamMissingException(Project.Type);
         }
         LoadParamsERFromFile(param);
 
-        string sysParam = Locator.ActiveProject.AssetLocator.GetAssetPath(@"param\systemparam\systemparam.parambnd.dcx");
+        string sysParam = Project.AssetLocator.GetAssetPath(@"param\systemparam\systemparam.parambnd.dcx");
         if (File.Exists(sysParam))
         {
             LoadParamsERFromFile(sysParam, false);
@@ -701,38 +617,8 @@ public class ParamBank
             TaskLogs.AddLog("Systemparam could not be found. These require an unpacked game to modify.", LogLevel.Information, TaskLogs.LogPriority.Normal);
         }
 
-        var eventParam = Locator.ActiveProject.AssetLocator.GetAssetPath(@"param\eventparam\eventparam.parambnd.dcx");
+        var eventParam = Project.AssetLocator.GetAssetPath(@"param\eventparam\eventparam.parambnd.dcx");
         if (File.Exists(eventParam))
-        {
-            LoadParamsERFromFile(eventParam, false);
-        }
-        else
-        {
-            TaskLogs.AddLog("Eventparam could not be found. These require an unpacked game to modify.", LogLevel.Information, TaskLogs.LogPriority.Normal);
-        }
-    }
-
-    private void LoadVParamsER()
-    {
-        var param = Locator.ActiveProject.ParentProject.AssetLocator.GetAssetPath($@"regulation.bin");
-        if (param == null)
-        {
-            throw CreateParamMissingException(Locator.AssetLocator.Type);
-        }
-        LoadParamsERFromFile(param);
-
-        string sysParam = Locator.ActiveProject.ParentProject.AssetLocator.GetAssetPath(@"param\systemparam\systemparam.parambnd.dcx");
-        if (sysParam != null)
-        {
-            LoadParamsERFromFile(sysParam, false);
-        }
-        else
-        {
-            TaskLogs.AddLog("Systemparam could not be found. These require an unpacked game to modify.", LogLevel.Information, TaskLogs.LogPriority.Normal);
-        }
-
-        var eventParam = Locator.ActiveProject.ParentProject.AssetLocator.GetAssetPath(@"param\eventparam\eventparam.parambnd.dcx");
-        if (eventParam != null)
         {
             LoadParamsERFromFile(eventParam, false);
         }
@@ -758,14 +644,14 @@ public class ParamBank
 
     private void LoadParamsAC6()
     {
-        var param = Locator.ActiveProject.AssetLocator.GetAssetPath($@"regulation.bin");
+        var param = Project.AssetLocator.GetAssetPath($@"regulation.bin");
         if (param == null)
         {
-            throw CreateParamMissingException(Locator.AssetLocator.Type);
+            throw CreateParamMissingException(Project.Type);
         }
         LoadParamsAC6FromFile(param, true);
 
-        string sysParam = Locator.ActiveProject.AssetLocator.GetAssetPath(@"param\systemparam\systemparam.parambnd.dcx");
+        string sysParam = Project.AssetLocator.GetAssetPath(@"param\systemparam\systemparam.parambnd.dcx");
         if (sysParam != null)
         {
             LoadParamsAC6FromFile(sysParam, false);
@@ -775,7 +661,7 @@ public class ParamBank
             TaskLogs.AddLog("Systemparam could not be found. These require an unpacked game to modify.", LogLevel.Information, TaskLogs.LogPriority.Normal);
         }
 
-        string graphicsConfigParam = Locator.ActiveProject.AssetLocator.GetAssetPath(@"param\graphicsconfig\graphicsconfig.parambnd.dcx");
+        string graphicsConfigParam = Project.AssetLocator.GetAssetPath(@"param\graphicsconfig\graphicsconfig.parambnd.dcx");
         if (graphicsConfigParam != null)
         {
             LoadParamsAC6FromFile(graphicsConfigParam, false);
@@ -785,47 +671,7 @@ public class ParamBank
             TaskLogs.AddLog("Graphicsconfig could not be found. These require an unpacked game to modify.", LogLevel.Information, TaskLogs.LogPriority.Normal);
         }
 
-        string eventParam = Locator.ActiveProject.AssetLocator.GetAssetPath(@"param\eventparam\eventparam.parambnd.dcx");
-        if (eventParam != null)
-        {
-            LoadParamsAC6FromFile(eventParam, false);
-        }
-        else
-        {
-            TaskLogs.AddLog("Eventparam could not be found. These require an unpacked game to modify.", LogLevel.Information, TaskLogs.LogPriority.Normal);
-        }
-    }
-
-    private void LoadVParamsAC6()
-    {
-        var param = Locator.ActiveProject.ParentProject.AssetLocator.GetAssetPath($@"regulation.bin");
-        if (param == null)
-        {
-            throw CreateParamMissingException(Locator.AssetLocator.Type);
-        }
-        LoadParamsAC6FromFile(param, true);
-
-        string sysParam = Locator.ActiveProject.ParentProject.AssetLocator.GetAssetPath(@"param\systemparam\systemparam.parambnd.dcx");
-        if (sysParam != null)
-        {
-            LoadParamsAC6FromFile(sysParam, false);
-        }
-        else
-        {
-            TaskLogs.AddLog("Systemparam could not be found. These require an unpacked game to modify.", LogLevel.Information, TaskLogs.LogPriority.Normal);
-        }
-
-        string graphicsConfigParam = Locator.ActiveProject.ParentProject.AssetLocator.GetAssetPath(@"param\graphicsconfig\graphicsconfig.parambnd.dcx");
-        if (graphicsConfigParam != null)
-        {
-            LoadParamsAC6FromFile(graphicsConfigParam, false);
-        }
-        else
-        {
-            TaskLogs.AddLog("Graphicsconfig could not be found. These require an unpacked game to modify.", LogLevel.Information, TaskLogs.LogPriority.Normal);
-        }
-
-        string eventParam = Locator.ActiveProject.ParentProject.AssetLocator.GetAssetPath(@"param\eventparam\eventparam.parambnd.dcx");
+        string eventParam = Project.AssetLocator.GetAssetPath(@"param\eventparam\eventparam.parambnd.dcx");
         if (eventParam != null)
         {
             LoadParamsAC6FromFile(eventParam, false);
@@ -847,6 +693,49 @@ public class ParamBank
         {
             using BND4 bnd = BND4.Read(path);
             LoadParamFromBinder(bnd, ref _params, out _, false);
+        }
+    }
+
+    private void LoadParams()
+    {
+        if (Project.Type == GameType.DemonsSouls)
+        {
+            LoadParamsDES();
+        }
+
+        if (Project.Type == GameType.DarkSoulsPTDE)
+        {
+            LoadParamsDS1();
+        }
+
+        if (Project.Type == GameType.DarkSoulsRemastered)
+        {
+            LoadParamsDS1R();
+        }
+
+        if (Project.Type == GameType.DarkSoulsIISOTFS)
+        {
+            LoadParamsDS2(Project.Settings.UseLooseParams);
+        }
+
+        if (Project.Type == GameType.DarkSoulsIII)
+        {
+            LoadParamsDS3(Project.Settings.UseLooseParams);
+        }
+
+        if (Project.Type == GameType.Bloodborne || Project.Type == GameType.Sekiro)
+        {
+            LoadParamsBBSekiro();
+        }
+
+        if (Project.Type == GameType.EldenRing)
+        {
+            LoadParamsER();
+        }
+
+        if (Project.Type == GameType.ArmoredCoreVI)
+        {
+            LoadParamsAC6();
         }
     }
 
@@ -882,45 +771,7 @@ public class ParamBank
                         }));
                 }
 
-                if (locator.Type == GameType.DemonsSouls)
-                {
-                    PrimaryBank.LoadParamsDES();
-                }
-
-                if (locator.Type == GameType.DarkSoulsPTDE)
-                {
-                    PrimaryBank.LoadParamsDS1();
-                }
-
-                if (locator.Type == GameType.DarkSoulsRemastered)
-                {
-                    PrimaryBank.LoadParamsDS1R();
-                }
-
-                if (locator.Type == GameType.DarkSoulsIISOTFS)
-                {
-                    PrimaryBank.LoadParamsDS2(settings.UseLooseParams);
-                }
-
-                if (locator.Type == GameType.DarkSoulsIII)
-                {
-                    PrimaryBank.LoadParamsDS3(settings.UseLooseParams);
-                }
-
-                if (locator.Type == GameType.Bloodborne || locator.Type == GameType.Sekiro)
-                {
-                    PrimaryBank.LoadParamsBBSekiro();
-                }
-
-                if (locator.Type == GameType.EldenRing)
-                {
-                    PrimaryBank.LoadParamsER();
-                }
-
-                if (locator.Type == GameType.ArmoredCoreVI)
-                {
-                    PrimaryBank.LoadParamsAC6();
-                }
+                PrimaryBank.LoadParams();
 
                 PrimaryBank.ClearParamDiffCaches();
                 PrimaryBank.IsLoadingParams = false;
@@ -930,51 +781,14 @@ public class ParamBank
                 TaskManager.Run(new TaskManager.LiveTask("Param - Load Vanilla Params",
                     TaskManager.RequeueType.WaitThenRequeue, false, () =>
                     {
-                        if (locator.Type == GameType.DemonsSouls)
-                        {
-                            VanillaBank.LoadVParamsDES();
-                        }
-
-                        if (locator.Type == GameType.DarkSoulsPTDE)
-                        {
-                            VanillaBank.LoadVParamsDS1();
-                        }
-
-                        if (locator.Type == GameType.DarkSoulsRemastered)
-                        {
-                            VanillaBank.LoadVParamsDS1R();
-                        }
-
-                        if (locator.Type == GameType.DarkSoulsIISOTFS)
-                        {
-                            VanillaBank.LoadVParamsDS2(settings.UseLooseParams);
-                        }
-
-                        if (locator.Type == GameType.DarkSoulsIII)
-                        {
-                            VanillaBank.LoadVParamsDS3();
-                        }
-
-                        if (locator.Type == GameType.Bloodborne || locator.Type == GameType.Sekiro)
-                        {
-                            VanillaBank.LoadVParamsBBSekiro();
-                        }
-
-                        if (locator.Type == GameType.EldenRing)
-                        {
-                            VanillaBank.LoadVParamsER();
-                        }
-
-                        if (locator.Type == GameType.ArmoredCoreVI)
-                        {
-                            VanillaBank.LoadVParamsAC6();
-                        }
+                        VanillaBank.LoadParams();
 
                         VanillaBank.IsLoadingParams = false;
 
                         TaskManager.Run(new TaskManager.LiveTask("Param - Check Differences",
                             TaskManager.RequeueType.WaitThenRequeue, false,
                             () => RefreshAllParamDiffCaches(true)));
+                        UICache.ClearCaches();
                     }));
 
                 if (options != null)
@@ -993,53 +807,20 @@ public class ParamBank
                         }
                     }
                 }
+                UICache.ClearCaches();
             }));
     }
 
     public static void LoadAuxBank(string path, string looseDir, ProjectSettings settings)
     {
-        // Steal assetlocator
-        AssetLocator locator = Locator.AssetLocator;
-        ParamBank newBank = new();
+        // skip the meme and just treat as project
+        // TODO fix menus to select folder
+        Project siblingVirtualProject = new Project(Path.GetDirectoryName(path), Locator.ActiveProject.ParentProject);
+        ParamBank newBank = siblingVirtualProject.ParamBank;
         newBank._params = new Dictionary<string, Param>();
         newBank.IsLoadingParams = true;
-        if (locator.Type == GameType.ArmoredCoreVI)
-        {
-            newBank.LoadParamsAC6FromFile(path);
-        }
-        else if (locator.Type == GameType.EldenRing)
-        {
-            newBank.LoadParamsERFromFile(path);
-        }
-        else if (locator.Type == GameType.Sekiro)
-        {
-            newBank.LoadParamsBBSekiroFromFile(path);
-        }
-        else if (locator.Type == GameType.DarkSoulsIII)
-        {
-            newBank.LoadParamsDS3FromFile(path, path.Trim().ToLower().EndsWith(".dcx"));
-        }
-        else if (locator.Type == GameType.Bloodborne)
-        {
-            newBank.LoadParamsBBSekiroFromFile(path);
-        }
-        else if (locator.Type == GameType.DarkSoulsIISOTFS)
-        {
-            List<string> looseParams = GetLooseParamsInDir(looseDir);
-            newBank.LoadParamsDS2FromFile(looseParams, path, settings.UseLooseParams);
-        }
-        else if (locator.Type == GameType.DarkSoulsRemastered)
-        {
-            newBank.LoadParamsDS1RFromFile(path);
-        }
-        else if (locator.Type == GameType.DarkSoulsPTDE)
-        {
-            newBank.LoadParamsDS1FromFile(path);
-        }
-        else if (locator.Type == GameType.DemonsSouls)
-        {
-            newBank.LoadParamsDESFromFile(path);
-        }
+
+        newBank.LoadParams();
 
         newBank.ClearParamDiffCaches();
         newBank.IsLoadingParams = false;
@@ -1217,9 +998,9 @@ public class ParamBank
     }
     private void SaveParamsDS1()
     {
-        var dir = Locator.AssetLocator.GameRootDirectory;
-        var mod = Locator.AssetLocator.GameModDirectory;
-        var param = Locator.ActiveProject.AssetLocator.GetAssetPath($@"param\GameParam\GameParam.parambnd");
+        var dir = Project.ParentProject.AssetLocator.RootDirectory;
+        var mod = Project.AssetLocator.RootDirectory;
+        var param = Project.AssetLocator.GetAssetPath($@"param\GameParam\GameParam.parambnd");
         if (param == null)
         {
             TaskLogs.AddLog("Cannot locate param files. Save failed.",
@@ -1240,7 +1021,7 @@ public class ParamBank
         Utils.WriteWithBackup(dir, mod, @"param\GameParam\GameParam.parambnd", paramBnd);
 
         // Drawparam
-        foreach (var bnd in Locator.ActiveProject.AssetLocator.GetAllAssets($@"param\DrawParam", [$@"*.parambnd"]))
+        foreach (var bnd in Project.AssetLocator.GetAllAssets($@"param\DrawParam", [$@"*.parambnd"]))
         {
             using BND3 drawParamBnd = BND3.Read(bnd);
             foreach (BinderFile p in drawParamBnd.Files)
@@ -1257,9 +1038,9 @@ public class ParamBank
 
     private void SaveParamsDS1R()
     {
-        var dir = Locator.AssetLocator.GameRootDirectory;
-        var mod = Locator.AssetLocator.GameModDirectory;
-        var param = Locator.ActiveProject.AssetLocator.GetAssetPath($@"param\GameParam\GameParam.parambnd.dcx");
+        var dir = Project.ParentProject.AssetLocator.RootDirectory;
+        var mod = Project.AssetLocator.RootDirectory;
+        var param = Project.AssetLocator.GetAssetPath($@"param\GameParam\GameParam.parambnd.dcx");
         if (param == null)
         {
             TaskLogs.AddLog("Cannot locate param files. Save failed.",
@@ -1280,7 +1061,7 @@ public class ParamBank
         Utils.WriteWithBackup(dir, mod, @"param\GameParam\GameParam.parambnd.dcx", paramBnd);
 
         // Drawparam
-        foreach (var bnd in Locator.ActiveProject.AssetLocator.GetAllAssets($@"param\DrawParam", ["*.parambnd.dcx"]))
+        foreach (var bnd in Project.AssetLocator.GetAllAssets($@"param\DrawParam", ["*.parambnd.dcx"]))
         {
             using BND3 drawParamBnd = BND3.Read(bnd);
             foreach (BinderFile p in drawParamBnd.Files)
@@ -1297,9 +1078,9 @@ public class ParamBank
 
     private void SaveParamsDS2(bool loose)
     {
-        var dir = Locator.AssetLocator.GameRootDirectory;
-        var mod = Locator.AssetLocator.GameModDirectory;
-        var param = Locator.ActiveProject.AssetLocator.GetAssetPath($@"enc_regulation.bnd.dcx");
+        var dir = Project.ParentProject.AssetLocator.RootDirectory;
+        var mod = Project.AssetLocator.RootDirectory;
+        var param = Project.AssetLocator.GetAssetPath($@"enc_regulation.bnd.dcx");
         if (param == null)
         {
             TaskLogs.AddLog("Cannot locate param files. Save failed.",
@@ -1430,19 +1211,19 @@ public class ParamBank
 
     private void SaveParamsDS3(bool loose)
     {
-        var dir = Locator.AssetLocator.GameRootDirectory;
-        var mod = Locator.AssetLocator.GameModDirectory;
+        var dir = Project.ParentProject.AssetLocator.RootDirectory;
+        var mod = Project.AssetLocator.RootDirectory;
         string param;
         bool looseFile;
         if (loose)
         {
-            var p = Locator.ActiveProject.AssetLocator.GetAssetPathFromOptions([$@"param\gameparam\gameparam_dlc2.parambnd.dcx", $@"Data0.bdt"]);
+            var p = Project.AssetLocator.GetAssetPathFromOptions([$@"param\gameparam\gameparam_dlc2.parambnd.dcx", $@"Data0.bdt"]);
             looseFile = p.Item1 == 0;
             param = p.Item2;
         }
         else
         {
-            var p = Locator.ActiveProject.AssetLocator.GetAssetPathFromOptions([$@"Data0.bdt", $@"param\gameparam\gameparam_dlc2.parambnd.dcx"]);
+            var p = Project.AssetLocator.GetAssetPathFromOptions([$@"Data0.bdt", $@"param\gameparam\gameparam_dlc2.parambnd.dcx"]);
             looseFile = p.Item1 != 1;
             param = p.Item2;
         }
@@ -1489,9 +1270,9 @@ public class ParamBank
 
     private void SaveParamsBBSekiro()
     {
-        var dir = Locator.AssetLocator.GameRootDirectory;
-        var mod = Locator.AssetLocator.GameModDirectory;
-        var param = Locator.ActiveProject.AssetLocator.GetAssetPath($@"param\gameparam\gameparam.parambnd.dcx");
+        var dir = Project.ParentProject.AssetLocator.RootDirectory;
+        var mod = Project.AssetLocator.RootDirectory;
+        var param = Project.AssetLocator.GetAssetPath($@"param\gameparam\gameparam.parambnd.dcx");
         if (param == null)
         {
             TaskLogs.AddLog("Cannot locate param files. Save failed.",
@@ -1514,9 +1295,9 @@ public class ParamBank
 
     private void SaveParamsDES()
     {
-        var dir = Locator.AssetLocator.GameRootDirectory;
-        var mod = Locator.AssetLocator.GameModDirectory;
-        var param = Locator.ActiveProject.ParentProject.AssetLocator.GetAssetPathFromOptions([@$"\param\gameparam\gameparamna.parambnd.dcx", @$"\param\gameparam\gameparamna.parambnd", @$"\param\gameparam\gameparam.parambnd.dcx", @$"\param\gameparam\gameparam.parambnd"]).Item2;
+        var dir = Project.ParentProject.AssetLocator.RootDirectory;
+        var mod = Project.AssetLocator.RootDirectory;
+        var param = Project.ParentProject.AssetLocator.GetAssetPathFromOptions([@$"\param\gameparam\gameparamna.parambnd.dcx", @$"\param\gameparam\gameparamna.parambnd", @$"\param\gameparam\gameparam.parambnd.dcx", @$"\param\gameparam\gameparam.parambnd"]).Item2;
 
         if (param == null)
         {
@@ -1558,7 +1339,7 @@ public class ParamBank
         Utils.WriteWithBackup(dir, mod, @"param\gameparam\gameparam.parambnd", paramBnd);
 
         // Drawparam
-        var drawparambnds = Locator.ActiveProject.AssetLocator.GetAllAssets($@"param\drawparam", ["*.parambnd.dcx", "*.parambnd"]);
+        var drawparambnds = Project.AssetLocator.GetAllAssets($@"param\drawparam", ["*.parambnd.dcx", "*.parambnd"]);
         foreach (var bnd in drawparambnds)
         {
             using BND3 drawParamBnd = BND3.Read(bnd);
@@ -1589,9 +1370,9 @@ public class ParamBank
             }
         }
 
-        var dir = Locator.AssetLocator.GameRootDirectory;
-        var mod = Locator.AssetLocator.GameModDirectory;
-        var param = Locator.ActiveProject.AssetLocator.GetAssetPath($@"regulation.bin");
+        var dir = Project.ParentProject.AssetLocator.RootDirectory;
+        var mod = Project.AssetLocator.RootDirectory;
+        var param = Project.AssetLocator.GetAssetPath($@"regulation.bin");
         if (param == null)
         {
             TaskLogs.AddLog("Cannot locate param files. Save failed.",
@@ -1602,7 +1383,7 @@ public class ParamBank
         OverwriteParamsER(regParams);
         Utils.WriteWithBackup(dir, mod, @"regulation.bin", regParams, GameType.EldenRing);
 
-        string sysParam = Locator.ActiveProject.AssetLocator.GetAssetPath(@"param\systemparam\systemparam.parambnd.dcx");
+        string sysParam = Project.AssetLocator.GetAssetPath(@"param\systemparam\systemparam.parambnd.dcx");
         if (sysParam != null)
         {
             using BND4 sysParams = BND4.Read(sysParam);
@@ -1610,7 +1391,7 @@ public class ParamBank
             Utils.WriteWithBackup(dir, mod, @"param\systemparam\systemparam.parambnd.dcx", sysParams);
         }
 
-        var eventParam = Locator.ActiveProject.AssetLocator.GetAssetPath(@"param\eventparam\eventparam.parambnd.dcx");
+        var eventParam = Project.AssetLocator.GetAssetPath(@"param\eventparam\eventparam.parambnd.dcx");
         if (sysParam != null)
         {
             using var eventParams = BND4.Read(eventParam);
@@ -1632,7 +1413,7 @@ public class ParamBank
                 if (_params.TryGetValue(paramName, out Param paramFile))
                 {
                     IReadOnlyList<Param.Row> backup = paramFile.Rows;
-                    if (Locator.AssetLocator.Type is GameType.ArmoredCoreVI)
+                    if (Project.Type is GameType.ArmoredCoreVI)
                     {
                         if (_usedTentativeParamTypes.TryGetValue(paramName, out var oldParamType))
                         {
@@ -1654,9 +1435,9 @@ public class ParamBank
             }
         }
 
-        var dir = Locator.AssetLocator.GameRootDirectory;
-        var mod = Locator.AssetLocator.GameModDirectory;
-        var param = Locator.ActiveProject.AssetLocator.GetAssetPath($@"regulation.bin");
+        var dir = Project.ParentProject.AssetLocator.RootDirectory;
+        var mod = Project.AssetLocator.RootDirectory;
+        var param = Project.AssetLocator.GetAssetPath($@"regulation.bin");
         if (param == null)
         {
             TaskLogs.AddLog("Cannot locate param files. Save failed.",
@@ -1667,7 +1448,7 @@ public class ParamBank
         OverwriteParamsAC6(regParams);
         Utils.WriteWithBackup(dir, mod, @"regulation.bin", regParams, GameType.ArmoredCoreVI);
 
-        string sysParam = Locator.ActiveProject.AssetLocator.GetAssetPath(@"param\systemparam\systemparam.parambnd.dcx");
+        string sysParam = Project.AssetLocator.GetAssetPath(@"param\systemparam\systemparam.parambnd.dcx");
         if (sysParam != null)
         {
             using BND4 sysParams = BND4.Read(sysParam);
@@ -1675,7 +1456,7 @@ public class ParamBank
             Utils.WriteWithBackup(dir, mod, @"param\systemparam\systemparam.parambnd.dcx", sysParams);
         }
 
-        string graphicsConfigParam = Locator.ActiveProject.AssetLocator.GetAssetPath(@"param\graphicsconfig\graphicsconfig.parambnd.dcx");
+        string graphicsConfigParam = Project.AssetLocator.GetAssetPath(@"param\graphicsconfig\graphicsconfig.parambnd.dcx");
         if (graphicsConfigParam != null)
         {
             using BND4 graphicsConfigParams = BND4.Read(graphicsConfigParam);
@@ -1683,7 +1464,7 @@ public class ParamBank
             Utils.WriteWithBackup(dir, mod, @"param\graphicsconfig\graphicsconfig.parambnd.dcx", graphicsConfigParams);
         }
 
-        string eventParam = Locator.ActiveProject.AssetLocator.GetAssetPath(@"param\eventparam\eventparam.parambnd.dcx");
+        string eventParam = Project.AssetLocator.GetAssetPath(@"param\eventparam\eventparam.parambnd.dcx");
         if (eventParam != null)
         {
             using BND4 eventParams = BND4.Read(eventParam);
@@ -1701,42 +1482,42 @@ public class ParamBank
             return;
         }
 
-        if (Locator.AssetLocator.Type == GameType.DarkSoulsPTDE)
+        if (Project.Type == GameType.DarkSoulsPTDE)
         {
             SaveParamsDS1();
         }
 
-        if (Locator.AssetLocator.Type == GameType.DarkSoulsRemastered)
+        if (Project.Type == GameType.DarkSoulsRemastered)
         {
             SaveParamsDS1R();
         }
 
-        if (Locator.AssetLocator.Type == GameType.DemonsSouls)
+        if (Project.Type == GameType.DemonsSouls)
         {
             SaveParamsDES();
         }
 
-        if (Locator.AssetLocator.Type == GameType.DarkSoulsIISOTFS)
+        if (Project.Type == GameType.DarkSoulsIISOTFS)
         {
             SaveParamsDS2(loose);
         }
 
-        if (Locator.AssetLocator.Type == GameType.DarkSoulsIII)
+        if (Project.Type == GameType.DarkSoulsIII)
         {
             SaveParamsDS3(loose);
         }
 
-        if (Locator.AssetLocator.Type == GameType.Bloodborne || Locator.AssetLocator.Type == GameType.Sekiro)
+        if (Project.Type == GameType.Bloodborne || Project.Type == GameType.Sekiro)
         {
             SaveParamsBBSekiro();
         }
 
-        if (Locator.AssetLocator.Type == GameType.EldenRing)
+        if (Project.Type == GameType.EldenRing)
         {
             SaveParamsER();
         }
 
-        if (Locator.AssetLocator.Type == GameType.ArmoredCoreVI)
+        if (Project.Type == GameType.ArmoredCoreVI)
         {
             SaveParamsAC6();
         }
@@ -2009,23 +1790,23 @@ public class ParamBank
         }    
         
         // Backup modded params
-        string modRegulationPath = $@"{Locator.AssetLocator.GameModDirectory}\regulation.bin";
+        string modRegulationPath = $@"{Project.AssetLocator.RootDirectory}\regulation.bin";
         File.Copy(modRegulationPath, $@"{modRegulationPath}.upgrade.bak", true);
 
         // Load old vanilla regulation
         BND4 oldVanillaParamBnd;
-        if (Locator.AssetLocator.Type == GameType.EldenRing)
+        if (Project.Type == GameType.EldenRing)
         {
             oldVanillaParamBnd = SFUtil.DecryptERRegulation(oldVanillaParamPath);
         }
-        else if (Locator.AssetLocator.Type == GameType.ArmoredCoreVI)
+        else if (Project.Type == GameType.ArmoredCoreVI)
         {
             oldVanillaParamBnd = SFUtil.DecryptAC6Regulation(oldVanillaParamPath);
         }
         else
         {
             throw new NotImplementedException(
-                $"Param upgrading for game type {Locator.AssetLocator.Type} is not supported.");
+                $"Param upgrading for game type {Project.Type} is not supported.");
         }
 
         Dictionary<string, Param> oldVanillaParams = new();
@@ -2156,7 +1937,7 @@ public class ParamBank
         var failCount = 0;
         foreach (KeyValuePair<string, Param> p in _params)
         {
-            var path = Locator.AssetLocator.GetStrippedRowNamesPath(p.Key);
+            var path = Project.AssetLocator.GetStrippedRowNamesPath(p.Key);
             if (File.Exists(path))
             {
                 var names = File.ReadAllLines(path);
@@ -2200,7 +1981,7 @@ public class ParamBank
                 r.Name = "";
             }
 
-            var path = Locator.AssetLocator.GetStrippedRowNamesPath(p.Key);
+            var path = Project.AssetLocator.GetStrippedRowNamesPath(p.Key);
             Directory.CreateDirectory(Path.GetDirectoryName(path));
             File.WriteAllLines(path, list);
         }
