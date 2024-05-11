@@ -628,7 +628,7 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
                     ImGui.EndMenu();
                 }
 
-                if (AssetLocator.Type is GameType.EldenRing)
+                if (Locator.ActiveProject.AssetLocator.Type is GameType.EldenRing)
                 {
                     if (ImGui.BeginMenu("Asset Prefabs"))
                     {
@@ -1077,7 +1077,7 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
                 PatrolDrawManager.Generate(Universe);
             }
 
-            if (AssetLocator.Type is GameType.EldenRing)
+            if (Locator.ActiveProject.AssetLocator.Type is GameType.EldenRing)
             {
                 if (InputTracker.GetKeyDown(KeyBindings.Current.Map_AssetPrefabExport))
                 {
