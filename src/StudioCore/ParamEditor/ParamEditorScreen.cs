@@ -1216,7 +1216,7 @@ public class ParamEditorScreen : EditorScreen
 
     private void ParamUpgradeDisplay()
     {
-        if (ParamBank.IsDefsLoaded
+        if (Locator.ActiveProject.ParamBank.IsDefsLoaded
             && ParamBank.PrimaryBank.Params != null
             && ParamBank.VanillaBank.Params != null
             && ParamUpgrade_SupportedGames.Contains(Locator.AssetLocator.Type)

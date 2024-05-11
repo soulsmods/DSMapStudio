@@ -44,14 +44,20 @@ public class ParamBank
     /// <summary>
     ///     Mapping from ParamType -> PARAMDEF.
     /// </summary>
-    private static Dictionary<string, PARAMDEF> _paramdefs;
+    private Dictionary<string, PARAMDEF> _paramdefs = new();
+
+    /// <summary>
+    ///     Mapping from path -> PARAMDEF.
+    /// </summary>
+    private static readonly Dictionary<string, PARAMDEF> _paramdefsCache = new();
+
 
     /// <summary>
     ///     Mapping from Param filename -> Manual ParamType.
     ///     This is for params with no usable ParamType at some particular game version.
     ///     By convention, ParamTypes ending in "_TENTATIVE" do not have official data to reference.
     /// </summary>
-    private static Dictionary<string, string> _tentativeParamType;
+    private Dictionary<string, string> _tentativeParamType;
 
     /// <summary>
     ///     Map related params.
@@ -116,7 +122,7 @@ public class ParamBank
 
     private Param EnemyParam => _params["EnemyParam"];
 
-    public static bool IsDefsLoaded { get; private set; }
+    public bool IsDefsLoaded { get; private set; }
     public static bool IsMetaLoaded { get; private set; }
     public bool IsLoadingParams { get; private set; }
 
@@ -196,21 +202,23 @@ public class ParamBank
             $"Cannot locate param files for {type}.\nYour game folder may be missing game files, please verify game files through steam to restore them.");
     }
 
-    //TODO unstatic, use current project
-    private static List<(string, PARAMDEF)> LoadParamdefs()
+    private List<(string, PARAMDEF)> LoadParamdefs()
     {
         _paramdefs = new Dictionary<string, PARAMDEF>();
         _tentativeParamType = new Dictionary<string, string>();
-        var files = Locator.ActiveProject.AssetLocator.GetAllProjectFiles($@"Paramdex\{AssetUtils.GetGameIDForDir(Locator.ActiveProject.Type)}\Defs", ["*.xml"], true, false);
+        var files = Project.AssetLocator.GetAllProjectFiles($@"Paramdex\{AssetUtils.GetGameIDForDir(Locator.ActiveProject.Type)}\Defs", ["*.xml"], true, false);
         List<(string, PARAMDEF)> defPairs = new();
         foreach (var f in files)
         {
-            PARAMDEF pdef = PARAMDEF.XmlDeserialize(f, true);
+            if (!_paramdefsCache.TryGetValue(f, out PARAMDEF pdef))
+            {
+                pdef = PARAMDEF.XmlDeserialize(f, true);
+            } 
             _paramdefs.Add(pdef.ParamType, pdef);
             defPairs.Add((f, pdef));
         }
 
-        var tentativeMappingPath = Locator.ActiveProject.AssetLocator.GetProjectFilePath($@"{Locator.ActiveProject.AssetLocator.GetParamdexDir()}\Defs\TentativeParamType.csv");
+        var tentativeMappingPath = Project.AssetLocator.GetProjectFilePath($@"{Project.AssetLocator.GetParamdexDir()}\Defs\TentativeParamType.csv");
         if (File.Exists(tentativeMappingPath))
         {
             // No proper CSV library is used currently, and all CSV parsing is in the context of param files.
@@ -698,6 +706,24 @@ public class ParamBank
 
     private void LoadParams()
     {
+
+        IsDefsLoaded = false;
+        IsLoadingParams = true;
+
+        _params = new Dictionary<string, Param>();
+
+        if (Project.Type != GameType.Undefined)
+        {
+            List<(string, PARAMDEF)> defPairs = LoadParamdefs();
+            IsDefsLoaded = true;
+            TaskManager.Run(new TaskManager.LiveTask("Param - Load Meta",
+                TaskManager.RequeueType.WaitThenRequeue, false, () =>
+                {
+                    LoadParamMeta(defPairs);
+                    IsMetaLoaded = true;
+                }));
+        }
+
         if (Project.Type == GameType.DemonsSouls)
         {
             LoadParamsDES();
@@ -737,53 +763,30 @@ public class ParamBank
         {
             LoadParamsAC6();
         }
+
+        ClearParamDiffCaches();
+
+        IsLoadingParams = false;
     }
 
     //Some returns and repetition, but it keeps all threading and loading-flags visible inside this method
     public static void ReloadParams(ProjectSettings settings, NewProjectOptions options)
     {
-        // Steal assetlocator from PrimaryBank.
-        AssetLocator locator = Locator.AssetLocator;
-
-        _paramdefs = new Dictionary<string, PARAMDEF>();
-        IsDefsLoaded = false;
         IsMetaLoaded = false;
 
         AuxBanks = new Dictionary<string, ParamBank>();
-
-        PrimaryBank._params = new Dictionary<string, Param>();
-        PrimaryBank.IsLoadingParams = true;
 
         UICache.ClearCaches();
 
         TaskManager.Run(new TaskManager.LiveTask("Param - Load Params", TaskManager.RequeueType.WaitThenRequeue,
             false, () =>
             {
-                if (locator.Type != GameType.Undefined)
-                {
-                    List<(string, PARAMDEF)> defPairs = LoadParamdefs();
-                    IsDefsLoaded = true;
-                    TaskManager.Run(new TaskManager.LiveTask("Param - Load Meta",
-                        TaskManager.RequeueType.WaitThenRequeue, false, () =>
-                        {
-                            LoadParamMeta(defPairs);
-                            IsMetaLoaded = true;
-                        }));
-                }
-
                 PrimaryBank.LoadParams();
 
-                PrimaryBank.ClearParamDiffCaches();
-                PrimaryBank.IsLoadingParams = false;
-
-                VanillaBank.IsLoadingParams = true;
-                VanillaBank._params = new Dictionary<string, Param>();
                 TaskManager.Run(new TaskManager.LiveTask("Param - Load Vanilla Params",
                     TaskManager.RequeueType.WaitThenRequeue, false, () =>
                     {
                         VanillaBank.LoadParams();
-
-                        VanillaBank.IsLoadingParams = false;
 
                         TaskManager.Run(new TaskManager.LiveTask("Param - Check Differences",
                             TaskManager.RequeueType.WaitThenRequeue, false,
@@ -816,13 +819,9 @@ public class ParamBank
         // skip the meme and just treat as project
         Project siblingVirtualProject = new Project(dir, Locator.ActiveProject.ParentProject, settings);
         ParamBank newBank = siblingVirtualProject.ParamBank;
-        newBank._params = new Dictionary<string, Param>();
-        newBank.IsLoadingParams = true;
 
         newBank.LoadParams();
 
-        newBank.ClearParamDiffCaches();
-        newBank.IsLoadingParams = false;
         newBank.RefreshParamDiffCaches(true);
         AuxBanks[Path.GetFileName(dir).Replace(' ', '_')] = newBank;
     }
