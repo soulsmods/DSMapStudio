@@ -10,6 +10,7 @@ using Veldrid;
 using Vortice.Vulkan;
 using Renderer = StudioCore.Scene.Renderer;
 using Texture = Veldrid.Texture;
+using Andre.Native;
 
 namespace StudioCore.Graphics;
 
@@ -500,16 +501,19 @@ public unsafe class VulkanImGuiRenderer : IImguiRenderer, IDisposable
             if (keyEvent.Key == Key.ControlLeft || keyEvent.Key == Key.ControlRight)
             {
                 _controlDown = keyEvent.Down;
+                ImGuiIOAddKeyEvent(io, ImGuiKey.ImGuiModCtrl, keyEvent.Down);
             }
 
             if (keyEvent.Key == Key.ShiftLeft || keyEvent.Key == Key.ShiftRight)
             {
                 _shiftDown = keyEvent.Down;
+                ImGuiIOAddKeyEvent(io, ImGuiKey.ImGuiModShift, keyEvent.Down);
             }
 
             if (keyEvent.Key == Key.AltLeft || keyEvent.Key == Key.AltRight)
             {
                 _altDown = keyEvent.Down;
+                ImGuiIOAddKeyEvent(io, ImGuiKey.ImGuiModAlt, keyEvent.Down);
             }
         }
 
@@ -571,7 +575,7 @@ public unsafe class VulkanImGuiRenderer : IImguiRenderer, IDisposable
             case Key.KeypadEnter: return ImGuiKey.KeypadEnter;
             //case Key.KeypadEqual: return ImGuiKey.KeypadEqual;
             case Key.ControlLeft: return ImGuiKey.LeftCtrl;
-            case Key.ShiftLeft: return ImGuiKey.LeftShift;
+            case Key.ShiftLeft: return ImGuiKey.ImGuiModShift;
             case Key.AltLeft: return ImGuiKey.LeftAlt;
             case Key.WinLeft: return ImGuiKey.LeftSuper;
             case Key.ControlRight: return ImGuiKey.RightCtrl;
