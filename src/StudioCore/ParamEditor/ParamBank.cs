@@ -37,6 +37,11 @@ public class ParamBank
     public static ParamBank VanillaBank => Locator.ActiveProject.ParentProject.ParamBank;
     public static Dictionary<string, ParamBank> AuxBanks = new();
 
+    /// <summary>
+    ///     Mapping from path -> PARAMDEF for cache and and comparison purposes. TODO: check for paramdef comparisons and evaluate if the file/paramdef was actually the same.
+    /// </summary>
+    private static readonly Dictionary<string, PARAMDEF> _paramdefsCache = new();
+
 
     public static string ClipboardParam = null;
     public static List<Param.Row> ClipboardRows = new();
@@ -46,10 +51,8 @@ public class ParamBank
     /// </summary>
     private Dictionary<string, PARAMDEF> _paramdefs = new();
 
-    /// <summary>
-    ///     Mapping from path -> PARAMDEF.
-    /// </summary>
-    private static readonly Dictionary<string, PARAMDEF> _paramdefsCache = new();
+    //TODO private this
+    public Dictionary<PARAMDEF, ParamMetaData> ParamMetas = new();
 
 
     /// <summary>
@@ -237,15 +240,15 @@ public class ParamBank
 
         return defPairs;
     }
-    //TODO unstatic, use current project
-    public static void LoadParamMeta(List<(string, PARAMDEF)> defPairs)
+    public void LoadParamMeta(List<(string, PARAMDEF)> defPairs)
     {
         //This way of tying stuff together still sucks
-        var mdir = Locator.ActiveProject.AssetLocator.GetProjectFilePath($@"{Locator.ActiveProject.AssetLocator.GetParamdexDir()}\Meta");
+        var mdir = Project.AssetLocator.GetProjectFilePath($@"{Locator.ActiveProject.AssetLocator.GetParamdexDir()}\Meta");
         foreach ((var f, PARAMDEF pdef) in defPairs)
         {
             var fName = f.Substring(f.LastIndexOf('\\') + 1);
-            ParamMetaData.XmlDeserialize($@"{mdir}\{fName}", pdef);
+            var md = ParamMetaData.XmlDeserialize($@"{mdir}\{fName}", pdef);
+            ParamMetas.Add(pdef, md);
         }
     }
 

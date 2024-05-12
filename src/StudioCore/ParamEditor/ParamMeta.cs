@@ -13,7 +13,6 @@ namespace StudioCore.ParamEditor;
 public class ParamMetaData
 {
     private const int XML_VERSION = 0;
-    private static readonly Dictionary<PARAMDEF, ParamMetaData> _ParamMetas = new();
     private readonly string _path;
     internal XmlDocument _xml;
 
@@ -21,7 +20,6 @@ public class ParamMetaData
 
     private ParamMetaData(PARAMDEF def, string path)
     {
-        Add(def, this);
         foreach (PARAMDEF.Field f in def.Fields)
         {
             new FieldMetaData(this, f);
@@ -60,8 +58,6 @@ public class ParamMetaData
             throw new InvalidDataException(
                 $"Mismatched XML version; current version: {XML_VERSION}, file version: {xmlVersion}");
         }
-
-        Add(def, this);
 
         XmlNode self = root.SelectSingleNode("Self");
         if (self != null)
@@ -222,14 +218,8 @@ public class ParamMetaData
             return null;
         }
 
-        return _ParamMetas[def];
+        return Locator.ActiveProject.ParamBank.ParamMetas[def];
     }
-
-    private static void Add(PARAMDEF key, ParamMetaData meta)
-    {
-        _ParamMetas.Add(key, meta);
-    }
-
     internal static XmlNode GetXmlNode(XmlDocument xml, XmlNode parent, string child)
     {
         XmlNode node = parent.SelectSingleNode(child);
@@ -382,7 +372,7 @@ public class ParamMetaData
             field.Value.Commit(FixName(field.Key.InternalName)); //does not handle shared names
         }
 
-        foreach (ParamMetaData param in _ParamMetas.Values)
+        foreach (ParamMetaData param in Locator.ActiveProject.ParamBank.ParamMetas.Values)
         {
             param.Commit();
             param.Save();
