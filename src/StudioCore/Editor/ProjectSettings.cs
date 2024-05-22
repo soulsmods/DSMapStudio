@@ -21,7 +21,7 @@ public class ProjectSettings
 {
     public string ProjectName { get; set; } = "";
     public string GameRoot { get; set; } = "";
-    public GameType GameType { get; private set; } = GameType.Undefined;
+    public GameType GameType { get; set; } = GameType.Undefined;
 
     // JsonExtensionData stores info in config file not present in class in order to retain settings between versions.
 #pragma warning disable IDE0051
