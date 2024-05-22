@@ -287,11 +287,11 @@ public partial class FMGBank
     private static readonly List<string> patchStrings = new() { "_Patch", "_DLC1", "_DLC2" };
 
 
-    private Project project;
+    private Project Project;
 
     public FMGBank(Project project)
     {
-        this.project = project;
+        this.Project = project;
     }
 
     public bool IsLoaded { get; private set; }
@@ -670,8 +670,8 @@ public partial class FMGBank
         }
 
         IBinder fmgBinder;
-        if (Locator.AssetLocator.Type == GameType.DemonsSouls || Locator.AssetLocator.Type == GameType.DarkSoulsPTDE ||
-            Locator.AssetLocator.Type == GameType.DarkSoulsRemastered)
+        if (Project.AssetLocator.Type == GameType.DemonsSouls || Project.AssetLocator.Type == GameType.DarkSoulsPTDE ||
+            Project.AssetLocator.Type == GameType.DarkSoulsRemastered)
         {
             fmgBinder = BND3.Read(path);
         }
@@ -705,12 +705,12 @@ public partial class FMGBank
                     ActiveUITypes.Add((FmgUICategory)e, false);
                 }
 
-                if (Locator.AssetLocator.Type == GameType.Undefined)
+                if (Project.AssetLocator.Type == GameType.Undefined)
                 {
                     return;
                 }
 
-                if (Locator.AssetLocator.Type == GameType.DarkSoulsIISOTFS)
+                if (Project.AssetLocator.Type == GameType.DarkSoulsIISOTFS)
                 {
                     if (ReloadDS2FMGs())
                     {
@@ -723,8 +723,8 @@ public partial class FMGBank
 
                 SetDefaultLanguagePath();
 
-                AssetDescription itemMsgPath = Locator.AssetLocator.GetItemMsgbnd(LanguageFolder);
-                AssetDescription menuMsgPath = Locator.AssetLocator.GetMenuMsgbnd(LanguageFolder);
+                AssetDescription itemMsgPath = Project.AssetLocator.GetItemMsgbnd(LanguageFolder);
+                AssetDescription menuMsgPath = Project.AssetLocator.GetMenuMsgbnd(LanguageFolder);
 
                 FmgInfoBank = new List<FMGInfo>();
                 if (!LoadItemMenuMsgBnds(itemMsgPath, menuMsgPath))
@@ -743,7 +743,7 @@ public partial class FMGBank
     private bool ReloadDS2FMGs()
     {
         SetDefaultLanguagePath();
-        AssetDescription desc = Locator.AssetLocator.GetItemMsgbnd(LanguageFolder, true);
+        AssetDescription desc = Project.AssetLocator.GetItemMsgbnd(LanguageFolder, true);
 
         if (desc.AssetPath == null)
         {
@@ -763,22 +763,12 @@ public partial class FMGBank
             return false;
         }
 
-        List<string> files = Directory
-            .GetFileSystemEntries($@"{Locator.AssetLocator.GameRootDirectory}\{desc.AssetPath}", @"*.fmg").ToList();
+        IEnumerable<string> files = Project.AssetLocator.GetAllAssets($@"{desc.AssetPath}", [@"*.fmg"]);
         FmgInfoBank = new List<FMGInfo>();
         foreach (var file in files)
         {
-            var modfile = $@"{Locator.AssetLocator.GameModDirectory}\{desc.AssetPath}\{Path.GetFileName(file)}";
-            if (Locator.AssetLocator.GameModDirectory != null && File.Exists(modfile))
-            {
-                FMG fmg = FMG.Read(modfile);
-                SetFMGInfoDS2(modfile);
-            }
-            else
-            {
-                FMG fmg = FMG.Read(file);
-                SetFMGInfoDS2(file);
-            }
+            FMG fmg = FMG.Read(file);
+            SetFMGInfoDS2(file);
         }
 
         FmgInfoBank = FmgInfoBank.OrderBy(e => e.Name).ToList();
@@ -791,7 +781,7 @@ public partial class FMGBank
         if (LanguageFolder == "")
         {
             // By default, try to find path to English folder.
-            foreach (KeyValuePair<string, string> lang in Locator.AssetLocator.GetMsgLanguages())
+            foreach (KeyValuePair<string, string> lang in Project.AssetLocator.GetMsgLanguages())
             {
                 var folder = lang.Value.Split("\\").Last();
                 if (folder.Contains("eng", StringComparison.CurrentCultureIgnoreCase))
@@ -828,7 +818,7 @@ public partial class FMGBank
     /// </summary>
     private void ApplyGameDifferences(FMGInfo info)
     {
-        GameType gameType = Locator.AssetLocator.Type;
+        GameType gameType = Project.AssetLocator.Type;
         switch (info.FmgID)
         {
             case FmgIDType.ReusedFMG_32:
@@ -1160,7 +1150,7 @@ public partial class FMGBank
     {
         foreach (FMGInfo info in FmgInfoBank)
         {
-            Utils.WriteWithBackup(Locator.AssetLocator.GameRootDirectory, Locator.AssetLocator.GameModDirectory,
+            Utils.WriteWithBackup(Project.ParentProject.AssetLocator.RootDirectory, Project.AssetLocator.RootDirectory,
                 $@"menu\text\{LanguageFolder}\{info.Name}.fmg", info.Fmg);
         }
     }
@@ -1174,12 +1164,12 @@ public partial class FMGBank
                 return;
             }
 
-            if (Locator.AssetLocator.Type == GameType.Undefined)
+            if (Project.AssetLocator.Type == GameType.Undefined)
             {
                 return;
             }
 
-            if (Locator.AssetLocator.Type == GameType.DarkSoulsIISOTFS)
+            if (Project.AssetLocator.Type == GameType.DarkSoulsIISOTFS)
             {
                 SaveFMGsDS2();
                 TaskLogs.AddLog("Saved FMG text");
@@ -1189,10 +1179,10 @@ public partial class FMGBank
             // Load the fmg bnd, replace fmgs, and save
             IBinder fmgBinderItem;
             IBinder fmgBinderMenu;
-            AssetDescription itemMsgPath = Locator.AssetLocator.GetItemMsgbnd(LanguageFolder);
-            AssetDescription menuMsgPath = Locator.AssetLocator.GetMenuMsgbnd(LanguageFolder);
-            if (Locator.AssetLocator.Type == GameType.DemonsSouls || Locator.AssetLocator.Type == GameType.DarkSoulsPTDE ||
-                Locator.AssetLocator.Type == GameType.DarkSoulsRemastered)
+            AssetDescription itemMsgPath = Project.AssetLocator.GetItemMsgbnd(LanguageFolder);
+            AssetDescription menuMsgPath = Project.AssetLocator.GetMenuMsgbnd(LanguageFolder);
+            if (Project.AssetLocator.Type == GameType.DemonsSouls || Project.AssetLocator.Type == GameType.DarkSoulsPTDE ||
+                Project.AssetLocator.Type == GameType.DarkSoulsRemastered)
             {
                 fmgBinderItem = BND3.Read(itemMsgPath.AssetPath);
                 fmgBinderMenu = BND3.Read(menuMsgPath.AssetPath);
@@ -1221,30 +1211,30 @@ public partial class FMGBank
                 }
             }
 
-            AssetDescription itemMsgPathDest = Locator.AssetLocator.GetItemMsgbnd(LanguageFolder, true);
-            AssetDescription menuMsgPathDest = Locator.AssetLocator.GetMenuMsgbnd(LanguageFolder, true);
+            AssetDescription itemMsgPathDest = Project.AssetLocator.GetItemMsgbnd(LanguageFolder, true);
+            AssetDescription menuMsgPathDest = Project.AssetLocator.GetMenuMsgbnd(LanguageFolder, true);
             if (fmgBinderItem is BND3 bnd3)
             {
-                Utils.WriteWithBackup(Locator.AssetLocator.GameRootDirectory,
-                    Locator.AssetLocator.GameModDirectory, itemMsgPathDest.AssetPath, bnd3);
-                Utils.WriteWithBackup(Locator.AssetLocator.GameRootDirectory,
-                    Locator.AssetLocator.GameModDirectory, menuMsgPathDest.AssetPath, (BND3)fmgBinderMenu);
-                if (Locator.AssetLocator.Type is GameType.DemonsSouls)
+                Utils.WriteWithBackup(Project.ParentProject.AssetLocator.RootDirectory,
+                    Project.AssetLocator.RootDirectory, itemMsgPathDest.AssetPath, bnd3);
+                Utils.WriteWithBackup(Project.ParentProject.AssetLocator.RootDirectory,
+                    Project.AssetLocator.RootDirectory, menuMsgPathDest.AssetPath, (BND3)fmgBinderMenu);
+                if (Project.AssetLocator.Type is GameType.DemonsSouls)
                 {
                     bnd3.Compression = DCX.Type.None;
                     ((BND3)fmgBinderMenu).Compression = DCX.Type.None;
-                    Utils.WriteWithBackup(Locator.AssetLocator.GameRootDirectory,
-                        Locator.AssetLocator.GameModDirectory, itemMsgPathDest.AssetPath[..^4], bnd3);
-                    Utils.WriteWithBackup(Locator.AssetLocator.GameRootDirectory,
-                        Locator.AssetLocator.GameModDirectory, menuMsgPathDest.AssetPath[..^4], (BND3)fmgBinderMenu);
+                    Utils.WriteWithBackup(Project.ParentProject.AssetLocator.RootDirectory,
+                    Project.AssetLocator.RootDirectory, itemMsgPathDest.AssetPath[..^4], bnd3);
+                    Utils.WriteWithBackup(Project.ParentProject.AssetLocator.RootDirectory,
+                    Project.AssetLocator.RootDirectory, menuMsgPathDest.AssetPath[..^4], (BND3)fmgBinderMenu);
                 }
             }
             else if (fmgBinderItem is BND4 bnd4)
             {
-                Utils.WriteWithBackup(Locator.AssetLocator.GameRootDirectory,
-                    Locator.AssetLocator.GameModDirectory, itemMsgPathDest.AssetPath, bnd4);
-                Utils.WriteWithBackup(Locator.AssetLocator.GameRootDirectory,
-                    Locator.AssetLocator.GameModDirectory, menuMsgPathDest.AssetPath, (BND4)fmgBinderMenu);
+                Utils.WriteWithBackup(Project.ParentProject.AssetLocator.RootDirectory,
+                    Project.AssetLocator.RootDirectory, itemMsgPathDest.AssetPath, bnd4);
+                Utils.WriteWithBackup(Project.ParentProject.AssetLocator.RootDirectory,
+                    Project.AssetLocator.RootDirectory, menuMsgPathDest.AssetPath, (BND4)fmgBinderMenu);
             }
 
             fmgBinderItem.Dispose();

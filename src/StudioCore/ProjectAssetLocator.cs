@@ -520,7 +520,7 @@ public class ProjectAssetLocator
 
         if (writemode)
         {
-            ad.AssetPath = path;
+            ad.AssetPath = $@"{RootDirectory}\{path}";
         }
         else
         {
