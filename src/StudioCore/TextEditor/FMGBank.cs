@@ -279,20 +279,28 @@ public enum FmgIDType
 /// <summary>
 ///     Static class that stores all the strings for a Souls game.
 /// </summary>
-public static partial class FMGBank
+public partial class FMGBank
 {
     /// <summary>
     ///     List of strings to compare with "FmgIDType" name to identify patch FMGs.
     /// </summary>
     private static readonly List<string> patchStrings = new() { "_Patch", "_DLC1", "_DLC2" };
 
-    public static bool IsLoaded { get; private set; }
-    public static bool IsLoading { get; private set; }
-    public static string LanguageFolder { get; private set; } = "";
 
-    public static List<FMGInfo> FmgInfoBank { get; private set; } = new();
+    private Project project;
 
-    public static Dictionary<FmgUICategory, bool> ActiveUITypes { get; private set; } = new();
+    public FMGBank(Project project)
+    {
+        this.project = project;
+    }
+
+    public bool IsLoaded { get; private set; }
+    public bool IsLoading { get; private set; }
+    public string LanguageFolder { get; private set; } = "";
+
+    public List<FMGInfo> FmgInfoBank { get; private set; } = new();
+
+    public Dictionary<FmgUICategory, bool> ActiveUITypes { get; private set; } = new();
 
     /// <summary>
     ///     Get category for grouped entries (Goods, Weapons, etc)
@@ -534,12 +542,13 @@ public static partial class FMGBank
         return str;
     }
 
-    private static FMGInfo GenerateFMGInfo(BinderFile file)
+    private FMGInfo GenerateFMGInfo(BinderFile file)
     {
         FMG fmg = FMG.Read(file.Bytes);
         var name = Enum.GetName(typeof(FmgIDType), file.ID);
         FMGInfo info = new()
         {
+            Owner = this,
             FileName = file.Name.Split("\\").Last(),
             Name = name,
             FmgID = (FmgIDType)file.ID,
@@ -571,13 +580,14 @@ public static partial class FMGBank
         return info;
     }
 
-    private static void SetFMGInfoDS2(string file)
+    private void SetFMGInfoDS2(string file)
     {
         // TODO: DS2 FMG grouping & UI sorting (copy SetFMGInfo)
         FMG fmg = FMG.Read(file);
         var name = Path.GetFileNameWithoutExtension(file);
         FMGInfo info = new()
         {
+            Owner = this,
             FileName = file.Split("\\").Last(),
             Name = name,
             FmgID = FmgIDType.None,
@@ -594,7 +604,7 @@ public static partial class FMGBank
     ///     Loads item and menu MsgBnds from paths, generates FMGInfo, and fills FmgInfoBank.
     /// </summary>
     /// <returns>True if successful; false otherwise.</returns>
-    private static bool LoadItemMenuMsgBnds(AssetDescription itemMsgPath, AssetDescription menuMsgPath)
+    private bool LoadItemMenuMsgBnds(AssetDescription itemMsgPath, AssetDescription menuMsgPath)
     {
         if (!LoadMsgBnd(itemMsgPath.AssetPath, "item.msgbnd")
             || !LoadMsgBnd(menuMsgPath.AssetPath, "menu.msgbnd"))
@@ -637,7 +647,7 @@ public static partial class FMGBank
     ///     Loads MsgBnd from path, generates FMGInfo, and fills FmgInfoBank.
     /// </summary>
     /// <returns>True if successful; false otherwise.</returns>
-    private static bool LoadMsgBnd(string path, string msgBndType = "UNDEFINED")
+    private bool LoadMsgBnd(string path, string msgBndType = "UNDEFINED")
     {
         if (path == null)
         {
@@ -679,7 +689,7 @@ public static partial class FMGBank
         return true;
     }
 
-    public static void ReloadFMGs(string languageFolder = "")
+    public void ReloadFMGs(string languageFolder = "")
     {
         TaskManager.Run(new TaskManager.LiveTask("FMG - Load Text", TaskManager.RequeueType.WaitThenRequeue, true,
             () =>
@@ -730,7 +740,7 @@ public static partial class FMGBank
             }));
     }
 
-    private static bool ReloadDS2FMGs()
+    private bool ReloadDS2FMGs()
     {
         SetDefaultLanguagePath();
         AssetDescription desc = Locator.AssetLocator.GetItemMsgbnd(LanguageFolder, true);
@@ -776,7 +786,7 @@ public static partial class FMGBank
         return true;
     }
 
-    private static void SetDefaultLanguagePath()
+    private void SetDefaultLanguagePath()
     {
         if (LanguageFolder == "")
         {
@@ -793,7 +803,7 @@ public static partial class FMGBank
         }
     }
 
-    private static void SetFMGInfoPatchParent(FMGInfo info)
+    private void SetFMGInfoPatchParent(FMGInfo info)
     {
         var strippedName = RemovePatchStrings(info.Name);
         if (strippedName != info.Name)
@@ -816,7 +826,7 @@ public static partial class FMGBank
     /// <summary>
     ///     Checks and applies FMG info that differs per-game.
     /// </summary>
-    private static void ApplyGameDifferences(FMGInfo info)
+    private void ApplyGameDifferences(FMGInfo info)
     {
         GameType gameType = Locator.AssetLocator.Type;
         switch (info.FmgID)
@@ -989,7 +999,7 @@ public static partial class FMGBank
     /// </summary>
     /// <param name="category">FMGEntryCategory. If "None", an empty list will be returned.</param>
     /// <returns>List of patched entries if found; empty list otherwise.</returns>
-    public static List<FMG.Entry> GetFmgEntriesByCategory(FmgEntryCategory category, bool sort = true)
+    public List<FMG.Entry> GetFmgEntriesByCategory(FmgEntryCategory category, bool sort = true)
     {
         if (category == FmgEntryCategory.None)
         {
@@ -1013,7 +1023,7 @@ public static partial class FMGBank
     /// </summary>
     /// <param name="category">FMGEntryCategory . If "None", an empty list will be returned.</param>
     /// <returns>List of patched entries if found; empty list otherwise.</returns>
-    public static List<FMG.Entry> GetFmgEntriesByCategoryAndTextType(FmgEntryCategory category,
+    public List<FMG.Entry> GetFmgEntriesByCategoryAndTextType(FmgEntryCategory category,
         FmgEntryTextType textType, bool sort = true)
     {
         if (category == FmgEntryCategory.None)
@@ -1036,7 +1046,7 @@ public static partial class FMGBank
     ///     Get patched FMG Entries for the specified FmgIDType.
     /// </summary>
     /// <returns>List of patched entries if found; empty list otherwise.</returns>
-    public static List<FMG.Entry> GetFmgEntriesByFmgIDType(FmgIDType fmgID, bool sort = true)
+    public List<FMG.Entry> GetFmgEntriesByFmgIDType(FmgIDType fmgID, bool sort = true)
     {
         foreach (FMGInfo info in FmgInfoBank)
         {
@@ -1053,7 +1063,7 @@ public static partial class FMGBank
     ///     Generate a new EntryGroup using a given ID and FMGInfo.
     ///     Data is updated using FMGInfo PatchChildren.
     /// </summary>
-    public static EntryGroup GenerateEntryGroup(int id, FMGInfo fmgInfo)
+    public EntryGroup GenerateEntryGroup(int id, FMGInfo fmgInfo)
     {
         EntryGroup eGroup = new() { ID = id };
 
@@ -1109,7 +1119,7 @@ public static partial class FMGBank
         return eGroup;
     }
 
-    private static void HandleDuplicateEntries()
+    private void HandleDuplicateEntries()
     {
         var askedAboutDupes = false;
         var ignoreDupes = true;
@@ -1146,7 +1156,7 @@ public static partial class FMGBank
         return json;
     }
 
-    private static void SaveFMGsDS2()
+    private void SaveFMGsDS2()
     {
         foreach (FMGInfo info in FmgInfoBank)
         {
@@ -1155,7 +1165,7 @@ public static partial class FMGBank
         }
     }
 
-    public static void SaveFMGs()
+    public void SaveFMGs()
     {
         try
         {
@@ -1268,6 +1278,8 @@ public static partial class FMGBank
     /// </summary>
     public class FMGInfo
     {
+        public FMGBank Owner;
+
         public FmgEntryCategory EntryCategory;
         public FmgEntryTextType EntryType;
         public string FileName;
@@ -1403,7 +1415,7 @@ public static partial class FMGBank
         /// </summary>
         public FMGInfo GetTitleFmgInfo()
         {
-            foreach (var info in FMGBank.FmgInfoBank)
+            foreach (var info in Owner.FmgInfoBank)
             {
                 if (info.EntryCategory == EntryCategory && info.EntryType == FmgEntryTextType.Title && info.PatchPrefix == PatchPrefix)
                 {

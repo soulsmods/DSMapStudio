@@ -42,7 +42,7 @@ public unsafe class TextEditorScreen : EditorScreen
 
     public void DrawEditorMenu()
     {
-        if (ImGui.BeginMenu("Edit", FMGBank.IsLoaded))
+        if (ImGui.BeginMenu("Edit", Locator.ActiveProject.FMGBank.IsLoaded))
         {
             if (ImGui.MenuItem("Undo", KeyBindings.Current.Core_Undo.HintText, false,
                     EditorActionManager.CanUndo()))
@@ -71,7 +71,7 @@ public unsafe class TextEditorScreen : EditorScreen
             ImGui.EndMenu();
         }
 
-        if (ImGui.BeginMenu("Text Language", !FMGBank.IsLoading))
+        if (ImGui.BeginMenu("Text Language", !Locator.ActiveProject.FMGBank.IsLoading))
         {
             Dictionary<string, string> folders = Locator.AssetLocator.GetMsgLanguages();
             if (folders.Count == 0)
@@ -82,7 +82,7 @@ public unsafe class TextEditorScreen : EditorScreen
             {
                 foreach (KeyValuePair<string, string> path in folders)
                 {
-                    if (ImGui.MenuItem(path.Key, "", FMGBank.LanguageFolder == path.Key))
+                    if (ImGui.MenuItem(path.Key, "", Locator.ActiveProject.FMGBank.LanguageFolder == path.Key))
                     {
                         ChangeLanguage(path.Key);
                     }
@@ -92,7 +92,7 @@ public unsafe class TextEditorScreen : EditorScreen
             ImGui.EndMenu();
         }
 
-        if (ImGui.BeginMenu("Import/Export", FMGBank.IsLoaded))
+        if (ImGui.BeginMenu("Import/Export", Locator.ActiveProject.FMGBank.IsLoaded))
         {
             if (ImGui.BeginMenu("Merge"))
             {
@@ -179,7 +179,7 @@ public unsafe class TextEditorScreen : EditorScreen
         ImGui.SetNextWindowPos(winp);
         ImGui.SetNextWindowSize(wins);
 
-        if (!ImGui.IsAnyItemActive() && FMGBank.IsLoaded)
+        if (!ImGui.IsAnyItemActive() && Locator.ActiveProject.FMGBank.IsLoaded)
         {
             // Only allow key shortcuts when an item [text box] is not currently activated
             if (EditorActionManager.CanUndo() && InputTracker.GetKeyDown(KeyBindings.Current.Core_Undo))
@@ -232,7 +232,7 @@ public unsafe class TextEditorScreen : EditorScreen
                     searchName = initcmd[1];
                 }
 
-                foreach (FMGBank.FMGInfo info in FMGBank.FmgInfoBank)
+                foreach (FMGBank.FMGInfo info in Locator.ActiveProject.FMGBank.FmgInfoBank)
                 {
                     var match = false;
                     // This matches top-level item FMGs
@@ -264,7 +264,7 @@ public unsafe class TextEditorScreen : EditorScreen
                     var parsed = int.TryParse(initcmd[2], out var id);
                     if (parsed)
                     {
-                        _activeEntryGroup = FMGBank.GenerateEntryGroup(id, _activeFmgInfo);
+                        _activeEntryGroup = Locator.ActiveProject.FMGBank.GenerateEntryGroup(id, _activeFmgInfo);
                     }
                 }
             }
@@ -281,17 +281,17 @@ public unsafe class TextEditorScreen : EditorScreen
         _filteredFmgInfo.Clear();
         ClearTextEditorCache();
         ResetActionManager();
-        FMGBank.ReloadFMGs(_projectSettings.LastFmgLanguageUsed);
+        Locator.ActiveProject.FMGBank.ReloadFMGs(_projectSettings.LastFmgLanguageUsed);
     }
 
     public void Save()
     {
-        FMGBank.SaveFMGs();
+        Locator.ActiveProject.FMGBank.SaveFMGs();
     }
 
     public void SaveAll()
     {
-        FMGBank.SaveFMGs();
+        Locator.ActiveProject.FMGBank.SaveFMGs();
     }
 
     private void ClearTextEditorCache()
@@ -377,7 +377,7 @@ public unsafe class TextEditorScreen : EditorScreen
                 }
 
                 // Descriptions
-                foreach (FMG.Entry entry in FMGBank.GetFmgEntriesByCategoryAndTextType(_activeFmgInfo.EntryCategory,
+                foreach (FMG.Entry entry in Locator.ActiveProject.FMGBank.GetFmgEntriesByCategoryAndTextType(_activeFmgInfo.EntryCategory,
                              FmgEntryTextType.Description, false))
                 {
                     if (entry.Text != null)
@@ -394,7 +394,7 @@ public unsafe class TextEditorScreen : EditorScreen
                 }
 
                 // Summaries
-                foreach (FMG.Entry entry in FMGBank.GetFmgEntriesByCategoryAndTextType(_activeFmgInfo.EntryCategory,
+                foreach (FMG.Entry entry in Locator.ActiveProject.FMGBank.GetFmgEntriesByCategoryAndTextType(_activeFmgInfo.EntryCategory,
                              FmgEntryTextType.Summary, false))
                 {
                     if (entry.Text != null)
@@ -411,7 +411,7 @@ public unsafe class TextEditorScreen : EditorScreen
                 }
 
                 // Extra Text
-                foreach (FMG.Entry entry in FMGBank.GetFmgEntriesByCategoryAndTextType(_activeFmgInfo.EntryCategory,
+                foreach (FMG.Entry entry in Locator.ActiveProject.FMGBank.GetFmgEntriesByCategoryAndTextType(_activeFmgInfo.EntryCategory,
                              FmgEntryTextType.ExtraText, false))
                 {
                     if (entry.Text != null)
@@ -446,7 +446,7 @@ public unsafe class TextEditorScreen : EditorScreen
         if (_fmgSearchAllActive)
             infos = _filteredFmgInfo;
         else
-            infos = FMGBank.FmgInfoBank;
+            infos = Locator.ActiveProject.FMGBank.FmgInfoBank;
 
         foreach (var info in infos)
         {
@@ -496,13 +496,13 @@ public unsafe class TextEditorScreen : EditorScreen
     {
         var scale = MapStudioNew.GetUIScale();
 
-        if (!FMGBank.IsLoaded)
+        if (!Locator.ActiveProject.FMGBank.IsLoaded)
         {
             if (_projectSettings == null)
             {
                 ImGui.Text("No project loaded. File -> New Project");
             }
-            else if (FMGBank.IsLoading)
+            else if (Locator.ActiveProject.FMGBank.IsLoading)
             {
                 ImGui.Text("Loading...");
             }
@@ -535,7 +535,7 @@ public unsafe class TextEditorScreen : EditorScreen
         {
             _fmgSearchAllActive = true;
             _filteredFmgInfo.Clear();
-            foreach (var info in FMGBank.FmgInfoBank)
+            foreach (var info in Locator.ActiveProject.FMGBank.FmgInfoBank)
             {
                 if (info.PatchParent == null)
                 {
@@ -573,7 +573,7 @@ public unsafe class TextEditorScreen : EditorScreen
         }
         ImGui.Separator();
 
-        foreach (KeyValuePair<FmgUICategory, bool> v in FMGBank.ActiveUITypes)
+        foreach (KeyValuePair<FmgUICategory, bool> v in Locator.ActiveProject.FMGBank.ActiveUITypes)
         {
             if (v.Value)
             {
@@ -662,11 +662,11 @@ public unsafe class TextEditorScreen : EditorScreen
                 label = Utils.ImGui_WordWrapString(label, ImGui.GetColumnWidth(-1));
                 if (ImGui.Selectable(label, _activeIDCache == r.ID))
                 {
-                    _activeEntryGroup = FMGBank.GenerateEntryGroup(r.ID, _activeFmgInfo);
+                    _activeEntryGroup = Locator.ActiveProject.FMGBank.GenerateEntryGroup(r.ID, _activeFmgInfo);
                 }
                 else if (_activeIDCache == r.ID && _activeEntryGroup == null)
                 {
-                    _activeEntryGroup = FMGBank.GenerateEntryGroup(r.ID, _activeFmgInfo);
+                    _activeEntryGroup = Locator.ActiveProject.FMGBank.GenerateEntryGroup(r.ID, _activeFmgInfo);
                     _searchFilterCached = "";
                 }
 
@@ -674,7 +674,7 @@ public unsafe class TextEditorScreen : EditorScreen
                                      && _activeEntryGroup?.ID != r.ID)
                 {
                     // Up/Down arrow key selection
-                    _activeEntryGroup = FMGBank.GenerateEntryGroup(r.ID, _activeFmgInfo);
+                    _activeEntryGroup = Locator.ActiveProject.FMGBank.GenerateEntryGroup(r.ID, _activeFmgInfo);
                     _arrowKeyPressed = false;
                 }
 
@@ -688,13 +688,13 @@ public unsafe class TextEditorScreen : EditorScreen
                 {
                     if (ImGui.Selectable("Duplicate Entry"))
                     {
-                        _activeEntryGroup = FMGBank.GenerateEntryGroup(r.ID, _activeFmgInfo);
+                        _activeEntryGroup = Locator.ActiveProject.FMGBank.GenerateEntryGroup(r.ID, _activeFmgInfo);
                         DuplicateFMGEntries(_activeEntryGroup);
                     }
 
                     if (ImGui.Selectable("Delete Entry"))
                     {
-                        _activeEntryGroup = FMGBank.GenerateEntryGroup(r.ID, _activeFmgInfo);
+                        _activeEntryGroup = Locator.ActiveProject.FMGBank.GenerateEntryGroup(r.ID, _activeFmgInfo);
                         DeleteFMGEntries(_activeEntryGroup);
                     }
 
@@ -762,6 +762,6 @@ public unsafe class TextEditorScreen : EditorScreen
         _filteredFmgInfo.Clear();
         ClearTextEditorCache();
         ResetActionManager();
-        FMGBank.ReloadFMGs(path);
+        Locator.ActiveProject.FMGBank.ReloadFMGs(path);
     }
 }

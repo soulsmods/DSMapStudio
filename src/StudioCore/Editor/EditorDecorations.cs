@@ -262,7 +262,7 @@ public unsafe class EditorDecorations
     private static List<(string, FMGBank.EntryGroup)> resolveFMGRefs(List<FMGRef> fmgRefs, Param.Row context,
         dynamic oldval)
     {
-        if (!FMGBank.IsLoaded)
+        if (!Locator.ActiveProject.FMGBank.IsLoaded)
         {
             return new List<(string, FMGBank.EntryGroup)>();
         }
@@ -271,9 +271,9 @@ public unsafe class EditorDecorations
             {
                 Param.Cell? c = context?[rf.conditionField];
                 return context == null || c == null || Convert.ToInt32(c.Value.Value) == rf.conditionValue;
-            }).Select(rf => FMGBank.FmgInfoBank.Find(x => x.Name == rf.fmg))
+            }).Select(rf => Locator.ActiveProject.FMGBank.FmgInfoBank.Find(x => x.Name == rf.fmg))
             .Where(fmgi => fmgi != null)
-            .Select(fmgi => (fmgi.Name, FMGBank.GenerateEntryGroup((int)oldval, fmgi)))
+            .Select(fmgi => (fmgi.Name, Locator.ActiveProject.FMGBank.GenerateEntryGroup((int)oldval, fmgi)))
             .ToList();
     }
 

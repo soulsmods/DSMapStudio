@@ -36,7 +36,7 @@ public class JsonFMG
     }
 }
 
-public static partial class FMGBank
+public partial class FMGBank
 {
     /// <summary>
     ///     Imports and exports FMGs using external formats.
@@ -86,8 +86,8 @@ public static partial class FMGBank
                 return;
             }
 
-            var itemPath = Locator.AssetLocator.GetItemMsgbnd(LanguageFolder).AssetPath;
-            var menuPath = Locator.AssetLocator.GetMenuMsgbnd(LanguageFolder).AssetPath;
+            var itemPath = Locator.AssetLocator.GetItemMsgbnd(Locator.ActiveProject.FMGBank.LanguageFolder).AssetPath;
+            var menuPath = Locator.AssetLocator.GetMenuMsgbnd(Locator.ActiveProject.FMGBank.LanguageFolder).AssetPath;
             var itemPath_Vanilla = itemPath.Replace(Locator.AssetLocator.GameModDirectory, Locator.AssetLocator.GameRootDirectory);
             var menuPath_Vanilla = menuPath.Replace(Locator.AssetLocator.GameModDirectory, Locator.AssetLocator.GameRootDirectory);
 
@@ -96,7 +96,7 @@ public static partial class FMGBank
             fmgs_vanilla.AddAll(GetFmgs(menuPath_Vanilla));
 
             Dictionary<FmgIDType, FMG> fmgs_mod = new();
-            foreach (var info in FmgInfoBank)
+            foreach (var info in Locator.ActiveProject.FMGBank.FmgInfoBank)
             {
                 fmgs_mod.Add(info.FmgID, info.Fmg);
             }
@@ -213,7 +213,7 @@ public static partial class FMGBank
             {
                 Directory.CreateDirectory(path);
 
-                foreach (FMGInfo info in FmgInfoBank)
+                foreach (FMGInfo info in Locator.ActiveProject.FMGBank.FmgInfoBank)
                 {
                     JsonFMG fmgPair = new(info.FmgID, info.Fmg);
                     var json = JsonSerializer.Serialize(fmgPair, FmgSerializerContext.Default.JsonFMG);
@@ -236,7 +236,7 @@ public static partial class FMGBank
                 var menuPath = $@"{path}\Menu Text";
                 Directory.CreateDirectory(itemPath);
                 Directory.CreateDirectory(menuPath);
-                foreach (FMGInfo info in FmgInfoBank)
+                foreach (FMGInfo info in Locator.ActiveProject.FMGBank.FmgInfoBank)
                 {
                     if (info.UICategory == FmgUICategory.Item)
                     {
@@ -270,7 +270,7 @@ public static partial class FMGBank
 
         private static bool ImportFmg(FmgIDType fmgId, FMG fmg, bool merge)
         {
-            foreach (FMGInfo info in FmgInfoBank)
+            foreach (FMGInfo info in Locator.ActiveProject.FMGBank.FmgInfoBank)
             {
                 if (info.FmgID == fmgId)
                 {
@@ -344,7 +344,7 @@ public static partial class FMGBank
                 return false;
             }
 
-            HandleDuplicateEntries();
+            Locator.ActiveProject.FMGBank.HandleDuplicateEntries();
             PlatformUtils.Instance.MessageBox($"Imported {filecount} json files", "Finished", MessageBoxButtons.OK);
             return true;
         }
@@ -451,7 +451,7 @@ public static partial class FMGBank
                 return false;
             }
 
-            FMGBank.HandleDuplicateEntries();
+            Locator.ActiveProject.FMGBank.HandleDuplicateEntries();
             TaskLogs.AddLog($"FMG import: Finished importing {filecount} txt files",
                 LogLevel.Information, TaskLogs.LogPriority.Normal);
             return true;
