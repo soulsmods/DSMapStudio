@@ -14,13 +14,14 @@ public class Project
 {
     public readonly ProjectSettings Settings;
 
-    public readonly GameType Type;
-
     public readonly Project ParentProject;
 
     public readonly ProjectAssetLocator AssetLocator;
 
     public readonly ParamBank ParamBank;
+
+    
+    public GameType Type => Settings.GameType;
     
     /// <summary>
     ///     Creates a project based in a single folder with no parent. This is for Game or DSMS files.
@@ -28,7 +29,6 @@ public class Project
     public Project(ProjectSettings settings)
     {
         Settings = settings;
-        Type = settings.GameType;
         AssetLocator = new(this, settings.GameRoot);
         ParentProject = null;
 
@@ -40,7 +40,6 @@ public class Project
     public Project(ProjectSettings settings, string moddir)
     {
         Settings = settings;
-        Type = settings.GameType;
         AssetLocator = new(this, moddir);
         ParentProject = new Project(settings);
 
@@ -59,7 +58,6 @@ public class Project
         {
             Settings = settings;
         }
-        Type = parent.Type;
         AssetLocator = new(this, moddir);
         ParentProject = parent;
 
@@ -73,7 +71,6 @@ public class Project
     {
         var time = DateTime.Now.ToString("dd-MM-yyyy-(hh-mm-ss)", CultureInfo.InvariantCulture);
         Settings = parent.Settings;
-        Type = parent.Type;
         AssetLocator = new(this, parent.AssetLocator.RootDirectory + $@"\recovery\{time}");
         ParentProject = parent.ParentProject;
         if (!Directory.Exists(AssetLocator.RootDirectory))
