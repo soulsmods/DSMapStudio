@@ -471,6 +471,7 @@ public class ProjectAssetLocator
 
         return dict;
     }
+
     /// <summary>
     ///     Get path of item.msgbnd (english by default)
     /// </summary>
@@ -490,41 +491,41 @@ public class ProjectAssetLocator
     public AssetDescription GetMsgbnd(string msgBndType, string langFolder, bool writemode = false)
     {
         AssetDescription ad = new();
-        var path = $@"msg\{langFolder}\{msgBndType}.msgbnd.dcx";
-        if (Type == GameType.DemonsSouls)
+        IEnumerable<string> path;
+        if (Project.Type == GameType.DemonsSouls)
         {
-            path = $@"msg\{langFolder}\{msgBndType}.msgbnd.dcx";
             // Demon's Souls has msgbnds directly in the msg folder
-            if (!FileExists(path))
-            {
-                path = $@"msg\{msgBndType}.msgbnd.dcx";
-            }
+            path = [$@"msg\{langFolder}\{msgBndType}.msgbnd.dcx", $@"msg\{msgBndType}.msgbnd.dcx"];
         }
-        else if (Type == GameType.DarkSoulsPTDE)
+        else if (Project.Type == GameType.DarkSoulsPTDE)
         {
-            path = $@"msg\{langFolder}\{msgBndType}.msgbnd";
+            path = [$@"msg\{langFolder}\{msgBndType}.msgbnd"];
         }
-        else if (Type == GameType.DarkSoulsRemastered)
+        else if (Project.Type == GameType.DarkSoulsRemastered)
         {
-            path = $@"msg\{langFolder}\{msgBndType}.msgbnd.dcx";
+            path = [$@"msg\{langFolder}\{msgBndType}.msgbnd.dcx"];
         }
-        else if (Type == GameType.DarkSoulsIISOTFS)
+        else if (Project.Type == GameType.DarkSoulsIISOTFS)
         {
             // DS2 does not have an msgbnd but loose fmg files instead
-            path = $@"menu\text\{langFolder}";
+            path = [$@"menu\text\{langFolder}"];
         }
-        else if (Type == GameType.DarkSoulsIII)
+        else if (Project.Type == GameType.DarkSoulsIII)
         {
-            path = $@"msg\{langFolder}\{msgBndType}_dlc2.msgbnd.dcx";
+            path = [$@"msg\{langFolder}\{msgBndType}_dlc2.msgbnd.dcx"];
+        }
+        else
+        {
+            path = [$@"msg\{langFolder}\{msgBndType}.msgbnd.dcx"];
         }
 
         if (writemode)
         {
-            ad.AssetPath = $@"{RootDirectory}\{path}";
+            ad.AssetPath = $@"{Project.AssetLocator.RootDirectory}\{path.First()}";
         }
         else
         {
-            ad.AssetPath = GetAssetPath(path);
+            ad.AssetPath = Project.AssetLocator.GetAssetPathFromOptions(path).Item2;
         }
 
         return ad;
