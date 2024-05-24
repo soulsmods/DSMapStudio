@@ -101,23 +101,6 @@ public partial class FMGBank
             return false;
         }
 
-        foreach (FMGInfo info in FmgInfoBank)
-        {
-            ApplyGameDifferences(info);
-            if (CFG.Current.FMG_NoGroupedFmgEntries)
-            {
-                info.EntryType = FmgEntryTextType.TextBody;
-            }
-        }
-
-        if (!CFG.Current.FMG_NoFmgPatching)
-        {
-            foreach (FMGInfo info in FmgInfoBank)
-            {
-                SetFMGInfoPatchParent(info);
-            }
-        }
-
         if (CFG.Current.FMG_NoGroupedFmgEntries)
         {
             FmgInfoBank = FmgInfoBank.OrderBy(e => e.EntryCategory).ThenBy(e => e.FmgID).ToList();
@@ -172,6 +155,19 @@ public partial class FMGBank
         foreach (BinderFile file in fmgBinder.Files)
         {
             FmgInfoBank.Add(GenerateFMGInfo(file));
+        }
+        // I hate this 2 parse system. Solve game differences by including game in the get enum functions. Maybe parentage is solvable by pre-sorting binderfiles but that does seem silly. FMG patching sucks. 
+        foreach (FMGInfo info in FmgInfoBank)
+        {
+            ApplyGameDifferences(info);
+            if (CFG.Current.FMG_NoGroupedFmgEntries)
+            {
+                info.EntryType = FmgEntryTextType.TextBody;
+            }
+            if (!CFG.Current.FMG_NoFmgPatching)
+            {
+                SetFMGInfoPatchParent(info);
+            }
         }
 
         fmgBinder.Dispose();
