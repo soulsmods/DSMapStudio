@@ -13,7 +13,7 @@ namespace StudioCore.TextEditor;
 /// <summary>
 ///     Static class that stores all the strings for a Souls game.
 /// </summary>
-public partial class FMGBank
+public class FMGBank
 {
     public Project Project;
 
