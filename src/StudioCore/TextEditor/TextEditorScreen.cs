@@ -283,7 +283,6 @@ public unsafe class TextEditorScreen : EditorScreen
         _filteredFmgInfo.Clear();
         ClearTextEditorCache();
         ResetActionManager();
-        Locator.ActiveProject.FMGBank.ReloadFMGs(_projectSettings.LastFmgLanguageUsed);
     }
 
     public void Save()

@@ -403,6 +403,7 @@ public class MapStudioNew
 
         ParamBank.ReloadParams(newsettings, options);
         MtdBank.ReloadMtds();
+        FMGBank.ReloadFMGs();
 
         foreach (EditorScreen editor in _editors)
         {

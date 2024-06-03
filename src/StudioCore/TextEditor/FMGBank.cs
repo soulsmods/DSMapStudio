@@ -179,7 +179,10 @@ public class FMGBank
         fmgBinder.Dispose();
         return true;
     }
-
+    public static void ReloadFMGs()
+    {
+        Locator.ActiveProject.FMGBank.ReloadFMGs();
+    }
     public void ReloadFMGs(string languageFolder = "")
     {
         TaskManager.Run(new TaskManager.LiveTask("FMG - Load Text", TaskManager.RequeueType.WaitThenRequeue, true,
