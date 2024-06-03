@@ -26,7 +26,8 @@ public partial class FMGBank
     public bool IsLoading { get; private set; }
     public string LanguageFolder { get; private set; } = "";
 
-    public List<FMGInfo> FmgInfoBank { get; private set; } = new();
+    public IEnumerable<FMGInfo> FmgInfoBank { get => _FmgInfoBanks.SelectMany(x => x.Value); }
+    private Dictionary<FmgFileCategory, List<FMGInfo>> _FmgInfoBanks = new();
     public Dictionary<FmgFileCategory, bool> LoadedFileCategories { get; private set; } = new();
 
     
@@ -45,6 +46,13 @@ public partial class FMGBank
         }
 
         return str;
+    }
+    
+    private void InsertFmgInfo(FMGInfo info)
+    {
+        if (!_FmgInfoBanks.ContainsKey(info.UICategory))
+            _FmgInfoBanks.Add(info.UICategory, new List<FMGInfo>());
+        _FmgInfoBanks[info.UICategory].Add(info);
     }
 
     private FMGInfo GenerateFMGInfo(BinderFile file)
@@ -85,7 +93,8 @@ public partial class FMGBank
             UICategory = FmgFileCategory.Text
         };
         LoadedFileCategories[info.UICategory] = true;
-        FmgInfoBank.Add(info);
+
+        InsertFmgInfo(info);
     }
 
     /// <summary>
@@ -100,6 +109,7 @@ public partial class FMGBank
             return false;
         }
 
+        /* TODO ordering
         if (CFG.Current.FMG_NoGroupedFmgEntries)
         {
             FmgInfoBank = FmgInfoBank.OrderBy(e => e.EntryCategory).ThenBy(e => e.FmgID).ToList();
@@ -108,6 +118,7 @@ public partial class FMGBank
         {
             FmgInfoBank = FmgInfoBank.OrderBy(e => e.Name).ToList();
         }
+        */
 
         HandleDuplicateEntries();
 
@@ -153,7 +164,7 @@ public partial class FMGBank
 
         foreach (BinderFile file in fmgBinder.Files)
         {
-            FmgInfoBank.Add(GenerateFMGInfo(file));
+            InsertFmgInfo(GenerateFMGInfo(file));
         }
         // I hate this 2 parse system. Solve game differences by including game in the get enum functions. Maybe parentage is solvable by pre-sorting binderfiles but that does seem silly. FMG patching sucks. 
         foreach (FMGInfo info in FmgInfoBank)
@@ -210,10 +221,10 @@ public partial class FMGBank
                 AssetDescription itemMsgPath = Project.AssetLocator.GetItemMsgbnd(LanguageFolder);
                 AssetDescription menuMsgPath = Project.AssetLocator.GetMenuMsgbnd(LanguageFolder);
 
-                FmgInfoBank = new List<FMGInfo>();
+                _FmgInfoBanks = new();
                 if (!LoadItemMenuMsgBnds(itemMsgPath, menuMsgPath))
                 {
-                    FmgInfoBank = new List<FMGInfo>();
+                    _FmgInfoBanks = new();
                     IsLoaded = false;
                     IsLoading = false;
                     return;
@@ -248,14 +259,16 @@ public partial class FMGBank
         }
 
         IEnumerable<string> files = Project.AssetLocator.GetAllAssets($@"{desc.AssetPath}", [@"*.fmg"]);
-        FmgInfoBank = new List<FMGInfo>();
+        
+        _FmgInfoBanks = new();
         foreach (var file in files)
         {
             FMG fmg = FMG.Read(file);
             SetFMGInfoDS2(file);
         }
 
-        FmgInfoBank = FmgInfoBank.OrderBy(e => e.Name).ToList();
+        //TODO ordering
+        //FmgInfoBank = FmgInfoBank.OrderBy(e => e.Name).ToList();
         HandleDuplicateEntries();
         return true;
     }
@@ -460,7 +473,7 @@ public partial class FMGBank
                     info.UICategory = FmgFileCategory.Item;
                     info.EntryType = FmgEntryTextType.Title;
                     info.EntryCategory = FmgEntryCategory.Goods;
-                    FMGInfo parent = FmgInfoBank.Find(e => e.FmgID == FmgIDType.TitleGoods);
+                    FMGInfo parent = FmgInfoBank.FirstOrDefault(e => e.FmgID == FmgIDType.TitleGoods);
                     info.AddParent(parent);
                 }
 
@@ -679,7 +692,7 @@ public partial class FMGBank
 
             foreach (BinderFile file in fmgBinderItem.Files)
             {
-                FMGInfo info = FmgInfoBank.Find(e => e.FmgID == (FmgIDType)file.ID);
+                FMGInfo info = FmgInfoBank.FirstOrDefault(e => e.FmgID == (FmgIDType)file.ID);
                 if (info != null)
                 {
                     file.Bytes = info.Fmg.Write();
@@ -688,7 +701,7 @@ public partial class FMGBank
 
             foreach (BinderFile file in fmgBinderMenu.Files)
             {
-                FMGInfo info = FmgInfoBank.Find(e => e.FmgID == (FmgIDType)file.ID);
+                FMGInfo info = FmgInfoBank.FirstOrDefault(e => e.FmgID == (FmgIDType)file.ID);
                 if (info != null)
                 {
                     file.Bytes = info.Fmg.Write();

@@ -319,7 +319,7 @@ public class SoapstoneService : SoapstoneServiceV1
                 }
 
                 FMGBank.FMGInfo info = Locator.ActiveProject.FMGBank.FmgInfoBank
-                    .Find(info =>
+                    .FirstOrDefault(info =>
                         GetFmgKey(game, lang, info, out SoulsKey.FmgKey infoKey) && infoKey.Equals(fileKey));
                 if (info == null)
                 {

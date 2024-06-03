@@ -271,7 +271,7 @@ public unsafe class EditorDecorations
             {
                 Param.Cell? c = context?[rf.conditionField];
                 return context == null || c == null || Convert.ToInt32(c.Value.Value) == rf.conditionValue;
-            }).Select(rf => Locator.ActiveProject.FMGBank.FmgInfoBank.Find(x => x.Name == rf.fmg))
+            }).Select(rf => Locator.ActiveProject.FMGBank.FmgInfoBank.FirstOrDefault(x => x.Name == rf.fmg))
             .Where(fmgi => fmgi != null)
             .Select(fmgi => (fmgi.Name, Locator.ActiveProject.FMGBank.GenerateEntryGroup((int)oldval, fmgi)))
             .ToList();

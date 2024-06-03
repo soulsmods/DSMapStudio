@@ -442,7 +442,7 @@ public unsafe class TextEditorScreen : EditorScreen
 
     private void CategoryListUI(FmgFileCategory uiType, bool doFocus)
     {
-        List<FMGBank.FMGInfo> infos;
+        IEnumerable<FMGBank.FMGInfo> infos;
         if (_fmgSearchAllActive)
             infos = _filteredFmgInfo;
         else
