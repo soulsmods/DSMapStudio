@@ -446,7 +446,7 @@ public unsafe class TextEditorScreen : EditorScreen
         if (_fmgSearchAllActive)
             infos = _filteredFmgInfo;
         else
-            infos = Locator.ActiveProject.FMGBank.FmgInfoBank;
+            infos = Locator.ActiveProject.FMGBank.SortedFmgInfoBank;
 
         foreach (var info in infos)
         {
@@ -535,7 +535,7 @@ public unsafe class TextEditorScreen : EditorScreen
         {
             _fmgSearchAllActive = true;
             _filteredFmgInfo.Clear();
-            foreach (var info in Locator.ActiveProject.FMGBank.FmgInfoBank)
+            foreach (var info in Locator.ActiveProject.FMGBank.SortedFmgInfoBank)
             {
                 if (info.PatchParent == null)
                 {

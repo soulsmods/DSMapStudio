@@ -27,6 +27,18 @@ public partial class FMGBank
     public string LanguageFolder { get; private set; } = "";
 
     public IEnumerable<FMGInfo> FmgInfoBank { get => _FmgInfoBanks.SelectMany(x => x.Value); }
+    public IEnumerable<FMGInfo> SortedFmgInfoBank {
+        get {
+            if (CFG.Current.FMG_NoGroupedFmgEntries)
+            {
+                return FmgInfoBank.OrderBy(e => e.EntryCategory).ThenBy(e => e.FmgID);
+            }
+            else
+            {
+                return FmgInfoBank.OrderBy(e => e.Name);
+            }
+        }
+    }
     private Dictionary<FmgFileCategory, List<FMGInfo>> _FmgInfoBanks = new();
     public IEnumerable<FmgFileCategory> LoadedFileCategories { get => _FmgInfoBanks.Keys; }
 
@@ -106,17 +118,6 @@ public partial class FMGBank
         {
             return false;
         }
-
-        /* TODO ordering
-        if (CFG.Current.FMG_NoGroupedFmgEntries)
-        {
-            FmgInfoBank = FmgInfoBank.OrderBy(e => e.EntryCategory).ThenBy(e => e.FmgID).ToList();
-        }
-        else
-        {
-            FmgInfoBank = FmgInfoBank.OrderBy(e => e.Name).ToList();
-        }
-        */
 
         HandleDuplicateEntries();
 
