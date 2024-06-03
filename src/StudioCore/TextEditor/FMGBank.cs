@@ -77,7 +77,7 @@ public partial class FMGBank
         return info;
     }
 
-    private void SetFMGInfoDS2(string file)
+    private FMGInfo GenerateFMGInfoDS2(string file)
     {
         // TODO: DS2 FMG grouping & UI sorting (copy SetFMGInfo)
         FMG fmg = FMG.Read(file);
@@ -95,7 +95,7 @@ public partial class FMGBank
         };
         LoadedFileCategories[info.FileCategory] = true;
 
-        InsertFmgInfo(info);
+        return info;
     }
 
     /// <summary>
@@ -265,8 +265,8 @@ public partial class FMGBank
         _FmgInfoBanks = new();
         foreach (var file in files)
         {
-            FMG fmg = FMG.Read(file);
-            SetFMGInfoDS2(file);
+            FMGInfo info = GenerateFMGInfoDS2(file);        
+            InsertFmgInfo(info);
         }
 
         //TODO ordering
