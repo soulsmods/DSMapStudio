@@ -235,7 +235,7 @@ public class SoapstoneService : SoapstoneServiceV1
         out SoulsKey.FmgKey key)
     {
         // UICategory is used to distinguish between name-keyed FMGs (DS2) and binder-keyed FMGs (item/menu bnds)
-        if (info.UICategory == FmgUICategory.Text)
+        if (info.UICategory == FmgFileCategory.Text)
         {
             if (SoulsFmg.TryGetFmgNameType(game, info.Name, out List<SoulsFmg.FmgType> types))
             {

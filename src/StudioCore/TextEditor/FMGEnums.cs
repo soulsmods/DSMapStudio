@@ -3,7 +3,7 @@ namespace StudioCore.TextEditor;
 /// <summary>
 ///     FMG sections in UI
 /// </summary>
-public enum FmgUICategory
+public enum FmgFileCategory
 {
     Text = 0,
     Item = 1,
@@ -495,7 +495,7 @@ public static class FMGEnums
         }
     }
 
-    public static FmgUICategory GetFMGUICategory(FmgEntryCategory entryCategory)
+    public static FmgFileCategory GetFMGUICategory(FmgEntryCategory entryCategory)
     {
         switch (entryCategory)
         {
@@ -509,9 +509,9 @@ public static class FMGEnums
             case FmgEntryCategory.Booster:
             case FmgEntryCategory.FCS:
             case FmgEntryCategory.Archive:
-                return FmgUICategory.Item;
+                return FmgFileCategory.Item;
             default:
-                return FmgUICategory.Menu;
+                return FmgFileCategory.Menu;
         }
     }
 }

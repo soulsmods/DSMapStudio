@@ -440,7 +440,7 @@ public unsafe class TextEditorScreen : EditorScreen
         }
     }
 
-    private void CategoryListUI(FmgUICategory uiType, bool doFocus)
+    private void CategoryListUI(FmgFileCategory uiType, bool doFocus)
     {
         List<FMGBank.FMGInfo> infos;
         if (_fmgSearchAllActive)
@@ -573,7 +573,7 @@ public unsafe class TextEditorScreen : EditorScreen
         }
         ImGui.Separator();
 
-        foreach (KeyValuePair<FmgUICategory, bool> v in Locator.ActiveProject.FMGBank.ActiveUITypes)
+        foreach (KeyValuePair<FmgFileCategory, bool> v in Locator.ActiveProject.FMGBank.LoadedFileCategories)
         {
             if (v.Value)
             {

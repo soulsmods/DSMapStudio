@@ -15,17 +15,11 @@ namespace StudioCore.TextEditor;
 /// </summary>
 public partial class FMGBank
 {
-    /// <summary>
-    ///     List of strings to compare with "FmgIDType" name to identify patch FMGs.
-    /// </summary>
-    private static readonly List<string> patchStrings = new() { "_Patch", "_DLC1", "_DLC2" };
-
-
     private Project Project;
 
     public FMGBank(Project project)
     {
-        this.Project = project;
+        Project = project;
     }
 
     public bool IsLoaded { get; private set; }
@@ -33,8 +27,13 @@ public partial class FMGBank
     public string LanguageFolder { get; private set; } = "";
 
     public List<FMGInfo> FmgInfoBank { get; private set; } = new();
+    public Dictionary<FmgFileCategory, bool> LoadedFileCategories { get; private set; } = new();
 
-    public Dictionary<FmgUICategory, bool> ActiveUITypes { get; private set; } = new();
+    
+    /// <summary>
+    ///     List of strings to compare with "FmgIDType" name to identify patch FMGs.
+    /// </summary>
+    private static readonly List<string> patchStrings = new() { "_Patch", "_DLC1", "_DLC2" };
     /// <summary>
     ///     Removes patch/DLC identifiers from strings for the purposes of finding patch FMGs. Kinda dumb.
     /// </summary>
@@ -64,7 +63,7 @@ public partial class FMGBank
         };
         info.UICategory = FMGEnums.GetFMGUICategory(info.EntryCategory);
 
-        ActiveUITypes[info.UICategory] = true;
+        LoadedFileCategories[info.UICategory] = true;
 
         return info;
     }
@@ -83,9 +82,9 @@ public partial class FMGBank
             Fmg = fmg,
             EntryType = FmgEntryTextType.TextBody,
             EntryCategory = FmgEntryCategory.None,
-            UICategory = FmgUICategory.Text
+            UICategory = FmgFileCategory.Text
         };
-        ActiveUITypes[info.UICategory] = true;
+        LoadedFileCategories[info.UICategory] = true;
         FmgInfoBank.Add(info);
     }
 
@@ -184,10 +183,10 @@ public partial class FMGBank
 
                 LanguageFolder = languageFolder;
 
-                ActiveUITypes = new Dictionary<FmgUICategory, bool>();
-                foreach (var e in Enum.GetValues(typeof(FmgUICategory)))
+                LoadedFileCategories = new Dictionary<FmgFileCategory, bool>();
+                foreach (var e in Enum.GetValues(typeof(FmgFileCategory)))
                 {
-                    ActiveUITypes.Add((FmgUICategory)e, false);
+                    LoadedFileCategories.Add((FmgFileCategory)e, false);
                 }
 
                 if (Project.AssetLocator.Type == GameType.Undefined)
@@ -310,7 +309,7 @@ public partial class FMGBank
                 if (gameType == GameType.Bloodborne)
                 {
                     info.Name = "GemExtraInfo";
-                    info.UICategory = FmgUICategory.Item;
+                    info.UICategory = FmgFileCategory.Item;
                     info.EntryCategory = FmgEntryCategory.Gem;
                     info.EntryType = FmgEntryTextType.ExtraText;
                 }
@@ -325,14 +324,14 @@ public partial class FMGBank
                 if (gameType == GameType.ArmoredCoreVI)
                 {
                     info.Name = "TitleGenerator";
-                    info.UICategory = FmgUICategory.Item;
+                    info.UICategory = FmgFileCategory.Item;
                     info.EntryCategory = FmgEntryCategory.Generator;
                     info.EntryType = FmgEntryTextType.Title;
                 }
                 else
                 {
                     info.Name = "TitleGem";
-                    info.UICategory = FmgUICategory.Item;
+                    info.UICategory = FmgFileCategory.Item;
                     info.EntryCategory = FmgEntryCategory.Gem;
                     info.EntryType = FmgEntryTextType.Title;
                 }
@@ -342,14 +341,14 @@ public partial class FMGBank
                 if (gameType == GameType.ArmoredCoreVI)
                 {
                     info.Name = "DescriptionGenerator";
-                    info.UICategory = FmgUICategory.Item;
+                    info.UICategory = FmgFileCategory.Item;
                     info.EntryCategory = FmgEntryCategory.Generator;
                     info.EntryType = FmgEntryTextType.Description;
                 }
                 else
                 {
                     info.Name = "SummaryGem";
-                    info.UICategory = FmgUICategory.Item;
+                    info.UICategory = FmgFileCategory.Item;
                     info.EntryCategory = FmgEntryCategory.Gem;
                     info.EntryType = FmgEntryTextType.Summary;
                 }
@@ -359,14 +358,14 @@ public partial class FMGBank
                 if (gameType == GameType.ArmoredCoreVI)
                 {
                     info.Name = "TitleFCS";
-                    info.UICategory = FmgUICategory.Item;
+                    info.UICategory = FmgFileCategory.Item;
                     info.EntryCategory = FmgEntryCategory.FCS;
                     info.EntryType = FmgEntryTextType.Title;
                 }
                 else
                 {
                     info.Name = "TitleMessage";
-                    info.UICategory = FmgUICategory.Menu;
+                    info.UICategory = FmgFileCategory.Menu;
                     info.EntryCategory = FmgEntryCategory.Message;
                     info.EntryType = FmgEntryTextType.TextBody;
                 }
@@ -376,14 +375,14 @@ public partial class FMGBank
                 if (gameType == GameType.ArmoredCoreVI)
                 {
                     info.Name = "DescriptionFCS";
-                    info.UICategory = FmgUICategory.Item;
+                    info.UICategory = FmgFileCategory.Item;
                     info.EntryCategory = FmgEntryCategory.FCS;
                     info.EntryType = FmgEntryTextType.Description;
                 }
                 else
                 {
                     info.Name = "TitleSwordArts";
-                    info.UICategory = FmgUICategory.Item;
+                    info.UICategory = FmgFileCategory.Item;
                     info.EntryCategory = FmgEntryCategory.SwordArts;
                     info.EntryType = FmgEntryTextType.Title;
                 }
@@ -444,21 +443,21 @@ public partial class FMGBank
                 if (gameType == GameType.EldenRing)
                 {
                     info.Name = "ToS_win64";
-                    info.UICategory = FmgUICategory.Menu;
+                    info.UICategory = FmgFileCategory.Menu;
                     info.EntryType = FmgEntryTextType.TextBody;
                     info.EntryCategory = FmgEntryCategory.None;
                 }
                 else if (gameType == GameType.ArmoredCoreVI)
                 {
                     info.Name = "TextEmbeddedImageNames";
-                    info.UICategory = FmgUICategory.Menu;
+                    info.UICategory = FmgFileCategory.Menu;
                     info.EntryType = FmgEntryTextType.TextBody;
                     info.EntryCategory = FmgEntryCategory.None;
                 }
                 else
                 {
                     info.Name = "TitleGoods_DLC1";
-                    info.UICategory = FmgUICategory.Item;
+                    info.UICategory = FmgFileCategory.Item;
                     info.EntryType = FmgEntryTextType.Title;
                     info.EntryCategory = FmgEntryCategory.Goods;
                     FMGInfo parent = FmgInfoBank.Find(e => e.FmgID == FmgIDType.TitleGoods);
@@ -768,7 +767,7 @@ public partial class FMGBank
         public List<FMGInfo> PatchChildren = new();
 
         public FMGInfo PatchParent;
-        public FmgUICategory UICategory;
+        public FmgFileCategory UICategory;
 
         private string _patchPrefix = null;
         public string PatchPrefix
