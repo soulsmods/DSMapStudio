@@ -451,7 +451,7 @@ public unsafe class TextEditorScreen : EditorScreen
         foreach (var info in infos)
         {
             if (info.PatchParent == null
-                && info.UICategory == uiType
+                && info.FileCategory == uiType
                 && info.EntryType is FmgEntryTextType.Title or FmgEntryTextType.TextBody)
             {
                 string displayName;

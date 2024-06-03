@@ -238,11 +238,11 @@ public partial class FMGBank
                 Directory.CreateDirectory(menuPath);
                 foreach (FMGInfo info in Locator.ActiveProject.FMGBank.FmgInfoBank)
                 {
-                    if (info.UICategory == FmgFileCategory.Item)
+                    if (info.FileCategory == FmgFileCategory.Item)
                     {
                         path = itemPath;
                     }
-                    else if (info.UICategory == FmgFileCategory.Menu)
+                    else if (info.FileCategory == FmgFileCategory.Menu)
                     {
                         path = menuPath;
                     }

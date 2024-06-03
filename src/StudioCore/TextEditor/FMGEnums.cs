@@ -5,7 +5,7 @@ namespace StudioCore.TextEditor;
 /// </summary>
 public enum FmgFileCategory
 {
-    Text = 0,
+    Loose = 0,
     Item = 1,
     Menu = 2
 }
