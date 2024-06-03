@@ -573,17 +573,14 @@ public unsafe class TextEditorScreen : EditorScreen
         }
         ImGui.Separator();
 
-        foreach (KeyValuePair<FmgFileCategory, bool> v in Locator.ActiveProject.FMGBank.LoadedFileCategories)
+        foreach (FmgFileCategory v in Locator.ActiveProject.FMGBank.LoadedFileCategories)
         {
-            if (v.Value)
-            {
-                ImGui.Separator();
-                ImGui.Text($"  {v.Key} Text");
-                ImGui.Separator();
-                // Categories
-                CategoryListUI(v.Key, doFocus);
-                ImGui.Spacing();
-            }
+            ImGui.Separator();
+            ImGui.Text($"  {v} Text");
+            ImGui.Separator();
+            // Categories
+            CategoryListUI(v, doFocus);
+            ImGui.Spacing();
         }
 
         if (_activeFmgInfo != null)

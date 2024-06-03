@@ -28,7 +28,7 @@ public partial class FMGBank
 
     public IEnumerable<FMGInfo> FmgInfoBank { get => _FmgInfoBanks.SelectMany(x => x.Value); }
     private Dictionary<FmgFileCategory, List<FMGInfo>> _FmgInfoBanks = new();
-    public Dictionary<FmgFileCategory, bool> LoadedFileCategories { get; private set; } = new();
+    public IEnumerable<FmgFileCategory> LoadedFileCategories { get => _FmgInfoBanks.Keys; }
 
     
     /// <summary>
@@ -71,8 +71,6 @@ public partial class FMGBank
         };
         info.FileCategory = FMGEnums.GetFMGUICategory(info.EntryCategory);
 
-        LoadedFileCategories[info.FileCategory] = true;
-
         ApplyGameDifferences(info);
         return info;
     }
@@ -93,7 +91,6 @@ public partial class FMGBank
             EntryCategory = FmgEntryCategory.None,
             FileCategory = FmgFileCategory.Loose
         };
-        LoadedFileCategories[info.FileCategory] = true;
 
         return info;
     }
@@ -195,12 +192,6 @@ public partial class FMGBank
                 IsLoading = true;
 
                 LanguageFolder = languageFolder;
-
-                LoadedFileCategories = new Dictionary<FmgFileCategory, bool>();
-                foreach (var e in Enum.GetValues(typeof(FmgFileCategory)))
-                {
-                    LoadedFileCategories.Add((FmgFileCategory)e, false);
-                }
 
                 if (Project.AssetLocator.Type == GameType.Undefined)
                 {
