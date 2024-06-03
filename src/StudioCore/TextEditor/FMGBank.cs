@@ -172,11 +172,7 @@ public partial class FMGBank
             {
                 info.EntryType = FmgEntryTextType.TextBody;
             }*/
-            /* TODO patching without modifying data
-            if (!CFG.Current.FMG_NoFmgPatching)
-            {
-                SetFMGInfoPatchParent(info);
-            }*/
+            SetFMGInfoPatchParent(info);
         }
 
         fmgBinder.Dispose();
@@ -787,11 +783,6 @@ public partial class FMGBank
 
         public void AddParent(FMGInfo parent)
         {
-            if (CFG.Current.FMG_NoFmgPatching)
-            {
-                return;
-            }
-
             PatchParent = parent;
             parent.PatchChildren.Add(this);
         }
@@ -802,7 +793,7 @@ public partial class FMGBank
         /// </summary>
         public List<EntryFMGInfoPair> GetPatchedEntryFMGPairs(bool sort = true)
         {
-            if (PatchParent != null)
+            if (PatchParent != null && !CFG.Current.FMG_NoFmgPatching)
             {
                 return PatchParent.GetPatchedEntryFMGPairs(sort);
             }
@@ -813,25 +804,28 @@ public partial class FMGBank
                 list.Add(new EntryFMGInfoPair(this, entry));
             }
 
-            // Check and apply patch entries
-            foreach (FMGInfo child in PatchChildren.OrderBy(e => (int)e.FmgID))
+            if (!CFG.Current.FMG_NoFmgPatching)
             {
-                foreach (FMG.Entry entry in child.Fmg.Entries)
+                // Check and apply patch entries
+                foreach (FMGInfo child in PatchChildren.OrderBy(e => (int)e.FmgID))
                 {
-                    EntryFMGInfoPair match = list.Find(e => e.Entry.ID == entry.ID);
-                    if (match != null)
+                    foreach (FMG.Entry entry in child.Fmg.Entries)
                     {
-                        // This is a patch entry
-                        // Only non-null text will overrwrite
-                        if (entry.Text != null)
+                        EntryFMGInfoPair match = list.Find(e => e.Entry.ID == entry.ID);
+                        if (match != null)
                         {
-                            match.Entry = entry;
-                            match.FmgInfo = child;
+                            // This is a patch entry
+                            // Only non-null text will overrwrite
+                            if (entry.Text != null)
+                            {
+                                match.Entry = entry;
+                                match.FmgInfo = child;
+                            }
                         }
-                    }
-                    else
-                    {
-                        list.Add(new EntryFMGInfoPair(child, entry));
+                        else
+                        {
+                            list.Add(new EntryFMGInfoPair(child, entry));
+                        }
                     }
                 }
             }
@@ -850,7 +844,7 @@ public partial class FMGBank
         /// </summary>
         public List<FMG.Entry> GetPatchedEntries(bool sort = true)
         {
-            if (PatchParent != null)
+            if (PatchParent != null && !CFG.Current.FMG_NoFmgPatching)
             {
                 return PatchParent.GetPatchedEntries(sort);
             }
@@ -858,25 +852,28 @@ public partial class FMGBank
             List<FMG.Entry> list = new();
             list.AddRange(Fmg.Entries);
 
-            // Check and apply patch entries
-            foreach (FMGInfo child in PatchChildren.OrderBy(e => (int)e.FmgID))
+            if (!CFG.Current.FMG_NoFmgPatching)
             {
-                foreach (FMG.Entry entry in child.Fmg.Entries)
+                // Check and apply patch entries
+                foreach (FMGInfo child in PatchChildren.OrderBy(e => (int)e.FmgID))
                 {
-                    FMG.Entry match = list.Find(e => e.ID == entry.ID);
-                    if (match != null)
+                    foreach (FMG.Entry entry in child.Fmg.Entries)
                     {
-                        // This is a patch entry
-                        if (entry.Text != null)
+                        FMG.Entry match = list.Find(e => e.ID == entry.ID);
+                        if (match != null)
                         {
-                            // Text is not null, so it will overwrite non-patch entries.
-                            list.Remove(match);
+                            // This is a patch entry
+                            if (entry.Text != null)
+                            {
+                                // Text is not null, so it will overwrite non-patch entries.
+                                list.Remove(match);
+                                list.Add(entry);
+                            }
+                        }
+                        else
+                        {
                             list.Add(entry);
                         }
-                    }
-                    else
-                    {
-                        list.Add(entry);
                     }
                 }
             }
