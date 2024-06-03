@@ -84,7 +84,13 @@ public unsafe class TextEditorScreen : EditorScreen
             {
                 foreach (KeyValuePair<string, string> path in folders)
                 {
-                    if (ImGui.MenuItem(path.Key, "", Locator.ActiveProject.FMGBank.LanguageFolder == path.Key))
+                    string disp = path.Key;
+                    if (Locator.ActiveProject.FMGBank.fmgLangs.ContainsKey(path.Key))
+                    {
+                        disp += "*";
+                    }
+
+                    if (ImGui.MenuItem(disp, "", Locator.ActiveProject.FMGBank.LanguageFolder == path.Key))
                     {
                         ChangeLanguage(path.Key);
                     }
@@ -103,7 +109,7 @@ public unsafe class TextEditorScreen : EditorScreen
 
                 if (ImGui.MenuItem("Import text files and merge"))
                 {
-                    if (FmgExporter.ImportFmgTxt(currentFmgBank, true))
+                    if (FmgExporter.ImportFmgTxt(currentFmgBank.fmgLangs[currentFmgBank.LanguageFolder], true))
                     {
                         ClearTextEditorCache();
                         ResetActionManager();
@@ -114,7 +120,7 @@ public unsafe class TextEditorScreen : EditorScreen
                     "Export: only modded text (different than vanilla) will be exported");
                 if (ImGui.MenuItem("Export modded text to text files"))
                 {
-                    FmgExporter.ExportFmgTxt(currentFmgBank, true);
+                    FmgExporter.ExportFmgTxt(currentFmgBank.fmgLangs[currentFmgBank.LanguageFolder], true);
                 }
 
                 ImGui.EndMenu();
@@ -127,7 +133,7 @@ public unsafe class TextEditorScreen : EditorScreen
 
                 if (ImGui.MenuItem("Import text files and replace"))
                 {
-                    if (FmgExporter.ImportFmgTxt(currentFmgBank, false))
+                    if (FmgExporter.ImportFmgTxt(currentFmgBank.fmgLangs[currentFmgBank.LanguageFolder], false))
                     {
                         ClearTextEditorCache();
                         ResetActionManager();
@@ -138,7 +144,7 @@ public unsafe class TextEditorScreen : EditorScreen
                     "Export: all text will be exported");
                 if (ImGui.MenuItem("Export all text to text files"))
                 {
-                    FmgExporter.ExportFmgTxt(currentFmgBank, false);
+                    FmgExporter.ExportFmgTxt(currentFmgBank.fmgLangs[currentFmgBank.LanguageFolder], false);
                 }
 
                 if (ImGui.BeginMenu("Legacy"))
@@ -148,7 +154,7 @@ public unsafe class TextEditorScreen : EditorScreen
                         "Import: text replaces currently loaded text entirely.");
                     if (ImGui.MenuItem("Import json"))
                     {
-                        if (FmgExporter.ImportFmgJson(currentFmgBank, false))
+                        if (FmgExporter.ImportFmgJson(currentFmgBank.fmgLangs[currentFmgBank.LanguageFolder], false))
                         {
                             ClearTextEditorCache();
                             ResetActionManager();
@@ -574,7 +580,7 @@ public unsafe class TextEditorScreen : EditorScreen
         }
         ImGui.Separator();
 
-        foreach (FmgFileCategory v in Locator.ActiveProject.FMGBank.LoadedFileCategories)
+        foreach (FmgFileCategory v in Locator.ActiveProject.FMGBank.currentFmgInfoBanks.Keys)
         {
             ImGui.Separator();
             ImGui.Text($"  {v} Text");
@@ -760,6 +766,6 @@ public unsafe class TextEditorScreen : EditorScreen
         _filteredFmgInfo.Clear();
         ClearTextEditorCache();
         ResetActionManager();
-        Locator.ActiveProject.FMGBank.ReloadFMGs(path);
+        Locator.ActiveProject.FMGBank.LoadFMGs(path);
     }
 }

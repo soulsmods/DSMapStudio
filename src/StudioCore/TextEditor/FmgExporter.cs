@@ -77,38 +77,38 @@ public static class FmgExporter
     /// <summary>
     ///     Exports jsons that only contains entries that differ between game and mod directories.
     /// </summary>
-    public static void ExportFmgTxt(FMGBank bank, bool moddedOnly)
+    public static void ExportFmgTxt(FMGLanguage lang, bool moddedOnly)
     {
         if (!PlatformUtils.Instance.OpenFolderDialog("Choose Export Folder", out var path))
         {
             return;
         }
 
-        if (bank.Project.ParentProject == null)
+        if (lang.Owner.Project.ParentProject == null)
         {
             TaskLogs.AddLog("Error: Project has no parent to compare to. Cannot export modded files without vanilla FMGs to compare to.",
                 LogLevel.Warning, TaskLogs.LogPriority.High);
             return;
         }
 
-        if (moddedOnly && bank.Project.AssetLocator.RootDirectory == bank.Project.ParentProject.AssetLocator.RootDirectory)
+        if (moddedOnly && lang.Owner.Project.AssetLocator.RootDirectory == lang.Owner.Project.ParentProject.AssetLocator.RootDirectory)
         {
             TaskLogs.AddLog("Error: Game directory is identical to mod directory or project has no parent. Cannot export modded files without vanilla FMGs to compare to.",
                 LogLevel.Warning, TaskLogs.LogPriority.High);
             return;
         }
 
-        var itemPath = Locator.AssetLocator.GetItemMsgbnd(bank.LanguageFolder).AssetPath;
-        var menuPath = Locator.AssetLocator.GetMenuMsgbnd(bank.LanguageFolder).AssetPath;
-        var itemPath_Vanilla = itemPath.Replace(bank.Project.AssetLocator.RootDirectory, bank.Project.ParentProject.AssetLocator.RootDirectory);
-        var menuPath_Vanilla = menuPath.Replace(bank.Project.AssetLocator.RootDirectory, bank.Project.ParentProject.AssetLocator.RootDirectory);
+        var itemPath = Locator.AssetLocator.GetItemMsgbnd(lang.LanguageFolder).AssetPath;
+        var menuPath = Locator.AssetLocator.GetMenuMsgbnd(lang.LanguageFolder).AssetPath;
+        var itemPath_Vanilla = itemPath.Replace(lang.Owner.Project.AssetLocator.RootDirectory, lang.Owner.Project.ParentProject.AssetLocator.RootDirectory);
+        var menuPath_Vanilla = menuPath.Replace(lang.Owner.Project.AssetLocator.RootDirectory, lang.Owner.Project.ParentProject.AssetLocator.RootDirectory);
 
         Dictionary<FmgIDType, FMG> fmgs_vanilla = new();
-        fmgs_vanilla.AddAll(GetFmgs(bank, itemPath_Vanilla));
-        fmgs_vanilla.AddAll(GetFmgs(bank, menuPath_Vanilla));
+        fmgs_vanilla.AddAll(GetFmgs(lang.Owner, itemPath_Vanilla));
+        fmgs_vanilla.AddAll(GetFmgs(lang.Owner, menuPath_Vanilla));
 
         Dictionary<FmgIDType, FMG> fmgs_mod = new();
-        foreach (var info in bank.FmgInfoBank)
+        foreach (var info in lang._FmgInfoBanks.SelectMany((x) => x.Value))
         {
             fmgs_mod.Add(info.FmgID, info.Fmg);
         }
@@ -280,9 +280,9 @@ public static class FmgExporter
         return true;
     }
 
-    private static bool ImportFmg(FMGBank bank, FmgIDType fmgId, FMG fmg, bool merge)
+    private static bool ImportFmg(FMGLanguage lang, FmgIDType fmgId, FMG fmg, bool merge)
     {
-        foreach (FMGInfo info in bank.FmgInfoBank)
+        foreach (FMGInfo info in lang._FmgInfoBanks.SelectMany((x) => x.Value))
         {
             if (info.FmgID == fmgId)
             {
@@ -318,7 +318,7 @@ public static class FmgExporter
         return false;
     }
 
-    public static bool ImportFmgJson(FMGBank bank, bool merge)
+    public static bool ImportFmgJson(FMGLanguage lang, bool merge)
     {
         if (!PlatformUtils.Instance.OpenMultiFileDialog("Choose Files to Import",
                 new[] { AssetUtils.FmgJsonFilter }, out IReadOnlyList<string> files))
@@ -338,7 +338,7 @@ public static class FmgExporter
             {
                 var file = File.ReadAllText(filePath);
                 JsonFMG json = JsonSerializer.Deserialize(file, FmgSerializerContext.Default.JsonFMG);
-                bool success = ImportFmg(bank, json.FmgID, json.Fmg, merge);
+                bool success = ImportFmg(lang, json.FmgID, json.Fmg, merge);
                 if (success)
                 {
                     filecount++;
@@ -356,12 +356,12 @@ public static class FmgExporter
             return false;
         }
 
-        bank.HandleDuplicateEntries();
+        lang.HandleDuplicateEntries();
         PlatformUtils.Instance.MessageBox($"Imported {filecount} json files", "Finished", MessageBoxButtons.OK);
         return true;
     }
 
-    public static bool ImportFmgTxt(FMGBank bank, bool merge)
+    public static bool ImportFmgTxt(FMGLanguage lang, bool merge)
     {
         if (!PlatformUtils.Instance.OpenMultiFileDialog("Choose Files to Import",
                 new[] { AssetUtils.TxtFilter }, out IReadOnlyList<string> files))
@@ -445,7 +445,7 @@ public static class FmgExporter
                     }
                 }
 
-                bool success = ImportFmg(bank, (FmgIDType)fmgId, fmg, merge);
+                bool success = ImportFmg(lang, (FmgIDType)fmgId, fmg, merge);
                 if (success)
                 {
                     filecount++;
@@ -463,7 +463,7 @@ public static class FmgExporter
             return false;
         }
 
-        bank.HandleDuplicateEntries();
+        lang.HandleDuplicateEntries();
         TaskLogs.AddLog($"FMG import: Finished importing {filecount} txt files",
             LogLevel.Information, TaskLogs.LogPriority.Normal);
         return true;

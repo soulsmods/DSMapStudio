@@ -1,117 +1,44 @@
 ﻿using Microsoft.Extensions.Logging;
+using SoapstoneLib.Proto.Internal;
 using SoulsFormats;
 using StudioCore.Editor;
 using StudioCore.MsbEditor;
 using StudioCore.Platform;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
 namespace StudioCore.TextEditor;
 
-/// <summary>
-///     Static class that stores all the strings for a Souls game.
-/// </summary>
-public class FMGBank
+public class FMGLanguage
 {
-    public Project Project;
-
-    public FMGBank(Project project)
+    internal FMGLanguage(FMGBank owner, string language)
     {
-        Project = project;
+        Owner = owner;
+        LanguageFolder = language;
     }
+    internal readonly FMGBank Owner;
+    internal readonly string LanguageFolder;
+    internal bool IsLoaded = false;
+    internal bool IsLoading = false;
+    internal readonly Dictionary<FmgFileCategory, List<FMGInfo>> _FmgInfoBanks = new();
 
-    public bool IsLoaded { get; private set; }
-    public bool IsLoading { get; private set; }
-    public string LanguageFolder { get; private set; } = "";
-
-    public IEnumerable<FMGInfo> FmgInfoBank { get => _FmgInfoBanks.SelectMany(x => x.Value); }
-    public IEnumerable<FMGInfo> SortedFmgInfoBank {
-        get {
-            if (CFG.Current.FMG_NoGroupedFmgEntries)
-            {
-                return FmgInfoBank.OrderBy(e => e.EntryCategory).ThenBy(e => e.FmgID);
-            }
-            else
-            {
-                return FmgInfoBank.OrderBy(e => e.Name);
-            }
-        }
-    }
-    private Dictionary<FmgFileCategory, List<FMGInfo>> _FmgInfoBanks = new();
-    public IEnumerable<FmgFileCategory> LoadedFileCategories { get => _FmgInfoBanks.Keys; }
-
-    
-    /// <summary>
-    ///     List of strings to compare with "FmgIDType" name to identify patch FMGs.
-    /// </summary>
-    private static readonly List<string> patchStrings = new() { "_Patch", "_DLC1", "_DLC2" };
-    /// <summary>
-    ///     Removes patch/DLC identifiers from strings for the purposes of finding patch FMGs. Kinda dumb.
-    /// </summary>
-    internal static string RemovePatchStrings(string str)
-    {
-        foreach (var badString in patchStrings)
-        {
-            str = str.Replace(badString, "", StringComparison.CurrentCultureIgnoreCase);
-        }
-
-        return str;
-    }
-    
-    private void InsertFmgInfo(FMGInfo info)
+    internal void InsertFmgInfo(FMGInfo info)
     {
         if (!_FmgInfoBanks.ContainsKey(info.FileCategory))
             _FmgInfoBanks.Add(info.FileCategory, new List<FMGInfo>());
         _FmgInfoBanks[info.FileCategory].Add(info);
     }
 
-    private FMGInfo GenerateFMGInfo(BinderFile file)
-    {
-        FMG fmg = FMG.Read(file.Bytes);
-        var name = Enum.GetName(typeof(FmgIDType), file.ID);
-        FMGInfo info = new()
-        {
-            Owner = this,
-            FileName = file.Name.Split("\\").Last(),
-            Name = name,
-            FmgID = (FmgIDType)file.ID,
-            Fmg = fmg,
-            EntryType = FMGEnums.GetFmgTextType(file.ID),
-            EntryCategory = FMGEnums.GetFmgCategory(file.ID)
-        };
-        info.FileCategory = FMGEnums.GetFMGUICategory(info.EntryCategory);
 
-        ApplyGameDifferences(info);
-        return info;
-    }
-
-    private FMGInfo GenerateFMGInfoDS2(string file)
-    {
-        // TODO: DS2 FMG grouping & UI sorting (copy SetFMGInfo)
-        FMG fmg = FMG.Read(file);
-        var name = Path.GetFileNameWithoutExtension(file);
-        FMGInfo info = new()
-        {
-            Owner = this,
-            FileName = file.Split("\\").Last(),
-            Name = name,
-            FmgID = FmgIDType.None,
-            Fmg = fmg,
-            EntryType = FmgEntryTextType.TextBody,
-            EntryCategory = FmgEntryCategory.None,
-            FileCategory = FmgFileCategory.Loose
-        };
-
-        return info;
-    }
 
     /// <summary>
     ///     Loads item and menu MsgBnds from paths, generates FMGInfo, and fills FmgInfoBank.
     /// </summary>
     /// <returns>True if successful; false otherwise.</returns>
-    private bool LoadItemMenuMsgBnds(AssetDescription itemMsgPath, AssetDescription menuMsgPath)
+    internal bool LoadItemMenuMsgBnds(AssetDescription itemMsgPath, AssetDescription menuMsgPath)
     {
         if (!LoadMsgBnd(itemMsgPath.AssetPath, "item.msgbnd")
             || !LoadMsgBnd(menuMsgPath.AssetPath, "menu.msgbnd"))
@@ -151,8 +78,8 @@ public class FMGBank
         }
 
         IBinder fmgBinder;
-        if (Project.AssetLocator.Type == GameType.DemonsSouls || Project.AssetLocator.Type == GameType.DarkSoulsPTDE ||
-            Project.AssetLocator.Type == GameType.DarkSoulsRemastered)
+        if (Owner.Project.AssetLocator.Type == GameType.DemonsSouls || Owner.Project.AssetLocator.Type == GameType.DarkSoulsPTDE ||
+            Owner.Project.AssetLocator.Type == GameType.DarkSoulsRemastered)
         {
             fmgBinder = BND3.Read(path);
         }
@@ -166,7 +93,7 @@ public class FMGBank
             InsertFmgInfo(GenerateFMGInfo(file));
         }
         // I hate this 2 parse system. Solve game differences by including game in the get enum functions. Maybe parentage is solvable by pre-sorting binderfiles but that does seem silly. FMG patching sucks. 
-        foreach (FMGInfo info in FmgInfoBank)
+        foreach (FMGInfo info in _FmgInfoBanks.SelectMany(x => x.Value))
         {
             /* TODO sorting without modifying data
             if (CFG.Current.FMG_NoGroupedFmgEntries)
@@ -179,117 +106,53 @@ public class FMGBank
         fmgBinder.Dispose();
         return true;
     }
-    public static void ReloadFMGs()
+
+    internal FMGInfo GenerateFMGInfo(BinderFile file)
     {
-        Locator.ActiveProject.FMGBank.ReloadFMGs();
-    }
-    public void ReloadFMGs(string languageFolder = "")
-    {
-        TaskManager.Run(new TaskManager.LiveTask("FMG - Load Text", TaskManager.RequeueType.WaitThenRequeue, true,
-            () =>
-            {
-                IsLoaded = false;
-                IsLoading = true;
-
-                LanguageFolder = languageFolder;
-
-                if (Project.AssetLocator.Type == GameType.Undefined)
-                {
-                    return;
-                }
-
-                if (Project.AssetLocator.Type == GameType.DarkSoulsIISOTFS)
-                {
-                    if (ReloadDS2FMGs())
-                    {
-                        IsLoading = false;
-                        IsLoaded = true;
-                    }
-
-                    return;
-                }
-
-                SetDefaultLanguagePath();
-
-                AssetDescription itemMsgPath = Project.AssetLocator.GetItemMsgbnd(LanguageFolder);
-                AssetDescription menuMsgPath = Project.AssetLocator.GetMenuMsgbnd(LanguageFolder);
-
-                _FmgInfoBanks = new();
-                if (!LoadItemMenuMsgBnds(itemMsgPath, menuMsgPath))
-                {
-                    _FmgInfoBanks = new();
-                    IsLoaded = false;
-                    IsLoading = false;
-                    return;
-                }
-
-                IsLoaded = true;
-                IsLoading = false;
-            }));
-    }
-
-    private bool ReloadDS2FMGs()
-    {
-        SetDefaultLanguagePath();
-        AssetDescription desc = Project.AssetLocator.GetItemMsgbnd(LanguageFolder, true);
-
-        if (desc.AssetPath == null)
+        FMG fmg = FMG.Read(file.Bytes);
+        var name = Enum.GetName(typeof(FmgIDType), file.ID);
+        FMGInfo info = new()
         {
-            if (LanguageFolder != "")
-            {
-                TaskLogs.AddLog($"Could not locate text data files when using \"{LanguageFolder}\" folder",
-                    LogLevel.Warning);
-            }
-            else
-            {
-                TaskLogs.AddLog("Could not locate text data files when using Default English folder",
-                    LogLevel.Warning);
-            }
+            Language = this,
+            FileName = file.Name.Split("\\").Last(),
+            Name = name,
+            FmgID = (FmgIDType)file.ID,
+            Fmg = fmg,
+            EntryType = FMGEnums.GetFmgTextType(file.ID),
+            EntryCategory = FMGEnums.GetFmgCategory(file.ID)
+        };
+        info.FileCategory = FMGEnums.GetFMGUICategory(info.EntryCategory);
 
-            IsLoaded = false;
-            IsLoading = false;
-            return false;
-        }
-
-        IEnumerable<string> files = Project.AssetLocator.GetAllAssets($@"{desc.AssetPath}", [@"*.fmg"]);
-        
-        _FmgInfoBanks = new();
-        foreach (var file in files)
-        {
-            FMGInfo info = GenerateFMGInfoDS2(file);        
-            InsertFmgInfo(info);
-        }
-
-        //TODO ordering
-        //FmgInfoBank = FmgInfoBank.OrderBy(e => e.Name).ToList();
-        HandleDuplicateEntries();
-        return true;
+        ApplyGameDifferences(info);
+        return info;
     }
 
-    private void SetDefaultLanguagePath()
+    internal FMGInfo GenerateFMGInfoDS2(string file)
     {
-        if (LanguageFolder == "")
+        // TODO: DS2 FMG grouping & UI sorting (copy SetFMGInfo)
+        FMG fmg = FMG.Read(file);
+        var name = Path.GetFileNameWithoutExtension(file);
+        FMGInfo info = new()
         {
-            // By default, try to find path to English folder.
-            foreach (KeyValuePair<string, string> lang in Project.AssetLocator.GetMsgLanguages())
-            {
-                var folder = lang.Value.Split("\\").Last();
-                if (folder.Contains("eng", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    LanguageFolder = folder;
-                    break;
-                }
-            }
-        }
-    }
+            Language = this,
+            FileName = file.Split("\\").Last(),
+            Name = name,
+            FmgID = FmgIDType.None,
+            Fmg = fmg,
+            EntryType = FmgEntryTextType.TextBody,
+            EntryCategory = FmgEntryCategory.None,
+            FileCategory = FmgFileCategory.Loose
+        };
 
+        return info;
+    }
     private void SetFMGInfoPatchParent(FMGInfo info)
     {
-        var strippedName = RemovePatchStrings(info.Name);
+        var strippedName = FMGBank.RemovePatchStrings(info.Name);
         if (strippedName != info.Name)
         {
             // This is a patch FMG, try to find parent FMG.
-            foreach (FMGInfo parentInfo in FmgInfoBank)
+            foreach (FMGInfo parentInfo in _FmgInfoBanks.SelectMany((x) => x.Value))
             {
                 if (parentInfo.Name == strippedName)
                 {
@@ -308,7 +171,7 @@ public class FMGBank
     /// </summary>
     private void ApplyGameDifferences(FMGInfo info)
     {
-        GameType gameType = Project.AssetLocator.Type;
+        GameType gameType = Owner.Project.AssetLocator.Type;
         switch (info.FmgID)
         {
             case FmgIDType.ReusedFMG_32:
@@ -466,11 +329,307 @@ public class FMGBank
                     info.FileCategory = FmgFileCategory.Item;
                     info.EntryType = FmgEntryTextType.Title;
                     info.EntryCategory = FmgEntryCategory.Goods;
-                    FMGInfo parent = FmgInfoBank.FirstOrDefault(e => e.FmgID == FmgIDType.TitleGoods);
+                    FMGInfo parent = _FmgInfoBanks.SelectMany((x) => x.Value).FirstOrDefault(e => e.FmgID == FmgIDType.TitleGoods);
                     info.AddParent(parent);
                 }
 
                 break;
+        }
+    }
+
+    internal void HandleDuplicateEntries()
+    {
+        var askedAboutDupes = false;
+        var ignoreDupes = true;
+        foreach (FMGInfo info in _FmgInfoBanks.SelectMany((x) => x.Value))
+        {
+            IEnumerable<FMG.Entry> dupes = info.Fmg.Entries.GroupBy(e => e.ID).SelectMany(g => g.SkipLast(1));
+            if (dupes.Any())
+            {
+                var dupeList = string.Join(", ", dupes.Select(dupe => dupe.ID));
+                if (!askedAboutDupes && PlatformUtils.Instance.MessageBox(
+                        $"Duplicate text entries have been found in FMG {Path.GetFileNameWithoutExtension(info.FileName)} for the following row IDs:\n\n{dupeList}\n\nRemove all duplicates? (Latest entries are kept)",
+                        "Duplicate Text Entries", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    ignoreDupes = false;
+                }
+
+                askedAboutDupes = true;
+
+                if (!ignoreDupes)
+                {
+                    foreach (FMG.Entry dupe in dupes)
+                    {
+                        info.Fmg.Entries.Remove(dupe);
+                    }
+                }
+            }
+        }
+    }
+    private void SaveFMGsDS2()
+    {
+        foreach (FMGInfo info in _FmgInfoBanks.SelectMany((x) => x.Value))
+        {
+            Utils.WriteWithBackup(Owner.Project.ParentProject.AssetLocator.RootDirectory, Owner.Project.AssetLocator.RootDirectory,
+                $@"menu\text\{LanguageFolder}\{info.Name}.fmg", info.Fmg);
+        }
+    }
+    public void SaveFMGs()
+    {
+        try
+        {
+            if (!IsLoaded)
+            {
+                return;
+            }
+
+            if (Owner.Project.AssetLocator.Type == GameType.Undefined)
+            {
+                return;
+            }
+
+            if (Owner.Project.AssetLocator.Type == GameType.DarkSoulsIISOTFS)
+            {
+                SaveFMGsDS2();
+                TaskLogs.AddLog("Saved FMG text");
+                return;
+            }
+
+            // Load the fmg bnd, replace fmgs, and save
+            IBinder fmgBinderItem;
+            IBinder fmgBinderMenu;
+            AssetDescription itemMsgPath = Owner.Project.AssetLocator.GetItemMsgbnd(LanguageFolder);
+            AssetDescription menuMsgPath = Owner.Project.AssetLocator.GetMenuMsgbnd(LanguageFolder);
+            if (Owner.Project.AssetLocator.Type == GameType.DemonsSouls || Owner.Project.AssetLocator.Type == GameType.DarkSoulsPTDE ||
+                Owner.Project.AssetLocator.Type == GameType.DarkSoulsRemastered)
+            {
+                fmgBinderItem = BND3.Read(itemMsgPath.AssetPath);
+                fmgBinderMenu = BND3.Read(menuMsgPath.AssetPath);
+            }
+            else
+            {
+                fmgBinderItem = BND4.Read(itemMsgPath.AssetPath);
+                fmgBinderMenu = BND4.Read(menuMsgPath.AssetPath);
+            }
+
+            foreach (BinderFile file in fmgBinderItem.Files)
+            {
+                FMGInfo info = _FmgInfoBanks.SelectMany((x) => x.Value).FirstOrDefault(e => e.FmgID == (FmgIDType)file.ID);
+                if (info != null)
+                {
+                    file.Bytes = info.Fmg.Write();
+                }
+            }
+
+            foreach (BinderFile file in fmgBinderMenu.Files)
+            {
+                FMGInfo info = _FmgInfoBanks.SelectMany((x) => x.Value).FirstOrDefault(e => e.FmgID == (FmgIDType)file.ID);
+                if (info != null)
+                {
+                    file.Bytes = info.Fmg.Write();
+                }
+            }
+
+            AssetDescription itemMsgPathDest = Owner.Project.AssetLocator.GetItemMsgbnd(LanguageFolder, true);
+            AssetDescription menuMsgPathDest = Owner.Project.AssetLocator.GetMenuMsgbnd(LanguageFolder, true);
+            if (fmgBinderItem is BND3 bnd3)
+            {
+                Utils.WriteWithBackup(Owner.Project.ParentProject.AssetLocator.RootDirectory,
+                    Owner.Project.AssetLocator.RootDirectory, itemMsgPathDest.AssetPath, bnd3);
+                Utils.WriteWithBackup(Owner.Project.ParentProject.AssetLocator.RootDirectory,
+                    Owner.Project.AssetLocator.RootDirectory, menuMsgPathDest.AssetPath, (BND3)fmgBinderMenu);
+                if (Owner.Project.AssetLocator.Type is GameType.DemonsSouls)
+                {
+                    bnd3.Compression = DCX.Type.None;
+                    ((BND3)fmgBinderMenu).Compression = DCX.Type.None;
+                    Utils.WriteWithBackup(Owner.Project.ParentProject.AssetLocator.RootDirectory,
+                    Owner.Project.AssetLocator.RootDirectory, itemMsgPathDest.AssetPath[..^4], bnd3);
+                    Utils.WriteWithBackup(Owner.Project.ParentProject.AssetLocator.RootDirectory,
+                    Owner.Project.AssetLocator.RootDirectory, menuMsgPathDest.AssetPath[..^4], (BND3)fmgBinderMenu);
+                }
+            }
+            else if (fmgBinderItem is BND4 bnd4)
+            {
+                Utils.WriteWithBackup(Owner.Project.ParentProject.AssetLocator.RootDirectory,
+                    Owner.Project.AssetLocator.RootDirectory, itemMsgPathDest.AssetPath, bnd4);
+                Utils.WriteWithBackup(Owner.Project.ParentProject.AssetLocator.RootDirectory,
+                    Owner.Project.AssetLocator.RootDirectory, menuMsgPathDest.AssetPath, (BND4)fmgBinderMenu);
+            }
+
+            fmgBinderItem.Dispose();
+            fmgBinderMenu.Dispose();
+            TaskLogs.AddLog("Saved FMG text");
+        }
+        catch (SavingFailedException e)
+        {
+            TaskLogs.AddLog(e.Wrapped.Message,
+                LogLevel.Error, TaskLogs.LogPriority.High, e.Wrapped);
+        }
+    }
+}
+
+/// <summary>
+///     Static class that stores all the strings for a Souls game.
+/// </summary>
+public class FMGBank
+{
+    public Project Project;
+
+    public FMGBank(Project project)
+    {
+        Project = project;
+    }
+
+    public bool IsLoaded { get; private set; }
+    public bool IsLoading { get; private set; }
+    public string LanguageFolder { get; private set; } = "";
+
+    public IEnumerable<FMGInfo> FmgInfoBank { get => currentFmgInfoBanks.SelectMany(x => x.Value); }
+    public IEnumerable<FMGInfo> SortedFmgInfoBank {
+        get {
+            //This check shouldn't be here. Should do better housekeeping.
+            if (IsLoading || !IsLoaded)
+            {
+                return [];
+            }
+            if (CFG.Current.FMG_NoGroupedFmgEntries)
+            {
+                return FmgInfoBank.OrderBy(e => e.EntryCategory).ThenBy(e => e.FmgID);
+            }
+            else
+            {
+                return FmgInfoBank.OrderBy(e => e.Name);
+            }
+        }
+    }
+    public Dictionary<string, FMGLanguage> fmgLangs = new();
+    public Dictionary<FmgFileCategory, List<FMGInfo>> currentFmgInfoBanks { get => fmgLangs[LanguageFolder]._FmgInfoBanks; }
+
+    
+    /// <summary>
+    ///     List of strings to compare with "FmgIDType" name to identify patch FMGs.
+    /// </summary>
+    private static readonly List<string> patchStrings = new() { "_Patch", "_DLC1", "_DLC2" };
+    /// <summary>
+    ///     Removes patch/DLC identifiers from strings for the purposes of finding patch FMGs. Kinda dumb.
+    /// </summary>
+    internal static string RemovePatchStrings(string str)
+    {
+        foreach (var badString in patchStrings)
+        {
+            str = str.Replace(badString, "", StringComparison.CurrentCultureIgnoreCase);
+        }
+
+        return str;
+    }
+    public static void ReloadFMGs()
+    {
+        Locator.ActiveProject.FMGBank.LoadFMGs();
+    }
+    public void LoadFMGs(string languageFolder = "")
+    {
+        TaskManager.Run(new TaskManager.LiveTask("FMG - Load Text", TaskManager.RequeueType.WaitThenRequeue, true,
+            () =>
+            {
+                IsLoaded = false;
+                IsLoading = true;
+
+                LanguageFolder = languageFolder;
+                if (fmgLangs.ContainsKey(LanguageFolder))
+                {
+                    IsLoaded = true;
+                    IsLoading = false;
+                    return;
+                }
+
+                if (Project.AssetLocator.Type == GameType.Undefined)
+                {
+                    return;
+                }
+
+                if (Project.AssetLocator.Type == GameType.DarkSoulsIISOTFS)
+                {
+                    if (LoadDS2FMGs())
+                    {
+                        IsLoading = false;
+                        IsLoaded = true;
+                    }
+
+                    return;
+                }
+
+                SetDefaultLanguagePath();
+
+                AssetDescription itemMsgPath = Project.AssetLocator.GetItemMsgbnd(LanguageFolder);
+                AssetDescription menuMsgPath = Project.AssetLocator.GetMenuMsgbnd(LanguageFolder);
+                FMGLanguage fmgl = new FMGLanguage(this, LanguageFolder);
+                fmgLangs.Add(fmgl.LanguageFolder, fmgl);
+                if (!fmgl.LoadItemMenuMsgBnds(itemMsgPath, menuMsgPath))
+                {
+                    fmgLangs.Remove(LanguageFolder);
+                    IsLoaded = false;
+                    IsLoading = false;
+                    return;
+                }
+
+                IsLoaded = true;
+                IsLoading = false;
+            }));
+    }
+
+    private bool LoadDS2FMGs()
+    {
+        SetDefaultLanguagePath();
+        AssetDescription desc = Project.AssetLocator.GetItemMsgbnd(LanguageFolder, true);
+
+        if (desc.AssetPath == null)
+        {
+            if (LanguageFolder != "")
+            {
+                TaskLogs.AddLog($"Could not locate text data files when using \"{LanguageFolder}\" folder",
+                    LogLevel.Warning);
+            }
+            else
+            {
+                TaskLogs.AddLog("Could not locate text data files when using Default English folder",
+                    LogLevel.Warning);
+            }
+
+            IsLoaded = false;
+            IsLoading = false;
+            return false;
+        }
+
+        IEnumerable<string> files = Project.AssetLocator.GetAllAssets($@"{desc.AssetPath}", [@"*.fmg"]);
+        
+        FMGLanguage fmgl = new FMGLanguage(this, LanguageFolder);
+        fmgLangs.Add(fmgl.LanguageFolder, fmgl);
+        foreach (var file in files)
+        {
+            FMGInfo info = fmgl.GenerateFMGInfoDS2(file);        
+            fmgl.InsertFmgInfo(info);
+        }
+
+        //TODO ordering
+        //FmgInfoBank = FmgInfoBank.OrderBy(e => e.Name).ToList();
+        fmgl.HandleDuplicateEntries();
+        return true;
+    }
+
+    private void SetDefaultLanguagePath()
+    {
+        if (LanguageFolder == "")
+        {
+            // By default, try to find path to English folder.
+            foreach (KeyValuePair<string, string> lang in Project.AssetLocator.GetMsgLanguages())
+            {
+                var folder = lang.Value.Split("\\").Last();
+                if (folder.Contains("eng", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    LanguageFolder = folder;
+                    break;
+                }
+            }
         }
     }
 
@@ -599,36 +758,6 @@ public class FMGBank
         return eGroup;
     }
 
-    internal void HandleDuplicateEntries()
-    {
-        var askedAboutDupes = false;
-        var ignoreDupes = true;
-        foreach (FMGInfo info in FmgInfoBank)
-        {
-            IEnumerable<FMG.Entry> dupes = info.Fmg.Entries.GroupBy(e => e.ID).SelectMany(g => g.SkipLast(1));
-            if (dupes.Any())
-            {
-                var dupeList = string.Join(", ", dupes.Select(dupe => dupe.ID));
-                if (!askedAboutDupes && PlatformUtils.Instance.MessageBox(
-                        $"Duplicate text entries have been found in FMG {Path.GetFileNameWithoutExtension(info.FileName)} for the following row IDs:\n\n{dupeList}\n\nRemove all duplicates? (Latest entries are kept)",
-                        "Duplicate Text Entries", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                {
-                    ignoreDupes = false;
-                }
-
-                askedAboutDupes = true;
-
-                if (!ignoreDupes)
-                {
-                    foreach (FMG.Entry dupe in dupes)
-                    {
-                        info.Fmg.Entries.Remove(dupe);
-                    }
-                }
-            }
-        }
-    }
-
     private void SaveFMGsDS2()
     {
         foreach (FMGInfo info in FmgInfoBank)
@@ -752,7 +881,7 @@ public class EntryFMGInfoPair
 /// </summary>
 public class FMGInfo
 {
-    public FMGBank Owner;
+    public FMGLanguage Language;
 
     public FmgEntryCategory EntryCategory;
     public FmgEntryTextType EntryType;
@@ -890,7 +1019,7 @@ public class FMGInfo
     /// </summary>
     public FMGInfo GetTitleFmgInfo()
     {
-        foreach (var info in Owner.FmgInfoBank)
+        foreach (var info in Language._FmgInfoBanks[FileCategory])
         {
             if (info.EntryCategory == EntryCategory && info.EntryType == FmgEntryTextType.Title && info.PatchPrefix == PatchPrefix)
             {
