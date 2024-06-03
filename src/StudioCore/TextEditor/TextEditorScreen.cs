@@ -13,8 +13,8 @@ namespace StudioCore.TextEditor;
 public unsafe class TextEditorScreen : EditorScreen
 {
     private readonly PropertyEditor _propEditor;
-    private FMGBank.EntryGroup _activeEntryGroup;
-    private FMGBank.FMGInfo _activeFmgInfo;
+    private FMGEntryGroup _activeEntryGroup;
+    private FMGInfo _activeFmgInfo;
     private int _activeIDCache = -1;
     private bool _arrowKeyPressed;
 
@@ -28,7 +28,7 @@ public unsafe class TextEditorScreen : EditorScreen
     private string _searchFilterCached = "";
     private string _fmgSearchAllString = "";
     private bool _fmgSearchAllActive = false;
-    private List<FMGBank.FMGInfo> _filteredFmgInfo = new();
+    private List<FMGInfo> _filteredFmgInfo = new();
     public ActionManager EditorActionManager = new();
 
     public TextEditorScreen(Sdl2Window window, GraphicsDevice device)
@@ -42,6 +42,8 @@ public unsafe class TextEditorScreen : EditorScreen
 
     public void DrawEditorMenu()
     {
+        FMGBank currentFmgBank = Locator.ActiveProject.FMGBank;
+
         if (ImGui.BeginMenu("Edit", Locator.ActiveProject.FMGBank.IsLoaded))
         {
             if (ImGui.MenuItem("Undo", KeyBindings.Current.Core_Undo.HintText, false,
@@ -101,7 +103,7 @@ public unsafe class TextEditorScreen : EditorScreen
 
                 if (ImGui.MenuItem("Import text files and merge"))
                 {
-                    if (FMGBank.FmgExporter.ImportFmgTxt(true))
+                    if (FmgExporter.ImportFmgTxt(currentFmgBank, true))
                     {
                         ClearTextEditorCache();
                         ResetActionManager();
@@ -112,7 +114,7 @@ public unsafe class TextEditorScreen : EditorScreen
                     "Export: only modded text (different than vanilla) will be exported");
                 if (ImGui.MenuItem("Export modded text to text files"))
                 {
-                    FMGBank.FmgExporter.ExportFmgTxt(true);
+                    FmgExporter.ExportFmgTxt(currentFmgBank, true);
                 }
 
                 ImGui.EndMenu();
@@ -125,7 +127,7 @@ public unsafe class TextEditorScreen : EditorScreen
 
                 if (ImGui.MenuItem("Import text files and replace"))
                 {
-                    if (FMGBank.FmgExporter.ImportFmgTxt(false))
+                    if (FmgExporter.ImportFmgTxt(currentFmgBank, false))
                     {
                         ClearTextEditorCache();
                         ResetActionManager();
@@ -136,7 +138,7 @@ public unsafe class TextEditorScreen : EditorScreen
                     "Export: all text will be exported");
                 if (ImGui.MenuItem("Export all text to text files"))
                 {
-                    FMGBank.FmgExporter.ExportFmgTxt(false);
+                    FmgExporter.ExportFmgTxt(currentFmgBank, false);
                 }
 
                 if (ImGui.BeginMenu("Legacy"))
@@ -146,7 +148,7 @@ public unsafe class TextEditorScreen : EditorScreen
                         "Import: text replaces currently loaded text entirely.");
                     if (ImGui.MenuItem("Import json"))
                     {
-                        if (FMGBank.FmgExporter.ImportFmgJson(false))
+                        if (FmgExporter.ImportFmgJson(currentFmgBank, false))
                         {
                             ClearTextEditorCache();
                             ResetActionManager();
@@ -232,7 +234,7 @@ public unsafe class TextEditorScreen : EditorScreen
                     searchName = initcmd[1];
                 }
 
-                foreach (FMGBank.FMGInfo info in Locator.ActiveProject.FMGBank.FmgInfoBank)
+                foreach (FMGInfo info in Locator.ActiveProject.FMGBank.FmgInfoBank)
                 {
                     var match = false;
                     // This matches top-level item FMGs
@@ -314,7 +316,7 @@ public unsafe class TextEditorScreen : EditorScreen
     /// <summary>
     ///     Duplicates all Entries in active EntryGroup from their FMGs
     /// </summary>
-    private void DuplicateFMGEntries(FMGBank.EntryGroup entry)
+    private void DuplicateFMGEntries(FMGEntryGroup entry)
     {
         _activeIDCache = entry.GetNextUnusedID();
         var action = new DuplicateFMGEntryAction(entry);
@@ -328,7 +330,7 @@ public unsafe class TextEditorScreen : EditorScreen
     /// <summary>
     ///     Deletes all Entries within active EntryGroup from their FMGs
     /// </summary>
-    private void DeleteFMGEntries(FMGBank.EntryGroup entry)
+    private void DeleteFMGEntries(FMGEntryGroup entry)
     {
         var action = new DeleteFMGEntryAction(entry);
         EditorActionManager.ExecuteAction(action);
@@ -442,7 +444,7 @@ public unsafe class TextEditorScreen : EditorScreen
 
     private void CategoryListUI(FmgFileCategory uiType, bool doFocus)
     {
-        IEnumerable<FMGBank.FMGInfo> infos;
+        IEnumerable<FMGInfo> infos;
         if (_fmgSearchAllActive)
             infos = _filteredFmgInfo;
         else

@@ -231,7 +231,7 @@ public class SoapstoneService : SoapstoneServiceV1
     private static bool GetFmgKey(
         FromSoftGame game,
         SoulsFmg.FmgLanguage lang,
-        FMGBank.FMGInfo info,
+        FMGInfo info,
         out SoulsKey.FmgKey key)
     {
         // FileCategory is used to distinguish between name-keyed FMGs (DS2) and binder-keyed FMGs (item/menu bnds)
@@ -318,7 +318,7 @@ public class SoapstoneService : SoapstoneServiceV1
                     continue;
                 }
 
-                FMGBank.FMGInfo info = Locator.ActiveProject.FMGBank.FmgInfoBank
+                FMGInfo info = Locator.ActiveProject.FMGBank.FmgInfoBank
                     .FirstOrDefault(info =>
                         GetFmgKey(game, lang, info, out SoulsKey.FmgKey infoKey) && infoKey.Equals(fileKey));
                 if (info == null)
@@ -464,7 +464,7 @@ public class SoapstoneService : SoapstoneServiceV1
             Predicate<object> fmgFilter = search.GetKeyFilter("FMG");
             Predicate<object> baseFmgFilter = search.GetKeyFilter("BaseFMG");
             Predicate<object> categoryFilter = search.GetKeyFilter("Category");
-            foreach (FMGBank.FMGInfo info in Locator.ActiveProject.FMGBank.FmgInfoBank)
+            foreach (FMGInfo info in Locator.ActiveProject.FMGBank.FmgInfoBank)
             {
                 if (!GetFmgKey(game, lang, info, out SoulsKey.FmgKey fileKey)
                     || !SoulsFmg.TryGetFmgInfo(game, fileKey, out SoulsFmg.FmgKeyInfo keyInfo))

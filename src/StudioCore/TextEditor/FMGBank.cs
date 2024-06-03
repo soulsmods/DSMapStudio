@@ -15,7 +15,7 @@ namespace StudioCore.TextEditor;
 /// </summary>
 public partial class FMGBank
 {
-    private Project Project;
+    public Project Project;
 
     public FMGBank(Project project)
     {
@@ -50,7 +50,7 @@ public partial class FMGBank
     /// <summary>
     ///     Removes patch/DLC identifiers from strings for the purposes of finding patch FMGs. Kinda dumb.
     /// </summary>
-    private static string RemovePatchStrings(string str)
+    internal static string RemovePatchStrings(string str)
     {
         foreach (var badString in patchStrings)
         {
@@ -540,9 +540,9 @@ public partial class FMGBank
     ///     Generate a new EntryGroup using a given ID and FMGInfo.
     ///     Data is updated using FMGInfo PatchChildren.
     /// </summary>
-    public EntryGroup GenerateEntryGroup(int id, FMGInfo fmgInfo)
+    public FMGEntryGroup GenerateEntryGroup(int id, FMGInfo fmgInfo)
     {
-        EntryGroup eGroup = new() { ID = id };
+        FMGEntryGroup eGroup = new() { ID = id };
 
         if (fmgInfo.EntryCategory == FmgEntryCategory.None || CFG.Current.FMG_NoGroupedFmgEntries)
         {
@@ -596,7 +596,7 @@ public partial class FMGBank
         return eGroup;
     }
 
-    private void HandleDuplicateEntries()
+    internal void HandleDuplicateEntries()
     {
         var askedAboutDupes = false;
         var ignoreDupes = true;
@@ -624,13 +624,6 @@ public partial class FMGBank
                 }
             }
         }
-    }
-
-    private static string FormatJson(string json)
-    {
-        json = json.Replace("{\"ID\"", "\r\n{\"ID\"");
-        json = json.Replace("],", "\r\n],");
-        return json;
     }
 
     private void SaveFMGsDS2()
@@ -734,458 +727,457 @@ public partial class FMGBank
                 LogLevel.Error, TaskLogs.LogPriority.High, e.Wrapped);
         }
     }
+}
+
+/// <summary>
+///     Value pair with an entry and the FMG it belongs to.
+/// </summary>
+public class EntryFMGInfoPair
+{
+    public EntryFMGInfoPair(FMGInfo fmgInfo, FMG.Entry entry)
+    {
+        FmgInfo = fmgInfo;
+        Entry = entry;
+    }
+
+    public FMGInfo FmgInfo { get; set; }
+    public FMG.Entry Entry { get; set; }
+}
+
+/// <summary>
+///     Base object that stores an FMG and information regarding it.
+/// </summary>
+public class FMGInfo
+{
+    public FMGBank Owner;
+
+    public FmgEntryCategory EntryCategory;
+    public FmgEntryTextType EntryType;
+    public string FileName;
+    public FMG Fmg;
+    public FmgIDType FmgID;
+    public string Name;
 
     /// <summary>
-    ///     Value pair with an entry and the FMG it belongs to.
+    ///     List of associated children to this FMGInfo used to get patch entry data.
     /// </summary>
-    public class EntryFMGInfoPair
-    {
-        public EntryFMGInfoPair(FMGInfo fmgInfo, FMG.Entry entry)
-        {
-            FmgInfo = fmgInfo;
-            Entry = entry;
-        }
+    public List<FMGInfo> PatchChildren = new();
 
-        public FMGInfo FmgInfo { get; set; }
-        public FMG.Entry Entry { get; set; }
+    public FMGInfo PatchParent;
+    public FmgFileCategory FileCategory;
+
+    private string _patchPrefix = null;
+    public string PatchPrefix
+    {
+        get
+        {
+            _patchPrefix ??= Name.Replace(FMGBank.RemovePatchStrings(Name), "");
+            return _patchPrefix;
+        }
+    }
+
+    public void AddParent(FMGInfo parent)
+    {
+        PatchParent = parent;
+        parent.PatchChildren.Add(this);
     }
 
     /// <summary>
-    ///     Base object that stores an FMG and information regarding it.
+    ///     Returns a patched list of Entry & FMGInfo value pairs from this FMGInfo and its children.
+    ///     If a PatchParent exists, it will be checked instead.
     /// </summary>
-    public class FMGInfo
+    public List<EntryFMGInfoPair> GetPatchedEntryFMGPairs(bool sort = true)
     {
-        public FMGBank Owner;
-
-        public FmgEntryCategory EntryCategory;
-        public FmgEntryTextType EntryType;
-        public string FileName;
-        public FMG Fmg;
-        public FmgIDType FmgID;
-        public string Name;
-
-        /// <summary>
-        ///     List of associated children to this FMGInfo used to get patch entry data.
-        /// </summary>
-        public List<FMGInfo> PatchChildren = new();
-
-        public FMGInfo PatchParent;
-        public FmgFileCategory FileCategory;
-
-        private string _patchPrefix = null;
-        public string PatchPrefix
+        if (PatchParent != null && !CFG.Current.FMG_NoFmgPatching)
         {
-            get
-            {
-                _patchPrefix ??= Name.Replace(RemovePatchStrings(Name), "");
-                return _patchPrefix;
-            }
+            return PatchParent.GetPatchedEntryFMGPairs(sort);
         }
 
-        public void AddParent(FMGInfo parent)
+        List<EntryFMGInfoPair> list = new();
+        foreach (FMG.Entry entry in Fmg.Entries)
         {
-            PatchParent = parent;
-            parent.PatchChildren.Add(this);
+            list.Add(new EntryFMGInfoPair(this, entry));
         }
 
-        /// <summary>
-        ///     Returns a patched list of Entry & FMGInfo value pairs from this FMGInfo and its children.
-        ///     If a PatchParent exists, it will be checked instead.
-        /// </summary>
-        public List<EntryFMGInfoPair> GetPatchedEntryFMGPairs(bool sort = true)
+        if (!CFG.Current.FMG_NoFmgPatching)
         {
-            if (PatchParent != null && !CFG.Current.FMG_NoFmgPatching)
+            // Check and apply patch entries
+            foreach (FMGInfo child in PatchChildren.OrderBy(e => (int)e.FmgID))
             {
-                return PatchParent.GetPatchedEntryFMGPairs(sort);
-            }
-
-            List<EntryFMGInfoPair> list = new();
-            foreach (FMG.Entry entry in Fmg.Entries)
-            {
-                list.Add(new EntryFMGInfoPair(this, entry));
-            }
-
-            if (!CFG.Current.FMG_NoFmgPatching)
-            {
-                // Check and apply patch entries
-                foreach (FMGInfo child in PatchChildren.OrderBy(e => (int)e.FmgID))
+                foreach (FMG.Entry entry in child.Fmg.Entries)
                 {
-                    foreach (FMG.Entry entry in child.Fmg.Entries)
+                    EntryFMGInfoPair match = list.Find(e => e.Entry.ID == entry.ID);
+                    if (match != null)
                     {
-                        EntryFMGInfoPair match = list.Find(e => e.Entry.ID == entry.ID);
-                        if (match != null)
+                        // This is a patch entry
+                        // Only non-null text will overrwrite
+                        if (entry.Text != null)
                         {
-                            // This is a patch entry
-                            // Only non-null text will overrwrite
-                            if (entry.Text != null)
-                            {
-                                match.Entry = entry;
-                                match.FmgInfo = child;
-                            }
+                            match.Entry = entry;
+                            match.FmgInfo = child;
                         }
-                        else
-                        {
-                            list.Add(new EntryFMGInfoPair(child, entry));
-                        }
+                    }
+                    else
+                    {
+                        list.Add(new EntryFMGInfoPair(child, entry));
                     }
                 }
             }
-
-            if (sort)
-            {
-                list = list.OrderBy(e => e.Entry.ID).ToList();
-            }
-
-            return list;
         }
 
-        /// <summary>
-        ///     Returns a patched list of entries in this FMGInfo and its children.
-        ///     If a PatchParent exists, it will be checked instead.
-        /// </summary>
-        public List<FMG.Entry> GetPatchedEntries(bool sort = true)
+        if (sort)
         {
-            if (PatchParent != null && !CFG.Current.FMG_NoFmgPatching)
-            {
-                return PatchParent.GetPatchedEntries(sort);
-            }
+            list = list.OrderBy(e => e.Entry.ID).ToList();
+        }
 
-            List<FMG.Entry> list = new();
-            list.AddRange(Fmg.Entries);
+        return list;
+    }
 
-            if (!CFG.Current.FMG_NoFmgPatching)
+    /// <summary>
+    ///     Returns a patched list of entries in this FMGInfo and its children.
+    ///     If a PatchParent exists, it will be checked instead.
+    /// </summary>
+    public List<FMG.Entry> GetPatchedEntries(bool sort = true)
+    {
+        if (PatchParent != null && !CFG.Current.FMG_NoFmgPatching)
+        {
+            return PatchParent.GetPatchedEntries(sort);
+        }
+
+        List<FMG.Entry> list = new();
+        list.AddRange(Fmg.Entries);
+
+        if (!CFG.Current.FMG_NoFmgPatching)
+        {
+            // Check and apply patch entries
+            foreach (FMGInfo child in PatchChildren.OrderBy(e => (int)e.FmgID))
             {
-                // Check and apply patch entries
-                foreach (FMGInfo child in PatchChildren.OrderBy(e => (int)e.FmgID))
+                foreach (FMG.Entry entry in child.Fmg.Entries)
                 {
-                    foreach (FMG.Entry entry in child.Fmg.Entries)
+                    FMG.Entry match = list.Find(e => e.ID == entry.ID);
+                    if (match != null)
                     {
-                        FMG.Entry match = list.Find(e => e.ID == entry.ID);
-                        if (match != null)
+                        // This is a patch entry
+                        if (entry.Text != null)
                         {
-                            // This is a patch entry
-                            if (entry.Text != null)
-                            {
-                                // Text is not null, so it will overwrite non-patch entries.
-                                list.Remove(match);
-                                list.Add(entry);
-                            }
-                        }
-                        else
-                        {
+                            // Text is not null, so it will overwrite non-patch entries.
+                            list.Remove(match);
                             list.Add(entry);
                         }
                     }
+                    else
+                    {
+                        list.Add(entry);
+                    }
                 }
             }
+        }
 
-            if (sort)
+        if (sort)
+        {
+            list = list.OrderBy(e => e.ID).ToList();
+        }
+
+        return list;
+    }
+
+    /// <summary>
+    ///     Returns title FMGInfo that shares this FMGInfo's EntryCategory.
+    ///     If none are found, an exception will be thrown.
+    /// </summary>
+    public FMGInfo GetTitleFmgInfo()
+    {
+        foreach (var info in Owner.FmgInfoBank)
+        {
+            if (info.EntryCategory == EntryCategory && info.EntryType == FmgEntryTextType.Title && info.PatchPrefix == PatchPrefix)
             {
-                list = list.OrderBy(e => e.ID).ToList();
+                return info;
+            }
+        }
+        throw new InvalidOperationException($"Couldn't find title FMGInfo for {this.Name}");
+    }
+
+    /// <summary>
+    ///     Adds an entry to the end of the FMG.
+    /// </summary>
+    public void AddEntry(FMG.Entry entry)
+    {
+        Fmg.Entries.Add(entry);
+    }
+
+    /// <summary>
+    ///     Clones an FMG entry.
+    /// </summary>
+    /// <returns>Cloned entry</returns>
+    public FMG.Entry CloneEntry(FMG.Entry entry)
+    {
+        FMG.Entry newEntry = new(entry.ID, entry.Text);
+        return newEntry;
+    }
+
+    /// <summary>
+    ///     Removes an entry from FMGInfo's FMG.
+    /// </summary>
+    public void DeleteEntry(FMG.Entry entry)
+    {
+        Fmg.Entries.Remove(entry);
+    }
+}
+
+/// <summary>
+///     A group of entries that may be associated (such as title, summary, description) along with respective FMGs.
+/// </summary>
+public class FMGEntryGroup
+{
+    private int _ID = -1;
+    public FMG.Entry Description;
+    public FMGInfo DescriptionInfo;
+    public FMG.Entry ExtraText;
+    public FMGInfo ExtraTextInfo;
+    public FMG.Entry Summary;
+    public FMGInfo SummaryInfo;
+    public FMG.Entry TextBody;
+    public FMGInfo TextBodyInfo;
+    public FMG.Entry Title;
+    public FMGInfo TitleInfo;
+
+    public int ID
+    {
+        set
+        {
+            _ID = value;
+            if (TextBody != null)
+            {
+                TextBody.ID = _ID;
             }
 
-            return list;
-        }
-
-        /// <summary>
-        ///     Returns title FMGInfo that shares this FMGInfo's EntryCategory.
-        ///     If none are found, an exception will be thrown.
-        /// </summary>
-        public FMGInfo GetTitleFmgInfo()
-        {
-            foreach (var info in Owner.FmgInfoBank)
+            if (Title != null)
             {
-                if (info.EntryCategory == EntryCategory && info.EntryType == FmgEntryTextType.Title && info.PatchPrefix == PatchPrefix)
-                {
-                    return info;
-                }
+                Title.ID = _ID;
             }
-            throw new InvalidOperationException($"Couldn't find title FMGInfo for {this.Name}");
+
+            if (Summary != null)
+            {
+                Summary.ID = _ID;
+            }
+
+            if (Description != null)
+            {
+                Description.ID = _ID;
+            }
+
+            if (ExtraText != null)
+            {
+                ExtraText.ID = _ID;
+            }
+        }
+        get => _ID;
+    }
+
+    /// <summary>
+    ///     Gets next unused entry ID.
+    /// </summary>
+    public int GetNextUnusedID()
+    {
+        var id = ID;
+        if (TextBody != null)
+        {
+            List<FMG.Entry> entries = TextBodyInfo.GetPatchedEntries();
+            do
+            {
+                id++;
+            } while (entries.Find(e => e.ID == id) != null);
+        }
+        else if (Title != null)
+        {
+            List<FMG.Entry> entries = TitleInfo.GetPatchedEntries();
+            do
+            {
+                id++;
+            } while (entries.Find(e => e.ID == id) != null);
+        }
+        else if (Summary != null)
+        {
+            List<FMG.Entry> entries = SummaryInfo.GetPatchedEntries();
+            do
+            {
+                id++;
+            } while (entries.Find(e => e.ID == id) != null);
+        }
+        else if (Description != null)
+        {
+            List<FMG.Entry> entries = DescriptionInfo.GetPatchedEntries();
+            do
+            {
+                id++;
+            } while (entries.Find(e => e.ID == id) != null);
+        }
+        else if (ExtraText != null)
+        {
+            List<FMG.Entry> entries = ExtraTextInfo.GetPatchedEntries();
+            do
+            {
+                id++;
+            } while (entries.Find(e => e.ID == id) != null);
         }
 
-        /// <summary>
-        ///     Adds an entry to the end of the FMG.
-        /// </summary>
-        public void AddEntry(FMG.Entry entry)
+        return id;
+    }
+
+    /// <summary>
+    ///     Sets ID of all entries to the next unused entry ID.
+    /// </summary>
+    public void SetNextUnusedID()
+    {
+        ID = GetNextUnusedID();
+    }
+
+    /// <summary>
+    ///     Places all entries within this EntryGroup into their assigned FMGs.
+    /// </summary>
+    public void ImplementEntryGroup()
+    {
+        if (TextBody != null)
         {
-            Fmg.Entries.Add(entry);
+            TextBodyInfo.AddEntry(TextBody);
         }
 
-        /// <summary>
-        ///     Clones an FMG entry.
-        /// </summary>
-        /// <returns>Cloned entry</returns>
-        public FMG.Entry CloneEntry(FMG.Entry entry)
+        if (Title != null)
         {
-            FMG.Entry newEntry = new(entry.ID, entry.Text);
-            return newEntry;
+            TitleInfo.AddEntry(Title);
         }
 
-        /// <summary>
-        ///     Removes an entry from FMGInfo's FMG.
-        /// </summary>
-        public void DeleteEntry(FMG.Entry entry)
+        if (Summary != null)
         {
-            Fmg.Entries.Remove(entry);
+            SummaryInfo.AddEntry(Summary);
+        }
+
+        if (Description != null)
+        {
+            DescriptionInfo.AddEntry(Description);
+        }
+
+        if (ExtraText != null)
+        {
+            ExtraTextInfo.AddEntry(ExtraText);
         }
     }
 
+    /// <summary>
+    ///     Duplicates all entries within their assigned FMGs.
+    ///     New entries are inserted into their assigned FMGs.
+    /// </summary>
+    /// <returns>New EntryGroup.</returns>
+    public FMGEntryGroup DuplicateFMGEntries()
+    {
+        FMGEntryGroup newGroup = new();
+        if (TextBody != null)
+        {
+            newGroup.TextBodyInfo = TextBodyInfo;
+            newGroup.TextBody = TextBodyInfo.CloneEntry(TextBody);
+            TextBodyInfo.AddEntry(newGroup.TextBody);
+        }
+
+        if (Title != null)
+        {
+            newGroup.TitleInfo = TitleInfo;
+            newGroup.Title = TitleInfo.CloneEntry(Title);
+            TitleInfo.AddEntry(newGroup.Title);
+        }
+
+        if (Summary != null)
+        {
+            newGroup.SummaryInfo = SummaryInfo;
+            newGroup.Summary = SummaryInfo.CloneEntry(Summary);
+            SummaryInfo.AddEntry(newGroup.Summary);
+        }
+
+        if (Description != null)
+        {
+            newGroup.DescriptionInfo = DescriptionInfo;
+            newGroup.Description = DescriptionInfo.CloneEntry(Description);
+            DescriptionInfo.AddEntry(newGroup.Description);
+        }
+
+        if (ExtraText != null)
+        {
+            newGroup.ExtraTextInfo = ExtraTextInfo;
+            newGroup.ExtraText = ExtraTextInfo.CloneEntry(ExtraText);
+            ExtraTextInfo.AddEntry(newGroup.ExtraText);
+        }
+
+        newGroup.ID = ID;
+        return newGroup;
+    }
 
     /// <summary>
-    ///     A group of entries that may be associated (such as title, summary, description) along with respective FMGs.
+    ///     Clones this EntryGroup and returns a duplicate.
     /// </summary>
-    public class EntryGroup
+    /// <returns>Cloned EntryGroup.</returns>
+    public FMGEntryGroup CloneEntryGroup()
     {
-        private int _ID = -1;
-        public FMG.Entry Description;
-        public FMGInfo DescriptionInfo;
-        public FMG.Entry ExtraText;
-        public FMGInfo ExtraTextInfo;
-        public FMG.Entry Summary;
-        public FMGInfo SummaryInfo;
-        public FMG.Entry TextBody;
-        public FMGInfo TextBodyInfo;
-        public FMG.Entry Title;
-        public FMGInfo TitleInfo;
-
-        public int ID
+        FMGEntryGroup newGroup = new();
+        if (TextBody != null)
         {
-            set
-            {
-                _ID = value;
-                if (TextBody != null)
-                {
-                    TextBody.ID = _ID;
-                }
-
-                if (Title != null)
-                {
-                    Title.ID = _ID;
-                }
-
-                if (Summary != null)
-                {
-                    Summary.ID = _ID;
-                }
-
-                if (Description != null)
-                {
-                    Description.ID = _ID;
-                }
-
-                if (ExtraText != null)
-                {
-                    ExtraText.ID = _ID;
-                }
-            }
-            get => _ID;
+            newGroup.TextBodyInfo = TextBodyInfo;
+            newGroup.TextBody = TextBodyInfo.CloneEntry(TextBody);
         }
 
-        /// <summary>
-        ///     Gets next unused entry ID.
-        /// </summary>
-        public int GetNextUnusedID()
+        if (Title != null)
         {
-            var id = ID;
-            if (TextBody != null)
-            {
-                List<FMG.Entry> entries = TextBodyInfo.GetPatchedEntries();
-                do
-                {
-                    id++;
-                } while (entries.Find(e => e.ID == id) != null);
-            }
-            else if (Title != null)
-            {
-                List<FMG.Entry> entries = TitleInfo.GetPatchedEntries();
-                do
-                {
-                    id++;
-                } while (entries.Find(e => e.ID == id) != null);
-            }
-            else if (Summary != null)
-            {
-                List<FMG.Entry> entries = SummaryInfo.GetPatchedEntries();
-                do
-                {
-                    id++;
-                } while (entries.Find(e => e.ID == id) != null);
-            }
-            else if (Description != null)
-            {
-                List<FMG.Entry> entries = DescriptionInfo.GetPatchedEntries();
-                do
-                {
-                    id++;
-                } while (entries.Find(e => e.ID == id) != null);
-            }
-            else if (ExtraText != null)
-            {
-                List<FMG.Entry> entries = ExtraTextInfo.GetPatchedEntries();
-                do
-                {
-                    id++;
-                } while (entries.Find(e => e.ID == id) != null);
-            }
-
-            return id;
+            newGroup.TitleInfo = TitleInfo;
+            newGroup.Title = TitleInfo.CloneEntry(Title);
         }
 
-        /// <summary>
-        ///     Sets ID of all entries to the next unused entry ID.
-        /// </summary>
-        public void SetNextUnusedID()
+        if (Summary != null)
         {
-            ID = GetNextUnusedID();
+            newGroup.SummaryInfo = SummaryInfo;
+            newGroup.Summary = SummaryInfo.CloneEntry(Summary);
         }
 
-        /// <summary>
-        ///     Places all entries within this EntryGroup into their assigned FMGs.
-        /// </summary>
-        public void ImplementEntryGroup()
+        if (Description != null)
         {
-            if (TextBody != null)
-            {
-                TextBodyInfo.AddEntry(TextBody);
-            }
-
-            if (Title != null)
-            {
-                TitleInfo.AddEntry(Title);
-            }
-
-            if (Summary != null)
-            {
-                SummaryInfo.AddEntry(Summary);
-            }
-
-            if (Description != null)
-            {
-                DescriptionInfo.AddEntry(Description);
-            }
-
-            if (ExtraText != null)
-            {
-                ExtraTextInfo.AddEntry(ExtraText);
-            }
+            newGroup.DescriptionInfo = DescriptionInfo;
+            newGroup.Description = DescriptionInfo.CloneEntry(Description);
         }
 
-        /// <summary>
-        ///     Duplicates all entries within their assigned FMGs.
-        ///     New entries are inserted into their assigned FMGs.
-        /// </summary>
-        /// <returns>New EntryGroup.</returns>
-        public EntryGroup DuplicateFMGEntries()
+        if (ExtraText != null)
         {
-            EntryGroup newGroup = new();
-            if (TextBody != null)
-            {
-                newGroup.TextBodyInfo = TextBodyInfo;
-                newGroup.TextBody = TextBodyInfo.CloneEntry(TextBody);
-                TextBodyInfo.AddEntry(newGroup.TextBody);
-            }
-
-            if (Title != null)
-            {
-                newGroup.TitleInfo = TitleInfo;
-                newGroup.Title = TitleInfo.CloneEntry(Title);
-                TitleInfo.AddEntry(newGroup.Title);
-            }
-
-            if (Summary != null)
-            {
-                newGroup.SummaryInfo = SummaryInfo;
-                newGroup.Summary = SummaryInfo.CloneEntry(Summary);
-                SummaryInfo.AddEntry(newGroup.Summary);
-            }
-
-            if (Description != null)
-            {
-                newGroup.DescriptionInfo = DescriptionInfo;
-                newGroup.Description = DescriptionInfo.CloneEntry(Description);
-                DescriptionInfo.AddEntry(newGroup.Description);
-            }
-
-            if (ExtraText != null)
-            {
-                newGroup.ExtraTextInfo = ExtraTextInfo;
-                newGroup.ExtraText = ExtraTextInfo.CloneEntry(ExtraText);
-                ExtraTextInfo.AddEntry(newGroup.ExtraText);
-            }
-
-            newGroup.ID = ID;
-            return newGroup;
+            newGroup.ExtraTextInfo = ExtraTextInfo;
+            newGroup.ExtraText = ExtraTextInfo.CloneEntry(ExtraText);
         }
 
-        /// <summary>
-        ///     Clones this EntryGroup and returns a duplicate.
-        /// </summary>
-        /// <returns>Cloned EntryGroup.</returns>
-        public EntryGroup CloneEntryGroup()
+        return newGroup;
+    }
+
+    /// <summary>
+    ///     Removes all entries from their assigned FMGs.
+    /// </summary>
+    public void DeleteEntries()
+    {
+        if (TextBody != null)
         {
-            EntryGroup newGroup = new();
-            if (TextBody != null)
-            {
-                newGroup.TextBodyInfo = TextBodyInfo;
-                newGroup.TextBody = TextBodyInfo.CloneEntry(TextBody);
-            }
-
-            if (Title != null)
-            {
-                newGroup.TitleInfo = TitleInfo;
-                newGroup.Title = TitleInfo.CloneEntry(Title);
-            }
-
-            if (Summary != null)
-            {
-                newGroup.SummaryInfo = SummaryInfo;
-                newGroup.Summary = SummaryInfo.CloneEntry(Summary);
-            }
-
-            if (Description != null)
-            {
-                newGroup.DescriptionInfo = DescriptionInfo;
-                newGroup.Description = DescriptionInfo.CloneEntry(Description);
-            }
-
-            if (ExtraText != null)
-            {
-                newGroup.ExtraTextInfo = ExtraTextInfo;
-                newGroup.ExtraText = ExtraTextInfo.CloneEntry(ExtraText);
-            }
-
-            return newGroup;
+            TextBodyInfo.DeleteEntry(TextBody);
         }
 
-        /// <summary>
-        ///     Removes all entries from their assigned FMGs.
-        /// </summary>
-        public void DeleteEntries()
+        if (Title != null)
         {
-            if (TextBody != null)
-            {
-                TextBodyInfo.DeleteEntry(TextBody);
-            }
+            TitleInfo.DeleteEntry(Title);
+        }
 
-            if (Title != null)
-            {
-                TitleInfo.DeleteEntry(Title);
-            }
+        if (Summary != null)
+        {
+            SummaryInfo.DeleteEntry(Summary);
+        }
 
-            if (Summary != null)
-            {
-                SummaryInfo.DeleteEntry(Summary);
-            }
+        if (Description != null)
+        {
+            DescriptionInfo.DeleteEntry(Description);
+        }
 
-            if (Description != null)
-            {
-                DescriptionInfo.DeleteEntry(Description);
-            }
-
-            if (ExtraText != null)
-            {
-                ExtraTextInfo.DeleteEntry(ExtraText);
-            }
+        if (ExtraText != null)
+        {
+            ExtraTextInfo.DeleteEntry(ExtraText);
         }
     }
 }
