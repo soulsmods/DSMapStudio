@@ -1,30 +1,31 @@
-﻿using System;
+﻿using StudioCore.Help;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
 
-namespace StudioCore.Help;
+namespace StudioCore.Banks.HelpBank;
 
-public class HelpDex
+public class HelpBank
 {
-    private readonly TextEntry _credits;
-    private readonly List<HelpEntry> _helpArticles;
-    private readonly List<HelpEntry> _helpGlossary;
-    private readonly List<HelpEntry> _helpTutorials;
-    private readonly LinkEntries _links;
+    private List<HelpEntry> _helpArticles;
+    private List<HelpEntry> _helpGlossary;
+    private List<HelpEntry> _helpTutorials;
+    private List<HelpEntry> _helpLinks;
+    private List<HelpEntry> _helpCredits;
+    private List<HelpEntry> _helpMassEdit;
+    private List<HelpEntry> _helpRegex;
 
-    public HelpDex()
+    public HelpBank()
     {
         _helpArticles = LoadHelpResource("Articles");
         _helpTutorials = LoadHelpResource("Tutorials");
         _helpGlossary = LoadHelpResource("Glossary");
-        _links = JsonSerializer.Deserialize<LinkEntries>(
-            File.OpenRead(AppContext.BaseDirectory + @"\Assets\Help\Links.json"),
-            LinkEntriesSerializerContext.Default.LinkEntries);
-        _credits = JsonSerializer.Deserialize<TextEntry>(
-            File.OpenRead(AppContext.BaseDirectory + @"\Assets\Help\Credits.json"),
-            TextEntrySerializerContext.Default.TextEntry);
+        _helpMassEdit = LoadHelpResource("MassEdit");
+        _helpRegex = LoadHelpResource("Regex");
+        _helpLinks = LoadHelpResource("Links");
+        _helpCredits = LoadHelpResource("Credits");
     }
 
     private List<HelpEntry> LoadHelpResource(string directory)
@@ -35,9 +36,7 @@ public class HelpDex
             from file in Directory.EnumerateFiles(AppContext.BaseDirectory + $@"\Assets\Help\{directory}\")
             select file;
         foreach (var file in articleDirFiles)
-        {
             helpEntries.Add(LoadHelpJSON(file));
-        }
 
         return helpEntries;
     }
@@ -74,13 +73,23 @@ public class HelpDex
         return _helpGlossary;
     }
 
-    public List<LinkEntry> GetLinks()
+    public List<HelpEntry> GetLinks()
     {
-        return _links.Links;
+        return _helpLinks;
     }
 
-    public TextEntry GetCredits()
+    public List<HelpEntry> GetCredits()
     {
-        return _credits;
+        return _helpCredits;
+    }
+
+    public List<HelpEntry> GetMassEditHelp()
+    {
+        return _helpMassEdit;
+    }
+
+    public List<HelpEntry> GetRegexHelp()
+    {
+        return _helpRegex;
     }
 }
