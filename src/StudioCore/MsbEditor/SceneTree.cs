@@ -14,6 +14,7 @@ using System.Linq;
 using System.Numerics;
 using System.Runtime.InteropServices;
 using Veldrid;
+using StudioCore.Interface;
 
 namespace StudioCore.MsbEditor;
 
@@ -92,8 +93,6 @@ public class SceneTree : IActionEventHandler
 
     private ViewMode _viewMode = ViewMode.ObjectType;
 
-    private Dictionary<string, string> _chrAliasCache;
-
     public SceneTree(Configuration configuration, SceneTreeEventHandler handler, string id, Universe universe,
         Selection sel, ActionManager aman, IViewport vp, AssetLocator al)
     {
@@ -110,8 +109,6 @@ public class SceneTree : IActionEventHandler
         {
             _viewMode = ViewMode.Hierarchy;
         }
-
-        _chrAliasCache = null;
     }
 
     public void OnActionEvent(ActionEvent evt)
@@ -260,13 +257,13 @@ public class SceneTree : IActionEventHandler
         else
         {
             _mapEnt_ImGuiID++;
-            string name = e.PrettyName;
-            string aliasedName = GetModelAliasName(name, e);
 
-            if (ImGui.Selectable(padding + aliasedName + "##" + _mapEnt_ImGuiID,
-                    _selection.GetSelection().Contains(e),
-                    ImGuiSelectableFlags.AllowDoubleClick | ImGuiSelectableFlags.AllowOverlap))
+            var selectableFlags = ImGuiSelectableFlags.AllowDoubleClick | ImGuiSelectableFlags.AllowOverlap;
+
+            if (ImGui.Selectable($"{padding}{e.PrettyName}##{_mapEnt_ImGuiID}", _selection.GetSelection().Contains(e), selectableFlags))
             {
+                doSelect = true;
+
                 // If double clicked frame the selection in the viewport
                 if (ImGui.IsMouseDoubleClickedNil(0))
                 {
@@ -276,6 +273,9 @@ public class SceneTree : IActionEventHandler
                     }
                 }
             }
+
+            var alias = AliasUtils.GetEntityAliasName(e);
+            AliasUtils.DisplayAlias(alias);
         }
 
         if (ImGui.IsItemClicked())
@@ -668,7 +668,6 @@ public class SceneTree : IActionEventHandler
             _mapEnt_ImGuiID = 0;
             foreach (KeyValuePair<string, ObjectContainer> lm in orderedMaps)
             {
-                var metaName = "";
                 ObjectContainer map = lm.Value;
                 var mapid = lm.Key;
                 if (mapid == null)
@@ -676,16 +675,14 @@ public class SceneTree : IActionEventHandler
                     continue;
                 }
 
-                if (MapAliasBank.Bank.MapNames != null && MapAliasBank.Bank.MapNames.ContainsKey(mapid))
-                {
-                    metaName = MapAliasBank.Bank.MapNames[mapid];
-                }
+                var aliasName = "";
+                aliasName = AliasUtils.GetMapNameAlias(mapid);
 
                 // Map name search filter
                 if (_mapNameSearchStr != ""
                     && (!CFG.Current.Map_AlwaysListLoadedMaps || map == null)
                     && !lm.Key.Contains(_mapNameSearchStr, StringComparison.CurrentCultureIgnoreCase)
-                    && !metaName.Contains(_mapNameSearchStr, StringComparison.CurrentCultureIgnoreCase))
+                    && !aliasName.Contains(_mapNameSearchStr, StringComparison.CurrentCultureIgnoreCase))
                 {
                     continue;
                 }
@@ -715,20 +712,9 @@ public class SceneTree : IActionEventHandler
                     ImGui.Selectable($@"   {ForkAwesome.Cube} {mapid}", selected);
                 }
 
-                if (metaName != "")
+                if (CFG.Current.MapEditor_MapObjectList_ShowMapNames)
                 {
-                    ImGui.SameLine();
-                    ImGui.PushTextWrapPos(0.0f);
-                    if (metaName.StartsWith("--")) // Marked as normally unused (use red text)
-                    {
-                        ImGui.TextColored(new Vector4(1.0f, 0.0f, 0.0f, 1.0f), @$"<{metaName.Replace("--", "")}>");
-                    }
-                    else
-                    {
-                        ImGui.TextColored(new Vector4(1.0f, 1.0f, 0.0f, 1.0f), @$"<{metaName}>");
-                    }
-
-                    ImGui.PopTextWrapPos();
+                    AliasUtils.DisplayAlias(aliasName);
                 }
 
                 ImGui.EndGroup();
@@ -951,49 +937,6 @@ public class SceneTree : IActionEventHandler
         ImGui.End();
         ImGui.PopStyleColor(1);
         _selection.ClearGotoTarget();
-    }
-
-    public string GetModelAliasName(string name, Entity e)
-    {
-        string result = name;
-
-        var modelName = e.GetPropertyValue<string>("ModelName");
-
-        if (modelName == null)
-            modelName = "";
-
-        if (CFG.Current.MapEditor_Show_Character_Names_in_Scene_Tree)
-        {
-            if (IsPartEnemy(e))
-            {
-                if (_chrAliasCache != null && _chrAliasCache.ContainsKey(modelName))
-                {
-                    result = $"{name} {_chrAliasCache[modelName]}";
-                }
-                else
-                {
-                    foreach (var entry in ModelAliasBank.Bank.AliasNames.GetEntries("Characters"))
-                    {
-                        if (modelName == entry.id)
-                        {
-                            result = $" {{ {entry.name} }}";
-
-                            if (_chrAliasCache == null)
-                            {
-                                _chrAliasCache = new Dictionary<string, string>();
-                            }
-
-                            if (!_chrAliasCache.ContainsKey(entry.id))
-                            {
-                                _chrAliasCache.Add(modelName, result);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        return result;
     }
 
     public bool IsPartEnemy(Entity e)

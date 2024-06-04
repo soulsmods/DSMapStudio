@@ -12,6 +12,7 @@ using System.Drawing;
 using System.Numerics;
 using System.Reflection;
 using Veldrid;
+using StudioCore.Interface;
 
 namespace StudioCore;
 
@@ -265,10 +266,23 @@ public class SettingsMenu
             }
 
             // Scene View
-            if (ImGui.CollapsingHeader("Scene View"))
+            // Scene View
+            if (ImGui.CollapsingHeader("Map Object List"))
             {
-                ImGui.Checkbox("Display character names", ref CFG.Current.MapEditor_Show_Character_Names_in_Scene_Tree);
-                ImguiUtils.ShowHelpMarker("Characters names will be displayed within the scene view list.");
+                ImGui.Checkbox("Display map names", ref CFG.Current.MapEditor_MapObjectList_ShowMapNames);
+                ImguiUtils.ShowHoverTooltip("Map names will be displayed within the scene view list.");
+
+                ImGui.Checkbox("Display character names", ref CFG.Current.MapEditor_MapObjectList_ShowCharacterNames);
+                ImguiUtils.ShowHoverTooltip("Characters names will be displayed within the scene view list.");
+
+                ImGui.Checkbox("Display asset names", ref CFG.Current.MapEditor_MapObjectList_ShowAssetNames);
+                ImguiUtils.ShowHoverTooltip("Asset/object names will be displayed within the scene view list.");
+
+                ImGui.Checkbox("Display map piece names", ref CFG.Current.MapEditor_MapObjectList_ShowMapPieceNames);
+                ImguiUtils.ShowHoverTooltip("Map piece names will be displayed within the scene view list.");
+
+                ImGui.Checkbox("Display treasure names", ref CFG.Current.MapEditor_MapObjectList_ShowTreasureNames);
+                ImguiUtils.ShowHoverTooltip("Treasure itemlot names will be displayed within the scene view list.");
             }
 
             if (ImGui.CollapsingHeader("Selection"))
@@ -669,7 +683,7 @@ public class SettingsMenu
         {
             if (ImGui.CollapsingHeader("General", ImGuiTreeNodeFlags.DefaultOpen))
             {
-                
+
             }
 
             ImGui.EndTabItem();
@@ -881,6 +895,27 @@ public class SettingsMenu
             ImGui.EndTabItem();
         }
     }
+    private void DisplaySettings_AssetBrowser()
+    {
+        if (ImGui.BeginTabItem("Asset Browser"))
+        {
+            // General
+            if (ImGui.CollapsingHeader("General", ImGuiTreeNodeFlags.DefaultOpen))
+            {
+                ImGui.Checkbox("Display aliases in browser list", ref CFG.Current.AssetBrowser_ShowAliasesInBrowser);
+                ImguiUtils.ShowHoverTooltip("Show the aliases for each entry within the browser list as part of their displayed name.");
+
+                ImGui.Checkbox("Display tags in browser list", ref CFG.Current.AssetBrowser_ShowTagsInBrowser);
+                ImguiUtils.ShowHoverTooltip("Show the tags for each entry within the browser list as part of their displayed name.");
+
+                ImGui.Checkbox("Display low-detail parts in browser list", ref CFG.Current.AssetBrowser_ShowLowDetailParts);
+                ImguiUtils.ShowHoverTooltip("Show the _l (low-detail) part entries in the Model Editor instance of the Asset Browser.");
+            }
+
+            ImGui.EndTabItem();
+        }
+    }
+
     public void Display()
     {
         var scale = MapStudioNew.GetUIScale();
@@ -904,6 +939,7 @@ public class SettingsMenu
 
             // Settings Order
             DisplaySettings_System();
+            DisplaySettings_AssetBrowser();
             DisplaySettings_MapEditor();
             //DisplaySettings_ModelEditor();
             DisplaySettings_ParamEditor();
@@ -924,7 +960,7 @@ public class SettingsMenu
     public void ShowHelpMarker(string desc)
     {
         ImGui.TextDisabled("(?)");
-        if(ImGui.IsItemHovered(0))
+        if (ImGui.IsItemHovered(0))
         {
             ImGui.BeginTooltip();
             ImGui.PushTextWrapPos(450.0f);
