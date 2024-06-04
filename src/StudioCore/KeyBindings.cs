@@ -110,6 +110,8 @@ public class KeyBindings
         public KeyBind Map_RenderEnemyPatrolRoutes = new(Key.P, true);
         public KeyBind Map_ViewportGrid_Lower = new(Key.Q, true);
         public KeyBind Map_ViewportGrid_Raise = new(Key.E, true);
+        public KeyBind Map_AssetPrefabImport = new();
+        public KeyBind Map_AssetPrefabExport = new();
 
         // Param
         public KeyBind Param_Copy = new(Key.C, true);
