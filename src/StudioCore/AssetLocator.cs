@@ -1,4 +1,5 @@
-﻿using SoulsFormats;
+﻿using Octokit;
+using SoulsFormats;
 using StudioCore.Editor;
 using System;
 using System.Collections.Generic;
@@ -955,6 +956,48 @@ public class AssetLocator
         return ad;
     }
 
+    // Used to get the map model list from within the mapbhd/bdt
+    public List<AssetDescription> GetMapModelsFromBXF(string mapid)
+    {
+        List<AssetDescription> ret = new();
+
+        if (Locator.AssetLocator.Type is GameType.DarkSoulsIISOTFS)
+        {
+            var path = $@"{Locator.AssetLocator.GameModDirectory}/model/map/{mapid}.mapbdt";
+
+            if (!File.Exists(path))
+            {
+                path = $@"{Locator.AssetLocator.GameRootDirectory}/model/map/{mapid}.mapbdt";
+            }
+
+            if (File.Exists(path))
+            {
+                var bdtPath = path;
+                var bhdPath = path.Replace("bdt", "bhd");
+
+                var bxf = BXF4.Read(bhdPath, bdtPath);
+
+                if (bxf != null)
+                {
+                    foreach (var file in bxf.Files)
+                    {
+                        if (file.Name.Contains(".flv"))
+                        {
+                            var name = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(file.Name));
+
+                            AssetDescription ad = new();
+                            ad.AssetName = name;
+                            ad.AssetArchiveVirtualPath = $@"map/{name}/model/";
+
+                            ret.Add(ad);
+                        }
+                    }
+                }
+            }
+        }
+
+        return ret;
+    }
     public List<AssetDescription> GetMapModels(string mapid)
     {
         List<AssetDescription> ret = new();
