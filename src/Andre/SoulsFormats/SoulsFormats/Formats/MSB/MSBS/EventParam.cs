@@ -245,14 +245,16 @@ namespace SoulsFormats
             /// </summary>
             [MSBReference(ReferenceType = typeof(Part))]
             public string PartName { get; set; }
-            private int PartIndex;
+            [IndexProperty]
+            public int PartIndex { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
             [MSBReference(ReferenceType = typeof(Region))]
             public string RegionName { get; set; }
-            private int RegionIndex;
+            [IndexProperty]
+            public int RegionIndex { get; set; }
 
             /// <summary>
             /// Identifies the Event in event scripts.
@@ -384,16 +386,19 @@ namespace SoulsFormats
                 /// </summary>
                 [MSBReference(ReferenceType = typeof(Region))]
                 public string TreasurePartName { get; set; }
-                private int TreasurePartIndex;
+                [IndexProperty]
+                public int TreasurePartIndex { get; set; }
 
                 /// <summary>
                 /// The item lot to be given.
                 /// </summary>
+                [MSBParamReference(ParamName = "ItemLotParam")]
                 public int ItemLotID { get; set; }
 
                 /// <summary>
                 /// If not -1, uses an entry from ActionButtonParam for the pickup prompt.
                 /// </summary>
+                [MSBParamReference(ParamName = "ActionButtonParam")]
                 public int ActionButtonID { get; set; }
 
                 /// <summary>
@@ -536,14 +541,14 @@ namespace SoulsFormats
 
                 [MSBReference(ReferenceType = typeof(Region))]
                 public string[] SpawnRegionNames { get; private set; }
-                private int[] SpawnRegionIndices;
+                public int[] SpawnRegionIndices;
 
                 /// <summary>
                 /// Parts that will be respawned.
                 /// </summary>
                 [MSBReference(ReferenceType = typeof(Part))]
                 public string[] SpawnPartNames { get; private set; }
-                private int[] SpawnPartIndices;
+                public int[] SpawnPartIndices;
 
                 /// <summary>
                 /// Creates a Generator with default values.
@@ -640,11 +645,13 @@ namespace SoulsFormats
                 /// </summary>
                 [MSBReference(ReferenceType = typeof(Part))]
                 public string ObjActPartName { get; set; }
-                private int ObjActPartIndex;
+                [IndexProperty]
+                public int ObjActPartIndex { get; set; }
 
                 /// <summary>
                 /// A row in ObjActParam.
                 /// </summary>
+                [MSBParamReference(ParamName = "ObjActParam")]
                 public int ObjActID { get; set; }
 
                 /// <summary>
@@ -721,6 +728,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// How much to shift by.
                 /// </summary>
+                [PositionProperty]
                 public Vector3 Position { get; set; }
 
                 /// <summary>
@@ -759,6 +767,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Determines patrol behavior. 0 = return to first region on loop, 1 = go through list backwards on loop, etc.
                 /// </summary>
+                [MSBEnum(EnumType = "PATROL_TYPE")]
                 public int PatrolType { get; set; }
 
                 /// <summary>
@@ -766,7 +775,7 @@ namespace SoulsFormats
                 /// </summary>
                 [MSBReference(ReferenceType = typeof(Region))]
                 public string[] WalkRegionNames { get; private set; }
-                private short[] WalkRegionIndices;
+                public short[] WalkRegionIndices;
 
                 /// <summary>
                 /// Unknown.
@@ -852,7 +861,7 @@ namespace SoulsFormats
                     /// </summary>
                     [MSBReference(ReferenceType = typeof(Region))]
                     public string RegionName { get; set; }
-                    private short RegionIndex;
+                    public short RegionIndex;
 
                     /// <summary>
                     /// ID of animation to play when arriving at destination region.
@@ -928,7 +937,7 @@ namespace SoulsFormats
                 /// </summary>
                 [MSBReference(ReferenceType = typeof(Part))]
                 public string[] GroupPartNames { get; private set; }
-                private int[] GroupPartIndices;
+                public int[] GroupPartIndices;
 
                 /// <summary>
                 /// Creates a PlatoonInfo with default values.
@@ -1119,7 +1128,7 @@ namespace SoulsFormats
                 /// </summary>
                 [MSBReference(ReferenceType = typeof(Part.EnemyBase))]
                 public string[] PlacementGroupEnemyNames { get; private set; }
-                private int[] PlacementGroupEnemyIndices;
+                public int[] PlacementGroupEnemyIndices;
 
                 /// <summary>
                 /// Creates a PlacementGroup with default values.
@@ -1194,7 +1203,7 @@ namespace SoulsFormats
                 /// </summary>
                 [MSBReference(ReferenceType = typeof(Part.EnemyBase))]
                 public string[] EnemyNames { get; private set; }
-                private int[] EnemyIndices;
+                public int[] EnemyIndices;
 
                 /// <summary>
                 /// IDs of talk ESDs.
@@ -1282,14 +1291,16 @@ namespace SoulsFormats
                 /// </summary>
                 [MSBReference(ReferenceType = typeof(Region))]
                 public string AutoDrawGroupPointName { get; set; }
-                private int AutoDrawGroupPointIndex;
+                [IndexProperty]
+                public int AutoDrawGroupPointIndex { get; set; }
 
                 /// <summary>
                 /// The collision that the filming point belongs to, presumably.
                 /// </summary>
                 [MSBReference(ReferenceType = typeof(Part.Collision))]
                 public string OwningCollisionName { get; set; }
-                private int OwningCollisionIndex;
+                [IndexProperty]
+                public int OwningCollisionIndex { get; set; }
 
                 /// <summary>
                 /// Creates an AutoDrawGroupCollision with default values.

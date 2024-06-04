@@ -128,21 +128,25 @@ namespace SoulsFormats
             /// The name of the part's model, referencing ModelParam.
             /// </summary>
             public string ModelName { get; set; }
-            private short ModelIndex;
+            [IndexProperty]
+            public short ModelIndex { get; set; }
 
             /// <summary>
             /// Location of the part.
             /// </summary>
+            [PositionProperty]
             public Vector3 Position { get; set; }
 
             /// <summary>
             /// Rotation of the part, in degrees.
             /// </summary>
+            [RotationProperty]
             public Vector3 Rotation { get; set; }
 
             /// <summary>
             /// Scale of the part; only supported for map pieces and objects.
             /// </summary>
+            [ScaleProperty]
             public Vector3 Scale { get; set; }
 
             /// <summary>
@@ -153,21 +157,25 @@ namespace SoulsFormats
             /// <summary>
             /// Unknown; possibly nvm groups.
             /// </summary>
+            [IgnoreProperty]
             public int Unk44 { get; set; }
 
             /// <summary>
             /// Unknown; possibly nvm groups.
             /// </summary>
+            [IgnoreProperty]
             public int Unk48 { get; set; }
 
             /// <summary>
             /// Unknown; possibly nvm groups.
             /// </summary>
+            [IgnoreProperty]
             public int Unk4C { get; set; }
 
             /// <summary>
             /// Unknown; possibly nvm groups.
             /// </summary>
+            [IgnoreProperty]
             public int Unk50 { get; set; }
 
             /// <summary>
@@ -178,16 +186,19 @@ namespace SoulsFormats
             /// <summary>
             /// Unknown.
             /// </summary>
+            [IgnoreProperty]
             public int Unk64 { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
+            [IgnoreProperty]
             public byte Unk6C { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
+            [IgnoreProperty]
             public byte Unk6E { get; set; }
 
             private protected Part(string name)
@@ -327,11 +338,13 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [IgnoreProperty]
                 public short UnkT00 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [IgnoreProperty]
                 public byte UnkT02 { get; set; }
 
                 /// <summary>
@@ -375,7 +388,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public short UnkT04 { get; set; }
+                public short MapObjectBonfireParamID { get; set; }
 
                 /// <summary>
                 /// Creates an Object with default values.
@@ -387,7 +400,7 @@ namespace SoulsFormats
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
                     MapObjectInstanceParamID = br.ReadInt32();
-                    UnkT04 = br.ReadInt16();
+                    MapObjectBonfireParamID = br.ReadInt16();
                     br.AssertInt16(0);
                     br.AssertInt32(0);
                     br.AssertInt32(0);
@@ -396,7 +409,7 @@ namespace SoulsFormats
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
                     bw.WriteInt32(MapObjectInstanceParamID);
-                    bw.WriteInt16(UnkT04);
+                    bw.WriteInt16(MapObjectBonfireParamID);
                     bw.WriteInt16(0);
                     bw.WriteInt32(0);
                     bw.WriteInt32(0);
@@ -427,21 +440,25 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [IgnoreProperty]
                 public int UnkT00 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [IgnoreProperty]
                 public int UnkT04 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [IgnoreProperty]
                 public int UnkT08 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [IgnoreProperty]
                 public int UnkT0C { get; set; }
 
                 /// <summary>
@@ -452,11 +469,13 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [IgnoreProperty]
                 public byte UnkT11 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [IgnoreProperty]
                 public byte UnkT12 { get; set; }
 
                 /// <summary>
@@ -472,11 +491,13 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [IgnoreProperty]
                 public byte UnkT15 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [IgnoreProperty]
                 public byte UnkT17 { get; set; }
 
                 /// <summary>
@@ -499,11 +520,13 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [IgnoreProperty]
                 public byte UnkT26 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [IgnoreProperty]
                 public byte UnkT27 { get; set; }
 
                 /// <summary>
@@ -515,6 +538,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [IgnoreProperty]
                 public byte UnkT2C { get; set; }
 
                 /// <summary>
@@ -531,11 +555,13 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [IgnoreProperty]
                 public byte UnkT35 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [IgnoreProperty]
                 public short UnkT36 { get; set; }
 
                 /// <summary>
@@ -547,11 +573,13 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [IgnoreProperty]
                 public byte UnkT40 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [IgnoreProperty]
                 public int UnkT44 { get; set; }
 
                 /// <summary>
@@ -648,21 +676,25 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown; possibly nvm groups.
                 /// </summary>
+                [IgnoreProperty]
                 public int UnkT00 { get; set; }
 
                 /// <summary>
                 /// Unknown; possibly nvm groups.
                 /// </summary>
+                [IgnoreProperty]
                 public int UnkT04 { get; set; }
 
                 /// <summary>
                 /// Unknown; possibly nvm groups.
                 /// </summary>
+                [IgnoreProperty]
                 public int UnkT08 { get; set; }
 
                 /// <summary>
                 /// Unknown; possibly nvm groups.
                 /// </summary>
+                [IgnoreProperty]
                 public int UnkT0C { get; set; }
 
                 /// <summary>
@@ -704,7 +736,8 @@ namespace SoulsFormats
                 [MSBReference(ReferenceType = typeof(Collision))]
                 [NoRenderGroupInheritence()]
                 public string CollisionName { get; set; }
-                private int CollisionIndex;
+                [IndexProperty]
+                public int CollisionIndex { get; set; }
 
                 /// <summary>
                 /// The map to load when on this collision.
@@ -714,11 +747,13 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [IgnoreProperty]
                 public int UnkT08 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [IgnoreProperty]
                 public byte UnkT0C { get; set; }
 
                 /// <summary>

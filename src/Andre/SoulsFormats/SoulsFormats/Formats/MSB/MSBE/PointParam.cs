@@ -480,11 +480,13 @@ namespace SoulsFormats
             /// <summary>
             /// The location of the region.
             /// </summary>
+            [PositionProperty]
             public Vector3 Position { get; set; }
 
             /// <summary>
             /// The rotiation of the region, in degrees.
             /// </summary>
+            [RotationProperty]
             public Vector3 Rotation { get; set; }
 
             /// <summary>
@@ -537,7 +539,8 @@ namespace SoulsFormats
             /// </summary>
             [MSBReference(ReferenceType = typeof(Part))]
             public string ActivationPartName { get; set; }
-            private int ActivationPartIndex;
+            [IndexProperty]
+            public int ActivationPartIndex { get; set; }
 
             /// <summary>
             /// Identifies the region in event scripts.
@@ -949,7 +952,7 @@ namespace SoulsFormats
                 /// </summary>
                 [MSBReference(ReferenceType = typeof(Region))]
                 public string[] ChildRegionNames { get; private set; }
-                private int[] ChildRegionIndices;
+                public int[] ChildRegionIndices;
 
                 /// <summary>
                 /// Unknown.
@@ -1063,7 +1066,8 @@ namespace SoulsFormats
                 /// </summary>
                 [MSBReference(ReferenceType = typeof(Region))]
                 public string WindAreaName { get; set; }
-                private int WindAreaIndex;
+                [IndexProperty]
+                public int WindAreaIndex { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -1952,7 +1956,7 @@ namespace SoulsFormats
                 /// </summary>
                 [MSBReference(ReferenceType = typeof(Part))]
                 public string[] PartNames { get; private set; }
-                private int[] PartIndices;
+                public int[] PartIndices;
 
                 /// <summary>
                 /// Unknown.
