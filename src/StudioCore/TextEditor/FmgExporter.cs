@@ -108,7 +108,7 @@ public static class FmgExporter
         fmgs_vanilla.AddAll(GetFmgs(lang.Owner, menuPath_Vanilla));
 
         Dictionary<FmgIDType, FMG> fmgs_mod = new();
-        foreach (var info in lang._FmgInfoBanks.SelectMany((x) => x.Value))
+        foreach (var info in lang._FmgInfoBanks.SelectMany((x) => x.Value.FmgInfos))
         {
             fmgs_mod.Add(info.FmgID, info.Fmg);
         }
@@ -282,7 +282,7 @@ public static class FmgExporter
 
     private static bool ImportFmg(FMGLanguage lang, FmgIDType fmgId, FMG fmg, bool merge)
     {
-        foreach (FMGInfo info in lang._FmgInfoBanks.SelectMany((x) => x.Value))
+        foreach (FMGInfo info in lang._FmgInfoBanks.SelectMany((x) => x.Value.FmgInfos))
         {
             if (info.FmgID == fmgId)
             {
@@ -356,7 +356,7 @@ public static class FmgExporter
             return false;
         }
 
-        lang.HandleDuplicateEntries();
+//        lang.HandleDuplicateEntries();
         PlatformUtils.Instance.MessageBox($"Imported {filecount} json files", "Finished", MessageBoxButtons.OK);
         return true;
     }
@@ -463,7 +463,7 @@ public static class FmgExporter
             return false;
         }
 
-        lang.HandleDuplicateEntries();
+//        lang.HandleDuplicateEntries();
         TaskLogs.AddLog($"FMG import: Finished importing {filecount} txt files",
             LogLevel.Information, TaskLogs.LogPriority.Normal);
         return true;

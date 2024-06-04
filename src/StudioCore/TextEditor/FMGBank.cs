@@ -12,57 +12,40 @@ using System.Linq;
 
 namespace StudioCore.TextEditor;
 
-public class FMGLanguage
+/*
+ * FMGFileSet represents a grouped set of FMGInfos source from the same bnd or loose folder, within a single language.
+ */
+public class FMGFileSet
 {
-    internal FMGLanguage(FMGBank owner, string language)
+    internal FMGFileSet(FMGLanguage owner, FmgFileCategory category)
     {
-        Owner = owner;
-        LanguageFolder = language;
+        Lang = owner;
+        FileCategory = category;
     }
-    internal readonly FMGBank Owner;
-    internal readonly string LanguageFolder;
+    internal FMGLanguage Lang;
+    internal FmgFileCategory FileCategory;
     internal bool IsLoaded = false;
     internal bool IsLoading = false;
-    internal readonly Dictionary<FmgFileCategory, List<FMGInfo>> _FmgInfoBanks = new();
+
+    internal List<FMGInfo> FmgInfos = new();
 
     internal void InsertFmgInfo(FMGInfo info)
     {
-        if (!_FmgInfoBanks.ContainsKey(info.FileCategory))
-            _FmgInfoBanks.Add(info.FileCategory, new List<FMGInfo>());
-        _FmgInfoBanks[info.FileCategory].Add(info);
-    }
-
-
-
-    /// <summary>
-    ///     Loads item and menu MsgBnds from paths, generates FMGInfo, and fills FmgInfoBank.
-    /// </summary>
-    /// <returns>True if successful; false otherwise.</returns>
-    internal bool LoadItemMenuMsgBnds(AssetDescription itemMsgPath, AssetDescription menuMsgPath)
-    {
-        if (!LoadMsgBnd(itemMsgPath.AssetPath, "item.msgbnd")
-            || !LoadMsgBnd(menuMsgPath.AssetPath, "menu.msgbnd"))
-        {
-            return false;
-        }
-
-        HandleDuplicateEntries();
-
-        return true;
+        FmgInfos.Add(info);
     }
 
     /// <summary>
     ///     Loads MsgBnd from path, generates FMGInfo, and fills FmgInfoBank.
     /// </summary>
     /// <returns>True if successful; false otherwise.</returns>
-    private bool LoadMsgBnd(string path, string msgBndType = "UNDEFINED")
+    internal bool LoadMsgBnd(string path, string msgBndType = "UNDEFINED")
     {
         if (path == null)
         {
-            if (LanguageFolder != "")
+            if (Lang.LanguageFolder != "")
             {
                 TaskLogs.AddLog(
-                    $"Could locate text data files when looking for \"{msgBndType}\" in \"{LanguageFolder}\" folder",
+                    $"Could locate text data files when looking for \"{msgBndType}\" in \"{Lang.LanguageFolder}\" folder",
                     LogLevel.Warning);
             }
             else
@@ -78,8 +61,9 @@ public class FMGLanguage
         }
 
         IBinder fmgBinder;
-        if (Owner.Project.AssetLocator.Type == GameType.DemonsSouls || Owner.Project.AssetLocator.Type == GameType.DarkSoulsPTDE ||
-            Owner.Project.AssetLocator.Type == GameType.DarkSoulsRemastered)
+        GameType Type = Lang.Owner.Project.AssetLocator.Type;
+        if (Type == GameType.DemonsSouls || Type == GameType.DarkSoulsPTDE ||
+            Type == GameType.DarkSoulsRemastered)
         {
             fmgBinder = BND3.Read(path);
         }
@@ -90,10 +74,10 @@ public class FMGLanguage
 
         foreach (BinderFile file in fmgBinder.Files)
         {
-            InsertFmgInfo(GenerateFMGInfo(file));
+            FmgInfos.Add(GenerateFMGInfo(file));
         }
         // I hate this 2 parse system. Solve game differences by including game in the get enum functions. Maybe parentage is solvable by pre-sorting binderfiles but that does seem silly. FMG patching sucks. 
-        foreach (FMGInfo info in _FmgInfoBanks.SelectMany(x => x.Value))
+        foreach (FMGInfo info in FmgInfos)
         {
             /* TODO sorting without modifying data
             if (CFG.Current.FMG_NoGroupedFmgEntries)
@@ -104,16 +88,65 @@ public class FMGLanguage
         }
 
         fmgBinder.Dispose();
+        
+        HandleDuplicateEntries();
+        IsLoaded = true;
+        IsLoading = false;
         return true;
     }
 
+    internal bool LoadLooseMsgsDS2(IEnumerable<string> files)
+    {
+        foreach (var file in files)
+        {
+            FMGInfo info = GenerateFMGInfoDS2(file);        
+            InsertFmgInfo(info);
+        }
+
+        //TODO ordering
+        //FmgInfoBank = FmgInfoBank.OrderBy(e => e.Name).ToList();
+        HandleDuplicateEntries();
+        IsLoaded = true;
+        IsLoading = false;
+        return true;
+    }
+
+    internal void HandleDuplicateEntries()
+    {
+        var askedAboutDupes = false;
+        var ignoreDupes = true;
+        foreach (FMGInfo info in FmgInfos)
+        {
+            IEnumerable<FMG.Entry> dupes = info.Fmg.Entries.GroupBy(e => e.ID).SelectMany(g => g.SkipLast(1));
+            if (dupes.Any())
+            {
+                var dupeList = string.Join(", ", dupes.Select(dupe => dupe.ID));
+                if (!askedAboutDupes && PlatformUtils.Instance.MessageBox(
+                        $"Duplicate text entries have been found in FMG {Path.GetFileNameWithoutExtension(info.FileName)} for the following row IDs:\n\n{dupeList}\n\nRemove all duplicates? (Latest entries are kept)",
+                        "Duplicate Text Entries", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    ignoreDupes = false;
+                }
+
+                askedAboutDupes = true;
+
+                if (!ignoreDupes)
+                {
+                    foreach (FMG.Entry dupe in dupes)
+                    {
+                        info.Fmg.Entries.Remove(dupe);
+                    }
+                }
+            }
+        }
+    }
     internal FMGInfo GenerateFMGInfo(BinderFile file)
     {
         FMG fmg = FMG.Read(file.Bytes);
         var name = Enum.GetName(typeof(FmgIDType), file.ID);
         FMGInfo info = new()
         {
-            Language = this,
+            FileSet = this,
             FileName = file.Name.Split("\\").Last(),
             Name = name,
             FmgID = (FmgIDType)file.ID,
@@ -134,7 +167,7 @@ public class FMGLanguage
         var name = Path.GetFileNameWithoutExtension(file);
         FMGInfo info = new()
         {
-            Language = this,
+            FileSet = this,
             FileName = file.Split("\\").Last(),
             Name = name,
             FmgID = FmgIDType.None,
@@ -152,7 +185,7 @@ public class FMGLanguage
         if (strippedName != info.Name)
         {
             // This is a patch FMG, try to find parent FMG.
-            foreach (FMGInfo parentInfo in _FmgInfoBanks.SelectMany((x) => x.Value))
+            foreach (FMGInfo parentInfo in FmgInfos)
             {
                 if (parentInfo.Name == strippedName)
                 {
@@ -171,7 +204,7 @@ public class FMGLanguage
     /// </summary>
     private void ApplyGameDifferences(FMGInfo info)
     {
-        GameType gameType = Owner.Project.AssetLocator.Type;
+        GameType gameType = Lang.Owner.Project.AssetLocator.Type;
         switch (info.FmgID)
         {
             case FmgIDType.ReusedFMG_32:
@@ -329,51 +362,89 @@ public class FMGLanguage
                     info.FileCategory = FmgFileCategory.Item;
                     info.EntryType = FmgEntryTextType.Title;
                     info.EntryCategory = FmgEntryCategory.Goods;
-                    FMGInfo parent = _FmgInfoBanks.SelectMany((x) => x.Value).FirstOrDefault(e => e.FmgID == FmgIDType.TitleGoods);
+                    FMGInfo parent = FmgInfos.FirstOrDefault(e => e.FmgID == FmgIDType.TitleGoods);
                     info.AddParent(parent);
                 }
 
                 break;
         }
     }
+}
 
-    internal void HandleDuplicateEntries()
+/*
+ * FMGLanguage represents a grouped set of FMGFileSets containing FMGInfos sourced from the same language, within a project's FMGBank.
+ */
+public class FMGLanguage
+{
+    internal FMGLanguage(FMGBank owner, string language)
     {
-        var askedAboutDupes = false;
-        var ignoreDupes = true;
-        foreach (FMGInfo info in _FmgInfoBanks.SelectMany((x) => x.Value))
+        Owner = owner;
+        LanguageFolder = language;
+    }
+    internal readonly FMGBank Owner;
+    internal readonly string LanguageFolder;
+    internal bool IsLoaded => _FmgInfoBanks.Count != 0 && _FmgInfoBanks.All((fs) => fs.Value.IsLoaded);
+    internal bool IsLoading => _FmgInfoBanks.Count != 0 && _FmgInfoBanks.Any((fs) => fs.Value.IsLoading);
+    internal readonly Dictionary<FmgFileCategory, FMGFileSet> _FmgInfoBanks = new();
+
+    /// <summary>
+    ///     Loads item and menu MsgBnds from paths, generates FMGInfo, and fills FmgInfoBank.
+    /// </summary>
+    /// <returns>True if successful; false otherwise.</returns>
+    internal bool LoadItemMenuMsgBnds(AssetDescription itemMsgPath, AssetDescription menuMsgPath)
+    {
+        FMGFileSet itemMsgBnd = new FMGFileSet(this, FmgFileCategory.Item);
+        if (itemMsgBnd.LoadMsgBnd(itemMsgPath.AssetPath, "item.msgbnd"))
+            _FmgInfoBanks.Add(itemMsgBnd.FileCategory, itemMsgBnd);
+        FMGFileSet menuMsgBnd = new FMGFileSet(this, FmgFileCategory.Menu);
+        if (menuMsgBnd.LoadMsgBnd(menuMsgPath.AssetPath, "menu.msgbnd"))
+            _FmgInfoBanks.Add(menuMsgBnd.FileCategory, menuMsgBnd);
+        if (_FmgInfoBanks.Count == 0)
+            return false;
+        return true;
+    }
+    
+    internal bool LoadNormalFmgs()
+    {
+        AssetDescription itemMsgPath = Owner.Project.AssetLocator.GetItemMsgbnd(LanguageFolder);
+        AssetDescription menuMsgPath = Owner.Project.AssetLocator.GetMenuMsgbnd(LanguageFolder);
+        if (LoadItemMenuMsgBnds(itemMsgPath, menuMsgPath))
         {
-            IEnumerable<FMG.Entry> dupes = info.Fmg.Entries.GroupBy(e => e.ID).SelectMany(g => g.SkipLast(1));
-            if (dupes.Any())
+            return true;
+        }
+        return false;
+
+    }
+    internal bool LoadDS2FMGs()
+    {
+        AssetDescription desc = Owner.Project.AssetLocator.GetItemMsgbnd(LanguageFolder, true);
+
+        if (desc.AssetPath == null)
+        {
+            if (LanguageFolder != "")
             {
-                var dupeList = string.Join(", ", dupes.Select(dupe => dupe.ID));
-                if (!askedAboutDupes && PlatformUtils.Instance.MessageBox(
-                        $"Duplicate text entries have been found in FMG {Path.GetFileNameWithoutExtension(info.FileName)} for the following row IDs:\n\n{dupeList}\n\nRemove all duplicates? (Latest entries are kept)",
-                        "Duplicate Text Entries", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                {
-                    ignoreDupes = false;
-                }
-
-                askedAboutDupes = true;
-
-                if (!ignoreDupes)
-                {
-                    foreach (FMG.Entry dupe in dupes)
-                    {
-                        info.Fmg.Entries.Remove(dupe);
-                    }
-                }
+                TaskLogs.AddLog($"Could not locate text data files when using \"{LanguageFolder}\" folder",
+                    LogLevel.Warning);
             }
+            else
+            {
+                TaskLogs.AddLog("Could not locate text data files when using Default English folder",
+                    LogLevel.Warning);
+            }
+            return false;
         }
-    }
-    private void SaveFMGsDS2()
-    {
-        foreach (FMGInfo info in _FmgInfoBanks.SelectMany((x) => x.Value))
+
+        IEnumerable<string> files = Owner.Project.AssetLocator.GetAllAssets($@"{desc.AssetPath}", [@"*.fmg"]);
+        
+        FMGFileSet looseMsg = new FMGFileSet(this, FmgFileCategory.Loose);
+        if (looseMsg.LoadLooseMsgsDS2(files))
         {
-            Utils.WriteWithBackup(Owner.Project.ParentProject.AssetLocator.RootDirectory, Owner.Project.AssetLocator.RootDirectory,
-                $@"menu\text\{LanguageFolder}\{info.Name}.fmg", info.Fmg);
+            _FmgInfoBanks.Add(looseMsg.FileCategory, looseMsg);
+            return true;
         }
+        return false;
     }
+    
     public void SaveFMGs()
     {
         try
@@ -391,73 +462,11 @@ public class FMGLanguage
             if (Owner.Project.AssetLocator.Type == GameType.DarkSoulsIISOTFS)
             {
                 SaveFMGsDS2();
-                TaskLogs.AddLog("Saved FMG text");
-                return;
-            }
-
-            // Load the fmg bnd, replace fmgs, and save
-            IBinder fmgBinderItem;
-            IBinder fmgBinderMenu;
-            AssetDescription itemMsgPath = Owner.Project.AssetLocator.GetItemMsgbnd(LanguageFolder);
-            AssetDescription menuMsgPath = Owner.Project.AssetLocator.GetMenuMsgbnd(LanguageFolder);
-            if (Owner.Project.AssetLocator.Type == GameType.DemonsSouls || Owner.Project.AssetLocator.Type == GameType.DarkSoulsPTDE ||
-                Owner.Project.AssetLocator.Type == GameType.DarkSoulsRemastered)
-            {
-                fmgBinderItem = BND3.Read(itemMsgPath.AssetPath);
-                fmgBinderMenu = BND3.Read(menuMsgPath.AssetPath);
             }
             else
             {
-                fmgBinderItem = BND4.Read(itemMsgPath.AssetPath);
-                fmgBinderMenu = BND4.Read(menuMsgPath.AssetPath);
+                SaveFMGsNormal();
             }
-
-            foreach (BinderFile file in fmgBinderItem.Files)
-            {
-                FMGInfo info = _FmgInfoBanks.SelectMany((x) => x.Value).FirstOrDefault(e => e.FmgID == (FmgIDType)file.ID);
-                if (info != null)
-                {
-                    file.Bytes = info.Fmg.Write();
-                }
-            }
-
-            foreach (BinderFile file in fmgBinderMenu.Files)
-            {
-                FMGInfo info = _FmgInfoBanks.SelectMany((x) => x.Value).FirstOrDefault(e => e.FmgID == (FmgIDType)file.ID);
-                if (info != null)
-                {
-                    file.Bytes = info.Fmg.Write();
-                }
-            }
-
-            AssetDescription itemMsgPathDest = Owner.Project.AssetLocator.GetItemMsgbnd(LanguageFolder, true);
-            AssetDescription menuMsgPathDest = Owner.Project.AssetLocator.GetMenuMsgbnd(LanguageFolder, true);
-            if (fmgBinderItem is BND3 bnd3)
-            {
-                Utils.WriteWithBackup(Owner.Project.ParentProject.AssetLocator.RootDirectory,
-                    Owner.Project.AssetLocator.RootDirectory, itemMsgPathDest.AssetPath, bnd3);
-                Utils.WriteWithBackup(Owner.Project.ParentProject.AssetLocator.RootDirectory,
-                    Owner.Project.AssetLocator.RootDirectory, menuMsgPathDest.AssetPath, (BND3)fmgBinderMenu);
-                if (Owner.Project.AssetLocator.Type is GameType.DemonsSouls)
-                {
-                    bnd3.Compression = DCX.Type.None;
-                    ((BND3)fmgBinderMenu).Compression = DCX.Type.None;
-                    Utils.WriteWithBackup(Owner.Project.ParentProject.AssetLocator.RootDirectory,
-                    Owner.Project.AssetLocator.RootDirectory, itemMsgPathDest.AssetPath[..^4], bnd3);
-                    Utils.WriteWithBackup(Owner.Project.ParentProject.AssetLocator.RootDirectory,
-                    Owner.Project.AssetLocator.RootDirectory, menuMsgPathDest.AssetPath[..^4], (BND3)fmgBinderMenu);
-                }
-            }
-            else if (fmgBinderItem is BND4 bnd4)
-            {
-                Utils.WriteWithBackup(Owner.Project.ParentProject.AssetLocator.RootDirectory,
-                    Owner.Project.AssetLocator.RootDirectory, itemMsgPathDest.AssetPath, bnd4);
-                Utils.WriteWithBackup(Owner.Project.ParentProject.AssetLocator.RootDirectory,
-                    Owner.Project.AssetLocator.RootDirectory, menuMsgPathDest.AssetPath, (BND4)fmgBinderMenu);
-            }
-
-            fmgBinderItem.Dispose();
-            fmgBinderMenu.Dispose();
             TaskLogs.AddLog("Saved FMG text");
         }
         catch (SavingFailedException e)
@@ -466,10 +475,81 @@ public class FMGLanguage
                 LogLevel.Error, TaskLogs.LogPriority.High, e.Wrapped);
         }
     }
+
+    private void SaveFMGsDS2()
+    {
+        foreach (FMGInfo info in _FmgInfoBanks.SelectMany((x) => x.Value.FmgInfos))
+        {
+            Utils.WriteWithBackup(Owner.Project.ParentProject.AssetLocator.RootDirectory, Owner.Project.AssetLocator.RootDirectory,
+                $@"menu\text\{LanguageFolder}\{info.Name}.fmg", info.Fmg);
+        }
+    }
+    private void SaveFMGsNormal()
+    {
+        // Load the fmg bnd, replace fmgs, and save
+        IBinder fmgBinderItem;
+        IBinder fmgBinderMenu;
+        AssetDescription itemMsgPath = Owner.Project.AssetLocator.GetItemMsgbnd(LanguageFolder);
+        AssetDescription menuMsgPath = Owner.Project.AssetLocator.GetMenuMsgbnd(LanguageFolder);
+        if (Owner.Project.AssetLocator.Type == GameType.DemonsSouls || Owner.Project.AssetLocator.Type == GameType.DarkSoulsPTDE ||
+            Owner.Project.AssetLocator.Type == GameType.DarkSoulsRemastered)
+        {
+            fmgBinderItem = BND3.Read(itemMsgPath.AssetPath);
+            fmgBinderMenu = BND3.Read(menuMsgPath.AssetPath);
+        }
+        else
+        {
+            fmgBinderItem = BND4.Read(itemMsgPath.AssetPath);
+            fmgBinderMenu = BND4.Read(menuMsgPath.AssetPath);
+        }
+
+        foreach (BinderFile file in fmgBinderItem.Files)
+        {
+            FMGInfo info = _FmgInfoBanks.SelectMany((x) => x.Value.FmgInfos).FirstOrDefault(e => e.FmgID == (FmgIDType)file.ID);
+            if (info != null)
+            {
+                file.Bytes = info.Fmg.Write();
+            }
+        }
+
+        foreach (BinderFile file in fmgBinderMenu.Files)
+        {
+            FMGInfo info = _FmgInfoBanks.SelectMany((x) => x.Value.FmgInfos).FirstOrDefault(e => e.FmgID == (FmgIDType)file.ID);
+            if (info != null)
+            {
+                file.Bytes = info.Fmg.Write();
+            }
+        }
+
+        AssetDescription itemMsgPathDest = Owner.Project.AssetLocator.GetItemMsgbnd(LanguageFolder, true);
+        AssetDescription menuMsgPathDest = Owner.Project.AssetLocator.GetMenuMsgbnd(LanguageFolder, true);
+        var parentDir = Owner.Project.ParentProject.AssetLocator.RootDirectory;
+        var modDir = Owner.Project.AssetLocator.RootDirectory;
+        if (fmgBinderItem is BND3 bnd3)
+        {
+            Utils.WriteWithBackup(parentDir, modDir, itemMsgPathDest.AssetPath, bnd3);
+            Utils.WriteWithBackup(parentDir, modDir, menuMsgPathDest.AssetPath, (BND3)fmgBinderMenu);
+            if (Owner.Project.AssetLocator.Type is GameType.DemonsSouls)
+            {
+                bnd3.Compression = DCX.Type.None;
+                ((BND3)fmgBinderMenu).Compression = DCX.Type.None;
+                Utils.WriteWithBackup(parentDir, modDir, itemMsgPathDest.AssetPath[..^4], bnd3);
+                Utils.WriteWithBackup(parentDir, modDir, menuMsgPathDest.AssetPath[..^4], (BND3)fmgBinderMenu);
+            }
+        }
+        else if (fmgBinderItem is BND4 bnd4)
+        {
+            Utils.WriteWithBackup(parentDir, modDir, itemMsgPathDest.AssetPath, bnd4);
+            Utils.WriteWithBackup(parentDir, modDir, menuMsgPathDest.AssetPath, (BND4)fmgBinderMenu);
+        }
+
+        fmgBinderItem.Dispose();
+        fmgBinderMenu.Dispose();
+    }
 }
 
 /// <summary>
-///     Static class that stores all the strings for a Souls game.
+///     Class that stores all the strings for a Souls project.
 /// </summary>
 public class FMGBank
 {
@@ -480,15 +560,16 @@ public class FMGBank
         Project = project;
     }
 
-    public bool IsLoaded { get; private set; }
-    public bool IsLoading { get; private set; }
+    
+    public bool IsLoaded => fmgLangs.Count != 0 && fmgLangs.All((fs) => fs.Value.IsLoaded);
+    public bool IsLoading => fmgLangs.Count != 0 && fmgLangs.Any((fs) => fs.Value.IsLoading);
     public string LanguageFolder { get; private set; } = "";
 
-    public IEnumerable<FMGInfo> FmgInfoBank { get => currentFmgInfoBanks.SelectMany(x => x.Value); }
+    public IEnumerable<FMGInfo> FmgInfoBank { get => fmgLangs[LanguageFolder]._FmgInfoBanks.SelectMany((x) => x.Value.FmgInfos); }
     public IEnumerable<FMGInfo> SortedFmgInfoBank {
         get {
             //This check shouldn't be here. Should do better housekeeping.
-            if (IsLoading || !IsLoaded)
+            if (IsLoading || !IsLoaded || !fmgLangs.ContainsKey(LanguageFolder))
             {
                 return [];
             }
@@ -503,7 +584,15 @@ public class FMGBank
         }
     }
     public Dictionary<string, FMGLanguage> fmgLangs = new();
-    public Dictionary<FmgFileCategory, List<FMGInfo>> currentFmgInfoBanks { get => fmgLangs[LanguageFolder]._FmgInfoBanks; }
+    public IEnumerable<FmgFileCategory> currentFmgInfoBanks {
+        get {
+            if (IsLoading || !IsLoaded || !fmgLangs.ContainsKey(LanguageFolder))
+            {
+                return [];
+            }
+            return fmgLangs[LanguageFolder]._FmgInfoBanks.Keys;
+        }
+    }
 
     
     /// <summary>
@@ -528,17 +617,13 @@ public class FMGBank
     }
     public void LoadFMGs(string languageFolder = "")
     {
-        TaskManager.Run(new TaskManager.LiveTask("FMG - Load Text", TaskManager.RequeueType.WaitThenRequeue, true,
+        TaskManager.Run(new TaskManager.LiveTask("FMG - Load Text - " + languageFolder, TaskManager.RequeueType.WaitThenRequeue, true,
             () =>
             {
-                IsLoaded = false;
-                IsLoading = true;
-
                 LanguageFolder = languageFolder;
+                SetDefaultLanguagePath();
                 if (fmgLangs.ContainsKey(LanguageFolder))
                 {
-                    IsLoaded = true;
-                    IsLoading = false;
                     return;
                 }
 
@@ -547,75 +632,28 @@ public class FMGBank
                     return;
                 }
 
+                FMGLanguage lang = new FMGLanguage(this, LanguageFolder);
+                bool success = false;
                 if (Project.AssetLocator.Type == GameType.DarkSoulsIISOTFS)
                 {
-                    if (LoadDS2FMGs())
-                    {
-                        IsLoading = false;
-                        IsLoaded = true;
-                    }
-
-                    return;
+                    success = lang.LoadDS2FMGs();
                 }
-
-                SetDefaultLanguagePath();
-
-                AssetDescription itemMsgPath = Project.AssetLocator.GetItemMsgbnd(LanguageFolder);
-                AssetDescription menuMsgPath = Project.AssetLocator.GetMenuMsgbnd(LanguageFolder);
-                FMGLanguage fmgl = new FMGLanguage(this, LanguageFolder);
-                fmgLangs.Add(fmgl.LanguageFolder, fmgl);
-                if (!fmgl.LoadItemMenuMsgBnds(itemMsgPath, menuMsgPath))
+                else
                 {
-                    fmgLangs.Remove(LanguageFolder);
-                    IsLoaded = false;
-                    IsLoading = false;
-                    return;
+                    success = lang.LoadNormalFmgs();
                 }
-
-                IsLoaded = true;
-                IsLoading = false;
+                if (success)
+                    fmgLangs.Add(lang.LanguageFolder, lang);
             }));
     }
-
-    private bool LoadDS2FMGs()
+    
+    public void SaveFMGs()
     {
-        SetDefaultLanguagePath();
-        AssetDescription desc = Project.AssetLocator.GetItemMsgbnd(LanguageFolder, true);
-
-        if (desc.AssetPath == null)
+        foreach (FMGLanguage lang in fmgLangs.Values)
         {
-            if (LanguageFolder != "")
-            {
-                TaskLogs.AddLog($"Could not locate text data files when using \"{LanguageFolder}\" folder",
-                    LogLevel.Warning);
-            }
-            else
-            {
-                TaskLogs.AddLog("Could not locate text data files when using Default English folder",
-                    LogLevel.Warning);
-            }
-
-            IsLoaded = false;
-            IsLoading = false;
-            return false;
+            lang.SaveFMGs();
         }
-
-        IEnumerable<string> files = Project.AssetLocator.GetAllAssets($@"{desc.AssetPath}", [@"*.fmg"]);
-        
-        FMGLanguage fmgl = new FMGLanguage(this, LanguageFolder);
-        fmgLangs.Add(fmgl.LanguageFolder, fmgl);
-        foreach (var file in files)
-        {
-            FMGInfo info = fmgl.GenerateFMGInfoDS2(file);        
-            fmgl.InsertFmgInfo(info);
-        }
-
-        //TODO ordering
-        //FmgInfoBank = FmgInfoBank.OrderBy(e => e.Name).ToList();
-        fmgl.HandleDuplicateEntries();
-        return true;
     }
-
     private void SetDefaultLanguagePath()
     {
         if (LanguageFolder == "")
@@ -757,108 +795,6 @@ public class FMGBank
 
         return eGroup;
     }
-
-    private void SaveFMGsDS2()
-    {
-        foreach (FMGInfo info in FmgInfoBank)
-        {
-            Utils.WriteWithBackup(Project.ParentProject.AssetLocator.RootDirectory, Project.AssetLocator.RootDirectory,
-                $@"menu\text\{LanguageFolder}\{info.Name}.fmg", info.Fmg);
-        }
-    }
-
-    public void SaveFMGs()
-    {
-        try
-        {
-            if (!IsLoaded)
-            {
-                return;
-            }
-
-            if (Project.AssetLocator.Type == GameType.Undefined)
-            {
-                return;
-            }
-
-            if (Project.AssetLocator.Type == GameType.DarkSoulsIISOTFS)
-            {
-                SaveFMGsDS2();
-                TaskLogs.AddLog("Saved FMG text");
-                return;
-            }
-
-            // Load the fmg bnd, replace fmgs, and save
-            IBinder fmgBinderItem;
-            IBinder fmgBinderMenu;
-            AssetDescription itemMsgPath = Project.AssetLocator.GetItemMsgbnd(LanguageFolder);
-            AssetDescription menuMsgPath = Project.AssetLocator.GetMenuMsgbnd(LanguageFolder);
-            if (Project.AssetLocator.Type == GameType.DemonsSouls || Project.AssetLocator.Type == GameType.DarkSoulsPTDE ||
-                Project.AssetLocator.Type == GameType.DarkSoulsRemastered)
-            {
-                fmgBinderItem = BND3.Read(itemMsgPath.AssetPath);
-                fmgBinderMenu = BND3.Read(menuMsgPath.AssetPath);
-            }
-            else
-            {
-                fmgBinderItem = BND4.Read(itemMsgPath.AssetPath);
-                fmgBinderMenu = BND4.Read(menuMsgPath.AssetPath);
-            }
-
-            foreach (BinderFile file in fmgBinderItem.Files)
-            {
-                FMGInfo info = FmgInfoBank.FirstOrDefault(e => e.FmgID == (FmgIDType)file.ID);
-                if (info != null)
-                {
-                    file.Bytes = info.Fmg.Write();
-                }
-            }
-
-            foreach (BinderFile file in fmgBinderMenu.Files)
-            {
-                FMGInfo info = FmgInfoBank.FirstOrDefault(e => e.FmgID == (FmgIDType)file.ID);
-                if (info != null)
-                {
-                    file.Bytes = info.Fmg.Write();
-                }
-            }
-
-            AssetDescription itemMsgPathDest = Project.AssetLocator.GetItemMsgbnd(LanguageFolder, true);
-            AssetDescription menuMsgPathDest = Project.AssetLocator.GetMenuMsgbnd(LanguageFolder, true);
-            if (fmgBinderItem is BND3 bnd3)
-            {
-                Utils.WriteWithBackup(Project.ParentProject.AssetLocator.RootDirectory,
-                    Project.AssetLocator.RootDirectory, itemMsgPathDest.AssetPath, bnd3);
-                Utils.WriteWithBackup(Project.ParentProject.AssetLocator.RootDirectory,
-                    Project.AssetLocator.RootDirectory, menuMsgPathDest.AssetPath, (BND3)fmgBinderMenu);
-                if (Project.AssetLocator.Type is GameType.DemonsSouls)
-                {
-                    bnd3.Compression = DCX.Type.None;
-                    ((BND3)fmgBinderMenu).Compression = DCX.Type.None;
-                    Utils.WriteWithBackup(Project.ParentProject.AssetLocator.RootDirectory,
-                    Project.AssetLocator.RootDirectory, itemMsgPathDest.AssetPath[..^4], bnd3);
-                    Utils.WriteWithBackup(Project.ParentProject.AssetLocator.RootDirectory,
-                    Project.AssetLocator.RootDirectory, menuMsgPathDest.AssetPath[..^4], (BND3)fmgBinderMenu);
-                }
-            }
-            else if (fmgBinderItem is BND4 bnd4)
-            {
-                Utils.WriteWithBackup(Project.ParentProject.AssetLocator.RootDirectory,
-                    Project.AssetLocator.RootDirectory, itemMsgPathDest.AssetPath, bnd4);
-                Utils.WriteWithBackup(Project.ParentProject.AssetLocator.RootDirectory,
-                    Project.AssetLocator.RootDirectory, menuMsgPathDest.AssetPath, (BND4)fmgBinderMenu);
-            }
-
-            fmgBinderItem.Dispose();
-            fmgBinderMenu.Dispose();
-            TaskLogs.AddLog("Saved FMG text");
-        }
-        catch (SavingFailedException e)
-        {
-            TaskLogs.AddLog(e.Wrapped.Message,
-                LogLevel.Error, TaskLogs.LogPriority.High, e.Wrapped);
-        }
-    }
 }
 
 /// <summary>
@@ -881,7 +817,7 @@ public class EntryFMGInfoPair
 /// </summary>
 public class FMGInfo
 {
-    public FMGLanguage Language;
+    public FMGFileSet FileSet;
 
     public FmgEntryCategory EntryCategory;
     public FmgEntryTextType EntryType;
@@ -1019,7 +955,7 @@ public class FMGInfo
     /// </summary>
     public FMGInfo GetTitleFmgInfo()
     {
-        foreach (var info in Language._FmgInfoBanks[FileCategory])
+        foreach (var info in FileSet.FmgInfos)
         {
             if (info.EntryCategory == EntryCategory && info.EntryType == FmgEntryTextType.Title && info.PatchPrefix == PatchPrefix)
             {

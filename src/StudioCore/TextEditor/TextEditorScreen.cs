@@ -580,7 +580,7 @@ public unsafe class TextEditorScreen : EditorScreen
         }
         ImGui.Separator();
 
-        foreach (FmgFileCategory v in Locator.ActiveProject.FMGBank.currentFmgInfoBanks.Keys)
+        foreach (FmgFileCategory v in Locator.ActiveProject.FMGBank.currentFmgInfoBanks)
         {
             ImGui.Separator();
             ImGui.Text($"  {v} Text");
