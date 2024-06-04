@@ -24,12 +24,12 @@ public class UICache
     public static T GetCached<T>(EditorScreen UIScreen, object context, string key, Func<T> getValue)
     {
         (EditorScreen UIScreen, object context, string key) trueKey = (UIScreen, context, key);
-        if (!caches.ContainsKey(trueKey))
+        if (!caches.TryGetValue(trueKey, out var value))
         {
             caches[trueKey] = getValue();
         }
 
-        return (T)caches[trueKey];
+        return (T)value;
     }
 
     /// <summary>
