@@ -17,6 +17,7 @@ using Veldrid.Sdl2;
 using Veldrid.Utilities;
 using Viewport = StudioCore.Gui.Viewport;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using StudioCore.Editors.AssetBrowser;
 
 namespace StudioCore.MsbEditor;
 
@@ -34,7 +35,7 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
     private int _createEntityMapIndex;
     private (string, ObjectContainer) _dupeSelectionTargetedMap = ("None", null);
     private (string, Entity) _dupeSelectionTargetedParent = ("None", null);
-    
+
     private (string, ObjectContainer) _comboTargetMap = ("None", null);
     private AssetPrefab _selectedAssetPrefab = null;
 
@@ -48,7 +49,7 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
 
     public bool CtrlHeld;
     public DisplayGroupsEditor DispGroupEditor;
-    public MsbAssetBrowser AssetBrowser;
+    public AssetBrowserScreen MapAssetBrowser;
     public ActionManager EditorActionManager = new();
 
     private bool GCNeedsCollection;
@@ -99,7 +100,7 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
         DispGroupEditor = new DisplayGroupsEditor(RenderScene, _selection, EditorActionManager);
         PropSearch = new SearchProperties(Universe, _propCache);
         NavMeshEditor = new NavmeshEditor(locator, RenderScene, _selection);
-        AssetBrowser = new MsbAssetBrowser(Universe, RenderScene, _selection, EditorActionManager, this, Viewport);
+        MapAssetBrowser = new AssetBrowserScreen(AssetBrowserSource.MapEditor, Universe, RenderScene, _selection, EditorActionManager, this, Viewport);
 
         EditorActionManager.AddEventHandler(SceneTree);
     }
@@ -539,7 +540,7 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
                 {
                     _createEntityMapIndex = 0;
                 }
-                
+
                 if (ImGui.BeginCombo("Target Map", loadedMaps.ElementAt(_createEntityMapIndex).Name))
                 {
                     int i = 0;
@@ -1251,7 +1252,7 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
         ResourceManager.OnGuiDrawResourceList();
 
         DispGroupEditor.OnGui(Universe._dispGroupCount);
-        AssetBrowser.OnGui();
+        MapAssetBrowser.OnGui();
 
         if (_activeModal != null)
         {
@@ -1286,6 +1287,11 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
         _projectSettings = newSettings;
         _selection.ClearSelection();
         EditorActionManager.Clear();
+
+        if (Locator.AssetLocator.Type != GameType.Undefined)
+        {
+            MapAssetBrowser.OnProjectChanged();
+        }
 
         ReloadUniverse();
     }
@@ -1593,7 +1599,7 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
 
     public string PadNameString(int value)
     {
-        if(value < 10)
+        if (value < 10)
             return $"000{value}";
 
         if (value >= 10 && value < 100)
@@ -1729,17 +1735,17 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
         {
             Transform localT = sel.GetLocalTransform();
             Transform rootT = sel.GetRootTransform();
-            
+
             // Get new localized position by applying reversed root offsets to target camera position.  
-            Vector3 newPos = Vector3.Transform(targetCamPos, Quaternion.Inverse(rootT.Rotation)) 
+            Vector3 newPos = Vector3.Transform(targetCamPos, Quaternion.Inverse(rootT.Rotation))
                              - Vector3.Transform(rootT.Position, Quaternion.Inverse(rootT.Rotation));
-            
+
             // Offset from center of multiple selections.
             Vector3 localCenter = Vector3.Transform(centerT.Position, Quaternion.Inverse(rootT.Rotation))
                                       - Vector3.Transform(rootT.Position, Quaternion.Inverse(rootT.Rotation));
             Vector3 offsetFromCenter = localCenter - localT.Position;
             newPos -= offsetFromCenter;
-            
+
             Transform newT = new(newPos, localT.EulerRotation);
 
             actlist.Add(sel.GetUpdateTransformAction(newT));

@@ -93,10 +93,10 @@
     <slashGuardCutRate AltName="Guard Absorption: Slash" Wiki="Looking at the attack type, what percentage of the damage of the slashing attribute is cut? Specify" />
     <blowGuardCutRate AltName="Guard Absorption: Strike" Wiki="Looking at the attack type, what percentage of the damage of the hit attribute is cut? Specify" />
     <thrustGuardCutRate AltName="Guard Absorption: Thrust" Wiki="Looking at the attack type, what percentage of the damage of the piercing attribute is cut? Specify" />
-    <guardResist_Shock AltName="Guard Resist: Shock" Wiki="How much to cut the attack power to poison (set to the special effect parameter)" />
-    <guardResist_AcsFailure AltName="Guard Resist: ACS Failure" Wiki="How much to cut the attack power (set as a special effect parameter)" />
-    <guardResist_CameraDisruption AltName="Guard Resist: Camera Disruption" Wiki="How much to cut the attack power (set as a special effect parameter)" />
-    <guardResist_Curse_Unknown AltName="Guard Resist: Unknown" Wiki="How much to cut the attack power (set as a special effect parameter)" />
+    <guardResist_AcsAnomaly AltName="Guard Resist: ACS Anomaly" Wiki="How much to cut the attack power to poison (set to the special effect parameter)" />
+    <guardResist_ElecDischarge AltName="Guard Resist: Electric Discharge" Wiki="How much to cut the attack power (set as a special effect parameter)" />
+    <guardResist_Plasma AltName="Guard Resist: Plasma" Wiki="How much to cut the attack power (set as a special effect parameter)" />
+    <guardResist_ElecDischargeType2 AltName="Guard Resist: Electric Discharge (Type 2)" Wiki="How much to cut the attack power (set as a special effect parameter)" />
     <isDurabilityDivergence AltName="Is Durability Divergence" IsBool="" />
     <equipFrontRightSlot AltName="Equipped in Front Right Slot" IsBool="" />
     <equipFrontLeftSlot AltName="Equipped in Front Left Slot" IsBool="" />
@@ -137,28 +137,28 @@
     <wepCollidableType1 AltName="Weapon Collidable Type [1]" Wiki="Weapon 1 collaborative setting" />
     <postureControlId_Right AltName="Posture Control ID - Weapon Right" Wiki="Attitude control ID (right hand)" />
     <postureControlId_Left AltName="Posture Control ID - Weapon Left" Wiki="Attitude control ID (left hand)" />
-    <traceSfxId0 AltName="Trace SFX ID [0]" Wiki="Sword flash SfxID_0 (-1 invalid)" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
+    <traceSfxId0 AltName="Trace SFX ID [0]" Wiki="Sword flash SfxID_0 (-1 invalid)" ParticleAlias="" />
     <traceDmyIdHead0 AltName="Trace SFX ID [0] - Dummy Poly ID - Head" Wiki="Sword flash root Damipoli ID_0 (-1 invalid)" />
     <traceDmyIdTail0 AltName="Trace SFX ID [0] - Dummy Poly ID - Tail" Wiki="Sword Flash Sword Tip Damipoli ID_0" />
-    <traceSfxId1 AltName="Trace SFX ID [1]" Wiki="Sword flash SfxID_1 (-1 invalid)" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
+    <traceSfxId1 AltName="Trace SFX ID [1]" Wiki="Sword flash SfxID_1 (-1 invalid)" ParticleAlias="" />
     <traceDmyIdHead1 AltName="Trace SFX ID [1] - Dummy Poly ID - Head" Wiki="Sword Flash Root Damipoli ID_1 (-1 invalid)" />
     <traceDmyIdTail1 AltName="Trace SFX ID [1] - Dummy Poly ID - Tail" Wiki="Sword Flash Sword Tip Damipoli ID_1" />
-    <traceSfxId2 AltName="Trace SFX ID [2]" Wiki="Sword flash SfxID_2 (-1 invalid)" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
+    <traceSfxId2 AltName="Trace SFX ID [2]" Wiki="Sword flash SfxID_2 (-1 invalid)" ParticleAlias="" />
     <traceDmyIdHead2 AltName="Trace SFX ID [2] - Dummy Poly ID - Head" Wiki="Sword Flash Root Damipoli ID_2 (-1 invalid)" />
     <traceDmyIdTail2 AltName="Trace SFX ID [2] - Dummy Poly ID - Tail" Wiki="Sword Flash Sword Tip Damipoli ID_2" />
-    <traceSfxId3 AltName="Trace SFX ID [3]" Wiki="Sword Flash SfxID_3 (-1 invalid)" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
+    <traceSfxId3 AltName="Trace SFX ID [3]" Wiki="Sword Flash SfxID_3 (-1 invalid)" ParticleAlias="" />
     <traceDmyIdHead3 AltName="Trace SFX ID [3] - Dummy Poly ID - Head" Wiki="Sword flash root Damipoli ID_3 (-1 invalid)" />
     <traceDmyIdTail3 AltName="Trace SFX ID [3] - Dummy Poly ID - Tail" Wiki="Sword Flash Sword Tip Damipoli ID_3" />
-    <traceSfxId4 AltName="Trace SFX ID [4]" Wiki="Sword Flash SfxID_4 (-1 invalid)" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
+    <traceSfxId4 AltName="Trace SFX ID [4]" Wiki="Sword Flash SfxID_4 (-1 invalid)" ParticleAlias="" />
     <traceDmyIdHead4 AltName="Trace SFX ID [4] - Dummy Poly ID - Head" Wiki="Sword flash root Damipoli ID_4 (-1 invalid)" />
     <traceDmyIdTail4 AltName="Trace SFX ID [4] - Dummy Poly ID - Tail" Wiki="Sword Flash Sword Tip Damipoli ID_4" />
-    <traceSfxId5 AltName="Trace SFX ID [5]" Wiki="Sword Flash SfxID_5 (-1 invalid)" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
+    <traceSfxId5 AltName="Trace SFX ID [5]" Wiki="Sword Flash SfxID_5 (-1 invalid)" ParticleAlias="" />
     <traceDmyIdHead5 AltName="Trace SFX ID [5] - Dummy Poly ID - Head" Wiki="Sword Flash Root Damipoli ID_5 (-1 invalid)" />
     <traceDmyIdTail5 AltName="Trace SFX ID [5] - Dummy Poly ID - Tail" Wiki="Sword Flash Sword Tip Damipoli ID_5" />
-    <traceSfxId6 AltName="Trace SFX ID [6]" Wiki="Sword Flash SfxID_6 (-1 invalid)" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
+    <traceSfxId6 AltName="Trace SFX ID [6]" Wiki="Sword Flash SfxID_6 (-1 invalid)" ParticleAlias="" />
     <traceDmyIdHead6 AltName="Trace SFX ID [6] - Dummy Poly ID - Head" Wiki="Sword Flash Root Damipoli ID_6 (-1 invalid)" />
     <traceDmyIdTail6 AltName="Trace SFX ID [6] - Dummy Poly ID - Tail" Wiki="Sword Flash Sword Tip Damipoli ID_6" />
-    <traceSfxId7 AltName="Trace SFX ID [7]" Wiki="Sword Flash SfxID_7 (-1 invalid)" ExtRefs="common sfxbnd,sfx\sfxbnd_commoneffects.ffxbnd.dcx,GR\data\INTERROOT_win64\sfx\effect\f{0:D9}.fxr" />
+    <traceSfxId7 AltName="Trace SFX ID [7]" Wiki="Sword Flash SfxID_7 (-1 invalid)" ParticleAlias="" />
     <traceDmyIdHead7 AltName="Trace SFX ID [7] - Dummy Poly ID - Head" Wiki="Sword Flash Root Damipoli ID_7 (-1 invalid)" />
     <traceDmyIdTail7 AltName="Trace SFX ID [7] - Dummy Poly ID - Tail" Wiki="Sword Flash Sword Tip Damipoli ID_7" />
     <defSfxMaterial2 AltName="Defence SFX Material [2]" Wiki="Defensive SFX material used from attack para 2" />
@@ -170,7 +170,7 @@
     <isAutoEquip AltName="Is Auto Equipped" Wiki="Only valid for arrows and bolts. Whether to automatically equip this weapon if the target equipment slot is empty when picking up this weapon" IsBool="" />
     <isEnableEmergencyStep AltName="Is Emergency Avoidance Possible" Wiki="Is it an emergency avoidable weapon? Pass it to the behavior script." IsBool="" />
     <invisibleOnRemo AltName="Is Hidden in Cutscene" Wiki="Is it hidden during cutscenes?" IsBool="" />
-    <pad2 AltName=""/>
+    <pad2 AltName="" IsHidden=""/>
     <correctType_Magic AltName="Correction Type: Energy" Wiki="Determining the type of attack power correction graph with primary parameters" Refs="CalcCorrectGraph" />
     <correctType_Fire AltName="Correction Type: Explosive" Wiki="Determine the type of attack power correction graph with primary parameters" Refs="CalcCorrectGraph" />
     <correctType_Thunder AltName="Correction Type: Coral" Wiki="Determine the type of attack power correction graph with primary parameters" Refs="CalcCorrectGraph" />
@@ -183,7 +183,7 @@
     <sortGroupIdOld AltName="Sort Group ID (Obsolete)" Wiki="Sort item type ID. In the sort Item type order, the same ID is displayed together as the same group." />
     <atkAttribute2 AltName="Attack Attribute [2]" Wiki="Physical attribute 2" />
     <properLuck AltName="Requirement: LCK" Wiki="Equipment appropriate value." />
-    <freezeGuardResist AltName="Guard Resist: Unknown" Wiki="How much to cut the attack power (set to the special effect parameter) to cool down" />
+    <guardResist_Uranium AltName="Guard Resist: Uranium" Wiki="How much to cut the attack power (set to the special effect parameter) to cool down" />
     <autoReplenishType AltName="Auto Replenish Type" Wiki="Controls whether or not to automatically replenish and default settings" />
     <swordArtsParamId AltName="Sword Arts Param ID" Wiki="Arts parameter ID"/>
     <correctLuck AltName="Correction: LCK" Wiki="Charapara correction value." />
@@ -193,10 +193,10 @@
     <wepType AltName="Weapon Type" Wiki="Weapon type. Used for linking text and magic stones (* It is now used for other than text)" />
     <isBackSwapWeapon AltName="Is Back Swap Weapon" IsBool="" Wiki="If true, this weapon will swap to hands from back instead of firing from back." />
     <thrustersParamId AltName="Thruster Param ID" Refs="ThrustersParam_PC" />
-    <residentSfxId_1 AltName="Resident SFX [1]" />
-    <residentSfxId_2 AltName="Resident SFX [2]" />
-    <residentSfxId_3 AltName="Resident SFX [3]" />
-    <residentSfxId_4 AltName="Resident SFX [4]" />
+    <residentSfxId_1 AltName="Resident SFX [1]" ParticleAlias="" />
+    <residentSfxId_2 AltName="Resident SFX [2]" ParticleAlias="" />
+    <residentSfxId_3 AltName="Resident SFX [3]" ParticleAlias="" />
+    <residentSfxId_4 AltName="Resident SFX [4]" ParticleAlias="" />
     <residentSfx_DmyId_1 AltName="Resident SFX Dummy Poly [1]" />
     <residentSfx_DmyId_2 AltName="Resident SFX Dummy Poly [2]" />
     <residentSfx_DmyId_3 AltName="Resident SFX Dummy Poly [3]" />
@@ -207,9 +207,9 @@
     <vsPlayerDmgCorrectRate_Fire AltName="Vs. Player - Explosive Damage %" Wiki="Only attacks on the player will correct the damage done." />
     <vsPlayerDmgCorrectRate_Thunder AltName="Vs. Player - Coral Damage %" Wiki="Only attacks on the player will correct the damage done." />
     <vsPlayerDmgCorrectRate_Dark AltName="Vs. Player - Dark Damage %" Wiki="Only attacks on the player will correct the damage done." />
-    <vsPlayerDmgCorrectRate_Poison AltName="Vs. Player - Shock Damage %" Wiki="Only attacks on the player will correct the damage done." />
-    <vsPlayerDmgCorrectRate_Blood AltName="Vs. Player - ACS Failure Damage %" Wiki="Only attacks on the player will correct the damage done." />
-    <vsPlayerDmgCorrectRate_Freeze AltName="Vs. Player - Unknown Damage %" Wiki="Only attacks on the player will correct the damage done." />
+    <vsPlayerDmgCorrectRate_AcsAnomaly AltName="Vs. Player - ACS Anomaly Damage %" Wiki="Only attacks on the player will correct the damage done." />
+    <vsPlayerDmgCorrectRate_Plasma AltName="Vs. Player - Plasma Damage %" Wiki="Only attacks on the player will correct the damage done." />
+    <vsPlayerDmgCorrectRate_Uranium AltName="Vs. Player - Uranium Damage %" Wiki="Only attacks on the player will correct the damage done." />
     <attainmentWepStatusStr AltName="Unique R2 Attack - STR Requirement" Wiki="To change the R2 attack into a special action when the status is X or higher when using a specific weapon." />
     <attainmentWepStatusDex AltName="Unique R2 Attack - DEX Requirement" Wiki="To change the R2 attack into a special action when the status is X or higher when using a specific weapon." />
     <attainmentWepStatusMag AltName="Unique R2 Attack - INT Requirement" Wiki="To change the R2 attack into a special action when the status is X or higher when using a specific weapon." />
@@ -229,6 +229,8 @@
     <isSoulParamIdChange_model3 AltName="Apply Weapon VFX Parameters [3]" Wiki="Whether the vfx parameter Soul Param ID for Weapon Enchantment and Invisible Weapon for Weapon Enchantment settings are applied" IsBool="" />
     <wepSeIdOffset AltName="Weapon SE ID Offset" Wiki="SEID offset value" />
     <baseChangePrice AltName="Affinity Price" Wiki="Evolution price" />
+    
+    
   </Field>
   <Self />
 </PARAMMETA>

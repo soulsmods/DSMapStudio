@@ -44,7 +44,7 @@ namespace SoulsFormats
             bw.WriteByte(0xFF);
         }
 
-        internal static void DisambiguateNames<T>(List<T> entries) where T : IMsbEntry
+        internal static void DisambiguateNames<T>(List<T> entries, string className = "") where T : IMsbEntry
         {
             bool ambiguous;
             do
@@ -67,7 +67,7 @@ namespace SoulsFormats
                     {
                         ambiguous = true;
                         nameCounts[name]++;
-                        entry.Name = $"{name} {{{nameCounts[name]}}}";
+                        entry.Name = $"{className}{name} {{{nameCounts[name]}}}";
                     }
                 }
             }
@@ -90,6 +90,14 @@ namespace SoulsFormats
         }
 
         internal static string[] FindNames<T>(List<T> list, int[] indices) where T : IMsbEntry
+        {
+            var names = new string[indices.Length];
+            for (int i = 0; i < indices.Length; i++)
+                names[i] = FindName(list, indices[i]);
+            return names;
+        }
+
+        internal static string[] FindNames<T>(List<T> list, short[] indices) where T : IMsbEntry
         {
             var names = new string[indices.Length];
             for (int i = 0; i < indices.Length; i++)
@@ -147,6 +155,14 @@ namespace SoulsFormats
             var indices = new int[names.Length];
             for (int i = 0; i < names.Length; i++)
                 indices[i] = FindIndex(referrer, list, names[i]);
+            return indices;
+        }
+
+        internal static short[] FindShortIndices<T>(IMsbEntry referrer, List<T> list, string[] names) where T : IMsbEntry
+        {
+            var indices = new short[names.Length];
+            for (int i = 0; i < names.Length; i++)
+                indices[i] = (short)FindIndex(referrer, list, names[i]);
             return indices;
         }
     }

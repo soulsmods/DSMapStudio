@@ -93,10 +93,14 @@ namespace SoulsFormats
             if (br.Position != 0)
                 throw new InvalidDataException("The next param offset of the final param should be 0, but it wasn't.");
 
-            MSB.DisambiguateNames(entries.Models);
-            MSB.DisambiguateNames(entries.Events);
-            MSB.DisambiguateNames(entries.Regions);
-            MSB.DisambiguateNames(entries.Parts);
+            // Added className prefix for AC6 since by default the maps
+            // do not contain names for non-Part entries.
+            // This fixes an issue where the Reference Map wouldn't find the right
+            // map object since Event and Region would share the same disambugated name (e.g. {1}).
+            MSB.DisambiguateNames(entries.Models, "Model");
+            MSB.DisambiguateNames(entries.Events, "Event");
+            MSB.DisambiguateNames(entries.Regions, "Region");
+            MSB.DisambiguateNames(entries.Parts, "Part");
 
             foreach (Event evt in entries.Events)
                 evt.GetNames(this, entries);
@@ -195,20 +199,18 @@ namespace SoulsFormats
                 {
                     br.Position = offset;
 
-                    // CheckEntry will eventually be removed
-                    // Currently it filters out the unmapped Part/Model/Region/Event types
-                    //if (CheckEntry(br))
-                    entries.Add(ReadEntry(br, Version));
+                    entries.Add(ReadEntry(br, offset));
                 }
                 br.Position = nextParamOffset;
                 return entries;
             }
 
-            internal abstract T ReadEntry(BinaryReaderEx br, int Version);
+            internal abstract T ReadEntry(BinaryReaderEx br, long offsetLength);
 
             internal virtual void Write(BinaryWriterEx bw, List<T> entries)
             {
                 bw.WriteInt32(Version);
+
                 bw.WriteInt32(entries.Count + 1);
                 bw.ReserveInt64("ParamNameOffset");
                 for (int i = 0; i < entries.Count; i++)
