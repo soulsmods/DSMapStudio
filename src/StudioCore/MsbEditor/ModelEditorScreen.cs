@@ -11,6 +11,7 @@ using Veldrid;
 using Veldrid.Sdl2;
 using Veldrid.Utilities;
 using Viewport = StudioCore.Gui.Viewport;
+using StudioCore.Editors.AssetBrowser;
 
 namespace StudioCore.MsbEditor;
 
@@ -20,7 +21,7 @@ public class ModelEditorScreen : EditorScreen, AssetBrowserEventHandler, SceneTr
     private readonly PropertyEditor _propEditor;
     private readonly PropertyCache _propCache = new();
 
-    private ModelAssetBrowser _assetBrowser;
+    private AssetBrowserScreen ModelAssetBrowser;
 
     private readonly SceneTree _sceneTree;
     private readonly Selection _selection = new();
@@ -61,7 +62,8 @@ public class ModelEditorScreen : EditorScreen, AssetBrowserEventHandler, SceneTr
         _sceneTree = new SceneTree(SceneTree.Configuration.ModelEditor, this, "modeledittree", _universe,
             _selection, EditorActionManager, Viewport);
         _propEditor = new PropertyEditor(EditorActionManager, _propCache);
-        _assetBrowser = new ModelAssetBrowser(this, "modelEditorBrowser");
+
+        ModelAssetBrowser = new AssetBrowserScreen(AssetBrowserSource.ModelEditor, _universe, RenderScene, _selection, EditorActionManager, this, Viewport);
     }
 
     public void OnInstantiateChr(string chrid)
@@ -221,7 +223,7 @@ public class ModelEditorScreen : EditorScreen, AssetBrowserEventHandler, SceneTr
         //ImGui.Text(string.Format("Application average {0:F3} ms/frame ({1:F1} FPS)", 1000f / ImGui.GetIO().Framerate, ImGui.GetIO().Framerate));
 
         Viewport.OnGui();
-        _assetBrowser.Display();
+        ModelAssetBrowser.OnGui();
         _sceneTree.OnGui();
         _propEditor.OnGui(_selection, "modeleditprop", Viewport.Width, Viewport.Height);
         ResourceManager.OnGuiDrawTasks(Viewport.Width, Viewport.Height);
@@ -236,7 +238,7 @@ public class ModelEditorScreen : EditorScreen, AssetBrowserEventHandler, SceneTr
     {
         if (Locator.AssetLocator.Type != GameType.Undefined)
         {
-            _assetBrowser.OnProjectChanged();
+            ModelAssetBrowser.OnProjectChanged();
         }
     }
 

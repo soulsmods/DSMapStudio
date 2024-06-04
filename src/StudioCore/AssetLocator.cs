@@ -1,4 +1,5 @@
-﻿using SoulsFormats;
+﻿using Octokit;
+using SoulsFormats;
 using StudioCore.Editor;
 using System.Collections.Generic;
 
@@ -151,9 +152,163 @@ public class AssetLocator
 
     public AssetDescription GetDS2ObjInstanceParam(string mapid, bool writemode = false) => Locator.ActiveProject.AssetLocator.GetDS2ObjInstanceParam(mapid, writemode);
 
-    public List<AssetDescription> GetMapModels(string mapid) => Locator.ActiveProject.AssetLocator.GetMapModels(mapid);
+    // Used to get the map model list from within the mapbhd/bdt
+    public List<AssetDescription> GetMapModelsFromBXF(string mapid)
+    {
+        List<AssetDescription> ret = new();
 
-    public string MapModelNameToAssetName(string mapid, string modelname) => Locator.ActiveProject.AssetLocator.MapModelNameToAssetName(mapid, modelname);
+        if (Locator.AssetLocator.Type is GameType.DarkSoulsIISOTFS)
+        {
+            var path = $@"{Locator.AssetLocator.GameModDirectory}/model/map/{mapid}.mapbdt";
+
+            if (!File.Exists(path))
+            {
+                path = $@"{Locator.AssetLocator.GameRootDirectory}/model/map/{mapid}.mapbdt";
+            }
+
+            if (File.Exists(path))
+            {
+                var bdtPath = path;
+                var bhdPath = path.Replace("bdt", "bhd");
+
+                var bxf = BXF4.Read(bhdPath, bdtPath);
+
+                if (bxf != null)
+                {
+                    foreach (var file in bxf.Files)
+                    {
+                        if (file.Name.Contains(".flv"))
+                        {
+                            var name = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(file.Name));
+
+                            AssetDescription ad = new();
+                            ad.AssetName = name;
+                            ad.AssetArchiveVirtualPath = $@"map/{name}/model/";
+
+                            ret.Add(ad);
+                        }
+                    }
+                }
+            }
+        }
+
+        return ret;
+    }
+    public List<AssetDescription> GetMapModels(string mapid)
+    {
+        List<AssetDescription> ret = new();
+        if (Type == GameType.DarkSoulsIII || Type == GameType.Sekiro)
+        {
+            if (!Directory.Exists(GameRootDirectory + $@"\map\{mapid}\"))
+            {
+                return ret;
+            }
+
+            List<string> mapfiles = Directory
+                .GetFileSystemEntries(GameRootDirectory + $@"\map\{mapid}\", @"*.mapbnd.dcx").ToList();
+            foreach (var f in mapfiles)
+            {
+                AssetDescription ad = new();
+                ad.AssetPath = f;
+                var name = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(f));
+                ad.AssetName = name;
+                ad.AssetArchiveVirtualPath = $@"map/{mapid}/model/{name}";
+                ad.AssetVirtualPath = $@"map/{mapid}/model/{name}/{name}.flver";
+                ret.Add(ad);
+            }
+        }
+        else if (Type == GameType.DarkSoulsIISOTFS)
+        {
+            AssetDescription ad = new();
+            var name = mapid;
+            ad.AssetName = name;
+            ad.AssetArchiveVirtualPath = $@"map/{mapid}/model";
+            ret.Add(ad);
+        }
+        else if (Type == GameType.EldenRing)
+        {
+            var mapPath = GameRootDirectory + $@"\map\{mapid[..3]}\{mapid}";
+            if (!Directory.Exists(mapPath))
+            {
+                return ret;
+            }
+
+            List<string> mapfiles = Directory.GetFileSystemEntries(mapPath, @"*.mapbnd.dcx").ToList();
+            foreach (var f in mapfiles)
+            {
+                AssetDescription ad = new();
+                ad.AssetPath = f;
+                var name = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(f));
+                ad.AssetName = name;
+                ad.AssetArchiveVirtualPath = $@"map/{mapid}/model/{name}";
+                ad.AssetVirtualPath = $@"map/{mapid}/model/{name}/{name}.flver";
+                ret.Add(ad);
+            }
+        }
+        else if (Type == GameType.ArmoredCoreVI)
+        {
+            var mapPath = GameRootDirectory + $@"\map\{mapid[..3]}\{mapid}";
+            if (!Directory.Exists(mapPath))
+            {
+                return ret;
+            }
+
+            List<string> mapfiles = Directory.GetFileSystemEntries(mapPath, @"*.mapbnd.dcx").ToList();
+            foreach (var f in mapfiles)
+            {
+                AssetDescription ad = new();
+                ad.AssetPath = f;
+                var name = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(f));
+                ad.AssetName = name;
+                ad.AssetArchiveVirtualPath = $@"map/{mapid}/model/{name}";
+                ad.AssetVirtualPath = $@"map/{mapid}/model/{name}/{name}.flver";
+                ret.Add(ad);
+            }
+        }
+        else
+        {
+            if (!Directory.Exists(GameRootDirectory + $@"\map\{mapid}\"))
+            {
+                return ret;
+            }
+
+            var ext = Type == GameType.DarkSoulsPTDE ? @"*.flver" : @"*.flver.dcx";
+            List<string> mapfiles = Directory.GetFileSystemEntries(GameRootDirectory + $@"\map\{mapid}\", ext)
+                .ToList();
+            foreach (var f in mapfiles)
+            {
+                AssetDescription ad = new();
+                ad.AssetPath = f;
+                var name = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(f));
+                ad.AssetName = name;
+                // ad.AssetArchiveVirtualPath = $@"map/{mapid}/model/{name}";
+                ad.AssetVirtualPath = $@"map/{mapid}/model/{name}/{name}.flver";
+                ret.Add(ad);
+            }
+        }
+
+        return ret;
+    }
+
+    public string MapModelNameToAssetName(string mapid, string modelname)
+    {
+        if (Type == GameType.DarkSoulsPTDE || Type == GameType.DarkSoulsRemastered)
+        {
+            return $@"{modelname}A{mapid.Substring(1, 2)}";
+        }
+
+        if (Type == GameType.DemonsSouls)
+        {
+            return $@"{modelname}";
+        }
+
+        if (Type == GameType.DarkSoulsIISOTFS)
+        {
+            return modelname;
+        }
+
+        return $@"{mapid}_{modelname.Substring(1)}";
+    }
 
     /// <summary>
     ///     Gets the adjusted map ID that contains all the map assets

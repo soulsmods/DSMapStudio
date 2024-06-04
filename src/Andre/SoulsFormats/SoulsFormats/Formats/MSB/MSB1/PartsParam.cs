@@ -177,21 +177,25 @@ namespace SoulsFormats
             /// <summary>
             /// A path to a .sib file, presumed to be some kind of editor placeholder.
             /// </summary>
+            [IgnoreProperty]
             public string SibPath { get; set; }
 
             /// <summary>
             /// Location of the part.
             /// </summary>
+            [PositionProperty]
             public Vector3 Position { get; set; }
 
             /// <summary>
             /// Rotation of the part, in degrees.
             /// </summary>
+            [RotationProperty]
             public Vector3 Rotation { get; set; }
 
             /// <summary>
             /// Scale of the part, only meaningful for map pieces and objects.
             /// </summary>
+            [ScaleProperty]
             public Vector3 Scale { get; set; }
 
             /// <summary>
@@ -207,6 +211,7 @@ namespace SoulsFormats
             /// <summary>
             /// Identifies the part in external files.
             /// </summary>
+            [EnemyProperty]
             public int EntityID { get; set; }
 
             /// <summary>
@@ -252,46 +257,55 @@ namespace SoulsFormats
             /// <summary>
             /// Unknown.
             /// </summary>
+            [IgnoreProperty]
             public byte LanternID { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
+            [IgnoreProperty]
             public byte LodParamID { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
+            [IgnoreProperty]
             public byte IsShadowSrc { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
+            [IgnoreProperty]
             public byte IsShadowDest { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
+            [IgnoreProperty]
             public byte IsShadowOnly { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
+            [IgnoreProperty]
             public byte DrawByReflectCam { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
+            [IgnoreProperty]
             public byte DrawOnlyReflectCam { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
+            [IgnoreProperty]
             public byte UseDepthBiasFloat { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
+            [IgnoreProperty]
             public byte DisablePointLightEffect { get; set; }
 
             private protected Part(string name)
@@ -494,8 +508,10 @@ namespace SoulsFormats
                 /// Collision that controls loading of the object.
                 /// </summary>
                 [MSBReference(ReferenceType = typeof(Collision))]
+                [NoRenderGroupInheritence()]
                 public string CollisionName { get; set; }
-                private int CollisionIndex;
+                [IndexProperty]
+                public int CollisionIndex { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -515,6 +531,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [IgnoreProperty]
                 public short UnkT0E { get; set; }
 
                 /// <summary>
@@ -589,57 +606,69 @@ namespace SoulsFormats
                 /// ID in NPCThinkParam determining AI properties.
                 /// </summary>
                 [MSBParamReference(ParamName = "NpcThinkParam")]
+                [EnemyProperty]
                 public int ThinkParamID { get; set; }
 
                 /// <summary>
                 /// ID in NPCParam determining character properties.
                 /// </summary>
                 [MSBParamReference(ParamName = "NpcParam")]
+                [EnemyProperty]
                 public int NPCParamID { get; set; }
 
                 /// <summary>
                 /// ID of a talk ESD used by the character.
                 /// </summary>
+                [EnemyProperty]
                 public int TalkID { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [EnemyProperty]
                 public byte PointMoveType { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [EnemyProperty]
                 public ushort PlatoonID { get; set; }
 
                 /// <summary>
                 /// ID in CharaInitParam determining equipment and stats for humans.
                 /// </summary>
+                [EnemyProperty]
                 [MSBParamReference(ParamName = "CharaInitParam")]
                 public int CharaInitID { get; set; }
 
                 /// <summary>
                 /// Collision that controls loading of the enemy.
                 /// </summary>
+                [EnemyProperty]
                 [MSBReference(ReferenceType = typeof(Collision))]
                 public string CollisionName { get; set; }
-                private int CollisionIndex;
+                [IndexProperty]
+                public int CollisionIndex { get; set; }
 
                 /// <summary>
                 /// Regions for the enemy to patrol.
                 /// </summary>
+                [EnemyProperty]
                 [MSBReference(ReferenceType = typeof(Region))]
-                public string[] MovePointNames { get; private set; }
-                private short[] MovePointIndices;
+                public string[] MovePointNames { get; set; }
+                [IndexProperty]
+                public short[] MovePointIndices { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [EnemyProperty]
                 public int InitAnimID { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [EnemyProperty]
                 public int DamageAnimID { get; set; }
 
                 private protected EnemyBase() : base("cXXXX_XXXX")
@@ -786,7 +815,8 @@ namespace SoulsFormats
                 /// </summary>
                 [MSBReference(ReferenceType = typeof(Event.Environment))]
                 public string EnvLightMapSpotName { get; set; }
-                private short EnvLightMapSpotIndex;
+                [IndexProperty]
+                public short EnvLightMapSpotIndex { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -816,6 +846,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [IgnoreProperty]
                 public byte UnkT27 { get; set; }
 
                 /// <summary>
@@ -826,16 +857,19 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown value only used in m99 maps.
                 /// </summary>
+                [IgnoreProperty]
                 public int M99Unk00 { get; set; }
 
                 /// <summary>
                 /// Unknown value only used in m99 maps.
                 /// </summary>
+                [IgnoreProperty]
                 public int M99Unk04 { get; set; }
 
                 /// <summary>
                 /// Unknown value only used in m99 maps.
                 /// </summary>
+                [IgnoreProperty]
                 public int M99Unk08 { get; set; }
 
                 /// <summary>
@@ -1028,9 +1062,9 @@ namespace SoulsFormats
                 /// The collision which will load another map.
                 /// </summary>
                 [MSBReference(ReferenceType = typeof(Collision))]
-                [NoRenderGroupInheritence()]
                 public string CollisionName { get; set; }
-                private int CollisionIndex;
+                [IndexProperty]
+                public int CollisionIndex { get; set; }
 
                 /// <summary>
                 /// Four bytes specifying the map ID to load.
