@@ -164,151 +164,180 @@ namespace SoulsFormats
             /// The model used by this part; requires an entry in ModelParam.
             /// </summary>
             public string ModelName { get; set; }
-            private int ModelIndex;
+            [IndexProperty]
+            public int ModelIndex { get; set; }
 
             /// <summary>
             /// A path to a .sib file, presumably some kind of editor placeholder.
             /// </summary>
+            [IgnoreProperty]
             public string SibPath { get; set; }
 
             /// <summary>
             /// Location of the part.
             /// </summary>
+            [PositionProperty]
             public Vector3 Position { get; set; }
 
             /// <summary>
             /// Rotation of the part.
             /// </summary>
+            [RotationProperty]
             public Vector3 Rotation { get; set; }
 
             /// <summary>
             /// Scale of the part; only works for map pieces and objects.
             /// </summary>
+            [ScaleProperty]
             public Vector3 Scale { get; set; }
 
             /// <summary>
             /// Identifies the part in event scripts.
             /// </summary>
+            [EnemyProperty]
             public int EntityID { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
+            [IgnoreProperty]
             public byte UnkE04 { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
+            [IgnoreProperty]
             public byte UnkE05 { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
+            [IgnoreProperty]
             public byte UnkE06 { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
+            [IgnoreProperty]
             public byte LanternID { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
+            [IgnoreProperty]
             public byte LodParamID { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
+            [IgnoreProperty]
             public byte UnkE09 { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
+            [IgnoreProperty]
             public bool IsPointLightShadowSrc { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
+            [IgnoreProperty]
             public byte UnkE0B { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
+            [IgnoreProperty]
             public bool IsShadowSrc { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
+            [IgnoreProperty]
             public byte IsStaticShadowSrc { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
+            [IgnoreProperty]
             public byte IsCascade3ShadowSrc { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
+            [IgnoreProperty]
             public byte UnkE0F { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
+            [IgnoreProperty]
             public byte UnkE10 { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
+            [IgnoreProperty]
             public bool IsShadowDest { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
+            [IgnoreProperty]
             public bool IsShadowOnly { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
+            [IgnoreProperty]
             public bool DrawByReflectCam { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
+            [IgnoreProperty]
             public bool DrawOnlyReflectCam { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
+            [IgnoreProperty]
             public byte EnableOnAboveShadow { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
+            [IgnoreProperty]
             public bool DisablePointLightEffect { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
+            [IgnoreProperty]
             public byte UnkE17 { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
+            [IgnoreProperty]
             public int UnkE18 { get; set; }
 
             /// <summary>
             /// Allows multiple parts to be identified by the same entity ID.
             /// </summary>
-            public int[] EntityGroupIDs { get; private set; }
+            public int[] EntityGroupIDs { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
+            [IgnoreProperty]
             public int UnkE3C { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
+            [IgnoreProperty]
             public int UnkE40 { get; set; }
 
             private protected Part(string name)
@@ -650,11 +679,13 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [IgnoreProperty]
                 public byte Condition1 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [IgnoreProperty]
                 public byte Condition2 { get; set; }
 
                 /// <summary>
@@ -712,6 +743,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [IgnoreProperty]
                 public int Condition { get; set; }
 
                 /// <summary>
@@ -722,11 +754,13 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [IgnoreProperty]
                 public short Unk24 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [IgnoreProperty]
                 public short Unk26 { get; set; }
 
                 /// <summary>
@@ -901,11 +935,13 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [IgnoreProperty]
                 public int Unk00 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [IgnoreProperty]
                 public int Unk04 { get; set; }
 
                 /// <summary>
@@ -917,16 +953,19 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [IgnoreProperty]
                 public int Unk0C { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [IgnoreProperty]
                 public int Unk10 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [IgnoreProperty]
                 public int Unk14 { get; set; }
 
                 /// <summary>
@@ -1055,7 +1094,8 @@ namespace SoulsFormats
                 /// </summary>
                 [MSBReference(ReferenceType = typeof(Part))]
                 public string ObjPartName1 { get; set; }
-                private int ObjPartIndex1;
+                [IndexProperty]
+                public int ObjPartIndex1 { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -1070,6 +1110,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [IgnoreProperty]
                 public byte UnkT0E { get; set; }
 
                 /// <summary>
@@ -1085,11 +1126,13 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [IgnoreProperty]
                 public short UnkT18 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [IgnoreProperty]
                 public short UnkT1A { get; set; }
 
                 /// <summary>
@@ -1097,14 +1140,16 @@ namespace SoulsFormats
                 /// </summary>
                 [MSBReference(ReferenceType = typeof(Collision))]
                 public string ObjPartName2 { get; set; }
-                private int ObjPartIndex2;
+                [IndexProperty]
+                public int ObjPartIndex2 { get; set; }
 
                 /// <summary>
                 /// Reference to a collision; believed to be involved with loading when grappling to the object.
                 /// </summary>
                 [MSBReference(ReferenceType = typeof(Collision))]
                 public string ObjPartName3 { get; set; }
-                private int ObjPartIndex3;
+                [IndexProperty]
+                public int ObjPartIndex3 { get; set; }
 
                 private protected ObjectBase() : base("oXXXXXX_XXXX")
                 {
@@ -1231,93 +1276,112 @@ namespace SoulsFormats
                 /// <summary>
                 /// An ID in NPCThinkParam that determines the enemy's AI characteristics.
                 /// </summary>
+                [EnemyProperty]
                 [MSBParamReference(ParamName = "NpcThinkParam")]
                 public int ThinkParamID { get; set; }
 
                 /// <summary>
                 /// An ID in NPCParam that determines a variety of enemy properties.
                 /// </summary>
+                [EnemyProperty]
                 [MSBParamReference(ParamName = "NpcParam")]
                 public int NPCParamID { get; set; }
 
                 /// <summary>
                 /// Unknown; previously talk ID, now always 0 or 1 except for the Memorial Mob in Senpou.
                 /// </summary>
+                [IgnoreProperty]
                 public int UnkT10 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [EnemyProperty]
                 public short PlatoonID { get; set; }
 
                 /// <summary>
                 /// An ID in CharaInitParam that determines a human's inventory and stats.
                 /// </summary>
+                [EnemyProperty]
                 [MSBParamReference(ParamName = "CharaInitParam")]
                 public int CharaInitID { get; set; }
 
                 /// <summary>
                 /// Should reference the collision the enemy starts on.
                 /// </summary>
+                [EnemyProperty]
                 [MSBReference(ReferenceType = typeof(Collision))]
                 public string CollisionPartName { get; set; }
-                private int CollisionPartIndex;
+                [IndexProperty]
+                public int CollisionPartIndex { get; set; }
 
                 /// <summary>
                 /// References which PatrolInfo index to use for patrol information.
                 /// </summary>
+                [EnemyProperty]
                 [MSBReference(ReferenceType = typeof(Event.PatrolInfo))]
                 public string WalkRouteName { get; set; }
-                private short WalkRouteIndex;
+                [IndexProperty]
+                public short WalkRouteIndex { get; set; }
 
                 /// <summary>
                 /// Enum that refers to an animation ID to use.
                 /// </summary>
+                [EnemyProperty]
                 public short InitAnimIDType { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [IgnoreProperty]
                 public int UnkT24 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [EnemyProperty]
                 public int BackupEventAnimID { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [EnemyProperty]
                 public int EventFlagID { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [EnemyProperty]
                 public int EventFlagCompareState { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [IgnoreProperty]
                 public int UnkT48 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [IgnoreProperty]
                 public int UnkT4C { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [IgnoreProperty]
                 public int UnkT50 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [IgnoreProperty]
                 public int UnkT78 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [IgnoreProperty]
                 public float UnkT84 { get; set; }
 
                 private protected EnemyBase() : base("cXXXX_XXXX")
@@ -1425,7 +1489,6 @@ namespace SoulsFormats
                 {
                     base.GetNames(msb, entries);
                     CollisionPartName = MSB.FindName(entries.Parts, CollisionPartIndex);
-                    WalkRouteName = MSB.FindName(msb.Events.PatrolInfo, WalkRouteIndex);
                 }
 
                 internal override void GetIndices(MSBS msb, Entries entries)
@@ -1561,6 +1624,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [IgnoreProperty]
                 public byte UnkT17 { get; set; }
 
                 /// <summary>
@@ -1571,16 +1635,19 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [IgnoreProperty]
                 public byte UnkT24 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [IgnoreProperty]
                 public byte UnkT25 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [IgnoreProperty]
                 public byte UnkT26 { get; set; }
 
                 /// <summary>
@@ -1591,47 +1658,56 @@ namespace SoulsFormats
                 /// <summary>
                 /// Used to determine invasion eligibility.
                 /// </summary>
+                [MSBParamReference(ParamName = "PlayRegionParam")]
                 public int PlayRegionID { get; set; }
 
                 /// <summary>
                 /// Alters camera properties while on this collision.
                 /// </summary>
+                /// 
                 [MSBParamReference(ParamName = "LockCamParam")]
                 public short LockCamParamID { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [IgnoreProperty]
                 public int UnkT3C { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [IgnoreProperty]
                 public int UnkT40 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [IgnoreProperty]
                 public float UnkT44 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [IgnoreProperty]
                 public float UnkT48 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [IgnoreProperty]
                 public int UnkT4C { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [IgnoreProperty]
                 public float UnkT50 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                [IgnoreProperty]
                 public float UnkT54 { get; set; }
 
                 /// <summary>
@@ -1795,7 +1871,8 @@ namespace SoulsFormats
                 [MSBReference(ReferenceType = typeof(Collision))]
                 [NoRenderGroupInheritence()]
                 public string CollisionName { get; set; }
-                private int CollisionIndex;
+                [IndexProperty]
+                public int CollisionIndex { get; set; }
 
                 /// <summary>
                 /// The map to load when on this collision.

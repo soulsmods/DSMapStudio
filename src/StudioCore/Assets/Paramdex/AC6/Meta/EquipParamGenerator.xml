@@ -1,12 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
   <Enums>
-    <Enum Name="GeneratorColorSfxTypeEnum" type="s8">
-        <Option Value="-1" Name="None" />
-        <Option Value="0" Name="Fire Orange" />
-        <Option Value="1" Name="Arquebus Blue" />
-        <Option Value="2" Name="Coral Red" />
-    </Enum>
     <Enum Name="EQUIP_MAKER_TYPE" type="u16">
         <Option Value="0" Name="None" />
         <Option Value="1" Name="Overseer" />
@@ -32,9 +26,15 @@
         <Option Value="102" Name="Unused - RRI(旧)" />
         <Option Value="104" Name="Unused - オルマイ(本性)" />
     </Enum>
+    <Enum Name="GeneratorColorSfxTypeEnum" type="s8">
+        <Option Value="-1" Name="None" />
+        <Option Value="0" Name="Fire Orange" />
+        <Option Value="1" Name="Arquebus Blue" />
+        <Option Value="2" Name="Coral Red" />
+    </Enum>
   </Enums>
   <Field>
-    <menuModelId AltName="Menu Model ID" />
+    <menuModelId AltName="Menu Model ID" TextureRef="Weapon/01_common/SB_PartsThumbnails/menuModelId/" />
     <weight AltName="Weight" />
     <energyCapacity AltName="Energy Capacity" />
     <energyOutput AltName="Energy Output" />
@@ -43,7 +43,7 @@
     <supplyRecovery AltName="Energy Supply Recovery" />
     <postRecoveryEnSupply AltName="Post Recovery Energy Supply" />
     <energyFirearmSpec AltName="Energy Firearm Specialization" />
-    <corporationTextureId AltName="Corporation Texture ID" Enum="EQUIP_MAKER_TYPE" />
+    <corporationTextureId AltName="Corporation Texture ID" Enum="EQUIP_MAKER_TYPE" TextureRef="Direct/01_common/SB_MakerLogo/corporationTextureId/MakerLogo_" />
     <colorSfxType AltName="Color SFX Type" Enum="GeneratorColorSfxTypeEnum" Wiki="Determines SFX used by boosters. Coral also affects core expansion SFX."/> 
   </Field>
   <Self />
