@@ -26,7 +26,8 @@ public class UICache
         (EditorScreen UIScreen, object context, string key) trueKey = (UIScreen, context, key);
         if (!caches.TryGetValue(trueKey, out var value))
         {
-            caches[trueKey] = getValue();
+            value = getValue();
+            caches[trueKey] = value;
         }
 
         return (T)value;
