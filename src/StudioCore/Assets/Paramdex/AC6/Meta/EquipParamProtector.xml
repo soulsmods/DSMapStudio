@@ -1,15 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
   <Enums>
-    <Enum Name = "LegTypeEnum"> 
-        <Option Value="0" Name="None" />
-        <Option Value="1" Name="Bipedal" />
-        <Option Value="100" Name="Tetrapod" />
-        <Option Value="200" Name="Reverse Joint" />
-        <Option Value="300" Name="Tank 1" />
-        <Option Value="301" Name="Tank 2" />
-        <Option Value="302" Name="Tank 3" />
-    </Enum>
     <Enum Name="EQUIP_MAKER_TYPE" type="u16">
         <Option Value="0" Name="None" />
         <Option Value="1" Name="Overseer" />
@@ -35,12 +26,26 @@
         <Option Value="102" Name="Unused - RRI(旧)" />
         <Option Value="104" Name="Unused - オルマイ(本性)" />
     </Enum>
+    <Enum Name = "LegTypeEnum"> 
+      <Option Value="0" Name="None" />
+        <Option Value="0" Name="None" />
+      <Option Value="1" Name="Bipedal" />
+        <Option Value="1" Name="Bipedal" />
+      <Option Value="100" Name="Tetrapod" />
+        <Option Value="100" Name="Tetrapod" />
+      <Option Value="200" Name="Reverse Joint" />
+        <Option Value="200" Name="Reverse Joint" />
+      <Option Value="300" Name="Tank 1" />
+        <Option Value="300" Name="Tank 1" />
+      <Option Value="301" Name="Tank 2" />
+        <Option Value="301" Name="Tank 2" />
+      <Option Value="302" Name="Tank 3" />
+        <Option Value="302" Name="Tank 3" />
+    </Enum>
   </Enums>
   <Field>
     <sortId AltName="Sort ID" Wiki="Sort ID (7 digits is the limit for s32 because the enhancement level is added in the program)" />
     <wanderingEquipId AltName="Wandering Equip ID" Wiki="Replacement equipment ID for wandering ghosts." />
-    <resistSleep AltName="Resist - Sleep" Wiki="Difficulty in getting sleep abnormalities" />
-    <resistMadness AltName="Resist - Madness" Wiki="Difficulty in getting mad" />
     <saDurability AltName="Poise Durability" Wiki="Super armor endurance" />
     <toughnessCorrectRate AltName="Toughness Correction" Wiki="It is a magnification that corrects the basic value of toughness." />
     <fixPrice AltName="Repair Price" Wiki="Basic repair price" />
@@ -78,14 +83,14 @@
     <faceScaleF_MaxX AltName="Facescale - Female - Max X" Wiki="" />
     <faceScaleF_MaxZ AltName="Facescale - Female - Max Z" Wiki="" />
     <qwcId AltName="QWC ID" Wiki="QWC parameter ID" />
-    <equipModelId AltName="Equip Model ID" Wiki="Equipment model number." />
+    <equipModelId AltName="Equip Model ID" Wiki="Equipment model number." TextureRef="Armor/01_common/SB_PartsThumbnails/equipModelId/" />
     <iconIdM AltName="Icon ID - Male" Wiki="Men's menu icon ID." ExtRefs="hi,menu\hi\00_solo.tpfbhd,00_Solo\MENU_Knowledge_{0:D5}.tpf.dcx,MENU_Knowledge_{0:D5}.dds;low,menu\low\00_solo.tpfbhd,00_Solo\MENU_Knowledge_{0:D5}.tpf.dcx,MENU_Knowledge_{0:D5}.dds" />
     <iconIdF AltName="Icon ID - Female" Wiki="Women's menu icon ID." ExtRefs="hi,menu\hi\00_solo.tpfbhd,00_Solo\MENU_Knowledge_{0:D5}.tpf.dcx,MENU_Knowledge_{0:D5}.dds;low,menu\low\00_solo.tpfbhd,00_Solo\MENU_Knowledge_{0:D5}.tpf.dcx,MENU_Knowledge_{0:D5}.dds" />
     <knockBack AltName="Knockback" Wiki="Knockback reduction value." />
     <knockbackBounceRate AltName="Knockback Bounce Rate" Wiki="Knockback repulsion rate." />
     <durability AltName="Durability" Wiki="Initial durability." />
     <durabilityMax AltName="Max Durability" Wiki="New durability." />
-    <pad03 AltName=""/>
+    <pad03 AltName="" IsHidden=""/>
     <defFlickPower AltName="Weapon Repel Power" Wiki="Used to determine the repulsion of enemy attacks." />
     <defensePhysics AltName="Defence - Physical" Wiki="Physical attack damage protection." />
     <defenseMagic AltName="Defence - Magic" Wiki="Magic attack damage protection." />
@@ -94,10 +99,10 @@
     <defenseSlash AltName="Defence - Slash" Wiki="Look at the attack type, and if it is a slashing attribute, reduce the defense power" />
     <defenseBlow AltName="Defence - Strike" Wiki="Look at the attack attribute, and if it is a hit attribute, reduce the defense power." />
     <defenseThrust AltName="Defence - Thrust" Wiki="Look at the attack attribute, and if it is a hit attribute, reduce the defense power." />
-    <resistPoison AltName="Resist - Poison" Wiki="Difficulty in getting poisonous" />
-    <resistDisease AltName="Resist - Scarlet Rot" Wiki="Difficulty in getting sick" />
-    <resistBlood AltName="Resist - Hemorrhage" Wiki="Difficulty in getting bleeding abnormalities" />
-    <resistCurse AltName="Resist - Blight" Wiki="Difficulty in getting a curse condition" />
+    <statusResist_AcsAnomaly AltName="Status Resist: ACS Anomaly" Wiki="Difficulty in getting poisonous" />
+    <statusResist_ElecDischarge AltName="Status Resist: Electric Discharge" Wiki="Difficulty in getting sick" />
+    <statusResist_Plasma AltName="Status Resist: Plasma" Wiki="Difficulty in getting bleeding abnormalities" />
+    <statusResist_ElecDischargeType2 AltName="Status Resist: Electric Discharge (Type 2)" Wiki="Difficulty in getting a curse condition" />
     <reinforceTypeId AltName="Reinforce Type ID" Wiki="Enhanced type ID" Refs="ReinforceParamProtector"/>
     <trophySGradeId AltName="Achievement ID" Wiki="Is it related to the trophy system?" />
     <shopLv AltName="Shop Level" Wiki="Level that can be sold at the store" />
@@ -117,7 +122,7 @@
     <legEquip AltName="Is Leg Equipment" Wiki="Is it leg equipment?" IsBool="" />
     <useFaceScale AltName="Use Facescale" Wiki="Whether to use a face scale" IsBool="" />
     <isSkipWeakDamageAnim AltName="Skip Weak Damage Anim" Wiki="Weakness damage Whether to skip animation playback. Part damage rate and defense material are treated as weak points just by not playing the animation." IsBool="" />
-    <pad06 AltName=""/>
+    <pad06 AltName="" IsHidden=""/>
     <defenseMaterialVariationValue_Weak AltName="Defence Material - Variation Value - Weak" Wiki="It is a value used for variation of abnormal condition, damage SFX, SE in combination with weak point defense material. SEQ16473" />
     <autoFootEffectDecalBaseId2 AltName="Auto Foot Effect Decal Base ID [2]" Wiki="Decal ID for automatic foot effects. Floor material is also considered. Only used when the armor category is legs." />
     <autoFootEffectDecalBaseId3 AltName="Auto Foot Effect Decal Base ID [3]" Wiki="Decal ID for automatic foot effects. Floor material is also considered. Only used when the armor category is legs." />
@@ -128,7 +133,7 @@
     <simpleModelForDlc AltName="Simple Model for DLC1" Wiki="Is there a simple model for DLC?" IsBool="" />
     <showLogCondType AltName="Item Acquisition Log Condition Type" Wiki="Whether to display in the item acquisition log when acquiring the item (not entered: )" IsBool="" />
     <showDialogCondType AltName="Item Acquisition Dialog Condition Type " Wiki="Whether to display it in the item acquisition dialog when acquiring an item (not entered: new only)" Enum="GET_DIALOG_CONDITION_TYPE" />
-    <pad AltName=""/>
+    <pad AltName="" IsHidden=""/>
     <neutralDamageCutRate AltName="Absorption - Physical" Wiki="Non-attribute damage multiplier" />
     <slashDamageCutRate AltName="Absorption - Slash" Wiki="Slash damage multiplier" />
     <blowDamageCutRate AltName="Absorption - Strike" Wiki="Batter damage multiplier" />
@@ -182,11 +187,11 @@
     <invisibleFlag78 IsBool="" AltName=""/>
     <invisibleFlag79 IsBool="" AltName=""/>
     <invisibleFlag80 IsBool="" AltName=""/>
-    <padbit AltName=""/>
+    <padbit AltName="" IsHidden=""/>
     <postureControlId AltName="Posture Control ID" Wiki="Attitude control ID (torso)" />
-    <pad2 AltName=""/>
+    <pad2 AltName="" IsHidden=""/>
     <saleValue AltName="Shop Price" Wiki="Selling price" />
-    <resistFreeze AltName="Resist - Frost" Wiki="Difficulty in getting cold air condition abnormal" />
+    <statusResist_Uranium AltName="Status Resist: Uranium" Wiki="Difficulty in getting cold air condition abnormal" />
     <lockCamParamId AltName="Lock Camera Param ID" />
     <energyLoad AltName="Energy Load" />
     <armorPoints AltName="Armor Points" />
@@ -204,9 +209,9 @@
     <recoilControl AltName="Arms: Recoil Control" Wiki="Affects how quickly weapon spread grows and shrinks while firing." />
     <tetrapodHoverDrainRate AltName="Tetrapod: Hover Drain Rate" />
     <tetrapodHoverQuickBoostVelocity AltName="Tetrapod: Hover Quick Boost Velocity" />
-    <corporationTextureId AltName="Corporation Texture ID" Enum="EQUIP_MAKER_TYPE" />
+    <corporationTextureId AltName="Corporation Texture ID" Enum="EQUIP_MAKER_TYPE" TextureRef="Direct/01_common/SB_MakerLogo/corporationTextureId/MakerLogo_" />
     <equipmentMenuManageCategoryParamId AltName="Equipment Menu Management Category" Refs="EquipmentMenuManageCategoryParam" />
-    <demonstrationVideoBinkId AltName="Demonstration Video Bink ID" Wiki="Refers to the video filename in Game/movie/" />
+    <demonstrationVideoBinkId AltName="Demonstration Video Bink ID" Wiki="Refers to the video filename in Game/movie/" MovieAlias="" />
     <recoilKnockbackVelocityCorrection_Grounded AltName="Recoil Knockback % (Grounded)" Wiki="Multiplier of backwards velocity applied to the shooter when using a weapon on the ground.\nApplies conditionally, such as not applying when AC has tank legs."/>
     <recoilKnockbackVelocityCorrection_Airborne AltName="Recoil Knockback % (Airborne)" Wiki="Multiplier of backwards velocity applied to the shooter when using a weapon in the air."/>
     <armsLoadLimit AltName="Arms Load Limit" Wiki="Maximum weapon weight arms can handle before being overloaded." />
@@ -215,9 +220,9 @@
     <legsPartBoosterParamId AltName="Leg Part Booster Param ID" Refs="EquipParamBooster" />
     <movementAcTypeParamId AltName="Movement Type Param ID" Refs="MovementAcTypeParam" />
     <chrActTurnParamId AltName="Character Act Turn Param ID" Refs="ChrActTurnParam" />
-    <antiKineticDefense AltName="Defense: Anti-Kinetic" />
-    <antiEnergyDefense AltName="Defense: Anti-Energy" />
-    <antiExplosiveDefense AltName="Defense: Anti-Explosive" />
+    <antiKineticDefense AltName="Defense: Anti-Kinetic" Wiki="This value is multiplied by the constant value defined for the piece in MenuPropertySpecParam.\nHead: 3050\nCore: 3060\nArms: 3070\nLegs: 3080\n\nConstant value is 10 by default." />
+    <antiEnergyDefense AltName="Defense: Anti-Energy" Wiki="This value is multiplied by the constant value defined for the piece in MenuPropertySpecParam.\nHead: 3051\nCore: 3061\nArms: 3071\nLegs: 3081\n\nConstant value is 10 by default." />
+    <antiExplosiveDefense AltName="Defense: Anti-Explosive" Wiki="This value is multiplied by the constant value defined for the piece in MenuPropertySpecParam.\nHead: 3052\nCore: 3062\nArms: 3072\nLegs: 3082\n\nConstant value is 10 by default." />
     <antiCoralDefense AltName="Defense: Anti-Coral" />
     <antiDarkDefense AltName="Defense: Anti-Dark" />
     <systemRecovery AltName="System Recovery" Wiki="Actual effects of System Recovery stat, which increases resistance to status effects." />

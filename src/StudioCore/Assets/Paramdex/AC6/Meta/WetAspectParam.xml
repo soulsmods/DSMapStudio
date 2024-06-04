@@ -1,5 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PARAMMETA XmlVersion="0">
-  <Field></Field>
+  <ColorEdit>
+    <ColorEditor Name="Base Color">
+        <Field Name="baseColorR" Type="u8"/> 
+        <Field Name="baseColorG" Type="u8"/> 
+        <Field Name="baseColorB" Type="u8"/> 
+        <Field Name="baseColorA" Type="f32"/>
+    </ColorEditor>
+  </ColorEdit>
+  <Field>
+    <baseColorR AltName="Base Color: R" Wiki="Base color color R." />
+    <baseColorG AltName="Base Color: G" Wiki="Base color color G." />
+    <baseColorB AltName="Base Color: B" Wiki="Base color color B." />
+    <reserve_0 AltName="" IsHidden=""/>
+    <baseColorA AltName="Base Color: Alpha" Wiki="Base color override rate." />
+    <metallic AltName="Metallic" Wiki="It's metallic." />
+    <reserve_1 AltName="" IsHidden=""/>
+    <reserve_2 AltName="" IsHidden=""/>
+    <reserve_3 AltName="" IsHidden=""/>
+    <metallicRate AltName="Metallic Override Rate" Wiki="Metallic override rate." />
+    <shininessRate AltName="Shininess Override Rate" Wiki="Shininess override rate." />
+    <shininess AltName="Shininess" Wiki="Shininess." />
+    <reserve_4 AltName="" IsHidden=""/>
+  </Field>
   <Self />
 </PARAMMETA>

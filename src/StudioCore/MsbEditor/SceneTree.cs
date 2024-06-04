@@ -662,16 +662,6 @@ public class SceneTree : IActionEventHandler
                 }
             }
 
-            if (_configuration == Configuration.MapEditor && _assetLocator.Type == GameType.ArmoredCoreVI &&
-                FeatureFlags.AC6_MSB == false)
-            {
-                ImGui.Indent();
-                ImGui.Spacing();
-                ImGui.Text("AC6 map editing is unsupported for now.");
-                ImGui.Spacing();
-                ImGui.BeginDisabled();
-            }
-
             IOrderedEnumerable<KeyValuePair<string, ObjectContainer>> orderedMaps =
                 _universe.LoadedObjectContainers.OrderBy(k => k.Key);
 
@@ -929,12 +919,6 @@ public class SceneTree : IActionEventHandler
             if (_assetLocator.Type == GameType.Bloodborne && _configuration == Configuration.MapEditor)
             {
                 ChaliceDungeonImportButton();
-            }
-
-            if (_configuration == Configuration.MapEditor && _assetLocator.Type == GameType.ArmoredCoreVI &&
-                FeatureFlags.AC6_MSB == false)
-            {
-                ImGui.EndDisabled();
             }
 
             ImGui.EndChild();
