@@ -42,6 +42,8 @@ public unsafe class TextEditorScreen : EditorScreen
 
     public void DrawEditorMenu()
     {
+        if (Locator.ActiveProject == null)
+            return;
         FMGBank currentFmgBank = Locator.ActiveProject.FMGBank;
 
         if (ImGui.BeginMenu("Edit", Locator.ActiveProject.FMGBank.IsLoaded))
@@ -187,7 +189,7 @@ public unsafe class TextEditorScreen : EditorScreen
         ImGui.SetNextWindowPos(winp);
         ImGui.SetNextWindowSize(wins);
 
-        if (!ImGui.IsAnyItemActive() && Locator.ActiveProject.FMGBank.IsLoaded)
+        if (!ImGui.IsAnyItemActive() && Locator.ActiveProject != null && Locator.ActiveProject.FMGBank.IsLoaded)
         {
             // Only allow key shortcuts when an item [text box] is not currently activated
             if (EditorActionManager.CanUndo() && InputTracker.GetKeyDown(KeyBindings.Current.Core_Undo))
@@ -503,7 +505,7 @@ public unsafe class TextEditorScreen : EditorScreen
     {
         var scale = MapStudioNew.GetUIScale();
 
-        if (!Locator.ActiveProject.FMGBank.IsLoaded)
+        if (Locator.ActiveProject == null || !Locator.ActiveProject.FMGBank.IsLoaded)
         {
             if (_projectSettings == null)
             {

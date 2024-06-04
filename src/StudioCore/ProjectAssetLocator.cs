@@ -674,6 +674,45 @@ public class ProjectAssetLocator
         ad.AssetName = mapid + "_object_instance_params";
         return ad;
     }
+
+    // Used to get the map model list from within the mapbhd/bdt
+    public List<AssetDescription> GetMapModelsFromBXF(string mapid)
+    {
+        List<AssetDescription> ret = new();
+
+        if (Locator.AssetLocator.Type is GameType.DarkSoulsIISOTFS)
+        {
+            var path = GetAssetPath($@"model/map/{mapid}.mapbdt");
+
+            if (path != null)
+            {
+                var bdtPath = path;
+                var bhdPath = path.Replace("bdt", "bhd");
+
+                var bxf = BXF4.Read(bhdPath, bdtPath);
+
+                if (bxf != null)
+                {
+                    foreach (var file in bxf.Files)
+                    {
+                        if (file.Name.Contains(".flv"))
+                        {
+                            var name = GetFileNameWithoutExtensions(file.Name);
+
+                            AssetDescription ad = new();
+                            ad.AssetName = name;
+                            ad.AssetArchiveVirtualPath = $@"map/{name}/model/";
+
+                            ret.Add(ad);
+                        }
+                    }
+                }
+            }
+        }
+
+        return ret;
+    }
+
     public List<AssetDescription> GetMapModels(string mapid)
     {
         List<AssetDescription> ret = new();

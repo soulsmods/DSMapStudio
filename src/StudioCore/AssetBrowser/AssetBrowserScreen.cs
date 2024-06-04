@@ -1,4 +1,5 @@
-﻿using SoulsFormats;
+﻿using Microsoft.Extensions.Logging;
+using SoulsFormats;
 using StudioCore.Banks;
 using StudioCore.Banks.AliasBank;
 using StudioCore.Editor;
@@ -115,6 +116,12 @@ public class AssetBrowserScreen
             _selectedAssetMapIdCache = null;
             _selectedAssetType = AssetCategoryType.None;
             _selectedAssetTypeCache = AssetCategoryType.None;
+
+            if (ModelAliasBank.Bank.IsLoadingAliases)
+            {
+                TaskLogs.AddLog("Assetbrowser tried updating before aliasbank finished loading!", LogLevel.Warning);
+                return;
+            }
 
             foreach (AliasReference v in ModelAliasBank.Bank.AliasNames.GetEntries("Characters"))
             {

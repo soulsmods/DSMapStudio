@@ -1078,7 +1078,7 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
                 PatrolDrawManager.Generate(Universe);
             }
 
-            if (Locator.ActiveProject.AssetLocator.Type is GameType.EldenRing)
+            if (Locator.ActiveProject != null && Locator.ActiveProject.AssetLocator.Type is GameType.EldenRing)
             {
                 if (InputTracker.GetKeyDown(KeyBindings.Current.Map_AssetPrefabExport))
                 {
