@@ -26,6 +26,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using Veldrid;
 using Veldrid.Sdl2;
+using StudioCore.Interface;
 
 namespace StudioCore;
 
@@ -43,7 +44,7 @@ public class MapStudioNew
     private readonly IGraphicsContext _context;
 
     private readonly List<EditorScreen> _editors;
-    private readonly HelpBrowser _helpBrowser;
+    private readonly HelpWindow HelpWindow;
 
     private readonly NewProjectOptions _newProjectOptions = new();
     private readonly string _programTitle;
@@ -108,7 +109,7 @@ public class MapStudioNew
         _settingsMenu.ParamEditor = paramEditor;
         _settingsMenu.TextEditor = textEditor;
 
-        _helpBrowser = new HelpBrowser("HelpBrowser");
+        HelpWindow = new HelpWindow();
 
         ImGui.GetIO()->ConfigFlags |= ImGuiConfigFlags.NavEnableKeyboard;
         SetupFonts();
@@ -911,9 +912,9 @@ public class MapStudioNew
 
             if (ImGui.BeginMenu("Help"))
             {
-                if (ImGui.MenuItem("Help Menu", KeyBindings.Current.Core_HelpMenu.HintText))
+                if (ImGui.MenuItem("Help Window", KeyBindings.Current.Core_HelpMenu.HintText))
                 {
-                    _helpBrowser.ToggleMenuVisibility();
+                    HelpWindow.ToggleMenuVisibility();
                 }
 
                 ImGui.EndMenu();
@@ -1007,8 +1008,8 @@ public class MapStudioNew
             ImGui.EndMainMenuBar();
         }
 
-        SettingsGUI();
-        HelpGUI();
+        _settingsMenu.Display();
+        HelpWindow.Display();
 
         ImGui.PopStyleVar(1);
         Tracy.TracyCZoneEnd(ctx);
@@ -1341,7 +1342,7 @@ public class MapStudioNew
 
             if (InputTracker.GetKeyDown(KeyBindings.Current.Core_HelpMenu))
             {
-                _helpBrowser.ToggleMenuVisibility();
+                HelpWindow.ToggleMenuVisibility();
             }
         }
 
@@ -1367,16 +1368,6 @@ public class MapStudioNew
         }
 
         _firstframe = false;
-    }
-
-    public void SettingsGUI()
-    {
-        _settingsMenu.Display();
-    }
-
-    public void HelpGUI()
-    {
-        _helpBrowser.Display();
     }
 
     public static float GetUIScale()
