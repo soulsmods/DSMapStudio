@@ -9,4 +9,4 @@ foreach ($file in $fileNames)
     }
 }
 
-..\..\..\..\Veldrid.SPIRV.VariantCompiler\bin\Release\net6.0-windows\Veldrid.SPIRV.VariantCompiler.exe --search-path .\FlverShader --output-path .\FlverShader --set .\FlverShader\FlverShader.json
+..\..\..\..\Veldrid.SPIRV.VariantCompiler\bin\Release\net7.0-windows\Veldrid.SPIRV.VariantCompiler.exe --search-path .\FlverShader --output-path .\FlverShader --set .\FlverShader\FlverShader.json

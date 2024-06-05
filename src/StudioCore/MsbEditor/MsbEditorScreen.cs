@@ -17,6 +17,7 @@ using Veldrid.Sdl2;
 using Veldrid.Utilities;
 using Viewport = StudioCore.Gui.Viewport;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using StudioCore.Editors.AssetBrowser;
 
 namespace StudioCore.MsbEditor;
 
@@ -34,6 +35,10 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
     private int _createEntityMapIndex;
     private (string, ObjectContainer) _dupeSelectionTargetedMap = ("None", null);
     private (string, Entity) _dupeSelectionTargetedParent = ("None", null);
+
+    private (string, ObjectContainer) _comboTargetMap = ("None", null);
+    private AssetPrefab _selectedAssetPrefab = null;
+
     private List<(string, Type)> _eventClasses = new();
 
     private List<(string, Type)> _partsClasses = new();
@@ -44,7 +49,7 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
 
     public bool CtrlHeld;
     public DisplayGroupsEditor DispGroupEditor;
-    public MsbAssetBrowser AssetBrowser;
+    public AssetBrowserScreen MapAssetBrowser;
     public ActionManager EditorActionManager = new();
 
     private bool GCNeedsCollection;
@@ -95,7 +100,7 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
         DispGroupEditor = new DisplayGroupsEditor(RenderScene, _selection, EditorActionManager);
         PropSearch = new SearchProperties(Universe, _propCache);
         NavMeshEditor = new NavmeshEditor(locator, RenderScene, _selection);
-        AssetBrowser = new MsbAssetBrowser(Universe, RenderScene, _selection, EditorActionManager, this, Viewport);
+        MapAssetBrowser = new AssetBrowserScreen(AssetBrowserSource.MapEditor, Universe, RenderScene, _selection, EditorActionManager, this, Viewport);
 
         EditorActionManager.AddEventHandler(SceneTree);
     }
@@ -352,6 +357,47 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
         //Viewport.ResizeViewport(device, new Rectangle(0, 0, window.Width, window.Height));
     }
 
+    private void ImportAssetPrefab(Map targetMap)
+    {
+        PlatformUtils.Instance.OpenFileDialog("Open Prefab Json", ["json"], out string fileName);
+        if (!string.IsNullOrEmpty(fileName))
+        {
+            _selectedAssetPrefab = AssetPrefab.ImportJson(fileName);
+        }
+        if (_selectedAssetPrefab != null)
+        {
+            var parent = targetMap.RootObject;
+            List<MapEntity> ents = _selectedAssetPrefab.GenerateMapEntities(targetMap);
+
+            AddMapObjectsAction act = new(Universe, targetMap, RenderScene, ents, true, parent);
+            EditorActionManager.ExecuteAction(act);
+            _comboTargetMap = ("None", null);
+            _selectedAssetPrefab = null;
+        }
+    }
+
+    private void ExportAssetPrefab()
+    {
+        AssetPrefab prefab = new(_selection.GetFilteredSelection<MapEntity>());
+        if (!prefab.AssetInfoChildren.Any())
+        {
+            PlatformUtils.Instance.MessageBox("Export failed, nothing in selection could be exported.", "Asset Prefab Error", MessageBoxButtons.OK);
+        }
+        else
+        {
+            PlatformUtils.Instance.SaveFileDialog("Save Asset Prefab", ["json"], out string fileName);
+            if (!string.IsNullOrEmpty(fileName))
+            {
+                if (!fileName.EndsWith(".json"))
+                {
+                    fileName += ".json";
+                }
+                prefab.PrefabName = System.IO.Path.GetFileNameWithoutExtension(fileName);
+                prefab.Write(fileName);
+            }
+        }
+    }
+
     public void DrawEditorMenu()
     {
         if (ImGui.BeginMenu("Edit"))
@@ -494,7 +540,7 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
                 {
                     _createEntityMapIndex = 0;
                 }
-                
+
                 if (ImGui.BeginCombo("Target Map", loadedMaps.ElementAt(_createEntityMapIndex).Name))
                 {
                     int i = 0;
@@ -585,6 +631,25 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
                     }
 
                     ImGui.EndMenu();
+                }
+
+                if (AssetLocator.Type is GameType.EldenRing)
+                {
+                    if (ImGui.BeginMenu("Asset Prefabs"))
+                    {
+                        ImGui.TextColored(new Vector4(1.0f, 1.0f, 0.8f, 1.0f), "Import/Export multiple assets at once");
+                        ImGui.TextColored(new Vector4(1.0f, 0.0f, 0.0f, 1.0f), "Only Supports Assets and Regions (Other)");
+                        ImGui.Separator();
+                        if (ImGui.MenuItem("Export Selection", KeyBindings.Current.Map_AssetPrefabExport.HintText, false, _selection.IsSelection()))
+                        {
+                            ExportAssetPrefab();
+                        }
+                        if (ImGui.MenuItem("Import"))
+                        {
+                            ImportAssetPrefab(map);
+                        }
+                        ImGui.EndMenu();
+                    }
                 }
             }
 
@@ -1017,6 +1082,18 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
                 PatrolDrawManager.Generate(Universe);
             }
 
+            if (AssetLocator.Type is GameType.EldenRing)
+            {
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Map_AssetPrefabExport))
+                {
+                    ExportAssetPrefab();
+                }
+                if (InputTracker.GetKeyDown(KeyBindings.Current.Map_AssetPrefabImport))
+                {
+                    ImGui.OpenPopup("##ImportAssetPrefabPopup");
+                }
+            }
+
             // Render settings
             if (RenderScene != null)
             {
@@ -1062,6 +1139,26 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
         if (ImGui.BeginPopup("##DupeToTargetMapPopup"))
         {
             DuplicateToTargetMapUI();
+            ImGui.EndPopup();
+        }
+
+        if (ImGui.BeginPopup("##ImportAssetPrefabPopup"))
+        {
+            ImGui.TextColored(new Vector4(1.0f, 1.0f, 1.0f, 0.8f), "Import Asset Prefab");
+            ImGui.SameLine();
+            ImGui.TextColored(new Vector4(1.0f, 1.0f, 1.0f, 0.5f), $" <{KeyBindings.Current.Map_AssetPrefabImport.HintText}>");
+
+            ComboTargetMapUI();
+            if (_comboTargetMap.Item2 != null)
+            {
+                Map targetMap = (Map)_comboTargetMap.Item2;
+
+                if (ImGui.Button("Browse"))
+                {
+                    ImportAssetPrefab(targetMap);
+                    ImGui.CloseCurrentPopup();
+                }
+            }
             ImGui.EndPopup();
         }
 
@@ -1155,7 +1252,7 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
         ResourceManager.OnGuiDrawResourceList();
 
         DispGroupEditor.OnGui(Universe._dispGroupCount);
-        AssetBrowser.OnGui();
+        MapAssetBrowser.OnGui();
 
         if (_activeModal != null)
         {
@@ -1190,6 +1287,11 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
         _projectSettings = newSettings;
         _selection.ClearSelection();
         EditorActionManager.Clear();
+
+        if (Locator.AssetLocator.Type != GameType.Undefined)
+        {
+            MapAssetBrowser.OnProjectChanged();
+        }
 
         ReloadUniverse();
     }
@@ -1497,7 +1599,7 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
 
     public string PadNameString(int value)
     {
-        if(value < 10)
+        if (value < 10)
             return $"000{value}";
 
         if (value >= 10 && value < 100)
@@ -1633,17 +1735,17 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
         {
             Transform localT = sel.GetLocalTransform();
             Transform rootT = sel.GetRootTransform();
-            
+
             // Get new localized position by applying reversed root offsets to target camera position.  
-            Vector3 newPos = Vector3.Transform(targetCamPos, Quaternion.Inverse(rootT.Rotation)) 
+            Vector3 newPos = Vector3.Transform(targetCamPos, Quaternion.Inverse(rootT.Rotation))
                              - Vector3.Transform(rootT.Position, Quaternion.Inverse(rootT.Rotation));
-            
+
             // Offset from center of multiple selections.
             Vector3 localCenter = Vector3.Transform(centerT.Position, Quaternion.Inverse(rootT.Rotation))
                                       - Vector3.Transform(rootT.Position, Quaternion.Inverse(rootT.Rotation));
             Vector3 offsetFromCenter = localCenter - localT.Position;
             newPos -= offsetFromCenter;
-            
+
             Transform newT = new(newPos, localT.EulerRotation);
 
             actlist.Add(sel.GetUpdateTransformAction(newT));
@@ -1766,36 +1868,36 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
         EditorActionManager.ExecuteAction(action);
     }
 
-    private void DuplicateToTargetMapUI()
+    private void ComboTargetMapUI()
     {
-        ImGui.Text("Duplicate selection to specific map");
-        ImGui.SameLine();
-        ImGui.TextColored(new Vector4(1.0f, 1.0f, 1.0f, 0.5f),
-            $" <{KeyBindings.Current.Map_DuplicateToMap.HintText}>");
-
-        if (ImGui.BeginCombo("Targeted Map", _dupeSelectionTargetedMap.Item1))
+        if (ImGui.BeginCombo("Targeted Map", _comboTargetMap.Item1))
         {
-            foreach (KeyValuePair<string, ObjectContainer> obj in Universe.LoadedObjectContainers)
+            foreach (var obj in Universe.LoadedObjectContainers)
             {
                 if (obj.Value != null)
                 {
                     if (ImGui.Selectable(obj.Key))
                     {
-                        _dupeSelectionTargetedMap = (obj.Key, obj.Value);
+                        _comboTargetMap = (obj.Key, obj.Value);
                         break;
                     }
                 }
             }
-
             ImGui.EndCombo();
         }
+    }
 
-        if (_dupeSelectionTargetedMap.Item2 == null)
-        {
+    private void DuplicateToTargetMapUI()
+    {
+        ImGui.TextColored(new Vector4(1.0f, 1.0f, 1.0f, 1.0f), "Duplicate selection to specific map");
+        ImGui.SameLine();
+        ImGui.TextColored(new Vector4(1.0f, 1.0f, 1.0f, 0.5f), $" <{KeyBindings.Current.Map_DuplicateToMap.HintText}>");
+
+        ComboTargetMapUI();
+        if (_comboTargetMap.Item2 == null)
             return;
-        }
 
-        var targetMap = (Map)_dupeSelectionTargetedMap.Item2;
+        Map targetMap = (Map)_comboTargetMap.Item2;
 
         List<MapEntity> sel = _selection.GetFilteredSelection<MapEntity>().ToList();
 

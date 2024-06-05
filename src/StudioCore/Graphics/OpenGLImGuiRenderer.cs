@@ -298,16 +298,19 @@ public unsafe class OpenGLImGuiRenderer : IImguiRenderer
             if (keyEvent.Key == Key.ControlLeft || keyEvent.Key == Key.ControlRight)
             {
                 _controlDown = keyEvent.Down;
+                ImGuiIOAddKeyEvent(io, ImGuiKey.ImGuiModCtrl, keyEvent.Down);
             }
 
             if (keyEvent.Key == Key.ShiftLeft || keyEvent.Key == Key.ShiftRight)
             {
                 _shiftDown = keyEvent.Down;
+                ImGuiIOAddKeyEvent(io, ImGuiKey.ImGuiModShift, keyEvent.Down);
             }
 
             if (keyEvent.Key == Key.AltLeft || keyEvent.Key == Key.AltRight)
             {
                 _altDown = keyEvent.Down;
+                ImGuiIOAddKeyEvent(io, ImGuiKey.ImGuiModAlt, keyEvent.Down);
             }
         }
 

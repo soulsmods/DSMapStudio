@@ -262,7 +262,7 @@ namespace SoulsFormats
                         }
                         else
                             throw new NotImplementedException($"Read not implemented for {member.Type} {member.Semantic}.");
-                            
+
                         UsesBoneIndices = true;
                     }
                     else if (member.Semantic == LayoutSemantic.Normal)
@@ -431,22 +431,23 @@ namespace SoulsFormats
                     }
                     else if (member.Semantic == LayoutSemantic.VertexColor)
                     {
+                        if (Colors == null)
+                        {
+                            Colors = new List<VertexColor>();
+                        }
                         if (member.Type == LayoutType.Float4)
                         {
-                            //Colors.Add(VertexColor.ReadFloatRGBA(br));
-                            VertexColor.ReadFloatRGBA(br);
+                            Colors.Add(VertexColor.ReadFloatRGBA(br));
                         }
                         else if (member.Type == LayoutType.Byte4A)
                         {
                             // Definitely RGBA in DeS
-                            //Colors.Add(VertexColor.ReadByteRGBA(br));
-                            VertexColor.ReadByteRGBA(br);
+                            Colors.Add(VertexColor.ReadByteRGBA(br));
                         }
                         else if (member.Type == LayoutType.Byte4C)
                         {
                             // Definitely RGBA in DS1
-                            //Colors.Add(VertexColor.ReadByteRGBA(br));
-                            VertexColor.ReadByteRGBA(br);
+                            Colors.Add(VertexColor.ReadByteRGBA(br));
                         }
                         else
                             throw new NotImplementedException($"Read not implemented for {member.Type} {member.Semantic}.");

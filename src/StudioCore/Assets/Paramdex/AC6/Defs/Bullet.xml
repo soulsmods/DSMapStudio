@@ -117,20 +117,20 @@
     <Field Def="s32 Unk0xD4"></Field>
     <Field Def="s32 assetCreationAssetId"></Field>
     <Field Def="f32 lifeRandomRange"></Field>
-    <Field Def="f32 UnkFloat0xE0"></Field>
+    <Field Def="f32 bulletEmitVerticalAngle"></Field>
     <Field Def="f32 UnkFloat0xE4"></Field>
     <Field Def="f32 UnkFloat0xE8"></Field>
     <Field Def="s16 randomMoveAngle_Horizontal"></Field>
     <Field Def="s16 unkLoseHomingLineupTime"></Field>
     <Field Def="f32 unkRandomMoveAngleCondition"></Field>
     <Field Def="f32 UnkFloat0xF4"></Field>
-    <Field Def="u8 UnkByte0xF8"></Field>
+    <Field Def="u8 useRicochetAdjustment"></Field>
     <Field Def="u8 bulletShapeType"></Field>
-    <Field Def="u8 UnkByte0xFA"></Field>
+    <Field Def="u8 bulletRicochetHitSfxSize"></Field>
     <Field Def="u8 UnkByte0xFB"></Field>
     <Field Def="s32 Unk0xFC"></Field>
-    <Field Def="f32 UnkFloat0x100"></Field>
-    <Field Def="f32 UnkFloat0x104"></Field>
+    <Field Def="f32 bulletRicochetBounceTimeLimit"></Field>
+    <Field Def="f32 bulletRicochetBounceDistance"></Field>
     <Field Def="f32 hitChrProximityDistance"></Field>
     <Field Def="s32 bulletShotgunParamId_1"></Field>
     <Field Def="f32 UnkFloat0x110"></Field>
@@ -152,12 +152,12 @@
     <Field Def="f32 Unk0x148"></Field>
     <Field Def="f32 UnkFloat0x14C"></Field>
     <Field Def="f32 UnkFloat0x150"></Field>
-    <Field Def="f32 UnkFloat0x154"></Field>
+    <Field Def="f32 proximityHorizontalHitbox"></Field>
     <Field Def="f32 UnkFloat0x158"></Field>
     <Field Def="f32 UnkFloat0x15C"></Field>
     <Field Def="f32 unkHitRadius"></Field>
     <Field Def="f32 unkHitRadiusMax"></Field>
-    <Field Def="f32 UnkFloat0x168"></Field>
+    <Field Def="f32 proximityVerticalHitbox"></Field>
     <Field Def="f32 UnkFloat0x16C"></Field>
     <Field Def="f32 UnkFloat0x170"></Field>
     <Field Def="f32 UnkFloat0x174"></Field>
@@ -192,7 +192,7 @@
     <Field Def="s32 Unk0x1D4"></Field>
     <Field Def="s32 sfxId_Muzzle"></Field>
     <Field Def="s32 UnkInt0x1DC"></Field>
-    <Field Def="s32 UnkInt0x1E0"></Field>
+    <Field Def="s32 sfxId_Casing"></Field>
     <Field Def="s32 UnkInt0x1E4"></Field>
     <Field Def="f32 Unk0x1E8"></Field>
     <Field Def="f32 UnkFloat0x1EC"></Field>
@@ -277,7 +277,7 @@
     <Field Def="f32 UnkFloat0x2D8"></Field>
     <Field Def="f32 UnkFloat0x2DC"></Field>
     <Field Def="f32 lifeHitDist"></Field>
-    <Field Def="s32 UnkInt0x2E4"></Field>
+    <Field Def="s32 childProjectileDist"></Field>
     <Field Def="f32 Unk0x2E8"></Field>
     <Field Def="f32 Unk0x2EC"></Field>
     <Field Def="f32 recoilShootAngleHorizontalStart"></Field>
@@ -290,8 +290,8 @@
     <Field Def="s8 UnkSbyte0x303"></Field>
     <Field Def="f32 lifeDist"></Field>
     <Field Def="f32 UnkFloat0x308"></Field>
-    <Field Def="f32 UnkFloat0x30C"></Field>
-    <Field Def="f32 UnkFloat0x310"></Field>
+    <Field Def="f32 bulletMomentum"></Field>
+    <Field Def="f32 bulletCircularOffset"></Field>
     <Field Def="f32 UnkFloat0x314"></Field>
     <Field Def="s32 cartridgeBehaviorParamId"></Field>
     <Field Def="f32 UnkFloat0x31C"></Field>
@@ -299,7 +299,7 @@
     <Field Def="s8 UnkSbyte0x321"></Field>
     <Field Def="u8 UnkByte0x322"></Field>
     <Field Def="u8 UnkByte0x323"></Field>
-    <Field Def="f32 UnkFloat0x324"></Field>
+    <Field Def="f32 ricochetBounceTimeDuration"></Field>
     <Field Def="s32 UnkInt0x328"></Field> <!-- SFX related? -->
     <Field Def="s32 UnkInt0x32C"></Field>
     <Field Def="f32 UnkFloat0x330"></Field>
@@ -312,15 +312,15 @@
     <Field Def="u8 homingType"></Field>
     <Field Def="u8 Unk0x34D"></Field>
     <Field Def="u16 Unk0x34E"></Field>
-    <Field Def="f32 Unk0x350"></Field>
-    <Field Def="f32 Unk0x354"></Field>
-    <Field Def="f32 Unk0x358"></Field>
-    <Field Def="f32 Unk0x35C"></Field>
-    <Field Def="s32 Unk0x360"></Field>
-    <Field Def="s32 Unk0x364" FirstVersion="10500262"></Field>
-    <Field Def="s32 Unk0x368" FirstVersion="10500262"></Field>
-    <Field Def="s32 Unk0x36C" FirstVersion="10500262"></Field>
-    <Field Def="s32 Unk0x370" FirstVersion="10500262"></Field>
-    <Field Def="s32 Unk0x374" FirstVersion="10500262"></Field>
+    <Field Def="f32 bulletFlightHeightAdjustment0"></Field>
+    <Field Def="f32 bulletFlightHeightAdjustment1"></Field>
+    <Field Def="f32 bulletFlightHeightAdjustment2"></Field>
+    <Field Def="f32 bulletFlightHeightAdjustment3"></Field>
+    <Field Def="f32 Unk0x360"></Field>
+    <Field Def="f32 Unk0x364" FirstVersion="10500262"></Field>
+    <Field Def="f32 Unk0x368" FirstVersion="10500262"></Field>
+    <Field Def="f32 Unk0x36C" FirstVersion="10500262"></Field>
+    <Field Def="f32 Unk0x370" FirstVersion="10500262"></Field>
+    <Field Def="f32 Unk0x374" FirstVersion="10500262"></Field>
   </Fields>
 </PARAMDEF>

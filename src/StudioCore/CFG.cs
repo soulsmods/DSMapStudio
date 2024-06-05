@@ -52,8 +52,13 @@ public class CFG
 
     public bool AliasBank_EditorMode = false;
 
+
+    public bool AssetBrowser_ShowAliasesInBrowser = true;
     public bool AssetBrowser_ShowTagsInBrowser = true;
     public bool AssetBrowser_ShowLowDetailParts = false;
+    public bool AssetBrowser_UpdateName = true;
+    public bool AssetBrowser_UpdateInstanceID = true;
+
     public bool MapAliases_ShowMapAliasEditList = false;
     public bool MapAliases_ShowUnusedNames = false;
     public bool MapAliases_ShowTagsInBrowser = true;
@@ -62,7 +67,13 @@ public class CFG
     // Settings: Map Editor
     public bool Viewport_Enable_Selection_Outline = false;
 
-    public bool MapEditor_Show_Character_Names_in_Scene_Tree = true;
+    public bool MapEditor_MapObjectList_ShowMapNames = true;
+    public bool MapEditor_MapObjectList_ShowCharacterNames = true;
+    public bool MapEditor_MapObjectList_ShowAssetNames = true;
+    public bool MapEditor_MapObjectList_ShowMapPieceNames = true;
+    public bool MapEditor_MapObjectList_ShowPlayerCharacterNames = true;
+    public bool MapEditor_MapObjectList_ShowSystemCharacterNames = true;
+    public bool MapEditor_MapObjectList_ShowTreasureNames = true;
 
     public bool EnableFrustrumCulling = false;
     public bool Map_AlwaysListLoadedMaps = true;

@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PARAMMETA XmlVersion="0">  <Enums>
+<PARAMMETA XmlVersion="0">
+  <Enums>
     <Enum Name="EQUIP_MAKER_TYPE" type="u16">
         <Option Value="0" Name="None" />
         <Option Value="1" Name="Overseer" />
@@ -27,8 +28,8 @@
     </Enum>
   </Enums>
   <Field>
-    <menuModelId AltName="Menu Model ID" />
-    <corporationTextureId AltName="Corporation Texture ID" Enum="EQUIP_MAKER_TYPE" />
+    <menuModelId AltName="Menu Model ID" TextureRef="Weapon/01_common/SB_PartsThumbnails/menuModelId/" />
+    <corporationTextureId AltName="Corporation Texture ID" Enum="EQUIP_MAKER_TYPE" TextureRef="Direct/01_common/SB_MakerLogo/corporationTextureId/MakerLogo_" />
     <sortId AltName="Sort ID" />
     <weight AltName="Weight" />
     <energyCapacity AltName="Energy Capacity" />
