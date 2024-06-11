@@ -3,6 +3,7 @@
   <Field>
     <textId1 AltName="Text ID [1]" FmgRef="Event" />
     <textId2 AltName="Text ID [2]" FmgRef="Event" />
+    <textId3 AltName="Text ID [3]" FmgRef="Event" />
   </Field>
   <Self />
 </PARAMMETA>
