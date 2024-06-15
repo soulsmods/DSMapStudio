@@ -19,7 +19,7 @@
     <Field Def="f32 UnkFloat0x1C"></Field>
     <Field Def="u8 playSortieScene"></Field>
     <Field Def="u8 Unk0x21"></Field>
-    <Field Def="u16 playSortieTalk"></Field>
+    <Field Def="u16 sortieSceneTalk"></Field>
     <Field Def="s32 UnkInt0x24"></Field>
     <Field Def="s32 missionBriefingMovieId"></Field>
     <Field Def="s32 currencyReward"></Field>
@@ -92,7 +92,7 @@
     <Field Def="s32 Unk0x138"></Field>
     <Field Def="f32 mapBoundryBottom"></Field>
     <Field Def="s32 menuWorldMapTexture"></Field>
-    <Field Def="s32 menuWorldInfoTexture"></Field>
+    <Field Def="s32 menuMapInfoTexture"></Field>
     <Field Def="s16 UnkShort0x148"></Field>
     <Field Def="s16 UnkShort0x14A"></Field>
     <Field Def="s16 UnkShort0x14C"></Field>
