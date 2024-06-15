@@ -367,18 +367,18 @@
         <Option Value="300" Name="Enemies attack Invaders" />
         <Option Value="301" Name="Law of Regression" />
         <Option Value="302" Name="Warp to Grace" />
-        <Option Value="303" Name="Conditional 1" />
-        <Option Value="304" Name="Conditional 2" />
-        <Option Value="305" Name="Conditional 3" />
-        <Option Value="306" Name="Conditional 4" />
-        <Option Value="307" Name="Conditional 5" />
-        <Option Value="308" Name="Conditional 6" />
-        <Option Value="309" Name="Conditional 7" />
-        <Option Value="310" Name="Conditional 8" />
-        <Option Value="311" Name="Conditional 9" />
+        <Option Value="303" Name="Accumulator 1" />
+        <Option Value="304" Name="Accumulator 2" />
+        <Option Value="305" Name="Accumulator 3" />
+        <Option Value="306" Name="Accumulator 4" />
+        <Option Value="307" Name="Accumulator 5" />
+        <Option Value="308" Name="Accumulator 6" />
+        <Option Value="309" Name="Accumulator 7" />
+        <Option Value="310" Name="Accumulator 8" />
+        <Option Value="311" Name="Accumulator 9" />
         <Option Value="312" Name="Unknown" />
         <Option Value="313" Name="Seek Guidance" />
-        <Option Value="314" Name="Add Guard Stability" />
+        <Option Value="314" Name="All Active Accumulators" />
         <Option Value="315" Name="Scale Attack Power with Equip Load" />
         <Option Value="316" Name="CalcCorrectGraph_33" />
         <Option Value="317" Name="Revoke Online Penalty" />
@@ -626,7 +626,7 @@
     </Enum>
   </Enums>
   <Field>
-    <iconId AltName="Icon ID" Wiki="Icon ID (When -1, no icon is required)" />
+    <iconId AltName="Icon ID" Wiki="Icon ID (When -1, no icon is required)" TextureRef="Direct/01_common/SB_Status_00/iconId/MENU_StatusIcon_" />
     <conditionHp AltName="Trigger at HP Below %" Wiki="Set what percentage of maxHP the remaining HP will be activated" />
     <effectEndurance AltName="Duration" Wiki="Change duration / -1 for permanent / 0 for one moment only" />
     <motionInterval AltName="Trigger Interval" Wiki="Set how many seconds it occurs" />
@@ -816,9 +816,9 @@
 Requires State Info 132" Enum="SP_EFFECT_CHANGE_TEAM_TYPE" />
     <dmypolyId AltName="Bullet Behavior ID - DmyPoly ID" Wiki="Damipoli ID. Damipoli ID range is 0 to 999.1000, 10000 is the category number." />
     <vfxId AltName="Effect VFX [0]" Wiki="Special effect VfxId (-1 disabled)" Refs="SpEffectVfxParam" />
-    <accumuOverFireId AltName="Accumulator - Over Value - SpEffect ID" Wiki="Special effect Id activated at the upper limit of the spirit ball" />
+    <accumuOverFireId AltName="Accumulator - Over Value - SpEffect ID" Wiki="Special effect Id activated at the upper limit of the spirit ball" Refs="SpEffectParam" />
     <accumuOverVal AltName="Accumulator - Over Value" Wiki="Genkitama upper limit" />
-    <accumuUnderFireId AltName="Accumulator - Under Value - SpEffect ID" Wiki="Special effect Id activated at the lower limit of the spirit ball" />
+    <accumuUnderFireId AltName="Accumulator - Under Value - SpEffect ID" Wiki="Special effect Id activated at the lower limit of the spirit ball" Refs="SpEffectParam" />
     <accumuUnderVal AltName="Accumulator - Under Value" Wiki="Genkitama lower limit" />
     <accumuVal AltName="Accumulator - Increment Value" Wiki="Genkitama accumulation value" />
     <eye_angX AltName="Vision - Overwrite Height Angle" Wiki="Override the findability angle x
@@ -975,7 +975,7 @@ Requires State Info 66" />
     <fakeTargetIgnoreMirageArts AltName="Ignore Fake Target - Phantom" Wiki="You will not be caught by the fake target of the phantom arts system that occurred" IsBool="" />
     <requestForceJoinBlackSOS_B AltName="Force Invasion" Wiki="If checked, issue an intrusion_B request when activated" IsBool="" />
     <isDestinedDeathHpMult AltName="Is Destined Death HP Mult" Wiki="Makes portion of HP bar in UI black when used with max HP multipliers." IsBool="" />
-    <pad2 AltName=""/>
+    <pad2 AltName="" IsHidden=""/>
     <changeSuperArmorPoint AltName="Poise +" Wiki="Value to add to the super armor value" />
     <changeSaPoint AltName="Apply Poise Damage +" Wiki="Set how many points to subtract (or add) with one activation" />
     <hugeEnemyPickupHeightOverwrite AltName="Giant Enemy Height Overwrite" Wiki="Giant enemy lift height overwrite [m]" />
