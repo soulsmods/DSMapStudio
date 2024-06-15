@@ -1438,10 +1438,14 @@ public class Universe
             }
             else if (_assetLocator.Type == GameType.EldenRing)
             {
-                MSBE prev = MSBE.Read(ad.AssetPath);
                 MSBE n = new();
-                n.Layers = prev.Layers;
-                n.Routes = prev.Routes;
+                //Asset path may be null if this is a newly created map
+                if (ad.AssetPath != null)
+                {
+                    MSBE prev = MSBE.Read(ad.AssetPath);
+                    n.Layers = prev.Layers;
+                    n.Routes = prev.Routes;
+                }
                 msb = n;
             }
             else if (_assetLocator.Type == GameType.ArmoredCoreVI)
@@ -1554,6 +1558,79 @@ public class Universe
                     SaveMap(ma);
                 }
             }
+        }
+    }
+
+    public void UpdateWorldMsbList()
+    {
+        try
+        {
+            if (_assetLocator.Type == GameType.EldenRing)
+            {
+                AssetDescription ad = _assetLocator.GetWorldLoadListList();
+                AssetDescription adw = _assetLocator.GetWorldLoadListList(true);
+                DCX.Type compressionType = GetCompressionType();
+
+                if (!Directory.Exists(Path.GetDirectoryName(adw.AssetPath)))
+                {
+                    Directory.CreateDirectory(Path.GetDirectoryName(adw.AssetPath));
+                }
+
+                // Write as a temporary file to make sure there are no errors before overwriting current file 
+                var worldMsbListPath = adw.AssetPath;
+                var worldMsbListPathTemp = adw.AssetPath + ".temp";
+
+                if (!File.Exists(worldMsbListPath))
+                {
+                    File.Copy(ad.AssetPath, worldMsbListPath, true);
+                }
+
+                // If a backup file doesn't exist of the original file create it
+                if (!File.Exists(worldMsbListPath + ".bak") && File.Exists(worldMsbListPath))
+                {
+                    File.Copy(worldMsbListPath, worldMsbListPath + ".bak", true);
+                }
+
+                if (File.Exists(worldMsbListPathTemp))
+                {
+                    File.Delete(worldMsbListPathTemp);
+                }
+
+                File.Copy(worldMsbListPath, worldMsbListPathTemp, true);
+
+                WORLDLOADLISTLIST p = WORLDLOADLISTLIST.Read(worldMsbListPathTemp);
+                IEnumerable<string> loadListMapIds = p.MapEntries.Where(me => me != null).Select(me => me.Id);
+                //For whatever reason, overworld maps (m60_xx_xx_xx) and skybox maps (mxx_xx_xx_99) are not included in the load list
+                IEnumerable<string> existingMapIds = LoadedObjectContainers.Keys.Where(em=>!(em.StartsWith("m60") || em.EndsWith("99")));
+                foreach (string id in existingMapIds)
+                {
+                    if (!loadListMapIds.Contains(id) && !(id.StartsWith("m60") || id.EndsWith("99")))
+                    {
+                        p.InsertNewMapEntry(id, false);
+                    }
+                }
+                p.Write(worldMsbListPathTemp, compressionType);
+
+                // Make a copy of the previous map
+                if (File.Exists(worldMsbListPath))
+                {
+                    File.Copy(worldMsbListPath, worldMsbListPath + ".prev", true);
+                }
+
+                // Move temp file as new map file
+                if (File.Exists(worldMsbListPath))
+                {
+                    File.Delete(worldMsbListPath);
+                }
+
+                File.Move(worldMsbListPathTemp, worldMsbListPath);
+
+                TaskLogs.AddLog($"Saved WorldMsbList");
+            }
+        }
+        catch (Exception e)
+        {
+            throw new SavingFailedException("worldmsblist.worldloadlistlist", e);
         }
     }
 

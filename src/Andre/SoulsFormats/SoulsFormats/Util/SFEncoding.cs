@@ -8,6 +8,8 @@ namespace SoulsFormats
 
         public static readonly Encoding ShiftJIS;
 
+        public static readonly Encoding UTF8;
+
         public static readonly Encoding UTF16;
 
         public static readonly Encoding UTF16BE;
@@ -19,6 +21,7 @@ namespace SoulsFormats
 //#endif
             ASCII = Encoding.ASCII;
             ShiftJIS = Encoding.GetEncoding("shift-jis");
+            UTF8 = Encoding.UTF8;
             UTF16 = Encoding.Unicode;
             UTF16BE = Encoding.BigEndianUnicode;
         }
