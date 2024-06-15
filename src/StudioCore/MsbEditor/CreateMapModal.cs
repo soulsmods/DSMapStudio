@@ -88,6 +88,7 @@ internal class CreateMapModal : IModal
                 {
                     CreateBlankMSBE();
                     _universe.UpdateWorldMsbList();
+                    _showErrorMessage = false;
                     ImGui.CloseCurrentPopup();
                 }
                 else
