@@ -1569,61 +1569,26 @@ public class Universe
             {
                 AssetDescription ad = _assetLocator.GetWorldLoadListList();
                 AssetDescription adw = _assetLocator.GetWorldLoadListList(true);
-                DCX.Type compressionType = GetCompressionType();
+                //DCX.Type compressionType = GetCompressionType();
 
                 if (!Directory.Exists(Path.GetDirectoryName(adw.AssetPath)))
                 {
                     Directory.CreateDirectory(Path.GetDirectoryName(adw.AssetPath));
                 }
 
-                // Write as a temporary file to make sure there are no errors before overwriting current file 
-                var worldMsbListPath = adw.AssetPath;
-                var worldMsbListPathTemp = adw.AssetPath + ".temp";
-
-                if (!File.Exists(worldMsbListPath))
-                {
-                    File.Copy(ad.AssetPath, worldMsbListPath, true);
-                }
-
-                // If a backup file doesn't exist of the original file create it
-                if (!File.Exists(worldMsbListPath + ".bak") && File.Exists(worldMsbListPath))
-                {
-                    File.Copy(worldMsbListPath, worldMsbListPath + ".bak", true);
-                }
-
-                if (File.Exists(worldMsbListPathTemp))
-                {
-                    File.Delete(worldMsbListPathTemp);
-                }
-
-                File.Copy(worldMsbListPath, worldMsbListPathTemp, true);
-
-                WORLDLOADLISTLIST p = WORLDLOADLISTLIST.Read(worldMsbListPathTemp);
-                IEnumerable<string> loadListMapIds = p.MapEntries.Where(me => me != null).Select(me => me.Id);
+                WORLDLOADLISTLIST loadList = WORLDLOADLISTLIST.Read(ad.AssetPath);
+                IEnumerable<string> loadListMapIds = loadList.MapEntries.Where(me => me != null).Select(me => me.Id);
                 //For whatever reason, overworld maps (m60_xx_xx_xx) and skybox maps (mxx_xx_xx_99) are not included in the load list
-                IEnumerable<string> existingMapIds = LoadedObjectContainers.Keys.Where(em=>!(em.StartsWith("m60") || em.EndsWith("99")));
+                IEnumerable<string> existingMapIds = LoadedObjectContainers.Keys.Where(em => !(em.StartsWith("m60") || em.EndsWith("99")));
                 foreach (string id in existingMapIds)
                 {
                     if (!loadListMapIds.Contains(id) && !(id.StartsWith("m60") || id.EndsWith("99")))
                     {
-                        p.InsertNewMapEntry(id, false);
+                        loadList.InsertNewMapEntry(id, false);
                     }
                 }
-                p.Write(worldMsbListPathTemp, compressionType);
 
-                // Make a copy of the previous map
-                if (File.Exists(worldMsbListPath))
-                {
-                    File.Copy(worldMsbListPath, worldMsbListPath + ".prev", true);
-                }
-
-                // Move temp file as new map file
-                if (File.Exists(worldMsbListPath))
-                {
-                    File.Delete(worldMsbListPath);
-                }
-
-                File.Move(worldMsbListPathTemp, worldMsbListPath);
+                Utils.WriteWithBackup(_assetLocator.GameRootDirectory, _assetLocator.GameModDirectory, @"\map\worldmsblist.worldloadlistlist.dcx", loadList);
 
                 TaskLogs.AddLog($"Saved WorldMsbList");
             }
