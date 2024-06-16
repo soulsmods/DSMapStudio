@@ -68,6 +68,25 @@ public class ProjectAssetLocator
             return ParentAssetLocator.GetProjectFilePath(relpath);
         }
     }
+
+    public IEnumerable<string> GetProjectFileAllPaths(string relpath, List<string> paths = null)
+    {
+        if (paths == null)
+        {
+            paths = new();
+        }
+        if (ParentAssetLocator == null)
+        {
+            paths.Add($@"Assets\{relpath}");
+            return paths;
+        }
+        string path = $@"{ProjectMiscDir}\{relpath}";
+        if (File.Exists(path))
+        {
+            paths.Add(path);
+        }
+        return ParentAssetLocator.GetProjectFileAllPaths(relpath, paths);;
+    }
     
     public (int, string) GetAssetPathFromOptions(IEnumerable<string> relpaths)
     {
