@@ -1569,7 +1569,6 @@ public class Universe
             {
                 AssetDescription ad = _assetLocator.GetWorldLoadListList();
                 AssetDescription adw = _assetLocator.GetWorldLoadListList(true);
-                //DCX.Type compressionType = GetCompressionType();
 
                 if (!Directory.Exists(Path.GetDirectoryName(adw.AssetPath)))
                 {
