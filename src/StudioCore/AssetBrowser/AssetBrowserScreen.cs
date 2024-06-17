@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Threading;
 using static Andre.Native.ImGuiBindings;
 using Action = StudioCore.MsbEditor.Action;
 using ActionManager = StudioCore.MsbEditor.ActionManager;
@@ -104,6 +105,11 @@ public class AssetBrowserScreen
 
     public void OnProjectChanged()
     {
+        while (ModelAliasBank.Bank.IsLoadingAliases)
+        {
+            Thread.Sleep(50);
+        }
+
         if (Locator.AssetLocator.Type != GameType.Undefined)
         {
             _characterNameCache = Locator.AssetLocator.GetChrModels();
