@@ -668,6 +668,14 @@ namespace SoulsFormats
             bw.Write(bytes);
         }
 
+        private void WriteChars(string text, Encoding encoding, bool terminate, string terminator)
+        {
+            if (terminate)
+                text += terminator;
+            byte[] bytes = encoding.GetBytes(text);
+            bw.Write(bytes);
+        }
+
         /// <summary>
         /// Writes an ASCII string, with null terminator if specified.
         /// </summary>
@@ -682,6 +690,14 @@ namespace SoulsFormats
         public void WriteShiftJIS(string text, bool terminate = false)
         {
             WriteChars(text, SFEncoding.ShiftJIS, terminate);
+        }
+
+        /// <summary>
+        /// Writes a UTF-8 string, with CR+LF terminator if specified.
+        /// </summary>
+        public void WriteUTF8(string text, bool terminate = false)
+        {
+            WriteChars(text, SFEncoding.UTF8, terminate, "\r\n");
         }
 
         /// <summary>
