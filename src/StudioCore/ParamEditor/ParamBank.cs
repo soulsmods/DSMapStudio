@@ -924,7 +924,7 @@ public class ParamBank
         }
         else
         {
-            TaskLogs.AddLog("Eventparam could not be found. These require an unpacked game to modify.", LogLevel.Information, TaskLogs.LogPriority.Normal);
+            TaskLogs.AddLog("Eventparam could not be found. These are not shipped with the game and must be created manually.", LogLevel.Information, TaskLogs.LogPriority.Normal);
         }
     }
 
