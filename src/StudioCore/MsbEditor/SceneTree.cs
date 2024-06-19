@@ -228,6 +228,7 @@ public class SceneTree : IActionEventHandler
         }
 
         var doSelect = false;
+        var elementClicked = false;
         if (_setNextFocus)
         {
             ImGui.SetItemDefaultFocus();
@@ -259,10 +260,10 @@ public class SceneTree : IActionEventHandler
             _mapEnt_ImGuiID++;
 
             var selectableFlags = ImGuiSelectableFlags.AllowDoubleClick | ImGuiSelectableFlags.AllowOverlap;
-
             if (ImGui.Selectable($"{padding}{e.PrettyName}##{_mapEnt_ImGuiID}", _selection.GetSelection().Contains(e), selectableFlags))
             {
                 doSelect = true;
+                elementClicked = true;
 
                 // If double clicked frame the selection in the viewport
                 if (ImGui.IsMouseDoubleClickedNil(0))
@@ -281,6 +282,7 @@ public class SceneTree : IActionEventHandler
         if (ImGui.IsItemClicked())
         {
             _pendingClick = e;
+            elementClicked = true;
         }
 
         if (_pendingClick == e && ImGui.IsMouseReleasedNil(ImGuiMouseButton.Left))
@@ -378,7 +380,8 @@ public class SceneTree : IActionEventHandler
                 : new Vector4(0.6f, 0.6f, 0.6f, 1.0f));
             ImGui.TextWrapped(visible ? ForkAwesome.Eye : ForkAwesome.EyeSlash);
             ImGui.PopStyleColor(1);
-            if (ImGui.IsItemClicked())
+            // We must check if the previous selected is hovered, as clicking text doesn't bubble past a selectable
+            if (elementClicked && ImGui.IsItemHovered(ImGuiHoveredFlags.None))
             {
                 e.EditorVisible = !e.EditorVisible;
                 doSelect = false;
