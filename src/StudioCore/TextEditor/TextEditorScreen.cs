@@ -632,7 +632,7 @@ public unsafe class TextEditorScreen : EditorScreen
         // Search
         if (InputTracker.GetKeyDown(KeyBindings.Current.TextFMG_Search))
         {
-            ImGui.SetKeyboardFocusHere();
+            EditorDecorations.ImGuiSetKeyboardFocusHere();
         }
 
         ImGui.InputText($"Search <{KeyBindings.Current.TextFMG_Search.HintText}>", ref _searchFilter, 255);

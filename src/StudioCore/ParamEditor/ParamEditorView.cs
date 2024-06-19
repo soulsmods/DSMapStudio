@@ -67,7 +67,7 @@ public class ParamEditorView
 
         if (isActiveView && InputTracker.GetKeyDown(KeyBindings.Current.Param_SearchParam))
         {
-            ImGui.SetKeyboardFocusHere();
+            EditorDecorations.ImGuiSetKeyboardFocusHere();
         }
 
         ImGui.InputText($"Search <{KeyBindings.Current.Param_SearchParam.HintText}>",
@@ -355,7 +355,7 @@ public class ParamEditorView
         if (ImGui.BeginPopup("gotoParamRow"))
         {
             var gotorow = 0;
-            ImGui.SetKeyboardFocusHere();
+            EditorDecorations.ImGuiSetKeyboardFocusHere();
             ImGui.InputInt("Goto Row ID", ref gotorow);
             if (ImGui.IsItemDeactivatedAfterEdit())
             {
@@ -369,7 +369,7 @@ public class ParamEditorView
         //Row ID/name search
         if (isActiveView && InputTracker.GetKeyDown(KeyBindings.Current.Param_SearchRow))
         {
-            ImGui.SetKeyboardFocusHere();
+            EditorDecorations.ImGuiSetKeyboardFocusHere();;
         }
 
         ImGui.InputText($"Search <{KeyBindings.Current.Param_SearchRow.HintText}>",
