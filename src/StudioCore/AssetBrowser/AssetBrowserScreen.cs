@@ -1,4 +1,5 @@
-﻿using SoulsFormats;
+﻿using Microsoft.Extensions.Logging;
+using SoulsFormats;
 using StudioCore.Banks;
 using StudioCore.Banks.AliasBank;
 using StudioCore.Editor;
@@ -121,6 +122,12 @@ public class AssetBrowserScreen
             _selectedAssetMapIdCache = null;
             _selectedAssetType = AssetCategoryType.None;
             _selectedAssetTypeCache = AssetCategoryType.None;
+
+            if (ModelAliasBank.Bank == null)
+            {
+                TaskLogs.AddLog("Unable to initialise ModelAliasBank", LogLevel.Error);
+                return;
+            }
 
             foreach (AliasReference v in ModelAliasBank.Bank.AliasNames.GetEntries("Characters"))
             {

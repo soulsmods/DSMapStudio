@@ -206,7 +206,7 @@ public class ParamEditorView
                     keyList = keyList.FindAll(p => !ParamBank.DS2MapParamlist.Contains(p.Split('_')[0]));
                 }
             }
-            else if (ParamBank.PrimaryBank.AssetLocator.Type is GameType.EldenRing || ParamBank.PrimaryBank.AssetLocator.Type is GameType.ArmoredCoreVI)
+            else if (ParamBank.PrimaryBank.AssetLocator.Type is GameType.EldenRing)
             {
                 if (_eventParamView)
                 {
@@ -224,6 +224,26 @@ public class ParamEditorView
                 else
                 {
                     keyList = keyList.FindAll(p => !p.StartsWith("Gconfig"));
+                }
+            }
+            else if (ParamBank.PrimaryBank.AssetLocator.Type is GameType.ArmoredCoreVI)
+            {
+                if (_eventParamView)
+                {
+                    keyList = keyList.FindAll(p => p.StartsWith("EFID"));
+                }
+                else
+                {
+                    keyList = keyList.FindAll(p => !p.StartsWith("EFID"));
+                }
+
+                if (_gConfigParamView)
+                {
+                    keyList = keyList.FindAll(p => p.StartsWith("GraphicsConfig"));
+                }
+                else
+                {
+                    keyList = keyList.FindAll(p => !p.StartsWith("GraphicsConfig"));
                 }
             }
 

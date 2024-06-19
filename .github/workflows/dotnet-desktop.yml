@@ -24,8 +24,11 @@ jobs:
       - name: Publish
         run: dotnet publish '${{ runner.workspace }}/DSMapStudio/src/Studio.App/DSMapStudio/DSMapStudio.csproj' --configuration Release -o deploy
 
+      - name: PublishLowRequirements
+        run: dotnet publish '${{ runner.workspace }}/DSMapStudio/src/Studio.App/DSMapStudio_LowRequirements/DSMapStudio_LowRequirements.csproj' --configuration Release -o deploy
+
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: 'DSMapStudio-SHA${{ github.sha }}'
           path: '${{ runner.workspace }}/DSMapStudio/deploy'
