@@ -106,11 +106,6 @@ public class AssetBrowserScreen
 
     public void OnProjectChanged()
     {
-        while (ModelAliasBank.Bank.IsLoadingAliases)
-        {
-            Thread.Sleep(50);
-        }
-
         if (Locator.AssetLocator.Type != GameType.Undefined)
         {
             _characterNameCache = Locator.AssetLocator.GetChrModels();
@@ -123,7 +118,11 @@ public class AssetBrowserScreen
             _selectedAssetType = AssetCategoryType.None;
             _selectedAssetTypeCache = AssetCategoryType.None;
 
-            if (ModelAliasBank.Bank == null)
+            while (ModelAliasBank.Bank.IsLoadingAliases)
+            {
+                Thread.Sleep(50);
+            }
+            if (ModelAliasBank.Bank.AliasNames == null)
             {
                 TaskLogs.AddLog("Unable to initialise ModelAliasBank", LogLevel.Error);
                 return;
