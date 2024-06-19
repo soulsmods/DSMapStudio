@@ -817,11 +817,9 @@ public unsafe class EditorDecorations
         {
             ImGui.GetStyle()->CellPadding = new Vector2(oldPad.X, 0);
         }
-        ImGui.BeginDisabled();
         var v = ImGui.BeginTable(id, cols,
             ImGuiTableFlags.Resizable | ImGuiTableFlags.BordersInnerV | ImGuiTableFlags.SizingStretchSame |
             ImGuiTableFlags.ScrollY);
-            ImGui.EndDisabled();
         if (fixVerticalPadding)
         {
             ImGui.GetStyle()->CellPadding = oldPad;
