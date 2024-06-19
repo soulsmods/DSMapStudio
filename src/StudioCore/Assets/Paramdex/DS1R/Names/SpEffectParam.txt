@@ -306,7 +306,7 @@
 3224 [Item] Homeward Bone - Warp D
 3225 [Item] Homeward Bone - Warp E
 3226 [Item] Darksign
-3230 Unused - Restore Humanity
+3230 Resurrection Stone [Resurrection effect] -- 復活石【復活効果】
 3231 [Item] Humanity
 3240 [Item] Binoculars
 3250 Pledge discarded -- 誓約破棄
@@ -772,36 +772,36 @@
 6980 Lifehunt Scythe
 6990 Butcher Knife
 7001 Area Scaling - Undead Asylum
-7002 Area Scaling - Undead Burg
-7003 Area Scaling - Undead Parish / Lower Burg
-7004 Area Scaling - Depths
-7005 Area Scaling - Darkroot Garden
-7006 Area Scaling - Firelink Shrine
+7002 Area Scaling - Firelink Shrine
+7003 Area Scaling - Undead Burg
+7004 Area Scaling - Upper Depths
+7005 Area Scaling - Darkroot Gardens
+7006 Area Scaling -
 7007 Area Scaling - Catacombs
-7008 Area Scaling - Blighttown
+7008 Area Scaling - Depths / Blighttown
 7009 Area Scaling - Sen's Fortress
 7010 Area Scaling - Anor Londo
 7011 Area Scaling - New Londo / Darkroot Forest
 7012 Area Scaling - Tomb of the Giants
-7013 Area Scaling - Demon Ruins
-7014 Area Scaling - Duke's Archives / Izalith / DLC
+7013 Area Scaling - Izalith
+7014 Area Scaling - Duke's Archives / Deep Izalith / DLC
 7015 Area Scaling - Kiln of the First Flame / DLC
 7100 Black Phantom
-7001 NG+ Scaling - Undead Asylum
-7002 NG+ Scaling - Undead Burg
-7003 NG+ Scaling - Undead Parish / Lower Burg
-7004 NG+ Scaling - Depths
-7005 NG+ Scaling - Darkroot Garden
-7006 NG+ Scaling - Firelink Shrine
-7007 NG+ Scaling - Catacombs
-7008 NG+ Scaling - Blighttown
-7009 NG+ Scaling - Sen's Fortress
-7010 NG+ Scaling - Anor Londo
-7011 NG+ Scaling - New Londo / Darkroot Forest
-7012 NG+ Scaling - Tomb of the Giants
-7013 NG+ Scaling - Demon Ruins
-7014 NG+ Scaling - Duke's Archives / Izalith / DLC
-7015 NG+ Scaling - Kiln of the First Flame / DLC
+7401 NG+ Scaling - Undead Asylum
+7402 NG+ Scaling - Firelink Shrine
+7403 NG+ Scaling - Undead Burg
+7404 NG+ Scaling - Upper Depths
+7405 NG+ Scaling - Darkroot Gardens
+7406 NG+ Scaling -
+7407 NG+ Scaling - Catacombs
+7408 NG+ Scaling - Depths / Blighttown
+7409 NG+ Scaling - Sen's Fortress
+7410 NG+ Scaling - Anor Londo
+7411 NG+ Scaling - New Londo / Darkroot Forest
+7412 NG+ Scaling - Tomb of the Giants
+7413 NG+ Scaling - Izalith
+7414 NG+ Scaling - Duke's Archives / Deep Izalith / DLC
+7415 NG+ Scaling - Kiln of the First Flame / DLC
 7500 Multiplayer boss scaling (1 summon)
 7501 Multiplayer boss scaling (2 summons)
 7510 Multiplayer Artorias poise scaling (1 summon)

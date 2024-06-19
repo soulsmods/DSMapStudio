@@ -13,7 +13,11 @@
       <Option Value="1" Name="Item Display" />
     </Enum>
     <Enum Name="NPC_DRAW_TYPE" type="s8">
-      <Option Value="0" Name="Type 0" />
+      <Option Value="0" Name="Normal" />
+      <Option Value="1" Name="White Phantom" />
+      <Option Value="2" Name="Black Phantom" />
+      <Option Value="3" Name="Intruder" />
+      <Option Value="3" Name="Ghoul Body" />
     </Enum>
     <Enum Name="NPC_TYPE" type="u8">
       <Option Value="0" Name="Standard" />
@@ -65,17 +69,17 @@
       <Option Value="66" Name="Unknown" />
     </Enum>
     <Enum Name="NPC_MOVE_TYPE" type="u8">
-      <Option Value="0" Name="Immobile Character" />
-      <Option Value="1" Name="Lumbering" />
-      <Option Value="2" Name="Tree Spirit" />
-      <Option Value="3" Name="Humanoid" />
-      <Option Value="4" Name="Beast" />
-      <Option Value="6" Name="Immobile Object" />
-      <Option Value="8" Name="Floating" />
-      <Option Value="9" Name="Ancient Dragon" />
-      <Option Value="11" Name="Wandering" />
-      <Option Value="12" Name="Still" />
-      <Option Value="13" Name="Swift" />
+      <Option Value="0" Name="Immobile" />
+      <Option Value="1" Name="All Directions" />
+      <Option Value="2" Name="Forward and Backwards Only" />
+      <Option Value="3" Name="Biped" />
+      <Option Value="4" Name="Quadruped" />
+      <Option Value="5" Name="Flight" />
+      <Option Value="6" Name="Hover" />
+      <Option Value="7" Name="Hover + Biped" />
+      <Option Value="8" Name="Flight + Biped" />
+      <Option Value="9" Name="Boss Biped" />
+      <Option Value="10" Name="Attach" />
     </Enum>
     <Enum Name="WEP_MATERIAL_DEF" type="u16">
         <Option Value="0" Name="Type 0" />
@@ -194,26 +198,30 @@
         <Option Value="0" Name="Type 0" />
     </Enum>
     <Enum Name="NPC_BURN_TYPE" type="u8">
-      <Option Value="0" Name="Type 0" />
-      <Option Value="1" Name="Type 1" />
+      <Option Value="0" Name="Normal" />
+      <Option Value="1" Name="Corpse" />
     </Enum>
     <Enum Name="NPC_SFX_SIZE" type="u8">
-        <Option Value="0" Name="Size 0" />
-        <Option Value="1" Name="Size 1" />
-        <Option Value="2" Name="Size 2" />
+        <Option Value="0" Name="Normal" />
+        <Option Value="1" Name="Large" />
+        <Option Value="2" Name="Medium" />
     </Enum>
     <Enum Name="NPC_HITSTOP_TYPE" type="u8">
       <Option Value="0" Name="No Hit Stop" />
+      <Option Value="1" Name="Partial Hit Stop" />
       <Option Value="2" Name="Hit Stop" />
     </Enum>
     <Enum Name="NPC_SPECIAL_TURN_TYPE" type="u8">
         <Option Value="0" Name="Type 0" />
     </Enum>
     <Enum Name="NPC_WEIGHT_TYPE" type="u8">
-        <Option Value="0" Name="Type 0" />
-        <Option Value="1" Name="Type 1" />
-        <Option Value="2" Name="Type 2" />
+        <Option Value="0" Name="Light" />
+        <Option Value="1" Name="Medium" />
+        <Option Value="2" Name="Normal" />
+        <Option Value="3" Name="Overweight" />
+        <Option Value="4" Name="Ultralight" />
     </Enum>
+
     <Enum Name="NPC_NAVIMESH_FLAG" type="u8">
         <Option Value="0" Name="Flag 0" />
         <Option Value="2" Name="Flag 2" />
@@ -228,8 +236,8 @@
   </Enums>
   <Field>
     <disableParam_NT AltName="Disable Param - Network Test" Wiki="Parameters marked with  are excluded in the NT version package." IsBool="" />
-    <disableParamReserve1 AltName=""/>
-    <disableParamReserve2 AltName=""/>
+    <disableParamReserve1 AltName="" IsHidden=""/>
+    <disableParamReserve2 AltName="" IsHidden=""/>
     <behaviorVariationId AltName="Behavior Variation ID" Wiki="Variation ID used when calculating the action ID." />
     <resistCorrectId_poison AltName="Resist Correction - Poison" Wiki="When the abnormal condition is activated, the maximum value is temporarily changed by using the set value of the abnormal condition resistance correction parameter." Refs="ResistCorrectParam"/>
     <nameId AltName="Name ID" Wiki="NPC Name Message Parameter ID" FmgRef="TitleCharacters" />
@@ -441,14 +449,14 @@
     <autoFootEffectDecalBaseId1 AltName="Automatic Foot Effect - Decal Base ID [1]" Wiki="Decal to be attached when a foot effect occurs. Floor material is also taken into consideration" />
     <toughness AltName="Toughness" Wiki="Basic value of toughness" />
     <toughnessRecoverCorrection AltName="Toughness Correction" Wiki="Correction value for toughness recovery time" />
-    <neutralDamageCutRate AltName="Absorption % - Standard" Wiki="Non-attribute damage multiplier. The final damage value is the value obtained by multiplying the damage calculation result by this value." />
-    <slashDamageCutRate AltName="Absorption % - Slash" Wiki="Slash damage multiplier. The final damage value is the value obtained by multiplying the damage calculation result by this value." />
-    <blowDamageCutRate AltName="Absorption % - Strike" Wiki="Batter damage multiplier. The final damage value is the value obtained by multiplying the damage calculation result by this value." />
-    <thrustDamageCutRate AltName="Absorption % - Thrust" Wiki="Puncture damage ratio. The final damage value is the value obtained by multiplying the damage calculation result by this value." />
-    <magicDamageCutRate AltName="Absorption % - Magic" Wiki="Magic damage multiplier. The final damage value is the value obtained by multiplying the damage calculation result by this value." />
-    <fireDamageCutRate AltName="Absorption % - Fire" Wiki="Flame damage multiplier. The final damage value is the value obtained by multiplying the damage calculation result by this value." />
-    <thunderDamageCutRate AltName="Absorption % - Lightning" Wiki="Electric shock damage ratio. The final damage value is the value obtained by multiplying the damage calculation result by this value." />
-    <darkDamageCutRate AltName="Absorption % - Holy" Wiki="Dark damage multiplier. The final damage value is the value obtained by multiplying the damage calculation result by this value." />
+    <neutralDamageCutRate AltName="Absorption % - Standard" Wiki="Non-attribute damage multiplier. The final damage value is the value obtained by multiplying the damage calculation result by this value." IsInvertedPercentage="" />
+    <slashDamageCutRate AltName="Absorption % - Slash" Wiki="Slash damage multiplier. The final damage value is the value obtained by multiplying the damage calculation result by this value." IsInvertedPercentage="" />
+    <blowDamageCutRate AltName="Absorption % - Strike" Wiki="Batter damage multiplier. The final damage value is the value obtained by multiplying the damage calculation result by this value." IsInvertedPercentage="" />
+    <thrustDamageCutRate AltName="Absorption % - Thrust" Wiki="Puncture damage ratio. The final damage value is the value obtained by multiplying the damage calculation result by this value." IsInvertedPercentage="" />
+    <magicDamageCutRate AltName="Absorption % - Magic" Wiki="Magic damage multiplier. The final damage value is the value obtained by multiplying the damage calculation result by this value." IsInvertedPercentage="" />
+    <fireDamageCutRate AltName="Absorption % - Fire" Wiki="Flame damage multiplier. The final damage value is the value obtained by multiplying the damage calculation result by this value." IsInvertedPercentage="" />
+    <thunderDamageCutRate AltName="Absorption % - Lightning" Wiki="Electric shock damage ratio. The final damage value is the value obtained by multiplying the damage calculation result by this value." IsInvertedPercentage="" />
+    <darkDamageCutRate AltName="Absorption % - Holy" Wiki="Dark damage multiplier. The final damage value is the value obtained by multiplying the damage calculation result by this value." IsInvertedPercentage="" />
     <darkGuardCutRate AltName="Guard Absorption % - Holy" Wiki="How much to cut the dark attack?" />
     <clothUpdateOffset AltName="Cloth Update Offset" Wiki="Cross update priority offset [m]" />
     <npcPlayerWeightType AltName="NPC Player Weight Type" Wiki="Equipment weight type applied for NPC players" Enum="NPC_WEIGHT_TYPE" />
@@ -461,7 +469,7 @@
     <maxAnklePitchAngle AltName="FootIK Ankle Pitch Limit Angle" Wiki="FootIK Ankle pitch limit angle (-1 no limit). If you have not set Foot End L S in HAT, this angle is used in common with rolls." />
     <resist_freeze AltName="Resist - Frostbite" Wiki="Difficulty in getting cold air condition abnormal" />
     <freezeGuardResist AltName="Guard Resist - Frostbite" Wiki="How much to cut the attack power against cold air (set as a special effect parameter)" />
-    <pad1 AltName=""/>
+    <pad1 AltName="" IsHidden=""/>
     <lockCameraParamId AltName="Lock Camera Param ID" Wiki="The ID of the lock camera parameter applied to the camera when locked on. Highest priority. Unused if -1" Refs="LockCamParam" />
     <spEffectID16 AltName="SpEffect ID [16]" Wiki="Resident special effects 16" Refs="SpEffectParam"/>
     <spEffectID17 AltName="SpEffect ID [17]" Wiki="Resident special effects 17" Refs="SpEffectParam"/>
@@ -513,7 +521,7 @@
     <updateActivatePriolity AltName="Activation Update Priority" Wiki="Used to determine the activation / renewal level. The larger it is, the lower the update level will be even if you are far from the player." />
     <chrNavimeshFlag_Alive AltName="Chr Navmesh Flag - Alive" Wiki="Flag the value of the touching Nav Mesh while the character is alive. Does not follow the movement." Enum="NPC_NAVIMESH_FLAG" />
     <chrNavimeshFlag_Dead AltName="Chr Navmesh Flag - Dead" Wiki="Flag the value on the touching Nav Mesh while the character is dying. Does not follow the movement." Enum="NPC_NAVIMESH_FLAG" />
-    <pad7 AltName=""/>
+    <pad7 AltName="" IsHidden=""/>
     <wheelRotType AltName="Wheel Rotation Type" Wiki="Wheel control type" Enum="NPC_WHEEL_ROT_TYPE" />
     <wheelRotRadius AltName="Wheel Rotation Radius" Wiki="Specify the radius of the wheel [m]" />
     <retargetMoveRate AltName="Retarget Movement Rate" Wiki="Magnification of movement amount at the time of retargeting" />
@@ -544,7 +552,7 @@
     <stepDispInterpolateTime AltName="Step Display Interpolation Time" Wiki="Step crossing display interpolation time" />
     <stepDispInterpolateTriggerValue AltName="Step Display Interpolation Trigger Value" Wiki="Step crossing display activation judgment value" />
     <lockScoreOffset AltName="Lock Score Offset" Wiki="Lock score correction value" />
-    <pad12 AltName=""/>
+    <pad12 AltName="" IsHidden=""/>
   </Field>
   <Self Wiki="Defines the stats for a given enemy or group of enemies. Does not determine model or location.\nStats are often affected greatly by attached SpEffects." AlternativeOrder="behaviorVariationId,AiThinkId,-,
   

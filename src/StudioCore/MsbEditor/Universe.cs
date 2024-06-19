@@ -1438,10 +1438,14 @@ public class Universe
             }
             else if (_assetLocator.Type == GameType.EldenRing)
             {
-                MSBE prev = MSBE.Read(ad.AssetPath);
                 MSBE n = new();
-                n.Layers = prev.Layers;
-                n.Routes = prev.Routes;
+                //Asset path may be null if this is a newly created map
+                if (ad.AssetPath != null)
+                {
+                    MSBE prev = MSBE.Read(ad.AssetPath);
+                    n.Layers = prev.Layers;
+                    n.Routes = prev.Routes;
+                }
                 msb = n;
             }
             else if (_assetLocator.Type == GameType.ArmoredCoreVI)
@@ -1554,6 +1558,43 @@ public class Universe
                     SaveMap(ma);
                 }
             }
+        }
+    }
+
+    public void UpdateWorldMsbList()
+    {
+        try
+        {
+            if (_assetLocator.Type == GameType.EldenRing)
+            {
+                AssetDescription ad = _assetLocator.GetWorldLoadListList();
+                AssetDescription adw = _assetLocator.GetWorldLoadListList(true);
+
+                if (!Directory.Exists(Path.GetDirectoryName(adw.AssetPath)))
+                {
+                    Directory.CreateDirectory(Path.GetDirectoryName(adw.AssetPath));
+                }
+
+                WORLDLOADLISTLIST loadList = WORLDLOADLISTLIST.Read(ad.AssetPath);
+                IEnumerable<string> loadListMapIds = loadList.MapEntries.Where(me => me != null).Select(me => me.Id);
+                //For whatever reason, overworld maps (m60_xx_xx_xx) and skybox maps (mxx_xx_xx_99) are not included in the load list
+                IEnumerable<string> existingMapIds = LoadedObjectContainers.Keys.Where(em => !(em.StartsWith("m60") || em.EndsWith("99")));
+                foreach (string id in existingMapIds)
+                {
+                    if (!loadListMapIds.Contains(id) && !(id.StartsWith("m60") || id.EndsWith("99")))
+                    {
+                        loadList.InsertNewMapEntry(id, false);
+                    }
+                }
+
+                Utils.WriteWithBackup(_assetLocator.GameRootDirectory, _assetLocator.GameModDirectory, @"\map\worldmsblist.worldloadlistlist.dcx", loadList);
+
+                TaskLogs.AddLog($"Saved WorldMsbList");
+            }
+        }
+        catch (Exception e)
+        {
+            throw new SavingFailedException("worldmsblist.worldloadlistlist", e);
         }
     }
 
