@@ -184,7 +184,7 @@ public class SceneTree : IActionEventHandler
                 ImGui.PushStyleColorVec4(ImGuiCol.FrameBg, new Vector4(0.8f, 0.2f, 0.2f, 1.0f));
             }
 
-            if (ImGui.InputText("##chalicename", ref pname, 32))
+            if (ImGui.InputText("##chalicename", ref pname, 12))
             {
                 _chaliceMapID = pname;
             }
@@ -905,7 +905,7 @@ public class SceneTree : IActionEventHandler
                 }
             }
 
-            if (_assetLocator.Type == GameType.Bloodborne && _configuration == Configuration.MapEditor)
+            if (/*_assetLocator.Type == GameType.Bloodborne &&*/ _configuration == Configuration.MapEditor)
             {
                 ChaliceDungeonImportButton();
             }
