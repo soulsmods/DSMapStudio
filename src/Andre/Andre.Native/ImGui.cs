@@ -218,6 +218,7 @@ public static unsafe partial class ImGuiBindings
         
         public static bool InputText(string label, ref string buf, int bufSize, ImGuiInputTextFlags flags=0)
         {
+            bufSize += 1;
             CString cBufString;
             if (bufSize <= STACKALLOCMAX)
             {
@@ -238,6 +239,7 @@ public static unsafe partial class ImGuiBindings
         }
         public static bool InputTextMultiline(string label, ref string buf, int bufSize, Vector2 size=default, ImGuiInputTextFlags flags=0)
         {
+            bufSize += 1;
             CString cBufString;
             if (bufSize <= STACKALLOCMAX)
             {
@@ -259,6 +261,7 @@ public static unsafe partial class ImGuiBindings
         
         public static bool InputTextWithHint(string label, string hint, ref string buf, int bufSize)
         {
+            bufSize += 1;
             CString cBufString;
             if (bufSize <= STACKALLOCMAX)
             {
