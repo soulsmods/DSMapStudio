@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using Octokit;
 using SoulsFormats;
 using StudioCore.Editor;
+using StudioCore.Editor.MassEdit;
 using StudioCore.Platform;
 using StudioCore.TextEditor;
 using System;

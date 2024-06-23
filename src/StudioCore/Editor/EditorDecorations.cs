@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using SoulsFormats;
 using StudioCore.ParamEditor;
 using StudioCore.TextEditor;
+using StudioCore.Editor.MassEdit;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -555,9 +556,9 @@ public unsafe class EditorDecorations
 
                 ParamMetaData meta = ParamMetaData.Get(bank.Params[rt].AppliedParamdef);
                 var maxResultsPerRefType = 15 / reftypes.Count;
-                List<Param.Row> rows = RowSearchEngine.rse.Search((bank, bank.Params[rt]),
+                List<(string, Param.Row)> rows = SearchEngine.row.Search((bank, bank.Params[rt]),
                     _refContextCurrentAutoComplete, true, true);
-                foreach (Param.Row r in rows)
+                foreach ((string param, Param.Row r) in rows)
                 {
                     if (maxResultsPerRefType <= 0)
                     {
@@ -790,7 +791,7 @@ public unsafe class EditorDecorations
         var searchTerm = pref.conditionField != null
             ? $@"prop {fieldName} ^{currentID}$ && prop {pref.conditionField} ^{pref.conditionValue}$"
             : $@"prop {fieldName} ^{currentID}$";
-        return RowSearchEngine.rse.Search((bank, bank.Params[paramName]), searchTerm, false, false);
+        return SearchEngine.row.Search((bank, bank.Params[paramName]), searchTerm, false, false).Select((x, i) => x.Item2).ToList();
     }
 
     public static bool ImguiTableSeparator()

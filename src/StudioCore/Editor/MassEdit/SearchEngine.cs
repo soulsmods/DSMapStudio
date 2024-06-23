@@ -1,40 +1,91 @@
 using Andre.Formats;
+using Microsoft.Toolkit.HighPerformance;
+using Org.BouncyCastle.Tls;
 using SoulsFormats;
 using StudioCore.ParamEditor;
 using StudioCore.TextEditor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 
-namespace StudioCore.Editor;
+namespace StudioCore.Editor.MassEdit;
 
 /* Restricted characters: colon, space, forward slash, ampersand, exclamation mark
  *
  */
-internal class SearchEngine<A, B>
+internal abstract class SearchEngine
 {
-    internal SearchEngineCommand<A, B> defaultFilter;
 
-    internal Dictionary<string, SearchEngineCommand<A, B>> filterList = new();
-    internal Func<A, List<B>> unpacker;
+    private static Dictionary<Type, List<(SearchEngine, Type)>> searchEngines;
+    // Listing engines here so they are initialised always
+    public static ParamRowSelectionSearchEngine paramRowSelection;
+    public static ParamRowClipBoardSearchEngine paramRowClipboard;
+    public static ParamSearchEngine param;
+    public static RowSearchEngine row;
+    public static CellSearchEngine cell;
+    public static VarSearchEngine var;
+    static SearchEngine(){
+        searchEngines = new();
+        paramRowSelection = new();
+        paramRowClipboard = new();
+        param = new(ParamBank.PrimaryBank);
+        row = new(ParamBank.PrimaryBank);
+        cell = new();
+        var = new();
+    }
 
-    public SearchEngine()
+    internal static void AddSearchEngine<TContextObject, TContextField, TElementObject, TElementField>(TypedSearchEngine<TContextObject, TContextField, TElementObject, TElementField> engine)
+    {
+        if (!searchEngines.ContainsKey(typeof((TContextObject, TContextField))))
+            searchEngines.Add(typeof((TContextObject, TContextField)), new());
+        searchEngines[typeof((TContextObject, TContextField))].Add((engine, typeof((TElementObject, TElementField))));
+    }
+    internal static List<(SearchEngine, Type)> GetSearchEngines(Type t) //Type t is expected to be (TContextObject, TContextField)
+    {
+        return searchEngines.GetValueOrDefault(t) ?? ([]);
+    }
+    internal abstract List<(string, string[], string)> VisibleCommands(bool includeDefault);
+    internal abstract List<(string, string[])> AllCommands();
+    internal abstract List<string> AvailableCommandsForHelpText();
+    internal abstract List<(SearchEngine, Type)> NextSearchEngines(); //Type t is expected to be (TContextObject, TContextField)
+    internal abstract OperationCategory NextOperation();
+    internal abstract string NameForHelpTexts();
+    internal abstract Type getContainerType();
+    internal abstract Type getElementType();
+    public abstract IEnumerable<(object, object)> SearchNoType((object, object) container, string command, bool lenient, bool failureAllOrNone);
+    internal abstract bool HandlesCommand(string command);
+    internal virtual IEnumerable<(Type, (object, object))> GetStaticContextItems()
+    {
+        return [];
+    }
+}
+internal class TypedSearchEngine<TContextObject, TContextField, TElementObject, TElementField> : SearchEngine
+{
+    internal SearchEngineCommand<(TContextObject, TContextField), (TElementObject, TElementField)> defaultFilter;
+
+    internal Dictionary<string, SearchEngineCommand<(TContextObject, TContextField), (TElementObject, TElementField)>> filterList = new();
+    internal Func<(TContextObject, TContextField), List<(TElementObject, TElementField)>> unpacker;
+    internal string name = "[unnamed search engine]";
+
+    internal TypedSearchEngine()
     {
         Setup();
+        AddSearchEngine(this);
     }
 
     protected void addExistsFilter()
     {
-        filterList.Add("exists", newCmd(new string[0], "Selects all elements", noArgs(noContext(B => true))));
+        filterList.Add("exists", newCmd([], "Selects all elements", noArgs(noContext(b => true))));
     }
 
-    protected Func<string[], bool, Func<A, Func<B, bool>>> noArgs(Func<A, Func<B, bool>> func)
+    protected Func<string[], bool, Func<(TContextObject, TContextField), Func<(TElementObject, TElementField), bool>>> noArgs(Func<(TContextObject, TContextField), Func<(TElementObject, TElementField), bool>> func)
     {
         return (args, lenient) => func;
     }
 
-    protected Func<A, Func<B, bool>> noContext(Func<B, bool> func)
+    protected Func<(TContextObject, TContextField), Func<(TElementObject, TElementField), bool>> noContext(Func<(TElementObject, TElementField), bool> func)
     {
         return context => func;
     }
@@ -43,13 +94,13 @@ internal class SearchEngine<A, B>
     {
     }
 
-    internal SearchEngineCommand<A, B> newCmd(string[] args, string wiki,
-        Func<string[], bool, Func<A, Func<B, bool>>> func, Func<bool> shouldShow = null)
+    internal SearchEngineCommand<(TContextObject, TContextField), (TElementObject, TElementField)> newCmd(string[] args, string wiki,
+        Func<string[], bool, Func<(TContextObject, TContextField), Func<(TElementObject, TElementField), bool>>> func, Func<bool> shouldShow = null)
     {
-        return new SearchEngineCommand<A, B>(args, wiki, func, shouldShow);
+        return new SearchEngineCommand<(TContextObject, TContextField), (TElementObject, TElementField)>(args, wiki, func, shouldShow);
     }
 
-    public bool HandlesCommand(string command)
+    internal override bool HandlesCommand(string command)
     {
         if (command.Length > 0 && command.StartsWith('!'))
         {
@@ -59,12 +110,12 @@ internal class SearchEngine<A, B>
         return filterList.ContainsKey(command.Split(" ")[0]);
     }
 
-    public List<string> AvailableCommandsForHelpText()
+    internal override List<string> AvailableCommandsForHelpText()
     {
         List<string> options = new();
         foreach (var op in filterList.Keys)
         {
-            SearchEngineCommand<A, B> cmd = filterList[op];
+            SearchEngineCommand<(TContextObject, TContextField), (TElementObject, TElementField)> cmd = filterList[op];
             if (cmd.shouldShow == null || cmd.shouldShow())
             {
                 options.Add(op + "(" + filterList[op].args.Length + " args)");
@@ -79,22 +130,24 @@ internal class SearchEngine<A, B>
         return options;
     }
 
-    public List<(string, string[], string)> VisibleCommands()
+    internal override List<(string, string[], string)> VisibleCommands(bool includeDefault)
     {
         List<(string, string[], string)> options = new();
         foreach (var op in filterList.Keys)
         {
-            SearchEngineCommand<A, B> cmd = filterList[op];
+            SearchEngineCommand<(TContextObject, TContextField), (TElementObject, TElementField)> cmd = filterList[op];
             if (cmd.shouldShow == null || cmd.shouldShow())
             {
                 options.Add((op, cmd.args, cmd.wiki));
             }
         }
+        if (includeDefault)
+            options.Add((null, defaultFilter.args, defaultFilter.wiki));
 
         return options;
     }
 
-    public List<(string, string[])> AllCommands()
+    internal override List<(string, string[])> AllCommands()
     {
         List<(string, string[])> options = new();
         foreach (var op in filterList.Keys)
@@ -109,17 +162,21 @@ internal class SearchEngine<A, B>
 
         return options;
     }
-
-    public List<B> Search(A param, string command, bool lenient, bool failureAllOrNone)
+    public override IEnumerable<(object, object)> SearchNoType((object, object) container, string command, bool lenient, bool failureAllOrNone)
+    {
+        List<(TElementObject, TElementField)> res = Search(((TContextObject, TContextField))container, command, lenient, failureAllOrNone);
+        return res.Select((x) => ((object)x.Item1, (object)x.Item2));
+    }
+    public List<(TElementObject, TElementField)> Search((TContextObject, TContextField) param, string command, bool lenient, bool failureAllOrNone)
     {
         return Search(param, unpacker(param), command, lenient, failureAllOrNone);
     }
 
-    public virtual List<B> Search(A context, List<B> sourceSet, string command, bool lenient, bool failureAllOrNone)
+    public virtual List<(TElementObject, TElementField)> Search((TContextObject, TContextField) context, List<(TElementObject, TElementField)> sourceSet, string command, bool lenient, bool failureAllOrNone)
     {
         //assumes unpacking doesn't fail
         var conditions = command.Split("&&", StringSplitOptions.TrimEntries);
-        List<B> liveSet = sourceSet;
+        List<(TElementObject, TElementField)> liveSet = sourceSet;
 
         try
         {
@@ -133,7 +190,7 @@ internal class SearchEngine<A, B>
 
                 var cmd = condition.Split(' ', 2);
 
-                SearchEngineCommand<A, B> selectedCommand;
+                SearchEngineCommand<(TContextObject, TContextField), (TElementObject, TElementField)> selectedCommand;
                 int argC;
                 string[] args;
                 var not = false;
@@ -148,7 +205,7 @@ internal class SearchEngine<A, B>
                     selectedCommand = filterList[cmd[0]];
                     argC = selectedCommand.args.Length;
                     args = cmd.Length == 1
-                        ? new string[0]
+                        ? []
                         : cmd[1].Split(' ', argC, StringSplitOptions.TrimEntries);
                 }
                 else
@@ -166,10 +223,10 @@ internal class SearchEngine<A, B>
                     }
                 }
 
-                Func<A, Func<B, bool>> filter = selectedCommand.func(args, lenient);
-                Func<B, bool> criteria = filter(context);
-                List<B> newRows = new();
-                foreach (B row in liveSet)
+                Func<(TContextObject, TContextField), Func<(TElementObject, TElementField), bool>> filter = selectedCommand.func(args, lenient);
+                Func<(TElementObject, TElementField), bool> criteria = filter(context);
+                List<(TElementObject, TElementField)> newRows = new();
+                foreach ((TElementObject, TElementField) row in liveSet)
                 {
                     if (not ^ criteria(row))
                     {
@@ -182,19 +239,43 @@ internal class SearchEngine<A, B>
         }
         catch (Exception e)
         {
-            liveSet = failureAllOrNone ? sourceSet : new List<B>();
+            liveSet = failureAllOrNone ? sourceSet : [];
         }
 
         return liveSet;
+    }
+
+    internal override List<(SearchEngine, Type)> NextSearchEngines()
+    {
+        return GetSearchEngines(typeof((TElementObject, TElementField)));
+    }
+    internal override OperationCategory NextOperation()
+    {
+        return OperationCategory.GetEditOperation(typeof((TElementObject, TElementField)));
+    }
+
+    internal override string NameForHelpTexts()
+    {
+        return name;
+    }
+
+    internal override Type getContainerType()
+    {
+        return typeof((TContextObject, TContextField));
+    }
+
+    internal override Type getElementType()
+    {
+        return typeof((TElementObject, TElementField));
     }
 }
 
 internal class SearchEngineCommand<A, B>
 {
-    public string[] args;
+    internal string[] args;
     internal Func<string[], bool, Func<A, Func<B, bool>>> func;
     internal Func<bool> shouldShow;
-    public string wiki;
+    internal string wiki;
 
     internal SearchEngineCommand(string[] args, string wiki, Func<string[], bool, Func<A, Func<B, bool>>> func,
         Func<bool> shouldShow)
@@ -206,89 +287,58 @@ internal class SearchEngineCommand<A, B>
     }
 }
 
-/*
- *  Handles conversion to a secondary searchengine which handles && conditions and conversion back to the anticipated type
- */
-internal class MultiStageSearchEngine<A, B, C, D> : SearchEngine<A, B>
+internal class ParamRowSelectionSearchEngine : TypedSearchEngine<bool, bool, string, Param.Row>
 {
-    internal Func<A, B, C> contextGetterForMultiStage;
-    internal Func<D, B, B> resultRetrieverForMultiStage;
-    internal SearchEngine<C, D> searchEngineForMultiStage;
-    internal Func<B, D> sourceListGetterForMultiStage;
-
-    public override List<B> Search(A context, List<B> sourceSet, string command, bool lenient,
-        bool failureAllOrNone)
-    {
-        var conditions = command.Split("&&", 2, StringSplitOptions.TrimEntries);
-        List<B> stage1list = base.Search(context, sourceSet, conditions[0], lenient, failureAllOrNone);
-        if (conditions.Length == 1)
-        {
-            return stage1list;
-        }
-
-        B exampleItem = stage1list.FirstOrDefault();
-        List<D> stage2list = searchEngineForMultiStage.Search(contextGetterForMultiStage(context, exampleItem),
-            stage1list.Select(x => sourceListGetterForMultiStage(x)).ToList(), conditions[1], lenient,
-            failureAllOrNone);
-        return stage2list.Select(x => resultRetrieverForMultiStage(x, exampleItem)).ToList();
-    }
-}
-
-internal class ParamAndRowSearchEngine : MultiStageSearchEngine<ParamEditorSelectionState, (MassEditRowSource,
-    Param.Row), (ParamBank, Param), Param.Row>
-{
-    public static SearchEngine<ParamEditorSelectionState, (MassEditRowSource, Param.Row)> parse =
-        new ParamAndRowSearchEngine();
-
     internal override void Setup()
     {
-        unpacker = selection =>
-        {
-            List<(MassEditRowSource, Param.Row)> list = new();
-            list.AddRange(selection.GetSelectedRows().Select((x, i) => (MassEditRowSource.Selection, x)));
-            list.AddRange(ParamBank.ClipboardRows.Select((x, i) => (MassEditRowSource.Clipboard, x)));
-            return list;
+        name = "selection";
+        unpacker = dummy => {
+            string param = MassParamEditRegex.totalHackPleaseKillme.GetActiveParam();
+            return MassParamEditRegex.totalHackPleaseKillme.GetSelectedRows().Select((x) => (param, x)).ToList();
         };
-        filterList.Add("selection",
-            newCmd(new string[0], "Selects the current param selection and selected rows in that param",
-                noArgs(noContext(row => row.Item1 == MassEditRowSource.Selection))));
-        filterList.Add("clipboard",
-            newCmd(new string[0], "Selects the param of the clipboard and the rows in the clipboard",
-                noArgs(noContext(row => row.Item1 == MassEditRowSource.Clipboard)),
-                () => ParamBank.ClipboardRows?.Count > 0));
-        contextGetterForMultiStage = (state, exampleItem) => (ParamBank.PrimaryBank,
-            ParamBank.PrimaryBank.Params[
-                exampleItem.Item1 == MassEditRowSource.Selection
-                    ? state.GetActiveParam()
-                    : ParamBank.ClipboardParam]);
-        sourceListGetterForMultiStage = row => row.Item2;
-        searchEngineForMultiStage = RowSearchEngine.rse;
-        resultRetrieverForMultiStage = (row, exampleItem) => (exampleItem.Item1, row);
+        filterList.Add("selection", newCmd([],
+            "Selects param rows selected in the current param window",
+            noArgs(noContext(param => true))));
+    }
+    internal override IEnumerable<(Type, (object, object))> GetStaticContextItems()
+    {
+        return [(typeof((ParamBank, Param)), (ParamBank.PrimaryBank, ParamBank.PrimaryBank.Params[MassParamEditRegex.totalHackPleaseKillme.GetActiveParam()]))];
+    }
+}
+internal class ParamRowClipBoardSearchEngine : TypedSearchEngine<bool, bool, string, Param.Row>
+{
+    internal override void Setup()
+    {
+        name = "clipboard";
+        unpacker = dummy => {
+            string param = ParamBank.ClipboardParam;
+            return ParamBank.ClipboardRows.Select((x) => (param, x)).ToList();
+        };
+        filterList.Add("clipboard", newCmd([],
+            "Selects param rows copied in the clipboard",
+            noArgs(noContext(param => true))));
+    }
+    internal override IEnumerable<(Type, (object, object))> GetStaticContextItems()
+    {
+        return [(typeof((ParamBank, Param)), (ParamBank.PrimaryBank, ParamBank.PrimaryBank.Params[ParamBank.ClipboardParam]))];
     }
 }
 
-internal enum MassEditRowSource
+internal class ParamSearchEngine : TypedSearchEngine<bool, bool, ParamBank, Param>
 {
-    Selection,
-    Clipboard
-}
-
-internal class ParamSearchEngine : SearchEngine<bool, (ParamBank, Param)>
-{
-    public static ParamSearchEngine pse = new(ParamBank.PrimaryBank);
     private readonly ParamBank bank;
-
-    private ParamSearchEngine(ParamBank bank)
+    internal ParamSearchEngine(ParamBank bank)
     {
         this.bank = bank;
     }
 
     internal override void Setup()
     {
+        name = "param";
         unpacker = dummy =>
             ParamBank.AuxBanks.Select((aux, i) => aux.Value.Params.Select((x, i) => (aux.Value, x.Value)))
-                .Aggregate(bank.Params.Values.Select((x, i) => (bank, x)), (o, n) => o.Concat(n)).ToList();
-        filterList.Add("modified", newCmd(new string[0],
+                .Aggregate(bank.Params.Values.Select((x, i) => (bank, x)), (o, n) => o.Concat(n)).Select((x, i) => (x.bank, x.x)).ToList();
+        filterList.Add("modified", newCmd([],
             "Selects params where any rows do not match the vanilla version, or where any are added. Ignores row names",
             noArgs(noContext(param =>
             {
@@ -300,7 +350,7 @@ internal class ParamSearchEngine : SearchEngine<bool, (ParamBank, Param)>
                 HashSet<int> cache = bank.GetVanillaDiffRows(bank.GetKeyForParam(param.Item2));
                 return cache.Count > 0;
             }))));
-        filterList.Add("param", newCmd(new[] { "param name (regex)" },
+        filterList.Add("param", newCmd(["param name (regex)"],
             "Selects all params whose name matches the given regex", (args, lenient) =>
             {
                 Regex rx = lenient ? new Regex(args[0], RegexOptions.IgnoreCase) : new Regex($@"^{args[0]}$");
@@ -311,7 +361,7 @@ internal class ParamSearchEngine : SearchEngine<bool, (ParamBank, Param)>
                             ? ""
                             : bank.GetKeyForParam(param.Item2)));
             }));
-        filterList.Add("auxparam", newCmd(new[] { "parambank name", "param name (regex)" },
+        filterList.Add("auxparam", newCmd(["parambank name", "param name (regex)"],
             "Selects params from the specified regulation or parambnd where the param name matches the given regex",
             (args, lenient) =>
             {
@@ -324,7 +374,7 @@ internal class ParamSearchEngine : SearchEngine<bool, (ParamBank, Param)>
                             ? ""
                             : auxBank.GetKeyForParam(param.Item2)));
             }, () => ParamBank.AuxBanks.Count > 0 && CFG.Current.Param_AdvancedMassedit));
-        defaultFilter = newCmd(new[] { "param name (regex)" },
+        defaultFilter = newCmd(["param name (regex)"],
             "Selects all params whose name matches the given regex", (args, lenient) =>
             {
                 Regex rx = lenient ? new Regex(args[0], RegexOptions.IgnoreCase) : new Regex($@"^{args[0]}$");
@@ -338,28 +388,32 @@ internal class ParamSearchEngine : SearchEngine<bool, (ParamBank, Param)>
     }
 }
 
-internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
+internal class RowSearchEngine : TypedSearchEngine<ParamBank, Param, string, Param.Row>
 {
-    public static RowSearchEngine rse = new(ParamBank.PrimaryBank);
     private readonly ParamBank bank;
 
-    private RowSearchEngine(ParamBank bank)
+    internal RowSearchEngine(ParamBank bank)
     {
         this.bank = bank;
     }
 
     internal override void Setup()
     {
-        unpacker = param => new List<Param.Row>(param.Item2.Rows);
-        filterList.Add("modified", newCmd(new string[0],
+        name = "row";
+        unpacker = param =>
+        {
+            string name = param.Item1.GetKeyForParam(param.Item2);
+            return param.Item2.Rows.Select((x, i) => (name, x)).ToList();
+        };
+        filterList.Add("modified", newCmd([],
             "Selects rows which do not match the vanilla version, or are added. Ignores row name", noArgs(context =>
                 {
                     var paramName = context.Item1.GetKeyForParam(context.Item2);
                     HashSet<int> cache = context.Item1.GetVanillaDiffRows(paramName);
-                    return row => cache.Contains(row.ID);
+                    return row => cache.Contains(row.Item2.ID);
                 }
             )));
-        filterList.Add("added", newCmd(new string[0], "Selects rows where the ID is not found in the vanilla param",
+        filterList.Add("added", newCmd([], "Selects rows where the ID is not found in the vanilla param",
             noArgs(context =>
                 {
                     var paramName = context.Item1.GetKeyForParam(context.Item2);
@@ -369,10 +423,10 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
                     }
 
                     Param vanilParam = ParamBank.VanillaBank.Params[paramName];
-                    return row => vanilParam[row.ID] == null;
+                    return row => vanilParam[row.Item2.ID] == null;
                 }
             )));
-        filterList.Add("mergeable", newCmd(new string[0],
+        filterList.Add("mergeable", newCmd([],
             "Selects rows which are not modified in the primary regulation or parambnd and there is exactly one equivalent row in another regulation or parambnd that is modified",
             noArgs(context =>
                 {
@@ -386,11 +440,11 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
                     List<(HashSet<int>, HashSet<int>)> auxCaches = ParamBank.AuxBanks.Select(x =>
                         (x.Value.GetPrimaryDiffRows(paramName), x.Value.GetVanillaDiffRows(paramName))).ToList();
                     return row =>
-                        !pCache.Contains(row.ID) &&
-                        auxCaches.Where(x => x.Item2.Contains(row.ID) && x.Item1.Contains(row.ID)).Count() == 1;
+                        !pCache.Contains(row.Item2.ID) &&
+                        auxCaches.Where(x => x.Item2.Contains(row.Item2.ID) && x.Item1.Contains(row.Item2.ID)).Count() == 1;
                 }
             ), () => ParamBank.AuxBanks.Count > 0));
-        filterList.Add("conflicts", newCmd(new string[0],
+        filterList.Add("conflicts", newCmd([],
             "Selects rows which, among all equivalents in the primary and additional regulations or parambnds, there is more than row 1 which is modified",
             noArgs(context =>
                 {
@@ -399,37 +453,37 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
                     List<(HashSet<int>, HashSet<int>)> auxCaches = ParamBank.AuxBanks.Select(x =>
                         (x.Value.GetPrimaryDiffRows(paramName), x.Value.GetVanillaDiffRows(paramName))).ToList();
                     return row =>
-                        (pCache.Contains(row.ID) ? 1 : 0) + auxCaches
-                            .Where(x => x.Item2.Contains(row.ID) && x.Item1.Contains(row.ID)).Count() > 1;
+                        (pCache.Contains(row.Item2.ID) ? 1 : 0) + auxCaches
+                            .Where(x => x.Item2.Contains(row.Item2.ID) && x.Item1.Contains(row.Item2.ID)).Count() > 1;
                 }
             ), () => ParamBank.AuxBanks.Count > 0));
-        filterList.Add("id", newCmd(new[] { "row id (regex)" }, "Selects rows whose ID matches the given regex",
+        filterList.Add("id", newCmd(["row id (regex)"], "Selects rows whose ID matches the given regex",
             (args, lenient) =>
             {
                 Regex rx = lenient ? new Regex(args[0].ToLower()) : new Regex($@"^{args[0]}$");
-                return noContext(row => rx.IsMatch(row.ID.ToString()));
+                return noContext(row => rx.IsMatch(row.Item2.ID.ToString()));
             }));
-        filterList.Add("idrange", newCmd(new[] { "row id minimum (inclusive)", "row id maximum (inclusive)" },
+        filterList.Add("idrange", newCmd(["row id minimum (inclusive)", "row id maximum (inclusive)"],
             "Selects rows whose ID falls in the given numerical range", (args, lenient) =>
             {
                 var floor = double.Parse(args[0]);
                 var ceil = double.Parse(args[1]);
-                return noContext(row => row.ID >= floor && row.ID <= ceil);
+                return noContext(row => row.Item2.ID >= floor && row.Item2.ID <= ceil);
             }));
-        filterList.Add("name", newCmd(new[] { "row name (regex)" },
+        filterList.Add("name", newCmd(["row name (regex)"],
             "Selects rows whose Name matches the given regex", (args, lenient) =>
             {
                 Regex rx = lenient ? new Regex(args[0], RegexOptions.IgnoreCase) : new Regex($@"^{args[0]}$");
-                return noContext(row => rx.IsMatch(row.Name == null ? "" : row.Name));
+                return noContext(row => rx.IsMatch(row.Item2.Name == null ? "" : row.Item2.Name));
             }));
-        filterList.Add("prop", newCmd(new[] { "field internalName", "field value (regex)" },
+        filterList.Add("prop", newCmd(["field internalName", "field value (regex)"],
             "Selects rows where the specified field has a value that matches the given regex", (args, lenient) =>
             {
                 Regex rx = lenient ? new Regex(args[1], RegexOptions.IgnoreCase) : new Regex($@"^{args[1]}$");
                 var field = args[0];
                 return noContext(row =>
                 {
-                    Param.Cell? cq = row[field];
+                    Param.Cell? cq = row.Item2[field];
                     if (cq == null)
                     {
                         throw new Exception();
@@ -441,7 +495,7 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
                 });
             }));
         filterList.Add("proprange", newCmd(
-            new[] { "field internalName", "field value minimum (inclusive)", "field value maximum (inclusive)" },
+            ["field internalName", "field value minimum (inclusive)", "field value maximum (inclusive)"],
             "Selects rows where the specified field has a value that falls in the given numerical range",
             (args, lenient) =>
             {
@@ -450,7 +504,7 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
                 var ceil = double.Parse(args[2]);
                 return noContext(row =>
                 {
-                    Param.Cell? c = row[field];
+                    Param.Cell? c = row.Item2[field];
                     if (c == null)
                     {
                         throw new Exception();
@@ -459,7 +513,7 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
                     return Convert.ToDouble(c.Value.Value) >= floor && Convert.ToDouble(c.Value.Value) <= ceil;
                 });
             }));
-        filterList.Add("propref", newCmd(new[] { "field internalName", "referenced row name (regex)" },
+        filterList.Add("propref", newCmd(["field internalName", "referenced row name (regex)"],
             "Selects rows where the specified field that references another param has a value referencing a row whose name matches the given regex",
             (args, lenient) =>
             {
@@ -472,7 +526,7 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
                         .FindAll(p => bank.Params.ContainsKey(p.param));
                     return row =>
                     {
-                        Param.Cell? c = row[field];
+                        Param.Cell? c = row.Item2[field];
                         if (c == null)
                         {
                             throw new Exception();
@@ -492,7 +546,7 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
                     };
                 };
             }, () => CFG.Current.Param_AdvancedMassedit));
-        filterList.Add("propwhere", newCmd(new[] { "field internalName", "cell/field selector" },
+        filterList.Add("propwhere", newCmd(["field internalName", "cell/field selector"],
             "Selects rows where the specified field appears when the given cell/field search is given",
             (args, lenient) =>
             {
@@ -501,17 +555,18 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
                 {
                     var paramName = context.Item1.GetKeyForParam(context.Item2);
                     IReadOnlyList<Param.Column> cols = context.Item2.Columns;
-                    (PseudoColumn, Param.Column) testCol = context.Item2.GetCol(field);
+                    var vtup = context.Item2.GetCol(field);
+                    (PseudoColumn, Param.Column) testCol = (vtup.Item1, vtup.Item2);
                     return row =>
                     {
-                        (string paramName, Param.Row row) cseSearchContext = (paramName, row);
-                        List<(PseudoColumn, Param.Column)> res = CellSearchEngine.cse.Search(cseSearchContext,
+                        (string paramName, Param.Row row) cseSearchContext = (paramName, row.Item2);
+                        List<(PseudoColumn, Param.Column)> res = cell.Search(cseSearchContext,
                             new List<(PseudoColumn, Param.Column)> { testCol }, args[1], lenient, false);
                         return res.Contains(testCol);
                     };
                 };
             }, () => CFG.Current.Param_AdvancedMassedit));
-        filterList.Add("fmg", newCmd(new[] { "fmg title (regex)" },
+        filterList.Add("fmg", newCmd(["fmg title (regex)"],
             "Selects rows which have an attached FMG and that FMG's text matches the given regex",
             (args, lenient) =>
             {
@@ -544,17 +599,17 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
 
                     return row =>
                     {
-                        if (!_cache.ContainsKey(row.ID))
+                        if (!_cache.ContainsKey(row.Item2.ID))
                         {
                             return false;
                         }
 
-                        FMG.Entry e = _cache[row.ID];
+                        FMG.Entry e = _cache[row.Item2.ID];
                         return e != null && rx.IsMatch(e.Text ?? "");
                     };
                 };
             }, () => CFG.Current.Param_AdvancedMassedit));
-        filterList.Add("vanillaprop", newCmd(new[] { "field internalName", "field value (regex)" },
+        filterList.Add("vanillaprop", newCmd(["field internalName", "field value (regex)"],
             "Selects rows where the vanilla equivilent of that row has a value for the given field that matches the given regex",
             (args, lenient) =>
             {
@@ -565,7 +620,7 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
                     Param vparam = ParamBank.VanillaBank.GetParamFromName(param.Item1.GetKeyForParam(param.Item2));
                     return row =>
                     {
-                        Param.Row vrow = vparam[row.ID];
+                        Param.Row vrow = vparam[row.Item2.ID];
                         if (vrow == null)
                         {
                             return false;
@@ -584,7 +639,7 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
                 };
             }, () => CFG.Current.Param_AdvancedMassedit));
         filterList.Add("vanillaproprange", newCmd(
-            new[] { "field internalName", "field value minimum (inclusive)", "field value maximum (inclusive)" },
+            ["field internalName", "field value minimum (inclusive)", "field value maximum (inclusive)"],
             "Selects rows where the vanilla equivilent of that row has a value for the given field that falls in the given numerical range",
             (args, lenient) =>
             {
@@ -596,7 +651,7 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
                     Param vparam = ParamBank.VanillaBank.GetParamFromName(param.Item1.GetKeyForParam(param.Item2));
                     return row =>
                     {
-                        Param.Row vrow = vparam[row.ID];
+                        Param.Row vrow = vparam[row.Item2.ID];
                         if (vrow == null)
                         {
                             return false;
@@ -612,7 +667,7 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
                     };
                 };
             }, () => CFG.Current.Param_AdvancedMassedit));
-        filterList.Add("auxprop", newCmd(new[] { "parambank name", "field internalName", "field value (regex)" },
+        filterList.Add("auxprop", newCmd(["parambank name", "field internalName", "field value (regex)"],
             "Selects rows where the equivilent of that row in the given regulation or parambnd has a value for the given field that matches the given regex.\nCan be used to determine if an aux row exists.",
             (args, lenient) =>
             {
@@ -629,7 +684,7 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
                     Param vparam = bank.GetParamFromName(param.Item1.GetKeyForParam(param.Item2));
                     return row =>
                     {
-                        Param.Row vrow = vparam[row.ID];
+                        Param.Row vrow = vparam[row.Item2.ID];
                         if (vrow == null)
                         {
                             return false;
@@ -648,11 +703,10 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
                 };
             }, () => ParamBank.AuxBanks.Count > 0 && CFG.Current.Param_AdvancedMassedit));
         filterList.Add("auxproprange", newCmd(
-            new[]
-            {
+            [
                 "parambank name", "field internalName", "field value minimum (inclusive)",
                 "field value maximum (inclusive)"
-            },
+            ],
             "Selects rows where the equivilent of that row in the given regulation or parambnd has a value for the given field that falls in the given range",
             (args, lenient) =>
             {
@@ -670,7 +724,7 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
                     Param vparam = bank.GetParamFromName(param.Item1.GetKeyForParam(param.Item2));
                     return row =>
                     {
-                        Param.Row vrow = vparam[row.ID];
+                        Param.Row vrow = vparam[row.Item2.ID];
                         Param.Cell? c = vrow[field];
                         if (c == null)
                         {
@@ -683,11 +737,10 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
             }, () => ParamBank.AuxBanks.Count > 0 && CFG.Current.Param_AdvancedMassedit));
         filterList.Add("semijoin",
             newCmd(
-                new[]
-                {
+                [
                     "this field internalName", "other param", "other param field internalName",
                     "other param row search"
-                },
+                ],
                 "Selects all rows where the value of a given field is any of the values in the second given field found in the given param using the given row selector",
                 (args, lenient) =>
                 {
@@ -701,7 +754,7 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
                         throw new Exception("Could not find param " + otherParam);
                     }
 
-                    List<Param.Row> rows = rse.Search((ParamBank.PrimaryBank, otherParamReal), otherSearchTerm,
+                    List<(string, Param.Row)> rows = row.Search((ParamBank.PrimaryBank, otherParamReal), otherSearchTerm,
                         lenient, false);
                     (PseudoColumn, Param.Column) otherFieldReal = otherParamReal.GetCol(otherField);
                     if (!otherFieldReal.IsColumnValid())
@@ -709,7 +762,7 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
                         throw new Exception("Could not find field " + otherField);
                     }
 
-                    HashSet<string> possibleValues = rows.Select(x => x.Get(otherFieldReal).ToParamEditorString())
+                    HashSet<string> possibleValues = rows.Select(x => x.Item2.Get(otherFieldReal).ToParamEditorString())
                         .Distinct().ToHashSet();
                     return param =>
                     {
@@ -721,12 +774,12 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
 
                         return row =>
                         {
-                            var toFind = row.Get(thisFieldReal).ToParamEditorString();
+                            var toFind = row.Item2.Get(thisFieldReal).ToParamEditorString();
                             return possibleValues.Contains(toFind);
                         };
                     };
                 }, () => CFG.Current.Param_AdvancedMassedit));
-        filterList.Add("unique", newCmd(new string[] { "field" }, "Selects all rows where the value in the given field is unique", (args, lenient) =>
+        filterList.Add("unique", newCmd(["field"], "Selects all rows where the value in the given field is unique", (args, lenient) =>
         {
             string field = args[0].Replace(@"\s", " ");
             return (param) =>
@@ -738,11 +791,11 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
                 var setOfDuped = distribution.Where((entry, linqi) => entry.Item2 > 1).Select((entry, linqi) => entry.Item1).ToHashSet();
                 return (row) =>
                 {
-                    return !setOfDuped.Contains(row.Get(col));
+                    return !setOfDuped.Contains(row.Item2.Get(col));
                 };
             };
         }, () => CFG.Current.Param_AdvancedMassedit));
-        defaultFilter = newCmd(new[] { "row ID or Name (regex)" },
+        defaultFilter = newCmd(["row ID or Name (regex)"],
             "Selects rows where either the ID or Name matches the given regex, except in strict/massedit mode",
             (args, lenient) =>
             {
@@ -768,7 +821,7 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
 
                     if (category == FmgEntryCategory.None || !FMGBank.IsLoaded)
                     {
-                        return row => rx.IsMatch(row.Name ?? "") || rx.IsMatch(row.ID.ToString());
+                        return row => rx.IsMatch(row.Item2.Name ?? "") || rx.IsMatch(row.Item2.ID.ToString());
                     }
 
                     List<FMG.Entry> fmgEntries = FMGBank.GetFmgEntriesByCategory(category, false);
@@ -780,17 +833,17 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
 
                     return row =>
                     {
-                        if (rx.IsMatch(row.Name ?? "") || rx.IsMatch(row.ID.ToString()))
+                        if (rx.IsMatch(row.Item2.Name ?? "") || rx.IsMatch(row.Item2.ID.ToString()))
                         {
                             return true;
                         }
 
-                        if (!_cache.ContainsKey(row.ID))
+                        if (!_cache.ContainsKey(row.Item2.ID))
                         {
                             return false;
                         }
 
-                        FMG.Entry e = _cache[row.ID];
+                        FMG.Entry e = _cache[row.Item2.ID];
                         return e != null && rx.IsMatch(e.Text ?? "");
                     };
                 };
@@ -798,12 +851,12 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
     }
 }
 
-internal class CellSearchEngine : SearchEngine<(string, Param.Row), (PseudoColumn, Param.Column)>
+internal class CellSearchEngine : TypedSearchEngine<string, Param.Row, PseudoColumn, Param.Column>
 {
-    public static CellSearchEngine cse = new();
 
     internal override void Setup()
     {
+        name = "cell/property";
         unpacker = row =>
         {
             List<(PseudoColumn, Param.Column)> list = new();
@@ -812,7 +865,7 @@ internal class CellSearchEngine : SearchEngine<(string, Param.Row), (PseudoColum
             list.AddRange(row.Item2.Columns.Select((cell, i) => (PseudoColumn.None, cell)));
             return list;
         };
-        defaultFilter = newCmd(new[] { "field internalName (regex)" },
+        defaultFilter = newCmd(["field internalName (regex)"],
             "Selects cells/fields where the internal name of that field matches the given regex", (args, lenient) =>
             {
                 var matchID = args[0] == "ID";
@@ -847,7 +900,7 @@ internal class CellSearchEngine : SearchEngine<(string, Param.Row), (PseudoColum
                     return false;
                 });
             });
-        filterList.Add("modified", newCmd(new string[0],
+        filterList.Add("modified", newCmd([],
             "Selects cells/fields where the equivalent cell in the vanilla regulation or parambnd has a different value",
             (args, lenient) => row =>
             {
@@ -870,13 +923,13 @@ internal class CellSearchEngine : SearchEngine<(string, Param.Row), (PseudoColum
 
                 return col =>
                 {
-                    (PseudoColumn, Param.Column) vcol = col.GetAs(vParam);
-                    var valA = row.Item2.Get(col);
+                    (PseudoColumn, Param.Column) vcol = (col.Item1, col.Item2).GetAs(vParam);
+                    var valA = row.Item2.Get((col.Item1, col.Item2));
                     var valB = r.Get(vcol);
-                    return ParamUtils.IsValueDiff(ref valA, ref valB, col.GetColumnType());
+                    return ParamUtils.IsValueDiff(ref valA, ref valB, (col.Item1, col.Item2).GetColumnType());
                 };
             }));
-        filterList.Add("auxmodified", newCmd(new[] { "parambank name" },
+        filterList.Add("auxmodified", newCmd(["parambank name"],
             "Selects cells/fields where the equivalent cell in the specified regulation or parambnd has a different value",
             (args, lenient) =>
             {
@@ -919,36 +972,35 @@ internal class CellSearchEngine : SearchEngine<(string, Param.Row), (PseudoColum
 
                     return col =>
                     {
-                        (PseudoColumn, Param.Column) auxcol = col.GetAs(auxParam);
-                        (PseudoColumn, Param.Column) vcol = col.GetAs(vParam);
+                        (PseudoColumn, Param.Column) auxcol = (col.Item1, col.Item2).GetAs(auxParam);
+                        (PseudoColumn, Param.Column) vcol = (col.Item1, col.Item2).GetAs(vParam);
                         var valA = r.Get(auxcol);
                         var valB = r2.Get(vcol);
-                        return ParamUtils.IsValueDiff(ref valA, ref valB, col.GetColumnType());
+                        return ParamUtils.IsValueDiff(ref valA, ref valB, (col.Item1, col.Item2).GetColumnType());
                     };
                 };
             }, () => ParamBank.AuxBanks.Count > 0));
-        filterList.Add("sftype", newCmd(new[] { "paramdef type" },
+        filterList.Add("sftype", newCmd(["paramdef type"],
             "Selects cells/fields where the field's data type, as enumerated by soulsformats, matches the given regex",
             (args, lenient) =>
             {
                 Regex r = new('^' + args[0] + '$',
                     lenient ? RegexOptions.IgnoreCase : RegexOptions.None); //Leniency rules break from the norm
-                return row => col => r.IsMatch(col.GetColumnSfType());
+                return row => col => r.IsMatch((col.Item1, col.Item2).GetColumnSfType());
             }, () => CFG.Current.Param_AdvancedMassedit));
     }
 }
 
-internal class VarSearchEngine : SearchEngine<bool, string>
+internal class VarSearchEngine : TypedSearchEngine<bool, bool, bool, string>
 {
-    public static VarSearchEngine vse = new();
-
     internal override void Setup()
     {
+        name = "variable";
         unpacker = dummy =>
         {
-            return MassParamEdit.massEditVars.Keys.ToList();
+            return MassParamEdit.massEditVars.Keys.Select(x => (true, x)).ToList();
         };
-        filterList.Add("vars", newCmd(new[] { "variable names (regex)" },
+        filterList.Add("vars", newCmd(["variable names (regex)"],
             "Selects variables whose name matches the given regex", (args, lenient) =>
             {
                 if (args[0].StartsWith('$'))
@@ -957,7 +1009,7 @@ internal class VarSearchEngine : SearchEngine<bool, string>
                 }
 
                 Regex rx = lenient ? new Regex(args[0], RegexOptions.IgnoreCase) : new Regex($@"^{args[0]}$");
-                return noContext(name => rx.IsMatch(name));
+                return noContext(bname => rx.IsMatch(bname.Item2));
             }));
     }
 }
