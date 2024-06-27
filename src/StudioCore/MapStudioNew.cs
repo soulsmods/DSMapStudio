@@ -165,12 +165,19 @@ public class MapStudioNew
 
     private unsafe void SetupFonts()
     {
+        string engFont = @"Assets\Fonts\RobotoMono-Light.ttf";
+        string otherFont = @"Assets\Fonts\NotoSansCJKtc-Light.otf";
+        if (!string.IsNullOrWhiteSpace(CFG.Current.TTFEnglish) && File.Exists(CFG.Current.TTFEnglish))
+            engFont = CFG.Current.TTFEnglish;
+        if (!string.IsNullOrWhiteSpace(CFG.Current.TTFOther) && File.Exists(CFG.Current.TTFOther))
+            otherFont = CFG.Current.TTFOther;
+
         ImFontAtlas* fonts = ImGui.GetIO()->Fonts;
-        var fileEn = Path.Combine(AppContext.BaseDirectory, @"Assets\Fonts\RobotoMono-Light.ttf");
+        var fileEn = Path.Combine(AppContext.BaseDirectory, engFont);
         var fontEn = File.ReadAllBytes(fileEn);
         var fontEnNative = new IntPtr(ImGui.MemAlloc(fontEn.Length));
         Marshal.Copy(fontEn, 0, fontEnNative, fontEn.Length);
-        var fileOther = Path.Combine(AppContext.BaseDirectory, @"Assets\Fonts\NotoSansCJKtc-Light.otf");
+        var fileOther = Path.Combine(AppContext.BaseDirectory, otherFont);
         var fontOther = File.ReadAllBytes(fileOther);
         var fontOtherNative = new IntPtr(ImGui.MemAlloc(fontOther.Length));
         Marshal.Copy(fontOther, 0, fontOtherNative, fontOther.Length);
