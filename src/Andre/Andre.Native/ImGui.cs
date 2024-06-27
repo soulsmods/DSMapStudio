@@ -221,6 +221,10 @@ public static unsafe partial class ImGuiBindings
             bufSize += 1;
             CString cBufString;
             nint nPtr = 0;
+            if (buf.Length < bufSize)
+            {
+                buf += new string('\0', bufSize - buf.Length);
+            }
             if (bufSize <= STACKALLOCMAX)
             {
                 var cBuf = stackalloc byte[bufSize];
@@ -232,6 +236,7 @@ public static unsafe partial class ImGuiBindings
             else
             {
                 nPtr = Marshal.AllocHGlobal(bufSize);
+                Unsafe.InitBlockUnaligned((void*)nPtr, 0, (uint)bufSize);
                 byte* cBuf = (byte*)nPtr.ToPointer();
                 if (Encoding.UTF8.TryGetBytes(buf.AsSpan(), new Span<byte>(cBuf, bufSize), out int bw))
                     cBufString = new CString(cBuf);
@@ -250,6 +255,10 @@ public static unsafe partial class ImGuiBindings
             bufSize += 1;
             CString cBufString;
             nint nPtr = 0;
+            if (buf.Length < bufSize)
+            {
+                buf += new string('\0', bufSize - buf.Length);
+            }
             if (bufSize <= STACKALLOCMAX)
             {
                 var cBuf = stackalloc byte[bufSize];
@@ -281,6 +290,10 @@ public static unsafe partial class ImGuiBindings
             bufSize += 1;
             CString cBufString;
             nint nPtr = 0;
+            if (buf.Length < bufSize)
+            {
+                buf += new string('\0', bufSize - buf.Length);
+            }
             if (bufSize <= STACKALLOCMAX)
             {
                 var cBuf = stackalloc byte[bufSize];
@@ -292,6 +305,7 @@ public static unsafe partial class ImGuiBindings
             else
             {
                 nPtr = Marshal.AllocHGlobal(bufSize);
+                Unsafe.InitBlockUnaligned((void*)nPtr, 0, (uint)bufSize);
                 byte* cBuf = (byte*)nPtr.ToPointer();
                 if (Encoding.UTF8.TryGetBytes(buf.AsSpan(), new Span<byte>(cBuf, bufSize), out int bw))
                     cBufString = new CString(cBuf);
