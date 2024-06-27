@@ -221,10 +221,6 @@ public static unsafe partial class ImGuiBindings
             bufSize += 1;
             CString cBufString;
             nint nPtr = 0;
-            if (buf.Length < bufSize)
-            {
-                buf += new string('\0', bufSize - buf.Length);
-            }
             if (bufSize <= STACKALLOCMAX)
             {
                 var cBuf = stackalloc byte[bufSize];
@@ -255,10 +251,6 @@ public static unsafe partial class ImGuiBindings
             bufSize += 1;
             CString cBufString;
             nint nPtr = 0;
-            if (buf.Length < bufSize)
-            {
-                buf += new string('\0', bufSize - buf.Length);
-            }
             if (bufSize <= STACKALLOCMAX)
             {
                 var cBuf = stackalloc byte[bufSize];
@@ -290,10 +282,6 @@ public static unsafe partial class ImGuiBindings
             bufSize += 1;
             CString cBufString;
             nint nPtr = 0;
-            if (buf.Length < bufSize)
-            {
-                buf += new string('\0', bufSize - buf.Length);
-            }
             if (bufSize <= STACKALLOCMAX)
             {
                 var cBuf = stackalloc byte[bufSize];
