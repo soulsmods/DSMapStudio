@@ -5,6 +5,7 @@ using System.Text;
 
 namespace Andre.Native;
 using bottlenoselabs.C2CS.Runtime;
+using System.Runtime.CompilerServices;
 
 public static unsafe partial class ImGuiBindings
 {
@@ -231,6 +232,7 @@ public static unsafe partial class ImGuiBindings
             else
             {
                 nPtr = Marshal.AllocHGlobal(bufSize);
+                Unsafe.InitBlockUnaligned((void*)nPtr, 0, (uint)bufSize);
                 byte* cBuf = (byte*)nPtr.ToPointer();
                 if (Encoding.UTF8.TryGetBytes(buf.AsSpan(), new Span<byte>(cBuf, bufSize), out int bw))
                     cBufString = new CString(cBuf);
@@ -260,6 +262,7 @@ public static unsafe partial class ImGuiBindings
             else
             {
                 nPtr = Marshal.AllocHGlobal(bufSize);
+                Unsafe.InitBlockUnaligned((void*)nPtr, 0, (uint)bufSize);
                 byte* cBuf = (byte*)nPtr.ToPointer();
                 if (Encoding.UTF8.TryGetBytes(buf.AsSpan(), new Span<byte>(cBuf, bufSize), out int bw))
                     cBufString = new CString(cBuf);
@@ -290,6 +293,7 @@ public static unsafe partial class ImGuiBindings
             else
             {
                 nPtr = Marshal.AllocHGlobal(bufSize);
+                Unsafe.InitBlockUnaligned((void*)nPtr, 0, (uint)bufSize);
                 byte* cBuf = (byte*)nPtr.ToPointer();
                 if (Encoding.UTF8.TryGetBytes(buf.AsSpan(), new Span<byte>(cBuf, bufSize), out int bw))
                     cBufString = new CString(cBuf);
