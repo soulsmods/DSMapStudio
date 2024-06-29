@@ -689,50 +689,6 @@ namespace SoulsFormats
             bw.Pad(0x10);
         }
         
-        private static void CompressDCXZSTD(Span<byte> data, BinaryWriterEx bw)
-        {
-            MemoryStream ms = new MemoryStream();
-            CompressionStream cs = new CompressionStream(ms);
-            cs.Write(data);
-            cs.Flush();
-            cs.Write(new byte[] {});
-            cs.Flush();
-            // Compressor compressor = new Compressor();
-            //
-            // byte[] compressed = compressor.Wrap(data).ToArray();
-            // compressed = compressor.Wrap(new byte[] {});
-            byte[] compressed = ms.ToArray();
-            File.WriteAllBytes(@"G:\Steam\steamapps\common\ELDEN RING\Game\_unknown\bingus.bin", compressed);
-            bw.WriteASCII("DCX\0");
-            bw.WriteInt32(0x11000);
-            bw.WriteInt32(0x18);
-            bw.WriteInt32(0x24);
-            bw.WriteInt32(0x44);
-            bw.WriteInt32(0x4C);
-
-            bw.WriteASCII("DCS\0");
-            bw.WriteInt32(data.Length);
-            bw.WriteInt32(compressed.Length);
-
-            bw.WriteASCII("DCP\0");
-            bw.WriteASCII("ZSTD");
-            bw.WriteInt32(0x20);
-            bw.WriteByte(0x15);
-            bw.WriteByte(0);
-            bw.WriteByte(0);
-            bw.WriteByte(0);
-            bw.WriteInt32(0x0);
-            bw.WriteByte(0);
-            bw.WriteByte(0);
-            bw.WriteByte(0);
-            bw.WriteByte(0);
-            bw.WriteInt32(0x0);
-            bw.WriteInt32(0x010100);
-
-            bw.WriteASCII("DCA\0");
-            bw.WriteInt32(8);
-            bw.WriteBytes(compressed);
-        }
 
         /// <summary>
         /// Specific compression format used for a certain file.
