@@ -309,10 +309,10 @@ public class DeleteParamsAction : EditorAction
 
 public class DuplicateFMGEntryAction : EditorAction
 {
-    private readonly FMGBank.EntryGroup EntryGroup;
-    private FMGBank.EntryGroup NewEntryGroup;
+    private readonly FMGEntryGroup EntryGroup;
+    private FMGEntryGroup NewEntryGroup;
 
-    public DuplicateFMGEntryAction(FMGBank.EntryGroup entryGroup)
+    public DuplicateFMGEntryAction(FMGEntryGroup entryGroup)
     {
         EntryGroup = entryGroup;
     }
@@ -333,10 +333,10 @@ public class DuplicateFMGEntryAction : EditorAction
 
 public class DeleteFMGEntryAction : EditorAction
 {
-    private FMGBank.EntryGroup BackupEntryGroup = new();
-    private FMGBank.EntryGroup EntryGroup;
+    private FMGEntryGroup BackupEntryGroup = new();
+    private FMGEntryGroup EntryGroup;
 
-    public DeleteFMGEntryAction(FMGBank.EntryGroup entryGroup)
+    public DeleteFMGEntryAction(FMGEntryGroup entryGroup)
     {
         EntryGroup = entryGroup;
     }

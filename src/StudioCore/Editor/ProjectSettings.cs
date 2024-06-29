@@ -1,4 +1,5 @@
-﻿using StudioCore.Platform;
+﻿using Silk.NET.Core;
+using StudioCore.Platform;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -39,8 +40,6 @@ public class ProjectSettings
     /// </summary>
     public bool UseLooseParams { get; set; } = false;
 
-    public bool PartialParams { get; set; } = false;
-
     // FMG editor
     public string LastFmgLanguageUsed { get; set; } = "";
 
@@ -78,6 +77,24 @@ public class ProjectSettings
 
             return null;
         }
+    }
+
+    internal ProjectSettings CopyAndAssumeFromModDir(string moddir)
+    {
+        ProjectSettings newProj = new();
+        newProj.ProjectName = Path.GetFileName(Path.GetDirectoryName(moddir));
+        newProj.GameRoot = GameRoot;
+        newProj.GameType = GameType;
+        switch (newProj.GameType)
+        {
+            case GameType.DarkSoulsIISOTFS:
+                newProj.UseLooseParams = File.Exists($@"{moddir}\Param\AreaParam.param");
+                break;
+            case GameType.DarkSoulsIII:
+                newProj.UseLooseParams = File.Exists($@"{moddir}\param\gameparam\gameparam_dlc2.parambnd.dcx");
+                break;
+        }
+        return newProj;
     }
 }
 

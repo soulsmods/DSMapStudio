@@ -196,22 +196,6 @@ public class SettingsMenu
                                 ProjSettings.UseLooseParams = useLoose;
                             }
                         }
-
-                        var usepartial = ProjSettings.PartialParams;
-                        if ((FeatureFlags.EnablePartialParam || usepartial))
-                        {
-                            if (CFG.Current.ShowUITooltips)
-                            {
-                                ShowHelpMarker("Partial params.");
-                                ImGui.SameLine();
-                            }
-
-                            if (ProjSettings.GameType == GameType.EldenRing &&
-                            ImGui.Checkbox("Partial params", ref usepartial))
-                            {
-                                ProjSettings.PartialParams = usepartial;
-                            }
-                        }
                     }
                 }
             }

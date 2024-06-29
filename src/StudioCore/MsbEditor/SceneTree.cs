@@ -47,9 +47,6 @@ public class SceneTree : IActionEventHandler
         Flat,
         ObjectType
     }
-
-    private readonly AssetLocator _assetLocator;
-
     private readonly Configuration _configuration;
     private readonly List<Entity> _dragDropDestObjects = new();
     private readonly List<int> _dragDropDests = new();
@@ -94,7 +91,7 @@ public class SceneTree : IActionEventHandler
     private ViewMode _viewMode = ViewMode.ObjectType;
 
     public SceneTree(Configuration configuration, SceneTreeEventHandler handler, string id, Universe universe,
-        Selection sel, ActionManager aman, IViewport vp, AssetLocator al)
+        Selection sel, ActionManager aman, IViewport vp)
     {
         _handler = handler;
         _id = id;
@@ -102,7 +99,6 @@ public class SceneTree : IActionEventHandler
         _selection = sel;
         _editorActionManager = aman;
         _viewport = vp;
-        _assetLocator = al;
         _configuration = configuration;
 
         if (_configuration == Configuration.ModelEditor)
@@ -131,12 +127,12 @@ public class SceneTree : IActionEventHandler
         mapcache.Add(MapEntity.MapEntityType.Part, new Dictionary<Type, List<MapEntity>>());
         mapcache.Add(MapEntity.MapEntityType.Region, new Dictionary<Type, List<MapEntity>>());
         mapcache.Add(MapEntity.MapEntityType.Event, new Dictionary<Type, List<MapEntity>>());
-        if (_assetLocator.Type is GameType.Bloodborne or GameType.DarkSoulsIII or GameType.Sekiro
+        if (Locator.AssetLocator.Type is GameType.Bloodborne or GameType.DarkSoulsIII or GameType.Sekiro
             or GameType.EldenRing or GameType.ArmoredCoreVI)
         {
             mapcache.Add(MapEntity.MapEntityType.Light, new Dictionary<Type, List<MapEntity>>());
         }
-        else if (_assetLocator.Type is GameType.DarkSoulsIISOTFS)
+        else if (Locator.AssetLocator.Type is GameType.DarkSoulsIISOTFS)
         {
             mapcache.Add(MapEntity.MapEntityType.Light, new Dictionary<Type, List<MapEntity>>());
             mapcache.Add(MapEntity.MapEntityType.DS2Event, new Dictionary<Type, List<MapEntity>>());
@@ -487,7 +483,7 @@ public class SceneTree : IActionEventHandler
                         {
                             // Regions don't have multiple types in certain games
                             if (cats.Key == MapEntity.MapEntityType.Region &&
-                                _assetLocator.Type is GameType.DemonsSouls
+                                Locator.AssetLocator.Type is GameType.DemonsSouls
                                     or GameType.DarkSoulsPTDE
                                     or GameType.DarkSoulsRemastered
                                     or GameType.Bloodborne)
@@ -617,7 +613,7 @@ public class SceneTree : IActionEventHandler
 
             if (_configuration == Configuration.MapEditor)
             {
-                if (_assetLocator.Type is GameType.DarkSoulsIISOTFS)
+                if (Locator.AssetLocator.Type is GameType.DarkSoulsIISOTFS)
                 {
                     if (ParamBank.PrimaryBank.IsLoadingParams)
                     {
@@ -905,7 +901,7 @@ public class SceneTree : IActionEventHandler
                 }
             }
 
-            if (/*_assetLocator.Type == GameType.Bloodborne &&*/ _configuration == Configuration.MapEditor)
+            if (Locator.AssetLocator.Type == GameType.Bloodborne && _configuration == Configuration.MapEditor)
             {
                 ChaliceDungeonImportButton();
             }
