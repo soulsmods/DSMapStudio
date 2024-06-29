@@ -1563,10 +1563,11 @@ public class Universe
     {
         try
         {
-            if (_assetLocator.Type == GameType.EldenRing)
+            var assetLocator = Locator.ActiveProject.AssetLocator;
+            if (assetLocator.Type == GameType.EldenRing)
             {
-                AssetDescription ad = _assetLocator.GetWorldLoadListList();
-                AssetDescription adw = _assetLocator.GetWorldLoadListList(true);
+                AssetDescription ad = assetLocator.GetWorldLoadListList();
+                AssetDescription adw = assetLocator.GetWorldLoadListList(true);
 
                 if (!Directory.Exists(Path.GetDirectoryName(adw.AssetPath)))
                 {
@@ -1585,7 +1586,7 @@ public class Universe
                     }
                 }
 
-                Utils.WriteWithBackup(_assetLocator.GameRootDirectory, _assetLocator.GameModDirectory, @"\map\worldmsblist.worldloadlistlist.dcx", loadList);
+                Utils.WriteWithBackup(Locator.ActiveProject.ParentProject.AssetLocator.RootDirectory, assetLocator.RootDirectory, @"\map\worldmsblist.worldloadlistlist.dcx", loadList);
 
                 TaskLogs.AddLog($"Saved WorldMsbList");
             }

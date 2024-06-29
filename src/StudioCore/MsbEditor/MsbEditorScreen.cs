@@ -525,7 +525,7 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
 
         if (ImGui.BeginMenu("Create"))
         {
-            if (AssetLocator.Type is GameType.EldenRing)
+            if (Locator.ActiveProject.Type is GameType.EldenRing)
             {
                 if (ImGui.Selectable("New Map"))
                 {

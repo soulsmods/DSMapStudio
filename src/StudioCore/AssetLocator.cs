@@ -2,6 +2,7 @@
 using SoulsFormats;
 using StudioCore.Editor;
 using System.Collections.Generic;
+using System.IO;
 
 namespace StudioCore;
 
@@ -108,20 +109,7 @@ public class AssetLocator
 
     public AssetDescription GetMapNVA(string mapid, bool writemode = false) => Locator.ActiveProject.AssetLocator.GetMapNVA(mapid, writemode);
 
-    public AssetDescription GetWorldLoadListList(bool writemode = false)
-    {
-        AssetDescription ad = new();
-
-        if (writemode || (GameModDirectory != null && File.Exists($@"{GameModDirectory}\map\worldmsblist.worldloadlistlist.dcx")))
-        {
-            ad.AssetPath = $@"{GameModDirectory}\map\worldmsblist.worldloadlistlist.dcx";
-        } else
-        {
-            ad.AssetPath = $@"{GameRootDirectory}\map\worldmsblist.worldloadlistlist.dcx";
-        }
-        
-        return ad;
-    }
+    public AssetDescription GetWorldLoadListList(bool writemode = false) => Locator.ActiveProject.AssetLocator.GetWorldLoadListList(writemode);
 
     /// <summary>
     ///     Get folders with msgbnds used in-game

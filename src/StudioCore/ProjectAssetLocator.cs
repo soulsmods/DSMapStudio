@@ -449,6 +449,22 @@ public class ProjectAssetLocator
         return ad;
     }
 
+    public AssetDescription GetWorldLoadListList(bool writemode = false)
+    {
+        AssetDescription ad = new();
+
+        if (writemode)
+        {
+            ad.AssetPath = $@"{RootDirectory}\map\worldmsblist.worldloadlistlist.dcx";
+        }
+        else
+        {
+            ad.AssetPath = GetAssetPath($@"map\worldmsblist.worldloadlistlist.dcx");
+        }
+        
+        return ad;
+    }
+
     /// <summary>
     ///     Get folders with msgbnds used in-game
     /// </summary>
