@@ -817,7 +817,6 @@ public unsafe class EditorDecorations
         {
             ImGui.GetStyle()->CellPadding = new Vector2(oldPad.X, 0);
         }
-
         var v = ImGui.BeginTable(id, cols,
             ImGuiTableFlags.Resizable | ImGuiTableFlags.BordersInnerV | ImGuiTableFlags.SizingStretchSame |
             ImGuiTableFlags.ScrollY);
@@ -827,6 +826,18 @@ public unsafe class EditorDecorations
         }
 
         return v;
+    }
+
+    public static void ImGuiSetKeyboardFocusHere(bool forceWindow = true, int offset = 0)
+    {
+        if (forceWindow)
+        {
+            unsafe
+            {
+                ImGui.FocusWindow(ImGui.GetCurrentWindow(), ImGuiFocusRequestFlags.None);
+            }
+        }
+        ImGui.SetKeyboardFocusHere(offset);
     }
 
     public static void PinListReorderOptions<T>(List<T> sourceListToModify, T currentElement)

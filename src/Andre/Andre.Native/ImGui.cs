@@ -5,6 +5,7 @@ using System.Text;
 
 namespace Andre.Native;
 using bottlenoselabs.C2CS.Runtime;
+using System.Runtime.CompilerServices;
 
 public static unsafe partial class ImGuiBindings
 {
@@ -215,10 +216,11 @@ public static unsafe partial class ImGuiBindings
             v = i;
             return res;
         }
-        
         public static bool InputText(string label, ref string buf, int bufSize, ImGuiInputTextFlags flags=0)
         {
+            bufSize += 1;
             CString cBufString;
+            nint nPtr = 0;
             if (bufSize <= STACKALLOCMAX)
             {
                 var cBuf = stackalloc byte[bufSize];
@@ -229,16 +231,26 @@ public static unsafe partial class ImGuiBindings
             }
             else
             {
-                cBufString = new CString(buf);
+                nPtr = Marshal.AllocHGlobal(bufSize);
+                Unsafe.InitBlockUnaligned((void*)nPtr, 0, (uint)bufSize);
+                byte* cBuf = (byte*)nPtr.ToPointer();
+                if (Encoding.UTF8.TryGetBytes(buf.AsSpan(), new Span<byte>(cBuf, bufSize), out int bw))
+                    cBufString = new CString(cBuf);
+                else
+                    cBufString = new CString(buf);
             }
             using var cLabel = (CString)label;
             var result = InputText(cLabel, cBufString, bufSize, flags, new ImGuiInputTextCallback(), null);
             buf = cBufString.ToString();
+            if (bufSize > STACKALLOCMAX)
+                Marshal.FreeHGlobal(nPtr);
             return result;
         }
         public static bool InputTextMultiline(string label, ref string buf, int bufSize, Vector2 size=default, ImGuiInputTextFlags flags=0)
         {
+            bufSize += 1;
             CString cBufString;
+            nint nPtr = 0;
             if (bufSize <= STACKALLOCMAX)
             {
                 var cBuf = stackalloc byte[bufSize];
@@ -249,17 +261,27 @@ public static unsafe partial class ImGuiBindings
             }
             else
             {
-                cBufString = new CString(buf);
+                nPtr = Marshal.AllocHGlobal(bufSize);
+                Unsafe.InitBlockUnaligned((void*)nPtr, 0, (uint)bufSize);
+                byte* cBuf = (byte*)nPtr.ToPointer();
+                if (Encoding.UTF8.TryGetBytes(buf.AsSpan(), new Span<byte>(cBuf, bufSize), out int bw))
+                    cBufString = new CString(cBuf);
+                else
+                    cBufString = new CString(buf);
             }
             using var cLabel = (CString)label;
             var result = InputTextMultiline(cLabel, cBufString, bufSize, size, flags, new ImGuiInputTextCallback(), null);
             buf = cBufString.ToString();
+            if (bufSize > STACKALLOCMAX)
+                Marshal.FreeHGlobal(nPtr);
             return result;
         }
         
         public static bool InputTextWithHint(string label, string hint, ref string buf, int bufSize)
         {
+            bufSize += 1;
             CString cBufString;
+            nint nPtr = 0;
             if (bufSize <= STACKALLOCMAX)
             {
                 var cBuf = stackalloc byte[bufSize];
@@ -270,12 +292,20 @@ public static unsafe partial class ImGuiBindings
             }
             else
             {
-                cBufString = new CString(buf);
+                nPtr = Marshal.AllocHGlobal(bufSize);
+                Unsafe.InitBlockUnaligned((void*)nPtr, 0, (uint)bufSize);
+                byte* cBuf = (byte*)nPtr.ToPointer();
+                if (Encoding.UTF8.TryGetBytes(buf.AsSpan(), new Span<byte>(cBuf, bufSize), out int bw))
+                    cBufString = new CString(cBuf);
+                else
+                    cBufString = new CString(buf);
             }
             using var cLabel = (CString)label;
             using var cHint = (CString)hint;
             var result = InputTextWithHint(cLabel, cHint, cBufString, bufSize, 0, new ImGuiInputTextCallback(), null);
             buf = cBufString.ToString();
+            if (bufSize > STACKALLOCMAX)
+                Marshal.FreeHGlobal(nPtr);
             return result;
         }
         

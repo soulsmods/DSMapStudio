@@ -1137,6 +1137,24 @@ namespace SoulsFormats
         }
 
         /// <summary>
+        /// Reads a CR+LF terminated UTF-8 string.
+        /// </summary>
+        public string ReadUTF8Line()
+        {
+            List<byte> bytes = new List<byte>(64);
+            byte currByte = ReadByte();
+            while (currByte != '\r')
+            {
+                bytes.Add(currByte);
+                currByte = ReadByte();
+            }
+            //Advance 1 extra character to account for the linefeed
+            Skip(1);
+
+            return SFEncoding.UTF8.GetString(bytes.ToArray());
+        }
+
+        /// <summary>
         /// Reads a null-terminated UTF-16 string.
         /// </summary>
         public string ReadUTF16()

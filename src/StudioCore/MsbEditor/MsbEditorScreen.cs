@@ -525,6 +525,14 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
 
         if (ImGui.BeginMenu("Create"))
         {
+            if (AssetLocator.Type is GameType.EldenRing)
+            {
+                if (ImGui.Selectable("New Map"))
+                {
+                    _activeModal = new CreateMapModal(Universe);
+                }
+                ImGui.Separator();
+            }
             IEnumerable<ObjectContainer> loadedMaps = Universe.LoadedObjectContainers.Values.Where(x => x != null);
             if (!loadedMaps.Any())
             {

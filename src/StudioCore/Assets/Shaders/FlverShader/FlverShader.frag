@@ -136,27 +136,21 @@ void UpdatePickingBuffer(ivec2 pos, uint64_t identity, float z)
 
 void main()
 {
+    //fsout_color = vec4(1.0, 1.0, 1.0, 1.0);
 	vec3 lightdir = normalize(vec3(sceneparam.lightDirection));
 	vec3 viewVec = normalize(fsin_view);
-	vec4 vertColor = vec4(fsin_color);
-	vertColor.w = 1;
+	
 #ifdef MATERIAL_BLEND
 	vec4 d1 = texture(sampler2D(globalTextures[nonuniformEXT(int(matdata[fsin_mat].colorTex))], anisoLinearSampler), fsin_texcoord.xy);
 	vec4 d2 = texture(sampler2D(globalTextures[nonuniformEXT(int(matdata[fsin_mat].colorTex2))], anisoLinearSampler), fsin_texcoord2.xy);
   #ifdef MATERIAL_BLEND_MASK
 	float blend = texture(sampler2D(globalTextures[nonuniformEXT(int(matdata[fsin_mat].blendMaskTex))], anisoLinearSampler), fsin_texcoord.xy).r;
   #else
-	float blend = fsin_color.w;
-	if(blend > 1)
-	{
-		blend = 1;
-	} else if(blend < 0) {
-		blend = 0;
-	}
+	float blend = fsin_color.a;
   #endif
-	vec4 diffuseColor = mix(d1, d2, blend) * vertColor;
+	vec4 diffuseColor = mix(d1, d2, blend);
 #else
-	vec4 diffuseColor = texture(sampler2D(globalTextures[nonuniformEXT(int(matdata[fsin_mat].colorTex))], anisoLinearSampler), fsin_texcoord.xy) * vertColor;
+	vec4 diffuseColor = texture(sampler2D(globalTextures[nonuniformEXT(int(matdata[fsin_mat].colorTex))], anisoLinearSampler), fsin_texcoord.xy);
 #endif
 	
 	if (diffuseColor.w < 0.5)

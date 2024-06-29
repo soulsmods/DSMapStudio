@@ -1217,6 +1217,7 @@ namespace SoulsFormats
             {
                 /// <summary>
                 /// HitFilterType
+                /// Unused as it is not exhaustive
                 /// </summary>
                 public enum HitFilterType : byte
                 {
@@ -1294,7 +1295,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Sets collision behavior. Fall collision, death collision, enemy-only collision, etc.
                 /// </summary>
-                public HitFilterType HitFilterID { get; set; } = HitFilterType.Standard;
+                public byte HitFilterID { get; set; }
 
                 /// <summary>
                 /// Modifies sounds while the player is touching this collision.
@@ -1404,7 +1405,7 @@ namespace SoulsFormats
 
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
-                    HitFilterID = br.ReadEnum8<HitFilterType>();
+                    HitFilterID = br.ReadByte();
                     SoundSpaceType = br.ReadEnum8<SoundSpace>();
                     EnvLightMapSpotIndex = br.ReadInt16();
                     ReflectPlaneHeight = br.ReadSingle();
@@ -1439,7 +1440,7 @@ namespace SoulsFormats
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    bw.WriteByte((byte)HitFilterID);
+                    bw.WriteByte(HitFilterID);
                     bw.WriteByte((byte)SoundSpaceType);
                     bw.WriteInt16(EnvLightMapSpotIndex);
                     bw.WriteSingle(ReflectPlaneHeight);

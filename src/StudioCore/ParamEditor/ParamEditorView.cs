@@ -67,7 +67,7 @@ public class ParamEditorView
 
         if (isActiveView && InputTracker.GetKeyDown(KeyBindings.Current.Param_SearchParam))
         {
-            ImGui.SetKeyboardFocusHere();
+            EditorDecorations.ImGuiSetKeyboardFocusHere();
         }
 
         ImGui.InputText($"Search <{KeyBindings.Current.Param_SearchParam.HintText}>",
@@ -206,7 +206,7 @@ public class ParamEditorView
                     keyList = keyList.FindAll(p => !ParamBank.DS2MapParamlist.Contains(p.Split('_')[0]));
                 }
             }
-            else if (Locator.AssetLocator.Type is GameType.EldenRing || Locator.AssetLocator.Type is GameType.ArmoredCoreVI)
+            else if (Locator.AssetLocator.Type is GameType.EldenRing)
             {
                 if (_eventParamView)
                 {
@@ -224,6 +224,26 @@ public class ParamEditorView
                 else
                 {
                     keyList = keyList.FindAll(p => !p.StartsWith("Gconfig"));
+                }
+            }
+            else if (Locator.AssetLocator.Type is GameType.ArmoredCoreVI)
+            {
+                if (_eventParamView)
+                {
+                    keyList = keyList.FindAll(p => p.StartsWith("EFID"));
+                }
+                else
+                {
+                    keyList = keyList.FindAll(p => !p.StartsWith("EFID"));
+                }
+
+                if (_gConfigParamView)
+                {
+                    keyList = keyList.FindAll(p => p.StartsWith("GraphicsConfig"));
+                }
+                else
+                {
+                    keyList = keyList.FindAll(p => !p.StartsWith("GraphicsConfig"));
                 }
             }
 
@@ -335,7 +355,7 @@ public class ParamEditorView
         if (ImGui.BeginPopup("gotoParamRow"))
         {
             var gotorow = 0;
-            ImGui.SetKeyboardFocusHere();
+            EditorDecorations.ImGuiSetKeyboardFocusHere();
             ImGui.InputInt("Goto Row ID", ref gotorow);
             if (ImGui.IsItemDeactivatedAfterEdit())
             {
@@ -349,7 +369,7 @@ public class ParamEditorView
         //Row ID/name search
         if (isActiveView && InputTracker.GetKeyDown(KeyBindings.Current.Param_SearchRow))
         {
-            ImGui.SetKeyboardFocusHere();
+            EditorDecorations.ImGuiSetKeyboardFocusHere();;
         }
 
         ImGui.InputText($"Search <{KeyBindings.Current.Param_SearchRow.HintText}>",

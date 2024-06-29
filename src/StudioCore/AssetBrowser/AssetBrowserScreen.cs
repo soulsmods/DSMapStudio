@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Threading;
 using static Andre.Native.ImGuiBindings;
 using Action = StudioCore.MsbEditor.Action;
 using ActionManager = StudioCore.MsbEditor.ActionManager;
@@ -117,9 +118,13 @@ public class AssetBrowserScreen
             _selectedAssetType = AssetCategoryType.None;
             _selectedAssetTypeCache = AssetCategoryType.None;
 
-            if (ModelAliasBank.Bank.IsLoadingAliases)
+            while (ModelAliasBank.Bank.IsLoadingAliases)
             {
-                TaskLogs.AddLog("Assetbrowser tried updating before aliasbank finished loading!", LogLevel.Warning);
+                Thread.Sleep(50);
+            }
+            if (ModelAliasBank.Bank.AliasNames == null)
+            {
+                TaskLogs.AddLog("Unable to initialise ModelAliasBank", LogLevel.Error);
                 return;
             }
 
