@@ -13,6 +13,8 @@ using System.Numerics;
 using System.Reflection;
 using Veldrid;
 using StudioCore.Interface;
+using StudioCore.Platform;
+using System.IO;
 
 namespace StudioCore;
 
@@ -86,8 +88,45 @@ public class SettingsMenu
             }
 
             // Additional Language Fonts
-            if (ImGui.CollapsingHeader("Additional Language Fonts"))
+            if (ImGui.CollapsingHeader("Fonts and Additional Language Characters"))
             {
+
+                if (CFG.Current.ShowUITooltips)
+                {
+                    ShowHelpMarker("Use the following font for English characters. .ttf and .otf expected.");
+                    ImGui.SameLine();
+                }
+                if (ImGui.Button("Set English font"))
+                {
+                    PlatformUtils.Instance.OpenFileDialog("Select Font", ["*.ttf", "*.otf"], out string path);
+                    if (File.Exists(path))
+                    {
+                        CFG.Current.TTFEnglish = path;
+                        FontRebuildRequest = true;
+                    }
+                }
+                ImGui.SameLine();
+                ImGui.Text(CFG.Current.TTFEnglish);
+
+                if (CFG.Current.ShowUITooltips)
+                {
+                    ShowHelpMarker("Use the following font for Non-English characters. .ttf and .otf expected.");
+                    ImGui.SameLine();
+                }
+                if (ImGui.Button("Set Other Languages font"))
+                {
+                    PlatformUtils.Instance.OpenFileDialog("Select Font", ["ttf", "otf"], out string path);
+                    if (File.Exists(path))
+                    {
+                        CFG.Current.TTFOther = path;
+                        FontRebuildRequest = true;
+                    }
+                }
+                ImGui.SameLine();
+                ImGui.Text(CFG.Current.TTFOther);
+
+                ImGui.Separator();
+
                 if (CFG.Current.ShowUITooltips)
                 {
                     ShowHelpMarker("Include Chinese font.\nAdditional fonts take more VRAM and increase startup time.");

@@ -49,6 +49,8 @@ public class CFG
     public bool FontKorean = false;
     public bool FontThai = false;
     public bool FontVietnamese = false;
+    public string TTFEnglish = "";
+    public string TTFOther = "";
 
     public bool AliasBank_EditorMode = false;
 
