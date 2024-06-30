@@ -1379,9 +1379,6 @@ public class ParamBank
         var dir = Project.ParentProject.AssetLocator.RootDirectory;
         var mod = Project.AssetLocator.RootDirectory;
 
-        TaskLogs.AddLog(dir);
-        TaskLogs.AddLog(mod);
-
         var param = Project.AssetLocator.GetAssetPath($@"regulation.bin");
         if (param == null)
         {
