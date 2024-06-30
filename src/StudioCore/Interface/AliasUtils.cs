@@ -231,9 +231,9 @@ public static class AliasUtils
                         var term = c.Value.ToParamEditorString();
                         var result = term;
 
-                        if (FMGBank.IsLoaded)
+                        if (Locator.ActiveProject.FMGBank.IsLoaded)
                         {
-                            var matchingFmgInfo = FMGBank.FmgInfoBank.Find(x => x.Name.Contains("Character"));
+                            var matchingFmgInfo = Locator.ActiveProject.FMGBank.FmgInfoBank.First(x => x.Name.Contains("Character"));
 
                             if (matchingFmgInfo != null)
                             {

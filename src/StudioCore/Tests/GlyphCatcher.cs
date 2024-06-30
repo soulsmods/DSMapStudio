@@ -99,7 +99,7 @@ public static class GlyphCatcher
     {
         HashSet<char> chars = new();
         var font = ImGui.GetFont();
-        foreach (var info in FMGBank.FmgInfoBank)
+        foreach (var info in Locator.ActiveProject.FMGBank.FmgInfoBank)
         {
             foreach (var entry in info.Fmg.Entries)
             {

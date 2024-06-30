@@ -45,16 +45,13 @@ public class SoapstoneService : SoapstoneServiceV1
 
     private static readonly Dictionary<KeyNamespace, MapEntity.MapEntityType> revMapNamespaces =
         mapNamespaces.ToDictionary(e => e.Value, e => e.Key);
-
-    private readonly AssetLocator assetLocator;
     private readonly MsbEditorScreen msbEditor;
 
     private readonly string version;
 
-    public SoapstoneService(string version, AssetLocator assetLocator, MsbEditorScreen msbEditor)
+    public SoapstoneService(string version, MsbEditorScreen msbEditor)
     {
         this.version = version;
-        this.assetLocator = assetLocator;
         this.msbEditor = msbEditor;
     }
 
@@ -65,13 +62,13 @@ public class SoapstoneService : SoapstoneServiceV1
             Id = "DSMapStudio", Version = version, ServerPath = Process.GetCurrentProcess().MainModule?.FileName
         };
 
-        if (assetLocator.GameModDirectory != null
-            && gameMapping.TryGetValue(assetLocator.Type, out FromSoftGame gameType))
+        if (Locator.AssetLocator.GameModDirectory != null
+            && gameMapping.TryGetValue(Locator.AssetLocator.Type, out FromSoftGame gameType))
         {
             EditorResource projectResource = new()
             {
                 Type = EditorResourceType.Project,
-                ProjectJsonPath = Path.Combine(assetLocator.GameModDirectory, "project.json"),
+                ProjectJsonPath = Path.Combine(Locator.AssetLocator.GameModDirectory, "project.json"),
                 Game = gameType
             };
             response.Resources.Add(projectResource);
@@ -124,9 +121,9 @@ public class SoapstoneService : SoapstoneServiceV1
     private static bool FMGBankLoaded(FromSoftGame game, out SoulsFmg.FmgLanguage lang)
     {
         lang = default;
-        return FMGBank.IsLoaded
-               && !string.IsNullOrEmpty(FMGBank.LanguageFolder)
-               && SoulsFmg.TryGetFmgLanguageEnum(game, FMGBank.LanguageFolder, out lang);
+        return Locator.ActiveProject.FMGBank.IsLoaded
+               && !string.IsNullOrEmpty(Locator.ActiveProject.FMGBank.LanguageFolder)
+               && SoulsFmg.TryGetFmgLanguageEnum(game, Locator.ActiveProject.FMGBank.LanguageFolder, out lang);
     }
 
     private static object AccessParamFile(SoulsKey.GameParamKey p, string key)
@@ -234,11 +231,11 @@ public class SoapstoneService : SoapstoneServiceV1
     private static bool GetFmgKey(
         FromSoftGame game,
         SoulsFmg.FmgLanguage lang,
-        FMGBank.FMGInfo info,
+        FMGInfo info,
         out SoulsKey.FmgKey key)
     {
-        // UICategory is used to distinguish between name-keyed FMGs (DS2) and binder-keyed FMGs (item/menu bnds)
-        if (info.UICategory == FmgUICategory.Text)
+        // FileCategory is used to distinguish between name-keyed FMGs (DS2) and binder-keyed FMGs (item/menu bnds)
+        if (info.FileCategory == FmgFileCategory.Loose)
         {
             if (SoulsFmg.TryGetFmgNameType(game, info.Name, out List<SoulsFmg.FmgType> types))
             {
@@ -271,7 +268,7 @@ public class SoapstoneService : SoapstoneServiceV1
         RequestedProperties properties)
     {
         List<SoulsObject> results = new();
-        if (!gameMapping.TryGetValue(assetLocator.Type, out FromSoftGame game) || resource.Game != game)
+        if (!gameMapping.TryGetValue(Locator.AssetLocator.Type, out FromSoftGame game) || resource.Game != game)
         {
             return results;
         }
@@ -308,9 +305,9 @@ public class SoapstoneService : SoapstoneServiceV1
         }
 
         if (resource.Type == EditorResourceType.Fmg
-            && FMGBank.IsLoaded
-            && !string.IsNullOrEmpty(FMGBank.LanguageFolder)
-            && SoulsFmg.TryGetFmgLanguageEnum(game, FMGBank.LanguageFolder, out SoulsFmg.FmgLanguage lang)
+            && Locator.ActiveProject.FMGBank.IsLoaded
+            && !string.IsNullOrEmpty(Locator.ActiveProject.FMGBank.LanguageFolder)
+            && SoulsFmg.TryGetFmgLanguageEnum(game, Locator.ActiveProject.FMGBank.LanguageFolder, out SoulsFmg.FmgLanguage lang)
             && MatchesResource(resource, lang.ToString()))
         {
             foreach (SoulsKey getKey in keys)
@@ -321,8 +318,8 @@ public class SoapstoneService : SoapstoneServiceV1
                     continue;
                 }
 
-                FMGBank.FMGInfo info = FMGBank.FmgInfoBank
-                    .Find(info =>
+                FMGInfo info = Locator.ActiveProject.FMGBank.FmgInfoBank
+                    .FirstOrDefault(info =>
                         GetFmgKey(game, lang, info, out SoulsKey.FmgKey infoKey) && infoKey.Equals(fileKey));
                 if (info == null)
                 {
@@ -397,7 +394,7 @@ public class SoapstoneService : SoapstoneServiceV1
         SearchOptions options)
     {
         List<SoulsObject> results = new();
-        if (!gameMapping.TryGetValue(assetLocator.Type, out FromSoftGame game) || resource.Game != game)
+        if (!gameMapping.TryGetValue(Locator.AssetLocator.Type, out FromSoftGame game) || resource.Game != game)
         {
             return results;
         }
@@ -457,9 +454,9 @@ public class SoapstoneService : SoapstoneServiceV1
         }
 
         if (resource.Type == EditorResourceType.Fmg
-            && FMGBank.IsLoaded
-            && !string.IsNullOrEmpty(FMGBank.LanguageFolder)
-            && SoulsFmg.TryGetFmgLanguageEnum(game, FMGBank.LanguageFolder, out SoulsFmg.FmgLanguage lang)
+            && Locator.ActiveProject.FMGBank.IsLoaded
+            && !string.IsNullOrEmpty(Locator.ActiveProject.FMGBank.LanguageFolder)
+            && SoulsFmg.TryGetFmgLanguageEnum(game, Locator.ActiveProject.FMGBank.LanguageFolder, out SoulsFmg.FmgLanguage lang)
             // Language applies to all FMGs at once currently, so filter it here if requested
             && MatchesResource(resource, lang.ToString())
             && search.GetKeyFilter("Language")(lang.ToString()))
@@ -467,7 +464,7 @@ public class SoapstoneService : SoapstoneServiceV1
             Predicate<object> fmgFilter = search.GetKeyFilter("FMG");
             Predicate<object> baseFmgFilter = search.GetKeyFilter("BaseFMG");
             Predicate<object> categoryFilter = search.GetKeyFilter("Category");
-            foreach (FMGBank.FMGInfo info in FMGBank.FmgInfoBank)
+            foreach (FMGInfo info in Locator.ActiveProject.FMGBank.FmgInfoBank)
             {
                 if (!GetFmgKey(game, lang, info, out SoulsKey.FmgKey fileKey)
                     || !SoulsFmg.TryGetFmgInfo(game, fileKey, out SoulsFmg.FmgKeyInfo keyInfo))
@@ -571,7 +568,7 @@ public class SoapstoneService : SoapstoneServiceV1
     {
         // At the moment, only loading maps is supported.
         // This could be extended to switching FMG language, or adding a param view, or opening a model to view.
-        if (!gameMapping.TryGetValue(assetLocator.Type, out FromSoftGame game) || resource.Game != game)
+        if (!gameMapping.TryGetValue(Locator.AssetLocator.Type, out FromSoftGame game) || resource.Game != game)
         {
             return;
         }
@@ -588,7 +585,7 @@ public class SoapstoneService : SoapstoneServiceV1
         EditorResource resource,
         SoulsKey key)
     {
-        if (!gameMapping.TryGetValue(assetLocator.Type, out FromSoftGame game) || resource.Game != game)
+        if (!gameMapping.TryGetValue(Locator.AssetLocator.Type, out FromSoftGame game) || resource.Game != game)
         {
             return;
         }
@@ -655,7 +652,7 @@ public class SoapstoneService : SoapstoneServiceV1
     {
         // At the moment, just map properties, since there are some multi-keyed things like entity groups
         // Params are also possible; FMG might require a new command
-        if (!gameMapping.TryGetValue(assetLocator.Type, out FromSoftGame game) || resource.Game != game)
+        if (!gameMapping.TryGetValue(Locator.AssetLocator.Type, out FromSoftGame game) || resource.Game != game)
         {
             return;
         }

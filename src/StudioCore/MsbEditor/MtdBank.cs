@@ -8,8 +8,6 @@ namespace StudioCore.MsbEditor;
 
 public class MtdBank
 {
-    private static AssetLocator AssetLocator;
-
     private static Dictionary<string, MTD> _mtds = new();
     private static Dictionary<string, MATBIN> _matbins = new();
 
@@ -27,14 +25,14 @@ public class MtdBank
                 try
                 {
                     IBinder mtdBinder = null;
-                    if (AssetLocator.Type == GameType.DarkSoulsIII || AssetLocator.Type == GameType.Sekiro)
+                    if (Locator.AssetLocator.Type == GameType.DarkSoulsIII || Locator.AssetLocator.Type == GameType.Sekiro)
                     {
-                        mtdBinder = BND4.Read(AssetLocator.GetAssetPath(@"mtd\allmaterialbnd.mtdbnd.dcx"));
+                        mtdBinder = BND4.Read(Locator.AssetLocator.GetAssetPath(@"mtd\allmaterialbnd.mtdbnd.dcx"));
                         IsMatbin = false;
                     }
-                    else if (AssetLocator.Type is GameType.EldenRing or GameType.ArmoredCoreVI)
+                    else if (Locator.AssetLocator.Type is GameType.EldenRing or GameType.ArmoredCoreVI)
                     {
-                        mtdBinder = BND4.Read(AssetLocator.GetAssetPath(@"material\allmaterial.matbinbnd.dcx"));
+                        mtdBinder = BND4.Read(Locator.AssetLocator.GetAssetPath(@"material\allmaterial.matbinbnd.dcx"));
                         IsMatbin = true;
                     }
 
@@ -79,17 +77,5 @@ public class MtdBank
                     _matbins = new Dictionary<string, MATBIN>();
                 }
             }));
-    }
-
-    public static void LoadMtds(AssetLocator l)
-    {
-        AssetLocator = l;
-
-        if (AssetLocator.Type == GameType.Undefined)
-        {
-            return;
-        }
-
-        ReloadMtds();
     }
 }

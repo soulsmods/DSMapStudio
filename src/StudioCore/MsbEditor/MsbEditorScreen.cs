@@ -28,8 +28,6 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
     private static readonly object _lock_PauseUpdate = new();
     public Selection _selection = new Selection();
 
-    public readonly AssetLocator AssetLocator;
-
     private IModal _activeModal;
 
     private int _createEntityMapIndex;
@@ -73,11 +71,9 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
 
     private Sdl2Window Window;
 
-    public MsbEditorScreen(Sdl2Window window, GraphicsDevice device, AssetLocator locator)
+    public MsbEditorScreen(Sdl2Window window, GraphicsDevice device)
     {
         Rect = window.Bounds;
-        AssetLocator = locator;
-        ResourceManager.Locator = AssetLocator;
         Window = window;
 
         if (device != null)
@@ -92,14 +88,14 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
             Viewport = new NullViewport("Mapeditvp", EditorActionManager, _selection, Rect.Width, Rect.Height);
         }
 
-        Universe = new Universe(AssetLocator, RenderScene, _selection);
+        Universe = new Universe(RenderScene, _selection);
 
         SceneTree = new SceneTree(SceneTree.Configuration.MapEditor, this, "mapedittree", Universe, _selection,
-            EditorActionManager, Viewport, AssetLocator);
+            EditorActionManager, Viewport);
         PropEditor = new PropertyEditor(EditorActionManager, _propCache);
         DispGroupEditor = new DisplayGroupsEditor(RenderScene, _selection, EditorActionManager);
         PropSearch = new SearchProperties(Universe, _propCache);
-        NavMeshEditor = new NavmeshEditor(locator, RenderScene, _selection);
+        NavMeshEditor = new NavmeshEditor(RenderScene, _selection);
         MapAssetBrowser = new AssetBrowserScreen(AssetBrowserSource.MapEditor, Universe, RenderScene, _selection, EditorActionManager, this, Viewport);
 
         EditorActionManager.AddEventHandler(SceneTree);
@@ -529,7 +525,7 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
 
         if (ImGui.BeginMenu("Create"))
         {
-            if (AssetLocator.Type is GameType.EldenRing)
+            if (Locator.ActiveProject.Type is GameType.EldenRing)
             {
                 if (ImGui.Selectable("New Map"))
                 {
@@ -641,7 +637,7 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
                     ImGui.EndMenu();
                 }
 
-                if (AssetLocator.Type is GameType.EldenRing)
+                if (Locator.ActiveProject.AssetLocator.Type is GameType.EldenRing)
                 {
                     if (ImGui.BeginMenu("Asset Prefabs"))
                     {
@@ -858,7 +854,7 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
         {
             var loadedMaps = Universe.LoadedObjectContainers.Values.Where(x => x != null);
 
-            if (AssetLocator.Type is not GameType.DarkSoulsIISOTFS)
+            if (Locator.AssetLocator.Type is not GameType.DarkSoulsIISOTFS)
             {
                 if (ImGui.BeginMenu("Render enemy patrol routes"))
                 {
@@ -910,7 +906,7 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
                 }
             }
 
-            if (AssetLocator.Type is GameType.DemonsSouls or
+            if (Locator.AssetLocator.Type is GameType.DemonsSouls or
                 GameType.DarkSoulsPTDE or GameType.DarkSoulsRemastered)
             {
                 if (ImGui.BeginMenu("Regenerate MCP and MCG"))
@@ -1090,7 +1086,7 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
                 PatrolDrawManager.Generate(Universe);
             }
 
-            if (AssetLocator.Type is GameType.EldenRing)
+            if (Locator.ActiveProject != null && Locator.ActiveProject.AssetLocator.Type is GameType.EldenRing)
             {
                 if (InputTracker.GetKeyDown(KeyBindings.Current.Map_AssetPrefabExport))
                 {
@@ -1253,7 +1249,7 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
         // Not usable yet
         if (FeatureFlags.EnableNavmeshBuilder)
         {
-            NavMeshEditor.OnGui(AssetLocator.Type);
+            NavMeshEditor.OnGui(Locator.AssetLocator.Type);
         }
 
         ResourceManager.OnGuiDrawTasks(Viewport.Width, Viewport.Height);
@@ -1396,7 +1392,7 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
 
             if (assetType == "Chr")
             {
-                switch (AssetLocator.Type)
+                switch (Locator.AssetLocator.Type)
                 {
                     case GameType.DemonsSouls:
                         if (s.WrappedObject is MSBD.Part.Enemy)
@@ -1435,7 +1431,7 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
             }
             if (assetType == "Obj")
             {
-                switch (AssetLocator.Type)
+                switch (Locator.AssetLocator.Type)
                 {
                     case GameType.DemonsSouls:
                         if (s.WrappedObject is MSBD.Part.Object)
@@ -1476,7 +1472,7 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
             }
             if (assetType == "MapPiece")
             {
-                switch (AssetLocator.Type)
+                switch (Locator.AssetLocator.Type)
                 {
                     case GameType.DemonsSouls:
                         if (s.WrappedObject is MSBD.Part.MapPiece)
@@ -1838,7 +1834,7 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
     private void DummyUndummySelection(string[] sourceTypes, string[] targetTypes)
     {
         Type msbclass;
-        switch (AssetLocator.Type)
+        switch (Locator.AssetLocator.Type)
         {
             case GameType.DemonsSouls:
                 msbclass = typeof(MSBD);
@@ -2011,9 +2007,9 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
         GC.Collect();
         Universe.PopulateMapList();
 
-        if (AssetLocator.Type != GameType.Undefined)
+        if (Locator.AssetLocator.Type != GameType.Undefined)
         {
-            PopulateClassNames(AssetLocator.Type);
+            PopulateClassNames(Locator.AssetLocator.Type);
         }
     }
 
@@ -2064,7 +2060,7 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
             foreach (var map in orderedMaps)
             {
                 string mapid = map.Key;
-                if (AssetLocator.Type is GameType.DemonsSouls)
+                if (Locator.AssetLocator.Type is GameType.DemonsSouls)
                 {
                     if (mapid != "m03_01_00_99" && !mapid.StartsWith("m99"))
                     {
@@ -2080,10 +2076,10 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
                             {
                                 if (orderMap.Key.StartsWith(areaId) && orderMap.Key != "m03_01_00_99")
                                 {
-                                    areaDirectories.Add(Path.Combine(AssetLocator.GameRootDirectory, "map", orderMap.Key));
+                                    areaDirectories.Add(Path.Combine(Locator.AssetLocator.GameRootDirectory, "map", orderMap.Key));
                                 }
                             }
-                            SoulsMapMetadataGenerator.GenerateMCGMCP(areaDirectories, AssetLocator, toBigEndian: true);
+                            SoulsMapMetadataGenerator.GenerateMCGMCP(areaDirectories, Locator.AssetLocator, toBigEndian: true);
                         }
                     }
                     else
@@ -2092,21 +2088,21 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
                         {
                             List<string> areaDirectories = new List<string>
                             {
-                                Path.Combine(AssetLocator.GameRootDirectory, "map", mapid)
+                                Path.Combine(Locator.AssetLocator.GameRootDirectory, "map", mapid)
                             };
-                            SoulsMapMetadataGenerator.GenerateMCGMCP(areaDirectories, AssetLocator, toBigEndian: true);
+                            SoulsMapMetadataGenerator.GenerateMCGMCP(areaDirectories, Locator.AssetLocator, toBigEndian: true);
                         }
                     }
                 }
-                else if (AssetLocator.Type is GameType.DarkSoulsPTDE or GameType.DarkSoulsRemastered)
+                else if (Locator.AssetLocator.Type is GameType.DarkSoulsPTDE or GameType.DarkSoulsRemastered)
                 {
                     if (ImGui.Selectable($"{mapid}"))
                     {
                         List<string> areaDirectories = new List<string>
                         {
-                            Path.Combine(AssetLocator.GameRootDirectory, "map", mapid)
+                            Path.Combine(Locator.AssetLocator.GameRootDirectory, "map", mapid)
                         };
-                        SoulsMapMetadataGenerator.GenerateMCGMCP(areaDirectories, AssetLocator, toBigEndian: false);
+                        SoulsMapMetadataGenerator.GenerateMCGMCP(areaDirectories, Locator.AssetLocator, toBigEndian: false);
                     }
                 }
             }

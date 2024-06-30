@@ -259,21 +259,21 @@ public unsafe class EditorDecorations
         return rows;
     }
 
-    private static List<(string, FMGBank.EntryGroup)> resolveFMGRefs(List<FMGRef> fmgRefs, Param.Row context,
+    private static List<(string, FMGEntryGroup)> resolveFMGRefs(List<FMGRef> fmgRefs, Param.Row context,
         dynamic oldval)
     {
-        if (!FMGBank.IsLoaded)
+        if (!Locator.ActiveProject.FMGBank.IsLoaded)
         {
-            return new List<(string, FMGBank.EntryGroup)>();
+            return new List<(string, FMGEntryGroup)>();
         }
 
         return fmgRefs.Where(rf =>
             {
                 Param.Cell? c = context?[rf.conditionField];
                 return context == null || c == null || Convert.ToInt32(c.Value.Value) == rf.conditionValue;
-            }).Select(rf => FMGBank.FmgInfoBank.Find(x => x.Name == rf.fmg))
+            }).Select(rf => Locator.ActiveProject.FMGBank.FmgInfoBank.FirstOrDefault(x => x.Name == rf.fmg))
             .Where(fmgi => fmgi != null)
-            .Select(fmgi => (fmgi.Name, FMGBank.GenerateEntryGroup((int)oldval, fmgi)))
+            .Select(fmgi => (fmgi.Name, Locator.ActiveProject.FMGBank.GenerateEntryGroup((int)oldval, fmgi)))
             .ToList();
     }
 
@@ -282,11 +282,11 @@ public unsafe class EditorDecorations
     {
         List<string> textsToPrint = UICache.GetCached(ownerScreen, (int)oldval, "PARAM META FMGREF", () =>
         {
-            List<(string, FMGBank.EntryGroup)> refs = resolveFMGRefs(fmgNames, context, oldval);
+            List<(string, FMGEntryGroup)> refs = resolveFMGRefs(fmgNames, context, oldval);
             return refs.Where(x => x.Item2 != null)
                 .Select(x =>
                 {
-                    FMGBank.EntryGroup group = x.Item2;
+                    FMGEntryGroup group = x.Item2;
                     var toPrint = "";
                     if (!string.IsNullOrWhiteSpace(group.Title?.Text))
                     {
@@ -379,7 +379,7 @@ public unsafe class EditorDecorations
             {
                 List<string> matchedExtRefPath =
                     currentRef.paths.Select(x => string.Format(x, searchValue)).ToList();
-                AssetLocator al = ParamBank.PrimaryBank.AssetLocator;
+                AssetLocator al = Locator.AssetLocator;
                 ExtRefItem(context, fieldName, $"modded {currentRef.name}", matchedExtRefPath, al.GameModDirectory,
                     cacheOwner);
                 ExtRefItem(context, fieldName, $"vanilla {currentRef.name}", matchedExtRefPath,
@@ -464,7 +464,7 @@ public unsafe class EditorDecorations
             }
             else if (fmgRefs != null)
             {
-                (string, FMGBank.EntryGroup)? primaryRef =
+                (string, FMGEntryGroup)? primaryRef =
                     resolveFMGRefs(fmgRefs, context, oldval)?.FirstOrDefault();
                 if (primaryRef?.Item2 != null)
                 {
@@ -599,9 +599,9 @@ public unsafe class EditorDecorations
         ActionManager executor)
     {
         // Add Goto statements
-        List<(string, FMGBank.EntryGroup)> refs = resolveFMGRefs(reftypes, context, oldval);
+        List<(string, FMGEntryGroup)> refs = resolveFMGRefs(reftypes, context, oldval);
         var ctrlDown = InputTracker.GetKey(Key.ControlLeft) || InputTracker.GetKey(Key.ControlRight);
-        foreach ((var name, FMGBank.EntryGroup group) in refs)
+        foreach ((var name, FMGEntryGroup group) in refs)
         {
             if (ImGui.Selectable($@"Goto {name} Text"))
             {
