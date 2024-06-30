@@ -164,13 +164,13 @@ namespace SoulsFormats
             else if (type == Type.DCX_KRAK_MAX)
                 return DecompressDCXKRAK(br, 9);
             else if (type == Type.ZSTD)
-                return DecompressDCPZSTD(br);
+                return DecompressDCXZSTD(br);
             else
                 throw new FormatException("Unknown DCX format.");
         }
 
 
-        private static byte[] DecompressDCPZSTD(BinaryReaderEx br)
+        private static byte[] DecompressDCXZSTD(BinaryReaderEx br)
         {
             br.AssertASCII("DCX\0");
             br.AssertInt32(0x11000);

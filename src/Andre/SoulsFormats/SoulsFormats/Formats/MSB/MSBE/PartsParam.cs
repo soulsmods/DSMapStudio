@@ -784,7 +784,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public uint[] DisplayGroups { get; set; }
+                public uint[] DisplayGroups { get; private set; }
 
                 /// <summary>
                 /// Unknown.
@@ -2414,7 +2414,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// The map to load when on this collision.
                 /// </summary>
-                public byte[] MapID { get; set; }
+                public byte[] MapID { get; private set; }
 
                 /// <summary>
                 /// Unknown.
