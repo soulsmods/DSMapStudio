@@ -555,7 +555,15 @@ public unsafe class TextEditorScreen : EditorScreen
                         {
                             if (info.EntryType is not FmgEntryTextType.Title and not FmgEntryTextType.TextBody)
                             {
-                                _filteredFmgInfo.Add(info.GetTitleFmgInfo());
+                                try
+                                {
+                                    _filteredFmgInfo.Add(info.GetTitleFmgInfo());
+                                }
+                                catch (Exception e)
+                                {
+                                    //This fmginfo lacks a title
+                                    _filteredFmgInfo.Add(info);
+                                }
                             }
                             else
                             {
