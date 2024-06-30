@@ -238,6 +238,8 @@
         <Option Value="1" Name="Strike" />
         <Option Value="2" Name="Thrust" />
         <Option Value="3" Name="Standard" />
+        <Option Value="253" Name="Refers to EquipParamWeapon atkAttribute2 field" />
+        <Option Value="254" Name="Refers to EquipParamWeapon atkAttribute field" />
     </Enum>
     <Enum Name="WEP_BASE_CHANGE_CATEGORY" type="u8">
         <Option Value="0" Name="Category 0" />
@@ -364,6 +366,14 @@
         <Option Value="85" Name="Bolt" />
         <Option Value="86" Name="Ballista Bolt" />
         <Option Value="87" Name="Torch" />
+        <Option Value="88" Name="Hand-to-Hand" />
+        <Option Value="89" Name="Perfume Bottle" />
+        <Option Value="90" Name="Thrusting Shield" />
+        <Option Value="91" Name="Throwing Blade" />
+        <Option Value="92" Name="Reverse-hand Blade" />
+        <Option Value="93" Name="Light Greatsword" />
+        <Option Value="94" Name="Great Katana" />
+        <Option Value="95" Name="Beast Claw" />
     </Enum>
     <Enum Name="REINFORCE_SHOP_CATEGORY" type="u8">
       <Option Value="0" Name="No Reinforcement" />
@@ -377,14 +387,18 @@
     </Enum>
     <Enum Name="DISPLAY_CATEGORY_ID" type="u8">
       <Option Value="10" Name="Dagger - Torch - Shortbow - Arrow" />
+      <Option Value="15" Name="Throwing Blade" />
       <Option Value="20" Name="Straight Sword - Small Shield - Longbow - Great Arrow" />
+      <Option Value="25" Name="Light Greatsword" />
       <Option Value="30" Name="Greatswrod - Medium Shield - Greatbow - Bolt" />
       <Option Value="40" Name="Ultra Greatsword - Greatshield - Crossbow - Greatbolt" />
       <Option Value="50" Name="Thrusting Sword - Ballista" />
       <Option Value="60" Name="Heavy Thrusting Sword - Staff" />
       <Option Value="70" Name="Curved Sword - Seal" />
       <Option Value="80" Name="Curved Greatsword" />
+      <Option Value="85" Name="Reverse-hand Blade" />
       <Option Value="90" Name="Katana" />
+      <Option Value="95" Name="Great Katana" />
       <Option Value="100" Name="Twinblade" />
       <Option Value="110" Name="Axe" />
       <Option Value="120" Name="Greataxe" />
@@ -398,7 +412,10 @@
       <Option Value="200" Name="Scythe" />
       <Option Value="210" Name="Whip" />
       <Option Value="220" Name="Fist Weapon" />
+      <Option Value="225" Name="Hand-to-Hand" />
       <Option Value="230" Name="Claw Weapon" />
+      <Option Value="240" Name="Beast Claw" />
+      <Option Value="250" Name="Perfume Bottle" />
       <Option Value="255" Name="None" />
     </Enum>
     <Enum Name="RARITY" type="u8">
@@ -591,7 +608,7 @@
     <correctType_Dark AltName="Correction Type: Holy" Wiki="Determine the type of darkness attack power correction graph with primary parameters" Refs="CalcCorrectGraph" />
     <correctType_Poison AltName="Correction Type: Poison" Wiki="Determining the type of poison attack power correction graph with primary parameters" Refs="CalcCorrectGraph" />
     <sortGroupId AltName="Sort Group ID" Wiki="Sort item type ID. In the sort Item type order, the same ID is displayed together as the same group." Enum="DISPLAY_CATEGORY_ID" />
-    <atkAttribute2 AltName="Attack Attribute [2]" Wiki="Physical attribute 2" Enum="ATKPARAM_ATKATTR_TYPE" />
+    <atkAttribute2 AltName="Attack Attribute [2]" Wiki="Physical attribute referred to in the AtkParam" Enum="ATKPARAM_ATKATTR_TYPE" />
     <sleepGuardResist AltName="Guard Resist: Sleep" Wiki="How much to cut the attack power (set as a special effect parameter) to sleep" />
     <madnessGuardResist AltName="Guard Resist: Madness" Wiki="How much to cut the attack power (set to the special effect parameter) that makes you go mad" />
     <correctType_Blood AltName="Correction Type: Hemorrhage" Wiki="Determine the type of bleeding attack power correction graph with primary parameters" Refs="CalcCorrectGraph" />
@@ -678,7 +695,8 @@
     <stealthAtkRate AltName="Stealth Attack Multiplier" Wiki="Stealth attack power multiplier" />
     <vsPlayerDmgCorrectRate_Disease AltName="Vs. Player - Scarlet Rot Damage %" Wiki="Only attacks on the player will correct the damage done." />
     <vsPlayerDmgCorrectRate_Curse AltName="Vs. Player - Blight Damage %" Wiki="Only attacks on the player will correct the damage done." />
-    <pad AltName=""/>
+    <pad AltName="" />
+    <restrictSpecialSwordArt AltName="Restrict Special Ashes of War" Wiki="If set to true, then ashes of war in EquipParamGem with isSpecialSwordArt set to 1 cannot be applied to this weapon." /> 
   </Field>
   <Self Wiki="Defines weapon types and each affinity.\nIncludes arrows and bolts. Responsible for scaling shown on certain consumables.\nIDs not ending in a multiple of 100 are ignored.\nPermitting affinities on a weapon without affinity rows at the correct IDs will result in the nearest 10000 being used.\nSpEffects specified here can be modified by upgrades in ReinforceParamWeapon." OffsetSize="100" AlternativeOrder="sortId,trophySGradeId,-,
 behaviorVariationId,swordArtsParamId,wepmotionCategory,guardmotionCategory,wepmotionOneHandId,wepmotionBothHandId,-,

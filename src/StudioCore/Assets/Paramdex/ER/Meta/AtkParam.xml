@@ -348,6 +348,8 @@
     <atkThrowEscapeCorrection AltName="Attack Correction: Throw Escape" Wiki="Weapon correction value for throw-through attacks" />
     <subCategory1 AltName="Conditional Category [1]" Wiki="Subcategory 1" Enum="ATK_SUB_CATEGORY" VRef="MagicSubCategory" />
     <subCategory2 AltName="Conditional Category [2]" Wiki="Subcategory 2" Enum="ATK_SUB_CATEGORY" VRef="MagicSubCategory" />
+    <subCategory3 AltName="Conditional Category [3]" Wiki="Subcategory 2" Enum="ATK_SUB_CATEGORY" VRef="MagicSubCategory" />
+    <subCategory4 AltName="Conditional Category [4]" Wiki="Subcategory 2" Enum="ATK_SUB_CATEGORY" VRef="MagicSubCategory" />
     <atkPhys AltName="Damage: Physical" Wiki="NPCs only. Basic damage of physical attack" />
     <atkMag AltName="Damage: Magic" Wiki="NPCs only. Additional damage from magic attacks" />
     <atkFire AltName="Damage: Fire" Wiki="NPCs only. Additional damage from fire attacks" />

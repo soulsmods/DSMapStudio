@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Numerics;
+using System.Xml.Serialization;
 
 namespace SoulsFormats
 {
@@ -153,7 +154,7 @@ namespace SoulsFormats
         /// </summary>
         public abstract class Part : Entry, IMsbPart
         {
-            public enum GameEditionDisableType : int
+            public enum GameEditionDisableType : uint
             {
                 NeverDisable = 0,
 
@@ -188,7 +189,8 @@ namespace SoulsFormats
             /// </summary>
             public string ModelName { get; set; }
             [IndexProperty]
-            public int ModelIndex { get; set; }
+            [XmlIgnore]
+            private int ModelIndex { get; set; }
 
             /// <summary>
             /// Involved with serialization.
@@ -782,17 +784,17 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public uint[] DisplayGroups { get; private set; }
+                public uint[] DisplayGroups { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public uint[] DrawGroups { get; private set; }
+                public uint[] DrawGroups { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public uint[] CollisionMask { get; private set; }
+                public uint[] CollisionMask { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -901,7 +903,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public uint[] DispGroups { get; private set; }
+                public uint[] DispGroups { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -1326,7 +1328,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public byte[] MapID { get; private set; }
+                public byte[] MapID { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -1638,8 +1640,10 @@ namespace SoulsFormats
                 [EnemyProperty]
                 [MSBReference(ReferenceType = typeof(Collision))]
                 public string CollisionPartName { get; set; }
+
                 [IndexProperty]
-                public int CollisionPartIndex { get; set; }
+                [XmlIgnore]
+                private int CollisionPartIndex { get; set; }
 
                 /// <summary>
                 /// Walk route followed by this enemy.
@@ -1647,8 +1651,10 @@ namespace SoulsFormats
                 [EnemyProperty]
                 [MSBReference(ReferenceType = typeof(Event.PatrolInfo))]
                 public string WalkRouteName { get; set; }
+
                 [IndexProperty]
-                public short WalkRouteIndex { get; set; }
+                [XmlIgnore]
+                private short WalkRouteIndex { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -1692,7 +1698,7 @@ namespace SoulsFormats
                 /// </summary>
                 [EnemyProperty]
                 [MSBParamReference(ParamName = "SpEffectSetParam")]
-                public int[] SpEffectSetParamID { get; private set; }
+                public int[] SpEffectSetParamID { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -1947,6 +1953,7 @@ namespace SoulsFormats
                     Unk17 = 17,
                     Unk19 = 19,
                     Unk20 = 20,
+                    Unk21 = 21,
                     Unk22 = 22,
                     Unk23 = 23,
                     Unk24 = 24,
@@ -2028,6 +2035,12 @@ namespace SoulsFormats
                 /// </summary>
                 [IgnoreProperty]
                 public float UnkT04 { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                [IgnoreProperty]
+                public int UnkT06 { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -2157,7 +2170,7 @@ namespace SoulsFormats
                     UnkT02 = br.ReadByte();
                     UnkT03 = br.ReadBoolean();
                     UnkT04 = br.ReadSingle();
-                    br.AssertInt32(0);
+                    UnkT06 = br.ReadInt32();
                     br.AssertInt32(0);
                     br.AssertInt32(0);
                     UnkT14 = br.ReadSingle();
@@ -2179,7 +2192,7 @@ namespace SoulsFormats
                     UnkT40 = br.ReadSingle();
                     br.AssertInt32(0);
                     EnableFastTravelEventFlagID = br.ReadUInt32();
-                    UnkT4C = br.AssertInt16([0, 1]);
+                    UnkT4C = br.AssertInt16([0, 1, 2]);
                     UnkT4E = br.ReadInt16();
                 }
 
@@ -2198,7 +2211,7 @@ namespace SoulsFormats
                     bw.WriteByte(UnkT02);
                     bw.WriteBoolean(UnkT03);
                     bw.WriteSingle(UnkT04);
-                    bw.WriteInt32(0);
+                    bw.WriteInt32(UnkT06);
                     bw.WriteInt32(0);
                     bw.WriteInt32(0);
                     bw.WriteSingle(UnkT14);
@@ -2257,6 +2270,11 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
+                public int UnkT18 { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
                 public GparamConfig Gparam { get; set; }
 
                 /// <summary>
@@ -2299,7 +2317,7 @@ namespace SoulsFormats
                     br.AssertInt32(0);
                     br.AssertInt32(-1);
                     br.AssertInt32(-1);
-                    br.AssertInt32(-1);
+                    UnkT18 = br.ReadInt32();
                     br.AssertInt32(-1);
                 }
 
@@ -2316,7 +2334,7 @@ namespace SoulsFormats
                     bw.WriteInt32(0);
                     bw.WriteInt32(-1);
                     bw.WriteInt32(-1);
-                    bw.WriteInt32(-1);
+                    bw.WriteInt32(UnkT18);
                     bw.WriteInt32(-1);
                 }
 
@@ -2388,13 +2406,15 @@ namespace SoulsFormats
                 [MSBReference(ReferenceType = typeof(Collision))]
                 [NoRenderGroupInheritence()]
                 public string CollisionName { get; set; }
+
                 [IndexProperty]
-                public int CollisionIndex { get; set; }
+                [XmlIgnore]
+                private int CollisionIndex { get; set; }
 
                 /// <summary>
                 /// The map to load when on this collision.
                 /// </summary>
-                public byte[] MapID { get; private set; }
+                public byte[] MapID { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -2553,6 +2573,11 @@ namespace SoulsFormats
                 /// Unknown.
                 /// </summary>
                 [IgnoreProperty]
+                public short UnkT00 { get; set; }
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                [IgnoreProperty]
                 public short UnkT02 { get; set; }
 
                 /// <summary>
@@ -2612,8 +2637,11 @@ namespace SoulsFormats
                 /// Unknown.
                 /// </summary>
                 [MSBReference(ReferenceType = typeof(Part))]
-                public string[] UnkPartNames { get; private set; }
-                private int[] UnkPartIndices;
+                public string[] UnkPartNames { get; set; }
+
+                [IndexProperty]
+                [XmlIgnore]
+                private int[] UnkPartIndices { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -2636,8 +2664,11 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                [IgnoreProperty]
-                public int UnkT54 { get; set; }
+                [MSBReference(ReferenceType = typeof(Part))]
+                public string UnkT54PartName { get; set; }
+                [XmlIgnore]
+                [IndexProperty]
+                private int UnkT54PartIndex { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -2940,7 +2971,7 @@ namespace SoulsFormats
                     /// <summary>
                     /// Disables the asset when the specified map is loaded.
                     /// </summary>
-                    public sbyte[] DisableWhenMapLoadedMapID { get; private set; }
+                    public sbyte[] DisableWhenMapLoadedMapID { get; set; }
 
                     /// <summary>
                     /// Unknown.
@@ -2971,6 +3002,12 @@ namespace SoulsFormats
                     /// </summary>
                     [IgnoreProperty]
                     public bool Unk25 { get; set; }
+
+                    /// <summary>
+                    /// Unknown.
+                    /// </summary>
+                    [IgnoreProperty]
+                    public int Unk28 { get; set; }
 
                     /// <summary>
                     /// Creates an AssetUnkStruct3 with default values.
@@ -3009,7 +3046,7 @@ namespace SoulsFormats
                         Unk25 = br.ReadBoolean();
                         br.AssertByte(0);
                         br.AssertByte(0);
-                        br.AssertInt32(0);
+                        Unk28 = br.ReadInt32();
                         br.AssertInt32(0);
                         br.AssertInt32(0);
                         br.AssertInt32(0);
@@ -3036,7 +3073,7 @@ namespace SoulsFormats
                         bw.WriteBoolean(Unk25);
                         bw.WriteByte(0);
                         bw.WriteByte(0);
-                        bw.WriteInt32(0);
+                        bw.WriteInt32(Unk28);
                         bw.WriteInt32(0);
                         bw.WriteInt32(0);
                         bw.WriteInt32(0);
@@ -3200,7 +3237,7 @@ namespace SoulsFormats
 
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
-                    br.AssertInt16(0);
+                    UnkT00 = br.ReadInt16();
                     UnkT02 = br.AssertInt16([0, 1]);
                     br.AssertInt32(0);
                     br.AssertInt32(0);
@@ -3224,7 +3261,7 @@ namespace SoulsFormats
                     UnkT51 = br.ReadByte();
                     br.AssertByte(0);
                     UnkT53 = br.ReadByte();
-                    UnkT54 = br.ReadInt32();
+                    UnkT54PartIndex = br.ReadInt32();
                     UnkModelMaskAndAnimID = br.ReadInt32();
                     UnkT5C = br.ReadInt32();
                     UnkT60 = br.ReadInt32();
@@ -3253,7 +3290,7 @@ namespace SoulsFormats
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    bw.WriteInt16(0);
+                    bw.WriteInt16(UnkT00);
                     bw.WriteInt16(UnkT02);
                     bw.WriteInt32(0);
                     bw.WriteInt32(0);
@@ -3273,11 +3310,11 @@ namespace SoulsFormats
                     bw.WriteInt32(UnkT30);
                     bw.WriteInt32(UnkT34);
                     bw.WriteInt32s(UnkPartIndices);
-                    bw.WriteBoolean(UnkT50);                
+                    bw.WriteBoolean(UnkT50);
                     bw.WriteByte(UnkT51);
                     bw.WriteByte(0);
                     bw.WriteByte(UnkT53);
-                    bw.WriteInt32(UnkT54);
+                    bw.WriteInt32(UnkT54PartIndex);
                     bw.WriteInt32(UnkModelMaskAndAnimID);
                     bw.WriteInt32(UnkT5C);
                     bw.WriteInt32(UnkT60);
@@ -3307,12 +3344,14 @@ namespace SoulsFormats
                 {
                     base.GetNames(msb, entries);
                     UnkPartNames = MSB.FindNames(entries.Parts, UnkPartIndices);
+                    UnkT54PartName = MSB.FindName(entries.Parts, UnkT54PartIndex);
                 }
 
                 internal override void GetIndices(MSBE msb, Entries entries)
                 {
                     base.GetIndices(msb, entries);
                     UnkPartIndices = MSB.FindIndices(this, entries.Parts, UnkPartNames);
+                    UnkT54PartIndex = MSB.FindIndex(entries.Parts, UnkT54PartName);
                 }
             }
         }

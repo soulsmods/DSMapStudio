@@ -137,6 +137,8 @@
         <Option Value="1" Name="Strike" />
         <Option Value="2" Name="Thrust" />
         <Option Value="3" Name="Standard" />
+        <Option Value="253" Name="Refers to EquipParamWeapon atkAttribute2 field" />
+        <Option Value="254" Name="Refers to EquipParamWeapon atkAttribute field" />
     </Enum>
     <Enum Name="ATKPARAM_SPATTR_TYPE" type="u8">
         <Option Value="0" Name="None" />
@@ -992,6 +994,9 @@ Requires State Info 66" />
     <overwrite_BackHome_LookTargetDist AltName="Override - Look Target Distance" Wiki="When returning home: Distance to see the target [m] _ Overwrite" />
     <goodsConsumptionRate AltName="Item FP Consumption %" Wiki="Item consumption MP multiplier" />
     <guardStaminaMult AltName="Guard Stamina Multiplier" Wiki="Multiplies stamina lost when blocking an attack"/>
+    
+    <spiritDeathSpEffectId AltName="Spirit Summon Death SpEffect ID" Wiki="Special effect ID added at the end of life of spirit summon (-1 is ignored)" Refs="SpEffectParam"/>
+    
   </Field>
   <Self Wiki="Defines various effects that can be applied to the player and to enemies.\nCan define passive, activated, single-use and repeated or continuous application effects with indefinite duration.\nSuccessful application may depend on spCategory or invocationConditions." Row0Dummy="" AlternativeOrder="iconId,-,
   
@@ -1002,7 +1007,7 @@ stateInfo,waitForTriggerStateInfo,invocationConditionsStateChange1,invocationCon
 
 accumuOverFireId,accumuOverVal,accumuUnderFireId,accumuUnderVal,accumuVal,-,
 
-replaceSpEffectId,cycleOccurrenceSpEffectId,atkOccurrenceSpEffectId,applyIdOnGetSoul,-,
+replaceSpEffectId,cycleOccurrenceSpEffectId,atkOccurrenceSpEffectId,spiritDeathSpEffectId,applyIdOnGetSoul,-,
 
 atkAttribute,spAttribute,spAttributeVariationValue,wepParamChange,moveType,throwCondition,deleteCriteriaDamage,-,
 

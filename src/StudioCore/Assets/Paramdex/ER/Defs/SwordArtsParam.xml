@@ -147,13 +147,12 @@
       <Maximum>128</Maximum>
       <SortID>990</SortID>
     </Field>
-    <Field Def="u8 swordArtsTypeNew" FirstVersion="10701000">
-    </Field>
-    <Field Def="dummy8 pad[1]">
-      <DisplayFormat>%d</DisplayFormat>
-      <EditFlags>Wrap</EditFlags>
-      <SortID>1104</SortID>
-    </Field>
+    
+    <Field Def="u8 swordArtsTypeNew" FirstVersion="10701000" RemovedVersion="11210015" />
+    <Field Def="dummy8 pad[1]" RemovedVersion="11210015" />
+    
+    <Field Def="u16 swordArtsTypeDlc" FirstVersion="11210015" />
+    
     <Field Def="u16 iconId">
       <DisplayName>アイコンID</DisplayName>
       <Description>FEなどで表示するアイコンのID</Description>
