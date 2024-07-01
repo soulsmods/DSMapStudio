@@ -4,10 +4,13 @@
   </Enums>
   <Field>
     <disableParam_NT AltName="Disable Param - Network Test" Wiki="Parameters marked with  are excluded in the NT version package." IsBool="" />
-    <disableParamReserve1 AltName=""/>
-    <disableParamReserve2 AltName=""/>
+    <disableParamReserve1 AltName="" />
+    <disableParamReserve2 AltName="" />
     <matchAreaId AltName="Match Area ID" Wiki="ID of the simple match area to which it belongs" />
     <pad1 AltName=""/>
+    
+    <signSubCategoryId AltName="Sign Sub Category ID" Refs="SignPuddleSubCategoryParam" />
+    <locationTextId AltName="Location Text ID" FmgRef="TitleLocations" />
   </Field>
   <Self />
 </PARAMMETA>

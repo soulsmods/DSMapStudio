@@ -187,6 +187,11 @@ public class ParamBank
         Project = owner;
     }
 
+    public Dictionary<string, PARAMDEF> GetParamDefs()
+    {
+        return _paramdefs;
+    }
+
     private static FileNotFoundException CreateParamMissingException(GameType type)
     {
         if (type is GameType.DarkSoulsPTDE or GameType.Sekiro)
@@ -1373,6 +1378,7 @@ public class ParamBank
 
         var dir = Project.ParentProject.AssetLocator.RootDirectory;
         var mod = Project.AssetLocator.RootDirectory;
+
         var param = Project.AssetLocator.GetAssetPath($@"regulation.bin");
         if (param == null)
         {
@@ -1393,7 +1399,7 @@ public class ParamBank
         }
 
         var eventParam = Project.AssetLocator.GetAssetPath(@"param\eventparam\eventparam.parambnd.dcx");
-        if (sysParam != null)
+        if (eventParam != null)
         {
             using var eventParams = BND4.Read(eventParam);
             OverwriteParamsER(eventParams);

@@ -27,6 +27,7 @@ using System.Threading;
 using Veldrid;
 using Veldrid.Sdl2;
 using StudioCore.Interface;
+using StudioCore.Utilities;
 
 namespace StudioCore;
 
@@ -924,6 +925,19 @@ public class MapStudioNew
             {
                 if (ImGui.BeginMenu("Tests"))
                 {
+                    if (ImGui.MenuItem("Paramdef Validation"))
+                    {
+                        ParamValidationTool.ValidateParamdef();
+                    }
+                    if (ImGui.MenuItem("Param Validation"))
+                    {
+                        ParamValidationTool.ValidatePadding();
+                    }
+                    if (ImGui.MenuItem("Map Validation"))
+                    {
+                        MapValidationTest.ValidateMSB();
+                    }
+
                     if (ImGui.MenuItem("Crash me (will actually crash)"))
                     {
                         var badArray = new int[2];
