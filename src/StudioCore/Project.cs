@@ -97,7 +97,7 @@ public class Project
         }
         catch (Exception e)
         {
-            return this;
+            return null;
         }
     }
 }

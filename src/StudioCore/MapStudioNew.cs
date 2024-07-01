@@ -620,7 +620,7 @@ public class MapStudioNew
 
     public void SaveAll()
     {
-        if (_projectSettings != null && _projectSettings.ProjectName != null)
+        if (_projectSettings != null && _projectSettings.ProjectName != null && !string.IsNullOrWhiteSpace(CFG.Current.LastProjectFile))
         {
             // Danger zone assuming on lastProjectFile
             _projectSettings.Serialize(CFG.Current.LastProjectFile);
@@ -672,8 +672,10 @@ public class MapStudioNew
     {
         if (_projectSettings != null && _projectSettings.ProjectName != null)
         {
-            // Danger zone assuming on lastProjectFile
-            _projectSettings.Serialize(CFG.Current.LastProjectFile);
+            if (!string.IsNullOrWhiteSpace(CFG.Current.LastProjectFile))
+            {
+                _projectSettings.Serialize(CFG.Current.LastProjectFile);
+            }
             _focusedEditor.Save();
         }
     }
