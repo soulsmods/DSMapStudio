@@ -1392,7 +1392,7 @@ public class MapStudioNew
             if (Math.Abs(_dpi - value) < 0.0001f) return; // Skip doing anything if no difference
 
             _dpi = value;
-            if (Math.Abs(value - _dpi) > 0.9f && CFG.Current.UIScaleByDPI)
+            if (CFG.Current.UIScaleByDPI)
                 UIScaleChanged?.Invoke(null, EventArgs.Empty);
         }
     }
