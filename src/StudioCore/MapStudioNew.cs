@@ -82,6 +82,11 @@ public class MapStudioNew
         _version = version;
         _programTitle = $"Dark Souls Map Studio version {_version}";
 
+        UIScaleChanged += (_, _) =>
+        {
+            FontRebuildRequest = true;
+        };
+
         // Hack to make sure dialogs work before the main window is created
         PlatformUtils.InitializeWindows(null);
         CFG.AttemptLoadOrDefault();
@@ -118,7 +123,6 @@ public class MapStudioNew
         HelpWindow = new HelpWindow();
 
         ImGui.GetIO()->ConfigFlags |= ImGuiConfigFlags.NavEnableKeyboard;
-        SetupFonts();
         _context.ImguiRenderer.OnSetupDone();
 
         ImGuiStyle* style = ImGui.GetStyle();
@@ -1387,10 +1391,9 @@ public class MapStudioNew
         {
             if (Math.Abs(_dpi - value) < 0.0001f) return; // Skip doing anything if no difference
 
-            if (Math.Abs(value - _dpi) > 0.9f)
-                FontRebuildRequest = true;
             _dpi = value;
-            UIScaleChanged?.Invoke(null, EventArgs.Empty);
+            if (Math.Abs(value - _dpi) > 0.9f && CFG.Current.UIScaleByDPI)
+                UIScaleChanged?.Invoke(null, EventArgs.Empty);
         }
     }
 

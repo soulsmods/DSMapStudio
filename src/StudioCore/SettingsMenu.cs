@@ -70,7 +70,6 @@ public class SettingsMenu
                     // Round to 0.05
                     CFG.Current.UIScale = (float)Math.Round(_tempUiScale * 20) / 20;
                     MapStudioNew.UIScaleChanged?.Invoke(null, EventArgs.Empty);
-                    MapStudioNew.FontRebuildRequest = true;
                     _tempUiScale = CFG.Current.UIScale;
                 }
 
@@ -79,7 +78,7 @@ public class SettingsMenu
                 {
                     CFG.Current.UIScale = CFG.Default.UIScale;
                     _tempUiScale = CFG.Current.UIScale;
-                    MapStudioNew.FontRebuildRequest = true;
+                    MapStudioNew.UIScaleChanged?.Invoke(null, EventArgs.Empty);
                 }
 
                 if (CFG.Current.ShowUITooltips)
@@ -91,7 +90,6 @@ public class SettingsMenu
                 if (ImGui.IsItemDeactivatedAfterEdit())
                 {
                     MapStudioNew.UIScaleChanged?.Invoke(null, EventArgs.Empty);
-                    MapStudioNew.FontRebuildRequest = true;
                 }
             }
 
