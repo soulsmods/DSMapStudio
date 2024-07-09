@@ -40,6 +40,7 @@ public class CFG
     public bool EnableCheckProgramUpdate = true;
     public bool ShowUITooltips = true;
     public float UIScale = 1.0f;
+    public bool UIScaleByDPI = true;
     public bool EnableSoapstone = true;
     public bool EnableTexturing = false;
 
@@ -280,6 +281,7 @@ public class CFG
                 SaveConfig();
             }
         }
+        MapStudioNew.UIScaleChanged?.Invoke(null, EventArgs.Empty);
     }
 
     private static void LoadKeybinds()
