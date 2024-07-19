@@ -83,8 +83,8 @@ param WepAbsorpPosParam: modified && !added: unknown_0x57: = vanillafield unknow
 1.12.1 - (WepAbsorpPosParam) Set reserve to Vanilla v1.12.1 values
 param WepAbsorpPosParam: modified && !added: reserve: = vanillafield reserve
 11210015L
-1.12.1 - (SwordArtsParam) Set swordArtsTypeDlc to Vanilla v1.12.1 values
-param SwordArtsParam: modified && !added: swordArtsTypeDlc: = vanillafield swordArtsTypeDlc
+1.12.1 - (SwordArtsParam) Set swordArtsTypeNew to Vanilla v1.12.1 values
+param SwordArtsParam: modified && !added: swordArtsTypeNew: = vanillafield swordArtsTypeNew
 11210015L
 1.12.1 - (SpEffectVfxParam) Set unknown_0x2f_7 to Vanilla v1.12.1 values
 param SpEffectVfxParam: modified && !added: unknown_0x2f_7: = vanillafield unknown_0x2f_7
@@ -161,29 +161,38 @@ param SignPuddleParam: modified && !added: unknown_0x20: = vanillafield unknown_
 1.12.1 - (SignPuddleParam) Set unknown_0x24 to Vanilla v1.12.1 values
 param SignPuddleParam: modified && !added: unknown_0x24: = vanillafield unknown_0x24
 11210015L
-1.12.1 - (SignPuddleParam) Set unknown_0x28 to Vanilla v1.12.1 values
-param SignPuddleParam: modified && !added: unknown_0x28: = vanillafield unknown_0x28
+1.12.1 - (SignPuddleParam) Set areaNo to Vanilla v1.12.1 values
+param SignPuddleParam: modified && !added: areaNo: = vanillafield areaNo
 11210015L
-1.12.1 - (SignPuddleParam) Set unknown_0x2c to Vanilla v1.12.1 values
-param SignPuddleParam: modified && !added: unknown_0x2c: = vanillafield unknown_0x2c
+1.12.1 - (SignPuddleParam) Set gridXNo to Vanilla v1.12.1 values
+param SignPuddleParam: modified && !added: gridXNo: = vanillafield gridXNo
 11210015L
-1.12.1 - (SignPuddleParam) Set unknown_0x30 to Vanilla v1.12.1 values
-param SignPuddleParam: modified && !added: unknown_0x30: = vanillafield unknown_0x30
+1.12.1 - (SignPuddleParam) Set gridZNo to Vanilla v1.12.1 values
+param SignPuddleParam: modified && !added: gridZNo: = vanillafield gridZNo
 11210015L
-1.12.1 - (SignPuddleParam) Set unknown_0x34 to Vanilla v1.12.1 values
-param SignPuddleParam: modified && !added: unknown_0x34: = vanillafield unknown_0x34
+1.12.1 - (SignPuddleParam) Set pad3 to Vanilla v1.12.1 values
+param SignPuddleParam: modified && !added: pad3: = vanillafield pad3
 11210015L
-1.12.1 - (SignPuddleParam) Set unknown_0x38 to Vanilla v1.12.1 values
-param SignPuddleParam: modified && !added: unknown_0x38: = vanillafield unknown_0x38
+1.12.1 - (SignPuddleParam) Set posX to Vanilla v1.12.1 values
+param SignPuddleParam: modified && !added: posX: = vanillafield posX
 11210015L
-1.12.1 - (SignPuddleParam) Set unknown_0x3c to Vanilla v1.12.1 values
-param SignPuddleParam: modified && !added: unknown_0x3c: = vanillafield unknown_0x3c
+1.12.1 - (SignPuddleParam) Set posY to Vanilla v1.12.1 values
+param SignPuddleParam: modified && !added: posY: = vanillafield posY
 11210015L
-1.12.1 - (SignPuddleParam) Set unknown_0x40 to Vanilla v1.12.1 values
-param SignPuddleParam: modified && !added: unknown_0x40: = vanillafield unknown_0x40
+1.12.1 - (SignPuddleParam) Set posZ to Vanilla v1.12.1 values
+param SignPuddleParam: modified && !added: posZ: = vanillafield posZ
 11210015L
-1.12.1 - (SignPuddleParam) Set unknown_0x44 to Vanilla v1.12.1 values
-param SignPuddleParam: modified && !added: unknown_0x44: = vanillafield unknown_0x44
+1.12.1 - (SignPuddleParam) Set signSubCategoryId to Vanilla v1.12.1 values
+param SignPuddleParam: modified && !added: signSubCategoryId: = vanillafield signSubCategoryId
+11210015L
+1.12.1 - (SignPuddleParam) Set locationTextId to Vanilla v1.12.1 values
+param SignPuddleParam: modified && !added: locationTextId: = vanillafield locationTextId
+11210015L
+1.12.1 - (SignPuddleParam) Set sortId to Vanilla v1.12.1 values
+param SignPuddleParam: modified && !added: sortId: = vanillafield sortId
+11210015L
+1.12.1 - (SignPuddleParam) Set endPad to Vanilla v1.12.1 values
+param SignPuddleParam: modified && !added: endPad: = vanillafield endPad
 11210015L
 1.12.1 - (PostureControlParam_WepRight) Set unknown_0x6c to Vanilla v1.12.1 values
 param PostureControlParam_WepRight: modified && !added: unknown_0x6c: = vanillafield unknown_0x6c
@@ -275,14 +284,11 @@ param ObjActParam: modified && !added: pad2: = vanillafield pad2
 1.12.1 - (NpcParam) Set unknown_0x1e3 to Vanilla v1.12.1 values
 param NpcParam: modified && !added: unknown_0x1e3: = vanillafield unknown_0x1e3
 11210015L
-1.12.1 - (NpcParam) Set unknown_0x26a to Vanilla v1.12.1 values
-param NpcParam: modified && !added: unknown_0x26a: = vanillafield unknown_0x26a
+1.12.1 - (NpcParam) Set isConsideredUndead to Vanilla v1.12.1 values
+param NpcParam: modified && !added: isConsideredUndead: = vanillafield isConsideredUndead
 11210015L
-1.12.1 - (NpcParam) Set unknown_0x2d8 to Vanilla v1.12.1 values
-param NpcParam: modified && !added: unknown_0x2d8: = vanillafield unknown_0x2d8
-11210015L
-1.12.1 - (NpcParam) Set pad12 to Vanilla v1.12.1 values
-param NpcParam: modified && !added: pad12: = vanillafield pad12
+1.12.1 - (NpcParam) Set dlcGameClearSpEffectID to Vanilla v1.12.1 values
+param NpcParam: modified && !added: dlcGameClearSpEffectID: = vanillafield dlcGameClearSpEffectID
 11210015L
 1.12.1 - (NetworkParam) Set unknown_0x7c to Vanilla v1.12.1 values
 param NetworkParam: modified && !added: unknown_0x7c: = vanillafield unknown_0x7c
@@ -461,9 +467,6 @@ param EquipParamWeapon: modified && !added: unknown_0x17c_7: = vanillafield unkn
 1.12.1 - (EquipParamWeapon) Set restrictSpecialSwordArt to Vanilla v1.12.1 values
 param EquipParamWeapon: modified && !added: restrictSpecialSwordArt: = vanillafield restrictSpecialSwordArt
 11210015L
-1.12.1 - (EquipParamWeapon) Set pad to Vanilla v1.12.1 values
-param EquipParamWeapon: modified && !added: pad: = vanillafield pad
-11210015L
 1.12.1 - (EquipParamGoods) Set unknown_0x40 to Vanilla v1.12.1 values
 param EquipParamGoods: modified && !added: unknown_0x40: = vanillafield unknown_0x40
 11210015L
@@ -509,9 +512,6 @@ param EquipParamGem: modified && !added: canMountWep_BeastClaw: = vanillafield c
 1.12.1 - (EquipParamGem) Set reserved_canMountWep_0x3d_4 to Vanilla v1.12.1 values
 param EquipParamGem: modified && !added: reserved_canMountWep_0x3d_4: = vanillafield reserved_canMountWep_0x3d_4
 11210015L
-1.12.1 - (EquipParamGem) Set reserved2_canMountWep to Vanilla v1.12.1 values
-param EquipParamGem: modified && !added: reserved2_canMountWep: = vanillafield reserved2_canMountWep
-11210015L
 1.12.1 - (CutsceneMapIdParam) Set unknown_0x18 to Vanilla v1.12.1 values
 param CutsceneMapIdParam: modified && !added: unknown_0x18: = vanillafield unknown_0x18
 11210015L
@@ -524,11 +524,8 @@ param CharaInitParam: modified && !added: unknown_0x50: = vanillafield unknown_0
 1.12.1 - (CharaInitParam) Set unknown_0x51 to Vanilla v1.12.1 values
 param CharaInitParam: modified && !added: unknown_0x51: = vanillafield unknown_0x51
 11210015L
-1.12.1 - (CharaInitParam) Set pad8 to Vanilla v1.12.1 values
-param CharaInitParam: modified && !added: pad8: = vanillafield pad8
-11210015L
-1.12.1 - (BulletParam) Set unknown_0x98_3 to Vanilla v1.12.1 values
-param BulletParam: modified && !added: unknown_0x98_3: = vanillafield unknown_0x98_3
+1.12.1 - (BulletParam) Set mayRemoteDetonate to Vanilla v1.12.1 values
+param BulletParam: modified && !added: mayRemoteDetonate: = vanillafield mayRemoteDetonate
 11210015L
 1.12.1 - (BulletParam) Set pad to Vanilla v1.12.1 values
 param BulletParam: modified && !added: pad: = vanillafield pad
