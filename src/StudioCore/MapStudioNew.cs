@@ -1,6 +1,7 @@
 ﻿using static Andre.Native.ImGuiBindings;
 using Microsoft.Extensions.Logging;
 using Octokit;
+using Silk.NET.SDL;
 using SoapstoneLib;
 using SoulsFormats;
 using StudioCore.Banks;
@@ -12,7 +13,6 @@ using StudioCore.MsbEditor;
 using StudioCore.ParamEditor;
 using StudioCore.Platform;
 using StudioCore.Resource;
-using StudioCore.Scene;
 using StudioCore.Tests;
 using StudioCore.TextEditor;
 using System;
@@ -23,11 +23,13 @@ using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.InteropServices;
-using System.Threading;
 using Veldrid;
 using Veldrid.Sdl2;
 using StudioCore.Interface;
 using StudioCore.Utilities;
+using Renderer = StudioCore.Scene.Renderer;
+using Thread = System.Threading.Thread;
+using Version = System.Version;
 
 namespace StudioCore;
 
@@ -42,14 +44,14 @@ public class MapStudioNew
 
     public static bool LowRequirementsMode;
 
-    private readonly IGraphicsContext _context;
+    private static IGraphicsContext _context;
 
     private readonly List<EditorScreen> _editors;
     private readonly HelpWindow HelpWindow;
 
     private readonly NewProjectOptions _newProjectOptions = new();
     private readonly string _programTitle;
-    private readonly SettingsMenu _settingsMenu = new();
+    private readonly SettingsMenu _settingsMenu;
 
     private readonly SoapstoneService _soapstoneService;
     private readonly string _version;
@@ -73,10 +75,18 @@ public class MapStudioNew
 
     private bool _standardProjectUIOpened = true;
 
+    public static EventHandler UIScaleChanged;
+    public static bool FontRebuildRequest;
+
     public unsafe MapStudioNew(IGraphicsContext context, string version)
     {
         _version = version;
         _programTitle = $"Dark Souls Map Studio version {_version}";
+
+        UIScaleChanged += (_, _) =>
+        {
+            FontRebuildRequest = true;
+        };
 
         // Hack to make sure dialogs work before the main window is created
         PlatformUtils.InitializeWindows(null);
@@ -105,6 +115,7 @@ public class MapStudioNew
 
         _soapstoneService = new SoapstoneService(_version, msbEditor);
 
+        _settingsMenu = new SettingsMenu();
         _settingsMenu.MsbEditor = msbEditor;
         _settingsMenu.ModelEditor = modelEditor;
         _settingsMenu.ParamEditor = paramEditor;
@@ -113,7 +124,6 @@ public class MapStudioNew
         HelpWindow = new HelpWindow();
 
         ImGui.GetIO()->ConfigFlags |= ImGuiConfigFlags.NavEnableKeyboard;
-        SetupFonts();
         _context.ImguiRenderer.OnSetupDone();
 
         ImGuiStyle* style = ImGui.GetStyle();
@@ -181,7 +191,7 @@ public class MapStudioNew
             cfg->GlyphMinAdvanceX = 5.0f;
             cfg->OversampleH = 5;
             cfg->OversampleV = 5;
-            ImFontAtlasAddFontFromMemoryTTF(fonts, fontEnNative.ToPointer(), fontEn.Length, 14.0f * scale, cfg,
+            ImFontAtlasAddFontFromMemoryTTF(fonts, fontEnNative.ToPointer(), fontEn.Length, (float)Math.Round(14.0f * scale), cfg,
                 ImFontAtlasGetGlyphRangesDefault(fonts));
         }
 
@@ -730,12 +740,13 @@ public class MapStudioNew
     {
         Tracy.___tracy_c_zone_context ctx = Tracy.TracyCZoneN(1, "Imgui");
 
+        UpdateDpi();
         var scale = GetUIScale();
 
-        if (_settingsMenu.FontRebuildRequest)
+        if (FontRebuildRequest)
         {
             _context.ImguiRenderer.Update(deltaseconds, InputTracker.FrameSnapshot, SetupFonts);
-            _settingsMenu.FontRebuildRequest = false;
+            FontRebuildRequest = false;
         }
         else
         {
@@ -1384,9 +1395,41 @@ public class MapStudioNew
         _firstframe = false;
     }
 
+    private const float DefaultDpi = 96f;
+    private static float _dpi = DefaultDpi;
+
+    public static float Dpi
+    {
+        get => _dpi;
+        set
+        {
+            if (Math.Abs(_dpi - value) < 0.0001f) return; // Skip doing anything if no difference
+
+            _dpi = value;
+            if (CFG.Current.UIScaleByDPI)
+                UIScaleChanged?.Invoke(null, EventArgs.Empty);
+        }
+    }
+
+    private static unsafe void UpdateDpi()
+    {
+        if (SdlProvider.SDL.IsValueCreated && _context?.Window != null)
+        {
+            var window = _context.Window.SdlWindowHandle;
+            int index = SdlProvider.SDL.Value.GetWindowDisplayIndex(window);
+            float ddpi = 96f;
+            float _ = 0f;
+            SdlProvider.SDL.Value.GetDisplayDPI(index, ref ddpi, ref _, ref _);
+
+            Dpi = ddpi;
+        }
+    }
+
     public static float GetUIScale()
     {
-        // TODO: Multiply by monitor DPI when available.
-        return CFG.Current.UIScale;
+        var scale = CFG.Current.UIScale;
+        if (CFG.Current.UIScaleByDPI)
+            scale = scale / DefaultDpi * Dpi;
+        return scale;
     }
 }

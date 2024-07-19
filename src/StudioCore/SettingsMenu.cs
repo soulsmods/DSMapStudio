@@ -13,19 +13,25 @@ using System.Numerics;
 using System.Reflection;
 using Veldrid;
 using StudioCore.Interface;
+using System.Globalization;
 
 namespace StudioCore;
 
 public class SettingsMenu
 {
     private KeyBind _currentKeyBind;
-    public bool FontRebuildRequest;
     public bool MenuOpenState;
     public ModelEditorScreen ModelEditor;
     public MsbEditorScreen MsbEditor;
     public ParamEditorScreen ParamEditor;
     public ProjectSettings? ProjSettings = null;
     public TextEditorScreen TextEditor;
+    private float _tempUiScale;
+
+    public SettingsMenu()
+    {
+        _tempUiScale = CFG.Current.UIScale;
+    }
 
     public void SaveSettings()
     {
@@ -58,20 +64,32 @@ public class SettingsMenu
                     ShowHelpMarker("Adjusts the scale of the user interface throughout all of DSMS.");
                     ImGui.SameLine();
                 }
-                ImGui.SliderFloat("UI scale", ref CFG.Current.UIScale, 0.5f, 4.0f);
-
+                ImGui.SliderFloat("UI scale", ref _tempUiScale, 0.5f, 4.0f);
                 if (ImGui.IsItemDeactivatedAfterEdit())
                 {
                     // Round to 0.05
-                    CFG.Current.UIScale = (float)Math.Round(CFG.Current.UIScale * 20) / 20;
-                    FontRebuildRequest = true;
+                    CFG.Current.UIScale = (float)Math.Round(_tempUiScale * 20) / 20;
+                    MapStudioNew.UIScaleChanged?.Invoke(null, EventArgs.Empty);
+                    _tempUiScale = CFG.Current.UIScale;
                 }
 
                 ImGui.SameLine();
                 if (ImGui.Button("Reset"))
                 {
                     CFG.Current.UIScale = CFG.Default.UIScale;
-                    FontRebuildRequest = true;
+                    _tempUiScale = CFG.Current.UIScale;
+                    MapStudioNew.UIScaleChanged?.Invoke(null, EventArgs.Empty);
+                }
+
+                if (CFG.Current.ShowUITooltips)
+                {
+                    ShowHelpMarker("Multiplies the user interface scale by your monitor's DPI setting.");
+                    ImGui.SameLine();
+                }
+                ImGui.Checkbox($"Multiply UI scale by DPI ({(MapStudioNew.Dpi / 96).ToString("P0", new NumberFormatInfo { PercentPositivePattern = 1, PercentNegativePattern = 1 })})", ref CFG.Current.UIScaleByDPI);
+                if (ImGui.IsItemDeactivatedAfterEdit())
+                {
+                    MapStudioNew.UIScaleChanged?.Invoke(null, EventArgs.Empty);
                 }
             }
 
@@ -95,7 +113,7 @@ public class SettingsMenu
                 }
                 if (ImGui.Checkbox("Chinese", ref CFG.Current.FontChinese))
                 {
-                    FontRebuildRequest = true;
+                    MapStudioNew.FontRebuildRequest = true;
                 }
 
                 if (CFG.Current.ShowUITooltips)
@@ -105,7 +123,7 @@ public class SettingsMenu
                 }
                 if (ImGui.Checkbox("Korean", ref CFG.Current.FontKorean))
                 {
-                    FontRebuildRequest = true;
+                    MapStudioNew.FontRebuildRequest = true;
                 }
 
                 if (CFG.Current.ShowUITooltips)
@@ -115,7 +133,7 @@ public class SettingsMenu
                 }
                 if (ImGui.Checkbox("Thai", ref CFG.Current.FontThai))
                 {
-                    FontRebuildRequest = true;
+                    MapStudioNew.FontRebuildRequest = true;
                 }
 
                 if (CFG.Current.ShowUITooltips)
@@ -125,7 +143,7 @@ public class SettingsMenu
                 }
                 if (ImGui.Checkbox("Vietnamese", ref CFG.Current.FontVietnamese))
                 {
-                    FontRebuildRequest = true;
+                    MapStudioNew.FontRebuildRequest = true;
                 }
 
                 if (CFG.Current.ShowUITooltips)
@@ -135,7 +153,7 @@ public class SettingsMenu
                 }
                 if (ImGui.Checkbox("Cyrillic", ref CFG.Current.FontCyrillic))
                 {
-                    FontRebuildRequest = true;
+                    MapStudioNew.FontRebuildRequest = true;
                 }
             }
 
