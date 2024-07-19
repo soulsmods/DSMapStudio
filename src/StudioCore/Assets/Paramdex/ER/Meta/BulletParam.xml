@@ -6,6 +6,8 @@
         <Option Value="1" Name="Strike" />
         <Option Value="2" Name="Thrust" />
         <Option Value="3" Name="Standard" />
+        <Option Value="253" Name="Refers to EquipParamWeapon atkAttribute2 field" />
+        <Option Value="254" Name="Refers to EquipParamWeapon atkAttribute field" />
     </Enum>
     <Enum Name="ATKPARAM_SPATTR_TYPE" type="u8">
         <Option Value="0" Name="None" />
@@ -205,7 +207,9 @@
     <followOffset_Radius AltName="Follow Bullet - Radius Offset" Wiki="Funnel tracking position_radius [m]" />
     <spBulletDistUpRate AltName="SpEffect Bullet Distance - Magnification" Wiki="Special effect flight distance correction magnification" />
     <nolockTargetDist AltName="Target Range when Unlocked" Wiki="Target range when unlocked (-1: Refer to range, 0: No target)" />
-    <pad4 AltName=""/>
+    
+    <mayRemoteDetonate AltName="Can be Remotely Detonated" Wiki="Bullets with Attach Type 6 will cause this bullet to be detonated if this bullet is within their hit radius." />
+    <pad4 AltName="" IsHidden=""/>
   </Field>
   <Self Wiki="Governs motion, hitbox and appearance of projetiles. Can reference AtkParam for damage."/>
 </PARAMMETA>

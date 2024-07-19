@@ -438,10 +438,19 @@
       <SortID>54</SortID>
       <UnkC8>a016</UnkC8>
     </Field>
-    <Field Def="dummy8 pad[4]">
-      <DisplayFormat>%d</DisplayFormat>
-      <EditFlags>Wrap</EditFlags>
-      <SortID>56</SortID>
-    </Field>
+    
+    <Field Def="dummy8 pad[4]" RemovedVersion="11210015" />
+    
+    <Field Def="s32 unknown_0x6c" FirstVersion="11210015"/>
+    <Field Def="s32 unknown_0x70" FirstVersion="11210015"/>
+    <Field Def="s32 unknown_0x74" FirstVersion="11210015"/>
+    <Field Def="s32 unknown_0x78" FirstVersion="11210015"/>
+    <Field Def="s32 unknown_0x7c" FirstVersion="11210015"/>
+    <Field Def="s32 unknown_0x80" FirstVersion="11210015"/>
+    <Field Def="s32 unknown_0x84" FirstVersion="11210015"/>
+    <Field Def="s32 unknown_0x88" FirstVersion="11210015"/>
+    
+    <Field Def="dummy8 endPad[4]" FirstVersion="11210015" />
+    
   </Fields>
 </PARAMDEF>
