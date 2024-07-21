@@ -14,30 +14,9 @@ using System.Text;
 using System.Threading.Tasks;
 using static Andre.Native.ImGuiBindings;
 
-namespace StudioCore.Interface;
+namespace StudioCore.Banks.AliasBank;
 public static class AliasUtils
 {
-    public static void DisplayAlias(string aliasName)
-    {
-        if (aliasName != "")
-        {
-            ImGui.SameLine();
-            ImGui.PushTextWrapPos(0);
-            ImGui.TextColored(new Vector4(1.0f, 1.0f, 0.0f, 1.0f), @$"{aliasName}");
-            ImGui.PopTextWrapPos();
-        }
-    }
-    public static void DisplayTagAlias(string aliasName)
-    {
-        if (aliasName != "")
-        {
-            ImGui.SameLine();
-            ImGui.PushTextWrapPos(0);
-            ImGui.TextColored(new Vector4(0.0f, 1.0f, 0.0f, 1.0f), @$"[{aliasName}]");
-            ImGui.PopTextWrapPos();
-        }
-    }
-
     public static string GetTagListString(List<string> refTagList)
     {
         var tagListStr = "";

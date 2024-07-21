@@ -8,7 +8,7 @@ using System.Numerics;
 using System.Text.RegularExpressions;
 using static Andre.Native.ImGuiBindings;
 
-namespace StudioCore.Interface;
+namespace StudioCore.Editor;
 
 public class HelpWindow
 {
@@ -300,9 +300,9 @@ public class HelpWindow
                     // No selection
                     if (entry == null)
                     {
-                        ImguiUtils.WrappedText($"No {descName} selected");
+                        EditorDecorations.WrappedText($"No {descName} selected");
                         ImGui.Separator();
-                        ImguiUtils.WrappedText("");
+                        EditorDecorations.WrappedText("");
                     }
                     // Selection
                     else
@@ -341,11 +341,11 @@ public class HelpWindow
             if (entry.HeaderColor != null)
             {
                 Vector4 color = new Vector4(entry.HeaderColor[0], entry.HeaderColor[1], entry.HeaderColor[2], entry.HeaderColor[3]);
-                ImguiUtils.WrappedTextColored(color, outputLine);
+                EditorDecorations.WrappedTextColored(color, outputLine);
             }
             else
             {
-                ImguiUtils.WrappedText(outputLine);
+                EditorDecorations.WrappedText(outputLine);
             }
 
             ImGui.Separator();
@@ -364,17 +364,17 @@ public class HelpWindow
                 if (entry.HighlightColor != null)
                 {
                     Vector4 color = new Vector4(entry.HighlightColor[0], entry.HighlightColor[1], entry.HighlightColor[2], entry.HighlightColor[3]);
-                    ImguiUtils.WrappedTextColored(color, highlightText);
+                    EditorDecorations.WrappedTextColored(color, highlightText);
 
                     var offset = highlightText.Length * 8.0f;
                     ImGui.SameLine(offset, 0);
-                    ImguiUtils.WrappedText(otherText);
+                    EditorDecorations.WrappedText(otherText);
                 }
                 else
                 {
-                    ImguiUtils.WrappedText(highlightText);
+                    EditorDecorations.WrappedText(highlightText);
                     ImGui.SameLine();
-                    ImguiUtils.WrappedText(otherText);
+                    EditorDecorations.WrappedText(otherText);
                 }
             }
         }
@@ -399,7 +399,7 @@ public class HelpWindow
         // Default
         else
         {
-            ImguiUtils.WrappedText(textLine);
+            EditorDecorations.WrappedText(textLine);
         }
     }
 }

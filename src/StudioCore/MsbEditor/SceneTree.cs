@@ -14,7 +14,8 @@ using System.Linq;
 using System.Numerics;
 using System.Runtime.InteropServices;
 using Veldrid;
-using StudioCore.Interface;
+using StudioCore.Editor;
+using StudioCore.Banks.AliasBank;
 
 namespace StudioCore.MsbEditor;
 
@@ -272,7 +273,7 @@ public class SceneTree : IActionEventHandler
             }
 
             var alias = AliasUtils.GetEntityAliasName(e);
-            AliasUtils.DisplayAlias(alias);
+            EditorDecorations.DisplayAlias(alias);
         }
 
         if (ImGui.IsItemClicked())
@@ -713,7 +714,7 @@ public class SceneTree : IActionEventHandler
 
                 if (CFG.Current.MapEditor_MapObjectList_ShowMapNames)
                 {
-                    AliasUtils.DisplayAlias(aliasName);
+                    EditorDecorations.DisplayAlias(aliasName);
                 }
 
                 ImGui.EndGroup();
