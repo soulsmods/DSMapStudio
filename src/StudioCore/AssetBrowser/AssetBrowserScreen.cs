@@ -327,7 +327,7 @@ public class AssetBrowserScreen
             if (CFG.Current.AssetBrowser_ShowAliasesInBrowser)
             {
                 var labelName = AliasUtils.GetMapNameAlias(mapId);
-                AliasUtils.DisplayAlias(labelName);
+                EditorDecorations.DisplayAlias(labelName);
             }
         }
     }
@@ -393,14 +393,14 @@ public class AssetBrowserScreen
                         if (CFG.Current.AssetBrowser_ShowAliasesInBrowser)
                         {
                             var aliasName = referenceDict[lowerName].name;
-                            AliasUtils.DisplayAlias(aliasName);
+                            EditorDecorations.DisplayAlias(aliasName);
                         }
 
                         // Tags
                         if (CFG.Current.AssetBrowser_ShowTagsInBrowser)
                         {
                             var tagString = string.Join(" ", referenceDict[lowerName].tags);
-                            AliasUtils.DisplayTagAlias(tagString);
+                            EditorDecorations.DisplayTagAlias(tagString);
                         }
                     }
                 }
@@ -462,14 +462,14 @@ public class AssetBrowserScreen
                             if (CFG.Current.AssetBrowser_ShowAliasesInBrowser)
                             {
                                 var aliasName = referenceDict[lowerName].name;
-                                AliasUtils.DisplayAlias(aliasName);
+                                EditorDecorations.DisplayAlias(aliasName);
                             }
 
                             // Tags
                             if (CFG.Current.AssetBrowser_ShowTagsInBrowser)
                             {
                                 var tagString = string.Join(" ", referenceDict[lowerName].tags);
-                                AliasUtils.DisplayTagAlias(tagString);
+                                EditorDecorations.DisplayTagAlias(tagString);
                             }
                         }
                     }

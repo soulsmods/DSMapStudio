@@ -272,7 +272,7 @@ public class SceneTree : IActionEventHandler
             }
 
             var alias = AliasUtils.GetEntityAliasName(e);
-            AliasUtils.DisplayAlias(alias);
+            EditorDecorations.DisplayAlias(alias);
         }
 
         if (ImGui.IsItemClicked())
@@ -713,7 +713,7 @@ public class SceneTree : IActionEventHandler
 
                 if (CFG.Current.MapEditor_MapObjectList_ShowMapNames)
                 {
-                    AliasUtils.DisplayAlias(aliasName);
+                    EditorDecorations.DisplayAlias(aliasName);
                 }
 
                 ImGui.EndGroup();

@@ -1052,5 +1052,25 @@ public unsafe class EditorDecorations
         ImGui.PopStyleColor(1);
         ImGui.PopTextWrapPos();
     }
+    public static void DisplayAlias(string aliasName)
+    {
+        if (aliasName != "")
+        {
+            ImGui.SameLine();
+            ImGui.PushTextWrapPos(0);
+            ImGui.TextColored(new Vector4(1.0f, 1.0f, 0.0f, 1.0f), @$"{aliasName}");
+            ImGui.PopTextWrapPos();
+        }
+    }
+    public static void DisplayTagAlias(string aliasName)
+    {
+        if (aliasName != "")
+        {
+            ImGui.SameLine();
+            ImGui.PushTextWrapPos(0);
+            ImGui.TextColored(new Vector4(0.0f, 1.0f, 0.0f, 1.0f), @$"[{aliasName}]");
+            ImGui.PopTextWrapPos();
+        }
+    }
 
 }
