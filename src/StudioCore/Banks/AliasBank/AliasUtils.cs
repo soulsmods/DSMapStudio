@@ -14,7 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static Andre.Native.ImGuiBindings;
 
-namespace StudioCore.Editor;
+namespace StudioCore.Banks.AliasBank;
 public static class AliasUtils
 {
     public static string GetTagListString(List<string> refTagList)

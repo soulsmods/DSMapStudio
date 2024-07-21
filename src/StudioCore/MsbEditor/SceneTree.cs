@@ -15,6 +15,7 @@ using System.Numerics;
 using System.Runtime.InteropServices;
 using Veldrid;
 using StudioCore.Editor;
+using StudioCore.Banks.AliasBank;
 
 namespace StudioCore.MsbEditor;
 
