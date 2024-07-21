@@ -12,7 +12,7 @@ using System.Drawing;
 using System.Numerics;
 using System.Reflection;
 using Veldrid;
-using StudioCore.Interface;
+using StudioCore.Editor;
 using System.Globalization;
 
 namespace StudioCore;
@@ -160,7 +160,7 @@ public class SettingsMenu
             if (ImGui.CollapsingHeader("Resources", ImGuiTreeNodeFlags.DefaultOpen))
             {
                 ImGui.Checkbox("Alias Banks - Editor Mode", ref CFG.Current.AliasBank_EditorMode);
-                ImguiUtils.ShowHelpMarker("If enabled, editing the name and tags for alias banks will commit the changes to the DSMS base version instead of the mod-specific version.");
+                Editor.EditorDecorations.ShowHelpMarker("If enabled, editing the name and tags for alias banks will commit the changes to the DSMS base version instead of the mod-specific version.");
             }
 
             if (ImGui.CollapsingHeader("Project", ImGuiTreeNodeFlags.DefaultOpen))
@@ -272,19 +272,19 @@ public class SettingsMenu
             if (ImGui.CollapsingHeader("Map Object List"))
             {
                 ImGui.Checkbox("Display map names", ref CFG.Current.MapEditor_MapObjectList_ShowMapNames);
-                ImguiUtils.ShowHoverTooltip("Map names will be displayed within the scene view list.");
+                Editor.EditorDecorations.ShowHoverTooltip("Map names will be displayed within the scene view list.");
 
                 ImGui.Checkbox("Display character names", ref CFG.Current.MapEditor_MapObjectList_ShowCharacterNames);
-                ImguiUtils.ShowHoverTooltip("Characters names will be displayed within the scene view list.");
+                Editor.EditorDecorations.ShowHoverTooltip("Characters names will be displayed within the scene view list.");
 
                 ImGui.Checkbox("Display asset names", ref CFG.Current.MapEditor_MapObjectList_ShowAssetNames);
-                ImguiUtils.ShowHoverTooltip("Asset/object names will be displayed within the scene view list.");
+                Editor.EditorDecorations.ShowHoverTooltip("Asset/object names will be displayed within the scene view list.");
 
                 ImGui.Checkbox("Display map piece names", ref CFG.Current.MapEditor_MapObjectList_ShowMapPieceNames);
-                ImguiUtils.ShowHoverTooltip("Map piece names will be displayed within the scene view list.");
+                Editor.EditorDecorations.ShowHoverTooltip("Map piece names will be displayed within the scene view list.");
 
                 ImGui.Checkbox("Display treasure names", ref CFG.Current.MapEditor_MapObjectList_ShowTreasureNames);
-                ImguiUtils.ShowHoverTooltip("Treasure itemlot names will be displayed within the scene view list.");
+                Editor.EditorDecorations.ShowHoverTooltip("Treasure itemlot names will be displayed within the scene view list.");
             }
 
             if (ImGui.CollapsingHeader("Selection"))
@@ -294,7 +294,7 @@ public class SettingsMenu
                 var camera_radius_offset = CFG.Current.Map_MoveSelectionToCamera_Radius;
 
                 ImGui.Checkbox("Enable selection outline", ref CFG.Current.Viewport_Enable_Selection_Outline);
-                ImguiUtils.ShowHoverTooltip("Enable the selection outline around map entities.");
+                Editor.EditorDecorations.ShowHoverTooltip("Enable the selection outline around map entities.");
 
                 if (CFG.Current.ShowUITooltips)
                 {
@@ -905,13 +905,13 @@ public class SettingsMenu
             if (ImGui.CollapsingHeader("General", ImGuiTreeNodeFlags.DefaultOpen))
             {
                 ImGui.Checkbox("Display aliases in browser list", ref CFG.Current.AssetBrowser_ShowAliasesInBrowser);
-                ImguiUtils.ShowHoverTooltip("Show the aliases for each entry within the browser list as part of their displayed name.");
+                Editor.EditorDecorations.ShowHoverTooltip("Show the aliases for each entry within the browser list as part of their displayed name.");
 
                 ImGui.Checkbox("Display tags in browser list", ref CFG.Current.AssetBrowser_ShowTagsInBrowser);
-                ImguiUtils.ShowHoverTooltip("Show the tags for each entry within the browser list as part of their displayed name.");
+                Editor.EditorDecorations.ShowHoverTooltip("Show the tags for each entry within the browser list as part of their displayed name.");
 
                 ImGui.Checkbox("Display low-detail parts in browser list", ref CFG.Current.AssetBrowser_ShowLowDetailParts);
-                ImguiUtils.ShowHoverTooltip("Show the _l (low-detail) part entries in the Model Editor instance of the Asset Browser.");
+                Editor.EditorDecorations.ShowHoverTooltip("Show the _l (low-detail) part entries in the Model Editor instance of the Asset Browser.");
             }
 
             ImGui.EndTabItem();

@@ -14,7 +14,7 @@ using System.Linq;
 using System.Numerics;
 using System.Runtime.InteropServices;
 using Veldrid;
-using StudioCore.Interface;
+using StudioCore.Editor;
 
 namespace StudioCore.MsbEditor;
 

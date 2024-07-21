@@ -14,7 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static Andre.Native.ImGuiBindings;
 
-namespace StudioCore.Interface;
+namespace StudioCore.Editor;
 public static class AliasUtils
 {
     public static void DisplayAlias(string aliasName)
