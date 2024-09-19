@@ -327,6 +327,14 @@ namespace SoulsFormats
                 return decompressedStream.ToArray();
             }
         }
+        public static byte[] WriteZstd(Span<byte> data, int compressionLevel)
+        {
+            var options = new CompressionOptions(null, new Dictionary<ZSTD_cParameter, int> { { ZSTD_cParameter.ZSTD_c_contentSizeFlag, 0 }, { ZSTD_cParameter.ZSTD_c_windowLog, 16 } }, compressionLevel);
+            using (var compressor = new Compressor(options))
+            {
+                return compressor.Wrap(data);
+            }
+        }
         public static byte[] ReadZstd(BinaryReaderEx br, int compressedSize)
         {
             byte[] compressed = br.ReadBytes(compressedSize);
