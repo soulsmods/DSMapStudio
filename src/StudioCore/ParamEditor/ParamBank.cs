@@ -1,6 +1,5 @@
 ﻿using Andre.Formats;
 using Microsoft.Extensions.Logging;
-using Octokit;
 using SoulsFormats;
 using StudioCore.Editor;
 using StudioCore.Platform;
@@ -15,105 +14,17 @@ namespace StudioCore.ParamEditor;
 /// <summary>
 ///     Utilities for dealing with global params for a game
 /// </summary>
-public class ParamBank
+public partial class ParamBank : DataBank
 {
-    public enum ParamUpgradeResult
-    {
-        Success = 0,
-        RowConflictsFound = -1,
-        OldRegulationNotFound = -2,
-        OldRegulationVersionMismatch = -3,
-        OldRegulationMatchesCurrent = -4
-    }
-
-    public enum RowGetType
-    {
-        AllRows = 0,
-        ModifiedRows = 1,
-        SelectedRows = 2
-    }
-
     public static ParamBank PrimaryBank => Locator.ActiveProject.ParamBank;
     public static ParamBank VanillaBank => Locator.ActiveProject.ParentProject.ParamBank;
-    public static Dictionary<string, ParamBank> AuxBanks = new();
-
-    /// <summary>
-    ///     Mapping from path -> PARAMDEF for cache and and comparison purposes. TODO: check for paramdef comparisons and evaluate if the file/paramdef was actually the same.
-    /// </summary>
-    private static readonly Dictionary<string, PARAMDEF> _paramdefsCache = new();
-
 
     public static string ClipboardParam = null;
     public static List<Param.Row> ClipboardRows = new();
 
-    /// <summary>
-    ///     Mapping from ParamType -> PARAMDEF.
-    /// </summary>
-    private Dictionary<string, PARAMDEF> _paramdefs = new();
-
-    //TODO private this
-    public Dictionary<PARAMDEF, ParamMetaData> ParamMetas = new();
-
-
-    /// <summary>
-    ///     Mapping from Param filename -> Manual ParamType.
-    ///     This is for params with no usable ParamType at some particular game version.
-    ///     By convention, ParamTypes ending in "_TENTATIVE" do not have official data to reference.
-    /// </summary>
-    private Dictionary<string, string> _tentativeParamType;
-
-    /// <summary>
-    ///     Map related params.
-    /// </summary>
-    public static readonly List<string> DS2MapParamlist = new()
-    {
-        "demopointlight",
-        "demospotlight",
-        "eventlocation",
-        "eventparam",
-        "GeneralLocationEventParam",
-        "generatorparam",
-        "generatorregistparam",
-        "generatorlocation",
-        "generatordbglocation",
-        "hitgroupparam",
-        "intrudepointparam",
-        "mapobjectinstanceparam",
-        "maptargetdirparam",
-        "npctalkparam",
-        "treasureboxparam"
-    };
-
-    /// <summary>
-    ///     Param name - FMGCategory map
-    /// </summary>
-    public static readonly List<(string, FmgEntryCategory)> ParamToFmgCategoryList = new()
-    {
-        ("EquipParamAccessory", FmgEntryCategory.Rings),
-        ("EquipParamGoods", FmgEntryCategory.Goods),
-        ("EquipParamWeapon", FmgEntryCategory.Weapons),
-        ("EquipParamProtector", FmgEntryCategory.Armor),
-        ("Magic", FmgEntryCategory.Spells),
-        ("EquipParamGem", FmgEntryCategory.Gem),
-        ("SwordArtsParam", FmgEntryCategory.SwordArts),
-        ("EquipParamGenerator", FmgEntryCategory.Generator),
-        ("EquipParamFcs", FmgEntryCategory.FCS),
-        ("EquipParamBooster", FmgEntryCategory.Booster),
-        ("ArchiveParam", FmgEntryCategory.Archive),
-        ("MissionParam", FmgEntryCategory.Mission)
-    };
-
-    private static readonly HashSet<int> EMPTYSET = new();
-
-    public Project Project;
-
     private Dictionary<string, Param> _params;
 
     private ulong _paramVersion;
-
-    private bool _pendingUpgrade;
-    private Dictionary<string, HashSet<int>> _primaryDiffCache; //If param != primaryparam
-    private Dictionary<string, List<string?>> _storedStrippedRowNames;
 
     /// <summary>
     ///     Dictionary of param file names that were given a tentative ParamType, and the original ParamType it had.
@@ -121,19 +32,13 @@ public class ParamBank
     /// </summary>
     private Dictionary<string, string?> _usedTentativeParamTypes;
 
-    private Dictionary<string, HashSet<int>> _vanillaDiffCache; //If param != vanillaparam
-
     private Param EnemyParam => _params["EnemyParam"];
-
-    public bool IsDefsLoaded { get; private set; }
-    public static bool IsMetaLoaded { get; private set; }
-    public bool IsLoadingParams { get; private set; }
 
     public IReadOnlyDictionary<string, Param> Params
     {
         get
         {
-            if (IsLoadingParams)
+            if (IsLoading)
             {
                 return null;
             }
@@ -143,53 +48,8 @@ public class ParamBank
     }
 
     public ulong ParamVersion => _paramVersion;
-
-    public IReadOnlyDictionary<string, HashSet<int>> VanillaDiffCache
+    public ParamBank(Project owner) : base(owner, "Params")
     {
-        get
-        {
-            if (IsLoadingParams)
-            {
-                return null;
-            }
-
-            {
-                if (VanillaBank == this)
-                {
-                    return null;
-                }
-            }
-            return _vanillaDiffCache;
-        }
-    }
-
-    public IReadOnlyDictionary<string, HashSet<int>> PrimaryDiffCache
-    {
-        get
-        {
-            if (IsLoadingParams)
-            {
-                return null;
-            }
-
-            {
-                if (PrimaryBank == this)
-                {
-                    return null;
-                }
-            }
-            return _primaryDiffCache;
-        }
-    }
-
-    public ParamBank(Project owner)
-    {
-        Project = owner;
-    }
-
-    public Dictionary<string, PARAMDEF> GetParamDefs()
-    {
-        return _paramdefs;
     }
 
     private static FileNotFoundException CreateParamMissingException(GameType type)
@@ -208,91 +68,6 @@ public class ParamBank
 
         return new FileNotFoundException(
             $"Cannot locate param files for {type}.\nYour game folder may be missing game files, please verify game files through steam to restore them.");
-    }
-
-    private List<(string, PARAMDEF)> LoadParamdefs()
-    {
-        _paramdefs = new Dictionary<string, PARAMDEF>();
-        _tentativeParamType = new Dictionary<string, string>();
-        var files = Project.AssetLocator.GetAllProjectFiles($@"Paramdex\{AssetUtils.GetGameIDForDir(Locator.ActiveProject.Type)}\Defs", ["*.xml"], true, false);
-        List<(string, PARAMDEF)> defPairs = new();
-        foreach (var f in files)
-        {
-            if (!_paramdefsCache.TryGetValue(f, out PARAMDEF pdef))
-            {
-                pdef = PARAMDEF.XmlDeserialize(f, true);
-            } 
-            _paramdefs.Add(pdef.ParamType, pdef);
-            defPairs.Add((f, pdef));
-        }
-
-        var tentativeMappingPath = Project.AssetLocator.GetProjectFilePath($@"{Project.AssetLocator.GetParamdexDir()}\Defs\TentativeParamType.csv");
-        if (File.Exists(tentativeMappingPath))
-        {
-            // No proper CSV library is used currently, and all CSV parsing is in the context of param files.
-            // If a CSV library is introduced in DSMapStudio, use it here.
-            foreach (var line in File.ReadAllLines(tentativeMappingPath).Skip(1))
-            {
-                var parts = line.Split(',');
-                if (parts.Length != 2 || string.IsNullOrWhiteSpace(parts[0]) || string.IsNullOrWhiteSpace(parts[1]))
-                {
-                    throw new FormatException($"Malformed line in {tentativeMappingPath}: {line}");
-                }
-
-                _tentativeParamType[parts[0]] = parts[1];
-            }
-        }
-
-        return defPairs;
-    }
-    public void LoadParamMeta(List<(string, PARAMDEF)> defPairs)
-    {
-        //This way of tying stuff together still sucks
-        var mdir = Project.AssetLocator.GetProjectFilePath($@"{Locator.ActiveProject.AssetLocator.GetParamdexDir()}\Meta");
-        foreach ((var f, PARAMDEF pdef) in defPairs)
-        {
-            var fName = f.Substring(f.LastIndexOf('\\') + 1);
-            var md = ParamMetaData.XmlDeserialize($@"{mdir}\{fName}", pdef);
-            ParamMetas.Add(pdef, md);
-        }
-    }
-
-    public CompoundAction LoadParamDefaultNames(string param = null, bool onlyAffectEmptyNames = false, bool onlyAffectVanillaNames = false)
-    {
-        var files = param == null
-            ? Project.AssetLocator.GetAllProjectFiles($@"{Project.AssetLocator.GetParamdexDir()}\Names", ["*.txt"], true)
-            : new[] { Project.AssetLocator.GetProjectFilePath($@"{Project.AssetLocator.GetParamdexDir()}\Names\{param}.txt") };
-        List<EditorAction> actions = new();
-        foreach (var f in files)
-        {
-            var fName = Path.GetFileNameWithoutExtension(f);
-            if (!_params.ContainsKey(fName))
-            {
-                continue;
-            }
-
-            var names = File.ReadAllText(f);
-            (var result, CompoundAction action) =
-                ParamIO.ApplySingleCSV(this, names, fName, "Name", ' ', true, onlyAffectEmptyNames, onlyAffectVanillaNames);
-            if (action == null)
-            {
-                TaskLogs.AddLog($"Could not apply name files for {fName}",
-                    LogLevel.Warning);
-            }
-            else
-            {
-                actions.Add(action);
-            }
-        }
-
-        return new CompoundAction(actions);
-    }
-
-    public ActionManager TrimNewlineChrsFromNames()
-    {
-        (MassEditResult r, ActionManager child) =
-            MassParamEditRegex.PerformMassEdit(this, "param .*: id .*: name: replace \r:0", null);
-        return child;
     }
 
     private void LoadParamFromBinder(IBinder parambnd, ref Dictionary<string, Param> paramBank, out ulong version,
@@ -327,9 +102,9 @@ public class ParamBank
                 p = Param.ReadIgnoreCompression(f.Bytes);
                 if (!string.IsNullOrEmpty(p.ParamType))
                 {
-                    if (!_paramdefs.ContainsKey(p.ParamType))
+                    if (!ResDirectory.CurrentGame.ParamDefBank.GetParamDefs().ContainsKey(p.ParamType))
                     {
-                        if (_tentativeParamType.TryGetValue(paramName, out var newParamType))
+                        if (ResDirectory.CurrentGame.ParamDefBank.GetTentativeParamTypes().TryGetValue(paramName, out var newParamType))
                         {
                             _usedTentativeParamTypes.Add(paramName, p.ParamType);
                             p.ParamType = newParamType;
@@ -348,7 +123,7 @@ public class ParamBank
                 }
                 else
                 {
-                    if (_tentativeParamType.TryGetValue(paramName, out var newParamType))
+                    if (ResDirectory.CurrentGame.ParamDefBank.GetTentativeParamTypes().TryGetValue(paramName, out var newParamType))
                     {
                         _usedTentativeParamTypes.Add(paramName, p.ParamType);
                         p.ParamType = newParamType;
@@ -368,7 +143,7 @@ public class ParamBank
             else
             {
                 p = Param.ReadIgnoreCompression(f.Bytes);
-                if (!_paramdefs.ContainsKey(p.ParamType ?? ""))
+                if (!ResDirectory.CurrentGame.ParamDefBank.GetParamDefs().ContainsKey(p.ParamType ?? ""))
                 {
                     TaskLogs.AddLog(
                         $"Couldn't find ParamDef for param {paramName} with ParamType \"{p.ParamType}\".",
@@ -391,7 +166,7 @@ public class ParamBank
                 throw new Exception("Param type is unexpectedly null");
             }
 
-            PARAMDEF def = _paramdefs[p.ParamType];
+            PARAMDEF def = ResDirectory.CurrentGame.ParamDefBank.GetParamDefs()[p.ParamType];
             try
             {
                 p.ApplyParamdef(def, version);
@@ -549,7 +324,7 @@ public class ParamBank
                 if (loose)
                 {
                     // Loose params: override params already loaded via regulation
-                    PARAMDEF def = _paramdefs[lp.ParamType];
+                    PARAMDEF def = ResDirectory.CurrentGame.ParamDefBank.GetParamDefs()[lp.ParamType];
                     lp.ApplyParamdef(def);
                     _params[name] = lp;
                 }
@@ -558,7 +333,7 @@ public class ParamBank
                     // Non-loose params: do not override params already loaded via regulation
                     if (!_params.ContainsKey(name))
                     {
-                        PARAMDEF def = _paramdefs[lp.ParamType];
+                        PARAMDEF def = ResDirectory.CurrentGame.ParamDefBank.GetParamDefs()[lp.ParamType];
                         lp.ApplyParamdef(def);
                         _params.Add(name, lp);
                     }
@@ -711,26 +486,9 @@ public class ParamBank
             LoadParamFromBinder(bnd, ref _params, out _, false);
         }
     }
-
-    private void LoadParams()
+    protected override void Load()
     {
-
-        IsDefsLoaded = false;
-        IsLoadingParams = true;
-
         _params = new Dictionary<string, Param>();
-
-        if (Project.Type != GameType.Undefined)
-        {
-            List<(string, PARAMDEF)> defPairs = LoadParamdefs();
-            IsDefsLoaded = true;
-            TaskManager.Run(new TaskManager.LiveTask("Param - Load Meta",
-                TaskManager.RequeueType.WaitThenRequeue, false, () =>
-                {
-                    LoadParamMeta(defPairs);
-                    IsMetaLoaded = true;
-                }));
-        }
 
         if (Project.Type == GameType.DemonsSouls)
         {
@@ -772,16 +530,14 @@ public class ParamBank
             LoadParamsAC6();
         }
 
-        ClearParamDiffCaches();
-
-        IsLoadingParams = false;
+        UICache.ClearCaches();
     }
 
+    // TODO: Repair on-load actions
     //Some returns and repetition, but it keeps all threading and loading-flags visible inside this method
-    public static void ReloadParams(ProjectSettings settings, NewProjectOptions options)
+    /*public static void ReloadParams(ProjectSettings settings, NewProjectOptions options)
     {
-        IsMetaLoaded = false;
-
+        //TODO: subsume with databank system
         AuxBanks = new Dictionary<string, ParamBank>();
 
         UICache.ClearCaches();
@@ -820,188 +576,15 @@ public class ParamBank
                 }
                 UICache.ClearCaches();
             }));
-    }
+    }*/
 
     public static void LoadAuxBank(string dir, ProjectSettings settings = null)
     {
-        // skip the meme and just treat as project
         Project siblingVirtualProject = new Project(dir, Locator.ActiveProject.ParentProject, settings);
-        ParamBank newBank = siblingVirtualProject.ParamBank;
-
-        newBank.LoadParams();
-
-        newBank.RefreshParamDiffCaches(true);
-        AuxBanks[Path.GetFileName(dir).Replace(' ', '_')] = newBank;
+        StudioResource.Load(siblingVirtualProject, [siblingVirtualProject.ParamBank, siblingVirtualProject.ParamDiffBank]);
+        ResDirectory.CurrentGame.AuxProjects[Path.GetFileName(siblingVirtualProject.AssetLocator.RootDirectory).Replace(' ', '_')] = siblingVirtualProject;
     }
 
-
-    public void ClearParamDiffCaches()
-    {
-        _vanillaDiffCache = new Dictionary<string, HashSet<int>>();
-        _primaryDiffCache = new Dictionary<string, HashSet<int>>();
-        foreach (var param in _params.Keys)
-        {
-            _vanillaDiffCache.Add(param, new HashSet<int>());
-            _primaryDiffCache.Add(param, new HashSet<int>());
-        }
-    }
-
-    public static void RefreshAllParamDiffCaches(bool checkAuxVanillaDiff)
-    {
-        PrimaryBank.RefreshParamDiffCaches(true);
-        foreach (KeyValuePair<string, ParamBank> bank in AuxBanks)
-        {
-            bank.Value.RefreshParamDiffCaches(checkAuxVanillaDiff);
-        }
-
-        UICache.ClearCaches();
-    }
-
-    public void RefreshParamDiffCaches(bool checkVanillaDiff)
-    {
-        if (this != VanillaBank && checkVanillaDiff)
-        {
-            _vanillaDiffCache = GetParamDiff(VanillaBank);
-        }
-
-        if (this == VanillaBank && PrimaryBank._vanillaDiffCache != null)
-        {
-            _primaryDiffCache = PrimaryBank._vanillaDiffCache;
-        }
-        else if (this != PrimaryBank)
-        {
-            _primaryDiffCache = GetParamDiff(PrimaryBank);
-        }
-
-        UICache.ClearCaches();
-    }
-
-    private Dictionary<string, HashSet<int>> GetParamDiff(ParamBank otherBank)
-    {
-        if (IsLoadingParams || otherBank == null || otherBank.IsLoadingParams)
-        {
-            return null;
-        }
-
-        Dictionary<string, HashSet<int>> newCache = new();
-        foreach (var param in _params.Keys)
-        {
-            HashSet<int> cache = new();
-            newCache.Add(param, cache);
-            Param p = _params[param];
-            if (!otherBank._params.ContainsKey(param))
-            {
-                Console.WriteLine("Missing vanilla param " + param);
-                continue;
-            }
-
-            Param.Row[] rows = _params[param].Rows.OrderBy(r => r.ID).ToArray();
-            Param.Row[] vrows = otherBank._params[param].Rows.OrderBy(r => r.ID).ToArray();
-
-            var vanillaIndex = 0;
-            var lastID = -1;
-            ReadOnlySpan<Param.Row> lastVanillaRows = default;
-            for (var i = 0; i < rows.Length; i++)
-            {
-                var ID = rows[i].ID;
-                if (ID == lastID)
-                {
-                    RefreshParamRowDiffCache(rows[i], lastVanillaRows, cache);
-                }
-                else
-                {
-                    lastID = ID;
-                    while (vanillaIndex < vrows.Length && vrows[vanillaIndex].ID < ID)
-                    {
-                        vanillaIndex++;
-                    }
-
-                    if (vanillaIndex >= vrows.Length)
-                    {
-                        RefreshParamRowDiffCache(rows[i], Span<Param.Row>.Empty, cache);
-                    }
-                    else
-                    {
-                        var count = 0;
-                        while (vanillaIndex + count < vrows.Length && vrows[vanillaIndex + count].ID == ID)
-                        {
-                            count++;
-                        }
-
-                        lastVanillaRows = new ReadOnlySpan<Param.Row>(vrows, vanillaIndex, count);
-                        RefreshParamRowDiffCache(rows[i], lastVanillaRows, cache);
-                        vanillaIndex += count;
-                    }
-                }
-            }
-        }
-
-        return newCache;
-    }
-
-    private static void RefreshParamRowDiffCache(Param.Row row, ReadOnlySpan<Param.Row> otherBankRows,
-        HashSet<int> cache)
-    {
-        if (IsChanged(row, otherBankRows))
-        {
-            cache.Add(row.ID);
-        }
-        else
-        {
-            cache.Remove(row.ID);
-        }
-    }
-
-    public void RefreshParamRowDiffs(Param.Row row, string param)
-    {
-        if (param == null)
-        {
-            return;
-        }
-
-        if (VanillaBank.Params.ContainsKey(param) && VanillaDiffCache != null &&
-            VanillaDiffCache.ContainsKey(param))
-        {
-            Param.Row[] otherBankRows = VanillaBank.Params[param].Rows.Where(cell => cell.ID == row.ID).ToArray();
-            RefreshParamRowDiffCache(row, otherBankRows, VanillaDiffCache[param]);
-        }
-
-        if (this != PrimaryBank)
-        {
-            return;
-        }
-
-        foreach (ParamBank aux in AuxBanks.Values)
-        {
-            if (!aux.Params.ContainsKey(param) || aux.PrimaryDiffCache == null ||
-                !aux.PrimaryDiffCache.ContainsKey(param))
-            {
-                continue; // Don't try for now
-            }
-
-            Param.Row[] otherBankRows = aux.Params[param].Rows.Where(cell => cell.ID == row.ID).ToArray();
-            RefreshParamRowDiffCache(row, otherBankRows, aux.PrimaryDiffCache[param]);
-        }
-    }
-
-    private static bool IsChanged(Param.Row row, ReadOnlySpan<Param.Row> vanillaRows)
-    {
-        //List<Param.Row> vanils = vanilla.Rows.Where(cell => cell.ID == row.ID).ToList();
-        if (vanillaRows.Length == 0)
-        {
-            return true;
-        }
-
-        foreach (Param.Row vrow in vanillaRows)
-        {
-            if (row.RowMatches(vrow))
-            {
-                return false; //if we find a matching vanilla row
-            }
-        }
-
-        return true;
-    }
     private void SaveParamsDS1()
     {
         var dir = Project.ParentProject.AssetLocator.RootDirectory;
@@ -1481,9 +1064,9 @@ public class ParamBank
 
         _pendingUpgrade = false;
     }
-
-    public void SaveParams(bool loose = false)
+    public override void Save()
     {
+        bool loose = Project.Settings.UseLooseParams;
         if (_params == null)
         {
             return;
@@ -1530,347 +1113,6 @@ public class ParamBank
         }
     }
 
-    private static Param UpgradeParam(Param source, Param oldVanilla, Param newVanilla, HashSet<int> rowConflicts)
-    {
-        // Presorting this would make it easier, but we're trying to preserve order as much as possible
-        // Unfortunately given that rows aren't guaranteed to be sorted and there can be duplicate IDs,
-        // we try to respect the existing order and IDs as much as possible.
-
-        // In order to assemble the final param, the param needs to know where to sort rows from given the
-        // following rules:
-        // 1. If a row with a given ID is unchanged from source to oldVanilla, we source from newVanilla
-        // 2. If a row with a given ID is deleted from source compared to oldVanilla, we don't take any row
-        // 3. If a row with a given ID is changed from source compared to oldVanilla, we source from source
-        // 4. If a row has duplicate IDs, we treat them as if the rows were deduplicated and process them
-        //    in the order they appear.
-
-        // List of rows that are in source but not oldVanilla
-        Dictionary<int, List<Param.Row>> addedRows = new(source.Rows.Count);
-
-        // List of rows in oldVanilla that aren't in source
-        Dictionary<int, List<Param.Row>> deletedRows = new(source.Rows.Count);
-
-        // List of rows that are in source and oldVanilla, but are modified
-        Dictionary<int, List<Param.Row>> modifiedRows = new(source.Rows.Count);
-
-        // List of rows that only had the name changed
-        Dictionary<int, List<Param.Row>> renamedRows = new(source.Rows.Count);
-
-        // List of ordered edit operations for each ID
-        Dictionary<int, List<EditOperation>> editOperations = new(source.Rows.Count);
-
-        // First off we go through source and everything starts as an added param
-        foreach (Param.Row row in source.Rows)
-        {
-            if (!addedRows.ContainsKey(row.ID))
-            {
-                addedRows.Add(row.ID, new List<Param.Row>());
-            }
-
-            addedRows[row.ID].Add(row);
-        }
-
-        // Next we go through oldVanilla to determine if a row is added, deleted, modified, or unmodified
-        foreach (Param.Row row in oldVanilla.Rows)
-        {
-            // First off if the row did not exist in the source, it's deleted
-            if (!addedRows.ContainsKey(row.ID))
-            {
-                if (!deletedRows.ContainsKey(row.ID))
-                {
-                    deletedRows.Add(row.ID, new List<Param.Row>());
-                }
-
-                deletedRows[row.ID].Add(row);
-                if (!editOperations.ContainsKey(row.ID))
-                {
-                    editOperations.Add(row.ID, new List<EditOperation>());
-                }
-
-                editOperations[row.ID].Add(EditOperation.Delete);
-                continue;
-            }
-
-            // Otherwise the row exists in source. Time to classify it.
-            List<Param.Row> list = addedRows[row.ID];
-
-            // First we see if we match the first target row. If so we can remove it.
-            if (row.DataEquals(list[0]))
-            {
-                Param.Row modrow = list[0];
-                list.RemoveAt(0);
-                if (list.Count == 0)
-                {
-                    addedRows.Remove(row.ID);
-                }
-
-                if (!editOperations.ContainsKey(row.ID))
-                {
-                    editOperations.Add(row.ID, new List<EditOperation>());
-                }
-
-                // See if the name was not updated
-                if ((modrow.Name == null && row.Name == null) ||
-                    (modrow.Name != null && row.Name != null && modrow.Name == row.Name))
-                {
-                    editOperations[row.ID].Add(EditOperation.Match);
-                    continue;
-                }
-
-                // Name was updated
-                editOperations[row.ID].Add(EditOperation.NameChange);
-                if (!renamedRows.ContainsKey(row.ID))
-                {
-                    renamedRows.Add(row.ID, new List<Param.Row>());
-                }
-
-                renamedRows[row.ID].Add(modrow);
-
-                continue;
-            }
-
-            // Otherwise it is modified
-            if (!modifiedRows.ContainsKey(row.ID))
-            {
-                modifiedRows.Add(row.ID, new List<Param.Row>());
-            }
-
-            modifiedRows[row.ID].Add(list[0]);
-            list.RemoveAt(0);
-            if (list.Count == 0)
-            {
-                addedRows.Remove(row.ID);
-            }
-
-            if (!editOperations.ContainsKey(row.ID))
-            {
-                editOperations.Add(row.ID, new List<EditOperation>());
-            }
-
-            editOperations[row.ID].Add(EditOperation.Modify);
-        }
-
-        // Mark all remaining rows as added
-        foreach (KeyValuePair<int, List<Param.Row>> entry in addedRows)
-        {
-            if (!editOperations.ContainsKey(entry.Key))
-            {
-                editOperations.Add(entry.Key, new List<EditOperation>());
-            }
-
-            foreach (List<EditOperation> k in editOperations.Values)
-            {
-                editOperations[entry.Key].Add(EditOperation.Add);
-            }
-        }
-
-        if (editOperations.All(kvp => kvp.Value.All(eo => eo == EditOperation.Match)))
-        {
-            return oldVanilla;
-        }
-
-        Param dest = new(newVanilla);
-
-        // Now try to build the destination from the new regulation with the edit operations in mind
-        var pendingAdds = addedRows.Keys.OrderBy(e => e).ToArray();
-        var currPendingAdd = 0;
-        var lastID = 0;
-        foreach (Param.Row row in newVanilla.Rows)
-        {
-            // See if we have any pending adds we can slot in
-            while (currPendingAdd < pendingAdds.Length &&
-                   pendingAdds[currPendingAdd] >= lastID &&
-                   pendingAdds[currPendingAdd] < row.ID)
-            {
-                if (!addedRows.ContainsKey(pendingAdds[currPendingAdd]))
-                {
-                    currPendingAdd++;
-                    continue;
-                }
-
-                foreach (Param.Row arow in addedRows[pendingAdds[currPendingAdd]])
-                {
-                    dest.AddRow(new Param.Row(arow, dest));
-                }
-
-                addedRows.Remove(pendingAdds[currPendingAdd]);
-                editOperations.Remove(pendingAdds[currPendingAdd]);
-                currPendingAdd++;
-            }
-
-            lastID = row.ID;
-
-            if (!editOperations.ContainsKey(row.ID))
-            {
-                // No edit operations for this ID, so just add it (likely a new row in the update)
-                dest.AddRow(new Param.Row(row, dest));
-                continue;
-            }
-
-            // Pop the latest operation we need to do
-            EditOperation operation = editOperations[row.ID][0];
-            editOperations[row.ID].RemoveAt(0);
-            if (editOperations[row.ID].Count == 0)
-            {
-                editOperations.Remove(row.ID);
-            }
-
-            if (operation == EditOperation.Add)
-            {
-                // Getting here means both the mod and the updated regulation added a row. Our current strategy is
-                // to overwrite the new vanilla row with the modded one and add to the conflict log to give the user
-                rowConflicts.Add(row.ID);
-                dest.AddRow(new Param.Row(addedRows[row.ID][0], dest));
-                addedRows[row.ID].RemoveAt(0);
-                if (addedRows[row.ID].Count == 0)
-                {
-                    addedRows.Remove(row.ID);
-                }
-            }
-            else if (operation == EditOperation.Match)
-            {
-                // Match means we inherit updated param
-                dest.AddRow(new Param.Row(row, dest));
-            }
-            else if (operation == EditOperation.Delete)
-            {
-                // deleted means we don't add anything
-                deletedRows[row.ID].RemoveAt(0);
-                if (deletedRows[row.ID].Count == 0)
-                {
-                    deletedRows.Remove(row.ID);
-                }
-            }
-            else if (operation == EditOperation.Modify)
-            {
-                // Modified means we use the modded regulation's param
-                dest.AddRow(new Param.Row(modifiedRows[row.ID][0], dest));
-                modifiedRows[row.ID].RemoveAt(0);
-                if (modifiedRows[row.ID].Count == 0)
-                {
-                    modifiedRows.Remove(row.ID);
-                }
-            }
-            else if (operation == EditOperation.NameChange)
-            {
-                // Inherit name
-                Param.Row newRow = new(row, dest);
-                newRow.Name = renamedRows[row.ID][0].Name;
-                dest.AddRow(newRow);
-                renamedRows[row.ID].RemoveAt(0);
-                if (renamedRows[row.ID].Count == 0)
-                {
-                    renamedRows.Remove(row.ID);
-                }
-            }
-        }
-
-        // Take care of any more pending adds
-        for (; currPendingAdd < pendingAdds.Length; currPendingAdd++)
-        {
-            // If the pending add doesn't exist in the added rows list, it was a conflicting row
-            if (!addedRows.ContainsKey(pendingAdds[currPendingAdd]))
-            {
-                continue;
-            }
-
-            foreach (Param.Row arow in addedRows[pendingAdds[currPendingAdd]])
-            {
-                dest.AddRow(new Param.Row(arow, dest));
-            }
-
-            addedRows.Remove(pendingAdds[currPendingAdd]);
-            editOperations.Remove(pendingAdds[currPendingAdd]);
-        }
-
-        return dest;
-    }
-
-    // Param upgrade. Currently for Elden Ring only.
-    public ParamUpgradeResult UpgradeRegulation(ParamBank vanillaBank, string oldVanillaParamPath,
-        Dictionary<string, HashSet<int>> conflictingParams)
-    {
-        // First we need to load the old regulation
-        if (!File.Exists(oldVanillaParamPath))
-        {
-            return ParamUpgradeResult.OldRegulationNotFound;
-        }    
-        
-        // Backup modded params
-        string modRegulationPath = $@"{Project.AssetLocator.RootDirectory}\regulation.bin";
-        File.Copy(modRegulationPath, $@"{modRegulationPath}.upgrade.bak", true);
-
-        // Load old vanilla regulation
-        BND4 oldVanillaParamBnd;
-        if (Project.Type == GameType.EldenRing)
-        {
-            oldVanillaParamBnd = SFUtil.DecryptERRegulation(oldVanillaParamPath);
-        }
-        else if (Project.Type == GameType.ArmoredCoreVI)
-        {
-            oldVanillaParamBnd = SFUtil.DecryptAC6Regulation(oldVanillaParamPath);
-        }
-        else
-        {
-            throw new NotImplementedException(
-                $"Param upgrading for game type {Project.Type} is not supported.");
-        }
-
-        Dictionary<string, Param> oldVanillaParams = new();
-        ulong version;
-        LoadParamFromBinder(oldVanillaParamBnd, ref oldVanillaParams, out version, true);
-        if (version != ParamVersion)
-        {
-            return ParamUpgradeResult.OldRegulationVersionMismatch;
-        }
-
-        Dictionary<string, Param> updatedParams = new();
-        // Now we must diff everything to try and find changed/added rows for each param
-        var anyUpgrades = false;
-        foreach (var k in vanillaBank.Params.Keys)
-        {
-            // If the param is completely new, just take it
-            if (!oldVanillaParams.ContainsKey(k) || !Params.ContainsKey(k))
-            {
-                updatedParams.Add(k, vanillaBank.Params[k]);
-                continue;
-            }
-
-            // Otherwise try to upgrade
-            HashSet<int> conflicts = new();
-            Param res = UpgradeParam(Params[k], oldVanillaParams[k], vanillaBank.Params[k], conflicts);
-            if (res != oldVanillaParams[k])
-            {
-                anyUpgrades = true;
-            }
-
-            updatedParams.Add(k, res);
-
-            if (conflicts.Count > 0)
-            {
-                conflictingParams.Add(k, conflicts);
-            }
-        }
-
-        if (!anyUpgrades)
-        {
-            return ParamUpgradeResult.OldRegulationMatchesCurrent;
-        }
-
-        var oldVersion = _paramVersion;
-
-        // Set new params
-        _params = updatedParams;
-        _paramVersion = VanillaBank.ParamVersion;
-        _pendingUpgrade = true;
-
-        // Refresh dirty cache
-        UICache.ClearCaches();
-        RefreshAllParamDiffCaches(false);
-
-        return conflictingParams.Count > 0 ? ParamUpgradeResult.RowConflictsFound : ParamUpgradeResult.Success;
-    }
-
     public string GetChrIDForEnemy(long enemyID)
     {
         Param.Row enemy = EnemyParam?[(int)enemyID];
@@ -1913,116 +1155,8 @@ public class ParamBank
         return null;
     }
 
-    public HashSet<int> GetVanillaDiffRows(string param)
+    protected override IEnumerable<StudioResource> GetDependencies(Project project)
     {
-        IReadOnlyDictionary<string, HashSet<int>> allDiffs = VanillaDiffCache;
-        if (allDiffs == null || !allDiffs.ContainsKey(param))
-        {
-            return EMPTYSET;
-        }
-
-        return allDiffs[param];
-    }
-
-    public HashSet<int> GetPrimaryDiffRows(string param)
-    {
-        IReadOnlyDictionary<string, HashSet<int>> allDiffs = PrimaryDiffCache;
-        if (allDiffs == null || !allDiffs.ContainsKey(param))
-        {
-            return EMPTYSET;
-        }
-
-        return allDiffs[param];
-    }
-
-    /// <summary>
-    ///     Loads row names from external files and applies them to params.
-    ///     Uses indicies rather than IDs.
-    /// </summary>
-    private void LoadExternalRowNames()
-    {
-        var failCount = 0;
-        foreach (KeyValuePair<string, Param> p in _params)
-        {
-            var path = Project.AssetLocator.GetStrippedRowNamesPath(p.Key);
-            if (File.Exists(path))
-            {
-                var names = File.ReadAllLines(path);
-                if (names.Length != p.Value.Rows.Count)
-                {
-                    TaskLogs.AddLog($"External row names could not be applied to {p.Key}, row count does not match",
-                        LogLevel.Warning, TaskLogs.LogPriority.Low);
-                    failCount++;
-                    continue;
-                }
-
-                for (var i = 0; i < names.Length; i++)
-                {
-                    p.Value.Rows[i].Name = names[i];
-                }
-            }
-        }
-
-        if (failCount > 0)
-        {
-            TaskLogs.AddLog(
-                $"External row names could not be applied to {failCount} params due to non-matching row counts.",
-                LogLevel.Warning);
-        }
-    }
-
-    /// <summary>
-    ///     Strips row names from params, saves them to files, and stores them to be restored after saving params.
-    ///     Should always be used in conjunction with RestoreStrippedRowNames().
-    /// </summary>
-    private void StripRowNames()
-    {
-        _storedStrippedRowNames = new Dictionary<string, List<string>>();
-        foreach (KeyValuePair<string, Param> p in _params)
-        {
-            _storedStrippedRowNames.TryAdd(p.Key, new List<string>());
-            List<string> list = _storedStrippedRowNames[p.Key];
-            foreach (Param.Row r in p.Value.Rows)
-            {
-                list.Add(r.Name);
-                r.Name = "";
-            }
-
-            var path = Project.AssetLocator.GetStrippedRowNamesPath(p.Key);
-            Directory.CreateDirectory(Path.GetDirectoryName(path));
-            File.WriteAllLines(path, list);
-        }
-    }
-
-    /// <summary>
-    ///     Restores stripped row names back to all params.
-    ///     Should always be used in conjunction with StripRowNames().
-    /// </summary>
-    private void RestoreStrippedRowNames()
-    {
-        if (_storedStrippedRowNames == null)
-        {
-            throw new InvalidOperationException("No stripped row names have been stored.");
-        }
-
-        foreach (KeyValuePair<string, Param> p in _params)
-        {
-            List<string> storedNames = _storedStrippedRowNames[p.Key];
-            for (var i = 0; i < p.Value.Rows.Count; i++)
-            {
-                p.Value.Rows[i].Name = storedNames[i];
-            }
-        }
-
-        _storedStrippedRowNames = null;
-    }
-
-    private enum EditOperation
-    {
-        Add,
-        Delete,
-        Modify,
-        NameChange,
-        Match
+        return [ResDirectory.CurrentGame.ParamDefBank];
     }
 }

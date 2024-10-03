@@ -181,9 +181,9 @@ public class ParamEditorSelectionState
         if (_activeParam != null)
         {
             ParamEditorParamSelectionState s = _paramStates[_activeParam];
-            if (s.activeRow != null && !ParamBank.VanillaBank.IsLoadingParams)
+            if (s.activeRow != null && ParamBank.VanillaBank.IsLoaded)
             {
-                ParamBank.PrimaryBank.RefreshParamRowDiffs(s.activeRow, _activeParam);
+                Locator.ActiveProject.ParamDiffBank.RefreshParamRowDiffs(s.activeRow, _activeParam);
             }
 
             if (!isHistory)
@@ -194,9 +194,9 @@ public class ParamEditorSelectionState
             s.activeRow = row;
             s.selectionRows.Clear();
             s.selectionRows.Add(row);
-            if (s.activeRow != null && !ParamBank.VanillaBank.IsLoadingParams)
+            if (s.activeRow != null && ParamBank.VanillaBank.IsLoaded)
             {
-                ParamBank.PrimaryBank.RefreshParamRowDiffs(s.activeRow, _activeParam);
+                Locator.ActiveProject.ParamDiffBank.RefreshParamRowDiffs(s.activeRow, _activeParam);
             }
 
             s.selectionCacheDirty = true;

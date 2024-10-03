@@ -213,12 +213,12 @@ public class ParamMetaData
 
     public static ParamMetaData Get(PARAMDEF def)
     {
-        if (!ParamBank.IsMetaLoaded)
+        if (!ResDirectory.CurrentGame.ParamMetaBank.IsLoaded)
         {
             return null;
         }
 
-        return Locator.ActiveProject.ParamBank.ParamMetas[def];
+        return ResDirectory.CurrentGame.ParamMetaBank.ParamMetas[def];
     }
     internal static XmlNode GetXmlNode(XmlDocument xml, XmlNode parent, string child)
     {
@@ -372,7 +372,7 @@ public class ParamMetaData
             field.Value.Commit(FixName(field.Key.InternalName)); //does not handle shared names
         }
 
-        foreach (ParamMetaData param in Locator.ActiveProject.ParamBank.ParamMetas.Values)
+        foreach (ParamMetaData param in ResDirectory.CurrentGame.ParamMetaBank.ParamMetas.Values)
         {
             param.Commit();
             param.Save();
@@ -519,7 +519,7 @@ public class FieldMetaData
 
     public static FieldMetaData Get(PARAMDEF.Field def)
     {
-        if (!ParamBank.IsMetaLoaded)
+        if (!ResDirectory.CurrentGame.ParamMetaBank.IsLoaded)
         {
             return null;
         }

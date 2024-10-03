@@ -132,7 +132,7 @@ public class ParamEditorView
             //ImGui.Text("        Pinned Params");
             foreach (var paramKey in pinnedParamKeyList)
             {
-                HashSet<int> primary = ParamBank.PrimaryBank.VanillaDiffCache.GetValueOrDefault(paramKey, null);
+                HashSet<int> primary = Locator.ActiveProject.ParamDiffBank.VanillaDiffCache.GetValueOrDefault(paramKey, null);
                 Param p = ParamBank.PrimaryBank.Params[paramKey];
                 if (p != null)
                 {
@@ -173,6 +173,28 @@ public class ParamEditorView
         }
     }
 
+    /// <summary>
+    ///     Map related params.
+    /// </summary>
+    public static readonly List<string> DS2MapParamlist = new()
+    {
+        "demopointlight",
+        "demospotlight",
+        "eventlocation",
+        "eventparam",
+        "GeneralLocationEventParam",
+        "generatorparam",
+        "generatorregistparam",
+        "generatorlocation",
+        "generatordbglocation",
+        "hitgroupparam",
+        "intrudepointparam",
+        "mapobjectinstanceparam",
+        "maptargetdirparam",
+        "npctalkparam",
+        "treasureboxparam"
+    };
+
     private void ParamView_ParamList_Main(bool doFocus, float scale, float scrollTo)
     {
         List<string> paramKeyList = UICache.GetCached(_paramEditor, _viewIndex, () =>
@@ -199,11 +221,11 @@ public class ParamEditorView
             {
                 if (_mapParamView)
                 {
-                    keyList = keyList.FindAll(p => ParamBank.DS2MapParamlist.Contains(p.Split('_')[0]));
+                    keyList = keyList.FindAll(p => DS2MapParamlist.Contains(p.Split('_')[0]));
                 }
                 else
                 {
-                    keyList = keyList.FindAll(p => !ParamBank.DS2MapParamlist.Contains(p.Split('_')[0]));
+                    keyList = keyList.FindAll(p => !DS2MapParamlist.Contains(p.Split('_')[0]));
                 }
             }
             else if (Locator.AssetLocator.Type is GameType.EldenRing)
@@ -257,7 +279,7 @@ public class ParamEditorView
 
         foreach (var paramKey in paramKeyList)
         {
-            HashSet<int> primary = ParamBank.PrimaryBank.VanillaDiffCache.GetValueOrDefault(paramKey, null);
+            HashSet<int> primary = Locator.ActiveProject.ParamDiffBank.VanillaDiffCache?.GetValueOrDefault(paramKey, null);
             Param p = ParamBank.PrimaryBank.Params[paramKey];
             if (p != null)
             {
@@ -417,9 +439,9 @@ public class ParamEditorView
             ParamView_RowList_Header(ref doFocus, isActiveView, ref scrollTo, activeParam);
 
             Param para = ParamBank.PrimaryBank.Params[activeParam];
-            HashSet<int> vanillaDiffCache = ParamBank.PrimaryBank.GetVanillaDiffRows(activeParam);
-            List<(HashSet<int>, HashSet<int>)> auxDiffCaches = ParamBank.AuxBanks.Select((bank, i) =>
-                (bank.Value.GetVanillaDiffRows(activeParam), bank.Value.GetPrimaryDiffRows(activeParam))).ToList();
+            HashSet<int> vanillaDiffCache = Locator.ActiveProject.ParamDiffBank.GetVanillaDiffRows(activeParam);
+            List<(HashSet<int>, HashSet<int>)> auxDiffCaches = ResDirectory.CurrentGame.AuxProjects.Select((project, i) =>
+                (project.Value.ParamDiffBank.GetVanillaDiffRows(activeParam), project.Value.ParamDiffBank.GetPrimaryDiffRows(activeParam))).ToList();
 
             Param.Column compareCol = _selection.GetCompareCol();
             PropertyInfo compareColProp = typeof(Param.Cell).GetProperty("Value");
@@ -559,8 +581,8 @@ public class ParamEditorView
                 ParamBank.PrimaryBank,
                 activeRow,
                 vanillaParam?[activeRow.ID],
-                ParamBank.AuxBanks.Select((bank, i) =>
-                    (bank.Key, bank.Value.Params?.GetValueOrDefault(activeParam)?[activeRow.ID])).ToList(),
+                ResDirectory.CurrentGame.AuxProjects.Select((project, i) =>
+                    (project.Key, project.Value.ParamBank.Params?.GetValueOrDefault(activeParam)?[activeRow.ID])).ToList(),
                 _selection.GetCompareRow(),
                 ref _selection.GetCurrentPropSearchString(),
                 activeParam,
@@ -835,9 +857,9 @@ public class ParamEditorView
                 ImGui.PushStyleVarVec2(ImGuiStyleVar.FramePadding, new Vector2(0, 0));
                 ParamEditorCommon.PropertyField(compareCol.ValueType, c.Value, ref newval, false);
                 if (ParamEditorCommon.UpdateProperty(_propEditor.ContextActionManager, c, compareColProp,
-                        c.Value) && !ParamBank.VanillaBank.IsLoadingParams)
+                        c.Value) && ParamBank.VanillaBank.IsLoaded)
                 {
-                    ParamBank.PrimaryBank.RefreshParamRowDiffs(r, activeParam);
+                    Locator.ActiveProject.ParamDiffBank.RefreshParamRowDiffs(r, activeParam);
                 }
 
                 ImGui.PopStyleVar(1);

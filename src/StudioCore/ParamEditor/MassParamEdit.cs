@@ -895,12 +895,12 @@ public class MEOperationArgument
             "Gives the value of the equivalent cell/field in the specified regulation or parambnd for the currently selected cell/field, row and param.\nWill fail if a row does not have an aux equivilent. Consider using && auxprop ID .*",
             bankName =>
             {
-                if (!ParamBank.AuxBanks.ContainsKey(bankName[0]))
+                if (!ResDirectory.CurrentGame.AuxProjects.ContainsKey(bankName[0]))
                 {
                     throw new Exception($@"Could not locate paramBank {bankName[0]}");
                 }
 
-                ParamBank bank = ParamBank.AuxBanks[bankName[0]];
+                ParamBank bank = ResDirectory.CurrentGame.AuxProjects[bankName[0]].ParamBank;
                 return (i, param) =>
                 {
                     var paramName = ParamBank.PrimaryBank.GetKeyForParam(param);
@@ -929,7 +929,7 @@ public class MEOperationArgument
                         };
                     };
                 };
-            }, () => ParamBank.AuxBanks.Count > 0));
+            }, () => ResDirectory.CurrentGame.AuxProjects.Count > 0));
         argumentGetters.Add("vanillafield", newGetter(new[] { "field internalName" },
             "Gives the value of the specified cell/field in the vanilla regulation or parambnd for the currently selected row and param.\nWill fail if a row does not have a vanilla equivilent. Consider using && !added",
             field => (i, param) =>
@@ -963,12 +963,12 @@ public class MEOperationArgument
             "Gives the value of the specified cell/field in the specified regulation or parambnd for the currently selected row and param.\nWill fail if a row does not have an aux equivilent. Consider using && auxprop ID .*",
             bankAndField =>
             {
-                if (!ParamBank.AuxBanks.ContainsKey(bankAndField[0]))
+                if (!ResDirectory.CurrentGame.AuxProjects.ContainsKey(bankAndField[0]))
                 {
                     throw new Exception($@"Could not locate paramBank {bankAndField[0]}");
                 }
 
-                ParamBank bank = ParamBank.AuxBanks[bankAndField[0]];
+                ParamBank bank = ResDirectory.CurrentGame.AuxProjects[bankAndField[0]].ParamBank;
                 return (i, param) =>
                 {
                     var paramName = ParamBank.PrimaryBank.GetKeyForParam(param);
@@ -996,7 +996,7 @@ public class MEOperationArgument
                         return (k, c) => v;
                     };
                 };
-            }, () => ParamBank.AuxBanks.Count > 0));
+            }, () => ResDirectory.CurrentGame.AuxProjects.Count > 0));
         argumentGetters.Add("paramlookup", newGetter(new[] { "param name", "row id", "field name" },
             "Returns the specific value specified by the exact param, row and field.", address =>
             {

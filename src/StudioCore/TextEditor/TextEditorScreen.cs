@@ -295,12 +295,12 @@ public unsafe class TextEditorScreen : EditorScreen
 
     public void Save()
     {
-        Locator.ActiveProject.FMGBank.SaveFMGs();
+        Locator.ActiveProject.FMGBank.Save();
     }
 
     public void SaveAll()
     {
-        Locator.ActiveProject.FMGBank.SaveFMGs();
+        Locator.ActiveProject.FMGBank.Save();
     }
 
     private void ClearTextEditorCache()
@@ -769,5 +769,33 @@ public unsafe class TextEditorScreen : EditorScreen
         ClearTextEditorCache();
         ResetActionManager();
         Locator.ActiveProject.FMGBank.LoadFMGs(path);
+    }
+
+    IEnumerable<StudioResource> EditorScreen.GetDependencies(Project project)
+    {
+        return [project.FMGBank];
+    }
+
+    public void SettingsMenu()
+    {
+        if (ImGui.CollapsingHeader("General", ImGuiTreeNodeFlags.DefaultOpen))
+        {
+            EditorDecorations.ShowHelpMarker("Show the original FMG file names within the Text Editor file list.");
+            ImGui.Checkbox("Show original FMG names", ref CFG.Current.FMG_ShowOriginalNames);
+
+            EditorDecorations.ShowHelpMarker("If enabled then FMG entries will not be grouped automatically.");
+            if (ImGui.Checkbox("Separate related FMGs and entries", ref CFG.Current.FMG_NoGroupedFmgEntries))
+            {
+                //This is still ghastly
+                OnProjectChanged(_projectSettings);
+            }
+
+            EditorDecorations.ShowHelpMarker("If enabled then FMG files added from DLCs will not be grouped with vanilla FMG files.");
+            if (ImGui.Checkbox("Separate patch FMGs", ref CFG.Current.FMG_NoFmgPatching))
+            {
+                //no really this has to go
+                OnProjectChanged(_projectSettings);
+            }
+        }
     }
 }

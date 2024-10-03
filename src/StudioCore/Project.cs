@@ -21,6 +21,7 @@ public class Project
     public readonly ProjectAssetLocator AssetLocator;
 
     public readonly ParamBank ParamBank;
+    public readonly ParamDiffBank ParamDiffBank;
 
     public readonly FMGBank FMGBank;
 
@@ -32,11 +33,12 @@ public class Project
     /// </summary>
     public Project(ProjectSettings settings)
     {
-        Settings = settings;
+        Settings = settings.CopyForGameDir();
         AssetLocator = new(this, settings.GameRoot);
         ParentProject = null;
 
         ParamBank = new(this);
+        ParamDiffBank = new(this);
         FMGBank = new(this);
     }
     /// <summary>
@@ -49,6 +51,7 @@ public class Project
         ParentProject = new Project(settings);
 
         ParamBank = new(this);
+        ParamDiffBank = new(this);
         FMGBank = new(this);
     }
     /// <summary>
@@ -68,6 +71,7 @@ public class Project
         ParentProject = parent;
 
         ParamBank = new(this);
+        ParamDiffBank = new(this);
         FMGBank = new(this);
     }
 
@@ -86,6 +90,7 @@ public class Project
         }
 
         ParamBank = parent.ParamBank;
+        ParamDiffBank = parent.ParamDiffBank;
         FMGBank = parent.FMGBank;
     }
 

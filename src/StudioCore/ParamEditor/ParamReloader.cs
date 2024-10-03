@@ -40,7 +40,7 @@ internal class ParamReloader
 
     public static bool CanReloadMemoryParams(ParamBank bank, ProjectSettings projectSettings)
     {
-        if (projectSettings != null && GameIsSupported(projectSettings.GameType) && bank.IsLoadingParams == false)
+        if (projectSettings != null && GameIsSupported(projectSettings.GameType) && !bank.IsLoading)
         {
             return true;
         }

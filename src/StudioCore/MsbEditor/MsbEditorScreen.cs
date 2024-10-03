@@ -2109,4 +2109,398 @@ public class MsbEditorScreen : EditorScreen, SceneTreeEventHandler
             ImGui.EndCombo();
         }
     }
+
+    IEnumerable<StudioResource> EditorScreen.GetDependencies(Project project)
+    {
+        return [];
+    }
+
+    public void SettingsMenu()
+    {
+        if (ImGui.CollapsingHeader("General", ImGuiTreeNodeFlags.DefaultOpen))
+        {
+            EditorDecorations.ShowHelpMarker("Viewport FPS when window is focused.");
+            ImGui.DragFloat("Frame Limit", ref CFG.Current.GFX_Framerate_Limit, 1.0f, 5.0f, 300.0f);
+
+            EditorDecorations.ShowHelpMarker("Viewport FPS when window is not focused.");
+            ImGui.DragFloat("Frame Limit (Unfocused)", ref CFG.Current.GFX_Framerate_Limit_Unfocused, 1.0f, 1.0f, 60.0f);
+
+            EditorDecorations.ShowHelpMarker("Enabling this option will allow DSMS to render the textures of models within the viewport.\n\nNote, this feature is in an alpha state.");
+            ImGui.Checkbox("Enable texturing", ref CFG.Current.EnableTexturing);
+
+            EditorDecorations.ShowHelpMarker("This option will cause loaded maps to always be visible within the map list, ignoring the search filter.");
+            ImGui.Checkbox("Exclude loaded maps from search filter", ref CFG.Current.Map_AlwaysListLoadedMaps);
+
+            if (Locator.ActiveProject.Type is GameType.EldenRing)
+            {
+                if (CFG.Current.ShowUITooltips)
+                {
+                    EditorDecorations.ShowHelpMarker("");
+                    ImGui.SameLine();
+                }
+                ImGui.Checkbox("Enable Elden Ring auto map offset", ref CFG.Current.EnableEldenRingAutoMapOffset);
+            }
+        }
+
+        // Scene View
+        // Scene View
+        if (ImGui.CollapsingHeader("Map Object List"))
+        {
+            ImGui.Checkbox("Display map names", ref CFG.Current.MapEditor_MapObjectList_ShowMapNames);
+            Editor.EditorDecorations.ShowHoverTooltip("Map names will be displayed within the scene view list.");
+
+            ImGui.Checkbox("Display character names", ref CFG.Current.MapEditor_MapObjectList_ShowCharacterNames);
+            Editor.EditorDecorations.ShowHoverTooltip("Characters names will be displayed within the scene view list.");
+
+            ImGui.Checkbox("Display asset names", ref CFG.Current.MapEditor_MapObjectList_ShowAssetNames);
+            Editor.EditorDecorations.ShowHoverTooltip("Asset/object names will be displayed within the scene view list.");
+
+            ImGui.Checkbox("Display map piece names", ref CFG.Current.MapEditor_MapObjectList_ShowMapPieceNames);
+            Editor.EditorDecorations.ShowHoverTooltip("Map piece names will be displayed within the scene view list.");
+
+            ImGui.Checkbox("Display treasure names", ref CFG.Current.MapEditor_MapObjectList_ShowTreasureNames);
+            Editor.EditorDecorations.ShowHoverTooltip("Treasure itemlot names will be displayed within the scene view list.");
+        }
+
+        if (ImGui.CollapsingHeader("Selection"))
+        {
+            var arbitrary_rotation_x = CFG.Current.Map_ArbitraryRotation_X_Shift;
+            var arbitrary_rotation_y = CFG.Current.Map_ArbitraryRotation_Y_Shift;
+            var camera_radius_offset = CFG.Current.Map_MoveSelectionToCamera_Radius;
+
+            ImGui.Checkbox("Enable selection outline", ref CFG.Current.Viewport_Enable_Selection_Outline);
+            Editor.EditorDecorations.ShowHoverTooltip("Enable the selection outline around map entities.");
+
+            EditorDecorations.ShowHelpMarker("Set the angle increment amount used by Arbitary Rotation in the X-axis.");
+            if (ImGui.InputFloat("Rotation increment degrees: Roll", ref arbitrary_rotation_x))
+            {
+                CFG.Current.Map_ArbitraryRotation_X_Shift = Math.Clamp(arbitrary_rotation_x, -180.0f, 180.0f);
+            }
+
+            EditorDecorations.ShowHelpMarker("Set the angle increment amount used by Arbitary Rotation in the Y-axis.");
+            if (ImGui.InputFloat("Rotation increment degrees: Yaw", ref arbitrary_rotation_y))
+            {
+                CFG.Current.Map_ArbitraryRotation_Y_Shift = Math.Clamp(arbitrary_rotation_y, -180.0f, 180.0f);
+                ;
+            }
+
+            EditorDecorations.ShowHelpMarker("Set the distance at which the current select is offset from the camera when using the Move Selection to Camera action.");
+            if (ImGui.DragFloat("Move selection to camera (offset distance)", ref camera_radius_offset))
+            {
+                CFG.Current.Map_MoveSelectionToCamera_Radius = camera_radius_offset;
+            }
+        }
+
+        if (ImGui.CollapsingHeader("Camera"))
+        {
+            EditorDecorations.ShowHelpMarker("Resets all of the values within this section to their default values.");
+            if (ImGui.Button("Reset##ViewportCamera"))
+            {
+                CFG.Current.GFX_Camera_Sensitivity = CFG.Default.GFX_Camera_Sensitivity;
+
+                CFG.Current.GFX_Camera_FOV = CFG.Default.GFX_Camera_FOV;
+
+                CFG.Current.GFX_RenderDistance_Max = CFG.Default.GFX_RenderDistance_Max;
+
+                Viewport.WorldView.CameraMoveSpeed_Slow = CFG.Default.GFX_Camera_MoveSpeed_Slow;
+                CFG.Current.GFX_Camera_MoveSpeed_Slow = Viewport.WorldView.CameraMoveSpeed_Slow;
+
+                Viewport.WorldView.CameraMoveSpeed_Normal = CFG.Default.GFX_Camera_MoveSpeed_Normal;
+                CFG.Current.GFX_Camera_MoveSpeed_Normal = Viewport.WorldView.CameraMoveSpeed_Normal;
+
+                Viewport.WorldView.CameraMoveSpeed_Fast = CFG.Default.GFX_Camera_MoveSpeed_Fast;
+                CFG.Current.GFX_Camera_MoveSpeed_Fast = Viewport.WorldView.CameraMoveSpeed_Fast;
+            }
+
+            var cam_sensitivity = CFG.Current.GFX_Camera_Sensitivity;
+
+            EditorDecorations.ShowHelpMarker("Mouse sensitivty for turning the camera.");
+            if (ImGui.SliderFloat("Camera sensitivity", ref cam_sensitivity, 0.0f, 0.1f))
+            {
+                CFG.Current.GFX_Camera_Sensitivity = cam_sensitivity;
+            }
+
+            var cam_fov = CFG.Current.GFX_Camera_FOV;
+
+            EditorDecorations.ShowHelpMarker("Set the field of view used by the camera within DSMS.");
+            if (ImGui.SliderFloat("Camera FOV", ref cam_fov, 40.0f, 140.0f))
+            {
+                CFG.Current.GFX_Camera_FOV = cam_fov;
+            }
+
+            var farClip = CFG.Current.GFX_RenderDistance_Max;
+            EditorDecorations.ShowHelpMarker("Set the maximum distance at which entities will be rendered within the DSMS viewport.");
+            if (ImGui.SliderFloat("Map max render distance", ref farClip, 10.0f, 500000.0f))
+            {
+                CFG.Current.GFX_RenderDistance_Max = farClip;
+            }
+
+            EditorDecorations.ShowHelpMarker("Set the speed at which the camera will move when the Left or Right Shift key is pressed whilst moving.");
+            if (ImGui.SliderFloat("Map camera speed (slow)",
+                    ref Viewport.WorldView.CameraMoveSpeed_Slow, 0.1f, 999.0f))
+            {
+                CFG.Current.GFX_Camera_MoveSpeed_Slow = Viewport.WorldView.CameraMoveSpeed_Slow;
+            }
+
+            EditorDecorations.ShowHelpMarker("Set the speed at which the camera will move whilst moving normally.");
+            if (ImGui.SliderFloat("Map camera speed (normal)",
+                    ref Viewport.WorldView.CameraMoveSpeed_Normal, 0.1f, 999.0f))
+            {
+                CFG.Current.GFX_Camera_MoveSpeed_Normal = Viewport.WorldView.CameraMoveSpeed_Normal;
+            }
+
+            EditorDecorations.ShowHelpMarker("Set the speed at which the camera will move when the Left or Right Control key is pressed whilst moving.");
+            if (ImGui.SliderFloat("Map camera speed (fast)",
+                    ref Viewport.WorldView.CameraMoveSpeed_Fast, 0.1f, 999.0f))
+            {
+                CFG.Current.GFX_Camera_MoveSpeed_Fast = Viewport.WorldView.CameraMoveSpeed_Fast;
+            }
+        }
+
+        if (ImGui.CollapsingHeader("Limits"))
+        {
+            EditorDecorations.ShowHelpMarker("Reset the values within this section to their default values.");
+            if (ImGui.Button("Reset##MapLimits"))
+            {
+                CFG.Current.GFX_Limit_Renderables = CFG.Default.GFX_Limit_Renderables;
+                CFG.Current.GFX_Limit_Buffer_Indirect_Draw = CFG.Default.GFX_Limit_Buffer_Indirect_Draw;
+                CFG.Current.GFX_Limit_Buffer_Flver_Bone = CFG.Default.GFX_Limit_Buffer_Flver_Bone;
+            }
+
+            ImGui.Text("Please restart the program for changes to take effect.");
+
+            ImGui.TextColored(new Vector4(1.0f, 0.0f, 0.0f, 1.0f),
+                @"Try smaller increments (+25%%) at first, as high values will cause issues.");
+
+            EditorDecorations.ShowHelpMarker("This value constrains the number of renderable entities that are allowed. Exceeding this value will throw an exception.");
+            if (ImGui.InputInt("Renderables", ref CFG.Current.GFX_Limit_Renderables, 0, 0))
+            {
+                if (CFG.Current.GFX_Limit_Renderables < CFG.Default.GFX_Limit_Renderables)
+                {
+                    CFG.Current.GFX_Limit_Renderables = CFG.Default.GFX_Limit_Renderables;
+                }
+            }
+
+            EditorDecorations.ShowHelpMarker("This value constrains the size of the indirect draw buffer. Exceeding this value will throw an exception.");
+            Utils.ImGui_InputUint("Indirect Draw buffer", ref CFG.Current.GFX_Limit_Buffer_Indirect_Draw);
+
+            EditorDecorations.ShowHelpMarker("This value constrains the size of the FLVER bone buffer. Exceeding this value will throw an exception.");
+            Utils.ImGui_InputUint("FLVER Bone buffer", ref CFG.Current.GFX_Limit_Buffer_Flver_Bone);
+        }
+
+        if (FeatureFlags.ViewportGrid)
+        {
+            if (ImGui.CollapsingHeader("Grid"))
+            {
+                EditorDecorations.ShowHelpMarker("Enable the viewport grid when in the Map Editor.");
+                ImGui.Checkbox("Enable viewport grid", ref CFG.Current.Map_EnableViewportGrid);
+
+                EditorDecorations.ShowHelpMarker("The overall maximum size of the grid.\nThe grid will only update upon restarting DSMS after changing this value.");
+                ImGui.SliderInt("Grid size", ref CFG.Current.Map_ViewportGrid_TotalSize, 100, 1000);
+
+                EditorDecorations.ShowHelpMarker("The increment size of the grid.");
+                ImGui.SliderInt("Grid increment", ref CFG.Current.Map_ViewportGrid_IncrementSize, 1, 100);
+
+                EditorDecorations.ShowHelpMarker("The height at which the horizontal grid sits.");
+                ImGui.SliderFloat("Grid height", ref CFG.Current.Map_ViewportGrid_Offset, -1000, 1000);
+
+                EditorDecorations.ShowHelpMarker("The amount to lower or raise the viewport grid height via the shortcuts.");
+                ImGui.SliderFloat("Grid height increment", ref CFG.Current.Map_ViewportGrid_ShortcutIncrement, 0.1f, 100);
+
+                ImGui.ColorEdit3("Grid color", ref CFG.Current.GFX_Viewport_Grid_Color);
+
+                EditorDecorations.ShowHelpMarker("Resets all of the values within this section to their default values.");
+                if (ImGui.Button("Reset"))
+                {
+                    CFG.Current.GFX_Viewport_Grid_Color = Utils.GetDecimalColor(System.Drawing.Color.Red);
+                    CFG.Current.Map_ViewportGrid_TotalSize = 1000;
+                    CFG.Current.Map_ViewportGrid_IncrementSize = 10;
+                    CFG.Current.Map_ViewportGrid_Offset = 0;
+                }
+            }
+        }
+
+        if (ImGui.CollapsingHeader("Wireframes"))
+        {
+            EditorDecorations.ShowHelpMarker("Resets all of the values within this section to their default values.");
+            if (ImGui.Button("Reset"))
+            {
+                // Proxies
+                CFG.Current.GFX_Renderable_Box_BaseColor = Utils.GetDecimalColor(System.Drawing.Color.Blue);
+                CFG.Current.GFX_Renderable_Box_HighlightColor = Utils.GetDecimalColor(System.Drawing.Color.DarkViolet);
+
+                CFG.Current.GFX_Renderable_Cylinder_BaseColor = Utils.GetDecimalColor(System.Drawing.Color.Blue);
+                CFG.Current.GFX_Renderable_Cylinder_HighlightColor = Utils.GetDecimalColor(System.Drawing.Color.DarkViolet);
+
+                CFG.Current.GFX_Renderable_Sphere_BaseColor = Utils.GetDecimalColor(System.Drawing.Color.Blue);
+                CFG.Current.GFX_Renderable_Sphere_HighlightColor = Utils.GetDecimalColor(System.Drawing.Color.DarkViolet);
+
+                CFG.Current.GFX_Renderable_Point_BaseColor = Utils.GetDecimalColor(System.Drawing.Color.Yellow);
+                CFG.Current.GFX_Renderable_Point_HighlightColor = Utils.GetDecimalColor(System.Drawing.Color.DarkViolet);
+
+                CFG.Current.GFX_Renderable_DummyPoly_BaseColor = Utils.GetDecimalColor(System.Drawing.Color.Yellow);
+                CFG.Current.GFX_Renderable_DummyPoly_HighlightColor = Utils.GetDecimalColor(System.Drawing.Color.DarkViolet);
+
+                CFG.Current.GFX_Renderable_BonePoint_BaseColor = Utils.GetDecimalColor(System.Drawing.Color.Blue);
+                CFG.Current.GFX_Renderable_BonePoint_HighlightColor = Utils.GetDecimalColor(System.Drawing.Color.DarkViolet);
+
+                CFG.Current.GFX_Renderable_ModelMarker_Chr_BaseColor = Utils.GetDecimalColor(System.Drawing.Color.Firebrick);
+                CFG.Current.GFX_Renderable_ModelMarker_Chr_HighlightColor = Utils.GetDecimalColor(System.Drawing.Color.Tomato);
+
+                CFG.Current.GFX_Renderable_ModelMarker_Object_BaseColor = Utils.GetDecimalColor(System.Drawing.Color.MediumVioletRed);
+                CFG.Current.GFX_Renderable_ModelMarker_Object_HighlightColor = Utils.GetDecimalColor(System.Drawing.Color.DeepPink);
+
+                CFG.Current.GFX_Renderable_ModelMarker_Player_BaseColor = Utils.GetDecimalColor(System.Drawing.Color.DarkOliveGreen);
+                CFG.Current.GFX_Renderable_ModelMarker_Player_HighlightColor = Utils.GetDecimalColor(System.Drawing.Color.OliveDrab);
+
+                CFG.Current.GFX_Renderable_ModelMarker_Other_BaseColor = Utils.GetDecimalColor(System.Drawing.Color.Wheat);
+                CFG.Current.GFX_Renderable_ModelMarker_Other_HighlightColor = Utils.GetDecimalColor(System.Drawing.Color.AntiqueWhite);
+
+                CFG.Current.GFX_Renderable_PointLight_BaseColor = Utils.GetDecimalColor(System.Drawing.Color.YellowGreen);
+                CFG.Current.GFX_Renderable_PointLight_HighlightColor = Utils.GetDecimalColor(System.Drawing.Color.Yellow);
+
+                CFG.Current.GFX_Renderable_SpotLight_BaseColor = Utils.GetDecimalColor(System.Drawing.Color.Goldenrod);
+                CFG.Current.GFX_Renderable_SpotLight_HighlightColor = Utils.GetDecimalColor(System.Drawing.Color.Violet);
+
+                CFG.Current.GFX_Renderable_DirectionalLight_BaseColor = Utils.GetDecimalColor(System.Drawing.Color.Cyan);
+                CFG.Current.GFX_Renderable_DirectionalLight_HighlightColor = Utils.GetDecimalColor(System.Drawing.Color.AliceBlue);
+
+                // Gizmos
+                CFG.Current.GFX_Gizmo_X_BaseColor = new Vector3(0.952f, 0.211f, 0.325f);
+                CFG.Current.GFX_Gizmo_X_HighlightColor = new Vector3(1.0f, 0.4f, 0.513f);
+
+                CFG.Current.GFX_Gizmo_Y_BaseColor = new Vector3(0.525f, 0.784f, 0.082f);
+                CFG.Current.GFX_Gizmo_Y_HighlightColor = new Vector3(0.713f, 0.972f, 0.270f);
+
+                CFG.Current.GFX_Gizmo_Z_BaseColor = new Vector3(0.219f, 0.564f, 0.929f);
+                CFG.Current.GFX_Gizmo_Z_HighlightColor = new Vector3(0.407f, 0.690f, 1.0f);
+
+                // Color Variance
+                CFG.Current.GFX_Wireframe_Color_Variance = CFG.Default.GFX_Wireframe_Color_Variance;
+            }
+
+            ImGui.SliderFloat("Wireframe color variance", ref CFG.Current.GFX_Wireframe_Color_Variance, 0.0f, 1.0f);
+
+            // Proxies
+            ImGui.ColorEdit3("Box region - base color", ref CFG.Current.GFX_Renderable_Box_BaseColor);
+            ImGui.ColorEdit3("Box region - highlight color", ref CFG.Current.GFX_Renderable_Box_HighlightColor);
+
+            ImGui.ColorEdit3("Cylinder region - base color", ref CFG.Current.GFX_Renderable_Cylinder_BaseColor);
+            ImGui.ColorEdit3("Cylinder region - highlight color", ref CFG.Current.GFX_Renderable_Cylinder_HighlightColor);
+
+            ImGui.ColorEdit3("Sphere region - base color", ref CFG.Current.GFX_Renderable_Sphere_BaseColor);
+            ImGui.ColorEdit3("Sphere region - highlight color", ref CFG.Current.GFX_Renderable_Sphere_HighlightColor);
+
+            ImGui.ColorEdit3("Point region - base color", ref CFG.Current.GFX_Renderable_Point_BaseColor);
+            ImGui.ColorEdit3("Point region - highlight color", ref CFG.Current.GFX_Renderable_Point_HighlightColor);
+
+            ImGui.ColorEdit3("Dummy poly - base color", ref CFG.Current.GFX_Renderable_DummyPoly_BaseColor);
+            ImGui.ColorEdit3("Dummy poly - highlight color", ref CFG.Current.GFX_Renderable_DummyPoly_HighlightColor);
+
+            ImGui.ColorEdit3("Bone point - base color", ref CFG.Current.GFX_Renderable_BonePoint_BaseColor);
+            ImGui.ColorEdit3("Bone point - highlight color", ref CFG.Current.GFX_Renderable_BonePoint_HighlightColor);
+
+            ImGui.ColorEdit3("Chr marker - base color", ref CFG.Current.GFX_Renderable_ModelMarker_Chr_BaseColor);
+            ImGui.ColorEdit3("Chr marker - highlight color", ref CFG.Current.GFX_Renderable_ModelMarker_Chr_HighlightColor);
+
+            ImGui.ColorEdit3("Object marker - base color", ref CFG.Current.GFX_Renderable_ModelMarker_Object_BaseColor);
+            ImGui.ColorEdit3("Object marker - highlight color", ref CFG.Current.GFX_Renderable_ModelMarker_Object_HighlightColor);
+
+            ImGui.ColorEdit3("Player marker - base color", ref CFG.Current.GFX_Renderable_ModelMarker_Player_BaseColor);
+            ImGui.ColorEdit3("Player marker - highlight color", ref CFG.Current.GFX_Renderable_ModelMarker_Player_HighlightColor);
+
+            ImGui.ColorEdit3("Other marker - base color", ref CFG.Current.GFX_Renderable_ModelMarker_Other_BaseColor);
+            ImGui.ColorEdit3("Other marker - highlight color", ref CFG.Current.GFX_Renderable_ModelMarker_Other_HighlightColor);
+
+            ImGui.ColorEdit3("Point light - base color", ref CFG.Current.GFX_Renderable_PointLight_BaseColor);
+            ImGui.ColorEdit3("Point light - highlight color", ref CFG.Current.GFX_Renderable_PointLight_HighlightColor);
+
+            ImGui.ColorEdit3("Spot light - base color", ref CFG.Current.GFX_Renderable_SpotLight_BaseColor);
+            ImGui.ColorEdit3("Spot light - highlight color", ref CFG.Current.GFX_Renderable_SpotLight_HighlightColor);
+
+            ImGui.ColorEdit3("Directional light - base color", ref CFG.Current.GFX_Renderable_DirectionalLight_BaseColor);
+            ImGui.ColorEdit3("Directional light - highlight color", ref CFG.Current.GFX_Renderable_DirectionalLight_HighlightColor);
+
+            // Gizmos
+            ImGui.ColorEdit3("Gizmo - X Axis - base color", ref CFG.Current.GFX_Gizmo_X_BaseColor);
+            ImGui.ColorEdit3("Gizmo - X Axis - highlight color", ref CFG.Current.GFX_Gizmo_X_HighlightColor);
+
+            ImGui.ColorEdit3("Gizmo - Y Axis - base color", ref CFG.Current.GFX_Gizmo_Y_BaseColor);
+            ImGui.ColorEdit3("Gizmo - Y Axis - highlight color", ref CFG.Current.GFX_Gizmo_Y_HighlightColor);
+
+            ImGui.ColorEdit3("Gizmo - Z Axis - base color", ref CFG.Current.GFX_Gizmo_Z_BaseColor);
+            ImGui.ColorEdit3("Gizmo - Z Axis - highlight color", ref CFG.Current.GFX_Gizmo_Z_HighlightColor);
+        }
+
+        if (ImGui.CollapsingHeader("Map Object Display Presets"))
+        {
+            ImGui.Text("Configure each of the six display presets available.");
+
+            EditorDecorations.ShowHelpMarker("Reset the values within this section to their default values.");
+            if (ImGui.Button("Reset##DisplayPresets"))
+            {
+                CFG.Current.SceneFilter_Preset_01.Name = CFG.Default.SceneFilter_Preset_01.Name;
+                CFG.Current.SceneFilter_Preset_01.Filters = CFG.Default.SceneFilter_Preset_01.Filters;
+                CFG.Current.SceneFilter_Preset_02.Name = CFG.Default.SceneFilter_Preset_02.Name;
+                CFG.Current.SceneFilter_Preset_02.Filters = CFG.Default.SceneFilter_Preset_02.Filters;
+                CFG.Current.SceneFilter_Preset_03.Name = CFG.Default.SceneFilter_Preset_03.Name;
+                CFG.Current.SceneFilter_Preset_03.Filters = CFG.Default.SceneFilter_Preset_03.Filters;
+                CFG.Current.SceneFilter_Preset_04.Name = CFG.Default.SceneFilter_Preset_04.Name;
+                CFG.Current.SceneFilter_Preset_04.Filters = CFG.Default.SceneFilter_Preset_04.Filters;
+                CFG.Current.SceneFilter_Preset_05.Name = CFG.Default.SceneFilter_Preset_05.Name;
+                CFG.Current.SceneFilter_Preset_05.Filters = CFG.Default.SceneFilter_Preset_05.Filters;
+                CFG.Current.SceneFilter_Preset_06.Name = CFG.Default.SceneFilter_Preset_06.Name;
+                CFG.Current.SceneFilter_Preset_06.Filters = CFG.Default.SceneFilter_Preset_06.Filters;
+            }
+
+            SettingsRenderFilterPresetEditor(CFG.Current.SceneFilter_Preset_01);
+            SettingsRenderFilterPresetEditor(CFG.Current.SceneFilter_Preset_02);
+            SettingsRenderFilterPresetEditor(CFG.Current.SceneFilter_Preset_03);
+            SettingsRenderFilterPresetEditor(CFG.Current.SceneFilter_Preset_04);
+            SettingsRenderFilterPresetEditor(CFG.Current.SceneFilter_Preset_05);
+            SettingsRenderFilterPresetEditor(CFG.Current.SceneFilter_Preset_06);
+        }
+
+        ImGui.Unindent();
+    }
+
+    private void SettingsRenderFilterPresetEditor(CFG.RenderFilterPreset preset)
+    {
+        ImGui.PushID($"{preset.Name}##PresetEdit");
+        if (ImGui.CollapsingHeader($"{preset.Name}##Header"))
+        {
+            ImGui.Indent();
+            var nameInput = preset.Name;
+            ImGui.InputText("Preset Name", ref nameInput, 32);
+            if (ImGui.IsItemDeactivatedAfterEdit())
+            {
+                preset.Name = nameInput;
+            }
+
+            foreach (RenderFilter e in Enum.GetValues(typeof(RenderFilter)))
+            {
+                var ticked = false;
+                if (preset.Filters.HasFlag(e))
+                {
+                    ticked = true;
+                }
+
+                if (ImGui.Checkbox(e.ToString(), ref ticked))
+                {
+                    if (ticked)
+                    {
+                        preset.Filters |= e;
+                    }
+                    else
+                    {
+                        preset.Filters &= ~e;
+                    }
+                }
+            }
+
+            ImGui.Unindent();
+        }
+
+        ImGui.PopID();
+    }
 }

@@ -231,7 +231,7 @@ public class AddParamsAction : EditorAction
         TaskManager.Run(new TaskManager.LiveTask("Param - Check Differences",
             TaskManager.RequeueType.Repeat, true,
             TaskLogs.LogPriority.Low,
-            () => ParamBank.RefreshAllParamDiffCaches(false)));
+            () => ParamDiffBank.RefreshAllParamDiffCaches(false)));
         return ActionEvent.NoEvent;
     }
 
@@ -302,7 +302,7 @@ public class DeleteParamsAction : EditorAction
         TaskManager.Run(new TaskManager.LiveTask("Param - Check Differences",
             TaskManager.RequeueType.Repeat, true,
             TaskLogs.LogPriority.Low,
-            () => ParamBank.RefreshAllParamDiffCaches(false)));
+            () => ParamDiffBank.RefreshAllParamDiffCaches(false)));
         return ActionEvent.NoEvent;
     }
 }

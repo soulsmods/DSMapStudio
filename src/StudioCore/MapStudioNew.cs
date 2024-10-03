@@ -25,7 +25,7 @@ using System.Numerics;
 using System.Runtime.InteropServices;
 using Veldrid;
 using Veldrid.Sdl2;
-using StudioCore.Interface;
+using StudioCore.Editor;
 using StudioCore.Utilities;
 using Renderer = StudioCore.Scene.Renderer;
 using Thread = System.Threading.Thread;
@@ -413,13 +413,12 @@ public class MapStudioNew
         ModelAliasBank.Bank.ReloadAliasBank();
         MapAliasBank.Bank.ReloadAliasBank();
 
-        ParamBank.ReloadParams(newsettings, options);
         MtdBank.ReloadMtds();
-        FMGBank.ReloadFMGs();
 
         foreach (EditorScreen editor in _editors)
         {
             editor.OnProjectChanged(_projectSettings);
+            editor.Load(Locator.ActiveProject);
         }
 
         
@@ -1033,7 +1032,7 @@ public class MapStudioNew
             ImGui.EndMainMenuBar();
         }
 
-        _settingsMenu.Display();
+        _settingsMenu.Display(_editors);
         HelpWindow.Display();
 
         ImGui.PopStyleVar(1);
@@ -1339,7 +1338,10 @@ public class MapStudioNew
             {
                 ImGui.PopStyleColor(1);
                 ImGui.PopStyleVar(1);
-                editor.OnGUI(commands);
+                if (editor.IsEnabled(Locator.ActiveProject))
+                    editor.OnGUI(commands);
+                else
+                    ImGui.Text("Resources required for editor not loaded.");
                 ImGui.End();
                 _focusedEditor = editor;
                 editor.Update(deltaseconds);

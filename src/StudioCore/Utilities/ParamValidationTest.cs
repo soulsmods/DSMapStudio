@@ -77,7 +77,7 @@ public static class ParamValidationTool
     public static void ValidateParamdef()
     {
         // Read params from regulation.bin via SF PARAM impl
-        _paramdefs = ParamBank.PrimaryBank.GetParamDefs();
+        _paramdefs = ResDirectory.CurrentGame.ParamDefBank.GetParamDefs();
 
         var dir = Locator.ActiveProject.ParentProject.AssetLocator.RootDirectory;
         var mod = Locator.ActiveProject.AssetLocator.RootDirectory;
