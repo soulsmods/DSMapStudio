@@ -2,8 +2,9 @@
 using Microsoft.Extensions.Logging;
 using SoulsFormats;
 using StudioCore.ParamEditor;
-using StudioCore.Resource;
-using StudioCore.Scene;
+using StudioCore.Renderer.Resource;
+using StudioCore.Renderer.Scene;
+using StudioCore.Utilities;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -288,7 +289,7 @@ public class Universe
             return null;
         }
 
-        DebugPrimitives.DbgPrimWireChain line = new(points, looseStartPoints, System.Drawing.Color.Red, endAtStart, random);
+        Renderer.DebugPrimitives.DbgPrimWireChain line = new(points, looseStartPoints, System.Drawing.Color.Red, endAtStart, random);
         DebugPrimitiveRenderableProxy mesh = new(_renderScene.OpaqueRenderables, line)
         {
             BaseColor = System.Drawing.Color.Red,
@@ -615,7 +616,7 @@ public class Universe
     public void PopulateMapList()
     {
         LoadedObjectContainers.Clear();
-        foreach (var m in Locator.AssetLocator.GetFullMapList())
+        foreach (var m in Locator.ActiveProject.MSBBank.GetFullMapList())
         {
             LoadedObjectContainers.Add(m, null);
         }
@@ -642,7 +643,7 @@ public class Universe
             return false;
         }
 
-        AssetDescription ad = Locator.AssetLocator.GetMapMSB(mapid);
+        AssetDescription ad = Locator.ActiveProject.MSBBank.GetMapMSB(mapid);
         if (ad.AssetPath == null)
         {
             return false;
@@ -731,46 +732,9 @@ public class Universe
                 //break;
             }
 
-            AssetDescription ad = Locator.AssetLocator.GetMapMSB(mapid);
-            if (ad.AssetPath == null)
-            {
+            IMsb msb = Locator.ActiveProject.MSBBank.GetMsb(mapid);
+            if (msb == null)
                 return;
-            }
-
-            IMsb msb;
-            if (Locator.AssetLocator.Type == GameType.DarkSoulsIII)
-            {
-                msb = MSB3.Read(ad.AssetPath);
-            }
-            else if (Locator.AssetLocator.Type == GameType.Sekiro)
-            {
-                msb = MSBS.Read(ad.AssetPath);
-            }
-            else if (Locator.AssetLocator.Type == GameType.EldenRing)
-            {
-                msb = MSBE.Read(ad.AssetPath);
-            }
-            else if (Locator.AssetLocator.Type == GameType.ArmoredCoreVI)
-            {
-                msb = MSB_AC6.Read(ad.AssetPath);
-            }
-            else if (Locator.AssetLocator.Type == GameType.DarkSoulsIISOTFS)
-            {
-                msb = MSB2.Read(ad.AssetPath);
-            }
-            else if (Locator.AssetLocator.Type == GameType.Bloodborne)
-            {
-                msb = MSBB.Read(ad.AssetPath);
-            }
-            else if (Locator.AssetLocator.Type == GameType.DemonsSouls)
-            {
-                msb = MSBD.Read(ad.AssetPath);
-            }
-            else
-            {
-                msb = MSB1.Read(ad.AssetPath);
-            }
-
             map.LoadMSB(msb);
 
             var amapid = Locator.AssetLocator.GetAssetMapID(mapid);
@@ -1421,8 +1385,8 @@ public class Universe
         SaveBTL(map);
         try
         {
-            AssetDescription ad = Locator.AssetLocator.GetMapMSB(map.Name);
-            AssetDescription adw = Locator.AssetLocator.GetMapMSB(map.Name, true);
+            AssetDescription ad = Locator.ActiveProject.MSBBank.GetMapMSB(map.Name);
+            AssetDescription adw = Locator.ActiveProject.MSBBank.GetMapMSB(map.Name, true);
             IMsb msb;
             DCX.Type compressionType = GetCompressionType();
             if (Locator.AssetLocator.Type == GameType.DarkSoulsIII)

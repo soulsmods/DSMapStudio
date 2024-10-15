@@ -1,6 +1,8 @@
 ﻿using static Andre.Native.ImGuiBindings;
-using StudioCore.DebugPrimitives;
-using StudioCore.Scene;
+using StudioCore.Renderer.DebugPrimitives;
+using StudioCore.Editor;
+using StudioCore.Renderer.Scene;
+using StudioCore.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -302,7 +304,7 @@ public class Gizmos
             if (!InputTracker.GetMouseButton(MouseButton.Left))
             {
                 IsTransforming = false;
-                List<Action> actlist = new();
+                List<EditorAction> actlist = new();
                 foreach (Entity sel in _selection.GetFilteredSelection<Entity>(o => o.HasTransform))
                 {
                     sel.ClearTemporaryTransform(false);

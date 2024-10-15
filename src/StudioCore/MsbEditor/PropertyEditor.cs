@@ -5,7 +5,8 @@ using SoulsFormats;
 using StudioCore.Banks;
 using StudioCore.Editor;
 using StudioCore.ParamEditor;
-using StudioCore.Scene;
+using StudioCore.Renderer.Scene;
+using StudioCore.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -28,7 +29,7 @@ public class PropertyEditor
 
     private object _changingObject;
     private object _changingPropery;
-    private Action _lastUncommittedAction;
+    private EditorAction _lastUncommittedAction;
 
     public ActionManager ContextActionManager;
     public PropertyInfo RequestedSearchProperty = null;

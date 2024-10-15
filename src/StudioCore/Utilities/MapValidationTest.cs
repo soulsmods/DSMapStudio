@@ -32,7 +32,7 @@ public static class MapValidationTest
             if (entry.Contains(".msb.dcx"))
             {
                 var name = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(entry));
-                AssetDescription ad = Locator.ActiveProject.AssetLocator.GetMapMSB(name);
+                AssetDescription ad = Locator.ActiveProject.MSBBank.GetMapMSB(name);
                 if (ad.AssetPath != null)
                 {
                     resMaps.Add(ad);

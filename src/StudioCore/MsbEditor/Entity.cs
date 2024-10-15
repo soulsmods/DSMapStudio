@@ -1,7 +1,8 @@
 ﻿using Andre.Formats;
 using Microsoft.Extensions.Logging;
 using SoulsFormats;
-using StudioCore.Scene;
+using StudioCore.Editor;
+using StudioCore.Renderer.Scene;
 using StudioCore.Utilities;
 using System;
 using System.Collections.Generic;
@@ -743,11 +744,11 @@ public class Entity : ISelectable, IDisposable
         }
     }
 
-    public Action GetUpdateTransformAction(Transform newt)
+    public EditorAction GetUpdateTransformAction(Transform newt)
     {
         if (WrappedObject is Param.Row || WrappedObject is MergedParamRow)
         {
-            List<Action> actions = new();
+            List<EditorAction> actions = new();
             var roty = (newt.EulerRotation.Y * Utils.Rad2Deg) - 180.0f;
             actions.Add(GetPropertyChangeAction("PositionX", newt.Position.X));
             actions.Add(GetPropertyChangeAction("PositionY", newt.Position.Y));
@@ -802,9 +803,9 @@ public class Entity : ISelectable, IDisposable
         }
     }
 
-    public Action ChangeObjectProperty(string propTarget, string propValue)
+    public EditorAction ChangeObjectProperty(string propTarget, string propValue)
     {
-        var actions = new List<Action>();
+        var actions = new List<EditorAction>();
         actions.Add(GetPropertyChangeAction(propTarget, propValue));
         var act = new CompoundAction(actions);
         act.SetPostExecutionAction((undo) =>

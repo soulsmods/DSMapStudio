@@ -1,0 +1,2 @@
+﻿namespace StudioCore.Renderer.DebugPrimitives;
+

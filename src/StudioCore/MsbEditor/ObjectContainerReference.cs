@@ -1,4 +1,4 @@
-﻿using StudioCore.Scene;
+﻿using StudioCore.Renderer.Scene;
 
 namespace StudioCore.MsbEditor;
 

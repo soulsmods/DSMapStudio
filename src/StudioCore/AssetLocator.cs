@@ -96,15 +96,6 @@ public class AssetLocator
 
     public bool CreateRecoveryProject() => Locator.ActiveProject.CreateRecoveryProject() != null;
 
-    /// <summary>
-    ///     Gets the full list of maps in the game (excluding chalice dungeons). Basically if there's an msb for it,
-    ///     it will be in this list.
-    /// </summary>
-    /// <returns></returns>
-    public List<string> GetFullMapList() => Locator.ActiveProject.AssetLocator.GetFullMapList();
-
-    public AssetDescription GetMapMSB(string mapid, bool writemode = false) => Locator.ActiveProject.AssetLocator.GetMapMSB(mapid, writemode);
-
     public List<AssetDescription> GetMapBTLs(string mapid, bool writemode = false) => Locator.ActiveProject.AssetLocator.GetMapBTLs(mapid, writemode);
 
     public AssetDescription GetMapNVA(string mapid, bool writemode = false) => Locator.ActiveProject.AssetLocator.GetMapNVA(mapid, writemode);

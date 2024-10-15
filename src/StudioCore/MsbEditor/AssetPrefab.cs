@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Numerics;
 using System.Xml.Serialization;
 using SoulsFormats;
-using StudioCore.Scene;
+using StudioCore.Renderer.Scene;
 using System.Diagnostics;
 using Andre.Formats;
 using StudioCore.Editor;

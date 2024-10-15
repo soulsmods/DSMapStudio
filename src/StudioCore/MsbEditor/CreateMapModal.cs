@@ -3,7 +3,7 @@ using StudioCore.MsbEditor;
 using System.Numerics;
 using System.Text.RegularExpressions;
 
-namespace StudioCore.Scene;
+namespace StudioCore.Renderer.Scene;
 
 internal class CreateMapModal : IModal
 {

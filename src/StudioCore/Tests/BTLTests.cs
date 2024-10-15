@@ -11,7 +11,7 @@ public static class BTLReadWrite
 {
     public static bool Run(AssetLocator locator)
     {
-        List<string> msbs = locator.GetFullMapList();
+        List<string> msbs = Locator.ActiveProject.MSBBank.GetFullMapList();
         List<string> floats = new();
         List<string> noWrite = new();
         List<string> ver = new();

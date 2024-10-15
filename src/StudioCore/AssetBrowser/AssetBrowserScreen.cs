@@ -3,11 +3,11 @@ using SoulsFormats;
 using StudioCore.Banks;
 using StudioCore.Banks.AliasBank;
 using StudioCore.Editor;
-using StudioCore.Gui;
-using StudioCore.Interface;
+using StudioCore.Renderer.Gui;
+using StudioCore.Editor;
 using StudioCore.MsbEditor;
 using StudioCore.Platform;
-using StudioCore.Scene;
+using StudioCore.Renderer.Scene;
 using StudioCore.Utilities;
 using System;
 using System.Collections.Generic;
@@ -15,9 +15,8 @@ using System.Linq;
 using System.Numerics;
 using System.Threading;
 using static Andre.Native.ImGuiBindings;
-using Action = StudioCore.MsbEditor.Action;
-using ActionManager = StudioCore.MsbEditor.ActionManager;
-using CompoundAction = StudioCore.MsbEditor.CompoundAction;
+using ActionManager = StudioCore.Editor.ActionManager;
+using CompoundAction = StudioCore.Editor.CompoundAction;
 namespace StudioCore.Editors.AssetBrowser;
 
 public enum AssetBrowserSource
@@ -157,7 +156,7 @@ public class AssetBrowserScreen
                 }
             }
 
-            List<string> mapList = Locator.AssetLocator.GetFullMapList();
+            List<string> mapList = Locator.ActiveProject.MSBBank.GetFullMapList();
 
             foreach (var mapId in mapList)
             {
@@ -218,7 +217,7 @@ public class AssetBrowserScreen
         if (ImGui.Begin($@"Asset Browser: Category##{SourceType}AssetBrowser_CategoryList"))
         {
             ImGui.Separator();
-            ImguiUtils.WrappedText("Categories:");
+            Editor.EditorDecorations.WrappedText("Categories:");
             ImGui.Separator();
 
             DisplayCategoryList();
@@ -235,7 +234,7 @@ public class AssetBrowserScreen
             DisplayTopSection();
 
             ImGui.Separator();
-            ImguiUtils.WrappedText("Assets:");
+            Editor.EditorDecorations.WrappedText("Assets:");
             ImGui.Separator();
 
             DisplayBrowserList(AssetCategoryType.Character, _characterNameCache, chrReferenceDict);
@@ -255,7 +254,7 @@ public class AssetBrowserScreen
             ImGui.Indent(10.0f);
 
             ImGui.Separator();
-            ImguiUtils.WrappedText("Actions:");
+            Editor.EditorDecorations.WrappedText("Actions:");
             ImGui.Separator();
 
             if (SourceType == AssetBrowserSource.MapEditor)
@@ -283,7 +282,7 @@ public class AssetBrowserScreen
     {
         ImGui.Separator();
         ImGui.InputText($"Search", ref _searchInput, 255);
-        ImguiUtils.ShowHoverTooltip("Separate terms are split via the + character.");
+        Editor.EditorDecorations.ShowHoverTooltip("Separate terms are split via the + character.");
     }
 
     private void DisplayCategoryList()
@@ -327,7 +326,7 @@ public class AssetBrowserScreen
             if (CFG.Current.AssetBrowser_ShowAliasesInBrowser)
             {
                 var labelName = AliasUtils.GetMapNameAlias(mapId);
-                AliasUtils.DisplayAlias(labelName);
+                EditorDecorations.DisplayAlias(labelName);
             }
         }
     }
@@ -393,14 +392,14 @@ public class AssetBrowserScreen
                         if (CFG.Current.AssetBrowser_ShowAliasesInBrowser)
                         {
                             var aliasName = referenceDict[lowerName].name;
-                            AliasUtils.DisplayAlias(aliasName);
+                            EditorDecorations.DisplayAlias(aliasName);
                         }
 
                         // Tags
                         if (CFG.Current.AssetBrowser_ShowTagsInBrowser)
                         {
                             var tagString = string.Join(" ", referenceDict[lowerName].tags);
-                            AliasUtils.DisplayTagAlias(tagString);
+                            EditorDecorations.DisplayTagAlias(tagString);
                         }
                     }
                 }
@@ -462,14 +461,14 @@ public class AssetBrowserScreen
                             if (CFG.Current.AssetBrowser_ShowAliasesInBrowser)
                             {
                                 var aliasName = referenceDict[lowerName].name;
-                                AliasUtils.DisplayAlias(aliasName);
+                                EditorDecorations.DisplayAlias(aliasName);
                             }
 
                             // Tags
                             if (CFG.Current.AssetBrowser_ShowTagsInBrowser)
                             {
                                 var tagString = string.Join(" ", referenceDict[lowerName].tags);
-                                AliasUtils.DisplayTagAlias(tagString);
+                                EditorDecorations.DisplayTagAlias(tagString);
                             }
                         }
                     }
@@ -483,41 +482,41 @@ public class AssetBrowserScreen
         if (_selectedName == null || _selectedName == "")
             return;
 
-        ImguiUtils.WrappedText("Apply the selected asset attributes to your current object selection.");
-        ImguiUtils.WrappedText("");
+        Editor.EditorDecorations.WrappedText("Apply the selected asset attributes to your current object selection.");
+        Editor.EditorDecorations.WrappedText("");
 
         ImGui.Checkbox("Update Name of Selected Object", ref CFG.Current.AssetBrowser_UpdateName);
-        ImguiUtils.ShowHoverTooltip("Update the Name property of the selected entity when it is changed to a selected asset.");
+        Editor.EditorDecorations.ShowHoverTooltip("Update the Name property of the selected entity when it is changed to a selected asset.");
 
         if (Locator.AssetLocator.Type is GameType.EldenRing or GameType.ArmoredCoreVI)
         {
             ImGui.Checkbox("Update Instance ID of Selected Object", ref CFG.Current.AssetBrowser_UpdateInstanceID);
-            ImguiUtils.ShowHoverTooltip("Update the Name property of the selected entity when it is changed to a selected asset.");
-            ImguiUtils.WrappedText("");
+            Editor.EditorDecorations.ShowHoverTooltip("Update the Name property of the selected entity when it is changed to a selected asset.");
+            Editor.EditorDecorations.WrappedText("");
         }
 
         if (ImGui.Button("Apply##action_Asset_Apply", new Vector2(200, 32)))
         {
             ApplyMapAssetSelection();
         }
-        ImguiUtils.WrappedText("");
+        Editor.EditorDecorations.WrappedText("");
 
         ImGui.Separator();
-        ImguiUtils.WrappedText("Alias:");
+        Editor.EditorDecorations.WrappedText("Alias:");
         ImGui.Separator();
 
-        ImguiUtils.WrappedText("Update the stored name and tag list for the selected asset here.");
-        ImguiUtils.WrappedText("");
+        Editor.EditorDecorations.WrappedText("Update the stored name and tag list for the selected asset here.");
+        Editor.EditorDecorations.WrappedText("");
 
-        ImguiUtils.WrappedText("Name:");
+        Editor.EditorDecorations.WrappedText("Name:");
         ImGui.InputText($"##Name", ref _refUpdateName, 255);
-        ImguiUtils.ShowHoverTooltip("Alias name given to this asset.");
-        ImguiUtils.WrappedText("");
+        Editor.EditorDecorations.ShowHoverTooltip("Alias name given to this asset.");
+        Editor.EditorDecorations.WrappedText("");
 
-        ImguiUtils.WrappedText("Tags:");
+        Editor.EditorDecorations.WrappedText("Tags:");
         ImGui.InputText($"##Tags", ref _refUpdateTags, 255);
-        ImguiUtils.ShowHoverTooltip("Tags associated with this asset. Tags are separated with the , character.");
-        ImguiUtils.WrappedText("");
+        Editor.EditorDecorations.ShowHoverTooltip("Tags associated with this asset. Tags are separated with the , character.");
+        Editor.EditorDecorations.WrappedText("");
 
         if (ImGui.Button("Update##action_AssetAlias_Update", new Vector2(200, 32)))
         {
@@ -535,31 +534,31 @@ public class AssetBrowserScreen
         if (_selectedName == null || _selectedName == "")
             return;
 
-        ImguiUtils.WrappedText("Load the selected asset.");
-        ImguiUtils.WrappedText("");
+        Editor.EditorDecorations.WrappedText("Load the selected asset.");
+        Editor.EditorDecorations.WrappedText("");
 
         if (ImGui.Button("Load##action_Asset_Load", new Vector2(200, 32)))
         {
             LoadModelAssetSelection();
         }
-        ImguiUtils.WrappedText("");
+        Editor.EditorDecorations.WrappedText("");
 
         ImGui.Separator();
-        ImguiUtils.WrappedText("Alias:");
+        Editor.EditorDecorations.WrappedText("Alias:");
         ImGui.Separator();
 
-        ImguiUtils.WrappedText("Update the stored name and tag list for the selected asset here.");
-        ImguiUtils.WrappedText("");
+        Editor.EditorDecorations.WrappedText("Update the stored name and tag list for the selected asset here.");
+        Editor.EditorDecorations.WrappedText("");
 
-        ImguiUtils.WrappedText("Name:");
+        Editor.EditorDecorations.WrappedText("Name:");
         ImGui.InputText($"##Name", ref _refUpdateName, 255);
-        ImguiUtils.ShowHoverTooltip("Alias name given to this asset.");
-        ImguiUtils.WrappedText("");
+        Editor.EditorDecorations.ShowHoverTooltip("Alias name given to this asset.");
+        Editor.EditorDecorations.WrappedText("");
 
-        ImguiUtils.WrappedText("Tags:");
+        Editor.EditorDecorations.WrappedText("Tags:");
         ImGui.InputText($"##Tags", ref _refUpdateTags, 255);
-        ImguiUtils.ShowHoverTooltip("Tags associated with this asset. Tags are separated with the , character.");
-        ImguiUtils.WrappedText("");
+        Editor.EditorDecorations.ShowHoverTooltip("Tags associated with this asset. Tags are separated with the , character.");
+        Editor.EditorDecorations.WrappedText("");
 
         if (ImGui.Button("Update##action_AssetAlias_Update", new Vector2(200, 32)))
         {
@@ -657,7 +656,7 @@ public class AssetBrowserScreen
 
     public void SetObjectModelForSelection(string modelName, AssetCategoryType assetType, string assetMapId)
     {
-        var actlist = new List<Action>();
+        var actlist = new List<EditorAction>();
 
         var selected = _selection.GetFilteredSelection<Entity>();
 

@@ -281,7 +281,7 @@ internal class ParamSearchEngine : SearchEngine<bool, (ParamBank, Param)>
     internal override void Setup()
     {
         unpacker = dummy =>
-            ParamBank.AuxBanks.Select((aux, i) => aux.Value.Params.Select((x, i) => (aux.Value, x.Value)))
+            ResDirectory.CurrentGame.AuxProjects.Select((aux, i) => aux.Value.ParamBank.Params.Select((x, i) => (aux.Value.ParamBank, x.Value)))
                 .Aggregate(bank.Params.Values.Select((x, i) => (bank, x)), (o, n) => o.Concat(n)).ToList();
         filterList.Add("modified", newCmd(new string[0],
             "Selects params where any rows do not match the vanilla version, or where any are added. Ignores row names",
@@ -292,7 +292,7 @@ internal class ParamSearchEngine : SearchEngine<bool, (ParamBank, Param)>
                     return false;
                 }
 
-                HashSet<int> cache = bank.GetVanillaDiffRows(bank.GetKeyForParam(param.Item2));
+                HashSet<int> cache = bank.Project.ParamDiffBank.GetVanillaDiffRows(bank.GetKeyForParam(param.Item2));
                 return cache.Count > 0;
             }))));
         filterList.Add("param", newCmd(new[] { "param name (regex)" },
@@ -310,7 +310,7 @@ internal class ParamSearchEngine : SearchEngine<bool, (ParamBank, Param)>
             "Selects params from the specified regulation or parambnd where the param name matches the given regex",
             (args, lenient) =>
             {
-                ParamBank auxBank = ParamBank.AuxBanks[args[0]];
+                ParamBank auxBank = ResDirectory.CurrentGame.AuxProjects[args[0]].ParamBank;
                 Regex rx = lenient ? new Regex(args[1], RegexOptions.IgnoreCase) : new Regex($@"^{args[1]}$");
                 return noContext(param =>
                     param.Item1 != auxBank
@@ -318,7 +318,7 @@ internal class ParamSearchEngine : SearchEngine<bool, (ParamBank, Param)>
                         : rx.IsMatch(auxBank.GetKeyForParam(param.Item2) == null
                             ? ""
                             : auxBank.GetKeyForParam(param.Item2)));
-            }, () => ParamBank.AuxBanks.Count > 0 && CFG.Current.Param_AdvancedMassedit));
+            }, () => ResDirectory.CurrentGame.AuxProjects.Count > 0 && CFG.Current.Param_AdvancedMassedit));
         defaultFilter = newCmd(new[] { "param name (regex)" },
             "Selects all params whose name matches the given regex", (args, lenient) =>
             {
@@ -345,7 +345,7 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
             "Selects rows which do not match the vanilla version, or are added. Ignores row name", noArgs(context =>
                 {
                     var paramName = context.Item1.GetKeyForParam(context.Item2);
-                    HashSet<int> cache = context.Item1.GetVanillaDiffRows(paramName);
+                    HashSet<int> cache = context.Item1.Project.ParamDiffBank.GetVanillaDiffRows(paramName);
                     return row => cache.Contains(row.ID);
                 }
             )));
@@ -372,27 +372,27 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
                         return row => true;
                     }
 
-                    HashSet<int> pCache = ParamBank.PrimaryBank.GetVanillaDiffRows(paramName);
-                    List<(HashSet<int>, HashSet<int>)> auxCaches = ParamBank.AuxBanks.Select(x =>
-                        (x.Value.GetPrimaryDiffRows(paramName), x.Value.GetVanillaDiffRows(paramName))).ToList();
+                    HashSet<int> pCache = Locator.ActiveProject.ParamDiffBank.GetVanillaDiffRows(paramName);
+                    List<(HashSet<int>, HashSet<int>)> auxCaches = ResDirectory.CurrentGame.AuxProjects.Select(x =>
+                        (x.Value.ParamDiffBank.GetPrimaryDiffRows(paramName), x.Value.ParamDiffBank.GetVanillaDiffRows(paramName))).ToList();
                     return row =>
                         !pCache.Contains(row.ID) &&
                         auxCaches.Where(x => x.Item2.Contains(row.ID) && x.Item1.Contains(row.ID)).Count() == 1;
                 }
-            ), () => ParamBank.AuxBanks.Count > 0));
+            ), () => ResDirectory.CurrentGame.AuxProjects.Count > 0));
         filterList.Add("conflicts", newCmd(new string[0],
             "Selects rows which, among all equivalents in the primary and additional regulations or parambnds, there is more than row 1 which is modified",
             noArgs(context =>
                 {
                     var paramName = context.Item1.GetKeyForParam(context.Item2);
-                    HashSet<int> pCache = ParamBank.PrimaryBank.GetVanillaDiffRows(paramName);
-                    List<(HashSet<int>, HashSet<int>)> auxCaches = ParamBank.AuxBanks.Select(x =>
-                        (x.Value.GetPrimaryDiffRows(paramName), x.Value.GetVanillaDiffRows(paramName))).ToList();
+                    HashSet<int> pCache = Locator.ActiveProject.ParamDiffBank.GetVanillaDiffRows(paramName);
+                    List<(HashSet<int>, HashSet<int>)> auxCaches = ResDirectory.CurrentGame.AuxProjects.Select(x =>
+                        (x.Value.ParamDiffBank.GetPrimaryDiffRows(paramName), x.Value.ParamDiffBank.GetVanillaDiffRows(paramName))).ToList();
                     return row =>
                         (pCache.Contains(row.ID) ? 1 : 0) + auxCaches
                             .Where(x => x.Item2.Contains(row.ID) && x.Item1.Contains(row.ID)).Count() > 1;
                 }
-            ), () => ParamBank.AuxBanks.Count > 0));
+            ), () => ResDirectory.CurrentGame.AuxProjects.Count > 0));
         filterList.Add("id", newCmd(new[] { "row id (regex)" }, "Selects rows whose ID matches the given regex",
             (args, lenient) =>
             {
@@ -608,15 +608,15 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
             {
                 Regex rx = lenient ? new Regex(args[2], RegexOptions.IgnoreCase) : new Regex($@"^{args[2]}$");
                 var field = args[1];
-                ParamBank bank;
-                if (!ParamBank.AuxBanks.TryGetValue(args[0], out bank))
+                Project proj;
+                if (!ResDirectory.CurrentGame.AuxProjects.TryGetValue(args[0], out proj))
                 {
                     throw new Exception("Unable to find auxbank " + args[0]);
                 }
 
                 return param =>
                 {
-                    Param vparam = bank.GetParamFromName(param.Item1.GetKeyForParam(param.Item2));
+                    Param vparam = proj.ParamBank.GetParamFromName(param.Item1.GetKeyForParam(param.Item2));
                     return row =>
                     {
                         Param.Row vrow = vparam[row.ID];
@@ -636,7 +636,7 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
                         return rx.IsMatch(term);
                     };
                 };
-            }, () => ParamBank.AuxBanks.Count > 0 && CFG.Current.Param_AdvancedMassedit));
+            }, () => ResDirectory.CurrentGame.AuxProjects.Count > 0 && CFG.Current.Param_AdvancedMassedit));
         filterList.Add("auxproprange", newCmd(
             new[]
             {
@@ -649,15 +649,15 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
                 var field = args[0];
                 var floor = double.Parse(args[1]);
                 var ceil = double.Parse(args[2]);
-                ParamBank bank;
-                if (!ParamBank.AuxBanks.TryGetValue(args[0], out bank))
+                Project proj;
+                if (!ResDirectory.CurrentGame.AuxProjects.TryGetValue(args[0], out proj))
                 {
                     throw new Exception("Unable to find auxbank " + args[0]);
                 }
 
                 return param =>
                 {
-                    Param vparam = bank.GetParamFromName(param.Item1.GetKeyForParam(param.Item2));
+                    Param vparam = proj.ParamBank.GetParamFromName(param.Item1.GetKeyForParam(param.Item2));
                     return row =>
                     {
                         Param.Row vrow = vparam[row.ID];
@@ -670,7 +670,7 @@ internal class RowSearchEngine : SearchEngine<(ParamBank, Param), Param.Row>
                         return Convert.ToDouble(c.Value.Value) >= floor && Convert.ToDouble(c.Value.Value) <= ceil;
                     };
                 };
-            }, () => ParamBank.AuxBanks.Count > 0 && CFG.Current.Param_AdvancedMassedit));
+            }, () => ResDirectory.CurrentGame.AuxProjects.Count > 0 && CFG.Current.Param_AdvancedMassedit));
         filterList.Add("semijoin",
             newCmd(
                 new[]
@@ -870,12 +870,12 @@ internal class CellSearchEngine : SearchEngine<(string, Param.Row), (PseudoColum
             "Selects cells/fields where the equivalent cell in the specified regulation or parambnd has a different value",
             (args, lenient) =>
             {
-                if (!ParamBank.AuxBanks.ContainsKey(args[0]))
+                if (!ResDirectory.CurrentGame.AuxProjects.ContainsKey(args[0]))
                 {
                     throw new Exception("Can't check if cell is modified - parambank not found");
                 }
 
-                ParamBank bank = ParamBank.AuxBanks[args[0]];
+                Project proj = ResDirectory.CurrentGame.AuxProjects[args[0]];
                 return row =>
                 {
                     if (row.Item1 == null)
@@ -883,7 +883,7 @@ internal class CellSearchEngine : SearchEngine<(string, Param.Row), (PseudoColum
                         throw new Exception("Can't check if cell is modified - not part of a param");
                     }
 
-                    Param auxParam = bank.Params?[row.Item1];
+                    Param auxParam = proj?.ParamBank.Params?[row.Item1];
                     if (auxParam == null)
                     {
                         throw new Exception("Can't check if cell is modified - no aux param");
@@ -916,7 +916,7 @@ internal class CellSearchEngine : SearchEngine<(string, Param.Row), (PseudoColum
                         return ParamUtils.IsValueDiff(ref valA, ref valB, col.GetColumnType());
                     };
                 };
-            }, () => ParamBank.AuxBanks.Count > 0));
+            }, () => ResDirectory.CurrentGame.AuxProjects.Count > 0));
         filterList.Add("sftype", newCmd(new[] { "paramdef type" },
             "Selects cells/fields where the field's data type, as enumerated by soulsformats, matches the given regex",
             (args, lenient) =>

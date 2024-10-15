@@ -79,6 +79,15 @@ public class ProjectSettings
         }
     }
 
+    internal ProjectSettings CopyForGameDir()
+    {
+        ProjectSettings newProj = new();
+        newProj.ProjectName = "Vanilla";
+        newProj.GameRoot = GameRoot;
+        newProj.GameType = GameType;
+        newProj.UseLooseParams = false;
+        return newProj;
+    }
     internal ProjectSettings CopyAndAssumeFromModDir(string moddir)
     {
         ProjectSettings newProj = new();

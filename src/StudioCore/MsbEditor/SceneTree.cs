@@ -2,10 +2,10 @@ using static Andre.Native.ImGuiBindings;
 using SoulsFormats;
 using StudioCore.Banks;
 using StudioCore.Editor;
-using StudioCore.Gui;
+using StudioCore.Renderer.Gui;
 using StudioCore.ParamEditor;
 using StudioCore.Platform;
-using StudioCore.Scene;
+using StudioCore.Renderer.Scene;
 using StudioCore.Utilities;
 using System;
 using System.Collections.Generic;
@@ -14,7 +14,8 @@ using System.Linq;
 using System.Numerics;
 using System.Runtime.InteropServices;
 using Veldrid;
-using StudioCore.Interface;
+using StudioCore.Editor;
+using StudioCore.Banks.AliasBank;
 
 namespace StudioCore.MsbEditor;
 
@@ -272,7 +273,7 @@ public class SceneTree : IActionEventHandler
             }
 
             var alias = AliasUtils.GetEntityAliasName(e);
-            AliasUtils.DisplayAlias(alias);
+            EditorDecorations.DisplayAlias(alias);
         }
 
         if (ImGui.IsItemClicked())
@@ -615,7 +616,7 @@ public class SceneTree : IActionEventHandler
             {
                 if (Locator.AssetLocator.Type is GameType.DarkSoulsIISOTFS)
                 {
-                    if (ParamBank.PrimaryBank.IsLoadingParams)
+                    if (ParamBank.PrimaryBank.IsLoading)
                     {
                         ImGui.NewLine();
                         ImGui.Text("  Please wait for params to finish loading.");
@@ -713,7 +714,7 @@ public class SceneTree : IActionEventHandler
 
                 if (CFG.Current.MapEditor_MapObjectList_ShowMapNames)
                 {
-                    AliasUtils.DisplayAlias(aliasName);
+                    EditorDecorations.DisplayAlias(aliasName);
                 }
 
                 ImGui.EndGroup();

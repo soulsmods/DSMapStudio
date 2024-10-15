@@ -1,6 +1,6 @@
 ﻿using Silk.NET.SDL;
 using static Andre.Native.ImGuiBindings;
-using StudioCore.Scene;
+using StudioCore.Renderer.Scene;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,7 +8,7 @@ using System.Numerics;
 using System.Reflection;
 using Veldrid;
 using Vortice.Vulkan;
-using Renderer = StudioCore.Scene.Renderer;
+using Renderer = StudioCore.Renderer.Scene.Renderer;
 using Texture = Veldrid.Texture;
 using Andre.Native;
 
@@ -91,7 +91,7 @@ public unsafe class VulkanImGuiRenderer : IImguiRenderer, IDisposable
         _windowWidth = width;
         _windowHeight = height;
 
-        _fontTexture = Renderer.GlobalTexturePool.AllocateTextureDescriptor();
+        _fontTexture = Renderer.Scene.Renderer.GlobalTexturePool.AllocateTextureDescriptor();
 
         var context = ImGui.CreateContext(null);
         ImGui.SetCurrentContext(context);
@@ -237,7 +237,7 @@ public unsafe class VulkanImGuiRenderer : IImguiRenderer, IDisposable
                     new SpecializationConstant(0, gd.IsClipSpaceYInverted),
                     new SpecializationConstant(1, _colorSpaceHandling == ColorSpaceHandling.Legacy)
                 }),
-            new[] { _layout, Renderer.GlobalTexturePool.GetLayout() },
+            new[] { _layout, Renderer.Scene.Renderer.GlobalTexturePool.GetLayout() },
             outputDescription);
         _pipeline = factory.CreateGraphicsPipeline(ref pd);
         _pipeline.Name = "ImGuiPipeline";
@@ -764,7 +764,7 @@ public unsafe class VulkanImGuiRenderer : IImguiRenderer, IDisposable
                             cl.SetGraphicsResourceSet(1, GetImageResourceSet(pcmd.TextureId));
                         }
                     }*/
-                Renderer.GlobalTexturePool.BindTexturePool(cl, 1);
+                Renderer.Scene.Renderer.GlobalTexturePool.BindTexturePool(cl, 1);
 
                 cl.SetScissorRect(
                     0,

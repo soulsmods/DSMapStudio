@@ -35,7 +35,7 @@ public class ProjectAssetLocator
         RootDirectory = dir;
     }
 
-    private string GetFileNameWithoutExtensions(string path)
+    public static string GetFileNameWithoutExtensions(string path)
     {
         return Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(path));
     }
@@ -202,112 +202,6 @@ public class ProjectAssetLocator
         {
             return dirs;
         }
-    }
-
-    /// <summary>
-    ///     Gets the full list of maps in the game (excluding chalice dungeons). Basically if there's an msb for it,
-    ///     it will be in this list.
-    /// </summary>
-    /// <returns></returns>
-    public List<string> GetFullMapList()
-    {
-
-        if (MapList != null)
-        {
-            return MapList;
-        }
-
-        try
-        {
-            HashSet<string> mapSet = new();
-
-            // DS2 has its own structure for msbs, where they are all inside individual folders
-            if (Type == GameType.DarkSoulsIISOTFS)
-            {
-                foreach (var map in GetAllAssets(@"map", [@"*.msb"], true, true))
-                {
-                    mapSet.Add(Path.GetFileNameWithoutExtension(map));
-                }
-            }
-            else
-            {
-                foreach (var msb in GetAllAssets(@"map\MapStudio\", [@"*.msb", @"*.msb.dcx"]))
-                {
-                    mapSet.Add(GetFileNameWithoutExtensions(msb));
-                }
-            }
-            Regex mapRegex = new(@"^m\d{2}_\d{2}_\d{2}_\d{2}$");
-            List<string> mapList = mapSet.Where(x => mapRegex.IsMatch(x)).ToList();
-            mapList.Sort();
-            MapList = mapList;
-            return MapList;
-        }
-        catch (DirectoryNotFoundException e)
-        {
-            // Game is likely not UXM unpacked
-            if (ParentAssetLocator != null)
-            {
-                MapList = ParentAssetLocator.GetFullMapList();
-                return MapList;
-            }
-            return new List<string>();
-        }
-    }
-
-    public AssetDescription GetMapMSB(string mapid, bool writemode = false)
-    {
-        AssetDescription ad = new();
-        ad.AssetPath = null;
-        if (mapid.Length != 12)
-        {
-            return ad;
-        }
-
-        string preferredPath;
-        string backupPath;
-        // SOFTS
-        if (Type == GameType.DarkSoulsIISOTFS)
-        {
-            preferredPath = $@"map\{mapid}\{mapid}.msb";
-            backupPath = $@"map\{mapid}\{mapid}.msb";
-        }
-        // BB chalice maps
-        else if (Type == GameType.Bloodborne && mapid.StartsWith("m29"))
-        {
-            preferredPath = $@"\map\MapStudio\{mapid.Substring(0, 9)}_00\{mapid}.msb.dcx";
-            backupPath = $@"\map\MapStudio\{mapid.Substring(0, 9)}_00\{mapid}.msb";
-        }
-        // DeS, DS1, DS1R
-        else if (Type == GameType.DarkSoulsPTDE || Type == GameType.DarkSoulsRemastered ||
-                 Type == GameType.DemonsSouls)
-        {
-            preferredPath = $@"\map\MapStudio\{mapid}.msb";
-            backupPath = $@"\map\MapStudio\{mapid}.msb.dcx";
-        }
-        // BB, DS3, ER, SSDT
-        else if (Type == GameType.Bloodborne || Type == GameType.DarkSoulsIII || Type == GameType.EldenRing ||
-                 Type == GameType.Sekiro)
-        {
-            preferredPath = $@"\map\MapStudio\{mapid}.msb.dcx";
-            backupPath = $@"\map\MapStudio\{mapid}.msb";
-        }
-        else
-        {
-            preferredPath = $@"\map\MapStudio\{mapid}.msb.dcx";
-            backupPath = $@"\map\MapStudio\{mapid}.msb";
-        }
-
-        if (writemode)
-        {
-            ad.AssetPath = $@"{RootDirectory}\{preferredPath}";
-        }
-        else
-        {
-            ad.AssetPath = GetAssetPathFromOptions([preferredPath, backupPath]).Item2;
-        }
-
-        ad.AssetName = mapid;
-        return ad;
     }
 
     public List<AssetDescription> GetMapBTLs(string mapid, bool writemode = false)

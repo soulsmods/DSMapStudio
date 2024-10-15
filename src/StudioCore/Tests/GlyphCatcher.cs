@@ -34,12 +34,12 @@ public static class GlyphCatcher
     /// </summary>
     public static unsafe void CheckMSB(AssetLocator locator)
     {
-        var maps = locator.GetFullMapList();
+        var maps = Locator.ActiveProject.MSBBank.GetFullMapList();
         HashSet<char> msbChars = new();
         foreach (var mapName in maps)
         {
             IMsb msb = null;
-            var path = locator.GetMapMSB(mapName).AssetPath;
+            var path = Locator.ActiveProject.MSBBank.GetMapMSB(mapName).AssetPath;
 
             switch (locator.Type)
             {

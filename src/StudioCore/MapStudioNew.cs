@@ -12,7 +12,7 @@ using StudioCore.Help;
 using StudioCore.MsbEditor;
 using StudioCore.ParamEditor;
 using StudioCore.Platform;
-using StudioCore.Resource;
+using StudioCore.Renderer.Resource;
 using StudioCore.Tests;
 using StudioCore.TextEditor;
 using System;
@@ -25,9 +25,9 @@ using System.Numerics;
 using System.Runtime.InteropServices;
 using Veldrid;
 using Veldrid.Sdl2;
-using StudioCore.Interface;
+using StudioCore.Editor;
 using StudioCore.Utilities;
-using Renderer = StudioCore.Scene.Renderer;
+using Renderer = StudioCore.Renderer.Scene.Renderer;
 using Thread = System.Threading.Thread;
 using Version = System.Version;
 
@@ -384,7 +384,7 @@ public class MapStudioNew
             else
             {
                 // Flush the background queues
-                Renderer.Frame(null, true);
+                Renderer.Scene.Renderer.Frame(null, true);
             }
         }
 
@@ -413,13 +413,12 @@ public class MapStudioNew
         ModelAliasBank.Bank.ReloadAliasBank();
         MapAliasBank.Bank.ReloadAliasBank();
 
-        ParamBank.ReloadParams(newsettings, options);
         MtdBank.ReloadMtds();
-        FMGBank.ReloadFMGs();
 
         foreach (EditorScreen editor in _editors)
         {
             editor.OnProjectChanged(_projectSettings);
+            editor.Load(Locator.ActiveProject);
         }
 
         
@@ -1033,7 +1032,7 @@ public class MapStudioNew
             ImGui.EndMainMenuBar();
         }
 
-        _settingsMenu.Display();
+        _settingsMenu.Display(_editors);
         HelpWindow.Display();
 
         ImGui.PopStyleVar(1);
@@ -1339,7 +1338,10 @@ public class MapStudioNew
             {
                 ImGui.PopStyleColor(1);
                 ImGui.PopStyleVar(1);
-                editor.OnGUI(commands);
+                if (editor.IsEnabled(Locator.ActiveProject))
+                    editor.OnGUI(commands);
+                else
+                    ImGui.Text("Resources required for editor not loaded.");
                 ImGui.End();
                 _focusedEditor = editor;
                 editor.Update(deltaseconds);

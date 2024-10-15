@@ -226,6 +226,31 @@ public class ParamEditorScreen : EditorScreen
     public string CommandEndpoint => "param";
     public string SaveType => "Params";
 
+    /// <summary>
+    ///     Param name - FMGCategory map
+    /// </summary>
+    public static readonly List<(string, FmgEntryCategory)> ParamToFmgCategoryList = new()
+    {
+        ("EquipParamAccessory", FmgEntryCategory.Rings),
+        ("EquipParamGoods", FmgEntryCategory.Goods),
+        ("EquipParamWeapon", FmgEntryCategory.Weapons),
+        ("EquipParamProtector", FmgEntryCategory.Armor),
+        ("Magic", FmgEntryCategory.Spells),
+        ("EquipParamGem", FmgEntryCategory.Gem),
+        ("SwordArtsParam", FmgEntryCategory.SwordArts),
+        ("EquipParamGenerator", FmgEntryCategory.Generator),
+        ("EquipParamFcs", FmgEntryCategory.FCS),
+        ("EquipParamBooster", FmgEntryCategory.Booster),
+        ("ArchiveParam", FmgEntryCategory.Archive),
+        ("MissionParam", FmgEntryCategory.Mission)
+    };
+    public enum RowGetType
+    {
+        AllRows = 0,
+        ModifiedRows = 1,
+        SelectedRows = 2
+    }
+
     public void DrawEditorMenu()
     {
         // Menu Options
@@ -328,20 +353,20 @@ public class ParamEditorScreen : EditorScreen
                 ImGui.Separator();
                 if (ImGui.BeginMenu("All rows"))
                 {
-                    CsvExportDisplay(ParamBank.RowGetType.AllRows);
+                    CsvExportDisplay(RowGetType.AllRows);
                     ImGui.EndMenu();
                 }
 
                 if (ImGui.BeginMenu("Modified rows",
-                        ParamBank.PrimaryBank.GetVanillaDiffRows(_activeView._selection.GetActiveParam()).Any()))
+                        Locator.ActiveProject.ParamDiffBank.GetVanillaDiffRows(_activeView._selection.GetActiveParam()).Any()))
                 {
-                    CsvExportDisplay(ParamBank.RowGetType.ModifiedRows);
+                    CsvExportDisplay(RowGetType.ModifiedRows);
                     ImGui.EndMenu();
                 }
 
                 if (ImGui.BeginMenu("Selected rows", _activeView._selection.RowSelectionExists()))
                 {
-                    CsvExportDisplay(ParamBank.RowGetType.SelectedRows);
+                    CsvExportDisplay(RowGetType.SelectedRows);
                     ImGui.EndMenu();
                 }
 
@@ -416,7 +441,7 @@ public class ParamEditorScreen : EditorScreen
                                 TaskManager.Run(new TaskManager.LiveTask("Param - Check Differences",
                                     TaskManager.RequeueType.Repeat, true,
                                     TaskLogs.LogPriority.Low,
-                                    () => ParamBank.RefreshAllParamDiffCaches(false)));
+                                    () => ParamDiffBank.RefreshAllParamDiffCaches(false)));
                             }
                             else
                             {
@@ -444,7 +469,7 @@ public class ParamEditorScreen : EditorScreen
                             TaskManager.Run(new TaskManager.LiveTask("Param - Check Differences",
                                 TaskManager.RequeueType.Repeat,
                                 true, TaskLogs.LogPriority.Low,
-                                () => ParamBank.RefreshAllParamDiffCaches(false)));
+                                () => ParamDiffBank.RefreshAllParamDiffCaches(false)));
                         }
                     }
 
@@ -473,7 +498,7 @@ public class ParamEditorScreen : EditorScreen
                                     TaskManager.Run(new TaskManager.LiveTask("Param - Check Differences",
                                         TaskManager.RequeueType.Repeat,
                                         true, TaskLogs.LogPriority.Low,
-                                        () => ParamBank.RefreshAllParamDiffCaches(false)));
+                                        () => ParamDiffBank.RefreshAllParamDiffCaches(false)));
                                 }
                             }
                         }
@@ -571,9 +596,9 @@ public class ParamEditorScreen : EditorScreen
 
             ImGui.Separator();
             if (ImGui.MenuItem("Check all params for edits", null, false,
-                    !ParamBank.PrimaryBank.IsLoadingParams && !ParamBank.VanillaBank.IsLoadingParams))
+                    ParamBank.PrimaryBank.IsLoaded && ParamBank.VanillaBank.IsLoaded))
             {
-                ParamBank.RefreshAllParamDiffCaches(true);
+                ParamDiffBank.RefreshAllParamDiffCaches(true);
             }
 
             ImGui.Separator();
@@ -717,14 +742,14 @@ public class ParamEditorScreen : EditorScreen
                 }
             }
 
-            if (ImGui.BeginMenu("Clear param comparison...", ParamBank.AuxBanks.Count > 0))
+            if (ImGui.BeginMenu("Clear param comparison...", ResDirectory.CurrentGame.AuxProjects.Count > 0))
             {
-                for (var i = 0; i < ParamBank.AuxBanks.Count; i++)
+                for (var i = 0; i < ResDirectory.CurrentGame.AuxProjects.Count; i++)
                 {
-                    KeyValuePair<string, ParamBank> pb = ParamBank.AuxBanks.ElementAt(i);
+                    KeyValuePair<string, Project> pb = ResDirectory.CurrentGame.AuxProjects.ElementAt(i);
                     if (ImGui.MenuItem(pb.Key))
                     {
-                        ParamBank.AuxBanks.Remove(pb.Key);
+                        ResDirectory.CurrentGame.AuxProjects.Remove(pb.Key);
                         break;
                     }
                 }
@@ -732,9 +757,10 @@ public class ParamEditorScreen : EditorScreen
                 ImGui.EndMenu();
             }
 
-            if (ImGui.MenuItem("Clear all param comparisons", null, false, ParamBank.AuxBanks.Count > 0))
+            if (ImGui.MenuItem("Clear all param comparisons", null, false, ResDirectory.CurrentGame.AuxProjects.Count > 0))
             {
-                ParamBank.AuxBanks = new Dictionary<string, ParamBank>();
+                // TODO look into whether it's sensible for parambank to control auxprojects like this
+                ResDirectory.CurrentGame.AuxProjects = new Dictionary<string, Project>();
             }
 
             ImGui.EndMenu();
@@ -859,7 +885,7 @@ public class ParamEditorScreen : EditorScreen
             return;
         }
 
-        if (ParamBank.PrimaryBank.IsLoadingParams)
+        if (ParamBank.PrimaryBank.IsLoading)
         {
             ImGui.Text("Loading Params...");
             return;
@@ -871,7 +897,7 @@ public class ParamEditorScreen : EditorScreen
             return;
         }
 
-        if (!ParamBank.IsMetaLoaded)
+        if (!ResDirectory.CurrentGame.ParamMetaBank.IsLoaded)
         {
             ImGui.Text("Loading Meta...");
             return;
@@ -905,7 +931,7 @@ public class ParamEditorScreen : EditorScreen
 
         if (InputTracker.GetKeyDown(KeyBindings.Current.Param_ExportCSV))
         {
-            EditorCommandQueue.AddCommand($@"param/menu/massEditCSVExport/{ParamBank.RowGetType.AllRows}");
+            EditorCommandQueue.AddCommand($@"param/menu/massEditCSVExport/{RowGetType.AllRows}");
         }
 
         // Parse commands
@@ -986,7 +1012,7 @@ public class ParamEditorScreen : EditorScreen
                 }
                 else if (initcmd[1] == "massEditCSVExport")
                 {
-                    IReadOnlyList<Param.Row> rows = CsvExportGetRows(Enum.Parse<ParamBank.RowGetType>(initcmd[2]));
+                    IReadOnlyList<Param.Row> rows = CsvExportGetRows(Enum.Parse<RowGetType>(initcmd[2]));
                     _currentMEditCSVOutput = ParamIO.GenerateCSV(rows,
                         ParamBank.PrimaryBank.Params[_activeView._selection.GetActiveParam()],
                         CFG.Current.Param_Export_Delimiter[0]);
@@ -999,7 +1025,7 @@ public class ParamEditorScreen : EditorScreen
                 else if (initcmd[1] == "massEditSingleCSVExport")
                 {
                     _currentMEditSingleCSVField = initcmd[2];
-                    IReadOnlyList<Param.Row> rows = CsvExportGetRows(Enum.Parse<ParamBank.RowGetType>(initcmd[3]));
+                    IReadOnlyList<Param.Row> rows = CsvExportGetRows(Enum.Parse<RowGetType>(initcmd[3]));
                     _currentMEditCSVOutput = ParamIO.GenerateSingleCSV(rows,
                         ParamBank.PrimaryBank.Params[_activeView._selection.GetActiveParam()],
                         _currentMEditSingleCSVField,
@@ -1125,7 +1151,7 @@ public class ParamEditorScreen : EditorScreen
         {
             if (_projectSettings != null)
             {
-                ParamBank.PrimaryBank.SaveParams(_projectSettings.UseLooseParams);
+                ParamBank.PrimaryBank.Save();
                 TaskLogs.AddLog("Saved params");
             }
         }
@@ -1147,7 +1173,7 @@ public class ParamEditorScreen : EditorScreen
         {
             if (_projectSettings != null)
             {
-                ParamBank.PrimaryBank.SaveParams(_projectSettings.UseLooseParams);
+                ParamBank.PrimaryBank.Save();
                 TaskLogs.AddLog("Saved params");
             }
         }
@@ -1216,12 +1242,12 @@ public class ParamEditorScreen : EditorScreen
 
     private void ParamUpgradeDisplay()
     {
-        if (Locator.ActiveProject != null && Locator.ActiveProject.ParamBank.IsDefsLoaded
+        if (Locator.ActiveProject != null && ResDirectory.CurrentGame.ParamDefBank.IsLoaded
             && ParamBank.PrimaryBank.Params != null
             && ParamBank.VanillaBank.Params != null
             && ParamUpgrade_SupportedGames.Contains(Locator.AssetLocator.Type)
-            && !ParamBank.PrimaryBank.IsLoadingParams
-            && !ParamBank.VanillaBank.IsLoadingParams
+            && ParamBank.PrimaryBank.IsLoaded
+            && ParamBank.VanillaBank.IsLoaded
             && ParamBank.PrimaryBank.ParamVersion < ParamBank.VanillaBank.ParamVersion)
         {
             if (!_paramUpgraderLoaded)
@@ -1395,7 +1421,7 @@ public class ParamEditorScreen : EditorScreen
                 }
 
                 UICache.ClearCaches();
-                ParamBank.RefreshAllParamDiffCaches(false);
+                ParamDiffBank.RefreshAllParamDiffCaches(false);
             }
 
 
@@ -1464,7 +1490,7 @@ public class ParamEditorScreen : EditorScreen
         TaskManager.Run(new TaskManager.LiveTask("Param - Check Differences",
             TaskManager.RequeueType.Repeat, true,
             TaskLogs.LogPriority.Low,
-            () => ParamBank.RefreshAllParamDiffCaches(false)));
+            () => ParamDiffBank.RefreshAllParamDiffCaches(false)));
     }
 
     private void ParamRedo()
@@ -1473,27 +1499,27 @@ public class ParamEditorScreen : EditorScreen
         TaskManager.Run(new TaskManager.LiveTask("Param - Check Differences",
             TaskManager.RequeueType.Repeat, true,
             TaskLogs.LogPriority.Low,
-            () => ParamBank.RefreshAllParamDiffCaches(false)));
+            () => ParamDiffBank.RefreshAllParamDiffCaches(false)));
     }
 
-    private IReadOnlyList<Param.Row> CsvExportGetRows(ParamBank.RowGetType rowType)
+    private IReadOnlyList<Param.Row> CsvExportGetRows(RowGetType rowType)
     {
         IReadOnlyList<Param.Row> rows;
 
         var activeParam = _activeView._selection.GetActiveParam();
-        if (rowType == ParamBank.RowGetType.AllRows)
+        if (rowType == RowGetType.AllRows)
         {
             // All rows
             rows = ParamBank.PrimaryBank.Params[activeParam].Rows;
         }
-        else if (rowType == ParamBank.RowGetType.ModifiedRows)
+        else if (rowType == RowGetType.ModifiedRows)
         {
             // Modified rows
-            HashSet<int> vanillaDiffCache = ParamBank.PrimaryBank.GetVanillaDiffRows(activeParam);
+            HashSet<int> vanillaDiffCache = Locator.ActiveProject.ParamDiffBank.GetVanillaDiffRows(activeParam);
             rows = ParamBank.PrimaryBank.Params[activeParam].Rows.Where(p => vanillaDiffCache.Contains(p.ID))
                 .ToList();
         }
-        else if (rowType == ParamBank.RowGetType.SelectedRows)
+        else if (rowType == RowGetType.SelectedRows)
         {
             // Selected rows
             rows = _activeView._selection.GetSelectedRows();
@@ -1509,7 +1535,7 @@ public class ParamEditorScreen : EditorScreen
     /// <summary>
     ///     CSV Export DIsplay
     /// </summary>
-    private void CsvExportDisplay(ParamBank.RowGetType rowType)
+    private void CsvExportDisplay(RowGetType rowType)
     {
         if (ImGui.BeginMenu("Export to window..."))
         {
@@ -1725,7 +1751,7 @@ public class ParamEditorScreen : EditorScreen
                     TaskManager.Run(new TaskManager.LiveTask("Param - Check Differences",
                         TaskManager.RequeueType.Repeat,
                         true, TaskLogs.LogPriority.Low,
-                        () => ParamBank.RefreshAllParamDiffCaches(false)));
+                        () => ParamDiffBank.RefreshAllParamDiffCaches(false)));
                 }
 
                 _mEditRegexResult = r.Information;
@@ -1791,7 +1817,7 @@ public class ParamEditorScreen : EditorScreen
                     TaskManager.Run(new TaskManager.LiveTask("Param - Check Differences",
                         TaskManager.RequeueType.Repeat, true,
                         TaskLogs.LogPriority.Low,
-                        () => ParamBank.RefreshAllParamDiffCaches(false)));
+                        () => ParamDiffBank.RefreshAllParamDiffCaches(false)));
                 }
 
                 _mEditCSVResult = result;
@@ -2090,6 +2116,65 @@ public class ParamEditorScreen : EditorScreen
             PlatformUtils.Instance.MessageBox("Unable to read from " + path, "Read Error", MessageBoxButtons.OK,
                 MessageBoxIcon.Error);
             return null;
+        }
+    }
+
+    IEnumerable<StudioResource> EditorScreen.GetDependencies(Project project)
+    {
+        return [project.ParamBank, project.ParentProject.ParamBank, project.ParamDiffBank, ResDirectory.CurrentGame.ParamMetaBank];
+    }
+
+    public void SettingsMenu()
+    {
+        if (ImGui.CollapsingHeader("General", ImGuiTreeNodeFlags.DefaultOpen))
+        {
+            EditorDecorations.ShowHelpMarker("Reduces the line height within the the Param Editor screen.");
+            ImGui.Checkbox("Use compact param editor", ref CFG.Current.UI_CompactParams);
+
+            EditorDecorations.ShowHelpMarker("Show additional options within the MassEdit context menu.");
+            ImGui.Checkbox("Show advanced massedit options", ref CFG.Current.Param_AdvancedMassedit);
+
+            EditorDecorations.ShowHelpMarker("Show the shortcut tools in the right-click context menu.");
+            ImGui.Checkbox("Show shortcut tools in context menus", ref CFG.Current.Param_ShowHotkeysInContextMenu);
+        }
+
+        if (ImGui.CollapsingHeader("Params"))
+        {
+            EditorDecorations.ShowHelpMarker("Sort the Param View list alphabetically.");
+            if (ImGui.Checkbox("Sort params alphabetically", ref CFG.Current.Param_AlphabeticalParams))
+            {
+                UICache.ClearCaches();
+            }
+        }
+
+        if (ImGui.CollapsingHeader("Rows"))
+        {
+            EditorDecorations.ShowHelpMarker("Disable the row names from wrapping within the Row View list.");
+            ImGui.Checkbox("Disable line wrapping", ref CFG.Current.Param_DisableLineWrapping);
+
+            EditorDecorations.ShowHelpMarker("Disable the grouping of connected rows in certain params, such as ItemLotParam within the Row View list.");
+            ImGui.Checkbox("Disable row grouping", ref CFG.Current.Param_DisableRowGrouping);
+        }
+
+        if (ImGui.CollapsingHeader("Fields"))
+        {
+            EditorDecorations.ShowHelpMarker("Crowd-sourced names will appear before the canonical name in the Field View list.");
+            ImGui.Checkbox("Show community field names first", ref CFG.Current.Param_MakeMetaNamesPrimary);
+
+            EditorDecorations.ShowHelpMarker("The crowd-sourced name (or the canonical name if the above option is enabled) will appear after the initial name in the Field View list.");
+            ImGui.Checkbox("Show secondary field names", ref CFG.Current.Param_ShowSecondaryNames);
+
+            EditorDecorations.ShowHelpMarker("The field offset within the .PARAM file will be show to the left in the Field View List.");
+            ImGui.Checkbox("Show field data offsets", ref CFG.Current.Param_ShowFieldOffsets);
+
+            EditorDecorations.ShowHelpMarker("Hide the generated param references for fields that link to other params.");
+            ImGui.Checkbox("Hide field references", ref CFG.Current.Param_HideReferenceRows);
+
+            EditorDecorations.ShowHelpMarker("Hide the crowd-sourced namelist for index-based enum fields.");
+            ImGui.Checkbox("Hide field enums", ref CFG.Current.Param_HideEnums);
+
+            EditorDecorations.ShowHelpMarker("Allow the field order to be changed by an alternative order as defined within the Paramdex META file.");
+            ImGui.Checkbox("Allow field reordering", ref CFG.Current.Param_AllowFieldReorder);
         }
     }
 }

@@ -31,9 +31,9 @@ public class TaskManager
     /// </summary>
     public static int ActiveTaskNum { get; private set; }
 
-    public static void Run(LiveTask liveTask)
+    public static LiveTask Run(LiveTask liveTask)
     {
-        liveTask.Run();
+        return liveTask.Run();
     }
 
     public static void RunPassiveTask(LiveTask liveTask)
@@ -138,7 +138,7 @@ public class TaskManager
 
         public Task Task { get; private set; }
 
-        public void Run()
+        public LiveTask Run()
         {
             if (_liveTasks.TryGetValue(TaskId, out LiveTask oldLiveTask))
             {
@@ -149,11 +149,11 @@ public class TaskManager
                 else if (oldLiveTask.RequeueBehavior == RequeueType.Repeat)
                 {
                     oldLiveTask.HasScheduledRequeue = true;
-                    return;
+                    return oldLiveTask;
                 }
                 else
                 {
-                    return;
+                    return oldLiveTask;
                 }
             }
 
@@ -166,6 +166,7 @@ public class TaskManager
 
             CreateTask();
             Task.Start();
+            return this;
         }
 
         private void CreateTask()

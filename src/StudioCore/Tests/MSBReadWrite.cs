@@ -9,10 +9,10 @@ public static class MSBReadWrite
 {
     public static bool Run(AssetLocator locator)
     {
-        List<string> msbs = locator.GetFullMapList();
+        List<string> msbs = Locator.ActiveProject.MSBBank.GetFullMapList();
         foreach (var msb in msbs)
         {
-            AssetDescription path = locator.GetMapMSB(msb);
+            AssetDescription path = Locator.ActiveProject.MSBBank.GetMapMSB(msb);
             var bytes = File.ReadAllBytes(path.AssetPath);
             Memory<byte> decompressed = DCX.Decompress(bytes);
             MSBE m = MSBE.Read(decompressed);

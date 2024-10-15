@@ -212,7 +212,7 @@ public class ParamRowEditor
                 List<List<(PseudoColumn, Param.Column)>> auxCols = UICache.GetCached(_paramEditor, auxRows,
                     "auxFieldFilter",
                     () => auxRows.Select((r, i) =>
-                        cols.Select((c, j) => c.GetAs(ParamBank.AuxBanks[r.Item1].GetParamFromName(activeParam)))
+                        cols.Select((c, j) => c.GetAs(ResDirectory.CurrentGame.AuxProjects[r.Item1].ParamBank.GetParamFromName(activeParam)))
                             .ToList()).ToList());
 
                 if (pinnedFields?.Count > 0)
@@ -500,9 +500,9 @@ public class ParamRowEditor
 
         var committed = ParamEditorCommon.UpdateProperty(ContextActionManager,
             nullableCell != null ? nullableCell : row, proprow, oldval);
-        if (committed && !ParamBank.VanillaBank.IsLoadingParams)
+        if (committed && ParamBank.VanillaBank.IsLoaded)
         {
-            ParamBank.PrimaryBank.RefreshParamRowDiffs(row, activeParam);
+            Locator.ActiveProject.ParamDiffBank.RefreshParamRowDiffs(row, activeParam);
         }
 
         ImGui.PopID();

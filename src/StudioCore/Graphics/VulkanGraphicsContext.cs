@@ -1,5 +1,5 @@
 ﻿using StudioCore.Editor;
-using StudioCore.Scene;
+using StudioCore.Renderer.Scene;
 using System.Collections.Generic;
 using System.Diagnostics;
 using Veldrid;
@@ -62,7 +62,7 @@ public class VulkanGraphicsContext : IGraphicsContext
         _window.Resized += () => _windowResized = true;
         _window.Moved += p => _windowMoved = true;
 
-        Renderer.Initialize(_gd);
+        Renderer.Scene.Renderer.Initialize(_gd);
 
         ResourceFactory factory = _gd.ResourceFactory;
         _imGuiRenderer = new VulkanImGuiRenderer(_gd, _gd.SwapchainFramebuffer.OutputDescription,
@@ -115,12 +115,12 @@ public class VulkanGraphicsContext : IGraphicsContext
         mainWindowCommandList.SetFullViewport(0);
 
         focusedEditor.Draw(_gd, mainWindowCommandList);
-        Fence fence = Renderer.Frame(mainWindowCommandList, false);
+        Fence fence = Renderer.Scene.Renderer.Frame(mainWindowCommandList, false);
         mainWindowCommandList.SetFullViewport(0);
         mainWindowCommandList.SetFullScissorRects();
         _imGuiRenderer.Render(_gd, mainWindowCommandList);
         _gd.SubmitCommands(mainWindowCommandList, fence);
-        Renderer.SubmitPostDrawCommandLists();
+        Renderer.Scene.Renderer.SubmitPostDrawCommandLists();
 
         _gd.SwapBuffers();
     }
