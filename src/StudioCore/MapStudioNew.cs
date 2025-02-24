@@ -183,15 +183,16 @@ public class MapStudioNew
         Marshal.Copy(fontIcon, 0, fontIconNative, fontIcon.Length);
         ImFontAtlasClear(fonts);
 
-        var scale = GetUIScale();
+        var scaleFine = (float)Math.Round(14.0f * GetUIScale());
+        var scaleLarge = (float)Math.Round(16.0f * GetUIScale());
 
         // English fonts
         {
             ImFontConfig* cfg = ImFontConfigImFontConfig();
             cfg->GlyphMinAdvanceX = 5.0f;
-            cfg->OversampleH = 5;
-            cfg->OversampleV = 5;
-            ImFontAtlasAddFontFromMemoryTTF(fonts, fontEnNative.ToPointer(), fontEn.Length, (float)Math.Round(14.0f * scale), cfg,
+            cfg->OversampleH = 3;
+            cfg->OversampleV = 2;
+            ImFontAtlasAddFontFromMemoryTTF(fonts, fontEnNative.ToPointer(), fontEn.Length, scaleFine, cfg,
                 ImFontAtlasGetGlyphRangesDefault(fonts));
         }
 
@@ -200,8 +201,8 @@ public class MapStudioNew
             ImFontConfig* cfg = ImFontConfigImFontConfig();
             cfg->MergeMode = true;
             cfg->GlyphMinAdvanceX = 7.0f;
-            cfg->OversampleH = 5;
-            cfg->OversampleV = 5;
+            cfg->OversampleH = 2;
+            cfg->OversampleV = 2;
 
             ImFontGlyphRangesBuilder* glyphRanges = ImFontGlyphRangesBuilderImFontGlyphRangesBuilder();
             ImFontGlyphRangesBuilderAddRanges(glyphRanges, ImFontAtlasGetGlyphRangesJapanese(fonts));
@@ -237,7 +238,7 @@ public class MapStudioNew
 
             ImVectorImWchar glyphRange;
             ImFontGlyphRangesBuilderBuildRanges(glyphRanges, &glyphRange);
-            ImFontAtlasAddFontFromMemoryTTF(fonts, fontOtherNative.ToPointer(), fontOther.Length, 16.0f * scale, cfg, glyphRange.Data);
+            ImFontAtlasAddFontFromMemoryTTF(fonts, fontOtherNative.ToPointer(), fontOther.Length, scaleLarge, cfg, glyphRange.Data);
             ImFontGlyphRangesBuilderDestroy(glyphRanges);
         }
 
@@ -247,12 +248,12 @@ public class MapStudioNew
             ImFontConfig* cfg = ImFontConfigImFontConfig();
             cfg->MergeMode = true;
             cfg->GlyphMinAdvanceX = 12.0f;
-            cfg->OversampleH = 5;
-            cfg->OversampleV = 5;
+            cfg->OversampleH = 3;
+            cfg->OversampleV = 3;
 
             fixed (ushort* r = ranges)
             {
-                ImFontAtlasAddFontFromMemoryTTF(fonts, fontIconNative.ToPointer(), fontIcon.Length, 16.0f * scale, cfg, r);
+                ImFontAtlasAddFontFromMemoryTTF(fonts, fontIconNative.ToPointer(), fontIcon.Length, scaleLarge, cfg, r);
             }
         }
 
@@ -1417,7 +1418,7 @@ public class MapStudioNew
         {
             var window = _context.Window.SdlWindowHandle;
             int index = SdlProvider.SDL.Value.GetWindowDisplayIndex(window);
-            float ddpi = 96f;
+            float ddpi = DefaultDpi;
             float _ = 0f;
             SdlProvider.SDL.Value.GetDisplayDPI(index, ref ddpi, ref _, ref _);
 
